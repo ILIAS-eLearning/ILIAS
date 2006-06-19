@@ -76,7 +76,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function authSettingsObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilSetting;
 		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -93,19 +93,35 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_AUTH_MODE", $this->lng->txt("auth_mode"));
 		$this->tpl->setVariable("TXT_AUTH_DEFAULT", $this->lng->txt("default"));
 		$this->tpl->setVariable("TXT_AUTH_ACTIVE", $this->lng->txt("active"));
-		$this->tpl->setVariable("TXT_AUTH_DESC", $this->lng->txt("description"));
+		$this->tpl->setVariable("TXT_AUTH_NUM_USERS", $this->lng->txt("num_users"));
 
 		$this->tpl->setVariable("TXT_LOCAL", $this->lng->txt("auth_local"));
-		$this->tpl->setVariable("TXT_LOCAL_DESC", $this->lng->txt("auth_local_desc"));
 		$this->tpl->setVariable("TXT_LDAP", $this->lng->txt("auth_ldap"));
-		$this->tpl->setVariable("TXT_LDAP_DESC", $this->lng->txt("auth_ldap_desc"));
 		$this->tpl->setVariable("TXT_SHIB", $this->lng->txt("auth_shib"));
-		$this->tpl->setVariable("TXT_SHIB_DESC", $this->lng->txt("auth_shib_desc"));
+		
+		$this->tpl->setVariable("TXT_CAS", $this->lng->txt("auth_cas"));
 
 		$this->tpl->setVariable("TXT_RADIUS", $this->lng->txt("auth_radius"));
-		$this->tpl->setVariable("TXT_RADIUS_DESC", $this->lng->txt("auth_radius_desc"));
 		$this->tpl->setVariable("TXT_SCRIPT", $this->lng->txt("auth_script"));
-		$this->tpl->setVariable("TXT_SCRIPT_DESC", $this->lng->txt("auth_script_desc"));
+
+		$auth_cnt = ilObjUser::_getNumberOfUsersPerAuthMode();
+		$auth_modes = ilAuthUtils::_getAllAuthModes();
+
+		foreach($auth_modes as $mode => $mode_name)
+		{
+//echo "-".$ilSetting->get('auth_mode')."-".$mode."-";
+			if ($ilSetting->get('auth_mode') == $mode)
+			{
+				$this->tpl->setVariable("NUM_".strtoupper($mode_name),
+					((int) $auth_cnt[$mode_name] + $auth_cnt["default"])." (".$this->lng->txt("auth_per_default").
+						": ".$auth_cnt["default"].")");
+			}
+			else
+			{
+				$this->tpl->setVariable("NUM_".strtoupper($mode_name),
+					(int) $auth_cnt[$mode_name]);
+			}
+		}
 
 		$this->tpl->setVariable("TXT_CONFIGURE", $this->lng->txt("auth_configure"));
 		$this->tpl->setVariable("TXT_AUTH_REMARK", $this->lng->txt("auth_remark_non_local_auth"));
@@ -127,61 +143,33 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("AUTH_RADIUS_ACTIVE", $this->ilias->getSetting('radius_active') ? $icon_ok : $icon_not_ok);
 		$this->tpl->setVariable("AUTH_SHIB_ACTIVE", $this->ilias->getSetting('shib_active') ? $icon_ok : $icon_not_ok);
 		$this->tpl->setVariable("AUTH_SCRIPT_ACTIVE", $this->ilias->getSetting('script_active') ? $icon_ok : $icon_not_ok);
+		$this->tpl->setVariable("AUTH_CAS_ACTIVE", $this->ilias->getSetting('cas_active') ? $icon_ok : $icon_not_ok);
 		
 		// alter style and disable buttons depending on current selection
 		switch ($this->ilias->getSetting('auth_mode'))
 		{
 			case AUTH_LOCAL: // default
 				$this->tpl->setVariable("CHK_LOCAL", $checked);
-				//$this->tpl->setVariable("SUB_LDAP", $style_disabled);
-				//$this->tpl->setVariable("BTN_LDAP", $disabled);
-				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
-				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
-				//$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
-				//$this->tpl->setVariable("BTN_RADIUS", $disabled);
-				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
-				//$this->tpl->setVariable("BTN_SCRIPT", $disabled);				
 				break;
 				
 			case AUTH_LDAP: // LDAP
 				$this->tpl->setVariable("CHK_LDAP", $checked);
-				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
-				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
-				//$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
-				//$this->tpl->setVariable("BTN_RADIUS", $disabled);
-				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
-				//$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
 				break;
 				
 			case AUTH_SHIBBOLETH: // SHIB
-				//$this->tpl->setVariable("BTN_LDAP", $disabled);
-				//$this->tpl->setVariable("SUB_LDAP", $style_disabled);
-				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
 				$this->tpl->setVariable("CHK_SHIB", $checked);
-				//$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
-				//$this->tpl->setVariable("BTN_RADIUS", $disabled);
-				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
-				//$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
 				break;
 				
 			case AUTH_RADIUS: // RADIUS
-				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
-				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
 				$this->tpl->setVariable("CHK_RADIUS", $checked);
-				//$this->tpl->setVariable("SUB_LDAP", $style_disabled);
-				//$this->tpl->setVariable("BTN_LDAP", $disabled);
-				//$this->tpl->setVariable("SUB_SCRIPT", $style_disabled);
-				//$this->tpl->setVariable("BTN_SCRIPT", $disabled);	
 				break;
 			
+			case AUTH_CAS: // CAS
+				$this->tpl->setVariable("CHK_CAS", $checked);
+				break;
+				
 			case AUTH_SCRIPT: // script
-				//$this->tpl->setVariable("SUB_SHIB", $style_disabled);
-				//$this->tpl->setVariable("BTN_SHIB", $disabled);	
 				$this->tpl->setVariable("CHK_SCRIPT", $checked);
-				//$this->tpl->setVariable("SUB_LDAP", $style_disabled);
-				//$this->tpl->setVariable("BTN_LDAP", $disabled);
-				//$this->tpl->setVariable("SUB_RADIUS", $style_disabled);
-				//$this->tpl->setVariable("BTN_RADIUS", $disabled);
 				break;
 		}
 		
@@ -205,8 +193,17 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			foreach ($active_auth_modes as $auth_name => $auth_key)
 			{
+				// do not list auth modes with external login screen
+				// even not default, because it can easily be set to
+				// a non-working auth mode
+				if ($auth_name == "default" || $auth_name == "cas"
+					|| $auth_name == "shibboleth")
+				{
+					continue;
+				}
+
 				$this->tpl->setCurrentBlock("auth_mode_selection");
-	
+
 				if ($auth_name == 'default')
 				{
 					$name = $this->lng->txt('auth_'.$auth_name)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($auth_key)).")";
@@ -215,16 +212,16 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				{
 					$name = $this->lng->txt('auth_'.$auth_name);
 				}
-				
+
 				$this->tpl->setVariable("AUTH_MODE_NAME", $name);
-	
+
 				$this->tpl->setVariable("AUTH_MODE", $auth_name);
-	
+
 				if ($role['auth_mode'] == $auth_name)
 				{
 					$this->tpl->setVariable("SELECTED_AUTH_MODE", "selected=\"selected\"");
 				}
-	
+
 				$this->tpl->parseCurrentBlock();
 			} // END auth_mode selection
 			

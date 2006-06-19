@@ -1493,6 +1493,7 @@ common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
 common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
+common#:#err_auth_ext_user_exists#:#External account '%s' for authentication mode '%s' is already existing. (User '%s')
 common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password
 common#:#err_in_line#:#Error in line
@@ -2344,7 +2345,7 @@ common#:#monthly#:#monthly
 common#:#move#:#Move
 common#:#move_selected_items#:#Move selected items
 common#:#move_to#:#Move to
-common#:#move_users_to_style#:#Move users to style
+common#:#move_users_to_style#:#Move Users to Style
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
 common#:#msg_cancel#:#Action cancelled
@@ -2496,7 +2497,7 @@ common#:#note#:#Note
 common#:#note_all_pub_notes#:#All notes
 common#:#note_my_pub_notes#:#My notes only
 common#:#notes#:#Notes
-common#:#num_users#:#Number of users
+common#:#num_users#:#Number of Users
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
 common#:#obj#:#Object
@@ -2939,6 +2940,7 @@ common#:#select_questionpool_option#:#--- Please select a question pool ---
 common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
 common#:#send#:#Send
+common#:#auth_per_default#:#Per Default
 common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.
 common#:#send_mail_admins#:#Mail to administrators
 common#:#send_mail_members#:#Mail to members

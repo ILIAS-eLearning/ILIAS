@@ -1036,6 +1036,11 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable("EXT_ACCOUNT",
 					$data["fields"]["ext_account"]);
 			}
+			if ($this->object->getAuthMode(true) != AUTH_LOCAL &&
+				$this->object->getAuthMode(true) != AUTH_CAS)
+			{
+				$this->tpl->setVariable("OPTION_DISABLED_EXT", "\"disabled=disabled\"");
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1531,7 +1536,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// do not validate required fields, login & passwd if auth mode ist not 'local'
 		if ($this->object->getAuthMode(true) == AUTH_LOCAL || 
-			$this->object->getAuthMode(true) == AUTH_CAS)
+			$this->object->getAuthMode(true) == AUTH_CAS || 
+			$this->object->getAuthMode(true) == AUTH_SOAP)
 		{
             // check dynamically required fields
             foreach ($settings as $key => $val)
@@ -1585,6 +1591,24 @@ class ilObjUserGUI extends ilObjectGUI
 			if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
 			{
 				$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+			}
+			
+			// check external account
+			if ($_POST["Fobject"]["ext_account"] != "")
+			{
+				$am = $_POST["Fobject"]["auth_mode"];
+				if ($am == "default")
+				{
+					$am = ilAuthUtils::_getAuthModeName($this->ilias->getSetting('auth_mode'));
+				}
+				$elogin = ilObjUser::_checkExternalAuthAccount($am, $_POST["Fobject"]["ext_account"]);
+				if ($elogin != "" && $elogin != $this->object->getLogin())
+				{
+					$this->ilias->raiseError(
+						sprintf($this->lng->txt("err_auth_ext_user_exists"),
+							$_POST["Fobject"]["ext_account"], $am, $elogin),
+						$this->ilias->error_obj->MESSAGE);
+				}
 			}
 
 			if ($_POST["Fobject"]["passwd"] != "********")
