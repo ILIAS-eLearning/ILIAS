@@ -313,7 +313,11 @@ class ilAuthUtils
 			case AUTH_RADIUS:
 				return "radius";
 				break;
-				
+
+			case AUTH_CAS:
+				return "cas";
+				break;
+
 			case AUTH_SCRIPT:
 				return "script";
 				break;
@@ -339,12 +343,21 @@ class ilAuthUtils
 		
 		if ($ilias->getSetting("ldap_active")) $modes['ldap'] = AUTH_LDAP;
 		if ($ilias->getSetting("radius_active")) $modes['radius'] = AUTH_RADIUS;
-		if ($ilias->getSetting("shibboleth_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
+		if ($ilias->getSetting("shib_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
 		if ($ilias->getSetting("script_active")) $modes['script'] = AUTH_SCRIPT;
 		if ($ilias->getSetting("cas_active")) $modes['cas'] = AUTH_CAS;
 		if ($ilias->getSetting("soap_auth_active")) $modes['soap'] = AUTH_SOAP;
-
 		return $modes;
+	}
+	
+	function _getAllAuthModes()
+	{
+		return array(
+			AUTH_LOCAL => ilAuthUtils::_getAuthModeName(AUTH_LOCAL),
+			AUTH_LDAP => ilAuthUtils::_getAuthModeName(AUTH_LDAP),
+			AUTH_SHIBBOLETH => ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH),
+			AUTH_CAS => ilAuthUtils::_getAuthModeName(AUTH_CAS),
+			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS));
 	}
 	
 	/**

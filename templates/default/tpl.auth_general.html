@@ -79,57 +79,64 @@ function handleScript(form)
 <form action="{FORMACTION}" name="AuthOptions" method="post">
 <table class="fullwidth">
 <tr class="tbltitle">
-  <td colspan="4">
-  <table class="fullwidth_invisible">
-    <tr class="tbltitle">
-	  <td class="tbltitle" align="left">&nbsp;{TXT_AUTH_TITLE}</td>
-	  <td align="right">&nbsp;</td>
+	<td colspan="4">
+	<table class="fullwidth_invisible">
+	<tr class="tbltitle">
+	<td class="tbltitle" align="left">&nbsp;{TXT_AUTH_TITLE}</td>
+	<td align="right">&nbsp;</td>
 	</tr>
-  </table>
-  </td>
+	</table>
+	</td>
 </tr>
-  <tr class="tblheader">
-    <td class="std">{TXT_AUTH_MODE}</td>
-    <td class="std">{TXT_AUTH_DEFAULT}</td>
-    <td class="std">{TXT_AUTH_ACTIVE}</td>
-    <td class="std">{TXT_AUTH_DESC}</td>
-  </tr>
-  <tr>
-   <td class="option"><label for="local">{TXT_LOCAL}</label></td>
-   <td class="option_value"><input type="radio" name="auth_mode"  value="1" id="local" {CHK_LOCAL}onClick="handleLocal(document.AuthOptions)"/></td>
-   <td class="option_value">{AUTH_LOCAL_ACTIVE}</td>
-   <td class="option_value">{TXT_LOCAL_DESC}</td>
-  </tr>
-  <tr>
-   <td class="option"><label for="ldap">{TXT_LDAP}</label></td>
-   <td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="2" id="ldap" {CHK_LDAP}onClick="handleLDAP(document.AuthOptions)" />
-   <input class="submit{SUB_LDAP}" type="submit" name="cmd[editLDAP]" value="{TXT_CONFIGURE}" id="btn_ldap" {BTN_LDAP}/></td>
-   <td class="option_value" nowrap="nowrap">{AUTH_LDAP_ACTIVE}</td>
-   <td class="option_value">{TXT_LDAP_DESC}</td>
-  </tr>
-  <tr>
-   <td class="option"><label for="shib">{TXT_SHIB}</label></td>
-   <td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="5" id="shib" {CHK_SHIB}onClick="handleSHIB(document.AuthOptions)" />
-   <input class="submit{SUB_SHIB}" type="submit" name="cmd[editSHIB]" value="{TXT_CONFIGURE}" id="btn_shib" {BTN_SHIB}/></td>
-   <td class="option_value" nowrap="nowrap">{AUTH_SHIB_ACTIVE}</td>
-   <td class="option_value">{TXT_SHIB_DESC}</td>
-  </tr>
-  <tr>
-   <td class="option"><label for="radius">{TXT_RADIUS}</label></td>
-   <td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="3" id="radius" {CHK_RADIUS}onClick="handleRADIUS(document.AuthOptions)" />
-   <input class="submit{SUB_RADIUS}" type="submit" name="cmd[editRADIUS]" value="{TXT_CONFIGURE}" id="btn_radius" {BTN_RADIUS}/></td>
-   <td class="option_value" nowrap="nowrap">{AUTH_RADIUS_ACTIVE}</td>
-   <td class="option_value">{TXT_RADIUS_DESC}</td>
-  </tr>
-  <tr>
+<tr class="tblheader">
+	<td class="std">{TXT_AUTH_MODE}</td>
+	<td class="std">{TXT_AUTH_DEFAULT}</td>
+	<td class="std">{TXT_AUTH_ACTIVE}</td>
+	<td class="std">{TXT_AUTH_NUM_USERS}</td>
+</tr>
+<tr>
+	<td class="option"><label for="local">{TXT_LOCAL}</label></td>
+	<td class="option_value"><input type="radio" name="auth_mode"  value="1" id="local" {CHK_LOCAL}onClick="handleLocal(document.AuthOptions)"/></td>
+	<td class="option_value">{AUTH_LOCAL_ACTIVE}</td>
+	<td class="option_value">{NUM_LOCAL}</td>
+</tr>
+<tr>
+	<td class="option"><label for="ldap">{TXT_LDAP}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="2" id="ldap" {CHK_LDAP}onClick="handleLDAP(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_LDAP_ACTIVE}</td>
+	<td class="option_value">{NUM_LDAP}</td>
+</tr>
+<tr>
+	<td class="option"><label for="shib">{TXT_SHIB}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="5" id="shib" {CHK_SHIB}onClick="handleSHIB(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_SHIB_ACTIVE}</td>
+	<td class="option_value">{NUM_SHIBBOLETH}</td>
+</tr>
+<tr>
+	<td class="option"><label for="cas">{TXT_CAS}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="6" id="cas" {CHK_CAS}onClick="handleSHIB(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_CAS_ACTIVE}</td>
+	<td class="option_value">{NUM_CAS}</td>
+</tr>
+<tr>
+	<td class="option"><label for="radius">{TXT_RADIUS}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="3" id="radius" {CHK_RADIUS}onClick="handleRADIUS(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_RADIUS_ACTIVE}</td>
+	<td class="option_value">{NUM_RADIUS}</td>
+</tr>
+<tr>
 	<td class="submit" colspan="4" align="left">
 	<span class="asterisk">*</span><span class="small"> {TXT_AUTH_REMARK}</span>
-  <div align="right">
+	<div align="right">
 	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
 	<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
-  </div>
+	</div>
 	</td>
-  </tr>
+</tr>
 </table>
 </form>
 

@@ -2695,6 +2695,24 @@ class ilObjUser extends ilObject
 	}
 	
 	/**
+	* get number of users per auth mode
+	*/
+	function _getNumberOfUsersPerAuthMode()
+	{
+		global $ilDB;
+		
+		$r = $ilDB->query("SELECT count(*) AS cnt, auth_mode FROM usr_data ".
+			"GROUP BY auth_mode");
+		$cnt_arr = array();
+		while($cnt = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$cnt_arr[$cnt["auth_mode"]] = $cnt["cnt"];
+		}
+
+		return $cnt_arr;
+	}
+	
+	/**
 	* Create a personal picture image file from a temporary image file
 	*
 	* @param	string $tmp_file Complete path to the temporary image file
