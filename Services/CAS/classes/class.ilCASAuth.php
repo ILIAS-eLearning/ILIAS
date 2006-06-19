@@ -22,9 +22,7 @@
 */
 
 
-//define('AUTH_IDLED',       -1);
-//define('AUTH_EXPIRED',     -2);
-//define('AUTH_WRONG_LOGIN', -3);
+define('AUTH_CAS_NO_ILIAS_USER', -90);
 
 include_once("Auth.php");
 
@@ -131,7 +129,6 @@ class ilCASAuth extends Auth
 	function getAuth()
 	{
 		$session = &$this->_importGlobalVariable('session');
-
 		if (!empty($session) &&
 		(isset($session[$this->_sessionName]['registered']) &&
 		$session[$this->_sessionName]['registered'] === true))
@@ -253,7 +250,6 @@ class ilCASAuth extends Auth
 
 		if (phpCAS::getUser() != "")
 		{
-
 			$username = phpCAS::getUser();
 
 			// Authorize this user
@@ -265,6 +261,13 @@ class ilCASAuth extends Auth
 			}
 			else
 			{
+				if (!$ilSetting->get("cas_create_users"))
+				{
+					$this->status = AUTH_CAS_NO_ILIAS_USER;
+					$this->logout();
+					return;
+				}
+				
 				$userObj = new ilObjUser();
 				
 				$local_user = ilAuthUtils::_generateLogin($username);
@@ -371,7 +374,8 @@ class ilCASAuth extends Auth
 	function logout()
 	{
 		parent::logout();
-		//PHPCAS::logout();
+		//PHPCAS::logout();		// CAS logout should be provided separately
+								// maybe on ILISA login screen
 	}
 	
 	/**

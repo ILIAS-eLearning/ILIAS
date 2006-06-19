@@ -565,17 +565,19 @@ class ilInitialisation
 	{
 		global $ilAuth;
 
-		//session_unset();
-		//session_destroy();
-		//session_start();
-
+		// logout and end previous session
 		$ilAuth->logout();
+		session_unset();
+		session_destroy();
 		
-		// auth as anonymous
+		// new session and login as anonymous
+		$this->setSessionHandler();
+		session_start();
 		$_POST["username"] = "anonymous";
 		$_POST["password"] = "anonymous";
+		ilAuthUtils::_initAuth();
 		$ilAuth->start();
-		
+
 		if (ANONYMOUS_USER_ID == "")
 		{
 			die ("Public Section enabled, but no Anonymous user found.");
@@ -723,7 +725,6 @@ class ilInitialisation
 		
 		// set session handler
 		$this->setSessionHandler();
-		
 		
 		// $ilSetting initialisation
 		$this->initSettings();
@@ -878,7 +879,8 @@ class ilInitialisation
 		//
 		// SUCCESSFUL AUTHENTICATION
 		//
-//echo "B";
+//echo "<br>B-".$ilAuth->getAuth()."-".$ilAuth->_sessionName."-";
+//var_dump ($session[_authsession]);
 		if ($ilAuth->getAuth() && $ilias->account->isCurrentUserActive())
 		{
 //echo "C";

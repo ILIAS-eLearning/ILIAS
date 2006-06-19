@@ -1492,6 +1492,7 @@ common#:#enter_filename_deliver#:#Enter file to be delivered
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
+common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password
 common#:#err_in_line#:#Error in line
