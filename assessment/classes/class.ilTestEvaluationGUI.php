@@ -605,14 +605,14 @@ class ilTestEvaluationGUI
 	function saveEvaluationSettings()
 	{
 		$eval_statistical_settings = array(
+			"resultspoints" => $_POST["chb_result_resultspoints"],
+			"resultsmarks" => $_POST["chb_result_resultsmarks"],
 			"qworkedthrough" => $_POST["chb_result_qworkedthrough"],
 			"pworkedthrough" => $_POST["chb_result_pworkedthrough"],
 			"timeofwork" => $_POST["chb_result_timeofwork"],
 			"atimeofwork" => $_POST["chb_result_atimeofwork"],
 			"firstvisit" => $_POST["chb_result_firstvisit"],
 			"lastvisit" => $_POST["chb_result_lastvisit"],
-			"resultspoints" => $_POST["chb_result_resultspoints"],
-			"resultsmarks" => $_POST["chb_result_resultsmarks"],
 			"distancemedian" => $_POST["chb_result_distancemedian"]
 		);
 		$this->object->evalSaveStatisticalSettings($eval_statistical_settings, $ilUser->id);
@@ -670,14 +670,14 @@ class ilTestEvaluationGUI
 		{
 			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
 			$eval_statistical_settings = array(
+				"resultspoints" => $user_settings["resultspoints"],
+				"resultsmarks" => $user_settings["resultsmarks"],
 				"qworkedthrough" => $user_settings["qworkedthrough"],
 				"pworkedthrough" => $user_settings["pworkedthrough"],
 				"timeofwork" => $user_settings["timeofwork"],
 				"atimeofwork" => $user_settings["atimeofwork"],
 				"firstvisit" => $user_settings["firstvisit"],
 				"lastvisit" => $user_settings["lastvisit"],
-				"resultspoints" => $user_settings["resultspoints"],
-				"resultsmarks" => $user_settings["resultsmarks"],
 				"distancemedian" => $user_settings["distancemedian"]
 			);
 		}
