@@ -801,7 +801,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			
 			$this->tpl->setVariable("CAS_SERVER", $_SESSION["error_post_vars"]["cas"]["server"]);
 			$this->tpl->setVariable("CAS_PORT", $_SESSION["error_post_vars"]["cas"]["port"]);
-			$this->tpl->setVariable("CAS_PORT", $_SESSION["error_post_vars"]["cas"]["uri"]);
+			$this->tpl->setVariable("CAS_URI", $_SESSION["error_post_vars"]["cas"]["uri"]);
 			$current_default_role = $_SESSION["error_post_vars"]["cas"]["user_default_role"];
 		}
 		else
@@ -854,10 +854,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CAS_URI_DESC", $this->lng->txt("auth_cas_uri_desc"));
 		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_cas_create_users"));
 		$this->tpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_cas_create_users_desc"));
-		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE", $this->lng->txt("auth_cas_user_default_role"));
+		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE", $this->lng->txt("auth_user_default_role"));
 		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE_DESC",
 			$this->lng->txt("auth_cas_user_default_role_desc"));
-		$this->tpl->setVariable("TXT_ALLOW_LOCAL", $this->lng->txt("auth_cas_allow_local"));
+		$this->tpl->setVariable("TXT_ALLOW_LOCAL", $this->lng->txt("auth_allow_local"));
 		$this->tpl->setVariable("TXT_ALLOW_LOCAL_DESC", $this->lng->txt("auth_cas_allow_local_desc"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -928,9 +928,22 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("CHK_SOAP_ACTIVE", "checked=\"checked\"");
 			}
+			if ($_SESSION["error_post_vars"]["soap"]["use_https"] == "1")
+			{
+				$this->tpl->setVariable("CHK_USE_HTTPS", "checked=\"checked\"");
+			}
+			if ($_SESSION["error_post_vars"]["soap"]["create_users"] == "1")
+			{
+				$this->tpl->setVariable("CHK_CREATE_USERS", "checked=\"checked\"");
+			}
+			if ($_SESSION["error_post_vars"]["soap"]["allow_local"] == "1")
+			{
+				$this->tpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
+			}
 			
 			$this->tpl->setVariable("SOAP_SERVER", $_SESSION["error_post_vars"]["soap"]["server"]);
 			$this->tpl->setVariable("SOAP_PORT", $_SESSION["error_post_vars"]["soap"]["port"]);
+			$this->tpl->setVariable("SOAP_URI", $_SESSION["error_post_vars"]["soap"]["uri"]);
 			$current_default_role = $_SESSION["error_post_vars"]["soap"]["user_default_role"];
 		}
 		else
@@ -939,9 +952,22 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("CHK_SOAP_ACTIVE", "checked=\"checked\"");
 			}
+			if ($settings["soap_auth_use_https"] == "1")
+			{
+				$this->tpl->setVariable("CHK_USE_HTTPS", "checked=\"checked\"");
+			}
+			if ($settings["soap_auth_create_users"] == "1")
+			{
+				$this->tpl->setVariable("CHK_CREATE_USERS", "checked=\"checked\"");
+			}
+			if ($settings["soap_auth_allow_local"] == "1")
+			{
+				$this->tpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
+			}
 			
 			$this->tpl->setVariable("SOAP_SERVER", $settings["soap_auth_server"]);
-			$this->tpl->setVariable("SOAP_PORT", $settings["soap_auth_port"]);			
+			$this->tpl->setVariable("SOAP_PORT", $settings["soap_auth_port"]);
+			$this->tpl->setVariable("SOAP_URI", $settings["soap_auth_uri"]);
 			$current_default_role = $settings["soap_auth_user_default_role"];
 		}
 		
@@ -963,12 +989,23 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SOAP_TITLE", $this->lng->txt("auth_soap_auth"));
+		$this->tpl->setVariable("TXT_SOAP_DESC", $this->lng->txt("auth_soap_auth_desc"));
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
 		$this->tpl->setVariable("TXT_SOAP_ACTIVE", $this->lng->txt("active"));
 		$this->tpl->setVariable("TXT_SOAP_SERVER", $this->lng->txt("server"));
 		$this->tpl->setVariable("TXT_SOAP_SERVER_DESC", $this->lng->txt("auth_soap_server_desc"));
 		$this->tpl->setVariable("TXT_SOAP_PORT", $this->lng->txt("port"));
-		$this->tpl->setVariable("TXT_SOAP_USER_DEFAULT_ROLE", $this->lng->txt("auth_soap_user_default_role"));
+		$this->tpl->setVariable("TXT_SOAP_PORT_DESC", $this->lng->txt("auth_soap_port_desc"));
+		$this->tpl->setVariable("TXT_SOAP_URI", $this->lng->txt("uri"));
+		$this->tpl->setVariable("TXT_SOAP_URI_DESC", $this->lng->txt("auth_soap_uri_desc"));
+		$this->tpl->setVariable("TXT_USE_HTTPS", $this->lng->txt("auth_soap_use_https"));
+		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_create_users"));
+		$this->tpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_soap_create_users_desc"));
+		$this->tpl->setVariable("TXT_SOAP_USER_DEFAULT_ROLE", $this->lng->txt("auth_user_default_role"));
+		$this->tpl->setVariable("TXT_SOAP_USER_DEFAULT_ROLE_DESC",
+			$this->lng->txt("auth_soap_user_default_role_desc"));
+		$this->tpl->setVariable("TXT_ALLOW_LOCAL", $this->lng->txt("auth_allow_local"));
+		$this->tpl->setVariable("TXT_ALLOW_LOCAL_DESC", $this->lng->txt("auth_soap_allow_local_desc"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -985,13 +1022,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
          global $ilUser, $ilSetting;
 
         // validate required data 
-		if (!$_POST["soap"]["server"] or !$_POST["soap"]["port"])
+		if (!$_POST["soap"]["server"])
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
 		
 		// validate port
-		if ((preg_match("/^[0-9]{0,5}$/",$_POST["soap"]["port"])) == false)
+		if ($_POST["soap"]["server"] != "" && (preg_match("/^[0-9]{0,5}$/",$_POST["soap"]["port"])) == false)
 		{
 			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -999,6 +1036,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$ilSetting->set("soap_auth_server", $_POST["soap"]["server"]);
 		$ilSetting->set("soap_auth_port", $_POST["soap"]["port"]);
 		$ilSetting->set("soap_auth_active", $_POST["soap"]["active"]);
+		$ilSetting->set("soap_auth_uri", $_POST["soap"]["uri"]);
+		$ilSetting->set("soap_auth_create_users", $_POST["soap"]["create_users"]);
+		$ilSetting->set("soap_auth_allow_local", $_POST["soap"]["allow_local"]);
+		$ilSetting->set("soap_auth_use_https", $_POST["soap"]["use_https"]);
 		$ilSetting->set("soap_auth_user_default_role", $_POST["soap"]["user_default_role"]);
 		sendInfo($this->lng->txt("auth_soap_settings_saved"),true);
 		

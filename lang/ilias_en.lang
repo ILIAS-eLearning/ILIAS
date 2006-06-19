@@ -2987,15 +2987,23 @@ common#:#shib_street#:#Attribute for street
 common#:#shib_title#:#Attribute for title
 common#:#shib_update#:#Update this field on login
 common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
-common#:#auth_cas_user_default_role#:#Default Role
-common#:#auth_cas_allow_local#:#Allow Local Authentication
+common#:#auth_user_default_role#:#Default Role
+common#:#auth_allow_local#:#Allow Local Authentication
 common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
+common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.
 common#:#auth_cas_user_default_role_desc#:#This role is assigned to automatically created CAS users.
-common#:#auth_cas_create_users#:#Create non-existing users automatically
+common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
+common#:#auth_create_users#:#Create non-existing users automatically
 common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.
+common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
+common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
+common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
+common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
+common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_cas_auth#:#Configure CAS Authentication
 common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)
+common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.
 common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/

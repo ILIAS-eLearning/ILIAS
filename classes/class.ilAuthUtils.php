@@ -66,6 +66,7 @@ class ilAuthUtils
 		define ("AUTH_SCRIPT",4);
 		define ("AUTH_SHIBBOLETH",5);
 		define ("AUTH_CAS",6);
+		define ("AUTH_SOAP",7);
 
 		// get default auth mode 
 		//$default_auth_mode = $this->getSetting("auth_mode");
@@ -83,29 +84,48 @@ class ilAuthUtils
             (!isset($_SESSION['_authsession']['registered']) ||
              $_SESSION['_authsession']['registered'] !== true))
         {
-
 			// no sesssion found
 			if ($_POST['username'] != '' and $_POST['password'] != '')
 			{
 				//include_once(ILIAS_ABSOLUTE_PATH.'/classes/class.ilAuthUtils.php');
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
 
-//echo "3-".$user_auth_mode."-".$ilSetting->get("cas_allow_local")."-";
-
 				if ($user_auth_mode == AUTH_CAS && $ilSetting->get("cas_allow_local"))
 				{
-//echo "4";
 					$user_auth_mode = AUTH_LOCAL;
 				}
 			}
         }
-		
-		// If Shibboleth is active and the user is authenticated
+//echo "1-".$ilSetting->get("soap_auth_active")."-";
+		// if soap authentication activated and soap credentials given
+		if ($ilSetting->get("soap_auth_active") && !empty($_GET["ext_uid"])
+			&& !empty($_GET["soap_pw"]))
+		{
+//echo "2";
+			include_once("Services/SOAPAuth/classes/class.ilSOAPAuth.php");
+			
+			if (!is_object($GLOBALS['ilSOAPAuth']))
+			{
+				$auth_params = array(
+					"server_hostname" => $ilSetting->get("soap_auth_server"),
+					"server_port" => $ilSetting->get("soap_auth_port"),
+					"server_uri" => $ilSetting->get("soap_auth_uri"),
+					"https" => $ilSetting->get("soap_auth_use_https"));
+	
+				$ilSOAPAuth = new ilSOAPAuth($auth_params);
+				$GLOBALS['ilSOAPAuth'] =& $ilSOAPAuth;
+			}
+			else
+			{
+				$ilSOAPAuth =& $GLOBALS['ilSOAPAuth'];
+			}
+
+			define ("AUTH_CURRENT", AUTH_SOAP);
+		}
+		// if Shibboleth is active and the user is authenticated
 		// we set auth_mode to Shibboleth
-		if (	
-				$ilSetting->get("shib_active")
-				&& $_SERVER[$ilSetting->get("shib_login")]
-			)
+		else if (	$ilSetting->get("shib_active")
+				&& $_SERVER[$ilSetting->get("shib_login")])
 		{
 			define ("AUTH_CURRENT", AUTH_SHIBBOLETH);
 		}
@@ -207,6 +227,10 @@ class ilAuthUtils
 				$ilAuth->forceCASAuth();
 				break;
 				
+			case AUTH_SOAP:
+				$ilAuth =& $ilSOAPAuth;
+				break;
+				
 			default:
 				// build option string for PEAR::Auth
 				$auth_params = array(
@@ -286,6 +310,10 @@ class ilAuthUtils
 				return AUTH_CAS;
 				break;
 
+			case "soap":
+				return AUTH_SOAP;
+				break;
+
 			default:
 				$q = "SELECT value FROM settings WHERE ".
 			 		 "keyword='auth_mode'";
@@ -325,6 +353,10 @@ class ilAuthUtils
 			case AUTH_SHIBBOLETH:
 				return "shibboleth";
 				break;
+
+			case AUTH_SOAP:
+				return "soap";
+				break;
 				
 			default:
 				return "default";
@@ -357,6 +389,7 @@ class ilAuthUtils
 			AUTH_LDAP => ilAuthUtils::_getAuthModeName(AUTH_LDAP),
 			AUTH_SHIBBOLETH => ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH),
 			AUTH_CAS => ilAuthUtils::_getAuthModeName(AUTH_CAS),
+			AUTH_SOAP => ilAuthUtils::_getAuthModeName(AUTH_SOAP),
 			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS));
 	}
 	
