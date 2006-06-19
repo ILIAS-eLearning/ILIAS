@@ -53,8 +53,12 @@ class assQuestionGUI
 	/**
 	 * sequence number in test
 	 */
-	
 	var $sequence_no;
+	/**
+	 * question count in test
+	 */
+	var $question_count;
+	
 	/**
 	* assQuestionGUI constructor
 	*
@@ -314,10 +318,7 @@ class assQuestionGUI
 		{
 			$maxpoints = "";
 		}
-		if (!$a_postponed && is_numeric($this->sequence_no))
-			$page_gui->setPresentationTitle($this->lng->txt("question")." ".$this->sequence_no." - ".$this->object->getTitle().$postponed.$maxpoints);
-		else 
-			$page_gui->setPresentationTitle($this->object->getTitle().$postponed.$maxpoints);
+		$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints);
 		$presentation = $page_gui->presentation();
 		return $presentation;
 	}
@@ -730,67 +731,24 @@ class assQuestionGUI
 		}
 	}
 	
-	function replaceInputElements  ($gap_idx, $solution, $output, $before="[", $after="]") {		
-		#echo htmlentities ($output)."<br>";
-		#echo htmlentities ($gap_idx)."<br>";
-		$before = "<span class=\"textanswer\">".$before;
-		$after  = $after . "</span>";
-		$output = preg_replace ("/(<input[^>]*".$gap_idx."[^>]*>)/" , $before.$solution.$after, $output);
-		#echo htmlentities ($output)."<br>";		
-		return $output;	
-	}
-
-	/*function replaceInputElements  ($gap_idx, $solution, $output, $before="", $after="") {		
-		#echo htmlentities ($output)."<br>";
-		#echo htmlentities ($gap_idx)."<br>";
-		$before="<span class=\"textanswer\">[";
-		$after="]</span>";
-		$output = preg_replace ("/(<input[^>]*".$gap_idx."[^>]*>)/" , $before.$solution.$after, $output);
-		#echo htmlentities ($output)."<br>";		
-		return $output;	
-	}*/
-	
-	function replaceSelectElements($gap_idx, $repl_str, $output, $before="", $after="")
+	function setSequenceNumber($nr) 
 	{
-		#echo htmlentities ($output)."<br>";
-		#echo htmlentities ($gap_idx)."<br>";
-		#echo htmlentities ($repl_str)."<br>";
-		if (strlen($before) == 0)
-		{
-			$before="<span class=\"textanswer\">[";
-		}
-		if (strlen($after) == 0)
-		{
-			$after="]</span>";
-		}
-	
-		$select_pattern = "/<select[^>]*name=\"$gap_idx\".*?[^>]*>.*?<\/select>/";
-		#echo  htmlentities ($select_pattern)."<br>";
-		// to extract the display value we need the according select statement 
-		if (preg_match($select_pattern, $output, $matches)) {
-			// got it, now we are trying to get the value
-			#echo "<br><br>".htmlentities ($matches[0]);
-			$value_pattern = "/<option[^>]*".$repl_str."[^>]*>(.*?)<\/option>/";												
-			if (preg_match($value_pattern, $matches[0], $matches))
-				$output = preg_replace ($select_pattern, $before.$matches[1].$after, $output);
-/*			else 
-				$output = preg_replace ($select_pattern, $before.$after, $output);*/
-		}
-		return $output;
-	}
-	
-	function removeFormElements ($output) {
-		$output = preg_replace ("/(<input[^>]*>)/" ,"[]", $output);			
-		$output = preg_replace ("/<select[^>]*>.*?<\/select>/s" ,"[]", $output);		
-		return $output;	
-	}
-	
-	function setSequenceNumber ($nr) {
 		$this->sequence_no = $nr;
 	}
 	
-	function getSequenceNumber () {
+	function getSequenceNumber() 
+	{
 		return $this->sequence_no;
+	}
+	
+	function setQuestionCount($a_question_count)
+	{
+		$this->question_count = $a_question_count;
+	}
+	
+	function getQuestionCount()
+	{
+		return $this->question_count;
 	}
 	
 	function getErrorMessage()

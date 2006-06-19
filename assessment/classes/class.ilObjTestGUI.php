@@ -3151,11 +3151,6 @@ class ilObjTestGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("confirm_delete_single_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
 
-		$this->tpl->setCurrentBlock("confirm_delete_selected");
-		$this->tpl->setVariable("BTN_CONFIRM_DELETE_SELECTED", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL_DELETE_SELECTED", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-		
 		foreach ($_POST["chbUser"] as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("hidden");
@@ -3163,6 +3158,29 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		include_once "./classes/class.ilObjUser.php";
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($_POST["chbUser"] as $key => $value)
+		{
+			$user = ilObjUser::_lookupName($this->object->_getUserIdFromActiveId($value));
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("USER_ICON", ilUtil::getImagePath("icon_usr.gif"));
+			$this->tpl->setVariable("USER_ALT", $this->lng->txt("usr"));
+			$this->tpl->setVariable("USER_TITLE", $this->lng->txt("usr"));
+			$this->tpl->setVariable("TXT_FIRSTNAME", $user["firstname"]);
+			$this->tpl->setVariable("TXT_LASTNAME", $user["lastname"]);
+			$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		$this->tpl->setCurrentBlock("selectedusers");
+		$this->tpl->setVariable("HEADER_TXT_FIRSTNAME", $this->lng->txt("firstname"));
+		$this->tpl->setVariable("HEADER_TXT_LASTNAME", $this->lng->txt("lastname"));
+		$this->tpl->setVariable("BTN_CONFIRM_DELETE_SELECTED", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_DELETE_SELECTED", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();

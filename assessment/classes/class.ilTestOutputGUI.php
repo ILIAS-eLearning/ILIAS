@@ -267,14 +267,14 @@ class ilTestOutputGUI
 		if(!$_GET['crs_show_result'])
 		{
 			$this->tpl->setCurrentBlock("percentage");
-			$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
-			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+			$this->tpl->setVariable("PERCENTAGE", 200);
+			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf($this->lng->txt("tst_position"), $this->sequence, count($user_question_order)));
 			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("percentage_bottom");
-			$this->tpl->setVariable("PERCENTAGE", (int)(($this->sequence / count($user_question_order))*200));
-			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($this->sequence / count($user_question_order))*100));
+			$this->tpl->setVariable("PERCENTAGE", 200);
+			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf($this->lng->txt("tst_position"), $this->sequence, count($user_question_order)));
 			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 			$this->tpl->parseCurrentBlock();
@@ -293,14 +293,14 @@ class ilTestOutputGUI
 			}
 
 			$this->tpl->setCurrentBlock("percentage");
-			$this->tpl->setVariable("PERCENTAGE", (int)(($pos / $num_wrong)*200));
-			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($pos / $num_wrong)*100));
+			$this->tpl->setVariable("PERCENTAGE", 200);
+			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf($this->lng->txt("tst_position"), $pos, $num_wrong));
 			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("percentage_bottom");
-			$this->tpl->setVariable("PERCENTAGE", (int)(($pos / $num_wrong)*200));
-			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($pos / $num_wrong)*100));
+			$this->tpl->setVariable("PERCENTAGE", 200);
+			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf($this->lng->txt("tst_position"), $pos, $num_wrong));
 			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 			$this->tpl->parseCurrentBlock();
@@ -351,6 +351,7 @@ class ilTestOutputGUI
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
 		$formaction = $this->ctrl->getFormAction($this);
 		$question_gui->setSequenceNumber($sequence);
+		$question_gui->setQuestionCount(count($this->object->questions));
 		// output question
 		$use_post_solutions = false;
 		if ($this->saveResult === false)
@@ -440,14 +441,6 @@ class ilTestOutputGUI
 			$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "outIntroductionPage") . "&cancelTest=true");
 			$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
 			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("cancel_test_bottom");
-			$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
-			$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
-			$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
-			$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "outIntroductionPage") . "&cancelTest=true");
-			$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "outIntroductionPage") . "&cancelTest=true");
-			$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
-			$this->tpl->parseCurrentBlock();			
 		}		
 
 		if ($finish)
