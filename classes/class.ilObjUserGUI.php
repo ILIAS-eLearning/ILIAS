@@ -1530,7 +1530,8 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// do not validate required fields, login & passwd if auth mode ist not 'local'
-		if ($this->object->getAuthMode(true) == AUTH_LOCAL)
+		if ($this->object->getAuthMode(true) == AUTH_LOCAL || 
+			$this->object->getAuthMode(true) == AUTH_CAS)
 		{
             // check dynamically required fields
             foreach ($settings as $key => $val)
@@ -1648,7 +1649,9 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// don't save login & passwd if auth mode is not 'local'
-		if ($this->object->getAuthMode(true) != AUTH_LOCAL)
+		// cas users can optionally login with local account
+		if ($this->object->getAuthMode(true) != AUTH_LOCAL && 
+			$this->object->getAuthMode(true) != AUTH_CAS)
 		{
 			$_POST['Fobject']['login'] = $this->object->getLogin();
 			$_POST['Fobject']['passwd'] = "********";
@@ -1657,7 +1660,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->object->assignData($_POST["Fobject"]);
 		$this->object->setUserDefinedData($_POST['udf']);
 		
-		if ($this->object->getAuthMode(true) == AUTH_LOCAL)
+		if ($this->object->getAuthMode(true) == AUTH_LOCAL ||
+			$this->object->getAuthMode(true) == AUTH_CAS)
 		{
 			$this->object->updateLogin($_POST["Fobject"]["login"]);
 		}

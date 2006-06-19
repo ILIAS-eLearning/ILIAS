@@ -307,6 +307,12 @@ class ilStartUpGUI
 					// lang variable err_idled not existing
 					//$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
 					break;
+					
+				case AUTH_CAS_NO_ILIAS_USER:
+					$tpl->setVariable(TXT_MSG_LOGIN_FAILED,
+						$lng->txt("err_auth_cas_no_ilias_user"));
+					break;
+					
 				case AUTH_WRONG_LOGIN:
 				default:
 					$add = "";

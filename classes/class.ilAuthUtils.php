@@ -76,18 +76,27 @@ class ilAuthUtils
 		{
 			$default_auth_mode = AUTH_LOCAL;
 		}*/
-		
+
 		// determine authentication method if no session is found and username & password is posted
 		// does this if statement make any sense? we enter this block nearly everytime.
         if (empty($_SESSION) ||
             (!isset($_SESSION['_authsession']['registered']) ||
              $_SESSION['_authsession']['registered'] !== true))
         {
+
 			// no sesssion found
 			if ($_POST['username'] != '' and $_POST['password'] != '')
 			{
 				//include_once(ILIAS_ABSOLUTE_PATH.'/classes/class.ilAuthUtils.php');
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
+
+//echo "3-".$user_auth_mode."-".$ilSetting->get("cas_allow_local")."-";
+
+				if ($user_auth_mode == AUTH_CAS && $ilSetting->get("cas_allow_local"))
+				{
+//echo "4";
+					$user_auth_mode = AUTH_LOCAL;
+				}
 			}
         }
 		
@@ -104,13 +113,22 @@ class ilAuthUtils
 		else if ($ilSetting->get("cas_active"))
 		{
 			include_once("Services/CAS/classes/class.ilCASAuth.php");
-			$auth_params = array(
-				"server_version" => CAS_VERSION_2_0,
-				"server_hostname" => $ilSetting->get("cas_server"),
-				"server_port" => $ilSetting->get("cas_port"),
-				"server_uri" => $ilSetting->get("cas_uri"));
-
-			$ilCASAuth = new ilCASAuth($auth_params);
+			
+			if (!is_object($GLOBALS['ilCASAuth']))
+			{
+				$auth_params = array(
+					"server_version" => CAS_VERSION_2_0,
+					"server_hostname" => $ilSetting->get("cas_server"),
+					"server_port" => $ilSetting->get("cas_port"),
+					"server_uri" => $ilSetting->get("cas_uri"));
+	
+				$ilCASAuth = new ilCASAuth($auth_params);
+				$GLOBALS['ilCASAuth'] =& $ilCASAuth;
+			}
+			else
+			{
+				$ilCASAuth =& $GLOBALS['ilCASAuth'];
+			}
 			
 			if ($_GET["forceCASLogin"] == "1")
 			{
@@ -225,9 +243,9 @@ class ilAuthUtils
 			 "login='".$a_username."' AND ".
 			 "passwd='".md5($a_password)."'";
 		$r = $db->query($q);
-		
+//echo "<br>+$q+";
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
+//echo "+".$row->auth_mode."+";
 		return ilAuthUtils::_getAuthMode($row->auth_mode,$db);
 	}
 	
