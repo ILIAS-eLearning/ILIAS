@@ -410,6 +410,18 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getTreeChilds(): Get all child objects of a given object.'.
 								'Choose array of types to filter the output. Choose empty type array to receive all object types');
 
+		$this->server->register('getXMLTree',
+					array('sid' => 'xsd:string',
+					      'ref_id' => 'xsd:int',
+					      'types' => 'tns:stringArray',
+					      'user_id' => 'xsd:int'),
+					array('object_xml' => 'xsd:string'),
+					SERVICE_NAMESPACE,
+					SERVICE_NAMESPACE.'#getXMLTree',
+					SERVICE_STYLE,
+					SERVICE_USE,
+					'ILIAS getXMLTree(): Returns a xml stream with the subtree objects.');
+
 
 
 		$this->server->register('addObject',

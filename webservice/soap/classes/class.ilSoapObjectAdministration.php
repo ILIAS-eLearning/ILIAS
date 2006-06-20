@@ -326,7 +326,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		{
 			$all = true;
 		}
-		$filter = is_array($types) ? $types : array();
+ 		$filter = is_array($types) ? $types : array();
 
 		foreach($tree->getChilds($ref_id,'title') as $child)
 		{
@@ -361,6 +361,55 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		return $this->__raiseError('Cannot create object xml !','Server');
 	}
+        
+	function getXMLTree($sid,$ref_id,$types,$user_id) {
+
+	  if(!$this->__checkSession($sid))
+            {
+              return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+            }
+
+          include_once './include/inc.header.php';
+
+          global $tree;
+
+          $nodedata  = $tree->getNodeData($ref_id);
+
+          $nodearray = $tree->getSubTree($nodedata);
+	  
+	  $filter = is_array($types) ? $types :  array("0" => "root","adm","lngf","mail",
+			    "usrf","rolf","taxf","trac","pays",
+			    "auth","chac","objf","recf","assf",
+			    "stys","seas","extt");
+	  
+	  foreach($nodearray as $node) {
+            if (!in_array($node['type'], $filter)) {
+              if ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'],false)) {
+                $nodes[] = $tmp;
+              }
+            }
+          }
+	  
+	  
+	  include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
+	  
+	  $xml_writer = new ilObjectXMLWriter();
+	  $xml_writer->setObjects($nodes);
+	  $xml_writer->enableOperations(false);
+	  
+	  if($user_id)
+	    {
+	      $xml_writer->setUserId($user_id);
+	    }
+	  
+	  if($xml_writer->start())
+	    {
+	      return $xml_writer->getXML();
+	    }
+	  
+	  return $this->__raiseError('Cannot create object xml !','Server');
+	}
+	
 
 	function addObject($sid,$a_target_id,$a_xml)
 	{

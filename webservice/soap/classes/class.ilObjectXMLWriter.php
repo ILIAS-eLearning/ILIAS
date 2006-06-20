@@ -121,8 +121,13 @@ class ilObjectXMLWriter extends ilXmlWriter
 	// PRIVATE
 	function __appendObject(&$object)
 	{
+
+	  global $tree;
+
+	  $id = $object->getId();
+	  
 		$attrs = array('type' => $object->getType(),
-					   'obj_id' => $object->getId());
+			       'obj_id' => $id);
 
 		$this->xmlStartTag('Object',$attrs);
 		$this->xmlElement('Title',null,$object->getTitle());
@@ -134,7 +139,8 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 		foreach(ilObject::_getAllReferences($object->getId()) as $ref_id)
 		{
-			$attr = array('ref_id' => $ref_id);
+			$attr = array('ref_id' => $ref_id,
+				      'parent_id'=> $tree->getParentId(intval($ref_id)));
 			$attr['accessInfo'] = $this->__getAccessInfo($object,$ref_id);
 
 			$this->xmlStartTag('References',$attr);
@@ -166,7 +172,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ilias_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"http://cevug.ugr.es/ilias37/xml/ilias_object_3_7.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS objects");
 		$this->xmlHeader();
 
