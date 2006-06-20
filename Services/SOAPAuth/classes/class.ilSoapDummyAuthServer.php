@@ -38,7 +38,31 @@ include_once './webservice/soap/lib/nusoap.php';
 */
 function isValidSession($ext_uid, $soap_pw, $new_user)
 {
-	return true;
+	$ret = array(
+		"valid" => false,
+		"firstname" => "",
+		"lastname" => "",
+		"email" => "");
+		
+	// generate some dummy values
+	if ($new_user)
+	{
+		$ret["firstname"] = "first ".$ext_uid;
+		$ret["lastname"] = "last ".$ext_uid;
+		$ret["email"] = $ext_uid."@de.de";
+	}
+	
+	// return valid authentication if user id equals soap password
+	if ($ext_uid == $soap_pw)
+	{
+		$ret["valid"] = true;
+	}
+	else
+	{
+		$ret["valid"] = false;
+	}
+	
+	return $ret;
 }
 
 
@@ -113,7 +137,10 @@ class ilSoapDummyAuthServer
 								array('ext_uid' => 'xsd:string',
 									  'soap_pw' => 'xsd:string',
 									  'new_user' => 'xsd:boolean'),
-								array('valid' => 'xsd:boolean'),
+								array('valid' => 'xsd:boolean',
+									'firstname' => 'xsd:string',
+									'lastname' => 'xsd:string',
+									'email' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#isValidSession',
 								SERVICE_STYLE,

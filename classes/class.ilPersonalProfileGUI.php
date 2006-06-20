@@ -240,7 +240,8 @@ class ilPersonalProfileGUI
 
 		// do nothing if auth mode is not local database
 		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
-			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local"))
+			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
+			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local"))
 			)
 		{
 			$this->password_error = $this->lng->txt("not_changeable_for_non_local_auth");
@@ -714,7 +715,8 @@ class ilPersonalProfileGUI
 		$this->tpl->setVariable("TXT_SHOW_NOTES", $this->lng->txt("show_notes_on_pd"));
 		
 		if (($ilUser->getAuthMode(true) == AUTH_LOCAL ||
-			($ilUser->getAuthMode(true) == AUTH_CAS && $ilSetting->get("cas_allow_local"))
+			($ilUser->getAuthMode(true) == AUTH_CAS && $ilSetting->get("cas_allow_local")) ||
+			($ilUser->getAuthMode(true) == AUTH_SOAP && $ilSetting->get("soap_auth_allow_local"))
 			)
 			&&
 			$this->userSettingVisible('password'))

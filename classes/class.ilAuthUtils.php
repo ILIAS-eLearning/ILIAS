@@ -40,7 +40,7 @@ class ilAuthUtils
 	function _initAuth()
 	{
 		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile;
-		
+//var_dump($_SESSION);
 		// check whether settings object is available
 		if (!is_object($ilSetting))
 		{
@@ -77,7 +77,7 @@ class ilAuthUtils
 		{
 			$default_auth_mode = AUTH_LOCAL;
 		}*/
-
+//var_dump($_SESSION);
 		// determine authentication method if no session is found and username & password is posted
 		// does this if statement make any sense? we enter this block nearly everytime.
         if (empty($_SESSION) ||
@@ -94,14 +94,25 @@ class ilAuthUtils
 				{
 					$user_auth_mode = AUTH_LOCAL;
 				}
+				if ($user_auth_mode == AUTH_SOAP && $ilSetting->get("soap_auth_allow_local"))
+				{
+					$user_auth_mode = AUTH_LOCAL;
+				}
 			}
         }
+		
+		// to do: other solution?
+		if (!$ilSetting->get("soap_auth_active") && $user_auth_mode == AUTH_SOAP)
+		{
+			$user_auth_mode = AUTH_LOCAL;
+		}
+		
+//var_dump($_SESSION);
 //echo "1-".$ilSetting->get("soap_auth_active")."-";
 		// if soap authentication activated and soap credentials given
-		if ($ilSetting->get("soap_auth_active") && !empty($_GET["ext_uid"])
-			&& !empty($_GET["soap_pw"]))
+		if (($ilSetting->get("soap_auth_active") && !empty($_GET["ext_uid"])
+			&& !empty($_GET["soap_pw"])) || $user_auth_mode == AUTH_SOAP)
 		{
-//echo "2";
 			include_once("Services/SOAPAuth/classes/class.ilSOAPAuth.php");
 			
 			if (!is_object($GLOBALS['ilSOAPAuth']))
@@ -111,7 +122,8 @@ class ilAuthUtils
 					"server_port" => $ilSetting->get("soap_auth_port"),
 					"server_uri" => $ilSetting->get("soap_auth_uri"),
 					"https" => $ilSetting->get("soap_auth_use_https"));
-	
+				// this starts already the session, AccountId is '' _authsession is null
+				// (assuming that ilSOAPAuth constructor calls Auth constructor
 				$ilSOAPAuth = new ilSOAPAuth($auth_params);
 				$GLOBALS['ilSOAPAuth'] =& $ilSOAPAuth;
 			}
@@ -141,8 +153,10 @@ class ilAuthUtils
 					"server_hostname" => $ilSetting->get("cas_server"),
 					"server_port" => $ilSetting->get("cas_port"),
 					"server_uri" => $ilSetting->get("cas_uri"));
-	
+//echo "II";
+//var_dump($_SESSION);
 				$ilCASAuth = new ilCASAuth($auth_params);
+//var_dump($_SESSION);
 				$GLOBALS['ilCASAuth'] =& $ilCASAuth;
 			}
 			else
@@ -162,13 +176,14 @@ class ilAuthUtils
 			else
 			{
 				define ("AUTH_CURRENT", $user_auth_mode);
+				//session_unset();
 			}
 		}
 		else
 		{
 			define ("AUTH_CURRENT", $user_auth_mode);
 		}
-
+//var_dump($_SESSION);
 		switch (AUTH_CURRENT)
 		{
 			case AUTH_LOCAL:
@@ -180,6 +195,7 @@ class ilAuthUtils
 											'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
 											);
 				// We use MySQL as storage container
+				// this starts already the session, AccountId is '' _authsession is null
 				$ilAuth = new Auth("DB", $auth_params,"",false);
 				break;
 			
@@ -240,7 +256,9 @@ class ilAuthUtils
 											'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
 											);
 				// We use MySQL as storage container
+//var_dump($_SESSION);
 				$ilAuth = new Auth("DB", $auth_params,"",false);
+//var_dump($_SESSION);
 				break;
 
 		}

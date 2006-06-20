@@ -852,7 +852,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CAS_PORT_DESC", $this->lng->txt("auth_cas_port_desc"));
 		$this->tpl->setVariable("TXT_CAS_URI", $this->lng->txt("uri"));
 		$this->tpl->setVariable("TXT_CAS_URI_DESC", $this->lng->txt("auth_cas_uri_desc"));
-		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_cas_create_users"));
+		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_create_users"));
 		$this->tpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_cas_create_users_desc"));
 		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE", $this->lng->txt("auth_user_default_role"));
 		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE_DESC",
