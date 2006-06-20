@@ -271,6 +271,18 @@ function getTreeChilds($sid,$ref_id,$types,$user_id)
 
 	return $soa->getTreeChilds($sid,$ref_id,$types,$user_id);
 }
+
+function getXMLTree($sid,$ref_id,$types,$user_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
+
+	$soa =& new ilSoapObjectAdministration();
+
+	return $soa->getXMLTree($sid,$ref_id,$types,$user_id);
+}	
+
+	
+
 // Rbac Tree functions
 function getOperations($sid)
 {
