@@ -15,6 +15,7 @@
 <!-- accesInfo is 'granted','no_permission',missing_precondition','no_object_access','no_parent_access' or 'object_deleted' -->
 <!ATTLIST References
     ref_id CDATA #REQUIRED
+    parent_id CDATA #IMPLIED 
     accessInfo (granted|no_permission|missing_precondition|no_object_access|no_parent_access|object_deleted) #IMPLIED
 >
 <!ELEMENT Operation (#PCDATA)>
