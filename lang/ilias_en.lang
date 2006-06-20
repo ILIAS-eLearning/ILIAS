@@ -714,6 +714,7 @@ assessment#:#warning_test_not_complete#:#The test is not complete!
 assessment#:#when#:#when
 assessment#:#width#:#Width
 assessment#:#with_order#:#with order
+assessment#.#not_worked_through#:#Not answered
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
