@@ -1037,7 +1037,8 @@ class ilObjUserGUI extends ilObjectGUI
 					$data["fields"]["ext_account"]);
 			}
 			if ($this->object->getAuthMode(true) != AUTH_LOCAL &&
-				$this->object->getAuthMode(true) != AUTH_CAS)
+				$this->object->getAuthMode(true) != AUTH_CAS &&
+				$this->object->getAuthMode(true) != AUTH_SOAP)
 			{
 				$this->tpl->setVariable("OPTION_DISABLED_EXT", "\"disabled=disabled\"");
 			}
@@ -1045,7 +1046,9 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		if ($this->object->getAuthMode(true) != AUTH_LOCAL &&
-			$this->object->getAuthMode(true) != AUTH_CAS)
+			$this->object->getAuthMode(true) != AUTH_CAS &&
+			$this->object->getAuthMode(true) != AUTH_SOAP
+			)
 		{
 			$this->tpl->setVariable("OPTION_DISABLED", "\"disabled=disabled\"");
 		}
@@ -1675,7 +1678,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// don't save login & passwd if auth mode is not 'local'
 		// cas users can optionally login with local account
 		if ($this->object->getAuthMode(true) != AUTH_LOCAL && 
-			$this->object->getAuthMode(true) != AUTH_CAS)
+			$this->object->getAuthMode(true) != AUTH_CAS &&
+			$this->object->getAuthMode(true) != AUTH_SOAP)
 		{
 			$_POST['Fobject']['login'] = $this->object->getLogin();
 			$_POST['Fobject']['passwd'] = "********";
@@ -1685,7 +1689,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->object->setUserDefinedData($_POST['udf']);
 		
 		if ($this->object->getAuthMode(true) == AUTH_LOCAL ||
-			$this->object->getAuthMode(true) == AUTH_CAS)
+			$this->object->getAuthMode(true) == AUTH_CAS ||
+			$this->object->getAuthMode(true) == AUTH_SOAP)
 		{
 			$this->object->updateLogin($_POST["Fobject"]["login"]);
 		}

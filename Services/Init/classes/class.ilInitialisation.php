@@ -721,25 +721,24 @@ class ilInitialisation
 		
 		// $ilDB initialisation
 		$this->initDatabase();
-		
-		
+
 		// set session handler
 		$this->setSessionHandler();
 		
 		// $ilSetting initialisation
 		$this->initSettings();
-		
+
 		// $ilAuth initialisation
 		require_once("classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
 		global $ilAuth;
-		
+//var_dump($_SESSION);
 		// $ilias initialisation
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
 		$ilias =& new ILIAS();
 		$GLOBALS['ilias'] =& $ilias;
 		$ilBench->stop("Core", "HeaderInclude_GetILIASObject");
-		
+//var_dump($_SESSION);
 		
 		// test: trace function calls in debug mode
 		if (DEVMODE)
@@ -797,7 +796,9 @@ class ilInitialisation
 		// authenticate & start session
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 		$ilBench->start("Core", "HeaderInclude_Authentication");
+//var_dump($_SESSION);
 		$ilAuth->start();
+//var_dump($_SESSION);
 		$ilias->setAuthError($ilErr->getLastError());
 		$ilBench->stop("Core", "HeaderInclude_Authentication");
 		
@@ -815,8 +816,8 @@ class ilInitialisation
 		if (!$ilias->getSetting("setup_ok"))
 		{
 			die("Setup is not completed. Please run setup routine again.");
-		}		
-		
+		}
+
 		// $ilUser initialisation (1)
 		$ilBench->start("Core", "HeaderInclude_getCurrentUser");
 		$ilUser = new ilObjUser();
@@ -885,10 +886,10 @@ class ilInitialisation
 		{
 //echo "C";
 			$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");
-		
+//var_dump($_SESSION);
 			// get user data
 			$this->initUserAccount();
-			
+//var_dump($_SESSION);
 			// check client IP of user
 			$this->checkUserClientIP();
 			

@@ -312,6 +312,11 @@ class ilStartUpGUI
 					$tpl->setVariable(TXT_MSG_LOGIN_FAILED,
 						$lng->txt("err_auth_cas_no_ilias_user"));
 					break;
+
+				case AUTH_SOAP_NO_ILIAS_USER:
+					$tpl->setVariable(TXT_MSG_LOGIN_FAILED,
+						$lng->txt("err_auth_soap_no_ilias_user"));
+					break;
 					
 				case AUTH_WRONG_LOGIN:
 				default:

@@ -42,6 +42,8 @@ class ilSOAPAuth extends Auth
 	*/
 	function ilSOAPAuth($a_params)
 	{
+		parent::Auth("");
+		
 		$this->server_hostname = $a_params["server_hostname"];
 		$this->server_port = (int) $a_params["server_port"];
 		$this->server_uri = $a_params["server_uri"];
@@ -83,13 +85,30 @@ class ilSOAPAuth extends Auth
 	* of soap server
 	*
 	*/
-	function validateSOAPUser($a_ext_account, $a_soap_pw)
+	function validateSOAPUser($a_ext_uid, $a_soap_pw)
 	{
-		// todo: check if user exists
-		$valid = $this->soap_client->call('isValidSession', array('ext_uid' => $a_ext_account,
-			'soap_pw' => $a_soap_pw,
-			'new_user' => false));
-
+		// check whether external user exists in ILIAS database
+		$local_user = ilObjUser::_checkExternalAuthAccount("soap", $a_ext_uid);
+		
+		if ($local_user == "")
+		{
+			$new_user = true;
+		}
+		else
+		{
+			$new_user = false;
+		}
+		
+		$valid = $this->soap_client->call('isValidSession',
+			array('ext_uid' => $a_ext_uid,
+				'soap_pw' => $a_soap_pw,
+				'new_user' => $new_user));
+		
+		// to do check SOAP error!?
+				
+		$valid["local_user"] = $local_user;
+		
+		return $valid;
 	}
 	
 	/**
@@ -101,87 +120,89 @@ class ilSOAPAuth extends Auth
 	function login()
 	{
 		global $ilias, $rbacadmin, $lng, $ilSetting;
-
-echo "ilSOAPAuth::login"; exit;
 		
-		if (phpCAS::getUser() != "")
+		if (empty($_GET["ext_uid"]) || empty($_GET["soap_pw"]))
 		{
-			$username = phpCAS::getUser();
+			$this->status = AUTH_WRONG_LOGIN;
+			return;
+		}
 
-			// Authorize this user
-			$local_user = ilObjUser::_checkExternalAuthAccount("cas", $username);
-
-			if ($local_user != "")
-			{
-				$this->setAuth($local_user);
-			}
-			else
-			{
-				if (!$ilSetting->get("cas_create_users"))
-				{
-					$this->status = AUTH_CAS_NO_ILIAS_USER;
-					$this->logout();
-					return;
-				}
-				
-				$userObj = new ilObjUser();
-				
-				$local_user = ilAuthUtils::_generateLogin($username);
-				
-				$newUser["firstname"] = $local_user;
-				$newUser["lastname"] = "";
-				
-				$newUser["login"] = $local_user;
-				
-				// set "plain md5" password (= no valid password)
-				$newUser["passwd"] = ""; 
-				$newUser["passwd_type"] = IL_PASSWD_MD5; 
-				
-				//$newUser["gender"] = "m";
-				$newUser["auth_mode"] = "cas";
-				$newUser["ext_account"] = $username;
-				$newUser["profile_incomplete"] = 1;
-				
-				// system data
-				$userObj->assignData($newUser);
-				$userObj->setTitle($userObj->getFullname());
-				$userObj->setDescription($userObj->getEmail());
-			
-				// set user language to system language
-				$userObj->setLanguage($lng->lang_default);
-				
-				// Time limit
-				$userObj->setTimeLimitOwner(7);
-				$userObj->setTimeLimitUnlimited(1);
-				$userObj->setTimeLimitFrom(time());
-				$userObj->setTimeLimitUntil(time());
-								
-				// Create user in DB
-				$userObj->setOwner(6);
-				$userObj->create();
-				$userObj->setActive(1, 6);
-				
-				$userObj->updateOwner();
-				
-				//insert user data in table user_data
-				$userObj->saveAsNew();
-				
-				// setup user preferences
-				$userObj->writePrefs();
-				
-				// to do: test this
-				$rbacadmin->assignUser($ilSetting->get('cas_user_default_role'), $userObj->getId(),true);
-				
-				unset($userObj);
-				
-				$this->setAuth($local_user);
-
-			}
+		$validation_data = $this->validateSoapUser($_GET["ext_uid"], $_GET["soap_pw"]);
+		
+		if (!$validation_data["valid"])
+		{
+			$this->status = AUTH_WRONG_LOGIN;
+			return;
+		}
+		
+		$local_user = $validation_data["local_user"];
+		
+		if ($local_user != "")
+		{
+			// to do: handle update of user
+			$this->setAuth($local_user);
 		}
 		else
 		{
-			// This should never occur unless CAS is not configured properly
-			$this->status = AUTH_WRONG_LOGIN;
+			if (!$ilSetting->get("soap_auth_create_users"))
+			{
+				$this->status = AUTH_SOAP_NO_ILIAS_USER;
+				$this->logout();
+				return;
+			}
+				
+			$userObj = new ilObjUser();
+			
+			$local_user = ilAuthUtils::_generateLogin($_GET["ext_uid"]);
+			
+			$newUser["firstname"] = $local_user;
+			$newUser["lastname"] = "";
+			
+			$newUser["login"] = $local_user;
+			
+			// to do: set valid password and send mail
+			$newUser["passwd"] = ""; 
+			$newUser["passwd_type"] = IL_PASSWD_MD5; 
+			
+			//$newUser["gender"] = "m";
+			$newUser["auth_mode"] = "soap";
+			$newUser["ext_account"] = $_GET["ext_uid"];
+			$newUser["profile_incomplete"] = 1;
+			
+			// system data
+			$userObj->assignData($newUser);
+			$userObj->setTitle($userObj->getFullname());
+			$userObj->setDescription($userObj->getEmail());
+		
+			// set user language to system language
+			$userObj->setLanguage($lng->lang_default);
+			
+			// Time limit
+			$userObj->setTimeLimitOwner(7);
+			$userObj->setTimeLimitUnlimited(1);
+			$userObj->setTimeLimitFrom(time());
+			$userObj->setTimeLimitUntil(time());
+							
+			// Create user in DB
+			$userObj->setOwner(6);
+			$userObj->create();
+			$userObj->setActive(1, 6);
+			
+			$userObj->updateOwner();
+			
+			//insert user data in table user_data
+			$userObj->saveAsNew();
+			
+			// setup user preferences
+			$userObj->writePrefs();
+			
+			// to do: test this
+			$rbacadmin->assignUser($ilSetting->get('soap_auth_user_default_role'), $userObj->getId(),true);
+			
+			unset($userObj);
+			
+			$this->setAuth($local_user);
+
 		}
 	}
 	
