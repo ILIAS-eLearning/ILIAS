@@ -1060,9 +1060,9 @@ class ilPersonalDesktopGUI
 			array("user_id" => $ilUser->getId(),
 				"firstname" => $ilUser->getFirstname(),
 				"lastname" => $ilUser->getLastname(),
-				"title" => $ilUser->getTitle(),
+				"title" => $ilUser->getUTitle(),
 				"login" => $ilUser->getLogin());
-		
+
 		foreach ($users as $user_id => $user)
 		{
 			if ($user_id != ANONYMOUS_USER_ID)
@@ -1148,7 +1148,7 @@ class ilPersonalDesktopGUI
 				if ($user_id != ANONYMOUS_USER_ID)
 				{
 					$rowCol = ilUtil::switchColor($z,"tblrow1","tblrow2");
-					$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
+					//$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
 					
 					// hide mail-to icon for anonymous users
 					if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID and $_SESSION["AccountId"] != $user_id)
@@ -1156,7 +1156,7 @@ class ilPersonalDesktopGUI
 						$this->tpl->setCurrentBlock("mailto_link");
 						//$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
 						$this->tpl->setVariable("TXT_MAIL",$this->lng->txt("mail"));
-						$this->tpl->setVariable("USR_LOGIN",$user["login"]);
+						$this->tpl->setVariable("MAIL_USR_LOGIN",$user["login"]);
 						$this->tpl->parseCurrentBlock();
 					}
 					
@@ -1200,7 +1200,7 @@ class ilPersonalDesktopGUI
 					$this->tpl->setVariable("ROWCOL",$rowCol);
 					$this->tpl->setVariable("USR_LOGIN",$user["login"]);
 					$this->tpl->setVariable("USR_FULLNAME",ilObjUser::setFullname($user["title"],$user["firstname"],$user["lastname"]));
-					$this->tpl->setVariable("USR_LOGIN_TIME",$login_time);
+					//$this->tpl->setVariable("USR_LOGIN_TIME",$login_time);
 					
 					$this->tpl->parseCurrentBlock();
 					
