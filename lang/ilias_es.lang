@@ -142,6 +142,8 @@ assessment#:#cannot_maintain_test#:#¡No posee permisos suficientes para mantene
 assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del banco de preguntas!
 assessment#:#cannot_save_metaobject#:#¡No tiene los permisos suficientes para grabar los metadatos!
 assessment#:#change_solution#:#Modificar solución recomendada
+assessment#:#changelog_heading#:#Changelog
+assessment#:#changelog_description#:#La siguiente tabla contiene todos los cambios de autores que se han hecho a este test.
 assessment#:#checkbox_checked#:#Caja marcada
 assessment#:#checkbox_unchecked#:#Caja no marcada
 assessment#:#circle#:#Circulo
@@ -174,6 +176,9 @@ assessment#:#description_maxchars#:#Si no introduce ningun valor, el máximo nú
 assessment#:#detail_ending_time_reached#:#Se ha terminado el tiempo para el test. El test no está disponible desde %s
 assessment#:#detail_max_processing_time_reached#:#¡Se ha superado el tiempo máximo permitido para el test!
 assessment#:#detail_starting_time_not_reached#:#El test no estará disponible hasta %s
+assessment#:#detailed_output#:#Salida detallada
+assessment#:#detailed_output_solutions#:#Salida detallada con soluciones de las pregunta
+assessment#:#detailed_output_printview#:#Salida detallada con vista de impresión de las preguntas
 assessment#:#direct_feedback#:#Verifique su solución
 assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#¡Ha seleccionado una pareja de valores duplicada!
@@ -256,6 +261,7 @@ assessment#:#filter_all_question_types#:#Todos los tipos de pregunta
 assessment#:#filter_all_questionpools#:#Todos los bancos de preguntas
 assessment#:#filter_show_question_types#:#Mostrar tipos de preguntas
 assessment#:#filter_show_questionpools#:#Mostrar bancos de preguntas
+assessment#:#filter_users#:#Filtrar usuarios
 assessment#:#gap#:#Hueco
 assessment#:#gap_definition#:#Definición de hueco
 assessment#:#gap_selection#:#Hueco de selección
@@ -280,6 +286,7 @@ assessment#:#keywords_hint#:#Introduzca una lista de palabras clave, separadas p
 assessment#:#last_update#:#Ultima actualización
 assessment#:#legend#:#Leyenda
 assessment#:#locked#:#bloqueado
+assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#El usuario no pudo entrar al test porque se ha alcanzado el máximo número simultáneo de conexiones
 assessment#:#log_create_new_test#:#Nuevo Test creado
 assessment#:#log_mark_added#:#Nota añadida
 assessment#:#log_mark_changed#:#Nota modificada
@@ -288,6 +295,9 @@ assessment#:#log_modified_test#:#El test fué modificado
 assessment#:#log_no_test_fields_changed#:#Grabado, pero nada fué modificado
 assessment#:#log_question_added#:#Pregunta añadida en la posición
 assessment#:#log_question_position_changed#:#Posición de la pregunta modificada
+assessment#:#log_random_question_pool_added#:#Añadido el banco de preguntas '%s' con %s preguntas para el test aleatorio
+assessment#:#log_total_amount_of_questions#:#Configurado el nº total de preguntas para el test aleatorio a %s
+assessment#:#log_random_question_pool_deleted#:#Eliminados todos los bancos de preguntas aleatorios para el test
 assessment#:#log_question_removed#:#Pregunta eliminada
 assessment#:#log_selected_user_data_removed#:#Datos de Tests del usuario %s eliminados
 assessment#:#log_user_answered_question#:#El usuario respondió una pregunta y recibió %s puntos
@@ -306,6 +316,10 @@ assessment#:#maxchars#:#Máximo número de caracteres
 assessment#:#maximum_nr_of_tries_reached#:#Ha alcanzado el número máximo de intentos para este test. El test no puede ser introducido!
 assessment#:#maximum_points#:#Máximo de puntos disponibles
 assessment#:#meaning#:#Significado
+assessment#:#multiline_answers_hide#:#Usar respuestas de una única línea
+assessment#:#multiline_answers_show#:#Usar respuestas de múltiples líneas
+assessment#:#multiline_terms_hide#:#Usar términos de una única línea
+assessment#:#multiline_terms_show#:#Usar términos de múltiples líneas
 assessment#:#min_percentage_ne_0#:#¡Debe definir un porcentaje mínimo de 0 por ciento! El esquema de calificación no fue grabado.
 assessment#:#negative_points_not_allowed#:#¡No está permitido introducir puntos negativos!
 assessment#:#next_question_rows#:#Preguntas %d - %d de %d >>
@@ -322,6 +336,7 @@ assessment#:#or#:#o
 assessment#:#order_pictures#:#Ordenar imágenes
 assessment#:#order_terms#:#Ordenar términos
 assessment#:#ordering_question_javascript_hint#:#Por favor arrastre una definición/imagen sobre la definición/imagen donde la quiera dejar y suéltela. La definición/imagen debajo y todas las definiciones/imágenes siguientes se moverán hacia abajo.
+assessment#:#output_mode#:#Modo de salida
 assessment#:#participants#:#Participantes
 assessment#:#pass#:#Aprobar
 assessment#:#passed_official#:#superado
@@ -344,6 +359,7 @@ assessment#:#postponed#:#Pospuesta
 assessment#:#preview#:#Previsualizar
 assessment#:#previous_question_rows#:#<< Preguntas %d - %d de %d
 assessment#:#print_answers#:#Imprimir respuestas
+assessment#:#print_view#:#Vista de impresión
 assessment#:#qpl_answertext_fields_not_filled#:#La pregunta sólo puede ser grabada, si rellena todos los campos de texto de respuesta
 assessment#:#qpl_assessment_no_assessment_of_questions#:#No hay evaluación disponible para la pregunta seleccionada. La pregunta nunca se ha usado en un test.
 assessment#:#qpl_assessment_of_questions#:#Evaluación (por preguntas)
@@ -421,6 +437,7 @@ assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
 assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
 assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
 assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto
+assessment#:#scored_pass#:#Puntuación alcanzada
 assessment#:#search_found_groups#:#Grupos encontrados
 assessment#:#search_found_users#:#Usuarios encontrados
 assessment#:#search_groups#:#Buscar Grupos
@@ -437,6 +454,7 @@ assessment#:#select_qpl_option#:#--- Por favor selecciones un banco de preguntas
 assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones 'insertar'!
 assessment#:#select_tst_option#:#--- Por favor seleccione un test ---
 assessment#:#selected_image#:#Imagen seleccionada
+assessment#:#set_edit_mode#:#Configurar modo de edición
 assessment#:#set_filter#:#Activar filtro
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Barajar respuestas
@@ -458,11 +476,14 @@ assessment#:#text_answers_saved#:#¡Puntuación de la pregunta de texto modifica
 assessment#:#text_gap#:#Hueco de texto
 assessment#:#text_maximum_chars_allowed#:#Por favor no introduzca más de %s caracteres. Cualquier caracter extra será truncado.
 assessment#:#text_rating#:#Método de coincidencia de texto
+assessment#:#test_reference#:#Referencia del Test
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Por favor rellene los parámetros vacíos para el applet antes de añadir un nuevo parámetro!
 assessment#:#true#:#Verdadero
 assessment#:#tst_access_code_created#:#Para proporcionarle acceso permanente a sus resultados de test y ofrecerle la posibilidad de retomar este test, un código de acceso único fue creado. Por favor, anote este código y úselo en acciones posteriores.
 assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!
+assessment#:#tst_allowed_users#:#Máximo número de usuarios ejecutando el test a la vez
+assessment#:#tst_allowed_users_time_gap#:#Tiempo de inactividad permitido para los usuarios activos
 assessment#:#tst_already_submitted#:#El Test ya ha sido finalizado y enviado
 assessment#:#tst_already_taken#:#Tests realizados
 assessment#:#tst_answer_sheet#:#Hoja de Respuestas de Test
@@ -518,6 +539,9 @@ assessment#:#tst_mark_minimum_level#:#Nivel Mínimo (en %)
 assessment#:#tst_mark_official_form#:#Forma oficial
 assessment#:#tst_mark_passed#:#Superado
 assessment#:#tst_mark_short_form#:#Forma abreviada
+assessment#:#tst_max_allowed_users#:#Restricción de participantes
+assessment#:#tst_max_allowed_users_message#:#El máximo número de usuarios activos simultáneos en el test ha sido alcanzado. Por favor intenta otra vez comenzar o retomar el test. Si uno de los usuarios activos está inactivo más de %s segundos, podrás entrar al test. Esto mejora el rendimiento en la ejecución. Disculpa las molestias
+assessment#:#tst_max_allowed_users_heading#:#Se ha superado el número máximo de usuarios simultáneos en este test
 assessment#:#tst_maximum_points#:#Máxima puntuación
 assessment#:#tst_missing_author#:#No ha introducido el nombre de los autores en las propiedades del test! Por favor introduzca un nombre para el/los autor(es).
 assessment#:#tst_missing_marks#:#No tiene un esquema de calificación en el test! Por favor añada al menos un esquema simple de calificación en el test.
@@ -545,6 +569,7 @@ assessment#:#tst_password_details#:#Si define una contraseña de test, todos los
 assessment#:#tst_password_entered_wrong_password#:#No puede comenzar el test porque introdujo una contraseña de test incorrecta
 assessment#:#tst_password_introduction#:#Este test sólo puede ser accedido con una contraseña. Por favor introduzca la contraseña del test para comenzar el test
 assessment#:#tst_percent_solved#:#Porcentaje resuelto
+assessment#:#tst_position#:#Pregunta %s de %s
 assessment#:#tst_print#:#Vista de Impresión de Test
 assessment#:#tst_print_date#:#Fecha de Impresión
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso
@@ -657,6 +682,7 @@ assessment#:#tst_submit_results#:#Sí, confirmo el envío.
 assessment#:#tst_test_output#:#Salida del Test
 assessment#:#tst_text_count_system#:#Sistema de puntuación
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento
+assessment#:#tst_time_already_spent_left#:#Le quedan %s .
 assessment#:#tst_total_questions#:#Cantidad total de preguntas
 assessment#:#tst_total_questions_description#:#Si rellena este valor , la cantidad total de preguntas introducidas en los bancos serán ignoradas. Si no rellena este valor, ¡necesita introducir una cantidad en cada banco seleccionado!
 assessment#:#tst_tst_date#:#Fecha del Test
@@ -971,6 +997,10 @@ common#:#administration#:#Administración
 common#:#administrator#:#Administrador
 common#:#adopt#:#adoptar
 common#:#adopt_perm_from_template#:#Adoptar configuración de permisos de la Plantilla de Rol
+common#:#adve_edit_permission#:#Modificar configuración de permisos
+common#:#adve_read#:#Acceso a Administración de edición avanzada
+common#:#adve_visible#:#La administración de edición avanzada es visible
+common#:#adve_write#:#Administración de edición avanzada
 common#:#agree_date#:#De acuerdo en
 common#:#all_authors#:#Todos los autores
 common#:#all_global_roles#:#Roles Globales
@@ -996,6 +1026,7 @@ common#:#already_delivered_files#:#Archivos ya enviados
 common#:#and#:#y
 common#:#announce#:#anunciar
 common#:#announce_changes#:#anunciar cambios
+common#:#anonymous#:#Anónimo
 common#:#answers#:#respuestas
 common#:#any_language#:#Cualquier idioma
 common#:#append_search#:#Añadir resultados de búsqueda
@@ -1027,9 +1058,11 @@ common#:#assessment_log_user_answer#:#El usuario respondió una pregunta
 common#:#assessment_log_user_answers#:#Mostrar acciones de usuario
 common#:#assessment_settings#:#Configuración de la herramienta de Test
 common#:#assessment_settings_reporting_language#:#Idioma del informe
-common#:#assessment_settings_advanced_editing#:#Edición avanzada
-common#:#assessment_settings_allow_html_tags#:#Permitir los tags HTML seleccionados en Test & Assessment
-common#:#assessment_settings_allow_javascript_editor#:#Habilitar un editor JavaScript
+common#:#advanced_editing_no_rte#:#No usar el editor 'rich text'
+common#:#advanced_editing_tinymce#:#Editor TinyMCE
+common#:#advanced_editing_settings#:#Configuración de edición avanzada
+common#:#advanced_editing_allow_html_tags#:#Permitir las siguientes etiquetas HTML para la edición de texto
+common#:#advanced_editing_allow_javascript_editor#:#Habilitar un editor 'rich text'
 common#:#assf_edit_permission#:#Modificar configuración de permisos
 common#:#assf_read#:#Acceso a la administración de Tests
 common#:#assf_visible#:#La administración de Test es visible
@@ -1052,6 +1085,7 @@ common#:#auth_active_roles#:#Roles globales activados para el registro
 common#:#auth_configure#:#configurar...
 common#:#auth_default#:#Configuración por defecto
 common#:#auth_default_mode_changed_to#:#Modo de autenticación por defecto cambiado a
+common#:#auth_mode_roles_changed#:#Modificado el modo de autenticación para este rol
 common#:#auth_edit_permission#:#Modificar configuración de permisos
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticar usuarios mediante servidor LDAP
@@ -1457,6 +1491,8 @@ common#:#enter_filename_deliver#:#Introduzca el archivo que desea enviar
 common#:#enumerate#:#enumerar
 common#:#err_1_param#:#Sólo 1 parámetro!
 common#:#err_2_param#:#Sólo 2 parámetros!
+common#:#err_auth_cas_no_ilias_user#:#Login incorrecto. La autenticación CAS fué ejecutada con éxito, pero no existe un usuario ILIAS asociado. Por favor contacte con su administrador
+common#:#err_auth_ext_user_exists#:#La cuenta externa '%s' para el modo de autenticación '%s' ya existe. (Usuario '%s')
 common#:#err_count_param#:#Razón: número de parámetros incorrecto
 common#:#err_enter_current_passwd#:#Por favor introduzca su contraseña actual
 common#:#err_in_line#:#Error en línea
@@ -1508,14 +1544,15 @@ common#:#exc_no_members_assigned#:#Ningún miembro asignado
 common#:#exc_notices#:#Comentarios
 common#:#exc_obj#:#Actividad
 common#:#exc_read#:#Acceso actividad
-common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###new variable
+common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Guardar
 common#:#exc_search_for#:#Buscar
 common#:#exc_select_one_file#:#Por favor seleccione exactamente un archivo
 common#:#exc_send_exercise#:#Enviar actividad
 common#:#exc_sent#:#La actividad ha sido enviada a los usuarios seleccionados
-common#:#exc_status_resubmitted#:#Resubmitted###new variable
+common#:#exc_status#:#Estado
+common#:#exc_status_resubmitted#:#Reenviado
 common#:#exc_status_saved#:#Actividad Actualizada
 common#:#exc_status_sent#:#Por correo
 common#:#exc_status_solved#:#corregido
@@ -2134,6 +2171,9 @@ common#:#links_add_param#:#Añadir parámetro:
 common#:#links_dyn_parameter#:#Parámetros dinámicos
 common#:#links_dynamic#:#Parámetros dinámicos a Enlaces Web
 common#:#links_dynamic_info#:#Si se habilita, es posible añadir parámetros dinámicos a enlaces web. Ej: el identificador de usuario ILIAS o el nombre de usuario.
+common#:#enable_trash#:#Habilitar Papelera
+common#:#enable_trash_info#:#Si se habilita, los objetos eliminados se mueven a la papelera y pueden ser recuperados. Cuando desactivamos esta opción, ¡los objetos eliminados se eliminan de modo irreversible del Sistema!
+common#:#info_delete_warning_no_trash#:#(WARNING: Los objetos seleccionados serán eliminados de modo irreversible y no podrán ser recuperados de ningún modo!
 common#:#links_existing_params#:#Parámetros existentes:
 common#:#links_name#:#Nombre del parámetro
 common#:#links_no_name_given#:#Por favor escoja un nombre de parámetro.
@@ -2462,6 +2502,8 @@ common#:#number_of_records#:#Número de registros
 common#:#obj#:#obj
 common#:#obj_adm#:#Configuración del Sistema
 common#:#obj_adm_desc#:#carpeta de configuración principal del sistema conteniendo todos los paneles para administrar tu instalación ILIAS.
+common#:#obj_adve#:#Edición avanzada
+common#:#obj_adve_desc#:#Configuración de administración para edición avanzada (JavaScript Rich Text Editors, soporte LaTeX, etc...)
 common#:#obj_alm#:#Módulo de aprendizaje AICC
 common#:#obj_assf#:#Tests
 common#:#obj_assf_desc#:#Configuración de registro de Test&Assessment
@@ -2643,6 +2685,11 @@ common#:#perm_settings#:#Permisos
 common#:#permission#:#permiso
 common#:#permission_denied#:#permiso denegado
 common#:#permission_settings#:#Configuración de permisos
+common#:#permission_settings_info#:#Este formulario determina qué rol tiene permiso para hacer determinadas acciones con el objeto actual '%s'.
+common#:#perm_role_info_1#:#Este formulario determina los permisos del rol '%s' para objetos creados bajo el objeto '%s'.
+common#:#perm_role_info_2#:#Si quiere modificar los permisos del rol '%s' para todos los objetos ya existentes bajo '%s' debe activar la opción 'Modificar Objetos Existentes' al final de la pantalla.
+common#:#perm_role_info_glob_1#:#Este formulario determina los permisos del rol '%s' para objetos nuevos creados en Contenidos.
+common#:#perm_role_info_glob_2#:#Si quiere modifcar los permisos del rol '%s' para todos los objetos existentes en Contenidos debe activar la opción 'Modificar Objetos Existentes' al final de la pantalla.
 common#:#person_title#:#estado civil
 common#:#personal_data#:#Información personal
 common#:#personal_desktop#:#Escritorio Personal
@@ -2892,6 +2939,8 @@ common#:#select_questionpool_option#:#Por favor seleccione un banco de preguntas
 common#:#selected#:#seleccionado
 common#:#selected_items#:#Mis Items
 common#:#send#:#enviar
+common#:#auth_per_default#:#Por defecto
+common#:#profile_incomplete#:#Su perfil está incompleto. Por favor rellene todos los datos requeridos.
 common#:#send_mail_admins#:#Correo a administradores
 common#:#send_mail_members#:#Correo a miembros
 common#:#send_mail_tutors#:#Correo a tutores
@@ -2937,14 +2986,32 @@ common#:#shib_street#:#Atributo para calle
 common#:#shib_title#:#Atributo para estado
 common#:#shib_update#:#Actualizar este campo al entrar
 common#:#shib_user_default_role#:#Rol por defecto asignado a usuarios Shibboleth
-common#:#auth_cas_user_default_role#:#Rol por defecto asignado a usuarios CAS
+common#:#auth_user_default_role#:#Rol por defecto
+common#:#auth_allow_local#:#Permitir Autenticación Local
+common#:#auth_cas_allow_local_desc#:#Esto le permite a los usuarios CAS autenticarse con su usuario local ILIAS y una contraseña local
+common#:#auth_soap_allow_local_desc#:#Esto permite a los usuarios SOAP autenticarse con su usuario local ILIAS y una contraseña local
+common#:#auth_cas_user_default_role_desc#:#Este rol se asigna a los usuarios CAS creados automáticamente
+common#:#auth_soap_user_default_role_desc#:#Este rol se asigna a los usuarios SOAP creados automáticamente
+common#:#auth_create_users#:#Crear usuarios no existentes automáticamente
+common#:#auth_cas_create_users_desc#:#Crea automáticamente una cuenta de usuario ILIAS, para usuarios que se han autenticado con éxito contra CAS, sin tener aún una cuenta ILIAS
+common#:#auth_soap_create_users_desc#:#Crea automáticamente una cuenta de usuario ILIAS, para usuarios que se han autenticado con éxito contra SOAP, sin tener aún una cuenta ILIAS
 common#:#auth_soap_user_default_role#:#Rol por defecto asignado a usuarios SOAP
+common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
+common#:#auth_soap_port_desc#:#E.g. 8080 si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
+common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
+common#:#auth_soap_use_https#:#Usar HTTPS
 common#:#auth_cas_auth#:#Configurar autenticación CAS
+common#:#auth_cas_auth_desc#:#CAS requiere PHP 4.3.1 o superior con soporte CURL (7.5 o superior)
+common#:#auth_soap_auth_desc#:#Esta configuración trata sólo con la autenticación basada en SOAP, no con la interfaz SOAP de ILIAS
+common#:#auth_cas_port_desc#:#E.g. 443 si la URI del servidor CAS es https://auth.yourserver.com:443/cas/
+common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com  si la URI del servidor CAS es https://auth.yourserver.com:443/cas/
+common#:#auth_cas_uri_desc#:#Local URI, e.g. cas si la URI del servidor CAS https://auth.yourserver.com:443/cas/
 common#:#auth_soap_auth#:#Configurar autenticación SOAP
 common#:#shib_visible#:#Configuración Shibboleth visible
 common#:#shib_write#:#Editar configuración Shibboleth
 common#:#shib_zipcode#:#Atributo para código zip
 common#:#show#:#Mostrar
+common#:#uri#:#URI
 common#:#show_details#:#mostrar detalles
 common#:#show_list#:#mostrar lista
 common#:#show_members#:#Mostrar miembros
@@ -3182,6 +3249,8 @@ common#:#user_not_chosen#:#No escogió un miembro de grupo!
 common#:#user_not_known#:#Por favor introduzca un identificador de usuario válido
 common#:#user_profile_other#:#Otra Información
 common#:#user_statistics#:#Datos estadísticos
+common#:#user_ext_account#:#Cuenta Externa
+common#:#user_ext_account_desc#:#Cuenta usada para autenticación externa. (autenticación CAS o SOAP)
 common#:#userdata#:#Datos de usuario
 common#:#userfolder_export_csv#:#Valores separados por coma
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
@@ -3297,6 +3366,7 @@ common#:#with#:#con
 common#:#write#:#escritura
 common#:#wrong_ip_detected#:#Su acceso ha sido denegado por una IP cliente incorrecta.<br>Por favor contacte al administrador del sistema.
 common#:#year#:#anyo
+common#:#years#:#Años
 common#:#yes#:#si
 common#:#you_may_add_local_roles#:#Puede añadir roles locales
 common#:#your_message#:#su mensaje
@@ -5328,6 +5398,7 @@ search#:#add_members_header#:#Añadir miembros
 search#:#append_results#:#Añadir resultados
 search#:#search_active#:#Incluir usuarios activos
 search#:#search_added_new_folder#:#Añadida nueva carpeta
+common#:#role_mailto#:#Correo a todos los usuarios asignados
 search#:#search_advanced#:#Búsqueda avanzada
 search#:#search_all_results#:#Todos los resultados
 search#:#search_all_words#:#Todas las palabras
@@ -5405,62 +5476,62 @@ search#:#search_tst_svy#:#Tests/Encuestas
 search#:#search_type#:#Tipo de búsqueda
 search#:#search_user#:#Usuarios
 search#:#until#:#hasta
-style#:#sty_all#:#All###new variable
-style#:#sty_background#:#Background###new variable
-style#:#sty_background_attachment#:#Background Attachment###new variable
-style#:#sty_background_color#:#Background Color###new variable
-style#:#sty_background_image#:#Background Image###new variable
-style#:#sty_background_position#:#Background Position###new variable
-style#:#sty_background_repeat#:#Background Repeat###new variable
-style#:#sty_border#:#Border###new variable
-style#:#sty_border_color#:#Border Color###new variable
-style#:#sty_border_style#:#Border Style###new variable
-style#:#sty_border_width#:#Border Width###new variable
-style#:#sty_bottom#:#Bottom###new variable
-style#:#sty_clear#:#Clear###new variable
-style#:#sty_color#:#Colour###new variable
-style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles###new variable
-style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? ###new variable
-style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source###new variable
-style#:#sty_create_ind_style#:#Create Individual Style###new variable
-style#:#sty_create_new_stylesheet#:#Create new Style###new variable
-style#:#sty_cursor#:#Cursor###new variable
-style#:#sty_default_style#:#Default Style###new variable
-style#:#sty_font_family#:#Font Family###new variable
-style#:#sty_font_size#:#Font Size###new variable
-style#:#sty_font_stretch#:#Font Stretch###new variable
-style#:#sty_font_style#:#Font Style###new variable
-style#:#sty_font_variant#:#Font Variant###new variable
-style#:#sty_font_weight#:#Font Weight###new variable
-style#:#sty_import_stylesheet#:#Import Style###new variable
-style#:#sty_individual_style#:#Individual Style###new variable
-style#:#sty_individual_styles#:#Individual Styles###new variable
-style#:#sty_left#:#Left###new variable
-style#:#sty_letter_spacing#:#Letter Spacing###new variable
-style#:#sty_line_height#:#Line Height###new variable
-style#:#sty_margin#:#Margin###new variable
-style#:#sty_margin_and_padding#:#Margin and Padding###new variable
-style#:#sty_move_lm_styles#:#Change Style of Learning Modules###new variable
-style#:#sty_move_style#:#Change Style###new variable
-style#:#sty_nr_learning_modules#:#Number of Learning Modules###new variable
-style#:#sty_padding#:#Padding###new variable
-style#:#sty_right#:#Right###new variable
-style#:#sty_save_active_styles#:#Save Active Styles###new variable
-style#:#sty_save_standard_styles#:#Save Standard Styles###new variable
-style#:#sty_scope#:#Scope###new variable
-style#:#sty_set_scope#:#Set Scope###new variable
-style#:#sty_source#:#Source###new variable
-style#:#sty_special#:#Special###new variable
-style#:#sty_standard_style#:#Standard Style###new variable
-style#:#sty_text#:#Text###new variable
-style#:#sty_text_align#:#Text Alignment###new variable
-style#:#sty_text_decoration#:#Text Decoration###new variable
-style#:#sty_text_indent#:#Text Indentation###new variable
-style#:#sty_text_transform#:#Text Transform###new variable
-style#:#sty_top#:#Top###new variable
-style#:#sty_vertical_align#:#Vertical Alignment###new variable
-style#:#sty_white_space#:#White Space###new variable
-style#:#sty_word_spacing#:#Word Spacing###new variable
+style#:#sty_all#:#All
+style#:#sty_background#:#Background
+style#:#sty_background_attachment#:#Background Attachment
+style#:#sty_background_color#:#Background Color
+style#:#sty_background_image#:#Background Image
+style#:#sty_background_position#:#Background Position
+style#:#sty_background_repeat#:#Background Repeat
+style#:#sty_border#:#Border
+style#:#sty_border_color#:#Border Color
+style#:#sty_border_style#:#Border Style
+style#:#sty_border_width#:#Border Width
+style#:#sty_bottom#:#Bottom
+style#:#sty_clear#:#Clear
+style#:#sty_color#:#Colour
+style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles
+style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? 
+style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
+style#:#sty_create_ind_style#:#Create Individual Style
+style#:#sty_create_new_stylesheet#:#Create new Style
+style#:#sty_cursor#:#Cursor
+style#:#sty_default_style#:#Default Style
+style#:#sty_font_family#:#Font Family
+style#:#sty_font_size#:#Font Size
+style#:#sty_font_stretch#:#Font Stretch
+style#:#sty_font_style#:#Font Style
+style#:#sty_font_variant#:#Font Variant
+style#:#sty_font_weight#:#Font Weight
+style#:#sty_import_stylesheet#:#Import Style
+style#:#sty_individual_style#:#Individual Style
+style#:#sty_individual_styles#:#Individual Styles
+style#:#sty_left#:#Left
+style#:#sty_letter_spacing#:#Letter Spacing
+style#:#sty_line_height#:#Line Height
+style#:#sty_margin#:#Margin
+style#:#sty_margin_and_padding#:#Margin and Padding
+style#:#sty_move_lm_styles#:#Change Style of Learning Modules
+style#:#sty_move_style#:#Change Style
+style#:#sty_nr_learning_modules#:#Number of Learning Modules
+style#:#sty_padding#:#Padding
+style#:#sty_right#:#Right
+style#:#sty_save_active_styles#:#Save Active Styles
+style#:#sty_save_standard_styles#:#Save Standard Styles
+style#:#sty_scope#:#Scope
+style#:#sty_set_scope#:#Set Scope
+style#:#sty_source#:#Source
+style#:#sty_special#:#Special
+style#:#sty_standard_style#:#Standard Style
+style#:#sty_text#:#Text
+style#:#sty_text_align#:#Text Alignment
+style#:#sty_text_decoration#:#Text Decoration
+style#:#sty_text_indent#:#Text Indentation
+style#:#sty_text_transform#:#Text Transform
+style#:#sty_top#:#Top
+style#:#sty_vertical_align#:#Vertical Alignment
+style#:#sty_white_space#:#White Space
+style#:#sty_word_spacing#:#Word Spacing
 survey#:#add_category#:#Añadir categoria
 survey#:#add_heading#:#Añadir cabecera
 survey#:#add_limits_for_standard_numbers#:#Por favor introduzca un límite superior e inferior para los números estándar que quiere añadir como respuestas
@@ -5506,6 +5577,7 @@ survey#:#codes#:#Códigos de acceso
 survey#:#combobox#:#Lista desplegable
 survey#:#concatenation#:#Concatenación
 survey#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de la encuesta?
+survey#:#confirm_delete_single_user_data#:#¿Está seguro de que quiere eliminar los datos de encuesta de los usuarios seleccionados?
 survey#:#confirm_remove_heading#:#¿Está usted seguro de que quiere eliminar la cabecera?
 survey#:#confirm_sync_questions#:#La pregunta que modificó es una copia que ha sido creada para usar con la encuesta activa. Quiere modificar la pregunta original también?
 survey#:#constraint_add#:#Añadir precondición
@@ -5556,6 +5628,7 @@ survey#:#dc_varying#:#variable
 survey#:#dc_verygood#:#muy bien
 survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definir bloque de preguntas
+survey#:#delete_user_data#:#Eliminar los datos de encuesta de los usuarios seleccionados
 survey#:#description_maxchars#:#Si no se introduce ningún valor, el número de caracteres para esta respuesta es ilimitado.
 survey#:#disinvite#:#Disinvite
 survey#:#display_all_available#:#Mostrar todas las disponibles
@@ -5793,6 +5866,7 @@ survey#:#survey_previous#:#<<< salvar y pasar a la página anterior
 survey#:#survey_question_obligatory#:#(Esta pregunta es obligatoria. Debe responder la pregunta)
 survey#:#survey_question_optional#:#(Opcional)
 survey#:#survey_questions#:#Preguntas
+survey#:#survey_selected_user_data_deleted#:#Los datos de encuesta de los usuarios seleccionados han sido eliminados con éxito
 survey#:#survey_skip_finish#:#saltar y finalizar encuesta >>>
 survey#:#survey_skip_next#:#saltar e ir a siguiente página >>>
 survey#:#survey_skip_previous#:#<<< saltar e ir a página anterior
@@ -5813,6 +5887,7 @@ survey#:#svy_eval_detail#:#Resultados acumulados (detalles)
 survey#:#svy_eval_user#:#Resultados específicos por usuario
 survey#:#svy_export_files#:#Exportar archivos
 survey#:#svy_file#:#Archivo
+survey#:#svy_maintenance_information_no_results#:#No hay datos de usuario para la encuesta. Necesita al menos un usuario con datos para matener los datos.
 survey#:#svy_missing_author#:#¡No ha introducido los nombres de los autores en las propiedades de la encuesta! Por favor añádalos para continuar.
 survey#:#svy_missing_questions#:#¡No hay ninguna pregunta en la encuesta! Por favor añada al menos una pregunta en la encuesta.
 survey#:#svy_missing_title#:#¡No ha introducido un título de encuesta! Por favor vaya a la sección meta datos e introduzca un título.
@@ -5821,6 +5896,7 @@ survey#:#svy_page_errors#:#Hubo errores contestando las preguntas de la encuesta
 survey#:#svy_select_file_for_import#:#!Debe seleccionar un archivo para importar!
 survey#:#svy_select_questionpools#:#Por favor seleccione un banco de preguntas para almacenar las preguntas importadas
 survey#:#svy_select_surveys#:#Por favor seleccione una encuesta a duplicar
+survey#:#svy_selected_user_data_deleted#:#Los datos de encuesta de los usuarios seleccionados han sido eliminados con éxito.
 survey#:#svy_show_questiontitles#:#Mostrar títulos de las preguntas en la encuesta
 survey#:#svy_size#:#Tamaño
 survey#:#svy_statistical_evaluation#:#Evaluación estadística
@@ -5952,6 +6028,9 @@ trac#:#trac_anonymized#:#Anonimo
 trac#:#trac_anonymized_info#:#Si se habilita, todas las estadisticas seran anonimas.
 trac#:#trac_assigned#:#Asignado
 trac#:#trac_assignments#:#Asignaciones
+trac#:#trac_lp_determination#:#Determinación del Estado del Progreso de Aprendizaje
+trac#:#trac_lp_determination_info_sco#:#Seleccione los items que determinan el estado general del progreso de aprendizaje del módulo  SCORM
+trac#:#trac_lp_determination_info_crs#:#Seleccione los items que determinan el estado general del progreso de aprendizaje del curso
 trac#:#trac_below#:#Debajo de:
 trac#:#trac_collection_assign#:#Asignar
 trac#:#trac_collection_deassign#:#Desasignar
@@ -6035,4 +6114,4 @@ trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero válido de segundos.
-common#:#crs_activation_start_invalid#:#The start and the end time is not valid.###new variable
+common#:#crs_activation_start_invalid#:#La hora de comienzo y fin no es válida.
