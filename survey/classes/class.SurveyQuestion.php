@@ -1013,25 +1013,39 @@ class SurveyQuestion
 	{
 		global $ilUser;
 		
-		$query = sprintf("SELECT category_id FROM survey_category WHERE title = %s AND owner_fi = %s",
-			$this->ilias->db->quote($categorytext . ""),
-			$this->ilias->db->quote($ilUser->id . "")
+		$query = sprintf("SELECT title, category_id FROM survey_category WHERE title = %s AND owner_fi = %s",
+			$this->ilias->db->quote($categorytext),
+			$this->ilias->db->quote($ilUser->id)
 		);
     $result = $this->ilias->db->query($query);
+		$insert = FALSE;
+		$returnvalue = "";
 		if ($result->numRows()) 
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-			return $row->category_id;
-		} 
-		else 
+			$insert = TRUE;
+			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (strcmp($row->title, $categorytext) == 0)
+				{
+					$returnvalue = $row->category_id;
+					$insert = FALSE;
+				}
+			}
+		}
+		else
+		{
+			$insert = TRUE;
+		}
+		if ($insert)
 		{
 			$query = sprintf("INSERT INTO survey_category (category_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
-				$this->ilias->db->quote($categorytext . ""),
-				$this->ilias->db->quote($ilUser->id . "")
+				$this->ilias->db->quote($categorytext),
+				$this->ilias->db->quote($ilUser->id)
 			);
 			$result = $this->ilias->db->query($query);
-			return $this->ilias->db->getLastInsertId();
+			$returnvalue = $this->ilias->db->getLastInsertId();
 		}
+		return $returnvalue;
 	}
 
 	/**

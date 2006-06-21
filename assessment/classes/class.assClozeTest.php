@@ -1799,7 +1799,6 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->cloze_text . ""),
 				$ilDB->quote($estw_time . ""),
 				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->textgap_rating . ""),
 				$ilDB->quote($this->original_id . "")
 				);
 			$result = $ilDB->query($query);
