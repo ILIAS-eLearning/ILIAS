@@ -714,7 +714,7 @@ assessment#:#warning_test_not_complete#:#The test is not complete!
 assessment#:#when#:#when
 assessment#:#width#:#Width
 assessment#:#with_order#:#with order
-assessment#.#not_worked_through#:#Not answered
+assessment#:#not_worked_through#:#Not answered
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
@@ -958,6 +958,7 @@ chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
 common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
+common#:#edit_page_content#:#Edit Page Content
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#account_expires_body#:#Your account is limited, it will expire at:

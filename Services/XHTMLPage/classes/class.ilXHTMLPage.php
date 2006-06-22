@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -23,80 +23,80 @@
 
 
 /**
-* Class ilContainerLinkListGUI
+* Class ilContainer
 *
-* @author Stefan Meyer <alex.killing@gmx.de>
-
+* XHTML Page class
+* 
+* @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilContainerLinkListGUI:
-* 
-* @package ilias-core
 */
 
-class ilContainerLinkListGUI
+class ilXHTMLPage
 {
-	var $ctrl;
+	var $id = 0;
+	var $content = "";
 
 	/**
 	* Constructor
-	* @access public
 	*/
-	function ilContainerLinkListGUI()
+	function ilXHTMLPage($a_id = 0)
 	{
-		global $ilCtrl;
-		
-		$this->ctrl =& $ilCtrl;
-	}
-
-	function &executeCommand()
-	{
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-		//$this->prepareOutput();
-
-		switch($next_class)
-		{			
-			default:
-				$this->$cmd();
-
-				break;
+		if ($a_id > 0)
+		{
+			$this->setId($a_id);
+			$this->read();
 		}
-		return true;
 	}
 	
-	function show()
+	function getId()
 	{
-		global $lng;
-		
-		$tpl = new ilTemplate("tpl.container_link_help.html", true, true);
-		
-		$type_ordering = array(
-			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
-			"glo", "webr", "file", "exc",
-			"tst", "svy", "mep", "qpl", "spl");
-			
-		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
-		foreach($type_ordering as $type)
-		{
-			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("ROWCOL", "tblrow".((($i++)%2)+1));
-			if ($type != "lres")
-			{
-				$tpl->setVariable("TYPE", $lng->txt("objs_".$type));
-			}
-			else
-			{
-				$tpl->setVariable("TYPE", $lng->txt("learning_resources"));
-			}
-			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
-			$tpl->parseCurrentBlock();
-		}
-		$tpl->show();
-		exit;
-
+		return $this->id;
+	}
+	
+	function setId($a_id)
+	{
+		$this->id = $a_id;
 	}
 
-} // END class.ilContainerLinkListGUI
+	function getContent()
+	{
+		return $this->content;
+	}
+	
+	function setContent($a_content)
+	{
+		$this->content = $a_content;
+	}
+
+	function read()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM xhtml_page WHERE id = ".
+			$ilDB->quote($this->getId()));
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->setContent($rec["content"]);
+		}
+	}
+	
+	function save()
+	{
+		global $ilDB;
+		
+		if ($this->getId() > 0)
+		{
+			$ilDB->query("UPDATE xhtml_page SET ".
+				"content = ".$ilDB->quote($this->getContent()).
+				" WHERE id = ".$ilDB->quote($this->getId()));
+		}
+		else
+		{
+			$ilDB->query("INSERT INTO xhtml_page (content) VALUES ".
+				"(".$ilDB->quote($this->getContent()).")");
+			$this->setId($ilDB->getLastInsertId());
+		}
+	}
+}
 ?>
