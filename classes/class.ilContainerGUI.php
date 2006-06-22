@@ -36,6 +36,7 @@
 */
 
 require_once "class.ilObjectGUI.php";
+require_once "class.ilContainer.php";
 
 class ilContainerGUI extends ilObjectGUI
 {
@@ -446,11 +447,94 @@ class ilContainerGUI extends ilObjectGUI
 		
 		$fs_gui->setSideFrameSource(
 			$this->ctrl->getLinkTargetByClass("ilcontainerlinklistgui", "show"));
+
+		$fs_gui->setMainFrameSource(
+			$this->ctrl->getLinkTarget(
+				$this, "editPageContent"));
+			
+		/* old xml page handling
 		$fs_gui->setMainFrameSource(
 			$this->ctrl->getLinkTargetByClass(
-				array("ilpageobjectgui"), "view"));
+				array("ilpageobjectgui"), "view"));*/
+				
 		$fs_gui->show();
 		exit;
+	}
+
+	/**
+	* edit page content (for repository root node and categories)
+	*
+	* @access	public
+	*/
+	function editPageContentObject()
+	{
+		global $rbacsystem, $tpl;
+
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+			"xhtml_page");
+		if ($xpage_id > 0)
+		{
+			include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+			$xpage = new ilXHTMLPage($xpage_id);
+			$content = $xpage->getContent();
+		}
+		
+		// get template
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_edit_page_content.html");
+		$tpl->setVariable("VAL_CONTENT", ilUtil::prepareFormOutput($content));
+		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("TXT_EDIT_PAGE_CONTENT",
+			$this->lng->txt("edit_page_content"));
+		$tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		
+		// add rte support
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+//echo "+".$rtestring."+";
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->addPlugin("latex");
+		$rte->addRTESupport();
+	}
+	
+	function savePageContentObject()
+	{
+		include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+			"xhtml_page");
+		if ($xpage_id > 0)
+		{
+			$xpage = new ilXHTMLPage($xpage_id);
+			$xpage->setContent(ilUtil::stripSlashes($_POST["page_content"],
+				true,
+				ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$xpage->save();
+		}
+		else
+		{
+			$xpage = new ilXHTMLPage();
+			$xpage->setContent(ilUtil::stripSlashes($_POST["page_content"],
+				true,
+				ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$xpage->save();
+			ilContainer::_writeContainerSetting($this->object->getId(),
+			"xhtml_page", $xpage->getId());
+		}
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "");
+	}
+	
+	function cancelPageContentObject()
+	{
+		sendInfo($this->lng->txt("action_aborted"), true);
+		$this->ctrl->redirect($this, "");
 	}
 
 	/**
@@ -508,6 +592,7 @@ class ilContainerGUI extends ilObjectGUI
 			// render all items list
 			case "all":
 			
+				/*
 				// get container page
 				include_once("./content/classes/Pages/class.ilPageObjectGUI.php");
 				include_once("./content/classes/Pages/class.ilPageObject.php");
@@ -525,7 +610,17 @@ class ilContainerGUI extends ilObjectGUI
 					//$page_gui->setLinkXML($this->getLinkXML());
 					$page_gui->setTemplateOutput(false);
 					$output_html.= $page_gui->presentation($page_gui->getOutputMode());
+				}*/
+				
+				$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+					"xhtml_page");
+				if ($xpage_id > 0)
+				{
+					include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+					$xpage = new ilXHTMLPage($xpage_id);
+					$output_html.= $xpage->getContent();
 				}
+
 
 				// all item types
 				$type_ordering = array(
@@ -542,8 +637,9 @@ class ilContainerGUI extends ilObjectGUI
 				foreach ($type_ordering as $type)
 				{
 					// set template (overall or type specific)
-					if (is_int(strpos($output_html, "++".$type."++")))
+					if (is_int(strpos($output_html, "[list-".$type."]")))
 					{
+	//echo "+$type+";
 						$tpl =& $this->newBlockTemplate();
 						$overall = false;
 					}
@@ -631,7 +727,7 @@ class ilContainerGUI extends ilObjectGUI
 							}
 
 							// store type specific templates in array
-							if (is_int(strpos($output_html, "++".$type."++")))
+							if (is_int(strpos($output_html, "[list-".$type."]")))
 							{
 								$this->type_template[$type] = $tpl;
 							}
@@ -647,19 +743,21 @@ class ilContainerGUI extends ilObjectGUI
 					//$output_html.= "<br /><br />";
 				}
 				$output_html.= $overall_tpl->get();
-				$output_html = str_replace("<br>++", "++", $output_html);
-				$output_html = str_replace("<br>++", "++", $output_html);
-				$output_html = str_replace("++<br>", "++", $output_html);
-				$output_html = str_replace("++<br>", "++", $output_html);
+				//$output_html = str_replace("<br>++", "++", $output_html);
+				//$output_html = str_replace("<br>++", "++", $output_html);
+				//$output_html = str_replace("++<br>", "++", $output_html);
+				//$output_html = str_replace("++<br>", "++", $output_html);
 				foreach ($this->type_template as $type => $tpl)
 				{
-					$output_html = str_replace("++".$type."++",
+//echo "-[list-".$type."]-";
+					$output_html = eregi_replace("\[list-".$type."\]",
 						"</p>".$tpl->get()."<p class=\"ilc_Standard\">",
 						$output_html);
 				}
 
-				if (ilPageObject::_exists($this->object->getType(),
-					$this->object->getId()))
+				//if (ilPageObject::_exists($this->object->getType(),
+				//	$this->object->getId()))
+				if ($xpage_id > 0)
 				{				
 					$page_block = new ilTemplate("tpl.container_page_block.html", false, false);
 					$page_block->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
