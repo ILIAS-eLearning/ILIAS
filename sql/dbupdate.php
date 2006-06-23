@@ -11042,4 +11042,7 @@ ALTER TABLE `crs_settings` ADD `important` TEXT NOT NULL ;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#752>
+ALTER TABLE `qpl_question_cloze` ADD `identical_scoring` ENUM( '0', '1' ) NOT NULL DEFAULT '1' AFTER `textgap_rating` ;
+<#753>
+ALTER TABLE `qpl_answer_cloze` CHANGE `cloze_type` `cloze_type` ENUM( '0', '1', '2' ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
