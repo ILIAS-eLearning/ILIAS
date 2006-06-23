@@ -11037,3 +11037,9 @@ CREATE TABLE `event_items` (
 
 <#750>
 ALTER TABLE `crs_settings` ADD `important` TEXT NOT NULL ;
+
+<#751>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
