@@ -297,7 +297,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		   strlen($this->object->getSyllabus()) or
 		   count($files))
 		{
-			$info->addSection('crs_general_informations');
+			$info->addSection($this->lng->txt('crs_general_informations'));
 		}
 		if(strlen($this->object->getImportantInformation()))
 		{

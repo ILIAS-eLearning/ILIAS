@@ -5904,3 +5904,48 @@ trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
 common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht gültig.
 common#:#online_time#:#Gesamtzeit Online (DD:HH:MM:SS)
+crs#:#events#:#Veranstaltungen
+crs#:#add_event#:#Veranstaltung hinzufügen
+crs#:#event_table_create#:#Neue Veranstaltung
+crs#:#event_general_infos#:#Allgemeine Informationen
+crs#:#event_title#:#Titel
+crs#:#event_desc#:#Beschreibung
+crs#:#event_location#:#Ort
+crs#:#event_start_date#:#Datum
+crs#:#event_time#:#Uhrzeit
+crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden
+crs#:#tutor_firstname#:#Vorname
+crs#:#tutor_lastname#:#Nachname
+crs#:#tutor_title#:#Titel
+crs#:#tutor_email#:#E-Mail
+crs#:#tutor_phone#:#Telefon
+crs#:#event_further_informations#:#Weitere Informationen
+crs#:#event_file_name#:#Dateiname
+crs#:#event_file#:#Datei
+crs#:#event_details_workflow#:#Details zur Veranstaltung
+crs#:#event_btn_add#:#Veranstaltung anlegen
+crs#:#event_existing_files#:#Vorhandene Dateien:
+crs#:#event_delete_file#:#Datei löschen?
+crs#:#event_updated#:#Die Änderungen wurden gespeichert
+crs#:#event_assign_materials#:#Materialien zuordnen
+crs#:#event_date#:#Termin der Veranstaltung
+crs#:#event_assign_materials_table#:#Zuordnung von Kursmaterialien
+crs#:#event_assign_materials_info#:#Hier können Sie der Veranstaltung Kursmaterialien zuordnen. Diese werden dann direkt unterhalb der Veranstaltung angezeigt.
+crs#:#event_add_new_event#:#Eine neue Veranstaltung wurde angelegt.
+crs#:#event_delete_sure#:#Sind Sie sicher, daß die folgende Veranstaltung löschen möchten?
+crs#:#events_deleted#:#Die Veranstaltung wurde gelöscht.
+crs#:#crs_general_informations#:#Allgemeine Informationen
+crs#:#crs_info_settings#:#Kursinformationen
+crs#:#crs_general_info#:#Allgemeine Informationen
+crs#:#crs_important_info#:#Wichtige Informationen
+crs#:#crs_info_download#:#Dateien zum Herunterladen
+crs#:#crs_filename#:#Dateiname
+crs#:#crs_file#:#Datei
+crs#:#crs_existing_files#:#Vorhandene Dateien:
+crs#:#crs_delete_file#:#Datei löschen?
+crs#:#crs_file_download#:#Dateien zum Herunterladen
+crs#:#crs_file_size_info#:#Dateigröße
+crs#:#event_general_properties#:#Allgemeine Informationen
+crs#:#event_file_download#:#Dateien zum Herunterladen
+crs#:#event_file_size_info#:#Dateigröße
+crs#:#event_lecturer#:#Name

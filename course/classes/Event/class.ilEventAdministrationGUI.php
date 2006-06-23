@@ -219,12 +219,12 @@ class ilEventAdministrationGUI
 			}
 			if(strlen($email = $this->event_obj->getEmail()))
 			{
-				$info->addProperty($this->lng->txt('event_email'),
+				$info->addProperty($this->lng->txt('tutor_email'),
 								   $email);
 			}
 			if(strlen($phone = $this->event_obj->getPhone()))
 			{
-				$info->addProperty($this->lng->txt('event_phone'),
+				$info->addProperty($this->lng->txt('tutor_phone'),
 								   $phone);
 			}
 		}
@@ -471,7 +471,7 @@ class ilEventAdministrationGUI
 		$this->file_obj->setEventId($event_id);
 		$this->file_obj->create();
 
-		sendInfo($this->lng->txt('event_add_new_event'));
+		sendInfo($this->lng->txt('event_add_new_event'),true);
 		$this->ctrl->returnToParent($this);
 		return true;
 	}
@@ -523,7 +523,7 @@ class ilEventAdministrationGUI
 			ilEvent::_delete($event_id);
 		}
 
-		sendInfo($this->lng->txt('events_deleted'));
+		sendInfo($this->lng->txt('events_deleted'),true);
 		$this->ctrl->returnToParent($this);
 
 		return true;
