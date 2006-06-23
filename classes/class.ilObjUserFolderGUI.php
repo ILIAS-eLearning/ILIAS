@@ -817,6 +817,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
      */
 	function searchUserFormObject ()
 	{
+		$this->tabs_gui->setTabActive('obj_usrf');
+
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_search_form.html");
 
 		$this->tpl->setVariable("FORMACTION",
@@ -826,7 +828,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("LASTNAME_CHECKED", " checked=\"checked\"");
 		$this->tpl->setVariable("EMAIL_CHECKED", " checked=\"checked\"");
 		$this->tpl->setVariable("ACTIVE_CHECKED", " checked=\"checked\"");
-		$this->tpl->setVariable("INACTIVE_CHECKED", " checked=\"checked\"");
 		$this->tpl->setVariable("TXT_SEARCH_USER",$this->lng->txt("search_user"));
 		$this->tpl->setVariable("TXT_SEARCH_IN",$this->lng->txt("search_in"));
 		$this->tpl->setVariable("TXT_SEARCH_USERNAME",$this->lng->txt("username"));
@@ -838,6 +839,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
 		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
         $this->tpl->setVariable("TXT_SEARCH_NOTE",$this->lng->txt("search_note"));
+		$this->tpl->setVariable("ACTIVE_CHECKED","checked=\"checked\"");
 	}
 
 	function searchCancelledObject()
@@ -857,6 +859,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$_POST["search_string"] = $_POST["search_string"] ? $_POST["search_string"] : urldecode($_GET["search_string"]);
         $_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : explode(",",urldecode($_GET["search_fields"]));
+		$_SESSION['us_active'] = isset($_POST['active']) ? $_POST['active'] : $_SESSION['us_active'];
 
         if (empty($_POST["search_string"]))
         {
@@ -867,8 +870,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         {
             $_POST["search_fields"] = array();
         }
-        
-		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"])) == 0)
+		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"],$_SESSION['us_active'])) == 0)
 		{
 			sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
 			$this->ctrl->redirect($this, "searchUserForm");
@@ -888,11 +890,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $this->data["cols"] = array("", "login", "firstname", "lastname", "email", "active");
 
-        if (in_array("active", $_POST["search_fields"]))
-        {
+		if($_SESSION['us_active'] == 1)
+		{
             $searchActive = true;
-        }
-        if (in_array("inactive", $_POST["search_fields"]))
+		}
+        else
         {
             $searchInactive = true;
         }
@@ -905,36 +907,36 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $val["active_text"] = $this->lng->txt("active");
             }
 
-						// check if the fields are set
-						$searchStringToLower = strtolower($_POST["search_string"]);
-						$displaySearchResult = false;
-						if (in_array("username", $_POST["search_fields"]))
-							if (strpos(strtolower($val["login"]), strtolower($_POST["search_string"])) !== false)
-								$displaySearchResult = true;
-						if (in_array("firstname", $_POST["search_fields"]))
-							if (strpos(strtolower($val["firstname"]), strtolower($_POST["search_string"])) !== false)
-								$displaySearchResult = true;
-						if (in_array("lastname", $_POST["search_fields"]))
-							if (strpos(strtolower($val["lastname"]), strtolower($_POST["search_string"])) !== false)
-								$displaySearchResult = true;
-						if (in_array("email", $_POST["search_fields"]))
-							if (strpos(strtolower($val["email"]), strtolower($_POST["search_string"])) !== false)
-								$displaySearchResult = true;
-						if (($val["active"] == 1) && ($searchActive == true) ||
-                    ($val["active"] == 0) && ($searchInactive == true))
+			// check if the fields are set
+			$searchStringToLower = strtolower($_POST["search_string"]);
+			$displaySearchResult = false;
+			if (in_array("username", $_POST["search_fields"]))
+				if (strpos(strtolower($val["login"]), strtolower($_POST["search_string"])) !== false)
+					$displaySearchResult = true;
+			if (in_array("firstname", $_POST["search_fields"]))
+				if (strpos(strtolower($val["firstname"]), strtolower($_POST["search_string"])) !== false)
+					$displaySearchResult = true;
+			if (in_array("lastname", $_POST["search_fields"]))
+				if (strpos(strtolower($val["lastname"]), strtolower($_POST["search_string"])) !== false)
+					$displaySearchResult = true;
+			if (in_array("email", $_POST["search_fields"]))
+				if (strpos(strtolower($val["email"]), strtolower($_POST["search_string"])) !== false)
+					$displaySearchResult = true;
+			if (($val["active"] == 1) && ($searchActive == true) ||
+				($val["active"] == 0) && ($searchInactive == true))
             {
-								if ((strcmp($_POST["search_string"], "%") == 0) || $displaySearchResult)
-								{
-									//visible data part
-									$this->data["data"][] = array(
-													"login"         => $val["login"],
-													"firstname"     => $val["firstname"],
-													"lastname"      => $val["lastname"],
-													"email"         => $val["email"],
-													"active"        => $val["active_text"],
-													"obj_id"        => $val["usr_id"]
-													);
-								}
+				if ((strcmp($_POST["search_string"], "%") == 0) || $displaySearchResult)
+				{
+					//visible data part
+					$this->data["data"][] = array(
+						"login"         => $val["login"],
+						"firstname"     => $val["firstname"],
+						"lastname"      => $val["lastname"],
+						"email"         => $val["email"],
+						"active"        => $val["active_text"],
+						"obj_id"        => $val["usr_id"]
+						);
+				}
             }
 		}
 		if (count($this->data["data"]) == 0)
@@ -1085,6 +1087,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserFormObject ()
 	{
+		$this->tabs_gui->setTabActive('obj_usrf');
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_form.html");
 
 		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
