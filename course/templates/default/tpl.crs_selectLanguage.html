@@ -1,10 +1,22 @@
-  <form action="{SELECT_FORMACTION}" method="post">
-	<table class="fullwidth">
-	  <tr class="std">
-		<td class="std" align="center">{LANG_SELECTOR}</td>
-	  </tr>
-	  <tr class="std">
-		<td class="std" align="center"><input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />&nbsp;<input class="submit" type="submit" name="cmd[archiveAdmin]" value="{TXT_CANCEL}" /></td>
-	  </tr>
-	</table>
-  </form>
+	<form action="{SELECT_FORMACTION}" method="post">
+	  <table class="std" width="40%">
+		<tr class="tbltitle">
+		  <th class="std" colspan="2">{LANGUAGE_SELECTION}</th>
+		</tr>
+		<tr class="std">
+		  <td class="option">{LANGUAGE}</td>
+		  <td class="option_value">
+			{LANG_SELECTOR}<br />
+			<span class="subtitle">{INFO_TXT}</span>
+		  </td>
+		</tr>
+		  <tr class="tblfooter">
+			<td colspan="2">
+			  <div style="text-align:right">
+				<input class="submit" type="submit" name="cmd[addHTMLArchive]" value="{TXT_SUBMIT}" />
+				<input class="submit" type="submit" name="cmd[listArchives]" value="{TXT_CANCEL}" />
+			  </div>
+			</td>
+		  </tr>
+	  </table>
+	</form>

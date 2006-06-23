@@ -27,12 +27,17 @@
 <!-- END left_column -->
 <td class="il_CenterColumn">
 	<!-- BEGIN add_commands -->
-	<form class="il_Form" action="{H_FORMACTION}" method="post">
 	<div style="text-align:right; margin-bottom:10px;">
+	<form class="il_Form" style="{FORMSTYLE}" action="{H_FORMACTION}" method="post">
 	{SELECT_OBJTYPE_REPOS}
 	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
-	</div>
 	</form>
+			  <!-- BEGIN event_button -->
+			  <form class="il_Form" style="display:inline" action="{E_FORMACTION}" method="post">
+				<input class="submit" type="submit" name="cmd[{BTN_NAME_EVENT}]" value="{TXT_ADD_EVENT}" />
+			  </form>
+			  <!-- END event_button -->
+	</div>
 	<!-- END add_commands -->
 {BUTTONS}
 {MESSAGE}

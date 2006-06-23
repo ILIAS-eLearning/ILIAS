@@ -118,7 +118,7 @@ class ilLocatorGUI
 			// add item for each node on path
 			foreach ($path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp", "icrs")))
+				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp", "icrs")))
 				{
 					continue;
 				}
@@ -126,6 +126,7 @@ class ilLocatorGUI
 				{
 					$row["title"] = $this->lng->txt("repository");
 				}
+				
 				$this->addItem($row["title"],
 					$pre."repository.php?cmd=frameset&amp;ref_id=".$row["child"],
 					ilFrameTargetInfo::_getFrame("MainContent"));

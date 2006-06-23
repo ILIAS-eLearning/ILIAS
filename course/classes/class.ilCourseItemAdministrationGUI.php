@@ -22,11 +22,14 @@
 */
 
 /**
-* Class ilCourseAvailabilityGUI
+* Class ilCourseItemAdministrationGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
-* 
+*
+* @ilCtrl_Calls ilCourseItemAdministrationGUI: ilConditionHandlerInterface
+*
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -44,13 +47,14 @@ class ilCourseItemAdministrationGUI
 	*/
 	function ilCourseItemAdministrationGUI(&$container_obj,$a_item_id)
 	{
-		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilErr;
+		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilErr,$ilTabs;
 
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('crs');
 		$this->err =& $ilErr;
+		$this->tabs_gui =& $ilTabs;
 
 		$this->container_obj =& $container_obj;
 
@@ -64,6 +68,11 @@ class ilCourseItemAdministrationGUI
 	{
 		global $ilTabs;
 
+
+		$this->__setSubTabs();
+
+		$cmd = $this->ctrl->getCmd();
+
 		// Check if item id is given and valid
 		if(!$this->__checkItemId())
 		{
@@ -71,12 +80,29 @@ class ilCourseItemAdministrationGUI
 			$this->ctrl->returnToParent($this);
 		}
 
-		$cmd = $this->ctrl->getCmd();
-		if (!$cmd = $this->ctrl->getCmd())
+		switch($this->ctrl->getNextClass($this))
 		{
-			$cmd = "edit";
+
+			case 'ilconditionhandlerinterface':
+				
+				// preconditions for single course items
+				include_once './classes/class.ilConditionHandlerInterface.php';
+				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+				$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setSubTabActive('preconditions');
+				break;
+
+			default:
+				$this->tabs_gui->setSubTabActive('activation');
+				if(!$cmd)
+				{
+					$cmd = 'edit';
+				}
+				$this->$cmd();
+				$this->tabs_gui->setSubTabActive('activation');
+				break;
 		}
-		$this->$cmd();
 	}
 
 	function getItemId()
@@ -110,6 +136,8 @@ class ilCourseItemAdministrationGUI
 			$changeable = $_POST['changeable'];
 			$timing_start = $this->toUnix($_POST['crs']['timing_start']);
 			$timing_end = $this->toUnix($_POST['crs']['timing_end']);
+			$suggestion_start = $this->toUnix($_POST['crs']['suggestion_start']);
+			$suggestion_end = $this->toUnix($_POST['crs']['suggestion_end']);
 		}
 		else
 		{
@@ -118,6 +146,8 @@ class ilCourseItemAdministrationGUI
 			$changeable = $item_data['changeable'];
 			$timing_start = $item_data['timing_start'];
 			$timing_end = $item_data['timing_end'];
+			$suggestion_start = $item_data['suggestion_start'];
+			$suggestion_end = $item_data['suggestion_end'];
 		}
 
 		// SET TEXT VARIABLES
@@ -137,6 +167,7 @@ class ilCourseItemAdministrationGUI
 		$this->tpl->setVariable("RADIO_ACTIVATION",ilUtil::formRadioButton($timing_type == IL_CRS_TIMINGS_ACTIVATION,
 																		   'timing_type',IL_CRS_TIMINGS_ACTIVATION));
 		$this->tpl->setVariable("TXT_TIMINGS_ACTIVATION",$this->lng->txt('crs_timings_availability'));
+		$this->tpl->setVariable("INFO_AVAILABILITY",$this->lng->txt('crs_item_availability_info'));
 
 		$this->tpl->setVariable("CHECK_VISIBILITY",ilUtil::formCheckbox($visible,
 																		'visible',1));
@@ -146,6 +177,7 @@ class ilCourseItemAdministrationGUI
 		$this->tpl->setVariable("RADIO_TIMINGS",ilUtil::formRadioButton($timing_type == IL_CRS_TIMINGS_PRESETTING,
 																		'timing_type',IL_CRS_TIMINGS_PRESETTING));
 		$this->tpl->setVariable("TXT_TIMINGS_PRESETTING",$this->lng->txt('crs_timings_presetting'));
+		$this->tpl->setVariable("INFO_PRESETTING",$this->lng->txt('crs_item_presetting_info'));
 
 		$this->tpl->setVariable("CHECK_CHANGE",ilUtil::formCheckbox($changeable,'changeable',1));
 		$this->tpl->setVariable("TXT_CHANGE",$this->lng->txt('crs_timings_changeable'));
@@ -176,6 +208,31 @@ class ilCourseItemAdministrationGUI
 		$this->tpl->setVariable("SELECT_ACTIVATION_END_MINUTE",$this->getDateSelect("minute","crs[timing_end][minute]",
 																					  date("i",$timing_end)));
 
+		// Suggestion Start
+		$this->tpl->setVariable("TXT_SUG_START",$this->lng->txt('crs_suggestion_start'));
+		$this->tpl->setVariable("SELECT_SUGGESTION_START_DAY",$this->getDateSelect("day","crs[suggestion_start][day]",
+																					 date("d",$suggestion_start)));
+		$this->tpl->setVariable("SELECT_SUGGESTION_START_MONTH",$this->getDateSelect("month","crs[suggestion_start][month]",
+																					   date("m",$suggestion_start)));
+		$this->tpl->setVariable("SELECT_SUGGESTION_START_YEAR",$this->getDateSelect("year","crs[suggestion_start][year]",
+																					  date("Y",$suggestion_start)));
+		$this->tpl->setVariable("SELECT_SUGGESTION_START_HOUR",$this->getDateSelect("hour","crs[suggestion_start][hour]",
+																					  date("G",$suggestion_start)));
+		$this->tpl->setVariable("SELECT_SUGGESTION_START_MINUTE",$this->getDateSelect("minute","crs[suggestion_start][minute]",
+																					  date("i",$suggestion_start)));
+		
+		// Suggestion End
+		$this->tpl->setVariable("TXT_SUG_END",$this->lng->txt('crs_suggestion_end'));
+		$this->tpl->setVariable("SELECT_SUGGESTION_END_DAY",$this->getDateSelect("day","crs[suggestion_end][day]",
+																				   date("d",$suggestion_end)));
+		$this->tpl->setVariable("SELECT_SUGGESTION_END_MONTH",$this->getDateSelect("month","crs[suggestion_end][month]",
+																					 date("m",$suggestion_end)));
+		$this->tpl->setVariable("SELECT_SUGGESTION_END_YEAR",$this->getDateSelect("year","crs[suggestion_end][year]",
+																					date("Y",$suggestion_end)));
+		$this->tpl->setVariable("SELECT_SUGGESTION_END_HOUR",$this->getDateSelect("hour","crs[suggestion_end][hour]",
+																					  date("G",$suggestion_end)));
+		$this->tpl->setVariable("SELECT_SUGGESTION_END_MINUTE",$this->getDateSelect("minute","crs[suggestion_end][minute]",
+																					date("i",$suggestion_end)));
 		
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt("save"));
@@ -193,6 +250,8 @@ class ilCourseItemAdministrationGUI
 		$this->items_obj->setTimingType($_POST['timing_type']);
 		$this->items_obj->setTimingStart($this->toUnix($_POST["crs"]["timing_start"]));
 		$this->items_obj->setTimingEnd($this->toUnix($_POST["crs"]["timing_end"]));
+		$this->items_obj->setSuggestionStart($this->toUnix($_POST["crs"]["suggestion_start"]));
+		$this->items_obj->setSuggestionEnd($this->toUnix($_POST["crs"]["suggestion_end"]));
 		$this->items_obj->toggleVisible($_POST['visible']);
 		$this->items_obj->toggleChangeable($_POST['changeable']);
 
@@ -204,8 +263,9 @@ class ilCourseItemAdministrationGUI
 			return true;
 		}
 		$this->items_obj->update($this->getItemId());
-		sendInfo($this->lng->txt('settings_saved'));
-		$this->edit();
+		sendInfo($this->lng->txt('settings_saved'),true);
+		#$this->edit();
+		$this->ctrl->returnToParent($this);
 
 		return true;
 	}
@@ -334,6 +394,20 @@ class ilCourseItemAdministrationGUI
 		}
 	}
 
+	function __setSubTabs()
+	{
+		global $rbacsystem,$ilUser;
+		
+		$this->tabs_gui->clearSubTabs();
+		$this->tabs_gui->addSubTabTarget("activation",
+										 $this->ctrl->getLinkTarget($this,'edit'),
+										 "edit", get_class($this));
+		$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);
+		$this->tabs_gui->addSubTabTarget("preconditions",
+										 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
+										 "", "ilConditionHandlerInterface");
+		return true;
+	}
 
 } // END class.ilCourseItemAdminsitration
 ?>

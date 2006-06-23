@@ -214,6 +214,17 @@ class ilTabsGUI
 	}
 
 	/**
+	* Clear all already added sub tabs
+	*
+	* @param	boolean		
+	*/
+	function clearSubTabs()
+	{
+		$this->sub_target = array();
+		return true;
+	}
+
+	/**
 	* get tabs code as html
 	*/
 	function getHTML()

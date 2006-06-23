@@ -442,7 +442,7 @@ class ilFormat
 
 		if($with_time)
 		{
-			$format .= (' '.$lng->txt('lang_timeformat'));
+			$format .= (' '.$lng->txt('lang_timeformat_no_sec'));
 		}
 		return date($format,$ut);
 	}

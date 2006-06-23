@@ -329,7 +329,7 @@ class ilCourseArchives
 
 	function __addCourseHTML()
 	{
-		global $tpl;
+		global $tpl,$ilias;
 
 		// Get Language
 		if($this->getLanguage())
@@ -344,15 +344,16 @@ class ilCourseArchives
 
 		$tmp_tpl =& new ilTemplate("tpl.crs_export.html",true,true,"course");
 
-		$this->course_files_obj->copy($tpl->tplPath.'/default.css',$this->getName().'/default.css');
+		#$this->course_files_obj->copy($tpl->tplPath.'/default.css',$this->getName().'/default.css');
+		#
+		$this->course_files_obj->copy($tpl->tplPath.'/'.$ilias->account->prefs["style"].'.css',
+									  $this->getName().'/default.css');
 
 		$tmp_tpl->setVariable('TITLE',$lng->txt('crs_export'));
 		$tmp_tpl->setVariable("CRS_STRUCTURE",$lng->txt('crs_structure'));
 
 
 		$tmp_tpl->setVariable("DETAILS_TITLE",$lng->txt("crs_details"));
-		#$tmp_tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs_b.gif'));
-		#$tmp_tpl->setVariable("ALT_IMG",$lng->txt("crs_details"));
 		
 		// SET TXT VARIABLES
 		$tmp_tpl->setVariable("TXT_SYLLABUS",$lng->txt("crs_syllabus"));
@@ -490,11 +491,12 @@ class ilCourseArchives
 
 		$query = "SELECT * FROM crs_archives ".
 			"WHERE course_id = '".$this->course_obj->getId()."' ".
-			"ORDER BY archive_date";
+			"ORDER BY archive_date DESC";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			$this->archives[$row->archive_id]["archive_id"]		= $row->archive_id;
 			$this->archives[$row->archive_id]["archive_type"]	= $row->archive_type;
 			$this->archives[$row->archive_id]["archive_date"]	= $row->archive_date;
 			$this->archives[$row->archive_id]["archive_size"]	= $row->archive_size;

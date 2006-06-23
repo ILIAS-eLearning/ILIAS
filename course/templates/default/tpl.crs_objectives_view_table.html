@@ -1,40 +1,44 @@
 	<table class="fullwidth_invisible">
-		<tr>
-		  <td>
-			<table class="fullwidth">
-				<tr class="tbltitle">
-				  <td colspan="3">
-					<table class="fullwidth_invisible" cellspacing="0">
-						<tr class="tbltitle">
-						  <td class="tbltitle" align="left">&nbsp;{TBL_TITLE_OBJECTIVES}</td>
-						</tr>
-					</table>
-				  </td>
-				</tr>
-				<!-- BEGIN show -->
-				<tr class="tblheader">
-				  <!-- BEGIN tbl_header_columns -->
-				  <td class="std" nowrap="nowrap" align="center" width="{TBL_HEADER_WIDTH_OBJECTIVES}" >{TBL_HEADER_NAME_OBJECTIVES}</td>
-				  <!-- END tbl_header_columns -->
-				</tr>
-				<!-- BEGIN objective_row -->
-				<tr class="std">
-				  <td class="{OBJ_CLASS_1_CENTER_OBJECTIVES}"><b>{OBJ_NR_1_OBJECTIVES}</b></td>
-				  <td class="{OBJ_CLASS_1_OBJECTIVES}"><a href="{OBJ_LINK_1_OBJECTIVES}">{OBJ_TITLE_1_OBJECTIVES}</a></td>
-				  <td class="{OBJ_CLASS_1_CENTER_OBJECTIVES}">
-					<img src="{OBJ_STATUS_IMG_1_OBJECTIVES}" alt="{OBJ_STATUS_ALT_1_OBJECTIVES}" title="{OBJ_STATUS_ALT_1_OBJECTIVES}" border="0" />
-				  </td>
-				  
-				</tr>
-				<!-- END objective_row -->
-				<!-- END show -->
+  <tr>
+	<td>
+	  <table class="fullwidth">
+		<tr class="tbltitle">
+		  <td colspan="3">
+			<table class="fullwidth_invisible" cellspacing="0">
+			  <tr class="tbltitle">
+				<td class="tbltitle" align="left">&nbsp;{TBL_TITLE_OBJECTIVES}</td>
+			  </tr>
 			</table>
 		  </td>
 		</tr>
-		<tr>
-		  <td colspan="3" align="right">{TXT_HIDE_SHOW_OBJECTIVES}
-			<a href="{LINK_HIDE_SHOW_OBJECTIVES}">
-			  <img src="{HIDE_SHOW_IMG_OBJECTIVES}" alt="{TXT_HIDE_SHOW_OBJECTIVES}" title="{TXT_HIDE_SHOW_OBJECTIVES}" border="0" />
-			</a>
+		<!-- BEGIN show -->
+		<tr class="tblheader">
+		  <!-- BEGIN tbl_header_columns -->
+		  <th class="std" nowrap="nowrap" width="{TBL_HEADER_WIDTH_OBJECTIVES}" >
+			<div align="{ALIGN}">
+			  {TBL_HEADER_NAME_OBJECTIVES}
+			</div>
+		  </th>
+		  <!-- END tbl_header_columns -->
 		</tr>
+		<!-- BEGIN objective_row -->
+		<tr class="std">
+		  <td class="{OBJ_CLASS_1_CENTER_OBJECTIVES}"><b>{OBJ_NR_1_OBJECTIVES}</b></td>
+		  <td class="{OBJ_CLASS_1_OBJECTIVES}"><a href="{OBJ_LINK_1_OBJECTIVES}">{OBJ_TITLE_1_OBJECTIVES}</a></td>
+		  <td class="{OBJ_CLASS_1_CENTER_OBJECTIVES}">
+			<img src="{OBJ_STATUS_IMG_1_OBJECTIVES}" alt="{OBJ_STATUS_ALT_1_OBJECTIVES}" title="{OBJ_STATUS_ALT_1_OBJECTIVES}" border="0" />
+		  </td>
+		  
+		</tr>
+		<!-- END objective_row -->
+		<!-- END show -->
+	  </table>
+	</td>
+  </tr>
+  <tr>
+	<td colspan="3" align="right">{TXT_HIDE_SHOW_OBJECTIVES}
+	  <a href="{LINK_HIDE_SHOW_OBJECTIVES}">
+		<img src="{HIDE_SHOW_IMG_OBJECTIVES}" alt="{TXT_HIDE_SHOW_OBJECTIVES}" title="{TXT_HIDE_SHOW_OBJECTIVES}" border="0" />
+	  </a>
+  </tr>
 	</table>

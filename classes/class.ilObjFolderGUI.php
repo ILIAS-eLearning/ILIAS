@@ -29,7 +29,8 @@
 * @author Martin Rus <develop-ilias@uni-koeln.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI, ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -68,11 +69,15 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 		else
 		{
-			$this->initCourseContentInterface();
-			$this->cci_obj->cci_setContainer($this);
-			$this->cci_obj->cci_view();
+			include_once './course/classes/class.ilCourseContentGUI.php';
+			$course_content_obj = new ilCourseContentGUI($this);
+			
+			$this->ctrl->setCmdClass(get_class($course_content_obj));
+			$this->ctrl->forwardCommand($course_content_obj);
+			#$this->initCourseContentInterface();
+			#$this->cci_obj->cci_setContainer($this);
+			#$this->cci_obj->cci_view();
 		}
-
 		$this->tabs_gui->setTabActive('view_content');
 		return true;
 	}
@@ -110,22 +115,14 @@ class ilObjFolderGUI extends ilContainerGUI
 					include_once("./classes/class.ilPermissionGUI.php");
 					$perm_gui =& new ilPermissionGUI($this);
 					$ret =& $this->ctrl->forwardCommand($perm_gui);
+					break;
+
+			case 'ilcoursecontentgui':
+
+				include_once './course/classes/class.ilCourseContentGUI.php';
+				$course_content_obj = new ilCourseContentGUI($this);
+				$this->ctrl->forwardCommand($course_content_obj);
 				break;
-
-			case 'ilcourseitemadministrationgui':
-
-				include_once 'course/classes/class.ilCourseItemAdministrationGUI.php';
-
-				$this->ctrl->setReturn($this,'');
-				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_GET['item_id']);
-				$this->ctrl->forwardCommand($item_adm_gui);
-
-				// (Sub)tabs
-				$this->__setSubTabs('activation');
-				$this->tabs_gui->setTabActive('view_content');
-				$this->tabs_gui->setSubTabActive('activation');
-				break;
-
 
 			default:
 				if (empty($cmd))

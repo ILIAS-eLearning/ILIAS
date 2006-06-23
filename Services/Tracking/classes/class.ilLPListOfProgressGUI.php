@@ -319,7 +319,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			// Tracking activated for object
 			// Users status
 
-			$status = $this->__readSCORMStatus($item_id);
+			$status = $this->__readSCORMStatus($item_id,$this->details_id);
 			$this->tpl->setCurrentBlock("item_property");
 			$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
 			$this->tpl->setVariable("VAL_PROP",$this->lng->txt($status));

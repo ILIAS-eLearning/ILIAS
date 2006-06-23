@@ -10977,8 +10977,63 @@ ALTER TABLE usr_data ADD COLUMN `profile_incomplete` int(2) default '0';
 ALTER TABLE `usr_data` MODIFY `auth_mode` ENUM( 'default','local', 'ldap', 'radius', 'shibboleth','script','cas','soap') DEFAULT 'default' NOT NULL;
 ALTER TABLE `role_data` MODIFY `auth_mode` ENUM( 'default', 'local', 'ldap', 'radius', 'shibboleth', 'script','cas','soap') DEFAULT 'default' NOT NULL;
 ALTER TABLE `usr_data` ADD COLUMN ext_account CHAR(50);
+
 <#744>
 CREATE TABLE xhtml_page(
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   content MEDIUMTEXT
 );
+<#745>
+ALTER TABLE `crs_items` ADD `suggestion_start` INT NOT NULL AFTER `activation_end` ,
+ADD `suggestion_end` INT NOT NULL AFTER `suggestion_start`;
+
+<#746>
+DROP TABLE IF EXISTS event;
+CREATE TABLE event (
+  event_id int(11) NOT NULL auto_increment,
+  obj_id int(11) NOT NULL default '0',
+  title varchar(70) NOT NULL default '',
+  description text NOT NULL,
+  location text NOT NULL,
+  tutor_firstname varchar(127) NOT NULL default '',
+  tutor_lastname varchar(127) NOT NULL default '',
+  tutor_title varchar(16) NOT NULL default '',
+  tutor_email varchar(127)NOT NULL default '',
+  tutor_phone varchar(127) NOT NULL default '',
+  details text NOT NULL,
+  PRIMARY KEY  (event_id)
+) TYPE=MyISAM;
+
+<#747>
+DROP TABLE IF EXISTS `event_appointment`;
+CREATE TABLE `event_appointment` (
+  `appointment_id` int(11) NOT NULL auto_increment,
+  `event_id` int(11) NOT NULL default '0',
+  `starting_time` int(11) NOT NULL default '0',
+  `ending_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`appointment_id`)
+) TYPE=MyISAM;
+
+<#748>
+DROP TABLE IF EXISTS `event_file`;
+CREATE TABLE `event_file` (
+  `file_id` int(11) NOT NULL auto_increment,
+  `event_id` int(11) NOT NULL default '0',
+  `file_name` char(64) NOT NULL default '',
+  `file_type` char(64) NOT NULL default '',
+  `file_size` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`file_id`)
+) TYPE=MyISAM;
+
+<#749>
+
+DROP TABLE IF EXISTS `event_items`;
+CREATE TABLE `event_items` (
+  `event_id` int(11) NOT NULL default '0',
+  `item_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`event_id`,`item_id`),
+  KEY `event_id` (`event_id`)
+	) TYPE=MyISAM ;
+
+<#750>
+ALTER TABLE `crs_settings` ADD `important` TEXT NOT NULL ;
