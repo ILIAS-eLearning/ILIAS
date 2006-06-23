@@ -5621,6 +5621,9 @@ class ilObjTest extends ilObject
 		{
       $counter++;
     }
+		$newObj->setAuthor($original->getAuthor());
+		$newObj->setHideTitlePoints($original->getHideTitlePoints());
+		$newObj->setPassScoring($original->getPassScoring());
 		$newObj->setTitle($original->getTitle() . " ($counter)");
 		$newObj->setDescription($original->getDescription());
 		$newObj->create(true);
