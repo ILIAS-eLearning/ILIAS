@@ -872,6 +872,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 		ilUtil::redirect("adm_object.php?ref_id=".$a_ref_id);
 	}
 
+	function applyFilterObject()
+	{
+		unset($_GET['offset']);
+		unset($_SESSION['lua_offset'][$this->object->getRefId()]);
+		$this->listUsersObject();
+	}
+
 	// METHODS for local user administration
 	function listUsersObject($show_delete = false)
 	{
@@ -886,9 +893,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_admin_users"),$this->ilias->error_obj->MESSAGE);
 		}
-		$_GET['sort_by'] = ($_SESSION['lua_sort_by'] = ($_GET['sort_by'] ? $_GET['sort_by'] : $_SESSION['lua_sort_by']));
-		$_GET['sort_order'] = $_SESSION['lua_sort_order'] = ($_GET['sort_order'] ? $_GET['sort_order'] : $_SESSION['lua_sort_order']);
-		$_GET['offset'] = $_SESSION['lua_offset'] = (isset($_GET['offset']) ? $_GET['offset'] : $_SESSION['lua_offset']);
+		$_GET['sort_by'] = ($_SESSION['lua_sort_by'][$this->object->getRefId()] = 
+							($_GET['sort_by'] ? $_GET['sort_by'] : $_SESSION['lua_sort_by'][$this->object->getRefId()]));
+		$_GET['sort_order'] = $_SESSION['lua_sort_order'][$this->object->getRefId()] = 
+			($_GET['sort_order'] ? $_GET['sort_order'] : $_SESSION['lua_sort_order'][$this->object->getRefId()]);
+		$_GET['offset'] = $_SESSION['lua_offset'][$this->object->getRefId()] = 
+			(isset($_GET['offset']) ? $_GET['offset'] : $_SESSION['lua_offset'][$this->object->getRefId()]);
 
 
 		// default to local users view
@@ -910,7 +920,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
 			$this->tpl->setVariable("SELECT_FILTER",$this->__buildFilterSelect($parent));
 			$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("FILTER_NAME",'listUsers');
+			$this->tpl->setVariable("FILTER_NAME",'applyFilter');
 			$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
 			$this->tpl->parseCurrentBlock();
 		}

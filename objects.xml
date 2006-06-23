@@ -343,7 +343,7 @@
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="chat" class_name="Chat" location="chat/classes" module="chat" checkbox="0" inherit="1" translate="0" rbac="1" allow_link="1">
+<object name="chat" class_name="Chat" location="chat/classes" module="chat" checkbox="1" inherit="1" translate="0" rbac="1" allow_link="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="recordings">chat_recordings</property>

@@ -185,9 +185,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$log->write('SOAP: updateUser()');
 		$user_obj->update();
 
-		if($user_data['accepted_agreement'] and !$usr_obj->hasAcceptedUserAgreement())
+		if($user_data['accepted_agreement'] and !$user_obj->hasAcceptedUserAgreement())
 		{
-			$usr_obj->writeAccepted();
+			$user_obj->writeAccepted();
 		}
 
 		return true;

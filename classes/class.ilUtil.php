@@ -2774,7 +2774,7 @@ class ilUtil
 	* @param	string/array	object type 'lm' or array('lm','sahs')
 	* @param	string	permission to check e.g. 'visible' or 'read'
 	* @param	int id of user in question
-	* @param    int limit of results. if not given it defaults to search max hits.
+	* @param    int limit of results. if not given it defaults to search max hits.If limit is -1 limit is unlimited
 	* @return	array of obj_ids
 	*/
 	function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
@@ -2797,6 +2797,10 @@ class ilUtil
 		if(!$limit)
 		{
 			$limit = $ilias->getSetting('search_max_hits',100);
+		}
+		if($limit = -1)
+		{
+			$limit = 10000;
 		}
 
 		// default to logged in usr

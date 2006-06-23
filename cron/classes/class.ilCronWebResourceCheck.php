@@ -43,12 +43,12 @@ class ilCronWebResourceCheck
 
 	function check()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache,$ilUser;
 
 		include_once'./classes/class.ilLinkChecker.php';
 
 
-		foreach(ilUtil::_getObjectsByOperations('webr','write') as $node)
+		foreach(ilUtil::_getObjectsByOperations('webr','write',$ilUser->getId(),-1) as $node)
 		{
 			if(!is_object($tmp_webr =& ilObjectFactory::getInstanceByRefId($node,false)))
 			{
@@ -90,8 +90,6 @@ class ilCronWebResourceCheck
 	function __getCheckPeriod()
 	{
 		global $ilias;
-
-		return 10;
 
 		switch($ilias->getSetting('cron_web_resource_check'))
 		{
