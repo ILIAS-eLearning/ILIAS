@@ -4090,7 +4090,7 @@ crs#:#crs_select_one_object#:#Please select one course item.
 crs#:#crs_select_registration_type#:#Please select an admittance procedure.
 crs#:#crs_select_starter#:#Select Start Object
 crs#:#crs_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
-crs#:#crs_settings#:#Course settings
+crs#:#crs_settings#:#Course Settings
 crs#:#crs_settings_saved#:#Settings saved
 crs#:#crs_show_link_lms#:#Show learning materials
 crs#:#crs_show_link_objectives#:#Show objectives
@@ -6119,3 +6119,48 @@ trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
 common#:#crs_activation_start_invalid#:#The start and the end time is not valid.
+crs#:#events#:#Events
+crs#:#add_event#:#Add event
+crs#:#event_table_create#:#New Event
+crs#:#event_general_infos#:#General Informations
+crs#:#event_title#:#Title
+crs#:#event_desc#:#Description
+crs#:#event_location#:#Location
+crs#:#event_start_date#:#Date
+crs#:#event_time#:#Time
+crs#:#event_tutor_data#:#Informations About the Lecturer 
+crs#:#tutor_firstname#:#Firstname
+crs#:#tutor_lastname#:#Lastname
+crs#:#tutor_title#:#Title
+crs#:#tutor_email#:#Mail
+crs#:#tutor_phone#:#Phone
+crs#:#event_further_informations#:#Further Informations
+crs#:#event_file_name#:#Filename
+crs#:#event_file#:#File
+crs#:#event_details_workflow#:#Details/Workflow
+crs#:#event_btn_add#:#Add Event
+crs#:#event_existing_files#:#Existing Files:
+crs#:#event_delete_file#:#Delete File?
+crs#:#event_updated#:#Saved Settings
+crs#:#event_assign_materials#:#Assign Materials
+crs#:#event_date#:#Date of Event:
+crs#:#event_assign_materials_table#:#Assignment of Course Materials
+crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.
+crs#:#event_add_new_event#:#Added new event
+crs#:#event_delete_sure#:#Do really want to delete this event?
+crs#:#events_deleted#:#Event deleted
+crs#:#crs_general_informations#:#General Informations
+crs#:#crs_info_settings#:#Course Informations
+crs#:#crs_general_info#:#General Informations
+crs#:#crs_important_info#:#Important Informations
+crs#:#crs_info_download#:#Files for Download
+crs#:#crs_filename#:#Filename
+crs#:#crs_file#:#File
+crs#:#crs_existing_files#:#Existing Files:
+crs#:#crs_delete_file#:#Delete File?
+crs#:#crs_file_download#:#Files for Download
+crs#:#crs_file_size_info#:#Filesize
+crs#:#event_general_properties#:#General Informations
+crs#:#event_file_download#:#Files for Download
+crs#:#event_file_size_info#:#Filesize
+crs#:#event_lecturer#:#Name
