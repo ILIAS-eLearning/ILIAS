@@ -561,12 +561,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
 
-		// this takes time but is nescessary
-   		$this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
-   		if ($error)
-   		{
-   		    return $this->__raiseError($error, "Client");
-   		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -574,6 +568,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once './classes/class.ilObjRole.php';
 		include_once './classes/class.ilObjectFactory.php';
 		global $rbacreview, $rbacsystem, $tree, $lng;
+
+    	// this takes time but is nescessary
+   		$this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
+   		if ($error)
+   		{
+   		    return $this->__raiseError($error, "Client");
+   		}
+
 
 		switch ($conflict_rule)
 		{
@@ -822,7 +824,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	/**
 	* return list of users following dtd users_3_7
 	*/
-	function getUsers($sid, $ref_id, $attachRoles, $active)
+	function getUsersForContainer($sid, $ref_id, $attachRoles, $active)
 	{
 
 	    if(!$this->__checkSession($sid))
@@ -851,10 +853,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError("No object for reference id $ref_id", "Server");
 		}
 
+
 		$type = $object->getType();
 
 		if ($type =="cat" || $type == "crs" || $type=="grp" || $type=="usrf")
 		{
+		    $data = array();
 			switch ($type) {
 			    case "usrf":
 			        $data = ilSoapUserAdministration::__getUserFolderUsers(USER_FOLDER_ID, $active);
@@ -886,7 +890,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			}
 
 
-			if (count ($data))
+
+			if (is_array($data))
 			{
 			  include_once './webservice/soap/classes/class.ilSoapUserObjectXMLWriter.php';
 
@@ -900,7 +905,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					return $xmlWriter->getXML();
 				}
 			}
-			return $this->__raiseError('No records available','Client');
+			return $this->__raiseError('Error in processing information. This is likely a bug.','Server');
 		}
 		return $this->__raiseError('Type '.$type.' not yet supported','Client');
 	}
@@ -909,7 +914,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	/**
 	* return list of users of a specific role, following dtd users_3_7
 	*/
-	function getRoleUsers($sid, $role_id, $attachRoles)
+	function getUserForRole($sid, $role_id, $attachRoles)
 	{
 
 		if(!$this->__checkSession($sid))
@@ -984,7 +989,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	function __getUserFolderUsers ($ref_id, $active) {
 		global $ilDB;
 		$data = array();
-		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'";
+		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref
+		          WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'";
 
 		if ($active > -1)
 			$query .= " AND usr_data.active = '$active'";
@@ -995,6 +1001,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 		//echo $query;
 		$result = $ilDB->query($query);
+
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			array_push($data, $row);
@@ -1190,7 +1197,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	function __buildSearchQuery ($a_keyfields, $queryOperator, $a_keyvalues) {
 	    $query = array();
 
-	    $allowed_fields = array ("firstname","lastname","email","login");
+	    $allowed_fields = array ("firstname","lastname","email","login","matriculation","institut","department");
 
 	    foreach ($a_keyfields as $keyfield)
 	    {
