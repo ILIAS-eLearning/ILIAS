@@ -11045,7 +11045,7 @@ $ilCtrlStructureReader->getStructure();
 <#752>
 ALTER TABLE `qpl_question_cloze` ADD `identical_scoring` ENUM( '0', '1' ) NOT NULL DEFAULT '1' AFTER `textgap_rating` ;
 <#753>
-ALTER TABLE `qpl_answer_cloze` CHANGE `cloze_type` `cloze_type` ENUM( '0', '1', '2' ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `qpl_answer_cloze` CHANGE `cloze_type` `cloze_type` ENUM( '0', '1', '2' ) NULL DEFAULT NULL;
 
 <#754>
 DROP TABLE IF EXISTS `crs_file`;
