@@ -11046,3 +11046,14 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE `qpl_question_cloze` ADD `identical_scoring` ENUM( '0', '1' ) NOT NULL DEFAULT '1' AFTER `textgap_rating` ;
 <#753>
 ALTER TABLE `qpl_answer_cloze` CHANGE `cloze_type` `cloze_type` ENUM( '0', '1', '2' ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+
+<#754>
+DROP TABLE IF EXISTS `crs_file`;
+CREATE TABLE `crs_file` (
+  `file_id` int(11) NOT NULL auto_increment,
+  `course_id` int(11) NOT NULL default '0',
+  `file_name` char(64) NOT NULL default '',
+  `file_type` char(64) NOT NULL default '',
+  `file_size` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`file_id`)
+) TYPE=MyISAM;
