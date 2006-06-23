@@ -784,7 +784,7 @@ class ilNusoapUserAdministrationAdapter
 								    'active' => 'xsd:int'),
 								array('user_xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#getUsers',
+								SERVICE_NAMESPACE.'#getUsersForContainer',
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getUsersForContainer(): get all users of a specific ref_id, which can be crs, group, category or user folder (value: -1). Choose if all roles of a user should be attached (1) or not (0). set active to -1 to get all, 0, to get inactive users only, 1 to get active users only');
@@ -796,7 +796,7 @@ class ilNusoapUserAdministrationAdapter
 								      'active' => 'xsd:int'),
 								array('user_xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#getUsers',
+								SERVICE_NAMESPACE.'#getUsersForRole',
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getUsersForRole(): get all users of a role with specified id, specify attach_roles to 1, to attach all role assignmnents; specify active: 1, to import active only, 0: inactive only, -1: both');
