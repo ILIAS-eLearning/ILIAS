@@ -39,7 +39,6 @@ class ilObjCourseGroupingGUI
 	var $tpl;
 	var $ctrl;
 	var $lng;
-
 	/**
 	* Constructor
 	* @access public
@@ -431,7 +430,7 @@ class ilObjCourseGroupingGUI
 		$counter = 0;
 		$items = ilUtil::_getObjectsByOperations($this->getContentType(),
 												 'write',
-												 $ilUser->getId(),1000);
+												 $ilUser->getId(),-1);
 		foreach($items as $item_id)
 		{
 			if($tree->checkForParentType($course_id,'adm'))
