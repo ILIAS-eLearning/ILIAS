@@ -11066,3 +11066,8 @@ ALTER TABLE `crs_items` CHANGE `activation_start` `timing_start` INT( 8 ) NULL D
 
 <#757>
 ALTER TABLE `crs_items` CHANGE `activation_end` `timing_end` INT( 8 ) NULL DEFAULT NULL ;
+
+<#758>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

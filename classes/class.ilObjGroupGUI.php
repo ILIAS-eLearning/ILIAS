@@ -30,7 +30,8 @@
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilObjUserGUI, ilObjCourseGroupingGUI, ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilObjUserGUI, ilObjCourseGroupingGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -72,9 +73,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		else
 		{
-			$this->initCourseContentInterface();
-			$this->cci_obj->cci_setContainer($this);
-			$this->cci_obj->cci_view();
+			include_once './course/classes/class.ilCourseContentGUI.php';
+			$course_content_obj = new ilCourseContentGUI($this);
+			
+			$this->ctrl->setCmdClass(get_class($course_content_obj));
+			$this->ctrl->forwardCommand($course_content_obj);
 		}
 
 		$this->tabs_gui->setTabActive('view_content');
@@ -160,6 +163,13 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($crs_grp_gui);
 				$this->tabs_gui->setTabActive('edit_properties');
 				$this->tabs_gui->setSubTabActive('groupings');
+				break;
+
+			case 'ilcoursecontentgui':
+
+				include_once './course/classes/class.ilCourseContentGUI.php';
+				$course_content_obj = new ilCourseContentGUI($this);
+				$this->ctrl->forwardCommand($course_content_obj);
 				break;
 
 			case 'ilcourseitemadministrationgui':

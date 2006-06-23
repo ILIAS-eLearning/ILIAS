@@ -74,9 +74,6 @@ class ilObjFolderGUI extends ilContainerGUI
 			
 			$this->ctrl->setCmdClass(get_class($course_content_obj));
 			$this->ctrl->forwardCommand($course_content_obj);
-			#$this->initCourseContentInterface();
-			#$this->cci_obj->cci_setContainer($this);
-			#$this->cci_obj->cci_view();
 		}
 		$this->tabs_gui->setTabActive('view_content');
 		return true;
