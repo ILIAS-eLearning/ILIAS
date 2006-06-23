@@ -11057,3 +11057,12 @@ CREATE TABLE `crs_file` (
   `file_size` int(11) NOT NULL default '0',
   PRIMARY KEY  (`file_id`)
 ) TYPE=MyISAM;
+
+<#755>
+ALTER TABLE `crs_items` CHANGE `activation_unlimited` `timing_type` TINYINT( 2 ) NULL DEFAULT NULL;
+
+<#756>
+ALTER TABLE `crs_items` CHANGE `activation_start` `timing_start` INT( 8 ) NULL DEFAULT NULL;
+
+<#757>
+ALTER TABLE `crs_items` CHANGE `activation_end` `timing_end` INT( 8 ) NULL DEFAULT NULL ;

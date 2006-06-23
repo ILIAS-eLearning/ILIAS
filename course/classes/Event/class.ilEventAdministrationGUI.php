@@ -118,7 +118,7 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
 		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
-		$this->tpl->setVariable("TABLE_TITLE",$this->lng->txt('event_assign_materials'));
+		$this->tpl->setVariable("TABLE_TITLE",$this->lng->txt('event_assign_materials_table'));
 		$this->tpl->setVariable("TABLE_INFO",$this->lng->txt('event_assign_materials_info'));
 
 		$nodes = $tree->getSubTree($tree->getNodeData($this->course_obj->getRefId()));
@@ -391,9 +391,8 @@ class ilEventAdministrationGUI
 			$this->tpl->setVariable("TXT_EXISTING_FILES",$this->lng->txt('event_existing_files'));
 			$this->tpl->parseCurrentBlock();
 		}
-			
-		
-		$this->__showFileSizeInfo();
+
+		$this->tpl->setVariable("TXT_FILESIZE",ilUtil::getFileSizeInfo());
 
 		return true;
 	}

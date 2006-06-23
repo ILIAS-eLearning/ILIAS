@@ -247,9 +247,9 @@ class ilCourseItems
 	function update($a_item_id)
 	{
 		$query = "UPDATE crs_items SET ".
-			"activation_unlimited = '".(int) $this->getTimingType()."', ".
-			"activation_start = '".(int) $this->getTimingStart()."', ".
-			"activation_end = '".(int) $this->getTimingEnd()."', ".
+			"timing_type = '".(int) $this->getTimingType()."', ".
+			"timing_start = '".(int) $this->getTimingStart()."', ".
+			"timing_end = '".(int) $this->getTimingEnd()."', ".
 			"suggestion_start = '".(int) $this->getSuggestionStart()."', ".
 			"suggestion_end = '".(int) $this->getSuggestionEnd()."', ".
 			"changeable = '".(int) $this->enabledChangeable()."', ".
@@ -387,9 +387,9 @@ class ilCourseItems
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$a_item["timing_type"] = $row->activation_unlimited;
-			$a_item["timing_start"]		= $row->activation_start;
-			$a_item["timing_end"]		= $row->activation_end;
+			$a_item["timing_type"] = $row->timing_type;
+			$a_item["timing_start"]		= $row->timing_start;
+			$a_item["timing_end"]		= $row->timing_end;
 			$a_item["suggestion_start"]		= $row->suggestion_start;
 			$a_item["suggestion_end"]		= $row->suggestion_end;
 			$a_item['changeable']			= $row->changeable;
@@ -409,8 +409,8 @@ class ilCourseItems
 		$a_item["timing_type"] = IL_CRS_TIMINGS_DEACTIVATED;
 		$a_item["timing_start"]		= time();
 		$a_item["timing_end"]		= time();
-		$a_item["timing_start"]		= time();
-		$a_item["timing_end"]		= time();
+		$a_item["suggestion_start"]		= time();
+		$a_item["suggestion_end"]		= time();
 		$a_item["position"]				= $this->__getLastPosition() + 1;
 		$a_item['visible']				= 0;
 		$a_item['changeable']			= 0;
@@ -422,6 +422,8 @@ class ilCourseItems
 			"VALUES('".$a_item['parent']."','".
 			$a_item["child"]."','".
 			$a_item["timing_type"]."','".
+			$a_item["timing_start"]."','".
+			$a_item["timing_end"]."','".
 			$a_item["suggestion_start"]."','".
 			$a_item["suggestion_end"]."','".
 			$a_item["visible"]."','".
@@ -609,9 +611,9 @@ class ilCourseItems
 		{
 			$data['parent_id'] = $row->parent_id;
 			$data['obj_id'] = $row->obj_id;
-			$data['timing_type'] = $row->activation_unlimited;
-			$data['timing_start'] = $row->activation_start;
-			$data['timing_end'] = $row->activation_end;
+			$data['timing_type'] = $row->timing_type;
+			$data['timing_start'] = $row->timing_start;
+			$data['timing_end'] = $row->timing_end;
 			$data['suggestion_start'] = $row->suggestion_start;
 			$data['suggestion_end'] = $row->suggestion_end;
 			$data['changeable'] = $row->changeable;
