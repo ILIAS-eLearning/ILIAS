@@ -1,7 +1,7 @@
 	<table class="fullwidth_invisible">
 		<tr>
 		  <td>
-			<table class="fullwidth">
+			<table class="fullwidth" border="0">
 				<tr class="tbltitle">
 				  <td colspan="3">
 					<table class="fullwidth_invisible" cellspacing="0">
@@ -36,11 +36,13 @@
 					<!-- END chapters -->
 				  </td>
 				  <td class="{OBJ_CLASS_LMS}">
-				        <!-- BEGIN lm_desklink -->
-					<a class="il_ContainerItemCommand" href="{DESK_LINK_LMS}">{TXT_DESK_LMS}</a><br/><br/>
+			<!-- BEGIN lm_desklink -->
+			<div style="float:right">
+					<a class="il_ContainerItemCommand" href="{DESK_LINK_LMS}">{TXT_DESK_LMS}</a>
 					<!-- END lm_desklink -->
 					<!-- BEGIN lm_continuelink -->
 					<a class="il_ContainerItemCommand" href="{CONTINUE_LINK_LMS}" target="{CONTINUE_LINK_TARGET}">{TXT_CONTINUE_LMS}</a>
+			</div>
 					<!-- END lm_continuelink -->
 				  </td>
 				</tr>

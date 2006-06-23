@@ -1468,10 +1468,18 @@ class ilUtil
 	/**
 	*   deliver file for download via browser.
 	*/
-	function deliverFile($a_file, $a_filename)
+	function deliverFile($a_file, $a_filename,$a_mime = '')
 	{
 		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
-		$mime = "application/octet-stream"; // or whatever the mime type is
+
+		if(strlen($a_mime))
+		{
+			$mime = $a_mime;
+		}
+		else
+		{
+			$mime = "application/octet-stream"; // or whatever the mime type is
+		}
 		if (isset($_SERVER["HTTPS"]))
 		{
 			/**
@@ -2948,7 +2956,24 @@ class ilUtil
        $str = implode(', ', $array);
        
        return $str;
-     }     
+     }
+
+	 function getFileSizeInfo()
+	 {
+		 global $lng;
+
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf=get_cfg_var("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms=get_cfg_var("post_max_size");
+		
+		// use the smaller one as limit
+		$max_filesize=min($umf, $pms);
+		if (!$max_filesize) $max_filesize=max($umf, $pms);
+
+		return $lng->txt("file_notice")." $max_filesize.";
+	 }
+    
 } // END class.ilUtil
 
 

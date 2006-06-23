@@ -114,6 +114,15 @@ class ilObjCourse extends ilContainer
 //		$this->__initMetaObject();
 //		$this->meta_data->setTitle($a_title);
 	}
+
+	function getImportantInformation()
+	{
+		return $this->important;
+	}
+	function setImportantInformation($a_info)
+	{
+		$this->important = $a_info;
+	}
 	function getSyllabus()
 	{
 		return $this->syllabus;
@@ -490,13 +499,30 @@ class ilObjCourse extends ilContainer
 		{
 			$this->appendMessage($this->lng->txt("archive_times_not_valid"));
 		}
+		return $this->getMessage() ? false : true;
+	}
+
+	function validateInfoSettings()
+	{
+		global $ilErr;
+
 		if($this->getContactEmail() and 
 		   !(ilUtil::is_email($this->getContactEmail()) or 
 			 ilObjUser::getUserIdByLogin($this->getContactEmail())))
 		{
-			$this->appendMessage($this->lng->txt("contact_email_not_valid"));
+			$ilErr->appendMessage($this->lng->txt('contact_email_not_valid'));
+			return false;
 		}
-		return $this->getMessage() ? false : true;
+		return true;
+	}
+
+	function hasContactData()
+	{
+		return strlen($this->getContactName()) or
+			strlen($this->getContactResponsibility()) or
+			strlen($this->getContactEmail()) or
+			strlen($this->getContactPhone()) or
+			strlen($this->getContactConsultation());
 	}
 			
 	/**
@@ -520,7 +546,7 @@ class ilObjCourse extends ilContainer
 		$new_course->members_obj->add($this->ilias->account,$new_course->members_obj->ROLE_ADMIN);
 		$new_course->__createDefaultSettings();
 
-
+		$new_course->setImportantInformation($this->getImportantInformation());
 		$new_course->setSyllabus($this->getSyllabus());
 		$new_course->setContactName($this->getContactName());
 		$new_course->setContactConsultation($this->getContactConsultation());
@@ -586,13 +612,17 @@ class ilObjCourse extends ilContainer
 		$this->archives_obj->deleteAll();
 
 		include_once './course/classes/class.ilCourseObjective.php';
-
 		ilCourseObjective::_deleteAll($this->getId());
 
 		include_once './course/classes/class.ilObjCourseGrouping.php';
-
 		ilObjCourseGrouping::_deleteAll($this->getId());
 
+		include_once './course/Event/class.ilEvent.php';
+		ilEvent::_deleteAll($this->getId());
+
+		include_once './course/classes/class.ilCourseFile.php';
+		ilCourseFile::_deleteByCourse($this->getId());
+		
 		return true;
 	}
 
@@ -755,7 +785,8 @@ class ilObjCourse extends ilContainer
 			"archive_type = '".(int) $this->getArchiveType()."', ".
 			"abo = '".(int) $this->getAboStatus()."', ".
 			"objective_view = '".(int) $this->enabledObjectiveView()."', ".
-			"waiting_list = '".(int) $this->enabledWaitingList()."' ".
+			"waiting_list = '".(int) $this->enabledWaitingList()."', ".
+			"important = '".ilUtil::prepareDBString($this->getImportantInformation())."' ".
 			"WHERE obj_id = '".$this->getId()."'";
 
 		$res = $ilDB->query($query);
@@ -829,6 +860,7 @@ class ilObjCourse extends ilContainer
 			$this->setAboStatus($row->abo);
 			$this->setObjectiveViewStatus($row->objective_view);
 			$this->enableWaitingList($row->waiting_list);
+			$this->setImportantInformation($row->important);
 		}
 		return true;
 	}

@@ -21,45 +21,91 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
-
 /**
-* Class ilObjFileAccess
+* Class ilEventAdministrationGUI
 *
-*
-* @author 	Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
-*
+* 
+* @extends ilObjectGUI
 * @package ilias-core
+*
 */
-class ilObjFolderAccess extends ilObjectAccess
+
+class ilEventAdministrationGUI
 {
+	var $container_gui;
+	var $container_obj;
+	var $course_obj;
+
+	var $event_id = null;
+
+	var $tpl;
+	var $ctrl;
+	var $lng;
+	var $tabs_gui;
 
 	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	function _getCommands()
+	* Constructor
+	* @access public
+	*/
+	function ilEventAdministrationGUI(&$container_gui_obj,$event_id)
 	{
-		$commands = array
-		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
-				"default" => true),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
-		
-		return $commands;
+		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilTabs;
+
+		$this->tpl =& $tpl;
+		$this->ctrl =& $ilCtrl;
+		$this->lng =& $lng;
+		$this->lng->loadLanguageModule('crs');
+		$this->tabs_gui =& $ilTabs;
+
+		$this->event_id = $event_id;
+
+		$this->container_gui =& $container_gui_obj;
+		$this->container_obj =& $this->container_gui->object;
+
+		// 
+		$this->__initCourseObject();
+	}		
+
+	function &executeCommand()
+	{
+		global $ilAccess;
+
+		$cmd = $this->ctrl->getCmd();
+		switch($this->ctrl->getNextClass($this))
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = 'view';
+				}
+				$this->$cmd();
+				break;
+		}
+	}
+
+	function addEvent()
+	{
+		echo "hallo";
 	}
 
 
-}
+	function __initCourseObject()
+	{
+		global $tree;
 
+		if($this->container_obj->getType() == 'crs')
+		{
+			// Container is course
+			$this->course_obj =& $this->container_obj;
+		}
+		else
+		{
+			$course_ref_id = $tree->checkForParentType($this->container_obj->getRefId(),'crs');
+			$this->course_obj =& ilObjectFactory::getInstanceByRefId($course_ref_id);
+		}
+		return true;
+	}
+} // END class.ilCourseContentGUI
 ?>

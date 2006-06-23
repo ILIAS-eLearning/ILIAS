@@ -63,6 +63,7 @@ class ilXML2FO
 	}
 	function getFOString()
 	{
+		#return file_get_contents('./Services/Transformation/fo.xml');
 		return $this->fo_string;
 	}
 	
@@ -88,6 +89,8 @@ class ilXML2FO
 		}
 
 		xslt_free($this->xslt_handler);
+
+		#var_dump("<pre>",htmlentities($this->getFOString()),"<pre>");
 
 		return true;
 	}

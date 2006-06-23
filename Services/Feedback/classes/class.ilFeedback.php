@@ -308,7 +308,7 @@ class ilFeedback {
 			$i++;
 		}
 		
-		return($barometers);
+		return $barometers ? $barometers : array();
 	}
 	/**
 	* delete a barometer and its results

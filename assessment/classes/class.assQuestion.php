@@ -854,7 +854,7 @@ class assQuestion
 	*/
 	function saveWorkingData($active_id, $pass = NULL)
 	{
-    global $ilDB;
+		global $ilDB;
 		global $ilUser;
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($active_id);
@@ -865,12 +865,18 @@ class assQuestion
 			$ilDB->quote($pass . ""),
 			$ilDB->quote($reached_points . "")
 		);
-    $result = $ilDB->query($query);
+		$result = $ilDB->query($query);
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()), $reached_points), $active_id, $this->getId());
 		}
+
+		// Update objective status
+		include_once 'course/classes/class.ilCourseObjectiveResult.php';
+
+		ilCourseObjectiveResult::_updateObjectiveResult($ilUser->getId(),$active_id,$this->getId());
+		
 	}
 
 /**
@@ -2060,6 +2066,26 @@ class assQuestion
 	{
 		global $ilUser;
 		$ilUser->writePref("tst_multiline_answers", $a_setting);
+	}
+	/**
+	* Checks if an array of question ids is answered by an user or not
+	*
+	* @param int user_id
+	* @param array $question_ids user id array
+	
+	* @return boolean 
+	* @access public static
+	*/
+	function _areAnswered($a_user_id,$a_question_ids)
+	{
+		global $ilDB;
+
+		$query = "SELECT DISTINCT(question_fi) FROM tst_test_result JOIN tst_active ".
+			"ON (active_id) ".
+			"WHERE question_fi IN ('".implode("','",$a_question_ids)."') ".
+			"AND user_fi = '".$a_user_id."'";
+		$res = $ilDB->query($query);
+		return ($res->numRows() == count($a_question_ids)) ? true : false;
 	}
 }
 

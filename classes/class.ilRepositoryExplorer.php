@@ -111,19 +111,10 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
 
 			case "crs":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui";
-				// seems not to work in some cases
-				#$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
-				#$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
-				#return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
+				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui&cmd=view";
 				
 			case "frm":
-				#return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
-				$ilCtrl->setParameterByClass('ilObjForumGUI','ref_id',$a_node_id);
-				//$ilCtrl->setParameterByClass("ilObjForumGUI","set_mode","flat");
-				
-				return $ilCtrl->getLinkTargetByClass('ilObjForumGUI','showThreads');
-
+				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjforumgui";
 
 			case "glo":
 				return "content/glossary_presentation.php?ref_id=".$a_node_id;
@@ -135,9 +126,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "chat.php?cmd=view&ref_id=".$a_node_id;
 
 			case "fold":
-				$ilCtrl->setParameterByClass("ilObjFolderGUI","ref_id",$a_node_id);
-				//$ilCtrl->setParameterByClass("ilObjFolderGUI","set_mode","flat");
-				return $ilCtrl->getLinkTargetByClass("ilObjFolderGUI");
+				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjfoldergui";
 				
 			case "file":
 				return "repository.php?cmd=sendfile&ref_id=".$a_node_id;
@@ -196,19 +185,11 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
 
 			case "crs":
-				return "repository.php?ref_id=".$a_node_id;
-				#$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
-				#$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
-				#return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
+				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui&cmd=edit";
+				return "ilias.php?ref_id=".$a_node_id."cmdClass=ilobjcoursegui&cmd=edit";
 				
 			case "frm":
-				$ilCtrl->setParameterByClass('ilObjForumGUI','ref_id',$a_node_id);
-				//$ilCtrl->setParameterByClass("ilObjForumGUI","set_mode","flat");
-				
-				return $ilCtrl->getLinkTargetByClass('ilObjForumGUI','edit');
-				
-				#return "repository.php?ref_id=".$a_node_id."set_mode=flat&cmdClass=ilobjforumgui";
-				#return "forums_threads_liste.php?cmd=properties&ref_id=".$a_node_id."&backurl=repository";
+				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 
 			case "glo":
 				return "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$a_node_id;

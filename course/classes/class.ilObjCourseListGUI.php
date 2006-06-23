@@ -135,7 +135,5 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
 		return $props;
 	}
-
-
 } // END class.ilObjCategoryGUI
 ?>

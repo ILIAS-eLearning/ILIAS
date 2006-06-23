@@ -319,6 +319,9 @@ td.option_value_center {
 	padding:3px;
 	vertical-align:top;
 	text-align:center;
+	border-top-width:1px;
+	border-top-color:#9EADBA;
+	border-top-style:solid;
 }
 
 td.option_value_details {

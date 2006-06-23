@@ -1065,11 +1065,6 @@ class ilTestOutputGUI
 		{
 			$this->outResults();
 		}
-		// Update objectives
-		include_once './course/classes/class.ilCourseObjectiveResult.php';
-		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
-		$tmp_obj_res->updateResults($this->object->getTestResult($active->active_id));
-		unset($tmp_obj_res);
 
 		if($_GET['crs_show_result'])
 		{

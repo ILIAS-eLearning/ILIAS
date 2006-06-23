@@ -72,6 +72,10 @@ class ilCourseRegisterGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilTabs;
+
+		$ilTabs->setTabActive('join');
+
 		switch($cmd = $this->ctrl->getCmd())
 		{
 			case '':

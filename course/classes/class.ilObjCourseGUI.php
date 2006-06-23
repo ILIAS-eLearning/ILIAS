@@ -28,9 +28,11 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 *
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilObjUserGUI, ilCourseContentInterface, ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilCourseContentInterface, ilConditionHandlerInterface
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI
+*
 * 
 * @extends ilContainerGUI
 * @package ilias-core
@@ -46,7 +48,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjCourseGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function ilObjCourseGUI()
 	{
 		global $ilCtrl;
 
@@ -55,7 +57,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "crs";
-		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,false);
+		$this->ilContainerGUI('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
 
@@ -217,7 +219,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem,$ilUser;
 
 		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("read", $this->ref_id))
+		if(!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -226,7 +228,21 @@ class ilObjCourseGUI extends ilContainerGUI
 			parent::viewObject();
 			return true;
 		}
-		else
+	
+		// Trac access
+		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'crs');
+
+		include_once './course/classes/class.ilCourseContentGUI.php';
+		$course_content_obj = new ilCourseContentGUI($this);
+
+		$this->ctrl->setCmdClass(get_class($course_content_obj));
+		$this->ctrl->forwardCommand($course_content_obj);
+
+		return true;
+		
+
+		// else disabled
 		{
 			if($rbacsystem->checkAccess("write", $this->ref_id) or
 			   ($this->object->isActivated() and !$this->object->isArchived()))
@@ -239,10 +255,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$this->archiveObject();
 			}
-			// Trac access
-			include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-
-			ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'crs');
 		}
 	}
 
@@ -263,40 +275,79 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function infoScreen()
 	{
-		global $rbacsystem;
+		global $ilErr,$ilAccess;
+
+		if(!$ilAccess->checkAccess('visible','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
 		
 		$this->tabs_gui->setTabActive('info_short');
 
-		if(!$rbacsystem->checkAccess("visible", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-
 		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once 'course/classes/class.ilCourseFile.php';
+
+		$files =& ilCourseFile::_readFilesByCourse($this->object->getId());
+
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
 		$info->enableFeedback();
 		
-		// syllabus section
-		$info->addSection($this->lng->txt("crs_syllabus"));
-		$info->addProperty("",  nl2br($this->object->getSyllabus() ? 
-			 $this->object->getSyllabus() : 
-			 $this->lng->txt("crs_not_available")));
+		if(strlen($this->object->getImportantInformation()) or
+		   strlen($this->object->getSyllabus()) or
+		   count($files))
+		{
+			$info->addSection('crs_general_informations');
+		}
+		if(strlen($this->object->getImportantInformation()))
+		{
+			$info->addProperty($this->lng->txt('crs_important_info'),
+							   "<strong>".nl2br($this->object->getImportantInformation()."</strong>"));
+		}
+		if(strlen($this->object->getSyllabus()))
+		{
+			$info->addProperty($this->lng->txt('crs_syllabus'), nl2br($this->object->getSyllabus()));
+		}
+		// files
+		if(count($files))
+		{
+			$tpl = new ilTemplate('tpl.event_info_file.html',true,true,'course');
+			
+			foreach($files as $file)
+			{
+				$tpl->setCurrentBlock("files");
+				$this->ctrl->setParameter($this,'file_id',$file->getFileId());
+				$tpl->setVariable("DOWN_LINK",$this->ctrl->getLinkTarget($this,'sendfile'));
+				$tpl->setVariable("DOWN_NAME",$file->getFileName());
+				$tpl->setVariable("DOWN_INFO_TXT",$this->lng->txt('crs_file_size_info'));
+				$tpl->setVariable("DOWN_SIZE",$file->getFileSize());
+				$tpl->setVariable("TXT_BYTES",$this->lng->txt('bytes'));
+				$tpl->parseCurrentBlock();
+			}
+			$info->addProperty($this->lng->txt('crs_file_download'),
+							   $tpl->get());
+		}
 			 
 		// contact
-		$info->addSection($this->lng->txt("crs_contact"));
-		$info->addProperty($this->lng->txt("crs_contact_name"),
-			$this->object->getContactName() ? 
-			$this->object->getContactName() : 
-			$this->lng->txt("crs_not_available"));
-		$info->addProperty($this->lng->txt("crs_contact_responsibility"),
-			$this->object->getContactResponsibility() ? 
-			$this->object->getContactResponsibility() : 
-			$this->lng->txt("crs_not_available"));
-		$info->addProperty($this->lng->txt("crs_contact_phone"),
-			$this->object->getContactPhone() ? 
-			$this->object->getContactPhone() : 
-			$this->lng->txt("crs_not_available"));
+		if($this->object->hasContactData())
+		{
+			$info->addSection($this->lng->txt("crs_contact"));
+		}
+		if(strlen($this->object->getContactName()))
+		{
+			$info->addProperty($this->lng->txt("crs_contact_name"),
+							   $this->object->getContactName());
+		}
+		if(strlen($this->object->getContactResponsibility()))
+		{
+			$info->addProperty($this->lng->txt("crs_contact_responsibility"),
+							   $this->object->getContactResponsibility());
+		}
+		if(strlen($this->object->getContactPhone()))
+		{
+			$info->addProperty($this->lng->txt("crs_contact_phone"),
+							   $this->object->getContactPhone());
+		}
 		if($this->object->getContactEmail())
 		{
 			$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , "course");
@@ -305,11 +356,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->addProperty($this->lng->txt("crs_contact_email"),
 				$etpl->get());
 		}
-		$info->addProperty($this->lng->txt("crs_contact_consultation"),
-			nl2br($this->object->getContactConsultation() ? 
-			$this->object->getContactConsultation() : 
-			$this->lng->txt("crs_not_available")));
-			
+		if(strlen($this->object->getContactConsultation()))
+		{
+			$info->addProperty($this->lng->txt("crs_contact_consultation"),
+							   nl2br($this->object->getContactConsultation()));
+		}		
 		//	
 		// access
 		//
@@ -399,6 +450,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		$this->setSubTabs("properties");
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_start_objects');
 
 
@@ -563,6 +615,130 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 	}
+	
+	function editInfoObject()
+	{
+		include_once 'course/classes/class.ilCourseFile.php';
+
+		global $ilErr,$ilAccess;
+
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
+		$this->setSubTabs('properties');
+		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->setSubTabActive('crs_info_settings');
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.edit_info.html','course');
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_GENERAL_INFO",$this->lng->txt('crs_general_info'));
+		$this->tpl->setVariable("TXT_IMPORTANT",$this->lng->txt('crs_important_info'));
+		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt('crs_syllabus'));
+		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt('crs_info_download'));
+		$this->tpl->setVariable("TXT_FILENAME",$this->lng->txt('crs_file_name'));
+		$this->tpl->setVariable("TXT_FILE",$this->lng->txt('crs_file'));
+		$this->tpl->setVariable("TXT_FILE_NAME",$this->lng->txt('crs_filename'));
+		$this->tpl->setVariable("TXT_FILESIZE",ilUtil::getFileSizeInfo());
+		
+		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt('crs_contact'));
+		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("crs_contact_name"));
+		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("crs_contact_responsibility"));
+		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("crs_contact_email"));
+		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("crs_contact_phone"));
+		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("crs_contact_consultation"));
+
+		
+		foreach($file_objs =& ilCourseFile::_readFilesByCourse($this->object->getId()) as $file_obj)
+		{
+			$this->tpl->setCurrentBlock("file");
+			$this->tpl->setVariable("FILE_ID",$file_obj->getFileId());
+			$this->tpl->setVariable("DEL_FILE",$file_obj->getFileName());
+			$this->tpl->setVariable("TXT_DEL_FILE",$this->lng->txt('crs_delete_file'));
+			$this->tpl->parseCurrentBlock();
+		}
+		if(count($file_objs))
+		{
+			$this->tpl->setCurrentBlock("files");
+			$this->tpl->setVariable("TXT_EXISTING_FILES",$this->lng->txt('crs_existing_files'));
+			$this->tpl->parseCurrentBlock();
+		}
+
+
+		$this->tpl->setVariable("IMPORTANT",$this->object->getImportantInformation());
+		$this->tpl->setVariable("SYLLABUS",$this->object->getSyllabus());
+		$this->tpl->setVariable("CONTACT_NAME",$this->object->getContactName());
+		$this->tpl->setVariable("CONTACT_RESPONSIBILITY",$this->object->getContactResponsibility());
+		$this->tpl->setVariable("CONTACT_PHONE",$this->object->getContactPhone());
+		$this->tpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
+		$this->tpl->setVariable("CONTACT_CONSULTATION",$this->object->getContactConsultation());
+
+		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
+		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+
+		return true;
+	}
+
+
+	function updateInfoObject()
+	{
+		global $ilErr,$ilAccess;
+
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
+		
+		include_once 'course/classes/class.ilCourseFile.php';
+		$file_obj = new ilCourseFile();
+		$file_obj->setCourseId($this->object->getId());
+		$file_obj->setFileName(strlen($_POST['file_name']) ?
+							   ilUtil::stripSlashes($_POST['file_name']) :
+							   $_FILES['file']['name']);
+		$file_obj->setFileSize($_FILES['file']['size']);
+		$file_obj->setFileType($_FILES['file']['type']);
+		$file_obj->setTemporaryName($_FILES['file']['tmp_name']);
+		$file_obj->setErrorCode($_FILES['file']['error']);
+
+		$this->object->setImportantInformation(ilUtil::stripSlashes($_POST['important']));
+		$this->object->setSyllabus(ilUtil::stripSlashes($_POST['syllabus']));
+		$this->object->setContactName(ilUtil::stripSlashes($_POST['contact_name']));
+		$this->object->setContactResponsibility(ilUtil::stripSlashes($_POST['contact_responsibility']));
+		$this->object->setContactPhone(ilUtil::stripSlashes($_POST['contact_phone']));
+		$this->object->setContactEmail(ilUtil::stripSlashes($_POST['contact_email']));
+		$this->object->setContactConsultation(ilUtil::stripSlashes($_POST['contact_consultation']));
+
+		// Validate
+		$ilErr->setMessage('');
+		$file_obj->validate();
+		$this->object->validateInfoSettings();
+
+		if(strlen($ilErr->getMessage()))
+		{
+			sendInfo($ilErr->getMessage());
+			$this->editInfoObject();
+			return false;
+		}
+		$this->object->update();
+		$file_obj->create();
+
+		// Delete files
+		if(count($_POST['del_files']))
+		{
+			foreach($file_objs =& ilCourseFile::_readFilesByCourse($this->object->getId()) as $file_obj)
+			{
+				if(in_array($file_obj->getFileId(),$_POST['del_files']))
+				{
+					$file_obj->delete();
+				}
+			}
+		}
+		sendInfo($this->lng->txt("crs_settings_saved"));
+		$this->editInfoObject();
+		return true;
+	}
+
 	function editObject()
 	{
 		global $rbacsystem;
@@ -573,6 +749,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$this->ctrl->setReturn($this,'editObject');
+		$this->tabs_gui->setTabActive('settings');
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit.html","course");
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -587,36 +764,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('edit_prpoperties'));
-
-		// LOAD SAVED DATA IN CASE OF ERROR
-		$syllabus = $_SESSION["error_post_vars"]["crs"]["syllabus"] ? 
-			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["syllabus"],true) :
-			ilUtil::prepareFormOutput($this->object->getSyllabus());
-
-		$contact_name= $_SESSION["error_post_vars"]["crs"]["contact_name"] ? 
-			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["contact_name"],true) :
-			ilUtil::prepareFormOutput($this->object->getContactName());
-
-		$contact_responsibility = $_SESSION["error_post_vars"]["crs"]["contact_responsibility"] ? 
-			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["contact_responsibility"],true) :
-			ilUtil::prepareFormOutput($this->object->getContactResponsibility());
-
-		$contact_email = $_SESSION["error_post_vars"]["crs"]["contact_email"] ? 
-			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["contact_email"],true) :
-			ilUtil::prepareFormOutput($this->object->getContactEmail());
-
-		$contact_phone = $_SESSION["error_post_vars"]["crs"]["contact_phone"] ? 
-			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["contact_phone"],true) :
-			ilUtil::prepareFormOutput($this->object->getContactPhone());
-
-		$contact_email = $_SESSION["error_post_vars"]["crs"]["contact_email"] ? 
-			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["contact_email"],true) :
-			ilUtil::prepareFormOutput($this->object->getContactEmail());
-
-		$contact_consultation = $_SESSION["error_post_vars"]["crs"]["contact_consultation"] ? 
-			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["crs"]["contact_consultation"],true) :
-			ilUtil::prepareFormOutput($this->object->getContactConsultation());
-
 
 		$offline = $_SESSION["error_post_vars"]["crs"]["activation_type"] == 1 ? 1 : (int) $this->object->getOfflineStatus();
 
@@ -713,24 +860,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// SET VALUES
-		$this->tpl->setVariable("SYLLABUS",$syllabus);
-		$this->tpl->setVariable("CONTACT_NAME",$contact_name);
-		$this->tpl->setVariable("CONTACT_RESPONSIBILITY",$contact_responsibility);
-		$this->tpl->setVariable("CONTACT_EMAIL",$contact_email);
-		$this->tpl->setVariable("CONTACT_PHONE",$contact_phone);
-		$this->tpl->setVariable("CONTACT_CONSULTATION",$contact_consultation);
 		$this->tpl->setVariable("SUBSCRIPTION_PASSWORD",$subscription_password);
 		$this->tpl->setVariable("SUBSCRIPTION_MAX_MEMBERS",$subscription_max_members);
 		
 		// SET TXT VARIABLES
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("crs_settings"));
-		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("crs_syllabus"));
-		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt("crs_contact"));
-		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("crs_contact_name"));
-		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("crs_contact_responsibility"));
-		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("crs_contact_email"));
-		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("crs_contact_phone"));
-		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("crs_contact_consultation"));
 
 		$this->tpl->setVariable("TXT_VISIBILITY",$this->lng->txt('crs_visibility'));
 		$this->tpl->setVariable("TXT_VISIBILITY_UNVISIBLE",$this->lng->txt('crs_visibility_unvisible'));
@@ -936,16 +1070,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		// CREATE UNIX TIMESTAMPS FROM SELECT
-		$this->object->setSyllabus(ilUtil::stripSlashes($_POST["crs"]["syllabus"]));
-		$this->object->setContactName(ilUtil::stripSlashes($_POST["crs"]["contact_name"]));
-		$this->object->setContactConsultation(ilUtil::stripSlashes($_POST["crs"]["contact_consultation"]));
-		$this->object->setContactPhone(ilUtil::stripSlashes($_POST["crs"]["contact_phone"]));
-		$this->object->setContactEmail(ilUtil::stripSlashes($_POST["crs"]["contact_email"]));
-		$this->object->setContactResponsibility(ilUtil::stripSlashes($_POST["crs"]["contact_responsibility"]));
-
-
-
 		switch($_POST['crs']['activation_type'])
 		{
 			case 3:
@@ -1061,6 +1185,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "updateCourseIcons");
 		$this->tpl->parseCurrentBlock();
 	}
+
+	function sendFileObject()
+	{
+		include_once 'course/classes/class.ilCourseFile.php';
+		$file = new ilCourseFile((int) $_GET['file_id']);
+		
+		ilUtil::deliverFile($file->getAbsolutePath(),$file->getFileName(),$file->getFileType());
+		return true;
+	}
 	
 	/**
 	* update container icons
@@ -1100,6 +1233,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("crs_settings",
 												 $this->ctrl->getLinkTarget($this,'edit'),
 												 "edit", get_class($this));
+				$this->tabs_gui->addSubTabTarget("crs_info_settings",
+												 $this->ctrl->getLinkTarget($this,'editInfo'),
+												 "editInfo", get_class($this));
+
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
 												 "", "ilConditionHandlerInterface");
@@ -1191,180 +1328,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 
 
-	// ARCHIVE METHODS
-	function archiveObject()
-	{
-		global $rbacsystem;
-
-		$this->tabs_gui->setTabActive('crs_archives');
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		$edit_perm = $rbacsystem->checkAccess('write',$this->object->getRefId());
-		$download_perm = ($rbacsystem->checkAccess('write',$this->object->getRefId()) or 
-						  $this->object->getArchiveType() == $this->object->ARCHIVE_DOWNLOAD) 
-			? true : false;
-
-		$this->object->initCourseArchiveObject();
-		$this->object->archives_obj->initCourseFilesObject();
 
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive.html","course");
-
-		
-		if($edit_perm)
-		{
-			$this->__showButton('archiveAdmin',$this->lng->txt("crs_edit_archive"));
-		}
-
-		if(!count($archives = $this->object->archives_obj->getPublicArchives()))
-		{
-			sendInfo($this->lng->txt("crs_no_archives_available"));
-			return true;
-		}
-
-		$counter = 0;
-		foreach($archives as $id => $archive_data)
-		{
-			if($download_perm)
-			{
-				$f_result[$counter][]	= ilUtil::formCheckbox(0,"archives[]",$id);
-			}
-			$link = '<a href="'.$this->object->archives_obj->course_files_obj->getOnlineLink($archive_data['archive_name']).'"'.
-				' target="_blank">'.$archive_data["archive_name"].'</a>';
-
-			$f_result[$counter][]	= $link;
-			$f_result[$counter][]	= strftime("%Y-%m-%d %R",$archive_data["archive_date"]);
-			$f_result[$counter][]	= $archive_data["archive_size"];
-
-			if($archive_data["archive_lang"])
-			{
-				$f_result[$counter][]	= $this->lng->txt('lang_'.$archive_data["archive_lang"]);
-			}
-			else
-			{
-				$f_result[$counter][]	= $this->lng->txt('crs_not_available');
-			}
-				
-			switch($archive_data["archive_type"])
-			{
-				case $this->object->archives_obj->ARCHIVE_XML:
-					$type = $this->lng->txt("crs_xml");
-					break;
-
-				case $this->object->archives_obj->ARCHIVE_HTML:
-					$type = $this->lng->txt("crs_html");
-					break;
-
-				case $this->object->archives_obj->ARCHIVE_PDF:
-					$type = $this->lng->txt("crs_pdf");
-					break;
-			}
-			$f_result[$counter][]	= $type;
-			
-			++$counter;
-		}
-		$this->__showArchivesTable($f_result,$download_perm);
-
-		return true;
-	}		
-
-
-	function archiveAdminObject($a_show_confirm = false)
-	{
-		global $rbacsystem;
-
-		$this->tabs_gui->setTabActive('crs_archives');
-
-		$_POST["archives"] = $_POST["archives"] ? $_POST["archives"] : array();
-
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->object->initCourseArchiveObject();
-		$this->object->archives_obj->initCourseFilesObject();
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive_adm.html","course");
-
-		$this->__showButton('addXMLArchive',$this->lng->txt("crs_add_archive_xml"));
-		$this->__showButton('selectArchiveLanguage',$this->lng->txt("crs_add_archive_html"));
-
-		// Temporaly disabled
-		#$this->__showButton('addPDFArchive',$this->lng->txt("crs_add_archive_pdf"));
-
-
-		if($a_show_confirm)
-		{
-			$this->tpl->setCurrentBlock("confirm_delete");
-			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-			$this->tpl->setVariable("CONFIRM_CMD",'performDeleteArchives');
-			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('delete'));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if(!count($archives = $this->object->archives_obj->getArchives()))
-		{
-			sendInfo($this->lng->txt("crs_no_archives_available"));
-			return true;
-		}
-		
-		$counter = 0;
-		foreach($archives as $id => $archive_data)
-		{
-			$f_result[$counter][]	= ilUtil::formCheckbox(in_array($id,$_POST["archives"]),"archives[]",$id);
-
-			if($archive_data['archive_type'] == $this->object->archives_obj->ARCHIVE_HTML)
-			{
-				$link = '<a href="'.$this->object->archives_obj->course_files_obj->getOnlineLink($archive_data['archive_name']).'"'.
-					' target="_blank">'.$archive_data["archive_name"].'</a>';
-			}
-			else
-			{
-				$link = $archive_data["archive_name"];
-			}
-			$f_result[$counter][]	= $link;
-			$f_result[$counter][]	= strftime("%Y-%m-%d %R",$archive_data["archive_date"]);
-			$f_result[$counter][]	= $archive_data["archive_size"];
-
-			if($archive_data["archive_lang"])
-			{
-				$f_result[$counter][]	= $this->lng->txt('lang_'.$archive_data["archive_lang"]);
-			}
-			else
-			{
-				$f_result[$counter][]	= $this->lng->txt('crs_no_language');
-			}
-
-			switch($archive_data["archive_type"])
-			{
-				case $this->object->archives_obj->ARCHIVE_XML:
-					$type = $this->lng->txt("crs_xml");
-					break;
-
-				case $this->object->archives_obj->ARCHIVE_HTML:
-					$type = $this->lng->txt("crs_html");
-					break;
-
-				case $this->object->archives_obj->ARCHIVE_PDF:
-					$type = $this->lng->txt("crs_pdf");
-					break;
-			}
-			$f_result[$counter][]	= $type;
-			
-			++$counter;
-		}
-		$this->__showArchivesAdminTable($f_result);
-
-		return true;
-	}
 	
 	function downloadArchivesObject()
 	{
@@ -1399,124 +1364,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		ilUtil::deliverFile($abs_path,$basename);
 	}
-
-	function deleteArchivesObject()
-	{
-		if(!$_POST["archives"])
-		{
-			sendInfo($this->lng->txt("crs_no_archives_selected"));
-			$this->archiveAdminObject(false);
-		}
-		else
-		{
-			$_SESSION["crs_archives"] = $_POST["archives"];
-			sendInfo($this->lng->txt("crs_sure_delete_selected_archives"));
-			$this->archiveAdminObject(true);
-		}
-
-		return true;
-	}
-
-	function performDeleteArchivesObject()
-	{
-
-		$this->tabs_gui->setTabActive('crs_archives');
-
-		if(!$_SESSION["crs_archives"])
-		{
-			sendInfo($this->lng->txt("crs_no_archives_selected"));
-			$this->archiveAdminObject(false);
-		}
-		else
-		{
-			$this->object->initCourseArchiveObject();
-			foreach($_SESSION["crs_archives"] as $archive_id)
-			{
-				$this->object->archives_obj->delete($archive_id);
-			}
-			sendInfo($this->lng->txt('crs_archives_deleted'));
-			$this->archiveAdminObject(false);
-			unset($_SESSION["crs_archives"]);
-		}
-	}
-	function selectArchiveLanguageObject()
-	{
-
-		global $rbacsystem;
-
-		$this->tabs_gui->setTabActive('crs_archives');
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		foreach($this->lng->getInstalledLanguages() as $lang_code)
-		{
-			$actions["$lang_code"] = $this->lng->txt('lang_'.$lang_code);
-
-			if($this->lng->getLangKey() == $lang_code)
-			{
-				$selected = $lang_code;
-			}
-		}
-
-		sendInfo($this->lng->txt('crs_select_archive_language'));
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_selectLanguage.html","course");
-
-		$this->tpl->setVariable("SELECT_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("LANG_SELECTOR",ilUtil::formSelect($selected,'lang',$actions,false,true));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('crs_add_html_archive'));
-		$this->tpl->setVariable("CMD_SUBMIT",'addHTMLArchive');
-
-		return true;
-	}
-
-	function addXMLArchiveObject()
-	{
-		global $rbacsystem;
-
-		$this->tabs_gui->setTabActive('crs_archives');
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->object->initCourseArchiveObject();
-		$this->object->archives_obj->addXML();
-		
-		sendInfo($this->lng->txt("crs_added_new_archive"));
-		$this->archiveAdminObject();
-
-		return true;
-	}
-	function addHTMLArchiveObject()
-	{
-		global $rbacsystem;
-
-		$this->tabs_gui->setTabActive('crs_archives');
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$this->object->initCourseArchiveObject();
-		$this->object->archives_obj->setLanguage($_POST['lang']);
-		$this->object->archives_obj->addHTML();
-
-		sendInfo($this->lng->txt("crs_added_new_archive"));
-		$this->archiveAdminObject();
-
-		return true;
-	}		
-
 
 	function membersObject()
 	{
@@ -2790,28 +2637,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
-		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
+		if($ilAccess->checkAccess('read','',$this->ref_id))
 		{
-			$tabs_gui->addTarget('learners_view',
-								 $this->ctrl->getLinkTarget($this, "cciObjectives"),
-								 array('cciObjectives'),
-								 get_class($this));
+			$tabs_gui->addTarget('view_content',
+								 $this->ctrl->getLinkTarget($this,'view'));
 		}
-		elseif($rbacsystem->checkAccess('read',$this->ref_id))
-		{
-			$tabs_gui->addTarget('content',
-								 $this->ctrl->getLinkTargetByClass(array('ilObjCourseGUI','ilCourseContentInterface'), "cci_view"),
-								 array("", "view","addToDesk","removeFromDesk",'cciEdit','listConditions'));
-		}
-		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
-		{
-			$tabs_gui->addTarget('edit_content',
-								 $this->ctrl->getLinkTarget($this,'cciObjectivesEdit'),
-								 "cciObjectivesEdit",
-								 get_class($this));
-		}
-
-		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+			
+		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
 			//$next_class = $this->ctrl->getNextClass($this);
 			
@@ -2828,7 +2660,7 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "infoScreen",
 								 "", "", $force_active);
 		}
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		if ($ilAccess->checkAccess('write','',$this->ref_id))
 		{
 			$force_active = (strtolower($_GET["cmdClass"]) == "ilconditionhandlerinterface"
 				&& $_GET["item_id"] == "")
@@ -2840,7 +2672,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// lom meta data
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		if ($ilAccess->checkAccess('write','',$this->ref_id))
 		{
 			$tabs_gui->addTarget("meta_data",
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),'listSection'),
@@ -2849,7 +2681,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// member list
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		if ($ilAccess->checkAccess('read','',$this->ref_id))
 		{
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
@@ -2857,15 +2689,8 @@ class ilObjCourseGUI extends ilContainerGUI
 								 get_class($this));
 		}
 		
-		// course archives
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
-		{
-			$tabs_gui->addTarget("crs_archives",
-								 $this->ctrl->getLinkTarget($this, "archive"), "archive", get_class($this));
-		}
-		
 		// learning objectives
-		if($rbacsystem->checkAccess('write',$this->ref_id))
+		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{
 			$force_active = (strtolower($_GET["cmdClass"]) == "ilcourseobjectivesgui")
 				? true
@@ -2878,14 +2703,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
+		if($ilAccess->checkAccess('read','',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
-		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
+		if ($ilAccess->checkAccess('edit_permission','',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
 								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
@@ -3625,148 +3450,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
-	function __showArchivesTable($a_result_set,$a_download_perm)
-	{
-		$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		// SET FORMAACTION
-		$tpl->setCurrentBlock("tbl_form_header");
-
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		if($a_download_perm)
-		{
-			$tpl->setCurrentBlock("tbl_action_row");
-			$tpl->setVariable("COLUMN_COUNTS",6);
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-			#$tpl->setCurrentBlock("tbl_action_btn");
-			#$tpl->setVariable("BTN_NAME","deleteArchives");
-			#$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
-			#$tpl->parseCurrentBlock();
-
-			$tpl->setCurrentBlock("tbl_action_btn");
-			$tpl->setVariable("BTN_NAME","downloadArchives");
-			$tpl->setVariable("BTN_VALUE",$this->lng->txt("download"));
-			$tpl->parseCurrentBlock();
-
-			$tpl->setCurrentBlock("tbl_action_row");
-			$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-			$tpl->parseCurrentBlock();
-		}
-		$tbl->setTitle($this->lng->txt("crs_header_archives"),"icon_crs.gif",$this->lng->txt("crs_header_archives"));
-
-		if($a_download_perm)
-		{
-			$header_names = array('',
-								  $this->lng->txt("crs_file_name"),
-								  $this->lng->txt("crs_create_date"),
-								  $this->lng->txt("crs_size"),
-								  $this->lng->txt("crs_archive_lang"),
-								  $this->lng->txt("crs_archive_type"));
-
-			$header_vars = array("",
-								 "name",
-								 "type",
-								 "date",
-								 "lang",
-								 "size");
-			$column_width = array("4%","26%","20%","10%","20%");
-		}
-		else
-		{
-			$header_names = array($this->lng->txt("crs_file_name"),
-								  $this->lng->txt("crs_create_date"),
-								  $this->lng->txt("crs_size"),
-								  $this->lng->txt("crs_archive_lang"),
-								  $this->lng->txt("crs_archive_type"));
-
-			$header_vars = array("name",
-								 "type",
-								 "date",
-								 "lang",
-								 "size");
-			$column_width = array("28%","22%","10%","20%");
-		}
-		
-		$tbl->setHeaderNames($header_names);
-		$tbl->setHeaderVars($header_vars,
-							array("ref_id" => $this->object->getRefId(),
-								  "cmd" => "archive",
-								  "cmdClass" => "ilobjcoursegui",
-								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth($column_width);
-
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set,"archive");
-		$tbl->render();
-
-		$this->tpl->setVariable("ARCHIVE_TABLE",$tbl->tpl->get());
-
-		return true;
-	}
-	function __showArchivesAdminTable($a_result_set)
-	{
-		#$actions = array("deleteArchivesObject"	=> $this->lng->txt("crs_delete_archive"));
-
-		$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		// SET FORMAACTION
-		$tpl->setCurrentBlock("tbl_form_header");
-
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_row");
-
-		$tpl->setVariable("COLUMN_COUNTS",6);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		#$tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
-		$tpl->setVariable("BTN_NAME","deleteArchives");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","downloadArchives");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("download"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt("crs_header_archives"),"icon_crs.gif",$this->lng->txt("crs_header_archives"));
-		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("crs_file_name"),
-								   $this->lng->txt("crs_create_date"),
-								   $this->lng->txt("crs_size"),
-								   $this->lng->txt("crs_archive_lang"),
-								   $this->lng->txt("crs_archive_type")));
-		$tbl->setHeaderVars(array("",
-								  "name",
-								  "type",
-								  "date",
-								  "language",
-								  "size"),
-							array("ref_id" => $this->object->getRefId(),
-								  "cmd" => "archiveAdmin",
-								  "cmdClass" => "ilobjcoursegui",
-								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth(array("4%","26%","20%","10%","20%"));
-
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set,"archive");
-		$tbl->render();
-
-		$this->tpl->setVariable("ARCHIVE_TABLE",$tbl->tpl->get());
-
-		return true;
-	}
 
 	function __showMembersTable($a_result_set,$a_member_ids = NULL,$is_admin = true)
 	{
@@ -4278,18 +3961,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('content');
 				break;
 
-			case 'ilcourseitemadministrationgui':
+			case 'ilcoursecontentgui':
 
-				include_once 'course/classes/class.ilCourseItemAdministrationGUI.php';
-
-				$this->ctrl->setReturn($this,'');
-				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_GET['item_id']);
-				$this->ctrl->forwardCommand($item_adm_gui);
-
-				// (Sub)tabs
-				$this->setSubTabs('item_activation');
-				$this->tabs_gui->setTabActive('content');
-				$this->tabs_gui->setSubTabActive('activation');
+				include_once './course/classes/class.ilCourseContentGUI.php';
+				$course_content_obj = new ilCourseContentGUI($this);
+				$this->ctrl->forwardCommand($course_content_obj);
 				break;
 
 			default:
@@ -4335,9 +4011,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					
 				break;
 		}
+
 		return true;
-
-
 	}
 
 	// STATIC
@@ -4425,6 +4100,19 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		return true;
 	}
+
+
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		switch ($this->ctrl->getCmd())
+		{
+			default:
+				#$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				break;
+		}
+	}
+
 
 } // END class.ilObjCourseGUI
 ?>

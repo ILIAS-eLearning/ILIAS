@@ -254,10 +254,23 @@ class ilContainerGUI extends ilObjectGUI
 				}
 			}
 		}
-
 		if (is_array($subobj))
 		{
-			$this->tpl->parseCurrentBlock("add_commands");
+			// show addEvent button
+			if($this->object->getType() == 'crs')
+			{
+				$this->tpl->setCurrentBlock("event_button");
+				$this->tpl->setVariable("E_FORMACTION",$this->ctrl->getFormActionByClass('ileventadministrationgui'));
+				$this->tpl->setVariable("BTN_NAME_EVENT",'addEvent');
+				$this->tpl->setVariable("TXT_ADD_EVENT",$this->lng->txt('add_event'));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("add_commands");
+			// convert form to inline element, to show them in one row
+			if($this->object->getType() == 'crs')
+			{
+				$this->tpl->setVariable("FORMSTYLE",'display:inline');
+			}
 			$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->object->getRefId().
 				"&cmd=post");
 			// possible subobjects
@@ -324,20 +337,22 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $ilBench, $tree;
 		
-		// 'add object'
-		$this->showPossibleSubObjects();
-
 		// course content interface methods could probably
 		// move to this class
 		if($this->type != 'icrs' and $tree->checkForParentType($this->ref_id,'crs'))
 		{
-			$this->initCourseContentInterface();
-			$this->cci_obj->cci_setContainer($this);
-			$this->cci_obj->cci_view();
+			include_once './course/classes/class.ilCourseContentGUI.php';
+			$course_content_obj = new ilCourseContentGUI($this);
 			
+			$this->ctrl->setCmd('view');
+			$this->ctrl->setCmdClass(get_class($course_content_obj));
+			$this->ctrl->forwardCommand($course_content_obj);
+
 			return;
 		}
 
+		// 'add object'
+		$this->showPossibleSubObjects();
 
 		$ilBench->start("ilContainerGUI", "0000__renderObject");
 

@@ -12,9 +12,10 @@
 				  </td>
 				</tr>
 				<tr class="tblheader">
-				  <!-- BEGIN tbl_header_columns_tst -->
-				  <td class="std" nowrap="nowrap" align="center" width="{TBL_HEADER_WIDTH_TST}" >{TBL_HEADER_NAME_TST}</td>
-				  <!-- END tbl_header_columns_tst -->
+				  <td class="std" nowrap="nowrap" width="{TBL_HEADER_WIDTH_TST}" >
+			<div align="center">{TBL_HEADER_NAME_TST}</div></td>
+				  <td class="std" nowrap="nowrap" align="center" width="{TBL_HEADER_WIDTH_TST_1}" >{TBL_HEADER_NAME_TST_1}</td>
+		  <td class="std" nowrap="nowrap" align="center" width="{TBL_HEADER_WIDTH_TST_2}" >{TBL_HEADER_NAME_TST_2}</td>
 				</tr>
 				<!-- BEGIN tst_row -->
 				<tr class="std">
@@ -29,7 +30,9 @@
 				  </td>
 				  <td class="{OBJ_CLASS_TST}">
 				  	<!-- BEGIN tst_desklink -->
-					<a class="il_ContainerItemCommand" href="{DESK_LINK_TST}">{TXT_DESK_TST}</a><br />
+			<div style="float:right">
+			  <a class="il_ContainerItemCommand" href="{DESK_LINK_TST}">{TXT_DESK_TST}</a>
+			</div>
 					<!-- END tst_desklink -->
 				
 				  </td>

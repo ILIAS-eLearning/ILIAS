@@ -21,45 +21,40 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("classes/class.ilObjectAccess.php");
-
 /**
-* Class ilObjFileAccess
+* Class ilCourseAvailabilityGUI
 *
-*
-* @author 	Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
-*
+* 
+* @extends ilObjectGUI
 * @package ilias-core
 */
-class ilObjFolderAccess extends ilObjectAccess
+
+class ilCourseItemAdministrationGUI
 {
+	var $container_obj;
+	var $tpl;
+	var $ctrl;
+	var $lng;
 
 	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	function _getCommands()
+	* Constructor
+	* @access public
+	*/
+	function ilObjCourseItemAdministrationGUI(&$container_obj,$a_item_id)
 	{
-		$commands = array
-		(
-			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
-				"default" => true),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-		);
-		
-		return $commands;
+		global $tpl,$ilCtrl,$lng,$ilObjDataCache;
+
+		$this->tpl =& $tpl;
+		$this->ctrl =& $ilCtrl;
+		$this->lng =& $lng;
+
+		$this->container_obj =& $container_obj;
+
+		$this->item_id = $a_item_id;
+		$this->ctrl->saveParameter($this,'item_id');
 	}
 
-
-}
-
+} // END class.ilObjCourseGrouping
 ?>

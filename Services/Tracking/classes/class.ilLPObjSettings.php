@@ -43,7 +43,6 @@ define("LP_MODE_TEST_FINISHED",7);
 define("LP_MODE_TEST_PASSED",8);
 define("LP_MODE_EXERCISE_RETURNED",9);
 
-
 define("LP_DEFAULT_VISITS",30);
 
 
@@ -161,7 +160,7 @@ class ilLPObjSettings
 
 		if(ilLPObjSettings::_checkObjectives($a_obj_id))
 		{
-			return LP_MODE_DEACTIVATED;
+			return LP_MODE_OBJECTIVES;
 		}
 
 		$query = "SELECT mode FROM ut_lp_settings ".
@@ -186,7 +185,7 @@ class ilLPObjSettings
 			case 'crs':
 				if(ilLPObjSettings::_checkObjectives($this->getObjId()))
 				{
-					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
+					return array(LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'));
 				}
 
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
@@ -312,7 +311,7 @@ class ilLPObjSettings
 
 			if(ilLPObjSettings::_checkObjectives($this->obj_id))
 			{
-				$this->obj_mode = LP_MODE_DEACTIVATED;
+				$this->obj_mode = LP_MODE_OBJECTIVES;
 			}
 
 			return true;
@@ -333,7 +332,7 @@ class ilLPObjSettings
 				// If objectives are enabled return deactivated
 				if(ilLPObjSettings::_checkObjectives($a_obj_id))
 				{
-					return LP_MODE_DEACTIVATED;
+					return LP_MODE_OBJECTIVES;
 				}
 				return LP_MODE_MANUAL;
 
