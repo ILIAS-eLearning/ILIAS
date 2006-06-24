@@ -11071,3 +11071,7 @@ ALTER TABLE `crs_items` CHANGE `activation_end` `timing_end` INT( 8 ) NULL DEFAU
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#759>
+ALTER TABLE `crs_items`
+  DROP `timing_min`,
+  DROP `timing_max`;
