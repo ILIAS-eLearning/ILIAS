@@ -26,7 +26,6 @@
 * Class ilObjCourse
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-*
 * @version $Id$
 * 
 * @extends Object
@@ -417,6 +416,36 @@ class ilObjCourse extends ilContainer
 		return true;
 	}
 
+	function _registrationEnabled($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_settings ".
+			"WHERE obj_id = '".$a_obj_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$reg_unlimited = $row->subscription_unlimited;
+			$reg_start = $row->subscription_start;
+			$reg_end = $row->subscription_end;
+			$reg_type = $row->subscription_type;
+		}
+
+		if($reg_type == 1) // means deactivated
+		{
+			return false;
+		}
+		if($reg_unlimited)
+		{
+			return true;
+		}
+		if(time() > $reg_start and time() < $reg_end)
+		{
+			return true;
+		}
+		return false;
+	}
 
 	function isArchived()
 	{

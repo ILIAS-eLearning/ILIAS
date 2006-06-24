@@ -58,9 +58,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_cmd)
 		{
 			case "view":
-
 				include_once 'course/classes/class.ilCourseMembers.php';
-
 				if(ilCourseMembers::_isBlocked($a_obj_id,$a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
@@ -69,8 +67,8 @@ class ilObjCourseAccess extends ilObjectAccess
 				break;
 
 			case "info":
+				// Used for permission query ?!
 				include_once 'course/classes/class.ilCourseMembers.php';
-
 				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
 				{
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
@@ -89,42 +87,39 @@ class ilObjCourseAccess extends ilObjectAccess
 					return false;
 				}
 				break;
-
-			/* info screen is always visible
-			case 'details':
-				include_once 'course/classes/class.ilCourseMembers.php';
-
-				// No details button if user is member
-				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
-				{
-					return false;
-				}
-				// No details button if user has join permission
-				if($rbacsystem->checkAccessOfUser($a_user_id,'join',$a_ref_id))
-				{
-					return false;
-				}
-				break;*/
 		}
 
 		switch ($a_permission)
 		{
 			case "visible":
 				include_once 'course/classes/class.ilObjCourse.php';
-				if(!($activated = ilObjCourse::_isActivated($a_obj_id)))
+				$active = ilObjCourse::_isActivated($a_obj_id);
+				$registration = ilObjCourse::_registrationEnabled($a_obj_id);
+				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
+
+				if(!$active)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				}
-				else
-				{
-					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
-				}
-				if(!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id) and !$activated)
+				if(!$tutor and !$active and !$registration)
 				{
 					return false;
 				}
-				
 				break;
+
+			case 'read':
+				include_once 'course/classes/class.ilObjCourse.php';
+				$active = ilObjCourse::_isActivated($a_obj_id);
+				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
+
+				if(!$tutor and !$active)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					return false;
+				}
+				break;
+					
+				
 		}
 		return true;
 	}
