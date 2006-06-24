@@ -103,7 +103,7 @@ class ilInfoScreenGUI
 		}
 		return true;
 	}
-
+	
 	/**
 	* enable notes
 	*/
@@ -444,6 +444,31 @@ class ilInfoScreenGUI
 				}
 			}
 		}
+		
+		// additional information
+		if (is_object($this->gui_object->object))
+		{
+			// section header
+			$tpl->setCurrentBlock("header_row");
+			$tpl->setVariable("TXT_SECTION",
+				$this->lng->txt("additional_info"));
+			$tpl->parseCurrentBlock();
+			$tpl->touchBlock("row");
+
+			// permanent link
+			$type = $this->gui_object->object->getType();
+			$ref_id = $this->gui_object->object->getRefId();
+			$href = ILIAS_HTTP_PATH.
+				"/goto.php?target=".$type."_".$ref_id."&client_id=".CLIENT_ID;
+			$tpl->setCurrentBlock("property_row");
+			$tpl->setVariable("TXT_PROPERTY", $this->lng->txt("perma_link"));
+			$tpl->setVariable("TXT_PROPERTY_VALUE",
+				'<a class="small" href="'.$href.'" target="_top">'.$href.'</a>');
+			$tpl->parseCurrentBlock();
+			$tpl->touchBlock("row");
+		}
+		
+		
 		// learning progress
 		if($this->learning_progress_enabled and $html = $this->showLearningProgress())
 		{
