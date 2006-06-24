@@ -384,11 +384,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		else
 		{
 			$info->addProperty($this->lng->txt("crs_visibility"),
-				$this->lng->txt("crs_from")." ".strftime("%c",$this->object->getActivationStart())."<br /> ".
-				$this->lng->txt("crs_to")." ".strftime("%c",$this->object->getActivationEnd()));
+							   ilFormat::formatUnixTime($this->object->getActivationStart(),true)." - ".
+							   ilFormat::formatUnixTime($this->object->getActivationEnd(),true));
 		}
-		
-
 		switch($this->object->getSubscriptionType())
 		{
 			case $this->object->SUBSCRIPTION_DEACTIVATED:
@@ -419,12 +417,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			elseif($this->object->getSubscriptionStart() < time())
 			{
 				$info->addProperty($this->lng->txt("crs_reg_until"),
-								   $this->lng->txt('crs_to').' '.strftime("%c",$this->object->getSubscriptionEnd()));
+								   $this->lng->txt('crs_to').' '.
+								   ilFormat::formatUnixTime($this->object->getSubscriptionEnd(),true));
 			}
 			elseif($this->object->getSubscriptionStart() > time())
 			{
 				$info->addProperty($this->lng->txt("crs_reg_until"),
-								   $this->lng->txt('crs_from').' '.strftime("%c",$this->object->getSubscriptionStart()));
+								   $this->lng->txt('crs_from').' '.
+								   ilFormat::formatUnixTime($this->object->getSubscriptionStart(),true));
 			}
 		}
 		
@@ -432,8 +432,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->getArchiveType() != $this->object->ARCHIVE_DISABLED)
 		{
 			$info->addProperty($this->lng->txt("crs_archive"),
-							   $this->lng->txt("crs_from")." ".strftime("%c",$this->object->getArchiveStart())."<br />".
-							   $this->lng->txt("crs_to")." ".strftime("%c",$this->object->getArchiveEnd()));
+							   ilFormat::formatUnixTime($this->object->getArchiveStart(),true)." - ".
+							   ilFormat::formatUnixTime($this->object->getArchiveEnd(),true));
 		}
 		
 		$info->enableLearningProgress(true);
@@ -1333,7 +1333,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
 
-
 	
 	function downloadArchivesObject()
 	{
@@ -1557,7 +1556,9 @@ class ilObjCourseGUI extends ilContainerGUI
 					$f_result[$counter][]   = $tmp_obj->getLogin().$message;
 					$f_result[$counter][]	= $tmp_obj->getFirstname();
 					$f_result[$counter][]	= $tmp_obj->getLastname();
-					$f_result[$counter][]   = strftime("%Y-%m-%d %R",$waiting_data["time"]);
+					#$f_result[$counter][]   = strftime("%Y-%m-%d %R",$waiting_data["time"]);
+					$f_result[$counter][]   = ilFormat::formatUnixTime($waiting_data["time"],true);
+
 
 					unset($tmp_obj);
 					++$counter;
@@ -1587,7 +1588,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$f_result[$counter][]	= $tmp_obj->getLogin();
 					$f_result[$counter][]	= $tmp_obj->getFirstname();
 					$f_result[$counter][]	= $tmp_obj->getLastname();
-					$f_result[$counter][]   = strftime("%Y-%m-%d %R",$member_data["time"]);
+					#$f_result[$counter][]   = strftime("%Y-%m-%d %R",$member_data["time"]);
+					$f_result[$counter][]   = ilFormat::formatUnixTime($member_data["time"],true);
 
 					unset($tmp_obj);
 					++$counter;
@@ -2042,7 +2044,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$f_result[$counter][]	= $tmp_obj->getLogin();
 				$f_result[$counter][]	= $tmp_obj->getFirstname();
 				$f_result[$counter][]	= $tmp_obj->getLastname();
-				$f_result[$counter][]   = strftime("%Y-%m-%d %R",$member_data["time"]);
+				#$f_result[$counter][]   = strftime("%Y-%m-%d %R",$member_data["time"]);
+				$f_result[$counter][]   = ilFormat::formatUnixTime($member_data["time"],true);
 
 				unset($tmp_obj);
 				++$counter;
@@ -2091,7 +2094,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$f_result[$counter][]	= $tmp_obj->getLogin();
 				$f_result[$counter][]	= $tmp_obj->getFirstname();
 				$f_result[$counter][]	= $tmp_obj->getLastname();
-				$f_result[$counter][]   = strftime("%Y-%m-%d %R",$user_data["time"]);
+				#$f_result[$counter][]   = strftime("%Y-%m-%d %R",$user_data["time"]);
+				$f_result[$counter][]   = ilFormat::formatUnixTime($user_data["time"],true);
 
 				unset($tmp_obj);
 				++$counter;
@@ -2867,7 +2871,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
 		
 		$headline = $this->lng->txt('obj_crs').': '.$this->object->getTitle().
-			' -> '.$this->lng->txt('crs_header_members').' ('.strftime("%Y-%m-%d %R",time()).')';
+			' -> '.$this->lng->txt('crs_header_members').' ('.ilFormat::formatUnixTime(time(),true).')';
 
 		$tpl->setVariable("HEADLINE",$headline);
 
