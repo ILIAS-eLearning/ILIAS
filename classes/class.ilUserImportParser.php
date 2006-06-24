@@ -192,6 +192,14 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	var $ilincdata;
 
+
+	/**
+	 * current user id, used for updating the login
+	 *
+	 * @var unknown_type
+	 */
+	var $user_id;
+
 	/**
 	* Constructor
 	*
@@ -432,6 +440,7 @@ class ilUserImportParser extends ilSaxParser
 				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
+		        $this->user_id = (is_null($a_attribs["ObjId"]))? -1 : $a_attribs["ObjId"];
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
 				if ($this->action != "Insert"
 				&& $this->action != "Update"
@@ -1135,7 +1144,10 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
-				$user_exists = ilObjUser::getUserIdByLogin($this->userObj->getLogin()) != 0;
+				if ($this->user_id != -1 && $this->action == "Update")
+				    $user_exists = !is_null(ilObjUser::_lookupLogin($this->user_id));
+			    else
+			        $user_exists = ilObjUser::getUserIdByLogin($this->userObj->getLogin()) != 0;
 
 				if (is_null($this->userObj->getLogin()))
 				{
@@ -1186,7 +1198,15 @@ class ilUserImportParser extends ilSaxParser
 						if (! $user_exists)
 						{
 							$this->logWarning($this->userObj->getLogin(),$lng->txt("usrimport_cant_update"));
-						}
+						} elseif ($this->user_id != -1 && !is_null($this->userObj->getLogin()))
+							// check if someone owns the new login name!
+                        {
+                            $someonesId = ilObjUser::_lookupId($this->userObj->getLogin());
+
+                            if (is_numeric($someonesId ) && $someonesId != $this->user_id) {
+               			          $this->logFailure($this->userObj->getLogin(), $lng->txt("usrimport_login_is_not_unique"));
+                            }
+                        }
 						break;
 					case "Delete" :
 						if (! $user_exists)
@@ -1209,7 +1229,7 @@ class ilUserImportParser extends ilSaxParser
 				{
 					$this->logins[$this->cdata] = $this->cdata;
 				}
-				$this->userObj->setLogin($this->cdata);
+    			$this->userObj->setLogin($this->cdata);
 				break;
 
 			case "Password":
