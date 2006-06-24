@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -954,28 +954,28 @@ class ilLMPresentationGUI
 
 
 		include_once("./classes/class.ilTemplate.php");
-		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, true);
+		$tpl_menu =& new ilTemplate("tpl.lm_sub_menu.html", true, true, true);
 
 		// edit learning module
 		if (!$this->offlineMode())
 		{
 			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 			{
-				$tpl_menu->setCurrentBlock("lm_menu_btn");
+				$tpl_menu->setCurrentBlock("edit_page");
 				$page_id = $this->getCurrentPageId();
-				$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH."/ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"].
+				$tpl_menu->setVariable("EDIT_LINK", ILIAS_HTTP_PATH."/ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"].
 					"&obj_id=".$page_id."&to_page=1");
-				$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("edit"));
-				$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+				$tpl_menu->setVariable("EDIT_TXT", $this->lng->txt("edit_page"));
+				$tpl_menu->setVariable("EDIT_TARGET", $buttonTarget);
 				$tpl_menu->parseCurrentBlock();
 			}
 
 			$tpl_menu->setCurrentBlock("lm_menu_btn");
 			$page_id = $this->getCurrentPageId();
-			$tpl_menu->setVariable("BTN_LINK", ILIAS_HTTP_PATH.
+			$tpl_menu->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
 				"/goto.php?target=pg_".$page_id."&client_id=".CLIENT_ID);
-			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_page_link"));
-			$tpl_menu->setVariable("BTN_TARGET", "_top");
+			$tpl_menu->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
+			$tpl_menu->setVariable("PERMA_TARGET", "_top");
 			$tpl_menu->parseCurrentBlock();
 
 		}
