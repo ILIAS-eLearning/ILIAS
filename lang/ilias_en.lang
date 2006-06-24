@@ -3031,6 +3031,7 @@ common#:#size#:#Size
 common#:#skin_style#:#Default Skin / Style
 common#:#small_icon#:#Small Icon
 common#:#smtp#:#SMTP
+common#:#additional_info#:#Additional Information
 common#:#soap_user_administration#:#External user administration (SOAP)
 common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.
 common#:#sort_by_this_column#:#Sort by this column
