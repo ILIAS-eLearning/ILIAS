@@ -251,6 +251,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->cci_obj->cci_setContainer($this);
 				$this->cci_obj->cci_view();
 			}
+			elseif(ilObjCourse::_registrationEnabled($this->object->getId()))
+			{
+				$this->infoScreenObject();
+			}
 			else
 			{
 				$this->archiveObject();
@@ -2642,7 +2646,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tabs_gui->addTarget('view_content',
 								 $this->ctrl->getLinkTarget($this,'view'));
 		}
-			
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
 			//$next_class = $this->ctrl->getNextClass($this);
@@ -3827,7 +3830,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function &executeCommand()
 	{
-		global $rbacsystem,$ilUser,$ilAccess;
+		global $rbacsystem,$ilUser,$ilAccess,$ilErr;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
