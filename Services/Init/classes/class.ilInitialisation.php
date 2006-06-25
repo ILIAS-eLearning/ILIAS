@@ -586,9 +586,27 @@ class ilInitialisation
 		{
 			die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
 		}
+
+		// if target given, try to go there
+		if ($_GET["target"] != "")
+		{
+			$this->initUserAccount();
+			
+			// target is accessible -> goto target
+			include_once("Services/Init/classes/class.ilStartUpGUI.php");
+			if	(ilStartUpGUI::_checkGoto($_GET["target"]))
+			{
+				ilUtil::redirect(ILIAS_HTTP_PATH.
+					"/goto.php?target=".$_GET["target"]);
+			}
+			else	// target is not accessible -> login
+			{
+				$this->goToLogin();
+			}
+		}
 		
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
-		
+
 		$_GET["cmd"] = "frameset";
 		$jump_script = "repository.php";
 		$script = $this->updir.$jump_script."?cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
@@ -939,12 +957,15 @@ class ilInitialisation
 //echo "F";
 				$inactive = true;
 			}
-		
+
 			// jump to public section (to do: is this always the indended
 			// behaviour, login could be another possibility (including
 			// message)
 			if ($_GET["baseClass"] != "ilStartUpGUI")
 			{
+				// $lng initialisation
+				$this->initLanguage();
+
 				if ($ilSetting->get("pub_section"))
 				{
 					$this->goToPublicSection();

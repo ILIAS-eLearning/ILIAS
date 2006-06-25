@@ -31,6 +31,8 @@
 * @package ilias-core
 */
 
+global $ilCtrl, $ilBench;
+
 require_once "include/inc.header.php";
 include_once "classes/class.ilRepositoryGUI.php";
 

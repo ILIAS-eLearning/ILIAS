@@ -186,17 +186,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('activation');
 				break;
 
-
-
-
 			default:
 				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp'))
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
 				
-				if (!$this->getCreationMode()
-					&& !$rbacsystem->checkAccess('read',$this->object->getRefId())
+				if ((!$this->getCreationMode()
+					&& !$rbacsystem->checkAccess('read',$this->object->getRefId()) && $cmd != 'infoScreen')
 					|| $cmd == 'join')
 				{
 					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
@@ -2720,6 +2717,47 @@ class ilObjGroupGUI extends ilContainerGUI
 						   $date_times[0].' '.$date_times[1]);
 		// forward the command
 		$this->ctrl->forwardCommand($info);
+	}
+
+	/**
+	* goto target group
+	*/
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["ref_id"] = $a_target;
+			include("repository.php");
+			exit;
+		}
+		else
+		{
+			// to do: force flat view
+			if ($ilAccess->checkAccess("visible", "", $a_target))
+			{
+				$_GET["cmd"] = "infoScreen";
+				$_GET["ref_id"] = $a_target;
+				include("repository.php");
+				exit;
+			}
+			else
+			{
+				if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+				{
+					$_GET["cmd"] = "frameset";
+					$_GET["target"] = "";
+					$_GET["ref_id"] = ROOT_FOLDER_ID;
+					sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+					include("repository.php");
+					exit;
+				}
+			}
+		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 
 	

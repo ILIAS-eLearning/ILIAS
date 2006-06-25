@@ -59,6 +59,28 @@ class ilObjFileAccess extends ilObjectAccess
 		
 		return $commands;
 	}
+	
+	/**
+	* check whether goto script will succeed
+	*/
+	function _checkGoto($a_target)
+	{
+		global $ilAccess;
+		
+		$t_arr = explode("_", $a_target);
+
+		if ($t_arr[0] != "file" || ((int) $t_arr[1]) <= 0)
+		{
+			return false;
+		}
+
+		if ($ilAccess->checkAccess("visible", "", $t_arr[1]))
+		{
+			return true;
+		}
+		return false;
+	}
+
 }
 
 ?>

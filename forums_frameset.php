@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -99,7 +99,6 @@ if ($_SESSION[$session_name] == "tree")
 	$fs_gui->setSideFrameName("tree");
 	$fs_gui->setFramesetTitle($forumObj->getTitle());
 
-	$tpl = new ilTemplate("tpl.forums_frameset.html", false, false);
 	if(isset($_GET["target"]))
 	{
 		$fs_gui->setSideFrameSource(

@@ -4120,6 +4120,48 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 
+	/**
+	* goto target course
+	*/
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["ref_id"] = $a_target;
+			include("repository.php");
+			exit;
+		}
+		else
+		{
+			// to do: force flat view
+			if ($ilAccess->checkAccess("visible", "", $a_target))
+			{
+				$_GET["cmd"] = "infoScreen";
+				$_GET["ref_id"] = $a_target;
+				include("repository.php");
+				exit;
+			}
+			else
+			{
+				if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+				{
+					$_GET["cmd"] = "frameset";
+					$_GET["target"] = "";
+					$_GET["ref_id"] = ROOT_FOLDER_ID;
+					sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+					include("repository.php");
+					exit;
+				}
+			}
+		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
+
 
 } // END class.ilObjCourseGUI
 ?>
