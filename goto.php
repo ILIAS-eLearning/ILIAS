@@ -125,6 +125,12 @@ switch($target_type)
 		break;
 
 	// new implementation: ok
+	case "sahs":
+		require_once("content/classes/class.ilObjSAHSLearningModuleGUI.php");
+		ilObjSAHSLearningModuleGUI::_goto($target_id);
+		break;
+
+	// new implementation: ok
 	case "cat":
 		require_once("classes/class.ilObjCategoryGUI.php");
 		ilObjCategoryGUI::_goto($target_id);
