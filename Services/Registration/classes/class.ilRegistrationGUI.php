@@ -104,7 +104,7 @@ class ilRegistrationGUI
 		{
 			$this->tpl->setCurrentBlock("activation");
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
-			$this->tpl->setVariable("FORMACTION", "login.php?cmd=force_login");
+			$this->tpl->setVariable("FORMACTION", "login.php?cmd=force_login&target=".$_GET["target"]);
 			$this->tpl->setVariable("TARGET","target=\"_parent\"");
 			$this->tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 			$this->tpl->setVariable("USERNAME",$this->userObj->getLogin());
