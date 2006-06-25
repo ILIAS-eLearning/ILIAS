@@ -607,7 +607,7 @@ class ilInitialisation
 		session_unset();
 		session_destroy();
 
-		$script = $this->updir."login.php?client_id=".$_COOKIE["ilClientId"];
+		$script = $this->updir."login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"];
 
 		// todo do it better, if JS disabled
 		// + this is, when session "ends", so
@@ -801,7 +801,6 @@ class ilInitialisation
 //var_dump($_SESSION);
 		$ilias->setAuthError($ilErr->getLastError());
 		$ilBench->stop("Core", "HeaderInclude_Authentication");
-		
 		
 		// workaround: force login
 		if ($_GET["cmd"] == "force_login" || $this->script == "login.php")

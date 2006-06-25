@@ -41,7 +41,7 @@ class ilStartUpGUI
 				
 		$this->ctrl =& $ilCtrl;
 		
-		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang"));
+		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target"));
 	}
 
 	/**
@@ -622,7 +622,7 @@ class ilStartUpGUI
 	function processIndexPHP()
 	{
 		global $ilIliasIniFile, $ilAuth, $ilSetting, $ilInit;
-		
+
 		// display client selection list if enabled
 		if (!isset($_GET["client_id"]) &&
 			!isset($_GET["cmd"]) &&
@@ -703,7 +703,7 @@ class ilStartUpGUI
 	*/
 	function processStartingPage()
 	{
-		global $ilBench, $ilCtrl;
+		global $ilBench, $ilCtrl, $ilAccess;
 
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
 		{
@@ -717,8 +717,28 @@ class ilStartUpGUI
 		}
 		else
 		{
-			$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
-			$start_script = "ilias.php";
+			$pd = true;
+			if ($_GET["target"] != "")
+			{
+				$pd = false;
+				$t_arr = explode("_", $_GET["target"]);
+				if ($t_arr[0] != "pg" && $t_arr[0] != "st" &&
+					!$ilAccess->checkAccess("read", "", $t_arr[1]))
+				{
+					$pd = true;
+				}
+			}
+			
+			if ($pd)
+			{
+				$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
+				$start_script = "ilias.php";
+			}
+			else
+			{
+				ilUtil::redirect(ILIAS_HTTP_PATH.
+					"/goto.php?target=".$_GET["target"]);
+			}
 		}
 		
 		include($start_script);
