@@ -369,6 +369,7 @@ class ilContainerGUI extends ilObjectGUI
 		$ilBench->stop("ilContainerGUI", "0200_renderItemList");
 		
 		$this->showAdministrationPanel($tpl);
+		$this->showPermanentLink($tpl);
 		
 		$this->html = $tpl->get();
 		
@@ -446,6 +447,21 @@ class ilContainerGUI extends ilObjectGUI
 				$this->lng->txt("admin_panel_enable"));
 			$tpl->parseCurrentBlock();
 		}
+	}
+
+	/**
+	* show permanent link
+	*/
+	function showPermanentLink(&$tpl)
+	{
+		$tpl->setCurrentBlock("perma_link");
+		$tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
+			"/goto.php?target=".
+			$this->object->getType().
+			"_".$this->object->getRefId()."&client_id=".CLIENT_ID);
+		$tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
+		$tpl->setVariable("PERMA_TARGET", "_top");
+		$tpl->parseCurrentBlock();
 	}
 
 	/**

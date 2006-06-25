@@ -703,10 +703,29 @@ class ilStartUpGUI
 	*/
 	function processStartingPage()
 	{
-		global $ilBench, $ilCtrl, $ilAccess;
-
+		global $ilBench, $ilCtrl, $ilAccess, $lng;
+//echo "here";
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
 		{
+//echo "A";
+			// if anonymous and a target given...
+			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID && $_GET["target"] != "")
+			{
+				// target is accessible -> goto target
+				if	($this->_checkGoto($_GET["target"]))
+				{
+//echo "B";
+					ilUtil::redirect(ILIAS_HTTP_PATH.
+						"/goto.php?target=".$_GET["target"]);
+				}
+				else	// target is not accessible -> login
+				{
+//echo "C";
+					$this->showLogin();
+				}
+			}
+			
+			// just go to public section
 			if (empty($_GET["ref_id"]))
 			{
 				$_GET["ref_id"] = ROOT_FOLDER_ID;
@@ -717,25 +736,26 @@ class ilStartUpGUI
 		}
 		else
 		{
-			$pd = true;
-			if ($_GET["target"] != "")
+			if	(!$this->_checkGoto($_GET["target"]))
 			{
-				$pd = false;
-				$t_arr = explode("_", $_GET["target"]);
-				if ($t_arr[0] != "pg" && $t_arr[0] != "st" &&
-					!$ilAccess->checkAccess("read", "", $t_arr[1]))
+				// message if target given but not accessible
+				if ($_GET["target"] != "")
 				{
-					$pd = true;
+					$tarr = explode("_", $_GET["target"]);
+					if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0)
+					{
+						sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+							ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))), true);
+					}
 				}
-			}
-			
-			if ($pd)
-			{
+
+				// show personal desktop
 				$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
 				$start_script = "ilias.php";
 			}
 			else
 			{
+//echo "3";
 				ilUtil::redirect(ILIAS_HTTP_PATH.
 					"/goto.php?target=".$_GET["target"]);
 			}
@@ -743,6 +763,38 @@ class ilStartUpGUI
 		
 		include($start_script);
 	}
+	
+	function _checkGoto($a_target)
+	{
+		global $objDefinition;
+		
+		if ($a_target == "")
+		{
+			return false;
+		}
+
+		// to do: better
+		$t_arr = explode("_", $_GET["target"]);
+		if ($t_arr[0] == "pg" || $t_arr[0] == "st")
+		{
+			return true;
+		}
+		
+		$type = $t_arr[0];
+		$ref_id = $t_arr[1];
+		
+		$class = $objDefinition->getClassName($type);
+		if ($class == "")
+		{
+			return false;
+		}
+		$location = $objDefinition->getLocation($type);
+		$full_class = "ilObj".$class."Access";
+		include_once($location."/class.".$full_class.".php");
+		return call_user_func(array($full_class, "_checkGoto"),
+			$a_target);
+	}
+
 
 }
 ?>

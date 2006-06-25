@@ -124,28 +124,28 @@ switch($target_type)
 		ilObjChat::_goto($target_id);
 		break;
 
+	// new implementation: ok
 	case "cat":
-		require_once("classes/class.ilObjCategory.php");
-		ilObjCategory::_goto($target_id);
-		include("repository.php");
+		require_once("classes/class.ilObjCategoryGUI.php");
+		ilObjCategoryGUI::_goto($target_id);
 		break;
 
+	// new implementation: ok
 	case "crs":
-		require_once("course/classes/class.ilObjCourse.php");
-		ilObjCourse::_goto($target_id);
-		include("repository.php");
+		require_once("course/classes/class.ilObjCourseGUI.php");
+		ilObjCourseGUI::_goto($target_id);
 		break;
 
+	// new implementation: ok
 	case "grp":
-		require_once("classes/class.ilObjGroup.php");
-		ilObjGroup::_goto($target_id);
-		include("repository.php");
+		require_once("classes/class.ilObjGroupGUI.php");
+		ilObjGroupGUI::_goto($target_id);
 		break;
-		
+	
+	// new implementation: ok
 	case "file":
-		require_once("classes/class.ilObjFile.php");
-		ilObjFile::_goto($target_id);
-		include("repository.php");
+		require_once("classes/class.ilObjFileGUI.php");
+		ilObjFileGUI::_goto($target_id);
 		break;
 		
 	case "icrs":
