@@ -60,7 +60,12 @@
 <xsl:param name="enable_split_new"/>
 <xsl:param name="enable_split_next"/>
 <xsl:param name="paragraph_plugins"/>
-
+<xsl:param name="pagebreak"/>
+<xsl:param name="page"/>
+<xsl:param name="citate_from"/>
+<xsl:param name="citate_to"/>
+<xsl:param name="citate_page"/>
+<xsl:param name="citate"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -105,10 +110,9 @@
 			<xsl:with-param name="pos" select="0" />
 		</xsl:call-template>
 		<xsl:text> </xsl:text>
-		<span class="ilc_Strong">[Page <xsl:call-template name="getFirstPageNumber"/>]</span>
+        <span class="ilc_Strong">[<xsl:value-of select="$page"/><xsl:text> </xsl:text><xsl:call-template name="getFirstPageNumber"/>]</span>
 		</xsl:if>
 	</xsl:if>
-
 	<xsl:apply-templates/>
 
     <!-- Footnote List -->
@@ -135,7 +139,7 @@
 			<div class="ilc_PageTurn">
 				<a>
 				<xsl:attribute name="name">pt<xsl:number count="PageTurn" level="multiple"/></xsl:attribute>
-				<span class="ilc_Strong">[Pagebreak <xsl:number count="PageTurn" level="multiple"/>] </span>
+                <span class="ilc_Strong">[<xsl:value-of select="$pagebreak" /><xsl:text> </xsl:text><xsl:number count="PageTurn" level="multiple"/>] </span>
 				</a>
 				<xsl:call-template name="searchEdition">
 				<xsl:with-param name="Entry">
@@ -211,9 +215,9 @@
 	<xsl:text> </xsl:text>
 	<select class="ilEditSelect">
 		<xsl:attribute name="name">ct_option[<xsl:value-of select="$pos" />]</xsl:attribute>
-		<option value="single">Paragraph</option>
-		<option value="from">From</option>
-		<option value="to">To</option>
+        <option value="single"><xsl:value-of select="$citate_page"/></option>
+		<option value="from"><xsl:value-of select="$citate_from"/></option>
+		<option value="to"><xsl:value-of select="$citate_to"/></option>
 		<option value="f">F</option>
 		<option value="ff">FF</option>
 	</select>
@@ -222,7 +226,11 @@
 <!-- SHOW CITATION SUBMIT BUTTON -->
 <xsl:template name="showCitationSubmit">
 	<br />
-	<input class="ilEditSubmit" type="submit" name="cmd[citation]" value="Citate" />
+    <input class="ilEditSubmit" type="submit" name="cmd[citation]">
+    <xsl:attribute name="value">
+      <xsl:value-of select="$citate"/>
+    </xsl:attribute>
+  </input>
 </xsl:template>
 
 <!-- GET BIB ITEM ENTRY BY BIB ID -->
@@ -263,7 +271,7 @@
 	<xsl:for-each select="//Bibliography/BibItem">
 		<xsl:variable name="entry_cmp"><xsl:value-of select="./Identifier/@Entry" /></xsl:variable>
 		<xsl:if test="$entry_cmp=$Entry">
-		<xsl:text> Page: </xsl:text><xsl:value-of select="$act_number" /><xsl:text>, </xsl:text>
+          <xsl:value-of select="$page" /><xsl:text>: </xsl:text><xsl:value-of select="$act_number" /><xsl:text>, </xsl:text>
 		</xsl:if>
 		<xsl:if test="$entry_cmp=$Entry">
 		<xsl:value-of select="./Edition/."/><xsl:text>, </xsl:text><xsl:value-of select="./Year/."/>
@@ -794,7 +802,7 @@
 			</xsl:call-template>
 		</xsl:if>
 		<a class="ilc_PageTurnLink">
-		<xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>[Pagebreak <xsl:number count="PageTurn" level="multiple"/>]</a>
+		<xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>[<xsl:value-of select="$pagebreak" /><xsl:text> </xsl:text><xsl:number count="PageTurn" level="multiple"/>]</a>
 	</xsl:if>
 </xsl:template>
 

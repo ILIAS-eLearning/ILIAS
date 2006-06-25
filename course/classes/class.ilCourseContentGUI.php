@@ -345,7 +345,7 @@ class ilCourseContentGUI
 		// NO ITEMS FOUND
 		if(!count($this->cont_arr))
 		{	
-			sendInfo($this->lng->txt("crs_no_items_found"));
+			#sendInfo($this->lng->txt("crs_no_items_found"));
 			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", "");

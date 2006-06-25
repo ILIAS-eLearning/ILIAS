@@ -141,7 +141,7 @@ class ilLMPresentationGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("layout");
 
-		$cmd = ($cmd == "edpost")
+		$cmd = (isset($_POST['cmd']['citation']))
 			? "ilCitation"
 			: $cmd;
 

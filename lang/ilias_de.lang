@@ -5949,3 +5949,8 @@ crs#:#event_general_properties#:#Allgemeine Informationen
 crs#:#event_file_download#:#Dateien zum Herunterladen
 crs#:#event_file_size_info#:#Dateigröße
 crs#:#event_lecturer#:#Name
+content#:#dgl_pagebreak#:#Seitenumbruch
+content#:#citate_page#:#Diese Seite zitieren
+content#:#citate_from#:#Zitieren von ...
+content#:#citate_to#:#Zitieren bis ...
+content#:#citate#:#Zitieren

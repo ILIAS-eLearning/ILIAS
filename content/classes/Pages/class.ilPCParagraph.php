@@ -313,6 +313,10 @@ class ilPCParagraph extends ilPageContent
 		$a_text = str_replace("<","&lt;",$a_text);
 		$a_text = str_replace(">","&gt;",$a_text);
 
+		// Reconvert PageTurn and BibItemIdentifier
+		$a_text = preg_replace('/&lt;([\s\/]*?PageTurn.*?)&gt;/i',"<$1>",$a_text);
+		$a_text = preg_replace('/&lt;([\s\/]*?BibItemIdentifier.*?)&gt;/i',"<$1>",$a_text);
+
 //echo "<br>second:".htmlentities($a_text);
 
 		// mask curly brackets

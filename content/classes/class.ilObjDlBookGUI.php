@@ -86,8 +86,12 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		if(!count($parsed_post))
 		{
 			$_SESSION["citation_error"] = 1;
-			header("location: lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]");
-			exit;
+
+			$this->ctrl->setParameterByClass('illmpresentationgui','frame','maincontent');
+			$this->ctrl->setParameterByClass('illmpresentationgui','obj_id',(int) $_GET['obj_id']);
+			$this->ctrl->redirectByClass('illmpresentationgui','layout');
+			#header("location: lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]");
+			#exit;
 		}
 		$tmp_tpl = new ilTemplate("tpl.citation.xsl",true,true,"content");
 		$tmp_tpl->setVariable("CITATIONS",$this->lng->txt("cont_citations"));
@@ -325,7 +329,11 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 		$tpl_menu->setCurrentBlock("btn_cell");
 
-		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?frame=maincontent&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		#$tpl_menu->setVariable("BTN_LINK","./ilias.php?frame=maincontent&ref_id=".$_GET["ref_id"].
+		#"&obj_id=".$_GET["obj_id"]);
+		$this->ctrl->setParameterByClass('illmpresentationgui','frame','maincontent');
+		$this->ctrl->setParameterByClass('illmpresentationgui','obj_id',(int) $_GET['obj_id']);
+		$tpl_menu->setVariable('BTN_LINK',$this->ctrl->getLinkTargetByClass('illmpresentationgui','layout'));
 		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("back"));
 		$tpl_menu->parseCurrentBlock();
 
@@ -641,6 +649,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		global $tpl;
 
 		return true;
+
 /*
 		include_once("./content/classes/class.ilCitationTextParser.php");
 
