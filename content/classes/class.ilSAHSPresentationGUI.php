@@ -21,29 +21,27 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilObjSCORMLearningModule.php");
-require_once("content/classes/SCORM/class.ilSCORMObjectGUI.php");
-//require_once("./classes/class.ilMainMenuGUI.php");
-//require_once("./classes/class.ilObjStyleSheet.php");
 
 /**
-* Class ilSCORMPresentationGUI
+* Class ilSAHSPresentationGUI
 *
 * GUI class for scorm learning module presentation
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI
+*
 * @package content
 */
-class ilSCORMPresentationGUI
+class ilSAHSPresentationGUI
 {
 	var $ilias;
-	var $slm;
 	var $tpl;
 	var $lng;
 
-	function ilSCORMPresentationGUI()
+	function ilSAHSPresentationGUI()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
@@ -51,9 +49,8 @@ class ilSCORMPresentationGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
-
-		// Todo: check lm id
-		$this->slm =& new ilObjSCORMLearningModule($_GET["ref_id"], true);
+		
+		$this->ctrl->saveParameter($this, "ref_id");
 	}
 	
 	/**
@@ -61,18 +58,89 @@ class ilSCORMPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess;
+		global $lng;
 
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd("frameset");
+		include_once "./classes/class.ilObjectGUI.php";
+		include_once "./content/classes/class.ilObjSAHSLearningModule.php";
 
-		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		$lng->loadLanguageModule("content");
+
+		// payment
+		include_once './payment/classes/class.ilPaymentObject.php';
+		include_once './classes/class.ilSearch.php';
+		if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+			ilUtil::redirect('./payment/start_purchase.php?ref_id='.$_GET['ref_id']);
+		}
+		
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		
+		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+		$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
+
+		switch($type)
+		{
+			case "scorm":
+				include_once("./content/classes/class.ilObjSCORMLearningModuleGUI.php");
+				$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
+				break;
+
+			case "aicc":
+				include_once("./content/classes/class.ilObjAICCLearningModuleGUI.php");
+				$this->slm_gui = new ilObjAICCLearningModuleGUI("", $_GET["ref_id"],true,false);
+				break;
+				
+			case "hacp":
+				include_once("./content/classes/class.ilObjHACPLearningModuleGUI.php");
+				$this->slm_gui = new ilObjHACPLearningModuleGUI("", $_GET["ref_id"],true,false);
+				break;
+		}
+
+		if ($next_class != "ilinfoscreengui" &&
+			$cmd != "infoScreen")
+		{
+			switch($type)
+			{
+				case "scorm":
+					$this->ctrl->setCmdClass("ilscormpresentationgui");
+					$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
+					break;
+
+				case "aicc":
+					$this->ctrl->setCmdClass("ilaiccpresentationgui");
+					break;
+					
+				case "hacp":
+					$this->ctrl->setCmdClass("ilhacppresentationgui");
+					break;
+			}
+			$next_class = $this->ctrl->getNextClass($this);
 		}
 
 		switch($next_class)
 		{
+			case "ilinfoscreengui":
+				$ret =& $this->outputInfoScreen();
+				break;
+				
+			case "ilscormpresentationgui":
+				require_once "./content/classes/SCORM/class.ilSCORMPresentationGUI.php";
+				$scorm_gui = new ilSCORMPresentationGUI();
+				$ret =& $this->ctrl->forwardCommand($scorm_gui);
+				break;
+
+			case "ilaiccpresentationgui":
+				require_once "./content/classes/AICC/class.ilAICCPresentationGUI.php";
+				$aicc_gui = new ilAICCPresentationGUI();
+				$ret =& $this->ctrl->forwardCommand($aicc_gui);
+				break;
+
+			case "ilhacppresentationgui":
+				require_once "./content/classes/HACP/class.ilHACPPresentationGUI.php";
+				$hacp_gui = new ilHACPPresentationGUI();
+				$ret =& $this->ctrl->forwardCommand($hacp_gui);
+				break;
 
 			default:
 				$this->$cmd();
@@ -100,14 +168,8 @@ class ilSCORMPresentationGUI
 	*/
 	function frameset()
 	{
-		$this->ctrl->setParameter($this, "expand", "1");
-		$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
 		$this->tpl = new ilTemplate("tpl.sahs_pres_frameset.html", false, false, "content");
-		$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
-		$api_link = $this->ctrl->getLinkTarget($this, "api");
-		$this->tpl->setVariable("API_LINK", $api_link);
-		$pres_link = $this->ctrl->getLinkTarget($this, "view");
-		$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
+		$this->tpl->setVariable("REF_ID",$this->slm->getRefId());
 		$this->tpl->show("DEFAULT", false);
 		exit;
 	}
@@ -458,5 +520,90 @@ class ilSCORMPresentationGUI
 			}
 		}
 	}
+	
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreen()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->outputInfoScreen();
+	}
+	
+	/**
+	* info screen
+	*/
+	function outputInfoScreen($a_standard_locator = false)
+	{
+		global $ilBench, $ilLocator, $ilAccess, $tpl;
+
+		//$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
+
+		// set style sheets
+		/*
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
+		}
+		else
+		{
+			$style_name = $this->ilias->account->prefs["style"].".css";;
+			$this->tpl->setStyleSheetLocation("./".$style_name);
+		}*/
+
+		$this->tpl->getStandardTemplate();
+		$this->tpl->setTitle($this->slm_gui->object->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.gif"));
+		
+		// Full locator, if read permission is given
+		//if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		//{
+		//	$this->ilLocator();
+		//}
+		//else
+		//{
+			$ilLocator->addRepositoryItems();
+			$this->tpl->setLocator();
+		//}
+		
+		$this->lng->loadLanguageModule("meta");
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+
+		$info = new ilInfoScreenGUI($this->slm_gui);
+		$info->enablePrivateNotes();
+		//$info->enableLearningProgress();
+
+		// add read / back button
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$info->addButton($this->lng->txt("view"),
+				$this->ctrl->getLinkTarget($this, ""),
+				' target="ilContObj'.$this->slm_gui->object->getId().'" ');
+		}
+		
+		// show standard meta data section
+		$info->addMetaDataSections($this->slm_gui->object->getId(),0,
+			$this->slm_gui->object->getType());
+
+		/*
+		if ($this->offlineMode())
+		{
+			$this->tpl->setContent($info->getHTML());
+			return $this->tpl->get();
+		}
+		else
+		{*/
+			// forward the command
+			$this->ctrl->forwardCommand($info);
+			//$this->tpl->setContent("aa");
+			$this->tpl->show();
+		//}
+	}
+
+
 }
 ?>

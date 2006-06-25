@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -34,6 +34,7 @@
 */
 
 require_once "./include/inc.header.php";
+global $ilCtrl, $ilBench;
 
 $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();

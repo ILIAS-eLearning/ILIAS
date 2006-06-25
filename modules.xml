@@ -9,6 +9,9 @@
 		<baseclass name="ilLMEditorGUI" dir="classes" />
 		<baseclass name="ilLMPresentationGUI" dir="classes" />
 	</module>
+	<module name="SAHSLearningModule" dir="content">
+		<baseclass name="ilSAHSPresentationGUI" dir="classes" />
+	</module>
 	<module name="Glossary" dir="content">
 		<baseclass name="ilGlossaryEditorGUI" dir="classes" />
 	</module>

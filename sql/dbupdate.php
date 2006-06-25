@@ -11075,3 +11075,8 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE `crs_items`
   DROP `timing_min`,
   DROP `timing_max`;
+<#760>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

@@ -454,6 +454,10 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function showPermanentLink(&$tpl)
 	{
+		if ($this->object->getType() == "root")
+		{
+			return;
+		}
 		$tpl->setCurrentBlock("perma_link");
 		$tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
 			"/goto.php?target=".

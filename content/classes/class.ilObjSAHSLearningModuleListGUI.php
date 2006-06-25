@@ -57,6 +57,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
 		$this->payment_enabled = true;
+		$this->info_screen_enabled = true;
 		$this->type = "sahs";
 		$this->gui_class_name = "ilobjsahslearningmodulegui";
 		
@@ -79,11 +80,17 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				$cmd_link = "content/sahs_presentation.php?ref_id=".$this->ref_id;
+				//$cmd_link = "content/sahs_presentation.php?ref_id=".$this->ref_id;
+				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
 				break;
 
 			case "edit":
 				$cmd_link = "content/sahs_edit.php?ref_id=".$this->ref_id;
+				break;
+
+			case "infoScreen":
+				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id.
+					"&amp;cmd=infoScreen";
 				break;
 
 			default:
@@ -105,7 +112,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	function getCommandFrame($a_cmd)
 	{
 		global $ilias;
-
+		
 		switch($a_cmd)
 		{
 			case "view":
@@ -127,6 +134,10 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				break;
 
 			case "edit":
+				$frame = ilFrameTargetInfo::_getFrame("MainContent");
+				break;
+				
+			case "infoScreen":
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 
