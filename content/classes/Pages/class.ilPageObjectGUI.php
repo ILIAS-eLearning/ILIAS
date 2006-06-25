@@ -735,11 +735,18 @@ class ilPageObjectGUI
 						 'parent_id' => $this->obj->getParentId(),
 						 'download_script' => $this->sourcecode_download_script,
 						 'encoded_download_script' => urlencode($this->sourcecode_download_script),
+						 // digilib
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
+						 'pagebreak' => $this->lng->txt('dgl_pagebreak'),
+						 'page' => $this->lng->txt('page'),
+						 'citate_page' => $this->lng->txt('citate_page'),
+						 'citate_from' => $this->lng->txt('citate_from'),
+						 'citate_to' => $this->lng->txt('citate_to'),
+						 'citate' => $this->lng->txt('citate'),
+
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
 						 'javascript' => $sel_js_mode,
 						 'paragraph_plugins' => $paragraph_plugin_string);
-
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
 

@@ -6167,3 +6167,8 @@ crs#:#event_general_properties#:#General Informations
 crs#:#event_file_download#:#Files for Download
 crs#:#event_file_size_info#:#Filesize
 crs#:#event_lecturer#:#Name
+content#:#dgl_pagebreak#:#Pagebreak
+content#:#citate_page#:#Citate this Page
+content#:#citate_from#:#Citate From ...
+content#:#citate_to#:#Citate To ...
+content#:#citate#:#Citate
