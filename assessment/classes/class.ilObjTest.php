@@ -2760,7 +2760,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 		
-		$active = $this->getActiveTestUser($ilUser->getId());
+		$active = $this->getActiveTestUser($user_id);
 		$active_id = $active->active_id;
 
 		// remove the question from tst_solutions
