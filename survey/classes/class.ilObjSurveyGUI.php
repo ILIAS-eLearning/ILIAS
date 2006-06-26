@@ -3809,5 +3809,50 @@ class ilObjSurveyGUI extends ilObjectGUI
 			 "", "ilmdeditorgui");
 	}
 	
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target, $a_access_code = "")
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			include_once "./classes/class.ilUtil.php";
+			if (strlen($a_access_code))
+			{
+				$_SESSION["accesscode"] = $a_access_code;
+				$_GET["baseClass"] = "ilObjSurveyGUI";
+				$_GET["cmd"] = "run";
+				$_GET["ref_id"] = $a_target;
+				include("ilias.php");
+				exit;
+				//ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target");
+			}
+			else
+			{
+				$_GET["baseClass"] = "ilObjSurveyGUI";
+				$_GET["cmd"] = "run";
+				$_GET["ref_id"] = $a_target;
+				include("ilias.php");
+				exit;
+			}
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}
+
 } // END class.ilObjSurveyGUI
 ?>

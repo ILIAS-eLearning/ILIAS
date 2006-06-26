@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -4650,37 +4650,6 @@ class ilObjSurvey extends ilObject
 		return $code;
 	}
 	
-	/**
-	* redirect script
-	*
-	* @param	string		$a_target
-	*/
-	function _goto($a_target, $a_access_code = "")
-	{
-		global $rbacsystem, $ilErr, $lng;
-
-		include_once './classes/class.ilSearch.php';
-			
-		// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
-		// Will be replaced in future releases by ilAccess::checkAccess()
-		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
-		{
-			include_once "./classes/class.ilUtil.php";
-			if (strlen($a_access_code))
-			{
-				$_SESSION["accesscode"] = $a_access_code;
-				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target");
-			}
-			else
-			{
-				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target");
-			}
-		}
-		else
-		{
-			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-		}
-	}
 
 /**
 * Convertes an array for CSV usage

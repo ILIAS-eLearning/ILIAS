@@ -4673,5 +4673,42 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 	}
+	
+	/**
+	* Redirect script to call a test with the test reference id
+	* 
+	* Redirect script to call a test with the test reference id
+	*
+	* @param integer $a_target The reference id of the test
+	* @access	public
+	*/
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("visible", "", $a_target))
+		{
+			//include_once "./classes/class.ilUtil.php";
+			$_GET["baseClass"] = "ilObjTestGUI";
+			$_GET["cmd"] = "infoScreen";
+			$_GET["ref_id"] = $a_target;
+			include_once("ilias.php");
+			exit;
+			//ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=$a_target");
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}	
+
 } // END class.ilObjTestGUI
 ?>

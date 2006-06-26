@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -357,7 +357,6 @@ class ilObjChatGUI extends ilObjectGUI
 		// Check blocked
 		include_once 'chat/classes/class.ilChatBlockedUsers.php';
 
-
 		global $rbacsystem,$ilUser;
 
 		if (!$rbacsystem->checkAccess("read", $this->ref_id))
@@ -490,6 +489,17 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("TBL_FOOTER_ADD_SELECT",$this->__showAdminAddRoomSelect());
 		$this->tpl->setVariable("FOOTER_OK",$this->lng->txt("add"));
+		
+		// permanent link
+		$this->tpl->setCurrentBlock("perma_link");
+		$this->tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
+			"/goto.php?target=".
+			$this->object->getType().
+			"_".$this->object->getRefId()."&client_id=".CLIENT_ID);
+		$this->tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
+		$this->tpl->setVariable("PERMA_TARGET", "_top");
+		$this->tpl->parseCurrentBlock();
+
 	}
 
 	function adminRoomsObject()
@@ -2001,6 +2011,31 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
+	
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["ref_id"] = $a_target;
+			include("chat.php");
+			exit;
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
 }
 // END class.ilObjChatGUI
 ?>

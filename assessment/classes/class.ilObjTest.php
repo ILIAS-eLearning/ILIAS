@@ -5973,32 +5973,6 @@ class ilObjTest extends ilObject
 		return $num;
 	}
 	
-/**
-* Redirect script to call a test with the test reference id
-* 
-* Redirect script to call a test with the test reference id
-*
-* @param integer $a_target The reference id of the test
-* @access	public
-*/
-	function _goto($a_target)
-	{
-		global $rbacsystem, $ilErr, $lng;
-
-		include_once "./classes/class.ilSearch.php";
-			
-		// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
-		// Will be replaced in future releases by ilAccess::checkAccess()
-		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
-		{
-			include_once "./classes/class.ilUtil.php";
-			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=$a_target");
-		}
-		else
-		{
-			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-		}
-	}	
 
 /**
 * Removes all test data of a non random test when a test was set to random test
