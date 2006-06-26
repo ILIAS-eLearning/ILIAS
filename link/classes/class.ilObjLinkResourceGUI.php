@@ -1257,6 +1257,40 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		// Will be replaced in future releases by ilAccess::checkAccess()
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			ilUtil::redirect("link/link_resources.php?ref_id=$a_target");
+		}
+		else
+		{
+			// to do: force flat view
+			if ($ilAccess->checkAccess("visible", "", $a_target))
+			{
+				ilUtil::redirect("link/link_resources.php?ref_id=".$a_target."&cmd=infoScreen");
+			}
+			else
+			{
+				if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+				{
+					$_GET["cmd"] = "frameset";
+					$_GET["target"] = "";
+					$_GET["ref_id"] = ROOT_FOLDER_ID;
+					sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+					include("repository.php");
+					exit;
+				}
+			}
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
 
 } // END class.ilObjLinkResource
 ?>

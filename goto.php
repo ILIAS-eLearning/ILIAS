@@ -97,31 +97,35 @@ switch($target_type)
 		ilObjExercise::_goto($target_id);
 		break;
 		
+	// new implementation: ok
 	case "tst":
-		require_once("./assessment/classes/class.ilObjTest.php");
-		ilObjTest::_goto($target_id);
+		require_once("./assessment/classes/class.ilObjTestGUI.php");
+		ilObjTestGUI::_goto($target_id);
 		break;
 
+	// new implementation: ok
 	case "svy":
-		require_once("./survey/classes/class.ilObjSurvey.php");
+		require_once("./survey/classes/class.ilObjSurveyGUI.php");
 		if (array_key_exists("accesscode", $_GET))
 		{
-			ilObjSurvey::_goto($target_id, $_GET["accesscode"]);
+			ilObjSurveyGUI::_goto($target_id, $_GET["accesscode"]);
 		}
 		else
 		{
-			ilObjSurvey::_goto($target_id);
+			ilObjSurveyGUI::_goto($target_id);
 		}
 		break;
 
+	// new implementation: ok
 	case "webr":
-		require_once("./link/classes/class.ilObjLinkResource.php");
-		ilObjLinkResource::_goto($target_id);
+		require_once("./link/classes/class.ilObjLinkResourceGUI.php");
+		ilObjLinkResourceGUI::_goto($target_id);
 		break;
 
+	// new implementation: ok
 	case "chat":
-		require_once("./chat/classes/class.ilObjChat.php");
-		ilObjChat::_goto($target_id);
+		require_once("./chat/classes/class.ilObjChatGUI.php");
+		ilObjChatGUI::_goto($target_id);
 		break;
 
 	// new implementation: ok
