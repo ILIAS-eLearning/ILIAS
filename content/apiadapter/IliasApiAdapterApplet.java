@@ -9,6 +9,10 @@
  * CMI (Computer Managed Instruction) data is sent to ILIAS through http POST
  * to an ILIAS server side PHP script. SCORM-1.2 runtime behavior and CMI
  * datamodel management is done by the PfPLMS SCORM-1.2 API-Adapter Core. 
+ *
+ *
+ * This is adapted to reflect url parameter changes for Ilias version 3.7 onwards 
+ *  
  */
 
 import java.util.Hashtable;
