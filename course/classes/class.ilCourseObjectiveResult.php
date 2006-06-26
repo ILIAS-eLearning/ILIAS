@@ -134,7 +134,7 @@ class ilCourseObjectiveResult
 				if($tmp_test =& ilObjectFactory::getInstanceByRefId($test_data['ref_id']))
 				{
 					#$tmp_test->deleteResults($this->getUserId(),true);
-					$tmp_test->removeSelectedTestResults(array($this->getUserId()));
+					$tmp_test->removeTestResultsForUser($this->getUserId());
 					unset($tmp_test);
 				}
 			}
