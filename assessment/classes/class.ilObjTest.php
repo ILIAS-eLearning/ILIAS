@@ -2746,6 +2746,61 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Removes all references to the question in executed tests in case the question has been changed
+*
+* Removes all references to the question in executed tests in case the question has been changed.
+* If a question was changed it cannot be guaranteed that the content and the meaning of the question
+* is the same as before. So we have to delete all already started or completed tests using that question.
+* Therefore we have to delete all references to that question in tst_solutions and the tst_active
+* entries which were created for the user and test in the tst_solutions entry.
+*
+* @access public
+*/
+	function removeTestResultsForUser($user_id) 
+	{
+		global $ilDB;
+		
+		$active = $this->getActiveTestUser($ilUser->getId());
+		$active_id = $active->active_id;
+
+		// remove the question from tst_solutions
+		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s",
+			$ilDB->quote($active_id . "")
+		);
+		$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE active_fi = %s",
+			$ilDB->quote($active_id . "")
+		);			
+		$query3 = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s",
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		$result = $ilDB->query($query2);
+		$result = $ilDB->query($query3);
+
+		if ($this->isRandomTest())
+		{
+			$query = sprintf("DELETE FROM tst_test_random_question WHERE active_fi = %s",
+				$ilDB->quote($active_id . "")
+			);
+			$result = $ilDB->query($query);
+		}
+
+		include_once ("./classes/class.ilObjAssessmentFolder.php");
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			include_once ("./classes/class.ilObjUser.php");
+			$uname = ilObjUser::_lookupName($this->_getUserIdFromActiveId($active_id));
+			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"] . " (" . $uname["user_id"] . ")")));
+		}
+
+		// remove test_active entry
+		$query = sprintf("DELETE FROM tst_active WHERE active_id = %s",
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+	}
+	
+/**
 * Deletes all active references to this test
 *
 * Deletes all active references to this test. This is necessary, if the test has been changed to
