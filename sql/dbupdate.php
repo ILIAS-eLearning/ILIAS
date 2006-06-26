@@ -11079,4 +11079,12 @@ ALTER TABLE `crs_items`
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#761>
+DROP TABLE IF EXISTS `crs_objective_status`;
+CREATE TABLE `crs_objective_status` (
+  `objective_id` int(11) NOT NULL default '0',
+  `user_id` int(11) NOT NULL default '0',
+  `status` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`objective_id`,`user_id`)
+) TYPE=MyISAM;
 
