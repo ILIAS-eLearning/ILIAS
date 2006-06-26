@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -57,6 +57,27 @@ class ilObjExerciseAccess extends ilObjectAccess
 		);
 		
 		return $commands;
+	}
+	
+	/**
+	* check whether goto script will succeed
+	*/
+	function _checkGoto($a_target)
+	{
+		global $ilAccess;
+		
+		$t_arr = explode("_", $a_target);
+
+		if ($t_arr[0] != "exc" || ((int) $t_arr[1]) <= 0)
+		{
+			return false;
+		}
+
+		if ($ilAccess->checkAccess("read", "", $t_arr[1]))
+		{
+			return true;
+		}
+		return false;
 	}
 }
 

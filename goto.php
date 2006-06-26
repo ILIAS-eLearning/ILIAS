@@ -87,14 +87,15 @@ switch($target_type)
 		break;
 		
 	case "frm":
-		require_once("./classes/class.ilObjForum.php");
+		require_once("./classes/class.ilObjForumGUI.php");
 		$target_thread = $target_arr[2];
-		ilObjForum::_goto($target_id, $target_thread);
+		ilObjForumGUI::_goto($target_id, $target_thread);
 		break;
 		
+	// new implementation: ok
 	case "exc":
-		require_once("./classes/class.ilObjExercise.php");
-		ilObjExercise::_goto($target_id);
+		require_once("./classes/class.ilObjExerciseGUI.php");
+		ilObjExerciseGUI::_goto($target_id);
 		break;
 		
 	// new implementation: ok

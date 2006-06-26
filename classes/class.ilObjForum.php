@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -829,39 +829,7 @@ class ilObjForum extends ilObject
 		return $this->ilias->db->getOne($q);
 	}
 
-
 	/**
-	* redirect script
-	*
-	* @param	string		$a_target
-	*/
-	function _goto($a_target, $a_thread = 0)
-	{
-		global $rbacsystem, $ilErr, $lng;
-
-		include_once 'classes/class.ilSearch.php';
-			
-		// Added this additional check (ParentConditions) to avoid calls of objects inside e.g courses.
-		// Will be replaced in future releases by ilAccess::checkAccess()
-		if ($rbacsystem->checkAccess("read", $a_target) and ilSearch::_checkParentConditions($a_target))
-		{
-			if ($a_thread != 0)
-			{
-				ilUtil::redirect("forums_frameset.php?thr_pk=".$a_thread."&ref_id=".$a_target);
-			}
-			else
-			{
-				ilUtil::redirect("repository.php?ref_id=".$a_target);
-			}
-		}
-		else
-		{
-			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-		}
-	}
-	
-	
-		/**
 	 * return if statistics are enabled
 	 */
 	function isStatisticsEnabled () 

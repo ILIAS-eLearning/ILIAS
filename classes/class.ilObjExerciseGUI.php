@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -85,10 +85,10 @@ class ilObjExerciseGUI extends ilObjectGUI
       
       
       if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-	{
-	  parent::viewObject();
-	  return;
-	}
+		{
+		parent::viewObject();
+		return;
+		}
       $this->tabs_gui->setTabActive("view");
 
       $this->tabs_gui->addSubTabTarget("view",
@@ -162,8 +162,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 	  $this->tpl->parseCurrentBlock();
 	}
       
-      return true;
-    }
+		$this->tpl->setCurrentBlock("perma_link");
+		$this->tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
+			"/goto.php?target=".
+			$this->object->getType().
+			"_".$this->object->getRefId()."&client_id=".CLIENT_ID);
+		$this->tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
+		$this->tpl->setVariable("PERMA_TARGET", "_top");
+		$this->tpl->parseCurrentBlock();
+	
+		return true;
+	}
   
   /**
    * Displays a form which allows members to deliver their solutions
@@ -1328,9 +1337,38 @@ function __getUpdatedSubmission($member_id,$exc_id) {
     return 1;
   }
 
-
-
 }
+
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $rbacsystem, $ilErr, $lng, $ilAccess;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["ref_id"] = $a_target;
+			include("exercise.php");
+			exit;
+			//ilUtil::redirect("exercise.php?ref_id=$a_target");
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+		
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}		
+
 
 } // END class.ilObjExerciseGUI
 ?>
