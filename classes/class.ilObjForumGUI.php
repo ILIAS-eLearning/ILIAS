@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -97,6 +97,9 @@ class ilObjForumGUI extends ilObjectGUI
 		return true;
 	}
 
+	/**
+	* list threads of forum
+	*/
 	function showThreadsObject()
 	{
 		global $rbacsystem,$ilUser;
@@ -282,6 +285,15 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_NUM_VISITS", $this->lng->txt("visits"));
 		$this->tpl->setVariable("TXT_LAST_POST", $this->lng->txt("forums_last_post"));
 		$this->tpl->parseCurrentBlock("threadtable");
+		
+		$this->tpl->setCurrentBlock("perma_link");
+		$this->tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
+			"/goto.php?target=".
+			$this->object->getType().
+			"_".$this->object->getRefId()."&client_id=".CLIENT_ID);
+		$this->tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
+		$this->tpl->setVariable("PERMA_TARGET", "_top");
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -759,6 +771,46 @@ class ilObjForumGUI extends ilObjectGUI
 		return true;
 	}
 	
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target, $a_thread = 0)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			if ($a_thread != 0)
+			{
+				$_GET["thr_pk"] = $a_thread;
+				$_GET["ref_id"] = $a_target;
+				include_once("forums_frameset.php");
+				exit;
+			}
+			else
+			{
+				$_GET["ref_id"] = $a_target;
+				include_once("repository.php");
+				exit;
+			}
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+
+	}
+
 
 } // END class.ilObjForumGUI
 ?>

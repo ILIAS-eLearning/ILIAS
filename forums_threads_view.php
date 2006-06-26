@@ -837,5 +837,15 @@ $tpl->parseCurrentBlock("posttable");
 
 $tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
 
+$tpl->setCurrentBlock("perma_link");
+$tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
+	"/goto.php?target=".
+	"frm".
+	"_".$_GET["ref_id"]."_".$_GET["thr_pk"]."&client_id=".CLIENT_ID);
+$tpl->setVariable("TXT_PERMA_LINK", $lng->txt("perma_link"));
+$tpl->setVariable("PERMA_TARGET", "_top");
+$tpl->parseCurrentBlock();
+
+
 $tpl->show();
 ?>
