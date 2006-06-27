@@ -543,6 +543,20 @@ class ilObjUser extends ilObject
 		return false;
 	}
 
+	function _lookupClientIP($a_user_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT client_ip FROM usr_data WHERE usr_id = '".(int) $a_user_id."'";
+		$res = $ilDB->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->client_ip;
+		}
+		return "";
+	}
+
 
 	/**
 	* lookup user name
