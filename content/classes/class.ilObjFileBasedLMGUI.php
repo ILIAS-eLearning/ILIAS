@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -768,7 +768,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$info->addButton($this->lng->txt("view"),
-							 "content/fblm_presentation.php?ref_id=".$this->object->getRefID());
+				"content/fblm_presentation.php?ref_id=".$this->object->getRefID(),
+				' target="ilContObj'.$this->object->getId().'" ');
 		}
 		
 		// show standard meta data section
@@ -858,5 +859,36 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
+	
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $rbacsystem, $ilErr, $lng, $ilAccess;
+
+		if ($ilAccess->checkAccess("visible", "", $a_target))
+		{
+			$_GET["ref_id"] = $a_target;
+			$_GET["cmd"] = "infoScreen";
+			include("repository.php");
+			exit;
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}
+
 }
 ?>

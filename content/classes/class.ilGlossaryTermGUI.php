@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -586,6 +586,45 @@ class ilGlossaryTermGUI
 		// back to glossary
 		$tabs_gui->setBackTarget($this->lng->txt("glossary"),
 			$this->ctrl->getLinkTargetByClass("ilobjglossarygui", "listTerms"));
+	}
+
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target, $a_ref_id = "")
+	{
+		global $rbacsystem, $ilErr, $lng, $ilAccess;
+
+		// get all references
+		if ($a_ref_id > 0)
+		{
+			$ref_ids = array($a_ref_id);
+		}
+		else
+		{
+			// determine learning object
+			$glo_id = ilGlossaryTerm::_lookGlossaryID($a_target);//::_lookupContObjID($a_target);
+			$ref_ids = ilObject::_getAllReferences($glo_id);
+		}
+
+		// check read permissions
+		foreach ($ref_ids as $ref_id)
+		{
+			// Permission check
+			if ($ilAccess->checkAccess("read", "", $ref_id))
+			{
+				$_GET["baseClass"] = "ilGlossaryPresentationGUI";
+				$_GET["term_id"] = $a_target;
+				$_GET["ref_id"] = $ref_id;
+				$_GET["cmd"] = "listDefinitions";
+				include_once("ilias.php");
+				exit;
+			}
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
 }

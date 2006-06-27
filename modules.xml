@@ -14,6 +14,7 @@
 	</module>
 	<module name="Glossary" dir="content">
 		<baseclass name="ilGlossaryEditorGUI" dir="classes" />
+		<baseclass name="ilGlossaryPresentationGUI" dir="classes" />
 	</module>
 	<module name="Assessment" dir="assessment">
 		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />

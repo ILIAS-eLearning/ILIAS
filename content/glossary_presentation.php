@@ -30,6 +30,9 @@
 * @package content
 */
 
+echo "DEPRECATED, use ilias.php?baseClass=ilGlossaryPresentationGUI&ref_id=... instead";
+exit;
+
 define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";

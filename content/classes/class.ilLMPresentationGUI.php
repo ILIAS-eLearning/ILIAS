@@ -34,7 +34,7 @@ require_once("./classes/class.ilObjStyleSheet.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
-
+*
 * @package content
 */
 class ilLMPresentationGUI

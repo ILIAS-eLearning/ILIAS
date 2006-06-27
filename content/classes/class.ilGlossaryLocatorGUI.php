@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -103,22 +103,22 @@ class ilGlossaryLocatorGUI
 				break;
 
 			case "presentation":
-				$script = "glossary_presentation.php";
-				$repository = "../repository.php";
+				$script = "ilias.php?baseClass=ilGlossaryPresentationGUI";
+				$repository = "./repository.php";
 				break;
 		}
 
-		$this->tpl->touchBlock("locator_separator");
-		$this->tpl->touchBlock("locator_item");
+		//$this->tpl->touchBlock("locator_separator");
+		//$this->tpl->touchBlock("locator_item");
 		
 		foreach ($path as $key => $row)
 		{
-			if ($row["child"] == $this->tree->getRootId())
-			{
-				continue;
-			}
+			//if ($row["child"] == $this->tree->getRootId())
+			//{
+			//	continue;
+			//}
 
-			if (($key < count($path)-$modifier))
+			if (($key < count($path) - $modifier))
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
@@ -139,7 +139,7 @@ class ilGlossaryLocatorGUI
 				}
 				else
 				{
-					$link = $script."?ref_id=".$_GET["ref_id"];
+					$link = $script."&amp;ref_id=".$_GET["ref_id"];
 				}
 			}
 			else
@@ -172,7 +172,7 @@ class ilGlossaryLocatorGUI
 			//}
 			//else
 			//{
-				$this->tpl->setVariable("LINK_ITEM", $script."?ref_id=".$_GET["ref_id"].
+				$this->tpl->setVariable("LINK_ITEM", $script."&amp;ref_id=".$_GET["ref_id"].
 					"&cmd=listDefinitions&term_id=".$this->term->getId());
 			//}
 			$this->tpl->parseCurrentBlock();
@@ -193,7 +193,7 @@ class ilGlossaryLocatorGUI
 			}
 			else
 			{
-				$this->tpl->setVariable("LINK_ITEM", $script."?ref_id=".$_GET["ref_id"].
+				$this->tpl->setVariable("LINK_ITEM", $script."&amp;ref_id=".$_GET["ref_id"].
 					"&cmd=view&def=".$_GET["def"]);
 			}
 			$this->tpl->parseCurrentBlock();

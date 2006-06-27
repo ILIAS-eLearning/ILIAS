@@ -11087,4 +11087,8 @@ CREATE TABLE `crs_objective_status` (
   `status` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`objective_id`,`user_id`)
 ) TYPE=MyISAM;
+<#762>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

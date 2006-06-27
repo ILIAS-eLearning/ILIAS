@@ -781,7 +781,11 @@ class ilStartUpGUI
 		}
 		
 		$type = $t_arr[0];
-		$ref_id = $t_arr[1];
+		
+		if ($type == "git")
+		{
+			$type = "glo";
+		}
 		
 		$class = $objDefinition->getClassName($type);
 		if ($class == "")
@@ -791,6 +795,7 @@ class ilStartUpGUI
 		$location = $objDefinition->getLocation($type);
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
+		
 		return call_user_func(array($full_class, "_checkGoto"),
 			$a_target);
 	}
