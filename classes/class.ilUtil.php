@@ -1429,15 +1429,17 @@ class ilUtil
 		//		$mime = "application/octet-stream"; // or whatever the mime type is
 
 		if (isset($_SERVER["HTTPS"])) {
+
+			// Added different handling for IE and HTTPS => send pragma after content informations
 			/**
 			* We need to set the following headers to make downloads work using IE in HTTPS mode.
 			*/
-			header("Pragma: ");
-			header("Cache-Control: ");
-			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
-			header("Cache-Control: post-check=0, pre-check=0", false);
+			#header("Pragma: ");
+			#header("Cache-Control: ");
+			#header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			#header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			#header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+			#header("Cache-Control: post-check=0, pre-check=0", false);
 		}
 		else if ($disposition == "attachment")
 		{
@@ -1459,8 +1461,14 @@ class ilUtil
 		header("Content-Disposition:$disposition; filename=\"".$ascii_filename."\"");
 		header("Content-Description: ".$ascii_filename);
 		header("Content-Length: ".(string)(strlen($a_data)));
-		header("Connection: close");
 
+		if($_SERVER['HTTPS'])
+		{
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');	
+		}
+
+		header("Connection: close");
 		echo $a_data;
 		exit;
 	}
@@ -1482,15 +1490,18 @@ class ilUtil
 		}
 		if (isset($_SERVER["HTTPS"]))
 		{
+			// Added different handling for IE and HTTPS => send pragma after content informations
+
 			/**
 			* We need to set the following headers to make downloads work using IE in HTTPS mode.
 			*/
-			header("Pragma: ");
-			header("Cache-Control: ");
-			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
-			header("Cache-Control: post-check=0, pre-check=0", false);
+			#header("Pragma: ");
+			#header("Pragma: no-cache");
+			#header("Cache-Control: ");
+			#header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			#header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			#header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+			##header("Cache-Control: post-check=0, pre-check=0", false);
 		}
 		else if ($disposition == "attachment")
 		{
@@ -1508,6 +1519,13 @@ class ilUtil
 		header("Content-Disposition:$disposition; filename=\"".$ascii_filename."\"");
 		header("Content-Description: ".$ascii_filename);
 		header("Content-Length: ".(string)(filesize($a_file)));
+
+		if($_SERVER['HTTPS'])
+		{
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');	
+		}
+
 		header("Connection: close");
 		ilUtil::readFile( $a_file );
 		exit;
