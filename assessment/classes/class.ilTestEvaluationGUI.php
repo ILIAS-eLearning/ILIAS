@@ -420,13 +420,13 @@ class ilTestEvaluationGUI
 				foreach ($id_array as $user_id => $username)
 				{
 					$counter = 0;
-					$user = new ilObjUser($user_id);
+					$uname = ilObjUser::_lookupName($user_id);
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $user->getId());
 					$this->tpl->setVariable("VALUE_LOGIN", $user->getLogin());
-					$this->tpl->setVariable("VALUE_FIRSTNAME", $user->getFirstname());
-					$this->tpl->setVariable("VALUE_LASTNAME", $user->getLastname());
+					$this->tpl->setVariable("VALUE_FIRSTNAME", $uname["firstname"]);
+					$this->tpl->setVariable("VALUE_LASTNAME", $uname["lastname"]);
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
@@ -552,8 +552,9 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("TEXT_USER", $this->lng->txt("user"));
 		include_once "./classes/class.ilObjUser.php";
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		$user = new ilObjUser($user_id);
-		$this->tpl->setVariable("TEXT_USERNAME", trim($user->getFirstname() . " " . $user->getLastname()));
+		$uname = ilObjUser::_lookupName($user_id);
+		if (strlen($uname["firstname"].$uname["lastname"]) == 0) $uname["firstname"] = $this->lng->txt("deleted_user");
+		$this->tpl->setVariable("TEXT_USERNAME", trim($uname["firstname"] . " " . $uname["lastname"]));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_QUESTIONTEXT", $questiontext);
 		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
