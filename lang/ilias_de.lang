@@ -160,8 +160,8 @@ assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umk
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
 assessment#:#cloze_text#:#Lückentext-Frage
-assessment#:#cloze_textgap_case_insensitive#:#Groß-/Kleinschreibung beachten
-assessment#:#cloze_textgap_case_sensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
+assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
+assessment#:#cloze_textgap_case_sensitive#:#Groß-/Kleinschreibung beachten
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Abstand von %s
 assessment#:#cloze_textgap_rating#:#Textlücken-Bewertung
 assessment#:#code#:#Code
