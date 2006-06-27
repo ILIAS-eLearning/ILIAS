@@ -6316,9 +6316,10 @@ class ilObjTest extends ilObject
 		include_once "./classes/class.ilObjGroup.php";
 		$group = new ilObjGroup($group_id);
 		$members = $group->getGroupMemberIds();
+		include_once "./classes/class.ilObjUser.php";
 		foreach ($members as $user_id)
 		{
-			$this->inviteUser($user_id);
+			$this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
 		}		
 	}
 	
@@ -6334,9 +6335,10 @@ class ilObjTest extends ilObject
 	{			
 		global $rbacreview;
 		$members =  $rbacreview->assignedUsers($role_id,"usr_id");
+		include_once "./classes/class.ilObjUser.php";
 		foreach ($members as $user_id)
 		{
-			$this->inviteUser($user_id);
+			$this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
 		}		
 	}
 	
