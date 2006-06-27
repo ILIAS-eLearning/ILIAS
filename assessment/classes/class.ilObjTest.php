@@ -4167,14 +4167,21 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 		
-		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($name_sort_order), 
+		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($q);
 		$persons_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$persons_array[$row->user_fi] = trim("$row->lastname, $row->firstname $row->title");
+			if (strlen($row->firstname.$row->lastname.$row->title) == 0)
+			{
+				$persons_array[$row->user_fi] = $this->lng->txt("deleted_user");
+			}
+			else
+			{
+				$persons_array[$row->user_fi] = trim("$row->lastname, $row->firstname $row->title");
+			}
 		}
 		return $persons_array;
 	}
