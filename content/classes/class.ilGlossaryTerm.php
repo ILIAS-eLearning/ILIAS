@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -402,48 +402,6 @@ class ilGlossaryTerm
 
 		$a_xml_writer->xmlEndTag("GlossaryItem");
 	}
-
-	/**
-	* redirect script
-	*
-	* @param	string		$a_target
-	*/
-	function _goto($a_target,$a_type)
-	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
-
-		if ($a_type == "glo")
-		{
-			if (!$ilAccess->checkAccess("read", "", $a_target))
-			{
-				$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
-			}
-			ilUtil::redirect(
-					"./content/glossary_presentation.php?ref_id=".$a_target);				
-		}
-
-		// determine learning object
-		$glo_id = ilGlossaryTerm::_lookGlossaryID ($a_target);//::_lookupContObjID($a_target);
-
-		// get all references
-		$ref_ids = ilObject::_getAllReferences($glo_id);
-
-		// check read permissions
-		foreach ($ref_ids as $ref_id)
-		{
-			include_once 'classes/class.ilSearch.php';
-			
-			// Permission check
-			if ($ilAccess->checkAccess("read", "", $ref_id))
-			{
-				ilUtil::redirect(
-					"./content/glossary_presentation.php?cmd=listDefinitions&term_id=".$a_target."&ref_id=".$ref_id);				
-			}
-		}
-
-		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-	}
-
 
 } // END class ilGlossaryTerm
 

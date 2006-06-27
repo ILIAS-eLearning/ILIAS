@@ -66,26 +66,34 @@ switch($target_type)
 		ilStructureObject::_goto($target_id);
 		include("ilias.php");
 		break;
-		
-// glossar entries
-	case "glo":
+
+	// new implementation: ok
 	case "git":
-		require_once("content/classes/class.ilGlossaryTerm.php");
-		ilGlossaryTerm::_goto($target_id,$target_type);
-		break;
-		
-	case "lm":
-	case "dbk":
-		require_once("./content/classes/class.ilObjContentObject.php");
-		ilObjContentObject::_goto($target_id);
-		include("ilias.php");
+		require_once("content/classes/class.ilGlossaryTermGUI.php");
+		$target_ref_id = $target_arr[2];
+		ilGlossaryTermGUI::_goto($target_id, $target_ref_id);
 		break;
 
+	// new implementation: ok
+	case "glo":
+		require_once("content/classes/class.ilObjGlossaryGUI.php");
+		ilObjGlossaryGUI::_goto($target_id);
+		break;
+				
+	// new implementation: ok
+	case "lm":
+	case "dbk":
+		require_once("./content/classes/class.ilObjContentObjectGUI.php");
+		ilObjContentObjectGUI::_goto($target_id);
+		break;
+
+	// new implementation: ok
 	case "htlm":
-		require_once("./content/classes/class.ilObjFileBasedLM.php");
-		ilObjFileBasedLM::_goto($target_id);
+		require_once("./content/classes/class.ilObjFileBasedLMGUI.php");
+		ilObjFileBasedLMGUI::_goto($target_id);
 		break;
 		
+	// new implementation: ok
 	case "frm":
 		require_once("./classes/class.ilObjForumGUI.php");
 		$target_thread = $target_arr[2];

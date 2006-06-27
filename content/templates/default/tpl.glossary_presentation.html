@@ -7,7 +7,7 @@
 <br />
 <!-- END glo_menu -->
 <!-- BEGIN search_form -->
-<form action="{FORMACTION1}" name="post" method="post" enctype="multipart/form-data">
+<form action="{FORMACTION1}" name="post" method="post">
 <table class="std">
 	<tr valign="middle">
 		<td class="option">
@@ -15,8 +15,8 @@
 		</td>
 		<td class="option_value" colspan="2">
 			<input type="text" name="term" size="30" value="{TERM}" maxlength="80">
-			<input type="submit" class="submit" name="search" value="{TXT_SEARCH}">
-			<input type="submit" class="submit" name="clear" value="{TXT_CLEAR}">
+			<input type="submit" class="submit" name="cmd[searchTerms]" value="{TXT_SEARCH}">
+			<input type="submit" class="submit" name="cmd[clearTerms]" value="{TXT_CLEAR}">
 		</td>
 	</tr>
 </table>

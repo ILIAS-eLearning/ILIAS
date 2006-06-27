@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -449,26 +449,6 @@ class ilObjFileBasedLM extends ilObject
 		}
 
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
-	}
-
-	/**
-	* redirect script
-	*
-	* @param	string		$a_target
-	*/
-	function _goto($a_target)
-	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
-
-		include_once 'classes/class.ilSearch.php';
-		
-		if (!$ilAccess->checkAccess("read", "", $a_target))
-		{
-			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-		}
-		
-		ilUtil::redirect(
-			"./content/fblm_presentation.php?ref_id=".$a_target);				
 	}
 
 }

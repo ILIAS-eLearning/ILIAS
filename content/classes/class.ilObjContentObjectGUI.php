@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -3309,5 +3309,43 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "pages");
 	}
 	
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["baseClass"] = "ilLMPresentationGUI";
+			$_GET["ref_id"] = $a_target;
+			include("ilias.php");
+			exit;
+		} else if ($ilAccess->checkAccess("visible", "", $a_target))
+		{
+			$_GET["baseClass"] = "ilLMPresentationGUI";
+			$_GET["ref_id"] = $a_target;
+			$_GET["cmd"] = "infoScreen";
+			include("ilias.php");
+			exit;
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+
+		
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}
+
 } // END class.ilObjContentObjectGUI
 ?>

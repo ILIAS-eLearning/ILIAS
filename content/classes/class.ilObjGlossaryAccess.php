@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -127,6 +127,59 @@ class ilObjGlossaryAccess extends ilObjectAccess
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}
 
+	/**
+	* check whether goto script will succeed
+	*/
+	function _checkGoto($a_target)
+	{
+		global $ilAccess;
+		
+		$t_arr = explode("_", $a_target);
+
+		if (($t_arr[0] != "glo" && $t_arr[0] != "git") || ((int) $t_arr[1]) <= 0)
+		{
+			return false;
+		}
+
+		if ($t_arr[0] == "glo")
+		{
+			if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
+				$ilAccess->checkAccess("visible", "", $t_arr[1]))
+			{
+				return true;
+			}
+		}
+//echo "1";
+		if ($t_arr[0] == "git")
+		{
+//echo "2";
+			if ($t_arr[2] > 0)
+			{
+//echo "3";
+				$ref_ids = array($t_arr[2]);
+			}
+			else
+			{
+//echo "4";
+				// determine learning object
+				include_once("content/classes/class.ilGlossaryTerm.php");
+				$glo_id = ilGlossaryTerm::_lookGlossaryID($t_arr[1]);
+				$ref_ids = ilObject::_getAllReferences($glo_id);
+			}
+			// check read permissions
+			foreach ($ref_ids as $ref_id)
+			{
+//echo "+$ref_id+";
+				// Permission check
+				if ($ilAccess->checkAccess("read", "", $ref_id))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 
 
 }

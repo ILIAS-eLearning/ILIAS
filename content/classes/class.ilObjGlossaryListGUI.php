@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -57,6 +57,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
 		$this->payment_enabled = false;
+		$this->info_screen_enabled = true;
 		$this->type = "glo";
 		$this->gui_class_name = "ilobjglossarygui";
 		
@@ -79,13 +80,17 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				$cmd_link = "content/glossary_presentation.php?ref_id=".$this->ref_id;
+				$cmd_link = "ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$this->ref_id;
 				break;
 
 			case "edit":
 				$cmd_link = "ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$this->ref_id;
 				break;
 
+			case "infoScreen":
+				$cmd_link = "ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=infoScreen&amp;ref_id=".$this->ref_id;
+				break;
+				
 			default:
 				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
 				break;
