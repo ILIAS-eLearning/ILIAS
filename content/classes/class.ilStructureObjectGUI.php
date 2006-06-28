@@ -201,7 +201,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 //echo ":".$this->checkClipboardContentType().":<br>";
 			if(ilEditClipboard::getContentObjectType() == "pg")
 			{
-				$acts["pastePage"] = "pastePage";
+				if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
+					== $this->content_object->getId()
+					|| ilEditClipboard::getAction() == "copy")
+				{
+					$acts["pastePage"] = "pastePage";
+				}
 			}
 			$this->setActions($acts);
 			$this->showActions();
