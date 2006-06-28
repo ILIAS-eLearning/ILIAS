@@ -973,7 +973,7 @@ class ilLMPresentationGUI
 			$tpl_menu->setCurrentBlock("perma_link");
 			$page_id = $this->getCurrentPageId();
 			$tpl_menu->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
-				"/goto.php?target=pg_".$page_id."&client_id=".CLIENT_ID);
+				"/goto.php?target=pg_".$page_id."_".$this->lm->getRefId()."&client_id=".CLIENT_ID);
 			$tpl_menu->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
 			$tpl_menu->setVariable("PERMA_TARGET", "_top");
 			$tpl_menu->parseCurrentBlock();

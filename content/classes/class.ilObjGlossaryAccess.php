@@ -149,18 +149,15 @@ class ilObjGlossaryAccess extends ilObjectAccess
 				return true;
 			}
 		}
-//echo "1";
+
 		if ($t_arr[0] == "git")
 		{
-//echo "2";
 			if ($t_arr[2] > 0)
 			{
-//echo "3";
 				$ref_ids = array($t_arr[2]);
 			}
 			else
 			{
-//echo "4";
 				// determine learning object
 				include_once("content/classes/class.ilGlossaryTerm.php");
 				$glo_id = ilGlossaryTerm::_lookGlossaryID($t_arr[1]);
@@ -169,7 +166,6 @@ class ilObjGlossaryAccess extends ilObjectAccess
 			// check read permissions
 			foreach ($ref_ids as $ref_id)
 			{
-//echo "+$ref_id+";
 				// Permission check
 				if ($ilAccess->checkAccess("read", "", $ref_id))
 				{

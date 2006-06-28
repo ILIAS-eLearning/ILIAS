@@ -773,13 +773,7 @@ class ilStartUpGUI
 			return false;
 		}
 
-		// to do: better
 		$t_arr = explode("_", $_GET["target"]);
-		if ($t_arr[0] == "pg" || $t_arr[0] == "st")
-		{
-			return true;
-		}
-		
 		$type = $t_arr[0];
 		
 		if ($type == "git")
@@ -787,6 +781,11 @@ class ilStartUpGUI
 			$type = "glo";
 		}
 		
+		if ($type == "pg" | $type == "st")
+		{
+			$type = "lm";
+		}
+
 		$class = $objDefinition->getClassName($type);
 		if ($class == "")
 		{

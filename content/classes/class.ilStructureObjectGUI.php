@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -714,6 +714,57 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
 			, "view", "ilEditClipboardGUI");
 
+	}
+
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target, $a_target_ref_id = "")
+	{
+		global $rbacsystem, $ilErr, $lng, $ilAccess;
+
+		// determine learning object
+		$lm_id = ilLMObject::_lookupContObjID($a_target);
+
+		// get all references
+		$ref_ids = ilObject::_getAllReferences($lm_id);
+		
+		// always try passed ref id first
+		if (in_array($a_target_ref_id, $ref_ids))
+		{
+			$ref_ids = array_merge(array($a_target_ref_id), $ref_ids);
+		}
+
+		// check read permissions
+		foreach ($ref_ids as $ref_id)
+		{
+			// Permission check
+			if ($ilAccess->checkAccess("read", "", $ref_id))
+			{
+				// don't redirect anymore, just set parameters
+				// (goto.php includes  "ilias.php")
+				$_GET["baseClass"] = "ilLMPresentationGUI";
+				$_GET["obj_id"] = $a_target;
+				$_GET["ref_id"] = $ref_id;
+				include_once("ilias.php");
+				exit;;
+			}
+		}
+		
+		if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle($lm_id)), true);
+			include("repository.php");
+			exit;
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
 }

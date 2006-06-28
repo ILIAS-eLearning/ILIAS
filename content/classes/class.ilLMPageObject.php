@@ -622,47 +622,5 @@ class ilLMPageObject extends ilLMObject
 		//$a_xml_writer->xmlEndTag("PageObject");
 	}
 
-
-	/**
-	* redirect script
-	*
-	* @param	string		$a_target
-	*/
-	function _goto($a_target, $a_target_ref_id = "")
-	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
-
-		// determine learning object
-		$lm_id = ilLMObject::_lookupContObjID($a_target);
-
-		// get all references
-		$ref_ids = ilObject::_getAllReferences($lm_id);
-
-		// always try passed ref id first
-		if (in_array($a_target_ref_id, $ref_ids))
-		{
-			$ref_ids = array_merge(array($a_target_ref_id), $ref_ids);
-		}
-
-		// check read permissions
-		foreach ($ref_ids as $ref_id)
-		{
-			include_once 'classes/class.ilSearch.php';
-			
-			// check read permissions
-			if ($ilAccess->checkAccess("read", "", $ref_id))
-			{
-				// don't redirect anymore, just set parameters
-				// (goto.php includes  "ilias.php")
-				$_GET["baseClass"] = "ilLMPresentationGUI";
-				$_GET["obj_id"] = $a_target;
-				$_GET["ref_id"] = $ref_id;
-				return;
-				//ilUtil::redirect("content/lm_presentation.php?ref_id=$ref_id".
-				//"&obj_id=$a_target");
-			}
-		}
-		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-	}
 }
 ?>

@@ -152,15 +152,15 @@ class ilGlossaryPresentationGUI
 
 	function clearTerms()
 	{
-		$_POST["term"] = "";
+		$_REQUEST["term"] = "";
 		$_GET["offset"] = $_GET["oldoffset"];
 		$this->searchTerms();
 	}
 	
 	function searchTerms ()
 	{
-		$term_list = $this->glossary->getTermList($_POST["term"]);
-		$this->listTermByGiven($term_list, $_POST["term"]);
+		$term_list = $this->glossary->getTermList($_REQUEST["term"]);
+		$this->listTermByGiven($term_list, $_REQUEST["term"]);
 	}
 
 
@@ -954,7 +954,8 @@ class ilGlossaryPresentationGUI
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
 					$tabs_gui->addTarget("cont_terms",
-						$this->ctrl->getLinkTarget($this, "listTerms"), array("listTerms", ""),
+						$this->ctrl->getLinkTarget($this, "listTerms"),
+						array("listTerms", "searchTerms", "clearTerms", ""),
 						"");
 				}
 	
@@ -996,7 +997,7 @@ class ilGlossaryPresentationGUI
 				{
 					$back = $this->ctrl->getLinkTarget($this, "listTerms");
 				}
-				$tabs_gui->setBackTarget($this->lng->txt("cont_terms"),
+				$tabs_gui->setBackTarget($this->lng->txt("obj_glo"),
 					$back, "", "");
 			}
 			
