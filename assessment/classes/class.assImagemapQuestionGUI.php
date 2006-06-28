@@ -748,7 +748,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", TRUE, TRUE, TRUE);
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("IMG_SRC", "$imagepath");
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
@@ -777,7 +777,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("IMG_SRC", "$imagepath");
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
@@ -859,7 +859,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$template->setVariable("IMG_SRC", "$imagepath");
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));

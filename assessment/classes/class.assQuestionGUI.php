@@ -761,11 +761,6 @@ class assQuestionGUI
 		$this->errormessage = $errormessage;
 	}
 	
-	function getLatexCGI()
-	{
-		return "http://aurealis.de/blahtex.php";
-	}
-	
 	function outAdditionalOutput()
 	{
 	}

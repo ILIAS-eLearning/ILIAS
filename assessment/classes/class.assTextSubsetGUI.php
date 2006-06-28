@@ -501,7 +501,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			}
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
@@ -524,7 +524,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
@@ -569,7 +569,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", $this->getLatexCGI());
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 		$template->setVariable("QUESTIONTEXT", $questiontext);
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
