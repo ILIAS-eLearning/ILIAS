@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1485,7 +1485,7 @@ class ilContObjParser extends ilMDSaxParser
 
 		$this->chr_data .= $a_data;
 
-		if(!empty($a_data))
+		if(!empty($a_data) || $a_data === "0")
 		{
 			// append all data to page, if we are within PageObject,
 			// but not within MetaData or MediaObject

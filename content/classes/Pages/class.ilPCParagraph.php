@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -492,16 +492,22 @@ echo htmlentities($a_text);*/
 		$any = "[^>]*";
 		$a_text = eregi_replace("<Comment[^>]*>","[com]",$a_text);
 		$a_text = eregi_replace("</Comment>","[/com]",$a_text);
+		$a_text = eregi_replace("<Comment/>","[com][/com]",$a_text);
 		$a_text = eregi_replace("<Emph>","[emp]",$a_text);
 		$a_text = eregi_replace("</Emph>","[/emp]",$a_text);
+		$a_text = eregi_replace("<Emph/>","[emp][/emp]",$a_text);
 		$a_text = eregi_replace("<Strong>","[str]",$a_text);
 		$a_text = eregi_replace("</Strong>","[/str]",$a_text);
+		$a_text = eregi_replace("<Strong/>","[str][/str]",$a_text);
 		$a_text = eregi_replace("<Footnote[^>]*>","[fn]",$a_text);
 		$a_text = eregi_replace("</Footnote>","[/fn]",$a_text);
+		$a_text = eregi_replace("<Footnote/>","[fn][/fn]",$a_text);
 		$a_text = eregi_replace("<Quotation[^>]*>","[quot]",$a_text);
 		$a_text = eregi_replace("</Quotation>","[/quot]",$a_text);
+		$a_text = eregi_replace("<Quotation/>","[quot][/quot]",$a_text);
 		$a_text = eregi_replace("<Code[^>]*>","[code]",$a_text);
 		$a_text = eregi_replace("</Code>","[/code]",$a_text);
+		$a_text = eregi_replace("<Code/>","[code][/code]",$a_text);
 
 		// internal links
 		while (eregi("<IntLink($any)>", $a_text, $found))
