@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -137,42 +137,6 @@ class ilStructureObject extends ilLMObject
 
 		return $chap;
 	}
-
-
-	/**
-	* redirect script
-	*
-	* @param	string		$a_target
-	*/
-	function _goto($a_target)
-	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
-
-		// determine learning object
-		$lm_id = ilLMObject::_lookupContObjID($a_target);
-
-		// get all references
-		$ref_ids = ilObject::_getAllReferences($lm_id);
-
-		// check read permissions
-		foreach ($ref_ids as $ref_id)
-		{
-			include_once 'classes/class.ilSearch.php';
-			
-			// Permission check
-			if ($ilAccess->checkAccess("read", "", $ref_id))
-			{
-				// don't redirect anymore, just set parameters
-				// (goto.php includes  "ilias.php")
-				$_GET["baseClass"] = "ilLMPresentationGUI";
-				$_GET["obj_id"] = $a_target;
-				$_GET["ref_id"] = $ref_id;
-				return;
-			}
-		}
-		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-	}
-
 
 	/**
 	* export object to xml (see ilias_co.dtd)

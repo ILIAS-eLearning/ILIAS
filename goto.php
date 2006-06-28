@@ -55,16 +55,14 @@ switch($target_type)
 {
 	// learning module pages
 	case "pg":
-		require_once("content/classes/class.ilLMPageObject.php");
-		ilLMPageObject::_goto($target_id, $target_ref_id);
-		include("ilias.php");
+		require_once("content/classes/class.ilLMPageObjectGUI.php");
+		ilLMPageObjectGUI::_goto($target_id, $target_ref_id);
 		break;
 
 	// learning module chapters
 	case "st":
-		require_once("content/classes/class.ilStructureObject.php");
-		ilStructureObject::_goto($target_id);
-		include("ilias.php");
+		require_once("content/classes/class.ilStructureObjectGUI.php");
+		ilStructureObjectGUI::_goto($target_id, $target_ref_id);
 		break;
 
 	// new implementation: ok

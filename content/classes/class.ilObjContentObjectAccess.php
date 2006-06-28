@@ -184,15 +184,44 @@ class ilObjContentObjectAccess extends ilObjectAccess
 		
 		$t_arr = explode("_", $a_target);
 
-		if (($t_arr[0] != "lm" &&  $t_arr[0] != "dbk") || ((int) $t_arr[1]) <= 0)
+		if (($t_arr[0] != "lm" &&  $t_arr[0] != "dbk" &&  $t_arr[0] != "st"
+			&&  $t_arr[0] != "pg")
+			|| ((int) $t_arr[1]) <= 0)
 		{
 			return false;
 		}
 
-		if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-			$ilAccess->checkAccess("visible", "", $t_arr[1]))
+		if ($t_arr[0] == "lm" || $t_arr[0] == "dbk")
 		{
-			return true;
+			if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
+				$ilAccess->checkAccess("visible", "", $t_arr[1]))
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if ($t_arr[2] > 0)
+			{
+				$ref_ids = array($t_arr[2]);
+			}
+			else
+			{
+				// determine learning object
+				include_once("content/classes/class.ilLMObject.php");
+				$lm_id = ilLMObject::_lookupContObjID($t_arr[1]);
+				$ref_ids = ilObject::_getAllReferences($lm_id);
+			}
+			// check read permissions
+			foreach ($ref_ids as $ref_id)
+			{
+				// Permission check
+				if ($ilAccess->checkAccess("read", "", $ref_id))
+				{
+					return true;
+				}
+			}
+
 		}
 		return false;
 	}

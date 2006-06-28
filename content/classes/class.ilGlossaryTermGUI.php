@@ -597,6 +597,8 @@ class ilGlossaryTermGUI
 	{
 		global $rbacsystem, $ilErr, $lng, $ilAccess;
 
+		$glo_id = ilGlossaryTerm::_lookGlossaryID($a_target);//::_lookupContObjID($a_target);
+		
 		// get all references
 		if ($a_ref_id > 0)
 		{
@@ -604,8 +606,6 @@ class ilGlossaryTermGUI
 		}
 		else
 		{
-			// determine learning object
-			$glo_id = ilGlossaryTerm::_lookGlossaryID($a_target);//::_lookupContObjID($a_target);
 			$ref_ids = ilObject::_getAllReferences($glo_id);
 		}
 
@@ -623,6 +623,17 @@ class ilGlossaryTermGUI
 				exit;
 			}
 		}
+		if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle($glo_id)), true);
+			include("repository.php");
+			exit;
+		}
+
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
