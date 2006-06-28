@@ -1336,7 +1336,7 @@ class ilSetup extends PEAR
 		include_once "class.ilHttpRequest.php";
 		$http = new ilHttpRequest(ilUtil::stripSlashes($a_latex_url));
 		$result = $http->downloadToString();
-		if (strpos((substr($result, 0, 5)), "PNG") > 0)
+		if ((strpos((substr($result, 0, 5)), "PNG") > 0) || (strpos((substr($result, 0, 5)), "GIF") > 0))
 		{
 			return true;
 		}
