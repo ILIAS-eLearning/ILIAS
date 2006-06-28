@@ -3236,6 +3236,7 @@ common#:#url_edit_permission#:#Change Permission settings
 common#:#url_new#:#New URL
 common#:#url_not_found#:#File Not Found
 common#:#url_read#:#Open URL
+common#:#url_to_latex#:#URL to LaTeX CGI script
 common#:#url_visible#:#URL is visible
 common#:#url_write#:#Edit URL
 common#:#user#:#User

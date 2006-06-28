@@ -954,6 +954,7 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"])));
 		$this->ini->setVariable("tools", "java", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"])));
 		$this->ini->setVariable("tools", "htmldoc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"])));
+		$this->ini->setVariable("tools", "latex", ilUtil::stripSlashes($a_formdata["latex_url"]));
 		$this->ini->setVariable("tools", "vscantype", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["vscanner_type"])));
 		$this->ini->setVariable("tools", "scancommand", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["scan_command"])));
 		$this->ini->setVariable("tools", "cleancommand", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["clean_command"])));
@@ -987,6 +988,7 @@ class ilSetup extends PEAR
 		$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
 		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
 		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
+		$latex_url = ilUtil::stripSlashes($a_formdata["latex_url"]);
 		$fop_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["fop_path"]));
 		$scan_type = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["vscanner_type"]));
 		$scan_command = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["scan_command"]));
@@ -997,6 +999,7 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", $unzip_path);
 		$this->ini->setVariable("tools", "java", $java_path);
 		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
+		$this->ini->setVariable("tools", "latex", $latex_url);
 		$this->ini->setVariable("tools", "fop", $fop_path);
 		$this->ini->setVariable("tools", "vscantype", $scan_type);
 		$this->ini->setVariable("tools", "scancommand", $scan_command);
@@ -1117,6 +1120,23 @@ class ilSetup extends PEAR
 			if (!$this->testHtmldoc($htmldoc_path))
 			{
 				$this->error = "check_failed_htmldoc";
+				return false;
+			}
+		}
+
+		// latex  url
+		if (!isset($a_formdata["chk_latex_url"]))
+		{
+			$latex_url = ilUtil::stripSlashes($a_formdata["latex_url"]);
+			if (empty($latex_url))
+			{
+				$this->error = "no_latex_url";
+				return false;
+			}
+		
+			if (!$this->testLatex($latex_url))
+			{
+				$this->error = "check_failed_latex";
 				return false;
 			}
 		}
@@ -1304,6 +1324,28 @@ class ilSetup extends PEAR
 		return ($back != 1) ? false : true;
 	}
 
+	/**
+	* Check latex cgi script
+	*
+	* @param	string		latex cgi url
+	* @return	boolean		true -> OK | false -> not OK	
+	*/
+	function testLatex($a_latex_url)
+	{
+		// open the URL
+		include_once "class.ilHttpRequest.php";
+		$http = new ilHttpRequest(ilUtil::stripSlashes($a_latex_url));
+		$result = $http->downloadToString();
+		if (strpos((substr($result, 0, 5)), "PNG") > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	/**
 	* Check zip program
 	*

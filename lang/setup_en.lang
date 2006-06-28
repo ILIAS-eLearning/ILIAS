@@ -56,6 +56,7 @@ check_failed_convert#:#Testing convert failed
 check_failed_htmldoc#:#Testing FOP failed
 check_failed_htmldoc#:#Testing HTMLdoc failed
 check_failed_java#:#Testing Java failed
+check_failed_latex#:#Testing LaTeX CGI script failed
 check_failed_unzip#:#Testing unzip failed
 check_failed_zip#:#Testing zip failed
 choose_language#:#Choose your language
@@ -244,6 +245,7 @@ language#:#language
 languages#:#languages
 languages_installed#:#Language(s) installed
 lastname#:#Last name
+latex_url_comment#:#required for LaTeX support in ILIAS
 list#:#list
 list_disabled#:#Client selection disabled
 list_enabled#:#Client selection enabled
@@ -281,6 +283,7 @@ no_clients_available#:#No Clients available
 no_database#:#No database
 no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator
 no_db_update_file#:#dbupdate.php not found!
+no_latex_url#:#No LaTeX CGI script URL given
 no_password#:#No password given
 no_path_convert#:#No convert path given
 no_path_datadir#:#No data directory given
@@ -407,6 +410,7 @@ unzip_path_comment#:#required for importing learning modules
 update_applied#:#Update applied
 update_error#:#Error while updating
 update_not_found#:#Update not found!
+url_to_latex#:#URL to LaTeX CGI script
 username#:#username
 version#:#Version
 virus_scanner#:#Virus Scanner

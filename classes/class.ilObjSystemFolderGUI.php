@@ -659,6 +659,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("path_to_unzip"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("path_to_java"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("path_to_htmldoc"));
+		$this->tpl->setVariable("TXT_LATEX_URL", $this->lng->txt("url_to_latex"));
 
 		// Cron
 		$this->tpl->setVariable("TXT_CRON",$this->lng->txt('cron_jobs'));
@@ -992,6 +993,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("UNZIP_PATH",(PATH_TO_UNZIP) ? PATH_TO_UNZIP : $not_set);
 		$this->tpl->setVariable("JAVA_PATH",(PATH_TO_JAVA) ? PATH_TO_JAVA : $not_set);
 		$this->tpl->setVariable("HTMLDOC_PATH",(PATH_TO_HTMLDOC) ? PATH_TO_HTMLDOC : $not_set);
+		$this->tpl->setVariable("LATEX_URL",(URL_TO_LATEX) ? URL_TO_LATEX : $not_set);
 
 		// contact
 		$this->tpl->setVariable("ADMIN_FIRSTNAME",$settings["admin_firstname"]);
