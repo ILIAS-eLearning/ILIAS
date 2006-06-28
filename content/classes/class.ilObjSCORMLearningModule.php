@@ -156,7 +156,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 			// to copy the file we need some extraspace, counted in bytes *2 ... we need 2 copies....
 			$estimated_manifest_filesize = filesize($manifest_file) * 2;
-			$check_disc_free = disk_free_space($this->getDataDirectory()) - $estimated_manifest_filesize;
+			
+			// i deactivated this, because it seems to fail on some windows systems (see bug #1795)
+			//$check_disc_free = disk_free_space($this->getDataDirectory()) - $estimated_manifest_filesize;
+			$check_disc_free = 2;
 		}
 
 		// if $manifest_file needs to be converted to UTF8
@@ -206,6 +209,33 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 					return;
 			}
 
+		}
+		else
+		{
+			// check whether file starts with BOM (that confuses some sax parsers, see bug #1795)
+			$hmani = fopen($manifest_file, "r");
+			$start = fread($hmani, 3);
+			if (strtolower(bin2hex($start)) == "efbbbf")
+			{
+				$f_write_handler = fopen($manifest_file.".new", "w");
+				while (!feof($hmani))
+				{
+					$n = fread($hmani, 900);
+					fputs($f_write_handler, $n);
+				}
+				fclose($f_write_handler);
+				fclose($hmani);
+
+				// copy new utf8-file to imsmanifest.xml
+				if (!copy($manifest_file.".new", $manifest_file))
+				{
+					echo "Failed to copy $manifest_file...<br>\n";
+				}
+			}
+			else
+			{
+				fclose($hmani);
+			}
 		}
 
 		//validate the XML-Files in the SCORM-Package
