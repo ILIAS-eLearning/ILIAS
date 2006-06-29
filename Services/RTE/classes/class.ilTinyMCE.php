@@ -54,7 +54,8 @@ class ilTinyMCE extends ilRTE
 		$tags =& ilObjAdvancedEditing::_getUsedHTMLTags();
 		$tpl->setCurrentBlock("tinymce");
 		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
-		$tpl->setVariable("REF_ID", $_GET["ref_id"]);
+		include_once "./classes/class.ilObject.php";
+		$tpl->setVariable("OBJ_ID", ilObject::_lookupObjectId($_GET["ref_id"]));
 		$tpl->setVariable("CLIENT_ID", CLIENT_ID);
 		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
 		$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
