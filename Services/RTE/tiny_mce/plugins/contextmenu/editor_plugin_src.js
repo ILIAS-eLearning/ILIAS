@@ -4,7 +4,7 @@
  * $Date$
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -119,7 +119,7 @@ var TinyMCE_ContextMenuPlugin = {
 						if (tinyMCE.getAttrib(elm, 'class').indexOf('mceItemFlash') != -1)
 							contextMenu.addItem(tinyMCE.baseURL + "/plugins/flash/images/flash.gif", "$lang_flash_props", "mceFlash");
 						else
-							contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/image.gif", "$lang_image_props_desc", inst.hasPlugin("advimage") ? "mceAdvImage" : "mceImage");
+							contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/image.gif", "$lang_image_props_desc", inst.hasPlugin("ibrowser") ? "mceAdvImage" : "mceBrowseImage");
 						break;
 
 					case "HR":

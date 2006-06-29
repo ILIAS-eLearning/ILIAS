@@ -45,6 +45,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 	function ilObjSurveyListGUI()
 	{
 		$this->ilObjectListGUI();
+		$this->info_screen_enabled = true;
 	}
 
 	/**
@@ -93,6 +94,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		{
 			case "":
 			case "run":
+			case "infoScreen":
 			case "evaluation":
 				include_once "./classes/class.ilFrameTargetInfo.php";
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");

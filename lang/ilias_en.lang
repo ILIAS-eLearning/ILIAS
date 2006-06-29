@@ -5547,6 +5547,7 @@ survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#add_standard_numbers#:#Add standard numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
+survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below. ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization
@@ -5681,6 +5682,7 @@ survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the co
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation access
 survey#:#evaluation_access_all#:#Evaluation access for all users
+survey#:#evaluation_access_info#:#You have access to the survey evaluation
 survey#:#evaluation_access_participants#:#Evaluation access for survey participants
 survey#:#existing_constraints#:#Existing preconditions
 survey#:#exit#:#Exit
@@ -5895,6 +5897,7 @@ survey#:#svy_eval_detail#:#Cumulated results (details)
 survey#:#svy_eval_user#:#User specific results
 survey#:#svy_export_files#:#Export files
 survey#:#svy_file#:#File
+survey#:#svy_general_properties#:#General properties
 survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.
 survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#svy_missing_questions#:#You do not have any questions in the survey! Please add at least one question to the survey.

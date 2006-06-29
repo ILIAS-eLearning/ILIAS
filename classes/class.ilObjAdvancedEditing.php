@@ -334,6 +334,9 @@ class ilObjAdvancedEditing extends ilObject
 			"strong",
 			"sub",
 			"sup",
+			"table",
+			"td",
+			"tr",
 			"u",
 			"ul"			
 		);
