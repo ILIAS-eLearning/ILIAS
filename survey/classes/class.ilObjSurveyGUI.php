@@ -31,6 +31,7 @@
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyExecutionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -78,6 +79,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
+			case "ilinfoscreengui":
+				$this->infoScreen();	// forwards command
+				break;
 			case 'ilmdeditorgui':
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -2007,6 +2011,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function runObject()
 	{
+		//$this->ctrl->redirect($this, "infoScreen");
 		include_once("./survey/classes/class.ilSurveyExecutionGUI.php");
 		$exec_gui = new ilSurveyExecutionGUI($this->object);
 		$this->ctrl->setCmdClass(get_class($exec_gui));
@@ -3678,6 +3683,67 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess;
+		global $ilUser;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
+		
+		if (strlen($this->object->getIntroduction()))
+		{
+			$introduction = $this->object->getIntroduction();
+			$introduction = preg_replace("/\n/i", "<br />", $introduction);
+			$info->addSection($this->lng->txt("introduction"));
+			$info->addProperty("", $introduction);
+		}
+
+		$info->addSection($this->lng->txt("svy_general_properties"));
+		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
+		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
+		switch ($this->object->getAnonymize())
+		{
+			case ANONYMIZE_OFF:
+				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_personalized"));
+				break;
+			case ANONYMIZE_ON:
+				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_with_code"));
+				break;
+			case ANONYMIZE_FREEACCESS:
+				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_without_code"));
+				break;
+		}
+		include_once "./survey/classes/class.ilObjSurveyAccess.php";
+		if ($ilAccess->checkAccess("write", "", $this->ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
+		{
+			$info->addProperty($this->lng->txt("evaluation_access"), $this->lng->txt("evaluation_access_info"));
+		}
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		$this->ctrl->forwardCommand($info);
+	}
+
 	function addLocatorItems()
 	{
 		global $ilLocator;
@@ -3702,6 +3768,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "importFile":
 			case "cloneAll":
 				break;
+			case "infoScreen":
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
+				break;
 		default:
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				break;
@@ -3715,6 +3784,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		global $ilAccess;
+		
 		switch ($this->ctrl->getCmd())
 		{
 			case "run":
@@ -3732,81 +3803,94 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		
 		// properties
-		$force_active = ($this->ctrl->getCmd() == "")
-			? true
-			: false;
-		$tabs_gui->addTarget("properties",
-			 $this->ctrl->getLinkTarget($this,'properties'),
-			 array("properties", "save", "cancel"), "",
-			 "", $force_active);
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			$force_active = ($this->ctrl->getCmd() == "")
+				? true
+				: false;
+			$tabs_gui->addTarget("properties",
+				 $this->ctrl->getLinkTarget($this,'properties'),
+				 array("properties", "save", "cancel"), "",
+				 "", $force_active);
+		}
 
-		// questions
-		$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
-			? true
-			: false;
-
-		$tabs_gui->addTarget("survey_questions",
-			 $this->ctrl->getLinkTarget($this,'questions'),
-			 array("questions", "browseForQuestions", "searchQuestions", "createQuestion",
-			 "searchQuestionsExecute",
-			 "filterQuestions", "resetFilterQuestions", "changeDatatype", "insertQuestions",
-			 "removeQuestions", "cancelRemoveQuestions", "confirmRemoveQuestions",
-			 "defineQuestionblock", "saveDefineQuestionblock", "cancelDefineQuestionblock",
-			 "unfoldQuestionblock", "moveQuestions",
-			 "insertQuestionsBefore", "insertQuestionsAfter", "saveObligatory",
-			 "addHeading", "saveHeading", "cancelHeading", "editHeading",
-			 "confirmRemoveHeading", "cancelRemoveHeading"),
-			 "", "", $force_active);
-			 
-		// constraints
-		$tabs_gui->addTarget("constraints",
-			 $this->ctrl->getLinkTarget($this, "constraints"),
-			 array("constraints", "constraintStep1", "constraintStep2",
-			 "constraintStep3", "constraintsAdd", "createConstraints"),
-			 "");
-			 
-		// invite
-		$tabs_gui->addTarget("invite_participants",
-			 $this->ctrl->getLinkTarget($this, "invite"),
-			 array("invite", "saveInvitationStatus",
-			 "cancelInvitationStatus", "searchInvitation", "inviteUserGroup",
-			 "disinviteUserGroup"),
-			 "");
-
-		// export
-		$tabs_gui->addTarget("export",
-			 $this->ctrl->getLinkTarget($this,'export'),
-			 array("export", "createExportFile", "confirmDeleteExportFile",
-			 "downloadExportFile"), 
-			 ""
-			);
-
-		// maintenance
-		$tabs_gui->addTarget("maintenance",
-			 $this->ctrl->getLinkTarget($this,'maintenance'),
-			 array("maintenance", "deleteAllUserData"),
-			 "");
-
-		// status
-		$tabs_gui->addTarget("status",
-			 $this->ctrl->getLinkTarget($this,'status'),
-			 array("status"),
-			 "");
+		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$tabs_gui->addTarget("info",
+				 $this->ctrl->getLinkTarget($this,'infoScreen'),
+				 array("infoScreen", "showSummary"));
+		}
 			
-		// code
-		$tabs_gui->addTarget("codes",
-			 $this->ctrl->getLinkTarget($this,'codes'),
-			 array("codes", "createSurveyCodes", "setCodeLanguage"),
-			 "");
-
-		// permissions
-		$tabs_gui->addTarget("perm_settings",
-			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-			 
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-			 "", "ilmdeditorgui");
+		// questions
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
+				? true
+				: false;
+	
+			$tabs_gui->addTarget("survey_questions",
+				 $this->ctrl->getLinkTarget($this,'questions'),
+				 array("questions", "browseForQuestions", "searchQuestions", "createQuestion",
+				 "searchQuestionsExecute",
+				 "filterQuestions", "resetFilterQuestions", "changeDatatype", "insertQuestions",
+				 "removeQuestions", "cancelRemoveQuestions", "confirmRemoveQuestions",
+				 "defineQuestionblock", "saveDefineQuestionblock", "cancelDefineQuestionblock",
+				 "unfoldQuestionblock", "moveQuestions",
+				 "insertQuestionsBefore", "insertQuestionsAfter", "saveObligatory",
+				 "addHeading", "saveHeading", "cancelHeading", "editHeading",
+				 "confirmRemoveHeading", "cancelRemoveHeading"),
+				 "", "", $force_active);
+				 
+			// constraints
+			$tabs_gui->addTarget("constraints",
+				 $this->ctrl->getLinkTarget($this, "constraints"),
+				 array("constraints", "constraintStep1", "constraintStep2",
+				 "constraintStep3", "constraintsAdd", "createConstraints"),
+				 "");
+				 
+			// invite
+			$tabs_gui->addTarget("invite_participants",
+				 $this->ctrl->getLinkTarget($this, "invite"),
+				 array("invite", "saveInvitationStatus",
+				 "cancelInvitationStatus", "searchInvitation", "inviteUserGroup",
+				 "disinviteUserGroup"),
+				 "");
+	
+			// export
+			$tabs_gui->addTarget("export",
+				 $this->ctrl->getLinkTarget($this,'export'),
+				 array("export", "createExportFile", "confirmDeleteExportFile",
+				 "downloadExportFile"), 
+				 ""
+				);
+	
+			// maintenance
+			$tabs_gui->addTarget("maintenance",
+				 $this->ctrl->getLinkTarget($this,'maintenance'),
+				 array("maintenance", "deleteAllUserData"),
+				 "");
+	
+			// status
+			$tabs_gui->addTarget("status",
+				 $this->ctrl->getLinkTarget($this,'status'),
+				 array("status"),
+				 "");
+				
+			// code
+			$tabs_gui->addTarget("codes",
+				 $this->ctrl->getLinkTarget($this,'codes'),
+				 array("codes", "createSurveyCodes", "setCodeLanguage"),
+				 "");
+	
+			// permissions
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+				 
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
+		}
 	}
 	
 	/**

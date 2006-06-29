@@ -11091,4 +11091,8 @@ CREATE TABLE `crs_objective_status` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#763>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

@@ -65,6 +65,7 @@ class ilTinyMCE extends ilRTE
 			$more_buttons = ",separator," . join(",", $this->plugins);
 		}
 		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
+		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
 		$tpl->setVariable("ADDITIONAL_PLUGINS", $more_buttons);
 		include_once "./classes/class.ilUtil.php";
 		$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getStyleSheetLocation());
@@ -213,7 +214,7 @@ class ilTinyMCE extends ilRTE
 		}
 		if (in_array("img", $a_html_tags))
 		{
-			array_push($theme_advanced_buttons, "advimage");
+			//array_push($theme_advanced_buttons, "advimage");
 			array_push($theme_advanced_buttons, "ibrowser");
 		}
 		if (in_array("a", $a_html_tags))
@@ -225,6 +226,16 @@ class ilTinyMCE extends ilRTE
 		array_push($theme_advanced_buttons, "separator");
 		array_push($theme_advanced_buttons, "undo");
 		array_push($theme_advanced_buttons, "redo");
+		return join(",", $theme_advanced_buttons);
+	}
+	
+	function _buildAdvancedTableButtonsFromHTMLTags($a_html_tags)
+	{
+		$theme_advanced_buttons = array();
+		if (in_array("table", $a_html_tags) && in_array("tr", $a_html_tags) && in_array("td", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "tablecontrols");
+		}
 		return join(",", $theme_advanced_buttons);
 	}
 	
