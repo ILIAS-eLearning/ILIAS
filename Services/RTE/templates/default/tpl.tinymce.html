@@ -1,12 +1,16 @@
 <!-- BEGIN tinymce -->
 <script language="javascript" type="text/javascript" src="{JAVASCRIPT_LOCATION}"></script>
 <script language="javascript" type="text/javascript">
+<!-- BEGIN ref_id -->
+	var ref_id = '{REF_ID}';
+<!-- END ref_id -->
+	
 	tinyMCE.init({
 		mode : "textareas",
 		editor_deselector : "noRTEditor",
 		theme : "advanced",
 		language : "{LANG}",
-		plugins : "xhtmlxtras,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable{ADDITIONAL_PLUGINS}",
+		plugins : "ibrowser,xhtmlxtras,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable{ADDITIONAL_PLUGINS}",
 		theme_advanced_blockformats : "{BLOCKFORMATS}",
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "center",

@@ -54,6 +54,7 @@ class ilTinyMCE extends ilRTE
 		$tags =& ilObjAdvancedEditing::_getUsedHTMLTags();
 		$tpl->setCurrentBlock("tinymce");
 		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
+		$tpl->setVariable("REF_ID", $_GET["ref_id"]);
 		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
 		$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
 		$more_buttons = "";
@@ -207,6 +208,11 @@ class ilTinyMCE extends ilRTE
 		{
 			array_push($theme_advanced_buttons, "indent");
 			array_push($theme_advanced_buttons, "outdent");
+		}
+		if (in_array("img", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "advimage");
+			array_push($theme_advanced_buttons, "ibrowser");
 		}
 		if (in_array("a", $a_html_tags))
 		{
