@@ -2878,7 +2878,7 @@ class ilUtil
 	* added additional parameters to make this method usable
 	* for other start and end tags as well
 	*/
-	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = PATH_TO_LATEX)
+	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
 		// todo:
 		// - provide custom path for mimetex.cgi
