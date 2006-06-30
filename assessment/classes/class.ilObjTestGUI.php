@@ -3740,6 +3740,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$question_gui = $this->object->createQuestionGUI("", $question);
 			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".");
 			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+			if ($question_gui->object->getMaximumPoints() == 1)
+			{
+				$this->tpl->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("point"));
+			}
+			else
+			{
+				$this->tpl->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
+			}
 			$result_output = $question_gui->getSolutionOutput("");
 			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock("question");

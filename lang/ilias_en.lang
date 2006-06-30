@@ -555,7 +555,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_questionpools_for_random_test#:#You have not added a question pool for this random test! Please select at least one question pool.
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added question pool.
-assessment#:#tst_no_solution_available#:#Short answer question don't have a solution. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_no_solution_available#:#Short answer questions don't have a specified solution.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
 assessment#:#tst_nr_of_tries#:#Max. number of passes
