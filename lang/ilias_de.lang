@@ -521,7 +521,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens
 assessment#:#tst_no_questionpools_for_random_test#:#Sie haben noch keinen Fragenpool zu diesem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens einen Fragenpool aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
 assessment#:#tst_no_questions_for_random_test#:#Sie haben noch keine Fragen zu Ihrem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens eine Frage durch die Angabe einer Anzahl von Fragen zu einem ausgewählten Fragenpool aus!
-assessment#:#tst_no_solution_available#:#Kurztext-Fragen besitzen keine Musterlösung.
+assessment#:#tst_no_solution_available#:#Freitext-Fragen besitzen keine Musterlösung.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_no_tries#:#keine
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
