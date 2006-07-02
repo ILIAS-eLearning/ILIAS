@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -38,7 +38,7 @@ class ilHistoryGUI
 	
 	function ilHistoryGUI($a_obj_id, $a_obj_type = "")
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		
 		$this->obj_id = $a_obj_id;
 		
@@ -52,6 +52,7 @@ class ilHistoryGUI
 		}
 
 		$this->lng =& $lng;
+		$this->ctrl =& $ilCtrl;
 	}
 
 
@@ -69,18 +70,10 @@ class ilHistoryGUI
 		$tbl->setTitle($this->lng->txt("history"));
 		if ($a_user_comment)
 		{
-			$tbl->setHeaderNames(array($this->lng->txt("date"),
-				$this->lng->txt("user"), $this->lng->txt("action"),
-				$this->lng->txt("user_comment")));
-			$tbl->setColumnWidth(array("25%", "15%", "25%", "45%"));
-			$cols = array("date", "user", "action", "comment");
-		}
-		else
-		{
-			$tbl->setHeaderNames(array($this->lng->txt("date"),
+			$tbl->setHeaderNames(array($this->lng->txt("date")."/".
 				$this->lng->txt("user"), $this->lng->txt("action")));
-			$tbl->setColumnWidth(array("25%", "25%", "50%"));
-			$cols = array("date", "user", "action");
+			$tbl->setColumnWidth(array("40%", "60%"));
+			$cols = array("date_user", "action");
 		}
 
 		if ($a_header_params == "")
@@ -96,7 +89,8 @@ class ilHistoryGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
-
+		$tbl->disable("header");
+		
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
@@ -115,15 +109,26 @@ class ilHistoryGUI
 			foreach($entries as $entry)
 			{
 				$this->tpl->setCurrentBlock("tbl_content");
-				$css_row = ($cssrow != "tblrow1") ? "tblrow1" : "tblrow2";
+				$css_row = ($css_row != "tblrow1") ? "tblrow1" : "tblrow2";
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TXT_DATE", $entry["date"]);
 				$name = ilObjUser::_lookupName($entry["user_id"]);
+				$login = ilObjUser::_lookupLogin($entry["user_id"]);
 				$this->tpl->setVariable("TXT_USER",
-					$name["title"]." ".$name["firstname"]." ".$name["lastname"]." [".$entry["user_id"]."]");
+					$name["title"]." ".$name["firstname"]." ".$name["lastname"]." [".$login."]");
 				$info_params = explode(",", $entry["info_params"]);
-				$info_text = $this->lng->txt("hist_".$this->obj_type.
-					"_".$entry["action"]);
+				
+				// not so nice
+				if ($this->obj_type != "lm" && $this->obj_type != "dbk")
+				{
+					$info_text = $this->lng->txt("hist_".str_replace(":", "_", $this->obj_type).
+						"_".$entry["action"]);
+				}
+				else
+				{
+					$info_text = $this->lng->txt("hist_".str_replace(":", "_", $entry["obj_type"]).
+						"_".$entry["action"]);
+				}
 				$i=1;
 				foreach($info_params as $info_param)
 				{
@@ -131,13 +136,27 @@ class ilHistoryGUI
 					$i++;
 				}
 				$this->tpl->setVariable("TXT_ACTION", $info_text);
-				if ($a_user_comment)
+				if ($this->obj_type == "lm" || $this->obj_type == "dbk")
+				{
+					$this->tpl->setCurrentBlock("item_link");
+					$obj_arr = explode(":", $entry["obj_type"]);
+					$class = ($obj_arr[1] == "st")
+						? "ilstructureobjectgui"
+						: "illmpageobjectgui";
+					$this->ctrl->setParameterByClass($class, "obj_id", $entry["obj_id"]);
+					$this->tpl->setVariable("HREF_LINK", 
+						$this->ctrl->getLinkTargetByClass($class, "view"));
+					$this->tpl->setVariable("TXT_LINK", $entry["title"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($a_user_comment && $entry["user_comment"] != "")
 				{
 					$this->tpl->setCurrentBlock("user_comment");
+					$this->tpl->setVariable("TXT_COMMENT", $this->lng->txt("comment"));
 					$this->tpl->setVariable("TXT_USER_COMMENT", $entry["user_comment"]);
 					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("tbl_content");
 				}
+				$this->tpl->setCurrentBlock("tbl_content");
 				
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();

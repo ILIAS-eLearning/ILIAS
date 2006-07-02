@@ -2828,6 +2828,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui','illmstatisticsgui'));
 		}
+		
+		$tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
+			, "history", get_class($this));
+
 
 		// permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -2909,6 +2913,27 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editPublicSection");
 	}
+	
+	/**
+	* history
+	*
+	* @access	public
+	*/
+	function history()
+	{
+		$this->setTabs();
+		
+		require_once("classes/class.ilHistoryGUI.php");
+		$hist_gui =& new ilHistoryGUI($this->object->getId() ,
+			$this->object->getType());
+		$hist_html = $hist_gui->getHistoryTable(
+			$this->ctrl->getParameterArray($this, "history"),
+			$this->object->isActiveHistoryUserComments()
+			);
+		
+		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
+	}
+
 
 	function linkChecker()
 	{

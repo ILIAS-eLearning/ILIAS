@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -130,23 +130,37 @@ class ilHistory
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
 		}
 		
-		$query = "SELECT * FROM history WHERE obj_id = ".
-			$ilDB->quote($a_obj_id)." AND ".
-			"obj_type = ".$ilDB->quote($a_obj_type).
-			" ORDER BY hdate";
-
-		$hist_set = $ilDB->query($query);
+		if ($a_obj_type != "lm" && $a_obj_type != "dbk")
+		{
+			$query = "SELECT * FROM history WHERE obj_id = ".
+				$ilDB->quote($a_obj_id)." AND ".
+				"obj_type = ".$ilDB->quote($a_obj_type).
+				" ORDER BY hdate DESC";
+	
+			$hist_set = $ilDB->query($query);
+		}
+		else
+		{
+			$query = "SELECT h.*, l.title as title FROM history as h, lm_data as l WHERE ".
+				" l.lm_id = ".$ilDB->quote($a_obj_id)." AND ".
+				" l.obj_id = h.obj_id ".
+				" ORDER BY h.hdate DESC";
+				
+			$hist_set = $ilDB->query($query);
+		}
 
 		$hist_items = array();
 		while ($hist_rec = $hist_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$hist_items[] = array("date" => $hist_rec["hdate"],
 				"user_id" => $hist_rec["usr_id"],
-				"obj_id" => $a_obj_id,
+				"obj_id" => $hist_rec["obj_id"],
+				"obj_type" => $hist_rec["obj_type"],
 				"action" => $hist_rec["action"],
 				"info_params" => $hist_rec["info_params"],
 				"user_comment" => $hist_rec["user_comment"],
-				"hist_entry_id" => $hist_rec["id"]);
+				"hist_entry_id" => $hist_rec["id"],
+				"title" => $hist_rec["title"]);
 		}
 		
 		return $hist_items;
