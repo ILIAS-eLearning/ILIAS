@@ -68,13 +68,11 @@ class ilHistoryGUI
 		
 		// table header
 		$tbl->setTitle($this->lng->txt("history"));
-		if ($a_user_comment)
-		{
-			$tbl->setHeaderNames(array($this->lng->txt("date")."/".
-				$this->lng->txt("user"), $this->lng->txt("action")));
-			$tbl->setColumnWidth(array("40%", "60%"));
-			$cols = array("date_user", "action");
-		}
+		
+		$tbl->setHeaderNames(array($this->lng->txt("date")."/".
+			$this->lng->txt("user"), $this->lng->txt("action")));
+		$tbl->setColumnWidth(array("40%", "60%"));
+		$cols = array("date_user", "action");
 
 		if ($a_header_params == "")
 		{
@@ -138,16 +136,45 @@ class ilHistoryGUI
 				$this->tpl->setVariable("TXT_ACTION", $info_text);
 				if ($this->obj_type == "lm" || $this->obj_type == "dbk")
 				{
-					$this->tpl->setCurrentBlock("item_link");
 					$obj_arr = explode(":", $entry["obj_type"]);
-					$class = ($obj_arr[1] == "st")
-						? "ilstructureobjectgui"
-						: "illmpageobjectgui";
-					$this->ctrl->setParameterByClass($class, "obj_id", $entry["obj_id"]);
-					$this->tpl->setVariable("HREF_LINK", 
-						$this->ctrl->getLinkTargetByClass($class, "view"));
-					$this->tpl->setVariable("TXT_LINK", $entry["title"]);
+					switch ($obj_arr[1])
+					{
+						case "st":
+							$img_type = "st";
+							$class = "ilstructureobjectgui";
+							break;
+							
+						case "pg":
+							$img_type = "pg";
+							$class = "illmpageobjectgui";
+							break;
+
+						default:
+							$img_type = $obj_arr[0];
+							$class = "";
+							break;
+					}
+
+					$this->tpl->setCurrentBlock("item_icon");
+					$this->tpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_".$img_type.".gif"));
 					$this->tpl->parseCurrentBlock();
+					
+					if ($class != "")
+					{
+						$this->tpl->setCurrentBlock("item_link");
+						$this->ctrl->setParameterByClass($class, "obj_id", $entry["obj_id"]);
+						$this->tpl->setVariable("HREF_LINK", 
+							$this->ctrl->getLinkTargetByClass($class, "view"));
+						$this->tpl->setVariable("TXT_LINK", $entry["title"]);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock("item_title");
+						$this->tpl->setVariable("TXT_TITLE",
+							ilObject::_lookupTitle($entry["obj_id"]));
+						$this->tpl->parseCurrentBlock();
+					}
 				}
 				if ($a_user_comment && $entry["user_comment"] != "")
 				{
@@ -190,21 +217,11 @@ class ilHistoryGUI
 		
 		// table header
 		$tbl->setTitle($this->lng->txt("versions"));
-		if ($a_user_comment)
-		{
-			$tbl->setHeaderNames(array($this->lng->txt("date"),
-				$this->lng->txt("user"), $this->lng->txt("action"),
-				$this->lng->txt("user_comment"), ""));
-			$tbl->setColumnWidth(array("15%", "15%", "45%", "20%","5%"));
-			$cols = array("date", "user", "action", "comment", "");
-		}
-		else
-		{
-			$tbl->setHeaderNames(array($this->lng->txt("date"),
-				$this->lng->txt("user"), $this->lng->txt("action"),""));
-			$tbl->setColumnWidth(array("25%", "25%", "45%", "5%"));
-			$cols = array("date", "user", "action", "");
-		}
+		
+		$tbl->setHeaderNames(array($this->lng->txt("date")."/".
+			$this->lng->txt("user"), $this->lng->txt("action")));
+		$tbl->setColumnWidth(array("40%", "60%"));
+		$cols = array("date_user", "action");
 
 		if ($a_header_params == "")
 		{
@@ -219,6 +236,7 @@ class ilHistoryGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
+		$tbl->disable("header");
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -238,7 +256,7 @@ class ilHistoryGUI
 			foreach($entries as $entry)
 			{
 				$this->tpl->setCurrentBlock("tbl_content");
-				$css_row = ($cssrow != "tblrow1") ? "tblrow1" : "tblrow2";
+				$css_row = ($css_row != "tblrow1") ? "tblrow1" : "tblrow2";
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TXT_DATE", $entry["date"]);
 				$name = ilObjUser::_lookupName($entry["user_id"]);

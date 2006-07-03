@@ -576,6 +576,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		// write history comments
 		include_once("classes/class.ilHistory.php");
+		$parent_id = $tree->getParentId($id);
 		ilHistory::_createEntry($id, "paste",
 			array(ilLMObject::_lookupTitle($this->obj->getId()), $this->obj->getId()),
 			$this->content_object->getType().":pg");
