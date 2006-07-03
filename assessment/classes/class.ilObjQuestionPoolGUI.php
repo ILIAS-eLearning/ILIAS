@@ -1846,7 +1846,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
 				"deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
 				"addParameter", "assessment", "addGIT", "addST", "addPG", "delete",
-				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage"),
+				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
 			 "", "", $force_active);
 
 		// print view

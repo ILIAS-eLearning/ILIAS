@@ -158,6 +158,7 @@ assessment#:#cloze_textgap_case_sensitive#:#Case sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s
 assessment#:#cloze_textgap_rating#:#Text gap rating
 assessment#:#code#:#Code
+assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?
