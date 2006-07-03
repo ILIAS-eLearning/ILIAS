@@ -5012,7 +5012,6 @@ payment#:#pay_bmf_description_debit_entry#:#Bitte überprüfen Sie zunächst, ob
 payment#:#pay_bmf_description_payment_type#:#Bitte wählen Sie eine Bezahlart aus.
 payment#:#pay_bmf_description_personal_data#:#Bitte füllen Sie das nachfolgende Formular vollständig aus.
 payment#:#pay_bmf_house_number#:#Hausnummer
-payment#:#pay_bmf_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#oder
 payment#:#pay_bmf_password_not_valid#:#Ihr Passwort ist nicht gültig.
@@ -5063,7 +5062,6 @@ payment#:#pay_payed_credit_card#:#Die Bestellung wurde per Kreditkarte bezahlt.
 payment#:#pay_payed_debit_entry#:#Die Bestellung wurde per Lastschriftverfahren bezahlt.
 payment#:#pay_reset_filter#:#Filter zurücksetzen
 payment#:#pay_select_one_item#:#Bitte wählen Sie mindestens einen Artikel aus.
-payment#:#pay_select_price#:#Bitte wählen Sie einen Preis aus.
 payment#:#pay_send_order#:#Bestellung abschicken
 payment#:#pay_shopping_cart_empty#:#Ihr Einkaufswagen ist leer.
 payment#:#pay_starting#:#beginnt mit
@@ -5954,3 +5952,14 @@ content#:#citate_page#:#Diese Seite zitieren
 content#:#citate_from#:#Zitieren von ...
 content#:#citate_to#:#Zitieren bis ...
 content#:#citate#:#Zitieren
+payment#:#pays_paypal#:#PayPal
+payment#:#pays_objects_paypal_exist#:#Für einige Objekte ist die Bezahlart 'PayPal' aktiviert. Diese kann deswegen nicht deaktiviert werden.
+common#:#payment_buyable#:#Kaufbar
+common#:#payment_payed_access#:#Bezahlt/Zugriff
+common#:#payment_in_sc#:#Bereits im Warenkorb
+payment#:#pay_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
+payment#:#pay_select_price#:#Bitte wählen Sie eine Preis-/Dauer-Kombination aus.
+payment#:#pay_change_price#:#Preis-/Dauer-Kombination ändern
+payment#:#pay_payed_paypal#:#Die Bestellung wurde per PayPal bezahlt.
+payment#:#pay_paypal_success#:#Vielen Dank für Ihren Kauf von ILIAS Objekten! Sie erhalten darüber eine schriftliche Bestätigung im PDF Format an Ihre E-Mail-Adresse.
+payment#:#pay_paypal_failed#:#Ihr Kauf von ILIAS Objekten �ber PayPal ist leider fehlgeschlagen!

@@ -5176,7 +5176,6 @@ payment#:#pay_bmf_description_debit_entry#:#Please check out whether all article
 payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
 payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
 payment#:#pay_bmf_house_number#:#House number
-payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period. ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#or
 payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -5227,7 +5226,6 @@ payment#:#pay_payed_credit_card#:#The order was paid by credit card.
 payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.
 payment#:#pay_reset_filter#:#Reset filter
 payment#:#pay_select_one_item#:#Please select one item.
-payment#:#pay_select_price#:#Please select a new price.
 payment#:#pay_send_order#:#Send order
 payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.
 payment#:#pay_starting#:#starts with
@@ -6190,3 +6188,14 @@ content#:#citate_page#:#Citate this Page
 content#:#citate_from#:#Citate From ...
 content#:#citate_to#:#Citate To ...
 content#:#citate#:#Citate
+payment#:#pays_paypal#:#PayPal
+payment#:#pays_objects_paypal_exist#:#Pay method 'PayPal' is activated for some objects. Therefore it can not be deactivated.
+common#:#payment_buyable#:#Buyable
+common#:#payment_payed_access#:#Payed/Access
+common#:#payment_in_sc#:#Already in shopping cart
+payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
+payment#:#pay_select_price#:#Please select a price/duration combination.
+payment#:#pay_change_price#:#Change price/duration combination
+payment#:#pay_payed_paypal#:#The order was paid by PayPal.
+payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.
+payment#:#pay_paypal_failed#:#Your puchase of ILIAS objects using PayPal failed!
