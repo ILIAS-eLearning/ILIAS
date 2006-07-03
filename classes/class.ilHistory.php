@@ -130,24 +130,12 @@ class ilHistory
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
 		}
 		
-		if ($a_obj_type != "lm" && $a_obj_type != "dbk")
-		{
-			$query = "SELECT * FROM history WHERE obj_id = ".
-				$ilDB->quote($a_obj_id)." AND ".
-				"obj_type = ".$ilDB->quote($a_obj_type).
-				" ORDER BY hdate DESC";
-	
-			$hist_set = $ilDB->query($query);
-		}
-		else
-		{
-			$query = "SELECT h.*, l.title as title FROM history as h, lm_data as l WHERE ".
-				" l.lm_id = ".$ilDB->quote($a_obj_id)." AND ".
-				" l.obj_id = h.obj_id ".
-				" ORDER BY h.hdate DESC";
-				
-			$hist_set = $ilDB->query($query);
-		}
+		$query = "SELECT * FROM history WHERE obj_id = ".
+			$ilDB->quote($a_obj_id)." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type).
+			" ORDER BY hdate DESC";
+
+		$hist_set = $ilDB->query($query);
 
 		$hist_items = array();
 		while ($hist_rec = $hist_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -162,10 +150,44 @@ class ilHistory
 				"hist_entry_id" => $hist_rec["id"],
 				"title" => $hist_rec["title"]);
 		}
-		
+
+		if ($a_obj_type == "lm" || $a_obj_type == "dbk")
+		{
+			$query = "SELECT h.*, l.title as title FROM history as h, lm_data as l WHERE ".
+				" l.lm_id = ".$ilDB->quote($a_obj_id)." AND ".
+				" l.obj_id = h.obj_id ".
+				" ORDER BY h.hdate DESC";
+				
+			$hist_set = $ilDB->query($query);
+			while ($hist_rec = $hist_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$hist_items[] = array("date" => $hist_rec["hdate"],
+					"user_id" => $hist_rec["usr_id"],
+					"obj_id" => $hist_rec["obj_id"],
+					"obj_type" => $hist_rec["obj_type"],
+					"action" => $hist_rec["action"],
+					"info_params" => $hist_rec["info_params"],
+					"user_comment" => $hist_rec["user_comment"],
+					"hist_entry_id" => $hist_rec["id"],
+					"title" => $hist_rec["title"]);
+			}
+			usort($hist_items, array("ilHistory", "_compareHistArray"));
+			$hist_items2 = array_reverse($hist_items);
+			return $hist_items2;
+		}
+
 		return $hist_items;
 	}
-	
+
+	function _compareHistArray($a, $b)
+	{
+		if ($a["date"] == $b["date"])
+		{
+			return 0;
+		}
+		return ($a["date"] < $b["date"]) ? -1 : 1;
+	}
+
 	/**
 	* remove all history entries for an object
 	*

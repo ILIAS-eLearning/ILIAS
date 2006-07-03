@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -170,7 +170,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("ROW_CSS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$tpl->setVariable("ROW_CSS",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			$tpl->setVariable("TITLE",$item['title']);
 			$tpl->setVariable("TARGET",$item['target']);
 			$tpl->parseCurrentBlock();
@@ -299,7 +299,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			}
 
 			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("ROW_CSS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$tpl->setVariable("ROW_CSS",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			
 			$tpl->setVariable("CHECK_ITEM",ilUtil::formCheckbox(0,'item_id[]',$item['link_id']));
 			$tpl->setVariable("TITLE",$item['title']);
@@ -1104,11 +1104,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem,$rbacreview;
-		
+
 		if ($rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
+				$this->ctrl->getLinkTarget($this, "view"), array("", "view"),
+				array(strtolower(get_class($this)), ""));
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
@@ -1216,16 +1217,16 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		$counter = 0;
 		
-		$this->tpl->touchBlock('locator_separator');
-		$this->tpl->touchBlock('locator_item');
+		//$this->tpl->touchBlock('locator_separator');
+		//$this->tpl->touchBlock('locator_item');
 		
 		foreach ($tree->getPathFull($this->object->getRefId()) as $key => $row)
 		{
 			
-			if ($row["child"] == $tree->getRootId())
-			{
-				continue;
-			}
+			//if ($row["child"] == $tree->getRootId())
+			//{
+			//	continue;
+			//}
 			
 			if($counter++)
 			{
