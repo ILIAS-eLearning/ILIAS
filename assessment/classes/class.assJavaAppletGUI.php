@@ -140,6 +140,9 @@ class assJavaAppletGUI extends assQuestionGUI
 			$this->tpl->setCurrentBlock("javaappletupload");
 			$this->tpl->setVariable("UPLOADED_JAVAAPPLET", $javaapplet);
 			$this->tpl->parse("javaappletupload");
+			$this->tpl->setCurrentBlock("delete_applet");
+			$this->tpl->setVariable("VALUE_JAVAAPPLET_DELETE", $this->lng->txt("delete"));
+			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
@@ -149,7 +152,8 @@ class assJavaAppletGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_APPLET_POINTS", sprintf("%d", $this->object->getPoints()));
 		$this->tpl->parseCurrentBlock();
 
-		if ($javaapplet)
+		
+		if ((strlen($this->object->getTitle()) > 0) && (strlen($this->object->getAuthor()) > 0) && (strlen($this->object->getQuestion()) > 0) && ($this->object->getPoints() > 0))
 		{
 			$emptyname = 0;
 			for ($i = 0; $i < $this->object->getParameterCount(); $i++)
@@ -190,9 +194,16 @@ class assJavaAppletGUI extends assQuestionGUI
 					sendInfo($this->lng->txt("too_many_empty_parameters"));
 				}
 			}
+			if (!strlen($javaapplet))
+			{
+				$this->tpl->setVariable("TEXT_ARCHIVE", $this->lng->txt("archive"));
+				$this->tpl->setVariable("VALUE_ARCHIVE", $this->object->getJavaArchive());
+				$this->tpl->setVariable("TEXT_CODEBASE", $this->lng->txt("codebase"));
+				$this->tpl->setVariable("VALUE_CODEBASE", $this->object->getJavaCodebase());
+			}
+
 			$this->tpl->setCurrentBlock("appletcode");
 			$this->tpl->setVariable("APPLET_ATTRIBUTES", $this->lng->txt("applet_attributes"));
-			$this->tpl->setVariable("TEXT_ARCHIVE", $this->lng->txt("archive"));
 			$this->tpl->setVariable("TEXT_CODE", $this->lng->txt("code"));
 			$this->tpl->setVariable("TEXT_WIDTH", $this->lng->txt("width"));
 			$this->tpl->setVariable("TEXT_HEIGHT", $this->lng->txt("height"));
@@ -260,6 +271,17 @@ class assJavaAppletGUI extends assQuestionGUI
 		{
 			$this->object->saveToDb();
 		}
+		$this->editQuestion();
+	}
+
+
+	/**
+	* save question to db and return to question pool
+	*/
+	function removeJavaapplet()
+	{
+		$this->object->deleteJavaAppletFilename();
+		$this->object->saveToDb();
 		$this->editQuestion();
 	}
 
@@ -332,9 +354,11 @@ class assJavaAppletGUI extends assQuestionGUI
 				}
 				$this->object->setJavaAppletFilename($_FILES['javaappletName']['name'], $_FILES['javaappletName']['tmp_name']);
 			}
-			if ($this->object->getJavaAppletFilename())
+			if ((strlen($this->object->getTitle()) > 0) && (strlen($this->object->getAuthor()) > 0) && (strlen($this->object->getQuestion()) > 0) && ($this->object->getPoints() > 0))
 			{
 				$this->object->setJavaCode($_POST["java_code"]);
+				$this->object->setJavaCodebase($_POST["java_codebase"]);
+				$this->object->setJavaArchive($_POST["java_archive"]);
 				$this->object->setJavaWidth($_POST["java_width"]);
 				$this->object->setJavaHeight($_POST["java_height"]);
 				if ((!$_POST["java_width"]) or (!$_POST["java_height"])) $result = 1;
@@ -433,13 +457,27 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
 		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());
-		if (strpos($this->object->getJavaAppletFilename(), ".jar") !== FALSE)
+		if (strlen($this->object->getJavaArchive()) > 0)
 		{
-			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
+			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaArchive()."\"");
 		}
-		if (strpos($this->object->getJavaAppletFilename(), ".class") !== FALSE)
+		else
 		{
-			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
+			if (strpos($this->object->getJavaAppletFilename(), ".jar") !== FALSE)
+			{
+				$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
+			}
+		}
+		if (strlen($this->object->getJavaCodebase()) > 0)
+		{
+			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaCodebase()."\"");
+		}
+		else
+		{
+			if (strpos($this->object->getJavaAppletFilename(), ".class") !== FALSE)
+			{
+				$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
+			}
 		}
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
@@ -483,13 +521,27 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
 		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());
-		if (strpos($this->object->getJavaAppletFilename(), ".jar") !== FALSE)
+		if (strlen($this->object->getJavaArchive()) > 0)
 		{
-			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
+			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaArchive()."\"");
 		}
-		if (strpos($this->object->getJavaAppletFilename(), ".class") !== FALSE)
+		else
 		{
-			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
+			if (strpos($this->object->getJavaAppletFilename(), ".jar") !== FALSE)
+			{
+				$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
+			}
+		}
+		if (strlen($this->object->getJavaCodebase()) > 0)
+		{
+			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaCodebase()."\"");
+		}
+		else
+		{
+			if (strpos($this->object->getJavaAppletFilename(), ".class") !== FALSE)
+			{
+				$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
+			}
 		}
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
@@ -570,13 +622,27 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
 		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());
-		if (strpos($this->object->getJavaAppletFilename(), ".jar") !== FALSE)
+		if (strlen($this->object->getJavaArchive()) > 0)
 		{
-			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
+			$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaArchive()."\"");
 		}
-		if (strpos($this->object->getJavaAppletFilename(), ".class") !== FALSE)
+		else
 		{
-			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
+			if (strpos($this->object->getJavaAppletFilename(), ".jar") !== FALSE)
+			{
+				$template->setVariable("APPLET_ARCHIVE", " archive=\"".$this->object->getJavaPathWeb().$this->object->getJavaAppletFilename()."\"");
+			}
+		}
+		if (strlen($this->object->getJavaCodebase()) > 0)
+		{
+			$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaCodebase()."\"");
+		}
+		else
+		{
+			if (strpos($this->object->getJavaAppletFilename(), ".class") !== FALSE)
+			{
+				$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
+			}
 		}
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
@@ -588,7 +654,7 @@ class assJavaAppletGUI extends assQuestionGUI
 	*/
 	function checkInput()
 	{
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+		if ((strlen($_POST["title"]) == 0) or (strlen($_POST["author"]) == 0) or (strlen($_POST["question"]) == 0) or (strlen($_POST["applet_points"]) == 0))
 		{
 			$this->error .= $this->lng->txt("fill_out_all_required_fields");
 			return false;

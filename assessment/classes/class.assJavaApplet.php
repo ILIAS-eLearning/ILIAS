@@ -63,6 +63,24 @@ class assJavaApplet extends assQuestion
 	var $java_code;
 
 	/**
+	* Java Applet codebase parameter
+	*
+	* Java Applet codebase parameter
+	*
+	* @var string
+	*/
+	var $java_codebase;
+
+	/**
+	* Java Applet archive parameter
+	*
+	* Java Applet archive parameter
+	*
+	* @var string
+	*/
+	var $java_archive;
+
+	/**
 	* Java Applet width parameter
 	*
 	* Java Applet width parameter
@@ -145,6 +163,8 @@ class assJavaApplet extends assQuestion
 		$applet = NULL;
 		$maxpoints = 0;
 		$javacode = "";
+		$javacodebase = "";
+		$javaarchive = "";
 		$params = array();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 		$answers = array();
@@ -169,6 +189,14 @@ class assJavaApplet extends assQuestion
 							else if (strcmp($mattext->getLabel(), "java_code") == 0)
 							{
 								$javacode = $mattext->getContent();
+							}
+							else if (strcmp($mattext->getLabel(), "java_codebase") == 0)
+							{
+								$javacodebase = $mattext->getContent();
+							}
+							else if (strcmp($mattext->getLabel(), "java_archive") == 0)
+							{
+								$javaarchive = $mattext->getContent();
 							}
 							else if (strlen($mattext->getLabel()) > 0)
 							{
@@ -198,6 +226,8 @@ class assJavaApplet extends assQuestion
 		$this->setJavaWidth($applet->getWidth());
 		$this->setJavaHeight($applet->getHeight());
 		$this->setJavaCode($javacode);
+		$this->setJavaCodebase($javacodebase);
+		$this->setJavaArchive($javaarchive);
 		$this->setPoints($maxpoints);
 		foreach ($params as $pair)
 		{
@@ -349,6 +379,20 @@ class assJavaApplet extends assQuestion
 				);
 				$a_xml_writer->xmlElement("mattext", $attrs, $this->java_code);
 			}
+			if ($this->java_codebase)
+			{
+				$attrs = array(
+					"label" => "java_codebase"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $this->java_codebase);
+			}
+			if ($this->java_archive)
+			{
+				$attrs = array(
+					"label" => "java_archive"
+				);
+				$a_xml_writer->xmlElement("mattext", $attrs, $this->java_archive);
+			}
 			foreach ($this->parameters as $key => $value)
 			{
 				$attrs = array(
@@ -400,6 +444,12 @@ class assJavaApplet extends assQuestion
 					case "java_code" :
 						$this->java_code = $matches[2];
 						break;
+					case "java_codebase" :
+						$this->java_codebase = $matches[2];
+						break;
+					case "java_archive" :
+						$this->java_archive = $matches[2];
+						break;
 					case "java_width" :
 						$this->java_width = $matches[2];
 						break;
@@ -434,6 +484,14 @@ class assJavaApplet extends assQuestion
 		{
 			array_push($params_array, "java_code=$this->java_code");
 		}
+		if ($this->java_codebase)
+		{
+			array_push($params_array, "java_codebase=$this->java_codebase");
+		}
+		if ($this->java_archive)
+		{
+			array_push($params_array, "java_archive=$this->java_archive");
+		}
 		if ($this->java_width)
 		{
 			array_push($params_array, "java_width=$this->java_width");
@@ -464,6 +522,8 @@ class assJavaApplet extends assQuestion
 		if ($this->java_code)
 		{
 			array_push($params_array, "java_code=$this->java_code");
+			array_push($params_array, "java_codebase=$this->java_codebase");
+			array_push($params_array, "java_archive=$this->java_archive");
 		}
 		foreach ($this->parameters as $key => $value)
 		{
@@ -487,7 +547,11 @@ class assJavaApplet extends assQuestion
 		{
 			return true;
 		}
-			else
+		else if (($this->title) and ($this->author) and ($this->question) and ($this->getJavaArchive()) and ($this->getJavaCodebase()) and ($this->java_width) and ($this->java_height) and ($this->getMaximumPoints() > 0))
+		{
+			return true;
+		}
+		else
 		{
 			return false;
 		}
@@ -800,6 +864,32 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
+	* Returns the java applet codebase parameter
+	*
+	* Returns the java applet codebase parameter
+	*
+	* @return string java applet codebase parameter
+	* @access public
+	*/
+	function getJavaCodebase()
+	{
+		return $this->java_codebase;
+	}
+
+	/**
+	* Returns the java applet archive parameter
+	*
+	* Returns the java applet archive parameter
+	*
+	* @return string java applet archive parameter
+	* @access public
+	*/
+	function getJavaArchive()
+	{
+		return $this->java_archive;
+	}
+
+	/**
 	* Sets the java applet code parameter
 	*
 	* Sets the java applet code parameter
@@ -810,6 +900,32 @@ class assJavaApplet extends assQuestion
 	function setJavaCode($java_code = "")
 	{
 		$this->java_code = $java_code;
+	}
+
+	/**
+	* Sets the java applet codebase parameter
+	*
+	* Sets the java applet codebase parameter
+	*
+	* @param string java applet codebase parameter
+	* @access public
+	*/
+	function setJavaCodebase($java_codebase = "")
+	{
+		$this->java_codebase = $java_codebase;
+	}
+
+	/**
+	* Sets the java applet archive parameter
+	*
+	* Sets the java applet archive parameter
+	*
+	* @param string java applet archive parameter
+	* @access public
+	*/
+	function setJavaArchive($java_archive = "")
+	{
+		$this->java_archive = $java_archive;
 	}
 
 	/**
@@ -1131,7 +1247,18 @@ class assJavaApplet extends assQuestion
 			{
 				print "java applet not uploaded!!!! ";
 			}
+			else
+			{
+				$this->setJavaCodebase();
+				$this->setJavaArchive();
+			}
 		}
+	}
+	
+	function deleteJavaAppletFilename()
+	{
+		unlink($this->getJavaPath() . $this->getJavaAppletFilename());
+		$this->javaapplet_filename = "";
 	}
 
 	function syncWithOriginal()
