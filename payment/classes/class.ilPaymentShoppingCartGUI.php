@@ -29,8 +29,10 @@
 * @package core
 */
 
+include_once './payment/classes/class.ilPurchasePaypal.php';
 include_once './payment/classes/class.ilPaymentShoppingCart.php';
 include_once './payment/classes/class.ilPaymentBaseGUI.php';
+include_once './payment/paypal/cfg_epayment.inc.php';
 
 class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 {
@@ -43,6 +45,11 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 	 * shopping cart obj
 	 */
 	var $psc_obj = null;
+
+	/*
+	 * paypal obj
+	 */
+	var $paypal_obj = null;
 
 	function ilPaymentShoppingCartGUI(&$user_obj)
 	{
@@ -76,14 +83,158 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		}
 	}
 
+	function finishPaypal()
+	{
+		$this->__initPaypalObject();
+
+		if (!($fp = $this->paypal_obj->openSocket()))
+		{
+			sendInfo($this->lng->txt('pay_paypal_unreachable'));
+			$this->showItems();
+		}
+		else
+		{
+			if ($this->paypal_obj->checkData($fp))
+			{
+				sendInfo($this->lng->txt('pay_paypal_success'), true);
+				$this->ctrl->redirectByClass('ilpaymentbuyedobjectsgui');
+			}
+			else
+			{
+				sendInfo($this->lng->txt('pay_paypal_failed'));
+				$this->showItems();
+			}
+			fclose($fp);
+		}
+	}
+
+	function cancelPaypal()
+	{
+		sendInfo($this->lng->txt('pay_paypal_canceled'));
+		$this->showItems();
+	}
+
 	function showItems()
 	{
+		global $ilObjDataCache, $paypalConfig, $ilUser;
+
 		include_once './payment/classes/class.ilPaymentPrices.php';
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html','payment');
 
 		$this->__initShoppingCartObject();
-		if(!count($items = $this->psc_obj->getEntries()))
+
+		include_once './payment/classes/class.ilGeneralSettings.php';
+
+		$genSet = new ilGeneralSettings();
+
+		include_once './payment/classes/class.ilPayMethods.php';
+
+		if (ilPayMethods::_enabled('pm_bmf')) $pay_methods[] = PAY_METHOD_BMF;
+		if (ilPayMethods::_enabled('pm_paypal')) $pay_methods[] = PAY_METHOD_PAYPAL;
+
+		$num_items = 0;
+		if (is_array($pay_methods))
+		{
+			for ($p = 0; $p < count($pay_methods); $p++)
+			{
+
+				if ($pay_methods[$p] == PAY_METHOD_BMF)
+					$tpl =& new ilTemplate("./payment/templates/default/tpl.pay_shopping_cart_bmf.html",true,true);
+				else if ($pay_methods[$p] == PAY_METHOD_PAYPAL)
+					$tpl =& new ilTemplate("./payment/templates/default/tpl.pay_shopping_cart_paypal.html",true,true);
+
+				if(count($items = $this->psc_obj->getEntries($pay_methods[$p])))
+				{
+					$counter = 0;
+					foreach($items as $item)
+					{
+						$tmp_pobject =& new ilPaymentObject($this->user_obj,$item['pobject_id']);
+			
+						$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());
+						$obj_type = $ilObjDataCache->lookupType($obj_id);
+						$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+			
+						$f_result[$counter][] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
+						$f_result[$counter][] = "<a href=\"goto.php?target=".$obj_type."_".$tmp_pobject->getRefId() . "\">".$obj_title."</a>";
+
+						$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
+						$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
+			
+						$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
+			
+						if ($pay_methods[$p] == PAY_METHOD_PAYPAL)
+						{
+							$tpl->setCurrentBlock("loop_items");
+							$tpl->setVariable("LOOP_ITEMS_NO", ($counter+1));
+							$tpl->setVariable("LOOP_ITEMS_NAME", "[".$obj_id."]: ".$obj_title);
+							$tpl->setVariable("LOOP_ITEMS_AMOUNT", $price_arr['unit_value'].".".$price_arr['sub_unit_value']);
+							$tpl->parseCurrentBlock("loop_items");
+
+#							$buttonParams["item_name_".($counter+1)] = $obj_title;
+#							$buttonParams["amount_".($counter+1)] = $price_arr['unit_value'].".".$price_arr['sub_unit_value'];
+						}
+
+						unset($tmp_obj);
+						unset($tmp_pobject);
+						
+						++$counter;
+					}
+
+					$tpl->setCurrentBlock("buy_link");
+					switch($pay_methods[$p])
+					{
+						case PAY_METHOD_BMF:
+							$tpl->setVariable("SCRIPT_LINK", './payment/start_bmf.php');
+							break;
+		
+						case PAY_METHOD_PAYPAL:
+							$tpl->setVariable("SCRIPT_LINK", $paypalConfig["server"]);
+							$tpl->setVariable("POPUP_BLOCKER", $this->lng->txt('popup_blocker'));
+							$tpl->setVariable("VENDOR", $paypalConfig["vendor"]);
+							$tpl->setVariable("RETURN", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, "finishPaypal"));
+							$tpl->setVariable("CANCEL_RETURN", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, "cancelPaypal"));
+							$tpl->setVariable("CUSTOM", $ilUser->getId());
+							$tpl->setVariable("CURRENCY", $genSet->get("currency_unit"));
+
+#							$buttonParams["upload"] = 1;
+#							$buttonParams["charset"] = "utf-8";
+#							$buttonParams["business"] = $paypalConfig["vendor"];
+#							$buttonParams["currency_code"] = "EUR";
+#							$buttonParams["return"] = "http://www.databay.de/user/jens/paypal.php";
+#							$buttonParams["rm"] = 2;
+#							$buttonParams["cancel_return"] = "http://www.databay.de/user/jens/paypal.php";
+#							$buttonParams["custom"] = "HALLO";
+#							$buttonParams["invoice"] = "0987654321";
+#							if ($enc_data = $this->__encryptButton($buttonParams))
+#							{
+#								$tpl->setVariable("ENCDATA", $enc_data);
+#							}
+
+							break;
+					}
+					$tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
+					$tpl->parseCurrentBlock("buy_link");
+
+					$tpl->setCurrentBlock("loop");
+
+					$this->__showItemsTable($tpl, $f_result, $pay_methods[$p]);
+					unset($f_result);
+
+					$tpl->parseCurrentBlock("loop");
+
+					if ($pay_methods[$p] == PAY_METHOD_BMF)
+						$this->tpl->setVariable("BMF", $tpl->get());
+					else if ($pay_methods[$p] == PAY_METHOD_PAYPAL)
+						$this->tpl->setVariable("PAYPAL", $tpl->get());
+
+					$num_items += $counter;
+				}
+
+			}
+		}
+		
+		if ($num_items == 0)
 		{
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
@@ -91,58 +242,12 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("buy_link");
-			$this->tpl->setVariable("LINK_SCRIPT", './start_bmf.php');
-			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
-			$this->tpl->parseCurrentBlock("buy_link");
+			return true;
 		}
 
-		
-
-		$counter = 0;
-		foreach($items as $item)
-		{
-			$tmp_pobject =& new ilPaymentObject($this->user_obj,$item['pobject_id']);
-
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
-
-			$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
-
-			$f_result[$counter][] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
-			$numPrices = ilPaymentPrices::_countPrices($item['pobject_id']);
-			if ($numPrices > 1)
-			{
-				if ($tmp_obj->getType() == "crs")
-				{
-					$f_result[$counter][] = "<a href=\"repository.php?ref_id=" . $tmp_pobject->getRefId() . "&cmdClass=ilobjcoursegui&cmdNode=4\">" . $tmp_obj->getTitle() . "</a>";
-				}
-				else if ($tmp_obj->getType() == "lm")
-				{
-					$f_result[$counter][] = "<a href=\"content/lm_presentation.php?ref_id=" . $tmp_pobject->getRefId() . "\">" . $tmp_obj->getTitle() . "</a>";
-				}
-				else
-				{
-					$f_result[$counter][] = $tmp_obj->getTitle();
-				}
-			}
-			else
-			{
-				$f_result[$counter][] = $tmp_obj->getTitle();
-			}
-			$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
-
-			$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
-
-			unset($tmp_obj);
-			unset($tmp_pobject);
-			
-			++$counter;
-		}
-			
-		return $this->__showItemsTable($f_result);
 	}
 	
-	function __showItemsTable($a_result_set)
+	function __showItemsTable(&$a_tpl, $a_result_set, $a_pay_method = 0)
 	{
 		include_once './payment/classes/class.ilGeneralSettings.php';
 
@@ -172,25 +277,38 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("paya_shopping_cart"),"icon_pays_b.gif",$this->lng->txt("paya_shopping_cart"));
+		$title = $this->lng->txt("paya_shopping_cart");
+		switch($a_pay_method)
+		{
+			case PAY_METHOD_BMF:
+				$title .= " (" . $this->lng->txt("payment_system") . ": " . $this->lng->txt("pays_bmf") . ")";
+				break;
+
+			case PAY_METHOD_PAYPAL:
+				$title .= " (" . $this->lng->txt("payment_system") . ": " . $this->lng->txt("pays_paypal") . ")";
+				break;
+		}
+		$tbl->setTitle($title,"icon_pays_b.gif",$this->lng->txt("paya_shopping_cart"));
 		$tbl->setHeaderNames(array($this->lng->txt(""),
 								   $this->lng->txt("title"),
 								   $this->lng->txt("duration"),
 								   $this->lng->txt("price_a")));
 
 		$tbl->setHeaderVars(array("",
-								  "title",
-								  "duration",
-								  "price"),
+								  "table".$a_pay_method."_title",
+								  "table".$a_pay_method."_duration",
+								  "table".$a_pay_method."_price"),
 							array("cmd" => "",
 								  "cmdClass" => "ilpaymentshoppingcartgui",
+								  "baseClass" => "ilPersonalDesktopGUI",
 								  "cmdNode" => $_GET["cmdNode"]));
 
-		$offset = $_GET["offset"];
-		$order = $_GET["sort_by"];
-		$direction = $_GET["sort_order"] ? $_GET['sort_order'] : 'desc';
+		$offset = $_GET["table".$a_pay_method."_offset"];
+		$order = $_GET["table".$a_pay_method."_sort_by"];
+		$direction = $_GET["table".$a_pay_method."_sort_order"] ? $_GET['table'.$a_pay_method.'_sort_order'] : 'desc';
 
-		$tbl->setOrderColumn($order,'title');
+		$tbl->setPrefix("table".$a_pay_method."_");
+		$tbl->setOrderColumn($order,'table'.$a_pay_method.'_title');
 		$tbl->setOrderDirection($direction);
 		$tbl->setOffset($offset);
 		$tbl->setLimit($_GET["limit"]);
@@ -217,11 +335,9 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		$tpl->setVariable('COLUMN_COUNT',4);
 		$tpl->parseCurrentBlock();
 
-
-
 		$tbl->render();
 
-		$this->tpl->setVariable("ITEMS_TABLE",$tbl->tpl->get());
+		$a_tpl->setVariable("ITEMS_TABLE",$tbl->tpl->get());
 
 		return true;
 	}
@@ -252,5 +368,91 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 	{
 		$this->psc_obj =& new ilPaymentShoppingCart($this->user_obj);
 	}
+
+	function __initPaypalObject()
+	{
+		$this->paypal_obj =& new ilPurchasePaypal($this->user_obj);
+	}
+
+    /**
+     * Creates a new encrypted button HTML block
+     *
+     * @param array The button parameters as key/value pairs
+     * @return mixed A string of HTML or a Paypal error object on failure
+     */
+    function __encryptButton($buttonParams)
+    {
+		global $paypalConfig;
+		vd($paypalConfig);
+
+        $merchant_cert = $paypalConfig["vendor_cert"];
+        $merchant_key = $paypalConfig["vendor_key"];
+        $end_cert = $paypalConfig["enc_cert"];
+
+        $tmpin_file  = tempnam('/tmp', 'paypal_');
+        $tmpout_file = tempnam('/tmp', 'paypal_');
+        $tmpfinal_file = tempnam('/tmp', 'paypal_');
+
+        $rawdata = array();
+        $buttonParams['cert_id'] = $paypalConfig["cert_id"];
+        foreach ($buttonParams as $name => $value) {
+            $rawdata[] = "$name=$value";
+        }
+        $rawdata = implode("\n", $rawdata);
+
+        $fp = fopen($tmpin_file, 'w');
+        if (!$fp) {
+            echo "Could not open temporary file '$tmpin_file')";
+			return false;
+#            return PayPal::raiseError("Could not open temporary file '$tmpin_file')");
+        }
+        fwrite($fp, $rawdata);
+        fclose($fp);
+
+        if (!@openssl_pkcs7_sign($tmpin_file, $tmpout_file, $merchant_cert,
+                                 array($merchant_key, $paypalConfig["private_key_password"]),
+                                 array(), PKCS7_BINARY)) {
+			echo "Could not sign encrypted data: " . openssl_error_string();
+			return false;
+#            return PayPal::raiseError("Could not sign encrypted data: " . openssl_error_string());
+        }
+
+        $data = file_get_contents($tmpout_file);
+        $data = explode("\n\n", $data);
+        $data = $data[1];
+        $data = base64_decode($data);
+        $fp = fopen($tmpout_file, 'w');
+        if (!$fp) {
+            echo "Could not open temporary file '$tmpin_file')";
+			return false;
+#            return PayPal::raiseError("Could not open temporary file '$tmpin_file')");
+        }
+        fwrite($fp, $data);
+        fclose($fp);
+
+        if (!@openssl_pkcs7_encrypt($tmpout_file, $tmpfinal_file, $enc_cert, array(), PKCS7_BINARY)) {
+            echo "Could not encrypt data:" . openssl_error_string();
+			return false;
+#            return PayPal::raiseError("Could not encrypt data:" . openssl_error_string());
+        }
+
+        $encdata = @file_get_contents($tmpfinal_file, false);
+        if (!$encdata) {
+            echo "Encryption and signature of data failed.";
+			return false;
+#            return PayPal::raiseError("Encryption and signature of data failed.");
+        }
+
+        $encdata = explode("\n\n", $encdata);
+        $encdata = trim(str_replace("\n", '', $encdata[1]));
+        $encdata = "-----BEGIN PKCS7-----$encdata-----END PKCS7-----";
+
+        @unlink($tmpfinal_file);
+        @unlink($tmpin_file);
+        @unlink($tmpout_file);
+
+		return $encData;
+    }
+
 }
 ?>

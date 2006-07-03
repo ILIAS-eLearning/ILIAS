@@ -10832,12 +10832,32 @@ ALTER TABLE `tst_solutions` DROP INDEX `solution_id`;
 ALTER TABLE `tst_solutions` ADD `active_fi` INT NOT NULL AFTER `user_fi` ;
 <#728>
 <?php
+global $ilLog;
 $query = "SELECT tst_solutions.*, tst_active.active_id FROM tst_solutions, tst_active WHERE tst_solutions.test_fi = tst_active.test_fi AND tst_solutions.user_fi = tst_active.user_fi";
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
+     if(function_exists('memory_get_usage'))
+       {
+            $memory_usage = " Memory usage: ".memory_get_usage();
+        }
+
+        $ilLog->write("-- MetaData (Migration type '".$row_pg->type."'): Processing obj number: ".$row_pg->obj_id.$memory_usage);
+
+$counter = 0;
 	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 	{
+	     if(function_exists('memory_get_usage'))
+       {
+            $memory_usage = " Memory usage: ".memory_get_usage();
+        }
+		if(!(++$counter % 100))
+{
+ 	       $ilLog->write("test_result number: $counter".$memory_usage);
+}
+
+
+
 		$update = sprintf("UPDATE tst_solutions SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
 			$ilDB->quote($row["active_id"] . ""),
 			$ilDB->quote($row["test_fi"] . ""),
@@ -11099,4 +11119,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#765>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

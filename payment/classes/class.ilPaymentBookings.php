@@ -449,6 +449,17 @@ class ilPaymentBookings
 				}
 				return 0;
 
+			case 'pm_paypal':
+				$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
+					"WHERE pay_method = '3'";
+
+				$res = $ilDB->query($query);
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					return $row->bid;
+				}
+				return 0;
+
 			default:
 				return 0;
 		}
@@ -506,6 +517,12 @@ class ilPaymentBookings
 			$_SESSION["pay_statistics"]["access"] == "1")
 		{
 			$query .= "AND access = '" . $_SESSION["pay_statistics"]["access"] . "' ";
+		}
+		if ($_SESSION["pay_statistics"]["pay_method"] == "1" ||
+			$_SESSION["pay_statistics"]["pay_method"] == "2" ||
+			$_SESSION["pay_statistics"]["pay_method"] == "3")
+		{
+			$query .= "AND b_pay_method = '" . $_SESSION["pay_statistics"]["pay_method"] . "' ";
 		}
 		
 		if(!$this->admin_view)

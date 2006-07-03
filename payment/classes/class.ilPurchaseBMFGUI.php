@@ -476,6 +476,7 @@ class ilPurchaseBMFGUI
 		$newCustomer = new Kunde($this->user_obj->getId());
 		
 		$resultCustomerObj = $customer->anlegenKunde($newCustomer);
+
 		$resultCustomer = $resultCustomerObj->ergebnis;
 
 		if (is_object($resultCustomer))
@@ -536,7 +537,7 @@ class ilPurchaseBMFGUI
 		
 				$resultObj = $payment->abbuchenOhneEinzugsermaechtigung($resultCustomerObj->kunde->EShopKundenNr, $address, $bank, $bookingList);
 				$result = $resultObj->ergebnis;
-		
+
 				if (is_object($result))
 				{
 					if ($result->code < 0)

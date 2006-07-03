@@ -35,7 +35,7 @@ class ilPayMethods
 	/**
 	* check if a specific pay_method is activated
 	* @access	public
-	* @param	string	keyword (bill,bmf,(epay))
+	* @param	string	keyword (bill,bmf,paypal,(epay))
 	* @return	bool
 	*/
 
@@ -52,6 +52,7 @@ class ilPayMethods
 
 		$ilias->deleteSetting('pm_bill');
 		$ilias->deleteSetting('pm_bmf');
+		$ilias->deleteSetting('pm_paypal');
 	}
 		
 	function _enable($a_type)
