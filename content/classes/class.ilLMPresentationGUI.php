@@ -33,7 +33,7 @@ require_once("./classes/class.ilObjStyleSheet.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilPaymentPurchaseGUI
 *
 * @package content
 */
@@ -70,17 +70,12 @@ class ilLMPresentationGUI
 		{
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
-		include_once './payment/classes/class.ilPaymentObject.php';
-		include_once './classes/class.ilSearch.php';
-		
-		if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
-		{
-			ilUtil::redirect('./payment/start_purchase.php?ref_id='.$_GET['ref_id']);
-		}
-		if(!ilSearch::_checkParentConditions($_GET['ref_id']))
-		{
-			$ilias->error_obj->raiseError($lng->txt('access_denied'),$ilias->error_obj->WARNING);
-		}
+#		include_once './classes/class.ilSearch.php';
+
+#		if(!ilSearch::_checkParentConditions($_GET['ref_id']))
+#		{
+#			$ilias->error_obj->raiseError($lng->txt('access_denied'),$ilias->error_obj->WARNING);
+#		}
 		// Todo: check lm id
 		$type = $this->ilias->obj_factory->getTypeByRefId($_GET["ref_id"]);
 
@@ -138,6 +133,7 @@ class ilLMPresentationGUI
 	*/
 	function &executeCommand()
 	{
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("layout");
 
@@ -158,7 +154,33 @@ class ilLMPresentationGUI
 				$ret =& $this->outputInfoScreen();
 				break;
 				
-			default: 
+			case 'ilpaymentpurchasegui':
+				$this->tpl->getStandardTemplate();
+				$this->ilLocator();
+					
+				include_once("./payment/classes/class.ilPaymentPurchaseGUI.php");
+				$pa =& new ilPaymentPurchaseGUI((int) $_GET['ref_id']);
+				$ret =& $this->ctrl->forwardCommand($pa);
+				$this->tpl->show();
+				break;
+
+			default:
+				include_once './payment/classes/class.ilPaymentObject.php';
+				
+				if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
+				{
+					$this->tpl->getStandardTemplate();
+					$this->ilLocator();
+		
+					// payment
+					include_once("./payment/classes/class.ilPaymentPurchaseGUI.php");
+					$pa =& new ilPaymentPurchaseGUI((int) $_GET['ref_id']);
+					$this->ctrl->setCmd("showDetails");
+					$ret =& $this->ctrl->forwardCommand($pa);
+					$this->tpl->show();
+					return true;
+				}
+			 
 				$ret =& $this->$cmd();
 				break;
 		}
