@@ -65,6 +65,8 @@ class ilTableGUI
 	var $lang_support = true;	// if a lang object is included
 	var $global_tpl;			// uses global tpl (true) or a local one (false)
 	
+	var $prefix;				// prefix for sort and offset fields if you have two or more tables on a page that you want to sort separately
+	
 	// default settings for enabled/disabled table modules 
 	var $enabled = array(
 							"title"			=>	true,
@@ -293,6 +295,16 @@ class ilTableGUI
 	}
 
 	/**
+	* set prefix for sort and offset fields (if you have two or more tables on a page that you want to sort separately)
+	* @access	public
+	* @param	string	prefix
+	*/
+	function setPrefix($a_prefix)
+	{
+		$this->prefix = ($a_prefix) ? $a_prefix : "";
+	}
+	
+	/**
 	* set dataset offset
 	* @access	public
 	* @param	integer	offset
@@ -498,7 +510,7 @@ class ilTableGUI
 					$this->tpl->setVariable("TBL_ORDER_ALT",$lng_change_sort);
 				}
 			
-				$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params."sort_by=".$this->header_vars[$key]."&sort_order=".$order_dir."&offset=".$this->offset);
+				$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params.$this->prefix."sort_by=".$this->header_vars[$key]."&".$this->prefix."sort_order=".$order_dir."&".$this->prefix."offset=".$this->offset);
 				$this->tpl->parseCurrentBlock();
 			}
 			
