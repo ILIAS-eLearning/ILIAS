@@ -40,18 +40,20 @@
 		</td>
 	  </tr>
 	  <!-- END price_row -->
+	<!-- BEGIN button -->
 	  <tr class="tblfooter" >
 		<td class="submit" colspan="2" ><input class="submit" type="submit" name="cmd[{INPUT_CMD}]" value="{INPUT_VALUE}" /></td>
 	  </tr>
+	<!-- END button -->
 	</table></p>
 </form>
 <!-- END purchase -->
 <!-- BEGIN shopping_cart -->
 <p><a class="il_ContainerItemCommand" href="{LINK_GOTO_SHOPPING_CART}" target="_top">{TXT_GOTO_SHOPPING_CART}</a>
-<script language="JavaScript">
+<!-- BEGIN buy_button --><script language="JavaScript">
 document.write('<a class="il_ContainerItemCommand" href="#" onClick="w = window.open(\'{LINK_BUY}\', \'payment\', \'width=620,height=480,scrollbars=yes,resizable=yes\'); w.focus(); return false">{TXT_BUY}</a>');
 </script>
 <noscript>
 <a class="il_ContainerItemCommand" href="{LINK_BUY}" target="payment">{TXT_BUY}</a>
-</noscript></p>
+</noscript><!-- END buy_button --></p>
 <!-- END shopping_cart -->

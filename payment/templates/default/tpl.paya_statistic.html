@@ -3,8 +3,8 @@
 <h3>{TXT_FILTER}</h3>
 <table cellspacing="2" cellpadding="2" border="0">
 <tr>
-	<td>{TXT_TRANSACTION}:</td>
-	<td>
+	<td nowrap>{TXT_TRANSACTION}:</td>
+	<td nowrap>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td>
@@ -21,8 +21,8 @@
 		</table>
 	</td>
 	<td>&nbsp;</td>
-	<td>{TXT_PAYED}:</td>
-	<td>
+	<td nowrap>{TXT_PAYED}:</td>
+	<td nowrap>
 		<select name="payed" size="1">
 			<option value="all"{PAYED_ALL}>{TXT_ALL}</option>
 			<option value="1"{PAYED_1}>{TXT_YES}</option>
@@ -31,13 +31,13 @@
 	</td>
 </tr>
 <tr>
-	<td>{TXT_CUSTOMER}:</td>
-	<td>
+	<td nowrap>{TXT_CUSTOMER}:</td>
+	<td nowrap>
 		<input type="text" name="customer" value="{CUSTOMER}" />
 	</td>
 	<td>&nbsp;</td>
-	<td>{TXT_ACCESS}:</td>
-	<td>
+	<td nowrap>{TXT_ACCESS}:</td>
+	<td nowrap>
 		<select name="access" size="1">
 			<option value="all"{ACCESS_ALL}>{TXT_ALL}</option>
 			<option value="1"{ACCESS_1}>{TXT_YES}</option>
@@ -46,8 +46,8 @@
 	</td>
 </tr>
 <tr>
-	<td>{TXT_ORDER_DATE_FROM}:</td>
-	<td>
+	<td nowrap>{TXT_ORDER_DATE_FROM}:</td>
+	<td nowrap>
 		<select name="from[day]" size="1">
 			<option value=""></option>
 <!-- BEGIN loop_from_day -->
@@ -69,11 +69,20 @@
 <!-- END loop_from_year -->
 		</select>
 	</td>
-	<td colspan="3">&nbsp;</td>
+	<td>&nbsp;</td>
+	<td nowrap>{TXT_PAYMENT}:</td>
+	<td nowrap>
+		<select name="pay_method" size="1">
+			<option value="all"{PAYMENT_ALL}>{TXT_ALL}</option>
+			<option value="1"{PAYMENT_1}>{TXT_BILL}</option>
+			<option value="2"{PAYMENT_2}>{TXT_BMF}</option>
+			<option value="3"{PAYMENT_3}>{TXT_PAYPAL}</option>
+		</select>
+	</td>
 </tr>
 <tr>
-	<td>{TXT_ORDER_DATE_TIL}:</td>
-	<td>
+	<td nowrap>{TXT_ORDER_DATE_TIL}:</td>
+	<td nowrap>
 		<select name="til[day]" size="1">
 			<option value=""></option>
 <!-- BEGIN loop_til_day -->
@@ -95,8 +104,8 @@
 <!-- END loop_til_year -->
 		</select>
 	</td>
-	<td colspan="2">&nbsp;</td>
-	<td align="right"  valign="bottom">
+	<td>&nbsp;</td>
+	<td nowrap colspan="2" valign="bottom">
 		<input class="submit" type="submit" name="cmd[showStatistics]" value="{TXT_UPDATE_VIEW}" />
 		<input class="submit" type="submit" name="cmd[resetFilter]" value="{TXT_RESET_FILTER}" />
 	</td>
