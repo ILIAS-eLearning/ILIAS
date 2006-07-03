@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 /**
-* Class ilPaymentPurchaseBMFGUI
+* Class ilPaymentPurchaseGUI
 *
 * @author Stefan Meyer
 * @version $Id$

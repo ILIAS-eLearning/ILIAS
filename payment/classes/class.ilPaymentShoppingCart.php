@@ -30,6 +30,7 @@
 */
 include_once './payment/classes/class.ilPaymentPrices.php';
 include_once './payment/classes/class.ilPaymentObject.php';
+include_once './payment/paypal/cfg_epayment.inc.php';
 
 class ilPaymentShoppingCart
 {
@@ -68,9 +69,24 @@ class ilPaymentShoppingCart
 		return $this->price_id;
 	}
 
-	function getEntries()
+	function getEntries($a_pay_method = 0)
 	{
-		return $this->sc_entries ? $this->sc_entries : array();
+		if ($a_pay_method == 0)
+		{
+			return $this->sc_entries ? $this->sc_entries : array();
+		}
+		else
+		{
+			$tmp_entries = array();
+			foreach($this->sc_entries as $entry)
+			{
+				if ($entry["pay_method"] == $a_pay_method)
+				{
+					$tmp_entries[$entry["psc_id"]] = $entry;
+				}
+			}
+			return $tmp_entries;
+		}
 	}
 	function setTotalAmount($a_total_amount)
 	{
@@ -210,11 +226,12 @@ class ilPaymentShoppingCart
 			
 			// check pay method
 			$tmp_pobj =& new ilPaymentObject($this->user_obj,$entry['pobject_id']);
-			if($tmp_pobj->getPayMethod() == $tmp_pobj->PAY_METHOD_BILL)
+			if(($pay_method = $tmp_pobj->getPayMethod()) == $tmp_pobj->PAY_METHOD_BILL)
 			{
 				$this->delete($entry['psc_id']);
 				return false;
 			}
+
 			// if payment is expired
 			if($tmp_pobj->getStatus() == $tmp_pobj->STATUS_EXPIRES)
 			{
@@ -222,18 +239,22 @@ class ilPaymentShoppingCart
 
 				return false;
 			}
+
+			$this->sc_entries[$entry["psc_id"]]["pay_method"] = $pay_method;
+
 			$prices[] = $entry['price_id'];
 			unset($tmp_pobj);
 		}
+
 		// set total amount
 		$this->setTotalAmount(ilPaymentPrices::_getTotalAmount($prices ? $prices : array()));
 		
 		return true;
 	}
 		
-	function getShoppingCart()
+	function getShoppingCart($a_pay_method = 0)
 	{
-		if(!count($items = $this->getEntries()))
+		if(!count($items = $this->getEntries($a_pay_method)))
 		{
 			return 0;
 		}
@@ -245,14 +266,18 @@ class ilPaymentShoppingCart
 
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
 
+			$f_result[$counter]["pobject_id"] = $item['pobject_id'];
+			$f_result[$counter]["obj_id"] = $tmp_obj->getId();
 			$f_result[$counter]["typ"] = $tmp_obj->getType();
 			$f_result[$counter]["buchungstext"] = $tmp_obj->getTitle();
 
 			$price_data = ilPaymentPrices::_getPrice($item['price_id']);
+			$price_string = ilPaymentPrices::_getPriceString($item['price_id']);
 
 			$price = ((int) $price_data["unit_value"]) . "." . ((int) $price_data["sub_unit_value"]);
 
 			$f_result[$counter]["betrag"] = (float) $price;
+			$f_result[$counter]["betrag_string"] = $price_string;
 			$f_result[$counter]["dauer"] = $price_data["duration"];
 
 			unset($tmp_obj);
@@ -263,11 +288,11 @@ class ilPaymentShoppingCart
 		return $f_result;
 	}
 
-	function getTotalAmountValue()
+	function getTotalAmountValue($a_pay_method = 0)
 	{
 		$amount = 0.0;
 
-		if (is_array($result = $this->getShoppingCart()))
+		if (is_array($result = $this->getShoppingCart($a_pay_method)))
 		{
 			for ($i = 0; $i < count($result); $i++)
 			{
@@ -286,5 +311,6 @@ class ilPaymentShoppingCart
 
 		return (float) ($a_amount - (round(($a_amount / (1 + ($genSet->get("vat_rate") / 100.0))) * 100) / 100));
 	}
+
 }
 ?>

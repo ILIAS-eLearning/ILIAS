@@ -76,7 +76,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		$this->showButton('showObjectSelector',$this->lng->txt('paya_sell_object'));
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_objects.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_objects.html','payment');
 
 		if(!count($objects = ilPaymentObject::_getObjectsData($this->user_obj->getId())))
 		{
@@ -125,6 +125,10 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 				case $this->pobject->PAY_METHOD_BMF:
 					$f_result[$counter][] = $this->lng->txt('pays_bmf');
 					break;
+
+				case $this->pobject->PAY_METHOD_PAYPAL:
+					$f_result[$counter][] = $this->lng->txt('pays_paypal');
+					break;
 			}
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($data['vendor_id']);
 			$f_result[$counter][] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
@@ -165,7 +169,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->showButton('editPrices',$this->lng->txt('paya_edit_prices'));
 		$this->__showPayMethodLink();
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html','payment');
 		$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
 
 		if($a_show_confirm)
@@ -279,7 +283,11 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 				return true;
 			case $this->pobject->PAY_METHOD_BMF:
 				sendInfo($this->lng->txt('paya_no_settings_necessary'));
-
+				$this->editDetails();
+				
+				return true;
+			case $this->pobject->PAY_METHOD_PAYPAL:
+				sendInfo($this->lng->txt('paya_no_settings_necessary'));
 				$this->editDetails();
 				
 				return true;
@@ -315,7 +323,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
 		$this->__showPayMethodLink();
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit_prices.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit_prices.html','payment');
 
 		$price_obj =& new ilPaymentPrices((int) $_GET['pobject_id']);
 		$prices = $price_obj->getPrices();
@@ -359,7 +367,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content",'tpl.paya_edit_prices_row.html',true);
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content",'tpl.paya_edit_prices_row.html','payment');
 		
 		$counter = 0;
 		foreach($prices as $price)
@@ -471,7 +479,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->showButton('editPrices',$this->lng->txt('paya_edit_prices'));
 		$this->__showPayMethodLink();
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_add_price.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_add_price.html','payment');
 
 		$this->tpl->setVariable("ADD_FORMACTION",$this->ctrl->getFormAction($this));
 
@@ -739,7 +747,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		include_once './payment/classes/class.ilPaymentObjectSelector.php';
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",'payment');
 		$this->showButton('showObjects',$this->lng->txt('back'));
 
 
@@ -765,7 +773,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			$this->showObjectSelector();
 			return true;
 		}
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.paya_selected_object.html',true);
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.paya_selected_object.html','payment');
 		$this->showButton('showObjectSelector',$this->lng->txt('back'));
 
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays.gif',false));
@@ -898,6 +906,10 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		{
 			$action[$this->pobject->PAY_METHOD_BMF] = $this->lng->txt('pays_bmf');
 		}
+		if(ilPayMethods::_enabled('pm_paypal'))
+		{
+			$action[$this->pobject->PAY_METHOD_PAYPAL] = $this->lng->txt('pays_paypal');
+		}
 
 
 		return ilUtil::formSelect($this->pobject->getPayMethod(),'pay_method',$action,false,true);
@@ -922,6 +934,10 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 				break;
 
 			case $this->pobject->PAY_METHOD_BMF:
+				$this->showButton('editPayMethod',$this->lng->txt('paya_edit_pay_method'));
+				break;
+
+			case $this->pobject->PAY_METHOD_PAYPAL:
 				$this->showButton('editPayMethod',$this->lng->txt('paya_edit_pay_method'));
 				break;
 		}

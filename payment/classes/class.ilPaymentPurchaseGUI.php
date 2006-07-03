@@ -76,10 +76,10 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 		}
 		
 		// build header if called from start_purchase.php
-		if($this->ctrl->getTargetScript() == 'start_purchase.php')
-		{
+#		if($this->ctrl->getTargetScript() == 'start_purchase.php')
+#		{
 			$this->__buildHeader();
-		}
+#		}
 		$this->$cmd();
 	}
 
@@ -114,18 +114,28 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("shopping_cart");
-			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment/payment.php");
-			$this->tpl->setVariable("LINK_BUY", "payment/start_bmf.php");
+#			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment/payment.php");
+			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "ilias.php?cmdClass=ilpaymentgui&baseClass=ilPersonalDesktopGUI&cmd=showShoppingCart");
+/*			switch($this->pobject->getPayMethod())
+			{
+				case $this->pobject->PAY_METHOD_BMF:
+					$this->tpl->setVariable("LINK_BUY", "payment/start_bmf.php");
+					break;
+
+				case $this->pobject->PAY_METHOD_PAYPAL:
+					$this->tpl->setVariable("LINK_BUY", "payment/start_paypal.php");
+					break;
+			}*/
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
-			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
+#			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock("shopping_cart");
 		}
 
 		$this->ctrl->setParameter($this, "ref_id", $this->pobject->getRefId());
 
-		if (!is_array($buyedObject) ||
-			(is_array($buyedObject) && is_array($prices) && count($prices) > 1))
-		{
+#		if (!is_array($buyedObject) ||
+#			(is_array($buyedObject) && is_array($prices) && count($prices) > 1))
+#		{
 			$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
@@ -142,20 +152,48 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 					break;
 
 				case $this->pobject->PAY_METHOD_BMF:
-					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_bmf_info'));
-					$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
-					$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_info'));
+					if (is_array($buyedObject))
+					{
+						if (is_array($prices) && count($prices) > 1)
+						{
+							$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+							$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_change_price'));
+						}
+					}
+					else
+					{
+						$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+						$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+					}
+					break;
+
+				case $this->pobject->PAY_METHOD_PAYPAL:
+					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_info'));
+					if (is_array($buyedObject))
+					{
+						if (is_array($prices) && count($prices) > 1)
+						{
+							$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+							$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_change_price'));
+						}
+					}
+					else
+					{
+						$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+						$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+					}
 					break;
 			}
 
 			$this->tpl->setVariable("ROWSPAN",count($prices));
 			$this->tpl->setVariable("TXT_PRICES",$this->lng->txt('prices'));
-		}
+#		}
 
 		if (is_array($prices))
 		{
-			if (count($prices) > 1)
-			{
+#			if (count($prices) > 1)
+#			{
 				$counter = 0;
 				foreach($prices as $price)
 				{
@@ -185,16 +223,16 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
-			}
-			else if (!is_array($buyedObject))
-			{
-				foreach($prices as $price)
-				{
-					$this->tpl->setVariable("CHECKBOX",ilUtil::formRadioButton(0,'price_id',$price['price_id']));
-					$this->tpl->setVariable("DURATION",$price['duration'].' '.$this->lng->txt('paya_months'));
-					$this->tpl->setVariable("PRICE",ilPaymentPrices::_getPriceString($price['price_id']));
-				}
-			}
+#			}
+#			else if (!is_array($buyedObject))
+#			{
+#				foreach($prices as $price)
+#				{
+#					$this->tpl->setVariable("CHECKBOX",ilUtil::formRadioButton(0,'price_id',$price['price_id']));
+#					$this->tpl->setVariable("DURATION",$price['duration'].' '.$this->lng->txt('paya_months'));
+#					$this->tpl->setVariable("PRICE",ilPaymentPrices::_getPriceString($price['price_id']));
+#				}
+#			}
 		}
 
 	}
@@ -222,10 +260,20 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 
 			$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_purchase_details.html','payment');
 			$this->tpl->setCurrentBlock("shopping_cart");
-			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment/payment.php");
-			$this->tpl->setVariable("LINK_BUY", "payment/start_bmf.php");
+#			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "payment/payment.php");
+			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", "ilias.php?cmdClass=ilpaymentgui&baseClass=ilPersonalDesktopGUI&cmd=showShoppingCart");
+/*			switch($this->pobject->getPayMethod())
+			{
+				case $this->pobject->PAY_METHOD_BMF:
+					$this->tpl->setVariable("LINK_BUY", "payment/start_bmf.php");
+					break;
+
+				case $this->pobject->PAY_METHOD_PAYPAL:
+					$this->tpl->setVariable("LINK_BUY", "payment/start_paypal.php");
+					break;
+			}*/
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
-			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
+#			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock("shopping_cart");
 
 			sendInfo($this->lng->txt('pay_added_to_shopping_cart'));
@@ -268,8 +316,8 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER",$this->object->getTitle());
 		$this->tpl->setVariable("DESCRIPTION",$this->object->getDescription());
 
-		$this->__buildStylesheet();
-		$this->__buildStatusline();
+#		$this->__buildStylesheet();
+#		$this->__buildStatusline();
 	}
 
 	function  __buildStatusline()

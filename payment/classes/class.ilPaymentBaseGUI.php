@@ -78,18 +78,23 @@ class ilPaymentBaseGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.payb_content.html");
 		
-		switch($this->getMainSection())
-		{
-			case $this->ADMIN:
-				$this->tpl->setVariable("HEADER",$this->lng->txt('paya_header'));
-				break;
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		$this->lng->txt("personal_desktop"));
+		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 
-			case $this->BASE:
-				$this->tpl->setVariable("HEADER",$this->lng->txt('pay_header'));
-				break;
-		}
-		$this->__buildStylesheet();
-		$this->__buildStatusline();
+#		switch($this->getMainSection())
+#		{
+#			case $this->ADMIN:
+#				$this->tpl->setVariable("HEADER",$this->lng->txt('paya_header'));
+#				break;
+
+#			case $this->BASE:
+#				$this->tpl->setVariable("HEADER",$this->lng->txt('pay_header'));
+#				break;
+#		}
+
+#		$this->__buildStylesheet();
+#		$this->__buildStatusline();
 		$this->__buildButtons();
 	}
 
@@ -226,9 +231,6 @@ class ilPaymentBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-
-
-
 
 }
 ?>

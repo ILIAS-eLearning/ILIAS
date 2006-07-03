@@ -82,7 +82,7 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 
 		$this->__initBookingsObject();
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_personal_statistic.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_personal_statistic.html','payment');
 
 		if(!count($bookings = $this->bookings_obj->getBookingsOfCustomer($this->user_obj->getId())))
 		{
@@ -97,11 +97,24 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 			$tmp_vendor =& ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
 			$tmp_purchaser =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
 			
-			$f_result[$counter][] = $booking['transaction_extern'];
+			$transaction = $booking['transaction_extern'];
+			switch ($booking['b_pay_method'])
+			{
+				case PAY_METHOD_BILL :
+					$transaction .= " (" . $this->lng->txt("pays_bill") . ")";
+					break;
+				case PAY_METHOD_BMF :
+					$transaction .= " (" . $this->lng->txt("pays_bmf") . ")";
+					break;
+				case PAY_METHOD_PAYPAL :
+					$transaction .= " (" . $this->lng->txt("pays_paypal") . ")";
+					break;
+			}
+			$f_result[$counter][] = $transaction;
 
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($booking['ref_id'],$tmp_obj->getType());
 			$obj_target = ilRepositoryExplorer::buildFrameTarget($tmp_obj->getType(),$booking['ref_id'],$tmp_obj->getId());
-			$f_result[$counter][] = "<a href=\"../".$obj_link."\" target=\"".$obj_target."\">".$tmp_obj->getTitle()."</a>";
+			$f_result[$counter][] = "<a href=\"".$obj_link."\" target=\"".$obj_target."\">".$tmp_obj->getTitle()."</a>";
 			
 			/*
 			if ($tmp_obj->getType() == "crs")
@@ -167,7 +180,7 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 								   $this->lng->txt("duration"),
 								   $this->lng->txt("price_a"),
 								   $this->lng->txt("paya_payed_access")));
-
+		$header_params = $this->ctrl->getParameterArray($this,'');
 		$tbl->setHeaderVars(array("transaction",
 								  "title",
 								  "vendor",
@@ -175,10 +188,13 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 								  "order_date",
 								  "duration",
 								  "price",
-								  "payed_access"),
+								  "payed_access"),$header_params);
+								  /*
 							array("cmd" => "",
-								  "cmdClass" => "ilpaymentstatisticgui",
+								  "cmdClass" => "ilpaymentbuyedobjectsgui",
+								  "baseClass" => "ilPersonalDesktopGUI",
 								  "cmdNode" => $_GET["cmdNode"]));
+								  */
 
 		$offset = $_GET["offset"];
 		$order = $_GET["sort_by"];
@@ -210,6 +226,5 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 		return true;
 	}
 
-		
 }
 ?>

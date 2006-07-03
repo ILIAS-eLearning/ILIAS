@@ -30,6 +30,11 @@
 * @package ilias-core
 */
 
+define ("PAY_METHOD_NOT_SPECIFIED", 0);
+define ("PAY_METHOD_BILL", 1);
+define ("PAY_METHOD_BMF", 2);
+define ("PAY_METHOD_PAYPAL", 3);
+
 class ilPaymentObject
 {
 	var $db = null;
@@ -52,9 +57,10 @@ class ilPaymentObject
 		$this->STATUS_BUYABLE = 1;
 		$this->STATUS_EXPIRES = 2;
 
-		$this->PAY_METHOD_NOT_SPECIFIED = 0;
-		$this->PAY_METHOD_BILL = 1;
-		$this->PAY_METHOD_BMF = 2;
+		$this->PAY_METHOD_NOT_SPECIFIED = PAY_METHOD_NOT_SPECIFIED;
+		$this->PAY_METHOD_BILL = PAY_METHOD_BILL;
+		$this->PAY_METHOD_BMF = PAY_METHOD_BMF;
+		$this->PAY_METHOD_PAYPAL = PAY_METHOD_PAYPAL;
 		
 
 		$this->pobject_id = $a_pobject_id;
@@ -180,6 +186,10 @@ class ilPaymentObject
 				$pm = 2;
 				break;
 
+			case 'pm_paypal':
+				$pm = 3;
+				break;
+
 			default:
 				$pm = -1;
 		}
@@ -239,6 +249,23 @@ class ilPaymentObject
 			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
 		}
 		return $objects ? $objects : array();
+	}
+
+	function _getObjectData($a_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_objects ".
+			"WHERE pobject_id = '".$a_id."'";
+
+		$res = $ilDB->query($query);
+
+		if (is_object($res))
+		{
+			return $res->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+
+		return false;
 	}
 
 	function _isPurchasable($a_ref_id)
@@ -304,6 +331,21 @@ class ilPaymentObject
 		$query = "SELECT * FROM payment_objects ".
 			"WHERE ref_id = '".$a_ref_id."' ".
 			"AND (status = 1 or status = 2)";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return true;
+		}
+		return false;
+	}
+	function _isInCart($a_ref_id)
+	{
+		global $ilDB, $ilUser;
+
+		$query = "SELECT psc_id FROM payment_objects AS po, payment_shopping_cart AS psc ".
+			"WHERE ref_id = '".$a_ref_id."' ".
+			"AND po.pobject_id = psc.pobject_id";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

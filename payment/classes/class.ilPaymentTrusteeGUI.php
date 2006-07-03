@@ -88,7 +88,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 
 		$this->showButton('searchUser',$this->lng->txt('search_user'));
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_trustees.html',true);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_trustees.html','payment');
 
 		if($a_show_delete)
 		{
@@ -200,7 +200,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 
 	function searchUser()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.paya_user_search.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.paya_user_search.html",'payment');
 		$this->showButton('showTrustees',$this->lng->txt('back'));
 
 		$this->lng->loadLanguageModule('search');
@@ -244,7 +244,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_usr_selection.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_usr_selection.html",'payment');
 #		$this->showButton("searchUser",$this->lng->txt("crs_new_search"));
 		$this->showButton("showTrustees",$this->lng->txt("back"));
 		
