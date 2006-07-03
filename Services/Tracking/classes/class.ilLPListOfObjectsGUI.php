@@ -58,7 +58,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->item_id = (int) $_REQUEST['item_id'];
 		$this->offset = (int) $_GET['offset'];
 		$this->ctrl->saveParameter($this,'offset',$this->offset);
-
 		$this->max_count = $ilUser->getPref('hits_per_page');
 	}
 	/**
@@ -119,7 +118,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->__showEditUser();
 	}
 
-
 	function __showEditUser()
 	{
 		global $ilObjDataCache;
@@ -165,19 +163,108 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
 	}
 
+	function __renderContainerRow($a_parent_id,$a_item_id,$a_usr_id,$type,$level)
+	{
+		global $ilObjDataCache,$ilUser;
+
+		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
+
+		$item_list =& ilLPItemListFactory::_getInstance($a_parent_id,$a_item_id,$type);
+		$item_list->setCurrentUser($a_usr_id);
+		$item_list->readUserInfo();
+		$item_list->setIndentLevel($level);
+
+		// Edit link, mark
+		if($type != 'sahs_item' and
+		   $type != 'objective')
+		{
+
+			// Mark
+			$this->obj_tpl->setVariable("MARK",$item_list->getMark());
+
+			// Edit link
+			$this->obj_tpl->setCurrentBlock("item_command");
+			$this->ctrl->setParameter($this,'details_id',$this->details_id);
+			$this->ctrl->setParameter($this,"user_id",$a_usr_id);
+			$this->ctrl->setParameter($this,'item_id',$a_item_id);
+			$this->obj_tpl->setVariable('HREF_COMMAND',$this->ctrl->getLinkTarget($this,'editUser'));
+			$this->obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('edit'));
+			$this->obj_tpl->parseCurrentBlock();
+
+			// Show checkbox and details button
+			if(ilLPObjSettings::_isContainer($item_list->getMode()))
+			{
+				$item_list->addCheckbox(array('user_item_ids[]',
+											  $a_usr_id.'_'.$a_item_id,
+											  $this->__detailsShown($a_usr_id,$a_item_id)));
+				$this->obj_tpl->setCurrentBlock("item_command");
+				$this->ctrl->setParameter($this,'details_id',$this->details_id);
+				$this->ctrl->setParameter($this,'user_item_ids',$a_usr_id.'_'.$a_item_id);
+				if($this->__detailsShown($a_usr_id,$a_item_id))
+				{
+					$this->obj_tpl->setVariable('HREF_COMMAND',$this->ctrl->getLinkTarget($this,'hideDetails'));
+					$this->obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('hide_details'));
+				}
+				else
+				{
+					$this->obj_tpl->setVariable('HREF_COMMAND',$this->ctrl->getLinkTarget($this,'showDetails'));
+					$this->obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('show_details'));
+				}
+				$this->obj_tpl->parseCurrentBlock();
+			}
+
+		}
+		else
+		{
+			$item_list->setIndentLevel($level+1);
+		}
+		
+		// Status image
+		$this->obj_tpl->setCurrentBlock("container_standard_row");
+
+		$item_list->renderObjectDetails();
+
+		$this->obj_tpl->setVariable("ITEM_HTML",$item_list->getHTML());
+		$this->__showImageByStatus($this->obj_tpl,$item_list->getUserStatus());
+		$this->obj_tpl->setVariable("TBLROW",ilUtil::switchColor($this->container_row_counter,'tblrow1','tblrow2'));
+		$this->obj_tpl->parseCurrentBlock();
+
+		if(!$this->__detailsShown($a_usr_id,$a_item_id))
+		{
+			return true;
+		}
+
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		foreach(ilLPCollections::_getItems($a_item_id) as $child_id)
+		{
+			switch($item_list->getMode())
+			{
+				case LP_MODE_OBJECTIVES:
+					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,'objective',$level + 1);
+					break;
+
+				case LP_MODE_SCORM:
+					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,'sahs_item',$level + 1);
+					break;
+
+				default:
+					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,$ilObjDataCache->lookupType($child_id),$level + 1);
+					break;
+			}
+		}
+	}
+
 
 	function details()
 	{
 		global $ilObjDataCache;
-
 		global $ilBench;
 
 		$ilBench->start('LearningProgress','1200_LPListOfObjects_details');
 
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
-		// Load template
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_user_list.html','Services/Tracking');
-
+		// Show back button
 		if($this->getMode() == LP_MODE_PERSONAL_DESKTOP or
 		   $this->getMode() == LP_MODE_ADMINISTRATION)
 		{
@@ -188,12 +275,58 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$info = new ilInfoScreenGUI($this);
 
 		$this->__showObjectDetails($info);
-
-		// Finally set template variable
 		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
-		$this->__showUserList();
 
+		$this->__showUsersList();
 		$ilBench->stop('LearningProgress','1200_LPListOfObjects_details');
+	}
+
+
+
+	function __showUsersList()
+	{
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
+
+		global $ilObjDataCache;
+
+		$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->details_id);
+		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_id);
+		$completed = ilLPStatusWrapper::_getCompleted($this->details_id);
+
+		$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted),'usr_data','lastname','usr_id');
+		$sliced_users = array_slice($all_users,$this->offset,$this->max_count);
+		
+		$this->obj_tpl = new ilTemplate('tpl.lp_loo_user_list.html',true,true,'Services/Tracking');
+
+
+		$this->__initFilter();
+		$type = $this->filter->getFilterType();
+		$this->obj_tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
+		$this->obj_tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_usr'));
+		$this->obj_tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('trac_usr_list'));
+
+		// Show table header
+		$this->obj_tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
+		$this->obj_tpl->setVariable("HEAD_MARK",$this->lng->txt('trac_mark'));
+		$this->obj_tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
+
+
+		// Render item list
+		$this->container_row_counter = 0;
+		foreach($sliced_users as $user)
+		{
+			$this->__renderContainerRow(0,$this->details_id,$user,'usr',0);
+			$this->container_row_counter++;
+		}
+
+		// Hide button
+		$this->obj_tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->obj_tpl->setVariable("BTN_HIDE_SELECTED",$this->lng->txt('show_details'));
+		$this->obj_tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
+		$this->tpl->setVariable("LP_OBJECTS",$this->obj_tpl->get());
+		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
 	}
 
 	function __showUserList()
@@ -465,18 +598,18 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function showDetails()
 	{
-		if(isset($_GET['details_user']))
+		if(isset($_GET['user_item_ids']))
 		{
-			$user_ids = array((int) $_GET['details_user']);
+			$ids = array($_GET['user_item_ids']);
 		}
 		else
 		{
 			unset($_SESSION['lp_show'][$this->details_id]);
-			$user_ids = $_POST['user_ids'] ? $_POST['user_ids'] : array();
+			$ids = $_POST['user_item_ids'] ? $_POST['user_item_ids'] : array();
 		}
-		foreach($user_ids as $user_id)
-		{
-			$_SESSION['lp_show'][$this->details_id][$user_id] = true;
+		foreach($ids as $id)
+		{			
+			$_SESSION['lp_show'][$this->details_id][$id] = true;
 		}
 		$this->details();
 
@@ -485,28 +618,27 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function hideDetails()
 	{
-		if(isset($_GET['details_user']))
+		if(isset($_GET['user_item_ids']))
 		{
-			unset($_SESSION['lp_show'][$this->details_id]["$_GET[details_user]"]);
+			unset($_SESSION['lp_show'][$this->details_id]["$_GET[user_item_ids]"]);
 			$this->details();
 			return true;
 		}
 	}
 
-	function __detailsShown($a_usr_id)
+	function __detailsShown($a_usr_id,$item_id)
 	{
-		return $_SESSION['lp_show'][$this->details_id][$a_usr_id];
+		return $_SESSION['lp_show'][$this->details_id][$a_usr_id.'_'.$item_id] ? true : false;
+		#return $_SESSION['lp_show'][$this->details_id][$a_usr_id];
 	}
 
 
 	function show()
 	{
 		global $ilObjDataCache;
-
 		global $ilBench;
 
 		$ilBench->start('LearningProgress','1100_LPListOfObjects_show');
-
 
 		// Show only detail of current repository item if called from repository
 		switch($this->getMode())
@@ -518,11 +650,90 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$ilBench->stop('LearningProgress','1100_LPListOfObjects_show');
 				return true;
 		}
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_objects.html','Services/Tracking');
-		$this->__showFilter();
-		$this->__showItems();
+		$this->__listObjects();
 		$ilBench->stop('LearningProgress','1100_LPListOfObjects_show');
+		return true;
+	}
+
+	function __listObjects()
+	{
+		global $ilUser,$ilObjDataCache;
+
+		include_once './Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
+
+		$this->__initFilter();
+		$this->__showFilter();
+
+		$tpl = new ilTemplate('tpl.lp_loo_objects.html',true,true,'Services/Tracking');
+
+		$this->filter->setRequiredPermission('edit_learning_progress');
+		if(!count($objs = $this->filter->getObjects()))
+		{
+			sendInfo($this->lng->txt('trac_filter_no_access'));
+			return true;
+		}
+
+		// Limit info
+		if($this->filter->limitReached())
+		{
+			$info = sprintf($this->lng->txt('trac_filter_limit_reached'),$this->filter->getLimit());
+			$this->tpl->setVariable("LIMIT_REACHED",$info);
+		}
+
+		// Show table header
+		$tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
+		$tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
+		
+		$type = $this->filter->getFilterType();
+		$tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
+		$tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_'.$type));
+		$tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('objs_'.$type));
+
+		// Sort objects by title
+		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
+
+		// Render item list
+		$counter = 0;
+		foreach($sorted_objs as $object_id)
+		{
+			$item_list =& ilLPItemListFactory::_getInstance(0,$object_id,$ilObjDataCache->lookupType($object_id));
+			$item_list->read();
+			$item_list->addCheckbox(array('item_id[]',$object_id,false));
+			$item_list->addReferences($objs[$object_id]['ref_ids']);
+			$item_list->enable('path');
+			$item_list->renderObjectList();
+
+			// Details link
+			if(!$this->isAnonymized())
+			{
+				$tpl->setCurrentBlock("item_command");
+				$this->ctrl->setParameter($this,'details_id',$object_id);
+				$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
+				$tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
+				$tpl->parseCurrentBlock();
+			}
+			
+			// Hide link
+			$tpl->setCurrentBlock("item_command");
+			$this->ctrl->setParameterByClass('illpfiltergui','hide',$object_id);
+			$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTargetByClass('illpfiltergui','hide'));
+			$tpl->setVariable("TXT_COMMAND",$this->lng->txt('trac_hide'));
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("container_standard_row");
+			$tpl->setVariable("ITEM_HTML",$item_list->getHTML());
+			$tpl->setVariable("TBLROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$tpl->parseCurrentBlock();
+		}
+
+		// Hide button
+		$tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+		$tpl->setVariable("BTN_HIDE_SELECTED",$this->lng->txt('trac_hide'));
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass('illpfiltergui'));
+
+		$this->tpl->setVariable("LP_OBJECTS",$tpl->get());
 	}
 
 	// Private
@@ -581,9 +792,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		return true;
 	}
 		
-
-
-
 	function __showFilter()
 	{
 		global $ilBench;
@@ -591,125 +799,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$ilBench->start('LearningProgress','1110_LPListOfObjects_showFilter');
 		$this->tpl->setVariable("FILTER",$this->filter_gui->getHTML());
 		$ilBench->stop('LearningProgress','1110_LPListOfObjects_showFilter');
-	}
-
-	function __showItems()
-	{
-		global $ilBench;
-
-		$ilBench->start('LearningProgress','1120_LPListOfObjects_showItems');
-
-		$this->__initFilter();
-
-		$tpl = new ilTemplate('tpl.lp_objects.html',true,true,'Services/Tracking');
-
-		
-		$ilBench->start('LearningProgress','1121_LPListOfObjects_showItems_getObjects');
-		if(!count($objs = $this->filter->getObjects()))
-		{
-			sendInfo($this->lng->txt('trac_filter_no_access'));
-			return true;
-		}
-		$ilBench->stop('LearningProgress','1121_LPListOfObjects_showItems_getObjects');
-		if($this->filter->limitReached())
-		{
-			$info = sprintf($this->lng->txt('trac_filter_limit_reached'),$this->filter->getLimit());
-			$tpl->setVariable("LIMIT_REACHED",$info);
-		}
-
-
-		// Show table header
-		$tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
-		$tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
-
-		$type = $this->filter->getFilterType();
-		$tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
-		$tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_'.$type));
-		$tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('objs_'.$type));
-
-
-
-		// Sort objects by title
-		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
-		$counter = 0;
-		foreach($sorted_objs as $obj_id)
-		{
-			$obj_data =& $objs[$obj_id];
-
-			$tpl->setVariable("TBLROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			$tpl->setVariable("ITEM_ID",$obj_id);
-
-			$obj_tpl = new ilTemplate('tpl.lp_object.html',true,true,'Services/Tracking');
-
-			// Title/description
-			$tpl->setVariable("TXT_TITLE",$obj_data['title']);
-
-			if(strlen($obj_data['description']))
-			{
-				$tpl->setCurrentBlock("item_description");
-				$tpl->setVariable("TXT_DESC",$obj_data['description']);
-				$tpl->parseCurrentBlock();
-			}
-
-			// detail link on if not anonymized
-			if(!$this->isAnonymized())
-			{
-				$tpl->setCurrentBlock("item_command");
-				$this->ctrl->setParameter($this,'details_id',$obj_id);
-				$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
-				$tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
-				$tpl->parseCurrentBlock();
-			}
-			// hide link
-			$tpl->setCurrentBlock("item_command");
-			$this->ctrl->setParameterByClass('illpfiltergui','hide',$obj_id);
-			$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTargetByClass('illpfiltergui','hide'));
-			$tpl->setVariable("TXT_COMMAND",$this->lng->txt('trac_hide'));
-			$tpl->parseCurrentBlock();
-
-			$tpl->setVariable("OCCURRENCES",$this->lng->txt('trac_occurrences'));
-			foreach($obj_data['ref_ids'] as $ref_id)
-			{
-				$this->__insertPath($tpl,$ref_id);
-			}
-
-			// Not attempted only for course collection
-			if($not_attempted = ilLPStatusWrapper::_getCountNotAttempted($obj_id))
-			{
-				$tpl->setCurrentBlock("item_property");
-				$tpl->setVariable("TXT_PROP",$this->lng->txt('trac_not_attempted'));
-				$tpl->setVariable("VAL_PROP",$not_attempted);
-				$tpl->parseCurrentBlock();
-				$tpl->touchBlock('newline_prop');
-			}
-
-			$tpl->setCurrentBlock("item_property");
-			$tpl->setVariable("TXT_PROP",$this->lng->txt('trac_in_progress'));
-			$tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountInProgress($obj_id));
-			$tpl->parseCurrentBlock();
-
-			$tpl->touchBlock('newline_prop');
-			$tpl->setCurrentBlock("item_property");
-			$tpl->setVariable("TXT_PROP",$this->lng->txt('trac_completed'));
-			$tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountCompleted($obj_id));
-			$tpl->parseCurrentBlock();
-
-
-			$tpl->setCurrentBlock("item_properties");
-			$tpl->parseCurrentBlock();
-
-			$tpl->setCurrentBlock("container_standard_row");
-			$tpl->parseCurrentBlock();
-		}
-
-		// Hide button
-		$tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
-		$tpl->setVariable("BTN_HIDE_SELECTED",$this->lng->txt('trac_hide'));
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass('illpfiltergui'));
-
-		$this->tpl->setVariable("LP_OBJECTS",$tpl->get());
-
-		$ilBench->stop('LearningProgress','1120_LPListOfObjects_showItems');
 	}
 
 	function __initFilterGUI()

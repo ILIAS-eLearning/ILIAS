@@ -1,0 +1,47 @@
+<!-- BEGIN start_indent --><div style="padding-left:26px"><!-- END start_indent -->
+
+<!-- BEGIN ulist_start --><ul class="il_Explorer"><!-- END ulist_start -->
+<!-- BEGIN list_start --><li class="il_Explorer"><!-- END list_start -->
+
+ <!-- BEGIN check -->
+	<div style="float:left;">
+	  <input type="checkbox" name="{CHECK_NAME}" value="{CHECK_VALUE}" {CHECK_CHECKED} />
+	</div>
+	<!-- END check -->
+	<!-- BEGIN row_type_image -->
+	<div style="float:left;">
+	  <img src="{TYPE_IMG}" alt="{TYPE_ALT_IMG}" title="{TYPE_ALT_IMG}" border="0" vspace="0" align="absmiddle" />
+	</div>
+	<!-- END row_type_image -->
+	<div style="float:left;padding-left:5px">
+	  <b>{TXT_TITLE}</b>
+	  <!-- BEGIN item_description -->
+	  <div class="il_Description" >{TXT_DESC}</div>
+	  <!-- END item_description -->
+	  <!-- BEGIN item_properties -->
+	  <div class="il_ItemProperties">
+		<!-- BEGIN item_property -->
+		<!-- BEGIN newline_prop --><br /><!-- END newline_prop -->
+		<span class="il_ItemAlertProperty">
+		  {TXT_PROP}: {VAL_PROP}<!-- BEGIN status_info -->, {STATUS_PROP}: {STATUS_VAL}<!-- END status_info -->
+		</span>
+		<!-- END item_property -->
+	  </div>
+	  <!-- END item_properties -->
+	  <!-- BEGIN info_property -->
+		<span class="il_ItemProperty">
+		{INFO_TXT_PROP}: {INFO_VAL_PROP}
+		</span>
+	  <!-- END info_property -->
+
+	  <div class="il_ItemProperties">{OCCURRENCES}</div>
+	  <!-- BEGIN path -->
+	  <div class="il_ItemProperties">&nbsp;&nbsp;
+		<!-- BEGIN path_item -->
+		{PATH_ITEM}
+		<!-- END path_item -->
+	  </div>
+	  <!-- END path -->
+	</div>
+
+<!-- BEGIN end_indent --></div><!-- END end_indent -->

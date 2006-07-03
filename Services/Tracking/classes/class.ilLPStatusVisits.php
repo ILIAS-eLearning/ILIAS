@@ -49,7 +49,8 @@ class ilLPStatusVisits extends ilLPStatus
 	{
 		global $ilDB;
 
-		$required_visits = ilLPObjSettings::_lookupVisits($a_obj_id);
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		$required_visits = $status_info['visits'];
 
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
 			"WHERE visits < '".$required_visits."' ".
@@ -67,7 +68,8 @@ class ilLPStatusVisits extends ilLPStatus
 	{
 		global $ilDB;
 
-		$required_visits = ilLPObjSettings::_lookupVisits($a_obj_id);
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		$required_visits = $status_info['visits'];
 
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
 			"WHERE visits >= '".$required_visits."' ".
@@ -81,6 +83,16 @@ class ilLPStatusVisits extends ilLPStatus
 		}
 		return $user_ids ? $user_ids : array();
 	}
+
+	function _getStatusInfo($a_obj_id)
+	{
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		$status_info['visits'] = ilLPObjSettings::_lookupVisits($a_obj_id);
+
+		return $status_info;
+	}
+
+		
 		
 
 }	

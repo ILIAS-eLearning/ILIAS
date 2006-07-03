@@ -30,7 +30,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -83,6 +83,8 @@ class ilObjFolderGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
+		global $ilUser;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -120,6 +122,17 @@ class ilObjFolderGUI extends ilContainerGUI
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
 				break;
+
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,
+													  $this->object->getRefId(),
+													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setTabActive('learning_progress');
+				break;
+
 
 			default:
 				if (empty($cmd))
@@ -268,6 +281,16 @@ class ilObjFolderGUI extends ilContainerGUI
 		{
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+		}
+
+		// learning progress
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('ilobjfoldergui','illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))

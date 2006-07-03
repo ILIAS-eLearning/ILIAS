@@ -545,8 +545,8 @@ class ilLearningProgressBaseGUI
 									 $this->__getPercent($res['max_points'],$res['reached_points']));
 					}
 				}
-					return array($this->lng->txt('trac_reached_points'),
-								 "0.00%");
+				return array($this->lng->txt('trac_reached_points'),
+							 "0.00%");
 								 
 			case LP_MODE_TLT:
 				if(!$this->obj_data[$a_obj_id]['tlt'])
@@ -564,6 +564,7 @@ class ilLearningProgressBaseGUI
 				{
 					return false;
 				}
+				include_once './Services/Tracking/classes/class.ilLearningProgress.php';
 				$user_data = ilLearningProgress::_getProgress($a_user_id,$a_obj_id);
 
 				return array($this->lng->txt('trac_reached_visits'),

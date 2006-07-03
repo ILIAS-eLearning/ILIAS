@@ -142,6 +142,13 @@ class ilLPObjSettings
 		}
 		return LP_DEFAULT_VISITS;
 	}
+
+	function _isContainer($a_mode)
+	{
+		return $a_mode == LP_MODE_COLLECTION or
+			$a_mode == LP_MODE_SCORM or
+			$a_mode == LP_MODE_OBJECTIVES;
+	}
 		
 
 	function _delete($a_obj_id)
@@ -190,7 +197,7 @@ class ilLPObjSettings
 
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
 							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
-#							 LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'),
+							 #LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'),
 							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
 
 				break;
@@ -225,7 +232,12 @@ class ilLPObjSettings
 
 			case 'grp':
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'));
+							 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
+							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
+
+			case 'fold':
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
 
 				
 				
@@ -354,6 +366,9 @@ class ilLPObjSettings
 				return LP_MODE_EXERCISE_RETURNED;
 
 			case 'grp':
+				return LP_MODE_DEACTIVATED;
+
+			case 'fold':
 				return LP_MODE_DEACTIVATED;
 					
 			default:

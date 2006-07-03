@@ -22,71 +22,24 @@
 */
 
 /**
+* Class ilLPItemListGUI
+*
 * @author Stefan Meyer <smeyer@databay.de>
 *
 * @version $Id$
 *
-* @package ilias-tracking
+* @extends ilObjectGUI
+* @package ilias-core
 *
 */
 
-include_once 'Services/Tracking/classes/class.ilLPStatus.php';
-include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
-include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+include_once 'Services/Tracking/classes/ItemList/class.ilLPObjectItemListGUI.php';
 
-class ilLPStatusExerciseReturned extends ilLPStatus
+class ilLPExerciseListGUI extends ilLPObjectItemListGUI
 {
-
-	function ilLPStatusVisits($a_obj_id)
+	function ilLPExerciseListGUI($a_obj_id)
 	{
-		global $ilDB;
-
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::ilLPObjectItemListGUI($a_obj_id,'exc');
 	}
-
-	function _getNotAttempted($a_obj_id)
-	{
-		// All members
-		include_once './classes/class.ilExerciseMembers.php';
-
-		$members = ilExerciseMembers::_getMembers($a_obj_id);
-
-		$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-
-		return $users ? $users : array();
-	}
-
-	function _getInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-		
-		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
-			"WHERE obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if(!in_array($row->user_id,$completed))
-			{
-				$user_ids[] = $row->user_id;
-			}
-		}
-		return $user_ids ? $user_ids : array();
-	}		
-
-	function _getCompleted($a_obj_id)
-	{
-		global $ilDB;
-
-		include_once './classes/class.ilExerciseMembers.php';
-
-		return ($ret = ilExerciseMembers::_getSolved($a_obj_id)) ? $ret : array();
-	}
-		
-
-}	
+}
 ?>
