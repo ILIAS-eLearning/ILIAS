@@ -33,7 +33,7 @@ include_once "classes/class.ilPersonalDesktopGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI, ilPaymentGUI, ilPaymentAdminGUI
 *
 * @package content
 */
@@ -140,9 +140,20 @@ class ilPersonalDesktopGUI
 			
 			break;
 			
-			
-			
-			
+			// payment
+			case "ilpaymentgui":
+			$this->showShoppingCart();
+			break;
+
+			case "ilpaymentadmingui":
+			$this->getStandardTemplates();
+			$this->setTabs();
+			include_once("./payment/classes/class.ilPaymentAdminGUI.php");
+			$pa =& new ilPaymentAdminGUI($ilUser);
+			$ret =& $this->ctrl->forwardCommand($pa);
+			$this->tpl->show();
+			break;
+
 			default:
 			$this->getStandardTemplates();
 			$this->setTabs();
@@ -153,6 +164,18 @@ class ilPersonalDesktopGUI
 		return true;
 	}
 	
+	function showShoppingCart()
+	{
+		global $ilUser;
+		$this->getStandardTemplates();
+		$this->setTabs();
+		include_once("./payment/classes/class.ilPaymentGUI.php");
+		$pa =& new ilPaymentGUI($ilUser);
+		$ret =& $this->ctrl->forwardCommand($pa);
+		$this->tpl->show();
+		return true;
+	}
+
 	/**
 	* get standard templates
 	*/
@@ -1365,16 +1388,25 @@ class ilPersonalDesktopGUI
 		
 		if(ilPaymentShoppingCart::_hasEntries($this->ilias->account->getId()) or
 		ilPaymentBookings::_getCountBookingsByCustomer($this->ilias->account->getId()))
-		
 		{
 			$this->lng->loadLanguageModule('payment');
-			$inhalt1[] = array('tabinactive',"./payment/payment.php", $this->lng->txt('paya_shopping_cart'));
+
+			$cmd_classes = array('ilpaymentshoppingcartgui','ilpaymentbuyedobjectsgui');
+			$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';
+
+			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPaymentGUI"),
+			$this->lng->txt("paya_shopping_cart"));
 		}
 		if(ilPaymentVendors::_isVendor($this->ilias->account->getId()) or
 		ilPaymentTrustees::_hasAccess($this->ilias->account->getId()))
 		{
 			$this->lng->loadLanguageModule('payment');
-			$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$this->lng->txt('paya_header'));
+
+			$cmd_classes = array('ilpaymentstatisticgui','ilpaymentobjectgui','ilpaymenttrusteegui');
+			$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';
+
+			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPaymentAdminGUI"),
+			$this->lng->txt("paya_header"));
 		}
 		
 		for ( $i=0; $i<sizeof($inhalt1); $i++)
