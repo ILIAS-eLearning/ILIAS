@@ -60,8 +60,11 @@ class ilLPStatusSCORM extends ilLPStatus
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		$items = $status_info['scos'];
+
 		$counter = 0;
-		foreach(ilLPCollections::_getItems($a_obj_id) as $sco_id)
+		foreach($items as $sco_id)
 		{
 			$tmp_users = ilObjSCORMTracking::_getCompleted($sco_id,$a_obj_id);
 			if(!$counter++)
@@ -74,8 +77,52 @@ class ilLPStatusSCORM extends ilLPStatus
 			}
 		}
 		return (array) $users;
+	}
+	
+	function _getStatusInfo($a_obj_id)
+	{
+		// Which sco's determine the status
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		$status_info['scos'] = ilLPCollections::_getItems($a_obj_id);
+		$status_info['num_scos'] = count($status_info['scos']);
+		
+		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+		$status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'],$a_obj_id);
 
-	}		
 
+		// Get subtype
+		include_once './content/classes/class.ilObjSAHSLearningModule.php';
+		$status_info['subtype'] = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
+
+		switch($status_info['subtype'])
+		{
+			case 'hacp':
+			case 'aicc':
+				include_once './content/classes/class.ilObjAICCLearningModule.php';
+				foreach(ilObjAICCLearningModule::_getTrackingItems($a_obj_id) as $item)
+				{
+					if(in_array($item['obj_id'],$status_info['scos']))
+					{
+						$status_info['scos_title']["$item[obj_id]"] = $item['title'];
+					}
+				}
+				break;
+			case 'scorm':
+
+				include_once './content/classes/SCORM/class.ilSCORMItem.php';
+				foreach($status_info['scos'] as $sco_id)
+				{
+					$status_info['scos_title'][$sco_id] = ilSCORMItem::_lookupTitle($sco_id);
+				}
+		}
+
+		foreach($status_info['scos'] as $sco_id)
+		{
+			include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+			$status_info['completed'][$sco_id] = ilObjSCORMTracking::_getCompleted($sco_id,$a_obj_id);
+			$status_info['in_progress'][$sco_id] = ilObjSCORMTracking::_getInProgress($sco_id,$a_obj_id);
+		}
+		return $status_info;
+	}
 }	
 ?>

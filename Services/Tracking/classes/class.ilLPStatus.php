@@ -79,7 +79,15 @@ class ilLPStatus
 	{
 		return array();
 	}
+	function _getStatusInfo($a_obj_id)
+	{
+		return array();
+	}
+	function _getTypicalLearningTime($a_obj_id)
+	{
+		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
+		return ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+	}
 
-	
 }	
 ?>

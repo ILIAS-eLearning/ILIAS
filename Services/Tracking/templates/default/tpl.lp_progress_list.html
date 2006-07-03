@@ -1,0 +1,41 @@
+	<font class="smallred">{LIMIT_REACHED}</font><br /><br />
+	<form action="{FORMACTION}" method="post">
+	  <table class="fullwidth" border="0">
+		  <tr class="tbltitle">
+			<th class="std" colspan="3">
+			  <img border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			  <span style="vertical-align:top;">&nbsp;{BLOCK_HEADER_CONTENT}</span>
+			</th>
+		  </tr>
+		  <tr class="tblheader">
+			<th class="std" width="65%"></th>
+			<th class="std" width="20%"><div align="center">{HEAD_STATUS}</div></th>
+			<th class="std" width="15%">{HEAD_OPTIONS}</th>
+		  </tr>
+
+		  <!-- BEGIN container_standard_row -->
+		  <tr class="{TBLROW}">
+			<td class="std">
+			  {ITEM_HTML}
+			</td>
+			<td class="std" valign="top" align="center">
+			  <div align="center">
+				<img border="0" src="{STATUS_IMG}" alt="{STATUS_ALT}" title="{STATUS_ALT}" />
+			  </div>
+			</td>
+			<td class="std" valign="top" nowrap="nowrap" width="20%" align="center">
+			  <!-- BEGIN item_command -->
+			  <a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
+			  <!-- END item_command -->
+			</td>
+		  </tr>
+		  <!-- END container_standard_row -->
+
+		  <tr class="tblfooter">
+			<td class="std" valign="center" align="left" colspan="3">
+			  <img src="{DOWNRIGHT}" border="0" />
+			  &nbsp;<input class="submit" type="SUBMIT" name="cmd[hideSelected]" value="{BTN_HIDE_SELECTED}"/>
+			</td>
+		  </tr>
+	  </table>
+	</form>

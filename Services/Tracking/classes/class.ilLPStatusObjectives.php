@@ -63,40 +63,6 @@ class ilLPStatusObjectives extends ilLPStatus
 
 	function _getInProgress($a_obj_id)
 	{
-		global $ilObjDataCache;
-
-		global $ilBench;
-		$ilBench->start('LearningProgress','9172_LPStatusObjectives_inProgress');
-
-		return ilLPStatusObjectives::__getCourseInProgress($a_obj_id);
-
-		$ilBench->stop('LearningProgress','9172_LPStatusObjectives_inProgress');
-
-	}
-
-	function _getCompleted($a_obj_id)
-	{
-		global $ilDB;
-
-		global $ilBench;
-		$ilBench->start('LearningProgress','9173_LPStatusObjectives_completed');
-
-		$query = "SELECT DISTINCT(usr_id) as user_id FROM ut_lp_marks ".
-			"WHERE obj_id = '".$a_obj_id."' ".
-			"AND completed = '1'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$usr_ids[] = $row->user_id;
-		}
-		$ilBench->stop('LearningProgress','9173_LPStatusObjectives_completed');
-		return $usr_ids ? $usr_ids : array();
-	}
-
-
-	function __getCourseInProgress($a_obj_id)
-	{
 		global $ilDB;
 
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
@@ -117,5 +83,68 @@ class ilLPStatusObjectives extends ilLPStatus
 		}
 		return $user_ids ? $user_ids : array();
 	}
-}	
+
+	function _getCompleted($a_obj_id)
+	{
+		global $ilDB;
+
+		global $ilBench;
+		$ilBench->start('LearningProgress','9173_LPStatusObjectives_completed');
+
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		foreach($status_info['objective_result'] as $user_id => $completed)
+		{
+			if(count($completed) == $status_info['num_objectives'])
+			{
+				$usr_ids[] = $user_id;
+			}
+		}
+		$ilBench->stop('LearningProgress','9173_LPStatusObjectives_completed');
+		return $usr_ids ? $usr_ids : array();
+	}
+
+
+	function _getStatusInfo($a_obj_id)
+	{
+		include_once 'course/classes/class.ilCourseObjective.php';
+
+		global $ilDB;
+
+		$status_info['objectives'] = ilCourseObjective::_getObjectiveIds($a_obj_id);
+		$status_info['num_objectives'] = count($status_info['objectives']);
+
+		if(!$status_info['num_objectives'])
+		{
+			return true;
+		}
+		else
+		{
+			$in = "objective_id IN('".implode("','",$status_info['objectives'])."') ";
+		}
+
+		$query = "SELECT * FROM crs_objective_status ".
+			"WHERE ".$in." ".
+			"AND status = '1'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$status_info['completed'][$row->objective_id][] = $row->user_id;
+			$status_info['objective_result'][$row->user_id][$row->objective_id] = $row->objective_id;
+		}
+
+		// Read title/description
+		$query = "SELECT * FROM crs_objectives ".
+			"WHERE ".$in;
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$status_info['objective_title'][$row->objective_id] = $row->title;
+			$status_info['objective_description'][$row->objective_id] = $row->description;
+		}
+		return $status_info;
+	}
+}
+		
+
 ?>

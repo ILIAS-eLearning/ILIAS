@@ -49,7 +49,8 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
 
-		$tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		$tlt = $status_info['tlt'];
 
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
 			"WHERE spent_time < '".$tlt."' ".
@@ -69,7 +70,9 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
 
-		$tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		$tlt = $status_info['tlt'];
+		#$tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
 			"WHERE spent_time >= '".$tlt."' ".
 			"AND obj_id = '".$a_obj_id."'";
@@ -80,7 +83,17 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 			$user_ids[] = $row->user_id;
 		}
 		return $user_ids ? $user_ids : array();
-	}		
+	}
+
+	function _getStatusInfo($a_obj_id)
+	{
+		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+		$status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+
+		return $status_info;
+	}
+		
+		
 
 }	
 ?>

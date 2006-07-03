@@ -46,23 +46,29 @@ class ilLPStatusCollection extends ilLPStatus
 
 	function _getNotAttempted($a_obj_id)
 	{
-		include_once 'course/classes/class.ilCourseMembers.php';
+		global $ilObjDataCache;
 
-		$members = ilCourseMembers::_getMembers($a_obj_id);
+		switch($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case 'crs':
+				include_once 'course/classes/class.ilCourseMembers.php';
+				$members = ilCourseMembers::_getMembers($a_obj_id);
+				
+				// diff in progress and completed (use stored result in LPStatusWrapper)
+				$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
+				$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
+				return $users;
 
-		// diff in progress and completed (use stored result in LPStatusWrapper)
-		$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-		$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-
-		return $users;
+			default:
+				return array();
+		}
 	}
 
 	function _getInProgress($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		include_once 'course/classes/class.ilCourseMembers.php';
 
-		global $ilBench;
+		global $ilBench,$ilObjDataCache;
 		$ilBench->start('LearningProgress','9172_LPStatusCollection_inProgress');
 
 		$in_progress = 0;
@@ -75,8 +81,15 @@ class ilLPStatusCollection extends ilLPStatus
 
 		// Exclude all users with status completed.
 		$users = array_diff((array) $users,ilLPStatusWrapper::_getCompleted($a_obj_id));
-		// Exclude all non members
-		$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+
+		switch($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case 'crs':
+				// Exclude all non members
+				include_once 'course/classes/class.ilCourseMembers.php';
+				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+				break;
+		}
 
 		$ilBench->stop('LearningProgress','9172_LPStatusCollection_inProgress');
 		return $users;
@@ -85,9 +98,8 @@ class ilLPStatusCollection extends ilLPStatus
 	function _getCompleted($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		include_once 'course/classes/class.ilCourseMembers.php';
 
-		global $ilBench;
+		global $ilBench,$ilObjDataCache;
 		$ilBench->start('LearningProgress','9173_LPStatusCollection_completed');
 
 
@@ -105,12 +117,37 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 
 		}
-		// Exclude all non members
-		$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+		switch($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case 'crs':
+				// Exclude all non members
+				include_once 'course/classes/class.ilCourseMembers.php';
+				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+				break;
+		}
 
 		$ilBench->stop('LearningProgress','9173_LPStatusCollection_completed');
 		return (array) $users;
-	}		
+	}
+
+	function _getStatusInfo($a_obj_id)
+	{
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		$status_info['collections'] = ilLPCollections::_getItems($a_obj_id);
+		$status_info['num_collections'] = count($status_info['collections']);
+
+		return $status_info;
+	}
+
+	function _getTypicalLearningTime($a_obj_id)
+	{
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		foreach($status_info['collections'] as $item)
+		{
+			$tlt += ilLPStatusWrapper::_getTypicalLearningTime($item);
+		}
+		return $tlt;
+	}
 
 }	
 ?>

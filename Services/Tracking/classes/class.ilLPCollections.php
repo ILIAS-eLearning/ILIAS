@@ -103,8 +103,17 @@ class ilLPCollections
 		$node_data = $tree->getNodeData($a_target_id);
 		foreach($tree->getSubTree($node_data) as $node)
 		{
+			// avoid recursion
+			if($node['ref_id'] == $a_target_id)
+			{
+				continue;
+			}
+
 			switch($node['type'])
 			{
+				case 'exc':
+				case 'fold':
+				case 'grp':
 				case 'sahs':
 				case 'lm':
 				case 'tst':
@@ -179,7 +188,14 @@ class ilLPCollections
 		global $ilObjDataCache;
 		global $ilDB;
 
-		if($ilObjDataCache->lookupType($a_obj_id) == 'crs')
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		if(ilLPObjSettings::_lookupMode($a_obj_id) == LP_MODE_OBJECTIVES)
+		{
+			include_once 'course/classes/class.ilCourseObjective.php';
+			return ilCourseObjective::_getObjectiveIds($a_obj_id);
+		}
+
+		if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')
 		{
 			$course_ref_ids = ilObject::_getAllReferences($a_obj_id);
 			$course_ref_id = end($course_ref_ids);
@@ -189,7 +205,7 @@ class ilLPCollections
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($ilObjDataCache->lookupType($a_obj_id) == 'crs')
+			if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')
 			{
 				if(!in_array($row->item_id,ilLPCollections::_getPossibleItems($course_ref_id)))
 				{

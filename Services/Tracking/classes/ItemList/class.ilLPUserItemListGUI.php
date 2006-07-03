@@ -22,71 +22,58 @@
 */
 
 /**
+* Class ilLPItemListGUI
+*
 * @author Stefan Meyer <smeyer@databay.de>
 *
 * @version $Id$
 *
-* @package ilias-tracking
+* @extends ilObjectGUI
+* @package ilias-core
 *
 */
 
-include_once 'Services/Tracking/classes/class.ilLPStatus.php';
-include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
-include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+include_once 'Services/Tracking/classes/ItemList/class.ilLPObjectItemListGUI.php';
 
-class ilLPStatusExerciseReturned extends ilLPStatus
+class ilLPUserItemListGUI extends ilLPObjectItemListGUI
 {
+	var $child_id = null;
 
-	function ilLPStatusVisits($a_obj_id)
+	function ilLPUserItemListGUI($a_obj_id)
 	{
-		global $ilDB;
-
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::ilLPObjectItemListGUI($a_obj_id,'usr');
 	}
 
-	function _getNotAttempted($a_obj_id)
+	function readUserInfo()
 	{
-		// All members
-		include_once './classes/class.ilExerciseMembers.php';
-
-		$members = ilExerciseMembers::_getMembers($a_obj_id);
-
-		$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-
-		return $users ? $users : array();
+		parent::readUserInfo();
+		$this->__readTitle();
+		$this->__readDescription();
 	}
 
-	function _getInProgress($a_obj_id)
+
+	function __readTitle()
 	{
-		global $ilDB;
+		global $ilObjDataCache;
 
-		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-		
-		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
-			"WHERE obj_id = '".$a_obj_id."'";
+		include_once 'classes/class.ilObjUser.php';
 
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if(!in_array($row->user_id,$completed))
-			{
-				$user_ids[] = $row->user_id;
-			}
-		}
-		return $user_ids ? $user_ids : array();
-	}		
+		$login = '['.ilObjUser::_lookupLogin($this->getCurrentUser()).']';
+		$fullname = $ilObjDataCache->lookupTitle($this->getCurrentUser());
 
-	function _getCompleted($a_obj_id)
-	{
-		global $ilDB;
-
-		include_once './classes/class.ilExerciseMembers.php';
-
-		return ($ret = ilExerciseMembers::_getSolved($a_obj_id)) ? $ret : array();
+		return $this->title = $login .' '. $fullname;
 	}
-		
+	function __readDescription()
+	{
+		return $this->description = '';
+	}
 
-}	
+	function renderTypeImage()
+	{
+		$this->tpl->setCurrentBlock("row_type_image");
+		$this->tpl->setVariable("TYPE_IMG",ilObjUser::_getPersonalPicturePath($this->getCurrentUser(),'xxsmall'));
+		$this->tpl->setVariable("TYPE_ALT",$this->getTitle());
+		$this->tpl->parseCurrentBlock();
+	}
+}
 ?>

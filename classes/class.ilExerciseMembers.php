@@ -671,6 +671,23 @@ class ilExerciseMembers
 
 		return $usr_ids ? $usr_ids : array();
 	}
+	
+	function _getSolved($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT DISTINCT(usr_id) as ud FROM exc_members ".
+			"WHERE obj_id = '".$a_obj_id."' ".
+			"AND solved = 1";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$usr_ids[] = $row->ud;
+		}
+
+		return $usr_ids ? $usr_ids : array();
+	}
 
 } //END class.ilObjExercise
 ?>

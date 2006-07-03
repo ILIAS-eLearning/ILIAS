@@ -123,5 +123,42 @@ class ilLPStatusWrapper
 
 		return $cache[$a_obj_id];
 	}
+	/**
+	* Reads informations about the object e.g test results, tlt, number of visits
+	*/
+	function _getStatusInfo($a_obj_id)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+
+		$cache[$a_obj_id] = call_user_func(array($class,'_getStatusInfo'),$a_obj_id);
+
+		return $cache[$a_obj_id];
+	}
+
+	/**
+	* Reads Typical learning time. Mode collection is recursive for all assigned items
+	*/
+	function _getTypicalLearningTime($a_obj_id)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+
+		$cache[$a_obj_id] = call_user_func(array($class,'_getTypicalLearningTime'),$a_obj_id);
+
+		return $cache[$a_obj_id];
+	}
 }	
 ?>
