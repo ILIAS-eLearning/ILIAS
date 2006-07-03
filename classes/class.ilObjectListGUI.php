@@ -735,13 +735,28 @@ class ilObjectListGUI
 	{
 		include_once './payment/classes/class.ilPaymentObject.php';
 
-		if ($this->payment_enabled)
+		if ($this->payment_enabled &&
+			ilPaymentObject::_isBuyable($this->ref_id))
 		{
-			if (ilPaymentObject::_isBuyable($this->ref_id))
+			if (ilPaymentObject::_hasAccess($this->ref_id))
+			{
+				$this->tpl->setCurrentBlock("payment");
+				$this->tpl->setVariable("PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_access_b.gif'));
+				$this->tpl->setVariable("PAYMENT_ALT_IMG", $this->lng->txt('payment_system') . ": " . $this->lng->txt('payment_payed_access'));
+				$this->tpl->parseCurrentBlock();
+			}
+			else if (ilPaymentObject::_isInCart($this->ref_id))
+			{
+				$this->tpl->setCurrentBlock("payment");
+				$this->tpl->setVariable("PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_cart_b.gif'));
+				$this->tpl->setVariable("PAYMENT_ALT_IMG", $this->lng->txt('payment_system') . ": " . $this->lng->txt('payment_in_sc'));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
 			{
 				$this->tpl->setCurrentBlock("payment");
 				$this->tpl->setVariable("PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_b.gif'));
-				$this->tpl->setVariable("PAYMENT_ALT_IMG", $this->lng->txt('payment_system'));
+				$this->tpl->setVariable("PAYMENT_ALT_IMG", $this->lng->txt('payment_system') . ": " . $this->lng->txt('payment_buyable'));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
