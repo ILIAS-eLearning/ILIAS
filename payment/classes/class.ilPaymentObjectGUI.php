@@ -979,18 +979,34 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 								   $this->lng->txt("paya_vendor"),
 								   $this->lng->txt("paya_count_purchaser"),
 								   ''));
+		$header_params = $this->ctrl->getParameterArray($this,'');
 		$tbl->setHeaderVars(array("title",
 								  "status",
 								  "pay_method",
 								  "vendor",
 								  "purchasers",
-								  "options"),
+								  "options"),$header_params);
+								  /*
 							array("cmd" => "",
 								  "cmdClass" => "ilpaymentobjectgui",
 								  "cmdNode" => $_GET["cmdNode"]));
+								  */
 		$tbl->setColumnWidth(array("15%","15%","15%","20%","20%"));
 
-		$this->setTableGUIBasicData($tbl,$a_result_set);
+#		$this->setTableGUIBasicData($tbl,$a_result_set);
+
+		$offset = $_GET["offset"];
+		$order = $_GET["sort_by"];
+		$direction = $_GET["sort_order"] ? $_GET['sort_order'] : 'desc';
+
+		$tbl->setOrderColumn($order,'order_date');
+		$tbl->setOrderDirection($direction);
+		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setMaxCount(count($a_result_set));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->setData($a_result_set);
+
 		$tbl->render();
 
 		$this->tpl->setVariable("OBJECTS_TABLE",$tbl->tpl->get());
