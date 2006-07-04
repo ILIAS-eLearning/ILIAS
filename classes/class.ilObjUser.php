@@ -989,6 +989,9 @@ class ilObjUser extends ilObject
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		ilObjUserTracking::_deleteUser($this->getId());
 
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
+		ilEventParticipants::_deleteByUser($this->getId());
+
 		// Delete group registrations
 		$q = "DELETE FROM grp_registration WHERE user_id='".$this->getId()."'";
 		$this->ilias->db->query($q);
