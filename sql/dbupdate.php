@@ -11123,3 +11123,6 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#766>
+ALTER TABLE `event` ADD `registration` TINYINT( 1 ) NOT NULL ,
+ADD `participation` TINYINT( 1 ) NOT NULL ;

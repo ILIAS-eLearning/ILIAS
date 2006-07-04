@@ -98,6 +98,19 @@ class ilEventAdministrationGUI
 		$this->ctrl->returnToParent($this);
 	}
 
+	function editMembers()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_members.html','course');
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
+		$this->tpl->parseCurrentBlock();
+		
+	}
+
 	function materials()
 	{
 		global $tree;
@@ -278,6 +291,13 @@ class ilEventAdministrationGUI
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_create.html','course');
 
+		// display back button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('event_table_create'));
 		$this->tpl->setVariable("TXT_GENERAL_INFOS",$this->lng->txt('event_general_infos'));
@@ -286,6 +306,12 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('event_title'));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('event_desc'));
 		$this->tpl->setVariable("TXT_LOCATION",$this->lng->txt('event_location'));
+		$this->tpl->setVariable("TXT_REGISTRATION_PARTICIPANCE",$this->lng->txt('event_registration_participance'));
+		$this->tpl->setVariable("TXT_REGISTRATION",$this->lng->txt('event_registration'));
+		$this->tpl->setVariable("TXT_PARTICIPANCE",$this->lng->txt('event_participation'));
+		$this->tpl->setVariable("REGISTRATION_INFO",$this->lng->txt('event_registration_info'));
+		$this->tpl->setVariable("PARTICIPATION_INFO",$this->lng->txt('event_participation_info'));
+
 
 		$this->tpl->setVariable("TXT_REQUIRED",$this->lng->txt('required_field'));
 		$this->tpl->setVariable("TXT_TUTOR_DATA",$this->lng->txt('event_tutor_data'));
@@ -310,6 +336,8 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("TITLE",$this->event_obj->getTitle());
 		$this->tpl->setVariable("DESC",$this->event_obj->getDescription());
 		$this->tpl->setVariable("LOCATION",$this->event_obj->getLocation());
+		$this->tpl->setVariable("REG_CHECKED",$this->event_obj->enabledRegistration() ? 'checked="checked"' : '');
+		$this->tpl->setVariable("PART_CHECKED",$this->event_obj->enabledParticipation() ? 'checked="checked"' : '');
 		$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
 		$this->tpl->setVariable("TUTOR_LASTNAME",$this->event_obj->getLastname());
 		$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
@@ -332,14 +360,27 @@ class ilEventAdministrationGUI
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_edit.html','course');
 
+		// display back button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
+		$this->tpl->parseCurrentBlock();
+
+
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('event_table_create'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('event_table_update'));
 		$this->tpl->setVariable("TXT_GENERAL_INFOS",$this->lng->txt('event_general_infos'));
 		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('event_title'));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('event_desc'));
 		$this->tpl->setVariable("TXT_LOCATION",$this->lng->txt('event_location'));
+		$this->tpl->setVariable("TXT_REGISTRATION_PARTICIPANCE",$this->lng->txt('event_registration_participance'));
+		$this->tpl->setVariable("TXT_REGISTRATION",$this->lng->txt('event_registration'));
+		$this->tpl->setVariable("TXT_PARTICIPANCE",$this->lng->txt('event_participation'));
+		$this->tpl->setVariable("REGISTRATION_INFO",$this->lng->txt('event_registration_info'));
+		$this->tpl->setVariable("PARTICIPATION_INFO",$this->lng->txt('event_participation_info'));
 
 		$this->tpl->setVariable("TXT_REQUIRED",$this->lng->txt('required_field'));
 		$this->tpl->setVariable("TXT_TUTOR_DATA",$this->lng->txt('event_tutor_data'));
@@ -364,6 +405,8 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("TITLE",$this->event_obj->getTitle());
 		$this->tpl->setVariable("DESC",$this->event_obj->getDescription());
 		$this->tpl->setVariable("LOCATION",$this->event_obj->getLocation());
+		$this->tpl->setVariable("REG_CHECKED",$this->event_obj->enabledRegistration() ? 'checked="checked"' : '');
+		$this->tpl->setVariable("PART_CHECKED",$this->event_obj->enabledParticipation() ? 'checked="checked"' : '');
 		$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
 		$this->tpl->setVariable("TUTOR_LASTNAME",$this->event_obj->getLastname());
 		$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
@@ -556,6 +599,8 @@ class ilEventAdministrationGUI
 		$this->event_obj->setEmail(ilUtil::stripSlashes($_POST['tutor_email']));
 		$this->event_obj->setPhone(ilUtil::stripSlashes($_POST['tutor_phone']));
 		$this->event_obj->setDetails(ilUtil::stripSlashes($_POST['details']));
+		$this->event_obj->enableRegistration((int) $_POST['registration']);
+		$this->event_obj->enableParticipation((int) $_POST['participance']);
 	}
 
 

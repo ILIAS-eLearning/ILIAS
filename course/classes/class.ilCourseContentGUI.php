@@ -216,6 +216,12 @@ class ilCourseContentGUI
 				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('edit'));
 				$tpl->parseCurrentBlock();
 
+				// Edit Members
+				$tpl->setCurrentBlock("event_commands");
+				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','editMembers'));
+				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('event_edit_members'));
+				$tpl->parseCurrentBlock();
+
 				// Edit assignments
 				$tpl->setCurrentBlock("event_commands");
 				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','materials'));

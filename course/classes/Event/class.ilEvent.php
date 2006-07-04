@@ -148,6 +148,24 @@ class ilEvent
 	{
 		return $this->details;
 	}
+	function enabledRegistration()
+	{
+		return (bool) $this->registration;
+	}
+	function enableRegistration($a_status)
+	{
+		$this->registration = $a_status;
+	}
+	function enabledParticipation()
+	{
+		return true;
+		return (bool) $this->participation;
+	}
+	function enableParticipation($a_status)
+	{
+		$this->participation = $a_status;
+	}
+	
 
 	function &getAppointments()
 	{
@@ -193,7 +211,9 @@ class ilEvent
 			"tutor_title = '".ilUtil::prepareDBString($this->getPTitle())."', ".
 			"tutor_phone = '".ilUtil::prepareDBString($this->getPhone())."', ".
 			"tutor_email = '".ilUtil::prepareDBString($this->getEmail())."', ".
-			"details = '".ilUtil::prepareDBString($this->getDetails())."'";
+			"details = '".ilUtil::prepareDBString($this->getDetails())."',".
+			"registration = '".(int) $this->enabledRegistration()."', ".
+			"participation = '".(int) $this->enabledParticipation()."'";
 
 		$this->db->query($query);
 		$this->setEventId($this->db->getLastInsertId());
@@ -217,7 +237,9 @@ class ilEvent
 			"tutor_title = '".ilUtil::prepareDBString($this->getPTitle())."', ".
 			"tutor_phone = '".ilUtil::prepareDBString($this->getPhone())."', ".
 			"tutor_email = '".ilUtil::prepareDBString($this->getEmail())."', ".
-			"details = '".ilUtil::prepareDBString($this->getDetails())."' ".
+			"details = '".ilUtil::prepareDBString($this->getDetails())."', ".
+			"registration = '".(int) $this->enabledRegistration()."', ".
+			"participation = '".(int) $this->enabledParticipation()."' ".
 			"WHERE event_id = '".$this->getEventId()."'";
 
 		$this->db->query($query);
@@ -321,6 +343,8 @@ class ilEvent
 			$this->setPhone($row->tutor_phone);
 			$this->setEmail($row->tutor_email);
 			$this->setDetails($row->details);
+			$this->enableRegistration($row->registration);
+			$this->enableParticipation($row->participation);
 		}
 
 		// get assigned appointments

@@ -6140,7 +6140,7 @@ trac#:#trac_visits_info#:#Every page visit counts as one visit.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
 common#:#crs_activation_start_invalid#:#The start and the end time is not valid.
 crs#:#events#:#Events
-crs#:#add_event#:#Add event
+crs#:#add_event#:#Add Event
 crs#:#event_table_create#:#New Event
 crs#:#event_general_infos#:#General Informations
 crs#:#event_title#:#Title
@@ -6200,3 +6200,8 @@ payment#:#pay_change_price#:#Change price/duration combination
 payment#:#pay_payed_paypal#:#The order was paid by PayPal.
 payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.
 payment#:#pay_paypal_failed#:#Your puchase of ILIAS objects using PayPal failed!
+crs#:#event_table_update#:#Edit Event
+crs#:#event_registration_participance#:#Registration
+crs#:#event_registration#:#Registration
+crs#:#event_participation#:#Participation
+crs#:#event_registration_info#:#Allow users to register to the event.
