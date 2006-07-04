@@ -140,8 +140,9 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 			// edit link
 			$this->ctrl->setParameter($this,"pobject_id",$data['pobject_id']);
-			$link_change = "<a href=\"".$this->ctrl->getLinkTarget($this,"editDetails")."\"> ".
-				$img_change."</a>";
+#			$link_change = "<a href=\"".$this->ctrl->getLinkTarget($this,"editDetails")."\"> ".
+#				$img_change."</a>";
+			$link_change = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this,"editDetails")."\">".$this->lng->txt("edit")."</a></div>";
 
 			$f_result[$counter][] = $link_change;
 			unset($tmp_user);
@@ -167,7 +168,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		$this->showButton('editDetails',$this->lng->txt('paya_edit_details'));
 		$this->showButton('editPrices',$this->lng->txt('paya_edit_prices'));
-		$this->__showPayMethodLink();
+#		$this->__showPayMethodLink();
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html','payment');
 		$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
@@ -321,7 +322,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->showButton('editPrices',$this->lng->txt('paya_edit_prices'));
 
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
-		$this->__showPayMethodLink();
+#		$this->__showPayMethodLink();
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit_prices.html','payment');
 
@@ -477,7 +478,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		$this->showButton('editDetails',$this->lng->txt('paya_edit_details'));
 		$this->showButton('editPrices',$this->lng->txt('paya_edit_prices'));
-		$this->__showPayMethodLink();
+#		$this->__showPayMethodLink();
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_add_price.html','payment');
 
@@ -971,13 +972,13 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$tpl->parseCurrentBlock();
 		*/
 
-		$tbl->setTitle($this->lng->txt("objects"),"icon_pays_b.gif",$this->lng->txt("objects"));
+		$tbl->setTitle($this->lng->txt("objects"),"icon_pays.gif",$this->lng->txt("objects"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),
 								   $this->lng->txt("status"),
 								   $this->lng->txt("paya_pay_method"),
 								   $this->lng->txt("paya_vendor"),
 								   $this->lng->txt("paya_count_purchaser"),
-								   $this->lng->txt("edit")));
+								   ''));
 		$tbl->setHeaderVars(array("title",
 								  "status",
 								  "pay_method",

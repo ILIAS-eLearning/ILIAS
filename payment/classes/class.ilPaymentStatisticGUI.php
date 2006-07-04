@@ -196,7 +196,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 			return true;
 		}
-		$this->__showButton('excelExport',$this->lng->txt('excel_export'));
+#		$this->__showButton('excelExport',$this->lng->txt('excel_export'));
 
 		$img_change = "<img src=\"".ilUtil::getImagePath("edit.gif")."\" alt=\"".
 			$this->lng->txt("edit")."\" title=\"".$this->lng->txt("edit").
@@ -242,8 +242,9 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 			$f_result[$counter][] = $payed_access;
 
 			$this->ctrl->setParameter($this,"booking_id",$booking['booking_id']);
-			$link_change = "<a href=\"".$this->ctrl->getLinkTarget($this,"editStatistic")."\"> ".
-				$img_change."</a>";
+#			$link_change = "<a href=\"".$this->ctrl->getLinkTarget($this,"editStatistic")."\"> ".
+#				$img_change."</a>";
+			$link_change = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this,"editStatistic")."\">".$this->lng->txt("edit")."</a></div>";
 
 			$f_result[$counter][] = $link_change;
 
@@ -325,13 +326,13 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 			switch ($booking['b_pay_method'])
 			{
 				case $this->pobject->PAY_METHOD_BILL :
-					$pay_method .= $this->lng->txt("pays_bill");
+					$pay_method = $this->lng->txt("pays_bill");
 					break;
 				case $this->pobject->PAY_METHOD_BMF :
-					$pay_method .= $this->lng->txt("pays_bmf");
+					$pay_method = $this->lng->txt("pays_bmf");
 					break;
 				case $this->pobject->PAY_METHOD_PAYPAL :
-					$pay_method .= $this->lng->txt("pays_paypal");
+					$pay_method = $this->lng->txt("pays_paypal");
 					break;
 			}
 			$worksheet->writeString($counter,0,$pay_method);
@@ -408,7 +409,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 
 		$this->tpl->setVariable("STAT_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr_b.gif'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
 		$this->tpl->setVariable("TITLE",$tmp_user->getFullname().' ['.$tmp_user->getLogin().']');
 
@@ -562,7 +563,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$tpl->parseCurrentBlock();
 		*/
 
-		$tbl->setTitle($this->lng->txt("paya_statistic"),"icon_pays_b.gif",$this->lng->txt("paya_statistic"));
+		$tbl->setTitle($this->lng->txt("paya_statistic"),"icon_pays.gif",$this->lng->txt("paya_statistic"));
 		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),
 								   $this->lng->txt("title"),
 								   $this->lng->txt("paya_vendor"),
@@ -571,7 +572,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 								   $this->lng->txt("duration"),
 								   $this->lng->txt("price_a"),
 								   $this->lng->txt("paya_payed_access"),
-								   $this->lng->txt("edit")));
+								   ''));
 		$header_params = $this->ctrl->getParameterArray($this,'');
 		$tbl->setHeaderVars(array("transaction",
 								  "title",
@@ -601,6 +602,11 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($a_result_set);
 
+		$tpl->setVariable("COLUMN_COUNTS",9);
+		$tpl->setCurrentBlock("plain_buttons");
+		$tpl->setVariable("PBTN_NAME","excelExport");
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("excel_export"));
+		$tpl->parseCurrentBlock();
 
 		$tbl->render();
 

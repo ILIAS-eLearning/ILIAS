@@ -139,8 +139,10 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 															 false,
 															 true);
 
-				$link_mail = "<a target=\"_blank\" href=\"../mail_new.php?type=new&rcp_to=".
-					$tmp_obj->getLogin()."\"".$img_mail."</a>";
+#				$link_mail = "<a target=\"_blank\" href=\"./mail_new.php?type=new&rcp_to=".
+#					$tmp_obj->getLogin()."\"".$img_mail."</a>";
+				$link_mail = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"./mail_new.php?type=new&rcp_to=".
+					$tmp_obj->getLogin()."\">".$this->lng->txt("mail")."</a></div>";
 				
 				$f_result[$counter][]	= $link_mail;
 
@@ -399,13 +401,13 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","showTrustees");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->setVariable("BTN_NAME","addTrustee");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","addTrustee");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
+		$tpl->setVariable("BTN_NAME","showTrustees");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -413,7 +415,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("paya_trustee_table"),"icon_usr_b.gif",$this->lng->txt("crs_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("paya_trustee_table"),"icon_usr.gif",$this->lng->txt("crs_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
@@ -487,14 +489,14 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("paya_trustee_table"),"icon_usr_b.gif",$this->lng->txt("paya_trustee_table"));
+		$tbl->setTitle($this->lng->txt("paya_trustee_table"),"icon_usr.gif",$this->lng->txt("paya_trustee_table"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt("paya_perm_stat"),
 								   $this->lng->txt("paya_perm_obj"),
-								   $this->lng->txt("crs_options")));
+								   ''));
 		$tbl->setHeaderVars(array("",
 								  "login",
 								  "firstname",
