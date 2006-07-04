@@ -29,6 +29,7 @@ class ilPaymentBaseGUI
 	var $db;
 	var $tpl;
 	var $rbacsystem;
+	var $tabs_gui;
 
 	var $user_obj;
 
@@ -37,13 +38,14 @@ class ilPaymentBaseGUI
 
 	function ilPaymentBaseGUI()
 	{
-		global $ilias,$ilDB,$lng,$tpl,$rbacsystem;
+		global $ilias,$ilDB,$lng,$tpl,$rbacsystem,$ilTabs;
 
 		$this->ilias =& $ilias;
 		$this->db =& $ilDB;
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 
+		$this->tabs_gui =& $ilTabs;
 
 		$this->SECTION_STATISTIC = 1;
 		$this->SECTION_OBJECT = 2;
@@ -192,28 +194,46 @@ class ilPaymentBaseGUI
 			if(ilPaymentVendors::_isVendor($this->user_obj->getId()) or 
 			   ilPaymentTrustees::_hasStatisticPermission($this->user_obj->getId()))
 			{
-				$this->tpl->setCurrentBlock("tab");
+				$this->tabs_gui->addSubTabTarget('paya_statistic',
+												 $this->ctrl->getLinkTargetByClass('ilpaymentstatisticgui'),
+												 '',
+												 '',
+												 '',
+												 $this->getSection() == $this->SECTION_STATISTIC ? true : false);
+/*				$this->tpl->setCurrentBlock("tab");
 				$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_STATISTIC ? 'tabactive' : 'tabinactive');
 				$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymentstatisticgui'));
 				$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_statistic'));
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->parseCurrentBlock();*/
 			}
 			if(ilPaymentVendors::_isVendor($this->user_obj->getId()) or 
 			   ilPaymentTrustees::_hasObjectPermission($this->user_obj->getId()))
 			{
-				$this->tpl->setCurrentBlock("tab");
+				$this->tabs_gui->addSubTabTarget('paya_object',
+												 $this->ctrl->getLinkTargetByClass('ilpaymentobjectgui'),
+												 '',
+												 '',
+												 '',
+												 $this->getSection() == $this->SECTION_OBJECT ? true : false);
+/*				$this->tpl->setCurrentBlock("tab");
 				$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_OBJECT ? 'tabactive' : 'tabinactive');
 				$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymentobjectgui'));
 				$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_object'));
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->parseCurrentBlock();*/
 			}
 			if(ilPaymentVendors::_isVendor($this->user_obj->getId()))
 			{
-				$this->tpl->setCurrentBlock("tab");
+				$this->tabs_gui->addSubTabTarget('paya_trustees',
+												 $this->ctrl->getLinkTargetByClass('ilpaymenttrusteegui'),
+												 '',
+												 '',
+												 '',
+												 $this->getSection() == $this->SECTION_TRUSTEE ? true : false);
+/*				$this->tpl->setCurrentBlock("tab");
 				$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_TRUSTEE ? 'tabactive' : 'tabinactive');
 				$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymenttrusteegui'));
 				$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_trustees'));
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->parseCurrentBlock();*/
 			}
 		}
 		if($this->getMainSection() == $this->BASE)

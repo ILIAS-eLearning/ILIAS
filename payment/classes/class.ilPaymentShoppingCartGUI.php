@@ -288,7 +288,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 				$title .= " (" . $this->lng->txt("payment_system") . ": " . $this->lng->txt("pays_paypal") . ")";
 				break;
 		}
-		$tbl->setTitle($title,"icon_pays_b.gif",$this->lng->txt("paya_shopping_cart"));
+		$tbl->setTitle($title,"icon_pays.gif",$this->lng->txt("paya_shopping_cart"));
 		$tbl->setHeaderNames(array($this->lng->txt(""),
 								   $this->lng->txt("title"),
 								   $this->lng->txt("duration"),
