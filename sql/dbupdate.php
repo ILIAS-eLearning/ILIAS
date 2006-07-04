@@ -11126,3 +11126,11 @@ $ilCtrlStructureReader->getStructure();
 <#766>
 ALTER TABLE `event` ADD `registration` TINYINT( 1 ) NOT NULL ,
 ADD `participation` TINYINT( 1 ) NOT NULL ;
+<#767>
+CREATE TABLE `event_participants` (
+`event_id` INT( 11 ) NOT NULL ,
+`usr_id` INT( 11 ) NOT NULL ,
+`registered` TINYINT( 1 ) NOT NULL ,
+`participated` TINYINT( 1 ) NOT NULL ,
+PRIMARY KEY ( `event_id` , `usr_id` )
+) TYPE = MYISAM ;

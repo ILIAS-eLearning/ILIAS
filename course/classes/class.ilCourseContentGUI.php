@@ -189,7 +189,10 @@ class ilCourseContentGUI
 	// PRIVATE
 	function __showEvents()
 	{
+		global $ilUser;
+
 		include_once 'course/classes/Event/class.ilEventItems.php';
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 
@@ -207,6 +210,22 @@ class ilCourseContentGUI
 			$appointment_obj =& $event_obj->getFirstAppointment();
 
 			// Links
+			if($event_obj->enabledRegistration() and ilEventParticipants::_isRegistered($ilUser->getId(),$event_obj->getEventId()))
+			{
+				$tpl->setCurrentBlock("event_commands");
+				$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
+				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','unregister'));
+				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('event_unregister'));
+				$tpl->parseCurrentBlock();
+			}
+			elseif($event_obj->enabledRegistration())
+			{
+				$tpl->setCurrentBlock("event_commands");
+				$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
+				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','register'));
+				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('event_register'));
+				$tpl->parseCurrentBlock();
+			}
 			if($this->is_tutor)
 			{
 				// Edit
@@ -234,6 +253,7 @@ class ilCourseContentGUI
 				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('delete'));
 				$tpl->parseCurrentBlock();
 			}
+			
 
 
 			$event_items = $this->course_obj->items_obj->getItemsByEvent($event_obj->getEventId());

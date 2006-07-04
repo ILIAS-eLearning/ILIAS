@@ -98,6 +98,28 @@ class ilEventAdministrationGUI
 		$this->ctrl->returnToParent($this);
 	}
 
+	function register()
+	{
+		global $ilUser;
+
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
+		ilEventParticipants::_register($ilUser->getId(),(int) $_GET['event_id']);
+
+		sendInfo($this->lng->txt('event_registered'),true);
+		$this->ctrl->returnToParent($this);
+	}
+		
+	function unregister()
+	{
+		global $ilUser;
+
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
+		ilEventParticipants::_unregister($ilUser->getId(),(int) $_GET['event_id']);
+
+		sendInfo($this->lng->txt('event_unregistered'),true);
+		$this->ctrl->returnToParent($this);
+	}
+
 	function editMembers()
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_members.html','course');
