@@ -255,7 +255,12 @@ class ilInitialisation
 		}
 
 		// set to default client if empty
-		if (!$_COOKIE["ilClientId"])
+		if ($_GET["client_id"] != "")
+		{
+			setcookie("ilClientId", $_GET["client_id"]);
+			$_COOKIE["ilClientId"] = $_GET["client_id"];
+		}
+		else if (!$_COOKIE["ilClientId"])
 		{
 			// to do: ilias ini raus nehmen
 			$client_id = $ilIliasIniFile->readVariable("clients","default");

@@ -270,9 +270,6 @@ td.option {
 	border-top-width:1px;
 	border-top-color:#9EADBA;
 	border-top-style:solid;
-	#border-right-width:1px;
-	#border-right-color:#9EADBA;
-	#border-right-style:solid;
 }
 
 td.sub_option {
@@ -419,7 +416,8 @@ td.il_ContainerPageBlock
 	margin-bottom: 0px;
 }*/
 
-a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:hover, a.il_ContainerItemCommand:visited
+/*Link, Visited, Hover, Focus, Activ*/
+a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited, a.il_ContainerItemCommand:hover
 {
 	padding: 1px 5px;
 	margin: 1px 0px;
@@ -445,6 +443,7 @@ div.il_ContainerItemCommands
 	padding-top: 2px;
 }
 
+/*Link, Visited, Hover, Focus, Activ*/
 a.il_ContainerItemTitle:link, a.il_ContainerItemTitle:visited, a.il_ContainerItemTitle:hover
 {
 	text-decoration: none;
@@ -481,7 +480,7 @@ span.il_ItemAlertProperty
 	color: #C04000;
 }
 
-span.il_ItemProperty,
+span.il_ItemProperty
 {
 }
 
@@ -746,7 +745,7 @@ li.tabinactive
 	border-bottom-color: #B0B0B0;
 }
 
-a.tabinactive:link, a.tabinactive:hover, a.tabinactive:visited
+a.tabinactive:link, a.tabinactive:visited, a.tabinactive:hover
 {
 	float: left;
 	display:block;
@@ -768,7 +767,7 @@ li.tabactive
 	border-bottom-color: #FFFFFF;
 }
 
-a.tabactive:link, a.tabactive:hover, a.tabactive:visited
+a.tabactive:link, a.tabactive:visited, a.tabactive:hover
 {
 	float: left;
 	display:block;
@@ -1279,7 +1278,6 @@ div.Access {
 
 a:link, a:visited {
 	text-decoration: none;
-	#color:#224499;
 	color:#0033AA;
 }
 
@@ -1398,8 +1396,8 @@ label, input[type=checkbox], input[type=radio], select
 
 input[type=checkbox], input[type=radio]
 {
-	border-style:none;
-	background-color:none;
+	border-style: none;
+	background-color: transparent;
 }
 
 a.ilEditSubmit {
@@ -1634,7 +1632,7 @@ td.unevenMO
 td.weeknumber
 {
 	color: #5F5F5F;
-	background-color: none;
+	background-color: transparent;
 	font-size: 90%;
 }
 
