@@ -110,6 +110,7 @@ class ilLPStatusObjectives extends ilLPStatus
 
 		global $ilDB;
 
+		$status_info['objective_result'] = array();
 		$status_info['objectives'] = ilCourseObjective::_getObjectiveIds($a_obj_id);
 		$status_info['num_objectives'] = count($status_info['objectives']);
 

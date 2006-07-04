@@ -5963,3 +5963,8 @@ payment#:#pay_change_price#:#Preis-/Dauer-Kombination Ã¤ndern
 payment#:#pay_payed_paypal#:#Die Bestellung wurde per PayPal bezahlt.
 payment#:#pay_paypal_success#:#Vielen Dank fÃ¼r Ihren Kauf von ILIAS Objekten! Sie erhalten darÃ¼ber eine schriftliche BestÃ¤tigung im PDF Format an Ihre E-Mail-Adresse.
 payment#:#pay_paypal_failed#:#Ihr Kauf von ILIAS Objekten über PayPal ist leider fehlgeschlagen!
+crs#:#event_table_update#:#Veranstaltung bearbeiten
+crs#:#event_registration_participance#:#Anmeldung
+crs#:#event_registration#:#Anmeldung
+crs#:#event_participation#:#Teilnahme
+crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Veranstaltung anmelden.
