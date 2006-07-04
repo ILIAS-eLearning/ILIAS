@@ -345,6 +345,7 @@ class ilPaymentObject
 
 		$query = "SELECT psc_id FROM payment_objects AS po, payment_shopping_cart AS psc ".
 			"WHERE ref_id = '".$a_ref_id."' ".
+			"AND customer_id = '".$ilUser->getId()."' ".
 			"AND po.pobject_id = psc.pobject_id";
 
 		$res = $ilDB->query($query);
