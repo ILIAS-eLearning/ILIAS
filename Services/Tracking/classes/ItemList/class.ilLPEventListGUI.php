@@ -35,11 +35,11 @@
 
 include_once 'Services/Tracking/classes/ItemList/class.ilLPObjectItemListGUI.php';
 
-class ilLPObjectiveItemListGUI extends ilLPObjectItemListGUI
+class ilLPEventListGUI extends ilLPObjectItemListGUI
 {
 	var $child_id = null;
 
-	function ilLPObjectiveItemListGUI($a_obj_id)
+	function ilLPEventListGUI($a_obj_id)
 	{
 		parent::ilLPObjectItemListGUI($a_obj_id,'objective');
 	}
@@ -48,61 +48,68 @@ class ilLPObjectiveItemListGUI extends ilLPObjectItemListGUI
 	{
 		return false;
 	}
-	function setChildId($a_obj_id)
+
+	function __readMode()
 	{
-		$this->child_id = $a_obj_id;
-	}
-	function getChildId()
-	{
-		return $this->child_id;
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		$this->mode = LP_MODE_EVENT;
 	}
 
+	function __readStatusInfo()
+	{
+		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		$this->status_info = ilLPStatusWrapper::_getStatusInfoByType($this->getId(),'event');
+	}
+
+	function __readTypicalLearningTime()
+	{
+		$this->tlt = 0;
+	}
+	
 	function __readTitle()
 	{
-		return $this->title = $this->status_info['objective_title'][$this->getChildId()];
+		return $this->title = $this->status_info['title'];
 	}
 	function __readDescription()
 	{
-		return $this->description = $this->status_info['objective_description'][$this->getChildId()];
+		return $this->description = $this->status_info['description'];
 	}
 
 	function renderTypeImage()
 	{
 		$this->tpl->setCurrentBlock("row_type_image");
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.'crs'.'.gif'));
-		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_crs'));
+		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('event'));
 		$this->tpl->parseCurrentBlock();
+	}
+
+	function __readMark()
+	{
+		include_once './course/classes/Event/class.ilEventParticipants.php';
+		$this->mark = ilEventParticipants::_lookupMark($this->getId(),$this->getCurrentUser());
+	}
+	function __readComment()
+	{
+		include_once './course/classes/Event/class.ilEventParticipants.php';
+		$this->comment = ilEventParticipants::_lookupComment($this->getId(),$this->getCurrentUser());
 	}
 
 	function __readUserStatus()
 	{
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
-		if(!is_array($this->status_info['completed'][$this->getChildId()]))
-		{
-			return $this->status = LP_STATUS_NOT_ATTEMPTED;
-		}		
-		if(in_array($this->getCurrentUser(),$this->status_info['completed'][$this->getChildId()]))
+		if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompletedByType($this->getId(),'event')))
 		{
 			return $this->status = LP_STATUS_COMPLETED;
 		}
-		if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getInProgress($this->getId())))
+		elseif(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getInProgressByType($this->getId(),'event')))
+		{
+			return $this->status = LP_STATUS_IN_PROGRESS;
+		}
+		else
 		{
 			return $this->status = LP_STATUS_NOT_ATTEMPTED;
 		}
-	}
-
-	function __readUserStatusInfo()
-	{
-		return true;
-	}
-	function __readMark()
-	{
-		return true;
-	}
-	function __readComment()
-	{
-		return true;
 	}
 }
 ?>

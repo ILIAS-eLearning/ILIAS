@@ -306,6 +306,28 @@ class ilEvent
 		return true;
 	}
 
+	function _exists($a_event_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM event WHERE event_id = '".$a_event_id."'";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+
+	function _lookupCourseId()
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM event WHERE event_id = '".$a_event_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->obj_id;
+		}
+		return false;
+	}
+
 	function &_getEvents($a_obj_id)
 	{
 		global $ilDB;
@@ -336,6 +358,7 @@ class ilEvent
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			$this->setObjId($row->obj_id);
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
 			$this->setLocation($row->location);

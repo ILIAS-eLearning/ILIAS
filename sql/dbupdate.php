@@ -11133,6 +11133,18 @@ CREATE TABLE `event_participants` (
 `registered` TINYINT( 1 ) NOT NULL ,
 `participated` TINYINT( 1 ) NOT NULL ,
 PRIMARY KEY ( `event_id` , `usr_id` )
-) TYPE = MYISAM ;
+gf) TYPE = MYISAM ;
+
 <#768>
 ALTER TABLE `lm_data` ADD `active` ENUM( 'y', 'n' ) DEFAULT 'y';
+
+<#769>
+ALTER TABLE `event_participants` ADD `mark` TEXT NOT NULL ,
+ADD `comment` TEXT NOT NULL ;
+
+<#770>
+CREATE TABLE `ut_lp_event_collections` (
+`obj_id` int( 11 ) NOT NULL default '0',
+`item_id` int( 11 ) NOT NULL default '0',
+KEY `obj_id` ( `obj_id` , `item_id` )
+) TYPE = MYISAM;

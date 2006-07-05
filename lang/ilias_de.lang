@@ -1,4 +1,4 @@
-ï»¿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -5968,3 +5968,10 @@ crs#:#event_registration_participance#:#Anmeldung
 crs#:#event_registration#:#Anmeldung
 crs#:#event_participation#:#Teilnahme
 crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Veranstaltung anmelden.
+crs#:#event_edit_members#:#Teilnehmer verwalten
+crs#:#event_tbl_participated#:#Teilgenommen
+crs#:#event_tbl_participants#:#Teilnehmer der Veranstaltung
+crs#:#event_save_participants#:#Teilnahme speichern
+crs#:#crs_materials#:#Kursmaterialien
+trac#:#trac_crs_relevant_items#:#Kursmaterialien
+crs#:#event_tbl_registered#:#Angemeldet

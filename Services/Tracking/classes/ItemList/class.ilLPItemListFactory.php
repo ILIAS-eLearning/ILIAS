@@ -108,6 +108,12 @@ class ilLPItemListFactory
 				$object->read();
 				return $obj_cache[$a_type.'_'.$a_id] =& $object;
 
+			case 'event':
+				include_once 'Services/Tracking/classes/ItemList/class.ilLPEventListGUI.php';
+				$object = new ilLPEventListGUI($a_id);
+				$object->read();
+				return $obj_cache[$a_type.'_'.$a_id] =& $object;
+
 			case 'objective':
 				include_once 'Services/Tracking/classes/ItemList/class.ilLPObjectiveItemListGUI.php';
 				

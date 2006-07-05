@@ -42,6 +42,7 @@ define("LP_MODE_SCORM",6);
 define("LP_MODE_TEST_FINISHED",7);
 define("LP_MODE_TEST_PASSED",8);
 define("LP_MODE_EXERCISE_RETURNED",9);
+define("LP_MODE_EVENT",10);
 
 define("LP_DEFAULT_VISITS",30);
 

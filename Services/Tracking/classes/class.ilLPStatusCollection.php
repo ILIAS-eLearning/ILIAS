@@ -67,6 +67,8 @@ class ilLPStatusCollection extends ilLPStatus
 	function _getInProgress($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
+
 
 		global $ilBench,$ilObjDataCache;
 		$ilBench->start('LearningProgress','9172_LPStatusCollection_inProgress');
@@ -77,6 +79,14 @@ class ilLPStatusCollection extends ilLPStatus
 			// merge arrays of users with status 'in progress'
 			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgress($item_id)));
 			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getCompleted($item_id)));
+		}
+
+		// Handle status of events
+		foreach(ilLPEventCollections::_getItems($a_obj_id) as $event_id)
+		{
+			#var_dump("<pre>","EVENT_ID: ",$event_id,"<pre>");
+			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgressByType($event_id,'event')));
+			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getCompletedByType($event_id,'event')));
 		}
 
 		// Exclude all users with status completed.
@@ -98,6 +108,7 @@ class ilLPStatusCollection extends ilLPStatus
 	function _getCompleted($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
 
 		global $ilBench,$ilObjDataCache;
 		$ilBench->start('LearningProgress','9173_LPStatusCollection_completed');
@@ -117,6 +128,19 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 
 		}
+		foreach(ilLPEventCollections::_getItems($a_obj_id) as $event_id)
+		{
+			$tmp_users = ilLPStatusWrapper::_getCompletedByType($event_id,'event');
+			if(!$counter++)
+			{
+				$users = $tmp_users;
+			}
+			else
+			{
+				$users = array_intersect($users,$tmp_users);
+			}
+		}
+			
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
@@ -133,9 +157,12 @@ class ilLPStatusCollection extends ilLPStatus
 	function _getStatusInfo($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		$status_info['collections'] = ilLPCollections::_getItems($a_obj_id);
-		$status_info['num_collections'] = count($status_info['collections']);
+		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
 
+		$status_info['collections'] = ilLPCollections::_getItems($a_obj_id);
+		$status_info['event_collections'] = ilLPCollections::_getItems($a_obj_id);
+
+		$status_info['num_collections'] = count($status_info['collections']) + count($status_info['event_collections']);
 		return $status_info;
 	}
 

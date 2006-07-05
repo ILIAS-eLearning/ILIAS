@@ -44,6 +44,10 @@ class ilLPSAHSItemListGUI extends ilLPObjectItemListGUI
 		parent::ilLPObjectItemListGUI($a_obj_id,'sahs_item');
 	}
 
+	function hasDetails()
+	{
+		return false;
+	}
 	function setChildId($a_obj_id)
 	{
 		$this->child_id = $a_obj_id;

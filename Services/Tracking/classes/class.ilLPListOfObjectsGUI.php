@@ -59,6 +59,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->offset = (int) $_GET['offset'];
 		$this->ctrl->saveParameter($this,'offset',$this->offset);
 		$this->max_count = $ilUser->getPref('hits_per_page');
+		#$this->max_count = 1;
 	}
 	/**
 	* execute command
@@ -174,13 +175,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$item_list->readUserInfo();
 		$item_list->setIndentLevel($level);
 
-		// Edit link, mark
-		if($type != 'sahs_item' and
-		   $type != 'objective')
-		{
 
-			// Mark
-			$this->obj_tpl->setVariable("MARK",$item_list->getMark());
+		// Mark
+		$this->obj_tpl->setVariable("MARK",$item_list->getMark());
+
+		// Edit link, details
+		if($type != 'sahs_item' and
+		   $type != 'objective' and
+		   $type != 'event')
+		{
 
 			// Edit link
 			$this->obj_tpl->setCurrentBlock("item_command");
@@ -214,9 +217,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			}
 
 		}
-		else
+		elseif($type == 'sahs_item' or
+			   $type == 'objective')
 		{
-			$item_list->setIndentLevel($level+1);
+			#$item_list->setIndentLevel($level+1);
 		}
 		
 		// Status image
@@ -233,6 +237,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			return true;
 		}
+		
+		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
+		foreach(ilLPEventCollections::_getItems($a_item_id) as $event_id)
+		{
+			$this->__renderContainerRow($a_item_id,$event_id,$a_usr_id,'event',$level+2);
+		}
 
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		foreach(ilLPCollections::_getItems($a_item_id) as $child_id)
@@ -240,15 +250,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			switch($item_list->getMode())
 			{
 				case LP_MODE_OBJECTIVES:
-					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,'objective',$level + 1);
+					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,'objective',$level + 2);
 					break;
 
 				case LP_MODE_SCORM:
-					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,'sahs_item',$level + 1);
+					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,'sahs_item',$level + 2);
 					break;
 
 				default:
-					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,$ilObjDataCache->lookupType($child_id),$level + 1);
+					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,$ilObjDataCache->lookupType($child_id),$level + 2);
 					break;
 			}
 		}
@@ -331,240 +341,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function __showUserList()
 	{
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
-		global $ilObjDataCache;
-
-		$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->details_id);
-		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_id);
-		$completed = ilLPStatusWrapper::_getCompleted($this->details_id);
-
-		$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted),'usr_data','lastname','usr_id');
-		$sliced_users = array_slice($all_users,$this->offset,$this->max_count);
-
-		$this->ctrl->setParameter($this,'details_id',$this->details_id);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
-		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('trac_usr_list'));
-		$this->tpl->setVariable("TXT_STATUS",$this->lng->txt('trac_status'));
-		$this->tpl->setVariable("TXT_OPTIONS",$this->lng->txt('actions'));
-
-
-		if($this->details_type != 'lm')
-		{
-			$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
-		}
-
-		if($this->details_mode == LP_MODE_COLLECTION)
-		{
-			$this->__readItemStatusInfo(array_merge($this->items = ilLPCollections::_getItems($this->details_id)),
-										array($this->details_id));
-		}
-		else
-		{
-			$this->__readItemStatusInfo(array($this->details_id));
-		}
-
-		$counter = 0;
-		foreach($sliced_users as $user_id)
-		{
-			$cssrow = ilUtil::switchColor($counter++,'tblrow1','tblrow2');
-
-			// show user_info
-			$this->tpl->setVariable("TXT_TITLE",$ilObjDataCache->lookupTitle($user_id));
-			$this->tpl->setVariable("TXT_DESC",'['.ilObjUser::_lookupLogin($user_id).']');
-
-			// Status
-			$status = $this->__readStatus($this->details_id,$user_id);
-			$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_status'));
-			$this->tpl->setVariable("VAL_PROP",$this->lng->txt($status));
-
-			$this->__showImageByStatus($this->tpl,$status);
-
-			// Status info
-			if($status_info = $this->__getStatusInfo($this->details_id,$user_id))
-			{
-				$this->tpl->setCurrentBlock("status_info");
-				$this->tpl->setVariable("STATUS_PROP",$status_info[0]);
-				$this->tpl->setVariable("STATUS_VAL",$status_info[1]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// Comment
-			if(strlen($comment = ilLPMarks::_lookupComment($user_id,$this->details_id)))
-			{
-				$this->tpl->setCurrentBlock("comment_prop");
-				$this->tpl->setVariable("TXT_PROP_COMM",$this->lng->txt('trac_comment'));
-				$this->tpl->setVariable("VAL_PROP_COMM",$comment);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setVariable("CSSROW",$cssrow);
-			$this->tpl->setVariable("TYPE_IMG",ilObjUser::_getPersonalPicturePath($user_id,'xxsmall'));
-			$this->tpl->setVariable("TYPE_ALT",$ilObjDataCache->lookupTitle($user_id));
-			$this->ctrl->setParameter($this,"user_id",$user_id);
-			$this->ctrl->setParameter($this,'item_id',$this->details_id);
-
-			$this->tpl->setCurrentBlock("cmd");
-			$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
-			$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('edit'));
-			$this->tpl->parseCurrentBlock();
-
-			if($this->details_type != 'lm')
-			{
-				$this->tpl->setVariable("MARK_TDCSS",$cssrow);
-				$this->tpl->setVariable("MARK",ilLPMarks::_lookupMark($user_id,$this->details_id));
-			}
-			
-			// Details for course mode collection
-			if($this->details_mode == LP_MODE_COLLECTION ||
-				$this->details_mode == LP_MODE_SCORM)
-			{
-				// estimated processing time
-				if ($this->details_mode == LP_MODE_COLLECTION)
-				{
-					$processing_time_info = $this->__readProcessingTime($user_id);
-					if($this->tlt_sum and $processing_time_info['total_percent'] != "0.00%")
-					{
-						$this->tpl->setCurrentBlock("tlt_prop");
-						$this->tpl->setVariable("TXT_PROP_TLT",$this->lng->txt('trac_processing_time'));
-						$this->tpl->setVariable("VAL_PROP_TLT",$processing_time_info['total_percent']);
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-
-				// user check
-				$this->tpl->setVariable("CHECK_USER",ilUtil::formCheckbox((int) $this->__detailsShown($user_id),
-																		  'user_ids[]',
-																		  $user_id));
-				
-				$this->tpl->setCurrentBlock("cmd");
-				$this->ctrl->setParameter($this,'details_user',$user_id);
-				$this->tpl->setVariable("EDIT_COMMAND",$this->ctrl->getLinkTarget($this,$this->__detailsShown($user_id) ?
-																				  'hideDetails' : 'showDetails'));
-																				  
-				$this->tpl->setVariable("TXT_COMMAND",$this->__detailsShown($user_id) ? 
-										$this->lng->txt('hide_details') : $this->lng->txt('show_details'));
-				$this->tpl->parseCurrentBlock();
-			}				
-			
-
-			// show course details
-			if($this->details_mode == LP_MODE_COLLECTION &&
-				$this->__detailsShown($user_id))
-			{
-				foreach(ilLPCollections::_getItems($this->details_id) as $obj_id)
-				{
-					// show item_info
-					$this->tpl->setVariable("ITEM_TITLE",$ilObjDataCache->lookupTitle($obj_id));
-
-					// Status
-					$status = $this->__readStatus($obj_id,$user_id);
-					$this->tpl->setVariable("ITEM_PROP",$this->lng->txt('trac_status'));
-					$this->tpl->setVariable("ITEM_VAL",$this->lng->txt($status));
-					$this->__showImageByStatus($this->tpl,$status,'ITEM_');
-
-					if($processing_time_info[$obj_id] and 
-					   $processing_time_info[$obj_id] != "0.00%")
-
-					{
-						$this->tpl->setCurrentBlock("tlt_item_prop");
-						$this->tpl->setVariable("TXT_PROP_ITEM_TLT",$this->lng->txt('trac_processing_time'));
-						$this->tpl->setVariable("VAL_PROP_ITEM_TLT",$processing_time_info[$obj_id]);
-						$this->tpl->parseCurrentBlock();
-					}
-
-					if(strlen($comment = ilLPMarks::_lookupComment($user_id,$obj_id)))
-					{
-						$this->tpl->setCurrentBlock("item_comment_prop");
-						$this->tpl->setVariable("ITEM_TXT_PROP_COMM",$this->lng->txt('trac_comment'));
-						$this->tpl->setVariable("ITEM_VAL_PROP_COMM",$comment);
-						$this->tpl->parseCurrentBlock();
-					}
-					if($status_info = $this->__getStatusInfo($obj_id,$user_id))
-					{
-						$this->tpl->setCurrentBlock("item_status_info");
-						$this->tpl->setVariable("ITEM_STATUS_PROP",$status_info[0]);
-						$this->tpl->setVariable("ITEM_STATUS_VAL",$status_info[1]);
-						$this->tpl->parseCurrentBlock();
-					}
-					
-					$this->tpl->setCurrentBlock("item_image");
-					$this->tpl->setVariable("ITEM_IMG",ilUtil::getImagePath('icon_'.$ilObjDataCache->lookupType($obj_id).'.gif'));
-					$this->tpl->setVariable("ITEM_ALT",$this->lng->txt('obj_'.$ilObjDataCache->lookupType($obj_id)));
-					$this->tpl->parseCurrentBlock();
-
-					$this->ctrl->setParameter($this,'user_id',$user_id);
-					$this->ctrl->setParameter($this,"item_id",$obj_id);
-					$this->ctrl->setParameter($this,'details_id',$this->details_id);
-					$this->tpl->setCurrentBlock("edit_command");
-					$this->tpl->setVariable("ITEM_EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
-					$this->tpl->setVariable("ITEM_TXT_COMMAND",$this->lng->txt('edit'));
-					$this->tpl->parseCurrentBlock();
-
-					$this->tpl->setVariable("ITEM_CSSROW",$cssrow);
-					$this->tpl->setVariable("ITEM_MARK",ilLPMarks::_lookupMark($user_id,$obj_id));
-
-					$this->tpl->setCurrentBlock("item_row");
-					$this->tpl->parseCurrentBlock();
-				}			
-			}
-
-			// show scorm details 
-			if($this->details_mode == LP_MODE_SCORM &&
-				$this->__detailsShown($user_id))
-			{
-				include_once './content/classes/SCORM/class.ilSCORMItem.php';
-				foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
-				{
-					// show item_info
-					$this->tpl->setVariable("ITEM_TITLE",ilSCORMItem::_lookupTitle($item_id));
-
-					// Status
-					//$status = $this->__readStatus($obj_id,$user_id);
-					$status = $this->__readSCORMStatus($item_id,$this->details_id,$user_id);
-					$this->tpl->setVariable("ITEM_PROP",$this->lng->txt('trac_status'));
-					$this->tpl->setVariable("ITEM_VAL",$this->lng->txt($status));
-					$this->__showImageByStatus($this->tpl,$status,'ITEM_');
-					
-
-					$this->tpl->setVariable("ITEM_CSSROW", $cssrow);
-					//$this->tpl->setVariable("ITEM_IMG",ilUtil::getImagePath('icon_'.$ilObjDataCache->lookupType($obj_id).'.gif'));
-					//$this->tpl->setVariable("ITEM_ALT",$this->lng->txt('obj_'.$ilObjDataCache->lookupType($obj_id)));
-
-					//$this->tpl->setVariable("ITEM_MARK",ilLPMarks::_lookupMark($user_id,$obj_id));
-
-					/*
-					$this->ctrl->setParameter($this,'user_id',$user_id);
-					$this->ctrl->setParameter($this,"item_id",$obj_id);
-					$this->ctrl->setParameter($this,'details_id',$this->details_id);
-					$this->tpl->setVariable("ITEM_EDIT_COMMAND",$this->ctrl->getLinkTarget($this,'editUser'));
-					$this->tpl->setVariable("ITEM_TXT_COMMAND",$this->lng->txt('edit'));
-					*/
-
-					$this->tpl->setCurrentBlock("item_row");
-					$this->tpl->parseCurrentBlock();
-				}			
-			}
-
-			$this->tpl->setCurrentBlock("user_row");
-			$this->tpl->parseCurrentBlock();
-
-				
-		}
-		// show commands
-		if($this->details_mode == LP_MODE_COLLECTION ||
-			$this->details_mode == LP_MODE_SCORM)
-		{
-			$this->tpl->setCurrentBlock("button_footer");
-			$this->tpl->setVariable("FOOTER_CMD",'showDetails');
-			$this->tpl->setVariable("FOOTER_CMD_TEXT",$this->lng->txt('show_details'));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("tblfooter");
-			$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
-			$this->tpl->parseCurrentBlock();
-		}
 
 		// Show linkbar
 		if(count($all_users) > $this->max_count)
@@ -581,19 +357,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 																	'next' => '>>>')));
 			$this->tpl->parseCurrentBlock();
 		}
-		// no users found
-		if(!count($all_users))
-		{
-			$this->tpl->setCurrentBlock("no_content");
-			$this->tpl->setVariable("NO_CONTENT",$this->lng->txt('trac_no_content'));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
-		}
-		
-		return true;
 	}
 
 	function showDetails()
@@ -737,61 +500,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	}
 
 	// Private
-	function __readProcessingTime($a_usr_id)
-	{
-		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-
-		if(!is_array($this->tlt))
-		{
-			$this->__readTLT();
-		}
-
-		$pt_info = array();
-		foreach($this->tlt as $item_id => $info)
-		{
-			if(in_array($a_usr_id,ilLPStatusWrapper::_getCompleted($item_id)))
-			{
-				$pt_info['total'] += $info['tlt'];
-				$pt_info[$item_id] = "100%";
-				continue;
-			}
-
-			switch($this->obj_data[$item_id]['type'])
-			{
-				case 'lm':
-			
-					$lp_info = ilLearningProgress::_getProgress($a_usr_id,$item_id);
-					$pt_info['total'] += min($lp_info['spent_time'],$info['tlt']);
-					$pt_info[$item_id] = $this->__getPercent($info['tlt'],min($lp_info['spent_time'],$info['tlt']));
-					break;
-			}
-		}
-
-		$pt_info['total_percent'] = $this->__getPercent($this->tlt_sum,$pt_info['total']);
-
-		return $pt_info ? $pt_info : array();
-	}
-
-	function __readTLT()
-	{
-		global $ilObjDataCache;
-
-		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
-
-		$this->tlt_sum = 0;
-		$this->tlt = array();
-		foreach($this->items as $item_id)
-		{
-			if($tlt = ilMDEducational::_getTypicalLearningTimeSeconds($item_id))
-			{
-				$this->tlt[$item_id]['tlt'] = $tlt;
-			}
-			$this->tlt_sum += $this->tlt[$item_id]['tlt'];
-		}
-		return true;
-	}
-		
 	function __showFilter()
 	{
 		global $ilBench;

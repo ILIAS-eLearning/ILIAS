@@ -160,5 +160,87 @@ class ilLPStatusWrapper
 
 		return $cache[$a_obj_id];
 	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	// Special functions for 'objects' that have not an entry in object_data
+	// E.g. events
+	////////////////////////////////////////////////////////////////////////////
+
+	/**
+	* Static function to read the number of user who have the status 'not_attempted'
+	*/
+	function _getCountNotAttemptedByType($a_obj_id,$a_type)
+	{
+		return count(ilLPStatusWrapper::_getNotAttemptedByType($a_obj_id,$a_type));
+	}
+	function _getNotAttemptedByType($a_obj_id,$a_type)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id.'_'.$a_type]))
+		{
+			return $cache[$a_obj_id.'_'.$a_type];
+		}
+
+		$class = ilLPStatusFactory::_getClassByIdAndType($a_obj_id,$a_type);
+
+		$cache[$a_obj_id.'_'.$a_type] = call_user_func(array($class,'_getNotAttempted'),$a_obj_id);
+
+		return $cache[$a_obj_id.'_'.$a_type];
+	}
+	function _getCountInProgressByType($a_obj_id,$a_type)
+	{
+		return count(ilLPStatusWrapper::_getInProgressByType($a_obj_id,$a_type));
+	}
+	function _getInProgressByType($a_obj_id,$a_type)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id.'_'.$a_type]))
+		{
+			return $cache[$a_obj_id.'_'.$a_type];
+		}
+
+		$class = ilLPStatusFactory::_getClassByIdAndType($a_obj_id,$a_type);
+
+		$cache[$a_obj_id.'_'.$a_type] = call_user_func(array($class,'_getInProgress'),$a_obj_id);
+
+		return $cache[$a_obj_id.'_'.$a_type];
+	}
+	function _getCountCompletedByType($a_obj_id,$a_type)
+	{
+		return count(ilLPStatusWrapper::_getCompletedByType($a_obj_id,$a_type));
+	}
+	function _getCompletedByType($a_obj_id,$a_type)
+	{
+		static $cache = array();
+
+		#var_dump("<pre>","OBJ_ID: ", $a_obj_id,"TYPE : ",$a_type,"<pre>");
+		#var_dump("<pre>","CACHE ",$cache,"<pre>");
+		if(isset($cache[$a_obj_id.'_'.$a_type]))
+		{
+			return $cache[$a_obj_id.'_'.$a_type];
+		}
+
+		#var_dump("<pre>",'not_cached',"<pre>");
+		$class = ilLPStatusFactory::_getClassByIdAndType($a_obj_id,$a_type);
+		$cache[$a_obj_id.'_'.$a_type] = call_user_func(array($class,'_getCompleted'),$a_obj_id);
+		return $cache[$a_obj_id.'_'.$a_type];
+	}
+	function _getStatusInfoByType($a_obj_id,$a_type)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id.'_'.$a_type]))
+		{
+			return $cache[$a_obj_id.'_'.$a_type];
+		}
+
+		$class = ilLPStatusFactory::_getClassByIdAndType($a_obj_id,$a_type);
+
+		$cache[$a_obj_id.'_'.$a_type] = call_user_func(array($class,'_getStatusInfo'),$a_obj_id);
+
+		return $cache[$a_obj_id.'_'.$a_type];
+	}
 }	
 ?>

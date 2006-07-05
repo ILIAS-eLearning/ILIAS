@@ -89,6 +89,21 @@ class ilLPStatusFactory
 		}
 	}
 
+	function _getClassByIdAndType($a_obj_id,$a_type)
+	{
+		// id is ignored in the moment
+		switch($a_type)
+		{
+			case 'event':
+				include_once 'Services/Tracking/classes/class.ilLPStatusEvent.php';
+				return 'ilLPStatusEvent';
+
+			default:
+				echo "ilLPStatusFactory: unknown type: ".$a_type;
+				exit;
+		}
+	}
+
 	function &_getInstance()
 	{
 		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
@@ -143,5 +158,5 @@ class ilLPStatusFactory
 				exit;
 		}
 	}
-}	
+}
 ?>
