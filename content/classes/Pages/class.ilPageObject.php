@@ -2007,5 +2007,27 @@ class ilPageObject
 	function registerOfflineHandler ($handler) {
 		$this->offline_handler = $handler;
 	}
+	
+	/**
+	* lookup whether page contains deactivated elements
+	*/
+	function _lookupContainsDeactivatedElements($a_id, $a_parent_type)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM page_object WHERE page_id = ".
+			$ilDB->quote($a_id)." AND ".
+			" parent_type = ".$ilDB->quote($a_parent_type)." AND ".
+			" content LIKE '%PageContent Enabled=\"False\"%'";
+		$obj_set = $ilDB->query($query);
+		
+		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 }
 ?>

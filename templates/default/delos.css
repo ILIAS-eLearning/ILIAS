@@ -1517,6 +1517,15 @@ div.il_editarea_disabled
 	border: 2px dotted red;
 }
 
+a.il_PageDisabled
+{
+	border-bottom: 2px dotted red;
+}
+
+a.il_PageDeactivatedElements
+{
+	border-right: 2px dotted red;
+}
 
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */

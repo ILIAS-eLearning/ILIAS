@@ -352,6 +352,11 @@ class ilExplorer
 	{
 		global $rbacsystem, $ilBench;
 		
+		if (!$this->rbac_check)
+		{
+			return true;
+		}
+		
 		$ilBench->start("Explorer", "setOutput_isVisible");
 		$visible = $rbacsystem->checkAccess('visible',$a_ref_id);
 		$ilBench->stop("Explorer", "setOutput_isVisible");
@@ -472,11 +477,8 @@ class ilExplorer
 				//ask for FILTER
 				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
 				{
-//echo "<br>--checkVisibilityOf:".$object['child'].":";
-					#if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
-					if($this->isVisible($object['child'],$object['type']) or !$this->rbac_check)
+					if ($this->isVisible($object['child'],$object['type']))
 					{
-//echo "isVisible";
 						$ilBench->start("Explorer", "setOutput_setFormatOptions");
 						if ($object["child"] != $this->tree->getRootId())
 						{
@@ -792,10 +794,12 @@ class ilExplorer
 			//	$this->target."?" : $this->target."&";
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
-
-			if ($a_node_id == $this->highlighted)
+				
+			$style_class = $this->getNodeStyleClass($a_node_id, $a_option["type"]);
+			
+			if ($style_class != "")
 			{
-				$tpl->setVariable("A_CLASS", ' class="il_HighlightedNode" ' );
+				$tpl->setVariable("A_CLASS", ' class="'.$style_class.'" ' );
 			}
 
 			if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) != "")
@@ -837,6 +841,19 @@ class ilExplorer
 	function getImage($a_name, $a_type = "", $a_obj_id = "")
 	{
 		return ilUtil::getImagePath($a_name);
+	}
+	
+	
+	/**
+	* get style class for node
+	*/
+	function getNodeStyleClass($a_id, $a_type)
+	{
+		if ($a_id == $this->highlighted)
+		{
+			return "il_HighlightedNode";
+		}
+		return "";
 	}
 
 	/**

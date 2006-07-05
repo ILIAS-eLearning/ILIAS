@@ -1180,14 +1180,21 @@ class ilLMPresentationGUI
 
 		$curr_node = $this->lm_tree->getNodeData($obj_id);
 		
-		if($curr_node["type"] == "pg")		// page in tree -> return page id
+		if ($curr_node["type"] == "pg" &&
+			ilLMPageObject::_lookupActive($obj_id))		// page in tree -> return page id
 		{
 			$page_id = $curr_node["obj_id"];
 		}
 		else 		// no page -> search for next page and return its id
 		{
-			$succ_node = $this->lm_tree->fetchSuccessorNode($obj_id, "pg");
-			$page_id = $succ_node["obj_id"];
+			$succ_node = true;
+			$active = false;
+			while($succ_node && !$active)
+			{
+				$succ_node = $this->lm_tree->fetchSuccessorNode($obj_id, "pg");
+				$page_id = $succ_node["obj_id"];
+				$active = ilLMPageObject::_lookupActive($page_id);
+			}
 
 			if ($succ_node["type"] != "pg")
 			{
@@ -1956,6 +1963,11 @@ class ilLMPresentationGUI
 			{
 				$found = false;
 			}
+			else if ($pre_node["obj_id"] > 0 &&
+				!ilLMObject::_lookupActive($pre_node["obj_id"]))
+			{
+				$found = false;
+			}
 			else
 			{
 				$found = true;
@@ -1977,8 +1989,13 @@ class ilLMPresentationGUI
 			$c_id = $pre_node["obj_id"];
 			if ($pre_node["obj_id"] > 0 &&
 				$ilUser->getId() == ANONYMOUS_USER_ID &&
-				( $this->lm->getPublicAccessMode() == "selected" &&
+				($this->lm->getPublicAccessMode() == "selected" &&
 				!ilLMObject::_isPagePublic($pre_node["obj_id"])))
+			{
+				$found = false;
+			}
+			else if ($pre_node["obj_id"] > 0 &&
+				!ilLMObject::_lookupActive($pre_node["obj_id"]))
 			{
 				$found = false;
 			}

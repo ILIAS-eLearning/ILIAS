@@ -165,6 +165,27 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			{
 				continue;
 			}
+			
+			// check activation
+			if (!ilLMPageObject::_lookupActive($child["obj_id"]))
+			{
+				$this->tpl->setCurrentBlock("deactivated");
+				$this->tpl->setVariable("TXT_DEACTIVATED",
+					$this->lng->txt("cont_page_deactivated"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				if (ilPageObject::_lookupContainsDeactivatedElements($child["obj_id"],
+					$this->content_object->getType()))
+				{
+					$this->tpl->setCurrentBlock("deactivated");
+					$this->tpl->setVariable("TXT_DEACTIVATED",
+						$this->lng->txt("cont_page_deactivated_elements"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
 			$this->tpl->setCurrentBlock("table_row");
 			// color changing
 			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
