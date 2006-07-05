@@ -98,7 +98,10 @@ class ilLPItemListGUI
 	{
 		return $this->tlt ? $this->tlt : 0;
 	}
-
+	function hasDetails()
+	{
+		return true;
+	}
 	function enabled($a_key)
 	{
 		return $this->enabled[$key];

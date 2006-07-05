@@ -178,8 +178,16 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
 		$this->tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
 
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		$this->container_row_counter = 0;
+
+		// show events
+		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
+		foreach(ilLPEventCollections::_getItems($this->details_id) as $event_id)
+		{
+			$this->__renderContainerRow($this->details_id,$event_id,'event',0);
+		}
+		// show items
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
 		{
 			switch($this->details_mode)
@@ -214,7 +222,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		// Details link
 		if($type != 'sahs_item' and
-		   $type != 'objective')
+		   $type != 'objective' and
+		   $type != 'event')
 		{
 			$this->tpl->setCurrentBlock("item_command");
 			$this->ctrl->setParameter($this,'details_id',$item_id);

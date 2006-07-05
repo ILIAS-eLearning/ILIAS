@@ -53,9 +53,145 @@ class ilEventParticipants
 		$this->__read();
 	}
 
+	function setUserId($a_usr_id)
+	{
+		$this->user_id = $a_usr_id;
+	}
+	function getUserId()
+	{
+		return $this->user_id;
+	}
+	function setMark($a_mark)
+	{
+		$this->mark = $a_mark;
+	}
+	function getMark()
+	{
+		return $this->mark;
+	}
+	function setComment($a_comment)
+	{
+		$this->comment = $a_comment;
+	}
+	function getComment()
+	{
+		return $this->comment;
+	}
+	function setParticipated($a_status)
+	{
+		$this->participated = $a_status;
+	}
+	function getParticipated()
+	{
+		return $this->participated;
+	}
+	function setRegistered($a_status)
+	{
+		$this->registered = $a_status;
+	}
+	function getRegistered()
+	{
+		return $this->registered;
+	}
+	function updateUser()
+	{
+		$query = "DELETE FROM event_participants ".
+			"WHERE event_id = '".$this->getEventId()."' ".
+			"AND usr_id = '".$this->getUserId()."'";
+		$this->db->query($query);
+
+		$query = "INSERT INTO event_participants ".
+			"SET event_id = '".$this->getEventId()."', ".
+			"usr_id = '".$this->getUserId()."', ".
+			"registered = '".(int) $this->getRegistered()."', ".
+			"participated = '".(int) $this->getParticipated()."', ".
+			"mark = '".ilUtil::prepareDBString($this->getMark())."', ".
+			"comment = '".ilUtil::prepareDBString($this->getComment())."'";
+		$this->db->query($query);
+		return true;
+	}
+
+	function getUser($a_usr_id)
+	{
+		return $this->participants[$a_usr_id] ? $this->participants[$a_usr_id] : array();
+	}
+
 	function getParticipants()
 	{
 		return $this->participants ? $this->participants : array();
+	}
+
+	function isRegistered($a_usr_id)
+	{
+		return $this->participants[$a_usr_id]['registered'] ? true : false;
+	}
+
+	function hasParticipated($a_usr_id)
+	{
+		return $this->participants[$a_usr_id]['participated'] ? true : false;
+	}
+
+	function updateParticipation($a_usr_id,$a_status)
+	{
+		ilEventParticipants::_updateParticipation($a_usr_id,$this->getEventId(),$a_status);
+	}
+
+	function _updateParticipation($a_usr_id,$a_event_id,$a_status)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM event_participants ".
+			"WHERE event_id = '".$a_event_id."' ".
+			"AND usr_id = '".$a_usr_id."'";
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			$query = "UPDATE event_participants ".
+				"SET participated = '".(int) $a_status."' ".
+				"WHERE event_id = '".$a_event_id."' ".
+				"AND usr_id = '".$a_usr_id."'";
+			$ilDB->query($query);
+		}
+		else
+		{
+			$query = "INSERT INTO event_participants ".
+				"SET registered = '0', ".
+				"participated = '".(int) $a_status."', ".
+				"event_id = '".$a_event_id."', ".
+				"usr_id = '".$a_usr_id."'";
+			$ilDB->query($query);
+		}
+		return true;
+	}
+
+	function _getRegistered($a_event_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM event_participants ".
+			"WHERE event_id = '".$a_event_id."' ".
+			"AND registered = '1'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[] = $row->usr_id;
+		}
+		return $user_ids ? $user_ids : array();
+	}
+
+	function _getParticipated($a_event_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM event_participants ".
+			"WHERE event_id = '".$a_event_id."' ".
+			"AND participated = '1'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[] = $row->usr_id;
+		}
+		return $user_ids ? $user_ids : array();
 	}
 
 	function _isRegistered($a_usr_id,$a_event_id)
@@ -136,7 +272,36 @@ class ilEventParticipants
 	{
 		return ilEventParticipants::_unregister($a_usr_id,$this->getEventId());
 	}
+
+	function _lookupMark($a_event_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM event_participants ".
+			"WHERE event_id = '".$a_event_id."' ".
+			"AND usr_id = '".$a_usr_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->mark;
+		}
+		return '';
+	}
 	
+	function _lookupComment($a_event_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM event_participants ".
+			"WHERE event_id = '".$a_event_id."' ".
+			"AND usr_id = '".$a_usr_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->comment;
+		}
+		return '';
+	}
 
 
 	function getEventId()
@@ -179,6 +344,8 @@ class ilEventParticipants
 			$this->participants[$row->usr_id]['usr_id'] = $row->usr_id;
 			$this->participants[$row->usr_id]['registered'] = $row->registered;
 			$this->participants[$row->usr_id]['participated'] = $row->participated;
+			$this->participants[$row->usr_id]['mark'] = $row->mark;
+			$this->participants[$row->usr_id]['comment'] = $row->comment;
 		}
 	}
 }

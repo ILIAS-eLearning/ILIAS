@@ -62,6 +62,7 @@ class ilEventAdministrationGUI
 
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('trac');
 		$this->tabs_gui =& $ilTabs;
 
 		$this->event_id = $event_id;
@@ -130,8 +131,212 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'cancel'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
 		$this->tpl->parseCurrentBlock();
+
+
+		include_once 'course/classes/class.ilCourseMembers.php';
+		include_once 'course/classes/Event/class.ilEvent.php';
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
+
+		$members_obj = new ilCourseMembers($this->course_obj);
+		$event_obj = new ilEvent((int) $_GET['event_id']);
+		$event_part = new ilEventParticipants((int) $_GET['event_id']);
+
+		$members = $members_obj->getAssignedUsers();
+
+
+		$this->tpl->addBlockfile("PARTICIPANTS_TABLE","participants_table", "tpl.table.html");
+		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.event_members_row.html','course');
+
+		// Table 
+		$tbl = new ilTableGUI();
+		$tbl->setTitle($this->lng->txt("event_tbl_participants"),
+					   'icon_usr.gif',
+					   $this->lng->txt('obj_usr'));
+		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("COLUMN_COUNTS",6);
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "updateMembers");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("event_save_participants"));
+		$this->tpl->parseCurrentBlock();
+
+
+		if($event_obj->enabledRegistration())
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt('fullname'),
+									   $this->lng->txt('trac_mark'),
+									   $this->lng->txt('event_tbl_registered'),
+									   $this->lng->txt('event_tbl_participated'),
+									   $this->lng->txt('')));
+			$tbl->setHeaderVars(array("",
+									  "fullname",
+									  "mark",
+									  "registered",
+									  "participated",
+									  ""),
+								$this->ctrl->getParameterArray($this,'editMembers'));
+			$tbl->setColumnWidth(array('1%','50%','10%','10%','10%','20%'));
+		}
+		else
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt('fullname'),
+									   $this->lng->txt('trac_mark'),
+									   $this->lng->txt('event_tbl_participated'),
+									   $this->lng->txt('')));
+
+			$tbl->setHeaderVars(array("",
+									  "fullname",
+									  "mark",
+									  "participated",
+									  ""),
+								$this->ctrl->getParameterArray($this,'editMembers'));
+
+			$tbl->setColumnWidth(array('1','55%','10%','10%','25%'));
+		}
+
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setMaxCount(count($members));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
+		$tbl->disable('sort');
+		$tbl->render();
+
+		$counter = 0;
+		foreach($sliced_users as $user_id)
+		{
+			$user_data = $event_part->getUser($user_id);
+
+			if($event_obj->enabledRegistration())
+			{
+				$this->tpl->setCurrentBlock("registered_col");
+				$this->tpl->setVariable("IMAGE_REGISTERED",$event_part->isRegistered($user_id) ? 
+										ilUtil::getImagePath('icon_ok.gif') :
+										ilUtil::getImagePath('icon_not_ok.gif'));
+				$this->tpl->setVariable("REGISTERED",$event_part->isRegistered($user_id) ?
+										$this->lng->txt('event_registered') :
+										$this->lng->txt('event_not_registered'));
+				$this->tpl->parseCurrentBlock();
+			}
+			if(strlen($user_data['comment']))
+			{
+				$this->tpl->setCurrentBlock("comment");
+				$this->tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
+				$this->tpl->setVariable("USR_COMMENT",$user_data['comment']);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("tbl_content");
+			$name = ilObjUser::_lookupName($user_id);
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("LASTNAME",$name['lastname']);
+			$this->tpl->setVariable("FIRSTNAME",$name['firstname']);
+			$this->tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));
+			$this->tpl->setVariable("MARK",$user_data['mark']);
+			$this->tpl->setVariable("USER_ID",$user_id);
+			$this->tpl->setVariable("CHECKED",$event_part->hasParticipated($user_id) ? 'checked="checked"' : '');
+			$this->tpl->setVariable("IMAGE_PART",$event_part->hasParticipated($user_id) ? 
+									ilUtil::getImagePath('icon_ok.gif') :
+									ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable("PART",$event_part->hasParticipated($user_id) ?
+									$this->lng->txt('event_participated') :
+									$this->lng->txt('event_not_participated'));
+			$this->ctrl->setParameter($this,'user_id',$user_id);
+			$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'editUser'));
+			$this->tpl->setVariable("TXT_EDIT",$this->lng->txt('edit'));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	function updateMembers()
+	{
+		include_once 'course/classes/class.ilCourseMembers.php';
+		include_once 'course/classes/Event/class.ilEvent.php';
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
+
+		$_POST['participants'] = is_array($_POST['participants']) ? $_POST['participants'] : array();
+
+		$members_obj = new ilCourseMembers($this->course_obj);
+		$event_part = new ilEventParticipants((int) $_GET['event_id']);
+
+		$members = $members_obj->getAssignedUsers();
+		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
+
+		foreach($sliced_users as $user)
+		{
+			$event_part->updateParticipation($user,in_array($user,$_POST['participants']) ? 1 : 0);
+		}			
+		sendInfo($this->lng->txt('settings_saved'));
+		$this->editMembers();
+	}
+
+	function editUser()
+	{
+		global $ilObjDataCache;
+
+		include_once 'course/classes/Event/class.ilEvent.php';
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
+
+		$event_obj = new ilEvent((int) $_GET['event_id']);
+		$part_obj = new ilEventParticipants((int) $_GET['event_id']);
+
+
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'editMembers'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.event_edit_user.html','course');
+
+		$this->ctrl->setParameter($this,'user_id',(int) $_GET['user_id']);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("USR_IMAGE",ilUtil::getImagePath('icon_usr.gif'));
+		$this->tpl->setVariable("ALT_USER",$this->lng->txt('obj_usr'));
+		$this->tpl->setVariable("EVENT_TITLE",$event_obj->getTitle());
+		$this->tpl->setVariable("FULLNAME",$ilObjDataCache->lookupTitle((int) $_GET['user_id']));
+		$this->tpl->setVariable("LOGIN",ilObjUser::_lookupLogin((int) $_GET['user_id']));
+		
+		$this->tpl->setVariable("TXT_PARTICIPANCE",$this->lng->txt('event_tbl_participated'));
+		$this->tpl->setVariable("TXT_REGISTERED",$this->lng->txt('event_tbl_registered'));
+		$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
+		$this->tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
+		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
+		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+
+		$user_data = $part_obj->getUser((int) $_GET['user_id']);
+		
+		$this->tpl->setVariable("MARK",$user_data['mark']);
+		$this->tpl->setVariable("COMMENT",$user_data['comment']);
+		$this->tpl->setVariable("PART_CHECKED",$user_data['participated'] ? 'checked="checked"' : '');
+		$this->tpl->setVariable("REG_CHECKED",$user_data['registered'] ? 'checked="checked"' : '');
 		
 	}
+
+	function updateUser()
+	{
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
+		$part_obj = new ilEventParticipants((int) $_GET['event_id']);
+		
+		$part_obj->setUserId((int) $_GET['user_id']);
+		$part_obj->setMark(ilUtil::stripSlashes($_POST['mark']));
+		$part_obj->setComment(ilUtil::stripSlashes($_POST['comment']));
+		$part_obj->setRegistered($_POST['registration']);
+		$part_obj->setParticipated($_POST['participance']);
+		$part_obj->updateUser((int) $_GET['user_id']);
+
+		sendInfo($this->lng->txt('settings_saved'));
+		$this->editMembers();
+	}
+
 
 	function materials()
 	{

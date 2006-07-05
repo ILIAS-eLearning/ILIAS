@@ -126,19 +126,29 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 	function assign()
 	{
-		if(!$_POST['item_ids'])
+		if(!$_POST['item_ids'] and !$_POST['event_ids'])
 		{
 			sendInfo($this->lng->txt('select_one'));
 			$this->show();
 			return false;
 		}
-		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-
-		$lp_collections = new ilLPCollections($this->getObjId());
-
-		foreach($_POST['item_ids'] as $obj_id)
+		if(count($_POST['item_ids']))
 		{
-			$lp_collections->add($obj_id);
+			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+			$lp_collections = new ilLPCollections($this->getObjId());
+			foreach($_POST['item_ids'] as $obj_id)
+			{
+				$lp_collections->add($obj_id);
+			}
+		}
+		if($_POST['event_ids'])
+		{
+			include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
+			$event_collections = new ilLPEventCollections($this->getObjId());
+			foreach($_POST['event_ids'] as $event_id)
+			{
+				$event_collections->add($event_id);
+			}
 		}
 		sendInfo($this->lng->txt('trac_settings_saved'));
 		$this->show();
@@ -146,19 +156,29 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 	function deassign()
 	{
-		if(!$_POST['item_ids'])
+		if(!$_POST['item_ids'] and !$_POST['event_ids'])
 		{
 			sendInfo($this->lng->txt('select_one'));
 			$this->show();
 			return false;
 		}
-		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-
-		$lp_collections = new ilLPCollections($this->getObjId());
-
-		foreach($_POST['item_ids'] as $obj_id)
+		if(count($_POST['item_ids']))
 		{
-			$lp_collections->delete($obj_id);
+			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+			$lp_collections = new ilLPCollections($this->getObjId());
+			foreach($_POST['item_ids'] as $obj_id)
+			{
+				$lp_collections->delete($obj_id);
+			}
+		}
+		if($_POST['event_ids'])
+		{
+			include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
+			$event_collections = new ilLPEventCollections($this->getObjId());
+			foreach($_POST['event_ids'] as $event_id)
+			{
+				$event_collections->delete($event_id);
+			}
 		}
 		sendInfo($this->lng->txt('trac_settings_saved'));
 		$this->show();
@@ -251,6 +271,11 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		global $ilObjDataCache,$tree;
 
 		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+		include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
+		include_once 'course/classes/Event/class.ilEvent.php';
+
+		// read assigned events
+		$events = ilEvent::_getEvents($this->getObjId());
 
 		$lp_collections = new ilLPCollections($this->getObjId());
 
@@ -269,16 +294,26 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$tpl->setVariable("BTN_DEASSIGN",$this->lng->txt('trac_collection_deassign'));
 
 		
-		if(!ilLPCollections::_getCountPossibleItems($this->getRefId()))
+		if(!ilLPCollections::_getCountPossibleItems($this->getRefId()) and !count($events))
 		{
 			$tpl->setCurrentBlock("no_items");
 			$tpl->setVariable("NO_ITEM_MESSAGE",$this->lng->txt('trac_no_items'));
 			$tpl->parseCurrentBlock();
 		}
+
+		// Show header
+		if(count($events))
+		{
+			$tpl->setCurrentBlock("header_materials");
+			$tpl->setVariable("TXT_HEADER_MATERIALS",$this->lng->txt('crs_materials'));
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->addBlockFile('MATERIALS','materials','tpl.trac_collections_row.html','Services/Tracking');
 		$counter = 0;
+		// Show materials
 		foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id => $obj_id)
 		{
-			$tpl->setCurrentBlock("trac_row");
+			$tpl->setCurrentBlock("materials");
 			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
 			$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));
 			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
@@ -297,7 +332,35 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 			
 			$tpl->parseCurrentBlock();
-		}			
+		}
+
+		$event_collections = new ilLPEventCollections($this->getObjId());
+		
+		// show events
+		if(count($events))
+		{
+			$tpl->setCurrentBlock("header_events");
+			$tpl->setVariable("TXT_HEADER_NAME",$this->lng->txt('events'));
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->addBlockFile('EVENT','event','tpl.trac_collections_event_row.html','Services/Tracking');
+		foreach($events as $event_obj)
+		{
+			$tpl->setCurrentBlock("event");
+			$tpl->setVariable("EVENT_COLL_DESC",$event_obj->getDescription());
+			$tpl->setVariable("EVENT_COLL_TITLE",$event_obj->getTitle());
+			$tpl->setVariable("EVENT_ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$tpl->setVariable("EVENT_CHECK_TRAC",ilUtil::formCheckbox(0,'event_ids[]',$event_obj->getEventId()));
+
+			$tpl->setVariable("EVENT_ASSIGNED_IMG_OK",$event_collections->isAssigned($event_obj->getEventId())
+							  ? ilUtil::getImagePath('icon_ok.gif') 
+							  : ilUtil::getImagePath('icon_not_ok.gif'));
+			$tpl->setVariable("EVENT_ASSIGNED_STATUS",$event_collections->isAssigned($event_obj->getEventId())
+							  ? $this->lng->txt('trac_assigned')
+							  : $this->lng->txt('trac_not_assigned'));
+			$tpl->parseCurrentBlock();
+		}
+			
 		$tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 		$tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
 

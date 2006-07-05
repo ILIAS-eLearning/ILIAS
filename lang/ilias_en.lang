@@ -6211,3 +6211,14 @@ crs#:#event_registration_participance#:#Registration
 crs#:#event_registration#:#Registration
 crs#:#event_participation#:#Participation
 crs#:#event_registration_info#:#Allow users to register to the event.
+crs#:#event_registered#:#You have been registered to this event.
+crs#:#event_unregistered#:#You have been unregistered.
+crs#:#event_register#:#Register
+crs#:#event_unregister#:#Unregister
+crs#:#event_edit_members#:#Edit Participants
+crs#:#event_tbl_participated#:#Participated
+crs#:#event_tbl_participants#:#List of Participants
+crs#:#event_save_participants#:#Save Participance
+crs#:#crs_materials#:#Course Materials
+trac#:#trac_crs_relevant_items#:#Course Materials
+crs#:#event_tbl_registered#:#Registered
