@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -44,6 +44,7 @@ class ilLMObject
 	var $content_object;
 	var $title;
 	var $description;
+	var $active = true;
 
 	/**
 	* @param	object		$a_content_obj		content object (digi book or learning module)
@@ -215,22 +216,28 @@ class ilLMObject
 */
 		$this->setImportId($this->data_record["import_id"]);
 		$this->setTitle($this->data_record["title"]);
+		$this->setActive(ilUtil::yn2tf($this->data_record["active"]));
 
 		$ilBench->stop("ContentPresentation", "ilLMObject_read");
 	}
 
 	/**
+	* set title of lm object
 	*
+	* @param	string		$a_title	title of chapter or page
 	*/
 	function setTitle($a_title)
 	{
-//		$this->meta_data->setTitle($a_title);
 		$this->title = $a_title;
 	}
 
+	/**
+	* get title of lm object
+	*
+	* @return	string		title of chapter or page
+	*/
 	function getTitle()
 	{
-//		return $this->title ? $this->title : $this->meta_data->getTitle();
 		return $this->title;
 	}
 
@@ -268,27 +275,14 @@ class ilLMObject
 		$ilDB->query($query);
 	}
 
-/*
-	function _writeDescription($a_obj_id, $a_desc)
-	{
-		global $ilDB;
-
-		$query = "UPDATE lm_data SET ".
-			" description = ".$ilDB->quote($a_desc).
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id);
-		$ilDB->query($query);
-	}
-*/
 
 	function setDescription($a_description)
 	{
-//		$this->meta_data->setDescription($a_description);
 		$this->description = $a_description;
 	}
 
 	function getDescription()
 	{
-//		return $this->description ? $this->description : $this->meta_data->getDescription();
 		return $this->description;
 	}
 
@@ -344,6 +338,26 @@ class ilLMObject
 	}
 
 	/**
+	* set activation
+	*
+	* @param	boolean		$a_active	true/false for active or not
+	*/
+	function setActive($a_active)
+	{
+		$this->active = $a_active;
+	}
+
+	/**
+	* get activation
+	*
+	* @return	boolean		true/false for active or not
+	*/
+	function getActive()
+	{
+		return $this->active;
+	}
+
+	/**
 	* write import id to db (static)
 	*
 	* @param	int		$a_id				lm object id
@@ -366,9 +380,9 @@ class ilLMObject
 	function create($a_upload = false)
 	{
 		// insert object data
-		$query = "INSERT INTO lm_data (title, type, lm_id, import_id, create_date) ".
+		$query = "INSERT INTO lm_data (title, type, lm_id, import_id, create_date, active) ".
 			"VALUES ('".ilUtil::prepareDBString($this->getTitle())."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId().
-			"', now())";
+			"', now(),".$ilDB->quote(ilUtil::tf2yn($this->getActive())).")";
 		$this->ilias->db->query($query);
 		$this->setId($this->ilias->db->getLastInsertId());
 
@@ -396,6 +410,7 @@ class ilLMObject
 		$query = "UPDATE lm_data SET ".
 			" lm_id = ".$ilDB->quote($this->getLMId()).
 			" ,title = ".$ilDB->quote($this->getTitle()).
+			" ,active = ".$ilDB->quote(ilUtil::tf2yn($this->getActive())).
 			" WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$ilDB->query($query);

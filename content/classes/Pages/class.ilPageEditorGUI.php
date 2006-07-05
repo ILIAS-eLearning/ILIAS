@@ -74,7 +74,7 @@ class ilPageEditorGUI
 	* @param	object		$a_page_object		page object
 	* @access	public
 	*/
-	function ilPageEditorGUI(&$a_page_object)
+	function ilPageEditorGUI(&$a_page_object, &$a_page_object_gui)
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
 
@@ -86,6 +86,7 @@ class ilPageEditorGUI
 		$this->objDefinition = $objDefinition;
 		$this->tabs_gui =& $ilTabs;
 		$this->page =& $a_page_object;
+		$this->page_gui =& $a_page_object_gui;
 
 		$this->ctrl->saveParameter($this, "hier_id");
 	}
@@ -226,6 +227,7 @@ class ilPageEditorGUI
 			// ilinternallinkgui for mob: cont_obj is received
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
 				$cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
+				$cmd != "activatePage" && $cmd != "deactivatePage" &&
 				$cmd != "copyLinkedMediaToMediaPool" &&
 				$cmd != "deleteSelected" &&
 				$cmd != "activateSelected" &&
@@ -507,6 +509,16 @@ class ilPageEditorGUI
 			return true;
 		}
 		return false;
+	}
+
+	function activatePage()
+	{
+		$this->page_gui->activatePage();
+	}
+
+	function deactivatePage()
+	{
+		$this->page_gui->deactivatePage();
 	}
 
 	/**

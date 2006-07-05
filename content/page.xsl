@@ -287,6 +287,16 @@
 	<xsl:if test="$mode = 'edit'">
 		<xsl:variable name="content_type" select="name(./*[1])"/>
 		<div class="il_editarea">
+		<xsl:if test="@Enabled='False'">
+			<xsl:attribute name="class">il_editarea_disabled</xsl:attribute>
+		</xsl:if>
+		<xsl:attribute name="value"><xsl:value-of select="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign" /></xsl:attribute>
+		<xsl:if test="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'RightFloat'">
+			<xsl:attribute name="style">float:right; clear:both;</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'LeftFloat'">
+			<xsl:attribute name="style">float:left; clear:both;</xsl:attribute>
+		</xsl:if>
 		<xsl:if test="$javascript = 'enable'">
 			<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
 			<xsl:attribute name="onMouseOut">doMouseOut(this.id,true);</xsl:attribute>
@@ -296,20 +306,9 @@
 		</xsl:if>
         <xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
 
-		<xsl:choose>
-			<xsl:when test="@Enabled='False'"> 
-				<div class='ilc_Disabled'>
-					<xsl:apply-templates>
-						<xsl:with-param name="par_counter" select ="position()" />
-					</xsl:apply-templates>
-				</div>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:apply-templates>
-					<xsl:with-param name="par_counter" select ="position()" />
-				</xsl:apply-templates>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:apply-templates>
+			<xsl:with-param name="par_counter" select ="position()" />
+		</xsl:apply-templates>
 		</div>
 	</xsl:if>
 	<xsl:if test="$mode != 'edit' and (not(@Enabled) or @Enabled='True')">
@@ -1448,11 +1447,17 @@
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
 			and $mode != 'fullscreen' and $mode != 'media'">
-			<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
+			<xsl:attribute name="style">margin-left: 0px;</xsl:attribute>
+			<xsl:if test="$mode != 'edit'">
+				<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
+			</xsl:if>
 		</xsl:if>
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
 			and $mode != 'fullscreen' and $mode != 'media'">
-			<xsl:attribute name="style">float:right; clear:both; margin-right: 0px;</xsl:attribute>
+			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
+			<xsl:if test="$mode != 'edit'">
+				<xsl:attribute name="style">float:right; clear:both; margin-right: 0px;</xsl:attribute>
+			</xsl:if>
 		</xsl:if>
 
 		<!-- make object fit to left/right border -->
