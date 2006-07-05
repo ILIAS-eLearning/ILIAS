@@ -324,10 +324,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				}
 				if ($log["question_fi"] || $log["original_fi"])
 				{
-					$title = ASS_Question::_getQuestionTitle($log["question_fi"]);
+					$title = assQuestion::_getQuestionTitle($log["question_fi"]);
 					if (strlen($title) == 0)
 					{
-						$title = ASS_Question::_getQuestionTitle($log["original_fi"]);
+						$title = assQuestion::_getQuestionTitle($log["original_fi"]);
 					}
 					$title = $this->lng->txt("assessment_log_question") . ": " . $title;
 				}
