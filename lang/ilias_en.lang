@@ -297,13 +297,15 @@ assessment#:#log_modified_test#:#The test was modified
 assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Question position changed
-assessment#:#log_random_question_pool_added#:#Added the question pool '%s' with %s questions for the random test
-assessment#:#log_total_amount_of_questions#:#Set the total amount of questions for the random test to %s
-assessment#:#log_random_question_pool_deleted#:#Removed all random question pools for the test
 assessment#:#log_question_removed#:#Question removed
+assessment#:#log_random_question_pool_added#:#Added the question pool '%s' with %s questions for the random test
+assessment#:#log_random_question_pool_deleted#:#Removed all random question pools for the test
 assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
+assessment#:#log_total_amount_of_questions#:#Set the total amount of questions for the random test to %s
 assessment#:#log_user_answered_question#:#User answered a question and received %s points
 assessment#:#log_user_data_removed#:#Removed all user data
+assessment#:#log_user_entered_values#:#User entered values
+assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions
