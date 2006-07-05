@@ -838,6 +838,11 @@ class ilPageObjectGUI
 			$question_prefix = "<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\">";
 			$output = str_replace($question_prefix, $question_prefix . $qhtml, $output);
 		}
+		
+		if($this->getOutputMode() == "edit" && !$this->getActivated())
+		{
+			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
+		}
 	
 		// output
 		if($this->outputToTemplate())

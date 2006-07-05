@@ -161,7 +161,17 @@ class ilLMTOCExplorer extends ilLMExplorer
 		}
 	}
 
-
+	function isVisible($a_id, $a_type)
+	{
+		if(!ilLMObject::_lookupActive($a_id))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 } // END class.ilLMTOCExplorer
 ?>

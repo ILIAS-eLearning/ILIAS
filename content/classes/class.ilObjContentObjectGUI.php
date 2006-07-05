@@ -1403,6 +1403,26 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$pages = ilLMPageObject::getPageList($this->object->getId());
 		foreach ($pages as $page)
 		{
+			// check activation
+			if (!ilLMPageObject::_lookupActive($page["obj_id"]))
+			{
+				$this->tpl->setCurrentBlock("deactivated");
+				$this->tpl->setVariable("TXT_DEACTIVATED",
+					$this->lng->txt("cont_page_deactivated"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				if (ilPageObject::_lookupContainsDeactivatedElements($page["obj_id"],
+					$this->object->getType()))
+				{
+					$this->tpl->setCurrentBlock("deactivated");
+					$this->tpl->setVariable("TXT_DEACTIVATED",
+						$this->lng->txt("cont_page_deactivated_elements"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
 			$this->tpl->setCurrentBlock("table_row");
 			// color changing
 			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");

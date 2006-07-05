@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -118,6 +118,31 @@ class ilLMEditorExplorer extends ilLMExplorer
 		}
 	}
 
+
+	/**
+	* get style class for node
+	*/
+	function getNodeStyleClass($a_id, $a_type)
+	{
+		include_once("content/classes/class.ilLMObject.php");
+		
+		$active = ilLMObject::_lookupActive($a_id);
+		if (!$active)
+		{
+			return "il_PageDisabled";
+		}
+		else
+		{
+			include_once("content/classes/Pages/class.ilPageObject.php");
+			$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_id,
+				$this->lm_obj->getType());
+			if ($contains_dis)
+			{
+				return "il_PageDeactivatedElements";
+			}
+		}
+		return "";
+	}
 
 } // END class.ilLMEditorExplorer
 ?>

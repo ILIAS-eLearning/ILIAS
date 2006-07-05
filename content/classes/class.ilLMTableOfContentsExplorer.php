@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -231,6 +231,17 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		}
 	}
 
+	function isVisible($a_id, $a_type)
+	{
+		if(!ilLMObject::_lookupActive($a_id))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 } // END class ilTableOfContentsExplorer
 ?>

@@ -3428,6 +3428,8 @@ content#:#cont_autoindent#:#Auto Indent
 content#:#cont_back#:#Back
 content#:#cont_activate_page#:#Activate Page
 content#:#cont_deactivate_page#:#Deactivate Page
+content#:#cont_page_deactivated#:#Page is deactivated.
+content#:#cont_page_deactivated_elements#:#Page contains deactivated elements.
 content#:#cont_booktitle#:#Book title
 content#:#cont_bottom#:#Bottom
 content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.

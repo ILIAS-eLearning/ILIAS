@@ -12,7 +12,7 @@
 	<td class="std" valign="top">
 	<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" />
 	</td>
-	<td width="1">
+	<td width="1" valign="top">
 	<a href="{LINK_TARGET}">
 	<img src="{IMG_OBJ}" border="0" />
 	</a>
@@ -20,7 +20,12 @@
 	<td class="std" valign="top">
 	<a href="{LINK_TARGET}">
 	{TEXT_CONTENT}
-	</a>
+	</a><br />
+	<!-- BEGIN deactivated -->
+	<div class="il_ItemProperties">
+	<span class="il_ItemAlertProperty">{TXT_DEACTIVATED}</span>
+	</div>
+	<!-- END deactivated -->
 	</td>
 </tr>
 <!-- END table_row -->
