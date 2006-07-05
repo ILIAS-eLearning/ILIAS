@@ -265,6 +265,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
 		$this->tpl->parseCurrentBlock();
 		include_once "./assessment/classes/class.ilObjTest.php";
+		include_once "./assessment/classes/class.assQuestion.php";
 		$available_tests =& ilObjTest::_getAvailableTests(1);
 		foreach ($available_tests as $key => $value)
 		{
@@ -294,7 +295,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				);
 				array_push($csv, ilUtil::processCSVRow($row, TRUE, $separator));
 			}
-			include_once "./assessment/classes/class.assQuestion.php";
 			$ts_from = sprintf("%04d%02d%02d%02d%02d%02d", $_POST["log_from_date"]["y"], $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"], $_POST["log_from_time"]["h"], $_POST["log_from_time"]["m"], 0);
 			$ts_to = sprintf("%04d%02d%02d%02d%02d%02d", $_POST["log_to_date"]["y"], $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"], $_POST["log_to_time"]["h"], $_POST["log_to_time"]["m"], 0);
 			$log_output =& $this->object->getLog($ts_from, $ts_to, $_POST["sel_test"]);
