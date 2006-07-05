@@ -7,15 +7,15 @@ parent.tree.location.replace('{LINK_TREE}');
 <table class="fullwidth">
 <tr class="std">
 <td class="submit">
-{SEL_MEDIA_MODE} {SEL_JAVA_SCRIPT}<input class="submit" type="submit" value="{TXT_CHANGE_EDIT_MODE}" name="cmd[setMediaMode]">
+{SEL_MEDIA_MODE} {SEL_JAVA_SCRIPT}<input class="submit" type="submit" value="{TXT_CHANGE_EDIT_MODE}" name="cmd[setMediaMode]" />
+<!-- BEGIN de_activate_page -->
+<input class="submit" type="submit" value="{TXT_DE_ACTIVATE_PAGE}" name="cmd[{CMD_DE_ACTIVATE_PAGE}]" />
+<!-- END de_activate_page -->
 <span class="small">{TXT_JAVA_SCRIPT_CAPABLE}</span>
 </td>
 <!-- BEGIN view_link -->
 <td class="submit" align="right">
-<table><tr><td class="btn" align="center" nowrap="1">&nbsp;&nbsp;
-<a class="btn" href="{LINK_VIEW_PAGE}" target="{TARGET_VIEW_PAGE}">{TXT_VIEW_PAGE}</a>
-&nbsp;&nbsp;
-</td></tr></table>
+<a class="submit" href="{LINK_VIEW_PAGE}" target="{TARGET_VIEW_PAGE}">{TXT_VIEW_PAGE}</a>
 </td>
 <!-- END view_link -->
 </tr>

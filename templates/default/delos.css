@@ -1371,7 +1371,7 @@ input.submit, a.submit, a.submit:hover
 	border-bottom-color: #808080;
 	border-right-color: #808080;
 	border-style:solid;
-	padding:2px;
+	padding:2px 10px;
 	text-decoration:none;
 	font-size: 90%;
 	cursor:pointer;
@@ -1511,6 +1511,12 @@ div.il_editarea
 	border-style: dotted;
 	border-width: 1px;
 }
+
+div.il_editarea_disabled
+{
+	border: 2px dotted red;
+}
+
 
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
@@ -1837,12 +1843,6 @@ div.ilc_TableOfContents
 	border-color: #EEEEEE;
 	border-width: 1px;
 	margin-bottom: 0px;
-}
-
-div.ilc_Disabled {
-	margin-left: -10px;
-	padding-left: 10px;
-	border-left: 3px dotted red;
 }
 
 /* --- Test & Assessment styles --- */

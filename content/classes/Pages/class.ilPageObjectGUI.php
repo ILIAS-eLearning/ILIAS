@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -63,6 +63,7 @@ class ilPageObjectGUI
 	var $sourcecode_download_script;
 	var $change_comments;
 	var $question_html;
+	var $activation = false;
 
 	/**
 	* Constructor
@@ -352,6 +353,32 @@ class ilPageObjectGUI
 	{
 		return $this->view_page_target;
 	}
+	
+	function setActivationListener(&$a_obj, $a_meth)
+	{
+		$this->act_obj =& $a_obj;
+		$this->act_meth = $a_meth;
+	}
+	
+	function setActivated($a_act)
+	{
+		$this->activated = $a_act;
+	}
+	
+	function getActivated()
+	{
+		return $this->activated;
+	}
+
+	function setEnabledActivation($a_act)
+	{
+		$this->activation = $a_act;
+	}
+
+	function getEnabledActivation()
+	{
+		return $this->activation;
+	}
 
 	/**
 	* execute command
@@ -376,7 +403,7 @@ class ilPageObjectGUI
 				break;
 
 			case "ilpageeditorgui":
-				$page_editor =& new ilPageEditorGUI($this->getPageObject());
+				$page_editor =& new ilPageEditorGUI($this->getPageObject(), $this);
 				$page_editor->setLocator($this->locator);
 				$page_editor->setHeader($this->getHeader());
 				$page_editor->setPageBackTitle($this->page_back_title);
@@ -399,6 +426,20 @@ class ilPageObjectGUI
 		}
 	}
 
+
+	function deactivatePage()
+	{
+		$act_meth = $this->act_meth;
+		$this->act_obj->$act_meth(false);
+		$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+	}
+
+	function activatePage()
+	{
+		$act_meth = $this->act_meth;
+		$this->act_obj->$act_meth(true);
+		$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+	}
 
 	/*
 	* display content of page
@@ -441,6 +482,23 @@ class ilPageObjectGUI
 					$this->tpl->setVariable("TXT_JAVA_SCRIPT_CAPABLE", "<br />".$this->lng->txt("cont_browser_not_js_capable"));
 				}
 				$this->tpl->setVariable("TXT_CHANGE_EDIT_MODE", $this->lng->txt("cont_set_edit_mode"));
+				
+				if ($this->getEnabledActivation())
+				{
+					$this->tpl->setCurrentBlock("de_activate_page");
+					if ($this->getActivated())
+					{
+						$this->tpl->setVariable("TXT_DE_ACTIVATE_PAGE", $this->lng->txt("cont_deactivate_page"));
+						$this->tpl->setVariable("CMD_DE_ACTIVATE_PAGE", "deactivatePage");
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_DE_ACTIVATE_PAGE", $this->lng->txt("cont_activate_page"));
+						$this->tpl->setVariable("CMD_DE_ACTIVATE_PAGE", "activatePage");
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+					
                 
 				$med_mode = array("enable" => $this->lng->txt("cont_enable_media"),
 					"disable" => $this->lng->txt("cont_disable_media"));

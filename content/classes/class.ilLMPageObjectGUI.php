@@ -136,6 +136,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$this->content_object->getPageHeader(), $this->content_object->isActiveNumbering()));
 				$page_gui->setLocator($contObjLocator);
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
+				$page_gui->setEnabledActivation(true);
+				$page_gui->setActivationListener($this, "activatePage");
+				$page_gui->setActivated($this->obj->getActive());
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				//$ret =& $page_gui->executeCommand();
 				break;
