@@ -225,7 +225,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		{
 			if (ilPaymentObject::_hasAccess($this->ref_id))
 			{
-				$props[] = array("alert" => true, "property" => $lng->txt("payment_system"),
+				$props[] = array("alert" => false, "property" => $lng->txt("payment_system"),
 					"value" => $lng->txt("payment_payed_access"));
 			}
 			else if (ilPaymentObject::_isInCart($this->ref_id))
