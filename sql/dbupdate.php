@@ -11133,7 +11133,7 @@ CREATE TABLE `event_participants` (
 `registered` TINYINT( 1 ) NOT NULL ,
 `participated` TINYINT( 1 ) NOT NULL ,
 PRIMARY KEY ( `event_id` , `usr_id` )
-gf) TYPE = MYISAM ;
+) TYPE = MYISAM ;
 
 <#768>
 ALTER TABLE `lm_data` ADD `active` ENUM( 'y', 'n' ) DEFAULT 'y';
