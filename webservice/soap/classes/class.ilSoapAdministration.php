@@ -3,7 +3,7 @@
    +-----------------------------------------------------------------------------+
    | ILIAS open source                                                           |
    +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
    |                                                                             |
    | This program is free software; you can redistribute it and/or               |
    | modify it under the terms of the GNU General Public License                 |
@@ -33,7 +33,7 @@
    */
 
 include_once './webservice/soap/lib/nusoap.php';
-
+include_once ("./classes/class.ilAuthUtils.php");		// to get auth mode constants
 
 class ilSoapAdministration
 {
@@ -103,11 +103,18 @@ class ilSoapAdministration
 	}
 
 
-	function __initAuthenticationObject()
+	function __initAuthenticationObject($a_auth_mode = AUTH_LOCAL)
 	{
-		include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
-		
-		return $this->sauth = new ilSoapAuthentication();
+		switch($a_auth_mode)
+		{
+			case AUTH_CAS:
+				include_once './webservice/soap/classes/class.ilSoapAuthenticationCAS.php';
+				return $this->sauth = new ilSoapAuthenticationCAS();
+			
+			default:
+				include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
+				return $this->sauth = new ilSoapAuthentication();
+		}
 	}
 		
 

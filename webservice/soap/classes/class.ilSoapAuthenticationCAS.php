@@ -23,33 +23,67 @@
 
 
 /**
-* soap server
+* this class authenticates via CAS for a soap request
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package ilias
 */
-include_once 'Auth/Auth.php';
-include_once './classes/class.ilBaseAuthentication.php';
 
-class ilSoapAuthentication extends ilBaseAuthentication
+include_once './webservice/soap/classes/class.ilSOAPAuthentication.php';
+
+class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 {
-	var $soap_check = true;
-
-
-	function ilSoapAuthentication()
+	function ilSoapAuthenticationCAS()
 	{
-		// First unset all cookie inforamtions
-		unset($_COOKIE['PHPSESSID']);
-
-		parent::ilBaseAuthentication();
-		$this->__setMessageCode('Client');
+		parent::ilSOAPAuthenticationCAS();
 	}
 
-	function disableSoapCheck()
+	//
+	// inherited from ilSOAPAuthentication
+	//
+	/*
+		function disableSoapCheck()
+		function authenticate()
+		function validateSession()
+		function __checkSOAPEnabled()
+	*/
+	
+	//
+	// inherited from ilBaseAuthentication via ilSOAPAuthentication
+	//
+	/*
+		function setClient($a_client)
+		function getClient()
+		function setUsername($a_username)
+		function getUsername()
+		function setPassword($a_password)		// not needed
+		function getPassword()					// not needed
+		function setSid($a_sid)
+		function getSid()
+		function getMessage()
+		function getMessageCode()
+		function __setMessage($a_message)
+		function __setMessageCode($a_message_code)
+		function setPasswordType($a_type)
+		function getPasswordType()
+		function start()
+		function logout()
+		function __buildDSN()
+		function __setSessionSaveHandler()
+		function __getAuthStatus()
+	*/
+
+	// set ticket
+	function setPT($a_pt)
 	{
-		$this->soap_check = false;
+		$this->pt = $a_pt;
+		$_GET['ticket'] = $a_pt;
+	}
+	function getPT()
+	{
+		return $this->pt;
 	}
 
 	function authenticate()
@@ -87,7 +121,20 @@ class ilSoapAuthentication extends ilBaseAuthentication
 			return false;
 		}
 
-
+		// check whether authentication is valid
+		if (!$this->auth->checkCASAuth())
+		{
+			$this->__setMessage('ilSOAPAuthenticationCAS::authenticate(): No valid CAS authentication.');
+			return false;
+		}
+		$this->auth->forceCASAuth();
+		
+		if ($this->getUsername() != $this->auth->getCASUser())
+		{
+			$this->__setMessage('ilSOAPAuthenticationCAS::authenticate(): SOAP CAS user does not match to ticket user.');
+			return false;
+		}
+		
 		$this->auth->start();
 
 		if(!$this->auth->getAuth())
@@ -136,6 +183,15 @@ class ilSoapAuthentication extends ilBaseAuthentication
 
 			return false;
 		}
+		
+		// check whether authentication is valid
+		if (!$this->auth->checkCASAuth())
+		{
+			$this->__setMessage('ilSOAPAuthenticationCAS::authenticate(): No valid CAS authentication.');
+			return false;
+		}
+		$this->auth->forceCASAuth();
+
 		$this->auth->start();
 		if(!$this->auth->getAuth())
 		{
@@ -147,19 +203,35 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		return true;
 	}
 
-	// PRIVATE
-	function __checkSOAPEnabled()
+	function __buildAuth()
 	{
-		include_once './classes/class.ilDBx.php';
 
+		if (!is_object($this->db))
+		{
+			include_once './classes/class.ilDBx.php';
+			$this->db =& new ilDBx($this->dsn);
+		}
 
-		$db =& new ilDBx($this->dsn);
-
-		$query = "SELECT * FROM settings WHERE keyword = 'soap_user_administration' AND value = 1";
-
+		$query = "SELECT * FROM settings WHERE ".
+			" keyword = ".$this->db->quote("cas_server")." OR ".
+			" keyword = ".$this->db->quote("cas_port")." OR ".
+			" keyword = ".$this->db->quote("cas_uri");
 		$res = $db->query($query);
+		$cas_set = array();
+		while ($rec = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$cas_set[$rec["keyword"]] = $rec["value"];
+		}
 
-		return $res->numRows() ? true : false;
+		$auth_params = array(
+			"server_version" => CAS_VERSION_2_0,
+			"server_hostname" => $cas_set["cas_server"],
+			"server_port" => $cas_set["cas_port"],
+			"server_uri" => $cas_set["cas_uri"]);
+
+		$this->auth = new ilCASAuth($auth_params);
+
+		return true;
 	}
 }
 ?>
