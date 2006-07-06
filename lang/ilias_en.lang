@@ -6222,3 +6222,20 @@ crs#:#event_save_participants#:#Save Participance
 crs#:#crs_materials#:#Course Materials
 trac#:#trac_crs_relevant_items#:#Course Materials
 crs#:#event_tbl_registered#:#Registered
+crs#:#crs_edit_timings#:#Edit Timings
+crs#:#crs_timings_disabled#:#Timings Disabled
+crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.
+crs#:#crs_timings_availability_tbl#:#Availability
+crs#:#crs_timings_availability_enabled#:#Temporarily Available
+crs#:#crs_timings_visibility#:#Visibility
+crs#:#crs_timings_start#:#Starting Time
+crs#:#crs_timings_end#:#Ending Time
+crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.
+crs#:#crs_timings_presetting_tbl#:#Time Target
+crs#:#crs_timings_presetting#:#Time Target Enabled
+crs#:#crs_timings_sug_begin#:#Suggested Start
+crs#:#crs_suggestion_end#:#Suggested End
+crs#:#crs_timings_changeable#:#Time Target Changeable
+crs#:#crs_timings_early_begin#:#Earliest Start
+crs#:#crs_timings_late_end#:#Latest End
+crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
