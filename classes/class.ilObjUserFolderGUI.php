@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1445,6 +1445,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CONFLICT_HANDLING_INFO", str_replace('\n','<br>',$this->lng->txt("usrimport_conflict_handling_info")));
 		$this->tpl->setVariable("TXT_CONFLICT_CHOICE", $lng->txt("conflict_handling"));
 		$this->tpl->setVariable("SELECT_CONFLICT", ilUtil::formSelect(IL_IGNORE_ON_CONFLICT, "conflict_handling_choice", $handlers, false, false));
+
+		// new account mail
+		$this->tpl->setVariable("TXT_ACCOUNT_MAIL", $this->lng->txt("mail_account_mail"));
+		$this->tpl->setVariable("TXT_ACCOUNT_MAIL_CHECK", $this->lng->txt("mail_account_mail_check"));
+		$this->tpl->setVariable("TXT_ACCOUNT_MAIL_INFO", $this->lng->txt("mail_account_mail_info"));
+		$this->tpl->setVariable("TXT_SEND_WITH_SYSTEM_ADDRESS", $this->lng->txt("mail_send_with_system_address"));
+		include_once("classes/class.ilObjAccountMailGUI.php");
+		$accountMailObj = new ilObjAccountMailGUI();
+		$this->tpl->setVariable("TXT_ACCOUNT_MAIL_BODY", $accountMailObj->getBody());
 	}
 
 	/**

@@ -3,7 +3,7 @@
    +-----------------------------------------------------------------------------+
    | ILIAS open source                                                           |
    +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
    |                                                                             |
    | This program is free software; you can redistribute it and/or               |
    | modify it under the terms of the GNU General Public License                 |
@@ -68,6 +68,26 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			{
 				$authenticated = false;
 			}
+		}
+		if(!$authenticated)
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		return $this->sauth->getSid().'::'.$client;
+	}
+
+	// Service methods
+	function loginCAS($client, $PT, $username)
+	{
+		$this->__initAuthenticationObject(AUTH_CAS);
+		$this->sauth->setClient($client);
+		$this->sauth->setUsername($username);
+		$this->sauth->setPT($PT);
+
+		$authenticated = true;
+		if(!$this->sauth->authenticate())
+		{
+			$authenticated = false;
 		}
 		if(!$authenticated)
 		{
@@ -1221,5 +1241,29 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	    return count ($query) ? " AND ((". join(") ".strtoupper($queryOperator)." (", $query) ."))" : "AND 0";
 	}
+	
+	// has new mail
+	function hasNewMail($sid)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once ("./classes/class.ilMailbox.php");
+		global $ilUser;
+		
+		if (ilMailbox::hasNewMail($ilUser->getId()) > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 }
 ?>

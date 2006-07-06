@@ -3,7 +3,7 @@
    +-----------------------------------------------------------------------------+
    | ILIAS open source                                                           |
    +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
    |                                                                             |
    | This program is free software; you can redistribute it and/or               |
    | modify it under the terms of the GNU General Public License                 |
@@ -42,6 +42,15 @@ function login($client,$username,$password)
 	$sua =& new ilSoapUserAdministration();
 
 	return $sua->login($client,$username,$password);
+}
+
+function loginCAS($client, $PT, $user)
+{
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->loginCAS($client, $PT, $user);
 }
 
 function logout($sid)
@@ -510,5 +519,15 @@ function searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_
 	return $sua->searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active);
 
 }
+
+function hasNewMail($sid)
+{
+	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->hasNewMail($sid);
+}
+
 
 ?>

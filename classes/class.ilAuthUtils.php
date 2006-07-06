@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -20,6 +20,15 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+
+// define auth modes
+define ("AUTH_LOCAL",1);
+define ("AUTH_LDAP",2);
+define ("AUTH_RADIUS",3);
+define ("AUTH_SCRIPT",4);
+define ("AUTH_SHIBBOLETH",5);
+define ("AUTH_CAS",6);
+define ("AUTH_SOAP",7);
 
 
 /**
@@ -58,15 +67,6 @@ class ilAuthUtils
 		{
 			die ("Fatal Error: ilAuthUtils::_initAuth called without ilClientIniFile.");
 		}
-
-		// define auth modes
-		define ("AUTH_LOCAL",1);
-		define ("AUTH_LDAP",2);
-		define ("AUTH_RADIUS",3);
-		define ("AUTH_SCRIPT",4);
-		define ("AUTH_SHIBBOLETH",5);
-		define ("AUTH_CAS",6);
-		define ("AUTH_SOAP",7);
 
 		// get default auth mode 
 		//$default_auth_mode = $this->getSetting("auth_mode");

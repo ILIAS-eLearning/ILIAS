@@ -120,6 +120,11 @@ class ilCASAuth extends Auth
 		phpCAS::forceAuthentication();
 	}
 	
+	function getCASUser()
+	{
+		return phpCAS::getUser();
+	}
+	
 	/**
 	* Checks if the current user is authenticated yet
 	* @access	public

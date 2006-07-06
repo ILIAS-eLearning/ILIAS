@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -115,7 +115,19 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS login function');
 
-		// logout()
+		// loginCAS()
+		$this->server->register('loginCAS',
+								array('client' => 'xsd:string',
+									  'PT' => 'xsd:string',
+									  'user' => 'xsd:string'),
+								array('sid' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#loginCAS',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS login function via CAS');
+
+								// logout()
 		$this->server->register('logout',
 								array('sid' => 'xsd:string'),
 								array('success' => 'xsd:boolean'),
@@ -816,6 +828,17 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS searchUser(): get all users, which match a query, consisting of the keyfields, matched with values of the field values, concatenated with the logical query operator. Specify attach_roles to 1, to attach all role assignmnents; specify active: 1, to import active only, 0: inactive only, -1: both');
 
+		// Mail Functions
+		// Check whether current user has new mail
+		$this->server->register('hasNewMail',
+								array('sid' => 'xsd:string'),
+								array('status' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#hasNewMail',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS hasNewMail(): Checks whether the current authenticated user has a new mail.');
+								
 		return true;
 	}
 
