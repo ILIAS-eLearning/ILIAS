@@ -37,6 +37,7 @@
 duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.
 ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')
+3rdparty#:#3rd Party add-ons
 3rd_party_software#:#3rd Party Software
 absolute_path#:#Absolute path
 access#:#Access
@@ -166,6 +167,7 @@ ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS 3 setup
 ilias_version#:#ILIAS version
 include_local#:#include local
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.
 info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asterisk must be filled out. All information is stored in your database. On the next screen you may register your installation at the ILIAS-NIC server; registration transmits this data to the ILIAS-NIC server.
 info_text_db#:#The database does not exist or is empty. Click the button below to install your database. If a database with the chosen name does not yet exist, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail (i.e. due to restricted access permissions), please contact the system administrator of the database server and ask him to create a database with desired name prior to installing ILIAS.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.
@@ -363,6 +365,7 @@ set_oldpasswd#:#Please enter old password
 settings_changed#:#Settings changed
 settings_saved#:#Settings saved
 setup#:#setup
+setup_3rdparty_data#:#Setup third party add-ons
 setup_basic_settings#:#Setup basic settings
 setup_contact_data#:#Setup Contact Information
 setup_database#:#setup database
@@ -386,6 +389,7 @@ setup_pass_title#:#Set master password
 setup_password#:#create password
 setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)
 setup_process_status#:#Setup Process Status
+setup_process_step_3rdparty#:#Third party add-ons
 setup_process_step_contact#:#Enter contact information
 setup_process_step_db#:#Install/Update database
 setup_process_step_finish#:#Finish installation
@@ -397,14 +401,22 @@ setup_welcome#:#Welcome to ILIAS 3 setup. This setup-routine helps you to
 sophos#:#Sophos
 sort_by_this_column#:#Sort by this column
 status#:#Status
+status_3rdparty_ok#:#3rd party add-ons installed
+status_3rdparty_false#:#3rd party add-ons missing
+status_3rdparty_problems#:#3rd party add-ons problems
 step#:#Step
 street#:#Street
 submit#:#Submit
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.
 title#:#Title
 tools#:#Tools
 unknown_client_id#:#Unknown Client
 unknown_command#:#Unknown command
 unknown_display_mode#:#Unknown display mode
+unzip#:#Extract
 unzip_path#:#Path to Unzip
 unzip_path_comment#:#required for importing learning modules
 update_applied#:#Update applied

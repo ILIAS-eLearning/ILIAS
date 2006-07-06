@@ -261,6 +261,17 @@ class ilSetupGUI extends ilSetup
 					$this->displayIni();
 				}
 				break;
+				
+			case "3rdparty":
+				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "3rdparty")
+				{
+					$this->jumpToFirstUnfinishedSetupStep();
+				}
+				else
+				{
+					$this->display3rdParty();
+				}
+				break;
 
 			case "db":
 				$this->displayDatabase();
@@ -285,6 +296,17 @@ class ilSetupGUI extends ilSetup
 				else
 				{
 					$this->displayContactData();
+				}
+				break;
+	
+			case "3rdparty":
+				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "3rdparty")
+				{
+					$this->jumpToFirstUnfinishedSetupStep();
+				}
+				else
+				{
+					$this->display3rdParty();
 				}
 				break;
 	
@@ -1590,6 +1612,7 @@ class ilSetupGUI extends ilSetup
 		$steps["ini"]["text"]       = $this->lng->txt("setup_process_step_ini");
 		$steps["db"]["text"]        = $this->lng->txt("setup_process_step_db");
 		$steps["lang"]["text"]      = $this->lng->txt("setup_process_step_lang");
+		$steps["3rdparty"]["text"]      = $this->lng->txt("setup_process_step_3rdparty");
 		$steps["contact"]["text"]   = $this->lng->txt("setup_process_step_contact");
 		$steps["nic"]["text"]       = $this->lng->txt("setup_process_step_nic");
 		$steps["finish"]["text"]    = $this->lng->txt("setup_process_step_finish");
@@ -2065,7 +2088,7 @@ class ilSetupGUI extends ilSetup
 		
 		if ($lang_count > 0)
 		{
-			$this->setButtonNext("contact");
+			$this->setButtonNext("3rdparty");
 		}
 		
 		$this->checkPanelMode();
@@ -2206,7 +2229,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_SETUP_TITLE","contact information & client data");
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_contact"));
 		
-		$this->setButtonPrev("lang");
+		$this->setButtonPrev("3rdparty");
 		
 		$check = $this->checkClientContact($this->client);
 
@@ -2216,6 +2239,85 @@ class ilSetupGUI extends ilSetup
 		if ($check["status"])
 		{
 			$this->setButtonNext("nic");
+		}
+		
+		$this->checkPanelMode();
+	}
+
+	/**
+	 * display 3rdParty modules form and process form input
+	 */
+	function display3rdParty()
+	{
+		$this->checkDisplayMode("setup_3rdparty_data");
+	
+		if (strcmp($_POST["cmd"]["3rdparty"], $this->lng->txt("actualize")) == 0 ||
+			strcmp($_POST["cmd"]["3rdparty"], $this->lng->txt("unzip")) == 0)
+		{
+			$result = $this->unzipTiny();
+		}
+		// output
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_3rdparty.html");
+
+		$unzip = $this->ini->readVariable("tools","unzip");
+		$tiny_zip_md5_old = $this->ini->readVariable("tools","tiny_md5");
+		
+		$tiny_dir_exists = FALSE;
+		$tiny_zip_exists = FALSE;
+		$tiny_zip_changed = FALSE;
+		if (@is_dir(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce"))
+		{
+			$tiny_dir_exists = TRUE;
+		}
+		if (@file_exists(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce.zip"))
+		{
+			$tiny_zip_exists = TRUE;
+		}
+		if ($tiny_zip_exists)
+		{
+			$tiny_zip_md5 = md5_file(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce.zip");
+			if ((strcmp($tiny_zip_md5, $tiny_zip_md5_old) != 0) && (strlen($tiny_zip_md5.$tiny_zip_md5_old) > 0))
+			{
+				$tiny_zip_changed = TRUE;
+			}
+		}
+		$this->tpl->setVariable("TXT_3RD_PARTY_ADDONS", $this->lng->txt("setup_process_step_3rdparty"));
+		$this->tpl->setVariable("TXT_TINY_MCE", $this->lng->txt("tinymce_wysiwyg_editor"));
+		$check = TRUE;
+		if (!$tiny_dir_exists && $tiny_zip_exists && @file_exists($unzip))
+		{
+			$this->tpl->setVariable("TXT_TINY_STATUS", $this->lng->txt("tiny_dir_does_not_exist"));
+			$this->tpl->setVariable("TXT_TINY_BUTTON", $this->lng->txt("unzip"));
+			$check = FALSE;
+		}
+		else if ($tiny_zip_exists && $tiny_zip_changed && @file_exists($unzip))
+		{
+			$this->tpl->setVariable("TXT_TINY_STATUS", $this->lng->txt("tiny_zip_changed"));
+			$this->tpl->setVariable("TXT_TINY_BUTTON", $this->lng->txt("unzip"));
+			$check = FALSE;
+		}
+		else if ($tiny_zip_exists && !$tiny_zip_changed)
+		{
+			$this->tpl->setVariable("TXT_TINY_STATUS", $this->lng->txt("tiny_nothing_to_do"));
+		}
+		else if (!@file_exists($unzip))
+		{
+			$this->tpl->setVariable("TXT_TINY_STATUS", $this->lng->txt("unzip_does_not_exist"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_TINY_STATUS", $this->lng->txt("tiny_zip_does_not_exist"));
+		}
+		
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
+		$this->tpl->setVariable("TXT_SETUP_TITLE","installation of 3rd party addons");
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_3rdparty"));
+		
+		$this->setButtonPrev("lang");
+		
+		if ($check)
+		{
+			$this->setButtonNext("contact");
 		}
 		
 		$this->checkPanelMode();
@@ -2655,6 +2757,12 @@ class ilSetupGUI extends ilSetup
 			$this->cmd = "lang";
 			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayLanguages();      
+		}
+		elseif (!$this->client->status["3rdparty"]["status"])
+		{
+			$this->cmd = "3rdparty";
+			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			$this->display3rdParty();        
 		}
 		elseif (!$this->client->status["contact"]["status"])
 		{
