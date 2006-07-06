@@ -464,7 +464,7 @@ class ilTableGUI
 			$this->tpl->setVariable("TBL_TITLE",$this->title);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		// table header
 		if ($this->enabled["header"])
 		{
@@ -473,7 +473,10 @@ class ilTableGUI
 				if (!$this->enabled["sort"])
 				{
 					$this->tpl->setCurrentBlock("tbl_header_no_link");
-					$this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK"," width=\"".$this->column_width[$key]."\"");
+					if ($this->column_width[$key])
+					{
+						$this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK"," width=\"".$this->column_width[$key]."\"");
+					}
 					$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",$tbl_header_cell);
 					$this->tpl->parseCurrentBlock();
 					continue;
@@ -501,7 +504,7 @@ class ilTableGUI
 				$this->tpl->setVariable("TBL_ORDER_ALT",$lng_sort_column);
 			
 				$order_dir = "asc";
-			
+
 				if ($key == $this->order_column)
 				{ 
 					$order_dir = $this->sort_order;
