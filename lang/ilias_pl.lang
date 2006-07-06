@@ -1678,15 +1678,9 @@ common#:#hide_private_notes#:#Ukryj prywatne notatki
 common#:#hide_public_notes#:#Ukryj publiczne notatki
 common#:#hide_structure#:#Wyłącz widok strukturalny
 common#:#hist_dbk#:#Strona została utworzona
-common#:#hist_dbk#:#Stona wycięta z rozdziału "%1" [%2]
-common#:#hist_dbk#:#Strona wklejona do rozdziału "%1" [%2]
-common#:#hist_dbk#:#Strona została zmieniona
 common#:#hist_file_create#:#Plik został utworzony, nazwa pliku to "%1".
 common#:#hist_file_replace#:#Plik został zastąpiony, nowa nazwa pliku to "%1", nowa wersja: %2.
 common#:#hist_lm#:#Strona została utworzona
-common#:#hist_lm#:#Strona wycięta z rozdziału "%1" [%2]
-common#:#hist_lm#:#Strona wklejona do rozdziału "%1" [%2]
-common#:#hist_lm#:#Strona została zmieniona
 common#:#hist_no_entries#:#Brak pozycji w historii.
 common#:#hist_webr_add#:#Dodano nowy zasób web o tytule: "%1"
 common#:#hist_webr_delete#:#Usunięto zasób web. Tytuł: "%1"
