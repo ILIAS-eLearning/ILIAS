@@ -111,7 +111,7 @@ class ilCourseItems
 	}
 	function getSuggestionStart()
 	{
-		return $this->suggestion_start;
+		return $this->suggestion_start ? $this->suggestion_start : mktime(0,0,1,date('n',time()),date('j',time()),date('Y',time()));
 	}
 	function setSuggestionEnd($a_end)
 	{
@@ -119,7 +119,23 @@ class ilCourseItems
 	}
 	function getSuggestionEnd()
 	{
-		return $this->suggestion_end;
+		return $this->suggestion_end ? $this->suggestion_end : mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
+	}
+	function setEarliestStart($a_start)
+	{
+		$this->earliest_start = $a_start;
+	}
+	function getEarliestStart()
+	{
+		return $this->earliest_start ? $this->earliest_start : mktime(0,0,1,date('n',time()),date('j',time()),date('Y',time()));
+	}
+	function setLatestEnd($a_end)
+	{
+		$this->latest_end = $a_end;
+	}
+	function getLatestEnd()
+	{
+		return $this->latest_end ? $this->latest_end : mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 	}
 	function toggleVisible($a_status)
 	{
@@ -214,26 +230,29 @@ class ilCourseItems
 		
 		$ilErr->setMessage('');
 
-		if($this->getTimingType())
+		if($this->getTimingType() == IL_CRS_TIMINGS_ACTIVATION)
 		{
 			if($this->getTimingStart() > $this->getTimingEnd())
 			{
 				$ilErr->appendMessage($this->lng->txt("crs_activation_start_invalid"));
 			}
 		}
-		if($this->getTimingType() == IL_CRS_TIMINGS_PRESETTING and 
-		   $this->enabledChangeable())
+		if($this->getTimingType() == IL_CRS_TIMINGS_PRESETTING)
 		{
-			if($this->getSuggestionStart() < $this->getTimingStart() or
-			   $this->getSuggestionEnd() > $this->getTimingEnd() or
-			   $this->getSuggestionStart() > $this->getTimingEnd() or
-			   $this->getSuggestionEnd() < $this->getTimingStart())
-			{
-				$ilErr->appendMessage($this->lng->txt("crs_suggestion_not_within_activation"));
-			}
 			if($this->getSuggestionStart() > $this->getSuggestionEnd())
 			{
 				$ilErr->appendMessage($this->lng->txt("crs_suggestion_not_valid"));
+			}
+		}			
+		if($this->getTimingType() == IL_CRS_TIMINGS_PRESETTING and 
+		   $this->enabledChangeable())
+		{
+			if($this->getSuggestionStart() < $this->getEarliestStart() or
+			   $this->getSuggestionEnd() > $this->getLatestEnd() or
+			   $this->getSuggestionStart() > $this->getLatestEnd() or
+			   $this->getSuggestionEnd() < $this->getEarliestStart())
+			{
+				$ilErr->appendMessage($this->lng->txt("crs_suggestion_not_within_activation"));
 			}
 		}
 
@@ -253,6 +272,8 @@ class ilCourseItems
 			"suggestion_start = '".(int) $this->getSuggestionStart()."', ".
 			"suggestion_end = '".(int) $this->getSuggestionEnd()."', ".
 			"changeable = '".(int) $this->enabledChangeable()."', ".
+			"earliest_start = '".(int) $this->getEarliestStart()."', ".
+			"latest_end = '".(int) $this->getLatestEnd()."', ".
 			"visible = '".(int) $this->enabledVisible()."' ".
 			"WHERE parent_id = '".$this->getParentId()."' ".
 			"AND obj_id = '".$a_item_id."'";
@@ -390,9 +411,15 @@ class ilCourseItems
 			$a_item["timing_type"] = $row->timing_type;
 			$a_item["timing_start"]		= $row->timing_start;
 			$a_item["timing_end"]		= $row->timing_end;
-			$a_item["suggestion_start"]		= $row->suggestion_start;
-			$a_item["suggestion_end"]		= $row->suggestion_end;
+			$a_item["suggestion_start"]		= $row->suggestion_start ? $row->suggestion_start :
+				mktime(0,0,1,date('n',time()),date('j',time()),date('Y',time()));
+			$a_item["suggestion_end"]		= $row->suggestion_end ? $row->suggestion_end :
+				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$a_item['changeable']			= $row->changeable;
+			$a_item['earliest_start']		= $row->earliest_start ? $row->earliest_start :
+				mktime(0,0,1,date('n',time()),date('j',time()),date('Y',time()));
+			$a_item['latest_end']			= $row->latest_end ? $row->latest_end : 
+				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$a_item['visible']				= $row->visible;
 			$a_item["position"]				= $row->position;
 		}
@@ -414,6 +441,8 @@ class ilCourseItems
 		$a_item["position"]				= $this->__getLastPosition() + 1;
 		$a_item['visible']				= 0;
 		$a_item['changeable']			= 0;
+		$a_item['earliest_start']		= time();
+		$a_item['latest_end']	    	= mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 		$a_item['visible']				= 0;
 		$a_item['changeable']			= 0;
 		
@@ -426,8 +455,10 @@ class ilCourseItems
 			$a_item["timing_end"]."','".
 			$a_item["suggestion_start"]."','".
 			$a_item["suggestion_end"]."','".
-			$a_item["visible"]."','".
 			$a_item["changeable"]."','".
+			$a_item['earliest_start']."',' ".
+			$a_item['latest_end']."',' ".
+			$a_item["visible"]."','".
 			$a_item["position"]."')";
 
 		$res = $this->ilDB->query($query);
@@ -614,9 +645,15 @@ class ilCourseItems
 			$data['timing_type'] = $row->timing_type;
 			$data['timing_start'] = $row->timing_start;
 			$data['timing_end'] = $row->timing_end;
-			$data['suggestion_start'] = $row->suggestion_start;
-			$data['suggestion_end'] = $row->suggestion_end;
+			$data["suggestion_start"] = $row->suggestion_start ? $row->suggestion_start :
+				mktime(0,0,1,date('n',time()),date('j',time()),date('Y',time()));
+			$data["suggestion_end"]	= $row->suggestion_end ? $row->suggestion_end :
+				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$data['changeable'] = $row->changeable;
+			$data['earliest_start']	= $row->earliest_start ? $row->earliest_start :
+				mktime(0,0,1,date('n',time()),date('j',time()),date('Y',time()));
+			$data['latest_end'] = $row->latest_end ? $row->latest_end : 
+				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$data['visible'] = $row->visible;
 			$data['position'] = $row->position;
 		}
