@@ -959,8 +959,8 @@ class ilObjQuestionPool extends ilObject
 		{
 			if ($entry != "." and
 				$entry != ".." and
-				substr($entry, -4) == ".zip" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(qpl__)*[0-9]+\.zip\$", $entry))
+				(substr($entry, -4) == ".zip" or substr($entry, -4) == ".xls") and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(qpl__)*[0-9]+\.(zip|xls)\$", $entry))
 			{
 				$file[] = $entry;
 			}

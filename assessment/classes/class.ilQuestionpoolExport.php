@@ -41,6 +41,7 @@ class ilQuestionpoolExport
 	var $questions; // array with question ids to export
 	var $inst_id;		// installation id
 	var $mode;
+	var $lng;
 
 	/**
 	* Constructor
@@ -48,7 +49,7 @@ class ilQuestionpoolExport
 	*/
 	function ilQuestionpoolExport(&$a_qpl_obj, $a_mode = "xml", $array_questions)
 	{
-		global $ilErr, $ilDB, $ilias;
+		global $ilErr, $ilDB, $ilias, $lng;
 
 		$this->qpl_obj =& $a_qpl_obj;
 
@@ -56,14 +57,20 @@ class ilQuestionpoolExport
 		$this->ilias =& $ilias;
 		$this->db =& $ilDB;
 		$this->mode = $a_mode;
-
+		$this->lng =& $lng;
+		
 		$settings = $this->ilias->getAllSettings();
-		//$this->inst_id = $settings["inst_id"];
 		$this->inst_id = IL_INST_ID;
 		$this->questions = $array_questions;
 		$date = time();
 		switch($this->mode)
 		{
+			case "xls":
+				$this->export_dir = $this->qpl_obj->getExportDirectory();
+				$this->filename = $date."__".$this->inst_id."__".
+					"qpl"."__".$this->qpl_obj->getId() . ".xls";
+				break;
+			case "xml":
 			default:
 				$this->export_dir = $this->qpl_obj->getExportDirectory();
 				$this->subdir = $date."__".$this->inst_id."__".
@@ -91,6 +98,10 @@ class ilQuestionpoolExport
 	{
 		switch ($this->mode)
 		{
+			case "xls":
+				return $this->buildExportFileXLS();
+				break;
+			case "xml":
 			default:
 				return $this->buildExportFileXML();
 				break;
@@ -172,7 +183,55 @@ class ilQuestionpoolExport
 		return $this->export_dir."/".$this->subdir.".zip";
 	}
 
+	/**
+	* build xml export file
+	*/
+	function buildExportFileXLS()
+	{
+		global $ilBench;
 
+		$ilBench->start("QuestionpoolExport", "buildExportFile");
+
+		// Creating a workbook
+		$result = @include_once 'Spreadsheet/Excel/Writer.php';
+		if (!$result)
+		{
+			include_once './classes/Spreadsheet/Excel/Writer.php';
+		}
+		$workbook = new Spreadsheet_Excel_Writer($this->export_dir . "/" . $this->filename);
+		// sending HTTP headers
+		//$workbook->send($this->filename);
+		// Creating a worksheet
+		$format_bold =& $workbook->addFormat();
+		$format_bold->setBold();
+		$format_percent =& $workbook->addFormat();
+		$format_percent->setNumFormat("0.00%");
+		$format_datetime =& $workbook->addFormat();
+		$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
+		$format_title =& $workbook->addFormat();
+		$format_title->setBold();
+		$format_title->setColor('black');
+		$format_title->setPattern(1);
+		$format_title->setFgColor('silver');
+		$worksheet =& $workbook->addWorksheet();
+		$row = 0;
+		$col = 0;
+		include_once "./classes/class.ilExcelUtils.php";
+		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("title"), "latin1"), $format_title);
+		$col++;
+		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("description"), "latin1"), $format_title);
+		$col++;
+		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("question_type"), "latin1"), $format_title);
+		$col++;
+		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("author"), "latin1"), $format_title);
+		$col++;
+		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("create_date"), "latin1"), $format_title);
+		$col++;
+		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("last_update"), "latin1"), $format_title);
+		$col = 0;
+		$row++;
+		$workbook->close();
+	}
 }
 
 ?>

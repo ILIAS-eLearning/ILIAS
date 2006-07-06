@@ -1286,12 +1286,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		global $tree;
 
 		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.il_as_qpl_export.html", TRUE);
 
 		// create export file button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
+		$this->tpl->setCurrentBlock("exporttype");
+		$this->tpl->setVariable("VALUE_EXPORTTYPE", "xml");
+		$this->tpl->setVariable("TEXT_EXPORTTYPE", $this->lng->txt("qpl_export_xml"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("exporttype");
+		$this->tpl->setVariable("VALUE_EXPORTTYPE", "xls");
+		$this->tpl->setVariable("TEXT_EXPORTTYPE", $this->lng->txt("qpl_export_excel"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("buttons");
+		$this->tpl->setVariable("FORMACTION_BUTTONS", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("BTN_CREATE", $this->lng->txt("create"));
 		$this->tpl->parseCurrentBlock();
 
 		$export_dir = $this->object->getExportDirectory();
@@ -1393,13 +1401,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			include_once("assessment/classes/class.ilQuestionpoolExport.php");
 			$question_ids =& $this->object->getAllQuestionIds();
-			$qpl_exp = new ilQuestionpoolExport($this->object, "xml", $question_ids);
+			$qpl_exp = new ilQuestionpoolExport($this->object, $_POST["exporttype"], $question_ids);
 			$qpl_exp->buildExportFile();
-			$this->exportObject();
+			$this->ctrl->redirect($this, "export");
 		}
 		else
 		{
-			sendInfo("cannot_export_qpl");
+			sendInfo("cannot_export_qpl", TRUE);
+			$this->ctrl->redirect($this, "export");
 		}
 	}
 	
