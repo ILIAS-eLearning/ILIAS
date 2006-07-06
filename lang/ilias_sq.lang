@@ -147,7 +147,7 @@ assessment#:#checkbox_unchecked#:#E pashënuar
 assessment#:#circle#:#Rreth
 assessment#:#circle_click_center#:#Ju lutem klikoni në qendër të zonës së dëshiruar.
 assessment#:#circle_click_circle#:#Ju lutem klikoni në kornizën e zonës së dëshiruar.
-assessment#:#close_text_hint#:#Mund të definoni zbrazëtirë duke shkruar <gap></gap> në tekst sipas zgjedhjes së juaj. Shtyp butonin 'Krijo zbrazëtirë' për të shtuar një form të që mund të editohet për çdo zbrazëtirë ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Mund të definoni zbrazëtirë duke shkruar [gap][/gap] në tekst sipas zgjedhjes së juaj. Shtyp butonin 'Krijo zbrazëtirë' për të shtuar një form të që mund të editohet për çdo zbrazëtirë ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Mbyll tekstin###20 Jun 2005 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable

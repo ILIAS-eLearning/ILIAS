@@ -147,7 +147,7 @@ assessment#:#circle#:#Cercle###07 Apr 2005 content changed
 assessment#:#circle_click_center#:#Veuillez cliquer au centre de la zone désirée###07 Apr 2005 content changed
 assessment#:#circle_click_circle#:#Veuillez cliquer sur un point du cercle de la zone désirée###07 Apr 2005 content changed
 assessment#:#clientip#:#Client IP###06 oct 2005 content changed
-assessment#:#close_text_hint#:#Vous pouvez définir une lacune en saisissant <gap></gap> à la position de votre choix dans le texte.  Cliquez sur le bouton 'Créer les lacunes' pour ajouter un formulaire modifiable pour chaque lacune.###07 Apr 2005 content changed
+assessment#:#close_text_hint#:#Vous pouvez définir une lacune en saisissant [gap][/gap] à la position de votre choix dans le texte.  Cliquez sur le bouton 'Créer les lacunes' pour ajouter un formulaire modifiable pour chaque lacune.###07 Apr 2005 content changed
 assessment#:#cloze_text#:#Texte de closure###07 Apr 2005 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable

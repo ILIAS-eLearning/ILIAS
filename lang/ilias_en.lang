@@ -151,7 +151,7 @@ assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Cloze text
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive

@@ -144,7 +144,7 @@ assessment#:#circle#:#Incercuiti
 assessment#:#circle_click_center#:#Va rugam apasati in centrul perimetrului dorit.
 assessment#:#circle_click_circle#:#Va rugam apasati intr-un punct al perimetrului dorit.
 assessment#:#clientip#:#Adresa IP client
-assessment#:#close_text_hint#:#Puteti crea spatii tastand <gap></gap> oriunde in text. Apasati butonul 'Creaza spatii' pentru a forma un spatiu editabil. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Puteti crea spatii tastand [gap][/gap] oriunde in text. Apasati butonul 'Creaza spatii' pentru a forma un spatiu editabil. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Text cu spatii se completat
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable

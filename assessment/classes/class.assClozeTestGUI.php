@@ -298,7 +298,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$cloze_text = $this->object->getClozeText();
-		$cloze_text = preg_replace("/<br \/>/", "\n", $cloze_text);
+		//$cloze_text = preg_replace("/<br \/>/", "\n", $cloze_text);
 		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $cloze_text);
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
 		$this->tpl->setVariable("CLOZE_ID", $this->object->getId());
@@ -318,6 +318,13 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->setVariable("ACTION_CLOZE_TEST", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();
+
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->addPlugin("latex");
+		$rte->addRTESupport();
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
@@ -357,8 +364,8 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->setTextgapRating($_POST["textgap_rating"]);
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()."<gap>");
-		$cloze_text = preg_replace("/\n/", "<br />", $cloze_text);
+		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
+		$cloze_text = preg_replace("/[\n\r]+/", "<br />", $cloze_text);
 		$this->object->setClozeText($cloze_text);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
@@ -652,7 +659,8 @@ class assClozeTestGUI extends assQuestionGUI
 		foreach ($cloze_text as $delimiter)
 		{
 			$template->setCurrentBlock("cloze_text");
-			$template->setVariable("CLOZE_TEXT", $delimiter[0]);
+			$delimitertext = ilUtil::insertLatexImages($delimiter[0], "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+			$template->setVariable("CLOZE_TEXT", $delimitertext);
 			$template->parseCurrentBlock();
 			$gap = $this->object->getGap($counter);
 			$template->setCurrentBlock("solution");
@@ -691,7 +699,8 @@ class assClozeTestGUI extends assQuestionGUI
 		foreach ($cloze_text as $delimiter)
 		{
 			$template->setCurrentBlock("cloze_text");
-			$template->setVariable("CLOZE_TEXT", $delimiter[0]);
+			$delimitertext = ilUtil::insertLatexImages($delimiter[0], "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+			$template->setVariable("CLOZE_TEXT", $delimitertext);
 			$template->parseCurrentBlock();
 			$gap = $this->object->getGap($counter);
 			if ($gap)
@@ -767,7 +776,8 @@ class assClozeTestGUI extends assQuestionGUI
 		foreach ($cloze_text as $delimiter)
 		{
 			$template->setCurrentBlock("cloze_text");
-			$template->setVariable("CLOZE_TEXT", $delimiter[0]);
+			$delimitertext = ilUtil::insertLatexImages($delimiter[0], "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+			$template->setVariable("CLOZE_TEXT", $delimitertext);
 			$template->parseCurrentBlock();
 			$gap = $this->object->getGap($counter);
 			if ($gap)

@@ -149,7 +149,7 @@ assessment#:#circle#:#Circonferenza
 assessment#:#circle_click_center#:#Per favore clicca nel centro dell&#039;area desiderata. 
 assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell&#039;area desiderata. 
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Puoi definire uno spazio vuoto inserendo i tag <gap></gap> nella posizione che desideri. Premi il pulsante &#039;Crea uno spazio vuoto&#039; se vuoi aggiungere una maschera editabile per ogni spazio vuoto. 
+assessment#:#close_text_hint#:#Puoi definire uno spazio vuoto inserendo i tag [gap][/gap] nella posizione che desideri. Premi il pulsante &#039;Crea uno spazio vuoto&#039; se vuoi aggiungere una maschera editabile per ogni spazio vuoto. 
 assessment#:#cloze_text#:#Testo corrispondente
 assessment#:#cloze_textgap_case_insensitive#:#No Maiuscole/minuscole
 assessment#:#cloze_textgap_case_sensitive#:#Maiuscole/minuscole

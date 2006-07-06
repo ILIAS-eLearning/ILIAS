@@ -105,8 +105,8 @@ class assClozeTest extends assQuestion
 		$cloze_text = ""
 	)
 	{
-		$this->start_tag = "<gap>";
-		$this->end_tag = "</gap>";
+		$this->start_tag = "[gap]";
+		$this->end_tag = "[/gap]";
 		$this->assQuestion($title, $comment, $author, $owner);
 		$this->gaps = array();
 		$this->setClozeText($cloze_text);
@@ -143,7 +143,7 @@ class assClozeTest extends assQuestion
 	function &createCloseTextArray()
 	{
 		$result = array();
-		$search_pattern = "|<gap([^>]*?)>(.*?)</gap>|i";
+		$search_pattern = "|\[gap([^\]]*?)\](.*?)\[/gap\]|i";
 		preg_match_all($search_pattern, $this->cloze_text, $gaps);
 		if (count($gaps[0]))
 		{
@@ -232,7 +232,7 @@ class assClozeTest extends assQuestion
 							array_push($textarray, $textvalue);
 						}
 					}
-					$this->cloze_text .= sprintf("<gap name=\"%s\" type=\"%s\"%s>%s</gap>",
+					$this->cloze_text .= sprintf("[gap name=\"%s\" type=\"%s\"%s]%s[/gap]",
 						$assoc_array["gaps"][$gap]["params"]["name"],
 						$assoc_array["gaps"][$gap]["params"]["type"],
 						$shuffle,
@@ -398,6 +398,9 @@ class assClozeTest extends assQuestion
 				$this->points = $data->points;
         $this->owner = $data->owner;
         $this->cloze_text = $data->question_text;
+				// replacement of old syntax with new syntax
+				$this->cloze_text = preg_replace("/\<gap([^>]*?)\>/", "[gap" . "\\1" . "]", $this->cloze_text);
+				$this->cloze_text = str_replace("</gap>", "[/gap]", $this->cloze_text);
 				$this->setTextgapRating($data->textgap_rating);
         $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
@@ -691,7 +694,7 @@ class assClozeTest extends assQuestion
 				$this->addAnswer($gapidx, $answer["answertext"], $answer["points"], $answer["answerorder"], 1, $type, $gap["ident"], $answer["shuffle"]);
 				array_push($gapcontent, $answer["answertext"]);
 			}
-			$gaptext[$gap["ident"]] = "<gap type=\"$typetext\" name=\"" . $gap["ident"] . "\"$shuffletext>" . join(",", $gapcontent). "</gap>";
+			$gaptext[$gap["ident"]] = "[gap type=\"$typetext\" name=\"" . $gap["ident"] . "\"$shuffletext]" . join(",", $gapcontent). "[/gap]";
 		}
 		$clozetext = join("", $questiontext);
 		foreach ($gaptext as $idx => $val)
@@ -778,7 +781,7 @@ class assClozeTest extends assQuestion
 		$a_xml_writer->xmlStartTag("presentation", $attrs);
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
-		$text_parts = preg_split("/\<gap.*?\<\/gap\>/", $this->getClozeText());
+		$text_parts = preg_split("/\[gap.*?\<\/gap\]/", $this->getClozeText());
 		// add material with question text to presentation
 		for ($i = 0; $i <= $this->getGapCount(); $i++)
 		{
@@ -1166,7 +1169,7 @@ class assClozeTest extends assQuestion
 * @access public
 * @see $start_tag
 */
-  function setStartTag($start_tag = "<gap>") {
+  function setStartTag($start_tag = "[gap]") {
     $this->start_tag = $start_tag;
   }
 
@@ -1180,7 +1183,7 @@ class assClozeTest extends assQuestion
 * @access public
 * @see $end_tag
 */
-  function setEndTag($end_tag = "</gap>") {
+  function setEndTag($end_tag = "[/gap]") {
     $this->end_tag = $end_tag;
   }
 

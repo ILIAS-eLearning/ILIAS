@@ -149,7 +149,7 @@ assessment#:#circle#:#Cirkel###07 Apr 2005 content changed
 assessment#:#circle_click_center#:#Klik op het centrum van het gewenste gebied###07 Apr 2005 content changed
 assessment#:#circle_click_circle#:#Klik op een cirkelpunt van het gewenste gebied###07 Apr 2005 content changed
 assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Gatentekst###07 Apr 2005 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
