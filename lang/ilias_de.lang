@@ -1,4 +1,4 @@
-/**
+ï»¿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -5988,18 +5988,18 @@ trac#:#trac_crs_relevant_items#:#Kursmaterialien
 crs#:#event_tbl_registered#:#Angemeldet
 crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
 crs#:#crs_timings_disabled#:#Zeitvorgaben ausgeschaltet
-crs#:#crs_timings_disabled_info#:#Wählen Sie diese Einstellung, um alle Zeitvorgaben zu deaktivieren.
-crs#:#crs_timings_availability_tbl#:#Verfügbarkeit
-crs#:#crs_timings_availability_enabled#:#Zeitlich begrenzt verfügbar
+crs#:#crs_timings_disabled_info#:#WÃ¤hlen Sie diese Einstellung, um alle Zeitvorgaben zu deaktivieren.
+crs#:#crs_timings_availability_tbl#:#VerfÃ¤gbarkeit
+crs#:#crs_timings_availability_enabled#:#Zeitlich begrenzt verfÃ¤gbar
 crs#:#crs_timings_visibility#:#Sichtbarkeit
 crs#:#crs_timings_start#:#Startzeit
 crs#:#crs_timings_end#:#Endzeit
-crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
+crs#:#crs_item_availability_info#:#WÃ¤hlen Sie diese Einstellung um das Kursmaterial nur wÃ¤hrend eines bestimmten Zeitraumes verfÃ¤gbar zu machen.
 crs#:#crs_timings_presetting_tbl#:#Zeitplanung
 crs#:#crs_timings_presetting#:#Zeitplanung eingeschaltet
 crs#:#crs_timings_sug_begin#:#Empfohlener Start
 crs#:#crs_suggestion_end#:#Empfohlenes Ende
-crs#:#crs_timings_changeable#:#Zeitplanung änderbar
-crs#:#crs_timings_early_begin#:#Frühester Start
-crs#:#crs_timings_late_end#:#Spätester Start
-crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungszeit zu empfehlen.
+crs#:#crs_timings_changeable#:#Zeitplanung Ã¤nderbar
+crs#:#crs_timings_early_begin#:#FrÃ¤hester Start
+crs#:#crs_timings_late_end#:#SpÃ¤tester Start
+crs#:#crs_item_presetting_info#:#WÃ¤hlen Sie diese Einstellung, um den Lernenden eine Bearbeitungszeit zu empfehlen.
