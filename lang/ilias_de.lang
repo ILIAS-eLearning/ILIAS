@@ -5754,19 +5754,19 @@ trac#:#stats_occurrence#:#Ausprägung
 trac#:#stats_of#:#von
 trac#:#stats_page#:#Seite
 trac#:#stats_page_average_access#:#Mittelwert der Seitenzugriffe
-trac#:#stats_page_average_dwell_time#:#Mittelwert der SeitenVerweildauer
+trac#:#stats_page_average_dwell_time#:#Mittelwert der Seitenverweildauer
 trac#:#stats_page_deviation_access#:#Standartabweichung der Seitenzugriffe
-trac#:#stats_page_deviation_dwell_time#:#Standartabweichung der SeitenVerweildauer
+trac#:#stats_page_deviation_dwell_time#:#Standartabweichung der Seitenverweildauer
 trac#:#stats_page_fewest_access#:#Wenigsten Zugriffe
 trac#:#stats_page_highest_deviation#:#Höchste Standartabweichung
 trac#:#stats_page_highest_varcoeff#:#Höchster Variationskoeffizient
 trac#:#stats_page_least_deviation#:#Geringste Standartabweichung
 trac#:#stats_page_listing#:#Seiten-Auflistung
 trac#:#stats_page_longest_average_dwell_time#:#Längste durchschn. Verweildauer
-trac#:#stats_page_longest_total_dwell_time#:#Längste GesamtVerweildauer
+trac#:#stats_page_longest_total_dwell_time#:#Längste Gesamtverweildauer
 trac#:#stats_page_lowest_varcoeff#:#Niedrigster Variationskoeffizient
 trac#:#stats_page_median_access#:#Median der Seitenzugriffe
-trac#:#stats_page_median_dwell_time#:#Median der SeitenVerweildauer
+trac#:#stats_page_median_dwell_time#:#Median der Seitenverweildauer
 trac#:#stats_page_mode_access#:#Modalwert der Seitenzugriffe
 trac#:#stats_page_most_access#:#Meisten Zugriffe
 trac#:#stats_page_number#:#Anzahl der Seiten
@@ -5774,13 +5774,13 @@ trac#:#stats_page_number_access#:#Anzahl der Zugriffe auf Seiten
 trac#:#stats_page_range_access#:#Spannweite der Seitenzugriffe
 trac#:#stats_page_range_dwell_time#:#Spannweite der SeitenVerweildauer
 trac#:#stats_page_stubbiest_average_dwell_time#:#Kürzeste durchschn. Verweildauer
-trac#:#stats_page_stubbiest_total_dwell_time#:#Kürzeste GesamtVerweildauer
+trac#:#stats_page_stubbiest_total_dwell_time#:#Kürzeste Gesamtverweildauer
 trac#:#stats_page_total_dwell_time#:#Gesamte-Seiten-Verweilzeit
 trac#:#stats_page_total_statistic#:#Gesamt-Seiten-Statistik
 trac#:#stats_page_varcoeff_access#:#Variationskoeffizient der Seitenzugriffe
-trac#:#stats_page_varcoeff_dwell_time#:#Variationskoeffizient der SeitenVerweildauer
+trac#:#stats_page_varcoeff_dwell_time#:#Variationskoeffizient der Seitenverweildauer
 trac#:#stats_page_variance_access#:#Varianz der Seitenzugriffe
-trac#:#stats_page_variance_dwell_time#:#Varianz der SeitenVerweildauer
+trac#:#stats_page_variance_dwell_time#:#Varianz der Seitenverweildauer
 trac#:#stats_pages#:#Seiten
 trac#:#stats_pages_statisics#:#Seiten-Statistiken
 trac#:#stats_sec#:#s
@@ -5962,12 +5962,23 @@ payment#:#pay_select_price#:#Bitte wählen Sie eine Preis-/Dauer-Kombination aus
 payment#:#pay_change_price#:#Preis-/Dauer-Kombination ändern
 payment#:#pay_payed_paypal#:#Die Bestellung wurde per PayPal bezahlt.
 payment#:#pay_paypal_success#:#Vielen Dank für Ihren Kauf von ILIAS Objekten! Sie erhalten darüber eine schriftliche Bestätigung im PDF Format an Ihre E-Mail-Adresse.
-payment#:#pay_paypal_failed#:#Ihr Kauf von ILIAS Objekten �ber PayPal ist leider fehlgeschlagen!
+payment#:#pay_paypal_failed#:#Ihr Kauf von ILIAS Objekten über PayPal ist leider fehlgeschlagen!
 crs#:#event_table_update#:#Veranstaltung bearbeiten
 crs#:#event_registration_participance#:#Anmeldung
 crs#:#event_registration#:#Anmeldung
 crs#:#event_participation#:#Teilnahme
-crs#:#event_registration_info#:#Wenn aktiviert, k�nnen sich Benutzer f�r die Veranstaltung anmelden.
+crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Veranstaltung anmelden.
+trac#:#search_terms#:#Suchbegriff(e)
+trac#:#view_mode#:#Anzeigemodus
+trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
+trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
+trac#:#info_all_objects#:#Die nachfolgende Zugriffsstatistik bezieht sich auf alle Objekte des Typs '%s'.
+trac#:#info_found_objects#:#Die Zugriffsstatistik bezieht sich auf die nachfolgenden Objekte des Typs '%s', die gemäß Ihren Suchbegriffen gefunden wurden.
+trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefunden. Bitte verfeinern Sie daher Ihre Suchanfrage.
+trac#:#found_objects#:#Gefundene Objekte
+trac#:#total_dwell_time#:#Gesamtverweildauer
+trac#:#info_dwell_time#:#Achtung: Die Gesamtverweildauer für ein Objekt ist vom gegebenen Zeitraum unabhängig! =======
 crs#:#event_edit_members#:#Teilnehmer verwalten
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_participants#:#Teilnehmer der Veranstaltung
