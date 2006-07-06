@@ -1390,7 +1390,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$q = "SELECT acc_time from ut_access "
 			.($searchTermsCondition != "" ? $searchTermsCondition : " WHERE ")
 			." (acc_time >= '".$from." 00:00:00'"
-			." AND acc_time <='".$to." 23:59:59')"
+			." AND acc_time < '".$to." 00:00:00')"
 			." AND ".$condition
 			.$objectCondition
 			." GROUP BY acc_time";
@@ -1410,7 +1410,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$q = "SELECT id FROM ut_access"
 			.($searchTermsCondition != "" ? $searchTermsCondition : " WHERE ")
 			." (acc_time >= '".$from." 00:00:00'"
-			." AND acc_time <='".$from1." 23:59:59')"
+			." AND acc_time < '".$from1." 00:00:00')"
 			." AND ".$condition
 			.$objectCondition
 			." GROUP BY id";
