@@ -662,12 +662,15 @@ class ilSetup extends PEAR
 			$status["lang"]["comment"] = $status["db"]["comment"];
 			$status["contact"]["status"] = false;
 			$status["contact"]["comment"] = $status["db"]["comment"];
+			$status["3rdparty"]["status"] = false;
+			$status["3rdparty"]["comment"] = $status["db"]["comment"];
 			$status["nic"]["status"] = false;
 			$status["nic"]["comment"] = $status["db"]["comment"];
 		}
 		else
 		{
 			$status["lang"] = $this->checkClientLanguages($client);
+			$status["3rdparty"] = $this->checkClient3rdParty($client);
 			$status["contact"] = $this->checkClientContact($client);
 			$status["nic"] = $this->checkClientNIC($client);
 			$status["finish"] = $this->checkFinish($client);
@@ -844,6 +847,62 @@ class ilSetup extends PEAR
 			$arr["comment"] = $this->lng->txt("email_not_valid");
 		}
 		
+		return $arr;
+	}
+	
+	/**
+	* check client 3rd party addon status
+	* @param	object	client
+	* @return	boolean
+	*/
+	function checkClient3rdParty(&$client)
+	{
+		$arr["status"] = true;
+		$arr["comment"] = $this->lng->txt("status_3rdparty_ok");
+
+		$unzip = $this->ini->readVariable("tools","unzip");
+		$tiny_zip_md5_old = $this->ini->readVariable("tools","tiny_md5");
+		
+		$tiny_dir_exists = FALSE;
+		$tiny_zip_exists = FALSE;
+		$tiny_zip_changed = FALSE;
+		if (@is_dir(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce"))
+		{
+			$tiny_dir_exists = TRUE;
+		}
+		if (@file_exists(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce.zip"))
+		{
+			$tiny_zip_exists = TRUE;
+		}
+		if ($tiny_zip_exists)
+		{
+			$tiny_zip_md5 = md5_file(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce.zip");
+			if ((strcmp($tiny_zip_md5, $tiny_zip_md5_old) != 0) && (strlen($tiny_zip_md5.$tiny_zip_md5_old) > 0))
+			{
+				$tiny_zip_changed = TRUE;
+			}
+		}
+		if (!$tiny_dir_exists && $tiny_zip_exists && @file_exists($unzip))
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("status_3rdparty_false");
+		}
+		else if ($tiny_zip_exists && $tiny_zip_changed && @file_exists($unzip))
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("status_3rdparty_false");
+		}
+		else if (!@file_exists($unzip))
+		{
+			$arr["status"] = true;
+			$arr["comment"] = $this->lng->txt("status_3rdparty_problems");
+		}
+		else if (!@file_exists($unzip))
+		{
+			$arr["status"] = true;
+			$arr["comment"] = $this->lng->txt("status_3rdparty_problems");
+		}
+			
 		return $arr;
 	}
 	
@@ -1471,5 +1530,78 @@ class ilSetup extends PEAR
 			return false;
 		}
 	}
+	
+	function unzipTiny()
+	{
+		$this->unzip(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce.zip", TRUE);
+		$this->ini->setVariable("tools", "tiny_md5", md5_file(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce.zip"));
+		if ($this->ini->write() == false)
+		{
+			$this->error = $this->ini->getError();
+			return false;
+		}
+		return TRUE;
+	}
+
+	/**
+	* unzip file
+	*
+	* @param	string	$a_file		full path/filename
+	* @param	boolean	$overwrite	pass true to overwrite existing files
+	*/
+	function unzip($a_file, $overwrite = false)
+	{
+		//global $ilias;
+
+		$pathinfo = pathinfo($a_file);
+		$dir = $pathinfo["dirname"];
+		$file = $pathinfo["basename"];
+
+		// unzip
+		$cdir = getcwd();
+		chdir($dir);
+		$unzip = $this->ini->readVariable("tools","unzip");
+		$unzipcmd = $unzip." -Z -1 ".ilUtil::escapeShellArg($file);
+		exec($unzipcmd, $arr);
+		$zdirs = array();
+
+		foreach($arr as $line)
+		{
+			if(is_int(strpos($line, "/")))
+			{
+				$zdir = substr($line, 0, strrpos($line, "/"));
+				$nr = substr_count($zdir, "/");
+				//echo $zdir." ".$nr."<br>";
+				while ($zdir != "")
+				{
+					$nr = substr_count($zdir, "/");
+					$zdirs[$zdir] = $nr;				// collect directories
+					//echo $dir." ".$nr."<br>";
+					$zdir = substr($zdir, 0, strrpos($zdir, "/"));
+				}
+			}
+		}
+
+		asort($zdirs);
+
+		foreach($zdirs as $zdir => $nr)				// create directories
+		{
+			ilUtil::createDirectory($zdir);
+		}
+
+		// real unzip
+		if ($overvwrite)
+		{
+			$unzipcmd = $unzip." ".ilUtil::escapeShellArg($file);
+		}
+		else
+		{
+			$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($file);
+		}
+		exec($unzipcmd);
+
+		chdir($cdir);
+	}
+
 } // END class.ilSetup
 ?>
