@@ -411,6 +411,7 @@ tiny_nothing_to_do#:#The editor is installed, there is nothing to do
 tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location
 tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor
 tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE
 title#:#Title
 tools#:#Tools
 unknown_client_id#:#Unknown Client
