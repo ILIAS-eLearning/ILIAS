@@ -1670,15 +1670,9 @@ common#:#hide_private_notes#:#Cacher les notes personnelles###08 may 2006 conten
 common#:#hide_public_notes#:#Cacher les notes publiques###08 may 2006 content changed
 common#:#hide_structure#:#Désactiver vue structurée###07 Apr 2005 content changed
 common#:#hist_dbk#:#Page créée###07 Apr 2005 content changed
-common#:#hist_dbk#:#Page coupée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
-common#:#hist_dbk#:#Page collée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
-common#:#hist_dbk#:#Page modifiée###07 Apr 2005 content changed
 common#:#hist_file_create#:#Fichier créé, le nom de fichier est "%1".###07 Apr 2005 content changed
 common#:#hist_file_replace#:#Fichier remplacé, le nouveau nom de fichier est  "%1", la nouvelle  version est %2.###07 Apr 2005 content changed
 common#:#hist_lm#:#Page créée###07 Apr 2005 content changed
-common#:#hist_lm#:#Page coupé dans le chapitre "%1" [%2]###07 Apr 2005 content changed
-common#:#hist_lm#:#Page collée dans le chapitre "%1" [%2]###07 Apr 2005 content changed
-common#:#hist_lm#:#Page modifiée###07 Apr 2005 content changed
 common#:#hist_no_entries#:#Pas d'entrées dans l'historique###07 Apr 2005 content changed
 common#:#hist_webr_add#:#Nouvelle ressource web ajoutée avec le titre : "%1"###07 Apr 2005 content changed
 common#:#hist_webr_delete#:#Ressource web détruite : "%1"###07 Apr 2005 content changed
