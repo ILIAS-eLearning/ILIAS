@@ -303,16 +303,12 @@ class CASClient
     { 
       // the URL is build only when needed
       if ( empty($this->_server['base_url']) ) {
-		  
-	// to do: undo this
-	//$this->_server['base_url'] = 'https://'
 	$this->_server['base_url'] = 'https://'
 	  .$this->getServerHostname()
 	  .':'
 	  .$this->getServerPort()
 	  .$this->getServerURI();
       }
-//echo "-".$this->_server['base_url']."-";
       return $this->_server['base_url']; 
     }
 
@@ -910,8 +906,8 @@ class CASClient
 		       $text_response);
 	}
 	// insure that tag name is 'serviceResponse'
-	if ( $tree_response->node_name(true) != 'serviceResponse' ) {
-	  phpCAS::trace('bad XML root node (should be `serviceResponse\' instead of `'.$tree_response->node_name(true).'\'');
+	if ( $tree_response->node_name() != 'serviceResponse' ) {
+	  phpCAS::trace('bad XML root node (should be `serviceResponse\' instead of `'.$tree_response->node_name().'\'');
 	  $this->authError('ST not validated',
 		       $validate_url,
 		       FALSE/*$no_response*/,
@@ -1111,7 +1107,6 @@ class CASClient
         $final_uri = '';
 	    // remove the ticket if present in the URL
 	    $final_uri = 'https://';
-
 	    /* replaced by Julien Marchal - v0.4.6
 	     * $this->uri .= $_SERVER['SERVER_NAME'];
 	     */
@@ -1403,7 +1398,7 @@ class CASClient
 
       if ( !$bad_response ) {
 	// insure that tag name is 'serviceResponse'
-	if ( $root->node_name(true) != 'serviceResponse' ) {
+	if ( $root->node_name() != 'serviceResponse' ) {
 	  phpCAS::trace('node_name() failed');
 	  // bad root node
 	  $bad_response = TRUE;
@@ -1767,7 +1762,7 @@ class CASClient
 		     $text_response);
       }
       // insure that tag name is 'serviceResponse'
-      if ( $tree_response->node_name(true) != 'serviceResponse' ) {
+      if ( $tree_response->node_name() != 'serviceResponse' ) {
 	// bad root node
 	$this->authError('PT not validated',
 		     $validate_url,
