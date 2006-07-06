@@ -150,7 +150,7 @@ assessment#:#circle#:#Circulo
 assessment#:#circle_click_center#:#Por favor haga click en el centro del area deseada.
 assessment#:#circle_click_circle#:#Por favor haga click en un punto del círculo del area deseada.
 assessment#:#clientip#:#IP Cliente
-assessment#:#close_text_hint#:#Puede definir un hueco introduciendo <gap></gap> en la posición del texto a tu elección. Presiona el botón 'Crear huecos' para añadir un formulario editable para cada hueco.
+assessment#:#close_text_hint#:#Puede definir un hueco introduciendo [gap][/gap] en la posición del texto a tu elección. Presiona el botón 'Crear huecos' para añadir un formulario editable para cada hueco.
 assessment#:#cloze_text#:#Texto relleno
 assessment#:#cloze_textgap_case_insensitive#:#No sensible a mayúscula
 assessment#:#cloze_textgap_case_sensitive#:#Sensible a mayúscula

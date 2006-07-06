@@ -149,7 +149,7 @@ assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
 assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Fechar texto###14 Sep 2004 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
@@ -2541,7 +2541,7 @@ common#:#permission_denied#:#Permissão Negada###07 Apr 2005 content changed
 common#:#permission_settings#:#Definições de Permissões###07 Apr 2005 content changed
 common#:#person_title#:#Title###14 May 2004 new variable
 common#:#personal_data#:#Informação pessoal###07 Apr 2005 content changed
-common#:#personal_desktop#:#�?rea Pessoal###07 Apr 2005 content changed
+common#:#personal_desktop#:#�?rea Pessoal###07 Apr 2005 content changed
 common#:#personal_picture#:#Fotografia Pessoal###07 Apr 2005 content changed
 common#:#personal_profile#:#Perfil Pessoal###07 Apr 2005 content changed
 common#:#persons#:#Pessoas###14 Sep 2004 content changed
@@ -2971,7 +2971,7 @@ common#:#tracking_data_deleted#:#Tracking data deleted###09 Jul 2004 new variabl
 common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Tradução###07 Apr 2005 content changed
 common#:#trash#:#Lixo###07 Apr 2005 content changed
-common#:#treeview#:#Vista em �?rvore###07 Apr 2005 content changed
+common#:#treeview#:#Vista em �?rvore###07 Apr 2005 content changed
 common#:#tst#:#Teste###07 Apr 2005 content changed
 common#:#tst_add#:#Adicionar teste###07 Apr 2005 content changed
 common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
@@ -3186,7 +3186,7 @@ content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new v
 content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
 content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
-content#:#cont_add_area#:#Adicionar �?rea###07 Apr 2005 content changed
+content#:#cont_add_area#:#Adicionar �?rea###07 Apr 2005 content changed
 content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
 content#:#cont_add_definition#:#Adicionar Definição###07 Apr 2005 content changed
 content#:#cont_add_fullscreen#:#Adicionar Ecrã Inteiro###14 Sep 2004 content changed
@@ -3199,7 +3199,7 @@ content#:#cont_Alphabetic#:#Alfabético A, B, ...###07 Apr 2005 content changed
 content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
-content#:#cont_areas_deleted#:#�?reas apagadas do Mapa.###07 Apr 2005 content changed
+content#:#cont_areas_deleted#:#�?reas apagadas do Mapa.###07 Apr 2005 content changed
 content#:#cont_assign_full#:#Atribuir Ecrã Inteiro###14 Sep 2004 content changed
 content#:#cont_assign_std#:#Atribuir Padrão###07 Apr 2005 content changed
 content#:#cont_assign_translation#:#Atribuir tradução###07 Apr 2005 content changed
@@ -3314,7 +3314,7 @@ content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_split_page_next#:#split to next page###29 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
-content#:#cont_edit_area#:#Editar �?rea###07 Apr 2005 content changed
+content#:#cont_edit_area#:#Editar �?rea###07 Apr 2005 content changed
 content#:#cont_edit_file_list_properties#:#Editar Propriedades da Lista de Ficheiros###07 Apr 2005 content changed
 content#:#cont_edit_mob#:#Editar Objecto de Média###07 Apr 2005 content changed
 content#:#cont_edit_mob_alias_prop#:#Editar Propriedades da Instância de Objecto Média###07 Apr 2005 content changed
@@ -3402,7 +3402,7 @@ content#:#cont_lm_properties#:#Propriedades do Módulo de Aprendizagem###07 Apr 
 content#:#cont_LocalFile#:#Local File###05 Nov 2004 new variable
 content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#Manifesto###07 Apr 2005 content changed
-content#:#cont_map_areas#:#Ligar �?reas###07 Apr 2005 content changed
+content#:#cont_map_areas#:#Ligar �?reas###07 Apr 2005 content changed
 content#:#cont_mastery_score#:#adlcp:pontuaçãomestre###07 Apr 2005 content changed
 content#:#cont_matches#:#matches###16 Aug 2004 new variable
 content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###17 Sep 2004 new variable
@@ -3419,7 +3419,7 @@ content#:#cont_month#:#Mês###07 Apr 2005 content changed
 content#:#cont_move_object#:#move object###29 Nov 2004 new variable
 content#:#cont_msg_multiple_editions#:#Não é possível mostrar detalhes de múltiplas edições###07 Apr 2005 content changed
 content#:#cont_name#:#Nome###07 Apr 2005 content changed
-content#:#cont_new_area#:#Nova �?rea de Ligação###07 Apr 2005 content changed
+content#:#cont_new_area#:#Nova �?rea de Ligação###07 Apr 2005 content changed
 content#:#cont_new_assignment#:#Nova atribuição###07 Apr 2005 content changed
 content#:#cont_new_dir#:#Nova Directoria###07 Apr 2005 content changed
 content#:#cont_new_file#:#Novo Ficheiro###07 Apr 2005 content changed
@@ -3488,7 +3488,7 @@ content#:#cont_resource_type#:#tipo###07 Apr 2005 content changed
 content#:#cont_resources#:#Recursos###07 Apr 2005 content changed
 content#:#cont_Roman#:#Romano I, II, ...###07 Apr 2005 content changed
 content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
-content#:#cont_saved_map_area#:#�?rea de mapa guardada###07 Apr 2005 content changed
+content#:#cont_saved_map_area#:#�?rea de mapa guardada###07 Apr 2005 content changed
 content#:#cont_saved_map_data#:#Dados de mapa guardados###07 Apr 2005 content changed
 content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
@@ -3971,7 +3971,7 @@ dateplaner#:#app_week#:#vista semana###14 Sep 2004 content changed
 dateplaner#:#application#:#Planeador de Datas###14 Sep 2004 content changed
 dateplaner#:#apply#:#aplicar###07 Apr 2005 content changed
 dateplaner#:#back#:#voltar###07 Apr 2005 content changed
-dateplaner#:#begin_date#:#�?nicio de Data###14 Sep 2004 content changed
+dateplaner#:#begin_date#:#�?nicio de Data###14 Sep 2004 content changed
 dateplaner#:#busytime#:#tempo ocupado no grupo###07 Apr 2005 content changed
 dateplaner#:#c_date#:#Criar Data###07 Apr 2005 content changed
 dateplaner#:#changedDates#:#Datas mudadas###07 Apr 2005 content changed
@@ -3992,7 +3992,7 @@ dateplaner#:#dv_button_cancel#:#Cancelar###07 Apr 2005 content changed
 dateplaner#:#dv_button_delete#:#Apagar###07 Apr 2005 content changed
 dateplaner#:#dv_button_insert#:#Inserir###07 Apr 2005 content changed
 dateplaner#:#dv_button_update#:#Actualizar###07 Apr 2005 content changed
-dateplaner#:#dv_date_begin#:#Data �?nicio:###14 Sep 2004 content changed
+dateplaner#:#dv_date_begin#:#Data �?nicio:###14 Sep 2004 content changed
 dateplaner#:#dv_date_end#:#Date Fim:###14 Sep 2004 content changed
 dateplaner#:#dv_date_hm#:#Hora:Minuto###07 Apr 2005 content changed
 dateplaner#:#dv_enddate#:#Data de Fim:###14 Sep 2004 content changed
@@ -4010,7 +4010,7 @@ dateplaner#:#dv_rotation#:#Rotação:###14 Sep 2004 content changed
 dateplaner#:#dv_rotation_date#:#Data de Rotação:###14 Sep 2004 content changed
 dateplaner#:#dv_rotation_end#:#Fim de Rotação:###14 Sep 2004 content changed
 dateplaner#:#dv_shorttext#:#Pequeno texto:###14 Sep 2004 content changed
-dateplaner#:#dv_startdate#:#Data de �?nicio:###14 Sep 2004 content changed
+dateplaner#:#dv_startdate#:#Data de �?nicio:###14 Sep 2004 content changed
 dateplaner#:#dv_text#:#Texto:###07 Apr 2005 content changed
 dateplaner#:#dv_whole_day#:#Todo o dia:###07 Apr 2005 content changed
 dateplaner#:#dv_whole_rotation#:#Gostaria de apagar toda a data de Rotação? (carregue na caixa)###14 Sep 2004 content changed
@@ -4020,17 +4020,17 @@ dateplaner#:#ERROR_DATE_EXISTS#:#Este compromisso já existe.###07 Apr 2005 cont
 dateplaner#:#ERROR_DB#:#Erro a escrever na Base de Dados!###07 Apr 2005 content changed
 dateplaner#:#ERROR_DB_CONNECT#:#A Base de Dados está desconectada.###14 Sep 2004 content changed
 dateplaner#:#ERROR_DEL_MSG#:#Este é um Compromisso de Rotação. Gostaria de apagar um ou todos os compromissos###14 Sep 2004 content changed
-dateplaner#:#ERROR_END_START#:#Entrada de Fim de Compromisso errada. Fim do Compromisso é antes do �?nicio.###14 Sep 2004 content changed
+dateplaner#:#ERROR_END_START#:#Entrada de Fim de Compromisso errada. Fim do Compromisso é antes do �?nicio.###14 Sep 2004 content changed
 dateplaner#:#ERROR_ENDDATE#:#Entrada de Fim de Compromisso errada. Formato: dd/mm/aaaa###14 Sep 2004 content changed
 dateplaner#:#ERROR_ENDTIME#:#Hora de Fim errada. Formato: hh:mm###14 Sep 2004 content changed
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor tome um ficheiro csv válido.###14 Sep 2004 content changed
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>o seu navegador não aceita JavaScript. <BR> Por favor feche esta Janela depois de inserir manualmente. <BR> Obrigado</CENTER></B>###14 Sep 2004 content changed
 dateplaner#:#error_minical_img#:#Não pode criar fluxo-imagem-GD###14 Sep 2004 content changed
-dateplaner#:#ERROR_ROT_END_START#:#Entrada errada de Fim de Compromisso de Rotação. Fim do Compromisso de Rotação é anterior ao �?nicio.###14 Sep 2004 content changed
+dateplaner#:#ERROR_ROT_END_START#:#Entrada errada de Fim de Compromisso de Rotação. Fim do Compromisso de Rotação é anterior ao �?nicio.###14 Sep 2004 content changed
 dateplaner#:#ERROR_ROTATIONEND#:#Entrada errada de Fim de Compromisso de Rotação. Formato: dd/mm/aaaa###14 Sep 2004 content changed
 dateplaner#:#ERROR_SHORTTEXT#:#Entrada de Pequeno texto errada. Pequeno texto é requerido.###14 Sep 2004 content changed
-dateplaner#:#ERROR_STARTDATE#:#Entrada de �?nicio de Compromisso errada. Formato: dd/mm/aaaa###14 Sep 2004 content changed
-dateplaner#:#ERROR_STARTTIME#:#Hora de �?nicio errada. Formato: hh:mm###14 Sep 2004 content changed
+dateplaner#:#ERROR_STARTDATE#:#Entrada de �?nicio de Compromisso errada. Formato: dd/mm/aaaa###14 Sep 2004 content changed
+dateplaner#:#ERROR_STARTTIME#:#Hora de �?nicio errada. Formato: hh:mm###14 Sep 2004 content changed
 dateplaner#:#ERROR_TS#:#Formato de data incorrecto###07 Apr 2005 content changed
 dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
 dateplaner#:#extra_dates#:#Datas de Um Dia###07 Apr 2005 content changed
@@ -4386,7 +4386,7 @@ meta#:#meta_atomic#:#Atómico###07 Apr 2005 content changed
 meta#:#meta_author#:#Autor###07 Apr 2005 content changed
 meta#:#meta_browser#:#Browser###05 Nov 2004 new variable
 meta#:#meta_c_AD#:#Andorra###05 Nov 2004 new variable
-meta#:#meta_c_AE#:#Emirados �?rabes Unidos###07 Apr 2005 content changed
+meta#:#meta_c_AE#:#Emirados �?rabes Unidos###07 Apr 2005 content changed
 meta#:#meta_c_AF#:#Afeganistão###07 Apr 2005 content changed
 meta#:#meta_c_AG#:#Antígua e Barbuda###07 Apr 2005 content changed
 meta#:#meta_c_AI#:#Anguilla###05 Nov 2004 new variable
@@ -4397,7 +4397,7 @@ meta#:#meta_c_AO#:#Angola###05 Nov 2004 new variable
 meta#:#meta_c_AQ#:#Antárctida###07 Apr 2005 content changed
 meta#:#meta_c_AR#:#Argentina###05 Nov 2004 new variable
 meta#:#meta_c_AS#:#Samoa Americana###07 Apr 2005 content changed
-meta#:#meta_c_AT#:#�?ustria###07 Apr 2005 content changed
+meta#:#meta_c_AT#:#�?ustria###07 Apr 2005 content changed
 meta#:#meta_c_AU#:#Austrália###07 Apr 2005 content changed
 meta#:#meta_c_AW#:#Aruba###05 Nov 2004 new variable
 meta#:#meta_c_AZ#:#Azerbaijão###07 Apr 2005 content changed
@@ -4483,7 +4483,7 @@ meta#:#meta_c_HU#:#Hungria###07 Apr 2005 content changed
 meta#:#meta_c_ID#:#Indonésia###07 Apr 2005 content changed
 meta#:#meta_c_IE#:#Irlanda###07 Apr 2005 content changed
 meta#:#meta_c_IL#:#Israel###05 Nov 2004 new variable
-meta#:#meta_c_IN#:#�?ndia###07 Apr 2005 content changed
+meta#:#meta_c_IN#:#�?ndia###07 Apr 2005 content changed
 meta#:#meta_c_IO#:#Território Oceânico Indiano Britânico###07 Apr 2005 content changed
 meta#:#meta_c_IQ#:#Iraque###07 Apr 2005 content changed
 meta#:#meta_c_IR#:#Irão###07 Apr 2005 content changed
@@ -4513,7 +4513,7 @@ meta#:#meta_c_LS#:#Lesoto###07 Apr 2005 content changed
 meta#:#meta_c_LT#:#Lituânia###07 Apr 2005 content changed
 meta#:#meta_c_LU#:#Luxemburgo###07 Apr 2005 content changed
 meta#:#meta_c_LV#:#Letónia###07 Apr 2005 content changed
-meta#:#meta_c_LY#:#Jamahiriya Líbia �?rabe###07 Apr 2005 content changed
+meta#:#meta_c_LY#:#Jamahiriya Líbia �?rabe###07 Apr 2005 content changed
 meta#:#meta_c_MA#:#Marrocos###07 Apr 2005 content changed
 meta#:#meta_c_MC#:#Mónaco###07 Apr 2005 content changed
 meta#:#meta_c_MD#:#Moldávia###07 Apr 2005 content changed
@@ -4583,7 +4583,7 @@ meta#:#meta_c_SO#:#Somália###07 Apr 2005 content changed
 meta#:#meta_c_SR#:#Suriname###05 Nov 2004 new variable
 meta#:#meta_c_ST#:#São Tomé e Príncipe###07 Apr 2005 content changed
 meta#:#meta_c_SV#:#El Salvador###05 Nov 2004 new variable
-meta#:#meta_c_SY#:#Républica Síria �?rabe###07 Apr 2005 content changed
+meta#:#meta_c_SY#:#Républica Síria �?rabe###07 Apr 2005 content changed
 meta#:#meta_c_SZ#:#Suazilândia###07 Apr 2005 content changed
 meta#:#meta_c_TC#:#Ilhas Turcas e Caicos###07 Apr 2005 content changed
 meta#:#meta_c_TD#:#Chad###05 Nov 2004 new variable
@@ -4618,7 +4618,7 @@ meta#:#meta_c_WF#:#Ilhas Wallis e Futuna###07 Apr 2005 content changed
 meta#:#meta_c_WS#:#Samoa###05 Nov 2004 new variable
 meta#:#meta_c_YE#:#Iémen###07 Apr 2005 content changed
 meta#:#meta_c_YT#:#Maiote###07 Apr 2005 content changed
-meta#:#meta_c_ZA#:#�?frica do Sul###07 Apr 2005 content changed
+meta#:#meta_c_ZA#:#�?frica do Sul###07 Apr 2005 content changed
 meta#:#meta_c_ZM#:#Zâmbia###07 Apr 2005 content changed
 meta#:#meta_c_ZR#:#Zaire###05 Nov 2004 new variable
 meta#:#meta_c_ZW#:#Zimbabué###07 Apr 2005 content changed
@@ -4675,7 +4675,7 @@ meta#:#meta_higher_education#:#Educação Superior###07 Apr 2005 content changed
 meta#:#meta_id#:#Id###05 Nov 2004 new variable
 meta#:#meta_idea#:#Idéia###07 Apr 2005 content changed
 meta#:#meta_identifier#:#Identificador###07 Apr 2005 content changed
-meta#:#meta_index#:#�?ndice###07 Apr 2005 content changed
+meta#:#meta_index#:#�?ndice###07 Apr 2005 content changed
 meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.###23 Dec 2005 new variable
 meta#:#meta_initiator#:#Initiator###20 Jun 2005 new variable
 meta#:#meta_installation_remarks#:#Observações da Instalação###07 Apr 2005 content changed

@@ -149,7 +149,7 @@ assessment#:#circle#:#Cirkel
 assessment#:#circle_click_center#:#Klik venligst i midten af det &oslash;nkede omr&aring;de.
 assessment#:#circle_click_circle#:#Klik venligst p&aring; et dirkelpunkt i det &oslash;nkede omr&aring;de.
 assessment#:#clientip#:#Klient IP
-assessment#:#close_text_hint#:#Du kan definer gap ved at skrive <gap></gap>. Klik p&aring; 'opret gaps' knappen for at tilf&oslash;je form for hver gap ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Du kan definer gap ved at skrive [gap][/gap]. Klik p&aring; 'opret gaps' knappen for at tilf&oslash;je form for hver gap ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Luk tekst
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive

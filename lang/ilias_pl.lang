@@ -149,7 +149,7 @@ assessment#:#circle#:#Koło
 assessment#:#circle_click_center#:#Kliknij w środek wskazanego pola.
 assessment#:#circle_click_circle#:#Kliknij na punkt okręgu wybranego obszaru.
 assessment#:#clientip#:#IP klienta
-assessment#:#close_text_hint#:#Możesz zdefiniować lukę podając <gap></gap> na wybranej pozycji tekstu. Naciśnij przycisk 'Twórz lukę' dla dodania pola edytowalnego.
+assessment#:#close_text_hint#:#Możesz zdefiniować lukę podając [gap][/gap] na wybranej pozycji tekstu. Naciśnij przycisk 'Twórz lukę' dla dodania pola edytowalnego.
 assessment#:#cloze_text#:#Uzupełnij tekst
 assessment#:#cloze_textgap_case_insensitive#:#Nie uwzględniaj wielkości liter
 assessment#:#cloze_textgap_case_sensitive#:#Uwzglęniaj wielkość liter

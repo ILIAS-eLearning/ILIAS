@@ -147,7 +147,7 @@ assessment#:#checkbox_unchecked#:#Neprovereno
 assessment#:#circle#:#Opseg
 assessment#:#circle_click_center#:#Molimo vas da kliknete u centar željenog podrucja.
 assessment#:#circle_click_circle#:#Molimo vas da kliknete mesto opsega željenog podrucja.
-assessment#:#close_text_hint#:#Možete definisati razmak unošenjem <gap></gap> na mesto vašeg izbora u tekstu. Pritisnite dugme 'Create gaps' da biste dodali formu za uredivanje za svaki razmak. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#Možete definisati razmak unošenjem [gap][/gap] na mesto vašeg izbora u tekstu. Pritisnite dugme 'Create gaps' da biste dodali formu za uredivanje za svaki razmak. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Zatvori tekst###20 Jun 2005 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable

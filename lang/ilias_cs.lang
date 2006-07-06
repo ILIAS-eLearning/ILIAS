@@ -149,7 +149,7 @@ assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
 assessment#:#clientip#:#Client IP###08 Apr 2005 new variable
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#cloze_text#:#Cloze text###16 Mar 2004 new variable
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
@@ -891,7 +891,7 @@ common#:#active_roles#:#Aktivovat role###07 Apr 2005 content changed
 common#:#add#:#Přidat###07 Apr 2005 content changed
 common#:#add_author#:#Přidat authora###07 Apr 2005 content changed
 common#:#add_condition#:#Create new association###14 Aug 2004 new variable
-common#:#add_member#:#Přidat �?lena###07 Apr 2005 content changed
+common#:#add_member#:#Přidat �?lena###07 Apr 2005 content changed
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_new_user_defined_field#:#Add new user-defined field###27 Jan 2006 new variable
 common#:#add_new_user_defined_select_field#:#Add new select box###27 Jan 2006 new variable
@@ -925,7 +925,7 @@ common#:#all_roles#:#All Roles###16 Sep 2004 new variable
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#all_users#:#All users###11 Sep 2004 new variable
 common#:#allow_assign_users#:#Allow user assignment for local administrators.###14 Sep 2004 new variable
-common#:#allow_register#:#K dispozici v registra�?ním formuláři pro nové uživatele###07 Apr 2005 content changed
+common#:#allow_register#:#K dispozici v registra�?ním formuláři pro nové uživatele###07 Apr 2005 content changed
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
 common#:#alm_create#:#Create AICC Learning Module###15 Jul 2004 new variable
@@ -943,7 +943,7 @@ common#:#announce_changes#:#Oznámení o změnách###07 Apr 2005 content changed
 common#:#answers#:#odpovědí### Je spojováno s "Seřadit podle" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#append_search#:#Append search results###23 Dec 2005 new variable
-common#:#application_completed#:#Žádost dokon�?ena###07 Apr 2005 content changed
+common#:#application_completed#:#Žádost dokon�?ena###07 Apr 2005 content changed
 common#:#application_date#:#Datum žádosti###07 Apr 2005 content changed
 common#:#applied_users#:#Applied users###14 Aug 2004 new variable
 common#:#apply#:#Apply###02 Oct 2004 new variable
@@ -953,7 +953,7 @@ common#:#appointment_list#:#Seznam schůzek###07 Apr 2005 content changed
 common#:#approve_date#:#Approved On###14 Sep 2004 new variable
 common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#Archiv###07 Apr 2005 content changed
-common#:#are_you_sure#:#Ur�?itě pokra�?ovat?###07 Apr 2005 content changed
+common#:#are_you_sure#:#Ur�?itě pokra�?ovat?###07 Apr 2005 content changed
 common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
 common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
@@ -1286,7 +1286,7 @@ common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#current_password#:#Sou�?asné heslo###07 Apr 2005 content changed
+common#:#current_password#:#Sou�?asné heslo###07 Apr 2005 content changed
 common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Vyjmout###07 Apr 2005 content changed
@@ -1294,10 +1294,10 @@ common#:#cutPage#:#Vyjmout###07 Apr 2005 content changed
 common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Databáze###07 Apr 2005 content changed
-common#:#database_version#:#Sou�?asná verze databáze###07 Apr 2005 content changed
+common#:#database_version#:#Sou�?asná verze databáze###07 Apr 2005 content changed
 common#:#dataset#:#Položka###07 Apr 2005 content changed
 common#:#date#:#data###Je spojováno s "Přiřadit podle" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#dateplaner#:#Plánova�?###14 Sep 2004 content changed
+common#:#dateplaner#:#Plánova�?###14 Sep 2004 content changed
 common#:#day#:#Den###07 Apr 2005 content changed
 common#:#days#:#dnů###07 Apr 2005 content changed
 common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
@@ -1308,15 +1308,15 @@ common#:#db_pass#:#Heslo k databázi###07 Apr 2005 content changed
 common#:#db_type#:#Typ databáze###07 Apr 2005 content changed
 common#:#db_user#:#Databázový uživatel###07 Apr 2005 content changed
 common#:#db_version#:#Verze databáze###07 Apr 2005 content changed
-common#:#dbk#:#Digilib u�?ebnice###07 Apr 2005 content changed
-common#:#dbk_a#:#a Digilib u�?ebnice###07 Apr 2005 content changed
-common#:#dbk_add#:#Přidat Digilib u�?ebnici###07 Apr 2005 content changed
-common#:#dbk_added#:#Digilib u�?ebnice přidána###07 Apr 2005 content changed
+common#:#dbk#:#Digilib u�?ebnice###07 Apr 2005 content changed
+common#:#dbk_a#:#a Digilib u�?ebnice###07 Apr 2005 content changed
+common#:#dbk_add#:#Přidat Digilib u�?ebnici###07 Apr 2005 content changed
+common#:#dbk_added#:#Digilib u�?ebnice přidána###07 Apr 2005 content changed
 common#:#dbk_create#:#Create Digibook###16 Mar 2004 new variable
 common#:#dbk_delete#:#Delete Digibook###16 Mar 2004 new variable
 common#:#dbk_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#dbk_edit_permission#:#Change permission settings###16 Mar 2004 new variable
-common#:#dbk_new#:#Nová Digilib u�?ebnice###07 Apr 2005 content changed
+common#:#dbk_new#:#Nová Digilib u�?ebnice###07 Apr 2005 content changed
 common#:#dbk_read#:#Read access to Digibook###16 Mar 2004 new variable
 common#:#dbk_visible#:#Digibook is visible###16 Mar 2004 new variable
 common#:#dbk_write#:#Edit Digibook###16 Mar 2004 new variable
@@ -1384,10 +1384,10 @@ common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 n
 common#:#enable_registration#:#Povolit registraci nového uživatele###07 Apr 2005 content changed
 common#:#enabled#:#Povoleno###07 Apr 2005 content changed
 common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
-common#:#enumerate#:#Vy�?íslit###07 Apr 2005 content changed
+common#:#enumerate#:#Vy�?íslit###07 Apr 2005 content changed
 common#:#err_1_param#:#Pouze 1 parametr!###07 Apr 2005 content changed
 common#:#err_2_param#:#Pouze 2 parametry!###07 Apr 2005 content changed
-common#:#err_count_param#:#Důvod: Chybný po�?et parametrů###07 Apr 2005 content changed
+common#:#err_count_param#:#Důvod: Chybný po�?et parametrů###07 Apr 2005 content changed
 common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Chyba na řádce###07 Apr 2005 content changed
 common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.###14 Sep 2004 new variable
@@ -1403,51 +1403,51 @@ common#:#err_over_3_param#:#Více než 3 parametry!###07 Apr 2005 content change
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###16 Mar 2004 new variable
 common#:#err_session_expired#:#Vaše sezení vypršelo!###07 Apr 2005 content changed
 common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
-common#:#err_wrong_header#:#Důvod: Chybná hlavi�?ka.###07 Apr 2005 content changed
+common#:#err_wrong_header#:#Důvod: Chybná hlavi�?ka.###07 Apr 2005 content changed
 common#:#err_wrong_login#:#Chybné přihlášení###07 Apr 2005 content changed
 common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
 common#:#error#:#Error###29 Nov 2004 new variable
 common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Příjemce chybových hlášení###07 Apr 2005 content changed
-common#:#exc#:#Cvi�?ení###07 Apr 2005 content changed
-common#:#exc_add#:#Přidat cvi�?ení###07 Apr 2005 content changed
-common#:#exc_added#:#Cvi�?ení přidáno###07 Apr 2005 content changed
+common#:#exc#:#Cvi�?ení###07 Apr 2005 content changed
+common#:#exc_add#:#Přidat cvi�?ení###07 Apr 2005 content changed
+common#:#exc_added#:#Cvi�?ení přidáno###07 Apr 2005 content changed
 common#:#exc_ask_delete#:#Zmazat soubor?###07 Apr 2005 content changed
 common#:#exc_assign_usr#:#Přiřadit uživatele###07 Apr 2005 content changed
 common#:#exc_create#:#Create exercise###16 Mar 2004 new variable
 common#:#exc_date_not_valid#:#Datum je neplatné###07 Apr 2005 content changed
-common#:#exc_deassign_members#:#Odebrat �?lena(y)###07 Apr 2005 content changed
+common#:#exc_deassign_members#:#Odebrat �?lena(y)###07 Apr 2005 content changed
 common#:#exc_delete#:#Delete exercise###16 Mar 2004 new variable
-common#:#exc_edit#:#Nové cvi�?ení přidáno###07 Apr 2005 content changed
-common#:#exc_edit_exercise#:#Upravit cvi�?ení###07 Apr 2005 content changed
+common#:#exc_edit#:#Nové cvi�?ení přidáno###07 Apr 2005 content changed
+common#:#exc_edit_exercise#:#Upravit cvi�?ení###07 Apr 2005 content changed
 common#:#exc_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#exc_edit_until#:#Termín vypracování###07 Apr 2005 content changed
 common#:#exc_files#:#Soubory###07 Apr 2005 content changed
 common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
 common#:#exc_groups#:#Skupiny###07 Apr 2005 content changed
-common#:#exc_header_members#:#Cvi�?ení(�?lenové)###14 Sep 2004 content changed
+common#:#exc_header_members#:#Cvi�?ení(�?lenové)###14 Sep 2004 content changed
 common#:#exc_instruction#:#Pracovní pokyny###07 Apr 2005 content changed
-common#:#exc_members_already_assigned#:#Tito uživatelé jsou již přiřazeni k tomuto cvi�?ení###07 Apr 2005 content changed
+common#:#exc_members_already_assigned#:#Tito uživatelé jsou již přiřazeni k tomuto cvi�?ení###07 Apr 2005 content changed
 common#:#exc_members_assigned#:#Členové přiřazení###07 Apr 2005 content changed
-common#:#exc_new#:#Nové cvi�?ení###07 Apr 2005 content changed
-common#:#exc_no_members_assigned#:#Žádní přiřazení �?lenové###07 Apr 2005 content changed
+common#:#exc_new#:#Nové cvi�?ení###07 Apr 2005 content changed
+common#:#exc_no_members_assigned#:#Žádní přiřazení �?lenové###07 Apr 2005 content changed
 common#:#exc_notices#:#Upozornění###07 Apr 2005 content changed
-common#:#exc_obj#:#Cvi�?ení###07 Apr 2005 content changed
+common#:#exc_obj#:#Cvi�?ení###07 Apr 2005 content changed
 common#:#exc_read#:#Access exercise###16 Mar 2004 new variable
 common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Uložit###07 Apr 2005 content changed
 common#:#exc_search_for#:#Vyhledávat###07 Apr 2005 content changed
 common#:#exc_select_one_file#:#Please select exactly one file.###16 Mar 2004 new variable
-common#:#exc_send_exercise#:#Poslat cvi�?ení###07 Apr 2005 content changed
-common#:#exc_sent#:#Cvi�?ení bylo zasláno vybraným uživatelům###07 Apr 2005 content changed
+common#:#exc_send_exercise#:#Poslat cvi�?ení###07 Apr 2005 content changed
+common#:#exc_sent#:#Cvi�?ení bylo zasláno vybraným uživatelům###07 Apr 2005 content changed
 common#:#exc_status_returned#:#Vráceno###07 Apr 2005 content changed
-common#:#exc_status_saved#:#Cvi�?ení uloženo###07 Apr 2005 content changed
+common#:#exc_status_saved#:#Cvi�?ení uloženo###07 Apr 2005 content changed
 common#:#exc_status_solved#:#Vyřešeno###07 Apr 2005 content changed
 common#:#exc_upload_error#:#Chyba při odesílání souboru###07 Apr 2005 content changed
 common#:#exc_users#:#Uživatelé###07 Apr 2005 content changed
 common#:#exc_visible#:#Exercise is visible###16 Mar 2004 new variable
 common#:#exc_write#:#Edit exercise###16 Mar 2004 new variable
-common#:#excs#:#Cvi�?ení###07 Apr 2005 content changed
+common#:#excs#:#Cvi�?ení###07 Apr 2005 content changed
 common#:#execute#:#Vykonat###07 Apr 2005 content changed
 common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
 common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
@@ -1476,7 +1476,7 @@ common#:#extt_remark#:#All software and services listed above are not part of IL
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
 common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
 common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
-common#:#faq_exercise#:#Cvi�?ení FAQ###07 Apr 2005 content changed
+common#:#faq_exercise#:#Cvi�?ení FAQ###07 Apr 2005 content changed
 common#:#fax#:#Fax### identical translation
 common#:#feedback#:#Dejte nám vědět###07 Apr 2005 content changed
 common#:#feedback_recipient#:#Příjemce odezvy###07 Apr 2005 content changed
@@ -1544,7 +1544,7 @@ common#:#force_accept_usr_agreement#:#Musíte akceptovat uživatelské ujednán�
 common#:#forename#:#Křestní jméno###07 Apr 2005 content changed
 common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
-common#:#form_empty_fields#:#Vypňte prosím tato polí�?ka:###07 Apr 2005 content changed
+common#:#form_empty_fields#:#Vypňte prosím tato polí�?ka:###07 Apr 2005 content changed
 common#:#forum#:#Diskusní skupina###07 Apr 2005 content changed
 common#:#forum_import#:#Forum import###09 Apr 2004 new variable
 common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
@@ -1623,25 +1623,25 @@ common#:#group_import#:#Group import###20 Apr 2004 new variable
 common#:#group_import_file#:#Import file###20 Apr 2004 new variable
 common#:#group_info_reg#:#Admission procedure###23 Dec 2005 new variable
 common#:#group_members#:#Členové skupiny###04 Sep 2004 content changed
-common#:#group_memstat#:#Status �?lena###07 Apr 2005 content changed
+common#:#group_memstat#:#Status �?lena###07 Apr 2005 content changed
 common#:#group_memstat_admin#:#Administrátor###07 Apr 2005 content changed
 common#:#group_memstat_member#:#Člen###07 Apr 2005 content changed
 common#:#group_name#:#Název skupiny###14 Sep 2004 content changed
 common#:#group_new_registrations#:#Nové registrace###04 Sep 2004 content changed
 common#:#group_no_registration#:#registratce není vyžadována###07 Apr 2005 content changed
-common#:#group_no_registration_msg#:#Nejste doposud �?lenem této skupiny.  Z administrativních důvodů musíte vstoupit do požadované skupiny.<br> Jako �?len máte následující výhody:<br>- Budete informován(a) o novinkách a aktualizacích<br>- Získáte právo přístupu k odpovídajícím objektům jako jsou diskusní skupiny, výukové moduly, atd.<br><br>Své �?lenství můžete kdykoliv zrušit.###14 Sep 2004 content changed
+common#:#group_no_registration_msg#:#Nejste doposud �?lenem této skupiny.  Z administrativních důvodů musíte vstoupit do požadované skupiny.<br> Jako �?len máte následující výhody:<br>- Budete informován(a) o novinkách a aktualizacích<br>- Získáte právo přístupu k odpovídajícím objektům jako jsou diskusní skupiny, výukové moduly, atd.<br><br>Své �?lenství můžete kdykoliv zrušit.###14 Sep 2004 content changed
 common#:#group_not_available#:#žádná skupina není k dispozici###07 Apr 2005 content changed
 common#:#group_objects#:#Skupinové objekty###07 Apr 2005 content changed
 common#:#group_password_registration_msg#:#Ke vstupu do této skupiny musíte zadat heslo, které Vám poskytne její administrátor.<br>Budete automaticky zařazeni do skupiny, pokud zdáte správné heslo.###14 Sep 2004 content changed
 common#:#group_registration#:#Registration###23 Dec 2005 new variable
 common#:#group_registration_expiration_date#:#Datum vypršení###07 Apr 2005 content changed
 common#:#group_registration_expiration_time#:#Čas vypršení###07 Apr 2005 content changed
-common#:#group_registration_expired#:#Registra�?ní období vypršelo###14 Sep 2004 content changed
+common#:#group_registration_expired#:#Registra�?ní období vypršelo###14 Sep 2004 content changed
 common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
-common#:#group_registration_mode#:#Registra�?ní mód###07 Apr 2005 content changed
+common#:#group_registration_mode#:#Registra�?ní mód###07 Apr 2005 content changed
 common#:#group_registration_time#:#Registration period###23 Dec 2005 new variable
 common#:#group_req_direct#:#Join directly###23 Dec 2005 new variable
-common#:#group_req_password#:#Musíte zadat registra�?ní heslo.###07 Apr 2005 content changed
+common#:#group_req_password#:#Musíte zadat registra�?ní heslo.###07 Apr 2005 content changed
 common#:#group_req_registration#:#Je vyžadována registrace###07 Apr 2005 content changed
 common#:#group_req_registration_msg#:#Pokud chcete vstoupit do této skupiny, musíte se registrovat.  Správce dané skupiny vás zařadí.  Zadejte prosím předmět udávající důvody vaší žádosti.<br>Obdržíte zprávu jakmile budete do skupiny zařazen(a).###14 Sep 2004 content changed
 common#:#group_reset#:#Vynulovat oprávnění skupiny###07 Apr 2005 content changed
@@ -1689,10 +1689,10 @@ common#:#grp_edit_permission#:#Change permission settings###16 Mar 2004 new vari
 common#:#grp_err_administrator_required#:#Uživatel nemůže být odstraněn.  Alespoň jeden administrátor je vyžadován pro každou skupinu!###07 Apr 2005 content changed
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Každá skupina potřebuje mít alespoň jednoho administrátora###07 Apr 2005 content changed
 common#:#grp_err_error#:#Došlo k chybě###14 Sep 2004 content changed
-common#:#grp_err_last_member#:#Poslední �?len nemůže být odstraněn, odstraňte namísto toho prosím danou skupinu.###07 Apr 2005 content changed
+common#:#grp_err_last_member#:#Poslední �?len nemůže být odstraněn, odstraňte namísto toho prosím danou skupinu.###07 Apr 2005 content changed
 common#:#grp_err_member_could_not_be_removed#:#Uživatel nemůže být odstraněn.  Ověřte prosím všechny závislosti tohoto uživatele.###07 Apr 2005 content changed
 common#:#grp_err_no_permission#:#Nemáte práva pro tuto operaci.###07 Apr 2005 content changed
-common#:#grp_err_registration_data#:#Zadejte prosím heslo a datum a �?as platného registra�?ního období!###07 Apr 2005 content changed
+common#:#grp_err_registration_data#:#Zadejte prosím heslo a datum a �?as platného registra�?ního období!###07 Apr 2005 content changed
 common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#User may join Group###16 Mar 2004 new variable
 common#:#grp_leave#:#User may leave Group###16 Mar 2004 new variable
@@ -1701,9 +1701,9 @@ common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
 common#:#grp_mail_subj_new_subscription#:#New subscription###03 Nov 2005 new variable
 common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
-common#:#grp_mem_change_status#:#Změnit statut �?lena###07 Apr 2005 content changed
-common#:#grp_mem_leave#:#Vyřadit �?lena ze skupiny###07 Apr 2005 content changed
-common#:#grp_mem_send_mail#:#Poslat �?lenovi zprávu###07 Apr 2005 content changed
+common#:#grp_mem_change_status#:#Změnit statut �?lena###07 Apr 2005 content changed
+common#:#grp_mem_leave#:#Vyřadit �?lena ze skupiny###07 Apr 2005 content changed
+common#:#grp_mem_send_mail#:#Poslat �?lenovi zprávu###07 Apr 2005 content changed
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
 common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
@@ -1718,7 +1718,7 @@ common#:#grp_options#:#Options###04 Sep 2004 new variable
 common#:#grp_read#:#Read access to Group###16 Mar 2004 new variable
 common#:#grp_register#:#Registrovat###07 Apr 2005 content changed
 common#:#grp_registration#:#Join group###23 Dec 2005 new variable
-common#:#grp_registration_completed#:#Registrace dokon�?ena###07 Apr 2005 content changed
+common#:#grp_registration_completed#:#Registrace dokon�?ena###07 Apr 2005 content changed
 common#:#grp_search_enter_search_string#:#Please enter a search string###04 Sep 2004 new variable
 common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
@@ -1756,7 +1756,7 @@ common#:#hlm_leave#:#Unsubscribe from HACP Learning Module###15 Jul 2004 new var
 common#:#hlm_read#:#Read access to HACP Learning Module###15 Jul 2004 new variable
 common#:#hlm_visible#:#HACP Learning Module is visible###15 Jul 2004 new variable
 common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
-common#:#hobby#:#Zájmy/Koní�?ky###07 Apr 2005 content changed
+common#:#hobby#:#Zájmy/Koní�?ky###07 Apr 2005 content changed
 common#:#home#:#Domů###07 Apr 2005 content changed
 common#:#host#:#Stroj###07 Apr 2005 content changed
 common#:#hours#:#hour(s)###09 Feb 2006 new variable
@@ -1852,7 +1852,7 @@ common#:#ilinc_student#:#Participant###06 Aug 2005 new variable
 common#:#ilinc_upload_pic_linktext#:#Upload###06 Aug 2005 new variable
 common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:###06 Aug 2005 new variable
 common#:#image#:#Obrázek###07 Apr 2005 content changed
-common#:#image_gen_unsucc#:#Generování obrázku skon�?ilo neúspěšně. kontaktujte správce systému a zkontrolujte cestu ke konverznímu programu.###14 Sep 2004 content changed
+common#:#image_gen_unsucc#:#Generování obrázku skon�?ilo neúspěšně. kontaktujte správce systému a zkontrolujte cestu ke konverznímu programu.###14 Sep 2004 content changed
 common#:#import#:#Importovat###07 Apr 2005 content changed
 common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_cat_localrol#:#Create local role for every new category###03 Nov 2005 new variable
@@ -1883,16 +1883,16 @@ common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#v###07 Apr 2005 content changed
 common#:#in_use#:#Uživatelský jazyk###07 Apr 2005 content changed
 common#:#inactive#:#Inactive###14 Sep 2004 new variable
-common#:#inbox#:#Doru�?ená pošta###07 Apr 2005 content changed
+common#:#inbox#:#Doru�?ená pošta###07 Apr 2005 content changed
 common#:#include_local#:#include local###include local language file when updating language
 common#:#info#:#Information###29 Nov 2004 new variable
 common#:#info_access_and_status_info#:#Access- and Statusinformation###20 Jun 2005 new variable
 common#:#info_access_permissions#:#Access permissions###20 Jun 2005 new variable
-common#:#info_assign_sure#:#Ur�?itě chcete přiřadit následující uživatele?###07 Apr 2005 content changed
+common#:#info_assign_sure#:#Ur�?itě chcete přiřadit následující uživatele?###07 Apr 2005 content changed
 common#:#info_assigned#:#assigned###20 Jun 2005 new variable
 common#:#info_available_roles#:#Available roles###20 Jun 2005 new variable
 common#:#info_change_user_view#:#Change view of user###20 Jun 2005 new variable
-common#:#info_delete_sure#:#Ur�?itě chcete vymazat následující objekty?###07 Apr 2005 content changed
+common#:#info_delete_sure#:#Ur�?itě chcete vymazat následující objekty?###07 Apr 2005 content changed
 common#:#info_deleted#:#Objekty byly odstraněny###07 Apr 2005 content changed
 common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>###03 Aug 2005 new variable
 common#:#info_err_user_not_exist#:#User with that user_id does not exists###20 Jun 2005 new variable
@@ -1913,12 +1913,12 @@ common#:#information_abbr#:#Info### identical translation
 common#:#ingmedia_all_offers#:#Všechny LE###07 Apr 2005 content changed
 common#:#ingmedia_back_to_le#:#Zpět na LE###07 Apr 2005 content changed
 common#:#ingmedia_good_afternoon#:#Dobré odpoledne###07 Apr 2005 content changed
-common#:#ingmedia_good_evening#:#Dobrý ve�?er###07 Apr 2005 content changed
+common#:#ingmedia_good_evening#:#Dobrý ve�?er###07 Apr 2005 content changed
 common#:#ingmedia_good_morning#:#Dobré ráno###07 Apr 2005 content changed
 common#:#ingmedia_good_night#:#Dobrou noc###07 Apr 2005 content changed
 common#:#ingmedia_hello#:#Vítejte###07 Apr 2005 content changed
 common#:#ingmedia_info_about_work1#:#Dne###07 Apr 2005 content changed
-common#:#ingmedia_info_about_work2#:# jste zde pracoval(a) naposledy.  Pro pokra�?ování v práci použijte následující odkaz:###07 Apr 2005 content changed
+common#:#ingmedia_info_about_work2#:# jste zde pracoval(a) naposledy.  Pro pokra�?ování v práci použijte následující odkaz:###07 Apr 2005 content changed
 common#:#ingmedia_level_zero#:#O úroveň výše###07 Apr 2005 content changed
 common#:#ingmedia_pers_dates#:#Osobní údaje###07 Apr 2005 content changed
 common#:#ingmedia_reg_fo#:#Registrované diskusní skupiny###07 Apr 2005 content changed
@@ -1931,7 +1931,7 @@ common#:#ingmedia_user_agree#:#Ujednání###07 Apr 2005 content changed
 common#:#ingmedia_vis_le#:#Navštívené LE###07 Apr 2005 content changed
 common#:#ingmedia_visited_le#:#Všechny Vaše doposud navštívené LE.###07 Apr 2005 content changed
 common#:#ingmedia_welcome#:#, vítejte na své osobní pracovní ploše!!###07 Apr 2005 content changed
-common#:#inifile#:#Inicializa�?ní soubor###07 Apr 2005 content changed
+common#:#inifile#:#Inicializa�?ní soubor###07 Apr 2005 content changed
 common#:#input_error#:#Chyba vstupu###07 Apr 2005 content changed
 common#:#insert#:#Vložit###07 Apr 2005 content changed
 common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
@@ -1950,13 +1950,13 @@ common#:#is_already_your#:#již je váš###07 Apr 2005 content changed
 common#:#item#:#Položka###07 Apr 2005 content changed
 common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#KBajtů###07 Apr 2005 content changed
-common#:#keywords#:#Klí�?ová slova###07 Apr 2005 content changed
+common#:#keywords#:#Klí�?ová slova###07 Apr 2005 content changed
 common#:#lang_cs#:#Čeština###07 Apr 2005 content changed
 common#:#lang_da#:#Danish###22 Apr 2004 new variable
 common#:#lang_dateformat#:#d.m.Y###07 Apr 2005 content changed
-common#:#lang_de#:#Něm�?ina###07 Apr 2005 content changed
+common#:#lang_de#:#Něm�?ina###07 Apr 2005 content changed
 common#:#lang_el#:#Greek###22 Apr 2004 new variable
-common#:#lang_en#:#Angli�?tina###07 Apr 2005 content changed
+common#:#lang_en#:#Angli�?tina###07 Apr 2005 content changed
 common#:#lang_es#:#Španělština###07 Apr 2005 content changed
 common#:#lang_fi#:#Finština###07 Apr 2005 content changed
 common#:#lang_fr#:#Francouzština###07 Apr 2005 content changed
@@ -2078,7 +2078,7 @@ common#:#lo_available#:#Přehled výukových modulů a kurzů###07 Apr 2005 cont
 common#:#lo_categories#:#Kategorie výukových objektů###07 Apr 2005 content changed
 common#:#lo_edit#:#Upravit výukový objekt###07 Apr 2005 content changed
 common#:#lo_new#:#Nový výukový objekt###07 Apr 2005 content changed
-common#:#lo_no_content#:#Žádné u�?ební materiály nejsou k dispozici###07 Apr 2005 content changed
+common#:#lo_no_content#:#Žádné u�?ební materiály nejsou k dispozici###07 Apr 2005 content changed
 common#:#lo_other_langs#:#Výukové objekty v jiných jazycích###14 Sep 2004 content changed
 common#:#lo_overview#:#Přehled výukových objektů###07 Apr 2005 content changed
 common#:#local#:#Local###11 Sep 2004 new variable
@@ -2107,7 +2107,7 @@ common#:#mail#:#Pošta###07 Apr 2005 content changed
 common#:#mail_a_root#:#Poštovní schránka###07 Apr 2005 content changed
 common#:#mail_addressbook#:#Adresář kontaktů###14 Sep 2004 content changed
 common#:#mail_allow_smtp#:#Povolit SMTP###07 Apr 2005 content changed
-common#:#mail_b_inbox#:#Doru�?ená pošta###07 Apr 2005 content changed
+common#:#mail_b_inbox#:#Doru�?ená pošta###07 Apr 2005 content changed
 common#:#mail_c_trash#:#Koš###07 Apr 2005 content changed
 common#:#mail_d_drafts#:#Koncepty###07 Apr 2005 content changed
 common#:#mail_delete_error#:#Chyba při mazání###07 Apr 2005 content changed
@@ -2142,15 +2142,15 @@ common#:#mail_z_local#:#Uživatelské složky###07 Apr 2005 content changed
 common#:#mails#:#Pošta###14 Sep 2004 content changed
 common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
-common#:#mark_all_read#:#Ozna�?it všechny jako pře�?tené###07 Apr 2005 content changed
-common#:#mark_all_unread#:#Ozna�?it všechny jako nepře�?tené###07 Apr 2005 content changed
+common#:#mark_all_read#:#Ozna�?it všechny jako pře�?tené###07 Apr 2005 content changed
+common#:#mark_all_unread#:#Ozna�?it všechny jako nepře�?tené###07 Apr 2005 content changed
 common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Člen###07 Apr 2005 content changed
 common#:#member_status#:#Member Status:###13 May 2005 new variable
 common#:#members#:#Členové###07 Apr 2005 content changed
-common#:#membership_annulled#:#Vaše �?lenství bylo vypovězeno###07 Apr 2005 content changed
+common#:#membership_annulled#:#Vaše �?lenství bylo vypovězeno###07 Apr 2005 content changed
 common#:#mep#:#Media Pool###22 Mar 2004 new variable
 common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
 common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
@@ -2208,7 +2208,7 @@ common#:#moveChapter#:#Přesunout###07 Apr 2005 content changed
 common#:#movePage#:#Přesunout###07 Apr 2005 content changed
 common#:#msg_cancel#:#Akce stornována###07 Apr 2005 content changed
 common#:#msg_changes_ok#:#Změny byly v pořádku###07 Apr 2005 content changed
-common#:#msg_clear_clipboard#:#Schránka vy�?ištěna###07 Apr 2005 content changed
+common#:#msg_clear_clipboard#:#Schránka vy�?ištěna###07 Apr 2005 content changed
 common#:#msg_cloned#:#Vybrané objekty byly zkopírovány###07 Apr 2005 content changed
 common#:#msg_copy_clipboard#:#Vybrané objekty byly uloženy do schránky###07 Apr 2005 content changed
 common#:#msg_cut_clipboard#:#Vybrané objekty byly vyjmuty a uloženy do schránky###07 Apr 2005 content changed
@@ -2230,7 +2230,7 @@ common#:#msg_min_one_active_role#:#Každý uživatel musí mít alespoň jednu a
 common#:#msg_min_one_role#:#Každý uživatel musí mít alespoň jednu globální roli!###07 Apr 2005 content changed
 common#:#msg_multi_language_selected#:#Byl vybrán stejný jazyk pro různé překlady!###07 Apr 2005 content changed
 common#:#msg_no_default_language#:#Nebyl vybrán výchozí jazyk!  Musíte vybrat jeden překlad jako vývhozí.###07 Apr 2005 content changed
-common#:#msg_no_delete_yourself#:#Nemůžete smazat svůj vlastní ú�?et.###07 Apr 2005 content changed
+common#:#msg_no_delete_yourself#:#Nemůžete smazat svůj vlastní ú�?et.###07 Apr 2005 content changed
 common#:#msg_no_file#:#You didn't choose a file###16 Mar 2004 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_no_language_selected#:#Nebyl vybrán jazyk pro překlad.  Musíte definovat jazyk pro každý překlad.###07 Apr 2005 content changed
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###16 Mar 2004 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -2240,7 +2240,7 @@ common#:#msg_no_perm_create#:#Nemáte oprávnění vytvářet následující obj
 common#:#msg_no_perm_create_object1#:#Nemáte oprávnění vytvořit###07 Apr 2005 content changed
 common#:#msg_no_perm_create_object2#:#v daném umístění!###07 Apr 2005 content changed
 common#:#msg_no_perm_create_role#:#Nemáte oprávnění přidávat role###07 Apr 2005 content changed
-common#:#msg_no_perm_create_rolf#:#Nemáte oprávnění vytvořit složku rolí.  Nemůžete zde tudíž ukon�?it dědi�?nost rolí nebo přidávat lokální role.###07 Apr 2005 content changed
+common#:#msg_no_perm_create_rolf#:#Nemáte oprávnění vytvořit složku rolí.  Nemůžete zde tudíž ukon�?it dědi�?nost rolí nebo přidávat lokální role.###07 Apr 2005 content changed
 common#:#msg_no_perm_create_rolt#:#Nemáte oprávnění přidávat šablony rolí###07 Apr 2005 content changed
 common#:#msg_no_perm_create_user#:#Nemáte oprávnění přidávat uživatele###07 Apr 2005 content changed
 common#:#msg_no_perm_cut#:#Nemáte oprávnění vyjmout následující objekty:###07 Apr 2005 content changed
@@ -2288,7 +2288,7 @@ common#:#msg_sysrole_not_editable#:#Nastavení oprávnění systémové role nel
 common#:#msg_trash_empty#:#žádné smazané objekty nejsou k dispozici.###07 Apr 2005 content changed
 common#:#msg_undeleted#:#Objekty obnoveny.###07 Apr 2005 content changed
 common#:#msg_user_last_role1#:# Následující uživatelé mají přiřazenu pouze tuto roli:###07 Apr 2005 content changed
-common#:#msg_user_last_role2#:#Smažte prosím tyto uživatele, nebo jim přiřa�?te jinou roli aby bylo možné tuto roli smazat.###07 Apr 2005 content changed
+common#:#msg_user_last_role2#:#Smažte prosím tyto uživatele, nebo jim přiřa�?te jinou roli aby bylo možné tuto roli smazat.###07 Apr 2005 content changed
 common#:#msg_userassignment_changed#:#Přiřazení uživatelů bylo změněno###14 Sep 2004 content changed
 common#:#multimedia#:#Multimédia###07 Apr 2005 content changed
 common#:#my_bms#:#Mé záložky###07 Apr 2005 content changed
@@ -2315,7 +2315,7 @@ common#:#no_access_item_public#:#This item cannot be accessed in the public sect
 common#:#no_access_link_object#:#You are not allowed to link this object###07 Aug 2004 new variable
 common#:#no_bm_in_personal_list#:#Žádné záložky nebyly definovány.###07 Apr 2005 content changed
 common#:#no_chat_in_personal_list#:#No chats in personal list###16 Mar 2004 new variable
-common#:#no_checkbox#:#Žádné zaškrtávací polí�?ko nebylo ozna�?eno!###07 Apr 2005 content changed
+common#:#no_checkbox#:#Žádné zaškrtávací polí�?ko nebylo ozna�?eno!###07 Apr 2005 content changed
 common#:#no_condition_selected#:#Please select one precondition.###23 Dec 2005 new variable
 common#:#no_conditions_found#:#No preconditions created.###23 Dec 2005 new variable
 common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
@@ -2343,7 +2343,7 @@ common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
 common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
 common#:#non_internal_local_roles_only#:#Local roles (only userdefined)###16 Sep 2004 new variable
-common#:#none#:#Neur�?eno###07 Apr 2005 content changed
+common#:#none#:#Neur�?eno###07 Apr 2005 content changed
 common#:#normal#:#Normální###07 Apr 2005 content changed
 common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
 common#:#not_accessed_yet#:#Not accessed yet###03 Nov 2005 new variable
@@ -2371,7 +2371,7 @@ common#:#obj_chac#:#Chat settings###16 Mar 2004 new variable
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###16 Mar 2004 new variable
 common#:#obj_chat#:#Chat###16 Mar 2004 new variable
 common#:#obj_crs#:#Kurz###07 Apr 2005 content changed
-common#:#obj_dbk#:#Digilib u�?ebnice###07 Apr 2005 content changed
+common#:#obj_dbk#:#Digilib u�?ebnice###07 Apr 2005 content changed
 common#:#obj_exc#:#Exercise###16 Mar 2004 new variable
 common#:#obj_extt#:#Third party software###14 Jul 2005 new variable
 common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS###14 Jul 2005 new variable
@@ -2385,14 +2385,14 @@ common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_icla#:#iLinc Classroom###01 Mar 2005 new variable
 common#:#obj_icrs#:#iLinc Course###01 Mar 2005 new variable
 common#:#obj_ldap#:#Nastavení LDAP###07 Apr 2005 content changed
-common#:#obj_ldap_desc#:#Zde prove�?te globální nastavení LDAP.###07 Apr 2005 content changed
+common#:#obj_ldap_desc#:#Zde prove�?te globální nastavení LDAP.###07 Apr 2005 content changed
 common#:#obj_lm#:#Výukový modul###24 Sep 2004 content changed
 common#:#obj_lng#:#Jazyk###07 Apr 2005 content changed
 common#:#obj_lngf#:#Jazyky###07 Apr 2005 content changed
 common#:#obj_lngf_desc#:#Správa systémových jazyků.###07 Apr 2005 content changed
 common#:#obj_lo#:#Výukový objekt###07 Apr 2005 content changed
 common#:#obj_mail#:#Nastavení Pošty###07 Apr 2005 content changed
-common#:#obj_mail_desc#:#Zde prove�?te globální nastavení pošty.###07 Apr 2005 content changed
+common#:#obj_mail_desc#:#Zde prove�?te globální nastavení pošty.###07 Apr 2005 content changed
 common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
 common#:#obj_mob#:#Multimedia Object###16 Mar 2004 new variable
 common#:#obj_not_found#:#Objekt nenalezen###07 Apr 2005 content changed
@@ -2411,7 +2411,7 @@ common#:#obj_role#:#Role### identical translation
 common#:#obj_rolf#:#Role### identical translation
 common#:#obj_rolf_desc#:#Správa uživatelských rolí.###07 Apr 2005 content changed
 common#:#obj_rolf_local#:#Lokální role###07 Apr 2005 content changed
-common#:#obj_rolf_local_desc#:#Obsahuje lokální role objektu �?.###07 Apr 2005 content changed
+common#:#obj_rolf_local_desc#:#Obsahuje lokální role objektu �?.###07 Apr 2005 content changed
 common#:#obj_rolt#:#Šablona role###07 Apr 2005 content changed
 common#:#obj_root#:#kořen###07 Apr 2005 content changed
 common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
@@ -2433,8 +2433,8 @@ common#:#obj_type#:#Typ objektu###07 Apr 2005 content changed
 common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Uživatelská nastavení###07 Apr 2005 content changed
 common#:#obj_usr#:#Uživatel###07 Apr 2005 content changed
-common#:#obj_usrf#:#Uživatelské ú�?ty###07 Apr 2005 content changed
-common#:#obj_usrf_desc#:#Správa uživatelských ú�?tů.###07 Apr 2005 content changed
+common#:#obj_usrf#:#Uživatelské ú�?ty###07 Apr 2005 content changed
+common#:#obj_usrf_desc#:#Správa uživatelských ú�?tů.###07 Apr 2005 content changed
 common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Object###21 Jul 2004 new variable
 common#:#object_added#:#Object added###03 Apr 2004 new variable
@@ -2564,7 +2564,7 @@ common#:#port#:#Port### identical translation
 common#:#position#:#Pozice###07 Apr 2005 content changed
 common#:#preconditions#:#Preconditions###14 Aug 2004 new variable
 common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variable
-common#:#presentation_options#:#Prezenta�?ní volby###07 Apr 2005 content changed
+common#:#presentation_options#:#Prezenta�?ní volby###07 Apr 2005 content changed
 common#:#previous#:#předchozí###07 Apr 2005 content changed
 common#:#print#:#Tisk###07 Apr 2005 content changed
 common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
@@ -2612,13 +2612,13 @@ common#:#reg_mail_body_text3#:#Further personal information:###29 Nov 2004 new v
 common#:#reg_mail_subject#:#ILIAS eLearning - Your access data###29 Nov 2004 new variable
 common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.###29 Nov 2004 new variable
 common#:#register#:#Registrovat###07 Apr 2005 content changed
-common#:#register_info#:#Vypnňte prosím registra�?ní formulář (položky ozna�?ené hvězdi�?kou jsou povinné).###07 Apr 2005 content changed
+common#:#register_info#:#Vypnňte prosím registra�?ní formulář (položky ozna�?ené hvězdi�?kou jsou povinné).###07 Apr 2005 content changed
 common#:#registered_since#:#Registrace od###07 Apr 2005 content changed
 common#:#registered_user#:#registovaný uživatel###07 Apr 2005 content changed
 common#:#registered_users#:#registovaných uživatelů###07 Apr 2005 content changed
-common#:#registration#:#Registrace nového ú�?tu###07 Apr 2005 content changed
+common#:#registration#:#Registrace nového ú�?tu###07 Apr 2005 content changed
 common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
-common#:#registration_expired#:#Registra�?ní období vypršelo...###07 Apr 2005 content changed
+common#:#registration_expired#:#Registra�?ní období vypršelo...###07 Apr 2005 content changed
 common#:#related_to#:#Related to###03 Nov 2005 new variable
 common#:#remove#:#Opustit###25 Mar 2004 content changed
 common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
@@ -2734,7 +2734,7 @@ common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new
 common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
 common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#salutation#:#Oslovení###07 Apr 2005 content changed
-common#:#salutation_f#:#paní/sle�?na###07 Apr 2005 content changed
+common#:#salutation_f#:#paní/sle�?na###07 Apr 2005 content changed
 common#:#salutation_m#:#pan###07 Apr 2005 content changed
 common#:#save#:#Uložit###07 Apr 2005 content changed
 common#:#save_and_back#:#Uložit a zpět###07 Apr 2005 content changed
@@ -2831,7 +2831,7 @@ common#:#shib_zipcode#:#Attribute for zipcode###13 May 2005 new variable
 common#:#show#:#Show###16 Mar 2004 new variable
 common#:#show_details#:#zobrazit podrobnosti###07 Apr 2005 content changed
 common#:#show_list#:#Zobrazit seznam###07 Apr 2005 content changed
-common#:#show_members#:#Zobrazit �?leny###07 Apr 2005 content changed
+common#:#show_members#:#Zobrazit �?leny###07 Apr 2005 content changed
 common#:#show_owner#:#Zobrazit vlastníka###07 Apr 2005 content changed
 common#:#show_private_notes#:#Show private notes###03 Nov 2005 new variable
 common#:#show_public_notes#:#Show public notes###03 Nov 2005 new variable
@@ -2866,7 +2866,7 @@ common#:#startpage#:#Úvodní stránka###14 Sep 2004 content changed
 common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Stav###07 Apr 2005 content changed
 common#:#step#:#Krok###07 Apr 2005 content changed
-common#:#stop_inheritance#:#Ukon�?it dědi�?nost###07 Apr 2005 content changed
+common#:#stop_inheritance#:#Ukon�?it dědi�?nost###07 Apr 2005 content changed
 common#:#street#:#Ulice###07 Apr 2005 content changed
 common#:#structure#:#Struktura###07 Apr 2005 content changed
 common#:#sty#:#Style###01 Mar 2005 new variable
@@ -2991,7 +2991,7 @@ common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005
 common#:#tst_write#:#Edit Test###16 Mar 2004 new variable
 common#:#txt_add_object_instruction1#:#Přemístěte se do místa kam chcete přidat###07 Apr 2005 content changed
 common#:#txt_add_object_instruction2#:#.### identical translation
-common#:#txt_registered#:#Vaše registrace byla úspěšná.  Použijte níže uvedené tla�?ítko pro přihlášení do systému ILIAS s Vaším novým ú�?tem.###14 Sep 2004 content changed
+common#:#txt_registered#:#Vaše registrace byla úspěšná.  Použijte níže uvedené tla�?ítko pro přihlášení do systému ILIAS s Vaším novým ú�?tem.###14 Sep 2004 content changed
 common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.###14 Sep 2004 new variable
 common#:#typ#:#Definice typů objektů###07 Apr 2005 content changed
 common#:#type#:#Typ###07 Apr 2005 content changed
@@ -3013,9 +3013,9 @@ common#:#unambiguousness#:#Unambiguousness###01 Mar 2005 new variable
 common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Odinstalovat###07 Apr 2005 content changed
 common#:#uninstalled#:#Odinstalován.###07 Apr 2005 content changed
-common#:#unknown#:#NEZN�?M�?###07 Apr 2005 content changed
+common#:#unknown#:#NEZN�?M�?###07 Apr 2005 content changed
 common#:#unlabeled#:#Unlabeled###03 Nov 2005 new variable
-common#:#unread#:#Nepře�?teno###07 Apr 2005 content changed
+common#:#unread#:#Nepře�?teno###07 Apr 2005 content changed
 common#:#unread_lowercase#:#unread###13 May 2005 new variable
 common#:#unselected#:#Unselected###30 Aug 2004 new variable
 common#:#unsubscribe#:#Odhlásit###07 Apr 2005 content changed
@@ -3056,7 +3056,7 @@ common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable
 common#:#user_imported#:#User import complete.###16 Mar 2004 new variable
 common#:#user_imported_with_warnings#:#User import complete with warnings.###09 Mar 2005 new variable
 common#:#user_language#:#Uživatelský jazyk###07 Apr 2005 content changed
-common#:#user_not_chosen#:#Nevybral(a) jste �?lena skupiny!###07 Apr 2005 content changed
+common#:#user_not_chosen#:#Nevybral(a) jste �?lena skupiny!###07 Apr 2005 content changed
 common#:#user_not_known#:#Please insert a valid username.###23 Dec 2005 new variable
 common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
 common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
@@ -3216,7 +3216,7 @@ content#:#cont_caption#:#Nápis###07 Apr 2005 content changed
 content#:#cont_change_type#:#Změnit typ###07 Apr 2005 content changed
 content#:#cont_chap_and_pages#:#Kapitoly a stránky###07 Apr 2005 content changed
 content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
-content#:#cont_chap_select_target_now#:#Kapitola ozna�?ena pro přesun.  Nyní vyberte cíl.###07 Apr 2005 content changed
+content#:#cont_chap_select_target_now#:#Kapitola ozna�?ena pro přesun.  Nyní vyberte cíl.###07 Apr 2005 content changed
 content#:#cont_chapters#:#Kapitoly###07 Apr 2005 content changed
 content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
 content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
@@ -3374,7 +3374,7 @@ content#:#cont_isbn#:#ISBN### identical translation
 content#:#cont_issn#:#ISSN### identical translation
 content#:#cont_item#:#Položka###07 Apr 2005 content changed
 content#:#cont_journal#:#Žurnál###07 Apr 2005 content changed
-content#:#cont_keyword#:#Klí�?ové slovo###07 Apr 2005 content changed
+content#:#cont_keyword#:#Klí�?ové slovo###07 Apr 2005 content changed
 content#:#cont_link#:#Link###16 Mar 2004 new variable
 content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#Link (external)###16 Mar 2004 new variable
@@ -3433,9 +3433,9 @@ content#:#cont_no_page#:#Žádná stránka nebyla nalezena.###07 Apr 2005 conten
 content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Žádný###07 Apr 2005 content changed
-content#:#cont_nr_cols#:#Po�?et sloupců###07 Apr 2005 content changed
-content#:#cont_nr_items#:#Po�?et položek###07 Apr 2005 content changed
-content#:#cont_nr_rows#:#Po�?et řádků###07 Apr 2005 content changed
+content#:#cont_nr_cols#:#Po�?et sloupců###07 Apr 2005 content changed
+content#:#cont_nr_items#:#Po�?et položek###07 Apr 2005 content changed
+content#:#cont_nr_rows#:#Po�?et řádků###07 Apr 2005 content changed
 content#:#cont_Number#:#Číslo###07 Apr 2005 content changed
 content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
@@ -3450,7 +3450,7 @@ content#:#cont_organizations#:#Organizace###07 Apr 2005 content changed
 content#:#cont_orig_size#:#Původní velikost###07 Apr 2005 content changed
 content#:#cont_page_header#:#Záhlaví stránky###07 Apr 2005 content changed
 content#:#cont_page_link#:#Page Link###11 Mar 2005 new variable
-content#:#cont_page_select_target_now#:#Stránka ozna�?ena pro přesun.  Nyní vyberte cíl.###07 Apr 2005 content changed
+content#:#cont_page_select_target_now#:#Stránka ozna�?ena pro přesun.  Nyní vyberte cíl.###07 Apr 2005 content changed
 content#:#cont_pages#:#Stránky###07 Apr 2005 content changed
 content#:#cont_parameter#:#Parametr###07 Apr 2005 content changed
 content#:#cont_parameters#:#parametry###07 Apr 2005 content changed
@@ -3468,7 +3468,7 @@ content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
 content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Vydavatel###07 Apr 2005 content changed
-content#:#cont_purpose#:#Ú�?el###07 Apr 2005 content changed
+content#:#cont_purpose#:#Ú�?el###07 Apr 2005 content changed
 content#:#cont_Rect#:#Rectangle###16 Mar 2004 new variable
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)### identical translation
 content#:#cont_ref_images#:#Referenced Images###01 Mar 2005 new variable
@@ -4188,9 +4188,9 @@ forum#:#forums_attachments_add#:#Přidat přílohu###07 Apr 2005 content changed
 forum#:#forums_attachments_edit#:#Upravit přílohu###07 Apr 2005 content changed
 forum#:#forums_available#:#Dostupné diskusní skupiny###07 Apr 2005 content changed
 forum#:#forums_censor_comment#:#Komentář cenzora###07 Apr 2005 content changed
-forum#:#forums_count#:#Po�?et skupin###07 Apr 2005 content changed
-forum#:#forums_count_art#:#Po�?et příspěvků###07 Apr 2005 content changed
-forum#:#forums_count_thr#:#Po�?et témat###07 Apr 2005 content changed
+forum#:#forums_count#:#Po�?et skupin###07 Apr 2005 content changed
+forum#:#forums_count_art#:#Po�?et příspěvků###07 Apr 2005 content changed
+forum#:#forums_count_thr#:#Po�?et témat###07 Apr 2005 content changed
 forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
 forum#:#forums_delete_file#:#Odstranit přílohu###07 Apr 2005 content changed
 forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
@@ -4199,7 +4199,7 @@ forum#:#forums_edit_post#:#Upravit příspěvek###07 Apr 2005 content changed
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
 forum#:#forums_info_censor_post#:#Jste si jist(a), že chcete skrýt tento příspěvek?###07 Apr 2005 content changed
 forum#:#forums_info_censor2_post#:#Vzít zpět cenzuru?###07 Apr 2005 content changed
-forum#:#forums_info_delete_post#:#Jste si jist(a), že chcete odstranit tento příspěvek v�?etně všech reakcí?###07 Apr 2005 content changed
+forum#:#forums_info_delete_post#:#Jste si jist(a), že chcete odstranit tento příspěvek v�?etně všech reakcí?###07 Apr 2005 content changed
 forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_new_entries#:#Nové záznamy ve skupině###07 Apr 2005 content changed
 forum#:#forums_new_thread#:#Nové téma###07 Apr 2005 content changed
@@ -4347,8 +4347,8 @@ mail#:#mail_incoming_smtp#:#forward to email address###16 Mar 2004 new variable
 mail#:#mail_insert_folder_name#:#Vložte prosím název složky###07 Apr 2005 content changed
 mail#:#mail_insert_query#:#Zadejte prosím dotaz###07 Apr 2005 content changed
 mail#:#mail_intern#:#Interní###07 Apr 2005 content changed
-mail#:#mail_mark_read#:#Ozna�?it zprávy jako pře�?tené###14 Sep 2004 content changed
-mail#:#mail_mark_unread#:#Ozna�?it zprávy jako nepře�?tené###14 Sep 2004 content changed
+mail#:#mail_mark_read#:#Ozna�?it zprávy jako pře�?tené###14 Sep 2004 content changed
+mail#:#mail_mark_unread#:#Ozna�?it zprávy jako nepře�?tené###14 Sep 2004 content changed
 mail#:#mail_maxsize_attachment_error#:#Limit pro upload je:###07 Apr 2005 content changed
 mail#:#mail_message_send#:#Zpráva odeslána###07 Apr 2005 content changed
 mail#:#mail_move_error#:#Chyba při přesouvání pošty###14 Sep 2004 content changed
@@ -4363,14 +4363,14 @@ mail#:#mail_options_of#:#Volby###07 Apr 2005 content changed
 mail#:#mail_options_saved#:#Volby uloženy###07 Apr 2005 content changed
 mail#:#mail_recipient_not_valid#:#Příjemce je neplatný###07 Apr 2005 content changed
 mail#:#mail_s#:#Pošta###14 Sep 2004 content changed
-mail#:#mail_s_unread#:#Nepře�?tená pošta###14 Sep 2004 content changed
+mail#:#mail_s_unread#:#Nepře�?tená pošta###14 Sep 2004 content changed
 mail#:#mail_saved#:#Zpráva byla uložena###07 Apr 2005 content changed
 mail#:#mail_search_addressbook#:#Vyhledávat v adresáři kontaktů###14 Sep 2004 content changed
 mail#:#mail_search_system#:#Vyhledávat v sytému###07 Apr 2005 content changed
 mail#:#mail_select_one_entry#:#Musíte vybrat právě jednu položku###14 Sep 2004 content changed
 mail#:#mail_select_one_file#:#Musíte vybrat právě jeden soubor###14 Sep 2004 content changed
-mail#:#mail_sure_delete#:#Ur�?itě chcete odstranit ozna�?ené zprávy?###14 Sep 2004 content changed
-mail#:#mail_sure_delete_entry#:#Ur�?itě chcete odstranit následující položky?###07 Apr 2005 content changed
+mail#:#mail_sure_delete#:#Ur�?itě chcete odstranit ozna�?ené zprávy?###14 Sep 2004 content changed
+mail#:#mail_sure_delete_entry#:#Ur�?itě chcete odstranit následující položky?###07 Apr 2005 content changed
 mail#:#mail_sure_delete_file#:#Soubor bude definitivně vymazán###07 Apr 2005 content changed
 mail#:#mail_sure_delete_folder#:#Složka a její obsah bude definitivně vymazána###14 Sep 2004 content changed
 mail#:#mail_to#:#To###03 Nov 2005 new variable
@@ -4384,7 +4384,7 @@ meta#:#meta_add#:#Přidat###07 Apr 2005 content changed
 meta#:#meta_annotation#:#Anotace###07 Apr 2005 content changed
 meta#:#meta_atomic#:#Atomická###07 Apr 2005 content changed
 meta#:#meta_author#:#Autor###07 Apr 2005 content changed
-meta#:#meta_browser#:#Prohlíže�?###07 Apr 2005 content changed
+meta#:#meta_browser#:#Prohlíže�?###07 Apr 2005 content changed
 meta#:#meta_c_AD#:#Andora###07 Apr 2005 content changed
 meta#:#meta_c_AE#:#Spojené arabské emiráty###07 Apr 2005 content changed
 meta#:#meta_c_AF#:#Afghánistán###07 Apr 2005 content changed
@@ -4434,7 +4434,7 @@ meta#:#meta_c_CO#:#Kolumbie###07 Apr 2005 content changed
 meta#:#meta_c_CR#:#Kostarika###07 Apr 2005 content changed
 meta#:#meta_c_CU#:#Kuba###07 Apr 2005 content changed
 meta#:#meta_c_CV#:#Mys Verde###07 Apr 2005 content changed
-meta#:#meta_c_CX#:#Váno�?ní ostrovy###07 Apr 2005 content changed
+meta#:#meta_c_CX#:#Váno�?ní ostrovy###07 Apr 2005 content changed
 meta#:#meta_c_CY#:#Kypr###07 Apr 2005 content changed
 meta#:#meta_c_CZ#:#Česká republika###07 Apr 2005 content changed
 meta#:#meta_c_DE#:#Německo###07 Apr 2005 content changed
@@ -4479,14 +4479,14 @@ meta#:#meta_c_HM#:#Heardovy a McDonaldovy ostrovy###07 Apr 2005 content changed
 meta#:#meta_c_HN#:#Honduras### identical translation
 meta#:#meta_c_HR#:#Chorvatsko###07 Apr 2005 content changed
 meta#:#meta_c_HT#:#Haiti### identical translation
-meta#:#meta_c_HU#:#Ma�?arsko###07 Apr 2005 content changed
+meta#:#meta_c_HU#:#Ma�?arsko###07 Apr 2005 content changed
 meta#:#meta_c_ID#:#Indonésie###07 Apr 2005 content changed
 meta#:#meta_c_IE#:#Irsko###07 Apr 2005 content changed
 meta#:#meta_c_IL#:#Israel### identical translation
 meta#:#meta_c_IN#:#Indie###07 Apr 2005 content changed
 meta#:#meta_c_IO#:#Britská teritoria v Indickém oceánu###07 Apr 2005 content changed
-meta#:#meta_c_IQ#:#�?rák###07 Apr 2005 content changed
-meta#:#meta_c_IR#:#�?rán###07 Apr 2005 content changed
+meta#:#meta_c_IQ#:#�?rák###07 Apr 2005 content changed
+meta#:#meta_c_IR#:#�?rán###07 Apr 2005 content changed
 meta#:#meta_c_IS#:#Island###07 Apr 2005 content changed
 meta#:#meta_c_IT#:#Itálie###07 Apr 2005 content changed
 meta#:#meta_c_JM#:#Jamaika###07 Apr 2005 content changed
@@ -4657,7 +4657,7 @@ meta#:#meta_educationalvalidator#:#Educational validator###20 Jun 2005 new varia
 meta#:#meta_entity#:#Entita###07 Apr 2005 content changed
 meta#:#meta_entry#:#Položka###07 Apr 2005 content changed
 meta#:#meta_exam#:#Zkouška###07 Apr 2005 content changed
-meta#:#meta_exercise#:#Cvi�?ení###07 Apr 2005 content changed
+meta#:#meta_exercise#:#Cvi�?ení###07 Apr 2005 content changed
 meta#:#meta_experiment#:#Experiment### identical translation
 meta#:#meta_expositive#:#Vysvětlující###07 Apr 2005 content changed
 meta#:#meta_figure#:#Obrázek###07 Apr 2005 content changed
@@ -4667,7 +4667,7 @@ meta#:#meta_general#:#Obecné###07 Apr 2005 content changed
 meta#:#meta_graph#:#Graf###07 Apr 2005 content changed
 meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
 meta#:#meta_has_format#:#Má formát###07 Apr 2005 content changed
-meta#:#meta_has_part#:#Má �?ást###07 Apr 2005 content changed
+meta#:#meta_has_part#:#Má �?ást###07 Apr 2005 content changed
 meta#:#meta_has_version#:#Má verzi###07 Apr 2005 content changed
 meta#:#meta_hierarchical#:#Hierarchická###07 Apr 2005 content changed
 meta#:#meta_high#:#Vysoká###07 Apr 2005 content changed
@@ -4687,11 +4687,11 @@ meta#:#meta_interactivity_type#:#Typ interaktivity###07 Apr 2005 content changed
 meta#:#meta_is_based_on#:#Je založen na###07 Apr 2005 content changed
 meta#:#meta_is_basis_for#:#Je základem pro###07 Apr 2005 content changed
 meta#:#meta_is_format_of#:#Je formátem pro###07 Apr 2005 content changed
-meta#:#meta_is_part_of#:#Je sou�?ástí###07 Apr 2005 content changed
+meta#:#meta_is_part_of#:#Je sou�?ástí###07 Apr 2005 content changed
 meta#:#meta_is_referenced_by#:#Je odkazován z###07 Apr 2005 content changed
 meta#:#meta_is_required_by#:#Je vyžadován###07 Apr 2005 content changed
 meta#:#meta_is_version_of#:#Je verzí###07 Apr 2005 content changed
-meta#:#meta_keyword#:#Klí�?ové slovo###07 Apr 2005 content changed
+meta#:#meta_keyword#:#Klí�?ové slovo###07 Apr 2005 content changed
 meta#:#meta_kind#:#Druh###07 Apr 2005 content changed
 meta#:#meta_l_aa#:#afarština###14 Sep 2004 content changed
 meta#:#meta_l_ab#:#abchazština###14 Sep 2004 content changed
@@ -4710,18 +4710,18 @@ meta#:#meta_l_bn#:#bengálština###14 Sep 2004 content changed
 meta#:#meta_l_bo#:#tibetština###14 Sep 2004 content changed
 meta#:#meta_l_br#:#bretonština###14 Sep 2004 content changed
 meta#:#meta_l_ca#:#katalánština###14 Sep 2004 content changed
-meta#:#meta_l_co#:#korsi�?tina###14 Sep 2004 content changed
+meta#:#meta_l_co#:#korsi�?tina###14 Sep 2004 content changed
 meta#:#meta_l_cs#:#Čeština###14 Sep 2004 content changed
 meta#:#meta_l_cy#:#velština###14 Sep 2004 content changed
 meta#:#meta_l_da#:#dánština###14 Sep 2004 content changed
-meta#:#meta_l_de#:#něm�?ina###14 Sep 2004 content changed
+meta#:#meta_l_de#:#něm�?ina###14 Sep 2004 content changed
 meta#:#meta_l_dz#:#dzongkha###14 Sep 2004 content changed
-meta#:#meta_l_el#:#ře�?tina###14 Sep 2004 content changed
-meta#:#meta_l_en#:#angli�?tina###14 Sep 2004 content changed
+meta#:#meta_l_el#:#ře�?tina###14 Sep 2004 content changed
+meta#:#meta_l_en#:#angli�?tina###14 Sep 2004 content changed
 meta#:#meta_l_eo#:#esperanto### identical translation
 meta#:#meta_l_es#:#španělština###14 Sep 2004 content changed
 meta#:#meta_l_et#:#estonština###14 Sep 2004 content changed
-meta#:#meta_l_eu#:#baski�?tina###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#baski�?tina###14 Sep 2004 content changed
 meta#:#meta_l_fa#:#perština###14 Sep 2004 content changed
 meta#:#meta_l_fi#:#finština###14 Sep 2004 content changed
 meta#:#meta_l_fj#:#fidžijština###14 Sep 2004 content changed
@@ -4737,7 +4737,7 @@ meta#:#meta_l_ha#:#hausa### translation not available
 meta#:#meta_l_he#:#hebrejština###14 Sep 2004 content changed
 meta#:#meta_l_hi#:#hindština###14 Sep 2004 content changed
 meta#:#meta_l_hr#:#chorvatština###14 Sep 2004 content changed
-meta#:#meta_l_hu#:#ma�?arština###14 Sep 2004 content changed
+meta#:#meta_l_hu#:#ma�?arština###14 Sep 2004 content changed
 meta#:#meta_l_hy#:#arménština###14 Sep 2004 content changed
 meta#:#meta_l_ia#:#interlingua### identical translation
 meta#:#meta_l_id#:#indonéština###14 Sep 2004 content changed
@@ -4783,7 +4783,7 @@ meta#:#meta_l_pa#:#pandžábština###14 Sep 2004 content changed
 meta#:#meta_l_pl#:#polština###14 Sep 2004 content changed
 meta#:#meta_l_ps#:#paštština###14 Sep 2004 content changed
 meta#:#meta_l_pt#:#portugalština###14 Sep 2004 content changed
-meta#:#meta_l_qu#:#ke�?ujština###14 Sep 2004 content changed
+meta#:#meta_l_qu#:#ke�?ujština###14 Sep 2004 content changed
 meta#:#meta_l_rm#:#rétorománština###14 Sep 2004 content changed
 meta#:#meta_l_rn#:#kurundi### translation not available
 meta#:#meta_l_ro#:#rumunština###14 Sep 2004 content changed
@@ -4808,21 +4808,21 @@ meta#:#meta_l_sv#:#švédština###14 Sep 2004 content changed
 meta#:#meta_l_sw#:#svahilština###14 Sep 2004 content changed
 meta#:#meta_l_ta#:#tamilština###14 Sep 2004 content changed
 meta#:#meta_l_te#:#telugu### translation not available
-meta#:#meta_l_tg#:#tádži�?tina###14 Sep 2004 content changed
+meta#:#meta_l_tg#:#tádži�?tina###14 Sep 2004 content changed
 meta#:#meta_l_th#:#thajština###14 Sep 2004 content changed
 meta#:#meta_l_ti#:#tigriňa###14 Sep 2004 content changed
 meta#:#meta_l_tk#:#turkmenština###14 Sep 2004 content changed
 meta#:#meta_l_tl#:#tagalština###14 Sep 2004 content changed
 meta#:#meta_l_tn#:#tswanština###14 Sep 2004 content changed
 meta#:#meta_l_to#:#tongština###14 Sep 2004 content changed
-meta#:#meta_l_tr#:#ture�?tina###14 Sep 2004 content changed
+meta#:#meta_l_tr#:#ture�?tina###14 Sep 2004 content changed
 meta#:#meta_l_ts#:#tsongština###14 Sep 2004 content changed
 meta#:#meta_l_tt#:#tatarština###14 Sep 2004 content changed
 meta#:#meta_l_tw#:#twi### translation not available
 meta#:#meta_l_ug#:#ujgurština###14 Sep 2004 content changed
 meta#:#meta_l_uk#:#ukrajinština###14 Sep 2004 content changed
 meta#:#meta_l_ur#:#urdština###14 Sep 2004 content changed
-meta#:#meta_l_uz#:#uzbe�?tina###14 Sep 2004 content changed
+meta#:#meta_l_uz#:#uzbe�?tina###14 Sep 2004 content changed
 meta#:#meta_l_vi#:#vietnamština###14 Sep 2004 content changed
 meta#:#meta_l_vo#:#volapük###14 Sep 2004 content changed
 meta#:#meta_l_wo#:#wolofština###14 Sep 2004 content changed
@@ -4830,10 +4830,10 @@ meta#:#meta_l_xh#:#xhosa### translation not available
 meta#:#meta_l_yi#:#jidiš###14 Sep 2004 content changed
 meta#:#meta_l_yo#:#jorubština###14 Sep 2004 content changed
 meta#:#meta_l_za#:#zhuang### translation not available
-meta#:#meta_l_zh#:#�?ínština###14 Sep 2004 content changed
+meta#:#meta_l_zh#:#�?ínština###14 Sep 2004 content changed
 meta#:#meta_l_zu#:#zulu### identical translation
 meta#:#meta_language#:#Jazyk###07 Apr 2005 content changed
-meta#:#meta_learner#:#Poslucha�?###07 Apr 2005 content changed
+meta#:#meta_learner#:#Poslucha�?###07 Apr 2005 content changed
 meta#:#meta_learning_resource_type#:#Typ výukového materiálu###07 Apr 2005 content changed
 meta#:#meta_lecture#:#Lekce###07 Apr 2005 content changed
 meta#:#meta_lifecycle#:#Životní cyklus###07 Apr 2005 content changed
@@ -4865,7 +4865,7 @@ meta#:#meta_no_relation#:#Žádná meta-data nejsou k dispozici pro sekci Návaz
 meta#:#meta_no_rights#:#Žádná meta-data nejsou k dispozici pro sekci Autorská práva.###14 Sep 2004 content changed
 meta#:#meta_no_technical#:#Žádná meta-data nejsou k dispozici pro Technickou sekci.###14 Sep 2004 content changed
 meta#:#meta_none#:#Žádný###07 Apr 2005 content changed
-meta#:#meta_operating_system#:#Opera�?ní Systém###07 Apr 2005 content changed
+meta#:#meta_operating_system#:#Opera�?ní Systém###07 Apr 2005 content changed
 meta#:#meta_or_composite#:#Nebo kombinace###07 Apr 2005 content changed
 meta#:#meta_other#:#Jiné###07 Apr 2005 content changed
 meta#:#meta_other_plattform_requirements#:#Jiné systémové požadavky###14 Sep 2004 content changed
@@ -4874,7 +4874,7 @@ meta#:#meta_please_select#:#Prosím vyberte###07 Apr 2005 content changed
 meta#:#meta_prerequisite#:#Prerekvizita###07 Apr 2005 content changed
 meta#:#meta_problem_statement#:#Deklarace problému###07 Apr 2005 content changed
 meta#:#meta_publisher#:#Vydavatel###07 Apr 2005 content changed
-meta#:#meta_purpose#:#Ú�?el###07 Apr 2005 content changed
+meta#:#meta_purpose#:#Ú�?el###07 Apr 2005 content changed
 meta#:#meta_questionnaire#:#Dotazník###07 Apr 2005 content changed
 meta#:#meta_quickedit#:#Quick Edit###03 Nov 2005 new variable
 meta#:#meta_reference#:#Odkaz###07 Apr 2005 content changed
@@ -4888,7 +4888,7 @@ meta#:#meta_rights#:#Autorská práva###07 Apr 2005 content changed
 meta#:#meta_role#:#Role### identical translation
 meta#:#meta_school#:#Škola###07 Apr 2005 content changed
 meta#:#meta_scriptwriter#:#Scriptwriter###20 Jun 2005 new variable
-meta#:#meta_security_level#:#Úroveň zabezpe�?ení###07 Apr 2005 content changed
+meta#:#meta_security_level#:#Úroveň zabezpe�?ení###07 Apr 2005 content changed
 meta#:#meta_self_assessment#:#Sebehodnocení###07 Apr 2005 content changed
 meta#:#meta_semantic_density#:#Významová hustota###07 Apr 2005 content changed
 meta#:#meta_simulation#:#Simulace###07 Apr 2005 content changed
@@ -4902,7 +4902,7 @@ meta#:#meta_subjectmatterexpert#:#Subject matter expert###20 Jun 2005 new variab
 meta#:#meta_table#:#Tabulka###07 Apr 2005 content changed
 meta#:#meta_taxon#:#Taxon### translation not available
 meta#:#meta_taxon_path#:#Taxon Path### translation not available
-meta#:#meta_teacher#:#U�?itel###07 Apr 2005 content changed
+meta#:#meta_teacher#:#U�?itel###07 Apr 2005 content changed
 meta#:#meta_technical#:#Technické###07 Apr 2005 content changed
 meta#:#meta_technicalimplementer#:#Technical implementer###20 Jun 2005 new variable
 meta#:#meta_technicalvalidator#:#Technical validator###20 Jun 2005 new variable

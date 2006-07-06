@@ -158,7 +158,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
+assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß-/Kleinschreibung beachten
@@ -6000,6 +6000,6 @@ crs#:#crs_timings_presetting#:#Zeitplanung eingeschaltet
 crs#:#crs_timings_sug_begin#:#Empfohlener Start
 crs#:#crs_suggestion_end#:#Empfohlenes Ende
 crs#:#crs_timings_changeable#:#Zeitplanung änderbar
-crs#:#crs_timings_early_begin#:#Frähester Start
+crs#:#crs_timings_early_begin#:#Frühester Start
 crs#:#crs_timings_late_end#:#Spätester Start
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungszeit zu empfehlen.
