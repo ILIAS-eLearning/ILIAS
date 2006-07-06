@@ -6221,7 +6221,7 @@ trac#:#info_found_objects#:#The user tracking refers to the following objects of
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.
 trac#:#found_objects#:#Found objects
 trac#:#total_dwell_time#:#Total dwell time
-trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!=======
+trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!
 crs#:#event_registered#:#You have been registered to this event.
 crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_register#:#Register
