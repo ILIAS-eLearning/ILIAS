@@ -134,10 +134,12 @@ class ilCourseItemAdministrationGUI
 			$timing_type = $_POST['timing_type'];
 			$visible = $_POST['visible'];
 			$changeable = $_POST['changeable'];
-			$timing_start = $this->toUnix($_POST['crs']['timing_start']);
-			$timing_end = $this->toUnix($_POST['crs']['timing_end']);
-			$suggestion_start = $this->toUnix($_POST['crs']['suggestion_start']);
-			$suggestion_end = $this->toUnix($_POST['crs']['suggestion_end']);
+			$timing_start = $this->__toUnix($_POST['timing_start'],$_POST['timing_start_time']);
+			$timing_end = $this->__toUnix($_POST['timing_end'],$_POST['timing_end_time']);
+			$suggestion_start = $this->__toUnix($_POST['sug_start']);
+			$suggestion_end = $this->__toUnix($_POST['sug_end']);
+			$earliest_start = $this->__toUnix($_POST['early_start']);
+			$latest_end = $this->__toUnix($_POST['late_end']);
 		}
 		else
 		{
@@ -148,14 +150,29 @@ class ilCourseItemAdministrationGUI
 			$timing_end = $item_data['timing_end'];
 			$suggestion_start = $item_data['suggestion_start'];
 			$suggestion_end = $item_data['suggestion_end'];
+			$earliest_start = $item_data['earliest_start'];
+			$latest_end = $item_data['latest_end'];
 		}
 
 		// SET TEXT VARIABLES
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_".$ilObjDataCache->lookupType($item_data['obj_id'])));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_".$ilObjDataCache->lookupType($item_data['obj_id']).".gif"));
+		$this->tpl->setVariable("TITLE",$ilObjDataCache->lookupTitle($item_data['obj_id']));
+		$this->tpl->setVariable("EDIT_TIMINGS",$this->lng->txt('crs_edit_timings'));
+		$this->tpl->setVariable("TXT_TIMINGS",$this->lng->txt('crs_timings_disabled'));
+		$this->tpl->setVariable("INFO_DEACTIVATED",$this->lng->txt('crs_timings_disabled_info'));
+		$this->tpl->setVariable("TXT_BEGIN",$this->lng->txt('crs_timings_start'));
+		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_timings_END'));
+		$this->tpl->setVariable("TXT_ACTIVATION_ENABLED",$this->lng->txt('crs_timings_availability_enabled'));
+		$this->tpl->setVariable("TXT_VISIBILITY",$this->lng->txt('crs_timings_visibility'));
+		$this->tpl->setVariable("TXT_PRESETTING",$this->lng->txt('crs_timings_presetting_tbl'));
+		$this->tpl->setVariable("TXT_SUG_BEGIN",$this->lng->txt('crs_timings_sug_begin'));
+		$this->tpl->setVariable("TXT_SUG_END",$this->lng->txt('crs_suggestion_end'));
+		$this->tpl->setVariable("TXT_EARLY_BEGIN",$this->lng->txt('crs_timings_early_begin'));
+		$this->tpl->setVariable("TXT_LATE_END",$this->lng->txt('crs_timings_late_end'));
+		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('time'));
 
-		$title .= (" (".$this->lng->txt('crs_edit_timings').')');
-		$this->tpl->setVariable("TITLE",$title);
+
 
 		// Disabled
 		$this->tpl->setVariable("TXT_AVAILABILITY",$this->lng->txt('crs_timings_availability_tbl'));
@@ -184,56 +201,45 @@ class ilCourseItemAdministrationGUI
 
 		// Start
 		$this->tpl->setVariable("TXT_START",$this->lng->txt('crs_timings_start'));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_DAY",$this->getDateSelect("day","crs[timing_start][day]",
-																					 date("d",$timing_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_MONTH",$this->getDateSelect("month","crs[timing_start][month]",
-																					   date("m",$timing_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_YEAR",$this->getDateSelect("year","crs[timing_start][year]",
-																					  date("Y",$timing_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_HOUR",$this->getDateSelect("hour","crs[timing_start][hour]",
-																					  date("G",$timing_start)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_START_MINUTE",$this->getDateSelect("minute","crs[timing_start][minute]",
-																					  date("i",$timing_start)));
-		
+
+		$date = $this->__prepareDateSelect($timing_start);
+		$this->tpl->setVariable("START_DATE_SELECT",
+								ilUtil::makeDateSelect('timing_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
+
+		$date = $this->__prepareTimeSelect($timing_start);
+		$this->tpl->setVariable("START_TIME_SELECT",
+								ilUtil::makeTimeSelect('timing_start_time',true,$date['h'],$date['m'],0,false));
+
+		// End
+		$date = $this->__prepareDateSelect($timing_end);
+		$this->tpl->setVariable("END_DATE_SELECT",
+								ilUtil::makeDateSelect('timing_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
+
+		$date = $this->__prepareTimeSelect($timing_end);
+		$this->tpl->setVariable("END_TIME_SELECT",
+								ilUtil::makeTimeSelect('timing_end_time',true,$date['h'],$date['m'],0,false));
+
 		// End
 		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_timings_end'));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_DAY",$this->getDateSelect("day","crs[timing_end][day]",
-																				   date("d",$timing_end)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_MONTH",$this->getDateSelect("month","crs[timing_end][month]",
-																					 date("m",$timing_end)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_YEAR",$this->getDateSelect("year","crs[timing_end][year]",
-																					date("Y",$timing_end)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_HOUR",$this->getDateSelect("hour","crs[timing_end][hour]",
-																					  date("G",$timing_end)));
-		$this->tpl->setVariable("SELECT_ACTIVATION_END_MINUTE",$this->getDateSelect("minute","crs[timing_end][minute]",
-																					  date("i",$timing_end)));
 
 		// Suggestion Start
-		$this->tpl->setVariable("TXT_SUG_START",$this->lng->txt('crs_suggestion_start'));
-		$this->tpl->setVariable("SELECT_SUGGESTION_START_DAY",$this->getDateSelect("day","crs[suggestion_start][day]",
-																					 date("d",$suggestion_start)));
-		$this->tpl->setVariable("SELECT_SUGGESTION_START_MONTH",$this->getDateSelect("month","crs[suggestion_start][month]",
-																					   date("m",$suggestion_start)));
-		$this->tpl->setVariable("SELECT_SUGGESTION_START_YEAR",$this->getDateSelect("year","crs[suggestion_start][year]",
-																					  date("Y",$suggestion_start)));
-		$this->tpl->setVariable("SELECT_SUGGESTION_START_HOUR",$this->getDateSelect("hour","crs[suggestion_start][hour]",
-																					  date("G",$suggestion_start)));
-		$this->tpl->setVariable("SELECT_SUGGESTION_START_MINUTE",$this->getDateSelect("minute","crs[suggestion_start][minute]",
-																					  date("i",$suggestion_start)));
+		$date = $this->__prepareDateSelect($suggestion_start);
+		$this->tpl->setVariable("SUG_START_SELECT",
+								ilUtil::makeDateSelect('sug_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
 		
-		// Suggestion End
-		$this->tpl->setVariable("TXT_SUG_END",$this->lng->txt('crs_suggestion_end'));
-		$this->tpl->setVariable("SELECT_SUGGESTION_END_DAY",$this->getDateSelect("day","crs[suggestion_end][day]",
-																				   date("d",$suggestion_end)));
-		$this->tpl->setVariable("SELECT_SUGGESTION_END_MONTH",$this->getDateSelect("month","crs[suggestion_end][month]",
-																					 date("m",$suggestion_end)));
-		$this->tpl->setVariable("SELECT_SUGGESTION_END_YEAR",$this->getDateSelect("year","crs[suggestion_end][year]",
-																					date("Y",$suggestion_end)));
-		$this->tpl->setVariable("SELECT_SUGGESTION_END_HOUR",$this->getDateSelect("hour","crs[suggestion_end][hour]",
-																					  date("G",$suggestion_end)));
-		$this->tpl->setVariable("SELECT_SUGGESTION_END_MINUTE",$this->getDateSelect("minute","crs[suggestion_end][minute]",
-																					date("i",$suggestion_end)));
-		
+		$date = $this->__prepareDateSelect($suggestion_end);
+		$this->tpl->setVariable("SUG_END_SELECT",
+								ilUtil::makeDateSelect('sug_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
+
+		// Earliest Latest
+		$date = $this->__prepareDateSelect($earliest_start);
+		$this->tpl->setVariable("EARLY_SELECT",
+								ilUtil::makeDateSelect('early_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
+
+		$date = $this->__prepareDateSelect($latest_end);
+		$this->tpl->setVariable("LATE_SELECT",
+								ilUtil::makeDateSelect('late_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
+
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt("save"));
 	}
@@ -248,10 +254,12 @@ class ilCourseItemAdministrationGUI
 		}
 
 		$this->items_obj->setTimingType($_POST['timing_type']);
-		$this->items_obj->setTimingStart($this->toUnix($_POST["crs"]["timing_start"]));
-		$this->items_obj->setTimingEnd($this->toUnix($_POST["crs"]["timing_end"]));
-		$this->items_obj->setSuggestionStart($this->toUnix($_POST["crs"]["suggestion_start"]));
-		$this->items_obj->setSuggestionEnd($this->toUnix($_POST["crs"]["suggestion_end"]));
+		$this->items_obj->setTimingStart($this->__toUnix($_POST['timing_start'],$_POST['timing_start_time']));
+		$this->items_obj->setTimingEnd($this->__toUnix($_POST['timing_end'],$_POST['timing_end_time']));
+		$this->items_obj->setSuggestionStart($this->__toUnix($_POST["sug_start"]));
+		$this->items_obj->setSuggestionEnd($this->__toUnix($_POST["sug_end"],array('h' => 23,'m' => 55)));
+		$this->items_obj->setEarliestStart($this->__toUnix($_POST['early_start']));
+		$this->items_obj->setLatestEnd($this->__toUnix($_POST['late_end'],array('h' => 23,'m' => 55)));
 		$this->items_obj->toggleVisible($_POST['visible']);
 		$this->items_obj->toggleChangeable($_POST['changeable']);
 
@@ -263,9 +271,9 @@ class ilCourseItemAdministrationGUI
 			return true;
 		}
 		$this->items_obj->update($this->getItemId());
-		sendInfo($this->lng->txt('settings_saved'),true);
-		#$this->edit();
-		$this->ctrl->returnToParent($this);
+		sendInfo($this->lng->txt('settings_saved'));
+		$this->edit();
+		#$this->ctrl->returnToParent($this);
 
 		return true;
 	}
@@ -343,55 +351,23 @@ class ilCourseItemAdministrationGUI
 		return true;
 	}
 
-	function toUnix($a_time_arr)
+	function __toUnix($date,$time = array())
 	{
-		return mktime($a_time_arr["hour"],
-					  $a_time_arr["minute"],
-					  $a_time_arr["second"],
-					  $a_time_arr["month"],
-					  $a_time_arr["day"],
-					  $a_time_arr["year"]);
+		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
 	}
 
-	function getDateSelect($a_type,$a_varname,$a_selected)
+	function __prepareDateSelect($a_unix_time)
 	{
-		switch($a_type)
-		{
-			case "minute":
-				for($i=0;$i<=60;$i++)
-				{
-					$days[$i] = $i < 10 ? "0".$i : $i;
-				}
-				return ilUtil::formSelect($a_selected,$a_varname,$days,false,true);
+		return array('y' => date('Y',$a_unix_time),
+					 'm' => date('m',$a_unix_time),
+					 'd' => date('d',$a_unix_time));
+	}
 
-			case "hour":
-				for($i=0;$i<24;$i++)
-				{
-					$days[$i] = $i < 10 ? "0".$i : $i;
-				}
-				return ilUtil::formSelect($a_selected,$a_varname,$days,false,true);
-
-			case "day":
-				for($i=1;$i<32;$i++)
-				{
-					$days[$i] = $i < 10 ? "0".$i : $i;
-				}
-				return ilUtil::formSelect($a_selected,$a_varname,$days,false,true);
-			
-			case "month":
-				for($i=1;$i<13;$i++)
-				{
-					$month[$i] = $i < 10 ? "0".$i : $i;
-				}
-				return ilUtil::formSelect($a_selected,$a_varname,$month,false,true);
-
-			case "year":
-				for($i = date("Y",time());$i < date("Y",time()) + 3;++$i)
-				{
-					$year[$i] = $i;
-				}
-				return ilUtil::formSelect($a_selected,$a_varname,$year,false,true);
-		}
+	function __prepareTimeSelect($a_unix_time)
+	{
+		return array('h' => date('G',$a_unix_time),
+					 'm' => date('i',$a_unix_time),
+					 's' => date('s',$a_unix_time));
 	}
 
 	function __setSubTabs()

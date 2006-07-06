@@ -2,62 +2,94 @@
 	  <table class="fullwidth">
 		<tr class="tblheader">
 		  <th class="std" colspan="3">
-			<div style="float:left;">
-			  <img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
-			  &nbsp;{TITLE}
-			</div>
+			  <img style="vertical-align: middle;" src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />&nbsp;{TITLE}: {EDIT_TIMINGS}
 		  </th>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" rowspan="3" width="30%">{TXT_AVAILABILITY}</td>
-		  <td class="option_value">{RADIO_DEACTIVATE}&nbsp;{TXT_TIMINGS_DEACTIVATED}</td>
+		  <td class="option" width="30%">{TXT_TIMINGS}</td>
+		  <td class="option_value">
+			{RADIO_DEACTIVATE}
+			<div class="subtitle">
+			  {INFO_DEACTIVATED}
+			</div>
+		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option_value">{RADIO_ACTIVATION}&nbsp;{TXT_TIMINGS_ACTIVATION}
-			<ul class="il_Explorer">
-			  <li class="il_Explorer">{CHECK_VISIBILITY}&nbsp;{TXT_VISIBILITY}</li>
-			</ul>
+		  <td class="option">
+			{TXT_AVAILABILITY}
+		  </td>
+		  <td class="option_value">
+			{RADIO_ACTIVATION}&nbsp;{TXT_ACTIVATION_ENABLED}
+			<br />{CHECK_VISIBILITY}&nbsp;{TXT_VISIBILITY}
+			<table>
+			  <tr>
+				<td>
+				  {TXT_BEGIN}:
+				</td>
+				<td>
+				  {START_DATE_SELECT} {TXT_TIME}: {START_TIME_SELECT}
+				</td>
+			  </tr>
+			  <tr>
+				<td>				
+				  {TXT_END}:
+				</td>
+				<td>
+				  {END_DATE_SELECT} {TXT_TIME}: {END_TIME_SELECT}
+				</td>
+			  </tr>
+			</table>
 			<div class="subtitle">
 			  {INFO_AVAILABILITY}
 			</div>
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option_value">{RADIO_TIMINGS}&nbsp;{TXT_TIMINGS_PRESETTING}
-			<ul class="il_Explorer">
-			  <li class="il_Explorer">{CHECK_CHANGE}&nbsp;{TXT_CHANGE}</li>
-			</ul>
+		  <td class="option">
+			{TXT_PRESETTING}
+		  </td>
+		  <td class="option_value">
+			{RADIO_TIMINGS}&nbsp;{TXT_TIMINGS_PRESETTING}<br />
+			<table>
+			  <tr>
+				<td>
+				  {TXT_SUG_BEGIN}:
+				</td>
+				<td>
+				  {SUG_START_SELECT}
+				</td>
+			  </tr>
+			  <tr>
+				<td>				
+				  {TXT_SUG_END}:
+				</td>
+				<td>
+				  {SUG_END_SELECT}
+				</td>
+			  </tr>
+			</table>
+			{CHECK_CHANGE} {TXT_CHANGE}<br />
+			<table>
+			  <tr>
+				<td>
+				  {TXT_EARLY_BEGIN}:
+				</td>
+				<td>
+				  {EARLY_SELECT}
+				</td>
+			  </tr>
+			  <tr>
+				<td>				
+				  {TXT_LATE_END}:
+				</td>
+				<td>
+				  {LATE_SELECT}
+				</td>
+			  </tr>
+			</table>
 			<div class="subtitle">
 			  {INFO_PRESETTING}
 			</div>
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option" align="top">{TXT_START}</td>
-		  <td class="option_value">{SELECT_ACTIVATION_START_DAY}&nbsp;
-			{SELECT_ACTIVATION_START_MONTH}&nbsp;{SELECT_ACTIVATION_START_YEAR}&nbsp;
-			{SELECT_ACTIVATION_START_HOUR}:&nbsp;{SELECT_ACTIVATION_START_MINUTE}
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option" align="top">{TXT_END}</td>
-		  <td class="option_value"><font size="-2">{SELECT_ACTIVATION_END_DAY}</font>&nbsp;
-			{SELECT_ACTIVATION_END_MONTH}&nbsp;{SELECT_ACTIVATION_END_YEAR}&nbsp;
-			{SELECT_ACTIVATION_END_HOUR}:&nbsp;{SELECT_ACTIVATION_END_MINUTE}
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option" align="top">{TXT_SUG_START}</td>
-		  <td class="option_value">{SELECT_SUGGESTION_START_DAY}&nbsp;
-			{SELECT_SUGGESTION_START_MONTH}&nbsp;{SELECT_SUGGESTION_START_YEAR}&nbsp;
-			{SELECT_SUGGESTION_START_HOUR}:&nbsp;{SELECT_SUGGESTION_START_MINUTE}
-		  </td>
-		</tr>
-		<tr class="std">
-		  <td class="option" align="top">{TXT_SUG_END}</td>
-		  <td class="option_value"><font size="-2">{SELECT_SUGGESTION_END_DAY}</font>&nbsp;
-			{SELECT_SUGGESTION_END_MONTH}&nbsp;{SELECT_SUGGESTION_END_YEAR}&nbsp;
-			{SELECT_SUGGESTION_END_HOUR}:&nbsp;{SELECT_SUGGESTION_END_MINUTE}
 		  </td>
 		</tr>
 		<tr>

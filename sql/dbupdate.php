@@ -11148,3 +11148,6 @@ CREATE TABLE `ut_lp_event_collections` (
 `item_id` int( 11 ) NOT NULL default '0',
 KEY `obj_id` ( `obj_id` , `item_id` )
 ) TYPE = MYISAM;
+<#771>
+ALTER TABLE `crs_items` ADD `earliest_start` INT( 11 ) NOT NULL AFTER `changeable` ,
+ADD `latest_end` INT( 11 ) NOT NULL AFTER `earliest_start`;
