@@ -311,11 +311,11 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT user_id,client_ip,acc_obj_id,language ,acc_time FROM ut_access "
+		$q = "SELECT id, user_id,client_ip,acc_obj_id,language ,acc_time FROM ut_access "
 			.($a_searchTermsCondition != "" ? $a_searchTermsCondition : " WHERE ")
 			.$a_condition
 			.$a_objectCondition
-			." GROUP BY acc_time";
+			." GROUP BY id";
 
 		$cnt_set = $ilDB->query($q);
 		$acc = array();
