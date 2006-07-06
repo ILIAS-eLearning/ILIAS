@@ -214,7 +214,14 @@ $PHPCAS_DEBUG  = array('filename' => FALSE,
 // ########################################################################
 
 // include client class
-include_once(dirname(__FILE__).'/client.php');
+if (version_compare(PHP_VERSION,'5','>='))
+{
+	include_once(dirname(__FILE__).'/client.php');
+}
+else
+{
+	include_once(dirname(__FILE__).'/client4.php');
+}
 
 // ########################################################################
 //  INTERFACE CLASS
