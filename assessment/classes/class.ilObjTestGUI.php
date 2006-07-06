@@ -1942,6 +1942,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$qpl->createReference();
 		$qpl->putInTree($parent_ref);
 		$qpl->setPermissions($parent_ref);
+		$qpl->setOnline(1); // must be online to be available
+		$qpl->saveToDb();
 		return $qpl->getRefId();
 	}
 
