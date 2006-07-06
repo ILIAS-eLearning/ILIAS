@@ -20,12 +20,16 @@ $ssl = true;
 // PayPal auth token
 $auth_token = "";
 
+// PayPal page style
+$page_style = "primary";
+
 $paypalConfig = array(
 	"vendor" => $vendor,
 	"server_path" => $server_path,
 	"server_host" => $server_host,
 	"server" => $server,
-	"auth_token" => $auth_token
+	"auth_token" => $auth_token,
+	"page_style" => $page_style
 );
 
 $GLOBALS["paypalConfig"] = $paypalConfig;

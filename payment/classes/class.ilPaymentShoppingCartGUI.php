@@ -196,7 +196,8 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 							$tpl->setVariable("CANCEL_RETURN", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, "cancelPaypal"));
 							$tpl->setVariable("CUSTOM", $ilUser->getId());
 							$tpl->setVariable("CURRENCY", $genSet->get("currency_unit"));
-
+							$tpl->setVariable("PAGE_STYLE", $paypalConfig["page_style"]);
+							
 #							$buttonParams["upload"] = 1;
 #							$buttonParams["charset"] = "utf-8";
 #							$buttonParams["business"] = $paypalConfig["vendor"];
