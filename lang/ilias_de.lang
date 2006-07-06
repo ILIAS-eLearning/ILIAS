@@ -5978,7 +5978,7 @@ trac#:#info_found_objects#:#Die Zugriffsstatistik bezieht sich auf die nachfolge
 trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefunden. Bitte verfeinern Sie daher Ihre Suchanfrage.
 trac#:#found_objects#:#Gefundene Objekte
 trac#:#total_dwell_time#:#Gesamtverweildauer
-trac#:#info_dwell_time#:#Achtung: Die Gesamtverweildauer für ein Objekt ist vom gegebenen Zeitraum unabhängig! =======
+trac#:#info_dwell_time#:#Achtung: Die Gesamtverweildauer für ein Objekt ist vom gegebenen Zeitraum unabhängig!
 crs#:#event_edit_members#:#Teilnehmer verwalten
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_participants#:#Teilnehmer der Veranstaltung
