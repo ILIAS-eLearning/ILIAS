@@ -644,7 +644,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 				$this->ilias->error_obj->MESSAGE);
 		}
 
-		$max_hits = $ilias->getSetting('search_max_hits');
+		$max_hits = $ilias->getSetting('search_max_hits', 50);
 
 		if ($_POST["search_terms"] != "")
 		{
