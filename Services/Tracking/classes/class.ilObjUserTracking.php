@@ -271,8 +271,7 @@ class ilObjUserTracking extends ilObject
 	function getAccessTotalPerObj($a_condition, $a_searchTermsCondition="")
 	{
 		global $ilDB;
-		$q = "SELECT count(*) AS cnt, acc_obj_id, spent_time FROM ut_access "
-			." INNER JOIN ut_learning_progress AS ulp ON ulp.obj_id = acc_obj_id"
+		$q = "SELECT count(acc_obj_id) AS cnt, acc_obj_id FROM ut_access "
 			.($a_searchTermsCondition != "" ? $a_searchTermsCondition : " WHERE ")
 			.$a_condition
 			." GROUP BY acc_obj_id";
@@ -288,11 +287,21 @@ class ilObjUserTracking extends ilObject
 				$acc[] = array("id" => $cnt_rec["acc_obj_id"],
 					"title" => ilObject::_lookupTitle($cnt_rec["acc_obj_id"]),
 					"author" => $this->getOwnerName($cnt_rec["acc_obj_id"]),
-					"duration" => $cnt_rec["spent_time"],
+					"duration" => $this->getDuration($cnt_rec["acc_obj_id"]),
 					"cnt" => $cnt_rec["cnt"]);
 			}
 		}
 		return $acc;
+	}
+
+	function getDuration($a_obj_id)
+	{
+		global $ilDB;
+		$q = "SELECT spent_time FROM ut_learning_progress"
+			." WHERE obj_id = " . $ilDB->quote($a_obj_id);
+		$res = $ilDB->query($q);
+		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $data["spent_time"];
 	}
 
 	/**
