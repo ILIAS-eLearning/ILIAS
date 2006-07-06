@@ -46,9 +46,9 @@ administration#:#cleaning#:#Sto pulendo ...
 administration#:#cleaning_final#:#Pulizia finale ...
 administration#:#disabled#:#disabilitato
 administration#:#done#:#Eseguito
-administration#:#dump_tree#:#Stampa l&#039;alberoContent changed
-administration#:#dump_tree_desc#:#Esegue una analisi dell&#039;albero e stampa tutti i nodi dell&#039;albero con i dati dell&#039;analisi.
-administration#:#dumping_tree#:#Stampa dell&#039;albero ... 
+administration#:#dump_tree#:#Esamina l&#039;albero logico
+administration#:#dump_tree_desc#:#Effettua una analisi dell&#039;albero logico e stampa tutti i nodi con i risultati dell&#039;analisi.
+administration#:#dumping_tree#:#Analisi dell&#039;albero ... 
 administration#:#found#:#trovato.
 administration#:#found_none#:#non trovato.
 administration#:#initializing_gaps#:#Preparazione di uno spazio nell&#039;albero... 
@@ -80,7 +80,7 @@ administration#:#restoring#:#Sto ripristinando ...
 administration#:#restoring_missing_objs#:#Sto ripristinando gli oggetti mancanti ...
 administration#:#restoring_trash#:#Sto ripristinando gli oggetti del cestino ...
 administration#:#restoring_unbound_objs#:#Sto ripristinando gli oggetti scollegati ...
-administration#:#scan#:#Esamina
+administration#:#scan#:#Esamina il sistema
 administration#:#scan_completed#:#Esame completato
 administration#:#scan_desc#:#Esamina il sistema alla ricerca di oggetti corrotti/non validi/dispersi/scollegati.
 administration#:#scan_details#:#Esegui esame dettagliato
@@ -239,10 +239,10 @@ assessment#:#export#:#Esporta
 assessment#:#failed_official#:#Respinto
 assessment#:#failed_short#:#Respinto
 assessment#:#false#:#Falso
-assessment#:#fill_out_all_answer_fields#:#Per favore, riempi tutti i testi delle risposte prima di aggiungerne un&#039;altra! 
-assessment#:#fill_out_all_matching_pairs#:#Per favore, completa tutte le coppie di risposte prima di aggiungerne un&#039;altra! 
+assessment#:#fill_out_all_answer_fields#:#Per favore, riempi tutti i campi delle risposte prima di aggiungerne un&#039;altra! 
+assessment#:#fill_out_all_matching_pairs#:#Per favore, completa tutte le associazioni delle risposte prima di aggiungerne un&#039;altra! 
 assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti i campi richiesti prima di aggiungere un&#039;altra risposta! 
-assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere un&#039;altra coppia! 
+assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere un&#039;altra associazione! 
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
 assessment#:#fill_out_all_required_fields_upload_image#:#Per favore, riempi tutti i campi richiesti prima di eseguire l&#039;upload dell&#039;immagine! 
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi tutti i campi richiesti prima di eseguire l&#039;upload dell&#039;immagine a mappa! 
@@ -468,8 +468,8 @@ assessment#:#tst_heading_scoring#:#Punteggio
 assessment#:#tst_hide_previous_results#:#Nascondi i risultati precedenti
 assessment#:#tst_hide_previous_results_description#:#Se selezionato, i risultati precedenti dello studente non saranno usati come valori di riferimento per i test futuri
 assessment#:#tst_hide_previous_results_hide#:#Se selezionato i risultati del test precedentemente superato non saranno visibili
-assessment#:#tst_hide_previous_results_introduction#:#Se esegui pi&#249; di una volta questo test, i risultati delle volte precedenti non saranno usati come valori di riferimento
-assessment#:#tst_hide_title_points#:#Punteggio nel titolo della domanda
+assessment#:#tst_hide_previous_results_introduction#:#Se selezionato e l&#039;utente esegue pi&#249; di una volta questo test, i risultati delle precedenti esecuzioni non saranno usati come valori di riferimento
+assessment#:#tst_hide_title_points#:#Se selezionato non vengono mostrati i punti nel titolo della domanda
 assessment#:#tst_hide_title_points_description#:#Non mostrare il punteggio massimo nel titolo della domanda
 assessment#:#tst_import_no_items#:#Errore: il file da importare non contiene domande!
 assessment#:#tst_import_verify_found_questions#:#ILIAS ha trovato nel file da importare le seguenti domande: scegli quelle che vuoi inserire nel test.
@@ -1041,15 +1041,15 @@ common#:#big_icon#:#Icona grande
 common#:#bkm_import#:#Importa segnalibri
 common#:#bkm_import_ok#:#Importati con successo %d segnalibri e %d cartelle di segnalibri.
 common#:#bkm_sendmail#:#Invia allegato
-common#:#bm#:#Preferiti
-common#:#bmf#:#Cartella dei preferiti
-common#:#bookmark_edit#:#Modifica il preferito
-common#:#bookmark_folder_edit#:#Modifica la cartella dei preferiti
-common#:#bookmark_folder_new#:#Nuova cartella di preferiti
-common#:#bookmark_new#:#Nuovo preferito
+common#:#bm#:#Segnalibro
+common#:#bmf#:#Cartella di segnalibri
+common#:#bookmark_edit#:#Modifica il segnalibro
+common#:#bookmark_folder_edit#:#Modifica la cartella dei segnalibri
+common#:#bookmark_folder_new#:#Nuova cartella di segnalibri
+common#:#bookmark_new#:#Nuovo segnalibro
 common#:#bookmark_target#:#Indirizzo
-common#:#bookmarks#:#Preferiti
-common#:#bookmarks_of#:#Preferiti di
+common#:#bookmarks#:#Segnalibri
+common#:#bookmarks_of#:#Segnalibri di
 common#:#bottom_frame#:#Contenuto principale
 common#:#btn_add#:#Aggiungi
 common#:#btn_new_value#:#Nuovo valore
@@ -1264,7 +1264,7 @@ common#:#crs_create_tst#:#Creare un test
 common#:#crs_create_webr#:#Creare una risorsa web
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
-common#:#crs_edit_learning_progress#:#Modifica i pograssi dell&#039;utente 
+common#:#crs_edit_learning_progress#:#Modifica i progressi dell&#039;utente 
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#crs_info#:#Informazioni
 common#:#crs_join#:#Iscriversi ad un corso
@@ -1329,7 +1329,7 @@ common#:#default_skin#:#Tema predefinito
 common#:#default_skin_style#:#Tema / Stile predefiniti
 common#:#default_style#:#Stile predefinito
 common#:#default_value#:#valore predefinito
-common#:#delete#:#Eliminare
+common#:#delete#:#Elimina
 common#:#delete_all#:#Elimina tutto
 common#:#delete_all_rec#:#Cancella tutti i record
 common#:#delete_object#:#Elimina oggetto
@@ -1569,7 +1569,7 @@ common#:#frm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#frm_edit_post#:#Modificare un messaggio
 common#:#frm_new#:#Nuovo forum
 common#:#frm_read#:#Accedere in lettura ad un forum
-common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
+common#:#frm_statistics_ranking#:#Classifica
 common#:#frm_status_new#:#Stato &#039;Nuovo&#039; 
 common#:#frm_status_new_desc#:#Scegli per quanto tempo i contributi devono essere indicati come &#039;Nuovo&#039;. 
 common#:#frm_visible#:#Vedere un forum
@@ -1946,7 +1946,7 @@ common#:#internal_system#:#sistema interno
 common#:#ip_address#:#Indirizzo IP
 common#:#is_already_your#:#&#232; gi&#224;
 common#:#item#:#item
-common#:#join#:#Vedi
+common#:#join#:#Iscriviti
 common#:#kb#:#KB
 common#:#keywords#:#Parole chiave
 common#:#lang_cs#:#Ceco
@@ -2048,7 +2048,7 @@ common#:#links_value#:#Valore
 common#:#list_of_pages#:#Lista di pagine
 common#:#list_of_questions#:#Lista di domande
 common#:#literature#:#Letteratura
-common#:#literature_bookmarks#:#Preferiti letteratura
+common#:#literature_bookmarks#:#Segnalibri di letteratura
 common#:#lm#:#Modulo ILIAS
 common#:#lm_a#:#un Modulo ILIAS
 common#:#lm_add#:#Aggiungi modulo ILIAS
@@ -2289,7 +2289,7 @@ common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a ques
 common#:#msg_user_last_role2#:#Per favore, cancella gli utenti o assegna loro un altro ruolo se vuoi eliminare questo ruolo.
 common#:#msg_userassignment_changed#:#Cambiato assegnamento utente.
 common#:#multimedia#:#Multimediale
-common#:#my_bms#:#I miei preferiti
+common#:#my_bms#:#I miei segnalibri
 common#:#my_frms#:#I miei forum
 common#:#my_grps#:#I miei gruppi
 common#:#my_los#:#Le mie unit&#224; didattiche
@@ -2311,7 +2311,7 @@ common#:#no#:#No
 common#:#no_access_item#:#Non puoi accedere a questo oggetto.
 common#:#no_access_item_public#:#Non puoi accedere a questo oggetto nella sezione pubblica.
 common#:#no_access_link_object#:#Non puoi collegare questo oggetto
-common#:#no_bm_in_personal_list#:#Nessun preferito definito.
+common#:#no_bm_in_personal_list#:#Nessun segnalibro definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
 common#:#no_checkbox#:#Nesuna opzione selezionata!
 common#:#no_condition_selected#:#Seleziona una precondizione.
@@ -2474,7 +2474,7 @@ common#:#objs_spl#:#Raccolte di domande (per sondaggi)
 common#:#objs_st#:#Capitoli
 common#:#objs_svy#:#Sondaggi
 common#:#objs_tst#:#Test
-common#:#objs_type#:#Tipo di oggetto
+common#:#objs_type#:#Tipi di oggetti
 common#:#objs_url#:#URL
 common#:#objs_usr#:#Utenti
 common#:#objs_webr#:#Risorse web
@@ -2628,7 +2628,7 @@ common#:#replace_file#:#Sosituisci il file
 common#:#reply#:#Rispondi
 common#:#repository#:#Risorse
 common#:#repository_admin#:#Risorse, Cestino e Permessi
-common#:#repository_admin_desc#:#Puoi impostare i permessi degli oggetti in risorse e ripristinare/rimuovere gli oggetti nel cestino.
+common#:#repository_admin_desc#:#Puoi impostare i permessi degli oggetti che sono in Risorse e ripristinare/rimuovere gli oggetti nel Cestino.
 common#:#repository_frame#:#Risorse
 common#:#request_membership#:#Richiedi l&#039;iscrizione 
 common#:#require_city#:#Citt&#224; obbligatoria
@@ -3191,7 +3191,7 @@ content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_Additional#:#Extra
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
-content#:#cont_Alphabetic#:#Alfbetico A, B, ...
+content#:#cont_Alphabetic#:#Alfabetico A, B, ...
 content#:#cont_annex#:#Allegati
 content#:#cont_api_adapter#:#Nome del modulo Adapter (API)
 content#:#cont_api_func_prefix#:#Prefisso delle funzioni (API)
@@ -3270,7 +3270,7 @@ content#:#cont_disable_media#:#Disabilita i file multimediali
 content#:#cont_download_title#:#Download titolo
 content#:#cont_downloads#:#Download
 content#:#cont_downloads_desc#:#Abilita i download di tutti i file pubblici esportabili.
-content#:#cont_downloads_public_desc#:#Consenti il download anche agli utenti anonimi (nelle aree pubbliche)
+content#:#cont_downloads_public_desc#:#Consente il download anche agli utenti anonimi (nelle aree pubbliche)
 content#:#cont_ed_align_center#:#allineam: centrato
 content#:#cont_ed_align_left#:#allineam: a sinistra
 content#:#cont_ed_align_left_float#:#allineam: left float
@@ -3322,7 +3322,7 @@ content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
 content#:#cont_enable_js#:#Abilita i JavaScript
 content#:#cont_enable_media#:#Abilita i file multimediali
-content#:#cont_Example#:#Esempio
+content#:#cont_Example#:#cio&#232;
 content#:#cont_export_files#:#Esporta file
 content#:#cont_external#:#esterno
 content#:#cont_external_url#:#url esterna
@@ -3691,7 +3691,7 @@ crs#:#crs_delete_subscribers#:#Cancella iscrizione
 crs#:#crs_delete_subscribers_sure#:#Vuoi cancellare l&#039;iscrizione dei seguenti utenti 
 crs#:#crs_details#:#Dettagli del corso
 crs#:#crs_dismiss_member#:#Iscritti al corso
-crs#:#crs_dismiss_member_body#:#La tua iscrizione &#232; terminata
+crs#:#crs_dismiss_member_body#:#Il periodo di iscrizione &#232; terminato
 crs#:#crs_edit_archive#:#Modifica archivio
 crs#:#crs_edit_content#:#Modifica elementi
 crs#:#crs_end#:#Fine periodo
@@ -3834,7 +3834,7 @@ crs#:#crs_objectives_lm_assignment#:#Aggiunto materiale formativo
 crs#:#crs_objectives_max_points#:#Punteggio massimo
 crs#:#crs_objectives_no_question_selected#:#Scegli almeno una domanda.
 crs#:#crs_objectives_nr_questions#:#Domande presenti
-crs#:#crs_objectives_qst_deassigned#:#La domanda è stata rimossa.
+crs#:#crs_objectives_qst_deassigned#:#La domanda &#232; stata rimossa.
 crs#:#crs_objectives_reset_sure#:#Hai deciso di eliminare tutti i risultati di questo corso. <br />Tutti i risultati del test saranno eliminati.
 crs#:#crs_objectives_reseted#:#Risultati eliminati.
 crs#:#crs_offline#:#Offline
@@ -3850,7 +3850,7 @@ crs#:#crs_question_assignment#:#Modifica domande
 crs#:#crs_reg#:#Registrazione
 crs#:#crs_reg_deactivated#:#Disabilitato
 crs#:#crs_reg_lim_info#:#Le registrazioni sono possibili solamente nel periodo di tempo indicato.
-crs#:#crs_reg_max_info#:#Definisci il numero massimo di utenti che pu&#242; inscriversi a questo corso. &#039;0&#039; significa senza limite. 
+crs#:#crs_reg_max_info#:#Definisci il numero massimo di utenti che pu&#242; iscriversi a questo corso. &#039;0&#039; significa senza limite. 
 crs#:#crs_reg_notify_info#:#Se scelta tutti gli amministratori/tutor del corso che hanno scelto l&#039;opzione &#039;Notifica&#039; saranno informati tramite email delle nuove registrazioni. 
 crs#:#crs_reg_subscription_deactivated#:#La registrazione &#232; disabilitata
 crs#:#crs_reg_subscription_end_earlier#:#La registrazione &#232; terminata
@@ -3944,7 +3944,7 @@ crs#:#crs_visibility#:#Visiblit&#224;
 crs#:#crs_visibility_limitless#:#Visibile (senza limiti)
 crs#:#crs_visibility_until#:#Visibile (da ... a ...)
 crs#:#crs_visibility_unvisible#:#Non visibile
-crs#:#crs_wait_info#:#Se selezionato ed il numero di utenti &#232, superiore al numero massimo, le nuove richieste verranno poste in una lista di attesa.
+crs#:#crs_wait_info#:#Se selezionato ed il numero di utenti &#232; superiore al numero massimo, le nuove richieste verranno poste in una lista di attesa.
 crs#:#crs_waiting_list#:#Lista di attesa
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Posizione nella lista di attesa
@@ -3966,16 +3966,16 @@ dateplaner#:#app_week#:#Vista settimanale
 dateplaner#:#application#:#Agenda
 dateplaner#:#apply#:#Conferma
 dateplaner#:#back#:#Indietro
-dateplaner#:#begin_date#:#Inizio appuntamento:
+dateplaner#:#begin_date#:#Giorno:
 dateplaner#:#busytime#:#Tempo occupato del gruppo
 dateplaner#:#c_date#:#Crea appuntamento
-dateplaner#:#changedDates#:#Appuntamenti modificati:
+dateplaner#:#changedDates#:#Appuntamenti modificati
 dateplaner#:#changeTo#:#Modifica in:
 dateplaner#:#checkforfreetime#:#Cerca intervalli liberi
 dateplaner#:#created#:#Creato
 dateplaner#:#date#:#Appuntamento
-dateplaner#:#date_format#:#m/d/Y H:i//mese/giorno/Anno4Cifre Ora24:Minuti
-dateplaner#:#date_format_middle#:#m/d/y//mese/giorno/Anno
+dateplaner#:#date_format#:#m/d/Y H:i (Mese/Giorno/Annoa4cifre Ore24:Minuti)
+dateplaner#:#date_format_middle#:#m/d/y (Mese/Giorno/Anno)
 dateplaner#:#DateText#:#Messaggi
 dateplaner#:#Day_long#:#Vista giornaliera
 dateplaner#:#del_all#:#Cancella tutti gli appuntamenti
@@ -3987,24 +3987,24 @@ dateplaner#:#dv_button_cancel#:#Annulla
 dateplaner#:#dv_button_delete#:#Elimina
 dateplaner#:#dv_button_insert#:#Inserisci
 dateplaner#:#dv_button_update#:#Modifica
-dateplaner#:#dv_date_begin#:#Inizio appuntamento:
+dateplaner#:#dv_date_begin#:#Giorno
 dateplaner#:#dv_date_end#:#Fine appuntamento:
 dateplaner#:#dv_date_hm#:#Ore:Minuti
-dateplaner#:#dv_enddate#:#Fine appuntamento:
-dateplaner#:#dv_groupselect#:#Gruppi scelti:
+dateplaner#:#dv_enddate#:#Giorno
+dateplaner#:#dv_groupselect#:#Gruppo
 dateplaner#:#dv_Grouptime#:#Tempo libero
 dateplaner#:#dv_groupview#:#Appuntamenti gruppo:
 dateplaner#:#dv_groupview_text#:#Gruppi:<br>
 dateplaner#:#dv_keywords#:#Parole Chiave (keywords):
-dateplaner#:#dv_keywordselect#:#Parola Chiave (keyword):
+dateplaner#:#dv_keywordselect#:#Parola Chiave
 dateplaner#:#dv_message#:#Messaggi:
 dateplaner#:#dv_noGroup#:#nessun gruppo
 dateplaner#:#dv_noKey#:#nessuna parola chiave
 dateplaner#:#dv_preview#:#      <b>! Anteprima !</b>
-dateplaner#:#dv_rotation#:#Ricorrenze:
+dateplaner#:#dv_rotation#:#Ricorrenza:
 dateplaner#:#dv_rotation_date#:#Appuntamenti ricorrenti:
 dateplaner#:#dv_rotation_end#:#Fine ricorrenza:
-dateplaner#:#dv_shorttext#:#Testo breve:
+dateplaner#:#dv_shorttext#:#Oggetto:
 dateplaner#:#dv_startdate#:#Inizio appuntamento:
 dateplaner#:#dv_text#:#Testo:
 dateplaner#:#dv_whole_day#:#Giorno intero:
@@ -4047,7 +4047,7 @@ dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]
 dateplaner#:#help_fullday_l#:#Se l&#039;appuntamento si estende oltre il giorno intero, per favore seleziona questa opzione.<br> Qui l&#039;ora di partenza, l&#039;ora conclusiva e la data sono nascoste. 
 dateplaner#:#help_further#:#<br> <b>clicca qui per ulteriori informazioni.</b>
 dateplaner#:#help_group#:#Seleziona gli appuntamenti del gruppo
-dateplaner#:#help_group_l#:#Contiene i gruppi per i quali l&#039;utente loggato ha diritti di amministratore e per i quali pu&#242; creare un appuntamento. <br> Dopo aver scelto questo &#232; possibile vedere i momenti non scedulati del gruppo. 
+dateplaner#:#help_group_l#:#Contiene i gruppi per i quali l&#039;utente corrente ha diritti di amministratore e per i quali pu&#242; creare un appuntamento. <br> Dopo aver scelto questo &#232; possibile vedere i momenti non scedulati del gruppo. 
 dateplaner#:#help_inbox#:#Agenda in ingresso
 dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.
 dateplaner#:#help_keyword#:#Scelta parola chiave
@@ -4086,7 +4086,7 @@ dateplaner#:#inbox#:#Vedi appuntamenti
 dateplaner#:#insertImportDates#:#Questi appuntamenti sono stati registrati con successo:
 dateplaner#:#k_alldates#:#tutti gli appuntamenti
 dateplaner#:#keep#:#Tieni
-dateplaner#:#keyword#:#Parola Chiave (keyword)
+dateplaner#:#keyword#:#Scegli una keyword
 dateplaner#:#keywords#:#Definizione delle Parole Chiave (keywords)
 dateplaner#:#Language_file#:#Inglese
 dateplaner#:#last_change#:#Data ultima modifica
@@ -4114,9 +4114,9 @@ dateplaner#:#more#:#ancora
 dateplaner#:#mweek#:#Settimana precedente
 dateplaner#:#myeahr#:#Anno precedente
 dateplaner#:#new_doc#:#Crea un nuovo appuntamento
-dateplaner#:#newDates#:#Nuovo appuntamento
+dateplaner#:#newDates#:#Nuovi appuntamenti
 dateplaner#:#newKeyword#:#Nuova:
-dateplaner#:#no_entry#:#Nessun appuntamento disponibile
+dateplaner#:#no_entry#:#Non sono presenti appuntamenti
 dateplaner#:#o_day_date#:#Appuntamento di 24h
 dateplaner#:#of#:#da
 dateplaner#:#open_day#:#Vista giornaliera
@@ -4201,7 +4201,7 @@ forum#:#forums_new_thread#:#Nuovo argomento
 forum#:#forums_not_available#:#Forum non disponbile
 forum#:#forums_notification#:#Notifica
 forum#:#forums_notification_enabled#:#Notifica abilitata
-forum#:#forums_notification_intro#:#Questa e-mail ti &#232; stata inviata automaticamente dall&#039;installazione di ILIAS %s, %s 
+forum#:#forums_notification_intro#:#Questa eMail ti &#232; stata inviata automaticamente dall&#039;installazione di ILIAS %s, %s 
 forum#:#forums_notification_is_disabled#:#La notifica automatica di nuovi messaggi non &#232; stata abilitata.
 forum#:#forums_notification_is_enabled#:#La notifica automatica di nuovi messaggio &#232; gi&#224; stata abilitata.
 forum#:#forums_notification_show_post#:#Mostra messaggio: %s
@@ -5332,10 +5332,10 @@ survey#:#disinvite#:#Annulla l&#039;invito
 survey#:#display_all_available#:#Mostra
 survey#:#dp_standard_attitude_agree_disagree#:#Giudizio standard (d&#039;accordo-disaccordo) 
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Giudizio standard (d&#039;accordo-indeciso-in disaccordo) 
-survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d&#039;accordo -d&#039;accordo-indeciso-in disaccordo-molto in disaccordo)
+survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d&#039;accordo-d&#039;accordo-indeciso-in disaccordo-molto in disaccordo)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Giudizio standard (desiderato-indifferente-non desiderato)
 survey#:#dp_standard_attitude_desired_undesired#:#Giudizio standard (desiderato-non desiderato)
-survey#:#dp_standard_attitude_desired5#:#Giudizio standard (fortemente desiderato -desiderato-indifferente-non desiderato-fortemente non desiderato)
+survey#:#dp_standard_attitude_desired5#:#Giudizio standard (fortemente desiderato-desiderato-indifferente-non desiderato-fortemente non desiderato)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Giudizio standard (buono-sufficiente-insufficiente)
 survey#:#dp_standard_attitude_good_notacceptable#:#Giudizio standard (buono-insufficiente)
 survey#:#dp_standard_attitude_good5#:#Giudizio standard (molto buono-buono-sufficiente-insufficiente-molto insufficiente)
@@ -5715,7 +5715,7 @@ trac#:#trac_anonymized#:#Rendi anonimo
 trac#:#trac_anonymized_info#:#Se selezionato, tutte le statistiche saranno rese anonime.
 trac#:#trac_assigned#:#Assegnato
 trac#:#trac_assignments#:#Assegnamenti
-trac#:#trac_below#:#Below:###10 Feb 2006 new variable
+trac#:#trac_below#:#Sotto:
 trac#:#trac_collection_assign#:#Assegna
 trac#:#trac_collection_deassign#:#Rimuovi assegnamento
 trac#:#trac_comment#:#Commento
@@ -5744,9 +5744,9 @@ trac#:#trac_learning_progress#:#Progressi di apprendimento
 trac#:#trac_learning_progress_tbl_header#:#Progressi di apprendimento di:
 trac#:#trac_lm_statistics#:#Statistiche degli accessi
 trac#:#trac_lp_filter#:#Filtro
-trac#:#trac_mark#:#Mark###23 Dec 2005 new variable
-trac#:#trac_marks#:#Marks###23 Dec 2005 new variable
-trac#:#trac_mode#:#Mode###23 Dec 2005 new variable
+trac#:#trac_mark#:#Segno
+trac#:#trac_marks#:#Segna
+trac#:#trac_mode#:#Modalit&#224;
 trac#:#trac_mode_collection#:#Collezione di oggetti
 trac#:#trac_mode_deactivated#:#Deattivato
 trac#:#trac_mode_manual#:#Manuale
