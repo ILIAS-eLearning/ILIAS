@@ -26,6 +26,7 @@
 *
 * @author Arlon Yin <arlon_yin@hotmail.com>
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Jens Conze <jc@databay.de>
 *
 * @version $Id$
 *
@@ -224,7 +225,7 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT count(*) as cnt, date_add('$a_month-01', INTERVAL 1 MONTH) as d FROM ut_access WHERE acc_time < ".
+		$q = "SELECT count(*) as cnt, date_add('$a_month-01', INTERVAL 1 MONTH) as d FROM ut_access WHERE acc_time <= ".
 			"date_add('$a_month-01', INTERVAL 1 MONTH)";
 
 		$cnt_set = $ilDB->query($q);
@@ -237,13 +238,16 @@ class ilObjUserTracking extends ilObject
 	/**
 	* get total number of records older than given month (YYYY-MM)
 	*/
-	function getAccessTotalPerUser($a_condition)
+	function getAccessTotalPerUser($a_condition, $a_searchTermsCondition="",$a_objectCondition="")
 	{
 		global $ilDB;
 
-		$q = "SELECT count(*) AS cnt, user_id ".
-			"FROM ut_access WHERE ".$a_condition.
-			" GROUP BY user_id";
+		$q = "SELECT count(*) as cnt, user_id FROM ut_access "
+			.($a_searchTermsCondition != "" ? $a_searchTermsCondition : " WHERE ")
+			.$a_condition
+			.$a_objectCondition
+			." GROUP BY user_id";
+
 		$cnt_set = $ilDB->query($q);
 
 		$acc = array();
@@ -264,11 +268,14 @@ class ilObjUserTracking extends ilObject
 	/**
 	* get total number of records older than given month (YYYY-MM)
 	*/
-	function getAccessTotalPerObj($a_condition)
+	function getAccessTotalPerObj($a_condition, $a_searchTermsCondition="")
 	{
 		global $ilDB;
-		$q = "SELECT count(*) as cnt,acc_obj_id	from ut_access where ".$a_condition.
-			" GROUP BY acc_obj_id";
+		$q = "SELECT count(*) AS cnt, acc_obj_id, spent_time FROM ut_access "
+			." INNER JOIN ut_learning_progress AS ulp ON ulp.obj_id = acc_obj_id"
+			.($a_searchTermsCondition != "" ? $a_searchTermsCondition : " WHERE ")
+			.$a_condition
+			." GROUP BY acc_obj_id";
 		$cnt_set = $ilDB->query($q);
 		//echo "q:".$q;
 
@@ -278,22 +285,29 @@ class ilObjUserTracking extends ilObject
 			if ($cnt_rec["cnt"] != "")
 			{
 				
-				$acc[] = array("title" => ilObject::_lookupTitle($cnt_rec["acc_obj_id"]),
+				$acc[] = array("id" => $cnt_rec["acc_obj_id"],
+					"title" => ilObject::_lookupTitle($cnt_rec["acc_obj_id"]),
 					"author" => $this->getOwnerName($cnt_rec["acc_obj_id"]),
+					"duration" => $cnt_rec["spent_time"],
 					"cnt" => $cnt_rec["cnt"]);
 			}
 		}
 		return $acc;
 	}
+
 	/**
 	* get per user of records older than given month (YYYY-MM)
 	*/
-	function getAccessPerUserDetail($a_condition)
+	function getAccessPerUserDetail($a_condition, $a_searchTermsCondition="",$a_objectCondition="")
 	{
 		global $ilDB;
 
-		$q ="SELECT user_id,client_ip,acc_obj_id,language ,acc_time ".
-			"FROM ut_access WHERE ".$a_condition;
+		$q = "SELECT user_id,client_ip,acc_obj_id,language ,acc_time FROM ut_access "
+			.($a_searchTermsCondition != "" ? $a_searchTermsCondition : " WHERE ")
+			.$a_condition
+			.$a_objectCondition
+			." GROUP BY acc_time";
+
 		$cnt_set = $ilDB->query($q);
 		$acc = array();
 		while($cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -321,7 +335,7 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM ut_access WHERE acc_time < ".
+		$q = "DELETE FROM ut_access WHERE acc_time <= ".
 			"date_add('$a_month-01', INTERVAL 1 MONTH)";
 
 		$ilDB->query($q);

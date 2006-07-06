@@ -1,39 +1,11 @@
-{STATUSLINE}
-<br />
-<table class="std">
-<tr class="tblheader">
-	<td class="std" colspan="2">
-	{TXT_STATISTIC}
-	</td>
-</tr>
-<tr>
-	<td class="option">
-	{TXT_TIME_PERIOD}
-	</td>
-	<td class="option_value">
-	{VAL_DATEF} {TXT_TO} {VAL_DATET}
-	</td>
-</tr>
-<tr>
-	<td class="option">
-	{TXT_USER_LANGUAGE}
-	</td>
-	<td class="option_value">
-	{VAL_LANGUAGE}
-	</td>
-</tr>
-<tr>
-	<td class="option">
-	{TXT_TRACKED_OBJECTS}
-	</td>
-	<td class="option_value">
-	{VAL_TRACKED_OBJECTS}
-	</td>
-</tr>
-</table>
-<br />
+<p>{FORM}</p>
+<p>{INFO}</p>
+<!-- BEGIN objects -->
+<p>{OBJECTS_TABLE}<br />
+{TXT_INFO_DWELL_TIME}</p>
+<!-- END objects -->
 <!-- BEGIN user_mode -->
-<table class="std">
+<p><table class="std">
 <form method="post" action="{FORMACTION}">
 <input type="hidden" name="from" value="{FROM}">
 <input type="hidden" name="to" value="{TO}">
@@ -49,6 +21,7 @@
 <input type="hidden" name="yeart" value="{YEART}">
 <input type="hidden" name="montht" value="{MONTHT}">
 <input type="hidden" name="dayt" value="{DAYT}">
+<input type="hidden" name="search_terms" value="{SEARCH_TERMS}">
 <tr>
 <td class="submit" colspan="3">
 			<div align="left">
@@ -57,7 +30,7 @@
 		</td>
 </tr>
 </form>
-</table>
-<br />
+</table></p>
 <!-- END user_mode -->
-{TRACK_TABLE}
+<a name="statistic"></a>
+<p>{TRACK_TABLE}</p>
