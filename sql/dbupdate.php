@@ -11157,3 +11157,7 @@ CREATE TABLE `usr_new_account_mail` (
 `subject` VARCHAR(200) NULL default '',
 `body` MEDIUMTEXT NULL default ''
 ) TYPE = MYISAM;
+<#773>
+ALTER TABLE `ilinc_data` ADD `akclassvalue1` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL ;
+ALTER TABLE `ilinc_data` ADD `akclassvalue2` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL ;
+REPLACE INTO settings (module, keyword, value) VALUES ('common', 'ilinc_akclassvalues_required', 1);
