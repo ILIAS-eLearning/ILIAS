@@ -739,9 +739,10 @@ class ilTree
 	*
 	* @access	public
 	* @param	array		node_data
+	* @param    boolean     with data: default is true otherwise this function return only a ref_id array
 	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
 	*/
-	function getSubTree($a_node)
+	function getSubTree($a_node,$a_with_data = true)
 	{
 		if (!is_array($a_node))
 		{
@@ -772,7 +773,14 @@ class ilTree
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$subtree[] = $this->fetchNodeData($row);
+			if($a_with_data)
+			{
+				$subtree[] = $this->fetchNodeData($row);
+			}
+			else
+			{
+				$subtree[] = $row['child_id'];
+			}
 		}
 
 		return $subtree ? $subtree : array();

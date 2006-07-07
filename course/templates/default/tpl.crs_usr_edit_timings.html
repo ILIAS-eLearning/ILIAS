@@ -1,0 +1,62 @@
+	<form action="{FORMACTION}" method="post">
+	  <table class="std" width="30%">
+		<tr class="tblheader">
+		  <th>{TIMING_ACCEPT}</th>
+		</tr>
+		<tr class="std">
+		  <td class="option_value">
+			<input type="checkbox" name="accepted" value="1" {ACCEPT_CHECKED} /> {TXT_ACCEPT}<br />
+			<div style="padding-top:5px;">
+			  {TXT_REMARK}:
+			</div>
+			<textarea rows="3" cols="50" name="remark">{REMARK}</textarea>
+			<div style="padding-top:5px;">
+			  <input type="checkbox" name="tutor" value="1" {TUTOR_CHECKED} /> {TXT_TUTOR}<br />
+			</div>
+		</tr>
+		<tr class="tblfooter">
+		  <td class="std" colspan="2">
+			<div align="right">
+			  <input class="submit" type="submit" name="cmd[saveAcceptance]" value="{TXT_BTN_UPDATE}" />
+			</div>
+		  </td>
+		</tr>
+	  </table>
+	  <br />
+	  <table class="fullwidth" border="0">
+		  <tr class="tbltitle">
+			<th class="std" colspan="7">
+			  <img style="vertical-align: middle;" border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			  &nbsp;{BLOCK_HEADER_CONTENT}
+			</th>
+		  </tr>
+		  <tr class="tblheader">
+			<th class="std" width="40%">{TXT_TITLE}</th>
+			<th class="std" width="30%">{TXT_START}</th>
+			<th class="std" width="30%">{TXT_END}</th>
+		  </tr>
+		  <!-- BEGIN container_standard_row -->
+		  <tr class="{ROWCLASS}">
+			<td>
+			  <!-- BEGIN start_indent --><div style="padding-left:26px"><!-- END start_indent -->
+				<div style="float:left;">
+				  <img src="{TYPE_IMG}" alt="{TYPE_ALT_IMG}" title="{TYPE_ALT_IMG}" border="0" vspace="0" align="absmiddle" />
+				</div>
+				<div style="float:left;padding-left:5px">
+				  <b>{TITLE}</b>
+				  <!-- BEGIN item_description -->
+				  <div class="il_Description" >{DESC}</div>
+				  <!-- END item_description -->
+				</div>
+				<!-- BEGIN end_indent --></div><!-- END end_indent -->
+			</td>
+			<td nowrap="nowrap">
+			  {SUG_START}
+			</td>
+			<td nowrap="nowrap">
+			  {SUG_END}
+			</td>
+		  </tr>
+		  <!-- END container_standard_row -->
+	  </table>
+	</form>

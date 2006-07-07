@@ -11164,3 +11164,21 @@ REPLACE INTO settings (module, keyword, value) VALUES ('common', 'ilinc_akclassv
 
 <#774>
 ALTER TABLE `payment_settings` ADD `paypal` TEXT NOT NULL ;
+
+<#775>
+CREATE TABLE `crs_timings_usr_accept` (
+  `crs_id` int(11) NOT NULL default '0',
+  `usr_id` int(11) NOT NULL default '0',
+  `accept` tinyint(1) NOT NULL default '0',
+  `remark` text  NOT NULL,
+  `visible` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`crs_id`,`usr_id`)
+) TYPE=MyISAM;
+<#776>
+CREATE TABLE `crs_timings_planed` (
+`item_id` INT( 11 ) NOT NULL ,
+`usr_id` INT( 11 ) NOT NULL ,
+`planed_start` INT( 11 ) NOT NULL ,
+`planed_end` INT( 11 ) NOT NULL ,
+PRIMARY KEY ( `item_id` , `usr_id` )
+) TYPE = MYISAM ;
