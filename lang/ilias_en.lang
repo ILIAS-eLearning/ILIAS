@@ -6252,3 +6252,11 @@ crs#:#crs_timings_changeable#:#Time Target Changeable
 crs#:#crs_timings_early_begin#:#Earliest Start
 crs#:#crs_timings_late_end#:#Latest End
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
+crs#:#crs_timings_short_start_end#:#Suggested Start/End
+crs#:#crs_timings_duration#:#Duration
+crs#:#crs_timings_short_changeable#:#Changeable
+crs#:#crs_timings_short_limit_start_end#:#Changeable From/Until
+crs#:#crs_timings_short_active#:#Enabled
+crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:
+crs#:#edit_timings_list#:#Edit Timings
+crs#:#timings_edit#:#Edit Timings
