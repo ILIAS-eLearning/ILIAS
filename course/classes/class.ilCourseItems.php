@@ -67,6 +67,43 @@ class ilCourseItems
 		$this->__read();
 	}
 
+	function _hasTimings($a_ref_id)
+	{
+		global $tree,$ilDB;
+
+		$subtree = $tree->getSubTree($tree->getNodeData($a_ref_id));
+		foreach($subtree as $node)
+		{
+			$ref_ids[] = $node['ref_id'];
+		}
+
+		$query = "SELECT * FROM crs_items ".
+			"WHERE timing_type = '".IL_CRS_TIMINGS_PRESETTING."' ".
+			"AND obj_id IN('".implode("','",$ref_ids)."')";
+
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true :false;
+	}
+
+	function _hasChangeableTimings($a_ref_id)
+	{
+		global $tree,$ilDB;
+
+		$subtree = $tree->getSubTree($tree->getNodeData($a_ref_id));
+		foreach($subtree as $node)
+		{
+			$ref_ids[] = $node['ref_id'];
+		}
+
+		$query = "SELECT * FROM crs_items ".
+			"WHERE timing_type = '".IL_CRS_TIMINGS_PRESETTING."' ".
+			"AND changeable = '1' ".
+			"AND obj_id IN('".implode("','",$ref_ids)."')";
+
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true :false;
+	}
+
 	function setParentId($a_parent = 0)
 	{
 		$this->parent = $a_parent ? $a_parent : $this->course_obj->getRefId();
