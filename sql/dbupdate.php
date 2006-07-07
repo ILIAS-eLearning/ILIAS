@@ -11161,3 +11161,6 @@ CREATE TABLE `usr_new_account_mail` (
 ALTER TABLE `ilinc_data` ADD `akclassvalue1` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL ;
 ALTER TABLE `ilinc_data` ADD `akclassvalue2` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL ;
 REPLACE INTO settings (module, keyword, value) VALUES ('common', 'ilinc_akclassvalues_required', 1);
+
+<#774>
+ALTER TABLE `payment_settings` ADD `paypal` TEXT NOT NULL ;
