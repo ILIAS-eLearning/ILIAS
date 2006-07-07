@@ -1,18 +1,14 @@
 <!-- BEGIN loop -->
 {ITEMS_TABLE}
 <!-- BEGIN buy_link -->
-<table align="right" cellpadding="1" cellspacing="2" border="0">
-<tr>
-	<td class="btn" align="center" nowrap="nowrap" width="140">
-		<script language="JavaScript">
-		document.write('<a class="btn" href="#" onClick="w = window.open(\'{SCRIPT_LINK}\', \'payment\', \'width=620,height=480,scrollbars=yes,resizable=yes\'); w.focus(); return false">&nbsp;{TXT_BUY}&nbsp;</a>');
-		</script>
-		<noscript>
-		<a class="btn" href="{SCRIPT_LINK}" target="payment">&nbsp;{TXT_BUY}&nbsp;</a>
-		</noscript>
-	</td>
-</tr>
-</table>
+<div align="right">
+	<script language="JavaScript">
+	document.write('<a class="submit" href="#" onClick="w = window.open(\'{SCRIPT_LINK}\', \'payment\', \'width=620,height=480,scrollbars=yes,resizable=yes\'); w.focus(); return false">&nbsp;{TXT_BUY}&nbsp;</a>');
+	</script>
+	<noscript>
+	<a class="submit" href="{SCRIPT_LINK}" target="payment">&nbsp;{TXT_BUY}&nbsp;</a>
+	</noscript>
+</div>
 <div style="clear:both">&nbsp;</div>
 <!-- END buy_link -->
 <!-- END loop -->
