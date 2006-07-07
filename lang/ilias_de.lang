@@ -5158,7 +5158,6 @@ payment#:#pays_currency_unit#:#Währung (z.B. EUR)
 payment#:#pays_delete_vendor#:#Benutzer austragen
 payment#:#pays_deleted_number_vendors#:#Die folgende Anzahl an Verkäufern wurde gelöscht:
 payment#:#pays_edit_vendor#:#Benutzer bearbeiten
-payment#:#pays_general_settings#:#Allgemeine Einstellungen
 payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pays_header_select_vendor#:#Verkäuferauswahl
 payment#:#pays_no_username_given#:#Bitte geben Sie einen Benutzernamen ein.
@@ -5989,12 +5988,12 @@ crs#:#event_tbl_registered#:#Angemeldet
 crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
 crs#:#crs_timings_disabled#:#Zeitvorgaben ausgeschaltet
 crs#:#crs_timings_disabled_info#:#Wählen Sie diese Einstellung, um alle Zeitvorgaben zu deaktivieren.
-crs#:#crs_timings_availability_tbl#:#Verfägbarkeit
-crs#:#crs_timings_availability_enabled#:#Zeitlich begrenzt verfägbar
+crs#:#crs_timings_availability_tbl#:#Verfügbarkeit
+crs#:#crs_timings_availability_enabled#:#Zeitlich begrenzt verfügbar
 crs#:#crs_timings_visibility#:#Sichtbarkeit
 crs#:#crs_timings_start#:#Startzeit
 crs#:#crs_timings_end#:#Endzeit
-crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung um das Kursmaterial nur während eines bestimmten Zeitraumes verfägbar zu machen.
+crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
 crs#:#crs_timings_presetting_tbl#:#Zeitplanung
 crs#:#crs_timings_presetting#:#Zeitplanung eingeschaltet
 crs#:#crs_timings_sug_begin#:#Empfohlener Start
@@ -6011,3 +6010,21 @@ crs#:#crs_timings_short_changeable#:#Änderbar
 crs#:#crs_timings_short_limit_start_end#:#Änderbar von/bis
 crs#:#crs_timings_short_active#:#Zeitplanung aktiv
 crs#:#timings_edit#:#Zeitplanung bearbeiten
+payment#:#pays_general_settings#:#Allgemeine Einstellungen
+payment#:#pays_general#:#Allgemein
+payment#:#pays_paypal_settings#:#Einstellungen für PayPal
+payment#:#pays_server_host#:#Server Host (z.B. www.paypal.com)
+payment#:#pays_server_path#:#Pfad zu den Skripten (z.B. /cgi-bin/webscr)
+payment#:#pays_email_vendor#:#E-Mail-Adresse des Verkäufers
+payment#:#pays_auth_token#:#Von PayPal vergebenes eindeutiges Merkmal
+payment#:#pays_page_style#:#Page style
+payment#:#pays_updated_paypal_settings#:#Ihre Einstellungen für PayPal wurden aktualisiert.
+payment#:#pays_paypal_settings_not_valid#:#Ihre Einstellungen für PayPal sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pay_paypal_error_wrong_customer#:#Die Überpr�fung der Transaktion ergab keine Übereinstimmung des Käufers.
+payment#:#pay_paypal_error_not_completed#:#Die Transaktion wurde nicht vollständig abgeschlossen.
+payment#:#pay_paypal_error_prev_trans_id#:#Die von PayPal erhaltene Transaktions-ID wurde bereits verwendet.
+payment#:#pay_paypal_error_wrong_vendor#:#Die Überpr�fung der Transaktion ergab keine Übereinstimmung des Verkäufers.
+payment#:#pay_paypal_error_wrong_items#:#Die Überpr�fung der Transaktion ergab keine Übereinstimmung der gekauften Objekte.
+payment#:#pay_paypal_error_fails#:#PayPal meldet, dass Fehler während der Transaktion aufgetreten sind.
+payment#:#pay_paypal_error_info#:#Bitte wenden Sie sich ggf. an den Systemadministrator dieser ILIAS-Installation.
+payment#:#pay_paypal_unreachable#:#Es konnte keine Verbindung zum Payment-Server von PayPal aufgebaut werden.

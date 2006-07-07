@@ -32,7 +32,7 @@
 include_once './payment/classes/class.ilPurchasePaypal.php';
 include_once './payment/classes/class.ilPaymentShoppingCart.php';
 include_once './payment/classes/class.ilPaymentBaseGUI.php';
-include_once './payment/paypal/cfg_epayment.inc.php';
+include_once './payment/classes/class.ilPaypalSettings.php';
 
 class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 {
@@ -51,6 +51,8 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 	 */
 	var $paypal_obj = null;
 
+	var $paypalConfig;
+
 	function ilPaymentShoppingCartGUI(&$user_obj)
 	{
 		global $ilCtrl;
@@ -61,6 +63,8 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 		$this->user_obj =& $user_obj;
 
+		$ppSet = new ilPaypalSettings();
+		$this->paypalConfig = $ppSet->getAll();
 	}
 	/**
 	* execute command
@@ -89,19 +93,34 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 		if (!($fp = $this->paypal_obj->openSocket()))
 		{
-			sendInfo($this->lng->txt('pay_paypal_unreachable'));
+			sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_unreachable')."<br />".$this->lng->txt('pay_paypal_error_info'));
 			$this->showItems();
 		}
 		else
 		{
-			if ($this->paypal_obj->checkData($fp))
+			$res = $this->paypal_obj->checkData($fp);
+			if ($res == SUCCESS)
 			{
 				sendInfo($this->lng->txt('pay_paypal_success'), true);
 				$this->ctrl->redirectByClass('ilpaymentbuyedobjectsgui');
 			}
 			else
 			{
-				sendInfo($this->lng->txt('pay_paypal_failed'));
+				switch ($res)
+				{
+					case ERROR_WRONG_CUSTOMER	:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_customer')."<br />".$this->lng->txt('pay_paypal_error_info'));
+													break;
+					case ERROR_NOT_COMPLETED	:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_not_completed')."<br />".$this->lng->txt('pay_paypal_error_info'));
+													break;
+					case ERROR_PREV_TRANS_ID	:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_prev_trans_id')."<br />".$this->lng->txt('pay_paypal_error_info'));
+													break;
+					case ERROR_WRONG_VENDOR		:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_vendor')."<br />".$this->lng->txt('pay_paypal_error_info'));
+													break;
+					case ERROR_WRONG_ITEMS		:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_wrong_items')."<br />".$this->lng->txt('pay_paypal_error_info'));
+													break;
+					case ERROR_FAIL				:	sendInfo($this->lng->txt('pay_paypal_failed')."<br />".$this->lng->txt('pay_paypal_error_fails')."<br />".$this->lng->txt('pay_paypal_error_info'));
+													break;
+				}
 				$this->showItems();
 			}
 			fclose($fp);
@@ -116,7 +135,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 	function showItems()
 	{
-		global $ilObjDataCache, $paypalConfig, $ilUser;
+		global $ilObjDataCache, $ilUser;
 
 		include_once './payment/classes/class.ilPaymentPrices.php';
 
@@ -189,18 +208,18 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 							break;
 		
 						case PAY_METHOD_PAYPAL:
-							$tpl->setVariable("SCRIPT_LINK", $paypalConfig["server"]);
+							$tpl->setVariable("SCRIPT_LINK", "https://".$this->paypalConfig["server_host"].$this->paypalConfig["server_path"]);
 							$tpl->setVariable("POPUP_BLOCKER", $this->lng->txt('popup_blocker'));
-							$tpl->setVariable("VENDOR", $paypalConfig["vendor"]);
+							$tpl->setVariable("VENDOR", $this->paypalConfig["vendor"]);
 							$tpl->setVariable("RETURN", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, "finishPaypal"));
 							$tpl->setVariable("CANCEL_RETURN", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, "cancelPaypal"));
 							$tpl->setVariable("CUSTOM", $ilUser->getId());
 							$tpl->setVariable("CURRENCY", $genSet->get("currency_unit"));
-							$tpl->setVariable("PAGE_STYLE", $paypalConfig["page_style"]);
+							$tpl->setVariable("PAGE_STYLE", $this->paypalConfig["page_style"]);
 							
 #							$buttonParams["upload"] = 1;
 #							$buttonParams["charset"] = "utf-8";
-#							$buttonParams["business"] = $paypalConfig["vendor"];
+#							$buttonParams["business"] = $this->paypalConfig["vendor"];
 #							$buttonParams["currency_code"] = "EUR";
 #							$buttonParams["return"] = "http://www.databay.de/user/jens/paypal.php";
 #							$buttonParams["rm"] = 2;
@@ -383,19 +402,16 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
      */
     function __encryptButton($buttonParams)
     {
-		global $paypalConfig;
-		vd($paypalConfig);
-
-        $merchant_cert = $paypalConfig["vendor_cert"];
-        $merchant_key = $paypalConfig["vendor_key"];
-        $end_cert = $paypalConfig["enc_cert"];
+        $merchant_cert = $this->paypalConfig["vendor_cert"];
+        $merchant_key = $this->paypalConfig["vendor_key"];
+        $end_cert = $this->paypalConfig["enc_cert"];
 
         $tmpin_file  = tempnam('/tmp', 'paypal_');
         $tmpout_file = tempnam('/tmp', 'paypal_');
         $tmpfinal_file = tempnam('/tmp', 'paypal_');
 
         $rawdata = array();
-        $buttonParams['cert_id'] = $paypalConfig["cert_id"];
+        $buttonParams['cert_id'] = $this->paypalConfig["cert_id"];
         foreach ($buttonParams as $name => $value) {
             $rawdata[] = "$name=$value";
         }
@@ -411,7 +427,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
         fclose($fp);
 
         if (!@openssl_pkcs7_sign($tmpin_file, $tmpout_file, $merchant_cert,
-                                 array($merchant_key, $paypalConfig["private_key_password"]),
+                                 array($merchant_key, $this->paypalConfig["private_key_password"]),
                                  array(), PKCS7_BINARY)) {
 			echo "Could not sign encrypted data: " . openssl_error_string();
 			return false;
