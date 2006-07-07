@@ -1,42 +1,53 @@
 <?php
 
 class ilSoapStructureObjectFactory {
-	function getInstanceForObject ($object) 
+	function getInstanceForObject ($object)
 	{
 		$classname = ilSoapStructureObjectFactory::_getClassnameForType ($object->getType());
-	
-		switch ($object->getType()) 
+
+		switch ($object->getType())
 		{
-			case "lm": 
+			case "lm":
 				return new $classname(
-					$object->getId(), $object->getType(), $object->getTitle(), 
-					$object->getLongDescription(), $object->getRefId());				
+					$object->getId(), $object->getType(), $object->getTitle(),
+					$object->getLongDescription(), $object->getRefId());
+            case "glo":
+				return new $classname(
+					$object->getId(), $object->getType(), $object->getTitle(),
+					$object->getLongDescription(), $object->getRefId());
 		}
 		die ("Object type ".$object->getType()." not supported");
 	}
-	
-	function getInstance ($objId, $type, $title) 
+
+	function getInstance ($objId, $type, $title)
 	{
 		$classname = ilSoapStructureObjectFactory::_getClassnameForType ($type);
-		return new $classname($objId, $type, $title);			
+		return new $classname($objId, $type, $title);
 	}
-	
-	function _getClassnameForType ($type) 
+
+	function _getClassnameForType ($type)
 	{
-		switch ($type) 
+		switch ($type)
 		{
-			case "lm": 
+			case "lm":
 				include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
 				return "ilSoapRepositoryStructureObject";
-			case "st": 
+			case "st":
 				include_once "./webservice/soap/classes/class.ilSoapLMChapterStructureObject.php";
 				return "ilSoapLMChapterStructureObject";
-			
-			case "pg": 
+			case "pg":
 				include_once "./webservice/soap/classes/class.ilSoapLMPageStructureObject.php";
 				return "ilSoapLMPageStructureObject";
+			case "glo":
+			    include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
+				return "ilSoapRepositoryStructureObject";
+			case "glo":
+			    include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
+				return "ilSoapRepositoryStructureObject";
+
+
 		}
-		
+
 	}
 }
 
