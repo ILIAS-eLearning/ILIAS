@@ -216,7 +216,9 @@ class ilQuestionpoolExport
 		$worksheet =& $workbook->addWorksheet();
 		$row = 0;
 		$col = 0;
+		// title row
 		include_once "./classes/class.ilExcelUtils.php";
+		include_once "./assessment/classes/class.assQuestion.php";
 		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("title"), "latin1"), $format_title);
 		$col++;
 		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("description"), "latin1"), $format_title);
@@ -230,6 +232,23 @@ class ilQuestionpoolExport
 		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("last_update"), "latin1"), $format_title);
 		$col = 0;
 		$row++;
+		$questions = $this->qpl_obj->getQuestionList();
+		foreach ($questions as $question)
+		{
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["title"], "latin1"));
+			$col++;
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["comment"], "latin1"));
+			$col++;
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt($question["type_tag"]), "latin1"));
+			$col++;
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["author"], "latin1"));
+			$col++;
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(ilFormat::ftimestamp2dateDB($question["created"]), "date"), "latin1"));
+			$col++;
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(ilFormat::ftimestamp2dateDB($question["TIMESTAMP14"]), "date"), "latin1"));
+			$col = 0;
+			$row++;
+		}
 		$workbook->close();
 	}
 }
