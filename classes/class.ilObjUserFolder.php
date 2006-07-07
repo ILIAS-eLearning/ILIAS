@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -709,5 +709,28 @@ class ilObjUserFolder extends ilObject
 		return $profile_fields;
 	}
 	
+	function _writeNewAccountMail($a_lang, $a_subject, $a_body)
+	{
+		global $ilDB;
+		
+		$ilDB->query("REPLACE INTO usr_new_account_mail ".
+			"(lang, subject, body) VALUES ".
+			"(".$ilDB->quote($a_lang).",".$ilDB->quote($a_subject).",".$ilDB->quote($a_body).")");
+	}
+
+	function _lookupNewAccountMail($a_lang)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM usr_new_account_mail ".
+			" WHERE lang = ".$ilDB->quote($a_lang));
+
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $rec;
+		}
+		return array();
+	}
+
 } // END class.ilObjUserFolder
 ?>

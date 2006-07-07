@@ -11151,3 +11151,9 @@ KEY `obj_id` ( `obj_id` , `item_id` )
 <#771>
 ALTER TABLE `crs_items` ADD `earliest_start` INT( 11 ) NOT NULL AFTER `changeable` ,
 ADD `latest_end` INT( 11 ) NOT NULL AFTER `earliest_start`;
+<#772>
+CREATE TABLE `usr_new_account_mail` (
+`lang` CHAR(5) NOT NULL PRIMARY KEY,
+`subject` VARCHAR(200) NULL default '',
+`body` MEDIUMTEXT NULL default ''
+) TYPE = MYISAM;

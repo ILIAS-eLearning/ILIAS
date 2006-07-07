@@ -2845,6 +2845,67 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	}
 	
+	/**
+	* new account mail administration
+	*/
+	function newAccountMailObject()
+	{
+		global $lng;
+		
+		$this->setSubTabs('settings');
+		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setSubTabActive('user_new_account_mail');
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_new_account_mail.html');
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_mail.gif"));
+		
+		$lng->loadLanguageModule("meta");
+		$lng->loadLanguageModule("mail");
+		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL", $lng->txt("user_new_account_mail"));
+		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL_DESC", $lng->txt("user_new_account_mail_desc"));
+		
+		$langs = $lng->getInstalledLanguages();
+		foreach($langs as $lang_key)
+		{
+			$amail = $this->object->_lookupNewAccountMail($lang_key);
+			$this->tpl->setCurrentBlock("mail_block");
+			$this->tpl->setVariable("TXT_LANGUAGE", $lng->txt("meta_l_".$lang_key));
+			$this->tpl->setVariable("TXT_BODY", $lng->txt("message_content"));
+			$this->tpl->setVariable("TA_BODY", "body_".$lang_key);
+			$this->tpl->setVariable("VAL_BODY", 
+				ilUtil::prepareFormOutput($amail["body"]));
+			$this->tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
+			$this->tpl->setVariable("INPUT_SUBJECT", "subject_".$lang_key);
+			$this->tpl->setVariable("VAL_SUBJECT", 
+				ilUtil::prepareFormOutput($amail["subject"]));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+	}
+
+	function cancelNewAccountMailObject()
+	{
+		sendInfo($this->lng->txt("action_aborted"), true);
+		$this->ctrl->redirect($this, "settings");
+	}
+
+	function saveNewAccountMailObject()
+	{
+		global $lng;
+		
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$langs = $lng->getInstalledLanguages();
+		foreach($langs as $lang_key)
+		{
+			$this->object->_writeNewAccountMail($lang_key,
+				ilUtil::stripSlashes($_POST["subject_".$lang_key]),
+				ilUtil::stripSlashes($_POST["body_".$lang_key]));
+		}
+		$this->ctrl->redirect($this, "newAccountMail");
+	}
+
 	function getAdminTabs(&$tabs_gui)
 	{
 		$this->getTabs($tabs_gui);
@@ -2902,6 +2963,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tabs_gui->addSubTabTarget("user_defined_fields",
 												 $this->ctrl->getLinkTarget($this,'listUserDefinedFields'),
 												 "listUserDefinedFields",get_class($this));
+				$this->tabs_gui->addSubTabTarget("user_new_account_mail",
+												 $this->ctrl->getLinkTarget($this,'newAccountMail'),
+												 "newAccountMail",get_class($this));
 				break;
 		}
 	}
