@@ -21,13 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
-class ilGeneralSettings
+class ilPaypalSettings
 {
 	var $db;
 
 	var $settings;
+	var $settings_id;
 
-	function ilGeneralSettings()
+	function ilPaypalSettings()
 	{
 		global $ilDB;
 
@@ -48,47 +49,48 @@ class ilGeneralSettings
 
 	function clearAll()
 	{
-		$query = "DELETE FROM payment_settings";
+		$query = "UPDATE payment_settings "
+				."SET paypal = '' "
+				."WHERE settings_id = '" . $this->settings_id . "'";
 		$this->db->query($query);
 
-		return true;
+		$this->settings = array();
 	}
 		
 	function setAll($a_values)
 	{
-		$query = "INSERT INTO payment_settings (currency_unit, currency_subunit, address, bank_data, add_info, vat_rate, pdf_path) VALUES (";
-		$query .= "'" . $a_values["currency_unit"] . "', ";
-		$query .= "'" . $a_values["currency_subunit"] . "', ";
-		$query .= "'" . $a_values["address"] . "', ";
-		$query .= "'" . $a_values["bank_data"] . "', ";
-		$query .= "'" . $a_values["add_info"] . "', ";
-		$query .= "'" . $a_values["vat_rate"] . "', ";
-		$query .= "'" . $a_values["pdf_path"] . "')";
+		$query = "UPDATE payment_settings "
+				."SET paypal = '" . serialize($a_values) . "' "
+				."WHERE settings_id = '" . $this->settings_id . "'";
 		$this->db->query($query);
 
-		$this->__getSettings();
-
-		return true;
+		$this->settings = $a_values;
 	}
 
 	function __getSettings()
 	{
-		$query = "SELECT * FROM payment_settings";
+		$this->__getSettingsId();
+
+		$query = "SELECT paypal FROM payment_settings WHERE settings_id = '" . $this->settings_id . "'";
 		$result = $this->db->getrow($query);
 
 		$data = array();
 		if (is_object($result))
 		{
-			$data["currency_unit"] = $result->currency_unit;
-			$data["currency_subunit"] = $result->currency_subunit;
-			$data["address"] = $result->address;
-			$data["bank_data"] = $result->bank_data;
-			$data["add_info"] = $result->add_info;
-			$data["vat_rate"] = $result->vat_rate;
-			$data["pdf_path"] = $result->pdf_path;
+			if ($result->paypal != "") $data = unserialize($result->paypal);
+			else $data = array();
 		}
 
 		$this->settings = $data;
+	}
+
+	function __getSettingsId()
+	{
+		$query = "SELECT * FROM payment_settings";
+		$result = $this->db->getrow($query);
+
+		$this->settings_id = 0;
+		if (is_object($result)) $this->settings_id = $result->settings_id;
 	}
 
 }

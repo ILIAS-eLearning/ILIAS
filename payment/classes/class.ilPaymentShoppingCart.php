@@ -30,7 +30,6 @@
 */
 include_once './payment/classes/class.ilPaymentPrices.php';
 include_once './payment/classes/class.ilPaymentObject.php';
-include_once './payment/paypal/cfg_epayment.inc.php';
 
 class ilPaymentShoppingCart
 {

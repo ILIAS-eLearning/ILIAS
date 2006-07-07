@@ -42,6 +42,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	var $user_obj = null;
 	var $pobject = null;
 
+	var $section;
+	var $mainSection;
+
 	/**
 	* Constructor
 	* @access public
@@ -59,6 +62,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->type = "pays";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+
+		$this->SECTION_GENERAL = 1;
+		$this->SECTION_PAYPAL = 2;
+		$this->SETTINGS = 3;
+		$this->OTHERS = 0;
 
 		$this->lng->loadLanguageModule('payment');
 	}
@@ -82,7 +90,24 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				{
 					$cmd = "generalSettings";
 				}
+				switch ($cmd)
+				{
+					case "saveGeneralSettings" :
+					case "generalSettings" :	$this->__setSection($this->SECTION_GENERAL);
+												$this->__setMainSection($this->SETTINGS);
+												break;
+					case "savePaypalSettings" :
+					case "paypalSettings" :		$this->__setSection($this->SECTION_PAYPAL);
+												$this->__setMainSection($this->SETTINGS);
+												break;
+					default :					$this->__setSection($this->OTHERS);
+												$this->__setMainSection($this->OTHERS);
+												break;
+				}
 				$cmd .= "Object";
+
+				$this->__buildSettingsButtons();
+
 				$this->$cmd();
 
 				break;
@@ -492,7 +517,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("general_settings",
+			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "generalSettings"), array("generalSettings","", "view"), "", "");
 				
 			$tabs_gui->addTarget("statistic",
@@ -573,7 +598,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLUMN_COUNT",2);
 		$this->tpl->setVariable("PBTN_NAME",'saveGeneralSettings');
 		$this->tpl->setVariable("PBTN_VALUE",$this->lng->txt('save'));
-		
 	}
 	
 	function saveGeneralSettingsObject()
@@ -616,6 +640,104 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->generalSettingsObject();
 
 		sendInfo($this->lng->txt('pays_updated_general_settings'));
+
+		return true;
+	}
+
+	function paypalSettingsObject($a_show_confirm = false)
+	{
+		include_once './payment/classes/class.ilPaypalSettings.php';
+
+		$ppSet = new ilPaypalSettings();
+		$ppSetData = $ppSet->getAll();
+
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'read'
+		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_paypal_settings.html",'payment');
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_pays'));
+		$this->tpl->setVariable("TITLE",$this->lng->txt('pays_paypal_settings'));
+		$this->tpl->setVariable("TXT_SERVER_HOST",$this->lng->txt('pays_server_host'));
+		$this->tpl->setVariable("TXT_SERVER_PATH",$this->lng->txt('pays_server_path'));
+		$this->tpl->setVariable("TXT_EMAIL_VENDOR",$this->lng->txt('pays_email_vendor'));
+		$this->tpl->setVariable("TXT_AUTH_TOKEN",$this->lng->txt('pays_auth_token'));
+		$this->tpl->setVariable("TXT_PAGE_STYLE",$this->lng->txt('pays_page_style'));
+		$this->tpl->setVariable("TXT_NO",$this->lng->txt('no'));
+		$this->tpl->setVariable("TXT_YES",$this->lng->txt('yes'));
+		$this->tpl->setVariable("SERVER_HOST",
+								$this->error != "" && isset($_POST['server_host'])
+								? ilUtil::prepareFormOutput($_POST['server_host'],true)
+								: ilUtil::prepareFormOutput($ppSetData['server_host'],true));
+		$this->tpl->setVariable("SERVER_PATH",
+								$this->error != "" && isset($_POST['server_path'])
+								? ilUtil::prepareFormOutput($_POST['server_path'],true)
+								: ilUtil::prepareFormOutput($ppSetData['server_path'],true));
+		$this->tpl->setVariable("VENDOR",
+								$this->error != "" && isset($_POST['vendor'])
+								? ilUtil::prepareFormOutput($_POST['vendor'],true)
+								: ilUtil::prepareFormOutput($ppSetData['vendor'],true));
+		$this->tpl->setVariable("AUTH_TOKEN",
+								$this->error != "" && isset($_POST['auth_token'])
+								? ilUtil::prepareFormOutput($_POST['auth_token'],true)
+								: ilUtil::prepareFormOutput($ppSetData['auth_token'],true));
+		$this->tpl->setVariable("PAGE_STYLE",
+								$this->error != "" && isset($_POST['page_style'])
+								? ilUtil::prepareFormOutput($_POST['page_style'],true)
+								: ilUtil::prepareFormOutput($ppSetData['page_style'],true));
+		
+		// footer
+		$this->tpl->setVariable("COLUMN_COUNT",2);
+		$this->tpl->setVariable("PBTN_NAME",'savePaypalSettings');
+		$this->tpl->setVariable("PBTN_VALUE",$this->lng->txt('save'));
+		
+	}
+	
+	function savePaypalSettingsObject()
+	{
+		include_once './payment/classes/class.ilPaypalSettings.php';
+
+		$ppSet = new ilPaypalSettings();
+
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'read'
+		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if ($_POST["server_host"] == "" ||
+			$_POST["server_path"] == "" ||
+			$_POST["vendor"] == "" ||
+			$_POST["auth_token"] == "")
+		{
+			$this->error = $this->lng->txt('pays_paypal_settings_not_valid');
+			sendInfo($this->error);
+			$this->paypalSettingsObject();
+			return;
+		}
+
+		$ppSet->clearAll();
+		$values = array(
+			"server_host" => $_POST['server_host'],
+			"server_path" => $_POST['server_path'],
+			"vendor" => $_POST['vendor'],
+			"auth_token" => $_POST['auth_token'],
+			"page_style" => $_POST['page_style'],
+			"ssl" => $_POST['ssl']
+		);
+		$ppSet->setAll($values);
+		$this->paypalSettingsObject();
+
+		sendInfo($this->lng->txt('pays_updated_paypal_settings'));
 
 		return true;
 	}
@@ -1304,6 +1426,42 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 
 	// PRIVATE
+	function __setSection($a_section)
+	{
+		$this->section = $a_section;
+	}
+	function __getSection()
+	{
+		return $this->section;
+	}
+	function __setMainSection($a_section)
+	{
+		$this->mainSection = $a_section;
+	}
+	function __getMainSection()
+	{
+		return $this->mainSection;
+	}
+
+	function __buildSettingsButtons()
+	{
+		if($this->__getMainSection() == $this->SETTINGS)
+		{
+			$this->tabs_gui->addSubTabTarget('pays_general',
+											 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'generalSettings'),
+											 '',
+											 '',
+											 '',
+											 $this->__getSection() == $this->SECTION_GENERAL ? true : false);
+			$this->tabs_gui->addSubTabTarget('pays_paypal',
+											 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'paypalSettings'),
+											 '',
+											 '',
+											 '',
+											 $this->__getSection() == $this->SECTION_PAYPAL ? true : false);
+		}
+	}
+
 	function __showStatisticTable($a_result_set)
 	{
 		$tbl =& $this->__initTableGUI();

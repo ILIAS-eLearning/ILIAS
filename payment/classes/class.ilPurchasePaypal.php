@@ -30,7 +30,16 @@
 */
 include_once './payment/classes/class.ilPaymentObject.php';
 include_once './payment/classes/class.ilPaymentShoppingCart.php';
-include_once './payment/paypal/cfg_epayment.inc.php';
+include_once './payment/classes/class.ilPaypalSettings.php';
+
+define('SUCCESS', 0);
+define('ERROR_OPENSOCKET', 1);
+define('ERROR_WRONG_CUSTOMER', 2);
+define('ERROR_NOT_COMPLETED', 3);
+define('ERROR_PREV_TRANS_ID', 4);
+define('ERROR_WRONG_VENDOR', 5);
+define('ERROR_WRONG_ITEMS', 6);
+define('ERROR_FAIL', 7);
 
 class ilPurchasePaypal
 {
@@ -40,6 +49,8 @@ class ilPurchasePaypal
 	var $psc_obj = null;
 	var $user_obj = null;
 	var $db = null;
+
+	var $paypalConfig;
 
 	function ilPurchasePaypal(&$user_obj)
 	{
@@ -51,31 +62,32 @@ class ilPurchasePaypal
 
 		$this->__initShoppingCartObject();
 
+		$ppSet = new ilPaypalSettings();
+		$this->paypalConfig = $ppSet->getAll();
+
 		$this->lng->loadLanguageModule("payment");
 	}
 
 	function openSocket()
 	{
-		global $paypalConfig;
-
 		// post back to PayPal system to validate
-		$fp = fsockopen (($paypalConfig["ssl"] ? "ssl://" : "") . $paypalConfig["server_host"], 80, $errno, $errstr, 30);
+		$fp = @fsockopen ($this->paypalConfig["server_host"], 80, $errno, $errstr, 30);
 		return $fp;
 	}
 
 	function checkData($fp)
 	{
-		global $paypalConfig, $ilUser;
+		global $ilUser;
 
 		// read the post from PayPal system and add 'cmd'
 		$req = 'cmd=_notify-synch';
 
 		$tx_token = $_GET['tx'];
 
-		$auth_token = $paypalConfig["auth_token"];
+		$auth_token = $this->paypalConfig["auth_token"];
 
 		$req .= "&tx=$tx_token&at=$auth_token";
-		$header .= "POST " . $paypalConfig["server_path"] . " HTTP/1.0\r\n";
+		$header .= "POST " . $this->paypalConfig["server_path"] . " HTTP/1.0\r\n";
 		$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
 		$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
 
@@ -111,44 +123,45 @@ class ilPurchasePaypal
 			if ($ilUser->getId() != $keyarray["custom"])
 			{
 #echo "Wrong customer";
-				return false;
+				return ERROR_WRONG_CUSTOMER;
 			}
 
 // check the payment_status is Completed
 			if (!in_array($keyarray["payment_status"], array("Completed", "In-Progress", "Pending", "Processed")))
 			{
 #echo "Not completed";
-				return false;
+				return ERROR_NOT_COMPLETED;
 			}
 
 // check that txn_id has not been previously processed
 			if ($this->__checkTransactionId($keyarray["txn_id"]))
 			{
 #echo "Prev. processed trans. id";
-				return false;
+				return ERROR_PREV_TRANS_ID;
 			}
 
 // check that receiver_email is your Primary PayPal email
-			if ($keyarray["receiver_email"] != $paypalConfig["vendor"])
+			if ($keyarray["receiver_email"] != $this->paypalConfig["vendor"])
 			{
 #echo "Wrong vendor";
-				return false;
+				return ERROR_WRONG_VENDOR;
 			}
 
 // check that payment_amount/payment_currency are correct
 			if (!$this->__checkItems($keyarray))
 			{
 #echo "Wrong items";
-				return false;
+				return ERROR_WRONG_ITEMS;
 			}
 
 			$bookings = $this->__saveTransaction($keyarray["txn_id"]);
 			$this->__sendBill($bookings, $keyarray);
-			return true;
+
+			return SUCCESS;
 		}
 		else if (strcmp ($lines[0], "FAIL") == 0)
 		{
-			return false;
+			return ERROR_FAIL;
 		}
 	}
 
