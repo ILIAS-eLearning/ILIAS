@@ -288,9 +288,9 @@ function getXMLTree($sid,$ref_id,$types,$user_id)
 	$soa =& new ilSoapObjectAdministration();
 
 	return $soa->getXMLTree($sid,$ref_id,$types,$user_id);
-}	
+}
 
-	
+
 
 // Rbac Tree functions
 function getOperations($sid)
@@ -498,7 +498,7 @@ function getUsersForContainer ($sid, $ref_id, $attach_roles, $active)
 
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->getUsers($sid, $ref_id, $attach_roles, $active);
+	return $sua->getUsersForContainer($sid, $ref_id, $attach_roles, $active);
 }
 
 function getUsersForRole ($sid, $role_id, $attach_roles, $active)
@@ -507,7 +507,7 @@ function getUsersForRole ($sid, $role_id, $attach_roles, $active)
 
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->getRoleUsers($sid, $role_id, $attach_roles, $active);
+	return $sua->getUserForRole($sid, $role_id, $attach_roles, $active);
 }
 
 
