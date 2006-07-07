@@ -53,7 +53,7 @@ administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#initializing_gaps#:#Initializing gaps in tree...
 administration#:#log_scan#:#Log scan results
-administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory. 
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
@@ -151,7 +151,7 @@ assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap. 
 assessment#:#cloze_text#:#Cloze text
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive
@@ -175,7 +175,7 @@ assessment#:#delete_area#:#Delete area
 assessment#:#delete_image#:#Delete image
 assessment#:#delete_user_data#:#Delete test data of the selected users
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s 
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
 assessment#:#detailed_output#:#Detailed output
@@ -210,7 +210,7 @@ assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!
 assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
-assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least 
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#edit_content#:#Edit content
 assessment#:#edit_properties#:#Edit properties
@@ -324,10 +324,10 @@ assessment#:#multiline_answers_hide#:#Use single-line answers
 assessment#:#multiline_answers_show#:#Use multi-line answers
 assessment#:#multiline_terms_hide#:#Use single-line terms
 assessment#:#multiline_terms_show#:#Use multi-line terms
-assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved. 
 assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>
-assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved. 
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_target_selected_for_move#:#You must select a target position!
@@ -385,7 +385,7 @@ assessment#:#qpl_export_excel#:#Microsoft Excel file
 assessment#:#qpl_export_xml#:#QTI XML file
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qpl_general_properties#:#General properties
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator. 
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
@@ -499,7 +499,7 @@ assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
-assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button. 
 assessment#:#tst_count_correct_solutions#:#Count only complete solutions
 assessment#:#tst_count_partial_solutions#:#Count partial solutions
 assessment#:#tst_delete_all_user_data#:#Delete all user data
@@ -519,7 +519,7 @@ assessment#:#tst_eval_total_persons#:#Total number of persons who started the te
 assessment#:#tst_eval_user_answer#:#User answer
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
-assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test? 
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_generate_xls#:#Generate Excel
@@ -527,7 +527,7 @@ assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_previous_results#:#Hide previous results
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
 assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass
-assessment#:#tst_hide_previous_results_introduction#:#If you're processing more than one pass of this test, your previous entered results will not be used as default values ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_hide_previous_results_introduction#:#If you're processing more than one pass of this test, your previous entered results will not be used as default values 
 assessment#:#tst_hide_title_points#:#Question title points
 assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
@@ -537,7 +537,7 @@ assessment#:#tst_insert_missing_question#:#Please select at least one question t
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_introduction#:#Introduction
-assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.. 
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema
@@ -596,7 +596,7 @@ assessment#:#tst_question_type#:#Question type
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
-assessment#:#tst_random_qpl_unselected#:#There is at least one unselected question pool! You don't need to add a new question pool. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_random_qpl_unselected#:#There is at least one unselected question pool! You don't need to add a new question pool. 
 assessment#:#tst_random_questionpools#:#Source question pools
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
@@ -690,7 +690,7 @@ assessment#:#tst_text_count_system#:#Scoring system
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
 assessment#:#tst_time_already_spent_left#:#You have %s left.
 assessment#:#tst_total_questions#:#Total amount of questions
-assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool! 
 assessment#:#tst_tst_date#:#Date of Test
 assessment#:#tst_type#:#Test type
 assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!
@@ -712,7 +712,7 @@ assessment#:#upload_image#:#Upload image
 assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#user_not_invited#:#You are not supposed to take this exam.
-assessment#:#user_wrong_clientip#:#You don't have the right ip using this test. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#user_wrong_clientip#:#You don't have the right ip using this test. 
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#warning_question_not_complete#:#The question is not complete!
 assessment#:#warning_test_not_complete#:#The test is not complete!
@@ -836,8 +836,8 @@ chat#:#chat_access_blocked#:#You are excluded from these chatrooms
 chat#:#chat_active#:#Active
 chat#:#chat_active_users#:#Further users (present)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
-chat#:#chat_add_external_ip#:#Please add the server's external IP. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-chat#:#chat_add_internal_ip#:#Please add the server's internal IP. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+chat#:#chat_add_external_ip#:#Please add the server's external IP. 
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP. 
 chat#:#chat_add_moderator_password#:#Please add a moderator password.
 chat#:#chat_add_port#:#Please add the server port.
 chat#:#chat_add_private_chatroom#:#Add private chatroom
@@ -998,7 +998,7 @@ common#:#adm_visible#:#System settings are visible
 common#:#adm_write#:#Edit Basic system settings
 common#:#admin_panel#:#Administration Panel
 common#:#admin_panel_disable#:#Switch Administration Commands Off
-common#:#admin_panel_enable#:#Switch Administration Commands On ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#admin_panel_enable#:#Switch Administration Commands On 
 common#:#administrate#:#Administrate
 common#:#administrate_users#:#Local user administration
 common#:#administration#:#Administration
@@ -1117,7 +1117,7 @@ common#:#auth_cas_settings_saved#:#CAS settings saved
 common#:#auth_soap_settings_saved#:#SOAP authentication settings saved
 common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_read#:#Access authentication settings
-common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore. 
 common#:#auth_role_auth_mode#:#Authentication mode
 common#:#auth_script#:#Custom
 common#:#auth_script_desc#:#Authenticate users via external script
@@ -1338,9 +1338,9 @@ common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be in
 common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_never#:#never
 common#:#cron_jobs#:#Cron jobs
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation. 
 common#:#cron_lucene_index#:#Update Lucene search index
-common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'. 
 common#:#crs#:#Course
 common#:#crs_a#:#a Course
 common#:#crs_add#:#Add Course
@@ -1393,7 +1393,7 @@ common#:#crs_write#:#Edit Course
 common#:#cumulative_time#:#Cumulative time
 common#:#cur_number_rec#:#Current number of records
 common#:#current_ip#:#Current IP:
-common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore. 
 common#:#current_password#:#Current Password
 common#:#custom_icon_size_big#:#Custom icon size (big)
 common#:#custom_icon_size_small#:#Custom icon size (small)
@@ -1492,7 +1492,7 @@ common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the
 common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
 common#:#enable_js_edit#:#Enable JavaScript Editing
-common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) 
 common#:#enable_password_assistance#:#Enable password assistance
 common#:#enable_registration#:#Enable new user registration
 common#:#enabled#:#Enabled
@@ -1699,8 +1699,8 @@ common#:#frm_edit_post#:#Add new thread, posting
 common#:#frm_new#:#New Forum
 common#:#frm_read#:#Read access to Forum
 common#:#frm_statistics_ranking#:#Ranking
-common#:#frm_status_new#:#Status 'New' ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#frm_status_new#:#Status 'New' 
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries. 
 common#:#frm_visible#:#Forum is visible
 common#:#frm_write#:#Edit forum
 common#:#from#:#From
@@ -1759,7 +1759,7 @@ common#:#group_no_registration#:#Join group
 common#:#group_no_registration_msg#:#You can join this group directly.
 common#:#group_not_available#:#No group available
 common#:#group_objects#:#Group Objects
-common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don't know the password. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don't know the password. 
 common#:#group_registration#:#Registration
 common#:#group_registration_expiration_date#:#Expiration Date
 common#:#group_registration_expiration_time#:#Expiration Time
@@ -1774,7 +1774,7 @@ common#:#group_req_registration_msg#:#You can request membership for this group.
 common#:#group_reset#:#Reset Group Permissions
 common#:#group_status#:#Group is
 common#:#group_status_closed#:#Closed
-common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open'<br />Public: Group is visible; User may subscribe.<br />Closed: Group is not visible for non-members; User has to be invited by a member to join. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open'<br />Public: Group is visible; User may subscribe.<br />Closed: Group is not visible for non-members; User has to be invited by a member to join. 
 common#:#group_status_public#:#Public
 common#:#groupings#:#Membership Limitations
 common#:#groupings_assigned_obj_crs#:#Assigned Courses
@@ -1896,9 +1896,9 @@ common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].
 common#:#hist_lm_pg_update#:#Page changed.
 common#:#hist_no_entries#:#No entries in history.
-common#:#hist_webr_add#:#Added new Web Resource with title: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_delete#:#Deleted Web Resource. Title: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_update#:#Update Web Resource. Title: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_add#:#Added new Web Resource with title: "%1" 
+common#:#hist_webr_delete#:#Deleted Web Resource. Title: "%1" 
+common#:#hist_webr_update#:#Update Web Resource. Title: "%1" 
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -1994,7 +1994,7 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cance
 common#:#ilinc_mail_subj_new_subscription#:#New subscription
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled
 common#:#ilinc_manage_course_documents#:#Materials
-common#:#ilinc_mem_change_status#:#Change user's status ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#ilinc_mem_change_status#:#Change user's status 
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar
 common#:#ilinc_mem_send_mail#:#Send user a message
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
@@ -2059,7 +2059,7 @@ common#:#info_not_assigned#:#not assigned
 common#:#info_owner_of_object#:#Owner of object
 common#:#info_permission_origin#:#Original position
 common#:#info_permission_source#:#effective from*
-common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position. 
 common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
 common#:#info_trash#:#Deleted Objects
@@ -2328,7 +2328,7 @@ common#:#mep_visible#:#Media Pool is visible
 common#:#mep_write#:#Edit Media Pool Content
 common#:#message#:#Message
 common#:#message_content#:#Message Content
-common#:#message_no_delivered_files#:#You don't have delivered a file! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#message_no_delivered_files#:#You don't have delivered a file! 
 common#:#message_to#:#Message to:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
@@ -2396,9 +2396,9 @@ common#:#msg_min_one_role#:#Each user must have at least one global role!
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
-common#:#msg_no_file#:#You didn't choose a file ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_no_file#:#You didn't choose a file 
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment 
 common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
@@ -2430,9 +2430,9 @@ common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Only a System Administrator may assign users to the System Administrator Role
 common#:#msg_no_title#:#Please enter a title.
-common#:#msg_no_url#:#You didn't enter a URL ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_no_url#:#You didn't enter a URL
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users
-common#:#msg_not_in_itself#:#It's not possible to paste the object in itself ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_not_in_itself#:#It's not possible to paste the object in itself 
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Object created.
 common#:#msg_obj_exists#:#This object already exists in this folder
@@ -2445,9 +2445,9 @@ common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
 common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_exists1#:#A role/role template with the name
 common#:#msg_role_exists2#:#already exists! Please choose another name
-common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for automatically generated roles. Please choose another name ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for automatically generated roles. Please choose another name 
 common#:#msg_roleassignment_active_changed#:#Active role assignment changed
-common#:#msg_roleassignment_active_changed_comment#:#This setting is not saved to the user's profile! If the user logs in again, all active role assignments reset to their saved values. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_roleassignment_active_changed_comment#:#This setting is not saved to the user's profile! If the user logs in again, all active role assignments reset to their saved values. 
 common#:#msg_roleassignment_changed#:#Role assignment changed
 common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
 common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.
@@ -2684,7 +2684,7 @@ common#:#passwd_not_match#:#Your entries for the new password don't match! Pleas
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
 common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.
-common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator. 
 common#:#paste#:#Paste
 common#:#paste_clipboard_items#:#Paste items from clipboard
 common#:#pasteChapter#:#Paste
@@ -2994,7 +2994,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_edit_permission#:#Change permission settings
 common#:#shib_email#:#Attribute for email address
 common#:#shib_firstname#:#Attribute for firstname
-common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f') 
 common#:#shib_institution#:#Attribute for institution
 common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS. ### 2006-5-8 --- Content changed
 common#:#shib_language#:#Attribute for language
@@ -3196,7 +3196,7 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test 
 common#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tst_write#:#Edit Test
@@ -3290,7 +3290,7 @@ common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online#:#Active users
 common#:#users_online_show_associated#:#Show members of my courses and groups only
-common#:#users_online_show_n#:#Don't show active users ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#users_online_show_n#:#Don't show active users 
 common#:#users_online_show_y#:#Show all active users
 common#:#usertracking#:#User Tracking
 common#:#usr#:#User
@@ -3304,7 +3304,7 @@ common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User
-common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in the registration form and personal user profile on the personal desktop. Check 'Changeable' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in the registration form and personal user profile on the personal desktop. Check 'Changeable' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings. 
 common#:#usr_settings_header_profile#:#User profile settings
 common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_saved#:#Global user settings saved successfully!
@@ -3364,7 +3364,7 @@ common#:#webr_add_item#:#Add Web Resource
 common#:#webr_delete#:#Delete Web Resource
 common#:#webr_delete_items#:#Delete Web Resource(s)
 common#:#webr_deleted_items#:#Deleted Web Resource(s).
-common#:#webr_disable_check#:#Disable check ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#webr_disable_check#:#Disable check 
 common#:#webr_edit#:#Edit Web Resource
 common#:#webr_edit_item#:#Edit Web Resource
 common#:#webr_edit_permission#:#Change permission settings
@@ -3401,7 +3401,7 @@ common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#add_menu_entry#:#Add menu entry >>
 content#:#all#:#All
-content#:#all_pages#:#the entire Learning module ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#all_pages#:#the entire Learning module 
 content#:#choose_public_mode#:#Unregistered users may access
 content#:#choose_public_pages#:#Choose public accessible pages
 content#:#cont_act_number#:#Chapter Numeration
@@ -3417,7 +3417,7 @@ content#:#cont_added_term#:#Term added
 content#:#cont_Additional#:#Additional
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
-content#:#cont_Alphabetic#:#Alphabetic a, b, ... ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_Alphabetic#:#Alphabetic a, b, ...  ### 2006-5-8 --- Content changed
 content#:#cont_annex#:#Annex
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
@@ -3453,7 +3453,7 @@ content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
 content#:#cont_citation_err_one#:#You must select exactly one edition
-content#:#cont_citation_selection_not_valid#:#You're selection is not valid ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_citation_selection_not_valid#:#You're selection is not valid 
 content#:#cont_citations#:#Citations
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
@@ -3479,7 +3479,7 @@ content#:#cont_create_export_file_xml#:#Create Export File (XML)
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_html_version#:#Create HTML Package
 content#:#cont_create_mob#:#Create Media Object
-content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal') 
 content#:#cont_credit_off#:#No Credit
 content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credits
@@ -3554,7 +3554,7 @@ content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
 content#:#cont_enable_js#:#JavaScript active
 content#:#cont_enable_media#:#Media active
-content#:#cont_Example#:#e.g. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_Example#:#e.g.  ### 2006-5-8 --- Content changed
 content#:#cont_export_files#:#Export Files
 content#:#cont_external#:#external
 content#:#cont_external_url#:#external url
@@ -3645,7 +3645,7 @@ content#:#cont_mob_usages#:#Usage
 content#:#cont_month#:#Month
 content#:#cont_usage#:#Usage
 content#:#cont_move_object#:#move object
-content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions 
 content#:#cont_name#:#Name
 content#:#cont_new_area#:#New Link Area
 content#:#cont_new_assignment#:#New assignment
@@ -3658,7 +3658,7 @@ content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_object_found#:#Could not find any object with this title
 content#:#cont_no_page#:#No Page found.
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'. 
 content#:#cont_no_zip_file#:#Import file is not a zip file.
 content#:#cont_none#:#None
 content#:#cont_nr_cols#:#Number of Columns
@@ -3711,11 +3711,11 @@ content#:#cont_resize_image#:#Resize images
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
-content#:#cont_Roman#:#Roman i, ii, ... ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_Roman#:#Roman i, ii, ...  ### 2006-5-8 --- Content changed
 content#:#cont_rvalue#:#Value
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
-content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO 
 content#:#cont_sc_less_mode_browse#:#Browse
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Browsed
@@ -3821,7 +3821,7 @@ content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'. 
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#The following resources linking to that term
@@ -3845,7 +3845,7 @@ content#:#pg#:#Page
 content#:#public_section#:#Public Area
 content#:#read offline#:#Read Offline
 content#:#select_a_file#:#Please select a file.
-content#:#selected_pages_only#:#only that pages selected below ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#selected_pages_only#:#only that pages selected below 
 content#:#set_public_mode#:#Set public access mode
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
@@ -3967,7 +3967,7 @@ crs#:#crs_info_reg#:#Admittance
 crs#:#crs_info_reg_confirmation#:#You can request membership for this course. You will get a message from a course administrator when your request has been admitted or declined.
 crs#:#crs_info_reg_deactivated#:#Course admittance is closed.
 crs#:#crs_info_reg_direct#:#You can join this course directly.
-crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course. 
 crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.
 crs#:#crs_learning_materials#:#Learning materials
 crs#:#crs_list_users#:#List users
@@ -4083,8 +4083,8 @@ crs#:#crs_question_assignment#:#Question assignment
 crs#:#crs_reg#:#Registration
 crs#:#crs_reg_deactivated#:#Disabled
 crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.
-crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited. 
+crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations. 
 crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
 crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
@@ -4252,7 +4252,7 @@ dateplaner#:#ERROR_END_START#:#Wrong end date input. End date is before start da
 dateplaner#:#ERROR_ENDDATE#:#Wrong end date input. Format: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Wrong end time. Format: hh:mm
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid CSV File.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't accept JavaScript.<br />Please close this Window after insert manually.<br />Thank you</CENTER></B> ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't accept JavaScript.<br />Please close this Window after insert manually.<br />Thank you</CENTER></B> 
 dateplaner#:#error_minical_img#:#Cannot create GD-picture-stream
 dateplaner#:#ERROR_ROT_END_START#:#Wrong recurring end date input. Recurring end date is before start date.
 dateplaner#:#ERROR_ROTATIONEND#:#Wrong recurring end date input. Format: dd/mm/yyyy
@@ -4408,7 +4408,7 @@ dateplaner#:#Week_long#:#Week View
 dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
 forum#:#forum_anonymize#:#Write anonymously
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere). 
 forum#:#forums#:#Forums
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
 forum#:#forums_attachments#:#Attachments
@@ -4664,7 +4664,7 @@ meta#:#meta_c_CC#:#Cocos (Keeling) Islands
 meta#:#meta_c_CF#:#Central African Republic
 meta#:#meta_c_CG#:#Congo
 meta#:#meta_c_CH#:#Switzerland
-meta#:#meta_c_CI#:#Cote D' Ivoire ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_c_CI#:#Cote D' Ivoire 
 meta#:#meta_c_CK#:#Cook Islands
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Cameroon
@@ -4737,12 +4737,12 @@ meta#:#meta_c_KH#:#Cambodia
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Comoros
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea) 
 meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
 meta#:#meta_c_KW#:#Kuwait
 meta#:#meta_c_KY#:#Cayman Islands
 meta#:#meta_c_KZ#:#Kazakhstan
-meta#:#meta_c_LA#:#Lao People's Republic ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_c_LA#:#Lao People's Republic 
 meta#:#meta_c_LB#:#Lebanon
 meta#:#meta_c_LC#:#Saint Lucia
 meta#:#meta_c_LI#:#Liechtenstein
@@ -5180,7 +5180,7 @@ payment#:#pay_bmf_bank_code#:#Bank code
 payment#:#pay_bmf_card_holder#:#Card holder
 payment#:#pay_bmf_card_number#:#Card number
 payment#:#pay_bmf_check_number#:#Check number
-payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it. 
 payment#:#pay_bmf_credit_card#:#Credit card
 payment#:#pay_bmf_credit_card_data#:#Credit card
 payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed
@@ -5194,11 +5194,11 @@ payment#:#pay_bmf_description_personal_data#:#Please fill out the following form
 payment#:#pay_bmf_house_number#:#House number
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#or
-payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid. 
 payment#:#pay_bmf_payment_type#:#Kind of paying
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option. 
 payment#:#pay_bmf_personal_data#:#Your personal data
-payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly. 
 payment#:#pay_bmf_please_select#:#Please select
 payment#:#pay_bmf_po_box#:#PO Box
 payment#:#pay_bmf_server_error_code#:#Payment server returns error code
@@ -5207,7 +5207,7 @@ payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator fo
 payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.
 payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.
 payment#:#pay_bmf_terms_conditions#:#General terms and conditions
-payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it. 
 payment#:#pay_bmf_terms_conditions_show#:#show
 payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.
 payment#:#pay_bmf_total_amount#:#Total amount
@@ -5281,7 +5281,7 @@ payment#:#paya_header#:#Payment administration
 payment#:#paya_insert_only_numbers#:#Please insert only integers.
 payment#:#paya_locator#:#Payment administration
 payment#:#paya_months#:#Month(s)
-payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given 
 payment#:#paya_no_bookings#:#No statistic available.
 payment#:#paya_no_object_selected#:#Please select one object.
 payment#:#paya_no_objects_assigned#:#There are no sellable objects.
@@ -5290,7 +5290,7 @@ payment#:#paya_no_prices_selected#:#Please select one price
 payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method
 payment#:#paya_no_trustees#:#No trustees created.
 payment#:#paya_no_valid_login#:#This user name is not valid.
-payment#:#paya_no_vendor_selected#:#You haven't selected a vendor. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_no_vendor_selected#:#You haven't selected a vendor. 
 payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.
 payment#:#paya_not_buyable#:#Not buyable
 payment#:#paya_object#:#Objekts
@@ -5338,14 +5338,15 @@ payment#:#pays_currency_unit#:#Currency (e.g. EUR)
 payment#:#pays_delete_vendor#:#Deassign user
 payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
 payment#:#pays_edit_vendor#:#Edit user
-payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_general_settings#:#General settings
+payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly. 
 payment#:#pays_header_select_vendor#:#Vendor selection
 payment#:#pays_no_username_given#:#No username given
 payment#:#pays_no_valid_username_given#:#No valid username given
 payment#:#pays_no_vendor_selected#:#No vendor selected
 payment#:#pays_number_bookings#:#Active bookings
-payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated. 
+payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated. 
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Pay methods
@@ -5526,7 +5527,7 @@ style#:#sty_bottom#:#Bottom
 style#:#sty_clear#:#Clear
 style#:#sty_color#:#Colour
 style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles
-style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? 
 style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
 style#:#sty_create_ind_style#:#Create Individual Style
 style#:#sty_create_new_stylesheet#:#Create new Style
@@ -5897,7 +5898,7 @@ survey#:#survey_finished#:#You have finished the survey. Thank you for your part
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
 survey#:#survey_next#:#next >>>
-survey#:#survey_offline_message#:#Can't invite users. The survey is offline! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#survey_offline_message#:#Can't invite users. The survey is offline! 
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
 survey#:#survey_previous#:#<<< previous
 survey#:#survey_question_obligatory#:#This question is obligatory. You must answer the question!
@@ -5926,7 +5927,7 @@ survey#:#svy_export_files#:#Export files
 survey#:#svy_file#:#File
 survey#:#svy_general_properties#:#General properties
 survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.
-survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name. 
 survey#:#svy_missing_questions#:#You do not have any questions in the survey! Please add at least one question to the survey.
 survey#:#svy_missing_title#:#You have not entered a survey title! Please go to the metadata section and enter a title.
 survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!
@@ -5994,8 +5995,8 @@ trac#:#stats_interval#:#interval
 trac#:#stats_interval_dwell_time#:#interval of dwell time
 trac#:#stats_interval_page_access#:#interval of access to pages
 trac#:#stats_last#:#last
-trac#:#stats_legend#:#Legend ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-trac#:#stats_measurable_hits#:#measurable hits ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#stats_legend#:#Legend 
+trac#:#stats_measurable_hits#:#measurable hits 
 trac#:#stats_minute#:#m
 trac#:#stats_navigation#:#Navigation/Observation Model (requires JRE 1.5 or higher)
 trac#:#stats_new_selection#:#New Selection
@@ -6080,7 +6081,7 @@ trac#:#trac_crs_items#:#Assignable course items
 trac#:#trac_crs_members#:#Course members:
 trac#:#trac_crs_objects#:#Learning progress of course members
 trac#:#trac_crs_releavant_items#:#Course items
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user. 
 trac#:#trac_edit_progress#:#Edit learning progress
 trac#:#trac_edit_time#:#Processing time
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
@@ -6094,7 +6095,7 @@ trac#:#trac_filter_repository#:#In the repository
 trac#:#trac_hide#:#Hide
 trac#:#trac_in_progress#:#In progress
 trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated
-trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content. 
 trac#:#trac_last_access#:#Last access
 trac#:#trac_learning_progress#:#Learning Progress
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:
