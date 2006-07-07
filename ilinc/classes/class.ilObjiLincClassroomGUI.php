@@ -60,6 +60,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->ilErr =& $ilErr;
 
 		//$this->ctrl->saveParameter($this,'parent');
+		$this->lng->loadLanguageModule('ilinc');
 		
 		$this->formaction = array();
 		$this->return_location = array();
@@ -93,8 +94,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$data["fields"] = array();
 		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-		$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
-		$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
+		//$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
+		//$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icla_edit.html","ilinc");
 		
@@ -135,6 +136,20 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("access"));
 		$this->tpl->setVariable("SEL_ACCESS", $radio1." ".$this->lng->txt("ilinc_classroom_open").$radio2." ".$this->lng->txt("ilinc_classroom_closed"));
 
+		// display akclassvalues 
+		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
+		{
+			$icrs_obj_id = ilObject::_lookupObjectId($this->parent);
+			include_once('class.ilObjiLincCourse.php');
+			$akclassvalues = ilObjiLincCourse::_getAKClassValues($icrs_obj_id);
+			
+			$this->tpl->setVariable("TXT_AKCLASSVALUE1", $this->lng->txt("akclassvalue1"));
+			$this->tpl->setVariable("TXT_AKCLASSVALUE2", $this->lng->txt("akclassvalue2"));
+			
+			$this->tpl->setVariable("AKCLASSVALUE1", $akclassvalues[0]);
+			$this->tpl->setVariable("AKCLASSVALUE2", $akclassvalues[1]);
+		}
+
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
 
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
@@ -151,6 +166,17 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	*/
 	function save()
 	{
+		// akclassvalues 
+		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
+		{
+			$icrs_obj_id = ilObject::_lookupObjectId($this->parent);
+			include_once('class.ilObjiLincCourse.php');
+			$akclassvalues = ilObjiLincCourse::_getAKClassValues($icrs_obj_id);
+			
+			$_POST['Fobject']['akclassvalue1'] = $akclassvalues[0];
+			$_POST['Fobject']['akclassvalue2'] = $akclassvalues[1];
+		}
+		
 		$ilinc_course_id = ilObjiLincClassroom::_lookupiCourseId($this->parent);
 
 		$this->object->ilincAPI->addClass($ilinc_course_id,$_POST['Fobject']);
@@ -160,8 +186,6 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		{
 			$this->ilErr->raiseError($response->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
-
-		//$iClaObj->saveID($response->getFirstID(),$icrs_id);
 
 		// always send a message
 		sendInfo($response->getResultMsg(),true);

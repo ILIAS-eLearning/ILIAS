@@ -150,6 +150,16 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHK_ILINC_ACTIVE", "checked=\"checked\"");
 			}
 			
+			if ($_SESSION["error_post_vars"]["ilinc"]["akclassvalues_active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_ILINC_AKCLASSVALUES_ACTIVE", "checked=\"checked\"");
+			}
+			
+			if ($_SESSION["error_post_vars"]["ilinc"]["akclassvalues_required"] == "1")
+			{
+				$this->tpl->setVariable("CHK_ILINC_AKCLASSVALUES_REQUIRED", "checked=\"checked\"");
+			}
+			
 			$this->tpl->setVariable("ILINC_SERVER", $_SESSION["error_post_vars"]["ilinc"]["server"]);
 			$this->tpl->setVariable("ILINC_REGISTRAR_LOGIN", $_SESSION["error_post_vars"]["ilinc"]["registrar_login"]);
 			$this->tpl->setVariable("ILINC_REGISTRAR_PASSWD", $_SESSION["error_post_vars"]["ilinc"]["registrar_passwd"]);
@@ -195,7 +205,17 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			else
 			{
 				$this->tpl->setVariable("ILINC_TIMEOUT", $settings["ilinc_timeout"]);			
-			}		
+			}
+
+			if ($settings["ilinc_akclassvalues_active"] == "1")
+			{
+				$this->tpl->setVariable("CHK_ILINC_AKCLASSVALUES_ACTIVE", "checked=\"checked\"");
+			}
+
+			if ($settings["ilinc_akclassvalues_required"] == "1")
+			{
+				$this->tpl->setVariable("CHK_ILINC_AKCLASSVALUES_REQUIRED", "checked=\"checked\"");
+			}	
 		}
 
 		$this->getTemplateFile("ilinc");
@@ -203,7 +223,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));//"adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
 		$this->tpl->setVariable("TXT_ILINC_TITLE", $this->lng->txt("extt_ilinc_configure"));
 		$this->tpl->setVariable("TXT_ILINC_ACTIVE", $this->lng->txt("extt_ilinc_enable"));
-		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
+		$this->tpl->setVariable("TXT_ILINC_CONNECTION_DATA", $this->lng->txt("extt_ilinc_connection_data"));
+		$this->tpl->setVariable("TXT_ILINC_ADDITIONAL_OPTIONS", $this->lng->txt("extt_ilinc_additional_options"));
 		$this->tpl->setVariable("TXT_ILINC_SERVER", $this->lng->txt("extt_ilinc_server"));
 		$this->tpl->setVariable("TXT_ILINC_PROTOCOL_PORT", $this->lng->txt("extt_ilinc_protocol_port"));
 		$this->tpl->setVariable("TXT_ILINC_TIMEOUT", $this->lng->txt("extt_ilinc_timeout"));
@@ -216,6 +237,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ILINC_REGISTRAR_LOGIN", $this->lng->txt("extt_ilinc_registrar_login"));
 		$this->tpl->setVariable("TXT_ILINC_REGISTRAR_PASSWD", $this->lng->txt("extt_ilinc_registrar_passwd"));
 		$this->tpl->setVariable("TXT_ILINC_CUSTOMER_ID", $this->lng->txt("extt_ilinc_customer_id"));
+		
+		$this->tpl->setVariable("TXT_ILINC_AKCLASSVALUES_ACTIVE", $this->lng->txt("extt_ilinc_akclassvalues_active"));
+		$this->tpl->setVariable("TXT_ILINC_AKCLASSVALUES_ACTIVE_INFO", $this->lng->txt("extt_ilinc_akclassvalues_active_info"));
+		$this->tpl->setVariable("TXT_ILINC_AKCLASSVALUES_REQUIRED", $this->lng->txt("extt_ilinc_akclassvalues_required"));
+		$this->tpl->setVariable("TXT_ILINC_AKCLASSVALUES_REQUIRED_INFO", $this->lng->txt("extt_ilinc_akclassvalues_required_info"));
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -270,6 +296,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("ilinc_registrar_login", $_POST["ilinc"]["registrar_login"]);
 		$this->ilias->setSetting("ilinc_registrar_passwd", $_POST["ilinc"]["registrar_passwd"]);
 		$this->ilias->setSetting("ilinc_customer_id", $_POST["ilinc"]["customer_id"]);
+		
+		$this->ilias->setSetting("ilinc_akclassvalues_active", $_POST["ilinc"]["akclassvalues_active"]);
+		$this->ilias->setSetting("ilinc_akclassvalues_required", $_POST["ilinc"]["akclassvalues_required"]);
 
 		sendInfo($this->lng->txt("extt_ilinc_settings_saved"),true);
 		$this->ctrl->redirect($this,'editiLinc');

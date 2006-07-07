@@ -108,7 +108,39 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 			$props[] = array("alert" => false, "property" => $lng->txt("ilinc_remark"),
 				"value" => $lng->txt("ilinc_server_not_active"));
 		}
+		
+		// Display cost centers if active
+		if ($ilias->getSetting("ilinc_akclassvalues_active"))
+		{
+			$akclassvalues = ilObjiLincCourse::_getAKClassValues($this->obj_id);
 
+			$value = "";
+			
+			if (!empty($akclassvalues[0]))
+			{
+				$value = $akclassvalues[0];
+				$property = $lng->txt("ilinc_akclassvalue");
+				
+				if (!empty($akclassvalues[1]))
+				{
+					$value .= " / ".$akclassvalues[1];
+					$property = $lng->txt("ilinc_akclassvalues");
+				}
+			}
+			elseif (!empty($akclassvalues[1]))
+			{
+				$value = $akclassvalues[1];
+				$property = $lng->txt("ilinc_akclassvalue");
+			}
+			else
+			{
+				$property = $lng->txt("ilinc_akclassvalues");
+				$value = $lng->txt("ilinc_no_akclassvalues");
+			}
+		}
+		
+		$props[] = array("alert" => false, "property" => $property, "value" => $value);
+				
 		return $props;
 	}
 } // END class.ilObjiLincCOurseListGUI
