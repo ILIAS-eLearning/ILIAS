@@ -440,6 +440,8 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		else if ($this->adminCommands)
 		{
+			$this->__showTimingsButton($tpl);
+
 			$tpl->setCurrentBlock("admin_button");
 			$tpl->setVariable("ADMIN_MODE_LINK",
 				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"));
@@ -449,6 +451,20 @@ class ilContainerGUI extends ilObjectGUI
 		}
 	}
 
+	function __showTimingsButton(&$tpl)
+	{
+		global $tree;
+
+		if(!$tree->checkForParentType($this->object->getRefId(),'crs'))
+		{
+			return false;
+		}
+		$tpl->setCurrentBlock("custom_button");
+		$tpl->setVariable("ADMIN_MODE_LINK",$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','editTimings'));
+		$tpl->setVariable("TXT_ADMIN_MODE",$this->lng->txt('timings_edit'));
+		$tpl->parseCurrentBlock();
+		return true;
+	}
 	/**
 	* show permanent link
 	*/
