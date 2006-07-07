@@ -4530,6 +4530,13 @@ jscalendar#:#time_part#:#(Shift-)Click or drag to change value
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
+mail#:#mail_account_mail_check#:#Send Account Mail
+mail#:#mail_account_mail#:#Account Mail
+common#:#user_new_account_mail#:#New Account Mail
+common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.
+mail#:#mail_account_mail_text#:#Mail Text
+mail#:#mail_send_with_system_address#:#Send With System Address
+mail#:#mail_account_mail_info#:#You may edit the defaul mail text above.<br/>[PLACEHOLDER] will be replaced with the appropriate user data.
 mail#:#also_as_email#:#Also as Email
 mail#:#bc#:#BCC
 mail#:#forward#:#Forward
