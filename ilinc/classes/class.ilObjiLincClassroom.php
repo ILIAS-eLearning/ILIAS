@@ -39,8 +39,8 @@ class ilObjiLincClassroom extends ilObject
 	/**
 	* Constructor
 	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
+	* @param	integer	ilinc class id
+	* @param	boolean	ilias ref id of ilinc course object
 	*/
 	function ilObjiLincClassroom($a_icla_id,$a_icrs_id)
 	{
@@ -105,14 +105,11 @@ class ilObjiLincClassroom extends ilObject
 			
 			return false;
 		}
-		
+		//var_dump($response->data['classes']);
 		$this->setTitle($response->data['classes'][$this->id]['name']);
 		$this->setDescription($response->data['classes'][$this->id]['description']);
 		$this->setDocentId($response->data['classes'][$this->id]['instructoruserid']);
 		$this->setStatus($response->data['classes'][$this->id]['alwaysopen']);
-		
-		// TODO: fetch instructor user if assigned
-
 	}
 	
 	function joinClass(&$a_user_obj,$a_ilinc_class_id)
@@ -158,9 +155,24 @@ class ilObjiLincClassroom extends ilObject
 	* @access	public
 	* @return	boolean
 	*/
-	function update()
+	function update($a_data = "")
 	{
-		$this->ilincAPI->editClass($this->id,array("name" => $this->getTitle(),"description" => $this->getDescription(), "instructoruserid" => $this->getDocentId(), "alwaysopen" => $this->getStatus()));
+		$data = array(
+						"name" => $this->getTitle(),
+						"description" => $this->getDescription(), 
+						"instructoruserid" => $this->getDocentId(), 
+						"alwaysopen" => $this->getStatus()
+					);
+				
+		if (!is_array($a_data))
+		{
+			$a_data = array();
+		}
+		
+		$result = array_merge($data,$a_data);
+
+		$this->ilincAPI->editClass($this->id,$result);
+
 		$response = $this->ilincAPI->sendRequest("editClass");
 
 		if ($response->isError())
@@ -287,11 +299,11 @@ class ilObjiLincClassroom extends ilObject
 	{
 		if ($a_status == "Wahr")
 		{
-			$this->status = true;
+			$this->status = "1";
 		}
 		else
 		{
-			$this->status = false;
+			$this->status = "0";
 		}
 	}
 	

@@ -276,6 +276,20 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("access"));
 		$this->tpl->setVariable("SEL_ACCESS", $radio1." ".$this->lng->txt("ilinc_classroom_open").$radio2." ".$this->lng->txt("ilinc_classroom_closed"));
 
+		// display akclassvalues 
+		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
+		{
+			$icrs_obj_id = ilObject::_lookupObjectId($this->parent);
+			include_once('class.ilObjiLincCourse.php');
+			$akclassvalues = ilObjiLincCourse::_getAKClassValues($icrs_obj_id);
+			
+			$this->tpl->setVariable("TXT_AKCLASSVALUE1", $this->lng->txt("akclassvalue1"));
+			$this->tpl->setVariable("TXT_AKCLASSVALUE2", $this->lng->txt("akclassvalue2"));
+			
+			$this->tpl->setVariable("AKCLASSVALUE1", $akclassvalues[0]);
+			$this->tpl->setVariable("AKCLASSVALUE2", $akclassvalues[1]);
+		}
+
 		$obj_str = "&class_id=".$this->object->id;
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
 
@@ -402,6 +416,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->object->setDocentId($_POST["Fobject"]["instructoruserid"]);
 		$this->object->setStatus($_POST["Fobject"]["alwaysopen"]);
+		
+		//var_dump($_POST["Fobject"],$this->object->getStatus());exit;
 
 		if (!$this->object->update())
 		{

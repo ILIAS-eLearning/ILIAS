@@ -482,16 +482,21 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		//$attr['issecure'] = $a_data['issecure'];
 		
 		// only update akclassvalues if akclassvalues are enabled
-		/*if (array_key_exists('akclassvalue1',$a_data))
+		if (array_key_exists('akclassvalue1',$a_data))
 		{
 			$attr['akclassvalue1'] = $a_data['akclassvalue1'];
+		}
+		if (array_key_exists('akclassvalue2',$a_data))
+		{
 			$attr['akclassvalue2'] = $a_data['akclassvalue2'];
-		}*/
+		}
 
 		$this->xmlStartTag('netucate.Class',$attr);
 		$this->xmlEndTag('netucate.Class');
 		
 		$this->xmlEndTag('netucate.API.Request');
+		
+		//var_dump($this->xmlDumpMem());exit;
 	}
 
 	function editClass($a_class_id,$a_data)
@@ -516,23 +521,34 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$attr['name'] = $a_data['name'];
 		$attr['instructoruserid'] = $a_data['instructoruserid'];
 		$attr['description'] = $a_data['description'];
-		$attr['alwaysopen'] = $a_data['alwaysopen'] ? "1" : "0";
-		$attr['password'] = $a_data['password'];
-		$attr['message'] = $a_data['message'];
-		$attr['appsharebandwidth'] = $a_data['appsharebandwidth'];
-		$attr['bandwidth'] = $a_data['bandwidth'];
-		$attr['floorpolicy'] = $a_data['floorpolicy'];
-		$attr['conferencetypeid'] = $a_data['conferencetypeid'];
-		$attr['videobandwidth'] = $a_data['videobandwidth'];
-		$attr['videoframerate'] = $a_data['videoframerate'];
-		$attr['enablepush'] = $a_data['enablepush'];
-		$attr['issecure'] = $a_data['issecure'];
-		$attr['akclassvalue1'] = $a_data['akclassvalue1'];
-		$attr['akclassvalue2'] = $a_data['akclassvalue2'];
+		$attr['alwaysopen'] = $a_data['alwaysopen'];
+		//$attr['password'] = $a_data['password'];
+		//$attr['message'] = $a_data['message'];
+		//$attr['appsharebandwidth'] = $a_data['appsharebandwidth'];
+		//$attr['bandwidth'] = $a_data['bandwidth'];
+		//$attr['floorpolicy'] = $a_data['floorpolicy'];
+		//$attr['conferencetypeid'] = $a_data['conferencetypeid'];
+		//$attr['videobandwidth'] = $a_data['videobandwidth'];
+		//$attr['videoframerate'] = $a_data['videoframerate'];
+		//$attr['enablepush'] = $a_data['enablepush'];
+		//$attr['issecure'] = $a_data['issecure'];
+		
+		// only update akclassvalues if akclassvalues are enabled
+		if (array_key_exists('akclassvalue1',$a_data))
+		{
+			$attr['akclassvalue1'] = $a_data['akclassvalue1'];
+		}
+		if (array_key_exists('akclassvalue2',$a_data))
+		{
+			$attr['akclassvalue2'] = $a_data['akclassvalue2'];
+		}
+
 		$this->xmlStartTag('netucate.Class',$attr);
 		$this->xmlEndTag('netucate.Class');
 		
 		$this->xmlEndTag('netucate.API.Request');
+
+		//var_dump($this->xmlDumpMem());exit;
 	}
 	
 	function joinClass(&$a_ilinc_user_obj,$a_ilinc_class_id)
