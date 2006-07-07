@@ -37,7 +37,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 {
 	function ilSoapAuthenticationCAS()
 	{
-		parent::ilSOAPAuthenticationCAS();
+		parent::ilSOAPAuthentication();
 	}
 
 	//
@@ -216,7 +216,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			" keyword = ".$this->db->quote("cas_server")." OR ".
 			" keyword = ".$this->db->quote("cas_port")." OR ".
 			" keyword = ".$this->db->quote("cas_uri");
-		$res = $db->query($query);
+		$res = $this->db->query($query);
 		$cas_set = array();
 		while ($rec = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -229,6 +229,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			"server_port" => $cas_set["cas_port"],
 			"server_uri" => $cas_set["cas_uri"]);
 
+		include_once("Services/CAS/classes/class.ilCASAuth.php");
 		$this->auth = new ilCASAuth($auth_params);
 
 		return true;
