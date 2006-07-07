@@ -157,8 +157,10 @@ class ilObjiLincUserGUI
 		$this->tpl->setVariable("ILINC_ID", $ilinc_id);
 		$this->tpl->setVariable("TXT_ILINC_LOGIN", $this->lng->txt("login"));
 		$this->tpl->setVariable("ILINC_LOGIN", $ilinc_login);
+		/*
 		$this->tpl->setVariable("TXT_ILINC_PASSWD", $this->lng->txt("passwd"));
 		$this->tpl->setVariable("ILINC_PASSWD", $ilinc_passwd);
+		*/
 		
 		$this->tpl->setVariable("TXT_ILINC_AKUSERVALUES", $this->lng->txt("ilinc_akuservalues"));
 		$this->tpl->setVariable("TXT_ILINC_AKUSERVALUES_DESC", $this->lng->txt("ilinc_akuservalues_desc"));

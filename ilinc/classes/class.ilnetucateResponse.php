@@ -171,7 +171,7 @@ class ilnetucateResponse extends ilSaxParser
 																		'issecure' => $a_attribs['issecure'],
 																		'alwaysopen' => $a_attribs['alwaysopen'],
 																		'akclassvalue1' => $a_attribs['akclassvalue1'],
-																		'akclassvalue1' => $a_attribs['akclassvalue1']
+																		'akclassvalue2' => $a_attribs['akclassvalue2']
 																		);
 				break;
 				

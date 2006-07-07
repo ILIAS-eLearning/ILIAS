@@ -45,9 +45,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	function ilObjiLincClassroomListGUI()
 	{
 		$this->ilinc_crs_id = $_GET['ref_id'];
-		
 		$this->ilObjectListGUI();
-		//var_dump($this->gui_class_name);exit;
 	}
 
 	/**
@@ -330,6 +328,10 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	*/
 	function getProperties($a_item = '')
 	{
+		//var_dump($a_item);exit;
+		
+		global $ilias;
+
 		$props = array();
 
 		// docent
@@ -344,8 +346,8 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		{
 			$props[] = array("alert" => false, "property" => $this->lng->txt(ILINC_MEMBER_DOCENT), "value" => $docent);
 		}
-//var_dump($a_item['alwaysopen']);
-		// offline
+
+		// display offline/online status
 		if ($a_item['alwaysopen'] == 'Wahr')
 		{
 			$props[] = array("alert" => false, "property" => $this->lng->txt("status"),
@@ -356,6 +358,38 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 			$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
 				"value" => $this->lng->txt("ilinc_classroom_closed"));
 		}
+		
+		// display cost centers if active
+		/*
+		if ($ilias->getSetting("ilinc_akclassvalues_active"))
+		{
+$akclassvalues = ilObjiLincClassroom::_getDocent($a_item['instructoruserid']);
+
+			$value = "";
+			
+			if (!empty($akclassvalues[0]))
+			{
+				$value = $akclassvalues[0];
+				$property = $lng->txt("ilinc_akclassvalue");
+				
+				if (!empty($akclassvalues[1]))
+				{
+					$value .= " / ".$akclassvalues[1];
+					$property = $lng->txt("ilinc_akclassvalues");
+				}
+			}
+			elseif (!empty($akclassvalues[1]))
+			{
+				$value = $akclassvalues[1];
+				$property = $lng->txt("ilinc_akclassvalue");
+			}
+			else
+			{
+				$property = $lng->txt("ilinc_akclassvalues");
+				$value = $lng->txt("ilinc_no_akclassvalues");
+			}
+		}*/
+		
 
 		return $props;
 	}

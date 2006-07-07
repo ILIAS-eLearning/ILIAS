@@ -49,6 +49,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
 		$this->ctrl->saveParameter($this,'ref_id');
+		
+		$this->lng->loadLanguageModule('ilinc');
 	}
 	
 	/**
@@ -72,25 +74,40 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$data["fields"] = array();
 		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-		$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
-		$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
+		//$data["fields"]["homepage"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["homepage"],true);
+		//$data["fields"]["download"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["download"],true);
 		$data["fields"]["activated"] = ilUtil::formCheckbox($_SESSION["error_post_vars"]["Fobject"]["activated"],"Fobject[activated]",1);
+		$data["fields"]["akclassvalue1"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["akclassvalue1"],true);
+		$data["fields"]["akclassvalue2"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["akclassvalue2"],true);
+
 		$checkbox_access = ilUtil::formCheckbox($this->object->activated,"Fobject[activated]",1);
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
-		
+
+		// display akclassvalues 
+		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
+		{
+			$this->tpl->setVariable("TXT_AKCLASSVALUE1", $this->lng->txt("akclassvalue1"));
+			$this->tpl->setVariable("TXT_AKCLASSVALUE2", $this->lng->txt("akclassvalue2"));
+			$this->tpl->setVariable("TXT_AKCLASSVALUES",$this->lng->txt("akclassvalues"));
+			
+			if ($this->ilias->getSetting("ilinc_akclassvalues_required"))
+			{
+				$this->tpl->setVariable("AKCLASSVALUE_REQUIRED",'*');
+			}
+		}
+
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 		$this->tpl->setVariable("DESC", $data["fields"]["desc"]);
 		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("online"));
 		$this->tpl->setVariable("CHKBOX_ACCESS", $data["fields"]["activated"]);
-		$this->tpl->setVariable("TXT_HOMEPAGE_URL", $this->lng->txt("homepage_url"));
-		$this->tpl->setVariable("HOMEPAGE_URL", $data["fields"]["homepage"]);
-		$this->tpl->setVariable("TXT_DOWNLOAD_RESOURCES_URL", $this->lng->txt("download_resources_url"));
-		$this->tpl->setVariable("DOWNLOAD_RESOURCES_URL", $data["fields"]["download"]);
-		$this->tpl->setVariable("TXT_NOT_YET", $this->lng->txt("not_implemented_yet"));
-
+		//$this->tpl->setVariable("TXT_HOMEPAGE_URL", $this->lng->txt("homepage_url"));
+		//$this->tpl->setVariable("HOMEPAGE_URL", $data["fields"]["homepage"]);
+		//$this->tpl->setVariable("TXT_DOWNLOAD_RESOURCES_URL", $this->lng->txt("download_resources_url"));
+		//$this->tpl->setVariable("DOWNLOAD_RESOURCES_URL", $data["fields"]["download"]);
+		//$this->tpl->setVariable("TXT_NOT_YET", $this->lng->txt("not_implemented_yet"));
 
 		$this->ctrl->setParameter($this, "mode", "create");
 		$this->ctrl->setParameter($this, "new_type", $new_type);
@@ -118,18 +135,46 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
 		}
 
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		// check akclassvalues if active
+		if (empty($_POST["Fobject"]["akclassvalue1"]) and $this->ilias->getSetting("ilinc_akclassvalues_active") and $this->ilias->getSetting("ilinc_akclassvalues_required"))
+		{
+			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
+		}
+		
+		$this->object->setTitle(ilUtil::prepareDBString($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::prepareDBString($_POST["Fobject"]["desc"]));
 		$this->object->activated = ilUtil::tf2yn($_POST["Fobject"]["activated"]);
+		
+		// update akclassvalues only if iLinc is active
+		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
+		{
+			if ($this->object->getAKClassValue1() == $_POST["Fobject"]["akclassvalue1"])
+			{
+				unset($_POST["Fobject"]["akclassvalue1"]);
+			}
+			else
+			{
+				$this->object->setAKClassValue1(ilUtil::prepareDBString($_POST["Fobject"]["akclassvalue1"]));
+			}
 
-		// save changes to ilinc serverand ilias database
+			if ($this->object->getAKClassValue2() == $_POST["Fobject"]["akclassvalue2"])
+			{
+				unset($_POST["Fobject"]["akclassvalue2"]);
+			}
+			else
+			{
+				$this->object->setAKClassValue2(ilUtil::prepareDBString($_POST["Fobject"]["akclassvalue2"]));
+			}			
+		}
+
+		// save changes to ilinc server and ilias database
 		$success = $this->object->update();
 		
 		if ($success == false)
 		{
 			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
-//var_dump($this->ctrl->getLinkTarget($this,"edit"));exit;
+
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"edit"));
 	}
@@ -144,6 +189,12 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		// check required fields
 		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
+		}
+		
+		// check akclassvalues if active
+		if (empty($_POST["Fobject"]["akclassvalue1"]) and $this->ilias->getSetting("ilinc_akclassvalues_active") and $this->ilias->getSetting("ilinc_akclassvalues_required"))
 		{
 			$this->ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilErr->MESSAGE);
 		}
@@ -165,6 +216,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		// save ilinc_id in ILIAS and save data (temp. TODO: build save function)
 		$icrsObj->storeiLincId($response->getFirstID());
 		$icrsObj->saveActivationStatus(ilUtil::tf2yn($_POST["Fobject"]["activated"]));
+		$icrsObj->saveAKClassValues(ilUtil::prepareDBString($_POST["Fobject"]["akclassvalue1"]), ilUtil::prepareDBString($_POST["Fobject"]["akclassvalue2"]));
 		
 		// setup rolefolder & default local roles (admin & member)
 		$roles = $icrsObj->initDefaultRoles();
@@ -208,7 +260,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				array("", "view")
 				);
 		}
-		
+					
 		if ($this->ilias->getSetting("ilinc_active"))
 		{
 			if ($rbacsystem->checkAccess('write',$this->ref_id))
@@ -1027,7 +1079,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		$html = "";
 		$this->adminCommands = false;
-		
+	
 		$class = $objDefinition->getClassName("icla");
 		$location = $objDefinition->getLocation("icla");
 		$full_class = "ilObj".$class."ListGUI";
@@ -1758,20 +1810,25 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		}
 		
 		$fields = array();
+		$akclassvalues = array();
 
 		if ($_SESSION["error_post_vars"])
 		{
 			// fill in saved values in case of error
 			$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+			$akclassvalues["akclassvalue1"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["akclassvalue1"]);
+			$akclassvalues["akclassvalue2"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["akclassvalue2"]);
 		}
 		else
 		{
 			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
 			$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
+			$akclassvalues["akclassvalue1"] = ilUtil::stripSlashes($this->object->getAKClassValue1());
+			$akclassvalues["akclassvalue2"] = ilUtil::stripSlashes($this->object->getAKClassValue2());
 		}
 
-		$this->displayEditForm($fields);
+		$this->displayEditForm($fields,$akclassvalues);
 	}
 	
 	/**
@@ -1780,7 +1837,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	* @access	private
 	* @param	array	$fields		key/value pairs of input fields
 	*/
-	function displayEditForm($fields)
+	function displayEditForm($fields,$akclassvalues)
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_edit.html","ilinc");
 
@@ -1791,6 +1848,23 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		if ($this->ilias->getSetting("ilinc_akclassvalues_active"))
+		{
+			$this->tpl->setVariable("TXT_AKCLASSVALUES",$this->lng->txt('akclassvalues'));
+			
+			if ($this->ilias->getSetting("ilinc_akclassvalues_required"))
+			{
+				$this->tpl->setVariable("AKCLASSVALUE_REQUIRED",'*');
+			}
+			
+			foreach ($akclassvalues as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
 		$checkbox_access = ilUtil::formCheckbox($this->object->activated,"Fobject[activated]",1);
 		
 		$this->tpl->setVariable("TXT_ACCESS", $this->lng->txt("online"));
@@ -1799,7 +1873,6 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this).$obj_str));
-		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));

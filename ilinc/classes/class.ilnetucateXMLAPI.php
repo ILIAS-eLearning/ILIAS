@@ -88,20 +88,13 @@ class ilnetucateXMLAPI extends ilXmlWriter
 		$this->request = $a_data;
 	}
 	
-	// send request to Centra server
+	// send request to iLinc server
 	// returns true if request was successfully sent (a response returned)
 	function sendRequest($a_request = '')
 	{
+		global $ilErr,$lng;
+		
 		$this->request = $this->xmlDumpMem();
-		
-		// workaround for error in iLinc API
-		/*if ($a_request == "userLogin")
-		{
-			//var_dump($this->request);exit;
-			//$this->request = ereg_replace("></netucate.Task>","/>",$this->request);
-		}*/
-		
-		//var_dump($this->request);exit;
 		
 		if ($this->getServerScheme() == "https")
 		{
@@ -112,13 +105,13 @@ class ilnetucateXMLAPI extends ilXmlWriter
 			$scheme = "http";
 		}
 
-		$sock = fsockopen($scheme."://".$this->getServerAddr(), $this->getServerPort(), $errno, $errstr, $this->getServerTimeOut());
-		if (!$sock) die("$errstr ($errno)\n");
+		$sock = @fsockopen($scheme."://".$this->getServerAddr(), $this->getServerPort(), $errno, $errstr, $this->getServerTimeOut());
 
-/*var_dump("POST ".$this->getServerPath()." HTTP/1.0\r\n");
-var_dump("Host: ".$this->getServerScheme()."://".$this->getServerAddr().$this->getServerPath()."\r\n");
-exit;
-*/		
+		if (!$sock)
+		{
+			$ilErr->raiseError($lng->txt('ilinc_connection_error'),$ilErr->MESSAGE);
+		}
+
 		fputs($sock, "POST ".$this->getServerPath()." HTTP/1.0\r\n");
 		fputs($sock, "Host: ".$this->getServerScheme()."://".$this->getServerAddr().$this->getServerPath()."\r\n");
 		fputs($sock, "Content-type: text/xml\r\n");
@@ -147,11 +140,6 @@ exit;
 		// return netucate response object
 		$response_obj =  new ilnetucateResponse($response);
 		
-		/*if ($a_request == "joinClass")
-		{
-			var_dump($this->request,$response,$response_obj->data);exit;
-		}*/
-
 		return $response_obj;
 	}
 	
@@ -492,13 +480,18 @@ exit;
 		//$attr['videoframerate'] = $a_data['videoframerate'];
 		//$attr['enablepush'] = $a_data['enablepush'];
 		//$attr['issecure'] = $a_data['issecure'];
-		//$attr['akclassvalue1'] = $a_data['akclassvalue1'];
-		//$attr['akclassvalue2'] = $a_data['akclassvalue2'];
+		
+		// only update akclassvalues if akclassvalues are enabled
+		/*if (array_key_exists('akclassvalue1',$a_data))
+		{
+			$attr['akclassvalue1'] = $a_data['akclassvalue1'];
+			$attr['akclassvalue2'] = $a_data['akclassvalue2'];
+		}*/
+
 		$this->xmlStartTag('netucate.Class',$attr);
 		$this->xmlEndTag('netucate.Class');
 		
 		$this->xmlEndTag('netucate.API.Request');
-		//var_dump($this->xmlDumpMem());exit;
 	}
 
 	function editClass($a_class_id,$a_data)

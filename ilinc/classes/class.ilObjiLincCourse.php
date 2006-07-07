@@ -73,6 +73,8 @@ class ilObjiLincCourse extends ilObject
 
 			$this->ilinc_id = $data->course_id;
 			$this->activated = ilUtil::yn2tf($data->activation_offline);
+			$this->akclassvalue1 = $data->akclassvalue1;
+			$this->akclassvalue2 = $data->akclassvalue2;
 		}
 		else
 		{
@@ -92,6 +94,26 @@ class ilObjiLincCourse extends ilObject
 
 		return $err_msg;
 	}
+	
+	function getAKClassValue1()
+	{
+		return $this->akclassvalue1;
+	}
+	
+	function getAKClassValue2()
+	{
+		return $this->akclassvalue2;
+	}
+	
+	function setAKClassValue1($a_str)
+	{
+		$this->akclassvalue1 = $a_str;
+	}
+	
+	function setAKClassValue2($a_str)
+	{
+		$this->akclassvalue2 = $a_str;
+	}
 
 	/**
 	* update object data
@@ -109,6 +131,8 @@ class ilObjiLincCourse extends ilObject
 			$this->error_msg = $response->getErrorMsg();
 			return false;
 		}
+		
+		// TODO: alter akclassvalues of classes here
 
 
 		if (!parent::update())
@@ -117,7 +141,11 @@ class ilObjiLincCourse extends ilObject
 			return false;
 		}
 		
-		$q = "UPDATE ilinc_data SET activation_offline='".$this->activated."' WHERE obj_id=".$this->getId()."";
+		$q = "UPDATE ilinc_data SET ".
+			 "activation_offline='".$this->activated."', ".
+			 "akclassvalue1='".$this->akclassvalue1."', ".
+			 "akclassvalue2='".$this->akclassvalue2."' ".
+			 "WHERE obj_id=".$this->getId()."";
 		$r = $this->ilias->db->query($q);
 		
 		return true;
@@ -215,6 +243,16 @@ class ilObjiLincCourse extends ilObject
 	function saveActivationStatus($a_activated)
 	{
 		$q = "UPDATE ilinc_data SET activation_offline='".$a_activated."' WHERE obj_id=".$this->getId()."";
+		$r = $this->ilias->db->query($q);
+	}
+	
+	// saveAKClassValues
+	function saveAKClassValues($a_akclassvalue1,$a_akclassvalue2)
+	{
+		$q = "UPDATE ilinc_data SET ".
+			 "akclassvalue1='".$a_akclassvalue1."', ".
+			 "akclassvalue2='".$a_akclassvalue2."' ".
+			 "WHERE obj_id=".$this->getId();
 		$r = $this->ilias->db->query($q);
 	}
 	
@@ -1087,6 +1125,18 @@ class ilObjiLincCourse extends ilObject
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return ilUtil::yn2tf($row->activation_offline);
+	}
+	
+	function _getAKClassValues($a_course_obj_id)
+	{
+		global $ilDB,$ilias;
+
+		$q = "SELECT akclassvalue1, akclassvalue2 FROM ilinc_data WHERE obj_id=".$ilDB->quote($a_course_obj_id);
+		$r = $ilDB->query($q);
+		
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		return $akclassvalues = array($row->akclassvalue1,$row->akclassvalue2);
 	}
 	
 	function _isMember($a_user_id,$a_ref_id)
