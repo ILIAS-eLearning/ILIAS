@@ -2,12 +2,7 @@
 {ITEMS_TABLE}
 <!-- BEGIN buy_link -->
 <div align="right">
-<!--<script language="JavaScript">
-document.write('<form action="{SCRIPT_LINK}" target="payment" onSubmit="w = window.open(\'\', \'payment\', \'width=800,height=480,scrollbars=yes,resizable=yes\'); if (w == null) alert(\'{POPUP_BLOCKER}\'); else w.focus()">');
-</script>//-->
-<xnoscript>
 <form action="{SCRIPT_LINK}" method="post" />
-</xnoscript>
 <input type="hidden" name="cmd" value="_cart" />
 <input type="hidden" name="upload" value="1" />
 <input type="hidden" name="charset" value="utf-8" />
@@ -22,7 +17,7 @@ document.write('<form action="{SCRIPT_LINK}" target="payment" onSubmit="w = wind
 <input type="hidden" name="item_name_{LOOP_ITEMS_NO}" value="{LOOP_ITEMS_NAME}" />
 <input type="hidden" name="amount_{LOOP_ITEMS_NO}" value="{LOOP_ITEMS_AMOUNT}" />
 <!-- END loop_items -->
-<input type="submit" value="{TXT_BUY}" />
+<input class="submit" type="submit" value="{TXT_BUY}" />
 </form>
 </div>
 <div style="clear:both">&nbsp;</div>

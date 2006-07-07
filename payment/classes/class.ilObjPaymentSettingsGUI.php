@@ -99,6 +99,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					case "savePaypalSettings" :
 					case "paypalSettings" :		$this->__setSection($this->SECTION_PAYPAL);
 												$this->__setMainSection($this->SETTINGS);
+												$this->tabs_gui->setTabActive("settings");
 												break;
 					default :					$this->__setSection($this->OTHERS);
 												$this->__setMainSection($this->OTHERS);
