@@ -4,21 +4,22 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
 
 class ilSoapLMPageStructureObject extends ilSoapStructureObject{
-	
+
 	function ilSoapLMPageStructureObject($objId, $type, $title) {
 		parent::ilSoapStructureObject($objId, $type, $title, "");
 	}
-	
-	
+
+
 	function getInternalLink () {
-		return "[iln page=\"".$this->getObjId()."\"]".$this->getTitle()."[/iln]"; 
+		return "[iln page=\"".$this->getObjId()."\"]".$this->getTitle()."[/iln]";
 	}
-	
-	function getGotoLink (){
-		return "http://ilias.aifb.uni-karlsruhe.de/ilias/goto.php?target=pg_".$this->getObjId();
-	}
-		
-	
+
+	/*function getGotoLink (){
+	    return ILIAS_HTTP_PATH."/". "goto.php?target=pg_".$this->getObjId();
+		//return "http://ilias.aifb.uni-karlsruhe.de/ilias/goto.php?target=pg_".$this->getObjId();
+	}*/
+
+
 }
 
 ?>
