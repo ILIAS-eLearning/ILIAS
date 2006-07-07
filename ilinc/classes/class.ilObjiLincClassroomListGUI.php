@@ -328,7 +328,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	*/
 	function getProperties($a_item = '')
 	{
-		//var_dump($a_item);exit;
+		//var_dump($a_item);
 		
 		global $ilias;
 

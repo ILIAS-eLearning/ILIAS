@@ -166,7 +166,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$this->object->setAKClassValue2(ilUtil::prepareDBString($_POST["Fobject"]["akclassvalue2"]));
 			}			
 		}
-
+		
 		// save changes to ilinc server and ilias database
 		$success = $this->object->update();
 		
@@ -174,7 +174,17 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		{
 			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
-
+		
+		// update all akclassvalues of classes if akclassvalues has changed
+		if (array_key_exists('akclassvalue1',$_POST["Fobject"]) or array_key_exists('akclassvalue2',$_POST["Fobject"]))
+		{
+			if (!$this->object->updateClassrooms())
+			{
+				sendinfo($this->lng->txt($this->object->getErrorMsg()));
+				return;
+			}
+		}
+		
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"edit"));
 	}
@@ -1033,20 +1043,13 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	
 	function viewObject()
 	{
-		global $tree;
-
-		if($this->ctrl->getTargetScript() == "adm_object.php")
+		if ($this->ctrl->getTargetScript() == "adm_object.php")
 		{
 			parent::viewObject();
 			return true;
 		}
-		else
-		{
-			$this->renderObject();
-			//$this->listClassrooms();
-			return true;
-		}
 
+		$this->renderObject();
 		return true;
 	}
 	
@@ -1100,7 +1103,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	
 				$html = $item_list_gui->getListItemHTML($this->object->getRefId(),
 							$key, $item["name"], $item["description"],$item);
-								
+			
 				if ($html != "")
 				{
 					$item_html[] = array("html" => $html, "item_id" => $item["ref_id"]);

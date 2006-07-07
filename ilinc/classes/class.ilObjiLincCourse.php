@@ -634,7 +634,6 @@ class ilObjiLincCourse extends ilObject
 			return false;
 		}
 
-		//echo "3";
 		foreach ($response->data['classes'] as $class_id => $data)
 		{
 			$this->ilincAPI->findClass($class_id);
@@ -647,6 +646,62 @@ class ilObjiLincCourse extends ilObject
 		}
 		
 		return $full_class_data;
+	}
+	
+	function updateClassrooms()
+	{
+		global $ilErr;
+
+		$this->ilincAPI->findCourseClasses($this->getiLincId());
+		$response = $this->ilincAPI->sendRequest();
+
+		if ($response->isError())
+		{
+			if (!$response->getErrorMsg())
+			{
+				$this->error_msg = "err_get_classrooms";
+			}
+			else
+			{
+				$this->error_msg = $response->getErrorMsg();
+			}
+			
+			return false;
+		}
+
+		if (!$response->data['classes'])
+		{
+
+			$this->error_msg = $response->data['result']['cdata'];
+			return false;
+		}
+		
+		if (array_key_exists('akclassvalue1',$_POST["Fobject"]))
+		{
+			$data["akclassvalue1"] = $_POST["Fobject"]["akclassvalue1"];
+		}
+		
+		if (array_key_exists('akclassvalue2',$_POST["Fobject"]))
+		{
+			$data["akclassvalue2"] = $_POST["Fobject"]["akclassvalue2"];
+		}
+		
+		foreach ($response->data['classes'] as $class_id => $data2)
+		{
+			include_once("class.ilObjiLincClassroom.php");
+			$icla_obj = new ilObjiLincClassroom($class_id,$this->ref_id);
+			
+			if (!$icla_obj->update($data))
+			{
+				$this->error_msg = $icla_obj->getErrorMsg();
+				
+				return false;
+			}
+			
+			unset($icla_obj);
+		}
+		
+		return true;
 	}
 	
 	// checks if user account already exists at iLinc server
