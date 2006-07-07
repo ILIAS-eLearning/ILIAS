@@ -1840,12 +1840,17 @@ common#:#icrs_members_gallery#:#Seminar members gallery
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 ilinc#:#ilinc_user_settings#:#iLinc User settings
 ilinc#:#ilinc_user_id#:#iLinc UserID
-ilinc#:#ilinc_akuservalues#:#Cost centres
-ilinc#:#ilinc_akuservalues_desc#:#Enter here the code of the cost centre(s) for this user. These values will be stored at the iLinc server.
-ilinc#:#ilinc_akuservalue1#:#Cost centre 1
-ilinc#:#ilinc_akuservalue2#:#Cost centre 2
-ilinc#:#ilinc_akuservalues_refreshed#:#Cost centres updated
+ilinc#:#ilinc_akuservalues#:#Cost centers
+common#:#ilinc_akclassvalues#:#Cost centers
+common#:#ilinc_akclassvalue#:#Cost center
+common#:#ilinc_no_akclassvalues#:#none
+ilinc#:#ilinc_akuservalues_desc#:#Enter here the code of the cost center(s) for this user. These values will be stored at the iLinc server.
+ilinc#:#ilinc_akuservalue1#:#Cost center 1
+ilinc#:#ilinc_akuservalue2#:#Cost center 2
+ilinc#:#ilinc_akuservalues_refreshed#:#Cost centers updated
 ilinc#:#ilinc_user_added#:#User account created on iLinc server
+ilinc#:#ilinc_connection_error#:#Error: No connection to iLinc Server!
+ilinc#:#ilinc_no_account_yet#:#No iLinc Account yet
 common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 common#:#grp_msg_membership_annulled#:#You left the group
@@ -2001,9 +2006,18 @@ common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
 common#:#ilinc_msg_member_assigned#:#User(s) assigned
 common#:#ilinc_msg_membership_annulled#:#Subscription cancelled
 common#:#ilinc_no_docent_assigned#:#Not assigned
+ilinc#:#akclassvalue1#:#Cost center 1
+ilinc#:#akclassvalue2#:#Cost center 2
+ilinc#:#akclassvalues#:#Cost centers
 common#:#ilinc_notset#:#Not set
 common#:#ilinc_remark#:#Remark
-common#:#ilinc_server_not_active#:#iLinc server not activated
+common#:#extt_ilinc_connection_data#:#Connection data
+common#:#extt_ilinc_additional_options#:#Additional Options
+common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
+common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms
+common#:#extt_ilinc_akclassvalues_required#:#Cost center required
+common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required
+common#:#ilinc_server_not_active#:#iLinc Server not activated
 common#:#ilinc_student#:#Participant
 common#:#ilinc_upload_pic_linktext#:#Upload
 common#:#ilinc_upload_pic_text#:#To display your picture in LearnLinc Seminars please use this link:
