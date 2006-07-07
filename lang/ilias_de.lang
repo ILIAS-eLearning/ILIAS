@@ -91,11 +91,16 @@ administration#:#scanning_system#:#Untersuche System...
 ilinc#:#ilinc_user_settings#:#iLinc Benutzerdaten
 ilinc#:#ilinc_user_id#:#iLinc UserID
 ilinc#:#ilinc_akuservalues#:#Kostenstellen
+common#:#ilinc_akclassvalues#:#Kostenstellen
+common#:#ilinc_akclassvalue#:#Kostenstelle
+common#:#ilinc_no_akclassvalues#:#keine
 ilinc#:#ilinc_akuservalues_desc#:#Geben Sie die Kostenstellen für diesen Benutzer an. Die Daten werden auf dem iLinc-Server gespeichert.
 ilinc#:#ilinc_akuservalue1#:#Kostenstelle 1
 ilinc#:#ilinc_akuservalue2#:#Kostenstelle 2
 ilinc#:#ilinc_akuservalues_refreshed#:#Kostenstellen aktualisiert
 ilinc#:#ilinc_user_added#:#Benutzerkonto angelegt auf iLinc-Server
+ilinc#:#ilinc_connection_error#:#Fehler: Keine Verbindung zum iLinc Server!
+ilinc#:#ilinc_no_account_yet#:#Noch kein iLinc-Konto vorhanden
 administration#:#searching_deleted_objs#:#Sucht nach gelöschten Objekten...
 administration#:#searching_invalid_childs#:#Sucht nach ungültigen Einträgen in Baumstruktur...
 administration#:#searching_invalid_refs#:#Sucht nach ungültigen Referenzen...
@@ -1884,8 +1889,17 @@ common#:#ilinc_msg_member_assigned#:#Benutzer zugewiesen
 common#:#ilinc_msg_membership_annulled#:#Mitgliedschaft aufgehoben
 common#:#ilinc_no_docent_assigned#:#Niemand zugewiesen
 common#:#ilinc_notset#:#Nicht gesetzt
+common#:#extt_ilinc_connection_data#:#Verbindungsdaten
+common#:#extt_ilinc_additional_options#:#Weitere Einstellungen
+common#:#extt_ilinc_akclassvalues_active#:#Kostenstellen aktivieren
+common#:#extt_ilinc_akclassvalues_active_info#:#Erlaubt die Verwendung von iLinc-Kostenstellen für Learnlinc-Seminare und Seminarräume
+common#:#extt_ilinc_akclassvalues_required#:#Kostenstelle erforderlich
+ilinc#:#akclassvalue1#:#Kostenstelle 1
+ilinc#:#akclassvalue2#:#Kostenstelle 2
+ilinc#:#akclassvalues#:#Kostenstellen
+common#:#extt_ilinc_akclassvalues_required_info#:#Die Angabe mindestens einer Kostenstelle für jedes LearnLinc-Seminar ist erforderlich
 common#:#ilinc_remark#:#Hinweis
-common#:#ilinc_server_not_active#:#iLinc-Server ist nicht aktiv
+common#:#ilinc_server_not_active#:#Der iLinc-Server ist nicht aktiv
 common#:#ilinc_student#:#Teilnehmer
 common#:#ilinc_upload_pic_linktext#:#Hochladen
 common#:#ilinc_upload_pic_text#:#Um Ihr Bild in LearnLinc Seminaren anzuzeigen, benutzen Sie bitte diesen Link:
