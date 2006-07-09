@@ -6042,3 +6042,14 @@ payment#:#pay_paypal_error_wrong_items#:#Die Überprüfung der Transaktion ergab
 payment#:#pay_paypal_error_fails#:#PayPal meldet, dass Fehler während der Transaktion aufgetreten sind.
 payment#:#pay_paypal_error_info#:#Bitte wenden Sie sich ggf. an den Systemadministrator dieser ILIAS-Installation.
 payment#:#pay_paypal_unreachable#:#Es konnte keine Verbindung zum Payment-Server von PayPal aufgebaut werden.
+crs#:#timings_timings#:#Zeitvorgaben
+crs#:#timing_accept_table#:#Zeitplanung: Bemerkungen
+crs#:#crs_timings_planed_start#:#Geplanter Start/Ende
+crs#:#timings_usr_edit#:#Zeitvorgaben bearbeiten
+crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
+crs#:#timing_remark#:#Bemerkunk
+crs#:#timing_user_accept#:#Zeitplan akzeptieren
+trac#:#trac_fold_relevant_items#:#Ordnerinhalt
+trac#:#trac_head_timing#:#Zu bearbeiten bis
+trac#:#trac_time_passed#:#Bearbeitungszeit überschritten
+trac#:#trac_reached_objectives#:#Erreichte Lernziele

@@ -46,7 +46,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function ilLPListOfObjectsGUI($a_mode,$a_ref_id)
 	{
-		global $ilUser;
+		global $ilUser,$ilObjDataCache;
 
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
 
@@ -55,7 +55,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		// Set item id for details
 		$this->__initDetails((int) $_REQUEST['details_id']);
 
-		$this->item_id = (int) $_REQUEST['item_id'];
+		$this->item_ref_id = (int) $_REQUEST['item_id'];
+		$this->item_id = $ilObjDataCache->lookupObjId($this->item_ref_id);
 		$this->offset = (int) $_GET['offset'];
 		$this->ctrl->saveParameter($this,'offset',$this->offset);
 		$this->max_count = $ilUser->getPref('hits_per_page');
@@ -128,7 +129,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$marks = new ilLPMarks($this->item_id,$_REQUEST['user_id']);
 
 		$this->ctrl->setParameter($this,'user_id',(int) $_GET['user_id']);
-		$this->ctrl->setParameter($this,'item_id',(int) $this->item_id);
+		$this->ctrl->setParameter($this,'item_id',(int) $this->item_ref_id);
 		$this->ctrl->setParameter($this,'details_id',$this->details_id);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
@@ -170,7 +171,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 
-		$item_list =& ilLPItemListFactory::_getInstance($a_parent_id,$a_item_id,$type);
+		$item_list =& ilLPItemListFactory::_getInstanceByRefId($a_parent_id,$a_item_id,$type);
 		$item_list->setCurrentUser($a_usr_id);
 		$item_list->readUserInfo();
 		$item_list->setIndentLevel($level);
@@ -239,13 +240,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		}
 		
 		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
-		foreach(ilLPEventCollections::_getItems($a_item_id) as $event_id)
+		foreach(ilLPEventCollections::_getItems($ilObjDataCache->lookupObjId($a_item_id)) as $event_id)
 		{
 			$this->__renderContainerRow($a_item_id,$event_id,$a_usr_id,'event',$level+2);
 		}
-
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		foreach(ilLPCollections::_getItems($a_item_id) as $child_id)
+		foreach(ilLPCollections::_getItems($ilObjDataCache->lookupObjId($a_item_id)) as $child_id)
 		{
 			switch($item_list->getMode())
 			{
@@ -258,7 +258,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 					break;
 
 				default:
-					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,$ilObjDataCache->lookupType($child_id),$level + 2);
+					$this->__renderContainerRow($a_item_id,$child_id,$a_usr_id,
+												$ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($child_id)),$level + 2);
 					break;
 			}
 		}
@@ -284,7 +285,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
-		$this->__showObjectDetails($info);
+		$this->__showObjectDetails($info,$this->details_obj_id);
 		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
 
 		$this->__showUsersList();
@@ -300,9 +301,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		global $ilObjDataCache;
 
-		$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->details_id);
-		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_id);
-		$completed = ilLPStatusWrapper::_getCompleted($this->details_id);
+		$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->details_obj_id);
+		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_obj_id);
+		$completed = ilLPStatusWrapper::_getCompleted($this->details_obj_id);
 
 		$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted),'usr_data','lastname','usr_id');
 		$sliced_users = array_slice($all_users,$this->offset,$this->max_count);
@@ -407,7 +408,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		switch($this->getMode())
 		{
 			case LP_MODE_REPOSITORY:
-				$this->__initDetails($ilObjDataCache->lookupObjId($this->getRefId()));
+				$this->__initDetails($this->getRefId());
 				$this->details();
 				
 				$ilBench->stop('LearningProgress','1100_LPListOfObjects_show');
@@ -464,19 +465,20 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$item_list =& ilLPItemListFactory::_getInstance(0,$object_id,$ilObjDataCache->lookupType($object_id));
 			$item_list->read();
 			$item_list->addCheckbox(array('item_id[]',$object_id,false));
+			$item_list->setCmdClass(get_class($this));
 			$item_list->addReferences($objs[$object_id]['ref_ids']);
 			$item_list->enable('path');
 			$item_list->renderObjectList();
 
 			// Details link
-			if(!$this->isAnonymized())
-			{
-				$tpl->setCurrentBlock("item_command");
-				$this->ctrl->setParameter($this,'details_id',$object_id);
-				$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
-				$tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
-				$tpl->parseCurrentBlock();
-			}
+			#if(!$this->isAnonymized())
+			#{
+			#	$tpl->setCurrentBlock("item_command");
+			#	$this->ctrl->setParameter($this,'details_id',$object_id);
+			#	$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
+			#	$tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
+			#	$tpl->parseCurrentBlock();
+			#}
 			
 			// Hide link
 			$tpl->setCurrentBlock("item_command");
@@ -535,8 +537,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		if($a_details_id)
 		{
 			$this->details_id = $a_details_id;
-			$this->details_type = $ilObjDataCache->lookupType($this->details_id);
-			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_id);
+			$this->details_obj_id = $ilObjDataCache->lookupObjId($this->details_id);
+			$this->details_type = $ilObjDataCache->lookupType($this->details_obj_id);
+			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_obj_id);
 		}
 	}
 }

@@ -136,9 +136,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		{
 			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
 			$lp_collections = new ilLPCollections($this->getObjId());
-			foreach($_POST['item_ids'] as $obj_id)
+			foreach($_POST['item_ids'] as $ref_id)
 			{
-				$lp_collections->add($obj_id);
+				$lp_collections->add($ref_id);
 			}
 		}
 		if($_POST['event_ids'])
@@ -166,9 +166,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		{
 			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
 			$lp_collections = new ilLPCollections($this->getObjId());
-			foreach($_POST['item_ids'] as $obj_id)
+			foreach($_POST['item_ids'] as $ref_id)
 			{
-				$lp_collections->delete($obj_id);
+				$lp_collections->delete($ref_id);
 			}
 		}
 		if($_POST['event_ids'])
@@ -311,22 +311,23 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$tpl->addBlockFile('MATERIALS','materials','tpl.trac_collections_row.html','Services/Tracking');
 		$counter = 0;
 		// Show materials
-		foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id => $obj_id)
+		foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id => $id)
 		{
+			$obj_id = $ilObjDataCache->lookupObjId($ref_id);
 			$tpl->setCurrentBlock("materials");
 			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
 			$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));
 			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$obj_id));
+			$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$ref_id));
 
-			#$path = $this->__formatPath($tree->getPathFull($ref_id));
-			#$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
+			$path = $this->__formatPath($tree->getPathFull($ref_id),$ref_id);
+			$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
 
 			// Assigned
-			$tpl->setVariable("ASSIGNED_IMG_OK",$lp_collections->isAssigned($obj_id)
+			$tpl->setVariable("ASSIGNED_IMG_OK",$lp_collections->isAssigned($ref_id)
 							  ? ilUtil::getImagePath('icon_ok.gif') 
 							  : ilUtil::getImagePath('icon_not_ok.gif'));
-			$tpl->setVariable("ASSIGNED_STATUS",$lp_collections->isAssigned($obj_id)
+			$tpl->setVariable("ASSIGNED_STATUS",$lp_collections->isAssigned($ref_id)
 							  ? $this->lng->txt('trac_assigned')
 							  : $this->lng->txt('trac_not_assigned'));
 
@@ -397,13 +398,22 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		return true;
 	}
 
-	function __formatPath($a_path_arr)
+	function __formatPath($a_path_arr,$a_ref_id)
 	{
-			#$path = $this->__formatPath($tree->getPathFull($ref_id));
-			#$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
+		global $tree;
+		#$path = $this->__formatPath($tree->getPathFull($ref_id));
+		#$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
 		$counter = 0;
 		foreach($a_path_arr as $data)
 		{
+			if(!$tree->isGrandChild($this->getRefId(),$data['ref_id']))
+			{
+				continue;
+			}
+			if($a_ref_id == $data['ref_id'])
+			{
+				break;
+			}
 			if($counter++)
 			{
 				$path .= " -> ";

@@ -69,7 +69,7 @@ class ilLPObjSettings
 		if(!$this->__read())
 		{
 			$this->obj_type = $ilObjDataCache->lookupType($this->obj_id);
-			$this->obj_mode = $this->__getDefaultMode($this->obj_id,$this->obj_mode);
+			$this->obj_mode = $this->__getDefaultMode($this->obj_id,$this->obj_type);
 		}
 	}
 
@@ -333,11 +333,11 @@ class ilLPObjSettings
 		return false;
 	}
 
-	function __getDefaultMode($a_obj_id,$a_type = '')
+	function __getDefaultMode($a_obj_id,$a_type)
 	{
 		global $ilDB;
 
-		$type = strlen($a_type) ? $a_type : $this->obj_type;
+		#$type = strlen($a_type) ? $a_type : $this->obj_type;
 
 		switch($type)
 		{

@@ -6281,7 +6281,6 @@ crs#:#crs_timings_short_active#:#Enabled
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:
 crs#:#edit_timings_list#:#Edit Timings
 crs#:#timings_edit#:#Edit Timings
-payment#:#pays_general_settings#:#General settings
 payment#:#pays_general#:#General
 payment#:#pays_paypal_settings#:#Settings for PayPal
 payment#:#pays_server_host#:#Server host (e.g. www.paypal.com)
@@ -6299,3 +6298,14 @@ payment#:#pay_paypal_error_wrong_items#:#Checking this transaction resulted in n
 payment#:#pay_paypal_error_fails#:#PayPal reports errors that occured during the transaction.
 payment#:#pay_paypal_error_info#:#If necessary feel free to contact the system administrator of this ILIAS installation.
 payment#:#pay_paypal_unreachable#:#The connection to the payment server of PayPal failed.
+crs#:#timings_timings#:#Timings
+crs#:#timing_accept_table#:#
+crs#:#crs_timings_planed_start#:#Planed Start/End
+crs#:#timings_usr_edit#:#Edit Timings
+crs#:#timing_tutor_visible#:#Remark is visible for course tutors
+crs#:#timing_remark#:#Remark
+crs#:#timing_user_accept#:#Accept Timings
+trac#:#trac_fold_relevant_items#:#Folder Content
+trac#:#trac_head_timing#:#Edit Until
+trac#:#trac_time_passed#:#Editing Time Exceeded
+trac#:#trac_reached_objectives#:#Reached Learning Objectives

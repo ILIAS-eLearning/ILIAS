@@ -126,7 +126,7 @@ class ilTimingPlaned
 		return ilTimingPlaned::_delete($this->getItemId(),$this->getUserId());
 	}
 
-	function _delete($a_crs_id,$a_usr_id)
+	function _delete($a_item_id,$a_usr_id)
 	{
 		global $ilDB;
 
@@ -134,6 +134,22 @@ class ilTimingPlaned
 			"WHERE item_id = '".$a_item_id."' ".
 			"AND usr_id = '".$a_usr_id."'";
 		$ilDB->query($query);
+	}
+
+	// Static
+	function _getPlanedTimingsByItem($a_item_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_timings_planed ".
+			"WHERE item_id = '".$a_item_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data[$row->usr_id]['start'] = $row->planed_start;
+			$data[$row->usr_id]['end']   = $row->planed_end;
+		}
+		return $data ? $data : array();
 	}
 
 	function _deleteByItem($a_item_id)

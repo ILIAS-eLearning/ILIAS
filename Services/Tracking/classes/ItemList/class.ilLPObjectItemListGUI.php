@@ -215,6 +215,7 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 		$this->tpl->setVariable("OCCURRENCES",$this->lng->txt('trac_occurrences'));
 		foreach($this->references as $ref_id)
 		{
+			$path = '';
 			$path_arr = $this->tree->getPathFull($ref_id);
 			$counter = 0;
 			foreach($this->tree->getPathFull($ref_id) as $data)
@@ -223,7 +224,17 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 				{
 					$path .= " -> ";
 				}
-				$path .= $data['title'];
+				if($ref_id != $data['ref_id'])
+				{
+					$path .= $data['title'];
+				}
+				else
+				{
+					$this->ctrl->setParameterByClass($this->getCmdClass(),'details_id',$ref_id);
+					$path .= ('<a href="'.
+							  $this->ctrl->getLinkTargetByClass($this->getCmdClass(),'details').'">'.
+							  $data['title'].'</a>');
+				}
 			}
 			$this->tpl->setCurrentBlock("path_item");
 			$this->tpl->setVariable("PATH_ITEM",$path);

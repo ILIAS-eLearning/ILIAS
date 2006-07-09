@@ -92,12 +92,13 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	function show()
 	{
 		global $ilObjDataCache;
+
 	
 		switch($this->getMode())
 		{
 			// Show only detail of current repository item if called from repository
 			case LP_MODE_REPOSITORY:
-				$this->__initDetails($ilObjDataCache->lookupObjId($this->getRefId()));
+				$this->__initDetails($this->getRefId());
 				return $this->details();
 
 			case LP_MODE_USER_FOLDER:
@@ -107,7 +108,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		}
 
 		// not called from repository
-		$this->__showProgressList();
+ 		$this->__showProgressList();
 	}
 
 	function details()
@@ -146,8 +147,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$info = new ilInfoScreenGUI($this);
 
 		$this->__appendUserInfo($info);
-		$this->__showObjectDetails($info);
-		$this->__appendLPDetails($info,$this->details_id,$this->tracked_user->getId());
+		$this->__showObjectDetails($info,$this->details_obj_id);
+		$this->__appendLPDetails($info,$this->details_obj_id,$this->tracked_user->getId());
 	
 		// Finally set template variable
 		$this->tpl->setVariable("LM_INFO",$info->getHTML());
@@ -163,8 +164,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$info = new ilInfoScreenGUI($this);
 
 		$this->__appendUserInfo($info);
-		$this->__showObjectDetails($info);
-		$this->__appendLPDetails($info,$this->details_id,$this->tracked_user->getId());
+		$this->__showObjectDetails($info,$this->details_obj_id);
+		$this->__appendLPDetails($info,$this->details_obj_id,$this->tracked_user->getId());
 		
 		// Finally set template variable
 		$this->tpl->setVariable("LM_INFO",$info->getHTML());
@@ -178,17 +179,24 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
 		$this->tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
 
-		$this->container_row_counter = 0;
+		// Show timings header
+		include_once 'course/classes/class.ilCourseItems.php';
+		if($this->has_timings = ilCourseItems::_hasTimings($this->details_id))
+		{
+			$this->tpl->setVariable('HEAD_TIMING',$this->lng->txt('trac_head_timing'));
+			$this->tpl->setVariable('HEAD_TIME_PASSED',$this->lng->txt('trac_time_passed'));
+		}
 
+		$this->container_row_counter = 0;
 		// show events
 		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
-		foreach(ilLPEventCollections::_getItems($this->details_id) as $event_id)
+		foreach(ilLPEventCollections::_getItems($this->details_obj_id) as $event_id)
 		{
 			$this->__renderContainerRow($this->details_id,$event_id,'event',0);
 		}
 		// show items
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		foreach(ilLPCollections::_getItems($this->details_id) as $item_id)
+		foreach(ilLPCollections::_getItems($this->details_obj_id) as $item_id)
 		{
 			switch($this->details_mode)
 			{
@@ -199,7 +207,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 					$type = 'objective';
 					break;
 				default:
-					$type = $ilObjDataCache->lookupType($item_id);
+					$type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($item_id));
 					break;
 			}
 			$this->__renderContainerRow($this->details_id,$item_id,$type,0);
@@ -213,12 +221,16 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 
-		$item_list =& ilLPItemListFactory::_getInstance($parent_id,$item_id,$type);
+		$item_list =& ilLPItemListFactory::_getInstanceByRefId($parent_id,$item_id,$type);
+		if($this->has_timings)
+		{
+			$item_list->readTimings();
+			$item_list->enable('timings');
+		}
 		$item_list->setCurrentUser($this->tracked_user->getId());
 		$item_list->readUserInfo();
 		$item_list->setIndentLevel($level);
 		$item_list->renderContainerProgress();
-
 
 		// Details link
 		if($type != 'sahs_item' and
@@ -232,6 +244,23 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if($this->has_timings)
+		{
+			if($item_list->showTimingWarning())
+			{
+				$this->tpl->setCurrentBlock('warning_img');
+				$this->tpl->setVariable('WARNING_IMG',ilUtil::getImagePath('warning.gif'));
+				$this->tpl->setVariable('WARNING_ALT',$this->lng->txt('trac_editing_time_passed'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock('timing');
+			$this->tpl->setVariable('END_EDITING_TIME',$item_list->getEditingTime() ? 
+									ilFormat::formatUnixTime($item_list->getEditingTime()) : 
+									'');
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// Status image
 		$this->tpl->setCurrentBlock("container_standard_row");
@@ -242,7 +271,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		foreach(ilLPCollections::_getItems($item_id) as $child_id)
+		foreach(ilLPCollections::_getItems($ilObjDataCache->lookupObjId($item_id)) as $child_id)
 		{
 			switch($item_list->getMode())
 			{
@@ -255,7 +284,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 					break;
 
 				default:
-					$this->__renderContainerRow($item_id,$child_id,$ilObjDataCache->lookupType($child_id),$level + 1);
+					$this->__renderContainerRow($item_id,
+												$child_id,
+												$ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($child_id)),$level + 1);
 					break;
 			}
 		}
@@ -326,7 +357,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		// Sort objects by title
 		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
-
 		// Render item list
 		$counter = 0;
 		foreach($sorted_objs as $object_id)
@@ -335,16 +365,17 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$item_list->setCurrentUser($this->tracked_user->getId());
 			$item_list->readUserInfo();
 			$item_list->addCheckbox(array('item_id[]',$object_id,false));
+			$item_list->setCmdClass(get_class($this));
 			$item_list->addReferences($objs[$object_id]['ref_ids']);
 			$item_list->enable('path');
 			$item_list->renderSimpleProgress();
 
 			// Details link
-			$tpl->setCurrentBlock("item_command");
-			$this->ctrl->setParameter($this,'details_id',$object_id);
-			$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
-			$tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
-			$tpl->parseCurrentBlock();
+			#$tpl->setCurrentBlock("item_command");
+			#$this->ctrl->setParameter($this,'details_id',$object_id);
+			#$tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
+			#$tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
+			#$tpl->parseCurrentBlock();
 
 			
 			// Hide link
@@ -419,9 +450,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		if($a_details_id)
 		{
+			$ref_ids = ilObject::_getAllReferences($a_details_id);
+			
 			$this->details_id = $a_details_id;
-			$this->details_type = $ilObjDataCache->lookupType($this->details_id);
-			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_id);
+			$this->details_obj_id = $ilObjDataCache->lookupObjId($this->details_id);
+			$this->details_type = $ilObjDataCache->lookupType($this->details_obj_id);
+			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_obj_id);
 		}
 	}
 
@@ -447,7 +481,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		
 		// Build selection
 		include_once "./course/classes/class.ilCourseMembers.php";
-		$members = ilCourseMembers::_getMembers($this->details_id);
+		$members = ilCourseMembers::_getMembers($this->details_obj_id);
 		$sorted_members = $this->__sort($members,'usr_data','lastname','usr_id');
 
 		foreach($sorted_members as $member_id)

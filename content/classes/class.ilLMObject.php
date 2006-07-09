@@ -379,6 +379,8 @@ class ilLMObject
 
 	function create($a_upload = false)
 	{
+		global $ilDB;
+
 		// insert object data
 		$query = "INSERT INTO lm_data (title, type, lm_id, import_id, create_date, active) ".
 			"VALUES ('".ilUtil::prepareDBString($this->getTitle())."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId().
