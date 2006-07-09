@@ -1368,7 +1368,7 @@ div.il_ButtonGroup
 input.submit, a.submit, a.submit:hover {
 	background-color:#EEEEEC;
 	color:black;
-	border-width: 1px 2px 2px 1px;
+	border-width: 0px 1px 1px 0px;
 	border-color:#444;
 	border-style:solid;
 	padding:2px;
