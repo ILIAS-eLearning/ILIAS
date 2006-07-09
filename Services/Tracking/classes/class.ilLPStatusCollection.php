@@ -76,6 +76,8 @@ class ilLPStatusCollection extends ilLPStatus
 		$in_progress = 0;
 		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
 		{
+			$item_id = $ilObjDataCache->lookupObjId($item_id);
+
 			// merge arrays of users with status 'in progress'
 			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgress($item_id)));
 			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getCompleted($item_id)));
@@ -117,6 +119,8 @@ class ilLPStatusCollection extends ilLPStatus
 		$counter = 0;
 		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
 		{
+			$item_id = $ilObjDataCache->lookupObjId($item_id);
+
 			$tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
 			if(!$counter++)
 			{

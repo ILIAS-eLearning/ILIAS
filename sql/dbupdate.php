@@ -11182,3 +11182,42 @@ CREATE TABLE `crs_timings_planed` (
 `planed_end` INT( 11 ) NOT NULL ,
 PRIMARY KEY ( `item_id` , `usr_id` )
 ) TYPE = MYISAM ;
+
+<#777>
+<?php
+$tree = new ilTree(ROOT_FOLDER_ID);
+$query = "SELECT ut.obj_id AS obj_id,type,item_id FROM ut_lp_collections AS ut INNER JOIN object_data AS od WHERE od.obj_id = ut.obj_id";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->type != 'crs' and
+	   $row->type != 'fold' and
+	   $row->type != 'grp')
+	{
+		continue;
+	}
+	// get container ref_id
+	$query = "SELECT * FROM object_reference WHERE obj_id = '".$row->obj_id."'";
+	$ref_res = $this->db->query($query);
+	while($ref_row = $ref_res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$container_ref_id = $ref_row->ref_id;
+	}
+	// get item ref ids
+	$query = "SELECT * FROM object_reference WHERE obj_id = '".$row->item_id."'";
+	$item_res = $this->db->query($query);
+	while($item_row = $item_res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		// is child node
+		if($tree->isGrandChild($container_ref_id,$item_row->ref_id))
+		{
+			$query = "UPDATE ut_lp_collections ".
+				"SET item_id = '".$item_row->ref_id."' ".
+				"WHERE obj_id = '".$row->obj_id."' ".
+				"AND item_id = '".$row->item_id."'";
+			$this->db->query($query);
+			break;
+		}
+	}
+}
+?>

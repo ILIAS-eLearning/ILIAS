@@ -21,26 +21,36 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
 /**
-* Class ilLPItemListGUI
+* class ilTimingCache
 *
-* @author Stefan Meyer <smeyer@databay.de>
-*
+* @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
-*
-* @extends ilObjectGUI
+* 
+* @extends Object
 * @package ilias-core
-*
 */
+include_once 'course/classes/class.ilCourseItems.php';
+include_once 'course/classes/Timings/class.ilTimingPlaned.php';
 
-include_once 'Services/Tracking/classes/ItemList/class.ilLPObjectItemListGUI.php';
-
-class ilLPCourseListGUI extends ilLPObjectItemListGUI
+class ilTimingCache
 {
-
-	function ilLPCourseListGUI($a_obj_id)
+	function &_getTimings($a_ref_id)
 	{
-		parent::ilLPObjectItemListGUI($a_obj_id,'crs');
+		static $cache = array();
+
+		if(isset($cache[$a_ref_id]))
+		{
+			return $cache[$a_ref_id];
+		}
+		$cache[$a_ref_id]['item'] = ilCourseItems::_getItem($a_ref_id);
+		$cache[$a_ref_id]['user'] = ilTimingPlaned::_getPlanedTimingsByItem($a_ref_id);
+
+		return $cache[$a_ref_id];
 	}
+		
+		
+
 }
 ?>

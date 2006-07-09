@@ -35,6 +35,7 @@
 
 include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
 class ilLPItemListGUI
 {
@@ -42,18 +43,36 @@ class ilLPItemListGUI
 
 	function ilLPItemListGUI($a_id,$a_type)
 	{
-		global $ilDB,$lng,$ilErr,$tree,$ilObjDataCache;
+		global $ilDB,$lng,$ilErr,$tree,$ilObjDataCache,$ilCtrl;
 
 		$this->db =& $ilDB;
 		$this->lng =& $lng;
 		$this->err =& $ilErr;
 		$this->tree =& $tree;
 		$this->obj_cache = $ilObjDataCache;
+		$this->ctrl =& $ilCtrl;
 
 		$this->id = $a_id;
 		$this->type = $a_type;
 	}
 
+	function setCmdClass($a_class)
+	{
+		$this->cmd_class = $a_class;
+	}
+	function getCmdClass()
+	{
+		return $this->cmd_class;
+	}
+
+	function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
+	function getRefId()
+	{
+		return $this->ref_id;
+	}
 	function getId()
 	{
 		return $this->id;
@@ -126,6 +145,28 @@ class ilLPItemListGUI
 		return $this->status;
 	}
 
+	function getEditingTime()
+	{
+		return $this->editing_time;
+	}
+
+	function showTimingWarning()
+	{
+		if(!$this->editing_time)
+		{
+			return false;
+		}
+		if($this->status == LP_STATUS_COMPLETED)
+		{
+			return false;
+		}
+		#print_r('<br>');
+		#print_r(date('Y-m-d H:i',$this->editing_time));
+		#print_r('<br>');
+		#print_r(date('Y-m-d H:i',time()));
+		return $this->editing_time < time();
+	}
+
 	function addCheckBox($a_check)
 	{
 		$this->checkbox = $a_check;
@@ -145,7 +186,11 @@ class ilLPItemListGUI
 	}
 	function __readTypicalLearningTime()
 	{
-	}		
+	}
+	function __readTimings()
+	{
+		$this->timings = array();
+	}
 	
 	function getHTML()
 	{
@@ -174,9 +219,18 @@ class ilLPItemListGUI
 			$this->__readComment();
 			$this->__readUserStatus();
 			$this->__readUserStatusInfo();
+			$this->__readEditingTime();
 		}
 	}
 
+	function readTimings()
+	{
+		if($this->getRefId())
+		{
+			include_once 'course/classes/Timings/class.ilTimingCache.php';
+			$this->timings =& ilTimingCache::_getTimings($this->getRefId());
+		}
+	}
 	function renderTypeImage()
 	{
 		$this->tpl->setCurrentBlock("row_type_image");
@@ -371,6 +425,25 @@ class ilLPItemListGUI
 
 		$this->html = $this->tpl->get();
 	}
+
+	function __readEditingTime()
+	{
+		if(!$this->enabled('timings'))
+		{
+			return false;
+		}
+		if($this->timings['item']['changeable'] and $this->timings['user'][$this->getCurrentUser()]['end'])
+		{
+			$end = $this->timings['user'][$this->getCurrentUser()]['end'];
+		}
+		else
+		{
+			$end = $this->timings['item']['suggestion_end'];
+		}
+		$this->editing_time = $end;
+	}
+			
+
 	// Private
 	function __getPercent($max,$reached)
 	{

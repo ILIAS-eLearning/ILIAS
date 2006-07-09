@@ -60,9 +60,9 @@ class ilLPCollections
 		return $this->items;
 	}
 
-	function isAssigned($a_obj_id)
+	function isAssigned($a_ref_id)
 	{
-		return (bool) in_array($a_obj_id,$this->items);
+		return (bool) in_array($a_ref_id,$this->items);
 	}
 
 	function add($item_id)
@@ -118,7 +118,7 @@ class ilLPCollections
 				case 'lm':
 				case 'tst':
 				case 'htlm':
-					$all_possible["$node[ref_id]"] = $node['obj_id'];
+					$all_possible["$node[ref_id]"] = $node['ref_id'];
 					break;
 			}
 		}

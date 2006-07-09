@@ -146,5 +146,23 @@ class ilLPItemListFactory
 				
 		}
 	}
+
+	function &_getInstanceByRefId($a_parent_id,$a_id,$a_type)
+	{
+		global $ilObjDataCache;
+
+		switch($a_type)
+		{
+			case 'sahs_item':
+			case 'objective':
+				return ilLPItemListFactory::_getInstance($ilObjDataCache->lookupObjId($a_parent_id),$a_id,$a_type);
+			case 'event':
+				return ilLPItemListFactory::_getInstance($a_parent_id,$a_id,$a_type);
+			default:
+				$object =& ilLPItemListFactory::_getInstance($a_parent_id,$ilObjDataCache->lookupObjId($a_id),$a_type);
+				$object->setRefId($a_id);
+				return $object;
+		}
+	}
 }
 ?>
