@@ -70,7 +70,7 @@ input.fullwidth_marked {
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
-	background-color: #EAE7E7;
+	background-color: #F9F9F9;
 	color:#222222;
 	padding:3px;
 }
@@ -82,7 +82,7 @@ input.fullwidth_marked {
 }
 
 .tblrow2light {
-	background-color:#EAE7E7;
+	background-color:#F9F9F9;
 	color:#808080;
 	padding:3px;
 	vertical-align:top;
@@ -102,7 +102,7 @@ input.fullwidth_marked {
 }
 
 .tblrow2top {
-	background-color:#EAE7E7;
+	background-color:#F9F9F9;
 	color:#222222;
 	padding:3px;
 	vertical-align: top;
@@ -284,9 +284,6 @@ td.option {
 	border-top-width:1px;
 	border-top-color:#CACACA;
 	border-top-style:solid;
-	border-right-width:1px;
-	border-right-color:#CACACA;
-	border-right-style:solid;
 }
 
 td.sub_option {
@@ -509,7 +506,7 @@ span.il_ItemProperty
 th.il_ContainerBlockHeader
 {
 	background-image: url(images/TableHeader.gif);
-	background-color:#EDEDED;
+	background-color:#E0E0E0;
 	background-repeat: repeat-x;
 	font-weight: bold;
 	padding: 2px;
@@ -573,7 +570,7 @@ th.il_PDBlockSubHeader
 	text-align:left;
 	font-size: 100%;
 	padding: 2px;
-	background-color: #EDEDED;
+	background-color: #E0E0E0;
 	border-top-width:1px;
 	border-top-color:#CACACA;
 	border-top-style:solid;
@@ -1516,6 +1513,21 @@ div.il_editarea
 	border-width: 1px;
 }
 
+div.il_editarea_disabled
+{
+	border: 2px dotted red;
+}
+
+a.il_PageDisabled
+{
+	border-bottom: 2px dotted red;
+}
+
+a.il_PageDeactivatedElements
+{
+	border-right: 2px dotted red;
+}
+
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
@@ -1790,7 +1802,7 @@ table.ilc_FileList
 	color: #222222;
 	background-color: #c0c0c0;
 	width: 100%;
-	border-spacing: 1px;
+	border-spacing: 0px;
 	border-collapse:collapse;
 	border-style: solid;
 	border-color: #CACACA;
@@ -1843,12 +1855,6 @@ div.ilc_TableOfContents
 	margin-bottom: 0px;
 }
 
-div.ilc_Disabled {
-	margin-left: -10px;
-	padding-left: 10px;
-	border-left: 3px dotted red;
-}
-
 /* --- Test & Assessment styles --- */
 
 div.ilc_Question
@@ -1884,6 +1890,16 @@ span.solutionbox {
 	border-style:solid;
 	border-color:black;
 }
+
+td.middle {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	border: transparent;
+	padding: 3px;
+	vertical-align: middle;
+}
+
 /* --- Test tool javascript styles --- */
 
 div.termtext
