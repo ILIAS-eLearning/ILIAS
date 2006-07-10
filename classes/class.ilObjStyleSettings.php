@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -113,16 +113,19 @@ class ilObjStyleSettings extends ilObject
 		parent::read();
 
 		// get styles of style folder
-		$q = "SELECT * FROM style_folder_styles, object_data as obj WHERE folder_id = ".
+		$q = "SELECT * FROM style_folder_styles, object_data as obj, style_data WHERE folder_id = ".
 			$ilDB->quote($this->getId()).
-			" AND style_id = obj.obj_id";
+			" AND style_id = obj.obj_id".
+			" AND style_data.id = obj.obj_id";
 
 		$style_set = $ilDB->query($q);
 		while ($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->styles[$style_rec["style_id"]] =
 				array("id" => $style_rec["style_id"],
-				"title" => $style_rec["title"]);
+				"title" => $style_rec["title"],
+				"category" => $style_rec["category"]);
+//echo "<br>-".$style_rec["category"]."-";
 		}
 	}
 	

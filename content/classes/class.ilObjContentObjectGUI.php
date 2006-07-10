@@ -326,6 +326,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$style_id = $this->object->getStyleSheetId();
 			
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true);
+
 			$st_styles[0] = $this->lng->txt("default");
 			ksort($st_styles);
 			$style_sel = ilUtil::formSelect ($style_id, "style_id",

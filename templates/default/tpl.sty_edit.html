@@ -1,24 +1,24 @@
 <form action="{FORMACTION}" method="post">
 <table class="std">
 <tr class="tblheader">
-	<td class="std" colspan="4">{TXT_ACTION}</td>
+	<td class="std" colspan="5">{TXT_ACTION}</td>
 </tr>
 <tr>
   <td class="option" colspan="2">{TXT_TITLE}<span class="asterisk">*</span></td>
-  <td class="option_value" colspan="2"><input name="style_title" value="{TITLE}" size="40" maxlength="70"/></td>
+  <td class="option_value" colspan="3"><input name="style_title" value="{TITLE}" size="40" maxlength="70"/></td>
 </tr>
 <tr>
   <td class="option" colspan="2">{TXT_DESC}<br />
   </td>
-  <td class="option_value" colspan="2"><textarea name="style_description" rows="2" cols="40">{DESCRIPTION}</textarea></td>
+  <td class="option_value" colspan="3"><textarea name="style_description" rows="2" cols="40">{DESCRIPTION}</textarea></td>
 </tr>
 <tr>
-	<td class="submit" colspan="4"><small><span class="asterisk">*</span> {TXT_REQUIRED_FLD}<br /></small>
+	<td class="submit" colspan="5"><small><span class="asterisk">*</span> {TXT_REQUIRED_FLD}<br /></small>
 	</td>
 </tr>
 <!-- BEGIN StyleTag -->
 <tr class="tblheader">
-	<td class="std" colspan="3">
+	<td class="std" colspan="4">
 	<div class="il_ContainerItemCommands" style="float:right">
 	<a href="{LINK_EDIT_TAG_STYLE}" class="il_ContainerItemCommand">{TXT_EDIT}</a>
 	</div>
@@ -52,10 +52,10 @@
 <!-- END StyleParameter -->
 <!-- END StyleTag -->
 <tr>
-	<td class="submit" colspan="4">{SELECT_TAG}&nbsp;{SELECT_PAR}&nbsp;
+	<td class="submit" colspan="5">{SELECT_TAG}&nbsp;{SELECT_PAR}&nbsp;
 		<input class="submit" type="submit" name="cmd[{BTN_NEW_PAR}]" value="{TXT_NEW_PAR}"/></td>
 </tr>
-<tr><td class="submit" colspan="4">
+<tr><td class="submit" colspan="5">
 <input class="submit" type="submit" name="cmd[{BTN_DELETE}]" value="{TXT_DELETE}"/>&nbsp;
 <input class="submit" type="submit" name="cmd[{BTN_REFRESH}]" value="{TXT_REFRESH}"/>&nbsp;
 <input class="submit" type="submit" name="cmd[{BTN_SAVE}]" value="{TXT_SAVE}"/>

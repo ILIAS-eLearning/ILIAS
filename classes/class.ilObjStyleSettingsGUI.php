@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -251,6 +251,28 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				= $style;
 		}
 		ksort($style_entries);
+		$from_styles = $to_styles = array();
+		// this may not be cool, if styles are organised as (independent) Service
+		include_once("content/classes/class.ilObjContentObject.php");
+
+		// number of individual styles
+		if ($fixed_style <= 0)
+		{
+			$style_entries[-1] = 
+				array("title" => $this->lng->txt("sty_individual_styles"),
+					"id" => 0, "nr" => ilObjContentObject::_getNrLMsIndividualStyles());
+			$from_styles[-1] = $this->lng->txt("sty_individual_styles");
+		}
+		
+		// number of default style (fallback default style)
+		if ($default_style <= 0 && $fixed_style <= 0)
+		{
+			$style_entries[0] = 
+				array("title" => $this->lng->txt("sty_default_style"),
+					"id" => 0, "nr" => ilObjContentObject::_getNrLMsNoStyle());
+			$from_styles[0] = $this->lng->txt("sty_default_style");
+			$to_styles[0] = $this->lng->txt("sty_default_style");
+		}
 		
 		// todo
 		$tbl->setMaxCount(count($style_entries));
@@ -261,16 +283,13 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
 		$this->showActions(true);
+		$table_empty = true;
 
 		include_once ("classes/class.ilObjStyleSheet.php");
 		
 		$fixed_style = $ilias->getSetting("fixed_content_style_id");
 		$default_style = $ilias->getSetting("default_content_style_id");
 		
-		// this may not be cool, if styles are organised as (independent) Service
-		include_once("content/classes/class.ilObjContentObject.php");
-		
-		$from_styles = $to_styles = array();
 		foreach ($style_entries as $style)
 		{
 			// color changing
@@ -279,12 +298,15 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				: "tblrow2";
 
 			// command checkbox
-			$this->tpl->setCurrentBlock("check_box");
-			$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
-			$this->tpl->parseCurrentBlock();
+			if ($style["id"] > 0)
+			{
+				$this->tpl->setCurrentBlock("check_box");
+				$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
+				$this->tpl->parseCurrentBlock();
+			}
 			
 			// activation checkbox
-			if ($fixed_style <= 0)
+			if ($fixed_style <= 0 && $style["id"] > 0)
 			{
 				$this->tpl->setCurrentBlock("active_box");
 				if (ilObjStyleSheet::_lookupActive($style["id"]))
@@ -296,37 +318,67 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			}
 			
 			// link to style edit screen
-			$this->tpl->setCurrentBlock("linka");
-			$this->tpl->setVariable("TXT_TITLE", $style["title"]);
-			$this->tpl->setVariable("LINK_STYLE",
-				$this->ctrl->getLinkTargetByClass("ilobjstylesheetgui"), "view");
-			$this->tpl->parseCurrentBlock();
+			if ($style["id"] > 0)
+			{
+				$this->ctrl->setParameterByClass("ilobjstylesheetgui", "obj_id", $style["id"]);
+				$this->tpl->setCurrentBlock("linka");
+				$this->tpl->setVariable("TXT_TITLE", $style["title"]);
+				$this->tpl->setVariable("LINK_STYLE",
+					$this->ctrl->getLinkTargetByClass("ilobjstylesheetgui"), "view");
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("texta");
+				$this->tpl->setVariable("TXT_TEXT", $style["title"]);
+				$this->tpl->parseCurrentBlock();
+			}
 			
 			$this->tpl->setCurrentBlock("style_row");
-						
-			$nr_lm = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
-			
-			// fill from/to array
-			if ($nr_lm > 0)
+
+			// number of assigned lms
+			if ($style["id"] > 0)
 			{
-				$from_styles[$style["id"]] = $style["title"];
+				$nr_lm = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
+				
+				// fill from/to array
+				if ($nr_lm > 0)
+				{
+					$from_styles[$style["id"]] = $style["title"];
+				}
+				if (ilObjStyleSheet::_lookupActive($style["id"]))
+				{
+					$to_styles[$style["id"]] = $style["title"];
+				}
+				
+				$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $nr_lm);
+				$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
 			}
-			if (ilObjStyleSheet::_lookupActive($style["id"]))
+			else
 			{
-				$to_styles[$style["id"]] = $style["title"];
+				$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $style["nr"]);
 			}
-			
-			$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $nr_lm);
-			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
-			$this->ctrl->setParameterByClass("ilobjstylesheetgui", "obj_id", $style["id"]); 
+ 
 			$this->tpl->setVariable("ROWCOL", $css_row);
-			if ($style["id"] == $fixed_style)
+			
+			// purpose and scope
+			if ($style["id"] > 0)
 			{
-				$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("global_fixed"));
-			}
-			if ($style["id"] == $default_style)
-			{
-				$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("global_default"));
+				if ($style["id"] == $fixed_style)
+				{
+					$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("global_fixed"));
+				}
+				if ($style["id"] == $default_style)
+				{
+					$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("global_default"));
+				}
+				if ($style["category"] > 0)
+				{
+					$this->tpl->setVariable("TXT_SCOPE",
+						ilObject::_lookupTitle(
+						ilObject::_lookupObjId($style["category"])
+						));
+				}
 			}
 			$this->tpl->parseCurrentBlock();
 
@@ -334,48 +386,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 		} //if is_array
-
-		// number of individual styles
-		if ($fixed_style <= 0)
-		{
-			$this->tpl->setCurrentBlock("texta");
-			$this->tpl->setVariable("TXT_TEXT",
-				$this->lng->txt("sty_individual_styles"));
-			$this->tpl->parseCurrentBlock();
-			// color changing
-			$this->tpl->setCurrentBlock("style_row");
-			$css_row = ($css_row == "tblrow2")
-				? "tblrow1"
-				: "tblrow2";
-			$this->tpl->setVariable("ROWCOL", $css_row);
-			$nr_lm = ilObjContentObject::_getNrLMsIndividualStyles();
-			$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $nr_lm);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("tbl_content");
-			$this->tpl->parseCurrentBlock();
-			$from_styles[-1] = $this->lng->txt("sty_individual_styles");
-		}
-		
-		if ($default_style <= 0 && $fixed_style <= 0)
-		{
-			$this->tpl->setCurrentBlock("texta");
-			$this->tpl->setVariable("TXT_TEXT",
-				$this->lng->txt("sty_default_style"));
-			$this->tpl->parseCurrentBlock();
-			// color changing
-			$this->tpl->setCurrentBlock("style_row");
-			$css_row = ($css_row == "tblrow2")
-				? "tblrow1"
-				: "tblrow2";
-			$this->tpl->setVariable("ROWCOL", $css_row);
-			$nr_lm = ilObjContentObject::_getNrLMsNoStyle();
-			$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $nr_lm);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("tbl_content");
-			$this->tpl->parseCurrentBlock();
-			$from_styles[0] = $this->lng->txt("sty_default_style");
-			$to_styles[0] = $this->lng->txt("sty_default_style");
-		}
 
 		if (count($style_entries) == 0)
 		{
@@ -922,6 +932,51 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		//ilUtil::redirect($this->getReturnLocation("cancelDelete",
 		//	"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles"));
 
+	}
+
+	function setScopeObject()
+	{
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.explorer.html");
+		
+		include_once ("classes/class.ilStyleScopeExplorer.php");
+		$exp = new ilStyleScopeExplorer("repository.php?cmd=goto");
+		$exp->setExpandTarget("repository.php?cmd=showTree");
+		$exp->setTargetGet("ref_id");
+		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->forceExpandAll(true, false);
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+
+		if ($_GET["expand"] == "")
+		{
+			$expanded = $this->tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["expand"];
+		}
+
+		$exp->setExpand($expanded);
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setVariable("ADM_CONTENT", $output);
+	}
+	
+	/**
+	* save scope for style
+	*/
+	function saveScopeObject()
+	{
+		global $ilias;
+		
+		include_once("classes/class.ilObjStyleSheet.php");
+		ilObjStyleSheet::_writeScope($_GET["style_id"], $_GET["cat"]);
+		
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
 	}
 
 	
