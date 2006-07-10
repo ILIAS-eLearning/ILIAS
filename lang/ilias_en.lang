@@ -2679,6 +2679,9 @@ common#:#optimize#:#Optimize
 common#:#options#:#Options
 common#:#options_for_subobjects#:#Options for subobjects
 common#:#order_by#:#Order by
+common#:#all_topics#:#All Topics
+common#:#order_by_answers#:#Order by Answers
+common#:#order_by_date#:#Order by Date
 common#:#other#:#Other
 common#:#overview#:#Overview
 common#:#overwrite#:#Overwrite
@@ -4195,8 +4198,8 @@ crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, ne
 crs#:#crs_waiting_list#:#Waiting list
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Your position on the waiting list
-crs#:#edit_content#:#Edit content
-crs#:#import_crs#:#Import course
+crs#:#edit_content#:#Edit Content
+crs#:#import_crs#:#Import Course
 crs#:#learners_view#:#Learners view
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
 crs_#:#crs_archives#:#Archives
@@ -4546,11 +4549,25 @@ jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
 mail#:#mail_account_mail_check#:#Send Account Mail
 mail#:#mail_account_mail#:#Account Mail
+mail#:#mail_salutation_general#:#Salutation, general
+mail#:#mail_salutation_female#:#Salutation, female
+mail#:#mail_salutation_male#:#Salutation, male
 common#:#user_new_account_mail#:#New Account Mail
+common#:#user_send_new_account_mail#:#Send new account mail
 common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.
-mail#:#mail_account_mail_text#:#Mail Text
+mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used
+mail#:#mail_nacc_login#:#Login Account.
+mail#:#mail_nacc_salutation#:#Salutation.
+mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
+mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
+mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.
+mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.
+mail#:#mail_nacc_client_name#:#Client Name.
+mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.
+mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
+mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.
+mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_send_with_system_address#:#Send With System Address
-mail#:#mail_account_mail_info#:#You may edit the defaul mail text above.<br/>[PLACEHOLDER] will be replaced with the appropriate user data.
 mail#:#also_as_email#:#Also as Email
 mail#:#bc#:#BCC
 mail#:#forward#:#Forward

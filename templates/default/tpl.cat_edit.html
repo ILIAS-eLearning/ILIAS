@@ -2,12 +2,17 @@
 <table class="std">
 <!-- BEGIN obj_form -->
 <tr class="tblheader">
-  <th class="std" colspan="2">
-      <div style="float:left;">{TXT_HEADER}</div>
-<!-- BEGIN removeTranslation -->
-      <div style="text-align:right;"><a href="{LINK_REMOVE_TRANSLATION}">{TXT_REMOVE_TRANSLATION}</a></div>
-<!-- END removeTranslation -->
-  </th>
+	<th class="std" colspan="2">
+		<!-- BEGIN removeTranslation -->
+		<div class="il_ContainerItemCommands" style="float:right;">
+		<a class="il_ContainerItemCommand" href="{LINK_REMOVE_TRANSLATION}">{TXT_REMOVE_TRANSLATION}</a>
+		</div>
+		<!-- END removeTranslation -->
+		<!-- BEGIN type_image -->
+		<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+		<!-- END type_image -->
+		{TXT_HEADER}
+	</th>
 </tr>
 <tr>
   <td class="option">{TXT_TITLE}</td>

@@ -923,6 +923,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 			$this->getTemplateFile("create", $new_type);
+			
+			$this->tpl->setVariable("TYPE_IMG",
+				ilUtil::getImagePath("icon_".$new_type.".gif"));
+			$this->tpl->setVariable("ALT_IMG",
+				$this->lng->txt("obj_".$new_type));
 
 			foreach ($data["fields"] as $key => $val)
 			{

@@ -709,13 +709,14 @@ class ilObjUserFolder extends ilObject
 		return $profile_fields;
 	}
 	
-	function _writeNewAccountMail($a_lang, $a_subject, $a_body)
+	function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
 		global $ilDB;
 		
 		$ilDB->query("REPLACE INTO usr_new_account_mail ".
-			"(lang, subject, body) VALUES ".
-			"(".$ilDB->quote($a_lang).",".$ilDB->quote($a_subject).",".$ilDB->quote($a_body).")");
+			"(lang, subject, body, sal_g, sal_f, sal_m) VALUES ".
+			"(".$ilDB->quote($a_lang).",".$ilDB->quote($a_subject).",".$ilDB->quote($a_body).
+			",".$ilDB->quote($a_sal_g).",".$ilDB->quote($a_sal_f).",".$ilDB->quote($a_sal_m).")");
 	}
 
 	function _lookupNewAccountMail($a_lang)

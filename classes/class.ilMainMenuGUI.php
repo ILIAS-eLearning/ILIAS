@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -56,7 +56,12 @@ class ilMainMenuGUI
 		$this->ilias =& $ilias;
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;
-
+		$this->small = false;
+	}
+	
+	function setSmallMode($a_small)
+	{
+		$this->small = $a_small;
 	}
 	
 	/**
@@ -196,58 +201,8 @@ class ilMainMenuGUI
 			}
 		}
 
-		$link_dir = (defined("ILIAS_MODULE"))
-			? "../"
-			: "";
-
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-		{
-			include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
-			if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
-			{
-				$this->tpl->setCurrentBlock("registration_link");
-				$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
-				$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php?lang=".$ilias->account->getCurrentLanguage());
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$languages = $lng->getInstalledLanguages();
-			
-			foreach ($languages as $lang_key)
-			{
-				$this->tpl->setCurrentBlock("languages");
-				$this->tpl->setVariable("LANG_KEY", $lang_key);
-				$this->tpl->setVariable("LANG_NAME",
-					ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setVariable("TXT_OK", $lng->txt("ok"));
-			$this->tpl->setVariable("LANG_FORM_ACTION", "repository.php?ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-
-			$this->tpl->setCurrentBlock("userisanonymous");
-			$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
-			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
-			$this->tpl->setVariable("LINK_LOGIN",
-				$link_dir."login.php?cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("userisloggedin");
-			$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
-			$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
-			$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilias->account->getCurrentLanguage());
-			$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
-			$this->tpl->parseCurrentBlock();
-		}
-
-
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		//$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
-
-		// set tooltip texts
+		// repository link
+		$this->tpl->setCurrentBlock("rep_button");
 		$this->tpl->setVariable("SCRIPT_CATALOG", "repository.php?cmd=frameset&getlast=true");
 		$this->tpl->setVariable("TXT_CATALOG", $lng->txt("repository"));
 		if ($this->active == "repository" || $this->active == "")
@@ -258,21 +213,76 @@ class ilMainMenuGUI
 		{
 			$this->tpl->setVariable("MM_CLASS", "MMInactive");
 		}
-		$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
-
-		// temporary disable dateplaner
-		//$this->tpl->setVariable("TXT_DP",  $lng->txt("dateplaner"));
-
+		$this->tpl->parseCurrentBlock();
+		
 		// set target frame
 		$this->tpl->setVariable("TARGET", $this->target);
 
-		$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-		$this->tpl->setVariable("HEADER_BG_IMAGE", ilUtil::getImagePath("HeaderBackground.gif"));
-		include_once("classes/class.ilObjSystemFolder.php");
-		$this->tpl->setVariable("TXT_HEADER_TITLE", ilObjSystemFolder::_getHeaderTitle());
+		$link_dir = (defined("ILIAS_MODULE"))
+			? "../"
+			: "";
 
-		// set link to return to desktop, not depending on a specific position in the hierarchy
-		$this->tpl->setVariable("SCRIPT_START", $this->getScriptTarget("start.php"));
+		if (!$this->small)
+		{
+	
+			// login stuff
+			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			{
+				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
+				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
+				{
+					$this->tpl->setCurrentBlock("registration_link");
+					$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
+					$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php?lang=".$ilias->account->getCurrentLanguage());
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				$languages = $lng->getInstalledLanguages();
+				
+				foreach ($languages as $lang_key)
+				{
+					$this->tpl->setCurrentBlock("languages");
+					$this->tpl->setVariable("LANG_KEY", $lang_key);
+					$this->tpl->setVariable("LANG_NAME",
+						ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
+					$this->tpl->parseCurrentBlock();
+				}
+	
+				$this->tpl->setVariable("TXT_OK", $lng->txt("ok"));
+				$this->tpl->setVariable("LANG_FORM_ACTION", "repository.php?ref_id=".$_GET["ref_id"]);
+				$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+	
+				$this->tpl->setCurrentBlock("userisanonymous");
+				$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
+				$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
+				$this->tpl->setVariable("LINK_LOGIN",
+					$link_dir."login.php?cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("userisloggedin");
+				$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
+				$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
+				$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilias->account->getCurrentLanguage());
+				$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
+				$this->tpl->parseCurrentBlock();
+			}
+	
+	
+			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+			//$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
+	
+			$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
+	
+			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
+			$this->tpl->setVariable("HEADER_BG_IMAGE", ilUtil::getImagePath("HeaderBackground.gif"));
+			include_once("classes/class.ilObjSystemFolder.php");
+			$this->tpl->setVariable("TXT_HEADER_TITLE", ilObjSystemFolder::_getHeaderTitle());
+	
+			// set link to return to desktop, not depending on a specific position in the hierarchy
+			//$this->tpl->setVariable("SCRIPT_START", $this->getScriptTarget("start.php"));
+		}
 
 		$this->tpl->parseCurrentBlock();
 	}

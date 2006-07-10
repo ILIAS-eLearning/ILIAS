@@ -11,6 +11,19 @@ include_once(dirname(__FILE__).'/languages/languages.php');
 // include PGT storage classes
 include_once(dirname(__FILE__).'/PGTStorage/pgt-main.php');
 
+// handle node name
+function hnodename($name)
+{
+	if ($i = is_int(strpos($name, ":")))
+	{
+		return substr($name, $i);
+	}
+	else
+	{
+		return $name;
+	}
+}
+
 /**
  * @class CASClient
  * The CASClient class is a client interface that provides CAS authentication
@@ -858,7 +871,7 @@ class CASClient
       // open and read the URL
       if ( !$this->readURL($validate_url,''/*cookies*/,$headers,$text_response,$err_msg) ) {
 	phpCAS::trace('could not open URL \''.$validate_url.'\' to validate ('.$err_msg.')');
-	$this->authError('ST not validated',
+	$this->authError('ST not validated (1)',
 			 $validate_url,
 			 TRUE/*$no_response*/);
       }
@@ -868,7 +881,7 @@ class CASClient
       case CAS_VERSION_1_0:
 	if (preg_match('/^no\n/',$text_response)) {
 	  phpCAS::trace('ST has not been validated');
-	  $this->authError('ST not validated',
+	  $this->authError('ST not validated (2)',
 		       $validate_url,
 		       FALSE/*$no_response*/,
 		       FALSE/*$bad_response*/,
@@ -876,7 +889,7 @@ class CASClient
 	}
 	if (!preg_match('/^yes\n/',$text_response)) {
 	  phpCAS::trace('ill-formed response');
-	  $this->authError('ST not validated',
+	  $this->authError('ST not validated (3)',
 		       $validate_url,
 		       FALSE/*$no_response*/,
 		       TRUE/*$bad_response*/,
@@ -890,7 +903,7 @@ class CASClient
 	// read the response of the CAS server into a DOM object
 	if ( !($dom = domxml_open_mem($text_response))) {
 	  phpCAS::trace('domxml_open_mem() failed');
-	  $this->authError('ST not validated',
+	  $this->authError('ST not validated (4)',
 		       $validate_url,
 		       FALSE/*$no_response*/,
 		       TRUE/*$bad_response*/,
@@ -899,16 +912,16 @@ class CASClient
 	// read the root node of the XML tree
 	if ( !($tree_response = $dom->document_element()) ) {
 	  phpCAS::trace('document_element() failed');
-	  $this->authError('ST not validated',
+	  $this->authError('ST not validated (5)',
 		       $validate_url,
 		       FALSE/*$no_response*/,
 		       TRUE/*$bad_response*/,
 		       $text_response);
 	}
 	// insure that tag name is 'serviceResponse'
-	if ( $tree_response->node_name() != 'serviceResponse' ) {
-	  phpCAS::trace('bad XML root node (should be `serviceResponse\' instead of `'.$tree_response->node_name().'\'');
-	  $this->authError('ST not validated',
+	if ( hnodename($tree_response->node_name()) != 'serviceResponse' ) {
+	  phpCAS::trace('bad XML root node (should be `serviceResponse\' instead of `'.hnodename($tree_response->node_name()).'\'');
+	  $this->authError('ST not validated (6)',
 		       $validate_url,
 		       FALSE/*$no_response*/,
 		       TRUE/*$bad_response*/,
@@ -918,7 +931,7 @@ class CASClient
 	  // authentication succeded, extract the user name
 	  if ( sizeof($user_elements = $success_elements[0]->get_elements_by_tagname("user")) == 0) {
 	    phpCAS::trace('<authenticationSuccess> found, but no <user>');
-	    $this->authError('ST not validated',
+	    $this->authError('ST not validated (7)',
 			 $validate_url,
 			 FALSE/*$no_response*/,
 			 TRUE/*$bad_response*/,
@@ -931,7 +944,7 @@ class CASClient
 	} else if ( sizeof($failure_elements = $tree_response->get_elements_by_tagname("authenticationFailure")) != 0) {
 	  phpCAS::trace('<authenticationFailure> found');
 	  // authentication failed, extract the error code and message
-	  $this->authError('ST not validated',
+	  $this->authError('ST not validated (8)',
 		       $validate_url,
 		       FALSE/*$no_response*/,
 		       FALSE/*$bad_response*/,
@@ -940,7 +953,7 @@ class CASClient
 		       trim($failure_elements[0]->get_content())/*$err_msg*/);
 	} else {
 	  phpCAS::trace('neither <authenticationSuccess> nor <authenticationFailure> found');
-	  $this->authError('ST not validated',
+	  $this->authError('ST not validated (9)',
 		       $validate_url,
 		       FALSE/*$no_response*/,
 		       TRUE/*$bad_response*/,
@@ -1398,7 +1411,7 @@ class CASClient
 
       if ( !$bad_response ) {
 	// insure that tag name is 'serviceResponse'
-	if ( $root->node_name() != 'serviceResponse' ) {
+	if ( hnodename($root->node_name()) != 'serviceResponse' ) {
 	  phpCAS::trace('node_name() failed');
 	  // bad root node
 	  $bad_response = TRUE;
@@ -1762,7 +1775,7 @@ class CASClient
 		     $text_response);
       }
       // insure that tag name is 'serviceResponse'
-      if ( $tree_response->node_name() != 'serviceResponse' ) {
+      if ( hnodename($tree_response->node_name()) != 'serviceResponse' ) {
 	// bad root node
 	$this->authError('PT not validated',
 		     $validate_url,

@@ -11221,3 +11221,10 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
+
+<#778>
+ALTER TABLE `usr_new_account_mail` ADD COLUMN `sal_f` VARCHAR(200) NOT NULL DEFAULT '';
+ALTER TABLE `usr_new_account_mail` ADD COLUMN `sal_m` VARCHAR(200) NOT NULL DEFAULT '';
+ALTER TABLE `usr_new_account_mail` ADD COLUMN `sal_g` VARCHAR(200) NOT NULL DEFAULT '';
+
+

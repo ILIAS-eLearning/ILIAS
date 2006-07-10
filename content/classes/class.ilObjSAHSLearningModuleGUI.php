@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -180,12 +180,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	function importObject()
 	{
 		// display import form
-		// print_r($this->lng);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.slm_import.html");
+		
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.gif'));
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
+		
 		$this->ctrl->setParameter($this, "new_type", "sahs");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-		//	$_GET["ref_id"]."&new_type=sahs"));
 
 		$this->tpl->setVariable("BTN_NAME", "save");
 		$this->tpl->setVariable("TARGET", ' target="'.
@@ -197,7 +198,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE_SCORM", $this->lng->txt("lm_type_scorm"));
 
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 		$this->tpl->setVariable("TXT_VALIDATE_FILE", $this->lng->txt("cont_validate_file"));
 

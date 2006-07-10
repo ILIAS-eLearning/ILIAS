@@ -1447,13 +1447,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_CONFLICT", ilUtil::formSelect(IL_IGNORE_ON_CONFLICT, "conflict_handling_choice", $handlers, false, false));
 
 		// new account mail
-		$this->tpl->setVariable("TXT_ACCOUNT_MAIL", $this->lng->txt("mail_account_mail"));
-		$this->tpl->setVariable("TXT_ACCOUNT_MAIL_CHECK", $this->lng->txt("mail_account_mail_check"));
-		$this->tpl->setVariable("TXT_ACCOUNT_MAIL_INFO", $this->lng->txt("mail_account_mail_info"));
-		$this->tpl->setVariable("TXT_SEND_WITH_SYSTEM_ADDRESS", $this->lng->txt("mail_send_with_system_address"));
-		include_once("classes/class.ilObjAccountMailGUI.php");
-		$accountMailObj = new ilObjAccountMailGUI();
-		$this->tpl->setVariable("TXT_ACCOUNT_MAIL_BODY", $accountMailObj->getBody());
+		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
+		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+		{
+			$this->tpl->setCurrentBlock("inform_user");
+			$this->tpl->setVariable("TXT_ACCOUNT_MAIL", $lng->txt("mail_account_mail"));
+			if (true)
+			{
+				$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
+			}
+			$this->tpl->setVariable("TXT_INFORM_USER_MAIL",
+				$this->lng->txt("user_send_new_account_mail"));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
@@ -2865,12 +2871,35 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL", $lng->txt("user_new_account_mail"));
 		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL_DESC", $lng->txt("user_new_account_mail_desc"));
 		
+		// placeholder help text
+		$this->tpl->setVariable("TXT_USE_PLACEHOLDERS", $lng->txt("mail_nacc_use_placeholder"));
+		$this->tpl->setVariable("TXT_MAIL_SALUTATION", $lng->txt("mail_nacc_salutation"));
+		$this->tpl->setVariable("TXT_FIRST_NAME", $lng->txt("firstname"));
+		$this->tpl->setVariable("TXT_LAST_NAME", $lng->txt("lastname"));
+		$this->tpl->setVariable("TXT_LOGIN", $lng->txt("mail_nacc_login"));
+		$this->tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
+		$this->tpl->setVariable("TXT_PASSWORD_BLOCK", $lng->txt("mail_nacc_pw_block"));
+		$this->tpl->setVariable("TXT_NOPASSWORD_BLOCK", $lng->txt("mail_nacc_no_pw_block"));
+		$this->tpl->setVariable("TXT_ADMIN_MAIL", $lng->txt("mail_nacc_admin_mail"));
+		$this->tpl->setVariable("TXT_ILIAS_URL", $lng->txt("mail_nacc_ilias_url"));
+		$this->tpl->setVariable("TXT_CLIENT_NAME", $lng->txt("mail_nacc_client_name"));
+		$this->tpl->setVariable("TXT_TARGET", $lng->txt("mail_nacc_target"));
+		$this->tpl->setVariable("TXT_TARGET_TITLE", $lng->txt("mail_nacc_target_title"));
+		$this->tpl->setVariable("TXT_TARGET_TYPE", $lng->txt("mail_nacc_target_type"));
+		$this->tpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));
+		
 		$langs = $lng->getInstalledLanguages();
 		foreach($langs as $lang_key)
 		{
 			$amail = $this->object->_lookupNewAccountMail($lang_key);
 			$this->tpl->setCurrentBlock("mail_block");
-			$this->tpl->setVariable("TXT_LANGUAGE", $lng->txt("meta_l_".$lang_key));
+			$add = "";
+			if ($lang_key == $lng->getDefaultLanguage())
+			{
+				$add = " (".$lng->txt("default").")";
+			}
+			$this->tpl->setVariable("TXT_LANGUAGE",
+				$lng->txt("meta_l_".$lang_key).$add);
 			$this->tpl->setVariable("TXT_BODY", $lng->txt("message_content"));
 			$this->tpl->setVariable("TA_BODY", "body_".$lang_key);
 			$this->tpl->setVariable("VAL_BODY", 
@@ -2879,6 +2908,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("INPUT_SUBJECT", "subject_".$lang_key);
 			$this->tpl->setVariable("VAL_SUBJECT", 
 				ilUtil::prepareFormOutput($amail["subject"]));
+			$this->tpl->setVariable("TXT_SAL_G", $lng->txt("mail_salutation_general"));
+			$this->tpl->setVariable("INPUT_SAL_G", "sal_g_".$lang_key);
+			$this->tpl->setVariable("VAL_SAL_G", 
+				ilUtil::prepareFormOutput($amail["sal_g"]));
+			$this->tpl->setVariable("TXT_SAL_M", $lng->txt("mail_salutation_male"));
+			$this->tpl->setVariable("INPUT_SAL_M", "sal_m_".$lang_key);
+			$this->tpl->setVariable("VAL_SAL_M", 
+				ilUtil::prepareFormOutput($amail["sal_m"]));
+			$this->tpl->setVariable("TXT_SAL_F", $lng->txt("mail_salutation_female"));
+			$this->tpl->setVariable("INPUT_SAL_F", "sal_f_".$lang_key);
+			$this->tpl->setVariable("VAL_SAL_F", 
+				ilUtil::prepareFormOutput($amail["sal_f"]));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
@@ -2901,6 +2942,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->object->_writeNewAccountMail($lang_key,
 				ilUtil::stripSlashes($_POST["subject_".$lang_key]),
+				ilUtil::stripSlashes($_POST["sal_g_".$lang_key]),
+				ilUtil::stripSlashes($_POST["sal_f_".$lang_key]),
+				ilUtil::stripSlashes($_POST["sal_m_".$lang_key]),
 				ilUtil::stripSlashes($_POST["body_".$lang_key]));
 		}
 		$this->ctrl->redirect($this, "newAccountMail");

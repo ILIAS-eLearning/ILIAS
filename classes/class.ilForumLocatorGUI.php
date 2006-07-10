@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -96,8 +96,8 @@ class ilForumLocatorGUI
 
 		$modifier = 1;
 		
-		$this->tpl->touchBlock("locator_separator");
-		$this->tpl->touchBlock("locator_item");
+		//$this->tpl->touchBlock("locator_separator");
+		//$this->tpl->touchBlock("locator_item");
 
 		foreach ($path as $key => $row)
 		{
@@ -109,10 +109,11 @@ class ilForumLocatorGUI
 				}
 			}
 
+			/*
 			if ($row["child"] == $this->tree->getRootId())
 			{
 				continue;
-			}
+			}*/
 
 			if (($key < count($path)-$modifier) || (!empty($this->thread_id))
 				|| $this->show_user)

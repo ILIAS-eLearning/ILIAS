@@ -127,6 +127,9 @@ class ilObjFileGUI extends ilObjectGUI
 
 		$this->getTemplateFile("new",$this->type);
 
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_file.gif'));
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt('obj_file'));
+
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));

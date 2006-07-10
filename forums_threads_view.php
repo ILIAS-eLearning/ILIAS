@@ -57,7 +57,7 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-$tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+//$tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 // catch stored message
 sendInfo();
 // display infopanel if something happened
@@ -156,17 +156,33 @@ if (is_array($topicData = $frm->getOneTopic()))
 	// display different buttons depending on viewmode
 
 	$session_name = "viewmode_".$forumObj->getId();
+	$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
+	
+	$ilTabs->setBackTarget($lng->txt("all_topics"),
+		"repository.php?ref_id=$_GET[ref_id]",
+		$t_frame);
+
+	$ilTabs->addTarget("order_by_answers",
+		"forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]",
+		"","", $t_frame);
+
+	$ilTabs->addTarget("order_by_date",
+		"forums_frameset.php?viewmode=flat&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]",
+		"","", $t_frame);
+
 	if (!isset($_SESSION[$session_name]) or $_SESSION[$session_name] == "flat")
 	{
-		$ftabtype = "tabactive";
-		$ttabtype = "tabinactive";
+		$ilTabs->setTabActive("order_by_date");
 	}
 	else
 	{
-		$ftabtype = "tabinactive";
-		$ttabtype = "tabactive";
+		$ilTabs->setTabActive("order_by_answers");
 	}
 
+	$html = $ilTabs->getHTML();
+	$tpl->setVariable("TABS", $html);
+	
+	/*
 	$tpl->setCurrentBlock("tab");	
 	$tpl->setVariable("TAB_TYPE", $ttabtype);
 	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
@@ -180,7 +196,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=flat&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 	$tpl->setVariable("TAB_TEXT", $lng->txt("order_by")." ".$lng->txt("date"));
 	$tpl->setVariable("TAB_TARGET", $t_frame);
-	$tpl->parseCurrentBlock();
+	$tpl->parseCurrentBlock();*/
 
 	if ($ilias->getSetting("forum_notification") != 0)
 	{
@@ -205,6 +221,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 		$menutpl->parseCurrentBlock();
 	}
 
+	/*
 	if ($rbacsystem->checkAccess("edit_post", $_GET["ref_id"]))
 	{
 		$menutpl->setCurrentBlock("btn_cell");
@@ -213,18 +230,14 @@ if (is_array($topicData = $frm->getOneTopic()))
 		$menutpl->setVariable("BTN_TARGET","target=\"$t_frame\"");
 		$menutpl->setVariable("BTN_TXT", $lng->txt("forums_new_thread"));
 		$menutpl->parseCurrentBlock();
-	}
-	else
-	{
-		//$tpl->setVariable("NO_BTN", "<br/><br/>");
-	}
+	}*/
 
 	// print thread
 	$menutpl->setCurrentBlock("btn_cell");
 	$menutpl->setVariable("BTN_LINK","forums_export.php?print_thread=".$_GET["thr_pk"].
 		"&thr_top_fk=".$threadData["thr_top_fk"]);
 	$menutpl->setVariable("BTN_TARGET","target=\"_new\"");
-	$menutpl->setVariable("BTN_TXT", $lng->txt("forums_print_view"));
+	$menutpl->setVariable("BTN_TXT", $lng->txt("forums_print_thread"));
 	$menutpl->parseCurrentBlock();
 
 	// ********************************************************************************
@@ -758,12 +771,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 				$tpl->setVariable("NUM_POSTS",$numPosts);
 			}
 
+			// make links in post usable
+			$node["message"] = ilUtil::makeClickable($node["message"]);
 
 			// prepare post
 			$node["message"] = $frm->prepareText($node["message"]);
-
-			// make links in post usable
-			$node["message"] = ilUtil::makeClickable($node["message"]);
 
 			$tpl->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 

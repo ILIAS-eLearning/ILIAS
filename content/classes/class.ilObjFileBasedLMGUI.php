@@ -173,6 +173,13 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 			$this->getTemplateFile("edit",$new_type);
+			
+			$this->tpl->setCurrentBlock("img");
+			$this->tpl->setVariable("TYPE_IMG",
+				ilUtil::getImagePath("icon_".$new_type.".gif"));
+			$this->tpl->setVariable("ALT_IMG",
+				$this->lng->txt("obj_".$new_type));
+			$this->tpl->parseCurrentBlock();
 
 			foreach ($data["fields"] as $key => $val)
 			{

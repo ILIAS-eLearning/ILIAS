@@ -68,36 +68,15 @@
                         <br><span class="subtitle">{TXT_CONFLICT_HANDLING_INFO}</br>
 		</td>
 	</tr>
+	<!-- BEGIN inform_user -->
 	<tr class="tblheader">
 		<td class="std" colspan="2">{TXT_ACCOUNT_MAIL}</td>
 	</tr>
 	<tr>
-		<td class="option">
-			{TXT_ACCOUNT_MAIL_CHECK}
-		</td>
-		<td class="option_value">
-			<input type="checkbox" name="send_account_data" value="true" checked="checked" />
-		</td>
+		<td class="option" >{TXT_INFORM_USER_MAIL} </td>
+		<td class="option_value"><input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
 	</tr>
-	<tr>
-		<td class="option">
-			{TXT_SEND_WITH_SYSTEM_ADDRESS}
-		</td>
-		<td class="option_value">
-			<input type="checkbox" name="send_with_system_address" value="true" checked="checked" /> 			
-		</td>
-	</tr>
-	<tr>
-		<td class="option">
-			{TXT_MAIL_TEXT}
-		</td>
-		<td class="option_value">
-			<textarea width="95%" rows="10" name="txt_account_mail_body">
-			{TXT_ACCOUNT_MAIL_BODY}
-			</textarea>
-			<br /><span class="subtitle">{TXT_ACCOUNT_MAIL_INFO}</span>
-		</td>
-	</tr>
+	<!-- END inform_user -->
 	<tr class="submit">
 		<td class="submit" colspan="2">
 			<input class="submit" type="submit" name="cmd[importUsers]" value="{BTN_IMPORT}"/>
