@@ -34,6 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Software 3rd Party
+3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
 absolute_path#:#Calea absoluta
 access#:#Acces
 access_status#:#Starea accesului
@@ -52,6 +53,7 @@ check_failed_convert#:#Testarea conversiei nu a reusit
 check_failed_htmldoc#:#Testarea FOP nu a reusit
 check_failed_htmldoc#:#Testarea HTMLdoc nu a reusit
 check_failed_java#:#Testarea Java nu a reusit
+check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
 check_failed_unzip#:#Testarea unzip nu a reusit
 check_failed_zip#:#Testarea zip nu a reusit
 choose_language#:#Alegeti limba
@@ -79,6 +81,7 @@ create#:#Creare
 create_datadir_failed#:#Crearea directorului de date nu a reusit
 create_new_client#:#Creare client nou
 create_webdir_failed#:#Crearea directorului web nu a reusit
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###10 Jul 2006 new variable
 ctrl_structure#:#Control Structure###03 Nov 2005 new variable
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
 ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
@@ -100,6 +103,7 @@ datadir_path_comment2#:#Nu poate fi schimbat in aceasta versiune de setup
 datadir_webspacedir_match#:#Calea catre directorul dumneavoastra de date duce catre aceeasi locatie unde este amplasat si directorul WEB. Va rugam alegeti un alt director.
 date#:#data
 db_conn#:#Conectare baza de date
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###10 Jul 2006 new variable
 db_host#:#Gazda baza de date
 db_name#:#Nume baza de date
 db_needs_update#:#Baza de date trebuie actualizata
@@ -121,6 +125,7 @@ disable_check#:#Dezactivare selectie
 disable_logging#:#Dezactivare logare
 disabled#:#Dezactivat
 display_clientlist#:#Afiseaza selectia clientului
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#Email
 email_not_valid#:#Adresa de email invalida
 en_by_default#:#(Limba engleza este instalata implicit si nu poate fi stearsa).
@@ -161,6 +166,7 @@ ilias_nic_id#:#Numarul de identificare al NIC
 ilias_setup#:#Setare ILIAS 3
 ilias_version#:#Versiunea ILIAS
 include_local#:#include local###20 May 2005 content changed
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
 info_text_contact#:#Aici veti indica informatii client suplimentare si informatii de contact ale administratorului de sistem al acestui client. Campurile marcate cu asterisc trebuie completate. Toate informatiile sunt stocate in baza dumneavoastra de date. In ecranul urmator puteti inregistra instalarea la serverul ILIAS-NIC; aceste date vor fi transmise catre serverul ILIAS-NIC.
 info_text_db#:#Baza de date nu exista sau este goala. Apasati pe butonul de mai jos pentru a instala baza de date. Daca o baza de date cu numele ales nu exista inca, va rugam selectati optiunea 'creare baza de date'. Se va incerca crearea automata a bazei de date. In cazul in care crearea bazei de date esueaza (din cauza restrictiilor de acces), va rugam contactati administratorul de sistem al serverului de baze de date si rugati-l sa creeze o baza de date cu numele dorit pentru instalarea ILIAS.
 info_text_db_collation1#:#In cazul in care colationarea dorita de dumnevoastra nu este continuta in lista de colationari UTF-8, puteti sa creati baza de date si manual. In orice caz, asigurati-va ca setul de caractere pentru baza de date este fixat la utf8.
@@ -239,6 +245,7 @@ language#:#Limba
 languages#:#Limbi
 languages_installed#:#Limba(i) instalata(e)
 lastname#:#Nume de familie
+latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
 list#:#Lista
 list_disabled#:#Selectie client dezactivata
 list_enabled#:#selectie client activata
@@ -276,6 +283,7 @@ no_clients_available#:#Nu exista clienti disponibili
 no_database#:#Nu exista nici o baza de date
 no_db_connect_consult_admin#:#Nu se poate face legatura cu baza de date. Va rugam consultati administratorul de sistem
 no_db_update_file#:#dbupdate.php nu a fost gasit!
+no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
 no_password#:#Nu s-a dat nici o parola
 no_path_convert#:#Nu s-a dat nici o cale catre convert
 no_path_datadir#:#Nu s-a dat nici un director de date
@@ -355,6 +363,7 @@ set_oldpasswd#:#Va rugam introduceti parola veche
 settings_changed#:#Configurarile schimbate
 settings_saved#:#Configurarile salvate
 setup#:#Configurare
+setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
 setup_basic_settings#:#Configurare optiuni de baza
 setup_contact_data#:#Configurare informatii de contact
 setup_database#:#Configurare baza de date
@@ -378,6 +387,7 @@ setup_pass_title#:#Definiti parola master
 setup_password#:#configurare parola
 setup_password_desc#:#stabiliti o parola pentru a accesa mai tarziu rutina de configurare (i.e. pentru actualizarea bazei de date)
 setup_process_status#:#Stare Proces Configurare
+setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
 setup_process_step_contact#:#Introduceti informatii de contact
 setup_process_step_db#:#Instaleaza/Actualizeaza baza de date
 setup_process_step_finish#:#Termina instalare
@@ -389,19 +399,29 @@ setup_welcome#:#Bine ati venit in configurarea ILIAS 3. Aceasta rutina de config
 sophos#:#Sophos
 sort_by_this_column#:#Sorteaza dupa aceasta coloana
 status#:#Stare
+status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
+status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
+status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
 step#:#Pas
 street#:#Strada
 submit#:#Trimite
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
 title#:#Titlu
 tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Client necunoscut
 unknown_command#:#Comanda necunoscuta
 unknown_display_mode#:#Mod de afisare necunoscut
+unzip#:#Extract###10 Jul 2006 new variable
 unzip_path#:#Cale catre Unzip
 unzip_path_comment#:#necesara pentru importul de module de invatare
 update_applied#:#Actualizare aplicata
 update_error#:#Eroare la actualizare
 update_not_found#:#Actualizarea nu a fost gasita!
+url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 username#:#nume utilizator
 version#:#Versiune
 virus_scanner#:#Anti-virus

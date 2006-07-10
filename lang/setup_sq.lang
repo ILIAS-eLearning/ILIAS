@@ -34,6 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Softuer Ndihmës (3rd Party)
+3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
 absolute_path#:#Shtegu Absolut
 access#:#Qasje
 access_status#:#Statusi i Qasjes
@@ -52,6 +53,7 @@ check_failed_convert#:#Testimi për konvertim ka dështuar
 check_failed_htmldoc#:#Testimi i HTMLdoc ka dështuar
 check_failed_htmldoc#:#Testimi për FOP ka dështuar
 check_failed_java#:#Testimi i Java ka dështuar
+check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
 check_failed_unzip#:#Testimi i Unzip-it ka dështuar
 check_failed_zip#:#Testimi i Zip-it ka dështuar
 choose_language#:#zgjedh gjuhën###19 May 2005 content changed
@@ -78,6 +80,7 @@ create#:#krijo
 create_datadir_failed#:#Krijimi i direktoriumit për të dhënat ka dështuar
 create_new_client#:#Krijo klient të ri
 create_webdir_failed#:#Krijimi i direktoriumit për web ka dështuar
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###10 Jul 2006 new variable
 ctrl_structure#:#Control Structure###03 Nov 2005 new variable
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
 ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
@@ -99,6 +102,7 @@ datadir_path_comment2#:#nuk mund të ndërrohet në këtë version të instalimi
 datadir_webspacedir_match#:#Shtegu i direktoriumit të të dhënave është i njëjtë me shtegun e direktoriumit për web. Ju lutem të zgjedhni një direktorium tjetër.
 date#:#data
 db_conn#:#Lidhja me databazë
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###10 Jul 2006 new variable
 db_host#:#host i databazës
 db_name#:#emri i databazës
 db_needs_update#:#Kërkohet aktualizim për databazë
@@ -120,6 +124,7 @@ disable_check#:#pamundëso kontrollin
 disable_logging#:#pamundëso krijimin e log skedarëve
 disabled#:#pamundësohet
 display_clientlist#:#Paraqit zgjedhjen e lirë të klientëve
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#E-Mail
 email_not_valid#:#E-Mail adresa është jovalide
 en_by_default#:#(Gjuha Angleze është e paradefinuar të instalohet dhe nuk mund të fshihet)
@@ -159,6 +164,7 @@ ilias_nic_id#:#NIC-ID (Network Information Center)
 ilias_setup#:#Instalimi i ILIAS 3
 ilias_version#:#ILIAS Versioni
 include_local#:#include local###20 May 2005 content changed
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
 info_text_contact#:#Këtu janë sugjerimet për informacione shtesë të klientit dhe të dhënat për kontakt të administratorit të sistemit për këtë klient. Fushat e shënjuara me një yll (*) duhet të kompletohen patjetër. Të gjithë informacionet do të ruhen në databazën tuaj. Në dritaren e ardhshme mund të regjistroni instalimin tuaj në serverin ILIAS-NIC; regjistrimi dërgon këto të dhëna në serverin ILIAS-NIC.
 info_text_db#:#Databaza nuk ekziston ose është e zbrazët. Klikoni në butonin e më poshtëm për ta instaluar databazën tuaj. Nëse databaza me emrin e zgjedhur nuk ekziston ende,  ju lutem ta aktivizoni opsionin 'krijo databazë'. Instalimi i databazës pastaj do të bëhet në mënyrë automatike. Nëse krijimi do të dështoj (p.sh. në mungesë të të drejtave për qasje), ju lutem ta kontaktoni administratorin e serverit të databazës dhe të kërkoni prej tij krijimin e databazës me një emër të dëshiruar para se të instaloni ILIAS-in. 
 info_text_delete#:#Mund ta fshini klientin duke klikuar në butonin 'fshij'. Megjithatë, vetëm skedari client.ini do të largohet, duke mos i fshirë të gjithë skedarit e klientit të ruajtura në direktoriumet e të dhënave dhe në databazë. skedarit dhe databaza duhet të fshihen ne mënyrë manuale nga administratori i sistemit.
@@ -235,6 +241,7 @@ language#:#gjuha
 languages#:#gjuhët
 languages_installed#:#Gjuha(ët) instalohen
 lastname#:#Mbiemri
+latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
 list#:#lista
 list_disabled#:#Zgjedhja e klientëve është pamundësuar
 list_enabled#:#Zgjedhja e klientëve është mundësuar
@@ -272,6 +279,7 @@ no_clients_available#:#Nuk ka klientë në dispozicion
 no_database#:#Nuk ka databazë
 no_db_connect_consult_admin#:#Nuk mund të lidhet me databazën. Ju lutem ta kontaktoni administratorin e sistemit.
 no_db_update_file#:#nuk gjendet skedari dbubdate.php!
+no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
 no_password#:#Nuk është dhënë parulla
 no_path_convert#:#Nuk është dhënë shtegu për konvertim
 no_path_datadir#:#Nuk është dhënë direktoriumi i të dhënave
@@ -351,6 +359,7 @@ set_oldpasswd#:#Ju lutem shkruani parullën e mëparshme
 settings_changed#:#Parametrat ndërrohen
 settings_saved#:#Parametrat ruhen
 setup#:#instalimi
+setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
 setup_basic_settings#:#Vendosja e parametrave bazik të instalimit
 setup_contact_data#:#Vendosja e Informacioneve për Kontakt
 setup_database#:#instalimi i databazës
@@ -374,6 +383,7 @@ setup_pass_title#:#Vendos master parullë
 setup_password#:#krijo parullë
 setup_password_desc#:#krijo parullë për qasje të më vonshme (p.sh. për ta aktualizuar databazën)
 setup_process_status#:#Statusi i Procesit të Instalimit
+setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
 setup_process_step_contact#:#Jepni informacionet për kontakt
 setup_process_step_db#:#Instalo/Aktualizo Databazën
 setup_process_step_finish#:#Përfundo Instalimin
@@ -385,19 +395,29 @@ setup_welcome#:#Mirë se erdhët në programin për instalim të ILIAS 3. Kjo ju
 sophos#:#Sophos
 sort_by_this_column#:#Radhit sipas kësaj kolone
 status#:#Statusi
+status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
+status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
+status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
 step#:#Hapi
 street#:#Rruga
 submit#:#Pranoj
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
 title#:#Titull
 tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Klient i Panjohur
 unknown_command#:#Komandë e panjohur
 unknown_display_mode#:#Mod i pamjes i panjohur
+unzip#:#Extract###10 Jul 2006 new variable
 unzip_path#:#Shtegu për Unzip
 unzip_path_comment#:#kërkohet për importimin e moduleve mësimore
 update_applied#:#Aktualizimi aplikohet
 update_error#:#Gabim gjatë aktualizimit
 update_not_found#:#Aktualizimi nuk gjendet!
+url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 username#:#emri identifikues
 version#:#Versioni
 virus_scanner#:#Virus Scanner

@@ -44,7 +44,7 @@ administration#:#clean#:#Curatare
 administration#:#clean_desc#:#Indepartarea referintelor invalide si a intrarilor din structura. Inchiderea spatiilor nefolosite din secventa.###23 Dec 2005 content changed
 administration#:#cleaning#:#Curatare...
 administration#:#cleaning_final#:#Curatare definitiva...
-administration#:#disabled#:#Scos din functiune
+administration#:#disabled#:#Scos din functiune###10 Jul 2006 content changed
 administration#:#done#:#Gata
 administration#:#dump_tree#:#Dump tree###23 Dec 2005 new variable
 administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.###23 Dec 2005 new variable
@@ -102,8 +102,8 @@ administration#:#view_log#:#Vizualizarea detaliilor
 assessment#:#0_unlimited#:#(0=nelimitat)
 assessment#:#action#:#Actiune
 assessment#:#add_answer#:#Adaugati raspuns
-assessment#:#add_answer_tf#:#Adaugati raspunsuri adevarat/fals
-assessment#:#add_answer_yn#:#Adaugati raspunsuri da/nu
+assessment#:#add_answer_tf#:#Adaugati raspunsuri adevarat/fals###10 Jul 2006 content changed
+assessment#:#add_answer_yn#:#Adaugati raspunsuri da/nu###10 Jul 2006 content changed
 assessment#:#add_applet_parameter#:#Adaugati parametrul applet-ului
 assessment#:#add_area#:#Adaugati arie
 assessment#:#add_gap#:#Adaugati text cu spatii goale
@@ -122,10 +122,20 @@ assessment#:#applet_new_parameter#:#Parametru nou
 assessment#:#applet_parameter#:#Parametru
 assessment#:#applet_parameters#:#Parametrii Applet
 assessment#:#apply#:#Aplica
+assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
+assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
+assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
+assessment#:#assMatchingQuestion#:#Matching Question###10 Jul 2006 new variable
+assessment#:#assMultipleChoice#:#Multiple Choice Question (multiple response)###10 Jul 2006 new variable
+assessment#:#assNumeric#:#Numeric question###10 Jul 2006 new variable
+assessment#:#assOrderingQuestion#:#Ordering Question###10 Jul 2006 new variable
+assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
+assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
+assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
+assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
 assessment#:#ass_create_export_file#:#Creati fisier pentru export
 assessment#:#ass_export_files#:#Exportati fisierele
 assessment#:#ass_file#:#Fisier
-assessment#:#ass_questions#:#Intrebari
 assessment#:#ass_size#:#Marime
 assessment#:#available_points#:#Punctaj disponibil
 assessment#:#average_reached_points#:#Media punctelor obtinute
@@ -138,6 +148,8 @@ assessment#:#cannot_export_test#:# Nu aveti permisiunea necesara pentru a export
 assessment#:#cannot_maintain_test#:# Nu aveti permisiunea necesara pentru a rula testul!
 assessment#:#cannot_save_metaobject#:# Nu aveti permisiunea necesara pentru a salva meta-datele!
 assessment#:#change_solution#:#Schimbati solutia sugerata
+assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.###10 Jul 2006 new variable
+assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
 assessment#:#checkbox_checked#:#Selectat
 assessment#:#checkbox_unchecked#:#Neselectat
 assessment#:#circle#:#Incercuiti
@@ -151,6 +163,7 @@ assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new var
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 2005 new variable
 assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
 assessment#:#code#:#Cod
+assessment#:#codebase#:#Codebase###10 Jul 2006 new variable
 assessment#:#concatenation#:#Concatenare
 assessment#:#confirm_delete_all_user_data#:#Sunteti sigur/sigura ca doriti sa stergeti toate informatiile despre utilizator din test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
@@ -164,15 +177,20 @@ assessment#:#create_imagemap#:#Creaza o harta imagine
 assessment#:#create_new#:#Creati nou
 assessment#:#definition#:#Definition###03 Nov 2005 new variable
 assessment#:#delete_area#:#Stergeti aria
+assessment#:#delete_image#:#Delete image###10 Jul 2006 new variable
 assessment#:#delete_user_data#:#Delete test data of the selected users###06 Nov 2005 new variable
 assessment#:#description_maxchars#:#Daca nu s-a scris nimic numarul maxim de caractere pentru a raspunde la acest test este nelimitat.
-assessment#:#detail_ending_time_reached#:#Ati ajuns la finalul timpului acordat acestui test. Testul nu mai este disponibil de acum %s
+assessment#:#detail_ending_time_reached#:#Ati ajuns la finalul timpului acordat acestui test. Testul nu mai este disponibil de acum %s###10 Jul 2006 content changed
 assessment#:#detail_max_processing_time_reached#:#Ati ajuns la limita maxima de timp acordat pentru procesarea acestui test!
 assessment#:#detail_starting_time_not_reached#:#Testul nu a inceput inca. Testul va fi disponibil in %s
+assessment#:#detailed_output#:#Detailed output###10 Jul 2006 new variable
+assessment#:#detailed_output_printview#:#Detailed output with question printviews###10 Jul 2006 new variable
+assessment#:#detailed_output_solutions#:#Detailed output with question solutions###10 Jul 2006 new variable
 assessment#:#direct_feedback#:#Verificati-va solutia
 assessment#:#duplicate#:#Dublura
 assessment#:#duplicate_matching_values_selected#:#Ati selectat valori potrivite duble!
 assessment#:#duplicate_order_values_entered#:#Ati introdus valori de ordine duble!
+assessment#:#duplicate_qpl#:#Duplicate question pool for test###10 Jul 2006 new variable
 assessment#:#duplicate_tst#:#Test duplicat
 assessment#:#ects_allow_ects_grades#:#Aratati echivalentul ECTS pe langa nota primita
 assessment#:#ects_fill_out_all_values#:#Va rugam introduceti o valoare pentru fiecare nota ECTS!
@@ -201,6 +219,9 @@ assessment#:#ects_use_fx_grade#:#Folositi nota 'FX', daca participantii picati a
 assessment#:#ects_use_fx_grade_part2#:#procent din totalul de puncte.
 assessment#:#end_tag#:#Sfarsit eticheta
 assessment#:#ending_time_reached#:#Ati ajuns la finalui timpului
+assessment#:#enlarge#:#enlarge###10 Jul 2006 new variable
+assessment#:#enter_anonymous_code#:#Enter anonymous access code###10 Jul 2006 new variable
+assessment#:#enter_enough_positive_points#:#The maxium available points for the question must be greater than 0! Please enter sufficient non negative points for your answers.###10 Jul 2006 new variable
 assessment#:#error_image_upload_copy_file#:#S-a produs o eroare in timpul mutarii dosarului imagine incarcat in dosarul destinatie!
 assessment#:#error_image_upload_wrong_format#:#Va rugam incarcati un dosar imagine valid! Formatele suportate sunt gif, jpeg si png.
 assessment#:#error_importing_question#:# S-a produs o eroare in timpul importarii intrebarii/intrebarilor din fisierul pe care l-ati selectat!
@@ -226,7 +247,7 @@ assessment#:#eval_search_users#:#Utilizatori
 assessment#:#eval_search_userselection#:#Cautati utilizatorii pe care doriti sa-i adaugati la evaluarea statistica
 assessment#:#eval_selected_users#:#Evaluarea pentru utilizatorii selectati
 assessment#:#exp_eval_data#:#Exportati datele evaluarii ca
-assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_excel#:#Microsoft Excel###10 Jul 2006 content changed
 assessment#:#exp_type_spss#:#Valori separate de virgula (CSV)
 assessment#:#export#:#Exporta
 assessment#:#failed_official#:#picat
@@ -245,10 +266,14 @@ assessment#:#filter_all_question_types#:#Toate tipurile de intrebari
 assessment#:#filter_all_questionpools#:#Toate bazele de intrebari
 assessment#:#filter_show_question_types#:#Aratati tipurile de intrebari
 assessment#:#filter_show_questionpools#:#Aratati bazele de intrebari
+assessment#:#filter_users#:#Filter users###10 Jul 2006 new variable
 assessment#:#gap#:#Spatiu
 assessment#:#gap_definition#:#Definitia spatiului
 assessment#:#gap_selection#:#Selectarea spatiului
 assessment#:#glossary_term#:#Termen de glosar
+assessment#:#graphical_answers#:#Graphical answer support###10 Jul 2006 new variable
+assessment#:#graphical_answers_hide#:#Hide graphical answer support###10 Jul 2006 new variable
+assessment#:#graphical_answers_show#:#Show graphical answer support###10 Jul 2006 new variable
 assessment#:#height#:#Inaltime
 assessment#:#imagemap#:#Harta imagine
 assessment#:#imagemap_file#:#Fisier harta imagine
@@ -261,9 +286,11 @@ assessment#:#internal_links_update#:#Actualizare
 assessment#:#javaapplet#:#Applet Java
 assessment#:#javaapplet_successful_saved#:#Rezultatele dumneavoastra au fost salvate cu succes!
 assessment#:#javaapplet_unsuccessful_saved#:#S-a produs o eroare in timpul salvarii raspunsurilor la intrebari!
+assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.###10 Jul 2006 new variable
 assessment#:#last_update#:#Ultima actualizare
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#blocat
+assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached###10 Jul 2006 new variable
 assessment#:#log_create_new_test#:#Nou test creat
 assessment#:#log_mark_added#:#Nota adaugata
 assessment#:#log_mark_changed#:#Nota schimbata
@@ -273,33 +300,49 @@ assessment#:#log_no_test_fields_changed#:#Salvat, dar nu s-a inregistrat nici o 
 assessment#:#log_question_added#:#Intrebarea adaugata in pozitie
 assessment#:#log_question_position_changed#:#pozitia intrebarii schimbata
 assessment#:#log_question_removed#:#Intrebare stearsa
+assessment#:#log_random_question_pool_added#:#Added the question pool '%s' with %s questions for the random test###10 Jul 2006 new variable
+assessment#:#log_random_question_pool_deleted#:#Removed all random question pools for the test###10 Jul 2006 new variable
 assessment#:#log_selected_user_data_removed#:#Removed test data of user %s###06 Nov 2005 new variable
+assessment#:#log_total_amount_of_questions#:#Set the total amount of questions for the random test to %s###10 Jul 2006 new variable
 assessment#:#log_user_answered_question#:#User answered a question and received %s points###03 Nov 2005 new variable
+assessment#:#log_user_entered_values#:#User entered values###10 Jul 2006 new variable
+assessment#:#log_user_not_entered_values#:#User did not enter values###10 Jul 2006 new variable
 assessment#:#maintenance#:#Intretinere
 assessment#:#mark_schema#:#Schema de notare
 assessment#:#match_terms_and_definitions#:#Potrivirea termenilor cu definitiile
 assessment#:#match_terms_and_pictures#:#Potrivirea termenilor cu imaginile
 assessment#:#matches#:#Potriviri
 assessment#:#matching_pair#:#Perechi potrivite
+assessment#:#matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###10 Jul 2006 new variable
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material de downloadat
 assessment#:#material_file#:#Fisier material
 assessment#:#maxchars#:#Numarul maxim de caractere
 assessment#:#maximum_nr_of_tries_reached#:#Ati ajuns la numarul maxim de incercari pentru acest test. Testul nu mai poate fi accesat!###23 Dec 2005 content changed
+assessment#:#maximum_points#:#Maxium available points###10 Jul 2006 new variable
 assessment#:#meaning#:#Sensul
-assessment#:#min_percentage_ne_0#:#Trebuie sa definiti un procentaj minim de 0 la suta! Schema de notare nu a fost salvata.
+assessment#:#min_percentage_ne_0#:#Trebuie sa definiti un procentaj minim de 0 la suta! Schema de notare nu a fost salvata.###10 Jul 2006 content changed
+assessment#:#multiline_answers_hide#:#Use single-line answers###10 Jul 2006 new variable
+assessment#:#multiline_answers_show#:#Use multi-line answers###10 Jul 2006 new variable
+assessment#:#multiline_terms_hide#:#Use single-line terms###10 Jul 2006 new variable
+assessment#:#multiline_terms_show#:#Use multi-line terms###10 Jul 2006 new variable
 assessment#:#negative_points_not_allowed#:#Nu aveti voie sa introduceti puncte negative!
 assessment#:#next_question_rows#:#Intrebarile %d - %d din %d >>
-assessment#:#no_passed_mark#:#Trebuie sa atribuiti cel putin o nota de TRECERE! Schema de notare nu a fost salvata.
+assessment#:#no_passed_mark#:#Trebuie sa atribuiti cel putin o nota de TRECERE! Schema de notare nu a fost salvata.###10 Jul 2006 content changed
 assessment#:#no_question_selected_for_move#:#Va rugam selectati o intrebere pentru a o muta!
 assessment#:#no_questions_available#:#Nu mai exista intrebari disponibile!
 assessment#:#no_target_selected_for_move#:#Trebuie sa selectati o pozitie tinta!
 assessment#:#no_user_or_group_selected#:#Va rugam selectati ce optiune cautati(utilizatori si/sau grupuri)!###23 Dec 2005 content changed
+assessment#:#not_worked_through#:#Not answered###10 Jul 2006 new variable
+assessment#:#nr_of_correct_answers#:#Number of requested answers###10 Jul 2006 new variable
 assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.###23 Dec 2005 new variable
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
+assessment#:#optional_keywords#:#Optional input of keywords###10 Jul 2006 new variable
 assessment#:#or#:#sau
 assessment#:#order_pictures#:#Ordonati imagini
 assessment#:#order_terms#:#Ordonati termeni
+assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###10 Jul 2006 new variable
+assessment#:#output_mode#:#Output mode###10 Jul 2006 new variable
 assessment#:#participants#:#Participanti
 assessment#:#pass#:#Pass###03 Nov 2005 new variable
 assessment#:#passed_official#:#Trecut
@@ -308,8 +351,11 @@ assessment#:#percentage_solved#:#Ati rezolvat %.2f procente din aceasta intrebar
 assessment#:#percentile#:#Procentual
 assessment#:#picture#:#Picture###03 Nov 2005 new variable
 assessment#:#please_select#:#-- Va rugam selectati --
+assessment#:#point#:#Point###10 Jul 2006 new variable
 assessment#:#points#:#Puncte
+assessment#:#points_checked#:#Points when checked###10 Jul 2006 new variable
 assessment#:#points_short#:#Pct.
+assessment#:#points_unchecked#:#Points when unchecked###10 Jul 2006 new variable
 assessment#:#polygon#:#Poligon
 assessment#:#polygon_click_next_or_save#:#Va rugam apasati pe urmatorul punct al poligonului sau salvati aria. (Nu este necesar sa apasati din nou pe punctul de inceput al acestui poligon!)
 assessment#:#polygon_click_next_point#:#Va rugam apasati pe urmatorul punct al poligonului.
@@ -318,13 +364,17 @@ assessment#:#postpone#:#Amanati intrebarea
 assessment#:#postponed#:#Amanata
 assessment#:#preview#:#Previzualizare
 assessment#:#previous_question_rows#:#<< Intrebarile %d - %d din %d
+assessment#:#print_view#:#Print view###10 Jul 2006 new variable
+assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!###10 Jul 2006 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Nu exista o evaluare disponibila pentru intrebarea selectata. Intrebarea nu a fost folosita niciodata intr-un test.
 assessment#:#qpl_assessment_of_questions#:#Evaluarea raspunsurilor la intrebari
 assessment#:#qpl_assessment_total_of_answers#:#Total raspunsuri
 assessment#:#qpl_assessment_total_of_right_answers#:#Procentaj total al raspunsurilor corecte (procentajul maximului de puncte obtinute)
-assessment#:#qpl_confirm_delete_questions#:#Sunteti sigur/a ca doriti sa stergeti urmatoarele intrebari)? Daca stergeti intrebarile blocate rezultatele tuturor testelor continand intrebari blocate vor fi sterse de asemenea.
+assessment#:#qpl_confirm_delete_questions#:#Sunteti sigur/a ca doriti sa stergeti urmatoarele intrebari)? Daca stergeti intrebarile blocate rezultatele tuturor testelor continand intrebari blocate vor fi sterse de asemenea.###10 Jul 2006 content changed
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###03 Nov 2005 new variable
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard###03 Nov 2005 new variable
+assessment#:#qpl_delete_describe_undeleteable_questions#:#The following questions are in use in random tests. You cannot delete these questions:###10 Jul 2006 new variable
+assessment#:#qpl_delete_no_deleteable_questions#:#All questions you tried to delete are in use in a random test###10 Jul 2006 new variable
 assessment#:#qpl_delete_rbac_error#:#Nu aveti dreptul sa stergeti aceasta intrebare!
 assessment#:#qpl_delete_select_none#:#Va rugam selectati cel putin o intrebare pentru a o sterge
 assessment#:#qpl_display_fullsize_image#:#Apasati aici pentru a vedea imaginea originala!
@@ -332,7 +382,9 @@ assessment#:#qpl_duplicate_select_none#:# Va rugam selectati cel putin o intreba
 assessment#:#qpl_edit_rbac_error#:#Nu aveti dreptul de a edita aceasta intrebare!
 assessment#:#qpl_edit_select_multiple#:#Va rugam selectati doar o intrebare pentru a o edita
 assessment#:#qpl_edit_select_none#:#Va rugam selectati o intrebare pentru a o edita
+assessment#:#qpl_export_excel#:#Microsoft Excel file###10 Jul 2006 new variable
 assessment#:#qpl_export_select_none#:#Va rugam selectati cel putin o intrebare pentru a o exporta
+assessment#:#qpl_export_xml#:#QTI XML file###10 Jul 2006 new variable
 assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving###03 Nov 2005 new variable
@@ -344,15 +396,6 @@ assessment#:#qpl_paste_success#:#The question(s) have been pasted into the quest
 assessment#:#qpl_question_is_in_use#:#Intrebarea pe care doriti sa o editati axista in %s test(e). Daca schimbati aceasta intrebare, NU veti putea schimba intrebarea din alte teste pentru ca sistemul creaza o copie a intrebarii atunci cand este introdusa in test!
 assessment#:#qpl_questions_deleted#:#Intrebare stearsa.
 assessment#:#qpl_select_file_for_import#:#Trebuie sa selectati un fisier pentru a-l importa!
-assessment#:#qt_cloze#:#Inchide intrebarea
-assessment#:#qt_imagemap#:#Intrebare despre o harta imagine
-assessment#:#qt_javaapplet#:#Intrebare despre Java Applet
-assessment#:#qt_matching#:#Intrebare potrivita
-assessment#:#qt_multiple_choice_mr#:#Intrebare cu variante multiple(raspunsuri multiple)
-assessment#:#qt_multiple_choice_sr#:#Intrebare cu variante multiple(raspuns unic)
-assessment#:#qt_numeric#:#Numeric question###22 Feb 2006 new variable
-assessment#:#qt_ordering#:#Ordoneaza intrebarile
-assessment#:#qt_text#:#Intrebare cu raspuns scurt(Text)
 assessment#:#question_saved_for_upload#:#Intrebarea a fost salvata automat pentru a rezerva spatiu pe hard disk pentru a stoca fisierul incarcat. Daca anulati aceasta forma, trebuie sa stergeti intrebarea din baza de intrebari daca nu doriti sa o pastrati!
 assessment#:#question_short#:#I
 assessment#:#question_title#:#Titlul intrebarii
@@ -374,7 +417,9 @@ assessment#:#region#:#Regiune
 assessment#:#remove_question#:#Indepartati
 assessment#:#remove_solution#:#Indepartati solutia sugerata
 assessment#:#report_date_not_reached#:#Nu ati ajuns la data de raportare. Veti putea vedea rezultatele testului la %s
+assessment#:#reset_definitions#:#Reset definition positions###10 Jul 2006 new variable
 assessment#:#reset_filter#:#Resetati filtrul
+assessment#:#reset_pictures#:#Reset picture positions###10 Jul 2006 new variable
 assessment#:#result#:#Rezultat
 assessment#:#save_before_upload_imagemap#:#Trebuie sa operati schimbari inainte de a incarca o harta imagine!
 assessment#:#save_before_upload_javaapplet#:#Trebuie sa operati schimbari inainte de a incarca un applet Java!
@@ -384,6 +429,7 @@ assessment#:#save_introduction#:#Intoarcere la introducere
 assessment#:#save_next#:#Urmatorul
 assessment#:#save_previous#:#Anteriorul
 assessment#:#save_text_answer_points#:#Salvati punctele obtinute la intrebarile din test
+assessment#:#scored_pass#:#Scored pass###10 Jul 2006 new variable
 assessment#:#search_found_groups#:#Grupuri gasite
 assessment#:#search_found_users#:#Utilizatori gasiti
 assessment#:#search_groups#:#Cauta grupuri
@@ -396,15 +442,19 @@ assessment#:#select_gap#:#Selectati un spatiu
 assessment#:#select_max_one_item#:#Selectati un singur obiect
 assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test###23 Dec 2005 new variable
 assessment#:#select_one_user#:#Please select at least one user###23 Dec 2005 new variable
+assessment#:#select_qpl_option#:#--- Please select a question pool ---###10 Jul 2006 new variable
 assessment#:#select_target_position_for_move_question#:#Va rugam selectati o pozitie tinta pentru a muta intrebarea si apasati unul dintre butoanele de inserare!
 assessment#:#select_tst_option#:#--- Va rugam selectati un test ---
 assessment#:#selected_image#:#Imaginea selectata
+assessment#:#set_edit_mode#:#Set edit mode###10 Jul 2006 new variable
 assessment#:#set_filter#:#Setati filtrul
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Amestecati raspunsurile
 assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points###17 Aug 2005 new variable
 assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points###17 Aug 2005 new variable
+assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points###10 Jul 2006 new variable
 assessment#:#solution_hint#:#Solutia sugerata
+assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords###10 Jul 2006 new variable
 assessment#:#solution_order#:#Ordinea solutiilor
 assessment#:#start_tag#:#Eticheta de start
 assessment#:#starting_time_not_reached#:#Nu ati ajuns la momentul de inceput
@@ -414,17 +464,23 @@ assessment#:#suggested_solution_added_successfully#:#Ati setat cu succes o solut
 assessment#:#symbol#:#Simbol
 assessment#:#term#:#Term###03 Nov 2005 new variable
 assessment#:#test_cancelled#:#Testul a fost anulat
+assessment#:#test_reference#:#Test reference###10 Jul 2006 new variable
 assessment#:#text_answers_saved#:#Punctele obtinute ca rezultat la intrebarile din test au fost modificate!
 assessment#:#text_gap#:#Text cu spatii de completat
 assessment#:#text_maximum_chars_allowed#:#Va rugam nu completati cu mai mult de %s caractere. Orice caractere in plus vor fi sterse.
+assessment#:#text_rating#:#Text matching method###10 Jul 2006 new variable
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Va rugam completati parametrii din applet inainte de a adauga alti parametrii!
 assessment#:#true#:#Adevarat
+assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.###10 Jul 2006 new variable
 assessment#:#tst_all_user_data_deleted#:#Toate datele despre utilizator din acest test au foat sterse!
+assessment#:#tst_allowed_users#:#Maximum number of users running the test simultaneously###10 Jul 2006 new variable
+assessment#:#tst_allowed_users_time_gap#:#Idle time for active users###10 Jul 2006 new variable
 assessment#:#tst_already_submitted#:#Testul a fost deja terminat si submis
 assessment#:#tst_already_taken#:#Teste deja completate
 assessment#:#tst_answer_sheet#:#Pagina cu raspunsurile testului
 assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
+assessment#:#tst_best_solution_is#:#The best solution is###10 Jul 2006 new variable
 assessment#:#tst_browse_for_questions#:#Cautati intrebari
 assessment#:#tst_confirm_delete_results#:#Sunteti pe cale de a sterge toate raspunsurile la intrebarile din acest test. Acest lucru va reseta valorile intrebarilor la stadiul initial. Trebuie sa stiti ca nu puteti reseta numarul de incercari disponibile pentru acest test. Sunteti sigur/a ca doriti sa anulati toate raspunsurile deja date?###23 Dec 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Toate raspunsurile date la intrebari au fost sterse. Ati resetat testul cu succes!
@@ -437,11 +493,15 @@ assessment#:#tst_ending_time#:#Timpul de terminare al testului
 assessment#:#tst_enter_questionpool#:#Va rugam introduceti numele unei baze de intrebari unde va fi stocata noua intrebare
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nimeni nu a accesat testul inca. Nu exista rezultate colective anonime disponibile.
 assessment#:#tst_eval_results_by_pass#:#Detailed question results###07 Nov 2005 new variable
-assessment#:#tst_eval_total_finished#:#Total teste completate
-assessment#:#tst_eval_total_finished_average_time#:#Timpul mediu de procesare al testelor completate
+assessment#:#tst_eval_total_finished#:#Total teste completate###10 Jul 2006 content changed
+assessment#:#tst_eval_total_finished_average_time#:#Timpul mediu de procesare al testelor completate###10 Jul 2006 content changed
 assessment#:#tst_eval_total_passed#:#Total teste trecute
 assessment#:#tst_eval_total_passed_average_points#:#Media de puncte pentru testele trecute
-assessment#:#tst_eval_total_persons#:#Numarul total al persoanelor care au accesat testul
+assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests###10 Jul 2006 new variable
+assessment#:#tst_eval_total_persons#:#Numarul total al persoanelor care au accesat testul###10 Jul 2006 content changed
+assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test###10 Jul 2006 new variable
+assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question###10 Jul 2006 new variable
+assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test? ###10 Jul 2006 new variable
 assessment#:#tst_finished#:#Terminat
 assessment#:#tst_general_properties#:#Proprietati generale
 assessment#:#tst_generate_xls#:#Generati fisa Excel
@@ -464,6 +524,9 @@ assessment#:#tst_mark_minimum_level#:#Nivelul minim (in %)
 assessment#:#tst_mark_official_form#:#Forma oficiala
 assessment#:#tst_mark_passed#:#Trecut
 assessment#:#tst_mark_short_form#:#Forma la limita
+assessment#:#tst_max_allowed_users#:#Participants restriction###10 Jul 2006 new variable
+assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached###10 Jul 2006 new variable
+assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.###10 Jul 2006 new variable
 assessment#:#tst_maximum_points#:#Punctaj maxim
 assessment#:#tst_missing_author#:#Nu ati introdus numele autorului testului! Va rugam introduceti numele autorului.
 assessment#:#tst_missing_marks#:#Nu aveti o schema de notare in test! Va rugam introduceti  cel putin o schema simpla de notare in test.
@@ -474,7 +537,7 @@ assessment#:#tst_no_marks_defined#:#Nu exista nici o definitie a notelor, va rug
 assessment#:#tst_no_more_available_questionpools#:#Nu mai exista baze de intrebari disponibile
 assessment#:#tst_no_question_selected_for_removal#:#Va rugam selectati cel putin o intrebare pentru a o sterge!
 assessment#:#tst_no_questions_available#:#Nu exista intrebari disponibile! Trebuie sa creati intrebari noi sau sa cautati intrebari.
-assessment#:#tst_no_solution_available#:#Pe scurt, nu exista solutie
+assessment#:#tst_no_solution_available#:#Pe scurt, nu exista solutie###10 Jul 2006 content changed
 assessment#:#tst_no_taken_tests#:#Nu exista teste rezolvate!
 assessment#:#tst_no_tries#:#Nici o incercare
 assessment#:#tst_nr_of_tries#:#Numarul maxim de incercari###23 Dec 2005 content changed
@@ -484,7 +547,12 @@ assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 ne
 assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
 assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
 assessment#:#tst_pass_scoring#:#Multiple pass scoring###03 Nov 2005 new variable
+assessment#:#tst_password#:#Test password###10 Jul 2006 new variable
+assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test###10 Jul 2006 new variable
+assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!###10 Jul 2006 new variable
+assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test###10 Jul 2006 new variable
 assessment#:#tst_percent_solved#:#Procentaj teste rezolvate
+assessment#:#tst_position#:#Question %s of %s###10 Jul 2006 new variable
 assessment#:#tst_print#:#Verificare imprimare test si examen
 assessment#:#tst_print_date#:#Data imprimarii
 assessment#:#tst_processing_time#:#Timpul maxim de procesare
@@ -505,14 +573,17 @@ assessment#:#tst_question_type#:#Tipul intrebarii
 assessment#:#tst_questions_inserted#:#Intrebari inserate!
 assessment#:#tst_questions_removed#:#Intrebari sterse!
 assessment#:#tst_random_nr_of_questions#:#Cate intrebari?
-assessment#:#tst_random_qpl_unselected#:#Exista cel putin o baza de intrebari neselectata! Nu este necesar sa adaugati o alta baza de intrebari.
+assessment#:#tst_random_qpl_unselected#:#Exista cel putin o baza de intrebari neselectata! Nu este necesar sa adaugati o alta baza de intrebari.###10 Jul 2006 content changed
 assessment#:#tst_random_questionpools#:#Sursa bazelor de intrebari
 assessment#:#tst_random_select_questionpool#:#Selectati baza de intrebari pentru a alege forma intrebarilor
+assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.###10 Jul 2006 new variable
+assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.###10 Jul 2006 new variable
 assessment#:#tst_random_test#:#Test la intamplare
 assessment#:#tst_random_test_description#:#Daca selectati, intrebarile din test vor fi generate la intamplare
 assessment#:#tst_reached_points#:#Puncte obtinute
 assessment#:#tst_remove_questions#:#Sunteti sigur/a ca doriti sa eliminati urmatoarele intrebari din test?
 assessment#:#tst_remove_questions_and_results#:#Acest test a fost deja rezolvat de %s utilizatori. Daca eliminati intrebari din test veti pierde si toate rezultatele obtinute de acesti utilizatori. Sunteti sigur/a ca doriti sa stergeti urmatoarele intrebari din test?
+assessment#:#tst_report_after_first_question#:#Offer score reporting when the test has been started###10 Jul 2006 new variable
 assessment#:#tst_report_after_question#:#Afisati rezultatul dupa fiecare raspuns la intrebare
 assessment#:#tst_report_after_test#:# Afisati rezultatul dupa completarea intregului test
 assessment#:#tst_result_congratulations#:#Felicitari! Ati trecut testul.
@@ -524,10 +595,14 @@ assessment#:#tst_results_back_evaluation#:#Back to evaluation overview###03 Nov 
 assessment#:#tst_results_back_introduction#:#Back to introduction###03 Nov 2005 new variable
 assessment#:#tst_results_back_overview#:#Back to results overview###03 Nov 2005 new variable
 assessment#:#tst_resume_test#:#Revenire la test
+assessment#:#tst_score_cut_question#:#Cut negative points for every question###10 Jul 2006 new variable
+assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results###10 Jul 2006 new variable
+assessment#:#tst_score_cutting#:#Cut negative points###10 Jul 2006 new variable
 assessment#:#tst_score_reporting#:#Afisarea rezultatelor
 assessment#:#tst_score_reporting_date#:#Data afisarii rezultatelor
 assessment#:#tst_score_type#:#Tipul afisarii rezultatelor
 assessment#:#tst_select_file_for_import#:#Trebuie sa selectati un dosar pentru a-l importa!
+assessment#:#tst_select_qpls#:#Please select a question pool for duplication###10 Jul 2006 new variable
 assessment#:#tst_select_questionpool#:#Va rugam selectati o baza de intrebari in care sa salvati intrebarea creata
 assessment#:#tst_select_questionpools#:#Va rugam selectati o baza de intrebari in care sa salvati intrebarile create
 assessment#:#tst_select_random_questions#:#Selectati bazele de intrebari si numarul de intrebari pentru testul aleatoriu
@@ -540,6 +615,14 @@ assessment#:#tst_sequence_properties#:#Proprietatile secventei
 assessment#:#tst_session_settings#:#Setarile sesiunii
 assessment#:#tst_show_answer_print_sheet#:#Answers Printview###03 Nov 2005 new variable
 assessment#:#tst_show_results#:#Aratati rezultatele testului
+assessment#:#tst_show_solution_details#:#Score details###10 Jul 2006 new variable
+assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions###10 Jul 2006 new variable
+assessment#:#tst_show_solution_printview#:#Solution printview###10 Jul 2006 new variable
+assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing###10 Jul 2006 new variable
+assessment#:#tst_show_summary#:#Show question summary###10 Jul 2006 new variable
+assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test###10 Jul 2006 new variable
+assessment#:#tst_shuffle_questions#:#Shuffle questions###10 Jul 2006 new variable
+assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start###10 Jul 2006 new variable
 assessment#:#tst_start_test#:#Incepeti testul
 assessment#:#tst_starting_time#:#Timpul de inceput
 assessment#:#tst_stat_all_users#:#Toti utilizatorii
@@ -574,9 +657,10 @@ assessment#:#tst_submit_answers#:#Da, vreau sa submit raspunsurile
 assessment#:#tst_submit_answers_txt#:#Acum puteti termina testul prin submiterea raspunsurilor
 assessment#:#tst_submit_results#:#Da, confirm submiterea
 assessment#:#tst_test_output#:#Test output###23 Dec 2005 new variable
-assessment#:#tst_time_already_spent#:#Timp deja utilizat
+assessment#:#tst_time_already_spent#:#Timp deja utilizat###10 Jul 2006 content changed
+assessment#:#tst_time_already_spent_left#:#You have %s left.###10 Jul 2006 new variable
 assessment#:#tst_total_questions#:#Numarul total de intrebari
-assessment#:#tst_total_questions_description#:#Daca setati aceasta valoare, numarul total de intrebari din baze este ignorat. Daca nu setati aceasta intrebare, trebuie sa specificati un numar pentru fiecare baza de intrebari!
+assessment#:#tst_total_questions_description#:#Daca setati aceasta valoare, numarul total de intrebari din baze este ignorat. Daca nu setati aceasta intrebare, trebuie sa specificati un numar pentru fiecare baza de intrebari!###10 Jul 2006 content changed
 assessment#:#tst_tst_date#:#Data testului
 assessment#:#tst_type#:#Tipul testului
 assessment#:#tst_type_changed#:#Ati schimbat tipul de test. Toate celelalte teste precedente au fost sterse!
@@ -594,15 +678,18 @@ assessment#:#tt_varying_randomtest#:#Varying random test###03 Nov 2005 new varia
 assessment#:#unlimited#:#nelimitat
 assessment#:#unlock#:#Deblocati
 assessment#:#unlock_question#:#Aceasta intrebare este folosita de cel putin un test la care exista %s rezultate. Daca deblocati intrebarea rezultatele complete ale utilizatorilor afectati vor fi sterse dupa ce salvati aceasta intrebare. Daca doriti sa folositi o varianta modificata a acestei intrebari dar nu doriti sa stergeti rezultatele la teste, puteti copia intrebarea intr-o baza de intrebari si sa schimbati acea versiune.
+assessment#:#upload_image#:#Upload image###10 Jul 2006 new variable
 assessment#:#upload_imagemap#:#Incarcati o imagine harta
 assessment#:#uploaded_material#:#Materiale incarcate
 assessment#:#user_not_invited#:#Nu trebuie sa dati acest examen
-assessment#:#user_wrong_clientip#:#Nu aveti adresa IP corecta pentru acest test
+assessment#:#user_wrong_clientip#:#Nu aveti adresa IP corecta pentru acest test###10 Jul 2006 content changed
+assessment#:#value_between_x_and_y#:#The value should be between %s and %s###10 Jul 2006 new variable
 assessment#:#warning_question_not_complete#:#Intrebarea nu este completa!
 assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
 assessment#:#when#:#cand
 assessment#:#width#:#Latime
 assessment#:#with_order#:#in ordine
+assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Timp de lucru
 assessment#:#you_received_a_of_b_points#:#Ati primit %d din %d puncte posibile
 barometer#:#add#:#Add new Feedback###23 Dec 2005 new variable
@@ -755,6 +842,7 @@ chat#:#chat_maroon#:#maro
 chat#:#chat_messages_deleted#:#Mesajele au fost sterse.
 chat#:#chat_moderator_password#:#Parola de moderator
 chat#:#chat_navy#:#bleumarin
+chat#:#chat_new_message#:#New message###10 Jul 2006 new variable
 chat#:#chat_no_active_users#:#Nici un utilizator prezent.###03 Nov 2005 content changed
 chat#:#chat_no_connection#:#Serverul de chat nu poate fi contactat.
 chat#:#chat_no_delete_public#:#Chat room-ul public nu poate fi sters
@@ -800,6 +888,8 @@ chat#:#chat_yellow#:#galben
 chat#:#chats#:#Chat-uri
 chat#:#my_chats#:#Chat-urile mele
 common#:#3rd_party_software#:#software introdus
+common#:#DD.MM.YYYY#:#ZZ.LL.AAAA
+common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#absolute_path#:#Path absolut
 common#:#accept_usr_agreement#:#Acceptati conditiile impuse utilizatorilor?
 common#:#access#:#Acces
@@ -810,12 +900,13 @@ common#:#action_aborted#:#Actiune amanata
 common#:#actions#:#Actiuni
 common#:#activate_assessment_logging#:#Activati log-ul de Testare si Evaluare
 common#:#activate_https#:#HTTPS oferit ILIAS<br>(Plata, Login)
-common#:#activate_tracking#:#Activati Cautarea
+common#:#activate_tracking#:#Activati Cautarea###10 Jul 2006 content changed
 common#:#activation#:#Activare
 common#:#active#:#Activ
 common#:#active_roles#:#Roluri Active
 common#:#add#:#Adaugati
 common#:#add_author#:#Adaugati Autor
+common#:#add_comments#:#Edit comments###10 Jul 2006 new variable
 common#:#add_condition#:#Creati o noua asociere
 common#:#add_member#:#Adaugati Membru
 common#:#add_members#:#Adaugati Membrii
@@ -827,6 +918,7 @@ common#:#add_translation#:#Adaugati tranducere
 common#:#add_user#:#Adaugati utilizator local
 common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Noua conditie creata.
+common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
 common#:#adm_create_tax#:#Creati taxonomie
 common#:#adm_edit_permission#:#Schimbati setarile de permisiune
 common#:#adm_read#:#Permisiune doar pentru citirea setarilor de sistem
@@ -838,12 +930,22 @@ common#:#administration#:#Administrare
 common#:#administrator#:#Administrator
 common#:#adopt#:#adoptati###03 Nov 2005 content changed
 common#:#adopt_perm_from_template#:#Adoptati setarile de permisiune din Tabelul de Roluri
+common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing###10 Jul 2006 new variable
+common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor###10 Jul 2006 new variable
+common#:#advanced_editing_no_rte#:#Don't use rich text editing###10 Jul 2006 new variable
+common#:#advanced_editing_settings#:#Advanced editing settings###10 Jul 2006 new variable
+common#:#advanced_editing_tinymce#:#TinyMCE editor###10 Jul 2006 new variable
+common#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
+common#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
+common#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
+common#:#adve_write#:#Advanced editing administration###10 Jul 2006 new variable
 common#:#all_authors#:#Toti autorii
 common#:#all_global_roles#:#Roluri globale
 common#:#all_lms#:#Toate modulele de studiu
 common#:#all_local_roles#:#Roluri locale (toate)
 common#:#all_objects#:#toate obiectele
 common#:#all_roles#:#Toate Rolurile
+common#:#all_topics#:#All Topics###10 Jul 2006 new variable
 common#:#all_tsts#:#Toate testele
 common#:#all_users#:#Toti utilizatorii
 common#:#allow_assign_users#:#Permiteti asignarea utilizatorilor de catre administratorii locali.
@@ -862,6 +964,7 @@ common#:#already_delivered_files#:#Fisiere deja livrate
 common#:#and#:#si
 common#:#announce#:#Anuntati
 common#:#announce_changes#:#Anuntati Schimbarile
+common#:#anonymous#:#Anonymous###10 Jul 2006 new variable
 common#:#answers#:#Raspunsuri
 common#:#any_language#:#Orice limba
 common#:#append_search#:#Append search results###23 Dec 2005 new variable
@@ -873,7 +976,7 @@ common#:#apply_filter#:#Aplicati filtru
 common#:#appointment#:#Intalnire
 common#:#appointment_list#:#Lista de intalniri
 common#:#approve_date#:#Aprobat de
-common#:#approve_recipient#:#Login ID al destinatarului
+common#:#approve_recipient#:#Login ID al destinatarului###10 Jul 2006 content changed
 common#:#archive#:#Arhiva
 common#:#are_you_sure#:#Sunteti sigur/a?
 common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
@@ -897,6 +1000,18 @@ common#:#at_location#:#la locatie
 common#:#attachment#:#Fisier atasat
 common#:#attachments#:#Fisiere atasate
 common#:#attend#:#Participati...
+common#:#auth_allow_local#:#Allow Local Authentication###10 Jul 2006 new variable
+common#:#auth_cas#:#CAS###10 Jul 2006 new variable
+common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.###10 Jul 2006 new variable
+common#:#auth_cas_auth#:#Configure CAS Authentication###10 Jul 2006 new variable
+common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)###10 Jul 2006 new variable
+common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.###10 Jul 2006 new variable
+common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
+common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
+common#:#auth_cas_settings_saved#:#CAS settings saved###10 Jul 2006 new variable
+common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
+common#:#auth_cas_user_default_role_desc#:#This role is assigned to automatically created CAS users.###10 Jul 2006 new variable
+common#:#auth_create_users#:#Create non-existing users automatically###10 Jul 2006 new variable
 common#:#auth_edit_permission#:#Schimbati setarile de permisiune
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autentificati utilizatorii prin server LDAP
@@ -905,15 +1020,31 @@ common#:#auth_local#:#baza de date ILIAS
 common#:#auth_local_desc#:#Autentificati utilizatori prin baza de date locala ILIAS (implicit)
 common#:#auth_mode#:#Mod de Autentificare
 common#:#auth_mode_not_changed#:#(Nimic schimbat)
+common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
+common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Autentificare prin server RADIUS
 common#:#auth_read#:#Acces la setarile de autentificare
-common#:#auth_remark_non_local_auth#:#Cand selectati un alt mod de autentificare decat cel implicit, login-urile si parolele nu mai pot fi schimbate iar optiunea de a inregistra alti utilizatori este dezafectata.
+common#:#auth_remark_non_local_auth#:#Cand selectati un alt mod de autentificare decat cel implicit, login-urile si parolele nu mai pot fi schimbate iar optiunea de a inregistra alti utilizatori este dezafectata.###10 Jul 2006 content changed
 common#:#auth_script#:#Normal
 common#:#auth_script_desc#:#Autentificare utilizatori prin script extern
 common#:#auth_select#:#Selectati modul de autentificare
+common#:#auth_soap#:#SOAP###10 Jul 2006 new variable
+common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.###10 Jul 2006 new variable
+common#:#auth_soap_auth#:#Configure SOAP Authentication###10 Jul 2006 new variable
+common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.###10 Jul 2006 new variable
+common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.###10 Jul 2006 new variable
+common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_settings_saved#:#SOAP authentication settings saved###10 Jul 2006 new variable
+common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_use_https#:#Use HTTPS###10 Jul 2006 new variable
+common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###10 Jul 2006 new variable
+common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.###10 Jul 2006 new variable
+common#:#auth_user_default_role#:#Default Role###10 Jul 2006 new variable
 common#:#auth_visible#:#Setarile de Autentificare sunt vizibile
 common#:#auth_write#:#Editati setarile de autentificare
+common#:#authentication_settings#:#Authentication###10 Jul 2006 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autori
 common#:#auto_registration#:#Aprobati automat inregistrarea
@@ -1022,6 +1153,7 @@ common#:#changed_to#:#schimbata in
 common#:#chapter#:#Capitol
 common#:#chapter_number#:#Numarul Capitolului
 common#:#chapter_title#:#Titlul Capitolului
+common#:#characters#:#characters###10 Jul 2006 new variable
 common#:#chat#:#Chat
 common#:#chat_active_in#:#Active in chat:###03 Nov 2005 new variable
 common#:#chat_add#:#Adaugati Chat
@@ -1061,7 +1193,7 @@ common#:#clipboard#:#Clipboard
 common#:#close#:#Inchideti
 common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Separat prin virgula
-common#:#comment#:#comentariu
+common#:#comment#:#comentariu###10 Jul 2006 content changed
 common#:#compose#:#Compuneti
 common#:#condition#:#Conditie
 common#:#condition_already_assigned#:#Obiect deja desemnat.
@@ -1083,9 +1215,9 @@ common#:#continue_work#:#Continuati
 common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#copied_object#:#Obiect copiat
 common#:#copy#:#Copiati
+common#:#copyPage#:#Copie
 common#:#copy_of#:#Copie a
 common#:#copy_to#:#catre
-common#:#copyPage#:#Copie
 common#:#count#:#Numaratoare
 common#:#country#:#Tara
 common#:#course#:#Curs
@@ -1103,6 +1235,7 @@ common#:#cron_jobs#:#Cronometre
 common#:#cron_jobs_desc#:#Un cronometru este un proces automat care opereaza la intervale de timp predefinite. Veti casi informatii despre instalare in documentatia de 'INSTALARE'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Curs
 common#:#crs_a#:#un Curs
+common#:#crs_activation_start_invalid#:#The start and the end time is not valid.###10 Jul 2006 new variable
 common#:#crs_add#:#Adaugati Curs
 common#:#crs_added#:#Curs adaugat
 common#:#crs_archives#:#Arhive
@@ -1136,6 +1269,7 @@ common#:#crs_leave#:#Renuntare la Curs###23 Dec 2005 content changed
 common#:#crs_management_system#:#Sistem de Management al Cursurilor
 common#:#crs_member_not_passed#:#Picat
 common#:#crs_member_passed#:#Trecut
+common#:#crs_members_gallery#:#Course members gallery###10 Jul 2006 new variable
 common#:#crs_new#:#Curs Nou
 common#:#crs_no_content#:#Fara continut
 common#:#crs_read#:#Permisiune de citire a cursului
@@ -1179,7 +1313,6 @@ common#:#dbk_new#:#Noua Carte din Biblioteca Digitala
 common#:#dbk_read#:#Permisiune de citire a Cartii din Biblioteca Digitala
 common#:#dbk_visible#:# Cartea din Biblioteca Digitala este vizibila
 common#:#dbk_write#:#Editati Cartea din Biblioteca Digitala
-common#:#DD.MM.YYYY#:#ZZ.LL.AAAA
 common#:#default#:#Implicit
 common#:#default_language#:#Limba implicita
 common#:#default_perm_settings#:#Permisiuni implicite
@@ -1196,6 +1329,7 @@ common#:#delete_selected#:#Stergeti ceea ce a fost selectat
 common#:#delete_tr_data#:#Stergeti datele de urmarire
 common#:#deleted#:#Sters
 common#:#deleted_user#:#Utilizatorul a fost sters
+common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
 common#:#deliver#:#Da exercitiu spre rezolvare
 common#:#department#:#Departament
 common#:#desc#:#Descriere
@@ -1210,8 +1344,11 @@ common#:#download_all_returned_files#:#Descarcati toate fisierele returnate
 common#:#drafts#:#Ciorna
 common#:#drop#:#Drop
 common#:#edit#:#Editati
+common#:#edit_comments#:#Edit comments for the selected user###10 Jul 2006 new variable
 common#:#edit_data#:#Editati datele
 common#:#edit_operations#:#Editati Operatiunile
+common#:#edit_page#:#Edit Page###10 Jul 2006 new variable
+common#:#edit_page_content#:#Edit Page Content###10 Jul 2006 new variable
 common#:#edit_perm_ruleset#:#Editati regulile de permisiune implicite
 common#:#edit_properties#:#Editati Proprietatile
 common#:#edit_roleassignment#:#Editati desemnarea rolurilor
@@ -1219,6 +1356,7 @@ common#:#edit_stylesheet#:#Editati Stil
 common#:#edited_at#:#Editat la
 common#:#editor#:#Editor
 common#:#email#:#E-mail###03 Nov 2005 content changed
+common#:#email_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#email_footer#:#<br />asigurat de ILIAS
 common#:#email_not_valid#:#Adresa de e-mail pe care ati introdus-o nu este valabila!
 common#:#enable#:#Activati
@@ -1232,11 +1370,16 @@ common#:#enable_js_edit#:#Activati Editarea JavaScript
 common#:#enable_js_edit_info#:#Aceasta optiune permite editarea JavaScript pentru toate obiectele continute (Module de Invatare ILIAS, Glosare, Intrebari de Evaluare, Carti din Biblioteca Digitala)
 common#:#enable_password_assistance#:#Activati asistenta pentru parole
 common#:#enable_registration#:#Activati inregistrarea unui nou utilizator
+common#:#enable_trash#:#Enable Trash###10 Jul 2006 new variable
+common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!###10 Jul 2006 new variable
 common#:#enabled#:#Activat
-common#:#enter_filename_deliver#:#Introduceti exercitiul de transmis
+common#:#enter_filename_deliver#:#Introduceti exercitiul de transmis###10 Jul 2006 content changed
 common#:#enumerate#:#Enumereaza
 common#:#err_1_param#:#Doar un singur parametru!
 common#:#err_2_param#:#Doar doi parametrii!
+common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
+common#:#err_auth_ext_user_exists#:#External account '%s' for authentication mode '%s' is already existing. (User '%s')###10 Jul 2006 new variable
+common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
 common#:#err_count_param#:#Motiv: Numar gresit de parametrii
 common#:#err_enter_current_passwd#:#Va rugam introduceti parola curenta
 common#:#err_in_line#:#Greseala in rand
@@ -1253,7 +1396,7 @@ common#:#err_role_not_assignable#:#Nu puteti desemna utilizatori acestui rol din
 common#:#err_session_expired#:#Sesiunea a expirat!
 common#:#err_unknown_error#:#Greseala necunoscuta
 common#:#err_wrong_header#:#Motiv: Titlu gresit.
-common#:#err_wrong_login#:#Login gresit
+common#:#err_wrong_login#:#Login gresit###10 Jul 2006 content changed
 common#:#err_wrong_password#:#Parola gresita
 common#:#error#:#Eroare
 common#:#error_parser#:#Eroare la pornirea parserului.
@@ -1267,31 +1410,41 @@ common#:#exc_create#:#Creati exercitiu
 common#:#exc_date_not_valid#:#Data nu este valabila
 common#:#exc_deassign_members#:#Stergeti membrul/membrii
 common#:#exc_delete#:#Stergeti exercitiul
+common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
 common#:#exc_edit#:#Exercitiu nou creat
 common#:#exc_edit_exercise#:#Editati exercitiul
 common#:#exc_edit_permission#:#Schimbati setarile de permisiune
 common#:#exc_edit_until#:#Editati pana cand
-common#:#exc_files#:#Fisiere
-common#:#exc_files_returned#:#Fisiere returnate
+common#:#exc_files#:#Fisiere###10 Jul 2006 content changed
+common#:#exc_files_returned#:#Fisiere returnate###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupuri
 common#:#exc_header_members#:#Exercitiu (membrii)
 common#:#exc_instruction#:#Instructiuni de lucru
+common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
+common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Exercitiul a fost desemnat deja acestor utilizatori
 common#:#exc_members_assigned#:#Membrii desemnati
+common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved###10 Jul 2006 new variable
 common#:#exc_new#:#Exercitiu nou
 common#:#exc_no_members_assigned#:#Nu exista membrii desemnati
 common#:#exc_notices#:#Observatii
 common#:#exc_obj#:#Exercitiu
 common#:#exc_read#:#Accesati exercitiul
+common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Roluri
 common#:#exc_save_changes#:#Salvati
 common#:#exc_search_for#:#Cautati
 common#:#exc_select_one_file#:#Va rugam selectati doar un fisier.
-common#:#exc_send_exercise#:#Trimiteti exercitiul
+common#:#exc_send_exercise#:#Trimiteti exercitiul###10 Jul 2006 content changed
 common#:#exc_sent#:#Exercitiul a fost trimis catre utilizatorii selectati
-common#:#exc_status_returned#:#Returnat
+common#:#exc_status#:#Status###10 Jul 2006 new variable
+common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#Exercitiu reinnoit
+common#:#exc_status_sent#:#Delivered###10 Jul 2006 new variable
 common#:#exc_status_solved#:#Rezolvat
+common#:#exc_status_submitted#:#Submitted###10 Jul 2006 new variable
+common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
+common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
 common#:#exc_upload_error#:#Eroare la incarcarea fisierului
 common#:#exc_users#:#Utilizatori
 common#:#exc_visible#:#Exercitiul este vizibil
@@ -1306,7 +1459,13 @@ common#:#export#:#Exporta
 common#:#export_group_members#:#Exportati membrii grupului (catre Microsoft Excel)
 common#:#export_html#:#Exportati ca fisier HTML
 common#:#export_xml#:#Exportati ca fisier XML
+common#:#extt_ilinc_additional_options#:#Additional Options###10 Jul 2006 new variable
+common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers###10 Jul 2006 new variable
+common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms###10 Jul 2006 new variable
+common#:#extt_ilinc_akclassvalues_required#:#Cost center required###10 Jul 2006 new variable
+common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required###10 Jul 2006 new variable
 common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###25 Feb 2006 new variable
+common#:#extt_ilinc_connection_data#:#Connection data###10 Jul 2006 new variable
 common#:#extt_ilinc_protocol_port#:#Protocol & Port###03 Nov 2005 new variable
 common#:#faq_exercise#:#Exercitiu FAQ
 common#:#fax#:#Fax
@@ -1317,6 +1476,7 @@ common#:#field_type#:#Field type###27 Jan 2006 new variable
 common#:#file#:#Dosar
 common#:#file_a#:#un Dosar
 common#:#file_add#:#Incarcati fisierul
+common#:#file_add_and_metadata#:#Upload File and Edit Metadata###10 Jul 2006 new variable
 common#:#file_added#:#Fisier incarcat
 common#:#file_delete#:#Stergeti Fisierul
 common#:#file_edit#:#Editati Fisierul
@@ -1464,6 +1624,9 @@ common#:#group_status#:#Grupul este
 common#:#group_status_closed#:#Inchis
 common#:#group_status_desc#:#Determinati statutul initial al grupului folosind setarile de permisiune din tabelurile de roluri 'il_grp_status_closed' sau 'il_grp_status_open'<br />Public: Grupul este vizibil; Utilizatorul poate intra.<br />Closed: Grupul nu este vizibil celor care nu sunt membrii; Utilizatorul trebuie invitat de un membru pentru a participa. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Public
+common#:#groupings#:#Membership Limitations###10 Jul 2006 new variable
+common#:#groupings_assigned_obj_crs#:#Assigned Courses###10 Jul 2006 new variable
+common#:#groupings_assigned_obj_grp#:#Assigned Groups###10 Jul 2006 new variable
 common#:#groups#:#Grupuri
 common#:#groups_overview#:#Vedere de ansamblu a Grupurilor
 common#:#grp#:#Grup
@@ -1484,6 +1647,7 @@ common#:#grp_create_file#:#Incarcati Fisier
 common#:#grp_create_fold#:#Creati Dosar
 common#:#grp_create_frm#:#Creati Forum
 common#:#grp_create_glo#:#Creati Glosar
+common#:#grp_create_grp#:#Create Group###10 Jul 2006 new variable
 common#:#grp_create_hlm#:#Creati Modul de Invatare HACP
 common#:#grp_create_htlm#:#Creati Modul de Invatare HTML
 common#:#grp_create_lm#:#Creati Modul de Invatare ILIAS
@@ -1517,6 +1681,7 @@ common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 
 common#:#grp_mem_change_status#:#Schimbati statutul membrului
 common#:#grp_mem_leave#:#Eliminati membrul din grup
 common#:#grp_mem_send_mail#:#Trimiteti un mesaj membrului
+common#:#grp_members_gallery#:#Group members gallery###10 Jul 2006 new variable
 common#:#grp_msg_applicants_assigned#:#Vi s-a acordat calitatea de membru
 common#:#grp_msg_applicants_removed#:#Ati fost eliminat de pe lista.
 common#:#grp_msg_member_assigned#:#Utilizatori deveniti membrii ai grupului
@@ -1543,15 +1708,28 @@ common#:#guests#:#Invitati
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Titlu
 common#:#help#:#Ajutor
-common#:#HH#:#HH:MM
 common#:#hide_details#:#Ascundeti detaliile
 common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
 common#:#hide_public_notes#:#Hide public notes###03 Nov 2005 new variable
 common#:#hide_structure#:#Dezafectati vederea structurata
-common#:#hist_dbk#:#Pagina creata
+common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
+common#:#hist_dbk_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
+common#:#hist_dbk_pg_create#:#Page created.###10 Jul 2006 new variable
+common#:#hist_dbk_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
+common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
+common#:#hist_dbk_pg_update#:#Page changed.###10 Jul 2006 new variable
+common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
+common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
 common#:#hist_file_create#:#Fisier creat, numele fisierului este "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#hist_file_replace#:#Fisier inlocuit, noul nume al fisierului este "%1", versiunea noua este %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_lm#:#Pagina creata
+common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
+common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
+common#:#hist_lm_pg_create#:#Page created.###10 Jul 2006 new variable
+common#:#hist_lm_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
+common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
+common#:#hist_lm_pg_update#:#Page changed.###10 Jul 2006 new variable
+common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
+common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
 common#:#hist_no_entries#:#Nu exista referinte anterioare.
 common#:#history#:#Istorie
 common#:#hits_per_page#:#Intrari/Pagina
@@ -1568,6 +1746,7 @@ common#:#hlm_write#:#Editati Modulul de Invatare HACP
 common#:#hobby#:#Interese/Hobby-uri
 common#:#home#:#Acasa
 common#:#host#:#Host
+common#:#hour#:#Hour###10 Jul 2006 new variable
 common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Ore din zi
 common#:#htlm#:#Modul de Invatare HTML
@@ -1589,12 +1768,15 @@ common#:#icons_in_header#:#Header row###03 Nov 2005 new variable
 common#:#icons_in_item_rows#:#Item rows###03 Nov 2005 new variable
 common#:#icons_in_typed_lists#:#Icon position in item lists###03 Nov 2005 new variable
 common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.###03 Nov 2005 new variable
+common#:#icrs_members_gallery#:#Seminar members gallery###10 Jul 2006 new variable
 common#:#id#:#ID
 common#:#identifier#:#identificator
 common#:#if_no_title_then_filename#:#Lasati liber pentru numele fisierului
 common#:#if_no_title_then_url#:#Lasati liber pentru URL
 common#:#ilias_version#:#versiune ILIAS
 common#:#ilinc_add_user#:#Add user(s)###03 Nov 2005 new variable
+common#:#ilinc_akclassvalue#:#Cost center###10 Jul 2006 new variable
+common#:#ilinc_akclassvalues#:#Cost centers###10 Jul 2006 new variable
 common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Each LearnLinc Seminar needs at least one administrator###03 Nov 2005 new variable
 common#:#ilinc_header_edit_users#:#Edit list of involved users###03 Nov 2005 new variable
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.###03 Nov 2005 new variable
@@ -1606,6 +1788,7 @@ common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new
 common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
 common#:#ilinc_msg_member_assigned#:#User(s) assigned###03 Nov 2005 new variable
 common#:#ilinc_msg_membership_annulled#:#Subscription cancelled###03 Nov 2005 new variable
+common#:#ilinc_no_akclassvalues#:#none###10 Jul 2006 new variable
 common#:#image#:#Imagine
 common#:#image_gen_unsucc#:#Generarea imaginii nu a reusit. Contactati-l pe administratorul sistemului si verificati calea de conversiune.
 common#:#import#:#Importati
@@ -1640,6 +1823,7 @@ common#:#include_local#:#include localizarea
 common#:#info#:#Informatii
 common#:#info_assign_sure#:#Sunteti sigur/a ca doriti sa acceptati urmatorii utilizatori?
 common#:#info_delete_sure#:#Sunteti sigur/a ca doriti sa stergeti urmatoarele obicte?###23 Dec 2005 content changed
+common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)###10 Jul 2006 new variable
 common#:#info_deleted#:#Obiectele au fost sterse
 common#:#info_owner_of_object#:#Owner of object###23 Dec 2005 new variable
 common#:#info_trash#:#Obiecte Sterse
@@ -1710,6 +1894,7 @@ common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sv#:#Suedeza
 common#:#lang_timeformat#:#H:M:S
+common#:#lang_timeformat_no_sec#:#H:i###10 Jul 2006 new variable
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnameza
 common#:#lang_xx#:#Custom
@@ -1723,6 +1908,7 @@ common#:#languages_already_uninstalled#:#Limbile selectate sunt deja dezinstalat
 common#:#languages_updated#:#Toate limbile instalate au fost actualizate
 common#:#last_change#:#Ultima Schimbare
 common#:#last_edited_on#:#Last edited on###03 Nov 2005 new variable
+common#:#last_login#:#Last login###10 Jul 2006 new variable
 common#:#last_update#:#Ultima Actualizare
 common#:#last_visit#:#Ultima Vizita
 common#:#lastname#:#Nume
@@ -1747,6 +1933,7 @@ common#:#ldap_write#:#Editati setarile LDAP
 common#:#learning module#:#Modul de Invatare
 common#:#learning_objects#:#Obiecte de Invatare
 common#:#learning_progress#:#Learning progress###23 Dec 2005 new variable
+common#:#learning_resourc#:#Learning Resource###10 Jul 2006 new variable
 common#:#learning_resource#:#Learning Resource###03 Nov 2005 new variable
 common#:#learning_resources#:#Resurse pentru Invatare
 common#:#level#:#Nivel
@@ -1824,6 +2011,7 @@ common#:#login_exists#:#Exista deja un utilizator cu acest nume de login! Va rug
 common#:#login_invalid#:#Login-ul ales nu easte valid! Numai urmatoarele caractere sunt permise (minimum 4 caractere): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Timp online
 common#:#login_to_ilias#:#Login la ILIAS
+common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###10 Jul 2006 new variable
 common#:#logout#:#Logout
 common#:#logout_text#:#Ati iesit din ILIAS. Sesiunea dumneavoastra a fost inchisa.
 common#:#logs#:#Date despre Log
@@ -1840,6 +2028,7 @@ common#:#mail_delete_error#:#Eroare la stergere
 common#:#mail_delete_error_file#:#Eroare la stergerea fisierului
 common#:#mail_e_sent#:#Trimise
 common#:#mail_edit_permission#:#Schimbati setarile de permisiune
+common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Dosarele de mail
 common#:#mail_import#:#Importati
 common#:#mail_import_file#:#Importati fisier
@@ -1888,11 +2077,12 @@ common#:#mep_visible#:#Baza Media este vizibila
 common#:#mep_write#:#Editati Continutul Bazei Media
 common#:#message#:#Mesaj
 common#:#message_content#:#Continutul Mesajului
-common#:#message_no_delivered_files#:#Nu ati livrat un fisier!
+common#:#message_no_delivered_files#:#Nu ati livrat un fisier!###10 Jul 2006 content changed
 common#:#message_to#:#Mesaj catre:
 common#:#meta_data#:#Meta-date
 common#:#migrate#:#Migrati
 common#:#min_time#:#Timp minim
+common#:#minute#:#Minute###10 Jul 2006 new variable
 common#:#minutes#:#Minutes###23 Dec 2005 new variable
 common#:#missing#:#Lipsa
 common#:#mob#:#Obiect Media
@@ -1924,9 +2114,9 @@ common#:#month_11_short#:#Noi
 common#:#month_12_long#:#Decembrie
 common#:#month_12_short#:#Dec
 common#:#move#:#Mutati
-common#:#move_to#:#Mutati in
 common#:#moveChapter#:#Mutati
 common#:#movePage#:#Mutati
+common#:#move_to#:#Mutati in
 common#:#msg_cancel#:#Actiune anulata
 common#:#msg_changes_ok#:#Schimbarile au fost acceptate
 common#:#msg_clear_clipboard#:#Clipboard golit
@@ -1950,9 +2140,9 @@ common#:#msg_min_one_role#:#Fiecare utilizator trebuie sa aiba cel putin un rol 
 common#:#msg_multi_language_selected#:#Ati selectat aceeasi limba pentru traduceri diferite!
 common#:#msg_no_default_language#:#Nu exista o limba implicita specificata! Trebuie sa definiti o traducere ca fiind implicita.
 common#:#msg_no_delete_yourself#:#Nu va puteti sterge propriul cont de utilizator.
-common#:#msg_no_file#:#Nu ati ales un fisier
+common#:#msg_no_file#:#Nu ati ales un fisier###10 Jul 2006 content changed
 common#:#msg_no_language_selected#:#Nici o limba pentru traducere nu a fost specificata! Trebuie sa alegeti o limba pentru fiecare traducere
-common#:#msg_no_perm_assign_role_to_user#:#Nu aveti permisiunea de a schimba desemnarea rolului utilizatorului
+common#:#msg_no_perm_assign_role_to_user#:#Nu aveti permisiunea de a schimba desemnarea rolului utilizatorului###10 Jul 2006 content changed
 common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment###03 Nov 2005 new variable
 common#:#msg_no_perm_copy#:#Nu aveti permisiunea de a copia urmatoarele obiecte:
 common#:#msg_no_perm_create#:#Nu aveti permisiunea de a crea urmatoarele obiecte:
@@ -1971,6 +2161,7 @@ common#:#msg_no_perm_modify_rolt#:#Nu aveti permisiunea de a modifica tabelurile
 common#:#msg_no_perm_modify_user#:#Nu aveti permisiunea de a modifica datele despre utilizator
 common#:#msg_no_perm_paste#:#Nu aveti permisiunea de a lipi urmatoarele obiecte:
 common#:#msg_no_perm_perm#:#Nu aveti permisiunea de a edita setarile de permisiune
+common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###10 Jul 2006 new variable
 common#:#msg_no_perm_read_lm#:#Nu aveti permisiunea de a citi acest modul de invatare.
 common#:#msg_no_perm_read_track#:#Nu aveti permisiunea de a accesa urmarirea utilizatorului.
 common#:#msg_no_perm_undelete#:#Nu aveti permisiunea de reabilita urmatoarele obiecte:
@@ -1984,22 +2175,22 @@ common#:#msg_no_sysadmin_sysrole_not_assignable#:#Numai un Administrator de Sist
 common#:#msg_no_title#:#Va rugam introduceti un titlu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_no_url#:#Nu ati introdus un URL
 common#:#msg_not_available_for_anon#:#Pagina pe care ati ales-o este accesibila numai utilizatorilor inregistrati
-common#:#msg_not_in_itself#:#Nu puteti lipi obiectul de el insusi
+common#:#msg_not_in_itself#:#Nu puteti lipi obiectul de el insusi###10 Jul 2006 content changed
 common#:#msg_nothing_found#:#mes_nimic_gasit
 common#:#msg_obj_created#:#Obiect creat.
 common#:#msg_obj_exists#:#Acest obiect exista deja in dosar
 common#:#msg_obj_modified#:#Modificarile au fost salvate.
 common#:#msg_obj_no_link#:#Nu este permisa adaugarea unui link
 common#:#msg_obj_not_deletable_sold#:#Plata este activata pentru urmatoarele obiecte. Acestea nu pot fi sterse.
-common#:#msg_perm_adopted_from_itself#:#Nu puteti adopta starile de permisiune de la rolul curent sau din tabelul de roluri.
 common#:#msg_perm_adopted_from1#:#Setarile de permisiune adoptate de la
 common#:#msg_perm_adopted_from2#:#(Setarile au fost salvate!)
+common#:#msg_perm_adopted_from_itself#:#Nu puteti adopta starile de permisiune de la rolul curent sau din tabelul de roluri.
 common#:#msg_removed#:#Obiecte eliminate din sistem.
 common#:#msg_role_exists1#:#Un rol/tabel de roluri cu numele
 common#:#msg_role_exists2#:#exista deja! Va rugam alegeti un alt nume
 common#:#msg_role_reserved_prefix#:#Prefixul 'il_' este rezervat pentru rolurile generate automat. Va rugam alegeti un alt nume. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_roleassignment_active_changed#:#Desemnarea rolurilor active a fost schimbata
-common#:#msg_roleassignment_active_changed_comment#:#Aceasta setare nu se salveaza peste profilul utilizatorului! Daca utilizatorul se logheaza din nou, toate desemnarile active de roluri se reseteaza la valorile salvate.
+common#:#msg_roleassignment_active_changed_comment#:#Aceasta setare nu se salveaza peste profilul utilizatorului! Daca utilizatorul se logheaza din nou, toate desemnarile active de roluri se reseteaza la valorile salvate.###10 Jul 2006 content changed
 common#:#msg_roleassignment_changed#:#Desemnarea rolurilor a fost schimbata
 common#:#msg_sysrole_not_deletable#:#Rolul de sistem nu poate fi schimbat
 common#:#msg_sysrole_not_editable#:#Setarile de permisiune ale rolului de sistem nu pot fi schimbate. Rolul de sistem permite tuturor utilizatorilor desemnati acces nelimitat la toate obiectele si functiile.
@@ -2046,6 +2237,7 @@ common#:#no_local_users#:#Nu exista nici un utilizator local
 common#:#no_objects#:#Nici un obiect
 common#:#no_permission_to_join#:#Nu aveti permisiunea de a va alatura acestui grup!
 common#:#no_roles_user_can_be_assigned_to#:#Nu exista roluri globale care sa poata fi distribuite utilizatorului. Din acest motiv nu puteti adauga utilizatori.
+common#:#no_submission_made#:#---###10 Jul 2006 new variable
 common#:#no_title#:#Nici un titlu
 common#:#no_tst_in_personal_list#:#Nu aveti teste in lista personala.
 common#:#no_user_defined_fields_defined#:#No user-defined fields available.###27 Jan 2006 new variable
@@ -2069,14 +2261,16 @@ common#:#number_of_records#:#Numar de inregistrari
 common#:#obj#:#Obiect
 common#:#obj_adm#:#Administratia
 common#:#obj_adm_desc#:#Dosarul de setari ale sistemului principal continand tot ceea ce este necesar pentru instalarea ILIAS.
+common#:#obj_adve#:#Advanced editing###10 Jul 2006 new variable
+common#:#obj_adve_desc#:#Administration settings for advanced editing like JavaScript based Rich Text Editors, LaTeX support etc..###10 Jul 2006 new variable
 common#:#obj_alm#:#Modul de invatare AICC
-common#:#obj_assf#:#Teste&Evaluare
+common#:#obj_assf#:#Teste&Evaluare###10 Jul 2006 content changed
 common#:#obj_assf_desc#:#Test&Assessment log settings.###23 Dec 2005 new variable
-common#:#obj_auth#:#Autentificare
-common#:#obj_auth_desc#:#Configurati modul de autentificare (local, LDAP, ...)
+common#:#obj_auth#:#Autentificare###10 Jul 2006 content changed
+common#:#obj_auth_desc#:#Configurati modul de autentificare (local, LDAP, ...)###10 Jul 2006 content changed
 common#:#obj_cat#:#Categorie
 common#:#obj_cen#:#Eveniment tip Centra
-common#:#obj_chac#:#Setari de Chat
+common#:#obj_chac#:#Setari de Chat###10 Jul 2006 content changed
 common#:#obj_chac_desc#:#Configurati serverul dumneavoastra de chat aici. Activati/Dezactivati chat-urile.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Curs
@@ -2103,10 +2297,10 @@ common#:#obj_mob#:#Obiect Media
 common#:#obj_not_found#:#Obiectul nu a fost gasit
 common#:#obj_note#:#Nota
 common#:#obj_notf#:#Nota de Administrare
-common#:#obj_objf#:#Definitiile obiectului
+common#:#obj_objf#:#Definitiile obiectului###10 Jul 2006 content changed
 common#:#obj_objf_desc#:#Administrati tipurile de obiecte ILIAS si permisiunile obiectelor. (doar pentru experti!)
 common#:#obj_owner#:#Acest obiect apartine utilizatorului
-common#:#obj_pays#:#Setari de plata
+common#:#obj_pays#:#Setari de plata###10 Jul 2006 content changed
 common#:#obj_pays_desc#:#Configurati setarile de plata si comerciantii
 common#:#obj_pg#:#Pagina
 common#:#obj_qpl#:#Test din Bazele de intrebari
@@ -2134,7 +2328,7 @@ common#:#obj_type#:#Tipul obiectului
 common#:#obj_url#:#URL
 common#:#obj_uset#:#Setarile de utilizator
 common#:#obj_usr#:#Utilizator
-common#:#obj_usrf#:#Conturile de utilizator
+common#:#obj_usrf#:#Conturile de utilizator###10 Jul 2006 content changed
 common#:#obj_usrf_desc#:#Adiministrati conturile de utilizator aici.
 common#:#object#:#Obiect
 common#:#object_added#:#Obiect adaugat
@@ -2185,6 +2379,7 @@ common#:#offline_version#:#Versiune Offline
 common#:#ok#:#OK
 common#:#old#:#Vechi
 common#:#online_chapter#:#Capitol Online
+common#:#online_time#:#Time online (DD:HH:MM:SS)###10 Jul 2006 new variable
 common#:#online_version#:#Versiune Online
 common#:#open_views_inside_frameset#:#Deschide vizualizarea in interiorul frameset-ului
 common#:#operation#:#Operatie
@@ -2192,6 +2387,8 @@ common#:#optimize#:#Optimizati
 common#:#options#:#Optiuni
 common#:#options_for_subobjects#:#Optiuni pentru subobiecte
 common#:#order_by#:#Comanda
+common#:#order_by_answers#:#Order by Answers###10 Jul 2006 new variable
+common#:#order_by_date#:#Order by Date###10 Jul 2006 new variable
 common#:#other#:#Altele
 common#:#overview#:#Vedere de ansamblu
 common#:#overwrite#:#Overwrite###23 Dec 2005 new variable
@@ -2204,8 +2401,10 @@ common#:#parameter#:#Parametru
 common#:#parse#:#Parse
 common#:#passed#:#Trecut
 common#:#passwd#:#Parola
+common#:#passwd_generation#:#Password Generation###10 Jul 2006 new variable
+common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.###10 Jul 2006 new variable
 common#:#passwd_invalid#:#Noua parola nu este valabila! Numai urmatoarele caractere sunt permise (minimum 6 caractere): A-Z a-z 0-9 _.-+*@!$%~###08 Feb 2006 content changed
-common#:#passwd_not_match#:#Introducerile pentru noua parola nu se potrivesc! Va rugam reintroduceti noua parola.
+common#:#passwd_not_match#:#Introducerile pentru noua parola nu se potrivesc! Va rugam reintroduceti noua parola.###10 Jul 2006 content changed
 common#:#passwd_wrong#:#Parola pe care ati introdus-o este gresita!
 common#:#password#:#Parola
 common#:#password_assistance_disabled#:#Asistenta pentru parola aste valabila doar cand autentificarea utilizatorului se face printr-o baza de date ILIAS locala.
@@ -2223,6 +2422,9 @@ common#:#path_to_unzip#:#Path catre aplicatia Unzip
 common#:#path_to_zip#:#Path catre aplicatia Zip
 common#:#pathes#:#Paths
 common#:#pay_methods#:#Metode de plata
+common#:#payment_buyable#:#Buyable###10 Jul 2006 new variable
+common#:#payment_in_sc#:#Already in shopping cart###10 Jul 2006 new variable
+common#:#payment_payed_access#:#Payed/Access###10 Jul 2006 new variable
 common#:#payment_system#:#Sistem de plata
 common#:#pays_edit#:#Editati setarile de plata
 common#:#pays_edit_permission#:#Schimbati setarile de permisiune
@@ -2230,10 +2432,16 @@ common#:#pays_read#:#Accesati setarile de permisiune
 common#:#pays_visible#:#Setarile de permisiune sunt vizibile
 common#:#pays_write#:#Editati setarile de permisiune
 common#:#per_object#:#Acces pe obiect
+common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.###10 Jul 2006 new variable
+common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all already existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
+common#:#perm_role_info_glob_1#:#This form determines the permissions of role '%s' for newly created objects in the repository.###10 Jul 2006 new variable
+common#:#perm_role_info_glob_2#:#If you want to change the permissions of role '%s' for all existing objects in the repository you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
 common#:#perm_settings#:#Permisiuni
+common#:#perma_link#:#Permanent Link###10 Jul 2006 new variable
 common#:#permission#:#Permisiune
 common#:#permission_denied#:#Permisiune refuzata
-common#:#permission_settings#:#Setari de permisiune
+common#:#permission_settings#:#Setari de permisiune###10 Jul 2006 content changed
+common#:#permission_settings_info#:#This form determines which role is allowed to do what with the current object '%s'.###10 Jul 2006 new variable
 common#:#person_title#:#Titlu
 common#:#personal_data#:#Informatii Personale
 common#:#personal_desktop#:#Desktop Personal
@@ -2254,21 +2462,25 @@ common#:#please_enter_target#:#Va rugam introduceti o tinta
 common#:#please_enter_title#:# Va rugam introduceti un titlu
 common#:#please_select_a_delivered_file_to_delete#:#Va rugam selectati cel putin un fisier livrat pentru a-l sterge!
 common#:#please_select_a_delivered_file_to_download#:#Trebuie sa  selectati cel putin un fisier livrat pentru a-l sterge!
+common#:#please_wait#:#Please wait...###10 Jul 2006 new variable
 common#:#port#:#Port
 common#:#position#:#Pozitie
+common#:#precondition_not_accessible#:#You do not have sufficient permission to view the precondition(s) of this item.###10 Jul 2006 new variable
 common#:#preconditions#:#Preconditii
 common#:#presentation_options#:#Optiuni de prezentare
 common#:#previous#:#Anterior
 common#:#print#:#Tipariti
 common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
 common#:#pro#:#Pro###23 Dec 2005 new variable
-common#:#profile_changed#:#Profilul dumneavoastra a fost schimbat
+common#:#profile_changed#:#Profilul dumneavoastra a fost schimbat###10 Jul 2006 content changed
+common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.###10 Jul 2006 new variable
 common#:#profile_of#:#Profilul
 common#:#properties#:#Proprietati
 common#:#pub_section#:#Sectiunea publica
 common#:#public#:#public
 common#:#public_notes#:#Public Notes###03 Nov 2005 new variable
 common#:#public_profile#:#Profil public
+common#:#public_profile_not_visible#:#The User Profile is not public###10 Jul 2006 new variable
 common#:#publication#:#Publicatie
 common#:#publication_date#:#Data de publicare
 common#:#published#:#Publicat
@@ -2297,7 +2509,7 @@ common#:#refresh_list#:#Reafisare Lista
 common#:#refuse#:#Refuzati
 common#:#reg_mail_body_salutation#:#Salut
 common#:#reg_mail_body_text1#:#Bine ati venit la  ILIAS eLearning!
-common#:#reg_mail_body_text2#:#Pentru a accesa ILIAs folositi urmatoarele date:
+common#:#reg_mail_body_text2#:#Pentru a accesa ILIAs folositi urmatoarele date:###10 Jul 2006 content changed
 common#:#reg_mail_body_text3#:#Mai multe informatii personale:
 common#:#reg_mail_subject#:#ILIAS eLearning â€“ Datele dumneavoastra de acces
 common#:#reg_passwd_via_mail#:#Parola va va fi trimisa la adresa de mail de mai jos.
@@ -2366,6 +2578,7 @@ common#:#role_deleted#:#Rol sters
 common#:#role_edit#:#Editati Rol
 common#:#role_header_edit_users#:#Schimbati subdistribuirea###23 Dec 2005 content changed
 common#:#role_list_users#:#Listati utilizatorii
+common#:#role_mailto#:#Mail to all assigned Users###10 Jul 2006 new variable
 common#:#role_new#:#Rol nou
 common#:#role_new_search#:#Cautare noua
 common#:#role_no_groups_selected#:#Va rugam selectati un grup
@@ -2438,6 +2651,7 @@ common#:#search_recipient#:#Destinatar cautat
 common#:#search_result#:#Rezultatul cautarii
 common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Cautati Utilizator
+common#:#second#:#Second###10 Jul 2006 new variable
 common#:#sections#:#Sectiuni
 common#:#select#:#Selectati
 common#:#select_all#:#Selectati Tot
@@ -2462,15 +2676,16 @@ common#:#server#:#Server
 common#:#server_data#:#Date despre Server
 common#:#server_software#:#Software Server
 common#:#set#:#Setati
+common#:#setSystemLanguage#:#Setati Limba Sistemului
+common#:#setUserLanguage#:#Setati Limba Utilizatorului
 common#:#set_offline#:#Setati Offline
 common#:#set_online#:#Setati Online
-common#:#setSystemLanguage#:#Setati Limba Sistemului
 common#:#settings#:#Setari
-common#:#setUserLanguage#:#Setati Limba Utilizatorului
 common#:#show#:#Aratati
 common#:#show_details#:#Aratati detalii
 common#:#show_list#:#Aratati Lista
 common#:#show_members#:#Aratati Membrii
+common#:#show_notes_on_pd#:#Show notes on personal desktop###10 Jul 2006 new variable
 common#:#show_owner#:#Aratati Proprietar
 common#:#show_private_notes#:#Show private notes###03 Nov 2005 new variable
 common#:#show_public_notes#:#Show public notes###03 Nov 2005 new variable
@@ -2569,7 +2784,7 @@ common#:#time_limits#:#Acces
 common#:#time_segment#:#Perioada de timp
 common#:#title#:#Titlu
 common#:#to#:#Catre
-common#:#to_client_list#:#Catre selectia Clientilor
+common#:#to_client_list#:#Catre selectia Clientilor###10 Jul 2006 content changed
 common#:#to_desktop#:#Inscriere
 common#:#today#:#Astazi
 common#:#total#:#Total
@@ -2585,6 +2800,10 @@ common#:#tracking_data_deleted#:#Datele de urmarire au fost sterse
 common#:#tracking_settings#:#Setari de urmarire
 common#:#translation#:#Traducere
 common#:#trash#:#Cos de Gunoi
+common#:#tree_frame#:#Tree Frame###10 Jul 2006 new variable
+common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.###10 Jul 2006 new variable
+common#:#tree_left#:#Left###10 Jul 2006 new variable
+common#:#tree_right#:#Right###10 Jul 2006 new variable
 common#:#treeview#:#Vizualizarea structurata
 common#:#tst#:#Test
 common#:#tst_add#:#Adaugati test
@@ -2614,7 +2833,11 @@ common#:#udf_no_entries#:#Please enter minimum one value.###27 Jan 2006 new vari
 common#:#udf_no_name_given#:#Please enter a field name.###27 Jan 2006 new variable
 common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
 common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
+common#:#udf_update_select_field#:#Edit select box###10 Jul 2006 new variable
+common#:#udf_update_success#:#Saved modifications.###10 Jul 2006 new variable
+common#:#udf_update_text_field#:#Edit text field###10 Jul 2006 new variable
 common#:#udf_value#:#Value###27 Jan 2006 new variable
+common#:#udf_value_deleted#:#The value has been deleted.###10 Jul 2006 new variable
 common#:#uid#:#UID
 common#:#uncheck_all#:#Deselectati tot
 common#:#uninstall#:#Dezinstalati
@@ -2631,6 +2854,7 @@ common#:#update_language#:#Actualizare Limba
 common#:#upload#:#Incarcati
 common#:#upload_error_file_not_found#:#Eroare la incarcare: Fisierul nu a fost gasit.
 common#:#uploaded_and_checked#:#Fisierul a fost incarcat si verificat, acum puteti sa incepeti sa-l importati.
+common#:#uri#:#URI###10 Jul 2006 new variable
 common#:#url#:#URL
 common#:#url_a#:#un URL
 common#:#url_add#:#Adaugati URL
@@ -2643,6 +2867,7 @@ common#:#url_edit_permission#:#Schimbati setarile de permisiune
 common#:#url_new#:#URL nou
 common#:#url_not_found#:#Fisierul nu a fost gasit
 common#:#url_read#:#Deschideti URL
+common#:#url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 common#:#url_visible#:#URL vizibil
 common#:#url_write#:#Editati URL
 common#:#user#:#Utilizator
@@ -2655,11 +2880,16 @@ common#:#user_defined_fields#:#User-defined fields###27 Jan 2006 new variable
 common#:#user_defined_list#:#Overview user-defined fields###27 Jan 2006 new variable
 common#:#user_deleted#:#Utilizator sters
 common#:#user_detail#:#Date detaliate
+common#:#user_ext_account#:#External Account###10 Jul 2006 new variable
+common#:#user_ext_account_desc#:#Account used for external authentication. (CAS or SOAP authentication)###10 Jul 2006 new variable
 common#:#user_imported#:#Importarea utilizatorului completa.
 common#:#user_language#:#Limba utilizatorului
+common#:#user_new_account_mail#:#New Account Mail###10 Jul 2006 new variable
+common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.###10 Jul 2006 new variable
 common#:#user_not_chosen#:#Nu ati ales un membru al grupului!
 common#:#user_not_known#:#Please insert a valid username.###23 Dec 2005 new variable
 common#:#user_profile_other#:#Alte informatii
+common#:#user_send_new_account_mail#:#Send new account mail###10 Jul 2006 new variable
 common#:#user_statistics#:#Date statistice
 common#:#userdata#:#Date despre utilizator
 common#:#username#:#Numele utilizatorului
@@ -2705,17 +2935,47 @@ common#:#who_is_online#:#Cine este online?
 common#:#width_x_height#:#Width x Height###03 Nov 2005 new variable
 common#:#with#:#cu
 common#:#write#:#Scrieti
+common#:#year#:#Year###10 Jul 2006 new variable
+common#:#years#:#Years###10 Jul 2006 new variable
 common#:#yes#:#Da
 common#:#you_may_add_local_roles#:#Puteti adauga Roluri Locale
 common#:#your_message#:#Mesajul Dumneavoastra
 common#:#zip#:#Cod Postal
 common#:#zipcode#:#Cod Postal
+content#:#HTML export#:#Exportati HTML
+content#:#PDF export#:#Exportati PDF
+content#:#Pages#:#Pagini
 content#:#add_menu_entry#:#Adaugati in meniu >>
 content#:#all#:#Tot
 content#:#all_pages#:#intregul Modul de Invatare
 content#:#choose_public_mode#:#Utilizatorii neinregistrati pot accesa
 content#:#choose_public_pages#:#Alegeti paginile publice accesibile
+content#:#citate#:#Citate###10 Jul 2006 new variable
+content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
+content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
+content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Aditional
+content#:#cont_Alphabetic#:#A, B, ... din alfabet###10 Jul 2006 content changed
+content#:#cont_Circle#:#Incercuiti
+content#:#cont_Citation#:#Citate
+content#:#cont_Code#:#Cod
+content#:#cont_Example#:#Exemplu###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Titlul 1
+content#:#cont_Headline2#:#Titlul 2
+content#:#cont_Headline3#:#Titlul 3
+content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#Fisier Local
+content#:#cont_Mnemonic#:#Mnemonic
+content#:#cont_Number#:#Numar
+content#:#cont_Poly#:#Poligon
+content#:#cont_Rect#:#Dreptunghi
+content#:#cont_Reference#:#Referinta
+content#:#cont_Remark#:#Remarca
+content#:#cont_Roman#:#Roman I, II, ...###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Continutul tabelului
+content#:#cont_Unordered#:#Neordonat
 content#:#cont_act_number#:#Numerotarea Capitolelor
+content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Activati Meniu
 content#:#cont_add_area#:#Adaugati Arie
 content#:#cont_add_change_comment#:#Adaugati schimbare de comentariu
@@ -2723,10 +2983,8 @@ content#:#cont_add_definition#:#Adaugati Definitie
 content#:#cont_add_fullscreen#:#Adaugati Full Screen
 content#:#cont_added_comment#:#Comentariul a fost adaugat in history.
 content#:#cont_added_term#:#Termen adaugat
-content#:#cont_Additional#:#Aditional
 content#:#cont_all_definitions#:#Toate Definitiile
 content#:#cont_all_pages#:#Toate Paginile
-content#:#cont_Alphabetic#:#A, B, ... din alfabet
 content#:#cont_annex#:#Anexa
 content#:#cont_api_adapter#:#Numele Adaptorului API
 content#:#cont_api_func_prefix#:#Prefix Functii API
@@ -2754,10 +3012,8 @@ content#:#cont_characteristic#:#Caracteristica
 content#:#cont_choose_cont_obj#:#Alegeti Obiectul din Continut
 content#:#cont_choose_glossary#:#alegeti Glosar
 content#:#cont_choose_media_source#:#Alegeti Sursa Media
-content#:#cont_Circle#:#Incercuiti
-content#:#cont_Citation#:#Citate
 content#:#cont_citation_err_one#:#Trebuie sa selectati exact o editie
-content#:#cont_citation_selection_not_valid#:#Selectia dumneavoastra nu este valida
+content#:#cont_citation_selection_not_valid#:#Selectia dumneavoastra nu este valida###10 Jul 2006 content changed
 content#:#cont_citations#:#Citate
 content#:#cont_click_br_corner#:#Va rugam apasati in coltul dreapta jos al ariei dorite.
 content#:#cont_click_center#:#Va rugam apasati in centrul ariei dorite.
@@ -2766,7 +3022,6 @@ content#:#cont_click_next_or_save#:#Va rugam apasati in urmatorul punct al polig
 content#:#cont_click_next_point#:#Va rugam apasati in urmatorul punct al poligonului.
 content#:#cont_click_starting_point#:#Va rugam apasati in punctul de start al poligonului.
 content#:#cont_click_tl_corner#:#Va rugam apasati in coltul stanga sus al ariei dorite.
-content#:#cont_Code#:#Cod
 content#:#cont_confirm_delete#:#stergeti sigur ?
 content#:#cont_content#:#Continut
 content#:#cont_content_obj#:#Obiect din Continut
@@ -2787,12 +3042,14 @@ content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credite
 content#:#cont_cross_reference#:#Referinta
 content#:#cont_data_from_lms#:#adlcp:datedinMI
+content#:#cont_deactivate_page#:#Deactivate Page###10 Jul 2006 new variable
 content#:#cont_def_layout#:#Layout implicit
 content#:#cont_def_lesson_mode#:#mod de lectie implicit
 content#:#cont_def_organization#:#Implicit
 content#:#cont_definition#:#Definitie
 content#:#cont_definitions#:#Definitii
 content#:#cont_del_assignment#:#Stergeti Distribuirea
+content#:#cont_delete_selected#:#Delete###10 Jul 2006 new variable
 content#:#cont_dependencies#:#Dependente
 content#:#cont_derive_from_obj#:#Deriva de la Obiect
 content#:#cont_details#:#Detalii
@@ -2855,7 +3112,6 @@ content#:#cont_edit_term#:#Editati Termenul
 content#:#cont_edition#:#Editie
 content#:#cont_enable_js#:#JavaScript activ
 content#:#cont_enable_media#:#Media activ
-content#:#cont_Example#:#Exemplu
 content#:#cont_export_files#:#Exportati Fisierele
 content#:#cont_external#:#extern
 content#:#cont_external_url#:#url extern
@@ -2863,6 +3119,7 @@ content#:#cont_file#:#Fisier
 content#:#cont_files#:#Fisiere
 content#:#cont_fix_tree#:#Reparati structura
 content#:#cont_fix_tree_confirm#:#Va rugam executati aceasta operatiune numai daca structura acestui modul de invatare este corupta, ex. daca exista spatii libere in vizualizarea explorer-ului.
+content#:#cont_footer#:#Footer###10 Jul 2006 new variable
 content#:#cont_format#:#Formatati
 content#:#cont_format_error#:#Aceasta operatiune nu va este permisa de aici!
 content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
@@ -2876,9 +3133,7 @@ content#:#cont_fullscreen#:#Full Screen
 content#:#cont_get_link#:#obtine link
 content#:#cont_get_orig_size#:#Setati marimea originala
 content#:#cont_glo_properties#:#Proprietatile Glosarului
-content#:#cont_Headline1#:#Titlul 1
-content#:#cont_Headline2#:#Titlul 2
-content#:#cont_Headline3#:#Titlul 3
+content#:#cont_header#:#Header###10 Jul 2006 new variable
 content#:#cont_height#:#Inaltime
 content#:#cont_how_published#:#Cum a fost publicat
 content#:#cont_href#:#hreferinta
@@ -2909,7 +3164,6 @@ content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#Link Intern
 content#:#cont_link_type#:#Tip Link
 content#:#cont_linked_mobs#:#obiecte media cu link
-content#:#cont_List#:#Lista
 content#:#cont_list_files#:#Listati Fisierele
 content#:#cont_list_properties#:#Listati Propietatile
 content#:#cont_lk_chapter#:#Capitol
@@ -2926,25 +3180,21 @@ content#:#cont_lk_term#:#Termen din Glosar ### 2006-5-8 --- Content changed ### 
 content#:#cont_lk_term_new#:#Termen din Glosar (Frame nou)
 content#:#cont_lm_menu#:#Meniu
 content#:#cont_lm_properties#:#Proprietatile Modulului de Invatare
-content#:#cont_LocalFile#:#Fisier Local
 content#:#cont_lvalue#:#element din date
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Arii cu Link
 content#:#cont_mastery_score#:#adlcp:scor de maiestrie
-content#:#cont_matches#:#potriviri
-content#:#cont_matching_question_javascript_hint#:#Va rugam trageti o definitie/imagine din dreapta peste un termen din stanga si eliberati-o pentru a le potrivi (drag and drop).
 content#:#cont_max_time_allowed#:#adlcp:timpulmaximpermis
 content#:#cont_media_source#:#Sursa Media
 content#:#cont_mep_structure#:#Structura din Baza Media
 content#:#cont_missing_preconditions#:#Trebuie sa indepliniti urmatoarele preconditii pentru a accesa Capitolul "%s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_mob_files#:#Fisiere cu Obiecte
 content#:#cont_mob_inst_prop#:#Proprietatile Exemplului
 content#:#cont_mob_prop#:#Proprietatile Obiectului
 content#:#cont_mob_usages#:#Folosire
 content#:#cont_month#:#Luna
 content#:#cont_move_object#:#Mutati obiectul
-content#:#cont_msg_multiple_editions#:#Nu este posibil sa aratam detalii despre editiile multiple
+content#:#cont_msg_multiple_editions#:#Nu este posibil sa aratam detalii despre editiile multiple###10 Jul 2006 content changed
 content#:#cont_name#:#Nume
 content#:#cont_new_area#:#Arie Noua cu Link
 content#:#cont_new_assignment#:#Sarcina noua
@@ -2961,7 +3211,6 @@ content#:#cont_none#:#nimic
 content#:#cont_nr_cols#:#Numar de Coloane
 content#:#cont_nr_items#:#Numar de Obiecte
 content#:#cont_nr_rows#:#Numar de Randuri
-content#:#cont_Number#:#Numar
 content#:#cont_obj_removed#:#Obiecte eliminate.
 content#:#cont_offline#:#Versiuni Offline
 content#:#cont_offline_files#:#Versiuni Offline
@@ -2969,10 +3218,11 @@ content#:#cont_offline_versions#:#Versiuni Offline
 content#:#cont_online#:#Online
 content#:#cont_or#:#sau
 content#:#cont_order#:#Tipul comenzii
-content#:#cont_ordering_question_javascript_hint#:#Va rugam trageti o definitie/imagine peste definitia/imaginea unde doriti sa o mutati si eliberati-o (drag and drop). Definitia/imaginea initiala si toate celelalte care urmeaza se vor muta in jos.
 content#:#cont_organization#:#Organizatia
 content#:#cont_organizations#:#Organizatiile
 content#:#cont_orig_size#:#Marimea Initiala
+content#:#cont_page_deactivated#:#Page is deactivated.###10 Jul 2006 new variable
+content#:#cont_page_deactivated_elements#:#Page contains deactivated elements.###10 Jul 2006 new variable
 content#:#cont_page_header#:#Titlul de pagina
 content#:#cont_page_select_target_now#:#Pagina marcata pentru mutare. Va rugam selectati tinta.
 content#:#cont_pages#:#Pagini
@@ -2982,7 +3232,6 @@ content#:#cont_personal_clipboard#:#Clipboard Personal
 content#:#cont_pg_content#:#Continutul Paginii
 content#:#cont_pg_title#:#Titlul paginii
 content#:#cont_please_select#:#Va rugam selectati
-content#:#cont_Poly#:#Poligon
 content#:#cont_prereq_type#:#adlcp:cerinte.tip
 content#:#cont_prerequisites#:#adlcp:cerinte obligatorii
 content#:#cont_preview#:#Previzualizare
@@ -2992,18 +3241,12 @@ content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Editura
 content#:#cont_purpose#:#Scop
-content#:#cont_Rect#:#Dreptunghi
 content#:#cont_ref_helptext#:#(ex. http://www.server.org/myimage.jpg)
-content#:#cont_Reference#:#Referinta
-content#:#cont_Remark#:#Remarca
 content#:#cont_remove_fullscreen#:#Elimina Full Screen
 content#:#cont_removeiln#:#sigur doriti sa eliminati link-ul intern?
-content#:#cont_reset_definitions#:#Resetati pozitiile definitiilor
-content#:#cont_reset_pictures#:#Resetati pozitiile imaginilor
 content#:#cont_resource#:#Resursa
 content#:#cont_resource_type#:#tip
 content#:#cont_resources#:#Resurse
-content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_rvalue#:#Valoare
 content#:#cont_saved_map_area#:#Arie cu harti salvata
 content#:#cont_saved_map_data#:#Date despre harti salvate
@@ -3070,7 +3313,6 @@ content#:#cont_table_cellspacing#:#Spatierea celulelor din tabel
 content#:#cont_table_html_import#:#Importati Tabel HTML
 content#:#cont_table_html_import_info#:#Importarea functioneaza doar cu tabele conforme XHTML. Tabelul trebuie etichetat la sursa!
 content#:#cont_table_width#:#Latimea Tabelului
-content#:#cont_TableContent#:#Continutul tabelului
 content#:#cont_target_within_source#:#Tinta trebuie sa fie in interiorul obiectului sursa.
 content#:#cont_term#:#Termen
 content#:#cont_terms#:#Termeni
@@ -3087,11 +3329,11 @@ content#:#cont_tracking_items#:#Obiecte de urmarire
 content#:#cont_translations#:#Traducere
 content#:#cont_translations_assigned#:#Traducerea a fost desemnata
 content#:#cont_tree_fixed#:#Structura succesiunii a fost reparata.
-content#:#cont_Unordered#:#Neordonat
 content#:#cont_update#:#Actualizare
 content#:#cont_update_names#:#Actualizare Nume
 content#:#cont_upload_file#:#Incarcati Fisierul
 content#:#cont_url#:#URL
+content#:#cont_usage#:#Usage###10 Jul 2006 new variable
 content#:#cont_users_have_mob_in_clip1#:#Acest obiect media se afla in clipboard-ul
 content#:#cont_users_have_mob_in_clip2#:#utilizator.
 content#:#cont_validate_file#:#Validati Fisier
@@ -3103,8 +3345,8 @@ content#:#cont_wysiwyg#:#Continut WYSIWYG
 content#:#cont_xml_base#:#xml:baza
 content#:#cont_year#:#Anul
 content#:#copied_to_clipboard#:#Obiecte copiate in clipboard.
+content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
-content#:#HTML export#:#Exportati HTML
 content#:#lm_menu_edit_entry#:#Editati intrarile din menu
 content#:#lm_menu_entry_target#:#Tinta
 content#:#lm_menu_entry_title#:#Titlu
@@ -3116,18 +3358,19 @@ content#:#msg_entry_removed#:#Intrare in meniu inlaturata
 content#:#msg_entry_updated#:#Intrare in meniu actualizata
 content#:#msg_page_no_public_access#:#Pagina pe care o cautati nu este disponibila in sectiunea publica. Doar utilizatorii inregistrati o pot vedea. Va rugam, mai intii sa va autentificati pentru a avea acces la aceasta pagina
 content#:#msg_page_not_public#:#Pagina nu este publica
-content#:#Pages#:#Pagini
 content#:#pages from#:#Pagini din
 content#:#par#:#Paragraf
-content#:#PDF export#:#Exportati PDF
 content#:#pg#:#Pagina
 content#:#public_section#:#Sectiunea Publica
 content#:#read offline#:#Cititi Offline
+content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
+content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Va rugam selectati un fisier.
 content#:#selected_pages_only#:#numai paginile selectate mai jos
 content#:#set_public_mode#:#Setati mod de acces public
 content#:#st#:#Capitol
 content#:#start export#:#Incepeti Exportarea
+crs#:#add_event#:#Add Event###10 Jul 2006 new variable
 crs#:#crs_accept_subscriber#:#Inscrierea la curs###23 Dec 2005 content changed
 crs#:#crs_accept_subscriber_body#:#Ati fost inscris la acest curs.###23 Dec 2005 content changed
 crs#:#crs_access_password#:#Parola
@@ -3171,6 +3414,7 @@ crs#:#crs_copy_cat_not_allowed#:#Categoriile nu pot fi copiate
 crs#:#crs_count_members#:#Numar de membrii
 crs#:#crs_create_date#:#Stabiliti intalnire
 crs#:#crs_dates#:#Date
+crs#:#crs_delete_file#:#Delete File?###10 Jul 2006 new variable
 crs#:#crs_delete_member#:#Retrageti membrii
 crs#:#crs_delete_members_sure#:#Doriti sa-i stergeti pe urmatorii membrii ai acestui curs
 crs#:#crs_delete_subscribers#:#Stergeti inscris
@@ -3179,22 +3423,37 @@ crs#:#crs_details#:#Detalii despre curs
 crs#:#crs_dismiss_member#:#Calitatea de membru al cursului###23 Dec 2005 content changed
 crs#:#crs_dismiss_member_body#:#Calitatea de membru v-a fost retrasa###23 Dec 2005 content changed
 crs#:#crs_edit_archive#:#Editati Arhivele
+crs#:#crs_edit_start_objects#:#Edit Start Objects###10 Jul 2006 new variable
+crs#:#crs_edit_timings#:#Edit Timings###10 Jul 2006 new variable
 crs#:#crs_end#:#Sfarsit
+crs#:#crs_existing_files#:#Existing Files:###10 Jul 2006 new variable
 crs#:#crs_export#:#exportare curs
+crs#:#crs_file#:#File###10 Jul 2006 new variable
+crs#:#crs_file_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#crs_file_name#:#Nume fisier
+crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
 crs#:#crs_from#:#De la:###03 Nov 2005 content changed
+crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
+crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_header_archives#:#Arhive curs
 crs#:#crs_header_delete_members#:#Stergeti membrii
 crs#:#crs_header_delete_subscribers#:#Delete subscribers###23 Dec 2005 new variable
 crs#:#crs_header_edit_members#:#Editati membrii
 crs#:#crs_header_members#:#Membrii cursului
 crs#:#crs_html#:#HTML
+crs#:#crs_important_info#:#Important Informations###10 Jul 2006 new variable
+crs#:#crs_info_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#crs_info_reg#:#Informatii despre inregistrare###23 Dec 2005 content changed
 crs#:#crs_info_reg_confirmation#:#Acest curs necesita confirmarea unui administrator de curs. Veti primi un mesaj daca ati fost acceptat la curs.###23 Dec 2005 content changed
 crs#:#crs_info_reg_deactivated#:#Inregistrarea nu este posibila###23 Dec 2005 content changed
 crs#:#crs_info_reg_direct#:#Nu este necesar sa va inregistrati la acest curs###23 Dec 2005 content changed
 crs#:#crs_info_reg_password#:#Este necesara o parola valabila pentru a va inregistra.###23 Dec 2005 content changed
+crs#:#crs_info_settings#:#Course Informations###10 Jul 2006 new variable
+crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.###10 Jul 2006 new variable
+crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.###10 Jul 2006 new variable
 crs#:#crs_list_users#:#Listati utilizatori
+crs#:#crs_materials#:#Course Materials###10 Jul 2006 new variable
 crs#:#crs_max_members_reached#:#a fost atins numarul maxim de membrii
 crs#:#crs_mem_change_status#:#schimbati statutul
 crs#:#crs_mem_send_mail#:#Trimiteti mail
@@ -3220,6 +3479,7 @@ crs#:#crs_no_archives_selected#:#Va rugam selectati o arhiva
 crs#:#crs_no_groups_selected#:#Va rugam selectati un grup
 crs#:#crs_no_items_found#:#Nici un obiect
 crs#:#crs_no_language#:#Nici o limba
+crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.###10 Jul 2006 new variable
 crs#:#crs_no_member_selected#:#Va rugam selectati un membru
 crs#:#crs_no_members_assigned#:#Nu exista membrii inscrisi la acest curs
 crs#:#crs_no_notify#:#Fara notificare pentru inscrieri noi
@@ -3237,6 +3497,7 @@ crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Optiuni
 crs#:#crs_passed#:#Trecut
 crs#:#crs_password_not_valid#:#Parola dumneavoastra nu este valabila
+crs#:#crs_password_required#:#This registration procedure requires a password.###10 Jul 2006 new variable
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Tipariti lista
 crs#:#crs_reg_subscription_deactivated#:#Inregistrarea a fost dezactivata
@@ -3258,7 +3519,7 @@ crs#:#crs_search_members#:#Cautati utilizatori
 crs#:#crs_search_str#:#Termen de cautare
 crs#:#crs_select_archive_language#:#Va rugam selectati o limba pentru arhiva
 crs#:#crs_select_one_archive#:#Va rugam selectati o arhiva
-crs#:#crs_settings#:#Setari de curs
+crs#:#crs_settings#:#Setari de curs###10 Jul 2006 content changed
 crs#:#crs_settings_saved#:#Setari salvate
 crs#:#crs_size#:#Marimea fisierului
 crs#:#crs_sort_activation#:#Sortati dupa activare
@@ -3282,9 +3543,30 @@ crs#:#crs_subscription_options_password#:#Inscriere cu parola###23 Dec 2005 cont
 crs#:#crs_subscription_requested#:#You have requested membership for the course.###23 Dec 2005 new variable
 crs#:#crs_subscription_successful#:#Ati fost inscris la acest curs###23 Dec 2005 content changed
 crs#:#crs_subscription_type#:#Tipul inscrierii
+crs#:#crs_suggestion_end#:#Suggested End###10 Jul 2006 new variable
 crs#:#crs_sure_delete_selected_archives#:#Sunteti sigur/a ca doriti sa stergeti arhivele selectate
 crs#:#crs_syllabus#:#Materie
 crs#:#crs_time#:#Perioada de inscrieri
+crs#:#crs_timings_availability_enabled#:#Temporarily Available###10 Jul 2006 new variable
+crs#:#crs_timings_availability_tbl#:#Availability###10 Jul 2006 new variable
+crs#:#crs_timings_changeable#:#Time Target Changeable###10 Jul 2006 new variable
+crs#:#crs_timings_disabled#:#Timings Disabled###10 Jul 2006 new variable
+crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.###10 Jul 2006 new variable
+crs#:#crs_timings_duration#:#Duration###10 Jul 2006 new variable
+crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
+crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
+crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
+crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
+crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
+crs#:#crs_timings_short_active#:#Enabled###10 Jul 2006 new variable
+crs#:#crs_timings_short_changeable#:#Changeable###10 Jul 2006 new variable
+crs#:#crs_timings_short_limit_start_end#:#Changeable From/Until###10 Jul 2006 new variable
+crs#:#crs_timings_short_start_end#:#Suggested Start/End###10 Jul 2006 new variable
+crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
+crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
+crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
+crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
 crs#:#crs_to#:#Catre:###03 Nov 2005 content changed
 crs#:#crs_tutor#:#Profesor
 crs#:#crs_tutor_no_notify#:#Profesor (fara notificare)
@@ -3304,8 +3586,100 @@ crs#:#crs_visibility_until#:#Vizibla (de la ... pina la)
 crs#:#crs_visibility_unvisible#:#Non-vizibila
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
 crs#:#crs_xml#:#XML
+crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
+crs#:#event_add_new_event#:#Added new event###10 Jul 2006 new variable
+crs#:#event_assign_materials#:#Assign Materials###10 Jul 2006 new variable
+crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.###10 Jul 2006 new variable
+crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
+crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
+crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
+crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
+crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
+crs#:#event_desc#:#Description###10 Jul 2006 new variable
+crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
+crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
+crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
+crs#:#event_file#:#File###10 Jul 2006 new variable
+crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
+crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
+crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
+crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
+crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
+crs#:#event_lecturer#:#Name###10 Jul 2006 new variable
+crs#:#event_location#:#Location###10 Jul 2006 new variable
+crs#:#event_participation#:#Participation###10 Jul 2006 new variable
+crs#:#event_register#:#Register###10 Jul 2006 new variable
+crs#:#event_registered#:#You have been registered to this event.###10 Jul 2006 new variable
+crs#:#event_registration#:#Registration###10 Jul 2006 new variable
+crs#:#event_registration_info#:#Allow users to register to the event.###10 Jul 2006 new variable
+crs#:#event_registration_participance#:#Registration###10 Jul 2006 new variable
+crs#:#event_save_participants#:#Save Participance###10 Jul 2006 new variable
+crs#:#event_start_date#:#Date###10 Jul 2006 new variable
+crs#:#event_table_create#:#New Event###10 Jul 2006 new variable
+crs#:#event_table_update#:#Edit Event###10 Jul 2006 new variable
+crs#:#event_tbl_participants#:#List of Participants###10 Jul 2006 new variable
+crs#:#event_tbl_participated#:#Participated###10 Jul 2006 new variable
+crs#:#event_tbl_registered#:#Registered###10 Jul 2006 new variable
+crs#:#event_time#:#Time###10 Jul 2006 new variable
+crs#:#event_title#:#Title###10 Jul 2006 new variable
+crs#:#event_tutor_data#:#Informations About the Lecturer ###10 Jul 2006 new variable
+crs#:#event_unregister#:#Unregister###10 Jul 2006 new variable
+crs#:#event_unregistered#:#You have been unregistered.###10 Jul 2006 new variable
+crs#:#event_updated#:#Saved Settings###10 Jul 2006 new variable
+crs#:#events#:#Events###10 Jul 2006 new variable
+crs#:#events_deleted#:#Event deleted###10 Jul 2006 new variable
 crs#:#import_crs#:#Import course###03 Nov 2005 new variable
+crs#:#timing_accept_table#:####10 Jul 2006 new variable
+crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
+crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
+crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
+crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
+crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
+crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
+crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
+crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
+crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Arhive
+dateplaner#:#DateText#:#Mesaj
+dateplaner#:#Day_long#:#Vizualizarea zilei
+dateplaner#:#ERROR_DATE_EXISTS#:#Data aceasta exista deja.
+dateplaner#:#ERROR_DB#:#Eroare de scriere in baza de date!
+dateplaner#:#ERROR_DB_CONNECT#:#Baza de date este deconectata.
+dateplaner#:#ERROR_DEL_MSG#:#Aceasta data exista deja. Doriti sa stergeti o data sau pe ambele
+dateplaner#:#ERROR_ENDDATE#:#Informatii gresite despre data limita. Formateaza: zz/ll/aaaa
+dateplaner#:#ERROR_ENDTIME#:#Termen limita gresit. Formatati: hh:mm
+dateplaner#:#ERROR_END_START#:#Informatii gresite despre data limita. Data limita este inaintea datei de incepere.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Va rugam folositi un fisier CSV valid.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>browser-ul dumneavoastra nu accepta JavaScript.<br />Va rugam inchideti aceasta fereastra dupa inserarea manuala.<br />Multumim</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Informatii gresite despre date limita de rotatie. Formateaza: zz/ll/aaaa
+dateplaner#:#ERROR_ROT_END_START#:#Informatii gresite despre date limita de rotatie. Datele limita se afla inaintea datei de incepere.
+dateplaner#:#ERROR_SHORTTEXT#:#Informatii gresite despre mesajele scurte. Sunt necesare masajele scurte.
+dateplaner#:#ERROR_STARTDATE#:#Informatii gresite despre data de incepere. Formateaza: zz/ll/aaaa
+dateplaner#:#ERROR_STARTTIME#:#Data de incepere gresita. Formateaza: hh:mm
+dateplaner#:#ERROR_TS#:#Formatare incorecta a datei
+dateplaner#:#Fr_long#:#Vineri
+dateplaner#:#Fr_short#:#Vi
+dateplaner#:#Language_file#:#Engleza
+dateplaner#:#Listbox_long#:#Listarea intrarilor
+dateplaner#:#Mo_long#:#Luni
+dateplaner#:#Mo_short#:#Lu
+dateplaner#:#Month_long#:#Vizualizarea lunii
+dateplaner#:#Sa_long#:#Sambata
+dateplaner#:#Sa_short#:#Sa
+dateplaner#:#Su_long#:#Duminica
+dateplaner#:#Su_short#:#Du
+dateplaner#:#Text#:#Text
+dateplaner#:#Th_long#:#Joi
+dateplaner#:#Th_short#:#Jo
+dateplaner#:#Tu_long#:#Marti
+dateplaner#:#Tu_short#:#Ma
+dateplaner#:#View#:#Vizualizare:
+dateplaner#:#We_long#:#Miercuri
+dateplaner#:#We_short#:#Mi
+dateplaner#:#Week_long#:#Vizualizarea saptamanii
 dateplaner#:#add_data#:#Date Aditionale
 dateplaner#:#app_#:#Inbox al intalnirilor grupului
 dateplaner#:#app_date#:#inserati data
@@ -3322,20 +3696,19 @@ dateplaner#:#back#:#inapoi
 dateplaner#:#begin_date#:#Data de Incepere
 dateplaner#:#busytime#:#timp ocupat in grup
 dateplaner#:#c_date#:#Stabiliti intilnire
-dateplaner#:#changedDates#:#Date schimbate
 dateplaner#:#changeTo#:#Schimbati in:
+dateplaner#:#changedDates#:#Date schimbate
 dateplaner#:#checkforfreetime#:#Verificati daca exista timp liber
 dateplaner#:#created#:#Creat
 dateplaner#:#date#:#Data
 dateplaner#:#date_format#:#l/z/a H:m
 dateplaner#:#date_format_middle#:#l/z/a
-dateplaner#:#DateText#:#Mesaj
-dateplaner#:#Day_long#:#Vizualizarea zilei
 dateplaner#:#del_all#:#stergeti toate datele
 dateplaner#:#del_one#:#stergeti o data
 dateplaner#:#delete#:#stergeti
 dateplaner#:#deletedDates#:#Date sterse
 dateplaner#:#discard#:#aruncati
+dateplaner#:#dv_Grouptime#:#timp liber
 dateplaner#:#dv_button_cancel#:#Anulati
 dateplaner#:#dv_button_delete#:#Stergeti
 dateplaner#:#dv_button_insert#:#Inserati
@@ -3345,7 +3718,6 @@ dateplaner#:#dv_date_end#:#Data de terminare:
 dateplaner#:#dv_date_hm#:#Ora:Minut
 dateplaner#:#dv_enddate#:#Data de terminare:
 dateplaner#:#dv_groupselect#:#Selectare Grup:
-dateplaner#:#dv_Grouptime#:#timp liber
 dateplaner#:#dv_groupview#:#Data Grup:
 dateplaner#:#dv_groupview_text#:#Grup:<br />
 dateplaner#:#dv_keywords#:#Cuvinte cheie:
@@ -3364,26 +3736,9 @@ dateplaner#:#dv_whole_day#:#Intreaga zi:
 dateplaner#:#dv_whole_rotation#:#Doriti sa stergeti toata seria de rotatie? (selectati)
 dateplaner#:#end_date#:#Data limita
 dateplaner#:#endtime_for_view#:#Data limita de vizualizare:
-dateplaner#:#ERROR_DATE_EXISTS#:#Data aceasta exista deja.
-dateplaner#:#ERROR_DB#:#Eroare de scriere in baza de date!
-dateplaner#:#ERROR_DB_CONNECT#:#Baza de date este deconectata.
-dateplaner#:#ERROR_DEL_MSG#:#Aceasta data exista deja. Doriti sa stergeti o data sau pe ambele
-dateplaner#:#ERROR_END_START#:#Informatii gresite despre data limita. Data limita este inaintea datei de incepere.
-dateplaner#:#ERROR_ENDDATE#:#Informatii gresite despre data limita. Formateaza: zz/ll/aaaa
-dateplaner#:#ERROR_ENDTIME#:#Termen limita gresit. Formatati: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Va rugam folositi un fisier CSV valid.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>browser-ul dumneavoastra nu accepta JavaScript.<br />Va rugam inchideti aceasta fereastra dupa inserarea manuala.<br />Multumim</CENTER></B>
 dateplaner#:#error_minical_img#:#Imaginea GD nu a putut fi creata
-dateplaner#:#ERROR_ROT_END_START#:#Informatii gresite despre date limita de rotatie. Datele limita se afla inaintea datei de incepere.
-dateplaner#:#ERROR_ROTATIONEND#:#Informatii gresite despre date limita de rotatie. Formateaza: zz/ll/aaaa
-dateplaner#:#ERROR_SHORTTEXT#:#Informatii gresite despre mesajele scurte. Sunt necesare masajele scurte.
-dateplaner#:#ERROR_STARTDATE#:#Informatii gresite despre data de incepere. Formateaza: zz/ll/aaaa
-dateplaner#:#ERROR_STARTTIME#:#Data de incepere gresita. Formateaza: hh:mm
-dateplaner#:#ERROR_TS#:#Formatare incorecta a datei
 dateplaner#:#execute#:#aplicati selectiile
 dateplaner#:#extra_dates#:#Date suplimentare
-dateplaner#:#Fr_long#:#Vineri
-dateplaner#:#Fr_short#:#Vi
 dateplaner#:#free#:#liber
 dateplaner#:#freetime#:#Timp liber in grup
 dateplaner#:#group#:#grup
@@ -3404,9 +3759,9 @@ dateplaner#:#help_group_l#:#Contine grupurile pentru care utilizatorul logat are
 dateplaner#:#help_inbox#:#Inbox al Calendarului
 dateplaner#:#help_inbox_l#:#Aici sunt afisate toate datele grupului noi, modificate sau sterse.
 dateplaner#:#help_keyword#:#Selectarea cuvantului cheie
-dateplaner#:#help_keyword_l#:#Contine toate cuvintele cheie pe care un utilizator le poate asocia cu date.
 dateplaner#:#help_keywordUse#:#Selectarea cuvantului cheie
 dateplaner#:#help_keywordUse_l#:#Alegeti unul sau mai multe cuvinte cheie din fereastra de dialog.<br />INDICIU: folositi tasta CTRL pentru a selecta mai multe intrari.
+dateplaner#:#help_keyword_l#:#Contine toate cuvintele cheie pe care un utilizator le poate asocia cu date.
 dateplaner#:#help_list#:#Lista datelor din calendar
 dateplaner#:#help_list_l#:#In lista datelor, sunt afisate toate datele dintr-o anume perioada de timp.
 dateplaner#:#help_month#:#Vizualizarea lunilor din calendar
@@ -3441,9 +3796,7 @@ dateplaner#:#k_alldates#:#toate datele
 dateplaner#:#keep#:#pastreaza
 dateplaner#:#keyword#:#Cuvant cheie
 dateplaner#:#keywords#:#Cuvinte cheie
-dateplaner#:#Language_file#:#Engleza
 dateplaner#:#last_change#:#Modificat ultima data in
-dateplaner#:#Listbox_long#:#Listarea intrarilor
 dateplaner#:#long_01#:#Ianuarie
 dateplaner#:#long_02#:#Februarie
 dateplaner#:#long_03#:#Martie
@@ -3459,16 +3812,13 @@ dateplaner#:#long_12#:#Decembrie
 dateplaner#:#main_dates#:#Datele Importante
 dateplaner#:#menue#:#Meniu
 dateplaner#:#mmonth#:#ultima luna
-dateplaner#:#Mo_long#:#Luni
-dateplaner#:#Mo_short#:#Lu
 dateplaner#:#month#:#luna
-dateplaner#:#Month_long#:#Vizualizarea lunii
 dateplaner#:#more#:#mai mult
 dateplaner#:#mweek#:#saptamana trecuta
 dateplaner#:#myeahr#:#anul trecut
-dateplaner#:#new_doc#:#creati data noua
 dateplaner#:#newDates#:#Date noi
 dateplaner#:#newKeyword#:#Nou:
+dateplaner#:#new_doc#:#creati data noua
 dateplaner#:#no_entry#:#nici o data disponibila
 dateplaner#:#o_day_date#:#Zi de 24h
 dateplaner#:#of#:#din
@@ -3489,8 +3839,6 @@ dateplaner#:#r_year#:#o data pe an
 dateplaner#:#readimportfile#:#insereaza
 dateplaner#:#rotation#:#Rotatie
 dateplaner#:#rotation_dates#:#Datele rotatiei
-dateplaner#:#Sa_long#:#Sambata
-dateplaner#:#Sa_short#:#Sa
 dateplaner#:#semester_name#:#Numele semestrului
 dateplaner#:#short_01#:#Ian
 dateplaner#:#short_02#:#Feb
@@ -3507,24 +3855,13 @@ dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Mesaj scurt
 dateplaner#:#singleDate#:#data unica
 dateplaner#:#starttime_for_view#:#Timpul de incepere al vizualizarii:
-dateplaner#:#Su_long#:#Duminica
-dateplaner#:#Su_short#:#Du
-dateplaner#:#Text#:#Text
-dateplaner#:#Th_long#:#Joi
-dateplaner#:#Th_short#:#Jo
 dateplaner#:#timedate#:#Timp / Data
 dateplaner#:#timeslice#:#Timp:
 dateplaner#:#title#:#calendar ILIAS
 dateplaner#:#to#:#catre
 dateplaner#:#today#:#azi
-dateplaner#:#Tu_long#:#Marti
-dateplaner#:#Tu_short#:#Ma
-dateplaner#:#View#:#Vizualizare:
 dateplaner#:#viewlist#:#vizualizare
-dateplaner#:#We_long#:#Miercuri
-dateplaner#:#We_short#:#Mi
 dateplaner#:#week#:#saptamana
-dateplaner#:#Week_long#:#Vizualizarea saptamanii
 dateplaner#:#year#:#an
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -3542,8 +3879,8 @@ forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new var
 forum#:#forums_download_attachment#:#Download fisier
 forum#:#forums_edit_post#:#Editeaza Articolul
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
-forum#:#forums_info_censor_post#:#Sunteti sigur/a ca doriti sa ascundeti acest articol?
 forum#:#forums_info_censor2_post#:#Revoc Cenzura?
+forum#:#forums_info_censor_post#:#Sunteti sigur/a ca doriti sa ascundeti acest articol?
 forum#:#forums_info_delete_post#:#Sunteti sigur/a ca doriti sa stergeti acest articol inclusiv raspunsurile?
 forum#:#forums_mark_read#:#Marcheaza toate ca citite
 forum#:#forums_new_entries#:#Intrari noi in forumuri
@@ -3587,6 +3924,20 @@ forum#:#frm_title_required#:#Va rugam introduceti un titlu.
 forum#:#is_read#:#marcati drept citit
 forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
+grp#:#grp_registration_unlimited#:#Unlimited registration period###10 Jul 2006 new variable
+ilinc#:#akclassvalue1#:#Cost center 1###10 Jul 2006 new variable
+ilinc#:#akclassvalue2#:#Cost center 2###10 Jul 2006 new variable
+ilinc#:#akclassvalues#:#Cost centers###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalue1#:#Cost center 1###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalue2#:#Cost center 2###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalues#:#Cost centers###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalues_desc#:#Enter here the code of the cost center(s) for this user. These values will be stored at the iLinc server.###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalues_refreshed#:#Cost centers updated###10 Jul 2006 new variable
+ilinc#:#ilinc_connection_error#:#Error: No connection to iLinc Server!###10 Jul 2006 new variable
+ilinc#:#ilinc_no_account_yet#:#No iLinc Account yet###10 Jul 2006 new variable
+ilinc#:#ilinc_user_added#:#User account created on iLinc server###10 Jul 2006 new variable
+ilinc#:#ilinc_user_id#:#iLinc UserID###10 Jul 2006 new variable
+ilinc#:#ilinc_user_settings#:#iLinc User settings###10 Jul 2006 new variable
 jscalendar#:#about_calendar#:#Despre calendar
 jscalendar#:#about_calendar_long#:#Selector de Data / Timp DHTML \n(c) dynarch.com 2002-2003\nPentru ultima versiune vizitati: http://dynarch.com/mishoo/calendar.epl\nDistribuit sub conditiile GNU LGPL.  Vezi http://gnu.org/licenses/lgpl.html pentru detalii.\n\nSelectarea datei:\n- Folositi butoanele Ã‚Â«, Ã‚Â» pentru a selecta anul\n- Folositi butoanele <, > pentru a selecta luna \n- Tineti apasat butonul de la mouse pe oricare din butoanele de mai sus pentru o selectare mai rapida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#about_time#:#\n\nSelectarea timpului:\n- Apasati pe oricare din diviziunile timpului pentru a-i mari valoarea\n- sau tineti apasat si shift pentru ai scadea valoarea\n- sau apasati si trageti pentru o selectare mai rapida. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -3649,6 +4000,8 @@ mail#:#also_as_email#:#De asemenea Email
 mail#:#bc#:#BCC
 mail#:#forward#:#Inaintati
 mail#:#linebreak#:#Numar caractere pe un rand
+mail#:#mail_account_mail#:#Account Mail###10 Jul 2006 new variable
+mail#:#mail_account_mail_check#:#Send Account Mail###10 Jul 2006 new variable
 mail#:#mail_add_recipient#:#Va rugam introduceti un destinatar
 mail#:#mail_add_subfolder#:#Adaugati sub-dosar
 mail#:#mail_add_subject#:#Va rugam introduceti un subiect
@@ -3699,6 +4052,18 @@ mail#:#mail_move_error#:#Eroare la mutarea mailului
 mail#:#mail_move_to#:#Mutati in:
 mail#:#mail_moved#:#Mailul a fost mutat
 mail#:#mail_moved_to_trash#:#Mailul a fost trimis la gunoi
+mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.###10 Jul 2006 new variable
+mail#:#mail_nacc_client_name#:#Client Name.###10 Jul 2006 new variable
+mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.###10 Jul 2006 new variable
+mail#:#mail_nacc_login#:#Login Account.###10 Jul 2006 new variable
+mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.###10 Jul 2006 new variable
+mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.###10 Jul 2006 new variable
+mail#:#mail_nacc_salutation#:#Salutation.###10 Jul 2006 new variable
+mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.###10 Jul 2006 new variable
+mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.###10 Jul 2006 new variable
+mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.###10 Jul 2006 new variable
+mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.###10 Jul 2006 new variable
+mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used###10 Jul 2006 new variable
 mail#:#mail_new_file#:#Adaugati un nou fisier:
 mail#:#mail_no_attach_allowed#:#Mesajele de sistem nu pot contine fisiere atasate
 mail#:#mail_no_attachments_found#:#Nu s-au gasit fisiere atasate
@@ -3708,11 +4073,15 @@ mail#:#mail_options_saved#:#Optiunile au fost salvate
 mail#:#mail_recipient_not_valid#:#Destinatarul nu este valabil
 mail#:#mail_s#:#Mail
 mail#:#mail_s_unread#:#Mailuri necitite
+mail#:#mail_salutation_female#:#Salutation, female###10 Jul 2006 new variable
+mail#:#mail_salutation_general#:#Salutation, general###10 Jul 2006 new variable
+mail#:#mail_salutation_male#:#Salutation, male###10 Jul 2006 new variable
 mail#:#mail_saved#:#Mesajul a fost salvat
 mail#:#mail_search_addressbook#:#Cautati in agenda
 mail#:#mail_search_system#:#Cautati in sistem
 mail#:#mail_select_one_entry#:#Trebuie sa selectati o intrare
 mail#:#mail_select_one_file#:#Trebuie sa selectati un fisier
+mail#:#mail_send_with_system_address#:#Send With System Address###10 Jul 2006 new variable
 mail#:#mail_sure_delete#:#Sunteti sigur/a ca doriti sa stergeti mailurile marcate
 mail#:#mail_sure_delete_entry#:#Sunteti sigur/a ca doriti sa stergeti urmatoarele intrari
 mail#:#mail_sure_delete_file#:#Fisierul va fi sters permanent
@@ -3722,6 +4091,9 @@ mail#:#mail_to_search#:#Pentru cautare
 mail#:#mail_user_addr_n_valid#:#Urmatorii utilizatori nu au adrese de email valabile
 mail#:#search_bc_recipient#:#Cautati destinatarul BCC
 mail#:#search_cc_recipient#:#Cautati destinatarul CC
+meta#:#md_days#:#Days:###10 Jul 2006 new variable
+meta#:#md_months#:#Month:###10 Jul 2006 new variable
+meta#:#md_time#:#Time:###10 Jul 2006 new variable
 meta#:#meta_accessibility_restrictions#:#Restrictionari ale accesului
 meta#:#meta_active#:#Activ
 meta#:#meta_add#:#Adaugati
@@ -3769,7 +4141,7 @@ meta#:#meta_c_CC#:#Insulele Cocos (Keeling)
 meta#:#meta_c_CF#:#Republica Centrala Africana
 meta#:#meta_c_CG#:#Congo
 meta#:#meta_c_CH#:#Elvetia
-meta#:#meta_c_CI#:#Coasta de Fildes
+meta#:#meta_c_CI#:#Coasta de Fildes###10 Jul 2006 content changed
 meta#:#meta_c_CK#:#Insulele Cook
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Cameroon
@@ -3842,12 +4214,12 @@ meta#:#meta_c_KH#:#Cambogia
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Comoros
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#Korea de Nord (Republica Populara Korea)
+meta#:#meta_c_KP#:#Korea de Nord (Republica Populara Korea)###10 Jul 2006 content changed
 meta#:#meta_c_KR#:#Korea de Sud (Republica Korea)
 meta#:#meta_c_KW#:#Kuweit
 meta#:#meta_c_KY#:#Insulele Cayman
 meta#:#meta_c_KZ#:#Kazahstan
-meta#:#meta_c_LA#:#Republica Populara Lao
+meta#:#meta_c_LA#:#Republica Populara Lao###10 Jul 2006 content changed
 meta#:#meta_c_LB#:#Liban
 meta#:#meta_c_LC#:#Saint Lucia
 meta#:#meta_c_LI#:#Lichtenstein
@@ -4269,26 +4641,25 @@ payment#:#pay_bmf_bank_code#:#Codul bancii
 payment#:#pay_bmf_card_holder#:#Titular card
 payment#:#pay_bmf_card_number#:#Numarul cardului
 payment#:#pay_bmf_check_number#:#Verificati numarul
-payment#:#pay_bmf_check_terms_conditions#:#Va rugam confirmati ca ati citit termenii si conditiile impuse si ca le acceptati.
+payment#:#pay_bmf_check_terms_conditions#:#Va rugam confirmati ca ati citit termenii si conditiile impuse si ca le acceptati.###10 Jul 2006 content changed
 payment#:#pay_bmf_credit_card#:#Card Credit
 payment#:#pay_bmf_credit_card_data#:#Card Credit
-payment#:#pay_bmf_credit_card_not_valid#:#Datele despre cordul de credit pe care le-ati introdus nu sunt valabile. Va rugam verificati daca ati completat toate campurile corect.
+payment#:#pay_bmf_credit_card_not_valid#:#Datele despre cordul de credit pe care le-ati introdus nu sunt valabile. Va rugam verificati daca ati completat toate campurile corect.###10 Jul 2006 content changed
 payment#:#pay_bmf_debit_entry#:#Debit (numai conturile germane)
 payment#:#pay_bmf_debit_entry_data#:#Date debit
-payment#:#pay_bmf_debit_entry_not_valid#:#Datele despre debit pe care le-ati introdus nu sunt valabile. Va rugam verificati daca ati completat toate campurile corect.
+payment#:#pay_bmf_debit_entry_not_valid#:#Datele despre debit pe care le-ati introdus nu sunt valabile. Va rugam verificati daca ati completat toate campurile corect.###10 Jul 2006 content changed
 payment#:#pay_bmf_description_credit_card#:# Va rugam verificati daca toate articolele pe care doriti sa le comandati sunt in cosul de cumparaturi. Completand datele despre cardul de credit si apasand butonul "Salvati" ne confirmati dorinta de a comanda, efectiva imediat. Verificarea datelor poate dura cateva secunde. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_debit_entry#:#Va rugam verificati daca toate articolele pe care doriti sa le cumparati sunt in cosul de cumparaturi. Completand datele despre debit si apasand butonul "Salvati" ne confirmati dorinta de a comanda, efectiva imediat. Verificarea datelor poate dura cateva secunde. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_description_payment_type#:#Va rugam selectati modalitatea de plata.
 payment#:#pay_bmf_description_personal_data#:#Va rugam completati in intregime formularul urmator.
 payment#:#pay_bmf_house_number#:#Numarul casei
-payment#:#pay_bmf_info#:#Accesul la urmatorul material nu este gratuit. Daca doriti sa obtineti accesul la anumite obiecte de studiu va rugam selectati un pret. Puteti cumpara unul sau mai multe obiecte de studiu folosind butonul "cos de cumparaturi" de pe desktopul personal.  Veti obtine accesul imediat la obiectul sau perioada alese. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#sau
-payment#:#pay_bmf_password_not_valid#:#Parola dumneavoastra nu a fost valabila.
+payment#:#pay_bmf_password_not_valid#:#Parola dumneavoastra nu a fost valabila.###10 Jul 2006 content changed
 payment#:#pay_bmf_payment_type#:#Modalitate de plata
-payment#:#pay_bmf_payment_type_not_valid#:#Modalitatea de plata nu este valabila. Va rugam selectati o alta optiune.
+payment#:#pay_bmf_payment_type_not_valid#:#Modalitatea de plata nu este valabila. Va rugam selectati o alta optiune.###10 Jul 2006 content changed
 payment#:#pay_bmf_personal_data#:#Datele dumneavoastra personale
-payment#:#pay_bmf_personal_data_not_valid#:#Datele dumneavoastra personale nu sunt valabile. Va rugam verificati daca ati completat toate campurile in mod corect.
+payment#:#pay_bmf_personal_data_not_valid#:#Datele dumneavoastra personale nu sunt valabile. Va rugam verificati daca ati completat toate campurile in mod corect.###10 Jul 2006 content changed
 payment#:#pay_bmf_please_select#:#Va rugam selectati
 payment#:#pay_bmf_po_box#:#Casuta postala
 payment#:#pay_bmf_server_error_code#:#Serverul de plati trimite cod de eroare
@@ -4297,13 +4668,14 @@ payment#:#pay_bmf_server_error_sysadmin#:#Va rugam contactati-l pe administrator
 payment#:#pay_bmf_shopping_cart_empty#:#Cosul dumneavoastra de cumparaturi este gol.
 payment#:#pay_bmf_street_or_pobox#:#Va rugam introduceti numarul strazii sau al casei sau casuta postala.
 payment#:#pay_bmf_terms_conditions#:#Termeni generali si conditii
-payment#:#pay_bmf_terms_conditions_read#:#Am citit termenii generali si conditiile si le accept.
+payment#:#pay_bmf_terms_conditions_read#:#Am citit termenii generali si conditiile si le accept.###10 Jul 2006 content changed
 payment#:#pay_bmf_terms_conditions_show#:#aratati
 payment#:#pay_bmf_thanks#:#Multumim. Comanda dumneavoastra a fost inregistrata.
 payment#:#pay_bmf_total_amount#:#Total
 payment#:#pay_bmf_validity#:#valabil pana la
 payment#:#pay_bmf_vat_included#:#TVA inclus
 payment#:#pay_bmf_your_order#:#Comanda dumneavoastra
+payment#:#pay_change_price#:#Change price/duration combination###10 Jul 2006 new variable
 payment#:#pay_click_to_buy#:#Cumparati acum
 payment#:#pay_confirm_order#:#Va rugam confirmati comanda prin introducerea parolei.
 payment#:#pay_customer_no#:#Client nr.
@@ -4316,6 +4688,7 @@ payment#:#pay_filter#:#Filtru
 payment#:#pay_goto_buyed_objects#:#Mergeti la obiecte cumparate
 payment#:#pay_goto_shopping_cart#:#Mergeti la cosul de cumparaturi
 payment#:#pay_header#:#Plata
+payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Ati pus deja acest obiect in cosul de cumparaturi
 payment#:#pay_item_already_in_sc_choose_another#:#Acest articol nu se afla inca in cosul dumneavoastra de cumparaturi. Va rugam sa selectati un pret sau o combinatie noua???
 payment#:#pay_locator#:#Plata
@@ -4330,9 +4703,20 @@ payment#:#pay_order_date_from#:#Data comenzii din
 payment#:#pay_order_date_til#:#Data comenzii pana
 payment#:#pay_payed_credit_card#:#Comanda a fost platita prin card de credit.
 payment#:#pay_payed_debit_entry#:#Comanda a fost paltita prin intrare debit.
+payment#:#pay_payed_paypal#:#The order was paid by PayPal.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_fails#:#PayPal reports errors that occured during the transaction.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_info#:#If necessary feel free to contact the system administrator of this ILIAS installation.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_not_completed#:#The transaction isn't totally completed yet.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_prev_trans_id#:#The transaction id given by PayPal was already used before.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_wrong_customer#:#Checking this transaction resulted in no match of the customer.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_wrong_items#:#Checking this transaction resulted in no match of the sold items.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_wrong_vendor#:#Checking this transaction resulted in no match of the vendor.###10 Jul 2006 new variable
+payment#:#pay_paypal_failed#:#Your puchase of ILIAS objects using PayPal failed!###10 Jul 2006 new variable
+payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.###10 Jul 2006 new variable
+payment#:#pay_paypal_unreachable#:#The connection to the payment server of PayPal failed.###10 Jul 2006 new variable
 payment#:#pay_reset_filter#:#Resetati filtru
 payment#:#pay_select_one_item#:#Va rugam selectati un obiect.
-payment#:#pay_select_price#:#Va rugam selectati un pret nou.
+payment#:#pay_select_price#:#Va rugam selectati un pret nou.###10 Jul 2006 content changed
 payment#:#pay_send_order#:#Trimiteti comanda
 payment#:#pay_shopping_cart_empty#:#Cosul de cumparaturi este gol.
 payment#:#pay_starting#:#incepand din
@@ -4349,7 +4733,7 @@ payment#:#paya_added_new_price#:#Pret nou creat
 payment#:#paya_added_trustee#:#Intermediar nou creat.
 payment#:#paya_bookings_available#:#Acest obiect a fost vandut. Va rugam stergeti toate datele statistice mai intai.
 payment#:#paya_buyable#:#Cumparabil
-payment#:#paya_buyed_objects#:#Obiecte cumparate
+payment#:#paya_buyed_objects#:#Obiecte cumparate###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Numar de cumparatori
 payment#:#paya_customer#:#Client
 payment#:#paya_delete_price#:#Stergeti pretul
@@ -4372,7 +4756,7 @@ payment#:#paya_header#:#Administrarea platilor
 payment#:#paya_insert_only_numbers#:#Va rugam introduceti doar numere intregi.
 payment#:#paya_locator#:#Administrarea platilor
 payment#:#paya_months#:#Luna
-payment#:#paya_no_booking_id_given#:#Eroare: nu s-a acordat nume de inregistrare
+payment#:#paya_no_booking_id_given#:#Eroare: nu s-a acordat nume de inregistrare###10 Jul 2006 content changed
 payment#:#paya_no_bookings#:#Nu exista date statistice disponibile.
 payment#:#paya_no_object_selected#:#Va rugam selectati un obiect.
 payment#:#paya_no_objects_assigned#:#Nu exista obiecte de vanzare.
@@ -4381,7 +4765,7 @@ payment#:#paya_no_prices_selected#:#Va rugam selectati un pret
 payment#:#paya_no_settings_necessary#:#Setarile nu sunt necesare pentru aceasta modalitate de plata
 payment#:#paya_no_trustees#:#Nu au fost creati intermediari.
 payment#:#paya_no_valid_login#:#Acest nume de utilizator nu este valabil.
-payment#:#paya_no_vendor_selected#:#Nu ati selectat un comerciant.
+payment#:#paya_no_vendor_selected#:#Nu ati selectat un comerciant.###10 Jul 2006 content changed
 payment#:#paya_not_assign_yourself#:#Nu va puteti desemna singur.
 payment#:#paya_not_buyable#:#Nu poate fi cumparat
 payment#:#paya_object#:#Obiecte
@@ -4419,6 +4803,7 @@ payment#:#pays_added_vendor#:#Adaugati comerciant nou
 payment#:#pays_address#:#Adresa facturii
 payment#:#pays_already_assigned_vendors#:#Urmatorii utilizatori au fost deja desemnati:
 payment#:#pays_assigned_vendors#:#Urmatorii utilizatori au fost deja desemnati pe lista comerciantului:
+payment#:#pays_auth_token#:#Unique token given by PayPal###10 Jul 2006 new variable
 payment#:#pays_bank_data#:#Date bancare pentru factura
 payment#:#pays_bill#:#Factura
 payment#:#pays_bmf#:#Ministerul de Finante
@@ -4429,8 +4814,10 @@ payment#:#pays_currency_unit#:#Moneda (ex. EUR)
 payment#:#pays_delete_vendor#:#Retrage utilizator
 payment#:#pays_deleted_number_vendors#:#Urmatorii comercianti au fost stersi:
 payment#:#pays_edit_vendor#:#Editati uilizator
+payment#:#pays_email_vendor#:#E-Mail address of the vendor###10 Jul 2006 new variable
+payment#:#pays_general#:#General###10 Jul 2006 new variable
 payment#:#pays_general_settings#:#Setari generale
-payment#:#pays_general_settings_not_valid#:#Setarile dumneavoastra generale nu sunt valabile. Va rugam verificati daca ati completat corect toate campurile.
+payment#:#pays_general_settings_not_valid#:#Setarile dumneavoastra generale nu sunt valabile. Va rugam verificati daca ati completat corect toate campurile.###10 Jul 2006 content changed
 payment#:#pays_header_select_vendor#:#Selectarea comerciantilor
 payment#:#pays_no_username_given#:#Nu s-a acordat nume de utilizator
 payment#:#pays_no_valid_username_given#:#Nu s-a acordat un nume de utilizator valabil
@@ -4438,14 +4825,22 @@ payment#:#pays_no_vendor_selected#:#Nu a fost selectat nici un comerciant
 payment#:#pays_number_bookings#:#rezervari valabile
 payment#:#pays_objects_bill_exist#:#Metoda de plata 'factura' este activata pentru unele obiecte. Prin urmare, nu poate fi dezactivata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_objects_bmf_exist#:#Metoda de plata 'BMF' este activata pentru unele obiecte. Prin urmare, nu poate fi dezactivata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_paypal_exist#:#Pay method 'PayPal' is activated for some objects. Therefore it can not be deactivated.###10 Jul 2006 new variable
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
+payment#:#pays_page_style#:#Page style###10 Jul 2006 new variable
 payment#:#pays_pay_methods#:#Modalitati de plata
+payment#:#pays_paypal#:#PayPal###10 Jul 2006 new variable
+payment#:#pays_paypal_settings#:#Settings for PayPal###10 Jul 2006 new variable
+payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid. Please check out whether all fields are filled out correctly.###10 Jul 2006 new variable
 payment#:#pays_pdf_path#:#Cale de generare factura ca fisier PDF
+payment#:#pays_server_host#:#Server host (e.g. www.paypal.com)###10 Jul 2006 new variable
+payment#:#pays_server_path#:#Path to the scripts (e.g. /cgi-bin/webscr)###10 Jul 2006 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Sunteti sigur/a ca doriti sa stergeti urmatorii comercianti?
 payment#:#pays_too_many_vendors_selected#:#Va rugam selectati doar un client caruia sa i se aplice aceasta actiune.
 payment#:#pays_updated_general_settings#:#Setarile dumneavoastra generale au fost reinnoite.
 payment#:#pays_updated_pay_method#:#Modalitate de plata reinnoita.
+payment#:#pays_updated_paypal_settings#:#Your settings for PayPal were updated.###10 Jul 2006 new variable
 payment#:#pays_user_already_assigned#:#Acest utilizator a fost deja desemnat pe lista comerciantului
 payment#:#pays_vat_rate#:#rata TVA in % (optional)
 payment#:#pays_vendor#:#Comerciant
@@ -4470,7 +4865,9 @@ rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
 rbac#:#filter_local_roles#:#Show only local roles of current context###23 Dec 2005 new variable
 rbac#:#filter_local_roles_object#:#Show only local roles defined at this position###23 Dec 2005 new variable
 rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position###23 Dec 2005 new variable
+rbac#:#info_user_view_changed#:#User view changed###10 Jul 2006 new variable
 rbac#:#leave#:#Leave###23 Dec 2005 new variable
+rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting###10 Jul 2006 new variable
 rbac#:#perm_administrate#:#Administrate###23 Dec 2005 new variable
 rbac#:#perm_class_create#:#Create new objects###23 Dec 2005 new variable
 rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.###23 Dec 2005 new variable
@@ -4484,7 +4881,40 @@ rbac#:#perm_local_role#:#Locale role###23 Dec 2005 new variable
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy#:#Use local policy###23 Dec 2005 new variable
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.###23 Dec 2005 new variable
+registration#:#reg_add_assignment#:#New Assignment###10 Jul 2006 new variable
+registration#:#reg_added_assignment#:#Added new assignment.###10 Jul 2006 new variable
+registration#:#reg_approve#:#Registration with Approvement###10 Jul 2006 new variable
+registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.###10 Jul 2006 new variable
+registration#:#reg_available_roles#:#Available Roles:###10 Jul 2006 new variable
+registration#:#reg_default#:#Default###10 Jul 2006 new variable
+registration#:#reg_deleted_assignment#:#Deleted assignment(s).###10 Jul 2006 new variable
+registration#:#reg_direct#:#Direct Registration###10 Jul 2006 new variable
+registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.###10 Jul 2006 new variable
+registration#:#reg_disabled#:#No Registration Possible###10 Jul 2006 new variable
+registration#:#reg_domain#:#Domain###10 Jul 2006 new variable
+registration#:#reg_email#:#Automatic Role Assignment###10 Jul 2006 new variable
+registration#:#reg_email_role_assignment#:#Role Assignment By Domain###10 Jul 2006 new variable
+registration#:#reg_fixed#:#Selection From Specified List###10 Jul 2006 new variable
+registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.###10 Jul 2006 new variable
+registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.###10 Jul 2006 new variable
+registration#:#reg_mail_body_profile#:#Profile data:###10 Jul 2006 new variable
+registration#:#reg_mail_body_profile_changed#:#your profile has changed !###10 Jul 2006 new variable
+registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.###10 Jul 2006 new variable
+registration#:#reg_mail_new_user_body#:#A new user has been registered.###10 Jul 2006 new variable
+registration#:#reg_missing_domain#:#Please fill out all fields.###10 Jul 2006 new variable
+registration#:#reg_missing_role#:#Please fill out all fields.###10 Jul 2006 new variable
+registration#:#reg_notification#:#Notifications###10 Jul 2006 new variable
+registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email.###10 Jul 2006 new variable
+registration#:#reg_role_assignment#:#Role Assignment###10 Jul 2006 new variable
+registration#:#reg_role_info#:#Assigned Roles###10 Jul 2006 new variable
+registration#:#reg_select_one#:#Please select one entry.###10 Jul 2006 new variable
+registration#:#reg_selectable_roles#:#Selectable Roles###10 Jul 2006 new variable
+registration#:#reg_settings_header#:#New Registration Settings###10 Jul 2006 new variable
+registration#:#reg_type#:#Registration Type###10 Jul 2006 new variable
+registration#:#reg_unknown_recipients#:#The following logins are not valid:###10 Jul 2006 new variable
+registration#:#registration_settings#:#New Registrations###10 Jul 2006 new variable
 search#:#add_members_header#:#Add members###02 Feb 2006 new variable
+search#:#append_results#:#Append results###10 Jul 2006 new variable
 search#:#search_active#:#Includeti utilizatorii activi
 search#:#search_all_results#:#Toate rezultatele
 search#:#search_and#:#si
@@ -4538,6 +4968,66 @@ search#:#search_select_one_result#:#Selectati cel putin un rezultat al cautarii
 search#:#search_select_one_select#:#--Selectati un dosar--
 search#:#search_show_result#:#Aratati
 search#:#search_user#:#Utilizatori
+style#:#sty_all#:#All###10 Jul 2006 new variable
+style#:#sty_background#:#Background###10 Jul 2006 new variable
+style#:#sty_background_attachment#:#Background Attachment###10 Jul 2006 new variable
+style#:#sty_background_color#:#Background Color###10 Jul 2006 new variable
+style#:#sty_background_image#:#Background Image###10 Jul 2006 new variable
+style#:#sty_background_position#:#Background Position###10 Jul 2006 new variable
+style#:#sty_background_repeat#:#Background Repeat###10 Jul 2006 new variable
+style#:#sty_border#:#Border###10 Jul 2006 new variable
+style#:#sty_border_color#:#Border Color###10 Jul 2006 new variable
+style#:#sty_border_style#:#Border Style###10 Jul 2006 new variable
+style#:#sty_border_width#:#Border Width###10 Jul 2006 new variable
+style#:#sty_bottom#:#Bottom###10 Jul 2006 new variable
+style#:#sty_clear#:#Clear###10 Jul 2006 new variable
+style#:#sty_color#:#Colour###10 Jul 2006 new variable
+style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles###10 Jul 2006 new variable
+style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? ###10 Jul 2006 new variable
+style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source###10 Jul 2006 new variable
+style#:#sty_create_ind_style#:#Create Individual Style###10 Jul 2006 new variable
+style#:#sty_create_new_stylesheet#:#Create new Style###10 Jul 2006 new variable
+style#:#sty_cursor#:#Cursor###10 Jul 2006 new variable
+style#:#sty_default_style#:#Default Style###10 Jul 2006 new variable
+style#:#sty_font_family#:#Font Family###10 Jul 2006 new variable
+style#:#sty_font_size#:#Font Size###10 Jul 2006 new variable
+style#:#sty_font_stretch#:#Font Stretch###10 Jul 2006 new variable
+style#:#sty_font_style#:#Font Style###10 Jul 2006 new variable
+style#:#sty_font_variant#:#Font Variant###10 Jul 2006 new variable
+style#:#sty_font_weight#:#Font Weight###10 Jul 2006 new variable
+style#:#sty_import_stylesheet#:#Import Style###10 Jul 2006 new variable
+style#:#sty_individual_style#:#Individual Style###10 Jul 2006 new variable
+style#:#sty_individual_styles#:#Individual Styles###10 Jul 2006 new variable
+style#:#sty_left#:#Left###10 Jul 2006 new variable
+style#:#sty_letter_spacing#:#Letter Spacing###10 Jul 2006 new variable
+style#:#sty_line_height#:#Line Height###10 Jul 2006 new variable
+style#:#sty_margin#:#Margin###10 Jul 2006 new variable
+style#:#sty_margin_and_padding#:#Margin and Padding###10 Jul 2006 new variable
+style#:#sty_move_lm_styles#:#Change Style of Learning Modules###10 Jul 2006 new variable
+style#:#sty_move_style#:#Change Style###10 Jul 2006 new variable
+style#:#sty_nr_learning_modules#:#Number of Learning Modules###10 Jul 2006 new variable
+style#:#sty_padding#:#Padding###10 Jul 2006 new variable
+style#:#sty_right#:#Right###10 Jul 2006 new variable
+style#:#sty_save_active_styles#:#Save Active Styles###10 Jul 2006 new variable
+style#:#sty_save_standard_styles#:#Save Standard Styles###10 Jul 2006 new variable
+style#:#sty_scope#:#Scope###10 Jul 2006 new variable
+style#:#sty_set_scope#:#Set Scope###10 Jul 2006 new variable
+style#:#sty_source#:#Source###10 Jul 2006 new variable
+style#:#sty_special#:#Special###10 Jul 2006 new variable
+style#:#sty_standard_style#:#Standard Style###10 Jul 2006 new variable
+style#:#sty_text#:#Text###10 Jul 2006 new variable
+style#:#sty_text_align#:#Text Alignment###10 Jul 2006 new variable
+style#:#sty_text_decoration#:#Text Decoration###10 Jul 2006 new variable
+style#:#sty_text_indent#:#Text Indentation###10 Jul 2006 new variable
+style#:#sty_text_transform#:#Text Transform###10 Jul 2006 new variable
+style#:#sty_top#:#Top###10 Jul 2006 new variable
+style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
+style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
+style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Adaugati categorie###03 Nov 2005 content changed
 survey#:#add_heading#:#Adaugati titlu de paragraf
 survey#:#add_limits_for_standard_numbers#:#Va rugam introduceti o limita inferioara si superioara pentru numarul standard de categorii pe care doriti sa le adaugati.###03 Nov 2005 content changed
@@ -4545,11 +5035,14 @@ survey#:#add_phrase#:#Adaugati fraza
 survey#:#add_phrase_introduction#:#VA rugam selectati o fraza:
 survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#Ati completat deja acest sondaj! Nu aveti permisiunea de a-l accesa din nou.###05 Feb 2006 content changed
-survey#:#anonymize_anonymous_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a obtine accesul la acest sondaj trebuie sa folositi codul de sondaj de 32 caractere pe care il puteti primi de la creatorul/supraveghetorul acestui sondaj<br />Va rugam introduceti codul in campul de mai jos.
+survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
+survey#:#anonymize_anonymous_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a obtine accesul la acest sondaj trebuie sa folositi codul de sondaj de 32 caractere pe care il puteti primi de la creatorul/supraveghetorul acestui sondaj<br />Va rugam introduceti codul in campul de mai jos.###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a vi se oferi accesul la acest sondaj a fost creat un cod de 32 caractere de catre sistem, care va va fi trimis in casuta de mail atunci cand incepeti completarea sondajului (dupa ce ati raspuns la prima intrebare). Codul dvs de acces in sondaj este<br /><span class="bold">%s</span><br />Va rugam introduceti codul in campul de mai jos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Va rugam introduceti codul de acces pentru a va reintoarce in sondaj. V-a fost trimis pe mail in momentul in care ati raspuns la prima intrebare.
 survey#:#anonymize_survey#:#Pastrati anonime datele de utilizator din sondaj
-survey#:#anonymize_survey_explanation#:#Cand este activat, toate datele despre utilizator vor ramane anonime si nu pot fi urmarite.
+survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
+survey#:#anonymize_without_code#:#Anonymization with free access to the survey###10 Jul 2006 new variable
 survey#:#anonymous_with_personalized_survey#:#Trebuie sa fiti utilizator inregistrat pentru a rula un sondaj personalizat!
 survey#:#answer#:#Raspuns
 survey#:#apply#:#Aplicati
@@ -4579,6 +5072,7 @@ survey#:#codes#:#Coduri de acces
 survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenare
 survey#:#confirm_delete_all_user_data#:#Sunteti sigur/a ca doriti sa stergeti toate datele despre utilizatori din sondaj?
+survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?###10 Jul 2006 new variable
 survey#:#confirm_remove_heading#:#Sunteti sigur/a ca doriti sa eliminati titlul de paragraf?
 survey#:#confirm_sync_questions#:#Intrebarea pe care ati schimbat-o este o copie creata pentru utilizarea in sondajul activ. Doriti sa modificati si intrebarea originala?
 survey#:#constraint_add#:#Add precondition###03 Nov 2005 new variable
@@ -4629,30 +5123,31 @@ survey#:#dc_varying#:#variabil
 survey#:#dc_verygood#:#foarte bine
 survey#:#dc_yes#:#da
 survey#:#define_questionblock#:#Definiti barajul de intrebari
+survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Jul 2006 new variable
 survey#:#description_maxchars#:#Daca nu s-a introdus nimic numarul maxim de caractere pentru acest raspuns este nelimitat.
 survey#:#disinvite#:#Invitati sa paraseasca###03 Nov 2005 content changed
 survey#:#display_all_available#:#Aratati tot disponibil
+survey#:#dp_standard_attitude_agree5#:#Atitudine standard (total de acord-de acord-nehotarat-in dezacord-total in dezacord)
 survey#:#dp_standard_attitude_agree_disagree#:#Atitudine standard (de acord-in dezacord)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Atitudine standard (de acord-nehotarat-in dezacord)
-survey#:#dp_standard_attitude_agree5#:#Atitudine standard (total de acord-de acord-nehotarat-in dezacord-total in dezacord)
+survey#:#dp_standard_attitude_desired5#:#Atitudine standard (foarte dorit-dorit-neutru-nedorit-nedorit cu siguranta)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Atitudine standard (dorit-neutru-nedorit)
 survey#:#dp_standard_attitude_desired_undesired#:#Atitudine standard (dorit-nedorit)
-survey#:#dp_standard_attitude_desired5#:#Atitudine standard (foarte dorit-dorit-neutru-nedorit-nedorit cu siguranta)
+survey#:#dp_standard_attitude_good5#:#Atitudine standard (foarte bine-bine-corect-slab-inacceptabil)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Atitudine standard (bine-corect-inacceptabil)
 survey#:#dp_standard_attitude_good_notacceptable#:#Atitudine standard (bine-inacceptabil)
-survey#:#dp_standard_attitude_good5#:#Atitudine standard (foarte bine-bine-corect-slab-inacceptabil)
 survey#:#dp_standard_attitude_must5#:#Atitudine standard (trebuie-ar trebui-nehotarat-ar trebui sa nu-trebuie sa nu)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Atitudine standard Standard (ar trebui-ar trebui sa nu)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Atitudine standard (ar trebui-nehotarat-ar trebui sa nu)
 survey#:#dp_standard_behaviour_certainly5#:#Comportament standard (cu siguranta-mai degraba pozitiv-nehotarat-mai degraba negativ-cu siguranta nu)
 survey#:#dp_standard_behaviour_yes_no#:#Comportament standard (da-nu)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Comportament standard (da-nehotarat-nu)
+survey#:#dp_standard_beliefs_always5#:#Pareri standard (intotdeauna-de multe ori-variabil-rareori-niciodata)
 survey#:#dp_standard_beliefs_always_never#:#Pareri standard (intotdeauna-niciodata)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Pareri standard (intotdeauna-uneori-niciodata)
-survey#:#dp_standard_beliefs_always5#:#Pareri standard (intotdeauna-de multe ori-variabil-rareori-niciodata)
+survey#:#dp_standard_beliefs_true5#:#Pareri standard (cu siguranta adevarat-adevarat-nehotarat-fals-cu siguranta fals)
 survey#:#dp_standard_beliefs_true_false#:#Pareri standard (adevarat-fals)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Pareri standard (adevarat-nehotarat-fals)
-survey#:#dp_standard_beliefs_true5#:#Pareri standard (cu siguranta adevarat-adevarat-nehotarat-fals-cu siguranta fals)
 survey#:#dp_standard_numbers#:#Numere standard
 survey#:#duplicate#:#Duplicat
 survey#:#duplicate_svy#:#Sondaj Duplicat
@@ -4673,6 +5168,7 @@ survey#:#eval_legend_link#:#Va rugam verificati legenda pentru a afla intelesul 
 survey#:#evaluation#:#Evaluare
 survey#:#evaluation_access#:#Acces la evaluare
 survey#:#evaluation_access_all#:#Evaluation access for all users###23 Dec 2005 new variable
+survey#:#evaluation_access_info#:#You have access to the survey evaluation###10 Jul 2006 new variable
 survey#:#evaluation_access_participants#:#Evaluation access for survey participants###23 Dec 2005 new variable
 survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
 survey#:#exit#:#Iesire
@@ -4707,7 +5203,7 @@ survey#:#invitation_mode#:#Mod de invitatie
 survey#:#invite_participants#:#Invitati participanti
 survey#:#invited_groups#:#Grupuri invitate
 survey#:#invited_users#:#Utilizatori invitati
-survey#:#label_resume_survey#:#Introduceti codul de sondaj de 32 caractere
+survey#:#label_resume_survey#:#Introduceti codul de sondaj de 32 caractere###10 Jul 2006 content changed
 survey#:#last_update#:#Ultima actualizare
 survey#:#legend#:#Legenda
 survey#:#lower_limit#:#Limita de jos
@@ -4722,7 +5218,7 @@ survey#:#median#:#Mediana
 survey#:#median_between#:#intre
 survey#:#menuback#:#Inapoi
 survey#:#menubacktosurvey#:#Inapoi la sondaj
-survey#:#message_mail_survey_id#:#Ati inceput un sondaj anonim &quot;%s&quot;. Pentru a reveni la sondaj aveti nevoie de urmetorul cod de 32 caractere:<br><br><strong>%s</strong><br><br>Intoarcerea la sondaj este posibila doar dacaati intrerupt sonbajul inainte de a-l termina.
+survey#:#message_mail_survey_id#:#Ati inceput un sondaj anonim &quot;%s&quot;. Pentru a reveni la sondaj aveti nevoie de urmetorul cod de 32 caractere:<br><br><strong>%s</strong><br><br>Intoarcerea la sondaj este posibila doar dacaati intrerupt sonbajul inainte de a-l termina.###10 Jul 2006 content changed
 survey#:#metric_question_floating_point#:#Valoarea introdusa este variabila. Valorile variabile nu sunt permise pentru acest tip de intrebari!
 survey#:#metric_question_not_a_value#:#Valoarea introdusa nu este numerica!
 survey#:#metric_question_out_of_bounds#:#Valoarea introdusa nu se afla intre minim si maxim!
@@ -4748,7 +5244,7 @@ survey#:#no_target_selected_for_move#:#Trebuie sa selectati o pozitie tinta!
 survey#:#no_user_or_group_selected#:#Va rugam selectati optiunea cautata (utilizatori si/sau grupuri)!
 survey#:#no_user_phrases_defined#:#Nu exista fraze definite de utilizator disponibile!
 survey#:#nominal_question_not_checked#:#Va rugam selectati unul din raspunsurile posibile oferite!
-survey#:#non_ratio#:#Non-Ratie
+survey#:#non_ratio#:#Non-Ratie###10 Jul 2006 content changed
 survey#:#not_used#:#nefolosit
 survey#:#obligatory#:#obligatoriu
 survey#:#off#:#oprit
@@ -4762,6 +5258,7 @@ survey#:#percentage_of_entered_values#:#Procentajul utilizatorilor care au intro
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Procentajul utilizatorilor care au selectat aceasta categorie###03 Nov 2005 content changed
 survey#:#phrase_saved#:#Fraza a fost salvata cu succes!
+survey#:#please_select#:#-- please select --###10 Jul 2006 new variable
 survey#:#predefined_users#:#Utilizatori predefiniti
 survey#:#preview#:#Previzualizare
 survey#:#previous_question_rows#:#<< Intrebarile %d - %d din %d
@@ -4781,10 +5278,6 @@ survey#:#qpl_questions_pasted#:#Intrebari lipite.
 survey#:#qpl_savephrase_empty#:#Va rugam introduceti un titlu de fraza!
 survey#:#qpl_savephrase_exists#:#Acest titlu de fraza exista deja! Va rugam introduceti un alt titlu de fraza.
 survey#:#qpl_unfold_select_none#:#Va rugam selectati cel putin un baraj de intrebari daca doriti sa-l folositi!
-survey#:#qt_metric#:#Intrebare metrica
-survey#:#qt_nominal#:#Intrebare nominala
-survey#:#qt_ordinal#:#Intrebare ordinala
-survey#:#qt_text#:#Intrebare text
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
 survey#:#question_has_constraints#:#Restrictionari###03 Nov 2005 content changed
 survey#:#question_icon#:#Question icon###06 Feb 2006 new variable
@@ -4801,6 +5294,7 @@ survey#:#questions_removed#:#Intrebarile sau barajele de intrebari eliminate!
 survey#:#questiontype#:#Tipul intrebarii
 survey#:#ratio_absolute#:#Ratie absoluta
 survey#:#ratio_non_absolute#:#Ratie non absoluta
+survey#:#ratio_scale_ge_zero#:#The minimum value for a ratio scale must be greater or equal zero###10 Jul 2006 new variable
 survey#:#remove_question#:#Eliminati
 survey#:#remove_questions#:#Sunteti sigur/a ca doriti sa eliminati urmatoarele intrebari si/sau baraje de intrebari din test?###04 Nov 2005 content changed
 survey#:#reset_filter#:#Resetati filtru
@@ -4845,16 +5339,20 @@ survey#:#survey_code#:#Cod de acces la sondaj
 survey#:#survey_code_message_sent#:#Un cod de acces care va permite revenirea la sondaj v-a fost trimis pe mail!
 survey#:#survey_code_no_codes#:#Inca nu ati creat nici un cod de acces la sondaj.
 survey#:#survey_code_used#:#Codul a fost folosit
+survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
+survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
 survey#:#survey_finish#:#Incheiati sondajul
 survey#:#survey_finished#:#Ati completat sondajul. Va multumim pentru participare!###05 Feb 2006 content changed
+survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Nu puteti incepe sondajul! Acesta este offline.
 survey#:#survey_next#:#urmatorul >>>
-survey#:#survey_offline_message#:#Nu puteti invita utilizatorii. Sondajul este offline!
+survey#:#survey_offline_message#:#Nu puteti invita utilizatorii. Sondajul este offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Sondajul este online. Nu puteti edita intrebarile din sondaj!
 survey#:#survey_previous#:#<<< precedentul
-survey#:#survey_question_obligatory#:#(Aceasta intrebare este obligatorie. Trebuie sa raspundeti la intrebare)
+survey#:#survey_question_obligatory#:#(Aceasta intrebare este obligatorie. Trebuie sa raspundeti la intrebare)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Intrebari
+survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#Sariti si termina sondajul
 survey#:#survey_skip_next#:#Sariti peste >>>
 survey#:#survey_skip_previous#:#<<< Sariti peste
@@ -4871,7 +5369,9 @@ survey#:#svy_eval_detail#:#Rezultate cumulate (detalii)
 survey#:#svy_eval_user#:#Rezultate specifice utilizatorului
 survey#:#svy_export_files#:#Exportati fisierele
 survey#:#svy_file#:#Fisier
-survey#:#svy_missing_author#:#Nu ati introdus numele autorului la drepturile de proprietate asupra sondajului! Va rugam adaugati numele autorului.
+survey#:#svy_general_properties#:#General properties###10 Jul 2006 new variable
+survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.###10 Jul 2006 new variable
+survey#:#svy_missing_author#:#Nu ati introdus numele autorului la drepturile de proprietate asupra sondajului! Va rugam adaugati numele autorului.###10 Jul 2006 content changed
 survey#:#svy_missing_questions#:#Nu exista nici o intrebare in sondaj! Va rugam adaugati cel putin o intrebare in sondaj.
 survey#:#svy_missing_title#:#Nu ati introdus un titlu pentru sondaj! Va rugam accesati sectiunea metadate si introduceti un titlu.
 survey#:#svy_page_error#:#Au aparut erori cand ati raspuns la intrebarea din sondaj. Va rugam verificati intrebarea pentru a obtine mai multe detalii!
@@ -4879,6 +5379,7 @@ survey#:#svy_page_errors#:#A aparut o eroare cand ati raspuns la intrebarile din
 survey#:#svy_select_file_for_import#:#Trebuie sa selectati un fisier pentru a-l importa!
 survey#:#svy_select_questionpools#:#Va rugam selectati o baza de intrebari unde sa stocati intrebarile importate
 survey#:#svy_select_surveys#:#Va rugam selectati un sondaj pentru duplicare
+survey#:#svy_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#svy_show_questiontitles#:#Aratati titlurile intrebarilor din sondaj
 survey#:#svy_size#:#Marimea
 survey#:#svy_statistical_evaluation#:#Evaluare statistica
@@ -4887,7 +5388,7 @@ survey#:#svy_status_missing_elements#:#Urmatoarele elemente lipsesc:
 survey#:#svy_status_ok#:#Starea sondajului este in regula. Nu lipsesc elemente.
 survey#:#text_maximum_chars_allowed#:#Va rugam nu introduceti mai mult de numarul maxim de elemente %s. Caracterele suplimentare vor fi sterse.
 survey#:#text_question_not_filled_out#:#Va rugam completati campul de raspuns!
-survey#:#text_resume_survey#:#Incercati sa reveniti intr-un sondaj anonimizat. Pentru a continua sondajul pastrand raspunsurile deja date va rugam introduceti codul de  32 caractere pe care l-ati primit la inceputul sondajului (care v-a fost trimil pe mail). In loc sa tastati codul puteti sa-l copiati din mail si sa-l lipiti in campul de text de mai jos.
+survey#:#text_resume_survey#:#Incercati sa reveniti intr-un sondaj anonimizat. Pentru a continua sondajul pastrand raspunsurile deja date va rugam introduceti codul de  32 caractere pe care l-ati primit la inceputul sondajului (care v-a fost trimil pe mail). In loc sa tastati codul puteti sa-l copiati din mail si sa-l lipiti in campul de text de mai jos.###10 Jul 2006 content changed
 survey#:#title_resume_survey#:#Intoarcere la sondaj â€“ Introduceti codul de sondaj
 survey#:#unfold#:#Desfasurati
 survey#:#unlimited_users#:#Nelimitat
@@ -4904,12 +5405,18 @@ survey#:#view_constraints_introduction#:#Vedeti restrictionarile pentru urmatoar
 survey#:#view_phrase#:#Vedeti fraza
 survey#:#warning_question_in_use#:#Avertisment! Intreberea pe care doriti sa o editati este folosita de sondajele de mai jos. Daca decideti sa continuati si salvati/aplicati intrebarea, toate raspunsurile din sondajele de mai jos vor fi sterse. Daca doriti sa schimbati intrebarea si sa o folositi intr-un alt sondaj va rugam duplicati-o in browser-ul de intrebari pentru a crea o copie a acestei intrebari.
 survey#:#warning_question_not_complete#:#Intrebarea nu este completa!
+trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
+trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
+trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable
+trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!###10 Jul 2006 new variable
+trac#:#info_found_objects#:#The user tracking refers to the following objects of the type '%s' that were found according to your search terms.###10 Jul 2006 new variable
 trac#:#info_valid_request#:#The maximum valid time between two requests of an user.###23 Dec 2005 new variable
 trac#:#last_login#:#Last login###23 Dec 2005 new variable
 trac#:#meta_typical_learning_time#:#Typical learning time###23 Dec 2005 new variable
 trac#:#newUT_settings#:#Learning Module Statistics###21 Feb 2006 new variable
 trac#:#obj_types#:#Object types:###23 Dec 2005 new variable
 trac#:#search_area_info#:#Please choose one object.###23 Dec 2005 new variable
+trac#:#search_terms#:#Search term(s)###10 Jul 2006 new variable
 trac#:#select_one#:#Please select one object###23 Dec 2005 new variable
 trac#:#stats_access#:#access###21 Feb 2006 new variable
 trac#:#stats_accesses#:#access###21 Feb 2006 new variable
@@ -5001,7 +5508,11 @@ trac#:#stats_until#:#until###21 Feb 2006 new variable
 trac#:#stats_user#:#User(s)###21 Feb 2006 new variable
 trac#:#stats_user_selected#:#User selected###21 Feb 2006 new variable
 trac#:#stats_with#:#with###21 Feb 2006 new variable
+trac#:#total_dwell_time#:#Total dwell time###10 Jul 2006 new variable
 trac#:#trac_activated#:#Tracking activated###23 Dec 2005 new variable
+trac#:#trac_active_both#:#User Tracking and Learning progress activated###10 Jul 2006 new variable
+trac#:#trac_active_lp_only#:#Learning Progress activated###10 Jul 2006 new variable
+trac#:#trac_active_ut_only#:#User Tracking activated###10 Jul 2006 new variable
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###20 Jan 2006 new variable
 trac#:#trac_anonymized#:#Anonymized###23 Dec 2005 new variable
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
@@ -5016,7 +5527,9 @@ trac#:#trac_completed#:#Completed###23 Dec 2005 new variable
 trac#:#trac_crs_assignments#:#Assignment of course items###25 Feb 2006 new variable
 trac#:#trac_crs_items#:#Assignable course items###25 Feb 2006 new variable
 trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
+trac#:#trac_crs_objects#:#Learning progress of course members###10 Jul 2006 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
+trac#:#trac_crs_relevant_items#:#Course Materials###10 Jul 2006 new variable
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
@@ -5028,19 +5541,26 @@ trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please u
 trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
+trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
+trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated###10 Jul 2006 new variable
 trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
 trac#:#trac_lm_statistics#:#Access Statistics###21 Feb 2006 new variable
+trac#:#trac_lp_determination#:#Learning Progress Status Determination###10 Jul 2006 new variable
+trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status of the course.###10 Jul 2006 new variable
+trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.###10 Jul 2006 new variable
 trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
 trac#:#trac_mark#:#Mark###23 Dec 2005 new variable
 trac#:#trac_marks#:#Marks###23 Dec 2005 new variable
 trac#:#trac_mode#:#Mode###23 Dec 2005 new variable
 trac#:#trac_mode_collection#:#Collection of objects###23 Dec 2005 new variable
 trac#:#trac_mode_deactivated#:#Deactivated###23 Dec 2005 new variable
+trac#:#trac_mode_exercise_returned#:#Exercise returned###10 Jul 2006 new variable
 trac#:#trac_mode_manual#:#Manual###23 Dec 2005 new variable
 trac#:#trac_mode_objectives#:#Learning objectives###23 Dec 2005 new variable
 trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
@@ -5064,6 +5584,7 @@ trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
 trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
+trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
@@ -5076,6 +5597,7 @@ trac#:#trac_show#:#Show learning progress###28 Feb 2006 new variable
 trac#:#trac_show_hidden#:#Show###23 Dec 2005 new variable
 trac#:#trac_spent_time#:#Spent time###23 Dec 2005 new variable
 trac#:#trac_status#:#Status###23 Dec 2005 new variable
+trac#:#trac_time_passed#:#Editing Time Exceeded###10 Jul 2006 new variable
 trac#:#trac_total_online#:#Total time online###23 Dec 2005 new variable
 trac#:#trac_update_edit_user#:#Saved settings###23 Dec 2005 new variable
 trac#:#trac_updated_status#:#Saved learning progress status.###24 Jan 2006 new variable
@@ -5087,3 +5609,7 @@ trac#:#trac_view_list#:#Back to list###23 Dec 2005 new variable
 trac#:#trac_visits#:#Number of visits###23 Dec 2005 new variable
 trac#:#trac_visits_info#:#Every page visit counts as one visit.###23 Dec 2005 new variable
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.###23 Dec 2005 new variable
+trac#:#view_mode#:#View mode###10 Jul 2006 new variable
+trac#:#vm_access_of_users#:#Access of users###10 Jul 2006 new variable
+trac#:#vm_days_of_period#:#Days of period###10 Jul 2006 new variable
+trac#:#vm_times_of_day#:#Times of days###10 Jul 2006 new variable

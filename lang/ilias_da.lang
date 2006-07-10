@@ -44,7 +44,7 @@ administration#:#clean#:#Ryd op
 administration#:#clean_desc#:#Fjern ugyldige referencer og tr&aelig; indgange. Luk huller i tr&aelig; strukturen.
 administration#:#cleaning#:#Renser....
 administration#:#cleaning_final#:#Sidste rensning...
-administration#:#disabled#:#Ikke gyldig
+administration#:#disabled#:#Ikke gyldig###10 Jul 2006 content changed
 administration#:#done#:#F&aelig;rdig
 administration#:#dump_tree#:#Drop Tr&aelig;
 administration#:#dump_tree_desc#:#Lav en analyse af tr&aelig;et og print alle under noderne sammen med analyseret data
@@ -102,8 +102,8 @@ administration#:#view_log#:#Se detaljer
 assessment#:#0_unlimited#:#(0=uendelig)
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Tilf&oslash;j svar
-assessment#:#add_answer_tf#:#Tilf&oslash;j sandt/falsk svar
-assessment#:#add_answer_yn#:#Tilf&oslash;j ja/nej svar
+assessment#:#add_answer_tf#:#Tilf&oslash;j sandt/falsk svar###10 Jul 2006 content changed
+assessment#:#add_answer_yn#:#Tilf&oslash;j ja/nej svar###10 Jul 2006 content changed
 assessment#:#add_applet_parameter#:#Tilf&oslash;j applet parameter
 assessment#:#add_area#:#Tilf&oslash;j omr&aring;de
 assessment#:#add_gap#:#Tilf&oslash;j hul tekst
@@ -122,12 +122,22 @@ assessment#:#applet_new_parameter#:#Ny parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Anvend parametere
 assessment#:#apply#:#Tilf&oslash;j
+assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
+assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
+assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
+assessment#:#assMatchingQuestion#:#Matching Question###10 Jul 2006 new variable
+assessment#:#assMultipleChoice#:#Multiple Choice Question (multiple response)###10 Jul 2006 new variable
+assessment#:#assNumeric#:#Numeric question###10 Jul 2006 new variable
+assessment#:#assOrderingQuestion#:#Ordering Question###10 Jul 2006 new variable
+assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
+assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
+assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
+assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
 assessment#:#ass_create_export_file#:#Opret eksport fil
 assessment#:#ass_create_export_test_results#:#Ekporter test resulter
 assessment#:#ass_export_files#:#Exporter filer
 assessment#:#ass_file#:#Fil
 assessment#:#ass_question#:#Sp&oslash;rgsm&aring;l
-assessment#:#ass_questions#:#Sp&oslash;rgsm&aring;l
 assessment#:#ass_size#:#St&oslash;rrelse
 assessment#:#available_points#:#Tilg&aelig;ngelige point
 assessment#:#average_reached_points#:#Gennemsnitlig n&aring;et point
@@ -143,6 +153,8 @@ assessment#:#cannot_maintain_test#:#Du er ikke i besiddelse af de rigtige rettig
 assessment#:#cannot_read_questionpool#:#Du har ikke rettighder til at l&aelig;se dat&aelig;n fra sp&oslash;rgsm&aring;ls gruppen
 assessment#:#cannot_save_metaobject#:#Du er ikke i besiddelse af de rigtige rettigheder til at gemme meta data!
 assessment#:#change_solution#:#&aelig;ndre foresl&aring;et l&oslash;sning
+assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.###10 Jul 2006 new variable
+assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
 assessment#:#checkbox_checked#:#Kontrolleret ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#checkbox_unchecked#:#Uchecket
 assessment#:#circle#:#Cirkel
@@ -156,6 +168,7 @@ assessment#:#cloze_textgap_case_sensitive#:#Case sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s
 assessment#:#cloze_textgap_rating#:#Text gap rating
 assessment#:#code#:#Kode
+assessment#:#codebase#:#Codebase###10 Jul 2006 new variable
 assessment#:#concatenation#:#Sams&aelig;t data
 assessment#:#confirm_delete_all_user_data#:#Er du sikker p&aring; at du vil slette alle brugerdata fra denne test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?
@@ -169,15 +182,20 @@ assessment#:#create_imagemap#:#Opret et Image kort
 assessment#:#create_new#:#Opret ny
 assessment#:#definition#:#Definition
 assessment#:#delete_area#:#Slet omr&aring;de
+assessment#:#delete_image#:#Delete image###10 Jul 2006 new variable
 assessment#:#delete_user_data#:#Delete test data of the selected users
 assessment#:#description_maxchars#:#Hvis ingen ting er indtastet er det maximum antal af karakter for denne text ubegr&aelig;nset
-assessment#:#detail_ending_time_reached#:#Du er n&aring;et til sluttidspunktet for denne test. Testen er ikke tilg&aelig;ngelig efter %s
+assessment#:#detail_ending_time_reached#:#Du er n&aring;et til sluttidspunktet for denne test. Testen er ikke tilg&aelig;ngelig efter %s###10 Jul 2006 content changed
 assessment#:#detail_max_processing_time_reached#:#Du har n&aring;et maximum brugen af til for denne test!
 assessment#:#detail_starting_time_not_reached#:#Du har ikke n&aring;et start tidspunktet for denne test. Testen er tilg&aelig;ngelig efter %s
+assessment#:#detailed_output#:#Detailed output###10 Jul 2006 new variable
+assessment#:#detailed_output_printview#:#Detailed output with question printviews###10 Jul 2006 new variable
+assessment#:#detailed_output_solutions#:#Detailed output with question solutions###10 Jul 2006 new variable
 assessment#:#direct_feedback#:#Godkend din l&oslash;sning
 assessment#:#duplicate#:#Kopier
 assessment#:#duplicate_matching_values_selected#:#Du har valgt at kopiere ens v&aelig;rdier!
 assessment#:#duplicate_order_values_entered#:#Du har indtastet ens v&aelig;rdier!
+assessment#:#duplicate_qpl#:#Duplicate question pool for test###10 Jul 2006 new variable
 assessment#:#duplicate_tst#:#Kopier test
 assessment#:#ects_allow_ects_grades#:#Vis ECTS karakter sammen med modtaget m&aelig;rke
 assessment#:#ects_fill_out_all_values#:#Indtast venligst en v&aelig;rdi for hver ECTS karakter!
@@ -208,6 +226,9 @@ assessment#:#edit_content#:#Rediger indhold
 assessment#:#edit_properties#:#Rediger Egenskaber
 assessment#:#end_tag#:#Afslut
 assessment#:#ending_time_reached#:#Du har n&aring;et slut tidspunktet
+assessment#:#enlarge#:#enlarge###10 Jul 2006 new variable
+assessment#:#enter_anonymous_code#:#Enter anonymous access code###10 Jul 2006 new variable
+assessment#:#enter_enough_positive_points#:#The maxium available points for the question must be greater than 0! Please enter sufficient non negative points for your answers.###10 Jul 2006 new variable
 assessment#:#error_image_upload_copy_file#:#Der opstod en fejl da du ville flytte den uploadede image fil til dens destinationsmappe!
 assessment#:#error_image_upload_wrong_format#:#Upload venligst en gyldig image fil! Underst&aring;tede formater er gif, jpeg og png.
 assessment#:#error_importing_question#:#Der opstod en fejl ved importen af sp&oslash;rgsm&aring;lende fra den fil du har valgt!
@@ -252,10 +273,14 @@ assessment#:#filter_all_question_types#:#Alle sp&oslash;rgsm&aring;ls typer
 assessment#:#filter_all_questionpools#:#Alle sp&oslash;rgsm&aring;ls grupper
 assessment#:#filter_show_question_types#:#Vis sp&oslash;rgsm&aring;ls typer
 assessment#:#filter_show_questionpools#:#Vis sp&oslash;rgsm&aring;ls grupper
+assessment#:#filter_users#:#Filter users###10 Jul 2006 new variable
 assessment#:#gap#:#Hul
 assessment#:#gap_definition#:#Hul definitation
 assessment#:#gap_selection#:#Hul valg
 assessment#:#glossary_term#:#Ordbogs forklaring
+assessment#:#graphical_answers#:#Graphical answer support###10 Jul 2006 new variable
+assessment#:#graphical_answers_hide#:#Hide graphical answer support###10 Jul 2006 new variable
+assessment#:#graphical_answers_show#:#Show graphical answer support###10 Jul 2006 new variable
 assessment#:#height#:#H&oslash;jde
 assessment#:#imagemap#:#Billed mappe
 assessment#:#imagemap_file#:#Billed mappe fil
@@ -266,12 +291,11 @@ assessment#:#insert_after#:#Inds&aelig;t efter
 assessment#:#insert_before#:#Inds&aelig;t f&oslash;r
 assessment#:#internal_links#:#Internal Links
 assessment#:#internal_links_update#:#Opdater
-assessment#:#jav&aring;pplet#:#Java Applet
-assessment#:#jav&aring;pplet_successful_saved#:#Dine resultater er blevet gemt!
-assessment#:#jav&aring;pplet_unsuccessful_saved#:#Der opstod en fejl da du ville gemme dine resultater!
+assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.###10 Jul 2006 new variable
 assessment#:#last_update#:#Sennest opdateret
 assessment#:#legend#:#Legend
 assessment#:#locked#:#l&aring;st
+assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached###10 Jul 2006 new variable
 assessment#:#log_create_new_test#:#Opret ny test
 assessment#:#log_mark_added#:#M&aelig;rke tilf&oslash;jet
 assessment#:#log_mark_changed#:#M&aelig;rke &aelig;ndret
@@ -281,34 +305,50 @@ assessment#:#log_no_test_fields_changed#:#Gemt, men intet er &aelig;ndret
 assessment#:#log_question_added#:#Sp&oslash;rgsm&aring;l tilf&oslash;jet p&aring; dene plads
 assessment#:#log_question_position_changed#:#Sp&oslash;rgsm&aring;l plads &aelig;ndret
 assessment#:#log_question_removed#:#Sp&oslash;rgsm&aring;l fjernet
+assessment#:#log_random_question_pool_added#:#Added the question pool '%s' with %s questions for the random test###10 Jul 2006 new variable
+assessment#:#log_random_question_pool_deleted#:#Removed all random question pools for the test###10 Jul 2006 new variable
 assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
+assessment#:#log_total_amount_of_questions#:#Set the total amount of questions for the random test to %s###10 Jul 2006 new variable
 assessment#:#log_user_answered_question#:#User answered a question and received %s points
 assessment#:#log_user_data_removed#:#Fjernet alt bruger data
+assessment#:#log_user_entered_values#:#User entered values###10 Jul 2006 new variable
+assessment#:#log_user_not_entered_values#:#User did not enter values###10 Jul 2006 new variable
 assessment#:#maintenance#:#Vedligeholdese
 assessment#:#mark_schema#:#M&aelig;rke skema
 assessment#:#match_terms_and_definitions#:#Sammens&aelig;t forklaring og defination
 assessment#:#match_terms_and_pictures#:#Sammens&aelig;t forklaring og billede
 assessment#:#matches#:#Sammens&aelig;t
 assessment#:#matching_pair#:#Matchende par
+assessment#:#matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###10 Jul 2006 new variable
 assessment#:#material#:#Materialer
 assessment#:#material_download#:#Materialler til download
 assessment#:#material_file#:#Materialle fil
 assessment#:#maxchars#:#Maximum antal karakter
 assessment#:#maximum_nr_of_tries_reached#:#Du har n&aring;et maximum antallet af fors&oslash;g for denne test. Testen kan ikke &aring;bnes!
+assessment#:#maximum_points#:#Maxium available points###10 Jul 2006 new variable
 assessment#:#meaning#:#Mening
-assessment#:#min_percentage_ne_0#:#Du skal angive et minimum procentdel af 0 procent! M&aelig;rke skem&aelig;t er ikke gemt!
+assessment#:#min_percentage_ne_0#:#Du skal angive et minimum procentdel af 0 procent! M&aelig;rke skem&aelig;t er ikke gemt!###10 Jul 2006 content changed
+assessment#:#multiline_answers_hide#:#Use single-line answers###10 Jul 2006 new variable
+assessment#:#multiline_answers_show#:#Use multi-line answers###10 Jul 2006 new variable
+assessment#:#multiline_terms_hide#:#Use single-line terms###10 Jul 2006 new variable
+assessment#:#multiline_terms_show#:#Use multi-line terms###10 Jul 2006 new variable
 assessment#:#negative_points_not_allowed#:#Det er ikke muligt at indtaste minus point!
 assessment#:#next_question_rows#:#Sp&oslash;rgsm&aring;l %d - %d af %d >>
-assessment#:#no_passed_mark#:#Du skal s&aelig;tte mindst et m&aelig;rke som best&aring;et! M&aelig;rke skem&aelig;t er ikke gemt.
+assessment#:#no_passed_mark#:#Du skal s&aelig;tte mindst et m&aelig;rke som best&aring;et! M&aelig;rke skem&aelig;t er ikke gemt.###10 Jul 2006 content changed
 assessment#:#no_question_selected_for_move#:#Marker venligst et sp&oslash;rgs&aring;l for at flytte det!
 assessment#:#no_questions_available#:#Der er ikke nogen sp&oslash;rgsm&aring;l tilg&aelig;ngelige!
 assessment#:#no_target_selected_for_move#:#Du skal v&aelig;lge en possition!
 assessment#:#no_user_or_group_selected#:#Tjek den indstilling du s&oslash;ger efter (bruger og/eller grupper)!
+assessment#:#not_worked_through#:#Not answered###10 Jul 2006 new variable
+assessment#:#nr_of_correct_answers#:#Number of requested answers###10 Jul 2006 new variable
 assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.
+assessment#:#optional_keywords#:#Optional input of keywords###10 Jul 2006 new variable
 assessment#:#or#:#eller
 assessment#:#order_pictures#:#Bestil billeder
 assessment#:#order_terms#:#Bestil forklaring
+assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###10 Jul 2006 new variable
+assessment#:#output_mode#:#Output mode###10 Jul 2006 new variable
 assessment#:#participants#:#Participants
 assessment#:#pass#:#Pass
 assessment#:#passed_official#:#best&aring;et
@@ -317,8 +357,11 @@ assessment#:#percentage_solved#:#Du har l&oslash;st %.2f procent af disse sp&osl
 assessment#:#percentile#:#Procentvis
 assessment#:#picture#:#Picture
 assessment#:#please_select#:#-- V&aelig;lg venligst --
+assessment#:#point#:#Point###10 Jul 2006 new variable
 assessment#:#points#:#Point
+assessment#:#points_checked#:#Points when checked###10 Jul 2006 new variable
 assessment#:#points_short#:#Pt.
+assessment#:#points_unchecked#:#Points when unchecked###10 Jul 2006 new variable
 assessment#:#polygon#:#Polygon
 assessment#:#polygon_click_next_or_save#:#Klik venligst p&aring; det n&aelig;ste punkt p&aring; polygonen eller gem omr&aring;det. (Det er ikke n&oslash;dvendigt at klikke igen p&aring; startpunktet!)
 assessment#:#polygon_click_next_point#:#Klik venligst p&aring; n&aelig;ste punkt p&aring; polygonen.
@@ -328,13 +371,17 @@ assessment#:#postponed#:#udskydt
 assessment#:#preview#:#Eksempel
 assessment#:#previous_question_rows#:#<< Sp&oslash;rgsm&aring;l %d - %d af %d
 assessment#:#print_answers#:#Print Svar
+assessment#:#print_view#:#Print view###10 Jul 2006 new variable
+assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!###10 Jul 2006 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Der er ingen sp&oslash;rgsm&aring;l tilg&aelig;ngelige for det valgte sp&oslash;rgsm&aring;l. Sp&oslash;rgsm&aring;let blev aldrig brugt i en test
 assessment#:#qpl_assessment_of_questions#:#Tildeling af sp&oslash;rgsm&aring;l
 assessment#:#qpl_assessment_total_of_answers#:#Total antal svar
 assessment#:#qpl_assessment_total_of_right_answers#:#Total procentdel af korrekte svar (procentdel af maximum point)
-assessment#:#qpl_confirm_delete_questions#:#Er du sikker p&aring; du vil slette f&oslash;lgende sp&oslash;rgsm&aring;l? Hvis du sletter l&aring;ste sp&oslash;rgsm&aring;l vil resultater af alle test der bruger et l&aring;st sp&oslash;rgsm&aring;l ogs&aring; blive slettet.
+assessment#:#qpl_confirm_delete_questions#:#Er du sikker p&aring; du vil slette f&oslash;lgende sp&oslash;rgsm&aring;l? Hvis du sletter l&aring;ste sp&oslash;rgsm&aring;l vil resultater af alle test der bruger et l&aring;st sp&oslash;rgsm&aring;l ogs&aring; blive slettet.###10 Jul 2006 content changed
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
+assessment#:#qpl_delete_describe_undeleteable_questions#:#The following questions are in use in random tests. You cannot delete these questions:###10 Jul 2006 new variable
+assessment#:#qpl_delete_no_deleteable_questions#:#All questions you tried to delete are in use in a random test###10 Jul 2006 new variable
 assessment#:#qpl_delete_rbac_error#:#Du har ikke rettigheder til at slette dette sp&oslash;rgsm&aring;l!
 assessment#:#qpl_delete_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l for at slette det
 assessment#:#qpl_display_fullsize_image#:#Klik her for at se det originale billed!
@@ -342,9 +389,11 @@ assessment#:#qpl_duplicate_select_none#:#Marker venligst et sp&oslash;rgsm&aring
 assessment#:#qpl_edit_rbac_error#:#Du har ikke rettigheder til at &aelig;ndre i dette sp&oslash;rgsm&aring;l!
 assessment#:#qpl_edit_select_multiple#:#Marker venligst kun et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_edit_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l at &aelig;ndre
+assessment#:#qpl_export_excel#:#Microsoft Excel file###10 Jul 2006 new variable
 assessment#:#qpl_export_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l for at eksportere det
+assessment#:#qpl_export_xml#:#QTI XML file###10 Jul 2006 new variable
 assessment#:#qpl_general_properties#:#General properties
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS kunne ikke oprette temp preview fil som indeholder billedekort over omr&aring;det. The originale billede er vist istedet. Det betyder at webserverens ImageMagick tool ikke er konfiguret rigtigt eller der er ikke nogen skrive rettigheder til den temp mappe! Kontakt din system administrator.
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS kunne ikke oprette temp preview fil som indeholder billedekort over omr&aring;det. The originale billede er vist istedet. Det betyder at webserverens ImageMagick tool ikke er konfiguret rigtigt eller der er ikke nogen skrive rettigheder til den temp mappe! Kontakt din system administrator.###10 Jul 2006 content changed
 assessment#:#qpl_import_create_new_qpl#:#Importer sp&oslash;gsm&aring;let i en ny sp&oslash;rgsm&aring;ls gruppe
 assessment#:#qpl_import_no_items#:#Fejl: Import filen indeholder ingen sp&oslash;rgsm&aring;l
 assessment#:#qpl_import_non_ilias_files#:#Fejl: Import filen indeholder QTI filer som ikke er oprettet af ILIAS systemet. KOntakt ILIAS gruppen for at f&aring; import filteret for din QTI fil.
@@ -352,21 +401,13 @@ assessment#:#qpl_import_verify_found_questions#:#ILIAS fandt f&oslash;lgende sp&
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
 assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
 assessment#:#qpl_online_property#:#Online
-assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.
+assessment#:#qpl_online_property_description#:#If the questionpool is not online, it cannot be used in tests.###10 Jul 2006 content changed
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
 assessment#:#qpl_question_is_in_use#:#Sp&oslash;rgsm&aring;let du er ved at &aelig;ndre findes i %s test. Hvis du &aelig;ndre sp&oslash;rgsm&aring;let vil du ikke &aelig;ndre sp&oslash;rgsm&aring;let i disse test, fordi systemet laver en kopi af sp&oslash;rgsm&aring;let n&aring;r det tilf&oslash;jes til en test!
 assessment#:#qpl_questions_deleted#:#Sp&oslash;rgsm&aring;l slettet.
 assessment#:#qpl_select_file_for_import#:#Du m&aring; v&aelig;lge en fil at importere!
-assessment#:#qt_cloze#:#Luk sp&oslash;rgsm&aring;l
-assessment#:#qt_imagemap#:#Billed mappe sp&oslash;rgsm&aring;l
-assessment#:#qt_jav&aring;pplet#:#Java Applet sp&oslash;rgsm&aring;l
-assessment#:#qt_matching#:#Ens sp&oslash;rgsm&aring;l
 assessment#:#qt_multiple_choice#:#Multiple Choice sp&oslash;rgsm&aring;l
-assessment#:#qt_multiple_choice_mr#:#Multiple Choice sp&oslash;rgsm&aring;l (flere svar)
-assessment#:#qt_multiple_choice_sr#:#Multiple Choice sp&oslash;rgsm&aring;l (enkelt svar)
-assessment#:#qt_ordering#:#Sorter sp&oslash;rgsm&aring;l
-assessment#:#qt_text#:#Kort svar (Tekst) sp&oslash;rgsm&aring;l
 assessment#:#question_saved_for_upload#:#Sp&oslash;rgsm&aring;let blev gemt automatisk for at gemme harddisk plads til at gemme uploaded filer. Hvis du stopper dette nu skal du slette sp&oslash;rgsm&aring;let i sp&oslash;rgsm&aring;lsgruppen hvis du ikke &oslash;nsker at beholde det!
 assessment#:#question_short#:#Q
 assessment#:#question_title#:#Sp&oslash;rgsm&aring;ls titel
@@ -385,16 +426,18 @@ assessment#:#region#:#Region
 assessment#:#remove_question#:#Fjern
 assessment#:#remove_solution#:#Fjern foresl&aring;et l&oslash;sning
 assessment#:#report_date_not_reached#:#Du har ikke noget rappoteringsdagen. Du vil kunne se resultatet den %s
+assessment#:#reset_definitions#:#Reset definition positions###10 Jul 2006 new variable
 assessment#:#reset_filter#:#Nulstil filter
+assessment#:#reset_pictures#:#Reset picture positions###10 Jul 2006 new variable
 assessment#:#result#:#Resultat
 assessment#:#save_before_upload_imagemap#:#Du skal tilf&oslash;je dine &aelig;ndringer f&oslash;r du kan uploade en billed mappe!
-assessment#:#save_before_upload_jav&aring;pplet#:#Du skal tilf&oslash;je dine &aelig;ndringer f&oslash;r du kan uploade et Java applet!
 assessment#:#save_edit#:#Gem og &aelig;ndre indhold
 assessment#:#save_finish#:#Afslut testen
 assessment#:#save_introduction#:#G&aring; til introduktion
 assessment#:#save_next#:#N&aelig;ste
 assessment#:#save_previous#:#Tidligere
 assessment#:#save_text_answer_points#:#Gem tekst sp&oslash;rgsm&aring;ls point
+assessment#:#scored_pass#:#Scored pass###10 Jul 2006 new variable
 assessment#:#search_found_groups#:#Fundet grupper
 assessment#:#search_found_users#:#Fundet brugere
 assessment#:#search_groups#:#S&oslash;g Grupper
@@ -407,15 +450,19 @@ assessment#:#select_gap#:#V&aelig;lg hul
 assessment#:#select_max_one_item#:#V&aelig;lg venligst kun en ting
 assessment#:#select_one_submitted_test#:#V&aelig;lg mindst en brugere som er f&aelig;rdig med testen
 assessment#:#select_one_user#:#V&aelig;lg mindst en bruger
+assessment#:#select_qpl_option#:#--- Please select a question pool ---###10 Jul 2006 new variable
 assessment#:#select_target_position_for_move_question#:#V&aelig;lg venligst en possition hvor du vil flytte sp&oslash;rgsm&aring;let og tryk p&aring; inds&aelig;t knappen!
 assessment#:#select_tst_option#:#--- V&aelig;lg venligst en test ---
 assessment#:#selected_image#:#V&aelig;lg billed
+assessment#:#set_edit_mode#:#Set edit mode###10 Jul 2006 new variable
 assessment#:#set_filter#:#S&aelig;t filter
 assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Bland svar
 assessment#:#solution_comment_count_system#:#S&aring;&oslash;rgsm&aring;l der er svaret nogenlunde rigtig vil modtage 0 point
 assessment#:#solution_comment_mc_scoring#:#Multiple choice sp&oslash;rgsm&aring;l med ingen svar m&aelig;rkertet vil f&aring; 0 point
+assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points###10 Jul 2006 new variable
 assessment#:#solution_hint#:#Foresl&aring;et l&oslash;sning
+assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords###10 Jul 2006 new variable
 assessment#:#solution_order#:#L&oslash;snings r&aelig;kke
 assessment#:#start_tag#:#Start m&aelig;rke
 assessment#:#starting_time_not_reached#:#Du har ikek n&aring;et start tidspunktet
@@ -425,17 +472,23 @@ assessment#:#suggested_solution_added_successfully#:#Du har sat en foresl&aring;
 assessment#:#symbol#:#Symbol
 assessment#:#term#:#Term
 assessment#:#test_cancelled#:#Testen blev annuleret
+assessment#:#test_reference#:#Test reference###10 Jul 2006 new variable
 assessment#:#text_answers_saved#:#Tekst sp&oslash;rgsm&aring;l point er &aelig;ndret!
 assessment#:#text_gap#:#Tekst hul
 assessment#:#text_maximum_chars_allowed#:#Indtast ikke mere end the max antal %s karakter. Alt efter vil blive fjernet
+assessment#:#text_rating#:#Text matching method###10 Jul 2006 new variable
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Udfyld venligst du tomme applet parameter f&oslash;r du tilf&oslash;jer en ny!
 assessment#:#true#:#Sandt
+assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.###10 Jul 2006 new variable
 assessment#:#tst_all_user_data_deleted#:#Alle bruger data for denne test er blevet slettet! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_allowed_users#:#Maximum number of users running the test simultaneously###10 Jul 2006 new variable
+assessment#:#tst_allowed_users_time_gap#:#Idle time for active users###10 Jul 2006 new variable
 assessment#:#tst_already_submitted#:#Testen er allerede f&aelig;rdig
 assessment#:#tst_already_taken#:#Test er allerede taget
 assessment#:#tst_answer_sheet#:#Test svar
 assessment#:#tst_answered_questions#:#Answered questions
+assessment#:#tst_best_solution_is#:#The best solution is###10 Jul 2006 new variable
 assessment#:#tst_browse_for_questions#:#Led efter sp&oslash;rgsm&aring;l
 assessment#:#tst_confirm_delete_results#:#Du er ved at slette alle dine tidligere indtastet sp&oslash;rgsm&aring;ls resultater for denne test. Dette vil nulstille alle sp&oslash;rgsm&aring;l til dens standart v&aelig;rdi. Bem&aelig;rk venligst, at du ikke kan nulstille antalet af fors&oslash;g, du allerede har brugt p&aring; denne test. Vil du virkelig nulstille alle tidligere indtastet svar?
 assessment#:#tst_confirm_delete_results_info#:#Dine tidligere indtastet resultater blev slettet. Du har med succes nulstillet testen!
@@ -451,13 +504,14 @@ assessment#:#tst_enter_questionpool#:#Indtast venligst et sp&oslash;rgsm&aring;l
 assessment#:#tst_eval_no_anonymous_aggregation#:#Ingen har &aring;bnet denne test endnu. Der er ingen gennemsnits resultater tilg&aelig;ngelige.
 assessment#:#tst_eval_results_by_pass#:#Detailed question results
 assessment#:#tst_eval_show_answer#:#Vis svar
-assessment#:#tst_eval_total_finished#:#Total antal f&aelig;rdiggjorte test
-assessment#:#tst_eval_total_finished_average_time#:#Gennemsnitlig tid til at afslutte test
+assessment#:#tst_eval_total_finished#:#Total antal f&aelig;rdiggjorte test###10 Jul 2006 content changed
+assessment#:#tst_eval_total_finished_average_time#:#Gennemsnitlig tid til at afslutte test###10 Jul 2006 content changed
 assessment#:#tst_eval_total_passed#:#Total antal best&aring;et test
 assessment#:#tst_eval_total_passed_average_points#:#Gennemsnitlig point af best&aring;et test
-assessment#:#tst_eval_total_persons#:#Total antal af personer der har taget denne test
+assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests###10 Jul 2006 new variable
+assessment#:#tst_eval_total_persons#:#Total antal af personer der har taget denne test###10 Jul 2006 content changed
 assessment#:#tst_eval_user_answer#:#Bruger svar
-assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
+assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test###10 Jul 2006 new variable
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous answer
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_finished#:#F&aelig;rdig
@@ -466,7 +520,7 @@ assessment#:#tst_generate_xls#:#Generer Excel
 assessment#:#tst_heading_scoring#:#resultat
 assessment#:#tst_hide_previous_results#:#Hide previous results
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
-assessment#:#tst_hide_previous_results_hide#:#Hvis markeret, vil resultaterne fra tidligere test v&aelig;re skjult
+assessment#:#tst_hide_previous_results_hide#:#Hvis markeret, vil resultaterne fra tidligere test v&aelig;re skjult###10 Jul 2006 content changed
 assessment#:#tst_hide_previous_results_introduction#:#If you're processing more than one pass of this test, your previous entered results will not be used as default values ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 assessment#:#tst_hide_title_points#:#Sp&oslash;rgsm&aring;l title point
 assessment#:#tst_hide_title_points_description#:#Skjuloutput for max point i sp&oslash;rgsm&aring;ls title
@@ -485,6 +539,9 @@ assessment#:#tst_mark_minimum_level#:#Minimum level (i %)
 assessment#:#tst_mark_official_form#:#Officiel form
 assessment#:#tst_mark_passed#:#Best&aring;et
 assessment#:#tst_mark_short_form#:#Kort form
+assessment#:#tst_max_allowed_users#:#Participants restriction###10 Jul 2006 new variable
+assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached###10 Jul 2006 new variable
+assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.###10 Jul 2006 new variable
 assessment#:#tst_maximum_points#:#Maximum point
 assessment#:#tst_missing_author#:#Du har ikke skrevet forfatterens navn i test egenskaberne! Tilf&oslash;j venligst forfatterens navn.
 assessment#:#tst_missing_marks#:#Du har ikke et m&aelig;rke skema for denne test! Tilf&oslash;j venligst mindst et simpely m&aelig;rke skema i denne test.
@@ -497,7 +554,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Marker venligst et sp&oslash
 assessment#:#tst_no_questionpools_for_random_test#:#Du har ikke tilf&oslash;jet et sp&oslash;gsm&aring;ls gruppe for den tilf&aelig;ldige test! V&aelig;lg mindst et sp&oslash;rgsm&aring;lsgruppe
 assessment#:#tst_no_questions_available#:#Der er ingen sp&oslash;rgsm&aring;l tilg&aelig;ngelige! Du skal oprette sp&oslash;rgsm&aring;l elelr s&oslash;ge efter sp&oslash;rgsm&aring;l.
 assessment#:#tst_no_questions_for_random_test#:#Du har ikke taget nogen sp&oslash;rgsm&aring;l fra sp&oslash;rgsm&aring;ls gruppen for denne tilf&aelig;ldige test! V&aelig;lg mindst et ved at s&aelig;tte antal sp&oslash;rgsm&aring;l der skal tilf&oslash;jes.
-assessment#:#tst_no_solution_available#:#Kort svar sp&oslash;rgsm&aring;l har ingen l&oslash;sning
+assessment#:#tst_no_solution_available#:#Kort svar sp&oslash;rgsm&aring;l har ingen l&oslash;sning###10 Jul 2006 content changed
 assessment#:#tst_no_taken_tests#:#Der er ingen taget test!
 assessment#:#tst_no_tries#:#Ingen
 assessment#:#tst_nr_of_tries#:#Max. antal fors&oslash;g
@@ -507,7 +564,12 @@ assessment#:#tst_pass_best_pass#:#Score the best pass of a user
 assessment#:#tst_pass_details#:#Show details
 assessment#:#tst_pass_last_pass#:#Score the last pass of a user
 assessment#:#tst_pass_scoring#:#Multiple pass scoring
+assessment#:#tst_password#:#Test password###10 Jul 2006 new variable
+assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test###10 Jul 2006 new variable
+assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!###10 Jul 2006 new variable
+assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test###10 Jul 2006 new variable
 assessment#:#tst_percent_solved#:#Procent l&oslash;st
+assessment#:#tst_position#:#Question %s of %s###10 Jul 2006 new variable
 assessment#:#tst_print#:#Test & opgaver print visning
 assessment#:#tst_print_date#:#Printet dato
 assessment#:#tst_processing_time#:#Max. svar tid
@@ -528,14 +590,17 @@ assessment#:#tst_question_type#:#Sp&oslash;rgsm&aring;ls type
 assessment#:#tst_questions_inserted#:#Sp&oslash;rgsm&aring;l indsat!
 assessment#:#tst_questions_removed#:#Sp&oslash;rgsm&aring;l fjernet!
 assessment#:#tst_random_nr_of_questions#:#Hvor mange sp&oslash;rgsm&aring;l?
-assessment#:#tst_random_qpl_unselected#:#Der er mindst en ikke-m&aelig;rkeret sp&oslash;rgsm&aring;lsgruppe
+assessment#:#tst_random_qpl_unselected#:#Der er mindst en ikke-m&aelig;rkeret sp&oslash;rgsm&aring;lsgruppe###10 Jul 2006 content changed
 assessment#:#tst_random_questionpools#:#Kilde sp&oslash;rgsm&aring;l
 assessment#:#tst_random_select_questionpool#:#V&aelig;lg sp&oslash;rgsm&aring;lsgruppen du vil v&aelig;lge sp&oslash;rgsm&aring;l fra.
+assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.###10 Jul 2006 new variable
+assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.###10 Jul 2006 new variable
 assessment#:#tst_random_test#:#Tilf&aelig;ldig test
 assessment#:#tst_random_test_description#:#HVis aktiveret, sp&oslash;rgsm&aring;lene vil generatet af en tilf&aelig;ldig generator
 assessment#:#tst_reached_points#:#N&aring;et point
 assessment#:#tst_remove_questions#:#Er du sikker p&aring; du vil fjerne de f&oslash;lgende sp&oslash;rgsm&aring;l fra denne test?
 assessment#:#tst_remove_questions_and_results#:#Denne test er allerede blevet taget af %s brugere. Hvis du fjerner sp&oslash;rgsm&aring;l fra denne test fjerner du ogs&aring; alle resultater fra disse brugere. Er du sikker p&aring; du vil fjerne f&oslash;lgende sp&oslash;rgsm&aring;l fra denne test?
+assessment#:#tst_report_after_first_question#:#Offer score reporting when the test has been started###10 Jul 2006 new variable
 assessment#:#tst_report_after_question#:#Vis resultat efter hvert sp&oslash;rgsm&aring;l er blevet besvaret
 assessment#:#tst_report_after_test#:#Vis resultat efter hele testen er besvaret
 assessment#:#tst_result_congratulations#:#Tillykke! Du har best&aring;et testen.
@@ -547,6 +612,9 @@ assessment#:#tst_results_back_evaluation#:#Back to evaluation overview
 assessment#:#tst_results_back_introduction#:#Back to introduction
 assessment#:#tst_results_back_overview#:#Back to results overview
 assessment#:#tst_resume_test#:#Genoptag testen
+assessment#:#tst_score_cut_question#:#Cut negative points for every question###10 Jul 2006 new variable
+assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results###10 Jul 2006 new variable
+assessment#:#tst_score_cutting#:#Cut negative points###10 Jul 2006 new variable
 assessment#:#tst_score_mcmr_questions#:#Multiple choice sp&oslash;rgsm&aring;l
 assessment#:#tst_score_mcmr_use_scoring_system#:#S&aelig;t score, selv n&aring;r ingen svar er m&aelig;rkeret
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points n&aring;r ingen svar er m&aelig;rkeret
@@ -554,6 +622,7 @@ assessment#:#tst_score_reporting#:#Resultat report
 assessment#:#tst_score_reporting_date#:#Resultat raporteringsdato
 assessment#:#tst_score_type#:#Resultat rapport type
 assessment#:#tst_select_file_for_import#:#Du skal v&aelig;l&aelig;ge en fil for at importere!
+assessment#:#tst_select_qpls#:#Please select a question pool for duplication###10 Jul 2006 new variable
 assessment#:#tst_select_questionpool#:#V&aelig;lg venligst en sp&oslash;rgsm&aring;lsgruppe hvor du vil gemme de oprettede sp&oslash;rgsm&aring;l
 assessment#:#tst_select_questionpools#:#V&aelig;lg venligst en sp&oslash;rgsm&aring;lsgruppe hvor du vil gemme de impoterede sp&oslash;rgsm&aring;l
 assessment#:#tst_select_random_questions#:#V&aelig;lg sp&oslash;rgsm&aring;lgruppen og antal sp&oslash;rgsm&aring;l for den tilf&aelig;ldige test
@@ -567,6 +636,14 @@ assessment#:#tst_session_settings#:#Sessions egenskaber
 assessment#:#tst_show_answer_print_sheet#:#Svar printer visning
 assessment#:#tst_show_answer_sheet#:#Vis svar
 assessment#:#tst_show_results#:#Vis test resultat
+assessment#:#tst_show_solution_details#:#Score details###10 Jul 2006 new variable
+assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions###10 Jul 2006 new variable
+assessment#:#tst_show_solution_printview#:#Solution printview###10 Jul 2006 new variable
+assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing###10 Jul 2006 new variable
+assessment#:#tst_show_summary#:#Show question summary###10 Jul 2006 new variable
+assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test###10 Jul 2006 new variable
+assessment#:#tst_shuffle_questions#:#Shuffle questions###10 Jul 2006 new variable
+assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start###10 Jul 2006 new variable
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_start_test#:#Start testen
 assessment#:#tst_started#:#Test Startet
@@ -604,9 +681,10 @@ assessment#:#tst_submit_answers_txt#:#Du m&aring; nu afslutte testen ved at indt
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test output
 assessment#:#tst_text_count_system#:#Scoring system
-assessment#:#tst_time_already_spent#:#Tid allerede brugt p&aring; arbejde
+assessment#:#tst_time_already_spent#:#Tid allerede brugt p&aring; arbejde###10 Jul 2006 content changed
+assessment#:#tst_time_already_spent_left#:#You have %s left.###10 Jul 2006 new variable
 assessment#:#tst_total_questions#:#Total antal sp&oslash;rgsm&aring;l
-assessment#:#tst_total_questions_description#:#Hvis du s&aelig;tter den v&aelig;rdi, antal sp&oslash;rgsm&aring;l som er indtastet  er ignored. Hvis du ikke s&aelig;tter denne v&aelig;rdi, s&aring; bliver du n&oslash;d til et antal hver dag.
+assessment#:#tst_total_questions_description#:#Hvis du s&aelig;tter den v&aelig;rdi, antal sp&oslash;rgsm&aring;l som er indtastet  er ignored. Hvis du ikke s&aelig;tter denne v&aelig;rdi, s&aring; bliver du n&oslash;d til et antal hver dag.###10 Jul 2006 content changed
 assessment#:#tst_tst_date#:#Testens dato
 assessment#:#tst_type#:#Test type
 assessment#:#tst_type_changed#:#Du har &aelig;ndret test typen. Alle tidligere taget test er blevet slettet!
@@ -624,15 +702,18 @@ assessment#:#tt_varying_randomtest#:#Varying random test
 assessment#:#unlimited#:#Uendelig
 assessment#:#unlock#:#Ul&aring;s
 assessment#:#unlock_question#:#Dette sp&oslash;rgsm&aring;l er i brug i mindst en test og der er %s angivet resultater. Hvis du v&aelig;lger at l&aring;se sp&oslash;rgsm&aring;let op vil alle resultaterne af de p&aring;virket brugere blive slettet n&aring;r du v&aelig;lger at gemme sp&oslash;rgsm&aring;let. Hvis du vil &aelig;ndre sp&oslash;rgsm&aring;let men ikke vil slette tidligere resultater, kan du kopiere sp&oslash;rgsm&aring;let i sp&oslash;rgsm&aring;lsgruppen og &aelig;ndre den version.
+assessment#:#upload_image#:#Upload image###10 Jul 2006 new variable
 assessment#:#upload_imagemap#:#Upload en billed mappe
 assessment#:#uploaded_material#:#Uploadet Materialle
 assessment#:#user_not_invited#:#Du m&aring; ikke tage denne eksame.
-assessment#:#user_wrong_clientip#:#Du har ikke den rigtig IP for at tage den test.
+assessment#:#user_wrong_clientip#:#Du har ikke den rigtig IP for at tage den test.###10 Jul 2006 content changed
+assessment#:#value_between_x_and_y#:#The value should be between %s and %s###10 Jul 2006 new variable
 assessment#:#warning_question_not_complete#:#Dette sp&oslash;rgsm&aring;l er ikk ef&aelig;rdigt!
 assessment#:#warning_test_not_complete#:#Denne test er ikke f&aelig;rdig
 assessment#:#when#:#hvorn&aring;r
 assessment#:#width#:#bredde
 assessment#:#with_order#:#med orden
+assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#arbejdstid
 assessment#:#you_received_a_of_b_points#:#Du fik %d af %d mulige point
 bibitem#:#bibitem_add#:#Tilf&oslash;j
@@ -699,8 +780,8 @@ chat#:#chat_access_blocked#:#Du er smidt ud chatrummet
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Bruger (aktiv)
 chat#:#chat_add_allowed_hosts#:#Tilf&oslash;j venligst adressen p&aring; den v&aelig;rt der er tilladt at bruge chat serveren.
-chat#:#chat_add_external_ip#:#Tilf&oslash;j serverens eksterne IP
-chat#:#chat_add_internal_ip#:#Tilf&oslash;j serverens interne IP
+chat#:#chat_add_external_ip#:#Tilf&oslash;j serverens eksterne IP###10 Jul 2006 content changed
+chat#:#chat_add_internal_ip#:#Tilf&oslash;j serverens interne IP###10 Jul 2006 content changed
 chat#:#chat_add_moderator_password#:#Tilf&oslash;j venligst et password.
 chat#:#chat_add_port#:#Tilf&oslash;j venligst en server port.
 chat#:#chat_add_private_chatroom#:#Tilf&oslash;j privat chatrum
@@ -751,6 +832,7 @@ chat#:#chat_maroon#:#maroon
 chat#:#chat_messages_deleted#:#Besked er blevet slettet.
 chat#:#chat_moderator_password#:#Password
 chat#:#chat_navy#:#navy
+chat#:#chat_new_message#:#New message###10 Jul 2006 new variable
 chat#:#chat_no_active_users#:#Ingen brugere tilstede.
 chat#:#chat_no_blocked#:#Ingen blokkeret bruger tilg&aelig;ngelig
 chat#:#chat_no_connection#:#Kan ikke kontakte chat server.
@@ -824,6 +906,8 @@ chat#:#chat_yellow#:#Gul
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Mine Chat
 common#:#3rd_party_software#:#Tredje Parts Software
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#absolute_path#:#Hele Stien
 common#:#accept_usr_agreement#:#Accepter brugeraftalen?
 common#:#access#:#Adgang
@@ -834,12 +918,13 @@ common#:#action_aborted#:#Handling afbrudt
 common#:#actions#:#Handlinger
 common#:#activate_assessment_logging#:#Aktiver Test & opgaver logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Betaling, Login)
-common#:#activate_tracking#:#Aktiver sporing
+common#:#activate_tracking#:#Aktiver sporing###10 Jul 2006 content changed
 common#:#activation#:#Aktivering
 common#:#active#:#Aktiv
 common#:#active_roles#:#Aktive Roller
 common#:#add#:#Tilf&oslash;j
 common#:#add_author#:#Tilf&oslash;j Forfatter
+common#:#add_comments#:#Edit comments###10 Jul 2006 new variable
 common#:#add_condition#:#Opret ny organisation
 common#:#add_member#:#Tilf&oslash;j medlem
 common#:#add_members#:#Tilf&oslash;j medlemmer
@@ -847,6 +932,7 @@ common#:#add_note#:#Tilf&oslash;j notater
 common#:#add_translation#:#Tilf&oslash;j overs&aelig;ttelse
 common#:#add_user#:#Tilf&oslash;j lokal bruger
 common#:#added_new_condition#:#Tilf&oslash;jet ny tilstand.
+common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
 common#:#adm_create_tax#:#lav taksonomi ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#adm_edit_permission#:#Rediger rettigheds tilladelser
 common#:#adm_read#:#Skrive rettigheds adgang til system indstillinger
@@ -861,6 +947,15 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Arv
 common#:#adopt_perm_from_template#:#Arv indstillinger fra rolle template
+common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing###10 Jul 2006 new variable
+common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor###10 Jul 2006 new variable
+common#:#advanced_editing_no_rte#:#Don't use rich text editing###10 Jul 2006 new variable
+common#:#advanced_editing_settings#:#Advanced editing settings###10 Jul 2006 new variable
+common#:#advanced_editing_tinymce#:#TinyMCE editor###10 Jul 2006 new variable
+common#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
+common#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
+common#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
+common#:#adve_write#:#Advanced editing administration###10 Jul 2006 new variable
 common#:#agree_date#:#Enig til
 common#:#all_authors#:#Alle forfattere
 common#:#all_global_roles#:#Globale roller
@@ -868,6 +963,7 @@ common#:#all_lms#:#Alle l&aelig;rer moduler
 common#:#all_local_roles#:#Lokale roller (alle)
 common#:#all_objects#:#Alle Objekter
 common#:#all_roles#:#Alle Roller
+common#:#all_topics#:#All Topics###10 Jul 2006 new variable
 common#:#all_tsts#:#Alle test
 common#:#all_users#:#Alle brugere
 common#:#allow_assign_users#:#Tillad Bruger tilmeldelse til lokal administrator.
@@ -886,6 +982,7 @@ common#:#already_delivered_files#:#Filerne er allerede leveret
 common#:#and#:#og
 common#:#announce#:#Annoncer
 common#:#announce_changes#:#Annoncer &aelig;ndringer
+common#:#anonymous#:#Anonymous###10 Jul 2006 new variable
 common#:#answers#:#Svar
 common#:#any_language#:#alle slags sprog
 common#:#append_search#:#Tilf&oslash;j s&oslash;ge resltater
@@ -897,7 +994,7 @@ common#:#apply_filter#:#Godkend filter
 common#:#appointment#:#Aftale
 common#:#appointment_list#:#Aftale Liste
 common#:#approve_date#:#Godkendt den
-common#:#approve_recipient#:#Login ID p&aring; administratoren
+common#:#approve_recipient#:#Login ID p&aring; administratoren###10 Jul 2006 content changed
 common#:#archive#:#Arkiver
 common#:#are_you_sure#:#Er du sikker?
 common#:#arrow_downright#:#Pil fra top til bunden af h&oslash;jre
@@ -936,7 +1033,19 @@ common#:#attachment#:#Vedh&aelig;ft
 common#:#attachments#:#Vedh&aelig;ftede
 common#:#attend#:# Vedh&aelig;ft
 common#:#auth_active_roles#:#Globale roller aktiveret for registering
+common#:#auth_allow_local#:#Allow Local Authentication###10 Jul 2006 new variable
+common#:#auth_cas#:#CAS###10 Jul 2006 new variable
+common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.###10 Jul 2006 new variable
+common#:#auth_cas_auth#:#Configure CAS Authentication###10 Jul 2006 new variable
+common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)###10 Jul 2006 new variable
+common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.###10 Jul 2006 new variable
+common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
+common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
+common#:#auth_cas_settings_saved#:#CAS settings saved###10 Jul 2006 new variable
+common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
+common#:#auth_cas_user_default_role_desc#:#This role is assigned to automatically created CAS users.###10 Jul 2006 new variable
 common#:#auth_configure#:#Konfigurer...
+common#:#auth_create_users#:#Create non-existing users automatically###10 Jul 2006 new variable
 common#:#auth_default#:#Standard instillinger
 common#:#auth_default_mode_changed_to#:#Standard authentication tilstand &aelig;ndret til
 common#:#auth_edit_permission#:#Rediger rettigheds indstillinger
@@ -949,6 +1058,8 @@ common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Vertificer brugere via local ILIAS databasen (standard)
 common#:#auth_mode#:#Vertifikation mode
 common#:#auth_mode_not_changed#:#(intet er &aelig;ndret)
+common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
+common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Konfigure RADIUS-Authentication
 common#:#auth_radius_desc#:#Vertificer brugere via RADIUS serveren
@@ -960,7 +1071,7 @@ common#:#auth_radius_server_desc#:#Du m&aring; tilf&oslash;je flere server separ
 common#:#auth_radius_settings_saved#:#RADIUS indstillinger
 common#:#auth_radius_shared_secret#:#Del hemlighed
 common#:#auth_read#:#adgang til vertifikations indstllinger
-common#:#auth_remark_non_local_auth#:#N&aring;r man v&aelig;lger en anden vertifikations mode end standarden bliver bruger login og passwords sl&aring;et fra. Og der kan ikke oprettes nye brugere
+common#:#auth_remark_non_local_auth#:#N&aring;r man v&aelig;lger en anden vertifikations mode end standarden bliver bruger login og passwords sl&aring;et fra. Og der kan ikke oprettes nye brugere###10 Jul 2006 content changed
 common#:#auth_role_auth_mode#:#Authentication tilstand
 common#:#auth_script#:#brugervalgte
 common#:#auth_script_desc#:#Vertificer brugeren via external script
@@ -969,8 +1080,22 @@ common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Authenticate bruger via Shibboleth, kan bruger som 2. authentication metode
 common#:#auth_shib_not_configured#:#Shibboleth eer ikke konfiguret inu
 common#:#auth_shibboleth#:#Shibboleth
+common#:#auth_soap#:#SOAP###10 Jul 2006 new variable
+common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.###10 Jul 2006 new variable
+common#:#auth_soap_auth#:#Configure SOAP Authentication###10 Jul 2006 new variable
+common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.###10 Jul 2006 new variable
+common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.###10 Jul 2006 new variable
+common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_settings_saved#:#SOAP authentication settings saved###10 Jul 2006 new variable
+common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_use_https#:#Use HTTPS###10 Jul 2006 new variable
+common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###10 Jul 2006 new variable
+common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.###10 Jul 2006 new variable
+common#:#auth_user_default_role#:#Default Role###10 Jul 2006 new variable
 common#:#auth_visible#:#Vertifikations indstllinger er synlige
 common#:#auth_write#:#Rediger Vertifikations adgang
+common#:#authentication_settings#:#Authentication###10 Jul 2006 new variable
 common#:#author#:#Forfatter
 common#:#authors#:#Forfattere
 common#:#auto_registration#:#Godkend automatisk registration
@@ -1080,6 +1205,7 @@ common#:#changed_to#:#&aelig;ndret Til
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitel Nummer
 common#:#chapter_title#:#Titel p&aring; Overskrift
+common#:#characters#:#characters###10 Jul 2006 new variable
 common#:#chat#:#Chat
 common#:#chat_active_in#:#Active in chat:
 common#:#chat_add#:#Tilf&oslash;j Chat
@@ -1115,8 +1241,8 @@ common#:#cleaned_file#:#Filen er lukket.
 common#:#cleaning_failed#:#Ryd op i fejlede.
 common#:#clear#:#Ryd
 common#:#clear_clipboard#:#Tom udklipsholder
-common#:#client#:#Klient
 common#:#client ip#:#Klient IP
+common#:#client#:#Klient
 common#:#client_id#:#Klient ID
 common#:#client_ip#:#Klient IP
 common#:#clipboard#:#Udklipsholder
@@ -1124,7 +1250,7 @@ common#:#close#:#Luk
 common#:#close_window#:#Luk vindue
 common#:#collapse#:#Collapse
 common#:#comma_separated#:#Komma Separaret
-common#:#comment#:#Kommentar
+common#:#comment#:#Kommentar###10 Jul 2006 content changed
 common#:#compose#:#Ny Mail
 common#:#condition#:#Tilstand
 common#:#condition_already_assigned#:#Objekt er allerede tildelt.
@@ -1152,10 +1278,10 @@ common#:#contra#:#Kontra
 common#:#cookies_howto#:#Aktivering af cookies
 common#:#copied_object#:#Kopieret Objekt
 common#:#copy#:#Kopier
-common#:#copy_of#:#Kopi af
-common#:#copy_to#:#Til
 common#:#copyChapter#:#Kopier
 common#:#copyPage#:#Kopier
+common#:#copy_of#:#Kopi af
+common#:#copy_to#:#Til
 common#:#could_not_verify_account#:#Undskyld, vi kunne ikke valider din konto. Kontakt system administratoren
 common#:#count#:#T&aelig;l
 common#:#country#:#Land
@@ -1173,11 +1299,12 @@ common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be in
 common#:#cron_forum_notification_directly#:#directly on new entries
 common#:#cron_forum_notification_never#:#Aldrig
 common#:#cron_jobs#:#Cron jobs
-common#:#cron_jobs_desc#:#Et cron job er en automatisk process som arbejder i predefinederet tid intervaler. Du kan finde informationer om ops&aelig;tningen i Insatlations Documentation.
+common#:#cron_jobs_desc#:#Et cron job er en automatisk process som arbejder i predefinederet tid intervaler. Du kan finde informationer om ops&aelig;tningen i Insatlations Documentation.###10 Jul 2006 content changed
 common#:#cron_lucene_index#:#Opdater Lucene s&oslash;ge index
 common#:#cron_lucene_index_info#:#hvis aktiveret, lucene s&oslash;ge index vil opdateres. Konfigure lucene server ved 'Administration -> S&oslash;ge'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Kursus
 common#:#crs_a#:#Et Kursus
+common#:#crs_activation_start_invalid#:#The start and the end time is not valid.###10 Jul 2006 new variable
 common#:#crs_add#:#Tilf&oslash;j Kursus
 common#:#crs_added#:#Kursus TIlf&oslash;jet
 common#:#crs_all_questions_answered_successfully#:#Du har svaret p&aring; alle sp&oslash;gsm&aring;lne.
@@ -1216,6 +1343,7 @@ common#:#crs_leave#:#Afmeld kursus
 common#:#crs_management_system#:#Kursus styringssystem
 common#:#crs_member_not_passed#:#Ikke Best&aring;et
 common#:#crs_member_passed#:#Best&aring;et
+common#:#crs_members_gallery#:#Course members gallery###10 Jul 2006 new variable
 common#:#crs_new#:#Ny Kursus
 common#:#crs_no_content#:#Uden Indhold
 common#:#crs_read#:#L&aelig;se adgang til kursus
@@ -1227,7 +1355,7 @@ common#:#crs_write#:#Rediger Kursus
 common#:#cumulative_time#:#Cumulative tid
 common#:#cur_number_rec#:#Nuv&aelig;rende antal registrerede
 common#:#current_ip#:#nuv&aelig;rende IP:
-common#:#current_ip_alert#:#L&aelig;g m&aelig;rke til: Hvis du indtaster forkert IP s&aring; vil du ikke v&aelig;re i stand til at f&aring; adgang til systemet med dene profil.
+common#:#current_ip_alert#:#L&aelig;g m&aelig;rke til: Hvis du indtaster forkert IP s&aring; vil du ikke v&aelig;re i stand til at f&aring; adgang til systemet med dene profil.###10 Jul 2006 content changed
 common#:#current_password#:#Nuv&aelig;rende Password
 common#:#custom_icon_size_big#:#Ikon st&oslash;rrelse (Stort)
 common#:#custom_icon_size_small#:#Ikon st&oslash;rrelse (Lille)
@@ -1261,7 +1389,6 @@ common#:#dbk_new#:#Ny Digilib Bog
 common#:#dbk_read#:#L&aelig;se adgang til Digilib Bog
 common#:#dbk_visible#:#Digilib Bog er synlig
 common#:#dbk_write#:#Rediger Digilib Bog
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Standard repository visning
 common#:#default#:#Standard
 common#:#default_language#:#standard Sprog
@@ -1281,6 +1408,7 @@ common#:#delete_selected_items#:#Slet valgt ting
 common#:#delete_tr_data#:#Slet Sporingsdata
 common#:#deleted#:#Slettet
 common#:#deleted_user#:#Brugeren er blever slettet
+common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
 common#:#deliver#:#levere exercise
 common#:#department#:#Afdeling
 common#:#desc#:#Beskrivelse
@@ -1299,9 +1427,12 @@ common#:#download_all_returned_files#:#Download alle returnende filer
 common#:#drafts#:#Kladder
 common#:#drop#:#Slip
 common#:#edit#:#Rediger
+common#:#edit_comments#:#Edit comments for the selected user###10 Jul 2006 new variable
 common#:#edit_content#:#redger indhold
 common#:#edit_data#:#Rediger data
 common#:#edit_operations#:#Rediger Operationer
+common#:#edit_page#:#Edit Page###10 Jul 2006 new variable
+common#:#edit_page_content#:#Edit Page Content###10 Jul 2006 new variable
 common#:#edit_perm_ruleset#:#Rediger standard regler for rettigheder
 common#:#edit_properties#:#Rediger Egenskaber
 common#:#edit_roleassignment#:#Rediger Rolle Tildeling
@@ -1309,6 +1440,7 @@ common#:#edit_stylesheet#:#Rediger Stil
 common#:#edited_at#:#Redigeret den
 common#:#editor#:#Redigeret af
 common#:#email#:#E-mail
+common#:#email_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#email_footer#:#<br />Powered by ILIAS
 common#:#email_not_valid#:#Den indtastede email adresse er ikke gyldig!
 common#:#enable#:#Aktiver
@@ -1321,11 +1453,16 @@ common#:#enable_js_edit#:#Aktiver JavaScript redigering
 common#:#enable_js_edit_info#:#Denen indstilling aktiver JavaScript redigering for alt objekter (ILIAS L&aelig;rings Moduler, Glossaries, Opgaver, Digitale  B&oslash;ger) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#enable_password_assistance#:#Aktiver password assistance
 common#:#enable_registration#:#Aktiver en ny registration
+common#:#enable_trash#:#Enable Trash###10 Jul 2006 new variable
+common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!###10 Jul 2006 new variable
 common#:#enabled#:#Aktivered
-common#:#enter_filename_deliver#:#Indtast exercise for at lever
+common#:#enter_filename_deliver#:#Indtast exercise for at lever###10 Jul 2006 content changed
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Kun 1 parametre!
 common#:#err_2_param#:#Kun 2 parametre!
+common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
+common#:#err_auth_ext_user_exists#:#External account '%s' for authentication mode '%s' is already existing. (User '%s')###10 Jul 2006 new variable
+common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
 common#:#err_count_param#:#Grund: Forkert antal parametre
 common#:#err_enter_current_passwd#:#Indtast venligst dit nuv&aelig;rende password
 common#:#err_in_line#:#Fejl i linje
@@ -1343,7 +1480,7 @@ common#:#err_role_not_assignable#:#Du kan ikke tilmelde brugere til denne rolle 
 common#:#err_session_expired#:#Din adgang er udl&oslash;bet!
 common#:#err_unknown_error#:#ukendt fejl
 common#:#err_wrong_header#:#Grund: forkert header.
-common#:#err_wrong_login#:#Forkert Login
+common#:#err_wrong_login#:#Forkert Login###10 Jul 2006 content changed
 common#:#err_wrong_password#:#Forkert Password
 common#:#error#:#Fejl
 common#:#error_parser#:#Fejl starter parseren.
@@ -1357,31 +1494,41 @@ common#:#exc_create#:#Opret &oslash;velse
 common#:#exc_date_not_valid#:#Dat&oslash;n er ikke gyldig
 common#:#exc_deassign_members#:#Slet medlem(mer)
 common#:#exc_delete#:#Slet &oslash;velser
+common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
 common#:#exc_edit#:#Ny &oslash;velse er blevet oprettet
 common#:#exc_edit_exercise#:#Rediger &oslash;velse
 common#:#exc_edit_permission#:#&aelig;ndrer rettigheds indstillinger
 common#:#exc_edit_until#:#Rediger indtil
-common#:#exc_files#:#Filer
-common#:#exc_files_returned#:#Returnerede filer
+common#:#exc_files#:#Filer###10 Jul 2006 content changed
+common#:#exc_files_returned#:#Returnerede filer###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupper
 common#:#exc_header_members#:#&oslash;velse (medlemmer)
 common#:#exc_instruction#:#Arbejdsinstruktioner
+common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
+common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Disse brugere er allerede tildelt denne &oslash;velse
 common#:#exc_members_assigned#:#Medlemmer der er tildelt
+common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved###10 Jul 2006 new variable
 common#:#exc_new#:#Ny &oslash;velse
 common#:#exc_no_members_assigned#:#Ingen medlemmer tildelt
 common#:#exc_notices#:#Notits
 common#:#exc_obj#:#&Oslash;velser
 common#:#exc_read#:#Adgangs&oslash;velse
+common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Roller
 common#:#exc_save_changes#:#Gem
 common#:#exc_search_for#:#S&oslash;g efter
 common#:#exc_select_one_file#:#V&aelig;lg venligst kun en fil.
-common#:#exc_send_exercise#:#Send &oslash;velse
+common#:#exc_send_exercise#:#Send &oslash;velse###10 Jul 2006 content changed
 common#:#exc_sent#:#&oslash;velsen er blevet sendt til de valgte brugere
-common#:#exc_status_returned#:#Kommet tilbage
+common#:#exc_status#:#Status###10 Jul 2006 new variable
+common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#&oslash;velse er blevet opdateret
+common#:#exc_status_sent#:#Delivered###10 Jul 2006 new variable
 common#:#exc_status_solved#:#L&oslash;st
+common#:#exc_status_submitted#:#Submitted###10 Jul 2006 new variable
+common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
+common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
 common#:#exc_upload_error#:#Fejl i upload af fil
 common#:#exc_users#:#Brugere
 common#:#exc_visible#:#&oslash;velsen er synlig
@@ -1399,7 +1546,13 @@ common#:#export_xml#:#eksporter som en  XML fil
 common#:#extt_configure#:#Konfigure...
 common#:#extt_edit_permission#:#Skift retighedder indstillinger
 common#:#extt_ilinc#:#netucate LearnLinc
+common#:#extt_ilinc_additional_options#:#Additional Options###10 Jul 2006 new variable
+common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers###10 Jul 2006 new variable
+common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms###10 Jul 2006 new variable
+common#:#extt_ilinc_akclassvalues_required#:#Cost center required###10 Jul 2006 new variable
+common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required###10 Jul 2006 new variable
 common#:#extt_ilinc_configure#:#Configure netucate LearnLinc
+common#:#extt_ilinc_connection_data#:#Connection data###10 Jul 2006 new variable
 common#:#extt_ilinc_customer_id#:#kunde ID
 common#:#extt_ilinc_desc#:#Provides virtual klassev&aelig;relse. Commercial service. For an account and further information please contact netucate at www.netucate.com
 common#:#extt_ilinc_enable#:#Aktiver LearnLinc support
@@ -1422,6 +1575,7 @@ common#:#feedback_recipient#:#Tilmeldnings afsender
 common#:#file#:#Fil
 common#:#file_a#:#en Fil
 common#:#file_add#:#Upload Fil
+common#:#file_add_and_metadata#:#Upload File and Edit Metadata###10 Jul 2006 new variable
 common#:#file_added#:#Filen er  uploaded
 common#:#file_delete#:#Slet Fil
 common#:#file_edit#:#Rediger Fil
@@ -1568,7 +1722,7 @@ common#:#group_no_registration#:#ingen registrering p&aring;gr&aelig;vet
 common#:#group_no_registration_msg#:#Du er ikke medlem at denne gruppe endnu. Du er n&oslash;d til at blive medlem at den p&aring;gr&aelig;vet gruppe.<br />Som medlem har du f&oslash;lgende fordele:<br />- Du bliver informeret med nyheder og opdates<br />- du har adgang til forums l&aelig;rings moduler.<br /><br />Du kan annullere dit medlemskab til hver en tid.
 common#:#group_not_available#:#ingen gruppe mulige
 common#:#group_objects#:#Gruppe objekt
-common#:#group_password_registration_msg#:#for at blive medlem af denne gruppe skal du enter administrator password.<br />Du bliver automatisk medlem af gruppen hvis dit password er correct.
+common#:#group_password_registration_msg#:#for at blive medlem af denne gruppe skal du enter administrator password.<br />Du bliver automatisk medlem af gruppen hvis dit password er correct.###10 Jul 2006 content changed
 common#:#group_registration#:#Registration
 common#:#group_registration_expiration_date#:#udl&oslash;belses dag
 common#:#group_registration_expiration_time#:#udl&oslash;bs tid
@@ -1585,6 +1739,9 @@ common#:#group_status#:#gruppen er
 common#:#group_status_closed#:#lukket
 common#:#group_status_desc#:# Bestemmer status for en gruppe ved hj&aelig;lp af rettigheds indstillinger fra rolle templaten 'il_grp_status_closed' or 'il_grp_status_open'<br />Public: Gruppen er synlig; Bruger kan tilmeldes.<br />Closed: gruppen er ikke synlig for ikke medlemmer;Brugeren kan inviteres af et medlem for at f&aring; adgang. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#group_status_public#:#Offebtlig
+common#:#groupings#:#Membership Limitations###10 Jul 2006 new variable
+common#:#groupings_assigned_obj_crs#:#Assigned Courses###10 Jul 2006 new variable
+common#:#groupings_assigned_obj_grp#:#Assigned Groups###10 Jul 2006 new variable
 common#:#groups#:#Grupper
 common#:#groups_overview#:#Oversigt over Grupper
 common#:#grp#:#Gruppe
@@ -1605,6 +1762,7 @@ common#:#grp_create_file#:#Upload Fil
 common#:#grp_create_fold#:#Opret Mappe
 common#:#grp_create_frm#:#Opret Forum
 common#:#grp_create_glo#:#Opret ordbog
+common#:#grp_create_grp#:#Create Group###10 Jul 2006 new variable
 common#:#grp_create_hlm#:#Opret HACP L&aelig;rer Modul
 common#:#grp_create_htlm#:#Opret HTML L&aelig;rer Modul
 common#:#grp_create_icrs#:#Opret LearnLinc Seminar
@@ -1640,6 +1798,7 @@ common#:#grp_mail_subj_subscription_cancelled#:#tilmelding annulled
 common#:#grp_mem_change_status#:#Rediger status for medlemmer
 common#:#grp_mem_leave#:#n&aelig;gt adgang til bruger fra en gruppe ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#grp_mem_send_mail#:#Send melem en besked
+common#:#grp_members_gallery#:#Group members gallery###10 Jul 2006 new variable
 common#:#grp_msg_applicants_assigned#:#modtager er blevet gruppe medlem
 common#:#grp_msg_applicants_removed#:#modtager er fjernet fra listen.
 common#:#grp_msg_member_assigned#:#bruger er blevet gruppe medlem
@@ -1665,16 +1824,29 @@ common#:#guest#:#G&aelig;st
 common#:#guests#:#G&aelig;ster
 common#:#header_title#:#Overskrift
 common#:#help#:#Hj&aelig;lp
-common#:#HH#:#HH:MM
 common#:#hide#:#Skjul
 common#:#hide_details#:#skjul detaljer
 common#:#hide_private_notes#:#Skjul private noter
 common#:#hide_public_notes#:#Skjul offentlig noter
 common#:#hide_structure#:#Deaktver Struktering visning
-common#:#hist_dbk#:#Side oprettet
+common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
+common#:#hist_dbk_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
+common#:#hist_dbk_pg_create#:#Page created.###10 Jul 2006 new variable
+common#:#hist_dbk_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
+common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
+common#:#hist_dbk_pg_update#:#Page changed.###10 Jul 2006 new variable
+common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
+common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
 common#:#hist_file_create#:#Fil oprettet, filnavn er "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#hist_file_replace#:#Fil erstatte, ny fil navn er "%1", ny version er %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_lm#:#Side oprettet
+common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
+common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
+common#:#hist_lm_pg_create#:#Page created.###10 Jul 2006 new variable
+common#:#hist_lm_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
+common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
+common#:#hist_lm_pg_update#:#Page changed.###10 Jul 2006 new variable
+common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
+common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
 common#:#hist_no_entries#:#Historie tom
 common#:#hist_webr_add#:#Tilf&oslash;j ny web resource med title: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#hist_webr_delete#:#Slet web resource. Title: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -1694,7 +1866,8 @@ common#:#hlm_write#:#Rediger HACP l&aelig;rer modul
 common#:#hobby#:#Interesser/Hobbyer
 common#:#home#:#Hjem
 common#:#host#:#Udbyder
-common#:#hours#:#hour(s)
+common#:#hour#:#Hour###10 Jul 2006 new variable
+common#:#hours#:#hour(s)###10 Jul 2006 content changed
 common#:#hours_of_day#:#timer p&aring; en dag
 common#:#htlm#:#L&aelig;rer Modul HTML
 common#:#htlm_add#:#Tilf&oslash;j HTML L&aelig;rer Modul
@@ -1730,6 +1903,7 @@ common#:#icrs_edit#:#Rediger LearnLinc Seminar
 common#:#icrs_edit_permission#:#Rediger retigheder indstillinger
 common#:#icrs_join#:#Bruger m&aring; tilmelde sig LearnLinc Seminar
 common#:#icrs_leave#:#Bruger m&aring; forlade LearnLinc Seminar
+common#:#icrs_members_gallery#:#Seminar members gallery###10 Jul 2006 new variable
 common#:#icrs_new#:#Ny iLinc kursus
 common#:#icrs_read#:#L&aelig;se adgang til iLinc kursus
 common#:#icrs_visible#:#iLinc kursus er synlig
@@ -1750,6 +1924,8 @@ common#:#il_icrs_admin#:#LearnLinc Seminar administrator
 common#:#il_icrs_member#:#LearnLinc Seminar medlem
 common#:#ilias_version#:#ILIAS version
 common#:#ilinc_add_user#:#Tilf&oslash;j bruger
+common#:#ilinc_akclassvalue#:#Cost center###10 Jul 2006 new variable
+common#:#ilinc_akclassvalues#:#Cost centers###10 Jul 2006 new variable
 common#:#ilinc_classroom_always_open#:#Klassev&aelig;relse er altid &aring;ben
 common#:#ilinc_classroom_closed#:#Klassev&aelig;relse er lukket
 common#:#ilinc_classroom_open#:#Klassev&aelig;relse er &aring;ben
@@ -1773,16 +1949,17 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Dit medlemskab er annuleret
 common#:#ilinc_mail_subj_new_subscription#:#Nyt abonnement
 common#:#ilinc_mail_subj_subscription_cancelled#:#Abonnement annuleret:
 common#:#ilinc_manage_course_documents#:#materiale
-common#:#ilinc_mem_change_status#:#&aelig;ndre bruger staus
+common#:#ilinc_mem_change_status#:#&aelig;ndre bruger staus###10 Jul 2006 content changed
 common#:#ilinc_mem_leave#:#smid bruger ud af LearnLinc Seminar
 common#:#ilinc_mem_send_mail#:#Send besked til bruger
 common#:#ilinc_msg_joined#:#Tilmeld LearnLinc Seminar
 common#:#ilinc_msg_member_assigned#:#Bruger tildelt
 common#:#ilinc_msg_membership_annulled#:#Abonnement annuleret
+common#:#ilinc_no_akclassvalues#:#none###10 Jul 2006 new variable
 common#:#ilinc_no_docent_assigned#:#Ingen tildelt
 common#:#ilinc_notset#:#Ikke sat
 common#:#ilinc_remark#:#Bem&aelig;rkning
-common#:#ilinc_server_not_active#:#iLinc server ikke aktiveret
+common#:#ilinc_server_not_active#:#iLinc server ikke aktiveret###10 Jul 2006 content changed
 common#:#ilinc_student#:#Participant
 common#:#ilinc_upload_pic_linktext#:#Upload
 common#:#ilinc_upload_pic_text#:#For at vise billeder i LearnLinc Seminars brug f&oslash;lgende link:
@@ -1828,6 +2005,7 @@ common#:#info_assigned#:#Tildelt
 common#:#info_available_roles#:#tilg&aelig;ngelig roller
 common#:#info_change_user_view#:#Skift visning af bruger
 common#:#info_delete_sure#:#Er du sikker p&aring; at du vil slette f&oslash;lgende Objekter?
+common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)###10 Jul 2006 new variable
 common#:#info_deleted#:#Objekt(er) slettet
 common#:#info_enter_login_or_id#:#<i>(Indtast bruger navn eller bruger ID)</i>
 common#:#info_err_user_not_exist#:#Brugeren med det bruger-ID findes ikke
@@ -1838,7 +2016,7 @@ common#:#info_not_assigned#:#ikke tildelt
 common#:#info_owner_of_object#:#Ejer af objekt
 common#:#info_permission_origin#:#Original plads
 common#:#info_permission_source#:#G&aelig;lende fra*
-common#:#info_remark_interrupted#:#Role er afbrudt p&aring; denne position. Denne roles rettigheds indstillinger er opbevarede p&aring; den plads.
+common#:#info_remark_interrupted#:#Role er afbrudt p&aring; denne position. Denne roles rettigheds indstillinger er opbevarede p&aring; den plads.###10 Jul 2006 content changed
 common#:#info_short#:#Info
 common#:#info_status_info#:#Statusinformation
 common#:#info_trash#:#Slettede Objekter
@@ -1913,6 +2091,7 @@ common#:#lang_sq#:#Albanian
 common#:#lang_sr#:#Serbian
 common#:#lang_sv#:#Svensk
 common#:#lang_timeformat#:#H:i:s
+common#:#lang_timeformat_no_sec#:#H:i###10 Jul 2006 new variable
 common#:#lang_uk#:#Ukrainian
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamese
@@ -1925,10 +2104,10 @@ common#:#languages#:#Sprog
 common#:#languages_already_installed#:#De valgte Sprog er allerede installeret
 common#:#languages_already_uninstalled#:#De valgte sprog er allerede afinstalleret
 common#:#languages_updated#:#Alle sprog er blevet opdateret!
-common#:#last_access#:#Sidte adgang:
+common#:#last_access#:#Sidte adgang:###10 Jul 2006 content changed
 common#:#last_change#:#Sidst &aelig;ndret
 common#:#last_edited_on#:#Last edited on
-common#:#last_login#:#Last login
+common#:#last_login#:#Last login###10 Jul 2006 new variable
 common#:#last_update#:#Sidste opdateret
 common#:#last_visit#:#Sidste Bes&oslash;g
 common#:#lastname#:#Efternavn
@@ -1952,7 +2131,8 @@ common#:#ldap_visible#:#LDAP indstillinger er synlige
 common#:#ldap_write#:#Rediger LDAP indstillinger
 common#:#learning module#:#L&aelig;rer modul
 common#:#learning_objects#:#L&aelig;rer Objekt
-common#:#learning_progress#:#L&aelig;rings progress
+common#:#learning_progress#:#L&aelig;rings progress###10 Jul 2006 content changed
+common#:#learning_resourc#:#Learning Resource###10 Jul 2006 new variable
 common#:#learning_resource#:#Learning Resource
 common#:#learning_resources#:#L&aelig;rer Resourcer
 common#:#level#:#Level
@@ -2032,6 +2212,7 @@ common#:#login_exists#:#Der er allerede med dette navn! Vaelg venligst et andet 
 common#:#login_invalid#:#Det valgte login er ugyldigt! Kun f&oslash;lgende karaktere er gyldige (minimum 4 karaktere): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Tid online
 common#:#login_to_ilias#:#Login p&aring; ILIAS
+common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###10 Jul 2006 new variable
 common#:#login_to_ilias_via_shibboleth#:#Login til ILIAS via Shibboleth
 common#:#logout#:#Log af
 common#:#logout_text#:#Du er logget af ILIAS. Din Forbindelse er lukket.
@@ -2050,6 +2231,7 @@ common#:#mail_delete_error#:#Fejl ved sletning
 common#:#mail_delete_error_file#:#Fejl i sletning af fil
 common#:#mail_e_sent#:#Sendt
 common#:#mail_edit_permission#:#aendrer rettigheds indstillinger
+common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Mail Mapper
 common#:#mail_import#:#Importer
 common#:#mail_import_file#:#Exporter fil
@@ -2100,11 +2282,12 @@ common#:#mep_visible#:#Media afstemning er synlig
 common#:#mep_write#:#Rediger indhold af medie afstemning
 common#:#message#:#Besked
 common#:#message_content#:#Indhold af besked
-common#:#message_no_delivered_files#:#Du har ikke leveret en fil!
+common#:#message_no_delivered_files#:#Du har ikke leveret en fil!###10 Jul 2006 content changed
 common#:#message_to#:#Besked til:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrer
 common#:#min_time#:#Minimum tid
+common#:#minute#:#Minute###10 Jul 2006 new variable
 common#:#minutes#:#Minuter
 common#:#missing#:#Mangler
 common#:#mob#:#Medie Objekter
@@ -2137,11 +2320,11 @@ common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
 common#:#monthly#:#maanedlig
 common#:#move#:#Flyt
-common#:#move_selected_items#:#Flyt maerkeret ting
-common#:#move_to#:#Flyt til
-common#:#move_users_to_style#:#Flyt bruger til ud udsene
 common#:#moveChapter#:#Flyt
 common#:#movePage#:#Flyt
+common#:#move_selected_items#:#Flyt maerkeret ting
+common#:#move_to#:#Flyt til
+common#:#move_users_to_style#:#Flyt bruger til ud udsene###10 Jul 2006 content changed
 common#:#msg_cancel#:#Handling annulleret
 common#:#msg_changes_ok#:#&aelig;ndringerne er ok
 common#:#msg_clear_clipboard#:#Udklipsholder er t&oslash;mt
@@ -2167,9 +2350,9 @@ common#:#msg_min_one_role#:#hver bruger skal have mindst en global rolle!
 common#:#msg_multi_language_selected#:#du valgte det samme sprog for forskellige oversaettelser!
 common#:#msg_no_default_language#:#igen standard valgt! Du skal vaelge et standard oversaettelse.
 common#:#msg_no_delete_yourself#:#du kan ikke slette din egen bruger konto.
-common#:#msg_no_file#:#du valgte ikke en fil
+common#:#msg_no_file#:#du valgte ikke en fil###10 Jul 2006 content changed
 common#:#msg_no_language_selected#:#intet sprog valgt! Du skal vaelge et sprog for hver oversaettelse
-common#:#msg_no_perm_assign_role_to_user#:#du har ingen rettigheder til at skifte rettigheder
+common#:#msg_no_perm_assign_role_to_user#:#du har ingen rettigheder til at skifte rettigheder###10 Jul 2006 content changed
 common#:#msg_no_perm_assign_user_to_role#:#Du har ingen rettigheder til at aendre bruger opgaver
 common#:#msg_no_perm_copy#:#du har ikke rettigheder til at lave en kopi af f&oslash;lgende objekt:
 common#:#msg_no_perm_create#:#du har ikke rettigheder til at lave et objekt.
@@ -2189,6 +2372,7 @@ common#:#msg_no_perm_modify_user#:#du har ikke rettigneder til at aendre bruger 
 common#:#msg_no_perm_paste#:#du har ikke rettighedert til at indsaette f&oslash;lgende objekt
 common#:#msg_no_perm_perm#:#du har ikke rettigheder til at aendre rettigheds indstillinger
 common#:#msg_no_perm_read#:#Du har ikke rettigheder til adgang af objekterne
+common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###10 Jul 2006 new variable
 common#:#msg_no_perm_read_lm#:#du har ingen rettigheder laese dette laeringsmodul.
 common#:#msg_no_perm_read_track#:#du har ingen rettigheder til at komme ind paa brugeren.
 common#:#msg_no_perm_undelete#:#du har ingen rettigheder til at undelete f&oslash;lgende objekt:
@@ -2202,16 +2386,16 @@ common#:#msg_no_sysadmin_sysrole_not_assignable#:#Kun en  System Administratorka
 common#:#msg_no_title#:#Indtast en title.
 common#:#msg_no_url#:#Du indtastet ikke en URL
 common#:#msg_not_available_for_anon#:#Den side du har valgt er kun tilg&aelig;ngelig for registrerede brugere
-common#:#msg_not_in_itself#:#Det er ikke muligt at kopiere et object ind i sig selv
+common#:#msg_not_in_itself#:#Det er ikke muligt at kopiere et object ind i sig selv###10 Jul 2006 content changed
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Objekt oprettet.
 common#:#msg_obj_exists#:#Dette object eksisterer allerede I denne mappe
 common#:#msg_obj_modified#:#Modifikationer er gemt.
 common#:#msg_obj_no_link#:#er ikke tilladt at blive linket til
 common#:#msg_obj_not_deletable_sold#:#Betaling er aktiveret for f&oslash;lgende objekter. De kan ikke slettes.
-common#:#msg_perm_adopted_from_itself#:#Du kan ikke arve rettigheds indstillinger med din nuvaerende rolle.
 common#:#msg_perm_adopted_from1#:#rettigheder er arvet fra
 common#:#msg_perm_adopted_from2#:#(Indstillinger er blevet gemt!)
+common#:#msg_perm_adopted_from_itself#:#Du kan ikke arve rettigheds indstillinger med din nuvaerende rolle.
 common#:#msg_removed#:#Objekt(er) er fjernet fra systemet.
 common#:#msg_role_exists1#:#en rolle/rolle template med navnet
 common#:#msg_role_exists2#:#eksisteret allerede! Vaelg venligst et andet navn
@@ -2271,6 +2455,7 @@ common#:#no_parent_access#:#Du har ikke adgang til de superordinated objekter!
 common#:#no_permission#:#Du har ikke de n&oslash;dvendige rettigheder.
 common#:#no_permission_to_join#:#Du har ikke tilladelse til at se denne gruppe!
 common#:#no_roles_user_can_be_assigned_to#:#Der er ikke nogen globale roler brugeren kan tildels til. Derfor maa du ikke tilf&oslash;je brugere
+common#:#no_submission_made#:#---###10 Jul 2006 new variable
 common#:#no_title#:#Ingen Titel
 common#:#no_tst_in_personal_list#:#Ingen tests i din personlige liste.
 common#:#no_users_applied#:#Vaelg venligst en bruger.
@@ -2289,26 +2474,28 @@ common#:#note#:#Notat
 common#:#note_all_pub_notes#:#Alle noter
 common#:#note_my_pub_notes#:#Kun mine noter
 common#:#notes#:#Noter
-common#:#num_users#:#Antal brugere
+common#:#num_users#:#Antal brugere###10 Jul 2006 content changed
 common#:#number_of_accesses#:#Antal adgang
 common#:#number_of_records#:#Antal data
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#hoved system indstillingers mappe indeholder alle ting til at administrerer din ILIAS installation.
+common#:#obj_adve#:#Advanced editing###10 Jul 2006 new variable
+common#:#obj_adve_desc#:#Administration settings for advanced editing like JavaScript based Rich Text Editors, LaTeX support etc..###10 Jul 2006 new variable
 common#:#obj_alm#:#Laerer Modul AICC
-common#:#obj_assf#:#Test & opgaver
+common#:#obj_assf#:#Test & opgaver###10 Jul 2006 content changed
 common#:#obj_assf_desc#:#Test & Opgaver log indstillinger.
-common#:#obj_auth#:#Vertifikation
-common#:#obj_auth_desc#:#Konfigurer Din vertifikation (lokal, LDAP, ...)
+common#:#obj_auth#:#Vertifikation###10 Jul 2006 content changed
+common#:#obj_auth_desc#:#Konfigurer Din vertifikation (lokal, LDAP, ...)###10 Jul 2006 content changed
 common#:#obj_cat#:#Kategori
 common#:#obj_cen#:#Centra Event
-common#:#obj_chac#:#Chat indstillinger
+common#:#obj_chac#:#Chat indstillinger###10 Jul 2006 content changed
 common#:#obj_chac_desc#:#Konfigurer din chat server her. Aktiver/Deaktiver chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kursus
 common#:#obj_dbk#:#Digilib Bog
 common#:#obj_exc#:#&oslash;velse
-common#:#obj_extt#:#Tredjeparts Software
+common#:#obj_extt#:#Tredjeparts Software###10 Jul 2006 content changed
 common#:#obj_extt_desc#:#Konfigurer ekstern software eller service der er supporterede af ILIAS
 common#:#obj_file#:#Fil
 common#:#obj_fold#:#Mappe
@@ -2333,10 +2520,10 @@ common#:#obj_mob#:#Medie Objekt
 common#:#obj_not_found#:#Objekt ikke fundet
 common#:#obj_note#:#Notat
 common#:#obj_notf#:#Notat Administration
-common#:#obj_objf#:#Objekt definitation
+common#:#obj_objf#:#Objekt definitation###10 Jul 2006 content changed
 common#:#obj_objf_desc#:#Administrer ILIAS objekt typer og objekt rettigheder. (kun for avancerede brugere!)
 common#:#obj_owner#:#Dette objekt er ejet af
-common#:#obj_pays#:#Betalings indstillinger
+common#:#obj_pays#:#Betalings indstillinger###10 Jul 2006 content changed
 common#:#obj_pays_desc#:#Konfigurer betalings indstillinger og leverand&oslash;rer
 common#:#obj_pg#:#Side
 common#:#obj_qpl#:#Sp&oslash;rgsmaals afstemning
@@ -2354,7 +2541,7 @@ common#:#obj_seas#:#S&oslash;g
 common#:#obj_seas_desc#:#Administrer dine s&oslash;g indstillinger.
 common#:#obj_spl#:#Sp&oslash;rgsmaal afstemning til unders&oslash;gelse
 common#:#obj_st#:#Kapitel
-common#:#obj_stys#:#Layout indstillinger
+common#:#obj_stys#:#Layout indstillinger###10 Jul 2006 content changed
 common#:#obj_stys_desc#:#Administrer dine layouts her.
 common#:#obj_svy#:#Unders&oslash;gelse
 common#:#obj_tax#:#Taxonomy
@@ -2368,7 +2555,7 @@ common#:#obj_type#:#Objekt Type
 common#:#obj_url#:#URL
 common#:#obj_uset#:#Bruger indstillinger
 common#:#obj_usr#:#Bruger
-common#:#obj_usrf#:#Bruger konti
+common#:#obj_usrf#:#Bruger konti###10 Jul 2006 content changed
 common#:#obj_usrf_desc#:#Administrer dine bruger konti her.
 common#:#obj_webr#:#Web resource
 common#:#object#:#Objekt
@@ -2424,6 +2611,7 @@ common#:#ok#:#OK
 common#:#old#:#Gammel
 common#:#online#:#Online
 common#:#online_chapter#:#Online Kapitel
+common#:#online_time#:#Time online (DD:HH:MM:SS)###10 Jul 2006 new variable
 common#:#online_version#:#Online Version
 common#:#open_views_inside_frameset#:#aaben liste indeni frame
 common#:#operation#:#Operation
@@ -2431,6 +2619,8 @@ common#:#optimize#:#Optimer
 common#:#options#:#Muligheder
 common#:#options_for_subobjects#:#Muligheder for Underobjekter
 common#:#order_by#:#List efter
+common#:#order_by_answers#:#Order by Answers###10 Jul 2006 new variable
+common#:#order_by_date#:#Order by Date###10 Jul 2006 new variable
 common#:#other#:#Andre
 common#:#overview#:#Oversigt
 common#:#overwrite#:#Overskirv
@@ -2443,16 +2633,18 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passed#:#Bestaaet
 common#:#passwd#:#Password
+common#:#passwd_generation#:#Password Generation###10 Jul 2006 new variable
+common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.###10 Jul 2006 new variable
 common#:#passwd_invalid#:#Det nye password er ugyldigt! Kun gyldige karakterer er gyldige (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~
-common#:#passwd_not_match#:#Det indtastet password passer ikke med det nedeunder! Indtast igen
+common#:#passwd_not_match#:#Det indtastet password passer ikke med det nedeunder! Indtast igen###10 Jul 2006 content changed
 common#:#passwd_wrong#:#Det password du har indtastet er forkert!
 common#:#password#:#Password
 common#:#password_assistance_disabled#:#Password assistance er kun tilg&aelig;ngelig, naar authentication er gjort via lokal ILIAS database.
 common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#paste#:#Indsaet
-common#:#paste_clipboard_items#:#Indsaet fra udklipsholderen
 common#:#pasteChapter#:#Indsaet
 common#:#pastePage#:#Indsaet
+common#:#paste_clipboard_items#:#Indsaet fra udklipsholderen
 common#:#path#:#Sti
 common#:#path_not_set#:#Sti er ikke angivet
 common#:#path_to_babylon#:#Sti til Babylon
@@ -2463,6 +2655,9 @@ common#:#path_to_unzip#:#Sti til udpakning
 common#:#path_to_zip#:#Sti til pakning
 common#:#pathes#:#stier
 common#:#pay_methods#:#betalings metoder
+common#:#payment_buyable#:#Buyable###10 Jul 2006 new variable
+common#:#payment_in_sc#:#Already in shopping cart###10 Jul 2006 new variable
+common#:#payment_payed_access#:#Payed/Access###10 Jul 2006 new variable
 common#:#payment_system#:#Betalingssystem
 common#:#pays_edit#:#Redger betalings indstillinger
 common#:#pays_edit_permission#:#aendrer rettigheds indstillinger
@@ -2470,10 +2665,16 @@ common#:#pays_read#:#Adgang til betalings indstillinger
 common#:#pays_visible#:#Betalings indstillinger er synlige
 common#:#pays_write#:#Rediger betalings indstillinger
 common#:#per_object#:#adgang til objekt
+common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.###10 Jul 2006 new variable
+common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all already existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
+common#:#perm_role_info_glob_1#:#This form determines the permissions of role '%s' for newly created objects in the repository.###10 Jul 2006 new variable
+common#:#perm_role_info_glob_2#:#If you want to change the permissions of role '%s' for all existing objects in the repository you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
 common#:#perm_settings#:#Rettigheder
+common#:#perma_link#:#Permanent Link###10 Jul 2006 new variable
 common#:#permission#:#rettighed
 common#:#permission_denied#:#adgang Naegtet
-common#:#permission_settings#:#adgangs indstillinger
+common#:#permission_settings#:#adgangs indstillinger###10 Jul 2006 content changed
+common#:#permission_settings_info#:#This form determines which role is allowed to do what with the current object '%s'.###10 Jul 2006 new variable
 common#:#person_title#:#Titel
 common#:#personal_data#:#Personlig information
 common#:#personal_desktop#:#Personligt Skrivebord
@@ -2495,8 +2696,10 @@ common#:#please_enter_target#:#indtast en destination
 common#:#please_enter_title#:#indtast en titel
 common#:#please_select_a_delivered_file_to_delete#:#Du skal mindst vaelge en fil at slette!
 common#:#please_select_a_delivered_file_to_download#:#Du skal mindst vaelge en at download!
+common#:#please_wait#:#Please wait...###10 Jul 2006 new variable
 common#:#port#:#Port
 common#:#position#:#Position
+common#:#precondition_not_accessible#:#You do not have sufficient permission to view the precondition(s) of this item.###10 Jul 2006 new variable
 common#:#preconditions#:#Preconditions
 common#:#predefined_template#:#Predefined role skabelon
 common#:#presentation_options#:#Presentation indstillinger
@@ -2505,13 +2708,15 @@ common#:#print#:#Print
 common#:#private_notes#:#Private notater
 common#:#pro#:#Pro
 common#:#profile#:#Profil
-common#:#profile_changed#:#Din profile er blevet aendret
+common#:#profile_changed#:#Din profile er blevet aendret###10 Jul 2006 content changed
+common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.###10 Jul 2006 new variable
 common#:#profile_of#:#Profil af
 common#:#properties#:#Egenskaber
 common#:#pub_section#:#Offentlig Sektion
 common#:#public#:#Offentlig
 common#:#public_notes#:#Offentlig Noter
 common#:#public_profile#:#Offentlig Profil
+common#:#public_profile_not_visible#:#The User Profile is not public###10 Jul 2006 new variable
 common#:#publication#:#Udgivelse
 common#:#publication_date#:#Udgivelsesdato
 common#:#published#:#Udgivet
@@ -2542,7 +2747,7 @@ common#:#refresh_list#:#Opdateringsliste
 common#:#refuse#:#Naegt
 common#:#reg_mail_body_salutation#:#Hej
 common#:#reg_mail_body_text1#:#Velkommen til ILIAS eLearning!
-common#:#reg_mail_body_text2#:#For at faa adgang til ILIAS skal du bruge f&oslash;lgende data
+common#:#reg_mail_body_text2#:#For at faa adgang til ILIAS skal du bruge f&oslash;lgende data###10 Jul 2006 content changed
 common#:#reg_mail_body_text3#:#Mere personlig information:
 common#:#reg_mail_subject#:#ILIAS eLearning - Dine adgangs data
 common#:#reg_passwd_via_mail#:#Dit password vil blive sent til den email der staar nedenunder
@@ -2616,6 +2821,7 @@ common#:#role_desk_none_created#:#Igen baggrund tildelt til denne rolle
 common#:#role_edit#:#Rediger Rolle
 common#:#role_header_edit_users#:#aendrer bruger tildeling
 common#:#role_list_users#:#Liste af brugere
+common#:#role_mailto#:#Mail to all assigned Users###10 Jul 2006 new variable
 common#:#role_new#:#Ny rolle
 common#:#role_new_search#:#Ny s&oslash;gning
 common#:#role_no_groups_selected#:#Vaelg venligst en gruppe
@@ -2700,6 +2906,7 @@ common#:#seas_search#:#Tilladelse til at bruge s&oslash;gning
 common#:#seas_settings#:#S&oslash;gnings indstilleringer
 common#:#seas_visible#:#S&oslash;gnings indstilleringer er synlig
 common#:#seas_write#:#Regidere s&oslash;gnings indstilleringer
+common#:#second#:#Second###10 Jul 2006 new variable
 common#:#seconds#:#Sekunder
 common#:#sections#:#Sektioner
 common#:#select#:#vaelg
@@ -2726,12 +2933,12 @@ common#:#server#:#Server
 common#:#server_data#:#Server data ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#server_software#:#Server Software
 common#:#set#:#Saet
+common#:#setSystemLanguage#:#S&aelig;t system sprog
+common#:#setUserLanguage#:#S&aelig;t Bruger sprog
 common#:#set_offline#:#Saet til Offline
 common#:#set_online#:#Saet til Online
-common#:#setSystemLanguage#:#S&aelig;t system sprog
 common#:#settings#:#Indstillinger
 common#:#settings_saved#:#Gem instillinger
-common#:#setUserLanguage#:#S&aelig;t Bruger sprog
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Aktivere shibboleth support
 common#:#shib_city#:#Tilf&oslash;j by
@@ -2743,7 +2950,7 @@ common#:#shib_department#:#Tilf&oslash;j branche
 common#:#shib_edit_permission#:#aendre rettigheder indstillinger
 common#:#shib_email#:#Tilf&oslash;j email adresse
 common#:#shib_firstname#:#Tilf&oslash;j fornanv
-common#:#shib_gender#:#Tilf&oslash;j k&oslash;n m eller f
+common#:#shib_gender#:#Tilf&oslash;j k&oslash;n m eller f###10 Jul 2006 content changed
 common#:#shib_institution#:#Tilf&oslash;j institution
 common#:#shib_instructions#:#Vaer sikker paa at laese <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instruktioner ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#shib_language#:#Tilskrive sprog
@@ -2767,7 +2974,7 @@ common#:#show#:#Vis
 common#:#show_details#:#Vis Detaljer
 common#:#show_list#:#Vis Liste
 common#:#show_members#:#Vis Medlemmer
-common#:#show_notes_on_pd#:#Show notes on personal desktop
+common#:#show_notes_on_pd#:#Show notes on personal desktop###10 Jul 2006 new variable
 common#:#show_owner#:#Vis Ejer
 common#:#show_private_notes#:#Vis Private Noter
 common#:#show_public_notes#:#Vis offentlig noter
@@ -2888,13 +3095,12 @@ common#:#time_limits#:#Adgang
 common#:#time_segment#:#Tidsperiode
 common#:#title#:#Titel
 common#:#to#:#Til
-common#:#to_client_list#:#Til valg af klient
+common#:#to_client_list#:#Til valg af klient###10 Jul 2006 content changed
 common#:#to_desktop#:#Tilmeld
 common#:#today#:#Idag
 common#:#toggleGlobalDefault#:#Toggle Global Standard
 common#:#toggleGlobalFixed#:#Toggle Global Fast
 common#:#total#:#Total
-common#:#total_online#:#Time online (DD:HH:MM:SS)
 common#:#tpl_path#:#Template Sti
 common#:#trac_delete#:#Slet Sporingsdata
 common#:#trac_edit_permission#:#aendrer sporingsdata
@@ -2907,6 +3113,10 @@ common#:#tracking_data_deleted#:#Sporings data er slettet
 common#:#tracking_settings#:#Sporings indstillinger
 common#:#translation#:#Oversaettelse
 common#:#trash#:#Slettede ting
+common#:#tree_frame#:#Tree Frame###10 Jul 2006 new variable
+common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.###10 Jul 2006 new variable
+common#:#tree_left#:#Left###10 Jul 2006 new variable
+common#:#tree_right#:#Right###10 Jul 2006 new variable
 common#:#treeview#:#Trae oversigt
 common#:#tst#:#Test
 common#:#tst_add#:#Tilf&oslash;j test
@@ -2921,7 +3131,7 @@ common#:#tst_run#:#K&oslash;r
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_upload_file#:#Upload fil
 common#:#tst_user_not_invited#:#Du har ikke lov til at tage den her eksame
-common#:#tst_user_wrong_clientip#:#Du har ikke den rigtige ip til den her test
+common#:#tst_user_wrong_clientip#:#Du har ikke den rigtige ip til den her test###10 Jul 2006 content changed
 common#:#tst_visible#:#Testen er synlig
 common#:#tst_warning_test_not_complete#:#Testen er ikke faerdig
 common#:#tst_write#:#Rediger Test
@@ -2932,6 +3142,10 @@ common#:#txt_submitted#:#Du har succesfuldt sendt en ans&oslash;gning om en kont
 common#:#typ#:#Objekt Type Definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Skriv din besked her
+common#:#udf_update_select_field#:#Edit select box###10 Jul 2006 new variable
+common#:#udf_update_success#:#Saved modifications.###10 Jul 2006 new variable
+common#:#udf_update_text_field#:#Edit text field###10 Jul 2006 new variable
+common#:#udf_value_deleted#:#The value has been deleted.###10 Jul 2006 new variable
 common#:#uid#:#UID
 common#:#unambiguousness#:#Unambiguousness
 common#:#uncheck_all#:#umarker alle
@@ -2952,6 +3166,7 @@ common#:#update_on_conflict#:#Opdate uder konfilkt
 common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload fejl: Fil ikke fundet
 common#:#uploaded_and_checked#:#Filen er blevet uploadet og checket, Du kan nu importere filen.
+common#:#uri#:#URI###10 Jul 2006 new variable
 common#:#url#:#URL
 common#:#url_a#:#En URL
 common#:#url_add#:#Tilf&oslash;j URL
@@ -2964,6 +3179,7 @@ common#:#url_edit_permission#:#aendre rettigheder indstilleringer
 common#:#url_new#:#Ny URL
 common#:#url_not_found#:#Fil ikke fundet
 common#:#url_read#:#aabn URL
+common#:#url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 common#:#url_visible#:#URL er synlig
 common#:#url_write#:#aendret URL
 common#:#user#:#Bruger
@@ -2974,17 +3190,22 @@ common#:#user_cant_receive_mail#:#Bruger har ikke adgang til mail systemet
 common#:#user_comment#:#Bruger kommentar
 common#:#user_deleted#:#Bruger er slettet
 common#:#user_detail#:#Detaljeret Data
+common#:#user_ext_account#:#External Account###10 Jul 2006 new variable
+common#:#user_ext_account_desc#:#Account used for external authentication. (CAS or SOAP authentication)###10 Jul 2006 new variable
 common#:#user_import_failed#:#Bruger import fejl
 common#:#user_imported#:#Bruger importering er gennemf&oslash;rt.
 common#:#user_imported_with_warnings#:#Bruger import faerdig med advarseler
 common#:#user_language#:#Bruger Sprog
+common#:#user_new_account_mail#:#New Account Mail###10 Jul 2006 new variable
+common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.###10 Jul 2006 new variable
 common#:#user_not_chosen#:#Du valgte ikke et gruppemedlem!
 common#:#user_not_known#:#Vaelg et gyldigt bruger navn
 common#:#user_profile_other#:#Andre Information
+common#:#user_send_new_account_mail#:#Send new account mail###10 Jul 2006 new variable
 common#:#user_statistics#:#Statistiske Data
 common#:#userdata#:#Brugerdata
 common#:#userfolder_export_csv#:#Saerskilt komma vaerdi
-common#:#userfolder_export_excel_x86#:#Microsoft Excel
+common#:#userfolder_export_excel_x86#:#Microsoft Excel###10 Jul 2006 content changed
 common#:#userfolder_export_file#:#Fil
 common#:#userfolder_export_file_size#:#Fil st&oslash;rrelse
 common#:#userfolder_export_files#:#Filer
@@ -2994,7 +3215,7 @@ common#:#users#:#Brugere
 common#:#users_not_imported#:#Foelgende brugere eksisterer ikke, Deres beskeder kan ikke importeres
 common#:#users_online#:#Brugere Online
 common#:#users_online_show_associated#:#Vis bruger af mit kursus og gruppe kun
-common#:#users_online_show_n#:#Vis ikke aktive bruger
+common#:#users_online_show_n#:#Vis ikke aktive bruger###10 Jul 2006 content changed
 common#:#users_online_show_y#:#Vis alle aktive bruger
 common#:#usertracking#:#Bruger Sporing
 common#:#usr#:#Bruger
@@ -3008,7 +3229,7 @@ common#:#usr_edit#:#Rediger Bruger
 common#:#usr_hits_per_page#:#Hits/Sider i tabel
 common#:#usr_inactive_only#:#Ikke aktive bruger
 common#:#usr_new#:#Ny Bruger
-common#:#usr_settings_explanation_profile#:#Alle ikke aktiveret profil indstillinger kan kun redigeres af administrator
+common#:#usr_settings_explanation_profile#:#Alle ikke aktiveret profil indstillinger kan kun redigeres af administrator###10 Jul 2006 content changed
 common#:#usr_settings_header_profile#:#Bruger profil indstillinger
 common#:#usr_settings_header_profile_profile#:#Personlig profil indstillinger
 common#:#usr_settings_saved#:#Generel bruger indstillinger gemt rigtigt
@@ -3096,17 +3317,47 @@ common#:#width_x_height#:#Bredde x H&oslash;jde
 common#:#with#:#Med
 common#:#write#:#Skriv
 common#:#wrong_ip_detected#:#Din adgang er naegtet paa grund af forkert klient ip.<br>Kontakt din administrator
+common#:#year#:#Year###10 Jul 2006 new variable
+common#:#years#:#Years###10 Jul 2006 new variable
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Du kan tilfoeje lokale roller
 common#:#your_message#:#Din Besked
 common#:#zip#:#Postnummer
 common#:#zipcode#:#Postnummer
+content#:#HTML export#:#HTML Exportering
+content#:#PDF export#:#PDF Exportering
+content#:#Pages#:#Sider
 content#:#add_menu_entry#:#Tilfoej menu registrering
 content#:#all#:#Alle
 content#:#all_pages#:#Sidste indlaerings modul
 content#:#choose_public_mode#:#Ikke registreret rbuger har adgang
 content#:#choose_public_pages#:#Vaelg offenlig tilg&aelig;ngelig sider
+content#:#citate#:#Citate###10 Jul 2006 new variable
+content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
+content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
+content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Ekstra
+content#:#cont_Alphabetic#:#Alfabetisk A, B, ...###10 Jul 2006 content changed
+content#:#cont_Circle#:#Cirkel
+content#:#cont_Citation#:#Henvisning
+content#:#cont_Code#:#Kode
+content#:#cont_Example#:#Eksempel###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Overskrift 1
+content#:#cont_Headline2#:#Overskrift 2
+content#:#cont_Headline3#:#Overskrift 3
+content#:#cont_List#:#Liste
+content#:#cont_LocalFile#:#Lokale Filer
+content#:#cont_Mnemonic#:#mnemoteknisk
+content#:#cont_Number#:#Nummer
+content#:#cont_Poly#:#Polygon
+content#:#cont_Rect#:#Rektangel
+content#:#cont_Reference#:#Referrencer
+content#:#cont_Remark#:#Iagttage
+content#:#cont_Roman#:#Roman I, II, ...###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Tabel indhold
+content#:#cont_Unordered#:#Usorteret
 content#:#cont_act_number#:#Kapitel nummerering
+content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Aktiver Menu
 content#:#cont_add_area#:#Tilfoej omraade
 content#:#cont_add_change_comment#:#Tilfoej kommentar
@@ -3114,10 +3365,8 @@ content#:#cont_add_definition#:#tilfoej Definition
 content#:#cont_add_fullscreen#:#Tilfoej Fuldskaermd
 content#:#cont_added_comment#:#Kommentar er blevet tilfoejet til historie
 content#:#cont_added_term#:#Periode tilfoejet
-content#:#cont_Additional#:#Ekstra
 content#:#cont_all_definitions#:#Alle Definitationer
 content#:#cont_all_pages#:#Alle sider
-content#:#cont_Alphabetic#:#Alfabetisk A, B, ...
 content#:#cont_annex#:#Annex
 content#:#cont_api_adapter#:#API Adapter Navn
 content#:#cont_api_func_prefix#:#API Funktioner Prefix
@@ -3146,10 +3395,8 @@ content#:#cont_characteristic#:#Karakteristisk
 content#:#cont_choose_cont_obj#:#Vaelg indhold til objektet
 content#:#cont_choose_glossary#:#Vaelg  glosar
 content#:#cont_choose_media_source#:#Vaelg media kilde
-content#:#cont_Circle#:#Cirkel
-content#:#cont_Citation#:#Henvisning
 content#:#cont_citation_err_one#:#Du skal kun vaelge EN udgave
-content#:#cont_citation_selection_not_valid#:#Dit valg er ikke muligt
+content#:#cont_citation_selection_not_valid#:#Dit valg er ikke muligt###10 Jul 2006 content changed
 content#:#cont_citations#:#Citater
 content#:#cont_click_br_corner#:#klik i det hoejre nederste hjoerne i det oenskede omraade
 content#:#cont_click_center#:#Klik i midten af det oenskede omraade ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -3158,7 +3405,6 @@ content#:#cont_click_next_or_save#:#Klik paa det naeste punkt paa polygonen elle
 content#:#cont_click_next_point#:# Klik paa det naeste punkt paa polygonen
 content#:#cont_click_starting_point#:#Klik paa start punktet paa polygonen
 content#:#cont_click_tl_corner#:#Klik i venstre side af toppen i det oenskede omraade
-content#:#cont_Code#:#Kode
 content#:#cont_confirm_delete#:#Vil du virkeligt slette
 content#:#cont_content#:#Indhold
 content#:#cont_content_obj#:#Indholdsobjekt
@@ -3181,12 +3427,14 @@ content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credit
 content#:#cont_cross_reference#:#Kryds referance
 content#:#cont_data_from_lms#:#adlcp:datafromlms
+content#:#cont_deactivate_page#:#Deactivate Page###10 Jul 2006 new variable
 content#:#cont_def_layout#:#Standard Layout
 content#:#cont_def_lesson_mode#:#Standard laere mode
 content#:#cont_def_organization#:#Standard
 content#:#cont_definition#:#Definitation
 content#:#cont_definitions#:#Definitationer
 content#:#cont_del_assignment#:#Slet Opgave
+content#:#cont_delete_selected#:#Delete###10 Jul 2006 new variable
 content#:#cont_dependencies#:#Afhaenger
 content#:#cont_derive_from_obj#:#Vaek fra Objektet
 content#:#cont_details#:#Detaljer
@@ -3248,7 +3496,6 @@ content#:#cont_edit_term#:#Rediger soegeord
 content#:#cont_edition#:#Udgave
 content#:#cont_enable_js#:#JavaScript aktiveret
 content#:#cont_enable_media#:#Aktiver Media
-content#:#cont_Example#:#Eksempel
 content#:#cont_export_files#:#Exporterede Filer
 content#:#cont_external#:#eksternt
 content#:#cont_external_url#:#external url
@@ -3256,6 +3503,7 @@ content#:#cont_file#:#Fil
 content#:#cont_files#:#Filer
 content#:#cont_fix_tree#:#Fix struktur
 content#:#cont_fix_tree_confirm#:#Skriv denne kommando hvis strukturen af laerings modulet er oedelaegt
+content#:#cont_footer#:#Footer###10 Jul 2006 new variable
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Denne operation er ikke tillad
 content#:#cont_frame_botright#:#Content Details (Glossary)
@@ -3270,9 +3518,7 @@ content#:#cont_get_link#:#faa link
 content#:#cont_get_orig_size#:#Saet original stoerrelse
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Egenskaber for opslag
-content#:#cont_Headline1#:#Overskrift 1
-content#:#cont_Headline2#:#Overskrift 2
-content#:#cont_Headline3#:#Overskrift 3
+content#:#cont_header#:#Header###10 Jul 2006 new variable
 content#:#cont_height#:#Hoejde
 content#:#cont_how_published#:#Udgivet hvor
 content#:#cont_href#:#href
@@ -3303,7 +3549,6 @@ content#:#cont_link_int#:#Link (internt )
 content#:#cont_link_select#:#Internt Link
 content#:#cont_link_type#:#Link type
 content#:#cont_linked_mobs#:#Link medie objekter
-content#:#cont_List#:#Liste
 content#:#cont_list_files#:#Fil-liste
 content#:#cont_list_properties#:#Egenskaber for liste
 content#:#cont_lk_chapter#:#Kapitel
@@ -3320,25 +3565,21 @@ content#:#cont_lk_term#:#Glossary Term
 content#:#cont_lk_term_new#:#Ordbogs opsaetning (Ny Ramme)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Egenskaber for Laerermodul
-content#:#cont_LocalFile#:#Lokale Filer
 content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link omraader
 content#:#cont_mastery_score#:#adlcp:masteryscore
-content#:#cont_matches#:#matches
-content#:#cont_matching_question_javascript_hint#:#Definition af billede paa hoejre side af term
 content#:#cont_max_time_allowed#:#adlcp:maxtid tilladt
 content#:#cont_media_source#:#Media Kilde
 content#:#cont_mep_structure#:#Media Pool Struktur
-content#:#cont_missing_preconditions#:#Du skal udfylde alle forhaandsbetingelse til at faa adgang til det her kapitel
-content#:#cont_Mnemonic#:#mnemoteknisk
+content#:#cont_missing_preconditions#:#Du skal udfylde alle forhaandsbetingelse til at faa adgang til det her kapitel###10 Jul 2006 content changed
 content#:#cont_mob_files#:#Objekt Filer
 content#:#cont_mob_inst_prop#:#Vigtige Egenskaber
 content#:#cont_mob_prop#:#Egenskaber for Objekt
 content#:#cont_mob_usages#:#I Brug
 content#:#cont_month#:#Mnaaed
 content#:#cont_move_object#:#Fylt objekt
-content#:#cont_msg_multiple_editions#:#Det er ikke muligt ay vise detaljer af forskellige udgaver
+content#:#cont_msg_multiple_editions#:#Det er ikke muligt ay vise detaljer af forskellige udgaver###10 Jul 2006 content changed
 content#:#cont_name#:#Navn
 content#:#cont_new_area#:#Nyt Link ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#cont_new_assignment#:#Ny Opgave
@@ -3351,13 +3592,12 @@ content#:#cont_no_assign_itself#:#Et objekt kan ikke uddeles til sig selv
 content#:#cont_no_manifest#:#Ingen imsmanifest.xml filer er fundet i hoved biblioteket.
 content#:#cont_no_object_found#:#Kunne ikke finde nogen objekter med dette navn
 content#:#cont_no_page#:#Ingen sider fundet.
-content#:#cont_no_subdir_in_zip#:#Zip kommando fejlet eller import fil invalid
+content#:#cont_no_subdir_in_zip#:#Zip kommando fejlet eller import fil invalid###10 Jul 2006 content changed
 content#:#cont_no_zip_file#:#Import file er ikke en zip fil
 content#:#cont_none#:#Ingen
 content#:#cont_nr_cols#:#Antal kolonner
 content#:#cont_nr_items#:#Antal ting
 content#:#cont_nr_rows#:#Antal linjer
-content#:#cont_Number#:#Nummer
 content#:#cont_obj_removed#:#Objekter er fjernede.
 content#:#cont_offline#:#Offline Versioner
 content#:#cont_offline_files#:#Offline version
@@ -3365,10 +3605,11 @@ content#:#cont_offline_versions#:#Offline Version
 content#:#cont_online#:#Online
 content#:#cont_or#:#eller
 content#:#cont_order#:#Bestil Type
-content#:#cont_ordering_question_javascript_hint#:#Definition af billede paa hoejre side af term du kan tilfoeje det eller smide det ud
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationer
 content#:#cont_orig_size#:#Original Stoerrelse
+content#:#cont_page_deactivated#:#Page is deactivated.###10 Jul 2006 new variable
+content#:#cont_page_deactivated_elements#:#Page contains deactivated elements.###10 Jul 2006 new variable
 content#:#cont_page_header#:#Hoved overskrift
 content#:#cont_page_link#:#Hoved link
 content#:#cont_page_select_target_now#:#Side er markeret til flytning. Vaelg destination nu.
@@ -3380,7 +3621,6 @@ content#:#cont_personal_clipboard#:#Personlig udklipsholder
 content#:#cont_pg_content#:#Side Indhold
 content#:#cont_pg_title#:#Side Titel
 content#:#cont_please_select#:#Vaelg venligst
-content#:#cont_Poly#:#Polygon
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Se eksempel
@@ -3390,24 +3630,18 @@ content#:#cont_public_notes#:#Offentligt notater
 content#:#cont_public_notes_desc#:#Allow users to share notes on every page of the learning module.
 content#:#cont_publisher#:#Udgiver
 content#:#cont_purpose#:#Formaaler
-content#:#cont_Rect#:#Rektangel
 content#:#cont_ref_helptext#:#(f.eks http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Referenced Images
-content#:#cont_Reference#:#Referrencer
-content#:#cont_Remark#:#Iagttage
 content#:#cont_remove_fullscreen#:#fjern fulsskaerm
 content#:#cont_removeiln#:#really remove internal link ?
 content#:#cont_repository_item#:#Repository Item
 content#:#cont_repository_item_links#:#Repository Item Links
-content#:#cont_reset_definitions#:#Reset definition positions
-content#:#cont_reset_pictures#:#Reset picture positions
 content#:#cont_resize_explanation#:# Hvis denne option er aktiveret kan du uploade billede filer automtisk hvis det passer med stoerrelse og bredde
 content#:#cont_resize_explanation2#:#Denne funktion tilpasser billedet til den rigtigt stoerrelse og bredde
 content#:#cont_resize_image#:#Resize billede
 content#:#cont_resource#:#Resourcer
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resourcer
-content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_rvalue#:#Vaerdie
 content#:#cont_saved_map_area#:#Gemt kort omraade
 content#:#cont_saved_map_data#:#Gemt omraade data
@@ -3477,7 +3711,6 @@ content#:#cont_table_html_import_info#:#Import only works with XHTML conform tab
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_table_width#:#Table Width
-content#:#cont_TableContent#:#Tabel indhold
 content#:#cont_target_within_source#:#Destinationen maa ikke vaere den samme som kilden.
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
@@ -3502,11 +3735,11 @@ content#:#cont_tracking_items#:#Sporer ting
 content#:#cont_translations#:#Oversaettelse
 content#:#cont_translations_assigned#:#Oversaettelsen er uddelt
 content#:#cont_tree_fixed#:#Struktur er lavet
-content#:#cont_Unordered#:#Usorteret
 content#:#cont_update#:#Updater
 content#:#cont_update_names#:#Updateringsnavne
 content#:#cont_upload_file#:#Upload Fil
 content#:#cont_url#:#URL
+content#:#cont_usage#:#Usage###10 Jul 2006 new variable
 content#:#cont_users_have_mob_in_clip1#:#Dette media objekt er I udklipsholderen til
 content#:#cont_users_have_mob_in_clip2#:#Bruger(ere).
 content#:#cont_validate_file#:#Godkend fil
@@ -3517,11 +3750,11 @@ content#:#cont_width#:#Bredde
 content#:#cont_wysiwyg#:#Indhold Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#aar
-content#:#cont_zip_file_invalid#:#Import fil virker ikke
+content#:#cont_zip_file_invalid#:#Import fil virker ikke###10 Jul 2006 content changed
 content#:#copied_to_clipboard#:#Kopierede objekter til udklipholder.
+content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#De foelgende ressourcer til denne term
-content#:#HTML export#:#HTML Exportering
 content#:#lm_menu_edit_entry#:#aendre menu indgang
 content#:#lm_menu_entry_target#:#Target
 content#:#lm_menu_entry_title#:#Title
@@ -3533,23 +3766,24 @@ content#:#msg_entry_removed#:#Menu indgang fjernet
 content#:#msg_entry_updated#:#Menu indgang opdateret
 content#:#msg_page_no_public_access#:#Den kladte side er ikke gyldig i offentlig sektion. Kun registreret bruger kan se denne side
 content#:#msg_page_not_public#:#Side er ikke offentlig
-content#:#Pages#:#Sider
 content#:#pages from#:#Sider fra
 content#:#par#:#Linje
-content#:#PDF export#:#PDF Exportering
 content#:#pg#:#side
 content#:#public_section#:#Offentlig sektion
 content#:#read offline#:#Laes Offline
+content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
+content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Vaelg en fil.
 content#:#selected_pages_only#:#Kun den side under ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#set_public_mode#:#Saet offentlig adgang
 content#:#st#:#Kapitel
 content#:#start export#:#Start Exportering
 crs#:#activation_times_not_valid#:#Gyldigheds periode er ikk gyldig mere
+crs#:#add_event#:#Add Event###10 Jul 2006 new variable
 crs#:#assigned#:#Tilfoejet
 crs#:#contact_email_not_valid#:#Kontakt email er ikk gyldig
-crs#:#crs_accept_subscriber#:#Kursus Tilmeldelse
-crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.
+crs#:#crs_accept_subscriber#:#Kursus Tilmeldelse###10 Jul 2006 content changed
+crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.###10 Jul 2006 content changed
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Aktivering
 crs#:#crs_add_archive_html#:#Tilfoej HTML-Arkiv
@@ -3559,11 +3793,11 @@ crs#:#crs_add_grp_assignment#:#Assign course(s)
 crs#:#crs_add_html_archive#:#Tilfoej HTML arkiv
 crs#:#crs_add_member#:#Tilfoej medlem/medlemmer
 crs#:#crs_add_objective#:#Tilfoej objektiver
-crs#:#crs_add_starter#:#Tilfoej start objekt
+crs#:#crs_add_starter#:#Tilfoej start objekt###10 Jul 2006 content changed
 crs#:#crs_add_subscribers#:#Tilfoej abonnent
 crs#:#crs_added#:#Tilfoejet ny kursus
-crs#:#crs_added_member#:#Medlemmer af kurset
-crs#:#crs_added_member_body#:#Du er blevet accepteret til dette kursus.
+crs#:#crs_added_member#:#Medlemmer af kurset###10 Jul 2006 content changed
+crs#:#crs_added_member_body#:#Du er blevet accepteret til dette kursus.###10 Jul 2006 content changed
 crs#:#crs_added_new_archive#:#Et nyt arkiv er blevet tilfoejet.
 crs#:#crs_added_objective#:#Et nyt laerings objekt er blevet oprettet
 crs#:#crs_added_starters#:#Tilfoejet et nyt start objekt
@@ -3588,10 +3822,10 @@ crs#:#crs_availability_limitless_info#:#Vaelg denne mdoe til at lave dette kursu
 crs#:#crs_availability_until_info#:#Vaelg denne mdoe til at lave dette kursus anvendelig og for at bruger kan faa adgang i en hvis antal tid
 crs#:#crs_availability_unvisible_info#:#Vaelg denne mode til forberedelse af kursus. Kun kursus administrator og laerer kan se og redigere i dette kursus
 crs#:#crs_blocked#:#Adgaeng naegtet
-crs#:#crs_blocked_member#:#Medlemmer af kurset
-crs#:#crs_blocked_member_body#:#Dit medlemskab er blevet lukket.
-crs#:#crs_cancel_subscription#:#Afregistrering fra kursus
-crs#:#crs_cancel_subscription_body#:#En bruger har afmeldt sig kurset.
+crs#:#crs_blocked_member#:#Medlemmer af kurset###10 Jul 2006 content changed
+crs#:#crs_blocked_member_body#:#Dit medlemskab er blevet lukket.###10 Jul 2006 content changed
+crs#:#crs_cancel_subscription#:#Afregistrering fra kursus###10 Jul 2006 content changed
+crs#:#crs_cancel_subscription_body#:#En bruger har afmeldt sig kurset.###10 Jul 2006 content changed
 crs#:#crs_change_status#:#Skift status af objekt
 crs#:#crs_chapter_already_assigned#:#Disse kapiteler er allerede blevet tilfoejet
 crs#:#crs_contact#:#Kontakt
@@ -3608,6 +3842,7 @@ crs#:#crs_create_date#:#Oprettelsesdato
 crs#:#crs_crs_structure#:#Kursus struktur
 crs#:#crs_dates#:#Datoer
 crs#:#crs_deassign_lm_sure#:#Er du sikker paa at du vil slette denne tilfoejelse
+crs#:#crs_delete_file#:#Delete File?###10 Jul 2006 new variable
 crs#:#crs_delete_from_list_sure#:#Er du sikker paa at du vil fjerne de foelgende bruger fra denne liste
 crs#:#crs_delete_from_waiting_list#:#Fjern vente liste
 crs#:#crs_delete_member#:#Afmeld medlem/medlemmer
@@ -3616,15 +3851,24 @@ crs#:#crs_delete_objectve_sure#:#Er du sikker paa at du vil slette de valgte obj
 crs#:#crs_delete_subscribers#:#Slet abonnent
 crs#:#crs_delete_subscribers_sure#:#Vil du slette de foelgende brugere
 crs#:#crs_details#:#Kursus detaljer
-crs#:#crs_dismiss_member#:#Kursus medlemskab
-crs#:#crs_dismiss_member_body#:#Dit medlemskab er blevet lukket
+crs#:#crs_dismiss_member#:#Kursus medlemskab###10 Jul 2006 content changed
+crs#:#crs_dismiss_member_body#:#Dit medlemskab er blevet lukket###10 Jul 2006 content changed
 crs#:#crs_edit_archive#:#Rediger Arkiver
 crs#:#crs_edit_content#:#aendre post
+crs#:#crs_edit_start_objects#:#Edit Start Objects###10 Jul 2006 new variable
+crs#:#crs_edit_timings#:#Edit Timings###10 Jul 2006 new variable
 crs#:#crs_end#:#Slut
+crs#:#crs_existing_files#:#Existing Files:###10 Jul 2006 new variable
 crs#:#crs_export#:#Eksporter kursus
+crs#:#crs_file#:#File###10 Jul 2006 new variable
+crs#:#crs_file_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#crs_file_name#:#Filnavn
+crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
 crs#:#crs_free_places#:#Available places
-crs#:#crs_from#:#Fra:
+crs#:#crs_from#:#Fra:###10 Jul 2006 content changed
+crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
+crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_assign#:#Rediger Opgave
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
@@ -3658,12 +3902,17 @@ crs#:#crs_hide_link_objectives#:#Hide objectives
 crs#:#crs_hide_link_or#:#Hide other resources
 crs#:#crs_hide_link_tst#:#Hide tests
 crs#:#crs_html#:#HTML
+crs#:#crs_important_info#:#Important Informations###10 Jul 2006 new variable
+crs#:#crs_info_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#crs_info_reg#:#Registreringsinformation
 crs#:#crs_info_reg_confirmation#:#Dette kursus kraever godkendelse fra en kursus administrator. Du vil modtage en besked hvis du bliver godkendt.
 crs#:#crs_info_reg_deactivated#:#Registration ikke ikke muligt
 crs#:#crs_info_reg_direct#:#Det er noedvendigt at registrere sig til dette kursus
 crs#:#crs_info_reg_password#:#Registration kraever et gyldigt password.
+crs#:#crs_info_settings#:#Course Informations###10 Jul 2006 new variable
 crs#:#crs_info_start#:#Arbejde igemmen alle kursus maalene.<br />Efter du har gemmenfoert alle de roed maerket objekter vil et ny kursus maal blive aktiveret
+crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.###10 Jul 2006 new variable
+crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.###10 Jul 2006 new variable
 crs#:#crs_learning_materials#:#Learning materials
 crs#:#crs_list_users#:#Vis brugere
 crs#:#crs_lm_assignment#:#Learning material assignment
@@ -3671,6 +3920,7 @@ crs#:#crs_lm_assignment_deleted#:#Deleted assignment
 crs#:#crs_lm_deassign#:#Delete assignment
 crs#:#crs_lm_no_assignments_selected#:#Please select one assignment
 crs#:#crs_lms_already_assigned#:#These learning materials were already assigned
+crs#:#crs_materials#:#Course Materials###10 Jul 2006 new variable
 crs#:#crs_max_members_reached#:#Det maximale antal medlemmer naaed
 crs#:#crs_mem_change_status#:#aendre status
 crs#:#crs_mem_send_mail#:#Send mail
@@ -3689,10 +3939,10 @@ crs#:#crs_move_up#:#Ryk op
 crs#:#crs_moved_item#:#Rykket kursus
 crs#:#crs_moved_objective#:#Fylt laerings objekt
 crs#:#crs_new_search#:#Ny soegning
-crs#:#crs_new_subscription#:#Nyt kursus tilmelding
-crs#:#crs_new_subscription_body#:#En ny brugere er blevet tilmeldt
-crs#:#crs_new_subscription_request#:#Forsoeg at komme paa kursus
-crs#:#crs_new_subscription_request_body#:#En bruger forsoeger at komme paa kursus
+crs#:#crs_new_subscription#:#Nyt kursus tilmelding###10 Jul 2006 content changed
+crs#:#crs_new_subscription_body#:#En ny brugere er blevet tilmeldt###10 Jul 2006 content changed
+crs#:#crs_new_subscription_request#:#Forsoeg at komme paa kursus###10 Jul 2006 content changed
+crs#:#crs_new_subscription_request_body#:#En bruger forsoeger at komme paa kursus###10 Jul 2006 content changed
 crs#:#crs_no_archive_selected#:#Ingen arkiver valgt
 crs#:#crs_no_archives_available#:#Ingen arkiver til raadighed
 crs#:#crs_no_archives_selected#:#Vaelg venligst et arkiv
@@ -3703,7 +3953,7 @@ crs#:#crs_no_items_found#:#Ingen genstande
 crs#:#crs_no_language#:#Intet sprog
 crs#:#crs_no_lm_selected#:#Vaelg et laerings matriale
 crs#:#crs_no_lms_assigned#:#Der er ingen laerings material tilfoejet
-crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.
+crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.###10 Jul 2006 new variable
 crs#:#crs_no_lms_inside_crs#:#Der er ingen laerings materiale inde i dette kursus der kan blive tilfoejet til dette laerings objekt
 crs#:#crs_no_member_selected#:#Vaelg venligst et medlem
 crs#:#crs_no_members_assigned#:#Ingen medlemmer tilmeldt dette kursus
@@ -3770,6 +4020,7 @@ crs#:#crs_other_groupings#:#Gruppering af andre kurser
 crs#:#crs_other_resources#:#Andre resourcerer
 crs#:#crs_passed#:#Bestaaet
 crs#:#crs_password_not_valid#:#Dit password er ugyldigt
+crs#:#crs_password_required#:#This registration procedure requires a password.###10 Jul 2006 new variable
 crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Personer der er paa vente liste
 crs#:#crs_print_list#:#Udprint Liste
@@ -3793,8 +4044,8 @@ crs#:#crs_registration_deactivated#:#Vaelg denne option for Choose this option f
 crs#:#crs_registration_limited#:#Ubegraenset tid til registration
 crs#:#crs_registration_type#:#Registrations type
 crs#:#crs_registration_unlimited#:#Midlertidighed ubegraenset
-crs#:#crs_reject_subscriber#:#Kursustilmelding
-crs#:#crs_reject_subscriber_body#:#Din tilmelding er blevet afslaaet.
+crs#:#crs_reject_subscriber#:#Kursustilmelding###10 Jul 2006 content changed
+crs#:#crs_reject_subscriber_body#:#Din tilmelding er blevet afslaaet.###10 Jul 2006 content changed
 crs#:#crs_reset_results#:#Genstart resultat
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle / Status
@@ -3809,9 +4060,9 @@ crs#:#crs_select_native_lm#:#Enkelk kapitel kan blive tilfoejet til ILIAS laerin
 crs#:#crs_select_one_archive#:#Vaelg venligst et arkiv
 crs#:#crs_select_one_object#:#Vaelg en kursus maal
 crs#:#crs_select_registration_type#:#Vaelg en registerings type
-crs#:#crs_select_starter#:#Vaelg start objekt
+crs#:#crs_select_starter#:#Vaelg start objekt###10 Jul 2006 content changed
 crs#:#crs_set_on_waiting_list#:#register til dette kursus for at komme paa vente liste
-crs#:#crs_settings#:#Kursus indstillinger
+crs#:#crs_settings#:#Kursus indstillinger###10 Jul 2006 content changed
 crs#:#crs_settings_saved#:#Indstillinger gemt
 crs#:#crs_show_link_lms#:#Vis laerings material
 crs#:#crs_show_link_objectives#:#Vis objektiv
@@ -3825,12 +4076,12 @@ crs#:#crs_sort_title#:#Sorter efter titel
 crs#:#crs_sortorder#:#Sorter
 crs#:#crs_sortorder_abo#:#Sortorder/Subscription
 crs#:#crs_start#:#Start
-crs#:#crs_start_objects#:#Start objekter
+crs#:#crs_start_objects#:#Start objekter###10 Jul 2006 content changed
 crs#:#crs_starter_deleted#:#Fjern tilfoejelse
 crs#:#crs_starters_already_assigned#:#Detet objekt er allerede tilfoejet
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Kursus status
-crs#:#crs_status_changed_body#:#Dit kursus status er blevet aendret.
+crs#:#crs_status_changed#:#Kursus status###10 Jul 2006 content changed
+crs#:#crs_status_changed_body#:#Dit kursus status er blevet aendret.###10 Jul 2006 content changed
 crs#:#crs_structure#:#Kursus struktur
 crs#:#crs_subscribers#:#Abonnenter
 crs#:#crs_subscribers_deleted#:#Slet abonnent/abonnenter
@@ -3845,20 +4096,41 @@ crs#:#crs_subscription_requested#:#Du er blevet anmodet medlemsskab til dette ku
 crs#:#crs_subscription_successful#:#Du er blevet tilfoejet til dette kursus
 crs#:#crs_subscription_type#:#Subscription type
 crs#:#crs_suggest_lm#:#Suggest learning materials if:
+crs#:#crs_suggestion_end#:#Suggested End###10 Jul 2006 new variable
 crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives
 crs#:#crs_syllabus#:#Syllabus
-crs#:#crs_table_start_objects#:#Start objekter
+crs#:#crs_table_start_objects#:#Start objekter###10 Jul 2006 content changed
 crs#:#crs_test_status_complete#:#Faerdig
 crs#:#crs_test_status_not_complete#:#Ikke faerdig
 crs#:#crs_test_status_random#:#Random test
 crs#:#crs_time#:#Tildmeldning periode
-crs#:#crs_to#:#Til:
+crs#:#crs_timings_availability_enabled#:#Temporarily Available###10 Jul 2006 new variable
+crs#:#crs_timings_availability_tbl#:#Availability###10 Jul 2006 new variable
+crs#:#crs_timings_changeable#:#Time Target Changeable###10 Jul 2006 new variable
+crs#:#crs_timings_disabled#:#Timings Disabled###10 Jul 2006 new variable
+crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.###10 Jul 2006 new variable
+crs#:#crs_timings_duration#:#Duration###10 Jul 2006 new variable
+crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
+crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
+crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
+crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
+crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
+crs#:#crs_timings_short_active#:#Enabled###10 Jul 2006 new variable
+crs#:#crs_timings_short_changeable#:#Changeable###10 Jul 2006 new variable
+crs#:#crs_timings_short_limit_start_end#:#Changeable From/Until###10 Jul 2006 new variable
+crs#:#crs_timings_short_start_end#:#Suggested Start/End###10 Jul 2006 new variable
+crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
+crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
+crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
+crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
+crs#:#crs_to#:#Til:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Laerer
 crs#:#crs_tutor_no_notify#:#Laerer (Skal ikke underettes)
 crs#:#crs_tutor_notify#:#Laerer (Underettes)
 crs#:#crs_unblocked#:#Gratis Entre
-crs#:#crs_unblocked_member#:#Kursus medlemsskab
-crs#:#crs_unblocked_member_body#:#Dit medlemsskab er blevet genaabnet
+crs#:#crs_unblocked_member#:#Kursus medlemsskab###10 Jul 2006 content changed
+crs#:#crs_unblocked_member_body#:#Dit medlemsskab er blevet genaabnet###10 Jul 2006 content changed
 crs#:#crs_unlimited#:#Ubegraenset
 crs#:#crs_unsubscribe#:#Afmeld
 crs#:#crs_unsubscribe_sure#:#Vil du afmeldes dette kursus
@@ -3875,11 +4147,103 @@ crs#:#crs_wait_info#:#Hvis aktiveret og max af bruger i overskrider, vil den ny 
 crs#:#crs_waiting_list#:#Vente liste
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Din position paa vente liste
-crs#:#edit_content#:#Redigere indhold
-crs#:#import_crs#:#Import course
+crs#:#edit_content#:#Redigere indhold###10 Jul 2006 content changed
+crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
+crs#:#event_add_new_event#:#Added new event###10 Jul 2006 new variable
+crs#:#event_assign_materials#:#Assign Materials###10 Jul 2006 new variable
+crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.###10 Jul 2006 new variable
+crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
+crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
+crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
+crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
+crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
+crs#:#event_desc#:#Description###10 Jul 2006 new variable
+crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
+crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
+crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
+crs#:#event_file#:#File###10 Jul 2006 new variable
+crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
+crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
+crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
+crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
+crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
+crs#:#event_lecturer#:#Name###10 Jul 2006 new variable
+crs#:#event_location#:#Location###10 Jul 2006 new variable
+crs#:#event_participation#:#Participation###10 Jul 2006 new variable
+crs#:#event_register#:#Register###10 Jul 2006 new variable
+crs#:#event_registered#:#You have been registered to this event.###10 Jul 2006 new variable
+crs#:#event_registration#:#Registration###10 Jul 2006 new variable
+crs#:#event_registration_info#:#Allow users to register to the event.###10 Jul 2006 new variable
+crs#:#event_registration_participance#:#Registration###10 Jul 2006 new variable
+crs#:#event_save_participants#:#Save Participance###10 Jul 2006 new variable
+crs#:#event_start_date#:#Date###10 Jul 2006 new variable
+crs#:#event_table_create#:#New Event###10 Jul 2006 new variable
+crs#:#event_table_update#:#Edit Event###10 Jul 2006 new variable
+crs#:#event_tbl_participants#:#List of Participants###10 Jul 2006 new variable
+crs#:#event_tbl_participated#:#Participated###10 Jul 2006 new variable
+crs#:#event_tbl_registered#:#Registered###10 Jul 2006 new variable
+crs#:#event_time#:#Time###10 Jul 2006 new variable
+crs#:#event_title#:#Title###10 Jul 2006 new variable
+crs#:#event_tutor_data#:#Informations About the Lecturer ###10 Jul 2006 new variable
+crs#:#event_unregister#:#Unregister###10 Jul 2006 new variable
+crs#:#event_unregistered#:#You have been unregistered.###10 Jul 2006 new variable
+crs#:#event_updated#:#Saved Settings###10 Jul 2006 new variable
+crs#:#events#:#Events###10 Jul 2006 new variable
+crs#:#events_deleted#:#Event deleted###10 Jul 2006 new variable
+crs#:#import_crs#:#Import course###10 Jul 2006 content changed
 crs#:#learners_view#:#Elev syn
 crs#:#subscription_times_not_valid#:#Registrerings periode er ikke gyldig
+crs#:#timing_accept_table#:####10 Jul 2006 new variable
+crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
+crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
+crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
+crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
+crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
+crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
+crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
+crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
+crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Arkiver
+dateplaner#:#DateText#:#Besked
+dateplaner#:#Day_long#:#Dagsoversigt
+dateplaner#:#ERROR_DATE_EXISTS#:#Denne dato eksisterer allerede.
+dateplaner#:#ERROR_DB#:#Kunne ikke skrive til Database!
+dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.
+dateplaner#:#ERROR_DEL_MSG#:#Dette er en Rotations Dato. Vil du slette en eller alle dato.er
+dateplaner#:#ERROR_ENDDATE#:#Forkert slutdato input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Forkert sluttidspunkt. Format: hh:mm
+dateplaner#:#ERROR_END_START#:#Forkert Slutdato input. Slutdato er foer Startdato.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Bug en gyldig csv Fil.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Din browser understoetter ikke Javascript. <BR> Luk dette vindue efter manuel indsaetning. <BR> Tak</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Forkert Raekkefoelge Slutdato input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Forkert Raekkefoelge  slutdato er foer dtartdato.
+dateplaner#:#ERROR_SHORTTEXT#:#Forkert korttekst input. Korttekst er paakraevet.
+dateplaner#:#ERROR_STARTDATE#:#Forkert startdato input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Forkert starttidspunkt. Format: hh:mm
+dateplaner#:#ERROR_TS#:#ukorrekt dato format
+dateplaner#:#Fr_long#:#Fredag
+dateplaner#:#Fr_short#:#Fre
+dateplaner#:#Language_file#:#engelsk
+dateplaner#:#Listbox_long#:#Oversigt over aftaler
+dateplaner#:#Mo_long#:#Mandag
+dateplaner#:#Mo_short#:#Ma
+dateplaner#:#Month_long#:#Maanedsoversigt
+dateplaner#:#Sa_long#:#Loerdag
+dateplaner#:#Sa_short#:#loe
+dateplaner#:#Su_long#:#Soendag
+dateplaner#:#Su_short#:#Soe
+dateplaner#:#Text#:#Tekst
+dateplaner#:#Th_long#:#Torsdag
+dateplaner#:#Th_short#:#To
+dateplaner#:#Tu_long#:#Tirsdag
+dateplaner#:#Tu_short#:#Ti
+dateplaner#:#View#:#Oversigt:
+dateplaner#:#We_long#:#Onsdag
+dateplaner#:#We_short#:#On
+dateplaner#:#Week_long#:#Weekend Oversigt
 dateplaner#:#add_data#:#Briugt data
 dateplaner#:#app_#:#Datoplanlaegning
 dateplaner#:#app_date#:#indsaet dato
@@ -3896,20 +4260,19 @@ dateplaner#:#back#:#Tilbage
 dateplaner#:#begin_date#:#Begyndelse af dato
 dateplaner#:#busytime#:#Travl tid i gruppe
 dateplaner#:#c_date#:#Opret Aftale
-dateplaner#:#changedDates#:#aendrede datoer
 dateplaner#:#changeTo#:#aendret til:
+dateplaner#:#changedDates#:#aendrede datoer
 dateplaner#:#checkforfreetime#:#Soeg efter ledig tid
 dateplaner#:#created#:#Oprettet
 dateplaner#:#date#:#Dato
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
-dateplaner#:#DateText#:#Besked
-dateplaner#:#Day_long#:#Dagsoversigt
 dateplaner#:#del_all#:#Slet alle dato.er
 dateplaner#:#del_one#:#Slet en dato
 dateplaner#:#delete#:#slet
 dateplaner#:#deletedDates#:#Slettede datoer
 dateplaner#:#discard#:#Afbryd
+dateplaner#:#dv_Grouptime#:#ledig tid
 dateplaner#:#dv_button_cancel#:#Annuler
 dateplaner#:#dv_button_delete#:#Slet
 dateplaner#:#dv_button_insert#:#Indsaet
@@ -3919,7 +4282,6 @@ dateplaner#:#dv_date_end#:#Slut dato:
 dateplaner#:#dv_date_hm#:#Time:Minut
 dateplaner#:#dv_enddate#:#Slutdato:
 dateplaner#:#dv_groupselect#:#Valg af gruppe:
-dateplaner#:#dv_Grouptime#:#ledig tid
 dateplaner#:#dv_groupview#:#Gruppedato:
 dateplaner#:#dv_groupview_text#:#Gruppe:<br>
 dateplaner#:#dv_keywords#:#Noegleord:
@@ -3938,26 +4300,9 @@ dateplaner#:#dv_whole_day#:#Hele dagen:
 dateplaner#:#dv_whole_rotation#:#Vil du slette hele Rotationdatoen? (Marker checkboxen)
 dateplaner#:#end_date#:#Slutdato
 dateplaner#:#endtime_for_view#:#Slutdato for gennemgang:
-dateplaner#:#ERROR_DATE_EXISTS#:#Denne dato eksisterer allerede.
-dateplaner#:#ERROR_DB#:#Kunne ikke skrive til Database!
-dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.
-dateplaner#:#ERROR_DEL_MSG#:#Dette er en Rotations Dato. Vil du slette en eller alle dato.er
-dateplaner#:#ERROR_END_START#:#Forkert Slutdato input. Slutdato er foer Startdato.
-dateplaner#:#ERROR_ENDDATE#:#Forkert slutdato input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Forkert sluttidspunkt. Format: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Bug en gyldig csv Fil.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Din browser understoetter ikke Javascript. <BR> Luk dette vindue efter manuel indsaetning. <BR> Tak</CENTER></B>
 dateplaner#:#error_minical_img#:#kan ikke oprette GD-picture-stream
-dateplaner#:#ERROR_ROT_END_START#:#Forkert Raekkefoelge  slutdato er foer dtartdato.
-dateplaner#:#ERROR_ROTATIONEND#:#Forkert Raekkefoelge Slutdato input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_SHORTTEXT#:#Forkert korttekst input. Korttekst er paakraevet.
-dateplaner#:#ERROR_STARTDATE#:#Forkert startdato input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Forkert starttidspunkt. Format: hh:mm
-dateplaner#:#ERROR_TS#:#ukorrekt dato format
 dateplaner#:#execute#:#Koer din valg
 dateplaner#:#extra_dates#:#Endags dato.er
-dateplaner#:#Fr_long#:#Fredag
-dateplaner#:#Fr_short#:#Fre
 dateplaner#:#free#:#ledig
 dateplaner#:#freetime#:#Ledig tid i gruppen
 dateplaner#:#group#:#gruppe
@@ -3978,9 +4323,9 @@ dateplaner#:#help_group_l#:#Indeholder gruppen som bruger har administrator rett
 dateplaner#:#help_inbox#:#Dateplanlaegnings indboks
 dateplaner#:#help_inbox_l#:#Her er alle nye, aendrede og slettede gruppedato.er vist.
 dateplaner#:#help_keyword#:#Valg af noegleord
-dateplaner#:#help_keyword_l#:#Indeholder noegleordet som en bruge kan bruge til at henvise til en dato.
 dateplaner#:#help_keywordUse#:#Valg af noegleord
 dateplaner#:#help_keywordUse_l#:#Vaelg et eller flere noegleord fra dialog boksen. <br>TIP: Brug CTRL tasten for at markere flere ord.
+dateplaner#:#help_keyword_l#:#Indeholder noegleordet som en bruge kan bruge til at henvise til en dato.
 dateplaner#:#help_list#:#Datoplanlaegnings datoliste
 dateplaner#:#help_list_l#:#I datolisten er alle dato.er over en given periode vist.
 dateplaner#:#help_month#:#Datoplanlaegnings maanedsoversigt
@@ -4015,9 +4360,7 @@ dateplaner#:#k_alldates#:#alle datoer
 dateplaner#:#keep#:#Behold
 dateplaner#:#keyword#:#Noegleord
 dateplaner#:#keywords#:#Noegleord
-dateplaner#:#Language_file#:#engelsk
 dateplaner#:#last_change#:#Sidst aendret
-dateplaner#:#Listbox_long#:#Oversigt over aftaler
 dateplaner#:#long_01#:#January
 dateplaner#:#long_02#:#Feburar
 dateplaner#:#long_03#:#Marts
@@ -4033,16 +4376,13 @@ dateplaner#:#long_12#:#December
 dateplaner#:#main_dates#:#Hoved datoer
 dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#sidste maaned
-dateplaner#:#Mo_long#:#Mandag
-dateplaner#:#Mo_short#:#Ma
 dateplaner#:#month#:#maaned
-dateplaner#:#Month_long#:#Maanedsoversigt
 dateplaner#:#more#:#mere
 dateplaner#:#mweek#:#sidste aar
 dateplaner#:#myeahr#:#sidste aar
-dateplaner#:#new_doc#:#Opret ny dato
 dateplaner#:#newDates#:#Nye datoer
 dateplaner#:#newKeyword#:#Ny
+dateplaner#:#new_doc#:#Opret ny dato
 dateplaner#:#no_entry#:#Ingen dag tilg&aelig;ngelig
 dateplaner#:#o_day_date#:#24 timers dag
 dateplaner#:#of#:#af
@@ -4063,8 +4403,6 @@ dateplaner#:#r_year#:#hvert aar
 dateplaner#:#readimportfile#:#indsaet
 dateplaner#:#rotation#:#Rotation
 dateplaner#:#rotation_dates#:#Rotations Datoer
-dateplaner#:#Sa_long#:#Loerdag
-dateplaner#:#Sa_short#:#loe
 dateplaner#:#semester_name#:#Semester Navn
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -4081,28 +4419,17 @@ dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Kort Tekst
 dateplaner#:#singleDate#:#enkelt dato
 dateplaner#:#starttime_for_view#:#Starttid for visning:
-dateplaner#:#Su_long#:#Soendag
-dateplaner#:#Su_short#:#Soe
-dateplaner#:#Text#:#Tekst
-dateplaner#:#Th_long#:#Torsdag
-dateplaner#:#Th_short#:#To
 dateplaner#:#timedate#:#Tid / Dato
 dateplaner#:#timeslice#:#Tid:
 dateplaner#:#title#:#Ilias dato planaegning
 dateplaner#:#to#:#til
 dateplaner#:#today#:#idag
-dateplaner#:#Tu_long#:#Tirsdag
-dateplaner#:#Tu_short#:#Ti
-dateplaner#:#View#:#Oversigt:
 dateplaner#:#viewlist#:#vis
-dateplaner#:#We_long#:#Onsdag
-dateplaner#:#We_short#:#On
 dateplaner#:#week#:#uge
-dateplaner#:#Week_long#:#Weekend Oversigt
 dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#aar
 forum#:#forum_anonymize#:#Skriv anonym
-forum#:#forum_anonymize_desc#:# Skriv denne meddelse anonym (Din ILIAS bruger navn vil ikke bliver vist nogle steder
+forum#:#forum_anonymize_desc#:# Skriv denne meddelse anonym (Din ILIAS bruger navn vil ikke bliver vist nogle steder###10 Jul 2006 content changed
 forum#:#forums#:#Forums
 forum#:#forums_all_threads_marked_read#:#Alle emner der er markeret som laest
 forum#:#forums_attachments#:#Vedhaeftninger
@@ -4119,8 +4446,8 @@ forum#:#forums_disable_notification#:#Disable notification
 forum#:#forums_download_attachment#:#Download fil
 forum#:#forums_edit_post#:#Rediger Artikel
 forum#:#forums_enable_notification#:#Enable notification
-forum#:#forums_info_censor_post#:#Er du sikker paa du vil skjule denne artikel?
 forum#:#forums_info_censor2_post#:#Genkald moderator?
+forum#:#forums_info_censor_post#:#Er du sikker paa du vil skjule denne artikel?
 forum#:#forums_info_delete_post#:#Er du sikker paa at du vil slette den artikel inkl. eventuelle svar paa den?
 forum#:#forums_mark_read#:#Marker alle som laest
 forum#:#forums_new_entries#:#Ny forum traad
@@ -4161,6 +4488,20 @@ forum#:#frm_title_required#:#Indsaet venligst en titel.
 forum#:#is_read#:#marker som laest
 forum#:#new_post#:#New post
 forum#:#thread#:#Topic
+grp#:#grp_registration_unlimited#:#Unlimited registration period###10 Jul 2006 new variable
+ilinc#:#akclassvalue1#:#Cost center 1###10 Jul 2006 new variable
+ilinc#:#akclassvalue2#:#Cost center 2###10 Jul 2006 new variable
+ilinc#:#akclassvalues#:#Cost centers###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalue1#:#Cost center 1###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalue2#:#Cost center 2###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalues#:#Cost centers###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalues_desc#:#Enter here the code of the cost center(s) for this user. These values will be stored at the iLinc server.###10 Jul 2006 new variable
+ilinc#:#ilinc_akuservalues_refreshed#:#Cost centers updated###10 Jul 2006 new variable
+ilinc#:#ilinc_connection_error#:#Error: No connection to iLinc Server!###10 Jul 2006 new variable
+ilinc#:#ilinc_no_account_yet#:#No iLinc Account yet###10 Jul 2006 new variable
+ilinc#:#ilinc_user_added#:#User account created on iLinc server###10 Jul 2006 new variable
+ilinc#:#ilinc_user_id#:#iLinc UserID###10 Jul 2006 new variable
+ilinc#:#ilinc_user_settings#:#iLinc User settings###10 Jul 2006 new variable
 jscalendar#:#about_calendar#:#Om kalenderen
 jscalendar#:#about_calendar_long#:#DHTML Dato/Tid Selector\n(c) dynarch.com 2002-2003\nFor seneste versions besoeg: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Se http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the ., / knapper for at vaelge aar\n- Brug <, > knapperne for at vaelge maaned\n- Hold muse kanp over en af de naevnte knapper for at vaeaelge hurtigere. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 jscalendar#:#about_time#:#\n\nTime selection:\n- Klik paa en vilkaarlig del for at oege den\n- eller shift-klik for at mindske den\n- eller klik og traek for at vaelge hurtigere. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -4223,6 +4564,8 @@ mail#:#also_as_email#:#Ogs&aring; som Email
 mail#:#bc#:#BCC
 mail#:#forward#:#Videresend
 mail#:#linebreak#:#Linieskift
+mail#:#mail_account_mail#:#Account Mail###10 Jul 2006 new variable
+mail#:#mail_account_mail_check#:#Send Account Mail###10 Jul 2006 new variable
 mail#:#mail_add_recipient#:#Indtast en modtager
 mail#:#mail_add_subfolder#:#Tilf&oslash;j undermappe
 mail#:#mail_add_subject#:#Indtast et emne
@@ -4273,6 +4616,18 @@ mail#:#mail_move_error#:#Fejl under flytning af mail
 mail#:#mail_move_to#:#Flyt til:
 mail#:#mail_moved#:#Mailen er blevet flyttet
 mail#:#mail_moved_to_trash#:#Mail er blevet flyttet til papirkurv
+mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.###10 Jul 2006 new variable
+mail#:#mail_nacc_client_name#:#Client Name.###10 Jul 2006 new variable
+mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.###10 Jul 2006 new variable
+mail#:#mail_nacc_login#:#Login Account.###10 Jul 2006 new variable
+mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.###10 Jul 2006 new variable
+mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.###10 Jul 2006 new variable
+mail#:#mail_nacc_salutation#:#Salutation.###10 Jul 2006 new variable
+mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.###10 Jul 2006 new variable
+mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.###10 Jul 2006 new variable
+mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.###10 Jul 2006 new variable
+mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.###10 Jul 2006 new variable
+mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used###10 Jul 2006 new variable
 mail#:#mail_new_file#:#Tilf&oslash;j ny fil:
 mail#:#mail_no_attach_allowed#:#Ikke tilladt med vedh&aelig;ftninger i systembeskeder
 mail#:#mail_no_attachments_found#:#Ingen vedh&aelig;ftninger fundet
@@ -4282,11 +4637,15 @@ mail#:#mail_options_saved#:#Egenskaber gemt
 mail#:#mail_recipient_not_valid#:#Modtageren er ugyldig
 mail#:#mail_s#:#Mail
 mail#:#mail_s_unread#:#Ul&aelig;ste Mail
+mail#:#mail_salutation_female#:#Salutation, female###10 Jul 2006 new variable
+mail#:#mail_salutation_general#:#Salutation, general###10 Jul 2006 new variable
+mail#:#mail_salutation_male#:#Salutation, male###10 Jul 2006 new variable
 mail#:#mail_saved#:#Meddelelsen er gemt
 mail#:#mail_search_addressbook#:#S&oslash;g i adressebogen
 mail#:#mail_search_system#:#S&oslash;g i systemet
 mail#:#mail_select_one_entry#:#Du skal v&aelig;lge et emne
 mail#:#mail_select_one_file#:#Du skal v&aelig;lge en fil
+mail#:#mail_send_with_system_address#:#Send With System Address###10 Jul 2006 new variable
 mail#:#mail_sure_delete#:#Er du sikker p&aring; du vil slette de/den markerede mail
 mail#:#mail_sure_delete_entry#:#Er du sikker p&aring; du vil slette f&oslash;lgende emne
 mail#:#mail_sure_delete_file#:#Filen vil blive slettet permanent
@@ -4296,6 +4655,9 @@ mail#:#mail_to_search#:#Til s&oslash;gning
 mail#:#mail_user_addr_n_valid#:#F&oslash;lgende brugere har ingen gyldig email adresse
 mail#:#search_bc_recipient#:#Soeg BCC modtager
 mail#:#search_cc_recipient#:#Soeg CC modtager
+meta#:#md_days#:#Days:###10 Jul 2006 new variable
+meta#:#md_months#:#Month:###10 Jul 2006 new variable
+meta#:#md_time#:#Time:###10 Jul 2006 new variable
 meta#:#meta_accessibility_restrictions#:#Adgangs restriktioner
 meta#:#meta_active#:#Aktiv
 meta#:#meta_add#:#tilfoej
@@ -4859,26 +5221,25 @@ payment#:#pay_bmf_bank_code#:#Bank kode
 payment#:#pay_bmf_card_holder#:#Kortejer
 payment#:#pay_bmf_card_number#:#Kortnummer
 payment#:#pay_bmf_check_number#:#Checknummer
-payment#:#pay_bmf_check_terms_conditions#:#Bekraeft venligst at du har laest vores regler & betingelser og accepterer dem.
+payment#:#pay_bmf_check_terms_conditions#:#Bekraeft venligst at du har laest vores regler & betingelser og accepterer dem.###10 Jul 2006 content changed
 payment#:#pay_bmf_credit_card#:#Kreditkort
 payment#:#pay_bmf_credit_card_data#:#Kreditkort
-payment#:#pay_bmf_credit_card_not_valid#:#Kreditkort informationerne du har indtastet er ikke gyldige. Check venligst om du har udfyldt alle felter korrekt.
+payment#:#pay_bmf_credit_card_not_valid#:#Kreditkort informationerne du har indtastet er ikke gyldige. Check venligst om du har udfyldt alle felter korrekt.###10 Jul 2006 content changed
 payment#:#pay_bmf_debit_entry#:#Meddelelse ved indbetaling (kun tyske bankkontoer)
 payment#:#pay_bmf_debit_entry_data#:#Meddelelse ved indbetaling
-payment#:#pay_bmf_debit_entry_not_valid#:#Meddelelsen du indtastede er ikke gyldig. Check venligst om du har udfyldt alle felter korrekt.
-payment#:#pay_bmf_description_credit_card#:#Check venligst om alle de varer du gerne vil bestille er i indkoebskurven. Saa snart du har udfyldt kreditinformationer og trykket paa Gem godkender du nemlig din ordre. Der kan forekomme et par sekunders proceseseringstid.
-payment#:#pay_bmf_description_debit_entry#:#Check venligst at alle varer du gerne vil bestille er i indkoebskurven. Ved at indtaste din data og klikke paa gem knappen godkender du straks din ordre. Datatjekket kan tage et par sekunder.
+payment#:#pay_bmf_debit_entry_not_valid#:#Meddelelsen du indtastede er ikke gyldig. Check venligst om du har udfyldt alle felter korrekt.###10 Jul 2006 content changed
+payment#:#pay_bmf_description_credit_card#:#Check venligst om alle de varer du gerne vil bestille er i indkoebskurven. Saa snart du har udfyldt kreditinformationer og trykket paa Gem godkender du nemlig din ordre. Der kan forekomme et par sekunders proceseseringstid.###10 Jul 2006 content changed
+payment#:#pay_bmf_description_debit_entry#:#Check venligst at alle varer du gerne vil bestille er i indkoebskurven. Ved at indtaste din data og klikke paa gem knappen godkender du straks din ordre. Datatjekket kan tage et par sekunder.###10 Jul 2006 content changed
 payment#:#pay_bmf_description_payment_type#:#Vaelg venligst betalingsform.
 payment#:#pay_bmf_description_personal_data#:#Udfyld venligst formularen fuldstaendig.
 payment#:#pay_bmf_house_number#:#Husnummer
-payment#:#pay_bmf_info#:#Adgang til dette materiale er ikke gratis. Hvis du vil have adgang til materialet skal du venligst vaelge en pris. Du kan koebe et eller flere laeremoduler ved at klikke paa indkoebskurven paa dit personlige skrivebord.  Du vil derefter faa adgang med det samme til det valgte materiale.
 payment#:#pay_bmf_optional#:#frivilligt
 payment#:#pay_bmf_or#:#eller
-payment#:#pay_bmf_password_not_valid#:#Dit password er ugyldigt.
+payment#:#pay_bmf_password_not_valid#:#Dit password er ugyldigt.###10 Jul 2006 content changed
 payment#:#pay_bmf_payment_type#:#Betalingsmaade
-payment#:#pay_bmf_payment_type_not_valid#:#Den valgte betalingsmaade er ugyldig. Vaelg venligst en anden.
+payment#:#pay_bmf_payment_type_not_valid#:#Den valgte betalingsmaade er ugyldig. Vaelg venligst en anden.###10 Jul 2006 content changed
 payment#:#pay_bmf_personal_data#:#Dine personlige data
-payment#:#pay_bmf_personal_data_not_valid#:#Dine personlige data er ugyldige. Check venligst om du har udfyldt alle felter korrekt.
+payment#:#pay_bmf_personal_data_not_valid#:#Dine personlige data er ugyldige. Check venligst om du har udfyldt alle felter korrekt.###10 Jul 2006 content changed
 payment#:#pay_bmf_please_select#:#Vaelg venligst
 payment#:#pay_bmf_po_box#:#Postboks
 payment#:#pay_bmf_server_error_code#:#Vores betalingsgateway har returneret med en fejlkode
@@ -4887,13 +5248,14 @@ payment#:#pay_bmf_server_error_sysadmin#:#Kontakt venligst en systemadministrato
 payment#:#pay_bmf_shopping_cart_empty#:#Din indkoebskurv er tom.
 payment#:#pay_bmf_street_or_pobox#:#Indtast venligst adresse eller postboks.
 payment#:#pay_bmf_terms_conditions#:#Regler og Betingelser
-payment#:#pay_bmf_terms_conditions_read#:#Jeg har laest Regler & Betingelser og accepterer dem.
+payment#:#pay_bmf_terms_conditions_read#:#Jeg har laest Regler & Betingelser og accepterer dem.###10 Jul 2006 content changed
 payment#:#pay_bmf_terms_conditions_show#:#vis
 payment#:#pay_bmf_thanks#:#Tak for din ordre.
 payment#:#pay_bmf_total_amount#:#Total beloeb
 payment#:#pay_bmf_validity#:#gyldig indtil
 payment#:#pay_bmf_vat_included#:#Inkl. moms
 payment#:#pay_bmf_your_order#:#Din ordre
+payment#:#pay_change_price#:#Change price/duration combination###10 Jul 2006 new variable
 payment#:#pay_click_to_buy#:#Koeb nu
 payment#:#pay_confirm_order#:#Godkend venligst din ordre ved at indtaste dit personlige password.
 payment#:#pay_customer_no#:#Kundenummer.
@@ -4906,6 +5268,7 @@ payment#:#pay_filter#:#Filter
 payment#:#pay_goto_buyed_objects#:#Gaa til dine indkoeb
 payment#:#pay_goto_shopping_cart#:#Gaa til indkoebskurv
 payment#:#pay_header#:#Betaling
+payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Du har allerede tilfoejet dette objekt til din indkoebskurv.
 payment#:#pay_item_already_in_sc_choose_another#:#denne artikel kan bestilles som varekoeb men der kan forekomme nye priser eller pris&aelig;ndringer.
 payment#:#pay_locator#:#Betaling
@@ -4920,9 +5283,20 @@ payment#:#pay_order_date_from#:#Ordre dato fra
 payment#:#pay_order_date_til#:#Ordre dato til
 payment#:#pay_payed_credit_card#:#Ordren blev betalt med kreditkort.
 payment#:#pay_payed_debit_entry#:#Ordren blev betalt med bankoverfoersel.
+payment#:#pay_payed_paypal#:#The order was paid by PayPal.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_fails#:#PayPal reports errors that occured during the transaction.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_info#:#If necessary feel free to contact the system administrator of this ILIAS installation.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_not_completed#:#The transaction isn't totally completed yet.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_prev_trans_id#:#The transaction id given by PayPal was already used before.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_wrong_customer#:#Checking this transaction resulted in no match of the customer.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_wrong_items#:#Checking this transaction resulted in no match of the sold items.###10 Jul 2006 new variable
+payment#:#pay_paypal_error_wrong_vendor#:#Checking this transaction resulted in no match of the vendor.###10 Jul 2006 new variable
+payment#:#pay_paypal_failed#:#Your puchase of ILIAS objects using PayPal failed!###10 Jul 2006 new variable
+payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.###10 Jul 2006 new variable
+payment#:#pay_paypal_unreachable#:#The connection to the payment server of PayPal failed.###10 Jul 2006 new variable
 payment#:#pay_reset_filter#:#Nulstil filter
 payment#:#pay_select_one_item#:#Vaelg venligst en vare.
-payment#:#pay_select_price#:#Vaelg venligst en ny pris.
+payment#:#pay_select_price#:#Vaelg venligst en ny pris.###10 Jul 2006 content changed
 payment#:#pay_send_order#:#Send ordre
 payment#:#pay_shopping_cart_empty#:#Din indkoebskurv er tom.
 payment#:#pay_starting#:#Start med
@@ -4939,7 +5313,7 @@ payment#:#paya_added_new_price#:#Oprettet ny pris
 payment#:#paya_added_trustee#:#Oprettet ny fuldmaegtig/bestyrer.
 payment#:#paya_bookings_available#:#Dette objekt/modul er blevet solgt. Slet venligst alle statistik data.
 payment#:#paya_buyable#:#Til salg
-payment#:#paya_buyed_objects#:#Koebte objekter/moduler
+payment#:#paya_buyed_objects#:#Koebte objekter/moduler###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Antal koebere
 payment#:#paya_customer#:#Kunde
 payment#:#paya_delete_price#:#Slet pris
@@ -4971,7 +5345,7 @@ payment#:#paya_no_prices_selected#:#Vaelg venligst en pris
 payment#:#paya_no_settings_necessary#:#Der er ingen indstillinger til denne betalingsmetode
 payment#:#paya_no_trustees#:#Ingen fuldmaegtige/bestyrer oprettet.
 payment#:#paya_no_valid_login#:#Brugernavnet er ugyldigt.
-payment#:#paya_no_vendor_selected#:#Du har ikke valgt en forhandler.
+payment#:#paya_no_vendor_selected#:#Du har ikke valgt en forhandler.###10 Jul 2006 content changed
 payment#:#paya_not_assign_yourself#:#Det er ikke muligt at tilmelde dig selv.
 payment#:#paya_not_buyable#:#Ikke til salg
 payment#:#paya_object#:#Objekter
@@ -5009,6 +5383,7 @@ payment#:#pays_added_vendor#:#Tilfoejet ny forhandler
 payment#:#pays_address#:#Adresse til faktura
 payment#:#pays_already_assigned_vendors#:#Det foelgende antal brugere er allerede tilknyttet:
 payment#:#pays_assigned_vendors#:#Det foelgende antal brugere er blevet tilknyttet forhandler listen:
+payment#:#pays_auth_token#:#Unique token given by PayPal###10 Jul 2006 new variable
 payment#:#pays_bank_data#:#Bankoplysninger til faktura
 payment#:#pays_bill#:#Faktura
 payment#:#pays_bmf#:#BMF
@@ -5019,8 +5394,10 @@ payment#:#pays_currency_unit#:#Valuta (eks. EURO)
 payment#:#pays_delete_vendor#:#Afmeld bruger
 payment#:#pays_deleted_number_vendors#:#Det foelgende antal forhandler er blevet slettet:
 payment#:#pays_edit_vendor#:#Rediger bruger
+payment#:#pays_email_vendor#:#E-Mail address of the vendor###10 Jul 2006 new variable
+payment#:#pays_general#:#General###10 Jul 2006 new variable
 payment#:#pays_general_settings#:#Indstillinger
-payment#:#pays_general_settings_not_valid#:#Dine generelle indstillinger er ugyldige. Check venligst om alle felter er udfyldt korrekt.
+payment#:#pays_general_settings_not_valid#:#Dine generelle indstillinger er ugyldige. Check venligst om alle felter er udfyldt korrekt.###10 Jul 2006 content changed
 payment#:#pays_header_select_vendor#:#Forhandler valg
 payment#:#pays_no_username_given#:#Intet brugernavn indtastet
 payment#:#pays_no_valid_username_given#:#Ugyldigt brugernavn
@@ -5028,14 +5405,22 @@ payment#:#pays_no_vendor_selected#:#Ingen forhandler valgt
 payment#:#pays_number_bookings#:#Aktive ordrer
 payment#:#pays_objects_bill_exist#:#Betalingsmetoden 'regning' er aktiveret for nogen objekter. Derfor kan det ikke deaktiveres. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pays_objects_bmf_exist#:#Betalingsmetoden 'BMF' er aktiveret for nogen objekter. Derfor kan det ikke deaktiveres. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_paypal_exist#:#Pay method 'PayPal' is activated for some objects. Therefore it can not be deactivated.###10 Jul 2006 new variable
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
+payment#:#pays_page_style#:#Page style###10 Jul 2006 new variable
 payment#:#pays_pay_methods#:#Betalingsmetoder
+payment#:#pays_paypal#:#PayPal###10 Jul 2006 new variable
+payment#:#pays_paypal_settings#:#Settings for PayPal###10 Jul 2006 new variable
+payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid. Please check out whether all fields are filled out correctly.###10 Jul 2006 new variable
 payment#:#pays_pdf_path#:#Sti til generering af faktura som PDF fil
+payment#:#pays_server_host#:#Server host (e.g. www.paypal.com)###10 Jul 2006 new variable
+payment#:#pays_server_path#:#Path to the scripts (e.g. /cgi-bin/webscr)###10 Jul 2006 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Er du sikker paa at du gerne vil slette de/den valgte forhandler/forhandlere
 payment#:#pays_too_many_vendors_selected#:#Vaelg venligst kun 1 kunde til denne funktion.
 payment#:#pays_updated_general_settings#:#Generelle indstillinger opdateret.
 payment#:#pays_updated_pay_method#:#Betalingsmetode aendret.
+payment#:#pays_updated_paypal_settings#:#Your settings for PayPal were updated.###10 Jul 2006 new variable
 payment#:#pays_user_already_assigned#:#Denne bruger er allerede tilfoejet til forhandler listen
 payment#:#pays_vat_rate#:#Moms i %(valgfrit)
 payment#:#pays_vendor#:#Forhandler
@@ -5047,7 +5432,7 @@ pwassist#:#pwassist_enter_email#:#Vaelg en email addresse og indsende forummet.\
 pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilhoerende e-mail adresse i felterne nedenfor.\nILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.\nSkulle det vaere tilfaeldet at dette ikke virker skal du kontakte din kursusadministrator eller sende en email til %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.
 pwassist#:#pwassist_invalid_email#:#Vaelg den rigtige email adresse.\n Den givet email adresse kunne ikke findes i databasen ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Check venligst de udfyldte felter. Brugernavn og Emailadressen du har indtastet matcher ikke nogen i databasen.
+pwassist#:#pwassist_invalid_username_or_email#:#Check venligst de udfyldte felter. Brugernavn og Emailadressen du har indtastet matcher ikke nogen i databasen.###10 Jul 2006 content changed
 pwassist#:#pwassist_login_not_match#:#Indtast venligst et andet brugernavn.\nDet brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_body#:#Register et nyt password til din konto:\n\t%1$s\n\n Denne meddelse er blevet sendt af ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the?ILIAS server by accident:\Registrer et nyt password for din brugerkonto:\n\t%1$s\n\ndenne besked er blevet generet automatisk af ILIAS serveren\n\t%2$s\n\ndig (eller nogen ved %3$s) har anmodet om password asistance til en brugerkonto  "%4$s".\n\nTjek venligst forsigtigt tilstandene der er beskrevet nedenunder, og fortsaet i trin derfra:\n\n- Hvis du har brugt password asistance formularen paa ILIAS ved et uheld?:\n Slet denne mail.\n\n- Hvis du er sikker paa du aldrig har brugt password assistance ved denne ILIAS server:\nKontakt venligst %5$s.\n\n- Hvis du HAR bedt om password assistance kan du forsaette paa foelgende maade:\n\n1. aaben din browser.\n\n2. Indtast foelgende URL: \n\t%1$s\n\nVIGTIGT: URL er 1 linke. Hvis du ser denne URL delt op i flere linjer, er det dit email der har delt den op. \n\n3. Paa websiden indtaster du et nyt password for din brugerkonto\n\n Bemaerk venligst at du af sikkerhedsgrunde kun kan goere dette 1 gang, og indenfor en vis tidsgraense. Hvis dette ikke lykkedes, skal du bede om password assistance igen. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_sent#:#En besked er blevet sendt til %1$s.\nCheck venligst din mail. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -5063,7 +5448,9 @@ rbac#:#filter_global_roles#:#Vis kun global rolle
 rbac#:#filter_local_roles#:#Vis kun lokal rolle denne sammenhaeng
 rbac#:#filter_local_roles_object#:#Vis kun lokal rolle bestemt paa denne position
 rbac#:#filter_roles_local_policy#:#Vis kun rolle med visning af lokal sikkerhed i denne position
+rbac#:#info_user_view_changed#:#User view changed###10 Jul 2006 new variable
 rbac#:#leave#:#Forlad
+rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting###10 Jul 2006 new variable
 rbac#:#perm_administrate#:#Administrere
 rbac#:#perm_class_create#:#Opret nyt obekt
 rbac#:#perm_class_create_desc#:#Bestem hvilket objekt typr maa blive oprettet under denne gyldig objekt
@@ -5073,10 +5460,43 @@ rbac#:#perm_class_object#:#Speciel virkning
 rbac#:#perm_class_object_desc#:#Objekt bestemt operation kun adgang til sikker objekt typer
 rbac#:#perm_class_rbac#:#Sikkerheds indstillinger
 rbac#:#perm_class_rbac_desc#:#Adgangs kontrol til sikkerheds indstillinger og lokal indstillinger til automatisk sikkerheds indstillinger for ny oprettet objekter
-rbac#:#perm_local_role#:#Lokal rolle
+rbac#:#perm_local_role#:#Lokal rolle###10 Jul 2006 content changed
 rbac#:#perm_local_role_desc#:#Denne rolle er lokalt bestemt til denne objekt og korrespondere til lokal sikkerhed
 rbac#:#perm_use_local_policy#:#Brug lokal sikkerhed
 rbac#:#perm_use_local_policy_desc#:#Hvis lokal sikkerhed er aktiveret skal du betegne standard indstillinger for denne objekt
+registration#:#reg_add_assignment#:#New Assignment###10 Jul 2006 new variable
+registration#:#reg_added_assignment#:#Added new assignment.###10 Jul 2006 new variable
+registration#:#reg_approve#:#Registration with Approvement###10 Jul 2006 new variable
+registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.###10 Jul 2006 new variable
+registration#:#reg_available_roles#:#Available Roles:###10 Jul 2006 new variable
+registration#:#reg_default#:#Default###10 Jul 2006 new variable
+registration#:#reg_deleted_assignment#:#Deleted assignment(s).###10 Jul 2006 new variable
+registration#:#reg_direct#:#Direct Registration###10 Jul 2006 new variable
+registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.###10 Jul 2006 new variable
+registration#:#reg_disabled#:#No Registration Possible###10 Jul 2006 new variable
+registration#:#reg_domain#:#Domain###10 Jul 2006 new variable
+registration#:#reg_email#:#Automatic Role Assignment###10 Jul 2006 new variable
+registration#:#reg_email_role_assignment#:#Role Assignment By Domain###10 Jul 2006 new variable
+registration#:#reg_fixed#:#Selection From Specified List###10 Jul 2006 new variable
+registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.###10 Jul 2006 new variable
+registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.###10 Jul 2006 new variable
+registration#:#reg_mail_body_profile#:#Profile data:###10 Jul 2006 new variable
+registration#:#reg_mail_body_profile_changed#:#your profile has changed !###10 Jul 2006 new variable
+registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.###10 Jul 2006 new variable
+registration#:#reg_mail_new_user_body#:#A new user has been registered.###10 Jul 2006 new variable
+registration#:#reg_missing_domain#:#Please fill out all fields.###10 Jul 2006 new variable
+registration#:#reg_missing_role#:#Please fill out all fields.###10 Jul 2006 new variable
+registration#:#reg_notification#:#Notifications###10 Jul 2006 new variable
+registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email.###10 Jul 2006 new variable
+registration#:#reg_role_assignment#:#Role Assignment###10 Jul 2006 new variable
+registration#:#reg_role_info#:#Assigned Roles###10 Jul 2006 new variable
+registration#:#reg_select_one#:#Please select one entry.###10 Jul 2006 new variable
+registration#:#reg_selectable_roles#:#Selectable Roles###10 Jul 2006 new variable
+registration#:#reg_settings_header#:#New Registration Settings###10 Jul 2006 new variable
+registration#:#reg_type#:#Registration Type###10 Jul 2006 new variable
+registration#:#reg_unknown_recipients#:#The following logins are not valid:###10 Jul 2006 new variable
+registration#:#registration_settings#:#New Registrations###10 Jul 2006 new variable
+search#:#append_results#:#Append results###10 Jul 2006 new variable
 search#:#search_active#:#Inkludere aktive bruger
 search#:#search_added_new_folder#:#Opret ny mappe
 search#:#search_advanced#:#Avanceret s&oslash;gning
@@ -5150,6 +5570,66 @@ search#:#search_tst_svy#:#Test/Unders&oslash;gelse
 search#:#search_type#:#S&oslash;ge type
 search#:#search_user#:#Brugere
 search#:#until#:#Op til
+style#:#sty_all#:#All###10 Jul 2006 new variable
+style#:#sty_background#:#Background###10 Jul 2006 new variable
+style#:#sty_background_attachment#:#Background Attachment###10 Jul 2006 new variable
+style#:#sty_background_color#:#Background Color###10 Jul 2006 new variable
+style#:#sty_background_image#:#Background Image###10 Jul 2006 new variable
+style#:#sty_background_position#:#Background Position###10 Jul 2006 new variable
+style#:#sty_background_repeat#:#Background Repeat###10 Jul 2006 new variable
+style#:#sty_border#:#Border###10 Jul 2006 new variable
+style#:#sty_border_color#:#Border Color###10 Jul 2006 new variable
+style#:#sty_border_style#:#Border Style###10 Jul 2006 new variable
+style#:#sty_border_width#:#Border Width###10 Jul 2006 new variable
+style#:#sty_bottom#:#Bottom###10 Jul 2006 new variable
+style#:#sty_clear#:#Clear###10 Jul 2006 new variable
+style#:#sty_color#:#Colour###10 Jul 2006 new variable
+style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles###10 Jul 2006 new variable
+style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? ###10 Jul 2006 new variable
+style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source###10 Jul 2006 new variable
+style#:#sty_create_ind_style#:#Create Individual Style###10 Jul 2006 new variable
+style#:#sty_create_new_stylesheet#:#Create new Style###10 Jul 2006 new variable
+style#:#sty_cursor#:#Cursor###10 Jul 2006 new variable
+style#:#sty_default_style#:#Default Style###10 Jul 2006 new variable
+style#:#sty_font_family#:#Font Family###10 Jul 2006 new variable
+style#:#sty_font_size#:#Font Size###10 Jul 2006 new variable
+style#:#sty_font_stretch#:#Font Stretch###10 Jul 2006 new variable
+style#:#sty_font_style#:#Font Style###10 Jul 2006 new variable
+style#:#sty_font_variant#:#Font Variant###10 Jul 2006 new variable
+style#:#sty_font_weight#:#Font Weight###10 Jul 2006 new variable
+style#:#sty_import_stylesheet#:#Import Style###10 Jul 2006 new variable
+style#:#sty_individual_style#:#Individual Style###10 Jul 2006 new variable
+style#:#sty_individual_styles#:#Individual Styles###10 Jul 2006 new variable
+style#:#sty_left#:#Left###10 Jul 2006 new variable
+style#:#sty_letter_spacing#:#Letter Spacing###10 Jul 2006 new variable
+style#:#sty_line_height#:#Line Height###10 Jul 2006 new variable
+style#:#sty_margin#:#Margin###10 Jul 2006 new variable
+style#:#sty_margin_and_padding#:#Margin and Padding###10 Jul 2006 new variable
+style#:#sty_move_lm_styles#:#Change Style of Learning Modules###10 Jul 2006 new variable
+style#:#sty_move_style#:#Change Style###10 Jul 2006 new variable
+style#:#sty_nr_learning_modules#:#Number of Learning Modules###10 Jul 2006 new variable
+style#:#sty_padding#:#Padding###10 Jul 2006 new variable
+style#:#sty_right#:#Right###10 Jul 2006 new variable
+style#:#sty_save_active_styles#:#Save Active Styles###10 Jul 2006 new variable
+style#:#sty_save_standard_styles#:#Save Standard Styles###10 Jul 2006 new variable
+style#:#sty_scope#:#Scope###10 Jul 2006 new variable
+style#:#sty_set_scope#:#Set Scope###10 Jul 2006 new variable
+style#:#sty_source#:#Source###10 Jul 2006 new variable
+style#:#sty_special#:#Special###10 Jul 2006 new variable
+style#:#sty_standard_style#:#Standard Style###10 Jul 2006 new variable
+style#:#sty_text#:#Text###10 Jul 2006 new variable
+style#:#sty_text_align#:#Text Alignment###10 Jul 2006 new variable
+style#:#sty_text_decoration#:#Text Decoration###10 Jul 2006 new variable
+style#:#sty_text_indent#:#Text Indentation###10 Jul 2006 new variable
+style#:#sty_text_transform#:#Text Transform###10 Jul 2006 new variable
+style#:#sty_top#:#Top###10 Jul 2006 new variable
+style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
+style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
+style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Tilfoej kategori
 survey#:#add_heading#:#Tilfoej retning
 survey#:#add_limits_for_standard_numbers#:#Indtast venligst en nedre og oevre graense for de standart numre du vil tilfoeje tilkatagorier.
@@ -5157,11 +5637,14 @@ survey#:#add_phrase#:#Tilfoej saetning
 survey#:#add_phrase_introduction#:#Vaelg venligst en saetning:
 survey#:#add_standard_numbers#:#Add standard numbers
 survey#:#already_completed_survey#:#Du har allerede afsluttet undersoegelsen! Det er ikke muligt at aabne undersoegelsen igen.
-survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below
+survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br /> ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Skriv din undersoegelse kode til at forsaette
 survey#:#anonymize_survey#:#Anonymiser undersoegelses data
-survey#:#anonymize_survey_explanation#:#Naar aktiv, al bruger data vil vil blive anonymt og kan ikke spores.
+survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
+survey#:#anonymize_without_code#:#Anonymization with free access to the survey###10 Jul 2006 new variable
 survey#:#anonymous_with_personalized_survey#:#Du skal vaere registreret bruger til at koere personlige spoergsmaal
 survey#:#answer#:#Svar
 survey#:#apply#:#Tilfoej
@@ -5193,6 +5676,7 @@ survey#:#codes#:#Adgangs kode
 survey#:#combobox#:#Kombibox
 survey#:#concatenation#:#sammenkaedning
 survey#:#confirm_delete_all_user_data#:#Er du sikker paa du vil slette al bruger data fra dette spoergeskema?
+survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?###10 Jul 2006 new variable
 survey#:#confirm_remove_heading#:#Er du sikker paa du vil fjerne overskriften?
 survey#:#confirm_sync_questions#:#Det spoergsmaal du aendrede er en kmopi der er blevet oprettet til brug i det aktive spoergeskema. Vil du aendre det originale spoergsmaal ogsaa?
 survey#:#constraint_add#:#Add precondition
@@ -5243,30 +5727,31 @@ survey#:#dc_varying#:#varierende
 survey#:#dc_verygood#:#meget god
 survey#:#dc_yes#:#ja
 survey#:#define_questionblock#:#Definer spoergsmaals blok
+survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Jul 2006 new variable
 survey#:#description_maxchars#:#Hvis der ikke er et maximum karakter vil test svar vaere ubegraenset
 survey#:#disinvite#:#inviter ikke
 survey#:#display_all_available#:#Vis alle tilg&aelig;ngelige
+survey#:#dp_standard_attitude_agree5#:#Standard indstilling (meget enig-enig-ubestemt-uenig-meget uenig)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard indstilling (enig-uenig)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard indstilling (enig-ubestemt-uenig)
-survey#:#dp_standard_attitude_agree5#:#Standard indstilling (meget enig-enig-ubestemt-uenig-meget uenig)
+survey#:#dp_standard_attitude_desired5#:#Standard indstilling (meget oensket- oensket-neutral-uoensket-megetuoensket)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard indstilling (oensket-neutral-uoensket)
 survey#:#dp_standard_attitude_desired_undesired#:#Standard indstilling (oensket-uoensket)
-survey#:#dp_standard_attitude_desired5#:#Standard indstilling (meget oensket- oensket-neutral-uoensket-megetuoensket)
+survey#:#dp_standard_attitude_good5#:#Standard indstilling (meget god-god-fair-daarlig-ikke acceptabel)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard indstilling (god-fair-ikke acceptabel)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard indstilling (god-ikke acceptabel)
-survey#:#dp_standard_attitude_good5#:#Standard indstilling (meget god-god-fair-daarlig-ikke acceptabel)
 survey#:#dp_standard_attitude_must5#:#Standard indstilling (skal-burde-ubestemt-burde ikke-skal ikke)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard indstilling (burde-burde ikke)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard indstilling (burde-ubestemt-burde ikke)
 survey#:#dp_standard_behaviour_certainly5#:#Standard opfoersel (helt sikkert-mere positivt-ubestemt-mere negativt-helt sikert ikke)
 survey#:#dp_standard_behaviour_yes_no#:#Standard opfoersel (ja-nej)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard opfoersel (ja-ubestemt-nej)
+survey#:#dp_standard_beliefs_always5#:#Standard tro (altid-mange gange-variere-sjaeldent-aldrig)
 survey#:#dp_standard_beliefs_always_never#:#Standard tro (altid-aldrig)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard tro (altid-nogen gange-aldrig)
-survey#:#dp_standard_beliefs_always5#:#Standard tro (altid-mange gange-variere-sjaeldent-aldrig)
+survey#:#dp_standard_beliefs_true5#:#Standard tro (helt sikkert sandt-sandt-ubestemt-falsk-helt sikkert falsk)
 survey#:#dp_standard_beliefs_true_false#:#Standard tro (sandt-falsk)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard tro (sandt-ubestemt-falsk)
-survey#:#dp_standard_beliefs_true5#:#Standard tro (helt sikkert sandt-sandt-ubestemt-falsk-helt sikkert falsk)
 survey#:#dp_standard_numbers#:#Standard numre
 survey#:#duplicate#:#Kopier
 survey#:#duplicate_svy#:#Kopier spoergeskema
@@ -5287,6 +5772,7 @@ survey#:#eval_legend_link#:#kig i legend for at finde betydningen af symbolerne 
 survey#:#evaluation#:#Evaluering
 survey#:#evaluation_access#:#Evaluerings adgang
 survey#:#evaluation_access_all#:#Evaluerings adgang for alle bruger
+survey#:#evaluation_access_info#:#You have access to the survey evaluation###10 Jul 2006 new variable
 survey#:#evaluation_access_participants#:#Evaluering adgang for undersoegelse medlemmer
 survey#:#existing_constraints#:#Eksisterende forhaandsbetingelser
 survey#:#exit#:#Afslut
@@ -5329,7 +5815,7 @@ survey#:#invitation_mode#:#Invitations mode
 survey#:#invite_participants#:#Inviter deltagere
 survey#:#invited_groups#:#Inviterede grupper
 survey#:#invited_users#:#Inviterede brugere
-survey#:#label_resume_survey#:#Indtast din 32 cifret spoergeskema kode
+survey#:#label_resume_survey#:#Indtast din 32 cifret spoergeskema kode###10 Jul 2006 content changed
 survey#:#last_update#:#Seneste opdatering
 survey#:#legend#:#Underskrift
 survey#:#lower_limit#:#Laveste graense
@@ -5344,7 +5830,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#mellem
 survey#:#menuback#:#Tilbage
 survey#:#menubacktosurvey#:#Tilbage til spoergeskema
-survey#:#message_mail_survey_id#:#Du har startet det anonyme spoergeskema &quot;%s&quot;. For at fortsaette med dette spoergeskema skal du bruge den 32 tals kode:<br><br><strong>%s</strong><br><br>Det er kun muligt at vende tilbage til et spoergeskema hvis du afslutter det inden du er faerdig med det.
+survey#:#message_mail_survey_id#:#Du har startet det anonyme spoergeskema &quot;%s&quot;. For at fortsaette med dette spoergeskema skal du bruge den 32 tals kode:<br><br><strong>%s</strong><br><br>Det er kun muligt at vende tilbage til et spoergeskema hvis du afslutter det inden du er faerdig med det.###10 Jul 2006 content changed
 survey#:#metric_question_floating_point#:#Vaerdien du har indtastet er ikke en fast vaerdi. Ikke faste vaerdier er ikke tilladt i denne spoergsmaalstype!
 survey#:#metric_question_not_a_value#:#Vaerdien du har indtastet er ikke et tal!
 survey#:#metric_question_out_of_bounds#:#Vaerdien du har indtastet er ikke mellem minimun og maximum vaerdierne!
@@ -5370,7 +5856,7 @@ survey#:#no_target_selected_for_move#:#Du skal vaelge en maal possition!
 survey#:#no_user_or_group_selected#:#Marker venligst hvilken mulighed du soeger efter (brugere og/eller grupper)!
 survey#:#no_user_phrases_defined#:#Der er ingen brugere tilg&aelig;ngelige!
 survey#:#nominal_question_not_checked#:#Marker venligst et af de tilbudte svar!
-survey#:#non_ratio#:#Ikke forhold
+survey#:#non_ratio#:#Ikke forhold###10 Jul 2006 content changed
 survey#:#not_used#:#Ikke brugt
 survey#:#obligatory#:#obligatorisk
 survey#:#off#:#Af
@@ -5384,6 +5870,7 @@ survey#:#percentage_of_entered_values#:#Procent af brugere der har indtastet den
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers
 survey#:#percentage_of_selections#:#Procent af brugere der har valgt denne gruppe
 survey#:#phrase_saved#:#Gemt rigtigt
+survey#:#please_select#:#-- please select --###10 Jul 2006 new variable
 survey#:#predefined_users#:#Praedefineret brugersaet
 survey#:#preview#:#proevevisning
 survey#:#previous_question_rows#:#<< Spoergsmaal %d - %d af %d
@@ -5403,10 +5890,6 @@ survey#:#qpl_questions_pasted#:#Spoergsmaal sat ind.
 survey#:#qpl_savephrase_empty#:#Indtast venligst en titel!
 survey#:#qpl_savephrase_exists#:#Titlen eksistere allerede! Indtast venligst en anden titel.
 survey#:#qpl_unfold_select_none#:#Vaelg venligst minimum et spoergsmaalblok, hvis du vil aabne spoergsmaalsblokkens traeoversigt!
-survey#:#qt_metric#:#Metrik spoergsmaal
-survey#:#qt_nominal#:#Nomale spoergsmaal
-survey#:#qt_ordinal#:#Ordinal spoergsmaal
-survey#:#qt_text#:#Tekst spoergsmaal
 survey#:#question_contains_no_categories#:#There are no answers defined for this question
 survey#:#question_has_constraints#:#Begraensninger.
 survey#:#question_icon#:#Question icon
@@ -5423,6 +5906,7 @@ survey#:#questions_removed#:#Spoergsmaal og/eller spoergsmaalsblok fjernet!
 survey#:#questiontype#:#Spoergsmaals type
 survey#:#ratio_absolute#:#Forhold absolut
 survey#:#ratio_non_absolute#:#Forhold ikke absolut
+survey#:#ratio_scale_ge_zero#:#The minimum value for a ratio scale must be greater or equal zero###10 Jul 2006 new variable
 survey#:#remove_question#:#Fjern
 survey#:#remove_questions#:#Er du sikker paa at du vil fjerne foelgende spoergsmaal og/eller spoergsmaalsblokke fra denne test?
 survey#:#reset_filter#:#Nulstil filter
@@ -5469,17 +5953,20 @@ survey#:#survey_code_no_codes#:#Du har ikke oprettet nogle undersoegelses kode
 survey#:#survey_code_url#:#URL for direkt adgang
 survey#:#survey_code_url_name#:#URL bruge hoejre muse knap til at kopier
 survey#:#survey_code_used#:#Kode er brugt
+survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
+survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
 survey#:#survey_finish#:#afslut spoergeskema
 survey#:#survey_finished#:#Du har afsluttet spoergeskemaet. Tak for din deltagelse!
-survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
+survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Du kan ikke starte spoergeskemaet da det er offline.
 survey#:#survey_next#:#n&aelig;ste >>>
-survey#:#survey_offline_message#:#Kan ikke invitere brugere. Spoergeskemaet er offline!
+survey#:#survey_offline_message#:#Kan ikke invitere brugere. Spoergeskemaet er offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Spoergeskemaet er online. Du kan ikke aendre i spoergsmaalende!
 survey#:#survey_previous#:#<<< forige
-survey#:#survey_question_obligatory#:#(Dette spoergsmaal er obligatorisk. Du skal svare paa dette spoergsmaal)
+survey#:#survey_question_obligatory#:#(Dette spoergsmaal er obligatorisk. Du skal svare paa dette spoergsmaal)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Spoergsmaal
+survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#Undlad og afslut spoergeskema
 survey#:#survey_skip_next#:#Undlad >>>
 survey#:#survey_skip_previous#:#<<< Undlad
@@ -5496,7 +5983,9 @@ survey#:#svy_eval_detail#:#Opdynget resultat
 survey#:#svy_eval_user#:#Bruger resultat
 survey#:#svy_export_files#:#Exporter filer
 survey#:#svy_file#:#Fil
-survey#:#svy_missing_author#:#Du har ikke indtastet forfatters navn i undersoegelsesegenskaber! Indtast venligst forfatters navn.
+survey#:#svy_general_properties#:#General properties###10 Jul 2006 new variable
+survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.###10 Jul 2006 new variable
+survey#:#svy_missing_author#:#Du har ikke indtastet forfatters navn i undersoegelsesegenskaber! Indtast venligst forfatters navn.###10 Jul 2006 content changed
 survey#:#svy_missing_questions#:#Du har ikke lavet nogen spoergsmaal til denne undersoegelse! Tilfoej venligst minimum 1 spoergsmaal.
 survey#:#svy_missing_title#:#Du har ikke angivet en undersoegelsesoverskrift! Gaa venligst til metadata sektionen og indtast en overskrift.
 survey#:#svy_page_error#:#Der opstod en fejl i et af spoergsmaalene i undersoegelsen.Referer venligst til spoergsmaalet for at faa mere information om fejlen.
@@ -5504,6 +5993,7 @@ survey#:#svy_page_errors#:#Der opstod fejl under besvarelse af nogen af spoergsm
 survey#:#svy_select_file_for_import#:#Du skal vaelge en fil til import!
 survey#:#svy_select_questionpools#:#Vaelg venligst en spoergsmaalgruppe til at gemme de importerede spoergsmaal
 survey#:#svy_select_surveys#:#Vaelg et spoergeskema at kopier
+survey#:#svy_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#svy_show_questiontitles#:#Vis spoergsmaalstitel i spoergeskema
 survey#:#svy_size#:#Stoerrelse
 survey#:#svy_statistical_evaluation#:#Statistisk evaluation
@@ -5512,7 +6002,7 @@ survey#:#svy_status_missing_elements#:#Foelgende elementer mangler:
 survey#:#svy_status_ok#:#Status for dette spoergeskema er ok. Der mangler ingen elementer.
 survey#:#text_maximum_chars_allowed#:#Skrive ikke flere karakter end tilladt
 survey#:#text_question_not_filled_out#:#Udfyld venligst svar feltet!
-survey#:#text_resume_survey#:#Du forsoeger at genoptage en anonym undersoegelse. For at fortsaette denne undersoegelse med dine tidligere indtastninger, indtast venligst den 32 cifrede kode som du modtog da du tidligere startede undersoegelsen(Det var sendt til din Ilias mail)
+survey#:#text_resume_survey#:#Du forsoeger at genoptage en anonym undersoegelse. For at fortsaette denne undersoegelse med dine tidligere indtastninger, indtast venligst den 32 cifrede kode som du modtog da du tidligere startede undersoegelsen(Det var sendt til din Ilias mail)###10 Jul 2006 content changed
 survey#:#title_resume_survey#:#Genoptag spoergeskema- Indtast koden
 survey#:#unfold#:#&aarigbn
 survey#:#unlimited_users#:#Uendelig
@@ -5529,13 +6019,23 @@ survey#:#view_constraints_introduction#:#Du viser begraensinger paa foelgende sp
 survey#:#view_phrase#:#Vis saetning
 survey#:#warning_question_in_use#:#Advarsel! Spoergsmaalet du vil aendre er i brug af spoergeskemaet herunder. Hvis du vaelger at fortsaette og gemme dette spoergsmaal, vil alle svarende i spoergeskemaet blive slettet. Hvis du vil aendre spoergsmaalet og bruge det i et andet spoergeskema, vaelg da kopier i spoergsmaals browseren for at oprette en kopi af spoergsmaalet.
 survey#:#warning_question_not_complete#:#Spoergeskemaet er ikke faerdigt!
+trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
+trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
+trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable
+trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!###10 Jul 2006 new variable
+trac#:#info_found_objects#:#The user tracking refers to the following objects of the type '%s' that were found according to your search terms.###10 Jul 2006 new variable
 trac#:#info_valid_request#:# Max tid mellem to sp&oslash;rgsm&aring;l fra samme bruger
 trac#:#last_login#:#Sidste login
 trac#:#meta_typical_learning_time#:#Typisk l&aelig;rings tid
-trac#:#obj_types#:#Objekt type
+trac#:#obj_types#:#Objekt type###10 Jul 2006 content changed
 trac#:#search_area_info#:#V&aelig;lg et objekt
+trac#:#search_terms#:#Search term(s)###10 Jul 2006 new variable
 trac#:#select_one#:#V&aelig;lg et objekt
+trac#:#total_dwell_time#:#Total dwell time###10 Jul 2006 new variable
 trac#:#trac_activated#:#Inddeling aktiveret
+trac#:#trac_active_both#:#User Tracking and Learning progress activated###10 Jul 2006 new variable
+trac#:#trac_active_lp_only#:#Learning Progress activated###10 Jul 2006 new variable
+trac#:#trac_active_ut_only#:#User Tracking activated###10 Jul 2006 new variable
 trac#:#trac_added_no_shown_list#:#De valgte objekter vil blive skjult.
 trac#:#trac_anonymized#:#Anonym
 trac#:#trac_anonymized_info#:#Hvis denne er aktiveret, vil alle statistisk v&aelig;re anonyme
@@ -5552,29 +6052,37 @@ trac#:#trac_crs_items#:#Kursus-enheder med mulighed for tilmelding.
 trac#:#trac_crs_members#:#Kursus medlemmer:
 trac#:#trac_crs_objects#:#L&aelig;rings forl&oslash;b for kursus-medlemmer
 trac#:#trac_crs_releavant_items#:#Kursus-enheder
-trac#:#trac_edit_collection#:#Fasts&aelig;t kursus-enheder
+trac#:#trac_crs_relevant_items#:#Course Materials###10 Jul 2006 new variable
+trac#:#trac_edit_collection#:#Fasts&aelig;t kursus-enheder###10 Jul 2006 content changed
 trac#:#trac_edit_progress#:#Rediger l&aelig;rings forl&oslash;b
 trac#:#trac_edit_time#:#Udf&oslash;relses tid
 trac#:#trac_edit_visits#:#Definere antal af bes&oslash;g der er n&oslash;d til at f&aelig;rdigg&oslash;re det her objekt
 trac#:#trac_edited_scos#:#Gennemg&aring;et indhold
-trac#:#trac_filter_area#:#Areal:
-trac#:#trac_filter_hidden#:#Gemt
+trac#:#trac_filter_area#:#Areal:###10 Jul 2006 content changed
+trac#:#trac_filter_hidden#:#Gemt###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#Antallet af hits er begr&aelig;nset til %s. Brug filteret til at reducere dette.
 trac#:#trac_filter_no_access#:#Objekt ikke fundet
 trac#:#trac_filter_none#:#Intet
 trac#:#trac_filter_repository#:#I oversigt
+trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Gem
 trac#:#trac_in_progress#:#I fremgang
+trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated###10 Jul 2006 new variable
 trac#:#trac_info_edited#:#S&aelig;t status til 'Gennmf&oslash; hvis du mener du har gennemg&aring;et alt indhold. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_last_access#:#Sidste adgang
-trac#:#trac_learning_progress#:#Lgennemg&aring;etrings fremgang
+trac#:#trac_learning_progress#:#Lgennemg&aring;etrings fremgang###10 Jul 2006 content changed
 trac#:#trac_learning_progress_tbl_header#:#L&aelig;ringsfremgang af:
+trac#:#trac_lp_determination#:#Learning Progress Status Determination###10 Jul 2006 new variable
+trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status of the course.###10 Jul 2006 new variable
+trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.###10 Jul 2006 new variable
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#M&aelig;rke
 trac#:#trac_marks#:#M&aelig;rker
 trac#:#trac_mode#:#Mode
 trac#:#trac_mode_collection#:#Samling af objekter
 trac#:#trac_mode_deactivated#:#Ikke aktiveret
+trac#:#trac_mode_exercise_returned#:#Exercise returned###10 Jul 2006 new variable
 trac#:#trac_mode_manual#:#Manuel
 trac#:#trac_mode_objectives#:#L&aelig;rings objektiver
 trac#:#trac_mode_scorm#:#SCORM/AICC
@@ -5593,11 +6101,12 @@ trac#:#trac_not_assigned#:#Ikke tildelt
 trac#:#trac_not_attempted#:#Ikke pr&oslash;vet
 trac#:#trac_not_completed#:#Ikke Gennemf&oslash;rt
 trac#:#trac_num_visits#:#Antal af bes&oslash;g
-trac#:#trac_objects#:#Liste af objekter
+trac#:#trac_objects#:#Liste af objekter###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Sti
 trac#:#trac_processing_time#:#Processing time
 trac#:#trac_progress#:#Personlig l&aelig;ringsfremgang
-trac#:#trac_query#:#Overskrift
+trac#:#trac_query#:#Overskrift###10 Jul 2006 content changed
+trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
 trac#:#trac_reached_points#:#Arkiverede resultater
 trac#:#trac_reached_visits#:#Mindst mulige bes&oslash;g
 trac#:#trac_refresh#:#Opdater
@@ -5610,10 +6119,11 @@ trac#:#trac_show#:#Vis l&aelig;ringsforl&oslash;b
 trac#:#trac_show_hidden#:#Vis
 trac#:#trac_spent_time#:#Brugt tid
 trac#:#trac_status#:#Status
+trac#:#trac_time_passed#:#Editing Time Exceeded###10 Jul 2006 new variable
 trac#:#trac_total_online#:#Total tid online
 trac#:#trac_update_edit_user#:#Gem instillinger
 trac#:#trac_updated_status#:#Saved learning progress status.
-trac#:#trac_user_data#:#Bruger data
+trac#:#trac_user_data#:#Bruger data###10 Jul 2006 content changed
 trac#:#trac_usr_list#:#Bruger
 trac#:#trac_valid_request#:#Max tid mellem hvert fors&oslash;g
 trac#:#trac_view_crs#:#Tilbage til kursus
@@ -5621,3 +6131,7 @@ trac#:#trac_view_list#:#Tilbage til liste
 trac#:#trac_visits#:#Antal af bes&oslash;g
 trac#:#trac_visits_info#:#Hver side-bes&oslash;g g&aelig;lder som et bes&oslash;g
 trac#:#tracking_time_span_not_valid#:#V&aelig;g antal af sekunder ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#view_mode#:#View mode###10 Jul 2006 new variable
+trac#:#vm_access_of_users#:#Access of users###10 Jul 2006 new variable
+trac#:#vm_days_of_period#:#Days of period###10 Jul 2006 new variable
+trac#:#vm_times_of_day#:#Times of days###10 Jul 2006 new variable

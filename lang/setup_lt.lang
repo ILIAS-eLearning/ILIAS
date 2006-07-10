@@ -34,6 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#3rd party software###28 Nov 2003 new variable
+3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
 absolute_path#:#Absolute path###21 Nov 2003 new variable
 access#:#Access###21 Nov 2003 new variable
 access_status#:#Access status###21 Nov 2003 new variable
@@ -51,6 +52,7 @@ check_db_versions#:#Please ensure that the database mode determined by ILIAS mat
 check_failed_convert#:#Testing convert failed###05 Jan 2003 new variable
 check_failed_htmldoc#:#Testing HTMLdoc failed###05 Jan 2003 new variable
 check_failed_java#:#Testing java failed###05 Jan 2003 new variable
+check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
 check_failed_unzip#:#Testing unzip failed###05 Jan 2003 new variable
 check_failed_zip#:#Testing zip failed###05 Jan 2003 new variable
 choose_language#:#pasirinkite kalbą###07 Apr 2005 content changed
@@ -78,6 +80,7 @@ create#:#create###28 Nov 2003 new variable
 create_datadir_failed#:#Creation of data directory failed###05 Jan 2003 new variable
 create_new_client#:#Create new client###21 Nov 2003 new variable
 create_webdir_failed#:#Creation of web directory failed###05 Jan 2003 new variable
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###10 Jul 2006 new variable
 ctrl_structure#:#Control Structure###03 Nov 2005 new variable
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
 ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
@@ -99,6 +102,7 @@ datadir_path_comment2#:#cannot be changed in this setup version###05 Jan 2003 ne
 datadir_webspacedir_match#:#The path to your data directory points to the same directory where your webspace directory is located. Please choose another directory.###20 Dec 2003 new variable
 date#:#data###07 Apr 2005 content changed
 db_conn#:#Database connection###28 Nov 2003 new variable
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###10 Jul 2006 new variable
 db_host#:#duomenų bazės serveris###07 Apr 2005 content changed
 db_name#:#duomenų bazės vardas###07 Apr 2005 content changed
 db_needs_update#:#Database needs update###05 Jan 2003 new variable
@@ -120,6 +124,7 @@ disable_check#:#disable check###05 Jan 2003 new variable
 disable_logging#:#disable logging###28 Nov 2003 new variable
 disabled#:#disabled###28 Nov 2003 new variable
 display_clientlist#:#Display client selection###05 Jan 2003 new variable
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#Email###21 Nov 2003 new variable
 email_not_valid#:#Email is not valid###21 Nov 2003 new variable
 en_by_default#:#(Anglų kalbos pašalinti negalima).###07 Apr 2005 content changed
@@ -160,6 +165,7 @@ ilias_nic_id#:#NIC ID###21 Nov 2003 new variable
 ilias_setup#:#ILIAS3 setup###21 Nov 2003 new variable
 ilias_version#:#ILIAS versija###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
 info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asteriks must be filled out. All informationen are stored in your database. On the next screen you may register your installation at our ILIAS-NIC server, whereby this data are transmitted to this server.###05 Jan 2003 new variable
 info_text_db#:#The database doesn't exists or is empty. Click the button below to install your database. If a database with the chosen name doesn't exists yet, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail, (e.g. due to restricted access permissions) please contact the responsible systemadministrator of the database server and ask him to create you a database with desired name in advanced.###05 Jan 2003 new variable
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -239,6 +245,7 @@ language#:#kalba###07 Apr 2005 content changed
 languages#:#kalbos###07 Apr 2005 content changed
 languages_installed#:#Įdiegtos kalbos.###28 Nov 2003 content changed
 lastname#:#Lastname###21 Nov 2003 new variable
+latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
 list#:#list###05 Jan 2003 new variable
 list_disabled#:#Client selection disabled###05 Jan 2003 new variable
 list_enabled#:#Client selection enabled###05 Jan 2003 new variable
@@ -276,6 +283,7 @@ no_clients_available#:#No Clients available###05 Jan 2003 new variable
 no_database#:#No database###28 Nov 2003 new variable
 no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator###28 Nov 2003 new variable
 no_db_update_file#:#dbupdate.php byla nerasta!###07 Apr 2005 content changed
+no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
 no_password#:#No password given###05 Jan 2003 new variable
 no_path_convert#:#No convert path given###05 Jan 2003 new variable
 no_path_datadir#:#No data directory given###05 Jan 2003 new variable
@@ -355,6 +363,7 @@ set_oldpasswd#:#Įveskite seną slaptažodį###07 Apr 2005 content changed
 settings_changed#:#Settings changed###21 Nov 2003 new variable
 settings_saved#:#Settings saved###21 Nov 2003 new variable
 setup#:#diegimo programa###07 Apr 2005 content changed
+setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
 setup_basic_settings#:#Setup basic settings###21 Nov 2003 new variable
 setup_contact_data#:#Setup Contact Information###21 Nov 2003 new variable
 setup_database#:#įdiegti duomenų bazę###07 Apr 2005 content changed
@@ -378,6 +387,7 @@ setup_pass_title#:#Set master password###05 Jan 2003 new variable
 setup_password#:#sukurti slaptažodį###07 Apr 2005 content changed
 setup_password_desc#:#sukurti slaptažodį###07 Apr 2005 content changed
 setup_process_status#:#Setup Process Status###28 Nov 2003 new variable
+setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
 setup_process_step_contact#:#enter contact information###28 Nov 2003 new variable
 setup_process_step_db#:#create & update database###28 Nov 2003 new variable
 setup_process_step_finish#:#Finish installation###28 Nov 2003 new variable
@@ -389,19 +399,29 @@ setup_welcome#:#ILIAS 3 diegimo sistema. Čia Jūs galite###07 Apr 2005 content 
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Sort by this column###05 Jan 2003 new variable
 status#:#Status###21 Nov 2003 new variable
+status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
+status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
+status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
 step#:#Step###21 Nov 2003 new variable
 street#:#Street###21 Nov 2003 new variable
 submit#:#Patvirtinti###07 Apr 2005 content changed
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
 title#:#Title###21 Nov 2003 new variable
 tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Unknown Client###28 Nov 2003 new variable
 unknown_command#:#Unknown command###05 Jan 2003 new variable
 unknown_display_mode#:#Unknown display mode###05 Jan 2003 new variable
+unzip#:#Extract###10 Jul 2006 new variable
 unzip_path#:#Path to Unzip###21 Nov 2003 new variable
 unzip_path_comment#:#required for importing learning modules###28 Nov 2003 new variable
 update_applied#:#Atnaujinimas įvykdytas sėkmingai###07 Apr 2005 content changed
 update_error#:#Atnaujinimas nesėkmingas###07 Apr 2005 content changed
 update_not_found#:#Atnaujinimas nerastas!###07 Apr 2005 content changed
+url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 username#:#username###28 Nov 2003 new variable
 version#:#versija###07 Apr 2005 content changed
 virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
