@@ -91,7 +91,7 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilias;
+		global $lng, $ilias, $rbacsystem;
 
 		$props = array();
 
@@ -110,7 +110,7 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 		}
 		
 		// Display cost centers if active
-		if ($ilias->getSetting("ilinc_akclassvalues_active"))
+		if ($ilias->getSetting("ilinc_akclassvalues_active") and $rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$akclassvalues = ilObjiLincCourse::_getAKClassValues($this->obj_id);
 

@@ -799,7 +799,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	}
 	
 	/**
-	* canceledObject is called when operation is canceled, method links back
+	* canceledObject is called when an operation is canceled, method links back
 	* @access	public
 	*/
 	function canceledObject()
@@ -1001,12 +1001,12 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
 				
-				if (!$this->getCreationMode()
+				/*if (!$this->getCreationMode()
 					&& !$rbacsystem->checkAccess('read',$this->object->getRefId())
 					|| $cmd == 'join')
 				{
 					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
-				}
+				}*/
 				
 				if(!$cmd)
 				{
@@ -1903,7 +1903,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$this->ilias->account->addDesktopItem($this->object->getRefId(),"icrs");	
 		
 		sendInfo($this->lng->txt("ilinc_msg_joined"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
 	}
 	
 	function isActiveAdministrationPanel()

@@ -484,5 +484,16 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	{
 		return $this->object->result_msg;
 	}
+	
+	/**
+	* cancel is called when an operation is canceled, method links back
+	* @access	public
+	*/
+	function cancel()
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+
+		$this->ctrl->redirectByClass("ilobjilinccoursegui");
+	}
 } // END class.ilObjiLincClassroomGUI
 ?>
