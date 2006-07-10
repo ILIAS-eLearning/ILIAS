@@ -801,9 +801,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				unset($tmp_obj);
 				++$counter;
 			}
-			$this->__showVendorsTable($f_result);
-
 		} // END VENDORS TABLE
+		$this->__showVendorsTable($f_result);
 
 		return true;
 	}
@@ -1582,6 +1581,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "vendors",
 								  "update_members" => 1,
+								  "baseClass" => "ilAdministrationGUI",
 								  "cmdClass" => "ilobjpaymentsettingsgui",
 								  "cmdNode" => $_GET["cmdNode"]));
 #		$tbl->setColumnWidth(array("4%","48%","25%","24%"));
@@ -1591,7 +1591,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tpl->setVariable("PBTN_NAME","exportVendors");
 		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("excel_export"));
 		$tpl->parseCurrentBlock();
-		$tbl->render();
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set);
 		$tbl->render();
@@ -1614,13 +1613,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","vendors");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->setVariable("BTN_NAME","addUser");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","addUser");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
+		$tpl->setVariable("BTN_NAME","vendors");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -1677,7 +1676,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	function __setTableGUIBasicData(&$tbl,&$result_set,$from = "")
 	{
-
 		$offset = $_GET["offset"];
 		$order = $_GET["sort_by"];
 		$direction = $_GET["sort_order"];
