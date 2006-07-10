@@ -34,7 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Drittanbieter-Programme
-3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
+3rdparty#:#Erweiterungen von Fremdanbietern
 absolute_path#:#Absoluter Pfad
 access#:#Zugang
 access_status#:#Zugangsstatus
@@ -52,7 +52,7 @@ check_db_versions#:#Please ensure that the database mode determined by ILIAS mat
 check_failed_convert#:#Convert-Test fehlgeschlagen
 check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
 check_failed_java#:#Java-Test fehlgeschlagen
-check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
+check_failed_latex#:#LaTeX CGI-Skript Test fehlgeschlagen
 check_failed_unzip#:#Unzip-Test fehlgeschlagen
 check_failed_zip#:#Zip-Test fehlgeschlagen
 choose_language#:#Bitte wählen Sie Ihre Sprache
@@ -165,7 +165,7 @@ ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS3 Setup
 ilias_version#:#ILIAS Version
 include_local#:#include local###include local language file when updating language
-info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
+info_text_3rdparty#:#In diesem Schritt werden die Erweiterungen von Fremdanbietern konfiguriert, die in ILIAS benötigt werden. Folgen Sie bitte den Installationsanweisungen, die zu den jweiligen Erweiterungen angegeben werden, um diesen Schritt zu komplettieren.
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
 info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -214,7 +214,7 @@ intro_install#:#Das ist das Hauptmenü von ILIAS 3 Setup. Hier können Sie Schri
 ip_address#:#IP-Adresse
 java_path#:#Java-Befehlszeile
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
-lang_bg#:#Bulgarian###03 Nov 2005 new variable
+lang_bg#:#Bulgarisch
 lang_cs#:#Tschechisch
 lang_da#:#Dänisch
 lang_de#:#Deutsch
@@ -245,7 +245,7 @@ language#:#Sprache
 languages#:#Sprachen
 languages_installed#:#Sprache(n) installiert
 lastname#:#Nachname
-latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
+latex_url_comment#:#wird für die LaTeX-Unterstützung in ILIAS benötigt
 list#:#Liste
 list_disabled#:#Mandantenauswahl deaktiviert
 list_enabled#:#Mandantenauswahl aktiviert
@@ -283,7 +283,7 @@ no_clients_available#:#Keine Mandanten verfügbar
 no_database#:#Keine Datenbank
 no_db_connect_consult_admin#:#Es konnte keine Verbindung zur Datenbank hergestellt werden. Bitte kontaktieren Sie den Systemadministrator
 no_db_update_file#:#dbupdate.php nicht gefunden!
-no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
+no_latex_url#:#Es wurde keine URL für ein LaTeX CGI-Skript angegeben
 no_password#:#Kein Passwort angegeben
 no_path_convert#:#Convert-Pfad nicht angegeben
 no_path_datadir#:#Kein Datenverzeichnis angegeben
@@ -363,7 +363,7 @@ set_oldpasswd#:#Bitte altes Passwort eingeben
 settings_changed#:#Einstellungen geändert
 settings_saved#:#Einstellungen gespeichert
 setup#:#setup
-setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
+setup_3rdparty_data#:#Fremdanbietererweiterungen installieren
 setup_basic_settings#:#Grundeinstellungen bei Erstinstallation
 setup_contact_data#:#Kontaktdaten ausfüllen
 setup_database#:#Datenbank installieren
@@ -387,7 +387,7 @@ setup_pass_title#:#Passwort für Administratorzugriff
 setup_password#:#Setup-Passwort erstellen
 setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
 setup_process_status#:#Status des Installationsverlaufes
-setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
+setup_process_step_3rdparty#:#Fremdanbietererweiterungen
 setup_process_step_contact#:#Kontaktinformationen ausfüllen
 setup_process_step_db#:#Datenbank installieren/aktualisieren
 setup_process_step_finish#:#Installation abschliessen
@@ -399,29 +399,29 @@ setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-R
 sophos#:#Sophos
 sort_by_this_column#:#Nach dieser Spalte sortieren
 status#:#Status
-status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
-status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
-status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
+status_3rdparty_false#:#Es fehlen Fremdanbietererweiterungen
+status_3rdparty_ok#:#Fremdanbietererweiterungen installiert
+status_3rdparty_problems#:#Probleme mit Fremdanbietererweiterungen
 step#:#Schritt
 street#:#Strasse
 submit#:#Abschicken
-tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
-tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
-tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
-tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
-tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
+tiny_dir_does_not_exist#:#Das Verzeichnis, das den Editor beinhaltet existiert nicht. Sie müssen die ZIP-Datei, die den Editor beinhaltet in das vorgehene Verzeichnis auspacken
+tiny_nothing_to_do#:#Der Editor ist installiert, es gibt nichts zu tun
+tiny_zip_changed#:#Die ZIP-Datei, die den Editor beinhaltet, wurde seit der letzten Installation verändert. Bitte packen Sie die ZIP-Datei aus, um die vorhandene Editor-Installation zu aktualisieren.
+tiny_zip_does_not_exist#:#Die ZIP-Datei, die den TinyMCE Editor beinhaltet existiert nicht in dem dafür vorgesehenen Verzeichnis Services/RTE 
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG Editor
 title#:#Titel
-tools#:#Tools###03 Nov 2005 new variable
+tools#:#Werkzeuge
 unknown_client_id#:#Unbekannter Mandant
 unknown_command#:#Unbekannter Befehl
 unknown_display_mode#:#Unbekannter Anzeigemodus
-unzip#:#Extract###10 Jul 2006 new variable
+unzip#:#Auspacken
 unzip_path#:#Unzip-Befehlszeile
 unzip_path_comment#:#Wird benötigt, um Lernmodule zu importieren
 update_applied#:#Update eingespielt
 update_error#:#Fehler beim Update der Datenbank
 update_not_found#:#Update nicht gefunden!
-url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
+url_to_latex#:#URL zum LaTeX CGI Skript
 username#:#Benutzername
 version#:#Version
 virus_scanner#:#Virus-Scanner
