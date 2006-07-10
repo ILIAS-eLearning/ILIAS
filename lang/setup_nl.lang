@@ -34,6 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#software van derden(3)###07 Apr 2005 content changed
+3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
 absolute_path#:#Absolute pad###07 Apr 2005 content changed
 access#:#Toegang###07 Apr 2005 content changed
 access_status#:#Toegangs-status###07 Apr 2005 content changed
@@ -52,6 +53,7 @@ check_failed_convert#:#Testen van conversie mislukt###07 Apr 2005 content change
 check_failed_htmldoc#:#Testen FOP mislukt###07 Apr 2005 content changed
 check_failed_htmldoc#:#Testen van HTMLdoc mislukt###07 Apr 2005 content changed
 check_failed_java#:#Testen van java mislukt###07 Apr 2005 content changed
+check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
 check_failed_unzip#:#Testen van unzippen mislukt###07 Apr 2005 content changed
 check_failed_zip#:#Testen van zippen mislukt###07 Apr 2005 content changed
 choose_language#:#A.u.b. kies uw taal###07 Apr 2005 content changed
@@ -79,6 +81,7 @@ create#:#Creëer###07 Apr 2005 content changed
 create_datadir_failed#:#Creëren van gegevens-map mislukt###07 Apr 2005 content changed
 create_new_client#:#Creëer een nieuwe cliënt###07 Apr 2005 content changed
 create_webdir_failed#:#Creëren van een web-map is mislukt###07 Apr 2005 content changed
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###10 Jul 2006 new variable
 ctrl_structure#:#Control Structure###03 Nov 2005 new variable
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
 ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
@@ -100,6 +103,7 @@ datadir_path_comment2#:#Kan niet gewijzigd worden in deze versie van setup###07 
 datadir_webspacedir_match#:#Het pad naar uw gegevens-map wijst naar dezelfde map als van uw web site. Kies a.u.b. een andere map.###07 Apr 2005 content changed
 date#:#datum###07 Apr 2005 content changed
 db_conn#:#Databank-verbinding###07 Apr 2005 content changed
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###10 Jul 2006 new variable
 db_host#:#Databank-host###07 Apr 2005 content changed
 db_name#:#databank-naam###07 Apr 2005 content changed
 db_needs_update#:#Databank moet worden bijgewerkt###07 Apr 2005 content changed
@@ -121,6 +125,7 @@ disable_check#:#Zet controleren uit###07 Apr 2005 content changed
 disable_logging#:#Zet logging uit###07 Apr 2005 content changed
 disabled#:#uitgeschakeld###07 Apr 2005 content changed
 display_clientlist#:#Laat cliënt-selectie zien###07 Apr 2005 content changed
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#Email###07 Apr 2005 content changed
 email_not_valid#:#Foutief email-adres###07 Apr 2005 content changed
 en_by_default#:#(Engels is standaard geïnstalleerd en kan niet worden gewist).###07 Apr 2005 content changed
@@ -161,6 +166,7 @@ ilias_nic_id#:#NIC-ID###07 Apr 2005 content changed
 ilias_setup#:#Setup ILIAS 3###07 Apr 2005 content changed
 ilias_version#:#ILIAS-versie###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
 info_text_contact#:#Hier kunt u additionele cliënt-informatie en contact-gegevens van de systeem-administrateur van deze cliënt opgeven. De velden gemarkeerd met een asteriks moeten ingevuld worden. Alle informatie wordt in uw databank opgeslagen. In het volgende scherm kunt u de installatie op onze ILIAS-NIC-server registreren, waarbij deze gegevens naar deze server worden verzonden. ###07 Apr 2005 content changed
 info_text_db#:#De databank bestaat niet of is leeg. Klik op de knop Installeren databank. Indien de databank met de gekozen naam niet bestaat kies de optie Creëer databank. Setup probeert dan uw databank aan te leggen. Als het  creëren niet lukt, (bijv. door onvoldoende rechten), neem contact op met de databank-administrateur en vraag hem een databank met de gewenste naam aan te leggen voordat u de databank installeert.###07 Apr 2005 content changed
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -240,6 +246,7 @@ language#:#taal###07 Apr 2005 content changed
 languages#:#talen###07 Apr 2005 content changed
 languages_installed#:#Taal/talen geïnstalleerd###07 Apr 2005 content changed
 lastname#:#Achternaam###07 Apr 2005 content changed
+latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
 list#:#lijst###07 Apr 2005 content changed
 list_disabled#:#Cliënt-selectie uitgeschakeld###07 Apr 2005 content changed
 list_enabled#:#Cliënt-selectie ingeschakeld###07 Apr 2005 content changed
@@ -277,6 +284,7 @@ no_clients_available#:#Geen cliënten beschikbaar###07 Apr 2005 content changed
 no_database#:#Geen databank###07 Apr 2005 content changed
 no_db_connect_consult_admin#:#Kan niet met een databank verbinden. Neem contact op met de systeem-administrateur###07 Apr 2005 content changed
 no_db_update_file#:#dbupdate.php niet gevonden!###07 Apr 2005 content changed
+no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
 no_password#:#Er is geen wachtwoord gegeven ###07 Apr 2005 content changed
 no_path_convert#:#Geen conversie-pad opgegeven###07 Apr 2005 content changed
 no_path_datadir#:#Geen gegevens-map opgegeven###07 Apr 2005 content changed
@@ -356,6 +364,7 @@ set_oldpasswd#:#A.u.b. voer het oude wachtwoord in###07 Apr 2005 content changed
 settings_changed#:#Instellingen gewijzigd###07 Apr 2005 content changed
 settings_saved#:#Instellingen opgeslagen###07 Apr 2005 content changed
 setup#:#Setup###07 Apr 2005 content changed
+setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
 setup_basic_settings#:#Setup###07 Apr 2005 content changed
 setup_contact_data#:#Setup Contact-informatie###07 Apr 2005 content changed
 setup_database#:#setup van de databank###07 Apr 2005 content changed
@@ -379,6 +388,7 @@ setup_pass_title#:#Instellen hoofd-wachtwoord###07 Apr 2005 content changed
 setup_password#:#Geef een wachtwoord op###07 Apr 2005 content changed
 setup_password_desc#:#Creëer een wachtwoord om de setup-routine later weer te kunnen omroepen (bijv. om de databank bij te werken)###07 Apr 2005 content changed
 setup_process_status#:#Zetop proces-status###07 Apr 2005 content changed
+setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
 setup_process_step_contact#:#Voer contact-informatie in###07 Apr 2005 content changed
 setup_process_step_db#:#Installeren c.q. bijwerken databank###07 Apr 2005 content changed
 setup_process_step_finish#:#Beëindig installatie###07 Apr 2005 content changed
@@ -390,19 +400,29 @@ setup_welcome#:#Welkom bij de setup van ILIAS 3. De setup-routine helpt u met ##
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Sorteer op deze kolom###07 Apr 2005 content changed
 status#:#Status###07 Apr 2005 content changed
+status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
+status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
+status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
 step#:#Het ILIAS-systeem is zichtbaar###07 Apr 2005 content changed
 street#:#Straat###07 Apr 2005 content changed
 submit#:#Verzend###07 Apr 2005 content changed
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
 title#:#Titel###07 Apr 2005 content changed
 tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Onbekende cliënt###07 Apr 2005 content changed
 unknown_command#:#Onbekende opdracht###07 Apr 2005 content changed
 unknown_display_mode#:#Onbekend scherm-modus###07 Apr 2005 content changed
+unzip#:#Extract###10 Jul 2006 new variable
 unzip_path#:#Pad naar Unzip###07 Apr 2005 content changed
 unzip_path_comment#:#verplicht voor het importeren van les-modules###07 Apr 2005 content changed
 update_applied#:#Wijziging doorgevoerd###07 Apr 2005 content changed
 update_error#:#Fout tijdens het bijwerken###07 Apr 2005 content changed
 update_not_found#:#Wijziging niet gevonden!###07 Apr 2005 content changed
+url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 username#:#Gebruikersnaam###07 Apr 2005 content changed
 version#:#Versie###07 Apr 2005 content changed
 virus_scanner#:#Virus Scanner###18 Nov 2004 new variable

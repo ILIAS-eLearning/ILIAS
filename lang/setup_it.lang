@@ -34,6 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Software di terze parti
+3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
 absolute_path#:#Percorso assoluto
 access#:#Accedi
 access_status#:#Stato dell&#039; accesso
@@ -51,6 +52,7 @@ check_db_versions#:#Verifica che la versione del database rilevata da ILIAS coin
 check_failed_convert#:#Test di conversione fallito
 check_failed_htmldoc#:#Test HTMLdoc fallito
 check_failed_java#:#Test Java fallito
+check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
 check_failed_unzip#:#Test di decompressione fallito
 check_failed_zip#:#Test di compressione fallito
 choose_language#:#Scegli la Tua lingua
@@ -78,6 +80,7 @@ create#:#Crea
 create_datadir_failed#:#Creazione della cartella data fallita.
 create_new_client#:#Crea un nuovo client
 create_webdir_failed#:#Creazione della cartella web fallita
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###10 Jul 2006 new variable
 ctrl_structure#:#Struttura di controllo
 ctrl_structure_desc#:#Per favore non invocare questa funzione a meno che non sia esplicitamente richiesto nelle instruzioni di aggiornamento o nell'istallazione di una patch.
 ctrl_structure_reloaded#:#Struttura di controllo ripristinata.
@@ -99,6 +102,7 @@ datadir_path_comment2#:#non pu&#242; essere cambiato in questa versione dell'ins
 datadir_webspacedir_match#:#Il percorso della tua cartella dei dati coincide con la cartella creata all&#039;interno del webspace. Per favore, scegli per i dati una cartella all&#039;esterno del webspace.
 date#:#Data
 db_conn#:#Connessione al Database
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###10 Jul 2006 new variable
 db_host#:#Macchina con il database
 db_name#:#Nome del database
 db_needs_update#:#Il database deve essere aggiornato
@@ -120,6 +124,7 @@ disable_check#:#disabilita il controllo
 disable_logging#:#Disabilita la scrittura dei file di log
 disabled#:#Disabilitato
 display_clientlist#:#Lista dei client visibile
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#Email
 email_not_valid#:#Email non valida
 en_by_default#:#(la lingua Inglese viene installata come predefinita e non pu&#242; essere cancellata).
@@ -160,6 +165,7 @@ ilias_nic_id#:#NIC-ID (Network Information Center)
 ilias_setup#:#Installazione di ILIAS 3
 ilias_version#:#Versione di ILIAS 3
 include_local#:#include local
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
 info_text_contact#:#Qui puoi specificare le informazioni aggiuntive del client ed i riferimenti per i contatti dell&#039;amministratore. I campi indicati con un asterisco sono obbligatori. <br/>Tutte le informazioni vengono memorizzate all&#039;interno del database. <br/>Nella pagina successiva potrai registrare l&#039;installazione al server ILIAS-NIC, dove questi dati saranno trasmessi.
 info_text_db#:#Il database non esiste o &#232; vuoto. <br/>Clicca sul pulsante qui sotto per creare il tuo database. Se un database con il nome indicato non esiste ancora, per favore seleziona l&#039;opzione <b>'Crea il database'</b>. La procedura di installazione prover&#224; a creare il database automaticamente. <br/>Se la creazione dovesse fallire (per es. per un problema di permessi), contatta l&#039;amministratore di sistema e/o del database e chiedi a lui di crearti il database con il nome desiderato.
 info_text_db_collation1#:#Se desideri un ordinamento di caratteri diverso dall'UTF-8 standard, devi creare il tuo database manualmente. In ogni caso, devi essere sicuro che l'insieme dei caratteri scelti per il database sia UTF-8.
@@ -239,6 +245,7 @@ language#:#Lingua
 languages#:#Lingue
 languages_installed#:#lingue installate.
 lastname#:#Cognome
+latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
 list#:#Lista_dei_client
 list_disabled#:#La selezione dei client &#232; disabilitata.
 list_enabled#:#La selezione dei client &#232; abilitata.
@@ -276,6 +283,7 @@ no_clients_available#:#Non ci sono client disponibili!
 no_database#:#Nessun database.
 no_db_connect_consult_admin#:#Non &#232; possibile connettersi al database. Per favore, contatta il tuo amministratore di sistema.
 no_db_update_file#:#Non ho trovato il file dbupdate.php!
+no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
 no_password#:#Non &#232; stata specificata la password!
 no_path_convert#:#Non &#232; stata specificato il percorso per la conversione
 no_path_datadir#:#Non &#232; stata specificata la cartella data.
@@ -355,6 +363,7 @@ set_oldpasswd#:#Vecchia password
 settings_changed#:#Impostazioni cambiate
 settings_saved#:#Impostazioni salvate
 setup#:#Installazione
+setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
 setup_basic_settings#:#Impostazioni di base
 setup_contact_data#:#Dati del client e dell'amministratore
 setup_database#:#Installazione del database
@@ -378,6 +387,7 @@ setup_pass_title#:#Imposta la password di Amministratore
 setup_password#:#Creazione password
 setup_password_desc#:#creare una password per poter accedere in futuro alla procedura di installazione (per eventuali aggiornamenti)
 setup_process_status#:#Stato del processo di installazione
+setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
 setup_process_step_contact#:#inserimento dei dati del client
 setup_process_step_db#:#creazione e aggiornamento del database
 setup_process_step_finish#:#conclusione dell&#039;installazione
@@ -389,19 +399,29 @@ setup_welcome#:#Benvenuti nel programma di installazione di ILIAS 3. La procedur
 sophos#:#Sophos
 sort_by_this_column#:#Ordina secondo questa colonna
 status#:#Stato
+status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
+status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
+status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
 step#:#Passo
 street#:#Indirizzo
 submit#:#Accetta
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
 title#:#Titolo
 tools#:#Strumenti
 unknown_client_id#:#Client sconosciuto
 unknown_command#:#Comando sconosciuto
 unknown_display_mode#:#Modalit&#224; di visualizzazione sconosciuta.
+unzip#:#Extract###10 Jul 2006 new variable
 unzip_path#:#Percorso del programma di unzip
 unzip_path_comment#:#Richiesto per l&#039;importazione dei moduli esterni
 update_applied#:#Modifiche effettuate
 update_error#:#Errore nell&#039;aggiornamento
 update_not_found#:#Modifiche non trovate!
+url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 username#:#utente
 version#:#Versione
 virus_scanner#:#Virus Scanner

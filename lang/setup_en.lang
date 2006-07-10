@@ -34,11 +34,8 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.
-ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.
-db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')
-3rdparty#:#3rd Party add-ons
 3rd_party_software#:#3rd Party Software
+3rdparty#:#3rd Party add-ons
 absolute_path#:#Absolute path
 access#:#Access
 access_status#:#Access status
@@ -85,6 +82,7 @@ create#:#create
 create_datadir_failed#:#Creation of data directory failed
 create_new_client#:#Create new client
 create_webdir_failed#:#Creation of web directory failed
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.
 ctrl_structure#:#Control Structure
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. 
 ctrl_structure_reloaded#:#Control Structure Reloaded.
@@ -106,6 +104,7 @@ datadir_path_comment2#:#cannot be changed in this setup version
 datadir_webspacedir_match#:#The path to your data directory points to the same directory where your web space directory is located. Please choose another directory.
 date#:#date
 db_conn#:#Database connection
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')
 db_host#:#database host
 db_name#:#database name
 db_needs_update#:#Database needs update
@@ -127,6 +126,7 @@ disable_check#:#disable check
 disable_logging#:#disable logging
 disabled#:#disabled
 display_clientlist#:#Display client selection
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.
 email#:#Email
 email_not_valid#:#Invalid email address
 en_by_default#:#(English is installed by default and cannot be deleted).
@@ -401,17 +401,17 @@ setup_welcome#:#Welcome to ILIAS 3 setup. This setup-routine helps you to
 sophos#:#Sophos
 sort_by_this_column#:#Sort by this column
 status#:#Status
-status_3rdparty_ok#:#3rd party add-ons installed
 status_3rdparty_false#:#3rd party add-ons missing
+status_3rdparty_ok#:#3rd party add-ons installed
 status_3rdparty_problems#:#3rd party add-ons problems
 step#:#Step
 street#:#Street
 submit#:#Submit
-tiny_nothing_to_do#:#The editor is installed, there is nothing to do
 tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location
-tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do
 tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.
 tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor
 title#:#Title
 tools#:#Tools
 unknown_client_id#:#Unknown Client

@@ -34,6 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Softver trece strane
+3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
 absolute_path#:#Apsolutna putanja
 access#:#Pristup
 access_status#:#Pristupni status
@@ -52,6 +53,7 @@ check_failed_convert#:#Obrada testiranja nije uspela
 check_failed_htmldoc#:#Testiranje FOP nije uspelo
 check_failed_htmldoc#:#Testiranje HTMLdoc nije uspelo
 check_failed_java#:#Testiranje Java nije uspelo
+check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
 check_failed_unzip#:#Testiranje unzip nije uspelo
 check_failed_zip#:#Testiranje zip nije uspelo
 choose_language#:#izaberite vaš jezik###19 May 2005 content changed
@@ -78,6 +80,7 @@ create#:#kreiraj
 create_datadir_failed#:#Kreiranje direktorijuma podataka nije uspelo
 create_new_client#:#Kreiraj novog klijenta
 create_webdir_failed#:#Kreiranje web direktorijuma nije uspelo
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###10 Jul 2006 new variable
 ctrl_structure#:#Control Structure###03 Nov 2005 new variable
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
 ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
@@ -99,6 +102,7 @@ datadir_path_comment2#:#ne može biti izmenjeno u verziji postavljanja
 datadir_webspacedir_match#:#Putanja do vašeg direktorijuma podataka pokazuje isti direktorijum gde je vaš direktorijum web prostora lociran. Molimo odaberite drugi direktorijum.
 date#:#datum
 db_conn#:#povezanost baze podataka
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###10 Jul 2006 new variable
 db_host#:#domacin baze podataka
 db_name#:#naziv baze podataka
 db_needs_update#:#Bazi podataka je potrebno ažuriranje
@@ -120,6 +124,7 @@ disable_check#:#onemoguci proveru
 disable_logging#:#onemoguci prijavljivanje
 disabled#:#onemoguceno
 display_clientlist#:#Prikaži klijentovu selekciju
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#email
 email_not_valid#:#Pogrešna email adresa
 en_by_default#:#(Engleski jezik je instaliran po standardu i ne može biti obrisan).
@@ -159,6 +164,7 @@ ilias_nic_id#:#nadimak
 ilias_setup#:#postavljanje ILIAS 3 
 ilias_version#:#Verzija ILIAS-a
 include_local#:#include local###20 May 2005 content changed
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
 info_text_contact#:#Ovde pokazujete dodatne informacije o klijentu i podatke za kontakt sa sistem administratorom za ovog klijenta. Polja oznacena zvezdicom moraju biti popunjena. Sve informacije su uskladištene u bazi podataka. Na sledecem ekranu možete registrovati vašu instalaciju ILIAS NIC Servera, registracija prenosi ovaj podatak do ILIAS-NIC servera.
 info_text_db#:#Baza podataka ne postoji ili je prazna. Kliknite na donje dugme da biste instalirali vašu bazu podataka. Ako ni onda ne bude postojala baza podataka sa tim imenom proverite opciju 'kreiraj bazu podataka'. Nakon toga pokušajte da kreirate automatski bazu podataka. Ukoliko kreiranje propadne (usled restriktivne dozvole za pristup), molimo kontaktirajte sistem administratora baze podataka na serveru i pitajte ga da kreira bazu podataka sa željenim imenom pre instaliranja ILIAS-a.
 info_text_delete#:#Možete obrisati ovog klijenta ako kliknete na donje dugme za brisanje. Kako bilo, samo vaša client.ini datoteka je uklonjena, cuvajuci sve podatke smeštene u klijentovim direktorijumima i bazama podataka.
@@ -235,6 +241,7 @@ language#:#Jezik
 languages#:#jezici
 languages_installed#:#Jezik(ci) instaliran(i)
 lastname#:#Prezime
+latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
 list#:#spisak
 list_disabled#:#Odabir klijenta onemogucen
 list_enabled#:#Odabir klijenta omogucen
@@ -272,6 +279,7 @@ no_clients_available#:#Nema raspoloživih klijenata
 no_database#:#Nema baze podataka
 no_db_connect_consult_admin#:#Ne može se pristupiti bazi podataka. Molimo konsultujte sistem administratora
 no_db_update_file#:#bdupdate.php nije pronaden1
+no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
 no_password#:#Nije data lozinka
 no_path_convert#:#Nije data obrnuta putanja
 no_path_datadir#:#Nisu dati podaci direktorijuma
@@ -351,6 +359,7 @@ set_oldpasswd#:#Molimo unesite stru lozinku
 settings_changed#:#Podešavanja su promenjena
 settings_saved#:#Podešavanja su snimljena
 setup#:#postavljanje 
+setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
 setup_basic_settings#:#Postavljanje osnovnih podešavanja
 setup_contact_data#:#Postavljanje kontakt informacija
 setup_database#:#postavljanje baze podataka
@@ -374,6 +383,7 @@ setup_pass_title#:#Odredi glavnu lozinku
 setup_password#:#kreiraj lozinku
 setup_password_desc#:#kreiraj lozinku za pristup rutinskom postavljanju kasnije (radi ažuriranja vaše baze podataka)
 setup_process_status#:#Status procesa posatvljanja
+setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
 setup_process_step_contact#:#Unesi informacije za kontakt
 setup_process_step_db#:#Instaliraj/Ažuriraj bazu podataka
 setup_process_step_finish#:#Završi instalaciju
@@ -385,19 +395,29 @@ setup_welcome#:#Dobro došli na ILIAS 3 postavljanje. Rutinsko postavljanje vam 
 sophos#:#Sophos
 sort_by_this_column#:#Sortiraj po ovoj koloni
 status#:#Status procesa posatvljanja
+status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
+status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
+status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
 step#:#Korak
 street#:#Ulica
 submit#:#Potvrdi
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
 title#:#Naslov
 tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Nepoznat klijent
 unknown_command#:#Nepoznata komanda
 unknown_display_mode#:#Nepoznat nacin prikazivanja
+unzip#:#Extract###10 Jul 2006 new variable
 unzip_path#:#staza do Unzip
 unzip_path_comment#:#zahtevano radi unošenja metoda ucenja
 update_applied#:#Ažuriranje prihvaceno
 update_error#:#Greška tokom ažuriranja
 update_not_found#:#Ažuriranje nije pronadeno1
+url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 username#:#korisnicko ime
 version#:#Verzija
 virus_scanner#:#Pregled virusa

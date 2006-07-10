@@ -34,6 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Software 3rd Party###07 Apr 2005 content changed
+3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
 absolute_path#:#Caminho absoluto###07 Apr 2005 content changed
 access#:#Acesso###07 Apr 2005 content changed
 access_status#:#Estado do acesso###07 Apr 2005 content changed
@@ -51,6 +52,7 @@ check_db_versions#:#Please ensure that the database mode determined by ILIAS mat
 check_failed_convert#:#Teste do convert falhou###07 Apr 2005 content changed
 check_failed_htmldoc#:#Teste do HTMLdoc falhou###26 May 2004 content changed
 check_failed_java#:#Teste do java falhou###14 Sep 2004 content changed
+check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
 check_failed_unzip#:#Teste do unzip falhou###07 Apr 2005 content changed
 check_failed_zip#:#Teste zip falhou###07 Apr 2005 content changed
 choose_language#:#escolha a sua linguagem###07 Apr 2005 content changed
@@ -78,6 +80,7 @@ create#:#criar###07 Apr 2005 content changed
 create_datadir_failed#:#Criação da directoria de dados falhou###07 Apr 2005 content changed
 create_new_client#:#Criar novo cliente###07 Apr 2005 content changed
 create_webdir_failed#:#Criação da directoria web falhou###07 Apr 2005 content changed
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###10 Jul 2006 new variable
 ctrl_structure#:#Control Structure###03 Nov 2005 new variable
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
 ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
@@ -99,6 +102,7 @@ datadir_path_comment2#:#não pode ser mudado nesta versão do setup###07 Apr 200
 datadir_webspacedir_match#:#O caminho para a sua directoria de dados aponta para a mesma directoria onde a directoria de web está localizada. Por favor escolha outra directoria.###14 Sep 2004 content changed
 date#:#data###07 Apr 2005 content changed
 db_conn#:#Conexão da Base de dados###07 Apr 2005 content changed
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###10 Jul 2006 new variable
 db_host#:#anfitrião da base de dados###07 Apr 2005 content changed
 db_name#:#nome da base de dados###07 Apr 2005 content changed
 db_needs_update#:#A Base de dados precisa de actualização###07 Apr 2005 content changed
@@ -120,6 +124,7 @@ disable_check#:#desactivar verificação###07 Apr 2005 content changed
 disable_logging#:#desactivar log###07 Apr 2005 content changed
 disabled#:#desactivado###07 Apr 2005 content changed
 display_clientlist#:#Mostrar selecção de cliente###07 Apr 2005 content changed
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#Email###07 Apr 2005 content changed
 email_not_valid#:#Endereço de email inválido###07 Apr 2005 content changed
 en_by_default#:#(O inglês esta instalado por omissão e não pode ser apagado).###07 Apr 2005 content changed
@@ -160,6 +165,7 @@ ilias_nic_id#:#NIC ID###07 Apr 2005 content changed
 ilias_setup#:#Setup ILIAS3###14 Sep 2004 content changed
 ilias_version#:#Versão ILIAS###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
 info_text_contact#:#Aqui você pode indicar informação adicional do cliente e os dados de contacto do administrador de sistema deste cliente. Os campos marcados com um asterisco têm de ser preenchidos. Toda as informações são guardadas na sua base de dados. No próximo ecrã você pode registar a sua instalação no seu servidor ILIAS-NIC, para onde estes dados são transmitidos.###14 Sep 2004 content changed
 info_text_db#:#A base de dados não existe ou está vazia. Carregue no botão abaixo para instalar a sua base de dados. Se uma base de dados com o nome escolhido ainda não existir, escolha a opção 'criar base de dados'. O Setup depois tentará criar a base de dados automáticamente. Se a criação falhar, (e.g. devido a permissões de acesso restritas) por favor contacte o administrador de sistema responsável pelo servidor de bases da dados e peça-lhe para criar uma base de dados para si com o nome desejado.###14 Sep 2004 content changed
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -239,6 +245,7 @@ language#:#linguagem###07 Apr 2005 content changed
 languages#:#linguagens###07 Apr 2005 content changed
 languages_installed#:#Linguagem(s) instaladas###07 Apr 2005 content changed
 lastname#:#Apelido###14 Sep 2004 content changed
+latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
 list#:#lista###07 Apr 2005 content changed
 list_disabled#:#Selecção de cliente desligada###07 Apr 2005 content changed
 list_enabled#:#Selecção de cliente ligada###07 Apr 2005 content changed
@@ -276,6 +283,7 @@ no_clients_available#:#Nenhuns Clientes disponíveis###07 Apr 2005 content chang
 no_database#:#Nenhuma base de dados###07 Apr 2005 content changed
 no_db_connect_consult_admin#:#Não foi possível ligar à base de dados. Por favor consulte o administrador de sistema###07 Apr 2005 content changed
 no_db_update_file#:#dbupdate.php não encontrado!###07 Apr 2005 content changed
+no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
 no_password#:#Nenhuma palavra-passe dada###07 Apr 2005 content changed
 no_path_convert#:#Nenhum caminho para o convert dado###07 Apr 2005 content changed
 no_path_datadir#:#Nenhuma directoria de dados dada###07 Apr 2005 content changed
@@ -355,6 +363,7 @@ set_oldpasswd#:#Por favor insira a palavra-passe antiga###07 Apr 2005 content ch
 settings_changed#:#Definições alteradas###07 Apr 2005 content changed
 settings_saved#:#Definições guardadas###07 Apr 2005 content changed
 setup#:#setup###07 Apr 2005 content changed
+setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
 setup_basic_settings#:#Arranjar definições básicas###07 Apr 2005 content changed
 setup_contact_data#:#Definir Informação de Contacto###07 Apr 2005 content changed
 setup_database#:#definir base de dados###07 Apr 2005 content changed
@@ -378,6 +387,7 @@ setup_pass_title#:#Definir palavra-passe mestre###07 Apr 2005 content changed
 setup_password#:#criar palavra-passe###07 Apr 2005 content changed
 setup_password_desc#:#crie uma palavra-passe para aceder à rotina de setup mais tarde (i.e. para actualizar a base de dados)###07 Apr 2005 content changed
 setup_process_status#:#Estado do processo de setup###07 Apr 2005 content changed
+setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
 setup_process_step_contact#:#Inserir informação de contacto###07 Apr 2005 content changed
 setup_process_step_db#:#Instalar/Actualizar base de dados###07 Apr 2005 content changed
 setup_process_step_finish#:#Finalizar instalação###07 Apr 2005 content changed
@@ -389,19 +399,29 @@ setup_welcome#:#Benvindo ao setup do ILIAS 3. Esta rotina de setup aguda-o a###0
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Ordenar por esta coluna###07 Apr 2005 content changed
 status#:#Estado###07 Apr 2005 content changed
+status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
+status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
+status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
 step#:#Passo###07 Apr 2005 content changed
 street#:#Rua###07 Apr 2005 content changed
 submit#:#Submeter###07 Apr 2005 content changed
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
 title#:#Título###07 Apr 2005 content changed
 tools#:#Tools###03 Nov 2005 new variable
 unknown_client_id#:#Cliente Desconhecido###07 Apr 2005 content changed
 unknown_command#:#Comando desconhecido###07 Apr 2005 content changed
 unknown_display_mode#:#Modo de mostragem desconhecido###07 Apr 2005 content changed
+unzip#:#Extract###10 Jul 2006 new variable
 unzip_path#:#Caminho para o Unzip###07 Apr 2005 content changed
 unzip_path_comment#:#necessário para importar módulos de aprendizagem###07 Apr 2005 content changed
 update_applied#:#Actualização aplicada###07 Apr 2005 content changed
 update_error#:#Erro a actualizar###07 Apr 2005 content changed
 update_not_found#:#Actualização não encontrada!###07 Apr 2005 content changed
+url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 username#:#nome de utilizador###07 Apr 2005 content changed
 version#:#Versão###07 Apr 2005 content changed
 virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
