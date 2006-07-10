@@ -421,7 +421,10 @@ class ilObjAssessmentFolder extends ilObject
 						switch ($typerow["type"])
 						{
 							case "tst":
-								$type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $typerow["type"]);
+								$type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
+								break;
+							case "cat":
+								$type_href = sprintf("goto.php?target=cat_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
 								break;
 						}
 					}
