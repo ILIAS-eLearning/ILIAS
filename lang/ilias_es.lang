@@ -153,7 +153,7 @@ assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para lee
 assessment#:#cannot_save_metaobject#:#¡No tiene los permisos suficientes para grabar los metadatos!
 assessment#:#change_solution#:#Modificar solución recomendada
 assessment#:#changelog_description#:#La siguiente tabla contiene todos los cambios de autores que se han hecho a este test.
-assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
+assessment#:#changelog_heading#:#Changelog
 assessment#:#checkbox_checked#:#Caja marcada
 assessment#:#checkbox_unchecked#:#Caja no marcada
 assessment#:#circle#:#Circulo
@@ -313,8 +313,8 @@ assessment#:#log_selected_user_data_removed#:#Datos de Tests del usuario %s elim
 assessment#:#log_total_amount_of_questions#:#Configurado el nº total de preguntas para el test aleatorio a %s
 assessment#:#log_user_answered_question#:#El usuario respondió una pregunta y recibió %s puntos
 assessment#:#log_user_data_removed#:#Todos los datos de usuario eliminados
-assessment#:#log_user_entered_values#:#User entered values###10 Jul 2006 new variable
-assessment#:#log_user_not_entered_values#:#User did not enter values###10 Jul 2006 new variable
+assessment#:#log_user_entered_values#:#El usuario introdujo valores
+assessment#:#log_user_not_entered_values#:#El usuario no introdujo valores
 assessment#:#maintenance#:#Mantenimiento
 assessment#:#mark_schema#:#Esquema de calificación
 assessment#:#match_terms_and_definitions#:#Emparejar términos y definiciones
@@ -341,7 +341,7 @@ assessment#:#no_question_selected_for_move#:#Por favor marque al menos una pregu
 assessment#:#no_questions_available#:#No hay preguntas disponibles!
 assessment#:#no_target_selected_for_move#:#Debe seleccionar una posición objetivo!
 assessment#:#no_user_or_group_selected#:#Por favor active una opción sobre qué está buscando (usuarios y/o grupos)
-assessment#:#not_worked_through#:#Not answered###10 Jul 2006 new variable
+assessment#:#not_worked_through#:#No contestado
 assessment#:#nr_of_correct_answers#:#Número de respuestas requeridas
 assessment#:#online_exam_show_answer_print_sheet#:#Ha finalizado su examen online. Para ver la vista de impresión de respuestas para imprimir sus resultados de test por favor haga click en el botón &quot;Vista de impresión de respuestas&quot;.
 assessment#:#online_exam_show_finish_test#:#Todavía tiene que llegar al envío final de su examen online. Por favor haga click en el botón &quot;Finalizar el test&quot; para enviar el examen.
@@ -391,9 +391,9 @@ assessment#:#qpl_duplicate_select_none#:#Por favor marque al menos una pregunta 
 assessment#:#qpl_edit_rbac_error#:#No tiene permisos para editar esta pregunta!
 assessment#:#qpl_edit_select_multiple#:#Por favor marque sólo una pregunta para editar
 assessment#:#qpl_edit_select_none#:#Por favor marque una pregunta para editar
-assessment#:#qpl_export_excel#:#Microsoft Excel file###10 Jul 2006 new variable
+assessment#:#qpl_export_excel#:#Fichero Microsoft Excel
 assessment#:#qpl_export_select_none#:#Por favor marque al menos una pregunta para exportarla
-assessment#:#qpl_export_xml#:#QTI XML file###10 Jul 2006 new variable
+assessment#:#qpl_export_xml#:#Fichero QTI XML
 assessment#:#qpl_general_properties#:#Propiedades Generales
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS no pudo crear la previsualización temporal conteniendo las áreas de mapa de imagen. En su lugar, se muestra la imagen original. Esto significa que o bien la herramienta ImageMagick del servidor web no está configurada correctamente o no hay permisos de escritura en el directorio temporal. Por favor contacte con su administrador del sistema.###10 Jul 2006 content changed
 assessment#:#qpl_import_create_new_qpl#:#Importar las preguntas en un nuevo banco de preguntas
@@ -962,7 +962,7 @@ chat#:#chats#:#Chats
 chat#:#my_chats#:#Mis chats
 common#:#3rd_party_software#:#software externo
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH#:#HH:MM###10 Jul 2006 new variable
+common#:#HH#:#HH:MM
 common#:#absolute_path#:#ruta absoluta
 common#:#accept_usr_agreement#:#¿aceptar acuerdo de usuario?
 common#:#access#:#Acceso
@@ -991,7 +991,7 @@ common#:#add_translation#:#Añadir Traducción
 common#:#add_user#:#Añadir usuario local
 common#:#add_user_defined_field#:#Añadir nuevo campo
 common#:#added_new_condition#:#Crear nueva condición.
-common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
+common#:#additional_info#:#Información Adicional
 common#:#adm_create_tax#:#Crear taxonomía
 common#:#adm_edit_permission#:#Modificar configuración de permisos
 common#:#adm_read#:#Acceso de lectura a la configuración básica del sistema
@@ -1022,7 +1022,7 @@ common#:#all_lms#:#Todos los modulos de aprendizaje
 common#:#all_local_roles#:#Roles locales (todos)
 common#:#all_objects#:#Todos los Objetos
 common#:#all_roles#:#Todos los roles
-common#:#all_topics#:#All Topics###10 Jul 2006 new variable
+common#:#all_topics#:#Todos los asuntos
 common#:#all_tsts#:#Todos los tests
 common#:#all_users#:#Todos los usuarios
 common#:#allow_assign_users#:#Permitir asignar usuarios para los administradores locales.
@@ -1093,7 +1093,7 @@ common#:#attachments#:#Ficheros adjuntos
 common#:#attend#:#-Attend-
 common#:#auth_active_roles#:#Roles globales activados para el registro
 common#:#auth_allow_local#:#Permitir Autenticación Local
-common#:#auth_cas#:#CAS###10 Jul 2006 new variable
+common#:#auth_cas#:#CAS
 common#:#auth_cas_allow_local_desc#:#Esto le permite a los usuarios CAS autenticarse con su usuario local ILIAS y una contraseña local
 common#:#auth_cas_auth#:#Configurar autenticación CAS
 common#:#auth_cas_auth_desc#:#CAS requiere PHP 4.3.1 o superior con soporte CURL (7.5 o superior)
@@ -1139,7 +1139,7 @@ common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Autenficación usuarios via Shibboleth, puede ser usado como segundo método de autentificación
 common#:#auth_shib_not_configured#:#Shibboleth no está configurado aún
 common#:#auth_shibboleth#:#Shibboleth
-common#:#auth_soap#:#SOAP###10 Jul 2006 new variable
+common#:#auth_soap#:#SOAP
 common#:#auth_soap_allow_local_desc#:#Esto permite a los usuarios SOAP autenticarse con su usuario local ILIAS y una contraseña local
 common#:#auth_soap_auth#:#Configurar autenticación SOAP
 common#:#auth_soap_auth_desc#:#Esta configuración trata sólo con la autenticación basada en SOAP, no con la interfaz SOAP de ILIAS
@@ -1496,7 +1496,7 @@ common#:#edit_content#:#Editar contenido
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
 common#:#edit_page#:#Editar Página
-common#:#edit_page_content#:#Edit Page Content###10 Jul 2006 new variable
+common#:#edit_page_content#:#Editar Contenido de la página
 common#:#edit_perm_ruleset#:#Editar reglas de permisos por defecto
 common#:#edit_properties#:#Editar propiedades
 common#:#edit_roleassignment#:#Editar asignación de rol
@@ -1504,7 +1504,7 @@ common#:#edit_stylesheet#:#Editar hoja de estilos
 common#:#edited_at#:#editado en
 common#:#editor#:#editor
 common#:#email#:#E-mail
-common#:#email_feedback#:#Mail feedback###10 Jul 2006 new variable
+common#:#email_feedback#:#Mail feedback
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#La dirección de correo electrónico introducida no es válida!
 common#:#enable#:#habilitar
@@ -1528,7 +1528,7 @@ common#:#err_1_param#:#Sólo 1 parámetro!
 common#:#err_2_param#:#Sólo 2 parámetros!
 common#:#err_auth_cas_no_ilias_user#:#Login incorrecto. La autenticación CAS fué ejecutada con éxito, pero no existe un usuario ILIAS asociado. Por favor contacte con su administrador
 common#:#err_auth_ext_user_exists#:#La cuenta externa '%s' para el modo de autenticación '%s' ya existe. (Usuario '%s')
-common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
+common#:#err_auth_soap_no_ilias_user#:#La identificación falló. La autenticación SOAP tuvo éxito, pero no existe usuario ILIAS correspondiente. Por favor contacte con el administrador del sistema.
 common#:#err_count_param#:#Razón: número de parámetros incorrecto
 common#:#err_enter_current_passwd#:#Por favor introduzca su contraseña actual
 common#:#err_in_line#:#Error en línea
@@ -1580,7 +1580,7 @@ common#:#exc_no_members_assigned#:#Ningún miembro asignado
 common#:#exc_notices#:#Comentarios
 common#:#exc_obj#:#Actividad
 common#:#exc_read#:#Acceso actividad
-common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
+common#:#exc_resubmitted_advice#:#Este símbolo se muestro en caso de que un nuevo fichero haya sido enviado tras haber marcado el campo "resuelto"
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Guardar
 common#:#exc_search_for#:#Buscar
@@ -1612,13 +1612,13 @@ common#:#export_xml#:#Exportar como fichero XML
 common#:#extt_configure#:#configurar...
 common#:#extt_edit_permission#:#Modificar configuración de permisos
 common#:#extt_ilinc#:#netucate LearnLinc
-common#:#extt_ilinc_additional_options#:#Additional Options###10 Jul 2006 new variable
-common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers###10 Jul 2006 new variable
-common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms###10 Jul 2006 new variable
-common#:#extt_ilinc_akclassvalues_required#:#Cost center required###10 Jul 2006 new variable
-common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required###10 Jul 2006 new variable
+common#:#extt_ilinc_additional_options#:#Opciones Adicionales
+common#:#extt_ilinc_akclassvalues_active#:#Habilitar centros de gasto
+common#:#extt_ilinc_akclassvalues_active_info#:#Con esta opción habilitada puede usar centros de gasto iLinc para Seminarios y Aulas LearnLinc
+common#:#extt_ilinc_akclassvalues_required#:#Centro de gasto requerido
+common#:#extt_ilinc_akclassvalues_required_info#:#Se requiere especificar al menos un centro de gasto para un Seminario LearnLinc
 common#:#extt_ilinc_configure#:#Configurar netucate LearnLinc
-common#:#extt_ilinc_connection_data#:#Connection data###10 Jul 2006 new variable
+common#:#extt_ilinc_connection_data#:#Datos de conexión
 common#:#extt_ilinc_customer_id#:#ID Cliente
 common#:#extt_ilinc_desc#:#Aulas virtuales. Servicio comercia. Para conseguir una cuenta e información adicional contacte con netucate www.netucate.com
 common#:#extt_ilinc_enable#:#Habilitar soporte LearnLinc
@@ -1899,28 +1899,28 @@ common#:#hide_details#:#ocultar detalles
 common#:#hide_private_notes#:#Ocultar notas privadas
 common#:#hide_public_notes#:#Ocultar notas publicas
 common#:#hide_structure#:#deshabilitar vista estructural
-common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
-common#:#hist_dbk_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
-common#:#hist_dbk_pg_create#:#Page created.###10 Jul 2006 new variable
-common#:#hist_dbk_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
-common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
-common#:#hist_dbk_pg_update#:#Page changed.###10 Jul 2006 new variable
-common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
-common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
+common#:#hist_dbk_delete_pg#:#La página "%1" [%2] ha sido eliminada.
+common#:#hist_dbk_delete_st#:#El capítulo "%1" [%2] ha sido eliminado.
+common#:#hist_dbk_pg_create#:#Página creada
+common#:#hist_dbk_pg_cut#:#Página cortada del capítulo "%1" [%2].
+common#:#hist_dbk_pg_paste#:#Página pegada en el capítulo "%1" [%2].
+common#:#hist_dbk_pg_update#:#Página modificada.
+common#:#hist_dbk_st_cut_page#:#Página "%1" [%2] cortada de capítulo.
+common#:#hist_dbk_st_paste_page#:#Página "%1" [%2] pegada en capítulo
 common#:#hist_file_create#:#Archivo creado, archivo es "%1".###10 Jul 2006 content changed
-common#:#hist_file_replace#:#Archivo reemplazado, nuevo ficher es "%1", nueva versión es %2.###10 Jul 2006 content changed
-common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
-common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
-common#:#hist_lm_pg_create#:#Page created.###10 Jul 2006 new variable
-common#:#hist_lm_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
-common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
-common#:#hist_lm_pg_update#:#Page changed.###10 Jul 2006 new variable
-common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
-common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
+common#:#hist_file_replace#:#Archivo reemplazado, nuevo fichero es "%1", la nueva versión es %2.
+common#:#hist_lm_delete_pg#:#Página "%1" [%2] ha sido eliminada.
+common#:#hist_lm_delete_st#:#Capítulo "%1" [%2] ha sido eliminado.
+common#:#hist_lm_pg_create#:#Página creada.
+common#:#hist_lm_pg_cut#:#Página cortada del capítulo "%1" [%2].
+common#:#hist_lm_pg_paste#:#Página pegada en el capítulo "%1" [%2].
+common#:#hist_lm_pg_update#:#Página modificada.
+common#:#hist_lm_st_cut_page#:#Página "%1" [%2] cortada de capítulo.
+common#:#hist_lm_st_paste_page#:#Página "%1" [%2] pegada en capítulo
 common#:#hist_no_entries#:#No hay entradas en la historia.
-common#:#hist_webr_add#:#Añadido nuevo Recurso Web con el título: "%1"###10 Jul 2006 content changed
-common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: "%1"###10 Jul 2006 content changed
-common#:#hist_webr_update#:#Actualizar Recurso Web. Título: "%1"###10 Jul 2006 content changed
+common#:#hist_webr_add#:#Añadido nuevo Recurso Web con el título: "%1"
+common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: "%1"
+common#:#hist_webr_update#:#Actualizar Recurso Web. Título: "%1"
 common#:#history#:#Historia
 common#:#hits_per_page#:#Hits/Página
 common#:#hlm#:#Módulo de aprendizaje HACP
@@ -1994,8 +1994,8 @@ common#:#il_icrs_admin#:#Administrador Seminario LearnLinc
 common#:#il_icrs_member#:#Miembro Seminario LearnLinc
 common#:#ilias_version#:#versión de ILIAS
 common#:#ilinc_add_user#:#Añadir usuario(s)
-common#:#ilinc_akclassvalue#:#Cost center###10 Jul 2006 new variable
-common#:#ilinc_akclassvalues#:#Cost centers###10 Jul 2006 new variable
+common#:#ilinc_akclassvalue#:#Centro de gasto
+common#:#ilinc_akclassvalues#:#Centros de gasto
 common#:#ilinc_classroom_always_open#:#El Aula está siempre abierta
 common#:#ilinc_classroom_closed#:#El Aula está cerrada
 common#:#ilinc_classroom_open#:#El Aula está abierta
@@ -2025,7 +2025,7 @@ common#:#ilinc_mem_send_mail#:#Mandar al usuario un mensaje
 common#:#ilinc_msg_joined#:#Se ha unido al Seminario LearnLinc
 common#:#ilinc_msg_member_assigned#:#Usuario(s) asignado(s)
 common#:#ilinc_msg_membership_annulled#:#Suscripción cancelada
-common#:#ilinc_no_akclassvalues#:#none###10 Jul 2006 new variable
+common#:#ilinc_no_akclassvalues#:#ninguno/a
 common#:#ilinc_no_docent_assigned#:#No asignado
 common#:#ilinc_notset#:#No configurado
 common#:#ilinc_remark#:#Observación
@@ -2161,7 +2161,7 @@ common#:#lang_sq#:#Albano
 common#:#lang_sr#:#Serbio
 common#:#lang_sv#:#Sueco
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_timeformat_no_sec#:#H:i###10 Jul 2006 new variable
+common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uk#:#Ukraniano
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamita
@@ -2301,7 +2301,7 @@ common#:#mail_delete_error#:#Error borrando correo(s)
 common#:#mail_delete_error_file#:#Error borrando archivo(s)
 common#:#mail_e_sent#:#Enviado
 common#:#mail_edit_permission#:#Modificar configuración de permisos
-common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
+common#:#mail_feedback#:#Mail feedback
 common#:#mail_folders#:#Carpetas
 common#:#mail_import#:#Importar
 common#:#mail_import_file#:#archivo en formato exportado por ILIAS 2
@@ -2442,7 +2442,7 @@ common#:#msg_no_perm_modify_user#:#No tiene permiso para modificar datos de usua
 common#:#msg_no_perm_paste#:#No tiene permiso para pegar el siguiente objeto(s):
 common#:#msg_no_perm_perm#:#No tiene permiso para editar la configuración de permisos
 common#:#msg_no_perm_read#:#No tiene permiso para acceder a este item.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###10 Jul 2006 new variable
+common#:#msg_no_perm_read_item#:#No tiene permisos para acceder al item '%s'.
 common#:#msg_no_perm_read_lm#:#No tiene permisos para leer este módulo de aprendizaje
 common#:#msg_no_perm_read_track#:#No tiene permisos para acceder a los datos de seguimiento.
 common#:#msg_no_perm_undelete#:#No tiene permiso para restaurar el siguiente objeto(s):
@@ -2525,7 +2525,7 @@ common#:#no_parent_access#:#No tiene acceso a un objeto -superordinated-!
 common#:#no_permission#:#No posee el permiso necesario.
 common#:#no_permission_to_join#:#No tiene permiso para unirse a este grupo!
 common#:#no_roles_user_can_be_assigned_to#:#No hay roles globales a los que asignar el usuario. Por tanto, no tiene permiso para añadir usuarios.
-common#:#no_submission_made#:#---###10 Jul 2006 new variable
+common#:#no_submission_made#:#---
 common#:#no_title#:#sin título
 common#:#no_tst_in_personal_list#:#No hay tests en la lista personal.
 common#:#no_user_defined_fields_defined#:#No hay campos definidos por el usuario disponibles.
@@ -2682,7 +2682,7 @@ common#:#ok#:#OK
 common#:#old#:#old
 common#:#online#:#Online
 common#:#online_chapter#:#capítulo online
-common#:#online_time#:#Time online (DD:HH:MM:SS)###10 Jul 2006 new variable
+common#:#online_time#:#Tiempo conectado (DD:HH:MM:SS)
 common#:#online_version#:#versión online
 common#:#open_views_inside_frameset#:#Abrir vistas dentro del 'frameset'
 common#:#operation#:#Operación
@@ -2690,8 +2690,8 @@ common#:#optimize#:#optimizar
 common#:#options#:#Opciones
 common#:#options_for_subobjects#:#Opciones para subobjetos
 common#:#order_by#:#ordenar por
-common#:#order_by_answers#:#Order by Answers###10 Jul 2006 new variable
-common#:#order_by_date#:#Order by Date###10 Jul 2006 new variable
+common#:#order_by_answers#:#Ordenar por Respuestas
+common#:#order_by_date#:#Ordenar por Fecha
 common#:#other#:#otro
 common#:#overview#:#Resumen
 common#:#overwrite#:#Sobreescribir
@@ -2726,9 +2726,9 @@ common#:#path_to_unzip#:#ruta de unzip
 common#:#path_to_zip#:#ruta de zip
 common#:#pathes#:#Rutas
 common#:#pay_methods#:#Métodos de Pago
-common#:#payment_buyable#:#Buyable###10 Jul 2006 new variable
-common#:#payment_in_sc#:#Already in shopping cart###10 Jul 2006 new variable
-common#:#payment_payed_access#:#Payed/Access###10 Jul 2006 new variable
+common#:#payment_buyable#:#Puede comprarse
+common#:#payment_in_sc#:#Ya en el carrito de la compra
+common#:#payment_payed_access#:#Pagado/Access
 common#:#payment_system#:#sistema de pago
 common#:#pays_edit#:#Editar configuración del sistema de pago
 common#:#pays_edit_permission#:#Modificar configuración de permisos
@@ -2741,7 +2741,7 @@ common#:#perm_role_info_2#:#Si quiere modificar los permisos del rol '%s' para t
 common#:#perm_role_info_glob_1#:#Este formulario determina los permisos del rol '%s' para objetos nuevos creados en Contenidos.
 common#:#perm_role_info_glob_2#:#Si quiere modifcar los permisos del rol '%s' para todos los objetos existentes en Contenidos debe activar la opción 'Modificar Objetos Existentes' al final de la pantalla.
 common#:#perm_settings#:#Permisos
-common#:#perma_link#:#Permanent Link###10 Jul 2006 new variable
+common#:#perma_link#:#Enlace permanente
 common#:#permission#:#permiso
 common#:#permission_denied#:#permiso denegado
 common#:#permission_settings#:#Configuración de permisos###10 Jul 2006 content changed
@@ -3250,7 +3250,7 @@ common#:#update_on_conflict#:#Actualizar si hay conflicto
 common#:#upload#:#cargar
 common#:#upload_error_file_not_found#:#Error al cargar: archivo no encontrado
 common#:#uploaded_and_checked#:#El archivo ha sido cargado y chequeado, puede comenzar a importarlo.
-common#:#uri#:#URI###10 Jul 2006 new variable
+common#:#uri#:#URI
 common#:#url#:#url
 common#:#url_a#:#una URL
 common#:#url_add#:#Añadir URL
@@ -3263,7 +3263,7 @@ common#:#url_edit_permission#:#Modificar configuración de permisos
 common#:#url_new#:#Nueva URL
 common#:#url_not_found#:#Ficheros no encontrado
 common#:#url_read#:#Abrir URL
-common#:#url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
+common#:#url_to_latex#:#URL del script CGI para LaTeX
 common#:#url_visible#:#URL es visible
 common#:#url_write#:#Editar URL
 common#:#user#:#usuario
@@ -3282,12 +3282,12 @@ common#:#user_import_failed#:#La importación de usuarios falló.
 common#:#user_imported#:#Importación de Usuario completada.
 common#:#user_imported_with_warnings#:#La importación de usuarios se completó con 'warnings'.
 common#:#user_language#:#Idioma de Usuario
-common#:#user_new_account_mail#:#New Account Mail###10 Jul 2006 new variable
-common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.###10 Jul 2006 new variable
+common#:#user_new_account_mail#:#Correo de Cuenta Nueva
+common#:#user_new_account_mail_desc#:#Este correo puede ser enviado cuando se crea una cuenta ILIAS, by other means then self-registration.
 common#:#user_not_chosen#:#No escogió un miembro de grupo!
 common#:#user_not_known#:#Por favor introduzca un identificador de usuario válido
 common#:#user_profile_other#:#Otra Información
-common#:#user_send_new_account_mail#:#Send new account mail###10 Jul 2006 new variable
+common#:#user_send_new_account_mail#:#Enviar correo de cuenta nueva
 common#:#user_statistics#:#Datos estadísticos
 common#:#userdata#:#Datos de usuario
 common#:#userfolder_export_csv#:#Valores separados por coma
@@ -3418,10 +3418,10 @@ content#:#all#:#-Todo-
 content#:#all_pages#:#El módulo de aprendizaje completo
 content#:#choose_public_mode#:#Los usuarios no registrados pueden acceder
 content#:#choose_public_pages#:#Escoger páginas de acceso público
-content#:#citate#:#Citate###10 Jul 2006 new variable
-content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
-content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
-content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#citate#:#Citar
+content#:#citate_from#:#Citar desde ...
+content#:#citate_page#:#Citar esta página
+content#:#citate_to#:#Citar a ...
 content#:#cont_Additional#:#Adicional
 content#:#cont_Alphabetic#:#Alfabético A, B, ...###10 Jul 2006 content changed
 content#:#cont_Circle#:#Círculo
@@ -3439,11 +3439,11 @@ content#:#cont_Poly#:#Polígono
 content#:#cont_Rect#:#Rectángulo
 content#:#cont_Reference#:#Referencia
 content#:#cont_Remark#:#Observación
-content#:#cont_Roman#:#Números Romános I, II, ...###10 Jul 2006 content changed
+content#:#cont_Roman#:#Números Romános I, II, ...
 content#:#cont_TableContent#:#Tabla de Contenidos
 content#:#cont_Unordered#:#No ordenado/a
 content#:#cont_act_number#:#Numeración de capítulos
-content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
+content#:#cont_activate_page#:#Activar Página
 content#:#cont_active#:#Habilitar Menú
 content#:#cont_add_area#:#Añadir Írea
 content#:#cont_add_change_comment#:#Añadir comentario de cambio
@@ -3513,7 +3513,7 @@ content#:#cont_credit_on#:#Crédito
 content#:#cont_credits#:#Créditos
 content#:#cont_cross_reference#:#Referencia Cruzada
 content#:#cont_data_from_lms#:#adlcp:datafromlms
-content#:#cont_deactivate_page#:#Deactivate Page###10 Jul 2006 new variable
+content#:#cont_deactivate_page#:#Desactivar Página
 content#:#cont_def_layout#:#Presentación por defecto
 content#:#cont_def_lesson_mode#:#Modo de lección por defecto
 content#:#cont_def_organization#:#defecto
@@ -3695,8 +3695,8 @@ content#:#cont_order#:#Tipo de Orden
 content#:#cont_organization#:#Organización
 content#:#cont_organizations#:#Organizaciones
 content#:#cont_orig_size#:#Tamaño Original
-content#:#cont_page_deactivated#:#Page is deactivated.###10 Jul 2006 new variable
-content#:#cont_page_deactivated_elements#:#Page contains deactivated elements.###10 Jul 2006 new variable
+content#:#cont_page_deactivated#:#La página está desactivada.
+content#:#cont_page_deactivated_elements#:#La página contiene elementos desactivados.
 content#:#cont_page_header#:#Cabecera de Página
 content#:#cont_page_link#:#Ir al inicio
 content#:#cont_page_select_target_now#:#Página marcada para mover. A continuación seleccione destino.
@@ -3839,7 +3839,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Año
 content#:#cont_zip_file_invalid#:#El archivo no es un archivo de importación válido.<br>No contiene un archivo '%s'.###10 Jul 2006 content changed
 content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
-content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
+content#:#dgl_pagebreak#:#Salto de página
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
@@ -3866,7 +3866,7 @@ content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
 crs#:#activation_times_not_valid#:#El período de disponibilidad no es válido.
-crs#:#add_event#:#Add Event###10 Jul 2006 new variable
+crs#:#add_event#:#Añadir Evento
 crs#:#assigned#:#Asignado
 crs#:#contact_email_not_valid#:#El email de contacto no es válido.
 crs#:#crs_accept_subscriber#:#Suscripción de Curso###10 Jul 2006 content changed
@@ -3929,7 +3929,7 @@ crs#:#crs_create_date#:#Crear fecha
 crs#:#crs_crs_structure#:#Estructura de Curso
 crs#:#crs_dates#:#Fechas
 crs#:#crs_deassign_lm_sure#:#¿Está seguro de que quiere eliminar esta asignación?
-crs#:#crs_delete_file#:#Delete File?###10 Jul 2006 new variable
+crs#:#crs_delete_file#:#¿Eliminar fichero?
 crs#:#crs_delete_from_list_sure#:#¿Está seguro de que quiere quitar a los siguientes usuarios de la lista?
 crs#:#crs_delete_from_waiting_list#:#Quitar de la lista de espera
 crs#:#crs_delete_member#:#Eliminar miembros
@@ -3943,19 +3943,19 @@ crs#:#crs_dismiss_member_body#:#Su pertenencia ha finalizado###10 Jul 2006 conte
 crs#:#crs_edit_archive#:#Crear Archivos de Curso
 crs#:#crs_edit_content#:#Editar items
 crs#:#crs_edit_start_objects#:#Editar Objetos Iniciales
-crs#:#crs_edit_timings#:#Edit Timings###10 Jul 2006 new variable
+crs#:#crs_edit_timings#:#Edit Planificación Temporal
 crs#:#crs_end#:#Fin
-crs#:#crs_existing_files#:#Existing Files:###10 Jul 2006 new variable
+crs#:#crs_existing_files#:#Ficheros existentes:
 crs#:#crs_export#:#Exportar Curso
-crs#:#crs_file#:#File###10 Jul 2006 new variable
-crs#:#crs_file_download#:#Files for Download###10 Jul 2006 new variable
+crs#:#crs_file#:#Fichero
+crs#:#crs_file_download#:#Ficheros para Descarga
 crs#:#crs_file_name#:#Nombre de Fichero
-crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
-crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
+crs#:#crs_file_size_info#:#Tamaño
+crs#:#crs_filename#:#Nombre de fichero
 crs#:#crs_free_places#:#Plazas disponibles
 crs#:#crs_from#:#Desde:###10 Jul 2006 content changed
-crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
-crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
+crs#:#crs_general_info#:#Información General
+crs#:#crs_general_informations#:#Información General
 crs#:#crs_grouping#:#Agrupar Curso
 crs#:#crs_grouping_assign#:#Modificar asignación
 crs#:#crs_grouping_delete_sure#:#¿Realmente quiere eliminar las siguientes agrupaciones de curso?
@@ -3989,17 +3989,17 @@ crs#:#crs_hide_link_objectives#:#Ocultar objetivos
 crs#:#crs_hide_link_or#:#Ocultar otros recursos
 crs#:#crs_hide_link_tst#:#Ocultar tests
 crs#:#crs_html#:#HTML
-crs#:#crs_important_info#:#Important Informations###10 Jul 2006 new variable
-crs#:#crs_info_download#:#Files for Download###10 Jul 2006 new variable
+crs#:#crs_important_info#:#Información Importante
+crs#:#crs_info_download#:#Ficheros para descarga
 crs#:#crs_info_reg#:#Información de registro
 crs#:#crs_info_reg_confirmation#:#Este curso necesita confirmación por un administrador del curso. Recibirá un mensaje si ha sido asignado al curso.
 crs#:#crs_info_reg_deactivated#:#No es posible el registro
 crs#:#crs_info_reg_direct#:#Es necesario registrarse en este curso
 crs#:#crs_info_reg_password#:#El registro necesita una contraseña válida
-crs#:#crs_info_settings#:#Course Informations###10 Jul 2006 new variable
+crs#:#crs_info_settings#:#Información del Curso
 crs#:#crs_info_start#:#Por favor, trabaje sobre los items del curso señalados más abajo..<br />Después de haber estudiado todos los objetos marcados en rojo, se activarán nuevos items del curso.
-crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.###10 Jul 2006 new variable
-crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.###10 Jul 2006 new variable
+crs#:#crs_item_availability_info#:#Escoja esta opción para hacer el item disponible por un período fijo de tiempo. Si la 'Visibilidad' está marcada el item permanecerá visible pero no accesible para los alumnos.
+crs#:#crs_item_presetting_info#:#Escoja esta opción para ofrecer a los alumnos sugerencias sobre las fechas de entrega/finalización
 crs#:#crs_learning_materials#:#Materiales de aprendizaje
 crs#:#crs_list_users#:#Listar usuarios
 crs#:#crs_lm_assignment#:#Asignación de material de aprendizaje
@@ -4007,7 +4007,7 @@ crs#:#crs_lm_assignment_deleted#:#Asignación eliminada.
 crs#:#crs_lm_deassign#:#Eliminar asignación
 crs#:#crs_lm_no_assignments_selected#:#Por favor seleccione una asignación.
 crs#:#crs_lms_already_assigned#:#Estos materiales de aprendizaje ya estaban asignados.
-crs#:#crs_materials#:#Course Materials###10 Jul 2006 new variable
+crs#:#crs_materials#:#Materiales del Curso
 crs#:#crs_max_members_reached#:#El número máximo de miembros ha sido alcanzado
 crs#:#crs_mem_change_status#:#Modificar Estado
 crs#:#crs_mem_send_mail#:#Enviar mail
@@ -4089,11 +4089,11 @@ crs#:#crs_objectives_chapter_assignment#:#Asignación de capítulos
 crs#:#crs_objectives_deassign_question_sure#:#¿Está seguro de querer eliminar las siguientes preguntas?
 crs#:#crs_objectives_deleted#:#Eliminar objetivos de aprendizaje
 crs#:#crs_objectives_edit_question_assignments#:#Editar asignación de preguntas
-crs#:#crs_objectives_info_final#:#No cumplió todos los objetivos del curso en el examen previo. <br />Por favor seleccione todos los objetivos marcados en rojo, uno tras otro, y revise los materiales de aprendizaje relacionados. <br />Después de haber revisado todos los objetivos marcados en rojo, puede volver a realizar el examen
+crs#:#crs_objectives_info_final#:#No cumplió todos los objetivos del curso en el test de conocimientos. <br />Por favor seleccione todos los objetivos marcados con una cruz roja y revise los materiales relacionados en la tabla de la derecha. <br />Después de haber revisado dichos materiales, puede volver a realizar el test de conocimiento.
 crs#:#crs_objectives_info_finished#:#Felicidades, ¡ha cumplido todos los objetivos de este curso!
-crs#:#crs_objectives_info_none#:#La siguiente es una lista de los objetivos del curso.<br /> Por favor seleccione los objetivos uno después de otro y trabaje los materiales de aprendizaje relacionados.
+crs#:#crs_objectives_info_none#:#La siguiente es una lista de los objetivos del curso.<br /> Por favor seleccione los objetivos uno tras otro y estudie los materiales de aprendizaje relacionados a la derecha.
 crs#:#crs_objectives_info_pretest#:#Los siguientes son los resultados de su Pre-test de evaluación. <br />Por favor seleccione los objetivos marcados en rojo, uno tras otro,y trabajo sobre el material de aprendizaje. <br />Después de haber procesado los objetivos marcados en rojo, puede realizar el examen final de este curso, el cual está localizado en la sección "Test" de esta página.
-crs#:#crs_objectives_info_pretest_non_suggest#:#Los siguientes son los resultados de su Pre-test de autoevaluación. <br />De acuerdo a esto, ha completado todos los objetivos de aprendizaje. Puede realizar el examen final de este curso, que está localizado en la sección test de esta página
+crs#:#crs_objectives_info_pretest_non_suggest#:#Los siguientes son los resultados de su Pre-test de autoevaluación. <br />De acuerdo a esto, ha completado todos los objetivos de aprendizaje. Puede realizar el examen final de este curso, que está localizado en la sección 'Tests' de esta pantalla.
 crs#:#crs_objectives_lm_assignment#:#Asignación de material de aprendizaje
 crs#:#crs_objectives_max_points#:#Máxima puntuación
 crs#:#crs_objectives_no_question_selected#:#Por favor seleccione una pregunta.
@@ -4183,7 +4183,7 @@ crs#:#crs_subscription_requested#:#Ha solicitado matricularse en este curso
 crs#:#crs_subscription_successful#:#Ha sido matriculado en este curso
 crs#:#crs_subscription_type#:#Tipo de matricula
 crs#:#crs_suggest_lm#:#Sugerir materiales de aprendizaje si:
-crs#:#crs_suggestion_end#:#Suggested End###10 Jul 2006 new variable
+crs#:#crs_suggestion_end#:#Sugerencia de Final
 crs#:#crs_sure_delete_selected_archives#:#¿Está seguro de eliminar los archivos seleccionados?
 crs#:#crs_syllabus#:#Contenidos del curso
 crs#:#crs_table_start_objects#:#Objetos iniciales###10 Jul 2006 content changed
@@ -4191,26 +4191,26 @@ crs#:#crs_test_status_complete#:#Completado
 crs#:#crs_test_status_not_complete#:#No completado
 crs#:#crs_test_status_random#:#Test aleatorio
 crs#:#crs_time#:#Tiempo de suscripción
-crs#:#crs_timings_availability_enabled#:#Temporarily Available###10 Jul 2006 new variable
-crs#:#crs_timings_availability_tbl#:#Availability###10 Jul 2006 new variable
-crs#:#crs_timings_changeable#:#Time Target Changeable###10 Jul 2006 new variable
-crs#:#crs_timings_disabled#:#Timings Disabled###10 Jul 2006 new variable
-crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.###10 Jul 2006 new variable
-crs#:#crs_timings_duration#:#Duration###10 Jul 2006 new variable
-crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
-crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
-crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
-crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
-crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
-crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
-crs#:#crs_timings_short_active#:#Enabled###10 Jul 2006 new variable
-crs#:#crs_timings_short_changeable#:#Changeable###10 Jul 2006 new variable
-crs#:#crs_timings_short_limit_start_end#:#Changeable From/Until###10 Jul 2006 new variable
-crs#:#crs_timings_short_start_end#:#Suggested Start/End###10 Jul 2006 new variable
-crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
-crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
-crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
-crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
+crs#:#crs_timings_availability_enabled#:#Disponible temporalmente
+crs#:#crs_timings_availability_tbl#:#Disponibilidad
+crs#:#crs_timings_changeable#:#Tiempo de entrega modificable
+crs#:#crs_timings_disabled#:#Planificación Temporal deshabilitada
+crs#:#crs_timings_disabled_info#:#Escoja esta opción para deshabilitar cualquier planificación temporal.
+crs#:#crs_timings_duration#:#Duración
+crs#:#crs_timings_early_begin#:#Comienzo más temprano
+crs#:#crs_timings_end#:#Fecha de Fin
+crs#:#crs_timings_late_end#:#Fin más tarde
+crs#:#crs_timings_planed_start#:#Comienzo/Fin Planificado
+crs#:#crs_timings_presetting#:#Tiempo de entrega habilitado
+crs#:#crs_timings_presetting_tbl#:#Tiempo de entrega
+crs#:#crs_timings_short_active#:#Habilitado
+crs#:#crs_timings_short_changeable#:#Modificable
+crs#:#crs_timings_short_limit_start_end#:#Modificable Desde/Hasta
+crs#:#crs_timings_short_start_end#:#Comienzo/Fin sugerido
+crs#:#crs_timings_start#:#Tiempo de Comienzo
+crs#:#crs_timings_sug_begin#:#Comienzo Sugerido
+crs#:#crs_timings_update_error#:#Su configuración no es válida, por favor verifique la planificación para los siguientes materiales del curso.
+crs#:#crs_timings_visibility#:#Visibilidad
 crs#:#crs_to#:#A:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (sin notificación)
@@ -4235,64 +4235,64 @@ crs#:#crs_waiting_list#:#Lista de espera
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Tu posición en la lista de espera
 crs#:#edit_content#:#Editar contenido###10 Jul 2006 content changed
-crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
-crs#:#event_add_new_event#:#Added new event###10 Jul 2006 new variable
-crs#:#event_assign_materials#:#Assign Materials###10 Jul 2006 new variable
-crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.###10 Jul 2006 new variable
-crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
-crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
-crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
-crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
-crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
-crs#:#event_desc#:#Description###10 Jul 2006 new variable
-crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
-crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
-crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
-crs#:#event_file#:#File###10 Jul 2006 new variable
-crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
-crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
-crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
-crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
-crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
-crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
-crs#:#event_lecturer#:#Name###10 Jul 2006 new variable
-crs#:#event_location#:#Location###10 Jul 2006 new variable
-crs#:#event_participation#:#Participation###10 Jul 2006 new variable
-crs#:#event_register#:#Register###10 Jul 2006 new variable
-crs#:#event_registered#:#You have been registered to this event.###10 Jul 2006 new variable
-crs#:#event_registration#:#Registration###10 Jul 2006 new variable
-crs#:#event_registration_info#:#Allow users to register to the event.###10 Jul 2006 new variable
-crs#:#event_registration_participance#:#Registration###10 Jul 2006 new variable
-crs#:#event_save_participants#:#Save Participance###10 Jul 2006 new variable
-crs#:#event_start_date#:#Date###10 Jul 2006 new variable
-crs#:#event_table_create#:#New Event###10 Jul 2006 new variable
-crs#:#event_table_update#:#Edit Event###10 Jul 2006 new variable
-crs#:#event_tbl_participants#:#List of Participants###10 Jul 2006 new variable
-crs#:#event_tbl_participated#:#Participated###10 Jul 2006 new variable
-crs#:#event_tbl_registered#:#Registered###10 Jul 2006 new variable
-crs#:#event_time#:#Time###10 Jul 2006 new variable
-crs#:#event_title#:#Title###10 Jul 2006 new variable
-crs#:#event_tutor_data#:#Informations About the Lecturer ###10 Jul 2006 new variable
-crs#:#event_unregister#:#Unregister###10 Jul 2006 new variable
-crs#:#event_unregistered#:#You have been unregistered.###10 Jul 2006 new variable
-crs#:#event_updated#:#Saved Settings###10 Jul 2006 new variable
-crs#:#events#:#Events###10 Jul 2006 new variable
-crs#:#events_deleted#:#Event deleted###10 Jul 2006 new variable
-crs#:#import_crs#:#Importar curso###10 Jul 2006 content changed
+crs#:#edit_timings_list#:#Editar Planificación Temporal
+crs#:#event_add_new_event#:#Nuevo evento añadido
+crs#:#event_assign_materials#:#Asignar Materiales
+crs#:#event_assign_materials_info#:#Los materiales del curso asignado serán mostrados directamente debajo del evento.
+crs#:#event_assign_materials_table#:#Asignación de materiales del curso
+crs#:#event_btn_add#:#Evento añadido
+crs#:#event_date#:#Fecha del Evento:
+crs#:#event_delete_file#:#¿Eliminar Fichero?
+crs#:#event_delete_sure#:#¿Realmente quiere eliminar este evento?
+crs#:#event_desc#:#Descripción
+crs#:#event_details_workflow#:#Detalles/Flujo de Trabajo
+crs#:#event_edit_members#:#editar participantes
+crs#:#event_existing_files#:#Ficheros existentes:
+crs#:#event_file#:#Fichero
+crs#:#event_file_download#:#Ficheros para descarga
+crs#:#event_file_name#:#Nombre de Fichero
+crs#:#event_file_size_info#:#Tamaño
+crs#:#event_further_informations#:#Información Detallada
+crs#:#event_general_infos#:#Información General
+crs#:#event_general_properties#:#Información General
+crs#:#event_lecturer#:#Nombre
+crs#:#event_location#:#Lugar
+crs#:#event_participation#:#Participación
+crs#:#event_register#:#Registrarse
+crs#:#event_registered#:#Ha sido registrado en este evento.
+crs#:#event_registration#:#Registro
+crs#:#event_registration_info#:#Permitir a los usuarios registrarse en el evento.
+crs#:#event_registration_participance#:#Registro
+crs#:#event_save_participants#:#Salvar participación
+crs#:#event_start_date#:#Fecha
+crs#:#event_table_create#:#Nuevo Evento
+crs#:#event_table_update#:#Editar Evento
+crs#:#event_tbl_participants#:#Lista de Participantes
+crs#:#event_tbl_participated#:#Participaron
+crs#:#event_tbl_registered#:#Registrados
+crs#:#event_time#:#Fecha
+crs#:#event_title#:#Título
+crs#:#event_tutor_data#:#Información sobre el responsable
+crs#:#event_unregister#:#Darse de baja
+crs#:#event_unregistered#:#Ha sido dado de baja
+crs#:#event_updated#:#Configuración salvada
+crs#:#events#:#Eventos
+crs#:#events_deleted#:#Evento eliminado
+crs#:#import_crs#:#Importar curso
 crs#:#learners_view#:#Vista de alumnos
 crs#:#subscription_times_not_valid#:#El período de matrícula no es válido.
 crs#:#timing_accept_table#:####10 Jul 2006 new variable
-crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
-crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
-crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
-crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
-crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
-crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
-crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
-crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
-crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
-crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
-crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+crs#:#timing_remark#:#Observación
+crs#:#timing_tutor_visible#:#Observación visible para los tutores del curso
+crs#:#timing_user_accept#:#Aceptar Planificación Temporal
+crs#:#timings_edit#:#Editar Planificación Temporal
+crs#:#timings_timings#:#Planificación Temporal
+crs#:#timings_usr_edit#:#Editar Planificación Temporal
+crs#:#tutor_email#:#Correo
+crs#:#tutor_firstname#:#Nombre
+crs#:#tutor_lastname#:#Apellidos
+crs#:#tutor_phone#:#Teléfono
+crs#:#tutor_title#:#Título
 crs_#:#crs_archives#:#Archivar
 dateplaner#:#DateText#:#Mensaje
 dateplaner#:#Day_long#:#Vista diaria
@@ -4580,18 +4580,18 @@ forum#:#is_read#:#marcar como leída
 forum#:#new_post#:#Nuevo mensaje
 forum#:#thread#:#Asunto
 grp#:#grp_registration_unlimited#:#Periodo de registro ilimitado
-ilinc#:#akclassvalue1#:#Cost center 1###10 Jul 2006 new variable
-ilinc#:#akclassvalue2#:#Cost center 2###10 Jul 2006 new variable
-ilinc#:#akclassvalues#:#Cost centers###10 Jul 2006 new variable
+ilinc#:#akclassvalue1#:#Centro de gasto 1
+ilinc#:#akclassvalue2#:#Centro de gasto 2
+ilinc#:#akclassvalues#:#Centros de gasto
 ilinc#:#ilinc_akuservalue1#:#Centro de gasto 1
 ilinc#:#ilinc_akuservalue2#:#Centro de gasto 2
 ilinc#:#ilinc_akuservalues#:#Centros de gasto
 ilinc#:#ilinc_akuservalues_desc#:#Introduzca el código del centro de gasto para este usuario. Estos valores serán almacenados en el servidor iLinc.
 ilinc#:#ilinc_akuservalues_refreshed#:#Centros de gasto actualizados
-ilinc#:#ilinc_connection_error#:#Error: No connection to iLinc Server!###10 Jul 2006 new variable
-ilinc#:#ilinc_no_account_yet#:#No iLinc Account yet###10 Jul 2006 new variable
+ilinc#:#ilinc_connection_error#:#Error: No hay conexión al servidor iLinc
+ilinc#:#ilinc_no_account_yet#:#No hay cuenta iLinc todavía
 ilinc#:#ilinc_user_added#:#Cuentas de usuario creadas en el servidor iLinc
-ilinc#:#ilinc_user_id#:#iLinc UserID###10 Jul 2006 new variable
+ilinc#:#ilinc_user_id#:#iLinc UserID
 ilinc#:#ilinc_user_settings#:#Configuración de usuario iLinc
 jscalendar#:#about_calendar#:#Acerca del calendario
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\nDistribuído bajo GNU LGPL.  Visite http://gnu.org/licenses/lgpl.html para detalles.\n\nSelección de fecha:\n- Use los botones Â«, Â»  para seleccionar año\n- Use los botones <, > para seleccionar mes\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.###10 Jul 2006 content changed
@@ -4655,8 +4655,8 @@ mail#:#also_as_email#:#También como Email
 mail#:#bc#:#Bc
 mail#:#forward#:#reenviar
 mail#:#linebreak#:#Salto de Línea
-mail#:#mail_account_mail#:#Account Mail###10 Jul 2006 new variable
-mail#:#mail_account_mail_check#:#Send Account Mail###10 Jul 2006 new variable
+mail#:#mail_account_mail#:#Correo de Cuenta Nueva
+mail#:#mail_account_mail_check#:#Enviar correo de Cuenta Nueva
 mail#:#mail_add_recipient#:#Por favor introduzca un destinatario
 mail#:#mail_add_subfolder#:#Añadir subcarpeta
 mail#:#mail_add_subject#:#Por favor introduzca un asunto
@@ -4707,18 +4707,18 @@ mail#:#mail_move_error#:#Error moviendo correo(s)
 mail#:#mail_move_to#:#mover correos a
 mail#:#mail_moved#:#Los correo(s) han sido movidos
 mail#:#mail_moved_to_trash#:#Los mensajes han sido movidos a la Papelera
-mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.###10 Jul 2006 new variable
-mail#:#mail_nacc_client_name#:#Client Name.###10 Jul 2006 new variable
-mail#:#mail_nacc_ilias_url#:#URL of ILIAS system.###10 Jul 2006 new variable
-mail#:#mail_nacc_login#:#Login Account.###10 Jul 2006 new variable
-mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.###10 Jul 2006 new variable
-mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.###10 Jul 2006 new variable
-mail#:#mail_nacc_salutation#:#Salutation.###10 Jul 2006 new variable
-mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.###10 Jul 2006 new variable
-mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.###10 Jul 2006 new variable
-mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.###10 Jul 2006 new variable
-mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.###10 Jul 2006 new variable
-mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used###10 Jul 2006 new variable
+mail#:#mail_nacc_admin_mail#:#Dirección e-mail del Administrador.
+mail#:#mail_nacc_client_name#:#Nombre de Cliente
+mail#:#mail_nacc_ilias_url#:#URL del sistema ILIAS
+mail#:#mail_nacc_login#:#Cuenta de Entrada
+mail#:#mail_nacc_no_pw_block#:#Este bloque de texto es sólo incluido si la nueva cuenta de usuario ha sido creada sin contraseña.
+mail#:#mail_nacc_pw_block#:#Este bloque de texto es sólo incluido si la nueva cuenta de usuario ha sido creada incluyendo una contraseña
+mail#:#mail_nacc_salutation#:#Saludo/Introducción
+mail#:#mail_nacc_target#:#URL del item objetivo, ej. un curso enlazado que enlaza desde fuera
+mail#:#mail_nacc_target_block#:#Este texto sólo se incluye si se ofrece un item objetivo
+mail#:#mail_nacc_target_title#:#Título del item objetivo, ej. título del curso
+mail#:#mail_nacc_target_type#:#Tipo de item objetivo, ej. "Curso" para un curso
+mail#:#mail_nacc_use_placeholder#:#Las siguientes etiquetes pueden ser usadas
 mail#:#mail_new_file#:#Adjuntar nuevo archivo:
 mail#:#mail_no_attach_allowed#:#Los mensajes de Sistema no pueden contener adjuntos
 mail#:#mail_no_attachments_found#:#No se encontraron adjuntos
@@ -4728,15 +4728,15 @@ mail#:#mail_options_saved#:#Opciones guardadas
 mail#:#mail_recipient_not_valid#:#El destinatario no es válido
 mail#:#mail_s#:#mensaje(s)
 mail#:#mail_s_unread#:#mensaje(s) no leído
-mail#:#mail_salutation_female#:#Salutation, female###10 Jul 2006 new variable
-mail#:#mail_salutation_general#:#Salutation, general###10 Jul 2006 new variable
-mail#:#mail_salutation_male#:#Salutation, male###10 Jul 2006 new variable
+mail#:#mail_salutation_female#:#Saludo, femenino
+mail#:#mail_salutation_general#:#Saludo, en general
+mail#:#mail_salutation_male#:#Saludo, para masculino
 mail#:#mail_saved#:#El mensaje ha sido guardado
 mail#:#mail_search_addressbook#:#Buscar en la agenda
 mail#:#mail_search_system#:#buscar en el sistema
 mail#:#mail_select_one_entry#:#Tiene que seleccionar una entrada
 mail#:#mail_select_one_file#:#Tiene que seleccionar un archivo
-mail#:#mail_send_with_system_address#:#Send With System Address###10 Jul 2006 new variable
+mail#:#mail_send_with_system_address#:#Enviar con dirección del sistema
 mail#:#mail_sure_delete#:#Está seguro de eliminar los correo(s) marcados
 mail#:#mail_sure_delete_entry#:#Está seguro que quiere eliminar las siguientes entradas
 mail#:#mail_sure_delete_file#:#El archivo será eliminado permanentemente
@@ -5346,7 +5346,7 @@ payment#:#pay_bmf_total_amount#:#Cantidad Total
 payment#:#pay_bmf_validity#:#válido hasta
 payment#:#pay_bmf_vat_included#:#IVA incluído
 payment#:#pay_bmf_your_order#:#Su pedido
-payment#:#pay_change_price#:#Change price/duration combination###10 Jul 2006 new variable
+payment#:#pay_change_price#:#Modificar combinación precio/duración
 payment#:#pay_click_to_buy#:#Comprar ahora
 payment#:#pay_confirm_order#:#Por favor confirme su pedido introduciendo su contraseña.
 payment#:#pay_customer_no#:#Cliente nÂº.
@@ -5359,7 +5359,7 @@ payment#:#pay_filter#:#Filtrar
 payment#:#pay_goto_buyed_objects#:#Mostrar productos comprados
 payment#:#pay_goto_shopping_cart#:#Ir al carrito de la compra
 payment#:#pay_header#:#Pago
-payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info#:#El acceso al siguiente material no es libre. Si quiere tener acceso a un objeto de aprendizaje concreto por favor seleccione un precio. Puede comprar uno o varios objetos de aprendizaje usando el botón "carrito de la compra" en su escritorio personal. Tendrá acceso inmediato al objeto elegido por un período de tiempo.
 payment#:#pay_item_already_in_sc#:#Este objeto ya existe en su carrito de la compra.
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. WÃ€hlen Sie ggf. eine neue Preis/Dauer-Kombination aus.
 payment#:#pay_locator#:#Pago
@@ -5374,20 +5374,20 @@ payment#:#pay_order_date_from#:#Fecha de pedido desde
 payment#:#pay_order_date_til#:#Fecha de pedido hasta
 payment#:#pay_payed_credit_card#:#El pedido se pagó mediante tarjeta de crédito.
 payment#:#pay_payed_debit_entry#:#El pedido se pagó mediante débito.
-payment#:#pay_payed_paypal#:#The order was paid by PayPal.###10 Jul 2006 new variable
-payment#:#pay_paypal_error_fails#:#PayPal reports errors that occured during the transaction.###10 Jul 2006 new variable
-payment#:#pay_paypal_error_info#:#If necessary feel free to contact the system administrator of this ILIAS installation.###10 Jul 2006 new variable
-payment#:#pay_paypal_error_not_completed#:#The transaction isn't totally completed yet.###10 Jul 2006 new variable
-payment#:#pay_paypal_error_prev_trans_id#:#The transaction id given by PayPal was already used before.###10 Jul 2006 new variable
-payment#:#pay_paypal_error_wrong_customer#:#Checking this transaction resulted in no match of the customer.###10 Jul 2006 new variable
-payment#:#pay_paypal_error_wrong_items#:#Checking this transaction resulted in no match of the sold items.###10 Jul 2006 new variable
-payment#:#pay_paypal_error_wrong_vendor#:#Checking this transaction resulted in no match of the vendor.###10 Jul 2006 new variable
-payment#:#pay_paypal_failed#:#Your puchase of ILIAS objects using PayPal failed!###10 Jul 2006 new variable
-payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.###10 Jul 2006 new variable
-payment#:#pay_paypal_unreachable#:#The connection to the payment server of PayPal failed.###10 Jul 2006 new variable
+payment#:#pay_payed_paypal#:#La orden fué pagada por PayPal.
+payment#:#pay_paypal_error_fails#:#PayPal informa de errores que ocurrieron durante la transacción.
+payment#:#pay_paypal_error_info#:#Si es necesario, contacte con el administrador del sistema de esta instalación ILIAS
+payment#:#pay_paypal_error_not_completed#:#La transacción no se ha completado aún
+payment#:#pay_paypal_error_prev_trans_id#:#El id de transacción generado por PayPal ya se usó previamente.
+payment#:#pay_paypal_error_wrong_customer#:#Esta transacción resultó en que no coincide con el cliente
+payment#:#pay_paypal_error_wrong_items#:#Esta transacción resultó en que no coincide con los items vendidos.
+payment#:#pay_paypal_error_wrong_vendor#:#Esta transacción resultó en que no coincide con el proveedor.
+payment#:#pay_paypal_failed#:#Su compra de objetos ILIAS usando PayPal falló.
+payment#:#pay_paypal_success#:#Gracias por comprar objetos en ILIAS usando PayPal. Recibirá una confirmación escrita en formato PDF por e-mail.
+payment#:#pay_paypal_unreachable#:#La conexión al servidor de pago de PayPal falló.
 payment#:#pay_reset_filter#:#Reiniciar Filtro
 payment#:#pay_select_one_item#:#Por favor seleccione un item
-payment#:#pay_select_price#:#Por favor seleccione un nuevo precio.###10 Jul 2006 content changed
+payment#:#pay_select_price#:#Por favor seleccione una combinación precio/duración
 payment#:#pay_send_order#:#Enviar pedidoi
 payment#:#pay_shopping_cart_empty#:#Su carrito de la compra está vacío.
 payment#:#pay_starting#:#comienza con
@@ -5474,7 +5474,7 @@ payment#:#pays_added_vendor#:#Nuevo proveedor añadido
 payment#:#pays_address#:#Dirección de facturación
 payment#:#pays_already_assigned_vendors#:#El siguiente número de usuarios ya fue asignado:
 payment#:#pays_assigned_vendors#:#El siguiente número de usuarios ha sido asignado a la lista de proveedores:
-payment#:#pays_auth_token#:#Unique token given by PayPal###10 Jul 2006 new variable
+payment#:#pays_auth_token#:#Token único generado por PayPal
 payment#:#pays_bank_data#:#Datos bancarios para la factura
 payment#:#pays_bill#:#Factura
 payment#:#pays_bmf#:#BMF
@@ -5485,8 +5485,8 @@ payment#:#pays_currency_unit#:#Moneda (ej: EUR)
 payment#:#pays_delete_vendor#:#Eliminar proveedor
 payment#:#pays_deleted_number_vendors#:#El siguiente número de proveedores ha sido eliminado:
 payment#:#pays_edit_vendor#:#Editar proveedor
-payment#:#pays_email_vendor#:#E-Mail address of the vendor###10 Jul 2006 new variable
-payment#:#pays_general#:#General###10 Jul 2006 new variable
+payment#:#pays_email_vendor#:#dirección e-mail del proveedor
+payment#:#pays_general#:#General
 payment#:#pays_general_settings#:#Configuración General
 payment#:#pays_general_settings_not_valid#:#Su configuración general no es válida. Por favor compruebe si todos los campos han sido rellenados correctamente.###10 Jul 2006 content changed
 payment#:#pays_header_select_vendor#:#Selección de proveedor
@@ -5496,13 +5496,13 @@ payment#:#pays_no_vendor_selected#:#No se ha seleccionado proveedor
 payment#:#pays_number_bookings#:#Reservas activas
 payment#:#pays_objects_bill_exist#:#El método de pago 'factura' está activado para algunos objetos. Por tanto no puede ser desactivado.###10 Jul 2006 content changed
 payment#:#pays_objects_bmf_exist#:#El método de pago 'BMF' está activado para algunos objetos. Por tanto no puede ser desactivado.###10 Jul 2006 content changed
-payment#:#pays_objects_paypal_exist#:#Pay method 'PayPal' is activated for some objects. Therefore it can not be deactivated.###10 Jul 2006 new variable
+payment#:#pays_objects_paypal_exist#:#El método de pago 'PayPal' está activado para algunos objetos. Por tanto no puede ser desactivado
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
-payment#:#pays_page_style#:#Page style###10 Jul 2006 new variable
+payment#:#pays_page_style#:#Estilo de página
 payment#:#pays_pay_methods#:#Métodos de Pago
-payment#:#pays_paypal#:#PayPal###10 Jul 2006 new variable
-payment#:#pays_paypal_settings#:#Settings for PayPal###10 Jul 2006 new variable
+payment#:#pays_paypal#:#PayPal
+payment#:#pays_paypal_settings#:#Configuración para PayPal
 payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid. Please check out whether all fields are filled out correctly.###10 Jul 2006 new variable
 payment#:#pays_pdf_path#:#Ruta para generar facturas como archivos PDF
 payment#:#pays_server_host#:#Server host (e.g. www.paypal.com)###10 Jul 2006 new variable
