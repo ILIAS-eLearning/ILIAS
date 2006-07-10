@@ -1117,11 +1117,7 @@ div.ilLogin a:link {
 	color:#eeeccc;
 }
 
-a.loginlogout:link {
-	color:#eeeccc;
-}
-
-a.loginlogout:visited {
+div.ilLogin a:visited {
 	color:#eeeccc;
 }
 
