@@ -5503,15 +5503,15 @@ payment#:#pays_page_style#:#Estilo de página
 payment#:#pays_pay_methods#:#Métodos de Pago
 payment#:#pays_paypal#:#PayPal
 payment#:#pays_paypal_settings#:#Configuración para PayPal
-payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid. Please check out whether all fields are filled out correctly.###10 Jul 2006 new variable
+payment#:#pays_paypal_settings_not_valid#:#Su configuración de PayPal no es válida. Por favor compruebe que todos los campos están rellenos correctamente.
 payment#:#pays_pdf_path#:#Ruta para generar facturas como archivos PDF
-payment#:#pays_server_host#:#Server host (e.g. www.paypal.com)###10 Jul 2006 new variable
-payment#:#pays_server_path#:#Path to the scripts (e.g. /cgi-bin/webscr)###10 Jul 2006 new variable
+payment#:#pays_server_host#:#Servidor (ej. www.paypal.com)
+payment#:#pays_server_path#:#Ruta a los scripts (ej. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Realmente desea eliminar los proveedores seleccionados?
 payment#:#pays_too_many_vendors_selected#:#Por favor seleccione sólo un cliente para realizar esta operación.
 payment#:#pays_updated_general_settings#:#Su configuración general ha sido actualizada.
 payment#:#pays_updated_pay_method#:#Método de pago modificado.
-payment#:#pays_updated_paypal_settings#:#Your settings for PayPal were updated.###10 Jul 2006 new variable
+payment#:#pays_updated_paypal_settings#:#Su configuración para PayPal ha sido actualizada.
 payment#:#pays_user_already_assigned#:#Este usuario ya está asignado a la lista de proveedores
 payment#:#pays_vat_rate#:#porcentaje de IVA en % (opcional)
 payment#:#pays_vendor#:#Proveedor
@@ -5735,7 +5735,7 @@ survey#:#add_phrase#:#Añadir conjunto
 survey#:#add_phrase_introduction#:#Por favor seleccione un conjunto:
 survey#:#add_standard_numbers#:#Añadir números estandar
 survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
-survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
+survey#:#anonymization#:#Anonimato
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 32 caracteres que puede recibir del autor de la encuesta o la persona encargada de evaluarla<br />Por favor introdúzcalo en el campo texto siguiente###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class="bold">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior.###10 Jul 2006 content changed
 survey#:#anonymize_personalized#:#Sin anonimato
@@ -5870,7 +5870,7 @@ survey#:#eval_legend_link#:#Por favor, diríjase a la leyenda para el conocer el
 survey#:#evaluation#:#evaluación
 survey#:#evaluation_access#:#Acceso de Evaluación
 survey#:#evaluation_access_all#:#Evaluación de acceso para todos los usuarios
-survey#:#evaluation_access_info#:#You have access to the survey evaluation###10 Jul 2006 new variable
+survey#:#evaluation_access_info#:#Tiene acceso a la evaluación de la encuesta
 survey#:#evaluation_access_participants#:#Evaluación de acceso para todos los participantes de la encuesta
 survey#:#existing_constraints#:#Precondiciones existentes
 survey#:#exit#:#Salir
@@ -6081,7 +6081,7 @@ survey#:#svy_eval_detail#:#Resultados acumulados (detalles)
 survey#:#svy_eval_user#:#Resultados específicos por usuario
 survey#:#svy_export_files#:#Exportar archivos
 survey#:#svy_file#:#Archivo
-survey#:#svy_general_properties#:#General properties###10 Jul 2006 new variable
+survey#:#svy_general_properties#:#Propiedades generales
 survey#:#svy_maintenance_information_no_results#:#No hay datos de usuario para la encuesta. Necesita al menos un usuario con datos para matener los datos.
 survey#:#svy_missing_author#:#¡No ha introducido los nombres de los autores en las propiedades de la encuesta! Por favor añádalos para continuar.###10 Jul 2006 content changed
 survey#:#svy_missing_questions#:#¡No hay ninguna pregunta en la encuesta! Por favor añada al menos una pregunta en la encuesta.
@@ -6117,18 +6117,18 @@ survey#:#view_constraints_introduction#:#Está viendo las restricciones de las s
 survey#:#view_phrase#:#Ver conjunto
 survey#:#warning_question_in_use#:#¡Cuidado! La pregunta que quiere editar está en uso por una de las encuestas listadas abajo. Si decide continuar y salvar/aplicar la pregunta, todas las respuestas de las encuestas listadas abajo serán eliminadas. Si quiere modificar la pregunta y usarla en otra encuesta, por favor elija duplicar en la página de preguntas para crear una nueva instancia de una pregunta.
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
-trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
-trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
-trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable
-trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!###10 Jul 2006 new variable
-trac#:#info_found_objects#:#The user tracking refers to the following objects of the type '%s' that were found according to your search terms.###10 Jul 2006 new variable
+trac#:#found_objects#:#Objetos encontrados
+trac#:#found_too_much_objects#:#Más de %s objetos en total han sido encontrados.Refine su búsqueda, por favor.
+trac#:#info_all_objects#:#Los siguientes usuarios se refieren a todos los objetos del tipo '%s'.
+trac#:#info_dwell_time#:#Atención: El tiempo total 'dwell' de un objeto no está 'addicted' al período de tiempo considerado!
+trac#:#info_found_objects#:#El seguimiento de usuario hace referencia a los siguientes objetos de tipo '%s' que fueron encontrados de acuerdo a sus términos de búsqueda
 trac#:#info_valid_request#:#Max. tiempo válido entre dos peticiones de usuario.
 trac#:#last_login#:#Ultimo acceso
 trac#:#meta_typical_learning_time#:#Tiempo tipico de aprendizaje
 trac#:#newUT_settings#:#Estadísticas de Modulo de Aprendizaje
 trac#:#obj_types#:#Tipos de objeto:###10 Jul 2006 content changed
 trac#:#search_area_info#:#Por favor escoja un objeto.
-trac#:#search_terms#:#Search term(s)###10 Jul 2006 new variable
+trac#:#search_terms#:#Buscar término(s)
 trac#:#select_one#:#Por favor seleccione un objeto
 trac#:#stats_access#:#acceso
 trac#:#stats_accesses#:#accesos
@@ -6220,7 +6220,7 @@ trac#:#stats_until#:#hasta
 trac#:#stats_user#:#Usuario(s)
 trac#:#stats_user_selected#:#Usuario seleccionado
 trac#:#stats_with#:#con
-trac#:#total_dwell_time#:#Total dwell time###10 Jul 2006 new variable
+trac#:#total_dwell_time#:#Tiempo dwell total
 trac#:#trac_activated#:#Tracking activado
 trac#:#trac_active_both#:#Seguimiento de usuario y progreso de aprendizaje activados
 trac#:#trac_active_lp_only#:#Progreso de aprendizaje activado
@@ -6241,7 +6241,7 @@ trac#:#trac_crs_items#:#items del curso que pueden asignarse
 trac#:#trac_crs_members#:#Miembros del curso:
 trac#:#trac_crs_objects#:#Progreso de aprendizaje de los miembros del curso
 trac#:#trac_crs_releavant_items#:#Items del curso
-trac#:#trac_crs_relevant_items#:#Course Materials###10 Jul 2006 new variable
+trac#:#trac_crs_relevant_items#:#Materiales del curso
 trac#:#trac_edit_collection#:#Por favor asigne items del curso. Si el estado de todos los items asignados es 'Completado', el curso en su totalidad ha sido completado por el usuario.###10 Jul 2006 content changed
 trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
 trac#:#trac_edit_time#:#Tiempo de proceso
@@ -6253,8 +6253,8 @@ trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. P
 trac#:#trac_filter_no_access#:#No se encontraron objetos
 trac#:#trac_filter_none#:#Ninguno
 trac#:#trac_filter_repository#:#En Contenidos
-trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
-trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
+trac#:#trac_fold_relevant_items#:#Contenido de carpeta
+trac#:#trac_head_timing#:#Entregar hasta
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
 trac#:#trac_inactive_both#:#Seguimiento de usuario y progreso de aprendizaje desactivados
@@ -6296,7 +6296,7 @@ trac#:#trac_occurrences#:#Ruta:
 trac#:#trac_processing_time#:#Tiempo de proceso asumido
 trac#:#trac_progress#:#Mi Progreso
 trac#:#trac_query#:#Titulo/descripcion:###10 Jul 2006 content changed
-trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
+trac#:#trac_reached_objectives#:#Objetivos alcanzados
 trac#:#trac_reached_points#:#Puntuación conseguida
 trac#:#trac_reached_visits#:#Visitas requeridas
 trac#:#trac_refresh#:#Actualizar
@@ -6309,7 +6309,7 @@ trac#:#trac_show#:#Mostrar progreso
 trac#:#trac_show_hidden#:#Mostrar
 trac#:#trac_spent_time#:#Tiempo empleado
 trac#:#trac_status#:#Estado
-trac#:#trac_time_passed#:#Editing Time Exceeded###10 Jul 2006 new variable
+trac#:#trac_time_passed#:#Tiempo de entrega excedido
 trac#:#trac_total_online#:#Tiempo total online
 trac#:#trac_update_edit_user#:#Configuración grabada
 trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
@@ -6321,7 +6321,7 @@ trac#:#trac_view_list#:#Volver a la lista
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
 trac#:#tracking_time_span_not_valid#:#Introduzca un numero válido de segundos.
-trac#:#view_mode#:#View mode###10 Jul 2006 new variable
-trac#:#vm_access_of_users#:#Access of users###10 Jul 2006 new variable
-trac#:#vm_days_of_period#:#Days of period###10 Jul 2006 new variable
-trac#:#vm_times_of_day#:#Times of days###10 Jul 2006 new variable
+trac#:#view_mode#:#Modo de vista
+trac#:#vm_access_of_users#:#Acceso de usuarios
+trac#:#vm_days_of_period#:#Días del período
+trac#:#vm_times_of_day#:#Horas de los días
