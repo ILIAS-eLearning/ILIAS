@@ -3348,10 +3348,10 @@ class ilObjTestGUI extends ilObjectGUI
 					$user = ilObjUser::_lookupName($entry["user_fi"]);
 					$this->tpl->setVariable("TXT_USER", trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"]));
 					$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($entry["TIMESTAMP14"]), "datetime"));
-					if (strlen($entry["ref_id"]))
+					if (strlen($entry["ref_id"]) && strlen($entry["href"]))
 					{
 						$this->tpl->setVariable("TXT_TEST_REFERENCE", $entry["ref_id"]);
-						$this->tpl->setVariable("HREF_REFERENCE", "goto.php?target=tst_" . $entry["ref_id"] . "&amp;client_id=" . CLIENT_ID);
+						$this->tpl->setVariable("HREF_REFERENCE", $entry["href"]);
 					}
 					$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($entry["logtext"])));
 					$this->tpl->parseCurrentBlock();

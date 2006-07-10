@@ -154,7 +154,12 @@ class ilTestOutputGUI
 				}
 				$this->saveResult = $question_gui->object->saveWorkingData($active->active_id, $pass);
 			}												
-		}			
+		}
+		if ($this->saveResult == FALSE)
+		{
+			$this->ctrl->setParameter($this, "save_error", "1");
+			$_SESSION["previouspost"] = $_POST;
+		}
 	}
 	
 	/**
@@ -353,13 +358,14 @@ class ilTestOutputGUI
 		$question_gui->setSequenceNumber($sequence);
 		$question_gui->setQuestionCount(count($this->object->questions));
 		// output question
-		$use_post_solutions = false;
-		if ($this->saveResult === false)
+		$user_post_solution = FALSE;
+		if (array_key_exists("previouspost", $_SESSION))
 		{
-			$use_post_solutions = true;
+			$user_post_solution = $_SESSION["previouspost"];
+			unset($_SESSION["previouspost"]);
 		}
 		$active = $this->object->getActiveTestUser($ilUser->getId());
-		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solutions);
+		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solution);
 		if ($directfeedback)
 		{
 			if ($this->object->getShowSolutionDetails())
@@ -791,6 +797,8 @@ class ilTestOutputGUI
 					$this->outTestPage();
 				}
 				break;
+			case "back":
+			case "gotoquestion":
 			default:
 				$this->sequence = $this->calculateSequence();	
 				$this->object->setActiveTestUser($this->sequence);
@@ -806,6 +814,13 @@ class ilTestOutputGUI
 			if ($this->object->isActiveTestSubmitted()) return "";
 		}
 		$sequence = $_GET["sequence"];
+		if (array_key_exists("save_error", $_GET))
+		{
+			if ($_GET["save_error"] == 1)
+			{
+				return $sequence;
+			}
+		}
 		if (!$sequence) $sequence = 1;
 		switch ($_GET["activecommand"])
 		{
@@ -854,7 +869,6 @@ class ilTestOutputGUI
 */
 	function next()
 	{
-		global $ilUser;
 		$this->saveQuestionSolution();
 		$this->ctrl->setParameter($this, "activecommand", "next");
 		$this->ctrl->redirect($this, "redirectQuestion");
@@ -898,8 +912,16 @@ class ilTestOutputGUI
 	function summary()
 	{
 		$this->saveQuestionSolution();
-		$this->ctrl->setParameter($this, "activecommand", "summary");
-		$this->ctrl->redirect($this, "redirectQuestion");
+		if ($this->saveResult == FALSE)
+		{
+			$this->ctrl->setParameter($this, "activecommand", "");
+			$this->ctrl->redirect($this, "redirectQuestion");
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "activecommand", "summary");
+			$this->ctrl->redirect($this, "redirectQuestion");
+		}
 	}
 
 /**
@@ -972,9 +994,9 @@ class ilTestOutputGUI
 */
 	function gotoQuestion()
 	{
-		$this->sequence = $this->getSequence();	
-		$this->object->setActiveTestUser($this->sequence);
-		$this->outTestPage();
+		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
+		$this->ctrl->setParameter($this, "activecommand", "gotoquestion");
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 	
 /**
@@ -986,7 +1008,8 @@ class ilTestOutputGUI
 */
 	function backFromSummary()
 	{
-		$this->gotoQuestion();
+		$this->ctrl->setParameter($this, "activecommand", "back");
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 
 /**
@@ -1234,55 +1257,6 @@ class ilTestOutputGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
 		}		
 	}	
-	
-	/**
-	 * get next or previous sequence
-	 */
-	
-	function getSequence() 
-	{
-		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
-		{
-			if ($this->object->isActiveTestSubmitted()) return "";
-		}
-		$sequence = $_GET["sequence"];
-		if (!$sequence) $sequence = 1;
-		$saveResult = $this->saveResult;
-		if (isset($_POST["cmd"]["next"]) && $saveResult == true)
-		{
-			if($_GET['crs_show_result'])
-			{
-				$sequence = $this->getNextSequenceByResult($sequence);
-			}
-			else
-			{
-				$sequence++;
-			}
-		}
-		elseif (($_POST["cmd"]["previous"]) and ($sequence != 0) and ($saveResult))
-		{
-			if($_GET['crs_show_result'])
-			{
-				$sequence = $this->getPreviousSequenceByResult($sequence);
-			}
-			else
-			{
-				$sequence--;
-			}
-		}
-		elseif($_GET['crs_show_result'])
-		{
-			if(isset($_SESSION['crs_sequence'][0]))
-			{
-				$sequence = max($sequence,$_SESSION['crs_sequence'][0]);
-			}
-			else
-			{
-				$sequence = max($sequence,$this->object->getFirstSequence());
-			}
-		}
-		return $sequence;
-	}
 
 	function readFullSequence()
 	{

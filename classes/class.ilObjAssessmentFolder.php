@@ -406,6 +406,28 @@ class ilObjAssessmentFolder extends ilObject
 			{
 				$log[$row["TIMESTAMP14"]] = array();
 			}
+			$type_href = "";
+			if (array_key_exists("ref_id", $row))
+			{
+				if ($row["ref_id"] > 0)
+				{
+					$typequery = sprintf("SELECT object_data.type FROM object_data, object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = object_data.obj_id",
+						$ilDB->quote($row["ref_id"])
+					);
+					$typequeryresult = $ilDB->query($typequery);
+					if ($typequeryresult->numRows() == 1)
+					{
+						$typerow = $typequeryresult->fetchRow(DB_FETCHMODE_ASSOC);
+						switch ($typerow["type"])
+						{
+							case "tst":
+								$type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $typerow["type"]);
+								break;
+						}
+					}
+				}
+			}
+			$row["href"] = $type_href;
 			array_push($log[$row["TIMESTAMP14"]], $row);
 		}
 		ksort($log);

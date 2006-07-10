@@ -1240,7 +1240,7 @@ class assOrderingQuestion extends assQuestion
 		{
 			// duplicate order values!!!
 			$result = false;
-			sendInfo($this->lng->txt("duplicate_order_values_entered"));
+			sendInfo($this->lng->txt("duplicate_order_values_entered"), TRUE);
 		}
 		return $result;
 	}

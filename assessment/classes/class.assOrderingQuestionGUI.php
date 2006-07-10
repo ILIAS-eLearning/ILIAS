@@ -506,9 +506,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		return $result;
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $user_post_solution); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
@@ -643,7 +643,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
@@ -668,10 +668,10 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			if ($use_post_solutions) 
+			if (is_array($user_post_solution)) 
 			{
 				$solutions = array();
-				foreach ($_POST as $key => $value)
+				foreach ($user_post_solution as $key => $value)
 				{
 					if (preg_match("/order_(\d+)/", $key, $matches))
 					{
