@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -411,7 +411,14 @@ class ilObjGroupGUI extends ilContainerGUI
 			$data["fields"]["expirationtime"] = "";
 		}
 
-		$this->getTemplateFile("edit",$new_type);
+		$this->getTemplateFile("edit", $new_type);
+		
+		$this->tpl->setCurrentBlock("img1");
+		$this->tpl->setVariable("TYPE_IMG1",
+			ilUtil::getImagePath("icon_grp.gif"));
+		$this->tpl->setVariable("ALT_IMG1",
+			$this->lng->txt("obj_grp"));
+		$this->tpl->parseCurrentBlock();
 
 		foreach ($data["fields"] as $key => $val)
 		{
@@ -459,6 +466,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
 
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));
 		$this->tpl->setVariable("TXT_REGISTRATION_MODE", $this->lng->txt("group_registration_mode"));
@@ -491,11 +499,21 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 		$this->tpl->setVariable("TXT_GROUP_STATUS_DESC", $this->lng->txt("group_status_desc"));
 
+		$this->tpl->setCurrentBlock("img2");
+		$this->tpl->setVariable("TYPE_IMG2",
+			ilUtil::getImagePath("icon_grp.gif"));
+		$this->tpl->setVariable("ALT_IMG2",
+			$this->lng->txt("obj_grp"));
+		$this->tpl->parseCurrentBlock();
+
 		// IMPORT
 		$this->tpl->setCurrentBlock("create");
 		$this->tpl->setVariable("TXT_IMPORT_GRP", $this->lng->txt("import_grp"));
 		$this->tpl->setVariable("TXT_GRP_FILE", $this->lng->txt("file"));
 		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+		
+		$this->tpl->setVariable("TXT_CANCEL2", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("CMD_CANCEL2", "cancel");
 
 		// get the value for the maximal uploadable filesize from the php.ini (if available)
 		$umf=get_cfg_var("upload_max_filesize");

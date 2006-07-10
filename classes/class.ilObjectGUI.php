@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1337,6 +1337,14 @@ class ilObjectGUI
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 			$this->getTemplateFile("edit",$new_type);
+			
+			// show obj type image
+			$this->tpl->setCurrentBlock("img");
+			$this->tpl->setVariable("TYPE_IMG",
+				ilUtil::getImagePath("icon_".$new_type.".gif"));
+			$this->tpl->setVariable("ALT_IMG",
+				$this->lng->txt("obj_".$new_type));
+			$this->tpl->parseCurrentBlock();
 
 			foreach ($data["fields"] as $key => $val)
 			{

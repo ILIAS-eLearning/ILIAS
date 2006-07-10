@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -329,6 +329,20 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 		
+		// new account mail
+		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
+		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+		{
+			$this->tpl->setCurrentBlock("inform_user");
+			if (true)
+			{
+				$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
+			}
+			$this->tpl->setVariable("TXT_INFORM_USER_MAIL",
+				$this->lng->txt("user_send_new_account_mail"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->ctrl->setParameter($this,'new_type',$this->type);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));		
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
@@ -1477,24 +1491,28 @@ class ilObjUserGUI extends ilObjectGUI
 		//set role entries
 		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$userObj->getId(),true);
 
-		/* moved the following to ObjUser->saveasNew
-		// CREATE ENTRIES FOR MAIL BOX
-		include_once ("classes/class.ilMailbox.php");
-		$mbox = new ilMailbox($userObj->getId());
-		$mbox->createDefaultFolder();
-
-		include_once "classes/class.ilMailOptions.php";
-		$mail_options = new ilMailOptions($userObj->getId());
-		$mail_options->createMailOptionsEntry();
-
-		// create personal bookmark folder tree
-		include_once "classes/class.ilBookmarkFolder.php";
-		$bmf = new ilBookmarkFolder(0, $userObj->getId());
-		$bmf->createNewBookmarkTree();*/
-
-		sendInfo($this->lng->txt("user_added"),true);
-
+		$msg = $this->lng->txt("user_added");
 		
+		// send new account mail
+		if ($_POST["send_mail"] != "")
+		{
+			include_once("classes/class.ilAccountMail.php");
+			$acc_mail = new ilAccountMail();		
+			$acc_mail->setUserPassword($_POST["Fobject"]["passwd"]);
+			$acc_mail->setUser($userObj);
+			
+			if ($acc_mail->send())
+			{
+				$msg = $msg."<br />".$this->lng->txt("mail_sent");
+			}
+			else
+			{
+				$msg = $msg."<br />".$this->lng->txt("mail_not_sent");
+			}
+		}
+
+		sendInfo($msg, true);
+
 		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
 			$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");

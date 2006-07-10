@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -222,6 +222,10 @@ class ilUserImportParser extends ilSaxParser
 		$this->userCount = 0;
 		$this->localRoleCache = array();
 		$this->ilincdata = array();
+
+		include_once("classes/class.ilAccountMail.php");
+		$this->acc_mail = new ilAccountMail();
+		
 		parent::ilSaxParser($a_xml_file);
 	}
 
@@ -364,6 +368,10 @@ class ilUserImportParser extends ilSaxParser
 				$this->currPassword = null;
 				$this->currPasswordType = null;
 				$this->currActive = null;
+				
+				// reset account mail object
+				$this->acc_mail->reset();
+				
 				break;
 
 			case "Password":
@@ -775,8 +783,10 @@ class ilUserImportParser extends ilSaxParser
 								case "ILIAS3":
 									$this->userObj->setPasswd($this->currPassword, IL_PASSWD_MD5);
 									break;
+
 								case "PLAIN":
 									$this->userObj->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
+									$this->acc_mail->setUserPassword($this->currPassword);
 									break;
 
 							  }
@@ -852,7 +862,7 @@ class ilUserImportParser extends ilSaxParser
 									$this->assignToRole($this->userObj, $this->role_assign[$role_id]);
 								}
 							}
-
+							$this->sendAccountMail();
 							$this->logSuccess($this->userObj->getLogin(),$this->userObj->getId(), "Insert");
 						}
 						break;
@@ -878,8 +888,10 @@ class ilUserImportParser extends ilSaxParser
 									case "ILIAS3":
 										$updateUser->setPasswd($this->currPassword, IL_PASSWD_MD5);
 										break;
+										
 									case "PLAIN":
 										$updateUser->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
+										$this->acc_mail->setUserPassword($this->currPassword);
 										break;
 								}
 							}
@@ -1242,8 +1254,10 @@ class ilUserImportParser extends ilSaxParser
 					case "ILIAS3":
 						$this->userObj->setPasswd($this->cdata, IL_PASSWD_MD5);
 						break;
+
 					case "PLAIN":
 						$this->userObj->setPasswd($this->cdata, IL_PASSWD_PLAIN);
+						$this->acc_mail->setUserPassword($this->currPassword);
 						break;
 
 					default :
@@ -1580,5 +1594,19 @@ class ilUserImportParser extends ilSaxParser
 	function getUserMapping() {
 	    return $this->user_mapping;
 	}
+	
+	/**
+	* send account mail
+	*/
+	function sendAccountMail()
+	{
+//var_dump($_POST["send_mail"]);
+		if ($_POST["send_mail"] != "")
+		{
+			$this->acc_mail->setUser($this->userObj);
+			$this->acc_mail->send();
+		}
+	}
+
 }
 ?>

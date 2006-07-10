@@ -204,6 +204,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 		$this->getTemplateFile("create", $new_type);
+		
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_glo.gif'));
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_glo"));
 
 		foreach ($data["fields"] as $key => $val)
 		{

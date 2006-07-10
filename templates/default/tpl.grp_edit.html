@@ -2,11 +2,10 @@
 <table class="std">
 <tr class="tblheader">
   <td class="std" colspan="3">
-  <table class="invisible_border" width="100%">
-    <tr>
-      <td>{TXT_HEADER}</td>
-    </tr>
-  </table>
+	  <!-- BEGIN img1 --> 
+	  <img src="{TYPE_IMG1}" style="vertical-align:middle;" alt="{ALT_IMG1}" title="{ALT_IMG1}" border="0" vspace="0" />
+	  <!-- END img1 -->
+	  {TXT_HEADER}
   </td>
 </tr>
 <tr>
@@ -48,6 +47,7 @@
       <td><input name="expirationtime" value="{EXPIRATIONTIME}" size="5" maxlength="5"/> [{TXT_TIME}]</td>
     </tr>
     </table>
+	</td>
 </tr>
 {CONTAINER_ICONS}
 <tr>
@@ -58,9 +58,17 @@
   </div>
   </td>
 </tr>
+</table>
 <!-- BEGIN create -->
+<br />
+<table class="std">
 		<tr class="tblheader">
-		  <td class="std" colspan="3">{TXT_IMPORT_GRP}</td>
+		  <td class="std" colspan="3">
+		<!-- BEGIN img2 --> 
+		<img src="{TYPE_IMG2}" style="vertical-align:middle;" alt="{ALT_IMG2}" title="{ALT_IMG2}" border="0" vspace="0" />
+	  	<!-- END img2 -->
+		  {TXT_IMPORT_GRP}
+		  </td>
 		</tr>
 		<tr>
 		  <td class="option">{TXT_GRP_FILE} <span class="asterisk">**</span></td>
@@ -71,10 +79,11 @@
 		<tr>
 		  <td class="submit" align="right" colspan="3">
 			<input class="submit" type="submit" name="cmd[importFile]" value="{TXT_IMPORT}" />
+			<input class="submit" type="submit" name="cmd[{CMD_CANCEL2}]" value="{TXT_CANCEL2}" />
 		  </td>
 		</tr>
-<!-- END create -->
 </table>
+<!-- END create -->
 	  <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span><br />
 <!-- BEGIN fileinfo -->
 	  <span class="asterisk">**</span><span class="small"> {TXT_FILE_INFO}</span>

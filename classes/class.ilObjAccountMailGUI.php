@@ -22,12 +22,15 @@
 */
 
 /**
-* Class ilObjAccountMailGUI
+* Class ilObjAccountMail
 *
-* @author Stefan Schneider <stefan.schneider@hrz.uni-giessen.de> 
+* Sends e-mail to newly created accounts.
+*
+* @author Stefan Schneider <stefan.schneider@hrz.uni-giessen.de>
+* @author Alex Killing <alex.killing@hrz.uni-giessen.de>
 *
 */
-class ilObjAccountMailGUI
+class ilObjAccountMail
 {
 	/**
 	* object language 

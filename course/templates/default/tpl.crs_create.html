@@ -1,8 +1,9 @@
 	<form enctype="multipart/form-data" action="{FORMACTION}" method="post">
-	  <table class="std">
+	  <table class="std" width="60%">
 		  <tr class="tblheader">
 			<td class="std" colspan="2">
-			  {TXT_HEADER}
+				<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+				{TXT_HEADER}
 			</td>
 		  </tr>
 		  <tr>
@@ -21,8 +22,13 @@
 			  </div>
 			</td>
 		  </tr>
+	</table>
+	<br />
+	<table class="std" width="60%">
 		  <tr class="tblheader">
-			<td class="std" colspan="2">{TXT_IMPORT_CRS}</td>
+			<td class="std" colspan="2">
+			<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+			{TXT_IMPORT_CRS}</td>
 		  </tr>
 		  <tr>
 			<td class="option">{TXT_CRS_FILE} <span class="asterisk">**</span></td>
@@ -33,6 +39,7 @@
 		  <tr>
 			<td class="submit" align="right" colspan="2">
 			  <input class="submit" type="submit" name="cmd[importFile]" value="{TXT_IMPORT}" />
+			  <input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
 			</td>
 		  </tr>
 	  </table>

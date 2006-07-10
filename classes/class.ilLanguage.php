@@ -188,6 +188,11 @@ class ilLanguage
 		return $this->lang_key;
 	}
 	
+	function getDefaultLanguage()
+	{
+		return $this->lang_default;
+	}
+	
 	/**
 	 * gets the text for a given topic in a given language
 	 * if the topic is not in the list, the topic itself with "-" will be returned

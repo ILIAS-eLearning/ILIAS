@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -308,6 +308,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$this->tpl->parseCurrentBlock();
 				}
 
+				if ($key == 0)
+				{
+					$this->tpl->setCurrentBlock("type_image");
+					$this->tpl->setVariable("TYPE_IMG",
+						ilUtil::getImagePath("icon_cat.gif"));
+					$this->tpl->parseCurrentBlock();
+				}
+				
 				// object data
 				$this->tpl->setCurrentBlock("obj_form");
 

@@ -124,6 +124,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_create.html","course");
 		$this->tpl->setVariable("FORMACTION",'repository.php?ref_id='.$_GET["ref_id"].'&cmd=post&new_type=crs');
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("crs_new"));
+		$this->tpl->setVariable("TYPE_IMG",
+			ilUtil::getImagePath("icon_crs.gif"));
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_crs"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("crs_add"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");

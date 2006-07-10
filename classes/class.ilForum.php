@@ -1375,13 +1375,12 @@ class ilForum
 		}
 		
 		// this removes real slashes of the content (e.g. in latex code)
-		//$text = stripslashes($text);
-		
+		//$text = stripslashes($text);		
 		if ($edit == 0)
 		{
 			$text = ilUtil::insertLatexImages($text);
 		}
-		
+
 		// workaround for preventing template engine
 		// from hiding text that is enclosed
 		// in curly brackets (e.g. "{a}")
