@@ -1,4 +1,5 @@
 <div class="ilMainHeader">
+	<!-- BEGIN top_section -->
 	<!-- BEGIN userisanonymous -->
 	<div class="ilLogin" >
 		<span class="il_menu">{TXT_NOT_LOGGED_IN}!
@@ -14,18 +15,21 @@
 	<!-- END userisanonymous -->
 	<!-- BEGIN userisloggedin -->
 	<div class="ilLogin">
-		{TXT_LOGIN_AS} {USERNAME}<br /><a class="loginlogout" href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
+		{TXT_LOGIN_AS} {USERNAME}<br /><a class="ilLogin" href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
 	</div>
 	<!-- END userisloggedin -->
 	<div style="padding:2px 0px 2px 15px;">
 		<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="{HEADER_ICON}">
 		<span class="il_PDTitle">{TXT_HEADER_TITLE}</span>
 	</div>
+	<!-- END top_section -->
 	<div class="il_MainMenu" style="clear:both;">
 		<!-- BEGIN desktopbutton -->
 		<a class="{MM_CLASS}" href="{SCRIPT_DESK}" target="{TARGET_DESK}">{TXT_PERSONAL_DESKTOP}</a>
 		<!-- END desktopbutton -->
+		<!-- BEGIN rep_button -->
 		<a class="{MM_CLASS}" href="{SCRIPT_CATALOG}" target="{TARGET}">{TXT_CATALOG}</a>
+		<!-- END rep_button -->
 		<!-- BEGIN searchbutton -->
 		<a class="{MM_CLASS}" href="{SCRIPT_SEARCH}" target="{TARGET_SEARCH}">{TXT_SEARCH}</a>
 		<!-- END searchbutton -->
