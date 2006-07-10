@@ -86,7 +86,17 @@ class ilObjStyleSheet extends ilObject
 	{
 		return $this->up_to_date;
 	}
+
+	function setScope($a_scope)
+	{
+		$this->scope = $a_scope;
+	}
 	
+	function getScope()
+	{
+		return $this->scope;
+	}
+
 	function _writeUpToDate($a_id, $a_up_to_date)
 	{
 		global $ilDB;
@@ -119,6 +129,18 @@ class ilObjStyleSheet extends ilObject
 		global $ilDB;
 
 		$q = "UPDATE style_data SET standard = ".$ilDB->quote((int) $a_std).
+			" WHERE id = ".$ilDB->quote($a_id);
+		$ilDB->query($q);
+	}
+
+	/**
+	* write standard flag
+	*/
+	function _writeScope($a_id, $a_scope)
+	{
+		global $ilDB;
+
+		$q = "UPDATE style_data SET category = ".$ilDB->quote((int) $a_scope).
 			" WHERE id = ".$ilDB->quote($a_id);
 		$ilDB->query($q);
 	}
@@ -400,8 +422,9 @@ class ilObjStyleSheet extends ilObject
 		}
 		
 		// add style_data record
-		$q = "INSERT INTO style_data (id, uptodate) VALUES ".
-			"(".$ilDB->quote($this->getId()).", 0)";
+		$q = "INSERT INTO style_data (id, uptodate, category) VALUES ".
+			"(".$ilDB->quote($this->getId()).", 0,".
+			$ilDB->quote($this->getScope()).")";
 		$ilDB->query($q);
 
 		$this->read();
@@ -559,6 +582,7 @@ class ilObjStyleSheet extends ilObject
 		$res = $ilDB->query($q);
 		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setUpToDate((boolean) $sty["uptodate"]);
+		$this->setScope($sty["category"]);
 		
 	}
 
@@ -704,6 +728,10 @@ class ilObjStyleSheet extends ilObject
 		parent::update();
 		$this->read();				// this could be done better
 		$this->writeCSSFile();
+		
+		$q = "UPDATE style_data ".
+			"SET category = ".$ilDB->quote($this->getScope());
+		$ilDB->query($q);
 	}
 
 	/**
