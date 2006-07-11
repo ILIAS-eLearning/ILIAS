@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -307,19 +307,60 @@ class ilSetup extends PEAR
 		}
 
 		//take sql dump an put it in
-		$q = file($this->SQL_FILE);
-		$q = implode("\n",$q);
-
-		if ($this->execQuery($this->client->db,$q) === false)
+		if ($this->readDump($this->client->db, $this->SQL_FILE))
 		{
-			$this->error = "dump_error";
+			$this->client->db_installed = true;
+			return true;
+		}
+		else
+		{
 			return false;
 		}
+	}
 
-		$this->client->db_installed = true;
+	/**
+	* execute a query
+	* @param	string
+	* @param	string
+	* @return	boolean	ture if query was processed successfully
+	*/
+	function readDump($db, $file)
+	{
+		$fp = fopen($file, 'r');
+
+		while(!feof($fp))
+		{
+			$line = trim(fgets($fp, 750000));
+
+			if ($line != "" && substr($line,0,1)!="#"
+				&& substr($line,0,1)!="-")
+			{
+				//take line per line, until last char is ";"
+				if (substr($line,-1)==";")
+				{
+					//query is complete
+					$q .= " ".substr($line,0,-1);
+					$r = $db->query($q);
+					if (mysql_errno() > 0)
+					{
+						echo "<br />ERROR: ".mysql_error().
+							"<br />SQL: $q";
+						return false;
+					}
+					unset($q);
+				} //if
+				else
+				{
+					$q .= " ".$line;
+				} //else
+			} //if
+		} //for
+		
+		fclose($fp);
 		return true;
 	}
 
+	
 	/**
 	* check if inifile exists
 	* @return	boolean
