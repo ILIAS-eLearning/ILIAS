@@ -318,6 +318,19 @@ class ilSetup extends PEAR
 		}
 	}
 
+	function getline( $fp, $delim )
+	{
+		$result = "";
+		while( !feof( $fp ) )
+		{
+			$tmp = fgetc( $fp );
+			if( $tmp == $delim )
+				return $result;
+			$result .= $tmp;
+		}
+		return $result;
+	}
+
 	/**
 	* execute a query
 	* @param	string
@@ -330,7 +343,8 @@ class ilSetup extends PEAR
 
 		while(!feof($fp))
 		{
-			$line = trim(fgets($fp, 750000));
+			//$line = trim(fgets($fp, 200000));
+			$line = trim($this->getline($fp, "\n"));
 
 			if ($line != "" && substr($line,0,1)!="#"
 				&& substr($line,0,1)!="-")
@@ -348,6 +362,7 @@ class ilSetup extends PEAR
 						return false;
 					}
 					unset($q);
+					unset($line);
 				} //if
 				else
 				{
