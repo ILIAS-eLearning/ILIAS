@@ -1089,7 +1089,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			}
 		}
 
-		$xml_writer = new ilXMLResultSetWriter (& $xmlResultSet);
+		$xml_writer = new ilXMLResultSetWriter ($xmlResultSet);
 
 		if ($xml_writer->start ());
 			return $xml_writer->getXML();
@@ -1125,7 +1125,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			$xmlResultSet->addRow ($xmlRow);
 		}
 
-		$xml_writer = new ilXMLResultSetWriter (& $xmlResultSet);
+		$xml_writer = new ilXMLResultSetWriter ( $xmlResultSet);
 
 		if ($xml_writer->start ());
 			return $xml_writer->getXML();
