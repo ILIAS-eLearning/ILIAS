@@ -4206,8 +4206,8 @@ crs#:#crs_timings_presetting#:#Time Target Enabled
 crs#:#crs_timings_presetting_tbl#:#Time Target
 crs#:#crs_timings_short_active#:#Enabled
 crs#:#crs_timings_short_changeable#:#Changeable
-crs#:#crs_timings_short_limit_start_end#:#Changeable From/Until
-crs#:#crs_timings_short_start_end#:#Suggested Start/End
+crs#:#crs_timings_short_limit_start_end#:#Changeable
+crs#:#crs_timings_short_start_end#:#Suggestion
 crs#:#crs_timings_start#:#Starting Time
 crs#:#crs_timings_sug_begin#:#Suggested Start
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:
@@ -6326,3 +6326,7 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+crs#:#crs_timings_start_end_info#:#(Start/End)
+crs#:#crs_timings_from_until#:#(From/Until)
+crs#:#crs_timings_time_frame#:#Time Frame
+crs#:#crs_timings_in_days#:#(In Days)

@@ -4199,13 +4199,13 @@ crs#:#crs_timings_duration#:#Dauer
 crs#:#crs_timings_early_begin#:#Frühester Start
 crs#:#crs_timings_end#:#Endzeit
 crs#:#crs_timings_late_end#:#Spätester Start
-crs#:#crs_timings_planed_start#:#Geplanter Start/Ende
+crs#:#crs_timings_planed_start#:#Geplant
 crs#:#crs_timings_presetting#:#Zeitplanung eingeschaltet
 crs#:#crs_timings_presetting_tbl#:#Zeitplanung
 crs#:#crs_timings_short_active#:#Zeitplanung aktiv
 crs#:#crs_timings_short_changeable#:#Änderbar
-crs#:#crs_timings_short_limit_start_end#:#Änderbar von/bis
-crs#:#crs_timings_short_start_end#:#Empf. Start/Ende
+crs#:#crs_timings_short_limit_start_end#:#Änderbar
+crs#:#crs_timings_short_start_end#:#Empfehlung
 crs#:#crs_timings_start#:#Startzeit
 crs#:#crs_timings_sug_begin#:#Empfohlener Start
 crs#:#crs_timings_update_error#:#Die Zeitangaben für die folgenden Kursmaterialien sind nicht möglich, bitte überprüfen Sie Ihre Eingaben.
@@ -6324,3 +6324,7 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+crs#:#crs_timings_start_end_info#:#(Start/Ende)
+crs#:#crs_timings_from_until#:#(Von/Bis)
+crs#:#crs_timings_time_frame#:#Zeitrahmen
+crs#:#crs_timings_in_days#:#(In Tagen)
