@@ -238,17 +238,29 @@ class ilPaymentBaseGUI
 		}
 		if($this->getMainSection() == $this->BASE)
 		{
-			$this->tpl->setCurrentBlock("tab");
+			$this->tabs_gui->addSubTabTarget('paya_shopping_cart',
+											 $this->ctrl->getLinkTargetByClass('ilpaymentshoppingcartgui'),
+											 '',
+											 '',
+											 '',
+											 $this->getSection() == $this->SECTION_SHOPPING_CART ? true : false);
+/*			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_SHOPPING_CART ? 'tabactive' : 'tabinactive');
 			$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymentshoppingcartgui'));
 			$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_shopping_cart'));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
 
-			$this->tpl->setCurrentBlock("tab");
+			$this->tabs_gui->addSubTabTarget('paya_buyed_objects',
+											 $this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui'),
+											 '',
+											 '',
+											 '',
+											 $this->getSection() == $this->SECTION_BUYED_OBJECTS ? true : false);
+/*			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable('TAB_TYPE',$this->getSection() == $this->SECTION_BUYED_OBJECTS ? 'tabactive' : 'tabinactive');
 			$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui'));
 			$this->tpl->setVariable("TAB_TEXT",$this->lng->txt('paya_buyed_objects'));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
 		}
 	}
 

@@ -138,14 +138,17 @@ class ilPaymentPrices
 		$genSet = new ilGeneralSettings();
 		$unit_string = $genSet->get("currency_unit");
 
-		$amount = 0.0;
+		$amount = array();
 
-		foreach($a_price_ids as $id)
+		if (is_array($a_price_ids))
 		{
-			$price_data = ilPaymentPrices::_getPrice($id);
+			for ($i = 0; $i < count($a_price_ids); $i++)
+			{
+				$price_data = ilPaymentPrices::_getPrice($a_price_ids[$i]["id"]);
 
-			$price = ((int) $price_data["unit_value"]) . "." . ((int) $price_data["sub_unit_value"]);
-			$amount += (float) $price;
+				$price = ((int) $price_data["unit_value"]) . "." . ((int) $price_data["sub_unit_value"]);
+				$amount[$a_price_ids[$i]["pay_method"]] += (float) $price;
+			}
 		}
 
 		return $amount;

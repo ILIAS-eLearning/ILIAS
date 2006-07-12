@@ -214,6 +214,7 @@ class ilPaymentShoppingCart
 		}
 
 		// Delete all entries with not valid prices or pay_method
+		unset($prices);
 		foreach($this->sc_entries as $entry)
 		{
 			// check if price_id exists for pobject
@@ -241,7 +242,10 @@ class ilPaymentShoppingCart
 
 			$this->sc_entries[$entry["psc_id"]]["pay_method"] = $pay_method;
 
-			$prices[] = $entry['price_id'];
+			$prices[] = array(
+				"id" => $entry['price_id'],
+				"pay_method" => $pay_method
+			);
 			unset($tmp_pobj);
 		}
 
