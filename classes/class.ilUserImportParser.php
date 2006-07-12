@@ -225,7 +225,7 @@ class ilUserImportParser extends ilSaxParser
 
 		include_once("classes/class.ilAccountMail.php");
 		$this->acc_mail = new ilAccountMail();
-		
+
 		parent::ilSaxParser($a_xml_file);
 	}
 
@@ -368,10 +368,9 @@ class ilUserImportParser extends ilSaxParser
 				$this->currPassword = null;
 				$this->currPasswordType = null;
 				$this->currActive = null;
-				
+
 				// reset account mail object
 				$this->acc_mail->reset();
-				
 				break;
 
 			case "Password":
@@ -888,7 +887,7 @@ class ilUserImportParser extends ilSaxParser
 									case "ILIAS3":
 										$updateUser->setPasswd($this->currPassword, IL_PASSWD_MD5);
 										break;
-										
+
 									case "PLAIN":
 										$updateUser->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
 										$this->acc_mail->setUserPassword($this->currPassword);
@@ -921,6 +920,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getTimeLimitUntil())) $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
 							if (! is_null($this->userObj->getTimeLimitMessage())) $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
 							if (! is_null($this->userObj->getApproveDate())) $updateUser->setApproveDate($this->userObj->getApproveDate());
+							if (! is_null($this->userObj->getLanguage())) $updateUser->setLanguage($this->userObj->getLanguage());
 
 							$updateUser->update();
 
@@ -933,8 +933,11 @@ class ilUserImportParser extends ilSaxParser
                                 $ilinc_user->update();
 							}
 
+							// update login
 							if (!is_null($this->userObj->getLogin()) && $this->user_id != -1)
 								$updateUser->updateLogin($this->userObj->getLogin());
+
+						    // if language has changed
 
 							if (is_array($this->personalPicture))
 							{
@@ -1594,7 +1597,7 @@ class ilUserImportParser extends ilSaxParser
 	function getUserMapping() {
 	    return $this->user_mapping;
 	}
-	
+
 	/**
 	* send account mail
 	*/
