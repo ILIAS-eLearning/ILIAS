@@ -1388,10 +1388,10 @@ class ilPurchaseBMFGUI
 		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
 
 		$totalAmount =  $sc_obj->getTotalAmount();
-		$vat = $sc_obj->getVat($totalAmount);
+		$vat = $sc_obj->getVat($totalAmount[PAY_METHOD_BMF]);
 
 		$tpl->setCurrentBlock("tbl_footer_linkbar");
-		$amount = "<b>" . $this->lng->txt("pay_bmf_total_amount") . ": " . number_format($totalAmount, 2, ',', '.') . " " . $genSet->get("currency_unit") . "</b>";
+		$amount = "<b>" . $this->lng->txt("pay_bmf_total_amount") . ": " . number_format($totalAmount[PAY_METHOD_BMF], 2, ',', '.') . " " . $genSet->get("currency_unit") . "</b>";
 		if ($vat > 0)
 		{
 			$amount .= "<br>\n" . $genSet->get("vat_rate") . "% " . $this->lng->txt("pay_bmf_vat_included") . ": " . number_format($vat, 2, ',', '.') . " " . $genSet->get("currency_unit");
