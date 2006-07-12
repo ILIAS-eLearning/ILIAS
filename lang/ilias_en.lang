@@ -6330,3 +6330,4 @@ crs#:#crs_timings_start_end_info#:#(Start/End)
 crs#:#crs_timings_from_until#:#(From/Until)
 crs#:#crs_timings_time_frame#:#Time Frame
 crs#:#crs_timings_in_days#:#(In Days)
+crs#:#crs_timings_sug_end#:#Suggested End
