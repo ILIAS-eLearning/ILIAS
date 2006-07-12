@@ -687,10 +687,12 @@ class ilCourseContentGUI
 		global $ilUser,$ilAccess;
 
 		include_once 'course/classes/Timings/class.ilTimingPlaned.php';
-		include_once './classes/class.ilInternalLink.php';
+		include_once './classes/class.ilLink.php';
+		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+
+		$this->lng->loadLanguageModule('meta');
 
 		$usr_planed = new ilTimingPlaned($item['ref_id'],$ilUser->getId());
-
 
 		for($i = 0;$i < $level;$i++)
 		{
@@ -703,11 +705,18 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("DESC",$item['description']);
 			$this->tpl->parseCurrentBlock();
 		}
+		if($tlt = ilMDEducational::_getTypicalLearningTimeSeconds($item['obj_id']))
+		{
+			$this->tpl->setCurrentBlock("tlt");
+			$this->tpl->setVariable("TXT_TLT",$this->lng->txt('meta_typical_learning_time'));
+			$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		if($ilAccess->checkAccess('read','',$item['ref_id']))
 		{
 			$this->tpl->setCurrentBlock("title_as_link");
-			$this->tpl->setVariable("TITLE_LINK",ilInternalLink::_getLink($item['ref_id'],$item['type']));
+			$this->tpl->setVariable("TITLE_LINK",ilLink::_getLink($item['ref_id'],$item['type']));
 			$this->tpl->setVariable("TITLE_NAME",$item['title']);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -789,10 +798,10 @@ class ilCourseContentGUI
 		$sub_items_obj = new ilCourseItems($this->course_obj,$item['ref_id']);
 		foreach($sub_items_obj->getItems() as $item_data)
 		{
-			if($item_data['timing_type'] != IL_CRS_TIMINGS_PRESETTING)
-			{
-				continue;
-			}
+			#if($item_data['timing_type'] != IL_CRS_TIMINGS_PRESETTING)
+			#{
+			#	continue;
+			#}
 			$this->__renderItem($item_data,$level+1);
 		}
 	}

@@ -98,7 +98,8 @@ class ilCourseItems
 		$query = "SELECT * FROM crs_items ".
 			"WHERE timing_type = '".IL_CRS_TIMINGS_PRESETTING."' ".
 			"AND changeable = '1' ".
-			"AND obj_id IN('".implode("','",$ref_ids)."')";
+			"AND obj_id IN('".implode("','",$ref_ids)."') ".
+			"AND parent_id IN('".implode("','",$ref_ids)."')";
 
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;
@@ -387,6 +388,8 @@ class ilCourseItems
 
 	function __purgeDeleted()
 	{
+		global $tree;
+
 		$all = array();
 
 		$query = "SELECT obj_id FROM crs_items ".
@@ -395,7 +398,7 @@ class ilCourseItems
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if(!$this->tree->isInTree($row->obj_id))
+			if($tree->getParentId($row->obj_id) != $this->getParentId())
 			{
 				$this->__delete($row->obj_id);
 			}
