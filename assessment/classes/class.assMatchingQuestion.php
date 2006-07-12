@@ -231,7 +231,6 @@ class assMatchingQuestion extends assQuestion
 				}
 			}
 		}
-		include_once ("./assessment/classes/class.$qt.php");
 		$type = 1;
 		if ($foundimage)
 		{
