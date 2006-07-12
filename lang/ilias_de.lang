@@ -4281,7 +4281,7 @@ crs#:#import_crs#:#Kurs importieren###10 Jul 2006 content changed
 crs#:#learners_view#:#Lerneransicht
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#timing_accept_table#:#Zeitplanung: Bemerkungen
-crs#:#timing_remark#:#Bemerkunk
+crs#:#timing_remark#:#Bemerkung
 crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
 crs#:#timing_user_accept#:#Zeitplan akzeptieren
 crs#:#timings_edit#:#Zeitplanung bearbeiten
