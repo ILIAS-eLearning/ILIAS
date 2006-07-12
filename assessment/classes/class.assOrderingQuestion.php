@@ -226,7 +226,6 @@ class assOrderingQuestion extends assQuestion
 				}
 			}
 		}
-		include_once ("./assessment/classes/class.$qt.php");
 		$type = 1; // terms
 		if ($foundimage)
 		{
