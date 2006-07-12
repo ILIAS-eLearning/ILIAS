@@ -1,5 +1,6 @@
 <?php
 
+
   /*
    +-----------------------------------------------------------------------------+
    | ILIAS open source                                                           |
@@ -24,63 +25,32 @@
 
 
  /**
-   * class representing a repository object as structure object
+    * Column Class for XMLResultSet
    *
    * @author Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
-   * @version $Id: class.ilSoapStructureReader.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
+   * @version $Id: class.ilXMLResultSet.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
    *
    * @package ilias
    */
+class ilXMLResultSetColumn {
+	var $name;
+	var $index;
 
-
-include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
-
-class ilSoapRepositoryStructureObject extends ilSoapStructureObject {
-	var $ref_id;
-
-	function ilSoapRepositoryStructureObject ($objId, $type, $title, $description, $refId) {
-		parent::ilSoapStructureObject($objId, $type, $title, $description);
-		$this->setRefId ($refId);
-	}
-
-		/**
-	*	set current refId
-	*
-	*/
-	function setRefId ($value) {
-		$this->ref_id= $value;
-	}
-
-
-	/**
-	*	return current ref id
-	*
-	*/
-	function getRefId()
+	function ilXMLResultSetColumn ($index, $name)
 	{
-		return $this->ref_id;
+		$this->name = $name;
+		$this->index = $index;
 	}
 
-	function getInternalLink () {
-		return "[iln ".$this->getType()."=\"".$this->getRefId()."\"]".$this->getTitle()."[/iln]";
+	function getName ()
+	{
+		return $this->name;
 	}
 
-	function getGotoLink (){
-	    return ILIAS_HTTP_PATH."/". "goto.php?target=".$this->getType()."_".$this->getRefId()."&client_id=".CLIENT_ID;
+	function getIndex ()
+	{
+		return $this->index;
 	}
-
-	function _getXMLAttributes () {
-		return array(	'type' => $this->getType(),
-					   	'obj_id' => $this->getObjId(),
-					   	'ref_id' => $this->getRefId()
-		);
-	}
-
-	function _getTagName () {
-		return "RepositoryObject";
-	}
-
-
 }
 
 ?>

@@ -590,6 +590,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		global $rbacreview, $rbacsystem, $tree, $lng;
 
     	// this takes time but is nescessary
+    	$error = false;
    		$this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
    		if ($error)
    		{
@@ -695,7 +696,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	//	print_r($loc_roles);
 
 		$permitted_local_roles = array();
-		$l_roles_searcharray = array();
 
 		foreach ($loc_roles as $key => $loc_role)
 		{
@@ -772,9 +772,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 				$role_id = $role->role_id;
 			}
 
-			if ($key = array_search($role_name, $permitted_local_roles))
+			if (array_search($role_name, $permitted_local_roles))
 					$permitted_roles[$role_name] = $role_id;
-			elseif ($key = array_search($role_name, $permitted_global_roles))
+			elseif (array_search($role_name, $permitted_global_roles))
 					$permitted_roles[$role_name] = $role_id;
 			else return $this->__raiseError("Could not find role ".$role_name.". Either you use an invalid/deleted role or you try to assign a local role into the non-standard user folder and this role is not in its subtree.",'Server');
 		}
@@ -1000,6 +1000,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		{
 			return $xmlWriter->getXML();
 		}
+		return $this->__raiseError('Error in getUsersForRole','Server');
 	}
 
 
@@ -1035,7 +1036,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*/
 	function __getGroupMemberData ($a_mem_ids, $active = -1)
 	{
-		global $rbacadmin, $rbacreview, $ilBench, $ilDB;
+		global $rbacadmin, $rbacreview, $ilDB;
 
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data, usr_pref
@@ -1072,8 +1073,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$xmlResultSet->addColumn ("action");
     	$xmlResultSet->addColumn ("message");
 
-		$rows = array();
-
 		foreach ($a_array as $username => $messages)
 		{
 			foreach ($messages as $message)
@@ -1091,10 +1090,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$xml_writer = new ilXMLResultSetWriter ($xmlResultSet);
 
-		if ($xml_writer->start ());
+		if ($xml_writer->start ())
 			return $xml_writer->getXML();
 
-		return $this->__raiseError('No records available','Client');
+		return $this->__raiseError('Error in __getImportProtocolAsXML','Server');
 	}
 
     /**
@@ -1127,10 +1126,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$xml_writer = new ilXMLResultSetWriter ( $xmlResultSet);
 
-		if ($xml_writer->start ());
+		if ($xml_writer->start ())
 			return $xml_writer->getXML();
 
-		return $this->__raiseError('No records available','Client');
+		return $this->__raiseError('Error in __getUserMappingAsXML','Server');
 
 	}
 
@@ -1204,6 +1203,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $xmlWriter->getXML();
 		 }
 
+		 return $this->__raiseError('Error in searchUser','Server');
 	   }
 
 	/**
@@ -1241,7 +1241,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	    return count ($query) ? " AND ((". join(") ".strtoupper($queryOperator)." (", $query) ."))" : "AND 0";
 	}
-	
+
 	// has new mail
 	function hasNewMail($sid)
 	{
@@ -1254,7 +1254,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once './include/inc.header.php';
 		include_once ("./classes/class.ilMailbox.php");
 		global $ilUser;
-		
+
 		if (ilMailbox::hasNewMail($ilUser->getId()) > 0)
 		{
 			return true;
