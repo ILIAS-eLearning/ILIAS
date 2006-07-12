@@ -200,7 +200,7 @@ class ilGlossaryDefinition
 		$def_set = $this->ilias->db->query($q);
 		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setNr($def_rec["nr"]);
-		
+
 		// meta data will be created by
 		// import parser
 		if (!$a_upload)
@@ -343,7 +343,7 @@ class ilGlossaryDefinition
 	function update()
 	{
 		$this->updateMetaData();
-		
+
 		$q = "UPDATE glossary_definition SET ".
 			" term_id = '".$this->getTermId()."', ".
 			" nr = '".$this->getNr()."', ".
@@ -368,9 +368,10 @@ class ilGlossaryDefinition
 	*/
 	function getDefinitionList($a_term_id)
 	{
-		$defs = array();
+		global $ilDB;
+	    $defs = array();
 		$q = "SELECT * FROM glossary_definition WHERE term_id ='".$a_term_id."' ORDER BY nr";
-		$def_set = $this->ilias->db->query($q);
+		$def_set = $ilDB->query($q);
 		while ($def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$defs[] = array("term_id" => $def_rec["term_id"],
@@ -505,7 +506,7 @@ class ilGlossaryDefinition
 		$md = new ilMD($glo_id, $this->getId(), $this->getType());
 		$md->deleteAll();
 	}
-	
+
 	/**
 	* Meta data update listener
 	*
