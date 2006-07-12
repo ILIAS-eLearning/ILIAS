@@ -41,9 +41,9 @@ class ilSoapStructureObjectFactory {
 			case "glo":
 			    include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
 				return "ilSoapRepositoryStructureObject";
-			case "glo":
-			    include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
-				return "ilSoapRepositoryStructureObject";
+			case "qit":
+			    include_once "./webservice/soap/classes/class.ilSoapGLOTermStructureObject.php";
+				return "ilSoapGLOTermStructureObject";
 
 
 		}
