@@ -628,9 +628,17 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('timings_usr_edit'));
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
 		$this->tpl->setVariable("TXT_START_END",$this->lng->txt('crs_timings_short_start_end'));
+		$this->tpl->setVariable("TXT_INFO_START_END",$this->lng->txt('crs_timings_start_end_info'));
+
 		$this->tpl->setVariable("TXT_LIMIT",$this->lng->txt('crs_timings_short_limit_start_end'));
+		$this->tpl->setVariable("TXT_INFO_LIMIT",$this->lng->txt('crs_timings_from_until'));
+
 		$this->tpl->setVariable("TXT_OWN_PRESETTING",$this->lng->txt('crs_timings_planed_start'));
+		$this->tpl->setVariable("TXT_INFO_OWN_PRESETTING",$this->lng->txt('crs_timings_start_end_info'));
+
 		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('crs_timings_duration'));
+		$this->tpl->setVariable("TXT_INFO_DURATION",$this->lng->txt('crs_timings_in_days'));
+
 		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 
@@ -676,8 +684,10 @@ class ilCourseContentGUI
 
 	function __renderItem($item,$level)
 	{
-		global $ilUser;
+		global $ilUser,$ilAccess;
+
 		include_once 'course/classes/Timings/class.ilTimingPlaned.php';
+		include_once './classes/class.ilInternalLink.php';
 
 		$usr_planed = new ilTimingPlaned($item['ref_id'],$ilUser->getId());
 
@@ -693,7 +703,20 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("DESC",$item['description']);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("TITLE",$item['title']);
+
+		if($ilAccess->checkAccess('read','',$item['ref_id']))
+		{
+			$this->tpl->setCurrentBlock("title_as_link");
+			$this->tpl->setVariable("TITLE_LINK",ilInternalLink::_getLink($item['ref_id'],$item['type']));
+			$this->tpl->setVariable("TITLE_NAME",$item['title']);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("title_plain");
+			$this->tpl->setVariable("TITLE",$item['title']);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("container_standard_row");
 		$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.gif'));
@@ -705,16 +728,19 @@ class ilCourseContentGUI
 		{
 			$item_prefix = "item[".$item['ref_id'].']';
 
-			if(is_array($_POST['own_start']))
+			if(is_array($_POST['item']["$item[ref_id]"]['own_start']))
 			{
-				$start = $this->__toUnix($_POST['own_start']);
+				#echo "Start post<br>";
+				$start = $this->__toUnix($_POST['item']["$item[ref_id]"]['own_start']);
 			}
 			elseif($usr_planed->getPlanedStartingTime())
 			{
+				#echo "Own start<br>";
 				$start = $usr_planed->getPlanedStartingTime();
 			}
 			else
 			{
+				#echo "Empfehlung start<br>";
 				$start = $item['suggestion_start'];
 			}
 
@@ -722,23 +748,35 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("OWN_START",
 									ilUtil::makeDateSelect($item_prefix."[own_start]",$date['y'],$date['m'],$date['d'],date('Y',time())));
 
-			if(is_array($_POST['own_end']))
+			if($usr_planed->getPlanedEndingTime())
 			{
-				$end = $this->__toUnix($_POST['own_end']);
-			}
-			elseif($usr_planed->getPlanedEndingTime())
-			{
+				#echo "Own End<br>";
 				$end = $usr_planed->getPlanedEndingTime();
 			}
 			else
 			{
+				#echo "Empfehlung end<br>";
 				$end = $item['suggestion_end'];
 			}
-			$date = $this->__prepareDateSelect($end);
-			$this->tpl->setVariable("OWN_END",
-									ilUtil::makeDateSelect($item_prefix."[own_end]",$date['y'],$date['m'],$date['d'],date('Y',time())));
+			$this->tpl->setVariable("OWN_END",ilFormat::formatUnixTime($end));
 			$this->tpl->setVariable("NAME_DURATION",$item_prefix."[duration]");
 
+			// Duration
+			if(isset($_POST['item']["$item[ref_id]"]['duration']))
+			{
+				$this->tpl->setVariable("VAL_DURATION",$_POST['item']["$item[ref_id]"]['duration']);
+			}
+			else
+			{
+				#echo date('Y-m-d H:i:s',$start);
+				#echo "<br>";
+				#echo date('Y-m-d H:i:s',$end);
+				#echo "<br>";
+				#echo 'Ending time: '.$end;
+				#echo "<br>";
+				#var_dump("<pre>",($end - $start),($end - $start) / 60 * 60,"<pre>");
+				$this->tpl->setVariable("VAL_DURATION",intval(($end - $start) / (60 * 60 * 24)));
+			}
 			$this->tpl->setVariable("LIM_START",ilFormat::formatUnixTime($item['earliest_start']));
 			$this->tpl->setVariable("LIM_END",ilFormat::formatUnixTime($item['latest_end']));
 
@@ -771,21 +809,19 @@ class ilCourseContentGUI
 			$tmp_planed = new ilTimingPlaned($ref_id,$ilUser->getId());
 
 			$tmp_planed->setPlanedStartingTime($this->__toUnix($data['own_start']));
-			if($data['duration'])
+			if(isset($data['duration']))
 			{
 				$data['own_start']['d'] += $data['duration'];
-                #echo date('Y-m-d :H:i',$this->__toUnix($data['own_start']));
 				$tmp_planed->setPlanedEndingTime($this->__toUnix($data['own_start'],array('h' => 23,'m' => 55)));
 			}
 			else
 			{
-				$tmp_planed->setPlanedEndingTime($this->__toUnix($data['own_end'],array('h' => 23,'m' => 55)));
+				$tmp_planed->setPlanedEndingTime($this->__toUnix($data['own_start']),array('h' => 23,'m' => 55));
 			}
 			if(!$tmp_planed->validate())
 			{
 				$invalid[] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($ref_id));
 			}
-			#echo date('Y-m-d :H:i',$tmp_planed->getPlanedEndingTime())."<br>";
 			$all_items[] = $tmp_planed;
 		}
 		if(count($invalid))
@@ -799,7 +835,6 @@ class ilCourseContentGUI
 		}
 		foreach($all_items as $new_item_obj)
 		{
-			#echo date('Y-m-d :H:i',$new_item_obj->getPlanedEndingTime())."<br>";
 			$new_item_obj->update();
 		}
 		sendInfo($this->lng->txt('settings_saved'));

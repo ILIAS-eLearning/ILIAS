@@ -158,6 +158,12 @@ switch($target_type)
 		require_once("classes/class.ilObjGroupGUI.php");
 		ilObjGroupGUI::_goto($target_id);
 		break;
+		
+	// new implementation: ok (smeyer) 
+	case 'fold':
+		require_once("classes/class.ilObjFolderGUI.php");
+		ilObjFolderGUI::_goto($target_id);
+		break;
 	
 	// new implementation: ok
 	case "file":
