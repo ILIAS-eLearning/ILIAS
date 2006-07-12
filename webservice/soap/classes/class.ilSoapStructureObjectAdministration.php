@@ -22,14 +22,15 @@
   */
 
 
-  /**
-   * Soap object administration methods
+ /**
+   * administration for structure objects
    *
-   * @author Stefan Meyer <smeyer@databay.de>
-   * @version $Id: class.ilSoapObjectAdministration.php,v 1.5.2.9 2006/03/08 16:17:54 smeyer Exp $
+   * @author Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
+   * @version $Id: class.ilSoapStructureReader.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
    *
    * @package ilias
    */
+
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSOAPStructureObjectAdministration extends ilSoapAdministration
@@ -38,51 +39,51 @@ class ilSOAPStructureObjectAdministration extends ilSoapAdministration
 	{
 		parent::ilSoapAdministration();
 	}
-	
-	
-	function getStructureObjects ($sid, $ref_id) 
+
+
+	function getStructureObjects ($sid, $ref_id)
 	{
-		
+
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}	
-		
+		}
+
 		include_once './include/inc.header.php';
-		
+
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($ref_id, false))
 		{
 			return $this->__raiseError('No valid reference id given.', 'Client');
 		}
-		
+
 		$structureReaderClassname = "ilSoap".strtoupper($target_obj->getType())."StructureReader";
 		$filename = "./webservice/soap/classes/class.".$structureReaderClassname.".php";
-		
-		if (!file_exists($filename)) 		
+
+		if (!file_exists($filename))
 		{
 			return $this->__raiseError("Object type '".$target_obj->getType()."'is not supported.", 'Client');
 		}
-		
+
 		include_once $filename;
-		
-		$structureReader = new $structureReaderClassname($target_obj);			
-				
+
+		$structureReader = new $structureReaderClassname($target_obj);
+
 		include_once './webservice/soap/classes/class.ilSoapStructureObjectXMLWriter.php';
 
 		$xml_writer = new ilSoapStructureObjectXMLWriter();
-		
+
 		$structureObject = & $structureReader->getStructureObject();
-		
+
 		$xml_writer->setStructureObject ($structureObject);
-		
+
 		if(!$xml_writer->start())
 		{
 			return $this->__raiseError('Cannot create object xml !','Server');
 		}
-		
+
 		return $xml_writer->getXML();
-		
+
 	}
 }
-	
+
 ?>

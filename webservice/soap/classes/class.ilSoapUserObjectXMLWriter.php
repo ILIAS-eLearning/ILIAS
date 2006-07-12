@@ -62,8 +62,6 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 		$this->ilias =& $ilias;
 		$this->user_id = $ilUser->getId();
 		$this->attachRoles = false;
-		//$this->settings = ilSoapUserObjectXMLWriter::getExportSettings();
-
 	}
 
 	function setAttachRoles ($value)
@@ -212,91 +210,8 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 
 	    $this->xmlElement ($tagname, $attrs, $value);
 
-/*	    $settingsname = strlen($settingsname) ? $settingsname  : strtolower ($tagname);
-		if (array_search($settingsname, $this->settings) !== FALSE)
-		{
-			if (strlen($value)) {
-				$this->xmlElement ($tagname, $attrs, $value);
-				return true;
-			}
-		}
-		return false;*/
 	}
 
-/*
-we should not care about these settings, since they are only for export
-
-function getExportSettings()
-	{
-		global $ilDB;
-
-		$db_settings = array();
-		$profile_fields = array(
-			"gender",
-			"firstname",
-			"lastname",
-			"title",
-			"upload",
-			"password",
-			"institution",
-			"department",
-			"street",
-			"zipcode",
-			"city",
-			"country",
-			"phone_office",
-			"phone_home",
-			"phone_mobile",
-			"fax",
-			"email",
-			"hobby",
-			"referral_comment",
-			"matriculation",
-			"language",
-			"skin_style",
-			"hits_per_page",
-			"show_users_online"
-		);
-
-		$query = "SELECT * FROM `settings` WHERE keyword LIKE '%usr_settings_export_%' AND value = '1'";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			if (preg_match("/usr_settings_export_(.*)/", $row["keyword"], $setting))
-			{
-				array_push($db_settings, $setting[1]);
-			}
-		}
-		$export_settings = array();
-
-		foreach ($profile_fields as $key => $value)
-		{
-			if (in_array($value, $db_settings))
-			{
-					array_push($export_settings, $value);
-			}
-		}
-		array_push($export_settings, "login");
-		array_push($export_settings, "last_login");
-		array_push($export_settings, "last_update");
-		array_push($export_settings, "create_date");
-		array_push($export_settings, "i2passwd");
-		array_push($export_settings, "time_limit_owner");
-		array_push($export_settings, "time_limit_unlimited");
-		array_push($export_settings, "time_limit_from");
-		array_push($export_settings, "time_limit_until");
-		array_push($export_settings, "time_limit_message");
-		array_push($export_settings, "active");
-		array_push($export_settings, "approve_date");
-		array_push($export_settings, "agree_date");
-		array_push($export_settings, "ilinc_id");
-		array_push($export_settings, "ilinc_user");
-		array_push($export_settings, "ilinc_passwd");
-		array_push($export_settings, "client_ip");
-		array_push($export_settings, "auth_mode");
-		return $export_settings;
-	}
-*/
 }
 
 
