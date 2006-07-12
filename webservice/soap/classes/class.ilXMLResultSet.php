@@ -31,6 +31,9 @@
    * @package ilias
    */
 
+include_once './webservice/soap/classes/class.ilXMLResultSetColumn.php';
+include_once './webservice/soap/classes/class.ilXMLResultSetRow.php';
+
 class ilXMLResultSet
 {
 		var $colspecs = array();
