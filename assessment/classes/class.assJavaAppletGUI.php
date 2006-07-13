@@ -354,7 +354,7 @@ class assJavaAppletGUI extends assQuestionGUI
 				}
 				$this->object->setJavaAppletFilename($_FILES['javaappletName']['name'], $_FILES['javaappletName']['tmp_name']);
 			}
-			if ((strlen($this->object->getTitle()) > 0) && (strlen($this->object->getAuthor()) > 0) && (strlen($this->object->getQuestion()) > 0) && ($this->object->getPoints() > 0))
+			if ((strlen($this->object->getTitle()) > 0) && (strlen($this->object->getAuthor()) > 0) && (strlen($this->object->getQuestion()) > 0) && ($this->object->getPoints() > 0) && array_key_exists("java_height", $_POST))
 			{
 				$this->object->setJavaCode($_POST["java_code"]);
 				$this->object->setJavaCodebase($_POST["java_codebase"]);
