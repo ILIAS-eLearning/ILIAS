@@ -34,7 +34,7 @@
 
 define('IL_INTERNAL_LINK_SCRIPT','goto.php');
 
-class ilInternalLink
+class ilLink
 {
 	function _getLink($a_ref_id,$a_type = '',$a_params = array())
 	{
