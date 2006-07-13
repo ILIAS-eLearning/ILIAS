@@ -88,6 +88,10 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 
 	function authenticate()
 	{
+		include_once("./Services/Init/classes/class.ilInitialisation.php");
+		$init = new ilInitialisation();
+		$init->requireCommonIncludes();
+		
 		if(!$this->getClient())
 		{
 			$this->__setMessage('No client given');
@@ -122,21 +126,37 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		}
 
 		// check whether authentication is valid
-		if (!$this->auth->checkCASAuth())
+		//if (!$this->auth->checkCASAuth())
+		if (!phpCAS::checkAuthentication())
 		{
 			$this->__setMessage('ilSOAPAuthenticationCAS::authenticate(): No valid CAS authentication.');
 			return false;
 		}
 		$this->auth->forceCASAuth();
-		
+
 		if ($this->getUsername() != $this->auth->getCASUser())
 		{
 			$this->__setMessage('ilSOAPAuthenticationCAS::authenticate(): SOAP CAS user does not match to ticket user.');
 			return false;
 		}
-		
-		$this->auth->start();
 
+		include_once("classes/class.ilObjUser.php");
+		$local_user = ilObjUser::_checkExternalAuthAccount("cas", $this->auth->getCASUser());
+		if ($local_user == "")
+		{
+			$this->__setMessage('ilSOAPAuthenticationCAS::authenticate(): SOAP CAS user authenticated but not existing in ILIAS user database.');
+			return false;
+		}
+
+				
+		/*
+		$init->initIliasIniFile();
+		$init->initSettings();
+		$ilias =& new ILIAS();
+		$GLOBALS['ilias'] =& $ilias;*/
+
+		$this->auth->start();
+//echo "5";
 		if(!$this->auth->getAuth())
 		{
 			$this->__getAuthStatus();

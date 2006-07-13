@@ -91,7 +91,7 @@ class ilCASAuth extends Auth
 	*/
 	function ilCASAuth($a_params)
 	{
-		include_once("Services/CAS/phpcas/source/CAS/CAS.php");
+		include_once("./Services/CAS/phpcas/source/CAS/CAS.php");
 		$this->server_version = CAS_VERSION_2_0;
 		$this->server_hostname = $a_params["server_hostname"];
 		$this->server_port = (int) $a_params["server_port"];
@@ -258,6 +258,7 @@ class ilCASAuth extends Auth
 			$username = phpCAS::getUser();
 
 			// Authorize this user
+			include_once("classes/class.ilObjUser.php");
 			$local_user = ilObjUser::_checkExternalAuthAccount("cas", $username);
 
 			if ($local_user != "")
