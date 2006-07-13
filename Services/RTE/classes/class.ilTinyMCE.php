@@ -215,6 +215,7 @@ class ilTinyMCE extends ilRTE
 		if (in_array("img", $a_html_tags))
 		{
 			//array_push($theme_advanced_buttons, "advimage");
+			array_push($theme_advanced_buttons, "image");
 			array_push($theme_advanced_buttons, "ibrowser");
 		}
 		if (in_array("a", $a_html_tags))

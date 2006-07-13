@@ -356,7 +356,14 @@ class assSingleChoice extends assQuestion
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
+		$attrs = array(
+			"texttype" => "text/plain"
+		);
+		if ($this->object->isHTML($this->getQuestion()))
+		{
+			$attrs["texttype"] = "text/xhtml";
+		}
+		$a_xml_writer->xmlElement("mattext", $attrs, $this->getQuestion());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
 		$attrs = array();
@@ -412,6 +419,13 @@ class assSingleChoice extends assQuestion
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			$a_xml_writer->xmlStartTag("material");
+			$attrs = array(
+				"texttype" => "text/plain"
+			);
+			if ($this->object->isHTML($answer->getAnswertext()))
+			{
+				$attrs["texttype"] = "text/xhtml";
+			}
 			$a_xml_writer->xmlElement("mattext", NULL, $answer->getAnswertext());
 			
 			if (strlen($answer->getImage()))
