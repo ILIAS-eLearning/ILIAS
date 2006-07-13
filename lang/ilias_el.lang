@@ -127,7 +127,6 @@ assessment#:#ass_create_export_test_results#:#Εξαγωγή<br>Αποτελέσ
 assessment#:#ass_export_files#:#Εξαγωγή αρχείων
 assessment#:#ass_file#:#Αρχείο
 assessment#:#ass_question#:#Ερώτηση
-assessment#:#ass_questions#:#Ερωτήσεις
 assessment#:#ass_size#:#Μέγεθος
 assessment#:#available_points#:#Διαθέσιμοι βαθμοί
 assessment#:#average_reached_points#:#Μέσος όρος βαθμών επιτυχίας
@@ -358,15 +357,7 @@ assessment#:#qpl_paste_success#:#Οι ερωτήσεις επικολλήθηκ�
 assessment#:#qpl_question_is_in_use#:#Η ερώτηση που πρόκειται να επεξεργαστείτε βρίσκεται στα τεστ %s. Αν αλλάξετε την ερώτηση, δεν θ' αλλάξει μέσα στα τεστ, επειδή το σύστημα δημιουργεί αντίγραφα της ερώτησης όταν την εισάγετε σ' ένα τεστ!
 assessment#:#qpl_questions_deleted#:#Οι ερωτήσεις διαγράφηκαν.
 assessment#:#qpl_select_file_for_import#:#Πρέπει να επιλέξετε ένα αρχείο για εισαγωγή!
-assessment#:#qt_cloze#:#Ερώτηση κενών
-assessment#:#qt_imagemap#:#Ερώτηση χάρτη εικόνας
-assessment#:#qt_javaapplet#:#Ερώτηση Java Applet
-assessment#:#qt_matching#:#Ερώτηση ταιριάσματος
 assessment#:#qt_multiple_choice#:#Ερώτηση πολλαπλών επιλογών
-assessment#:#qt_multiple_choice_mr#:#Ερώτηση πολλαπλών επιλογών (πολλαπλές απαντήσεις)
-assessment#:#qt_multiple_choice_sr#:#Ερώτηση πολλαπλών επιλογών (μονή απάντηση)
-assessment#:#qt_ordering#:#Ερώτηση ταξινόμησης
-assessment#:#qt_text#:#Ερώτηση δοκιμίου
 assessment#:#question_saved_for_upload#:#Η ερώτηση αποθηκεύθηκε αυτόματα για να διαφυλλαχθεί χώρος στο σκληρό δίσκο ώστε να αποθηκευθεί το εκφορτωμένο αρχείο. Αν ακυρώσετε τη φόρμα τώρα, θα πρέπει να διαγράψετε την ερώτηση στην πηγή ερωτήσεων αν δεν θέλετε να την κρατήσετε!
 assessment#:#question_short#:#Ερ
 assessment#:#question_title#:#Τίτλος ερώτησης
@@ -826,7 +817,6 @@ chat#:#chats#:#Συνομιλίες
 chat#:#my_chats#:#Οι συνομιλίες μου
 common#:#3rd_party_software#:#Λογισμικό τρίτου κατασκευαστή
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Απόλυτη διαδρομή
 common#:#accept_usr_agreement#:#Δέχεστε τη συμφωνία χρήστη;
 common#:#access#:#Πρόσβαση
@@ -1382,7 +1372,6 @@ common#:#exc_search_for#:#Αναζήτηση για
 common#:#exc_select_one_file#:#Παρακαλώ επιλέξτε ακριβώς ένα αρχείο.
 common#:#exc_send_exercise#:#Αποστολή άσκησης
 common#:#exc_sent#:#Η άσκηση έχει αποσταλεί στους επιλεγμένους χρήστες
-common#:#exc_status_returned#:#Επιστράφηκε
 common#:#exc_status_saved#:#Η άσκηση ενημερώθηκε
 common#:#exc_status_solved#:#Λύθηκε
 common#:#exc_upload_error#:#Λάθος στο ανέβασμα αρχείου
@@ -1675,16 +1664,8 @@ common#:#hide_details#:#Απόκρυψη λεπτομερειών
 common#:#hide_private_notes#:#Απόκρυψη ιδιωτικών σημειώσεων
 common#:#hide_public_notes#:#Απόκρυψη δημόσιων σημειώσεων
 common#:#hide_structure#:#Απενεργοποίηση δομημένης προβολής
-common#:#hist_dbk:pg_create#:#Η σελίδα δημιουργήθηκε
-common#:#hist_dbk:pg_cut#:#Η σελίδα αποκόπηκε από το κεφάλαιο "%1" [%2]
-common#:#hist_dbk:pg_paste#:#Η σελίδα επικολλήθηκε στο κεφάλαιο "%1" [%2]
-common#:#hist_dbk:pg_update#:#Η σελίδα τροποποιήθηκε
 common#:#hist_file_create#:#Δημιουργήθηκε αρχείο, το όνομα του αρχείου είναι "%1".
 common#:#hist_file_replace#:#Το αρχείο αντικαταστάθηκε, το νέο όνομα του αρχείου είναι "%1", η νέα έκδοση είναι %2.
-common#:#hist_lm:pg_create#:#Η σελίδα δημιουργήθηκε
-common#:#hist_lm:pg_cut#:#Η σελίδα αποκόπηκε από το κεφάλαιο "%1" [%2]
-common#:#hist_lm:pg_paste#:#Η σελίδα επικολλήθηκε στο κεφάλαιο "%1" [%2]
-common#:#hist_lm:pg_update#:#Η σελίδα τροποποιήθηκε
 common#:#hist_no_entries#:#Δεν υπάρχουν καταχωρήσεις στο ιστορικό.
 common#:#hist_webr_add#:#Προστέθηκε νέος πόρος Ιστού με τίτλο: "%1"
 common#:#hist_webr_delete#:#Ο πόρος Ιστού διαγράφηκε. Τίτλος: "%1"
@@ -1938,8 +1919,8 @@ common#:#languages_updated#:#Όλες οι εγκατεστημένες γλώσ
 common#:#last_access#:#Τελευταία πρόσβαση:
 common#:#last_change#:#Τελευταία τροποποίηση
 common#:#last_edited_on#:#Τελευταία επεξεργασία στις
-common#:#last_update#:#Τελευταία ενημέρωση
 common#:#last_login#:#Τελευταία σύνδεση
+common#:#last_update#:#Τελευταία ενημέρωση
 common#:#last_visit#:#Τελευταία επίσκεψη
 common#:#lastname#:#Επώνυμο
 common#:#launch#:#Έναρξη
@@ -2633,8 +2614,8 @@ common#:#role_no_groups_selected#:#Παρακαλώ επιλέξτε ομάδα
 common#:#role_no_results_found#:#Δεν βρέθηκαν αποτελέσματα
 common#:#role_no_roles_selected#:#Παρακαλώ επιλέξτε ένα ρόλο
 common#:#role_no_users_no_desk_items#:#Δεν είναι δυνατή η ανάθεση αντικειμένων στην επιφάνεια εργασίας, επομένως δεν μπορείτε να αναθέσετε χρήστες σε αυτό τον ρόλο.
-common#:#role_search_enter_search_string#:#Παρακαλώ εισάγετε ένα αλφαριθμητικό για αναζήτηση
 common#:#role_protect_permissions#:#Προστασία αδειών
+common#:#role_search_enter_search_string#:#Παρακαλώ εισάγετε ένα αλφαριθμητικό για αναζήτηση
 common#:#role_search_users#:#Αναζήτηση χρήστη
 common#:#role_select_desktop_item#:#Παρακαλώ επιλέξτε ένα αντικείμενο που θα ανατεθεί σε αυτό τον ρόλο.
 common#:#role_select_one_item#:#Παρακαλώ επιλέξτε ένα αντικείμενο.
@@ -2778,8 +2759,8 @@ common#:#show#:#Εμφάνιση
 common#:#show_details#:#Εμφάνιση λεπτομερειών
 common#:#show_list#:#Εμφάνιση λίστας
 common#:#show_members#:#Παρουσίαση μελών
-common#:#show_owner#:#Εμφάνιση ιδιοκτήτη
 common#:#show_notes_on_pd#:#Εμφάνιση σημειώσεων στην επιφάνεια εργασίας
+common#:#show_owner#:#Εμφάνιση ιδιοκτήτη
 common#:#show_private_notes#:#Εμφάνιση ιδιωτικών σημειώσεων
 common#:#show_public_notes#:#Εμφάνιση δημόσιων σημειώσεων
 common#:#show_structure#:#Ενεργοποίηση δομημένης προβολής
@@ -2905,7 +2886,6 @@ common#:#today#:#Σήμερα
 common#:#toggleGlobalDefault#:#Προκαθορισμένη καθολική εναλλαγή
 common#:#toggleGlobalFixed#:#Σταθερή καθολική εναλλαγή
 common#:#total#:#Σύνολο
-common#:#total_online#:#Χρόνος online (DD:HH:MM:SS)
 common#:#tpl_path#:#Διαδρομή προτύπου
 common#:#trac_delete#:#Διαγραφή δεδομένων ιχνηλασίας
 common#:#trac_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
@@ -3150,7 +3130,6 @@ content#:#cont_added_comment#:#Το σχόλιο έχει προστεθεί σ�
 content#:#cont_added_term#:#Ο όρος προστέθηκε
 content#:#cont_all_definitions#:#Όλοι οι Ορισμοί
 content#:#cont_all_pages#:#Όλες οι Σελίδες
-content#:#cont_alphabetic#:#Αλφαβητικά α, β, ...
 content#:#cont_annex#:#Παράρτημα
 content#:#cont_api_adapter#:#Προσαρμοστής Ονόματος API
 content#:#cont_api_func_prefix#:#Λειτουργίες Προθέματος API
@@ -3278,7 +3257,6 @@ content#:#cont_edit_term#:#Επεξεργασία Όρου
 content#:#cont_edition#:#Έκδοση
 content#:#cont_enable_js#:#Η JavaScript είναι ενεργή
 content#:#cont_enable_media#:#Τα Πολυμέσα είναι ενεργά
-content#:#cont_example#:#π.χ.
 content#:#cont_export_files#:#Εξαγωγή Αρχείων
 content#:#cont_external#:#εξωτερικό
 content#:#cont_external_url#:#εξωτερικό url
@@ -3350,8 +3328,6 @@ content#:#cont_lvalue#:#Στοιχείο Δεδομένων
 content#:#cont_manifest#:#Μανιφέστο
 content#:#cont_map_areas#:#Σύνδεση Περιοχών
 content#:#cont_mastery_score#:#adlcp:κύρια βαθμολογία
-content#:#cont_matches#:#ταιριάσματα
-content#:#cont_matching_question_javascript_hint#:#Παρακαλώ σύρτε έναν ορισμό/εικόνα από τη δεξιά πλευρά πάνω σε έναν όρο στην αριστερή πλευρά και αφήστε τον ορισμό/εικόνα να ταιριάξει με τον ορισμό/εικόνα.
 content#:#cont_max_time_allowed#:#adlcp:μέγιστος επιτρεπτός χρόνος
 content#:#cont_media_source#:#Πηγή Πολυμέσων
 content#:#cont_mep_structure#:#Δομή Μνήμης Πολυμέσων
@@ -3388,7 +3364,6 @@ content#:#cont_offline_versions#:#Offline Εκδόσεις
 content#:#cont_online#:#Online
 content#:#cont_or#:#ή
 content#:#cont_order#:#Τύπος Ταξινόμησης
-content#:#cont_ordering_question_javascript_hint#:#παρακαλώ σύρτε έναν ορισμό/εικόνα πάνω στον ορισμό/εικόνα που θέλετε να τοποθετήσετε και αφήστε τον. Ο υπογεγραμμένος ορισμός/εικόνα και όλοι οι ακόλουθοι ορισμοί/έικόνες θα μετακινηθούν προς τα κάτω.
 content#:#cont_organization#:#Οργανισμός
 content#:#cont_organizations#:#Οργανισμοί
 content#:#cont_orig_size#:#Αρχικό Μέγεθος
@@ -3414,20 +3389,16 @@ content#:#cont_publisher#:#Εκδότης
 content#:#cont_purpose#:#Σκοπός
 content#:#cont_ref_helptext#:#(π.χ. http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Αναφερόμενες εικόνες
-content#:#cont_reference#:#Αναφορά
 content#:#cont_remove_fullscreen#:#Μετακίνηση Πλήρους Οθόνης
 content#:#cont_removeiln#:#Θέλετε πραγματικά να μετακινήσετε τον εσωτερικό σύνδεσμο;
 content#:#cont_repository_item#:#Αντικείμενο Αποθηκευτικού Χώρου
 content#:#cont_repository_item_links#:#Σύνδεσμοι αντικειμένου αποθηκευτικού χώρου
-content#:#cont_reset_definitions#:#Επανατοποθέτηση των θέσεων ορισμού
-content#:#cont_reset_pictures#:#Επανατοποθέτηση των θέσεων των εικόνων
 content#:#cont_resize_explanation#:#εάν αυτή η επιλογή είναι ενεργοποιημένη οι διαστάσεις του πλάτους και του ύψους των εκφορτωμένων αρχείων εικόνας καθορίζονται αυτόματα.
 content#:#cont_resize_explanation2#:#Αυτή η λειτουργία επαναπροσδιορίζει τις διαστάσεις των τοπικών αρχείων εικόνας στο καθορισμένο πλάτος και ύψος.
 content#:#cont_resize_image#:#Επαναπροσδιορισμός των διαστάσεων των εικόνων
 content#:#cont_resource#:#Πηγή
 content#:#cont_resource_type#:#τύπος
 content#:#cont_resources#:#Πηγές
-content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_rvalue#:#Τιμή
 content#:#cont_saved_map_area#:#Αποθηκευμένη περιοχή του χάρτη
 content#:#cont_saved_map_data#:#Αποθηκευμένα δεδομένα του χάρτη
@@ -3868,6 +3839,11 @@ crs#:#crs_test_status_complete#:#Ολοκληρωμένο
 crs#:#crs_test_status_not_complete#:#Μη ολοκληρωμένο
 crs#:#crs_test_status_random#:#Τυχαίο διαγώνισμα
 crs#:#crs_time#:#Χρόνος συνδρομής
+crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
+crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
+crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
+crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_to#:#στο:
 crs#:#crs_tutor#:#Επιμελητής
 crs#:#crs_tutor_no_notify#:#Επιμελητής (χωρίς ειδοποίηση)
@@ -4578,7 +4554,6 @@ meta#:#meta_delete#:#Διαγραφή
 meta#:#meta_description#:#Περιγραφή
 meta#:#meta_diagramm#:#Διάγραμμα
 meta#:#meta_difficulty#:#Δυσκολία
-meta#:#meta_dificult#:#Δύσκολο
 meta#:#meta_draft#:#Πρόχειρο
 meta#:#meta_duration#:#Διάρκεια
 meta#:#meta_easy#:#Εύκολο
@@ -4887,7 +4862,6 @@ payment#:#pay_bmf_description_debit_entry#:#Παρακαλώ ελέγξτε εά
 payment#:#pay_bmf_description_payment_type#:#Επιλέξτε πως θα πληρώσετε.
 payment#:#pay_bmf_description_personal_data#:#Παρακαλώ συμπληρώστε πλήρως την ακόλουθη φόρμα.
 payment#:#pay_bmf_house_number#:#Αριθμός κατοικίας
-payment#:#pay_bmf_info#:#Η πρόσβαση στο ακόλουθο υλικό δεν είναι δωρεάν. Εάν θέλετε να έχετε πρόσβαση σε κάποιο συγκεκριμένο εκπαιδευτικό αντικείμενο παρακαλώ επιλέξτε μια τιμή. Μπορείτε να αγοράσετε ένα ή περισσότερα εκπαιδευτικά αντικείμενα χρησιμοποιώντας το κουμπί "καλάθι αγορών" στην προσωπική σας επιφάνεια εργασίας. Θα αποκτήσετε αμέσως πρόσβαση σε ένα επιλεγμένο αντικείμενο και μία περίοδο.
 payment#:#pay_bmf_optional#:#προαιρετικό
 payment#:#pay_bmf_or#:#ή
 payment#:#pay_bmf_password_not_valid#:#Ο κωδικός σας δεν ήταν έγκυρος.
@@ -5179,7 +5153,6 @@ survey#:#anonymize_anonymous_introduction#:#Η έρευνα αυτή αποκρ�
 survey#:#anonymize_key_introduction#:#Η έρευνα αυτή αποκρύπτει τις πληροφορίες χρηστών. Για να αποκτήσετε πρόσβαση στην έρευνα, ένα κωδικός 32 χαρακτήρων δημιουργήθηκε από το σύστημα και θα σας σταλεί στο ILIAS mail σας όταν ξεκινήσετε την έρευνα (αφότου απαντήσετε στην πρώτη ερώτηση). Ο κωδικός πρόσβασης της έρευνας είναι <br /><span class="bold">%s</span><br />Παρακαλώ εισάγετέ τον στο παρακάτω πεδίο κειμένου.
 survey#:#anonymize_resume_introduction#:#Παρακαλώ εισάγετε τον κωδικό πρόσβασης της έρευνά σας για να συνεχίσετε την έρευνα. Σας στάλθηκε στο ILIAS mail σας όταν ξεκινήσατε την έρευνα.
 survey#:#anonymize_survey#:#Ανώνυμα δεδομένα έρευνας
-survey#:#anonymize_survey_explanation#:#Όταν ενεργοποιηθεί, όλα τα δεδομένα χρηστών θα γίνουν ανώνυμα και δεν θα μπορούν να ανιχνευθούν!
 survey#:#anonymous_with_personalized_survey#:#Πρέπει να είστε εγγεγραμμένος χρήστης για να εκτελέσετε μία προσωπική έρευνα!
 survey#:#answer#:#Απάντηση
 survey#:#apply#:#Εφαρμογή
@@ -5421,10 +5394,6 @@ survey#:#qpl_questions_pasted#:#Επικολλημένες ερωτήσεις
 survey#:#qpl_savephrase_empty#:#Παρακαλώ εισάγετε ένα τίτλο φράσης!
 survey#:#qpl_savephrase_exists#:#Ο τίτλος φράσης υπάρχει ήδη! Παρακαλώ εισάγετε έναν άλλο τίτλο φράσης.
 survey#:#qpl_unfold_select_none#:#Παρακαλώ επιλέξτε τουλάχιστο ένα μπλοκ ερωτήσεων αν θέλετε να ξεδιπλώσετε μπλοκ ερωτήσεων!
-survey#:#qt_metric#:#Μετρική ερώτηση
-survey#:#qt_nominal#:#Ονομαστική ερώτηση
-survey#:#qt_ordinal#:#Αριθμητική ερώτηση
-survey#:#qt_text#:#Έκθεση
 survey#:#question_contains_no_categories#:#Δεν έχουν οριστεί απαντήσεις γι' αυτήν την ερώτηση
 survey#:#question_has_constraints#:#Προϋποθέσεις
 survey#:#question_icon#:#Εικονίδιο ερώτησης

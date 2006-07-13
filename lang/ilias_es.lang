@@ -4199,16 +4199,21 @@ crs#:#crs_timings_disabled_info#:#Escoja esta opción para deshabilitar cualquie
 crs#:#crs_timings_duration#:#Duración
 crs#:#crs_timings_early_begin#:#Comienzo más temprano
 crs#:#crs_timings_end#:#Fecha de Fin
+crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
+crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Fin más tarde
 crs#:#crs_timings_planed_start#:#Comienzo/Fin Planificado
 crs#:#crs_timings_presetting#:#Tiempo de entrega habilitado
 crs#:#crs_timings_presetting_tbl#:#Tiempo de entrega
 crs#:#crs_timings_short_active#:#Habilitado
 crs#:#crs_timings_short_changeable#:#Modificable
-crs#:#crs_timings_short_limit_start_end#:#Modificable Desde/Hasta
-crs#:#crs_timings_short_start_end#:#Comienzo/Fin sugerido
+crs#:#crs_timings_short_limit_start_end#:#Modificable Desde/Hasta###13 Jul 2006 content changed
+crs#:#crs_timings_short_start_end#:#Comienzo/Fin sugerido###13 Jul 2006 content changed
 crs#:#crs_timings_start#:#Tiempo de Comienzo
+crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_begin#:#Comienzo Sugerido
+crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_timings_update_error#:#Su configuración no es válida, por favor verifique la planificación para los siguientes materiales del curso.
 crs#:#crs_timings_visibility#:#Visibilidad
 crs#:#crs_to#:#A:###10 Jul 2006 content changed
