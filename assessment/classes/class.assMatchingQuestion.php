@@ -390,7 +390,14 @@ class assMatchingQuestion extends assQuestion
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestion());
+		$attrs = array(
+			"texttype" => "text/plain"
+		);
+		if ($this->object->isHTML($this->getQuestion()))
+		{
+			$attrs["texttype"] = "text/xhtml";
+		}
+		$a_xml_writer->xmlElement("mattext", $attrs, $this->getQuestion());
 		$a_xml_writer->xmlEndTag("material");
 		// add answers to presentation
 		$attrs = array();
@@ -501,7 +508,14 @@ class assMatchingQuestion extends assQuestion
 			}
 			else
 			{
-				$a_xml_writer->xmlElement("mattext", NULL, $matchingpair->getDefinition());
+				$attrs = array(
+					"texttype" => "text/plain"
+				);
+				if ($this->object->isHTML($matchingpair->getDefinition()))
+				{
+					$attrs["texttype"] = "text/xhtml";
+				}
+				$a_xml_writer->xmlElement("mattext", $attrs, $matchingpair->getDefinition());
 			}
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
@@ -520,7 +534,14 @@ class assMatchingQuestion extends assQuestion
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext", NULL, $matchingpair->getTerm());
+			$attrs = array(
+				"texttype" => "text/plain"
+			);
+			if ($this->object->isHTML($matchingpair->getTerm()))
+			{
+				$attrs["texttype"] = "text/xhtml";
+			}
+			$a_xml_writer->xmlElement("mattext", $attrs, $matchingpair->getTerm());
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}

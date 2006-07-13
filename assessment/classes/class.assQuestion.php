@@ -2087,6 +2087,26 @@ class assQuestion
 		$res = $ilDB->query($query);
 		return ($res->numRows() == count($a_question_ids)) ? true : false;
 	}
+	
+	/**
+	* Checks if a given string contains HTML or not
+	*
+	* @param string $a_text Text which should be checked
+	
+	* @return boolean 
+	* @access public
+	*/
+	function isHTML($a_text)
+	{
+		if (preg_match("/<[^>]*?>/", $a_text))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE; 
+		}
+	}
 }
 
 ?>
