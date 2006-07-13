@@ -31,7 +31,7 @@
 * @package ilias
 */
 
-include_once './webservice/soap/classes/class.ilSOAPAuthentication.php';
+include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
 
 class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 {
