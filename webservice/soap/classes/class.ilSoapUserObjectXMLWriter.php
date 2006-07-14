@@ -102,7 +102,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ilias_user_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_3_7.dtd\">");
 		$this->xmlSetGenCmt("User of ilias system");
 		$this->xmlHeader();
 
