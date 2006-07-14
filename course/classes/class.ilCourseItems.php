@@ -441,9 +441,11 @@ class ilCourseItems
 			
 	function __getItemData($a_item)
 	{
-		$query = "SELECT * FROM crs_items ".
-			"WHERE parent_id = '".$a_item['parent']."' ".
-			"AND obj_id = '".$a_item["child"]."'";
+		global $ilDB,$ilUser;
+
+		$query = "SELECT * FROM crs_items  ".
+			"WHERE obj_id = '".$a_item['child']."' ".
+			"AND parent_id = '".$a_item['parent']."'";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -462,6 +464,44 @@ class ilCourseItems
 				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$a_item['visible']				= $row->visible;
 			$a_item["position"]				= $row->position;
+
+			include_once 'course/classes/Timings/class.ilTimingPlaned.php';
+			$data = ilTimingPlaned::_getPlanedTimings($ilUser->getId(),$a_item['child']);
+
+			// Check for user entry
+			if($a_item['changeable'] and 
+			   $a_item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
+			{
+				if($data['planed_start'])
+				{
+					$a_item['start'] = $data['planed_start'];
+					$a_item['end'] = $data['planed_start'];
+					$a_item['activation_info'] = 'crs_timings_planed_info';
+				}
+				else
+				{
+					$a_item['start'] = $row->suggestion_start;
+					$a_item['end'] = $row->suggestion_end;
+					$a_item['activation_info'] = 'crs_timings_suggested_info';
+				}
+			}
+			elseif($a_item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
+			{
+				$a_item['start'] = $row->suggestion_start;
+				$a_item['end'] = $row->suggestion_end;
+				$a_item['activation_info'] = 'crs_timings_suggested_info';
+			}
+			elseif($a_item['timing_type'] == IL_CRS_TIMINGS_ACTIVATION)
+			{
+				$a_item['start'] = $row->timing_start;
+				$a_item['end'] = $row->timing_end;
+				$a_item['activation_info'] = 'activation';
+			}
+			else
+			{
+				$a_item['start'] = 999999999;
+			}
+
 		}
 
 		if(!isset($a_item["position"]))
@@ -633,20 +673,20 @@ class ilCourseItems
 	{
 		switch($this->course_obj->getOrderType())
 		{
-			case $this->course_obj->SORT_MANUAL:
+			case IL_CRS_SORT_MANUAL:
 				$this->items = ilUtil::sortArray($this->items,"position","asc",true);
 				break;
 
-			case $this->course_obj->SORT_TITLE:
+			case IL_CRS_SORT_TITLE:
 				$this->items = ilUtil::sortArray($this->items,"title","asc");
 				break;
 
-			case $this->course_obj->SORT_ACTIVATION:
+			case IL_CRS_SORT_ACTIVATION:
 				// Sort by starting time. If mode is IL_CRS_TIMINGS_DEACTIVATED then sort these items by title and append
 				// them to the array.
 				list($active,$inactive) = $this->__splitByActivation();
 				
-				$sorted_active = ilUtil::sortArray($active,"timing_start","asc");
+				$sorted_active = ilUtil::sortArray($active,"start","asc");
 				$sorted_inactive = ilUtil::sortArray($inactive,'title','asc');
 				
 				$this->items = array_merge($sorted_active,$sorted_inactive);
@@ -674,9 +714,12 @@ class ilCourseItems
 	// STATIC
 	function _getItem($a_item_id)
 	{
-		global $ilDB;
+		include_once 'course/classes/class.ilObjCourse.php';
 
-		$query = "SELECT * FROM crs_items WHERE obj_id = '".$a_item_id."'";
+		global $ilDB,$ilUser;
+
+		$query = "SELECT * FROM crs_items ".
+			"WHERE obj_id = '".$a_item_id."'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -696,6 +739,44 @@ class ilCourseItems
 				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$data['visible'] = $row->visible;
 			$data['position'] = $row->position;
+
+
+			include_once 'course/classes/Timings/class.ilTimingPlaned.php';
+			$user_data = ilTimingPlaned::_getPlanedTimings($ilUser->getId(),$a_item['child']);
+
+			// Check for user entry
+			if($data['changeable'] and 
+			   $data['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
+			{
+				if($user_data['planed_start'])
+				{
+					$data['start'] = $user_data['planed_start'];
+					$data['end'] = $user_data['planed_start'];
+					$data['activation_info'] = 'crs_timings_planed_info';
+				}
+				else
+				{
+					$data['start'] = $row->suggestion_start;
+					$data['end'] = $row->suggestion_end;
+					$data['activation_info'] = 'crs_timings_suggested_info';
+				}
+			}
+			elseif($data['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
+			{
+				$data['start'] = $row->suggestion_start;
+				$data['end'] = $row->suggestion_end;
+				$data['activation_info'] = 'crs_timings_suggested_info';
+			}
+			elseif($data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION)
+			{
+				$data['start'] = $row->timing_start;
+				$data['end'] = $row->timing_end;
+				$data['activation_info'] = 'activation';
+			}
+			else
+			{
+				$data['start'] = 999999999;
+			}
 		}
 		return $data ? $data : array();
 	}

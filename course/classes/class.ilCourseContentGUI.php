@@ -982,12 +982,12 @@ class ilCourseContentGUI
 
 		// ACTIVATION
 		$activation = '';
-		if($cont_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION)
+		if($cont_data['timing_type'] != IL_CRS_TIMINGS_DEACTIVATED)
 		{
-			#$activation = $this->lng->txt("crs_from").' '.ilFormat::formatUnixTime($cont_data['timing_start'],true).' '.
-			#	$this->lng->txt("crs_to").' '.ilFormat::formatUnixTime($cont_data['timing_end'],true);
-			$activation = ilFormat::formatUnixTime($cont_data['timing_start'],true).' - '.
-				ilFormat::formatUnixTime($cont_data['timing_end'],true);
+			$long = $cont_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION;
+
+			$activation = ilFormat::formatUnixTime($cont_data['start'],$long).' - '.
+				ilFormat::formatUnixTime($cont_data['end'],$long);
 		}
 				
 		// get item list gui object
@@ -1017,7 +1017,7 @@ class ilCourseContentGUI
 		// add activation custom property
 		if ($activation != "")
 		{
-			$item_list_gui->addCustomProperty($this->lng->txt("activation"), $activation,
+			$item_list_gui->addCustomProperty($this->lng->txt($cont_data['activation_info']), $activation,
 											  false, true);
 		}
 				
@@ -1092,8 +1092,8 @@ class ilCourseContentGUI
 		{
 			#$activation = $this->lng->txt("crs_from").' '.ilFormat::formatUnixTime($cont_data['timing_start'],true).' '.
 			#	$this->lng->txt("crs_to").' '.ilFormat::formatUnixTime($cont_data['timing_end'],true);
-			$activation = ilFormat::formatUnixTime($cont_data['timing_start'],true).' - '.
-				ilFormat::formatUnixTime($cont_data['timing_end'],true);
+			$activation = ilFormat::formatUnixTime($cont_data['start'],true).' - '.
+				ilFormat::formatUnixTime($cont_data['end'],true);
 		}
 				
 		// get item list gui object
@@ -1123,7 +1123,7 @@ class ilCourseContentGUI
 		// add activation custom property
 		if ($activation != "")
 		{
-			$item_list_gui->addCustomProperty($this->lng->txt("activation"), $activation,
+			$item_list_gui->addCustomProperty($this->lng->txt($cont_data['activation_info']), $activation,
 											  false, true);
 		}
 				
