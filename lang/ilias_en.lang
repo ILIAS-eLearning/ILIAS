@@ -1095,6 +1095,7 @@ common#:#attend#:#Attend
 common#:#auth_active_roles#:#Global roles available on registration form
 common#:#auth_allow_local#:#Allow Local Authentication
 common#:#auth_cas#:#CAS
+common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.
 common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
 common#:#auth_cas_auth#:#Configure CAS Authentication
 common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)

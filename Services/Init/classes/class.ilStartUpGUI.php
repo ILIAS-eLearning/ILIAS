@@ -294,8 +294,12 @@ class ilStartUpGUI
 		
 		// TODO: Move this to header.inc since an expired session could not detected in login script 
 		$status = $ilAuth->getStatus();
+		if ($status == "")
+		{
+			$status = $_GET["auth_stat"];
+		}
 		$auth_error = $ilias->getAuthError();
-		
+
 		if (!empty($status))
 		{
 			switch ($status)

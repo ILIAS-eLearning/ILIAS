@@ -22,8 +22,6 @@
 */
 
 
-define('AUTH_SOAP_NO_ILIAS_USER', -100);
-
 include_once("Auth.php");
 include_once("./webservice/soap/lib/nusoap.php");
 
@@ -120,7 +118,7 @@ class ilSOAPAuth extends Auth
 	function login()
 	{
 		global $ilias, $rbacadmin, $lng, $ilSetting;
-		
+
 		if (empty($_GET["ext_uid"]) || empty($_GET["soap_pw"]))
 		{
 			$this->status = AUTH_WRONG_LOGIN;
@@ -150,20 +148,34 @@ class ilSOAPAuth extends Auth
 				$this->logout();
 				return;
 			}
-				
+
 			$userObj = new ilObjUser();
 			
 			$local_user = ilAuthUtils::_generateLogin($_GET["ext_uid"]);
 			
-			$newUser["firstname"] = $local_user;
-			$newUser["lastname"] = "";
+			$newUser["firstname"] = $validation_data["firstname"];
+			$newUser["lastname"] = $validation_data["lastname"];
+			$newUser["email"] = $validation_data["email"];
 			
 			$newUser["login"] = $local_user;
 			
 			// to do: set valid password and send mail
 			$newUser["passwd"] = ""; 
-			$newUser["passwd_type"] = IL_PASSWD_MD5; 
+			$newUser["passwd_type"] = IL_PASSWD_MD5;
 			
+			// generate password, if local authentication is allowed
+			// and account mail is activated
+			$pw = "";
+
+			if ($ilSetting->get("soap_auth_allow_local") &&
+				$ilSetting->get("soap_auth_account_mail"))
+			{
+				$pw = ilUtil::generatePasswords(1);
+				$pw = $pw[0];
+				$newUser["passwd"] = md5($pw); 
+				$newUser["passwd_type"] = IL_PASSWD_MD5;
+			}
+
 			//$newUser["gender"] = "m";
 			$newUser["auth_mode"] = "soap";
 			$newUser["ext_account"] = $_GET["ext_uid"];
@@ -198,9 +210,28 @@ class ilSOAPAuth extends Auth
 			
 			// to do: test this
 			$rbacadmin->assignUser($ilSetting->get('soap_auth_user_default_role'), $userObj->getId(),true);
-			
+
+			// send account mail
+			if ($ilSetting->get("soap_auth_account_mail"))
+			{
+				include_once("classes/class.ilObjUserFolder.php");
+				$amail = ilObjUserFolder::_lookupNewAccountMail($ilSetting->get("language"));
+				if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+				{
+					include_once("classes/class.ilAccountMail.php");
+					$acc_mail = new ilAccountMail();
+
+					if ($pw != "")
+					{
+						$acc_mail->setUserPassword($pw);
+					}
+					$acc_mail->setUser($userObj);
+					$acc_mail->send();
+				}
+			}
+
 			unset($userObj);
-			
+
 			$this->setAuth($local_user);
 
 		}
