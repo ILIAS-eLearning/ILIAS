@@ -137,6 +137,23 @@ class ilTimingPlaned
 	}
 
 	// Static
+	function _getPlanedTimings($a_usr_id,$a_item_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_timings_planed ".
+			"WHERE item_id = '".$a_item_id."' ".
+			"AND usr_id = '".$a_usr_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data['planed_start'] = $row->planed_start;
+			$data['planed_end'] = $row->planed_end;
+		}
+		return $data ? $data : array();
+	}
+
+
 	function _getPlanedTimingsByItem($a_item_id)
 	{
 		global $ilDB;

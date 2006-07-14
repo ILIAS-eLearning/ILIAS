@@ -297,24 +297,17 @@ class ilObjCourse extends ilContainer
 
 	function _lookupViewMode($a_id)
 	{
-		static $view_mode = null;
 		global $ilDB;
 
-		if($view_mode)
+		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = '".$a_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $view_mode;
+			return $row->view_mode;
 		}
-		else
-		{
-			$query = "SELECT view_mode FROM crs_settings WHERE obj_id = '".$a_id."'";
-			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				return $view_mode = $row->view_mode;
-			}
-			return false;
-		}
+		return false;
 	}
+
 
 	function getOrderType()
 	{

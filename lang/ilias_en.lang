@@ -6347,3 +6347,5 @@ crs#:#crs_further_settings#:#Further Settings
 crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop
 crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.
 crs#:#crs_timings_info_active#:#(Active)
+crs#:#crs_timings_suggested_info#:#Suggested Editing Time
+crs#:#crs_timings_planed_info#:#Planed Editing Time
