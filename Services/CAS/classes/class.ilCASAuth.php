@@ -22,8 +22,6 @@
 */
 
 
-define('AUTH_CAS_NO_ILIAS_USER', -90);
-
 include_once("Auth.php");
 
 /**
@@ -251,7 +249,7 @@ class ilCASAuth extends Auth
 	*/
 	function login()
 	{
-		global $ilias, $rbacadmin, $lng, $ilSetting;
+		global $ilias, $rbacadmin, $ilSetting;
 
 		if (phpCAS::getUser() != "")
 		{
@@ -285,8 +283,8 @@ class ilCASAuth extends Auth
 				
 				// set "plain md5" password (= no valid password)
 				$newUser["passwd"] = ""; 
-				$newUser["passwd_type"] = IL_PASSWD_MD5; 
-				
+				$newUser["passwd_type"] = IL_PASSWD_MD5;
+								
 				//$newUser["gender"] = "m";
 				$newUser["auth_mode"] = "cas";
 				$newUser["ext_account"] = $username;
@@ -298,7 +296,7 @@ class ilCASAuth extends Auth
 				$userObj->setDescription($userObj->getEmail());
 			
 				// set user language to system language
-				$userObj->setLanguage($lng->lang_default);
+				$userObj->setLanguage($ilSetting->get("language"));
 				
 				// Time limit
 				$userObj->setTimeLimitOwner(7);
@@ -321,7 +319,7 @@ class ilCASAuth extends Auth
 				
 				// to do: test this
 				$rbacadmin->assignUser($ilSetting->get('cas_user_default_role'), $userObj->getId(),true);
-				
+
 				unset($userObj);
 				
 				$this->setAuth($local_user);

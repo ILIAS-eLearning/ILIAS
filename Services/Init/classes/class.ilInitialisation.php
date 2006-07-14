@@ -626,12 +626,13 @@ class ilInitialisation
 	/**
 	* go to login
 	*/
-	function goToLogin()
+	function goToLogin($a_auth_stat = "")
 	{
 		session_unset();
 		session_destroy();
 
-		$script = $this->updir."login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"];
+		$script = $this->updir."login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
+			"&auth_stat=".$a_auth_stat;
 
 		// todo do it better, if JS disabled
 		// + this is, when session "ends", so
@@ -664,8 +665,8 @@ class ilInitialisation
 		
 		$_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
 		
-		// prefer personal setting when coming from login screen 
-		if ($this->script == "login.php")
+		// prefer personal setting when coming from login screen
+		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$_SESSION['lang'] = $ilUser->getPref("language");
 		}
@@ -956,11 +957,10 @@ class ilInitialisation
 			//
 			// AUTHENTICATION FAILED
 			//
-//echo "E";
+
 			// authentication failed due to inactive user?
 			if ($ilAuth->getAuth() && !$ilUser->isCurrentUserActive())
 			{
-//echo "F";
 				$inactive = true;
 			}
 
@@ -978,12 +978,11 @@ class ilInitialisation
 				}
 				else
 				{
-					$this->goToLogin();
+					$this->goToLogin($ilAuth->getStatus());
 				}
 				// we should not get here
 				exit;
 			}
-			
 		}
 		
 		//

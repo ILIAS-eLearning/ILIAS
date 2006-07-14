@@ -30,6 +30,8 @@ define ("AUTH_SHIBBOLETH",5);
 define ("AUTH_CAS",6);
 define ("AUTH_SOAP",7);
 
+define('AUTH_SOAP_NO_ILIAS_USER', -100);
+define('AUTH_CAS_NO_ILIAS_USER', -90);
 
 /**
 * static utility functions used to manage authentication modes

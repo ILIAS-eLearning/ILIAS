@@ -53,7 +53,6 @@ class ilAccountMail
 	*/
 	var $target = "";
 
-	var $lng;
 	
 	/**
 	* constructor
@@ -61,9 +60,6 @@ class ilAccountMail
 	*/
 	function ilObjAccountMail()
 	{		
-		global $lng;
-
-		$this->lng =& $lng;
 	}
 	
 	/**
@@ -169,7 +165,7 @@ class ilAccountMail
 	*/
 	function send()
 	{
-		global $lng, $ilSetting;
+		global $ilSetting;
 		
 		$user =& $this->getUser();
 		
@@ -183,7 +179,7 @@ class ilAccountMail
 		$amail = $this->readAccountMail($user->getLanguage());
 		if ($amail["body"] == "" || $amail["subject"] == "")
 		{
-			$amail = $this->readAccountMail($lng->getDefaultLanguage());
+			$amail = $this->readAccountMail($ilSetting->get("language"));
 		}
 
 		// replace placeholders
