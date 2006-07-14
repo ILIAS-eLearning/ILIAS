@@ -466,6 +466,26 @@ function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 	return $sou->saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution);
 }
 
+function saveTempFileAsMediaObject($sid,$name,$tmp_name)
+{
+	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+
+	$sou =& new ilSoapUtils();
+	$sou->disableSOAPCheck();
+
+	return $sou->saveTempFileAsMediaObject($sid, $name, $tmp_name);
+}
+
+function getMobsOfObject($sid, $a_type, $a_id)
+{
+	include_once './webservice/soap/classes/class.ilSoapUtils.php';
+
+	$sou =& new ilSoapUtils();
+	$sou->disableSOAPCheck();
+
+	return $sou->getMobsOfObject($sid, $a_type, $a_id);
+}
+
 function getStructureObjects ($sid, $ref_id) {
 	include_once './webservice/soap/classes/class.ilSoapStructureObjectAdministration.php';
 

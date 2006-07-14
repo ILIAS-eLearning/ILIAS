@@ -26,6 +26,7 @@ define ("IL_MODE_OUTPUT", 2);
 define ("IL_MODE_FULL", 3);
 
 require_once("content/classes/Media/class.ilMediaItem.php");
+include_once "classes/class.ilObject.php";
 
 /**
 * Class ilObjMediaObject
@@ -1270,5 +1271,50 @@ class ilObjMediaObject extends ilObject
 			$this->setEnabled ("False");
 	  } 
 
+	/**
+	* create new media object in dom and update page in db and return new media object
+	*/
+	function &_saveTempFileAsMediaObject($name, $tmp_name)
+	{
+		// create dummy object in db (we need an id)
+		$media_object = new ilObjMediaObject();
+		$media_object->setTitle($name);
+		$media_object->setDescription("");
+		$media_object->create();
+
+		// determine and create mob directory, move uploaded file to directory
+		$media_object->createDirectory();
+		$mob_dir = ilObjMediaObject::_getDirectory($media_object->getId());
+
+		$media_item =& new ilMediaItem();
+		$media_object->addMediaItem($media_item);
+		$media_item->setPurpose("Standard");
+
+		$file = $mob_dir."/".$name;
+		ilUtil::moveUploadedFile($tmp_name,$name, $file);
+		// get mime type
+		$format = ilObjMediaObject::getMimeType($file);
+		$location = $name;
+		// set real meta and object data
+		$media_item->setFormat($format);
+		$media_item->setLocation($location);
+		$media_item->setLocationType("LocalFile");
+		$media_object->setTitle($name);
+		$media_object->setDescription($format);
+
+		if (ilUtil::deducibleSize($format))
+		{
+			$size = getimagesize($file);
+			$media_item->setWidth($size[0]);
+			$media_item->setHeight($size[1]);
+		}
+		$media_item->setHAlign("Left");
+
+		ilUtil::renameExecutables($mob_dir);
+		$media_object->update();
+
+		return $media_object;
+	}
+	
 }
 ?>
