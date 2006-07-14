@@ -125,7 +125,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 	  global $tree;
 
 	  $id = $object->getId();
-	  
+
 		$attrs = array('type' => $object->getType(),
 			       'obj_id' => $id);
 
@@ -172,7 +172,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ilias_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_3_7.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS objects");
 		$this->xmlHeader();
 

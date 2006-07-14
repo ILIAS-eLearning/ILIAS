@@ -88,7 +88,7 @@ class ilXMLResultSetWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE result PUBLIC \"-//ILIAS//DTD XMLResultSet//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ResultSet.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE result PUBLIC \"-//ILIAS//DTD XMLResultSet//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_xml_resultset_3_7.dtd\">");
 		$this->xmlHeader();
 
 		$this->xmlStartTag("result");

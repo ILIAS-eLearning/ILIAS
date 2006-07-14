@@ -140,7 +140,7 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 //
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ilias_soap_structure_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_soap_structure_object_3_7.dtd\">");
 		$this->xmlSetGenCmt("Internal Structure Information of Content Objects");
 		$this->xmlHeader();
 //

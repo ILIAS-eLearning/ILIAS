@@ -133,7 +133,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"http://www.ilias.uni-koeln.de/download/dtd/ilias_role_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_role_object_3_7.dtd\">");
 		$this->xmlSetGenCmt("Roles information of ilias system");
 		$this->xmlHeader();
 
