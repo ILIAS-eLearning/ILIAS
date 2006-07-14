@@ -297,18 +297,15 @@ class ilLPObjSettings
 		// Return deactivate for course with objective view
 		if($ilObjDataCache->lookupType($a_obj_id) == 'crs')
 		{
-			$res = $ilDB->query("SELECT objective_view FROM crs_settings WHERE obj_id = '".$a_obj_id."'");
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			include_once 'course/classes/class.ilObjCourse.php';
+
+			if(ilObjCourse::_lookupViewMode($a_obj_id) == IL_CRS_VIEW_OBJECTIVE)
 			{
-				if($row->objective_view)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;
 	}
-
 		
 
 

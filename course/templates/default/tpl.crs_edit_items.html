@@ -6,15 +6,15 @@
 			  &nbsp;{BLOCK_HEADER_CONTENT}
 			</th>
 		  </tr>
-		  <tr class="tblheader">
-			<th class="std">{TXT_TITLE}</th>
-			<th class="std">{TXT_START_END}</th>
-			<th class="std">{TXT_DURATION}</th>
-			<th class="std">{TXT_CHANGEABLE}</th>
-			<th class="std">{TXT_LIMIT_START_END}</th>
-			<th class="std">{TXT_DURATION}</th>
-			<th class="std">{TXT_ACTIVE}</th>
-		  </tr>
+		<tr class="tblheader">
+		  <th class="std" valign="top">{TXT_TITLE}</th>
+		  <th class="std">{TXT_DURATION}<div class="subtitle">{TXT_INFO_DURATION}</div></th>
+		  <th class="std">{TXT_START_END}<div class="subtitle">{TXT_INFO_START_END}</div></th>
+		  <th class="std" valign="top">{TXT_CHANGEABLE}</th>
+		  <th class="std">{TXT_DURATION}<div class="subtitle">{TXT_INFO_DURATION}</div></th>
+		  <th class="std">{TXT_LIMIT}<div class="subtitle">{TXT_INFO_LIMIT}</div></th>
+		  <th class="std">{TXT_ACTIVE}<div class="subtitle">{TXT_INFO_ACTIVE}</div></th>
+		</tr>
 		  <!-- BEGIN container_standard_row -->
 		  <tr class="{ROWCLASS}">
 			<td>
@@ -23,22 +23,22 @@
 			  <div class="il_Description" >{DESC}</div>
 			  <!-- END item_description -->
 			</td>
+			<td align="center">
+			  <input type="text" name="{NAME_DURATION_A}" value="{VAL_DURATION_A}" size="2" maxlength="3" />
+			</td>
 			<td nowrap="nowrap">
 			  {SUG_START}<br />
 			  {SUG_END}
 			</td>
 			<td align="center">
-			  <input type="text" name="{NAME_DURATION_A}" value="{VAL_DURATION_A}" size="2" maxlength="3" />
+			  <input type="checkbox" name="{NAME_CHANGE}" value="1" {CHECKED_CHANGE} />
 			</td>
 			<td align="center">
-			  <input type="checkbox" name="{NAME_CHANGE}" value="1" {CHECKED_CHANGE} />
+			  <input type="text" name="{NAME_DURATION_B}" value="{VAL_DURATION_B}" size="2" maxlength="3" />
 			</td>
 			<td nowrap="nowrap">
 			  {LIM_START}<br />
 			  {LIM_END}
-			</td>
-			<td align="center">
-			  <input type="text" name="{NAME_DURATION_B}" value="{VAL_DURATION_B}" size="2" maxlength="3" />
 			</td>
 			<td align="center">
 			  <input type="checkbox" name="{NAME_ACTIVE}" value="1" {CHECKED_ACTIVE} />

@@ -3897,7 +3897,7 @@ crs#:#crs_allow_abo#:#Allow subscription of course items
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.
 crs#:#crs_archive#:#Archives
 crs#:#crs_archive_disabled#:#Deactivated
-crs#:#crs_archive_download#:#Download
+crs#:#crs_archive_download#:#Allow the Download of Course Archives
 crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.
 crs#:#crs_archive_lang#:#Language
 crs#:#crs_archive_read#:#Read access
@@ -3922,7 +3922,7 @@ crs#:#crs_contact_email#:#Mail
 crs#:#crs_contact_name#:#Name
 crs#:#crs_contact_phone#:#Telephone
 crs#:#crs_contact_responsibility#:#Responsibility
-crs#:#crs_content#:#Course content
+crs#:#crs_content#:#Course Content
 crs#:#crs_copy_cat_not_allowed#:#It is not possible to copy categories
 crs#:#crs_count_members#:#Number of members
 crs#:#crs_count_questions#:#Number of questions
@@ -4129,9 +4129,9 @@ crs#:#crs_reg_user_already_subscribed#:#You have already requested membership fo
 crs#:#crs_reg_user_blocked#:#You are blocked from this course
 crs#:#crs_registration#:#Course registration
 crs#:#crs_registration_deactivated#:#Choose this option for disabling course registration. No user can join this course.
-crs#:#crs_registration_limited#:#Limited registration period
-crs#:#crs_registration_type#:#Registration procedure
-crs#:#crs_registration_unlimited#:#Unlimited registration period
+crs#:#crs_registration_limited#:#Limited Registration Period
+crs#:#crs_registration_type#:#Registration Procedure
+crs#:#crs_registration_unlimited#:#Unlimited Registration Period
 crs#:#crs_reject_subscriber#:#Declined for course "%s" ### 2006-5-8 --- Content changed
 crs#:#crs_reject_subscriber_body#:#Your request to join course "%s" has been declined. ### 2006-5-8 --- Content changed
 crs#:#crs_reset_results#:#Reset results
@@ -4158,11 +4158,11 @@ crs#:#crs_show_link_or#:#Show other resources
 crs#:#crs_show_link_tst#:#Show tests
 crs#:#crs_show_objectives_view#:#Objective view
 crs#:#crs_size#:#File size
-crs#:#crs_sort_activation#:#Sort by activation
-crs#:#crs_sort_manual#:#Sort manually
-crs#:#crs_sort_title#:#Sort by title
+crs#:#crs_sort_activation#:#Sort by Activation
+crs#:#crs_sort_manual#:#Sort Manually
+crs#:#crs_sort_title#:#Sort by Title
 crs#:#crs_sortorder#:#Sort
-crs#:#crs_sortorder_abo#:#Sortorder/Subscription
+crs#:#crs_sortorder_abo#:#Content Item Sorting
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Start Objects
 crs#:#crs_starter_deleted#:#Removed assignment.
@@ -4174,12 +4174,12 @@ crs#:#crs_structure#:#Course structure
 crs#:#crs_subscribers#:#Subscribers
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
 crs#:#crs_subscription#:#Subscription
-crs#:#crs_subscription_max_members#:#Maximum of users
+crs#:#crs_subscription_max_members#:#Maximum of Users
 crs#:#crs_subscription_notify#:#Notify for subscriptions
-crs#:#crs_subscription_options_confirmation#:#Request membership
+crs#:#crs_subscription_options_confirmation#:#Request Membership
 crs#:#crs_subscription_options_deactivated#:#Deactivated
-crs#:#crs_subscription_options_direct#:#Join directly
-crs#:#crs_subscription_options_password#:#Join with course password
+crs#:#crs_subscription_options_direct#:#Join Directly
+crs#:#crs_subscription_options_password#:#Join with Course Password
 crs#:#crs_subscription_requested#:#You have requested membership for the course.
 crs#:#crs_subscription_successful#:#You have joined the course
 crs#:#crs_subscription_type#:#Subscription type
@@ -4203,7 +4203,7 @@ crs#:#crs_timings_end#:#Ending Time
 crs#:#crs_timings_from_until#:#(From/Until)
 crs#:#crs_timings_in_days#:#(In Days)
 crs#:#crs_timings_late_end#:#Latest End
-crs#:#crs_timings_planed_start#:#Planed Start/End
+crs#:#crs_timings_planed_start#:#Planed
 crs#:#crs_timings_presetting#:#Time Target Enabled
 crs#:#crs_timings_presetting_tbl#:#Time Target
 crs#:#crs_timings_short_active#:#Enabled
@@ -4234,10 +4234,10 @@ crs#:#crs_users_already_assigned#:#The user is already assigned to this course
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list
 crs#:#crs_visibility#:#Availability
 crs#:#crs_visibility_limitless#:#Unlimited
-crs#:#crs_visibility_until#:#Temporarily available
-crs#:#crs_visibility_unvisible#:#Not available
+crs#:#crs_visibility_until#:#Temporarily Available
+crs#:#crs_visibility_unvisible#:#Not Available
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
-crs#:#crs_waiting_list#:#Waiting list
+crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Your position on the waiting list
 crs#:#edit_content#:#Edit Content
@@ -4287,7 +4287,7 @@ crs#:#events_deleted#:#Event deleted
 crs#:#import_crs#:#Import Course
 crs#:#learners_view#:#Learners view
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
-crs#:#timing_accept_table#:#
+crs#:#timing_accept_table#:#Timings: Remarks
 crs#:#timing_remark#:#Remark
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors
 crs#:#timing_user_accept#:#Accept Timings
@@ -6331,3 +6331,18 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.
+crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.
+crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.
+crs#:#crs_view_archive#:#Archive View
+crs#:#crs_view_timing#:#Timings View
+crs#:#crs_view_objective#:#Objective Oriented View
+crs#:#crs_view_standard#:#Standard View
+crs#:#crs_view_mode#:#Course Presentation
+crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.
+crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.
+crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.
+crs#:#crs_further_settings#:#Further Settings
+crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.
+crs#:#crs_timings_info_active#:#(Active)

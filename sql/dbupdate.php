@@ -11223,8 +11223,105 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ?>
 
 <#778>
+
 ALTER TABLE `usr_new_account_mail` ADD COLUMN `sal_f` VARCHAR(200) NOT NULL DEFAULT '';
 ALTER TABLE `usr_new_account_mail` ADD COLUMN `sal_m` VARCHAR(200) NOT NULL DEFAULT '';
 ALTER TABLE `usr_new_account_mail` ADD COLUMN `sal_g` VARCHAR(200) NOT NULL DEFAULT '';
 
+<#779>
+ALTER TABLE `crs_settings` ADD `activation_type` TINYINT( 1 ) DEFAULT '0' NOT NULL AFTER `contact_consultation`;
+
+<#780>
+<?php
+
+$query = "SELECT * FROM crs_settings ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->activation_unlimited)
+	{
+		$type = 1;
+	}
+	elseif($row->activation_offline)
+	{
+		$type = 0;
+	}
+	else
+	{
+		$type = 2;
+	}
+	$query = "UPDATE crs_settings ".
+		"SET activation_type = '".$type."' ".
+		"WHERE obj_id = '".$row->obj_id."'";
+	$ilDB->query($query);
+}
+?>
+<#781>
+ALTER TABLE `crs_settings`
+  DROP `activation_unlimited`,
+  DROP `activation_offline`;
+
+<#782>
+ALTER TABLE `crs_settings` ADD `subscription_limitation_type` TINYINT( 1 ) NOT NULL AFTER `activation_end` ;
+
+<#783>
+<?php
+
+$query = "SELECT * FROM crs_settings ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->subscription_unlimited)
+	{
+		$type = 1;
+	}
+	elseif($row->subscription_type == 1)
+	{
+		$type = 0;
+	}
+	else
+	{
+		$type = 2;
+	}
+	$query = "UPDATE crs_settings ".
+		"SET subscription_limitation_type = '".$type."' ".
+		"WHERE obj_id = '".$row->obj_id."'";
+	$ilDB->query($query);
+}
+?>
+<#784>
+ALTER TABLE `crs_settings`
+DROP `subscription_unlimited`;
+
+<#785>
+ALTER TABLE `crs_settings` ADD `view_mode` TINYINT( 1 ) NOT NULL AFTER `subscription_notify`;
+
+<#786>
+<?php
+
+$query = "SELECT * FROM crs_settings ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->archive_type != 1)
+	{
+		$type = 3;
+	}
+	elseif($row->objective_view)
+	{
+		$type = 1;
+	}
+	else
+	{
+		$type = 0;
+	}
+	$query = "UPDATE crs_settings ".
+		"SET view_mode = '".$type."' ".
+		"WHERE obj_id = '".$row->obj_id."'";
+	$ilDB->query($query);
+}
+?>
+<#787>
+ALTER TABLE `crs_settings`
+  DROP `objective_view`;
 

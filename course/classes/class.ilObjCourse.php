@@ -34,6 +34,30 @@
 
 require_once "./classes/class.ilContainer.php";
 
+define('IL_CRS_ACTIVATION_OFFLINE',0);
+define('IL_CRS_ACTIVATION_UNLIMITED',1);
+define('IL_CRS_ACTIVATION_LIMITED',2);
+
+define('IL_CRS_SUBSCRIPTION_DEACTIVATED',0);
+define('IL_CRS_SUBSCRIPTION_UNLIMITED',1);
+define('IL_CRS_SUBSCRIPTION_LIMITED',2);
+
+define('IL_CRS_SUBSCRIPTION_CONFIRMATION',2);
+define('IL_CRS_SUBSCRIPTION_DIRECT',3);
+define('IL_CRS_SUBSCRIPTION_PASSWORD',4);
+
+define('IL_CRS_VIEW_STANDARD',0);
+define('IL_CRS_VIEW_OBJECTIVE',1);
+define('IL_CRS_VIEW_TIMING',2);
+define('IL_CRS_VIEW_ARCHIVE',3);
+
+define('IL_CRS_ARCHIVE_DOWNLOAD',3);
+define('IL_CRS_ARCHIVE_NONE',0);
+
+define('IL_CRS_SORT_MANUAL',1);
+define('IL_CRS_SORT_TITLE',2);
+define('IL_CRS_SORT_ACTIVATION',3);
+
 class ilObjCourse extends ilContainer
 {
 	var $members_obj;
@@ -80,40 +104,6 @@ class ilObjCourse extends ilContainer
 
 	}
 
-	// SET/GET
-	function setId($a_id)
-	{
-		parent::setId($a_id);
-
-//		unset($this->meta_data);
-		#$this->__initMetaObject();
-	}
-
-
-	function getDescription()
-	{
-		return parent::getDescription();
-	}
-	function setDescription($a_description)
-	{
-		parent::setDescription($a_description);
-
-//		$this->__initMetaObject();
-//		$this->meta_data->setDescription($a_description);
-
-		return true;
-	}
-	function getTitle()
-	{
-		return parent::getTitle();
-	}
-	function setTitle($a_title)
-	{
-		parent::setTitle($a_title);
-//		$this->__initMetaObject();
-//		$this->meta_data->setTitle($a_title);
-	}
-
 	function getImportantInformation()
 	{
 		return $this->important;
@@ -154,7 +144,7 @@ class ilObjCourse extends ilContainer
 	{
 		$this->contact_phone = $a_value;
 	}
-	function getcontactEmail()
+	function getContactEmail()
 	{
 		return $this->contact_email;
 	}
@@ -170,14 +160,20 @@ class ilObjCourse extends ilContainer
 	{
 		$this->contact_responsibility = $a_value;
 	}
+
+	function getActivationType()
+	{
+		return (int) $this->activation_type;
+	}
+	function setActivationType($a_type)
+	{
+		$this->activation_type = $a_type;
+	}
 	function getActivationUnlimitedStatus()
 	{
-		return $this->activation_unlimited ? true : false;
+		return $this->activation_type == IL_CRS_ACTIVATION_UNLIMITED;
+		
 	} 
-	function setActivationUnlimitedStatus($a_unlimited)
-	{
-		$this->activation_unlimited = (bool) $a_unlimited;
-	}
 	function getActivationStart()
 	{
 		return $this->activation_start ? $this->activation_start : time();
@@ -196,20 +192,22 @@ class ilObjCourse extends ilContainer
 	}
 	function getOfflineStatus()
 	{
-		return $this->offline_status ? true : false;
+		return $this->activation_type == IL_CRS_ACTIVATION_OFFLINE;
 	}
-	function setOfflineStatus($a_value)
+
+
+	function getSubscriptionLimitationType()
 	{
-		$this->offline_status = $a_value ? true : false;
+		return $this->subscription_limitation_type;
+	}
+	function setSubscriptionLimitationType($a_type)
+	{
+		$this->subscription_limitation_type = $a_type;
 	}
 	function getSubscriptionUnlimitedStatus()
 	{
-		return $this->subscription_unlimited ? true : false;
+		return $this->subscription_limitation_type == IL_CRS_SUBSCRIPTION_UNLIMITED;
 	} 
-	function setSubscriptionUnlimitedStatus($a_unlimited)
-	{
-		$this->subscription_unlimited = (bool) $a_unlimited;
-	}
 	function getSubscriptionStart()
 	{
 		return $this->subscription_start ? $this->subscription_start : time();
@@ -222,17 +220,18 @@ class ilObjCourse extends ilContainer
 	{
 		return $this->subscription_end ? $this->subscription_end : mktime(0,0,0,12,12,date("Y",time())+2);
 	}
+	function setSubscriptionEnd($a_value)
+	{
+		$this->subscription_end = $a_value;
+	}
 	function getSubscriptionType()
 	{
-		return $this->subscription_type ? $this->subscription_type : $this->SUBSCRIPTION_DEACTIVATED;
+		return $this->subscription_type;
+		#return $this->subscription_type ? $this->subscription_type : $this->SUBSCRIPTION_DEACTIVATED;
 	}
 	function setSubscriptionType($a_value)
 	{
 		$this->subscription_type = $a_value;
-	}
-	function setSubscriptionEnd($a_value)
-	{
-		$this->subscription_end = $a_value;
 	}
 	function getSubscriptionPassword()
 	{
@@ -242,13 +241,9 @@ class ilObjCourse extends ilContainer
 	{
 		$this->subscription_password = $a_value;
 	}
-	function setObjectiveViewStatus($a_status)
-	{
-		$this->objective_view = $a_status;
-	}
 	function enabledObjectiveView()
 	{
-		return (bool) $this->objective_view;
+		return $this->view_mode == IL_CRS_VIEW_OBJECTIVE;
 	}
 
 	function enabledWaitingList()
@@ -290,9 +285,40 @@ class ilObjCourse extends ilContainer
 	{
 		$this->subscription_notify = $a_value ? true : false;
 	}
+
+	function setViewMode($a_mode)
+	{
+		$this->view_mode = $a_mode;
+	}
+	function getViewMode()
+	{
+		return $this->view_mode;
+	}
+
+	function _lookupViewMode($a_id)
+	{
+		static $view_mode = null;
+		global $ilDB;
+
+		if($view_mode)
+		{
+			return $view_mode;
+		}
+		else
+		{
+			$query = "SELECT view_mode FROM crs_settings WHERE obj_id = '".$a_id."'";
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				return $view_mode = $row->view_mode;
+			}
+			return false;
+		}
+	}
+
 	function getOrderType()
 	{
-		return $this->order_type ? $this->order_type : $this->SORT_TITLE;
+		return $this->order_type ? $this->order_type : IL_CRS_SORT_TITLE;
 	}
 	function setOrderType($a_value)
 	{
@@ -316,7 +342,7 @@ class ilObjCourse extends ilContainer
 	}
 	function getArchiveType()
 	{
-		return $this->archive_type ? $this->archive_type : $this->ARCHIVE_DISABLED;
+		return $this->archive_type ? IL_CRS_ARCHIVE_DOWNLOAD : IL_CRS_ARCHIVE_NONE;
 	}
 	function setArchiveType($a_value)
 	{
@@ -395,25 +421,29 @@ class ilObjCourse extends ilContainer
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$offline = $row->activation_offline;
-			$unlimited = $row->activation_unlimited;
+			$type = $row->activation_type;
 			$start = $row->activation_start;
 			$end = $row->activation_end;
 		}
-		if($offline)
+		switch($type)
 		{
-			return false;
+			case IL_CRS_ACTIVATION_OFFLINE:
+				return false;
+
+			case IL_CRS_ACTIVATION_UNLIMITED:
+				return true;
+
+			case IL_CRS_ACTIVATION_LIMITED:
+				if(time() < $start or
+				   time() > $end)
+				{
+					return false;
+				}
+				return true;
+				
+			default:
+				return false;
 		}
-		if($unlimited)
-		{
-			return true;
-		}
-		if(time() < $start or
-		   time() > $end)
-		{
-			return false;
-		}
-		return true;
 	}
 
 	function _registrationEnabled($a_obj_id)
@@ -426,30 +456,34 @@ class ilObjCourse extends ilContainer
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$reg_unlimited = $row->subscription_unlimited;
+			$type = $row->subscription_limitation_type;
 			$reg_start = $row->subscription_start;
 			$reg_end = $row->subscription_end;
-			$reg_type = $row->subscription_type;
 		}
 
-		if($reg_type == 1) // means deactivated
+		switch($type)
 		{
-			return false;
-		}
-		if($reg_unlimited)
-		{
-			return true;
-		}
-		if(time() > $reg_start and time() < $reg_end)
-		{
-			return true;
+			case IL_CRS_SUBSCRIPTION_UNLIMITED:
+				return true;
+
+			case IL_CRS_SUBSCRIPTION_DEACTIVATED:
+				return false;
+
+			case IL_CRS_SUBSCRIPTION_LIMITED:
+				if(time() > $reg_start and
+				   time() < $reg_end)
+				{
+					return true;
+				}
+			default:
+				return false;
 		}
 		return false;
 	}
 
 	function isArchived()
 	{
-		if($this->getArchiveType() == $this->ARCHIVE_DISABLED)
+		if($this->getViewMode() != IL_CRS_VIEW_ARCHIVE)
 		{
 			return false;
 		}
@@ -488,16 +522,19 @@ class ilObjCourse extends ilContainer
 
 		$this->setMessage('');
 
-		if(!$this->getSubscriptionType())
-		{
-			$this->appendMessage($this->lng->txt('crs_select_registration_type'));
-		}
+		#if(($this->getSubscriptionLimitationType() != IL_CRS_SUBSCRIPTION_DEACTIVATED) and
+		#   $this->getSubscriptionType() == )
+		#{
+		#	$this->appendMessage($this->lng->txt('crs_select_registration_type'));
+		#}
 
-		if(!$this->getActivationUnlimitedStatus() and $this->getActivationEnd() < $this->getActivationStart())
+		if(($this->getActivationType() == IL_CRS_ACTIVATION_LIMITED) and
+		   $this->getActivationEnd() < $this->getActivationStart())
 		{
 			$this->appendMessage($this->lng->txt("activation_times_not_valid"));
 		}
-		if(!$this->getSubscriptionUnlimitedStatus() and $this->getSubscriptionStart() > $this->getSubscriptionEnd())
+		if(($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_LIMITED) and
+		   $this->getSubscriptionStart() > $this->getSubscriptionEnd())
 		{
 			$this->appendMessage($this->lng->txt("subscription_times_not_valid"));
 		}
@@ -511,7 +548,7 @@ class ilObjCourse extends ilContainer
 		#{
 		#	$this->appendMessage($this->lng->txt("subscription_time_not_within_activation"));
 		#}
-		if($this->getSubscriptionType() == $this->SUBSCRIPTION_PASSWORD and !$this->getSubscriptionPassword())
+		if($this->getSubscriptionType() == IL_CRS_SUBSCRIPTION_PASSWORD and !$this->getSubscriptionPassword())
 		{
 			$this->appendMessage($this->lng->txt("crs_password_required"));
 		}
@@ -524,7 +561,8 @@ class ilObjCourse extends ilContainer
 		#{
 		#	$this->appendMessage($this->lng->txt("crs_max_members_smaller_members"));
 		#}
-		if($this->getArchiveStart() > $this->getArchiveEnd())
+		if(($this->getViewMode() == IL_CRS_VIEW_ARCHIVE) and
+		   $this->getArchiveStart() > $this->getArchiveEnd())
 		{
 			$this->appendMessage($this->lng->txt("archive_times_not_valid"));
 		}
@@ -554,60 +592,6 @@ class ilObjCourse extends ilContainer
 			strlen($this->getContactConsultation());
 	}
 			
-	/**
-	* copy all properties and subobjects of a course.
-	* 
-	* @access	public
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{		
-		global $rbacadmin;
-
-		// always call parent ilClone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-		
-		// put here crs specific stuff
-		$new_course =& ilObjectFactory::getInstanceByRefId($new_ref_id);
-
-		$new_course->initDefaultRoles();
-		$new_course->initCourseMemberObject();
-		$new_course->members_obj->add($this->ilias->account,$new_course->members_obj->ROLE_ADMIN);
-		$new_course->__createDefaultSettings();
-
-		$new_course->setImportantInformation($this->getImportantInformation());
-		$new_course->setSyllabus($this->getSyllabus());
-		$new_course->setContactName($this->getContactName());
-		$new_course->setContactConsultation($this->getContactConsultation());
-		$new_course->setContactPhone($this->getContactPhone());
-		$new_course->setContactEmail($this->getContactEmail());
-		$new_course->setContactResponsibility($this->getContactResponsibility());
-
-		$new_course->setActivationUnlimitedStatus($this->getActivationUnlimitedStatus());
-		$new_course->setActivationStart($this->getActivationStart());
-		$new_course->setActivationEnd($this->getActivationEnd());
-		$new_course->setOfflineStatus($this->getOfflineStatus());
-
-		$new_course->setSubscriptionUnlimitedStatus($this->getSubscriptionUnlimitedStatus());
-		$new_course->setSubscriptionStart($this->getSubscriptionStart());
-		$new_course->setSubscriptionEnd($this->getSubscriptionEnd());
-		$new_course->setSubscriptionType($this->getSubscriptionType());
-		$new_course->setSubscriptionPassword($this->getSubscriptionPassword());
-		$new_course->setSubscriptionMaxMembers($this->getSubscriptionMaxMembers());
-		$new_course->setSubscriptionNotify($this->getSubscriptionNotify());
-		$new_course->enableWaitingList($this->enableWaitingList());
-		$new_course->setOrderType($this->getOrderType());
-		$new_course->setArchiveStart($this->getArchiveStart());
-		$new_course->setArchiveEnd($this->getArchiveEnd());
-		$new_course->setArchiveType($this->getArchiveType());
-		$new_course->setAboStatus($this->getAboStatus());
-		$new_course->setObjectiveViewStatus($this->enabledObjectiveView());
-
-		$new_course->update();
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
 
 	/**
 	* delete course and all related data	
@@ -655,93 +639,7 @@ class ilObjCourse extends ilContainer
 		return true;
 	}
 
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	* 
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional paramters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-		
-		switch ($a_event)
-		{
-			case "link":
-				
-				break;
-			
-			case "cut":
-				
-				break;
-				
-			case "copy":
-			
-				break;
 
-			case "paste":
-				
-				break;
-			
-			case "new":
-				
-				break;
-		}
-		
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{	
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-		
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
-	}
-
-	// META DATA METHODS
-/*
-	function &getMetaData()
-	{
-		// CALLED BY META DATA GUI
-
-		$this->__initMetaObject();
-
-		return $this->meta_data;
-	}
-*/
-
-	/**
-	* update meta data only
-	*/
-/*
-	function updateMetaData()
-	{
-		$this->__initMetaObject();
-
-		$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		parent::update();
-	}
-*/
 
 	/**
 	* update complete object
@@ -752,29 +650,6 @@ class ilObjCourse extends ilContainer
 		$this->updateSettings();
 		parent::update();
 	}
-
-/*
-	function __initMetaObject()
-	{
-		include_once "./classes/class.ilMetaData.php";
-
-		if(is_object($this->meta_data))
-		{
-			return true;
-		}
-
-		if($this->getId())
-		{
-			$this->meta_data =& new ilMetaData($this->getType(),$this->getId());
-		}
-		else
-		{
-			$this->meta_data =& new ilMetaData();
-		}
-
-		return true;
-	}
-*/
 
 	function updateSettings()
 	{
@@ -797,23 +672,26 @@ class ilObjCourse extends ilContainer
 			"contact_phone = '".ilUtil::prepareDBString($this->getContactPhone())."', ".
 			"contact_email = '".ilUtil::prepareDBString($this->getContactEmail())."', ".
 			"contact_consultation = '".ilUtil::prepareDBString($this->getContactConsultation())."', ".
-			"activation_unlimited = '".(int) $this->getActivationUnlimitedStatus()."', ".
+			"activation_type = '".(int) $this->getActivationType()."', ".
+			#"activation_unlimited = '".(int) $this->getActivationUnlimitedStatus()."', ".
 			"activation_start = '".$this->getActivationStart()."', ".
 			"activation_end = '".$this->getActivationEnd()."', ".
-			"activation_offline = '".(int) $this->getOfflineStatus()."', ".
-			"subscription_unlimited = '".(int) $this->getSubscriptionUnlimitedStatus()."', ".
+			#"activation_offline = '".(int) $this->getOfflineStatus()."', ".
+			"subscription_limitation_type = '".$this->getSubscriptionLimitationType()."', ".
+			#"subscription_unlimited = '".(int) $this->getSubscriptionUnlimitedStatus()."', ".
 			"subscription_start = '".$this->getSubscriptionStart()."', ".
 			"subscription_end = '".$this->getSubscriptionEnd()."', ".
 			"subscription_type = '".(int) $this->getSubscriptionType()."', ".
 			"subscription_password = '".ilUtil::prepareDBString($this->getSubscriptionPassword())."', ".
 			"subscription_max_members = '".(int) $this->getSubscriptionMaxMembers()."', ".
 			"subscription_notify = '".(int) $this->getSubscriptionNotify()."', ".
+			"view_mode = '".(int) $this->getViewMode()."', ".
 			"sortorder = '".(int) $this->getOrderType()."', ".
 			"archive_start = '".$this->getArchiveStart()."', ".
 			"archive_end = '".$this->getArchiveEnd()."', ".
 			"archive_type = '".(int) $this->getArchiveType()."', ".
 			"abo = '".(int) $this->getAboStatus()."', ".
-			"objective_view = '".(int) $this->enabledObjectiveView()."', ".
+			#"objective_view = '".(int) $this->enabledObjectiveView()."', ".
 			"waiting_list = '".(int) $this->enabledWaitingList()."', ".
 			"important = '".ilUtil::prepareDBString($this->getImportantInformation())."' ".
 			"WHERE obj_id = '".$this->getId()."'";
@@ -833,23 +711,26 @@ class ilObjCourse extends ilContainer
 			"contact_phone = '".ilUtil::prepareDBString($this->getContactPhone())."', ".
 			"contact_email = '".ilUtil::prepareDBString($this->getContactEmail())."', ".
 			"contact_consultation = '".ilUtil::prepareDBString($this->getContactConsultation())."', ".
-			"activation_unlimited = '1', ".
+			"activation_type = '".IL_CRS_ACTIVATION_UNLIMITED."', ".
+			#"activation_unlimited = '1', ".
 			"activation_start = '".$this->getActivationStart()."', ".
 			"activation_end = '".$this->getActivationEnd()."', ".
-			"activation_offline = '1', ".
-			"subscription_unlimited = '1', ".
+			#"activation_offline = '1', ".
+			"subscription_limitation_type = '".IL_CRS_SUBSCRIPTION_DEACTIVATED."', ".
+			#"subscription_unlimited = '1', ".
 			"subscription_start = '".$this->getSubscriptionStart()."', ".
 			"subscription_end = '".$this->getSubscriptionEnd()."', ".
 			"subscription_type = '".(int) $this->SUBSCRIPTION_DEACTIVATED."', ".
 			"subscription_password = '".ilUtil::prepareDBString($this->getSubscriptionPassword())."', ".
 			"subscription_max_members = '".(int) $this->getSubscriptionMaxMembers()."', ".
 			"subscription_notify = '1', ".
-			"sortorder = '".(int) $this->SORT_MANUAL."', ".
+			"view_mode = '0', ".
+			"sortorder = '".(int) IL_CRS_SORT_TITLE."', ".
 			"archive_start = '".$this->getArchiveStart()."', ".
 			"archive_end = '".$this->getArchiveEnd()."', ".
-			"archive_type = '".(int) $this->ARCHIVE_DISABLED."', ".
+			"archive_type = '".IL_CRS_ARCHIVE_NONE."', ".
 			"abo = '".(int) $this->ABO_ENABLED."', ".
-			"objective_view = '0', ".
+			#"objective_view = '0', ".
 			"waiting_list = '1'";
 
 		$res = $ilDB->query($query);
@@ -871,23 +752,25 @@ class ilObjCourse extends ilContainer
 			$this->setContactPhone($row->contact_phone);
 			$this->setContactEmail($row->contact_email);
 			$this->setContactConsultation($row->contact_consultation);
-			$this->setActivationUnlimitedStatus($row->activation_unlimited);
+			$this->setActivationType($row->activation_type);
+			#$this->setActivationUnlimitedStatus($row->activation_unlimited);
 			$this->setActivationStart($row->activation_start);
 			$this->setActivationEnd($row->activation_end);
-			$this->setOfflineStatus($row->activation_offline);
-			$this->setSubscriptionUnlimitedStatus($row->subscription_unlimited);
+			#$this->setOfflineStatus($row->activation_offline);
+			$this->setSubscriptionLimitationType($row->subscription_limitation_type);
+			#$this->setSubscriptionUnlimitedStatus($row->subscription_unlimited);
 			$this->setSubscriptionStart($row->subscription_start);
 			$this->setSubscriptionEnd($row->subscription_end);
 			$this->setSubscriptionType($row->subscription_type);
 			$this->setSubscriptionPassword($row->subscription_password);
 			$this->setSubscriptionMaxMembers($row->subscription_max_members);
 			$this->setSubscriptionNotify($row->subscription_notify);
+			$this->setViewMode($row->view_mode);
 			$this->setOrderType($row->sortorder);
 			$this->setArchiveStart($row->archive_start);
 			$this->setArchiveEnd($row->archive_end);
 			$this->setArchiveType($row->archive_type);
 			$this->setAboStatus($row->abo);
-			$this->setObjectiveViewStatus($row->objective_view);
 			$this->enableWaitingList($row->waiting_list);
 			$this->setImportantInformation($row->important);
 		}

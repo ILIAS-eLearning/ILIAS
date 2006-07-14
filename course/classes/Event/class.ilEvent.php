@@ -286,7 +286,7 @@ class ilEvent
 		include_once 'course/classes/Event/class.ilEventItems.php';
 		ilEventItems::_delete($a_event_id);
 
-		include_once 'course/classes/class.ilEventParticipants.php';
+		include_once 'course/classes/Event/class.ilEventParticipants.php';
 		ilEventParticipants::_deleteByEvent($a_event_id);
 
 		return true;

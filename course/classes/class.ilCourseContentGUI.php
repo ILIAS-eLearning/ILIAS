@@ -479,6 +479,8 @@ class ilCourseContentGUI
 	{
 		global $ilAccess,$ilErr;
 
+		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
+
 		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
@@ -494,11 +496,20 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('crs_materials'));
 		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('edit_timings_list'));
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+
+
+		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('crs_timings_time_frame'));
+		$this->tpl->setVariable("TXT_INFO_DURATION",$this->lng->txt('crs_timings_in_days'));
+
 		$this->tpl->setVariable("TXT_START_END",$this->lng->txt('crs_timings_short_start_end'));
-		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('crs_timings_duration'));
+		$this->tpl->setVariable("TXT_INFO_START_END",$this->lng->txt('crs_timings_start_end_info'));
+
 		$this->tpl->setVariable("TXT_CHANGEABLE",$this->lng->txt('crs_timings_short_changeable'));
-		$this->tpl->setVariable("TXT_LIMIT_START_END",$this->lng->txt('crs_timings_short_limit_start_end'));
+
+		$this->tpl->setVariable("TXT_INFO_LIMIT",$this->lng->txt('crs_timings_from_until'));
+		$this->tpl->setVariable("TXT_LIMIT",$this->lng->txt('crs_timings_short_limit_start_end'));
 		$this->tpl->setVariable("TXT_ACTIVE",$this->lng->txt('crs_timings_short_active'));
+		$this->tpl->setVariable("TXT_INFO_ACTIVE",$this->lng->txt('crs_timings_info_active'));
 
 		$counter = 0;
 		foreach($this->cont_arr as $item)
@@ -517,29 +528,57 @@ class ilCourseContentGUI
 			$this->tpl->setCurrentBlock("container_standard_row");
 
 			// Suggested
-			$date = $this->__prepareDateSelect($item['suggestion_start']);
+			if(is_array($_POST['item']["$item[ref_id]"]['sug_start']))
+			{
+				$start = $this->__toUnix($_POST['item']["$item[ref_id]"]['sug_start']);
+			}
+			else
+			{
+				$start = $item['suggestion_start'];
+			}
+			$end = $item['suggestion_end'];
+			$date = $this->__prepareDateSelect($start);
 			$this->tpl->setVariable("SUG_START",
 									ilUtil::makeDateSelect($item_prefix."[sug_start]",$date['y'],$date['m'],$date['d'],date('Y',time())));
+			
+			$this->tpl->setVariable("NAME_DURATION_A",$item_prefix."[duration_a]");
+			if(isset($_POST['item']["$item[ref_id]"]['duration_a']))
+			{
+				$this->tpl->setVariable("VAL_DURATION_A",$_POST['item']["$item[ref_id]"]['duration_a']);
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_DURATION_A",intval(($end-$start)/(60*60*24)));
+			}				
 
-			$date = $this->__prepareDateSelect($item['suggestion_end']);
-			$this->tpl->setVariable("SUG_END",
-									ilUtil::makeDateSelect($item_prefix."[sug_end]",$date['y'],$date['m'],$date['d'],date('Y',time())));
+			$this->tpl->setVariable("SUG_END",ilFormat::formatUnixTime($item['suggestion_end']));
 
 			// Limit
-			$date = $this->__prepareDateSelect($item['earliest_start']);
+			if(is_array($_POST['item']["$item[ref_id]"]['lim_start']))
+			{
+				$start = $this->__toUnix($_POST['item']["$item[ref_id]"]['lim_start']);
+			}
+			else
+			{
+				$start = $item['earliest_start'];
+			}
+			$end = $item['latest_end'];
+
+			$date = $this->__prepareDateSelect($start);
 			$this->tpl->setVariable("LIM_START",
 									ilUtil::makeDateSelect($item_prefix."[lim_start]",$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-			$date = $this->__prepareDateSelect($item['latest_end']);
-			$this->tpl->setVariable("LIM_END",
-									ilUtil::makeDateSelect($item_prefix."[lim_end]",$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-			// First duration
-			$this->tpl->setVariable("NAME_DURATION_A",$item_prefix."[duration_a]");
-			$this->tpl->setVariable("VAL_DURATION_A",$item['duration_a']);
-			// Second duration
+			
 			$this->tpl->setVariable("NAME_DURATION_B",$item_prefix."[duration_b]");
-			$this->tpl->setVariable("VAL_DURATION_B",$item['duration_b']);
+			if(isset($_POST['item']["$item[ref_id]"]['duration_b']))
+			{
+				$this->tpl->setVariable("VAL_DURATION_B",$_POST['item']["$item[ref_id]"]['duration_b']);
+			}
+			else
+			{
+				$this->tpl->setVariable("VAL_DURATION_B",intval(($end-$start)/(60*60*24)));
+			}				
+
+			$this->tpl->setVariable("LIM_END",ilFormat::formatUnixTime($end));
 
 			$this->tpl->setVariable("NAME_CHANGE",$item_prefix."[change]");
 			$this->tpl->setVariable("NAME_ACTIVE",$item_prefix."[active]");
@@ -636,7 +675,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_OWN_PRESETTING",$this->lng->txt('crs_timings_planed_start'));
 		$this->tpl->setVariable("TXT_INFO_OWN_PRESETTING",$this->lng->txt('crs_timings_start_end_info'));
 
-		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('crs_timings_duration'));
+		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('crs_timings_time_frame'));
 		$this->tpl->setVariable("TXT_INFO_DURATION",$this->lng->txt('crs_timings_in_days'));
 
 		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
@@ -884,7 +923,6 @@ class ilCourseContentGUI
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
 
-
 		$failed = array();
 		// Validate 
 		foreach($_POST['item'] as $ref_id => $data)
@@ -898,25 +936,13 @@ class ilCourseContentGUI
 			$item_obj->setSuggestionStart($this->__toUnix($data["sug_start"]));
 
 			// add duration
-			if($data['duration_a'])
-			{
-				$data['sug_start']['d'] += $data['duration_a'];
-				$item_obj->setSuggestionEnd($this->__toUnix($data['sug_start'],array('h' => 23,'m' => 55)));
-			}
-			else
-			{
-				$item_obj->setSuggestionEnd($this->__toUnix($data['sug_end'],array('h' => 23,'m' => 55)));
-			}
+			$data['sug_start']['d'] += $data['duration_a'];
+			$item_obj->setSuggestionEnd($this->__toUnix($data['sug_start'],array('h' => 23,'m' => 55)));
+
 			$item_obj->setEarliestStart($this->__toUnix($data['lim_start']));
-			if($data['duration_b'])
-			{
-				$data['lim_start']['d'] += $data['duration_b'];
-				$item_obj->setLatestEnd($this->__toUnix($data['lim_start'],array('h' => 23,'m' => 55)));
-			}
-			else
-			{
-				$item_obj->setLatestEnd($this->__toUnix($data['lim_end'],array('h' => 23,'m' => 55)));
-			}
+			$data['lim_start']['d'] += $data['duration_b'];
+			$item_obj->setLatestEnd($this->__toUnix($data['lim_start'],array('h' => 23,'m' => 55)));
+
 			$item_obj->toggleVisible($old_data['visible']);
 			$item_obj->toggleChangeable($data['change']);
 
