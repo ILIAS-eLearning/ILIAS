@@ -724,7 +724,7 @@ class ilUtil
 	* @author	Aresch Yavari <ay@databay.de>
 	* @author Helmut Schottmüller <hschottm@tzi.de>
 	*/
-	function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "")
+	function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true)
 	{
 		global $lng;
 
@@ -755,7 +755,14 @@ class ilUtil
 
 		for ($i = 1; $i <= 12; $i++)
 		{
-			$sel_month .= "<option value=\"$i\">" . $lng->txt("month_" . sprintf("%02d", $i) . "_long") . "</option>\n";
+			if($a_long_month)
+			{
+				$sel_month .= "<option value=\"$i\">" . $lng->txt("month_" . sprintf("%02d", $i) . "_long") . "</option>\n";
+			}
+			else
+			{
+				$sel_month .= "<option value=\"$i\">" . $i  . "</option>\n";
+			}
 		}
 		$sel_month .= "</select>\n";
 		$sel_month = preg_replace("/(value\=\"$month\")/", "$1 selected=\"selected\"", $sel_month);

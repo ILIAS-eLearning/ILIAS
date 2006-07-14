@@ -539,7 +539,8 @@ class ilCourseContentGUI
 			$end = $item['suggestion_end'];
 			$date = $this->__prepareDateSelect($start);
 			$this->tpl->setVariable("SUG_START",
-									ilUtil::makeDateSelect($item_prefix."[sug_start]",$date['y'],$date['m'],$date['d'],date('Y',time())));
+									ilUtil::makeDateSelect($item_prefix."[sug_start]",
+														   $date['y'],$date['m'],$date['d'],date('Y',time()),false));
 			
 			$this->tpl->setVariable("NAME_DURATION_A",$item_prefix."[duration_a]");
 			if(isset($_POST['item']["$item[ref_id]"]['duration_a']))
@@ -566,7 +567,8 @@ class ilCourseContentGUI
 
 			$date = $this->__prepareDateSelect($start);
 			$this->tpl->setVariable("LIM_START",
-									ilUtil::makeDateSelect($item_prefix."[lim_start]",$date['y'],$date['m'],$date['d'],date('Y',time())));
+									ilUtil::makeDateSelect($item_prefix."[lim_start]",
+														   $date['y'],$date['m'],$date['d'],date('Y',time()),false));
 			
 			$this->tpl->setVariable("NAME_DURATION_B",$item_prefix."[duration_b]");
 			if(isset($_POST['item']["$item[ref_id]"]['duration_b']))
@@ -794,7 +796,8 @@ class ilCourseContentGUI
 
 			$date = $this->__prepareDateSelect($start);
 			$this->tpl->setVariable("OWN_START",
-									ilUtil::makeDateSelect($item_prefix."[own_start]",$date['y'],$date['m'],$date['d'],date('Y',time())));
+									ilUtil::makeDateSelect($item_prefix."[own_start]",
+														   $date['y'],$date['m'],$date['d'],date('Y',time()),false));
 
 			if($usr_planed->getPlanedEndingTime())
 			{
