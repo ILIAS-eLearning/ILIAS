@@ -56,7 +56,9 @@ class ilTinyMCE extends ilRTE
 		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
 		include_once "./classes/class.ilObject.php";
 		$tpl->setVariable("OBJ_ID", ilObject::_lookupObjectId($_GET["ref_id"]));
+		$tpl->setVariable("OBJ_TYPE", ilObject::_lookupType($_GET["ref_id"], TRUE));
 		$tpl->setVariable("CLIENT_ID", CLIENT_ID);
+		$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
 		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
 		$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
 		$more_buttons = "";

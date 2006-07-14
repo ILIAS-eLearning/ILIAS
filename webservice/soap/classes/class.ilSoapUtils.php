@@ -92,6 +92,33 @@ class ilSoapUtils extends ilSoapAdministration
 
 		return true;
 	}
+	
+	function saveTempFileAsMediaObject($sid, $name, $tmp_name)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once "./content/classes/Media/class.ilObjMediaObject.php";
+		return ilObjMediaObject::_saveTempFileAsMediaObject($name, $tmp_name);
+	}
+	
+	function getMobsOfObject($sid, $a_type, $a_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once "./content/classes/Media/class.ilObjMediaObject.php";
+		return ilObjMediaObject::_getMobsOfObject($a_type, $a_id);
+	}
+	
 	function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 	{
 		if(!$this->__checkSession($sid))
