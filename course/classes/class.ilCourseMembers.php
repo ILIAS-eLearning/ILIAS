@@ -68,6 +68,7 @@ class ilCourseMembers
 
 		$this->ilErr =& $ilErr;
 		$this->ilDB =& $ilDB;
+		$this->db =& $ilDB;
 
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule("search");
