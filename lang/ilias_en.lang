@@ -3030,7 +3030,7 @@ common#:#shib_language#:#Attribute for language
 common#:#shib_lastname#:#Attribute for lastname
 common#:#shib_login#:#Unique Shibboleth attribute
 common#:#shib_login_button#:#Path to Shibboleth login button
-common#:#shib_login_instructions#:#Instructions shown in login field
+common#:#auth_login_instructions#:#Instructions on Login Screen
 common#:#shib_phone_home#:#Attribute for home phone number
 common#:#shib_phone_mobile#:#Attribute for mobile phone number
 common#:#shib_phone_office#:#Attribute for office phone number

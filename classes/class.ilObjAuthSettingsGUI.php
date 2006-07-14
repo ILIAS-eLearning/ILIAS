@@ -659,7 +659,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SHIB_ACTIVE", $this->lng->txt("shib_active"));
 		$this->tpl->setVariable("TXT_SHIB_USER_DEFAULT_ROLE", $this->lng->txt("shib_user_default_role"));
 		$this->tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $this->lng->txt("shib_login_button"));
-		$this->tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $this->lng->txt("shib_login_instructions"));
+		$this->tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $this->lng->txt("auth_login_instructions"));
 		$this->tpl->setVariable("TXT_SHIB_DATA_CONV", $this->lng->txt("shib_data_conv"));
 		foreach ($shib_settings as $setting)
 		{
@@ -802,6 +802,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->tpl->setVariable("CAS_SERVER", $_SESSION["error_post_vars"]["cas"]["server"]);
 			$this->tpl->setVariable("CAS_PORT", $_SESSION["error_post_vars"]["cas"]["port"]);
 			$this->tpl->setVariable("CAS_URI", $_SESSION["error_post_vars"]["cas"]["uri"]);
+			$this->tpl->setVariable("CAS_LOGIN_INSTRUCTIONS", $_SESSION["error_post_vars"]["cas"]["login_instructions"]);
 			$current_default_role = $_SESSION["error_post_vars"]["cas"]["user_default_role"];
 		}
 		else
@@ -821,7 +822,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			
 			$this->tpl->setVariable("CAS_SERVER", $settings["cas_server"]);
 			$this->tpl->setVariable("CAS_PORT", $settings["cas_port"]);
-			$this->tpl->setVariable("CAS_URI", $settings["cas_uri"]);			
+			$this->tpl->setVariable("CAS_URI", $settings["cas_uri"]);
+			$this->tpl->setVariable("CAS_LOGIN_INSTRUCTIONS", $settings["cas_login_instructions"]);			
 			$current_default_role = $settings["cas_user_default_role"];
 		}
 		
@@ -852,6 +854,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CAS_PORT_DESC", $this->lng->txt("auth_cas_port_desc"));
 		$this->tpl->setVariable("TXT_CAS_URI", $this->lng->txt("uri"));
 		$this->tpl->setVariable("TXT_CAS_URI_DESC", $this->lng->txt("auth_cas_uri_desc"));
+		$this->tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $this->lng->txt("auth_login_instructions"));
 		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_create_users"));
 		$this->tpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_cas_create_users_desc"));
 		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE", $this->lng->txt("auth_user_default_role"));
@@ -889,6 +892,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$ilSetting->set("cas_server", $_POST["cas"]["server"]);
 		$ilSetting->set("cas_port", $_POST["cas"]["port"]);
 		$ilSetting->set("cas_uri", $_POST["cas"]["uri"]);
+		$ilSetting->set("cas_login_instructions", $_POST["cas"]["login_instructions"]);
 		$ilSetting->set("cas_active", $_POST["cas"]["active"]);
 		$ilSetting->set("cas_create_users", $_POST["cas"]["create_users"]);
 		$ilSetting->set("cas_allow_local", $_POST["cas"]["allow_local"]);
