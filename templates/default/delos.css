@@ -1494,6 +1494,11 @@ select.ilEditSelect {
 	font-size: 80%;
 }
 
+img {
+	vertical-align: middle;
+	border: 0px;
+}
+
 /* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */
 img.imgtab {
 	display:block;
