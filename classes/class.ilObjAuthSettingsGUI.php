@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -798,6 +798,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
 			}
+			if ($_SESSION["error_post_vars"]["cas"]["account_mail"] == "1")
+			{
+				$this->tpl->setVariable("CHK_ACCOUNT_MAIL", "checked=\"checked\"");
+			}
 			
 			$this->tpl->setVariable("CAS_SERVER", $_SESSION["error_post_vars"]["cas"]["server"]);
 			$this->tpl->setVariable("CAS_PORT", $_SESSION["error_post_vars"]["cas"]["port"]);
@@ -817,6 +821,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			if ($settings["cas_allow_local"] == "1")
 			{
 				$this->tpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
+			}
+			if ($settings["cas_account_mail"] == "1")
+			{
+				$this->tpl->setVariable("CHK_ACCOUNT_MAIL", "checked=\"checked\"");
 			}
 			
 			$this->tpl->setVariable("CAS_SERVER", $settings["cas_server"]);
@@ -854,6 +862,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CAS_URI_DESC", $this->lng->txt("auth_cas_uri_desc"));
 		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_create_users"));
 		$this->tpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_cas_create_users_desc"));
+		$this->tpl->setVariable("TXT_ACCOUNT_MAIL", $this->lng->txt("user_send_new_account_mail"));
+		$this->tpl->setVariable("TXT_ACCOUNT_MAIL_DESC", $this->lng->txt("auth_new_account_mail_desc"));
 		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE", $this->lng->txt("auth_user_default_role"));
 		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE_DESC",
 			$this->lng->txt("auth_cas_user_default_role_desc"));
