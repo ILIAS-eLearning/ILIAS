@@ -4160,7 +4160,7 @@ crs#:#crs_sort_activation#:#Nach Aktivierung
 crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_title#:#Nach Titel
 crs#:#crs_sortorder#:#Sortierung
-crs#:#crs_sortorder_abo#:#Sortierung/Abo
+crs#:#crs_sortorder_abo#:#Sortierung
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Startobjekte###10 Jul 2006 content changed
 crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
@@ -4204,7 +4204,7 @@ crs#:#crs_timings_late_end#:#Spätester Start
 crs#:#crs_timings_planed_start#:#Geplant
 crs#:#crs_timings_presetting#:#Zeitplanung eingeschaltet
 crs#:#crs_timings_presetting_tbl#:#Zeitplanung
-crs#:#crs_timings_short_active#:#Zeitplanung aktiv
+crs#:#crs_timings_short_active#:#Zeitplanung
 crs#:#crs_timings_short_changeable#:#Änderbar
 crs#:#crs_timings_short_limit_start_end#:#Änderbar###13 Jul 2006 content changed
 crs#:#crs_timings_short_start_end#:#Empfehlung###13 Jul 2006 content changed
@@ -6329,3 +6329,18 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+crs#:#crs_timings_info_active#:#(Aktiv)
+crs#:#crs_sort_title_info#:#Wählen Sie diese Einstellung, um die Kursmaterialien automatisch nach ihrem Titel zu sortieren.
+crs#:#crs_sort_manual_info#:#Wenn ausgewählt, können die Kursmaterialien manuell in beliebiger Reihenfolge sortiert werden.
+crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach Zeitvorgaben.
+crs#:#crs_view_archive#:#Archivansicht
+crs#:#crs_view_timing#:#Zeitvorgaben Ansicht
+crs#:#crs_view_objective#:#Lernziel orientierte Ansicht
+crs#:#crs_view_standard#:#Standard Ansicht
+crs#:#crs_view_mode#:#Kursdarstellung
+crs#:#crs_view_info_standard#:#Diese Ansicht präsentiert die Kursmaterialien ähnlich wie im Magazin.
+crs#:#crs_view_info_objective#:#Wählen Sie Darstellung, um eine für Lernziele optimierte Ansicht anzubieten.
+crs#:#crs_view_info_timing#:#Ansicht für Zeitvorgaben
+crs#:#crs_further_settings#:#Weitere Einstellungen
+crs#:#crs_add_remove_from_desktop#:#Auf den Schreibtisch
+crs#:#crs_add_remove_from_desktop_info#:#Wenn eingeschaltet, haben die Teilnehmer die Möglichkeit Kursmaterialien auf ihren Persönlichen Schreibtisch zu platzieren bzw. zu entfernen.

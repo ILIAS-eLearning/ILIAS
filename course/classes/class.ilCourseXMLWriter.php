@@ -251,11 +251,11 @@ class ilCourseXMLWriter extends ilXmlWriter
 		// Registration
 		$attr = array();
 
-		if($this->course_obj->getSubscriptionType() == 2)
+		if($this->course_obj->getSubscriptionType() == IL_CRS_SUBSCRIPTION_CONFIRMATION)
 		{
 			$attr['registrationType'] = 'Confirmation';
 		}
-		elseif($this->course_obj->getSubscriptionType() == 3)
+		elseif($this->course_obj->getSubscriptionType() == IL_CRS_SUBSCRIPTION_DIRECT)
 		{
 			$attr['registrationType'] = 'Direct';
 		}
@@ -270,11 +270,11 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		$this->xmlStartTag('Registration',$attr);
 		
-		if($this->course_obj->getSubscriptionType() == 1)
+		if($this->course_obj->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{
 			$this->xmlElement('Disabled');
 		}
-		elseif($this->course_obj->getSubscriptionUnlimitedStatus() == 1)
+		elseif($this->course_obj->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_UNLIMITED)
 		{
 			$this->xmlElement('Unlimited');
 		}
@@ -293,11 +293,11 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		// Sort
 		$attr = array();
-		if($this->course_obj->getOrderType() == 1)
+		if($this->course_obj->getOrderType() == IL_CRS_SORT_MANUAL)
 		{
 			$attr['type'] = 'Manual';
 		}
-		elseif($this->course_obj->getOrderType() == 2)
+		elseif($this->course_obj->getOrderType() == IL_CRS_SORT_TITLE)
 		{
 			$attr['type'] = 'Title';
 		}
@@ -309,15 +309,15 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		// Archives
 		$attr = array();
-		if($this->course_obj->getArchiveType() == 1)
+		if($this->course_obj->getViewMode() != IL_CRS_VIEW_ARCHIVE)
 		{
 			$attr['Access'] = 'Disabled';
 		}
-		elseif($this->course_obj->getArchiveType() == 2)
+		elseif($this->course_obj->getViewMode() == IL_CRS_VIEW_ARCHIVE)
 		{
 			$attr['Access'] = 'Read';
 		}
-		else
+		if($this->course_obj->getArchiveType() == IL_CRS_ARCHIVE_DOWNLOAD)
 		{
 			$attr['Access'] = 'Download';
 		}

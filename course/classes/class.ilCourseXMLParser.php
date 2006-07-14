@@ -188,21 +188,36 @@ class ilCourseXMLParser extends ilMDSaxParser
 				break;
 
 			case 'NotAvailable':
-				$this->course_obj->setOfflineStatus(true);
+				if($this->in_availability)
+				{
+					$this->course_obj->setActivationType(IL_CRS_ACTIVATION_OFFLINE);
+				}
+				elseif($this->in_registration)
+				{
+					$this->course_obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
+				}
+					
 				break;
 
 			case 'Unlimited':
 				if($this->in_availability)
 				{
-					$this->course_obj->setActivationUnlimitedStatus(true);
-					$this->course_obj->setOfflineStatus(false);
+					$this->course_obj->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
 				}
+				elseif($this->in_registration)
+				{
+					$this->course_obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_UNLIMITED);
+				}
+					
 				break;
 			case 'TemporarilyAvailable':
 				if($this->in_availability)
 				{
-					$this->course_obj->setActivationUnlimitedStatus(false);
-					$this->course_obj->setOfflineStatus(false);
+					$this->course_obj->setActivationType(IL_CRS_ACTIVATION_LIMITED);
+				}
+				elseif($this->in_registration)
+				{
+					$this->course_obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_LIMITED);
 				}
 				break;
 
@@ -231,15 +246,15 @@ class ilCourseXMLParser extends ilMDSaxParser
 				switch($a_attribs['registrationType'])
 				{
 					case 'Confirmation':
-						$this->course_obj->setSubscriptionType($this->course_obj->SUBSCRIPTION_CONFIRMATION);
+						$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_CONFIRMATION);
 						break;
 
 					case 'Direct':
-						$this->course_obj->setSubscriptionType($this->course_obj->SUBSCRIPTION_DIRECT);
+						$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);
 						break;
 						
 					case 'Password':
-						$this->course_obj->setSubscriptionType($this->course_obj->SUBSCRIPTION_PASSWORD);
+						$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_PASSWORD);
 						break;
 				}
 				$this->course_obj->setSubscriptionMaxMembers((int) $a_attribs['maxMembers']);
@@ -251,15 +266,15 @@ class ilCourseXMLParser extends ilMDSaxParser
 				switch($a_attribs['type'])
 				{
 					case 'Manual':
-						$this->course_obj->setOrderType($this->course_obj->SORT_MANUAL);
+						$this->course_obj->setOrderType(IL_CRS_SORT_MANUAL);
 						break;
 
 					case 'Title':
-						$this->course_obj->setOrderType($this->course_obj->SORT_TITLE);
+						$this->course_obj->setOrderType(IL_CRS_SORT_TITLE);
 						break;
 
 					case 'Activation':
-						$this->course_obj->setOrderType($this->course_obj->SORT_ACTIVATION);
+						$this->course_obj->setOrderType(IL_CRS_SORT_ACTIVATION);
 						break;
 				}
 				break;
@@ -270,21 +285,23 @@ class ilCourseXMLParser extends ilMDSaxParser
 				switch($a_attribs['Access'])
 				{
 					case 'Disabled':
-						$this->course_obj->setArchiveType($this->course_obj->ARCHIVE_DISABLED);
+						$this->course_obj->setArchiveType(IL_CRS_ARCHIVE_NONE);
 						break;
 
 					case 'Read':
-						$this->course_obj->setArchiveType($this->course_obj->ARCHIVE_READ);
+						$this->course_obj->setArchiveType(IL_CRS_ARCHIVE_NONE);
+						#$this->course_obj->setViewMode(IL_CRS_VIEW_ARCHIVE);
 						break;
 
 					case 'Download':
-						$this->course_obj->setArchiveType($this->course_obj->ARCHIVE_DOWNLOAD);
+						#$this->course_obj->setViewMode(IL_CRS_VIEW_ARCHIVE);
+						$this->course_obj->setArchiveType(IL_CRS_ARCHIVE_DOWNLOAD);
 						break;
 				}
 				break;
 
 			case 'Disabled':
-				$this->course_obj->setSubscriptionType($this->course_obj->SUBSCRIPTION_DEACTIVATED);
+				$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
 				break;
 				
 			case "MetaData":

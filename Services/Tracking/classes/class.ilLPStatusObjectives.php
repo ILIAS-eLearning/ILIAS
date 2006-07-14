@@ -116,7 +116,7 @@ class ilLPStatusObjectives extends ilLPStatus
 
 		if(!$status_info['num_objectives'])
 		{
-			return true;
+			return $status_info;
 		}
 		else
 		{
