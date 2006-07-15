@@ -1116,9 +1116,11 @@ common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new
 common#:#auth_ldap_settings_saved#:#LDAP settings saved###08 Jul 2005 new variable
 common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
+common#:#auth_login_instructions#:#Instructions on Login Screen###15 Jul 2006 new variable
 common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable
 common#:#auth_mode_not_changed#:#(Nothing changed)###28 Jul 2004 new variable
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
+common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
 common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
 common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
@@ -3029,7 +3031,6 @@ common#:#shib_language#:#Attribute for language###13 May 2005 new variable
 common#:#shib_lastname#:#Attribute for lastname###13 May 2005 new variable
 common#:#shib_login#:#Unique Shibboleth attribute###13 May 2005 new variable
 common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
-common#:#shib_login_instructions#:#Instructions shown in login field###13 May 2005 new variable
 common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
 common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
 common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
@@ -3881,6 +3882,8 @@ crs#:#crs_add_grp_assignment#:#Assign course(s)###01 Mar 2005 new variable
 crs#:#crs_add_html_archive#:#Add HTML archive###14 Aug 2004 new variable
 crs#:#crs_add_member#:#Add members###07 Aug 2004 new variable
 crs#:#crs_add_objective#:#Add objective###01 Mar 2005 new variable
+crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop###15 Jul 2006 new variable
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.###15 Jul 2006 new variable
 crs#:#crs_add_starter#:#Add start object###01 Mar 2005 new variable
 crs#:#crs_add_subscribers#:#Add subscriber###07 Aug 2004 new variable
 crs#:#crs_added#:#Added new course###07 Aug 2004 new variable
@@ -3955,6 +3958,7 @@ crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
 crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
 crs#:#crs_free_places#:#Available places###09 Jul 2005 new variable
 crs#:#crs_from#:#From:###07 Aug 2004 new variable
+crs#:#crs_further_settings#:#Further Settings###15 Jul 2006 new variable
 crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
@@ -4160,7 +4164,10 @@ crs#:#crs_show_objectives_view#:#Objective view###01 Mar 2005 new variable
 crs#:#crs_size#:#File size###07 Aug 2004 new variable
 crs#:#crs_sort_activation#:#Sort by activation###07 Aug 2004 new variable
 crs#:#crs_sort_manual#:#Sort manuell###07 Aug 2004 new variable
+crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.###15 Jul 2006 new variable
+crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.###15 Jul 2006 new variable
 crs#:#crs_sort_title#:#Sort by title###07 Aug 2004 new variable
+crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.###15 Jul 2006 new variable
 crs#:#crs_sortorder#:#Sort###07 Aug 2004 new variable
 crs#:#crs_sortorder_abo#:#Sortorder/Subscription###01 Mar 2005 new variable
 crs#:#crs_start#:#Start###07 Aug 2004 new variable
@@ -4202,7 +4209,9 @@ crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
 crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
 crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
+crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
 crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
 crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
@@ -4214,6 +4223,7 @@ crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
 crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
 crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_suggested_info#:#Suggested Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
 crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
@@ -4232,6 +4242,14 @@ crs#:#crs_update_objective#:#Edit learning objective###01 Mar 2005 new variable
 crs#:#crs_users_added#:#Added user to the course###07 Aug 2004 new variable
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course###07 Aug 2004 new variable
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list###09 Jul 2005 new variable
+crs#:#crs_view_archive#:#Archive View###15 Jul 2006 new variable
+crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.###15 Jul 2006 new variable
+crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.###15 Jul 2006 new variable
+crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.###15 Jul 2006 new variable
+crs#:#crs_view_mode#:#Course Presentation###15 Jul 2006 new variable
+crs#:#crs_view_objective#:#Objective Oriented View###15 Jul 2006 new variable
+crs#:#crs_view_standard#:#Standard View###15 Jul 2006 new variable
+crs#:#crs_view_timing#:#Timings View###15 Jul 2006 new variable
 crs#:#crs_visibility#:#Visiblity###15 Apr 2005 new variable
 crs#:#crs_visibility_limitless#:#Visible (unlimited)###13 Apr 2005 new variable
 crs#:#crs_visibility_until#:#Visible (from ... until)###13 Apr 2005 new variable

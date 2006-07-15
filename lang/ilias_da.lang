@@ -1056,9 +1056,11 @@ common#:#auth_ldap_not_configured#:#LDAP er ikke konfiguret
 common#:#auth_ldap_settings_saved#:#LDAP instillinger er gemt
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Vertificer brugere via local ILIAS databasen (standard)
+common#:#auth_login_instructions#:#Instructions on Login Screen###15 Jul 2006 new variable
 common#:#auth_mode#:#Vertifikation mode
 common#:#auth_mode_not_changed#:#(intet er &aelig;ndret)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
+common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
 common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Konfigure RADIUS-Authentication
@@ -2957,7 +2959,6 @@ common#:#shib_language#:#Tilskrive sprog
 common#:#shib_lastname#:#Tillaegge efternavn
 common#:#shib_login#:#Enestaaende Shibboleth tilf&oslash;jelse
 common#:#shib_login_button#:#Sti til Shibboleth login knap
-common#:#shib_login_instructions#:#Instruktion vist i login felt
 common#:#shib_phone_home#:#Tilf&oslash;j hjemme telefon nummer
 common#:#shib_phone_mobile#:#Tilf&oslash;j mobil telefon nummer
 common#:#shib_phone_office#:#Tilf&oslash;j arbejdes telefon nummer
@@ -3793,6 +3794,8 @@ crs#:#crs_add_grp_assignment#:#Assign course(s)
 crs#:#crs_add_html_archive#:#Tilfoej HTML arkiv
 crs#:#crs_add_member#:#Tilfoej medlem/medlemmer
 crs#:#crs_add_objective#:#Tilfoej objektiver
+crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop###15 Jul 2006 new variable
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.###15 Jul 2006 new variable
 crs#:#crs_add_starter#:#Tilfoej start objekt###10 Jul 2006 content changed
 crs#:#crs_add_subscribers#:#Tilfoej abonnent
 crs#:#crs_added#:#Tilfoejet ny kursus
@@ -3809,7 +3812,7 @@ crs#:#crs_allow_abo#:#Tillad signatur af kursus ting
 crs#:#crs_already_assigned_to_list#:#Du staar allerede paa vente listen
 crs#:#crs_archive#:#Arkiver
 crs#:#crs_archive_disabled#:#Deaktiveret
-crs#:#crs_archive_download#:#Download
+crs#:#crs_archive_download#:#Download###15 Jul 2006 content changed
 crs#:#crs_archive_info#:#Hvis aktiveret alle kursus der vil vaere udeladt. Kun HTML kursus vil vaere anvendelig for kursus medlemmer
 crs#:#crs_archive_lang#:#Sprog
 crs#:#crs_archive_read#:#Laeserettighed
@@ -3834,7 +3837,7 @@ crs#:#crs_contact_email#:#Email
 crs#:#crs_contact_name#:#Navn
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Ansvarlighed
-crs#:#crs_content#:#Kursus indhold
+crs#:#crs_content#:#Kursus indhold###15 Jul 2006 content changed
 crs#:#crs_copy_cat_not_allowed#:#det er ikke muligt at kopiere kategorier
 crs#:#crs_count_members#:#Antal medlemmer
 crs#:#crs_count_questions#:#Antal af spoergsmaal
@@ -3867,6 +3870,7 @@ crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
 crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
 crs#:#crs_free_places#:#Available places
 crs#:#crs_from#:#Fra:###10 Jul 2006 content changed
+crs#:#crs_further_settings#:#Further Settings###15 Jul 2006 new variable
 crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_grouping#:#Course grouping
@@ -4041,9 +4045,9 @@ crs#:#crs_reg_user_already_subscribed#:#Du har allerede tilmeldt dig dette kursu
 crs#:#crs_reg_user_blocked#:#Du har ikke adgang til dette kursus
 crs#:#crs_registration#:#Kursusregistration
 crs#:#crs_registration_deactivated#:#Vaelg denne option for Choose this option for invalid registration. Bruger kan register til det her kursus
-crs#:#crs_registration_limited#:#Ubegraenset tid til registration
-crs#:#crs_registration_type#:#Registrations type
-crs#:#crs_registration_unlimited#:#Midlertidighed ubegraenset
+crs#:#crs_registration_limited#:#Ubegraenset tid til registration###15 Jul 2006 content changed
+crs#:#crs_registration_type#:#Registrations type###15 Jul 2006 content changed
+crs#:#crs_registration_unlimited#:#Midlertidighed ubegraenset###15 Jul 2006 content changed
 crs#:#crs_reject_subscriber#:#Kursustilmelding###10 Jul 2006 content changed
 crs#:#crs_reject_subscriber_body#:#Din tilmelding er blevet afslaaet.###10 Jul 2006 content changed
 crs#:#crs_reset_results#:#Genstart resultat
@@ -4070,11 +4074,14 @@ crs#:#crs_show_link_or#:#Vis andre ressourcer
 crs#:#crs_show_link_tst#:#Vis tester
 crs#:#crs_show_objectives_view#:#Objektiv syn
 crs#:#crs_size#:#Filstoerrelse
-crs#:#crs_sort_activation#:#Sorter efter aktivering
-crs#:#crs_sort_manual#:#Sorter manuelt
-crs#:#crs_sort_title#:#Sorter efter titel
+crs#:#crs_sort_activation#:#Sorter efter aktivering###15 Jul 2006 content changed
+crs#:#crs_sort_manual#:#Sorter manuelt###15 Jul 2006 content changed
+crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.###15 Jul 2006 new variable
+crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.###15 Jul 2006 new variable
+crs#:#crs_sort_title#:#Sorter efter titel###15 Jul 2006 content changed
+crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.###15 Jul 2006 new variable
 crs#:#crs_sortorder#:#Sorter
-crs#:#crs_sortorder_abo#:#Sortorder/Subscription
+crs#:#crs_sortorder_abo#:#Sortorder/Subscription###15 Jul 2006 content changed
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Start objekter###10 Jul 2006 content changed
 crs#:#crs_starter_deleted#:#Fjern tilfoejelse
@@ -4086,12 +4093,12 @@ crs#:#crs_structure#:#Kursus struktur
 crs#:#crs_subscribers#:#Abonnenter
 crs#:#crs_subscribers_deleted#:#Slet abonnent/abonnenter
 crs#:#crs_subscription#:#Abonnement
-crs#:#crs_subscription_max_members#:#Maximum medlemmer
+crs#:#crs_subscription_max_members#:#Maximum medlemmer###15 Jul 2006 content changed
 crs#:#crs_subscription_notify#:#Notify for subscriptions
-crs#:#crs_subscription_options_confirmation#:#Subscription with confirmation
+crs#:#crs_subscription_options_confirmation#:#Subscription with confirmation###15 Jul 2006 content changed
 crs#:#crs_subscription_options_deactivated#:#Deaktiveret
-crs#:#crs_subscription_options_direct#:#Direct subscription
-crs#:#crs_subscription_options_password#:#Subscription with password
+crs#:#crs_subscription_options_direct#:#Direct subscription###15 Jul 2006 content changed
+crs#:#crs_subscription_options_password#:#Subscription with password###15 Jul 2006 content changed
 crs#:#crs_subscription_requested#:#Du er blevet anmodet medlemsskab til dette kursus
 crs#:#crs_subscription_successful#:#Du er blevet tilfoejet til dette kursus
 crs#:#crs_subscription_type#:#Subscription type
@@ -4114,7 +4121,9 @@ crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
 crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
 crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
+crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
 crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
 crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
@@ -4126,6 +4135,7 @@ crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
 crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
 crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_suggested_info#:#Suggested Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
 crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
@@ -4144,12 +4154,20 @@ crs#:#crs_update_objective#:#Edit learning objective
 crs#:#crs_users_added#:#Tilfoejet bruger til dette kursus
 crs#:#crs_users_already_assigned#:#Brugeren er allerede tilmeldt dette kursus
 crs#:#crs_users_removed_from_list#:#De valgte bruger er blevet slettet fra vente liste
+crs#:#crs_view_archive#:#Archive View###15 Jul 2006 new variable
+crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.###15 Jul 2006 new variable
+crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.###15 Jul 2006 new variable
+crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.###15 Jul 2006 new variable
+crs#:#crs_view_mode#:#Course Presentation###15 Jul 2006 new variable
+crs#:#crs_view_objective#:#Objective Oriented View###15 Jul 2006 new variable
+crs#:#crs_view_standard#:#Standard View###15 Jul 2006 new variable
+crs#:#crs_view_timing#:#Timings View###15 Jul 2006 new variable
 crs#:#crs_visibility#:#Availability
 crs#:#crs_visibility_limitless#:#Unlimited
-crs#:#crs_visibility_until#:#Temporarily available
-crs#:#crs_visibility_unvisible#:#Ingen tilg&aelig;ngelig
+crs#:#crs_visibility_until#:#Temporarily available###15 Jul 2006 content changed
+crs#:#crs_visibility_unvisible#:#Ingen tilg&aelig;ngelig###15 Jul 2006 content changed
 crs#:#crs_wait_info#:#Hvis aktiveret og max af bruger i overskrider, vil den ny registrering komme paa vente liste
-crs#:#crs_waiting_list#:#Vente liste
+crs#:#crs_waiting_list#:#Vente liste###15 Jul 2006 content changed
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Din position paa vente liste
 crs#:#edit_content#:#Redigere indhold###10 Jul 2006 content changed
