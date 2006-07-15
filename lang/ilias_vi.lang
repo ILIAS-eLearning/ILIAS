@@ -1064,9 +1064,11 @@ common#:#auth_ldap_not_configured#:#LDAP chưa được cấu hình
 common#:#auth_ldap_settings_saved#:#�?ã ghi thiết lập LDAP
 common#:#auth_local#:#Cơ sở dữ liệu ILIAS
 common#:#auth_local_desc#:#Xác thực những ngư�?i sử dụng qua cơ sở dữ liệu ILIAS nội bộ (mặc định)
+common#:#auth_login_instructions#:#Instructions on Login Screen###15 Jul 2006 new variable
 common#:#auth_mode#:#Chế độ xác thực
 common#:#auth_mode_not_changed#:#(Không có gì thay đổi)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
+common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
 common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Cấu hình xác thực RADIUS
@@ -2957,7 +2959,6 @@ common#:#shib_language#:#Ngôn ngữ
 common#:#shib_lastname#:#Tên
 common#:#shib_login#:#�?ăng nhập Shibboleth
 common#:#shib_login_button#:#�?ư�?ng dẫn tới nút đăng nhập Shibboleth
-common#:#shib_login_instructions#:#Chỉ dẫn hiện trong ô đăng nhập
 common#:#shib_phone_home#:#Số điện thoại (nhà riêng)
 common#:#shib_phone_mobile#:#Số điện thoại (di động)
 common#:#shib_phone_office#:#Số điện thoại (cơ quan)
@@ -3788,6 +3789,8 @@ crs#:#crs_add_grp_assignment#:#Chỉ định (các) khóa h�?c
 crs#:#crs_add_html_archive#:#Thêm file nén HTML
 crs#:#crs_add_member#:#Thêm (các) thành viên
 crs#:#crs_add_objective#:#Thêm mục tiêu
+crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop###15 Jul 2006 new variable
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.###15 Jul 2006 new variable
 crs#:#crs_add_starter#:#Thêm đối tượng khởi động###10 Jul 2006 content changed
 crs#:#crs_add_subscribers#:#Thêm ngư�?i đăng ký
 crs#:#crs_added#:#�?ã thêm khóa h�?c mới
@@ -3804,7 +3807,7 @@ crs#:#crs_allow_abo#:#Cho phép đăng ký các mục của khóa h�?c
 crs#:#crs_already_assigned_to_list#:#Bạn đã được chỉ định vào danh sách đợi trước đó.
 crs#:#crs_archive#:#File nén
 crs#:#crs_archive_disabled#:#Khóa
-crs#:#crs_archive_download#:#Tải xuống
+crs#:#crs_archive_download#:#Tải xuống###15 Jul 2006 content changed
 crs#:#crs_archive_info#:#Nếu được bật, m�?i nội dung khóa h�?c sẽ được giữ bí mật. Thành viên của khóa h�?c chỉ thấy những file nén HTML của khóa h�?c này.
 crs#:#crs_archive_lang#:#Ngôn ngữ
 crs#:#crs_archive_read#:#�?�?c
@@ -3829,7 +3832,7 @@ crs#:#crs_contact_email#:#�?ịa chỉ Email
 crs#:#crs_contact_name#:#Tên
 crs#:#crs_contact_phone#:#Số điện thoại
 crs#:#crs_contact_responsibility#:#Trách nhiệm
-crs#:#crs_content#:#Nội dung khóa h�?c
+crs#:#crs_content#:#Nội dung khóa h�?c###15 Jul 2006 content changed
 crs#:#crs_copy_cat_not_allowed#:#Không thể sao chép chuyên mục
 crs#:#crs_count_members#:#Số thành viên
 crs#:#crs_count_questions#:#Số câu h�?i
@@ -3862,6 +3865,7 @@ crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
 crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
 crs#:#crs_free_places#:#Các vị trí có thể
 crs#:#crs_from#:#Từ:###10 Jul 2006 content changed
+crs#:#crs_further_settings#:#Further Settings###15 Jul 2006 new variable
 crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_grouping#:#Nhóm khóa h�?c
@@ -4036,9 +4040,9 @@ crs#:#crs_reg_user_already_subscribed#:#Bạn đã đăng ký cho khóa h�?c n�
 crs#:#crs_reg_user_blocked#:#Bạn đã bị chặn từ khóa h�?c này
 crs#:#crs_registration#:#�?ăng ký khóa h�?c
 crs#:#crs_registration_deactivated#:#Ch�?n tùy ch�?n này để khóa đăng ký. Không có ngư�?i sử dụng nào có thể đăng ký khóa h�?c này.
-crs#:#crs_registration_limited#:#Tạm th�?i đăng ký có giới hạn
-crs#:#crs_registration_type#:#Kiểu đăng ký
-crs#:#crs_registration_unlimited#:#Tạm th�?i không giới hạn
+crs#:#crs_registration_limited#:#Tạm th�?i đăng ký có giới hạn###15 Jul 2006 content changed
+crs#:#crs_registration_type#:#Kiểu đăng ký###15 Jul 2006 content changed
+crs#:#crs_registration_unlimited#:#Tạm th�?i không giới hạn###15 Jul 2006 content changed
 crs#:#crs_reject_subscriber#:#�?ăng ký khóa h�?c###10 Jul 2006 content changed
 crs#:#crs_reject_subscriber_body#:#đăng ký của bạn bị từ chối.###10 Jul 2006 content changed
 crs#:#crs_reset_results#:#Reset các kết quả
@@ -4065,11 +4069,14 @@ crs#:#crs_show_link_or#:#Hiện các tài nguyên khác
 crs#:#crs_show_link_tst#:#Hiện bài kiểm tra
 crs#:#crs_show_objectives_view#:#Xem mục tiêu
 crs#:#crs_size#:#Kích thước file
-crs#:#crs_sort_activation#:#Sắp xếp theo kích hoạt
-crs#:#crs_sort_manual#:#Sắp xếp bằng tay
-crs#:#crs_sort_title#:#Sắp xếp theo tiêu đ�?
+crs#:#crs_sort_activation#:#Sắp xếp theo kích hoạt###15 Jul 2006 content changed
+crs#:#crs_sort_manual#:#Sắp xếp bằng tay###15 Jul 2006 content changed
+crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.###15 Jul 2006 new variable
+crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.###15 Jul 2006 new variable
+crs#:#crs_sort_title#:#Sắp xếp theo tiêu đ�?###15 Jul 2006 content changed
+crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.###15 Jul 2006 new variable
 crs#:#crs_sortorder#:#Sắp xếp
-crs#:#crs_sortorder_abo#:#Thứ tự sắp xếp/�?ăng ký
+crs#:#crs_sortorder_abo#:#Thứ tự sắp xếp/�?ăng ký###15 Jul 2006 content changed
 crs#:#crs_start#:#Bắt đầu
 crs#:#crs_start_objects#:#�?ối tượng khởi động###10 Jul 2006 content changed
 crs#:#crs_starter_deleted#:#�?ã xóa chỉ định.
@@ -4081,12 +4088,12 @@ crs#:#crs_structure#:#Cấu trúc khóa h�?c
 crs#:#crs_subscribers#:#Ngư�?i đăng ký
 crs#:#crs_subscribers_deleted#:#�?ã xóa ngư�?i đăng ký
 crs#:#crs_subscription#:#�?ăng ký
-crs#:#crs_subscription_max_members#:#Số lớn nhất ngư�?i sử dụng
+crs#:#crs_subscription_max_members#:#Số lớn nhất ngư�?i sử dụng###15 Jul 2006 content changed
 crs#:#crs_subscription_notify#:#Thông báo đăng ký
-crs#:#crs_subscription_options_confirmation#:#�?ăng ký có xác nhận
+crs#:#crs_subscription_options_confirmation#:#�?ăng ký có xác nhận###15 Jul 2006 content changed
 crs#:#crs_subscription_options_deactivated#:#Khử kích hoạt
-crs#:#crs_subscription_options_direct#:#�?ăng ký trực tiếp
-crs#:#crs_subscription_options_password#:#�?ăng ký có mật khẩu
+crs#:#crs_subscription_options_direct#:#�?ăng ký trực tiếp###15 Jul 2006 content changed
+crs#:#crs_subscription_options_password#:#�?ăng ký có mật khẩu###15 Jul 2006 content changed
 crs#:#crs_subscription_requested#:#Bạn đã yêu cầu quy�?n thành viên khóa h�?c.
 crs#:#crs_subscription_successful#:#Bạn đã đăng ký cho khóa h�?c này
 crs#:#crs_subscription_type#:#Kiểu đăng ký
@@ -4109,7 +4116,9 @@ crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
 crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
 crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
+crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
 crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
 crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
@@ -4121,6 +4130,7 @@ crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
 crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
 crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_suggested_info#:#Suggested Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
 crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
@@ -4139,12 +4149,20 @@ crs#:#crs_update_objective#:#Sửa mục tiêu h�?c tập
 crs#:#crs_users_added#:#�?ã thêm ngư�?i sử dụng vào khóa h�?c
 crs#:#crs_users_already_assigned#:#Ngư�?i sử dụng đã được chỉ định cho khóa h�?c này
 crs#:#crs_users_removed_from_list#:#Những ngư�?i sử dụng sau đã bị xóa kh�?i danh sách đợi
+crs#:#crs_view_archive#:#Archive View###15 Jul 2006 new variable
+crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.###15 Jul 2006 new variable
+crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.###15 Jul 2006 new variable
+crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.###15 Jul 2006 new variable
+crs#:#crs_view_mode#:#Course Presentation###15 Jul 2006 new variable
+crs#:#crs_view_objective#:#Objective Oriented View###15 Jul 2006 new variable
+crs#:#crs_view_standard#:#Standard View###15 Jul 2006 new variable
+crs#:#crs_view_timing#:#Timings View###15 Jul 2006 new variable
 crs#:#crs_visibility#:#Sử dụng được
 crs#:#crs_visibility_limitless#:#Không giới hạn
-crs#:#crs_visibility_until#:#Tạm th�?i sử dụng được
-crs#:#crs_visibility_unvisible#:#Không sử dụng được
+crs#:#crs_visibility_until#:#Tạm th�?i sử dụng được###15 Jul 2006 content changed
+crs#:#crs_visibility_unvisible#:#Không sử dụng được###15 Jul 2006 content changed
 crs#:#crs_wait_info#:#Nếu bật và số lớn nhất ngư�?i sử dụng đã đạt đến, những đăng ký mới sẽ được đặt trong danh sách đợi.
-crs#:#crs_waiting_list#:#Danh sách đợi
+crs#:#crs_waiting_list#:#Danh sách đợi###15 Jul 2006 content changed
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Vị trí của bạn trong danh sách đợi
 crs#:#edit_content#:#Sửa nội dung###10 Jul 2006 content changed

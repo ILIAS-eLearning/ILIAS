@@ -1060,9 +1060,11 @@ common#:#auth_ldap_not_configured#:#LDAP nie jest jeszcze skonfigurowane
 common#:#auth_ldap_settings_saved#:#Zachowano ustawienia LDAP
 common#:#auth_local#:#baza danych ILIAS
 common#:#auth_local_desc#:#Identyfikuj użytkowników za pomocą lokalnej bazy danych ILIAS  (domyślne)
+common#:#auth_login_instructions#:#Instructions on Login Screen###15 Jul 2006 new variable
 common#:#auth_mode#:#Tryb identyfikacji
 common#:#auth_mode_not_changed#:#(bez zmian)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
+common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
 common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Konfigurcja identyfikacji RADIUS
@@ -2961,7 +2963,6 @@ common#:#shib_language#:#Atrybut języka
 common#:#shib_lastname#:#Atrybut imienia
 common#:#shib_login#:#Unikalny atrybut Shibboleth
 common#:#shib_login_button#:#Ścieżka do przycisku logowania Shibboleth
-common#:#shib_login_instructions#:#Instrukcje pokazane w polu logowania
 common#:#shib_phone_home#:#Atrybut telefonu domowego
 common#:#shib_phone_mobile#:#Atrybut telefonu komórkowego
 common#:#shib_phone_office#:#Atrybut telefonu do pracy
@@ -3797,6 +3798,8 @@ crs#:#crs_add_grp_assignment#:#Przydziel kursy
 crs#:#crs_add_html_archive#:#Dodaj archiwum HTML
 crs#:#crs_add_member#:#Dodaj uczestników
 crs#:#crs_add_objective#:#Dodaj cel
+crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop###15 Jul 2006 new variable
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.###15 Jul 2006 new variable
 crs#:#crs_add_starter#:#Dodaj obiekt startowy###10 Jul 2006 content changed
 crs#:#crs_add_subscribers#:#Dodaj subskrybujących
 crs#:#crs_added#:#Dodany nowy kurs
@@ -3813,7 +3816,7 @@ crs#:#crs_allow_abo#:#Zezwól na subskrybcję zawartości kursu
 crs#:#crs_already_assigned_to_list#:#Zostałeś już dołączony do listy oczekujących.
 crs#:#crs_archive#:#Archiwa
 crs#:#crs_archive_disabled#:#Wyłączony
-crs#:#crs_archive_download#:#Pobierz
+crs#:#crs_archive_download#:#Pobierz###15 Jul 2006 content changed
 crs#:#crs_archive_info#:#Jeśli wybrane, to cała zawartość kursu będzie dostępna w wersji spakowanej. Tylko archiwa HTML kursu będą dostępne dla uczestników kursu.
 crs#:#crs_archive_lang#:#Język
 crs#:#crs_archive_read#:#Do czytania
@@ -3838,7 +3841,7 @@ crs#:#crs_contact_email#:#e-mail
 crs#:#crs_contact_name#:#Nazwisko
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Odpowiedzialność
-crs#:#crs_content#:#Zawartość kursu
+crs#:#crs_content#:#Zawartość kursu###15 Jul 2006 content changed
 crs#:#crs_copy_cat_not_allowed#:#Nie można kopiować kategorii
 crs#:#crs_count_members#:#Liczba uczestników
 crs#:#crs_count_questions#:#Liczba pytań
@@ -3871,6 +3874,7 @@ crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
 crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
 crs#:#crs_free_places#:#Dostępne miejsca
 crs#:#crs_from#:#Od:###10 Jul 2006 content changed
+crs#:#crs_further_settings#:#Further Settings###15 Jul 2006 new variable
 crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_grouping#:#Grupowanie kursu
@@ -4045,9 +4049,9 @@ crs#:#crs_reg_user_already_subscribed#:#Posiadasz już subskrypcję na ten kurs
 crs#:#crs_reg_user_blocked#:#Zostałeś zablokowany w tym kursie
 crs#:#crs_registration#:#Rejestracja do kursu
 crs#:#crs_registration_deactivated#:#Wybierz tę opcję aby wyłączyć rejestrację. Wtedy żaden użytkownik nie będzie się mógł zarejestrować do tego kursu.
-crs#:#crs_registration_limited#:#Włączona od - do
-crs#:#crs_registration_type#:#Typ rejestracji
-crs#:#crs_registration_unlimited#:#Dostęp nielimitowany
+crs#:#crs_registration_limited#:#Włączona od - do###15 Jul 2006 content changed
+crs#:#crs_registration_type#:#Typ rejestracji###15 Jul 2006 content changed
+crs#:#crs_registration_unlimited#:#Dostęp nielimitowany###15 Jul 2006 content changed
 crs#:#crs_reject_subscriber#:#Subskrypcja kursu###10 Jul 2006 content changed
 crs#:#crs_reject_subscriber_body#:#Twoja subskrypcja została odrzucona.###10 Jul 2006 content changed
 crs#:#crs_reset_results#:#Wyczyść rezultaty
@@ -4074,11 +4078,14 @@ crs#:#crs_show_link_or#:#Pokaż inne zasoby
 crs#:#crs_show_link_tst#:#Pokaż testy
 crs#:#crs_show_objectives_view#:#Widok celów
 crs#:#crs_size#:#Rozmiar pliku
-crs#:#crs_sort_activation#:#Sortuj wg aktywacji
-crs#:#crs_sort_manual#:#Sortuj ręcznie
-crs#:#crs_sort_title#:#Sortuj wg tytułu
+crs#:#crs_sort_activation#:#Sortuj wg aktywacji###15 Jul 2006 content changed
+crs#:#crs_sort_manual#:#Sortuj ręcznie###15 Jul 2006 content changed
+crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.###15 Jul 2006 new variable
+crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.###15 Jul 2006 new variable
+crs#:#crs_sort_title#:#Sortuj wg tytułu###15 Jul 2006 content changed
+crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.###15 Jul 2006 new variable
 crs#:#crs_sortorder#:#Sortuj wg
-crs#:#crs_sortorder_abo#:#Porządek sortowania/Subskrypcji
+crs#:#crs_sortorder_abo#:#Porządek sortowania/Subskrypcji###15 Jul 2006 content changed
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Obiekty startowe###10 Jul 2006 content changed
 crs#:#crs_starter_deleted#:#Usunięto przydział.
@@ -4090,12 +4097,12 @@ crs#:#crs_structure#:#Struktura kursu
 crs#:#crs_subscribers#:#Subskrypcje
 crs#:#crs_subscribers_deleted#:#Usunięte subskrypcje
 crs#:#crs_subscription#:#Subskrypcja
-crs#:#crs_subscription_max_members#:#Maksymalna liczba uczestników
+crs#:#crs_subscription_max_members#:#Maksymalna liczba uczestników###15 Jul 2006 content changed
 crs#:#crs_subscription_notify#:#Żądaj subskrypcji
-crs#:#crs_subscription_options_confirmation#:#Subskrypcja z potwierdzeniem
+crs#:#crs_subscription_options_confirmation#:#Subskrypcja z potwierdzeniem###15 Jul 2006 content changed
 crs#:#crs_subscription_options_deactivated#:#Deaktywowane
-crs#:#crs_subscription_options_direct#:#Prosta subskrypcja
-crs#:#crs_subscription_options_password#:#Subskrypcja z hasłem
+crs#:#crs_subscription_options_direct#:#Prosta subskrypcja###15 Jul 2006 content changed
+crs#:#crs_subscription_options_password#:#Subskrypcja z hasłem###15 Jul 2006 content changed
 crs#:#crs_subscription_requested#:#Zażądałeś wstąpienia do kursu.
 crs#:#crs_subscription_successful#:#Otrzymałeś subskrypcję na ten kurs
 crs#:#crs_subscription_type#:#Typ subskrypcji
@@ -4118,7 +4125,9 @@ crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
 crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
 crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
+crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
 crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
 crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
@@ -4130,6 +4139,7 @@ crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
 crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
 crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_suggested_info#:#Suggested Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
 crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
@@ -4148,12 +4158,20 @@ crs#:#crs_update_objective#:#Edycja celu nauczania
 crs#:#crs_users_added#:#Dodano użytkownika do kursu
 crs#:#crs_users_already_assigned#:#Ten użytkownik jest już przydzielony do tego kursu
 crs#:#crs_users_removed_from_list#:#Wybrani użytkownicy zostali usunięci z listy oczekujących.
+crs#:#crs_view_archive#:#Archive View###15 Jul 2006 new variable
+crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.###15 Jul 2006 new variable
+crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.###15 Jul 2006 new variable
+crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.###15 Jul 2006 new variable
+crs#:#crs_view_mode#:#Course Presentation###15 Jul 2006 new variable
+crs#:#crs_view_objective#:#Objective Oriented View###15 Jul 2006 new variable
+crs#:#crs_view_standard#:#Standard View###15 Jul 2006 new variable
+crs#:#crs_view_timing#:#Timings View###15 Jul 2006 new variable
 crs#:#crs_visibility#:#Dostępność
 crs#:#crs_visibility_limitless#:#Widoczny (nielimitowany)
-crs#:#crs_visibility_until#:#Widoczny od - do
-crs#:#crs_visibility_unvisible#:#Niewidoczny
+crs#:#crs_visibility_until#:#Widoczny od - do###15 Jul 2006 content changed
+crs#:#crs_visibility_unvisible#:#Niewidoczny###15 Jul 2006 content changed
 crs#:#crs_wait_info#:#Jeśli zostanie osiągnięta maksymalna liczba uczestników kursu, to nowe rejestracje zostaną umieszczone na liście oczekujących.
-crs#:#crs_waiting_list#:#Lista oczekujących
+crs#:#crs_waiting_list#:#Lista oczekujących###15 Jul 2006 content changed
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Twoja pozycja na liście oczekujących
 crs#:#edit_content#:#Edycja zawartości###10 Jul 2006 content changed

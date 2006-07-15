@@ -1059,9 +1059,11 @@ common#:#auth_ldap_not_configured#:#Az LDAP még nincs konfigurálva.
 common#:#auth_ldap_settings_saved#:#LDAP beállítások elmentve.
 common#:#auth_local#:#ILIAS adatbázis
 common#:#auth_local_desc#:#Felhasználói autentikáció helyi ILIAS adatbázison keresztül (alapértelmezett)
+common#:#auth_login_instructions#:#Instructions on Login Screen###15 Jul 2006 new variable
 common#:#auth_mode#:#Autentikációs mód
 common#:#auth_mode_not_changed#:#(Semmi nem változott)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
+common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
 common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#RADIUS-autentikáció konfigurálása
@@ -2950,7 +2952,6 @@ common#:#shib_language#:#Tulajdonságok nyelvhez
 common#:#shib_lastname#:#Tulajdonságok a keresztnévhez
 common#:#shib_login#:#Egyedi Shibboleth tulajdonságok
 common#:#shib_login_button#:#Elérési útvonal a Shibboleth bejelentkezési gombhoz
-common#:#shib_login_instructions#:#A bejelentkezési mezőben megjelenő utasítások
 common#:#shib_phone_home#:#Tulajdonságok az otthoni telefonszámhoz
 common#:#shib_phone_mobile#:#Tulajdonságok a mobil telefonszámhoz
 common#:#shib_phone_office#:#Tulajdonságok az irodai telefonszámhoz
@@ -3781,6 +3782,8 @@ crs#:#crs_add_grp_assignment#:#Kurzus(ok) engedélyezése
 crs#:#crs_add_html_archive#:#HTML archív felvétele
 crs#:#crs_add_member#:#Tag(ok) felvétele
 crs#:#crs_add_objective#:#Célkitűzés felvétele
+crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop###15 Jul 2006 new variable
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.###15 Jul 2006 new variable
 crs#:#crs_add_starter#:#Kezdőobjektum felvétele###10 Jul 2006 content changed
 crs#:#crs_add_subscribers#:#Feliratkozás felvétele
 crs#:#crs_added#:#Felvett új kurzus
@@ -3797,7 +3800,7 @@ crs#:#crs_allow_abo#:#Kurzuselemek felvételének engedélyezése
 crs#:#crs_already_assigned_to_list#:#Már várólistán van.
 crs#:#crs_archive#:#Archívok
 crs#:#crs_archive_disabled#:#Letiltva
-crs#:#crs_archive_download#:#Letöltés
+crs#:#crs_archive_download#:#Letöltés###15 Jul 2006 content changed
 crs#:#crs_archive_info#:#Ha engedélyezett, a teljes tartalom el lesz rejtve. A kurzusnak csak a HTML-archívjai maradnak elérhetők a kurzustagok számára.
 crs#:#crs_archive_lang#:#Nyelv
 crs#:#crs_archive_read#:#Olvasási elérés
@@ -3822,7 +3825,7 @@ crs#:#crs_contact_email#:#Levél
 crs#:#crs_contact_name#:#Név
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Beosztás
-crs#:#crs_content#:#Kurzustartalom
+crs#:#crs_content#:#Kurzustartalom###15 Jul 2006 content changed
 crs#:#crs_copy_cat_not_allowed#:#Nem lehet kategóriákat másolni
 crs#:#crs_count_members#:#Tagok száma
 crs#:#crs_count_questions#:#Kérdések száma
@@ -3855,6 +3858,7 @@ crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
 crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
 crs#:#crs_free_places#:#Elérhető helyek
 crs#:#crs_from#:#Mikortól:###10 Jul 2006 content changed
+crs#:#crs_further_settings#:#Further Settings###15 Jul 2006 new variable
 crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_grouping#:#Kurzuscsoportosítás
@@ -4029,9 +4033,9 @@ crs#:#crs_reg_user_already_subscribed#:#Már feliratkozott erre a kurzusra.
 crs#:#crs_reg_user_blocked#:#El van zárva ettől a csoporttól.
 crs#:#crs_registration#:#Kurzusregisztráció
 crs#:#crs_registration_deactivated#:#Válassza ezt a beállítást a regisztráció letiltásához. Erre a kurzusra nem fognak tudni felhasználók regisztrálni.
-crs#:#crs_registration_limited#:#Korlátozott regisztrációs periódus
-crs#:#crs_registration_type#:#Regisztrációtípus
-crs#:#crs_registration_unlimited#:#Nem korlátozott regisztrációs periódus
+crs#:#crs_registration_limited#:#Korlátozott regisztrációs periódus###15 Jul 2006 content changed
+crs#:#crs_registration_type#:#Regisztrációtípus###15 Jul 2006 content changed
+crs#:#crs_registration_unlimited#:#Nem korlátozott regisztrációs periódus###15 Jul 2006 content changed
 crs#:#crs_reject_subscriber#:#Kurzusfeliratkozás###10 Jul 2006 content changed
 crs#:#crs_reject_subscriber_body#:#Feliratkozása el lett utasítva.###10 Jul 2006 content changed
 crs#:#crs_reset_results#:#Eredmények alapállapotba állítása
@@ -4058,11 +4062,14 @@ crs#:#crs_show_link_or#:#További források megjelenítése
 crs#:#crs_show_link_tst#:#Tesztek megjelenítése
 crs#:#crs_show_objectives_view#:#Célkitűzésnézet
 crs#:#crs_size#:#Fájlméret
-crs#:#crs_sort_activation#:#Aktiválás szerinti sorrend
-crs#:#crs_sort_manual#:#Sorba rendezés manuálisan
-crs#:#crs_sort_title#:#Cím szerinti sorrend
+crs#:#crs_sort_activation#:#Aktiválás szerinti sorrend###15 Jul 2006 content changed
+crs#:#crs_sort_manual#:#Sorba rendezés manuálisan###15 Jul 2006 content changed
+crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.###15 Jul 2006 new variable
+crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.###15 Jul 2006 new variable
+crs#:#crs_sort_title#:#Cím szerinti sorrend###15 Jul 2006 content changed
+crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.###15 Jul 2006 new variable
 crs#:#crs_sortorder#:#Sorrend
-crs#:#crs_sortorder_abo#:#Sorbarendezés/Feliratkozás
+crs#:#crs_sortorder_abo#:#Sorbarendezés/Feliratkozás###15 Jul 2006 content changed
 crs#:#crs_start#:#Kezdés
 crs#:#crs_start_objects#:#Kezdőobjektumok###10 Jul 2006 content changed
 crs#:#crs_starter_deleted#:#Eltávolított hozzárendelés.
@@ -4074,12 +4081,12 @@ crs#:#crs_structure#:#Kurzusstruktúra
 crs#:#crs_subscribers#:#Feliratkozások
 crs#:#crs_subscribers_deleted#:#Törölt feliratkozó(k)
 crs#:#crs_subscription#:#Feliratkozás
-crs#:#crs_subscription_max_members#:#Felhasználók maximuma
+crs#:#crs_subscription_max_members#:#Felhasználók maximuma###15 Jul 2006 content changed
 crs#:#crs_subscription_notify#:#Értesítés feliratkozásokhoz
-crs#:#crs_subscription_options_confirmation#:#Tagság kérése
+crs#:#crs_subscription_options_confirmation#:#Tagság kérése###15 Jul 2006 content changed
 crs#:#crs_subscription_options_deactivated#:#Aktivitás megszüntetve.
-crs#:#crs_subscription_options_direct#:#Csatlakozás közvetlenül
-crs#:#crs_subscription_options_password#:#Csatlakozás kurzusjelszóval
+crs#:#crs_subscription_options_direct#:#Csatlakozás közvetlenül###15 Jul 2006 content changed
+crs#:#crs_subscription_options_password#:#Csatlakozás kurzusjelszóval###15 Jul 2006 content changed
 crs#:#crs_subscription_requested#:#Már kért tagságot ehhez a kurzushoz.
 crs#:#crs_subscription_successful#:#Már csatlakozott ehhez a kurzushoz.
 crs#:#crs_subscription_type#:#Feliratkozás típusa
@@ -4102,7 +4109,9 @@ crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
 crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
 crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
+crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
 crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
 crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
@@ -4114,6 +4123,7 @@ crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
 crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
 crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_suggested_info#:#Suggested Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
 crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
@@ -4132,12 +4142,20 @@ crs#:#crs_update_objective#:#Tanulási célkitűzés szerkesztése
 crs#:#crs_users_added#:#Kurzushoz felvett felhasználók
 crs#:#crs_users_already_assigned#:#A felhasználó már hozzá lett rendelve ehhez a kurzushoz
 crs#:#crs_users_removed_from_list#:#A kiválasztott felhasználók eltávolításra kerültek a várólistáról
+crs#:#crs_view_archive#:#Archive View###15 Jul 2006 new variable
+crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.###15 Jul 2006 new variable
+crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.###15 Jul 2006 new variable
+crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.###15 Jul 2006 new variable
+crs#:#crs_view_mode#:#Course Presentation###15 Jul 2006 new variable
+crs#:#crs_view_objective#:#Objective Oriented View###15 Jul 2006 new variable
+crs#:#crs_view_standard#:#Standard View###15 Jul 2006 new variable
+crs#:#crs_view_timing#:#Timings View###15 Jul 2006 new variable
 crs#:#crs_visibility#:#Hozzáférhetőség
 crs#:#crs_visibility_limitless#:#Nem korlátozott
-crs#:#crs_visibility_until#:#Időszakosan elérhető
-crs#:#crs_visibility_unvisible#:#Nem elérhető
+crs#:#crs_visibility_until#:#Időszakosan elérhető###15 Jul 2006 content changed
+crs#:#crs_visibility_unvisible#:#Nem elérhető###15 Jul 2006 content changed
 crs#:#crs_wait_info#:#Ha engedélyezett, és a felhasználók maximális száma túljutott, új regisztrációk lesznek a várakozási listában.
-crs#:#crs_waiting_list#:#Várólista
+crs#:#crs_waiting_list#:#Várólista###15 Jul 2006 content changed
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Az Ön helye a várólistán
 crs#:#edit_content#:#Tartalom szerkesztése###10 Jul 2006 content changed

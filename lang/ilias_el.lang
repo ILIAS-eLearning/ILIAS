@@ -940,8 +940,10 @@ common#:#auth_ldap_not_configured#:#Το LDAP δεν έχει ρυθμιστεί
 common#:#auth_ldap_settings_saved#:#Οι ρυθμίσεις LDAP αποθηκεύθηκαν
 common#:#auth_local#:#Βάση δεδομένων ILIAS
 common#:#auth_local_desc#:#Επικύρωση χρηστών μέσω τοπικής βάσης δεδομένων του ILIAS (προκαθορισμένο)
+common#:#auth_login_instructions#:#Instructions on Login Screen###15 Jul 2006 new variable
 common#:#auth_mode#:#Κατάσταση επικύρωσης
 common#:#auth_mode_not_changed#:#(Καμία αλλαγή)
+common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Ρύθμιση επικύρωσης RADIUS
 common#:#auth_radius_desc#:#Επικύρωση χρηστών μέσω διακομιστή RADIUS
@@ -2742,7 +2744,6 @@ common#:#shib_language#:#Ιδιότητα για τη γλώσσα
 common#:#shib_lastname#:#Ιδιότητα για το επίθετο
 common#:#shib_login#:#Μοναδική ιδιότητα του Shibboleth
 common#:#shib_login_button#:#Διαδρομή για το κουμπί σύνδεσης με το Shibboleth
-common#:#shib_login_instructions#:#Οι οδηγίες εμφανίζονται στο πεδίο σύνδεσης
 common#:#shib_phone_home#:#Ιδιότητα για τον αριθμό τηλεφώνου του σπιτιού
 common#:#shib_phone_mobile#:#Ιδιότητα για τον αριθμό του κινητού τηλεφώνου
 common#:#shib_phone_office#:#Ιδιότητα για τον αριθμό τηλεφώνου του γραφείου
@@ -3545,6 +3546,8 @@ crs#:#crs_add_grp_assignment#:#Ανάθεση μαθήματος/ων
 crs#:#crs_add_html_archive#:#Προσθήκη αρχείου HTML
 crs#:#crs_add_member#:#Προσθήκη Μέλους/ων
 crs#:#crs_add_objective#:#Προσθήκη αντικειμενικού σκοπού
+crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop###15 Jul 2006 new variable
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.###15 Jul 2006 new variable
 crs#:#crs_add_starter#:#Προσθήκη αντικειμένου έναρξης
 crs#:#crs_add_subscribers#:#Προσθήκη Συνδρομητή
 crs#:#crs_added#:#Το νέο μάθημα προστέθηκε
@@ -3561,7 +3564,7 @@ crs#:#crs_allow_abo#:#Επέτρεψε την εγγραφή των αντικε
 crs#:#crs_already_assigned_to_list#:#Έχετε ήδη καταχωρηθεί στη λίστα αναμονής.
 crs#:#crs_archive#:#Αρχεία
 crs#:#crs_archive_disabled#:#Απενεργοποιημένο
-crs#:#crs_archive_download#:#Λήψη
+crs#:#crs_archive_download#:#Λήψη###15 Jul 2006 content changed
 crs#:#crs_archive_info#:#Αν είναι ενεργοποιημένο, όλο το περιεχόμενο των μαθημάτων θα αποκρυφθεί. Μόνο αρχεία HTML αυτού του μαθήματος θα είναι διαθέσιμα στα μέλη του μαθήματος.
 crs#:#crs_archive_lang#:#Γλώσσα
 crs#:#crs_archive_read#:#Πρόσβαση ανάγνωσης
@@ -3586,7 +3589,7 @@ crs#:#crs_contact_email#:#Email
 crs#:#crs_contact_name#:#Όνομα
 crs#:#crs_contact_phone#:#Τηλέφωνο
 crs#:#crs_contact_responsibility#:#Ευθύνη
-crs#:#crs_content#:#Περιεχόμενο μαθήματος
+crs#:#crs_content#:#Περιεχόμενο μαθήματος###15 Jul 2006 content changed
 crs#:#crs_copy_cat_not_allowed#:#Δεν είναι δυνατόν να αντιγράψετε κατηγορίες
 crs#:#crs_count_members#:#Αριθμός Μελών
 crs#:#crs_count_questions#:#Αριθμός ερωτήσεων
@@ -3611,6 +3614,7 @@ crs#:#crs_export#:#Εξαγωγή Μαθήματος
 crs#:#crs_file_name#:#Όνομα αρχείου
 crs#:#crs_free_places#:#Διαθέσιμα μέρη
 crs#:#crs_from#:#Από:
+crs#:#crs_further_settings#:#Further Settings###15 Jul 2006 new variable
 crs#:#crs_grouping#:#Ομαδοποίηση Μαθημάτων
 crs#:#crs_grouping_assign#:#Αλλαγή ανάθεσης
 crs#:#crs_grouping_delete_sure#:#Θέλετε πραγματικά να διαγράψετε τις ακόλουθες ομαδοποιήσεις μαθημάτων;
@@ -3777,9 +3781,9 @@ crs#:#crs_reg_user_already_subscribed#:#Έχετε ήδη εγγραφεί σε 
 crs#:#crs_reg_user_blocked#:#Είστε μπλοκαρισμένοι για αυτό το μάθημα
 crs#:#crs_registration#:#Εγγραφή μαθήματος
 crs#:#crs_registration_deactivated#:#Επιλέξτε αυτή την επιλογή για να ακυρώσετε την εγγραφή. Κανένας χρήστης δεν μπορεί να εγγραφεί για αυτό το μάθημα.
-crs#:#crs_registration_limited#:#Περιορισμένη περίοδος εγγραφής
-crs#:#crs_registration_type#:#Τύπος εγγραφής
-crs#:#crs_registration_unlimited#:#Απεριόριστη περίοδος εγγραφής
+crs#:#crs_registration_limited#:#Περιορισμένη περίοδος εγγραφής###15 Jul 2006 content changed
+crs#:#crs_registration_type#:#Τύπος εγγραφής###15 Jul 2006 content changed
+crs#:#crs_registration_unlimited#:#Απεριόριστη περίοδος εγγραφής###15 Jul 2006 content changed
 crs#:#crs_reject_subscriber#:#Εγγραφή στο μάθημα
 crs#:#crs_reject_subscriber_body#:#Η εγγραφή σας έχει απορριφθεί.
 crs#:#crs_reset_results#:#Αρχικοποίηση αποτελεσμάτων
@@ -3806,11 +3810,14 @@ crs#:#crs_show_link_or#:#Εμφάνιση άλλων πηγών
 crs#:#crs_show_link_tst#:#Εμφάνιση διαγωνισμάτων
 crs#:#crs_show_objectives_view#:#Προβολή αντικειμενικών σκοπών
 crs#:#crs_size#:#Μέγεθος αρχείου
-crs#:#crs_sort_activation#:#Ταξινόμηση σύμφωνα με την ενεργοποίηση
-crs#:#crs_sort_manual#:#Χειροκίνητη ταξινόμηση
-crs#:#crs_sort_title#:#Ταξινόμηση σύμφωνα με τον τίτλο
+crs#:#crs_sort_activation#:#Ταξινόμηση σύμφωνα με την ενεργοποίηση###15 Jul 2006 content changed
+crs#:#crs_sort_manual#:#Χειροκίνητη ταξινόμηση###15 Jul 2006 content changed
+crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.###15 Jul 2006 new variable
+crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.###15 Jul 2006 new variable
+crs#:#crs_sort_title#:#Ταξινόμηση σύμφωνα με τον τίτλο###15 Jul 2006 content changed
+crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.###15 Jul 2006 new variable
 crs#:#crs_sortorder#:#Ταξινόμηση
-crs#:#crs_sortorder_abo#:#Σειρά ταξινόμησης/Εγγραφή
+crs#:#crs_sortorder_abo#:#Σειρά ταξινόμησης/Εγγραφή###15 Jul 2006 content changed
 crs#:#crs_start#:#Εκκίνηση
 crs#:#crs_start_objects#:#Αντικείμενα εκκίνησης
 crs#:#crs_starter_deleted#:#Διαγραμμένη ανάθεση.
@@ -3822,12 +3829,12 @@ crs#:#crs_structure#:#Δομή μαθήματος
 crs#:#crs_subscribers#:#Συνδρομές
 crs#:#crs_subscribers_deleted#:#Διαγραμμένος/οι συνδρομητής/ες
 crs#:#crs_subscription#:#Συνδρομή
-crs#:#crs_subscription_max_members#:#Μέγιστος αριθμός χρηστών
+crs#:#crs_subscription_max_members#:#Μέγιστος αριθμός χρηστών###15 Jul 2006 content changed
 crs#:#crs_subscription_notify#:#Ειδοποίηση για συνδρομές
-crs#:#crs_subscription_options_confirmation#:#Συνδρομή με επιβεβαίωση
+crs#:#crs_subscription_options_confirmation#:#Συνδρομή με επιβεβαίωση###15 Jul 2006 content changed
 crs#:#crs_subscription_options_deactivated#:#Απενεγοποιημένο
-crs#:#crs_subscription_options_direct#:#Απευθείας συμμετοχή
-crs#:#crs_subscription_options_password#:#Συμμετοχή με κωδικό
+crs#:#crs_subscription_options_direct#:#Απευθείας συμμετοχή###15 Jul 2006 content changed
+crs#:#crs_subscription_options_password#:#Συμμετοχή με κωδικό###15 Jul 2006 content changed
 crs#:#crs_subscription_requested#:#Έχετε κάνει αίτηση μέλους γι' αυτό το μάθημα.
 crs#:#crs_subscription_successful#:#Έχετε εγγραφεί σε αυτό το μάθημα
 crs#:#crs_subscription_type#:#Τύπος συνδρομής
@@ -3841,8 +3848,11 @@ crs#:#crs_test_status_random#:#Τυχαίο διαγώνισμα
 crs#:#crs_time#:#Χρόνος συνδρομής
 crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
+crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
+crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_suggested_info#:#Suggested Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_to#:#στο:
 crs#:#crs_tutor#:#Επιμελητής
@@ -3859,12 +3869,20 @@ crs#:#crs_update_objective#:#Επεξεργασία εκπαιδευτικού �
 crs#:#crs_users_added#:#Προσθήκη χρήστη στο μάθημα
 crs#:#crs_users_already_assigned#:#Ο χρήστης είναι ήδη καταχωρημένος σε αυτό το μάθημα
 crs#:#crs_users_removed_from_list#:#Οι επιλεγμένοι χρήστες έχουν αφαιρεθεί από τη λίστα αναμονής
+crs#:#crs_view_archive#:#Archive View###15 Jul 2006 new variable
+crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.###15 Jul 2006 new variable
+crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.###15 Jul 2006 new variable
+crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.###15 Jul 2006 new variable
+crs#:#crs_view_mode#:#Course Presentation###15 Jul 2006 new variable
+crs#:#crs_view_objective#:#Objective Oriented View###15 Jul 2006 new variable
+crs#:#crs_view_standard#:#Standard View###15 Jul 2006 new variable
+crs#:#crs_view_timing#:#Timings View###15 Jul 2006 new variable
 crs#:#crs_visibility#:#Διαθεσιμότητα
 crs#:#crs_visibility_limitless#:#Χωρίς όρια
-crs#:#crs_visibility_until#:#Προσωρινά διαθέσιμο
-crs#:#crs_visibility_unvisible#:#Μη διαθέσιμο
+crs#:#crs_visibility_until#:#Προσωρινά διαθέσιμο###15 Jul 2006 content changed
+crs#:#crs_visibility_unvisible#:#Μη διαθέσιμο###15 Jul 2006 content changed
 crs#:#crs_wait_info#:#Αν είναι ενεργοποιημένο και ξεπεραστεί ο μέγιστος αριθμός χρηστών, θα τοποθετηθούν νέες εγγραφές στη λίστα αναμονής.
-crs#:#crs_waiting_list#:#Λίστα αναμονής
+crs#:#crs_waiting_list#:#Λίστα αναμονής###15 Jul 2006 content changed
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Η θέσης σας στη λίστα αναμονής
 crs#:#edit_content#:#Επεξεργασία περιεχομένων

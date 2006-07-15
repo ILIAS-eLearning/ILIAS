@@ -891,9 +891,11 @@ common#:#auth_ldap_desc#:#Удо�?товерить пользователей ч
 common#:#auth_ldap_not_configured#:#LDAP до �?их пор не �?конфигурирован
 common#:#auth_local#:#ILIAS База данных
 common#:#auth_local_desc#:#Удо�?товерить пользователей через локальную ILIAS базу данных (по умолчанию)
+common#:#auth_login_instructions#:#Instructions on Login Screen###15 Jul 2006 new variable
 common#:#auth_mode#:#Модель до�?тупа
 common#:#auth_mode_not_changed#:#(�?ичего не изменено)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
+common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
 common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Удо�?товерить пользователей через RADIUS Сервер
@@ -3287,6 +3289,8 @@ crs#:#crs_add_grp_assignment#:#Подпи�?ать на кур�?(ы)
 crs#:#crs_add_html_archive#:#Добавить �?рхив HTML
 crs#:#crs_add_member#:#Добавить Члена(ов)
 crs#:#crs_add_objective#:#Добавить объект
+crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop###15 Jul 2006 new variable
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.###15 Jul 2006 new variable
 crs#:#crs_add_starter#:#Добавить начальный объект###10 Jul 2006 content changed
 crs#:#crs_add_subscribers#:#Добавить Подпи�?чика
 crs#:#crs_added#:#Добавлен новый кур�?
@@ -3301,7 +3305,7 @@ crs#:#crs_admin_notify#:#�?дмини�?тратор (�? объ�?влением)
 crs#:#crs_allow_abo#:#Разрешена подпи�?ка на пункты кур�?а
 crs#:#crs_archive#:#�?рхивы
 crs#:#crs_archive_disabled#:#Выключены
-crs#:#crs_archive_download#:#Загрузить
+crs#:#crs_archive_download#:#Загрузить###15 Jul 2006 content changed
 crs#:#crs_archive_lang#:#Язык
 crs#:#crs_archive_read#:#До�?туп на чтение
 crs#:#crs_archive_select_type#:#Тип до�?тупа к архиву
@@ -3325,7 +3329,7 @@ crs#:#crs_contact_email#:#Email
 crs#:#crs_contact_name#:#�?азвание/Им�?
 crs#:#crs_contact_phone#:#Телефон
 crs#:#crs_contact_responsibility#:#Об�?затель�?тво
-crs#:#crs_content#:#Содержание кур�?а
+crs#:#crs_content#:#Содержание кур�?а###15 Jul 2006 content changed
 crs#:#crs_copy_cat_not_allowed#:#�?евозможно копировать категории
 crs#:#crs_count_members#:#Количе�?тво членов
 crs#:#crs_count_questions#:#Количе�?тво вопро�?ов
@@ -3355,6 +3359,7 @@ crs#:#crs_file_name#:#�?азвание файла
 crs#:#crs_file_size_info#:#Filesize###10 Jul 2006 new variable
 crs#:#crs_filename#:#Filename###10 Jul 2006 new variable
 crs#:#crs_from#:#С:###10 Jul 2006 content changed
+crs#:#crs_further_settings#:#Further Settings###15 Jul 2006 new variable
 crs#:#crs_general_info#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_general_informations#:#General Informations###10 Jul 2006 new variable
 crs#:#crs_grouping#:#Группы кур�?а
@@ -3522,9 +3527,9 @@ crs#:#crs_reg_user_already_subscribed#:#Вы уже подпи�?аны на �?т
 crs#:#crs_reg_user_blocked#:#Дл�? Ва�? �?тот кур�? закрыт
 crs#:#crs_registration#:#Реги�?траци�? кур�?а
 crs#:#crs_registration_deactivated#:#Выберите �?ту опцию дл�? отключени�? реги�?трации.
-crs#:#crs_registration_limited#:#Реги�?траци�? �? временным ограничением
-crs#:#crs_registration_type#:#Тип реги�?трации
-crs#:#crs_registration_unlimited#:#Реги�?траци�? без временного ограничени�?
+crs#:#crs_registration_limited#:#Реги�?траци�? �? временным ограничением###15 Jul 2006 content changed
+crs#:#crs_registration_type#:#Тип реги�?трации###15 Jul 2006 content changed
+crs#:#crs_registration_unlimited#:#Реги�?траци�? без временного ограничени�?###15 Jul 2006 content changed
 crs#:#crs_reject_subscriber#:#Подпи�?ка кур�?а###10 Jul 2006 content changed
 crs#:#crs_reject_subscriber_body#:#Ваша подпи�?ка была отклонена.###10 Jul 2006 content changed
 crs#:#crs_reset_results#:#Очи�?тить результаты
@@ -3550,11 +3555,14 @@ crs#:#crs_show_link_or#:#Показать другие ре�?ур�?ы
 crs#:#crs_show_link_tst#:#Показать те�?ты
 crs#:#crs_show_objectives_view#:#Про�?мотр объектов
 crs#:#crs_size#:#Размер файла
-crs#:#crs_sort_activation#:#Сортировать по активации
-crs#:#crs_sort_manual#:#Сортировать вручную
-crs#:#crs_sort_title#:#Сортировать по названию
+crs#:#crs_sort_activation#:#Сортировать по активации###15 Jul 2006 content changed
+crs#:#crs_sort_manual#:#Сортировать вручную###15 Jul 2006 content changed
+crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.###15 Jul 2006 new variable
+crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.###15 Jul 2006 new variable
+crs#:#crs_sort_title#:#Сортировать по названию###15 Jul 2006 content changed
+crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.###15 Jul 2006 new variable
 crs#:#crs_sortorder#:#Сортировка
-crs#:#crs_sortorder_abo#:#Пор�?док �?ортировки/Подпи�?ка
+crs#:#crs_sortorder_abo#:#Пор�?док �?ортировки/Подпи�?ка###15 Jul 2006 content changed
 crs#:#crs_start#:#�?ачало(Старт)
 crs#:#crs_start_objects#:#Стартовые объекты###10 Jul 2006 content changed
 crs#:#crs_starter_deleted#:#�?азначение перемещено.
@@ -3566,12 +3574,12 @@ crs#:#crs_structure#:#Структура кур�?а
 crs#:#crs_subscribers#:#Подпи�?чики
 crs#:#crs_subscribers_deleted#:#Удалить подпи�?чика(ов)
 crs#:#crs_subscription#:#Подпи�?ка
-crs#:#crs_subscription_max_members#:#Мак�?имальное количе�?тво пользователей
+crs#:#crs_subscription_max_members#:#Мак�?имальное количе�?тво пользователей###15 Jul 2006 content changed
 crs#:#crs_subscription_notify#:#Извещение дл�? подпи�?чиков
-crs#:#crs_subscription_options_confirmation#:#Подпи�?ка �? подтверждением
+crs#:#crs_subscription_options_confirmation#:#Подпи�?ка �? подтверждением###15 Jul 2006 content changed
 crs#:#crs_subscription_options_deactivated#:#�?еактивно
-crs#:#crs_subscription_options_direct#:#Пр�?ма�? подпи�?ка
-crs#:#crs_subscription_options_password#:#Подпи�?ка �? паролем
+crs#:#crs_subscription_options_direct#:#Пр�?ма�? подпи�?ка###15 Jul 2006 content changed
+crs#:#crs_subscription_options_password#:#Подпи�?ка �? паролем###15 Jul 2006 content changed
 crs#:#crs_subscription_successful#:#Вы подпи�?аны на �?тот кур�?
 crs#:#crs_subscription_type#:#Вид подпи�?ки
 crs#:#crs_suggest_lm#:#Предлагать обучающие материалы в �?лучае:
@@ -3593,7 +3601,9 @@ crs#:#crs_timings_early_begin#:#Earliest Start###10 Jul 2006 new variable
 crs#:#crs_timings_end#:#Ending Time###10 Jul 2006 new variable
 crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
+crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
 crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
 crs#:#crs_timings_presetting_tbl#:#Time Target###10 Jul 2006 new variable
@@ -3605,6 +3615,7 @@ crs#:#crs_timings_start#:#Starting Time###10 Jul 2006 new variable
 crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_begin#:#Suggested Start###10 Jul 2006 new variable
 crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
+crs#:#crs_timings_suggested_info#:#Suggested Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
 crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
@@ -3622,10 +3633,18 @@ crs#:#crs_unsubscribed_from_crs#:#Вы подпи�?аны на �?тот кур�?
 crs#:#crs_update_objective#:#Редактировать обучащие объекты
 crs#:#crs_users_added#:#Добавить пользовател�? к кур�?у
 crs#:#crs_users_already_assigned#:#Пользователь уже назначен на �?тот кур�?
+crs#:#crs_view_archive#:#Archive View###15 Jul 2006 new variable
+crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.###15 Jul 2006 new variable
+crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.###15 Jul 2006 new variable
+crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.###15 Jul 2006 new variable
+crs#:#crs_view_mode#:#Course Presentation###15 Jul 2006 new variable
+crs#:#crs_view_objective#:#Objective Oriented View###15 Jul 2006 new variable
+crs#:#crs_view_standard#:#Standard View###15 Jul 2006 new variable
+crs#:#crs_view_timing#:#Timings View###15 Jul 2006 new variable
 crs#:#crs_visibility#:#До�?тупны
 crs#:#crs_visibility_limitless#:#Без ограничений
-crs#:#crs_visibility_until#:#Временное ограничение
-crs#:#crs_visibility_unvisible#:#�?едо�?тупен
+crs#:#crs_visibility_until#:#Временное ограничение###15 Jul 2006 content changed
+crs#:#crs_visibility_unvisible#:#�?едо�?тупен###15 Jul 2006 content changed
 crs#:#crs_xml#:#XML
 crs#:#edit_content#:#Редактировать �?одержимое###10 Jul 2006 content changed
 crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
