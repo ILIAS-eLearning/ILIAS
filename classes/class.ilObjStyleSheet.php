@@ -191,9 +191,9 @@ class ilObjStyleSheet extends ilObject
 	* get standard styles
 	*/
 	function _getStandardStyles($a_exclude_default_style = false,
-		$a_include_deactivated = false)
+		$a_include_deactivated = false, $a_scope = 0)
 	{
-		global $ilDB, $ilias;
+		global $ilDB, $ilias, $tree;
 		
 		$default_style = $ilias->getSetting("default_content_style_id");
 		
@@ -211,6 +211,19 @@ class ilObjStyleSheet extends ilObject
 		{
 			if (!$a_exclude_default_style || $default_style != $sty["id"])
 			{
+				// check scope
+				if ($a_scope > 0 && $sty["category"] > 0)
+				{
+					if ($tree->isInTree($sty["category"]) &&
+						$tree->isInTree($a_scope))
+					{
+						$path = $tree->getPathId($a_scope);
+						if (!in_array($sty["category"], $path))
+						{
+							continue;
+						}
+					}
+				}
 				$styles[$sty["id"]] = ilObject::_lookupTitle($sty["id"]);
 			}
 		}

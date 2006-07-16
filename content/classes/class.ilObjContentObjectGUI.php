@@ -325,7 +325,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("style_edit");
 			$style_id = $this->object->getStyleSheetId();
 			
-			$st_styles = ilObjStyleSheet::_getStandardStyles(true);
+			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
+				$_GET["ref_id"]);
 
 			$st_styles[0] = $this->lng->txt("default");
 			ksort($st_styles);
