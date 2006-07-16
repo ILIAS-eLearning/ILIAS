@@ -52,6 +52,30 @@ class ilStyleScopeExplorer extends ilExplorer
 		parent::ilExplorer($a_target);
 	}
 	
+	function formatHeader(&$tpl,$a_obj_id,$a_option)
+	{
+		global $lng, $ilias, $ilCtrl;
+
+		$tpl->setCurrentBlock("icon");
+		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_root.gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
+		$tpl->parseCurrentBlock();
+
+		$ilCtrl->setParameterByClass("ilobjstylesettingsgui",
+			"cat", 0);
+		$ilCtrl->setParameterByClass("ilobjstylesettingsgui",
+			"style_id", $this->style_id);
+
+		$tpl->setCurrentBlock("link");
+		$tpl->setVariable("TITLE", $lng->txt("repository"));
+		$tpl->setVariable("LINK_TARGET", $ilCtrl->getLinkTargetByClass("ilobjstylesettingsgui",
+			"saveScope"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("element");
+		$tpl->parseCurrentBlock();
+	}
+
 	/**
 	* get link target
 	*/

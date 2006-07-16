@@ -126,7 +126,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TREE_FRAME_INFO", $this->lng->txt("tree_frame_info"));
 		$this->tpl->setVariable("TXT_FRAME_LEFT", $this->lng->txt("tree_left"));
 		$this->tpl->setVariable("TXT_FRAME_RIGHT", $this->lng->txt("tree_right"));
-		
+
 		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("basic_settings"));
 		$this->tpl->setVariable("TXT_ICONS_IN_TYPED_LISTS", $this->lng->txt("icons_in_typed_lists"));
 		$this->tpl->setVariable("TXT_ICONS_IN_HEADER", $this->lng->txt("icons_in_header"));
@@ -974,6 +974,10 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		global $ilias;
 		
 		include_once("classes/class.ilObjStyleSheet.php");
+		if ($_GET["cat"] == 0)
+		{
+			$_GET["cat"] == "";
+		}
 		ilObjStyleSheet::_writeScope($_GET["style_id"], $_GET["cat"]);
 		
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
