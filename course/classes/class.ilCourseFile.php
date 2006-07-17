@@ -138,9 +138,10 @@ class ilCourseFile
 				$this->ilErr->appendMessage($this->lng->txt('file_upload_no_tmp_dir'));
 				break;
 
-			case UPLOAD_ERR_CANT_WRITE:
-				$this->ilErr->appendMessage($this->lng->txt('file_upload_no_write'));
-				break;
+				// not possible with php 4
+			#case UPLOAD_ERR_CANT_WRITE:
+			#	$this->ilErr->appendMessage($this->lng->txt('file_upload_no_write'));
+			#	break;
 
 			case UPLOAD_ERR_OK:
 			case UPLOAD_ERR_NO_FILE:
