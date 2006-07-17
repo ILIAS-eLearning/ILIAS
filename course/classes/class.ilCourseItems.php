@@ -281,18 +281,19 @@ class ilCourseItems
 			{
 				$ilErr->appendMessage($this->lng->txt("crs_suggestion_not_valid"));
 			}
-		}			
-		if($this->getTimingType() == IL_CRS_TIMINGS_PRESETTING and 
-		   $this->enabledChangeable())
-		{
-			if($this->getSuggestionStart() < $this->getEarliestStart() or
-			   $this->getSuggestionEnd() > $this->getLatestEnd() or
-			   $this->getSuggestionStart() > $this->getLatestEnd() or
-			   $this->getSuggestionEnd() < $this->getEarliestStart())
-			{
-				$ilErr->appendMessage($this->lng->txt("crs_suggestion_not_within_activation"));
-			}
 		}
+		// Disabled
+		#if($this->getTimingType() == IL_CRS_TIMINGS_PRESETTING and 
+		#   $this->enabledChangeable())
+		#{
+		#	if($this->getSuggestionStart() < $this->getEarliestStart() or
+		#	   $this->getSuggestionEnd() > $this->getLatestEnd() or
+		#	   $this->getSuggestionStart() > $this->getLatestEnd() or
+		#	   $this->getSuggestionEnd() < $this->getEarliestStart())
+		#	{
+		#		$ilErr->appendMessage($this->lng->txt("crs_suggestion_not_within_activation"));
+		#	}
+		#}
 
 		if($ilErr->getMessage())
 		{

@@ -4160,7 +4160,7 @@ crs#:#crs_show_link_or#:#Andere Objekte anzeigen
 crs#:#crs_show_link_tst#:#Tests anzeigen
 crs#:#crs_show_objectives_view#:#Lernziel Ansicht
 crs#:#crs_size#:#Dateigröße
-crs#:#crs_sort_activation#:#Nach Aktivierung###15 Jul 2006 content changed
+crs#:#crs_sort_activation#:#Nach Zeitvorgaben###15 Jul 2006 content changed
 crs#:#crs_sort_manual#:#Manuelle Sortierung###15 Jul 2006 content changed
 crs#:#crs_sort_manual_info#:#Wenn ausgewählt, können die Kursmaterialien manuell in beliebiger Reihenfolge sortiert werden.
 crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach Zeitvorgaben.
