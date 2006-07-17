@@ -184,7 +184,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->setStartDateEnabled($_POST["checked_start_date"]);
 		$this->object->setEndDate(sprintf("%04d-%02d-%02d", $_POST["end_date"]["y"], $_POST["end_date"]["m"], $_POST["end_date"]["d"]));
 		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
-		$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"]));
+
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$introduction = preg_replace("/[\n\r]+/", "<br />", $introduction);
+		$this->object->setIntroduction($introduction);
+
 		$this->object->setAnonymize($_POST["anonymize"]);
 		if ($_POST["showQuestionTitles"])
 		{
@@ -379,6 +384,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTIONTITLES_CHECKED", " checked=\"checked\"");
 		}
     $this->tpl->parseCurrentBlock();
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->addRTESupport("survey");
   }
 
 	/**
@@ -3715,7 +3725,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (strlen($this->object->getIntroduction()))
 		{
 			$introduction = $this->object->getIntroduction();
-			$introduction = preg_replace("/\n/i", "<br />", $introduction);
 			$info->addSection($this->lng->txt("introduction"));
 			$info->addProperty("", $introduction);
 		}
