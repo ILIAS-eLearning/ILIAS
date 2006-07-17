@@ -363,7 +363,7 @@ class assOrderingQuestion extends assQuestion
 		$attrs = array(
 			"texttype" => "text/plain"
 		);
-		if ($this->object->isHTML($this->getQuestion()))
+		if ($this->isHTML($this->getQuestion()))
 		{
 			$attrs["texttype"] = "text/xhtml";
 		}
@@ -478,7 +478,7 @@ class assOrderingQuestion extends assQuestion
 				$attrs = array(
 					"texttype" => "text/plain"
 				);
-				if ($this->object->isHTML($answer->getAnswertext()))
+				if ($this->isHTML($answer->getAnswertext()))
 				{
 					$attrs["texttype"] = "text/xhtml";
 				}

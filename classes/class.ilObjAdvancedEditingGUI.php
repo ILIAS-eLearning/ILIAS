@@ -119,26 +119,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing.html");
 		
-		$alltags =& $this->object->getHTMLTags();
-		$usedtags =& $this->object->_getUsedHTMLTags();
-		foreach ($alltags as $tag)
-		{
-			$this->tpl->setCurrentBlock("html_tag_row");
-			$this->tpl->setVariable("HTML_TAG", $tag);
-			if (is_array($usedtags))
-			{
-				if (in_array($tag, $usedtags))
-				{
-					$this->tpl->setVariable("HTML_TAG_SELECTED", " selected=\"selected\"");
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ADVANCED_EDITING_SETTINGS", $this->lng->txt("advanced_editing_settings"));
-		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
 		$this->tpl->setVariable("TXT_ALLOW_JAVASCRIPT_EDITOR", $this->lng->txt("advanced_editing_allow_javascript_editor"));
 		$this->tpl->setVariable("NO_RTE_EDITOR", $this->lng->txt("advanced_editing_no_rte"));
 		$this->tpl->setVariable("TINY_MCE_EDITOR", $this->lng->txt("advanced_editing_tinymce"));
@@ -155,21 +138,113 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	function assessmentObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_assessment.html");
+		
+		$alltags =& $this->object->getHTMLTags();
+		$usedtags =& $this->object->_getUsedHTMLTags("assessment");
+		foreach ($alltags as $tag)
+		{
+			$this->tpl->setCurrentBlock("html_tag_row");
+			$this->tpl->setVariable("HTML_TAG", $tag);
+			if (is_array($usedtags))
+			{
+				if (in_array($tag, $usedtags))
+				{
+					$this->tpl->setVariable("HTML_TAG_SELECTED", " selected=\"selected\"");
+				}
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_ASSESSMENT_SETTINGS", $this->lng->txt("advanced_editing_assessment_settings"));
+		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function surveyObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_survey.html");
+		
+		$alltags =& $this->object->getHTMLTags();
+		$usedtags =& $this->object->_getUsedHTMLTags("survey");
+		foreach ($alltags as $tag)
+		{
+			$this->tpl->setCurrentBlock("html_tag_row");
+			$this->tpl->setVariable("HTML_TAG", $tag);
+			if (is_array($usedtags))
+			{
+				if (in_array($tag, $usedtags))
+				{
+					$this->tpl->setVariable("HTML_TAG_SELECTED", " selected=\"selected\"");
+				}
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_SURVEY_SETTINGS", $this->lng->txt("advanced_editing_survey_settings"));
+		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	/**
 	* Save Assessment settings
 	*/
 	function saveSettingsObject()
 	{
-		$this->object->_setUsedHTMLTags($_POST["html_tags"]);
 		$this->object->_setRichTextEditor($_POST["rte"]);
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');
 	}
 	
+	function saveAssessmentSettingsObject()
+	{
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		$this->object->_setUsedHTMLTags($_POST["html_tags"], "assessment");
+		$this->ctrl->redirect($this,'assessment');
+	}
+	
+	function saveSurveySettingsObject()
+	{
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		$this->object->_setUsedHTMLTags($_POST["html_tags"], "survey");
+		$this->ctrl->redirect($this,'survey');
+	}
+	
 	function getAdminTabs(&$tabs_gui)
 	{
 		$this->getTabs($tabs_gui);
+	}
+	
+	function addSubtabs(&$tabs_gui)
+	{
+		$tabs_gui->addSubTabTarget("adve_general_settings",
+										 $this->ctrl->getLinkTarget($this, "settings"),
+										 array("", "view", "settings", "saveSettings"),
+										 "", "");
+		if ($this->object->_getRichTextEditor())
+		{
+			$tabs_gui->addSubTabTarget("adve_assessment_settings",
+											 $this->ctrl->getLinkTarget($this, "assessment"),
+											 array("assessment", "saveAssessmentSettings"),
+											 "", "");
+			$tabs_gui->addSubTabTarget("adve_survey_settings",
+											 $this->ctrl->getLinkTarget($this, "survey"),
+											 array("survey", "saveSurveySettings"),
+											 "", "");
+		}
 	}
 	
 	/**
@@ -184,7 +259,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
+				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view", "assessment", "survey"), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -192,6 +267,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
+		$this->addSubtabs($tabs_gui);
 	}
 } // END class.ilObjAdvancedEditingGUI
 ?>

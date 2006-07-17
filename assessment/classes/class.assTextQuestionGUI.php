@@ -181,7 +181,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
 		$rte->addPlugin("latex");
-		$rte->addRTESupport();
+		$rte->addRTESupport("assessment");
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
@@ -222,7 +222,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
+		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setPoints($_POST["points"]);
@@ -233,7 +233,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		}
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setMaxNumOfChars($_POST["maxchars"]);
-		$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+		$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		$this->object->setTextRating($_POST["text_rating"]);
 
 		$saved = $this->writeOtherPostData($result);

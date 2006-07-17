@@ -215,25 +215,49 @@ class ilObjAdvancedEditing extends ilObject
 	*
 	* Returns an array of all allowed HTML tags for text editing
 	*
+	* @param string $a_module Name of the module or object which uses the tags
 	* @return array HTML tags
 	*/
-	function &_getUsedHTMLTags()
+	function &_getUsedHTMLTags($a_module = "")
 	{
 		$usedtags = array();
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$setting = new ilSetting("advanced_editing");
-		$tags = $setting->get("advanced_editing_used_html_tags");
+		$tags = $setting->get("advanced_editing_used_html_tags_" . $a_module);
 		if (strlen($tags))
 		{
 			$usedtags = unserialize($tags);
 		}
 		else
 		{
+			// default: everything but tables
 			$usedtags = array(
-				"cite",
-				"code",
-				"em",
-				"strong"
+			"a",
+			"blockquote",
+			"br",
+			"cite",
+			"code",
+			"div",
+			"em",
+			"h1",
+			"h2",
+			"h3",
+			"h4",
+			"h5",
+			"h6",
+			"hr",
+			"img",
+			"li",
+			"ol",
+			"p",
+			"pre",
+			"span",
+			"strike",
+			"strong",
+			"sub",
+			"sup",
+			"u",
+			"ul"			
 			);
 		}
 		return $usedtags;
@@ -244,12 +268,13 @@ class ilObjAdvancedEditing extends ilObject
 	*
 	* Returns a string of all allowed HTML tags for text editing
 	*
+	* @param string $a_module Name of the module or object which uses the tags
 	* @return string Used HTML tags
 	*/
-	function &_getUsedHTMLTagsAsString()
+	function &_getUsedHTMLTagsAsString($a_module = "")
 	{
 		$result = "";
-		$tags =& ilObjAdvancedEditing::_getUsedHTMLTags();
+		$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
 		foreach ($tags as $tag)
 		{
 			$result .= "<$tag>";
@@ -292,12 +317,16 @@ class ilObjAdvancedEditing extends ilObject
 	* Writes an array with allowed HTML tags to the ILIAS settings
 	*
 	* @param array $a_html_tags An array containing the allowed HTML tags
+	* @param string $a_module The name of the module or object which uses the tags
 	*/
-	function _setUsedHTMLTags($a_html_tags)
+	function _setUsedHTMLTags($a_html_tags, $a_module)
 	{
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$setting = new ilSetting("advanced_editing");
-		$setting->set("advanced_editing_used_html_tags", serialize($a_html_tags));
+		if (strlen($a_module))
+		{
+			include_once "./Services/Administration/classes/class.ilSetting.php";
+			$setting = new ilSetting("advanced_editing");
+			$setting->set("advanced_editing_used_html_tags_" . $a_module, serialize($a_html_tags));
+		}
 	}
 	
 	/**

@@ -323,7 +323,7 @@ class assTextSubset extends assQuestion
 		$attrs = array(
 			"texttype" => "text/plain"
 		);
-		if ($this->object->isHTML($this->getQuestion()))
+		if ($this->isHTML($this->getQuestion()))
 		{
 			$attrs["texttype"] = "text/xhtml";
 		}
@@ -824,7 +824,10 @@ class assTextSubset extends assQuestion
 		$points = array();
 		foreach ($this->answers as $answer)
 		{
-			array_push($points, $answer->getPoints());
+			if ($answer->getPoints() > 0)
+			{
+				array_push($points, $answer->getPoints());
+			}
 		}
 		rsort($points, SORT_NUMERIC);
 		$maxpoints = 0;

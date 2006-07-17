@@ -44,14 +44,15 @@ class ilTinyMCE extends ilRTE
 	*
 	* Adds support for an RTE in an ILIAS form
 	*
+	* @param string $a_module Module or object which should use the HTML tags
 	* @access public
 	*/
-	function addRTESupport()
+	function addRTESupport($a_module = "")
 	{
 		include_once "./classes/class.ilTemplate.php";
 		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$tags =& ilObjAdvancedEditing::_getUsedHTMLTags();
+		$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
 		$tpl->setCurrentBlock("tinymce");
 		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
 		include_once "./classes/class.ilObject.php";
