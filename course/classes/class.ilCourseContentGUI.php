@@ -481,6 +481,8 @@ class ilCourseContentGUI
 
 		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 
+		$this->lng->loadLanguageModule('meta');
+
 		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
@@ -523,6 +525,15 @@ class ilCourseContentGUI
 				$this->tpl->setVariable("DESC",$item['description']);
 				$this->tpl->parseCurrentBlock();
 			}
+
+			if($tlt = ilMDEducational::_getTypicalLearningTimeSeconds($item['obj_id']))
+			{
+				$this->tpl->setCurrentBlock("tlt");
+				$this->tpl->setVariable("TXT_TLT",$this->lng->txt('meta_typical_learning_time'));
+				$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setVariable("TITLE",$item['title']);
 
 			$this->tpl->setCurrentBlock("container_standard_row");
