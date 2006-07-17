@@ -1,11 +1,11 @@
-	<form action="{FORMACTION}" method="post">
+	<form name="items" action="{FORMACTION}" method="post">
 	  <table class="fullwidth" border="0">
-		  <tr class="tbltitle">
-			<th class="std" colspan="7">
-			  <img style="vertical-align: middle;" border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
-			  &nbsp;{BLOCK_HEADER_CONTENT}
-			</th>
-		  </tr>
+		<tr class="tbltitle">
+		  <th class="std" colspan="7">
+			<img style="vertical-align: middle;" border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			&nbsp;{BLOCK_HEADER_CONTENT}
+		  </th>
+		</tr>
 		<tr class="tblheader">
 		  <th class="std" valign="top">{TXT_TITLE}</th>
 		  <th class="std">{TXT_DURATION}<div class="subtitle">{TXT_INFO_DURATION}</div></th>
@@ -15,48 +15,62 @@
 		  <th class="std">{TXT_LIMIT}<div class="subtitle">{TXT_INFO_LIMIT}</div></th>
 		  <th class="std">{TXT_ACTIVE}<div class="subtitle">{TXT_INFO_ACTIVE}</div></th>
 		</tr>
-		  <!-- BEGIN container_standard_row -->
-		  <tr class="{ROWCLASS}">
-			<td>
-			  <b>{TITLE}</b>
-			  <!-- BEGIN item_description -->
-			  <div class="il_Description" >{DESC}</div>
-			  <!-- END item_description -->
-			  <!-- BEGIN tlt -->
-			  <div class="il_ItemProperties">
-				<div class="il_ItemProperty">{TXT_TLT}: {TLT_VAL}</div>
-			  </div>
-			  <!-- END tlt -->
-			</td>
-			<td align="center">
-			  <input type="text" name="{NAME_DURATION_A}" value="{VAL_DURATION_A}" size="2" maxlength="3" />
-			</td>
-			<td nowrap="nowrap">
-			  {SUG_START}<br />
-			  {SUG_END}
-			</td>
-			<td align="center">
-			  <input type="checkbox" name="{NAME_CHANGE}" value="1" {CHECKED_CHANGE} />
-			</td>
-			<td align="center">
-			  <input type="text" name="{NAME_DURATION_B}" value="{VAL_DURATION_B}" size="2" maxlength="3" />
-			</td>
-			<td nowrap="nowrap">
-			  {LIM_START}<br />
-			  {LIM_END}
-			</td>
-			<td align="center">
-			  <input type="checkbox" name="{NAME_ACTIVE}" value="1" {CHECKED_ACTIVE} />
-			</td>
-		  </tr>
-		  <!-- END container_standard_row -->
-		  <tr class="tblfooter">
-			<td class="std" valign="center" align="left" colspan="7">
-			  <div style="float:right">
-				<input class="submit" type="SUBMIT" name="cmd[updateTimings]" value="{BTN_SAVE}"/>
-				<input class="submit" type="SUBMIT" name="cmd[view]" value="{BTN_CANCEL}"/>
-			  </div>
-			</td>
-		  </tr>
+		<!-- BEGIN container_standard_row -->
+		<tr class="{ROWCLASS}">
+		  <td>
+			<b>{TITLE}</b>
+			<!-- BEGIN item_description -->
+			<div class="il_Description" >{DESC}</div>
+			<!-- END item_description -->
+			<!-- BEGIN tlt -->
+			<div class="il_ItemProperties">
+			  <div class="il_ItemProperty">{TXT_TLT}: {TLT_VAL}</div>
+			</div>
+			<!-- END tlt -->
+		  </td>
+		  <td align="center">
+			<input type="text" name="{NAME_DURATION_A}" value="{VAL_DURATION_A}" size="2" maxlength="3" />
+		  </td>
+		  <td nowrap="nowrap">
+			{SUG_START}<br />
+			{SUG_END}
+		  </td>
+		  <td align="left">
+			<input type="checkbox" name="{NAME_CHANGE}" value="1" {CHECKED_CHANGE} />
+		  </td>
+		  <td align="center">
+			<input type="text" name="{NAME_DURATION_B}" value="{VAL_DURATION_B}" size="2" maxlength="3" />
+		  </td>
+		  <td nowrap="nowrap">
+			{LIM_START}<br />
+			{LIM_END}
+		  </td>
+		  <td align="left">
+			<input type="checkbox" name="{NAME_ACTIVE}" value="1" {CHECKED_ACTIVE} />
+		  </td>
+		</tr>
+		<!-- END container_standard_row -->
+		<tr class="{CHECKCLASS}">
+		  <td colspan="3">&nbsp;</td>
+		  <td align="left">
+			<input type="checkbox" name="chb_check_all" value="1" 
+			  id="change_all" onclick="setChecked('items', 'item_change', document.items.change_all.checked);" />
+			{SELECT_ALL}
+		  </td>
+		  <td colspan="2">&nbsp;</td>
+		  <td align="left">
+			<input type="checkbox" name="chb_check_all" value="1" 
+			  id="active_all" onclick="setChecked('items', 'item_active', document.items.active_all.checked);" />
+			{SELECT_ALL}
+		  </td>
+		</tr>
+		<tr class="tblfooter">
+		  <td class="std" valign="center" align="left" colspan="7">
+			<div style="float:right">
+			  <input class="submit" type="SUBMIT" name="cmd[updateTimings]" value="{BTN_SAVE}"/>
+			  <input class="submit" type="SUBMIT" name="cmd[view]" value="{BTN_CANCEL}"/>
+			</div>
+		  </td>
+		</tr>
 	  </table>
 	</form>
