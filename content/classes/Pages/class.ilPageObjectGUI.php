@@ -846,8 +846,6 @@ class ilPageObjectGUI
 			$output = ilUtil::buildLatexImages($output,
 				$this->getOfflineDirectory());
 		}
-		//$output = preg_replace('/\[tex\](.*?)\[\/tex\]/ie',
-		//	"'<img src=\"/cgi-bin/mimetex.cgi?'.rawurlencode('$1').'\" />'", $output);
 
 		// (horrible) workaround for preventing template engine
 		// from hiding paragraph text that is enclosed

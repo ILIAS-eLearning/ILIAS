@@ -672,5 +672,18 @@ class ilLMObject
 		return ilUtil::yn2tf($obj_rec["active"]);
 	}
 
+	/**
+	* write activation status
+	*/
+	function _writeActive($a_id, $a_active)
+	{
+		global $ilDB;
+
+		$query = "UPDATE lm_data ".
+			" SET active = ".$ilDB->quote(ilUtil::tf2yn($a_active)).
+			" WHERE obj_id = '".$a_id."'";
+		$ilDB->query($query);
+	}
+
 }
 ?>

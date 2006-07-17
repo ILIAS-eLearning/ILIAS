@@ -316,7 +316,7 @@ class ilLMObjectGUI
 			foreach ($operations as $val)
 			{
 				$this->tpl->setCurrentBlock("operation_btn");
-				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
+				$this->tpl->setVariable("BTN_NAME", $val["name"]);
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
 				$this->tpl->parseCurrentBlock();
 			}

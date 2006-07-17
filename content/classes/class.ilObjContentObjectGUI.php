@@ -1360,8 +1360,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("NUM_COLS", 3);
 			if ($cnt > 0)
 			{
-				$acts = array("delete" => "delete", "move" => "moveChapter",
-					"copy" => "copyChapter");
+				$acts = array("delete" => "delete", "moveChapter" => "moveChapter",
+					"copyChapter" => "copyChapter");
 			}
 			if ($paste_active)
 			{
@@ -1485,7 +1485,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		else
 		{
 			$acts = array("delete" => "delete", "movePage" => "movePage", "copyPage" => "copyPage",
-				"selectHeader" => "selectHeader", "selectFooter" => "selectFooter");
+				"selectHeader" => "selectHeader", "selectFooter" => "selectFooter",
+				"activatePages" => "cont_de_activate");
 			if(ilEditClipboard::getContentObjectType() == "pg" &&
 				ilEditClipboard::getAction() == "copy")
 			{
@@ -1525,6 +1526,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->parseCurrentBlock();
 
+	}
+
+	/**
+	* activates or deactivates pages
+	*/
+	function activatePages()
+	{
+		if (is_array($_POST["id"]))
+		{
+			foreach($_POST["id"] as $id)
+			{
+				$act = ilLMObject::_lookupActive($id);
+				ilLMObject::_writeActive($id, !$act);
+//echo "-".$a_id."-".!$act."-";
+			}
+		}
+
+		$this->ctrl->redirect($this, "pages");
 	}
 
 	/**
@@ -1817,7 +1836,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			foreach ($operations as $val)
 			{
 				$this->tpl->setCurrentBlock("operation_btn");
-				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
+				$this->tpl->setVariable("BTN_NAME", $val["name"]);
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
 				$this->tpl->parseCurrentBlock();
 			}
