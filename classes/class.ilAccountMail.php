@@ -180,11 +180,16 @@ class ilAccountMail
 		if ($amail["body"] == "" || $amail["subject"] == "")
 		{
 			$amail = $this->readAccountMail($ilSetting->get("language"));
+			$lang = $ilSetting->get("language");
+		}
+		else
+		{
+			$lang = $user->getLanguage();
 		}
 
 		// replace placeholders
-		$mail_subject = $this->replacePlaceholders($amail["subject"], $user, $amail);
-		$mail_body = $this->replacePlaceholders($amail["body"], $user, $amail);
+		$mail_subject = $this->replacePlaceholders($amail["subject"], $user, $amail, $lang);
+		$mail_body = $this->replacePlaceholders($amail["body"], $user, $amail, $lang);
 		
 		// send the mail
 		include_once "classes/class.ilMimeMail.php";
@@ -205,9 +210,9 @@ return true;*/
 		return true;
 	}
 	
-	function replacePlaceholders($a_string, &$a_user, $a_amail)
+	function replacePlaceholders($a_string, &$a_user, $a_amail, $a_lang)
 	{
-		global $ilSetting;
+		global $ilSetting, $tree;
 		
 		// determine salutation
 		$gender_salut = ($a_user->getGender() == "f")
@@ -222,10 +227,67 @@ return true;*/
 		$a_string = str_ireplace("[LAST_NAME]", $a_user->getLastname(), $a_string);
 		$a_string  = str_ireplace("[PASSWORD]", $this->getUserPassword(), $a_string);
 		$a_string  = str_ireplace("[ILIAS_URL]",
-			ILIAS_HTTP_PATH."/login.php&client_id=".CLIENT_ID, $a_string);
+			ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID, $a_string);
 		$a_string  = str_ireplace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
 		$a_string  = str_ireplace("[ADMIN_MAIL]", $ilSetting->get("admin_email"),
 			$a_string);
+			
+		// (no) password sections
+		if ($this->getUserPassword() == "")
+		{
+			$a_string = eregi_replace("\[".$ws."IF_PASSWORD".$ws."\].*\[\/".$ws."IF_PASSWORD".$ws."\]",
+				"", $a_string);
+			$a_string = eregi_replace("\[".$ws."IF_NO_PASSWORD".$ws."\](.*)\[\/".$ws."IF_NO_PASSWORD".$ws."\]",
+				"\\1", $a_string);
+		}
+		else
+		{
+			$a_string = eregi_replace("\[".$ws."IF_NO_PASSWORD".$ws."\].*\[\/".$ws."IF_NO_PASSWORD".$ws."\]",
+				"", $a_string);
+			$a_string = eregi_replace("\[".$ws."IF_PASSWORD".$ws."\](.*)\[\/".$ws."IF_PASSWORD".$ws."\]",
+				"\\1", $a_string);
+		}
+		
+		// target
+		$tar = false;
+		if ($_GET["target"] != "")
+		{
+			$tarr = explode("_", $_GET["target"]);
+			if ($tree->isInTree($tarr[1]))
+			{
+				$obj_id = ilObject::_lookupObjId($tarr[1]);
+				$type = ilObject::_lookupType($obj_id);
+				if ($type == $tarr[0])
+				{
+					$a_string  = str_ireplace("[TARGET_TITLE]", ilObject::_lookupTitle($obj_id),
+						$a_string);
+					$a_string  = str_ireplace("[TARGET]",
+						ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID."&target=".$_GET["target"],
+						$a_string);
+						
+					// this looks complicated, but we may have no initilised $lng object here
+					// if mail is send during user creation in authentication
+					include_once("./classes/class.ilLanguage.php");
+					$a_string  = str_ireplace("[TARGET_TYPE]",
+						ilLanguage::_lookupEntry($a_lang, "common", "obj_".$tarr[0]),
+						$a_string);
+						
+					$tar = true;
+				}
+			}
+		}
+
+		// (no) target section
+		if (!$tar)
+		{
+			$a_string = eregi_replace("\[".$ws."IF_TARGET".$ws."\].*\[\/".$ws."IF_TARGET".$ws."\]",
+				"", $a_string);
+		}
+		else
+		{
+			$a_string = eregi_replace("\[".$ws."IF_TARGET".$ws."\](.*)\[\/".$ws."IF_TARGET".$ws."\]",
+				"\\1", $a_string);
+		}
 
 		return $a_string;
 	}
