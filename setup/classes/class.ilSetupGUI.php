@@ -2088,7 +2088,14 @@ class ilSetupGUI extends ilSetup
 		
 		if ($lang_count > 0)
 		{
-			$this->setButtonNext("3rdparty");
+			if (DEVMODE)
+			{
+				$this->setButtonNext("3rdparty");
+			}
+			else
+			{
+				$this->setButtonNext("contact");
+			}
 		}
 		
 		$this->checkPanelMode();
@@ -2229,7 +2236,14 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_SETUP_TITLE","contact information & client data");
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_contact"));
 		
-		$this->setButtonPrev("3rdparty");
+		if (DEVMODE)
+		{
+			$this->setButtonPrev("3rdparty");
+		}
+		else
+		{
+			$this->setButtonPrev("lang");
+		}
 		
 		$check = $this->checkClientContact($this->client);
 
