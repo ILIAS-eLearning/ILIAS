@@ -2913,21 +2913,36 @@ class ilUtil
 		while (preg_match('/' . $a_start . '(.*?)' . $a_end . '/ie', $result_text, $found))
 		{
 			$cnt = (int) $GLOBALS["teximgcnt"]++;
-			$img_str = "./teximg/img".$cnt.".gif";
-
-			$result_text = str_replace($found[0],
-				'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
-
+			
 			// get image from cgi and write it to file
 			$fpr = fopen($a_cgi."?".rawurlencode($found[1]), "r");
-			$fpw = fopen($a_dir."/teximg/img".$cnt.".gif", "w");
+			$lcnt = 0;
 			while(!feof($fpr))
 			{
 				$buf = fread($fpr, 1024);
+				if ($lcnt == 0)
+				{
+					if (is_int(strpos(strtoupper(substr($buf, 0, 5)), "GIF")))
+					{
+						$suffix = "gif";
+					}
+					else
+					{
+						$suffix = "png";
+					}
+					$fpw = fopen($a_dir."/teximg/img".$cnt.".".$suffix, "w");
+				}
+				$lcnt++;
 				fwrite($fpw, $buf);
 			}
 			fclose($fpw);
 			fclose($fpr);
+			
+			// replace tex-tag
+			$img_str = "./teximg/img".$cnt.".".$suffix;
+			$result_text = str_replace($found[0],
+				'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
+
 		}
 		
 		if (strcmp($result_text, $a_text) == 0)
