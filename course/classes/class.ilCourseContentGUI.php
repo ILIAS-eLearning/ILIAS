@@ -137,9 +137,10 @@ class ilCourseContentGUI
 
 	function __getDefaultCommand()
 	{
-		if($this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
+		if($this->container_obj->getType() == 'crs' and
+		   $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
-			return 'editTimings';
+			return 'editUserTimings';
 		}
 		return 'view';
 	}
@@ -565,7 +566,7 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("NAME_DURATION_A",$item_prefix."[duration_a]");
 			if(isset($_POST['item']["$item[ref_id]"]['duration_a']))
 			{
-				$this->tpl->setVariable("VAL_DURATION_A",$_POST['item']["$item[ref_id]"]['duration_a']);
+				$this->tpl->setVariable("VAL_DURATION_A",abs($_POST['item']["$item[ref_id]"]['duration_a']));
 			}
 			else
 			{
@@ -593,7 +594,7 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("NAME_DURATION_B",$item_prefix."[duration_b]");
 			if(isset($_POST['item']["$item[ref_id]"]['duration_b']))
 			{
-				$this->tpl->setVariable("VAL_DURATION_B",$_POST['item']["$item[ref_id]"]['duration_b']);
+				$this->tpl->setVariable("VAL_DURATION_B",abs($_POST['item']["$item[ref_id]"]['duration_b']));
 			}
 			else
 			{
@@ -628,9 +629,11 @@ class ilCourseContentGUI
 
 		if(!$ilAccess->checkAccess('read','',$this->container_obj->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
 		$this->tabs_gui->setSubTabActive('timings_timings');
+
+		$_SESSION['crs_timings_user_hidden'] = isset($_GET['show_details']) ? $_GET['show_details'] : $_SESSION['crs_timings_user_hidden'];
 
 		include_once 'course/classes/class.ilCourseItems.php';
 		if(ilCourseItems::_hasChangeableTimings($this->course_obj->getRefId()))
@@ -687,6 +690,20 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.gif'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_crs'));
 		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('timings_usr_edit'));
+
+		if(!$_SESSION['crs_timings_user_hidden'])
+		{
+			$this->tpl->setVariable("SHOW_HIDE_TEXT",$this->lng->txt('show_details'));
+			$this->ctrl->setParameter($this,'show_details',1);
+			$this->tpl->setVariable("SHOW_HIDE_LINK",$this->ctrl->getLinkTarget($this,'editUserTimings'));
+		}
+		else
+		{
+			$this->tpl->setVariable("SHOW_HIDE_TEXT",$this->lng->txt('hide_details'));
+			$this->ctrl->setParameter($this,'show_details',0);
+			$this->tpl->setVariable("SHOW_HIDE_LINK",$this->ctrl->getLinkTarget($this,'editUserTimings'));
+		}
+		$this->ctrl->clearParameters($this);
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
 		$this->tpl->setVariable("TXT_START_END",$this->lng->txt('crs_timings_short_start_end'));
 		$this->tpl->setVariable("TXT_INFO_START_END",$this->lng->txt('crs_timings_start_end_info'));
@@ -726,7 +743,22 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.gif'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_crs'));
-		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('timings_usr_edit'));
+
+		if(!$_SESSION['crs_timings_user_hidden'])
+		{
+			$this->tpl->setVariable("SHOW_HIDE_TEXT",$this->lng->txt('show_details'));
+			$this->ctrl->setParameter($this,'show_details',1);
+			$this->tpl->setVariable("SHOW_HIDE_LINK",$this->ctrl->getLinkTarget($this,'editUserTimings'));
+		}
+		else
+		{
+			$this->tpl->setVariable("SHOW_HIDE_TEXT",$this->lng->txt('hide_details'));
+			$this->ctrl->setParameter($this,'show_details',0);
+			$this->tpl->setVariable("SHOW_HIDE_LINK",$this->ctrl->getLinkTarget($this,'editUserTimings'));
+		}
+		$this->ctrl->clearParameters($this);
+
+		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('timings_timings'));
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
 		$this->tpl->setVariable("TXT_START",$this->lng->txt('crs_timings_sug_begin'));
 		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_timings_sug_end'));
@@ -788,7 +820,15 @@ class ilCourseContentGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("container_standard_row");
-		$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
+
+		if(isset($this->invalid["$item[ref_id]"]))
+		{
+			$this->tpl->setVariable("ROWCLASS",'tblrowmarked');
+		}
+		else
+		{
+			$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
+		}
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.gif'));
 		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_'.$item['type']));
 		$this->tpl->setVariable("SUG_START",ilFormat::formatUnixTime($item['suggestion_start']));
@@ -839,13 +879,6 @@ class ilCourseContentGUI
 			}
 			else
 			{
-				#echo date('Y-m-d H:i:s',$start);
-				#echo "<br>";
-				#echo date('Y-m-d H:i:s',$end);
-				#echo "<br>";
-				#echo 'Ending time: '.$end;
-				#echo "<br>";
-				#var_dump("<pre>",($end - $start),($end - $start) / 60 * 60,"<pre>");
 				$this->tpl->setVariable("VAL_DURATION",intval(($end - $start) / (60 * 60 * 24)));
 			}
 			$this->tpl->setVariable("LIM_START",ilFormat::formatUnixTime($item['earliest_start']));
@@ -856,14 +889,14 @@ class ilCourseContentGUI
 			
 		$this->tpl->parseCurrentBlock();
 
+		if(!$_SESSION['crs_timings_user_hidden'])
+		{
+			return true;
+		}
 
 		$sub_items_obj = new ilCourseItems($this->course_obj,$item['ref_id']);
 		foreach($sub_items_obj->getItems() as $item_data)
 		{
-			#if($item_data['timing_type'] != IL_CRS_TIMINGS_PRESETTING)
-			#{
-			#	continue;
-			#}
 			$this->__renderItem($item_data,$level+1);
 		}
 	}
@@ -874,7 +907,7 @@ class ilCourseContentGUI
 		include_once 'course/classes/Timings/class.ilTimingPlaned.php';
 
 		// Validate
-		$invalid = array();
+		$this->invalid = array();
 		foreach($_POST['item'] as $ref_id => $data)
 		{
 			$tmp_planed = new ilTimingPlaned($ref_id,$ilUser->getId());
@@ -891,15 +924,15 @@ class ilCourseContentGUI
 			}
 			if(!$tmp_planed->validate())
 			{
-				$invalid[] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($ref_id));
+				$this->invalid[$ref_id] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($ref_id));
 			}
 			$all_items[] = $tmp_planed;
 		}
-		if(count($invalid))
+		if(count($this->invalid))
 		{
 			$message = $this->lng->txt('crs_timings_update_error');
 			$message .= ("<br />".$this->lng->txt('crs_materials').': ');
-			$message .= (implode(',',$invalid));
+			$message .= (implode(',',$this->invalid));
 			sendInfo($message);
 			$this->editUserTimings();
 			return false;
@@ -959,11 +992,11 @@ class ilCourseContentGUI
 			$item_obj->setSuggestionStart($this->__toUnix($data["sug_start"]));
 
 			// add duration
-			$data['sug_start']['d'] += $data['duration_a'];
+			$data['sug_start']['d'] += abs($data['duration_a']);
 			$item_obj->setSuggestionEnd($this->__toUnix($data['sug_start'],array('h' => 23,'m' => 55)));
 
 			$item_obj->setEarliestStart($this->__toUnix($data['lim_start']));
-			$data['lim_start']['d'] += $data['duration_b'];
+			$data['lim_start']['d'] += abs($data['duration_b']);
 			$item_obj->setLatestEnd($this->__toUnix($data['lim_start'],array('h' => 23,'m' => 55)));
 
 			$item_obj->toggleVisible($old_data['visible']);

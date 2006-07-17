@@ -760,10 +760,18 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
 		$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
 		$this->object->setViewMode((int) $_POST['view_mode']);
+
+		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
+		{
+			$this->object->setOrderType(IL_CRS_SORT_ACTIVATION);
+		}
+		else
+		{
+			$this->object->setOrderType((int) $_POST['order_type']);
+		}
 		$this->object->setArchiveStart($this->toUnix($_POST['archive_start'],$_POST['archive_start_time']));
 		$this->object->setArchiveEnd($this->toUnix($_POST['archive_end'],$_POST['archive_end_time']));
 		$this->object->setArchiveType($_POST['archive_type']);
-		$this->object->setOrderType((int) $_POST['order_type']);
 		$this->object->setAboStatus((int) $_POST['abo']);
 
 		if($this->object->validate())
