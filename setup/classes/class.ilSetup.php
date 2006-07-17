@@ -718,15 +718,21 @@ class ilSetup extends PEAR
 			$status["lang"]["comment"] = $status["db"]["comment"];
 			$status["contact"]["status"] = false;
 			$status["contact"]["comment"] = $status["db"]["comment"];
-			$status["3rdparty"]["status"] = false;
-			$status["3rdparty"]["comment"] = $status["db"]["comment"];
+			if (DEVMODE)
+			{
+				$status["3rdparty"]["status"] = false;
+				$status["3rdparty"]["comment"] = $status["db"]["comment"];
+			}
 			$status["nic"]["status"] = false;
 			$status["nic"]["comment"] = $status["db"]["comment"];
 		}
 		else
 		{
 			$status["lang"] = $this->checkClientLanguages($client);
-			$status["3rdparty"] = $this->checkClient3rdParty($client);
+			if (DEVMODE)
+			{
+				$status["3rdparty"] = $this->checkClient3rdParty($client);
+			}
 			$status["contact"] = $this->checkClientContact($client);
 			$status["nic"] = $this->checkClientNIC($client);
 			$status["finish"] = $this->checkFinish($client);
