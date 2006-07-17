@@ -4206,7 +4206,7 @@ crs#:#crs_timings_duration#:#Dauer
 crs#:#crs_timings_early_begin#:#Frühester Start
 crs#:#crs_timings_end#:#Endzeit
 crs#:#crs_timings_from_until#:#(Von/Bis)
-crs#:#crs_timings_in_days#:#(In Tagen)
+crs#:#crs_timings_in_days#:#(in Tagen)
 crs#:#crs_timings_info_active#:#(Aktiv)
 crs#:#crs_timings_late_end#:#Spätester Start
 crs#:#crs_timings_planed_info#:#Geplante Bearbeitungszeit
