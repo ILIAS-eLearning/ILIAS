@@ -475,7 +475,7 @@ class ilCourseItems
 				if($data['planed_start'])
 				{
 					$a_item['start'] = $data['planed_start'];
-					$a_item['end'] = $data['planed_start'];
+					$a_item['end'] = $data['planed_end'];
 					$a_item['activation_info'] = 'crs_timings_planed_info';
 				}
 				else
@@ -751,7 +751,7 @@ class ilCourseItems
 				if($user_data['planed_start'])
 				{
 					$data['start'] = $user_data['planed_start'];
-					$data['end'] = $user_data['planed_start'];
+					$data['end'] = $user_data['planed_end'];
 					$data['activation_info'] = 'crs_timings_planed_info';
 				}
 				else
