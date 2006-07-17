@@ -64,6 +64,7 @@ class ilPageObjectGUI
 	var $change_comments;
 	var $question_html;
 	var $activation = false;
+	var $activated = true;
 
 	/**
 	* Constructor
