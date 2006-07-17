@@ -218,7 +218,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$this->tpl->setVariable("NUM_COLS", 3);
 			//$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
 			$acts = array("delete" => "delete", "cutPage" => "cutPage",
-				"copyPage" => "copyPage");
+				"copyPage" => "copyPage", "activatePages" => "cont_de_activate");
 //echo ":".$this->checkClipboardContentType().":<br>";
 			if(ilEditClipboard::getContentObjectType() == "pg")
 			{
@@ -309,8 +309,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		//{
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
-			$acts = array("delete" => "delete", "move" => "moveChapter",
-				"copy" => "copyChapter");
+			$acts = array("delete" => "delete", "moveChapter" => "moveChapter",
+				"copyChapter" => "copyChapter");
 			if(ilEditClipboard::getContentObjectType() == "st")
 			{
 				if ($this->tree->isInTree(ilEditClipboard::getContentObjectId())
@@ -655,6 +655,23 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->ctrl->redirect($this, "subchap");
 	}
 
+	/**
+	* activates or deactivates pages
+	*/
+	function activatePages()
+	{
+		if (is_array($_POST["id"]))
+		{
+			foreach($_POST["id"] as $id)
+			{
+				$act = ilLMObject::_lookupActive($id);
+				ilLMObject::_writeActive($id, !$act);
+//echo "-".$a_id."-".!$act."-";
+			}
+		}
+
+		$this->ctrl->redirect($this, "view");
+	}
 
 	//
 	// Condition handling stuff
