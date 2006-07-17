@@ -136,7 +136,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
 		$questiontext = $this->object->getQuestiontext();
-		$questiontext = str_replace("<br />", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
@@ -152,6 +151,13 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->addPlugin("latex");
+		$rte->addRTESupport("survey");
+
   }
 
 /**
@@ -261,7 +267,9 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
-		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		$questiontext = $this->object->getQuestiontext();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+		$this->tpl->setVariable("QUESTIONTEXT", $questiontext);
 		if (! $this->object->getObligatory())
 		{
 			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
@@ -292,7 +300,8 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 * @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
-  function writePostData() {
+  function writePostData() 
+	{
     $result = 0;
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
@@ -309,9 +318,10 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
 		}
-		$questiontext = ilUtil::stripSlashes($_POST["question"]);
-		$questiontext = str_replace("\n", "<br />", $questiontext);
-    $this->object->setQuestiontext($questiontext);
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
+		$this->object->setQuestiontext($questiontext);
 		if ($_POST["obligatory"])
 		{
 			$this->object->setObligatory(1);
