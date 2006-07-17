@@ -790,7 +790,7 @@ class assClozeTest extends assQuestion
 			$attrs = array(
 				"texttype" => "text/plain"
 			);
-			if ($this->object->isHTML($text_parts[$i]))
+			if ($this->isHTML($text_parts[$i]))
 			{
 				$attrs["texttype"] = "text/xhtml";
 			}

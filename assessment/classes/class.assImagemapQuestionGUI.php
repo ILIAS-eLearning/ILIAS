@@ -446,7 +446,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			include_once "./Services/RTE/classes/class.$rtestring.php";
 			$rte = new $rtestring();
 			$rte->addPlugin("latex");
-			$rte->addRTESupport();
+			$rte->addRTESupport("assessment");
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 			$this->tpl->parseCurrentBlock();
@@ -569,7 +569,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 			include_once "./classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
+			$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 			$this->object->setQuestion($questiontext);
 			$this->object->setSuggestedSolution($_POST["solution_hint"], 0);

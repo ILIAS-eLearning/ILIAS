@@ -324,7 +324,7 @@ class assClozeTestGUI extends assQuestionGUI
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
 		$rte->addPlugin("latex");
-		$rte->addRTESupport();
+		$rte->addRTESupport("assessment");
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
@@ -364,7 +364,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->setTextgapRating($_POST["textgap_rating"]);
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
+		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$cloze_text = preg_replace("/[\n\r]+/", "<br />", $cloze_text);
 		$this->object->setClozeText($cloze_text);
 		// adding estimated working time

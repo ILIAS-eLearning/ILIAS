@@ -783,7 +783,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["allowedUsers"] = $_POST["allowedUsers"];
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
+		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$introduction = preg_replace("/[\n\r]+/", "<br />", $introduction);
 		$data["introduction"] = $introduction;
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
@@ -1065,7 +1065,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
-		$rte->addRTESupport();
+		$rte->addRTESupport("assessment");
 		global $rbacsystem;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", true);
 		$total = $this->object->evalTotalPersons();

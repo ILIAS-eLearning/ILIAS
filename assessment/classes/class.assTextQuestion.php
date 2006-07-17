@@ -287,7 +287,7 @@ class assTextQuestion extends assQuestion
 		$attrs = array(
 			"texttype" => "text/plain"
 		);
-		if ($this->object->isHTML($this->getQuestion()))
+		if ($this->isHTML($this->getQuestion()))
 		{
 			$attrs["texttype"] = "text/xhtml";
 		}

@@ -393,7 +393,7 @@ class assMatchingQuestion extends assQuestion
 		$attrs = array(
 			"texttype" => "text/plain"
 		);
-		if ($this->object->isHTML($this->getQuestion()))
+		if ($this->isHTML($this->getQuestion()))
 		{
 			$attrs["texttype"] = "text/xhtml";
 		}
@@ -511,7 +511,7 @@ class assMatchingQuestion extends assQuestion
 				$attrs = array(
 					"texttype" => "text/plain"
 				);
-				if ($this->object->isHTML($matchingpair->getDefinition()))
+				if ($this->isHTML($matchingpair->getDefinition()))
 				{
 					$attrs["texttype"] = "text/xhtml";
 				}
@@ -537,7 +537,7 @@ class assMatchingQuestion extends assQuestion
 			$attrs = array(
 				"texttype" => "text/plain"
 			);
-			if ($this->object->isHTML($matchingpair->getTerm()))
+			if ($this->isHTML($matchingpair->getTerm()))
 			{
 				$attrs["texttype"] = "text/xhtml";
 			}
