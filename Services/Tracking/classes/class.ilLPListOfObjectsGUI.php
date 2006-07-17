@@ -172,6 +172,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 
 		$item_list =& ilLPItemListFactory::_getInstanceByRefId($a_parent_id,$a_item_id,$type);
+		if($this->has_timings)
+		{
+			$item_list->readTimings();
+			$item_list->enable('timings');
+		}
 		$item_list->setCurrentUser($a_usr_id);
 		$item_list->readUserInfo();
 		$item_list->setIndentLevel($level);
@@ -222,6 +227,23 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			   $type == 'objective')
 		{
 			#$item_list->setIndentLevel($level+1);
+		}
+
+		if($this->has_timings)
+		{
+			if($item_list->showTimingWarning())
+			{
+				$this->obj_tpl->setCurrentBlock('warning_img');
+				$this->obj_tpl->setVariable('WARNING_IMG',ilUtil::getImagePath('warning.gif'));
+				$this->obj_tpl->setVariable('WARNING_ALT',$this->lng->txt('trac_editing_time_passed'));
+				$this->obj_tpl->parseCurrentBlock();
+			}
+
+			$this->obj_tpl->setCurrentBlock('timing');
+			$this->obj_tpl->setVariable('END_EDITING_TIME',$item_list->getEditingTime() ? 
+									ilFormat::formatUnixTime($item_list->getEditingTime()) : 
+									'');
+			$this->obj_tpl->parseCurrentBlock();
 		}
 		
 		// Status image
@@ -322,6 +344,13 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->obj_tpl->setVariable("HEAD_MARK",$this->lng->txt('trac_mark'));
 		$this->obj_tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
 
+		// Show timings header
+		include_once 'course/classes/class.ilCourseItems.php';
+		if($this->has_timings = ilCourseItems::_hasTimings($this->details_id))
+		{
+			$this->obj_tpl->setVariable('HEAD_TIMING',$this->lng->txt('trac_head_timing'));
+			$this->obj_tpl->setVariable('HEAD_TIME_PASSED',$this->lng->txt('trac_time_passed'));
+		}
 
 		// Render item list
 		$this->container_row_counter = 0;
