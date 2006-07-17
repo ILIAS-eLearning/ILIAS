@@ -128,11 +128,20 @@ class ilCourseContentGUI
 
 				if(!$cmd)
 				{
-					$cmd = 'view';
+					$cmd = $this->__getDefaultCommand();
 				}
 				$this->$cmd();
 				break;
 		}
+	}
+
+	function __getDefaultCommand()
+	{
+		if($this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
+		{
+			return 'editTimings';
+		}
+		return 'view';
 	}
 
 	function __forwardToObjectivePresentation()
@@ -487,7 +496,7 @@ class ilCourseContentGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
-		$this->tabs_gui->setSubTabActive('crs_content');
+		$this->tabs_gui->setSubTabActive('timings_timings');
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getAllItems($this->container_obj->getId());
