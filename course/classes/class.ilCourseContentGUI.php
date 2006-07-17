@@ -79,7 +79,7 @@ class ilCourseContentGUI
 		}
 
 		$this->__setSubTabs();
-		$this->tabs_gui->setTabActive('view_content');
+		$this->tabs_gui->setTabActive('crs_content');
 		$cmd = $this->ctrl->getCmd();
 
 		switch($this->ctrl->getNextClass($this))
@@ -497,7 +497,7 @@ class ilCourseContentGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
-		$this->tabs_gui->setSubTabActive('timings_timings');
+		$this->tabs_gui->setSubTabActive('crs_content');
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getAllItems($this->container_obj->getId());
@@ -528,6 +528,9 @@ class ilCourseContentGUI
 		{
 			$item = $this->__loadFromPost($item);
 			$item_prefix = "item[$item[ref_id]]";
+			$item_change_prefix = "item_change[$item[ref_id]]";
+			$item_active_prefix = "item_active[$item[ref_id]]";
+
 
 			if(strlen($item['description']))
 			{
@@ -603,8 +606,8 @@ class ilCourseContentGUI
 
 			$this->tpl->setVariable("LIM_END",ilFormat::formatUnixTime($end));
 
-			$this->tpl->setVariable("NAME_CHANGE",$item_prefix."[change]");
-			$this->tpl->setVariable("NAME_ACTIVE",$item_prefix."[active]");
+			$this->tpl->setVariable("NAME_CHANGE",$item_change_prefix."[change]");
+			$this->tpl->setVariable("NAME_ACTIVE",$item_active_prefix."[active]");
 
 			$this->tpl->setVariable("CHECKED_ACTIVE",$item['timing_type'] == IL_CRS_TIMINGS_PRESETTING ? 'checked="checked"' : '');
 			$this->tpl->setVariable("CHECKED_CHANGE",$item['changeable'] ? 'checked="checked"' : '');
@@ -615,8 +618,10 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			$this->tpl->parseCurrentBlock();
 		}
-		
 
+		// Select all
+		$this->tpl->setVariable("CHECKCLASS",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+		$this->tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
 
 		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
 		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
@@ -986,7 +991,7 @@ class ilCourseContentGUI
 			$item_obj =& new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
 			$old_data = $item_obj->getItem($ref_id);
 
-			$item_obj->setTimingType($data['active'] ? IL_CRS_TIMINGS_PRESETTING : IL_CRS_TIMINGS_DEACTIVATED);
+			$item_obj->setTimingType($_POST['item_active'][$ref_id]['active'] ? IL_CRS_TIMINGS_PRESETTING : IL_CRS_TIMINGS_DEACTIVATED);
 			$item_obj->setTimingStart($old_data['timing_start']);
 			$item_obj->setTimingEnd($old_data['timing_end']);
 			$item_obj->setSuggestionStart($this->__toUnix($data["sug_start"]));
@@ -1000,7 +1005,7 @@ class ilCourseContentGUI
 			$item_obj->setLatestEnd($this->__toUnix($data['lim_start'],array('h' => 23,'m' => 55)));
 
 			$item_obj->toggleVisible($old_data['visible']);
-			$item_obj->toggleChangeable($data['change']);
+			$item_obj->toggleChangeable($_POST['item_change'][$ref_id]['change']);
 
 			if(!$item_obj->validateActivation())
 			{
