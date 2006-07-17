@@ -2887,9 +2887,7 @@ class ilUtil
 	*/
 	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
-		// todo:
-		// - provide custom path for mimetex.cgi
-		// - take care of html exports
+		// - take care of html exports (-> see buildLatexImages)
 		$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
 			"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode('$1').'\" ".
 			" />'", $a_text);
@@ -2902,6 +2900,44 @@ class ilUtil
 		return $result_text;
 	}
 
+	/**
+	* replace [text]...[/tex] tags with formula image code
+	* ////////
+	* added additional parameters to make this method usable
+	* for other start and end tags as well
+	*/
+	function buildLatexImages($a_text, $a_dir ,$a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
+	{
+		$result_text = $a_text;
+
+		while (preg_match('/' . $a_start . '(.*?)' . $a_end . '/ie', $result_text, $found))
+		{
+			$cnt = (int) $GLOBALS["teximgcnt"]++;
+			$img_str = "./teximg/img".$cnt.".gif";
+
+			$result_text = str_replace($found[0],
+				'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
+
+			// get image from cgi and write it to file
+			$fpr = fopen($a_cgi."?".rawurlencode($found[1]), "r");
+			$fpw = fopen($a_dir."/teximg/img".$cnt.".gif", "w");
+			while(!feof($fpr))
+			{
+				$buf = fread($fpr, 1024);
+				fwrite($fpw, $buf);
+			}
+			fclose($fpw);
+			fclose($fpr);
+		}
+		
+		if (strcmp($result_text, $a_text) == 0)
+		{
+			// fix to deal with PEAR template variables
+			$result_text = str_replace("{", "&#123;", $result_text);
+			$result_text = str_replace("}", "&#125;", $result_text);
+		}
+		return $result_text;
+	}
 
   	  /**
       * Return an array of date segments.

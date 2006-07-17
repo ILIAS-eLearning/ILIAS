@@ -1758,6 +1758,9 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($mob_dir);
 		$file_dir = $a_target_dir."/files";
 		ilUtil::makeDir($file_dir);
+		$teximg_dir = $a_target_dir."/teximg";
+		ilUtil::makeDir($teximg_dir);
+		$GLOBALS["teximgcnt"] = 0;
 
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");

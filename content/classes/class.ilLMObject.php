@@ -391,7 +391,7 @@ class ilLMObject
 		// create history entry
 		include_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", "",
-			$this->content_object->getType().":pg");
+			$this->content_object->getType().":".$this->getType());
 
 		if (!$a_upload)
 		{
