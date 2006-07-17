@@ -325,6 +325,25 @@ class ilPageObjectGUI
 	{
 		return $this->change_comments;
 	}
+	
+	/**
+	 * set offline directory to offdir
+	 * 
+	 * @param offdir contains diretory where to store files
+	 */	
+	function setOfflineDirectory ($offdir) {
+		$this->offline_directory = $offdir;
+	}
+	
+	
+	/**
+	 * get offline directory
+	 * @return directory where to store offline files
+	 */
+	function getOfflineDirectory () {
+		return $this->offline_directory;
+	}
+
 
 	/**
 	* set link for "view page" button
@@ -817,7 +836,15 @@ class ilPageObjectGUI
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;", "&", $output);
 		// replace latex code: todo: finish
-		$output = ilUtil::insertLatexImages($output);
+		if ($this->getOutputMode() != "offline")
+		{
+			$output = ilUtil::insertLatexImages($output);
+		}
+		else
+		{
+			$output = ilUtil::buildLatexImages($output,
+				$this->getOfflineDirectory());
+		}
 		//$output = preg_replace('/\[tex\](.*?)\[\/tex\]/ie',
 		//	"'<img src=\"/cgi-bin/mimetex.cgi?'.rawurlencode('$1').'\" />'", $output);
 

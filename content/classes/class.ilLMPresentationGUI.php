@@ -1403,6 +1403,7 @@ class ilLMPresentationGUI
 		else
 		{
 			$page_object_gui->setOutputMode("offline");
+			$page_object_gui->setOfflineDirectory($this->getOfflineDirectory());
 		}		
 		$page_object_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
 		$page_object_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
