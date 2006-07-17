@@ -2499,7 +2499,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($ilAccess->checkAccess('read','',$this->ref_id))
 		{
 			$tabs_gui->addTarget('view_content',
-								 $this->ctrl->getLinkTarget($this,'view'));
+								 $this->ctrl->getLinkTarget($this,''));
 		}
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
