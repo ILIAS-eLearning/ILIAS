@@ -932,11 +932,16 @@ common#:#adopt#:#adoptati###03 Nov 2005 content changed
 common#:#adopt_perm_from_template#:#Adoptati setarile de permisiune din Tabelul de Roluri
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing###10 Jul 2006 new variable
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor###10 Jul 2006 new variable
+common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool###18 Jul 2006 new variable
 common#:#advanced_editing_no_rte#:#Don't use rich text editing###10 Jul 2006 new variable
 common#:#advanced_editing_settings#:#Advanced editing settings###10 Jul 2006 new variable
+common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE editor###10 Jul 2006 new variable
+common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
 common#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
+common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
 common#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
+common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
 common#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
 common#:#adve_write#:#Advanced editing administration###10 Jul 2006 new variable
 common#:#all_authors#:#Toti autorii
@@ -1730,6 +1735,7 @@ common#:#hist_lm_pg_create#:#Page created.###10 Jul 2006 new variable
 common#:#hist_lm_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
 common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
 common#:#hist_lm_pg_update#:#Page changed.###10 Jul 2006 new variable
+common#:#hist_lm_st_create#:#Chapter created.###18 Jul 2006 new variable
 common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
 common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
 common#:#hist_no_entries#:#Nu exista referinte anterioare.
@@ -3044,6 +3050,7 @@ content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credite
 content#:#cont_cross_reference#:#Referinta
 content#:#cont_data_from_lms#:#adlcp:datedinMI
+content#:#cont_de_activate#:#(De-)Activate###18 Jul 2006 new variable
 content#:#cont_deactivate_page#:#Deactivate Page###10 Jul 2006 new variable
 content#:#cont_def_layout#:#Layout implicit
 content#:#cont_def_lesson_mode#:#mod de lectie implicit

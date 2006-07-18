@@ -1008,11 +1008,16 @@ common#:#adopt#:#adoptar
 common#:#adopt_perm_from_template#:#Adoptar configuración de permisos de la Plantilla de Rol
 common#:#advanced_editing_allow_html_tags#:#Permitir las siguientes etiquetas HTML para la edición de texto
 common#:#advanced_editing_allow_javascript_editor#:#Habilitar un editor 'rich text'
+common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool###18 Jul 2006 new variable
 common#:#advanced_editing_no_rte#:#No usar el editor 'rich text'
 common#:#advanced_editing_settings#:#Configuración de edición avanzada
+common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
 common#:#advanced_editing_tinymce#:#Editor TinyMCE
+common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
 common#:#adve_edit_permission#:#Modificar configuración de permisos
+common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
 common#:#adve_read#:#Acceso a Administración de edición avanzada
+common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
 common#:#adve_visible#:#La administración de edición avanzada es visible
 common#:#adve_write#:#Administración de edición avanzada
 common#:#agree_date#:#De acuerdo en
@@ -1917,6 +1922,7 @@ common#:#hist_lm_pg_create#:#Página creada.
 common#:#hist_lm_pg_cut#:#Página cortada del capítulo "%1" [%2].
 common#:#hist_lm_pg_paste#:#Página pegada en el capítulo "%1" [%2].
 common#:#hist_lm_pg_update#:#Página modificada.
+common#:#hist_lm_st_create#:#Chapter created.###18 Jul 2006 new variable
 common#:#hist_lm_st_cut_page#:#Página "%1" [%2] cortada de capítulo.
 common#:#hist_lm_st_paste_page#:#Página "%1" [%2] pegada en capítulo
 common#:#hist_no_entries#:#No hay entradas en la historia.
@@ -3514,6 +3520,7 @@ content#:#cont_credit_on#:#Crédito
 content#:#cont_credits#:#Créditos
 content#:#cont_cross_reference#:#Referencia Cruzada
 content#:#cont_data_from_lms#:#adlcp:datafromlms
+content#:#cont_de_activate#:#(De-)Activate###18 Jul 2006 new variable
 content#:#cont_deactivate_page#:#Desactivar Página
 content#:#cont_def_layout#:#Presentación por defecto
 content#:#cont_def_lesson_mode#:#Modo de lección por defecto
