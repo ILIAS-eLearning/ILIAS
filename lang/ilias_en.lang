@@ -2489,6 +2489,8 @@ common#:#msg_undeleted#:#Object(s) undeleted.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#User assignment changed
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#My Bookmarks
 common#:#my_frms#:#My Forums

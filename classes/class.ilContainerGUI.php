@@ -690,14 +690,13 @@ class ilContainerGUI extends ilObjectGUI
 					// set template (overall or type specific)
 					if (is_int(strpos($output_html, "[list-".$type."]")))
 					{
-	//echo "+$type+";
 						$tpl =& $this->newBlockTemplate();
-						$overall = false;
+						$overall = false;			// individual
 					}
 					else
 					{
 						$tpl =& $overall_tpl;
-						$overall = true;
+						$overall = true;			// put to the rest
 					}
 						
 					if (is_array($this->items[$type]))
@@ -783,7 +782,32 @@ class ilContainerGUI extends ilObjectGUI
 								$this->type_template[$type] = $tpl;
 							}
 						}
+						else
+						{
+							// [list-...] tag available, but no item of type accessible
+							if (!$overall)
+							{
+								$this->addHeaderRow($tpl, $type);
+								$this->resetRowType();
+								$this->addMessageRow($tpl, 
+									$this->lng->txt("msg_no_type_accessible"), $type);
+								$this->type_template[$type] = $tpl;
+							}
+						}
 					}
+					else
+					{
+						// [list-...] tag available, but no item of type exists
+						if (!$overall)
+						{
+							$this->addHeaderRow($tpl, $type);
+							$this->resetRowType();
+							$this->addMessageRow($tpl,
+								$this->lng->txt("msg_no_type_available"), $type);
+							$this->type_template[$type] = $tpl;
+						}
+					}
+
 				}
 
 
@@ -800,7 +824,6 @@ class ilContainerGUI extends ilObjectGUI
 				//$output_html = str_replace("++<br>", "++", $output_html);
 				foreach ($this->type_template as $type => $tpl)
 				{
-//echo "-[list-".$type."]-";
 					$output_html = eregi_replace("\[list-".$type."\]",
 						"</p>".$tpl->get()."<p class=\"ilc_Standard\">",
 						$output_html);
@@ -964,6 +987,36 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		$a_tpl->setCurrentBlock("container_standard_row");
 		$a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->touchBlock("container_row");
+	}
+
+	/**
+	* add message row
+	*/
+	function addMessageRow(&$a_tpl, $a_message, $a_type)
+	{
+		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
+			? "row_type_2"
+			: "row_type_1";
+
+		$a_tpl->touchBlock($this->cur_row_type);
+		
+		if ($a_type != "lres")
+		{
+			$type = $this->lng->txt("obj_".$a_type);
+		}
+		else
+		{
+			$type = $this->lng->txt("learning_resource");
+		}
+		$a_message = str_replace("[type]", $type, $a_message);
+		
+		$a_tpl->setVariable("ROW_NBSP", "&nbsp;");
+
+		$a_tpl->setCurrentBlock("container_standard_row");
+		$a_tpl->setVariable("BLOCK_ROW_CONTENT",
+			$a_message);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
 	}
