@@ -579,38 +579,9 @@ class ilContainerGUI extends ilObjectGUI
 				"xhtml_page", $xpage->getId());
 		}
 		
-		// get current stored mobs
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
-		$mobs = ilObjMediaObject::_getMobsOfObject($this->object->getType().":html",
+		include_once("Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($text, $this->object->getType().":html",
 			$this->object->getId());
-		
-		while (ereg("data\/".CLIENT_ID."\/mobs\/mm_([0-9]+)", $text, $found))
-		{
-			$text = str_replace($found[0], "", $text);
-			if (!in_array($found[1], $mobs))
-			{
-				// save usage if missing
-				ilObjMediaObject::_saveUsage($found[1], $this->object->getType().":html",
-					$this->object->getId());
-			}
-			else
-			{
-				// if already saved everything ok -> take mob out of mobs array
-				unset($mobs[$found[1]]);
-			}
-		}
-		// remaining usages are not in text anymore -> delete them
-		// and media objects (note: delete method of ilObjMediaObject
-		// checks whether object is used in another context; if yes,
-		// the object is not deleted!)
-		foreach($mobs as $mob)
-		{
-			ilObjMediaObject::_removeUsage($mob, $this->object->getType().":html",
-				$this->object->getId());
-			$mob_obj =& new ilObjMediaObject($mob);
-			$mob_obj->delete();
-		}
-		
 
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "");

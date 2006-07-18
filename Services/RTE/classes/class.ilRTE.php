@@ -107,6 +107,48 @@ class ilRTE
 		}
 	}
 
+	/**
+	* synchronises appearances of media objects in $a_text with media
+	* object usage table
+	*
+	* @param	string	$a_text			text, including media object tags
+	* @param	string	$a_usage_type	type of context of usage, e.g. cat:html
+	* @param	int		$a_usage_id		if of context of usage, e.g. category id
+	*/
+	function _cleanupMediaObjectUsage($a_text, $a_usage_type, $a_usage_id)
+	{
+		// get current stored mobs
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		$mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type,
+			$a_usage_id);
+		
+		while (eregi("data\/".CLIENT_ID."\/mobs\/mm_([0-9]+)", $a_text, $found))
+		{
+			$a_text = str_replace($found[0], "", $a_text);
+			if (!in_array($found[1], $mobs))
+			{
+				// save usage if missing
+				ilObjMediaObject::_saveUsage($found[1], $a_usage_type,
+					$a_usage_id);
+			}
+			else
+			{
+				// if already saved everything ok -> take mob out of mobs array
+				unset($mobs[$found[1]]);
+			}
+		}
+		// remaining usages are not in text anymore -> delete them
+		// and media objects (note: delete method of ilObjMediaObject
+		// checks whether object is used in another context; if yes,
+		// the object is not deleted!)
+		foreach($mobs as $mob)
+		{
+			ilObjMediaObject::_removeUsage($mob, $a_usage_type,
+				$a_usage_id);
+			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj->delete();
+		}
+	}
 }
 
 ?>
