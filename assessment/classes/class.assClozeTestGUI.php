@@ -663,11 +663,29 @@ class assClozeTestGUI extends assQuestionGUI
 			$template->setVariable("CLOZE_TEXT", $delimitertext);
 			$template->parseCurrentBlock();
 			$gap = $this->object->getGap($counter);
-			$template->setCurrentBlock("solution");
 			foreach ($user_solution as $solution)
 			{
 				if (strcmp($solution["value1"], $counter) == 0)
 				{
+					if ($active_id)
+					{
+						// output of ok/not ok icons for user entered solutions
+						if ($this->object->testGapSolution($solution["value2"], $gap))
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+							$template->parseCurrentBlock();
+						}
+						else
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+							$template->parseCurrentBlock();
+						}
+					}
+					$template->setCurrentBlock("solution");
 					if ((strlen($solution["value2"])) && ($gap[0]->getClozeType() == CLOZE_SELECT))
 					{
 						$template->setVariable("SOLUTION", $gap[$solution["value2"]]->getAnswertext());

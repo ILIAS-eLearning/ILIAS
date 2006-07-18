@@ -67,6 +67,15 @@ class ilObjSurvey extends ilObject
   var $introduction;
 
 /**
+* Contains the outro text for the survey
+*
+* A text representation of the surveys outro.
+*
+* @var string
+*/
+  var $outro;
+
+/**
 * Survey status (online/offline)
 *
 * Survey status (online/offline)
@@ -177,6 +186,7 @@ class ilObjSurvey extends ilObject
 
 		$this->survey_id = -1;
 		$this->introduction = "";
+		$this->outro = $this->lng->txt("survey_finished");
 		$this->author = $ilUser->fullname;
 		$this->status = STATUS_OFFLINE;
 		$this->evaluation_access = EVALUATION_ACCESS_OFF;
@@ -720,10 +730,11 @@ class ilObjSurvey extends ilObject
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, show_question_titles, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, outro, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, show_question_titles, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote($this->getId()),
 				$this->ilias->db->quote($this->author . ""),
 				$this->ilias->db->quote($this->introduction . ""),
+				$this->ilias->db->quote($this->getOutro() . ""),
 				$this->ilias->db->quote($this->status . ""),
 				$startdate,
 				$enddate,
@@ -744,9 +755,10 @@ class ilObjSurvey extends ilObject
 		else 
 		{
       // update existing dataset
-			$query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
+			$query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, outro = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
 				$this->ilias->db->quote($this->author . ""),
 				$this->ilias->db->quote($this->introduction . ""),
+				$this->ilias->db->quote($this->getOutro() . ""),
 				$this->ilias->db->quote($this->status . ""),
 				$startdate,
 				$enddate,
@@ -948,6 +960,14 @@ class ilObjSurvey extends ilObject
 				$this->survey_id = $data->survey_id;
 				$this->author = $data->author;
 				$this->introduction = $data->introduction;
+				if (strcmp($data->outro, "survey_finished") == 0)
+				{
+					$this->setOutro($this->lng->txt("survey_finished"));
+				}
+				else
+				{
+					$this->setOutro($data->outro);
+				}
 				$this->status = $data->status;
 				$this->invitation = $data->invitation;
 				$this->invitation_mode = $data->invitation_mode;
@@ -1276,6 +1296,20 @@ class ilObjSurvey extends ilObject
   function setIntroduction($introduction = "") 
 	{
     $this->introduction = $introduction;
+  }
+
+/**
+* Sets the outro text
+*
+* Sets the outro text
+*
+* @param string $outro A string containing the outro
+* @access public
+* @see $outro
+*/
+  function setOutro($outro = "") 
+	{
+    $this->outro = $outro;
   }
 
 /**
@@ -1660,6 +1694,20 @@ class ilObjSurvey extends ilObject
   function getIntroduction() 
 	{
     return $this->introduction;
+  }
+
+/**
+* Gets the outro text
+*
+* Gets the outro text
+*
+* @return string The outro of the survey object
+* @access public
+* @see $outro
+*/
+  function getOutro() 
+	{
+    return $this->outro;
   }
 
 /**
@@ -3705,6 +3753,12 @@ class ilObjSurvey extends ilObject
 		$a_xml_writer->xmlStartTag("material", $attrs);
 		$a_xml_writer->xmlElement("mattext", NULL, $this->getIntroduction());
 		$a_xml_writer->xmlEndTag("material");
+		$a_xml_writer->xmlStartTag("material", $attrs);
+		$attrs = array(
+			"label" => "outro"
+		);
+		$a_xml_writer->xmlElement("mattext", NULL, $this->getOutro());
+		$a_xml_writer->xmlEndTag("material");
 		$a_xml_writer->xmlEndTag("objectives");
 
 		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
@@ -4023,11 +4077,19 @@ class ilObjSurvey extends ilObject
 						}
 						break;
 					case "objectives":
-						$material = $node->first_child();
-						if (strcmp($material->get_attribute("label"), "introduction") == 0)
+						$materials = $node->child_nodes();
+						foreach ($materials as $material)
 						{
-							$mattext = $material->first_child();
-							$this->setIntroduction($mattext->get_content());
+							if (strcmp($material->get_attribute("label"), "introduction") == 0)
+							{
+								$mattext = $material->first_child();
+								$this->setIntroduction($mattext->get_content());
+							}
+							else if (strcmp($material->get_attribute("label"), "outro") == 0)
+							{
+								$mattext = $material->first_child();
+								$this->setOutro($mattext->get_content());
+							}
 						}
 						break;
 					case "qtimetadata":
@@ -4182,6 +4244,7 @@ class ilObjSurvey extends ilObject
 		
 		$newObj->author = $original->getAuthor();
 		$newObj->introduction = $original->getIntroduction();
+		$newObj->outro = $original->getOutro();
 		$newObj->status = $original->getStatus();
 		$newObj->evaluation_access = $original->getEvaluationAccess();
 		$newObj->start_date = $original->getStartDate();

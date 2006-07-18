@@ -153,7 +153,7 @@ class ilSurveyExecutionGUI
 			else
 			{
 				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
-				$this->ctrl->redirect($this, "run");
+				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 			}
 		}
 		if ($this->object->isAccessibleWithoutCode())
@@ -229,8 +229,7 @@ class ilSurveyExecutionGUI
 		$qid = "";
 		if ($page === 0)
 		{
-			$this->runShowIntroductionPage();
-			return;
+			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 		}
 		else if ($page === 1)
 		{
@@ -381,26 +380,6 @@ class ilSurveyExecutionGUI
 	}
 	
 /**
-* Creates the form output for running the survey
-*
-* Creates the form output for running the survey
-*
-* @access public
-*/
-	function run() {
-		global $ilUser;
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
-		{
-			// only with read access it is possible to run the test
-			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->runShowIntroductionPage();
-	}
-
-/**
 * Called on cancel
 *
 * Called on cancel
@@ -409,135 +388,9 @@ class ilSurveyExecutionGUI
 */
 	function cancel()
 	{
-		$this->ctrl->redirectByClass("ilobjsurveygui", "backToRepository");
+		$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 	}
 	
-/**
-* Creates the introduction page for a running survey
-*
-* Creates the introduction page for a running survey
-*
-* @access public
-*/
-	function runShowIntroductionPage()
-	{
-		global $ilUser;
-		global $rbacsystem;
-		
-		$survey_started = false;
-		// show introduction page
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
-		if ((strcmp($ilUser->login, "anonymous") == 0) && (!$this->object->getAnonymize()))
-		{
-			$this->tpl->setCurrentBlock("back");
-			$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("anonymous_with_personalized_survey"));
-			$this->tpl->parseCurrentBlock();
-			return;
-		}
-		if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
-		{
-			$this->tpl->setCurrentBlock("start");
-			$anonymize_key = $this->object->getUserAccessCode($ilUser->getId());
-			if (!strlen($anonymize_key))
-			{
-				$anonymize_key = $this->object->createNewAccessCode();
-				$this->object->saveUserAccessCode($ilUser->getId(), $anonymize_key);
-			}
-			$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymize_key);
-			if (strcmp($ilUser->login, "anonymous") == 0)
-			{
-				$this->tpl->setVariable("TEXT_ANONYMIZE", $this->lng->txt("anonymize_anonymous_introduction"));
-			}
-			else
-			if ($survey_started === 0)
-			{
-				$this->tpl->setVariable("TEXT_ANONYMIZE", $this->lng->txt("anonymize_resume_introduction"));
-			}
-			elseif ($survey_started === false)
-			{
-				$this->tpl->setVariable("TEXT_ANONYMIZE", sprintf($this->lng->txt("anonymize_key_introduction"), $anonymize_key));
-			}
-			$this->tpl->setVariable("ENTER_ANONYMOUS_ID", $this->lng->txt("enter_anonymous_id"));
-			if (strlen($_SESSION["accesscode"]))
-			{
-				$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $_SESSION["accesscode"]);
-				unset($_SESSION["accesscode"]);
-			}
-			//if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-			//{
-			//	$this->tpl->setVariable("ANONYMOUS_ID_VALUE", $anonymize_key);
-			//}
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("start");
-		$canStart = $this->object->canStartSurvey();
-		if ($survey_started === 1)
-		{
-			sendInfo($this->lng->txt("already_completed_survey"));
-			$this->tpl->setCurrentBlock("start");
-			$this->tpl->setVariable("BTN_START", $this->lng->txt("start_survey"));
-			$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($survey_started === 0)
-		{
-			$this->tpl->setCurrentBlock("resume");
-			$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("resume_survey"));
-			switch ($canStart)
-			{
-				case SURVEY_START_START_DATE_NOT_REACHED:
-					sendInfo($this->lng->txt("start_date_not_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getStartYear().$this->object->getStartMonth().$this->object->getStartDay()."000000"), "date") . ")");
-					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-					break;
-				case SURVEY_START_END_DATE_REACHED:
-					sendInfo($this->lng->txt("end_date_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getEndYear().$this->object->getEndMonth().$this->object->getEndDay()."000000"), "date") . ")");
-					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-					break;
-				case SURVEY_START_OFFLINE:
-					sendInfo($this->lng->txt("survey_is_offline"));
-					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-					break;
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($survey_started === false)
-		{
-			$this->tpl->setCurrentBlock("start");
-			$this->tpl->setVariable("BTN_START", $this->lng->txt("start_survey"));
-			if (!$rbacsystem->checkAccess('participate', $this->object->getRefId()))
-			{
-				sendInfo($this->lng->txt("cannot_participate_survey"));
-				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-			}
-			switch ($canStart)
-			{
-				case SURVEY_START_START_DATE_NOT_REACHED:
-					sendInfo($this->lng->txt("start_date_not_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getStartYear().$this->object->getStartMonth().$this->object->getStartDay()."000000"), "date") . ")");
-					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-					break;
-				case SURVEY_START_END_DATE_REACHED:
-					sendInfo($this->lng->txt("end_date_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getEndYear().$this->object->getEndMonth().$this->object->getEndDay()."000000"), "date") . ")");
-					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-					break;
-				case SURVEY_START_OFFLINE:
-					sendInfo($this->lng->txt("survey_is_offline"));
-					$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-					break;
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$introduction = $this->object->getIntroduction();
-		$introduction = preg_replace("/\n/i", "<br />", $introduction);
-		$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-
 /**
 * Creates the finished page for a running survey
 *
@@ -547,13 +400,19 @@ class ilSurveyExecutionGUI
 */
 	function runShowFinishedPage()
 	{
-		// show introduction page
 		unset($_SESSION["anonymous_id"]);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", true);
-		$this->tpl->setVariable("TEXT_FINISHED", $this->lng->txt("survey_finished"));
-		$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+		if (strlen($this->object->getOutro()) == 0)
+		{
+			$this->ctrl->redirectByClass("ilobjsurveygui", "backToRepository");
+		}
+		else
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", true);
+			$this->tpl->setVariable("TEXT_FINISHED", $this->object->getOutro());
+			$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 /**

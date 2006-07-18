@@ -781,7 +781,7 @@ class assClozeTest extends assQuestion
 		$a_xml_writer->xmlStartTag("presentation", $attrs);
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
-		$text_parts = preg_split("/\[gap.*?\<\/gap\]/", $this->getClozeText());
+		$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->getClozeText());
 		// add material with question text to presentation
 		for ($i = 0; $i <= $this->getGapCount(); $i++)
 		{
@@ -1949,6 +1949,56 @@ class assClozeTest extends assQuestion
 	function getAnswerTableName()
 	{
 		return "qpl_answer_cloze";
+	}
+	
+	/**
+	* Returns TRUE if a give value is the best solution for a gap, FALSE otherwise
+	*
+	* Returns TRUE if a give value is the best solution for a gap, FALSE otherwise
+	*
+	* @param string $value The value which should be checked
+	* @param array $gap An array of answers for a gap
+	* @return boolean TRUE if the given value is the best solution for a gap
+	* @access public
+	*/
+	function testGapSolution($value, $gap)
+	{
+		if (strlen($value) == 0) return FALSE;
+		$max_points = 0;
+		foreach ($gap as $answer)
+		{
+			if ($answer->getPoints() > $max_points) $max_points = $answer->getPoints();
+		}
+		if ($gap[0]->getClozeType() == CLOZE_SELECT)
+		{
+			if ($max_points == $gap[$value]->getPoints())
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			$gappoints = 0;
+			$max_points = 0;
+			foreach ($gap as $k => $v) 
+			{
+				$gotpoints = $this->getTextgapPoints($v->getAnswertext(), $value, $v->getPoints());
+				if ($gotpoints > $gappoints) $gappoints = $gotpoints;
+				if ($v->getPoints() > $max_points) $max_points = $v->getPoints();
+			}
+			if ($gappoints == $max_points)
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
 	}
 }
 
