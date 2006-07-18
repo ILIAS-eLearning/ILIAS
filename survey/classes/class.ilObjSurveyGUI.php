@@ -186,9 +186,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
 
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 		$introduction = preg_replace("/[\n\r]+/", "<br />", $introduction);
 		$this->object->setIntroduction($introduction);
+		$outro = ilUtil::stripSlashes($_POST["outro"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+		$outro = preg_replace("/[\n\r]+/", "<br />", $outro);
+		$this->object->setOutro($outro);
 
 		$this->object->setAnonymize($_POST["anonymize"]);
 		if ($_POST["showQuestionTitles"])
@@ -311,6 +314,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($this->object->getDescription()));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("introduction"));
 		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->getIntroduction()));
+		$this->tpl->setVariable("TEXT_OUTRO", $this->lng->txt("outro"));
+		$this->tpl->setVariable("VALUE_OUTRO", ilUtil::prepareFormOutput($this->object->getOutro()));
 		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
 		$this->tpl->setVariable("TEXT_START_DATE", $this->lng->txt("start_date"));
 		$this->tpl->setVariable("VALUE_START_DATE", ilUtil::makeDateSelect("start_date", $this->object->getStartYear(), $this->object->getStartMonth(), $this->object->getStartDay()));
@@ -2013,22 +2018,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Redirects the evaluation object call to the ilSurveyEvaluationGUI class
-	*
-	* Redirects the evaluation object call to the ilSurveyEvaluationGUI class
-	*
-	* @access	private
-	*/
-	function runObject()
-	{
-		//$this->ctrl->redirect($this, "infoScreen");
-		include_once("./survey/classes/class.ilSurveyExecutionGUI.php");
-		$exec_gui = new ilSurveyExecutionGUI($this->object);
-		$this->ctrl->setCmdClass(get_class($exec_gui));
-		$this->ctrl->redirect($exec_gui, "run");
-	}
-	
-	/**
 	* Creates the search output for the user/group search form
 	*
 	* Creates the search output for the user/group search form
@@ -3201,7 +3190,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							$addlang = "&amp;lang=$default_lang";
 						}
-						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/goto.php?cmd=run&target=svy_".$this->object->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang);
+						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->object->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang);
 					}
 					$this->tpl->setVariable("CODE_USED", $state);
 					$this->tpl->parseCurrentBlock();
@@ -3717,10 +3706,121 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		include_once "./survey/classes/class.ilSurveyExecutionGUI.php";
+		$output_gui =& new ilSurveyExecutionGUI($this->object);
+		$info->setFormAction($this->ctrl->getFormAction($output_gui));
 		$info->enablePrivateNotes();
+		$canStart = $this->object->canStartSurvey();
+		$showButtons = TRUE;
+		switch ($canStart)
+		{
+			case SURVEY_START_START_DATE_NOT_REACHED:
+				sendInfo($this->lng->txt("start_date_not_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getStartYear().$this->object->getStartMonth().$this->object->getStartDay()."000000"), "date") . ")");
+				$showButtons = FALSE;
+				break;
+			case SURVEY_START_END_DATE_REACHED:
+				sendInfo($this->lng->txt("end_date_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getEndYear().$this->object->getEndMonth().$this->object->getEndDay()."000000"), "date") . ")");
+				$showButtons = FALSE;
+				break;
+			case SURVEY_START_OFFLINE:
+				sendInfo($this->lng->txt("survey_is_offline"));
+				$showButtons = FALSE;
+				break;
+		}
+
+		if ($showButtons)
+		{
+			// output of start/resume buttons for personalized surveys
+			if (!$this->object->getAnonymize())
+			{
+				$survey_started = $this->object->isSurveyStarted($ilUser->getId(), "");
+				// Anonymous User tries to start a personalized survey
+				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+				{
+					sendInfo($this->lng->txt("anonymous_with_personalized_survey"));
+				}
+				else
+				{
+					if ($survey_started === 1)
+					{
+						sendInfo($this->lng->txt("already_completed_survey"));
+					}
+					elseif ($survey_started === 0)
+					{
+						$info->addFormButton("resume", $this->lng->txt("resume_survey"));
+					}
+					elseif ($survey_started === FALSE)
+					{
+						$info->addFormButton("start", $this->lng->txt("start_survey"));
+					}
+				}
+			}
+			// output of start/resume buttons for anonymized surveys
+			else if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
+			{
+				if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_POST["anonymous_id"]) == 0) && (strlen($_SESSION["accesscode"]) == 0))
+				{
+					$info->setFormAction($this->ctrl->getFormAction($this));
+					$info->addSection($this->lng->txt("anonymization"));
+					$info->addProperty("", $this->lng->txt("anonymize_anonymous_introduction"));
+					$info->addPropertyTextinput($this->lng->txt("enter_anonymous_id"), "anonymous_id", "", 8, "infoScreen", $this->lng->txt("submit"));
+				}
+				else
+				{
+					if (strlen($_POST["anonymous_id"]) > 0)
+					{
+						if (!$this->object->checkSurveyCode($_POST["anonymous_id"]))
+						{
+							sendInfo("wrong_survey_code_used", TRUE);
+							$this->ctrl->redirect($this, "infoScreen");
+						}
+						$anonymize_key = $_POST["anonymous_id"];
+					}
+					else if (strlen($_SESSION["accesscode"]) > 0)
+					{
+						if (!$this->object->checkSurveyCode($_SESSION["accesscode"]))
+						{
+							sendInfo("wrong_survey_code_used", TRUE);
+							unset($_SESSION["accesscode"]);
+							$this->ctrl->redirect($this, "infoScreen");
+						}
+						$anonymize_key = $_SESSION["accesscode"];
+					}
+					else
+					{
+						// registered users do not need to know that there is an anonymous key. The data is anonymized automatically
+						$anonymize_key = $this->object->getUserAccessCode($ilUser->getId());
+						if (!strlen($anonymize_key))
+						{
+							$anonymize_key = $this->object->createNewAccessCode();
+							$this->object->saveUserAccessCode($ilUser->getId(), $anonymize_key);
+						}
+					}
+					$info->addHiddenElement("anonymous_id", $anonymize_key);
+					$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymize_key);
+					if ($survey_started === 1)
+					{
+						sendInfo($this->lng->txt("already_completed_survey"));
+					}
+					elseif ($survey_started === 0)
+					{
+						$info->addFormButton("resume", $this->lng->txt("resume_survey"));
+					}
+					elseif ($survey_started === FALSE)
+					{
+						$info->addFormButton("start", $this->lng->txt("start_survey"));
+					}
+				}
+			}
+			else
+			{
+				// free access
+				$info->addFormButton("start", $this->lng->txt("start_survey"));
+			}
+		}
 		
 		if (strlen($this->object->getIntroduction()))
 		{
@@ -3728,7 +3828,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$info->addSection($this->lng->txt("introduction"));
 			$info->addProperty("", $introduction);
 		}
-
+		
 		$info->addSection($this->lng->txt("svy_general_properties"));
 		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
@@ -3758,12 +3858,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilLocator;
 		switch ($this->ctrl->getCmd())
 		{
-			case "run":
 			case "next":
 			case "previous":
 			case "start":
 			case "resume":
-				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass("ilsurveyexecutiongui", "run"));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
 				break;
 			case "evaluation":
 			case "checkEvaluationAccess":
@@ -3797,7 +3896,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		switch ($this->ctrl->getCmd())
 		{
-			case "run":
 			case "start":
 			case "resume":
 			case "next":
@@ -3910,7 +4008,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function _goto($a_target, $a_access_code = "")
 	{
 		global $ilAccess, $ilErr, $lng;
-
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
 			include_once "./classes/class.ilUtil.php";
@@ -3918,16 +4015,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$_SESSION["accesscode"] = $a_access_code;
 				$_GET["baseClass"] = "ilObjSurveyGUI";
-				$_GET["cmd"] = "run";
+				$_GET["cmd"] = "infoScreen";
 				$_GET["ref_id"] = $a_target;
 				include("ilias.php");
 				exit;
-				//ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=run&ref_id=$a_target");
 			}
 			else
 			{
 				$_GET["baseClass"] = "ilObjSurveyGUI";
-				$_GET["cmd"] = "run";
+				$_GET["cmd"] = "infoScreen";
 				$_GET["ref_id"] = $a_target;
 				include("ilias.php");
 				exit;

@@ -93,7 +93,6 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "":
-			case "run":
 			case "infoScreen":
 			case "evaluation":
 				include_once "./classes/class.ilFrameTargetInfo.php";

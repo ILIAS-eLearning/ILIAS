@@ -40,6 +40,7 @@ class ilInfoScreenGUI
 	var $gui_object;
 	var $top_buttons = array();
 	var $top_formbuttons = array();
+	var $hiddenelements = array();
 	/**
 	* a form action parameter. if set a form is generated
 	*/
@@ -66,6 +67,7 @@ class ilInfoScreenGUI
 		$this->learning_progress_enabled = false;
 		$this->form_action = "";
 		$this->top_formbuttons = array();
+		$this->hiddenelements = array();
 	}
 	
 	/**
@@ -204,7 +206,7 @@ class ilInfoScreenGUI
 		$this->section[$this->sec_nr]["properties"][] =
 			array("name" => "<label for=\"$a_input_name\">$a_name</label>", "value" => $input);
 	}
-
+	
 	/**
 	* add a property to current section
 	*/
@@ -229,6 +231,11 @@ class ilInfoScreenGUI
 				array("command" => $a_command, "title" => $a_title)
 			);
 		}
+	}
+	
+	function addHiddenElement($a_name, $a_value)
+	{
+		array_push($this->hiddenelements, array("name" => $a_name, "value" => $a_value));
 	}
 	
 	/**
@@ -410,6 +417,17 @@ class ilInfoScreenGUI
 			$tpl->setVariable("FORMACTION", $this->form_action);
 			$tpl->parseCurrentBlock();
 			$tpl->touchBlock("formbottom");
+		}
+		
+		if (count($this->hiddenelements))
+		{
+			foreach ($this->hiddenelements as $hidden)
+			{
+				$tpl->setCurrentBlock("hidden_element");
+				$tpl->setVariable("HIDDEN_NAME", $hidden["name"]);
+				$tpl->setVariable("HIDDEN_VALUE", $hidden["value"]);
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		for($i = 1; $i <= $this->sec_nr; $i++)

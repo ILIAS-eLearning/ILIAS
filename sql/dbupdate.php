@@ -11324,4 +11324,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 <#787>
 ALTER TABLE `crs_settings`
   DROP `objective_view`;
+<#788>
+ALTER TABLE `survey_survey` ADD `outro` TEXT NULL AFTER `introduction` ;
+UPDATE `survey_survey` SET `outro` = 'survey_finished';
 
