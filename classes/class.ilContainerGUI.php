@@ -560,24 +560,58 @@ class ilContainerGUI extends ilObjectGUI
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 			"xhtml_page");
+		
+		$text = ilUtil::stripSlashes($_POST["page_content"],
+				true,
+				ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
 		if ($xpage_id > 0)
 		{
 			$xpage = new ilXHTMLPage($xpage_id);
-			$xpage->setContent(ilUtil::stripSlashes($_POST["page_content"],
-				true,
-				ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$xpage->setContent($text);
 			$xpage->save();
 		}
 		else
 		{
 			$xpage = new ilXHTMLPage();
-			$xpage->setContent(ilUtil::stripSlashes($_POST["page_content"],
-				true,
-				ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$xpage->setContent($text);
 			$xpage->save();
 			ilContainer::_writeContainerSetting($this->object->getId(),
-			"xhtml_page", $xpage->getId());
+				"xhtml_page", $xpage->getId());
 		}
+		
+		// get current stored mobs
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		$mobs = ilObjMediaObject::_getMobsOfObject($this->object->getType().":html",
+			$this->object->getId());
+		
+		while (ereg("data\/".CLIENT_ID."\/mobs\/mm_([0-9]+)", $text, $found))
+		{
+			$text = str_replace($found[0], "", $text);
+			if (!in_array($found[1], $mobs))
+			{
+				// save usage if missing
+				ilObjMediaObject::_saveUsage($found[1], $this->object->getType().":html",
+					$this->object->getId());
+			}
+			else
+			{
+				// if already saved everything ok -> take mob out of mobs array
+				unset($mobs[$found[1]]);
+			}
+		}
+		// remaining usages are not in text anymore -> delete them
+		// and media objects (note: delete method of ilObjMediaObject
+		// checks whether object is used in another context; if yes,
+		// the object is not deleted!)
+		foreach($mobs as $mob)
+		{
+			ilObjMediaObject::_removeUsage($mob, $this->object->getType().":html",
+				$this->object->getId());
+			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj->delete();
+		}
+		
+
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "");
 	}
