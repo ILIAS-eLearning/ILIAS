@@ -93,9 +93,14 @@ class ilEventAppointment
 
 	function formatTime()
 	{
-		$start = date($this->lng->txt('lang_timeformat_no_sec'),$this->getStartingTime());
-		$end = date($this->lng->txt('lang_timeformat_no_sec'),$this->getEndingTime());
+		return ilEventAppointment::_timeToString($this->getStartingTime(),$this->getEndingTime());
+	}
 
+	function _timeToString($start,$end)
+	{
+		$start = date($this->lng->txt('lang_timeformat_no_sec'),$start);
+		$end = date($this->lng->txt('lang_timeformat_no_sec'),$end);
+	
 		return $start.' - '. $end;
 	}
 
