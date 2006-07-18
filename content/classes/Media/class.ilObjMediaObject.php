@@ -937,6 +937,17 @@ class ilObjMediaObject extends ilObject
 		$ilDB->query($q);
 	}
 
+	function _removeUsage($a_mob_id, $a_type, $a_id)
+	{
+		global $ilDB;
+		
+		$q = "DELETE FROM mob_usage WHERE ".
+			" id = ".$ilDB->quote($a_mob_id)." AND ".
+			" usage_type = ".$ilDB->quote($a_type)." AND ".
+			" usage_id = ".$ilDB->quote($a_id);
+		$ilDB->query($q);
+	}
+
 	/**
 	* get all usages of current media object
 	*/
