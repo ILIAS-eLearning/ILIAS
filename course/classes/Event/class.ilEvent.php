@@ -345,6 +345,23 @@ class ilEvent
 		return $events ? $events : array();
 	}
 
+	function &_getEventsAsArray($a_obj_id)
+	{
+		foreach(ilEvent::_getEvents($a_obj_id) as $event_obj)
+		{
+			$item[$event_obj->getEventId()]['title'] = $event_obj->getTitle();
+			$item[$event_obj->getEventId()]['description'] = $event_obj->getDescription();
+			$item[$event_obj->getEventId()]['type'] = 'event';
+			$item[$event_obj->getEventId()]['event_id'] = $event_obj->getEventId();
+
+			$event_appointment =& $event_obj->getFirstAppointment();
+			$item[$event_obj->getEventId()]['start'] = $event_appointment->getStartingTime();
+			$item[$event_obj->getEventId()]['end'] = $event_appointment->getEndingTime();
+		}
+
+		return $item ? $item : array();
+	}
+
 	// PRIVATE
 	function __read()
 	{
