@@ -11186,7 +11186,7 @@ PRIMARY KEY ( `item_id` , `usr_id` )
 <#777>
 <?php
 $tree = new ilTree(ROOT_FOLDER_ID);
-$query = "SELECT ut.obj_id AS obj_id,type,item_id FROM ut_lp_collections AS ut INNER JOIN object_data AS od WHERE od.obj_id = ut.obj_id";
+$query = "SELECT ut.obj_id AS obj_id,type,item_id FROM ut_lp_collections AS ut INNER JOIN object_data AS od ON od.obj_id = ut.obj_id";
 $res = $this->db->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
