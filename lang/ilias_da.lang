@@ -2392,6 +2392,8 @@ common#:#msg_no_search_result#:#Ingen stier fundet
 common#:#msg_no_search_string#:#Indtast din foresp&oslash;rgelse
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Kun en  System Administratorkan tildele brugere til en System Administrator Rolle
 common#:#msg_no_title#:#Indtast en title.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Du indtastet ikke en URL
 common#:#msg_not_available_for_anon#:#Den side du har valgt er kun tilg&aelig;ngelig for registrerede brugere
 common#:#msg_not_in_itself#:#Det er ikke muligt at kopiere et object ind i sig selv###10 Jul 2006 content changed
@@ -5896,6 +5898,7 @@ survey#:#online#:#online
 survey#:#or#:#eller
 survey#:#ordinal_question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#orientation#:#Orientering
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Procent af brugere der har indtastet denne vaerdi
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers
 survey#:#percentage_of_selections#:#Procent af brugere der har valgt denne gruppe
@@ -5989,17 +5992,17 @@ survey#:#survey_finish#:#afslut spoergeskema
 survey#:#survey_finished#:#Du har afsluttet spoergeskemaet. Tak for din deltagelse!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Du kan ikke starte spoergeskemaet da det er offline.
-survey#:#survey_next#:#n&aelig;ste >>>
+survey#:#survey_next#:#n&aelig;ste >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Kan ikke invitere brugere. Spoergeskemaet er offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Spoergeskemaet er online. Du kan ikke aendre i spoergsmaalende!
-survey#:#survey_previous#:#<<< forige
+survey#:#survey_previous#:#<<< forige###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Dette spoergsmaal er obligatorisk. Du skal svare paa dette spoergsmaal)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Spoergsmaal
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#Undlad og afslut spoergeskema
-survey#:#survey_skip_next#:#Undlad >>>
-survey#:#survey_skip_previous#:#<<< Undlad
+survey#:#survey_skip_next#:#Undlad >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< Undlad###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#Undlad og gaa til start side
 survey#:#survey_start#:#gaa til start side
 survey#:#svy_all_user_data_deleted#:#Alt bruger data for dette spoergeskema er blevet slettet!
@@ -6049,6 +6052,7 @@ survey#:#view_constraints_introduction#:#Du viser begraensinger paa foelgende sp
 survey#:#view_phrase#:#Vis saetning
 survey#:#warning_question_in_use#:#Advarsel! Spoergsmaalet du vil aendre er i brug af spoergeskemaet herunder. Hvis du vaelger at fortsaette og gemme dette spoergsmaal, vil alle svarende i spoergeskemaet blive slettet. Hvis du vil aendre spoergsmaalet og bruge det i et andet spoergeskema, vaelg da kopier i spoergsmaals browseren for at oprette en kopi af spoergsmaalet.
 survey#:#warning_question_not_complete#:#Spoergeskemaet er ikke faerdigt!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

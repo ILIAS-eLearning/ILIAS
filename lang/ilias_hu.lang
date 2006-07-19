@@ -2387,6 +2387,8 @@ common#:#msg_no_search_result#:#Nem találhatók bejegyzések.
 common#:#msg_no_search_string#:#Gépelje be kérdését!
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Csak rendszeradminisztrátor rendelhet hozzá felhasználót a rendszereadminisztrátori szerephez.
 common#:#msg_no_title#:#Adjon meg címet!
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Nem adott meg
 common#:#msg_not_available_for_anon#:#A kiválasztott lap csak regisztrált felhasználók számára elérhető. (Jelentkezzen be az ILIAS-ba!)
 common#:#msg_not_in_itself#:#Nem lehet bemásolni az objektumot saját magába###10 Jul 2006 content changed
@@ -5884,6 +5886,7 @@ survey#:#online#:#on-line
 survey#:#or#:#vagy
 survey#:#ordinal_question_not_checked#:#Jelöljön ki egy felajánlott választ!
 survey#:#orientation#:#Tájolás
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Felhasználók azon százaléka, akik ezt az értéket adták meg.
 survey#:#percentage_of_selections#:#Felhasználók azon százaléka, akik ezt a választ választották
 survey#:#phrase_saved#:#A mondat sikeresen el lett mentve.
@@ -5974,17 +5977,17 @@ survey#:#survey_finish#:#kérdőív befejezése
 survey#:#survey_finished#:#Befejezte a kérdőív kitöltését. Köszönjük részvételét!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Nem kezdheti el a kérdőívet. A kérdőív off-line.
-survey#:#survey_next#:#következő >>>
+survey#:#survey_next#:#következő >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Nem hívhatók meg felhasználók, mert a kérdőív off-line.###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Mivel a kérdőív on-line, nem szerkesztheti a kérdőív kérdéseit.
-survey#:#survey_previous#:#<<< előző
+survey#:#survey_previous#:#<<< előző###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Ezt a kérdést kötelező megválaszolnia.)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Válaszható)
 survey#:#survey_questions#:#Kérdések
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#ugrás és a kérdőív befejezése
-survey#:#survey_skip_next#:#következő >>>
-survey#:#survey_skip_previous#:#<<< előző
+survey#:#survey_skip_next#:#következő >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< előző###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#ugrás és vissza a kezdőlapra
 survey#:#survey_start#:#vissza a kezdőlapra
 survey#:#svy_all_user_data_deleted#:#Minden, ehhez a kérdőívhez kapcsolódó felhasználói adat törlésre került.
@@ -6034,6 +6037,7 @@ survey#:#view_constraints_introduction#:#Az alábbi kérdés/kérdésblokk előf
 survey#:#view_phrase#:#Mondat nézete
 survey#:#warning_question_in_use#:#Figyelmeztetés: Az Ön által szerkesztendő kérdést az alább listázott kérdőívek használják. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, az alább listázott kérdőívek minden válasza törlődik. Ha meg akarja változtatni a kérdést és másik kérdőívben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, a kérdés új példányának létrehozásához.
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

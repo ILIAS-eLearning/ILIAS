@@ -2461,6 +2461,8 @@ common#:#msg_no_search_result#:#Nessun risultato trovato
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Non puoi assegnare il ruolo di amministratore di sistema se non sei amministratore di sistema
 common#:#msg_no_title#:#Per favore inserisci un titolo.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Non hai indicato l&#039;URL 
 common#:#msg_not_available_for_anon#:#La pagina che hai scelto &#232; accessibile solamente agli utenti registrati
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso###10 Jul 2006 content changed
@@ -5990,6 +5992,7 @@ survey#:#online#:#online
 survey#:#or#:#OR
 survey#:#ordinal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
 survey#:#orientation#:#Orientamento
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato questo valore
 survey#:#percentage_of_offered_answers#:#Percentuale di risposte presentate
 survey#:#percentage_of_selections#:#Percentuale di utenti che hanno scelto questa categoria
@@ -6083,17 +6086,17 @@ survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
 survey#:#survey_finished#:#Il sondaggio &#232; finito. Grazie per la tua partecipazione!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Non puoi eseguire il sondaggio! Il sondaggio &#232; offline.
-survey#:#survey_next#:#Salva e vai avanti >>>
+survey#:#survey_next#:#Salva e vai avanti >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Non puoi invitare partecipanti. Il sondaggio &#232; offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Il sondaggio &#232; online. Non puoi modificare le domande!
-survey#:#survey_previous#:#<<< Salva e torna indietro
+survey#:#survey_previous#:#<<< Salva e torna indietro###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Questa domanda &#232; obbligatoria. Devi rispondere.)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Opzionale)
 survey#:#survey_questions#:#Domande
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#Salta e finisci il sondaggio >>>
-survey#:#survey_skip_next#:#Salta e vai alla pagina successiva >>>
-survey#:#survey_skip_previous#:#<<< Salta e torna alla pagina precedente
+survey#:#survey_skip_next#:#Salta e vai alla pagina successiva >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< Salta e torna alla pagina precedente###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< Salta e torna alla pagina iniziale
 survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale
 survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo sondaggio sono stati eliminati!
@@ -6143,6 +6146,7 @@ survey#:#view_constraints_introduction#:#Stai vedendo i vincoli definiti per le 
 survey#:#view_phrase#:#Vedi frase
 survey#:#warning_question_in_use#:#Attenzione! La domanda che vuoi modificare &#232; &#232; attualmente usata dai sondaggi indicati sotto. Se decidi di continuare e salvare/confermare la domanda, tutte le risposte dei sondaggi elencati sotto saranno cancellate. Se vuoi cambiare la domanda e usarla in un altro sondaggio, per favore scegli di duplicarla in modo da creare una nuova istanza della stessa.
 survey#:#warning_question_not_complete#:#La domanda non &#232; stata completata!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

@@ -2010,6 +2010,8 @@ common#:#msg_no_search_result#:#Совпадений не найдено
 common#:#msg_no_search_string#:#Пожалуй�?та, введите ваш запро�?
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Только Си�?темный админи�?тратор может назначат пользовател�?м Роль Си�?темного админи�?тратора. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_no_title#:#Пожалуй�?та, введите название.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Вы не ввели URL
 common#:#msg_not_available_for_anon#:#Выбранна�? вами �?траница до�?тупна только дл�? зареги�?трированных пользователей
 common#:#msg_not_in_itself#:#�?евозможно в�?тавить объект �?ам в �?еб�?###10 Jul 2006 content changed
@@ -5276,6 +5278,7 @@ survey#:#online#:#онлайн ### 2006-5-8 --- Content changed ### 2006-5-8 ---
 survey#:#or#:#или
 survey#:#ordinal_question_not_checked#:#Пожалуй�?та, выберите один из предлагаемых ответов!
 survey#:#orientation#:#Ориентаци�? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Процент пользователей по �?тому значению
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Процент пользователей по �?той категории
@@ -5361,16 +5364,16 @@ survey#:#survey_finish#:#закончить опро�?
 survey#:#survey_finished#:#Вы закончили опро�?. Спа�?ибо за ваше уча�?тие!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Вы не можете начать опро�?! Опро�? в офлайн.
-survey#:#survey_next#:#�?ледующий >>>
+survey#:#survey_next#:#�?ледующий >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#�?е может пригла�?ить пользователей. Опро�? в офлайн!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Опро�? в онлайн. Вы не можете редактировать вопро�?ы об опро�?е!
-survey#:#survey_previous#:#<<< предыдущий
+survey#:#survey_previous#:#<<< предыдущий###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Этот вопро�? об�?зателен. Вы должны ответить на вопро�?)###10 Jul 2006 content changed
 survey#:#survey_questions#:#Вопро�?ы
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#пропу�?тить и закончить опро�?
-survey#:#survey_skip_next#:#пропу�?тить >>>
-survey#:#survey_skip_previous#:#<<< пропу�?тить
+survey#:#survey_skip_next#:#пропу�?тить >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< пропу�?тить###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#пропу�?тить и выйти на главную �?траницу
 survey#:#survey_start#:#выйти на главную �?траницу
 survey#:#svy_all_user_data_deleted#:#В�?е пользователь�?кие данные �?того опро�?а были удалены!
@@ -5417,6 +5420,7 @@ survey#:#view_constraints_introduction#:#Вы про�?матриваете ог�
 survey#:#view_phrase#:#Про�?мотреть фразу
 survey#:#warning_question_in_use#:#Предупреждение! Вопро�?, который Вы хотите редактировать, находит�?�? в и�?пользовании упом�?нутыми ниже опро�?ами. Е�?ли Вы хотите продолжить и �?охранить/применить вопро�?, то в�?е ответы упом�?нутых ниже опро�?ов будут удалены. Е�?ли Вы хотите изменить вопро�? и и�?пользовать его в другом опро�?е, пожалуй�?та, выберите дубликат в браузере вопро�?ов.
 survey#:#warning_question_not_complete#:#Вопро�? не завершен!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

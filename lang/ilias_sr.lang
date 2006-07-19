@@ -2385,6 +2385,8 @@ common#:#msg_no_search_result#:#Pristupi nisu pronadeni
 common#:#msg_no_search_string#:#Molimo unesite vaše pitanje
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Samo sistem administrator može dodeliti korisnicima funkciju sistem administratora
 common#:#msg_no_title#:#Molimo unesite naslov.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Niste uneli URL
 common#:#msg_not_available_for_anon#:#Stranica koju ste odabrali je dostupna samo registrovanim korisnicima
 common#:#msg_not_in_itself#:#Nije moguce zalepiti objekte u njih same###10 Jul 2006 content changed
@@ -5796,6 +5798,7 @@ survey#:#online#:#na vezi
 survey#:#or#:#ili
 survey#:#ordinal_question_not_checked#:#Molimo proverite jedan od ponudenih odgovora!
 survey#:#orientation#:#Orijentacija
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Procenat korisnika koji su uneli ovu vrednost
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Procenat korisnika koji je odabrao ovu kategoriju###03 Nov 2005 content changed
@@ -5889,17 +5892,17 @@ survey#:#survey_finish#:#završi anketu
 survey#:#survey_finished#:#Završili ste anketu. Hvala vam na ucešcu!###05 Feb 2006 content changed
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Ne možete zapoceti anketu! Anketa je oflajn.
-survey#:#survey_next#:#sledeci >>
+survey#:#survey_next#:#sledeci >>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Ne možete pozvati korisnike. Anketa je oflajn.###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Anketa je onlajn. Ne možete urediti anketna pitanja!
-survey#:#survey_previous#:#<<<prethodni
+survey#:#survey_previous#:#<<<prethodni###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Ovo pitanje je obavezujuce. Morate odgovoriti na pitanje9###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Pitanja
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#preskoci i završi anketu
-survey#:#survey_skip_next#:#preskoci >>>
-survey#:#survey_skip_previous#:#<<< preskoci
+survey#:#survey_skip_next#:#preskoci >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< preskoci###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#Preskoci i idi na pocetnu stranicu
 survey#:#survey_start#:#idi na pocetnu stranicu
 survey#:#svy_all_user_data_deleted#:#Svi korisnicki podaci ove ankete su obrisani!
@@ -5949,6 +5952,7 @@ survey#:#view_constraints_introduction#:#Gledate ogranicenja sledecih pitanja/bl
 survey#:#view_phrase#:#Pregled fraze
 survey#:#warning_question_in_use#:#Upozorenje! Pitanje koje želite da uredite koristi se u anketi sa donjeg spiska. Ako odlucite da nastavite i snimite/primenite pitanje svi odgovori u dole navedenim anketama bice obrisani. Ako želite da promenite pitanje i iskoristite ga u drugoj anketi, molimo odaberite kopiju u pretraživacu pitanja da biste stvorili primerak ovog pitanja.
 survey#:#warning_question_not_complete#:#Pitanje nije potpuno!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

@@ -2453,6 +2453,8 @@ common#:#msg_no_search_result#:#Входжень не знайдено
 common#:#msg_no_search_string#:#Будь ла�?ка введіть ваш запит
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Тільки Си�?темний �?дміні�?тратор може призначати кори�?тувачів на Роль Си�?темного �?дміні�?тратора
 common#:#msg_no_title#:#Будь ла�?ка введіть назву.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Ви не ввели URL
 common#:#msg_not_available_for_anon#:#Сторінку що ви вибрали є до�?тупною тільки дл�? зареє�?трованим кори�?тувачам
 common#:#msg_not_in_itself#:#�?е є можливим в�?тавити об'єкт в �?амого �?ебе ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -5976,6 +5978,7 @@ survey#:#online#:#онлайн
 survey#:#or#:#або
 survey#:#ordinal_question_not_checked#:#Будь ла�?ка перевірте одну �? запропонованих відповідей!
 survey#:#orientation#:#Орієнтаці�?
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Від�?оток кори�?тувачів що ввели це значенн�?
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Від�?тоток кори�?тувачів що вибрали цю категорію###03 Nov 2005 content changed
@@ -6069,17 +6072,17 @@ survey#:#survey_finish#:#зберегти за закінчити опитува
 survey#:#survey_finished#:#Опитуванн�? закінчене. Д�?куємо за вашу уча�?ть!###05 Feb 2006 content changed
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Ви не можете почати опитуванн�?! Опитуванн�? зараз оффлайн.
-survey#:#survey_next#:#збрегти та на�?тупна �?торінка >>>
+survey#:#survey_next#:#збрегти та на�?тупна �?торінка >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#�?еможливо запро�?ити кори�?тувачів. Опитуванн�? є оффлайн!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Опитуванн�? є онлайн. Ви не можете редагувати питанн�? опитуванн�?!
-survey#:#survey_previous#:#<<< зберегти та попередн�? �?торінка
+survey#:#survey_previous#:#<<< зберегти та попередн�? �?торінка###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Це питанн�? є обов'�?зковим. Ви маєте відпові�?ти на питанн�?) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Питанн�?
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#пропу�?тити та закінчити опитуванн�? >>>
-survey#:#survey_skip_next#:#пропу�?тити та на�?тупна �?торінка >>>
-survey#:#survey_skip_previous#:#<<< пропу�?тити та попередн�? �?торінка
+survey#:#survey_skip_next#:#пропу�?тити та на�?тупна �?торінка >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< пропу�?тити та попередн�? �?торінка###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< пропу�?тити та перейти до початкової �?торінки
 survey#:#survey_start#:#<<< зберегти та перейти до початкової �?торінки
 survey#:#svy_all_user_data_deleted#:#У�?і дані кори�?тувача цього опитуванн�? були видалені!
@@ -6129,6 +6132,7 @@ survey#:#view_constraints_introduction#:#Ви перегл�?даєте обме�
 survey#:#view_phrase#:#Дивити�?ь фразу
 survey#:#warning_question_in_use#:#Попередженн�?! Питанн�? що ви бажаєте відредагувати викори�?товуєть�?�? в опитуванн�?х перелічених нижче. Якщо ви вирішите продовжити та збережети/за�?то�?уєте це питанн�?, у�?і відповіді в опитуванн�?х перелічених нижче будуть видалені. Якщо ви бажаєте змінити питанн�? та викори�?товувати його в іншому опитуванні, будь ла�?ка виберіть дублювати в браузері питань щоб �?творити новий екземпл�?р цього питанн�?.
 survey#:#warning_question_not_complete#:#Питанн�? не закінчене!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

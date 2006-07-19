@@ -2388,6 +2388,8 @@ common#:#msg_no_search_result#:#Pas d'entrée trouvée###07 Apr 2005 content cha
 common#:#msg_no_search_string#:#Veuillez saisir votre requête###07 Apr 2005 content changed
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Vous ne pouvez pas assigner des utilisateurs au rôle d'administrateur système si vous n'êtes pas vous-même assigné(e) à ce rôle###07 Apr 2005 content changed
 common#:#msg_no_title#:#Veuillez saisir un titre###07 Apr 2005 content changed
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Vous n'avez pas saisi d'URL###07 Apr 2005 content changed
 common#:#msg_not_available_for_anon#:#La page que vous avez choisie n'est accessible que pour les utilisateurs enregistrés.###07 Apr 2005 content changed
 common#:#msg_not_in_itself#:#Il n'est pas possible de coller l'objet dans lui-même###07 Apr 2005 content changed
@@ -5892,6 +5894,7 @@ survey#:#online#:#en ligne###07 Apr 2005 content changed
 survey#:#or#:#ou###07 Apr 2005 content changed
 survey#:#ordinal_question_not_checked#:#Veuillez cocher une des réponses proposées.###07 Apr 2005 content changed
 survey#:#orientation#:#Orientation###07 Apr 2005 content changed
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Pourcentage des utilisateurs qui ont saisi cette valeur###07 Apr 2005 content changed
 survey#:#percentage_of_offered_answers#:#Pourcentage de réponses fournies### Floating point
 survey#:#percentage_of_selections#:#Pourcentage des utilisateurs qui ont sélectionné cette catégorie###07 Apr 2005 content changed
@@ -6045,6 +6048,7 @@ survey#:#view_constraints_introduction#:#Vous voyez les contraintes de la  quest
 survey#:#view_phrase#:#Voir expression###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Attention ! La question que vous voulez modifier est utilisée dans les sondages listés ci-dessous. Si vous décidez de continuer et d'enregistrer/appliquer la question, toutes les réponses aux sondages listés ci-dessous seront détruites. Si vous voulez changer la question et l'utiliser dans un autre sondage, veuillez choisir 'dupliquer' dans l'explorateur de questions pour créer une nouvelle instance de la question.###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#La question n'est pas complète.###07 Apr 2005 content changed
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable
