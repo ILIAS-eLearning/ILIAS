@@ -602,8 +602,14 @@ class ilInitialisation
 			include_once("Services/Init/classes/class.ilStartUpGUI.php");
 			if	(ilStartUpGUI::_checkGoto($_GET["target"]))
 			{
+				// additional parameter capturing for survey access codes
+				$survey_parameter = "";
+				if (array_key_exists("accesscode", $_GET))
+				{
+					$survey_parameter = "&accesscode=" . $_GET["accesscode"];
+				}
 				ilUtil::redirect(ILIAS_HTTP_PATH.
-					"/goto.php?target=".$_GET["target"]);
+					"/goto.php?target=".$_GET["target"].$survey_parameter);
 			}
 			else	// target is not accessible -> login
 			{

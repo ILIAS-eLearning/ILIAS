@@ -550,7 +550,6 @@ class ilContainerGUI extends ilObjectGUI
 //echo "+".$rtestring."+";
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
-		$rte->addPlugin("latex");
 		$rte->addRTESupport();
 	}
 	
