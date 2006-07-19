@@ -591,7 +591,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -669,20 +669,23 @@ class assClozeTestGUI extends assQuestionGUI
 				{
 					if ($active_id)
 					{
-						// output of ok/not ok icons for user entered solutions
-						if ($this->object->testGapSolution($solution["value2"], $gap))
+						if ($graphicalOutput)
 						{
-							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
-							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-							$template->parseCurrentBlock();
-						}
-						else
-						{
-							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
-							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-							$template->parseCurrentBlock();
+							// output of ok/not ok icons for user entered solutions
+							if ($this->object->testGapSolution($solution["value2"], $gap))
+							{
+								$template->setCurrentBlock("icon_ok");
+								$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+								$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+								$template->parseCurrentBlock();
+							}
+							else
+							{
+								$template->setCurrentBlock("icon_ok");
+								$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+								$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+								$template->parseCurrentBlock();
+							}
 						}
 					}
 					$template->setCurrentBlock("solution");

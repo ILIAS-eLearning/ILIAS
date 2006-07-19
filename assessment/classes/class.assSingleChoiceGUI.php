@@ -592,7 +592,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -630,6 +630,39 @@ class assSingleChoiceGUI extends assQuestionGUI
 		foreach ($keys as $answer_id)
 		{
 			$answer = $this->object->answers[$answer_id];
+			if ($active_id)
+			{
+				if ($graphicalOutput)
+				{
+					// output of ok/not ok icons for user entered solutions
+					$ok = FALSE;
+					if (strcmp($user_solution, $answer_id) == 0)
+					{
+						if ($answer->getPoints() == $this->object->getMaximumPoints())
+						{
+							$ok = TRUE;
+						}
+						else
+						{
+							$ok = FALSE;
+						}
+						if ($ok)
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+							$template->parseCurrentBlock();
+						}
+						else
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+							$template->parseCurrentBlock();
+						}
+					}
+				}
+			}
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");

@@ -591,7 +591,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
@@ -632,6 +632,55 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		foreach ($keys as $answer_id)
 		{
 			$answer = $this->object->answers[$answer_id];
+			if ($graphicalOutput)
+			{
+				// output of ok/not ok icons for user entered solutions
+				$ok = FALSE;
+				$checked = FALSE;
+				foreach ($user_solution as $mc_solution)
+				{
+					if (strcmp($mc_solution, $answer_id) == 0)
+					{
+						$checked = TRUE;
+					}
+				}
+				if ($checked)
+				{
+					if ($answer->getPointsChecked() > $answer->getPointsUnchecked())
+					{
+						$ok = TRUE;
+					}
+					else
+					{
+						$ok = FALSE;
+					}
+				}
+				else
+				{
+					if ($answer->getPointsChecked() > $answer->getPointsUnchecked())
+					{
+						$ok = FALSE;
+					}
+					else
+					{
+						$ok = TRUE;
+					}
+				}
+				if ($ok)
+				{
+					$template->setCurrentBlock("icon_ok");
+					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("icon_ok");
+					$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+					$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+					$template->parseCurrentBlock();
+				}
+			}
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");

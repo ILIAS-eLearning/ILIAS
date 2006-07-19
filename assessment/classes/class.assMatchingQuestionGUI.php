@@ -527,7 +527,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -557,6 +557,38 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		foreach ($keys as $idx)
 		{
 			$answer = $this->object->matchingpairs[$idx];
+			if ($active_id)
+			{
+				if ($graphicalOutput)
+				{
+					// output of ok/not ok icons for user entered solutions
+					$ok = FALSE;
+					foreach ($solutions as $solution)
+					{
+						if ($answer->getDefinitionId() == $solution["value2"])
+						{
+							if ($answer->getTermId() == $solution["value1"])
+							{
+								$ok = TRUE;
+							}
+						}
+					}
+					if ($ok)
+					{
+						$template->setCurrentBlock("icon_ok");
+						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+						$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("icon_ok");
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+						$template->parseCurrentBlock();
+					}
+				}
+			}
 
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 			{
