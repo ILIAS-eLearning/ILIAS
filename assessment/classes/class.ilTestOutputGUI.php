@@ -1692,7 +1692,7 @@ class ilTestOutputGUI
 				$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 				
 				$active = $this->object->getActiveTestUser($ilUser->getId());
-				$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
+				$result_output = $question_gui->getSolutionOutput($active->active_id, $pass, TRUE);
 				$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 				$this->tpl->parseCurrentBlock();
 				$counter ++;
@@ -1771,7 +1771,7 @@ class ilTestOutputGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
 		$active = $this->object->getActiveTestUser($ilUser->getId());
-		$result_output = $question_gui->getSolutionOutput($active->active_id, NULL);
+		$result_output = $question_gui->getSolutionOutput($active->active_id, NULL, TRUE);
 		$best_output = $question_gui->getSolutionOutput("");
 		$this->tpl->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
 		$this->tpl->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));

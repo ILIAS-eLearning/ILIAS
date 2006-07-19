@@ -320,7 +320,7 @@ class assNumericGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -346,6 +346,27 @@ class assNumericGUI extends assQuestionGUI
 		{
 			foreach ($solutions as $solution)
 			{
+				if ($active_id)
+				{
+					if ($graphicalOutput)
+					{
+						// output of ok/not ok icons for user entered solutions
+						if ($this->object->getReachedPoints($active_id) == $this->object->getMaximumPoints())
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+							$template->parseCurrentBlock();
+						}
+						else
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+							$template->parseCurrentBlock();
+						}
+					}
+				}
 				$template->setVariable("NUMERIC_VALUE", $solution["value1"]);
 			}
 		}

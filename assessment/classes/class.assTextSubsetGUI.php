@@ -452,7 +452,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -487,6 +487,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output_solution.html", TRUE, TRUE, TRUE);
+		$available_answers =& $this->object->getAvailableAnswers();
 		for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++)
 		{
 			if ((!$test_id) && (strcmp($solutions[$i]["value1"], "") == 0))
@@ -494,6 +495,34 @@ class assTextSubsetGUI extends assQuestionGUI
 			}
 			else
 			{
+				if ($active_id)
+				{
+					if ($graphicalOutput)
+					{
+						// output of ok/not ok icons for user entered solutions
+						$index = $this->object->isAnswerCorrect($available_answers, $solutions[$i]["value1"]);
+						$correct = FALSE;
+						if ($index !== FALSE)
+						{
+							unset($available_answers[$index]);
+							$correct = TRUE;
+						}
+						if ($correct)
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+							$template->parseCurrentBlock();
+						}
+						else
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+							$template->parseCurrentBlock();
+						}
+					}
+				}
 				$template->setCurrentBlock("textsubset_row");
 				$template->setVariable("SOLUTION", $solutions[$i]["value1"]);
 				$template->setVariable("COUNTER", $i+1);

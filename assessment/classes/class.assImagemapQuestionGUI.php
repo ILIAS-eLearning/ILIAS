@@ -687,7 +687,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -753,6 +753,28 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$template->setVariable("IMG_SRC", "$imagepath");
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
+		if ($active_id)
+		{
+			if ($graphicalOutput)
+			{
+				// output of ok/not ok icons for user entered solutions
+				if ($this->object->getReachedPoints($active_id) == $this->object->getMaximumPoints())
+				{
+					$template->setCurrentBlock("icon_ok");
+					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("icon_ok");
+					$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+					$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+					$template->parseCurrentBlock();
+				}
+			}
+		}
+			
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);

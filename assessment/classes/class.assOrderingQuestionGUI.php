@@ -532,7 +532,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
@@ -560,6 +560,52 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		foreach ($keys as $idx)
 		{
 			$answer = $this->object->answers[$idx];
+			if ($active_id)
+			{
+				if ($graphicalOutput)
+				{
+					$sol = array();
+					foreach ($solutions as $solution)
+					{
+						$sol[$solution["value1"]] = $solution["value2"];
+					}
+					asort($sol);
+					$sol = array_keys($sol);
+					$ans = array();
+					foreach ($this->object->answers as $k => $a)
+					{
+						$ans[$k] = $a->getSolutionOrder();
+					}
+					asort($ans);
+					$ans = array_keys($ans);
+					$ok = FALSE;
+					foreach ($ans as $arr_idx => $ans_idx)
+					{
+						if ($ans_idx == $idx)
+						{
+							if ($ans_idx == $sol[$arr_idx])
+							{
+								$ok = TRUE;
+							}
+						}
+					}
+					// output of ok/not ok icons for user entered solutions
+					if ($ok)
+					{
+						$template->setCurrentBlock("icon_ok");
+						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+						$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("icon_ok");
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+						$template->parseCurrentBlock();
+					}
+				}
+			}
 			if ($this->object->getOrderingType() == OQ_PICTURES)
 			{
 				$template->setCurrentBlock("ordering_row_standard_pictures");
