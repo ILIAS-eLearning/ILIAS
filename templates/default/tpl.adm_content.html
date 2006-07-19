@@ -6,7 +6,7 @@
 	<h1><!-- BEGIN header_image --><img style="vertical-align:middle" <!-- BEGIN header_image_desc -->alt="{IMAGE_DESC}"<!-- END header_image_desc --> border="0" src="{IMG_HEADER}" id="headerimage" />&nbsp;<!-- END header_image -->
 	{HEADER}</h1><div class="il_Description">{H_DESCRIPTION}</div></div>
 	<!-- BEGIN tree_icons -->
-	<div style="float:right; padding-right:15px; padding-top:5px; margin:0px;">
+	<div class="il_TreeIcons" style="float:right;">
 		<!-- BEGIN top -->
 		<a class="{CLASS_TOP}" href="{LINK_TOP}" <!-- BEGIN target_top -->target="{TARGET_TOP}"<!-- END target_top -->
 			id="imgtop"><img src="{IMG_TOP}" border="0" <!-- BEGIN alt_top --> alt="{ALT_TOP}" title="{ALT_TOP}" <!-- END alt_top --> /></a>&nbsp;
@@ -27,7 +27,7 @@
 <!-- END left_column -->
 <td class="il_CenterColumn">
 	<!-- BEGIN add_commands -->
-	<div style="text-align:right; margin-bottom:10px;">
+	<div style="float:right; margin-bottom:10px;">
 	<form class="il_Form" style="{FORMSTYLE}" action="{H_FORMACTION}" method="post">
 	{SELECT_OBJTYPE_REPOS}
 	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
