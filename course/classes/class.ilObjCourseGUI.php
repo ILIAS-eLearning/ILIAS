@@ -1087,7 +1087,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function setSubTabs($a_tab)
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem,$ilUser,$ilAccess;
 		
 		switch ($a_tab)
 		{
@@ -1130,15 +1130,19 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 				
 			case 'members':
+				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$this->tabs_gui->addSubTabTarget("crs_member_administration",
+													 $this->ctrl->getLinkTarget($this,'members'),
+													 "members", get_class($this));
+				}
 				$this->tabs_gui->addSubTabTarget("crs_members_gallery",
-					$this->ctrl->getLinkTarget($this,'membersGallery'),
-					"membersGallery", get_class($this));
-				$this->tabs_gui->addSubTabTarget("members",
-					$this->ctrl->getLinkTarget($this,'members'),
-					"members", get_class($this));
+												 $this->ctrl->getLinkTarget($this,'membersGallery'),
+												 "membersGallery", get_class($this));
+				
 				$this->tabs_gui->addSubTabTarget("mail_members",
-					$this->ctrl->getLinkTarget($this,'mailMembers'),
-					"mailMembers", get_class($this));
+												 $this->ctrl->getLinkTarget($this,'mailMembers'),
+												 "mailMembers", get_class($this));
 				break;
 
 				
@@ -1227,161 +1231,523 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilUtil::deliverFile($abs_path,$basename);
 	}
 
+
+	function __readMemberData($ids)
+	{
+		if($this->show_tracking)
+		{
+			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+			$completed = ilLPStatusWrapper::_getCompleted($this->object->getId());
+			$in_progress = ilLPStatusWrapper::_getInProgress($this->object->getId());
+			$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->object->getId());
+		}
+
+		foreach($ids as $usr_id)
+		{
+			$name = ilObjUser::_lookupName($usr_id);
+			$data = $this->object->members_obj->getUserData($usr_id);
+			$tmp_data['firstname'] = $name['firstname'];
+			$tmp_data['lastname'] = $name['lastname'];
+			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
+			$tmp_data['passed'] = $data['passed'] ? 1 : 0;
+			$tmp_data['notification'] = $data['status'] == $this->object->members_obj->STATUS_NOTIFY ? 1 : 0;
+			$tmp_data['blocked'] = $data['status'] == $this->object->members_obj->STATUS_BLOCKED ? 1 : 0;
+			$tmp_data['usr_id'] = $data['usr_id'];
+			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
+
+			if($this->show_tracking)
+			{
+				if(in_array($usr_id,$completed))
+				{
+					$tmp_data['progress'] = $this->lng->txt('trac_completed');
+				}
+				elseif(in_array($usr_id,$in_progress))
+				{
+					$tmp_data['progress'] = $this->lng->txt('trac_in_progress');
+				}
+				else
+				{
+					$tmp_data['progress'] = $this->lng->txt('trac_not_attempted');
+				}
+			}
+					
+			$members[] = $tmp_data;
+		}
+		return $members ? $members : array();
+	}
+
 	function membersObject()
 	{
-		global $rbacsystem,$ilUser;
+		include_once './classes/class.ilTableGUI.php';
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 
-		$this->tabs_gui->setTabActive('members');
-		$this->setSubTabs('members');
+		$this->lng->loadLanguageModule('trac');
+		$this->show_tracking = ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData();
 
-		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html","course");
+		$_SESSION['crs_admin_hide'] = isset($_GET['admin_show_details']) ? !$_GET['admin_show_details'] : 
+			$_SESSION['crs_admin_hide'];
+		$_SESSION['crs_tutor_hide'] = isset($_GET['tutor_show_details']) ? !$_GET['tutor_show_details'] : 
+			$_SESSION['crs_tutor_hide'];
+		$_SESSION['crs_member_hide'] = isset($_GET['member_show_details']) ? !$_GET['member_show_details'] : 
+			$_SESSION['crs_member_hide'];
 
-		// display member search button
-		if($is_admin)
+		global $ilAccess,$ilErr,$ilUser;
+
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("crs_add_member"));
-			$this->tpl->parseCurrentBlock();
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
 		}
-		// print Members
+
+		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
+		$this->tabs_gui->setSubTabActive('crs_member_administration');
+
+		// Waitinglist
+		$this->__showWaitingList();
+		$this->__showSubscribers();
+
+		// add members
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("crs_add_member"));
+		$this->tpl->parseCurrentBlock();
+		
+		// print
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
-		// unsubscribe
-		if($rbacsystem->checkAccess('leave',$this->object->getRefId()) and 
-		   $this->object->members_obj->isMember($ilUser->getId()))
-		{
-			$this->__showButton('unsubscribe',$this->lng->txt('crs_unsubscribe'));
-		}
-		
-		$this->object->initCourseMemberObject();
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.edit_members.html','course');
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
+		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('crs_members_table'));
+		$this->tpl->setVariable("MEMBER_TABLE_TITLE",$this->lng->txt('crs_members_table'));
 
-		if(!count($this->object->members_obj->getAssignedUsers()) and
-		   !count($this->object->members_obj->getSubscribers()))
+
+		////////////////////////////////////////////////////////
+		// Admins
+		////////////////////////////////////////////////////////
+		$this->__renderAdminsTable();
+		
+		////////////////////////////////////////////////////////
+		// Tutors
+		////////////////////////////////////////////////////////
+		$this->__renderTutorsTable();
+			
+		////////////////////////////////////////////////////////
+		// Members
+		////////////////////////////////////////////////////////
+		$this->__renderMembersTable();
+
+		$actions = array("deleteMembersObject"	=> $this->lng->txt("crs_delete_member"));
+		$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
+		$this->tpl->setVariable("ARROW_DOWNRIGHT",ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("TXT_BTN_EXECUTE",$this->lng->txt('execute'));
+		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
+
+	}
+
+	function updateMembersObject()
+	{
+		global $ilAccess,$ilErr,$ilUser,$rbacadmin;
+
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			sendInfo($this->lng->txt("crs_no_members_assigned"));
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
+		}
+		if(!is_array($_POST['visible_member_ids']))
+		{
+			sendInfo($this->lng->txt('no_checkbox'));
+			$this->membersObject();
 			return false;
 		}
+		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
+		$blocked = is_array($_POST['blocked']) ? $_POST['blocked'] : array();
+		$notification = is_array($_POST['notification']) ? $_POST['notification'] : array();
 
-		if($is_admin)
+		foreach($_POST['visible_member_ids'] as $member_id)
 		{
-			$this->__showWaitingList();
-			$this->__showSubscribers();
-		}
+			$member_data = $this->object->members_obj->getUserData($member_id);
+			
+			ilCourseMembers::_updatePassed($this->object->getId(),$member_id,in_array($member_id,$passed));
 
-		// Members
-		if(count($this->object->members_obj->getAssignedUsers()))
-		{
-			$counter = 0;
-			$f_result = array();
-
-			$img_mail = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".
-				$this->lng->txt("crs_mem_send_mail").
-				"\" title=\"".$this->lng->txt("crs_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
-
-			$img_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".
-				$this->lng->txt("crs_mem_change_status")."\" title=\"".$this->lng->txt("crs_mem_change_status").
-				"\" border=\"0\" vspace=\"0\"/>";
-
-			$img_lp = "<img src=\"".ilUtil::getImagePath("icon_trac.gif")."\" alt=\"".
-				$this->lng->txt("learning_progress")."\" title=\"".$this->lng->txt("learning_progress").
-				"\" border=\"0\" vspace=\"0\"/>";
-
-			foreach($this->object->members_obj->getAssignedUsers() as $member_id)
+			switch($member_data['role'])
 			{
-				$member_data = $this->object->members_obj->getUserData($member_id);
-
-				// GET USER OBJ
-				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
-				{
-					$member_ids[$counter] = $member_id;
-					
-					if($is_admin)
+				case $this->object->members_obj->ROLE_MEMBER:
+					if(in_array($member_id,$blocked))
 					{
-						$f_result[$counter][]	= ilUtil::formCheckbox(0,"member[]",$member_id);
-					}
-					$f_result[$counter][]	= $tmp_obj->getLogin();
-					$f_result[$counter][]	= $tmp_obj->getFirstname();
-					$f_result[$counter][]	= $tmp_obj->getLastname();
-
-					switch($member_data["role"])
-					{
-						case $this->object->members_obj->ROLE_ADMIN:
-							$role = $this->lng->txt("il_crs_admin");
-							break;
-
-						case $this->object->members_obj->ROLE_TUTOR:
-							$role = $this->lng->txt("il_crs_tutor");
-							break;
-
-						case $this->object->members_obj->ROLE_MEMBER:
-							$role = $this->lng->txt("il_crs_member");
-							break;
-					}
-					$f_result[$counter][]   = $role;
-					
-					if($is_admin)
-					{
-						switch($member_data["status"])
-						{
-							case $this->object->members_obj->STATUS_NOTIFY:
-								$f_result[$counter][] = $this->lng->txt("crs_notify");
-								break;
-
-							case $this->object->members_obj->STATUS_NO_NOTIFY:
-								$f_result[$counter][] = $this->lng->txt("crs_no_notify");
-								break;
-
-							case $this->object->members_obj->STATUS_BLOCKED:
-								$f_result[$counter][] = $this->lng->txt("crs_blocked");
-								break;
-
-							case $this->object->members_obj->STATUS_UNBLOCKED:
-								$f_result[$counter][] = $this->lng->txt("crs_unblocked");
-								break;
-						}
-						$f_result[$counter][] = $member_data['passed'] ?
-							$this->lng->txt('crs_member_passed') :
-							$this->lng->txt('crs_member_not_passed');
-					}
-
-
-					$link_mail = "<a target=\"_blank\" href=\"mail_new.php?type=new&rcp_to=".
-						$tmp_obj->getLogin()."\">".$img_mail."</a>";
-
-					if($is_admin)
-					{
-						$this->ctrl->setParameter($this,"member_id",$tmp_obj->getId());
-						$link_change = "<a href=\"".$this->ctrl->getLinkTarget($this,"editMember")."\">".
-							$img_change."</a>";
-
-						include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-						if($rbacsystem->checkAccess('edit_learning_progress',$this->ref_id) and 
-						   ilObjUserTracking::_enabledLearningProgress() and
-						   ilObjUserTracking::_enabledUserRelatedData())
-						{
-							$this->ctrl->setParameter($this,"user_id",$tmp_obj->getId());
-							$link_lp = "<a href=\"".$this->ctrl->getLinkTargetByClass(array('illearningprogressgui',
-																							'illplistofprogressgui'),
-																					  "show")."\">".$img_lp."</a>";
-						}
-						$f_result[$counter][]	= $link_mail." ".$link_change." ".$link_lp;
+						ilCourseMembers::_updateStatus($this->object->getId(),$member_id,$this->object->members_obj->STATUS_BLOCKED);
+						$rbacadmin->deassignUser($this->object->getDefaultMemberRole(),$member_id);
 					}
 					else
 					{
-						$f_result[$counter][]	= $link_mail;
+						ilCourseMembers::_updateStatus($this->object->getId(),$member_id,$this->object->members_obj->STATUS_UNBLOCKED);
+						$rbacadmin->assignUser($this->object->getDefaultMemberRole(),$member_id);
 					}
-						unset($tmp_obj);
-					++$counter;
-				}
-			} // END IF MEMBERS
+					break;
+					
+				default:
+					if(in_array($member_id,$notification))
+					{
+						ilCourseMembers::_updateStatus($this->object->getId(),$member_id,$this->object->members_obj->STATUS_NOTIFY);
+					}
+					else
+					{
+						ilCourseMembers::_updateStatus($this->object->getId(),$member_id,$this->object->members_obj->STATUS_NO_NOTIFY);
+					}
+					break;
+			}
+					
 
+					
+			// Set Passed
 		}
-		return $this->__showMembersTable($f_result,$member_ids,$is_admin);
+			
+
+		sendInfo($this->lng->txt('settings_saved'));
+		$this->membersObject();
 	}
+
+	function __renderAdminsTable()
+	{
+		$this->tpl->setVariable("TXT_ADMINISTRATORS",$this->lng->txt('crs_administrators'));
+
+		if($_SESSION['crs_admin_hide'])
+		{
+			$this->tpl->setVariable("ADMIN_HIDE_TEXT",$this->lng->txt('show_details'));
+			$this->ctrl->setParameter($this,'admin_show_details',1);
+			$this->tpl->setVariable("ADMIN_HIDE",$this->ctrl->getLinkTarget($this,'members'));
+			$this->ctrl->clearParameters($this);
+			return true;
+		}
+		
+		$this->tpl->setVariable("ADMIN_HIDE_TEXT",$this->lng->txt('hide_details'));
+		$this->ctrl->setParameter($this,'admin_show_details',0);
+		$this->tpl->setVariable("ADMIN_HIDE",$this->ctrl->getLinkTarget($this,'members'));
+		$this->ctrl->clearParameters($this);
+			
+
+		$admin_tpl = new ilTemplate('tpl.table.html',true,true);
+		$admin_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_admin_row.html','course');
+
+
+		$all_admins_data = $this->__readMemberData($admins = $this->object->members_obj->getAdmins());
+		$sorted_admins = ilUtil::sortArray($all_admins_data,$_GET["admin_sort_by"],$_GET["admin_sort_order"]);
+		$sliced_admins = array_slice($sorted_admins,$_GET['admin_offset'],$_GET['limit']); 
+		$counter = 0;
+		foreach($sliced_admins as $admin)
+		{
+			$admin_tpl->setCurrentBlock("link");
+			$this->ctrl->setParameter($this,'member_id',$admin['usr_id']);
+			$admin_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editAdmin'));
+			$admin_tpl->setVariable("LINK_TXT",$this->lng->txt('edit'));
+			$this->ctrl->clearParameters($this);
+
+			$admin_tpl->setCurrentBlock("tbl_content");
+
+			if($admin['passed'])
+			{
+				$admin_tpl->setVariable("CHECKED_PASSED",'checked="checked"');
+			}
+			if($admin['notification'])
+			{
+				$admin_tpl->setVariable("CHECKED_NOTIFICATION",'checked="checked"');
+			}
+			if($this->show_tracking)
+			{
+				$admin_tpl->setVariable("VAL_PROGRESS",$admin['progress']);
+			}
+
+			$admin_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+			$admin_tpl->setVariable("USER_ID",$admin['usr_id']);
+			$admin_tpl->setVariable("LASTNAME",$admin['lastname']);
+			$admin_tpl->setVariable("FIRSTNAME",$admin['firstname']);
+			$admin_tpl->setVariable("LOGIN",$admin['login']);
+			$admin_tpl->parseCurrentBlock();
+		}
+		$admin_tpl->setCurrentBlock("select_row");
+		$admin_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+		$admin_tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
+		$admin_tpl->parseCurrentBlock();
+
+		$tbl = new ilTableGUI($admins,false);
+		$tbl->setTemplate($admin_tpl);
+		
+		if($this->show_tracking)
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt('name'),
+									   $this->lng->txt('login'),
+									   $this->lng->txt('learning_progress'),
+									   $this->lng->txt('crs_passed'),
+									   $this->lng->txt('crs_notification'),''));
+			$tbl->setHeaderVars(array("",
+									  "lastname",
+									  "login",
+									  "progress",
+									  "passed",
+									  "notification",''),
+								$this->ctrl->getParameterArray($this,'members'));
+		}
+		else
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt('name'),
+									   $this->lng->txt('login'),
+									   $this->lng->txt('crs_passed'),
+									   $this->lng->txt('crs_notification'),''));
+			$tbl->setHeaderVars(array("",
+									  "lastname",
+									  "login",
+									  "passed",
+									  "notification",''),
+								$this->ctrl->getParameterArray($this,'members'));
+		}		
+		$tbl->setOrderColumn($_GET["admin_sort_by"]);
+		$tbl->setOrderDirection($_GET["admin_sort_order"]);
+		$tbl->setOffset($_GET["admin_offset"]);
+		$tbl->setMaxCount(count($admins));
+		$tbl->setPrefix('admin_');
+		$tbl->disable('table');
+		$tbl->disable('form');
+		$tbl->disable('title');
+		$tbl->disable('icon');
+		$tbl->disable('content');
+
+		$this->tpl->setVariable("ADMINISTRATORS",$tbl->render());
+	}
+
+	function __renderTutorsTable()
+	{
+		$all_tutors_data = $this->__readMemberData($tutors = $this->object->members_obj->getTutors());
+		if(!count($all_tutors_data))
+		{
+			return false;
+		}
+		
+		$this->tpl->setVariable("TXT_TUTORS",$this->lng->txt('crs_tutors'));
+
+		if($_SESSION['crs_tutor_hide'])
+		{
+			$this->tpl->setVariable("TUTOR_HIDE_TEXT",$this->lng->txt('show_details'));
+			$this->ctrl->setParameter($this,'tutor_show_details',1);
+			$this->tpl->setVariable("TUTOR_HIDE",$this->ctrl->getLinkTarget($this,'members'));
+			$this->ctrl->clearParameters($this);
+			return true;
+		}
+		
+		$this->tpl->setVariable("TUTOR_HIDE_TEXT",$this->lng->txt('hide_details'));
+		$this->ctrl->setParameter($this,'tutor_show_details',0);
+		$this->tpl->setVariable("TUTOR_HIDE",$this->ctrl->getLinkTarget($this,'members'));
+		$this->ctrl->clearParameters($this);
+
+
+		$tutor_tpl = new ilTemplate('tpl.table.html',true,true);
+		$tutor_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_tutor_row.html','course');
+
+
+		$sorted_tutors = ilUtil::sortArray($all_tutors_data,$_GET["tutor_sort_by"],$_GET["tutor_sort_order"]);
+		$sliced_tutors = array_slice($sorted_tutors,$_GET['tutor_offset'],$_GET['limit']); 
+		$counter = 0;
+		foreach($sliced_tutors as $tutor)
+		{
+			$tutor_tpl->setCurrentBlock("link");
+			$this->ctrl->setParameter($this,'member_id',$tutor['usr_id']);
+			$tutor_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editTutor'));
+			$tutor_tpl->setVariable("LINK_TXT",$this->lng->txt('edit'));
+			$this->ctrl->clearParameters($this);
+
+			$tutor_tpl->setCurrentBlock("tbl_content");
+
+			if($tutor['passed'])
+			{
+				$tutor_tpl->setVariable("CHECKED_PASSED",'checked="checked"');
+			}
+			if($tutor['notification'])
+			{
+				$tutor_tpl->setVariable("CHECKED_NOTIFICATION",'checked="checked"');
+			}
+			if($this->show_tracking)
+			{
+				$tutor_tpl->setVariable("VAL_PROGRESS",$tutor['progress']);
+			}
+
+			$tutor_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+			$tutor_tpl->setVariable("USER_ID",$tutor['usr_id']);
+			$tutor_tpl->setVariable("LASTNAME",$tutor['lastname']);
+			$tutor_tpl->setVariable("FIRSTNAME",$tutor['firstname']);
+			$tutor_tpl->setVariable("LOGIN",$tutor['login']);
+			$tutor_tpl->parseCurrentBlock();
+		}
+
+		$tutor_tpl->setCurrentBlock("select_row");
+		$tutor_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+		$tutor_tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
+		$tutor_tpl->parseCurrentBlock();
+
+
+		$tbl = new ilTableGUI($tutors,false);
+		$tbl->setTemplate($tutor_tpl);
+		
+		if($this->show_tracking)
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt('name'),
+									   $this->lng->txt('login'),
+									   $this->lng->txt('learning_progress'),
+									   $this->lng->txt('crs_passed'),
+									   $this->lng->txt('crs_notification'),''));
+			$tbl->setHeaderVars(array("",
+									  "lastname",
+									  "login",
+									  "progress",
+									  "passed",
+									  "notification",''),
+								$this->ctrl->getParameterArray($this,'members'));
+		}
+		else
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt('name'),
+									   $this->lng->txt('login'),
+									   $this->lng->txt('crs_passed'),
+									   $this->lng->txt('crs_notification'),''));
+			$tbl->setHeaderVars(array("",
+									  "lastname",
+									  "login",
+									  "passed",
+									  "notification",''),
+								$this->ctrl->getParameterArray($this,'members'));
+		}		
+		$tbl->setOrderColumn($_GET["tutor_sort_by"]);
+		$tbl->setOrderDirection($_GET["tutor_sort_order"]);
+		$tbl->setOffset($_GET["tutor_offset"]);
+		$tbl->setMaxCount(count($tutors));
+		$tbl->setPrefix('tutor_');
+		$tbl->disable('table');
+		$tbl->disable('form');
+		$tbl->disable('title');
+		$tbl->disable('icon');
+		$tbl->disable('content');
+
+		$this->tpl->setVariable("TUTORS",$tbl->render());
+	}
+	function __renderMembersTable()
+	{
+		$all_members_data = $this->__readMemberData($members = $this->object->members_obj->getMembers());
+		if(!count($all_members_data))
+		{
+			return false;
+		}
+		$this->tpl->setVariable("TXT_MEMBERS",$this->lng->txt('crs_members'));
+
+		if($_SESSION['crs_member_hide'])
+		{
+			$this->tpl->setVariable("MEMBER_HIDE_TEXT",$this->lng->txt('show_details'));
+			$this->ctrl->setParameter($this,'member_show_details',1);
+			$this->tpl->setVariable("MEMBER_HIDE",$this->ctrl->getLinkTarget($this,'members'));
+			$this->ctrl->clearParameters($this);
+			return true;
+		}
+		
+		$this->tpl->setVariable("MEMBER_HIDE_TEXT",$this->lng->txt('hide_details'));
+		$this->ctrl->setParameter($this,'member_show_details',0);
+		$this->tpl->setVariable("MEMBER_HIDE",$this->ctrl->getLinkTarget($this,'members'));
+		$this->ctrl->clearParameters($this);
+
+
+		$member_tpl = new ilTemplate('tpl.table.html',true,true);
+		$member_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_member_row.html','course');
+
+		$sorted_members = ilUtil::sortArray($all_members_data,$_GET["sort_by"],$_GET["sort_order"]);
+		$sliced_members = array_slice($sorted_members,$_GET['offset'],$_GET['limit']); 
+		$counter = 0;
+		foreach($sliced_members as $member)
+		{
+			$member_tpl->setCurrentBlock("link");
+			$this->ctrl->setParameter($this,'member_id',$member['usr_id']);
+			$member_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editMember'));
+			$member_tpl->setVariable("LINK_TXT",$this->lng->txt('edit'));
+			$this->ctrl->clearParameters($this);
+
+			$member_tpl->setCurrentBlock("tbl_content");
+
+			if($member['passed'])
+			{
+				$member_tpl->setVariable("CHECKED_PASSED",'checked="checked"');
+			}
+			if($member['blocked'])
+			{
+				$member_tpl->setVariable("CHECKED_BLOCKED",'checked="checked"');
+			}
+			if($this->show_tracking)
+			{
+				$member_tpl->setVariable("VAL_PROGRESS",$member['progress']);
+			}
+
+			$member_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+			$member_tpl->setVariable("USER_ID",$member['usr_id']);
+			$member_tpl->setVariable("LASTNAME",$member['lastname']);
+			$member_tpl->setVariable("FIRSTNAME",$member['firstname']);
+			$member_tpl->setVariable("LOGIN",$member['login']);
+			$member_tpl->parseCurrentBlock();
+		}
+
+		$member_tpl->setCurrentBlock("select_row");
+		$member_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+		$member_tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
+		$member_tpl->parseCurrentBlock();
+		
+		
+		$tbl = new ilTableGUI($members,false);
+		$tbl->setTemplate($member_tpl);
+		
+		if($this->show_tracking)
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt('name'),
+									   $this->lng->txt('login'),
+									   $this->lng->txt('learning_progress'),
+									   $this->lng->txt('crs_passed'),
+									   $this->lng->txt('crs_blocked'),
+									   ''));
+								 
+			$tbl->setHeaderVars(array("",
+									  "lastname",
+									  "login",
+									  "progress",
+									  "passed",
+									  "blocked",''),
+								$this->ctrl->getParameterArray($this,'members'));
+		}
+		else
+		{
+			$tbl->setHeaderNames(array('',
+									   $this->lng->txt('name'),
+									   $this->lng->txt('login'),
+									   $this->lng->txt('crs_passed'),
+									   $this->lng->txt('crs_blocked')));
+			$tbl->setHeaderVars(array("",
+									  "lastname",
+									  "login",
+									  "passed",
+									  "blocked"),
+								$this->ctrl->getParameterArray($this,'members'));
+		}		
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET['limit']);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount(count($members));
+		$tbl->disable('table');
+		$tbl->disable('form');
+		$tbl->disable('title');
+		$tbl->disable('icon');
+		$tbl->disable('content');
+		$this->tpl->setVariable("MEMBERS",$tbl->render());
+	}
+
+
 
 	function __showWaitingList()
 	{
@@ -2012,6 +2378,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tabs_gui->setTabActive('members');
 
+		$_POST['member'] = array_merge((array) $_POST['member_ids'],(array) $_POST['tutor_ids'],(array) $_POST['admin_ids']);
+
 		// MINIMUM ACCESS LEVEL = 'administrate'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -2547,7 +2915,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// member list
-		if ($ilAccess->checkAccess('read','',$this->ref_id))
+		if($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$tabs_gui->addTarget("members",
+								 $this->ctrl->getLinkTarget($this, "members"), 
+								 "members",
+								 get_class($this));
+		}			
+		elseif ($ilAccess->checkAccess('read','',$this->ref_id))
 		{
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
@@ -3185,14 +3560,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","cancelMember");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
-		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
 		$tpl->setVariable("BTN_NAME","removeMembers");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_delete_member"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","cancelMember");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -3317,117 +3693,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 
 
-	function __showMembersTable($a_result_set,$a_member_ids = NULL,$is_admin = true)
-	{
-		$actions = array("deleteMembersObject"	=> $this->lng->txt("crs_delete_member"));
-
-		$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		// SET FORMACTION
-		$tpl->setCurrentBlock("tbl_form_header");
-
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_row");
-
-		#$tpl->setCurrentBlock("input_text");
-		#$tpl->setVariable("PB_TXT_NAME",'member');
-		#$tpl->parseCurrentBlock();
-
-		if (!empty($a_member_ids) and $is_admin)
-		{
-			// set checkbox toggles
-			$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-			$tpl->setVariable("JS_VARNAME","member");			
-			$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_member_ids));
-			$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-			$tpl->parseCurrentBlock();
-		}
-
-		$tpl->setVariable("COLUMN_COUNTS",$is_admin ? 8 : 5);
-		$tbl->setTitle($this->lng->txt("crs_header_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
-
-		if($is_admin)
-		{
-			#$tpl->setCurrentBlock("plain_button");
-			#$tpl->setVariable("PBTN_NAME","search");
-			#$tpl->setVariable("PBTN_VALUE",$this->lng->txt("crs_add_member"));
-			#$tpl->parseCurrentBlock();
-			#$tpl->setCurrentBlock("plain_buttons");
-			#$tpl->parseCurrentBlock();
-
-
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-			$tpl->setCurrentBlock("tbl_action_select");
-			$tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
-			$tpl->setVariable("BTN_NAME","gateway");
-			$tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
-			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("tbl_action_row");
-			$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-			$tpl->parseCurrentBlock();
-
-			$tbl->setHeaderNames(array('',
-									   $this->lng->txt("username"),
-									   $this->lng->txt("firstname"),
-									   $this->lng->txt("lastname"),
-									   $this->lng->txt("crs_role"),
-									   $this->lng->txt("crs_status"),
-									   $this->lng->txt("crs_passed"),
-									   $this->lng->txt("crs_options")));
-			$tbl->setHeaderVars(array("",
-									  "login",
-									  "firstname",
-									  "lastname",
-									  "role",
-									  "status",
-									  "passed",
-									  "options"),
-								array("ref_id" => $this->object->getRefId(),
-									  "cmd" => "members",
-									  "update_members" => 1,
-									  "cmdClass" => "ilobjcoursegui",
-									  "cmdNode" => $_GET["cmdNode"]));
-			$tbl->setColumnWidth(array("","15%","15%","15%","15%","15%","15%"));
-			$tpl->setCurrentBlock('tbl_footer_info');
-			$tpl->setVariable("INFO_TEXT",$this->object->members_obj->getCountMembers().' '.$this->lng->txt('crs_members_footer').', '.
-							  $this->object->members_obj->getCountPassed().' '.$this->lng->txt('crs_members_footer_passed'));
-			$tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$tbl->setHeaderNames(array($this->lng->txt("username"),
-									   $this->lng->txt("firstname"),
-									   $this->lng->txt("lastname"),
-									   $this->lng->txt("crs_role"),
-									   $this->lng->txt("crs_options")));
-			$tbl->setHeaderVars(array("login",
-									  "firstname",
-									  "lastname",
-									  "role",
-									  "options"),
-								array("ref_id" => $this->object->getRefId(),
-									  "cmd" => "members",
-									  "update_members" => 1,
-									  "cmdClass" => "ilobjcoursegui",
-									  "cmdNode" => $_GET["cmdNode"]));
-			$tbl->setColumnWidth(array("25%","25%","25%","25%"));
-			$tpl->setCurrentBlock('tbl_footer_info');
-			$tpl->setVariable("INFO_TEXT",$this->object->members_obj->getCountMembers().' '.$this->lng->txt('crs_members_footer'));
-			$tpl->parseCurrentBlock();
-		}
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");
-		$tbl->render();
-
-		$this->tpl->setVariable("MEMBER_TABLE",$tbl->tpl->get());
-
-		return true;
-	}
 
 	function __showSubscribersTable($a_result_set,$a_subscriber_ids = NULL)
 	{
@@ -3480,7 +3745,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->parseCurrentBlock();
 
 
-		$tbl->setTitle($this->lng->txt("crs_subscribers"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setTitle($this->lng->txt("crs_subscribers"),"icon_usr.gif",$this->lng->txt("crs_header_members"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -3548,7 +3813,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->parseCurrentBlock();
 
 
-		$tbl->setTitle($this->lng->txt("crs_waiting_list"),"icon_usr_b.gif",$this->lng->txt("crs_waiting_list"));
+		$tbl->setTitle($this->lng->txt("crs_waiting_list"),"icon_usr.gif",$this->lng->txt("crs_waiting_list"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),

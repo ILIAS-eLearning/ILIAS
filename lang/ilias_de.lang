@@ -6358,3 +6358,8 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+crs#:#crs_members_table#:#Teilnehmer des Kurses
+crs#:#crs_member_administration#:#Teilnehmerverwaltung
+crs#:#crs_administrators#:#Administratoren
+crs#:#crs_tutors#:#Tutoren
+crs#:#crs_members#:#Mitglieder

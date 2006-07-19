@@ -941,6 +941,30 @@ class ilCourseMembers
 		return false;
 	}
 
+	function _updatePassed($a_obj_id,$a_usr_id,$a_passed)
+	{
+		global $ilDB;
+
+		$query = "UPDATE crs_members ".
+			"SET passed = '".(int) $a_passed."' ".
+			"WHERE obj_id = '".(int) $a_obj_id."' ".
+			"AND usr_id = '".(int) $a_usr_id."'";
+
+		$ilDB->query($query);
+	}
+
+	function _updateStatus($a_obj_id,$a_usr_id,$a_status)
+	{
+		global $ilDB;
+
+		$query = "UPDATE crs_members ".
+			"SET status = '".(int) $a_status."' ".
+			"WHERE obj_id = '".(int) $a_obj_id."' ".
+			"AND usr_id = '".(int) $a_usr_id."'";
+
+		$ilDB->query($query);
+	}		
+
 
 	function __buildStatusBody(&$user_obj)
 	{
