@@ -43,7 +43,8 @@ class ilPersonalDesktopGUI
 	var $lng;
 	var $ilias;
 	
-	
+	var $cmdClass = '';
+
 	/**
 	* constructor
 	*/
@@ -64,6 +65,7 @@ class ilPersonalDesktopGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_not_available_for_anon"),$this->ilias->error_obj->MESSAGE);
 		}
+		$this->cmdClass = $_GET['cmdClass'];
 	}
 	
 	/**
@@ -1333,14 +1335,14 @@ class ilPersonalDesktopGUI
 		
 		// personal desktop home
 		$inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
-		(strtolower($_GET["cmdClass"]) == "ilpersonaldesktopgui" ||
-		$_GET["cmdClass"] == ""))
+		(strtolower($this->cmdClass) == "ilpersonaldesktopgui" ||
+		$this->cmdClass == ""))
 		? "tabactive"
 		: "tabinactive";
 		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTarget($this), $this->lng->txt("overview"));
 		
 		// user profile
-		$inc_type = (strtolower($_GET["cmdClass"]) == "ilpersonalprofilegui")
+		$inc_type = (strtolower($this->cmdClass) == "ilpersonalprofilegui")
 		? "tabactive"
 		: "tabinactive";
 		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPersonalProfileGUI"),
@@ -1358,8 +1360,8 @@ class ilPersonalDesktopGUI
 			}
 			
 			// private notes
-			$inc_type = (strtolower($_GET["cmdClass"]) == "ilpdnotesgui" ||
-			strtolower($_GET["cmdClass"]) == "ilnotegui")
+			$inc_type = (strtolower($this->cmdClass) == "ilpdnotesgui" ||
+			strtolower($this->cmdClass) == "ilnotegui")
 			? "tabactive"
 			: "tabinactive";
 			$inhalt1[] = array($inc_type,
@@ -1367,7 +1369,7 @@ class ilPersonalDesktopGUI
 			$this->lng->txt("private_notes"));
 			
 			// user bookmarks
-			$inc_type = (strtolower($_GET["cmdClass"]) == "ilbookmarkadministrationgui")
+			$inc_type = (strtolower($this->cmdClass) == "ilbookmarkadministrationgui")
 			? "tabactive"
 			: "tabinactive";
 			$inhalt1[] = array($inc_type,
@@ -1382,7 +1384,7 @@ class ilPersonalDesktopGUI
 		if (ilObjUserTracking::_enabledLearningProgress())
 		{
 			$cmd_classes = array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui');
-			$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';
+			$inc_type = in_array(strtolower($this->cmdClass),$cmd_classes) ? 'tabactive' : 'tabinactive';
 			
 			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"),
 			$this->lng->txt("learning_progress"));
@@ -1399,7 +1401,7 @@ class ilPersonalDesktopGUI
 			$this->lng->loadLanguageModule('payment');
 
 			$cmd_classes = array('ilpaymentshoppingcartgui','ilpaymentbuyedobjectsgui');
-			$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';
+			$inc_type = in_array(strtolower($this->cmdClass),$cmd_classes) ? 'tabactive' : 'tabinactive';
 
 			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPaymentGUI"),
 			$this->lng->txt("paya_shopping_cart"));
@@ -1410,7 +1412,7 @@ class ilPersonalDesktopGUI
 			$this->lng->loadLanguageModule('payment');
 
 			$cmd_classes = array('ilpaymentstatisticgui','ilpaymentobjectgui','ilpaymenttrusteegui');
-			$inc_type = in_array(strtolower($_GET['cmdClass']),$cmd_classes) ? 'tabactive' : 'tabinactive';
+			$inc_type = in_array(strtolower($this->cmdClass),$cmd_classes) ? 'tabactive' : 'tabinactive';
 
 			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPaymentAdminGUI"),
 			$this->lng->txt("paya_header"));
@@ -1528,7 +1530,7 @@ class ilPersonalDesktopGUI
 	function __storeLastClass($a_class)
 	{
 		$_SESSION['il_pd_history'] = $a_class;
-		$_GET['cmdClass'] = $a_class;
+		$this->cmdClass = $a_class;
 	}
 }
 ?>

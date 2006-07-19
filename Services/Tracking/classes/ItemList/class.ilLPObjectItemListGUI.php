@@ -208,6 +208,8 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 
 	function renderPath()
 	{
+		include_once 'classes/class.ilLink.php';
+
 		if(!count($this->references))
 		{
 			return true;
@@ -215,29 +217,32 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 		$this->tpl->setVariable("OCCURRENCES",$this->lng->txt('trac_occurrences'));
 		foreach($this->references as $ref_id)
 		{
-			$path = '';
-			$path_arr = $this->tree->getPathFull($ref_id);
+			$path = '...';
 			$counter = 0;
-			foreach($this->tree->getPathFull($ref_id) as $data)
+			$path_full = $this->tree->getPathFull($ref_id);
+			foreach($path_full as $data)
 			{
-				if($counter++)
+				if(++$counter < (count($path_full)-1))
 				{
-					$path .= " -> ";
+					continue;
 				}
+				$path .= " -> ";
 				if($ref_id != $data['ref_id'])
 				{
 					$path .= $data['title'];
 				}
 				else
 				{
-					$this->ctrl->setParameterByClass($this->getCmdClass(),'details_id',$ref_id);
-					$path .= ('<a href="'.
-							  $this->ctrl->getLinkTargetByClass($this->getCmdClass(),'details').'">'.
+					$path .= ('<a target="_top" href="'.
+							  ilLink::_getLink($data['ref_id'],$data['type']).'">'.
 							  $data['title'].'</a>');
 				}
 			}
 			$this->tpl->setCurrentBlock("path_item");
 			$this->tpl->setVariable("PATH_ITEM",$path);
+			$this->ctrl->setParameterByClass($this->getCmdClass(),'details_id',$ref_id);
+			$this->tpl->setVariable("PATH_DETAILS",$this->ctrl->getLinkTargetByClass($this->getCmdClass(),'details'));
+			$this->tpl->setVariable("TXT_PATH_DETAILS",$this->lng->txt('details'));
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setCurrentBlock("path");
