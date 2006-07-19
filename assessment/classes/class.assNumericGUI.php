@@ -160,7 +160,10 @@ class assNumericGUI extends assQuestionGUI
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
 		$rte->addPlugin("latex");
-		$rte->addRTESupport("assessment");
+		include_once "./classes/class.ilObject.php";
+		$obj_id = $_GET["q_id"];
+		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
+		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 		
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
