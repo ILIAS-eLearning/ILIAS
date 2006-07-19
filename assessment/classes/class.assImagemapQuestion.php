@@ -1175,8 +1175,8 @@ class assImagemapQuestion extends assQuestion
 				$ilDB->quote($_GET["selImage"]),
 				$ilDB->quote($activepass . "")
 			);
-			$result = $ilDB->query($query);
 
+			$result = $ilDB->query($query);
 			include_once ("./classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
