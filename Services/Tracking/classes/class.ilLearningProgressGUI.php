@@ -126,6 +126,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	{
 		if(strlen($next_class = $this->ctrl->getNextClass()))
 		{
+			if($this->getMode() == LP_MODE_PERSONAL_DESKTOP)
+			{
+				$_SESSION['il_lp_history'] = $next_class;
+			}
 			return $next_class;
 		}
 		switch($this->getMode())
@@ -137,6 +141,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				return 'illplistofprogressgui';
 
 			case LP_MODE_PERSONAL_DESKTOP:
+				if(strlen($_SESSION['il_lp_history']))
+				{
+					return $_SESSION['il_lp_history'];
+				}
 				return 'illplistofprogressgui';
 
 			case LP_MODE_USER_FOLDER:
