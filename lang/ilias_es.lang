@@ -2462,6 +2462,8 @@ common#:#msg_no_search_result#:#No se encontraron resultados
 common#:#msg_no_search_string#:#Por favor introduzca su consulta
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#No puede asignar usuarios al rol de administrador si no está asignado a ese rol
 common#:#msg_no_title#:#Por favor introduzca un título.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#No introdujo una URL
 common#:#msg_not_available_for_anon#:#La página especificada sólo está accesible para usuarios registrados
 common#:#msg_not_in_itself#:#No es posible pegar el objeto sobre sí mismo###10 Jul 2006 content changed
@@ -4229,8 +4231,8 @@ crs#:#crs_timings_start#:#Tiempo de Comienzo
 crs#:#crs_timings_start_end_info#:#(Comienzo/Fin)
 crs#:#crs_timings_sug_begin#:#Comienzo Sugerido
 crs#:#crs_timings_sug_end#:#Fin Sugerido
-crs#:#crs_timings_time_frame#:#Período
 crs#:#crs_timings_suggested_info#:#Período de edición sugerido
+crs#:#crs_timings_time_frame#:#Período
 crs#:#crs_timings_update_error#:#Su configuración no es válida, por favor verifique la planificación para los siguientes materiales del curso.
 crs#:#crs_timings_visibility#:#Visibilidad
 crs#:#crs_to#:#A:###10 Jul 2006 content changed
@@ -5994,6 +5996,7 @@ survey#:#online#:#online
 survey#:#or#:#o
 survey#:#ordinal_question_not_checked#:#¡Por favor elija una de las respuestas ofrecidas!
 survey#:#orientation#:#Orientación
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor
 survey#:#percentage_of_offered_answers#:#Porcentaje de respuestas ofrecidas
 survey#:#percentage_of_selections#:#Porcentaje de usuarios que seleccionaron esta categoría
@@ -6087,17 +6090,17 @@ survey#:#survey_finish#:#Salvar y terminar encuesta
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
 survey#:#survey_has_datasets_warning#:#La encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine dichos datos en la sección mantenimiento.
 survey#:#survey_is_offline#:#¡No puede comenzar la encuesta! La encuesta está offline.
-survey#:#survey_next#:#salvar y pasar a siguiente página >>>
+survey#:#survey_next#:#salvar y pasar a siguiente página >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#No puede invitar usuarios. ¡La encuesta está offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#La encuesta está online. No puede editar las preguntas de la encuesta
-survey#:#survey_previous#:#<<< salvar y pasar a la página anterior
+survey#:#survey_previous#:#<<< salvar y pasar a la página anterior###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Esta pregunta es obligatoria. Debe responder la pregunta)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Opcional)
 survey#:#survey_questions#:#Preguntas
 survey#:#survey_selected_user_data_deleted#:#Los datos de encuesta de los usuarios seleccionados han sido eliminados con éxito
 survey#:#survey_skip_finish#:#saltar y finalizar encuesta >>>
-survey#:#survey_skip_next#:#saltar e ir a siguiente página >>>
-survey#:#survey_skip_previous#:#<<< saltar e ir a página anterior
+survey#:#survey_skip_next#:#saltar e ir a siguiente página >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< saltar e ir a página anterior###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< saltar e ir a página inicial
 survey#:#survey_start#:#<<< salvar e ir a página inicial
 survey#:#svy_all_user_data_deleted#:#¡Todos los datos de usuario de esta encuesta han sido eliminados!
@@ -6147,6 +6150,7 @@ survey#:#view_constraints_introduction#:#Está viendo las restricciones de las s
 survey#:#view_phrase#:#Ver conjunto
 survey#:#warning_question_in_use#:#¡Cuidado! La pregunta que quiere editar está en uso por una de las encuestas listadas abajo. Si decide continuar y salvar/aplicar la pregunta, todas las respuestas de las encuestas listadas abajo serán eliminadas. Si quiere modificar la pregunta y usarla en otra encuesta, por favor elija duplicar en la página de preguntas para crear una nueva instancia de una pregunta.
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Objetos encontrados
 trac#:#found_too_much_objects#:#Más de %s objetos en total han sido encontrados.Refine su búsqueda, por favor.
 trac#:#info_all_objects#:#Los siguientes usuarios se refieren a todos los objetos del tipo '%s'.

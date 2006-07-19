@@ -2385,6 +2385,8 @@ common#:#msg_no_search_result#:#Nuk është asnjë shënim
 common#:#msg_no_search_string#:#Ju lutëm shënoni një fjalë për kërkim
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Vetëm Administratori i Sistemit mund të caktoj shfrytëzuesit në Rol të Administratorit të Sistemit
 common#:#msg_no_title#:#Ju lutem shënoni një titull.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Nuk keni shënuar URL-n.
 common#:#msg_not_available_for_anon#:#Faqen që keni zgjedhur është vetëm për shfrytëzues të regjistruar.
 common#:#msg_not_in_itself#:#Nuk është e mundshme të vendoset objekti në vetvete.###10 Jul 2006 content changed
@@ -5796,6 +5798,7 @@ survey#:#online#:#online
 survey#:#or#:#ose
 survey#:#ordinal_question_not_checked#:#Ju lutem zgjedh njërën nga pyetjet e ofruara!
 survey#:#orientation#:#Radhitja
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Përqindja e shfrytëzuesve që kanë dhënë këtë vlerë
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Përqindja e shfrytëzuesve që kanë zgjedhur këtë kategori###03 Nov 2005 content changed
@@ -5889,17 +5892,17 @@ survey#:#survey_finish#:#përfundo kuestionerin
 survey#:#survey_finished#:#Ju e keni përfunduar kuestionerin. Ju falënderojmë për participimin tuaj!###05 Feb 2006 content changed
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Nuk mund ta filloni kuestionerin sepse është offline.
-survey#:#survey_next#:#vazhdo >>
+survey#:#survey_next#:#vazhdo >>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Nuk mund të ftohen shfrytëzues. Kuestioneri është offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Kuestioneri është online. Nuk mund të modifikoni pyetjet!
-survey#:#survey_previous#:#<<prapa
+survey#:#survey_previous#:#<<prapa###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Kjo pyetje eshte e obligueshme. Ju duhet t'i pergjigjeni pyetjes) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Pyetjet
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#anashkalo dhe përfundo kuestionerin
-survey#:#survey_skip_next#:#anashkalo >>>
-survey#:#survey_skip_previous#:#<<<anashkalo
+survey#:#survey_skip_next#:#anashkalo >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<<anashkalo###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#anashkalo dhe shko në faqen e fillimit
 survey#:#survey_start#:#shko në faqen e fillimit
 survey#:#svy_all_user_data_deleted#:#Të gjitha të dhënat e shfrytëzuesve për këtë kuestioner janë fshirë!
@@ -5949,6 +5952,7 @@ survey#:#view_constraints_introduction#:#Jeni duke parë "detyrimet" e pyetjeve/
 survey#:#view_phrase#:#Shih frazën
 survey#:#warning_question_in_use#:#Kujdes! Pyetjen që po editoni është në përdorim nga kuestionerët vijues. Nëse vazhdoni dhe e ruani pyetjen, të gjitha përgjigjet e kuestionerëve të më poshtëm do të fshihen. Nëse dëshironi ta ndërroni pyetjen dhe ta përdorni atë në kuestioner tjetër, atëherë zgjedhni "Dubliko" në shfletuesin e pyetjes për të krijuar kopje tjetër të kësaj pyetje. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#warning_question_not_complete#:#Pyetja nuk është kompletuar!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

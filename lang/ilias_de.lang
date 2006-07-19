@@ -2462,6 +2462,8 @@ common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_no_title#:#Bitte geben Sie einen Titel ein!
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Sie haben keine URL eingegeben
 common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:###10 Jul 2006 content changed
@@ -5993,6 +5995,7 @@ survey#:#online#:#online (aktiviert)
 survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#orientation#:#Ausrichtung
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
 survey#:#percentage_of_offered_answers#:#Prozentsatz der angebotenen Antworten
 survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Antwort ausgewählt haben
@@ -6086,17 +6089,17 @@ survey#:#survey_finish#:#Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
-survey#:#survey_next#:#Weiter >>>
+survey#:#survey_next#:#Weiter >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Es können keine Teilnehmerinnen und Teilnehmer eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
-survey#:#survey_previous#:#<<< Zurück
+survey#:#survey_previous#:#<<< Zurück###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Fragen
 survey#:#survey_selected_user_data_deleted#:#Die Umfragedaten der ausgewählten Teilnehmerinnen und Teilnehmer wurden erfolgreich gelöscht
 survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
-survey#:#survey_skip_next#:#Überspringen und weiter >>>
-survey#:#survey_skip_previous#:#<<< Überspringen und zurück
+survey#:#survey_skip_next#:#Überspringen und weiter >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< Überspringen und zurück###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
@@ -6146,6 +6149,7 @@ survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folge
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Gefundene Objekte
 trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefunden. Bitte verfeinern Sie daher Ihre Suchanfrage.
 trac#:#info_all_objects#:#Die nachfolgende Zugriffsstatistik bezieht sich auf alle Objekte des Typs '%s'.

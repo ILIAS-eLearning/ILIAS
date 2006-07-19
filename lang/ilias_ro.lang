@@ -2181,6 +2181,8 @@ common#:#msg_no_search_result#:#Nu au fost gasite referinte
 common#:#msg_no_search_string#:#Va rugam introduceti cerinta
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Numai un Administrator de Sistem poate desemna Rolul de Administrator de Sistem unui utilizator
 common#:#msg_no_title#:#Va rugam introduceti un titlu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Nu ati introdus un URL
 common#:#msg_not_available_for_anon#:#Pagina pe care ati ales-o este accesibila numai utilizatorilor inregistrati
 common#:#msg_not_in_itself#:#Nu puteti lipi obiectul de el insusi###10 Jul 2006 content changed
@@ -5285,6 +5287,7 @@ survey#:#online#:#online
 survey#:#or#:#sau
 survey#:#ordinal_question_not_checked#:#Va rugam selectati unul din raspunsurile posibile oferite!
 survey#:#orientation#:#Orientare
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Procentajul utilizatorilor care au introdus aceasat valoare
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Procentajul utilizatorilor care au selectat aceasta categorie###03 Nov 2005 content changed
@@ -5376,17 +5379,17 @@ survey#:#survey_finish#:#Incheiati sondajul
 survey#:#survey_finished#:#Ati completat sondajul. Va multumim pentru participare!###05 Feb 2006 content changed
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Nu puteti incepe sondajul! Acesta este offline.
-survey#:#survey_next#:#urmatorul >>>
+survey#:#survey_next#:#urmatorul >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Nu puteti invita utilizatorii. Sondajul este offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Sondajul este online. Nu puteti edita intrebarile din sondaj!
-survey#:#survey_previous#:#<<< precedentul
+survey#:#survey_previous#:#<<< precedentul###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Aceasta intrebare este obligatorie. Trebuie sa raspundeti la intrebare)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Optional)###03 Nov 2005 new variable
 survey#:#survey_questions#:#Intrebari
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#Sariti si termina sondajul
-survey#:#survey_skip_next#:#Sariti peste >>>
-survey#:#survey_skip_previous#:#<<< Sariti peste
+survey#:#survey_skip_next#:#Sariti peste >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< Sariti peste###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#Sariti si mergeti la pagina de inceput
 survey#:#survey_start#:#Mergeti la pagina de inceput
 survey#:#svy_all_user_data_deleted#:#Toate datele despre utilizator din sondaj au fost sterse!
@@ -5436,6 +5439,7 @@ survey#:#view_constraints_introduction#:#Vedeti restrictionarile pentru urmatoar
 survey#:#view_phrase#:#Vedeti fraza
 survey#:#warning_question_in_use#:#Avertisment! Intreberea pe care doriti sa o editati este folosita de sondajele de mai jos. Daca decideti sa continuati si salvati/aplicati intrebarea, toate raspunsurile din sondajele de mai jos vor fi sterse. Daca doriti sa schimbati intrebarea si sa o folositi intr-un alt sondaj va rugam duplicati-o in browser-ul de intrebari pentru a crea o copie a acestei intrebari.
 survey#:#warning_question_not_complete#:#Intrebarea nu este completa!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

@@ -2396,6 +2396,8 @@ common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Nie możesz przydzielić użytkowników do roli Administratora Systemu nie mając sam takiej roli.
 common#:#msg_no_title#:#Podaj tytuł.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Nie podałeś URL
 common#:#msg_not_available_for_anon#:#Strona którą,wybrałeś jest dostępna tylko dla zarejestrowanych użytkowników.
 common#:#msg_not_in_itself#:#Nie można wkleić obiektu do samego siebie.###10 Jul 2006 content changed
@@ -5900,6 +5902,7 @@ survey#:#online#:#online
 survey#:#or#:#lub
 survey#:#ordinal_question_not_checked#:#Wybierz jedną z proponowanych odpowiedzi!
 survey#:#orientation#:#Orientacja
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Procent użytkowników, którzy wprowadzili tę wartość
 survey#:#percentage_of_offered_answers#:#Procent udzielonych odpowiedzi
 survey#:#percentage_of_selections#:#Procent użytkowników, którzy wybrali tę kategorię
@@ -5993,17 +5996,17 @@ survey#:#survey_finish#:#zapisz i zakończ ankietę >>>
 survey#:#survey_finished#:#Ankieta jest zakończona. Dziękujemy za uczestnictwo!
 survey#:#survey_has_datasets_warning#:#Ankieta już zawiera zestaw danych. Nie możesz edytować pytań ankiety bez usunięcia tego zestawu danych w sekcji konserwacji.
 survey#:#survey_is_offline#:#Nie możesz rozpocząć ankiety! Ankieta nie jest aktywna.
-survey#:#survey_next#:#zapisz i przejdź do nast. strony >>>
+survey#:#survey_next#:#zapisz i przejdź do nast. strony >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Nie można zaprosić użytkowników. Ankieta jest offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#ankieta jest online. Nie możesz edytować pytań ankiety!
-survey#:#survey_previous#:#<<< zapisz i przejdź do poprz. strony
+survey#:#survey_previous#:#<<< zapisz i przejdź do poprz. strony###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(To pytanie jest obowiązkowe. Musisz na to pytanie odpowiedzieć)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Optcjonalnie)
 survey#:#survey_questions#:#Pytania
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#pomiń i zakończ ankietę >>>
-survey#:#survey_skip_next#:#pomiń i przejdź do nast. strony >>>
-survey#:#survey_skip_previous#:#<<< pomiń i przejdź do poprz. strony
+survey#:#survey_skip_next#:#pomiń i przejdź do nast. strony >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< pomiń i przejdź do poprz. strony###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< pomiń i przejdź na pierwszą stronę
 survey#:#survey_start#:#<<< zapisz i przejdź na pierwszą stronę
 survey#:#svy_all_user_data_deleted#:#Wszystkie dane użytkowników tego przeglądu zostały usunięte!
@@ -6053,6 +6056,7 @@ survey#:#view_constraints_introduction#:#Przeglądasz wymagania następującego 
 survey#:#view_phrase#:#Pokaż frazę
 survey#:#warning_question_in_use#:#Uwaga! Pytanie, które chcesz edytować jest używane przez podane poniżej ankiety. Jeśli będziesz kontynuował i zapiszesz/zastosujesz pytanie,  wszystkie odpowiedzi poniższych ankiet zostaną usunięte. Jeśli chcesz zmienić pytanie i użyć go w innej ankiecie, wybierz powielenie w przeglądarce pytań dla utworzenia nowej wersji tego pytania.
 survey#:#warning_question_not_complete#:#Pytanie nie jest kompletne!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

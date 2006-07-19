@@ -2481,6 +2481,8 @@ common#:#msg_no_search_result#:#未找到�?�目###07 Apr 2005 content changed
 common#:#msg_no_search_string#:#请输入您的问题###07 Apr 2005 content changed
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#如果您自己未被指定为系统管�?�员角色，您�?�?�以指定其他用户为系统管�?�员角色###14 Sep 2004 content changed
 common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#msg_not_available_for_anon#:#您选择的页�?�能为注册的用户访问###07 Apr 2005 content changed
 common#:#msg_not_in_itself#:#对象�?�?�以自身粘贴###07 Apr 2005 content changed
@@ -6013,6 +6015,7 @@ survey#:#online#:#online###23 May 2004 new variable
 survey#:#or#:#or###24 May 2004 new variable
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
 survey#:#orientation#:#Orientation###18 Nov 2004 new variable
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###07 Feb 2006 new variable
 survey#:#percentage_of_selections#:#Percentage of users that selected this category###04 Jun 2004 new variable
@@ -6166,6 +6169,7 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#View phrase###31 May 2004 new variable
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
 survey#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable

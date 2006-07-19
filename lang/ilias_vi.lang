@@ -2393,6 +2393,8 @@ common#:#msg_no_search_result#:#Không có mục nào
 common#:#msg_no_search_string#:#Hãy nhập vào truy vấn của bạn
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Chỉ có ngư�?i quản trị hệ thống có thể chỉ định ngư�?i sử dụng vào vai trò quản trị hệ thống
 common#:#msg_no_title#:#Hãy nhập vào tiêu đ�?.
+common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
+common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Bạn chưa nhập URL
 common#:#msg_not_available_for_anon#:#Trang bạn ch�?n chỉ được truy cập bởi những ngư�?i sử dụng đã đăng ký
 common#:#msg_not_in_itself#:#Không thể dán đối tượng vào chính nó###10 Jul 2006 content changed
@@ -5890,6 +5892,7 @@ survey#:#online#:#online
 survey#:#or#:#hoặc
 survey#:#ordinal_question_not_checked#:#Hãy đánh dấu một trong các câu trả l�?i cho trước!
 survey#:#orientation#:#Hướng
+survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Phần trăm của những ngư�?i sử dụng đã nhập giá trị này
 survey#:#percentage_of_selections#:#Phần trăm của những ngư�?i sử dụng đã ch�?n mục này
 survey#:#phrase_saved#:#�?ã ghi cụm từ thành công!
@@ -5980,17 +5983,17 @@ survey#:#survey_finish#:#Kết thúc khảo sát
 survey#:#survey_finished#:#Bạn đã hoàn thành khảo sát. Cảm ơn sự tham gia của bạn!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Bạn không thể bắt đầu khảo sát! Khảo sát đang offline.
-survey#:#survey_next#:#Tiếp >>>
+survey#:#survey_next#:#Tiếp >>>###19 Jul 2006 content changed
 survey#:#survey_offline_message#:#Không thể m�?i những ngư�?i sử dụng. Khảo sát đang offline!###10 Jul 2006 content changed
 survey#:#survey_online_warning#:#Khảo sát đang online. Bạn không thể sửa các câu h�?i của khảo sát!
-survey#:#survey_previous#:#<<< Trước
+survey#:#survey_previous#:#<<< Trước###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Câu h�?i này là bắt buộc. Bạn phải trả l�?i)###10 Jul 2006 content changed
 survey#:#survey_question_optional#:#(Tùy ch�?n)
 survey#:#survey_questions#:#Câu h�?i
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully###10 Jul 2006 new variable
 survey#:#survey_skip_finish#:#B�? qua và kết thúc khảo sát
-survey#:#survey_skip_next#:#B�? qua >>>
-survey#:#survey_skip_previous#:#<<< B�? qua
+survey#:#survey_skip_next#:#B�? qua >>>###19 Jul 2006 content changed
+survey#:#survey_skip_previous#:#<<< B�? qua###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#B�? qua và đi đến trang đầu
 survey#:#survey_start#:#�?i tới trang đầu
 survey#:#svy_all_user_data_deleted#:#Tất cả thông tin ngư�?i sử dụng của khảo sát này đã được xóa!
@@ -6040,6 +6043,7 @@ survey#:#view_constraints_introduction#:#Bạn đang xem phụ thuộc của câ
 survey#:#view_phrase#:#Xem cụm từ
 survey#:#warning_question_in_use#:#CẢNH B�?O! Câu h�?i bạn muốn sửa đang được sử dụng trong các khảo sát dưới đây. Nếu bạn quyết định tiếp tục và ghi / áp dụng câu h�?i, tất cả câu trả l�?i của các khảo sát dưới đây sẽ bị xóa. Nếu bạn muốn thay đổi câu h�?i và sử dụng nó trong một khảo sát khác, hãy nhân đôi câu h�?i này.
 survey#:#warning_question_not_complete#:#Chưa hoàn thành câu h�?i!
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.###10 Jul 2006 new variable
