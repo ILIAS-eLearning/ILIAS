@@ -213,10 +213,10 @@ class ilMainMenuGUI
 		{
 			$this->tpl->setVariable("MM_CLASS", "MMInactive");
 		}
-		$this->tpl->parseCurrentBlock();
-		
 		// set target frame
 		$this->tpl->setVariable("TARGET", $this->target);
+		$this->tpl->parseCurrentBlock();
+		
 
 		$link_dir = (defined("ILIAS_MODULE"))
 			? "../"
