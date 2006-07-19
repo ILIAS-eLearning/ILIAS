@@ -82,84 +82,91 @@ class ilPersonalDesktopGUI
 			$this->ctrl->redirectByClass("ilpersonalprofilegui");
 		}
 		
+		// read last active subsection
+		if($_GET['PDHistory'])
+		{
+			$next_class = $this->__loadNextClass();
+		}
+		$this->__storeLastClass($next_class);
+		
 		switch($next_class)
 		{
 			//Feedback
 			case "ilfeedbackgui":
-			include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
-			$feedback_gui = new ilFeedbackGUI();
-			$this->setTabs();
-			$ret =& $this->ctrl->forwardCommand($feedback_gui);
-			break;
-			// bookmarks
+				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
+				$feedback_gui = new ilFeedbackGUI();
+				$this->setTabs();
+				$ret =& $this->ctrl->forwardCommand($feedback_gui);
+				break;
+				// bookmarks
 			case "ilbookmarkadministrationgui":
-			include_once("classes/class.ilBookmarkAdministrationGUI.php");
-			$bookmark_gui = new ilBookmarkAdministrationGUI();
-			if ($bookmark_gui->getMode() == 'tree') {
-				$this->getTreeModeTemplates();
-			} else {
-				$this->getStandardTemplates();
-			}
-			$this->setTabs();
-			$ret =& $this->ctrl->forwardCommand($bookmark_gui);
-			break;
+				include_once("classes/class.ilBookmarkAdministrationGUI.php");
+				$bookmark_gui = new ilBookmarkAdministrationGUI();
+				if ($bookmark_gui->getMode() == 'tree') {
+					$this->getTreeModeTemplates();
+				} else {
+					$this->getStandardTemplates();
+				}
+				$this->setTabs();
+				$ret =& $this->ctrl->forwardCommand($bookmark_gui);
+				break;
 			
-			// profile
+				// profile
 			case "ilpersonalprofilegui":
-			$this->getStandardTemplates();
-			$this->setTabs();
-			include_once("classes/class.ilPersonalProfileGUI.php");
-			$profile_gui = new ilPersonalProfileGUI();
-			$ret =& $this->ctrl->forwardCommand($profile_gui);
-			break;
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once("classes/class.ilPersonalProfileGUI.php");
+				$profile_gui = new ilPersonalProfileGUI();
+				$ret =& $this->ctrl->forwardCommand($profile_gui);
+				break;
 			
-			// profile
+				// profile
 			case "ilobjusergui":
-			include_once("classes/class.ilObjUserGUI.php");
-			$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-			$ret =& $this->ctrl->forwardCommand($user_gui);
-			break;
+				include_once("classes/class.ilObjUserGUI.php");
+				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+				$ret =& $this->ctrl->forwardCommand($user_gui);
+				break;
 			
-			// pd notes
+				// pd notes
 			case "ilpdnotesgui":
-			$this->getStandardTemplates();
-			$this->setTabs();
-			include_once("classes/class.ilPDNotesGUI.php");
-			$pd_notes_gui = new ilPDNotesGUI();
-			$ret =& $this->ctrl->forwardCommand($pd_notes_gui);
-			break;
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once("classes/class.ilPDNotesGUI.php");
+				$pd_notes_gui = new ilPDNotesGUI();
+				$ret =& $this->ctrl->forwardCommand($pd_notes_gui);
+				break;
 			
 			case "illearningprogressgui":
-			$this->getStandardTemplates();
-			$this->setTabs();
+				$this->getStandardTemplates();
+				$this->setTabs();
 			
-			include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 			
-			$new_gui =& new ilLearningProgressGUI(LP_MODE_PERSONAL_DESKTOP,0);
-			$ret =& $this->ctrl->forwardCommand($new_gui);
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_PERSONAL_DESKTOP,0);
+				$ret =& $this->ctrl->forwardCommand($new_gui);
 			
-			break;
+				break;
 			
-			// payment
+				// payment
 			case "ilpaymentgui":
-			$this->showShoppingCart();
-			break;
+				$this->showShoppingCart();
+				break;
 
 			case "ilpaymentadmingui":
-			$this->getStandardTemplates();
-			$this->setTabs();
-			include_once("./payment/classes/class.ilPaymentAdminGUI.php");
-			$pa =& new ilPaymentAdminGUI($ilUser);
-			$ret =& $this->ctrl->forwardCommand($pa);
-			$this->tpl->show();
-			break;
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once("./payment/classes/class.ilPaymentAdminGUI.php");
+				$pa =& new ilPaymentAdminGUI($ilUser);
+				$ret =& $this->ctrl->forwardCommand($pa);
+				$this->tpl->show();
+				break;
 
 			default:
-			$this->getStandardTemplates();
-			$this->setTabs();
-			$cmd = $this->ctrl->getCmd("show");
-			$this->$cmd();
-			break;
+				$this->getStandardTemplates();
+				$this->setTabs();
+				$cmd = $this->ctrl->getCmd("show");
+				$this->$cmd();
+				break;
 		}
 		return true;
 	}
@@ -1505,6 +1512,23 @@ class ilPersonalDesktopGUI
 			return true;
 		}
 		return false;
+	}
+
+	function __loadNextClass()
+	{
+		if(isset($_SESSION['il_pd_history']))
+		{
+			return $_SESSION['il_pd_history'];
+		}
+		else
+		{
+			return '';
+		}
+	}
+	function __storeLastClass($a_class)
+	{
+		$_SESSION['il_pd_history'] = $a_class;
+		$_GET['cmdClass'] = $a_class;
 	}
 }
 ?>
