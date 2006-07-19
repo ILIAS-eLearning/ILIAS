@@ -90,6 +90,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->removeFromWaitingList();
 				break;
 
+			case 'sendMail':
+				$this->sendMailToSelectedUsers();
+				break;
+
 			default:
 				$this->viewObject();
 				break;
@@ -97,7 +101,22 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
+	function sendMailToSelectedUsers()
+	{
+		$_POST['member'] = array_merge((array) $_POST['member_ids'],(array) $_POST['tutor_ids'],(array) $_POST['admin_ids']);
 
+		if (!count($_POST["member"]))
+		{
+			sendInfo($this->lng->txt("no_checkbox"));
+			$this->membersObject();
+			return false;
+		}
+		foreach($_POST["member"] as $usr_id)
+		{
+			$rcps[] = ilObjUser::_lookupLogin($usr_id);
+		}
+		ilUtil::redirect("mail_new.php?type=new&rcp_to=".implode(',',$rcps));
+	}
 	/**
 	* canceledObject is called when operation is canceled, method links back
 	* @access	public
@@ -1282,8 +1301,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 
 		$this->lng->loadLanguageModule('trac');
-		$this->show_tracking = ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData();
-
+		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
 
 		$_SESSION['crs_admin_hide'] = isset($_GET['admin_show_details']) ? !$_GET['admin_show_details'] : 
 			$_SESSION['crs_admin_hide'];
@@ -1339,7 +1357,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		////////////////////////////////////////////////////////
 		$this->__renderMembersTable();
 
-		$actions = array("deleteMembersObject"	=> $this->lng->txt("crs_delete_member"));
+		$actions = array("deleteMembersObject"	=> $this->lng->txt("crs_delete_member"),
+						 "sendMail" => $this->lng->txt('crs_mem_send_mail'));
 		$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
 		$this->tpl->setVariable("ARROW_DOWNRIGHT",ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("TXT_BTN_EXECUTE",$this->lng->txt('execute'));
@@ -1439,7 +1458,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$admin_tpl->setCurrentBlock("link");
 			$this->ctrl->setParameter($this,'member_id',$admin['usr_id']);
-			$admin_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editAdmin'));
+			$admin_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editMember'));
 			$admin_tpl->setVariable("LINK_TXT",$this->lng->txt('edit'));
 			$this->ctrl->clearParameters($this);
 
@@ -1553,7 +1572,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$tutor_tpl->setCurrentBlock("link");
 			$this->ctrl->setParameter($this,'member_id',$tutor['usr_id']);
-			$tutor_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editTutor'));
+			$tutor_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editMember'));
 			$tutor_tpl->setVariable("LINK_TXT",$this->lng->txt('edit'));
 			$this->ctrl->clearParameters($this);
 
@@ -1709,9 +1728,7 @@ class ilObjCourseGUI extends ilContainerGUI
 									   $this->lng->txt('login'),
 									   $this->lng->txt('learning_progress'),
 									   $this->lng->txt('crs_passed'),
-									   $this->lng->txt('crs_blocked'),
-									   ''));
-								 
+									   $this->lng->txt('crs_blocked'),''));
 			$tbl->setHeaderVars(array("",
 									  "lastname",
 									  "login",
@@ -1726,12 +1743,12 @@ class ilObjCourseGUI extends ilContainerGUI
 									   $this->lng->txt('name'),
 									   $this->lng->txt('login'),
 									   $this->lng->txt('crs_passed'),
-									   $this->lng->txt('crs_blocked')));
+									   $this->lng->txt('crs_blocked'),''));
 			$tbl->setHeaderVars(array("",
 									  "lastname",
 									  "login",
 									  "passed",
-									  "blocked"),
+									  "blocked",''),
 								$this->ctrl->getParameterArray($this,'members'));
 		}		
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -3318,14 +3335,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","members");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
-		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
 		$tpl->setVariable("BTN_NAME","updateMember");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("save"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","members");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
