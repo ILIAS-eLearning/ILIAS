@@ -668,7 +668,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 
-		$this->ctrl->setParameter($this, "formtimestamp", time());
+		$this->ctrl->setParameterByClass("ilTestOutputGUI", "formtimestamp", time());
 		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");
 		include_once "./assessment/classes/class.ilObjTest.php";
 		if (ilObjTest::_getHidePreviousResults($active_id, true))
@@ -872,6 +872,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, TRUE);
+		$this->ctrl->setParameterByClass("ilTestOutputGUI", "formtimestamp", time());
 		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");
 		foreach ($this->object->answers as $answer_id => $answer)
 		{

@@ -123,7 +123,7 @@ class ilTestOutputGUI
 	{
 		$this->saveResult = false;
 		$formtimestamp = $_POST["formtimestamp"];
-		if (strlen($formtimestamp) == 0) $formtimestamp = $_GET["formtimestamp"]; 
+		if (strlen($formtimestamp) == 0) $formtimestamp = $_GET["formtimestamp"];
 		if ($formtimestamp != $_SESSION["formtimestamp"])
 		{
 			$_SESSION["formtimestamp"] = $formtimestamp;
