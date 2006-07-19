@@ -282,6 +282,11 @@ class SurveyMetricQuestion extends SurveyQuestion
 		{
 			$original_id = "NULL";
 		}
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html",
+			$this->getId());
+
     if ($this->id == -1) 
 		{
       // Write new dataset

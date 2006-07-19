@@ -725,6 +725,11 @@ class ilObjSurvey extends ilObject
 		{
 			$enddate = $this->ilias->db->quote($enddate);
 		}
+
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($this->introduction . $this->getOutro(), $this->getType() . ":html", $this->getId());
+
     if ($this->survey_id == -1) 
 		{
       // Write new dataset

@@ -653,6 +653,11 @@ class assMatchingQuestion extends assQuestion
 			$original_id = "NULL";
 		}
 
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($this->question, "qpl:html",
+			$this->getId());
+
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben

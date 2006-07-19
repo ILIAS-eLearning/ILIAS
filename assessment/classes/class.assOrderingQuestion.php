@@ -598,6 +598,7 @@ class assOrderingQuestion extends assQuestion
 			$original_id = "NULL";
 		}
 
+		$combinedtext = $this->question;
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -679,9 +680,15 @@ class assOrderingQuestion extends assQuestion
 					$ilDB->quote($answer_obj->getOrder() . ""),
 					$ilDB->quote($answer_obj->getSolutionOrder() . "")
 				);
+				$combinedtext .= $answer_obj->getAnswertext();
 				$answer_result = $ilDB->query($query);
 			}
 		}
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html",
+			$this->getId());
+
 		parent::saveToDb($original_id);
 	}
 
