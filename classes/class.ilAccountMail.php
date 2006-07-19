@@ -58,7 +58,7 @@ class ilAccountMail
 	* constructor
 	* @access	public 
 	*/
-	function ilObjAccountMail()
+	function ilAccountMail()
 	{		
 	}
 	
