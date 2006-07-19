@@ -1,0 +1,48 @@
+<!-- BEGIN standard -->
+<tr class="{CSS_ROW}">
+  <td class="std" valign="top" align="center">
+	<div style="text-align:center">
+	  <input type="checkbox"  name="member_ids[]" value="{USER_ID}" {CHECKED_MEMBER} />
+	  <input type="hidden" name="visible_member_ids[]" value="{USER_ID}" {CHECKED} />
+	</div>
+  </td>
+  <td class="std" valign="top" nowrap="1">
+	{LASTNAME}, {FIRSTNAME}
+  </td>
+  <td class="std" valign="top" nowrap="1">
+	[{LOGIN}]
+  </td>
+  <!-- BEGIN progress -->
+  <td class="std" valign="top" nowrap="1">
+	{VAL_PROGRESS}
+  </td>
+  <!-- END progress -->
+  <td class="std" valign="top" align="center"> 
+	<input type="checkbox" name="passed[]" value="{USER_ID}" {CHECKED_PASSED} />
+  </td>
+  <td class="std" valign="top" align="center"> 
+	<input type="checkbox" name="blocked[]" value="{USER_ID}" {CHECKED_BLOCKED} />
+  </td>
+  <td class="std">
+	<div style="float:right;">
+	  <!-- BEGIN link -->
+	  <a class="il_ContainerItemCommand" href="{LINK_NAME}">{LINK_TXT}</a>
+	  <!-- END link -->
+	</div>
+  </td>
+</tr>
+<!-- END standard -->
+<!-- BEGIN select_row -->
+	  <tr class="{ROWCLASS}">
+  <td class="std">
+	<div style="text-align:center">
+	  <input type="checkbox" name="chb_check_all" value="1" 
+		id="member_active_all" onclick="setChecked('members', 'member_ids', document.members.member_active_all.checked);" />
+	</div>
+  </td>
+  <td class="{ROWCLASS}" >{SELECT_ALL}</td>
+  <td class="{ROWCLASS}" colspan="5"></td>
+	  </tr>
+<!-- END select_row -->
+
+

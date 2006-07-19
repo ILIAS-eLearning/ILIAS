@@ -68,7 +68,7 @@ class ilTableGUI
 	var $prefix;				// prefix for sort and offset fields if you have two or more tables on a page that you want to sort separately
 	
 	// default settings for enabled/disabled table modules 
-	var $enabled = array(
+	var $enabled = array(	"table"			=>  true,
 							"title"			=>	true,
 							"icon"			=>	true,
 							"help"			=>	false,
@@ -427,7 +427,10 @@ class ilTableGUI
 	*/
 	function render()
 	{
-		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
+		if($this->enabled['table'])
+		{
+			$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
+		}
 
 		// table title icon
 		if ($this->enabled["icon"] && $this->enabled["title"])
@@ -589,7 +592,7 @@ class ilTableGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// table footer linkbar
-		if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit != 0)
+		if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit  != 0)
 		{
 			$params = array(
 							"sort_by"		=> $this->header_vars[$this->order_column],
@@ -619,6 +622,11 @@ class ilTableGUI
 		if ($this->enabled["form"])
 		{
 			$this->tpl->touchBlock("tbl_form_footer");
+		}
+
+		if($this->enabled['table'])
+		{
+			$this->tpl->touchBlock("tbl_table_end");
 		}
 
 		if (!$this->global_tpl)
