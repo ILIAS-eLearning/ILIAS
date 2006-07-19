@@ -189,7 +189,7 @@ td.nobackground {
 	color: #000000;
 	background-color: inherit;
 	border-spacing:0px;
-	border: transparent;
+	border: none;
 	padding: 3px;
 	vertical-align: top;
 }
@@ -1439,7 +1439,7 @@ input.submit, a.submit, a.submit:hover
 
 input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
 	background-color:#E6ECF8;
-	color:grey;
+	color:gray;
 	border-width:1px;
 	border-color:#B6B6B6;
 	border-style:solid;
@@ -1959,7 +1959,7 @@ td.middle {
 	color: #000000;
 	background-color: inherit;
 	border-spacing:0px;
-	border: transparent;
+	border: none;
 	padding: 3px;
 	vertical-align: middle;
 }
