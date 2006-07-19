@@ -1158,6 +1158,12 @@ class ilObjTest extends ilObject
 		{
 			$allowedUsersTimeGap = $ilDB->quote($allowedUsersTimeGap);
 		}
+
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($this->introduction, $this->getType() . ":html",
+			$this->getId());
+
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
     if ($this->test_id == -1) 
 		{

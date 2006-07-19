@@ -594,6 +594,8 @@ class assMultipleChoice extends assQuestion
 		{
 			$original_id = "NULL";
 		}
+		
+		$combinedtext = "";
 
 		if ($this->id == -1)
 		{
@@ -657,6 +659,9 @@ class assMultipleChoice extends assQuestion
 			);
 			$result = $ilDB->query($query);
 		}
+		
+		$combinedtext = $this->question;
+		
 		if ($result == DB_OK)
 		{
 			// Antworten schreiben
@@ -670,6 +675,7 @@ class assMultipleChoice extends assQuestion
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
+
 				$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id),
 					$ilDB->quote($answer_obj->getAnswertext()),
@@ -678,9 +684,16 @@ class assMultipleChoice extends assQuestion
 					$ilDB->quote($answer_obj->getOrder() . ""),
 					$ilDB->quote($answer_obj->getImage() . "")
 				);
+				$combinedtext .= $answer_obj->getAnswertext();
 				$answer_result = $ilDB->query($query);
 			}
 		}
+
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html",
+			$this->getId());
+
 		parent::saveToDb($original_id);
 	}
 

@@ -169,7 +169,14 @@ class SurveyTextQuestion extends SurveyQuestion
 		{
 			$original_id = "NULL";
 		}
-    if ($this->id == -1) {
+
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html",
+			$this->getId());
+
+    if ($this->id == -1) 
+		{
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
