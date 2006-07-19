@@ -1065,7 +1065,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
-		$rte->addRTESupport("assessment");
+		include_once "./classes/class.ilObject.php";
+		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
+		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
+		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 		global $rbacsystem;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", true);
 		$total = $this->object->evalTotalPersons();

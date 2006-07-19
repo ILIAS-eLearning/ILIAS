@@ -47,7 +47,7 @@ class ilTinyMCE extends ilRTE
 	* @param string $a_module Module or object which should use the HTML tags
 	* @access public
 	*/
-	function addRTESupport($a_module = "")
+	function addRTESupport($obj_id, $obj_type, $a_module = "")
 	{
 		include_once "./classes/class.ilTemplate.php";
 		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
@@ -56,8 +56,8 @@ class ilTinyMCE extends ilRTE
 		$tpl->setCurrentBlock("tinymce");
 		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
 		include_once "./classes/class.ilObject.php";
-		$tpl->setVariable("OBJ_ID", ilObject::_lookupObjectId($_GET["ref_id"]));
-		$tpl->setVariable("OBJ_TYPE", ilObject::_lookupType($_GET["ref_id"], TRUE));
+		$tpl->setVariable("OBJ_ID", $obj_id);
+		$tpl->setVariable("OBJ_TYPE", $obj_type);
 		$tpl->setVariable("CLIENT_ID", CLIENT_ID);
 		$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
 		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
