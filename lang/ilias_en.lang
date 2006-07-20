@@ -5791,6 +5791,7 @@ survey#:#ask_insert_questions#:#Are you sure you want to insert the following qu
 survey#:#back#:#<< Back
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Browse for questions
+survey#:#cancel_survey#:#Suspend the survey
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey question pool!

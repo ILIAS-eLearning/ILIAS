@@ -240,6 +240,18 @@ class ilSurveyExecutionGUI
 		else
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", true);
+
+			if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)))
+			{
+				$this->tpl->setCurrentBlock("suspend_survey");
+				$this->tpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
+				$this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+				$this->tpl->setVariable("HREF_IMG_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+				$this->tpl->setVariable("ALT_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
+				$this->tpl->setVariable("TITLE_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
+				$this->tpl->setVariable("IMG_SUSPEND", ilUtil::getImagePath("cancel.gif"));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->outNavigationButtons("top", $page);
 			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
 			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);

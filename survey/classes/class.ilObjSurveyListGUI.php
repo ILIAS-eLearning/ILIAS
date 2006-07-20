@@ -137,25 +137,28 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 			}
 			else
 			{
-				$finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
-	
-				// finished
-				if ($finished === 1)
+				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-					$stat = $this->lng->txt("svy_finished");
+					$finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
+		
+					// finished
+					if ($finished === 1)
+					{
+						$stat = $this->lng->txt("svy_finished");
+					}
+					// not finished
+					else if ($finished === 0)
+					{
+						$stat = $this->lng->txt("svy_not_finished");
+					}
+					// not started
+					else
+					{
+						$stat = $this->lng->txt("svy_not_started");
+					}
+					$props[] = array("alert" => false, "property" => $lng->txt("status"),
+						"value" => $stat);
 				}
-				// not finished
-				else if ($finished === 0)
-				{
-					$stat = $this->lng->txt("svy_not_finished");
-				}
-				// not started
-				else
-				{
-					$stat = $this->lng->txt("svy_not_started");
-				}
-				$props[] = array("alert" => false, "property" => $lng->txt("status"),
-					"value" => $stat);
 			}
 		}
 
