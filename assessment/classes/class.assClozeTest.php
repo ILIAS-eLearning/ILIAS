@@ -292,7 +292,7 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($this->author),
 				$ilDB->quote($this->owner),
-				$ilDB->quote($this->cloze_text),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->cloze_text, 0)),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
 				$ilDB->quote($created),
@@ -327,7 +327,7 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($this->author),
-				$ilDB->quote($this->cloze_text),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->cloze_text, 0)),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
 				$ilDB->quote($this->id)
@@ -406,6 +406,8 @@ class assClozeTest extends assQuestion
 				// replacement of old syntax with new syntax
 				$this->cloze_text = preg_replace("/\<gap([^>]*?)\>/", "[gap" . "\\1" . "]", $this->cloze_text);
 				$this->cloze_text = str_replace("</gap>", "[/gap]", $this->cloze_text);
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->cloze_text = ilRTE::_replaceMediaObjectImageSrc($this->cloze_text, 1);
 				$this->setTextgapRating($data->textgap_rating);
         $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
