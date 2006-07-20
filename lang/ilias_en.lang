@@ -2556,6 +2556,7 @@ common#:#note#:#Note
 common#:#note_all_pub_notes#:#All notes
 common#:#note_my_pub_notes#:#My notes only
 common#:#notes#:#Notes
+common#:#cnt_new#:#(%s New)
 common#:#num_users#:#Number of Users
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records

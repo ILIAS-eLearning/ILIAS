@@ -183,11 +183,25 @@ class ilMainMenuGUI
 
 			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
 			{
+				$link = "mail_frameset.php";
+				if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
+				{
+					$mbox = new ilMailbox($_SESSION["AccountId"]);
+					$mail =& new ilMail($_SESSION['AccountId']);
+					$folder_id = $mbox->getInboxFolder();
+				
+					//$link = "mail_frameset.php?target=".
+					//	htmlentities(urlencode("mail_read.php?mobj_id=".
+					//	$folder_id."&mail_id=".$mail_id));
+					$add = " ".sprintf($lng->txt("cnt_new"),
+						ilMailbox::_countNewMails($_SESSION["AccountId"]));
+				}
+				
 				$this->tpl->setCurrentBlock("mailbutton");
 				$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
 				$this->tpl->setVariable("IMG_SPACE_MAIL", ilUtil::getImagePath("spacer.gif", false));
-				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
-				$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget("mail_frameset.php"));
+				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail").$add);
+				$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget($link));
 				$this->tpl->setVariable("TARGET_MAIL", $this->target);
 				if ($this->active == "mail")
 				{
