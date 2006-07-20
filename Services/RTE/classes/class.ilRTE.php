@@ -181,6 +181,7 @@ class ilRTE
 		}
 		return $a_text;
 	}
+
 }
 
 ?>

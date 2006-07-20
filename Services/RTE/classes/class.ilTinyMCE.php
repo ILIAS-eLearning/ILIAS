@@ -40,6 +40,46 @@ class ilTinyMCE extends ilRTE
 	}
 	
 	/**
+	* Returns the path to the content css file for the editor
+	*
+	* Returns the path to the content css file for the editor
+	*
+	* @return string Path to the content CSS file
+	* @access	public
+	*/
+	function getContentCSS()
+	{
+		global $ilias;
+
+		if(defined("ILIAS_MODULE"))
+		{
+			$dir = ".";
+		}
+		else
+		{
+			$dir = "";
+		}
+		$in_style = "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."/tiny.css";
+		$in_skin = "./templates/".$ilias->account->skin."/tiny.css";
+		$default = "./templates/default/tiny.css";
+		if(@is_file($in_style))
+		{
+			return $dir.$in_style;
+		}
+		else
+		{
+			if (@is_file($in_skin))
+			{
+				return $dir.$in_skin;
+			}
+			else
+			{
+				return $dir.$default;
+			}
+		}
+	}
+
+	/**
 	* Adds support for an RTE in an ILIAS form
 	*
 	* Adds support for an RTE in an ILIAS form
@@ -71,7 +111,7 @@ class ilTinyMCE extends ilRTE
 		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
 		$tpl->setVariable("ADDITIONAL_PLUGINS", $more_buttons);
 		include_once "./classes/class.ilUtil.php";
-		$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getStyleSheetLocation());
+		$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 		$tpl->setVariable("LANG", $this->_getEditorLanguage());
 		$tpl->parseCurrentBlock();
 		$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
