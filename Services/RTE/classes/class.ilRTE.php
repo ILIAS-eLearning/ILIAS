@@ -149,6 +149,38 @@ class ilRTE
 			$mob_obj->delete();
 		}
 	}
+	
+	/**
+	* replaces image source from mob image urls with the mob id or
+	* replaces mob id with the correct image source
+	*
+	* @param	string	$a_text			text, including media object tags
+	* @param  integer $a_direction 0 to replace image src => mob id, 1 to replace mob id => image src
+	* @return string The text containing the replaced media object src
+	*/
+	function _replaceMediaObjectImageSrc($a_text, $a_direction = 0)
+	{
+		switch ($a_direction)
+		{
+			case 0:
+				$a_text = preg_replace("/src\=\"(.*?\/mobs\/mm_([0-9]+)\/.*?)\"/", "src=\"" . "\\2" . "\"", $a_text);
+				break;
+			default:
+				include_once("./content/classes/Media/class.ilObjMediaObject.php");
+				$resulttext = $a_text;
+				if (preg_match_all("/src\=\"([0-9]+)\"/", $a_text, $matches))
+				{
+					foreach ($matches[1] as $mob)
+					{
+						$mob_obj =& new ilObjMediaObject($mob);
+						$resulttext = str_replace("src=\"$mob\"", "src=\"" . ILIAS_HTTP_PATH . "/data/" . CLIENT_ID . "/mobs/mm_" . $mob . "/" . $mob_obj->getTitle() . "\"", $resulttext);
+					}
+				}
+				$a_text = $resulttext;
+				break;
+		}
+		return $a_text;
+	}
 }
 
 ?>
