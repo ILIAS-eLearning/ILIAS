@@ -542,9 +542,9 @@ class ilEventAdministrationGUI
 
 		$this->tpl->setVariable("TXT_REQUIRED",$this->lng->txt('required_field'));
 		$this->tpl->setVariable("TXT_TUTOR_DATA",$this->lng->txt('event_tutor_data'));
-		$this->tpl->setVariable("TXT_TUTOR_TITLE",$this->lng->txt('tutor_title'));
-		$this->tpl->setVariable("TXT_TUTOR_FIRSTNAME",$this->lng->txt('tutor_firstname'));
-		$this->tpl->setVariable("TXT_TUTOR_LASTNAME",$this->lng->txt('tutor_lastname'));
+		#$this->tpl->setVariable("TXT_TUTOR_TITLE",$this->lng->txt('tutor_title'));
+		#$this->tpl->setVariable("TXT_TUTOR_FIRSTNAME",$this->lng->txt('tutor_firstname'));
+		$this->tpl->setVariable("TXT_TUTOR_NAME",$this->lng->txt('tutor_name'));
 		$this->tpl->setVariable("TXT_TUTOR_EMAIL",$this->lng->txt('tutor_email'));
 		$this->tpl->setVariable("TXT_TUTOR_PHONE",$this->lng->txt('tutor_phone'));
 		$this->tpl->setVariable("TXT_START_DATE",$this->lng->txt('event_start_date'));
@@ -565,9 +565,9 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("LOCATION",$this->event_obj->getLocation());
 		$this->tpl->setVariable("REG_CHECKED",$this->event_obj->enabledRegistration() ? 'checked="checked"' : '');
 		$this->tpl->setVariable("PART_CHECKED",$this->event_obj->enabledParticipation() ? 'checked="checked"' : '');
-		$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
-		$this->tpl->setVariable("TUTOR_LASTNAME",$this->event_obj->getLastname());
-		$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
+		#$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
+		$this->tpl->setVariable("TUTOR_LASTNAME",$this->event_obj->getName());
+		#$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
 		$this->tpl->setVariable("TUTOR_EMAIL",$this->event_obj->getEmail());
 		$this->tpl->setVariable("TUTOR_PHONE",$this->event_obj->getPhone());
 		$this->tpl->setVariable("DETAILS",$this->event_obj->getDetails());
@@ -611,9 +611,10 @@ class ilEventAdministrationGUI
 
 		$this->tpl->setVariable("TXT_REQUIRED",$this->lng->txt('required_field'));
 		$this->tpl->setVariable("TXT_TUTOR_DATA",$this->lng->txt('event_tutor_data'));
-		$this->tpl->setVariable("TXT_TUTOR_TITLE",$this->lng->txt('tutor_title'));
-		$this->tpl->setVariable("TXT_TUTOR_FIRSTNAME",$this->lng->txt('tutor_firstname'));
-		$this->tpl->setVariable("TXT_TUTOR_LASTNAME",$this->lng->txt('tutor_lastname'));
+		#$this->tpl->setVariable("TXT_TUTOR_TITLE",$this->lng->txt('tutor_title'));
+		#$this->tpl->setVariable("TXT_TUTOR_FIRSTNAME",$this->lng->txt('tutor_firstname'));
+		#$this->tpl->setVariable("TXT_TUTOR_LASTNAME",$this->lng->txt('tutor_lastname'));
+		$this->tpl->setVariable("TXT_TUTOR_NAME",$this->lng->txt('tutor_name'));
 		$this->tpl->setVariable("TXT_TUTOR_EMAIL",$this->lng->txt('tutor_email'));
 		$this->tpl->setVariable("TXT_TUTOR_PHONE",$this->lng->txt('tutor_phone'));
 		$this->tpl->setVariable("TXT_START_DATE",$this->lng->txt('event_start_date'));
@@ -634,9 +635,10 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("LOCATION",$this->event_obj->getLocation());
 		$this->tpl->setVariable("REG_CHECKED",$this->event_obj->enabledRegistration() ? 'checked="checked"' : '');
 		$this->tpl->setVariable("PART_CHECKED",$this->event_obj->enabledParticipation() ? 'checked="checked"' : '');
-		$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
-		$this->tpl->setVariable("TUTOR_LASTNAME",$this->event_obj->getLastname());
-		$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
+		#$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
+		#$this->tpl->setVariable("TUTOR_LASTNAME",$this->event_obj->getLastname());
+		#$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
+		$this->tpl->setVariable("TUTOR_NAME",$this->event_obj->getName());
 		$this->tpl->setVariable("TUTOR_EMAIL",$this->event_obj->getEmail());
 		$this->tpl->setVariable("TUTOR_PHONE",$this->event_obj->getPhone());
 		$this->tpl->setVariable("DETAILS",$this->event_obj->getDetails());
@@ -820,9 +822,9 @@ class ilEventAdministrationGUI
 		$this->event_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->event_obj->setDescription(ilUtil::stripSlashes($_POST['desc']));
 		$this->event_obj->setLocation(ilUtil::stripSlashes($_POST['location']));
-		$this->event_obj->setFirstname(ilUtil::stripSlashes($_POST['tutor_firstname']));
-		$this->event_obj->setLastname(ilUtil::stripSlashes($_POST['tutor_lastname']));
-		$this->event_obj->setPTitle(ilUtil::stripSlashes($_POST['tutor_title']));
+		#$this->event_obj->setFirstname(ilUtil::stripSlashes($_POST['tutor_firstname']));
+		$this->event_obj->setName(ilUtil::stripSlashes($_POST['tutor_name']));
+		#$this->event_obj->setPTitle(ilUtil::stripSlashes($_POST['tutor_title']));
 		$this->event_obj->setEmail(ilUtil::stripSlashes($_POST['tutor_email']));
 		$this->event_obj->setPhone(ilUtil::stripSlashes($_POST['tutor_phone']));
 		$this->event_obj->setDetails(ilUtil::stripSlashes($_POST['details']));

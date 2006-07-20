@@ -60,7 +60,7 @@ class ilPaymentAdminGUI extends ilPaymentBaseGUI
 	*/
 	function &executeCommand()
 	{
-		global $tree;
+		global $tree,$ilTabs;
 
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))

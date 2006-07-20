@@ -1400,7 +1400,7 @@ class ilPersonalDesktopGUI
 		{
 			$this->lng->loadLanguageModule('payment');
 
-			$cmd_classes = array('ilpaymentshoppingcartgui','ilpaymentbuyedobjectsgui');
+			$cmd_classes = array('ilpaymentgui','ilpaymentshoppingcartgui','ilpaymentbuyedobjectsgui');
 			$inc_type = in_array(strtolower($this->cmdClass),$cmd_classes) ? 'tabactive' : 'tabinactive';
 
 			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPaymentGUI"),
@@ -1411,7 +1411,7 @@ class ilPersonalDesktopGUI
 		{
 			$this->lng->loadLanguageModule('payment');
 
-			$cmd_classes = array('ilpaymentstatisticgui','ilpaymentobjectgui','ilpaymenttrusteegui');
+			$cmd_classes = array('ilpaymentstatisticgui','ilpaymentobjectgui','ilpaymenttrusteegui','ilpaymentadmingui');
 			$inc_type = in_array(strtolower($this->cmdClass),$cmd_classes) ? 'tabactive' : 'tabinactive';
 
 			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPaymentAdminGUI"),

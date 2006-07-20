@@ -11328,3 +11328,10 @@ ALTER TABLE `crs_settings`
 ALTER TABLE `survey_survey` ADD `outro` TEXT NULL AFTER `introduction` ;
 UPDATE `survey_survey` SET `outro` = 'survey_finished';
 
+<#789>
+ALTER TABLE `event` DROP `tutor_firstname` ,
+DROP `tutor_lastname` ,
+DROP `tutor_title` ;
+
+<#790>
+ALTER TABLE `event` ADD `tutor_name` TEXT NOT NULL AFTER `location`;

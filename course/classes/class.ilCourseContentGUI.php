@@ -137,6 +137,17 @@ class ilCourseContentGUI
 
 	function __getDefaultCommand()
 	{
+		global $ilAccess;
+
+		// edit timings if panel is on
+		if($_SESSION['crs_timings_panel'])
+		{
+			return 'editTimings';
+		}
+		if($ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
+		{
+			return 'view';
+		}
 		if($this->container_obj->getType() == 'crs' and
 		   $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
@@ -175,6 +186,11 @@ class ilCourseContentGUI
 
 	function view()
 	{
+		if($_SESSION['crs_timings_panel'])
+		{
+			return $this->editTimings();
+		}
+
 		global $rbacsystem;
 
 		include_once './classes/class.ilObjectListGUIFactory.php';
@@ -330,6 +346,7 @@ class ilCourseContentGUI
 		// create table
 		include_once './classes/class.ilTableGUI.php';
 		$tbl = new ilTableGUI();
+		$tbl->setStyle('table','il_ContainerBlock');
 
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("events"),"icon_crs.gif",$this->lng->txt("events"));
@@ -439,6 +456,7 @@ class ilCourseContentGUI
 		// create table
 		include_once './classes/class.ilTableGUI.php';
 		$tbl = new ilTableGUI();
+		$tbl->setStyle('table','il_ContainerBlock');
 
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("crs_content"),"icon_crs.gif",$this->lng->txt("courses"));
@@ -457,8 +475,8 @@ class ilCourseContentGUI
 		}
 		else
 		{
-			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title")));
-			$tbl->setHeaderVars(array("type","title"), 
+			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),''));
+			$tbl->setHeaderVars(array("type","title",'options'), 
 								array("ref_id" => $this->course_obj->getRefId(),
 									  "cmdClass" => "ilobjcoursecontentgui",
 									  "cmdNode" => $_GET["cmdNode"]));
@@ -490,6 +508,7 @@ class ilCourseContentGUI
 		global $ilAccess,$ilErr;
 
 		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
+		include_once 'classes/class.ilLink.php';
 
 		$this->lng->loadLanguageModule('meta');
 
@@ -497,7 +516,8 @@ class ilCourseContentGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
-		$this->tabs_gui->setSubTabActive('crs_content');
+		$this->__showTimingsPanel();
+		$this->tabs_gui->setSubTabActive('timings_timings');
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getAllItems($this->container_obj->getId());
@@ -531,6 +551,16 @@ class ilCourseContentGUI
 			$item_change_prefix = "item_change[$item[ref_id]]";
 			$item_active_prefix = "item_active[$item[ref_id]]";
 
+			if($item['type'] == 'grp' or
+			   $item['type'] == 'fold')
+			{
+				$this->tpl->setVariable("TITLE_LINK",ilLink::_getLink($item['ref_id'],$item['type']));
+				$this->tpl->setVariable("TITLE_LINK_NAME",$item['title']);
+			}
+			else
+			{
+				$this->tpl->setVariable("TITLE",$item['title']);
+			}
 
 			if(strlen($item['description']))
 			{
@@ -546,8 +576,6 @@ class ilCourseContentGUI
 				$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
 				$this->tpl->parseCurrentBlock();
 			}
-
-			$this->tpl->setVariable("TITLE",$item['title']);
 
 			$this->tpl->setCurrentBlock("container_standard_row");
 
@@ -662,6 +690,10 @@ class ilCourseContentGUI
 
 	function editUserTimings()
 	{
+		if($_SESSION['crs_timings_panel'])
+		{
+			return $this->editTimings();
+		}
 		global $ilAccess,$ilErr;
 
 		if(!$ilAccess->checkAccess('read','',$this->container_obj->getRefId()))
@@ -688,6 +720,8 @@ class ilCourseContentGUI
 		include_once 'course/classes/Event/class.ilEvent.php';
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','course');
+
+		$this->__showTimingsPanel();
 
 		$this->__showUserAcceptanceTable();
 
@@ -842,7 +876,6 @@ class ilCourseContentGUI
 		}
 	}
 
-
 	function __renderItem($item,$level)
 	{
 		global $ilUser,$ilAccess;
@@ -971,6 +1004,46 @@ class ilCourseContentGUI
 			$this->__renderItem($item_data,$level+1);
 		}
 	}
+
+	function __showTimingsPanel()
+	{
+		global $ilAccess;
+
+		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
+		{
+			return true;
+		}
+
+		if(!$_SESSION['crs_timings_panel'])
+		{
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'timingsOn'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("timings_timings_on"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'timingsOff'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("timings_timings_off"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	function timingsOn()
+	{
+		$_SESSION['crs_timings_panel'] = 1;
+		$this->editTimings();
+	}
+
+	function timingsOff()
+	{
+		$_SESSION['crs_timings_panel'] = 0;
+		$this->editUserTimings();
+	}
+
 
 	function updateUserTimings()
 	{

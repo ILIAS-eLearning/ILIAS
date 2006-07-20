@@ -18,7 +18,12 @@
 		<!-- BEGIN container_standard_row -->
 		<tr class="{ROWCLASS}">
 		  <td>
+			<!-- BEGIN title_plain -->
 			<b>{TITLE}</b>
+			<!-- END title_plain -->
+			<!-- BEGIN title_link -->
+			<a href="{TITLE_LINK}">{TITLE_LINK_NAME}</a>
+			<!-- END title_link -->
 			<!-- BEGIN item_description -->
 			<div class="il_Description" >{DESC}</div>
 			<!-- END item_description -->
@@ -68,7 +73,6 @@
 		  <td class="std" valign="center" align="left" colspan="7">
 			<div style="float:right">
 			  <input class="submit" type="SUBMIT" name="cmd[updateTimings]" value="{BTN_SAVE}"/>
-			  <input class="submit" type="SUBMIT" name="cmd[view]" value="{BTN_CANCEL}"/>
 			</div>
 		  </td>
 		</tr>

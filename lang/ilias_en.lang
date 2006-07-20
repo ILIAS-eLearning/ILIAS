@@ -6365,3 +6365,6 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+crs#:#timings_timings_on#:#Switch Timings Administration On
+crs#:#timings_timings_off#:#Switch Timings Administration Off
+crs#:#tutor_name#:#Name

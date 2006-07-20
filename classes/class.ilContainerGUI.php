@@ -440,7 +440,7 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		else if ($this->adminCommands)
 		{
-			$this->__showTimingsButton($tpl);
+			#$this->__showTimingsButton($tpl);
 
 			$tpl->setCurrentBlock("admin_button");
 			$tpl->setVariable("ADMIN_MODE_LINK",
