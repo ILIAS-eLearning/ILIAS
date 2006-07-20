@@ -420,7 +420,7 @@ class assTextQuestion extends assQuestion
 				$ilDB->quote($this->author),
 				$ilDB->quote($this->owner),
 				$ilDB->quote($this->getPoints() . ""),
-				$ilDB->quote($this->question),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
 				$ilDB->quote($created),
@@ -442,7 +442,6 @@ class assTextQuestion extends assQuestion
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -458,7 +457,7 @@ class assTextQuestion extends assQuestion
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->author),
 				$ilDB->quote($this->getPoints() . ""),
-				$ilDB->quote($this->question),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
 				$ilDB->quote($this->id)
@@ -505,7 +504,8 @@ class assTextQuestion extends assQuestion
 				$this->obj_id = $data->obj_fi;
 				$this->author = $data->author;
 				$this->owner = $data->owner;
-				$this->question = $data->question_text;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
 				$this->maxNumOfChars = $data->maxNumOfChars;
 				$this->keywords = $data->keywords;
 				$this->text_rating = $data->textgap_rating;

@@ -598,6 +598,7 @@ class assOrderingQuestion extends assQuestion
 			$original_id = "NULL";
 		}
 
+		include_once("./Services/RTE/classes/class.ilRTE.php");
 		$combinedtext = $this->question;
 		if ($this->id == -1)
 		{
@@ -612,7 +613,7 @@ class assOrderingQuestion extends assQuestion
 				$ilDB->quote($this->comment . ""),
 				$ilDB->quote($this->author . ""),
 				$ilDB->quote($this->owner . ""),
-				$ilDB->quote($this->question . ""),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($estw_time . ""),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($complete . ""),
@@ -632,7 +633,6 @@ class assOrderingQuestion extends assQuestion
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingef�gt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -647,7 +647,7 @@ class assOrderingQuestion extends assQuestion
 				$ilDB->quote($this->title . ""),
 				$ilDB->quote($this->comment . ""),
 				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->question . ""),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($estw_time . ""),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($complete . ""),
@@ -675,7 +675,7 @@ class assOrderingQuestion extends assQuestion
 				$answer_obj = $this->answers[$key];
 				$query = sprintf("INSERT INTO qpl_answer_ordering (answer_id, question_fi, answertext, points, aorder, solution_order) VALUES (NULL, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id),
-					$ilDB->quote($answer_obj->getAnswertext() . ""),
+					$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0)),
 					$ilDB->quote($answer_obj->getPoints() . ""),
 					$ilDB->quote($answer_obj->getOrder() . ""),
 					$ilDB->quote($answer_obj->getSolutionOrder() . "")
@@ -685,7 +685,6 @@ class assOrderingQuestion extends assQuestion
 			}
 		}
 		// cleanup RTE images which are not inserted into the question text
-		include_once("./Services/RTE/classes/class.ilRTE.php");
 		ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html",
 			$this->getId());
 
@@ -721,7 +720,8 @@ class assOrderingQuestion extends assQuestion
 				$this->original_id = $data->original_id;
 				$this->author = $data->author;
 				$this->owner = $data->owner;
-				$this->question = $data->question_text;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
 				$this->solution_hint = $data->solution_hint;
 				$this->ordering_type = $data->ordering_type;
 				$this->points = $data->points;
@@ -737,25 +737,14 @@ class assOrderingQuestion extends assQuestion
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 				{
+					include_once("./Services/RTE/classes/class.ilRTE.php");
+					$data->answertext = ilRTE::_replaceMediaObjectImageSrc($data->answertext, 1);
 					array_push($this->answers, new ASS_AnswerOrdering($data->answertext, $data->points, $data->aorder, $data->solution_order));
 				}
 			}
 		}
 		parent::loadFromDb($question_id);
 	}
-
-	/**
-	* Adds an answer to the question
-	*
-	* Adds an answer to the question
-	*
-	* @access public
-	*/
-	/*function addAnswer($answertext, $points, $answerorder, $solutionorder)
-	{
-		include_once "./assessment/classes/class.assAnswerOrdering.php";
-		array_push($this->answers, new ASS_AnswerOrdering($answertext, $points, $answerorder, $solutionorder));
-	}*/
 	
 	/**
 	* Duplicates an assOrderingQuestion

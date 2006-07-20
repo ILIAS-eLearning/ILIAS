@@ -193,10 +193,11 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
   function loadFromDb($id) 
 	{
+		global $ilDB;
     $query = sprintf("SELECT survey_question.*, survey_question_metric.* FROM survey_question, survey_question_metric WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_metric.question_fi",
-      $this->ilias->db->quote($id)
+      $ilDB->quote($id)
     );
-    $result = $this->ilias->db->query($query);
+    $result = $ilDB->query($query);
     if (strcmp(strtolower(get_class($result)), db_result) == 0) 
 		{
       if ($result->numRows() == 1) 
@@ -211,16 +212,17 @@ class SurveyMetricQuestion extends SurveyQuestion
 				$this->subtype = $data->subtype;
 				$this->original_id = $data->original_id;
         $this->owner = $data->owner_fi;
-        $this->questiontext = $data->questiontext;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
         $this->complete = $data->complete;
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
 
       $query = sprintf("SELECT survey_variable.* FROM survey_variable WHERE survey_variable.question_fi = %s",
-        $this->ilias->db->quote($id)
+        $ilDB->quote($id)
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
       if (strcmp(strtolower(get_class($result)), db_result) == 0) 
 			{
         if ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
@@ -269,6 +271,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
   function saveToDb($original_id = "")
   {
+		global $ilDB;
 		$complete = 0;
 		if ($this->isComplete()) 
 		{
@@ -276,7 +279,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 		}
 		if ($original_id)
 		{
-			$original_id = $this->ilias->db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -293,47 +296,47 @@ class SurveyMetricQuestion extends SurveyQuestion
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getQuestionType()),
-				$this->ilias->db->quote($this->obj_id),
-				$this->ilias->db->quote($this->owner),
-				$this->ilias->db->quote($this->title),
-				$this->ilias->db->quote($this->description),
-				$this->ilias->db->quote($this->author),
-				$this->ilias->db->quote($this->questiontext),
-				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
-				$this->ilias->db->quote("$complete"),
-				$this->ilias->db->quote($created),
+				$ilDB->quote($this->getQuestionType()),
+				$ilDB->quote($this->obj_id),
+				$ilDB->quote($this->owner),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->description),
+				$ilDB->quote($this->author),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
+				$ilDB->quote(sprintf("%d", $this->obligatory)),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($created),
 				$original_id
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
       if ($result == DB_OK) 
 			{
-        $this->id = $this->ilias->db->getLastInsertId();
+        $this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO survey_question_metric (question_fi, subtype) VALUES (%s, %s)",
-					$this->ilias->db->quote($this->id . ""),
-					$this->ilias->db->quote($this->getSubType() . "")
+					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->getSubType() . "")
 				);
-				$this->ilias->db->query($query);
+				$ilDB->query($query);
       }
     } 
 		else 
 		{
       // update existing dataset
       $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$this->ilias->db->quote($this->title),
-				$this->ilias->db->quote($this->description),
-				$this->ilias->db->quote($this->author),
-				$this->ilias->db->quote($this->questiontext),
-				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
-				$this->ilias->db->quote("$complete"),
-				$this->ilias->db->quote($this->id)
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->description),
+				$ilDB->quote($this->author),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
+				$ilDB->quote(sprintf("%d", $this->obligatory)),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->id)
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
 			$query = sprintf("UPDATE survey_question_metric SET subtype = %s WHERE question_fi = %s",
-				$this->ilias->db->quote($this->getSubType() . ""),
-				$this->ilias->db->quote($this->id . "")
+				$ilDB->quote($this->getSubType() . ""),
+				$ilDB->quote($this->id . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
     }
     if ($result == DB_OK) 
 		{
@@ -344,9 +347,9 @@ class SurveyMetricQuestion extends SurveyQuestion
 			
 			// delete existing category relations
       $query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-        $this->ilias->db->quote($this->id)
+        $ilDB->quote($this->id)
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
       // create new category relations
 			if (strcmp($this->minimum, "") == 0)
 			{
@@ -354,7 +357,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 			}
 			else
 			{
-				$min = $this->ilias->db->quote($this->minimum);
+				$min = $ilDB->quote($this->minimum);
 			}
 			if (preg_match("/[\D]/", $this->maximum) or (strcmp($this->maximum, "&infin;") == 0))
 			{
@@ -368,17 +371,17 @@ class SurveyMetricQuestion extends SurveyQuestion
 				}
 				else
 				{
-					$max = $this->ilias->db->quote($this->maximum);
+					$max = $ilDB->quote($this->maximum);
 				}
 			}
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote(0),
-				$this->ilias->db->quote($this->id),
+				$ilDB->quote(0),
+				$ilDB->quote($this->id),
 				$min,
 				$max,
-				$this->ilias->db->quote(0)
+				$ilDB->quote(0)
 			);
-			$answer_result = $this->ilias->db->query($query);
+			$answer_result = $ilDB->query($query);
     }
 		parent::saveToDb($original_id);
   }
@@ -606,6 +609,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 
 	function syncWithOriginal()
 	{
+		global $ilDB;
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -614,18 +618,18 @@ class SurveyMetricQuestion extends SurveyQuestion
 				$complete = 1;
 			}
 			$query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$this->ilias->db->quote($this->title . ""),
-				$this->ilias->db->quote($this->description . ""),
-				$this->ilias->db->quote($this->author . ""),
-				$this->ilias->db->quote($this->questiontext . ""),
-				$this->ilias->db->quote(sprintf("%d", $this->obligatory) . ""),
-				$this->ilias->db->quote($complete . ""),
-				$this->ilias->db->quote($this->original_id . "")
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->description . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->questiontext . ""),
+				$ilDB->quote(sprintf("%d", $this->obligatory) . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->original_id . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("UPDATE survey_question_metric SET subtype = %s WHERE question_fi = %s",
-				$this->ilias->db->quote($this->getSubType() . ""),
-				$this->ilias->db->quote($this->original_id . "")
+				$ilDB->quote($this->getSubType() . ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 			if ($result == DB_OK) 
@@ -634,9 +638,9 @@ class SurveyMetricQuestion extends SurveyQuestion
 				
 				// delete existing category relations
 				$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-					$this->ilias->db->quote($this->original_id)
+					$ilDB->quote($this->original_id)
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 				// create new category relations
 				if (strcmp($this->minimum, "") == 0)
 				{
@@ -644,7 +648,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 				}
 				else
 				{
-					$min = $this->ilias->db->quote($this->minimum . "");
+					$min = $ilDB->quote($this->minimum . "");
 				}
 				if (preg_match("/[\D]/", $this->maximum) or (strcmp($this->maximum, "&infin;") == 0))
 				{
@@ -658,17 +662,17 @@ class SurveyMetricQuestion extends SurveyQuestion
 					}
 					else
 					{
-						$max = $this->ilias->db->quote($this->maximum . "");
+						$max = $ilDB->quote($this->maximum . "");
 					}
 				}
 				$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-					$this->ilias->db->quote("0"),
-					$this->ilias->db->quote($this->original_id . ""),
+					$ilDB->quote("0"),
+					$ilDB->quote($this->original_id . ""),
 					$min,
 					$max,
-					$this->ilias->db->quote("0")
+					$ilDB->quote("0")
 				);
-				$answer_result = $this->ilias->db->query($query);
+				$answer_result = $ilDB->query($query);
 			}
 		}
 		parent::syncWithOriginal();

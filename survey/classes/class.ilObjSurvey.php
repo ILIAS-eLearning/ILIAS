@@ -312,15 +312,17 @@ class ilObjSurvey extends ilObject
 	*/
 	function deleteSurveyRecord()
 	{
+		global $ilDB;
+		
 		$query = sprintf("DELETE FROM survey_survey WHERE survey_id = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		$query = sprintf("SELECT questionblock_fi FROM survey_questionblock_question WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$questionblocks = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -329,12 +331,12 @@ class ilObjSurvey extends ilObject
 		if (count($questionblocks))
 		{
 			$query = "DELETE FROM survey_questionblock WHERE questionblock_id IN (" . join($questionblocks, ",") . ")";
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 		$query = sprintf("DELETE FROM survey_questionblock_question WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		
 		$this->deleteAllUserData();
 
@@ -358,29 +360,31 @@ class ilObjSurvey extends ilObject
 	*/
 	function deleteAllUserData()
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->disinviteUser($row["user_fi"]);
 		}
 
 		$query = sprintf("DELETE FROM survey_finished WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 		$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 	/**
@@ -597,6 +601,8 @@ class ilObjSurvey extends ilObject
 */
 	function saveCompletionStatus() 
 	{
+		global $ilDB;
+		
 		$complete = 0;
 		if ($this->isComplete()) 
 		{
@@ -605,10 +611,10 @@ class ilObjSurvey extends ilObject
     if ($this->survey_id > 0) 
 		{
 			$query = sprintf("UPDATE survey_survey SET complete = %s WHERE survey_id = %s",
-				$this->ilias->db->quote("$complete"),
-				$this->ilias->db->quote($this->survey_id) 
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->survey_id) 
 			);
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
 		}
 	}
 
@@ -640,6 +646,8 @@ class ilObjSurvey extends ilObject
 */
 	function insertQuestion($question_id) 
 	{
+		global $ilDB;
+		
 		include_once "./survey/classes/class.SurveyQuestion.php";
 		if (!SurveyQuestion::_isComplete($question_id))
 		{
@@ -649,17 +657,17 @@ class ilObjSurvey extends ilObject
 		{
 			// get maximum sequence index in test
 			$query = sprintf("SELECT survey_question_id FROM survey_survey_question WHERE survey_fi = %s",
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$sequence = $result->numRows();
 			$duplicate_id = $this->duplicateQuestionForSurvey($question_id);
 			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($duplicate_id),
-				$this->ilias->db->quote($sequence)
+				$ilDB->quote($this->getSurveyId()),
+				$ilDB->quote($duplicate_id),
+				$ilDB->quote($sequence)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			if ($result != DB_OK) 
 			{
 				// Error
@@ -680,10 +688,11 @@ class ilObjSurvey extends ilObject
 */
 	function insertQuestionblock($questionblock_id) 
 	{
+		global $ilDB;
 		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id =%s ORDER BY survey_survey_question.sequence",
-			$this->ilias->db->quote($questionblock_id)
+			$ilDB->quote($questionblock_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$questions = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -702,6 +711,7 @@ class ilObjSurvey extends ilObject
 */
   function saveToDb()
   {
+		global $ilDB;
 		$complete = 0;
 		if ($this->isComplete()) 
 		{
@@ -714,7 +724,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$startdate = $this->ilias->db->quote($startdate);
+			$startdate = $ilDB->quote($startdate);
 		}
 		$enddate = $this->getEndDate();
 		if (!$enddate or !$this->enddate_enabled)
@@ -723,7 +733,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$enddate = $this->ilias->db->quote($enddate);
+			$enddate = $ilDB->quote($enddate);
 		}
 
 		// cleanup RTE images which are not inserted into the question text
@@ -736,46 +746,46 @@ class ilObjSurvey extends ilObject
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, outro, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, show_question_titles, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getId()),
-				$this->ilias->db->quote($this->author . ""),
-				$this->ilias->db->quote($this->introduction . ""),
-				$this->ilias->db->quote($this->getOutro() . ""),
-				$this->ilias->db->quote($this->status . ""),
+				$ilDB->quote($this->getId()),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
+				$ilDB->quote($this->status . ""),
 				$startdate,
 				$enddate,
-				$this->ilias->db->quote($this->evaluation_access . ""),
-				$this->ilias->db->quote($this->invitation . ""),
-				$this->ilias->db->quote($this->invitation_mode . ""),
-				$this->ilias->db->quote($complete . ""),
-				$this->ilias->db->quote($this->getAnonymize() . ""),
-				$this->ilias->db->quote($this->getShowQuestionTitles() . ""),
-				$this->ilias->db->quote($created)
+				$ilDB->quote($this->evaluation_access . ""),
+				$ilDB->quote($this->invitation . ""),
+				$ilDB->quote($this->invitation_mode . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->getAnonymize() . ""),
+				$ilDB->quote($this->getShowQuestionTitles() . ""),
+				$ilDB->quote($created)
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
       if ($result == DB_OK) 
 			{
-        $this->survey_id = $this->ilias->db->getLastInsertId();
+        $this->survey_id = $ilDB->getLastInsertId();
       }
     } 
 		else 
 		{
       // update existing dataset
 			$query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, outro = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
-				$this->ilias->db->quote($this->author . ""),
-				$this->ilias->db->quote($this->introduction . ""),
-				$this->ilias->db->quote($this->getOutro() . ""),
-				$this->ilias->db->quote($this->status . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
+				$ilDB->quote($this->status . ""),
 				$startdate,
 				$enddate,
-				$this->ilias->db->quote($this->evaluation_access . ""),
-				$this->ilias->db->quote($this->invitation . ""),
-				$this->ilias->db->quote($this->invitation_mode . ""),
-				$this->ilias->db->quote($complete . ""),
-				$this->ilias->db->quote($this->getAnonymize() . ""),
-				$this->ilias->db->quote($this->getShowQuestionTitles() . ""),
-				$this->ilias->db->quote($this->survey_id)
+				$ilDB->quote($this->evaluation_access . ""),
+				$ilDB->quote($this->invitation . ""),
+				$ilDB->quote($this->invitation_mode . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->getAnonymize() . ""),
+				$ilDB->quote($this->getShowQuestionTitles() . ""),
+				$ilDB->quote($this->survey_id)
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
     }
     if ($result == DB_OK) 
 		{
@@ -794,12 +804,13 @@ class ilObjSurvey extends ilObject
 */
 	function saveQuestionsToDb() 
 	{
+		global $ilDB;
 		// save old questions state
 		$old_questions = array();
 		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -810,19 +821,19 @@ class ilObjSurvey extends ilObject
 		
 		// delete existing question relations
     $query = sprintf("DELETE FROM survey_survey_question WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		// create new question relations
 		foreach ($this->questions as $key => $value) 
 		{
 			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, heading, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($value . ""),
-				$this->ilias->db->quote($old_questions[$value]["heading"]),
-				$this->ilias->db->quote($key . "")
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($value . ""),
+				$ilDB->quote($old_questions[$value]["heading"]),
+				$ilDB->quote($key . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 	}
 
@@ -837,10 +848,11 @@ class ilObjSurvey extends ilObject
 */
 	function getAnonymousId($id)
 	{
+		global $ilDB;
 		$query = sprintf("SELECT anonymous_id FROM survey_answer WHERE anonymous_id = %s",
-			$this->ilias->db->quote($id)
+			$ilDB->quote($id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -880,11 +892,12 @@ class ilObjSurvey extends ilObject
 */
   function getQuestionType($question_id) 
 	{
+		global $ilDB;
     if ($question_id < 1) return -1;
     $query = sprintf("SELECT type_tag FROM survey_question, survey_questiontype WHERE survey_question.question_id = %s AND survey_question.questiontype_fi = survey_questiontype.questiontype_id",
-      $this->ilias->db->quote($question_id)
+      $ilDB->quote($question_id)
     );
-    $result = $this->ilias->db->query($query);
+    $result = $ilDB->query($query);
     if ($result->numRows() == 1) 
 		{
       $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -953,10 +966,11 @@ class ilObjSurvey extends ilObject
 */
   function loadFromDb()
   {
+		global $ilDB;
     $query = sprintf("SELECT * FROM survey_survey WHERE obj_fi = %s",
-      $this->ilias->db->quote($this->getId())
+      $ilDB->quote($this->getId())
     );
-    $result = $this->ilias->db->query($query);
+    $result = $ilDB->query($query);
     if (strcmp(strtolower(get_class($result)), db_result) == 0) 
 		{
       if ($result->numRows() == 1) 
@@ -964,14 +978,15 @@ class ilObjSurvey extends ilObject
 				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->survey_id = $data->survey_id;
 				$this->author = $data->author;
-				$this->introduction = $data->introduction;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
 				if (strcmp($data->outro, "survey_finished") == 0)
 				{
 					$this->setOutro($this->lng->txt("survey_finished"));
 				}
 				else
 				{
-					$this->setOutro($data->outro);
+					$this->setOutro(ilRTE::_replaceMediaObjectImageSrc($data->outro, 1));
 				}
 				$this->status = $data->status;
 				$this->invitation = $data->invitation;
@@ -1022,11 +1037,12 @@ class ilObjSurvey extends ilObject
 */
 	function loadQuestionsFromDb() 
 	{
+		global $ilDB;
 		$this->questions = array();
 		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s ORDER BY sequence",
-			$this->ilias->db->quote($this->survey_id)
+			$ilDB->quote($this->survey_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
 			$this->questions[$data->sequence] = $data->question_fi;
@@ -1172,13 +1188,14 @@ class ilObjSurvey extends ilObject
 */
   function setInvitation($invitation = 0) 
 	{
+		global $ilDB;
     $this->invitation = $invitation;
 		// remove the survey from the personal desktops
 		$query = sprintf("DELETE FROM desktop_item WHERE type = %s AND item_id = %s",
-			$this->ilias->db->quote("svy"),
-			$this->ilias->db->quote($this->getRefId())
+			$ilDB->quote("svy"),
+			$ilDB->quote($this->getRefId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($invitation == INVITATION_OFF)
 		{
 			// already removed prior
@@ -1188,36 +1205,36 @@ class ilObjSurvey extends ilObject
 			if ($this->getInvitationMode() == MODE_UNLIMITED)
 			{
 				$query = "SELECT usr_id FROM usr_data";
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$query = sprintf("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, NULL)",
-						$this->ilias->db->quote($row["usr_id"]),
-						$this->ilias->db->quote($this->getRefId()),
-						$this->ilias->db->quote("svy")
+						$ilDB->quote($row["usr_id"]),
+						$ilDB->quote($this->getRefId()),
+						$ilDB->quote("svy")
 					);
-					$insertresult = $this->ilias->db->query($query);
+					$insertresult = $ilDB->query($query);
 				}
 			}
 			else
 			{
 				$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
-					$this->ilias->db->quote($this->getSurveyId())
+					$ilDB->quote($this->getSurveyId())
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$query = sprintf("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, NULL)",
-						$this->ilias->db->quote($row["user_fi"]),
-						$this->ilias->db->quote($this->getRefId()),
-						$this->ilias->db->quote("svy")
+						$ilDB->quote($row["user_fi"]),
+						$ilDB->quote($this->getRefId()),
+						$ilDB->quote("svy")
 					);
-					$insertresult = $this->ilias->db->query($query);
+					$insertresult = $ilDB->query($query);
 				}
 				$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE survey_fi = %s",
-					$this->ilias->db->quote($this->getSurveyId())
+					$ilDB->quote($this->getSurveyId())
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 				include_once "./classes/class.ilObjGroup.php";
 				include_once "./classes/class.ilObjUser.php";
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1245,17 +1262,18 @@ class ilObjSurvey extends ilObject
 */
   function setInvitationMode($invitation_mode = 0) 
 	{
+		global $ilDB;
     $this->invitation_mode = $invitation_mode;
 		if ($invitation_mode == MODE_UNLIMITED)
 		{
 			$query = sprintf("DELETE FROM survey_invited_group WHERE survey_fi = %s",
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s",
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 		// add/remove the survey from personal desktops -> calling getInvitation with the same value makes all changes for the new invitation mode
 		$this->setInvitation($this->getInvitation());
@@ -1273,17 +1291,18 @@ class ilObjSurvey extends ilObject
 */
 	function setInvitationAndMode($invitation = 0, $invitation_mode = 0)
 	{
+		global $ilDB;
     $this->invitation_mode = $invitation_mode;
 		if ($invitation_mode == MODE_UNLIMITED)
 		{
 			$query = sprintf("DELETE FROM survey_invited_group WHERE survey_fi = %s",
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s",
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 		// add/remove the survey from personal desktops -> calling getInvitation with the same value makes all changes for the new invitation mode
 		$this->setInvitation($invitation);
@@ -1725,11 +1744,12 @@ class ilObjSurvey extends ilObject
 */
 	function &getExistingQuestions() 
 	{
+		global $ilDB;
 		$existing_questions = array();
 		$query = sprintf("SELECT survey_question.original_id FROM survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 		{
 			array_push($existing_questions, $data->original_id);
@@ -1748,11 +1768,12 @@ class ilObjSurvey extends ilObject
 	function &getQuestionpoolTitles() 
 	{
 		global $rbacsystem;
+		global $ilDB;
 		
 		$qpl_titles = array();
 		// get all available questionpools and remove the trashed questionspools
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
@@ -1982,11 +2003,12 @@ class ilObjSurvey extends ilObject
 */
 	function removeConstraintsConcerningQuestion($question_id)
 	{
+		global $ilDB;
 		$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
-			$this->ilias->db->quote($question_id . ""),
-			$this->ilias->db->quote($this->getSurveyId() . "")
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($this->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
 			$remove_constraints = array();
@@ -1995,16 +2017,16 @@ class ilObjSurvey extends ilObject
 				array_push($remove_constraints, $row["constraint_fi"]);
 			}
 			$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
-				$this->ilias->db->quote($question_id . ""),
-				$this->ilias->db->quote($this->getSurveyId() . "")
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote($this->getSurveyId() . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			foreach ($remove_constraints as $key => $constraint_id)
 			{
 				$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
-					$this->ilias->db->quote($constraint_id . "")
+					$ilDB->quote($constraint_id . "")
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 			}
 		}
 	}
@@ -2020,6 +2042,7 @@ class ilObjSurvey extends ilObject
 */
 	function removeQuestions($remove_questions, $remove_questionblocks)
 	{
+		global $ilDB;
 		$questions =& $this->getSurveyQuestions();
 		foreach ($questions as $question_id => $data)
 		{
@@ -2032,14 +2055,14 @@ class ilObjSurvey extends ilObject
 		foreach ($remove_questionblocks as $questionblock_id)
 		{
 			$query = sprintf("DELETE FROM survey_questionblock WHERE questionblock_id = %s",
-				$this->ilias->db->quote($questionblock_id)
+				$ilDB->quote($questionblock_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s AND survey_fi = %s",
-				$this->ilias->db->quote($questionblock_id),
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($questionblock_id),
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 		$this->questions = array_values($this->questions);
 		$this->saveQuestionsToDb();
@@ -2055,17 +2078,18 @@ class ilObjSurvey extends ilObject
 */
 	function unfoldQuestionblocks($questionblocks)
 	{
+		global $ilDB;
 		foreach ($questionblocks as $index)
 		{
 			$query = sprintf("DELETE FROM survey_questionblock WHERE questionblock_id = %s",
-				$this->ilias->db->quote($index)
+				$ilDB->quote($index)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s AND survey_fi = %s",
-				$this->ilias->db->quote($index),
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($index),
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 	}
 	
@@ -2079,11 +2103,12 @@ class ilObjSurvey extends ilObject
 */
 	function &getQuestionblockTitles()
 	{
+		global $ilDB;
 		$titles = array();
 		$query = sprintf("SELECT survey_questionblock.* FROM survey_questionblock, survey_question, survey_questionblock_question WHERE survey_questionblock_question.question_fi = survey_question.question_id AND survey_question.obj_fi = %s",
-			$this->ilias->db->quote($this->getId())
+			$ilDB->quote($this->getId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$titles[$row->questionblock_id] = $row->title;
@@ -2101,11 +2126,12 @@ class ilObjSurvey extends ilObject
 */
 	function &getQuestionblockQuestions($questionblock_id)
 	{
+		global $ilDB;
 		$titles = array();
 		$query = sprintf("SELECT survey_question.title, survey_questionblock_question.question_fi, survey_questionblock_question.survey_fi FROM survey_questionblock, survey_questionblock_question, survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_question.question_id = survey_questionblock_question.question_fi AND survey_questionblock.questionblock_id = %s",
-			$this->ilias->db->quote($questionblock_id)
+			$ilDB->quote($questionblock_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$survey_id = "";
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -2113,9 +2139,9 @@ class ilObjSurvey extends ilObject
 			$survey_id = $row["survey_fi"];
 		}
 		$query = sprintf("SELECT question_fi, sequence FROM survey_survey_question WHERE survey_fi = %s ORDER BY sequence",
-			$this->ilias->db->quote($survey_id . "")
+			$ilDB->quote($survey_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$resultarray = array();
 		$counter = 1;
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2138,12 +2164,13 @@ class ilObjSurvey extends ilObject
 */
 	function &getQuestionblockQuestionIds($questionblock_id)
 	{
+		global $ilDB;
 		$ids = array();
 		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.question_id AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = %s AND survey_questionblock.questionblock_id = %s ORDER BY survey_survey_question.sequence ASC",
-			$this->ilias->db->quote($this->getId()),
-			$this->ilias->db->quote($questionblock_id)
+			$ilDB->quote($this->getId()),
+			$ilDB->quote($questionblock_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			array_push($ids, $row->question_id);
@@ -2162,10 +2189,11 @@ class ilObjSurvey extends ilObject
 */
 	function getQuestionblock($questionblock_id)
 	{
+		global $ilDB;
 		$query = sprintf("SELECT * FROM survey_questionblock WHERE questionblock_id = %s",
-			$this->ilias->db->quote($questionblock_id)
+			$ilDB->quote($questionblock_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row;
 	}
@@ -2222,6 +2250,7 @@ class ilObjSurvey extends ilObject
 */
 	function createQuestionblock($title, $questions)
 	{
+		global $ilDB;
 		// if the selected questions are not in a continous selection, move all questions of the
 		// questionblock at the position of the first selected question
 		$this->moveQuestions($questions, $questions[0], 0);
@@ -2229,20 +2258,20 @@ class ilObjSurvey extends ilObject
 		// now save the question block
 		global $ilUser;
 		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
-			$this->ilias->db->quote($title),
-			$this->ilias->db->quote($ilUser->id)
+			$ilDB->quote($title),
+			$ilDB->quote($ilUser->id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result == DB_OK) {
-			$questionblock_id = $this->ilias->db->getLastInsertId();
+			$questionblock_id = $ilDB->getLastInsertId();
 			foreach ($questions as $index)
 			{
 				$query = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
-					$this->ilias->db->quote($this->getSurveyId()),
-					$this->ilias->db->quote($questionblock_id),
-					$this->ilias->db->quote($index)
+					$ilDB->quote($this->getSurveyId()),
+					$ilDB->quote($questionblock_id),
+					$ilDB->quote($index)
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 				$this->deleteConstraints($index);
 			}
 		}
@@ -2259,11 +2288,12 @@ class ilObjSurvey extends ilObject
 */
 	function modifyQuestionblock($questionblock_id, $title)
 	{
+		global $ilDB;
 		$query = sprintf("UPDATE survey_questionblock SET title = %s WHERE questionblock_id = %s",
-			$this->ilias->db->quote($title),
-			$this->ilias->db->quote($questionblock_id)
+			$ilDB->quote($title),
+			$ilDB->quote($questionblock_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 /**
@@ -2276,23 +2306,24 @@ class ilObjSurvey extends ilObject
 */
 	function deleteConstraints($question_id)
 	{
+		global $ilDB;
 		$query = sprintf("SELECT * FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($question_id),
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
-				$this->ilias->db->quote($row->constraint_fi)
+				$ilDB->quote($row->constraint_fi)
 			);
-			$delresult = $this->ilias->db->query($query);
+			$delresult = $ilDB->query($query);
 		}
 		$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($question_id),
+			$ilDB->quote($this->getSurveyId())
 		);
-		$delresult = $this->ilias->db->query($query);
+		$delresult = $ilDB->query($query);
 	}
 
 /**
@@ -2306,16 +2337,17 @@ class ilObjSurvey extends ilObject
 */
 	function deleteConstraint($constraint_id, $question_id)
 	{
+		global $ilDB;
 		$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
-			$this->ilias->db->quote($constraint_id)
+			$ilDB->quote($constraint_id)
 		);
-		$delresult = $this->ilias->db->query($query);
+		$delresult = $ilDB->query($query);
 		$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s AND question_fi = %s AND survey_fi = %s",
-			$this->ilias->db->quote($constraint_id),
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($constraint_id),
+			$ilDB->quote($question_id),
+			$ilDB->quote($this->getSurveyId())
 		);
-		$delresult = $this->ilias->db->query($query);
+		$delresult = $ilDB->query($query);
 	}
 
 /**
@@ -2327,13 +2359,14 @@ class ilObjSurvey extends ilObject
 */
 	function &getSurveyQuestions($with_answers = false)
 	{
+		global $ilDB;
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
 		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag, survey_survey_question.heading FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$all_questions[$row["question_id"]] = $row;
@@ -2348,9 +2381,9 @@ class ilObjSurvey extends ilObject
 		if ($in)
 		{
 			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ($in)",
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$questionblocks[$row->question_fi] = $row;
@@ -2376,9 +2409,9 @@ class ilObjSurvey extends ilObject
 			{
 				$answers = array();
 				$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
-					$this->ilias->db->quote($question_id . "")
+					$ilDB->quote($question_id . "")
 				);
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 				if (strcmp(strtolower(get_class($result)), db_result) == 0) {
 					while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 						array_push($answers, $data->title);
@@ -2400,8 +2433,9 @@ class ilObjSurvey extends ilObject
 */
 	function &getQuestiontypes()
 	{
+		global $ilDB;
 		$query = "SELECT type_tag FROM survey_questiontype";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$result_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -2420,10 +2454,11 @@ class ilObjSurvey extends ilObject
 */
 	function setObligatoryStates($obligatory_questions)
 	{
+		global $ilDB;
 		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId() . "")
+			$ilDB->quote($this->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2437,19 +2472,19 @@ class ilObjSurvey extends ilObject
 
 	  // set the obligatory states in the database
 		$query = sprintf("DELETE FROM survey_question_obligatory WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId() . "")
+			$ilDB->quote($this->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 
 	  // set the obligatory states in the database
 		foreach ($obligatory_questions as $question_fi => $obligatory)
 		{
 			$query = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($question_fi . ""),
-				$this->ilias->db->quote($obligatory . "")
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($question_fi . ""),
+				$ilDB->quote($obligatory . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 	}
 	
@@ -2463,11 +2498,12 @@ class ilObjSurvey extends ilObject
 */
 	function &getObligatoryStates()
 	{
+		global $ilDB;
 		$obligatory_states = array();
 		$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId() . "")
+			$ilDB->quote($this->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2487,13 +2523,14 @@ class ilObjSurvey extends ilObject
 */
 	function &getSurveyPages()
 	{
+		global $ilDB;
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
 		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag, survey_survey_question.heading FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$all_questions[$row["question_id"]] = $row;
@@ -2504,9 +2541,9 @@ class ilObjSurvey extends ilObject
 		if ($in)
 		{
 			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ($in)",
-				$this->ilias->db->quote($this->getSurveyId())
+				$ilDB->quote($this->getSurveyId())
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$questionblocks["$row->question_fi"] = $row;
@@ -2623,10 +2660,11 @@ class ilObjSurvey extends ilObject
 	function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false)
 	{
 		global $rbacsystem;
+		global $ilDB;
 		
 		$result_array = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
@@ -2657,12 +2695,14 @@ class ilObjSurvey extends ilObject
 */
 	function getConstraints($question_id)
  	{
+		global $ilDB;
+		
 		$result_array = array();
 		$query = sprintf("SELECT survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_question_constraint.question_fi = %s AND survey_question_constraint.survey_fi = %s",
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($question_id),
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			array_push($result_array, array("id" => $row->constraint_id, "question" => $row->question_fi, "short" => $row->shortname, "long" => $row->longname, "value" => $row->value));
@@ -2702,11 +2742,13 @@ class ilObjSurvey extends ilObject
 */
 	function &getVariables($question_id)
 	{
+		global $ilDB;
+		
 		$result_array = array();
 		$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable LEFT JOIN survey_category ON survey_variable.category_fi = survey_category.category_id WHERE survey_variable.question_fi = %s ORDER BY survey_variable.sequence",
-			$this->ilias->db->quote($question_id)
+			$ilDB->quote($question_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result_array[$row->sequence] = $row;
@@ -2727,20 +2769,22 @@ class ilObjSurvey extends ilObject
 */
 	function addConstraint($to_question_id, $if_question_id, $relation, $value)
 	{
+		global $ilDB;
+		
 		$query = sprintf("INSERT INTO survey_constraint (constraint_id, question_fi, relation_fi, value) VALUES (NULL, %s, %s, %s)",
-			$this->ilias->db->quote($if_question_id),
-			$this->ilias->db->quote($relation),
-			$this->ilias->db->quote($value)
+			$ilDB->quote($if_question_id),
+			$ilDB->quote($relation),
+			$ilDB->quote($value)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result == DB_OK) {
-			$constraint_id = $this->ilias->db->getLastInsertId();
+			$constraint_id = $ilDB->getLastInsertId();
 			$query = sprintf("INSERT INTO survey_question_constraint (question_constraint_id, survey_fi, question_fi, constraint_fi) VALUES (NULL, %s, %s, %s)",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($to_question_id),
-				$this->ilias->db->quote($constraint_id)
+				$ilDB->quote($this->getSurveyId()),
+				$ilDB->quote($to_question_id),
+				$ilDB->quote($constraint_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 	}
 	
@@ -2753,9 +2797,11 @@ class ilObjSurvey extends ilObject
 */
 	function getAllRelations($short_as_key = false)
  	{
+		global $ilDB;
+		
 		$result_array = array();
 		$query = "SELECT * FROM survey_relation";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if ($short_as_key)
@@ -2780,11 +2826,13 @@ class ilObjSurvey extends ilObject
 */
 	function disinviteUser($user_id)
 	{
+		global $ilDB;
+		
 		$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s AND user_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($user_id)
+			$ilDB->quote($this->getSurveyId()),
+			$ilDB->quote($user_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($this->getInvitation() == INVITATION_ON)
 		{
 			include_once "./classes/class.ilObjUser.php";
@@ -2803,18 +2851,20 @@ class ilObjSurvey extends ilObject
 */
 	function inviteUser($user_id)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE user_fi = %s AND survey_fi = %s",
-			$this->ilias->db->quote($user_id),
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($user_id),
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() < 1)
 		{
 			$query = sprintf("INSERT INTO survey_invited_user (invited_user_id, survey_fi, user_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($user_id)
+				$ilDB->quote($this->getSurveyId()),
+				$ilDB->quote($user_id)
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 		if ($this->getInvitation() == INVITATION_ON)
 		{
@@ -2881,11 +2931,13 @@ class ilObjSurvey extends ilObject
 */
 	function &getInvitedUsers()
 	{
+		global $ilDB;
+		
 		$result_array = array();
 		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			array_push($result_array, $row->user_fi);
@@ -2903,11 +2955,13 @@ class ilObjSurvey extends ilObject
 */
 	function &getInvitedGroups()
 	{
+		global $ilDB;
+		
 		$result_array = array();
 		$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			array_push($result_array, $row->group_fi);
@@ -2926,24 +2980,26 @@ class ilObjSurvey extends ilObject
 */
 	function deleteWorkingData($question_id, $user_id)
 	{
+		global $ilDB;
+		
 		$query = "";
 		if ($this->getAnonymize())
 		{
 			$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND anonymous_id = %s",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($question_id),
-				$this->ilias->db->quote($_SESSION["anonymous_id"])
+				$ilDB->quote($this->getSurveyId()),
+				$ilDB->quote($question_id),
+				$ilDB->quote($_SESSION["anonymous_id"])
 			);
 		}
 		else
 		{
 			$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($question_id),
-				$this->ilias->db->quote($user_id)
+				$ilDB->quote($this->getSurveyId()),
+				$ilDB->quote($question_id),
+				$ilDB->quote($user_id)
 			);
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 /**
@@ -2959,6 +3015,7 @@ class ilObjSurvey extends ilObject
 */
 	function saveWorkingData($question_id, $user_id, $anonymize_id, $value = "", $text = "")
 	{
+		global $ilDB;
 		if ($this->isSurveyStarted($user_id, $anonymize_id) === false)
 		{
 			$this->startSurvey($user_id, $anonymize_id);
@@ -2969,7 +3026,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$value = $this->ilias->db->quote($value);
+			$value = $ilDB->quote($value);
 		}
 		if (strcmp($text, "") == 0)
 		{
@@ -2977,21 +3034,21 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$text = $this->ilias->db->quote($text);
+			$text = $ilDB->quote($text);
 		}
 		if ($this->getAnonymize())
 		{
 			$user_id = 0;
 		}
 		$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($this->getSurveyId() . ""),
-			$this->ilias->db->quote($question_id . ""),
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($anonymize_id),
+			$ilDB->quote($this->getSurveyId() . ""),
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($anonymize_id),
 			$value,
 			$text
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 /**
@@ -3006,25 +3063,26 @@ class ilObjSurvey extends ilObject
 */
 	function loadWorkingData($question_id, $user_id)
 	{
+		global $ilDB;
 		$result_array = array();
 		$query = "";
 		if ($this->getAnonymize())
 		{
 			$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND anonymous_id = %s",
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($question_id. ""),
-				$this->ilias->db->quote($_SESSION["anonymous_id"])
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($question_id. ""),
+				$ilDB->quote($_SESSION["anonymous_id"])
 			);
 		}
 		else
 		{
 			$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($question_id . ""),
-				$this->ilias->db->quote($user_id . "")
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote($user_id . "")
 			);
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() >= 1)
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -3050,6 +3108,7 @@ class ilObjSurvey extends ilObject
 	function startSurvey($user_id, $anonymous_id)
 	{
 		global $ilUser;
+		global $ilDB;
 		
 		if (strcmp($user_id, "") == 0)
 		{
@@ -3060,12 +3119,12 @@ class ilObjSurvey extends ilObject
 			$user_id = 0;
 		}
 		$query = sprintf("INSERT INTO survey_finished (finished_id, survey_fi, user_fi, anonymous_id, state, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($this->getSurveyId() . ""),
-			$this->ilias->db->quote($user_id . ""),
-			$this->ilias->db->quote($anonymous_id . ""),
-			$this->ilias->db->quote(0 . "")
+			$ilDB->quote($this->getSurveyId() . ""),
+			$ilDB->quote($user_id . ""),
+			$ilDB->quote($anonymous_id . ""),
+			$ilDB->quote(0 . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($this->getAnonymize())
 		{
 			if (strcmp($ilUser->login, "anonymous") != 0)
@@ -3098,24 +3157,26 @@ class ilObjSurvey extends ilObject
 */
 	function finishSurvey($user_id, $anonymize_id)
 	{
+		global $ilDB;
+		
 		if ($this->getAnonymize())
 		{
 			$user_id = 0;
 			$query = sprintf("UPDATE survey_finished SET state = %s WHERE survey_fi = %s AND anonymous_id = %s",
-				$this->ilias->db->quote("1"),
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($anonymize_id . "")
+				$ilDB->quote("1"),
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($anonymize_id . "")
 			);
 		}
 		else
 		{
 			$query = sprintf("UPDATE survey_finished SET state = %s WHERE survey_fi = %s AND user_fi = %s",
-				$this->ilias->db->quote("1"),
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($user_id . "")
+				$ilDB->quote("1"),
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($user_id . "")
 			);
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 	}
 	
 /**
@@ -3129,21 +3190,23 @@ class ilObjSurvey extends ilObject
 */
 	function isSurveyStarted($user_id, $anonymize_id)
 	{
+		global $ilDB;
+		
 		if ($this->getAnonymize())
 		{
 			$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($anonymize_id)
+				$ilDB->quote($this->getSurveyId()),
+				$ilDB->quote($anonymize_id)
 			);
 		}
 		else
 		{
 			$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
-				$this->ilias->db->quote($this->getSurveyId()),
-				$this->ilias->db->quote($user_id)
+				$ilDB->quote($this->getSurveyId()),
+				$ilDB->quote($user_id)
 			);
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() == 0)
 		{
 			return false;
@@ -3166,22 +3229,23 @@ class ilObjSurvey extends ilObject
 */
 	function getLastActivePage($user_id)
 	{
+		global $ilDB;
 		$query = "";
 		if ($this->getAnonymize())
 		{
 			$query = sprintf("SELECT question_fi, TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_answer WHERE survey_fi = %s AND anonymous_id = %s ORDER BY TIMESTAMP14 DESC",
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($_SESSION["anonymous_id"])
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($_SESSION["anonymous_id"])
 			);
 		}
 		else
 		{
 			$query = sprintf("SELECT question_fi, TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_answer WHERE survey_fi = %s AND user_fi = %s ORDER BY TIMESTAMP14 DESC",
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($user_id . "")
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($user_id . "")
 			);
 		}
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() == 0)
 		{
 			return "";
@@ -3280,11 +3344,13 @@ class ilObjSurvey extends ilObject
 
 	function &getEvaluationForAllUsers()
 	{
+		global $ilDB;
+		
 		$users = array();
 		$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId() . "")
+			$ilDB->quote($this->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -3321,6 +3387,8 @@ class ilObjSurvey extends ilObject
 */
 	function &getEvaluationByUser($questions, $user_id, $anonymous_id = "")
 	{
+		global $ilDB;
+		
 		$wherecond = "";
 		$wherevalue = "";
 		if (strcmp($anonymous_id, "") != 0)
@@ -3336,10 +3404,10 @@ class ilObjSurvey extends ilObject
 		// collect all answers
 		$answers = array();
 		$query = sprintf("SELECT * FROM survey_answer WHERE $wherecond AND survey_fi = %s",
-			$this->ilias->db->quote($wherevalue),
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($wherevalue),
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if (!is_array($answers[$row["question_fi"]]))
@@ -3390,10 +3458,12 @@ class ilObjSurvey extends ilObject
 */
 	function getCumulatedResults(&$question)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId())
+			$ilDB->quote($this->getSurveyId())
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		$nr_of_users = $result->numRows();
 		
 		$result_array =& $question->getCumulatedResults($this->getSurveyId(), $nr_of_users);
@@ -3404,7 +3474,7 @@ class ilObjSurvey extends ilObject
 	{
 		$result_array = array();
 		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN (" . join($question_ids, ",") . ")";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			array_push($result_array, $row);
@@ -3414,9 +3484,11 @@ class ilObjSurvey extends ilObject
 	
 	function &getQuestionblocks($questionblock_ids)
 	{
+		global $ilDB;
+		
 		$result_array = array();
     $query = "SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id IN (" . join($questionblock_ids, ",") . ") ORDER BY survey_survey.survey_id, survey_survey_question.sequence";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($row["questionblock_id"] != $qbid)
@@ -3433,11 +3505,12 @@ class ilObjSurvey extends ilObject
 	function &getForbiddenQuestionpools()
 	{
 		global $rbacsystem;
+		global $ilDB;
 		
 		// get all available questionpools and remove the trashed questionspools
 		$forbidden_pools = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
@@ -3459,24 +3532,26 @@ class ilObjSurvey extends ilObject
 	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
 	{
 		global $ilUser;
+		global $ilDB;
+		
 		$where = "";
 		if (strlen($filter_text) > 0) {
 			switch($sel_filter_type) {
 				case "title":
-					$where = " AND survey_question.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND survey_question.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 				case "description":
-					$where = " AND survey_question.description LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND survey_question.description LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 				case "author":
-					$where = " AND survey_question.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND survey_question.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 			}
 		}
   
 		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
 		{
-			$where .= " AND survey_questiontype.type_tag = " . $this->ilias->db->quote($filter_question_type);
+			$where .= " AND survey_questiontype.type_tag = " . $ilDB->quote($filter_question_type);
 		}
 		
 		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
@@ -3539,7 +3614,7 @@ class ilObjSurvey extends ilObject
 		}
 		if ($completeonly)
 		{
-			$forbidden .= " AND survey_question.complete = " . $this->ilias->db->quote("1");
+			$forbidden .= " AND survey_question.complete = " . $ilDB->quote("1");
 		}
 		$existing = "";
 		$existing_questions =& $this->getExistingQuestions();
@@ -3548,7 +3623,7 @@ class ilObjSurvey extends ilObject
 			$existing = " AND survey_question.question_id NOT IN (" . join($existing_questions, ",") . ")";
 		}
 	  $query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND ISNULL(survey_question.original_id) " . " $where$order$limit";
-    $query_result = $this->ilias->db->query($query);
+    $query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -3560,7 +3635,7 @@ class ilObjSurvey extends ilObject
 		}
 		$limit = " LIMIT $startrow, $maxentries";
 	  $query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
-    $query_result = $this->ilias->db->query($query);
+    $query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -3599,12 +3674,13 @@ class ilObjSurvey extends ilObject
 */
 	function getQuestionblocksTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
 	{
+		global $ilDB;
 		global $ilUser;
 		$where = "";
 		if (strlen($filter_text) > 0) {
 			switch($sel_filter_type) {
 				case "title":
-					$where = " AND survey_questionblock.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND survey_questionblock.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 			}
 		}
@@ -3640,7 +3716,7 @@ class ilObjSurvey extends ilObject
 			$order = " ORDER BY survey_survey_question.sequence ASC";
 		}
 		$query = "SELECT survey_questionblock.questionblock_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where GROUP BY survey_questionblock.questionblock_id$order$limit";
-    $query_result = $this->ilias->db->query($query);
+    $query_result = $ilDB->query($query);
 		$questionblock_ids = array();
 		if ($query_result->numRows())
 		{
@@ -3661,7 +3737,7 @@ class ilObjSurvey extends ilObject
 		}
 		$limit = " LIMIT $startrow, $maxentries";
 		$query = "SELECT survey_questionblock.*, object_data.title as surveytitle FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where GROUP BY survey_questionblock.questionblock_id$order$limit";
-    $query_result = $this->ilias->db->query($query);
+    $query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -4279,9 +4355,9 @@ class ilObjSurvey extends ilObject
 		$questionblocks = array();
 		$questionblock_questions = array();
 		$query = sprintf("SELECT * FROM survey_questionblock_question WHERE survey_fi = %s",
-			$this->ilias->db->quote($original->getSurveyId() . "")
+			$ilDB->quote($original->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -4305,7 +4381,7 @@ class ilObjSurvey extends ilObject
 				$ilDB->quote($questionblocks[$value["questionblock_fi"]] . ""),
 				$ilDB->quote($question_pointer[$value["question_fi"]] . "")
 			);
-			$cloneresult = $this->ilias->db->query($clonequery);
+			$cloneresult = $ilDB->query($clonequery);
 		}
 		
 		// clone the constraints
@@ -4317,19 +4393,19 @@ class ilObjSurvey extends ilObject
 		
 		// clone the obligatory states
 		$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s",
-			$this->ilias->db->quote($original->getSurveyId() . "")
+			$ilDB->quote($original->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$clonequery = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-					$this->ilias->db->quote($newObj->getSurveyId() . ""),
-					$this->ilias->db->quote($question_pointer[$row["question_fi"]] . ""),
-					$this->ilias->db->quote($row["obligatory"])
+					$ilDB->quote($newObj->getSurveyId() . ""),
+					$ilDB->quote($question_pointer[$row["question_fi"]] . ""),
+					$ilDB->quote($row["obligatory"])
 				);
-				$cloneresult = $this->ilias->db->query($clonequery);
+				$cloneresult = $ilDB->query($clonequery);
 			}
 		}
 
@@ -4480,22 +4556,23 @@ class ilObjSurvey extends ilObject
 	
 	function saveHeading($heading = "", $insertbefore)
 	{
+		global $ilDB;
 		if ($heading)
 		{
 			$query = sprintf("UPDATE survey_survey_question SET heading=%s WHERE survey_fi=%s AND question_fi=%s",
-				$this->ilias->db->quote($heading),
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($insertbefore)
+				$ilDB->quote($heading),
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($insertbefore)
 			);
 		}
 		else
 		{
 			$query = sprintf("UPDATE survey_survey_question SET heading=NULL WHERE survey_fi=%s AND question_fi=%s",
-				$this->ilias->db->quote($this->getSurveyId() . ""),
-				$this->ilias->db->quote($insertbefore)
+				$ilDB->quote($this->getSurveyId() . ""),
+				$ilDB->quote($insertbefore)
 			);
 		}
-		$this->ilias->db->query($query);
+		$ilDB->query($query);
 	}
 
 	function _getRefIdFromObjId($obj_id)
@@ -4517,11 +4594,13 @@ class ilObjSurvey extends ilObject
 	
 	function isAnonymousKey($key)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT anonymous_id FROM survey_anonymous WHERE survey_key = %s AND survey_fi = %s",
-			$this->ilias->db->quote($key . ""),
-			$this->ilias->db->quote($this->getSurveyId() . "")
+			$ilDB->quote($key . ""),
+			$ilDB->quote($this->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			return true;
@@ -4534,11 +4613,13 @@ class ilObjSurvey extends ilObject
 	
 	function isAnonymizedParticipant($key)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT finished_id FROM survey_finished WHERE anonymous_id = %s AND survey_fi = %s",
-			$this->ilias->db->quote($key . ""),
-			$this->ilias->db->quote($this->getSurveyId() . "")
+			$ilDB->quote($key . ""),
+			$ilDB->quote($this->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			return true;
@@ -4599,6 +4680,7 @@ class ilObjSurvey extends ilObject
 
 	function &getSurveyCodes($generated_only = FALSE)
 	{
+		global $ilDB;
 		$codes = array();
 		$user_key = "";
 		if ($generated_only)
@@ -4606,9 +4688,9 @@ class ilObjSurvey extends ilObject
 			$user_key = " AND user_key IS NULL";
 		}
 		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s$user_key ORDER BY TIMESTAMP14, survey_finished.anonymous_id",
-			$this->ilias->db->quote($this->getSurveyId() . "")
+			$ilDB->quote($this->getSurveyId() . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		
 		if ($result->numRows() > 0)
 		{
@@ -4622,11 +4704,12 @@ class ilObjSurvey extends ilObject
 	
 	function isSurveyCodeUsed($code)
 	{
+		global $ilDB;
 		$query = sprintf("SELECT answer_id FROM survey_answer WHERE survey_fi = %s AND anonymous_id = %s",
-			$this->ilias->db->quote($this->getSurveyId() . ""),
-			$this->ilias->db->quote($code)
+			$ilDB->quote($this->getSurveyId() . ""),
+			$ilDB->quote($code)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
 			return TRUE;
@@ -4639,14 +4722,15 @@ class ilObjSurvey extends ilObject
 	
 	function createSurveyCodes($nrOfCodes)
 	{
+		global $ilDB;
 		for ($i = 0; $i < $nrOfCodes; $i++)
 		{
 			$anonymize_key = $this->createNewAccessCode();
 			$query = sprintf("INSERT INTO survey_anonymous (anonymous_id, survey_key, survey_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
-				$this->ilias->db->quote($anonymize_key . ""),
-				$this->ilias->db->quote($this->getSurveyId() . "")
+				$ilDB->quote($anonymize_key . ""),
+				$ilDB->quote($this->getSurveyId() . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
 		}
 	}
 	
