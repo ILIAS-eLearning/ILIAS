@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -173,6 +173,8 @@ class ilForumExplorer extends ilExplorer
 			$this->createLines($i);
 		}
 
+		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
+		
 		// set global body class
 		$tpl->setVariable("BODY_CLASS", "il_Explorer");
 		
