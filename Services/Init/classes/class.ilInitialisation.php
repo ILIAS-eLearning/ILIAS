@@ -1032,22 +1032,6 @@ class ilInitialisation
 		$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 		
 		// init infopanel
-		// to do: revise that
-		if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
-		{
-			$mbox = new ilMailbox($_SESSION["AccountId"]);
-			$mail =& new ilMail($_SESSION['AccountId']);
-			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
-			{
-				$folder_id = $mbox->getInboxFolder();
-				
-				$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".
-												htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
-												"text"	=> "new_mail"
-												//"img"	=> "icon_mail.gif"
-					);
-			}
-		}
 				
 		// provide global browser information
 		$ilBrowser = new ilBrowser();

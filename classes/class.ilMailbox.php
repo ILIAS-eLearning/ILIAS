@@ -260,13 +260,40 @@ class ilMailbox
 			 	 "AND m.m_status = 'unread'";
 		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
+		return $row ? $row->mail_id : 0;
+	}
+
+	/**
+	 * Static method 
+	 * check how many unread mails are in inbox
+	 * @access	public
+	 * @static
+	 * @return	int		number of mails
+	 */
+	function _countNewMails($a_user_id)
+	{
+		global $ilias;
+
+		if (!$a_user_id)
+		{
+			return 0;
+		}
+
 		// CHECK FOR SYSTEM MAIL
-		$query = "SELECT mail_id FROM mail WHERE folder_id = 0 AND user_id = '".$a_user_id."' ".
+		$query = "SELECT count(*) as cnt FROM mail WHERE folder_id = 0 AND user_id = '".$a_user_id."' ".
 			"AND m_status = 'unread'";
 
 		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
-		return $row ? $row->mail_id : 0;
+		$query = "SELECT count(*) as cnt FROM mail AS m,mail_obj_data AS mo ".
+				 "WHERE m.user_id = mo.user_id ".
+				 "AND m.folder_id = mo.obj_id ".
+				 "AND mo.type = 'inbox' ".
+				 "AND m.user_id = '".$a_user_id."' ".
+			 	 "AND m.m_status = 'unread'";
+		$row2 = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		
+		return $row->cnt + $row2->cnt;
 	}
 
 	/**
