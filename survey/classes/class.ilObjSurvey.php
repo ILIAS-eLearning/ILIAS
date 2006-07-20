@@ -3125,26 +3125,6 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote(0 . "")
 		);
 		$result = $ilDB->query($query);
-		if ($this->getAnonymize())
-		{
-			if (strcmp($ilUser->login, "anonymous") != 0)
-			{
-				include_once "./include/inc.mail.php";
-				include_once "./classes/class.ilFormatMail.php";
-				include_once "./classes/class.ilMailbox.php";
-				$subject = sprintf($this->lng->txt("subject_mail_survey_id"), $this->getTitle());
-				$message = sprintf($this->lng->txt("message_mail_survey_id"), $this->getTitle(), $_SESSION["anonymous_id"]);
-				$umail = new ilFormatMail($ilUser->id);
-				$f_message = $umail->formatLinebreakMessage($message);
-				$umail->setSaveInSentbox(true);
-				if($error_message = $umail->sendMail($ilUser->getLogin(),"",
-													 "",$subject,$f_message,
-													 array(),array("normal")))
-				{
-					sendInfo($error_message);
-				}
-			}
-		}
 	}
 			
 /**

@@ -284,21 +284,20 @@ class ilObjSurveyAccess extends ilObjectAccess
 		global $ilDB, $ilUser;
 
 		$finished = "";
-		if (!strlen($a_user_id))
-			$a_user_id = $ilUser->id;
+		if (!strlen($a_user_id)) $a_user_id = $ilUser->getId();
 
-		$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",
-				$ilDB->quote($a_obj_id)
-			);
+		$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi = %s",
+			$ilDB->quote($a_obj_id)
+		);
 		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			if ($row->anonymize == 1)
 			{
-				$q = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
+				$q = sprintf("SELECT * FROM survey_finished, survey_anonymous WHERE survey_finished.survey_fi = %s AND survey_finished.survey_fi = survey_anonymous.survey_fi AND survey_anonymous.user_key = %s AND survey_anonymous.survey_key = survey_finished.anonymous_id",
 					$ilDB->quote($row->survey_id),
-					$ilDB->quote(md5($a_user_id . $row->survey_id) . "")
+					$ilDB->quote(md5($a_user_id) . "")
 				);
 			}
 			else
