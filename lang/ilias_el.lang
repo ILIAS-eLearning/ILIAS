@@ -3569,6 +3569,7 @@ crs#:#crs_added_to_list#:#Έχετε εκχωρηθεί στη λίστα ανα
 crs#:#crs_admin#:#Διαχειριστής
 crs#:#crs_admin_no_notify#:#Διαχειριστής (χωρίς ειδοποίηση)
 crs#:#crs_admin_notify#:#Διαχειριστής (με ειδοποίηση)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Επέτρεψε την εγγραφή των αντικειμένων του μαθήματος
 crs#:#crs_already_assigned_to_list#:#Έχετε ήδη καταχωρηθεί στη λίστα αναμονής.
 crs#:#crs_archive#:#Αρχεία
@@ -3674,14 +3675,17 @@ crs#:#crs_max_members_reached#:#Ο μέγιστος αριθμός των μελ
 crs#:#crs_mem_change_status#:#Αλλαγή κατάστασης
 crs#:#crs_mem_send_mail#:#Αποστολή email
 crs#:#crs_member#:#Μέλος
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Μέλος (μποκαρισμένο)
 crs#:#crs_member_of#:#Μέλος του μαθήματος:
 crs#:#crs_member_unblocked#:#Μέλος (απεγκλωβίστηκε)
 crs#:#crs_member_updated#:#Το μέλος έχει ανανεωθεί
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Διαγραμμένα μέλη
 crs#:#crs_members_footer#:#Μέλη/ος μαθήματος
 crs#:#crs_members_footer_passed#:#Πέρασαν
 crs#:#crs_members_print_title#:#Μέλη μαθήματος
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Μέλη μαθήματος
 crs#:#crs_move_down#:#Μετακίνηση κάτω
 crs#:#crs_move_up#:#Μετακίνηση επάνω
@@ -3867,6 +3871,7 @@ crs#:#crs_to#:#στο:
 crs#:#crs_tutor#:#Επιμελητής
 crs#:#crs_tutor_no_notify#:#Επιμελητής (χωρίς ειδοποίηση)
 crs#:#crs_tutor_notify#:#Επιμελητής (ειδοποίηση)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Ελεύθερη πρόσβαση
 crs#:#crs_unblocked_member#:#Κατάσταση στο μάθημα "%s"
 crs#:#crs_unblocked_member_body#:#Η ιδιότητα μέλους σας στο μάθημα "%s" έχει αποκατασταθεί

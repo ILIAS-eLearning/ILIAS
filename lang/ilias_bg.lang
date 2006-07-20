@@ -3464,6 +3464,7 @@ crs#:#crs_added_new_archive#:#�?ов архив беше добавен
 crs#:#crs_admin#:#�?дмини�?тратор
 crs#:#crs_admin_no_notify#:#�?дмини�?тратор (без уведом�?ване)
 crs#:#crs_admin_notify#:#�?дмини�?тратор (уведом�?ване)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_archive#:#�?рхиви
 crs#:#crs_archive_disabled#:#Изключено###23 Dec 2005 content changed
 crs#:#crs_archive_download#:#Даунлоуд###15 Jul 2006 content changed
@@ -3536,12 +3537,15 @@ crs#:#crs_max_members_reached#:#Мак�?имални�?т брой членове
 crs#:#crs_mem_change_status#:#Пром�?на на �?тату�?а
 crs#:#crs_mem_send_mail#:#Изпращане на поща
 crs#:#crs_member#:#Член
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Член (блокиран)
 crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
 crs#:#crs_member_unblocked#:#Член (разблокиран)
 crs#:#crs_member_updated#:#Членът беше актуализиран
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Изтрити членове
 crs#:#crs_members_print_title#:#Членове на кур�?
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Членове на кур�?
 crs#:#crs_move_down#:#Преме�?тване надолу
 crs#:#crs_move_up#:#Преме�?тване нагоре
@@ -3660,6 +3664,7 @@ crs#:#crs_to#:#До:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#�?а�?тавник
 crs#:#crs_tutor_no_notify#:#�?а�?тавник (без уведом�?ване)
 crs#:#crs_tutor_notify#:#�?а�?тавник (�?ъ�? уведом�?ване)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Свободен вход
 crs#:#crs_unblocked_member#:#Член�?тво в кур�?а###23 Dec 2005 content changed
 crs#:#crs_unblocked_member_body#:#Вашето член�?тво е въз�?тановено###23 Dec 2005 content changed

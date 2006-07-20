@@ -3812,6 +3812,7 @@ crs#:#crs_added_to_list#:#Bạn đã được chỉ định vào danh sách đ�
 crs#:#crs_admin#:#quản trị
 crs#:#crs_admin_no_notify#:#Quản trị (không thông báo)
 crs#:#crs_admin_notify#:#Quản trị (thông báo)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Cho phép đăng ký các mục của khóa h�?c
 crs#:#crs_already_assigned_to_list#:#Bạn đã được chỉ định vào danh sách đợi trước đó.
 crs#:#crs_archive#:#File nén
@@ -3933,14 +3934,17 @@ crs#:#crs_max_members_reached#:#�?ã đạt số thành viên tối đa của kh
 crs#:#crs_mem_change_status#:#Thay đổi trạng thái
 crs#:#crs_mem_send_mail#:#Gửi thư
 crs#:#crs_member#:#Thành viên
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Thành viên (đã chặn)
 crs#:#crs_member_of#:#Thành viên của khóa h�?c:
 crs#:#crs_member_unblocked#:#Thành viên (đã b�? chặn)
 crs#:#crs_member_updated#:#Thành viên đã được cập nhật
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#�?ã xóa thành viên
 crs#:#crs_members_footer#:#(các) thành viên khóa h�?c
 crs#:#crs_members_footer_passed#:#đạt
 crs#:#crs_members_print_title#:#Thành viên khóa h�?c
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Thành viên khóa h�?c
 crs#:#crs_move_down#:#Di chuyển xuống
 crs#:#crs_move_up#:#Di chuyển lên
@@ -4147,6 +4151,7 @@ crs#:#crs_to#:#Tới:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#trợ giáo
 crs#:#crs_tutor_no_notify#:#trợ giáo (không thông báo)
 crs#:#crs_tutor_notify#:#trợ giáo (thông báo)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Gia nhập tự do
 crs#:#crs_unblocked_member#:#Quy�?n thành viên khóa h�?c của###10 Jul 2006 content changed
 crs#:#crs_unblocked_member_body#:#Quy�?n thành viên của bạn đã được phục hồi###10 Jul 2006 content changed

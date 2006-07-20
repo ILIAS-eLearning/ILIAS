@@ -3900,6 +3900,7 @@ crs#:#crs_added_to_list#:#Sei stato aggiunto alla lista di attesa. Ti trovi al %
 crs#:#crs_admin#:#Amministratore
 crs#:#crs_admin_no_notify#:#Amministratore (senza notifica)
 crs#:#crs_admin_notify#:#Amministratore (notificato)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Consenti l&#039;iscrizione ad elementi del corso 
 crs#:#crs_already_assigned_to_list#:#Sei gi&#224; stato aggiunto alla lista di attesa.
 crs#:#crs_archive#:#Archivi
@@ -4021,14 +4022,17 @@ crs#:#crs_max_members_reached#:#E&#039;stato raggiunto il numero massimo di iscr
 crs#:#crs_mem_change_status#:#Modifica lo stato
 crs#:#crs_mem_send_mail#:#Invia eMail
 crs#:#crs_member#:#Iscritti
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Iscritto (bloccato)
 crs#:#crs_member_of#:#Membro del corso:
 crs#:#crs_member_unblocked#:#Iscritto (non-bloccato)
 crs#:#crs_member_updated#:#L&#039;iscrizione &#232; stata aggiornata 
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Eliminati iscritti
 crs#:#crs_members_footer#:#membri del corso
 crs#:#crs_members_footer_passed#:#superato
 crs#:#crs_members_print_title#:#Iscritti al corso
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Iscritti al corso
 crs#:#crs_move_down#:#Sposta in basso
 crs#:#crs_move_up#:#Sposta in alto
@@ -4235,6 +4239,7 @@ crs#:#crs_to#:#A:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (senza-notifica)
 crs#:#crs_tutor_notify#:#Tutor (con-notifica)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Ingresso libero
 crs#:#crs_unblocked_member#:#Iscritti al corso###10 Jul 2006 content changed
 crs#:#crs_unblocked_member_body#:#La tua iscrizione &#232; stata ripristinata###10 Jul 2006 content changed

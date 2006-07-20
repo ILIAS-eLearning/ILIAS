@@ -3736,6 +3736,7 @@ crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are as
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator ( pa njoftim)
 crs#:#crs_admin_notify#:#Administrator (me njoftim)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Lejo abonim në artikujt e kursit
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Arkivat
@@ -3854,12 +3855,15 @@ crs#:#crs_max_members_reached#:#Është arritur numri maksimal i anëtarëve
 crs#:#crs_mem_change_status#:#Ndërro Statusin
 crs#:#crs_mem_send_mail#:#Dërgo e-mail
 crs#:#crs_member#:#Anëtar
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Anëtar (i bllokuar)
 crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
 crs#:#crs_member_unblocked#:#Anëtar (i pablokuar)
 crs#:#crs_member_updated#:#Anëtarët janë aktualizuar
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Anëtarët e Fshirë
 crs#:#crs_members_print_title#:#Anëtarët e Kursit
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Anëtarët e Kursit
 crs#:#crs_move_down#:#Zhvendos poshtë
 crs#:#crs_move_up#:#Zhvendos lart
@@ -4055,6 +4059,7 @@ crs#:#crs_to#:#Për:###03 Nov 2005 content changed
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (pa lajmërim)
 crs#:#crs_tutor_notify#:#Tutor (me lajmërim)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Qasje e lirë
 crs#:#crs_unblocked_member#:#Anëtarësimi në kurs###23 Dec 2005 content changed
 crs#:#crs_unblocked_member_body#:#Anëtarësimi juaj është restauruar###23 Dec 2005 content changed

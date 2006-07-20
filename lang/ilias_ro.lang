@@ -3400,6 +3400,7 @@ crs#:#crs_added_new_archive#:#O noua arhiva a fost adaugata
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (fara notificare)
 crs#:#crs_admin_notify#:#Administrator (notificare)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_archive#:#Arhive
 crs#:#crs_archive_disabled#:#Dezactivat###23 Dec 2005 content changed
 crs#:#crs_archive_download#:#Download###15 Jul 2006 content changed
@@ -3472,12 +3473,15 @@ crs#:#crs_max_members_reached#:#a fost atins numarul maxim de membrii
 crs#:#crs_mem_change_status#:#schimbati statutul
 crs#:#crs_mem_send_mail#:#Trimiteti mail
 crs#:#crs_member#:#Membru
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Blocat
 crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
 crs#:#crs_member_unblocked#:#Membru (deblocat)
 crs#:#crs_member_updated#:#Membrul a fost actualizat
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Membrii stersi
 crs#:#crs_members_print_title#:#Membrii cursului
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Membrii cursului
 crs#:#crs_move_down#:#Jos
 crs#:#crs_move_up#:#Sus
@@ -3596,6 +3600,7 @@ crs#:#crs_to#:#Catre:###03 Nov 2005 content changed
 crs#:#crs_tutor#:#Profesor
 crs#:#crs_tutor_no_notify#:#Profesor (fara notificare)
 crs#:#crs_tutor_notify#:#Profesor (cu notificare)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Acces liber
 crs#:#crs_unblocked_member#:#Calitate de membru al cursului###23 Dec 2005 content changed
 crs#:#crs_unblocked_member_body#:#Calitatea de membru al cursului v-a fost redata###23 Dec 2005 content changed

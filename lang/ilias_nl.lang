@@ -3905,6 +3905,7 @@ crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are as
 crs#:#crs_admin#:#U bent al geaccepteerd voor deze cursus###07 Apr 2005 content changed
 crs#:#crs_admin_no_notify#:#Een nieuw archief is toegevoegd###07 Apr 2005 content changed
 crs#:#crs_admin_notify#:#Administrateur###07 Apr 2005 content changed
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Allow subscription of course items###01 Mar 2005 new variable
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Administrateur (nee bekendmaking)###07 Apr 2005 content changed
@@ -4026,14 +4027,17 @@ crs#:#crs_max_members_reached#:#Voor registratie is een geldig wachtwoord nodig.
 crs#:#crs_mem_change_status#:#Lijst gebruikers###07 Apr 2005 content changed
 crs#:#crs_mem_send_mail#:#Het maximum aantal leden is bereikt###07 Apr 2005 content changed
 crs#:#crs_member#:#Wijzig status###07 Apr 2005 content changed
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Zend mail###03 Nov 2004 content changed
 crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
 crs#:#crs_member_unblocked#:#Lid###03 Nov 2004 content changed
 crs#:#crs_member_updated#:#Lid (ongeblokkeerd)###07 Apr 2005 content changed
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Lid (geblokkeerd)###07 Apr 2005 content changed
 crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
 crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Het lid is bijgewerkt###07 Apr 2005 content changed
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Leden verwijderd###07 Apr 2005 content changed
 crs#:#crs_move_down#:#Cursus-leden###07 Apr 2005 content changed
 crs#:#crs_move_up#:#Cursus-leden###07 Apr 2005 content changed
@@ -4240,6 +4244,7 @@ crs#:#crs_to#:#Syllabus###07 Apr 2005 content changed
 crs#:#crs_tutor#:#Abonnerings-tijd###07 Apr 2005 content changed
 crs#:#crs_tutor_no_notify#:#Naar:###07 Apr 2005 content changed
 crs#:#crs_tutor_notify#:#Tutor###07 Apr 2005 content changed
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Tutor (geen bekendmaking)###07 Apr 2005 content changed
 crs#:#crs_unblocked_member#:#Tutor (bekendmaking)###07 Apr 2005 content changed
 crs#:#crs_unblocked_member_body#:#Vrije toegang###07 Apr 2005 content changed
