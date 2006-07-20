@@ -3903,6 +3903,7 @@ crs#:#crs_added_to_list#:#Sie sind in die Warteliste aufgenommen worden.<br />Si
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
+crs#:#crs_administrators#:#Administratoren
 crs#:#crs_allow_abo#:#Erlaube Abonnierung von Kursobjekten
 crs#:#crs_already_assigned_to_list#:#Sie wurden bereits in die Warteliste aufgenommen.
 crs#:#crs_archive#:#Archive
@@ -4024,14 +4025,17 @@ crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritt
 crs#:#crs_mem_change_status#:#Status ändern
 crs#:#crs_mem_send_mail#:#Mail verschicken
 crs#:#crs_member#:#Mitglied
+crs#:#crs_member_administration#:#Teilnehmerverwaltung
 crs#:#crs_member_blocked#:#Mitglied (gesperrt)
 crs#:#crs_member_of#:#Mitglied des Kurses:
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
+crs#:#crs_members#:#Mitglieder
 crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
 crs#:#crs_members_footer#:#Kursmitglied(er)
 crs#:#crs_members_footer_passed#:#bestanden
 crs#:#crs_members_print_title#:#Kursmitglieder
+crs#:#crs_members_table#:#Teilnehmer des Kurses
 crs#:#crs_members_title#:#Kursmitglieder
 crs#:#crs_move_down#:#Nach unten verschieben
 crs#:#crs_move_up#:#Nach oben verschieben
@@ -4238,6 +4242,7 @@ crs#:#crs_to#:#Bis:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
 crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
+crs#:#crs_tutors#:#Tutoren
 crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unblocked_member#:#Status in Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet###23 Dec 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -6358,8 +6363,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-crs#:#crs_members_table#:#Teilnehmer des Kurses
-crs#:#crs_member_administration#:#Teilnehmerverwaltung
-crs#:#crs_administrators#:#Administratoren
-crs#:#crs_tutors#:#Tutoren
-crs#:#crs_members#:#Mitglieder

@@ -3311,6 +3311,7 @@ crs#:#crs_added_starters#:#Определен(ы) �?тартовый(ые) об�
 crs#:#crs_admin#:#�?дмини�?тратор
 crs#:#crs_admin_no_notify#:#�?дмини�?тратор (без объ�?влени�?)
 crs#:#crs_admin_notify#:#�?дмини�?тратор (�? объ�?влением)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Разрешена подпи�?ка на пункты кур�?а
 crs#:#crs_archive#:#�?рхивы
 crs#:#crs_archive_disabled#:#Выключены
@@ -3425,13 +3426,16 @@ crs#:#crs_max_members_reached#:#Было набрано мак�?имальное
 crs#:#crs_mem_change_status#:#Изменить �?тату�?
 crs#:#crs_mem_send_mail#:#По�?лать �?ообщение
 crs#:#crs_member#:#Член
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Член (блокирован)
 crs#:#crs_member_unblocked#:#Член (разблокирован)
 crs#:#crs_member_updated#:#Член был обновлен
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Удалить члена
 crs#:#crs_members_footer#:#член(ы) кур�?а
 crs#:#crs_members_footer_passed#:#�?дан
 crs#:#crs_members_print_title#:#Члены кур�?а
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Члены кур�?а
 crs#:#crs_move_down#:#Переме�?тить ниже
 crs#:#crs_move_up#:#Переме�?тить выше
@@ -3632,6 +3636,7 @@ crs#:#crs_to#:#К:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Преподаватель
 crs#:#crs_tutor_no_notify#:#Преподаватель (не уведомл�?ть)
 crs#:#crs_tutor_notify#:#Преподаватель (уведомл�?ть)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Свободный вход
 crs#:#crs_unblocked_member#:#Член�?тво кур�?а###10 Jul 2006 content changed
 crs#:#crs_unblocked_member_body#:#Ваше член�?тво было во�?�?тановлено###10 Jul 2006 content changed

@@ -3821,6 +3821,7 @@ crs#:#crs_added_to_list#:#Zostałeś dołączony do listy oczekujących. Został
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (brak zgłoszenia)
 crs#:#crs_admin_notify#:#Administrator (zgłoszenie)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Zezwól na subskrybcję zawartości kursu
 crs#:#crs_already_assigned_to_list#:#Zostałeś już dołączony do listy oczekujących.
 crs#:#crs_archive#:#Archiwa
@@ -3942,14 +3943,17 @@ crs#:#crs_max_members_reached#:#Została osiągnięta maksymalna liczba uczestni
 crs#:#crs_mem_change_status#:#Status zmian
 crs#:#crs_mem_send_mail#:#Wyślij pocztę
 crs#:#crs_member#:#Członek
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Członek (zablokowany)
 crs#:#crs_member_of#:#Uczestnik kursu:
 crs#:#crs_member_unblocked#:#Członek (odblokowany)
 crs#:#crs_member_updated#:#Członek został uaktualniony
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Usunięci uczestnicy
 crs#:#crs_members_footer#:#Uczestnicy kursu
 crs#:#crs_members_footer_passed#:#wykonany
 crs#:#crs_members_print_title#:#Uczestnicy kursu
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Uczestnicy kursu
 crs#:#crs_move_down#:#Przesuń w dół
 crs#:#crs_move_up#:#Przesuń w górę
@@ -4156,6 +4160,7 @@ crs#:#crs_to#:#Do:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Opiekun
 crs#:#crs_tutor_no_notify#:#Opiekun (brak zgłoszenia)
 crs#:#crs_tutor_notify#:#Opiekun (zgłoszenie)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Wstęp wolny
 crs#:#crs_unblocked_member#:#Uczestnicy kursu###10 Jul 2006 content changed
 crs#:#crs_unblocked_member_body#:#Twoje uczestnictwo zostało przywrócone###10 Jul 2006 content changed

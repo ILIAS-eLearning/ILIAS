@@ -3736,6 +3736,7 @@ crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are as
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (obaveštenje)
 crs#:#crs_admin_notify#:#Administrator (nema obaveštenja)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Dozvolite prijavu predmeta kursa
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#Arhive
@@ -3854,12 +3855,15 @@ crs#:#crs_max_members_reached#:#Maksimalan broj clanova je dostignut
 crs#:#crs_mem_change_status#:#Promeni status
 crs#:#crs_mem_send_mail#:#Pošalji poštu
 crs#:#crs_member#:#Clan
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Clan (blokiran)
 crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
 crs#:#crs_member_unblocked#:#Clan (odblokiran)
 crs#:#crs_member_updated#:#Clan je ažuriran
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Uklonjeni clanovi
 crs#:#crs_members_print_title#:#Clanovi kursa
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Clanovi kursa
 crs#:#crs_move_down#:#Pomeri dole
 crs#:#crs_move_up#:#Pomeri gore
@@ -4055,6 +4059,7 @@ crs#:#crs_to#:#Za:###03 Nov 2005 content changed
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (bez obaveštenja)
 crs#:#crs_tutor_notify#:#Tutor (obaveštenje)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Slobodan ulaz
 crs#:#crs_unblocked_member#:#Clanstvo kursa###23 Dec 2005 content changed
 crs#:#crs_unblocked_member_body#:#Vaše clanstvo je vraceno###23 Dec 2005 content changed

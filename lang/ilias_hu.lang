@@ -3805,6 +3805,7 @@ crs#:#crs_added_to_list#:#A várólistára került. Várakozási helye %s a vár
 crs#:#crs_admin#:#Adminisztrátor
 crs#:#crs_admin_no_notify#:#Adminisztrátor (nincs megjegyzés)
 crs#:#crs_admin_notify#:#Adminisztrátor (megjegyzés)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Kurzuselemek felvételének engedélyezése
 crs#:#crs_already_assigned_to_list#:#Már várólistán van.
 crs#:#crs_archive#:#Archívok
@@ -3926,14 +3927,17 @@ crs#:#crs_max_members_reached#:#A tagok száma elérte a maximumot
 crs#:#crs_mem_change_status#:#�?llapot változtatása
 crs#:#crs_mem_send_mail#:#Levél küldése
 crs#:#crs_member#:#Tag
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Tag (blokkolt)
 crs#:#crs_member_of#:#Kurzustag:
 crs#:#crs_member_unblocked#:#Tag (nem blokkolt)
 crs#:#crs_member_updated#:#A tag frissítésre  került
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Törölt tagok
 crs#:#crs_members_footer#:#kurzustag(ok)
 crs#:#crs_members_footer_passed#:#passed
 crs#:#crs_members_print_title#:#Kurzustagok
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Kurzustagok
 crs#:#crs_move_down#:#Mozgatás le
 crs#:#crs_move_up#:#Mozgatás fel
@@ -4140,6 +4144,7 @@ crs#:#crs_to#:#Meddig:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (értesítés nélkül)
 crs#:#crs_tutor_notify#:#Tutor (értesítéssel)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Szabad belépés
 crs#:#crs_unblocked_member#:#�?llapot "%s" kurzusban ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_unblocked_member_body#:#Tagsága a "%s" kurzusban letárolásra került ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed

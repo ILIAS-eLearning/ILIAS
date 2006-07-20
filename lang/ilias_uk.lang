@@ -3891,6 +3891,7 @@ crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are as
 crs#:#crs_admin#:#�?дміні�?тратор
 crs#:#crs_admin_no_notify#:#�?дміні�?тратор (без попередженн�?)
 crs#:#crs_admin_notify#:#�?дміні�?тратор (попередженн�?)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Дозволити підпи�?ку на об'єкти кур�?у ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_archive#:#�?рхіви
@@ -4012,14 +4013,17 @@ crs#:#crs_max_members_reached#:#До�?�?гнута мак�?имальна кіл
 crs#:#crs_mem_change_status#:#Змінити �?тату�?
 crs#:#crs_mem_send_mail#:#Віді�?лати ли�?та
 crs#:#crs_member#:#Член
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Mitglied (разблокований)
 crs#:#crs_member_of#:#Member of course:###03 Nov 2005 new variable
 crs#:#crs_member_unblocked#:#Член (блокований)
 crs#:#crs_member_updated#:#Член оновлений
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Видалені члени
 crs#:#crs_members_footer#:#course member(s)###13 May 2005 new variable
 crs#:#crs_members_footer_passed#:#passed###13 May 2005 new variable
 crs#:#crs_members_print_title#:#Члени кур�?у
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Члени кур�?у
 crs#:#crs_move_down#:#Перемі�?тити вниз
 crs#:#crs_move_up#:#Перемі�?тити вверх
@@ -4226,6 +4230,7 @@ crs#:#crs_to#:#Дл�?:###03 Nov 2005 content changed
 crs#:#crs_tutor#:#Вчитель
 crs#:#crs_tutor_no_notify#:#Вчитель (без повідомленн�?)
 crs#:#crs_tutor_notify#:#Вчитель (повідомленн�?)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Вільний вхід
 crs#:#crs_unblocked_member#:#Член�?тво в кур�?у###23 Dec 2005 content changed
 crs#:#crs_unblocked_member_body#:#Ваше член�?тво відновлене###23 Dec 2005 content changed

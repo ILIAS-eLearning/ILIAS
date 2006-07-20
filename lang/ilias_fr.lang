@@ -3813,6 +3813,7 @@ crs#:#crs_added_to_list#:#Vous êtes inscrits sur la liste d'attente. Vous avez 
 crs#:#crs_admin#:#Administrateur###07 Apr 2005 content changed
 crs#:#crs_admin_no_notify#:#Administrateur (sans notification)###07 Apr 2005 content changed
 crs#:#crs_admin_notify#:#Administrateur (notification)###07 Apr 2005 content changed
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Permettre l'abonnement aux objets du cours###07 Apr 2005 content changed
 crs#:#crs_already_assigned_to_list#:#Vous êtes déjà inscrit sur la liste d'attente.### 06 oct 2005 content changed
 crs#:#crs_archive#:#Archives###07 Apr 2005 content changed
@@ -3934,14 +3935,17 @@ crs#:#crs_max_members_reached#:#Le nombre maximal de membres a été atteint###0
 crs#:#crs_mem_change_status#:#Changer statut###07 Apr 2005 content changed
 crs#:#crs_mem_send_mail#:#Envoyer message###07 Apr 2005 content changed
 crs#:#crs_member#:#Membre###07 Apr 2005 content changed
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Membre (bloqué)###07 Apr 2005 content changed
 crs#:#crs_member_of#:#Membre du cours :### 06 oct 2005 content changed
 crs#:#crs_member_unblocked#:#Membre (non bloqué)###07 Apr 2005 content changed
 crs#:#crs_member_updated#:#Le membre a été mis à jour###07 Apr 2005 content changed
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Membres détruits###07 Apr 2005 content changed
 crs#:#crs_members_footer#:#membre(s) du  cours### 06 oct 2005 content changed
 crs#:#crs_members_footer_passed#:#passé### 06 oct 2005 content changed
 crs#:#crs_members_print_title#:#Membres du cours###07 Apr 2005 content changed
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Membres du cours###07 Apr 2005 content changed
 crs#:#crs_move_down#:#Déplacer vers le bas###07 Apr 2005 content changed
 crs#:#crs_move_up#:#Déplacer vers e haut###07 Apr 2005 content changed
@@ -4148,6 +4152,7 @@ crs#:#crs_to#:#Pour :###07 Apr 2005 content changed
 crs#:#crs_tutor#:#Tuteur###07 Apr 2005 content changed
 crs#:#crs_tutor_no_notify#:#Tuteur (pas de notification)###07 Apr 2005 content changed
 crs#:#crs_tutor_notify#:#Tuteur (notification)###07 Apr 2005 content changed
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Entrée libre###07 Apr 2005 content changed
 crs#:#crs_unblocked_member#:#Appartenance au cours###07 Apr 2005 content changed
 crs#:#crs_unblocked_member_body#:#Votre appartenance a été restaurée###07 Apr 2005 content changed

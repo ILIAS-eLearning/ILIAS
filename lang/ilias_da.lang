@@ -3817,6 +3817,7 @@ crs#:#crs_added_to_list#:#Du er tilfoejet til vente liste
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (ingen underettelse)
 crs#:#crs_admin_notify#:#Administrator (underettelse)
+crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
 crs#:#crs_allow_abo#:#Tillad signatur af kursus ting
 crs#:#crs_already_assigned_to_list#:#Du staar allerede paa vente listen
 crs#:#crs_archive#:#Arkiver
@@ -3938,14 +3939,17 @@ crs#:#crs_max_members_reached#:#Det maximale antal medlemmer naaed
 crs#:#crs_mem_change_status#:#aendre status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Medlem
+crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
 crs#:#crs_member_blocked#:#Medlem (blokeret)
 crs#:#crs_member_of#:#Medlemmer af kursus
 crs#:#crs_member_unblocked#:#Medlem (ublokeret)
 crs#:#crs_member_updated#:#Medlemmet er blevet opdateret
+crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Slettede medlemmer
 crs#:#crs_members_footer#:#Kursus medlemmer
 crs#:#crs_members_footer_passed#:#Bestaaet
 crs#:#crs_members_print_title#:#Kursus medlemmer
+crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Kursus medlemmer
 crs#:#crs_move_down#:#Ryk ned
 crs#:#crs_move_up#:#Ryk op
@@ -4152,6 +4156,7 @@ crs#:#crs_to#:#Til:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Laerer
 crs#:#crs_tutor_no_notify#:#Laerer (Skal ikke underettes)
 crs#:#crs_tutor_notify#:#Laerer (Underettes)
+crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
 crs#:#crs_unblocked#:#Gratis Entre
 crs#:#crs_unblocked_member#:#Kursus medlemsskab###10 Jul 2006 content changed
 crs#:#crs_unblocked_member_body#:#Dit medlemsskab er blevet genaabnet###10 Jul 2006 content changed

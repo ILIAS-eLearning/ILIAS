@@ -3905,6 +3905,7 @@ crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are as
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (no notification)
 crs#:#crs_admin_notify#:#Administrator (notification)
+crs#:#crs_administrators#:#Administrators
 crs#:#crs_allow_abo#:#Allow subscription of course items
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.
 crs#:#crs_archive#:#Archives
@@ -4026,14 +4027,17 @@ crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_change_status#:#Change status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Member
+crs#:#crs_member_administration#:#Edit Participants
 crs#:#crs_member_blocked#:#Member (blocked)
 crs#:#crs_member_of#:#Member of course:
 crs#:#crs_member_unblocked#:#Member (unblocked)
 crs#:#crs_member_updated#:#The member has been updated
+crs#:#crs_members#:#Members
 crs#:#crs_members_deleted#:#Deleted members
 crs#:#crs_members_footer#:#course member(s)
 crs#:#crs_members_footer_passed#:#passed
 crs#:#crs_members_print_title#:#Course members
+crs#:#crs_members_table#:#Course Participants
 crs#:#crs_members_title#:#Course members
 crs#:#crs_move_down#:#Move down
 crs#:#crs_move_up#:#Move up
@@ -4240,6 +4244,7 @@ crs#:#crs_to#:#Until:
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (no notification)
 crs#:#crs_tutor_notify#:#Tutor (notification)
+crs#:#crs_tutors#:#Tutors
 crs#:#crs_unblocked#:#Free entrance
 crs#:#crs_unblocked_member#:#Status in course "%s" ### 2006-5-8 --- Content changed
 crs#:#crs_unblocked_member_body#:#Your membership in course "%s" has been restored ### 2006-5-8 --- Content changed
@@ -6360,8 +6365,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-crs#:#crs_members_table#:#Course Participants
-crs#:#crs_member_administration#:#Edit Participants
-crs#:#crs_administrators#:#Administrators
-crs#:#crs_tutors#:#Tutors
-crs#:#crs_members#:#Members
