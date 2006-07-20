@@ -1174,7 +1174,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->author . ""),
 				$ilDB->quote($this->test_type . ""),
-				$ilDB->quote($this->introduction . ""), 
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
 				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
@@ -1236,7 +1236,7 @@ class ilObjTest extends ilObject
       $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->author . ""), 
         $ilDB->quote($this->test_type . ""), 
-        $ilDB->quote($this->introduction . ""), 
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
         $ilDB->quote($this->sequence_settings . ""), 
         $ilDB->quote($this->score_reporting . ""), 
         $ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
@@ -1701,7 +1701,8 @@ class ilObjTest extends ilObject
 				$this->test_id = $data->test_id;
 				$this->author = $data->author;
 				$this->test_type = $data->test_type_fi;
-				$this->introduction = $data->introduction;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
 				$this->sequence_settings = $data->sequence_settings;
 				$this->score_reporting = $data->score_reporting;
 				$this->nr_of_tries = $data->nr_of_tries;

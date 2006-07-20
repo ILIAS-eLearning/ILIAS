@@ -72,10 +72,11 @@ class SurveyTextQuestion extends SurveyQuestion
 */
   function loadFromDb($id) 
 	{
+		global $ilDB;
     $query = sprintf("SELECT survey_question.*, survey_question_text.* FROM survey_question, survey_question_text WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_text.question_fi",
-      $this->ilias->db->quote($id)
+      $ilDB->quote($id)
     );
-    $result = $this->ilias->db->query($query);
+    $result = $ilDB->query($query);
     if (strcmp(strtolower(get_class($result)), db_result) == 0) 
 		{
       if ($result->numRows() == 1) 
@@ -90,7 +91,8 @@ class SurveyTextQuestion extends SurveyQuestion
 				$this->owner = $data->owner_fi;
 				$this->original_id = $data->original_id;
 				$this->maxchars = $data->maxchars;
-				$this->questiontext = $data->questiontext;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
 				$this->complete = $data->complete;
       }
       // loads materials uris from database
@@ -152,10 +154,11 @@ class SurveyTextQuestion extends SurveyQuestion
 */
   function saveToDb($original_id = "")
   {
+		global $ilDB;
 		$maxchars = "NULL";
 		if ($this->maxchars)
 		{
-			$maxchars = $this->ilias->db->quote($this->maxchars . "");
+			$maxchars = $ilDB->quote($this->maxchars . "");
 		}
 		$complete = 0;
 		if ($this->isComplete()) {
@@ -163,7 +166,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		}
 		if ($original_id)
 		{
-			$original_id = $this->ilias->db->quote($original_id);
+			$original_id = $ilDB->quote($original_id);
 		}
 		else
 		{
@@ -181,47 +184,47 @@ class SurveyTextQuestion extends SurveyQuestion
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getQuestionType() . ""),
-				$this->ilias->db->quote($this->obj_id),
-				$this->ilias->db->quote($this->owner),
-				$this->ilias->db->quote($this->title),
-				$this->ilias->db->quote($this->description),
-				$this->ilias->db->quote($this->author),
-				$this->ilias->db->quote($this->questiontext),
-				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
-				$this->ilias->db->quote("$complete"),
-				$this->ilias->db->quote($created),
+				$ilDB->quote($this->getQuestionType() . ""),
+				$ilDB->quote($this->obj_id),
+				$ilDB->quote($this->owner),
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->description),
+				$ilDB->quote($this->author),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
+				$ilDB->quote(sprintf("%d", $this->obligatory)),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($created),
 				$original_id
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
       if ($result == DB_OK) 
 			{
-        $this->id = $this->ilias->db->getLastInsertId();
+        $this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO survey_question_text (question_fi, maxchars) VALUES (%s, %s)",
-					$this->ilias->db->quote($this->id . ""),
+					$ilDB->quote($this->id . ""),
 					$maxchars
 				);
-				$this->ilias->db->query($query);
+				$ilDB->query($query);
       }
     } 
 		else 
 		{
       // update existing dataset
       $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$this->ilias->db->quote($this->title),
-				$this->ilias->db->quote($this->description),
-				$this->ilias->db->quote($this->author),
-				$this->ilias->db->quote($this->questiontext),
-				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
-				$this->ilias->db->quote("$complete"),
-				$this->ilias->db->quote($this->id)
+				$ilDB->quote($this->title),
+				$ilDB->quote($this->description),
+				$ilDB->quote($this->author),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
+				$ilDB->quote(sprintf("%d", $this->obligatory)),
+				$ilDB->quote("$complete"),
+				$ilDB->quote($this->id)
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
 			$query = sprintf("UPDATE survey_question_text SET maxchars = %s WHERE question_fi = %s",
 				$maxchars,
-				$this->ilias->db->quote($this->id . "")
+				$ilDB->quote($this->id . "")
 			);
-			$result = $this->ilias->db->query($query);
+			$result = $ilDB->query($query);
     }
     if ($result == DB_OK) {
       // saving material uris in the database
@@ -445,6 +448,7 @@ class SurveyTextQuestion extends SurveyQuestion
 
 	function syncWithOriginal()
 	{
+		global $ilDB;
 		if ($this->original_id)
 		{
 			$complete = 0;
@@ -453,18 +457,18 @@ class SurveyTextQuestion extends SurveyQuestion
 				$complete = 1;
 			}
       $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$this->ilias->db->quote($this->title . ""),
-				$this->ilias->db->quote($this->description . ""),
-				$this->ilias->db->quote($this->author . ""),
-				$this->ilias->db->quote($this->questiontext . ""),
-				$this->ilias->db->quote(sprintf("%d", $this->obligatory) . ""),
-				$this->ilias->db->quote($complete . ""),
-				$this->ilias->db->quote($this->original_id . "")
+				$ilDB->quote($this->title . ""),
+				$ilDB->quote($this->description . ""),
+				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->questiontext . ""),
+				$ilDB->quote(sprintf("%d", $this->obligatory) . ""),
+				$ilDB->quote($complete . ""),
+				$ilDB->quote($this->original_id . "")
       );
-      $result = $this->ilias->db->query($query);
+      $result = $ilDB->query($query);
 			$query = sprintf("UPDATE survey_question_text SET maxchars = %s WHERE question_fi = %s",
-				$this->ilias->db->quote($this->getMaxChars() . ""),
-				$this->ilias->db->quote($this->original_id . "")
+				$ilDB->quote($this->getMaxChars() . ""),
+				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
 		}

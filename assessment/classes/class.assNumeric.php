@@ -428,7 +428,7 @@ class assNumeric extends assQuestion
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->author),
 				$ilDB->quote($this->owner),
-				$ilDB->quote($this->question),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
@@ -449,7 +449,6 @@ class assNumeric extends assQuestion
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 				$this->insertIntoTest($this->getTestId());
@@ -464,7 +463,7 @@ class assNumeric extends assQuestion
 				$ilDB->quote($this->title),
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->author),
-				$ilDB->quote($this->question),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
@@ -534,7 +533,8 @@ class assNumeric extends assQuestion
 				$this->author = $data->author;
 				$this->owner = $data->owner;
 				$this->points = $data->points;
-				$this->question = $data->question_text;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
 				$this->maxchars = $data->maxNumOfChars;
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}

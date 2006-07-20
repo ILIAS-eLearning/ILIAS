@@ -183,7 +183,7 @@ class assImagemapQuestion extends assQuestion
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->author),
 				$ilDB->quote($this->owner),
-				$ilDB->quote($this->question),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($estw_time),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote("$complete"),
@@ -202,7 +202,6 @@ class assImagemapQuestion extends assQuestion
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingef�gt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -217,7 +216,7 @@ class assImagemapQuestion extends assQuestion
 				$ilDB->quote($this->title),
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->author),
-				$ilDB->quote($this->question),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($estw_time),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote("$complete"),
@@ -398,7 +397,8 @@ class assImagemapQuestion extends assQuestion
 				$this->original_id = $data->original_id;
 				$this->solution_hint = $data->solution_hint;
         $this->owner = $data->owner;
-        $this->question = $data->question_text;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
         $this->image_filename = $data->image_file;
         $this->points = $data->points;
         $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));

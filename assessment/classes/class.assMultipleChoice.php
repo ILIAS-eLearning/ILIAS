@@ -597,6 +597,8 @@ class assMultipleChoice extends assQuestion
 		
 		$combinedtext = "";
 
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -610,7 +612,7 @@ class assMultipleChoice extends assQuestion
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->author),
 				$ilDB->quote($this->owner),
-				$ilDB->quote($this->question),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
@@ -646,7 +648,7 @@ class assMultipleChoice extends assQuestion
 				$ilDB->quote($this->title),
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->author),
-				$ilDB->quote($this->question),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
@@ -678,7 +680,7 @@ class assMultipleChoice extends assQuestion
 
 				$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id),
-					$ilDB->quote($answer_obj->getAnswertext()),
+					$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0)),
 					$ilDB->quote($answer_obj->getPoints() . ""),
 					$ilDB->quote($answer_obj->getPointsUnchecked() . ""),
 					$ilDB->quote($answer_obj->getOrder() . ""),
@@ -690,7 +692,6 @@ class assMultipleChoice extends assQuestion
 		}
 
 		// cleanup RTE images which are not inserted into the question text
-		include_once("./Services/RTE/classes/class.ilRTE.php");
 		ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html",
 			$this->getId());
 
@@ -727,7 +728,8 @@ class assMultipleChoice extends assQuestion
 				$this->author = $data->author;
 				$this->owner = $data->owner;
 				$this->points = $data->points;
-				$this->question = $data->question_text;
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
 				$this->setShuffle($data->shuffle);
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
@@ -747,6 +749,8 @@ class assMultipleChoice extends assQuestion
 					{
 						$data->imagefile = "";
 					}
+					include_once("./Services/RTE/classes/class.ilRTE.php");
+					$data->answertext = ilRTE::_replaceMediaObjectImageSrc($data->answertext, 1);
 					array_push($this->answers, new ASS_AnswerMultipleResponseImage($data->answertext, $data->points, $data->aorder, $data->points_unchecked, $data->imagefile));
 				}
 			}
