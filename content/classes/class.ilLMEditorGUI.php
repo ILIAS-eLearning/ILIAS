@@ -165,8 +165,13 @@ class ilLMEditorGUI
 				$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 				//$ret =& $lm_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($lm_gui);
-
-				$this->displayLocator();
+				if (strcmp($cmd, "explorer") != 0)
+				{
+					// don't call the locator in the explorer frame
+					// this prevents a lot of log errors
+					// Helmut Schottmüller, 2006-07-21
+					$this->displayLocator();
+				}
 
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
