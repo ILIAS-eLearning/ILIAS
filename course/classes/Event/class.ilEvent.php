@@ -100,6 +100,15 @@ class ilEvent
 	{
 		$this->location = $a_location;
 	}
+	function setName($a_name)
+	{
+		$this->name = $a_name;
+	}
+	function getName()
+	{
+		return $this->name;
+	}
+
 	function getFirstname()
 	{
 		return $this->firstname;
@@ -206,9 +215,10 @@ class ilEvent
 			"title = '".ilUtil::prepareDBString($this->getTitle())."', ".
 			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
 			"location = '".ilUtil::prepareDBString($this->getLocation())."',".
-			"tutor_firstname = '".ilUtil::prepareDBString($this->getFirstname())."', ".
-			"tutor_lastname = '".ilUtil::prepareDBString($this->getLastname())."', ".
-			"tutor_title = '".ilUtil::prepareDBString($this->getPTitle())."', ".
+			#"tutor_firstname = '".ilUtil::prepareDBString($this->getFirstname())."', ".
+			#"tutor_lastname = '".ilUtil::prepareDBString($this->getLastname())."', ".
+			"tutor_name = '".ilUtil::prepareDBString($this->getName())."', ".
+			#"tutor_title = '".ilUtil::prepareDBString($this->getPTitle())."', ".
 			"tutor_phone = '".ilUtil::prepareDBString($this->getPhone())."', ".
 			"tutor_email = '".ilUtil::prepareDBString($this->getEmail())."', ".
 			"details = '".ilUtil::prepareDBString($this->getDetails())."',".
@@ -232,9 +242,9 @@ class ilEvent
 			"title = '".ilUtil::prepareDBString($this->getTitle())."', ".
 			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
 			"location = '".ilUtil::prepareDBString($this->getLocation())."',".
-			"tutor_firstname = '".ilUtil::prepareDBString($this->getFirstname())."', ".
-			"tutor_lastname = '".ilUtil::prepareDBString($this->getLastname())."', ".
-			"tutor_title = '".ilUtil::prepareDBString($this->getPTitle())."', ".
+			#"tutor_firstname = '".ilUtil::prepareDBString($this->getFirstname())."', ".
+			"tutor_name = '".ilUtil::prepareDBString($this->getName())."', ".
+			#"tutor_title = '".ilUtil::prepareDBString($this->getPTitle())."', ".
 			"tutor_phone = '".ilUtil::prepareDBString($this->getPhone())."', ".
 			"tutor_email = '".ilUtil::prepareDBString($this->getEmail())."', ".
 			"details = '".ilUtil::prepareDBString($this->getDetails())."', ".
@@ -266,6 +276,8 @@ class ilEvent
 
 	function getFullname()
 	{
+		return $this->getName();
+
 		if(strlen($this->getPTitle()) or strlen($this->getFirstname()) or strlen($this->getLastname()))
 		{
 			return $this->getPTitle().' '.$this->getFirstname().' '.$this->getLastname();
@@ -380,9 +392,9 @@ class ilEvent
 			$this->setDescription($row->description);
 			$this->setLocation($row->location);
 			
-			$this->setPTitle($row->tutor_title);
-			$this->setFirstname($row->tutor_firstname);
-			$this->setLastname($row->tutor_lastname);
+			#$this->setPTitle($row->tutor_title);
+			#$this->setFirstname($row->tutor_firstname);
+			$this->setName($row->tutor_name);
 			$this->setPhone($row->tutor_phone);
 			$this->setEmail($row->tutor_email);
 			$this->setDetails($row->details);

@@ -3955,7 +3955,7 @@ crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft in Kurs "%s" ist beendet wor
 crs#:#crs_edit_archive#:#Archive bearbeiten
 crs#:#crs_edit_content#:#Inhalt bearbeiten
 crs#:#crs_edit_start_objects#:#Edit Start Objects###10 Jul 2006 new variable
-crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
+crs#:#crs_edit_timings#:#Lernplan barbeiten
 crs#:#crs_end#:#Ende
 crs#:#crs_existing_files#:#Vorhandene Dateien:
 crs#:#crs_export#:#Kursexport
@@ -4176,7 +4176,7 @@ crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Zeitvorgaben###15 Jul 2006 content changed
 crs#:#crs_sort_manual#:#Manuelle Sortierung###15 Jul 2006 content changed
 crs#:#crs_sort_manual_info#:#Wenn ausgewählt, können die Kursmaterialien manuell in beliebiger Reihenfolge sortiert werden.
-crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach Zeitvorgaben.
+crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach .
 crs#:#crs_sort_title#:#Nach Titel###15 Jul 2006 content changed
 crs#:#crs_sort_title_info#:#Wählen Sie diese Einstellung, um die Kursmaterialien automatisch nach ihrem Titel zu sortieren.
 crs#:#crs_sortorder#:#Sortierung
@@ -4212,7 +4212,7 @@ crs#:#crs_test_status_random#:#Zufallstest
 crs#:#crs_time#:#Datum der Registrierung
 crs#:#crs_timings_availability_enabled#:#Zeitlich begrenzt verfügbar
 crs#:#crs_timings_availability_tbl#:#Verfügbarkeit
-crs#:#crs_timings_changeable#:#Zeitplanung änderbar
+crs#:#crs_timings_changeable#:#Lernplanung änderbar
 crs#:#crs_timings_disabled#:#Zeitvorgaben ausgeschaltet
 crs#:#crs_timings_disabled_info#:#Wählen Sie diese Einstellung, um alle Zeitvorgaben zu deaktivieren.
 crs#:#crs_timings_duration#:#Dauer
@@ -4221,12 +4221,12 @@ crs#:#crs_timings_end#:#Endzeit
 crs#:#crs_timings_from_until#:#(Von/Bis)
 crs#:#crs_timings_in_days#:#(in Tagen)
 crs#:#crs_timings_info_active#:#(Aktiv)
-crs#:#crs_timings_late_end#:#Spätester Start
+crs#:#crs_timings_late_end#:#Spätestes Ende
 crs#:#crs_timings_planed_info#:#Geplante Bearbeitungszeit
 crs#:#crs_timings_planed_start#:#Geplant###15 Jul 2006 content changed
-crs#:#crs_timings_presetting#:#Zeitplanung eingeschaltet
-crs#:#crs_timings_presetting_tbl#:#Zeitplanung
-crs#:#crs_timings_short_active#:#Zeitplanung
+crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
+crs#:#crs_timings_presetting_tbl#:#Lernplanung
+crs#:#crs_timings_short_active#:#Lernplanung
 crs#:#crs_timings_short_changeable#:#Änderbar
 crs#:#crs_timings_short_limit_start_end#:#Änderbar###13 Jul 2006 content changed
 crs#:#crs_timings_short_start_end#:#Empfehlung###13 Jul 2006 content changed
@@ -4236,7 +4236,7 @@ crs#:#crs_timings_sug_begin#:#Empfohlener Start
 crs#:#crs_timings_sug_end#:#Empfohlenes Ende
 crs#:#crs_timings_suggested_info#:#Empfohlene Bearbeitungszeit
 crs#:#crs_timings_time_frame#:#Zeitrahmen
-crs#:#crs_timings_update_error#:#Die Zeitangaben für die folgenden Kursmaterialien sind nicht möglich, bitte überprüfen Sie Ihre Eingaben.
+crs#:#crs_timings_update_error#:#Die Lernplanung für die folgenden Kursmaterialien ist nicht möglich, bitte überprüfen Sie Ihre Eingaben.
 crs#:#crs_timings_visibility#:#Sichtbarkeit
 crs#:#crs_to#:#Bis:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Tutor
@@ -4257,11 +4257,11 @@ crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Wa
 crs#:#crs_view_archive#:#Archivansicht
 crs#:#crs_view_info_objective#:#Wählen Sie Darstellung, um eine für Lernziele optimierte Ansicht anzubieten.
 crs#:#crs_view_info_standard#:#Diese Ansicht präsentiert die Kursmaterialien ähnlich wie im Magazin.
-crs#:#crs_view_info_timing#:#Ansicht für Zeitvorgaben
+crs#:#crs_view_info_timing#:#Ansicht für Lernplanung 
 crs#:#crs_view_mode#:#Kursdarstellung
 crs#:#crs_view_objective#:#Lernziel orientierte Ansicht
 crs#:#crs_view_standard#:#Standard Ansicht
-crs#:#crs_view_timing#:#Zeitvorgaben Ansicht
+crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_visibility#:#Verfügbarkeit
 crs#:#crs_visibility_limitless#:#Unbegrenzt
 crs#:#crs_visibility_until#:#Zeitlich begrenzt###15 Jul 2006 content changed
@@ -4271,7 +4271,7 @@ crs#:#crs_waiting_list#:#Warteliste###15 Jul 2006 content changed
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Ihre Position auf der Warteliste
 crs#:#edit_content#:#Kursinhalt bearbeiten###10 Jul 2006 content changed
-crs#:#edit_timings_list#:#Zeitplanung bearbeiten
+crs#:#edit_timings_list#:#Lernplanung bearbeiten
 crs#:#event_add_new_event#:#Eine neue Veranstaltung wurde angelegt.
 crs#:#event_assign_materials#:#Materialien zuordnen
 crs#:#event_assign_materials_info#:#Hier können Sie der Veranstaltung Kursmaterialien zuordnen. Diese werden dann direkt unterhalb der Veranstaltung angezeigt.
@@ -4317,13 +4317,13 @@ crs#:#events_deleted#:#Die Veranstaltung wurde gelöscht.
 crs#:#import_crs#:#Kurs importieren###10 Jul 2006 content changed
 crs#:#learners_view#:#Lerneransicht
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#timing_accept_table#:#Zeitplanung: Bemerkungen###15 Jul 2006 content changed
+crs#:#timing_accept_table#:#Lernplan: Bemerkungen###15 Jul 2006 content changed
 crs#:#timing_remark#:#Bemerkung
 crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
 crs#:#timing_user_accept#:#Zeitplan akzeptieren
 crs#:#timings_edit#:#Zeitplanung bearbeiten
-crs#:#timings_timings#:#Zeitvorgaben
-crs#:#timings_usr_edit#:#Zeitvorgaben bearbeiten
+crs#:#timings_timings#:#Lernplanung
+crs#:#timings_usr_edit#:#Persönliche Lernplanung
 crs#:#tutor_email#:#E-Mail
 crs#:#tutor_firstname#:#Vorname
 crs#:#tutor_lastname#:#Nachname
@@ -6363,3 +6363,6 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+crs#:#timings_timings_on#:#Lernplanungsmenü an
+crs#:#timings_timings_off#:#Lernplanungsmenü aus
+crs#:#tutor_name#:#Name
