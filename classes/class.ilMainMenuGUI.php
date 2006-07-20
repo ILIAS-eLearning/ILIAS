@@ -203,7 +203,8 @@ class ilMainMenuGUI
 
 		// repository link
 		$this->tpl->setCurrentBlock("rep_button");
-		$this->tpl->setVariable("SCRIPT_CATALOG", "repository.php?cmd=frameset&getlast=true");
+		$this->tpl->setVariable("SCRIPT_CATALOG",
+			$this->getScriptTarget("repository.php?cmd=frameset&getlast=true"));
 		$this->tpl->setVariable("TXT_CATALOG", $lng->txt("repository"));
 		if ($this->active == "repository" || $this->active == "")
 		{

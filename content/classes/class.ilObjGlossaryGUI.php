@@ -509,6 +509,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.glossary_short_list.html", "content");
 		
+		$this->tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 		
 		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CMD_REFR", "quickList");
