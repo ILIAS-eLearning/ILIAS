@@ -2462,8 +2462,8 @@ common#:#msg_no_search_result#:#No se encontraron resultados
 common#:#msg_no_search_string#:#Por favor introduzca su consulta
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#No puede asignar usuarios al rol de administrador si no está asignado a ese rol
 common#:#msg_no_title#:#Por favor introduzca un título.
-common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
-common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
+common#:#msg_no_type_accessible#:#Lo siento, no tiene permisos para acceder a ningún [type] de esta lista.
+common#:#msg_no_type_available#:#Lo siento, no hay ningún [type] disponible en este momento.
 common#:#msg_no_url#:#No introdujo una URL
 common#:#msg_not_available_for_anon#:#La página especificada sólo está accesible para usuarios registrados
 common#:#msg_not_in_itself#:#No es posible pegar el objeto sobre sí mismo###10 Jul 2006 content changed
@@ -3904,7 +3904,7 @@ crs#:#crs_added_to_list#:#Has sido asignado a una lista de espera. Has sido asig
 crs#:#crs_admin#:#Administrador
 crs#:#crs_admin_no_notify#:#Administrador (sin notificación)
 crs#:#crs_admin_notify#:#Administrador (notificacion)
-crs#:#crs_administrators#:#Administrators###20 Jul 2006 new variable
+crs#:#crs_administrators#:#Administradores
 crs#:#crs_allow_abo#:#Permitir suscripción a los items del curso
 crs#:#crs_already_assigned_to_list#:#Ha sido asignado a la lista de espera.
 crs#:#crs_archive#:#Archivar
@@ -4026,17 +4026,17 @@ crs#:#crs_max_members_reached#:#El número máximo de miembros ha sido alcanzado
 crs#:#crs_mem_change_status#:#Modificar Estado
 crs#:#crs_mem_send_mail#:#Enviar mail
 crs#:#crs_member#:#Miembro
-crs#:#crs_member_administration#:#Edit Participants###20 Jul 2006 new variable
+crs#:#crs_member_administration#:#Editar Participantes
 crs#:#crs_member_blocked#:#Miembro (bloqueado)
 crs#:#crs_member_of#:#Miembro del curso:
 crs#:#crs_member_unblocked#:#Miembro (desbloqueado)
 crs#:#crs_member_updated#:#El miembro ha sido actualizado
-crs#:#crs_members#:#Members###20 Jul 2006 new variable
+crs#:#crs_members#:#Miembros
 crs#:#crs_members_deleted#:#Miembros eliminados
 crs#:#crs_members_footer#:#miembro(s) del curso
 crs#:#crs_members_footer_passed#:#superado
 crs#:#crs_members_print_title#:#Miembros del Curso
-crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
+crs#:#crs_members_table#:#Participantes del Curso
 crs#:#crs_members_title#:#Miembros del Curso
 crs#:#crs_move_down#:#Mover abajo
 crs#:#crs_move_up#:#Mover arriba
@@ -4243,7 +4243,7 @@ crs#:#crs_to#:#A:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (sin notificación)
 crs#:#crs_tutor_notify#:#Tutor (notificación)
-crs#:#crs_tutors#:#Tutors###20 Jul 2006 new variable
+crs#:#crs_tutors#:#Tutores
 crs#:#crs_unblocked#:#Entrada Libre
 crs#:#crs_unblocked_member#:#Status en el Curso "%s"
 crs#:#crs_unblocked_member_body#:#Su pertenencia al curso "%s" ha sido restaurada
@@ -6155,7 +6155,7 @@ survey#:#view_constraints_introduction#:#Está viendo las restricciones de las s
 survey#:#view_phrase#:#Ver conjunto
 survey#:#warning_question_in_use#:#¡Cuidado! La pregunta que quiere editar está en uso por una de las encuestas listadas abajo. Si decide continuar y salvar/aplicar la pregunta, todas las respuestas de las encuestas listadas abajo serán eliminadas. Si quiere modificar la pregunta y usarla en otra encuesta, por favor elija duplicar en la página de preguntas para crear una nueva instancia de una pregunta.
 survey#:#warning_question_not_complete#:#¡La pregunta no está completa!
-survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
+survey#:#wrong_survey_code_used#:#No puede entrar en la encuesta, intentó comenzarla con un código de acceso no autorizado.
 trac#:#found_objects#:#Objetos encontrados
 trac#:#found_too_much_objects#:#Más de %s objetos en total han sido encontrados.Refine su búsqueda, por favor.
 trac#:#info_all_objects#:#Los siguientes usuarios se refieren a todos los objetos del tipo '%s'.
