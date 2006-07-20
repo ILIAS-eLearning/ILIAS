@@ -841,6 +841,15 @@ class ilLMPresentationGUI
 		$menu->setTemplate($this->tpl);
 		$menu->addMenuBlock("MAINMENU", "mainmenu");
 		$menu->setTemplateVars();*/
+		if ($this->lm->getLayout() == "2window" || 
+			$this->lm->getLayout() == "3window")
+		{
+			$ilMainMenu->setSmallMode(true);
+		}
+		else
+		{
+			$ilMainMenu->setSmallMode(false);
+		}
 		
 		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
 		
@@ -931,6 +940,12 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 		}
 
+		if (!$this->offlineMode())
+		{
+			$this->tpl->addBlockFile("EXPL_TOP", "exp_top", "tpl.explorer_top.html");
+			//$this->tpl->setVariable("DUMMY", "&nbsp;");
+			$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		}
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_toc"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION",
