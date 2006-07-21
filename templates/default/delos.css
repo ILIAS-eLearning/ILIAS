@@ -1532,12 +1532,15 @@ input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
 }
 
 
-.message {
+div.message {
 	color: #dd0000;
-	font-weight:bold;
 	text-align:center;
 	background-color:#FFFFFF;
-	margin-bottom: 2px;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	margin: 2px 0px 5px 0px;
+	clear:both;
 }
 
 .alert {
