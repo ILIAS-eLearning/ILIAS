@@ -901,6 +901,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_admin_users"),$this->ilias->error_obj->MESSAGE);
 		}
+		$this->tabs_gui->setTabActive('administrate_users');
+
+
 		$_GET['sort_by'] = ($_SESSION['lua_sort_by'][$this->object->getRefId()] = 
 							($_GET['sort_by'] ? $_GET['sort_by'] : $_SESSION['lua_sort_by'][$this->object->getRefId()]));
 		$_GET['sort_order'] = $_SESSION['lua_sort_order'][$this->object->getRefId()] = 
@@ -987,7 +990,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 															   "user_ids[]",$user_data['usr_id']);
 
 				$this->ctrl->setParameterByClass('ilobjusergui','obj_id',$user_data['usr_id']);
-				$f_result[$counter][]	= '<a href="'.$this->ctrl->getLinkTargetByClass('ilobjusergui','edit').'">'.
+				$f_result[$counter][]	= '<a  href="'.$this->ctrl->getLinkTargetByClass('ilobjusergui','edit').'">'.
 					$user_data['login'].'</a>';
 			}
 			else
@@ -1013,8 +1016,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			
 			// role assignment
 			$this->ctrl->setParameter($this,'obj_id',$user_data['usr_id']);
-			$f_result[$counter][]	= '[<a href="'.$this->ctrl->getLinkTarget($this,'assignRoles').'">'.
-				$this->lng->txt('edit').'</a>]';
+			$f_result[$counter][]	= '<a class="il_ContainerItemCommand" href="'.$this->ctrl->getLinkTarget($this,'assignRoles').'">'.
+				$this->lng->txt('edit').'</a>';
 			
 			unset($tmp_obj);
 			++$counter;
@@ -1076,37 +1079,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 			return true;
 		}
 
-		// check local user
-		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
+		$this->tabs_gui->setTabActive('administrate_users');
 
-		// Local user?
-		if($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
-		   !in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
-		{
-			$check_disable = true;
-		}
-		else
-		{
-			$check_disable = false;
-		}
-		if(!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
-		{
-			#$global_roles = $rbacreview->getGlobalAssignableRoles();
-			$global_roles = array();
-		}
-		else
-		{
-			$global_roles = $rbacreview->getGlobalRolesArray();
-		}
-		$roles = array_merge($global_roles,
-							 $rbacreview->getAssignableChildRoles($this->object->getRefId()));
+		$roles = $this->__getAssignableRoles();
 
 		if(!count($roles))
 		{
-			sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
-			$this->listUsersObject();
+			#sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
+			#$this->listUsersObject();
 
-			return true;
+			#return true;
 		}
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_role_assignment.html');
@@ -1119,14 +1101,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$role_obj =& ilObjectFactory::getInstanceByObjId($role['obj_id']);
 			
-			if($check_disable)
-			{
-				$disabled = $role['role_type'] == 'global' ? true : false;
-			}
-			else
-			{
-				$disabled = false;
-			}
+			$disabled = false;
 			$f_result[$counter][] = ilUtil::formCheckbox(in_array($role['obj_id'],$ass_roles) ? 1 : 0,
 														 'role_ids[]',
 														 $role['obj_id'],
@@ -1148,15 +1123,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 		global $rbacreview,$rbacadmin;
 
 		include_once './classes/class.ilLocalUser.php';
-		
 		// check hack
-		if(!isset($_REQUEST['obj_id']) or !in_array($_REQUEST['obj_id'],ilLocalUser::_getAllUserIds()))
+		if(!isset($_GET['obj_id']) or !in_array($_REQUEST['obj_id'],ilLocalUser::_getAllUserIds()))
 		{
 			sendInfo('no_user_selected');
 			$this->listUsersObject();
 
 			return true;
 		}
+		$roles = $this->__getAssignableRoles();
+
 		// check minimum one global role
 		if(!$this->__checkGlobalRoles($_POST['role_ids']))
 		{
@@ -1165,20 +1141,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 			return false;
 		}
-
-		// De-assign roles
-		if(!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
-		{
-			#$global_roles = $rbacreview->getGlobalAssignableRoles();
-			$global_roles = array();
-		}
-		else
-		{
-			$global_roles = $rbacreview->getGlobalRolesArray();
-		}
-		$roles = array_merge($global_roles,
-							 $rbacreview->getAssignableChildRoles($this->object->getRefId()));
-
+		
 		$new_role_ids = $_POST['role_ids'] ? $_POST['role_ids'] : array();
 		$assigned_roles = $rbacreview->assignedRoles((int) $_REQUEST['obj_id']);
 		foreach($roles as $role)
@@ -1199,12 +1162,35 @@ class ilObjCategoryGUI extends ilContainerGUI
 	}
 
 	// PRIVATE
+	function __getAssignableRoles()
+	{
+		global $rbacreview;
+
+		// check local user
+		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
+		// Admin => all roles
+		if(in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
+		{
+			$global_roles = $rbacreview->getGlobalRolesArray();
+		}
+		elseif($tmp_obj->getTimeLimitOwner() == $this->object->getRefId())
+		{
+			$global_roles = $rbacreview->getGlobalAssignableRoles();
+		}			
+		else
+		{
+			$global_roles = array();
+		}
+		return $roles = array_merge($global_roles,
+									$rbacreview->getAssignableChildRoles($this->object->getRefId()));
+	}
+
 	function __checkGlobalRoles($new_assigned)
 	{
 		global $rbacreview;
 
 		// return true if it's not a local user
-		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
+		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
 		if($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
 		   !in_array(SYSTEM_ROLE_ID,$_SESSION['RoleId']))
 		{
@@ -1224,8 +1210,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$ga = $rbacreview->getGlobalRolesArray();
 		}
-		#$ga = array();
-		#$ga = $rbacreview->getGlobalAssignableRoles();
+		$global_assignable = array();
 		foreach($ga as $role)
 		{
 			$global_assignable[] = $role['obj_id'];

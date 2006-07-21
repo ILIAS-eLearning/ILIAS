@@ -77,8 +77,6 @@ class ilLocalUser
 		return $users ? $users : array();
 	}
 
-
-
 	function _getFolderIds()
 	{
 		global $ilDB,$rbacsystem;
@@ -88,7 +86,7 @@ class ilLocalUser
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($rbacsystem->checkAccess('read_users',$row->parent_id))
+			if($rbacsystem->checkAccess('read_users',$row->parent_id) or $rbacsystem->checkAccess('cat_administrate_users',$row->parent_id))
 			{
 				if($row->parent_id)
 				{
