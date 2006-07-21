@@ -41,7 +41,12 @@ class ilValidator extends PEAR
 	* list of object types to exclude from recovering
 	* @var	array
 	*/
-	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf","trac","taxf","auth","rolf","file","assf","extt","adve");
+	// i added folder due to bug #1860 (even if this will not completely fix it)
+	// and the fact, that media pool folders may find their way into
+	// the recovery folder (what results in broken pools, if the are deleted)
+	// Alex, 2006-07-21
+	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf",
+		"trac","taxf","auth","rolf","file","assf","extt","adve","fold");
 	
 	/**
 	* set mode

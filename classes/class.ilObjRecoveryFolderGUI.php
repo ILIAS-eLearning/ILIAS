@@ -101,7 +101,15 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 			foreach ($subtree_nodes as $node)
 			{
 				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
-				$node_obj->delete();
+				
+				// this is due to bug #1860 (even if this will not completely fix it)
+				// and the fact, that media pool folders may find their way into
+				// the recovery folder (what results in broken pools, if the are deleted)
+				// Alex, 2006-07-21
+				if ($node_obj->getType() != "fold")
+				{
+					$node_obj->delete();
+				}
 			}
 
 			// FIRST DELETE ALL ENTRIES IN RBAC TREE
