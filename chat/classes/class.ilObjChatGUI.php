@@ -540,7 +540,7 @@ class ilObjChatGUI extends ilObjectGUI
 				// STORE ID IN SESSION
 				$_SESSION["room_id_rename"] = (int) $_POST["del_id"][0];
 
-				$room =& new ilChatRoom($this->getId());
+				$room =& new ilChatRoom($this->object->getId());
 				$room->setRoomId($_SESSION["room_id_rename"]);
 
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_edit_room.html","chat");
@@ -698,7 +698,7 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		$room =& new ilChatRoom($this->getId());
+		$room =& new ilChatRoom($this->object->getId());
 		$room->setTitle(ilUtil::stripSlashes($_POST["room_name"]));
 		$room->setOwnerId($_SESSION["AccountId"]);
 
@@ -724,7 +724,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$room =& new ilChatRoom($this->getId());
+		$room =& new ilChatRoom($this->object->getId());
 		$room->setRoomId($_SESSION["room_id_rename"]);
 		$room->setTitle(ilUtil::stripSlashes($_POST["room_name"]));
 		if(!$room->validate())

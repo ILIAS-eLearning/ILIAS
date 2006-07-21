@@ -461,8 +461,14 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __showMemberSelector()
 	{
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+
 		global $rbacsystem;
 
+		if(!ilObjUserTracking::_enabledUserRelatedData())
+		{
+			return false;
+		}
 		if($this->getMode() != LP_MODE_REPOSITORY)
 		{
 			return false;
