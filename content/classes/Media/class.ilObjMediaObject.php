@@ -642,7 +642,7 @@ class ilObjMediaObject extends ilObject
 					if ($item->getCaption() != "")
 					{
 						$xml .= "<Caption Align=\"bottom\">".
-							$item->getCaption()."</Caption>";
+							str_replace("&", "&amp;", $item->getCaption())."</Caption>";
 					}
 
 					// Parameter
