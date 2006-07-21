@@ -4318,14 +4318,14 @@ crs#:#events_deleted#:#Die Veranstaltung wurde gelöscht.
 crs#:#import_crs#:#Kurs importieren###10 Jul 2006 content changed
 crs#:#learners_view#:#Lerneransicht
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#timing_accept_table#:#Lernplan: Bemerkungen###15 Jul 2006 content changed
+crs#:#timing_accept_table#:#Lernplanung: Bemerkungen###15 Jul 2006 content changed
 crs#:#timing_remark#:#Bemerkung
 crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
-crs#:#timing_user_accept#:#Zeitplan akzeptieren
+crs#:#timing_user_accept#:#Lernplan akzeptieren
 crs#:#timings_edit#:#Zeitplanung bearbeiten
 crs#:#timings_timings#:#Lernplanung
-crs#:#timings_timings_off#:#Lernplanungsmenü aus
-crs#:#timings_timings_on#:#Lernplanungsmenü an
+crs#:#timings_timings_off#:#Lernplanungsverwaltung aus
+crs#:#timings_timings_on#:#Lernplanungsverwaltung an
 crs#:#timings_usr_edit#:#Persönliche Lernplanung
 crs#:#tutor_email#:#E-Mail
 crs#:#tutor_firstname#:#Vorname
@@ -6368,3 +6368,10 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+crs#:#crs_timings_changed#:#Lernplan geändert
+crs#:#crs_timings_not_changed#:#Lernplan nicht geändert
+crs#:#timings_of#:#Lernplanung von
+crs#:#timing_user_accepted#:#Lernplan akzeptiert
+common#:#not_available#:#Nicht vorhanden
+crs#:#timing_accepted#:#Akzeptiert
+crs#:#timing_not_accepted#:#Nicht akzeptiert

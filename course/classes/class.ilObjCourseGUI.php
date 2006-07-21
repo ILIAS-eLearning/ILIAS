@@ -1299,7 +1299,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		include_once './classes/class.ilTableGUI.php';
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
-
+		include_once './course/classes/class.ilCourseItems.php';
+		
 		$this->lng->loadLanguageModule('trac');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
 
@@ -1316,6 +1317,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
 		}
+
+		$this->timings_enabled = (ilCourseItems::_hasChangeableTimings($this->object->getRefId()) and 
+			($this->object->getViewMode() == IL_CRS_VIEW_TIMING));
 
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
@@ -1460,7 +1464,19 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ctrl->setParameter($this,'member_id',$admin['usr_id']);
 			$admin_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editMember'));
 			$admin_tpl->setVariable("LINK_TXT",$this->lng->txt('edit'));
+			$admin_tpl->parseCurrentBlock();
 			$this->ctrl->clearParameters($this);
+
+			if($this->timings_enabled)
+			{
+				$admin_tpl->setCurrentBlock("link");
+				$this->ctrl->setParameterByClass('ilcoursecontentgui','member_id',$admin['usr_id']);
+				$admin_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','showUserTimings'));
+				$admin_tpl->setVariable("LINK_TXT",$this->lng->txt('timings_timings'));
+				$admin_tpl->parseCurrentBlock();
+				$this->ctrl->clearParametersByClass('ilcoursecontentgui');
+			}
+				
 
 			$admin_tpl->setCurrentBlock("tbl_content");
 
@@ -1560,7 +1576,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("TUTOR_HIDE",$this->ctrl->getLinkTarget($this,'members'));
 		$this->ctrl->clearParameters($this);
 
-
 		$tutor_tpl = new ilTemplate('tpl.table.html',true,true);
 		$tutor_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_tutor_row.html','course');
 
@@ -1574,7 +1589,18 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ctrl->setParameter($this,'member_id',$tutor['usr_id']);
 			$tutor_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editMember'));
 			$tutor_tpl->setVariable("LINK_TXT",$this->lng->txt('edit'));
+			$tutor_tpl->parseCurrentBlock();
 			$this->ctrl->clearParameters($this);
+
+			if($this->timings_enabled)
+			{
+				$tutor_tpl->setCurrentBlock("link");
+				$this->ctrl->setParameterByClass('ilcoursecontentgui','member_id',$tutor['usr_id']);
+				$tutor_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','showUserTimings'));
+				$tutor_tpl->setVariable("LINK_TXT",$this->lng->txt('timings_timings'));
+				$tutor_tpl->parseCurrentBlock();
+				$this->ctrl->clearParametersByClass('ilcoursecontentgui');
+			}
 
 			$tutor_tpl->setCurrentBlock("tbl_content");
 
@@ -1687,7 +1713,18 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ctrl->setParameter($this,'member_id',$member['usr_id']);
 			$member_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this,'editMember'));
 			$member_tpl->setVariable("LINK_TXT",$this->lng->txt('edit'));
+			$member_tpl->parseCurrentBlock();
 			$this->ctrl->clearParameters($this);
+
+			if($this->timings_enabled)
+			{
+				$member_tpl->setCurrentBlock("link");
+				$this->ctrl->setParameterByClass('ilcoursecontentgui','member_id',$member['usr_id']);
+				$member_tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','showUserTimings'));
+				$member_tpl->setVariable("LINK_TXT",$this->lng->txt('timings_timings'));
+				$member_tpl->parseCurrentBlock();
+				$this->ctrl->clearParametersByClass('ilcoursecontentgui');
+			}
 
 			$member_tpl->setCurrentBlock("tbl_content");
 
@@ -4111,7 +4148,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilcoursecontentgui':
-
+				$this->ctrl->setReturn($this,'members');
 				include_once './course/classes/class.ilCourseContentGUI.php';
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
