@@ -227,6 +227,47 @@ class ilUtil
 	}
 
 	/**
+	* get full style sheet file name (path inclusive) of current user
+	*
+	* @access	public
+	*/
+	function getNewContentStyleSheetLocation($mode = "output")
+	{
+		global $ilias;
+
+		if(defined("ILIAS_MODULE") && $mode != "filesystem")
+		{
+			// added to find Stylesheet for MODULES like Services/Search
+			$base = '';
+			for($i = 0;$i < count(explode('/',ILIAS_MODULE));$i++)
+			{
+				$base .= "../";
+			}
+		}
+		else
+		{
+			$base = "./";
+		}
+		
+		// add version as parameter to force reload for new releases
+		if ($mode != "filesystem")
+		{
+			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = "?vers=".str_replace(".", "-", $vers);
+		}
+		
+		$in_style = "templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
+		if (is_file("./".$in_style))
+		{
+			return $base.$in_style.$vers;
+		}
+		else
+		{
+			return $base."templates/default/delos_cont.css".$vers;
+		}
+	}
+
+	/**
 	* Builds a select form field with options and shows the selected option first
 	*
 	* @access	public
