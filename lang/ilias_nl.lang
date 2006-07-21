@@ -1319,6 +1319,7 @@ common#:#client_ip#:#Cliënt IP###07 Apr 2005 content changed
 common#:#clipboard#:#Klembord###07 Apr 2005 content changed
 common#:#close#:#Sluiten###07 Apr 2005 content changed
 common#:#close_window#:#Close window###20 Jun 2005 new variable
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Door komma's gescheiden###07 Apr 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#comment#:#commentaar###07 Apr 2005 content changed
@@ -4325,10 +4326,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#De gebruiker is al toegevoegd aan deze cursus###07 Apr 2005 content changed
@@ -5790,6 +5794,7 @@ survey#:#ask_insert_questions#:#Rekenkundig gemiddelde###07 Apr 2005 content cha
 survey#:#back#:#Weet u zeker, dat u de volgende blok(blokken) met vragen aan de enquête wilt toevoegen?###07 Apr 2005 content changed
 survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Weet u zeker, dat u de volgende vraag(vragen) aan de enquête wilt toevoegen?###07 Apr 2005 content changed
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###20 Dec 2004 new variable
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable

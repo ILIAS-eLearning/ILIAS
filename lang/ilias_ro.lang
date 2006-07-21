@@ -1198,6 +1198,7 @@ common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
 common#:#close#:#Inchideti
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Separat prin virgula
 common#:#comment#:#comentariu###10 Jul 2006 content changed
@@ -3674,10 +3675,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Arhive
@@ -5090,6 +5094,7 @@ survey#:#ask_insert_questions#:#Sunteti sigur/a ca doriti sa introduceti urmatoa
 survey#:#back#:#<< Inapoi
 survey#:#before#:#Precedent
 survey#:#browse_for_questions#:#Cautati intrebari
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Nu aveti permisiunea de a crea coduri de acces in sondaj!
 survey#:#cannot_edit_survey#:#Nu aveti permisiunea de a edita sondajul!
 survey#:#cannot_export_questionpool#:#Nu aveti permisiunea de a exporta baza de intrebari a sondajului!

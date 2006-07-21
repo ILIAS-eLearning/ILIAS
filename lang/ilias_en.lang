@@ -1319,6 +1319,7 @@ common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
 common#:#close_window#:#Close window
+common#:#cnt_new#:#(%s New)
 common#:#collapse#:#Collapse
 common#:#comma_separated#:#Comma Separated
 common#:#comment#:#Comment
@@ -2556,7 +2557,6 @@ common#:#note#:#Note
 common#:#note_all_pub_notes#:#All notes
 common#:#note_my_pub_notes#:#My notes only
 common#:#notes#:#Notes
-common#:#cnt_new#:#(%s New)
 common#:#num_users#:#Number of Users
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
@@ -4326,10 +4326,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors
 crs#:#timing_user_accept#:#Accept Timings
 crs#:#timings_edit#:#Edit Timings
 crs#:#timings_timings#:#Timings
+crs#:#timings_timings_off#:#Switch Timings Administration Off
+crs#:#timings_timings_on#:#Switch Timings Administration On
 crs#:#timings_usr_edit#:#Edit Timings
 crs#:#tutor_email#:#Mail
 crs#:#tutor_firstname#:#Firstname
 crs#:#tutor_lastname#:#Lastname
+crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Phone
 crs#:#tutor_title#:#Title
 crs_#:#crs_archives#:#Archives
@@ -6367,6 +6370,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-crs#:#timings_timings_on#:#Switch Timings Administration On
-crs#:#timings_timings_off#:#Switch Timings Administration Off
-crs#:#tutor_name#:#Name

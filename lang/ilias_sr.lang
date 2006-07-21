@@ -1272,6 +1272,7 @@ common#:#client_ip#:#Klijentov IP
 common#:#clipboard#:#Tablica
 common#:#close#:#Zatvori
 common#:#close_window#:#Close window###20 Jun 2005 new variable
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Razdvojeno zarezom
 common#:#comment#:#komentar###10 Jul 2006 content changed
@@ -4135,10 +4136,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Arhive
@@ -5597,6 +5601,7 @@ survey#:#ask_insert_questions#:#Da li ste sigurni da želite da ubacite sledeca 
 survey#:#back#:#<< Nazad
 survey#:#before#:#Premesti u:
 survey#:#browse_for_questions#:#Pretraži pitanja
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Ne posedujete potrebne dozvole da biste kreirali pristupne kodove za anketu!
 survey#:#cannot_edit_survey#:#Ne posedujete potrebne dozvole da biste uredili anketu!
 survey#:#cannot_export_questionpool#:#Ne posedujete potrebne dozvole da biste izvezli bazu pitanja za anketu!###09 Aug 2005 content changed

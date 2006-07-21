@@ -1318,6 +1318,7 @@ common#:#client_ip#:#Client IP
 common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
 common#:#close_window#:#Fenster schließen
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar###10 Jul 2006 content changed
@@ -4323,10 +4324,13 @@ crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
 crs#:#timing_user_accept#:#Zeitplan akzeptieren
 crs#:#timings_edit#:#Zeitplanung bearbeiten
 crs#:#timings_timings#:#Lernplanung
+crs#:#timings_timings_off#:#Lernplanungsmenü aus
+crs#:#timings_timings_on#:#Lernplanungsmenü an
 crs#:#timings_usr_edit#:#Persönliche Lernplanung
 crs#:#tutor_email#:#E-Mail
 crs#:#tutor_firstname#:#Vorname
 crs#:#tutor_lastname#:#Nachname
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Telefon
 crs#:#tutor_title#:#Titel
 crs_#:#crs_archives#:#Archive
@@ -5788,6 +5792,7 @@ survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Sie besitzen nicht die passenden Zugriffsrechte, um Zugangscodes für die Umfrage zu erzeugen!
 survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten!
 survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrechte, um den Fragenpool zu exportieren!
@@ -6363,6 +6368,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-crs#:#timings_timings_on#:#Lernplanungsmenü an
-crs#:#timings_timings_off#:#Lernplanungsmenü aus
-crs#:#tutor_name#:#Name

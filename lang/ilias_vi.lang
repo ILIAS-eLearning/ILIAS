@@ -1262,6 +1262,7 @@ common#:#client_ip#:#�?ịa chỉ IP máy trạm
 common#:#clipboard#:#Bộ nhớ đệm
 common#:#close#:#�?óng
 common#:#close_window#:#�?óng cửa sổ
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#comma_separated#:#Phân tách bằng dấu phẩy
 common#:#comment#:#chú thích###10 Jul 2006 content changed
 common#:#compose#:#Soạn thư mới
@@ -4232,10 +4233,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#File nén
@@ -5685,6 +5689,7 @@ survey#:#ask_insert_questions#:#Bạn có chắc bạn muốn thêm (những) c�
 survey#:#back#:#<< Quay lại
 survey#:#before#:#trước
 survey#:#browse_for_questions#:#Duyệt tìm câu h�?i
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Bạn không đủ quy�?n hạn để tạo mã truy cập khảo sát!
 survey#:#cannot_edit_survey#:#Bạn không đủ quy�?n hạn để sửa khảo sát!
 survey#:#cannot_export_questionpool#:#Bạn không đủ quy�?n hạn để xuất thư viện câu h�?i khảo sát!

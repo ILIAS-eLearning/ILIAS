@@ -1259,6 +1259,7 @@ common#:#client_ip#:#IP Klienta
 common#:#clipboard#:#Schowek
 common#:#close#:#Zamknij
 common#:#close_window#:#Zamknij okno
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Zwiń
 common#:#comma_separated#:#Odzielony przecinkiem
 common#:#comment#:#Komentarz###10 Jul 2006 content changed
@@ -4241,10 +4242,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Archiwa
@@ -5695,6 +5699,7 @@ survey#:#ask_insert_questions#:#Czy chcesz wstawić wybrane pytania do ankiety?
 survey#:#back#:#<< Powrót
 survey#:#before#:#przed
 survey#:#browse_for_questions#:#Szukanie pytań
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Nie masz wystarczających uprawnień do tworzenia kodów dostępu do ankiety!
 survey#:#cannot_edit_survey#:#Nie masz wystarczających uprawnień do edycji ankiety!
 survey#:#cannot_export_questionpool#:#Nie posiadasz wystarczających uprawnień dla eksportu puli pytań ankiety!

@@ -1318,6 +1318,7 @@ common#:#client_ip#:#Ip Cliente
 common#:#clipboard#:#Portapapeles
 common#:#close#:#Cerrar
 common#:#close_window#:#Cerrar ventana
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Reducir
 common#:#comma_separated#:#separado por comas
 common#:#comment#:#comentario###10 Jul 2006 content changed
@@ -4324,10 +4325,13 @@ crs#:#timing_tutor_visible#:#Observación visible para los tutores del curso
 crs#:#timing_user_accept#:#Aceptar Planificación Temporal
 crs#:#timings_edit#:#Editar Planificación Temporal
 crs#:#timings_timings#:#Planificación Temporal
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Editar Planificación Temporal
 crs#:#tutor_email#:#Correo
 crs#:#tutor_firstname#:#Nombre
 crs#:#tutor_lastname#:#Apellidos
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Teléfono
 crs#:#tutor_title#:#Título
 crs_#:#crs_archives#:#Archivar
@@ -5789,6 +5793,7 @@ survey#:#ask_insert_questions#:#Está seguro de que quiere insertar las siguient
 survey#:#back#:#<< Volver
 survey#:#before#:#antes
 survey#:#browse_for_questions#:#Seleccionar preguntas
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#¡Usted no posee suficientes permisos para crear códigos de acceso de encuestas!
 survey#:#cannot_edit_survey#:#¡Usted no posee suficiente permisos para editar la encuesta!
 survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el banco de preguntas!
