@@ -715,14 +715,187 @@ class ilCourseContentGUI
 		}
 	}
 
+	function returnToMembers()
+	{
+		$this->ctrl->returnToParent($this);
+	}
+
+	function showUserTimings()
+	{
+		global $ilObjDataCache;
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_user_timings.html','course');
+		$this->tabs_gui->clearSubTabs();
+		$this->tabs_gui->setTabActive('members');
+
+		if(!$_GET['member_id'])
+		{
+			sendInfo($this->lng->txt('no_checkbox'),true);
+			$this->ctrl->returnToParent($this);
+		}
+
+
+		// Back button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'returnToMembers'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("back"));
+		$this->tpl->parseCurrentBlock();
+		
+		include_once 'course/classes/Timings/class.ilTimingAccepted.php';
+		$usr_accepted = new ilTimingAccepted($this->course_obj->getId(),(int) $_GET['member_id']);
+
+		if($usr_accepted->isAccepted())
+		{
+			$this->tpl->setVariable("ACC_IMG",ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable("ACC_ALT",$this->lng->txt('timing_accepted'));
+		}
+		else
+		{
+			$this->tpl->setVariable("ACC_IMG",ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable("ACC_ALT",$this->lng->txt('timing_not_accepted'));
+		}
+		if($usr_accepted->isVisible() and strlen($usr_accepted->getRemark()))
+		{
+			$this->tpl->setVariable("REMARK",nl2br($usr_accepted->getRemark()));
+		}
+		else
+		{
+			$this->tpl->setVariable("REMARK",$this->lng->txt('not_available'));
+		}
+
+		$this->tpl->setVariable("TIMING_ACCEPT",$this->lng->txt('timing_accept_table'));
+		$this->tpl->setVariable("TXT_ACCEPTED",$this->lng->txt('timing_user_accepted'));
+		$this->tpl->setVariable("TXT_REMARK",$this->lng->txt('timing_remark'));
+
+		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
+		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_usr'));
+		$this->tpl->setVariable("TABLE_HEADER",$this->lng->txt('timings_of'));
+		$name = ilObjUser::_lookupName($_GET['member_id']);
+		$this->tpl->setVariable("USER_NAME",$name['lastname'].', '.$name['firstname']);
+
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable("TXT_START_END",$this->lng->txt('crs_timings_short_start_end'));
+		$this->tpl->setVariable("TXT_INFO_START_END",$this->lng->txt('crs_timings_start_end_info'));
+		$this->tpl->setVariable("TXT_CHANGED",$this->lng->txt('crs_timings_changed'));
+		$this->tpl->setVariable("TXT_OWN_PRESETTING",$this->lng->txt('crs_timings_planed_start'));
+		$this->tpl->setVariable("TXT_INFO_OWN_PRESETTING",$this->lng->txt('crs_timings_from_until'));
+		
+		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
+		$items =& $this->items_obj->getItems();
+
+		foreach($items as $item)
+		{
+			if(($item['timing_type'] == IL_CRS_TIMINGS_PRESETTING) or
+			   ilCourseItems::_hasChangeableTimings($item['ref_id']))
+			{
+				$this->__renderUserItem($item,0);
+			}
+		}
+	}
+
+	function __renderUserItem($item,$level)
+	{
+		global $ilUser,$ilAccess;
+
+		include_once 'course/classes/Timings/class.ilTimingPlaned.php';
+		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+
+		$this->lng->loadLanguageModule('meta');
+
+		$usr_planed = new ilTimingPlaned($item['ref_id'],$_GET['member_id']);
+		for($i = 0;$i < $level;$i++)
+		{
+			$this->tpl->touchBlock('start_indent');
+			$this->tpl->touchBlock('end_indent');
+		}
+		if(strlen($item['description']))
+		{
+			$this->tpl->setCurrentBlock("item_description");
+			$this->tpl->setVariable("DESC",$item['description']);
+			$this->tpl->parseCurrentBlock();
+		}
+		if($tlt = ilMDEducational::_getTypicalLearningTimeSeconds($item['obj_id']))
+		{
+			$this->tpl->setCurrentBlock("tlt");
+			$this->tpl->setVariable("TXT_TLT",$this->lng->txt('meta_typical_learning_time'));
+			$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("title_plain");
+		$this->tpl->setVariable("TITLE",$item['title']);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("container_standard_row");
+
+		$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.gif'));
+		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_'.$item['type']));
+
+
+		if($item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
+		{
+			$this->tpl->setVariable("SUG_START",ilFormat::formatUnixTime($item['suggestion_start']));
+			$this->tpl->setVariable("SUG_END",ilFormat::formatUnixTime($item['suggestion_end']));
+		}
+
+		if($item['changeable'] and $item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
+		{
+			if($usr_planed->getPlanedStartingTime())
+			{
+				$start = $usr_planed->getPlanedStartingTime();
+			}
+			else
+			{
+				$start = $item['suggestion_start'];
+			}
+
+			$this->tpl->setVariable("OWN_START",ilFormat::formatUnixTime($start));
+
+			if($usr_planed->getPlanedEndingTime())
+			{
+				$end = $usr_planed->getPlanedEndingTime();
+			}
+			else
+			{
+				$end = $item['suggestion_end'];
+			}
+			if($start != $item['suggestion_start'] or $end != $item['suggestion_end'])
+			{
+				$this->tpl->setVariable("OK_IMG",ilUtil::getImagePath('icon_ok.gif'));
+				$this->tpl->setVariable("OK_ALT",$this->lng->txt('crs_timings_changed'));
+			}
+			else
+			{
+				$this->tpl->setVariable("OK_IMG",ilUtil::getImagePath('icon_not_ok.gif'));
+				$this->tpl->setVariable("OK_ALT",$this->lng->txt('crs_timings_not_changed'));
+			}
+			$this->tpl->setVariable("OWN_END",ilFormat::formatUnixTime($end));
+
+		}
+			
+		$this->tpl->parseCurrentBlock();
+
+		$sub_items_obj = new ilCourseItems($this->course_obj,$item['ref_id'],$_GET['member_id']);
+		foreach($sub_items_obj->getItems() as $item_data)
+		{
+			if(($item_data['timing_type'] == IL_CRS_TIMINGS_PRESETTING) or 
+			   ilCourseItems::_hasChangeableTimings($item_data['ref_id']))
+			{
+				$this->__renderUserItem($item_data,$level+1);
+			}
+		}
+	}
+
+
+
 	function __editAdvancedUserTimings()
 	{
 		include_once 'course/classes/Event/class.ilEvent.php';
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','course');
-
 		$this->__showTimingsPanel();
-
 		$this->__showUserAcceptanceTable();
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -764,7 +937,7 @@ class ilCourseContentGUI
 
 		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getId()),
 								 ilEvent::_getEventsAsArray($this->course_obj->getId()));
-		$sorted_items = ilUtil::sortArray($all_items,'start','asc');
+		$sorted_items = $this->__sortByStart($all_items);
 
 		$this->counter = 0;
 		foreach($sorted_items as $item)
@@ -786,6 +959,7 @@ class ilCourseContentGUI
 	{
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings.html','course');
 
+		$this->__showTimingsPanel();
 		$this->__showUserAcceptanceTable();
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -816,7 +990,7 @@ class ilCourseContentGUI
 		
 		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getId()),
 								 ilEvent::_getEventsAsArray($this->course_obj->getId()));
-		$sorted_items = ilUtil::sortArray($all_items,'start','asc');
+		$sorted_items = $this->__sortByStart($all_items);
 
 		$this->counter = 0;
 		foreach($sorted_items as $item)
@@ -832,6 +1006,27 @@ class ilCourseContentGUI
 					break;
 			}
 		}
+	}
+
+
+
+	function __sortByStart($a_items)
+	{
+		foreach($a_items as $item)
+		{
+			if($item['timing_type'] == IL_CRS_TIMINGS_DEACTIVATED)
+			{
+				$inactive[] = $item;
+			}
+			else
+			{
+				$active[] = $item;
+			}
+		}
+		$sorted_active = ilUtil::sortArray((array) $active,"start","asc");
+		$sorted_inactive = ilUtil::sortArray((array) $inactive,'title','asc');
+
+		return array_merge($sorted_active,$sorted_inactive);
 	}
 
 	function __renderEvent($item)
@@ -1034,13 +1229,21 @@ class ilCourseContentGUI
 
 	function timingsOn()
 	{
+		global $ilTabs;
 		$_SESSION['crs_timings_panel'] = 1;
+
+		$ilTabs->clearSubTabs();
+		$this->__setSubTabs();
 		$this->editTimings();
 	}
 
 	function timingsOff()
 	{
+		global $ilTabs;
 		$_SESSION['crs_timings_panel'] = 0;
+
+		$ilTabs->clearSubTabs();
+		$this->__setSubTabs();
 		$this->editUserTimings();
 	}
 
@@ -1467,11 +1670,13 @@ class ilCourseContentGUI
 			$this->tabs_gui->addSubTabTarget('learners_view',
 											 $this->ctrl->getLinkTargetByClass('ilcourseobjectivepresentationgui','view'));
 		}
-		$this->tabs_gui->addSubTabTarget('crs_content',
-										 $this->ctrl->getLinkTarget($this,'view'));
-
+		if(!$_SESSION['crs_timings_panel'])
+		{
+			$this->tabs_gui->addSubTabTarget('crs_content',
+											 $this->ctrl->getLinkTarget($this,'view'));
+		}
 		include_once 'course/classes/class.ilCourseItems.php';
-		if(!$this->course_obj->enabledObjectiveView() and ilCourseItems::_hasTimings($this->course_obj->getRefId()))
+		if(!$this->course_obj->enabledObjectiveView() and $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->tabs_gui->addSubTabTarget('timings_timings',
 											 $this->ctrl->getLinkTarget($this,'editUserTimings'));

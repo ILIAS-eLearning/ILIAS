@@ -6370,3 +6370,10 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+crs#:#crs_timings_changed#:#Timings Modified
+crs#:#crs_timings_not_changed#:#Timings not Modified
+crs#:#timings_of#:#Timings Off
+crs#:#timing_user_accepted#:#Timings Accepted
+common#:#not_available#:#Not Available
+crs#:#timing_accepted#:#Accepted
+crs#:#timing_not_accepted#:#Not Accepted

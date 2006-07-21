@@ -52,7 +52,7 @@ class ilCourseItems
 	var $timing_end;
 
 
-	function ilCourseItems(&$course_obj,$a_parent = 0)
+function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 
@@ -63,8 +63,16 @@ class ilCourseItems
 
 		$this->course_obj =& $course_obj;
 		$this->setParentId($a_parent);
+		$this->user_id = $user_id;
 
 		$this->__read();
+	}
+
+	function getUserId()
+	{
+		global $ilUser;
+
+		return $this->user_id ? $this->user_id : $ilUser->getId();
 	}
 
 	function _hasTimings($a_ref_id)
@@ -90,6 +98,7 @@ class ilCourseItems
 		global $tree,$ilDB;
 
 		$subtree = $tree->getSubTree($tree->getNodeData($a_ref_id));
+		
 		foreach($subtree as $node)
 		{
 			$ref_ids[] = $node['ref_id'];
@@ -442,7 +451,7 @@ class ilCourseItems
 			
 	function __getItemData($a_item)
 	{
-		global $ilDB,$ilUser;
+		global $ilDB,$ilUser,$ilObjDataCache;
 
 		$query = "SELECT * FROM crs_items  ".
 			"WHERE obj_id = '".$a_item['child']."' ".
@@ -467,7 +476,7 @@ class ilCourseItems
 			$a_item["position"]				= $row->position;
 
 			include_once 'course/classes/Timings/class.ilTimingPlaned.php';
-			$data = ilTimingPlaned::_getPlanedTimings($ilUser->getId(),$a_item['child']);
+			$data = ilTimingPlaned::_getPlanedTimings($this->getUserId(),$a_item['child']);
 
 			// Check for user entry
 			if($a_item['changeable'] and 
@@ -502,7 +511,6 @@ class ilCourseItems
 			{
 				$a_item['start'] = 999999999;
 			}
-
 		}
 
 		if(!isset($a_item["position"]))

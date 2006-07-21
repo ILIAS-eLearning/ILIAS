@@ -1,0 +1,71 @@
+	<table class="fullwidth" border="0">
+		<tr class="tbltitle">
+		  <th class="std" colspan="5">
+			<img style="vertical-align: middle;" border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			&nbsp;{TABLE_HEADER}: {USER_NAME}
+		  </th>
+		</tr>
+		<tr class="tblheader">
+		  <th class="std" valign="top"><div style="margin-left:26px">{TXT_TITLE}</div></th>
+		  <th class="std">{TXT_START_END}<div class="subtitle">{TXT_INFO_START_END}</div></th>
+		  <th class="std" valign="top">{TXT_CHANGED}</th>
+		  <th class="std">{TXT_OWN_PRESETTING}<div class="subtitle">{TXT_INFO_OWN_PRESETTING}</div></th>
+		</tr>
+		<!-- BEGIN container_standard_row -->
+		<tr class="{ROWCLASS}">
+		  <td>
+			<!-- BEGIN start_indent --><div style="padding-left:26px"><!-- END start_indent -->
+			  <div style="float:left;">
+				<img src="{TYPE_IMG}" alt="{TYPE_ALT_IMG}" title="{TYPE_ALT_IMG}" border="0" vspace="0" align="absmiddle" />
+			  </div>
+			  <div style="float:left;padding-left:5px">
+				<!-- BEGIN title_plain -->
+				<b>{TITLE}</b>
+				<!-- END title_plain -->
+				<!-- BEGIN item_description -->
+				<div class="il_Description" >{DESC}</div>
+				<!-- END item_description -->
+				<!-- BEGIN tlt -->
+				<div class="il_ItemProperties">
+				  <div class="il_ItemProperty">{TXT_TLT}: {TLT_VAL}</div>
+				</div>
+				<!-- END tlt -->
+			  </div>
+			  <!-- BEGIN end_indent --></div><!-- END end_indent -->
+		  </td>
+		  <td nowrap="nowrap">
+			{SUG_START}<br />
+			{SUG_END}
+		  </td>
+		  <td align="center">
+			<img style="vertical-align: middle;" border="0" src="{OK_IMG}" alt="{OK_ALT}" title="{OK_ALT}" />
+		  </td>
+		  <td nowrap="nowrap">
+			{OWN_START}<br />
+			{OWN_END}
+		  </td>
+		</tr>
+		<!-- END container_standard_row -->
+	</table>
+	<br />
+	<table class="std" width="50%">
+		<tr class="tblheader">
+		  <th colspan="2">{TIMING_ACCEPT}</th>
+		</tr>
+		<tr class="std">
+		  <td class="option">
+			{TXT_ACCEPTED}
+		  </td>
+		  <td class="option_value">
+			<img src="{ACC_IMG}" alt="{ACC_ALT}" title="{ACC_ALT}" border="0" vspace="0" align="absmiddle" />
+		  </td>
+		</tr>
+		<tr class="std">
+		  <td class="option">
+			{TXT_REMARK}
+		  </td>
+		  <td class="option_value">
+			{REMARK}
+		  </td>
+		</tr>
+	</table>
