@@ -1252,6 +1252,7 @@ common#:#client_ip#:#IP client###07 Apr 2005 content changed
 common#:#clipboard#:#Presse-papier###07 Apr 2005 content changed
 common#:#close#:#Fermer###07 Apr 2005 content changed
 common#:#close_window#:#Fermer la fenêtre###06 oct 2005 content changed
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Collapse###28 Feb 2006 new variable
 common#:#comma_separated#:#Séparé par des virgules (CSV)###07 Apr 2005 content changed
 common#:#comment#:#commentaire###07 Apr 2005 content changed
@@ -4233,10 +4234,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Archives###07 Apr 2005 content changed
@@ -5687,6 +5691,7 @@ survey#:#ask_insert_questions#:#Etes-vous sûr(e) de vouloir insérer les questi
 survey#:#back#:#<< Retour###07 Apr 2005 content changed
 survey#:#before#:#avant###07 Apr 2005 content changed
 survey#:#browse_for_questions#:#Rechercher des questions###07 Apr 2005 content changed
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Vous n'avez pas les permissions nécessaires pour créer des codes d'accès de sondage###07 Apr 2005 content changed
 survey#:#cannot_edit_survey#:#Vous n'avez pas les permissions nécessaires pour modifier le sondage###07 Apr 2005 content changed
 survey#:#cannot_export_questionpool#:#Vous n'avez pas les permissions nécessaires pour exporter le jeu de questions du sondage.###07 Apr 2005 content changed

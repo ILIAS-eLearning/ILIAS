@@ -1122,6 +1122,7 @@ common#:#client_ip#:#IP Πελάτη
 common#:#clipboard#:#Πρόχειρο
 common#:#close#:#Κλείσιμο
 common#:#close_window#:#Κλείσιμο Παραθύρου
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Σύμπτηξη
 common#:#comma_separated#:#Χωρισμένο με κόμμα
 common#:#comment#:#Σχόλιο
@@ -3903,6 +3904,9 @@ crs#:#edit_content#:#Επεξεργασία περιεχομένων
 crs#:#import_crs#:#Εισαγωγή μαθήματος
 crs#:#learners_view#:#Προβολή Εκπαιδευόμενων
 crs#:#subscription_times_not_valid#:#Δεν είναι έγκυρη η περίοδος εγγραφής.
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs_#:#crs_archives#:#Αρχεία
 dateplaner#:#DateText#:#Μήνυμα
 dateplaner#:#Day_long#:#Προβολή ημέρας
@@ -5194,6 +5198,7 @@ survey#:#ask_insert_questions#:#Είστε σίγουροι οτι θέλετε 
 survey#:#back#:#<< Πίσω
 survey#:#before#:#πριν
 survey#:#browse_for_questions#:#Αναζήτηση για ερωτήσεις
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Δεν διαθέτετε επαρκή δικαιώματα για να δημιουργήσετε κωδικούς πρόσβασης έρευνας!
 survey#:#cannot_edit_survey#:#Δεν διαθέτετε επαρκή δικαιώματα για να επεξεργαστείτε την έρευνα!
 survey#:#cannot_export_questionpool#:#Δεν διαθέτετε επαρκή δικαιώματα για να εξάγετε τη μνήμη ερωτήσεων της έρευνας!

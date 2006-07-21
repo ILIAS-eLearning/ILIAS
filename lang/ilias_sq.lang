@@ -1272,6 +1272,7 @@ common#:#client_ip#:#IP e Klientit
 common#:#clipboard#:#Klipbord
 common#:#close#:#Mbyll
 common#:#close_window#:#Close window###20 Jun 2005 new variable
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Ndarë me Presje
 common#:#comment#:#koment###10 Jul 2006 content changed
@@ -4135,10 +4136,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Arkivat
@@ -5597,6 +5601,7 @@ survey#:#ask_insert_questions#:#A jeni të sigurt për të vendosur pyetjet viju
 survey#:#back#:#<< Prapa
 survey#:#before#:#para
 survey#:#browse_for_questions#:#Shfleto për pyetje
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Nuk keni të drejta të mjaftueshme për të krijuar kode për qasje në kuestioner!
 survey#:#cannot_edit_survey#:#Nuk keni të drejta të mjaftueshme për të modifikuar kuestionerin!
 survey#:#cannot_export_questionpool#:#Nuk keni të drejta të mjaftueshme për të eksportuar fond-pyetjesh për kuestionerit!###09 Aug 2005 content changed

@@ -1317,6 +1317,7 @@ common#:#client_ip#:#Client IP
 common#:#clipboard#:#Cartella appunti
 common#:#close#:#Chiudi
 common#:#close_window#:#Chiudi la finestra
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#collapse#:#Collassa
 common#:#comma_separated#:#Separati da virgola
 common#:#comment#:#Commento###10 Jul 2006 content changed
@@ -4320,10 +4321,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Archivi
@@ -5785,6 +5789,7 @@ survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande
 survey#:#back#:#<< Indietro
 survey#:#before#:#prima di 
 survey#:#browse_for_questions#:#Ricerca con filtro
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Non hai sufficienti diritti per creare codici di accesso al sondaggio!
 survey#:#cannot_edit_survey#:#Non hai sufficienti diritti per poter modificare il sondaggio!
 survey#:#cannot_export_questionpool#:#Non hai sufficienti diritti per esportare la raccolta di domande per sondaggi!

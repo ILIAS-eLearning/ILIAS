@@ -1257,6 +1257,7 @@ common#:#client_ip#:#Kliens IP
 common#:#clipboard#:#Vágólap
 common#:#close#:#Bezárás
 common#:#close_window#:#Ablak bezárása
+common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
 common#:#comma_separated#:#Vesszővel elválasztva
 common#:#comment#:#megjegyzés###10 Jul 2006 content changed
 common#:#compose#:#Levél írása
@@ -4225,10 +4226,13 @@ crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 n
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
+crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
+crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#timings_usr_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#tutor_email#:#Mail###10 Jul 2006 new variable
 crs#:#tutor_firstname#:#Firstname###10 Jul 2006 new variable
 crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
+crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
 crs_#:#crs_archives#:#Archívok
@@ -5679,6 +5683,7 @@ survey#:#ask_insert_questions#:#Biztosan be akarja szúrni az alábbi kérdés(e
 survey#:#back#:#<< Vissza
 survey#:#before#:#mi előtt
 survey#:#browse_for_questions#:#Kérdések tallózása
+survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_create_survey_codes#:#Nem rendelkezik elegendő jogosultsággal kérdőívhez tartozó kódok létrehozásához.
 survey#:#cannot_edit_survey#:#Nincs elég jogosultsága a kérdőív szerkesztéséhez.
 survey#:#cannot_export_questionpool#:#Nincs elég jogosultsága a kérdőívi kérdéssor exportálásához.
