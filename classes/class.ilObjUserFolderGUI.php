@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
-* @version $Id$
+* @version $Id
 * 
 * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI
 *
@@ -167,6 +167,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function learningProgressObject()
 	{
 		include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+
+		$lp_active = ilObjUserTracking::_enabledLearningProgress();
 
 		global $ilUser,$rbacsystem;
 
@@ -281,7 +284,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				// dirty workaround to have ids for function showActions (checkbox toggle option)
 				$this->ids[] = $ctrl["obj_id"];
 
-				if ($key == "login")
+				if ($key == "login" and $lp_active)
 				{
 					$this->ctrl->setParameterByClass("illearningprogressgui", "ref_id",$this->object->getRefId());
 					$this->ctrl->setParameterByClass("illearningprogressgui", "obj_id", $usr_id);
@@ -2962,6 +2965,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+
+
 		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
@@ -2978,8 +2984,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
 
-			$tabs_gui->addTarget("learning_progress",
-								 $this->ctrl->getLinkTarget($this, "learningProgress"), "learningProgress", "", "");
+			if((ilObjUserTracking::_enabledLearningProgress() or
+				ilObjUserTracking::_enabledTracking())
+			   and ilObjUserTracking::_enabledUserRelatedData())
+			{
+				$tabs_gui->addTarget("learning_progress",
+									 $this->ctrl->getLinkTarget($this, "learningProgress"), "learningProgress", "", "");
+			}
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
