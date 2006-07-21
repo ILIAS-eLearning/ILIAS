@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -129,6 +129,7 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if($add_standard_elements)
 		{
+			$this->setContentStyle();
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
@@ -224,6 +225,7 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if($a_fill_tabs)
 		{
+			$this->setContentStyle();
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
@@ -248,6 +250,14 @@ class ilTemplate extends ilTemplateX
 		
 		$this->setVariable("TABS",$ilTabs->getHTML());
 		$this->setVariable("SUB_TABS",$ilTabs->getSubTabHTML());
+	}
+	
+	function setContentStyle()
+	{
+		$this->setCurrentBlock("NewContentStyle");
+		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET",
+			ilUtil::getNewContentStyleSheetLocation());
+		$this->parseCurrentBlock();
 	}
 	
 	function fillMainMenu()
@@ -705,7 +715,12 @@ class ilTemplate extends ilTemplateX
 	{
 		$this->setVariable("LOCATION_STYLESHEET", $a_stylesheet);
 	}
-	
+
+	function setNewContentStyleSheetLocation($a_stylesheet)
+	{
+		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET", $a_stylesheet);
+	}
+
 	function getStandardTemplate()
 	{
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
