@@ -3577,8 +3577,8 @@ content#:#cont_ed_new_item_before#:#Neuen Eintrag vor.
 content#:#cont_ed_new_row_after#:#Neue Zeile anf.
 content#:#cont_ed_new_row_before#:#Neue Zeile vor.
 content#:#cont_ed_paste_clip#:#Aus Ablage einf.
-content#:#cont_ed_row_down#:#Spalte nach unten verschieben
-content#:#cont_ed_row_up#:#Spalte nach oben verschieben
+content#:#cont_ed_row_down#:#Zeile nach unten verschieben
+content#:#cont_ed_row_up#:#Zeile nach oben verschieben
 content#:#cont_ed_split_page#:#Seite aufteilen
 content#:#cont_ed_split_page_next#:#Auf nächste Seite schieben
 content#:#cont_ed_width#:#Breite
