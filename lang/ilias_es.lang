@@ -2549,6 +2549,7 @@ common#:#none#:#ninguno
 common#:#normal#:#normal
 common#:#not_accessed#:#No accedido
 common#:#not_accessed_yet#:#No visitado aún
+common#:#not_available#:#Not Available###22 Jul 2006 new variable
 common#:#not_implemented_yet#:#No implementado aun
 common#:#not_installed#:#no instalado
 common#:#not_logged_in#:#No está identificado
@@ -4215,6 +4216,7 @@ crs#:#crs_time#:#Tiempo de suscripción
 crs#:#crs_timings_availability_enabled#:#Disponible temporalmente
 crs#:#crs_timings_availability_tbl#:#Disponibilidad
 crs#:#crs_timings_changeable#:#Tiempo de entrega modificable
+crs#:#crs_timings_changed#:#Timings Modified###22 Jul 2006 new variable
 crs#:#crs_timings_disabled#:#Planificación Temporal deshabilitada
 crs#:#crs_timings_disabled_info#:#Escoja esta opción para deshabilitar cualquier planificación temporal.
 crs#:#crs_timings_duration#:#Duración
@@ -4224,6 +4226,7 @@ crs#:#crs_timings_from_until#:#(Desde/Hasta)
 crs#:#crs_timings_in_days#:#(En Días)
 crs#:#crs_timings_info_active#:#(Activo)
 crs#:#crs_timings_late_end#:#Fin más tarde
+crs#:#crs_timings_not_changed#:#Timings not Modified###22 Jul 2006 new variable
 crs#:#crs_timings_planed_info#:#Período de edición planificado
 crs#:#crs_timings_planed_start#:#Planificado
 crs#:#crs_timings_presetting#:#Tiempo objetivo habilitado
@@ -4320,10 +4323,14 @@ crs#:#import_crs#:#Importar curso
 crs#:#learners_view#:#Vista de alumnos
 crs#:#subscription_times_not_valid#:#El período de matrícula no es válido.
 crs#:#timing_accept_table#:#Planificación / Observaciones
+crs#:#timing_accepted#:#Accepted###22 Jul 2006 new variable
+crs#:#timing_not_accepted#:#Not Accepted###22 Jul 2006 new variable
 crs#:#timing_remark#:#Observación
 crs#:#timing_tutor_visible#:#Observación visible para los tutores del curso
 crs#:#timing_user_accept#:#Aceptar Planificación Temporal
+crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
 crs#:#timings_edit#:#Editar Planificación Temporal
+crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Planificación Temporal
 crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
 crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable

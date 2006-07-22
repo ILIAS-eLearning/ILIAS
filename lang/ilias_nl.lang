@@ -2550,6 +2550,7 @@ common#:#none#:#Geen enkele###07 Apr 2005 content changed
 common#:#normal#:#Normaal###07 Apr 2005 content changed
 common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
 common#:#not_accessed_yet#:#Not accessed yet###03 Nov 2005 new variable
+common#:#not_available#:#Not Available###22 Jul 2006 new variable
 common#:#not_implemented_yet#:#Nog niet geïmplementeerd###07 Apr 2005 content changed
 common#:#not_installed#:#Niet geïnstalleerd###07 Apr 2005 content changed
 common#:#not_logged_in#:#U bent niet ingelogd###07 Apr 2005 content changed
@@ -4216,6 +4217,7 @@ crs#:#crs_time#:#Weet u zeker dat u de geselecteerde archieven wilt verwijderen#
 crs#:#crs_timings_availability_enabled#:#Temporarily Available###10 Jul 2006 new variable
 crs#:#crs_timings_availability_tbl#:#Availability###10 Jul 2006 new variable
 crs#:#crs_timings_changeable#:#Time Target Changeable###10 Jul 2006 new variable
+crs#:#crs_timings_changed#:#Timings Modified###22 Jul 2006 new variable
 crs#:#crs_timings_disabled#:#Timings Disabled###10 Jul 2006 new variable
 crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.###10 Jul 2006 new variable
 crs#:#crs_timings_duration#:#Duration###10 Jul 2006 new variable
@@ -4225,6 +4227,7 @@ crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
 crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_not_changed#:#Timings not Modified###22 Jul 2006 new variable
 crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
 crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
@@ -4321,10 +4324,14 @@ crs#:#import_crs#:#Import course###03 Nov 2005 new variable
 crs#:#learners_view#:#Learners view###01 Mar 2005 new variable
 crs#:#subscription_times_not_valid#:#The registration period is not valid.###13 May 2005 new variable
 crs#:#timing_accept_table#:####10 Jul 2006 new variable
+crs#:#timing_accepted#:#Accepted###22 Jul 2006 new variable
+crs#:#timing_not_accepted#:#Not Accepted###22 Jul 2006 new variable
 crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
+crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
+crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
 crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
 crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
