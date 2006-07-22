@@ -564,7 +564,7 @@ class ilObjMediaObject extends ilObject
 	function getXML($a_mode = IL_MODE_FULL, $a_inst = 0)
 	{
 		// TODO: full implementation of all parameters
-
+//echo "-".$a_mode."-";
 		switch ($a_mode)
 		{
 			case IL_MODE_ALIAS:
@@ -593,7 +593,7 @@ class ilObjMediaObject extends ilObject
 					if ($item->getCaption() != "")
 					{
 						$xml .= "<Caption Align=\"bottom\">".
-							$item->getCaption()."</Caption>";
+							str_replace("&", "&amp;", $item->getCaption())."</Caption>";
 					}
 
 					// Parameter
@@ -698,7 +698,7 @@ class ilObjMediaObject extends ilObject
 					if ($item->getCaption() != "")
 					{
 						$xml .= "<Caption Align=\"bottom\">".
-							$item->getCaption()."</Caption>";
+							str_replace("&", "&amp;", $item->getCaption())."</Caption>";
 					}
 
 					// Parameter
