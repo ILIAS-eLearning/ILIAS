@@ -1332,7 +1332,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view"));
 
 			// title
-			$this->tpl->setVariable("TEXT_CONTENT", $child["title"]);
+			$this->tpl->setVariable("TEXT_CONTENT",
+				ilStructureObject::_getPresentationTitle($child["obj_id"],
+				$this->object->isActiveNumbering()));
 
 			$this->tpl->parseCurrentBlock();
 		}

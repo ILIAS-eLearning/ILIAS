@@ -96,6 +96,34 @@ class ilLMEditorExplorer extends ilLMExplorer
 		$tpl->touchBlock("element");
 	}
 
+	/**
+	* standard implementation for title, maybe overwritten by derived classes
+	*/
+	function buildTitle($a_title, $a_id, $a_type)
+	{
+//echo "<br>-$a_title-$a_type-$a_id-";
+		if ($a_type == "st")
+		{
+			return ilStructureObject::_getPresentationTitle($a_id,
+				$this->lm_obj->isActiveNumbering());
+		}
+
+		return $a_title;
+		/*
+		if ($this->lm_obj->getTOCMode() == "chapters" || $a_type != "pg")
+		{
+			return $a_title;
+		}
+		else
+		{
+			if ($a_type == "pg")
+			{
+				return ilLMPageObject::_getPresentationTitle($a_id,
+					$this->lm_obj->getPageHeader(), $this->lm_obj->isActiveNumbering());
+			}
+		}*/
+	}
+
 
 	/**
 	* build link target
