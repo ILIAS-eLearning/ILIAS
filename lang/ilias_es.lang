@@ -1318,7 +1318,7 @@ common#:#client_ip#:#Ip Cliente
 common#:#clipboard#:#Portapapeles
 common#:#close#:#Cerrar
 common#:#close_window#:#Cerrar ventana
-common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
+common#:#cnt_new#:#(%s nuevo)
 common#:#collapse#:#Reducir
 common#:#comma_separated#:#separado por comas
 common#:#comment#:#comentario###10 Jul 2006 content changed
@@ -2549,7 +2549,7 @@ common#:#none#:#ninguno
 common#:#normal#:#normal
 common#:#not_accessed#:#No accedido
 common#:#not_accessed_yet#:#No visitado aún
-common#:#not_available#:#Not Available###22 Jul 2006 new variable
+common#:#not_available#:#No Disponible
 common#:#not_implemented_yet#:#No implementado aun
 common#:#not_installed#:#no instalado
 common#:#not_logged_in#:#No está identificado
@@ -4216,7 +4216,7 @@ crs#:#crs_time#:#Tiempo de suscripción
 crs#:#crs_timings_availability_enabled#:#Disponible temporalmente
 crs#:#crs_timings_availability_tbl#:#Disponibilidad
 crs#:#crs_timings_changeable#:#Tiempo de entrega modificable
-crs#:#crs_timings_changed#:#Timings Modified###22 Jul 2006 new variable
+crs#:#crs_timings_changed#:#Planificación Temporal Modificada
 crs#:#crs_timings_disabled#:#Planificación Temporal deshabilitada
 crs#:#crs_timings_disabled_info#:#Escoja esta opción para deshabilitar cualquier planificación temporal.
 crs#:#crs_timings_duration#:#Duración
@@ -4226,7 +4226,7 @@ crs#:#crs_timings_from_until#:#(Desde/Hasta)
 crs#:#crs_timings_in_days#:#(En Días)
 crs#:#crs_timings_info_active#:#(Activo)
 crs#:#crs_timings_late_end#:#Fin más tarde
-crs#:#crs_timings_not_changed#:#Timings not Modified###22 Jul 2006 new variable
+crs#:#crs_timings_not_changed#:#Planificación Temporal no Modificada
 crs#:#crs_timings_planed_info#:#Período de edición planificado
 crs#:#crs_timings_planed_start#:#Planificado
 crs#:#crs_timings_presetting#:#Tiempo objetivo habilitado
@@ -4323,22 +4323,22 @@ crs#:#import_crs#:#Importar curso
 crs#:#learners_view#:#Vista de alumnos
 crs#:#subscription_times_not_valid#:#El período de matrícula no es válido.
 crs#:#timing_accept_table#:#Planificación / Observaciones
-crs#:#timing_accepted#:#Accepted###22 Jul 2006 new variable
-crs#:#timing_not_accepted#:#Not Accepted###22 Jul 2006 new variable
+crs#:#timing_accepted#:#Aceptada
+crs#:#timing_not_accepted#:#No Aceptada
 crs#:#timing_remark#:#Observación
 crs#:#timing_tutor_visible#:#Observación visible para los tutores del curso
 crs#:#timing_user_accept#:#Aceptar Planificación Temporal
-crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timing_user_accepted#:#Planificación Temporal Aceptada
 crs#:#timings_edit#:#Editar Planificación Temporal
-crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
+crs#:#timings_of#:#Planificación Temporal Desactivada
 crs#:#timings_timings#:#Planificación Temporal
-crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
-crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
+crs#:#timings_timings_off#:#Desactivar Administración de Planificación Temporal
+crs#:#timings_timings_on#:#Desactivar Administración de Planificación Temporal
 crs#:#timings_usr_edit#:#Editar Planificación Temporal
 crs#:#tutor_email#:#Correo
 crs#:#tutor_firstname#:#Nombre
 crs#:#tutor_lastname#:#Apellidos
-crs#:#tutor_name#:#Name###21 Jul 2006 new variable
+crs#:#tutor_name#:#Nombre
 crs#:#tutor_phone#:#Teléfono
 crs#:#tutor_title#:#Título
 crs_#:#crs_archives#:#Archivar
@@ -5730,48 +5730,48 @@ style#:#sty_border_width#:#Border Width###10 Jul 2006 new variable
 style#:#sty_bottom#:#Bottom###10 Jul 2006 new variable
 style#:#sty_clear#:#Clear###10 Jul 2006 new variable
 style#:#sty_color#:#Colour###10 Jul 2006 new variable
-style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles###10 Jul 2006 new variable
-style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue? ###10 Jul 2006 new variable
-style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source###10 Jul 2006 new variable
-style#:#sty_create_ind_style#:#Create Individual Style###10 Jul 2006 new variable
-style#:#sty_create_new_stylesheet#:#Create new Style###10 Jul 2006 new variable
+style#:#sty_confirm_del_ind_styles#:#Confirmar la eliminación de Estilos de Contenido Individuales
+style#:#sty_confirm_del_ind_styles_desc#:#Todos los módulos de aprendizaje con estilos individuales serán asignados al estilo '%s'. Esto también eliminará los estilos de contenido individual. ¿Quiere continuar?
+style#:#sty_copy_other_stylesheet#:#Copiar Estilo desde Fuente Local
+style#:#sty_create_ind_style#:#Crear Estilo Individual
+style#:#sty_create_new_stylesheet#:#Crear nuevo estilo
 style#:#sty_cursor#:#Cursor###10 Jul 2006 new variable
-style#:#sty_default_style#:#Default Style###10 Jul 2006 new variable
+style#:#sty_default_style#:#Estilo por Defecto
 style#:#sty_font_family#:#Font Family###10 Jul 2006 new variable
 style#:#sty_font_size#:#Font Size###10 Jul 2006 new variable
 style#:#sty_font_stretch#:#Font Stretch###10 Jul 2006 new variable
 style#:#sty_font_style#:#Font Style###10 Jul 2006 new variable
 style#:#sty_font_variant#:#Font Variant###10 Jul 2006 new variable
 style#:#sty_font_weight#:#Font Weight###10 Jul 2006 new variable
-style#:#sty_import_stylesheet#:#Import Style###10 Jul 2006 new variable
-style#:#sty_individual_style#:#Individual Style###10 Jul 2006 new variable
-style#:#sty_individual_styles#:#Individual Styles###10 Jul 2006 new variable
+style#:#sty_import_stylesheet#:#Importar Estilo
+style#:#sty_individual_style#:#Estilo Individual
+style#:#sty_individual_styles#:#Estilos Individuales
 style#:#sty_left#:#Left###10 Jul 2006 new variable
 style#:#sty_letter_spacing#:#Letter Spacing###10 Jul 2006 new variable
 style#:#sty_line_height#:#Line Height###10 Jul 2006 new variable
 style#:#sty_margin#:#Margin###10 Jul 2006 new variable
 style#:#sty_margin_and_padding#:#Margin and Padding###10 Jul 2006 new variable
-style#:#sty_move_lm_styles#:#Change Style of Learning Modules###10 Jul 2006 new variable
-style#:#sty_move_style#:#Change Style###10 Jul 2006 new variable
-style#:#sty_nr_learning_modules#:#Number of Learning Modules###10 Jul 2006 new variable
+style#:#sty_move_lm_styles#:#Modificar Estilo de los Módulos de Aprendizaje
+style#:#sty_move_style#:#Modificar Estilo
+style#:#sty_nr_learning_modules#:#Número de Módulos de Aprendizaje
 style#:#sty_padding#:#Padding###10 Jul 2006 new variable
 style#:#sty_right#:#Right###10 Jul 2006 new variable
-style#:#sty_save_active_styles#:#Save Active Styles###10 Jul 2006 new variable
-style#:#sty_save_standard_styles#:#Save Standard Styles###10 Jul 2006 new variable
-style#:#sty_scope#:#Scope###10 Jul 2006 new variable
-style#:#sty_set_scope#:#Set Scope###10 Jul 2006 new variable
-style#:#sty_source#:#Source###10 Jul 2006 new variable
-style#:#sty_special#:#Special###10 Jul 2006 new variable
-style#:#sty_standard_style#:#Standard Style###10 Jul 2006 new variable
-style#:#sty_text#:#Text###10 Jul 2006 new variable
-style#:#sty_text_align#:#Text Alignment###10 Jul 2006 new variable
-style#:#sty_text_decoration#:#Text Decoration###10 Jul 2006 new variable
-style#:#sty_text_indent#:#Text Indentation###10 Jul 2006 new variable
-style#:#sty_text_transform#:#Text Transform###10 Jul 2006 new variable
+style#:#sty_save_active_styles#:#Guardar Estilos Activos
+style#:#sty_save_standard_styles#:#Guardar Estilos Estándar
+style#:#sty_scope#:#Ámbito
+style#:#sty_set_scope#:#Definir Ámbito
+style#:#sty_source#:#Origen
+style#:#sty_special#:#Especial
+style#:#sty_standard_style#:#Estilo Estándar
+style#:#sty_text#:#Texto
+style#:#sty_text_align#:#Alineación de Texto
+style#:#sty_text_decoration#:#Decoración de Texto
+style#:#sty_text_indent#:#Indentación de Texto
+style#:#sty_text_transform#:#Transformación de Texto
 style#:#sty_top#:#Top###10 Jul 2006 new variable
-style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
-style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
-style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+style#:#sty_vertical_align#:#Alineación Vertical
+style#:#sty_white_space#:#Espacio en blanco
+style#:#sty_word_spacing#:#Espaciado entre palabras
 survey#:#SurveyMetricQuestion#:#Pregunta métrica
 survey#:#SurveyNominalQuestion#:#Pregunta nominal
 survey#:#SurveyOrdinalQuestion#:#Pregunta ordinal
@@ -5800,7 +5800,7 @@ survey#:#ask_insert_questions#:#Está seguro de que quiere insertar las siguient
 survey#:#back#:#<< Volver
 survey#:#before#:#antes
 survey#:#browse_for_questions#:#Seleccionar preguntas
-survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
+survey#:#cancel_survey#:#Cancelar la encuesta
 survey#:#cannot_create_survey_codes#:#¡Usted no posee suficientes permisos para crear códigos de acceso de encuestas!
 survey#:#cannot_edit_survey#:#¡Usted no posee suficiente permisos para editar la encuesta!
 survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el banco de preguntas!
