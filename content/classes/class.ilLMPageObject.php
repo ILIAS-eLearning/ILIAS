@@ -453,11 +453,12 @@ class ilLMPageObject extends ilLMObject
 				}
 				$cnt_str = " (".$cur_cnt."/".count($childs).")";
 			}
-			/*
 			require_once("content/classes/class.ilStructureObject.php");
-			$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
-			return $struct_obj->getTitle();*/
-			return $pred_node["title"].$cnt_str;
+			//$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
+			//return $struct_obj->getTitle();
+			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"],
+				$a_include_numbers).$cnt_str;
+			//return $pred_node["title"].$cnt_str;
 		}
 		else
 		{
