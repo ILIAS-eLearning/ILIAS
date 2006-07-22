@@ -1879,7 +1879,14 @@ class ilObjectGUI
 			$tbl->disable("footer");
 			
 			$this->tpl->setCurrentBlock("text");
-			$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("obj_not_found"));
+			
+			// do not display an "error message" here
+			// this confuses people in administratino
+			//$this->tpl->setVariable("TEXT_CONTENT",
+			//	$this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("CSS_ROW", "tblrow1");
+			$this->tpl->setVariable("TEXT_CONTENT",
+				"&nbsp;");
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -2287,7 +2294,7 @@ class ilObjectGUI
 			//$this->showPossibleSubObjects();
 		}
 		
-		if (!empty($this->ids))
+		if (!empty($this->ids) && count($operations) > 0)
 		{
 			// set checkbox toggles
 			$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
@@ -2298,9 +2305,12 @@ class ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->parseCurrentBlock();	
+		if (count($operations) > 0)
+		{
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
