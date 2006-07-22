@@ -2284,6 +2284,7 @@ common#:#none#:#Κανένα
 common#:#normal#:#Κανονικό
 common#:#not_accessed#:#Δεν έχει προσπελαστεί
 common#:#not_accessed_yet#:#Δεν έχει προσπελαστεί ακόμα
+common#:#not_available#:#Not Available###22 Jul 2006 new variable
 common#:#not_implemented_yet#:#Δεν έχει υλοποιηθεί ακόμα
 common#:#not_installed#:#Δεν είναι εγκατεστημένο
 common#:#not_logged_in#:#Δεν έχετε συνδεθεί
@@ -3860,9 +3861,11 @@ crs#:#crs_test_status_complete#:#Ολοκληρωμένο
 crs#:#crs_test_status_not_complete#:#Μη ολοκληρωμένο
 crs#:#crs_test_status_random#:#Τυχαίο διαγώνισμα
 crs#:#crs_time#:#Χρόνος συνδρομής
+crs#:#crs_timings_changed#:#Timings Modified###22 Jul 2006 new variable
 crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
 crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
+crs#:#crs_timings_not_changed#:#Timings not Modified###22 Jul 2006 new variable
 crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_start_end_info#:#(Start/End)###13 Jul 2006 new variable
 crs#:#crs_timings_sug_end#:#Suggested End###13 Jul 2006 new variable
@@ -3904,6 +3907,10 @@ crs#:#edit_content#:#Επεξεργασία περιεχομένων
 crs#:#import_crs#:#Εισαγωγή μαθήματος
 crs#:#learners_view#:#Προβολή Εκπαιδευόμενων
 crs#:#subscription_times_not_valid#:#Δεν είναι έγκυρη η περίοδος εγγραφής.
+crs#:#timing_accepted#:#Accepted###22 Jul 2006 new variable
+crs#:#timing_not_accepted#:#Not Accepted###22 Jul 2006 new variable
+crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
 crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable

@@ -2550,6 +2550,7 @@ common#:#none#:#None
 common#:#normal#:#Normal
 common#:#not_accessed#:#Not accessed
 common#:#not_accessed_yet#:#Not accessed yet
+common#:#not_available#:#Not Available
 common#:#not_implemented_yet#:#Not implemented yet
 common#:#not_installed#:#Not Installed
 common#:#not_logged_in#:#You are not logged in
@@ -4216,6 +4217,7 @@ crs#:#crs_time#:#Subscription time
 crs#:#crs_timings_availability_enabled#:#Temporarily Available
 crs#:#crs_timings_availability_tbl#:#Availability
 crs#:#crs_timings_changeable#:#Time Target Changeable
+crs#:#crs_timings_changed#:#Timings Modified
 crs#:#crs_timings_disabled#:#Timings Disabled
 crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.
 crs#:#crs_timings_duration#:#Duration
@@ -4225,6 +4227,7 @@ crs#:#crs_timings_from_until#:#(From/Until)
 crs#:#crs_timings_in_days#:#(In Days)
 crs#:#crs_timings_info_active#:#(Active)
 crs#:#crs_timings_late_end#:#Latest End
+crs#:#crs_timings_not_changed#:#Timings not Modified
 crs#:#crs_timings_planed_info#:#Planed Editing Time
 crs#:#crs_timings_planed_start#:#Planed
 crs#:#crs_timings_presetting#:#Time Target Enabled
@@ -4321,10 +4324,14 @@ crs#:#import_crs#:#Import Course
 crs#:#learners_view#:#Learners view
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
 crs#:#timing_accept_table#:#Timings: Remarks
+crs#:#timing_accepted#:#Accepted
+crs#:#timing_not_accepted#:#Not Accepted
 crs#:#timing_remark#:#Remark
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors
 crs#:#timing_user_accept#:#Accept Timings
+crs#:#timing_user_accepted#:#Timings Accepted
 crs#:#timings_edit#:#Edit Timings
+crs#:#timings_of#:#Timings Off
 crs#:#timings_timings#:#Timings
 crs#:#timings_timings_off#:#Switch Timings Administration Off
 crs#:#timings_timings_on#:#Switch Timings Administration On
@@ -6370,10 +6377,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-crs#:#crs_timings_changed#:#Timings Modified
-crs#:#crs_timings_not_changed#:#Timings not Modified
-crs#:#timings_of#:#Timings Off
-crs#:#timing_user_accepted#:#Timings Accepted
-common#:#not_available#:#Not Available
-crs#:#timing_accepted#:#Accepted
-crs#:#timing_not_accepted#:#Not Accepted

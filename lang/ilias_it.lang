@@ -2548,6 +2548,7 @@ common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_accessed#:#Non entrato
 common#:#not_accessed_yet#:#Non ancora entrato
+common#:#not_available#:#Not Available###22 Jul 2006 new variable
 common#:#not_implemented_yet#:#Non ancora implementato
 common#:#not_installed#:#Non installata
 common#:#not_logged_in#:#Non sei entrato in ILIAS 3
@@ -4211,6 +4212,7 @@ crs#:#crs_time#:#Data di iscrizione
 crs#:#crs_timings_availability_enabled#:#Temporarily Available###10 Jul 2006 new variable
 crs#:#crs_timings_availability_tbl#:#Availability###10 Jul 2006 new variable
 crs#:#crs_timings_changeable#:#Time Target Changeable###10 Jul 2006 new variable
+crs#:#crs_timings_changed#:#Timings Modified###22 Jul 2006 new variable
 crs#:#crs_timings_disabled#:#Timings Disabled###10 Jul 2006 new variable
 crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.###10 Jul 2006 new variable
 crs#:#crs_timings_duration#:#Duration###10 Jul 2006 new variable
@@ -4220,6 +4222,7 @@ crs#:#crs_timings_from_until#:#(From/Until)###13 Jul 2006 new variable
 crs#:#crs_timings_in_days#:#(In Days)###13 Jul 2006 new variable
 crs#:#crs_timings_info_active#:#(Active)###15 Jul 2006 new variable
 crs#:#crs_timings_late_end#:#Latest End###10 Jul 2006 new variable
+crs#:#crs_timings_not_changed#:#Timings not Modified###22 Jul 2006 new variable
 crs#:#crs_timings_planed_info#:#Planed Editing Time###15 Jul 2006 new variable
 crs#:#crs_timings_planed_start#:#Planed Start/End###10 Jul 2006 new variable
 crs#:#crs_timings_presetting#:#Time Target Enabled###10 Jul 2006 new variable
@@ -4316,10 +4319,14 @@ crs#:#import_crs#:#Importa corso###10 Jul 2006 content changed
 crs#:#learners_view#:#Vista studenti
 crs#:#subscription_times_not_valid#:#Il periodo di registrazione non &#232; valido.
 crs#:#timing_accept_table#:####10 Jul 2006 new variable
+crs#:#timing_accepted#:#Accepted###22 Jul 2006 new variable
+crs#:#timing_not_accepted#:#Not Accepted###22 Jul 2006 new variable
 crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
+crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
+crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable
 crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
 crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable

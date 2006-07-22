@@ -2549,6 +2549,7 @@ common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_accessed#:#Noch nicht aufgerufen
 common#:#not_accessed_yet#:#Noch nicht aufgerufen
+common#:#not_available#:#Nicht vorhanden
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht angemeldet
@@ -4214,6 +4215,7 @@ crs#:#crs_time#:#Datum der Registrierung
 crs#:#crs_timings_availability_enabled#:#Zeitlich begrenzt verfügbar
 crs#:#crs_timings_availability_tbl#:#Verfügbarkeit
 crs#:#crs_timings_changeable#:#Lernplanung änderbar
+crs#:#crs_timings_changed#:#Lernplan geändert
 crs#:#crs_timings_disabled#:#Zeitvorgaben ausgeschaltet
 crs#:#crs_timings_disabled_info#:#Wählen Sie diese Einstellung, um alle Zeitvorgaben zu deaktivieren.
 crs#:#crs_timings_duration#:#Dauer
@@ -4223,6 +4225,7 @@ crs#:#crs_timings_from_until#:#(Von/Bis)
 crs#:#crs_timings_in_days#:#(in Tagen)
 crs#:#crs_timings_info_active#:#(Aktiv)
 crs#:#crs_timings_late_end#:#Spätestes Ende
+crs#:#crs_timings_not_changed#:#Lernplan nicht geändert
 crs#:#crs_timings_planed_info#:#Geplante Bearbeitungszeit
 crs#:#crs_timings_planed_start#:#Geplant###15 Jul 2006 content changed
 crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
@@ -4319,10 +4322,14 @@ crs#:#import_crs#:#Kurs importieren###10 Jul 2006 content changed
 crs#:#learners_view#:#Lerneransicht
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#timing_accept_table#:#Lernplanung: Bemerkungen###15 Jul 2006 content changed
+crs#:#timing_accepted#:#Akzeptiert
+crs#:#timing_not_accepted#:#Nicht akzeptiert
 crs#:#timing_remark#:#Bemerkung
 crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
 crs#:#timing_user_accept#:#Lernplan akzeptieren
+crs#:#timing_user_accepted#:#Lernplan akzeptiert
 crs#:#timings_edit#:#Zeitplanung bearbeiten
+crs#:#timings_of#:#Lernplanung von
 crs#:#timings_timings#:#Lernplanung
 crs#:#timings_timings_off#:#Lernplanungsverwaltung aus
 crs#:#timings_timings_on#:#Lernplanungsverwaltung an
@@ -6368,10 +6375,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-crs#:#crs_timings_changed#:#Lernplan geändert
-crs#:#crs_timings_not_changed#:#Lernplan nicht geändert
-crs#:#timings_of#:#Lernplanung von
-crs#:#timing_user_accepted#:#Lernplan akzeptiert
-common#:#not_available#:#Nicht vorhanden
-crs#:#timing_accepted#:#Akzeptiert
-crs#:#timing_not_accepted#:#Nicht akzeptiert
