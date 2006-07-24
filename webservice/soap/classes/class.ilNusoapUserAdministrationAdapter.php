@@ -781,7 +781,7 @@ class ilNusoapUserAdministrationAdapter
 		$this->server->register('getRoles',
 								array('sid' => 'xsd:string',
 								      'role_type' => 'xsd:string',
-								      'id' => 'xsd:int'),
+								      'id' => 'xsd:string'),
 								array('role_xml' => 'xsd:string'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#getRoles',
@@ -838,7 +838,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS hasNewMail(): Checks whether the current authenticated user has a new mail.');
-								
+
 		return true;
 	}
 
