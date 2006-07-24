@@ -78,7 +78,7 @@ class ilLPEventListGUI extends ilLPObjectItemListGUI
 	function renderTypeImage()
 	{
 		$this->tpl->setCurrentBlock("row_type_image");
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.'crs'.'.gif'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.'event'.'.gif'));
 		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('event'));
 		$this->tpl->parseCurrentBlock();
 	}
