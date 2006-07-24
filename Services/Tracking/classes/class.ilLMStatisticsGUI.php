@@ -51,7 +51,7 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 			$rLehrmodulID[$row[0]] = $Lehrmodulanz;
 			$LehrmodulName[$Lehrmodulanz] = $row[2];
 		}
-		
+
 		$_SESSION["il_track_rlm_id"] = $rLehrmodulID;
 		$_SESSION["il_track_lm_name"] = $LehrmodulName;
 
@@ -82,7 +82,8 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		$tpl->setVariable("TXT_SHOW_TR_DATA2", $lng->txt("stats_new_selection"));
 		$tpl->setVariable("TXT_TRACKED_OBJECTS", $lng->txt("tracked_objects"));
 		$tpl->setVariable("TXT_TRACKED_USER", $lng->txt("stats_tracked_user"));
-		$tpl->setVariable("INFO1", "(".$lng->txt(stats_current).": ".count($_SESSION["userSelected_stat"])." ".$lng->txt("stats_user_selected"));
+
+
 		$tpl->setVariable("TXT_ALLE", $lng->txt("stats_all"));
 		$tpl->setVariable("TXT_AUSWAHL", $lng->txt("stats_choice"));
 
@@ -98,13 +99,13 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 			$_SESSION["il_track_stat"] = 'h';
 		}
 		$languages = $lng->getInstalledLanguages();
-		
-		$tpl->setCurrentBlock("lm_selection");		
+
+		$tpl->setCurrentBlock("lm_selection");
 		$_SESSION["il_track_lm"] = $this->obj_id;
 		$tpl->setVariable("LM_ID", $LehrmodulID[1]);
-		$tpl->setVariable("LM_DESC", substr($LehrmodulName[1], 0, 40)." (S:".$LMSeitenanz[1].")");		
+		$tpl->setVariable("LM_DESC", substr($LehrmodulName[1], 0, 40)." (S:".$LMSeitenanz[1].")");
 		$tpl->parseCurrentBlock();
-		
+
 		if ($_SESSION["il_track_stat2"] == "choice") {
 			$tpl->setVariable("CHC_CHK", " checked=\"1\" ");
 
@@ -114,19 +115,32 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 
 		$user_IDs = $_SESSION["userSelected_stat"];
 
-		if (count($user_IDs) > 0) {
+
+	    $tpl->setCurrentBlock("user_selection");
+
+	    if (count($user_IDs) > 0) {
 			foreach ($_SESSION["userSelected_stat"] as $result_id) {
-				$tpl->setCurrentBlock("user_selection");
 				$tpl->setVariable("USER1", $result_id);
 				$tpl->setVariable("USER2", $result_id);
-				$tpl->parseCurrentBlock();
-			}
+			 }
 		} else {
 			$tpl->setCurrentBlock("user_selection");
 			$tpl->setVariable("USER1", "Alle");
 			$tpl->setVariable("USER2", "Alle");
-			$tpl->parseCurrentBlock();
 		}
+
+        include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+
+		if (!ilObjUserTracking::_enabledUserRelatedData()) {
+		    $tpl->setVariable ("DISABLED", "disabled");
+		    $tpl->setVariable("ALL_CHK", " checked=\"1\" ");
+		    $tpl->setVariable("CHC_CHK", "");
+        } else {
+            $tpl->setVariable("INFO1", $lng->txt(stats_current).": ".count($_SESSION["userSelected_stat"])." ".$lng->txt("stats_user_selected"));
+        }
+
+		$tpl->parseCurrentBlock();
+
 		//Datum von:
 		foreach ($year as $key) {
 			$tpl->setCurrentBlock("fromyear_selection");
@@ -209,7 +223,7 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		}
 		elseif ($_SESSION["il_track_stat"] == "u") {
 			$tpl->setVariable("U_CHK", " checked=\"1\" ");
-		}		
+		}
 	}
 
 	/**
@@ -518,11 +532,11 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 
 		return true;
 	}
-	
+
 	/**
 	 * standard implementation for tables
-	 * use 'from' variable use different initial setting of table 
-	 * 
+	 * use 'from' variable use different initial setting of table
+	 *
 	 */
 	function __setTableGUIBasicData(&$tbl,&$result_set,$a_from = "")
 	{
@@ -734,16 +748,16 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 	* execute command
 	*/
 	function & executeCommand() {
-		if (isset($_POST["cmd"]["searchUserForm"])) 
+		if (isset($_POST["cmd"]["searchUserForm"]))
 		{
 			$cmd = "searchUserForm";
-		} elseif (isset($_POST["cmd"]["outputStatistics"])) 
+		} elseif (isset($_POST["cmd"]["outputStatistics"]))
 		{
 			$cmd = "outputStatistics";
 		} else switch ($this->ctrl->getNextClass()) {
 			default :
 				$cmd = $this->__getDefaultCommand();
-		}		
+		}
 		$this-> $cmd ();
 		return true;
 	}

@@ -293,7 +293,7 @@ assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java Applet
 assessment#:#javaapplet_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
 assessment#:#javaapplet_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein Fehler aufgetreten!
-assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitext-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlüsselwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlüsselwörter in dem Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten. 
+assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitext-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlüsselwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlüsselwörter in dem Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
@@ -321,7 +321,7 @@ assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
 assessment#:#matching_pair#:#Zuordnungspaar
-assessment#:#matching_question_javascript_hint#:#Bitte ziehen Sie eine Definition bzw. ein Bild auf der rechten Seite in einen der Zielbereiche neben den Termen, um eine Definition bzw. ein Bild dem nebenstehenden Term zuzuordnen. 
+assessment#:#matching_question_javascript_hint#:#Bitte ziehen Sie eine Definition bzw. ein Bild auf der rechten Seite in einen der Zielbereiche neben den Termen, um eine Definition bzw. ein Bild dem nebenstehenden Term zuzuordnen.
 assessment#:#material#:#Material
 assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
@@ -4261,7 +4261,7 @@ crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Wa
 crs#:#crs_view_archive#:#Archivansicht
 crs#:#crs_view_info_objective#:#Wählen Sie Darstellung, um eine für Lernziele optimierte Ansicht anzubieten.
 crs#:#crs_view_info_standard#:#Diese Ansicht präsentiert die Kursmaterialien ähnlich wie im Magazin.
-crs#:#crs_view_info_timing#:#Ansicht für Lernplanung 
+crs#:#crs_view_info_timing#:#Ansicht für Lernplanung
 crs#:#crs_view_mode#:#Kursdarstellung
 crs#:#crs_view_objective#:#Lernziel orientierte Ansicht
 crs#:#crs_view_standard#:#Standard Ansicht
@@ -6172,7 +6172,7 @@ trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefun
 trac#:#info_all_objects#:#Die nachfolgende Zugriffsstatistik bezieht sich auf alle Objekte des Typs '%s'.
 trac#:#info_dwell_time#:#Achtung: Die Gesamtverweildauer für ein Objekt ist vom gegebenen Zeitraum unabhängig!
 trac#:#info_found_objects#:#Die Zugriffsstatistik bezieht sich auf die nachfolgenden Objekte des Typs '%s', die gemäß Ihren Suchbegriffen gefunden wurden.
-trac#:#info_valid_request#:#Finden zwei Anfragen eines Benutzers innerhalb dieser Zeispanne statt, so wird die entsprechende Zeitspanne als 'aktiv' gewertet. 
+trac#:#info_valid_request#:#Finden zwei Anfragen eines Benutzers innerhalb dieser Zeispanne statt, so wird die entsprechende Zeitspanne als 'aktiv' gewertet.
 trac#:#last_login#:#Letztes Login
 trac#:#meta_typical_learning_time#:#Typische Lernzeit
 trac#:#newUT_settings#:#Lernmodul Statistik
@@ -6204,11 +6204,11 @@ trac#:#stats_equivalent#:#entspricht
 trac#:#stats_hits#:#Zugriffe
 trac#:#stats_hour#:#h
 trac#:#stats_interval#:#Intervall
-trac#:#stats_interval_dwell_time#:#VerweilDauer-Intervalle
+trac#:#stats_interval_dwell_time#:#Verweildauer-Intervalle
 trac#:#stats_interval_page_access#:#Seitenzugriffe-Intervalle
 trac#:#stats_last#:#letzter
 trac#:#stats_legend#:#Legende
-trac#:#stats_measurable_hits#:#messbare Zugriffe
+trac#:#stats_measurable_hits#:#messbare Zugriffe (innerhalb einer Session)
 trac#:#stats_minute#:#min
 trac#:#stats_navigation#:#Navigations-/Beobachtungsmodell (erfordert JRE 1.5 oder höher)
 trac#:#stats_new_selection#:#neue Auswahl
