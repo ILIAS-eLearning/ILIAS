@@ -226,7 +226,7 @@ class ilObjCourse extends ilContainer
 	}
 	function getSubscriptionType()
 	{
-		return $this->subscription_type;
+		return $this->subscription_type ? $this->subscription_type : IL_CRS_SUBSCRIPTION_DIRECT;
 		#return $this->subscription_type ? $this->subscription_type : $this->SUBSCRIPTION_DEACTIVATED;
 	}
 	function setSubscriptionType($a_value)
@@ -623,7 +623,7 @@ class ilObjCourse extends ilContainer
 		include_once './course/classes/class.ilObjCourseGrouping.php';
 		ilObjCourseGrouping::_deleteAll($this->getId());
 
-		include_once './course/Event/class.ilEvent.php';
+		include_once './course/classes/Event/class.ilEvent.php';
 		ilEvent::_deleteAll($this->getId());
 
 		include_once './course/classes/class.ilCourseFile.php';
@@ -713,7 +713,7 @@ class ilObjCourse extends ilContainer
 			#"subscription_unlimited = '1', ".
 			"subscription_start = '".$this->getSubscriptionStart()."', ".
 			"subscription_end = '".$this->getSubscriptionEnd()."', ".
-			"subscription_type = '".(int) $this->SUBSCRIPTION_DEACTIVATED."', ".
+			"subscription_type = '".(int) IL_CRS_SUBSCRIPTION_DIRECT."', ".
 			"subscription_password = '".ilUtil::prepareDBString($this->getSubscriptionPassword())."', ".
 			"subscription_max_members = '".(int) $this->getSubscriptionMaxMembers()."', ".
 			"subscription_notify = '1', ".

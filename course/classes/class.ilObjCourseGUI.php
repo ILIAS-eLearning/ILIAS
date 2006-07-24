@@ -891,7 +891,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_WAIT",$this->lng->txt('crs_waiting_list'));
 		$this->tpl->setVariable("TXT_NOTIFY",$this->lng->txt('crs_notification'));
 
-
 		$this->tpl->setVariable("REGISTRATION_DEACTIVATED",
 								ilUtil::formRadioButton(($this->object->getSubscriptionLimitationType() == 
 														 IL_CRS_SUBSCRIPTION_DEACTIVATED) ? 1 : 0,
