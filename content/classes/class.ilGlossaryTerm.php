@@ -354,7 +354,9 @@ class ilGlossaryTerm
 		
 		$terms = array();
 		
-		$searchterm = (!empty ($searchterm))?" AND term like '$searchterm%'":"";
+		$searchterm = (!empty ($searchterm))
+			? " AND term like '%".$searchterm."%'"
+			: "";
 		
 		// meta glossary
 		if (is_array($a_glo_id))
