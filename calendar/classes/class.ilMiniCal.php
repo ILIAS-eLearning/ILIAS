@@ -56,8 +56,13 @@ class ilMiniCal {
 		$cal_day = date(j);
 	
 		$lastday		= strftime("%d", mktime (0,0,0,$cal_month,0,$cal_year));	// was last month's last day the 30rd, 31st, ...?
-		$firstday		= strftime ("%u", mktime(0,0,0,$cal_month,1,$cal_year)) - 2;	// which day is this month's first day ? (Monday,...)
-		
+		// the %u option fails on windows (see bug 1624)
+		$firstday		= strftime ("%w", mktime(0,0,0,$cal_month,1,$cal_year)) - 2;	// which day is this month's first day ? (Monday,...)
+		if ($firstday == -2)
+		{
+			$firstday = 5;
+		}
+
 		$startday = $lastday - $firstday;
 	
 		if ($lastday != 31 || $cal_month == "8" || $cal_month == "1")
