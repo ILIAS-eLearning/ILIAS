@@ -220,6 +220,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		global $ilObjDataCache,$ilUser;
 
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
+		include_once 'course/classes/Timings/class.ilTimingCache.php';
 
 		$item_list =& ilLPItemListFactory::_getInstanceByRefId($parent_id,$item_id,$type);
 		if($this->has_timings)
@@ -247,7 +248,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		
 		if($this->has_timings)
 		{
-			if($item_list->showTimingWarning())
+			if(ilTimingCache::_showWarning($item_id,$this->tracked_user->getId()))
 			{
 				$this->tpl->setCurrentBlock('warning_img');
 				$this->tpl->setVariable('WARNING_IMG',ilUtil::getImagePath('warning.gif'));

@@ -50,7 +50,46 @@ class ilTimingCache
 		return $cache[$a_ref_id];
 	}
 		
-		
+	function _showWarning($a_ref_id,$a_usr_id)
+	{
+		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
+		global $ilObjDataCache;
+		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
+
+		// if completed no warning
+		if(in_array($a_usr_id,ilLPStatusWrapper::_getCompleted($obj_id)))
+		{
+			return false;
+		}
+		// if editing time reached => show warning
+		$timings =& ilTimingCache::_getTimings($a_ref_id);
+		if($timings['item']['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
+		{
+			if($timings['item']['changeable'] and $timings['user'][$a_usr_id]['end'])
+			{
+				$end = $timings['user'][$a_usr_id]['end'];
+			}
+			else
+			{
+				$end = $timings['item']['suggestion_end'];
+			}
+			if($end < time())
+			{
+				return true;
+			}
+		}
+		// No check subitems
+		foreach(ilLPCollections::_getItems($obj_id) as $item)
+		{
+			if(ilTimingCache::_showWarning($item,$a_usr_id))
+			{
+				return true;
+			}
+		}
+		// Really ???
+		return false;
+	}			
 }
 ?>
