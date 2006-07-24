@@ -440,7 +440,6 @@ class assImagemapQuestion extends assQuestion
 		//$ilLog->write(strftime("%D %T") . ": import multiple choice question (single response)");
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
-		$questiontext = array();
 		$now = getdate();
 		$questionimage = array();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -449,16 +448,6 @@ class assImagemapQuestion extends assQuestion
 		{
 			switch ($entry["type"])
 			{
-				case "material":
-					$material = $presentation->material[$entry["index"]];
-					if (count($material->mattext))
-					{
-						foreach ($material->mattext as $mattext)
-						{
-							array_push($questiontext, $mattext->getContent());
-						}
-					}
-					break;
 				case "response":
 					$response = $presentation->response[$entry["index"]];
 					$rendertype = $response->getRenderType(); 
@@ -467,13 +456,17 @@ class assImagemapQuestion extends assQuestion
 						case "ilqtirenderhotspot":
 							foreach ($rendertype->material as $mat)
 							{
-								foreach ($mat->matimage as $matimage)
+								for ($i = 0; $i < $mat->getMaterialCount(); $i++)
 								{
-									$questionimage = array(
-										"imagetype" => $matimage->getImageType(),
-										"label" => $matimage->getLabel(),
-										"content" => $matimage->getContent()
-									);
+									$m = $mat->getMaterial($i);
+									if (strcmp($m["type"], "matimage") == 0)
+									{
+										$questionimage = array(
+											"imagetype" => $m["material"]->getImageType(),
+											"label" => $m["material"]->getLabel(),
+											"content" => $m["material"]->getContent()
+										);
+									}
 								}
 							}
 							foreach ($rendertype->response_labels as $response_label)
@@ -482,10 +475,7 @@ class assImagemapQuestion extends assQuestion
 								$answerhint = "";
 								foreach ($response_label->material as $mat)
 								{
-									foreach ($mat->mattext as $matt)
-									{
-										$answerhint .= $matt->getContent();
-									}
+									$answerhint .= $this->QTIMaterialToString($mat);
 								}
 								$answers[$ident] = array(
 									"answerhint" => $answerhint,
@@ -536,7 +526,7 @@ class assImagemapQuestion extends assQuestion
 		$this->setComment($item->getComment());
 		$this->setAuthor($item->getAuthor());
 		$this->setOwner($ilUser->getId());
-		$this->setQuestion($item->getQuestiontext());
+		$this->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
 		$this->setObjId($questionpool_id);
 		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$areas = array("2" => "rect", "1" => "circle", "3" => "poly");

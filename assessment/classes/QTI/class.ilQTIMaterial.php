@@ -45,76 +45,85 @@ class ilQTIMaterial
 	var $matbreak;
 	var $mat_extension;
 	var $altmaterial;
+	var $materials;
 	
 	function ilQTIMaterial()
 	{
 		$this->flow = 0;
-		$this->mattext = array();
-		$this->matemtext = array();
-		$this->matimage = array();
-		$this->mataudio = array();
-		$this->matvideo = array();
-		$this->matapplet = array();
-		$this->matapplication = array();
-		$this->matref = array();
-		$this->matbreak = array();
-		$this->mat_extension = array();
 		$this->altmaterial = array();
+		$this->materials = array();
 	}
 	
 	function addMattext($a_mattext)
 	{
-		array_push($this->mattext, $a_mattext);
+		array_push($this->materials, array("material" => $a_mattext, "type" => "mattext"));
 	}
 
 	function addMatimage($a_matimage)
 	{
-		array_push($this->matimage, $a_matimage);
+		array_push($this->materials, array("material" => $a_matimage, "type" => "matimage"));
 	}
 
 	function addMatemtext($a_matemtext)
 	{
-		array_push($this->matemtext, $a_matemtext);
+		array_push($this->materials, array("material" => $a_matemtext, "type" => "matemtext"));
 	}
 
 	function addMataudio($a_mataudio)
 	{
-		array_push($this->mataudio, $a_mataudio);
+		array_push($this->materials, array("material" => $a_mataudio, "type" => "mataudio"));
 	}
 
 	function addMatvideo($a_matvideo)
 	{
-		array_push($this->matvideo, $a_matvideo);
+		array_push($this->materials, array("material" => $a_matvideo, "type" => "matvideo"));
 	}
 
 	function addMatapplet($a_matapplet)
 	{
-		array_push($this->matapplet, $a_matapplet);
+		array_push($this->materials, array("material" => $a_matapplet, "type" => "matapplet"));
 	}
 
 	function addMatapplication($a_matapplication)
 	{
-		array_push($this->matapplication, $a_matapplication);
+		array_push($this->materials, array("material" => $a_matapplication, "type" => "matapplication"));
 	}
 
 	function addMatref($a_matref)
 	{
-		array_push($this->matref, $a_matref);
+		array_push($this->materials, array("material" => $a_matref, "type" => "matref"));
 	}
 
 	function addMatbreak($a_matbreak)
 	{
-		array_push($this->matbreak, $a_matbreak);
+		array_push($this->materials, array("material" => $a_matbreak, "type" => "matbreak"));
 	}
 
 	function addMat_extension($a_mat_extension)
 	{
-		array_push($this->mat_extension, $a_mat_extension);
+		array_push($this->materials, array("material" => $a_mat_extension, "type" => "mat_extension"));
 	}
 
 	function addAltmaterial($a_altmaterial)
 	{
-		array_push($this->altmaterial, $a_altmaterial);
+		array_push($this->materials, array("material" => $a_altmaterial, "type" => "altmaterial"));
+	}
+	
+	function getMaterialCount()
+	{
+		return count($this->materials);
+	}
+	
+	function getMaterial($a_index)
+	{
+		if (array_key_exists($a_index, $this->materials))
+		{
+			return $this->materials[$a_index];
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 	
 	function setFlow($a_flow)

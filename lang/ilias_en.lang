@@ -6104,14 +6104,14 @@ survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
 survey#:#survey_codes_lang#:#Language of the survey
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
-survey#:#survey_finish#:#finish survey
+survey#:#survey_finish#:#Finish survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
-survey#:#survey_next#:#next >>
+survey#:#survey_next#:#Next >>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline! 
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
-survey#:#survey_previous#:#<< previous
+survey#:#survey_previous#:#<< Previous
 survey#:#survey_question_obligatory#:#This question is obligatory. You must answer the question!
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Questions
@@ -6120,7 +6120,7 @@ survey#:#survey_skip_finish#:#skip and finish survey
 survey#:#survey_skip_next#:#skip >>
 survey#:#survey_skip_previous#:#<< skip
 survey#:#survey_skip_start#:#skip and go to start page
-survey#:#survey_start#:#go to start page
+survey#:#survey_start#:#Go to start page
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed

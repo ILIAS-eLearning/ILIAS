@@ -141,7 +141,6 @@ class assTextSubset extends assQuestion
 		//$ilLog->write(strftime("%D %T") . ": import multiple choice question (single response)");
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
-		$questiontext = array();
 		$shuffle = 0;
 		$idents = array();
 		$now = getdate();
@@ -151,16 +150,6 @@ class assTextSubset extends assQuestion
 		{
 			switch ($entry["type"])
 			{
-				case "material":
-					$material = $presentation->material[$entry["index"]];
-					if (count($material->mattext))
-					{
-						foreach ($material->mattext as $mattext)
-						{
-							array_push($questiontext, $mattext->getContent());
-						}
-					}
-					break;
 				case "response":
 					$response = $presentation->response[$entry["index"]];
 					if ($response->getResponseType() == RT_RESPONSE_STR)
@@ -214,7 +203,7 @@ class assTextSubset extends assQuestion
 		$this->setComment($item->getComment());
 		$this->setAuthor($item->getAuthor());
 		$this->setOwner($ilUser->getId());
-		$this->setQuestion($item->getQuestiontext());
+		$this->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
 		$this->setObjId($questionpool_id);
 		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$textrating = $item->getMetadataEntry("textrating");

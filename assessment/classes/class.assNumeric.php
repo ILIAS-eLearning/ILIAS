@@ -142,15 +142,6 @@ class assNumeric extends assQuestion
 		{
 			switch ($entry["type"])
 			{
-				case "material":
-					$material = $presentation->material[$entry["index"]];
-					if (count($material->mattext))
-					{
-						foreach ($material->mattext as $mattext)
-						{
-							$item->setQuestiontext($mattext->getContent());
-						}
-					}
 				case "response":
 					$response = $presentation->response[$entry["index"]];
 					$rendertype = $response->getRenderType(); 
@@ -192,7 +183,7 @@ class assNumeric extends assQuestion
 		$this->setComment($item->getComment());
 		$this->setAuthor($item->getAuthor());
 		$this->setOwner($ilUser->getId());
-		$this->setQuestion($item->getQuestiontext());
+		$this->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
 		$this->setObjId($questionpool_id);
 		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->setMaxChars($maxchars);

@@ -133,7 +133,6 @@ class assMultipleChoice extends assQuestion
 		//$ilLog->write(strftime("%D %T") . ": import multiple choice question (single response)");
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
-		$questiontext = array();
 		$shuffle = 0;
 		$now = getdate();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -142,16 +141,6 @@ class assMultipleChoice extends assQuestion
 		{
 			switch ($entry["type"])
 			{
-				case "material":
-					$material = $presentation->material[$entry["index"]];
-					if (count($material->mattext))
-					{
-						foreach ($material->mattext as $mattext)
-						{
-							array_push($questiontext, $mattext->getContent());
-						}
-					}
-					break;
 				case "response":
 					$response = $presentation->response[$entry["index"]];
 					$rendertype = $response->getRenderType();
@@ -238,7 +227,7 @@ class assMultipleChoice extends assQuestion
 		$this->setComment($item->getComment());
 		$this->setAuthor($item->getAuthor());
 		$this->setOwner($ilUser->getId());
-		$this->setQuestion($item->getQuestiontext());
+		$this->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
 		$this->setObjId($questionpool_id);
 		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->setShuffle($shuffle);
@@ -351,17 +340,7 @@ class assMultipleChoice extends assQuestion
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
-		$a_xml_writer->xmlStartTag("material");
-		$attrs = array(
-			"texttype" => "text/plain"
-		);
-		if ($this->isHTML($this->getQuestion()))
-		{
-			$attrs["texttype"] = "text/xhtml";
-		}
-		$a_xml_writer->xmlElement("mattext", $attrs, $this->getQuestion());
-		
-		$a_xml_writer->xmlEndTag("material");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestion());
 		// add answers to presentation
 		$attrs = array();
 		$attrs = array(
