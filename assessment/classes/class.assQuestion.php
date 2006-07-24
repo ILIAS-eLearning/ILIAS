@@ -2107,6 +2107,101 @@ class assQuestion
 			return FALSE; 
 		}
 	}
+	
+	/**
+	* Reads an QTI material tag an creates a text string
+	*
+	* @param string $a_material QTI material tag
+	* @return string text or xhtml string
+	* @access public
+	*/
+	function QTIMaterialToString($a_material)
+	{
+		$result = "";
+		for ($i = 0; $i < $a_material->getMaterialCount(); $i++)
+		{
+			$material = $a_material->getMaterial($i);
+			if (strcmp($material["type"], "mattext") == 0)
+			{
+				$result .= $material["material"]->getContent();
+			}
+		}
+		return $result;
+	}
+	
+	/**
+	* Creates a QTI material tag from a plain text or xhtml text
+	*
+	* @param object $a_xml_writer Reference to the ILIAS XML writer
+	* @param string $a_material plain text or html text containing the material
+	* @return string QTI material tag
+	* @access public
+	*/
+	function addQTIMaterial(&$a_xml_writer, $a_material)
+	{
+		$a_xml_writer->xmlStartTag("material");
+		$attrs = array(
+			"texttype" => "text/plain"
+		);
+		if ($this->isHTML($a_material))
+		{
+			$attrs["texttype"] = "text/xhtml";
+		}
+		$a_xml_writer->xmlElement("mattext", $attrs, $a_material);
+		if (preg_match_all("/(<img.*?src\=\"(.*?\/mobs\/mm_([0-9]+)\/(.*?))\".*?\/>)/", $a_material, $matches))
+		{
+			foreach ($matches[1] as $key => $imagetag)
+			{
+				$mob = $matches[3][$key];
+				$width = "";
+				$height = "";
+				$label = $matches[4][$key];
+				$imagetype = "";
+				$imagefile = "";
+				$base64 = "";
+				if (preg_match("/width\=\"([^\"]*?)\"/", $imagetag, $widthmatch))
+				{
+					$width = $widthmatch[1];
+				}
+				if (preg_match("/height\=\"([^\"]*?)\"/", $imagetag, $heightmatch))
+				{
+					$height = $heightmatch[1];
+				}
+				$mobpath = ILIAS_ABSOLUTE_PATH . "/data/" . CLIENT_ID . "/mobs/mm_$mob/$label";
+				if (file_exists($mobpath))
+				{
+					$fh = @fopen($mobpath, "rb");
+					if ($fh != false)
+					{
+						$imagefile = fread($fh, filesize($mobpath));
+						fclose($fh);
+					}
+					$base64 = base64_encode($imagefile);
+				}
+				$imagetype = "image/jpeg";
+				if (preg_match("/.*\.(png|gif)$/", $label, $typematch))
+				{
+					$imagetype = "image/".$typematch[1];
+				}
+				$attrs = array(
+					"imagtype" => $imagetype,
+					"label" => $label,
+					"embedded" => "base64"
+				);
+				if (strlen($width))
+				{
+					$attrs["width"] = $width;
+				}
+				if (strlen($height))
+				{
+					$attrs["height"] = $height;
+				}
+				$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+			}
+		}
+	
+		$a_xml_writer->xmlEndTag("material");
+	}
 }
 
 ?>

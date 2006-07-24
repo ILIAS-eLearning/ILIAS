@@ -1366,7 +1366,8 @@ class ilQTIParser extends ilSaxParser
 			case "material":
 				if (strcmp($this->material->getLabel(), "suggested_solution") == 0)
 				{
-					$this->item->addSuggestedSolution($this->material->mattext[0], $this->gap_index);
+					$mat = $this->material->getMaterial[0];
+					$this->item->addSuggestedSolution($mat["material"], $this->gap_index);
 				}
 				else if (($this->render_type != NULL) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0))
 				{
@@ -1394,6 +1395,11 @@ class ilQTIParser extends ilSaxParser
 					{
 						$this->response->setMaterial1($this->material);
 					}
+				}
+				elseif (($this->in_presentation) && (!$this->in_response))
+				{
+					$this->item->setQuestiontext($this->material);
+					$this->presentation->addMaterial($this->material);
 				}
 				else if ($this->presentation != NULL)
 				{
@@ -1523,14 +1529,6 @@ class ilQTIParser extends ilSaxParser
 				if ($this->mattext != NULL)
 				{
 					$this->mattext->setContent($a_data);
-				}
-				if (($this->in_presentation) && (!$this->in_response))
-				{
-					if (($this->mattext != NULL) && (strlen($this->mattext->getLabel()) == 0))
-					{
-						// question text
-						$this->item->setQuestiontext($a_data);
-					}
 				}
 				break;
 			case "matapplet":

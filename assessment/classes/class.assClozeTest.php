@@ -567,14 +567,9 @@ class assClozeTest extends assQuestion
 			switch ($entry["type"])
 			{
 				case "material":
+					
 					$material = $presentation->material[$entry["index"]];
-					if (count($material->mattext))
-					{
-						foreach ($material->mattext as $mattext)
-						{
-							array_push($questiontext, $mattext->getContent());
-						}
-					}
+					array_push($questiontext, $this->QTIMaterialToString($material));
 					break;
 				case "response":
 					$response = $presentation->response[$entry["index"]];
@@ -595,10 +590,7 @@ class assClozeTest extends assQuestion
 								$answertext = "";
 								foreach ($response_label->material as $mat)
 								{
-									foreach ($mat->mattext as $matt)
-									{
-										$answertext .= $matt->getContent();
-									}
+									$answertext .= $this->QTIMaterialToString($mat);
 								}
 								$answers[$ident] = array(
 									"answertext" => $answertext,

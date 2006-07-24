@@ -174,10 +174,12 @@ class assJavaApplet extends assQuestion
 			{
 				case "material":
 					$material = $presentation->material[$entry["index"]];
-					if (count($material->mattext))
+					for ($i = 0; $i < $material->getMaterialCount(); $i++)
 					{
-						foreach ($material->mattext as $mattext)
+						$mat = $material->getMaterial($i);
+						if (strcmp($mat["type"], "mattext") == 0)
 						{
+							$mattext = $mat["material"];
 							if ((strlen($mattext->getLabel()) == 0) && (strlen($item->getQuestiontext()) == 0))
 							{
 								$item->setQuestiontext($mattext->getContent());
@@ -203,12 +205,9 @@ class assJavaApplet extends assQuestion
 								array_push($params, array("key" => $mattext->getLabel(), "value" => $mattext->getContent()));
 							}
 						}
-					}
-					if (count($material->matapplet))
-					{
-						foreach ($material->matapplet as $matapplet)
+						elseif (strcmp($mat["type"], "matapplet") == 0)
 						{
-							$applet = $matapplet;
+							$applet = $mat["material"];
 						}
 					}
 					break;
@@ -219,7 +218,7 @@ class assJavaApplet extends assQuestion
 		$this->setComment($item->getComment());
 		$this->setAuthor($item->getAuthor());
 		$this->setOwner($ilUser->getId());
-		$this->setQuestion($item->getQuestiontext());
+		$this->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
 		$this->setObjId($questionpool_id);
 		$this->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->javaapplet_filename = $applet->getUri();
