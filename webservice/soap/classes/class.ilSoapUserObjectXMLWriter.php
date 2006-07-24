@@ -132,7 +132,8 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 		{
 			include_once './classes/class.ilObjRole.php';
 
-			$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.usr_id = %s AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id",
+			$query = sprintf("SELECT object_data.title, object_data.description,  rbac_fa.*
+			                  FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.usr_id = %s AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id",
 					$ilDB->quote($row["usr_id"])
 			);
 			$rbacresult = $ilDB->query($query);

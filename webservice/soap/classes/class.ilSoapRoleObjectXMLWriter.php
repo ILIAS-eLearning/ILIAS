@@ -101,7 +101,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 			$this->xmlElement('Description',null, $role["description"]);
 			$this->xmlElement('Translation',null,ilObjRole::_getTranslation($role["title"]));
 
-			if ($ref_id = ilSoapRoleObjectXMLWriter::__extractRefId($role["title"]))
+			if ($ref_id = ilUtil::__extractRefId($role["title"]))
 			{
 
 				$ownerObj = IlObjectFactory::getInstanceByRefId($ref_id, false);
@@ -147,23 +147,6 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 		$this->xmlEndTag('Roles');
 	}
 
-	/**
-	*	@param role_title with format like il_crs_member_893
-	*	@return	ref id or false
-	*/
-
-	function __extractRefId($role_title)
-	{
-
-		$test_str = explode('_',$role_title);
-
-		if ($test_str[0] == 'il')
-		{
-			$test2 = (int) $test_str[3];
-			return is_numeric ($test2) ? (int) $test2 : false;
-		}
-		return false;
-	}
 
 }
 
