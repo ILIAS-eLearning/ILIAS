@@ -562,7 +562,7 @@ class ilObjTestAccess extends ilObjectAccess
 				$active_id = $row["active_id"];
 				include_once "./assessment/classes/class.ilObjTest.php";
 				$pass = ilObjTest::_getResultPass($active_id);
-				$testres =& ilObjTestAccess::_getTestResult($active_id, $a_obj_id, $pass);
+				$testres =& ilObjTestAccess::_getTestResult($active_id, $pass);
 
 				array_push($passed_users, 
 						   array(
