@@ -97,14 +97,31 @@ class ilLPEventListGUI extends ilLPObjectItemListGUI
 	function __readUserStatus()
 	{
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-
+		if($this->status_info['starting_time'] < time())
+		{
+			if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompletedByType($this->getId(),'event')))
+			{
+				return $this->status = LP_STATUS_PARTICIPATED;
+			}
+			else
+			{
+				return $this->status = LP_STATUS_NOT_PARTICIPATED;
+			}
+		}
 		if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompletedByType($this->getId(),'event')))
 		{
-			return $this->status = LP_STATUS_COMPLETED;
+			return $this->status = LP_STATUS_PARTICIPATED;
 		}
-		elseif(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getInProgressByType($this->getId(),'event')))
+		if($this->status_info['registration'])
 		{
-			return $this->status = LP_STATUS_IN_PROGRESS;
+			if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getInProgressByType($this->getId(),'event')))
+			{
+				return $this->status = LP_STATUS_REGISTERED;
+			}
+			else
+			{
+				return $this->status = LP_STATUS_NOT_REGISTERED;
+			}
 		}
 		else
 		{

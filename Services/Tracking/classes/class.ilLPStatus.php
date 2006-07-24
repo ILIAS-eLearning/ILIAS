@@ -37,6 +37,14 @@ define('LP_STATUS_NOT_ATTEMPTED','trac_no_attempted');
 define('LP_STATUS_IN_PROGRESS','trac_in_progress');
 define('LP_STATUS_COMPLETED','trac_completed');
 
+// Stati for events
+define('LP_STATUS_REGISTERED','trac_registered');
+define('LP_STATUS_NOT_REGISTERED','trac_not_registered');
+define('LP_STATUS_PARTICIPATED','trac_participated');
+define('LP_STATUS_NOT_PARTICIPATED','trac_not_participated');
+
+
+
 
 class ilLPStatus
 {
