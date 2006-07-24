@@ -44,7 +44,7 @@ class ilLMStatistics {
 	var $user_IDs;
 	var $lm_id;
 	var $user_selection;
-	
+
 	function ilLMStatistics($obj_id) {
 		$this->lm_id = $obj_id;
 	}
@@ -57,7 +57,7 @@ class ilLMStatistics {
 
 		global $tpl, $lng, $ilias, $db;
 
-		if ($mode == 1) { //wenn Aufruf aus Applet		
+		if ($mode == 1) { //wenn Aufruf aus Applet
 			$from = $this->from;
 			$to = $this->to;
 			$user_IDs = $this->user_IDs;
@@ -111,7 +111,7 @@ class ilLMStatistics {
 
 			//STATS-EINSTELLUNGSOPTIONEN
 
-			$UTanz = 1000000; //Anzahl der max auslesenden Tracking Daten
+			//$UTanz = 1000000; //Anzahl der max auslesenden Tracking Daten
 			$SessionMaxVerweildauer = 1800; //sekunden
 			$IntervallMax[1] = 10;
 			$IntervallMax[2] = 30;
@@ -127,7 +127,7 @@ class ilLMStatistics {
 			$IntervallSeitenMax[5] = 50;
 			$RankBenoetigteZugriffe = 5; //benötigte Seitenzugriffe damit eine Seite ins Ranking kommt
 			$RankAnzahl = 10; //Größe der Rankings
-			$umlauteAendern = 1; //1=ja
+			//$umlauteAendern = 1; //1=ja
 			$KapitelAbdeckungsKennzahlFaktor2 = 0.5;
 			$KapitelAbdeckungsKennzahlFaktor3 = 1.0;
 			$KapitelAbdeckungsKennzahlFaktor4 = 1.5;
@@ -172,9 +172,9 @@ class ilLMStatistics {
 			//2.SESSIONS bestimmen
 
 			if ($_POST["stat2"] == 'all') {
-				$q = "SELECT id, user_id,acc_obj_id,acc_sub_id,session_id, acc_time FROM ut_access WHERE acc_obj_id='".$LehrModulID."' AND id<'".$UTanz."' AND acc_time>'".$from."' AND acc_time<'".$to."' ";
+				$q = "SELECT id, user_id,acc_obj_id,acc_sub_id,session_id, acc_time FROM ut_access WHERE acc_obj_id='".$LehrModulID."' AND acc_time>'".$from."' AND acc_time<'".$to."' ";
 			} else {
-				$q = "SELECT id, user_id, acc_obj_id, acc_sub_id, session_id, acc_time FROM ut_access WHERE acc_obj_id='".$LehrModulID."' AND id<'".$UTanz."' AND acc_time>'".$from."' AND acc_time<'".$to."' AND user_id IN ".$stringUserID." ";
+				$q = "SELECT id, user_id, acc_obj_id, acc_sub_id, session_id, acc_time FROM ut_access WHERE acc_obj_id='".$LehrModulID."' AND acc_time>'".$from."' AND acc_time<'".$to."' AND user_id IN ".$stringUserID." ";
 			}
 			$result = $ilias->db->query($q);
 
@@ -914,15 +914,15 @@ class ilLMStatistics {
 			}
 
 			//BEGINN DER AUSGABE
-			/**	
+			/**
 			 	*Im Feld $SeitenStatsName[] wird jeweils der Name der anzuzeigenden Option gespeichert der dann in der der linken Spalte ausgegeben wird.
 			*In $SeitenStatsWert[] wird der dazugehörige Optionswert eingetragen.
 			*Ein Slider ($slider) wird verwendet um die Optionen leichter zu entfernen bzw. zu verschieben.
 			*	Soll zB eine neue Option hinzugefügt werden kann man das mit den Einträgen...
 			    *	    	$SeitenStatsName[$slider3]="Name der neuen Option";
 			    *		$SeitenStatsWert[$slider3]="Wert der neuen Option";
-			    *		$slider3++;	
-			    *	...bewerkstelligt werden.	
+			    *		$slider3++;
+			    *	...bewerkstelligt werden.
 			 	*/
 
 			$TNA = 300; //Strings werden auf diesen Wert gekürzt
@@ -947,13 +947,13 @@ class ilLMStatistics {
 				return $min."m,".round($restsek)."s";
 			}
 
-			//wenn die Option umlauteAendern eingeschaltet ist (wert=1) dann werden bei der Ausgabe die Umlaute in der Ausgabe geändert
+/*			//wenn die Option umlauteAendern eingeschaltet ist (wert=1) dann werden bei der Ausgabe die Umlaute in der Ausgabe geändert
 
 			if ($umlauteAendern == 1) {
 				$d1 = array ("Ã¤", "Ã¶", "Ã¼", "Ã„", "Ã–", "Ãœ");
 				$d2 = array ("ae", "oe", "ue", "Ae", "Oe", "Ue");
 			}
-
+*/
 			function proz($str) {
 				return $str;
 				/*
@@ -1035,7 +1035,8 @@ class ilLMStatistics {
 			$SeitenStatsWert[$slider] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
 				$SeitenStatsName[$i +1 + $slider] = ($i +1).". ".str_replace($d1, $d2, substr($SeitenName[$SeitenGesamtVerweilMaxID[$i]], 0, $TNA));
-				$SeitenStatsWert[$i +1 + $slider] = s_to_h($SeitenGesamtVerweilMax[$i])." (".$SeitenGesamtVerweilMax[$i]."s, mZ:".$SeitenMessbareZugriffe[$SeitenGesamtVerweilMaxID[$i]].")";
+				$SeitenStatsWert[$i +1 + $slider] = s_to_h($SeitenGesamtVerweilMax[$i])." (".
+				    (is_numeric($SeitenGesamtVerweilMax[$i])?$SeitenGesamtVerweilMax[$i]:"0")."s, mZ:".(is_numeric($SeitenMessbareZugriffe[$SeitenGesamtVerweilMaxID[$i]])?$SeitenMessbareZugriffe[$SeitenGesamtVerweilMaxID[$i]]:"0").")";
 			}
 			$slider += $RankAnzahl + $hop;
 
@@ -1043,7 +1044,8 @@ class ilLMStatistics {
 			$SeitenStatsWert[$slider] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
 				$SeitenStatsName[$i +1 + $slider] = ($i +1).". ".str_replace($d1, $d2, substr($SeitenName[$SeitenGesamtVerweilMinID[$i]], 0, $TNA));
-				$SeitenStatsWert[$i +1 + $slider] = round($SeitenGesamtVerweilMin[$i])."s (mZ:".$SeitenMessbareZugriffe[$SeitenGesamtVerweilMinID[$i]].")";
+				$SeitenStatsWert[$i +1 + $slider] =
+				    round(is_numeric($SeitenGesamtVerweilMin[$i])?$SeitenGesamtVerweilMin[$i]:"0")."s (mZ:".(is_numeric($SeitenMessbareZugriffe[$SeitenGesamtVerweilMinID[$i]])?$SeitenMessbareZugriffe[$SeitenGesamtVerweilMinID[$i]]:"0") .")";
 			}
 			$slider += $RankAnzahl + $hop;
 
@@ -1051,7 +1053,8 @@ class ilLMStatistics {
 			$SeitenStatsWert[$slider] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
 				$SeitenStatsName[$i +1 + $slider] = ($i +1).". ".str_replace($d1, $d2, substr($SeitenName[$SeitenDurchschnittVerweilMaxID[$i]], 0, $TNA));
-				$SeitenStatsWert[$i +1 + $slider] = round($SeitenDurchschnittVerweilMax[$i])."s (mZ:".$SeitenMessbareZugriffe[$SeitenDurchschnittVerweilMaxID[$i]].")";
+				$SeitenStatsWert[$i +1 + $slider] =
+				    round(is_numeric($SeitenDurchschnittVerweilMax[$i])?$SeitenDurchschnittVerweilMax[$i]:0)."s (mZ:".(is_numeric($SeitenMessbareZugriffe[$SeitenDurchschnittVerweilMaxID[$i]])?$SeitenMessbareZugriffe[$SeitenDurchschnittVerweilMaxID[$i]]:"0").")";
 			}
 			$slider += $RankAnzahl + $hop;
 
@@ -1059,7 +1062,8 @@ class ilLMStatistics {
 			$SeitenStatsWert[$slider] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
 				$SeitenStatsName[$i +1 + $slider] = ($i +1).". ".str_replace($d1, $d2, substr($SeitenName[$SeitenDurchschnittVerweilMinID[$i]], 0, $TNA));
-				$SeitenStatsWert[$i +1 + $slider] = round($SeitenDurchschnittVerweilMin[$i])."s (mZ:".$SeitenMessbareZugriffe[$SeitenDurchschnittVerweilMinID[$i]].")";
+				$SeitenStatsWert[$i +1 + $slider] =
+				    round($SeitenDurchschnittVerweilMin[$i])."s (mZ:".(is_numeric($SeitenMessbareZugriffe[$SeitenDurchschnittVerweilMinID[$i]])?$SeitenMessbareZugriffe[$SeitenDurchschnittVerweilMinID[$i]]:"0").")";
 			}
 			$slider += $RankAnzahl + $hop;
 
@@ -1083,7 +1087,8 @@ class ilLMStatistics {
 			$SeitenStatsWert[$slider] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
 				$SeitenStatsName[$i +1 + $slider] = ($i +1).". ".str_replace($d1, $d2, substr($SeitenName[$EinzelSeitenVarMaxID[$i]], 0, $TNA));
-				$SeitenStatsWert[$i +1 + $slider] = round(sqrt($EinzelSeitenVarMax[$i]), 2)." (mZ:".$SeitenMessbareZugriffe[$EinzelSeitenVarMaxID[$i]].")";
+				$SeitenStatsWert[$i +1 + $slider] = round(sqrt($EinzelSeitenVarMax[$i]), 2)." (mZ:"
+				    .(is_numeric($SeitenMessbareZugriffe[$EinzelSeitenVarMaxID[$i]])?$SeitenMessbareZugriffe[$EinzelSeitenVarMaxID[$i]]:0).")";
 			}
 			$slider += $RankAnzahl + $hop;
 
@@ -1091,7 +1096,8 @@ class ilLMStatistics {
 			$SeitenStatsWert[$slider] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
 				$SeitenStatsName[$i +1 + $slider] = ($i +1).". ".str_replace($d1, $d2, substr($SeitenName[$EinzelSeitenVarMinID[$i]], 0, $TNA));
-				$SeitenStatsWert[$i +1 + $slider] = round(sqrt($EinzelSeitenVarMin[$i]), 2)." (mZ:".$SeitenMessbareZugriffe[$EinzelSeitenVarMinID[$i]].")";
+				$SeitenStatsWert[$i +1 + $slider] = round(sqrt($EinzelSeitenVarMin[$i]), 2)." (mZ:".
+				    (is_numeric($SeitenMessbareZugriffe[$EinzelSeitenVarMinID[$i]])?$SeitenMessbareZugriffe[$EinzelSeitenVarMinID[$i]]:0).")";
 			}
 			$slider += $RankAnzahl + $hop;
 
@@ -1099,7 +1105,8 @@ class ilLMStatistics {
 			$SeitenStatsWert[$slider] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
 				$SeitenStatsName[$i +1 + $slider] = ($i +1).". ".str_replace($d1, $d2, substr($SeitenName[$EinzelSeitenVarKoefMaxID[$i]], 0, $TNA));
-				$SeitenStatsWert[$i +1 + $slider] = round(sqrt($EinzelSeitenVarKoefMax[$i]), 2)." (mZ:".$SeitenMessbareZugriffe[$EinzelSeitenVarKoefMaxID[$i]].")";
+				$SeitenStatsWert[$i +1 + $slider] = round(sqrt($EinzelSeitenVarKoefMax[$i]), 2)." (mZ:".
+				    (is_numeric($SeitenMessbareZugriffe[$EinzelSeitenVarKoefMaxID[$i]])?$SeitenMessbareZugriffe[$EinzelSeitenVarKoefMaxID[$i]]:0).")";
 			}
 			$slider += $RankAnzahl + $hop;
 
@@ -1107,7 +1114,8 @@ class ilLMStatistics {
 			$SeitenStatsWert[$slider] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
 				$SeitenStatsName[$i +1 + $slider] = ($i +1).". ".str_replace($d1, $d2, substr($SeitenName[$EinzelSeitenVarKoefMinID[$i]], 0, $TNA));
-				$SeitenStatsWert[$i +1 + $slider] = round(sqrt($EinzelSeitenVarKoefMin[$i]), 2)." (mZ:".$SeitenMessbareZugriffe[$EinzelSeitenVarKoefMinID[$i]].")";
+				$SeitenStatsWert[$i +1 + $slider] = round(sqrt($EinzelSeitenVarKoefMin[$i]), 2)." (mZ:".
+				    (is_numeric($SeitenMessbareZugriffe[$EinzelSeitenVarKoefMinID[$i]])?$SeitenMessbareZugriffe[$EinzelSeitenVarKoefMinID[$i]]:0).")";
 			}
 			$slider += $RankAnzahl + $hop;
 
@@ -1172,8 +1180,14 @@ class ilLMStatistics {
 
 			$SessionStatsName[$slider2] = "<b>".$lng->txt("stats_session_longest")."</b>"; //"<b>Laengste Session</b>";
 			$SessionStatsWert[$slider2] = "";
+
+            include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+
+	       	$anonymous = !ilObjUserTracking::_enabledUserRelatedData();
+
+
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
-				$SessionStatsName[$i +1 + $slider2] = ($i +1).". ".$SessionID[$SessionGesamtDauerMaxID[$i]]." ".$lng->txt("stats_of")." ".$lng->txt("stats_user")." ".$SessionUserID[$SessionGesamtDauerMaxID[$i]]; //.$SessionGesamtDauerMaxID[$i]." von User "
+				$SessionStatsName[$i +1 + $slider2] = ($i +1).". ".$lng->txt("stats_user")." ". ($anonymous?$i+1:ilObjUser::_lookupLogin($SessionUserID[$SessionGesamtDauerMaxID[$i]])); //.$SessionGesamtDauerMaxID[$i]." von User "
 				$SessionStatsWert[$i +1 + $slider2] = s_to_h($SessionGesamtDauerMax[$i])." (".$SessionGesamtDauerMax[$i].$lng->txt("stats_sec").")"; //"s)";
 			}
 			$slider2 += $RankAnzahl + $hop;
@@ -1181,7 +1195,7 @@ class ilLMStatistics {
 			$SessionStatsName[$slider2] = "<b>".$lng->txt("stats_session_longest_total_duration_usr")."</b>"; //"<b>Laengste Gesamtdauer pro User</b>";
 			$SessionStatsWert[$slider2] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
-				$SessionStatsName[$i +1 + $slider2] = ($i +1).". ".$lng->txt("stats_user")." ".$UserGesamtSessionsDauerMaxID[$i];
+				$SessionStatsName[$i +1 + $slider2] = ($i +1).". ".$lng->txt("stats_user")." ".($anonymous?$i+1:ilObjUser::_lookupLogin($UserGesamtSessionsDauerMaxID[$i]));
 				$SessionStatsWert[$i +1 + $slider2] = s_to_h($UserGesamtSessionsDauerMax[$i])." (".$UserGesamtSessionsDauerMax[$i].$lng->txt("stats_sec").")"; //."s)";
 			}
 			$slider2 += $RankAnzahl + $hop;
@@ -1189,7 +1203,7 @@ class ilLMStatistics {
 			$SessionStatsName[$slider2] = "<b>".$lng->txt("stats_session_most").":"."</b>"; //"<b>Meiste Sessions:</b>";
 			$SessionStatsWert[$slider2] = "";
 			for ($i = 0; $i < $RankAnzahl; $i ++) {
-				$SessionStatsName[$i +1 + $slider2] = ($i +1).". ".$lng->txt("stats_user")." ".$UserSessionAnzMaxID[$i]; //".  User "
+				$SessionStatsName[$i +1 + $slider2] = ($i +1).". ".$lng->txt("stats_user")." ".($anonymous?$i+1:ilObjUser::_lookupLogin($UserSessionAnzMaxID[$i])); //".  User "
 				$SessionStatsWert[$i +1 + $slider2] = round($UserSessionAnzMax[$i])." ".$lng->txt("stats_sessions"); //" Sessions";
 			}
 			$slider2 += $RankAnzahl + $hop;
@@ -1395,7 +1409,7 @@ class ilLMStatistics {
 			//AUSGABE BEOBACHTUNGSMODELL
 
 			if ($_POST["stat"] == 'u') {
-				//Daten für das Applet zusammenstellen	
+				//Daten für das Applet zusammenstellen
 
 				$delim1 = " ";
 
@@ -1453,18 +1467,18 @@ class ilLMStatistics {
 				}
 				$tbl->disable("sort");
 				$tbl->setHeaderNames($header_names);
-				if ($_POST["stat"] == 'h') { //SeitenSTATS			
+				if ($_POST["stat"] == 'h') { //SeitenSTATS
 					$num = $slider +1;
 					$tbl->setMaxCount($num);
 				} else
-					if ($_POST["stat"] == 'd') { //KapitelSTATS			
+					if ($_POST["stat"] == 'd') { //KapitelSTATS
 						$num = $slider3save + $slider3 +1;
 						$tbl->setMaxCount($num);
 					} else
-						if ($_POST["stat"] == 'o') { //SessionSTATS			
+						if ($_POST["stat"] == 'o') { //SessionSTATS
 							$num = $slider2 +1;
 							$tbl->setMaxCount($num);
-						} else { //BeobModell			
+						} else { //BeobModell
 							$num = 24;
 							$tbl->setMaxCount($num);
 						}
@@ -1472,7 +1486,7 @@ class ilLMStatistics {
 				$tbl->render();
 
 				if ($_POST["stat"] == 'h') { //SeitenSTATS
-					for ($i = 0; $i < $num; $i ++) { //Soviele Zeilen ausgeben				
+					for ($i = 0; $i < $num; $i ++) { //Soviele Zeilen ausgeben
 						$data[0] = $SeitenStatsName[$i]; //String in 1. Spalte
 						$data[1] = $SeitenStatsWert[$i]; // Werte der 2. Spalte
 						$css_row = $i % 2 == 0 ? "tblrow1" : "tblrow2"; //Tabelle erstellen
@@ -1490,7 +1504,7 @@ class ilLMStatistics {
 					$tpl->parseCurrentBlock();
 				} else
 					if ($_POST["stat"] == 'd') { //KapitelSTATS
-						for ($i = 1; $i < $slider3save; $i ++) { //Soviele Zeilen ausgeben				
+						for ($i = 1; $i < $slider3save; $i ++) { //Soviele Zeilen ausgeben
 							$data[0] = $KapitelStatsName[$i]; //String in 1. Spalte
 							$data[1] = $KapitelStatsWert[$i]; // Werte der 2. Spalte
 							$data[2] = "";
@@ -1509,8 +1523,8 @@ class ilLMStatistics {
 							$tpl->setVariable("CSS_ROW", $css_row);
 							$tpl->parseCurrentBlock();
 						}
-						//Abdeckungsgrade ausgeben				
-						for ($i = $slider3save; $i < $slider3; $i ++) { //Soviele Zeilen ausgeben				
+						//Abdeckungsgrade ausgeben
+						for ($i = $slider3save; $i < $slider3; $i ++) { //Soviele Zeilen ausgeben
 							$data[0] = $KapitelStatsName[$i]; //String in 1. Spalte
 							$data[1] = $KapitelStatsWertA1[$i]; // Werte der 2. Spalte
 							$data[2] = $KapitelStatsWertA2[$i];
@@ -1532,7 +1546,7 @@ class ilLMStatistics {
 						$tpl->parseCurrentBlock();
 					} else
 						if ($_POST["stat"] == 'o') { //SessionSTATS
-							for ($i = 0; $i < $num; $i ++) { //Soviele Zeilen ausgeben				
+							for ($i = 0; $i < $num; $i ++) { //Soviele Zeilen ausgeben
 								$data[0] = $SessionStatsName[$i]; //String in 1. Spalte
 								$data[1] = $SessionStatsWert[$i]; // Werte der 2. Spalte
 								$css_row = $i % 2 == 0 ? "tblrow1" : "tblrow2"; //Tabelle erstellen
@@ -1604,12 +1618,12 @@ class ilLMStatistics {
 
 		} //Ende if
 
-	} //Ende OUTPUTfunktion    
+	} //Ende OUTPUTfunktion
 
 	function outputApplet() {
 		global $tpl, $lng, $ilias, $db;
 		$this->calcStats (0);
-		
+
 		$tpl->setVariable("Sprache", "<param name='Sprache' value= '".$ilias->account->prefs["language"]."'>");
 		$tpl->setVariable("Seitenanz2", "<param name='Seitenanz2' value= '".$this->Seitenanz."'>");
 		$tpl->setVariable("KapitelZuSeite2", "<param name='KapitelZuSeite2' value= '".$this->KapitelZuSeite2."'>");

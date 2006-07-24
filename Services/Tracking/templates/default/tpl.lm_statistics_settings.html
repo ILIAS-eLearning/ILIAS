@@ -106,14 +106,14 @@ while (this.search.tst.length > 0) {
 			<td class="option">
                 {TXT_TRACKED_OBJECTS}
             </td>
-              
+
 
             <td class="option_value">
             	<!-- BEGIN lm_selection -->
             	{LM_DESC}<input name="lmID" type="hidden" value="{LM_ID}"/>
             	<!-- END lm_selection -->
 			</td>
-			             	  
+
 		</tr>
 		<tr>
 			<td class="option">
@@ -125,9 +125,9 @@ while (this.search.tst.length > 0) {
 			<div align="left">
 			    <input type="RADIO" name="stat2" value="all" {ALL_CHK}>{TXT_ALLE}</input>
                 <br>
-                <input type="RADIO" name="stat2" value="choice" {CHC_CHK}>{TXT_AUSWAHL} </input>
+                <input type="RADIO" name="stat2" value="choice" {DISABLED} {CHC_CHK}>{TXT_AUSWAHL} </input>
 
-                <input class="submit" type="SUBMIT" name="cmd[searchUserForm]" value="{TXT_SHOW_TR_DATA2}">&nbsp;{INFO1})
+                <input class="submit" type="SUBMIT" name="cmd[searchUserForm]" {DISABLED}  value="{TXT_SHOW_TR_DATA2}">&nbsp;{INFO1}
                <!-- <select class="Auswahl" name="user"> -->
                         <!-- BEGIN user_selection -->
                        <!--  <option value="{USER1}">{USER2}</option> -->
