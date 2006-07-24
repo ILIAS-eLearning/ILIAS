@@ -6,7 +6,7 @@
 <!ATTLIST Role
 	obj_id CDATA #REQUIRED
 	id CDATA #REQUIRED
-	role_type (Global | Local) #REQUIRED
+	role_type (Global | Local | Linked | Template) #REQUIRED
 >
 <!ELEMENT Title (#PCDATA)>
 <!ELEMENT Description (#PCDATA)>
