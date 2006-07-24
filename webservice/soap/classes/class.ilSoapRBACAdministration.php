@@ -544,7 +544,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
-		global $rbacsystem, $rbacreview, $ilUser;
+		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
 
 		$roles = array();
 
@@ -586,13 +586,40 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		        }
             }
 
-		    foreach($rbacreview->assignedRoles($user_id) as $role_id)
-		    {
-			     if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
-			     {
-				    $roles[] = array ("obj_id" => $role_id, "title" => $tmp_obj->getTitle(), "description" => $tmp_obj->getDescription(), "role_type" => $role_type);
-			     }
-		    }
+
+    		$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.rol_id IN ('%s') AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id",
+					join ("','", $rbacreview->assignedRoles($user_id))
+			);
+
+			$rbacresult = $ilDB->query($query);
+
+
+			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+					if ($rbacrow["assign"] != "y")
+						continue;
+
+					$type = "";
+
+					if ($rbacrow["parent"] == ROLE_FOLDER_ID)
+					{
+						$type = "Global";
+					}
+					else
+					{
+						$type = "Local";
+					}
+					if (strlen($type) && $tmp_obj = ilObjectFactory::getInstanceByObjId($rbacrow["rol_id"],false))
+					{
+				        /* @var $tmp_obj IlObjRole */
+			             $roles[] = array (
+			                 "obj_id" =>$rbacrow["rol_id"],
+				            "title" => $tmp_obj->getTitle(),
+				            "description" => $tmp_obj->getDescription(),
+				            "role_type" => $type);
+			        }
+
+			}
 		} elseif ($id == "-1")
 		// get all roles of system role folder
 		{
