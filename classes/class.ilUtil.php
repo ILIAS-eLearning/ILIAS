@@ -3060,10 +3060,9 @@ class ilUtil
 			// Plural
 			if ($value > 1) 
 			{
-				$segment_name = substr($key, 0, -1);
+				$segment_name = $key;
 				$segment_name = $lng->txt($segment_name);
 				$segment = $value . ' ' . $segment_name; 
-				$segment .= 's';
 			}
 			else 
 			{
