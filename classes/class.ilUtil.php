@@ -215,14 +215,14 @@ class ilUtil
 		{
 			$base = "./";
 		}
-		
+
 		// add version as parameter to force reload for new releases
 		if ($mode != "filesystem")
 		{
 			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
-				
+
 		return $base."templates/".$ilias->account->skin."/".$ilias->account->prefs["style"].".css".$vers;
 	}
 
@@ -248,14 +248,14 @@ class ilUtil
 		{
 			$base = "./";
 		}
-		
+
 		// add version as parameter to force reload for new releases
 		if ($mode != "filesystem")
 		{
 			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
-		
+
 		$in_style = "templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
 		if (is_file("./".$in_style))
 		{
@@ -640,7 +640,7 @@ class ilUtil
 			else
 			{
 				$link = $AScript."?".$params."offset=";
-			}				
+			}
 
 			// ?bergehe "zurck"-link, wenn offset 0 ist.
 			if ($AOffset >= 1)
@@ -1513,7 +1513,7 @@ class ilUtil
 		if($_SERVER['HTTPS'])
 		{
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');	
+            header('Pragma: public');
 		}
 
 		header("Connection: close");
@@ -1571,7 +1571,7 @@ class ilUtil
 		if($_SERVER['HTTPS'])
 		{
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');	
+            header('Pragma: public');
 		}
 
 		header("Connection: close");
@@ -1940,7 +1940,7 @@ class ilUtil
 				$a_str = preg_replace("/<\/?\s*$item(\/?)\s+([^>]*)>/i", "", $a_str);
 			}
 		}
-		
+
 		if ($a_rm_js)
 		{
 			// remove all attributes if an "on..." attribute is given
@@ -2857,7 +2857,7 @@ class ilUtil
 			$where .= implode("','",$a_obj_type);
 			$where .= "') ";
 		}
-				
+
 
 		// limit number of results default is search result limit
 		if(!$limit)
@@ -2919,7 +2919,7 @@ class ilUtil
 		}
 		return $ref_ids ? $ref_ids : array();
 	}
-	
+
 	/**
 	* replace [text]...[/tex] tags with formula image code
 	* ////////
@@ -2954,7 +2954,7 @@ class ilUtil
 		while (preg_match('/' . $a_start . '(.*?)' . $a_end . '/ie', $result_text, $found))
 		{
 			$cnt = (int) $GLOBALS["teximgcnt"]++;
-			
+
 			// get image from cgi and write it to file
 			$fpr = fopen($a_cgi."?".rawurlencode($found[1]), "r");
 			$lcnt = 0;
@@ -2978,14 +2978,14 @@ class ilUtil
 			}
 			fclose($fpw);
 			fclose($fpr);
-			
+
 			// replace tex-tag
 			$img_str = "./teximg/img".$cnt.".".$suffix;
 			$result_text = str_replace($found[0],
 				'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
 
 		}
-		
+
 		if (strcmp($result_text, $a_text) == 0)
 		{
 			// fix to deal with PEAR template variables
@@ -3002,9 +3002,9 @@ class ilUtil
 	* @return	 mixed An array containing named segments
 	*/
 	function int2array ($seconds, $periods = null)
-	{	  
+	{
 		// Define time periods
-		if (!is_array($periods)) 
+		if (!is_array($periods))
 		{
 			$periods = array (
 			'years'	=> 31536000,
@@ -3015,27 +3015,27 @@ class ilUtil
 			'seconds' => 1
 			);
 		}
-	
+
 		// Loop
 		$seconds = (float) $seconds;
-		foreach ($periods as $period => $value) 
+		foreach ($periods as $period => $value)
 		{
 			$count = floor($seconds / $value);
-  
-			if ($count == 0) 
+
+			if ($count == 0)
 			{
 				continue;
 			}
-  			
+
 			$values[$period] = $count;
 			$seconds = $seconds % $value;
 		}
 		// Return
-		if (empty($values)) 
+		if (empty($values))
 		{
 			$values = null;
 		}
-  
+
 		return $values;
 	}
 
@@ -3050,38 +3050,38 @@ class ilUtil
 	{
 		global $lng;
 
-		if (!is_array($duration)) 
+		if (!is_array($duration))
 		{
 			return false;
 	 	}
-	 	
+
 		foreach ($duration as $key => $value) {
-	
+
 			// Plural
-			if ($value > 1) 
+			if ($value > 1)
 			{
 				$segment_name = $key;
 				$segment_name = $lng->txt($segment_name);
-				$segment = $value . ' ' . $segment_name; 
+				$segment = $value . ' ' . $segment_name;
 			}
-			else 
+			else
 			{
 				$segment_name = substr($key, 0, -1);
 				$segment_name = $lng->txt($segment_name);
-				$segment = $value . ' ' . $segment_name; 
+				$segment = $value . ' ' . $segment_name;
 			}
-	 
+
 			$array[] = $segment;
 	 	}
 	 	$len = count($array);
-	 	
-		if ($len>3) 
+
+		if ($len>3)
 		{
 			$array=array_slice($array,0,(3-$len));
     	}
-	 
+
 	 	$str = implode(', ', $array);
-	 
+
 	 	return $str;
 	}
 
@@ -3093,14 +3093,33 @@ class ilUtil
 		$umf=get_cfg_var("upload_max_filesize");
 		// get the value for the maximal post data from the php.ini (if available)
 		$pms=get_cfg_var("post_max_size");
-		
+
 		// use the smaller one as limit
 		$max_filesize=min($umf, $pms);
 		if (!$max_filesize) $max_filesize=max($umf, $pms);
 
 		return $lng->txt("file_notice")." $max_filesize.";
 	 }
-    
+
+    /**
+     *  extract ref id from role title, e.g. 893 from 'il_crs_member_893'
+	*	@param role_title with format like il_crs_member_893
+	*	@return	ref id or false
+	*/
+
+	function __extractRefId($role_title)
+	{
+
+		$test_str = explode('_',$role_title);
+
+		if ($test_str[0] == 'il')
+		{
+			$test2 = (int) $test_str[3];
+			return is_numeric ($test2) ? (int) $test2 : false;
+		}
+		return false;
+	}
+
 } // END class.ilUtil
 
 
