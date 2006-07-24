@@ -6377,3 +6377,7 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+trac#:#trac_registered#:#Registered
+trac#:#trac_not_registered#:#Not Registered
+trac#:#trac_participated#:#Participated
+trac#:#trac_not_participated#:#Not Participated
