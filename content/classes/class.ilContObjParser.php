@@ -91,6 +91,7 @@ class ilContObjParser extends ilMDSaxParser
 	var $link_targets;		// stores all objects by import id
 	var $qst_mapping;
 	var $metadata_parsing_disabled;
+	var $in_meta_meta_data = false;
 
 	/**
 	* Constructor
@@ -779,51 +780,58 @@ class ilContObjParser extends ilMDSaxParser
 
 			// Identifier
 			case "Identifier":
-				if ($this->in_meta_data && !$this->in_glossary_definition)
+			
+				// please note: Meta-Metadata and MetaData are different tags!
+				if (!$this->in_meta_meta_data)
 				{
-					if (!$this->in_media_object)
+					if ($this->in_meta_data && !$this->in_glossary_definition)
 					{
-						$this->current_object->setImportId($a_attribs["Entry"]);
+						if (!$this->in_media_object)
+						{
+							$this->current_object->setImportId($a_attribs["Entry"]);
+						}
+						$this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
 					}
-					$this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
-				}
-				if ($this->in_file_item)
-				{
-					if ($this->file_item_mapping[$a_attribs["Entry"]] == "")
+					if ($this->in_file_item)
 					{
-						$this->file_item->create();
-						$this->file_item->setImportId($a_attribs["Entry"]);
-						$this->file_item_mapping[$a_attribs["Entry"]] = $this->file_item->getId();
+						if ($this->file_item_mapping[$a_attribs["Entry"]] == "")
+						{
+							$this->file_item->create();
+							$this->file_item->setImportId($a_attribs["Entry"]);
+							$this->file_item_mapping[$a_attribs["Entry"]] = $this->file_item->getId();
+						}
 					}
-				}
-				if ($this->in_meta_data && $this->in_media_object)
-				{
+					if ($this->in_meta_data && $this->in_media_object)
+					{
 //echo "looking for -".$a_attribs["Entry"]."-<br>";
-					$mob_id = $this->mob_mapping[$a_attribs["Entry"]];
-					
-					// within learning module import, usually a media object
-					// has already been created with a media alias tag
-//echo "<br>--media object identifier mob id = $mob_id";
-					if ($mob_id > 0)
-					{
-						$this->media_object = new ilObjMediaObject($mob_id);
-					}
-					else	// in glossaries the media objects precede the definitions
-							// so we don't have an object already
-					{
-						$this->media_object = new ilObjMediaObject();
-						$this->media_object->create(true, false);
-						$this->mob_mapping[$a_attribs["Entry"]]
-							= $this->media_object->getId();
 
-//echo "<br>--creating media object";
+						$mob_id = $this->mob_mapping[$a_attribs["Entry"]];
+					
+						// within learning module import, usually a media object
+						// has already been created with a media alias tag
+						if ($mob_id > 0)
+						{
+							$this->media_object = new ilObjMediaObject($mob_id);
+						}
+						else	// in glossaries the media objects precede the definitions
+								// so we don't have an object already
+						{
+							$this->media_object = new ilObjMediaObject();
+							$this->media_object->create(true, false);
+							$this->mob_mapping[$a_attribs["Entry"]]
+								= $this->media_object->getId();
+						}
+						$this->media_object->setImportId($a_attribs["Entry"]);
+						$this->md =& new ilMD(0 ,
+							$this->media_object->getId(),
+							"mob");
+						$this->emptyMediaMetaCache($a_xml_parser);
 					}
-					$this->media_object->setImportId($a_attribs["Entry"]);
-					$this->md =& new ilMD(0 ,
-						$this->media_object->getId(),
-						"mob");
-					$this->emptyMediaMetaCache($a_xml_parser);
 				}
+				break;
+
+			case "Meta-Metadata":
+				$this->in_meta_meta_data = true;
 				break;
 
 			// Internal Link
@@ -1293,6 +1301,10 @@ class ilContObjParser extends ilMDSaxParser
 					$this->glossary_definition->MDUpdateListener('General');
 				}
 
+				break;
+
+			case "Meta-Metadata":
+				$this->in_meta_meta_data = false;
 				break;
 
 			case "FileItem":
