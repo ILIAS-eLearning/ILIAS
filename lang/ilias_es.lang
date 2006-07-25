@@ -519,7 +519,7 @@ assessment#:#tst_eval_total_persons#:#Número total de personas que realizaron e
 assessment#:#tst_eval_user_answer#:#Respuesta del usuario
 assessment#:#tst_finish_confirm_button#:#Si, quiero finalizar el test
 assessment#:#tst_finish_confirm_cancel_button#:#No, volver a la pregunta anterior
-assessment#:#tst_finish_confirmation_question#:#Vas a finalizar este test y alcanzaras el maximo numero de intentos permitidos. No podras volver a realizar este test para cambiar tus respuestas. Quiere finalizar el test?
+assessment#:#tst_finish_confirmation_question#:#Vas a finalizar este test y alcanzaras el maximo numero de intentos permitidos. No podras volver a realizar este test para cambiar tus respuestas. Quiere finalizar el test?###25 Jul 2006 content changed
 assessment#:#tst_finished#:#Terminado
 assessment#:#tst_general_properties#:#Propiedades generales
 assessment#:#tst_generate_xls#:#Generar Excel
@@ -999,7 +999,7 @@ common#:#adm_visible#:#Configuración del sistema visible
 common#:#adm_write#:#Editar Configuración Básica del sistema
 common#:#admin_panel#:#Panel de administración
 common#:#admin_panel_disable#:#Deshabilitar comandos de administración (off)
-common#:#admin_panel_enable#:#Habilitar comandos de administración (on)
+common#:#admin_panel_enable#:#Habilitar comandos de administración (on)###25 Jul 2006 content changed
 common#:#administrate#:#administrar
 common#:#administrate_users#:#Administración local de usuarios
 common#:#administration#:#Administración
@@ -1011,7 +1011,7 @@ common#:#advanced_editing_allow_javascript_editor#:#Habilitar un editor 'rich te
 common#:#advanced_editing_assessment_settings#:#Tags HTML permitidos para la herramienta de Test&Assessment
 common#:#advanced_editing_no_rte#:#No usar el editor 'rich text'
 common#:#advanced_editing_settings#:#Configuración de edición avanzada
-common#:#advanced_editing_survey_settings#:#Tags HTML permitidos para la herramienta de encuestas
+common#:#advanced_editing_survey_settings#:#Tags HTML permitidos para la herramienta de encuestas###25 Jul 2006 content changed
 common#:#advanced_editing_tinymce#:#Editor TinyMCE
 common#:#adve_assessment_settings#:#Configuración de Test&Assessment
 common#:#adve_edit_permission#:#Modificar configuración de permisos
@@ -1524,7 +1524,7 @@ common#:#enable_fora_statistics_desc#:#Si está deshabilitado, ningún usuario p
 common#:#enable_hist_user_comments#:#Habilitar comentarios de usuario en la historia
 common#:#enable_hist_user_comments_desc#:#Dar al autor la oportunidad de añadir comentarios al historial de modificaciones de páginas.
 common#:#enable_js_edit#:#Habilitar Edición JavaScript
-common#:#enable_js_edit_info#:#Esta opción habilita la Edición JavaScript para todos los objectos de contenido (módulos de aprendizaje, Glosarios, Preguntas de Evaluación, Libros Digitales)
+common#:#enable_js_edit_info#:#Esta opción habilita la Edición JavaScript para todos los objectos de contenido (módulos de aprendizaje, Glosarios, Preguntas de Evaluación, Libros Digitales)###25 Jul 2006 content changed
 common#:#enable_password_assistance#:#Habilitar Asistencia de Contraseña
 common#:#enable_registration#:#Habilitar registro de usuarios
 common#:#enable_trash#:#Habilitar Papelera
@@ -1927,9 +1927,9 @@ common#:#hist_lm_st_create#:#Capítulo creado.
 common#:#hist_lm_st_cut_page#:#Página "%1" [%2] cortada de capítulo.
 common#:#hist_lm_st_paste_page#:#Página "%1" [%2] pegada en capítulo
 common#:#hist_no_entries#:#No hay entradas en la historia.
-common#:#hist_webr_add#:#Añadido nuevo Recurso Web con el título: "%1"
-common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: "%1"
-common#:#hist_webr_update#:#Actualizar Recurso Web. Título: "%1"
+common#:#hist_webr_add#:#Añadido nuevo Recurso Web con el título: "%1"###25 Jul 2006 content changed
+common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: "%1"###25 Jul 2006 content changed
+common#:#hist_webr_update#:#Actualizar Recurso Web. Título: "%1"###25 Jul 2006 content changed
 common#:#history#:#Historia
 common#:#hits_per_page#:#Hits/Página
 common#:#hlm#:#Módulo de aprendizaje HACP
@@ -3387,7 +3387,7 @@ common#:#webr_add_item#:#Añadir Recurso Web
 common#:#webr_delete#:#Eliminar Recurso Web
 common#:#webr_delete_items#:#Eliminar Recurso(s) Web
 common#:#webr_deleted_items#:#Recurso(s) Web Eliminado(s).
-common#:#webr_disable_check#:#Deshabilitar comprobación
+common#:#webr_disable_check#:#Deshabilitar comprobación###25 Jul 2006 content changed
 common#:#webr_edit#:#Editar Recurso Web
 common#:#webr_edit_item#:#Editar Recurso Web
 common#:#webr_edit_permission#:#Modificar configuración de permisos
@@ -3427,7 +3427,7 @@ content#:#PDF export#:#exportar a PDF
 content#:#Pages#:#Páginas
 content#:#add_menu_entry#:#Añadir opción de menú >>
 content#:#all#:#-Todo-
-content#:#all_pages#:#El módulo de aprendizaje completo
+content#:#all_pages#:#El módulo de aprendizaje completo###25 Jul 2006 content changed
 content#:#choose_public_mode#:#Los usuarios no registrados pueden acceder
 content#:#choose_public_pages#:#Escoger páginas de acceso público
 content#:#citate#:#Citar
@@ -3874,7 +3874,7 @@ content#:#read offline#:#Leer Offline
 content#:#selectFooter#:#Seleccionar como pie de pagina
 content#:#selectHeader#:#Seleccionar como cabecera
 content#:#select_a_file#:#Por favor seleccione un archivo
-content#:#selected_pages_only#:#sólo esas páginas seleccionadas debajo
+content#:#selected_pages_only#:#sólo esas páginas seleccionadas debajo###25 Jul 2006 content changed
 content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
@@ -4012,7 +4012,7 @@ crs#:#crs_info_reg#:#Información de registro
 crs#:#crs_info_reg_confirmation#:#Este curso necesita confirmación por un administrador del curso. Recibirá un mensaje si ha sido asignado al curso.
 crs#:#crs_info_reg_deactivated#:#No es posible el registro
 crs#:#crs_info_reg_direct#:#Es necesario registrarse en este curso
-crs#:#crs_info_reg_password#:#El registro necesita una contraseña válida
+crs#:#crs_info_reg_password#:#El registro necesita una contraseña válida###25 Jul 2006 content changed
 crs#:#crs_info_settings#:#Información del Curso
 crs#:#crs_info_start#:#Por favor, trabaje sobre los items del curso señalados más abajo..<br />Después de haber estudiado todos los objetos marcados en rojo, se activarán nuevos items del curso.
 crs#:#crs_item_availability_info#:#Escoja esta opción para hacer el item disponible por un período fijo de tiempo. Si la 'Visibilidad' está marcada el item permanecerá visible pero no accesible para los alumnos.
@@ -4314,7 +4314,7 @@ crs#:#event_tbl_participated#:#Participaron
 crs#:#event_tbl_registered#:#Registrados
 crs#:#event_time#:#Fecha
 crs#:#event_title#:#Título
-crs#:#event_tutor_data#:#Información sobre el responsable
+crs#:#event_tutor_data#:#Información sobre el responsable###25 Jul 2006 content changed
 crs#:#event_unregister#:#Darse de baja
 crs#:#event_unregistered#:#Ha sido dado de baja
 crs#:#event_updated#:#Configuración salvada
@@ -5732,7 +5732,7 @@ style#:#sty_bottom#:#Bottom###10 Jul 2006 new variable
 style#:#sty_clear#:#Clear###10 Jul 2006 new variable
 style#:#sty_color#:#Colour###10 Jul 2006 new variable
 style#:#sty_confirm_del_ind_styles#:#Confirmar la eliminación de Estilos de Contenido Individuales
-style#:#sty_confirm_del_ind_styles_desc#:#Todos los módulos de aprendizaje con estilos individuales serán asignados al estilo '%s'. Esto también eliminará los estilos de contenido individual. ¿Quiere continuar?
+style#:#sty_confirm_del_ind_styles_desc#:#Todos los módulos de aprendizaje con estilos individuales serán asignados al estilo '%s'. Esto también eliminará los estilos de contenido individual. ¿Quiere continuar?###25 Jul 2006 content changed
 style#:#sty_copy_other_stylesheet#:#Copiar Estilo desde Fuente Local
 style#:#sty_create_ind_style#:#Crear Estilo Individual
 style#:#sty_create_new_stylesheet#:#Crear nuevo estilo
@@ -6104,7 +6104,7 @@ survey#:#survey_code_url_name#:#URL (use el botón derecho del ratón para copia
 survey#:#survey_code_used#:#Código fue usado
 survey#:#survey_codes_lang#:#Idioma de la encuesta
 survey#:#survey_error_insert_incomplete_question#:#¡Intentó añadir una pregunta incompleta a la encuesta!. La pregunta no ha sido añadida.
-survey#:#survey_finish#:#Salvar y terminar encuesta
+survey#:#survey_finish#:#Salvar y terminar encuesta###25 Jul 2006 content changed
 survey#:#survey_finished#:#La encuesta ha finalizado. ¡Gracias por su participación!
 survey#:#survey_has_datasets_warning#:#La encuesta ya contiene conjuntos de datos. No puede editar las preguntas de la encuesta hasta que elimine dichos datos en la sección mantenimiento.
 survey#:#survey_is_offline#:#¡No puede comenzar la encuesta! La encuesta está offline.
@@ -6120,7 +6120,7 @@ survey#:#survey_skip_finish#:#saltar y finalizar encuesta >>>
 survey#:#survey_skip_next#:#saltar e ir a siguiente página >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< saltar e ir a página anterior###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< saltar e ir a página inicial
-survey#:#survey_start#:#<<< salvar e ir a página inicial
+survey#:#survey_start#:#<<< salvar e ir a página inicial###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#¡Todos los datos de usuario de esta encuesta han sido eliminados!
 survey#:#svy_check_evaluation_access_introduction#:#Ya que la evaluación de esta encuesta está sólo disponible para participantes de la encuesta necesita introducir su código de acceso para entrar en la evaluación.
 survey#:#svy_check_evaluation_authentication_needed#:#Necesita Identificación
@@ -6182,97 +6182,97 @@ trac#:#obj_types#:#Tipos de objeto:###10 Jul 2006 content changed
 trac#:#search_area_info#:#Por favor escoja un objeto.
 trac#:#search_terms#:#Buscar término(s)
 trac#:#select_one#:#Por favor seleccione un objeto
-trac#:#stats_access#:#acceso
-trac#:#stats_accesses#:#accesos
+trac#:#stats_access#:#acceso###25 Jul 2006 content changed
+trac#:#stats_accesses#:#accesos###25 Jul 2006 content changed
 trac#:#stats_all#:#Todos
-trac#:#stats_chapter#:#capítulo
-trac#:#stats_chapter_average_page_number#:#número medio de páginas por capítulo
-trac#:#stats_chapter_depth_coverage#:#grado de cobertura con profundidad
-trac#:#stats_chapter_fewest_access#:#con menos accesos
-trac#:#stats_chapter_listing#:#listado de capítulo
-trac#:#stats_chapter_longest_total_dwell_time_depth#:#máximo tiempo total de estancia (con profundidad)
-trac#:#stats_chapter_most_access_depth#:#mayoría de accesos con profundidad
-trac#:#stats_chapter_most_pages#:#mayoría de páginas
-trac#:#stats_chapter_number#:#número de capítulo
+trac#:#stats_chapter#:#capítulo###25 Jul 2006 content changed
+trac#:#stats_chapter_average_page_number#:#número medio de páginas por capítulo###25 Jul 2006 content changed
+trac#:#stats_chapter_depth_coverage#:#grado de cobertura con profundidad###25 Jul 2006 content changed
+trac#:#stats_chapter_fewest_access#:#con menos accesos###25 Jul 2006 content changed
+trac#:#stats_chapter_listing#:#listado de capítulo###25 Jul 2006 content changed
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#máximo tiempo total de estancia (con profundidad)###25 Jul 2006 content changed
+trac#:#stats_chapter_most_access_depth#:#mayoría de accesos con profundidad###25 Jul 2006 content changed
+trac#:#stats_chapter_most_pages#:#mayoría de páginas###25 Jul 2006 content changed
+trac#:#stats_chapter_number#:#número de capítulo###25 Jul 2006 content changed
 trac#:#stats_chapter_statisics#:#Estadísticas de capítulo
-trac#:#stats_chapter_stubbiest_total_dwell_time#:#stubbiest total dwell time
-trac#:#stats_chapter_top#:#capítulo-top (varianza, accesos, etc.)
+trac#:#stats_chapter_stubbiest_total_dwell_time#:#stubbiest total dwell time###25 Jul 2006 content changed
+trac#:#stats_chapter_top#:#capítulo-top (varianza, accesos, etc.)###25 Jul 2006 content changed
 trac#:#stats_chapter_total_statistic#:#Estadísticas Totales de Capítulo
 trac#:#stats_choice#:#Selección
 trac#:#stats_current#:#Actualmente
-trac#:#stats_depth#:#profundidad
-trac#:#stats_duration#:#duración
+trac#:#stats_depth#:#profundidad###25 Jul 2006 content changed
+trac#:#stats_duration#:#duración###25 Jul 2006 content changed
 trac#:#stats_equivalent#:#es equivalente a
-trac#:#stats_hits#:#hits
+trac#:#stats_hits#:#hits###25 Jul 2006 content changed
 trac#:#stats_hour#:#h
-trac#:#stats_interval#:#intervalo
-trac#:#stats_interval_dwell_time#:#intervalo de tiempo de estancia
-trac#:#stats_interval_page_access#:#intervalo de acceso a páginas
-trac#:#stats_last#:#último
+trac#:#stats_interval#:#intervalo###25 Jul 2006 content changed
+trac#:#stats_interval_dwell_time#:#intervalo de tiempo de estancia###25 Jul 2006 content changed
+trac#:#stats_interval_page_access#:#intervalo de acceso a páginas###25 Jul 2006 content changed
+trac#:#stats_last#:#último###25 Jul 2006 content changed
 trac#:#stats_legend#:#Leyenda###10 Jul 2006 content changed
-trac#:#stats_measurable_hits#:#measurable hits
+trac#:#stats_measurable_hits#:#measurable hits###25 Jul 2006 content changed
 trac#:#stats_minute#:#m
 trac#:#stats_navigation#:#Modelo de Navegación/Observación (requiere JRE 1.5 o mayor)
 trac#:#stats_new_selection#:#Nueva Selección
-trac#:#stats_occurrence#:#ocurrencia
+trac#:#stats_occurrence#:#ocurrencia###25 Jul 2006 content changed
 trac#:#stats_of#:#de
-trac#:#stats_page#:#página
-trac#:#stats_page_average_access#:#media de accesos a páginas
-trac#:#stats_page_average_dwell_time#:#media de tiempo de estancia en páginas
-trac#:#stats_page_deviation_access#:#desviación de accesos a páginas
-trac#:#stats_page_deviation_dwell_time#:#desviación de tiempo de estancia en páginas
-trac#:#stats_page_fewest_access#:#con menos accesos
-trac#:#stats_page_highest_deviation#:#mayor desviación
-trac#:#stats_page_highest_varcoeff#:#mayor coeficiente de variación
-trac#:#stats_page_least_deviation#:#menor desviación
-trac#:#stats_page_listing#:#listado de páginas
-trac#:#stats_page_longest_average_dwell_time#:#mayor tiempo medio de estancia
-trac#:#stats_page_longest_total_dwell_time#:#mayor tiempo total de estancia
-trac#:#stats_page_lowest_varcoeff#:#coeficiente de variación más bajo
-trac#:#stats_page_median_access#:#mediana de accesos a páginas
-trac#:#stats_page_median_dwell_time#:#mediana de tiempo de estancia en páginas
-trac#:#stats_page_mode_access#:#modo de acceso a páginas
-trac#:#stats_page_most_access#:#con más accesos
-trac#:#stats_page_number#:#número de páginas
-trac#:#stats_page_number_access#:#número de acceso a páginas
-trac#:#stats_page_range_access#:#rango de acceso a páginas
-trac#:#stats_page_range_dwell_time#:#rango de tiempo de estancia en páginas
-trac#:#stats_page_stubbiest_average_dwell_time#:#stubbiest average dwell time
-trac#:#stats_page_stubbiest_total_dwell_time#:#stubbiest total dwell time
-trac#:#stats_page_total_dwell_time#:#tiempo total de estancia en páginas
+trac#:#stats_page#:#página###25 Jul 2006 content changed
+trac#:#stats_page_average_access#:#media de accesos a páginas###25 Jul 2006 content changed
+trac#:#stats_page_average_dwell_time#:#media de tiempo de estancia en páginas###25 Jul 2006 content changed
+trac#:#stats_page_deviation_access#:#desviación de accesos a páginas###25 Jul 2006 content changed
+trac#:#stats_page_deviation_dwell_time#:#desviación de tiempo de estancia en páginas###25 Jul 2006 content changed
+trac#:#stats_page_fewest_access#:#con menos accesos###25 Jul 2006 content changed
+trac#:#stats_page_highest_deviation#:#mayor desviación###25 Jul 2006 content changed
+trac#:#stats_page_highest_varcoeff#:#mayor coeficiente de variación###25 Jul 2006 content changed
+trac#:#stats_page_least_deviation#:#menor desviación###25 Jul 2006 content changed
+trac#:#stats_page_listing#:#listado de páginas###25 Jul 2006 content changed
+trac#:#stats_page_longest_average_dwell_time#:#mayor tiempo medio de estancia###25 Jul 2006 content changed
+trac#:#stats_page_longest_total_dwell_time#:#mayor tiempo total de estancia###25 Jul 2006 content changed
+trac#:#stats_page_lowest_varcoeff#:#coeficiente de variación más bajo###25 Jul 2006 content changed
+trac#:#stats_page_median_access#:#mediana de accesos a páginas###25 Jul 2006 content changed
+trac#:#stats_page_median_dwell_time#:#mediana de tiempo de estancia en páginas###25 Jul 2006 content changed
+trac#:#stats_page_mode_access#:#modo de acceso a páginas###25 Jul 2006 content changed
+trac#:#stats_page_most_access#:#con más accesos###25 Jul 2006 content changed
+trac#:#stats_page_number#:#número de páginas###25 Jul 2006 content changed
+trac#:#stats_page_number_access#:#número de acceso a páginas###25 Jul 2006 content changed
+trac#:#stats_page_range_access#:#rango de acceso a páginas###25 Jul 2006 content changed
+trac#:#stats_page_range_dwell_time#:#rango de tiempo de estancia en páginas###25 Jul 2006 content changed
+trac#:#stats_page_stubbiest_average_dwell_time#:#stubbiest average dwell time###25 Jul 2006 content changed
+trac#:#stats_page_stubbiest_total_dwell_time#:#stubbiest total dwell time###25 Jul 2006 content changed
+trac#:#stats_page_total_dwell_time#:#tiempo total de estancia en páginas###25 Jul 2006 content changed
 trac#:#stats_page_total_statistic#:#Estadísticas totales de páginas
-trac#:#stats_page_varcoeff_access#:#coeficiente de variación de acceso a páginas
-trac#:#stats_page_varcoeff_dwell_time#:#coeficiente de variación de tiempos de estancia en páginas
-trac#:#stats_page_variance_access#:#varianza de accesos a páginas
-trac#:#stats_page_variance_dwell_time#:#varianza de tiempos de estancia en páginas
-trac#:#stats_pages#:#páginas
+trac#:#stats_page_varcoeff_access#:#coeficiente de variación de acceso a páginas###25 Jul 2006 content changed
+trac#:#stats_page_varcoeff_dwell_time#:#coeficiente de variación de tiempos de estancia en páginas###25 Jul 2006 content changed
+trac#:#stats_page_variance_access#:#varianza de accesos a páginas###25 Jul 2006 content changed
+trac#:#stats_page_variance_dwell_time#:#varianza de tiempos de estancia en páginas###25 Jul 2006 content changed
+trac#:#stats_pages#:#páginas###25 Jul 2006 content changed
 trac#:#stats_pages_statisics#:#Estadísticas de Página
 trac#:#stats_sec#:#seg
-trac#:#stats_sel_lng#:#inglés
-trac#:#stats_session#:#sesión
-trac#:#stats_session_average_length#:#longitud media de sesión
-trac#:#stats_session_average_page_access#:#media de acceso a páginas por sesión
-trac#:#stats_session_evaluable#:#sesiones evaluables
-trac#:#stats_session_evaluable_access#:#acceso a sesión evaluable
-trac#:#stats_session_evaluable_usr#:#usuario evaluable
-trac#:#stats_session_involved_usr#:#número de usuarios involucrados
-trac#:#stats_session_listing#:#listado de sesión
-trac#:#stats_session_longest#:#sesión más larga
-trac#:#stats_session_longest_total_duration_usr#:#duración total mas larga por usuario
-trac#:#stats_session_most#:#mayoría de sesiones
-trac#:#stats_session_number#:#número de sesiones
-trac#:#stats_session_total_duration#:#duración total de todas las sesiones
+trac#:#stats_sel_lng#:#inglés###25 Jul 2006 content changed
+trac#:#stats_session#:#sesión###25 Jul 2006 content changed
+trac#:#stats_session_average_length#:#longitud media de sesión###25 Jul 2006 content changed
+trac#:#stats_session_average_page_access#:#media de acceso a páginas por sesión###25 Jul 2006 content changed
+trac#:#stats_session_evaluable#:#sesiones evaluables###25 Jul 2006 content changed
+trac#:#stats_session_evaluable_access#:#acceso a sesión evaluable###25 Jul 2006 content changed
+trac#:#stats_session_evaluable_usr#:#usuario evaluable###25 Jul 2006 content changed
+trac#:#stats_session_involved_usr#:#número de usuarios involucrados###25 Jul 2006 content changed
+trac#:#stats_session_listing#:#listado de sesión###25 Jul 2006 content changed
+trac#:#stats_session_longest#:#sesión más larga###25 Jul 2006 content changed
+trac#:#stats_session_longest_total_duration_usr#:#duración total mas larga por usuario###25 Jul 2006 content changed
+trac#:#stats_session_most#:#mayoría de sesiones###25 Jul 2006 content changed
+trac#:#stats_session_number#:#número de sesiones###25 Jul 2006 content changed
+trac#:#stats_session_total_duration#:#duración total de todas las sesiones###25 Jul 2006 content changed
 trac#:#stats_session_total_statistic#:#Estadísticas Totales de Sesiones
-trac#:#stats_sessions#:#sesiones
+trac#:#stats_sessions#:#sesiones###25 Jul 2006 content changed
 trac#:#stats_sessions_statisics#:#Estadísticas de Sesión
-trac#:#stats_start#:#comienzo
-trac#:#stats_summation#:#sumatoria
+trac#:#stats_start#:#comienzo###25 Jul 2006 content changed
+trac#:#stats_summation#:#sumatoria###25 Jul 2006 content changed
 trac#:#stats_tracked_user#:#Usuarios Seleccionados
 trac#:#stats_until#:#hasta
 trac#:#stats_user#:#Usuario(s)
 trac#:#stats_user_selected#:#Usuario seleccionado
 trac#:#stats_with#:#con
-trac#:#total_dwell_time#:#Tiempo dwell total
+trac#:#total_dwell_time#:#Tiempo dwell total###25 Jul 2006 content changed
 trac#:#trac_activated#:#Tracking activado
 trac#:#trac_active_both#:#Seguimiento de usuario y progreso de aprendizaje activados
 trac#:#trac_active_lp_only#:#Progreso de aprendizaje activado
@@ -6299,6 +6299,7 @@ trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
 trac#:#trac_edit_time#:#Tiempo de proceso
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
 trac#:#trac_edited_scos#:#Contenido procesado
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Area:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Oculto:###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
@@ -6342,9 +6343,12 @@ trac#:#trac_not_accessed#:#No accedido
 trac#:#trac_not_assigned#:#No asignado
 trac#:#trac_not_attempted#:#No visitado
 trac#:#trac_not_completed#:#No completado
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Numero de visitas
 trac#:#trac_objects#:#Progreso de los usuarios###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Ruta:
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Tiempo de proceso asumido
 trac#:#trac_progress#:#Mi Progreso
 trac#:#trac_query#:#Titulo/descripcion:###10 Jul 2006 content changed
@@ -6352,6 +6356,7 @@ trac#:#trac_reached_objectives#:#Objetivos alcanzados
 trac#:#trac_reached_points#:#Puntuación conseguida
 trac#:#trac_reached_visits#:#Visitas requeridas
 trac#:#trac_refresh#:#Actualizar
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Número de visitas requeridas
 trac#:#trac_sahs_relevant_items#:#SCO's###10 Jul 2006 content changed
 trac#:#trac_select_one#:#No hizo selección

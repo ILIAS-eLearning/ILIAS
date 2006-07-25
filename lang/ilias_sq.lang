@@ -1471,7 +1471,7 @@ common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the
 common#:#enable_hist_user_comments#:#Mundëso komentet e shfrytëzuesve në histori
 common#:#enable_hist_user_comments_desc#:#Jep mundësin autorëve të shtojnë komente në log historinë e faqeve.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Mundëso Editimin e JavaScrip
-common#:#enable_js_edit_info#:#Ky opsion mundëson editimin e JavaScript për të gjithë objektet e përmbajtjes (Modulet Mësimore ILIAS, Fjalorthët, Pyetjet Vlerësuese, Librat Diglib)
+common#:#enable_js_edit_info#:#Ky opsion mundëson editimin e JavaScript për të gjithë objektet e përmbajtjes (Modulet Mësimore ILIAS, Fjalorthët, Pyetjet Vlerësuese, Librat Diglib)###25 Jul 2006 content changed
 common#:#enable_password_assistance#:#Mundëso asistencën për parullë
 common#:#enable_registration#:#Mundëso regjistrimin e shfrytëzuesve të ri
 common#:#enable_trash#:#Enable Trash###10 Jul 2006 new variable
@@ -2321,6 +2321,7 @@ common#:#month_11_long#:#Nëntor
 common#:#month_11_short#:#Nën
 common#:#month_12_long#:#Dhjetor
 common#:#month_12_short#:#Dhj
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Zhvendos
 common#:#moveChapter#:#Zhvendos
 common#:#movePage#:#Zhvendos
@@ -3267,7 +3268,7 @@ content#:#PDF export#:#Eksport në PDF
 content#:#Pages#:#Faqet
 content#:#add_menu_entry#:#Shto artikull në meny >>
 content#:#all#:#Të Gjitha
-content#:#all_pages#:#gjithë moduli Mësimor
+content#:#all_pages#:#gjithë moduli Mësimor###25 Jul 2006 content changed
 content#:#choose_public_mode#:#Shfrytëzuesit e paregjistruar mund të qasen
 content#:#choose_public_pages#:#Zgjedh faqet për qasje publike
 content#:#citate#:#Citate###10 Jul 2006 new variable
@@ -3706,7 +3707,7 @@ content#:#read offline#:#Lexo Offline
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Ju lutem të zgjedhni një skedar.
-content#:#selected_pages_only#:#vetëm faqet e zgjedhura më poshtë
+content#:#selected_pages_only#:#vetëm faqet e zgjedhura më poshtë###25 Jul 2006 content changed
 content#:#set_public_mode#:#Vendos modin për qasje publike
 content#:#st#:#Kapitull
 content#:#start export#:#Fillo Eksportimin
@@ -5905,7 +5906,7 @@ survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###15 Ju
 survey#:#survey_code_used#:#Ky kod është ne përdorim
 survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
-survey#:#survey_finish#:#përfundo kuestionerin
+survey#:#survey_finish#:#përfundo kuestionerin###25 Jul 2006 content changed
 survey#:#survey_finished#:#Ju e keni përfunduar kuestionerin. Ju falënderojmë për participimin tuaj!###05 Feb 2006 content changed
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Nuk mund ta filloni kuestionerin sepse është offline.
@@ -5921,7 +5922,7 @@ survey#:#survey_skip_finish#:#anashkalo dhe përfundo kuestionerin
 survey#:#survey_skip_next#:#anashkalo >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<<anashkalo###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#anashkalo dhe shko në faqen e fillimit
-survey#:#survey_start#:#shko në faqen e fillimit
+survey#:#survey_start#:#shko në faqen e fillimit###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#Të gjitha të dhënat e shfrytëzuesve për këtë kuestioner janë fshirë!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
@@ -6100,6 +6101,7 @@ trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
@@ -6143,9 +6145,12 @@ trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
 trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
 trac#:#trac_not_attempted#:#Not attempted###23 Dec 2005 new variable
 trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
 trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
 trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
 trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
@@ -6153,6 +6158,7 @@ trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new v
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable

@@ -1949,6 +1949,7 @@ common#:#month_11_short#:#�?о�?
 common#:#month_12_long#:#Декабрь
 common#:#month_12_short#:#Дек
 common#:#monthly#:#ежеме�?�?чно
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Переме�?тить
 common#:#moveChapter#:#Переме�?тить Главу
 common#:#movePage#:#Переме�?тить Страницу
@@ -2817,7 +2818,7 @@ common#:#webr_add_item#:#Добавить Веб-ре�?ур�?
 common#:#webr_delete#:#Удалить Веб-ре�?ур�?
 common#:#webr_delete_items#:#Удалить Веб-ре�?ур�?(ы)
 common#:#webr_deleted_items#:#Веб-ре�?ур�?(ы) удалены.
-common#:#webr_disable_check#:#Отключить проверку
+common#:#webr_disable_check#:#Отключить проверку###25 Jul 2006 content changed
 common#:#webr_edit#:#Редактировать Веб-ре�?ур�?
 common#:#webr_edit_item#:#Редактировать Веб-ре�?ур�?
 common#:#webr_edit_permission#:#Может измен�?ть параметры до�?тупа
@@ -2855,7 +2856,7 @@ content#:#PDF export#:#Эк�?порт в PDF
 content#:#Pages#:#Страницы
 content#:#add_menu_entry#:#Добавить меню entry >>
 content#:#all#:#В�?е
-content#:#all_pages#:#Вход в Обучающий модуль
+content#:#all_pages#:#Вход в Обучающий модуль###25 Jul 2006 content changed
 content#:#choose_public_mode#:#�?езареги�?трированные пользователи имеющие до�?туп
 content#:#choose_public_pages#:#Выберите общедо�?тупные �?траницы
 content#:#citate#:#Citate###10 Jul 2006 new variable
@@ -3282,7 +3283,7 @@ content#:#read offline#:#Читать оффлайн
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Пожалуй�?та, выберите файл.
-content#:#selected_pages_only#:#только �?ти �?траницы выбраны ниже
+content#:#selected_pages_only#:#только �?ти �?траницы выбраны ниже###25 Jul 2006 content changed
 content#:#set_public_mode#:#У�?тановить модель общего до�?тупа
 content#:#st#:#Глава
 content#:#start export#:#�?ачать �?к�?порт
@@ -3411,7 +3412,7 @@ crs#:#crs_info_reg#:#Информаци�? реги�?трации
 crs#:#crs_info_reg_confirmation#:#�?еобходимо подтверждение адмири�?тратора кур�?а. Отправьте ему �?ообщение, �? извещением о подпи�?ке на �?тот кур�?.
 crs#:#crs_info_reg_deactivated#:#�?ет до�?тупных реги�?траций
 crs#:#crs_info_reg_direct#:#�?еобходимо зареги�?трировать�?�? на �?тот кур�?
-crs#:#crs_info_reg_password#:#Реги�?траци�? требует дей�?твующий пароль.
+crs#:#crs_info_reg_password#:#Реги�?траци�? требует дей�?твующий пароль.###25 Jul 2006 content changed
 crs#:#crs_info_settings#:#Course Informations###10 Jul 2006 new variable
 crs#:#crs_info_start#:#Пожалуй�?та, поработайте �?о в�?еми ча�?т�?ми кур�?а определенными ниже.<br />По�?ле обработки вами в�?ех отмеченных кра�?ным объектов, ча�?ть нового кур�?а будет активирована.
 crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.###10 Jul 2006 new variable
@@ -5377,7 +5378,7 @@ survey#:#survey_code_no_codes#:#Вы в�?е же не �?оздали кодов 
 survey#:#survey_code_used#:#Код и�?пользовал�?�?
 survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
-survey#:#survey_finish#:#закончить опро�?
+survey#:#survey_finish#:#закончить опро�?###25 Jul 2006 content changed
 survey#:#survey_finished#:#Вы закончили опро�?. Спа�?ибо за ваше уча�?тие!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Вы не можете начать опро�?! Опро�? в офлайн.
@@ -5392,7 +5393,7 @@ survey#:#survey_skip_finish#:#пропу�?тить и закончить опр�
 survey#:#survey_skip_next#:#пропу�?тить >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< пропу�?тить###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#пропу�?тить и выйти на главную �?траницу
-survey#:#survey_start#:#выйти на главную �?траницу
+survey#:#survey_start#:#выйти на главную �?траницу###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#В�?е пользователь�?кие данные �?того опро�?а были удалены!
 survey#:#svy_create_export_file#:#Создать �?к�?портный файл
 survey#:#svy_delete_all_user_data#:#Удалите в�?е пользователь�?кие данные ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -5549,6 +5550,7 @@ trac#:#trac_crs_relevant_items#:#Course Materials###10 Jul 2006 new variable
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
@@ -5563,10 +5565,14 @@ trac#:#trac_lp_determination_info_sco#:#Select the items that determine the over
 trac#:#trac_mode_exercise_returned#:#Exercise returned###10 Jul 2006 new variable
 trac#:#trac_no_content#:#No informations about the learning progress available.###20 Jan 2006 new variable
 trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_show#:#Show learning progress###28 Feb 2006 new variable

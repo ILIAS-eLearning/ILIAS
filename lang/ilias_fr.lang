@@ -2324,6 +2324,7 @@ common#:#month_11_short#:#Nov###07 Apr 2005 content changed
 common#:#month_12_long#:#Décembre###07 Apr 2005 content changed
 common#:#month_12_short#:#Déc###07 Apr 2005 content changed
 common#:#monthly#:#mensuel###07 Apr 2005 content changed
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Couper###07 Apr 2005 content changed
 common#:#moveChapter#:#Couper###07 Apr 2005 content changed
 common#:#movePage#:#Couper###07 Apr 2005 content changed
@@ -6105,6 +6106,7 @@ trac#:#trac_edit_progress#:#Editer le suivi###08 may 2006 content changed
 trac#:#trac_edit_time#:#Durée du processus###08 may 2006 content changed
 trac#:#trac_edit_visits#:#Définissez le nombre de visites nécessaire pour valider la consultation de l'objet.###08 may 2006 content changed
 trac#:#trac_edited_scos#:#Contenu traité###08 may 2006 content changed
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Aire :###08 may 2006 content changed
 trac#:#trac_filter_hidden#:#Caché :###08 may 2006 content changed
 trac#:#trac_filter_limit_reached#:#Le nombre de résultats est limité à %s. Utilisez le filtre pour réduire le nomre de résultats, SVP.###08 may 2006 content changed
@@ -6147,9 +6149,12 @@ trac#:#trac_not_accessed#:#Pas accédé###08 may 2006 content changed
 trac#:#trac_not_assigned#:#Pas assigné###08 may 2006 content changed
 trac#:#trac_not_attempted#:#Non commencé###08 may 2006 content changed
 trac#:#trac_not_completed#:#Pas terminé###08 may 2006 content changed
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Nombre de visites###08 may 2006 content changed
 trac#:#trac_objects#:#Liste des objets###08 may 2006 content changed
 trac#:#trac_occurrences#:#Chemin :###08 may 2006 content changed
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Durée de l'activité###08 may 2006 content changed
 trac#:#trac_progress#:#Suivi personnel###08 may 2006 content changed
 trac#:#trac_query#:#Titre/description:###08 may 2006 content changed
@@ -6157,6 +6162,7 @@ trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new v
 trac#:#trac_reached_points#:#Score obtenu###08 may 2006 content changed
 trac#:#trac_reached_visits#:#Visites requises###08 may 2006 content changed
 trac#:#trac_refresh#:#Actualiser###08 may 2006 content changed
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Nombre de visites requises###08 may 2006 content changed
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
 trac#:#trac_select_one#:#Vous n'avez rien sélectionné###08 may 2006 content changed

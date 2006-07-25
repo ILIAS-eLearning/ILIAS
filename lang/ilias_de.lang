@@ -160,7 +160,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
+assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.###25 Jul 2006 content changed
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß-/Kleinschreibung beachten
@@ -184,7 +184,7 @@ assessment#:#delete_area#:#Region löschen
 assessment#:#delete_image#:#Bild löschen
 assessment#:#delete_user_data#:#Testdaten der ausgewählten NutzerInnen löschen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
-assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
+assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.###25 Jul 2006 content changed
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
 assessment#:#detailed_output#:#Detailausgabe
@@ -219,7 +219,7 @@ assessment#:#ects_range_error_b#:#Bitte geben Sie einen Wert zwischen 0 und 100 
 assessment#:#ects_range_error_c#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note C an!
 assessment#:#ects_range_error_d#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note D an!
 assessment#:#ects_range_error_e#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note E an!
-assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens
+assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens###25 Jul 2006 content changed
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#edit_content#:#Inhalt bearbeiten
 assessment#:#edit_properties#:#Eigenschaften bearbeiten
@@ -329,14 +329,14 @@ assessment#:#maxchars#:#Maximale Anzahl von Zeichen
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Testdurchläufen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#maximum_points#:#Maximal erreichbare Punktezahl
 assessment#:#meaning#:#Bedeutung
-assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!
+assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!###25 Jul 2006 content changed
 assessment#:#multiline_answers_hide#:#Einzeilige Antworten verwenden
 assessment#:#multiline_answers_show#:#Mehrzeilige Antworten verwenden
 assessment#:#multiline_terms_hide#:#Einzeilige Terme verwenden
 assessment#:#multiline_terms_show#:#Mehrzeilige Terme verwenden
 assessment#:#negative_points_not_allowed#:#Sie dürfen keine negativen Punkte vergeben!
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
-assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
+assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!###25 Jul 2006 content changed
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
@@ -395,7 +395,7 @@ assessment#:#qpl_export_excel#:#Microsoft Excel Datei
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_export_xml#:#QTI XML Datei
 assessment#:#qpl_general_properties#:#Allgemeine Eigenschaften
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.###25 Jul 2006 content changed
 assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
 assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
 assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-dateien, die nicht von einem ILIAS-System erstellt wurden. bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
@@ -499,7 +499,7 @@ assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
-assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
+assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.###25 Jul 2006 content changed
 assessment#:#tst_count_correct_solutions#:#Nur vollständig richtige Lösungen bewerten
 assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
@@ -519,7 +519,7 @@ assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gest
 assessment#:#tst_eval_user_answer#:#Antwort
 assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
-assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
+assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?###25 Jul 2006 content changed
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
@@ -527,7 +527,7 @@ assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
-assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
+assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen###25 Jul 2006 content changed
 assessment#:#tst_hide_title_points#:#Punkte im Fragentitel
 assessment#:#tst_hide_title_points_description#:#Ausgabe der maximalen Punktezahl im Fragentitel verhindern
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
@@ -537,7 +537,7 @@ assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Fra
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_introduction#:#Einführung
-assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.
+assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.###25 Jul 2006 content changed
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
 assessment#:#tst_mark_create_simple_mark_schema#:#Einfaches Notenschema erzeugen
@@ -596,7 +596,7 @@ assessment#:#tst_question_type#:#Fragentyp
 assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
 assessment#:#tst_questions_removed#:#Frage(n) entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
-assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.
+assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.###25 Jul 2006 content changed
 assessment#:#tst_random_questionpools#:#Fragenpools
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_random_selection_question_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen in einem Fragenpool. Der Wert wurde korrigiert.
@@ -690,7 +690,7 @@ assessment#:#tst_text_count_system#:#Bewertungssystem
 assessment#:#tst_time_already_spent#:#Sie haben den Test am %s gestartet. Ihre maximale Bearbeitungsdauer beträgt %s. Es verbleiben Ihnen noch %s.
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
 assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
-assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
+assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.###25 Jul 2006 content changed
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
@@ -712,7 +712,7 @@ assessment#:#upload_image#:#Bild hochladen
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
-assessment#:#user_wrong_clientip#:#Falsche Client IP
+assessment#:#user_wrong_clientip#:#Falsche Client IP###25 Jul 2006 content changed
 assessment#:#value_between_x_and_y#:#Der Wert muss zwischen %s und %s liegen
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 assessment#:#warning_test_not_complete#:#Der Test ist unvollständig!
@@ -999,7 +999,7 @@ common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#admin_panel#:#Administrationsmenü
 common#:#admin_panel_disable#:#Administrationsmenü aus
-common#:#admin_panel_enable#:#Administrationsmenü an
+common#:#admin_panel_enable#:#Administrationsmenü an###25 Jul 2006 content changed
 common#:#administrate#:#Administrieren
 common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
@@ -1524,7 +1524,7 @@ common#:#enable_fora_statistics_desc#:#Wenn dies deaktiviert ist, kann niemand a
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.###23 Dec 2005 content changed
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
-common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
+common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)###25 Jul 2006 content changed
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_registration#:#Registrierung von Benutzerkonten zulassen
 common#:#enable_trash#:#Papierkorb verwenden
@@ -2398,6 +2398,7 @@ common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Dezember
 common#:#month_12_short#:#Dez
 common#:#monthly#:#monatlich
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
@@ -3386,7 +3387,7 @@ common#:#webr_add_item#:#Link hinzufügen
 common#:#webr_delete#:#Web-Links löschen
 common#:#webr_delete_items#:#Web-Links löschen.
 common#:#webr_deleted_items#:#Der/die Link(s) wurde(n) gelöscht.
-common#:#webr_disable_check#:#Überprüfung deaktivieren
+common#:#webr_disable_check#:#Überprüfung deaktivieren###25 Jul 2006 content changed
 common#:#webr_edit#:#Web-Links bearbeiten
 common#:#webr_edit_item#:#Link bearbeiten
 common#:#webr_edit_permission#:#Rechteeinstellungen ändern
@@ -4312,7 +4313,7 @@ crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
 crs#:#event_time#:#Uhrzeit
 crs#:#event_title#:#Titel
-crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden
+crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden###25 Jul 2006 content changed
 crs#:#event_unregister#:#Unregister###10 Jul 2006 new variable
 crs#:#event_unregistered#:#You have been unregistered.###10 Jul 2006 new variable
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
@@ -6102,12 +6103,12 @@ survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die U
 survey#:#survey_code_used#:#Der Zugangscode wurde verwendet
 survey#:#survey_codes_lang#:#Sprache der Umfrage
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
-survey#:#survey_finish#:#Umfrage beenden >>>
+survey#:#survey_finish#:#Umfrage beenden >>>###25 Jul 2006 content changed
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_next#:#Weiter >>>###19 Jul 2006 content changed
-survey#:#survey_offline_message#:#Es können keine Teilnehmerinnen und Teilnehmer eingeladen werden. Die Umfrage ist nicht online!
+survey#:#survey_offline_message#:#Es können keine Teilnehmerinnen und Teilnehmer eingeladen werden. Die Umfrage ist nicht online!###25 Jul 2006 content changed
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
 survey#:#survey_previous#:#<<< Zurück###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
@@ -6118,7 +6119,7 @@ survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
 survey#:#survey_skip_next#:#Überspringen und weiter >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< Überspringen und zurück###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
-survey#:#survey_start#:#<<< Zur Startseite
+survey#:#survey_start#:#<<< Zur Startseite###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmende der Umfrage verfügbar ist, müssen Sie Ihren Zugangscode für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
@@ -6132,7 +6133,7 @@ survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_file#:#Datei
 survey#:#svy_general_properties#:#Allgemeine Einstellungen
 survey#:#svy_maintenance_information_no_results#:#Es liegen keine Teilnehmerdatensätze für diese Umfrage vor. Um die Umfrage zu warten, muss wenigstens ein Teilnehmerdatensatz vorliegen.
-survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
+survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.###25 Jul 2006 content changed
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
 survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
@@ -6180,97 +6181,97 @@ trac#:#obj_types#:#Objekttypen:
 trac#:#search_area_info#:#Bitte wählen Sie ein Objekt aus.
 trac#:#search_terms#:#Suchbegriff(e)
 trac#:#select_one#:#Bitte wählen Sie ein Objekt aus.
-trac#:#stats_access#:#Zugriff
-trac#:#stats_accesses#:#Zugriffe
+trac#:#stats_access#:#Zugriff###25 Jul 2006 content changed
+trac#:#stats_accesses#:#Zugriffe###25 Jul 2006 content changed
 trac#:#stats_all#:#Alle
-trac#:#stats_chapter#:#Kapitel
-trac#:#stats_chapter_average_page_number#:#durchschn. Seitenanzahl je Kapitel
-trac#:#stats_chapter_depth_coverage#:#Abdeckungsgrade der Tiefe
-trac#:#stats_chapter_fewest_access#:#Wenigsten Zugriffe
-trac#:#stats_chapter_listing#:#Kapitel-Auflistung
-trac#:#stats_chapter_longest_total_dwell_time_depth#:#Längste GesamtVerweildauer Tiefe
-trac#:#stats_chapter_most_access_depth#:#Meisten Zugriffe der Tiefe
-trac#:#stats_chapter_most_pages#:#Meisten Seiten
-trac#:#stats_chapter_number#:#Anzahl der Kapitel
+trac#:#stats_chapter#:#Kapitel###25 Jul 2006 content changed
+trac#:#stats_chapter_average_page_number#:#durchschn. Seitenanzahl je Kapitel###25 Jul 2006 content changed
+trac#:#stats_chapter_depth_coverage#:#Abdeckungsgrade der Tiefe###25 Jul 2006 content changed
+trac#:#stats_chapter_fewest_access#:#Wenigsten Zugriffe###25 Jul 2006 content changed
+trac#:#stats_chapter_listing#:#Kapitel-Auflistung###25 Jul 2006 content changed
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#Längste GesamtVerweildauer Tiefe###25 Jul 2006 content changed
+trac#:#stats_chapter_most_access_depth#:#Meisten Zugriffe der Tiefe###25 Jul 2006 content changed
+trac#:#stats_chapter_most_pages#:#Meisten Seiten###25 Jul 2006 content changed
+trac#:#stats_chapter_number#:#Anzahl der Kapitel###25 Jul 2006 content changed
 trac#:#stats_chapter_statisics#:#Kapitel-Statistiken
-trac#:#stats_chapter_stubbiest_total_dwell_time#:#Kürzeste GesamtVerweildauer
-trac#:#stats_chapter_top#:#Top-Kapitel (Varianz, Zugriffe, usw.)
+trac#:#stats_chapter_stubbiest_total_dwell_time#:#Kürzeste GesamtVerweildauer###25 Jul 2006 content changed
+trac#:#stats_chapter_top#:#Top-Kapitel (Varianz, Zugriffe, usw.)###25 Jul 2006 content changed
 trac#:#stats_chapter_total_statistic#:#Gesamt-Kapitel-Statistik
 trac#:#stats_choice#:#Auswahl
 trac#:#stats_current#:#Aktuell
-trac#:#stats_depth#:#Tiefe
-trac#:#stats_duration#:#Dauer
+trac#:#stats_depth#:#Tiefe###25 Jul 2006 content changed
+trac#:#stats_duration#:#Dauer###25 Jul 2006 content changed
 trac#:#stats_equivalent#:#entspricht
-trac#:#stats_hits#:#Zugriffe
+trac#:#stats_hits#:#Zugriffe###25 Jul 2006 content changed
 trac#:#stats_hour#:#h
-trac#:#stats_interval#:#Intervall
-trac#:#stats_interval_dwell_time#:#Verweildauer-Intervalle
-trac#:#stats_interval_page_access#:#Seitenzugriffe-Intervalle
-trac#:#stats_last#:#letzter
-trac#:#stats_legend#:#Legende
-trac#:#stats_measurable_hits#:#messbare Zugriffe (innerhalb einer Session)
+trac#:#stats_interval#:#Intervall###25 Jul 2006 content changed
+trac#:#stats_interval_dwell_time#:#Verweildauer-Intervalle###25 Jul 2006 content changed
+trac#:#stats_interval_page_access#:#Seitenzugriffe-Intervalle###25 Jul 2006 content changed
+trac#:#stats_last#:#letzter###25 Jul 2006 content changed
+trac#:#stats_legend#:#Legende###25 Jul 2006 content changed
+trac#:#stats_measurable_hits#:#messbare Zugriffe (innerhalb einer Session)###25 Jul 2006 content changed
 trac#:#stats_minute#:#min
 trac#:#stats_navigation#:#Navigations-/Beobachtungsmodell (erfordert JRE 1.5 oder höher)
 trac#:#stats_new_selection#:#neue Auswahl
-trac#:#stats_occurrence#:#Ausprägung
+trac#:#stats_occurrence#:#Ausprägung###25 Jul 2006 content changed
 trac#:#stats_of#:#von
-trac#:#stats_page#:#Seite
-trac#:#stats_page_average_access#:#Mittelwert der Seitenzugriffe
-trac#:#stats_page_average_dwell_time#:#Mittelwert der Seitenverweildauer
-trac#:#stats_page_deviation_access#:#Standartabweichung der Seitenzugriffe
-trac#:#stats_page_deviation_dwell_time#:#Standartabweichung der Seitenverweildauer
-trac#:#stats_page_fewest_access#:#Wenigsten Zugriffe
-trac#:#stats_page_highest_deviation#:#Höchste Standartabweichung
-trac#:#stats_page_highest_varcoeff#:#Höchster Variationskoeffizient
-trac#:#stats_page_least_deviation#:#Geringste Standartabweichung
-trac#:#stats_page_listing#:#Seiten-Auflistung
-trac#:#stats_page_longest_average_dwell_time#:#Längste durchschn. Verweildauer
-trac#:#stats_page_longest_total_dwell_time#:#Längste Gesamtverweildauer
-trac#:#stats_page_lowest_varcoeff#:#Niedrigster Variationskoeffizient
-trac#:#stats_page_median_access#:#Median der Seitenzugriffe
-trac#:#stats_page_median_dwell_time#:#Median der Seitenverweildauer
-trac#:#stats_page_mode_access#:#Modalwert der Seitenzugriffe
-trac#:#stats_page_most_access#:#Meisten Zugriffe
-trac#:#stats_page_number#:#Anzahl der Seiten
-trac#:#stats_page_number_access#:#Anzahl der Zugriffe auf Seiten
-trac#:#stats_page_range_access#:#Spannweite der Seitenzugriffe
-trac#:#stats_page_range_dwell_time#:#Spannweite der SeitenVerweildauer
-trac#:#stats_page_stubbiest_average_dwell_time#:#Kürzeste durchschn. Verweildauer
-trac#:#stats_page_stubbiest_total_dwell_time#:#Kürzeste Gesamtverweildauer
-trac#:#stats_page_total_dwell_time#:#Gesamte-Seiten-Verweilzeit
+trac#:#stats_page#:#Seite###25 Jul 2006 content changed
+trac#:#stats_page_average_access#:#Mittelwert der Seitenzugriffe###25 Jul 2006 content changed
+trac#:#stats_page_average_dwell_time#:#Mittelwert der Seitenverweildauer###25 Jul 2006 content changed
+trac#:#stats_page_deviation_access#:#Standartabweichung der Seitenzugriffe###25 Jul 2006 content changed
+trac#:#stats_page_deviation_dwell_time#:#Standartabweichung der Seitenverweildauer###25 Jul 2006 content changed
+trac#:#stats_page_fewest_access#:#Wenigsten Zugriffe###25 Jul 2006 content changed
+trac#:#stats_page_highest_deviation#:#Höchste Standartabweichung###25 Jul 2006 content changed
+trac#:#stats_page_highest_varcoeff#:#Höchster Variationskoeffizient###25 Jul 2006 content changed
+trac#:#stats_page_least_deviation#:#Geringste Standartabweichung###25 Jul 2006 content changed
+trac#:#stats_page_listing#:#Seiten-Auflistung###25 Jul 2006 content changed
+trac#:#stats_page_longest_average_dwell_time#:#Längste durchschn. Verweildauer###25 Jul 2006 content changed
+trac#:#stats_page_longest_total_dwell_time#:#Längste Gesamtverweildauer###25 Jul 2006 content changed
+trac#:#stats_page_lowest_varcoeff#:#Niedrigster Variationskoeffizient###25 Jul 2006 content changed
+trac#:#stats_page_median_access#:#Median der Seitenzugriffe###25 Jul 2006 content changed
+trac#:#stats_page_median_dwell_time#:#Median der Seitenverweildauer###25 Jul 2006 content changed
+trac#:#stats_page_mode_access#:#Modalwert der Seitenzugriffe###25 Jul 2006 content changed
+trac#:#stats_page_most_access#:#Meisten Zugriffe###25 Jul 2006 content changed
+trac#:#stats_page_number#:#Anzahl der Seiten###25 Jul 2006 content changed
+trac#:#stats_page_number_access#:#Anzahl der Zugriffe auf Seiten###25 Jul 2006 content changed
+trac#:#stats_page_range_access#:#Spannweite der Seitenzugriffe###25 Jul 2006 content changed
+trac#:#stats_page_range_dwell_time#:#Spannweite der SeitenVerweildauer###25 Jul 2006 content changed
+trac#:#stats_page_stubbiest_average_dwell_time#:#Kürzeste durchschn. Verweildauer###25 Jul 2006 content changed
+trac#:#stats_page_stubbiest_total_dwell_time#:#Kürzeste Gesamtverweildauer###25 Jul 2006 content changed
+trac#:#stats_page_total_dwell_time#:#Gesamte-Seiten-Verweilzeit###25 Jul 2006 content changed
 trac#:#stats_page_total_statistic#:#Gesamt-Seiten-Statistik
-trac#:#stats_page_varcoeff_access#:#Variationskoeffizient der Seitenzugriffe
-trac#:#stats_page_varcoeff_dwell_time#:#Variationskoeffizient der Seitenverweildauer
-trac#:#stats_page_variance_access#:#Varianz der Seitenzugriffe
-trac#:#stats_page_variance_dwell_time#:#Varianz der Seitenverweildauer
-trac#:#stats_pages#:#Seiten
+trac#:#stats_page_varcoeff_access#:#Variationskoeffizient der Seitenzugriffe###25 Jul 2006 content changed
+trac#:#stats_page_varcoeff_dwell_time#:#Variationskoeffizient der Seitenverweildauer###25 Jul 2006 content changed
+trac#:#stats_page_variance_access#:#Varianz der Seitenzugriffe###25 Jul 2006 content changed
+trac#:#stats_page_variance_dwell_time#:#Varianz der Seitenverweildauer###25 Jul 2006 content changed
+trac#:#stats_pages#:#Seiten###25 Jul 2006 content changed
 trac#:#stats_pages_statisics#:#Seiten-Statistiken
 trac#:#stats_sec#:#s
-trac#:#stats_sel_lng#:#deutsch
-trac#:#stats_session#:#Session
-trac#:#stats_session_average_length#:#durchschn. Sessionlänge
-trac#:#stats_session_average_page_access#:#durchschn. Seitenzugriffe je Session
-trac#:#stats_session_evaluable#:#Auswertbare Sessions
-trac#:#stats_session_evaluable_access#:#Auswertbare Sessionzugriffe
-trac#:#stats_session_evaluable_usr#:#Auswertbare Benutzer
-trac#:#stats_session_involved_usr#:#Anzahl beteiligter Benutzer
-trac#:#stats_session_listing#:#Session Auflistung
-trac#:#stats_session_longest#:#Längste Session
-trac#:#stats_session_longest_total_duration_usr#:#Längste Gesamtdauer pro Benutzer
-trac#:#stats_session_most#:#Meiste Sessions
-trac#:#stats_session_number#:#Anzahl der Sessions
-trac#:#stats_session_total_duration#:#Gesamtdauer aller Sessions
+trac#:#stats_sel_lng#:#deutsch###25 Jul 2006 content changed
+trac#:#stats_session#:#Session###25 Jul 2006 content changed
+trac#:#stats_session_average_length#:#durchschn. Sessionlänge###25 Jul 2006 content changed
+trac#:#stats_session_average_page_access#:#durchschn. Seitenzugriffe je Session###25 Jul 2006 content changed
+trac#:#stats_session_evaluable#:#Auswertbare Sessions###25 Jul 2006 content changed
+trac#:#stats_session_evaluable_access#:#Auswertbare Sessionzugriffe###25 Jul 2006 content changed
+trac#:#stats_session_evaluable_usr#:#Auswertbare Benutzer###25 Jul 2006 content changed
+trac#:#stats_session_involved_usr#:#Anzahl beteiligter Benutzer###25 Jul 2006 content changed
+trac#:#stats_session_listing#:#Session Auflistung###25 Jul 2006 content changed
+trac#:#stats_session_longest#:#Längste Session###25 Jul 2006 content changed
+trac#:#stats_session_longest_total_duration_usr#:#Längste Gesamtdauer pro Benutzer###25 Jul 2006 content changed
+trac#:#stats_session_most#:#Meiste Sessions###25 Jul 2006 content changed
+trac#:#stats_session_number#:#Anzahl der Sessions###25 Jul 2006 content changed
+trac#:#stats_session_total_duration#:#Gesamtdauer aller Sessions###25 Jul 2006 content changed
 trac#:#stats_session_total_statistic#:#Gesamt-Session-Statistik
-trac#:#stats_sessions#:#Sessions
+trac#:#stats_sessions#:#Sessions###25 Jul 2006 content changed
 trac#:#stats_sessions_statisics#:#Session-Statistiken
-trac#:#stats_start#:#Start
-trac#:#stats_summation#:#Summe
+trac#:#stats_start#:#Start###25 Jul 2006 content changed
+trac#:#stats_summation#:#Summe###25 Jul 2006 content changed
 trac#:#stats_tracked_user#:#Benutzer
 trac#:#stats_until#:#bis
 trac#:#stats_user#:#Benutzer
 trac#:#stats_user_selected#:#User ausgewählt
 trac#:#stats_with#:#mit
-trac#:#total_dwell_time#:#Gesamtverweildauer
+trac#:#total_dwell_time#:#Gesamtverweildauer###25 Jul 2006 content changed
 trac#:#trac_activated#:#Tracking aktiviert
 trac#:#trac_active_both#:#Zugriffsstatistiken und Lernfortschritt aktiviert
 trac#:#trac_active_lp_only#:#Lernfortschritt aktiviert
@@ -6297,6 +6298,7 @@ trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
 trac#:#trac_edit_time#:#Bearbeitungszeit
 trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
 trac#:#trac_edited_scos#:#Bearbeitete Inhalte
+trac#:#trac_editing_time_passed#:#Bearbeitungszeit überschritten
 trac#:#trac_filter_area#:#Bereich:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Ausgeblendet:###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
@@ -6340,9 +6342,12 @@ trac#:#trac_not_accessed#:#Noch nicht zugegriffen
 trac#:#trac_not_assigned#:#Nicht ausgewählt
 trac#:#trac_not_attempted#:#Noch nicht begonnen
 trac#:#trac_not_completed#:#Nicht bearbeitet
+trac#:#trac_not_participated#:#Nicht teilgenommen
+trac#:#trac_not_registered#:#Nicht angemeldet
 trac#:#trac_num_visits#:#Anzahl der Besuche
 trac#:#trac_objects#:#Lernfortschritt der NutzerInnen###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Pfad:
+trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit
 trac#:#trac_progress#:#Persönlicher Lernfortschritt
 trac#:#trac_query#:#Titel/Beschreibung:###10 Jul 2006 content changed
@@ -6350,6 +6355,7 @@ trac#:#trac_reached_objectives#:#Erreichte Lernziele
 trac#:#trac_reached_points#:#Erreichte Punktzahl
 trac#:#trac_reached_visits#:#Benötigte Aufrufe
 trac#:#trac_refresh#:#Ansicht aktualisieren
+trac#:#trac_registered#:#Angemeldet
 trac#:#trac_required_visits#:#Anzahl benötigter Besuche
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.
@@ -6375,8 +6381,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-trac#:#trac_registered#:#Angemeldet
-trac#:#trac_not_registered#:#Nicht angemeldet
-trac#:#trac_participated#:#Teilgenommen
-trac#:#trac_not_participated#:#Nicht teilgenommen
-trac#:#trac_editing_time_passed#:#Bearbeitungszeit überschritten

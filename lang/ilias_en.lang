@@ -6300,6 +6300,7 @@ trac#:#trac_edit_progress#:#Edit learning progress
 trac#:#trac_edit_time#:#Processing time
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
 trac#:#trac_edited_scos#:#Processed content
+trac#:#trac_editing_time_passed#:#Editing time Passed
 trac#:#trac_filter_area#:#Area
 trac#:#trac_filter_hidden#:#Hidden
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.
@@ -6343,9 +6344,12 @@ trac#:#trac_not_accessed#:#Not accessed
 trac#:#trac_not_assigned#:#Not assigned
 trac#:#trac_not_attempted#:#Not attempted
 trac#:#trac_not_completed#:#Not Completed
+trac#:#trac_not_participated#:#Not Participated
+trac#:#trac_not_registered#:#Not Registered
 trac#:#trac_num_visits#:#Number of visits
 trac#:#trac_objects#:#Learning progress of users
 trac#:#trac_occurrences#:#Path:
+trac#:#trac_participated#:#Participated
 trac#:#trac_processing_time#:#Assumed processing time
 trac#:#trac_progress#:#Personal learning progress
 trac#:#trac_query#:#Title / Description:
@@ -6353,6 +6357,7 @@ trac#:#trac_reached_objectives#:#Reached Learning Objectives
 trac#:#trac_reached_points#:#Achieved score
 trac#:#trac_reached_visits#:#Required visits
 trac#:#trac_refresh#:#Refresh
+trac#:#trac_registered#:#Registered
 trac#:#trac_required_visits#:#Number of required visits
 trac#:#trac_sahs_relevant_items#:#Content Items
 trac#:#trac_select_one#:#You made no selection
@@ -6378,8 +6383,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-trac#:#trac_registered#:#Registered
-trac#:#trac_not_registered#:#Not Registered
-trac#:#trac_participated#:#Participated
-trac#:#trac_not_participated#:#Not Participated
-trac#:#trac_editing_time_passed#:#Editing time Passed

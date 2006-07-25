@@ -949,7 +949,7 @@ common#:#adm_visible#:#Nhìn thấy các thiết lập hệ thống
 common#:#adm_write#:#Sửa các thiết lập hệ thống cơ bản
 common#:#admin_panel#:#Công cụ quản trị
 common#:#admin_panel_disable#:#Tắt lệnh quản trị
-common#:#admin_panel_enable#:#Bật lệnh quản trị
+common#:#admin_panel_enable#:#Bật lệnh quản trị###25 Jul 2006 content changed
 common#:#administrate#:#Quản trị
 common#:#administrate_users#:#Quản trị ngư�?i sử dụng nội bộ
 common#:#administration#:#Quản trị
@@ -2329,6 +2329,7 @@ common#:#month_11_short#:#T11
 common#:#month_12_long#:#Tháng Mư�?i Hai
 common#:#month_12_short#:#T12
 common#:#monthly#:#hàng tháng
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Di chuyển
 common#:#moveChapter#:#Di chuyển chương
 common#:#movePage#:#Di chuyển trang
@@ -3300,7 +3301,7 @@ common#:#webr_add_item#:#Thêm tài nguyên web
 common#:#webr_delete#:#Xóa tài nguyên web
 common#:#webr_delete_items#:#Xóa (các) tài nguyên web
 common#:#webr_deleted_items#:#�?ã xóa (các) tài nguyên web.
-common#:#webr_disable_check#:#Không kiểm tra
+common#:#webr_disable_check#:#Không kiểm tra###25 Jul 2006 content changed
 common#:#webr_edit#:#Sửa tài nguyên web
 common#:#webr_edit_item#:#Sửa tài nguyên web
 common#:#webr_edit_permission#:#Thay đổi thiết lập quy�?n hạn
@@ -3340,7 +3341,7 @@ content#:#PDF export#:#Xuất ra PDF
 content#:#Pages#:#Trang
 content#:#add_menu_entry#:#Thêm mục trên bảng ch�?n >>
 content#:#all#:#Tất cả
-content#:#all_pages#:#toàn bộ h�?c phần
+content#:#all_pages#:#toàn bộ h�?c phần###25 Jul 2006 content changed
 content#:#choose_public_mode#:#Những ngư�?i sử dụng chưa đăng ký có thể truy cập
 content#:#choose_public_pages#:#Ch�?n các trang có thể truy cập công khai
 content#:#citate#:#Citate###10 Jul 2006 new variable
@@ -3919,7 +3920,7 @@ crs#:#crs_info_reg#:#Thông tin đăng ký
 crs#:#crs_info_reg_confirmation#:#Khóa h�?c này cần xác thực của một quản trị khóa h�?c. Bạn sẽ nhận được thư nếu bạn được chỉ định cho khóa h�?c.
 crs#:#crs_info_reg_deactivated#:#Không thể đăng ký
 crs#:#crs_info_reg_direct#:#Cần đăng ký cho khóa h�?c này
-crs#:#crs_info_reg_password#:#�?ăng ký cần mật khẩu hợp lệ.
+crs#:#crs_info_reg_password#:#�?ăng ký cần mật khẩu hợp lệ.###25 Jul 2006 content changed
 crs#:#crs_info_settings#:#Course Informations###10 Jul 2006 new variable
 crs#:#crs_info_start#:#Hãy làm hết tất cả các khoản mục đã công bố dưới đây của khóa h�?c.<br />Sau khi bạn đã thực hiện tất cả đối tượng có dấu đ�? những khoản mục khóa h�?c mới sẽ được kích hoạt.
 crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.###10 Jul 2006 new variable
@@ -5996,7 +5997,7 @@ survey#:#survey_code_url_name#:#�?ịa chỉ URL (sử dụng chuột phải đ�
 survey#:#survey_code_used#:#Mã được sử dụng
 survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
-survey#:#survey_finish#:#Kết thúc khảo sát
+survey#:#survey_finish#:#Kết thúc khảo sát###25 Jul 2006 content changed
 survey#:#survey_finished#:#Bạn đã hoàn thành khảo sát. Cảm ơn sự tham gia của bạn!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Bạn không thể bắt đầu khảo sát! Khảo sát đang offline.
@@ -6012,7 +6013,7 @@ survey#:#survey_skip_finish#:#B�? qua và kết thúc khảo sát
 survey#:#survey_skip_next#:#B�? qua >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< B�? qua###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#B�? qua và đi đến trang đầu
-survey#:#survey_start#:#�?i tới trang đầu
+survey#:#survey_start#:#�?i tới trang đầu###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#Tất cả thông tin ngư�?i sử dụng của khảo sát này đã được xóa!
 survey#:#svy_check_evaluation_access_introduction#:#Chỉ những ngư�?i tham gia khảo sát mới có thể đánh giá khảo sát, bạn cần nhập mã truy cập khảo sát để mở đánh giá.
 survey#:#svy_check_evaluation_authentication_needed#:#Cần xác thực
@@ -6097,6 +6098,7 @@ trac#:#trac_edit_collection#:#Hãy chỉ định các mục khóa h�?c. Nếu t
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Hãy định nghĩa số lần truy cập cần thiết để hoàn thành đối tượng này.
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Khu vực:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Ẩn:###10 Jul 2006 content changed
 trac#:#trac_filter_no_access#:#Không tìm thấy đối tượng nào
@@ -6133,9 +6135,12 @@ trac#:#trac_no_sahs_items_found#:#Không tìm thấy đối tượng nào.
 trac#:#trac_not_accessed#:#Chưa truy cập
 trac#:#trac_not_assigned#:#Chưa chỉ định
 trac#:#trac_not_attempted#:#Chưa thử thực hiện
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Số lần truy cập
 trac#:#trac_objects#:#Danh sách các đối tượng###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#�?ư�?ng dẫn:
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Tiến trình h�?c tập cá nhân
 trac#:#trac_query#:#Tiêu đ�?/mô tả:###10 Jul 2006 content changed
@@ -6143,6 +6148,7 @@ trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new v
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Cập nhật
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's/// ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_settings#:#Thiết lập
 trac#:#trac_settings_saved#:#�?ã ghi các thiết lập.

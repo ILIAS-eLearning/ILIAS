@@ -2417,6 +2417,7 @@ common#:#month_11_short#:#Nov###17 Mar 2004 new variable
 common#:#month_12_long#:#December###17 Mar 2004 new variable
 common#:#month_12_short#:#Dec###17 Mar 2004 new variable
 common#:#monthly#:#monthly###11 Mar 2005 new variable
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#移###07 Apr 2005 content changed
 common#:#moveChapter#:#移###07 Apr 2005 content changed
 common#:#movePage#:#移###07 Apr 2005 content changed
@@ -6317,6 +6318,7 @@ trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
@@ -6360,9 +6362,12 @@ trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
 trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
 trac#:#trac_not_attempted#:#Not attempted###23 Dec 2005 new variable
 trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
 trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
 trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
 trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
@@ -6370,6 +6375,7 @@ trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new v
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
