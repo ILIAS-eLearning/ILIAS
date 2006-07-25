@@ -157,18 +157,22 @@ class assMatchingQuestion extends assQuestion
 								$answerimage = array();
 								foreach ($response_label->material as $mat)
 								{
-									foreach ($mat->mattext as $matt)
+									for ($m = 0; $m < $mat->getMaterialCount(); $m++)
 									{
-										$answertext .= $matt->getContent();
-									}
-									foreach ($mat->matimage as $matimage)
-									{
-										$foundimage = TRUE;
-										$answerimage = array(
-											"imagetype" => $matimage->getImageType(),
-											"label" => $matimage->getLabel(),
-											"content" => $matimage->getContent()
-										);
+										$foundmat = $mat->getMaterial($m);
+										if (strcmp($foundmat["type"], "mattext") == 0)
+										{
+											$answertext .= $foundmat["material"]->getContent();
+										}
+										if (strcmp($foundmat["type"], "matimage") == 0)
+										{
+											$foundimage = TRUE;
+											$answerimage = array(
+												"imagetype" => $foundmat["material"]->getImageType(),
+												"label" => $foundmat["material"]->getLabel(),
+												"content" => $foundmat["material"]->getContent()
+											);
+										}
 									}
 								}
 								if (($response_label->getMatchMax() == 1) && (strlen($response_label->getMatchGroup())))
@@ -378,16 +382,7 @@ class assMatchingQuestion extends assQuestion
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
-		$a_xml_writer->xmlStartTag("material");
-		$attrs = array(
-			"texttype" => "text/plain"
-		);
-		if ($this->isHTML($this->getQuestion()))
-		{
-			$attrs["texttype"] = "text/xhtml";
-		}
-		$a_xml_writer->xmlElement("mattext", $attrs, $this->getQuestion());
-		$a_xml_writer->xmlEndTag("material");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestion());
 		// add answers to presentation
 		$attrs = array();
 		if ($this->get_matching_type() == MT_TERMS_PICTURES)
@@ -465,9 +460,9 @@ class assMatchingQuestion extends assQuestion
 				"match_group" => join($matchingtext_orders, ",")
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlStartTag("material");
 			if ($this->get_matching_type() == MT_TERMS_PICTURES)
 			{
+				$a_xml_writer->xmlStartTag("material");
 				if ($force_image_references)
 				{
 					$attrs = array(
@@ -494,19 +489,14 @@ class assMatchingQuestion extends assQuestion
 						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
 					}
 				}
+				$a_xml_writer->xmlEndTag("material");
 			}
 			else
 			{
-				$attrs = array(
-					"texttype" => "text/plain"
-				);
-				if ($this->isHTML($matchingpair->getDefinition()))
-				{
-					$attrs["texttype"] = "text/xhtml";
-				}
-				$a_xml_writer->xmlElement("mattext", $attrs, $matchingpair->getDefinition());
+				$a_xml_writer->xmlStartTag("material");
+				$this->addQTIMaterial($a_xml_writer, $matchingpair->getDefinition(), TRUE, FALSE);
+				$a_xml_writer->xmlEndTag("material");
 			}
-			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
 		// shuffle again to get another order for the terms or pictures

@@ -1566,5 +1566,6 @@ class ilObjQuestionPool extends ilObject
 		}
 		return $questions;
 	}
+	
 } // END class.ilObjQuestionPool
 ?>

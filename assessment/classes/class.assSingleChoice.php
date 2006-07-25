@@ -161,18 +161,22 @@ class assSingleChoice extends assQuestion
 								$answerimage = array();
 								foreach ($response_label->material as $mat)
 								{
-									foreach ($mat->mattext as $matt)
+									for ($m = 0; $m < $mat->getMaterialCount(); $m++)
 									{
-										$answertext .= $matt->getContent();
-									}
-									foreach ($mat->matimage as $matimage)
-									{
-										$foundimage = TRUE;
-										$answerimage = array(
-											"imagetype" => $matimage->getImageType(),
-											"label" => $matimage->getLabel(),
-											"content" => $matimage->getContent()
-										);
+										$foundmat = $mat->getMaterial($m);
+										if (strcmp($foundmat["type"], "mattext") == 0)
+										{
+											$answertext .= $foundmat["material"]->getContent();
+										}
+										if (strcmp($foundmat["type"], "matimage") == 0)
+										{
+											$foundimage = TRUE;
+											$answerimage = array(
+												"imagetype" => $foundmat["material"]->getImageType(),
+												"label" => $foundmat["material"]->getLabel(),
+												"content" => $foundmat["material"]->getContent()
+											);
+										}
 									}
 								}
 								$answers[$ident] = array(
@@ -344,16 +348,7 @@ class assSingleChoice extends assQuestion
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
-		$a_xml_writer->xmlStartTag("material");
-		$attrs = array(
-			"texttype" => "text/plain"
-		);
-		if ($this->isHTML($this->getQuestion()))
-		{
-			$attrs["texttype"] = "text/xhtml";
-		}
-		$a_xml_writer->xmlElement("mattext", $attrs, $this->getQuestion());
-		$a_xml_writer->xmlEndTag("material");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestion());
 		// add answers to presentation
 		$attrs = array();
 		$attrs = array(
@@ -407,15 +402,7 @@ class assSingleChoice extends assQuestion
 				"ident" => $index
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlStartTag("material");
-			$attrs = array(
-				"texttype" => "text/plain"
-			);
-			if ($this->isHTML($answer->getAnswertext()))
-			{
-				$attrs["texttype"] = "text/xhtml";
-			}
-			$a_xml_writer->xmlElement("mattext", NULL, $answer->getAnswertext());
+			$this->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), FALSE, FALSE);
 			
 			if (strlen($answer->getImage()))
 			{
