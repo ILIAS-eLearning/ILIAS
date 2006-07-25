@@ -1575,11 +1575,12 @@ common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings
 common#:#exc_edit_until#:#Edit until
 common#:#exc_files#:#Exercise files
-common#:#exc_files_returned#:#Submitted files
+common#:#exc_files_returned#:#Submitted Files
 common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work instructions
-common#:#exc_last_submission#:#Last submission
+common#:#exc_last_submission#:#Last Submission
+common#:#exc_submission#:#Submission
 common#:#exc_mail_users#:#Send mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned

@@ -263,9 +263,6 @@ class ilGlossaryPresentationGUI
 		}
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setLimit($_GET["limit"]);
-		$tbl->setMaxCount($this->maxcount);
-
-		//$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
