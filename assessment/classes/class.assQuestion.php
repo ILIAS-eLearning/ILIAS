@@ -2128,7 +2128,7 @@ class assQuestion
 			if (strcmp($material["type"], "matimage") == 0)
 			{
 				$matimage = $material["material"];
-				if (strcmp($matimage->getLabel(), "mob") == 0)
+				if (preg_match("/il_([0-9]+)_mob_([0-9]+)/", $matimage->getLabel(), $matches))
 				{
 					// import an mediaobject which was inserted using tiny mce
 				}
@@ -2167,7 +2167,7 @@ class assQuestion
 			{
 				$mob_obj =& new ilObjMediaObject($mob);
 				$imgattrs = array(
-					"label" => "mob",
+					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
 					"uri" => "objects/mm_$mob/" . $mob_obj->getTitle()
 				);
 				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);

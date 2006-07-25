@@ -7376,7 +7376,7 @@ class ilObjTest extends ilObject
 		{
 			$mob_obj =& new ilObjMediaObject($mob);
 			$imgattrs = array(
-				"label" => "mob",
+				"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
 				"uri" => "objects/mm_$mob/" . $mob_obj->getTitle()
 			);
 			$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
