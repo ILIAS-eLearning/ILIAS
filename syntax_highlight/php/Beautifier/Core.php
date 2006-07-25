@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
+$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
+
 include_once($BEAUT_PATH."/Beautifier/HFile.php");
 include_once($BEAUT_PATH."/Beautifier/Context.php");
 
@@ -42,13 +44,13 @@ function load_file($filename)
 	$text = fread($filehandle, filesize($filename));
 	fclose($filehandle);
 	return $text;
-}   
+}
 
 function set_stats($statobj)
 {
 	$this->statobj = $statobj;
 }
- 
+
 // Do the brunt work of highlighting the text.
 function highlight_text($text, $contextstack=undef)
 {
@@ -87,11 +89,11 @@ function highlight_text($text, $contextstack=undef)
 		$this->langcache = array();
 	}
 
-	
+
 	// Get the lines.
 	$arr = preg_split("/\n/", $text);
 	$aln = sizeof($arr);
-	
+
 	if (isset($this->context->code_parts[0])) $out.= $this->context->code_parts[0];
 	for ($i=0; $i<$aln; $i++)
 	{
@@ -103,11 +105,11 @@ function highlight_text($text, $contextstack=undef)
 			$out.= $this->context->prepro_parts[0];
 			$this->context->prepro = 1;
 		}
-		
-		
+
+
 		$this->context->inwhitespace = 1;
-		
-		
+
+
 		$this->context->incomment = 0;
 		// Handle selected lines.
 		if (isset($this->highlightfile->lineselect) && !$this->context->inselection && substr($line, 0, strlen($this->highlightfile->lineselect))==$this->highlightfile->lineselect)
@@ -116,10 +118,10 @@ function highlight_text($text, $contextstack=undef)
 			$line = substr($line, strlen($this->highlightfile->lineselect));
 			$this->context->lineselect = 1;
 		}
-		
+
 		// Strip leading and trailing spaces
 		if ($this->highlightfile->notrim==0) $line = trim($line);
-		
+
 		$lineout = "";
 		$lineorig = $line;
 		// Print out the current indent.
@@ -142,8 +144,8 @@ function highlight_text($text, $contextstack=undef)
 			$currchar = $lineorig[$j];
 //print $currchar;
 			// Handle opening selection blocks.
-			if (isset($this->highlightfile->selecton) && !$this->context->inselection && 
-				!$this->context->inquote && !$this->context->inbcomment && 
+			if (isset($this->highlightfile->selecton) && !$this->context->inselection &&
+				!$this->context->inquote && !$this->context->inbcomment &&
 				substr($line, $j, strlen($this->highlightfile->selecton))==$this->highlightfile->selecton)
 			{
 //print "01";
@@ -155,7 +157,7 @@ function highlight_text($text, $contextstack=undef)
 				continue;
 			}
 			// Handle closing selection blocks.
-			if (isset($this->highlightfile->selectoff) && $this->context->inselection && 
+			if (isset($this->highlightfile->selectoff) && $this->context->inselection &&
 				substr($line, $j, strlen($this->highlightfile->selectoff))==$this->highlightfile->selectoff)
 			{
 //print "02";
@@ -170,7 +172,7 @@ function highlight_text($text, $contextstack=undef)
 			// the next line - as nothing else can be done.
 			if (!$this->context->lineselect && !$this->context->inselection && !$this->context->inquote && !$this->context->incomment && !($this->highlightfile->perl && $j>0 && $line[$j-1]=="$"))
 			{
-//print "03";				
+//print "03";
 				$currmax = 0;
 				foreach($this->highlightfile->linecommenton as $l)
 				{
@@ -189,12 +191,12 @@ function highlight_text($text, $contextstack=undef)
 				if ($currmax != 0)
 				{
 //print "04";
-					
+
 					$line = substr($line, $j);
 					$lineout = $this->_munge($lineout);
 					$line = htmlentities($line);
 					$out.= $lineout;
-					if ($this->context->prepro) 
+					if ($this->context->prepro)
 					{
 						$out.= $this->context->prepro_parts[1];
 						$this->context->prepro = 0;
@@ -207,12 +209,12 @@ function highlight_text($text, $contextstack=undef)
 					continue;
 				}
 			}
-			
+
 			// Handle opening block comments. Sadly this can't be done quickly (like with
 			// line comments) as we may have 'foo /* bar */ foo'.
 			if (!$this->context->lineselect && !$this->context->inselection && !$this->context->inquote && !$this->context->inbcomment && in_array($currchar, $this->context->startingbkonchars))
 			{
-//print "05";				
+//print "05";
 				$currmax = 0;
 				foreach($this->highlightfile->blockcommenton as $bo)
 				{
@@ -233,7 +235,7 @@ function highlight_text($text, $contextstack=undef)
 				if ($currmax != 0)
 				{
 //print "07";
-					if ($this->prepro) 
+					if ($this->prepro)
 					{
 						$out.= $this->context->prepro_parts[1];
 						$this->prepro = 0;
@@ -253,7 +255,7 @@ function highlight_text($text, $contextstack=undef)
 			// Handle closing comments.
 			if (!$this->context->lineselect && !$this->context->inselection && !$this->context->inquote && $this->context->inbcomment)
 			{
-//print "08";			
+//print "08";
 				$currmax = 0;
 				foreach($this->context->closingstrings as $bf)
 				{
@@ -269,14 +271,14 @@ function highlight_text($text, $contextstack=undef)
 						}
 					}
 				}
-				
+
 				if ($currmax != 0)
 				{
 //print "09";
 					$bkuout = str_replace(">", "&gt;", $bku);
 					$bkuout = str_replace("<", "&lt;", $bkuout);
 					$lineout .= $bkuout.$this->context->blockcomment_parts[1];
-					
+
 					$out.= $lineout;
 					$lineout = "";
 					$this->context->inbcomment = 0;
@@ -292,7 +294,7 @@ function highlight_text($text, $contextstack=undef)
 				{
 					if ($starttag[0] != $currchar) continue;	// Avoid doing substr.
 					$starttagln = $this->starttaglengths[$starttag];
-					
+
 					if (substr($line, $j, $starttagln)==$starttag)
 					{
 						if ($starttagln > $startcurrmax)
@@ -314,7 +316,7 @@ function highlight_text($text, $contextstack=undef)
 					$out.= "$tagout";
 					require_once $BEAUT_PATH."/HFile/".$this->startmap[$startcurrtag].".php";
 					$this->endtaglist = $this->endtags[$startcurrtag];
-					if (isset($this->langcache[$startcurrtag])) 
+					if (isset($this->langcache[$startcurrtag]))
 						$this->highlightfile = $this->langcache[$startcurrtag];
 					else
 					{
@@ -331,7 +333,7 @@ function highlight_text($text, $contextstack=undef)
 				$endcurrmax = 0;
 				foreach($this->endtaglist as $endtag)
 				{
-					
+
 					if ($endtag[0] != $currchar) continue;	// Avoid doing substr.
 					$endtagln = strlen($endtag);
 					if (substr($line, $j, $endtagln)==$endtag)
@@ -348,7 +350,7 @@ function highlight_text($text, $contextstack=undef)
 //print "12";
 					$tagout = str_replace(">", "&gt;", $endcurrtag);
 					$tagout = str_replace("<", "&lt;", $tagout);
-					
+
 					$lineout .= "$tagout";
 					$out.= $lineout;
 					$lineout = "";
@@ -358,11 +360,11 @@ function highlight_text($text, $contextstack=undef)
 					$j += $endcurrmax;
 					continue;
 				}
-				
+
 			}
 			// If we're in a comment, skip keyword checking, cache the comments, and go
 			// to the next char.
-			if ($this->context->incomment || $this->context->inbcomment) 
+			if ($this->context->incomment || $this->context->inbcomment)
 			{
 				if ($this->context->inbcomment)
 				{
@@ -371,24 +373,24 @@ function highlight_text($text, $contextstack=undef)
 					else if ($currchar == "&") $currchar = "&amp;";
 				}
 //print "13";
-				$lineout .= $currchar; 
-				if ($this->context->newline) 
+				$lineout .= $currchar;
+				if ($this->context->newline)
 				{
 					if (isset($this->statobj) && $this->statobj->harvest_comments) $this->statobj->comment_cache .= " ";
 					$this->context->newline = 0;
 				}
 				if (isset($this->statobj) && $this->statobj->harvest_comments) $this->statobj->comment_cache .= $currchar;
-				continue; 
+				continue;
 			}
-			
+
 			// Indent has to be either preceded by, or be, a delimiter.
 			$delim = ($j==0 || in_array($currchar, $this->context->alldelims) || ($j>0 && in_array($lineorig[$j-1], $this->context->alldelims)));
-			
-			// Handle quotes.	
-			if (!$this->context->lineselect && !$this->context->inselection && !$this->context->escaping && 
-			((in_array($currchar, (array)$this->highlightfile->stringchars) && $this->context->inquote && $currchar==$this->context->currquotechar) || (in_array($currchar, (array)$this->highlightfile->stringchars) && !$this->context->inquote))) 
+
+			// Handle quotes.
+			if (!$this->context->lineselect && !$this->context->inselection && !$this->context->escaping &&
+			((in_array($currchar, (array)$this->highlightfile->stringchars) && $this->context->inquote && $currchar==$this->context->currquotechar) || (in_array($currchar, (array)$this->highlightfile->stringchars) && !$this->context->inquote)))
 			{
-				
+
 //print "14:$currchar";
 				// First quote, so go blue.
 				if (!$this->context->escaping && isset($this->context->inquote) && !$this->context->inquote)
@@ -428,10 +430,10 @@ function highlight_text($text, $contextstack=undef)
 				}
 			}
 			// If we've got an indent character, increase the level, and add an indent.
-			else if (!$this->context->inselection && $delim && !$this->context->inquote && ($stri=$this->_starts_with(substr($line, $j), $this->highlightfile->indent))!="") 
+			else if (!$this->context->inselection && $delim && !$this->context->inquote && ($stri=$this->_starts_with(substr($line, $j), $this->highlightfile->indent))!="")
 			{
 //print "17";
-				if (!$this->context->inwhitespace) 
+				if (!$this->context->inwhitespace)
 				{
 					//$lineout .= str_repeat("        ", $this->context->ind);
 					$lineout .= str_repeat("\t", $this->context->ind);
@@ -439,51 +441,51 @@ function highlight_text($text, $contextstack=undef)
 				$lineout .= $stri;
 				$this->context->ind++;
 				$j += strlen($stri)-1;
-				
+
 			}
 			// If we've got an unindent (and we are indented), go back a level.
-			else if (!$this->context->inselection && $delim && $this->context->ind>0 && !$this->context->inquote && ($stru=$this->_starts_with(substr($line, $j), $this->highlightfile->unindent))!="") 
+			else if (!$this->context->inselection && $delim && $this->context->ind>0 && !$this->context->inquote && ($stru=$this->_starts_with(substr($line, $j), $this->highlightfile->unindent))!="")
 			{
 //print "18";
 				$this->context->ind--;
-				
-				if (!$this->context->inwhitespace) 
+
+				if (!$this->context->inwhitespace)
 				{
 					//$lineout .= str_repeat("        ", $this->context->ind);
 					$lineout .= str_repeat("\t", $this->context->ind);
 				}
 				$lineout .= $stru;
-				
+
 				$j += strlen($stru)-1;
 			}
 			// Add the characters to the output, and cache strings.
-			else if (!$this->context->inwhitespace || $currchar != " " || $currchar != "\t") 
+			else if (!$this->context->inwhitespace || $currchar != " " || $currchar != "\t")
 			{
 //print "19";
 				if ($this->context->inquote && isset($this->statobj) && $this->statobj->harvest_strings)
 					$this->statobj->string_cache .=$currchar;
 				$lineout .= htmlentities($currchar);
 			}
-			if ($this->context->inquote && $this->context->escaping) 
+			if ($this->context->inquote && $this->context->escaping)
 			{
 //print "20";
-				$this->context->escaping = 0; 
+				$this->context->escaping = 0;
 			}
-			else if ($this->context->inquote && $currchar == $this->highlightfile->escchar && !$this->context->escaping) 
+			else if ($this->context->inquote && $currchar == $this->highlightfile->escchar && !$this->context->escaping)
 			{
 //print "21";
 				$this->context->escaping = 1;
-			}	
-		}	
-		if ($currchar != " " && $currchar != "\t") 
+			}
+		}
+		if ($currchar != " " && $currchar != "\t")
 		{
 			$this->context->inwhitespace = 0;
 		}
-		if (!$this->context->incomment && !$this->context->inbcomment && !$this->context->inquote) 
+		if (!$this->context->incomment && !$this->context->inbcomment && !$this->context->inquote)
 		{
 			$lineout = $this->_munge($lineout);
 		}
-		if ($i<($aln-1)) 
+		if ($i<($aln-1))
 		{
 			if ($this->context->prepro)
 			{
@@ -491,7 +493,7 @@ function highlight_text($text, $contextstack=undef)
 			}
 		}
 		// Close any hanging font tags.
-		if ($this->context->incomment) 
+		if ($this->context->incomment)
 		{
 			$out.= $this->context->linecomment_parts[1];
 		}
@@ -500,13 +502,13 @@ function highlight_text($text, $contextstack=undef)
 		$out.= $lineout;
 		$this->context->newline = 1;
 		$this->context->lineselect = 0;
-		
+
 	}
 	// If we've finished, and are still in a comment, close the font tag.
 	if ($this->context->incomment)
 	{
 		$out.= $this->context->linecomment_parts[1];
-	} 
+	}
 	else if ($this->context->inbcomment)
 	{
 		$out.= $this->context->blockcomment_parts[1];
@@ -516,10 +518,10 @@ function highlight_text($text, $contextstack=undef)
 		$out.= $this->context->select_parts[1];
 	}
 	if (isset($this->context->code_parts[1])) $out.= $this->context->code_parts[1];
-	
+
 	$pad = str_repeat(" ", $this->highlightfile->indent_depth);
 	$out = str_replace ("\t",$pad, $out);
-	
+
 	return $out;
 
 }
@@ -553,20 +555,20 @@ function _munge($munge)
 				{
 					$inword = 0;
 					$oldword = $currword;
-					
+
 					$checkword = $oldword;
 					if ($this->highlightfile->nocase) $checkword = strtolower($checkword);
 					$currword = str_replace("<", "&lt;", $currword);
 					$currword = str_replace(">", "&gt;", $currword);
-					if (isset($this->context->validkeys[$checkword])) 
+					if (isset($this->context->validkeys[$checkword]))
 					{
-						
+
 						if ($this->highlightfile->nocase) $checkword = $this->context->validkeys[$checkword];
 						$category = $this->highlightfile->keywords[$checkword];
 						$fontchunk = $this->context->category_parts[$category][0].$currword.$this->context->category_parts[$category][1];
-				
+
 						if (
-						  isset($this->highlightfile->linkscripts) && 
+						  isset($this->highlightfile->linkscripts) &&
 							(
 							  $code = call_user_method($this->highlightfile->linkscripts{$category}, $this->highlightfile, $oldword, $this->output_module)
 							) != $oldword
@@ -613,16 +615,16 @@ function _munge($munge)
 // this returns 'foot'.
 function _starts_with($text, $array)
 {
-	
+
 	$ml = 0;
 	$curr = "";
-	
+
 	foreach($array as $i)
 	{
 		$l = strlen($i);
 		if (((!$this->highlightfile->nocase && substr($text, 0, $l)==$i) || ($this->highlightfile->nocase && strtolower(substr($text, 0, $l))==strtolower($i))) && ($text[$l]==" " || $l==1 || $text[$l]=="\n" || $text[$l]=="\t" || $text[$l]=="." || $text[$l]==";" || $l==strlen($text)))
 		{
-			if ($l>$ml) 
+			if ($l>$ml)
 			{
 				$curr = substr($text, 0, $l);
 				$ml = $l;

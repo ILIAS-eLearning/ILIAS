@@ -30,6 +30,6 @@ $BEAUT_PATH = realpath(".")."/syntax_highlight/php";
 // Start up the core modules.
 require_once $BEAUT_PATH."/Beautifier/Core.php";
 
-$GLOBALS["BEAUT_PATH"] = $BEAUT_PATH;
+//$GLOBALS["BEAUT_PATH"] = $BEAUT_PATH;
 
 ?>
