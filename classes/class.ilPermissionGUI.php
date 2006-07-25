@@ -176,24 +176,14 @@ class ilPermissionGUI
 
 				$this->tpl->setCurrentBlock("rolelink_open");
 
-				if ($this->ctrl->getTargetScript() != 'adm_object.php')
-				{
-					$up_path = defined('ILIAS_MODULE') ? "../" : "";
-					$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id",
-						$role['obj_id']);
-					$this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id",
-						$role_folder_id);
-					$this->tpl->setVariable("LINK_ROLE_RULESET",
-						$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm"));
-					//$this->tpl->setVariable("LINK_ROLE_RULESET",
-					//	$up_path.'role.php?cmd=perm&ref_id='.
-					//	$role_folder_id.'&obj_id='.$role['obj_id']);
-				}
-				else
-				{
-					$this->tpl->setVariable("LINK_ROLE_RULESET",'adm_object.php?cmd=perm&ref_id='.
-											$role_folder_id.'&obj_id='.$role['obj_id']);
-				}
+				$up_path = defined('ILIAS_MODULE') ? "../" : "";
+				$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id",
+					$role['obj_id']);
+				$this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id",
+					$role_folder_id);
+				$this->tpl->setVariable("LINK_ROLE_RULESET",
+					$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm"));
+				
 				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
 				$this->tpl->parseCurrentBlock();
 

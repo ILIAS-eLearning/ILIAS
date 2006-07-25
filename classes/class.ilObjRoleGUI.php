@@ -414,7 +414,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
-			//$this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id."&new_type=".$this->type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
@@ -470,7 +469,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("role_added"),true);
 
 		$this->ctrl->returnToParent($this);
-		//ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
 	}
 
 	/**
@@ -624,12 +622,10 @@ class ilObjRoleGUI extends ilObjectGUI
 				$key++;
 			}
 
-			#$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
 			$output["formaction_adopt"] = $this->ctrl->getFormAction($this);
 			// END ADOPT_PERMISSIONS
 		}
 
-		#$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
 		$output["formaction"] = $this->ctrl->getFormAction($this);
 
 		$this->data = $output;
@@ -998,15 +994,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		$this->ctrl->redirect($this, "perm");
-		/*
-		if($this->ctrl->getTargetScript() == 'adm_object.php')
-		{
-			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
-		}
-		else
-		{
-			$this->permObject();
-		}*/
 	}
 
 	/**
@@ -1282,9 +1269,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		// exclude allow register option for anonymous role, system role and all local roles
 		$global_roles = $rbacreview->getGlobalRoles();
 
-		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".
-		#														   $this->rolf_ref_id.$obj_str));
-
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
@@ -1363,7 +1347,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]); 
 				$link_change = $this->ctrl->getLinkTargetByClass("ilobjusergui", "edit");
 			}
-			//$link_change = "adm_object.php?ref_id=7&obj_id=".$user["usr_id"]."&cmd=edit";
+
 			$this->ctrl->setParameter($this, "user_id", $user["usr_id"]);
 			$link_leave = $this->ctrl->getLinkTarget($this,"deassignUser");
 

@@ -31,6 +31,12 @@
 * @package ilias-core
 */
 
+
+//
+//
+// THIS CLASS IS CURRENTLY NOT IN USE
+//
+//
 include_once "class.ilObjectGUI.php";
 
 class ilObjStyleSheetFolderGUI extends ilObjectGUI
@@ -92,7 +98,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+//		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -155,9 +161,9 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
 			$this->tpl->setVariable("TXT_TITLE", $style["title"]);
 			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
-			$this->tpl->setVariable("LINK_STYLE",
-				"adm_object.php?ref_id=".$_GET["ref_id"].
-				"&obj_id=".$style["id"]);
+//			$this->tpl->setVariable("LINK_STYLE",
+//				"adm_object.php?ref_id=".$_GET["ref_id"].
+//				"&obj_id=".$style["id"]);
 			$this->tpl->setVariable("ROWCOL", $css_row);
 			if ($style["id"] == $fixed_style)
 			{
@@ -215,8 +221,8 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("info_delete_sure"));
 		}
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
+//		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
+//			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
 
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");

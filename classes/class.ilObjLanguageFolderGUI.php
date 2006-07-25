@@ -583,8 +583,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	{
 		sendInfo($this->data,true);
 		$this->ctrl->redirect($this, "view");
-		//header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
-		//exit();
 	}
 	
 	function getAdminTabs(&$tabs_gui)

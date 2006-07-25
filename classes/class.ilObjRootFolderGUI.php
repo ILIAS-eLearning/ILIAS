@@ -26,7 +26,7 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.12 2005/12/09 10:28:04 akill Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.13 2006/03/10 09:22:58 akill Exp $
 *
 * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI
 * 
@@ -65,7 +65,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	function importCancelledObject()
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
-		ilUtil::redirect("adm_object.php?ref_id=".$this->ref_id);
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**

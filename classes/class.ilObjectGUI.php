@@ -137,7 +137,6 @@ class ilObjectGUI
 		$this->formaction = array();
 		$this->return_location = array();
 		$this->target_frame = array();
-		//$this->tab_target_script = "adm_object.php";
 		$this->actions = "";
 		$this->sub_objects = "";
 
@@ -552,17 +551,6 @@ class ilObjectGUI
 		return $this->html;
 	}
 
-/*
-	function setTabTargetScript($a_script = "adm_object.php")
-	{
-		$this->tab_target_script = $a_script;
-	}
-
-	function getTabTargetScript()
-	{
-		return $this->tab_target_script;
-	}
-*/
 
 	/**
 	* set possible actions for objects in list. if actions are set
@@ -611,11 +599,9 @@ class ilObjectGUI
 	*
 	* @param	object	tree object
 	* @param	integer	reference id
-	* @param	scriptanme that is used for linking; if not set adm_object.php is used
+	* @param	scriptanme that is used for linking;
 	* @access	public
 	*/
-	//function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php",
-	//	$a_child_param = "ref_id", $a_output_obj = true, $a_root_title = "")
 	function setLocator()
 	{
 		global $ilLocator, $tpl;
@@ -806,136 +792,6 @@ class ilObjectGUI
 	}
 
 	/**
-	* copy object to clipboard
-	*
-	* @access	public
-	*/
-/*
-	function copyObject()
-	{
-		global $rbacsystem;
-
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// FOR ALL OBJECTS THAT SHOULD BE COPIED
-		foreach ($_POST["id"] as $ref_id)
-		{
-			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $this->tree->getNodeData($ref_id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
-
-			$all_node_data[] = $node_data;
-			$all_subtree_nodes[] = $subtree_nodes;
-
-			// CHECK READ PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
-			foreach ($subtree_nodes as $node)
-			{
-				if (!$rbacsystem->checkAccess('read',$node["ref_id"]))
-				{
-					$no_copy[] = $node["ref_id"];
-				}
-			}
-		}
-		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'read'
-		if (count($no_copy))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".implode(',',$this->getTitlesByRefId($no_copy)),
-									 $this->ilias->error_obj->MESSAGE);
-		}
-
-		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
-		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
-
-		sendinfo($this->lng->txt("msg_copy_clipboard"),true);
-
-		ilUtil::redirect($this->getReturnLocation("copy","adm_object.php?ref_id=".$_GET["ref_id"]));
-	}
-*/
-
-	/**
-	* clone Object subtree
-	*
-	* @access	private
-	*/
-/*
-	function cloneObject($a_ref_ids)
-	{
-		global $rbacsystem;
-
-		if(!is_array($a_ref_ids))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_error_copy"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		// NOW CLONE ALL OBJECTS
-		// THEREFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
-		foreach ($a_ref_ids as $id)
-		{
-			$this->cloneNodes($id,$this->ref_id,$mapping);
-		}
-		
-		// inform other objects in hierarchy about copy operation
-		//$this->object->notify("copy",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);
- 
-		$this->clearObject();
-
-		sendinfo($this->lng->txt("msg_cloned"),true);
-		ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
-
-	} // END CLONE
-*/
-
-	/**
-	* clone all nodes
-	* recursive function
-	*
-	* @access	private
-	* @param	integer ref_id of source object
-	* @param	integer ref_id of destination object
-	* @param    array	mapping new_ref_id => new_ref_id
-	* @return	boolean	true
-	*/
-/*
-	function cloneNodes($a_source_id,$a_dest_id,&$mapping)
-	{
-		if (!$mapping)
-		{
-			$mapping = array();
-		}
-
-		// FIRST CLONE THE OBJECT (THEREFORE THE CLONE METHOD OF EACH OBJECT IS CALLED)
-		$source_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
-		$new_ref_id = $source_obj->ilClone($a_dest_id);
-		unset($source_obj);
-
-		$mapping[$new_ref_id] = $a_source_id;
-
-		// GET ALL CHILDS OF SOURCE OBJECT AND CALL THIS METHOD FOR OF THEM
-		foreach ($this->tree->getChilds($a_source_id) as $child)
-		{
-			// STOP IF CHILD OBJECT IS ROLE FOLDER SINCE IT DOESN'T MAKE SENSE TO CLONE LOCAL ROLES
-			if ($child["type"] != 'rolf')
-			{
-				$this->cloneNodes($child["ref_id"],$new_ref_id,$mapping);
-			}
-			else
-			{
-				if (count($rolf = $this->tree->getChildsByType($new_ref_id,"rolf")))
-				{
-					$mapping[$rolf[0]["ref_id"]] = $child["ref_id"];
-				}
-			}
-		}
-
-		return true;
-	}
-*/
-
-	/**
 	* get object back from trash
 	*
 	* @access	public
@@ -1082,11 +938,7 @@ class ilObjectGUI
 			session_unregister("saved_post");
 			sendInfo($this->lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$this->lng->txt("msg_cancel"),true);
 
-			//ilUtil::redirect($this->getReturnLocation("confirmedDelete", "adm_object.php?ref_id=".$_GET["ref_id"]));
 			$this->ctrl->returnToParent($this);
-
-//			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
-//									 $not_deletable,$this->ilias->error_obj->MESSAGE);
 		}
 
 		if(count($buyable))
@@ -1127,7 +979,6 @@ class ilObjectGUI
 			{
 				unset($_SESSION["saved_post"]);
 				sendInfo($this->lng->txt("no_perm_delete")."<br/>".$this->lng->txt("msg_cancel"),true);
-				//ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 				$this->ctrl->returnToParent($this);
 			}
 		}
@@ -1191,8 +1042,6 @@ class ilObjectGUI
 		session_unregister("saved_post");
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
-
-		//ilUtil::redirect($this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 		$this->ctrl->returnToParent($this);
 
@@ -1358,8 +1207,6 @@ class ilObjectGUI
 			}
 			$this->ctrl->setParameter($this, "new_type", $new_type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-			//	$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -1518,7 +1365,6 @@ class ilObjectGUI
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -1543,8 +1389,6 @@ class ilObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this);
-		//ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
-		//ilUtil::redirect($this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
 	}
 
 	/**
@@ -1703,7 +1547,6 @@ class ilObjectGUI
 		{
 			$this->ctrl->setParameter($this, "obj_id", $this->obj_id); 
 		}
-		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// create table
@@ -2033,8 +1876,6 @@ class ilObjectGUI
 			sendInfo($msg);
 		}
 
-		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
-		//	"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	
 		// BEGIN TABLE HEADER

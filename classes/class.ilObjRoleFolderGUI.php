@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -241,9 +241,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				$this->ctrl->setParameterByClass("ilobjroletemplategui", "obj_id", $role["obj_id"]);
 				$link = $this->ctrl->getLinkTargetByClass("ilobjroletemplategui", "perm");
 			}
-			//adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm
 			$result_set[$counter][] = "<a title=\"".ilObjRole::_getTranslation($role["title"])."\" href=\"$link\">".ilObjRole::_getTranslation($role["title"])."</a>";
-            //$result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
             $result_set[$counter][] = $role["description"];
 			$result_set[$counter][] = $path." (".$role["role_type"].")";;
 
@@ -335,7 +333,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		//$this->ctrl->setParameter($this, "ref_id", $return_loc);
 		//$this->ctrl->redirect($this, "view");
 		$this->redirectToRefId($return_loc, "view");
-		//ilUtil::redirect("adm_object.php?ref_id=".$return_loc);
 	}
 	
 	/**
@@ -448,7 +445,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		sendinfo($this->lng->txt("saved_successfully"),true);
 		
 		$this->ctrl->redirect($this, "view");
-		//ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
 	}
 	
 	/**
@@ -532,7 +528,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("rolf_added"),true);
 		
 		$this->ctrl->redirect($this, "view");
-		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	function __showRolesTable($a_result_set,$a_role_ids)

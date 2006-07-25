@@ -189,8 +189,6 @@
 
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $row["title"]);
-			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?".$type_lo."obj_id=".$_GET["obj_id"].
-							  "&lm_id=".$_GET["lm_id"]."&lo_id=".$row["child"]."&lo_parent=".$row["parent"]);
 			$this->tpl->parseCurrentBlock();
 
 			if ($row["child"] == $_GET["lm_id"])

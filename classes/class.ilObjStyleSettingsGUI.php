@@ -213,7 +213,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
-		// "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -929,8 +928,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "editContentStyles");
-		//ilUtil::redirect($this->getReturnLocation("cancelDelete",
-		//	"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles"));
 
 	}
 

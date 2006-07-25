@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -43,7 +43,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	* @access public
 	*/
 	var $conditions;
-
+/*
 	function ilObjSysUserTrackingGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		global $rbacsystem;
@@ -56,11 +56,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read_track"),$this->ilias->error_obj->WARNING);
 		}
 	}
-
+*/
 	/**
 	* save object
 	* @access	public
 	*/
+/*
 	function saveObject()
 	{
 		global $rbacadmin;
@@ -82,11 +83,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
-
+*/
 
 	/**
 	* display tracking settings form
 	*/
+/*
 	function settingsObject()
 	{
 		global $tpl,$lng,$ilias;
@@ -114,10 +116,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 
 		$tpl->parseCurrentBlock();
 	}
-
+*/
 	/**
 	* save user tracking settings
 	*/
+/*
 	function saveSettingsObject()
 	{
 		// (de)activate tracking
@@ -143,10 +146,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		sendinfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this,'settings');
 	}
-
+*/
 	/**
 	* display tracking settings form
 	*/
+/*
 	function manageDataObject()
 	{
 		global $tpl,$lng,$ilias;
@@ -171,10 +175,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 		$tpl->parseCurrentBlock();
 	}
-
+*/
 	/**
 	* confirm delete tracking data
 	*/
+/*
 	function confirmDeletionDataObject()
 	{
 		global $tpl, $lng, $rbacsystem;
@@ -201,20 +206,22 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_DELETE_DATA", $lng->txt("delete_tr_data"));
 		$tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
 	}
-
+*/
 	/**
 	* cancel deletion of tracking data
 	*/
+/*
 	function cancelDeleteDataObject()
 	{
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
 		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
 	}
-
+*/
 	/**
 	* delete tracking data
 	*/
+/*
 	function deleteDataObject()
 	{
 		global $rbacsystem;
@@ -229,10 +236,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("tracking_data_deleted"),true);
 		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
 	}
-
+*/
 	/**
 	* display tracking query form
 	*/
+/*
 	function trackingDataQueryFormObject()
 	{
 		global $tpl,$lng,$ilias;
@@ -469,10 +477,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 
 	}
-
+*/
 	/**
 	* output tracking data
 	*/
+/*
 	function outputTrackingDataObject()
 	{
 		global $tpl,$lng,$ilias;
@@ -506,14 +515,14 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			$this->ilias->raiseError($lng->txt("msg_err_search_time"),
 				$this->ilias->error_obj->MESSAGE);
 		}
-
+*/
 		/*
 		if($_POST["stat"]!='h' and $_POST["stat"]!='d')
 		{
 			$this->ilias->raiseError($lng->txt("msg_no_search_time"),
 				$this->ilias->error_obj->MESSAGE);
 		}*/
-
+/*
 		$condition = $this->getCondition()." and acc_time >='".$from."' and acc_time< '".$to."'";
 		if(count(ilObjSysUserTracking::countResults($condition))== 0)
 		{
@@ -951,10 +960,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 		$tpl->parseCurrentBlock();
 	}
-
+*/
 	/**
 	* get complete condition string
 	*/
+/*
 	function getCondition()
 	{
 		$lang_cond = $this->getLanguageCondition();
@@ -970,11 +980,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			return $lang_cond." AND ".$this->getObjectCondition();
 		}
 	}
-
+*/
 
 	/**
 	* get object condition string
 	*/
+/*
 	function getObjectCondition()
 	{
 		global $ilDB;
@@ -1035,10 +1046,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			}
 		}
 	}
-
+*/
 	/**
 	* get language condition string
 	*/
+/*
 	function getLanguageCondition()
 	{
 		global $ilDB;
@@ -1058,10 +1070,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	{
 		return $this->conditions;
 	}
-	
+*/
 	/**
 	* Return the nums of days between 'from' and 'to'
 	*/
+/*
 	function numDay($from,$to)
 	{
 		$from = strtotime($from);
@@ -1075,10 +1088,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$ret = ( mktime(0,0,0,$montht,$dayt,$yeart) - mktime(0,0,0,$monthf,$dayf,$yearf))/(3600*24); 
 		return $ret; 
 	}
-	
+*/
+
 	/**
 	* Return the nums of hours between 'from' and 'to'
 	*/
+/*
 	function numHour($from,$to)
 	{
 		$from = strtotime($from);
@@ -1095,10 +1110,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$ret = strftime($ret);
 		return $ret; 
 	}
+*/
 	
 	/**
 	* Add one hour to the 'time' and return it
 	*/
+/*
 	function addHour($time)
 	{
 		$time = strtotime($time);
@@ -1112,10 +1129,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$ret = date("H:i:s", mktime($hour,$min,$sec,$month,$day,$year));
 		return $ret;
 	}
+*/
 	
 	/**
 	* Add one day to the 'time' and return it
 	*/
+/*
 	function addDay($time)
 	{
 		$time = strtotime($time);
@@ -1129,10 +1148,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$ret = date ("Y-m-d", mktime($hour,$min,$sec,$month,$day,$year));
 		return $ret;
 	}
+*/
 	
 	/**
 	* Get the access time between 'from' to 'to' and under the 'condition'
 	*/
+/*
 	function selectTime($from,$to,$condition)
 	{
 		$q = "SELECT acc_time from ut_access "
@@ -1146,10 +1167,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 		return $result;
 	}
+*/
 	
 	/**
 	* Get the access num between 'from' to 'from1' and under the 'condition'
 	*/
+/*
 	function countNum($from,$from1,$condition)
 	{
 		$q = "SELECT count(*) from ut_access "
@@ -1160,12 +1183,13 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$result = $res->fetchRow();
 		return $result[0];
 	}
-	
+*/
 	/**
 	* get tabs
 	* @access	public
 	* @param	object	tabs gui object
 	*/
+/*
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
@@ -1192,5 +1216,6 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
+*/
 } // END class.ilObjSysUserTrackingGUI
 ?>

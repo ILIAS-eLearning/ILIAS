@@ -119,6 +119,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	function displayList()
 	{
 		include_once "./classes/class.ilTableGUI.php";
+		return;
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -129,7 +130,8 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		$num = 0;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -182,7 +184,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 				foreach ($data as $key => $val)
 				{
 					//build link
-					$link = "adm_object.php?";
+					/*
 
 					$n = 0;
 
@@ -235,7 +237,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 					$this->tpl->setCurrentBlock("table_cell");
 					$this->tpl->parseCurrentBlock();
-
+					*/
 				} //foreach
 
 				$this->tpl->setCurrentBlock("tbl_content");
