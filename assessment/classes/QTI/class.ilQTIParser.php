@@ -1364,49 +1364,52 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "material":
-				if (strcmp($this->material->getLabel(), "suggested_solution") == 0)
+				if ($this->material)
 				{
-					$mat = $this->material->getMaterial(0);
-					$this->item->addSuggestedSolution($mat["material"], $this->gap_index);
-				}
-				else if (($this->render_type != NULL) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0))
-				{
-					$this->render_type->addMaterial($this->material);
-				}
-				else if (count($this->flow_mat) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow_mat") == 0))
-				{
-					$this->flow_mat[count($this->flow_mat)-1]->addMaterial($this->material);
-				}
-				else if ($this->itemfeedback != NULL)
-				{
-					$this->itemfeedback->addMaterial($this->material);
-				}
-				else if ($this->response_label != NULL)
-				{
-					$this->response_label->addMaterial($this->material);
-				}
-				else if ($this->response != NULL)
-				{
-					if ($this->response->hasRendering())
+					if (strcmp($this->material->getLabel(), "suggested_solution") == 0)
 					{
-						$this->response->setMaterial2($this->material);
+						$mat = $this->material->getMaterial(0);
+						$this->item->addSuggestedSolution($mat["material"], $this->gap_index);
 					}
-					else
+					else if (($this->render_type != NULL) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0))
 					{
-						$this->response->setMaterial1($this->material);
+						$this->render_type->addMaterial($this->material);
 					}
-				}
-				elseif (($this->in_presentation) && (!$this->in_response))
-				{
-					$this->item->setQuestiontext($this->material);
-					$this->presentation->addMaterial($this->material);
-				}
-				else if ($this->presentation != NULL)
-				{
-					$this->presentation->addMaterial($this->material);
-					if ($this->item != NULL)
+					else if (count($this->flow_mat) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow_mat") == 0))
 					{
-						$this->item->addPresentationitem($this->material);
+						$this->flow_mat[count($this->flow_mat)-1]->addMaterial($this->material);
+					}
+					else if ($this->itemfeedback != NULL)
+					{
+						$this->itemfeedback->addMaterial($this->material);
+					}
+					else if ($this->response_label != NULL)
+					{
+						$this->response_label->addMaterial($this->material);
+					}
+					else if ($this->response != NULL)
+					{
+						if ($this->response->hasRendering())
+						{
+							$this->response->setMaterial2($this->material);
+						}
+						else
+						{
+							$this->response->setMaterial1($this->material);
+						}
+					}
+					elseif (($this->in_presentation) && (!$this->in_response))
+					{
+						$this->item->setQuestiontext($this->material);
+						$this->presentation->addMaterial($this->material);
+					}
+					else if ($this->presentation != NULL)
+					{
+						$this->presentation->addMaterial($this->material);
+						if ($this->item != NULL)
+						{
+							$this->item->addPresentationitem($this->material);
+						}
 					}
 				}
 				$this->material = NULL;
