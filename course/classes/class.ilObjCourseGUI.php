@@ -3179,7 +3179,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	  $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 
 	  // SHOW PUBLIC PROFILE OR WARNING IF NOT PUBLIC
-	  if (($out = $user_gui->getPublicProfile())!="") {
+	  if (($out = $user_gui->getPublicProfile("", TRUE))!="") {
 		  $this->setSubTabs('members');
 		  $this->tabs_gui->setTabActive('members');
 		  $this->tabs_gui->setSubTabActive('crs_members_gallery');
