@@ -22,7 +22,7 @@
 */
 
 /**
- * @author Roland Küstermann
+ * @author Roland Kï¿½stermann
  * @date	20.02.2006
  */
 
@@ -94,11 +94,11 @@ class ilLMStatistics {
 			$user_IDs = $_SESSION["userSelected_stat"];
 		}
 
-		//nur falls mind. ein Benutzer ausgewählt wurde starten
+		//nur falls mind. ein Benutzer ausgewï¿½hlt wurde starten
 
 		if (count($user_IDs) > 0 || ($user_selection == "all")) {
 
-			//Benutzer-String für SQL erzeugen
+			//Benutzer-String fï¿½r SQL erzeugen
 
 			if (count($user_IDs) > 0) {
 				$stringUserID = "(";
@@ -125,8 +125,8 @@ class ilLMStatistics {
 			$IntervallSeitenMax[3] = 5;
 			$IntervallSeitenMax[4] = 20;
 			$IntervallSeitenMax[5] = 50;
-			$RankBenoetigteZugriffe = 5; //benötigte Seitenzugriffe damit eine Seite ins Ranking kommt
-			$RankAnzahl = 10; //Größe der Rankings
+			$RankBenoetigteZugriffe = 1; //benï¿½tigte Seitenzugriffe damit eine Seite ins Ranking kommt
+			$RankAnzahl = 10; //Grï¿½ï¿½e der Rankings
 			//$umlauteAendern = 1; //1=ja
 			$KapitelAbdeckungsKennzahlFaktor2 = 0.5;
 			$KapitelAbdeckungsKennzahlFaktor3 = 1.0;
@@ -151,7 +151,7 @@ class ilLMStatistics {
 			$result = $ilias->db->query($q);
 			while ($row = $result->fetchRow()) {
 
-				//Benötigte Daten zu den Kapitel und Seiten aus der DB auslesen
+				//Benï¿½tigte Daten zu den Kapitel und Seiten aus der DB auslesen
 
 				if ($row[2] == 'st') {
 					$Kapitelanz ++;
@@ -180,11 +180,11 @@ class ilLMStatistics {
 
 			while ($row = $result->fetchRow()) {
 
-				if (($rSeitenID[$row[3]] != 0) && ($rKapitelID[$vatizumkind[$row[3]]] != 0)) { //Überprüft ob die Seite des UT-Eintrages noch in der DB steht
+				if (($rSeitenID[$row[3]] != 0) && ($rKapitelID[$vatizumkind[$row[3]]] != 0)) { //ï¿½berprï¿½ft ob die Seite des UT-Eintrages noch in der DB steht
 
 					if ($row[1] > $UserTopID) {
 						$UserTopID = $row[1];
-					} //Es wird die höchste User-ID bestimmt
+					} //Es wird die hï¿½chste User-ID bestimmt
 
 					$UserZugriffe[$row[1]]++;
 					$SeitenZugriffe[$rSeitenID[$row[3]]]++;
@@ -192,7 +192,7 @@ class ilLMStatistics {
 					$KapitelSeitenZugriffe[$rKapitelID[$vatizumkind[$row[3]]]]++;
 					$checkS = false;
 
-					//Überprüfen ob Eintrag zu einer Session gehört
+					//ï¿½berprï¿½fen ob Eintrag zu einer Session gehï¿½rt
 
 					for ($i = 0; $i <= count($SessionCheck[$row[1]]); $i ++) {
 						if ($row[4] == $SessionCheck[$row[1]][$i][0]) {
@@ -201,7 +201,7 @@ class ilLMStatistics {
 						}
 					}
 
-					//jetzt falls erneuter Seitenzugriff während einer Session
+					//jetzt falls erneuter Seitenzugriff wï¿½hrend einer Session
 
 					if ($checkS) {
 
@@ -275,7 +275,7 @@ class ilLMStatistics {
 
 						$Sessionanz ++;
 
-						$aktSessionAnzahlUser = count($SessionCheck[$row[1]]) + 1; //Sessionanzahl des Users erhöhen
+						$aktSessionAnzahlUser = count($SessionCheck[$row[1]]) + 1; //Sessionanzahl des Users erhï¿½hen
 						$SessionCheck[$row[1]][$aktSessionAnzahlUser][0] = $row[4];
 						$SessionCheck[$row[1]][$aktSessionAnzahlUser][1] = $Sessionanz;
 
@@ -380,7 +380,7 @@ class ilLMStatistics {
 				$SeitenVerweildauerVarKoef = $SeitenVerweildauerDurchschnitt / $SeitenVerweildauerStandartAbw;
 			}
 
-			//GesamtVerweilzeit für Seiten maxordnen
+			//GesamtVerweilzeit fï¿½r Seiten maxordnen
 
 			for ($i = 1; $i <= $Seitenanz; $i ++) {
 				if ($SeitenMessbareZugriffe[$i] >= $RankBenoetigteZugriffe) {
@@ -393,7 +393,7 @@ class ilLMStatistics {
 				array_multisort($SeitenGesamtVerweilMax, SORT_DESC, $SeitenGesamtVerweilMaxID);
 			}
 
-			//GesamtVerweilzeit für Seiten minordnen
+			//GesamtVerweilzeit fï¿½r Seiten minordnen
 
 			for ($i = 1; $i <= $Seitenanz; $i ++) {
 				if ($SeitenMessbareZugriffe[$i] >= $RankBenoetigteZugriffe) {
@@ -406,7 +406,7 @@ class ilLMStatistics {
 				array_multisort($SeitenGesamtVerweilMin, SORT_ASC, $SeitenGesamtVerweilMinID);
 			}
 
-			//durchsch. Verweildauer für Seiten max ordnen
+			//durchsch. Verweildauer fï¿½r Seiten max ordnen
 
 			for ($i = 1; $i <= $Seitenanz; $i ++) {
 				if ($SeitenMessbareZugriffe[$i] >= $RankBenoetigteZugriffe) {
@@ -418,7 +418,7 @@ class ilLMStatistics {
 				array_multisort($SeitenDurchschnittVerweilMax, SORT_DESC, $SeitenDurchschnittVerweilMaxID);
 			}
 
-			//durchsch. Verweildauer für Seiten min  ordnen
+			//durchsch. Verweildauer fï¿½r Seiten min  ordnen
 
 			for ($i = 1; $i <= $Seitenanz; $i ++) {
 				if ($SeitenMessbareZugriffe[$i] >= $RankBenoetigteZugriffe) {
@@ -478,7 +478,7 @@ class ilLMStatistics {
 
 			//SEITENZUGRIFF-STATS
 
-			//Zugriffe für Seiten maxordnen
+			//Zugriffe fï¿½r Seiten maxordnen
 
 			for ($i = 1; $i <= $Seitenanz; $i ++) {
 
@@ -495,7 +495,7 @@ class ilLMStatistics {
 				array_multisort($SeitenZugriffMax, SORT_DESC, $SeitenZugriffMaxID);
 			}
 
-			//Zugriffe für Seiten minordnen
+			//Zugriffe fï¿½r Seiten minordnen
 
 			for ($i = 1; $i <= $Seitenanz; $i ++) {
 
@@ -556,7 +556,7 @@ class ilLMStatistics {
 
 			//SESSIONSTATS
 
-			//Zusatz2: längste Session bestimmen
+			//Zusatz2: lï¿½ngste Session bestimmen
 
 			for ($i = 1; $i <= $Sessionanz; $i ++) {
 				$SessionGesamtDauerMax[$i] = $SessionGesamtDauer[$i];
@@ -627,7 +627,7 @@ class ilLMStatistics {
 
 			//KAPITEL STATS:
 
-			//Seitenstats auf Kapitel übertragen
+			//Seitenstats auf Kapitel ï¿½bertragen
 
 			$knoten = 0;
 			$tiefe = 0;
@@ -661,7 +661,7 @@ class ilLMStatistics {
 				}
 			}
 
-			//Zugriffe für Kapitel maxordnen
+			//Zugriffe fï¿½r Kapitel maxordnen
 
 			for ($i = 1; $i <= $Kapitelanz; $i ++) {
 
@@ -722,7 +722,7 @@ class ilLMStatistics {
 				array_multisort($KapitelZugriffMax5, SORT_DESC, $KapitelZugriffMaxID5);
 			}
 
-			//Zugriffe für Kapitel minordnen
+			//Zugriffe fï¿½r Kapitel minordnen
 
 			for ($i = 1; $i <= $Kapitelanz; $i ++) {
 
@@ -739,7 +739,7 @@ class ilLMStatistics {
 				array_multisort($KapitelZugriffMin, SORT_ASC, $KapitelZugriffMinID);
 			}
 
-			//GesamtVerweilzeit für Kapitel maxordnen
+			//GesamtVerweilzeit fï¿½r Kapitel maxordnen
 
 			for ($i = 1; $i <= $Kapitelanz; $i ++) {
 				if ($seitenTiefe[$KapitelID[$i]] == 2) {
@@ -781,7 +781,7 @@ class ilLMStatistics {
 				array_multisort($KapitelGesamtVerweilMax5, SORT_DESC, $KapitelGesamtVerweilMaxID5);
 			}
 
-			//GesamtVerweilzeit für Kapitel minordnen
+			//GesamtVerweilzeit fï¿½r Kapitel minordnen
 			for ($i = 1; $i <= $Kapitelanz; $i ++) {
 				if ($KapitelMessbareZugriffe[$i] >= $RankBenoetigteZugriffe) {
 					$KapitelGesamtVerweilMin[$i] = $KapitelGesamtVerweilZeit[$i];
@@ -793,7 +793,7 @@ class ilLMStatistics {
 				array_multisort($KapitelGesamtVerweilMin, SORT_ASC, $KapitelGesamtVerweilMinID);
 			}
 
-			//SeitenSumme für Kapitel maxordnen
+			//SeitenSumme fï¿½r Kapitel maxordnen
 
 			for ($i = 1; $i <= $Kapitelanz; $i ++) {
 				$KapitelSeitenSummeMax[$i] = $KapitelSeitenSumme[$i];
@@ -916,16 +916,16 @@ class ilLMStatistics {
 			//BEGINN DER AUSGABE
 			/**
 			 	*Im Feld $SeitenStatsName[] wird jeweils der Name der anzuzeigenden Option gespeichert der dann in der der linken Spalte ausgegeben wird.
-			*In $SeitenStatsWert[] wird der dazugehörige Optionswert eingetragen.
+			*In $SeitenStatsWert[] wird der dazugehï¿½rige Optionswert eingetragen.
 			*Ein Slider ($slider) wird verwendet um die Optionen leichter zu entfernen bzw. zu verschieben.
-			*	Soll zB eine neue Option hinzugefügt werden kann man das mit den Einträgen...
+			*	Soll zB eine neue Option hinzugefï¿½gt werden kann man das mit den Eintrï¿½gen...
 			    *	    	$SeitenStatsName[$slider3]="Name der neuen Option";
 			    *		$SeitenStatsWert[$slider3]="Wert der neuen Option";
 			    *		$slider3++;
 			    *	...bewerkstelligt werden.
 			 	*/
 
-			$TNA = 300; //Strings werden auf diesen Wert gekürzt
+			$TNA = 300; //Strings werden auf diesen Wert gekï¿½rzt
 			$hop = 3; //Dicke zwischen den Zeilen. Um zB Optionen in der Ausgabe voneinander abzugrenzen
 
 			//SEITENSTATS
@@ -947,7 +947,7 @@ class ilLMStatistics {
 				return $min."m,".round($restsek)."s";
 			}
 
-/*			//wenn die Option umlauteAendern eingeschaltet ist (wert=1) dann werden bei der Ausgabe die Umlaute in der Ausgabe geändert
+/*			//wenn die Option umlauteAendern eingeschaltet ist (wert=1) dann werden bei der Ausgabe die Umlaute in der Ausgabe geï¿½ndert
 
 			if ($umlauteAendern == 1) {
 				$d1 = array ("Ã¤", "Ã¶", "Ã¼", "Ã„", "Ã–", "Ãœ");
@@ -1233,67 +1233,79 @@ class ilLMStatistics {
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_longest_total_dwell_time_depth")." 0:"."</b>"; //"<b>LaengsteGesamtVerweildauer Tiefe 2:</b>";
 			$KapitelStatsWert[$slider3] = "";
-			for ($i = 0; $i < $RankAnzahl; $i ++) {
-				$KapitelStatsName[$i +1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelGesamtVerweilMaxID2[$i]], 0, $TNA));
-				$KapitelStatsWert[$i +1 + $slider3] = s_to_h($KapitelGesamtVerweilMax2[$i]);
+			for ($i = 0; $i < min($KapitelTiefe2Anzahl,$RankAnzahl); $i ++) {
+				$KapitelStatsName[$i + 1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelGesamtVerweilMaxID2[$i]], 0, $TNA));
+				$KapitelStatsWert[$i + 1 + $slider3] = s_to_h($KapitelGesamtVerweilMax2[$i]);
+
 			}
-			$slider3 += $RankAnzahl + $hop;
+			$slider3 += $i + $hop + 1;
+			//$slider3 += $RankAnzahl + $hop;
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_most_access_depth")." 0:"."</b>"; //"<b>Meisten Zugriffe Tiefe 2</b>";
 			$KapitelStatsWert[$slider3] = "";
-			for ($i = 0; $i < $RankAnzahl; $i ++) {
+			for ($i = 0; $i <  min($KapitelTiefe2Anzahl, $RankAnzahl); $i ++) {
 				$KapitelStatsName[$i +1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelZugriffMaxID2[$i]], 0, $TNA));
 				$KapitelStatsWert[$i +1 + $slider3] = round($KapitelZugriffMax2[$i])." ".$lng->txt("stats_accesses"); //." Zugriffe";
 			}
-			$slider3 += $RankAnzahl + $hop;
+			$slider3 += $i + $hop + 1;
+			//$slider3 += $RankAnzahl + $hop;
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_longest_total_dwell_time_depth")." 1:"."</b>"; //"<b>LaengsteGesamtVerweildauer Tiefe 3:</b>";
 			$KapitelStatsWert[$slider3] = "";
-			for ($i = 0; $i < $RankAnzahl; $i ++) {
+			for ($i = 0; $i <  min($KapitelTiefe3Anzahl, $RankAnzahl); $i ++) {
 				$KapitelStatsName[$i +1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelGesamtVerweilMaxID3[$i]], 0, $TNA));
 				$KapitelStatsWert[$i +1 + $slider3] = s_to_h($KapitelGesamtVerweilMax3[$i]);
 			}
-			$slider3 += $RankAnzahl + $hop;
+			//$slider3 += $RankAnzahl + $hop;
+		    $slider3 += $i + $hop + 1;
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_most_access_depth")." 1:"."</b>"; //"<b>Meisten Zugriffe Tiefe 3</b>";
 			$KapitelStatsWert[$slider3] = "";
-			for ($i = 0; $i < $RankAnzahl; $i ++) {
+			for ($i = 0; $i <   min($KapitelTiefe3Anzahl, $RankAnzahl); $i ++) {
 				$KapitelStatsName[$i +1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelZugriffMaxID3[$i]], 0, $TNA));
 				$KapitelStatsWert[$i +1 + $slider3] = round($KapitelZugriffMax3[$i])." ".$lng->txt("stats_accesses"); //." Zugriffe";
 			}
-			$slider3 += $RankAnzahl + $hop;
+		    $slider3 += $i + $hop + 1;
+			//$slider3 += $RankAnzahl + $hop;
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_longest_total_dwell_time_depth")." 2:"."</b>"; //"<b>LaengsteGesamtVerweildauer Tiefe 4:</b>";
 			$KapitelStatsWert[$slider3] = "";
-			for ($i = 0; $i < $RankAnzahl; $i ++) {
-				$KapitelStatsName[$i +1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelGesamtVerweilMaxID4[$i]], 0, $TNA));
+			for ($i = 0; $i <   min($KapitelTiefe4Anzahl, $RankAnzahl); $i ++) {
+				$KapitelStatsName[$i +1 + $slider3] = ($i + 1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelGesamtVerweilMaxID4[$i]], 0, $TNA));
 				$KapitelStatsWert[$i +1 + $slider3] = s_to_h($KapitelGesamtVerweilMax4[$i]);
+
 			}
-			$slider3 += $RankAnzahl + $hop;
+			$slider3 += $i + $hop + 1;
+			//$slider3 += $RankAnzahl + $hop;
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_most_access_depth")." 2:"."</b>"; //"<b>Meisten Zugriffe Tiefe 4</b>";
 			$KapitelStatsWert[$slider3] = "";
-			for ($i = 0; $i < $RankAnzahl; $i ++) {
+			for ($i = 0; $i <    min($KapitelTiefe4Anzahl, $RankAnzahl); $i ++) {
 				$KapitelStatsName[$i +1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelZugriffMaxID4[$i]], 0, $TNA));
 				$KapitelStatsWert[$i +1 + $slider3] = round($KapitelZugriffMax4[$i])." ".$lng->txt("stats_accesses"); //." Zugriffe";
+
 			}
-			$slider3 += $RankAnzahl + $hop;
+			$slider3 += $i + $hop + 1;
+			//$slider3 += $RankAnzahl + $hop;
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_longest_total_dwell_time_depth")." 3+:"."</b>"; //"<b>LaengsteGesamtVerweildauer Tiefe 5+:</b>";
 			$KapitelStatsWert[$slider3] = "";
-			for ($i = 0; $i < $RankAnzahl; $i ++) {
+			for ($i = 0; $i <     min($KapitelTiefe5Anzahl, $RankAnzahl); $i ++) {
 				$KapitelStatsName[$i +1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelGesamtVerweilMaxID5[$i]], 0, $TNA));
 				$KapitelStatsWert[$i +1 + $slider3] = s_to_h($KapitelGesamtVerweilMax5[$i]);
 			}
-			$slider3 += $RankAnzahl + $hop;
+			$slider3 += $i + $hop + 1;
+			//$slider3 += $RankAnzahl + $hop;
+
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_most_access_depth")." 3+:"."</b>"; //"<b>Meisten Zugriffe Tiefe 5+</b>";
 			$KapitelStatsWert[$slider3] = "";
-			for ($i = 0; $i < $RankAnzahl; $i ++) {
+			for ($i = 0; $i < min($KapitelTiefe5Anzahl, $RankAnzahl); $i ++) {
 				$KapitelStatsName[$i +1 + $slider3] = ($i +1).". ".str_replace($d1, $d2, substr($KapitelName[$KapitelZugriffMaxID5[$i]], 0, $TNA));
 				$KapitelStatsWert[$i +1 + $slider3] = round($KapitelZugriffMax5[$i])." ".$lng->txt("stats_accesses"); //." Zugriffe";
 			}
-			$slider3 += $RankAnzahl + $hop;
+			//$slider3 += $RankAnzahl + $hop;
+		    $slider3 += $i + $hop + 1;
 
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_stubbiest_total_dwell_time").":"."</b>"; //"<b>kuerzeste GesamtVerweildauer:</b>";
 			$KapitelStatsWert[$slider3] = "";
@@ -1315,7 +1327,7 @@ class ilLMStatistics {
 
 			//Abdeckungsgrade Tiefe2
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_depth_coverage")." 0:"."</b>"; //"<b>Abdeckungsgrade Tiefe 2:</b>";
-			$KapitelStatsWertA1[$slider3] = "Zugriffe>0";
+			$KapitelStatsWertA1[$slider3] = $lng->txt("stats_accesses").">0";
 			$KapitelStatsWertA2[$slider3] = ">".floor($KapitelDurchZugriffe2 * $KapitelAbdeckungsKennzahlFaktor2);
 			$KapitelStatsWertA3[$slider3] = ">".floor($KapitelDurchZugriffe2 * $KapitelAbdeckungsKennzahlFaktor3);
 			$KapitelStatsWertA4[$slider3] = ">".floor($KapitelDurchZugriffe2 * $KapitelAbdeckungsKennzahlFaktor4);
@@ -1339,7 +1351,7 @@ class ilLMStatistics {
 
 			//Abdeckungsgrade Tiefe3
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_depth_coverage")." 1:"."</b>"; //"<b>Abdeckungsgrade Tiefe 3:</b>";
-			$KapitelStatsWertA1[$slider3] = "Zugriffe>0";
+			$KapitelStatsWertA1[$slider3] = $lng->txt("stats_accesses").">0";
 			$KapitelStatsWertA2[$slider3] = ">".floor($KapitelDurchZugriffe3 * $KapitelAbdeckungsKennzahlFaktor2);
 			$KapitelStatsWertA3[$slider3] = ">".floor($KapitelDurchZugriffe3 * $KapitelAbdeckungsKennzahlFaktor3);
 			$KapitelStatsWertA4[$slider3] = ">".floor($KapitelDurchZugriffe3 * $KapitelAbdeckungsKennzahlFaktor4);
@@ -1362,7 +1374,7 @@ class ilLMStatistics {
 
 			//Abdeckungsgrade Tiefe4
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_depth_coverage")." 2:"."</b>"; //"<b>Abdeckungsgrade Tiefe 4:</b>";
-			$KapitelStatsWertA1[$slider3] = "Zugriffe>0";
+			$KapitelStatsWertA1[$slider3] = $lng->txt("stats_accesses").">0";
 			$KapitelStatsWertA2[$slider3] = ">".floor($KapitelDurchZugriffe4 * $KapitelAbdeckungsKennzahlFaktor2);
 			$KapitelStatsWertA3[$slider3] = ">".floor($KapitelDurchZugriffe4 * $KapitelAbdeckungsKennzahlFaktor3);
 			$KapitelStatsWertA4[$slider3] = ">".floor($KapitelDurchZugriffe4 * $KapitelAbdeckungsKennzahlFaktor4);
@@ -1385,7 +1397,7 @@ class ilLMStatistics {
 
 			//Abdeckungsgrade Tiefe5
 			$KapitelStatsName[$slider3] = "<b>".$lng->txt("stats_chapter_depth_coverage")." 3+:"."</b>"; //"<b>Abdeckungsgrade Tiefe 5+:</b>";
-			$KapitelStatsWertA1[$slider3] = "Zugriffe>0";
+			$KapitelStatsWertA1[$slider3] = $lng->txt("stats_accesses").">0";
 			$KapitelStatsWertA2[$slider3] = ">".floor($KapitelDurchZugriffe5 * $KapitelAbdeckungsKennzahlFaktor2);
 			$KapitelStatsWertA3[$slider3] = ">".floor($KapitelDurchZugriffe5 * $KapitelAbdeckungsKennzahlFaktor3);
 			$KapitelStatsWertA4[$slider3] = ">".floor($KapitelDurchZugriffe5 * $KapitelAbdeckungsKennzahlFaktor4);
@@ -1409,7 +1421,7 @@ class ilLMStatistics {
 			//AUSGABE BEOBACHTUNGSMODELL
 
 			if ($_POST["stat"] == 'u') {
-				//Daten für das Applet zusammenstellen
+				//Daten fï¿½r das Applet zusammenstellen
 
 				$delim1 = " ";
 
@@ -1449,17 +1461,18 @@ class ilLMStatistics {
 				//SCHREIBE die SEITEN,SESSION oder KAPITELSTATS in Tabelle
 
 				include_once "./classes/class.ilTableGUI.php";
-				$tbl = new ilTableGUI();
+//				$tbl = new ilTableGUI();
 				$tpl->addBlockfile("ADM_CONTENT", "adm_content", MODULE_PATH."/templates/default/tpl.lm_statistics_result.html");
 				$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 				$tpl->addBlockfile("TRACK_TABLE", "track_table", "tpl.table.html");
 				$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+
 				if ($_POST["stat"] == 'd') {
 					$title_new = array ("time", "", "", "", "", "");
 				} else {
 					$title_new = array ("time", "count");
 				}
-				include_once "./classes/class.ilTableGUI.php";
+
 				$tbl = new ilTableGUI();
 				$tbl->setTitle($lng->txt("obj_trac"), 0);
 				foreach ($title_new as $val) {
@@ -1469,18 +1482,18 @@ class ilLMStatistics {
 				$tbl->setHeaderNames($header_names);
 				if ($_POST["stat"] == 'h') { //SeitenSTATS
 					$num = $slider +1;
-					$tbl->setMaxCount($num);
+					//$tbl->setMaxCount($num);
 				} else
 					if ($_POST["stat"] == 'd') { //KapitelSTATS
-						$num = $slider3save + $slider3 +1;
-						$tbl->setMaxCount($num);
+						$num = $slider3save + $slider3 + 1;
+						//$tbl->setMaxCount($num);
 					} else
 						if ($_POST["stat"] == 'o') { //SessionSTATS
 							$num = $slider2 +1;
-							$tbl->setMaxCount($num);
+							//$tbl->setMaxCount($num);
 						} else { //BeobModell
 							$num = 24;
-							$tbl->setMaxCount($num);
+							//$tbl->setMaxCount($num);
 						}
 				$tbl->setStyle("table", "std");
 				$tbl->render();

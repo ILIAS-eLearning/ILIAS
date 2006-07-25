@@ -6188,7 +6188,7 @@ trac#:#stats_accesses#:#Accesses
 trac#:#stats_all#:#All
 trac#:#stats_chapter#:#Chapter
 trac#:#stats_chapter_average_page_number#:#Average Number of Pages per Chapter
-trac#:#stats_chapter_depth_coverage#:#Degree of Coverage which Depth
+trac#:#stats_chapter_depth_coverage#:#Degree of Coverage with Depth
 trac#:#stats_chapter_fewest_access#:#Fewest Access
 trac#:#stats_chapter_listing#:#Chapter Listing
 trac#:#stats_chapter_longest_total_dwell_time_depth#:#Total Dwell Time Depth
