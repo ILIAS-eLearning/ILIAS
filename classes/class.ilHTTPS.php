@@ -30,6 +30,7 @@
 *
 * @package application
 */
+
 class ilHTTPS
 {
 	var $enabled = false;
@@ -42,6 +43,7 @@ class ilHTTPS
 		if($this->enabled = (bool) $ilias->getSetting('https'))
 		{
 			$this->__readProtectedScripts();
+			$this->__readProtectedClasses();
 		}
 	}
 	
@@ -51,13 +53,15 @@ class ilHTTPS
 		{
 			return true;
 		}
-		if(in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) and
+		if((in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) or
+			in_array($_GET['cmdClass'],$this->protected_classes)) and
 		   $_SERVER["HTTPS"] != 'on')
 		{
 			header("location: https://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
 			exit;
 		}
-		if(!in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) and
+		if((!in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) and
+			!in_array($_GET['cmdClass'],$this->protected_classes)) and
 		   $_SERVER["HTTPS"] == 'on')
 		{
 			header("location: http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
@@ -72,6 +76,12 @@ class ilHTTPS
 		$this->protected_scripts[] = 'start_bmf.php';
 
 		return true;
+	}
+
+	function __readProtectedClasses()
+	{
+		$this->protected_classes[] = 'ilstartupgui';
+		$this->protected_classes[] = 'ilregistrationgui';
 	}
 
 	/**
