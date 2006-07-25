@@ -1,5 +1,5 @@
 <?php
-global $BEAUT_PATH;
+$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require "$BEAUT_PATH/Beautifier/HFile.php";
 

@@ -3,7 +3,7 @@
 
 ini_set('max_execution_time', 300000);
 
-global $BEAUT_PATH;
+$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require "$BEAUT_PATH/Beautifier/HFile.php";
 
