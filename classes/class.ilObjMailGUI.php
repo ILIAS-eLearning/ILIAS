@@ -170,7 +170,8 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_IMPORT",$this->lng->txt("import"));
 		}
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_IMPORT_MAIL",$this->lng->txt("table_mail_import"));
 		$this->tpl->setVariable("TXT_IMPORT_FILE",$this->lng->txt("mail_import_file"));
 		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
@@ -194,7 +195,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$number = $this->parser_obj->getCountImported();
 		sendInfo($lng->txt("import_finished")." ".$number,true);
 		
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=import");
+		$this->ctrl->redirect($this, "import");
 	}
 	
 	
@@ -240,8 +241,7 @@ class ilObjMailGUI extends ilObjectGUI
 		}
 		sendInfo($this->message,true);
 		
-
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=import");
+		$this->ctrl->redirect($this, "import");
 	}
 
 	// PRIVATE

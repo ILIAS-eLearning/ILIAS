@@ -1336,8 +1336,6 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("ACTIVE_ROLE");
 			$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION",
 				$this->ctrl->getFormAction($this));
-			//"adm_object.php?cmd=activeRoleSave&ref_id=".
-			//						$this->usrf_ref_id."&obj_id=".$this->obj_id);
 			$this->tpl->setVariable("TXT_ACTIVE_ROLES",$this->lng->txt("active_roles"));
 			$this->tpl->setVariable("TXT_ASSIGN",$this->lng->txt("change_active_assignment"));
 			$this->tpl->parseCurrentBlock();
@@ -1744,7 +1742,6 @@ class ilObjUserGUI extends ilObjectGUI
 		if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
 			$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
-			//ilUtil::redirect("adm_object.php?ref_id=".$this->usrf_ref_id);
 		}
 		else
 		{
@@ -1982,7 +1979,6 @@ class ilObjUserGUI extends ilObjectGUI
 			$role_ids[$counter] = $role["obj_id"];
 			
             $result_set[$counter][] = ilUtil::formCheckBox(in_array($role["obj_id"],$assigned_roles),"role_id[]",$role["obj_id"],$disabled)."<input type=\"hidden\" name=\"role_id_ctrl[]\" value=\"".$role["obj_id"]."\"/>";
-            //$result_set[$counter][] = "<a href=\"adm_object.php?ref_id=".$rolf[0]."&obj_id=".$role["obj_id"]."&cmd=perm\">".ilObjRole::_getTranslation($role["title"])."</a>";
 			$this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $rolf[0]);
 			$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
 			$result_set[$counter][] = "<a href=\"".$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm")."\">".ilObjRole::_getTranslation($role["title"])."</a>";

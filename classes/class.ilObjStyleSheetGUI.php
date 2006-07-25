@@ -641,7 +641,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			{
 				$this->ctrl->redirectByClass("ilobjstylesettingsgui",
 					"editContentStyles");
-				//ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=editContentStyles");
 			}
 		}
 

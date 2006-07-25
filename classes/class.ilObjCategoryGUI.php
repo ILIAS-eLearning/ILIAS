@@ -206,7 +206,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 			// only in administration
-			if ($this->ctrl->getTargetScript() == "adm_object.php")
+			// to do: make this in repository work
+			if (false)
 			{
 				$this->tpl->setCurrentBlock("btn_cell");
 				$this->tpl->setVariable("BTN_LINK",
@@ -280,7 +281,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$this->ctrl->setParameter($this, "mode", "create");
 					$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", $this->ctrl->getLinkTarget($this, "removeTranslation"));
 
-					//$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=create&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
 					$this->tpl->parseCurrentBlock();
 				}
 
@@ -347,8 +347,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->ctrl->setParameter($this, "mode", "create");
 			$this->ctrl->setParameter($this, "new_type", $new_type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			//$this->getFormAction("save","adm_object.php?cmd=gateway&mode=create&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
-			//$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
@@ -420,8 +418,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		//$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
 		
 		$this->redirectToRefId($_GET["ref_id"]);
-
-		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -661,8 +657,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 
 		$_SESSION["translation_post"] = $_POST;
-		//ilUtil::redirect($this->getReturnLocation("addTranslation",
-		//	"adm_object.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
 		$this->ctrl->setParameter($this, "entry", 0);
 		$this->ctrl->setParameter($this, "mode", "session");
 		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
@@ -685,7 +679,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->ctrl->setParameter($this, "entry", $_GET["entry"]);
 		$this->ctrl->setParameter($this, "mode", "session");
 		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
-		//ilUtil::redirect("adm_object.php?cmd=".$_GET["mode"]."&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
 
 	}
@@ -727,15 +720,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function importCategoriesFormObject ()
 	{
-		/*$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html");
-
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
-
-		$this->tpl->setVariable("TXT_IMPORT_CATEGORIES", $this->lng->txt("import_categories"));
-		$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("import_file"));
-
-		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));*/
 		ilObjCategoryGUI::_importCategoriesForm($this->ref_id, $this->tpl);
 	}
 
@@ -748,7 +732,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$a_tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html");
 
-		$a_tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$a_ref_id."&cmd=gateway");
+		$a_tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$a_tpl->setVariable("TXT_IMPORT_CATEGORIES", $lng->txt("import_categories"));
 		$a_tpl->setVariable("TXT_HIERARCHY_OPTION", $lng->txt("import_cat_localrol"));
@@ -801,7 +785,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	function importCancelledObject()
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this);
 	}
 
 	/**
@@ -858,7 +842,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// added to prevent empty file names
 		if (!strcmp($file_name,"")) {
 		  sendInfo($lng->txt("no_import_file_found"), true);
-		  ilUtil::redirect("adm_object.php?ref_id=".$a_ref_id);
+		  $this->ctrl->redirect($this);
 		}
 
 		$parts = pathinfo($file_name);
@@ -877,7 +861,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$importParser->startParsing();
 
 		sendInfo($lng->txt("categories_imported"), true);
-		ilUtil::redirect("adm_object.php?ref_id=".$a_ref_id);
+		$this->ctrl->redirect($this);
 	}
 
 	function applyFilterObject()

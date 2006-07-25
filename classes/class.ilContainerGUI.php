@@ -1223,7 +1223,6 @@ class ilContainerGUI extends ilObjectGUI
 		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
 
 		$this->ctrl->returnToParent($this);
-		//ilUtil::redirect($this->getReturnLocation("cut","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END CUT
 
@@ -1302,7 +1301,6 @@ class ilContainerGUI extends ilObjectGUI
 		sendinfo($this->lng->txt("msg_link_clipboard"),true);
 
 		$this->ctrl->returnToParent($this);
-		//ilUtil::redirect($this->getReturnLocation("link","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END LINK
 
@@ -1323,7 +1321,6 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
 
-			//ilUtil::redirect($this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
 			$this->ctrl->returnToParent($this);
 			//ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
 		}
@@ -1666,9 +1663,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 			sendInfo($this->lng->txt("msg_linked"),true);
 		}
 
-		//ilUtil::redirect($this->getReturnLocation("paste",$this->ctrl->getLinkTarget($this)),get_class($this));
 		$this->ctrl->returnToParent($this);
-		//ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END PASTE
 

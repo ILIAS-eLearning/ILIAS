@@ -72,7 +72,7 @@ class ilAdministrationExplorer extends ilExplorer
 	*/
 	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		global $lng, $ilias, $objDefinition;
 		
 		if ($_GET["admin_mode"] == "settings")
 		{
@@ -84,9 +84,14 @@ class ilAdministrationExplorer extends ilExplorer
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
 
+		$class_name = $objDefinition->getClassName("root");
+		$class = strtolower("ilObj".$class_name."GUI");
+		$this->ctrl->setParameterByClass($class, "ref_id", ROOT_FOLDER_ID);
+		$link = $this->ctrl->getLinkTargetByClass($class, "view");
+
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $lng->txt("repository"));
-		$tpl->setVariable("LINK_TARGET", "repository.php?ref_id=1");
+		$tpl->setVariable("LINK_TARGET", $link);
 		$tpl->setVariable("TARGET", " target=\"content\"");
 		$tpl->parseCurrentBlock();
 

@@ -323,17 +323,13 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 					$output["adopt"][$key]["role_name"] = $par["title"];
 				}
 			}
-	
-			//$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+
 			$output["formaction_adopt"] = $this->ctrl->getFormAction($this);
 			// END ADOPT_PERMISSIONS
 		}
 
-		//$output["formaction"] =
-		//	"adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
 		$output["formaction"] =
 			$this->ctrl->getFormAction($this);
-			"adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
 
 		$this->data = $output;
 
@@ -484,7 +480,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
-		//ilUtil::redirect("adm_object.php?obj_id=".$this->object->getId()."&ref_id=".$this->rolf_ref_id."&cmd=perm");
 		$this->ctrl->redirect($this, "perm");
 	}
 
@@ -519,7 +514,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
-		//ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->obj_id."&cmd=perm");
 		$this->ctrl->redirect($this, "perm");
 	}
 
@@ -573,7 +567,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
-		//$this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -671,7 +664,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
-		//ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
 		$this->ctrl->returnToParent($this);
 	}
 	

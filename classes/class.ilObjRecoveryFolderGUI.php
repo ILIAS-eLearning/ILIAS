@@ -68,8 +68,6 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 			
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
-		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
 
@@ -118,8 +116,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
 
-		ilUtil::redirect($this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
-
+		$this->ctrl->redirect($this, "view");
 	}
 	
 		function &executeCommand()

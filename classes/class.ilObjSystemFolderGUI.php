@@ -1204,8 +1204,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
-		//$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "saveHeaderTitle");
@@ -1270,8 +1268,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this);
-		//header("Location:".$this->getReturnLocation("update","adm_object.php?".$this->link_params));
-		//exit();
 	}
 	
 	function cancelObject()
@@ -1291,9 +1287,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "mode", "session");
 		$this->ctrl->setParameter($this, "entry", "0");
 		$this->ctrl->redirect($this, "changeHeaderTitle");
-		//header("Location:".$this->getReturnLocation("addTranslation",
-		//	"adm_object.php?cmd=changeHeaderTitle&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
-		//exit();
 	}
 
 	/**
@@ -1306,8 +1299,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "entry", $_GET["entry"]);
 		$this->ctrl->setParameter($this, "mode", "session");
 		$this->ctrl->redirect($this, "changeHeaderTitle");
-		//header("location: adm_object.php?cmd=changeHeaderTitle&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
-		//exit();
 	}
 
 
@@ -1340,7 +1331,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->getTemplateFile("scan");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=check");
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("scanning_system"));
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
@@ -1396,7 +1386,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->getTemplateFile("bench");
 		$this->ctrl->setParameter($this,'cur_mode',$_GET['cur_mod']);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		//$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cur_mod=".$_GET["cur_mod"]."&cmd=gateway");
 		$this->tpl->setVariable("TXT_BENCH_SETTINGS", $this->lng->txt("benchmark_settings"));
 		$this->tpl->setVariable("TXT_ACTIVATION", $this->lng->txt("activation"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_settings"));
@@ -1476,7 +1465,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		sendinfo($this->lng->txt("msg_obj_modified"), true);
 
 		$this->ctrl->redirect($this, "benchmark");
-		//ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
 	}
 
 
@@ -1489,7 +1477,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this,'cur_mod',$_POST['module']);
 		$this->ctrl->redirect($this, "benchmark");
-		//ilUtil::redirect("adm_object.php?cur_mod=".$_POST["module"]."&ref_id=".$_GET["ref_id"]."&cmd=benchmark");
 	}
 
 
