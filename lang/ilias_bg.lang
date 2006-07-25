@@ -2173,6 +2173,7 @@ common#:#month_11_long#:#�?оември
 common#:#month_11_short#:#�?оем
 common#:#month_12_long#:#Декември
 common#:#month_12_short#:#Дек
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Преме�?тване
 common#:#moveChapter#:#Преме�?тване
 common#:#movePage#:#Преме�?тване
@@ -5463,7 +5464,7 @@ survey#:#survey_code_no_codes#:#В�?е още не �?те �?ъздали ник�
 survey#:#survey_code_used#:#Кодът беше използван
 survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
-survey#:#survey_finish#:#приключване на обзора
+survey#:#survey_finish#:#приключване на обзора###25 Jul 2006 content changed
 survey#:#survey_finished#:#Завършихте обзора. Благодарим ви за вашето уча�?тие!###05 Feb 2006 content changed
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#�?е можете да започнете обзора! Обзорът е офлайн.
@@ -5479,7 +5480,7 @@ survey#:#survey_skip_finish#:#пропу�?кане и приключване н�
 survey#:#survey_skip_next#:#пропу�?кане >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< пропу�?кане###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#пропу�?кане и отиване на началната �?траница
-survey#:#survey_start#:#отиване на началната �?траница
+survey#:#survey_start#:#отиване на началната �?траница###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#В�?ички потребител�?ки данни от този обзор б�?ха изтрити!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
@@ -5658,6 +5659,7 @@ trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
@@ -5701,9 +5703,12 @@ trac#:#trac_not_accessed#:#Not accessed###23 Dec 2005 new variable
 trac#:#trac_not_assigned#:#Not assigned###23 Dec 2005 new variable
 trac#:#trac_not_attempted#:#Not attempted###23 Dec 2005 new variable
 trac#:#trac_not_completed#:#Not Completed###24 Jan 2006 new variable
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Number of visits###23 Dec 2005 new variable
 trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
 trac#:#trac_occurrences#:#Path:###23 Dec 2005 new variable
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
 trac#:#trac_progress#:#Personal learning progress###23 Dec 2005 new variable
 trac#:#trac_query#:#Title/description:###23 Dec 2005 new variable
@@ -5711,6 +5716,7 @@ trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new v
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable
 trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable

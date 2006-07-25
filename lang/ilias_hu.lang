@@ -944,7 +944,7 @@ common#:#adm_visible#:#A rendszerbeállítások láthatóak
 common#:#adm_write#:#Alap rendszerbeállítások szerkesztése
 common#:#admin_panel#:#Adminisztrációs panel
 common#:#admin_panel_disable#:#Adminisztrációs parancsok kikapcsolása
-common#:#admin_panel_enable#:#Adminisztrációs parancsok bekapcsolása
+common#:#admin_panel_enable#:#Adminisztrációs parancsok bekapcsolása###25 Jul 2006 content changed
 common#:#administrate#:#Adminisztrálás
 common#:#administrate_users#:#Helyi felhasználó adminisztrációja
 common#:#administration#:#Adminisztráció
@@ -1459,7 +1459,7 @@ common#:#enable_custom_icons_info#:#Engedélyezi szokásos ikonok definiálásá
 common#:#enable_hist_user_comments#:#Felhasználói megjegyzések engedélyezése a múltban
 common#:#enable_hist_user_comments_desc#:#Lehetőséget ad a szerzőknek, hogy megjegyzéseket tegyenek a lapok történetéről.
 common#:#enable_js_edit#:#JavaScript szerkesztés engedélyezése
-common#:#enable_js_edit_info#:#Ez a beállítás minden tartalomobjektumhoz (ILIAS tananyagok, fogalomtárak, kiértékelési kérdések, digitális könyvek) lehetővé teszi JavaScript szerkesztését.
+common#:#enable_js_edit_info#:#Ez a beállítás minden tartalomobjektumhoz (ILIAS tananyagok, fogalomtárak, kiértékelési kérdések, digitális könyvek) lehetővé teszi JavaScript szerkesztését.###25 Jul 2006 content changed
 common#:#enable_password_assistance#:#Jelszótámogatás engedélyezése
 common#:#enable_registration#:#Új felhasználó regisztrációjának engedélyezése
 common#:#enable_trash#:#Enable Trash###10 Jul 2006 new variable
@@ -2323,6 +2323,7 @@ common#:#month_11_short#:#Nov.
 common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec.
 common#:#monthly#:#havi
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#�?thelyez
 common#:#moveChapter#:#�?thelyez
 common#:#movePage#:#�?thelyez
@@ -3293,7 +3294,7 @@ common#:#webr_add_item#:#Webforrás felvétele
 common#:#webr_delete#:#Webforrás törlése
 common#:#webr_delete_items#:#Webforrás(ok) törlése
 common#:#webr_deleted_items#:#Webforrás(ok) törölve.
-common#:#webr_disable_check#:#Ellenőrzés letiltása
+common#:#webr_disable_check#:#Ellenőrzés letiltása###25 Jul 2006 content changed
 common#:#webr_edit#:#Webforrás szerkesztése
 common#:#webr_edit_item#:#Webforrás szerkesztése
 common#:#webr_edit_permission#:#Jogosultsági beállítások változtatása
@@ -3333,7 +3334,7 @@ content#:#PDF export#:#PDF-export
 content#:#Pages#:#Lapok
 content#:#add_menu_entry#:#Menübejegyzés felvétele >>
 content#:#all#:#Mind
-content#:#all_pages#:#a teljes tananyag
+content#:#all_pages#:#a teljes tananyag###25 Jul 2006 content changed
 content#:#choose_public_mode#:#Nem regisztrált felhasználók elérhetik
 content#:#choose_public_pages#:#Nyilvánosan elérhető lapok kiválasztása
 content#:#citate#:#Citate###10 Jul 2006 new variable
@@ -3774,7 +3775,7 @@ content#:#read offline#:#Off-line olvasás
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Válasszon ki egy fájlt!
-content#:#selected_pages_only#:#csak azokat az oldalakat, amelyek alább ki vannak választva
+content#:#selected_pages_only#:#csak azokat az oldalakat, amelyek alább ki vannak választva###25 Jul 2006 content changed
 content#:#set_public_mode#:#Nyilvános elérési mód beállítása
 content#:#st#:#Fejezet
 content#:#start export#:#Exportálás elindítása
@@ -3912,7 +3913,7 @@ crs#:#crs_info_reg#:#Bebocsátás
 crs#:#crs_info_reg_confirmation#:#Kérhet tagságot ehhez a  kurzushoz. Üzenetet fog kapni a kurzusadminisztrátortól, ha kérését elfogadta vagy elutasította.
 crs#:#crs_info_reg_deactivated#:#A kurzusba való bebocsátás le van zárva.
 crs#:#crs_info_reg_direct#:#Közvetlenül csatlakozhat ehhez a kurzushoz.
-crs#:#crs_info_reg_password#:#Ha a kurzusadminisztrátor adatott kurzusjelszót, csatlakozhat ehhez a kurzushoz.
+crs#:#crs_info_reg_password#:#Ha a kurzusadminisztrátor adatott kurzusjelszót, csatlakozhat ehhez a kurzushoz.###25 Jul 2006 content changed
 crs#:#crs_info_settings#:#Course Informations###10 Jul 2006 new variable
 crs#:#crs_info_start#:#Haladjon végig az összes lenti kurzuselemen!<br />Miután feldolgozott minden a pirossal jelölt objektumot, új kurzuselemek válnak aktívvá.
 crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.###10 Jul 2006 new variable
@@ -5990,7 +5991,7 @@ survey#:#survey_code_url_name#:#URL (használja a jobb egérgombot az URL másol
 survey#:#survey_code_used#:#A kód használva volt
 survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
-survey#:#survey_finish#:#kérdőív befejezése
+survey#:#survey_finish#:#kérdőív befejezése###25 Jul 2006 content changed
 survey#:#survey_finished#:#Befejezte a kérdőív kitöltését. Köszönjük részvételét!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Nem kezdheti el a kérdőívet. A kérdőív off-line.
@@ -6006,7 +6007,7 @@ survey#:#survey_skip_finish#:#ugrás és a kérdőív befejezése
 survey#:#survey_skip_next#:#következő >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< előző###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#ugrás és vissza a kezdőlapra
-survey#:#survey_start#:#vissza a kezdőlapra
+survey#:#survey_start#:#vissza a kezdőlapra###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#Minden, ehhez a kérdőívhez kapcsolódó felhasználói adat törlésre került.
 survey#:#svy_check_evaluation_access_introduction#:#Mivel ez a kérdőíves kiértékelés csak a kérdőívben résztvevők számára elérhető, meg kell adnia kérdőívelérési kódját a kiértékelés megnyitásához.
 survey#:#svy_check_evaluation_authentication_needed#:#Autentikáció szükséges
@@ -6086,6 +6087,7 @@ trac#:#trac_crs_releavant_items#:#Kurzustételek
 trac#:#trac_crs_relevant_items#:#Course Materials###10 Jul 2006 new variable
 trac#:#trac_edit_collection#:#Jelölje meg a kurzustételeket! Ha minden megjelölt tétel állapota 'Befejezett', a felhasználó a teljes kurzust befejezte. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_edit_visits#:#Definiálja azt a látogatásszámot, amely ennek az objektumnak a teljesítéséhez szükséges!
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Terület:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Elrejtve:###10 Jul 2006 content changed
 trac#:#trac_filter_no_access#:#Nincsenek talált objektumok
@@ -6122,13 +6124,17 @@ trac#:#trac_no_sahs_items_found#:#Nincsenek talált objektumok.
 trac#:#trac_not_accessed#:#Nem hozzáfért
 trac#:#trac_not_assigned#:#Nem hozzárendelt
 trac#:#trac_not_attempted#:#Nem csatlakozott
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Látogatók száma
 trac#:#trac_objects#:#Objektumok listája###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Útvonal:
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_progress#:#Egyéni tanulmányi előmenetel
 trac#:#trac_query#:#Cím/leírás:###10 Jul 2006 content changed
 trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
 trac#:#trac_refresh#:#Firssít
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_sahs_relevant_items#:#SCO's ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_settings#:#Beállítások
 trac#:#trac_settings_saved#:#Mentett beállítások.

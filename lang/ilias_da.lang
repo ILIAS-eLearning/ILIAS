@@ -940,7 +940,7 @@ common#:#adm_visible#:#System indstillinger er synlige
 common#:#adm_write#:#Rediger basis indstilinger
 common#:#admin_panel#:#Administration Panel
 common#:#admin_panel_disable#:#Skift Administration komand&oslash;r fra
-common#:#admin_panel_enable#:#Skift Administration komand&oslash;r til
+common#:#admin_panel_enable#:#Skift Administration komand&oslash;r til###25 Jul 2006 content changed
 common#:#administrate#:#Administrer
 common#:#administrate_users#:#Lokal bruger administration
 common#:#administration#:#Administration
@@ -2328,6 +2328,7 @@ common#:#month_11_short#:#Nov
 common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
 common#:#monthly#:#maanedlig
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Flyt
 common#:#moveChapter#:#Flyt
 common#:#movePage#:#Flyt
@@ -3300,7 +3301,7 @@ common#:#webr_add_item#:#Tilfoej web ressourcer
 common#:#webr_delete#:#Delete web ressourcer
 common#:#webr_delete_items#:#Slet Web ressourcer
 common#:#webr_deleted_items#:#Slette Web ressourcer
-common#:#webr_disable_check#:#Daktiveret check
+common#:#webr_disable_check#:#Daktiveret check###25 Jul 2006 content changed
 common#:#webr_edit#:#aendre web ressourcer
 common#:#webr_edit_item#:#aendre web ressourcer
 common#:#webr_edit_permission#:#Skift sikkerheds indstillinger
@@ -3340,7 +3341,7 @@ content#:#PDF export#:#PDF Exportering
 content#:#Pages#:#Sider
 content#:#add_menu_entry#:#Tilfoej menu registrering
 content#:#all#:#Alle
-content#:#all_pages#:#Sidste indlaerings modul
+content#:#all_pages#:#Sidste indlaerings modul###25 Jul 2006 content changed
 content#:#choose_public_mode#:#Ikke registreret rbuger har adgang
 content#:#choose_public_pages#:#Vaelg offenlig tilg&aelig;ngelig sider
 content#:#citate#:#Citate###10 Jul 2006 new variable
@@ -3924,7 +3925,7 @@ crs#:#crs_info_reg#:#Registreringsinformation
 crs#:#crs_info_reg_confirmation#:#Dette kursus kraever godkendelse fra en kursus administrator. Du vil modtage en besked hvis du bliver godkendt.
 crs#:#crs_info_reg_deactivated#:#Registration ikke ikke muligt
 crs#:#crs_info_reg_direct#:#Det er noedvendigt at registrere sig til dette kursus
-crs#:#crs_info_reg_password#:#Registration kraever et gyldigt password.
+crs#:#crs_info_reg_password#:#Registration kraever et gyldigt password.###25 Jul 2006 content changed
 crs#:#crs_info_settings#:#Course Informations###10 Jul 2006 new variable
 crs#:#crs_info_start#:#Arbejde igemmen alle kursus maalene.<br />Efter du har gemmenfoert alle de roed maerket objekter vil et ny kursus maal blive aktiveret
 crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.###10 Jul 2006 new variable
@@ -6005,7 +6006,7 @@ survey#:#survey_code_url_name#:#URL bruge hoejre muse knap til at kopier
 survey#:#survey_code_used#:#Kode er brugt
 survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
-survey#:#survey_finish#:#afslut spoergeskema
+survey#:#survey_finish#:#afslut spoergeskema###25 Jul 2006 content changed
 survey#:#survey_finished#:#Du har afsluttet spoergeskemaet. Tak for din deltagelse!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###10 Jul 2006 new variable
 survey#:#survey_is_offline#:#Du kan ikke starte spoergeskemaet da det er offline.
@@ -6021,7 +6022,7 @@ survey#:#survey_skip_finish#:#Undlad og afslut spoergeskema
 survey#:#survey_skip_next#:#Undlad >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< Undlad###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#Undlad og gaa til start side
-survey#:#survey_start#:#gaa til start side
+survey#:#survey_start#:#gaa til start side###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#Alt bruger data for dette spoergeskema er blevet slettet!
 survey#:#svy_check_evaluation_access_introduction#:#Undersoegelse kode skal bruges
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
@@ -6109,6 +6110,7 @@ trac#:#trac_edit_progress#:#Rediger l&aelig;rings forl&oslash;b
 trac#:#trac_edit_time#:#Udf&oslash;relses tid
 trac#:#trac_edit_visits#:#Definere antal af bes&oslash;g der er n&oslash;d til at f&aelig;rdigg&oslash;re det her objekt
 trac#:#trac_edited_scos#:#Gennemg&aring;et indhold
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Areal:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Gemt###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#Antallet af hits er begr&aelig;nset til %s. Brug filteret til at reducere dette.
@@ -6151,9 +6153,12 @@ trac#:#trac_not_accessed#:#Ikke adgang
 trac#:#trac_not_assigned#:#Ikke tildelt
 trac#:#trac_not_attempted#:#Ikke pr&oslash;vet
 trac#:#trac_not_completed#:#Ikke Gennemf&oslash;rt
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Antal af bes&oslash;g
 trac#:#trac_objects#:#Liste af objekter###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Sti
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Processing time
 trac#:#trac_progress#:#Personlig l&aelig;ringsfremgang
 trac#:#trac_query#:#Overskrift###10 Jul 2006 content changed
@@ -6161,6 +6166,7 @@ trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new v
 trac#:#trac_reached_points#:#Arkiverede resultater
 trac#:#trac_reached_visits#:#Mindst mulige bes&oslash;g
 trac#:#trac_refresh#:#Opdater
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Antal mindst mulige bes&oslash;g
 trac#:#trac_sahs_relevant_items#:#SCO's ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 trac#:#trac_select_one#:#Du har ikke valgt nogen

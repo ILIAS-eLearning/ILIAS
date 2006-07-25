@@ -517,7 +517,7 @@ assessment#:#tst_eval_total_persons#:#Ilość osób, które przystąpiły do tes
 assessment#:#tst_eval_user_answer#:#Odpowiedź użytkownika
 assessment#:#tst_finish_confirm_button#:#Tak, chcę skończyć test
 assessment#:#tst_finish_confirm_cancel_button#:#Nie, powrót do poprzedniej odpowiedzi
-assessment#:#tst_finish_confirmation_question#:#Kończysz test i wyczerpałeś wszystkie próby. Już nie będziesz mógł powtórzyć tego testu aby zmienić odpowiedzi. Na pewno chcesz skończyć test?
+assessment#:#tst_finish_confirmation_question#:#Kończysz test i wyczerpałeś wszystkie próby. Już nie będziesz mógł powtórzyć tego testu aby zmienić odpowiedzi. Na pewno chcesz skończyć test?###25 Jul 2006 content changed
 assessment#:#tst_finished#:#Ukończone
 assessment#:#tst_general_properties#:#Cechy ogólne
 assessment#:#tst_generate_xls#:#Generuj plik Excela
@@ -944,7 +944,7 @@ common#:#adm_visible#:#Ustawienia systemowe są widoczne
 common#:#adm_write#:#Edycja podstawowych ustawień systemu
 common#:#admin_panel#:#Panel administracyjny
 common#:#admin_panel_disable#:#Wyłącz kommendy administracyjne
-common#:#admin_panel_enable#:#Włącz komendy administracyjne
+common#:#admin_panel_enable#:#Włącz komendy administracyjne###25 Jul 2006 content changed
 common#:#administrate#:#Administruj
 common#:#administrate_users#:#Administracja lokalnymi użytkownikami
 common#:#administration#:#Administracja
@@ -1462,7 +1462,7 @@ common#:#enable_custom_icons_info#:#To zezwala definiować indywidualne ikony dl
 common#:#enable_hist_user_comments#:#Włącz komentarze użytkownika w historii
 common#:#enable_hist_user_comments_desc#:#To daje okazję autorom dodawać komentarze do listy historii stron.
 common#:#enable_js_edit#:#Włącz edycję JavaScript
-common#:#enable_js_edit_info#:#Ta opcja włącza edycję JavaScript dla wszystkich obiektów z zawartością (Moduły Nauczania ILIAS, Słowniki, Pytania, Książki Cyfrowe)
+common#:#enable_js_edit_info#:#Ta opcja włącza edycję JavaScript dla wszystkich obiektów z zawartością (Moduły Nauczania ILIAS, Słowniki, Pytania, Książki Cyfrowe)###25 Jul 2006 content changed
 common#:#enable_password_assistance#:#Włącz pomoc do haseł
 common#:#enable_registration#:#Wybierz rejestrację nowego użytkownika
 common#:#enable_trash#:#Enable Trash###10 Jul 2006 new variable
@@ -2332,6 +2332,7 @@ common#:#month_11_short#:#Lis
 common#:#month_12_long#:#Grudzień
 common#:#month_12_short#:#Gru
 common#:#monthly#:#miesięcznie
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Przesuń
 common#:#moveChapter#:#Przesuń rozdział
 common#:#movePage#:#Przesuń stronę
@@ -3304,7 +3305,7 @@ common#:#webr_add_item#:#Dodaj zasób web
 common#:#webr_delete#:#Usuń zasób web
 common#:#webr_delete_items#:#Usuń zasoby web
 common#:#webr_deleted_items#:#Usunięte zasoby web.
-common#:#webr_disable_check#:#Zablokuj wybór
+common#:#webr_disable_check#:#Zablokuj wybór###25 Jul 2006 content changed
 common#:#webr_edit#:#Edytuj zasób web
 common#:#webr_edit_item#:#Edytuj zasób web
 common#:#webr_edit_permission#:#Zmień prawa dostępu
@@ -3344,7 +3345,7 @@ content#:#PDF export#:#Eksport PDF
 content#:#Pages#:#Strony
 content#:#add_menu_entry#:#Dodaj pozycję menu >>
 content#:#all#:#Wszystko
-content#:#all_pages#:#wnętrze Modułu Nauczania
+content#:#all_pages#:#wnętrze Modułu Nauczania###25 Jul 2006 content changed
 content#:#choose_public_mode#:#Niezarejestrowani użytkownicy mają dostęp
 content#:#choose_public_pages#:#Wybierz strony dostępne publicznie
 content#:#citate#:#Citate###10 Jul 2006 new variable
@@ -3790,7 +3791,7 @@ content#:#read offline#:#Czytaj Offline
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Wybierz plik.
-content#:#selected_pages_only#:#tylko strony wybrane poniżej
+content#:#selected_pages_only#:#tylko strony wybrane poniżej###25 Jul 2006 content changed
 content#:#set_public_mode#:#Ustaw tryb dostępu publicznego
 content#:#st#:#Rozdział
 content#:#start export#:#Start Eksport
@@ -3928,7 +3929,7 @@ crs#:#crs_info_reg#:#Informacje dla rejestracji
 crs#:#crs_info_reg_confirmation#:#Dostęp do kursu wymaga zatwierdzenia przez administratora. Otrzymasz wiadomość jeśli zostaniesz przydzielony do kursu.
 crs#:#crs_info_reg_deactivated#:#Rejestracja nie jest możliwa
 crs#:#crs_info_reg_direct#:#Należy się zarejestrować do tego kursu
-crs#:#crs_info_reg_password#:#Rejestracja wymaga ważnego hasła.
+crs#:#crs_info_reg_password#:#Rejestracja wymaga ważnego hasła.###25 Jul 2006 content changed
 crs#:#crs_info_settings#:#Course Informations###10 Jul 2006 new variable
 crs#:#crs_info_start#:#Przerób wszystkie powyższe pozycje kursu.<br />Po przejściu wszystkich zaznaczonych na czerwono celów, uaktywnią się nowe pozycje kursu.
 crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.###10 Jul 2006 new variable
@@ -6009,7 +6010,7 @@ survey#:#survey_code_url_name#:#URL (użyj prawego klawisza myszy dla skopiowani
 survey#:#survey_code_used#:#Kody użyte
 survey#:#survey_codes_lang#:#Language of the survey###10 Jul 2006 new variable
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.###10 Jul 2006 new variable
-survey#:#survey_finish#:#zapisz i zakończ ankietę >>>
+survey#:#survey_finish#:#zapisz i zakończ ankietę >>>###25 Jul 2006 content changed
 survey#:#survey_finished#:#Ankieta jest zakończona. Dziękujemy za uczestnictwo!
 survey#:#survey_has_datasets_warning#:#Ankieta już zawiera zestaw danych. Nie możesz edytować pytań ankiety bez usunięcia tego zestawu danych w sekcji konserwacji.
 survey#:#survey_is_offline#:#Nie możesz rozpocząć ankiety! Ankieta nie jest aktywna.
@@ -6025,7 +6026,7 @@ survey#:#survey_skip_finish#:#pomiń i zakończ ankietę >>>
 survey#:#survey_skip_next#:#pomiń i przejdź do nast. strony >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< pomiń i przejdź do poprz. strony###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< pomiń i przejdź na pierwszą stronę
-survey#:#survey_start#:#<<< zapisz i przejdź na pierwszą stronę
+survey#:#survey_start#:#<<< zapisz i przejdź na pierwszą stronę###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#Wszystkie dane użytkowników tego przeglądu zostały usunięte!
 survey#:#svy_check_evaluation_access_introduction#:#Dopóki ewaluacja ankiety jest dostępna tylko dla uczestników musisz podawać swój kod dostępu dla otwarcia ewaluacji.
 survey#:#svy_check_evaluation_authentication_needed#:#Konieczne uwierzytelnienie
@@ -6113,6 +6114,7 @@ trac#:#trac_edit_progress#:#Edycja postępu nauczania
 trac#:#trac_edit_time#:#Czas wykonania
 trac#:#trac_edit_visits#:#Podaj liczbę wizyt konieczną do ukończnia tego obiektu.
 trac#:#trac_edited_scos#:#Przerobiona zawartość
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Przestrzeń:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Ukryte:###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#Liczba uderzeń jest limitowana do %s. Użyj filtru do redukcji uderzeń.
@@ -6155,9 +6157,12 @@ trac#:#trac_not_accessed#:#Niedostępny
 trac#:#trac_not_assigned#:#Nie przydzielony
 trac#:#trac_not_attempted#:#Niedostępne
 trac#:#trac_not_completed#:#Niekompletny
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Liczba wizyt
 trac#:#trac_objects#:#Lista obiektów###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Ścieżka:
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Czas wykonania
 trac#:#trac_progress#:#Osobisty postęp nauczania
 trac#:#trac_query#:#Tytuł/opis:###10 Jul 2006 content changed
@@ -6165,6 +6170,7 @@ trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new v
 trac#:#trac_reached_points#:#Osiągnięta punktacja
 trac#:#trac_reached_visits#:#Żądane wizyty
 trac#:#trac_refresh#:#Odśwież
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Liczba żądanych wizyt
 trac#:#trac_sahs_relevant_items#:#SCO's###10 Jul 2006 content changed
 trac#:#trac_select_one#:#Nie dokonałeś wyboru

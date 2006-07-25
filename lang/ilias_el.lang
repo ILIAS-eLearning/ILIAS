@@ -53,7 +53,7 @@ administration#:#found#:#βρέθηκε.
 administration#:#found_none#:#δεν βρέθηκε.
 administration#:#initializing_gaps#:#Αρχικοποίηση κενών στο δέντρο...
 administration#:#log_scan#:#Αποτελέσματα σάρωσης αρχείου καταγραφής
-administration#:#log_scan_desc#:#Εγγραφή αποτελεσμάτων σάρωσης στο 'scanlog.log' στον κατάλογο δεδομένων του πελάτη
+administration#:#log_scan_desc#:#Εγγραφή αποτελεσμάτων σάρωσης στο 'scanlog.log' στον κατάλογο δεδομένων του πελάτη###25 Jul 2006 content changed
 administration#:#nothing_to_purge#:#Τίποτα για καθάρισμα...
 administration#:#nothing_to_remove#:#Τίποτα για διαγραφή...
 administration#:#nothing_to_restore#:#Τίποτα για ανάκτηση...
@@ -148,7 +148,7 @@ assessment#:#circle#:#Κύκλος
 assessment#:#circle_click_center#:#Παρακαλώ κάντε κλικ στο κέντρο της επιθυμητής περιοχής.
 assessment#:#circle_click_circle#:#Παρακαλώ κάντε κλικ στο κυκλικό σημείο της επιθυμητής περιοχής
 assessment#:#clientip#:#IP Πελάτη
-assessment#:#close_text_hint#:#Μπορείτε να ορίσετε ένα κενό εισάγοντας [gap][/gap] στη θέση κειμένου της επιλογής σας. Πατήστε στο κουμπί 'Δημιουργία κενών' για να προσθέσετε μια επεξεργάσιμη φόρμα για κάθε κενό.
+assessment#:#close_text_hint#:#Μπορείτε να ορίσετε ένα κενό εισάγοντας [gap][/gap] στη θέση κειμένου της επιλογής σας. Πατήστε στο κουμπί 'Δημιουργία κενών' για να προσθέσετε μια επεξεργάσιμη φόρμα για κάθε κενό.###25 Jul 2006 content changed
 assessment#:#cloze_text#:#Κείμενο με κενά
 assessment#:#cloze_textgap_case_insensitive#:#Χωρίς ταίριασμα πεζών-κεφαλαίων
 assessment#:#cloze_textgap_case_sensitive#:#Με ταίριασμα πεζών-κεφαλαίων
@@ -170,7 +170,7 @@ assessment#:#definition#:#Ορισμός
 assessment#:#delete_area#:#Διαγραφή περιοχής
 assessment#:#delete_user_data#:#Διαγραφή δεδομένων διαγωνίσματος των επιλεγμένων χρηστών
 assessment#:#description_maxchars#:#Αν δεν εισάγατε τίποτα τότε ο μέγιστος αριθμός χαρακτήρων για το κείμενο της απάντησης είναι απεριόριστο.
-assessment#:#detail_ending_time_reached#:#Φθάσατε στο τέλος του τεστ. Το τεστ δεν είναι διαθέσιμο εδώ και %s
+assessment#:#detail_ending_time_reached#:#Φθάσατε στο τέλος του τεστ. Το τεστ δεν είναι διαθέσιμο εδώ και %s###25 Jul 2006 content changed
 assessment#:#detail_max_processing_time_reached#:#Φθάσατε στο τέλος του μέγιστου χρόνου επεξεργασίας τεστ!
 assessment#:#detail_starting_time_not_reached#:#Δεν φθάσατε το χρόνο εκκίνησης του τεστ. Το τεστ θα είναι διαθέσιμο σε %s
 assessment#:#direct_feedback#:#Επαλήθευση της λύσης σας
@@ -201,7 +201,7 @@ assessment#:#ects_range_error_b#:#Παρακαλώ εισάγετε μια τι�
 assessment#:#ects_range_error_c#:#Παρακαλώ εισάγετε μια τιμή μεταξύ 0 και 100 για το βαθμό ECTS C!
 assessment#:#ects_range_error_d#:#Παρακαλώ εισάγετε μια τιμή μεταξύ 0 και 100 για το βαθμό ECTS D!
 assessment#:#ects_range_error_e#:#Παρακαλώ εισάγετε μια τιμή μεταξύ 0 και 100 για το βαθμό ECTS E!
-assessment#:#ects_use_fx_grade#:#Χρησιμοποιήστε το βαθμό 'FX', αν οι αποτυχόντες έφθασαν τουλάχιστο τους
+assessment#:#ects_use_fx_grade#:#Χρησιμοποιήστε το βαθμό 'FX', αν οι αποτυχόντες έφθασαν τουλάχιστο τους###25 Jul 2006 content changed
 assessment#:#ects_use_fx_grade_part2#:#ποσοστό των συνολικών βαθμών.
 assessment#:#edit_content#:#Επεξεργασία περιεχομένου
 assessment#:#edit_properties#:#Επεξεργασία ιδιοτήτων
@@ -295,10 +295,10 @@ assessment#:#material_file#:#Άρχείο υλικού
 assessment#:#maxchars#:#Μέγιστος αριθμός χαρακτήρων
 assessment#:#maximum_nr_of_tries_reached#:#Φθάσατε το μέγιστο αριθμό προσπαθειών για το τεστ. Δεν μπορείτε να μπείτε στο τεστ!
 assessment#:#meaning#:#Σημασία
-assessment#:#min_percentage_ne_0#:#Πρέπει να ορίσετε ένα ελάχιστο ποσοστό 0%! Το βαθμολογικό σχήμα δεν αποθηκεύθηκε.
+assessment#:#min_percentage_ne_0#:#Πρέπει να ορίσετε ένα ελάχιστο ποσοστό 0%! Το βαθμολογικό σχήμα δεν αποθηκεύθηκε.###25 Jul 2006 content changed
 assessment#:#negative_points_not_allowed#:#Δεν μπορείτε να εισάγετε αρνητικούς βαθμούς!
 assessment#:#next_question_rows#:#Ερωτήσεις %d - %d από %d >>
-assessment#:#no_passed_mark#:#Πρέπει να ορίσετε τουλάχιστο ένα βαθμό σε ΠΡΟΒΙΒΑΣΤΗΚΕ! Το βαθμολογικό σχήμα δεν αποθηκεύθηκε.
+assessment#:#no_passed_mark#:#Πρέπει να ορίσετε τουλάχιστο ένα βαθμό σε ΠΡΟΒΙΒΑΣΤΗΚΕ! Το βαθμολογικό σχήμα δεν αποθηκεύθηκε.###25 Jul 2006 content changed
 assessment#:#no_question_selected_for_move#:#Παρακαλώ επιλέξτε τουλάχιστο μια ερώτηση για να την μετακινήσετε!
 assessment#:#no_questions_available#:#Δεν υπάρχουν διαθέσιμες ερωτήσεις!
 assessment#:#no_target_selected_for_move#:#Πρέπει να επιλέξετε μια θέση στόχο!
@@ -343,7 +343,7 @@ assessment#:#qpl_edit_select_multiple#:#Παρακαλώ επιλέξτε μόν
 assessment#:#qpl_edit_select_none#:#Παρακαλώ επιλέξτε μια ερώτηση για επεξεργασία
 assessment#:#qpl_export_select_none#:#Παρακαλώ επιλέξτε τουλάχιστο μια ερώτηση για εξαγωγή
 assessment#:#qpl_general_properties#:#Γενικές ιδιότητες
-assessment#:#qpl_imagemap_preview_missing#:#Το ILIAS δεν μπόρεσε να δημιουργήσει μια προεπισκόπιση του αρχείου που να περιλαμβάνει και τους χάρτες εικόνων. Αντί αυτών εμφανίζονται οι αρχικές εικόνες. Αυτό σημαίνει είτε ότι το πρόγραμμα ImageMagick δεν έχει σεταριστεί σωστά στο διακομιστή είτε ότι δεν υπάρχουν δικαιώματα εγγραφής στο προσωρινό κατάλογο! Παρακαλώ επικοινωνήστε με το διαχειριστή του συστήματος.
+assessment#:#qpl_imagemap_preview_missing#:#Το ILIAS δεν μπόρεσε να δημιουργήσει μια προεπισκόπιση του αρχείου που να περιλαμβάνει και τους χάρτες εικόνων. Αντί αυτών εμφανίζονται οι αρχικές εικόνες. Αυτό σημαίνει είτε ότι το πρόγραμμα ImageMagick δεν έχει σεταριστεί σωστά στο διακομιστή είτε ότι δεν υπάρχουν δικαιώματα εγγραφής στο προσωρινό κατάλογο! Παρακαλώ επικοινωνήστε με το διαχειριστή του συστήματος.###25 Jul 2006 content changed
 assessment#:#qpl_import_create_new_qpl#:#Εισάγετε τις ερωτήσεις σε νέα πηγή ερωτήσεων
 assessment#:#qpl_import_no_items#:#Λάθος: Το αρχείο που εισάγατε δεν περιέχει ερωτήσεις!
 assessment#:#qpl_import_non_ilias_files#:#Λάθος: Το αρχείο εισαγωγής περιέχει αρχεία QTI τα οποία δεν δημιουργήθηκαν από το σύστημα ILIAS. Παρακαλώ επικοινωνήστε με την ομάδα του ILIAS για να εισάγετε φίλτρο εισαγωγής για το αρχείο σας μορφής QTI.
@@ -431,7 +431,7 @@ assessment#:#tst_browse_for_questions#:#Αναζήτηση ερωτήσεων
 assessment#:#tst_confirm_delete_results#:#Πρόκειται να διαγράψετε όλα τα προηγούμενα αποτελέσματα ερωτήσεων που εισαγάγατε προηγουμένως για αυτό το τεστ. Αυτό θα θέσει τις προκαθορισμένες τιμές στις ερωτήσεις. Παρακαλώ σημειώστε ότι δεν μπορείτε να προκαθορίσετε τον αριθμό των προσπαθειών που χρειαστήκατε για το τεστ. Είστε σίγουροι ότι θέλετε να επαναρυθμίσετε όλα τα προηγούμενα αποτελέσματα ερωτήσεων που εισαγάγατε;
 assessment#:#tst_confirm_delete_results_info#:#Τα προηγούμενα εισαχθέντα αποτελέσματα ερωτήσεων έχουν διαγραφεί.Έχετε επαναρυθμίσει επιτυχώς το διαγώνισμα!
 assessment#:#tst_confirm_print#:#Πιέστε το κουμπί για να εκτυπώσετε όλες τις ερωτήσεις με βαθμούς και λύση. Η ερώτηση εμφανίζεται πάντα στο τέλος της σελίδας.
-assessment#:#tst_confirm_submit_answers#:#Παρακαλώ επιβεβαιώστε την υποβολή της απάντησής σας. Δεν θα μπορείτε να τροποποιήσετε τις απαντήσεις σας αφού πατήσετε το κουμπί Υποβολή. Παρακαλώ επιλέξτε το κουμπί Εκτύπωση του προγράμματος πλοήγησής σας για να εκτυπώσετε το φύλλο με τις απαντήσεις σας.
+assessment#:#tst_confirm_submit_answers#:#Παρακαλώ επιβεβαιώστε την υποβολή της απάντησής σας. Δεν θα μπορείτε να τροποποιήσετε τις απαντήσεις σας αφού πατήσετε το κουμπί Υποβολή. Παρακαλώ επιλέξτε το κουμπί Εκτύπωση του προγράμματος πλοήγησής σας για να εκτυπώσετε το φύλλο με τις απαντήσεις σας.###25 Jul 2006 content changed
 assessment#:#tst_count_correct_solutions#:#Καταμέτρηση μόνο πλήρων λύσεων
 assessment#:#tst_count_partial_solutions#:#Καταμέτρηση μερικών λύσεων
 assessment#:#tst_delete_all_user_data#:#Διαγραφή όλων των δεδομένων χρήστη
@@ -450,7 +450,7 @@ assessment#:#tst_eval_total_persons#:#Συνολικός αριθμός ατόμ
 assessment#:#tst_eval_user_answer#:#Απάντηση χρήστη
 assessment#:#tst_finish_confirm_button#:#Ναι, θέλω να τελειώσω το διαγώνισμα
 assessment#:#tst_finish_confirm_cancel_button#:#Όχι, πήγαινε πίσω στην προηγούμενη απάντηση
-assessment#:#tst_finish_confirmation_question#:#Πρόκειται να τελειώσετε το διαγώνισμα και να φθάσετε το μέγιστο αριθμό επιτρεπτών περασμάτων διαγωνίσματος. Δεν θα μπορείτε να ξαναμπείτε σ' αυτό το διαγώνισμα πάλι για ν' αλλάξετε τις απαντήσεις σας. Θέλετε πραγματικά να τελειώσετε το διαγώνισμα;
+assessment#:#tst_finish_confirmation_question#:#Πρόκειται να τελειώσετε το διαγώνισμα και να φθάσετε το μέγιστο αριθμό επιτρεπτών περασμάτων διαγωνίσματος. Δεν θα μπορείτε να ξαναμπείτε σ' αυτό το διαγώνισμα πάλι για ν' αλλάξετε τις απαντήσεις σας. Θέλετε πραγματικά να τελειώσετε το διαγώνισμα;###25 Jul 2006 content changed
 assessment#:#tst_finished#:#Ολοκληρώθηκε
 assessment#:#tst_general_properties#:#Γενικές ιδιότητες
 assessment#:#tst_generate_xls#:#Δημιουργία Excel
@@ -458,7 +458,7 @@ assessment#:#tst_heading_scoring#:#Βαθμολογία
 assessment#:#tst_hide_previous_results#:#Απόκρυψη προηγούμενων αποτελεσμάτων
 assessment#:#tst_hide_previous_results_description#:#Αν επιλεγεί, τα προηγούμενα αποτελέσματα του μαθητή δεν θα χρησιμοποιηθούν ως προκαθορισμένες τιμές σε μελλοντικές εξετάσεις
 assessment#:#tst_hide_previous_results_hide#:#Αν είναι επιλεγμένο, τα αποτελέσματά σας από προηγούμενο επιτυχημένο διαγώνισμα δεν θα είναι ορατά
-assessment#:#tst_hide_previous_results_introduction#:#Αν επεξεργάζεστε περισσότερα από ένα περάσματα του διαγωνίσματος, τα προηγούμενα αποτελέσματά σας δεν θα χρησιμοποιηθούν ως προκαθορισμένες τιμές
+assessment#:#tst_hide_previous_results_introduction#:#Αν επεξεργάζεστε περισσότερα από ένα περάσματα του διαγωνίσματος, τα προηγούμενα αποτελέσματά σας δεν θα χρησιμοποιηθούν ως προκαθορισμένες τιμές###25 Jul 2006 content changed
 assessment#:#tst_hide_title_points#:#Βαθμολογία στον τίτλο της ερώτησης
 assessment#:#tst_hide_title_points_description#:#Απόκρυψη της εξόδου της μέγιστης βαθμολογίας στον τίτλο της ερώτησης
 assessment#:#tst_import_no_items#:#Σφάλμα: το εισαγόμενο αρχείο δεν περιέχει ερωτήσεις!
@@ -468,7 +468,7 @@ assessment#:#tst_insert_missing_question#:#Παρακαλώ επιλέξτε τ�
 assessment#:#tst_insert_questions#:#Είστε σίγουροι οτι θέλετε να εισάγετε την παρακάτω ερώτηση/εις στο διαγώνισμα;
 assessment#:#tst_insert_questions_and_results#:#Αυτό το διαγώνισμα το έχουν διεκπαιρεώσει ήδη %s χρήστες. Η εισαγωγή ερωτήσεων στο διαγώνισμα θα 'χει ως αποτέλεσμα να διαγραφούν όλα τα αποτελέσματα των χρηστών αυτών. Είστε σίγουροι ότι θέλετε να εισάγετε τις ακόλουθες ερωτήσεις στο διαγώνισμα;
 assessment#:#tst_introduction#:#Εισαγωγή
-assessment#:#tst_maintenance_information_no_results#:#Δεν υπάρχουν διαθέσιμα σύνολα δεδομένων του χρήστη για αυτό το διαγώνισμα. Χρειάζεστε τουλάχιστο ένα σύνολο δεδομένων χρήστη για να διατηρήσετε τα δεδομένα.
+assessment#:#tst_maintenance_information_no_results#:#Δεν υπάρχουν διαθέσιμα σύνολα δεδομένων του χρήστη για αυτό το διαγώνισμα. Χρειάζεστε τουλάχιστο ένα σύνολο δεδομένων χρήστη για να διατηρήσετε τα δεδομένα.###25 Jul 2006 content changed
 assessment#:#tst_mark#:#Βαθμός
 assessment#:#tst_mark_create_new_mark_step#:#Δημιουργία νέου βαθμολογικού βήματος
 assessment#:#tst_mark_create_simple_mark_schema#:#Δημιουργία απλού βαθμολογικού σχήματος
@@ -519,7 +519,7 @@ assessment#:#tst_question_type#:#Τύπος ερώτησης
 assessment#:#tst_questions_inserted#:#Εισαγμένες ερωτήσεις!
 assessment#:#tst_questions_removed#:#Διεγραμμένες ερωτήσεις!
 assessment#:#tst_random_nr_of_questions#:#Πόσες ερωτήσεις;
-assessment#:#tst_random_qpl_unselected#:#Υπάρχει τουλάχιστον μία μη επιλεγμένη μνήμη ερωτήσεων!Δεν χρειάζεται να προσθέσετε νέα μνήμη ερωτήσεων.
+assessment#:#tst_random_qpl_unselected#:#Υπάρχει τουλάχιστον μία μη επιλεγμένη μνήμη ερωτήσεων!Δεν χρειάζεται να προσθέσετε νέα μνήμη ερωτήσεων.###25 Jul 2006 content changed
 assessment#:#tst_random_questionpools#:#Πηγή μνήμης ερωτήσεων
 assessment#:#tst_random_select_questionpool#:#Επιλογή μνήμης ερωτήσεων από όπου θα επιλεγούν ερωτήσεις
 assessment#:#tst_random_test#:#Τυχαίο διαγώνισμα
@@ -597,7 +597,7 @@ assessment#:#tst_test_output#:#Έξοδος διαγωνίσματος
 assessment#:#tst_text_count_system#:#Σύστημα βαθμολόγησης
 assessment#:#tst_time_already_spent#:#Χρόνος που έχει δαπανηθεί σε εργασία
 assessment#:#tst_total_questions#:#Συνολικός αριθμός ερωτήσεων
-assessment#:#tst_total_questions_description#:#Αν θέσετε αυτή την τιμή, ο αριθμός ερωτήσεων που εισάγατε στις μνήμες ερωτήσεων αγνοείται. Αν δεν θέσετε αυτή την τιμή, πρέπει να εισάγετε έναν αριθμό για κάθε επιλεγμένη μνήμη ερωτήσεων!
+assessment#:#tst_total_questions_description#:#Αν θέσετε αυτή την τιμή, ο αριθμός ερωτήσεων που εισάγατε στις μνήμες ερωτήσεων αγνοείται. Αν δεν θέσετε αυτή την τιμή, πρέπει να εισάγετε έναν αριθμό για κάθε επιλεγμένη μνήμη ερωτήσεων!###25 Jul 2006 content changed
 assessment#:#tst_tst_date#:#Ημερομηνία Διαγωνίσματος
 assessment#:#tst_type#:#Τύπος Διαγωνίσματος
 assessment#:#tst_type_changed#:#Μεταβάλλατε τον τύπο του διαγωνίσματος. Όλα τα προηγούμενα επεξεργασμένα διαγωνίσματα διαγράφηκαν
@@ -618,7 +618,7 @@ assessment#:#unlock_question#:#Η ερώτηση χρησιμοποιείται 
 assessment#:#upload_imagemap#:#Εκφόρτωση χάρτη εικόνων
 assessment#:#uploaded_material#:#Υλικό που έχει εκφορτωθεί
 assessment#:#user_not_invited#:#Δεν μπορείτε να κάνετε αυτό το διαγώνισμα
-assessment#:#user_wrong_clientip#:#Δεν έχετε τη σωστή διεύθυνση ip για να χρησιμοποιήσετε το διαγώνισμα.
+assessment#:#user_wrong_clientip#:#Δεν έχετε τη σωστή διεύθυνση ip για να χρησιμοποιήσετε το διαγώνισμα.###25 Jul 2006 content changed
 assessment#:#warning_question_not_complete#:#Η ερώτηση δεν ολοκληρώθηκε!
 assessment#:#warning_test_not_complete#:#Το διαγώνισμα δεν ολοκληρώθηκε!
 assessment#:#when#:#όταν
@@ -690,8 +690,8 @@ chat#:#chat_access_blocked#:#Αποκλείεστε από τις αίθουσε
 chat#:#chat_active#:#Ενεργό
 chat#:#chat_active_users#:#Περαιτέρω χρήστες (παρόντες)
 chat#:#chat_add_allowed_hosts#:#Παρακαλώ προσθέστε τη διεύθυνση του διακομιστή/ες που επιτρέπεται να προσπελάσουν το διακομιστή συζητήσεων
-chat#:#chat_add_external_ip#:#Παρακαλώ προσθέστε την εξωτερική ΙΡ του διακομιστή.
-chat#:#chat_add_internal_ip#:#Παρακαλώ προσθέστε την εσωτερική ΙΡ του διακομιστή.
+chat#:#chat_add_external_ip#:#Παρακαλώ προσθέστε την εξωτερική ΙΡ του διακομιστή.###25 Jul 2006 content changed
+chat#:#chat_add_internal_ip#:#Παρακαλώ προσθέστε την εσωτερική ΙΡ του διακομιστή.###25 Jul 2006 content changed
 chat#:#chat_add_moderator_password#:#Παρακαλώ προσθέστε τον κωδικό του διαχειριστή.
 chat#:#chat_add_port#:#Παρακαλώ προσθέστε τη θύρα του διακομιστή.
 chat#:#chat_add_private_chatroom#:#Προσθήκη ιδιωτικών αιθουσών συζητήσεων.
@@ -847,7 +847,7 @@ common#:#adm_visible#:#Οι Ρυθμίσεις Συστήματος είναι �
 common#:#adm_write#:#Επεξεργασία βασικών ρυθμίσεων συστήματος
 common#:#admin_panel#:#Πλαίσιο Διαχείρισης
 common#:#admin_panel_disable#:#Απενεργοποίηση εντολών διαχείρισης
-common#:#admin_panel_enable#:#Ενεργοποίηση εντολών διαχείρισης
+common#:#admin_panel_enable#:#Ενεργοποίηση εντολών διαχείρισης###25 Jul 2006 content changed
 common#:#administrate#:#Διαχείριση
 common#:#administrate_users#:#Διαχείριση τοπικού χρήστη
 common#:#administration#:#Διαχείριση
@@ -960,7 +960,7 @@ common#:#auth_radius_server_desc#:#Μπορείτε να προσθέσετε π
 common#:#auth_radius_settings_saved#:#Οι ρυθμίσεις RADIUS αποθηκεύθηκαν
 common#:#auth_radius_shared_secret#:#Διαμοιραζόμενο μυστικό
 common#:#auth_read#:#Ρυθμίσεις Εγκυρότητας Πρόσβασης
-common#:#auth_remark_non_local_auth#:#Όταν επιλέγετε άλλον τρόπο επικύρωσης αντί για τη βάση δεδομένων του ILIAS, δεν μπορείτε ν' αλλάξετε το παρωνύμιο σύνδεσης του χρήστη και τον κωδικό του.
+common#:#auth_remark_non_local_auth#:#Όταν επιλέγετε άλλον τρόπο επικύρωσης αντί για τη βάση δεδομένων του ILIAS, δεν μπορείτε ν' αλλάξετε το παρωνύμιο σύνδεσης του χρήστη και τον κωδικό του.###25 Jul 2006 content changed
 common#:#auth_role_auth_mode#:#Κατάσταση εγκυρότητας
 common#:#auth_script#:#Ειδικευμένο
 common#:#auth_script_desc#:#Επικύρωση χρηστών μέσω εξωτερικού σεναρίου
@@ -1174,9 +1174,9 @@ common#:#cron_forum_notification_desc#:#Αν είναι ενεργοποιημέ
 common#:#cron_forum_notification_directly#:#απευθείας στις νέες καταχωρήσεις
 common#:#cron_forum_notification_never#:#ποτέ
 common#:#cron_jobs#:#Εργασίες Cron
-common#:#cron_jobs_desc#:#Μια εργασία cron είναι μια αυτοματοποιημένη διαδικασία που ενεργοποιείται σε προκαθορισμένα χρονικά διαστήματα. Θα βρείτε πληροφορίες για την εγκατάσταση στο 'Εγχειρίδιο εγκατάσταση'.
+common#:#cron_jobs_desc#:#Μια εργασία cron είναι μια αυτοματοποιημένη διαδικασία που ενεργοποιείται σε προκαθορισμένα χρονικά διαστήματα. Θα βρείτε πληροφορίες για την εγκατάσταση στο 'Εγχειρίδιο εγκατάσταση'.###25 Jul 2006 content changed
 common#:#cron_lucene_index#:#Ενημέρωση ευρετηρίου αναζήτησης Lucene
-common#:#cron_lucene_index_info#:#Εάν ενεργοποιηθεί, το ευρετήριο αναζήτησης lucene θα ενημερωθεί. Παρακαλώ ρυθμίστε τον διακομιστή lucene στο 'Διαχείριση -> Αναζήτηση'.
+common#:#cron_lucene_index_info#:#Εάν ενεργοποιηθεί, το ευρετήριο αναζήτησης lucene θα ενημερωθεί. Παρακαλώ ρυθμίστε τον διακομιστή lucene στο 'Διαχείριση -> Αναζήτηση'.###25 Jul 2006 content changed
 common#:#crs#:#Μάθημα
 common#:#crs_a#:#ένα μάθημα
 common#:#crs_add#:#Προσθήκη μαθήματος
@@ -1228,7 +1228,7 @@ common#:#crs_write#:#Επεξεργασία Μαθήματος
 common#:#cumulative_time#:#Συσσωρρευτικός χρόνος
 common#:#cur_number_rec#:#Τρέχον αριθμός αρχείων
 common#:#current_ip#:#Τρέχουσα IP:
-common#:#current_ip_alert#:#Ειδοποίηση: εάν πληκτρολογήσετε λάθος ip, δεν θα μπορείτε να προσπελάσετε το σύστημα με αυτό το προφίλ.
+common#:#current_ip_alert#:#Ειδοποίηση: εάν πληκτρολογήσετε λάθος ip, δεν θα μπορείτε να προσπελάσετε το σύστημα με αυτό το προφίλ.###25 Jul 2006 content changed
 common#:#current_password#:#Τρέχον κωδικός
 common#:#custom_icon_size_big#:#Προσαρμοσμένο μέγεθος εικονιδίου (μεγάλο)
 common#:#custom_icon_size_small#:#Προσαρμοσμένο μέγεθος εικονιδίου (μικρό)
@@ -1319,7 +1319,7 @@ common#:#enable_custom_icons_info#:#Σας επιτρέπει να ορίσετ�
 common#:#enable_hist_user_comments#:#Ενεργοποίηση σχολίων χρήστη στο ιστορικό
 common#:#enable_hist_user_comments_desc#:#Δώστε στους συντάκτες την ευκαιρία να προσθέσουν σχόλια στο αρχείο καταγραφής ιστορικού των σελίδων.
 common#:#enable_js_edit#:#Ενεργοποίηση επεξεργασίας JavaScript
-common#:#enable_js_edit_info#:#Η επιλογή αυτή ενεργοποιεί την επεξεργασία JavaScript για όλα τα αντικείμενα περιεχομένου (Εκπαιδευτικές μονάδες του ILIAS, Γλωσσάρια, Ερωτήσεις αξιολόγησης, Βίβλια Diligib) 
+common#:#enable_js_edit_info#:#Η επιλογή αυτή ενεργοποιεί την επεξεργασία JavaScript για όλα τα αντικείμενα περιεχομένου (Εκπαιδευτικές μονάδες του ILIAS, Γλωσσάρια, Ερωτήσεις αξιολόγησης, Βίβλια Diligib) ###25 Jul 2006 content changed
 common#:#enable_password_assistance#:#Ενεργοποίηση βοήθειας κωδικού
 common#:#enable_registration#:#Ενεργοποίηση εγγραφής νέου χρήστη
 common#:#enabled#:#Ενεργοποιήθηκε
@@ -1509,8 +1509,8 @@ common#:#frm_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#frm_edit_post#:#Προσθήκη νέου θέματος, γνωστοποίηση
 common#:#frm_new#:#Νέο φόρουμ
 common#:#frm_read#:#Πρόσβαση ανάγνωσης στο φόρουμ
-common#:#frm_status_new#:#Κατάσταση 'Νέο'
-common#:#frm_status_new_desc#:#Παρακαλώ επιλέξτε τη διάρκεια του πόσο θα παραμένει η κατάσταση 'Νέος' για τους νεοεισερχόμενους στο φόρουμ.
+common#:#frm_status_new#:#Κατάσταση 'Νέο'###25 Jul 2006 content changed
+common#:#frm_status_new_desc#:#Παρακαλώ επιλέξτε τη διάρκεια του πόσο θα παραμένει η κατάσταση 'Νέος' για τους νεοεισερχόμενους στο φόρουμ.###25 Jul 2006 content changed
 common#:#frm_visible#:#Το φόρουμ είναι ορατό
 common#:#frm_write#:#Επεξεργασία φόρουμ
 common#:#from#:#Από
@@ -1569,7 +1569,7 @@ common#:#group_no_registration#:#Εγγραφή μέλους στην ομάδα
 common#:#group_no_registration_msg#:#Μπορείτε να γίνετε μέλος αυτής της ομάδος απευθείας.
 common#:#group_not_available#:#Δεν υπάρχει διαθέσιμη ομάδα
 common#:#group_objects#:#Αντικείμενα ομάδας
-common#:#group_password_registration_msg#:#Αν γνωρίζετε τον κωδικό ομάδας, μπορείτε να γίνετε μέλος της. Παρακαλώ επικοινωνήστε με το διαχειριστή της ομάδας αν δεν γνωρίζετε τον κωδικό.
+common#:#group_password_registration_msg#:#Αν γνωρίζετε τον κωδικό ομάδας, μπορείτε να γίνετε μέλος της. Παρακαλώ επικοινωνήστε με το διαχειριστή της ομάδας αν δεν γνωρίζετε τον κωδικό.###25 Jul 2006 content changed
 common#:#group_registration#:#Εγγραφή
 common#:#group_registration_expiration_date#:#Ημερομηνία λήξης
 common#:#group_registration_expiration_time#:#Ώρα λήξης
@@ -1584,7 +1584,7 @@ common#:#group_req_registration_msg#:#Μπορείτε να κάνετε αίτ�
 common#:#group_reset#:#Διαγραφή των αδειών της ομάδας
 common#:#group_status#:#Ομάδα είναι
 common#:#group_status_closed#:#Έκλεισε
-common#:#group_status_desc#:#Καθορίζει την αρχική κατάσταση της ομάδας χρησιμοποιώντας τις ρυθμίσεις άδειας από τα πρότυπα του ρόλου 'il_grp_status_closed' ή 'il_grp_status_open'<br />Δημόσια: Η ομάδα είναι ορατή; Ο χρήστης μπορεί να εγγραφεί.<br />Κλειστή: Η ομάδα δεν είναι ορατή για τα μη μέλη. Ένας χρήστης για να συμμετάσχει πρέπει να προσκαλεστεί από ένα μέλος.
+common#:#group_status_desc#:#Καθορίζει την αρχική κατάσταση της ομάδας χρησιμοποιώντας τις ρυθμίσεις άδειας από τα πρότυπα του ρόλου 'il_grp_status_closed' ή 'il_grp_status_open'<br />Δημόσια: Η ομάδα είναι ορατή; Ο χρήστης μπορεί να εγγραφεί.<br />Κλειστή: Η ομάδα δεν είναι ορατή για τα μη μέλη. Ένας χρήστης για να συμμετάσχει πρέπει να προσκαλεστεί από ένα μέλος.###25 Jul 2006 content changed
 common#:#group_status_public#:#Δημόσια
 common#:#groups#:#Ομάδες
 common#:#groups_overview#:#Επισκόπηση ομάδων
@@ -1676,9 +1676,9 @@ common#:#hist_file_create#:#Δημιουργήθηκε αρχείο, το όνο
 common#:#hist_file_replace#:#Το αρχείο αντικαταστάθηκε, το νέο όνομα του αρχείου είναι "%1", η νέα έκδοση είναι %2.
 common#:#hist_lm_st_create#:#Chapter created.###18 Jul 2006 new variable
 common#:#hist_no_entries#:#Δεν υπάρχουν καταχωρήσεις στο ιστορικό.
-common#:#hist_webr_add#:#Προστέθηκε νέος πόρος Ιστού με τίτλο: "%1"
-common#:#hist_webr_delete#:#Ο πόρος Ιστού διαγράφηκε. Τίτλος: "%1"
-common#:#hist_webr_update#:#Αναβάθμιση πόρου Ιστού. Τίτλος: "%1"
+common#:#hist_webr_add#:#Προστέθηκε νέος πόρος Ιστού με τίτλο: "%1"###25 Jul 2006 content changed
+common#:#hist_webr_delete#:#Ο πόρος Ιστού διαγράφηκε. Τίτλος: "%1"###25 Jul 2006 content changed
+common#:#hist_webr_update#:#Αναβάθμιση πόρου Ιστού. Τίτλος: "%1"###25 Jul 2006 content changed
 common#:#history#:#Ιστορικό
 common#:#hits_per_page#:#Επισκέψεις/Σελίδα
 common#:#hlm#:#Εκπαιδευτική Μονάδα HACP
@@ -1773,7 +1773,7 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Η ιδιότητα μέλου
 common#:#ilinc_mail_subj_new_subscription#:#Νέα εγγραφή
 common#:#ilinc_mail_subj_subscription_cancelled#:#Η εγγραφή ακυρώθηκε
 common#:#ilinc_manage_course_documents#:#Υλικά
-common#:#ilinc_mem_change_status#:#Αλλαγή κατάστασης χρήστη
+common#:#ilinc_mem_change_status#:#Αλλαγή κατάστασης χρήστη###25 Jul 2006 content changed
 common#:#ilinc_mem_leave#:#Αποβολή χρήστη από το σεμινάριο Learnlinc
 common#:#ilinc_mem_send_mail#:#Αποστολή μηνύματος στο χρήστη
 common#:#ilinc_msg_joined#:#Ενταχθήκατε στο σεμινάριο Learnlinc
@@ -1838,7 +1838,7 @@ common#:#info_not_assigned#:#χωρίς ανάθεση
 common#:#info_owner_of_object#:#Ο ιδιοκτήτης του αντικειμένου
 common#:#info_permission_origin#:#Αρχική θέση
 common#:#info_permission_source#:#Αποτελεσματικό από*
-common#:#info_remark_interrupted#:#Ο ρόλος έχει διακοπεί από αυτή τη θέση. Ως αποτέλεσμα οι προκαθορισμένες ρυθμίσεις άδειας του ρόλου είναι τοποθετημένες σε αυτή τη θέση.
+common#:#info_remark_interrupted#:#Ο ρόλος έχει διακοπεί από αυτή τη θέση. Ως αποτέλεσμα οι προκαθορισμένες ρυθμίσεις άδειας του ρόλου είναι τοποθετημένες σε αυτή τη θέση.###25 Jul 2006 content changed
 common#:#info_short#:#Πληροφορίες
 common#:#info_status_info#:#Άδειες χρήστη
 common#:#info_trash#:#Διαγραμμένα αντικείμενα
@@ -2100,7 +2100,7 @@ common#:#mep_visible#:#Η μνήμη πολυμέσων είναι ορατή
 common#:#mep_write#:#Επεξεργασία περιεχομένων μνήμης πολυμέσων
 common#:#message#:#Μήνυμα
 common#:#message_content#:#Περιεχόμενο μηνύματος
-common#:#message_no_delivered_files#:#Δεν έχετε παραδώσει κάποιο αρχείο!
+common#:#message_no_delivered_files#:#Δεν έχετε παραδώσει κάποιο αρχείο!###25 Jul 2006 content changed
 common#:#message_to#:#Μήνυμα στον:
 common#:#meta_data#:#Μεταδεδομένα
 common#:#migrate#:#Μετακίνηση
@@ -2136,6 +2136,7 @@ common#:#month_11_short#:#Νοε
 common#:#month_12_long#:#Δεκέμβριος
 common#:#month_12_short#:#Δεκ
 common#:#monthly#:#μηνιαία
+common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Μετακίνηση
 common#:#moveChapter#:#Μετακίνηση
 common#:#movePage#:#Μετακίνηση
@@ -2167,9 +2168,9 @@ common#:#msg_min_one_role#:#Ο κάθε χρήστης πρέπει να έχε�
 common#:#msg_multi_language_selected#:#Επιλέξατε την ίδια γλώσσα για διαφορετικές μεταφράσεις!
 common#:#msg_no_default_language#:#Δεν ορίστηκε προκαθορισμένη γλώσσα! Πρέπει να ορίσετε μια μετάφραση ως προκαθορισμένη μετάφραση.
 common#:#msg_no_delete_yourself#:#Δεν μπορείτε να διαγράψετε τον δικό σας λογαριασμό χρήστη.
-common#:#msg_no_file#:#Δεν επιλέξατε αρχείο
+common#:#msg_no_file#:#Δεν επιλέξατε αρχείο###25 Jul 2006 content changed
 common#:#msg_no_language_selected#:#Δεν καθορίστηκε καμία γλώσσα μετάφρασης! Πρέπει να ορίσετε μια γλώσσα για κάθε μετάφρραση
-common#:#msg_no_perm_assign_role_to_user#:#Δεν έχετε άδεια για να αλλάξετε την ανάθεση του ρόλου του χρήστη
+common#:#msg_no_perm_assign_role_to_user#:#Δεν έχετε άδεια για να αλλάξετε την ανάθεση του ρόλου του χρήστη###25 Jul 2006 content changed
 common#:#msg_no_perm_assign_user_to_role#:#Δεν έχετε άδεια για αλλάξετε την ανάθεση του χρήστη
 common#:#msg_no_perm_copy#:#Δεν έχετε άδεια για να δημιουργήσετε ένα αντίγραφο για τα ακόλουθα αντικείμενα:
 common#:#msg_no_perm_create#:#Δεν έχετε άδεια για να δημιουργήσετε τα ακόλουθα αντικείμενα:
@@ -2204,7 +2205,7 @@ common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to acce
 common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Δεν πληκτρολογήσατε μία URL
 common#:#msg_not_available_for_anon#:#Η σελίδα που έχετε επιλέξει είναι προσβάσιμη μόνο για τους εγγεγραμμένους χρήστες
-common#:#msg_not_in_itself#:#Δεν είναι δυνατόν να επικολληθεί το αντικείμενο στον εαυτό του
+common#:#msg_not_in_itself#:#Δεν είναι δυνατόν να επικολληθεί το αντικείμενο στον εαυτό του###25 Jul 2006 content changed
 common#:#msg_nothing_found#:#μήνυμα_τίποτα_δεν_βρέθηκε
 common#:#msg_obj_created#:#Το αντικείμενο δημιουργήθηκε.
 common#:#msg_obj_exists#:#Το αντικείμενο υπάρχει ήδη σε αυτό τον φάκελο
@@ -2217,9 +2218,9 @@ common#:#msg_perm_adopted_from_itself#:#Δεν μπορείτε να υιοθε�
 common#:#msg_removed#:#Τα αντικείμενα διαγράφηκαν από το σύστημα.
 common#:#msg_role_exists1#:#Ένας ρόλος/πρότυπο ρόλου με το όνομα
 common#:#msg_role_exists2#:#υπάρχει ήδη! Παρακαλώ επιλέξτε ένα άλλο όνομα
-common#:#msg_role_reserved_prefix#:#Το πρόθεμα 'il_' έχει διατηρηθεί για ρόλους που παράγονται αυτόματα. Παρακαλώ επιλέξτε ένα άλλο όνομα
+common#:#msg_role_reserved_prefix#:#Το πρόθεμα 'il_' έχει διατηρηθεί για ρόλους που παράγονται αυτόματα. Παρακαλώ επιλέξτε ένα άλλο όνομα###25 Jul 2006 content changed
 common#:#msg_roleassignment_active_changed#:#Η ανάθεση του ενεργού ρόλου άλλαξε
-common#:#msg_roleassignment_active_changed_comment#:#Αυτή η ρύθμιση δεν έχει αποθηκευτεί στο προφίλ του χρήστη! Εάν ο χρήστης συνδεθεί πάλι, όλες οι αναθέσεις των ενεργών ρόλων επανατοποθετούνται στις αποθηκευμένες τιμές τους.
+common#:#msg_roleassignment_active_changed_comment#:#Αυτή η ρύθμιση δεν έχει αποθηκευτεί στο προφίλ του χρήστη! Εάν ο χρήστης συνδεθεί πάλι, όλες οι αναθέσεις των ενεργών ρόλων επανατοποθετούνται στις αποθηκευμένες τιμές τους.###25 Jul 2006 content changed
 common#:#msg_roleassignment_changed#:#Η ανάθεση του ρόλου άλλαξε
 common#:#msg_sysrole_not_deletable#:#Ο ρόλος του συστήματος δεν μπορεί να διαγραφεί
 common#:#msg_sysrole_not_editable#:#Οι ρυθμίσεις άδειας του ρόλου συστήματος δεν μπορούν να αλλάξουν. Ο ρόλος συστήματος παρέχει σε όλους τους αναθετιμένους χρήστες απεριόριστη πρόσβαση σε όλα τα αντικείμενα και τις λειτουργίες.
@@ -2451,7 +2452,7 @@ common#:#passwd_not_match#:#Οι εισαγωγές σας για τον και�
 common#:#passwd_wrong#:#Εισάγατε λάθος κωδικό!
 common#:#password#:#Κωδικός
 common#:#password_assistance_disabled#:#Η βοήθεια για κωδικό είναι διαθέσιμη μόνο, όταν η πιστοποίηση του χρήστη γίνεται μέσω της βάσης δεδομένων του ILIAS.
-common#:#password_assistance_info#:#Εάν η βοήθεια κωδικού είναι ενεργοποιημένη, ένας σύνδεσμος με το κείμενο "Ξεχάσατε τον Κωδικό;" εμφανίζεται στη σελίδα εισόδου του ILIAS. Οι χρήστες μπορούν να χρησιμοποιήσουν αυτό τον σύνδεσμο για να ορίσουν έναν καινούργιο κωδικό για τον λογαριασμό τους, χωρίς να χρειάζονται βοήθεια από το διαχειριστή του συστήματος.
+common#:#password_assistance_info#:#Εάν η βοήθεια κωδικού είναι ενεργοποιημένη, ένας σύνδεσμος με το κείμενο "Ξεχάσατε τον Κωδικό;" εμφανίζεται στη σελίδα εισόδου του ILIAS. Οι χρήστες μπορούν να χρησιμοποιήσουν αυτό τον σύνδεσμο για να ορίσουν έναν καινούργιο κωδικό για τον λογαριασμό τους, χωρίς να χρειάζονται βοήθεια από το διαχειριστή του συστήματος.###25 Jul 2006 content changed
 common#:#paste#:#Επικόλληση
 common#:#pasteChapter#:#Επικόλληση
 common#:#pastePage#:#Επικόλληση
@@ -2747,7 +2748,7 @@ common#:#shib_department#:#Ιδιότητα για το τμήμα
 common#:#shib_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#shib_email#:#Ιδιότητα για τις διευθύνσεις email
 common#:#shib_firstname#:#Ιδιότητα για το όνομα
-common#:#shib_gender#:#Ιδιότητα για το γένος (πρέπει να είναι 'α' ή 'γ')
+common#:#shib_gender#:#Ιδιότητα για το γένος (πρέπει να είναι 'α' ή 'γ')###25 Jul 2006 content changed
 common#:#shib_institution#:#Ιδιότητα για το ίδρυμα
 common#:#shib_instructions#:#Σιγουρευτείτε να διαβάσετε το σύνδεσμο <a href="README.SHIBBOLETH.txt" target="_blank">README</a> για οδηγίες σχετικά με τη ρύθμιση υποστήριξης διακριτικών για το ILIAS.
 common#:#shib_language#:#Ιδιότητα για τη γλώσσα
@@ -2923,7 +2924,7 @@ common#:#tst_run#:#Εκτέλεση
 common#:#tst_statistical_evaluation#:#Στατιστικά
 common#:#tst_upload_file#:#Εκφόρτωση αρχείου
 common#:#tst_user_not_invited#:#Δεν πρέπει να συμμετέχετε σε αυτό το διαγώνισμα.
-common#:#tst_user_wrong_clientip#:#Δεν έχετε τη σωστή ip για χρήση αυτού του διαγωνίσματος
+common#:#tst_user_wrong_clientip#:#Δεν έχετε τη σωστή ip για χρήση αυτού του διαγωνίσματος###25 Jul 2006 content changed
 common#:#tst_visible#:#Το διαγώνισμα είναι ορατό
 common#:#tst_warning_test_not_complete#:#Το διαγώνισμα δεν είναι ολοκληρωμένο!
 common#:#tst_write#:#Επεξεργασία διαγωνίσματος
@@ -2996,7 +2997,7 @@ common#:#users#:#Χρήστες
 common#:#users_not_imported#:#Οι ακόλουθοι χρήστες δεν υπάρχουν, τα μηνύματα τους δεν μπορούν να εισαχθούν
 common#:#users_online#:#Ενεργοί χρήστες
 common#:#users_online_show_associated#:#Εμφάνισε μόνο τα μέλη των μαθημάτων μου και των ομάδων μου
-common#:#users_online_show_n#:#Μην εμφανίσεις τους ενεργούς χρήστες
+common#:#users_online_show_n#:#Μην εμφανίσεις τους ενεργούς χρήστες###25 Jul 2006 content changed
 common#:#users_online_show_y#:#Εμφάνισε όλους τουε ενεργούς χρήστες
 common#:#usertracking#:#Ιχνηλάτιση χρηστών
 common#:#usr#:#Χρήστης
@@ -3010,7 +3011,7 @@ common#:#usr_edit#:#Επεξεργασία Χρήστη
 common#:#usr_hits_per_page#:#Επισκέψεις/σελίδα σε πίνακες
 common#:#usr_inactive_only#:#Μόνο ανενεργοί χρήστες
 common#:#usr_new#:#Νέος χρήστης
-common#:#usr_settings_explanation_profile#:#Επιλέξτε 'Ορατό' για την εμφάνιση πεδίων στην φόρμα εγγραφής και του προσωπικού προφίλ χρήστη στην προσωπική επιφάνεια εργασίας. Επιλέξτε 'Μεταβλητό' για να επιτραπεί στο χρήστη να αλλάξει την τιμή στο προσωπικό του προφίλ. Παρακαλώ σημειώστε ότι τα ορατά πεδία στη φόρμα εγγραφής μπορούν πάντα να συμπληρωθούν. Τα απαιτούμενα πεδία απαιτούνται στη φόρμα εγγραφής και στο προσωπικό προφίλ χρήστη. Όλα τα δεδομένα μπορούν να αλλάξουν από την διαχείριση χρηστών ανεξάρτητα από αυτές τις ρυθμίσεις.
+common#:#usr_settings_explanation_profile#:#Επιλέξτε 'Ορατό' για την εμφάνιση πεδίων στην φόρμα εγγραφής και του προσωπικού προφίλ χρήστη στην προσωπική επιφάνεια εργασίας. Επιλέξτε 'Μεταβλητό' για να επιτραπεί στο χρήστη να αλλάξει την τιμή στο προσωπικό του προφίλ. Παρακαλώ σημειώστε ότι τα ορατά πεδία στη φόρμα εγγραφής μπορούν πάντα να συμπληρωθούν. Τα απαιτούμενα πεδία απαιτούνται στη φόρμα εγγραφής και στο προσωπικό προφίλ χρήστη. Όλα τα δεδομένα μπορούν να αλλάξουν από την διαχείριση χρηστών ανεξάρτητα από αυτές τις ρυθμίσεις.###25 Jul 2006 content changed
 common#:#usr_settings_header_profile#:#Ρυθμίσεις προφίλ χρήστη
 common#:#usr_settings_header_profile_profile#:#Ρύθμιση προσωπικού προφίλ
 common#:#usr_settings_saved#:#Οι καθολικές ρυθμίσεις χρήστη αποθηκεύθηκαν με επιτυχία!
@@ -3070,7 +3071,7 @@ common#:#webr_add_item#:#Προσθήκη Πηγής Ιστού
 common#:#webr_delete#:#Διαγραφή Πηγής Ιστού
 common#:#webr_delete_items#:#Διαγραφή Πηγής/ών Ιστού
 common#:#webr_deleted_items#:#Διεγραμμένη Πηγή/ές Ιστού.
-common#:#webr_disable_check#:#Απενεργοποίηση ελέγχου
+common#:#webr_disable_check#:#Απενεργοποίηση ελέγχου###25 Jul 2006 content changed
 common#:#webr_edit#:#Επεξεργασία Πηγής Ιστού
 common#:#webr_edit_item#:#Επεξεργασία Πηγής Ιστού
 common#:#webr_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
@@ -3108,7 +3109,7 @@ content#:#PDF export#:#Εξαγωγή PDF
 content#:#Pages#:#Σελίδες
 content#:#add_menu_entry#:#Προσθήκη εισόδου μενού >>
 content#:#all#:#Όλα
-content#:#all_pages#:#ολόκληρη την Εκπαιδευτική μονάδα 
+content#:#all_pages#:#ολόκληρη την Εκπαιδευτική μονάδα ###25 Jul 2006 content changed
 content#:#choose_public_mode#:#Μπορούν να έχουν πρόσβαση μη εγγεραμμένοι χρήστες
 content#:#choose_public_pages#:#Επιλογή δημόσιων προσβάσιμων σελίδων
 content#:#cont_Additional#:#Επιπρόσθετα
@@ -3170,7 +3171,7 @@ content#:#cont_choose_cont_obj#:#Επιλογή Αντικειμένου Περ�
 content#:#cont_choose_glossary#:#Επιλογή Γλωσσάριου
 content#:#cont_choose_media_source#:#Επιλογή Πηγής Πολυμέσων
 content#:#cont_citation_err_one#:#Πρέπει να επιλέξετε ακριβώς μία έκδοση
-content#:#cont_citation_selection_not_valid#:#Η επιλογή σας δεν είναι έγκυρη
+content#:#cont_citation_selection_not_valid#:#Η επιλογή σας δεν είναι έγκυρη###25 Jul 2006 content changed
 content#:#cont_citations#:#Παραπομπές
 content#:#cont_click_br_corner#:#Παρακαλώ πατήστε στην κάτω δεξιά γωνία της επιθυμητής περιοχής.
 content#:#cont_click_center#:#Παρακαλώ πατήστε στο κέντρο της επιθυμητής περιοχής.
@@ -3195,7 +3196,7 @@ content#:#cont_create_export_file_xml#:#Δημιουργία αρχείου εξ
 content#:#cont_create_folder#:#Δημιουργία φακέλου
 content#:#cont_create_html_version#:#Δημιουργία πακέτου HTML
 content#:#cont_create_mob#:#Δημιουργία αντικειμένου πολυμέσων
-content#:#cont_credit_mode#:#Τρόπος βαθμολόγησης (για τρόπο μαθήματος 'κανονικό')
+content#:#cont_credit_mode#:#Τρόπος βαθμολόγησης (για τρόπο μαθήματος 'κανονικό')###25 Jul 2006 content changed
 content#:#cont_credit_off#:#Χωρίς βαθμολόγηση
 content#:#cont_credit_on#:#Βαθμολόγηση
 content#:#cont_credits#:#Βαθμολογίες
@@ -3350,7 +3351,7 @@ content#:#cont_mob_prop#:#Ιδιότητες Αντικειμένου
 content#:#cont_mob_usages#:#Χρήση
 content#:#cont_month#:#Μήνας
 content#:#cont_move_object#:#μετακίνηση αντικειμένου
-content#:#cont_msg_multiple_editions#:#Η εμφάνιση λεπτομερειών των πολλαπλών εκδόσεων δεν είναι δυνατή
+content#:#cont_msg_multiple_editions#:#Η εμφάνιση λεπτομερειών των πολλαπλών εκδόσεων δεν είναι δυνατή###25 Jul 2006 content changed
 content#:#cont_name#:#Όνομα
 content#:#cont_new_area#:#Νέα Περιοχή Σύνδεσης
 content#:#cont_new_assignment#:#Νέα ανάθεση
@@ -3363,7 +3364,7 @@ content#:#cont_no_assign_itself#:#Το αντικείμενο δεν μπορε�
 content#:#cont_no_manifest#:#Δεν βρέθηκε κανένα αρχείο imsmanifest.xml στον κύριο κατάλογο.
 content#:#cont_no_object_found#:#Δεν βρέθηκε κανένα αντικείμενο με αυτό τον τίτλο
 content#:#cont_no_page#:#Δεν βρέθηκε Σελίδα.
-content#:#cont_no_subdir_in_zip#:#Η εντολή Zip απέτυχε ή το εισαγόμενο αρχείο δεν είναι έγκυρο.<br>Δεν περιέχει έναν υποφάκελο '%s'.
+content#:#cont_no_subdir_in_zip#:#Η εντολή Zip απέτυχε ή το εισαγόμενο αρχείο δεν είναι έγκυρο.<br>Δεν περιέχει έναν υποφάκελο '%s'.###25 Jul 2006 content changed
 content#:#cont_no_zip_file#:#Το αρχείο εισαγωγής δεν είναι ένα αρχείο zip.
 content#:#cont_none#:#Κανένα
 content#:#cont_nr_cols#:#Αριθμός Στηλών
@@ -3414,7 +3415,7 @@ content#:#cont_resources#:#Πηγές
 content#:#cont_rvalue#:#Τιμή
 content#:#cont_saved_map_area#:#Αποθηκευμένη περιοχή του χάρτη
 content#:#cont_saved_map_data#:#Αποθηκευμένα δεδομένα του χάρτη
-content#:#cont_sc_auto_review#:#Ορισμός κατάστασης μαθήματος σε 'εξέταση' εάν ο μαθητής ολοκλήρωσε το SCO
+content#:#cont_sc_auto_review#:#Ορισμός κατάστασης μαθήματος σε 'εξέταση' εάν ο μαθητής ολοκλήρωσε το SCO###25 Jul 2006 content changed
 content#:#cont_sc_less_mode_browse#:#Αναζήτηση
 content#:#cont_sc_less_mode_normal#:#Κανονικό
 content#:#cont_sc_stat_browsed#:#Αναζητήθηκε
@@ -3518,7 +3519,7 @@ content#:#cont_width#:#Πλάτος
 content#:#cont_wysiwyg#:#Περιεχόμενο WYSIWYG
 content#:#cont_xml_base#:#xml:βάση
 content#:#cont_year#:#Έτος
-content#:#cont_zip_file_invalid#:#Το αρχείο δεν είναι ένα έγκυρο αρχείο εισαγωγής.<br>Δεν περιέχει ένα αρχείο '%s'.
+content#:#cont_zip_file_invalid#:#Το αρχείο δεν είναι ένα έγκυρο αρχείο εισαγωγής.<br>Δεν περιέχει ένα αρχείο '%s'.###25 Jul 2006 content changed
 content#:#copied_to_clipboard#:#Αντιγραμμένο/α αντικείμενο/α στο πρόχειρο.
 content#:#glo_definition_abbr#:#Ορισμ.
 content#:#glo_term_used_in#:#Οι ακόλουθες πηγές οδηγούν σε αυτό τον όρο
@@ -3539,7 +3540,7 @@ content#:#pg#:#Σελίδα
 content#:#public_section#:#Δημόσια Περιοχή
 content#:#read offline#:#Ανάγνωση Offline
 content#:#select_a_file#:#Παρακαλώ επιλέξτε ένα αρχείο.
-content#:#selected_pages_only#:#μόνο αυτές οι σελίδες επιλέχτηκαν παρακάτω
+content#:#selected_pages_only#:#μόνο αυτές οι σελίδες επιλέχτηκαν παρακάτω###25 Jul 2006 content changed
 content#:#set_public_mode#:#Ορισμός μεθόδου δημόσιας πρόσβασης
 content#:#st#:#Κεφάλαιο
 content#:#start export#:#Έναρξη Εξαγωγής
@@ -3664,7 +3665,7 @@ crs#:#crs_info_reg#:#Αποδοχή
 crs#:#crs_info_reg_confirmation#:#Μπορείτε να ζητήσετε αίτηση μέλους για το μάθημα. Θα λάβετε ένα μήνυμα από το διαχειριστή μαθήματος όταν η αίτησή σας εγκριθεί ή απορριφθεί.
 crs#:#crs_info_reg_deactivated#:#Η συμμετοχή στο μάθημα έχει κλείσει.
 crs#:#crs_info_reg_direct#:#Μπορείτε να συμμετέχετε στο μάθημα αμέσως.
-crs#:#crs_info_reg_password#:#Αν ένας διαχειριστής μαθήματος σας έχει δώσει τον κωδικό μαθήματος, μπορείτε να συμμετάσχετε στο μάθημα. 
+crs#:#crs_info_reg_password#:#Αν ένας διαχειριστής μαθήματος σας έχει δώσει τον κωδικό μαθήματος, μπορείτε να συμμετάσχετε στο μάθημα. ###25 Jul 2006 content changed
 crs#:#crs_info_start#:#Παρακαλώ εργαστείτε σε όλα τα αντικείμενα του μαθήματος που βρίσκονται παρακάτω. Αφού έχετε ολοκληρώσει όλα τα σημειωμένα με κόκκινο αντικείμενα, θα ενεργοποιηθούν νέα αντικείμενα μαθήματος.
 crs#:#crs_learning_materials#:#Υλικό μάθησης
 crs#:#crs_list_users#:#Λίστα χρηστών
@@ -3783,8 +3784,8 @@ crs#:#crs_question_assignment#:#Ανάθεση ερώτησης
 crs#:#crs_reg#:#Εγγραφή
 crs#:#crs_reg_deactivated#:#Απενεργοποιημένο
 crs#:#crs_reg_lim_info#:#Οι εγγραφές είναι δυνατές μόνο κατά τη διάρκεια μιας καθορισμένης χρονικής περιόδου.
-crs#:#crs_reg_max_info#:#Καθορίστε το μέγιστο αριθμό χρηστών που μπορούν να εγγραφούν σε αυτό το μάθημα. "0" σημαίνει απεριόριστο.
-crs#:#crs_reg_notify_info#:#Εάν ενεργοποιηθεί όλοι οι διαχειριστές / επιμελητές του μαθήματος με κατάσταση "Γνωστοποίηση" θα ενημερωθούν μέσω ηλεκτρονικού ταχυδρομείου για τις νέες εγγραφές.
+crs#:#crs_reg_max_info#:#Καθορίστε το μέγιστο αριθμό χρηστών που μπορούν να εγγραφούν σε αυτό το μάθημα. "0" σημαίνει απεριόριστο.###25 Jul 2006 content changed
+crs#:#crs_reg_notify_info#:#Εάν ενεργοποιηθεί όλοι οι διαχειριστές / επιμελητές του μαθήματος με κατάσταση "Γνωστοποίηση" θα ενημερωθούν μέσω ηλεκτρονικού ταχυδρομείου για τις νέες εγγραφές.###25 Jul 2006 content changed
 crs#:#crs_reg_subscription_deactivated#:#Η εγγραφή είναι απενεργοποιημένη
 crs#:#crs_reg_subscription_end_earlier#:#Ο χρόνος εγγραφής έχει λήξει
 crs#:#crs_reg_subscription_max_members_reached#:#Ο μέγιστος αριθμός χρηστών έχει υπερβεί το όριο.
@@ -3925,7 +3926,7 @@ dateplaner#:#ERROR_ENDDATE#:#Λανθασμένη εισαγωγή ημερομ�
 dateplaner#:#ERROR_ENDTIME#:#Λανθασμένος χρόνος τερματισμού. Μορφή: ωω:λλ
 dateplaner#:#ERROR_END_START#:#Λανθασμένη εισαγωγή ημερομηνίας τερματισμού. Η ημερομηνία τερματισμού είναι πριν την ημερομηνία έναρξης.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Παρακαλώ λάβετε ένα έγκυρο CSV Αρχείο.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>ο πλοηγός σας δεν δέχεται JavaScript. Παρακαλώ κλείστε αυτό το παράθυρο μετά την χειροκίνητη εισαγωγή.<br />Ευχαριστούμε</CENTER></B>
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>ο πλοηγός σας δεν δέχεται JavaScript. Παρακαλώ κλείστε αυτό το παράθυρο μετά την χειροκίνητη εισαγωγή.<br />Ευχαριστούμε</CENTER></B>###25 Jul 2006 content changed
 dateplaner#:#ERROR_ROTATIONEND#:#Λανθασμένη εισαγωγή επαναλαμβανόμενης ημερομηνίας τερματισμού. Μορφή: ηη/μμ/εεεε
 dateplaner#:#ERROR_ROT_END_START#:#Λανθασμένη εισαγωγή επαναλαμβανόμενης ημερομηνίας τερματισμού. Η επαναλαμβανόμενη ημερομηνία τερματισμού είναι πριν την ημερομηνία εκκίνησης.
 dateplaner#:#ERROR_SHORTTEXT#:#Λανθασμένη εισαγωγή ταξινόμησης κειμένου. Απαιτείται μικρό κείμενο.
@@ -4137,7 +4138,7 @@ dateplaner#:#week#:#Εβδομάδα
 dateplaner#:#wk_short#:#Εβδ
 dateplaner#:#year#:#Έτος
 forum#:#forum_anonymize#:#Ανώνυμη γραφή
-forum#:#forum_anonymize_desc#:#Γράψτε το μήνυμα ανώνυμα (το παρωνύμιό σας του ILIAS δεν θα φαίνεται πουθενά).
+forum#:#forum_anonymize_desc#:#Γράψτε το μήνυμα ανώνυμα (το παρωνύμιό σας του ILIAS δεν θα φαίνεται πουθενά).###25 Jul 2006 content changed
 forum#:#forums#:#Φόρουμ
 forum#:#forums_all_threads_marked_read#:#Όλες οι αλληλουχίες έχουν σημειωθεί ως διαβασμένες
 forum#:#forums_attachments#:#Επισυναπτόμενα
@@ -4378,7 +4379,7 @@ meta#:#meta_c_CC#:#Νησιά Κόκο
 meta#:#meta_c_CF#:#Κεντρική Αφρικανική Δημοκρατία
 meta#:#meta_c_CG#:#Κονγκό
 meta#:#meta_c_CH#:#Ελβετία
-meta#:#meta_c_CI#:#Κότ ντ' Ιβουάρ
+meta#:#meta_c_CI#:#Κότ ντ' Ιβουάρ###25 Jul 2006 content changed
 meta#:#meta_c_CK#:#Νησιά Κουκ
 meta#:#meta_c_CL#:#Χιλή
 meta#:#meta_c_CM#:#Καμερούν
@@ -4451,12 +4452,12 @@ meta#:#meta_c_KH#:#Καμποδία
 meta#:#meta_c_KI#:#Κιριμπάτι
 meta#:#meta_c_KM#:#Κομόρος
 meta#:#meta_c_KN#:#Άγιος Κίτιος και Νέβιος
-meta#:#meta_c_KP#:#Βόρεια Κορέα (Λαϊκή Δημοκρατία της Κορέας)
+meta#:#meta_c_KP#:#Βόρεια Κορέα (Λαϊκή Δημοκρατία της Κορέας)###25 Jul 2006 content changed
 meta#:#meta_c_KR#:#Νότια Κορέα (Δημοκρατία της Κορέας)
 meta#:#meta_c_KW#:#Κουβέιτ
 meta#:#meta_c_KY#:#Νησιά Καϊμάν
 meta#:#meta_c_KZ#:#Καζακστάν
-meta#:#meta_c_LA#:#Λαϊκή Δημοκρατία του Λάο
+meta#:#meta_c_LA#:#Λαϊκή Δημοκρατία του Λάο###25 Jul 2006 content changed
 meta#:#meta_c_LB#:#Λίβανος
 meta#:#meta_c_LC#:#Αγία Λουκία
 meta#:#meta_c_LI#:#Λιχτενστάιν
@@ -4893,7 +4894,7 @@ payment#:#pay_bmf_bank_code#:#Τραπεζικός κωδικός
 payment#:#pay_bmf_card_holder#:#Κάτοχος κάρτας
 payment#:#pay_bmf_card_number#:#Αριθμός κάρτας
 payment#:#pay_bmf_check_number#:#Ελέγχος αριθμού
-payment#:#pay_bmf_check_terms_conditions#:#Παρακαλώ επιβεβαιώστε ότι διαβάσατε τους γενικούς κανόνες και ότι τους αποδέχεστε.
+payment#:#pay_bmf_check_terms_conditions#:#Παρακαλώ επιβεβαιώστε ότι διαβάσατε τους γενικούς κανόνες και ότι τους αποδέχεστε.###25 Jul 2006 content changed
 payment#:#pay_bmf_credit_card#:#Πιστωτική κάρτα
 payment#:#pay_bmf_credit_card_data#:#Πιστωτική κάρτα
 payment#:#pay_bmf_credit_card_not_valid#:#Τα στοιχεία της πιστωτικής κάρτας που εισάγατε δεν είναι έγκυρα. Παρακαλώ ελέγξτε αν έχουν συμπληρωθεί σωστά όλα τα πεδία.
@@ -4907,11 +4908,11 @@ payment#:#pay_bmf_description_personal_data#:#Παρακαλώ συμπληρώ�
 payment#:#pay_bmf_house_number#:#Αριθμός κατοικίας
 payment#:#pay_bmf_optional#:#προαιρετικό
 payment#:#pay_bmf_or#:#ή
-payment#:#pay_bmf_password_not_valid#:#Ο κωδικός σας δεν ήταν έγκυρος.
+payment#:#pay_bmf_password_not_valid#:#Ο κωδικός σας δεν ήταν έγκυρος.###25 Jul 2006 content changed
 payment#:#pay_bmf_payment_type#:#Τρόπος πληρωμής
-payment#:#pay_bmf_payment_type_not_valid#:#Ο τρόπος πληρωμής που επιλέξατε δεν είναι έγκυρος. Παρακαλώ επιλέξτε άλλον.
+payment#:#pay_bmf_payment_type_not_valid#:#Ο τρόπος πληρωμής που επιλέξατε δεν είναι έγκυρος. Παρακαλώ επιλέξτε άλλον.###25 Jul 2006 content changed
 payment#:#pay_bmf_personal_data#:#Τα προσωπικά σας δεδομένα
-payment#:#pay_bmf_personal_data_not_valid#:#Τα προσωπικά δεδομένα δεν είναι έγκυρα. Παρακαλώ ελέγξτε αν όλα τα πεδία έχουν συμπληρωθεί σωστά.
+payment#:#pay_bmf_personal_data_not_valid#:#Τα προσωπικά δεδομένα δεν είναι έγκυρα. Παρακαλώ ελέγξτε αν όλα τα πεδία έχουν συμπληρωθεί σωστά.###25 Jul 2006 content changed
 payment#:#pay_bmf_please_select#:#Παρακαλώ επιλέξτε
 payment#:#pay_bmf_po_box#:#Ταχ. Θυρίδα
 payment#:#pay_bmf_server_error_code#:#Ο διακομιστής πληρωμής επιστρέφει σφάλμα
@@ -4920,7 +4921,7 @@ payment#:#pay_bmf_server_error_sysadmin#:#Παρακαλώ επικοινωνή�
 payment#:#pay_bmf_shopping_cart_empty#:#Η κάρτα αγορών σας είναι άδεια.
 payment#:#pay_bmf_street_or_pobox#:#Παρακαλούμε εισάγετε διεύθυνση και αριθμό ή ταχ. θυρίδα.
 payment#:#pay_bmf_terms_conditions#:#Γενικοί όροι και συνθήκες
-payment#:#pay_bmf_terms_conditions_read#:#Διάβασα τους Γενικούς όρους και συνθήκες και τους αποδέχομαι.
+payment#:#pay_bmf_terms_conditions_read#:#Διάβασα τους Γενικούς όρους και συνθήκες και τους αποδέχομαι.###25 Jul 2006 content changed
 payment#:#pay_bmf_terms_conditions_show#:#εμφάνιση
 payment#:#pay_bmf_thanks#:#Ευχαριστούμε. Η παραγγελία σας υποβλήθηκε.
 payment#:#pay_bmf_total_amount#:#Συνολικό ποσό
@@ -4995,7 +4996,7 @@ payment#:#paya_header#:#Διαχείρηση πληρωμής
 payment#:#paya_insert_only_numbers#:#Παρακαλώ εισάγετε μόνο ακέραιους.
 payment#:#paya_locator#:#Διαχείρηση πληρωμής
 payment#:#paya_months#:#Μήνας(ες)
-payment#:#paya_no_booking_id_given#:#Λάθος: δεν δόθηκε 'ταυτότητα κράτησης' 
+payment#:#paya_no_booking_id_given#:#Λάθος: δεν δόθηκε 'ταυτότητα κράτησης' ###25 Jul 2006 content changed
 payment#:#paya_no_bookings#:#Δεν υπάρχουν διαθέσιμα στατιστικά.
 payment#:#paya_no_object_selected#:#Παρακαλώ επιλέξτε αντικείμενο.
 payment#:#paya_no_objects_assigned#:#Δεν υπάρχουν αντικείμενα προς πώληση.
@@ -5004,7 +5005,7 @@ payment#:#paya_no_prices_selected#:#Παρακαλώ επιλέξτε μια τ�
 payment#:#paya_no_settings_necessary#:#Δεν υπάρχουν οι απαραίτητες ρυθμίσεις για αυτό το τρόπο πληρωμής
 payment#:#paya_no_trustees#:#Δεν δημιουργήθηκαν επίτροποι.
 payment#:#paya_no_valid_login#:#Το όνομα χρήστη δεν είναι έγκυρο.
-payment#:#paya_no_vendor_selected#:#Δεν έχετε επιλέξει πωλητή.
+payment#:#paya_no_vendor_selected#:#Δεν έχετε επιλέξει πωλητή.###25 Jul 2006 content changed
 payment#:#paya_not_assign_yourself#:#Δεν είναι δυνατή η εκχώρηση του εαυτού σας.
 payment#:#paya_not_buyable#:#Μη εξαγοράσιμο
 payment#:#paya_object#:#Αντικείμενα
@@ -5053,14 +5054,14 @@ payment#:#pays_delete_vendor#:#Αποχώρηση χρήστη
 payment#:#pays_deleted_number_vendors#:#Ο ακόλουθος αριθμών πωλητών διαγράφηκε:
 payment#:#pays_edit_vendor#:#Επεξεργασία χρήστη
 payment#:#pays_general_settings#:#Γενικές ρυθμίσεις
-payment#:#pays_general_settings_not_valid#:#Οι γενικές ρυθμίσεις σας δεν είναι έγκυρες. Παρακαλώ ελέγξτε αν όλα τα πεδία είναι συμπληρωμένα σωστά.
+payment#:#pays_general_settings_not_valid#:#Οι γενικές ρυθμίσεις σας δεν είναι έγκυρες. Παρακαλώ ελέγξτε αν όλα τα πεδία είναι συμπληρωμένα σωστά.###25 Jul 2006 content changed
 payment#:#pays_header_select_vendor#:#Επιλογή πωλητή
 payment#:#pays_no_username_given#:#Δεν δόθηκε όνομα χρήστη
 payment#:#pays_no_valid_username_given#:#Δεν δόθηκε έγκυρο όνομα χρήστη
 payment#:#pays_no_vendor_selected#:#Δεν επιλέχθηκε πωλητής
 payment#:#pays_number_bookings#:#Ενεργές κρατήσεις
-payment#:#pays_objects_bill_exist#:#Η μέθοδος πληρωμής 'λογαριασμός' είναι ενεργοποιημένη για κάποια αντικείμενα. Επομένως δεν μπορεί να απενεργοποιηθεί.
-payment#:#pays_objects_bmf_exist#:#Η μέθοδος πληρωμής 'BMF' είναι ενεργοποιημένη για κάποια αντικείμενα. Επομένως δεν μπορεί να απενεργοποιηθεί.
+payment#:#pays_objects_bill_exist#:#Η μέθοδος πληρωμής 'λογαριασμός' είναι ενεργοποιημένη για κάποια αντικείμενα. Επομένως δεν μπορεί να απενεργοποιηθεί.###25 Jul 2006 content changed
+payment#:#pays_objects_bmf_exist#:#Η μέθοδος πληρωμής 'BMF' είναι ενεργοποιημένη για κάποια αντικείμενα. Επομένως δεν μπορεί να απενεργοποιηθεί.###25 Jul 2006 content changed
 payment#:#pays_offline#:#Χωρίς σύνδεση
 payment#:#pays_online#:#Σε σύνδεση
 payment#:#pays_pay_methods#:#Μέθοδοι πληρωμής
@@ -5501,12 +5502,12 @@ survey#:#survey_code_no_codes#:#Δεν έχετε δημιουργήσει κα�
 survey#:#survey_code_url#:#URL για απευθείας πρόσβαση
 survey#:#survey_code_url_name#:#URL (κάντε δεξί κλικ για να αντιγράψετε το URL)
 survey#:#survey_code_used#:#Ο κωδικός χρησιμοποιήθηκε
-survey#:#survey_finish#:#τέλος έρευνας
+survey#:#survey_finish#:#τέλος έρευνας###25 Jul 2006 content changed
 survey#:#survey_finished#:#Ολοκληρώσατε την έρευνα. Ευχαριστούμε για τη συμμετοχή σας!
 survey#:#survey_has_datasets_warning#:#Ή έρευνα περιλαμβάνει ήδη σύνολα δεδομένων. Δεν μπορείτε να επεξεργαστείτε τις ερωτήσεις της έρευνας μέχρις ότου διαγράψετε αυτά τα σύνολα δεδομένων στον τομέα συντήρησης.
 survey#:#survey_is_offline#:#Δεν μπορείτε να εκκινήσετε την έρευνα! Η έρευνα είναι εκτός σύνδεσης.
 survey#:#survey_next#:#επόμενο >>>###19 Jul 2006 content changed
-survey#:#survey_offline_message#:#Δεν μπορείτε να προσκαλέσετε χρήστες. Η έρευνα είναι εκτός σύνδεσης!
+survey#:#survey_offline_message#:#Δεν μπορείτε να προσκαλέσετε χρήστες. Η έρευνα είναι εκτός σύνδεσης!###25 Jul 2006 content changed
 survey#:#survey_online_warning#:#Η έρευνα είναι σε σύνδεση. Δεν μπορείτε να επεξεργαστείτε τις ερωτήσεις της έρευνας!
 survey#:#survey_previous#:#<<< προηγούμενο###19 Jul 2006 content changed
 survey#:#survey_question_obligatory#:#(Αυτή η ερώτηση είναι υποχρεωτική. Πρέπει να την απαντήσετε)
@@ -5516,7 +5517,7 @@ survey#:#survey_skip_finish#:#παράβλεψη και τέλος έρευνα�
 survey#:#survey_skip_next#:#παράβλεψη >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< παράβλεψη###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#παράβλεψε και πήγαινε στην αρχική σελίδα
-survey#:#survey_start#:#πήγαινε στην αρχική σελίδα
+survey#:#survey_start#:#πήγαινε στην αρχική σελίδα###25 Jul 2006 content changed
 survey#:#svy_all_user_data_deleted#:#Όλα τα δεδομένα χρήστη αυτής της έρευνας έχουν διαγραφεί!
 survey#:#svy_check_evaluation_access_introduction#:#Καθώς η αξιολόγηση αυτής της έρευνας είναι προσπελάσιμη μόνο από τους συμμετέχοντες στην έρευνα θα χρειαστεί να εισάγετε το κωδικό πρόσβασης στην έρευνα για να ανοίξετε την αξιολόγηση.
 survey#:#svy_check_evaluation_authentication_needed#:#Απαιτείται επικύρωση
@@ -5528,7 +5529,7 @@ survey#:#svy_eval_detail#:#Συγκεντρωτικά αποτελέσματα (
 survey#:#svy_eval_user#:#Αποτελέσματα για το συγκεκριμένο χρήστη
 survey#:#svy_export_files#:#Εξαγωγή αρχείων
 survey#:#svy_file#:#Αρχείο
-survey#:#svy_missing_author#:#Δεν έχετε εισάγει όνομα συγγραφέα στις ιδιότητες της έρευνας! Παρακαλώ προσθέστε ένα όνομα συγγραφέα.
+survey#:#svy_missing_author#:#Δεν έχετε εισάγει όνομα συγγραφέα στις ιδιότητες της έρευνας! Παρακαλώ προσθέστε ένα όνομα συγγραφέα.###25 Jul 2006 content changed
 survey#:#svy_missing_questions#:#Δεν έχετε ερωτήσεις στην έρευνα! Παρακαλώ προσθέστε τουλάχιστον μία ερώτηση στην έρευνα.
 survey#:#svy_missing_title#:#Δεν έχετε εισάγει τίτλο στην έρευνα! Παρακαλώ πηγαίνετε στην περιοχή των μετα δεδομένων και εισάγετε ένα τίτλο.
 survey#:#svy_page_error#:#Υπήρξε λάθος κατά την απάντηση μιας ερώτησης της έρευνας. Παρακαλώ αναφερθείτε στην ερώτηση για να λάβετε περισσότερες πληροφορίες για το λάθος!
@@ -5585,11 +5586,12 @@ trac#:#trac_crs_items#:#Αναθετημένα αντικείμενα μαθήμ
 trac#:#trac_crs_members#:#Μέλη μαθήματος:
 trac#:#trac_crs_objects#:#Εκπαιδευτική πρόοδος μελών μαθήματος
 trac#:#trac_crs_releavant_items#:#Αντικείμενα μαθήματος
-trac#:#trac_edit_collection#:#Παρακαλώ αναθέστε αντικείμενα μαθήματος. Αν η κατάσταση όλων των ανατεθημένων αντικειμένων είναι 'Ολοκληρώθηκε' όλο το μάθημα ολοκληρώθηκε από το χρήστη.
+trac#:#trac_edit_collection#:#Παρακαλώ αναθέστε αντικείμενα μαθήματος. Αν η κατάσταση όλων των ανατεθημένων αντικειμένων είναι 'Ολοκληρώθηκε' όλο το μάθημα ολοκληρώθηκε από το χρήστη.###25 Jul 2006 content changed
 trac#:#trac_edit_progress#:#Επεξεργασία εκπαιδευτικής προόδου
 trac#:#trac_edit_time#:#Χρόνος επεξεργασίας
 trac#:#trac_edit_visits#:#Παρακαλώ ορίστε τον αριθμό επισκέψεων που είναι απαραίτητες για να ολοκληρωθεί το αντικείμενο.
 trac#:#trac_edited_scos#:#Περιεχόμενο που επεξεργάστηκε
+trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_area#:#Περιοχή:
 trac#:#trac_filter_hidden#:#Κρυφό:
 trac#:#trac_filter_limit_reached#:#Ο αριθμός προσβάσεων περιορίστηκε σε %s. Παρακαλώ χρησιμοποιήστε το φίλτρο για να περιορίσετε τον αριθμό των προσβάσεων.
@@ -5598,7 +5600,7 @@ trac#:#trac_filter_none#:#Κανένα
 trac#:#trac_filter_repository#:#Στον αποθηκευτικό χώρο
 trac#:#trac_hide#:#Απόκρυψη
 trac#:#trac_in_progress#:#Σε εξέλιξη
-trac#:#trac_info_edited#:#Ορίστε την κατάσταση σε 'Ολοκληρώθηκε' αν νομίζετε ότι επεξεργαστήκατε ολόκληρο το περιεχόμενο.
+trac#:#trac_info_edited#:#Ορίστε την κατάσταση σε 'Ολοκληρώθηκε' αν νομίζετε ότι επεξεργαστήκατε ολόκληρο το περιεχόμενο.###25 Jul 2006 content changed
 trac#:#trac_last_access#:#Τελευταία πρόσβαση
 trac#:#trac_learning_progress#:#Εκπαιδευτική πρόοδος
 trac#:#trac_learning_progress_tbl_header#:#Εκπαιδευτική πρόοδος του:
@@ -5625,15 +5627,19 @@ trac#:#trac_not_accessed#:#Δεν προσπελάστηκε
 trac#:#trac_not_assigned#:#Δεν ανατέθηκε
 trac#:#trac_not_attempted#:#Δεν επιχειρήθηκε
 trac#:#trac_not_completed#:#Δεν ολοκληρώθηκε
+trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
+trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Αριθμός επισκέψεων
 trac#:#trac_objects#:#Λίστα αντικειμένων
 trac#:#trac_occurrences#:#Διαδρομή:
+trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Χρόνος επεξεργασίας
 trac#:#trac_progress#:#Προσωπική εκπαιδευτική πρόοδος
 trac#:#trac_query#:#Τίτλος/περιγραφή:
 trac#:#trac_reached_points#:#Σκορ που επιτεύχθηκε
 trac#:#trac_reached_visits#:#Απαιτούμενες επισκέψεις
 trac#:#trac_refresh#:#Ανανέωση
+trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Αριθμός απαιτούμενων επισκέψεων
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_select_one#:#Δεν δώσατε επιλογή
