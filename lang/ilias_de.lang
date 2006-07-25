@@ -160,7 +160,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.###25 Jul 2006 content changed
+assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß-/Kleinschreibung beachten
@@ -184,7 +184,7 @@ assessment#:#delete_area#:#Region löschen
 assessment#:#delete_image#:#Bild löschen
 assessment#:#delete_user_data#:#Testdaten der ausgewählten NutzerInnen löschen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
-assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.###25 Jul 2006 content changed
+assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
 assessment#:#detailed_output#:#Detailausgabe
@@ -219,7 +219,7 @@ assessment#:#ects_range_error_b#:#Bitte geben Sie einen Wert zwischen 0 und 100 
 assessment#:#ects_range_error_c#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note C an!
 assessment#:#ects_range_error_d#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note D an!
 assessment#:#ects_range_error_e#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note E an!
-assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens###25 Jul 2006 content changed
+assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#edit_content#:#Inhalt bearbeiten
 assessment#:#edit_properties#:#Eigenschaften bearbeiten
@@ -329,14 +329,14 @@ assessment#:#maxchars#:#Maximale Anzahl von Zeichen
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Testdurchläufen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#maximum_points#:#Maximal erreichbare Punktezahl
 assessment#:#meaning#:#Bedeutung
-assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!###25 Jul 2006 content changed
+assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!
 assessment#:#multiline_answers_hide#:#Einzeilige Antworten verwenden
 assessment#:#multiline_answers_show#:#Mehrzeilige Antworten verwenden
 assessment#:#multiline_terms_hide#:#Einzeilige Terme verwenden
 assessment#:#multiline_terms_show#:#Mehrzeilige Terme verwenden
 assessment#:#negative_points_not_allowed#:#Sie dürfen keine negativen Punkte vergeben!
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
-assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!###25 Jul 2006 content changed
+assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
@@ -395,7 +395,7 @@ assessment#:#qpl_export_excel#:#Microsoft Excel Datei
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_export_xml#:#QTI XML Datei
 assessment#:#qpl_general_properties#:#Allgemeine Eigenschaften
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.###25 Jul 2006 content changed
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.
 assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
 assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
 assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-dateien, die nicht von einem ILIAS-System erstellt wurden. bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
@@ -499,7 +499,7 @@ assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
-assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.###25 Jul 2006 content changed
+assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
 assessment#:#tst_count_correct_solutions#:#Nur vollständig richtige Lösungen bewerten
 assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
@@ -519,7 +519,7 @@ assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gest
 assessment#:#tst_eval_user_answer#:#Antwort
 assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
-assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?###25 Jul 2006 content changed
+assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
@@ -527,7 +527,7 @@ assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
-assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen###25 Jul 2006 content changed
+assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_title_points#:#Punkte im Fragentitel
 assessment#:#tst_hide_title_points_description#:#Ausgabe der maximalen Punktezahl im Fragentitel verhindern
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
@@ -537,7 +537,7 @@ assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Fra
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_introduction#:#Einführung
-assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.###25 Jul 2006 content changed
+assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
 assessment#:#tst_mark_create_simple_mark_schema#:#Einfaches Notenschema erzeugen
@@ -596,7 +596,7 @@ assessment#:#tst_question_type#:#Fragentyp
 assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
 assessment#:#tst_questions_removed#:#Frage(n) entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
-assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.###25 Jul 2006 content changed
+assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.
 assessment#:#tst_random_questionpools#:#Fragenpools
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_random_selection_question_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen in einem Fragenpool. Der Wert wurde korrigiert.
@@ -690,7 +690,7 @@ assessment#:#tst_text_count_system#:#Bewertungssystem
 assessment#:#tst_time_already_spent#:#Sie haben den Test am %s gestartet. Ihre maximale Bearbeitungsdauer beträgt %s. Es verbleiben Ihnen noch %s.
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
 assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
-assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.###25 Jul 2006 content changed
+assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
@@ -712,7 +712,7 @@ assessment#:#upload_image#:#Bild hochladen
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
-assessment#:#user_wrong_clientip#:#Falsche Client IP###25 Jul 2006 content changed
+assessment#:#user_wrong_clientip#:#Falsche Client IP
 assessment#:#value_between_x_and_y#:#Der Wert muss zwischen %s und %s liegen
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 assessment#:#warning_test_not_complete#:#Der Test ist unvollständig!
@@ -923,7 +923,7 @@ chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
 chat#:#chat_room_name#:#Name des Chatraumes
 chat#:#chat_room_renamed#:#Der Chatraum wurde umbenannt.
 chat#:#chat_room_select#:#Privaten Chatraum
-chat#:#chat_rooms#:#Chaträume###23 Dec 2005 content changed
+chat#:#chat_rooms#:#Chaträume
 chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
 chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
 chat#:#chat_server_allowed#:#Zugelassene Rechner
@@ -973,7 +973,7 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
-common#:#activate_tracking#:#Tracking aktivieren###10 Jul 2006 content changed
+common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Aktivierung
 common#:#active#:#Aktiv
 common#:#active_roles#:#Aktive Rollen
@@ -1008,16 +1008,16 @@ common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich Text Editor aktivieren
-common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool###18 Jul 2006 new variable
+common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test & Assessment Werkzeug
 common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Richt Text Editor nicht erlauben
 common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
-common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
-common#:#advanced_editing_tinymce#:#TinyMCE editor
-common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
+common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
+common#:#advanced_editing_tinymce#:#TinyMCE Editor
+common#:#adve_assessment_settings#:#Test & Assessment Einstellungen
 common#:#adve_edit_permission#:#Rechteeinstellungen ändern
-common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
+common#:#adve_general_settings#:#Allgemeine Einstellungen
 common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen
-common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
+common#:#adve_survey_settings#:#Umfrage-Einstellungen
 common#:#adve_visible#:#Erweiterte Bearbeitungseinstellungen sind sichtbar
 common#:#adve_write#:#Erweiterte Bearbeitungseinstellungen bearbeiten
 common#:#agree_date#:#Zugestimmt am
@@ -1046,7 +1046,7 @@ common#:#already_delivered_files#:#Bereits abgegebene Dateien
 common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
-common#:#anonymous#:#Anonymous###10 Jul 2006 new variable
+common#:#anonymous#:#Anonym
 common#:#answers#:#Antworten
 common#:#any_language#:#Alle Sprachen
 common#:#append_search#:#Suchergebnisse anhängen
@@ -1189,7 +1189,7 @@ common#:#bookmark_new#:#Bookmark hinzufügen
 common#:#bookmark_target#:#Ziel
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks von
-common#:#bottom_frame#:#Main Content###10 Jan 2006 new variable
+common#:#bottom_frame#:#Hauptfenster
 common#:#btn_add#:#Hinzufügen
 common#:#btn_new_value#:#Neuer Wert
 common#:#btn_next#:#Weiter
@@ -1318,7 +1318,7 @@ common#:#client_ip#:#Client IP
 common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
 common#:#close_window#:#Fenster schließen
-common#:#cnt_new#:#(%s New)###21 Jul 2006 new variable
+common#:#cnt_new#:#(%s Neu)
 common#:#collapse#:#Collapse###06 Jan 2006 new variable
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar###10 Jul 2006 content changed
@@ -1414,7 +1414,7 @@ common#:#crs_leave#:#Kursabonnement aufheben###23 Dec 2005 content changed
 common#:#crs_management_system#:#Kursmanagement-System
 common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_member_passed#:#Bestanden
-common#:#crs_members_gallery#:#Course members gallery###10 Jul 2006 new variable
+common#:#crs_members_gallery#:#Kursmitglieder (Galerie)
 common#:#crs_new#:#Neuer Kurs
 common#:#crs_no_content#:#Ohne Inhalt
 common#:#crs_read#:#Kurs lesen
@@ -1503,8 +1503,8 @@ common#:#edit_comments#:#Edit comments for the selected user###10 Jul 2006 new v
 common#:#edit_content#:#Inhalt bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
-common#:#edit_page#:#Edit Page###10 Jul 2006 new variable
-common#:#edit_page_content#:#Edit Page Content###10 Jul 2006 new variable
+common#:#edit_page#:#Seite bearbeiten
+common#:#edit_page_content#:#Seiteninhalt bearbeiten
 common#:#edit_perm_ruleset#:#Rechtevorgaben bearbeiten
 common#:#edit_properties#:#Eigenschaften
 common#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
@@ -1568,18 +1568,18 @@ common#:#exc_create#:#Neue Übung anlegen
 common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
 common#:#exc_deassign_members#:#Mitglied(er) löschen
 common#:#exc_delete#:#Übung löschen
-common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_details#:#Übungsdetails
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
 common#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
-common#:#exc_files#:#Dateien###10 Jul 2006 content changed
-common#:#exc_files_returned#:#Abgegebene Dateien###10 Jul 2006 content changed
+common#:#exc_files#:#Dateien
+common#:#exc_files_returned#:#Abgegebene Dateien
 common#:#exc_groups#:#Gruppen
 common#:#exc_header_members#:#Übung (Mitglieder)
 common#:#exc_instruction#:#Arbeitsanweisung
-common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
-common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
+common#:#exc_last_submission#:#Letzte Übertragung
+common#:#exc_mail_users#:#Mail an Nutzer verschicken
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved###10 Jul 2006 new variable
@@ -1596,13 +1596,13 @@ common#:#exc_select_one_file#:#Bitte wählen Sie genau eine Datei aus.
 common#:#exc_send_exercise#:#Übung verschicken###10 Jul 2006 content changed
 common#:#exc_sent#:#Die Übung wurde an die ausgewählten Mitglieder verschickt
 common#:#exc_status#:#Status###10 Jul 2006 new variable
-common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
+common#:#exc_status_resubmitted#:#Erneut übertragen
 common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
-common#:#exc_status_sent#:#Delivered###10 Jul 2006 new variable
+common#:#exc_status_sent#:#Zugestellt
 common#:#exc_status_solved#:#Gelöst
-common#:#exc_status_submitted#:#Submitted###10 Jul 2006 new variable
-common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
-common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
+common#:#exc_status_submitted#:#Übertragen
+common#:#exc_time_over_short#:#Die Zeit ist abgelaufen
+common#:#exc_time_to_send#:#Verbleibende Bearbeitungsdauer
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#exc_users#:#Benutzern
 common#:#exc_visible#:#Übung ist sichtbar
@@ -1610,7 +1610,7 @@ common#:#exc_write#:#Übung bearbeiten
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
 common#:#exercise_time_over#:#Sie haben das Enddatum für die Verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
-common#:#exp_html#:#Export HTML###23 Dec 2005 new variable
+common#:#exp_html#:#HTML exportieren
 common#:#expand#:#Expand###06 Jan 2006 new variable
 common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
 common#:#export#:#Export
@@ -1656,8 +1656,8 @@ common#:#file_added#:#Datei hochgeladen
 common#:#file_delete#:#Datei löschen
 common#:#file_edit#:#Datei bearbeiten
 common#:#file_edit_permission#:#Rechteeinstellungen ändern
-common#:#file_icon#:#File icon###06 Feb 2006 new variable
-common#:#file_info#:#File Information###23 Dec 2005 new variable
+common#:#file_icon#:#Dateisymbol
+common#:#file_info#:#Dateiinformation
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
@@ -1907,29 +1907,29 @@ common#:#hide_details#:#Details ausblenden
 common#:#hide_private_notes#:#Private Notizen ausblenden
 common#:#hide_public_notes#:#Öffentliche Notizen ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
-common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
-common#:#hist_dbk_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
-common#:#hist_dbk_pg_create#:#Page created.###10 Jul 2006 new variable
-common#:#hist_dbk_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
-common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
-common#:#hist_dbk_pg_update#:#Page changed.###10 Jul 2006 new variable
-common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
-common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
-common#:#hist_file_create#:#Neue Datei angelegt mit Namen "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_replace#:#Datei ersetzt, neuer Dateiname lautet "%1", die neue Version lautet %2. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
-common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
-common#:#hist_lm_pg_create#:#Page created.###10 Jul 2006 new variable
-common#:#hist_lm_pg_cut#:#Page cut out of chapter "%1" [%2].###10 Jul 2006 new variable
-common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 new variable
-common#:#hist_lm_pg_update#:#Page changed.###10 Jul 2006 new variable
-common#:#hist_lm_st_create#:#Chapter created.###18 Jul 2006 new variable
-common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
-common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
+common#:#hist_dbk_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
+common#:#hist_dbk_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
+common#:#hist_dbk_pg_create#:#Seite erstellt.
+common#:#hist_dbk_pg_cut#:#Seite aus Kapitel "%1" [%2] ausgeschnitten.
+common#:#hist_dbk_pg_paste#:#Seite in "%1" [%2] eingefügt.
+common#:#hist_dbk_pg_update#:#Seite geändert.
+common#:#hist_dbk_st_cut_page#:#Seite "%1" [%2] aus dem Kapitel ausgeschnitten.
+common#:#hist_dbk_st_paste_page#:#Seite "%1" [%2] in das Kapitel eingefügt.
+common#:#hist_file_create#:#Neue Datei angelegt mit Namen "%1".
+common#:#hist_file_replace#:#Datei ersetzt, neuer Dateiname lautet "%1", die neue Version lautet %2.
+common#:#hist_lm_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
+common#:#hist_lm_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
+common#:#hist_lm_pg_create#:#Seite erstellt.
+common#:#hist_lm_pg_cut#:#Seite aus Kapitel "%1" [%2] ausgeschnitten.
+common#:#hist_lm_pg_paste#:#Seite in Kapitel "%1" [%2] eingefügt.
+common#:#hist_lm_pg_update#:#Seite geändert.
+common#:#hist_lm_st_create#:#Kapitel erstellt.
+common#:#hist_lm_st_cut_page#:#Seite "%1" [%2] aus dem Kapitel ausgeschnitten.
+common#:#hist_lm_st_paste_page#:#Seite "%1" [%2] in das Kapitel eingefügt.
 common#:#hist_no_entries#:#Keine Einträge im Verlauf
-common#:#hist_webr_add#:#Neuer Link angelegt mit Titel: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_delete#:#Link wurde gelöscht. Titel: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_webr_update#:#Link wurde aktualisiert. Titel: "%1" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_webr_add#:#Neuer Link angelegt mit Titel: "%1" 
+common#:#hist_webr_delete#:#Link wurde gelöscht. Titel: "%1" 
+common#:#hist_webr_update#:#Link wurde aktualisiert. Titel: "%1" 
 common#:#history#:#Verlauf
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
@@ -1945,8 +1945,8 @@ common#:#hlm_write#:#HACP Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zum öffentlichen Bereich
 common#:#host#:#Host
-common#:#hour#:#Hour###10 Jul 2006 new variable
-common#:#hours#:#Stunde(n)###10 Jul 2006 content changed
+common#:#hour#:#Stunde
+common#:#hours#:#Stunden
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
 common#:#htlm_add#:#HTML Lernmodul hinzufügen
@@ -2337,7 +2337,7 @@ common#:#mail_visible#:#Maileinstellungen sind sichtbar
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
-common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
+common#:#main_menu_frame#:#Hauptmenü
 common#:#manage_tracking_data#:#Tracking-Daten verwalten
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
@@ -2366,7 +2366,7 @@ common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
-common#:#minute#:#Minute###10 Jul 2006 new variable
+common#:#minute#:#Minute
 common#:#minutes#:#Minuten
 common#:#missing#:#Nicht vorhanden
 common#:#mob#:#Media Objekt
@@ -2398,7 +2398,7 @@ common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Dezember
 common#:#month_12_short#:#Dez
 common#:#monthly#:#monatlich
-common#:#months#:#Months###25 Jul 2006 new variable
+common#:#months#:#Monate
 common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
@@ -2555,8 +2555,8 @@ common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht angemeldet
 common#:#note#:#Notiz
-common#:#note_all_pub_notes#:#All notes###23 Dec 2005 new variable
-common#:#note_my_pub_notes#:#My notes only###23 Dec 2005 new variable
+common#:#note_all_pub_notes#:#Alle Notizen
+common#:#note_my_pub_notes#:#Nur eigene Notizen
 common#:#notes#:#Notizen
 common#:#num_users#:#Anzahl Benutzer###10 Jul 2006 content changed
 common#:#number_of_accesses#:#Anzahl Zugriffe
@@ -2564,10 +2564,10 @@ common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
-common#:#obj_adve#:#Advanced editing###10 Jul 2006 new variable
-common#:#obj_adve_desc#:#Administration settings for advanced editing like JavaScript based Rich Text Editors, LaTeX support etc..###10 Jul 2006 new variable
+common#:#obj_adve#:#Erweiterte Bearbeitung
+common#:#obj_adve_desc#:#Administrationseinstellungen für erweiterte Bearbeitung wie z.B. Javascript-basierte Editoren, erlaubte HTML-Auszeichnungen etc.
 common#:#obj_alm#:#Lernmodul AICC
-common#:#obj_assf#:#Test&Assessment###10 Jul 2006 content changed
+common#:#obj_assf#:#Test & Assessment
 common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
 common#:#obj_auth#:#Authentifizierung/Neuanmeldung###10 Jul 2006 content changed
 common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, ...) sowie die Neuanmeldungen.###10 Jul 2006 content changed
@@ -2644,8 +2644,8 @@ common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#obj_webr#:#Web-Links
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
-common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
-common#:#object_imported#:#Object imported###23 Dec 2005 new variable
+common#:#object_duplicated#:#Objekt dupliziert
+common#:#object_imported#:#Objekt importiert
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
 common#:#objf_edit_permission#:#Rechteeinstellungen ändern
@@ -2703,8 +2703,8 @@ common#:#optimize#:#Optimieren
 common#:#options#:#Einstellungen
 common#:#options_for_subobjects#:#Einstellungen für Unterobjekte
 common#:#order_by#:#Sortieren nach
-common#:#order_by_answers#:#Order by Answers###10 Jul 2006 new variable
-common#:#order_by_date#:#Order by Date###10 Jul 2006 new variable
+common#:#order_by_answers#:#Nach Antworten sortieren
+common#:#order_by_date#:#Nach Datum sortieren
 common#:#other#:#Andere
 common#:#overview#:#übersicht
 common#:#overwrite#:#Überschreiben
@@ -2754,7 +2754,7 @@ common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' f
 common#:#perm_role_info_glob_1#:#This form determines the permissions of role '%s' for newly created objects in the repository.###10 Jul 2006 new variable
 common#:#perm_role_info_glob_2#:#If you want to change the permissions of role '%s' for all existing objects in the repository you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
 common#:#perm_settings#:#Rechte
-common#:#perma_link#:#Permanent Link###10 Jul 2006 new variable
+common#:#perma_link#:#Link zu dieser Seite
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#permission_settings#:#Rechteeinstellungen###10 Jul 2006 content changed
@@ -2793,14 +2793,14 @@ common#:#private_notes#:#Private Notizen
 common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile#:#Profil
 common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert###10 Jul 2006 content changed
-common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.###10 Jul 2006 new variable
+common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
 common#:#pub_section#:#öffentlicher Bereich
 common#:#public#:#öffentlich
 common#:#public_notes#:#Öffentliche Notizen
 common#:#public_profile#:#Öffentliches Profil
-common#:#public_profile_not_visible#:#The User Profile is not public###10 Jul 2006 new variable
+common#:#public_profile_not_visible#:#Das Benutzerprofil ist nicht öffentlich
 common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
@@ -2855,9 +2855,9 @@ common#:#repeat_scan_succeded#:#Repeat scan succeded.
 common#:#replace_file#:#Datei ersetzen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
-common#:#repository_admin#:#Repository Trash and Permissions###23 Dec 2005 new variable
-common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
-common#:#repository_frame#:#Repository Content###17 Jan 2006 new variable
+common#:#repository_admin#:#Magazin, Papierkorb und Rechteeinstellungen
+common#:#repository_admin_desc#:#Rechteeinstellungen für Magazinobjekte festlegen, Entfernen oder Wiederherstellen von Objekten im Papierkorb
+common#:#repository_frame#:#Magazininhalt
 common#:#request_membership#:#Antrag stellen
 common#:#require_city#:#Pflichteingabe Stadt
 common#:#require_country#:#Pflichteingabe Land
@@ -2990,7 +2990,7 @@ common#:#seas_search#:#Benutzung der Suche erlauben
 common#:#seas_settings#:#Sucheinstellungen
 common#:#seas_visible#:#Sucheinstellungen sind sichtbar
 common#:#seas_write#:#Sucheinstellungen bearbeiten
-common#:#second#:#Second###10 Jul 2006 new variable
+common#:#second#:#Sekunde
 common#:#seconds#:#Sekunden
 common#:#sections#:#Bereiche
 common#:#select#:#Auswählen
@@ -2999,7 +2999,7 @@ common#:#select_file#:#Datei wählen
 common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
-common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus.
 common#:#select_password#:#Neues Passwort wählen
 common#:#select_questionpool#:#Fragenpool für Test
 common#:#select_questionpool_option#:#--- Bitte wählen Sie einen Fragenpool aus ---
@@ -3071,7 +3071,7 @@ common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Externe Benutzerverwaltung (SOAP)
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, können alle Benutzerzugänge über einen externen SOAP-Client verwaltet werden.
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
-common#:#spacer#:#Spacer###23 Dec 2005 new variable
+common#:#spacer#:#Trenner
 common#:#spl#:#Fragenpool für Umfrage
 common#:#spl_add#:#Fragenpool hinzufügen
 common#:#spl_delete#:#Fragenpool löschen
@@ -3115,18 +3115,18 @@ common#:#svy_add#:#Umfrage hinzufügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_evaluation#:#Evaluation
-common#:#svy_finished#:#beendet###05 Feb 2006 content changed
+common#:#svy_finished#:#beendet
 common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
-common#:#svy_not_finished#:#nicht beendet###05 Feb 2006 content changed
+common#:#svy_not_finished#:#nicht beendet
 common#:#svy_not_started#:#nicht gestartet
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
 common#:#svy_run#:#Ausführen
 common#:#svy_upload_file#:#Datei hochladen
 common#:#svy_visible#:#Umfrage ist sichtbar
-common#:#svy_warning_survey_not_complete#:#Die Umfrage ist nicht vollständig!###05 Feb 2006 content changed
+common#:#svy_warning_survey_not_complete#:#Die Umfrage ist nicht vollständig!
 common#:#svy_write#:#Umfrage kann bearbeitet werden
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
@@ -3158,7 +3158,7 @@ common#:#test#:#Test
 common#:#test_intern#:#Interner Test
 common#:#test_module#:#Test
 common#:#tests#:#Tests
-common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
+common#:#thumbnail#:#Miniaturbild
 common#:#time#:#Zeit
 common#:#time_d#:#Tag
 common#:#time_h#:#Stunde
@@ -3197,10 +3197,10 @@ common#:#tracking_data_deleted#:#Tracking-Daten wurden gelöscht.
 common#:#tracking_settings#:#Einstellungen
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
-common#:#tree_frame#:#Tree Frame###10 Jul 2006 new variable
-common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.###10 Jul 2006 new variable
-common#:#tree_left#:#Left###10 Jul 2006 new variable
-common#:#tree_right#:#Right###10 Jul 2006 new variable
+common#:#tree_frame#:#Baumanzeige
+common#:#tree_frame_info#:#Legt fest, ob die Baumansicht (z.B. Magazin-Baumansicht) tree) auf der linken oder der rechten Seite erscheinen soll
+common#:#tree_left#:#Links
+common#:#tree_right#:#Rechts
 common#:#treeview#:#Baumansicht
 common#:#tst#:#Test
 common#:#tst_add#:#Test hinzufügen
@@ -3215,7 +3215,7 @@ common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
-common#:#tst_user_wrong_clientip#:#Sie haben nicht die korrekte IP-Adresse, um an der Online-Prüfung teilzunehmen.###10 Jul 2006 content changed
+common#:#tst_user_wrong_clientip#:#Sie haben nicht die korrekte IP-Adresse, um an der Online-Prüfung teilzunehmen.
 common#:#tst_visible#:#Test ist sichtbar
 common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
 common#:#tst_write#:#Test bearbeiten
@@ -3262,7 +3262,7 @@ common#:#update_on_conflict#:#Aktualisiere bei Konflikt
 common#:#upload#:#Hochladen
 common#:#upload_error_file_not_found#:#Fehler beim Hochladen: Datei nicht gefunden
 common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
-common#:#uri#:#URI###10 Jul 2006 new variable
+common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_a#:#eine URL
 common#:#url_add#:#URL hinzufügen
@@ -3275,7 +3275,7 @@ common#:#url_edit_permission#:#Ändere Rechteeinstellungen
 common#:#url_new#:#Neue URL
 common#:#url_not_found#:#Datei wurde nicht gefunden
 common#:#url_read#:#URL öffnen
-common#:#url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
+common#:#url_to_latex#:#URL zum LaTeX CGI-Skript
 common#:#url_visible#:#URL ist sichtbar
 common#:#url_write#:#URL bearbeiten
 common#:#user#:#Benutzer
@@ -3303,7 +3303,7 @@ common#:#user_send_new_account_mail#:#Send new account mail###10 Jul 2006 new va
 common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
 common#:#userfolder_export_csv#:#Durch Komma getrennte Werte (CSV)
-common#:#userfolder_export_excel_x86#:#Microsoft Excel###10 Jul 2006 content changed
+common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Datei
 common#:#userfolder_export_file_size#:#Dateigröße
 common#:#userfolder_export_files#:#Dateien
@@ -3313,7 +3313,7 @@ common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
 common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
-common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen###10 Jul 2006 content changed
+common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen
 common#:#users_online_show_y#:#Alle aktiven Benutzer anzeigen
 common#:#usertracking#:#Benutzer-Tracking
 common#:#usr#:#Benutzer
@@ -3415,8 +3415,8 @@ common#:#width_x_height#:#Breite mal Höhe
 common#:#with#:#mit
 common#:#write#:#Schreiben
 common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br />Bitte kontaktieren Sie den Systemadministrator.
-common#:#year#:#Year###10 Jul 2006 new variable
-common#:#years#:#Years###10 Jul 2006 new variable
+common#:#year#:#Jahr
+common#:#years#:#Jahre
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
@@ -3427,7 +3427,7 @@ content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
 content#:#add_menu_entry#:#Menüeintrag hinzufügen >>
 content#:#all#:#Alle
-content#:#all_pages#:#für das gesamte Lernmodul ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#all_pages#:#für das gesamte Lernmodul
 content#:#choose_public_mode#:#Zugriffsrecht für nicht angemeldete Benutzer
 content#:#choose_public_pages#:#Öffentlich zugängliche Seiten auswählen
 content#:#citate#:#Zitieren
@@ -3525,8 +3525,8 @@ content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Punkte
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
-content#:#cont_de_activate#:#(De-)Activate###18 Jul 2006 new variable
-content#:#cont_deactivate_page#:#Deactivate Page###10 Jul 2006 new variable
+content#:#cont_de_activate#:#(De-)Aktivieren
+content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_lesson_mode#:#Standard Lesson-Modus
 content#:#cont_def_organization#:#Standard
@@ -3603,13 +3603,13 @@ content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
 content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
-content#:#cont_footer#:#Footer###10 Jul 2006 new variable
+content#:#cont_footer#:#Fußzeile
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Diese Operation ist nicht möglich!
 content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
 content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
 content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
-content#:#cont_frame_toc#:#Table of Contents###18 Jan 2006 new variable
+content#:#cont_frame_toc#:#Inhaltsverzeichnis
 content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
@@ -3618,7 +3618,7 @@ content#:#cont_get_link#:#Link auswählen
 content#:#cont_get_orig_size#:#Originalgröße setzen
 content#:#cont_glo_menu#:#Menü
 content#:#cont_glo_properties#:#Glossar Eigenschaften
-content#:#cont_header#:#Header###10 Jul 2006 new variable
+content#:#cont_header#:#Kopfzeile
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
@@ -3708,8 +3708,8 @@ content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
-content#:#cont_page_deactivated#:#Page is deactivated.###10 Jul 2006 new variable
-content#:#cont_page_deactivated_elements#:#Page contains deactivated elements.###10 Jul 2006 new variable
+content#:#cont_page_deactivated#:#Die Seite ist deaktiviert
+content#:#cont_page_deactivated_elements#:#Die Seite enthält deaktivierte Elemente
 content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird:
 content#:#cont_page_link#:#Link zur Seite
 content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll.
@@ -3839,7 +3839,7 @@ content#:#cont_update#:#Aktualisieren
 content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_url#:#URL
-content#:#cont_usage#:#Usage###10 Jul 2006 new variable
+content#:#cont_usage#:#Gebrauch
 content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich in der Zwischenablage von
 content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
 content#:#cont_validate_file#:#Datei validieren
@@ -3870,8 +3870,8 @@ content#:#par#:#Absatz
 content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
-content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
-content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#selectFooter#:#Als Fußzeile auswählen
+content#:#selectHeader#:#Als Kopfzeile auswählen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 content#:#set_public_mode#:#Zugriffsmodus setzen
@@ -5800,7 +5800,7 @@ survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
-survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
+survey#:#cancel_survey#:#Umfrage unterbrechen
 survey#:#cannot_create_survey_codes#:#Sie besitzen nicht die passenden Zugriffsrechte, um Zugangscodes für die Umfrage zu erzeugen!
 survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten!
 survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrechte, um den Fragenpool zu exportieren!
@@ -6013,7 +6013,7 @@ survey#:#online#:#online (aktiviert)
 survey#:#or#:#oder
 survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#orientation#:#Ausrichtung
-survey#:#outro#:#Final statement###19 Jul 2006 new variable
+survey#:#outro#:#Abschließende Bemerkung
 survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
 survey#:#percentage_of_offered_answers#:#Prozentsatz der angebotenen Antworten
 survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Antwort ausgewählt haben
@@ -6103,23 +6103,23 @@ survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die U
 survey#:#survey_code_used#:#Der Zugangscode wurde verwendet
 survey#:#survey_codes_lang#:#Sprache der Umfrage
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
-survey#:#survey_finish#:#Umfrage beenden >>>###25 Jul 2006 content changed
+survey#:#survey_finish#:#Umfrage beenden >>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
-survey#:#survey_next#:#Weiter >>>###19 Jul 2006 content changed
-survey#:#survey_offline_message#:#Es können keine Teilnehmerinnen und Teilnehmer eingeladen werden. Die Umfrage ist nicht online!###25 Jul 2006 content changed
+survey#:#survey_next#:#Weiter >>
+survey#:#survey_offline_message#:#Es können keine Teilnehmerinnen und Teilnehmer eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
-survey#:#survey_previous#:#<<< Zurück###19 Jul 2006 content changed
+survey#:#survey_previous#:#<< Zurück
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Fragen
 survey#:#survey_selected_user_data_deleted#:#Die Umfragedaten der ausgewählten Teilnehmerinnen und Teilnehmer wurden erfolgreich gelöscht
 survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
-survey#:#survey_skip_next#:#Überspringen und weiter >>>###19 Jul 2006 content changed
-survey#:#survey_skip_previous#:#<<< Überspringen und zurück###19 Jul 2006 content changed
-survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
-survey#:#survey_start#:#<<< Zur Startseite###25 Jul 2006 content changed
+survey#:#survey_skip_next#:#Überspringen und weiter >>
+survey#:#survey_skip_previous#:#<< Überspringen und zurück
+survey#:#survey_skip_start#:#<< Überspringen und zur Startseite
+survey#:#survey_start#:#<< Zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmende der Umfrage verfügbar ist, müssen Sie Ihren Zugangscode für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
@@ -6133,7 +6133,7 @@ survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_file#:#Datei
 survey#:#svy_general_properties#:#Allgemeine Einstellungen
 survey#:#svy_maintenance_information_no_results#:#Es liegen keine Teilnehmerdatensätze für diese Umfrage vor. Um die Umfrage zu warten, muss wenigstens ein Teilnehmerdatensatz vorliegen.
-survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.###25 Jul 2006 content changed
+survey#:#svy_missing_author#:#Sie haben den Autor oder die Autorin nicht in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie einen Autor oder eine Autorin hinzu.
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
 survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
@@ -6167,7 +6167,7 @@ survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folge
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
+survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Sie versucht haben, einen ungültigen Zugangscode zu verwenden.
 trac#:#found_objects#:#Gefundene Objekte
 trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefunden. Bitte verfeinern Sie daher Ihre Suchanfrage.
 trac#:#info_all_objects#:#Die nachfolgende Zugriffsstatistik bezieht sich auf alle Objekte des Typs '%s'.
