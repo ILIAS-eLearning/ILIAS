@@ -258,10 +258,14 @@ class ilSurveyExecutionGUI
 			$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
 			$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
 			$this->tpl->setCurrentBlock("percentage");
-			$this->tpl->setVariable("PERCENTAGE", (int)(($page[0]["position"])*200));
-			$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($page[0]["position"])*100));
-			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
-			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
+			$percentage = (int)(($page[0]["position"])*100);
+			$this->tpl->setVariable("PERCENT_BAR_START", ilUtil::getImagePath("bar_start.gif"));
+			$this->tpl->setVariable("PERCENT_BAR_FILLED", ilUtil::getImagePath("bar_filled.gif"));
+			$this->tpl->setVariable("PERCENT_BAR_EMPTY", ilUtil::getImagePath("bar_empty.gif"));
+			$this->tpl->setVariable("PERCENT_BAR_END", ilUtil::getImagePath("bar_end.gif"));
+			$this->tpl->setVariable("PERCENTAGE_ALT", $this->lng->txt("percentage"));
+			$this->tpl->setVariable("PERCENTAGE_VALUE", $percentage);
+			$this->tpl->setVariable("PERCENTAGE_UNFINISHED", 100-$percentage);
 			$this->tpl->parseCurrentBlock();
 			if (count($page) > 1)
 			{
