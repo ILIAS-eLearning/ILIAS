@@ -129,7 +129,7 @@ assessment#:#assMatchingQuestion#:#Zuordnungsfrage
 assessment#:#assMultipleChoice#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#assNumeric#:#Numerische Frage
 assessment#:#assOrderingQuestion#:#Anordnungsfrage
-assessment#:#assQuestions#:#QuestionsFragen
+assessment#:#assQuestions#:#Fragen
 assessment#:#assSingleChoice#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#assTextQuestion#:#Freitext-Frage
 assessment#:#assTextSubset#:#Text-Teilmenge
