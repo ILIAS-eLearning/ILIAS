@@ -167,6 +167,11 @@ class ilQuestionpoolExport
 		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
 			, false);
 		$ilBench->stop("QuestionpoolExport", "buildExportFile_dumpToFile");
+		
+		// add media objects which were added with tiny mce
+		$ilBench->start("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");
+		$this->exportXHTMLMediaObjects($this->export_dir."/".$this->subdir);
+		$ilBench->stop("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");
 
 		// zip the file
 		$ilBench->start("QuestionpoolExport", "buildExportFile_zipFile");
@@ -183,6 +188,22 @@ class ilQuestionpoolExport
 		return $this->export_dir."/".$this->subdir.".zip";
 	}
 
+	function exportXHTMLMediaObjects($a_export_dir)
+	{
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		
+		foreach ($this->questions as $question_id)
+		{
+			$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
+			foreach ($mobs as $mob)
+			{
+				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj->exportFiles($a_export_dir);
+				unset($mob_obj);
+			}
+		}
+	}
+	
 	/**
 	* build xml export file
 	*/

@@ -675,6 +675,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 				{
 					$alt = $answer->getAnswertext();
 				}
+				$alt = preg_replace("/<[^>]*?>/", "", $alt);
 				$template->setVariable("ANSWER_IMAGE_ALT", $alt);
 				$template->setVariable("ANSWER_IMAGE_TITLE", $alt);
 				$template->parseCurrentBlock();
@@ -727,6 +728,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 				{
 					$alt = $answer->getAnswertext();
 				}
+				$alt = preg_replace("/<[^>]*?>/", "", $alt);
 				$template->setVariable("ANSWER_IMAGE_ALT", $alt);
 				$template->setVariable("ANSWER_IMAGE_TITLE", $alt);
 				$template->parseCurrentBlock();
@@ -789,6 +791,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 				{
 					$alt = $answer->getAnswertext();
 				}
+				$alt = preg_replace("/<[^>]*?>/", "", $alt);
 				$template->setVariable("ANSWER_IMAGE_ALT", $alt);
 				$template->setVariable("ANSWER_IMAGE_TITLE", $alt);
 				$template->parseCurrentBlock();

@@ -155,18 +155,22 @@ class assOrderingQuestion extends assQuestion
 								$answertext = "";
 								foreach ($response_label->material as $mat)
 								{
-									foreach ($mat->mattext as $matt)
+									for ($m = 0; $m < $mat->getMaterialCount(); $m++)
 									{
-										$answertext .= $matt->getContent();
-									}
-									foreach ($mat->matimage as $matimage)
-									{
-										$foundimage = TRUE;
-										$answerimage = array(
-											"imagetype" => $matimage->getImageType(),
-											"label" => $matimage->getLabel(),
-											"content" => $matimage->getContent()
-										);
+										$foundmat = $mat->getMaterial($m);
+										if (strcmp($foundmat["type"], "mattext") == 0)
+										{
+											$answertext .= $foundmat["material"]->getContent();
+										}
+										if (strcmp($foundmat["type"], "matimage") == 0)
+										{
+											$foundimage = TRUE;
+											$answerimage = array(
+												"imagetype" => $foundmat["material"]->getImageType(),
+												"label" => $foundmat["material"]->getLabel(),
+												"content" => $foundmat["material"]->getContent()
+											);
+										}
 									}
 								}
 								$answers[$ident] = array(
@@ -348,16 +352,7 @@ class assOrderingQuestion extends assQuestion
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
-		$a_xml_writer->xmlStartTag("material");
-		$attrs = array(
-			"texttype" => "text/plain"
-		);
-		if ($this->isHTML($this->getQuestion()))
-		{
-			$attrs["texttype"] = "text/xhtml";
-		}
-		$a_xml_writer->xmlElement("mattext", $attrs, $this->getQuestion());
-		$a_xml_writer->xmlEndTag("material");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestion());
 		// add answers to presentation
 		$attrs = array();
 		if ($this->getOrderingType() == OQ_PICTURES)
@@ -427,9 +422,9 @@ class assOrderingQuestion extends assQuestion
 				"ident" => $index
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlStartTag("material");
 			if ($this->getOrderingType() == OQ_PICTURES)
 			{
+				$a_xml_writer->xmlStartTag("material");
 				if ($force_image_references)
 				{
 					$attrs = array(
@@ -461,19 +456,14 @@ class assOrderingQuestion extends assQuestion
 						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
 					}
 				}
+				$a_xml_writer->xmlEndTag("material");
 			}
 			else
 			{
-				$attrs = array(
-					"texttype" => "text/plain"
-				);
-				if ($this->isHTML($answer->getAnswertext()))
-				{
-					$attrs["texttype"] = "text/xhtml";
-				}
-				$a_xml_writer->xmlElement("mattext", $attrs, $answer->getAnswertext());
+				$a_xml_writer->xmlStartTag("material");
+				$this->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), TRUE, FALSE);
+				$a_xml_writer->xmlEndTag("material");
 			}
-			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
 		$a_xml_writer->xmlEndTag("render_choice");

@@ -5278,12 +5278,7 @@ class ilObjTest extends ilObject
 		
 		// add qti objectives
 		$a_xml_writer->xmlStartTag("objectives");
-		$a_xml_writer->xmlStartTag("material");
-		$attrs = array(
-			"label" => "introduction"
-		);
-		$a_xml_writer->xmlElement("mattext", $attrs, $this->getIntroduction());
-		$a_xml_writer->xmlEndTag("material");
+		$this->addQTIMaterial($a_xml_writer, $this->getIntroduction());
 		$a_xml_writer->xmlEndTag("objectives");
 
 		// add qti assessmentcontrol
@@ -7351,6 +7346,42 @@ class ilObjTest extends ilObject
 			return $row["finished"];
 		}
 		return "";
+	}
+
+	/**
+	* Creates a QTI material tag from a plain text or xhtml text
+	*
+	* @param object $a_xml_writer Reference to the ILIAS XML writer
+	* @param string $a_material plain text or html text containing the material
+	* @return string QTI material tag
+	* @access public
+	*/
+	function addQTIMaterial(&$a_xml_writer, $a_material)
+	{
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+
+		$a_xml_writer->xmlStartTag("material");
+		$attrs = array(
+			"texttype" => "text/plain"
+		);
+		if ($this->isHTML($a_material))
+		{
+			$attrs["texttype"] = "text/xhtml";
+		}
+		$a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+
+		$mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
+		foreach ($mobs as $mob)
+		{
+			$mob_obj =& new ilObjMediaObject($mob);
+			$imgattrs = array(
+				"label" => "mob",
+				"uri" => "objects/mm_$mob/" . $mob_obj->getTitle()
+			);
+			$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+		}
+		$a_xml_writer->xmlEndTag("material");
 	}
 } // END class.ilObjTest
 

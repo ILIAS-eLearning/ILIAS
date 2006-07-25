@@ -488,15 +488,18 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				{
 					$points = 0.0;
 				}
+				$answer = $_POST["$key"];
+				include_once "./classes/class.ilObjAdvancedEditing.php";
+				$answer = ilUtil::stripSlashes($answer, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+				$answer = preg_replace("/[\n\r]+/", "<br />", $answer);
 				$this->object->addAnswer(
-					ilUtil::stripSlashes($_POST["$key"]),
+					$answer,
 					ilUtil::stripSlashes($points),
 					ilUtil::stripSlashes($matches[1]),
 					ilUtil::stripSlashes($_POST["order_$matches[1]"])
 				);
 			}
 		}
-
 		if ($saved)
 		{
 			// If the question was saved automatically before an upload, we have to make

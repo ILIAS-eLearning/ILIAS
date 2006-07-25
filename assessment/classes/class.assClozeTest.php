@@ -785,16 +785,14 @@ class assClozeTest extends assQuestion
 		for ($i = 0; $i <= $this->getGapCount(); $i++)
 		{
 			// n-th text part
-			$a_xml_writer->xmlStartTag("material");
-			$attrs = array(
-				"texttype" => "text/plain"
-			);
-			if ($this->isHTML($text_parts[$i]))
+			if ($i == 0)
 			{
-				$attrs["texttype"] = "text/xhtml";
+				$this->addQTIMaterial($a_xml_writer, $text_parts[$i]);
 			}
-			$a_xml_writer->xmlElement("mattext", $attrs, $text_parts[$i]);
-			$a_xml_writer->xmlEndTag("material");
+			else
+			{
+				$this->addQTIMaterial($a_xml_writer, $text_parts[$i], TRUE, FALSE);
+			}
 
 			if ($i < $this->getGapCount())
 			{

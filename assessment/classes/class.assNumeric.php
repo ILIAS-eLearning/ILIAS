@@ -264,16 +264,7 @@ class assNumeric extends assQuestion
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
-		$a_xml_writer->xmlStartTag("material");
-		$attrs = array(
-			"texttype" => "text/plain"
-		);
-		if ($this->isHTML($this->getQuestion()))
-		{
-			$attrs["texttype"] = "text/xhtml";
-		}
-		$a_xml_writer->xmlElement("mattext", $attrs, $this->getQuestion());
-		$a_xml_writer->xmlEndTag("material");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestion());
 		// add answers to presentation
 		$attrs = array(
 			"ident" => "NUM",

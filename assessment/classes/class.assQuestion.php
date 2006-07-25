@@ -2125,6 +2125,14 @@ class assQuestion
 			{
 				$result .= $material["material"]->getContent();
 			}
+			if (strcmp($material["type"], "matimage") == 0)
+			{
+				$matimage = $material["material"];
+				if (strcmp($matimage->getLabel(), "mob") == 0)
+				{
+					// import an mediaobject which was inserted using tiny mce
+				}
+			}
 		}
 		return $result;
 	}
@@ -2137,8 +2145,11 @@ class assQuestion
 	* @return string QTI material tag
 	* @access public
 	*/
-	function addQTIMaterial(&$a_xml_writer, $a_material)
+	function addQTIMaterial(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE)
 	{
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+
 		$a_xml_writer->xmlStartTag("material");
 		$attrs = array(
 			"texttype" => "text/plain"
@@ -2147,60 +2158,22 @@ class assQuestion
 		{
 			$attrs["texttype"] = "text/xhtml";
 		}
-		$a_xml_writer->xmlElement("mattext", $attrs, $a_material);
-		if (preg_match_all("/(<img.*?src\=\"(.*?\/mobs\/mm_([0-9]+)\/(.*?))\".*?\/>)/", $a_material, $matches))
+		$a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+
+		if ($add_mobs)
 		{
-			foreach ($matches[1] as $key => $imagetag)
+			$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+			foreach ($mobs as $mob)
 			{
-				$mob = $matches[3][$key];
-				$width = "";
-				$height = "";
-				$label = $matches[4][$key];
-				$imagetype = "";
-				$imagefile = "";
-				$base64 = "";
-				if (preg_match("/width\=\"([^\"]*?)\"/", $imagetag, $widthmatch))
-				{
-					$width = $widthmatch[1];
-				}
-				if (preg_match("/height\=\"([^\"]*?)\"/", $imagetag, $heightmatch))
-				{
-					$height = $heightmatch[1];
-				}
-				$mobpath = ILIAS_ABSOLUTE_PATH . "/data/" . CLIENT_ID . "/mobs/mm_$mob/$label";
-				if (file_exists($mobpath))
-				{
-					$fh = @fopen($mobpath, "rb");
-					if ($fh != false)
-					{
-						$imagefile = fread($fh, filesize($mobpath));
-						fclose($fh);
-					}
-					$base64 = base64_encode($imagefile);
-				}
-				$imagetype = "image/jpeg";
-				if (preg_match("/.*\.(png|gif)$/", $label, $typematch))
-				{
-					$imagetype = "image/".$typematch[1];
-				}
-				$attrs = array(
-					"imagtype" => $imagetype,
-					"label" => $label,
-					"embedded" => "base64"
+				$mob_obj =& new ilObjMediaObject($mob);
+				$imgattrs = array(
+					"label" => "mob",
+					"uri" => "objects/mm_$mob/" . $mob_obj->getTitle()
 				);
-				if (strlen($width))
-				{
-					$attrs["width"] = $width;
-				}
-				if (strlen($height))
-				{
-					$attrs["height"] = $height;
-				}
-				$a_xml_writer->xmlElement("matimage", $attrs, $base64);
+				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
 			}
-		}
-	
-		$a_xml_writer->xmlEndTag("material");
+		}		
+		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
 	}
 }
 
