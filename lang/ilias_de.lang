@@ -855,7 +855,7 @@ chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
 chat#:#chat_chatrooms#:#Chaträume
 chat#:#chat_color#:#Schriftfarbe
-chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
+chat#:#chat_delete_sure#:#Sind Sie sicher, dass dieser Chatraum gelöscht werden soll?
 chat#:#chat_drop_user#:#Benutzer entfernt
 chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_empty#:#Leeren
@@ -1305,7 +1305,7 @@ common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
-common#:#chown_warning#:#Achtung, daß Ändern des Besitzers eines Objektes, kann dazu führen, daß Sie alle Zugriffsrechte an dem Objekt verlieren.
+common#:#chown_warning#:#Achtung, dass Ändern des Besitzers eines Objektes, kann dazu führen, dass Sie alle Zugriffsrechte an dem Objekt verlieren.
 common#:#city#:#Ort
 common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
@@ -2917,7 +2917,7 @@ common#:#role_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#role_search_users#:#Benutzersuche
 common#:#role_select_desktop_item#:#Bitte wählen Sie ein Objekt aus, das Benutzern die dieser Rolle zugeordnet werden automatisch auf den Persönlichen Schreibtisch gelegt wird.
 common#:#role_select_one_item#:#Bitte wählen Sie mindestens ein Objekt aus.
-common#:#role_sure_delete_desk_items#:#Sind sie sicher, daß diese Zuordnung entfernt werden soll?
+common#:#role_sure_delete_desk_items#:#Sind sie sicher, dass diese Zuordnung entfernt werden soll?
 common#:#role_templates_only#:#Nur Rollenvorlagen
 common#:#role_user_deassign#:#Benutzer aus der Rolle austragen
 common#:#role_user_edit#:#Benutzerdaten bearbeiten
@@ -3229,7 +3229,7 @@ common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
 common#:#udf_add_field#:#Feld anlegen
 common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
 common#:#udf_delete_header#:#Benutzerdefiniertes Feld löschen
-common#:#udf_delete_sure#:#Sind Sie sicher, daß Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
+common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
 common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
@@ -3327,7 +3327,7 @@ common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_inactive_only#:#Nur nicht-aktive Nutzer
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld im Registrierformular und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, daß der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Registrierung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld im Registrierformular und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, dass der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Registrierung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
 common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
@@ -3402,7 +3402,7 @@ common#:#webr_never_checked#:#Noch nicht überprüft
 common#:#webr_new#:#Neue Web-Links anlegen
 common#:#webr_no_items_created#:#Es sind keine Links angelegt
 common#:#webr_read#:#Lesezugriff auf Web-Links
-common#:#webr_sure_delete_items#:#Sind Sie sicher, daß Sie die folgenden Links löschen möchten?
+common#:#webr_sure_delete_items#:#Sind Sie sicher, dass Sie die folgenden Links löschen möchten?
 common#:#webr_visible#:#Web-Links sind sichtbar
 common#:#webr_write#:#Web-Links bearbeiten
 common#:#webservices#:#Web-Services
@@ -3943,15 +3943,15 @@ crs#:#crs_count_questions#:#Anzahl von Fragen
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_crs_structure#:#Kursstruktur
 crs#:#crs_dates#:#Termine
-crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, daß diese Zuordnung entfernt werden soll?
+crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, dass diese Zuordnung entfernt werden soll?
 crs#:#crs_delete_file#:#Datei löschen?
-crs#:#crs_delete_from_list_sure#:#Sind Sie sicher, daß die folgenden Benutzer aus der Warteliste ausgetragen werden sollen?
+crs#:#crs_delete_from_list_sure#:#Sind Sie sicher, dass die folgenden Benutzer aus der Warteliste ausgetragen werden sollen?
 crs#:#crs_delete_from_waiting_list#:#Aus der Warteliste austragen
 crs#:#crs_delete_member#:#Mitglied(er) austragen
-crs#:#crs_delete_members_sure#:#Sind Sie sicher, daß die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
-crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, daß die ausgewählten Lernziele entfernt werden sollen?
+crs#:#crs_delete_members_sure#:#Sind Sie sicher, dass die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
+crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
 crs#:#crs_delete_subscribers#:#Antrag löschen
-crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, daß die folgenden Anträge gelöscht werden sollen?
+crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, dass die folgenden Anträge gelöscht werden sollen?
 crs#:#crs_details#:#Kursdetails
 crs#:#crs_dismiss_member#:#Mitgliedschaft in Kurs "%s" beendet###23 Dec 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft in Kurs "%s" ist beendet worden.###23 Dec 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -3974,7 +3974,7 @@ crs#:#crs_general_info#:#Allgemeine Informationen
 crs#:#crs_general_informations#:#Allgemeine Informationen
 crs#:#crs_grouping#:#Kursgruppierung
 crs#:#crs_grouping_assign#:#Zuordnung ändern
-crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, daß Sie die folgenden Gruppierungen entfernen möchten?
+crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Gruppierungen entfernen möchten?
 crs#:#crs_grouping_deleted#:#Die Gruppierung wurde gelöscht.
 crs#:#crs_grouping_modified_assignment#:#Die Zuordnung wurde geändert.
 crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
@@ -4118,7 +4118,7 @@ crs#:#crs_objectives_max_points#:#Maximale Punktzahl
 crs#:#crs_objectives_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
 crs#:#crs_objectives_nr_questions#:#Anzahl Fragen
 crs#:#crs_objectives_qst_deassigned#:#Die ausgewählten Fragen wurden entfernt.
-crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, daß Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiederruflich gelöscht.
+crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, dass Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiederruflich gelöscht.
 crs#:#crs_objectives_reseted#:#Alle Ergebnisse wurden zurückgesetzt.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Optionen
@@ -4206,7 +4206,7 @@ crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen worden.###2
 crs#:#crs_subscription_type#:#Beitrittsverfahren
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_suggestion_end#:#Empfohlenes Ende
-crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählten Archive gelöscht werden sollen
+crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, dass die ausgewählten Archive gelöscht werden sollen
 crs#:#crs_syllabus#:#Kursprogramm
 crs#:#crs_table_start_objects#:#Startobjekte###10 Jul 2006 content changed
 crs#:#crs_test_status_complete#:#Fertiggestellt
@@ -4253,7 +4253,7 @@ crs#:#crs_unblocked_member#:#Status in Kurs "%s"###23 Dec 2005 content changed #
 crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet###23 Dec 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe#:#Austreten
-crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie aus diesem Kurs austreten möchten?
+crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie aus diesem Kurs austreten möchten?
 crs#:#crs_unsubscribed_from_crs#:#Sie sind aus dem Kurs ausgetreten.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
@@ -4284,7 +4284,7 @@ crs#:#event_assign_materials_table#:#Zuordnung von Kursmaterialien
 crs#:#event_btn_add#:#Veranstaltung anlegen
 crs#:#event_date#:#Termin der Veranstaltung
 crs#:#event_delete_file#:#Datei löschen?
-crs#:#event_delete_sure#:#Sind Sie sicher, daß die folgende Veranstaltung löschen möchten?
+crs#:#event_delete_sure#:#Sind Sie sicher, dass die folgende Veranstaltung löschen möchten?
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Veranstaltung
 crs#:#event_edit_members#:#Teilnehmer verwalten
@@ -4785,9 +4785,9 @@ mail#:#mail_search_system#:#im System suchen
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_send_with_system_address#:#Send With System Address###10 Jul 2006 new variable
-mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen?
-mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen?
-mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen?
+mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Nachrichten gelöscht werden sollen?
+mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?
+mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die markierten Dateien gelöscht werden sollen?
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
 mail#:#mail_to#:#An
 mail#:#mail_to_search#:#Empfänger suchen
@@ -6310,7 +6310,7 @@ trac#:#trac_head_timing#:#Zu bearbeiten bis
 trac#:#trac_hide#:#Ausblenden
 trac#:#trac_in_progress#:#In Bearbeitung
 trac#:#trac_inactive_both#:#Zugriffsstatistiken und Lernfortschritt deaktiviert
-trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, daß Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.###10 Jul 2006 content changed
+trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, dass Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.###10 Jul 2006 content changed
 trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_learning_progress#:#Lernfortschritt###10 Jul 2006 content changed
 trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
@@ -6381,3 +6381,5 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+crs#:#event#:#Veranstaltung
+common#:#print_view#:#Druckansicht

@@ -3120,6 +3120,43 @@ class ilUtil
 		return false;
 	}
 
+	/**
+	* Function that sorts ids by a given table field using WHERE IN
+	* E.g: __sort(array(6,7),'usr_data','lastname','usr_id') => sorts by lastname
+	* 
+	* @param array Array of ids
+	* @param string table name
+	* @param string table field
+	* @param string id name
+	* @return array sorted ids
+	*
+	* @access protected
+	*/
+	function _sortIds($a_ids,$a_table,$a_field,$a_id_name)
+	{
+		global $ilDB;
+
+		if(!$a_ids)
+		{
+			return array();
+		}
+
+		// use database to sort user array
+		$where = "WHERE ".$a_id_name." IN ('";
+		$where .= implode("','",$a_ids);
+		$where .= "') ";
+
+		$query = "SELECT ".$a_id_name." FROM ".$a_table." ".
+			$where.
+			"ORDER BY ".$a_field;
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[] = $row->$a_id_name;
+		}
+		return $ids ? $ids : array();
+	}
 } // END class.ilUtil
 
 
