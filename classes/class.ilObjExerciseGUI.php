@@ -614,6 +614,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 
 			$counter = 0;
+			$members = $this->object->members_obj->getMembers();
 			foreach($this->object->members_obj->getMembers() as $member_id)
 			{
 				include_once "./classes/class.ilObjectFactory.php";
@@ -655,7 +656,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 
 				$f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1);
-		$f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSentByMember($member_id),"sent[$member_id]",1);
+				$f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSentByMember($member_id),"sent[$member_id]",1);
 
 				$f_result[$counter][] =  "&nbsp;"."<a class=\"il_ContainerItemCommand\" href=\"exercise.php?ref_id=".$_GET["ref_id"]."&comment_id=".$member_id."&cmd=members&cmdClass=ilobjexercisegui&cmdNode=1&baseClass=\">".$this->lng->txt("add_comments")."</a>";
 
@@ -668,7 +669,89 @@ class ilObjExerciseGUI extends ilObjectGUI
 				unset($tmp_obj);
 				++$counter;
 			}
-			$this->__showMembersTableContent($this->__showMembersTable($f_result,$member_ids));
+			
+///// NEW Implementation
+
+			include_once("classes/class.ilTableGUI.php");
+			$tbl = new ilTableGUI();
+			$this->tpl->addBlockfile("MEMBER_TABLE", "term_table", "tpl.table.html");
+			$this->tpl->addBlockfile("TBL_CONTENT", "member_row", "tpl.exc_members_row.html");
+
+			// title & header columns
+			$tbl->setTitle("---");
+			$tbl->disable("sort");
+			$tbl->setHeaderNames(array("", $this->lng->txt("name"),
+				$this->lng->txt("login"),
+				$this->lng->txt("mail"),$this->lng->txt("exc_submission"),
+				$this->lng->txt("exc_status_solved"), ""));
+
+			$tbl->setColumnWidth(array("1%", "", "", "", "", "", ""));
+			$cols = array("", "name", "login", "mail", "submission", "solved", "");
+			$header_params = array("ref_id" => $_GET["ref_id"]);
+			$tbl->setHeaderVars($cols, $header_params);
+			$tbl->setOrderColumn($_GET["sort_by"]);
+			$tbl->setOrderDirection($_GET["sort_order"]);
+			$tbl->setOffset($_GET["offset"]);
+			$tbl->setLimit($_GET["limit"]);
+			$tbl->setMaxCount(count($members));
+			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+			$members = array_slice($members, $_GET["offset"], $_GET["limit"]);
+			$tbl->render();
+
+			
+			// new table
+			foreach ($members as $member_id)
+			{
+				include_once "./classes/class.ilObjectFactory.php";
+		
+				if(!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
+				{
+					continue;
+				}
+				
+				$this->tpl->setCurrentBlock("member_row");
+				$this->tpl->setVariable("ROW_CSS",
+					ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("VAL_CHKBOX",
+					ilUtil::formCheckbox(0,"member[$member_id]",1));
+				$this->tpl->setVariable("TXT_NAME",
+					$mem_obj->getLastName().", ".$mem_obj->getFirstName());
+				$this->tpl->setVariable("TXT_LOGIN",
+					$mem_obj->getLogin());
+					
+				// submission:
+				// see if files have been resubmmited after solved
+				$last_sub = $this->__getLastSubmission($member_id,$this->object->getId());
+				if ($this->__getUpdatedSubmission($member_id,$this->object->getId()) == 1) 
+				{
+					$last_sub = "<b>".$last_sub."</b>";
+				}
+				$this->tpl->setVariable("VAL_LAST_SUBMISSION", $last_sub);
+				$this->tpl->setVariable("TXT_LAST_SUBMISSION",
+					$this->lng->txt("exc_last_submission"));
+
+				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
+					$this->lng->txt("exc_files_returned"));
+				$this->tpl->setVariable("VAL_SUBMITTED_FILES", "x");
+				
+				// solved
+				$this->tpl->setVariable("CHKBOX_SOLVED",
+					ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1));
+					
+				// mail command
+				$this->tpl->setVariable("LINK_FEEDBACK",
+					"mail_new.php?type=new&rcp_to=".$mem_obj->getLogin());
+				$this->tpl->setVariable("TXT_FEEDBACK",
+					$this->lng->txt("mail_feedback"));
+				$this->tpl->parseCurrentBlock();
+				
+				
+			}
+			$this->tpl->setCurrentBlock("tbl_content");
+			$this->tpl->parseCurrentBlock();
+
+			
+			//$this->__showMembersTableContent($this->__showMembersTable($f_result,$member_ids));
 
 			if(count($this->object->members_obj->getAllDeliveredFiles()))
 			{
