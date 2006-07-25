@@ -163,14 +163,14 @@ class ilRTE
 		switch ($a_direction)
 		{
 			case 0:
-				$a_text = preg_replace("/src\=\"(.*?\/mobs\/mm_([0-9]+)\/.*?)\"/", "src=\"" . "\\2" . "\"", $a_text);
+				$a_text = preg_replace("/src\=\"(.*?\/mobs\/mm_([0-9]+)\/.*?)\"/", "src=\"il_" . IL_INST_ID . "_mob_" . "\\2" . "\"", $a_text);
 				break;
 			default:
 				include_once("./content/classes/Media/class.ilObjMediaObject.php");
 				$resulttext = $a_text;
-				if (preg_match_all("/src\=\"([0-9]+)\"/", $a_text, $matches))
+				if (preg_match_all("/src\=\"il_([0-9]+)_mob_([0-9]+)\"/", $a_text, $matches))
 				{
-					foreach ($matches[1] as $mob)
+					foreach ($matches[2] as $mob)
 					{
 						$mob_obj =& new ilObjMediaObject($mob);
 						$resulttext = str_replace("src=\"$mob\"", "src=\"" . ILIAS_HTTP_PATH . "/data/" . CLIENT_ID . "/mobs/mm_" . $mob . "/" . $mob_obj->getTitle() . "\"", $resulttext);
