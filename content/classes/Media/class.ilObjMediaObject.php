@@ -1285,7 +1285,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* create new media object in dom and update page in db and return new media object
 	*/
-	function &_saveTempFileAsMediaObject($name, $tmp_name)
+	function &_saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
 	{
 		// create dummy object in db (we need an id)
 		$media_object = new ilObjMediaObject();
@@ -1302,7 +1302,14 @@ class ilObjMediaObject extends ilObject
 		$media_item->setPurpose("Standard");
 
 		$file = $mob_dir."/".$name;
-		ilUtil::moveUploadedFile($tmp_name,$name, $file);
+		if ($upload)
+		{
+			ilUtil::moveUploadedFile($tmp_name,$name, $file);
+		}
+		else
+		{
+			copy($tmp_name, $file);
+		}
 		// get mime type
 		$format = ilObjMediaObject::getMimeType($file);
 		$location = $name;

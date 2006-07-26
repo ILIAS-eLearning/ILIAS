@@ -2128,9 +2128,11 @@ class assQuestion
 			if (strcmp($material["type"], "matimage") == 0)
 			{
 				$matimage = $material["material"];
-				if (preg_match("/il_([0-9]+)_mob_([0-9]+)/", $matimage->getLabel(), $matches))
+				if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches))
 				{
 					// import an mediaobject which was inserted using tiny mce
+					if (!is_array($_SESSION["import_mob_xhtml"])) $_SESSION["import_mob_xhtml"] = array();
+					array_push($_SESSION["import_mob_xhtml"], array("mob" => $matimage->getLabel(), "uri" => $matimage->getUri()));
 				}
 			}
 		}
@@ -2168,7 +2170,7 @@ class assQuestion
 				$mob_obj =& new ilObjMediaObject($mob);
 				$imgattrs = array(
 					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
-					"uri" => "objects/mm_$mob/" . $mob_obj->getTitle()
+					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
 				);
 				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
 			}
