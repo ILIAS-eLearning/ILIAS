@@ -117,14 +117,16 @@ class ilObjFileListGUI extends ilObjectListGUI
 		$props = array();
 
 		// to do: implement extra smaller file info object
-		include_once("classes/class.ilObjFile.php");
+		include_once("classes/class.ilObjFileAccess.php");
 
-		$props[] = array("alert" => false, "property" => $lng->txt("version"),
-			"value" => ilObjFile::_lookupVersion($this->obj_id));
+		$props[] = array("alert" => false, "property" => $lng->txt("type"),
+			"value" => ilObjFileAccess::_lookupSuffix($this->obj_id));
 		$props[] = array("alert" => false, "property" => $lng->txt("size"),
-			"value" => ilObjFile::_lookupFileSize($this->obj_id, true));
+			"value" => ilObjFileAccess::_lookupFileSize($this->obj_id, true));
 		$props[] = array("alert" => false, "property" => $lng->txt("last_update"),
-			"value" => ilObject::_lookupLastUpdate($this->obj_id));
+			"value" => ilObject::_lookupLastUpdate($this->obj_id, true));
+		$props[] = array("alert" => false, "property" => $lng->txt("version"),
+			"value" => ilObjFileAccess::_lookupVersion($this->obj_id));
 
 		return $props;
 	}
