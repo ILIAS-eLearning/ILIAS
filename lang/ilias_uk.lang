@@ -1600,6 +1600,7 @@ common#:#exc_status_saved#:#Впарву обновлено
 common#:#exc_status_sent#:#Delivered###10 Jul 2006 new variable
 common#:#exc_status_solved#:#Вирішено
 common#:#exc_status_submitted#:#Submitted###10 Jul 2006 new variable
+common#:#exc_submission#:#Submission###26 Jul 2006 new variable
 common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
 common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
 common#:#exc_upload_error#:#Помилка завантаженн�? файлу
@@ -2780,6 +2781,7 @@ common#:#predefined_template#:#Predefined role template###14 Jul 2005 new variab
 common#:#presentation_options#:#Опції Показу
 common#:#previous#:#попередній
 common#:#print#:#Друкувати
+common#:#print_view#:#Print View###26 Jul 2006 new variable
 common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
 common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile#:#Profile###14 Jul 2005 new variable
@@ -4261,6 +4263,7 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Youre position on the waiting list###09 Jul 2005 new variable
 crs#:#edit_content#:#Редагувати вмі�?т###10 Jul 2006 content changed
 crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
+crs#:#event#:#Event###26 Jul 2006 new variable
 crs#:#event_add_new_event#:#Added new event###10 Jul 2006 new variable
 crs#:#event_assign_materials#:#Assign Materials###10 Jul 2006 new variable
 crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.###10 Jul 2006 new variable

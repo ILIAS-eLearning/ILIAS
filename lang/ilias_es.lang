@@ -1578,7 +1578,7 @@ common#:#exc_files_returned#:#Archivos entregados###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Actividad (miembros)
 common#:#exc_instruction#:#Instrucciones de trabajo
-common#:#exc_last_submission#:#Último envío
+common#:#exc_last_submission#:#Último envío###26 Jul 2006 content changed
 common#:#exc_mail_users#:#Enviar correo a usuario(s) seleccionado(s)
 common#:#exc_members_already_assigned#:#Estos usuarios están ya asignados a esta actividad
 common#:#exc_members_assigned#:#Miembros asignados
@@ -1601,6 +1601,7 @@ common#:#exc_status_saved#:#Actividad Actualizada
 common#:#exc_status_sent#:#Por correo
 common#:#exc_status_solved#:#corregido
 common#:#exc_status_submitted#:#Entregado
+common#:#exc_submission#:#Submission###26 Jul 2006 new variable
 common#:#exc_time_over_short#:#el tiempo de entrega finalizo
 common#:#exc_time_to_send#:#Tiempo de trabajo restante
 common#:#exc_upload_error#:#Error cargando archivo
@@ -2789,6 +2790,7 @@ common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#presentation_options#:#opciones de presentación
 common#:#previous#:#anterior
 common#:#print#:#imprimir
+common#:#print_view#:#Print View###26 Jul 2006 new variable
 common#:#private_notes#:#Notas privadas
 common#:#pro#:#A favor
 common#:#profile#:#Perfil
@@ -4278,6 +4280,7 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Tu posición en la lista de espera
 crs#:#edit_content#:#Editar contenido
 crs#:#edit_timings_list#:#Editar Planificación Temporal
+crs#:#event#:#Event###26 Jul 2006 new variable
 crs#:#event_add_new_event#:#Nuevo evento añadido
 crs#:#event_assign_materials#:#Asignar Materiales
 crs#:#event_assign_materials_info#:#Los materiales del curso asignado serán mostrados directamente debajo del evento.

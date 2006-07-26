@@ -1536,6 +1536,7 @@ common#:#exc_status_saved#:#Gyakorlat frissítve.
 common#:#exc_status_sent#:#Delivered###10 Jul 2006 new variable
 common#:#exc_status_solved#:#Megoldva
 common#:#exc_status_submitted#:#Submitted###10 Jul 2006 new variable
+common#:#exc_submission#:#Submission###26 Jul 2006 new variable
 common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
 common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
 common#:#exc_upload_error#:#Fájlfeltöltési hiba
@@ -2713,6 +2714,7 @@ common#:#predefined_template#:#Előre definiált szerepsablon
 common#:#presentation_options#:#Prezentációs opciók
 common#:#previous#:#előző
 common#:#print#:#Nyomtatás
+common#:#print_view#:#Print View###26 Jul 2006 new variable
 common#:#private_notes#:#Személyes feljegyzések
 common#:#pro#:#Pro
 common#:#profile#:#Profile
@@ -4179,6 +4181,7 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Az Ön helye a várólistán
 crs#:#edit_content#:#Tartalom szerkesztése###10 Jul 2006 content changed
 crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
+crs#:#event#:#Event###26 Jul 2006 new variable
 crs#:#event_add_new_event#:#Added new event###10 Jul 2006 new variable
 crs#:#event_assign_materials#:#Assign Materials###10 Jul 2006 new variable
 crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.###10 Jul 2006 new variable

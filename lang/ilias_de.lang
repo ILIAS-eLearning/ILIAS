@@ -1574,11 +1574,11 @@ common#:#exc_edit_exercise#:#Übung bearbeiten
 common#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
 common#:#exc_files#:#Dateien
-common#:#exc_files_returned#:#Abgegebene Dateien
+common#:#exc_files_returned#:#Abgegebene Dateien###26 Jul 2006 content changed
 common#:#exc_groups#:#Gruppen
 common#:#exc_header_members#:#Übung (Mitglieder)
 common#:#exc_instruction#:#Arbeitsanweisung
-common#:#exc_last_submission#:#Letzte Übertragung
+common#:#exc_last_submission#:#Letzte Übertragung###26 Jul 2006 content changed
 common#:#exc_mail_users#:#Mail an Nutzer verschicken
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
@@ -1601,6 +1601,7 @@ common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
 common#:#exc_status_sent#:#Zugestellt
 common#:#exc_status_solved#:#Gelöst
 common#:#exc_status_submitted#:#Übertragen
+common#:#exc_submission#:#Submission###26 Jul 2006 new variable
 common#:#exc_time_over_short#:#Die Zeit ist abgelaufen
 common#:#exc_time_to_send#:#Verbleibende Bearbeitungsdauer
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
@@ -2789,6 +2790,7 @@ common#:#predefined_template#:#Vordefinierte Rollenvorlage
 common#:#presentation_options#:#Präsentationsoptionen
 common#:#previous#:#zurück
 common#:#print#:#Drucken
+common#:#print_view#:#Druckansicht
 common#:#private_notes#:#Private Notizen
 common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile#:#Profil
@@ -4277,6 +4279,7 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Ihre Position auf der Warteliste
 crs#:#edit_content#:#Kursinhalt bearbeiten###10 Jul 2006 content changed
 crs#:#edit_timings_list#:#Lernplanung bearbeiten
+crs#:#event#:#Veranstaltung
 crs#:#event_add_new_event#:#Eine neue Veranstaltung wurde angelegt.
 crs#:#event_assign_materials#:#Materialien zuordnen
 crs#:#event_assign_materials_info#:#Hier können Sie der Veranstaltung Kursmaterialien zuordnen. Diese werden dann direkt unterhalb der Veranstaltung angezeigt.
@@ -6381,5 +6384,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-crs#:#event#:#Veranstaltung
-common#:#print_view#:#Druckansicht
