@@ -100,6 +100,11 @@ class ilLPCollections
 	{
 		global $tree;
 
+		if($tree->isDeleted($a_target_id))
+		{
+			return array();
+		}
+
 		$node_data = $tree->getNodeData($a_target_id);
 		foreach($tree->getSubTree($node_data) as $node)
 		{
@@ -201,13 +206,15 @@ class ilLPCollections
 			$course_ref_id = end($course_ref_ids);
 		}
 
+		$possible_items = ilLPCollections::_getPossibleItems($course_ref_id);
+
 		$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".(int) $a_obj_id."'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')
 			{
-				if(!in_array($row->item_id,ilLPCollections::_getPossibleItems($course_ref_id)))
+				if(!in_array($row->item_id,$possible_items))
 				{
 					$query = "DELETE FROM ut_lp_collections ".
 						"WHERE obj_id = '".$a_obj_id."' ".

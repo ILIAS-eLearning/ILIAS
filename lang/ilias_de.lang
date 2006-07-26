@@ -4181,7 +4181,7 @@ crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Zeitvorgaben###15 Jul 2006 content changed
 crs#:#crs_sort_manual#:#Manuelle Sortierung###15 Jul 2006 content changed
 crs#:#crs_sort_manual_info#:#Wenn ausgewählt, können die Kursmaterialien manuell in beliebiger Reihenfolge sortiert werden.
-crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach .
+crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach Lernplanung.
 crs#:#crs_sort_title#:#Nach Titel###15 Jul 2006 content changed
 crs#:#crs_sort_title_info#:#Wählen Sie diese Einstellung, um die Kursmaterialien automatisch nach ihrem Titel zu sortieren.
 crs#:#crs_sortorder#:#Sortierung

@@ -230,8 +230,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		if($this->has_timings)
 		{
-			if(ilTimingCache::_showWarning($a_item_id,$a_usr_id)) {
-			#	if($item_list->showTimingWarning()) {
+			if(ilTimingCache::_showWarning($a_item_id,$a_usr_id)) 
+			{
 				$this->obj_tpl->setCurrentBlock('warning_img');
 				$this->obj_tpl->setVariable('WARNING_IMG',ilUtil::getImagePath('warning.gif'));
 				$this->obj_tpl->setVariable('WARNING_ALT',$this->lng->txt('trac_editing_time_passed'));
