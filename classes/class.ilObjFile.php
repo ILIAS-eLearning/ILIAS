@@ -374,47 +374,8 @@ class ilObjFile extends ilObject
 
 	function _lookupFileSize($a_id, $a_as_string = false)
 	{
-		global $ilDB;
-
-		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
-		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
-		$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
-
-		if (@!is_file($file))
-		{
-			$version_subdir = "/".sprintf("%03d", ilObjFile::_lookupVersion($a_id));
-			$file = ilUtil::getDataDir()."/files/file_".$a_id.$version_subdir."/".$row->file_name;
-		}
-
-		if (is_file($file))
-		{
-			$size = filesize($file);
-		}
-		else
-		{
-			$size = 0;
-		}
-		
-		if ($a_as_string)
-		{
-			if ($size > 1000000)
-			{
-				return round($size/1000000,2)." MB";
-			}
-			else if ($size > 1000)
-			{
-				return round($size/1000,2)." KBytes";
-			}
-			else
-			{
-				return $size." Bytes";
-			}
-			
-		}
-		
-		return $size;
+		include_once("classes/class.ilObjFileAccess.php");
+		return ilObjFileAccess::_lookupFileSize($a_id, $a_as_string);
 	}
 	
 	/**
@@ -422,13 +383,8 @@ class ilObjFile extends ilObject
 	*/
 	function _lookupVersion($a_id)
 	{
-		global $ilDB;
-
-		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
-		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
-		return ilUtil::stripSlashes($row->version);
+		include_once("classes/class.ilObjFileAccess.php");
+		return ilObjFileAccess::_lookupVersion($a_id);
 	}
 
 	function sendFile($a_hist_entry_id = null)

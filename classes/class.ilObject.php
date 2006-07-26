@@ -864,11 +864,19 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupLastUpdate($a_id)
+	function _lookupLastUpdate($a_id, $a_as_string = false)
 	{
 		global $ilObjDataCache;
-
-		return $ilObjDataCache->lookupLastUpdate($a_id);
+		
+		if ($a_as_string)
+		{
+			include_once("classes/class.ilFormat.php");
+			return ilFormat::formatDate($ilObjDataCache->lookupLastUpdate($a_id), "datetime", true);
+		}
+		else
+		{
+			return $ilObjDataCache->lookupLastUpdate($a_id);
+		}
 	}
 
 	function _lookupObjId($a_id)

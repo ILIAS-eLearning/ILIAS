@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -79,6 +79,96 @@ class ilObjFileAccess extends ilObjectAccess
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	* lookup version
+	*/
+	function _lookupVersion($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		return ilUtil::stripSlashes($row->version);
+	}
+
+	/**
+	* lookup size
+	*/
+	function _lookupFileSize($a_id, $a_as_string = false)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
+
+		if (@!is_file($file))
+		{
+			$version_subdir = "/".sprintf("%03d", ilObjFileAccess::_lookupVersion($a_id));
+			$file = ilUtil::getDataDir()."/files/file_".$a_id.$version_subdir."/".$row->file_name;
+		}
+
+		if (is_file($file))
+		{
+			$size = filesize($file);
+		}
+		else
+		{
+			$size = 0;
+		}
+		
+		if ($a_as_string)
+		{
+			if ($size > 1000000)
+			{
+				return round($size/1000000,1)." MB";
+			}
+			else if ($size > 1000)
+			{
+				return round($size/1000,1)." KB";
+			}
+			else
+			{
+				return $size." Bytes";
+			}
+			
+		}
+		
+		return $size;
+	}
+
+	/**
+	* lookup suffix
+	*/
+	function _lookupSuffix($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
+
+		if (@!is_file($file))
+		{
+			$version_subdir = "/".sprintf("%03d", ilObjFileAccess::_lookupVersion($a_id));
+			$file = ilUtil::getDataDir()."/files/file_".$a_id.$version_subdir."/".$row->file_name;
+		}
+
+		if (is_file($file))
+		{
+			$pi = pathinfo($file);
+			return ".".$pi["extension"];
+		}
+		
+		return "";
 	}
 
 }
