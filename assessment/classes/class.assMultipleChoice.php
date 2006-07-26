@@ -269,6 +269,7 @@ class assMultipleChoice extends assQuestion
 				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
 			}
 		}
+		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
 			include_once "./content/classes/Media/class.ilObjMediaObject.php";
