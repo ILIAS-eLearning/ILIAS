@@ -1144,7 +1144,7 @@ common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
 common#:#auth_select#:#Authentifizierungsmethode wählen
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#User-Authentifizierung über Shibboleth - Kann als zweite Authentifizierungsmethode verwendet werden.
-common#:#auth_shib_not_configured#:#Shibboleth ist nocht nicht eingerichtet
+common#:#auth_shib_not_configured#:#Shibboleth ist noch nicht eingerichtet
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP###10 Jul 2006 new variable
 common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.###10 Jul 2006 new variable
@@ -2293,7 +2293,13 @@ common#:#login_invalid#:#Der gewählte Benutzername ist nicht erlaubt! Ihr Benut
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###10 Jul 2006 new variable
-common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über Shibboleth
+common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über 
+common#:#shib_select_home_organization#:#Zum Anmelden über %s wählen Sie bitte aus dem Aufklappmenü die Organisation, der Sie angehören:
+common#:#shib_member_of#:#Ich bin Mitglied von ...
+common#:#shib_invalid_home_organization#:#Bitten wählen Sie eine gültige Organisation
+common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
+common#:#shib_federation_name#:#Name der Shibboleth Föderation
+common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br>Bei Fragen dazu, wenden Sie sich bitte an den
 common#:#logout#:#Abmelden
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#logs#:#Log-Daten
@@ -3027,34 +3033,38 @@ common#:#settings#:#Einstellungen
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Shibboleth-Unterstützung aktivieren
-common#:#shib_city#:#Attribute for city
-common#:#shib_configure#:#Configure Shibboleh Authentication
-common#:#shib_country#:#Attribute for country
-common#:#shib_data_conv#:#Absolute path to data manipulation API
-common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
-common#:#shib_department#:#Attribute for department
-common#:#shib_edit_permission#:#Change permission settings
-common#:#shib_email#:#Attribute for email address
-common#:#shib_firstname#:#Attribute for firstname
-common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#shib_institution#:#Attribute for institution
-common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#shib_language#:#Attribute for language
-common#:#shib_lastname#:#Attribute for lastname
-common#:#shib_login#:#Unique Shibboleth attribute
-common#:#shib_login_button#:#Path to Shibboleth login button
-common#:#shib_phone_home#:#Attribute for home phone number
-common#:#shib_phone_mobile#:#Attribute for mobile phone number
-common#:#shib_phone_office#:#Attribute for office phone number
-common#:#shib_read#:#Read access to Shibboleth settings
-common#:#shib_settings_saved#:#The Shibboleth settings were saved
-common#:#shib_street#:#Attribute for street
-common#:#shib_title#:#Attribute for title
-common#:#shib_update#:#Update this field on login
-common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
-common#:#shib_visible#:#Shibboleth settings are visible
-common#:#shib_write#:#Edit Shibboleth settings
-common#:#shib_zipcode#:#Attribute for zipcode
+common#:#shib_city#:#Attribut für Stadt
+common#:#shib_configure#:#Shibboleh Authentifizierung konfigurieren
+common#:#shib_country#:#Attribut für Land
+common#:#shib_data_conv#:#Pfad zum Daten Manipulations-API
+common#:#shib_data_conv_warning#:#Das angegebene Daten Manipulations-API kann nicht gelesen werden.###19 May 2005 new variable
+common#:#shib_department#:#Attribut für Departement
+common#:#shib_edit_permission#:#Zugriffsberechtigungen ändern
+common#:#shib_email#:#Attribut für Emailadresse
+common#:#shib_firstname#:#Attribut für Vornamen
+common#:#shib_gender#:#Attribut für Geschlecht (muss 'm' oder 'f' sein) ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_institution#:#Attribut für Institution
+common#:#shib_instructions#:#Bitte lesen Sie <a href="README.SHIBBOLETH.txt" target="_blank">README</a> für Instruktionen um Shibboleth zu konfigurieren für ILIAS. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_language#:#Attribut für Sprache
+common#:#shib_lastname#:#Attribut für Nachnamen
+common#:#shib_login#:#Eindeutiges Shibboleth Attribut
+common#:#shib_login_button#:#Pfad zum Shibboleth Login Button
+common#:#shib_phone_home#:#Attribut für private Telefonnummer
+common#:#shib_phone_mobile#:#Attribut für Mobiltelephonnummer
+common#:#shib_phone_office#:#Attribut für Geschätstelefonnummer
+common#:#shib_read#:#Leserechte für Shibboleth-Einstellungen
+common#:#shib_settings_saved#:#Die Einstellungen für Shibboleth wurden gespeichert
+common#:#shib_street#:#Attribut für Strasse
+common#:#shib_title#:#Attribut für Titel
+common#:#shib_update#:#Dieses Feld bei jeder Anmeldung aktualisieren
+common#:#shib_user_default_role#:#Generelle Rolle für Shibbolethbenützer
+common#:#shib_login_type#:#Auswahl der Organisation
+common#:#shib_login_internal_wayf#:#Den ILIAS WAYF-Dienst benutzen
+common#:#shib_login_external_wayf#:#Einen externen WAYF-Dienst benutzen
+common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity Providern an, von den der Benützer auf der ILIAS Anmeldeseite auswählen kann.<br>Auf jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br>Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS Installation Teil von mehrere Föderationen ist.
+common#:#shib_visible#:#Einstellungen für Shibboleth sind sichtbar
+common#:#shib_write#:#Einstellungen für Shibboleth editieren 
+common#:#shib_zipcode#:#Attribut für Postleitzahl
 common#:#show#:#Zeige
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen

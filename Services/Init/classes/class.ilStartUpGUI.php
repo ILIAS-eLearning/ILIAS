@@ -127,11 +127,30 @@ class ilStartUpGUI
 			die("Setup is not completed. Please run setup routine again. (Login)");
 		}
 		
-		//
-		// We got authentication here
-		// To do: check whether some $ilInit method could be used here.
-		if ($ilAuth->getAuth())
+		
+		if ($ilSetting->get("shib_active") && $ilSetting->get("shib_hos_type"))
 		{
+			require_once "classes/class.ilShibbolethWAYF.php";
+			// Check if we user selects Home Organization
+			$WAYF = new ShibWAYF();
+		}
+		
+		if (isset($WAYF) && $WAYF->isSelection())
+		{
+			if ($WAYF->isValidSelection())
+			{
+				// Set cookie
+				$WAYF->setSAMLCookie();
+				
+				// Redirect
+				$WAYF->redirect();
+			}
+		} 
+		elseif ($ilAuth->getAuth())
+		{
+			// Or we do authentication here
+			// To do: check whether some $ilInit method could be used here.
+			
 			if(!$ilUser->checkTimeLimit())
 			{
 				$ilAuth->logout();
@@ -234,15 +253,32 @@ class ilStartUpGUI
 				$this->ctrl->getLinkTarget($this, "showClientList"));
 			$tpl->parseCurrentBlock();	
 		}
-
+		
 		// shibboleth login link
 		if ($ilSetting->get("shib_active"))
 		{
-			$tpl->setCurrentBlock("shibboleth_login");
-			$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
-			$tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilSetting->get("shib_login_button"));
-			$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
-			$tpl->parseCurrentBlock();
+			if($ilSetting->get("shib_hos_type") != 'external_wayf'){
+				$tpl->setCurrentBlock("shibboleth_wayf_login");
+				$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
+				$tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
+				$tpl->setVariable("TXT_SELECT_HOME_ORGANIZATION", sprintf($lng->txt("shib_select_home_organization"), $ilSetting->get("shib_federation_name")));
+				$tpl->setVariable("TXT_CONTINUE", $lng->txt("btn_next"));
+				$tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $lng->txt("shib_home_organization"));
+				$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $lng->txt("shib_general_wayf_login_instructions").' <a href="mailto:'.$ilias->getSetting("admin_email").'">ILIAS '. $lng->txt("administrator").'</a>.');
+				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
+				$tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $WAYF->showNotice());
+				$tpl->setVariable("SHIB_IDP_LIST", $WAYF->generateSelection());
+				
+				$tpl->parseCurrentBlock();
+			} else {
+				$tpl->setCurrentBlock("shibboleth_login");
+				$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
+				$tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
+				$tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilSetting->get("shib_login_button"));
+					$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", sprintf($lng->txt("shib_general_login_instructions"),$ilSetting->get("shib_federation_name")).' <a href="mailto:'.$ilias->getSetting("admin_email").'">ILIAS '. $lng->txt("administrator").'</a>.');
+				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
+				$tpl->parseCurrentBlock();
+			}
 		}
 		
 		// cas login link
@@ -802,7 +838,6 @@ class ilStartUpGUI
 		return call_user_func(array($full_class, "_checkGoto"),
 			$a_target);
 	}
-
 
 }
 ?>
