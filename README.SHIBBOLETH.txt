@@ -2,7 +2,7 @@ Shibboleth Authentication for ILIAS
 -------------------------------------------------------------------------------
 
 Requirements:
-- Webserver must run Shibboleth target 1.1 or later. 
+- Webserver must run Shibboleth target 1.1 or newer. 
   See documentation for your Shibboleth federation on how to set up Shibboleth. 
 
 ILIAS Configuration with Dual login
@@ -12,7 +12,7 @@ ILIAS Configuration with Dual login
   For apache you could use:
 
 --
-<Location ~ "ilias3/shib_login.php">
+<Location ~ "/shib_login.php">
         AuthType shibboleth
         ShibRequireSession On
         require valid-user
@@ -22,23 +22,41 @@ ILIAS Configuration with Dual login
    To restrict access to ILIAS, replace the access rule 'require valid-user' 
    with something that fits your needs, e.g. 'require affiliation student'.
    
-   shib_login.php acutally authenticates the user if the Shibboleth attributes 
-   are available.
+   shib_login.php authenticates the user if the required Shibboleth attributes 
+   are available and if the require rule is satisfied.
 
-2. As ILIAS admin, go to the 'Administration >> Authentication' Options and 
-   select the 'Shibboleth' authentication method from the list. Don't click on 
-   'Save' yet on that page.
+2. As ILIAS admin, go to the 'Administration >> Authentication and Registration' 
+   options and click on the link for the 'Shibboleth' settings. 
    
-3.   Click on the now available 'configure' button.
+3. Activate the "Enable Shibboleth Support" checkbox on the top.
+   After defining the default user role for new users registering via Shibboleth
+   and the name of the Shibboleth federation this service is part of,
+   you have to define whether the Shibboleth users shall select their home 
+   organization directly on the ILIAS login page or on an external page.
    
-4. Fill in the fields for login button and login instructions. The first is just
-   a path or URL to an image that will be displayed on the login page. The 
-   login instructions can be used to place a message below the login button.
-   Unfortunately the maximum length of these two fields is limited to 50 chars,
-   due to the ILIAS database.
+   If you have chosen to use the ILIAS WAYF, you have to make sure that 
+   Shibboleth is configured to have a default applicationId for the <host> 
+   element and that the default Shibboleth handlerURL is configured to be 
+   "/Shibboleth.sso", which usually is the default setting for Shibboleth.
+   To check that, open the shibboleth.xml configuration file and lookg for the 
+   <host> element, which must have an attribute 'applicationId', e.g. 
+   applicationId="default".
+   If you don't want to use the default session initiator (for example because
+   your ILIAS installation is part of several federation), you can specify 
+   a location of a session initiator for a Identity Provider as a third 
+   argument. The session inititors can be found in the shibboleth.xml 
+   configuration file as well.
+   
+   If you chose to use an external WAYF, fill in an URL to an image that is to
+   be used for the login button. Default ist 'images/shib_login_button.gif' 
+   
+   The login instructions can be used to place a message for Shibboleth users 
+   on the login page. These instructions are independent from the current 
+   language the user has chosen.
+   
    Read below what you can use the data manipulation API for.
    
-5. Fill in the fields of the form for the attribute mapping. You need to provide
+4. Fill in the fields of the form for the attribute mapping. You need to provide
    the names of the environment variables that contain the Shibboleth attributes
    for the unique ID, firstname, surname, etc. This e.g. could be 
    'HTTP_SHIB_PERSON_SURNAME' for the person's last name. Refer to 
@@ -61,58 +79,40 @@ ILIAS Configuration with Dual login
    himself. 
    #############################################################################
 
-6. Save the changes for the Shibboleth authentication method.
+5. Save the changes for the Shibboleth authentication method.
 
-7. (optional) Go to Administration -> User Accounts -> Global settings and 
-   disable fields that you don't really need. For example, it is recommended to
-   make the password field invisible and disable it, if you have only Shibboleth
-   users. Shibboleth users don't need a password. In fact the password field is 
-   used for the ILIAS-Shibboleth user mapping because the unique ID is stored in
-   the password field. Users can't change the password because the unique ID is
-   stored not as the hash of a password but as plain text, which makes it 
-   impossible to change the password or to log in with another authentication 
-   method than Shibboleth.
+6. (optional) Go to Administration -> User Accounts -> Global settings and 
+   disable that certain fields, which may be provided by Shibboleth, can be 
+   changed by the users.
 
-ILIAS Configuration with Shibboleth only login
--------------------------------------------------------------------------------
-If you want Shibboleth as your only authentication method, configure ILIAS as
-described in the dual login section above and do the following additional step:
-
-3.a If you want to use Shibboleth as your only authentication method (no manual
-    login), click on the 'Save' button on the page where you can choose an 
-    authentication method.
-    After that you should see a confirmation that the authentication method was
-    changed to Shibboleth.
 
 How the Shibboleth authentication works
 --------------------------------------------------------------------------------
 For a user to get Shibboleth authenticated in ILIAS he first must go to the 
-Shibboleth-protected page shib_login.php. If he gets access to that page (this
-is only the case if he is Shibboleth authenticated), he also gets authenticated 
-in ILIAS. 
-ILIAS basically checks whether the Shibboleth attribute that you mapped
-as the unique Shibboleth attribute is present. This attribute is only present 
-if a user is Shibboleth authenticated.
+Shibboleth-protected page shib_login.php. If he gets access to that pag, he also
+gets authenticated in ILIAS. 
+ILIAS checks whether the Shibboleth attribute that you mapped as the unique 
+Shibboleth attribute is present. This attribute is only present if a user could 
+be authenticated at his home organization
 
 If the user's ILIAS account has not existed yet, it gets automatically created.
+The user only has to accept the terms of use and is logged in automatically.
 
-To prevent that every Shibboleth user can access your ILIAS site you have to
-adapt the 'require valid-user' line in your webserver's config  (see step 1) to 
-allow only specific users. 
+To prevent that every Shibboleth user can access your ILIAS installation you 
+have to adapt the 'require valid-user' line in your webserver's config  
+(see step 1) to allow only specific users. 
 
-You can use Shibboleth AND another authentication method (it was tested with 
-the 'ILIAS database' method only). So if there are a few users that don't have 
-a Shibboleth login, you could manually create ILIAS accounts for them and they 
-could use the normal ILIAS login (provide login name and password on login 
-page). For other authentication methods you first have to configure them and 
-then configure Shibboleth without setting it as main authentication method. 
+You can use Shibboleth AND other authentication methods. So if there are a few 
+users that don't have a Shibboleth login, you could manually create ILIAS 
+accounts for them and they could use the normal ILIAS login (provide login name
+and password on login page). 
 Users can log in only via one authentication method unless they have two 
 accounts in ILIAS
 
 How to customize the way the Shibboleth user data is used in ILIAS
 --------------------------------------------------------------------------------
-Among the Shibboleth settings in ILIAS there is a field that should contain a
-path to a php file that can be used as data manipulation API.
+Among the Shibboleth settings in ILIAS there is a field that can contain a
+path to a php file that can be used as data manipulation hook (kind of a API).
 You can use this if you want to further process the way your Shibboleth
 attributes are used in ILIAS. 
 
@@ -123,11 +123,11 @@ Example 1: Your Shibboleth federation uses an attribute that specifies the
            'de'.
 Example 2: The username is generated by the Shibboleth part of ILIAS using the
            user's firstname and last name and a number in case several users 
-           have the same name. This could give a username 'MusterHans2'. 
+           have the same name. This could give a username 'HansMuster2'. 
            If you are not happy with the way this name is generated you could
            write a file that generates the username the way you want it.
 
-If you want to use this API you have to be a skilled PHP programmer. It is 
+If you want to use this hook you have to be a skilled PHP programmer. It is 
 strongly recommended that you take a look at the file 
 ilias3/classes/class.ilShibboleth.php, especially the function 'login' where
 this API file is included. 
@@ -176,13 +176,7 @@ Example file:
 ?>
 --
 
-Bugs
---------------------------------------------------------------------------------
-The current implementation has not yet been extensively tested in a productive
-environment with real courses and real users. So there may be bugs. 
-Please send bug reports concerning the Shibboleth part to 
-Lukas Haemmerle <haemmerle@switch.ch>
-
 --------------------------------------------------------------------------------
 In case of problems and questions with Shibboleth authentication, contact 
-Lukas Haemmerle <haemmerle@switch.ch>.
+Lukas Haemmerle <haemmerle@switch.ch>. Thanx to Marco Lehre <lehre@net.ethz.ch> 
+for language suggestions and general feedback.

@@ -594,12 +594,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$role_list = $rbacreview->getRolesByFilter(2,$this->object->getId());
 		$selectElement = '<select name="shib[user_default_role]">';
 		
-		if (!$settings["shib_user_default_role"])
+		if (!isset($settings["shib_user_default_role"]))
 		{
 			$settings["shib_user_default_role"] = 4;
 		}
 			
-		foreach ($role_list as $role){
+		foreach ($role_list as $role)
+		{
 			$selectElement .= '<option value="'.$role['obj_id'].'"';
 			if ($settings["shib_user_default_role"] == $role['obj_id'])
 				$selectElement .= 'selected="selected"';
@@ -640,14 +641,42 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			if ($settings["shib_update_".$field])
 				$this->tpl->setVariable('CHK_SHIB_UPDATE_'.strtoupper($field), 'checked="checked"');
 		}
-		if ($settings["shib_active"])
+		
+		// Set some default values
+		
+		if (!isset($settings["shib_login_button"]) || $settings["shib_login_button"] == ''){
+			$this->tpl->setVariable("SHIB_LOGIN_BUTTON", "images/shib_login_button.gif");
+		}
+		
+		if (isset($settings["shib_active"]) && $settings["shib_active"])
 		{
-			$this->tpl->setVariable("CHK_SHIB_ACTIVE", 'checked="checked"');
+			$this->tpl->setVariable("chk_shib_active", 'checked="checked"');
+		}
+		
+		if (
+			!isset($settings["shib_hos_type"])
+			|| $settings["shib_hos_type"] == ''
+			|| $settings["shib_hos_type"] != 'external_wayf'
+			)
+		{
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_INTERNAL_WAYF", 'checked="checked"');
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_EXTERNAL_WAYF", '');
+		} else {
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_INTERNAL_WAYF", '');
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_EXTERNAL_WAYF", 'checked="checked"');
+		}
+		
+		if (!isset($settings["shib_idp_list"]) || $settings["shib_idp_list"] == '')
+		{
+			$this->tpl->setVariable("SHIB_IDP_LIST", "urn:mace:organization1:providerID, Example Organization 1\nurn:mace:organization2:providerID, Example Organization 2, /Shibboleth.sso/WAYF/SWITCHaai");
+		} else {
+			$this->tpl->setVariable("SHIB_IDP_LIST", stripslashes($settings["shib_idp_list"]));
 		}
 		
 		$this->tpl->setVariable("SHIB_USER_DEFAULT_ROLE", $selectElement);
 		$this->tpl->setVariable("SHIB_LOGIN_BUTTON", $settings["shib_login_button"]);
-		$this->tpl->setVariable("SHIB_LOGIN_INSTRUCTIONS", $settings["shib_login_instructions"]);
+		$this->tpl->setVariable("SHIB_LOGIN_INSTRUCTIONS", stripslashes($settings["shib_login_instructions"]));
+		$this->tpl->setVariable("SHIB_FEDERATION_NAME", stripslashes($settings["shib_federation_name"]));
 		$this->tpl->setVariable("SHIB_DATA_CONV", $settings["shib_data_conv"]);
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -659,6 +688,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SHIB_ACTIVE", $this->lng->txt("shib_active"));
 		$this->tpl->setVariable("TXT_SHIB_USER_DEFAULT_ROLE", $this->lng->txt("shib_user_default_role"));
 		$this->tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $this->lng->txt("shib_login_button"));
+		$this->tpl->setVariable("TXT_SHIB_LOGIN_TYPE", $this->lng->txt("shib_login_type"));
+		$this->tpl->setVariable("TXT_SHIB_LOGIN_INTERNAL_WAYF", $this->lng->txt("shib_login_internal_wayf"));
+		$this->tpl->setVariable("TXT_SHIB_LOGIN_EXTERNAL_WAYF", $this->lng->txt("shib_login_external_wayf"));
+		$this->tpl->setVariable("TXT_SHIB_IDP_LIST", $this->lng->txt("shib_idp_list"));
+		$this->tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->lng->txt("shib_federation_name"));
 		$this->tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $this->lng->txt("auth_login_instructions"));
 		$this->tpl->setVariable("TXT_SHIB_DATA_CONV", $this->lng->txt("shib_data_conv"));
 		foreach ($shib_settings as $setting)
@@ -671,16 +705,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "saveSHIB");
 		
-		// Set some default values
-		if (!$settings["shib_login_instructions"] || $settings["shib_login_instructions"] == '')
-		{
-			$this->tpl->setVariable("SHIB_LOGIN_INSTRUCTIONS", "Login for Shibboleth users");
-		}
-		
-		if (!$settings["shib_login_button"] || $settings["shib_login_button"] == '')
-		{
-			$this->tpl->setVariable("SHIB_LOGIN_BUTTON", "images/shib_login_button.gif");
-		}
 	}
 
 	/**
@@ -695,16 +719,18 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         // validate required data 
 		if (
 			!$_POST["shib"]["login"] 
+			or !$_POST["shib"]["hos_type"] 
 			or !$_POST["shib"]["firstname"] 
 			or !$_POST["shib"]["lastname"] 
 			or !$_POST["shib"]["email"] 
 			or !$_POST["shib"]["user_default_role"]
+			or !$_POST["shib"]["federation_name"]
 			)
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		// validate port
+		// validate api
 		if (
 			$_POST["shib"]["data_conv"] 
 			and $_POST["shib"]["data_conv"] != '' 
@@ -738,13 +764,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$field = ereg_replace('shib_','',$setting);
 			if ($_POST["shib"]["update_".$field] != "1")
 				$_POST["shib"]["update_".$field] = "0";
-			$this->ilias->setSetting($setting, $_POST["shib"][$field]);
+			$this->ilias->setSetting($setting, trim($_POST["shib"][$field]));
 			$this->ilias->setSetting("shib_update_".$field, $_POST["shib"]["update_".$field]);
 		}
 		
 		if ($_POST["shib"]["active"] != "1")
 		{
-		$this->ilias->setSetting("shib_active", "0");
+			$this->ilias->setSetting("shib_active", "0");
 		}
 		else
 		{
@@ -752,6 +778,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		}
 		
 		$this->ilias->setSetting("shib_user_default_role", $_POST["shib"]["user_default_role"]);
+		$this->ilias->setSetting("shib_hos_type", $_POST["shib"]["hos_type"]);
+		$this->ilias->setSetting("shib_federation_name", $_POST["shib"]["federation_name"]);
+		$this->ilias->setSetting("shib_idp_list", $_POST["shib"]["idp_list"]);
 		$this->ilias->setSetting("shib_login_instructions", $_POST["shib"]["login_instructions"]);
 		$this->ilias->setSetting("shib_login_button", $_POST["shib"]["login_button"]);
 		$this->ilias->setSetting("shib_data_conv", $_POST["shib"]["data_conv"]);
