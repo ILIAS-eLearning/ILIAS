@@ -74,11 +74,14 @@ class ilQTIParser extends ilSaxParser
 	var $gap_index;
 	var $assessments;
 	var $assessment;
+	var $assessmentcontrol;
+	var $objectives;
 	var $in_assessment = FALSE;
 	var $section;
 	var $import_mapping;
 	var $question_counter = 1;
 	var $in_itemmetadata;
+	var $in_objectives = FALSE;
 
 	var $founditems = array();
 	var $verifyroot = false;
@@ -125,12 +128,15 @@ class ilQTIParser extends ilSaxParser
 		$this->do_nothing = FALSE;
 		$this->qti_element = "";
 		$this->in_presentation = FALSE;
+		$this->in_objectives = FALSE;
 		$this->in_reponse = FALSE;
 		$this->render_type = NULL;
 		$this->render_hotspot = NULL;
 		$this->response_label = NULL;
 		$this->material = NULL;
 		$this->response = NULL;
+		$this->assessmentcontrol = NULL;
+		$this->objectives = NULL;
 		$this->matimage = NULL;
 		$this->resprocessing = NULL;
 		$this->outcomes = NULL;
@@ -257,6 +263,8 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "assessmentcontrol":
+				include_once ("./assessment/classes/QTI/class.ilQTIAssessmentcontrol.php");
+				$this->assessmentcontrol = new ilQTIAssessmentcontrol();
 				if (is_array($a_attribs))
 				{
 					foreach ($a_attribs as $attribute => $value)
@@ -264,25 +272,22 @@ class ilQTIParser extends ilSaxParser
 						switch (strtolower($attribute))
 						{
 							case "solutionswitch":
-								if (is_object($this->tst_object))
-								{
-									$score_reporting = $value;
-									switch (strtolower($score_reporting))
-									{
-										case "1":
-										case "yes":
-											$score_reporting = 1;
-											break;
-										default:
-											$score_reporting = 0;
-											break;
-									}
-									$this->tst_object->setScoreReporting($score_reporting);
-								}
+								$this->assessmentcontrol->setSolutionswitch($value);
+								break;
+							case "hintswitch":
+								$this->assessmentcontrol->setHintswitch($value);
+								break;
+							case "feedbackswitch":
+								$this->assessmentcontrol->setFeedbackswitch($value);
 								break;
 						}
 					}
 				}
+				break;
+			case "objectives":
+				include_once ("./assessment/classes/QTI/class.ilQTIObjectives.php");
+				$this->objectives = new ilQTIObjectives();
+				$this->in_objectives = TRUE;
 				break;
 			case "section":
 				include_once ("./assessment/classes/QTI/class.ilQTISection.php");
@@ -720,14 +725,6 @@ class ilQTIParser extends ilSaxParser
 			case "objectbank":
 				// not implemented yet
 				break;
-			case "assessment":
-				if (is_object($this->tst_object))
-				{
-					$this->tst_object->setDescription($this->assessment->getComment());
-					$this->tst_object->setTitle($this->assessment->getTitle());
-				}
-				$this->in_assessment = FALSE;
-				break;
 			case "section":
 				if ($this->assessment != NULL)
 				{
@@ -980,6 +977,22 @@ class ilQTIParser extends ilSaxParser
 		switch (strtolower($a_name))
 		{
 			case "assessment":
+				if (is_object($this->tst_object))
+				{
+					$this->tst_object->fromXML($this->assessment);
+				}
+				$this->in_assessment = FALSE;
+				break;
+			case "assessmentcontrol":
+				$this->assessment->addAssessmentcontrol($this->assessmentcontrol);
+				$this->assessmentcontrol = NULL;
+				break;
+			case "objectives":
+				if (strcmp(strtolower($this->getParent($a_xml_parser)), "assessment") == 0)
+				{
+					$this->assessment->addObjectives($this->objectives);
+				}
+				$this->in_objectives = FALSE;
 				break;
 			case "itemmetadata":
 				$this->in_itemmetadata = FALSE;
@@ -1010,176 +1023,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				if ($this->in_assessment)
 				{
-					switch ($this->metadata["label"])
-					{
-						case "test_type":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setTestType($this->metadata["entry"]);
-							}
-							break;
-						case "sequence_settings":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setSequenceSettings($this->metadata["entry"]);
-							}
-							break;
-						case "author":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setAuthor($this->metadata["entry"]);
-							}
-							break;
-						case "nr_of_tries":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setNrOfTries($this->metadata["entry"]);
-							}
-							break;
-						case "hide_previous_results":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setHidePreviousResults($this->metadata["entry"]);
-							}
-							break;
-						case "hide_title_points":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setHideTitlePoints($this->metadata["entry"]);
-							}
-							break;
-						case "random_test":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setRandomTest($this->metadata["entry"]);
-							}
-							break;
-						case "random_question_count":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setRandomQuestionCount($this->metadata["entry"]);
-							}
-							break;
-						case "show_solution_details":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setShowSolutionDetails($this->metadata["entry"]);
-							}
-							break;
-						case "show_solution_printview":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setShowSolutionPrintview($this->metadata["entry"]);
-							}
-							break;
-						case "score_reporting":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setScoreReporting($this->metadata["entry"]);
-							}
-							break;
-						case "shuffle_questions":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setShuffleQuestions($this->metadata["entry"]);
-							}
-							break;
-						case "count_system":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setCountSystem($this->metadata["entry"]);
-							}
-							break;
-						case "mc_scoring":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setMCScoring($this->metadata["entry"]);
-							}
-							break;
-						case "score_cutting":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setScoreCutting($this->metadata["entry"]);
-							}
-							break;
-						case "password":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setPassword($this->metadata["entry"]);
-							}
-							break;
-						case "allowedUsers":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setAllowedUsers($this->metadata["entry"]);
-							}
-							break;
-						case "allowedUsersTimeGap":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setAllowedUsersTimeGap($this->metadata["entry"]);
-							}
-							break;
-						case "pass_scoring":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setPassScoring($this->metadata["entry"]);
-							}
-							break;
-						case "show_summary":
-							if (is_object($this->tst_object))
-							{
-								$this->tst_object->setShowSummary($this->metadata["entry"]);
-							}
-							break;
-						case "reporting_date":
-							if (is_object($this->tst_object))
-							{
-								$iso8601period = $this->metadata["entry"];
-								if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-								{
-									$this->tst_object->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
-								}
-							}
-							break;
-						case "starting_time":
-							if (is_object($this->tst_object))
-							{
-								$iso8601period = $this->metadata["entry"];
-								if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-								{
-									$this->tst_object->setStartingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
-								}
-							}
-							break;
-						case "ending_time":
-							if (is_object($this->tst_object))
-							{
-								$iso8601period = $this->metadata["entry"];
-								if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-								{
-									$this->tst_object->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
-								}
-							}
-							break;
-					}
-					if (is_object($this->tst_object))
-					{
-						if (preg_match("/mark_step_\d+/", $this->metadata["label"]))
-						{
-							$xmlmark = $this->metadata["entry"];
-							preg_match("/<short>(.*?)<\/short>/", $xmlmark, $matches);
-							$mark_short = $matches[1];
-							preg_match("/<official>(.*?)<\/official>/", $xmlmark, $matches);
-							$mark_official = $matches[1];
-							preg_match("/<percentage>(.*?)<\/percentage>/", $xmlmark, $matches);
-							$mark_percentage = $matches[1];
-							preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
-							$mark_passed = $matches[1];
-							$this->tst_object->mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
-						}
-					}
-					
+					$this->assessment->addQtiMetadata($this->metadata);
 				}
 				$this->metadata = array("label" => "", "entry" => "");
 				break;
@@ -1371,6 +1215,10 @@ class ilQTIParser extends ilSaxParser
 						$mat = $this->material->getMaterial(0);
 						$this->item->addSuggestedSolution($mat["material"], $this->gap_index);
 					}
+					if ($this->in_objectives)
+					{
+						$this->objectives->addMaterial($this->material);
+					}
 					else if (($this->render_type != NULL) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0))
 					{
 						$this->render_type->addMaterial($this->material);
@@ -1435,13 +1283,6 @@ class ilQTIParser extends ilSaxParser
 				if ($this->material != NULL)
 				{
 					$this->material->addMattext($this->mattext);
-					if (strcmp($this->mattext->getLabel(), "introduction") == 0)
-					{
-						if (is_object($this->tst_object))
-						{
-							$this->tst_object->setIntroduction($this->mattext->getContent());
-						}
-					}
 				}
 				$this->mattext = NULL;
 				break;

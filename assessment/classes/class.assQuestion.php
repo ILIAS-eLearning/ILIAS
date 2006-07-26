@@ -1341,6 +1341,16 @@ class assQuestion
 		}
 	}
 	
+	function copyXHTMLMediaObjectsOfQuestion($a_q_id)
+	{
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $a_q_id);
+		foreach ($mobs as $mob)
+		{
+			ilObjMediaObject::_saveUsage($mob, "qpl:html", $this->getId());
+		}
+	}
+	
 	function copyPageOfQuestion($a_q_id)
 	{
 		if ($a_q_id > 0)

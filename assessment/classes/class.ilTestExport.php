@@ -207,6 +207,11 @@ class ilTestExport
 			, false);
 		$ilBench->stop("TestExport", "buildExportFile_dumpToFile");
 
+			// add media objects which were added with tiny mce
+		$ilBench->start("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");
+		$this->exportXHTMLMediaObjects($this->export_dir."/".$this->subdir);
+		$ilBench->stop("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");
+
 		// zip the file
 		$ilBench->start("TestExport", "buildExportFile_zipFile");
 		ilUtil::zip($this->export_dir."/".$this->subdir,
@@ -222,6 +227,28 @@ class ilTestExport
 		return $this->export_dir."/".$this->subdir.".zip";
 	}
 
+	function exportXHTMLMediaObjects($a_export_dir)
+	{
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		
+		$mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->test_obj->getId());
+		foreach ($mobs as $mob)
+		{
+			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj->exportFiles($a_export_dir);
+			unset($mob_obj);
+		}
+		foreach ($this->test_obj->questions as $question_id)
+		{
+			$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
+			foreach ($mobs as $mob)
+			{
+				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj->exportFiles($a_export_dir);
+				unset($mob_obj);
+			}
+		}
+	}
 
 }
 

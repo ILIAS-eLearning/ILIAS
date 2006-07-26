@@ -5082,6 +5082,166 @@ class ilObjTest extends ilObject
 	}
 	
 	/**
+	* Creates a test from a QTI file
+	*
+	* Receives parameters from a QTI parser and creates a valid ILIAS test object
+	*
+	* @param object $assessment The QTI assessment object
+	* @access public
+	*/
+	function fromXML(&$assessment)
+	{
+		unset($_SESSION["import_mob_xhtml"]);
+		
+		$this->setDescription($assessment->getComment());
+		$this->setTitle($assessment->getTitle());
+
+		foreach ($assessment->objectives as $objectives)
+		{
+			foreach ($objectives->materials as $material)
+			{
+				$this->setIntroduction($this->QTIMaterialToString($material));
+			}
+		}
+		foreach ($assessment->assessmentcontrol as $assessmentcontrol)
+		{
+			switch ($assessmentcontrol->getSolutionswitch())
+			{
+				case "Yes":
+					$this->setScoreReporting(1);
+					break;
+				default:
+					$this->setScoreReporting(0);
+					break;
+			}
+		}
+		
+		foreach ($assessment->qtimetadata as $metadata)
+		{
+			switch ($metadata["label"])
+			{
+				case "test_type":
+					$this->setTestType($metadata["entry"]);
+					break;
+				case "sequence_settings":
+					$this->setSequenceSettings($metadata["entry"]);
+					break;
+				case "author":
+					$this->setAuthor($metadata["entry"]);
+					break;
+				case "nr_of_tries":
+					$this->setNrOfTries($metadata["entry"]);
+					break;
+				case "hide_previous_results":
+					$this->setHidePreviousResults($metadata["entry"]);
+					break;
+				case "hide_title_points":
+					$this->setHideTitlePoints($metadata["entry"]);
+					break;
+				case "random_test":
+					$this->setRandomTest($metadata["entry"]);
+					break;
+				case "random_question_count":
+					$this->setRandomQuestionCount($metadata["entry"]);
+					break;
+				case "show_solution_details":
+					$this->setShowSolutionDetails($metadata["entry"]);
+					break;
+				case "show_solution_printview":
+					$this->setShowSolutionPrintview($metadata["entry"]);
+					break;
+				case "score_reporting":
+					$this->setScoreReporting($metadata["entry"]);
+					break;
+				case "shuffle_questions":
+					$this->setShuffleQuestions($metadata["entry"]);
+					break;
+				case "count_system":
+					$this->setCountSystem($metadata["entry"]);
+					break;
+				case "mc_scoring":
+					$this->setMCScoring($metadata["entry"]);
+					break;
+				case "score_cutting":
+					$this->setScoreCutting($metadata["entry"]);
+					break;
+				case "password":
+					$this->setPassword($metadata["entry"]);
+					break;
+				case "allowedUsers":
+					$this->setAllowedUsers($metadata["entry"]);
+					break;
+				case "allowedUsersTimeGap":
+					$this->setAllowedUsersTimeGap($metadata["entry"]);
+					break;
+				case "pass_scoring":
+					$this->setPassScoring($metadata["entry"]);
+					break;
+				case "show_summary":
+					$this->setShowSummary($metadata["entry"]);
+					break;
+				case "reporting_date":
+					$iso8601period = $metadata["entry"];
+					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+					{
+						$this->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+					}
+					break;
+				case "starting_time":
+					$iso8601period = $metadata["entry"];
+					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+					{
+						$this->setStartingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+					}
+					break;
+				case "ending_time":
+					$iso8601period = $metadata["entry"];
+					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+					{
+						$this->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+					}
+					break;
+			}
+			if (preg_match("/mark_step_\d+/", $metadata["label"]))
+			{
+				$xmlmark = $metadata["entry"];
+				preg_match("/<short>(.*?)<\/short>/", $xmlmark, $matches);
+				$mark_short = $matches[1];
+				preg_match("/<official>(.*?)<\/official>/", $xmlmark, $matches);
+				$mark_official = $matches[1];
+				preg_match("/<percentage>(.*?)<\/percentage>/", $xmlmark, $matches);
+				$mark_percentage = $matches[1];
+				preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
+				$mark_passed = $matches[1];
+				$this->mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
+			}
+		}
+		// handle the import of media objects in XHTML code
+		if (is_array($_SESSION["import_mob_xhtml"]))
+		{
+			include_once "./content/classes/Media/class.ilObjMediaObject.php";
+			include_once "./Services/RTE/classes/class.ilRTE.php";
+			include_once "./assessment/classes/class.ilObjQuestionPool.php";
+			foreach ($_SESSION["import_mob_xhtml"] as $mob)
+			{
+				$importfile = $this->getImportDirectory() . "/" . $_SESSION["tst_import_subdir"] . "/" . $mob["uri"];
+				if (file_exists($importfile))
+				{
+					$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
+					ilObjMediaObject::_saveUsage($media_object->getId(), "tst:html", $this->getId());
+					$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()), 1));
+				}
+				else
+				{
+					global $ilLog;
+					$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
+				}
+			}
+			$this->saveToDb();
+		}
+	}
+	
+	/**
 	* Returns a QTI xml representation of the test
 	*
 	* Returns a QTI xml representation of the test
@@ -7349,6 +7509,57 @@ class ilObjTest extends ilObject
 	}
 
 	/**
+	* Checks if a given string contains HTML or not
+	*
+	* @param string $a_text Text which should be checked
+	
+	* @return boolean 
+	* @access public
+	*/
+	function isHTML($a_text)
+	{
+		if (preg_match("/<[^>]*?>/", $a_text))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE; 
+		}
+	}
+	
+	/**
+	* Reads an QTI material tag an creates a text string
+	*
+	* @param string $a_material QTI material tag
+	* @return string text or xhtml string
+	* @access public
+	*/
+	function QTIMaterialToString($a_material)
+	{
+		$result = "";
+		for ($i = 0; $i < $a_material->getMaterialCount(); $i++)
+		{
+			$material = $a_material->getMaterial($i);
+			if (strcmp($material["type"], "mattext") == 0)
+			{
+				$result .= $material["material"]->getContent();
+			}
+			if (strcmp($material["type"], "matimage") == 0)
+			{
+				$matimage = $material["material"];
+				if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches))
+				{
+					// import an mediaobject which was inserted using tiny mce
+					if (!is_array($_SESSION["import_mob_xhtml"])) $_SESSION["import_mob_xhtml"] = array();
+					array_push($_SESSION["import_mob_xhtml"], array("mob" => $matimage->getLabel(), "uri" => $matimage->getUri()));
+				}
+			}
+		}
+		return $result;
+	}
+	
+	/**
 	* Creates a QTI material tag from a plain text or xhtml text
 	*
 	* @param object $a_xml_writer Reference to the ILIAS XML writer
@@ -7377,7 +7588,7 @@ class ilObjTest extends ilObject
 			$mob_obj =& new ilObjMediaObject($mob);
 			$imgattrs = array(
 				"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
-				"uri" => "objects/mm_$mob/" . $mob_obj->getTitle()
+				"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
 			);
 			$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
 		}
