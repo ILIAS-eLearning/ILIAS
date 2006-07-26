@@ -694,6 +694,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$qtiParser->setTestObject($newObj);
 		$result = $qtiParser->startParsing();
 		$newObj->saveToDb();
+
+
 		
 		// import page data
 		include_once ("content/classes/class.ilContObjParser.php");

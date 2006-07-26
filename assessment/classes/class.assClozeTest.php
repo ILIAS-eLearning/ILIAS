@@ -499,6 +499,8 @@ class assClozeTest extends assQuestion
 
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
+		// copy XHTML media objects
+		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 
 		return $clone->id;
 	}
@@ -532,6 +534,8 @@ class assClozeTest extends assQuestion
 
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
+		// copy XHTML media objects
+		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 
 		return $clone->id;
 	}
@@ -709,7 +713,16 @@ class assClozeTest extends assQuestion
 			include_once "./Services/RTE/classes/class.ilRTE.php";
 			foreach ($_SESSION["import_mob_xhtml"] as $mob)
 			{
-				$importfile = ilObjQuestionPool::_getImportDirectory() . "/" . $_SESSION["qpl_import_subdir"] . "/" . $mob["uri"];
+				if ($tst_id > 0)
+				{
+					include_once "./assessment/classes/class.ilObjTest.php";
+					$importfile = ilObjTest::_getImportDirectory() . "/" . $_SESSION["tst_import_subdir"] . "/" . $mob["uri"];
+				}
+				else
+				{
+					include_once "./assessment/classes/class.ilObjQuestionPool.php";
+					$importfile = ilObjQuestionPool::_getImportDirectory() . "/" . $_SESSION["qpl_import_subdir"] . "/" . $mob["uri"];
+				}
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 //				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->getId());
 				$this->cloze_text = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->cloze_text), 1);
