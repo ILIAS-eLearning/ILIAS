@@ -128,9 +128,9 @@ class assMultipleChoice extends assQuestion
 	function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
 		global $ilUser;
-		//global $ilLog;
-		
-		//$ilLog->write(strftime("%D %T") . ": import multiple choice question (single response)");
+
+		// empty session variable for imported xhtml mobs
+		unset($_SESSION["import_mob_xhtml"]);
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
 		$shuffle = 0;
@@ -268,6 +268,24 @@ class assMultipleChoice extends assQuestion
 				$thumbpath = $imagepath . "." . "thumb.jpg";
 				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
 			}
+		}
+		if (is_array($_SESSION["import_mob_xhtml"]))
+		{
+			include_once "./content/classes/Media/class.ilObjMediaObject.php";
+			include_once "./Services/RTE/classes/class.ilRTE.php";
+			foreach ($_SESSION["import_mob_xhtml"] as $mob)
+			{
+				$importfile = ilObjQuestionPool::_getImportDirectory() . "/" . $_SESSION["qpl_import_subdir"] . "/" . $mob["uri"];
+				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
+				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->getId());
+				$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getQuestion()), 1));
+				foreach ($this->answers as $key => $value)
+				{
+					$answer_obj = $this->answers[$key];
+					$answer_obj->setAnswertext(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $answer_obj->getAnswertext()), 1));
+				}
+			}
+			$this->saveToDb();
 		}
 		if (count($item->suggested_solutions))
 		{
