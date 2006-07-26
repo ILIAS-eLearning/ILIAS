@@ -701,10 +701,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 //echo "maxcount:".count($term_list).":";
 //echo "+".$_GET["offset"]."+".$_GET["limit"]."+";
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 		$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
 		//$this->setSubObjects(array("term" => array()));
-		$this->showActions(true);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -718,6 +716,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		if (count($term_list) > 0)
 		{
+			$this->tpl->setVariable("COLUMN_COUNTS", 4);
+			$this->showActions(true);
+
 			$i=1;
 			foreach($term_list as $key => $term)
 			{
