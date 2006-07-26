@@ -1363,7 +1363,7 @@ common#:#exc_edit_exercise#:#Επεξεργασία άσκησης
 common#:#exc_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#exc_edit_until#:#Επεξεργασία μέχρι
 common#:#exc_files#:#Αρχεία
-common#:#exc_files_returned#:#Αρχεία που επιστράφηκαν
+common#:#exc_files_returned#:#Αρχεία που επιστράφηκαν###26 Jul 2006 content changed
 common#:#exc_groups#:#Ομάδες
 common#:#exc_header_members#:#Άσκηση (μέλη)
 common#:#exc_instruction#:#Οδηγίες εργασίας
@@ -1382,6 +1382,7 @@ common#:#exc_send_exercise#:#Αποστολή άσκησης
 common#:#exc_sent#:#Η άσκηση έχει αποσταλεί στους επιλεγμένους χρήστες
 common#:#exc_status_saved#:#Η άσκηση ενημερώθηκε
 common#:#exc_status_solved#:#Λύθηκε
+common#:#exc_submission#:#Submission###26 Jul 2006 new variable
 common#:#exc_upload_error#:#Λάθος στο ανέβασμα αρχείου
 common#:#exc_users#:#Χρήστες
 common#:#exc_visible#:#Η άσκηση είναι ορατή
@@ -2507,6 +2508,7 @@ common#:#predefined_template#:#Προκαθορισμένο πρότυπο ρό�
 common#:#presentation_options#:#Επιλογές παρουσίασης
 common#:#previous#:#προηγούμενο
 common#:#print#:#Εκτύπωση
+common#:#print_view#:#Print View###26 Jul 2006 new variable
 common#:#private_notes#:#Ιδιωτικές σημειώσεις
 common#:#pro#:#Προ
 common#:#profile#:#Προφίλ
@@ -3905,6 +3907,7 @@ crs#:#crs_waiting_list#:#Λίστα αναμονής###15 Jul 2006 content chang
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Η θέσης σας στη λίστα αναμονής
 crs#:#edit_content#:#Επεξεργασία περιεχομένων
+crs#:#event#:#Event###26 Jul 2006 new variable
 crs#:#import_crs#:#Εισαγωγή μαθήματος
 crs#:#learners_view#:#Προβολή Εκπαιδευόμενων
 crs#:#subscription_times_not_valid#:#Δεν είναι έγκυρη η περίοδος εγγραφής.

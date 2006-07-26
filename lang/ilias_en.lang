@@ -1580,7 +1580,6 @@ common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work instructions
 common#:#exc_last_submission#:#Last Submission
-common#:#exc_submission#:#Submission
 common#:#exc_mail_users#:#Send mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
@@ -1603,6 +1602,7 @@ common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_sent#:#Delivered
 common#:#exc_status_solved#:#Solved
 common#:#exc_status_submitted#:#Submitted
+common#:#exc_submission#:#Submission
 common#:#exc_time_over_short#:#time is over
 common#:#exc_time_to_send#:#Remaining working time
 common#:#exc_upload_error#:#Error uploading file
@@ -2791,6 +2791,7 @@ common#:#predefined_template#:#Predefined role template
 common#:#presentation_options#:#Presentation Options
 common#:#previous#:#previous
 common#:#print#:#Print
+common#:#print_view#:#Print View
 common#:#private_notes#:#Private Notes
 common#:#pro#:#Pro
 common#:#profile#:#Profile
@@ -4280,6 +4281,7 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Your position on the waiting list
 crs#:#edit_content#:#Edit Content
 crs#:#edit_timings_list#:#Edit Timings
+crs#:#event#:#Event
 crs#:#event_add_new_event#:#Added new event
 crs#:#event_assign_materials#:#Assign Materials
 crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.
@@ -6384,5 +6386,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-crs#:#event#:#Event
-common#:#print_view#:#Print View

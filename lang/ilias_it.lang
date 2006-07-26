@@ -1600,6 +1600,7 @@ common#:#exc_status_saved#:#Esercitazione aggiornata
 common#:#exc_status_sent#:#Delivered###10 Jul 2006 new variable
 common#:#exc_status_solved#:#Risolto
 common#:#exc_status_submitted#:#Submitted###10 Jul 2006 new variable
+common#:#exc_submission#:#Submission###26 Jul 2006 new variable
 common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
 common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
 common#:#exc_upload_error#:#Errore nell&#039; upload del file
@@ -2786,6 +2787,7 @@ common#:#predefined_template#:#Template di ruolo predefiniti
 common#:#presentation_options#:#Opzioni di presentazione
 common#:#previous#:#Precedente
 common#:#print#:#Stampa
+common#:#print_view#:#Print View###26 Jul 2006 new variable
 common#:#private_notes#:#Note personali
 common#:#pro#:#Pro
 common#:#profile#:#Profilo
@@ -4274,6 +4276,7 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Posizione nella lista di attesa
 crs#:#edit_content#:#Modifica il contenuto###10 Jul 2006 content changed
 crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
+crs#:#event#:#Event###26 Jul 2006 new variable
 crs#:#event_add_new_event#:#Added new event###10 Jul 2006 new variable
 crs#:#event_assign_materials#:#Assign Materials###10 Jul 2006 new variable
 crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.###10 Jul 2006 new variable

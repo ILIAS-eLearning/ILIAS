@@ -1541,6 +1541,7 @@ common#:#exc_status_saved#:#Bài tập đã cập nhật
 common#:#exc_status_sent#:#Delivered###10 Jul 2006 new variable
 common#:#exc_status_solved#:#�?ã giải quyết
 common#:#exc_status_submitted#:#Submitted###10 Jul 2006 new variable
+common#:#exc_submission#:#Submission###26 Jul 2006 new variable
 common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
 common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
 common#:#exc_upload_error#:#Lỗi khi tải lên file
@@ -2719,6 +2720,7 @@ common#:#predefined_template#:#Vai trò mẫu định nghĩa trước
 common#:#presentation_options#:#Tùy ch�?n trình bày
 common#:#previous#:#Trước
 common#:#print#:#In
+common#:#print_view#:#Print View###26 Jul 2006 new variable
 common#:#private_notes#:#Ghi chép cá nhân
 common#:#pro#:#Pro///
 common#:#profile#:#Hồ sơ
@@ -4186,6 +4188,7 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Vị trí của bạn trong danh sách đợi
 crs#:#edit_content#:#Sửa nội dung###10 Jul 2006 content changed
 crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
+crs#:#event#:#Event###26 Jul 2006 new variable
 crs#:#event_add_new_event#:#Added new event###10 Jul 2006 new variable
 crs#:#event_assign_materials#:#Assign Materials###10 Jul 2006 new variable
 crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.###10 Jul 2006 new variable

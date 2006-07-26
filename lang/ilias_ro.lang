@@ -1451,6 +1451,7 @@ common#:#exc_status_saved#:#Exercitiu reinnoit
 common#:#exc_status_sent#:#Delivered###10 Jul 2006 new variable
 common#:#exc_status_solved#:#Rezolvat
 common#:#exc_status_submitted#:#Submitted###10 Jul 2006 new variable
+common#:#exc_submission#:#Submission###26 Jul 2006 new variable
 common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
 common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
 common#:#exc_upload_error#:#Eroare la incarcarea fisierului
@@ -2483,6 +2484,7 @@ common#:#preconditions#:#Preconditii
 common#:#presentation_options#:#Optiuni de prezentare
 common#:#previous#:#Anterior
 common#:#print#:#Tipariti
+common#:#print_view#:#Print View###26 Jul 2006 new variable
 common#:#private_notes#:#Private Notes###03 Nov 2005 new variable
 common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#profile_changed#:#Profilul dumneavoastra a fost schimbat###10 Jul 2006 content changed
@@ -3630,6 +3632,7 @@ crs#:#crs_visibility_unvisible#:#Non-vizibila###15 Jul 2006 content changed
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
 crs#:#crs_xml#:#XML
 crs#:#edit_timings_list#:#Edit Timings###10 Jul 2006 new variable
+crs#:#event#:#Event###26 Jul 2006 new variable
 crs#:#event_add_new_event#:#Added new event###10 Jul 2006 new variable
 crs#:#event_assign_materials#:#Assign Materials###10 Jul 2006 new variable
 crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.###10 Jul 2006 new variable
