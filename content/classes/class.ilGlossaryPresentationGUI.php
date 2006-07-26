@@ -615,11 +615,15 @@ class ilGlossaryPresentationGUI
 			if ($this->glossary->getPublicExportFile($type) != "")
 			{
 				$dir = $this->glossary->getExportDirectory($type);
-				$size = filesize($this->glossary->getExportDirectory($type)."/".
-					$this->glossary->getPublicExportFile($type));
-				$export_files[] = array("type" => $type,
-					"file" => $this->glossary->getPublicExportFile($type),
-					"size" => $size);
+				if (is_file($this->glossary->getExportDirectory($type)."/".
+					$this->glossary->getPublicExportFile($type)))
+				{
+					$size = filesize($this->glossary->getExportDirectory($type)."/".
+						$this->glossary->getPublicExportFile($type));
+					$export_files[] = array("type" => $type,
+						"file" => $this->glossary->getPublicExportFile($type),
+						"size" => $size);
+				}
 			}
 		}
 		
