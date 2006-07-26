@@ -109,6 +109,12 @@ class ilCourseContentGUI
 				break;
 
 			default:
+				if(!$this->__checkStartObjects())
+				{
+					$this->showStartObjects();
+					break;
+				}
+
 				// forward if archives enabled and not tutor
 				if(!$this->is_tutor = $ilAccess->checkAccess('write','',$this->course_obj->getRefId()) and
 				   $this->course_obj->isArchived())
@@ -183,6 +189,149 @@ class ilCourseContentGUI
 
 		return true;
 	}
+
+	function __checkStartObjects()
+	{
+		include_once './course/classes/class.ilCourseStart.php';
+
+		global $ilAccess,$ilUser;
+
+		if($ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			return true;
+		}
+		$this->start_obj = new ilCourseStart($this->course_obj->getRefId(),$this->course_obj->getId());
+		if(count($this->start_obj->getStartObjects()) and !$this->start_obj->allFullfilled($ilUser->getId()))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	function showStartObjects()
+	{
+		include_once './course/classes/class.ilCourseLMHistory.php';
+		include_once './classes/class.ilRepositoryExplorer.php';
+		include_once './classes/class.ilLink.php';
+
+		global $rbacsystem,$ilias,$ilUser,$ilAccess,$ilObjDataCache;
+
+		$this->tabs_gui->setSubTabActive('crs_content');
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html","course");
+		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_info_start'));
+		$this->tpl->setVariable("TBL_TITLE_START",$this->lng->txt('crs_table_start_objects'));
+		$this->tpl->setVariable("HEADER_NR",$this->lng->txt('crs_nr'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("HEADER_EDITED",$this->lng->txt('crs_objective_accomplished'));
+
+
+		$lm_continue =& new ilCourseLMHistory($this->course_obj->getRefId(),$ilUser->getId());
+		$continue_data = $lm_continue->getLMHistory();
+
+		$counter = 0;
+		foreach($this->start_obj->getStartObjects() as $start)
+		{
+			$obj_id = $ilObjDataCache->lookupObjId($start['item_ref_id']);
+			$ref_id = $start['item_ref_id'];
+			$type = $ilObjDataCache->lookupType($obj_id);
+
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($obj_id);
+
+			$obj_link = ilLink::_getLink($ref_id,$type);
+			$obj_frame = ilRepositoryExplorer::buildFrameTarget($type,$ref_id,$obj_id);
+			$obj_frame = $obj_frame ? $obj_frame : '';
+			
+			// Tmp fix for tests
+			$obj_frame = $type == 'tst' ? '' : $obj_frame;
+
+			$contentObj = false;
+
+			if($ilAccess->checkAccess('read','',$ref_id))
+			{
+				$this->tpl->setCurrentBlock("start_read");
+				$this->tpl->setVariable("READ_TITLE_START",$ilObjDataCache->lookupTitle($obj_id));
+				$this->tpl->setVariable("READ_TARGET_START",$obj_frame);
+				$this->tpl->setVariable("READ_LINK_START", $obj_link.'&crs_show_result='.$this->course_obj->getRefId());
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("start_visible");
+				$this->tpl->setVariable("VISIBLE_LINK_START",$ilObjDataCache->lookupTitle($obj_id));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// CONTINUE LINK
+			if(isset($continue_data[$ref_id]))
+			{
+				$this->tpl->setCurrentBlock("link");
+				$this->tpl->setVariable("LINK_HREF",ilLink::_getLink($ref_id,'',array('obj_id',
+																					  $continue_data[$ref_id]['lm_page_id'])));
+				#$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
+				$this->tpl->setVariable("LINK_NAME",$this->lng->txt('continue_work'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// add to desktop link
+			if(!$ilUser->isDesktopItem($ref_id,$type) and 
+			   $this->course_obj->getAboStatus())
+			{
+				if ($ilAccess->checkAccess('read','',$ref_id))
+				{
+					$this->tpl->setCurrentBlock("link");
+					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_ref_id',$ref_id);
+					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_id',$ref_id);
+					$this->ctrl->setParameterByClass(get_class($this->container_gui),'type',$type);
+					
+					$this->tpl->setVariable("LINK_HREF",$this->ctrl->getLinkTarget($this->container_gui,'addToDesk'));
+					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("to_desktop"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			elseif($this->course_obj->getAboStatus())
+			{
+					$this->tpl->setCurrentBlock("link");
+					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_ref_id',$ref_id);
+					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_id',$ref_id);
+					$this->ctrl->setParameterByClass(get_class($this->container_gui),'type',$type);
+					
+					$this->tpl->setVariable("LINK_HREF",$this->ctrl->getLinkTarget($this->container_gui,'removeFromDesk'));
+					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("unsubscribe"));
+					$this->tpl->parseCurrentBlock();
+			}				
+
+
+			// Description
+			if(strlen($ilObjDataCache->lookupDescription($obj_id)))
+			{
+				$this->tpl->setCurrentBlock("start_description");
+				$this->tpl->setVariable("DESCRIPTION_START",$ilObjDataCache->lookupDescription($obj_id));
+				$this->tpl->parseCurrentBlock();
+			}
+
+
+			if($this->start_obj->isFullfilled($ilUser->getId(),$ref_id))
+			{
+				$accomplished = 'accomplished';
+			}
+			else
+			{
+				$accomplished = 'not_accomplished';
+			}
+			$this->tpl->setCurrentBlock("start_row");
+			$this->tpl->setVariable("EDITED_IMG",ilUtil::getImagePath('crs_'.$accomplished.'.gif'));
+			$this->tpl->setVariable("EDITED_ALT",$this->lng->txt('crs_objective_'.$accomplished));
+			$this->tpl->setVariable("ROW_CLASS",'option_value');
+			$this->tpl->setVariable("ROW_CLASS_CENTER",'option_value_center');
+			$this->tpl->setVariable("OBJ_NR_START",++$counter.'.');
+			$this->tpl->parseCurrentBlock();
+		}			
+		return true;
+	}
+		
+
+
 
 	function view()
 	{

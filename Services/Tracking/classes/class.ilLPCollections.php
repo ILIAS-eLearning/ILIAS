@@ -204,9 +204,8 @@ class ilLPCollections
 		{
 			$course_ref_ids = ilObject::_getAllReferences($a_obj_id);
 			$course_ref_id = end($course_ref_ids);
+			$possible_items = ilLPCollections::_getPossibleItems($course_ref_id);
 		}
-
-		$possible_items = ilLPCollections::_getPossibleItems($course_ref_id);
 
 		$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".(int) $a_obj_id."'";
 		$res = $ilDB->query($query);

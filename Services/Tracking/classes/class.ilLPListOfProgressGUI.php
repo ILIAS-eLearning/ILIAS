@@ -69,7 +69,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		switch($this->ctrl->getNextClass())
 		{
 			case 'illpfiltergui':
-
 				$this->ctrl->forwardCommand($this->filter_gui);
 				break;
 
@@ -270,6 +269,13 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("TBLROW",ilUtil::switchColor($this->container_row_counter++,'tblrow1','tblrow2'));
 		$this->tpl->parseCurrentBlock();
 
+
+		if($type == 'sahs_item' or
+		   $type == 'objective' or
+		   $type == 'event')
+		{
+			return true;
+		}
 
 		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		foreach(ilLPCollections::_getItems($ilObjDataCache->lookupObjId($item_id)) as $child_id)

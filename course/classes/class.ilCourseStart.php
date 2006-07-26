@@ -133,6 +133,7 @@ class ilCourseStart
 			{
 				case 'lm':
 				case 'sahs':
+				case 'svy':
 				case 'tst':
 					$poss_items[] = $node['ref_id'];
 					break;
@@ -141,52 +142,63 @@ class ilCourseStart
 		return $poss_items ? $poss_items : array();
 	}
 
-	function isFullfilled($user_id)
+	function allFullfilled($user_id)
 	{
-		$fullfilled = true;
-
-
-		include_once './course/classes/class.ilCourseLMHistory.php';
-
-		$lm_continue =& new ilCourseLMHistory($this->getRefId(),$user_id);
-		$continue_data = $lm_continue->getLMHistory();
-		
 		foreach($this->getStartObjects() as $item)
 		{
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($item['item_ref_id']);
-
-			if($tmp_obj->getType() == 'tst')
+			if(!$this->isFullfilled($user_id,$item['item_ref_id']))
 			{
-				include_once './assessment/classes/class.ilObjTestAccess.php';
-
-				if(!ilObjTestAccess::_checkCondition($tmp_obj->getId(),'finished',''))
-				{
-					$fullfilled = false;
-					continue;
-				}
-			}
-			elseif($tmp_obj->getType() == 'sahs')
-			{
-				include_once 'Services/Tracking/classes/class.ilLPStatusSCORM.php';
-
-				$completed = ilLPStatusSCORM::_getCompleted($tmp_obj->getId());
-
-				if(!in_array($user_id,$completed))
-				{
-					$fullfilled = false;
-					continue;
-				}
-			}
-			else
-			{
-				if(!isset($continue_data[$tmp_obj->getRefId()]))
-				{
-					$fullfilled = false;
-					continue;
-				}
+				return false;
 			}
 		}
-		return $fullfilled;
+		return true;
+	}
+
+
+	function isFullfilled($user_id,$item_id)
+	{
+		global $ilObjDataCache;
+
+		include_once './course/classes/class.ilCourseLMHistory.php';
+		$lm_continue =& new ilCourseLMHistory($this->getRefId(),$user_id);
+		$continue_data = $lm_continue->getLMHistory();
+
+		$obj_id = $ilObjDataCache->lookupObjId($item_id);
+		$type = $ilObjDataCache->lookupType($obj_id);
+		
+		switch($type)
+		{
+			case 'tst':
+				include_once './assessment/classes/class.ilObjTestAccess.php';
+				
+				if(!ilObjTestAccess::_checkCondition($obj_id,'finished',''))
+				{
+					return false;
+				}
+				break;
+			case 'svy':
+				include_once './survey/classes/class.ilObjSurveyAccess.php';
+				if(!ilObjSurveyAccess::_lookupFinished($obj_id, $user_id))
+				{
+					return false;
+				}
+				break;
+			case 'sahs':
+				include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+				$completed = ilLPStatusWrapper::_getCompleted($obj_id);
+				if(!in_array($user_id,$completed))
+				{
+					return false;
+				}
+				break;
+
+			default:
+				if(!isset($continue_data[$item_id]))
+				{
+					return false;
+				}
+		}
+		return true;
 	}
 
 
