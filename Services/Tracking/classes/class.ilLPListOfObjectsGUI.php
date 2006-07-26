@@ -259,6 +259,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			return true;
 		}
+		if($type == 'sahs_item' or
+		   $type == 'objective' or
+		   $type == 'event')
+		{
+			return true;
+		}
 		
 		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
 		foreach(ilLPEventCollections::_getItems($ilObjDataCache->lookupObjId($a_item_id)) as $event_id)
