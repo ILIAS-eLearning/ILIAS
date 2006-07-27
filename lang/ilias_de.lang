@@ -6306,7 +6306,7 @@ trac#:#trac_crs_members#:#Kursteilnehmer:
 trac#:#trac_crs_objects#:#Lernfortschritt der KursteilnehmerInnen
 trac#:#trac_crs_releavant_items#:#Kursobjekte
 trac#:#trac_crs_relevant_items#:#Kursmaterialien
-trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Kursobjekte aus, anhand derer der Lernfortschritt bestimmt wird.###10 Jul 2006 content changed
+trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Materialien aus, anhand derer der Lernfortschritt bestimmt wird.###10 Jul 2006 content changed
 trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
 trac#:#trac_edit_time#:#Bearbeitungszeit
 trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
@@ -6328,8 +6328,8 @@ trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_learning_progress#:#Lernfortschritt###10 Jul 2006 content changed
 trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
 trac#:#trac_lm_statistics#:#Zugriffstatistiken
-trac#:#trac_lp_determination#:#Learning Progress Status Determination###10 Jul 2006 new variable
-trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status of the course.###10 Jul 2006 new variable
+trac#:#trac_lp_determination#:#Ermittlung des Lernfortschritts
+trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird.
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.###10 Jul 2006 new variable
 trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
 trac#:#trac_mark#:#Note
@@ -6398,3 +6398,4 @@ common#:#forum_direct_notification#:#Dir. Benachrichtigung
 common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn es eine direkte Antwort auf meinen Beitrag gibt.
 common#:#forum_general_notification#:#Gen. Benachrichtigung
 common#:#forum_notify_me_generally#:#Ich möchte benachrichtigt werden, wenn es generell einen neuen Beitrag zu meinem Thema gibt.
+trac#:#trac_grp_relevant_items#:#Gruppenmaterialien

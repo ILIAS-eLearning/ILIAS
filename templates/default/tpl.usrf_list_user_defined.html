@@ -1,11 +1,69 @@
-<form action="{FORMACTION}" method="post">
-<table class="fullwidth">
-	<tr class="tblheader">
-		<th class="std" colspan="6">
-		{TXT_NEW_USER_ACCOUNT_MAIL}
-		</th>
-	</tr>
-<input type="submit" class="submit" name="cmd[chooseFieldType]" value="{BTN_ADD}" />
-</tr>
-</table>
-</form>
+	<form action="{FORMACTION}" method="post">
+	  <table class="fullwidth" width="50%" border="0">
+		  <tr class="tbltitle">
+			<th class="std" colspan="6">
+			  {TXT_OVERVIEW}
+			</th>
+		  </tr>
+		  <tr class="tblheader">
+			<th class="std" width="30%">
+			  {TXT_NAME}
+			</th>
+			<th class="std">
+			  {TXT_VISIBLE}
+			</th>
+			<th class="std">
+			  {TXT_CHANGE}
+			</th>
+			<th class="std">
+			  {TXT_REQUIRED}
+			</th>
+			<th class="std">
+			  {TXT_SEARCHABLE}
+			</th>
+			<th class="std">
+			  {TXT_OPTIONS}
+			</th>
+		  </tr>
+		  <!-- BEGIN user_defined -->
+		  <tr>
+			<td class="option">
+			  {NAME}
+			</td>
+			<td class="option_value">
+			  {VISIBLE}
+			</td>
+			<td class="option_value">
+			  {CHANGE}
+			</td>
+			<td class="option_value">
+			  {REQUIRED}
+			</td>
+			<td class="option_value">
+			  {SEARCHABLE}
+			</td>
+			<td class="option_value">
+			  <a class="il_ContainerItemCommand" href="{EDIT_LINK}">{EDIT}</a>
+			  <a class="il_ContainerItemCommand" href="{DELETE_LINK}">{DELETE}</a>
+			</td>
+		  </tr>
+		  <!-- END user_defined -->
+		  <!-- BEGIN no_content -->
+		  <tr>
+			<td colspan="6" class="option_value">
+			  {NO_FIELDS}
+			</td>
+		  </tr>
+		  <!-- END no_content -->
+		  <tr class="tblfooter">
+			<td class="std" colspan="6">
+			<div align="right">
+			  <!-- BEGIN show_save -->
+				<input type="submit" class="submit" name="cmd[updateFields]" value="{BTN_SAVE}" />
+			  <!-- END show_save -->
+				<input type="submit" class="submit" name="cmd[chooseFieldType]" value="{BTN_ADD}" />
+			  </div>
+			</td>
+		  </tr>
+	  </table>
+	</form>
