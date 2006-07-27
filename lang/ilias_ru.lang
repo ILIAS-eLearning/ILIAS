@@ -2527,6 +2527,16 @@ common#:#setUserLanguage#:#Язык пользовател�?
 common#:#set_offline#:#У�?тановить Онлайн
 common#:#set_online#:#У�?тановить Оффлайн
 common#:#settings#:#У�?тановки
+common#:#shib_federation_name#:#Name of your Shibboleth federation###27 Jul 2006 new variable
+common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the###27 Jul 2006 new variable
+common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the###27 Jul 2006 new variable
+common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.###27 Jul 2006 new variable
+common#:#shib_invalid_home_organization#:#Please choose a valid organization!###27 Jul 2006 new variable
+common#:#shib_login_external_wayf#:#Use external WAYF service###27 Jul 2006 new variable
+common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service###27 Jul 2006 new variable
+common#:#shib_login_type#:#Organization selection###27 Jul 2006 new variable
+common#:#shib_member_of#:#I'm a member of ...###27 Jul 2006 new variable
+common#:#shib_select_home_organization#:#For authentication via %s, please select your organization from the drop down list.###27 Jul 2006 new variable
 common#:#show#:#Показать
 common#:#show_details#:#Показать Детали
 common#:#show_list#:#Показать Спи�?ок

@@ -2223,7 +2223,7 @@ common#:#login_invalid#:#Det valgte login er ugyldigt! Kun f&oslash;lgende karak
 common#:#login_time#:#Tid online
 common#:#login_to_ilias#:#Login p&aring; ILIAS
 common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###10 Jul 2006 new variable
-common#:#login_to_ilias_via_shibboleth#:#Login til ILIAS via Shibboleth
+common#:#login_to_ilias_via_shibboleth#:#Login til ILIAS via Shibboleth###27 Jul 2006 content changed
 common#:#logout#:#Log af
 common#:#logout_text#:#Du er logget af ILIAS. Din Forbindelse er lukket.
 common#:#logs#:#Log data
@@ -2964,18 +2964,28 @@ common#:#shib_data_conv_warning#:#API fil kan ikke laeses
 common#:#shib_department#:#Tilf&oslash;j branche
 common#:#shib_edit_permission#:#aendre rettigheder indstillinger
 common#:#shib_email#:#Tilf&oslash;j email adresse
+common#:#shib_federation_name#:#Name of your Shibboleth federation###27 Jul 2006 new variable
 common#:#shib_firstname#:#Tilf&oslash;j fornanv
 common#:#shib_gender#:#Tilf&oslash;j k&oslash;n m eller f###10 Jul 2006 content changed
+common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the###27 Jul 2006 new variable
+common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the###27 Jul 2006 new variable
+common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.###27 Jul 2006 new variable
 common#:#shib_institution#:#Tilf&oslash;j institution
 common#:#shib_instructions#:#Vaer sikker paa at laese <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instruktioner ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#shib_invalid_home_organization#:#Please choose a valid organization!###27 Jul 2006 new variable
 common#:#shib_language#:#Tilskrive sprog
 common#:#shib_lastname#:#Tillaegge efternavn
 common#:#shib_login#:#Enestaaende Shibboleth tilf&oslash;jelse
-common#:#shib_login_button#:#Sti til Shibboleth login knap
+common#:#shib_login_button#:#Sti til Shibboleth login knap###27 Jul 2006 content changed
+common#:#shib_login_external_wayf#:#Use external WAYF service###27 Jul 2006 new variable
+common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service###27 Jul 2006 new variable
+common#:#shib_login_type#:#Organization selection###27 Jul 2006 new variable
+common#:#shib_member_of#:#I'm a member of ...###27 Jul 2006 new variable
 common#:#shib_phone_home#:#Tilf&oslash;j hjemme telefon nummer
 common#:#shib_phone_mobile#:#Tilf&oslash;j mobil telefon nummer
 common#:#shib_phone_office#:#Tilf&oslash;j arbejdes telefon nummer
 common#:#shib_read#:#Laese adgang til Shibboleth indstillinger
+common#:#shib_select_home_organization#:#For authentication via %s, please select your organization from the drop down list.###27 Jul 2006 new variable
 common#:#shib_settings_saved#:#Shibboleth indstillinger er gemt
 common#:#shib_street#:#Tilf&oslash;j adresse
 common#:#shib_title#:#Tilf&oslash;j title

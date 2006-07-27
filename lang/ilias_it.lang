@@ -2292,7 +2292,7 @@ common#:#login_invalid#:#L&#039;utente scelto non &#232; valido! Solo i seguenti
 common#:#login_time#:#Tempo di accesso
 common#:#login_to_ilias#:#Entra in ILIAS 3
 common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###10 Jul 2006 new variable
-common#:#login_to_ilias_via_shibboleth#:#Entra in ILIAS utilizzando Shibboleth
+common#:#login_to_ilias_via_shibboleth#:#Entra in ILIAS utilizzando Shibboleth###27 Jul 2006 content changed
 common#:#logout#:#Logout
 common#:#logout_text#:#Sei uscito da ILIAS 3. La tua sessione &#232; terminata.
 common#:#logs#:#Crea il report
@@ -3032,18 +3032,28 @@ common#:#shib_data_conv_warning#:#Il file con le API per la gestione dei dati no
 common#:#shib_department#:#Attributo per il dipartimento
 common#:#shib_edit_permission#:#Modifica le impostazioni dei permessi
 common#:#shib_email#:#Attributo per l&#039;indirizzo di eMail 
+common#:#shib_federation_name#:#Name of your Shibboleth federation###27 Jul 2006 new variable
 common#:#shib_firstname#:#Attributo per il nome
 common#:#shib_gender#:#Attributo per il sesso<br>(deve essere &#039;m&#039; o &#039;f&#039;) ###10 Jul 2006 content changed
+common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the###27 Jul 2006 new variable
+common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the###27 Jul 2006 new variable
+common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.###27 Jul 2006 new variable
 common#:#shib_institution#:#Attributo per l&#039;istituzione 
 common#:#shib_instructions#:#Attenzione: leggi il <a href=&#034;README.SHIBBOLETH.txt&#034; target=&#034;_blank&#034;>file con le istruzioni</a> su come configurare Shibboleth per essere usato con ILIAS. ###10 Jul 2006 content changed
+common#:#shib_invalid_home_organization#:#Please choose a valid organization!###27 Jul 2006 new variable
 common#:#shib_language#:#Attributo per la lingua
 common#:#shib_lastname#:#Attributo per i cognome
 common#:#shib_login#:#Attributo univoco per Shibboleth
-common#:#shib_login_button#:#Percorso per il bottone di accesso a Shibboleth
+common#:#shib_login_button#:#Percorso per il bottone di accesso a Shibboleth###27 Jul 2006 content changed
+common#:#shib_login_external_wayf#:#Use external WAYF service###27 Jul 2006 new variable
+common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service###27 Jul 2006 new variable
+common#:#shib_login_type#:#Organization selection###27 Jul 2006 new variable
+common#:#shib_member_of#:#I'm a member of ...###27 Jul 2006 new variable
 common#:#shib_phone_home#:#Attributo per il numero di telefono
 common#:#shib_phone_mobile#:#Attributo per il numero del cellulare
 common#:#shib_phone_office#:#Attributo per il numero di telefono di ufficio
 common#:#shib_read#:#Accedere in lettura alle impostazioni di Shibboleth
+common#:#shib_select_home_organization#:#For authentication via %s, please select your organization from the drop down list.###27 Jul 2006 new variable
 common#:#shib_settings_saved#:#Le impostazioni di Shibboleth sono state salvate.
 common#:#shib_street#:#Attributo per l&#039;indirizzo 
 common#:#shib_title#:#Attributo per il titolo
