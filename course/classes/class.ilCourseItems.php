@@ -286,9 +286,9 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		}
 		if($this->getTimingType() == IL_CRS_TIMINGS_PRESETTING)
 		{
-			if($this->getSuggestionStart() > $this->getSuggestionEnd())
+			if($this->getSuggestionEnd() > $this->getLatestEnd())
 			{
-				$ilErr->appendMessage($this->lng->txt("crs_suggestion_not_valid"));
+				$ilErr->appendMessage($this->lng->txt('crs_latest_end_not_valid'));
 			}
 		}
 		// Disabled

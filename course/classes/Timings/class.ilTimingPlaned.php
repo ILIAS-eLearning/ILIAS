@@ -84,24 +84,11 @@ class ilTimingPlaned
 		include_once 'course/classes/class.ilCourseItems.php';
 		$item_data = ilCourseItems::_getItem($this->getItemId());
 
-		#var_dump("<pre>",date('Y-m-d H:i:s',$this->getPlanedStartingTime()),"<pre>");
-		#var_dump("<pre>",date('Y-m-d H:i:s',$this->getPlanedEndingTime()),"<pre>");
-		#var_dump("<pre>",date('Y-m-d H:i:s',$item_data['earliest_start']),"<pre>");
-		#var_dump("<pre>",date('Y-m-d H:i:s',$item_data['latest_end']),"<pre>");
-		#var_dump("<pre>",$this->getPlanedStartingTime() < $item_data['earliest_start'],"<pre>");
-		#var_dump("<pre>",$this->getPlanedStartingTime() > $item_data['latest_end'],"<pre>");
-		#var_dump("<pre>",$this->getPlanedEndingTime() < $item_data['earliest_start'],"<pre>");
-		#var_dump("<pre>",$this->getPlanedEndingTime() > $item_data['earliest_end'],"<pre>");
-
-
-		if($this->getPlanedStartingTime() < $item_data['earliest_start'] or
-		   $this->getPlanedStartingTime() > $item_data['latest_end'] or
-		   $this->getPlanedEndingTime() < $item_data['earliest_start'] or
-		   $this->getPlanedEndingTime() > $item_data['latest_end'])
+		if($this->getPlanedEndingTime() > $item_data['latest_end'])
 		{
 			return false;
 		}
-		return $this->getPlanedStartingTime() < $this->getPlanedEndingTime();
+		return true;
 	}
 
 	function update()

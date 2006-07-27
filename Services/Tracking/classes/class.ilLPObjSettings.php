@@ -225,7 +225,8 @@ class ilLPObjSettings
 
 			case 'tst':
 				return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'),
-							 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'));
+							 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'),
+							 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
 
 			case 'exc':
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
