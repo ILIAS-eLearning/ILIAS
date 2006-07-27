@@ -188,16 +188,22 @@ class ilLPCollections
 		return true;
 	}
 
-	function _getItems($a_obj_id)
+	function &_getItems($a_obj_id)
 	{
 		global $ilObjDataCache;
 		global $ilDB;
 
 		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
-		if(ilLPObjSettings::_lookupMode($a_obj_id) == LP_MODE_OBJECTIVES)
+
+		$mode = ilLPObjSettings::_lookupMode($a_obj_id);
+		if($mode == LP_MODE_OBJECTIVES)
 		{
 			include_once 'course/classes/class.ilCourseObjective.php';
 			return ilCourseObjective::_getObjectiveIds($a_obj_id);
+		}
+		if($mode != LP_MODE_SCORM and $mode != LP_MODE_COLLECTION)
+		{
+			return array();
 		}
 
 		if($ilObjDataCache->lookupType($a_obj_id) != 'sahs')

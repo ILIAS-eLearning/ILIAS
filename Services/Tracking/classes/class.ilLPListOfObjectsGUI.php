@@ -222,11 +222,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			}
 
 		}
-		elseif($type == 'sahs_item' or
-			   $type == 'objective')
-		{
-			#$item_list->setIndentLevel($level+1);
-		}
 
 		if($this->has_timings)
 		{
@@ -271,8 +266,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			$this->__renderContainerRow($a_item_id,$event_id,$a_usr_id,'event',$level+2);
 		}
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		foreach(ilLPCollections::_getItems($ilObjDataCache->lookupObjId($a_item_id)) as $child_id)
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+		foreach(ilLPCollectionCache::_getItems($ilObjDataCache->lookupObjId($a_item_id)) as $child_id)
 		{
 			switch($item_list->getMode())
 			{
