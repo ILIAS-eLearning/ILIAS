@@ -6394,3 +6394,7 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+common#:#forum_direct_notification#:#Dir. Benachrichtigung
+common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn es eine direkte Antwort auf meinen Beitrag gibt.
+common#:#forum_general_notification#:#Gen. Benachrichtigung
+common#:#forum_notify_me_generally#:#Ich möchte benachrichtigt werden, wenn es generell einen neuen Beitrag zu meinem Thema gibt.

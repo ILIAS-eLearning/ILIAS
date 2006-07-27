@@ -6396,3 +6396,7 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+common#:#forum_direct_notification#:#Dir. Notification
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.
+common#:#forum_general_notification#:#Gen. Notification
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.

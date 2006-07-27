@@ -461,12 +461,13 @@ class ilForum
 	* @param	string	$subject
 	* @param	string	$message
 	* @param	integer	$notify
+	* @param	integer	$notify_posts
 	* @param	integer	$anonymize
 	* @param	datetime	$date
 	* @return	integer	new post ID
 	* @access public
 	*/
-	function generateThread($topic, $user, $subject, $message, $notify, $anonymize, $date = '')
+	function generateThread($topic, $user, $subject, $message, $notify, $notify_posts, $anonymize, $date = '')
 	{
 		$date = $date ? $date : date("Y-m-d H:i:s");
 
@@ -499,6 +500,17 @@ class ilForum
 		$q = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 ";
 		$q .= "WHERE top_pk = '" . $topic . "'";
 		$result = $this->ilias->db->query($q);
+
+		if ($notify_posts == 1)
+		{
+			// User wants to be notified about any posts in his/her new thread
+			$q = "INSERT INTO frm_notification ";
+			$q .= "(user_id, thread_id) ";
+			$q .= "VALUES ";
+			$q .= "('".$user."','".$lastInsert."')";
+
+			$result = $this->ilias->db->query($q);
+		}
 
 		// MARK READ
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());

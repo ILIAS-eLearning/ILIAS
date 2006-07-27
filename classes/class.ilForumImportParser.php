@@ -27,7 +27,7 @@ require_once("classes/class.ilSaxParser.php");
 * Forum Import Parser
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilForumImportParser.php,v 1.5.2.1 2006/05/19 15:12:48 akill Exp $
+* @version $Id$Id: class.ilForumImportParser.php,v 1.6 2006/05/19 15:39:16 akill Exp $
 *
 * @extends ilSaxParser
 * @package core
@@ -296,10 +296,10 @@ class ilForumImportParser extends ilSaxParser
 		// GENERATE IT AND 'INCREMENT' parent variable
 /*		$this->parent[] = (int) $this->forum_obj->generateThread($topic["top_pk"],$this->thread["author"],
 																 $this->thread["title"],
-																 $this->post["message"],0,date("Y-m-d H:i:s",$this->thread["c_time"]));*/
+																 $this->post["message"],0,0,0,date("Y-m-d H:i:s",$this->thread["c_time"]));*/
 		$this->__pushParentId((int) $this->forum_obj->generateThread($topic["top_pk"],$this->thread["author"],
 																	 $this->thread["title"],
-																	 $this->post["message"],0,0,date("Y-m-d H:i:s",$this->thread["c_time"])));
+																	 $this->post["message"],0,0,0,date("Y-m-d H:i:s",$this->thread["c_time"])));
 		
 		$this->forum_obj->setDbTable("frm_data");
 		$this->forum_obj->setWhereCondition("top_pk = ".$topic["top_pk"]);
