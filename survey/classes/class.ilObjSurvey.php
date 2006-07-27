@@ -349,6 +349,19 @@ class ilObjSurvey extends ilObject
 			$directory = escapeshellarg($directory);
 			exec("rm -rf $directory");
 		}
+
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->getId());
+		// remaining usages are not in text anymore -> delete them
+		// and media objects (note: delete method of ilObjMediaObject
+		// checks whether object is used in another context; if yes,
+		// the object is not deleted!)
+		foreach($mobs as $mob)
+		{
+			ilObjMediaObject::_removeUsage($mob, "svy:html", $this->getId());
+			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj->delete();
+		}
 	}
 	
 	/**

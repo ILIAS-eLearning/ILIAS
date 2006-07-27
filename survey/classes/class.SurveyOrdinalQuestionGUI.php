@@ -136,7 +136,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
@@ -150,12 +150,15 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($this->getQuestionType()));
 		$this->tpl->parseCurrentBlock();
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
-		$rte->addPlugin("latex");
+		$rte->addPlugin("latex");		
+		$rte->addButton("latex");
+		$rte->removePlugin("ibrowser");
 		include_once "./classes/class.ilObject.php";
 		$obj_id = $_GET["q_id"];
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
@@ -447,7 +450,9 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->tpl->setVariable("FORM_DATA_MODIFIED_PRESS_SAVE", $this->lng->txt("form_data_modified_press_save"));
 		}
-		$this->tpl->setVariable("QUESTION_TEXT", ilUtil::prepareFormOutput($this->object->getQuestiontext()));
+		$questiontext = $this->object->getQuestiontext();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+		$this->tpl->setVariable("QUESTION_TEXT", $questiontext);
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -705,7 +710,9 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	{
 		$this->tpl->setCurrentBlock("detail_row");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->object->getQuestiontext());
+		$questiontext = $this->object->getQuestiontext();
+		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $questiontext);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("detail_row");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
