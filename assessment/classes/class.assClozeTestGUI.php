@@ -676,7 +676,8 @@ class assClozeTestGUI extends assQuestionGUI
 						if ($graphicalOutput)
 						{
 							// output of ok/not ok icons for user entered solutions
-							if ($this->object->testGapSolution($solution["value2"], $gap))
+							$check = $this->object->testGapSolution($solution["value2"], $gap);
+							if ($check["best"])
 							{
 								$template->setCurrentBlock("icon_ok");
 								$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
@@ -686,8 +687,16 @@ class assClozeTestGUI extends assQuestionGUI
 							else
 							{
 								$template->setCurrentBlock("icon_ok");
-								$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
-								$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+								if ($check["positive"])
+								{
+									$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.gif"));
+									$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+								}
+								else
+								{
+									$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+									$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+								}
 								$template->parseCurrentBlock();
 							}
 						}
