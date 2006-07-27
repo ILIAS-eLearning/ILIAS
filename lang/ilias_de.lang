@@ -4245,7 +4245,7 @@ crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
 crs#:#crs_timings_presetting_tbl#:#Lernplanung
 crs#:#crs_timings_short_active#:#Lernplanung
 crs#:#crs_timings_short_changeable#:#Änderbar
-crs#:#crs_timings_short_limit_start_end#:#Änderbar###13 Jul 2006 content changed
+crs#:#crs_timings_short_limit_start_end#:#Spätestes Ende
 crs#:#crs_timings_short_start_end#:#Empfehlung###13 Jul 2006 content changed
 crs#:#crs_timings_start#:#Startzeit
 crs#:#crs_timings_start_end_info#:#(Start/Ende)
@@ -4253,7 +4253,7 @@ crs#:#crs_timings_sug_begin#:#Empfohlener Start
 crs#:#crs_timings_sug_end#:#Empfohlenes Ende
 crs#:#crs_timings_suggested_info#:#Empfohlene Bearbeitungszeit
 crs#:#crs_timings_time_frame#:#Zeitrahmen
-crs#:#crs_timings_update_error#:#Die Lernplanung für die folgenden Kursmaterialien ist nicht möglich, bitte überprüfen Sie Ihre Eingaben.
+crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Kursmaterialien ist mit dem angegebenen spätest möglichen Lernzeitpunkt nicht konsistent.
 crs#:#crs_timings_visibility#:#Sichtbarkeit
 crs#:#crs_to#:#Bis:###10 Jul 2006 content changed
 crs#:#crs_tutor#:#Tutor
@@ -4297,7 +4297,7 @@ crs#:#event_assign_materials_table#:#Zuordnung von Kursmaterialien
 crs#:#event_btn_add#:#Veranstaltung anlegen
 crs#:#event_date#:#Termin der Veranstaltung
 crs#:#event_delete_file#:#Datei löschen?
-crs#:#event_delete_sure#:#Sind Sie sicher, dass die folgende Veranstaltung löschen möchten?
+crs#:#event_delete_sure#:#Sind Sie sicher, dass Sie die folgende Veranstaltung löschen möchten?
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Veranstaltung
 crs#:#event_edit_members#:#Teilnehmer verwalten
@@ -4340,7 +4340,7 @@ crs#:#timing_accepted#:#Akzeptiert
 crs#:#timing_not_accepted#:#Nicht akzeptiert
 crs#:#timing_remark#:#Bemerkung
 crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
-crs#:#timing_user_accept#:#Lernplan akzeptieren
+crs#:#timing_user_accept#:#Empfohlenen Lernplan akzeptieren
 crs#:#timing_user_accepted#:#Lernplan akzeptiert
 crs#:#timings_edit#:#Zeitplanung bearbeiten
 crs#:#timings_of#:#Lernplanung von
