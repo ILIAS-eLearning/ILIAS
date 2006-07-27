@@ -412,7 +412,7 @@ class ilFormat
 		}
 
 		$dateformat = $lng->txt("lang_dateformat");
-		if ($a_omit_seconds && $lng->txt("lang_timeformat_no_sec") != "-lang_timeformat_no_sec-")
+		if ($a_omit_seconds && ($lng->txt("lang_timeformat_no_sec") != "-lang_timeformat_no_sec-"))
 		{
 			$timeformat = $lng->txt("lang_timeformat_no_sec");
 		}
@@ -430,7 +430,7 @@ class ilFormat
 		{
 			$timeformat = "";
 		}
-	
+
 		return ilFormat::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode);
 	}
 

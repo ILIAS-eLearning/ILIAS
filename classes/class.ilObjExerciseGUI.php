@@ -499,6 +499,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "edit");
 	}
 	
+	
+	/**
+	* update data of members table
+	*/
 	function updateMembersObject()
 	{
 		global $rbacsystem;
@@ -557,6 +561,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 		}
 		$this->ctrl->redirect($this, "members");
+	}
+	
+	/**
+	* Download submitted files of user.
+	*/
+	function downloadReturnedObject()
+	{
+		$this->object->members_obj->deliverReturnedFiles($_GET["member_id"]);
+		exit;
 	}
   
 	function membersObject()
@@ -624,7 +637,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		
 				// see if files have been resubmmited after solved
-				if ( $this->__getUpdatedSubmission($member_id,$this->object->getId()) == 1) 
+				if ( $this->object->_lookupUpdatedSubmission($this->object->getId(), $member_id) == 1) 
 				{
 					$resubmitted = true;
 				}
@@ -667,9 +680,49 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$tbl = new ilTableGUI();
 			$this->tpl->addBlockfile("MEMBER_TABLE", "term_table", "tpl.table.html");
 			$this->tpl->addBlockfile("TBL_CONTENT", "member_row", "tpl.exc_members_row.html");
+			
+			// SET FORMAACTION
+			$this->tpl->setCurrentBlock("tbl_form_header");
+			
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "updateMembers"));
+			$this->tpl->parseCurrentBlock();
+	
+			// SET FOOTER BUTTONS
+			$this->tpl->setCurrentBlock("tbl_action_row");
+
+			// show select all
+			if (count($a_member_ids))
+			{
+				// set checkbox toggles
+				$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
+				$this->tpl->setVariable("JS_VARNAME","member");			
+				$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_member_ids));
+				$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+				$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setVariable("COLUMN_COUNTS",6);
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+
+			$actions = array("save_status"		=> $this->lng->txt("exc_save_changes"),
+				 "send_member"		=> $this->lng->txt("exc_send_exercise"),
+				 "delete_member"	=> $this->lng->txt("exc_deassign_members"));
+
+			$this->tpl->setCurrentBlock("tbl_action_select");
+			$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
+			$this->tpl->setVariable("BTN_NAME","execute");
+			$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("COLUMN_COUNTS",9);
+			$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+			$this->tpl->parseCurrentBlock();
 
 			// title & header columns
-			$tbl->setTitle("---");
+			$tbl->setTitle($this->lng->txt("members"),"icon_usr.gif",
+				$this->lng->txt("exc_header_members"));
 			$tbl->disable("sort");
 			$tbl->setHeaderNames(array("", $this->lng->txt("name"),
 				$this->lng->txt("login"),
@@ -712,8 +765,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 					
 				// submission:
 				// see if files have been resubmmited after solved
-				$last_sub = $this->__getLastSubmission($member_id,$this->object->getId());
-				if ($this->__getUpdatedSubmission($member_id,$this->object->getId()) == 1) 
+				$last_sub =
+					$this->__getLastSubmission($member_id,$this->object->getId());
+				if ($last_sub != "---")
+				{
+					$last_sub = ilFormat::formatDate($last_sub, "datetime", true);
+				}
+				if ($this->object->_lookupUpdatedSubmission($this->object->getId(), $member_id) == 1) 
 				{
 					$last_sub = "<b>".$last_sub."</b>";
 				}
@@ -723,20 +781,38 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
 					$this->lng->txt("exc_files_returned"));
-				$this->tpl->setVariable("VAL_SUBMITTED_FILES", "x");
+				$this->tpl->setVariable("VAL_SUBMITTED_FILES",
+					count($this->object->getDeliveredFiles($member_id)));
 				
+				// note
+				$this->tpl->setVariable("TXT_NOTE", $this->lng->txt("note"));
+				$this->tpl->setVariable("NAME_NOTE",
+					"notice[$member_id]");
+				$this->tpl->setVariable("VAL_NOTE",
+					ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
+
 				// solved
 				$this->tpl->setVariable("CHKBOX_SOLVED",
 					ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1));
+				if (($sd = ilObjExercise::_lookupSolvedTime($this->object->getId(), $member_id)) > 0)
+				{
+					$this->tpl->setVariable("VAL_SOLVED_DATE", ilFormat::formatDate($sd, "datetime", true));
+				}
 					
 				// mail command
 				$this->tpl->setVariable("LINK_FEEDBACK",
 					"mail_new.php?type=new&rcp_to=".$mem_obj->getLogin());
 				$this->tpl->setVariable("TXT_FEEDBACK",
 					$this->lng->txt("mail_feedback"));
+
+				// download command
+				$this->ctrl->setParameter($this, "member_id", $member_id);
+				$this->tpl->setVariable("LINK_DOWNLOAD",
+					$this->ctrl->getLinkTarget($this, "downloadReturned"));
+				$this->tpl->setVariable("TXT_DOWNLOAD",
+					$this->lng->txt("exc_download_files"));
+
 				$this->tpl->parseCurrentBlock();
-				
-				
 			}
 			$this->tpl->setCurrentBlock("tbl_content");
 			$this->tpl->parseCurrentBlock();
@@ -1063,6 +1139,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		foreach($this->object->members_obj->getMembers() as $member)
 		{
+			$this->object->members_obj->setNoticeForMember($member,ilUtil::stripSlashes($_POST["notice"][$member]));
 			$this->object->members_obj->setStatusSolvedForMember($member,$_POST["solved"][$member] ? 1 : 0);
 			$this->object->members_obj->setStatusSentForMember($member,$_POST["sent"][$member] ? 1 : 0);
 		}
@@ -1342,31 +1419,6 @@ class ilObjExerciseGUI extends ilObjectGUI
   		}  
 	}
 
-	function __getUpdatedSubmission($member_id,$exc_id) 
-	{
-
-  		global $ilDB, $lng;
-
-  		$q="SELECT exc_members.solved_time, exc_returned.timestamp ".
-		"FROM exc_members, exc_returned ".
-		"WHERE exc_members.solved_time < exc_returned.timestamp ".
-		"AND exc_members.solved_time <> '0000-00-00 00:00:00' ".
-		"AND exc_returned.obj_id='".$exc_id."' AND exc_returned.user_id='".$member_id."'";
-
-  		$usr_set = $ilDB->query($q);
-
-  		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		if (count($array)==0) 
-		{
-			return 0;
-  		}
-		else 
-		{
-			return 1;
-		}
-
-	}
 
 	/**
 	* redirect script

@@ -1563,6 +1563,7 @@ common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
 common#:#exc#:#Exercise
 common#:#exc_add#:#Add Exercise
+common#:#exc_download_files#:#Download Files
 common#:#exc_added#:#Exercise added
 common#:#exc_ask_delete#:#Delete file?
 common#:#exc_assign_usr#:#Assign User
@@ -1595,7 +1596,7 @@ common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
 common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
-common#:#exc_send_exercise#:#Deliver exercise by mail
+common#:#exc_send_exercise#:#Send exercise by mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status#:#Status
 common#:#exc_status_resubmitted#:#Resubmitted
@@ -2312,8 +2313,8 @@ common#:#mail_d_drafts#:#Drafts
 common#:#mail_delete_error#:#Error while deleting
 common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_e_sent#:#Sent
-common#:#mail_edit_permission#:#Change permission settings
-common#:#mail_feedback#:#Mail feedback
+common#:#mail_edit_permission#:#Change Permission Settings
+common#:#mail_feedback#:#Mail Feedback
 common#:#mail_folders#:#Mail Folders
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Export file
@@ -2325,10 +2326,10 @@ common#:#mail_maxsize_box#:#Max. mailbox size
 common#:#mail_maxsize_mail#:#Max. mail size
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
 common#:#mail_maxtime_mail#:#Max. days to keep mail
-common#:#mail_members#:#Mail to members
+common#:#mail_members#:#Mail to Members
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_read#:#Read access to Mail settings
-common#:#mail_search_no#:#No entries found
+common#:#mail_search_no#:#No entries found.
 common#:#mail_search_word#:#Search word
 common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
