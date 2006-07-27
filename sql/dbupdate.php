@@ -11335,3 +11335,8 @@ DROP `tutor_title` ;
 
 <#790>
 ALTER TABLE `event` ADD `tutor_name` TEXT NOT NULL AFTER `location`;
+
+<#791>
+REPLACE INTO settings (keyword, value) VALUES ('shib_hos_type', 'external_wayf');
+REPLACE INTO settings (keyword, value) VALUES ('shib_federation_name', 'Shibboleth');
+REPLACE INTO settings (keyword, value) VALUES ('shib_idp_list', '');
