@@ -209,7 +209,7 @@ class ShibWAYF
 			{
 				$idp_list[trim($idp_data[0])] = array(trim($idp_data[1]),trim($idp_data[2])); 
 			}
-			else
+			elseif(isset($idp_data[1]))
 			{
 				$idp_list[trim($idp_data[0])] = array(trim($idp_data[1]));
 			}

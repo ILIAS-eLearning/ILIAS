@@ -248,7 +248,7 @@ class ShibAuth
 				$newUser["login"] = $username;
 				
 				// Password must be random to prevent users from manually log in using the login data from Shibboleth users
-				$newUser["passwd"] = ilUtil::generatePasswords(10); 
+				$newUser["passwd"] = md5(end(ilUtil::generatePasswords(1))); 
 				$newUser["passwd_type"] = IL_PASSWD_MD5; 
 				
 				if ( 
@@ -558,7 +558,7 @@ class ShibAuth
 		// For backwards compatibility with previous versions
 		// We use the passwd field as mapping attribute for Shibboleth users
 		// because they don't need a password
-		$ilias->db->query("UPDATE usr_data SET passwd='".ilUtil::generatePasswords(10)."', ext_account='".$shibID."' WHERE passwd='".$shibID."'");
+		$ilias->db->query("UPDATE usr_data SET passwd='".md5(end(ilUtil::generatePasswords(1)))."', ext_account='".$shibID."' WHERE passwd='".$shibID."'");
 		//***********************************************//
 		
 		// Let's see if user already is registered
@@ -573,18 +573,16 @@ class ShibAuth
 		// Generate new username
 		// This can be overruled by the data conversion API but you have
 		// to do it yourself in that case
-		$prefix = $firstname." ".$lastname;
+		$prefix = $firstname.' '.$lastname;
 		
 		if (!ilObjUser::getUserIdByLogin($prefix))
 		{
 			return $prefix;
 		}
 		
-		$prefix .= '_';
-		
 		// Add a number as prefix if the username already is taken
 		$number = 2;
-		$prefix .= " ";
+		$prefix .= ' ';
 		while (ilObjUser::getUserIdByLogin($prefix.$number))
 		{
 			$number++;
