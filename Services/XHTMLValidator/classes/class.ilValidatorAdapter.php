@@ -34,6 +34,15 @@ require_once './Services/XHTMLValidator/validator/include.inc';
 require_once './Services/XHTMLValidator/validator/validator.inc';
 
 
+/**
+* Adapter Class for XHTML Validator
+*
+* This service is used in developer mode to validate the current screen against
+* XHTML and Accessibility standards. In developer mode a corresponding link
+* will appear in the footer of the page.
+*
+* @ingroup Services/XHTMLValidator
+*/
 class ilValidatorAdapter
 {
 	

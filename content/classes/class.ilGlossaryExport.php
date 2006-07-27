@@ -30,7 +30,7 @@ require_once("content/classes/class.ilObjGlossary.php");
 *
 * @version $Id$
 *
-* @package content
+* @package Modules/Glossary
 */
 class ilGlossaryExport
 {

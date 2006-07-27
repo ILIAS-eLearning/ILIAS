@@ -31,7 +31,8 @@ require_once("./content/classes/class.ilGlossaryTerm.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* \defgroup Modules/Glossary Module for glossary objects.
+* \ingroup Modules/Glossary
 */
 class ilObjGlossary extends ilObject
 {

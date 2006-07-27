@@ -29,8 +29,7 @@
 *
 * $Id$
 *
-* @extends ilObject
-* @package content
+* @ingroup Modules/MediaPool
 */
 
 require_once "classes/class.ilObject.php";

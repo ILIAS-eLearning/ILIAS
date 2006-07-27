@@ -29,6 +29,8 @@ include_once ("Services/Notes/classes/class.ilNote.php");
 *
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
+*
+* @package Services/Notes
 */
 class ilNoteGUI
 {

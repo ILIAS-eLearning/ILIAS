@@ -28,6 +28,8 @@
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
 * @ilCtrl_Calls ilStartUpGUI: ilRegistrationGUI, ilPasswordAssistanceGUI
+*
+* @ingroup Services/Init
 */
 class ilStartUpGUI
 {
@@ -126,7 +128,6 @@ class ilStartUpGUI
 		{
 			die("Setup is not completed. Please run setup routine again. (Login)");
 		}
-		
 		
 		if ($ilSetting->get("shib_active") && $ilSetting->get("shib_hos_type"))
 		{

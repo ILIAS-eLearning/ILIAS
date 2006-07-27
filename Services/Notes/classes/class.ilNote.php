@@ -35,8 +35,9 @@ define("IL_NOTE_CONTRA", 4);
 *
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
+*
+* @package Services/Notes
 */
-
 class ilNote
 {
 	
