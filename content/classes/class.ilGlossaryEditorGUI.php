@@ -32,7 +32,7 @@
 *
 * @ilCtrl_Calls ilGlossaryEditorGUI: ilObjGlossaryGUI
 *
-* @package content
+* @package Modules/Glossary
 */
 class ilGlossaryEditorGUI
 {

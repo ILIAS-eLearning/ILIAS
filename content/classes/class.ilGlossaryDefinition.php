@@ -29,7 +29,7 @@ require_once("content/classes/Pages/class.ilPageObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @package Modules/Glossary
 */
 class ilGlossaryDefinition
 {

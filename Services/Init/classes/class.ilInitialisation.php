@@ -31,6 +31,9 @@
 * @author Sascha Hofmann <shofmann@databay.de>
 
 * @version $Id$
+*
+* @defgroup Services/Init The Init Service provides classes for the request initialisation.
+* @ingroup Services/Init
 */
 class ilInitialisation
 {

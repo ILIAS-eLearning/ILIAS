@@ -31,8 +31,7 @@
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
 *
-* @extends ilObjectGUI
-* @package content
+* @ingroup Modules/MediaPool
 */
 
 include_once("classes/class.ilObjectGUI.php");

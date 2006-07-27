@@ -30,7 +30,7 @@ include_once("classes/class.ilObjectAccess.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package AccessControl
+* \ingroup Modules/Glossary
 */
 class ilObjGlossaryAccess extends ilObjectAccess
 {
