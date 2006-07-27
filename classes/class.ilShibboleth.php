@@ -30,8 +30,6 @@ define('AUTH_WRONG_LOGIN', -3);
 * Class Shibboleth
 *
 * This class provides basic functionality for Shibboleth authentication
-* It basically implements the functions of the class PEAR::AUTH which are
-* used in other Ilias authentication methods
 *
 */
 
@@ -166,43 +164,43 @@ class ShibAuth
 	{
 		 $session = &$this->_importGlobalVariable('session');
 
-        if (isset($session[$this->_sessionName])) {
-            // Check if authentication session is expired
-            if ($this->expire > 0 &&
-                isset($session[$this->_sessionName]['timestamp']) &&
-                ($session[$this->_sessionName]['timestamp'] + $this->expire) < time()) {
-
-                $this->logout();
-                $this->expired = true;
-                $this->status = AUTH_EXPIRED;
-
-                return false;
-            }
-
-            // Check if maximum idle time is reached
-            if ($this->idle > 0 &&
-                isset($session[$this->_sessionName]['idle']) &&
-                ($session[$this->_sessionName]['idle'] + $this->idle) < time()) {
-
-                $this->logout();
-                $this->idled = true;
-                $this->status = AUTH_IDLED;
-
-                return false;
-            }
-
-            if (isset($session[$this->_sessionName]['registered']) &&
-                isset($session[$this->_sessionName]['username']) &&
-                $session[$this->_sessionName]['registered'] == true &&
-                $session[$this->_sessionName]['username'] != '') {
-
-                Auth::updateIdle();
-
-                return true;
-            }
-        }
-
-        return false;
+		if (isset($session[$this->_sessionName])) {
+			// Check if authentication session is expired
+			if ($this->expire > 0 &&
+				isset($session[$this->_sessionName]['timestamp']) &&
+				($session[$this->_sessionName]['timestamp'] + $this->expire) < time()) {
+				
+				$this->logout();
+				$this->expired = true;
+				$this->status = AUTH_EXPIRED;
+				
+				return false;
+			}
+			
+			// Check if maximum idle time is reached
+			if ($this->idle > 0 &&
+				isset($session[$this->_sessionName]['idle']) &&
+				($session[$this->_sessionName]['idle'] + $this->idle) < time()) {
+				
+				$this->logout();
+				$this->idled = true;
+				$this->status = AUTH_IDLED;
+				
+				return false;
+			}
+			
+			if (isset($session[$this->_sessionName]['registered']) &&
+				isset($session[$this->_sessionName]['username']) &&
+				$session[$this->_sessionName]['registered'] == true &&
+				$session[$this->_sessionName]['username'] != '') {
+				
+				Auth::updateIdle();
+				
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -233,6 +231,7 @@ class ShibAuth
 		
 		if (!empty($_SERVER[$ilias->getSetting('shib_login')]))
 		{
+			// Get loginname of user, new login name is generated if user is new
 			$username = $this->generateLogin();
 			
 			// Authorize this user
@@ -241,27 +240,30 @@ class ShibAuth
 			$userObj = new ilObjUser();
 			
 			// Check wether this account exists already, if not create it
-			if (!loginExists($username))
+			if (!ilObjUser::getUserIdByLogin($username))
 			{
 				
 				$newUser["firstname"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_firstname')]);
 				$newUser["lastname"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]);
-				
 				$newUser["login"] = $username;
 				
 				// Password must be random to prevent users from manually log in using the login data from Shibboleth users
-				$newUser["passwd"] = rand(); 
-				$newUser["passwd_type"] = IL_PASSWD_PLAIN; 
+				$newUser["passwd"] = ilUtil::generatePasswords(10); 
+				$newUser["passwd_type"] = IL_PASSWD_MD5; 
 				
 				if ( 
 					$ilias->getSetting('shib_update_gender')
 					&& ($_SERVER[$ilias->getSetting('shib_gender')] == 'm'
 					|| $_SERVER[$ilias->getSetting('shib_gender')] =='f')
 					)
+				{
 					$newUser["gender"] = $_SERVER[$ilias->getSetting('shib_gender')];
+				}
+				
+				// Save mapping between ILIAS user and Shibboleth uniqueID
+				$newUser["ext_account"] = $_SERVER[$ilias->getSetting('shib_login')];
 				
 				// other data
-				
 				$newUser["title"] = $_SERVER[$ilias->getSetting('shib_title')];
 				$newUser["institution"] = $_SERVER[$ilias->getSetting('shib_institution')];
 				$newUser["department"] = $_SERVER[$ilias->getSetting('shib_department')];
@@ -277,6 +279,7 @@ class ShibAuth
 				$newUser["email"] = $this->getFirstString($_SERVER[$ilias->getSetting('shib_email')]);
 				$newUser["hobby"] = $_SERVER[$ilias->getSetting('shib_hobby')];
 				$newUser["auth_mode"] = "shibboleth";
+				
 				
 				// system data
 				$userObj->assignData($newUser);
@@ -318,11 +321,6 @@ class ShibAuth
 				
 				//set role entries
 				$rbacadmin->assignUser($ilias->getSetting('shib_user_default_role'), $userObj->getId(),true);
-				
-				// Save mapping
-				// We save this mapping directly to prevent this value getting hashed
-				// That way local users cannot login using the Shibboleth unique login ID as password
-				$ilias->db->query("UPDATE usr_data SET passwd='".$_SERVER[$ilias->getSetting('shib_login')]."' WHERE login='".$username."'");
 				
 				unset($userObj);
 				
@@ -545,10 +543,7 @@ class ShibAuth
 	* the user's already existing username
 	*
 	* @access private
-	* @param string Type of variable. This must be the unique ID of a Shibboleth user
-	* @param string The user's lastname
-	* @param string The user's firstname
-	* @return array
+	* @return String Generated username
 	*/
 	function generateLogin()
 	{
@@ -558,32 +553,39 @@ class ShibAuth
 		$lastname = $this->getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]);
 		$firstname = $this->getFirstString($_SERVER[$ilias->getSetting('shib_firstname')]);
 		
+		
+		//***********************************************//
+		// For backwards compatibility with previous versions
 		// We use the passwd field as mapping attribute for Shibboleth users
 		// because they don't need a password
-		$r = $ilias->db->query("SELECT login FROM usr_data WHERE passwd='".$shibID."'");
+		$ilias->db->query("UPDATE usr_data SET passwd='".ilUtil::generatePasswords(10)."', ext_account='".$shibID."' WHERE passwd='".$shibID."'");
+		//***********************************************//
 		
-		//query has got a result
-		if ($r->numRows() > 0)
+		// Let's see if user already is registered
+		$local_user = ilObjUser::_checkExternalAuthAccount("shibboleth", $shibID);
+		if ($local_user)
 		{
-			$data = $r->fetchRow();
-			return $data[0];
+			return $local_user;
 		}
 		
+		// User doesn't seem to exist yet
 		
 		// Generate new username
 		// This can be overruled by the data conversion API but you have
 		// to do it yourself in that case
 		$prefix = $firstname." ".$lastname;
 		
-		if (!$this->checkMapping($prefix))
+		if (!ilObjUser::getUserIdByLogin($prefix))
 		{
 			return $prefix;
 		}
 		
+		$prefix .= '_';
+		
 		// Add a number as prefix if the username already is taken
 		$number = 2;
 		$prefix .= " ";
-		while ($this->checkMapping($prefix.$number))
+		while (ilObjUser::getUserIdByLogin($prefix.$number))
 		{
 			$number++;
 		}
@@ -592,38 +594,14 @@ class ShibAuth
 	}
 	
 	/**
-	* Checks whether a specific username is already used  by a user
-	*
-	* @access private
-	* @param string Username
-	* @return bool  True if a username is already taken
-	*/
-	function checkMapping($login)
-	{
-		global $ilias;
-		
-		// Check if username already exists
-		$r = $ilias->db->query("SELECT passwd FROM usr_data WHERE login='".$login."'");
-		
-		//query has got a result
-		if ($r->numRows() > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	function getFirstString($string){
-	/**
 	* Cleans and returns first of potential many values (multi-valued attributes)
 	*
 	* @access private
 	* @param string A Shibboleth attribute or other string
-	* @return string
+	* @return string First value of attribute
 	*/
+	function getFirstString($string){
+	
 		
 		$list = split( ';', $string);
 		$clean_string = rtrim($list[0]);
