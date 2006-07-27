@@ -150,10 +150,13 @@ class ilObjGroup extends ilContainer
 		$appList = array();
 		$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->getId();
 		$res = $this->ilias->db->query($q);
-
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			array_push($appList,$row);
+			if (ilObject::_exists($row->user_id) &&
+				ilObject::_lookupType($row->user_id) == "usr")
+			{
+				array_push($appList,$row);
+			}
 		}
 
 		return ($appList) ? $appList : false;
