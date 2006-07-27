@@ -37,7 +37,7 @@ require_once "classes/class.ilObjectGUI.php";
 require_once "assessment/classes/class.ilObjQuestionPool.php";
 require_once "classes/class.ilMetaDataGUI.php";
 
-class ilExerciseGUI extends ASS_QuestionGUI {
+class ilExerciseGUI extends assQuestionGUI {
 	var $ilias;
 	var $objExercise;
 	
@@ -62,7 +62,7 @@ class ilExerciseGUI extends ASS_QuestionGUI {
 	
 	function previewQuestion($question_id) {
 		// developing
-		$question_gui =& new ASS_QuestionGUI();
+		$question_gui =& new assQuestionGUI();
 		$question =& $question_gui->create_question("", $question_id);
 		$question_gui->out_preview();
 	}
@@ -164,7 +164,7 @@ function exercise()
 			{
 				foreach ($checked_questions as $key => $value) 
 				{
-					$question_gui =& new ASS_QuestionGUI();
+					$question_gui =& new assQuestionGUI();
 					$question =& $question_gui->create_question("", $value);
 					$question_gui->question->duplicate();
 				}

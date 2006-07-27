@@ -297,13 +297,13 @@ class ilContObjParser extends ilMDSaxParser
 				if ($type_arr[0] == "qst")
 				{
 					require_once "./assessment/classes/class.assQuestion.php";
-					ASS_Question::_resolveIntLinks($source["id"]);
+					assQuestion::_resolveIntLinks($source["id"]);
 				}
 				// eventually correct links in survey questions to learning modules
 				if ($type_arr[0] == "sqst")
 				{
 					require_once "./survey/classes/class.SurveyQuestion.php";
-					ASS_Question::_resolveIntLinks($source["id"]);
+					assQuestion::_resolveIntLinks($source["id"]);
 				}
 				$done[$key] = $key;
 			}
