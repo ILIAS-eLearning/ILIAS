@@ -185,17 +185,18 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable('HEAD_TIMING',$this->lng->txt('trac_head_timing'));
 			$this->tpl->setVariable('HEAD_TIME_PASSED',$this->lng->txt('trac_time_passed'));
 		}
-
 		$this->container_row_counter = 0;
 		// show events
 		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
 		foreach(ilLPEventCollections::_getItems($this->details_obj_id) as $event_id)
 		{
 			$this->__renderContainerRow($this->details_id,$event_id,'event',0);
+
 		}
 		// show items
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		foreach(ilLPCollections::_getItems($this->details_obj_id) as $item_id)
+
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+		foreach(ilLPCollectionCache::_getItems($this->details_obj_id) as $item_id)
 		{
 			switch($this->details_mode)
 			{
@@ -227,10 +228,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$item_list->readTimings();
 			$item_list->enable('timings');
 		}
+
 		$item_list->setCurrentUser($this->tracked_user->getId());
 		$item_list->readUserInfo();
 		$item_list->setIndentLevel($level);
 		$item_list->renderContainerProgress();
+
 
 		// Details link
 		if($type != 'sahs_item' and
@@ -243,18 +246,18 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
 			$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
 			$this->tpl->parseCurrentBlock();
-		}
-		
-		if($this->has_timings)
-		{
-			if(ilTimingCache::_showWarning($item_id,$this->tracked_user->getId()))
+
+			if($this->has_timings and ilTimingCache::_showWarning($item_id,$this->tracked_user->getId()))
 			{
 				$this->tpl->setCurrentBlock('warning_img');
 				$this->tpl->setVariable('WARNING_IMG',ilUtil::getImagePath('warning.gif'));
 				$this->tpl->setVariable('WARNING_ALT',$this->lng->txt('trac_editing_time_passed'));
 				$this->tpl->parseCurrentBlock();
 			}
-
+		}
+		
+		if($this->has_timings)
+		{
 			$this->tpl->setCurrentBlock('timing');
 			$this->tpl->setVariable('END_EDITING_TIME',$item_list->getEditingTime() ? 
 									ilFormat::formatUnixTime($item_list->getEditingTime()) : 
@@ -277,8 +280,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			return true;
 		}
 
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		foreach(ilLPCollections::_getItems($ilObjDataCache->lookupObjId($item_id)) as $child_id)
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+		foreach(ilLPCollectionCache::_getItems($ilObjDataCache->lookupObjId($item_id)) as $child_id)
 		{
 			switch($item_list->getMode())
 			{

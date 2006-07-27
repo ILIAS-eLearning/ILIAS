@@ -46,10 +46,10 @@ class ilLPStatusSCORM extends ilLPStatus
 
 	function _getInProgress($a_obj_id)
 	{
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 
-		return  array_diff(ilObjSCORMTracking::_getInProgress(ilLPCollections::_getItems($a_obj_id),$a_obj_id),
+		return  array_diff(ilObjSCORMTracking::_getInProgress(ilLPCollectionCache::_getItems($a_obj_id),$a_obj_id),
 						   ilLPStatusSCORM::_getCompleted($a_obj_id));
 	}
 
@@ -57,7 +57,6 @@ class ilLPStatusSCORM extends ilLPStatus
 	{
 		global $ilDB;
 
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
@@ -82,8 +81,8 @@ class ilLPStatusSCORM extends ilLPStatus
 	function _getStatusInfo($a_obj_id)
 	{
 		// Which sco's determine the status
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
-		$status_info['scos'] = ilLPCollections::_getItems($a_obj_id);
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+		$status_info['scos'] = ilLPCollectionCache::_getItems($a_obj_id);
 		$status_info['num_scos'] = count($status_info['scos']);
 		
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';

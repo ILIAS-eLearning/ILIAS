@@ -524,8 +524,8 @@ class ilLearningProgressBaseGUI
 			}
 			if($this->obj_data[$item_id]['mode'] == LP_MODE_SCORM)
 			{
-				include_once './Services/Tracking/classes/class.ilLPCollections.php';
-				$this->obj_data[$item_id]['scos'] = count(ilLPCollections::_getItems($item_id));
+				include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+				$this->obj_data[$item_id]['scos'] = count(ilLPCollectionCache::_getItems($item_id));
 			}
 		}
 	}
@@ -593,9 +593,9 @@ class ilLearningProgressBaseGUI
 		}
 
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 
-		$this->scorm_data[$a_obj_id] = ilObjSCORMTracking::_getCountCompletedPerUser(ilLPCollections::_getItems($a_obj_id),$a_obj_id);
+		$this->scorm_data[$a_obj_id] = ilObjSCORMTracking::_getCountCompletedPerUser(ilLPCollectionCache::_getItems($a_obj_id),$a_obj_id);
 		return $this->scorm_data[$a_obj_id];
 	}
 	

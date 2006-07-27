@@ -66,7 +66,7 @@ class ilLPStatusCollection extends ilLPStatus
 
 	function _getInProgress($a_obj_id)
 	{
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
 
 
@@ -74,7 +74,7 @@ class ilLPStatusCollection extends ilLPStatus
 		$ilBench->start('LearningProgress','9172_LPStatusCollection_inProgress');
 
 		$in_progress = 0;
-		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
+		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
 		{
 			$item_id = $ilObjDataCache->lookupObjId($item_id);
 
@@ -109,7 +109,7 @@ class ilLPStatusCollection extends ilLPStatus
 
 	function _getCompleted($a_obj_id)
 	{
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
 
 		global $ilBench,$ilObjDataCache;
@@ -117,7 +117,7 @@ class ilLPStatusCollection extends ilLPStatus
 
 
 		$counter = 0;
-		foreach(ilLPCollections::_getItems($a_obj_id) as $item_id)
+		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
 		{
 			$item_id = $ilObjDataCache->lookupObjId($item_id);
 
@@ -160,11 +160,11 @@ class ilLPStatusCollection extends ilLPStatus
 
 	function _getStatusInfo($a_obj_id)
 	{
-		include_once './Services/Tracking/classes/class.ilLPCollections.php';
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
 
-		$status_info['collections'] = ilLPCollections::_getItems($a_obj_id);
-		$status_info['event_collections'] = ilLPCollections::_getItems($a_obj_id);
+		$status_info['collections'] = ilLPCollectionCache::_getItems($a_obj_id);
+		$status_info['event_collections'] = ilLPEventCollections::_getItems($a_obj_id);
 
 		$status_info['num_collections'] = count($status_info['collections']) + count($status_info['event_collections']);
 		return $status_info;
