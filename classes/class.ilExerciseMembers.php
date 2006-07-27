@@ -195,7 +195,8 @@ class ilExerciseMembers
 	    "SET solved = '".($a_status ? 1 : 0)."', ".
 	    "solved_time=".($a_status ? ("'".date("Y-m-d H:i:s")."'") : ("'0000-00-00 00:00:00'")).
 	    " WHERE obj_id = '".$this->getObjId()."' ".
-	    "AND usr_id = '".$a_member_id."'";
+	    "AND usr_id = '".$a_member_id."'".
+		" AND solved <> '".($a_status ? 1 : 0)."'";
 	  
 	  $this->ilias->db->query($query);
 	  $this->read();
@@ -226,8 +227,9 @@ class ilExerciseMembers
 	function setStatusSentForMember($a_member_id,$a_status)
 	{
 		$query = "UPDATE exc_members ".
-			"SET sent = '".($a_status ? 1 : 0)."' ".
-			"WHERE obj_id = '".$this->getObjId()."' ".
+			"SET sent = '".($a_status ? 1 : 0)."', ".
+			"sent_time=".($a_status ? ("'".date("Y-m-d H:i:s")."'") : ("'0000-00-00 00:00:00'")).
+			" WHERE obj_id = '".$this->getObjId()."' ".
 			"AND usr_id = '".$a_member_id."'";
 
 		$this->ilias->db->query($query);

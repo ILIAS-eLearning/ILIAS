@@ -11340,3 +11340,12 @@ ALTER TABLE `event` ADD `tutor_name` TEXT NOT NULL AFTER `location`;
 REPLACE INTO settings (keyword, value) VALUES ('shib_hos_type', 'external_wayf');
 REPLACE INTO settings (keyword, value) VALUES ('shib_federation_name', 'Shibboleth');
 REPLACE INTO settings (keyword, value) VALUES ('shib_idp_list', '');
+<#792>
+ALTER TABLE exc_members ADD sent_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00';
+<#793>
+CREATE TABLE exc_usr_tutor (
+obj_id INT NOT NULL DEFAULT 0,
+usr_id INT NOT NULL DEFAULT 0,
+tutor_id INT NOT NULL DEFAULT 0,
+download_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+PRIMARY KEY (obj_id, usr_id, tutor_id));

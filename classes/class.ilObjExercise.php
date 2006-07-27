@@ -303,6 +303,9 @@ class ilObjExercise extends ilObject
 		return true;
 	}
 
+	/**
+	* send exercise per mail to members
+	*/
 	function send($a_members)
 	{
 		$files = $this->file_obj->getFiles();
@@ -342,6 +345,73 @@ class ilObjExercise extends ilObject
 		return true;
 	}
 
+	/**
+	* Check whether student has upload new files after tutor has
+	* set the exercise to solved.
+	*/
+	function _lookupUpdatedSubmission($exc_id, $member_id) 
+	{
+
+  		global $ilDB, $lng;
+
+  		$q="SELECT exc_members.solved_time, exc_returned.timestamp ".
+		"FROM exc_members, exc_returned ".
+		"WHERE exc_members.solved_time < exc_returned.timestamp ".
+		"AND exc_members.solved_time <> '0000-00-00 00:00:00' ".
+		"AND exc_returned.obj_id='".$exc_id."' AND exc_returned.user_id='".$member_id."'";
+
+  		$usr_set = $ilDB->query($q);
+
+  		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		if (count($array)==0) 
+		{
+			return 0;
+  		}
+		else 
+		{
+			return 1;
+		}
+
+	}
+
+	/**
+	* Get time when exercise has been set to solved.
+	*/
+	function _lookupSolvedTime($exc_id, $member_id) 
+	{
+
+  		global $ilDB, $lng;
+
+  		$q = "SELECT * ".
+		"FROM exc_members ".
+		"WHERE obj_id='".$exc_id."' AND usr_id='".$member_id."'";
+
+  		$set = $ilDB->query($q);
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $rec["solved_time"];
+		}
+	}
+
+	/**
+	* Get time when exercise has been sent per e-mail to user
+	*/
+	function _lookupSentTime($exc_id, $member_id) 
+	{
+
+  		global $ilDB, $lng;
+
+  		$q = "SELECT * ".
+		"FROM exc_members ".
+		"WHERE obj_id='".$exc_id."' AND usr_id='".$member_id."'";
+
+  		$set = $ilDB->query($q);
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $rec["sent_time"];
+		}
+	}
 
 	// PRIVATE METHODS
 	function __formatBody()
