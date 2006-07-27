@@ -1982,7 +1982,7 @@ class assClozeTest extends assQuestion
 	*
 	* @param string $value The value which should be checked
 	* @param array $gap An array of answers for a gap
-	* @return boolean TRUE if the given value is the best solution for a gap
+	* @return array "best" => TRUE if the given value is the best solution for a gap, "positive" => TRUE if the resulting points are greater 0, FALSE otherwise
 	* @access public
 	*/
 	function testGapSolution($value, $gap)
@@ -1995,13 +1995,18 @@ class assClozeTest extends assQuestion
 		}
 		if ($gap[0]->getClozeType() == CLOZE_SELECT)
 		{
+			$positive = FALSE;
+			if ($gap[$value]->getPoints() > 0)
+			{
+				$positive = TRUE;
+			}
 			if ($max_points == $gap[$value]->getPoints())
 			{
-				return TRUE;
+				return array("best" => TRUE, "positive" => $positive);
 			}
 			else
 			{
-				return FALSE;
+				return array("best" => FALSE, "positive" => $positive);
 			}
 		}
 		else
@@ -2014,13 +2019,18 @@ class assClozeTest extends assQuestion
 				if ($gotpoints > $gappoints) $gappoints = $gotpoints;
 				if ($v->getPoints() > $max_points) $max_points = $v->getPoints();
 			}
+			$positive = FALSE;
+			if ($gappoints > 0)
+			{
+				$positive = TRUE;
+			}
 			if ($gappoints == $max_points)
 			{
-				return TRUE;
+				return array("best" => TRUE, "positive" => $positive);
 			}
 			else
 			{
-				return FALSE;
+				return array("best" => FALSE, "positive" => $positive);
 			}
 		}
 	}

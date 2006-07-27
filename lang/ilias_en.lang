@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Add question pool
 assessment#:#add_solution#:#Add suggested solution
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#answer#:#Answer
-assessment#:#answer_is_right#:#Your solution is right
+assessment#:#answer_is_right#:#Your solution is correct
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
 assessment#:#answer_is_wrong#:#Your solution is wrong
 assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
