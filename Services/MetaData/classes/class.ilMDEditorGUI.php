@@ -1821,7 +1821,7 @@ class ilMDEditorGUI
 		$this->md_section->update();
 		
 		$this->callListeners('Educational');
-
+		sendinfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 
