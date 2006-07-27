@@ -37,6 +37,28 @@ class ilTinyMCE extends ilRTE
 	function ilTinyMCE()
 	{
 		parent::ilRTE();
+		$this->plugins = array(
+			"ibrowser",
+			"xhtmlxtras",
+			"style",
+			"layer",
+			"table",
+			"save",
+			"advhr",
+			"advlink",
+			"emotions",
+			"iespell",
+			"insertdatetime",
+			"preview",
+			"flash",
+			"searchreplace",
+			"print",
+			"contextmenu",
+			"paste",
+			"directionality",
+			"fullscreen",
+			"noneditable"
+		);
 	}
 	
 	/**
@@ -104,13 +126,13 @@ class ilTinyMCE extends ilRTE
 		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
 		$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
 		$more_buttons = "";
-		if (count($this->plugins) > 0)
+		if (count($this->buttons) > 0)
 		{
-			$more_buttons = ",separator," . join(",", $this->plugins);
+			$more_buttons = ",separator," . join(",", $this->buttons);
 		}
 		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
 		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
-		$tpl->setVariable("ADDITIONAL_PLUGINS", $more_buttons);
+		$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
 		include_once "./classes/class.ilUtil.php";
 		//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 		$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());

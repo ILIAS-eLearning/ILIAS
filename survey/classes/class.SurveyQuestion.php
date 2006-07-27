@@ -734,9 +734,29 @@ class SurveyQuestion
 		}
 		// duplicate the materials
 		$clone->duplicateMaterials($original_id);
+		// copy XHTML media objects
+		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 		return $clone->getId();
 	}
 
+/**
+* Increases the media object usage counter when a question is duplicated
+*
+* Increases the media object usage counter when a question is duplicated
+*
+* @param integer $a_q_id The question id of the original question
+* @access public
+*/
+	function copyXHTMLMediaObjectsOfQuestion($a_q_id)
+	{
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $a_q_id);
+		foreach ($mobs as $mob)
+		{
+			ilObjMediaObject::_saveUsage($mob, "spl:html", $this->getId());
+		}
+	}
+	
 /**
 * Duplicates the materials of a question
 *
@@ -1175,6 +1195,19 @@ class SurveyQuestion
 		{
 			$directory = escapeshellarg($directory);
 			exec("rm -rf $directory");
+		}
+
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
+		// remaining usages are not in text anymore -> delete them
+		// and media objects (note: delete method of ilObjMediaObject
+		// checks whether object is used in another context; if yes,
+		// the object is not deleted!)
+		foreach($mobs as $mob)
+		{
+			ilObjMediaObject::_removeUsage($mob, "spl:html", $question_id);
+			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj->delete();
 		}
 	}
 
@@ -1665,5 +1698,94 @@ class SurveyQuestion
 		return $result_array;
 	}
 	
+	/**
+	* Checks if a given string contains HTML or not
+	*
+	* @param string $a_text Text which should be checked
+	
+	* @return boolean 
+	* @access public
+	*/
+	function isHTML($a_text)
+	{
+		if (preg_match("/<[^>]*?>/", $a_text))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE; 
+		}
+	}
+	
+	/**
+	* Reads an QTI material tag an creates a text string
+	*
+	* @param string $a_material QTI material tag
+	* @return string text or xhtml string
+	* @access public
+	*/
+	function QTIMaterialToString($a_material)
+	{
+		$result = "";
+		for ($i = 0; $i < $a_material->getMaterialCount(); $i++)
+		{
+			$material = $a_material->getMaterial($i);
+			if (strcmp($material["type"], "mattext") == 0)
+			{
+				$result .= $material["material"]->getContent();
+			}
+			if (strcmp($material["type"], "matimage") == 0)
+			{
+				$matimage = $material["material"];
+				if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches))
+				{
+					// import an mediaobject which was inserted using tiny mce
+					if (!is_array($_SESSION["import_mob_xhtml"])) $_SESSION["import_mob_xhtml"] = array();
+					array_push($_SESSION["import_mob_xhtml"], array("mob" => $matimage->getLabel(), "uri" => $matimage->getUri()));
+				}
+			}
+		}
+		return $result;
+	}
+	
+	/**
+	* Creates a QTI material tag from a plain text or xhtml text
+	*
+	* @param object $a_xml_writer Reference to the ILIAS XML writer
+	* @param string $a_material plain text or html text containing the material
+	* @return string QTI material tag
+	* @access public
+	*/
+	function addQTIMaterial(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE)
+	{
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+
+		$a_xml_writer->xmlStartTag("material");
+		$attrs = array(
+			"texttype" => "text/plain"
+		);
+		if ($this->isHTML($a_material))
+		{
+			$attrs["texttype"] = "text/xhtml";
+		}
+		$a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+
+		if ($add_mobs)
+		{
+			$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $this->getId());
+			foreach ($mobs as $mob)
+			{
+				$mob_obj =& new ilObjMediaObject($mob);
+				$imgattrs = array(
+					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
+					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+				);
+				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+			}
+		}		
+		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
+	}
 }
 ?>

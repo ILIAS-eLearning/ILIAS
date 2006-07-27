@@ -403,9 +403,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
-		$a_xml_writer->xmlStartTag("material");
-		$a_xml_writer->xmlElement("mattext", NULL, $this->getQuestiontext());
-		$a_xml_writer->xmlEndTag("material");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
 		// add answers to presentation
 		$attrs = array(
 			"ident" => "TEXT",

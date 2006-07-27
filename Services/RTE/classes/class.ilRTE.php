@@ -41,6 +41,7 @@ class ilRTE
 	* @var array
 	*/
 	var $plugins;
+	var $buttons;
 	var $tpl;
 	
 	function ilRTE()
@@ -48,6 +49,7 @@ class ilRTE
 		global $tpl;
 		$this->tpl =& $tpl;
 		$this->plugins = array();
+		$this->buttons = array();
 	}
 	
 	/**
@@ -64,6 +66,19 @@ class ilRTE
 	}
 	
 	/**
+	* Adds a button to the button list
+	*
+	* Adds a button to the button list
+	*
+	* @param string $a_button_name The name of the button
+	* @access public
+	*/
+	function addButton($a_button_name)
+	{
+		array_push($this->buttons, $a_button_name);
+	}
+	
+	/**
 	* Removes a plugin from the plugin list
 	*
 	* Removes a plugin from the plugin list
@@ -77,6 +92,23 @@ class ilRTE
 		if ($key !== FALSE)
 		{
 			unset($this->plugins[$key]);
+		}
+	}
+	
+	/**
+	* Removes a button from the button list
+	*
+	* Removes a button from the button list
+	*
+	* @param string $a_button_name The name of the button
+	* @access public
+	*/
+	function removeButton($a_button_name)
+	{
+		$key = array_search($a_button_name, $this->buttons);
+		if ($key !== FALSE)
+		{
+			unset($this->buttons[$key]);
 		}
 	}
 	
