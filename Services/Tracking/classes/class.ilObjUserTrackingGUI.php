@@ -356,7 +356,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_VIEW_MODE_D", $lng->txt("vm_days_of_period"));
 		$tpl->setVariable("TXT_USER_LANGUAGE",$lng->txt("user_language"));
 		$tpl->setVariable("TXT_LM",$lng->txt("lm"));
-		$tpl->setVariable("TXT_TST",$lng->txt("test"));
+		$tpl->setVariable("TXT_HTLM",$lng->txt("htlm"));
+#		$tpl->setVariable("TXT_TST",$lng->txt("test"));
 		$tpl->setVariable("TXT_SHOW_TR_DATA",$lng->txt("query_data"));
 		$tpl->setVariable("TXT_TRACKED_OBJECTS",$lng->txt("tracked_objects"));
 		$tpl->setVariable("TXT_FILTER_AREA",$lng->txt("trac_filter_area"));
@@ -507,14 +508,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		}
 		
 		// tracked object type
-		if ($_SESSION["il_object_type"] == "tst")
-		{
-			$tpl->setVariable("TST_SEL", "selected");
-		}
-		else
-		{
-			$tpl->setVariable("LM_SEL", "selected");
-		}
+		$tpl->setVariable(strtoupper($_SESSION["il_object_type"])."_SEL", "selected");
 
 		// author selection
 /*		$tpl->setCurrentBlock("author_selection");
@@ -579,6 +573,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 		$TYPES = array(
 			'lm' => $lng->txt("lm"),
+			'htlm' => $lng->txt("htlm"),
 			'tst' => $lng->txt("test")
 		);
 
@@ -604,6 +599,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$_SESSION["il_track_author"] = $_POST["author"];
 		$_SESSION["il_track_author1"] = $_POST["author1"];
 		$_SESSION["il_track_lm"] = $_POST["lm"];
+		$_SESSION["il_track_htlm"] = $_POST["htlm"];
 		$_SESSION["il_track_tst"] = $_POST["tst"];
 		$_SESSION["il_object_type"] = $_POST["object_type"];
 
@@ -794,6 +790,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 						$tpl->setVariable("OBJECT", "lm");
 						$tpl->setVariable("OBJECTS", $_POST["lm"]);
 					}
+					else if($_POST["object_type"]=="htlm")
+					{
+						$tpl->setVariable("AUTHOR", "author");
+						$tpl->setVariable("AUTHORS", $_POST["author"]);
+						$tpl->setVariable("OBJECT", "htlm");
+						$tpl->setVariable("OBJECTS", $_POST["htlm"]);
+					}
 					else
 					{
 						$tpl->setVariable("AUTHOR", "author1");
@@ -882,6 +885,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 						$tpl->setVariable("AUTHORS", $_POST["author"]);
 						$tpl->setVariable("OBJECT", "lm");
 						$tpl->setVariable("OBJECTS", $_POST["lm"]);
+					}
+					else if($_POST["object_type"]=="htlm")
+					{
+						$tpl->setVariable("AUTHOR", "author");
+						$tpl->setVariable("AUTHORS", $_POST["author"]);
+						$tpl->setVariable("OBJECT", "htlm");
+						$tpl->setVariable("OBJECTS", $_POST["htlm"]);
 					}
 					else
 					{
@@ -1223,6 +1233,39 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			}
 
 		}
+		else if($_POST["object_type"]=="htlm")
+		{
+			if($_POST["author"]=="0")
+			{
+				return " acc_obj_type = 'htlm'";
+			}
+			elseif($_POST["htlm"]=="0" or $_POST["htlm"]=="")
+			{
+				if (is_array($authors = ilObjUserTracking::allAuthor("usr","htlm")))
+				{
+					foreach ($authors as $author)
+					{
+						if($author["title"]==$_POST["author"])
+						{
+							if (is_array($htlms = ilObjUserTracking::authorLms($author["obj_id"],"htlm")))
+							{
+								foreach ($htlms as $htlm)
+								{
+									$condition = $condition." or acc_obj_id = ".$htlm["obj_id"];
+								}
+							}
+						}
+					}
+				}
+				return " ( 0 ".$condition." ) ";
+			}
+			else
+			{
+				$condition.= " acc_obj_id = ".ilObjUserTracking::getObjId($_POST["htlm"],$type);
+				return $condition;
+			}
+
+		}
 		else
 		{
 			if($_POST["author1"]=="0")
@@ -1310,8 +1353,10 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	*/
 	function numDay($from,$to)
 	{
+
 		$from = strtotime($from);
 		$to = strtotime($to);
+
 		$dayf = date ("d",$from);
 		$dayt = date ("d",$to);
 		$yearf = date ("Y",$from); 
@@ -1319,13 +1364,18 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$montht = date ("m",$to); 
 		$monthf = date ("m",$from); 
 
-		$x0 = gregoriantojd($monthf,$dayf,$yearf);
-		$x1 = gregoriantojd($montht,$dayt,$yeart); 
- 
-		return (($x1 - $x0)+1);
-
 #		$ret = ( mktime(0,0,0,$montht,$dayt,$yeart) - mktime(0,0,0,$monthf,$dayf,$yearf))/(3600*24); 
 #		return $ret; 
+
+		$from = mktime(12,0,0,$monthf,$dayf,$yearf);
+		$to = mktime(12,0,0,$montht,$dayt,$yeart);
+
+		$ret = (round(($to - $from) / 86400) + 1);
+		return $ret;
+
+#		$x0 = gregoriantojd($monthf,$dayf,$yearf);
+#		$x1 = gregoriantojd($montht,$dayt,$yeart); 
+#		return (($x1 - $x0)+1);
 	}
 	
 	/**
@@ -1390,7 +1440,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$q = "SELECT acc_time from ut_access "
 			.($searchTermsCondition != "" ? $searchTermsCondition : " WHERE ")
 			." (acc_time >= '".$from." 00:00:00'"
-			." AND acc_time < '".$to." 00:00:00')"
+			." AND acc_time <= '".$to." 23:59:59')"
 			." AND ".$condition
 			.$objectCondition
 			." GROUP BY acc_time";
