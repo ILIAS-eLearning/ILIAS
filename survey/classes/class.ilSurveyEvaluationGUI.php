@@ -870,7 +870,7 @@ class ilSurveyEvaluationGUI
 					{
 						foreach ($csvrow as $text)
 						{
-							if (preg_match("/\d+/", $text))
+							if (is_numeric($text))
 							{
 								$mainworksheet->writeNumber($row, $col++, $text);
 							}
