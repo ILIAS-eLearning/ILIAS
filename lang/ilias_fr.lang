@@ -2960,18 +2960,28 @@ common#:#shib_data_conv_warning#:#Le fichier des données de manipulation API qu
 common#:#shib_department#:#Attribut du département### 06 oct 2005 content changed
 common#:#shib_edit_permission#:#Changer les paramètres de permission### 06 oct 2005 content changed
 common#:#shib_email#:#Attribut de l'adresse électronique### 06 oct 2005 content changed
+common#:#shib_federation_name#:#Name of your Shibboleth federation###27 Jul 2006 new variable
 common#:#shib_firstname#:#Attribut pour le prénom###
 common#:#shib_gender#:#Attribut de genre (doit être 'm' or 'f')### 06 oct 2005 content changed
+common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the###27 Jul 2006 new variable
+common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the###27 Jul 2006 new variable
+common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.###27 Jul 2006 new variable
 common#:#shib_institution#:#Attribut de l'institution### 06 oct 2005 content changed
 common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS.###13 May 2005 new variable
+common#:#shib_invalid_home_organization#:#Please choose a valid organization!###27 Jul 2006 new variable
 common#:#shib_language#:#Attribut de langue### 06 oct 2005 content changed
 common#:#shib_lastname#:#Attribut de nom### 06 oct 2005 content changed
 common#:#shib_login#:#Attribut Shibboleth unique### 06 oct 2005 content changed
 common#:#shib_login_button#:#Path to Shibboleth login button###13 May 2005 new variable
+common#:#shib_login_external_wayf#:#Use external WAYF service###27 Jul 2006 new variable
+common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service###27 Jul 2006 new variable
+common#:#shib_login_type#:#Organization selection###27 Jul 2006 new variable
+common#:#shib_member_of#:#I'm a member of ...###27 Jul 2006 new variable
 common#:#shib_phone_home#:#Attribute for home phone number###13 May 2005 new variable
 common#:#shib_phone_mobile#:#Attribute for mobile phone number###13 May 2005 new variable
 common#:#shib_phone_office#:#Attribute for office phone number###13 May 2005 new variable
 common#:#shib_read#:#Read access to Shibboleth settings###13 May 2005 new variable
+common#:#shib_select_home_organization#:#For authentication via %s, please select your organization from the drop down list.###27 Jul 2006 new variable
 common#:#shib_settings_saved#:#The Shibboleth settings were saved###13 May 2005 new variable
 common#:#shib_street#:#Attribute for street###13 May 2005 new variable
 common#:#shib_title#:#Attribute for title###13 May 2005 new variable
