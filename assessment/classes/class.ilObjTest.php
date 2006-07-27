@@ -5267,6 +5267,7 @@ class ilObjTest extends ilObject
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
 		$a_xml_writer->xmlHeader();
+		$a_xml_writer->xmlSetDtdDef("<!DOCTYPE questestinterop SYSTEM \"ims_qtiasiv1p2p1.dtd\">");
 		$a_xml_writer->xmlStartTag("questestinterop");
 
 		$attrs = array(

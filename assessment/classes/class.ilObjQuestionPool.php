@@ -1123,6 +1123,7 @@ class ilObjQuestionPool extends ilObject
 				$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
 			}
 		}
+		$xml = preg_replace("/(<\?xml[^>]*?>)/", "\\1" . "<!DOCTYPE questestinterop SYSTEM \"ims_qtiasiv1p2p1.dtd\">", $xml);
 		return $xml;
 	}
 	
@@ -1546,8 +1547,9 @@ class ilObjQuestionPool extends ilObject
 		$types = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			array_push($types, $row);
+			$types[$this->lng->txt($row["type_tag"])] = $row;
 		}
+		ksort($types);
 		return $types;
 	}
 

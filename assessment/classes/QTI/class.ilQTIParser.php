@@ -1248,7 +1248,10 @@ class ilQTIParser extends ilSaxParser
 					}
 					elseif (($this->in_presentation) && (!$this->in_response))
 					{
-						$this->item->setQuestiontext($this->material);
+						if (!is_object($this->item->getQuestiontext()))
+						{
+							$this->item->setQuestiontext($this->material);
+						}
 						$this->presentation->addMaterial($this->material);
 					}
 					else if ($this->presentation != NULL)
