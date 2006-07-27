@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
-* @version $Id
+* @version $Id$
 * 
 * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI
 *
@@ -847,7 +847,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$obj_str = "&obj_id=".$this->obj_id;
 
-		$_POST["search_string"] = $_POST["search_string"] ? $_POST["search_string"] : urldecode($_GET["search_string"]);
+		$_POST["search_string"] = trim($_POST["search_string"]) ? trim($_POST["search_string"]) : trim(urldecode($_GET["search_string"]));
         $_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : explode(",",urldecode($_GET["search_fields"]));
 		$_SESSION['us_active'] = isset($_POST['active']) ? $_POST['active'] : $_SESSION['us_active'];
 
@@ -862,7 +862,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"],$_SESSION['us_active'])) == 0)
 		{
-			sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
+	        if ($_POST["search_string"] == "%")
+    	    {
+        	    $_POST["search_string"] = "";
+	        }
+			$msg = $this->lng->txt("msg_no_search_result");
+			if ($_POST["search_string"] != "")
+			{
+				$msg .= " ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'";
+			}
+			sendInfo($msg, true);
 			$this->ctrl->redirect($this, "searchUserForm");
 		}
 		//add template for buttons
