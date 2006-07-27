@@ -240,12 +240,29 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		   $type != 'objective' and
 		   $type != 'event')
 		{
-			$this->tpl->setCurrentBlock("item_command");
-			$this->ctrl->setParameter($this,'details_id',$item_id);
-			$this->ctrl->setParameter($this,'crs_id',$this->details_id);
-			$this->tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
-			$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
-			$this->tpl->parseCurrentBlock();
+			if(ilLPObjSettings::_isContainer($item_list->getMode()))
+			{
+				$this->tpl->setCurrentBlock("item_command");
+				$this->ctrl->setParameter($this,'details_id',$this->details_id);
+				$this->ctrl->setParameter($this,'item_id',$item_id);
+				if($this->__detailsShown($item_id))
+				{
+					$this->tpl->setVariable('HREF_COMMAND',$this->ctrl->getLinkTarget($this,'hideDetails'));
+					$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('hide_details'));
+				}
+				else
+				{
+					$this->tpl->setVariable('HREF_COMMAND',$this->ctrl->getLinkTarget($this,'showDetails'));
+					$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('show_details'));
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			#$this->tpl->setCurrentBlock("item_command");
+			#$this->ctrl->setParameter($this,'details_id',$item_id);
+			#$this->ctrl->setParameter($this,'crs_id',$this->details_id);
+			#$this->tpl->setVariable("HREF_COMMAND",$this->ctrl->getLinkTarget($this,'details'));
+			#$this->tpl->setVariable("TXT_COMMAND",$this->lng->txt('details'));
+			#$this->tpl->parseCurrentBlock();
 
 			if($this->has_timings and ilTimingCache::_showWarning($item_id,$this->tracked_user->getId()))
 			{
@@ -276,6 +293,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		if($type == 'sahs_item' or
 		   $type == 'objective' or
 		   $type == 'event')
+		{
+			return true;
+		}
+
+		if(!$this->__detailsShown($item_id))
 		{
 			return true;
 		}
@@ -516,6 +538,43 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		return true;
 	}
+
+	function showDetails()
+	{
+		if(isset($_GET['item_id']))
+		{
+			$ids = array($_GET['item_id']);
+		}
+		else
+		{
+			unset($_SESSION['lp_show_progress'][$this->details_id]);
+			$ids = $_POST['item_id'] ? $_POST['item_id'] : array();
+		}
+		foreach($ids as $id)
+		{			
+			$_SESSION['lp_show_progress'][$this->details_id][$id] = true;
+		}
+		$this->details();
+
+		return true;
+	}
+
+	function hideDetails()
+	{
+		if(isset($_GET['item_id']))
+		{
+			unset($_SESSION['lp_show_progress'][$this->details_id]["$_GET[item_id]"]);
+			$this->details();
+			return true;
+		}
+	}
+
+
+	function __detailsShown($item_id)
+	{
+		return $_SESSION['lp_show_progress'][$this->details_id][$item_id] ? true : false;
+	}
+
 
 }
 ?>
