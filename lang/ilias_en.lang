@@ -6308,7 +6308,7 @@ trac#:#trac_crs_members#:#Course members:
 trac#:#trac_crs_objects#:#Learning progress of course members
 trac#:#trac_crs_releavant_items#:#Course items
 trac#:#trac_crs_relevant_items#:#Course Materials
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
+trac#:#trac_edit_collection#:#Please assign materials. If the status of all assigned items is 'Completed' the overall status is completed by the user.
 trac#:#trac_edit_progress#:#Edit learning progress
 trac#:#trac_edit_time#:#Processing time
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
@@ -6331,7 +6331,7 @@ trac#:#trac_learning_progress#:#Learning Progress
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:
 trac#:#trac_lm_statistics#:#Access Statistics
 trac#:#trac_lp_determination#:#Learning Progress Status Determination
-trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status of the course.
+trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status.
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Mark
@@ -6400,3 +6400,4 @@ common#:#forum_direct_notification#:#Dir. Notification
 common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.
 common#:#forum_general_notification#:#Gen. Notification
 common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.
+trac#:#trac_grp_relevant_items#:#Group Materials
