@@ -6024,6 +6024,7 @@ survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
 survey#:#no_user_phrases_defined#:#There are no user defined phrases available!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#not used
 survey#:#obligatory#:#obligatory
