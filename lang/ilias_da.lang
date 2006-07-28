@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Tilf&oslash;j sp&oslash;rgsm&aring;lsgruppe
 assessment#:#add_solution#:#Tilf&oslash;j foresl&aring;et l&oslash;sning
 assessment#:#all_available_question_pools#:#Alle tilg&aelig;ngelige sp&oslash;rgsm&aring;ls grupper
 assessment#:#answer#:#Svar
-assessment#:#answer_is_right#:#Din l&oslash;sning er rigtig
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Din l&oslash;sning er rigtig###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Din l&oslash;sning er forkert
 assessment#:#answer_picture#:#Besvar billed
 assessment#:#answer_text#:#Besvar tekst
@@ -1503,6 +1504,7 @@ common#:#exc_date_not_valid#:#Dat&oslash;n er ikke gyldig
 common#:#exc_deassign_members#:#Slet medlem(mer)
 common#:#exc_delete#:#Slet &oslash;velser
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Ny &oslash;velse er blevet oprettet
 common#:#exc_edit_exercise#:#Rediger &oslash;velse
 common#:#exc_edit_permission#:#&aelig;ndrer rettigheds indstillinger
@@ -1646,10 +1648,14 @@ common#:#forgot_password#:#Glemt password?
 common#:#forgot_username#:#Glemt brugernavn?
 common#:#form_empty_fields#:#Gennemf&oslash;rst disse felter:
 common#:#forum#:#Forum
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#import af Forum
 common#:#forum_import_file#:#Importer fil
 common#:#forum_notification#:#meddelelse
 common#:#forum_notify_me#:#Kontakt mig n&aring;r der kommer et svar
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Dit indl&aelig;g til forummet er blevet besvaret.
 common#:#forums#:#Forummer
 common#:#forums_articles#:#Artikler
@@ -2240,7 +2246,7 @@ common#:#mail_d_drafts#:#Kladder
 common#:#mail_delete_error#:#Fejl ved sletning
 common#:#mail_delete_error_file#:#Fejl i sletning af fil
 common#:#mail_e_sent#:#Sendt
-common#:#mail_edit_permission#:#aendrer rettigheds indstillinger
+common#:#mail_edit_permission#:#aendrer rettigheds indstillinger###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Mail Mapper
 common#:#mail_import#:#Importer
@@ -2253,10 +2259,10 @@ common#:#mail_maxsize_box#:#Max. mailboks st&oslash;rrelse
 common#:#mail_maxsize_mail#:#Max. mail st&oslash;rrelse
 common#:#mail_maxtime_attach#:#Max. dage til at gemme vedhaeftelser
 common#:#mail_maxtime_mail#:#Max. dags til at sende mail
-common#:#mail_members#:#Mail til medlemmer
+common#:#mail_members#:#Mail til medlemmer###28 Jul 2006 content changed
 common#:#mail_not_sent#:#Mail ikke sendt!
 common#:#mail_read#:#Laese rettigheder til mail indstillinger
-common#:#mail_search_no#:#Ingen indgange fundet
+common#:#mail_search_no#:#Ingen indgange fundet###28 Jul 2006 content changed
 common#:#mail_search_word#:#S&oslash;geord
 common#:#mail_select_one#:#Du skal vaelge en mail
 common#:#mail_send_error#:#FEjl ved afsending af mail
@@ -6131,6 +6137,7 @@ trac#:#trac_filter_no_access#:#Objekt ikke fundet
 trac#:#trac_filter_none#:#Intet
 trac#:#trac_filter_repository#:#I oversigt
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Gem
 trac#:#trac_in_progress#:#I fremgang

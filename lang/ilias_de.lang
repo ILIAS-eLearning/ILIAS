@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Fragenpool hinzufügen
 assessment#:#add_solution#:#Musterlösung hinzufügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
-assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Ihre Lösung ist korrekt###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
@@ -1569,6 +1570,7 @@ common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
 common#:#exc_deassign_members#:#Mitglied(er) löschen
 common#:#exc_delete#:#Übung löschen
 common#:#exc_details#:#Übungsdetails
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
 common#:#exc_edit_permission#:#Rechteeinstellungen ändern
@@ -1714,10 +1716,14 @@ common#:#forgot_password#:#Passwort vergessen?
 common#:#forgot_username#:#Benutzernamen vergessen?
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
+common#:#forum_direct_notification#:#Dir. Benachrichtigung
+common#:#forum_general_notification#:#Gen. Benachrichtigung
 common#:#forum_import#:#Forum Import
 common#:#forum_import_file#:#Importdatei
 common#:#forum_notification#:#Benachrichtigung
 common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
+common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn es eine direkte Antwort auf meinen Beitrag gibt.
+common#:#forum_notify_me_generally#:#Ich möchte benachrichtigt werden, wenn es generell einen neuen Beitrag zu meinem Thema gibt.
 common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
 common#:#forums#:#Foren
 common#:#forums_articles#:#Beiträge
@@ -2310,7 +2316,7 @@ common#:#mail_d_drafts#:#Entwürfe
 common#:#mail_delete_error#:#Fehler beim Löschen
 common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
-common#:#mail_edit_permission#:#Rechteeinstellungen ändern
+common#:#mail_edit_permission#:#Rechteeinstellungen ändern###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Mail-Ordner
 common#:#mail_import#:#Import
@@ -2323,10 +2329,10 @@ common#:#mail_maxsize_box#:#Max. Mailbox-Grösse
 common#:#mail_maxsize_mail#:#Max. Mail-Grösse
 common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
 common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
-common#:#mail_members#:#Mail an Mitglieder
+common#:#mail_members#:#Mail an Mitglieder###28 Jul 2006 content changed
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_read#:#Lesezugriff auf Maileinstellungen
-common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
+common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden###28 Jul 2006 content changed
 common#:#mail_search_word#:#Suche
 common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
@@ -6319,6 +6325,7 @@ trac#:#trac_filter_no_access#:#Es wurden keine passenden Objekte gefunden.
 trac#:#trac_filter_none#:#Keine
 trac#:#trac_filter_repository#:#Im Magazin
 trac#:#trac_fold_relevant_items#:#Ordnerinhalt
+trac#:#trac_grp_relevant_items#:#Gruppenmaterialien
 trac#:#trac_head_timing#:#Zu bearbeiten bis
 trac#:#trac_hide#:#Ausblenden
 trac#:#trac_in_progress#:#In Bearbeitung
@@ -6329,7 +6336,7 @@ trac#:#trac_learning_progress#:#Lernfortschritt###10 Jul 2006 content changed
 trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
 trac#:#trac_lm_statistics#:#Zugriffstatistiken
 trac#:#trac_lp_determination#:#Ermittlung des Lernfortschritts
-trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird.
+trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird.###28 Jul 2006 content changed
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.###10 Jul 2006 new variable
 trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
 trac#:#trac_mark#:#Note
@@ -6394,8 +6401,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-common#:#forum_direct_notification#:#Dir. Benachrichtigung
-common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn es eine direkte Antwort auf meinen Beitrag gibt.
-common#:#forum_general_notification#:#Gen. Benachrichtigung
-common#:#forum_notify_me_generally#:#Ich möchte benachrichtigt werden, wenn es generell einen neuen Beitrag zu meinem Thema gibt.
-trac#:#trac_grp_relevant_items#:#Gruppenmaterialien

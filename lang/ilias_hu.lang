@@ -113,7 +113,9 @@ assessment#:#add_questionpool#:#Kérdésgyűjtemény hozzáadása
 assessment#:#add_solution#:#Javasolt megoldás hozzáadása
 assessment#:#all_available_question_pools#:#Minden elérhető kérdésgyűjtemény
 assessment#:#answer#:#Válasz
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
 assessment#:#answer_is_right#:#A megoldása helyes
+###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#A megoldása rossz
 assessment#:#answer_picture#:#Válaszkép
 assessment#:#answer_text#:#Válaszszöveg
@@ -1361,6 +1363,7 @@ common#:#exc_create#:#Gyakorlat létrehozása
 common#:#exc_date_not_valid#:#A dátum nem érvényes
 common#:#exc_deassign_members#:#Tag(ok) törlése
 common#:#exc_delete#:#Gyakorlat törlése
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Új gyakorlat létrehozva.
 common#:#exc_edit_exercise#:#Gyakorlat szerkesztése
 common#:#exc_edit_permission#:#Engedélyezési beállítások változtatása
@@ -1382,6 +1385,7 @@ common#:#exc_save_changes#:#Mentés
 common#:#exc_search_for#:#Keresendő
 common#:#exc_select_one_file#:#Pontosan egy fájlt válasszon!
 common#:#exc_send_exercise#:#Gyakorlat elküldése
+###28 Jul 2006 content changed
 common#:#exc_sent#:#Ez a gyakorlat már elküldésre került a kiválasztott felhasználóknak.
 common#:#exc_status_saved#:#Gyakorlat frissítve.
 common#:#exc_status_solved#:#Megoldva
@@ -1487,10 +1491,14 @@ common#:#forgot_password#:#Elfelejtette jelszavát?
 common#:#forgot_username#:#Elfelejtette felhasználói nevét?
 common#:#form_empty_fields#:#Töltse ki ezeket a mezőket:
 common#:#forum#:#Fórum
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Fórum importálása
 common#:#forum_import_file#:#Import fájl
 common#:#forum_notification#:#Értesítés
 common#:#forum_notify_me#:#Értesítést kérek, ha a válasz elküldésre került
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Fórum-hozzászólása megválaszolásra került
 common#:#forums#:#Fórumok
 common#:#forums_articles#:#Hozzászólások
@@ -2053,6 +2061,7 @@ common#:#mail_delete_error#:#Törlés közben hiba lépett fel
 common#:#mail_delete_error_file#:#Hiba fájltörléskor
 common#:#mail_e_sent#:#Elküldött levelek
 common#:#mail_edit_permission#:#Jogosultsági beállítások változtatása
+###28 Jul 2006 content changed
 common#:#mail_folders#:#E-mail mappák
 common#:#mail_import#:#Importálás
 common#:#mail_import_file#:#Fájl exportálása
@@ -2065,9 +2074,11 @@ common#:#mail_maxsize_mail#:#E-mail maximális mérete
 common#:#mail_maxtime_attach#:#Csatolások megőrzésének maximuma napban
 common#:#mail_maxtime_mail#:#E-mail megőrzés maximuma napban
 common#:#mail_members#:#Levél a tagoknak
+###28 Jul 2006 content changed
 common#:#mail_not_sent#:#Az e-mail  nem került elküldésre!
 common#:#mail_read#:#Olvasási jog az e-mail beállításaihoz
 common#:#mail_search_no#:#Bejegyzések nem találhatók.
+###28 Jul 2006 content changed
 common#:#mail_search_word#:#Szavak keresése
 common#:#mail_select_one#:#Ki kell választania egy e-mailt
 common#:#mail_send_error#:#Hiba lépett fel az e-mail elküldése közben
@@ -5568,6 +5579,7 @@ trac#:#trac_crs_members#:#Kurzustagok:
 trac#:#trac_crs_objects#:#Kurzustagok tanulmányi előmenetele
 trac#:#trac_crs_releavant_items#:#Kurzustételek
 trac#:#trac_edit_collection#:#Jelölje meg a kurzustételeket! Ha minden megjelölt tétel állapota 'Befejezett', a felhasználó a teljes kurzust befejezte.
+###28 Jul 2006 content changed
 trac#:#trac_edit_progress#:#Tanulmányi előmenetel szerkesztése
 trac#:#trac_edit_time#:#Feldolgozási idő
 trac#:#trac_edit_visits#:#Definiálja azt a látogatásszámot, amely ennek az objektumnak a teljesítéséhez szükséges!
@@ -5578,6 +5590,7 @@ trac#:#trac_filter_limit_reached#:#A találatok száma korlátozott: %s. Haszná
 trac#:#trac_filter_no_access#:#Nincsenek talált objektumok
 trac#:#trac_filter_none#:#Semmi
 trac#:#trac_filter_repository#:#A tananyag tárolóban
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_hide#:#Elrejtés
 trac#:#trac_in_progress#:#Folyamatban
 trac#:#trac_inactive_both#:#Felhasználói nyomkövetés és tanulmányi előmenetel követése kikapcsolva.

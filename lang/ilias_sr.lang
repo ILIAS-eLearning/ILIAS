@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Dodajte bazu pitanja###09 Aug 2005 content chang
 assessment#:#add_solution#:#Dodajte predložena rešenja
 assessment#:#all_available_question_pools#:#Sve raspoložive baze pitanja
 assessment#:#answer#:#Odgovor
-assessment#:#answer_is_right#:#Vaše rešenje je ispravno
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Vaše rešenje je ispravno###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Vaše rešenje je pogrešno
 assessment#:#answer_picture#:#Slika odgovora
 assessment#:#answer_text#:#Tekst odgovora
@@ -1515,6 +1516,7 @@ common#:#exc_date_not_valid#:#Datum nije ispravan
 common#:#exc_deassign_members#:#Obriši clana / clanove
 common#:#exc_delete#:#Obriši vežbu
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Nova vežba je kreirana
 common#:#exc_edit_exercise#:#Uredi vežbu
 common#:#exc_edit_permission#:#Promenite okvir za dozvolu
@@ -1660,10 +1662,14 @@ common#:#forgot_password#:#Zaboravili ste šifru?
 common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Molimo kompletirajte ova polja:
 common#:#forum#:#Forum
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Uvoz foruma.
 common#:#forum_import_file#:#Unesite fajlove
 common#:#forum_notification#:#Obaveštenje
 common#:#forum_notify_me#:#Obavesti me kada odgovor potvrden
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Na vaš unos na forumu je odgovoreno.
 common#:#forums#:#Forumi
 common#:#forums_overview#:#Pregled Foruma
@@ -2235,7 +2241,7 @@ common#:#mail_d_drafts#:#Nacrti
 common#:#mail_delete_error#:#Greška prilikom brisanja
 common#:#mail_delete_error_file#:#Greška brisanja fajla
 common#:#mail_e_sent#:#Poslato
-common#:#mail_edit_permission#:#Promenite okvir za dozvolu
+common#:#mail_edit_permission#:#Promenite okvir za dozvolu###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Poštanski registratori
 common#:#mail_import#:#Uvoz
@@ -2251,7 +2257,7 @@ common#:#mail_maxtime_mail#:#Maksimalan broj dana za cuvanje pošte
 common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Pošta nije poslata!
 common#:#mail_read#:#Procitaj o pristupu podešavanjima za poštu
-common#:#mail_search_no#:#Nikakvi unosi nisu pronadeni
+common#:#mail_search_no#:#Nikakvi unosi nisu pronadeni###28 Jul 2006 content changed
 common#:#mail_search_word#:#Traži rec
 common#:#mail_select_one#:#Morate odabrati jednu poštu
 common#:#mail_send_error#:#Greška prilikom slanja pošte
@@ -6122,6 +6128,7 @@ trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable

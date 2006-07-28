@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Aggiungi raccolta di domande
 assessment#:#add_solution#:#Aggiungi soluzione suggerita
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
-assessment#:#answer_is_right#:#La soluzione &#232; corretta.
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#La soluzione &#232; corretta.###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#La soluzione &#232; sbagliata.
 assessment#:#answer_picture#:#Immagine soluzione
 assessment#:#answer_text#:#Testo della risposta
@@ -1568,6 +1569,7 @@ common#:#exc_date_not_valid#:#La data non &#232; valida
 common#:#exc_deassign_members#:#Rimuovi membro(i)
 common#:#exc_delete#:#Eliminare una esercitazione
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Creata nuova esercitazione
 common#:#exc_edit_exercise#:#Modifica l&#039;esercitazione
 common#:#exc_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1713,10 +1715,14 @@ common#:#forgot_password#:#Dimenticata la password?
 common#:#forgot_username#:#Hai dimenticato il tuo username?
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Importa forum
 common#:#forum_import_file#:#Scegli il file
 common#:#forum_notification#:#Notifica
 common#:#forum_notify_me#:#Avvisami quando viene aggiunta una risposta
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#E&#039;stato risposto al tuo intervento
 common#:#forums#:#Forum
 common#:#forums_articles#:#Articoli
@@ -2309,7 +2315,7 @@ common#:#mail_d_drafts#:#Bozze
 common#:#mail_delete_error#:#Errore nella cancellazione delle mail
 common#:#mail_delete_error_file#:#Errore nella cancellazione del file
 common#:#mail_e_sent#:#Inviate
-common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Cartelle di posta
 common#:#mail_import#:#Importa la posta
@@ -2322,10 +2328,10 @@ common#:#mail_maxsize_box#:#Dimensione massima della mailbox
 common#:#mail_maxsize_mail#:#Dimensione massima delle mail
 common#:#mail_maxtime_attach#:#Numero di giorni massimo di permanenza di un allegato
 common#:#mail_maxtime_mail#:#Numero di giorni massimo di permanenza di una mail
-common#:#mail_members#:#Invia una eMail ai membri
+common#:#mail_members#:#Invia una eMail ai membri###28 Jul 2006 content changed
 common#:#mail_not_sent#:#eMail non inviata!
 common#:#mail_read#:#Accedere in lettura alle impostazioni della posta
-common#:#mail_search_no#:#Nessuna voce trovata
+common#:#mail_search_no#:#Nessuna voce trovata###28 Jul 2006 content changed
 common#:#mail_search_word#:#Ricerca parola
 common#:#mail_select_one#:#Devi scegliere una eMail.
 common#:#mail_send_error#:#Errore nell&#039;invio della eMail
@@ -6316,6 +6322,7 @@ trac#:#trac_filter_no_access#:#Nessun oggetto trovato
 trac#:#trac_filter_none#:#Nessuno
 trac#:#trac_filter_repository#:#Tra le risorse
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Nascondi
 trac#:#trac_in_progress#:#In esecuzione

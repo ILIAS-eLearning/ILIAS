@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Добав�?не на набор въпро�?и
 assessment#:#add_solution#:#Добав�?не на предложено решение
 assessment#:#all_available_question_pools#:#В�?ички налични набори въпро�?и
 assessment#:#answer#:#Отговор
-assessment#:#answer_is_right#:#Вашето решение е правилно
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Вашето решение е правилно###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Вашето решение е грешно
 assessment#:#answer_picture#:#Изображение за отговора
 assessment#:#answer_text#:#Тек�?т за отговора
@@ -1444,6 +1445,7 @@ common#:#exc_date_not_valid#:#Датата не е валидна
 common#:#exc_deassign_members#:#Изтриване на член(ове)
 common#:#exc_delete#:#Изтриване на упражнение
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Създадено ново упражнение
 common#:#exc_edit_exercise#:#Редактиране на упражнение
 common#:#exc_edit_permission#:#Пром�?на на разрешителните на�?тройки
@@ -1571,10 +1573,14 @@ common#:#forename#:#Първо име
 common#:#forgot_password#:#Забравена парола?
 common#:#form_empty_fields#:#Мол�?, попълнете тези полета:
 common#:#forum#:#Форум
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Импортиране на форум
 common#:#forum_import_file#:#Импортиране на файл
 common#:#forum_notification#:#Уведом�?ване
 common#:#forum_notify_me#:#Уведомете ме, когато бъде подаден отговор
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Ваши�?т запи�? във форума получи отговор.
 common#:#forums#:#Форуми
 common#:#forums_overview#:#Преглед на форумите
@@ -2088,7 +2094,7 @@ common#:#mail_d_drafts#:#Чернови
 common#:#mail_delete_error#:#Грешка при изтриването
 common#:#mail_delete_error_file#:#Грешка при изтриването на файл
 common#:#mail_e_sent#:#Изпратени �?ъобщени�?
-common#:#mail_edit_permission#:#Пром�?на на разрешителните на�?тройки
+common#:#mail_edit_permission#:#Пром�?на на разрешителните на�?тройки###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Папки в пощен�?ката кути�?
 common#:#mail_import#:#Импортиране
@@ -2104,7 +2110,7 @@ common#:#mail_maxtime_mail#:#Мак�?. брой дни за запазване �
 common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Съобщението не беше изпратено!
 common#:#mail_read#:#До�?тъп за четене от на�?тройките на пощата
-common#:#mail_search_no#:#�?�?ма намерени запи�?и
+common#:#mail_search_no#:#�?�?ма намерени запи�?и###28 Jul 2006 content changed
 common#:#mail_search_word#:#Тър�?ене на дума
 common#:#mail_select_one#:#Тр�?бва да изберете едно �?ъобщение
 common#:#mail_send_error#:#Грешка при изпращане на �?ъобщение
@@ -5680,6 +5686,7 @@ trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable

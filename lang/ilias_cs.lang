@@ -113,6 +113,7 @@ assessment#:#add_questionpool#:#Add questionpool###06 Dec 2004 new variable
 assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Answer###16 Mar 2004 new variable
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
 assessment#:#answer_is_right#:#Your solution is right###30 Aug 2004 new variable
 assessment#:#answer_is_wrong#:#Your solution is wrong###30 Aug 2004 new variable
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
@@ -1570,6 +1571,7 @@ common#:#exc_date_not_valid#:#Datum je neplatné###07 Apr 2005 content changed
 common#:#exc_deassign_members#:#Odebrat �?lena(y)###07 Apr 2005 content changed
 common#:#exc_delete#:#Delete exercise###16 Mar 2004 new variable
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Nové cvi�?ení přidáno###07 Apr 2005 content changed
 common#:#exc_edit_exercise#:#Upravit cvi�?ení###07 Apr 2005 content changed
 common#:#exc_edit_permission#:#Change permission settings###16 Mar 2004 new variable
@@ -1715,10 +1717,14 @@ common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Vypňte prosím tato polí�?ka:###07 Apr 2005 content changed
 common#:#forum#:#Diskusní skupina###07 Apr 2005 content changed
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Forum import###09 Apr 2004 new variable
 common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#Notification###16 Mar 2004 new variable
 common#:#forum_notify_me#:#Notify me when a reply is posted###16 Mar 2004 new variable
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Your forum entry has been replied.###16 Mar 2004 new variable
 common#:#forums#:#Diskusní skupiny###07 Apr 2005 content changed
 common#:#forums_articles#:#Articles###13 May 2005 new variable
@@ -6321,6 +6327,7 @@ trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable

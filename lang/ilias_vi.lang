@@ -120,7 +120,8 @@ assessment#:#add_questionpool#:#Thêm thư viện câu h�?i
 assessment#:#add_solution#:#Thêm câu trả l�?i - đáp án gợi ý
 assessment#:#all_available_question_pools#:#Tất cả thư viện câu h�?i sử dụng được
 assessment#:#answer#:#Trả l�?i
-assessment#:#answer_is_right#:#Giải pháp của bạn đúng
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Giải pháp của bạn đúng###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Giải pháp của bạn sai
 assessment#:#answer_picture#:#Trả l�?i bằng ảnh
 assessment#:#answer_text#:#Phương án trả l�?i
@@ -1509,6 +1510,7 @@ common#:#exc_date_not_valid#:#Ngày không hợp lệ
 common#:#exc_deassign_members#:#Xóa (các) thành viên
 common#:#exc_delete#:#Xóa bài tập
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#�?ã tạo bài tập mới
 common#:#exc_edit_exercise#:#Sửa bài tập
 common#:#exc_edit_permission#:#Thay đổi thiết lập quy�?n hạn
@@ -1649,10 +1651,14 @@ common#:#forgot_password#:#Quên mật khẩu?
 common#:#forgot_username#:#Quên tên đăng nhập?
 common#:#form_empty_fields#:#Hãy hoàn thành các trư�?ng này:
 common#:#forum#:#Diễn đàn
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Nhập diễn đàn
 common#:#forum_import_file#:#Nhập file
 common#:#forum_notification#:#Thông báo
 common#:#forum_notify_me#:#Thông báo cho tôi khi có bài trả l�?i
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#bài của bạn trên diễn đàn có trả l�?i.
 common#:#forums#:#Diễn đàn
 common#:#forums_articles#:#Bài
@@ -2242,7 +2248,7 @@ common#:#mail_d_drafts#:#Bản thảo
 common#:#mail_delete_error#:#Lỗi khi đang xóa
 common#:#mail_delete_error_file#:#Lỗi xóa file
 common#:#mail_e_sent#:#�?ã gửi
-common#:#mail_edit_permission#:#Thay đổi thiết lập quy�?n hạn
+common#:#mail_edit_permission#:#Thay đổi thiết lập quy�?n hạn###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Thư mục thư
 common#:#mail_import#:#Nhập
@@ -2255,10 +2261,10 @@ common#:#mail_maxsize_box#:#Kích thước hộp thư tối đa
 common#:#mail_maxsize_mail#:#Kích thước thư tối đa
 common#:#mail_maxtime_attach#:#Số ngày tối đa lưu giữ đính kèm
 common#:#mail_maxtime_mail#:#Số ngày tối đa lưu giữ thư
-common#:#mail_members#:#Gửi thư cho các thành viên
+common#:#mail_members#:#Gửi thư cho các thành viên###28 Jul 2006 content changed
 common#:#mail_not_sent#:#Thư chưa gửi!
 common#:#mail_read#:#�?�?c thiết lập thư
-common#:#mail_search_no#:#Không có mục nào
+common#:#mail_search_no#:#Không có mục nào###28 Jul 2006 content changed
 common#:#mail_search_word#:#Tìm kiếm theo từ
 common#:#mail_select_one#:#Bạn phải ch�?n một thư
 common#:#mail_send_error#:#Lỗi gửi thư
@@ -6117,6 +6123,7 @@ trac#:#trac_filter_hidden#:#Ẩn:###10 Jul 2006 content changed
 trac#:#trac_filter_no_access#:#Không tìm thấy đối tượng nào
 trac#:#trac_filter_repository#:#Trong kho kiến thức
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Ẩn
 trac#:#trac_in_progress#:#Trong tiến trình

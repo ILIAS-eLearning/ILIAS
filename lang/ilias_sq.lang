@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Shto fond pyetjesh###09 Aug 2005 content changed
 assessment#:#add_solution#:#Shto zgjidhje të sugjeruar
 assessment#:#all_available_question_pools#:#Të gjitha fondet e pyetjeve në dispozicion
 assessment#:#answer#:#Përgjigje
-assessment#:#answer_is_right#:#Zgjidhja juaj është e drejtë
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Zgjidhja juaj është e drejtë###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Zgjidhja juaj është e padrejtë
 assessment#:#answer_picture#:#Përgjigju fotografive
 assessment#:#answer_text#:#Përgjigju tekstit
@@ -1515,6 +1516,7 @@ common#:#exc_date_not_valid#:#Data është jovalide
 common#:#exc_deassign_members#:#Fshij anëtar(ë)
 common#:#exc_delete#:#Fshij ushtrimin
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Një ushtrim i ri është krijuar
 common#:#exc_edit_exercise#:#Edito ushtrimin
 common#:#exc_edit_permission#:#Ndërro konfigurimet e të drejtave
@@ -1660,10 +1662,14 @@ common#:#forgot_password#:#Keni harruar parullën?
 common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Ju lutem të kompletoni këto fusha:
 common#:#forum#:#Forum
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Importo Forum
 common#:#forum_import_file#:#Importo Skedar
 common#:#forum_notification#:#Njoftimi
 common#:#forum_notify_me#:#Më njofto kur postohet ndonjë përgjigje
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Është kthyer një përgjigje në forumin tuaj.
 common#:#forums#:#Forumet
 common#:#forums_overview#:#Shqyrtim i Forumeve
@@ -2235,7 +2241,7 @@ common#:#mail_d_drafts#:#Draftet
 common#:#mail_delete_error#:#Gabim gjatë fshirjes
 common#:#mail_delete_error_file#:#Gabim gjatë fshirjes së skedarit
 common#:#mail_e_sent#:#Të Dërguara
-common#:#mail_edit_permission#:#Ndërro konfigurimet e të drejtave
+common#:#mail_edit_permission#:#Ndërro konfigurimet e të drejtave###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Direktoriumet E-Mailave
 common#:#mail_import#:#Importo
@@ -2251,7 +2257,7 @@ common#:#mail_maxtime_mail#:#Numri maksimal i ditëve për mbajtjen e e-mailit
 common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#E-Maili nuk është dërguar!
 common#:#mail_read#:#Qasje për Lexim në konfigurimet e e-mailit
-common#:#mail_search_no#:#Nuk është gjetur asnjë shënim
+common#:#mail_search_no#:#Nuk është gjetur asnjë shënim###28 Jul 2006 content changed
 common#:#mail_search_word#:#Kërko për fjalën
 common#:#mail_select_one#:#Duhet të zgjedhni një e-mail
 common#:#mail_send_error#:#Gabim gjatë dërgimit të e-mailit
@@ -6122,6 +6128,7 @@ trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable

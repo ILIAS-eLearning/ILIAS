@@ -112,7 +112,8 @@ assessment#:#add_questionpool#:#Añadir banco de preguntas
 assessment#:#add_solution#:#Añadir solución recomendada
 assessment#:#all_available_question_pools#:#Todos los bancos de preguntas disponibles
 assessment#:#answer#:#Respuesta
-assessment#:#answer_is_right#:#Su solución es correcta
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Su solución es correcta###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Su solución es errónea
 assessment#:#answer_picture#:#Imagen respuesta
 assessment#:#answer_text#:#Texto respuesta
@@ -1569,6 +1570,7 @@ common#:#exc_date_not_valid#:#La fecha no es válida
 common#:#exc_deassign_members#:#Eliminar miembro(s)
 common#:#exc_delete#:#Eliminar Actividad
 common#:#exc_details#:#Detalles de la actividad
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Nuevo actividad creada
 common#:#exc_edit_exercise#:#Editar actividad
 common#:#exc_edit_permission#:#Modificar configuración de permisos
@@ -1714,10 +1716,14 @@ common#:#forgot_password#:#¿Olvidó su contraseña?
 common#:#forgot_username#:#¿Olvidó su nombre de usuario?
 common#:#form_empty_fields#:#por favor complete estos campos:
 common#:#forum#:#Foro
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Importación de foro
 common#:#forum_import_file#:#Importar fichero
 common#:#forum_notification#:#Notificación
 common#:#forum_notify_me#:#Notificarme cuando se envíe una respuesta
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Tu envío al foro ha sido respondido
 common#:#forums#:#Foros
 common#:#forums_articles#:#Mensajes
@@ -2310,8 +2316,8 @@ common#:#mail_d_drafts#:#Borradores
 common#:#mail_delete_error#:#Error borrando correo(s)
 common#:#mail_delete_error_file#:#Error borrando archivo(s)
 common#:#mail_e_sent#:#Enviado
-common#:#mail_edit_permission#:#Modificar configuración de permisos
-common#:#mail_feedback#:#Mail feedback
+common#:#mail_edit_permission#:#Modificar configuración de permisos###28 Jul 2006 content changed
+common#:#mail_feedback#:#Mail feedback###28 Jul 2006 content changed
 common#:#mail_folders#:#Carpetas
 common#:#mail_import#:#Importar
 common#:#mail_import_file#:#archivo en formato exportado por ILIAS 2
@@ -2323,10 +2329,10 @@ common#:#mail_maxsize_box#:#Máx. tamaño del mailbox
 common#:#mail_maxsize_mail#:#Máx. tamaño de un correo
 common#:#mail_maxtime_attach#:#Número Máx. de días para guardar los adjuntos
 common#:#mail_maxtime_mail#:#Número Máx. de días para guardar los correos
-common#:#mail_members#:#Mail a miembros
+common#:#mail_members#:#Mail a miembros###28 Jul 2006 content changed
 common#:#mail_not_sent#:#Correo no enviado!
 common#:#mail_read#:#Acceso de lectura a la configuración del correo
-common#:#mail_search_no#:#No se encontraron entradas
+common#:#mail_search_no#:#No se encontraron entradas###28 Jul 2006 content changed
 common#:#mail_search_word#:#Buscar palabra
 common#:#mail_select_one#:#Debe seleccionar un correo
 common#:#mail_send_error#:#Error enviando el correo
@@ -6320,6 +6326,7 @@ trac#:#trac_filter_no_access#:#No se encontraron objetos
 trac#:#trac_filter_none#:#Ninguno
 trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_fold_relevant_items#:#Contenido de carpeta
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Entregar hasta
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
@@ -6330,7 +6337,7 @@ trac#:#trac_learning_progress#:#Progreso de aprendizaje###10 Jul 2006 content ch
 trac#:#trac_learning_progress_tbl_header#:#Progreso de:
 trac#:#trac_lm_statistics#:#Estadisticas de acceso
 trac#:#trac_lp_determination#:#Determinación del Estado del Progreso de Aprendizaje
-trac#:#trac_lp_determination_info_crs#:#Seleccione los items que determinan el estado general del progreso de aprendizaje del curso
+trac#:#trac_lp_determination_info_crs#:#Seleccione los items que determinan el estado general del progreso de aprendizaje del curso###28 Jul 2006 content changed
 trac#:#trac_lp_determination_info_sco#:#Seleccione los items que determinan el estado general del progreso de aprendizaje del módulo  SCORM
 trac#:#trac_lp_filter#:#Filtro
 trac#:#trac_mark#:#Nota
