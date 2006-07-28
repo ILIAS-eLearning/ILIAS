@@ -1378,7 +1378,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// members
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			$tabs_gui->addTarget("show_members",
+			$tabs_gui->addTarget("members",
 			$this->ctrl->getLinkTarget($this, 'members'),
 			array("members", "newMembers", "newmembers"), "");
 	

@@ -476,10 +476,16 @@ class ilObjExercise extends ilObject
 	function __formatBody()
 	{
 		global $lng;
-		
+
 		$body = $this->getInstruction();
-		$body .= "\n";
-		$body .= $lng->txt("exc_edit_until") . ": ".date("Y-m-d",$this->getTimestamp());
+		$body .= "\n\n";
+		$body .= $lng->txt("exc_edit_until") . ": ".
+			ilFormat::formatDate(date("Y-m-d H:i:s",$this->getTimestamp()), "datetime", true);
+		$body .= "\n\n";
+		$body .= ILIAS_HTTP_PATH.
+			"/goto.php?target=".
+			$this->getType().
+			"_".$this->getRefId()."&client_id=".CLIENT_ID;
 
 		return $body;
 	}
