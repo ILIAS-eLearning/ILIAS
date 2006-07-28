@@ -192,15 +192,18 @@ class ilObjMediaObject extends ilObject
 				$md = new ilMD(0, $this->getId(), $this->getType());
 				$md_gen = $md->getGeneral();
 
-				ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
-				$this->setTitle($md_gen->getTitle());
-
-				foreach($md_gen->getDescriptionIds() as $id)
+				if (is_object($md_gen))
 				{
-					$md_des = $md_gen->getDescription($id);
-					ilObject::_writeDescription($this->getId(),$md_des->getDescription());
-					$this->setDescription($md_des->getDescription());
-					break;
+					ilObject::_writeTitle($this->getId(),$md_gen->getTitle());
+					$this->setTitle($md_gen->getTitle());
+	
+					foreach($md_gen->getDescriptionIds() as $id)
+					{
+						$md_des = $md_gen->getDescription($id);
+						ilObject::_writeDescription($this->getId(),$md_des->getDescription());
+						$this->setDescription($md_des->getDescription());
+						break;
+					}
 				}
 
 				break;
