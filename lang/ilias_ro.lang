@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Adaugati baza de intrebari
 assessment#:#add_solution#:#Adaugati solutii sugerate
 assessment#:#all_available_question_pools#:#Toate bazele de intrebari disponibile
 assessment#:#answer#:#Raspuns
-assessment#:#answer_is_right#:#Solutia dumneavoastra este corecta
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Solutia dumneavoastra este corecta###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:# Solutia dumneavoastra este gresita
 assessment#:#answer_picture#:#Raspuns la imagine
 assessment#:#answer_text#:#Raspuns la text
@@ -1419,6 +1420,7 @@ common#:#exc_date_not_valid#:#Data nu este valabila
 common#:#exc_deassign_members#:#Stergeti membrul/membrii
 common#:#exc_delete#:#Stergeti exercitiul
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Exercitiu nou creat
 common#:#exc_edit_exercise#:#Editati exercitiul
 common#:#exc_edit_permission#:#Schimbati setarile de permisiune
@@ -1544,10 +1546,14 @@ common#:#forename#:#Nume
 common#:#forgot_password#:#Ati uitat parola?
 common#:#form_empty_fields#:#Va rugam completati aceste campuri:
 common#:#forum#:#Forum
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Importati Forum
 common#:#forum_import_file#:#Importati fisier
 common#:#forum_notification#:#Notificare
 common#:#forum_notify_me#:#Anuntati cand se primeste raspuns
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Ati primit raspuns la intrarea in forum.
 common#:#forums#:#Forumuri
 common#:#forums_overview#:#Privire de ansamblu a Forumurilor
@@ -2037,7 +2043,7 @@ common#:#mail_d_drafts#:#Documente in lucru
 common#:#mail_delete_error#:#Eroare la stergere
 common#:#mail_delete_error_file#:#Eroare la stergerea fisierului
 common#:#mail_e_sent#:#Trimise
-common#:#mail_edit_permission#:#Schimbati setarile de permisiune
+common#:#mail_edit_permission#:#Schimbati setarile de permisiune###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Dosarele de mail
 common#:#mail_import#:#Importati
@@ -2053,7 +2059,7 @@ common#:#mail_maxtime_mail#:#Numarul maxim de zile in care sunt pastrate mail-ur
 common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Mail-ul nu a fost trimis!
 common#:#mail_read#:#Permisiune de citire a setarilor de mail
-common#:#mail_search_no#:#Nu au fost gasite intrari
+common#:#mail_search_no#:#Nu au fost gasite intrari###28 Jul 2006 content changed
 common#:#mail_search_word#:#Cautati cuvantul
 common#:#mail_select_one#:#Trebuie sa selectati un mail
 common#:#mail_send_error#:#Eroare la trimiterea mail-ului
@@ -5609,6 +5615,7 @@ trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable

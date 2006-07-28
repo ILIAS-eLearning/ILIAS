@@ -113,8 +113,8 @@ assessment#:#add_questionpool#:#Add question pool
 assessment#:#add_solution#:#Add suggested solution
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#answer#:#Answer
-assessment#:#answer_is_right#:#Your solution is correct
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
+assessment#:#answer_is_right#:#Your solution is correct
 assessment#:#answer_is_wrong#:#Your solution is wrong
 assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
@@ -1563,7 +1563,6 @@ common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
 common#:#exc#:#Exercise
 common#:#exc_add#:#Add Exercise
-common#:#exc_download_files#:#Download Files
 common#:#exc_added#:#Exercise added
 common#:#exc_ask_delete#:#Delete file?
 common#:#exc_assign_usr#:#Assign User
@@ -1572,6 +1571,7 @@ common#:#exc_date_not_valid#:#The date is not valid
 common#:#exc_deassign_members#:#Delete member(s)
 common#:#exc_delete#:#Delete exercise
 common#:#exc_details#:#Exercise details
+common#:#exc_download_files#:#Download Files
 common#:#exc_edit#:#New exercise created
 common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings
@@ -1717,10 +1717,14 @@ common#:#forgot_password#:#Forgot password?
 common#:#forgot_username#:#Forgot username?
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
+common#:#forum_direct_notification#:#Dir. Notification
+common#:#forum_general_notification#:#Gen. Notification
 common#:#forum_import#:#Forum import
 common#:#forum_import_file#:#Import file
 common#:#forum_notification#:#Notification
 common#:#forum_notify_me#:#Notify me when a reply is posted
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.
 common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forums#:#Forums
 common#:#forums_articles#:#Articles
@@ -6323,6 +6327,7 @@ trac#:#trac_filter_no_access#:#No objects found
 trac#:#trac_filter_none#:#None
 trac#:#trac_filter_repository#:#In the repository
 trac#:#trac_fold_relevant_items#:#Folder Content
+trac#:#trac_grp_relevant_items#:#Group Materials
 trac#:#trac_head_timing#:#Edit Until
 trac#:#trac_hide#:#Hide
 trac#:#trac_in_progress#:#In progress
@@ -6398,8 +6403,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-common#:#forum_direct_notification#:#Dir. Notification
-common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.
-common#:#forum_general_notification#:#Gen. Notification
-common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.
-trac#:#trac_grp_relevant_items#:#Group Materials

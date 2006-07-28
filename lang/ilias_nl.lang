@@ -113,6 +113,7 @@ assessment#:#add_questionpool#:#Add questionpool###06 Dec 2004 new variable
 assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
 assessment#:#all_available_question_pools#:#Alle beschikbare vraagpools###07 Apr 2005 content changed
 assessment#:#answer#:#Antwoord###07 Apr 2005 content changed
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
 assessment#:#answer_is_right#:#Uw oplossing is goed###07 Apr 2005 content changed
 assessment#:#answer_is_wrong#:#Uw oplossing is fout###07 Apr 2005 content changed
 assessment#:#answer_picture#:#Antwoord-figuur###07 Apr 2005 content changed
@@ -1570,6 +1571,7 @@ common#:#exc_date_not_valid#:#De datum is niet geldig###07 Apr 2005 content chan
 common#:#exc_deassign_members#:#Verwijderen lid/leden)###07 Apr 2005 content changed
 common#:#exc_delete#:#Verwijder oefening###07 Apr 2005 content changed
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#Nieuwe oefening gecreëerd###07 Apr 2005 content changed
 common#:#exc_edit_exercise#:#Wijzigen oefening###07 Apr 2005 content changed
 common#:#exc_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
@@ -1715,10 +1717,14 @@ common#:#forgot_password#:#Wachtwoord vergeten?###07 Apr 2005 content changed
 common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#AUB volgende velden invullen:###07 Apr 2005 content changed
 common#:#forum#:#Forum###05 Nov 2004 new variable
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Forum-import###07 Apr 2005 content changed
 common#:#forum_import_file#:#Importeren bestand###07 Apr 2005 content changed
 common#:#forum_notification#:#Bekendmaking###07 Apr 2005 content changed
 common#:#forum_notify_me#:#Informeer mij wanneer een antwoord wordt ontvangen###07 Apr 2005 content changed
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Uw forum-bijdrage is beantwoord.###07 Apr 2005 content changed
 common#:#forums#:#Forums###05 Nov 2004 new variable
 common#:#forums_articles#:#Articles###13 May 2005 new variable
@@ -6321,6 +6327,7 @@ trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable

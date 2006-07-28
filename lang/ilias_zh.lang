@@ -131,6 +131,7 @@ assessment#:#add_questionpool#:#Add questionpool###06 Dec 2004 new variable
 assessment#:#add_solution#:#添加建议答案###07 Apr 2005 content changed
 assessment#:#all_available_question_pools#:#添加�?�用问题池###07 Apr 2005 content changed
 assessment#:#answer#:#答案###07 Apr 2005 content changed
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
 assessment#:#answer_is_right#:#回答正确###07 Apr 2005 content changed
 assessment#:#answer_is_wrong#:#回答错误###07 Apr 2005 content changed
 assessment#:#answer_picture#:#回答图片###07 Apr 2005 content changed
@@ -1588,6 +1589,7 @@ common#:#exc_date_not_valid#:#日期无效###07 Apr 2005 content changed
 common#:#exc_deassign_members#:#删除用户###07 Apr 2005 content changed
 common#:#exc_delete#:#删除练习###07 Apr 2005 content changed
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#已创建新练习###07 Apr 2005 content changed
 common#:#exc_edit_exercise#:#编辑练习###07 Apr 2005 content changed
 common#:#exc_edit_permission#:#更改许�?�设置###07 Apr 2005 content changed
@@ -1733,10 +1735,14 @@ common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#请填写这些域###07 Apr 2005 content changed
 common#:#forum#:#论�?�###07 Apr 2005 content changed
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Forum import###09 Apr 2004 new variable
 common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#通知###07 Apr 2005 content changed
 common#:#forum_notify_me#:#张贴答�?时通知我###07 Apr 2005 content changed
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#论�?�中您的�?�目已被回答。###07 Apr 2005 content changed
 common#:#forums#:#论�?�###07 Apr 2005 content changed
 common#:#forums_articles#:#Articles###13 May 2005 new variable
@@ -6339,6 +6345,7 @@ trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable

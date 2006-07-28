@@ -113,7 +113,8 @@ assessment#:#add_questionpool#:#Додати пул питань###09 Aug 2005 c
 assessment#:#add_solution#:#Додати запропоноване рішенн�?
 assessment#:#all_available_question_pools#:#Уве�?ь до�?тупний фонд питань
 assessment#:#answer#:#Відповідь
-assessment#:#answer_is_right#:#Ваша відповідь вірна
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Ваша відповідь вірна###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Вага відповідь невірна
 assessment#:#answer_picture#:#Картинка з відповіддю
 assessment#:#answer_text#:#Тек�?т з відповідю
@@ -1568,6 +1569,7 @@ common#:#exc_date_not_valid#:#Дата не є корректною
 common#:#exc_deassign_members#:#Видалити члена(ів)
 common#:#exc_delete#:#Видалити вправу
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#�?ова вправа �?творена
 common#:#exc_edit_exercise#:#Редагувати вправу
 common#:#exc_edit_permission#:#Змінити на�?тройки прав
@@ -1713,10 +1715,14 @@ common#:#forgot_password#:#Забули пароль?
 common#:#forgot_username#:#Forgot username?###19 May 2005 new variable
 common#:#form_empty_fields#:#Бедь ла�?ка завершіть ці пол�?:
 common#:#forum#:#Форум
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Імпортувати форума
 common#:#forum_import_file#:#Імпортувати файл
 common#:#forum_notification#:#Повідомленн�?
 common#:#forum_notify_me#:#Повідомити мен�? про відповідь
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#�?а вашу відку в форумі з'�?вила�?ь відповідь! ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#forums#:#Форуми
 common#:#forums_articles#:#Articles###13 May 2005 new variable
@@ -2301,7 +2307,7 @@ common#:#mail_d_drafts#:#Чернетки
 common#:#mail_delete_error#:#Помилка при видаленні
 common#:#mail_delete_error_file#:#Помилка видаленн�? файлу
 common#:#mail_e_sent#:#Віді�?лати
-common#:#mail_edit_permission#:#Змінити на�?тройки прав
+common#:#mail_edit_permission#:#Змінити на�?тройки прав###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Папка з Поштою
 common#:#mail_import#:#Імпортувати
@@ -2317,7 +2323,7 @@ common#:#mail_maxtime_mail#:#Мак�?имальна кількі�?ть днів 
 common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Пошта не виді�?лана!
 common#:#mail_read#:#До�?туп на читанн�? до на�?троювань Пошти
-common#:#mail_search_no#:#Входжень не знайдено
+common#:#mail_search_no#:#Входжень не знайдено###28 Jul 2006 content changed
 common#:#mail_search_word#:#Шукати �?лово
 common#:#mail_select_one#:#Ви маєте вибреати один ли�?т
 common#:#mail_send_error#:#Помилка при від�?иланні пошти
@@ -6302,6 +6308,7 @@ trac#:#trac_filter_no_access#:#No objects found###23 Dec 2005 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable

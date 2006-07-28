@@ -104,7 +104,8 @@ assessment#:#add_questionpool#:#Добавить �?абор вопро�?ов
 assessment#:#add_solution#:#Добавить предполагаемые решени�?
 assessment#:#all_available_question_pools#:#В�?е до�?тупные �?аборы вопро�?ов
 assessment#:#answer#:#Ответ
-assessment#:#answer_is_right#:#Ваше решение ВЕР�?О
+assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_right#:#Ваше решение ВЕР�?О###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Ваше решение �?ЕВЕР�?О
 assessment#:#answer_picture#:#Картинка ответа
 assessment#:#answer_text#:#Тек�?т ответа
@@ -1288,6 +1289,7 @@ common#:#exc_date_not_valid#:#Данные неправильны
 common#:#exc_deassign_members#:#Удалить члена(ов)
 common#:#exc_delete#:#Удалить Упражнение
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_edit#:#�?овое упражнение �?оздано
 common#:#exc_edit_exercise#:#Редактировать Упражнение
 common#:#exc_edit_permission#:#Может измен�?ть параметры до�?тупа
@@ -1410,10 +1412,14 @@ common#:#forename#:#Им�?
 common#:#forgot_password#:#Забыли пароль?
 common#:#form_empty_fields#:#Пожалуй�?та, заполните �?ти пол�?:
 common#:#forum#:#Форум
+common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
+common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
 common#:#forum_import#:#Импорт форума
 common#:#forum_import_file#:#Импорт файла
 common#:#forum_notification#:#Объ�?вление
 common#:#forum_notify_me#:#Уведомить мен�?, когда будет ответ
+common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
+common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#�?а Вашу запи�?ь в форуме добавлен ответ.
 common#:#forums#:#Форумы
 common#:#forums_overview#:#Бы�?трый опро�? форумов
@@ -1864,7 +1870,7 @@ common#:#mail_d_drafts#:#Черновики
 common#:#mail_delete_error#:#Ошибка удалени�?
 common#:#mail_delete_error_file#:#Ошибка удалени�? файла
 common#:#mail_e_sent#:#По�?лать
-common#:#mail_edit_permission#:#Может измен�?ть параметры до�?тупа
+common#:#mail_edit_permission#:#Может измен�?ть параметры до�?тупа###28 Jul 2006 content changed
 common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
 common#:#mail_folders#:#Каталоги Почты
 common#:#mail_import#:#Импорт
@@ -1879,7 +1885,7 @@ common#:#mail_maxtime_attach#:#Мак�?. количе�?тво дней дл�? х
 common#:#mail_maxtime_mail#:#Мак�?. количе�?тво дней дл�? хранени�? почты
 common#:#mail_not_sent#:#Почта не ото�?лана!
 common#:#mail_read#:#До�?туп дл�? чтение к Параметрам почты
-common#:#mail_search_no#:#Вхождений не найдено
+common#:#mail_search_no#:#Вхождений не найдено###28 Jul 2006 content changed
 common#:#mail_search_word#:#Слово пои�?ка
 common#:#mail_select_one#:#Вы должны выбрать одну почту
 common#:#mail_send_error#:#Ошибка от�?ылки пи�?ем
@@ -5567,6 +5573,7 @@ trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable
 trac#:#trac_filter_none#:#None###20 Jan 2006 new variable
 trac#:#trac_fold_relevant_items#:#Folder Content###10 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
 trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated###10 Jul 2006 new variable
 trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
