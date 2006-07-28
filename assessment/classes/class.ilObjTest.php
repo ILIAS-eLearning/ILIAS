@@ -3291,28 +3291,6 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 
-	function getWrongAnsweredQuestions()
-	{
-		global $ilUser;
-
-		$active = $this->getActiveTestUser($ilUser->getId());
-		foreach($all_questions =& $this->getAllQuestionsForActiveUser() as $question)
-		{
-			foreach($this->getTestResult($active->active_id) as $result)
-			{
-				if($result['qid'] == $question['question_id'])
-				{
-					if($result['max'] != $result['reached'])
-					{
-						$wrong[] = $question;
-					}
-				}
-			}
-		}
-		return $wrong ? $wrong : array();
-	}
-
-
 	function getFirstSequence()
 	{
 		global $ilUser;

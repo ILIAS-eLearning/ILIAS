@@ -223,8 +223,6 @@ class ilEventAdministrationGUI
 		$members = $members_obj->getAssignedUsers();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
 
-
-
 		$this->tpl->addBlockfile("PARTICIPANTS_TABLE","participants_table", "tpl.table.html");
 		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.event_members_row.html','course');
 
@@ -250,8 +248,6 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("PBTN_NAME",'cancel');
 		$this->tpl->setVariable("PBTN_VALUE",$this->lng->txt('cancel'));
 		$this->tpl->parseCurrentBlock();
-
-		#$this->toucBlock('plain_)
 
 		if($event_obj->enabledRegistration())
 		{

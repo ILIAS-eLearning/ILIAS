@@ -59,6 +59,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->item_id = $ilObjDataCache->lookupObjId($this->item_ref_id);
 		$this->offset = (int) $_GET['offset'];
 		$this->ctrl->saveParameter($this,'offset',$this->offset);
+		$this->ctrl->saveParameter($this,'details_id',$_REQUEST['details_id']);
 		$this->max_count = $ilUser->getPref('hits_per_page');
 		#$this->max_count = 1;
 	}
@@ -218,6 +219,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 					$this->obj_tpl->setVariable('HREF_COMMAND',$this->ctrl->getLinkTarget($this,'showDetails'));
 					$this->obj_tpl->setVariable("TXT_COMMAND",$this->lng->txt('show_details'));
 				}
+				$this->ctrl->clearParameters($this);
 				$this->obj_tpl->parseCurrentBlock();
 			}
 
