@@ -210,9 +210,10 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("crs_search_members"));
 		$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
-		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["pays_search_str"] ? $_SESSION["pays_search_str"] : "");
+		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["pays_search_str_trustee"] ? $_SESSION["pays_search_str_trustee"] : "");
 		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+		$this->tpl->setVariable("SEARCH","performSearch");
 		$this->tpl->setVariable("CANCEL","showTrustees");
 
 		return true;
@@ -227,7 +228,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 	function performSearch()
 	{
 		// SAVE it to allow sort in tables
-		$_SESSION["paya_search_str"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["paya_search_str"];
+		$_SESSION["pays_search_str_trustee"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["pays_search_str_trustee"];
 
 
 		if(!$_POST["search_str"])
@@ -248,8 +249,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_usr_selection.html",'payment');
-#		$this->showButton("searchUser",$this->lng->txt("crs_new_search"));
-		$this->showButton("showTrustees",$this->lng->txt("back"));
+		$this->showButton("searchUser",$this->lng->txt("back"));
 		
 		$counter = 0;
 		$f_result = array();
