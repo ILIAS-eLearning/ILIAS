@@ -831,10 +831,25 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_LAST_SUBMISSION",
 					$this->lng->txt("exc_last_submission"));
 
+				// nr of submitted files
 				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
 					$this->lng->txt("exc_files_returned"));
+				$sub_cnt = count($this->object->getDeliveredFiles($member_id));
 				$this->tpl->setVariable("VAL_SUBMITTED_FILES",
-					count($this->object->getDeliveredFiles($member_id)));
+					$sub_cnt);
+					
+				// download command
+				$this->ctrl->setParameter($this, "member_id", $member_id);
+				if ($sub_cnt > 0)
+				{
+					$this->tpl->setCurrentBlock("download_link");
+					$this->tpl->setVariable("LINK_DOWNLOAD",
+						$this->ctrl->getLinkTarget($this, "downloadReturned"));
+					$this->tpl->setVariable("TXT_DOWNLOAD",
+						$this->lng->txt("exc_download_files"));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("member_row");
+				}
 				
 				// note
 				$this->tpl->setVariable("TXT_NOTE", $this->lng->txt("note"));
@@ -857,13 +872,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 					"mail_new.php?type=new&rcp_to=".$mem_obj->getLogin());
 				$this->tpl->setVariable("TXT_FEEDBACK",
 					$this->lng->txt("mail_feedback"));
-
-				// download command
-				$this->ctrl->setParameter($this, "member_id", $member_id);
-				$this->tpl->setVariable("LINK_DOWNLOAD",
-					$this->ctrl->getLinkTarget($this, "downloadReturned"));
-				$this->tpl->setVariable("TXT_DOWNLOAD",
-					$this->lng->txt("exc_download_files"));
 
 				$this->tpl->parseCurrentBlock();
 			}
