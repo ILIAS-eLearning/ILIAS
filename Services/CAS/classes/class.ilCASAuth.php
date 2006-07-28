@@ -29,7 +29,7 @@ include_once("Auth.php");
 *
 * CAS Authentication class.
 *
-* @package Services/CAS
+* @addtogroup ServicesCAS
 */
 class ilCASAuth extends Auth
 {

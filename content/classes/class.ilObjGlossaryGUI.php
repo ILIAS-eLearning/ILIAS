@@ -39,7 +39,7 @@ require_once("content/classes/Pages/class.ilPCParagraph.php");
 *
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
 * 
-* \ingroup Modules/Glossary
+* @addtogroup Modules/Glossary
 */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
