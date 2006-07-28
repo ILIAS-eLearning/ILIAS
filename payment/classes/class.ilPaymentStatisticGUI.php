@@ -694,8 +694,8 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));
 		$this->tpl->setVariable("TRANSACTION",ilUtil::prepareFormOutput($_POST["transaction"], true));
 
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable("TITLE",$tmp_obj->getTitle());
+		$this->tpl->setVariable("TXT_OBJECT",$this->lng->txt('title'));
+		$this->tpl->setVariable("OBJECT",$tmp_obj->getTitle());
 
 		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
 		$this->tpl->setVariable("VENDOR",$tmp_vendor->getFullname().' ['.$tmp_vendor->getLogin().']');
