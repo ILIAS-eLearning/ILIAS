@@ -302,6 +302,65 @@ class ilObjExercise extends ilObject
 		#$this->members_obj->update();
 		return true;
 	}
+	
+	/**
+	* get member list data
+	*/
+	function getMemberListData()
+	{
+		global $ilDB;
+		
+		$mem = array();
+		$q = "SELECT * FROM exc_members ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		$set = $ilDB->query($q);
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (ilObject::_exists($rec["usr_id"]) &&
+				(ilObject::_lookupType($rec["usr_id"]) == "usr"))
+			{
+				$name = ilObjUser::_lookupName($rec["usr_id"]);
+				$login = ilObjUser::_lookupLogin($rec["usr_id"]);
+				$mem[] =
+					array("name" => $name["lastname"].", ".$name["firstname"],
+					"login" => $login,
+					"sent_time" => $rec["sent_time"],
+					"submission" => $this->getLastSubmission($rec["usr_id"]),
+					"solved_time" => $rec["solved_time"],
+					"usr_id" => $rec["usr_id"]
+					);
+			}
+		}
+		return $mem;
+	}
+
+	/**
+	* get last submission date of an exercise
+	*
+	* @param	 integer		$member_id	
+	* @param	 integer		$exc_id	
+	*/
+	function getLastSubmission($member_id) 
+	{
+
+		global $ilDB, $lng;
+
+		$q="SELECT obj_id,user_id,timestamp FROM exc_returned ".
+		"WHERE obj_id =".$this->getId()." AND user_id=".$member_id.
+		" ORDER BY timestamp DESC";
+
+		$usr_set = $ilDB->query($q);
+
+		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
+		if ($array["timestamp"]==NULL) 
+		{
+			return false;
+  		}
+		else 
+		{
+			return $array["timestamp"];
+  		}  
+	}
 
 	/**
 	* send exercise per mail to members
