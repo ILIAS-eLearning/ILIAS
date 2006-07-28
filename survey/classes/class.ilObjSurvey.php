@@ -2001,7 +2001,7 @@ class ilObjSurvey extends ilObject
 	function removeQuestion($question_id)
 	{
 		include_once "./survey/classes/class.SurveyQuestion.php";
-		$question = new SurveyQuestion($question_id);
+		$question =& $this->_instanciateQuestion($question_id);
 		$question->delete($question_id);
 		$this->removeConstraintsConcerningQuestion($question_id);
 	}

@@ -609,14 +609,23 @@ class SurveyNominalQuestion extends SurveyQuestion
 	function checkUserInput($post_data)
 	{
 		// multiple response questions are always non-obligatory
-		if ($this->getSubType() == SUBTYPE_MCMR) return "";
-		
+		// if ($this->getSubType() == SUBTYPE_MCMR) return "";
 		$entered_value = $post_data[$this->getId() . "_value"];
-		
-		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
-
-		if (strlen($entered_value) == 0) return $this->lng->txt("nominal_question_not_checked");
-		
+		if ($this->getSubType() == SUBTYPE_MCMR)
+		{
+			if (!$this->getObligatory()) return "";
+	
+			if (!is_array($entered_value))
+			{
+				return $this->lng->txt("nominal_question_mr_not_checked");
+			}
+		}
+		else
+		{
+			if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
+	
+			if (strlen($entered_value) == 0) return $this->lng->txt("nominal_question_not_checked");
+		}
 		return "";
 	}
 	
@@ -689,7 +698,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		if ($this->getSubType() == SUBTYPE_MCMR)
 		{
 			/* even a mcmr questions without answers could be an answered question
-			   so for this question type there is no possibility to cound skipped questions */
+			   so for this question type there is no possibility to count skipped questions */
 			/*$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", anonymous_id, \"_\", user_fi)  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
 				$ilDB->quote($question_id),
 				$ilDB->quote($survey_id)
