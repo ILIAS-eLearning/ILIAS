@@ -124,8 +124,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		}
 
 		$query = "SELECT * FROM crs_objective_status ".
-			"WHERE ".$in." ".
-			"AND status = '1'";
+			"WHERE ".$in;
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
