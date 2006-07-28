@@ -45,6 +45,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		$this->type = "exc";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		
+		$this->ctrl->saveParameter($this, array("sort_by", "sort_order", "offset"));
 	}
   
 	function getFiles()
@@ -716,7 +718,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 	
 			$this->tpl->setCurrentBlock("tbl_action_row");
-			$this->tpl->setVariable("COLUMN_COUNTS",9);
+			$this->tpl->setVariable("COLUMN_COUNTS",10);
 			$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 			$this->tpl->parseCurrentBlock();
 
@@ -724,14 +726,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$tbl->setTitle($this->lng->txt("members"),"icon_usr.gif",
 				$this->lng->txt("exc_header_members"));
 			$tbl->disable("sort");
-			$tbl->setHeaderNames(array("", $this->lng->txt("name"),
+			$tbl->setHeaderNames(array("", "", $this->lng->txt("name"),
 				$this->lng->txt("login"),
 				$this->lng->txt("mail"),$this->lng->txt("exc_submission"),
 				$this->lng->txt("exc_status_solved"), ""));
 
-			$tbl->setColumnWidth(array("1%", "", "", "", "", "", ""));
-			$cols = array("", "name", "login", "mail", "submission", "solved", "");
-			$header_params = array("ref_id" => $_GET["ref_id"]);
+			$tbl->setColumnWidth(array("1%", "1%", "", "", "", "", "", ""));
+			$cols = array("", "", "name", "login", "mail", "submission", "solved", "");
+			$header_params = $this->ctrl->getParameterArray($this);
+			$header_params["cmd"] = "members";
 			$tbl->setHeaderVars($cols, $header_params);
 			$tbl->setOrderColumn($_GET["sort_by"]);
 			$tbl->setOrderDirection($_GET["sort_order"]);
@@ -753,16 +756,42 @@ class ilObjExerciseGUI extends ilObjectGUI
 					continue;
 				}
 				
+				// checkbox
 				$this->tpl->setCurrentBlock("member_row");
 				$this->tpl->setVariable("ROW_CSS",
 					ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 				$this->tpl->setVariable("VAL_CHKBOX",
 					ilUtil::formCheckbox(0,"member[$member_id]",1));
+					
+				// name and login
 				$this->tpl->setVariable("TXT_NAME",
 					$mem_obj->getLastName().", ".$mem_obj->getFirstName());
 				$this->tpl->setVariable("TXT_LOGIN",
-					$mem_obj->getLogin());
+					"[".$mem_obj->getLogin()."]");
 					
+				// image
+				$this->tpl->setVariable("USR_IMAGE",
+					$mem_obj->getPersonalPicturePath("xxsmall"));
+				$this->tpl->setVariable("USR_ALT", $this->lng->txt("personal_picture"));
+				
+				// mail sent
+				if ($this->object->members_obj->getStatusSentByMember($member_id))
+				{
+					if (($st = ilObjExercise::_lookupSentTime($this->object->getId(),
+						$member_id)) > 0)
+					{
+						$this->tpl->setVariable("TXT_MAIL_SENT",
+							sprintf($this->lng->txt("exc_sent_at"),
+							ilFormat::formatDate($st, "datetime", true)
+							));
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_MAIL_SENT",
+							$this->lng->txt("sent"));
+					}
+				}
+
 				// submission:
 				// see if files have been resubmmited after solved
 				$last_sub =
@@ -1141,7 +1170,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->object->members_obj->setNoticeForMember($member,ilUtil::stripSlashes($_POST["notice"][$member]));
 			$this->object->members_obj->setStatusSolvedForMember($member,$_POST["solved"][$member] ? 1 : 0);
-			$this->object->members_obj->setStatusSentForMember($member,$_POST["sent"][$member] ? 1 : 0);
+			//$this->object->members_obj->setStatusSentForMember($member,$_POST["sent"][$member] ? 1 : 0);
 		}
 		return true;
 	}

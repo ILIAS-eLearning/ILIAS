@@ -1595,6 +1595,7 @@ common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a n
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
 common#:#exc_search_for#:#Search for
+common#:#exc_sent_at#:#Sent at <br />%s
 common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Send exercise by mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
