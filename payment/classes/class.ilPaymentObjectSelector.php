@@ -48,13 +48,15 @@ class ilPaymentObjectSelector extends ilExplorer
 
 	var $selectable_type;
 	var $ref_id;
+
+	var $classname;
 	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilPaymentObjectSelector($a_target)
+	function ilPaymentObjectSelector($a_target, $a_classname)
 	{
 		global $tree,$ilCtrl;
 
@@ -75,13 +77,21 @@ class ilPaymentObjectSelector extends ilExplorer
 		$this->setFilterMode(IL_FM_NEGATIVE);
 		$this->setFiltered(true);
 
+		$this->classname = $a_classname;
 	}
 
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		$this->ctrl->setParameterByClass('ilpaymentobjectgui','sell_id',$a_node_id);
+		$this->ctrl->setParameterByClass($this->classname,'sell_id',$a_node_id);
 		
-		return $this->ctrl->getLinkTargetByClass('ilpaymentobjectgui','showSelectedObject');
+		if ($this->classname == 'ilpaymentstatisticgui')
+		{
+			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUser');
+		}
+		else
+		{
+			return $this->ctrl->getLinkTargetByClass($this->classname,'showSelectedObject');
+		}
 
 	}
 
@@ -107,12 +117,18 @@ class ilPaymentObjectSelector extends ilExplorer
 		}
 
 
-		if(ilPaymentObject::_isPurchasable($a_ref_id))
+		if ($this->classname == 'ilpaymentstatisticgui' ||
+			ilPaymentObject::_isPurchasable($a_ref_id))
 		{
 			return true;
 		}
 		return false;
 		
+	}
+
+	function setAlwaysClickable($a_value)
+	{
+		$this->always_clickable = $a_value;
 	}
 
 	function showChilds($a_ref_id)

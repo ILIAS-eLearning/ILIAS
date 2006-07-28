@@ -44,6 +44,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		global $ilCtrl;
 
 		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, "baseClass");
 
 		$this->ilPaymentBaseGUI();
 
@@ -92,6 +93,8 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 	function showStatistics()
 	{
+		$this->showButton('showObjectSelector',$this->lng->txt('paya_add_customer'));
+
 		if ($_POST["updateView"] == 1)
 		{
 			$_SESSION["pay_statistics"]["transaction_type"] = $_POST["transaction_type"];
@@ -534,6 +537,270 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		return true;
 	}
 
+	function showObjectSelector()
+	{
+		global $tree;
+
+		include_once './payment/classes/class.ilPaymentObjectSelector.php';
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",'payment');
+		$this->showButton('showStatistics',$this->lng->txt('back'));
+
+
+		sendInfo($this->lng->txt("paya_select_object_to_sell"));
+
+		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));
+		$exp->setExpand($_GET["paya_link_expand"] ? $_GET["paya_link_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
+		
+		$exp->setOutput(0);
+
+		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+
+		return true;
+	}
+
+	function searchUser()
+	{
+		if(!isset($_GET['sell_id']))
+		{
+			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showObjectSelector();
+
+			return false;
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.paya_user_search.html",'payment');
+		$this->showButton('showObjectSelector',$this->lng->txt('back'));
+
+		$this->lng->loadLanguageModule('search');
+
+		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
+		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("search_user"));
+		$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
+		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["pays_search_str"] ? $_SESSION["pays_search_str"] : "");
+		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+		$this->tpl->setVariable("CANCEL","showStatistics");
+
+		return true;
+	}
+
+	function newSearch()
+	{
+		$_SESSION["paya_search_str"] = $_POST["search_str"];
+		$this->performSearch();
+	}
+
+	function performSearch()
+	{
+		// SAVE it to allow sort in tables
+		$_SESSION["paya_search_str"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["paya_search_str"];
+
+
+		if(!trim($_POST["search_str"]))
+		{
+			sendInfo($this->lng->txt("search_no_search_term"));
+			$this->showStatistics();
+
+			return false;
+		}
+		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]))))
+		{
+			sendInfo($this->lng->txt("search_no_match"));
+			$this->searchUser();
+
+			return false;
+		}
+
+		if(!isset($_GET['sell_id']))
+		{
+			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showObjectSelector();
+
+			return false;
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_usr_selection.html",'payment');
+		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
+		$this->showButton("searchUser",$this->lng->txt("back"));
+		
+		$counter = 0;
+		$f_result = array();
+		foreach($result as $user)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"],false))
+			{
+				continue;
+			}
+			$f_result[$counter][] = ilUtil::formRadiobutton(0,"user_id",$user["id"]);
+			$f_result[$counter][] = $tmp_obj->getLogin();
+			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = $tmp_obj->getLastname();
+			
+			unset($tmp_obj);
+			++$counter;
+		}
+		$this->__showSearchUserTable($f_result);
+	}
+
+	function addCustomer()
+	{
+		if ($_POST["sell_id"] != "") $_GET["sell_id"] = $_POST["sell_id"];
+		if ($_GET["user_id"] != "") $_POST["user_id"] = $_GET["user_id"];
+
+		if(!isset($_GET['sell_id']))
+		{
+			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showObjectSelector();
+
+			return true;
+		}
+
+		if(!isset($_POST['user_id']))
+		{
+			sendInfo($this->lng->txt('paya_no_user_id_given'));
+			$this->searchUser();
+
+			return true;
+		}
+
+		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
+		$this->showButton('searchUser',$this->lng->txt('back'));
+
+		$this->ctrl->setParameter($this, "user_id", $_POST["user_id"]);
+
+		// get obj
+		$tmp_obj =& ilObjectFactory::getInstanceByRefId($_GET["sell_id"]);
+		// get customer_obj
+		$tmp_user =& ilObjectFactory::getInstanceByObjId($_POST["user_id"]);
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_add_customer.html','payment');
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
+		$this->tpl->setVariable("TITLE",$tmp_user->getFullname().' ['.$tmp_user->getLogin().']');
+
+		// TXT
+		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));
+
+		$this->tpl->setVariable("TXT_OBJECT",$this->lng->txt('object'));
+		$this->tpl->setVariable("OBJECT_NAME",$tmp_obj->getTitle());
+
+		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
+		include_once './payment/classes/class.ilPaymentVendors.php';
+		$vendor_obj =& new ilPaymentVendors();
+		if (is_array($vendors = $vendor_obj->getVendors()))
+		{
+			foreach($vendors as $vendor)
+			{
+				$this->tpl->setCurrentBlock("vendor_loop");
+				$tmp_vendor =& ilObjectFactory::getInstanceByObjId($vendor["vendor_id"]);
+				$this->tpl->setVariable("VENDOR_LOOP_ID", $vendor["vendor_id"]);
+				$this->tpl->setVariable("VENDOR_LOOP_NAME", $tmp_vendor->getFullname()." [".$tmp_vendor->getLogin()."]");
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->setVariable("TXT_PAY_METHOD",$this->lng->txt('paya_pay_method'));
+		$this->tpl->setVariable("TXT_PAY_METHOD_BILL",$this->lng->txt('pays_bill'));
+		$this->tpl->setVariable("TXT_PAY_METHOD_BMF",$this->lng->txt('pays_bmf'));
+		$this->tpl->setVariable("TXT_PAY_METHOD_PAYPAL",$this->lng->txt('pays_paypal'));
+
+		$this->tpl->setVariable("TXT_ORDER_DATE",$this->lng->txt('paya_order_date'));
+		$this->tpl->setVariable("ORDER_DATE",ilFormat::formatUnixTime(time(), true));
+
+		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('duration'));
+		$pObjectId = ilPaymentObject::_lookupPobjectId($_GET["sell_id"]);
+		include_once './payment/classes/class.ilPaymentPrices.php';
+		$prices_obj =& new ilPaymentPrices($pObjectId);
+		if (is_array($prices = $prices_obj->getPrices()))
+		{
+			foreach($prices as $price)
+			{
+				$this->tpl->setCurrentBlock("duration_loop");
+				$this->tpl->setVariable("DURATION_LOOP_ID", $price["price_id"]);
+				$this->tpl->setVariable("DURATION_LOOP_NAME", $price["duration"]." ".$this->lng->txt("paya_months").", ".ilPaymentPrices::_getPriceString($price["price_id"]));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->setVariable("TXT_PAYED",$this->lng->txt('paya_payed'));
+		$this->tpl->setVariable("TXT_ACCESS",$this->lng->txt('paya_access'));
+
+		$this->tpl->setVariable("TXT_NO",$this->lng->txt('no'));
+		$this->tpl->setVariable("TXT_YES",$this->lng->txt('yes'));
+		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
+		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+
+	}
+
+	function saveCustomer()
+	{
+		global $ilias;
+
+		if(!isset($_GET['sell_id']))
+		{
+			sendInfo($this->lng->txt('paya_error_no_object_id_given'));
+			$this->showObjectSelector();
+
+			return true;
+		}
+
+		if(!isset($_GET['user_id']))
+		{
+			sendInfo($this->lng->txt('paya_error_no_user_id_given'));
+			$this->searchUser();
+
+			return true;
+		}
+
+		if ($_POST["vendor"] == "" ||
+			$_POST["pay_method"] == "" ||
+			$_POST["duration"] == "")
+		{
+			sendInfo($this->lng->txt('paya_error_mandatory_fields'));
+			$this->addCustomer();
+
+			return true;
+		}
+
+		$this->__initBookingObject();
+
+		$inst_id_time = $ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
+		$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
+		$this->booking_obj->setTransaction($transaction);
+		$this->booking_obj->setTransactionExtern($_POST["transaction"]);
+		$pObjectId = ilPaymentObject::_lookupPobjectId($_GET["sell_id"]);
+		$this->booking_obj->setPobjectId($pObjectId);
+		$this->booking_obj->setCustomerId($_GET["user_id"]);
+		$this->booking_obj->setVendorId((int) $_POST["vendor"]);
+		$this->booking_obj->setPayMethod((int) $_POST["pay_method"]);
+		$this->booking_obj->setOrderDate(time());
+		$price = ilPaymentPrices::_getPrice($_POST["duration"]);
+		$this->booking_obj->setDuration($price["duration"]);
+		$this->booking_obj->setPrice(ilPaymentPrices::_getPriceString($_POST["duration"]));
+		$this->booking_obj->setAccess((int) $_POST['access']);
+		$this->booking_obj->setPayed((int) $_POST['payed']);
+		$this->booking_obj->setVoucher('');
+
+		if($this->booking_obj->add())
+		{
+			sendInfo($this->lng->txt('paya_customer_added_successfully'));
+			$this->showStatistics();
+		}
+		else
+		{
+			sendInfo($this->lng->txt('paya_error_adding_customer'));
+			$this->addCustomer();
+		}
+
+		return true;
+	}
+
 	// PRIVATE
 	function __showStatisticTable($a_result_set)
 	{
@@ -638,5 +905,82 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$this->tpl->parseCurrentBlock();
 	}		
 
+	function __search($a_search_string)
+	{
+		include_once("./classes/class.ilSearch.php");
+
+		$this->lng->loadLanguageModule("content");
+
+		$search =& new ilSearch($this->user_obj->getId());
+		$search->setPerformUpdate(false);
+		$search->setSearchString(ilUtil::stripSlashes($a_search_string));
+		$search->setCombination("and");
+		$search->setSearchFor(array(0 => 'usr'));
+		$search->setSearchType('new');
+
+		if($search->validate($message))
+		{
+			$search->performSearch();
+		}
+		else
+		{
+			sendInfo($message,true);
+			$this->ctrl->redirect($this,"searchUser");
+		}
+		return $search->getResultByType('usr');
+	}
+	function __showSearchUserTable($a_result_set)
+	{
+		$tbl =& $this->initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+
+		// SET FORMACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","addCustomer");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","showStatistics");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("users"),"icon_usr.gif",$this->lng->txt("crs_header_edit_members"));
+		$tbl->setHeaderNames(array("",
+								   $this->lng->txt("login"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname")));
+		$this->ctrl->setParameter($this, "cmd", "addCustomer");
+		$header_params = $this->ctrl->getParameterArray($this,'');
+		$tbl->setHeaderVars(array("",
+								  "login",
+								  "firstname",
+								  "lastname"), $header_params);
+								  /*
+							array("cmd" => 'performSearch',
+								  "cmdClass" => "ilpaymentstatisticgui",
+								  "cmdNode" => $_GET["cmdNode"]));
+								  */
+
+		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+
+		$this->setTableGUIBasicData($tbl,$a_result_set);
+		$tbl->render();
+		
+		$this->tpl->setVariable("SEARCH_RESULT_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
 }
 ?>
