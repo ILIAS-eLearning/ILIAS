@@ -11351,3 +11351,37 @@ download_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
 PRIMARY KEY (obj_id, usr_id, tutor_id));
 <#794>
 ALTER TABLE `tst_tests` ADD `show_question_titles` ENUM( '0', '1' ) NOT NULL DEFAULT '1' AFTER `show_summary` ;
+
+<#795>
+CREATE TABLE IF NOT EXISTS `crs_objective_status_pretest` (
+  `objective_id` int(11) NOT NULL default '0',
+  `user_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`objective_id`,`user_id`)
+) Type=MyISAM;
+
+<#796>
+<?php
+
+$query = "SELECT * FROM crs_objective_status WHERE status = 0";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO crs_objective_status_pretest ".
+		"SET objective_id = '".$row->objective_id."', ".
+		"user_id = '".$row->user_id."'";
+	$ilDB->query($query);
+}
+?>
+
+<#797>
+<?php
+$query = "DELETE FROM crs_objective_status ".
+	"WHERE status = '0'";
+$ilDB->query($query);
+?>
+
+
+
+
+
+

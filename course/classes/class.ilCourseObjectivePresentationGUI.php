@@ -169,9 +169,8 @@ class ilCourseObjectivePresentationGUI
 	{
 		$this->objective_result_obj->readStatus($this->course_obj->getId());
 		$this->accomplished = $this->objective_result_obj->getAccomplished($this->course_obj->getId());
-		$this->suggested = $this->objective_result_obj->getSuggested($this->course_obj->getId());
 		$this->status = $this->objective_result_obj->getStatus($this->course_obj->getId());
-
+		$this->suggested = $this->objective_result_obj->getSuggested($this->course_obj->getId(),$this->status);
 	}
 
 	function __showInfo()

@@ -75,37 +75,51 @@ class ilCourseObjectiveResult
 		}
 		$query = "SELECT objective_id FROM crs_objective_status ".
 			"WHERE objective_id IN ('".implode("','",$objectives)."') ".
-			"AND status = 1 ".
 			"AND user_id = '".$a_user_id."'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$accomplished[] = $row->objective_id;
 		}
-		#var_dump("<pre>",$accomplished,"<pre>");
 		return $accomplished ? $accomplished : array();
 	}
 
-	function getSuggested($a_crs_id)
+	function getSuggested($a_crs_id,$a_status = IL_OBJECTIVE_STATUS_FINAL)
 	{
-		return ilCourseObjectiveResult::_getSuggested($this->getUserId(),$a_crs_id);
+		return ilCourseObjectiveResult::_getSuggested($this->getUserId(),$a_crs_id,$a_status);
 	}
-	function _getSuggested($a_user_id,$a_crs_id)
+	function _getSuggested($a_user_id,$a_crs_id,$a_status = IL_OBJECTIVE_STATUS_FINAL)
 	{
 		global $ilDB;
 
 		$objectives = ilCourseObjective::_getObjectiveIds($a_crs_id);
-		$query = "SELECT objective_id FROM crs_objective_status ".
-			"WHERE objective_id IN ('".implode("','",$objectives)."') ".
-			"AND user_id = '".$a_user_id."'";
-		$res = $ilDB->query($query);
 
 		$finished = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if($a_status == IL_OBJECTIVE_STATUS_FINAL or
+		   $a_status == IL_OBJECTIVE_STATUS_FINISHED)
 		{
-			$finished[] = $row->objective_id;
+			// check finished
+			$query = "SELECT objective_id FROM crs_objective_status ".
+				"WHERE objective_id IN ('".implode("','",$objectives)."') ".
+				"AND user_id = '".$a_user_id."'";
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$finished[] = $row->objective_id;
+			}
 		}
-
+		else
+		{
+			// Pretest 
+			$query = "SELECT objective_id FROM crs_objective_status_pretest ".
+				"WHERE objective_id IN ('".implode("','",$objectives)."') ".
+				"AND user_id = '".$a_user_id."'";
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$finished[] = $row->objective_id;
+			}
+		}
 		foreach($objectives as $objective_id)
 		{
 			if(!in_array($objective_id,$finished))
@@ -113,7 +127,6 @@ class ilCourseObjectiveResult
 				$suggested[] = $objective_id;
 			}
 		}
-		#var_dump("<pre>",$suggested,$finished,"<pre>");
 		return $suggested ? $suggested : array();
 	}
 
@@ -133,7 +146,6 @@ class ilCourseObjectiveResult
 				
 				if($tmp_test =& ilObjectFactory::getInstanceByRefId($test_data['ref_id']))
 				{
-					#$tmp_test->deleteResults($this->getUserId(),true);
 					$tmp_test->removeTestResultsForUser($this->getUserId());
 					unset($tmp_test);
 				}
@@ -143,6 +155,11 @@ class ilCourseObjectiveResult
 		if(count($objectives))
 		{
 			$query = "DELETE FROM crs_objective_status ".
+				"WHERE objective_id IN ('".implode("','",$objectives)."') ".
+				"AND user_id = '".$this->getUserId()."'";
+			$this->db->query($query);
+
+			$query = "DELETE FROM crs_objective_status_pretest ".
 				"WHERE objective_id IN ('".implode("','",$objectives)."') ".
 				"AND user_id = '".$this->getUserId()."'";
 			$this->db->query($query);
@@ -165,39 +182,35 @@ class ilCourseObjectiveResult
 			return IL_OBJECTIVE_STATUS_FINISHED;
 		}
 
-		$all_pretest_answered = true;
-		$all_final_answered = true;
+		$all_pretest_answered = false;
+		$all_final_answered = false;
 		foreach($objectives as $data)
 		{
-			if(!assQuestion::_areAnswered($this->getUserId(),$data['questions']))
+			if(assQuestion::_areAnswered($this->getUserId(),$data['questions']))
 			{
 				if($data['tst_status'])
 				{
-					$all_final_answered = false;
+					$all_final_answered = true;
 				}
 				else
 				{
-					$all_pretest_answered = false;
+					$all_pretest_answered = true;
 				}
 			}
 		}
 		if($all_final_answered)
 		{
-			#echo 1;
 			return IL_OBJECTIVE_STATUS_FINAL;
 		}
 		if($all_pretest_answered and 
 		   !count($suggested))
 		{
-			#echo 2;
 			return IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST;
 		}
 		elseif($all_pretest_answered)
 		{
-			#echo 3;
 			return IL_OBJECTIVE_STATUS_PRETEST;
 		}
-		#echo 4;
 		return IL_OBJECTIVE_STATUS_NONE;
 	}
 
@@ -210,7 +223,7 @@ class ilCourseObjectiveResult
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->status == 1 ? true : false;
+			return true;
 		}
 		return false;
 	}
@@ -242,10 +255,7 @@ class ilCourseObjectiveResult
 		$query = "DELETE FROM crs_objective_results ".
 			"WHERE usr_id = '".$this->getUserId()."' ".
 			"AND question_id ".$in;
-
 		$this->db->query($query);
-
-		
 	}
 
 	function _deleteUser($user_id)
@@ -254,14 +264,21 @@ class ilCourseObjectiveResult
 
 		$query = "DELETE FROM crs_objective_results ".
 			"WHERE usr_id = '".$user_id."'";
-
 		$ilDB->query($query);
 		
+		$query = "DELETE FROM crs_objective_status ".
+			"WHERE user_id = '".$user_id."'";
+		$ilDB->query($query);
+
+		$query = "DELETE FROM crs_objective_status_pretest ".
+			"WHERE user_id = '".$user_id."'";
+		$ilDB->query($query);
 		return true;
 	}
 
 	function _updateObjectiveResult($a_user_id,$a_active_id,$a_question_id)
 	{
+
 		// find all objectives this question is assigned to
 		if(!$objectives = ilCourseObjectiveResult::_readAssignedObjectivesOfQuestion($a_question_id))
 		{
@@ -344,7 +361,6 @@ class ilCourseObjectiveResult
 			"WHERE user_fi = '".$a_user_id."' ".
 			"AND question_fi IN ('".implode("','",$objectives['all_questions'])."') ".
 			"GROUP BY question_fi,user_fi";
-		#var_dump("<pre>",$objectives,"<pre>");
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -358,13 +374,25 @@ class ilCourseObjectiveResult
 			if(ilCourseObjectiveResult::__isFullfilled($objectives['all_question_points'],$data))
 			{
 				// Status 0 means pretest fullfilled, status 1 means final test fullfilled
-				$fullfilled[] = array($data['objective_id'],$ilUser->getId(),$data['tst_status']);
+				if($data['tst_status'])
+				{
+					$fullfilled[] = array($data['objective_id'],$ilUser->getId(),$data['tst_status']);
+				}
+				else
+				{
+					$pretest[] = array($data['objective_id'],$ilUser->getId());
+				}
 			}
 		}
 		if(is_array($fullfilled))
 		{
 			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status VALUES(?,?,?)"),
 								   $fullfilled);
+		}
+		if(is_array($pretest))
+		{
+			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status_pretest VALUES(?,?)"),
+								   $pretest);
 		}
 
 		#ilCourseObjectiveResult::__updatePassed($objectives['all_objectives']);
