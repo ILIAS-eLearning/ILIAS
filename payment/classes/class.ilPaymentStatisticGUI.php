@@ -671,10 +671,15 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		$this->ctrl->setParameter($this, "user_id", $_POST["user_id"]);
 
+		$pObjectId = ilPaymentObject::_lookupPobjectId($_GET["sell_id"]);
+		$obj =& new ilPaymentObject($this->user_obj, $pObjectId);
+
 		// get obj
 		$tmp_obj =& ilObjectFactory::getInstanceByRefId($_GET["sell_id"]);
 		// get customer_obj
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($_POST["user_id"]);
+		// get vendor_obj
+		$tmp_vendor =& ilObjectFactory::getInstanceByObjId($obj->getVendorId());
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_add_customer.html','payment');
 
@@ -686,35 +691,24 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		// TXT
 		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));
+		$this->tpl->setVariable("TRANSACTION",ilUtil::prepareFormOutput($_POST["transaction"], true));
 
 		$this->tpl->setVariable("TXT_OBJECT",$this->lng->txt('object'));
 		$this->tpl->setVariable("OBJECT_NAME",$tmp_obj->getTitle());
 
 		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
-		include_once './payment/classes/class.ilPaymentVendors.php';
-		$vendor_obj =& new ilPaymentVendors();
-		if (is_array($vendors = $vendor_obj->getVendors()))
-		{
-			foreach($vendors as $vendor)
-			{
-				$this->tpl->setCurrentBlock("vendor_loop");
-				$tmp_vendor =& ilObjectFactory::getInstanceByObjId($vendor["vendor_id"]);
-				$this->tpl->setVariable("VENDOR_LOOP_ID", $vendor["vendor_id"]);
-				$this->tpl->setVariable("VENDOR_LOOP_NAME", $tmp_vendor->getFullname()." [".$tmp_vendor->getLogin()."]");
-				$this->tpl->parseCurrentBlock();
-			}
-		}
+		$this->tpl->setVariable("VENDOR",$tmp_vendor->getFullname().' ['.$tmp_vendor->getLogin().']');
 
 		$this->tpl->setVariable("TXT_PAY_METHOD",$this->lng->txt('paya_pay_method'));
 		$this->tpl->setVariable("TXT_PAY_METHOD_BILL",$this->lng->txt('pays_bill'));
 		$this->tpl->setVariable("TXT_PAY_METHOD_BMF",$this->lng->txt('pays_bmf'));
 		$this->tpl->setVariable("TXT_PAY_METHOD_PAYPAL",$this->lng->txt('pays_paypal'));
+		$this->tpl->setVariable("PAY_METHOD_".$_POST["pay_method"], " selected");
 
 		$this->tpl->setVariable("TXT_ORDER_DATE",$this->lng->txt('paya_order_date'));
 		$this->tpl->setVariable("ORDER_DATE",ilFormat::formatUnixTime(time(), true));
 
 		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('duration'));
-		$pObjectId = ilPaymentObject::_lookupPobjectId($_GET["sell_id"]);
 		include_once './payment/classes/class.ilPaymentPrices.php';
 		$prices_obj =& new ilPaymentPrices($pObjectId);
 		if (is_array($prices = $prices_obj->getPrices()))
@@ -722,6 +716,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 			foreach($prices as $price)
 			{
 				$this->tpl->setCurrentBlock("duration_loop");
+				if ($_POST["duration"] == $price["price_id"]) $this->tpl->setVariable("DURATION_LOOP_SELECTED", " selected");
 				$this->tpl->setVariable("DURATION_LOOP_ID", $price["price_id"]);
 				$this->tpl->setVariable("DURATION_LOOP_NAME", $price["duration"]." ".$this->lng->txt("paya_months").", ".ilPaymentPrices::_getPriceString($price["price_id"]));
 				$this->tpl->parseCurrentBlock();
@@ -729,7 +724,9 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		}
 
 		$this->tpl->setVariable("TXT_PAYED",$this->lng->txt('paya_payed'));
+		if ($_POST["payed"] == 1) $this->tpl->setVariable("PAYED_1", " selected");
 		$this->tpl->setVariable("TXT_ACCESS",$this->lng->txt('paya_access'));
+		if ($_POST["access"] == 1) $this->tpl->setVariable("ACCESS_1", " selected");
 
 		$this->tpl->setVariable("TXT_NO",$this->lng->txt('no'));
 		$this->tpl->setVariable("TXT_YES",$this->lng->txt('yes'));
@@ -758,8 +755,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 			return true;
 		}
 
-		if ($_POST["vendor"] == "" ||
-			$_POST["pay_method"] == "" ||
+		if ($_POST["pay_method"] == "" ||
 			$_POST["duration"] == "")
 		{
 			sendInfo($this->lng->txt('paya_error_mandatory_fields'));
@@ -768,16 +764,18 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 			return true;
 		}
 
+		$pObjectId = ilPaymentObject::_lookupPobjectId($_GET["sell_id"]);
+		$obj =& new ilPaymentObject($this->user_obj, $pObjectId);
+
 		$this->__initBookingObject();
 
 		$inst_id_time = $ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
 		$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
 		$this->booking_obj->setTransaction($transaction);
 		$this->booking_obj->setTransactionExtern($_POST["transaction"]);
-		$pObjectId = ilPaymentObject::_lookupPobjectId($_GET["sell_id"]);
 		$this->booking_obj->setPobjectId($pObjectId);
 		$this->booking_obj->setCustomerId($_GET["user_id"]);
-		$this->booking_obj->setVendorId((int) $_POST["vendor"]);
+		$this->booking_obj->setVendorId($obj->getVendorId());
 		$this->booking_obj->setPayMethod((int) $_POST["pay_method"]);
 		$this->booking_obj->setOrderDate(time());
 		$price = ilPaymentPrices::_getPrice($_POST["duration"]);

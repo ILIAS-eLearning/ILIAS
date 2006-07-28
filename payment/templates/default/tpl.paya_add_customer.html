@@ -19,15 +19,8 @@
 		<td class="option_value"><input type="text" name="transaction" value="{TRANSACTION}" maxlength="25"></td>
 	  </tr>
 	  <tr>
-		<td class="option">{TXT_VENDOR}*</td>
-		<td class="option_value">
-			<select name="vendor" size="1">
-				<option value=""></option>
-<!-- BEGIN vendor_loop -->
-				<option value="{VENDOR_LOOP_ID}"{VENDOR_LOOP_SELECTED}>{VENDOR_LOOP_NAME}</option>
-<!-- END vendor_loop -->
-			</select>
-		</td>
+		<td class="option">{TXT_VENDOR}</td>
+		<td class="option_value">{VENDOR}</td>
 	  </tr>
 	  <tr>
 		<td class="option">{TXT_PAY_METHOD}*</td>
@@ -35,8 +28,8 @@
 			<select name="pay_method" size="1">
 				<option value=""></option>
 <!--				<option value="1"{PAY_METHOD_BILL_SELECTED}>{TXT_PAY_METHOD_BILL}</option>//-->
-				<option value="2"{PAY_METHOD_BMF_SELECTED}>{TXT_PAY_METHOD_BMF}</option>
-				<option value="3"{PAY_METHOD_PAYPAL_SELECTED}>{TXT_PAY_METHOD_PAYPAL}</option>
+				<option value="2"{PAY_METHOD_2}>{TXT_PAY_METHOD_BMF}</option>
+				<option value="3"{PAY_METHOD_3}>{TXT_PAY_METHOD_PAYPAL}</option>
 			</select>
 		</td>
 	  </tr>
