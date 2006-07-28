@@ -620,7 +620,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 
 			$counter = 0;
-			$members = $this->object->members_obj->getMembers();
+			$members = $this->object->getMemberListData();
+			
+			/*
 			foreach($this->object->members_obj->getMembers() as $member_id)
 			{
 				include_once "./classes/class.ilObjectFactory.php";
@@ -675,6 +677,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				unset($tmp_obj);
 				++$counter;
 			}
+			*/
 			
 ///// NEW Implementation
 
@@ -725,17 +728,30 @@ class ilObjExerciseGUI extends ilObjectGUI
 			// title & header columns
 			$tbl->setTitle($this->lng->txt("members"),"icon_usr.gif",
 				$this->lng->txt("exc_header_members"));
-			$tbl->disable("sort");
 			$tbl->setHeaderNames(array("", "", $this->lng->txt("name"),
 				$this->lng->txt("login"),
 				$this->lng->txt("mail"),$this->lng->txt("exc_submission"),
 				$this->lng->txt("exc_status_solved"), ""));
 
 			$tbl->setColumnWidth(array("1%", "1%", "", "", "", "", "", ""));
-			$cols = array("", "", "name", "login", "mail", "submission", "solved", "");
+			$cols = array("", "", "name", "login", "sent_time", "submission", "solved_time", "");
+			
+			if (!$_GET["sort_by"])
+			{
+				$_GET["sort_by"] = "name";
+			}
+			if (!$_GET["sort_order"])
+			{
+				$_GET["sort_order"] = "asc";
+			}
+			
 			$header_params = $this->ctrl->getParameterArray($this);
+			unset($header_params["sort_by"]);
+			unset($header_params["sort_order"]);
+			unset($header_params["offset"]);
 			$header_params["cmd"] = "members";
 			$tbl->setHeaderVars($cols, $header_params);
+			$members = ilUtil::sortArray($members, $_GET["sort_by"], $_GET["sort_order"]);
 			$tbl->setOrderColumn($_GET["sort_by"]);
 			$tbl->setOrderDirection($_GET["sort_order"]);
 			$tbl->setOffset($_GET["offset"]);
@@ -747,10 +763,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 			
 			// new table
-			foreach ($members as $member_id)
+			foreach ($members as $member)
 			{
 				include_once "./classes/class.ilObjectFactory.php";
 		
+				$member_id = $member["usr_id"];
 				if(!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
 				{
 					continue;
@@ -762,12 +779,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 					ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 				$this->tpl->setVariable("VAL_CHKBOX",
 					ilUtil::formCheckbox(0,"member[$member_id]",1));
+				$this->tpl->setVariable("VAL_ID",
+					$member_id);
 					
 				// name and login
 				$this->tpl->setVariable("TXT_NAME",
-					$mem_obj->getLastName().", ".$mem_obj->getFirstName());
+					$member["name"]);
 				$this->tpl->setVariable("TXT_LOGIN",
-					"[".$mem_obj->getLogin()."]");
+					"[".$member["login"]."]");
 					
 				// image
 				$this->tpl->setVariable("USR_IMAGE",
@@ -795,10 +814,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 				// submission:
 				// see if files have been resubmmited after solved
 				$last_sub =
-					$this->__getLastSubmission($member_id,$this->object->getId());
-				if ($last_sub != "---")
+					$this->object->getLastSubmission($member_id);
+				if ($last_sub)
 				{
 					$last_sub = ilFormat::formatDate($last_sub, "datetime", true);
+				}
+				else
+				{
+					$last_sub = "---";
 				}
 				if ($this->object->_lookupUpdatedSubmission($this->object->getId(), $member_id) == 1) 
 				{
@@ -825,7 +848,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 					ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1));
 				if (($sd = ilObjExercise::_lookupSolvedTime($this->object->getId(), $member_id)) > 0)
 				{
-					$this->tpl->setVariable("VAL_SOLVED_DATE", ilFormat::formatDate($sd, "datetime", true));
+					$this->tpl->setVariable("VAL_SOLVED_DATE",
+						ilFormat::formatDate($sd, "datetime", true));
 				}
 					
 				// mail command
@@ -1166,11 +1190,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function __saveStatus()
 	{
-		foreach($this->object->members_obj->getMembers() as $member)
+		foreach($_POST["id"] as $key => $value)
 		{
-			$this->object->members_obj->setNoticeForMember($member,ilUtil::stripSlashes($_POST["notice"][$member]));
-			$this->object->members_obj->setStatusSolvedForMember($member,$_POST["solved"][$member] ? 1 : 0);
-			//$this->object->members_obj->setStatusSentForMember($member,$_POST["sent"][$member] ? 1 : 0);
+			$this->object->members_obj->setStatusSolvedForMember($key, $_POST["solved"][$key] ? 1 : 0);
+			$this->object->members_obj->setNoticeForMember($key,ilUtil::stripSlashes($_POST["notice"][$key]));
 		}
 		return true;
 	}
@@ -1418,36 +1441,6 @@ class ilObjExerciseGUI extends ilObjectGUI
   
   		return true;
 	}	
-
-	/**
-	* get last submission date of an exercise
-	*
-	* @param	 integer		$member_id	
-	* @param	 integer		$exc_id	
-	*/
-
-	function __getLastSubmission($member_id,$exc_id) 
-	{
-
-		global $ilDB, $lng;
-
-		$q="SELECT obj_id,user_id,timestamp FROM exc_returned ".
-		"WHERE obj_id =".$exc_id." AND user_id=".$member_id.
-		" ORDER BY timestamp DESC";
-
-		$usr_set = $ilDB->query($q);
-
-		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
-		if ($array["timestamp"]==NULL) 
-		{
-			return $lng->txt("no_submission_made");
-  		}
-		else 
-		{
-			return $array["timestamp"];
-  		}  
-	}
-
 
 	/**
 	* redirect script
