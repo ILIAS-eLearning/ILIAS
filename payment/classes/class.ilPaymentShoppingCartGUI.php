@@ -233,6 +233,8 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 							break;
 					}
+					$tpl->setVariable("PAYPAL_HINT", $this->lng->txt('pay_hint_paypal'));
+					$tpl->setVariable("PAYPAL_INFO", $this->lng->txt('pay_info_paypal'));
 					$tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 					$tpl->parseCurrentBlock("buy_link");
 

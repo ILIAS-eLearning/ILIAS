@@ -6406,3 +6406,5 @@ payment#:#paya_error_no_object_id_given#:#Bitte wählen Sie noch ein Objekt aus.
 payment#:#paya_error_mandatory_fields#:#Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus.
 payment#:#paya_customer_added_successfully#:#Der Verkaufsvorgang wurde erfolgreich zur Statistik hinzugefügt.
 payment#:#paya_error_adding_customer#:#Es ist ein Fehler beim Hinzufügen des Verkaufsvorgangs zur Statistik aufgetreten.
+payment#:#pay_hint_paypal#:#Hinweis zu PayPal
+payment#:#pay_info_paypal#:#Zum Bezahlen der Objekte, die sich in Ihrem Warenkorb befinden, verlassen Sie kurzzeitig ILIAS und werden zur PayPal-Website weitergeleitet. Folgen Sie dort bitte den angegebenen Schritten. Nach erfolgreicher Bezahlung werden Sie automatisch zu ILIAS zurückgeleitet. Bitte schließen Sie während des Bezahlvorgangs nicht das Fenster Ihres Browsers, da die Freischaltung der bezahlten Objekte sonst nicht automatisch erfolgen kann.
