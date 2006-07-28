@@ -30,13 +30,16 @@ define("IL_NOTE_QUESTION", 2);
 define("IL_NOTE_PRO", 3);
 define("IL_NOTE_CONTRA", 4);
 
+/** @defgroup ServicesNotes Notes service
+ */
+
 /**
 * Note class. Represents a single note.
 *
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
 *
-* @package Services/Notes
+* @addtogroup ServicesNotes
 */
 class ilNote
 {
