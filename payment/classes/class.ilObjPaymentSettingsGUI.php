@@ -420,14 +420,18 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		// get customer_obj
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
 
-
-
 		$this->tpl->setVariable("STAT_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
 		$this->tpl->setVariable("TITLE",$tmp_user->getFullname().' ['.$tmp_user->getLogin().']');
 
 		// TXT
+		$pObj =& new ilPaymentObject($this->user_obj, $booking["pobject_id"]);
+		$tmp_obj =& ilObjectFactory::getInstanceByRefId($pObj->getRefId());
+
+		$this->tpl->setVariable("TXT_OBJECT",$this->lng->txt('title'));
+		$this->tpl->setVariable("OBJECT",$tmp_obj->getTitle());
+
 		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));
 		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
 		$this->tpl->setVariable("TXT_PAY_METHOD",$this->lng->txt('paya_pay_method'));
@@ -1627,8 +1631,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));
 		$this->tpl->setVariable("TRANSACTION",ilUtil::prepareFormOutput($_POST["transaction"], true));
 
-		$this->tpl->setVariable("TXT_OBJECT",$this->lng->txt('object'));
-		$this->tpl->setVariable("OBJECT_NAME",$tmp_obj->getTitle());
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable("TITLE",$tmp_obj->getTitle());
 
 		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
 		$this->tpl->setVariable("VENDOR",$tmp_vendor->getFullname().' ['.$tmp_vendor->getLogin().']');
