@@ -23,6 +23,7 @@
 
 include_once ("Services/Notes/classes/class.ilNote.php");
 
+
 /**
 * Notes GUI class. An instance of this class handles all notes
 * (and their lists) of an object.
