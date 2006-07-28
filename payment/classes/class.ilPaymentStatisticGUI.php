@@ -579,24 +579,19 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("search_user"));
 		$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
-		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["pays_search_str"] ? $_SESSION["pays_search_str"] : "");
+		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["pays_search_str_user_sp"] ? $_SESSION["pays_search_str_user_sp"] : "");
 		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+		$this->tpl->setVariable("SEARCH","performSearch");
 		$this->tpl->setVariable("CANCEL","showStatistics");
 
 		return true;
 	}
 
-	function newSearch()
-	{
-		$_SESSION["paya_search_str"] = $_POST["search_str"];
-		$this->performSearch();
-	}
-
 	function performSearch()
 	{
 		// SAVE it to allow sort in tables
-		$_SESSION["paya_search_str"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["paya_search_str"];
+		$_SESSION["pays_search_str_user_sp"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["pays_search_str_user_sp"];
 
 
 		if(!trim($_POST["search_str"]))
@@ -732,6 +727,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("TXT_YES",$this->lng->txt('yes'));
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("STATISTICS","showStatistics");
 
 	}
 
