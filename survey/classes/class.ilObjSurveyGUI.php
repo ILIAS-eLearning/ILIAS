@@ -3842,7 +3842,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_personalized"));
 				break;
 			case ANONYMIZE_ON:
-				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_with_code"));
+				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+				{
+					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_with_code"));
+				}
+				else
+				{
+					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_registered_user"));
+				}
 				break;
 			case ANONYMIZE_FREEACCESS:
 				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_without_code"));
