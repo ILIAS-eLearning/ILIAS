@@ -11349,3 +11349,5 @@ usr_id INT NOT NULL DEFAULT 0,
 tutor_id INT NOT NULL DEFAULT 0,
 download_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
 PRIMARY KEY (obj_id, usr_id, tutor_id));
+<#794>
+ALTER TABLE `tst_tests` ADD `show_question_titles` ENUM( '0', '1' ) NOT NULL DEFAULT '1' AFTER `show_summary` ;
