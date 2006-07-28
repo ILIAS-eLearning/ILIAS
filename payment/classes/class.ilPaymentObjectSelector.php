@@ -84,9 +84,10 @@ class ilPaymentObjectSelector extends ilExplorer
 	{
 		$this->ctrl->setParameterByClass($this->classname,'sell_id',$a_node_id);
 		
-		if ($this->classname == 'ilpaymentstatisticgui')
+		if ($this->classname == 'ilpaymentstatisticgui' ||
+			$this->classname == 'ilobjpaymentsettingsgui')
 		{
-			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUser');
+			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUserSP');
 		}
 		else
 		{
@@ -117,7 +118,8 @@ class ilPaymentObjectSelector extends ilExplorer
 		}
 
 
-		if ($this->classname == 'ilpaymentstatisticgui')
+		if ($this->classname == 'ilpaymentstatisticgui' ||
+			$this->classname == 'ilobjpaymentsettingsgui')
 		{
 			if (!ilPaymentObject::_isPurchasable($a_ref_id))
 			{
@@ -151,7 +153,8 @@ class ilPaymentObjectSelector extends ilExplorer
 			return true;
 		}
 
-		if ($this->classname == 'ilpaymentstatisticgui')
+		if ($this->classname == 'ilpaymentstatisticgui' ||
+			$this->classname == 'ilobjpaymentsettingsgui')
 		{
 			if (ilPaymentObject::_isPurchasable($a_ref_id))
 			{
