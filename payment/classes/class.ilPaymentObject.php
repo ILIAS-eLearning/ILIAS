@@ -62,7 +62,6 @@ class ilPaymentObject
 		$this->PAY_METHOD_BMF = PAY_METHOD_BMF;
 		$this->PAY_METHOD_PAYPAL = PAY_METHOD_PAYPAL;
 		
-
 		$this->pobject_id = $a_pobject_id;
 		$this->__read();
 	}
@@ -275,7 +274,6 @@ class ilPaymentObject
 		// In the moment it's not possible to sell one object twice
 		$query = "SELECT * FROM payment_objects ".
 			"WHERE ref_id = '".$a_ref_id."'";
-
 		#"AND status = '1' OR status = '3' ";
 		
 		$res = $ilDB->query($query);
