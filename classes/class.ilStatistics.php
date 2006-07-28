@@ -378,7 +378,7 @@ class ilStatistics
 		
 		if (($count % 2) == 0)
 		{
-			$rank_median = ($count*2 + 1) / 2;
+			$rank_median = ($count + 1) / 2;
 		}
 		else
 		{
