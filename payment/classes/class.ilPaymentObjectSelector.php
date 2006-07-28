@@ -84,8 +84,11 @@ class ilPaymentObjectSelector extends ilExplorer
 	{
 		$this->ctrl->setParameterByClass($this->classname,'sell_id',$a_node_id);
 		
-		if ($this->classname == 'ilpaymentstatisticgui' ||
-			$this->classname == 'ilobjpaymentsettingsgui')
+		if ($this->classname == 'ilpaymentstatisticgui')
+		{
+			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUser');
+		}
+		if ($this->classname == 'ilobjpaymentsettingsgui')
 		{
 			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUserSP');
 		}
