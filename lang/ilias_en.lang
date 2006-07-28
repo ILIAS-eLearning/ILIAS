@@ -656,7 +656,7 @@ assessment#:#tst_signature#:#Signature
 assessment#:#tst_start_test#:#Start the test
 assessment#:#tst_started#:#Test Started
 assessment#:#tst_starting_time#:#Starting time
-assessment#:#tst_stat_all_users#:#All users
+assessment#:#tst_stat_all_users#:#All participants
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work
 assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean
