@@ -117,10 +117,19 @@ class ilPaymentObjectSelector extends ilExplorer
 		}
 
 
-		if ($this->classname == 'ilpaymentstatisticgui' ||
-			ilPaymentObject::_isPurchasable($a_ref_id))
+		if ($this->classname == 'ilpaymentstatisticgui')
 		{
-			return true;
+			if (!ilPaymentObject::_isPurchasable($a_ref_id))
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if (ilPaymentObject::_isPurchasable($a_ref_id))
+			{
+				return true;
+			}
 		}
 		return false;
 		
@@ -142,9 +151,19 @@ class ilPaymentObjectSelector extends ilExplorer
 			return true;
 		}
 
-		if(!ilPaymentObject::_isPurchasable($a_ref_id))
+		if ($this->classname == 'ilpaymentstatisticgui')
 		{
-			return false;
+			if (ilPaymentObject::_isPurchasable($a_ref_id))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if (!ilPaymentObject::_isPurchasable($a_ref_id))
+			{
+				return false;
+			}
 		}
 
 		if($rbacsystem->checkAccess("visible", $a_ref_id))
