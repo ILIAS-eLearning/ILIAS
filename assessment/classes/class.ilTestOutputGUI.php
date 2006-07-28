@@ -355,8 +355,17 @@ class ilTestOutputGUI
 
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
 		$formaction = $this->ctrl->getFormAction($this);
-		$question_gui->setSequenceNumber($sequence);
-		$question_gui->setQuestionCount(count($this->object->questions));
+
+		if($_GET['crs_show_result'])
+		{
+			$question_gui->setSequenceNumber(array_search($sequence,(array) $_SESSION['crs_sequence']) + 1);
+			$question_gui->setQuestionCount(count($_SESSION['crs_sequence']));
+		}
+		else
+		{
+			$question_gui->setSequenceNumber($sequence);
+			$question_gui->setQuestionCount(count($this->object->questions));
+		}
 		// output question
 		$user_post_solution = FALSE;
 		if (array_key_exists("previouspost", $_SESSION))
@@ -599,8 +608,6 @@ class ilTestOutputGUI
 				return $this->showPasswordProtectionPage();
 			}
 		}
-		$this->readFullSequence();
-		
 		if ($this->object->isRandomTest())
 		{
 			$this->object->generateRandomQuestions();
@@ -643,7 +650,6 @@ class ilTestOutputGUI
 		{
 			return $this->showMaximumAllowedUsersReachedMessage();
 		}
-		$this->readFullSequence();
 		$this->handleStartCommands();
 		$this->ctrl->setParameter($this, "activecommand", "resume");
 		$this->ctrl->redirect($this, "redirectQuestion");
@@ -788,6 +794,7 @@ class ilTestOutputGUI
 			case "resume":
 				$this->sequence = $this->calculateSequence();	
 				$this->object->setActiveTestUser($this->sequence);
+				$this->readFullSequence();
 				if ($this->object->isOnlineTest())
 				{
 					$this->outTestSummary();
@@ -1262,16 +1269,19 @@ class ilTestOutputGUI
 	{
 		global $ilUser;
 
-		$active = $this->object->getActiveTestUser($ilUser->getId());
-		$results = $this->object->getTestResult($active->active_id);
+		if(!$_GET['crs_show_result'])
+		{
+			return true;
+		}
 
 		$_SESSION['crs_sequence'] = array();
-		for($i = $this->object->getFirstSequence();
+		$active = $this->object->getActiveTestUser($ilUser->getId());
+		$results = $this->object->getTestResult($active->active_id);
+		for($i = 1;
 			$i <= $this->object->getQuestionCount();
 			$i++)
 		{
 			$qid = $this->object->getQuestionIdFromActiveUserSequence($i);
-
 			foreach($results as $result)
 			{
 				if($qid == $result['qid'])
@@ -1283,6 +1293,7 @@ class ilTestOutputGUI
 				}
 			}
 		}
+		$_SESSION['crs_sequence'] = array_unique($_SESSION['crs_sequence']);
 		return true;
 	}
 

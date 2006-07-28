@@ -38,6 +38,7 @@ class ilPaymentBaseGUI
 
 	function ilPaymentBaseGUI()
 	{
+
 		global $ilias,$ilDB,$lng,$tpl,$rbacsystem,$ilTabs;
 
 		$this->ilias =& $ilias;
