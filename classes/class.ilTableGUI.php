@@ -489,7 +489,7 @@ class ilTableGUI
 					if (strcmp($this->header_vars[$key], "") != 0)
 					{
 						$this->tpl->setCurrentBlock("tbl_order_image");
-						$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
+						$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.gif"));
 						$this->tpl->parseCurrentBlock();
 					}
 				}
