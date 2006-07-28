@@ -1277,7 +1277,7 @@ class ilTestOutputGUI
 		$_SESSION['crs_sequence'] = array();
 		$active = $this->object->getActiveTestUser($ilUser->getId());
 		$results = $this->object->getTestResult($active->active_id);
-		for($i = 1;
+		for($i = $this->object->getFirstSequence();
 			$i <= $this->object->getQuestionCount();
 			$i++)
 		{
@@ -1293,6 +1293,7 @@ class ilTestOutputGUI
 				}
 			}
 		}
+		$this->sequence = $_SESSION['crs_sequence'][0];
 		$_SESSION['crs_sequence'] = array_unique($_SESSION['crs_sequence']);
 		return true;
 	}
