@@ -6411,3 +6411,5 @@ payment#:#paya_error_no_object_id_given#:#Please choose an object.
 payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
 payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.
 payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.
+payment#:#pay_hint_paypal#:#Hint for PayPal
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
