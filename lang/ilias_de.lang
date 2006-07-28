@@ -6401,3 +6401,8 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+payment#:#paya_add_customer#:#Verkaufsvorgang hinzufügen
+payment#:#paya_error_no_object_id_given#:#Bitte wählen Sie noch ein Objekt aus.
+payment#:#paya_error_mandatory_fields#:#Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus.
+payment#:#paya_customer_added_successfully#:#Der Verkaufsvorgang wurde erfolgreich zur Statistik hinzugefügt.
+payment#:#paya_error_adding_customer#:#Es ist ein Fehler beim Hinzufügen des Verkaufsvorgangs zur Statistik aufgetreten.

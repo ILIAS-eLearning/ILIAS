@@ -213,6 +213,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["pays_search_str"] ? $_SESSION["pays_search_str"] : "");
 		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+		$this->tpl->setVariable("CANCEL","showTrustees");
 
 		return true;
 	}
@@ -260,8 +261,8 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 			}
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user["id"]);
 			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = $tmp_obj->getLastname();
 			
 			unset($tmp_obj);
 			++$counter;
