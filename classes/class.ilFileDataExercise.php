@@ -21,17 +21,16 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
+require_once("classes/class.ilFileData.php");
+				
 /**
 * This class handles all operations on files for the exercise object
 *  
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package	ilias-mail
+* @ingroup	ModulesExercise
 */
-require_once("classes/class.ilFileData.php");
-				
 class ilFileDataExercise extends ilFileData
 {
 	/**
@@ -222,6 +221,11 @@ class ilFileDataExercise extends ilFileData
 		return $result;
 	}
 	
+	/**
+	* Download all submitted files of all members.
+	*
+	* @param	$members		array of member objects (ilObjUser), key is user id
+	*/
 	function downloadAllDeliveredFiles($members)
 	{
 		require_once "./classes/class.ilUtil.php";

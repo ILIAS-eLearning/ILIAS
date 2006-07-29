@@ -1,11 +1,11 @@
 <!-- BEGIN delivered_files -->
 <form  name="form_delivered_files" method="post" action="{DELIVER_FORMACTION}">
 <table class="halfwidth">
-<tr class="tblheader">
-<td colspan="3">{TEXT_HEADING_DELIVERED_FILES}</td>
+<tr class="tbltitle">
+<th colspan="3" class="std">{TEXT_HEADING_DELIVERED_FILES}</th>
 </tr>
-<tr>
-<td></td><td>{TEXT_DELIVERED_FILENAME}</td><td>{TEXT_DATE}</td>
+<tr class="tblheader">
+<th class="std">&nbsp;</th><th class="std">{TEXT_DELIVERED_FILENAME}</th><th class="std">{TEXT_DATE}</th>
 </tr>
 <!-- BEGIN delivered_row -->
 <tr class="{COLOR_CLASS}">
@@ -28,12 +28,12 @@
 </form>
 <!-- END delivered_files -->
 <tr class="tblheader">
-<td colspan="3">{TXT_UPLOAD_FILE}</td>
+<th colspan="3" class="std">{TXT_UPLOAD_FILE}</th>
 </tr>
 <tr>
 <td class="option_value" colspan="3">
 <form name="form_deliver" method="post" action="{FORMACTION}" enctype="multipart/form-data">
-{TEXT_FILENAME}&nbsp;:<input type="file" name="deliver" size="40" />
+<!-- {TEXT_FILENAME}&nbsp;:--><input type="file" name="deliver" size="40" />
 <input type="submit" class="submit" name="cmd[deliverFile]" value="{BUTTON_DELIVER}" /></form></td>
 </tr>
 </table>

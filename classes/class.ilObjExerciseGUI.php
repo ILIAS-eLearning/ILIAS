@@ -27,7 +27,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 * 
-* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -79,6 +79,8 @@ class ilObjExerciseGUI extends ilObjectGUI
   
 	function viewObject()
 	{
+		$this->infoScreenObject();
+		return;
 		global $rbacsystem,$ilUser;
 	
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
@@ -90,18 +92,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			parent::viewObject();
 			return;
 		}
-		$this->tabs_gui->setTabActive("view");
-
-		$this->tabs_gui->addSubTabTarget("view",
-			$this->ctrl->getLinkTarget($this, 'view'),
-			"view", get_class($this), false);
-  
-		$this->tabs_gui->addSubTabTarget("deliver",
-			$this->ctrl->getLinkTarget($this, 'deliver'),
-			array("deliver","deliverFile"), get_class($this), false);
-  
-		$this->tabs_gui->setSubTabActive("view");
-
 
 		if (!$rbacsystem->checkAccess("read", $this->ref_id))
 		{
@@ -128,9 +118,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();		
 		}
 		else {
-			require_once "class.ilUtil.php";
-			$timediff=ilUtil::int2array($this->object->getTimestamp()-time(),null);
-			$timestr=ilUtil::timearray2string($timediff);
+			$timediff = ilUtil::int2array($this->object->getTimestamp()-time(),null);
+			$timestr = ilUtil::timearray2string($timediff);
 			$this->tpl->setCurrentBlock("TIME_NOT_REACHED");
 			$this->tpl->setVariable("TIME_TO_SEND",$timestr);
 			$this->tpl->parseCurrentBlock();
@@ -177,15 +166,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilUser;
 		require_once "./classes/class.ilUtil.php";
 	
-		$this->tabs_gui->setTabActive("view");
-
-		$this->tabs_gui->addSubTabTarget("view",
-			$this->ctrl->getLinkTarget($this, 'view'),
-			"view", get_class($this), false);
-
-		$this->tabs_gui->addSubTabTarget("deliver",
-			$this->ctrl->getLinkTarget($this, 'deliver'),
-			array("deliver","deliverFile"), get_class($this), false);
+		$this->tabs_gui->setTabActive("deliver");
 
 		if (mktime() > $this->object->getTimestamp())
 		{
@@ -285,13 +266,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function downloadFileObject()
 	{
 		global $rbacsystem;
-	
+		
+		$file = ($_POST["file"])
+			? $_POST["file"]
+			: $_GET["file"];
+
 		if (!$rbacsystem->checkAccess("read", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),
 				$this->ilias->error_obj->MESSAGE);
 		}
-		if(!isset($_POST["file"]))
+		if (!isset($file))
 		{
 			sendInfo($this->lng->txt("exc_select_one_file"),true);
 			$this->ctrl->redirect($this, "view");
@@ -299,9 +284,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$files = $this->object->getFiles();
 		$file_exist = false;
 	
-		foreach($this->object->getFiles() as $file)
+		foreach($this->object->getFiles() as $lfile)
 		{
-			if($file["name"] == urldecode($_POST["file"]))
+			if($lfile["name"] == urldecode($file))
 			{
 				$file_exist = true;
 				break;
@@ -312,8 +297,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			echo "FILE DOES NOT EXIST";
 			exit;
 		}
-		ilUtil::deliverFile($this->object->file_obj->getAbsolutePath(urldecode($_POST["file"])),
-				urldecode($_POST["file"]));
+		ilUtil::deliverFile($this->object->file_obj->getAbsolutePath(urldecode($file)),
+				urldecode($file));
 	
 		return true;
 	}
@@ -894,12 +879,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilUtil::redirect("mail_new.php?type=new&rcp_to=".$_GET["rcp_to"]);
 	}
 	
+	/**
+	* Download all submitted files (of all members).
+	*/
 	function downloadAllObject()
 	{
 		$members = array();
-	
+
 		foreach($this->object->members_obj->getMembers() as $member_id)
 		{
+			// update download time
+			$this->object->members_obj->updateTutorDownloadTime($member_id);
+
+			// get member object (ilObjUser)
 			$tmp_obj =& ilObjectFactory::getInstanceByObjId($member_id);
 			$members[$member_id] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
 			unset($tmp_obj);
@@ -907,7 +899,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 		$this->object->file_obj->downloadAllDeliveredFiles($members);
 	}
-  
+	
 	function newMembersObject()
 	{
 		global $rbacsystem;
@@ -1355,55 +1347,56 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $ilAccess;
   
-		//if ($this->ctrl->getCmd() != "gateway")	
-		//echo "-".$this->ctrl->getCmd()."-";
-		// view
+		$next_class = $this->ctrl->getNextClass();
+		if ($ilAccess->checkAccess("visible", "", $this->object->getRefId()))
+		{
+			$force_active = (strtolower($next_class) == "ilinfoscreengui")
+				? true
+				: false;
+			$tabs_gui->addTarget("info_short",
+				 $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"),
+				 "showSummary",
+				 "ilinfoscreengui", "", $force_active);
+		}
+
+		/*
 		$tabs_gui->addTarget("view",
 			$this->ctrl->getLinkTarget($this, 'view'),
-			array("view",""), "");
+			array("view",""), "");*/
+			
+		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("deliver",
+				$this->ctrl->getLinkTarget($this, "deliver"),
+				"deliver", "");
+		}
 
 		// edit properties
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("edit_properties",
 			$this->ctrl->getLinkTarget($this, 'edit'),
 			"edit", "");
-		}
-
-		// deliver exercise
-		//  $tabs_gui->addTarget("deliver",
-		//			 $this->ctrl->getLinkTarget($this, 'deliver'),
-		//			 array("deliver", "deliverFile"), "");  
-		// members
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
-		{
+			
 			$tabs_gui->addTarget("members",
 			$this->ctrl->getLinkTarget($this, 'members'),
 			array("members", "newMembers", "newmembers"), "");
-	
-			// add member
-			/*
-			$tabs_gui->addTarget("add_member",
-			$this->ctrl->getLinkTarget($this, 'newmembers'),
-			"newmembers", get_class($this));
-			*/
 		}
 
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
+		if($ilAccess->checkAccess("read", "", $this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
 		{
 			$tabs_gui->addTarget('learning_progress',
 			$this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''),
 		 '',array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		// permissions
-		if ($rbacsystem->checkAccess("edit_permission", $this->ref_id))
+		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
@@ -1422,6 +1415,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		//echo "-".$next_class."-".$cmd."-"; exit;
   		switch($next_class)
 		{
+			case "ilinfoscreengui":
+				$this->infoScreen();	// forwards command
+				break;
+
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -1441,7 +1438,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = "view";
+					$cmd = "infoScreen";
 				}
 	
 				$cmd .= "Object";
@@ -1452,7 +1449,84 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
   
   		return true;
-	}	
+	}
+	
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		
+		$info->enablePrivateNotes();
+		
+		// standard meta data
+		//$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		// instructions
+		$info->addSection($this->lng->txt("exc_instruction"));
+		$info->addProperty("",
+			nl2br($this->object->getInstruction()));
+		
+		// schedule
+		$info->addSection($this->lng->txt("exc_schedule"));
+		$info->addProperty($this->lng->txt("exc_edit_until"),
+			date("H:i, d.m.Y",$this->object->getTimestamp()));
+		
+		if ($this->object->getTimestamp()-time() <= 0)
+		{
+			$time_str = "<b>".$this->lng->txt("exc_time_over_short")."</b>";
+		}
+		else
+		{
+			$time_diff = ilUtil::int2array($this->object->getTimestamp()-time(),null);
+			$time_str = ilUtil::timearray2string($time_diff);
+		}
+		$info->addProperty($this->lng->txt("exc_time_to_send"),
+			$time_str);
+			
+		// download files
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		{
+			$files = $this->object->getFiles();
+			if (count($files) > 0)
+			{
+				$info->addSection($this->lng->txt("exc_files"));
+				foreach($files as $file)
+				{
+					$this->ctrl->setParameter($this, "file", urlencode($file["name"]));
+					$info->addProperty($file["name"],
+						$this->lng->txt("download"),
+						$this->ctrl->getLinkTarget($this, "downloadFile"));
+					$this->ctrl->setParameter($this, "file", "");
+				}
+			}
+		}
+
+		// forward the command
+		$this->ctrl->forwardCommand($info);
+	}
+
 
 	/**
 	* redirect script
@@ -1463,9 +1537,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilErr, $lng, $ilAccess;
 
-		if ($ilAccess->checkAccess("read", "", $a_target))
+		if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
 			$_GET["ref_id"] = $a_target;
+			$_GET["cmd"] = "infoScreen";
 			include("exercise.php");
 			exit;
 			//ilUtil::redirect("exercise.php?ref_id=$a_target");

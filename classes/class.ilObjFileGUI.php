@@ -23,21 +23,19 @@
 */
 
 
+require_once "class.ilObjectGUI.php";
+require_once "./classes/class.ilObjFile.php"; // temp. fix
+
 /**
-* Class ilObjFileGUI
+* GUI class for file objects.
 *
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI
 *
-* @extends ilObjectGUI
-* @package ilias-core
+* @ingroup ModulesFile
 */
-
-require_once "class.ilObjectGUI.php";
-require_once "./classes/class.ilObjFile.php"; // temp. fix
-
 class ilObjFileGUI extends ilObjectGUI
 {
 	/**
@@ -410,8 +408,6 @@ class ilObjFileGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-//echo "-".$this->ctrl->getNextClass()."-";
-//echo "-".$_GET["cmd"]."-";
 			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true

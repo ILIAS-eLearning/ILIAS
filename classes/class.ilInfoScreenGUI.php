@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesInfoScreen Services/InfoScreen
+ */
 
 /**
 * Class ilInfoScreenGUI
@@ -30,7 +32,7 @@
 *
 * @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI
 *
-* @package ilias-core
+* @ingroup InfoScreen
 */
 class ilInfoScreenGUI
 {
@@ -158,11 +160,16 @@ class ilInfoScreenGUI
 	
 	/**
 	* add a property to current section
+	*
+	* @param	string	$a_name		property name string
+	* @param	string	$a_value	property value
+	* @param	string	$a_link		link (will link the property value string)
 	*/
-	function addProperty($a_name, $a_value)
+	function addProperty($a_name, $a_value, $a_link = "")
 	{
 		$this->section[$this->sec_nr]["properties"][] =
-			array("name" => $a_name, "value" => $a_value);
+			array("name" => $a_name, "value" => $a_value,
+				"link" => $a_link);
 	}
 
 	/**
@@ -446,9 +453,21 @@ class ilInfoScreenGUI
 				{
 					if ($property["name"] != "")
 					{
+						if ($property["link"] == "")
+						{
+							$tpl->setCurrentBlock("pv");
+							$tpl->setVariable("TXT_PROPERTY_VALUE", $property["value"]);
+							$tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$tpl->setCurrentBlock("lpv");
+							$tpl->setVariable("TXT_PROPERTY_LVALUE", $property["value"]);
+							$tpl->setVariable("LINK_PROPERTY_VALUE", $property["link"]);
+							$tpl->parseCurrentBlock();
+						}
 						$tpl->setCurrentBlock("property_row");
 						$tpl->setVariable("TXT_PROPERTY", $property["name"]);
-						$tpl->setVariable("TXT_PROPERTY_VALUE", $property["value"]);
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("row");
 					}

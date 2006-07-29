@@ -336,14 +336,13 @@ class ilObjExercise extends ilObject
 	}
 
 	/**
-	* get last submission date of an exercise
+	* Get the date of the last submission of a user for the exercise.
 	*
-	* @param	 integer		$member_id	
-	* @param	 integer		$exc_id	
+	* @param	int		$member_id	User ID of member.
+	* @return	mixed	false or mysql timestamp of last submission
 	*/
 	function getLastSubmission($member_id) 
 	{
-
 		global $ilDB, $lng;
 
 		$q="SELECT obj_id,user_id,timestamp FROM exc_returned ".
