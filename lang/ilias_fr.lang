@@ -1528,6 +1528,7 @@ common#:#exc_search_for#:#Rechercher###07 Apr 2005 content changed
 common#:#exc_select_one_file#:#Veuillez sélectionner exactement un fichier.###07 Apr 2005 content changed
 common#:#exc_send_exercise#:#Envoyer exercice###07 Apr 2005 content changed
 common#:#exc_sent#:#L'exercice a été envoyé aux utilisateurs sélectionnés###07 Apr 2005 content changed
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#Exercice mis à jour###07 Apr 2005 content changed
@@ -5332,7 +5333,9 @@ payment#:#pay_filter#:#Filtre###07 Apr 2005 content changed
 payment#:#pay_goto_buyed_objects#:#Aller aux objets achetés###07 Apr 2005 content changed
 payment#:#pay_goto_shopping_cart#:#Aller au panier###07 Apr 2005 content changed
 payment#:#pay_header#:#Paiement###07 Apr 2005 content changed
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Cet objet est déjà dans votre panier.###07 Apr 2005 content changed
 payment#:#pay_item_already_in_sc_choose_another#:#Cet article vient d'être supprimé de votre panier, choisissez une autre combinaison prix/durée .###08 may 2006 content changed
 payment#:#pay_locator#:#Paiement###07 Apr 2005 content changed
@@ -5370,6 +5373,7 @@ payment#:#pay_step3_credit_card#:#Votre commande – Page 3/3 : Saisissez vos do
 payment#:#pay_step3_debit_entry#:#Votre commande – Page 3/3 : Saisissez vos données bancaires et envoyez votre commande###07 Apr 2005 content changed
 payment#:#pay_update_view#:#Actualiser l'affichage###07 Apr 2005 content changed
 payment#:#paya_access#:#Accès###07 Apr 2005 content changed
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Ajouter nouveau prix###07 Apr 2005 content changed
 payment#:#paya_add_price_title#:#Nouveau prix###07 Apr 2005 content changed
 payment#:#paya_added_new_object#:#Nouvel objet ajouté. Veuillez modifier la méthode de paiement et les prix.###07 Apr 2005 content changed
@@ -5380,6 +5384,7 @@ payment#:#paya_buyable#:#Achetable###07 Apr 2005 content changed
 payment#:#paya_buyed_objects#:#Objets achetés###07 Apr 2005 content changed
 payment#:#paya_count_purchaser#:#Nombre d'acheteurs###07 Apr 2005 content changed
 payment#:#paya_customer#:#Client###07 Apr 2005 content changed
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Supprimer prix###07 Apr 2005 content changed
 payment#:#paya_delete_trustee_msg#:#Supprimer administrateur sélectionné###07 Apr 2005 content changed
 payment#:#paya_deleted_last_price#:#Le dernier prix a été supprimé.###07 Apr 2005 content changed
@@ -5393,6 +5398,9 @@ payment#:#paya_edit_prices_first#:#Veuillez d'abord modifier les prix###07 Apr 2
 payment#:#paya_enabled#:#Actif###07 Apr 2005 content changed
 payment#:#paya_enter_login#:#Veuillez saisir un nom d'utilisateur###07 Apr 2005 content changed
 payment#:#paya_err_adding_object#:#Erreur lors de l'ajout de l'objet###07 Apr 2005 content changed
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Erreur lors de l'enregistrement des données statistiques###07 Apr 2005 content changed
 payment#:#paya_expires#:#Expiration du paiement###07 Apr 2005 content changed
 payment#:#paya_filter_reseted#:#Filter réinitialisé###07 Apr 2005 content changed
@@ -5705,6 +5713,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Ce sondage rend toutes les données utilisateurs anonymes. Pour avoir accès au sondage, vous devez utiliser un code de 32 caractères que le créateur/gestionnaire du sondage a dû vous envoyer<br />Veuillez le saisir dans le champ texte ci-dessous.###07 Apr 2005 content changed
 survey#:#anonymize_key_introduction#:#Ce sondage rend toutes les données utilisateurs anonymes. Pour que vous ayez accès au sondage, le système a créé un code de 32 caractères qui vous sera envoyé sur votre boîte aux lettres ILIAS quand vous commencerez le sondage. Votre code d'accès est <br /><span class="bold">%s</span><br />Veuillez le saisir dans le champ texte ci-dessous.###07 Apr 2005 content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Veuillez saisir votre code d'accès au sondage pour reprendre le sondage. Il vous a été envoyé sur votre boîte aux lettres ILIAS quand vous avez commencé le sondage.###07 Apr 2005 content changed
 survey#:#anonymize_survey#:#Anonymiser les données du sondage###07 Apr 2005 content changed
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -5920,6 +5929,7 @@ survey#:#no_search_results#:#Pas de résultats de recherche###07 Apr 2005 conten
 survey#:#no_target_selected_for_move#:#Vous devez sélectionner une position cible.###07 Apr 2005 content changed
 survey#:#no_user_or_group_selected#:#Veuillez cocher une option pour indiquer ce que vous cherchez (utilisateurs et/ou groupes)###07 Apr 2005 content changed
 survey#:#no_user_phrases_defined#:#Pas d'expressions personnalisées disponibles.###07 Apr 2005 content changed
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Veuillez cocher une des réponses proposées.###07 Apr 2005 content changed
 survey#:#non_ratio#:#Non-Ratio XXX###07 Apr 2005 content changed
 survey#:#not_used#:#non utilisé###07 Apr 2005 content changed

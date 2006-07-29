@@ -655,7 +655,7 @@ assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Startzeit
-assessment#:#tst_stat_all_users#:#Alle Nutzerinnen
+assessment#:#tst_stat_all_users#:#Alle Nutzerinnen###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Nutzerinnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
 assessment#:#tst_stat_result_distancemean#:#Abstand zum arithmetischen Mittel
@@ -1597,6 +1597,7 @@ common#:#exc_search_for#:#Suchen nach
 common#:#exc_select_one_file#:#Bitte wählen Sie genau eine Datei aus.
 common#:#exc_send_exercise#:#Übung verschicken###10 Jul 2006 content changed
 common#:#exc_sent#:#Die Übung wurde an die ausgewählten Mitglieder verschickt
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Erneut übertragen
 common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
@@ -4116,8 +4117,8 @@ crs#:#crs_objective_question_assignment#:#Fragenzuordnung
 crs#:#crs_objective_result#:#Nach Test
 crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
 crs#:#crs_objective_view#:#Lernziel orientierte Ansicht
-crs#:#crs_objectives#:#Lernziele
-crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen
+crs#:#crs_objectives#:#Lernziele###29 Jul 2006 content changed
+crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen###29 Jul 2006 content changed
 crs#:#crs_objectives_assigned_lm#:#Die ausgewählten Lernmaterialien wurden zugeordnet.
 crs#:#crs_objectives_assigned_lms#:#Zugeordnete Lernmaterialien
 crs#:#crs_objectives_assigned_new_questions#:#Eine neue Zuordnung wurde angelegt.
@@ -5426,7 +5427,9 @@ payment#:#pay_filter#:#Filtermöglichkeiten
 payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
 payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
 payment#:#pay_header#:#Payment
+payment#:#pay_hint_paypal#:#Hinweis zu PayPal
 payment#:#pay_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
+payment#:#pay_info_paypal#:#Zum Bezahlen der Objekte, die sich in Ihrem Warenkorb befinden, verlassen Sie kurzzeitig ILIAS und werden zur PayPal-Website weitergeleitet. Folgen Sie dort bitte den angegebenen Schritten. Nach erfolgreicher Bezahlung werden Sie automatisch zu ILIAS zurückgeleitet. Bitte schließen Sie während des Bezahlvorgangs nicht das Fenster Ihres Browsers, da die Freischaltung der bezahlten Objekte sonst nicht automatisch erfolgen kann.
 payment#:#pay_item_already_in_sc#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen.
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
 payment#:#pay_locator#:#Payment
@@ -5464,6 +5467,7 @@ payment#:#pay_step3_credit_card#:#Ihre Bestellung - Schritt 3/3: Eingabe der Kre
 payment#:#pay_step3_debit_entry#:#Ihre Bestellung - Schritt 3/3: Eingabe der Bankverbindung und Absenden der Bestellung
 payment#:#pay_update_view#:#Ansicht aktualisieren
 payment#:#paya_access#:#Zugriff
+payment#:#paya_add_customer#:#Verkaufsvorgang hinzufügen
 payment#:#paya_add_price#:#Neuen Preis anlegen
 payment#:#paya_add_price_title#:#Neuer Preis
 payment#:#paya_added_new_object#:#Ein neues Objekt wurde angelegt. Bitte bearbeiten Sie nun die Bezahlart und Preise
@@ -5474,6 +5478,7 @@ payment#:#paya_buyable#:#Kaufbar
 payment#:#paya_buyed_objects#:#Gekaufte Objekte###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Anzahl Käufer
 payment#:#paya_customer#:#Käufer
+payment#:#paya_customer_added_successfully#:#Der Verkaufsvorgang wurde erfolgreich zur Statistik hinzugefügt.
 payment#:#paya_delete_price#:#Preis löschen
 payment#:#paya_delete_trustee_msg#:#Die ausgewählten Verwalter wurden gelöscht.
 payment#:#paya_deleted_last_price#:#Der letzte Preis wurde gelöscht. Das Objekt kann nicht mehr verkauft werden.
@@ -5487,6 +5492,9 @@ payment#:#paya_edit_prices_first#:#Bitte bearbeiten Sie zuerst die Preise.
 payment#:#paya_enabled#:#Eingeschaltet
 payment#:#paya_enter_login#:#Bitte geben Sie einen Benutzernamen ein.
 payment#:#paya_err_adding_object#:#Fehler beim Anlegen des Objektes
+payment#:#paya_error_adding_customer#:#Es ist ein Fehler beim Hinzufügen des Verkaufsvorgangs zur Statistik aufgetreten.
+payment#:#paya_error_mandatory_fields#:#Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus.
+payment#:#paya_error_no_object_id_given#:#Bitte wählen Sie noch ein Objekt aus.
 payment#:#paya_error_update_booking#:#Fehler beim Speichern.
 payment#:#paya_expires#:#Bezahlung auslaufen lassen
 payment#:#paya_filter_reseted#:#Der Filter wurde zurückgesetzt.
@@ -5806,6 +5814,7 @@ survey#:#anonymization#:#Anonymisierung
 survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_personalized#:#Keine Anonymisierung
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
 survey#:#anonymize_with_code#:#Anonymisierung mit personalisiertem Zugriff über einen Zugangsschlüssel
@@ -6021,6 +6030,7 @@ survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Nutzerinnen und/oder Gruppen)!
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_used#:#nicht verwendet
@@ -6401,10 +6411,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-payment#:#paya_add_customer#:#Verkaufsvorgang hinzufügen
-payment#:#paya_error_no_object_id_given#:#Bitte wählen Sie noch ein Objekt aus.
-payment#:#paya_error_mandatory_fields#:#Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus.
-payment#:#paya_customer_added_successfully#:#Der Verkaufsvorgang wurde erfolgreich zur Statistik hinzugefügt.
-payment#:#paya_error_adding_customer#:#Es ist ein Fehler beim Hinzufügen des Verkaufsvorgangs zur Statistik aufgetreten.
-payment#:#pay_hint_paypal#:#Hinweis zu PayPal
-payment#:#pay_info_paypal#:#Zum Bezahlen der Objekte, die sich in Ihrem Warenkorb befinden, verlassen Sie kurzzeitig ILIAS und werden zur PayPal-Website weitergeleitet. Folgen Sie dort bitte den angegebenen Schritten. Nach erfolgreicher Bezahlung werden Sie automatisch zu ILIAS zurückgeleitet. Bitte schließen Sie während des Bezahlvorgangs nicht das Fenster Ihres Browsers, da die Freischaltung der bezahlten Objekte sonst nicht automatisch erfolgen kann.

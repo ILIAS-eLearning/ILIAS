@@ -1595,10 +1595,10 @@ common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a n
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
 common#:#exc_search_for#:#Search for
-common#:#exc_sent_at#:#Sent at <br />%s
 common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Send exercise by mail
 common#:#exc_sent#:#The exercise has been sent to the selected users
+common#:#exc_sent_at#:#Sent at <br />%s
 common#:#exc_status#:#Status
 common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_saved#:#Exercise updated
@@ -5429,7 +5429,9 @@ payment#:#pay_filter#:#Filter
 payment#:#pay_goto_buyed_objects#:#Goto your buyed objects
 payment#:#pay_goto_shopping_cart#:#Goto the shopping cart
 payment#:#pay_header#:#Payment
+payment#:#pay_hint_paypal#:#Hint for PayPal
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
 payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
 payment#:#pay_item_already_in_sc_choose_another#:#This object was already taken up in your shopping cart. Select if necessary a new price/duration combination.
 payment#:#pay_locator#:#Payment
@@ -5467,6 +5469,7 @@ payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit ca
 payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order
 payment#:#pay_update_view#:#Update view
 payment#:#paya_access#:#Access
+payment#:#paya_add_customer#:#Add Selling Process
 payment#:#paya_add_price#:#Add new price
 payment#:#paya_add_price_title#:#New price
 payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.
@@ -5477,6 +5480,7 @@ payment#:#paya_buyable#:#Buyable
 payment#:#paya_buyed_objects#:#Bought Objects
 payment#:#paya_count_purchaser#:#Number of purchasers
 payment#:#paya_customer#:#Customer
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.
 payment#:#paya_delete_price#:#Delete price
 payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.
 payment#:#paya_deleted_last_price#:#The last price has been deleted.
@@ -5490,6 +5494,9 @@ payment#:#paya_edit_prices_first#:#Please edit the prices first.
 payment#:#paya_enabled#:#Enabled
 payment#:#paya_enter_login#:#Please enter an user name.
 payment#:#paya_err_adding_object#:#Error adding object
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
+payment#:#paya_error_no_object_id_given#:#Please choose an object.
 payment#:#paya_error_update_booking#:#Error saving statistic data.
 payment#:#paya_expires#:#Expire payment
 payment#:#paya_filter_reseted#:#Filter reseted.
@@ -6025,8 +6032,8 @@ survey#:#no_search_results#:#There are no search results!
 survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
 survey#:#no_user_phrases_defined#:#There are no user defined phrases available!
-survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!
+survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#not used
 survey#:#obligatory#:#obligatory
@@ -6406,10 +6413,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-payment#:#paya_add_customer#:#Add Selling Process
-payment#:#paya_error_no_object_id_given#:#Please choose an object.
-payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
-payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.
-payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.
-payment#:#pay_hint_paypal#:#Hint for PayPal
-payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.

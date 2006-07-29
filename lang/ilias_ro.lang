@@ -626,7 +626,7 @@ assessment#:#tst_shuffle_questions#:#Shuffle questions###10 Jul 2006 new variabl
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start###10 Jul 2006 new variable
 assessment#:#tst_start_test#:#Incepeti testul
 assessment#:#tst_starting_time#:#Timpul de inceput
-assessment#:#tst_stat_all_users#:#Toti utilizatorii
+assessment#:#tst_stat_all_users#:#Toti utilizatorii###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(selectati unul sau mai multi utilizatori de pe lista)
 assessment#:#tst_stat_result_atimeofwork#:#Timpul mediu de lucru
 assessment#:#tst_stat_result_distancemean#:#Diferenta pana la media aritmetica
@@ -1447,6 +1447,7 @@ common#:#exc_search_for#:#Cautati
 common#:#exc_select_one_file#:#Va rugam selectati doar un fisier.
 common#:#exc_send_exercise#:#Trimiteti exercitiul###10 Jul 2006 content changed
 common#:#exc_sent#:#Exercitiul a fost trimis catre utilizatorii selectati
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#Exercitiu reinnoit
@@ -4757,7 +4758,9 @@ payment#:#pay_filter#:#Filtru
 payment#:#pay_goto_buyed_objects#:#Mergeti la obiecte cumparate
 payment#:#pay_goto_shopping_cart#:#Mergeti la cosul de cumparaturi
 payment#:#pay_header#:#Plata
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Ati pus deja acest obiect in cosul de cumparaturi
 payment#:#pay_item_already_in_sc_choose_another#:#Acest articol nu se afla inca in cosul dumneavoastra de cumparaturi. Va rugam sa selectati un pret sau o combinatie noua???
 payment#:#pay_locator#:#Plata
@@ -4795,6 +4798,7 @@ payment#:#pay_step3_credit_card#:#Comanda dumneavoastra - Schritt 3/3: Introduce
 payment#:#pay_step3_debit_entry#:#Comanda dumneavoastra - Schritt 3/3: Introduceti datele bancii si trimiteti comanda
 payment#:#pay_update_view#:#Actualizati vizualizarea
 payment#:#paya_access#:#Acces
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Adaugati pret nou
 payment#:#paya_add_price_title#:#Pret nou
 payment#:#paya_added_new_object#:#Obiect nou adaugat. Va rugam editati metoda de plata si preturile.
@@ -4805,6 +4809,7 @@ payment#:#paya_buyable#:#Cumparabil
 payment#:#paya_buyed_objects#:#Obiecte cumparate###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Numar de cumparatori
 payment#:#paya_customer#:#Client
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Stergeti pretul
 payment#:#paya_delete_trustee_msg#:#Intermediarii selectati au fost stersi.
 payment#:#paya_deleted_last_price#:#Ultimul pret a fost sters.
@@ -4818,6 +4823,9 @@ payment#:#paya_edit_prices_first#:#Va rugam editati preturile mai intai.
 payment#:#paya_enabled#:#Activat
 payment#:#paya_enter_login#:#Va rugam introduceti un nume de utilizator.
 payment#:#paya_err_adding_object#:#Eroare la adaugarea unui obiect nou.
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Eroare la salvarea datelor statistice.
 payment#:#paya_expires#:#Plata expirata.
 payment#:#paya_filter_reseted#:#Filtru resetat.
@@ -5108,6 +5116,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a obtine accesul la acest sondaj trebuie sa folositi codul de sondaj de 32 caractere pe care il puteti primi de la creatorul/supraveghetorul acestui sondaj<br />Va rugam introduceti codul in campul de mai jos.###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a vi se oferi accesul la acest sondaj a fost creat un cod de 32 caractere de catre sistem, care va va fi trimis in casuta de mail atunci cand incepeti completarea sondajului (dupa ce ati raspuns la prima intrebare). Codul dvs de acces in sondaj este<br /><span class="bold">%s</span><br />Va rugam introduceti codul in campul de mai jos. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Va rugam introduceti codul de acces pentru a va reintoarce in sondaj. V-a fost trimis pe mail in momentul in care ati raspuns la prima intrebare.
 survey#:#anonymize_survey#:#Pastrati anonime datele de utilizator din sondaj
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -5313,6 +5322,7 @@ survey#:#no_search_results#:#Nu exista rezultate ale cautarii!
 survey#:#no_target_selected_for_move#:#Trebuie sa selectati o pozitie tinta!
 survey#:#no_user_or_group_selected#:#Va rugam selectati optiunea cautata (utilizatori si/sau grupuri)!
 survey#:#no_user_phrases_defined#:#Nu exista fraze definite de utilizator disponibile!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Va rugam selectati unul din raspunsurile posibile oferite!
 survey#:#non_ratio#:#Non-Ratie###10 Jul 2006 content changed
 survey#:#not_used#:#nefolosit

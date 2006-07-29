@@ -658,7 +658,7 @@ assessment#:#tst_signature#:#Chữ ký
 assessment#:#tst_start_test#:#Bắt đầu bài kiểm tra
 assessment#:#tst_started#:#Bài kiểm tra bắt đầu
 assessment#:#tst_starting_time#:#Th�?i gian bắt đầu
-assessment#:#tst_stat_all_users#:#tất cả ngư�?i sử dụng
+assessment#:#tst_stat_all_users#:#tất cả ngư�?i sử dụng###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(ch�?n một hoặc nhi�?u ngư�?i sử dụng từ danh sách ngư�?i sử dụng)
 assessment#:#tst_stat_result_atimeofwork#:#Th�?i gian làm trung bình
 assessment#:#tst_stat_result_distancemean#:#Khoảng cách tới trung bình số
@@ -1537,6 +1537,7 @@ common#:#exc_search_for#:#Tìm để có
 common#:#exc_select_one_file#:#Hãy ch�?n chính xác một file.
 common#:#exc_send_exercise#:#Gửi bài tập###10 Jul 2006 content changed
 common#:#exc_sent#:#Bài tập đã được gửi đến những ngư�?i sử dụng đã ch�?n
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#Bài tập đã cập nhật
@@ -4025,8 +4026,8 @@ crs#:#crs_objective_question_assignment#:#Chỉ định câu h�?i
 crs#:#crs_objective_result#:#Sau bài kiểm tra
 crs#:#crs_objective_updated_test#:#�?ã cập nhật chỉnh sửa.
 crs#:#crs_objective_view#:#Xem hướng mục tiêu
-crs#:#crs_objectives#:#Mục tiêu h�?c tập
-crs#:#crs_objectives_assign_chapter#:#Chỉ định chương
+crs#:#crs_objectives#:#Mục tiêu h�?c tập###29 Jul 2006 content changed
+crs#:#crs_objectives_assign_chapter#:#Chỉ định chương###29 Jul 2006 content changed
 crs#:#crs_objectives_assigned_lm#:#Tài liệu h�?c tập đã được chỉ định.
 crs#:#crs_objectives_assigned_lms#:#Tài liệu h�?c tập đã chỉ định
 crs#:#crs_objectives_assigned_new_questions#:#�?ã thêm chỉ định mới.
@@ -5330,7 +5331,9 @@ payment#:#pay_filter#:#L�?c
 payment#:#pay_goto_buyed_objects#:#Chuyển tới các đối tượng đã mua của bạn
 payment#:#pay_goto_shopping_cart#:#Chuyển tới xe hàng
 payment#:#pay_header#:#Thanh toán
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#�?ối tượng này đang ở trong xe hàng của bạn.
 payment#:#pay_item_already_in_sc_choose_another#:#�?ối tượng này đang ở trong xe hàng của bạn. Hãy ch�?n đối tượng khác.
 payment#:#pay_locator#:#Thanh toán
@@ -5368,6 +5371,7 @@ payment#:#pay_step3_credit_card#:#�?ơn hàng của bạn - Bước 3/3: Nhập 
 payment#:#pay_step3_debit_entry#:#�?ơn hàng của bạn - Bước 3/3: Nhập vào thông tin ngân hàng và gửi đơn hàng
 payment#:#pay_update_view#:#Cập nhật khung nhìn
 payment#:#paya_access#:#Truy cập
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Thêm giá mới
 payment#:#paya_add_price_title#:#Giá mới
 payment#:#paya_added_new_object#:#�?ã thêm đối tượng mới. Hãy sửa phương thức thanh toán và giá.
@@ -5378,6 +5382,7 @@ payment#:#paya_buyable#:#Có thể mua được
 payment#:#paya_buyed_objects#:#Các đối tượng đã mua###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Số lượng ngư�?i mua
 payment#:#paya_customer#:#Khách hàng
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Xóa giá
 payment#:#paya_delete_trustee_msg#:#�?ã xóa những ngư�?i được ủy thác đã ch�?n.
 payment#:#paya_deleted_last_price#:#Giá cuối cùng đã được xóa.
@@ -5391,6 +5396,9 @@ payment#:#paya_edit_prices_first#:#Hãy sửa giá trước.
 payment#:#paya_enabled#:#�?ã cho phép
 payment#:#paya_enter_login#:#Hãy nhập vào một tên đăng nhập sử dụng.
 payment#:#paya_err_adding_object#:#Lỗi thêm đối tượng
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Lỗi ghi thông tin thống kê.
 payment#:#paya_expires#:#Thanh toán hết hạn
 payment#:#paya_filter_reseted#:#�?ã reset l�?c.
@@ -5703,6 +5711,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Khảo sát này vô danh hóa tất cả thông tin ngư�?i sử dụng. �?ể truy cập khảo sát, bạn phải sử dụng mã khảo sát 32-ký tự do ngư�?i tạo/ngư�?i duy trì khảo sát này cung cấp<br />Hãy nhập vào ô phía dưới.###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#Khảo sát này vô danh hóa tất cả thông tin ngư�?i sử dụng. �?ể truy cập khảo sát, mã 32-ký tự sẽ được tạo bởi hệ thống và được gửi tới hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát (sau khi trả l�?i câu h�?i thứ nhất). Mã truy cập khảo sát là<br /><span class="bold">%s</span><br />Hãy nhập nó vào ô phía dưới. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Hãy nhập vào mã truy cập khảo sát để tiếp tục khảo sát. Thư chứa mã đã được gửi vào hộp thư ILIAS của bạn khi bạn bắt đầu khảo sát.
 survey#:#anonymize_survey#:#Vô danh hóa thông tin khảo sát
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -5918,6 +5927,7 @@ survey#:#no_search_results#:#Không tìm thấy kết quả nào!
 survey#:#no_target_selected_for_move#:#Bạn phải ch�?n mục tiêu để di chuyển
 survey#:#no_user_or_group_selected#:#Hãy đánh dấu một tùy ch�?n bạn tìm đang để có (ngư�?i sử dụng và/hoặc nhóm)!
 survey#:#no_user_phrases_defined#:#Không có cụm từ do ngư�?i sử dụng định nghĩa nào sử dụng được!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Hãy đánh dấu một trong các câu trả l�?i đã cho!
 survey#:#non_ratio#:#Vô tỷ###10 Jul 2006 content changed
 survey#:#not_used#:#không sử dụng
