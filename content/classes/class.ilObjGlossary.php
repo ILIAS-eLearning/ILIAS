@@ -22,9 +22,6 @@
 */
 
 
-/** @defgroup ModulesGlossary Modules/Glossary
- */
-
 require_once("classes/class.ilObject.php");
 //require_once("classes/class.ilMetaData.php");
 require_once("./content/classes/class.ilGlossaryTerm.php");
@@ -35,7 +32,7 @@ require_once("./content/classes/class.ilGlossaryTerm.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @addtogroup ModulesGlossary
+* @ingroup ModulesGlossary
 */
 class ilObjGlossary extends ilObject
 {

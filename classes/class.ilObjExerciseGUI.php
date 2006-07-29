@@ -573,7 +573,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->object->members_obj->deliverReturnedFiles($_GET["member_id"]);
 		exit;
 	}
-  
+
+	/**
+	* Download newly submitted files of user.
+	*/
+	function downloadNewReturnedObject()
+	{
+		$this->object->members_obj->deliverReturnedFiles($_GET["member_id"], true);
+		exit;
+	}
+
 	function membersObject()
 	{
 		global $rbacsystem;
@@ -621,65 +630,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 			$counter = 0;
 			$members = $this->object->getMemberListData();
-			
-			/*
-			foreach($this->object->members_obj->getMembers() as $member_id)
-			{
-				include_once "./classes/class.ilObjectFactory.php";
-		
-				if(!($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
-				{
-					continue;
-				}
-				$f_result[$counter][]	= ilUtil::formCheckbox(0,"member[$member_id]",1);
-				$f_result[$counter][]	= $tmp_obj->getLogin();
-				$f_result[$counter][]	= $tmp_obj->getFirstname();
-				$f_result[$counter][]	= $tmp_obj->getLastname();
-	 	
-
-				//$f_result[$counter][]	= array("notice[$member_id]",ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
-
-		
-				// see if files have been resubmmited after solved
-				if ( $this->object->_lookupUpdatedSubmission($this->object->getId(), $member_id) == 1) 
-				{
-					$resubmitted = true;
-				}
-				else {
-					$resubmitted = false;
-				}
-		
-				if ($this->object->members_obj->hasReturned($member_id))
-				{
-					$f_result[$counter][]	= "<input class=\"submit\" type=\"submit\" name=\"downloadReturned[$member_id]\" value=\"".$this->lng->txt("download") . "\" />";
-				}
-				else
-				{
-					$f_result[$counter][]	= "<span>---</span>";
-				}
-		
-				$f_result[$counter][]   =  $resubmitted ? "<b>".$this->__getLastSubmission($member_id,$this->object->getId())."</b>" : $this->__getLastSubmission($member_id,$this->object->getId());
-
-				$f_result[$counter][] =ilUtil::formCheckbox($this->object->members_obj->getStatusReturnedByMember($member_id),"returned[$member_id]",1);
-
-
-				$f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1);
-				$f_result[$counter][]	= ilUtil::formCheckbox($this->object->members_obj->getStatusSentByMember($member_id),"sent[$member_id]",1);
-
-				$f_result[$counter][] =  "&nbsp;"."<a class=\"il_ContainerItemCommand\" href=\"exercise.php?ref_id=".$_GET["ref_id"]."&comment_id=".$member_id."&cmd=members&cmdClass=ilobjexercisegui&cmdNode=1&baseClass=\">".$this->lng->txt("add_comments")."</a>";
-
-
-				$f_result[$counter][]	= "<a class=\"il_ContainerItemCommand\" target=\"_blank\" href=\"mail_new.php?type=new&rcp_to=".$tmp_obj->getLogin()."\">".$this->lng->txt("mail_feedback")."</a>";
-
-		
-				$member_ids[] = $member_id;
-		
-				unset($tmp_obj);
-				++$counter;
-			}
-			*/
-			
-///// NEW Implementation
 
 			include_once("classes/class.ilTableGUI.php");
 			$tbl = new ilTableGUI();
@@ -730,11 +680,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->lng->txt("exc_header_members"));
 			$tbl->setHeaderNames(array("", "", $this->lng->txt("name"),
 				$this->lng->txt("login"),
-				$this->lng->txt("mail"),$this->lng->txt("exc_submission"),
-				$this->lng->txt("exc_status_solved"), ""));
+				$this->lng->txt("exc_exercise_sent"),
+				$this->lng->txt("exc_submission"),
+				$this->lng->txt("exc_status_solved"),
+				$this->lng->txt("exc_feedback_sent")
+				));
 
 			$tbl->setColumnWidth(array("1%", "1%", "", "", "", "", "", ""));
-			$cols = array("", "", "name", "login", "sent_time", "submission", "solved_time", "");
+			$cols = array("", "", "name", "login", "sent_time", "submission",
+				"solved_time", "feedback_time");
 			
 			if (!$_GET["sort_by"])
 			{
@@ -835,9 +789,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
 					$this->lng->txt("exc_files_returned"));
 				$sub_cnt = count($this->object->getDeliveredFiles($member_id));
+				$new = $this->object->_lookupNewFiles($this->object->getId(), $member_id);
+				if (count($new) > 0)
+				{
+					$sub_cnt.= " ".sprintf($this->lng->txt("cnt_new"),count($new));
+				}
 				$this->tpl->setVariable("VAL_SUBMITTED_FILES",
 					$sub_cnt);
-					
+				
 				// download command
 				$this->ctrl->setParameter($this, "member_id", $member_id);
 				if ($sub_cnt > 0)
@@ -845,9 +804,29 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("download_link");
 					$this->tpl->setVariable("LINK_DOWNLOAD",
 						$this->ctrl->getLinkTarget($this, "downloadReturned"));
-					$this->tpl->setVariable("TXT_DOWNLOAD",
-						$this->lng->txt("exc_download_files"));
+					if (count($new) <= 0)
+					{
+						$this->tpl->setVariable("TXT_DOWNLOAD",
+							$this->lng->txt("exc_download_files"));
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_DOWNLOAD",
+							$this->lng->txt("exc_download_all"));
+					}
 					$this->tpl->parseCurrentBlock();
+					
+					// download new files only
+					if (count($new) > 0)
+					{
+						$this->tpl->setCurrentBlock("download_link");
+						$this->tpl->setVariable("LINK_NEW_DOWNLOAD",
+							$this->ctrl->getLinkTarget($this, "downloadNewReturned"));
+						$this->tpl->setVariable("TXT_NEW_DOWNLOAD",
+							$this->lng->txt("exc_download_new"));
+						$this->tpl->parseCurrentBlock();
+					}
+					
 					$this->tpl->setCurrentBlock("member_row");
 				}
 				
@@ -867,11 +846,25 @@ class ilObjExerciseGUI extends ilObjectGUI
 						ilFormat::formatDate($sd, "datetime", true));
 				}
 					
-				// mail command
+				// feedback
+				$this->ctrl->setParameter($this, "member_id", $member_id);
+				$this->tpl->setVariable("CHKBOX_FEEDBACK",
+					ilUtil::formCheckbox($this->object->members_obj->getStatusFeedbackByMember($member_id),"feedback[$member_id]",1));
+				if (($ft = ilObjExercise::_lookupFeedbackTime($this->object->getId(), $member_id)) > 0)
+				{
+					$this->tpl->setCurrentBlock("feedback_date");
+					$this->tpl->setVariable("VAL_FEEDBACK_DATE",
+						ilFormat::formatDate($ft, "datetime", true));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("member_row");
+				}
+				$this->ctrl->setParameter($this, "rcp_to", $mem_obj->getLogin());
 				$this->tpl->setVariable("LINK_FEEDBACK",
-					"mail_new.php?type=new&rcp_to=".$mem_obj->getLogin());
+					$this->ctrl->getLinkTarget($this, "redirectFeedbackMail"));
+					//"mail_new.php?type=new&rcp_to=".$mem_obj->getLogin());
 				$this->tpl->setVariable("TXT_FEEDBACK",
 					$this->lng->txt("mail_feedback"));
+				$this->ctrl->setParameter($this, "rcp_to", "");
 
 				$this->tpl->parseCurrentBlock();
 			}
@@ -892,7 +885,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 		}
 	}
-  
+
+	/**
+	* set feedback status for member and redirect to mail screen
+	*/
+	function redirectFeedbackMailObject()
+	{
+		$this->object->members_obj->setStatusFeedbackForMember($_GET["member_id"], 1);
+		ilUtil::redirect("mail_new.php?type=new&rcp_to=".$_GET["rcp_to"]);
+	}
+	
 	function downloadAllObject()
 	{
 		$members = array();
@@ -1011,6 +1013,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	}
 
 	// PRIVATE METHODS
+/*
 	function __showMembersTableContent($a_data)
 	{
   
@@ -1045,7 +1048,7 @@ class ilObjExerciseGUI extends ilObjectGUI
   		
 		return true;
 	}
-
+*/
 	function __getMembersOfObject($a_result,$a_type)
 	{
 
@@ -1201,11 +1204,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		foreach($_POST["id"] as $key => $value)
 		{
 			$this->object->members_obj->setStatusSolvedForMember($key, $_POST["solved"][$key] ? 1 : 0);
+			$this->object->members_obj->setStatusFeedbackForMember($key, $_POST["feedback"][$key] ? 1 : 0);
 			$this->object->members_obj->setNoticeForMember($key,ilUtil::stripSlashes($_POST["notice"][$key]));
 		}
 		return true;
 	}
 
+/*
 	function __showMembersTable($a_data,$a_member_ids)
 	{
   		global $ilUser;
@@ -1291,7 +1296,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		return $tbl->getData();
 	}
-
+*/
 	function __getDateSelect($a_type,$a_selected)
 	{
   		switch($a_type)

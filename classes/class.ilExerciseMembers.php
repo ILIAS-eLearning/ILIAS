@@ -273,6 +273,28 @@ class ilExerciseMembers
 
 		return true;
 	}
+	
+	// feedback functions
+	function setStatusFeedback($a_status)
+	{
+		if(is_array($a_status))
+		{
+			$this->status_feedback = $a_status;
+			return true;
+		}
+	}
+	function getStatusFeedback()
+	{
+		return $this->status_feedback ? $this->status_feedback : array(0 => 0);
+	}
+	function getStatusFeedbackByMember($a_member_id)
+	{
+		if(isset($this->status_feedback[$a_member_id]))
+		{
+			return $this->status_feedback[$a_member_id];
+		}
+		return false;
+	}
 	function setStatusFeedbackForMember($a_member_id,$a_status)
 	{
 
@@ -282,7 +304,7 @@ class ilExerciseMembers
 	    " WHERE obj_id = '".$this->getObjId()."' ".
 	    "AND usr_id = '".$a_member_id."'".
 		" AND feedback <> '".($a_status ? 1 : 0)."'";
-	  
+//echo "<br/><br/>$query";
 	  $this->ilias->db->query($query);
 	  $this->read();
 	  
@@ -403,9 +425,37 @@ class ilExerciseMembers
 	* @param numeric $a_member_id The database id of the user
 	* @access	public
 	*/
-	function deliverReturnedFiles($a_member_id)
+	function deliverReturnedFiles($a_member_id, $a_only_new = false)
 	{
-		$query = sprintf("SELECT * FROM exc_returned WHERE obj_id = %s AND user_id = %s",
+		global $ilUser, $ilDB;
+		
+		// get last download time
+		$and_str = "";
+		if ($a_only_new)
+		{
+			$q = "SELECT download_time FROM exc_usr_tutor WHERE ".
+				" obj_id = ".$ilDB->quote($this->getObjId())." AND ".
+				" usr_id = ".$ilDB->quote($a_member_id)." AND ".
+				" tutor_id = ".$ilDB->quote($ilUser->getId());
+			$lu_set = $ilDB->query($q);
+			if ($lu_rec = $lu_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if ($lu_rec["download_time"] > 0)
+				{
+					$and_str = " AND timestamp > ".$ilDB->quote($lu_rec["download_time"]);
+				}
+			}
+		}
+		
+		// set download time
+		$q = "REPLACE INTO exc_usr_tutor (obj_id, usr_id, tutor_id, download_time) VALUES ".
+			"(".$ilDB->quote($this->getObjId()).",".$ilDB->quote($a_member_id).
+			",".$ilDB->quote($ilUser->getId()).",now())";
+		$ilDB->query($q);
+		
+		
+		$query = sprintf("SELECT * FROM exc_returned WHERE obj_id = %s AND user_id = %s".
+			$and_str,
 			$this->ilias->db->quote($this->getObjId() . ""),
 			$this->ilias->db->quote($a_member_id . "")
 		);
@@ -564,6 +614,7 @@ class ilExerciseMembers
 		$tmp_arr_sent = array();
 		$tmp_arr_notice = array();
 		$tmp_arr_returned = array();
+		$tmp_arr_feedback = array();
 
 		$query = "SELECT * FROM exc_members ".
 			"WHERE obj_id = '".$this->getObjId()."' ";
@@ -576,12 +627,14 @@ class ilExerciseMembers
 			$tmp_arr_returned[$row->usr_id] = $row->returned;
 			$tmp_arr_solved[$row->usr_id] = $row->solved;
 			$tmp_arr_sent[$row->usr_id] = $row->sent;
+			$tmp_arr_feedback[$row->usr_id] = $row->feedback;
 		}
 		$this->setMembers($tmp_arr_members);
 		$this->setNotice($tmp_arr_notice);
 		$this->setStatusSolved($tmp_arr_solved);
 		$this->setStatusSent($tmp_arr_sent);
 		$this->setStatusReturned($tmp_arr_returned);
+		$this->setStatusFeedback($tmp_arr_feedback);
 		
 		return true;
 	}
@@ -599,7 +652,9 @@ class ilExerciseMembers
 							"notice" => $row->notice,
 							"returned" => $row->returned,
 							"solved" => $row->solved,
-							"sent"	 => $row->sent);
+							"sent"	 => $row->sent,
+							"feedback"	 => $row->feedback
+							);
 		}
 		foreach($data as $row)
 		{
@@ -609,6 +664,7 @@ class ilExerciseMembers
 				"notice = '".addslashes($row["notice"])."', ".
 				"returned = '".$row["returned"]."', ".
 				"solved = '".$row["solved"]."', ".
+				"feedback = '".$row["feedback"]."', ".
 				"sent = '".$row["sent"]."'";
 
 			$res = $this->ilias->db->query($query);
