@@ -29,8 +29,7 @@
 * 
 * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI
 * 
-* @extends ilObjectGUI
-* @package ilias-core
+* @ingroup ModulesExercise
 */
 
 require_once "class.ilObjectGUI.php";

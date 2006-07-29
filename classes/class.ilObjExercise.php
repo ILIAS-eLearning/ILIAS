@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ModulesExercise Modules/Exercise
+ */
 
 /**
 * Class ilObjExercise
@@ -28,10 +30,8 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 *
-* @extends Object
-* @package ilias-core
+* @ingroup ModulesExercise
 */
-
 require_once "class.ilObject.php";
 require_once "./classes/class.ilFileDataExercise.php";
 require_once "./classes/class.ilExerciseMembers.php";
