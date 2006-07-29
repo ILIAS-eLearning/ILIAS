@@ -1572,6 +1572,8 @@ common#:#exc_deassign_members#:#Delete member(s)
 common#:#exc_delete#:#Delete exercise
 common#:#exc_details#:#Exercise details
 common#:#exc_download_files#:#Download Files
+common#:#exc_download_new#:#Download New
+common#:#exc_download_all#:#Download All
 common#:#exc_edit#:#New exercise created
 common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings
@@ -1604,6 +1606,8 @@ common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_sent#:#Delivered
 common#:#exc_status_solved#:#Solved
+common#:#exc_feedback_sent#:#Feedback Sent
+common#:#exc_exercise_sent#:#Exercise Sent
 common#:#exc_status_submitted#:#Submitted
 common#:#exc_submission#:#Submission
 common#:#exc_time_over_short#:#time is over

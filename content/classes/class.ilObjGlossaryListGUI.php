@@ -28,7 +28,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @addtogroup Modules/Glossary
+* @ingroup ModulesGlossary
 */
 
 

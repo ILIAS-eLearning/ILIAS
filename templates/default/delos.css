@@ -197,6 +197,7 @@ td.nobackground {
 th
 {
 	text-align: left;
+	vertical-align: bottom;
 }
 
 td.std, th.std {

@@ -415,10 +415,12 @@ class ilObjExercise extends ilObject
   		global $ilDB, $lng;
 
   		$q="SELECT exc_members.solved_time, exc_returned.timestamp ".
-		"FROM exc_members, exc_returned ".
-		"WHERE exc_members.solved_time < exc_returned.timestamp ".
-		"AND exc_members.solved_time <> '0000-00-00 00:00:00' ".
-		"AND exc_returned.obj_id='".$exc_id."' AND exc_returned.user_id='".$member_id."'";
+			"FROM exc_members, exc_returned ".
+			"WHERE exc_members.solved_time < exc_returned.timestamp ".
+			"AND exc_members.solved_time <> '0000-00-00 00:00:00' ".
+			"AND exc_returned.obj_id = exc_members.obj_id ".
+			"AND exc_returned.user_id = exc_members.usr_id ".
+			"AND exc_returned.obj_id='".$exc_id."' AND exc_returned.user_id='".$member_id."'";
 
   		$usr_set = $ilDB->query($q);
 
@@ -433,6 +435,34 @@ class ilObjExercise extends ilObject
 			return 1;
 		}
 
+	}
+
+	/**
+	* Check how much files have been uploaded by the learner
+	* after the last download of the tutor.
+	*/
+	function _lookupNewFiles($exc_id, $member_id) 
+	{
+  		global $ilDB, $ilUser;
+
+  		$q = "SELECT exc_returned.returned_id AS id ".
+			"FROM exc_usr_tutor, exc_returned ".
+			"WHERE exc_returned.obj_id = exc_usr_tutor.obj_id ".
+			"AND exc_returned.user_id = exc_usr_tutor.usr_id ".
+			"AND exc_returned.obj_id = ".$ilDB->quote($exc_id).
+			"AND exc_returned.user_id = ".$ilDB->quote($member_id).
+			"AND exc_usr_tutor.tutor_id = ".$ilDB->quote($ilUser->getId()).
+			"AND exc_usr_tutor.download_time < exc_returned.timestamp ";
+
+  		$new_up_set = $ilDB->query($q);
+
+		$new_up = array();
+  		while ($new_up_rec = $new_up_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$new_up[] = $new_up_rec["id"];
+		}
+
+		return $new_up;
 	}
 
 	/**

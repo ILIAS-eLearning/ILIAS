@@ -30,7 +30,11 @@ define("IL_NOTE_QUESTION", 2);
 define("IL_NOTE_PRO", 3);
 define("IL_NOTE_CONTRA", 4);
 
-/** @defgroup ServicesNotes Services/Notes
+// richig: <klammeraffe>defgroup ServicesNotes Services/Notes
+// unten
+// <klammeraffe>ingroup ServicesNotes
+
+/** @defgroup Services/Notes Services/Notes
  */
 
 /**
@@ -39,7 +43,7 @@ define("IL_NOTE_CONTRA", 4);
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
 *
-* @ingroup ServicesNotes
+* @ingroup Services/Notes
 */
 class ilNote
 {

@@ -17,13 +17,16 @@
   </td>
   <td class="std" valign="top">
   <span class="small">{TXT_LAST_SUBMISSION}: {VAL_LAST_SUBMISSION}<br />
-  {TXT_SUBMITTED_FILES}: {VAL_SUBMITTED_FILES} &nbsp;&nbsp;&nbsp;</span>
+  {TXT_SUBMITTED_FILES}: {VAL_SUBMITTED_FILES} &nbsp;</span>
   <!-- BEGIN download_link -->
   <a class="il_ContainerItemCommand" href="{LINK_DOWNLOAD}">{TXT_DOWNLOAD}</a>
   <!-- END download_link -->
+  <!-- BEGIN download_new_link -->
+  <a class="il_ContainerItemCommand" href="{LINK_NEW_DOWNLOAD}">{TXT_NEW_DOWNLOAD}</a>
+  <!-- END download_new_link -->
   <div style="margin: 2px 0px 0px 0px">
   <span class="small">
-  {TXT_NOTE}: <input type="text" name="{NAME_NOTE}" value="{VAL_NOTE}" size="40" maxlength="200" />
+  {TXT_NOTE}: <input type="text" name="{NAME_NOTE}" value="{VAL_NOTE}" size="45" maxlength="200" />
   </span>
   </div>
   </td>
@@ -32,6 +35,10 @@
   <span class="small">{VAL_SOLVED_DATE}</span>
   </td>
   <td class="std" valign="top">
+  {CHKBOX_FEEDBACK}<br />
+  <!-- BEGIN feedback_date -->
+  <span class="small">{VAL_FEEDBACK_DATE}</span><br />
+  <!-- END feedback_date -->
   <a class="il_ContainerItemCommand" target="_blank" href="{LINK_FEEDBACK}">{TXT_FEEDBACK}</a>
   </td>
   	<!--<input type="text" name="{ROW_INPUT_NAME}" value="{ROW_INPUT_VALUE}" size="40" maxlength="200" />-->
