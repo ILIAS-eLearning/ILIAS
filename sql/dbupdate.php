@@ -11386,3 +11386,7 @@ UPDATE exc_members SET feedback=1 WHERE sent=1;
 <#799>
 ALTER TABLE exc_members MODIFY feedback TINYINT(1) NOT NULL DEFAULT 0;
 ALTER TABLE exc_members MODIFY returned TINYINT(1) NOT NULL DEFAULT 0;
+<#800>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

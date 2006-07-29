@@ -24,13 +24,12 @@
 include_once("classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjFileAccess
-*
+* Access class for file objects.
 *
 * @author 		Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package Survey
+* @ingroup ModulesFile
 */
 class ilObjFileAccess extends ilObjectAccess
 {

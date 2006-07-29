@@ -15,7 +15,10 @@
 <!-- BEGIN property_row -->
 <tr>
 	<td class="il_InfoScreenProperty" width="30%">{TXT_PROPERTY}</td>
-	<td class="il_InfoScreenPropertyValue" width="70%">{TXT_PROPERTY_VALUE}</td>
+	<td class="il_InfoScreenPropertyValue" width="70%">
+		<!-- BEGIN pv -->{TXT_PROPERTY_VALUE}<!-- END pv -->
+		<!-- BEGIN lpv --><a href="{LINK_PROPERTY_VALUE}">{TXT_PROPERTY_LVALUE}</a><!-- END lpv -->
+	</td>
 </tr>
 <!-- END property_row -->
 <!-- BEGIN property_full_row -->

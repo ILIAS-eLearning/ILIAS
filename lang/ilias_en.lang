@@ -1044,7 +1044,7 @@ common#:#alm_leave#:#Unsubscribe from AICC Learning Module
 common#:#alm_read#:#Read access to AICC Learning Module
 common#:#alm_visible#:#AICC Learning Module is visible
 common#:#alm_write#:#Edit AICC Learning Module
-common#:#already_delivered_files#:#Already delivered files
+common#:#already_delivered_files#:#Delivered Files
 common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
@@ -1483,7 +1483,7 @@ common#:#delete_tr_data#:#Delete tracking data
 common#:#deleted#:#Deleted
 common#:#deleted_user#:#The user has been deleted
 common#:#deleted_users#:#Deleted users
-common#:#deliver#:#Deliver exercise
+common#:#deliver#:#Deliver Exercise
 common#:#department#:#Department
 common#:#desc#:#Description
 common#:#descending_order#:#Descending order
@@ -1577,12 +1577,12 @@ common#:#exc_download_all#:#Download All
 common#:#exc_edit#:#New exercise created
 common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings
-common#:#exc_edit_until#:#Edit until
-common#:#exc_files#:#Exercise files
+common#:#exc_edit_until#:#Edit Until
+common#:#exc_files#:#Files
 common#:#exc_files_returned#:#Submitted Files
 common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
-common#:#exc_instruction#:#Work instructions
+common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
 common#:#exc_mail_users#:#Send mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
@@ -1606,12 +1606,13 @@ common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_sent#:#Delivered
 common#:#exc_status_solved#:#Solved
+common#:#exc_schedule#:#Schedule
 common#:#exc_feedback_sent#:#Feedback Sent
 common#:#exc_exercise_sent#:#Exercise Sent
 common#:#exc_status_submitted#:#Submitted
 common#:#exc_submission#:#Submission
-common#:#exc_time_over_short#:#time is over
-common#:#exc_time_to_send#:#Remaining working time
+common#:#exc_time_over_short#:#Time is over.
+common#:#exc_time_to_send#:#Remaining Working Time
 common#:#exc_upload_error#:#Error uploading file
 common#:#exc_users#:#Users
 common#:#exc_visible#:#Exercise is visible
@@ -2644,7 +2645,7 @@ common#:#obj_svy#:#Survey
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_taxf_desc#:#Folder for taxonomies
-common#:#obj_trac#:#User Tracking
+common#:#obj_trac#:#Tracking and Learning Progress
 common#:#obj_trac_desc#:#User access tracking data
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object Type Definition
@@ -6381,11 +6382,11 @@ trac#:#trac_not_completed#:#Not Completed
 trac#:#trac_not_participated#:#Not Participated
 trac#:#trac_not_registered#:#Not Registered
 trac#:#trac_num_visits#:#Number of visits
-trac#:#trac_objects#:#Learning progress of users
+trac#:#trac_objects#:#Learning Progress of Users
 trac#:#trac_occurrences#:#Path:
 trac#:#trac_participated#:#Participated
 trac#:#trac_processing_time#:#Assumed processing time
-trac#:#trac_progress#:#Personal learning progress
+trac#:#trac_progress#:#Personal Learning Progress
 trac#:#trac_query#:#Title / Description:
 trac#:#trac_reached_objectives#:#Reached Learning Objectives
 trac#:#trac_reached_points#:#Achieved score

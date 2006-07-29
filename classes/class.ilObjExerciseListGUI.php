@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -24,10 +24,10 @@
 include_once "classes/class.ilObjectListGUI.php";
 
 /**
-* Class ilObjExerciseListGUI
+* ListGUI class for exercise objects.
 *
-* @author 		Alex Killing <alex.killing@gmx.de>
-* $Id$
+* @author 	Alex Killing <alex.killing@gmx.de>
+* @version	$Id$
 *
 * @ingroup ModulesExercise
 */
@@ -35,7 +35,6 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 {
 	/**
 	* constructor
-	*
 	*/
 	function ilObjExerciseListGUI()
 	{
@@ -52,6 +51,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
 		$this->payment_enabled = false;
+		$this->info_screen_enabled = true;
 		$this->type = "exc";
 		$this->gui_class_name = "ilobjexercisegui";
 		

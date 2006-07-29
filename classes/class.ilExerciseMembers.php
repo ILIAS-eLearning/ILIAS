@@ -446,12 +446,7 @@ class ilExerciseMembers
 			}
 		}
 		
-		// set download time
-		$q = "REPLACE INTO exc_usr_tutor (obj_id, usr_id, tutor_id, download_time) VALUES ".
-			"(".$ilDB->quote($this->getObjId()).",".$ilDB->quote($a_member_id).
-			",".$ilDB->quote($ilUser->getId()).",now())";
-		$ilDB->query($q);
-		
+		$this->updateTutorDownloadTime($a_member_id);
 		
 		$query = sprintf("SELECT * FROM exc_returned WHERE obj_id = %s AND user_id = %s".
 			$and_str,
@@ -483,6 +478,23 @@ class ilExerciseMembers
 		}
 	}
 	
+	/**
+	* Update the timestamp of the last download of current user (=tutor)
+	* for member $a_member_id.
+	*
+	* @param	int		$a_member_id	Member ID.
+	*/
+	function updateTutorDownloadTime($a_member_id)
+	{
+		global $ilUser, $ilDB;
+		
+		// set download time
+		$q = "REPLACE INTO exc_usr_tutor (obj_id, usr_id, tutor_id, download_time) VALUES ".
+			"(".$ilDB->quote($this->getObjId()).",".$ilDB->quote($a_member_id).
+			",".$ilDB->quote($ilUser->getId()).",now())";
+		$ilDB->query($q);
+	}
+
 	function downloadSelectedFiles($array_file_id)
 	{
 		if (count($array_file_id))
