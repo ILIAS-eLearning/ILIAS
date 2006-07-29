@@ -23,6 +23,9 @@
 
 require_once("Services/AccessControl/classes/class.ilAccessInfo.php");
 
+/** @defgroup ServicesAccessControl Services/AccessControl
+ */
+
 /**
 * Class ilAccessHandler
 *
@@ -32,7 +35,7 @@ require_once("Services/AccessControl/classes/class.ilAccessInfo.php");
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @package AccessControl
+* @ingroup ServicesAccessControl
 */
 class ilAccessHandler
 {

@@ -35,7 +35,7 @@
 * 
 * @version $Id$
 * 
-* @package rbac
+* @ingroup ServicesAccessControl
 */
 class ilRbacReview
 {

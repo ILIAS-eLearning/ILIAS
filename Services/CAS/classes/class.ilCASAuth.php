@@ -24,12 +24,15 @@
 
 include_once("Auth.php");
 
+/** @defgroup ServicesAccessControl Services/AccessControl
+ */
+
 /**
 * Class CASAuth
 *
 * CAS Authentication class.
 *
-* @addtogroup ServicesCAS
+* @ingroup ServicesCAS
 */
 class ilCASAuth extends Auth
 {

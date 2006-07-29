@@ -26,10 +26,9 @@
 * Class ilObjExerciseGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.6.2.1 2006/02/06 14:41:03 akill Exp $
+* $Id$Id: class.ilObjExerciseGUIAdapter.php,v 1.7 2006/02/06 14:44:04 akill Exp $
 * 
-* @extends ilObjectGUIAdapter
-* @package ilias-core
+* @ingroup ModulesExercise
 */
 
 require_once "class.ilObjectGUIAdapter.php";

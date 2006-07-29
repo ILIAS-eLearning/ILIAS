@@ -28,8 +28,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends Object
-* @package ilias-core
+* @ingroup ModulesExercise
 */
 class ilExerciseMembers
 {

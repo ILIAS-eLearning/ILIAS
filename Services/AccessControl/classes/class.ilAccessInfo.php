@@ -33,7 +33,7 @@ define("IL_STATUS_INFO",'object_status');
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package AccessControl
+* @ingroup ServicesAccessControl
 */
 class ilAccessInfo
 {
