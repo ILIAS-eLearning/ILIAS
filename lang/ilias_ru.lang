@@ -549,7 +549,7 @@ assessment#:#tst_shuffle_questions#:#Shuffle questions###10 Jul 2006 new variabl
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start###10 Jul 2006 new variable
 assessment#:#tst_start_test#:#�?ачать те�?т
 assessment#:#tst_starting_time#:#Врем�? начала
-assessment#:#tst_stat_all_users#:#В�?е пользователи
+assessment#:#tst_stat_all_users#:#В�?е пользователи###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(выберите одного пользовател�? или более из ли�?та пользователейt)
 assessment#:#tst_stat_result_atimeofwork#:#Среднее врем�? работы
 assessment#:#tst_stat_result_distancemean#:#Ра�?�?то�?ние до арифметиче�?кого �?реднего
@@ -1316,6 +1316,7 @@ common#:#exc_search_for#:#Пои�?к в
 common#:#exc_select_one_file#:#Пожалуй�?та, выберите только один файл.
 common#:#exc_send_exercise#:#По�?лать упражнение###10 Jul 2006 content changed
 common#:#exc_sent#:#Упражнение было по�?лано выбранным пользовател�?м
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#Упражнение обновлено
@@ -3513,8 +3514,8 @@ crs#:#crs_objective_question_assignment#:#�?азначение вопро�?а
 crs#:#crs_objective_result#:#По�?ле те�?та
 crs#:#crs_objective_updated_test#:#Модификации обновлены.
 crs#:#crs_objective_view#:#Вид про�?мотра объекта
-crs#:#crs_objectives#:#Обучающие объекты
-crs#:#crs_objectives_assign_chapter#:#�?азначить главу
+crs#:#crs_objectives#:#Обучающие объекты###29 Jul 2006 content changed
+crs#:#crs_objectives_assign_chapter#:#�?азначить главу###29 Jul 2006 content changed
 crs#:#crs_objectives_assigned_lm#:#Выбранные обучающие материалы были у�?пешно назначены.
 crs#:#crs_objectives_assigned_lms#:#�?азначенные обучающие материалы
 crs#:#crs_objectives_assigned_new_questions#:#Добавлено новое назначение.
@@ -4773,7 +4774,9 @@ payment#:#pay_filter#:#Фильтр
 payment#:#pay_goto_buyed_objects#:#Перейти к купленным объектам ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_goto_shopping_cart#:#Перейти к карте оплаты ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_header#:#Платеж
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Этот объект уже �?уще�?твует на вашей карте оплаты.
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wahlen Sie ggf. eine neue Preis/Dauer-Kombination aus. Выберите другой объект.
 payment#:#pay_locator#:#Оплата
@@ -4811,6 +4814,7 @@ payment#:#pay_step3_credit_card#:#Заказ - Шаг 3/3: Введите дан
 payment#:#pay_step3_debit_entry#:#Заказ - Шаг 3/3: Введите банков�?кие данные и отошлите заказ ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_update_view#:#Обновить вид ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_access#:#До�?туп
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Добавить новую цену ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_add_price_title#:#�?ова�? цена ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_added_new_object#:#Добавить новый объект. Пожалуй�?та, введите метод оплаты и новую �?тоимо�?ть.
@@ -4821,6 +4825,7 @@ payment#:#paya_buyable#:#Продает�?�?
 payment#:#paya_buyed_objects#:#Купленные объекты ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_count_purchaser#:#Количе�?тво покупателей ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_customer#:#Продавец
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Удалить цену ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_delete_trustee_msg#:#Выбранные доверители удалены.
 payment#:#paya_deleted_last_price#:#По�?ледн�?�? цена удалена.
@@ -4834,6 +4839,9 @@ payment#:#paya_edit_prices_first#:#Пожалуй�?та, �?начала отре
 payment#:#paya_enabled#:#Включен
 payment#:#paya_enter_login#:#Пожалуй�?та, задайте им�? пользовател�?.
 payment#:#paya_err_adding_object#:#Ошибка добавлени�? объекта ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Ошибка �?охранени�? �?тати�?тиче�?ких данных.
 payment#:#paya_expires#:#Платеж закончил�?�? ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_filter_reseted#:#Фильтр �?брошен.
@@ -5100,6 +5108,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#�?нонимный опро�?. Дл�? до�?тупа введите 32-разр�?дный чи�?ловой код в поле ниже.###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#�?нонимный опро�?. Дл�? до�?тупа к результатам и�?пользует�?�? �?генерированный 32-разр�?дный код (вы его получите на почтовый �?щик Илиа�?-�?и�?темы по�?ле ответа на первый вопро�?). Ваш код до�?тупа <br /><span class="bold">%s</span><br />Пожалуй�?та, введите его в тек�?товое поле ниже. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Пожалуй�?та, введите код до�?тупа, который вы получили по почте Илиа�?-�?и�?темы в начале опро�?а.
 survey#:#anonymize_survey#:#�?нонимизировать данные опро�?а ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -5304,6 +5313,7 @@ survey#:#no_search_results#:#�?ет результатов пои�?ка!
 survey#:#no_target_selected_for_move#:#Вы должны выделить позицию цели!
 survey#:#no_user_or_group_selected#:#Пожалуй�?та, выберите что вы ищите (пользователей и/или группы)!
 survey#:#no_user_phrases_defined#:#�?ет пользователей, определивших фразу до�?тупной!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Пожалуй�?та, выберите один из предлагаемых ответов!
 survey#:#non_ratio#:#Non-Ratio###10 Jul 2006 content changed
 survey#:#not_used#:#неи�?пользует�?�?

@@ -654,7 +654,7 @@ assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questio
 assessment#:#tst_start_test#:#Inizia il test
 assessment#:#tst_started#:#Test Iniziato
 assessment#:#tst_starting_time#:#Ora di inizio
-assessment#:#tst_stat_all_users#:#tutti gli utenti
+assessment#:#tst_stat_all_users#:#tutti gli utenti###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(seleziona almeno uno o pi&#249; utenti dalla lista)
 assessment#:#tst_stat_result_atimeofwork#:#Tempo medio di esecuzione
 assessment#:#tst_stat_result_distancemean#:#Distanza dalla media aritmetica
@@ -1596,6 +1596,7 @@ common#:#exc_search_for#:#Ricerca
 common#:#exc_select_one_file#:#Per favore, scegli un file solamente.
 common#:#exc_send_exercise#:#Invia l&#039;esercitazione###10 Jul 2006 content changed
 common#:#exc_sent#:#L&#039;esercitazione &#232; stata inviata ai seguenti utenti
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#Esercitazione aggiornata
@@ -4113,8 +4114,8 @@ crs#:#crs_objective_question_assignment#:#Assegna domande
 crs#:#crs_objective_result#:#Risultati
 crs#:#crs_objective_updated_test#:#Modifiche eseguite.
 crs#:#crs_objective_view#:#Abilita la vista degli obiettivi formativi
-crs#:#crs_objectives#:#Obiettivi formativi
-crs#:#crs_objectives_assign_chapter#:#Aggiungi capitolo
+crs#:#crs_objectives#:#Obiettivi formativi###29 Jul 2006 content changed
+crs#:#crs_objectives_assign_chapter#:#Aggiungi capitolo###29 Jul 2006 content changed
 crs#:#crs_objectives_assigned_lm#:#Il materiale formativo selezionato &#232; stato aggiunto.
 crs#:#crs_objectives_assigned_lms#:#Modifica materiale formativo
 crs#:#crs_objectives_assigned_new_questions#:#Aggiunte domande
@@ -5423,7 +5424,9 @@ payment#:#pay_filter#:#Filtro
 payment#:#pay_goto_buyed_objects#:#Vai agli oggetti acquistati
 payment#:#pay_goto_shopping_cart#:#Vai al carrello
 payment#:#pay_header#:#Pagamenti
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Questo oggetto &#232; gi&#224; stato inserito nel carrello.
 payment#:#pay_item_already_in_sc_choose_another#:#Questo oggetto &#232; gi&#224; stato inserito nel carrello. Seleziona un nuovo prezzo/oggetto.
 payment#:#pay_locator#:#Pagamenti
@@ -5461,6 +5464,7 @@ payment#:#pay_step3_credit_card#:#Il tuo ordine - Fase 3 di 3: Inserisci i dati 
 payment#:#pay_step3_debit_entry#:#Il tuo ordine - Fase 3 di 3: Inserisci i tuoi dati bancari e invia l&#039;ordine 
 payment#:#pay_update_view#:#Aggiorna la pagina
 payment#:#paya_access#:#Accesso
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Aggiungi nuovo prezzo
 payment#:#paya_add_price_title#:#Nuovo prezzo
 payment#:#paya_added_new_object#:#Nuovo oggetto aggiunto. Per favore, definisci il metodo di pagamento ed il prezzo.
@@ -5471,6 +5475,7 @@ payment#:#paya_buyable#:#Acquistabile
 payment#:#paya_buyed_objects#:#Oggetti acquistati###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Numero dei venditori
 payment#:#paya_customer#:#Cliente
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Prezzo cancellato
 payment#:#paya_delete_trustee_msg#:#Amministratori eliminati
 payment#:#paya_deleted_last_price#:#L&#039;ultimo prezzo &#232; stato cancellato. 
@@ -5484,6 +5489,9 @@ payment#:#paya_edit_prices_first#:#Per favore modifica prima i prezzi.
 payment#:#paya_enabled#:#Abilitato
 payment#:#paya_enter_login#:#Per favore indica l&#039;utente 
 payment#:#paya_err_adding_object#:#Errore nell&#039;aggiunta dell&#039;utente 
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Errore nel salvataggio dei dati statistici.
 payment#:#paya_expires#:#Pagamento scaduto
 payment#:#paya_filter_reseted#:#Filtro azzerato
@@ -5803,6 +5811,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto.###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter riprendere il sondaggio, vverr&#224; creata dal sistema una stringa di 32 caratteri che ti sar&#224; inviata nella tua casella postale in ILIAS quando inizierai il sondaggio. Il tuo codice di accesso &#232; <br /><span class=&#034;bold&#034;>%s</span><br />Per favore inseriscilo nel campo testo qui sotto. ###10 Jul 2006 content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Per favore inserisci il tuo codice di accesso per riprendere il sondaggio. Ti &#232; stato inviato nella casella postale di ILIAS quando hai iniziato il sondaggio.
 survey#:#anonymize_survey#:#Rendi anonimi i dati del sondaggio
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -6018,6 +6027,7 @@ survey#:#no_search_results#:#La ricerca non ha prodotto risultati!
 survey#:#no_target_selected_for_move#:#Devi scegliere la posizione di destinazione!
 survey#:#no_user_or_group_selected#:#Per favore, indica quello che vuoi cercare (utenti e/o gruppi)!
 survey#:#no_user_phrases_defined#:#Non ci sono frasi definite dagli utenti disponibili!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
 survey#:#non_ratio#:#con risposta intera###10 Jul 2006 content changed
 survey#:#not_used#:#non usato

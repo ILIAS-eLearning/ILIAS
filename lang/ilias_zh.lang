@@ -1616,6 +1616,7 @@ common#:#exc_search_for#:#�?�寻###07 Apr 2005 content changed
 common#:#exc_select_one_file#:#请确实选择一个文件。###07 Apr 2005 content changed
 common#:#exc_send_exercise#:#�?��?练习###07 Apr 2005 content changed
 common#:#exc_sent#:#练习已�?��?给选定的用户###07 Apr 2005 content changed
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#练习已更新###07 Apr 2005 content changed
@@ -5446,7 +5447,9 @@ payment#:#pay_filter#:#Filter###29 Nov 2004 new variable
 payment#:#pay_goto_buyed_objects#:#Goto your buyed objects###29 Nov 2004 new variable
 payment#:#pay_goto_shopping_cart#:#Goto the shopping cart###29 Nov 2004 new variable
 payment#:#pay_header#:#Payment###02 Oct 2004 new variable
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.###29 Nov 2004 new variable
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###29 Nov 2004 new variable
 payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
@@ -5484,6 +5487,7 @@ payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit ca
 payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order###29 Nov 2004 new variable
 payment#:#pay_update_view#:#Update view###29 Nov 2004 new variable
 payment#:#paya_access#:#Access###04 Oct 2004 new variable
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Add new price###04 Oct 2004 new variable
 payment#:#paya_add_price_title#:#New price###04 Oct 2004 new variable
 payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.###04 Oct 2004 new variable
@@ -5494,6 +5498,7 @@ payment#:#paya_buyable#:#Buyable###04 Oct 2004 new variable
 payment#:#paya_buyed_objects#:#Buyed objects###29 Nov 2004 new variable
 payment#:#paya_count_purchaser#:#Number of purchasers###04 Oct 2004 new variable
 payment#:#paya_customer#:#Customer###04 Oct 2004 new variable
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Delete price###04 Oct 2004 new variable
 payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.###02 Oct 2004 new variable
 payment#:#paya_deleted_last_price#:#The last price has been deleted.###04 Oct 2004 new variable
@@ -5507,6 +5512,9 @@ payment#:#paya_edit_prices_first#:#Please edit the prices first.###04 Oct 2004 n
 payment#:#paya_enabled#:#Enabled###02 Oct 2004 new variable
 payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variable
 payment#:#paya_err_adding_object#:#Error adding object###04 Oct 2004 new variable
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Error saving statistic data.###04 Oct 2004 new variable
 payment#:#paya_expires#:#Expire payment###04 Oct 2004 new variable
 payment#:#paya_filter_reseted#:#Filter reseted.###29 Nov 2004 new variable
@@ -5826,6 +5834,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.###09 Dec 2004 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
 survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -6041,6 +6050,7 @@ survey#:#no_search_results#:#There are no search results!###10 Jun 2004 new vari
 survey#:#no_target_selected_for_move#:#You must select a target position!###24 May 2004 new variable
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###27 May 2004 new variable
 survey#:#no_user_phrases_defined#:#There are no user defined phrases available!###28 Jun 2004 new variable
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
 survey#:#not_used#:#not used###20 Dec 2004 new variable

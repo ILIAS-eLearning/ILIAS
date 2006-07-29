@@ -619,7 +619,7 @@ assessment#:#tst_shuffle_questions#:#Shuffle questions###10 Jul 2006 new variabl
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start###10 Jul 2006 new variable
 assessment#:#tst_start_test#:#Започване на те�?та
 assessment#:#tst_starting_time#:#�?ачален момент
-assessment#:#tst_stat_all_users#:#В�?ички потребители
+assessment#:#tst_stat_all_users#:#В�?ички потребители###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(изберете един или повече потребители от �?пи�?ъка �? потребителите)
 assessment#:#tst_stat_result_atimeofwork#:#Средно време за работа
 assessment#:#tst_stat_result_distancemean#:#Раз�?то�?ние от �?редноаритметичната �?тойно�?т
@@ -1472,6 +1472,7 @@ common#:#exc_search_for#:#Тър�?ене на
 common#:#exc_select_one_file#:#Мол�?, изберете точно един файл.
 common#:#exc_send_exercise#:#Изпращане на упражнение###10 Jul 2006 content changed
 common#:#exc_sent#:#Упражнението беше изпратено на избраните потребители
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#Упражнението актуализирано
@@ -4818,7 +4819,9 @@ payment#:#pay_filter#:#Филтър
 payment#:#pay_goto_buyed_objects#:#Отидете до закупените от ва�? обекти
 payment#:#pay_goto_shopping_cart#:#отидете до количката за пазаруване
 payment#:#pay_header#:#Плащане
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Този обект вече �?ъще�?твува във вашата количка за пазаруване.
 payment#:#pay_item_already_in_sc_choose_another#:#Тази �?тати�? вече е взета във вашата количка за пазаруване. �?ко е необходимо, изберете нова комбинаци�? цена/продължително�?т.
 payment#:#pay_locator#:#Плащане
@@ -4856,6 +4859,7 @@ payment#:#pay_step3_credit_card#:#Вашата поръчка - Стъпка 3/3
 payment#:#pay_step3_debit_entry#:#Вашата поръчка - Стъпка 3/3: Въведете вашите банкови данни и изпратете поръчката �?и
 payment#:#pay_update_view#:#�?ктуализиране на изгледа
 payment#:#paya_access#:#До�?тъп
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Добав�?не на нова цена
 payment#:#paya_add_price_title#:#�?ова цена
 payment#:#paya_added_new_object#:#Добавен нов обект. Мол�?, редактирайте начина на разплащане и цените.
@@ -4866,6 +4870,7 @@ payment#:#paya_buyable#:#�?аличен за закупуване
 payment#:#paya_buyed_objects#:#Закупени обекти###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Брой купувачи
 payment#:#paya_customer#:#Клиент
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Изтриване на цена
 payment#:#paya_delete_trustee_msg#:#Избраните попечители изтрити.
 payment#:#paya_deleted_last_price#:#По�?ледната цена беше изтрита.
@@ -4879,6 +4884,9 @@ payment#:#paya_edit_prices_first#:#Мол�?, най-напред редакти�
 payment#:#paya_enabled#:#Включено
 payment#:#paya_enter_login#:#Мол�?, въведете потребител�?ко име.
 payment#:#paya_err_adding_object#:#Грешка при добав�?не на обект
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Грешка при �?ъхран�?ване на �?тати�?тиче�?ките данни.
 payment#:#paya_expires#:#Изтичане на �?рока на плащане
 payment#:#paya_filter_reseted#:#Филтърът нулиран.
@@ -5179,6 +5187,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Този обзор анонимизира в�?ички потребител�?ки данни. За да получите до�?тъп до обзора, тр�?бва да използвате 32-знаков обзорен код, който можете да получите от �?ъздател�?/поддържащи�? този обзор<br />Мол�?, въведете го в тек�?товото поле отдолу.###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#Този обзор анонимизира в�?ички потребител�?ки данни. За да получите до�?тъп до обзора, 32-знаков обзорен код беше �?ъздаден от �?и�?темата и ще бъде изпратен до вашата ILIAS електронна поща, когато започнете обзора (�?лед отговора на първи�? въпро�?). Ваши�?т код за до�?тъп до обзора е<br /><span class="bold">%s</span>.<br />Мол�?, въведете го в тек�?товото поле отдолу. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Мол�?, въведете ваши�? код за до�?тъп до обзора, за да продължите �? него. Той беше изпратен до вашата ILIAS електронна поща, когато започнахте обзора.
 survey#:#anonymize_survey#:#�?нонимизиране на данните от обзора
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -5384,6 +5393,7 @@ survey#:#no_search_results#:#�?�?ма резултати от тър�?енето
 survey#:#no_target_selected_for_move#:#Тр�?бва да изберете позици�?та на ме�?тоназначението!
 survey#:#no_user_or_group_selected#:#Мол�?, маркирайте опци�?та, ко�?то тър�?ите (потребители и/или групи)!
 survey#:#no_user_phrases_defined#:#�?�?ма налични потребител�?ки дефинирани фрази!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Мол�?, маркирайте един от предложените отговори!
 survey#:#non_ratio#:#�?е-�?ъотношение###10 Jul 2006 content changed
 survey#:#not_used#:#неизползвани

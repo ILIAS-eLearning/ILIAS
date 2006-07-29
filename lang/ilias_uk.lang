@@ -654,7 +654,7 @@ assessment#:#tst_signature#:#Signature###20 Apr 2005 new variable
 assessment#:#tst_start_test#:#Почати те�?т
 assessment#:#tst_started#:#Test Started###20 Jun 2005 new variable
 assessment#:#tst_starting_time#:#Початковий ча�?
-assessment#:#tst_stat_all_users#:#У�?і кори�?тувачі
+assessment#:#tst_stat_all_users#:#У�?і кори�?тувачі###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(виберіть одного або більше кори�?тувачів зі �?пи�?ку)
 assessment#:#tst_stat_result_atimeofwork#:#Середній ча�? роботи
 assessment#:#tst_stat_result_distancemean#:#Від�?тань до арифметики означає
@@ -1596,6 +1596,7 @@ common#:#exc_search_for#:#Пошук
 common#:#exc_select_one_file#:#Будь ла�?ка виберіть рівно один файл.
 common#:#exc_send_exercise#:#По�?лати вправу###10 Jul 2006 content changed
 common#:#exc_sent#:#Вправу було по�?лано відміченим кори�?тувачам
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#Впарву обновлено
@@ -4104,8 +4105,8 @@ crs#:#crs_objective_question_assignment#:#Призначенн�? питанн�?
 crs#:#crs_objective_result#:#Пі�?л�? те�?ту
 crs#:#crs_objective_updated_test#:#Оновлені модифікації.
 crs#:#crs_objective_view#:#Об'єктно орієнтований вид ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_objectives#:#�?авчальні ціліe
-crs#:#crs_objectives_assign_chapter#:#Призначити главу
+crs#:#crs_objectives#:#�?авчальні ціліe###29 Jul 2006 content changed
+crs#:#crs_objectives_assign_chapter#:#Призначити главу###29 Jul 2006 content changed
 crs#:#crs_objectives_assigned_lm#:#Вибрані навчальні матеріали були призначені.
 crs#:#crs_objectives_assigned_lms#:#Призначені навчальні матеріали
 crs#:#crs_objectives_assigned_new_questions#:#Додане нове призначенн�?.
@@ -5410,7 +5411,9 @@ payment#:#pay_filter#:#Фільтр
 payment#:#pay_goto_buyed_objects#:#Перейти до ваших куплених об'єктів ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_goto_shopping_cart#:#Перейти до корзини
 payment#:#pay_header#:#Оплата
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Цей об'єкт вже і�?нує в вашій корзині. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
 payment#:#pay_locator#:#Оплата
@@ -5448,6 +5451,7 @@ payment#:#pay_step3_credit_card#:#Ваш заказ - Крок 3/3: Введіт
 payment#:#pay_step3_debit_entry#:#Ваш заказ - Крок 3/3: Введіть ваші банков�?ькі дані та відішл�?ть ваш заказ
 payment#:#pay_update_view#:#Оновити вид
 payment#:#paya_access#:#До�?туп
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Додати нову ціну
 payment#:#paya_add_price_title#:#�?ова ціна
 payment#:#paya_added_new_object#:#Доданий новий об'єкт. Будь ла�?ка відредагуйте метод оплати та ціни. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -5458,6 +5462,7 @@ payment#:#paya_buyable#:#Може бути придбаний
 payment#:#paya_buyed_objects#:#Придбані об'єкти ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_count_purchaser#:#Кількі�?ть покупців
 payment#:#paya_customer#:#Покупець
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Видалити ціну
 payment#:#paya_delete_trustee_msg#:#Видалені відмічені вла�?ники.
 payment#:#paya_deleted_last_price#:#О�?танн�? ціна видалена.
@@ -5471,6 +5476,9 @@ payment#:#paya_edit_prices_first#:#Будь ла�?ка відредагуйте 
 payment#:#paya_enabled#:#Дозволений
 payment#:#paya_enter_login#:#Будь ла�?ка введіть ім'�? кори�?тувача. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 payment#:#paya_err_adding_object#:#Помилка додаванн�? об'єкту ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Помилка зберіганн�? �?тати�?тичних даних.
 payment#:#paya_expires#:#Термін дії оплати �?кінчив�?�?
 payment#:#paya_filter_reseted#:#Фільтр �?кинутий.
@@ -5789,6 +5797,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Це опитуванн�? анонімізує у�?і дані кори�?тувача. Дл�? наданн�? вам до�?тупу до опитуванн�?, ви маєте викори�?тати 32 �?имволи, �?кі ви маєте отримати з вла�?ника/підтримувача цього опитуванн�?<br />Будь ла�?ка введіть їх в тек�?тове поле внизу.###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#Це опитуванн�? анонімізує у�?і дані кори�?тувача. Дл�? наданн�? вам до�?тупу до опитуванн�?, 32-�?имвольний код був �?творений �?и�?темою та буде віді�?ланий на вашу поштову �?криньку в ILIAS коли ви запу�?тите опитуванн�?. Ваш код до�?тупу к опитуванню<br /><span class="bold">%s</span><br />Будь ла�?ка введіть його в тектове поле нижче. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Будь ла�?ка введіть ваш код до�?тупу до опитуванн�? щоб відновити опитуванн�?. Він був віді�?ланий на вашу поштову �?криньку в ILIAS коли ви �?творювали опитуванн�?.
 survey#:#anonymize_survey#:#�?нонімізувати дані опитуванн�?
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -6004,6 +6013,7 @@ survey#:#no_search_results#:#�?емає результатів пошуку!
 survey#:#no_target_selected_for_move#:#Ви маєте вибрати цільову позицію!
 survey#:#no_user_or_group_selected#:#Будь ла�?ка перевірте опцію що ви шукуєте (кори�?тувачів та/або групи)!
 survey#:#no_user_phrases_defined#:#�?емає до�?утпних визначених кори�?тувачем фраз!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Будь ла�?ка перевірте одну �? запропонованих відповідей!
 survey#:#non_ratio#:#�?е-Відношенн�?###10 Jul 2006 content changed
 survey#:#not_used#:#не викори�?таний

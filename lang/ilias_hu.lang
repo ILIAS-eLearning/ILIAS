@@ -575,6 +575,7 @@ assessment#:#tst_start_test#:#Teszt indítása
 assessment#:#tst_started#:#A teszt elkezdődött
 assessment#:#tst_starting_time#:#Kezdőidő
 assessment#:#tst_stat_all_users#:#Minden felhasználó
+###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(egy vagy több felhasználó kiválasztása a felhasználói listáról)
 assessment#:#tst_stat_result_atimeofwork#:#Munkaidő átlaga
 assessment#:#tst_stat_result_distancemean#:#Távolság a számtani jelentéstől
@@ -1387,6 +1388,7 @@ common#:#exc_select_one_file#:#Pontosan egy fájlt válasszon!
 common#:#exc_send_exercise#:#Gyakorlat elküldése
 ###28 Jul 2006 content changed
 common#:#exc_sent#:#Ez a gyakorlat már elküldésre került a kiválasztott felhasználóknak.
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status_saved#:#Gyakorlat frissítve.
 common#:#exc_status_solved#:#Megoldva
 common#:#exc_upload_error#:#Fájlfeltöltési hiba
@@ -3763,7 +3765,9 @@ crs#:#crs_objective_result#:#Teszt után
 crs#:#crs_objective_updated_test#:#Frissített
 crs#:#crs_objective_view#:#Célkitűzés-orientált nézet
 crs#:#crs_objectives#:#Tananyag-célkitűzések
+###29 Jul 2006 content changed
 crs#:#crs_objectives_assign_chapter#:#Fejezet hozzárendelése
+###29 Jul 2006 content changed
 crs#:#crs_objectives_assigned_lm#:#A kiválasztott tanulási segédanyagok már hozzárendeltek.
 crs#:#crs_objectives_assigned_lms#:#Hozzárendelt tanulási segédanyagok
 crs#:#crs_objectives_assigned_new_questions#:#Hozzáadott új tananyag.
@@ -4930,6 +4934,8 @@ payment#:#pay_filter#:#Szűrő
 payment#:#pay_goto_buyed_objects#:#Menjünk a megvásárolt objektumokhoz
 payment#:#pay_goto_shopping_cart#:#Menjünk a bevásárlókocsihoz
 payment#:#pay_header#:#Fizetés
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Ebből az objektumból van már a bevásárlókocsijában.
 payment#:#pay_item_already_in_sc_choose_another#:#Ezt az objektumot már betette a bevásárlókosarába. Ha szükséges, válasszon egy új ár/időtartam kombinációt.
 payment#:#pay_locator#:#Fizetés
@@ -4956,6 +4962,7 @@ payment#:#pay_step3_credit_card#:#Az Ön megrendelése - 3/3. lépés: Adja meg 
 payment#:#pay_step3_debit_entry#:#Az Ön megrendelése - 3/3. lépés: Adja meg banki adatait, és küldje el megrendelését
 payment#:#pay_update_view#:#Nézet frissítése
 payment#:#paya_access#:#Elérés
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Új ár felvétele
 payment#:#paya_add_price_title#:#Új ár
 payment#:#paya_added_new_object#:#Felvett új objektum. Szerkessze a fizetési módot és az árakat!
@@ -4966,6 +4973,7 @@ payment#:#paya_buyable#:#Megvásárolható
 payment#:#paya_buyed_objects#:#Megvásárolt objektumok
 payment#:#paya_count_purchaser#:#Vásárlók száma
 payment#:#paya_customer#:#Ügyfél
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Ár törlése
 payment#:#paya_delete_trustee_msg#:#A kiválasztott felügyelők törölve vannak.
 payment#:#paya_deleted_last_price#:#A legutóbbi ár törölve.
@@ -4979,6 +4987,9 @@ payment#:#paya_edit_prices_first#:#Először az árakat szerkessze!
 payment#:#paya_enabled#:#Engedélyezve
 payment#:#paya_enter_login#:#Adjon meg egy felhasználónevet!
 payment#:#paya_err_adding_object#:#Hiba az objektum felvételekor.
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Hiba a statisztikai adatok mentésekor.
 payment#:#paya_expires#:#Letelt fizetés
 payment#:#paya_filter_reseted#:#Szűrő alapállapotba állítva.
@@ -5185,6 +5196,7 @@ survey#:#add_standard_numbers#:#Standard számok felvétele
 survey#:#already_completed_survey#:#Már befejezte a kérdőív kitöltését. Nem léphet bele többször.
 survey#:#anonymize_anonymous_introduction#:#Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kérdőívkódot kell megadni, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg az alábbi szövegmezőben.
 survey#:#anonymize_key_introduction#:#A kérdőív hallgatónként csak egyszer tölthető ki. Kitöltését a kurzus befejezését követően javasoljuk.<br><br>Ez a kérdőív anonim kezel minden felhasználói adatot. A kérdőív eléréséhez 32 karakteres kódot hozott létre a rendszer, amelyet elküld az Ön ILIAS postafiókjába, a kérdőív kitöltésének megkezdésekor (az első kérdés megválaszolása után).<br> Az Ön kérdőívhez tartozó kódja<br/><br/><span class="bold">%s</span><br/><br/>Adja meg az alábbi szövegmezőben.
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Adja meg a kérdőívhez tartozó kódját a kérdőív folytatásához! Megküldésre került az Ön ILIAS postafiókjába, amikor megkezdte a kérdőív kitöltését.
 survey#:#anonymize_survey#:#Anonimizált kérdőívi adatok
 survey#:#anonymous_with_personalized_survey#:#Regisztrált felhasználónak kell lennie személyre szabott kérdőív futtatásához.
@@ -5394,6 +5406,7 @@ survey#:#no_search_results#:#Nincs keresési eredmény.
 survey#:#no_target_selected_for_move#:#Ki kell választania egy célpozíciót!
 survey#:#no_user_or_group_selected#:#Jelöljön ki egy beállítást, amelyet keres (felhasználók/csoportok)!
 survey#:#no_user_phrases_defined#:#Nincs elérhető felhasználó által definiált mondat.
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Jelöljön ki egyet a felajánlott válaszok közül!
 survey#:#non_ratio#:#Intervallum
 survey#:#not_used#:#nem használt

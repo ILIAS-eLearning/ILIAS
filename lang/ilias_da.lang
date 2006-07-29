@@ -649,7 +649,7 @@ assessment#:#tst_signature#:#Signature
 assessment#:#tst_start_test#:#Start testen
 assessment#:#tst_started#:#Test Startet
 assessment#:#tst_starting_time#:#Start tid
-assessment#:#tst_stat_all_users#:#Alle brugere
+assessment#:#tst_stat_all_users#:#Alle brugere###29 Jul 2006 content changed
 assessment#:#tst_stat_choose_users#:#(V&aelig;lg en eller flere brugere fra brugerlisten)
 assessment#:#tst_stat_result_atimeofwork#:#Gennemsnits tidsforbrug p&aring; arbejde
 assessment#:#tst_stat_result_distancemean#:#Afstand til aritmetik betyder?
@@ -1531,6 +1531,7 @@ common#:#exc_search_for#:#S&oslash;g efter
 common#:#exc_select_one_file#:#V&aelig;lg venligst kun en fil.
 common#:#exc_send_exercise#:#Send &oslash;velse###10 Jul 2006 content changed
 common#:#exc_sent#:#&oslash;velsen er blevet sendt til de valgte brugere
+common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
 common#:#exc_status#:#Status###10 Jul 2006 new variable
 common#:#exc_status_resubmitted#:#Resubmitted###10 Jul 2006 new variable
 common#:#exc_status_saved#:#&oslash;velse er blevet opdateret
@@ -4030,8 +4031,8 @@ crs#:#crs_objective_question_assignment#:#Question assignment
 crs#:#crs_objective_result#:#After test
 crs#:#crs_objective_updated_test#:#Updated modifications
 crs#:#crs_objective_view#:#Objective oriented view
-crs#:#crs_objectives#:#Learning objectives
-crs#:#crs_objectives_assign_chapter#:#Tilfoej kapitel
+crs#:#crs_objectives#:#Learning objectives###29 Jul 2006 content changed
+crs#:#crs_objectives_assign_chapter#:#Tilfoej kapitel###29 Jul 2006 content changed
 crs#:#crs_objectives_assigned_lm#:#De valgte laerings materialer er blevet tilfoejet
 crs#:#crs_objectives_assigned_lms#:#Tilfoejet laerings materialer
 crs#:#crs_objectives_assigned_new_questions#:#Ny opgabe tilfoejet
@@ -5336,7 +5337,9 @@ payment#:#pay_filter#:#Filter
 payment#:#pay_goto_buyed_objects#:#Gaa til dine indkoeb
 payment#:#pay_goto_shopping_cart#:#Gaa til indkoebskurv
 payment#:#pay_header#:#Betaling
+payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###10 Jul 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Du har allerede tilfoejet dette objekt til din indkoebskurv.
 payment#:#pay_item_already_in_sc_choose_another#:#denne artikel kan bestilles som varekoeb men der kan forekomme nye priser eller pris&aelig;ndringer.
 payment#:#pay_locator#:#Betaling
@@ -5374,6 +5377,7 @@ payment#:#pay_step3_credit_card#:#Din ordre - Trin 3/3: Indtast dine kreditkortd
 payment#:#pay_step3_debit_entry#:#Din ordre - Trin 3/3: Indtast dine bankoplysninger og send din ordre
 payment#:#pay_update_view#:#Opdater vindue
 payment#:#paya_access#:#Adgang
+payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
 payment#:#paya_add_price#:#Tilfoej ny pris
 payment#:#paya_add_price_title#:#Ny pris
 payment#:#paya_added_new_object#:#Tilfoejet nyt objekt/modul. Indtast venligst betalingsform og priser.
@@ -5384,6 +5388,7 @@ payment#:#paya_buyable#:#Til salg
 payment#:#paya_buyed_objects#:#Koebte objekter/moduler###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Antal koebere
 payment#:#paya_customer#:#Kunde
+payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
 payment#:#paya_delete_price#:#Slet pris
 payment#:#paya_delete_trustee_msg#:#Valgte fuldmaegtige/bestyrer slettet.
 payment#:#paya_deleted_last_price#:#Sidste pris er blevet slettet.
@@ -5397,6 +5402,9 @@ payment#:#paya_edit_prices_first#:#Indtast venligst priser foerst.
 payment#:#paya_enabled#:#Aktive
 payment#:#paya_enter_login#:#Indtast venligst et brugernavn.
 payment#:#paya_err_adding_object#:#Fejl ved tilfoejning af objekt
+payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
+payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
+payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
 payment#:#paya_error_update_booking#:#Fejl under gemning af statistik data.
 payment#:#paya_expires#:#Udloebet betaling
 payment#:#paya_filter_reseted#:#Filter nulstillet.
@@ -5709,6 +5717,7 @@ survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br /> ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
 survey#:#anonymize_resume_introduction#:#Skriv din undersoegelse kode til at forsaette
 survey#:#anonymize_survey#:#Anonymiser undersoegelses data
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
@@ -5924,6 +5933,7 @@ survey#:#no_search_results#:#Intet resultat af soegningen!
 survey#:#no_target_selected_for_move#:#Du skal vaelge en maal possition!
 survey#:#no_user_or_group_selected#:#Marker venligst hvilken mulighed du soeger efter (brugere og/eller grupper)!
 survey#:#no_user_phrases_defined#:#Der er ingen brugere tilg&aelig;ngelige!
+survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#non_ratio#:#Ikke forhold###10 Jul 2006 content changed
 survey#:#not_used#:#Ikke brugt
