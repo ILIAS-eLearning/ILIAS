@@ -327,6 +327,7 @@ class ilObjExercise extends ilObject
 					"sent_time" => $rec["sent_time"],
 					"submission" => $this->getLastSubmission($rec["usr_id"]),
 					"solved_time" => $rec["solved_time"],
+					"feedback_time" => $rec["feedback_time"],
 					"usr_id" => $rec["usr_id"]
 					);
 			}
@@ -469,6 +470,25 @@ class ilObjExercise extends ilObject
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $rec["sent_time"];
+		}
+	}
+
+	/**
+	* Get time when exercise has been set to solved.
+	*/
+	function _lookupFeedbackTime($exc_id, $member_id) 
+	{
+
+  		global $ilDB, $lng;
+
+  		$q = "SELECT * ".
+		"FROM exc_members ".
+		"WHERE obj_id='".$exc_id."' AND usr_id='".$member_id."'";
+
+  		$set = $ilDB->query($q);
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $rec["feedback_time"];
 		}
 	}
 

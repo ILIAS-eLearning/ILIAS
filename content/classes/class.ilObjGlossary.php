@@ -22,7 +22,7 @@
 */
 
 
-/** @defgroup Modules/Glossary Module for glossary objects.
+/** @defgroup ModulesGlossary Modules/Glossary
  */
 
 require_once("classes/class.ilObject.php");
@@ -35,7 +35,7 @@ require_once("./content/classes/class.ilGlossaryTerm.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @addtogroup Modules/Glossary
+* @addtogroup ModulesGlossary
 */
 class ilObjGlossary extends ilObject
 {
