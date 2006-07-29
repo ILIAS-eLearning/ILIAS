@@ -31,7 +31,7 @@ include_once ("Services/Notes/classes/class.ilNote.php");
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
 *
-* @addtogroup ServicesNotes
+* @ingroup ServicesNotes
 */
 class ilNoteGUI
 {

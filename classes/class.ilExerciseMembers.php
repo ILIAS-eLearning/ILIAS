@@ -39,6 +39,7 @@ class ilExerciseMembers
 	var $obj_id;
 	var $members;
 	var $status_solved;
+	var $status_feedback;
 	var $status_sent;
 	var $status_returned;
 	var $notice;
@@ -82,7 +83,7 @@ class ilExerciseMembers
 		$query = "REPLACE INTO exc_members ".
 			"SET obj_id = '".$this->getObjId()."', ".
 			"usr_id = '".$a_usr_id."', ".
-			"solved = '0', sent = '0'";
+			"solved = '0', sent = '0', feedback='0'";
 
 		$res = $this->ilias->db->query($query);
 		$this->read();
@@ -271,6 +272,21 @@ class ilExerciseMembers
 		$this->read();
 
 		return true;
+	}
+	function setStatusFeedbackForMember($a_member_id,$a_status)
+	{
+
+	  $query = "UPDATE exc_members ".
+	    "SET feedback = '".($a_status ? 1 : 0)."', ".
+	    "feedback_time=".($a_status ? ("'".date("Y-m-d H:i:s")."'") : ("'0000-00-00 00:00:00'")).
+	    " WHERE obj_id = '".$this->getObjId()."' ".
+	    "AND usr_id = '".$a_member_id."'".
+		" AND feedback <> '".($a_status ? 1 : 0)."'";
+	  
+	  $this->ilias->db->query($query);
+	  $this->read();
+	  
+	  return true;
 	}
 
 	function getNotice()

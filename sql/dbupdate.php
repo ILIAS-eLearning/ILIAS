@@ -11379,9 +11379,8 @@ $query = "DELETE FROM crs_objective_status ".
 	"WHERE status = '0'";
 $ilDB->query($query);
 ?>
-
-
-
-
-
+<#798>
+ALTER TABLE exc_members ADD feedback_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE exc_members ADD feedback TINYINT(1);
+UPDATE exc_members SET feedback=1 WHERE sent=1;
 

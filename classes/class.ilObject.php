@@ -25,12 +25,10 @@
 /**
 * Class ilObject
 * Basic functions for all objects
+* $Id$
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @package ilias-core
 */
 class ilObject
 {
