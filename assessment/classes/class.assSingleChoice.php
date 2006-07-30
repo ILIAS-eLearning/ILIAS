@@ -677,6 +677,7 @@ class assSingleChoice extends assQuestion
 	{
 		global $ilDB;
 
+		$hasimages = 0;
     $query = sprintf("SELECT qpl_questions.*, qpl_question_singlechoice.* FROM qpl_questions, qpl_question_singlechoice WHERE question_id = %s AND qpl_questions.question_id = qpl_question_singlechoice.question_fi",
 		$ilDB->quote($question_id));
 		$result = $ilDB->query($query);
@@ -717,10 +718,12 @@ class assSingleChoice extends assQuestion
 					}
 					include_once("./Services/RTE/classes/class.ilRTE.php");
 					$data->answertext = ilRTE::_replaceMediaObjectImageSrc($data->answertext, 1);
+					if (strlen($data->imagefile)) $hasimages = 1;
 					array_push($this->answers, new ASS_AnswerBinaryStateImage($data->answertext, $data->points, $data->aorder, 1, $data->imagefile));
 				}
 			}
 		}
+		$this->object->setGraphicalAnswerSetting($hasimages);
 		parent::loadFromDb($question_id);
 	}
 
