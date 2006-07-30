@@ -326,7 +326,9 @@ class ilFeedbackGUI
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("type"));
 		$typeSB[0] = $this->lng->txt('optional');
 		$typeSB[1] = $this->lng->txt('required');
-		$tpl->setVariable("SELECT_TYPE", ilUtil::formSelect($data['type'],'type',$typeSB,false,true));
+
+		$tpl->setVariable("SELECT_TYPE",
+			ilUtil::formSelect($data['required'],'type',$typeSB,false,true));
 	
 		$tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required"));
 		if($data["show_on"]=="course")
