@@ -169,16 +169,53 @@ class ilSCORMResource extends ilSCORMObject
 
 	function readByIdRef($a_id_ref, $a_slm_id)
 	{
+		global $ilBench;
+		
+		$ilBench->start("SCORMResource", "readByIdRef_Query");
+		
 		$q = "SELECT ob.obj_id AS id FROM sc_resource AS res, scorm_object as ob ".
 		"WHERE ob.obj_id = res.obj_id ".
 		"AND res.import_id = '$a_id_ref'".
 		"AND ob.slm_id = '$a_slm_id'";
+
 		$id_set = $this->ilias->db->query($q);
+		$ilBench->stop("SCORMResource", "readByIdRef_Query");
+		
 		if ($id_rec = $id_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->setId($id_rec["id"]);
 			$this->read();
 		}
+	}
+
+	function _lookupIdByIdRef($a_id_ref, $a_slm_id)
+	{
+		global $ilBench, $ilDB;
+		
+		$q = "SELECT ob.obj_id AS id FROM sc_resource AS res, scorm_object as ob ".
+		"WHERE ob.obj_id = res.obj_id ".
+		"AND res.import_id = '$a_id_ref'".
+		"AND ob.slm_id = '$a_slm_id'";
+
+		$id_set = $ilDB->query($q);
+		if ($id_rec = $id_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $id_rec["id"];
+		}
+		return 0;
+	}
+	
+	function _lookupScormType($a_obj_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT scormtype FROM sc_resource WHERE obj_id = '".$a_obj_id."'";
+		$st_set = $ilDB->query($q);
+		if ($st_rec = $st_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $st_rec["scormtype"];
+		}
+		return "";
 	}
 
 	function create()

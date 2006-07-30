@@ -61,7 +61,7 @@ class ilSCORMPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilLog;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("frameset");
@@ -73,7 +73,6 @@ class ilSCORMPresentationGUI
 
 		switch($next_class)
 		{
-
 			default:
 				$this->$cmd();
 		}
@@ -118,6 +117,10 @@ class ilSCORMPresentationGUI
 	*/
 	function explorer($a_target = "sahs_content")
 	{
+		global $ilBench, $ilLog;
+
+		$ilBench->start("SCORMExplorer", "initExplorer");
+		
 		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, true);
 		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 		
@@ -140,12 +143,16 @@ class ilSCORMPresentationGUI
 		$exp->setExpand($expanded);
 		
 		$exp->forceExpandAll(true, false);
+		$ilBench->stop("SCORMExplorer", "initExplorer");
 
 		// build html-output
-		//666$exp->setOutput(0);
+		$ilBench->start("SCORMExplorer", "setOutput");
 		$exp->setOutput(0);
+		$ilBench->stop("SCORMExplorer", "setOutput");
 
+		$ilBench->start("SCORMExplorer", "getOutput");
 		$output = $exp->getOutput();
+		$ilBench->stop("SCORMExplorer", "getOutput");
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.sahs_explorer.html", "content");

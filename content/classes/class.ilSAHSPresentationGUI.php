@@ -180,6 +180,10 @@ class ilSAHSPresentationGUI
 	*/
 	function explorer($a_target = "sahs_content")
 	{
+		global $ilBench;
+
+		$ilBench->start("SAHSExplorer", "initExplorer");
+		
 		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, true);
 		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 		
@@ -205,9 +209,16 @@ class ilSAHSPresentationGUI
 
 		// build html-output
 		//666$exp->setOutput(0);
+		$ilBench->stop("SAHSExplorer", "initExplorer");
+		
+		// set output
+		$ilBench->start("SAHSExplorer", "setOutput");
 		$exp->setOutput(0);
+		$ilBench->stop("SAHSExplorer", "setOutput");
 
+		$ilBench->start("SAHSExplorer", "getOutput");
 		$output = $exp->getOutput();
+		$ilBench->stop("SAHSExplorer", "getOutput");
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.sahs_explorer.html", "content");

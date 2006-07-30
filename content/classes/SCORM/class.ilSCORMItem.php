@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -253,6 +253,28 @@ class ilSCORMItem extends ilSCORMObject
 		return $trdata;
 	}
 
+	function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0)
+	{
+		global $ilDB, $ilUser;
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		$q = "SELECT * FROM scorm_tracking WHERE ".
+			"sco_id = '".$a_item_id."' AND ".
+			"user_id = '".$a_user_id."'";
+
+		$track_set = $ilDB->query($q);
+		$trdata = array();
+		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
+		}
+
+		return $trdata;
+	}
 
 	function delete()
 	{

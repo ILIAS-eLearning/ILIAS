@@ -249,6 +249,8 @@ class ilSCORMExplorer extends ilExplorer
 	*/
 	function getOutput()
 	{
+		global $ilBench;
+		
 		//echo "getOutput <br>";
 		$this->format_options[0]["tab"] = array();
 
@@ -263,14 +265,16 @@ class ilSCORMExplorer extends ilExplorer
 		{
 			if ($options["visible"] and $key != 0)
 			{
+				$ilBench->start("SCORMExplorer", "formatObject");
 				$this->formatObject($options["child"],$options);
+				$ilBench->stop("SCORMExplorer", "formatObject");
 			}
 		}
 
 		return implode('',$this->output);
 	}
 
-	function isClickable($a_type, $a_id = 0)
+	function isClickable($a_type, $a_id = 0, $a_obj = 0)
 	{
 		if ($a_type != "sit")
 		{
@@ -278,7 +282,14 @@ class ilSCORMExplorer extends ilExplorer
 		}
 		else
 		{
-			$sc_object =& new ilSCORMItem($a_id);
+			if (is_object($a_obj))
+			{
+				$sc_object =& $a_obj;
+			}
+			else
+			{
+				$sc_object =& new ilSCORMItem($a_id);
+			}
 			if ($sc_object->getIdentifierRef() != "")
 			{
 				return true;
@@ -339,7 +350,8 @@ class ilSCORMExplorer extends ilExplorer
 	*/
 	function formatObject($a_node_id,$a_option)
 	{
-		global $lng;
+		global $lng, $ilBench;
+		
 		//echo "scorm: ".$a_option["title"]." >> ".implode(", ",$a_option["tab"])."<br>";
 
 		if (!isset($a_node_id) or !is_array($a_option))
@@ -356,6 +368,7 @@ class ilSCORMExplorer extends ilExplorer
 		if ($a_option["type"]=="srs")
 			return;
 
+		$ilBench->start("SCORMExplorer", "renderIcons");
 		if (is_array($a_option["tab"])) { //test if there are any tabs
 			foreach ($a_option["tab"] as $picture)
 			{
@@ -387,25 +400,35 @@ class ilSCORMExplorer extends ilExplorer
 				}
 			}
 		}
+		$ilBench->stop("SCORMExplorer", "renderIcons");
 		
+		$ilBench->start("SCORMExplorer", "initSCORMItem");
 		$sc_object =& new ilSCORMItem($a_node_id);
 		$id_ref = $sc_object->getIdentifierRef();
-		$sc_res =& new ilSCORMResource();
-		$sc_res->readByIdRef($id_ref, $sc_object->getSLMId());
-		$scormtype = strtolower($sc_res->getScormType());
+		$ilBench->stop("SCORMExplorer", "initSCORMItem");
+		
+		$ilBench->start("SCORMExplorer", "initResource");
+		//$sc_res =& new ilSCORMResource();
+		$sc_res_id = ilSCORMResource::_lookupIdByIdRef($id_ref, $sc_object->getSLMId());
+		$ilBench->stop("SCORMExplorer", "initResource");
+		
+		$scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
 
-		if ($this->output_icons)	{
-			if ($this->isClickable($a_option["type"], $a_node_id))
-				$this->getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype);
-		}
-
-		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
+		$ilBench->start("SCORMExplorer", "renderLink");
+		$ilBench->start("SCORMExplorer", "renderLink_OutputIcons");
+		if ($this->output_icons)
 		{
+			if ($this->isClickable($a_option["type"], $a_node_id, $sc_object))
+			{
+				$this->getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype);
+			}
+		}
+		$ilBench->stop("SCORMExplorer", "renderLink_OutputIcons");
+		
+		if ($this->isClickable($a_option["type"], $a_node_id, $sc_object))	// output link
+		{
+			$ilBench->start("SCORMExplorer", "renderLink_parseLinkBlock");
 			$tpl->setCurrentBlock("link");
-			//$target = (strpos($this->target, "?") === false) ?
-			//	$this->target."?" : $this->target."&";
-			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-			//$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
@@ -416,6 +439,7 @@ class ilSCORMExplorer extends ilExplorer
 					."('".$a_node_id."');return false;\"");
 			}
 			$tpl->parseCurrentBlock();
+			$ilBench->stop("SCORMExplorer", "renderLink_parseLinkBlock");
 		}
 		else			// output text only
 		{
@@ -423,7 +447,11 @@ class ilSCORMExplorer extends ilExplorer
 			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 			$tpl->parseCurrentBlock();
 		}
+		$ilBench->stop("SCORMExplorer", "renderLink");
+		
+		$ilBench->start("SCORMExplorer", "formatItemTable");
 		$this->formatItemTable($tpl, $a_node_id, $a_option["type"]);
+		$ilBench->stop("SCORMExplorer", "formatItemTable");
 
 		$tpl->setCurrentBlock("row");
 		$tpl->parseCurrentBlock();
@@ -431,7 +459,8 @@ class ilSCORMExplorer extends ilExplorer
 		$this->output[] = $tpl->get();
 	}
 	
-	function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype="sco") {
+	function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype="sco")
+	{
 		global $lng;
 
 			$tpl->setCurrentBlock("icon");
@@ -444,15 +473,16 @@ class ilSCORMExplorer extends ilExplorer
 				return;
 			}
 		
-			$sc_object = & $this->getItem($a_node_id);
+			//$sc_object = & $this->getItem($a_node_id);
 
-			$trdata = $sc_object->getTrackingDataOfUser();
+			//$trdata = $sc_object->getTrackingDataOfUser();
+			$trdata = ilSCORMItem::_lookupTrackingDataOfUser($a_node_id);
+
 			// status
 			$status = ($trdata["cmi.core.lesson_status"] == "")
 				? "not attempted"
 				: $trdata["cmi.core.lesson_status"];
-				
-				
+
 			$statusChar=strtolower(substr($status,0,1));
 			if ($statusChar=="f")
 				$status="failed";
