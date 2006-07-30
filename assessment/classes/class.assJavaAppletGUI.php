@@ -582,11 +582,29 @@ class assJavaAppletGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
+	function getActiveUserData($active_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT user_fi FROM tst_active WHERE active_id = %s",
+			$ilDB->quote($active_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return array("user_id" => $row["user_fi"], "test_id" => $row["test_fi"]);
+		}
+		else
+		{
+			return array();
+		}
+	}
+	
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-
+		$userdata = $this->getActiveUserData($active_id);
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, TRUE);
@@ -596,7 +614,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_id");
-		$template->setVariable("PARAM_VALUE", $test_id);
+		$template->setVariable("PARAM_VALUE", $userdata["test_id"]);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "question_id");
@@ -604,7 +622,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "user_id");
-		$template->setVariable("PARAM_VALUE", $user_id);
+		$template->setVariable("PARAM_VALUE", $userdata["user_id"]);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "points_max");
