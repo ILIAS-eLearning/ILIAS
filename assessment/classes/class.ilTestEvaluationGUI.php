@@ -1680,17 +1680,21 @@ class ilTestEvaluationGUI
 		}
 		$counter = 1;
 		// output of questions with solutions
-		foreach ($this->object->questions as $question_id)
+		foreach ($result_array as $question_data)
 		{
-			$this->tpl->setCurrentBlock("question");
-			$question_gui = $this->object->createQuestionGUI("", $question_id);
-
-			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".&nbsp;");
-			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			$result_output = $question_gui->getSolutionOutput($active_id, $pass);
-			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
-			$this->tpl->parseCurrentBlock();
-			$counter ++;
+			$question_id = $question_data["qid"];
+			if (is_numeric($question))
+			{
+				$this->tpl->setCurrentBlock("question");
+				$question_gui = $this->object->createQuestionGUI("", $question_id);
+	
+				$this->tpl->setVariable("COUNTER_QUESTION", $counter.".&nbsp;");
+				$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+				$result_output = $question_gui->getSolutionOutput($active_id, $pass);
+				$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
+				$this->tpl->parseCurrentBlock();
+				$counter ++;
+			}
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
