@@ -480,7 +480,7 @@ class SurveyQuestionGUI
 		{
 			$ref_id = $_GET["calling_survey"];
 			if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
-			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions&new_id=".$_GET["q_id"]);
+			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions");
 		}
 		else
 		{
