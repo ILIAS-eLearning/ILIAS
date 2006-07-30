@@ -1689,14 +1689,11 @@ class ilTestOutputGUI
 
 		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 		{
-			if ($this->object->isRandomTest())
-			{
-				$this->object->loadQuestions($active->active_id, $pass);
-			}
 			$counter = 1;
 			// output of questions with solutions
-			foreach ($this->object->questions as $question) 
+			foreach ($result_array as $question_data)
 			{
+				$question = $question_data["qid"];
 				$this->tpl->setCurrentBlock("printview_question");
 				$question_gui = $this->object->createQuestionGUI("", $question);
 	
