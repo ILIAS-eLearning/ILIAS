@@ -685,8 +685,8 @@ class assSingleChoiceGUI extends assQuestionGUI
 					$alt = $answer->getAnswertext();
 				}
 				$alt = preg_replace("/<[^>]*?>/", "", $alt);
-				$template->setVariable("ANSWER_IMAGE_ALT", $alt);
-				$template->setVariable("ANSWER_IMAGE_TITLE", $alt);
+				$template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
+				$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("answer_row");
@@ -738,8 +738,8 @@ class assSingleChoiceGUI extends assQuestionGUI
 					$alt = $answer->getAnswertext();
 				}
 				$alt = preg_replace("/<[^>]*?>/", "", $alt);
-				$template->setVariable("ANSWER_IMAGE_ALT", $alt);
-				$template->setVariable("ANSWER_IMAGE_TITLE", $alt);
+				$template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
+				$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("answer_row");
@@ -801,8 +801,8 @@ class assSingleChoiceGUI extends assQuestionGUI
 					$alt = $answer->getAnswertext();
 				}
 				$alt = preg_replace("/<[^>]*?>/", "", $alt);
-				$template->setVariable("ANSWER_IMAGE_ALT", $alt);
-				$template->setVariable("ANSWER_IMAGE_TITLE", $alt);
+				$template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
+				$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("answer_row");
