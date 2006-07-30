@@ -23,15 +23,20 @@
 
 
 /**
-* FeedbackGUI Class
+* GUI class for feedback services. Feedbacks are little polls that are embedded
+* into the info screen and currently used by courses only.
 *
 * @author	Helmuth Antholzer <helmuth.antholzer@maguma.com>
 * @version	$Id$
-*
+* @ingroup	ServicesFeedback
 *
 * @ilCtrl_Calls ilFeedbackGUI:
 */
-class ilFeedbackGUI{
+class ilFeedbackGUI
+{
+	/**
+	* Constructor
+	*/
 	function ilFeedbackGUI(){
 		global $ilCtrl;	
 		global $lng;
@@ -42,7 +47,12 @@ class ilFeedbackGUI{
 		$this->lng->loadLanguageModule('barometer');
 		
 	}
-	function &executeCommand(){	
+	
+	/**
+	* Execute current command.
+	*/
+	function &executeCommand()
+	{	
 		global $ilAccess,$ilErr;
 		
 		if(isset($_SESSION["message"]))	{
@@ -66,7 +76,6 @@ class ilFeedbackGUI{
 					return($this->$cmd());
 				break;
 			}
-		
 	}
 	
 	function getFeedbackHTML(){
@@ -84,6 +93,9 @@ class ilFeedbackGUI{
 		return($tpl->get());
 	}
 	
+	/**
+	* List all feedback items.
+	*/
 	function fbList(){
 	
 		include_once('Services/Feedback/classes/class.ilFeedback.php');
@@ -117,7 +129,8 @@ class ilFeedbackGUI{
 		$tbl->tpl->setCurrentBlock("tbl_form_header");
 		$tbl->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tbl->tpl->parseCurrentBlock();
-		$tbl->setTitle($this->lng->txt("barometer_title"));
+		$tbl->setTitle($this->lng->txt("feedb_feedback_list"),
+			"icon_feedb.gif", $this->lng->txt("feedb_feedback_list"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("status"),$this->lng->txt("time"),$this->lng->txt("options")));
 		$tbl->setHeaderVars(array("checkbox","title","stauts","running","options"));
 		$tbl->setData($rows);
@@ -254,9 +267,13 @@ class ilFeedbackGUI{
 		$tpl->parseCurrentBlock();
 		return($tpl->get());
 	}
+	
+	/**
+	* Edit screen for single feedback item.
+	*/
 	function edit(){
 		include_once('Services/Feedback/classes/class.ilFeedback.php');
-		
+
 		$ilFB = new ilFeedback($_GET['barometer_id']);
 		$tpl = new ilTemplate("tpl.feedback_edit.html", true, true, "Services/Feedback");
 		
@@ -290,10 +307,13 @@ class ilFeedbackGUI{
 		
 		$this->ctrl->setParameter($this,"barometer_id",$_GET['barometer_id']);
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->setVariable("TXT_HEADER", $this->lng->txt("edit"));
+		$tpl->setVariable("TXT_HEADER", $this->lng->txt("feedb_edit_feedback"));
+		$tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("icon_feedb.gif"));
+		$tpl->setVariable("ALT_FEEDB", $this->lng->txt("feedb_edit_feedback"));
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$tpl->setVariable("VALUE_TITLE",$data['title']);
-		$tpl->setVariable("TXT_TEXT", $this->lng->txt("text"));
+		//$tpl->setVariable("TXT_TEXT", $this->lng->txt("text"));
+		$tpl->setVariable("TXT_TIME", $this->lng->txt("feedb_time"));
 		$tpl->setVariable("VALUE_TEXT", $data['description']);
 		$tpl->setVariable("TXT_ANONYMOUS", $this->lng->txt("anonymous"));
 		
@@ -355,12 +375,12 @@ class ilFeedbackGUI{
 		$tpl->setVariable("TXT_WEEKS",$this->lng->txt("weeks"));
 		$tpl->setVariable("TXT_MONTHS",$this->lng->txt("months"));
 		$tpl->setVariable("TXT_REPEAT",$this->lng->txt("repeat"));
+		$tpl->setVariable("TXT_FTEXT",$this->lng->txt("text"));
 		
 		for($i=0;$i < 25;$i++){
 			$interval[$i]=$i;
 		}
 		$tpl->setVariable("SELECT_INTERVAL",ilUtil::formSelect($data['interval'],'interval',$interval,false,true));
-		$tpl->setVariable("TXT_EVERY",$this->lng->txt("every"));
 		
 		$interval_unitSB[0] = $this->lng->txt('hours');
 		$interval_unitSB[1] = $this->lng->txt('days');
@@ -423,12 +443,19 @@ class ilFeedbackGUI{
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'fbList'));
 		
 	}
+	
+	/**
+	* Display the new feedback creation screen.
+	*/
 	function addBarometer(){
 		
 		$tpl = new ilTemplate("tpl.feedback_edit.html", true, true, "Services/Feedback");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HEADER", $this->lng->txt("create"));
+		$tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("icon_feedb.gif"));
+		$tpl->setVariable("ALT_FEEDB", $this->lng->txt("create"));
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$tpl->setVariable("TXT_TIME", $this->lng->txt("feedb_time"));
 		$tpl->setVariable("VALUE_TITLE",$_POST["title"]);
 		$tpl->setVariable("TXT_TEXT", $this->lng->txt("text"));
 		$tpl->setVariable("VALUE_TEXT", $_POST["text"]);
