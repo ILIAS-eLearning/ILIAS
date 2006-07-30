@@ -34,7 +34,7 @@
 */
 
 require_once "./include/inc.header.php";
-global $ilCtrl, $ilBench;
+global $ilCtrl, $ilBench, $ilLog;
 
 $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();

@@ -11390,3 +11390,5 @@ ALTER TABLE exc_members MODIFY returned TINYINT(1) NOT NULL DEFAULT 0;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#801>
+ALTER TABLE sc_resource ADD INDEX import_id (import_id);

@@ -254,10 +254,10 @@ class ilTemplate extends ilTemplateX
 	
 	function setContentStyle()
 	{
-		$this->setCurrentBlock("NewContentStyle");
-		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET",
-			ilUtil::getNewContentStyleSheetLocation());
-		$this->parseCurrentBlock();
+		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET_TAG",
+			'<link rel="stylesheet" type="text/css" href="'.
+			ilUtil::getNewContentStyleSheetLocation()
+			.'" />');
 	}
 	
 	function fillMainMenu()

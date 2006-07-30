@@ -1240,6 +1240,7 @@ class ilPersonalDesktopGUI
 				}
 			}
 			
+/*
 			if ($z > 0)
 			{
 				$this->tpl->setCurrentBlock("tbl_users_header");
@@ -1247,6 +1248,7 @@ class ilPersonalDesktopGUI
 				$this->tpl->setVariable("TXT_USR_LOGIN_TIME",ucfirst($this->lng->txt("login_time")));
 				$this->tpl->parseCurrentBlock();
 			}
+*/
 		}
 		
 		$this->ctrl->clearParameters($this);
