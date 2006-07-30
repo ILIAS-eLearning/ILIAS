@@ -1694,17 +1694,20 @@ class ilTestOutputGUI
 			foreach ($result_array as $question_data)
 			{
 				$question = $question_data["qid"];
-				$this->tpl->setCurrentBlock("printview_question");
-				$question_gui = $this->object->createQuestionGUI("", $question);
-	
-				$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
-				$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-				
-				$active = $this->object->getActiveTestUser($ilUser->getId());
-				$result_output = $question_gui->getSolutionOutput($active->active_id, $pass, TRUE);
-				$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
-				$this->tpl->parseCurrentBlock();
-				$counter ++;
+				if (is_numeric($question))
+				{
+					$this->tpl->setCurrentBlock("printview_question");
+					$question_gui = $this->object->createQuestionGUI("", $question);
+		
+					$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
+					$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+					
+					$active = $this->object->getActiveTestUser($ilUser->getId());
+					$result_output = $question_gui->getSolutionOutput($active->active_id, $pass, TRUE);
+					$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
+					$this->tpl->parseCurrentBlock();
+					$counter ++;
+				}
 			}
 			$this->tpl->setCurrentBlock("printview_details");
 			$this->tpl->setVariable("RESULTS_OVERVIEW", $this->lng->txt("tst_eval_results_by_pass"));
