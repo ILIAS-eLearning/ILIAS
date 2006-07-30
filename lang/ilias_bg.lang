@@ -971,7 +971,7 @@ common#:#alm_leave#:#Спиране на абонамента за AICC моду
 common#:#alm_read#:#До�?тъп за четене от AICC модул за обучение
 common#:#alm_visible#:#AICC модулът за обучение е видим
 common#:#alm_write#:#Редактиране на AICC модул за обучение
-common#:#already_delivered_files#:#Вече до�?тавени файлове
+common#:#already_delivered_files#:#Вече до�?тавени файлове###30 Jul 2006 content changed
 common#:#and#:#и
 common#:#announce#:#�?нон�?иране
 common#:#announce_changes#:#�?нон�?иране на промени
@@ -1363,7 +1363,7 @@ common#:#delete_tr_data#:#Изтриване на про�?лед�?ващите �
 common#:#deleted#:#Изтрито
 common#:#deleted_user#:#Потребител�?т беше изтрит
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#Полагане на упражнение
+common#:#deliver#:#Полагане на упражнение###30 Jul 2006 content changed
 common#:#department#:#Отдел
 common#:#desc#:#Опи�?ание
 common#:#descending_order#:#Descending order###23 Dec 2005 new variable
@@ -1445,16 +1445,20 @@ common#:#exc_date_not_valid#:#Датата не е валидна
 common#:#exc_deassign_members#:#Изтриване на член(ове)
 common#:#exc_delete#:#Изтриване на упражнение
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Създадено ново упражнение
 common#:#exc_edit_exercise#:#Редактиране на упражнение
 common#:#exc_edit_permission#:#Пром�?на на разрешителните на�?тройки
-common#:#exc_edit_until#:#Редактиране до
+common#:#exc_edit_until#:#Редактиране до###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Файлове###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Върнати файлове###10 Jul 2006 content changed
 common#:#exc_groups#:#Групи
 common#:#exc_header_members#:#Упражнение (членове)
-common#:#exc_instruction#:#Ин�?трукции за работа
+common#:#exc_instruction#:#Ин�?трукции за работа###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Тези потребители �?а вече разпределени за това упражнение
@@ -1468,6 +1472,7 @@ common#:#exc_read#:#До�?тъп до упражнение
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Роли
 common#:#exc_save_changes#:#Съхран�?ване
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Тър�?ене на
 common#:#exc_select_one_file#:#Мол�?, изберете точно един файл.
 common#:#exc_send_exercise#:#Изпращане на упражнение###10 Jul 2006 content changed
@@ -2392,7 +2397,7 @@ common#:#obj_svy#:#Обзор
 common#:#obj_tax#:#Так�?ономи�?
 common#:#obj_taxf#:#Так�?ономии
 common#:#obj_taxf_desc#:#Папка за так�?ономиите
-common#:#obj_trac#:#Про�?лед�?ване на потребители
+common#:#obj_trac#:#Про�?лед�?ване на потребители###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Данни от про�?лед�?ването на до�?тъпа на потребители
 common#:#obj_tst#:#Те�?т
 common#:#obj_typ#:#Дефиници�? на тип обект

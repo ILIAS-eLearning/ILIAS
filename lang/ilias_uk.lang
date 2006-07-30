@@ -1042,7 +1042,7 @@ common#:#alm_leave#:#Відпи�?ати�?ь від AICC Учбового Мод�
 common#:#alm_read#:#До�?туп на читанн�? до AICC Учбового Модул�?
 common#:#alm_visible#:#AICC Учбовий Модуль є видимим
 common#:#alm_write#:#Редагувати AICC Учбовий Модуль
-common#:#already_delivered_files#:#Вже до�?тавлені файли
+common#:#already_delivered_files#:#Вже до�?тавлені файли###30 Jul 2006 content changed
 common#:#and#:#та
 common#:#announce#:#�?нон�?увати
 common#:#announce_changes#:#�?нон�?увати Зміни
@@ -1481,7 +1481,7 @@ common#:#delete_tr_data#:#Видалити дані, що від�?лідкову
 common#:#deleted#:#Видалено
 common#:#deleted_user#:#Кори�?тувач був видалений
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#Deliver вправа
+common#:#deliver#:#Deliver вправа###30 Jul 2006 content changed
 common#:#department#:#Відділ
 common#:#desc#:#Опи�?
 common#:#descending_order#:#Descending order###23 Dec 2005 new variable
@@ -1569,16 +1569,20 @@ common#:#exc_date_not_valid#:#Дата не є корректною
 common#:#exc_deassign_members#:#Видалити члена(ів)
 common#:#exc_delete#:#Видалити вправу
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#�?ова вправа �?творена
 common#:#exc_edit_exercise#:#Редагувати вправу
 common#:#exc_edit_permission#:#Змінити на�?тройки прав
-common#:#exc_edit_until#:#Редагувати поки
+common#:#exc_edit_until#:#Редагувати поки###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Файли###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Повернені файли###10 Jul 2006 content changed
 common#:#exc_groups#:#Групи
 common#:#exc_header_members#:#Вправа (члени)
-common#:#exc_instruction#:#Робочі ін�?трукції
+common#:#exc_instruction#:#Робочі ін�?трукції###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Цей кори�?тувач вже призначений до цієї вправи
@@ -1592,6 +1596,7 @@ common#:#exc_read#:#Вправа до�?тупу
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Ролі
 common#:#exc_save_changes#:#Зберігти
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Пошук
 common#:#exc_select_one_file#:#Будь ла�?ка виберіть рівно один файл.
 common#:#exc_send_exercise#:#По�?лати вправу###10 Jul 2006 content changed
@@ -2630,7 +2635,7 @@ common#:#obj_svy#:#Опитуванн�?
 common#:#obj_tax#:#Так�?ономі�?
 common#:#obj_taxf#:#Так�?ономії
 common#:#obj_taxf_desc#:#Папка дл�? так�?ономій
-common#:#obj_trac#:#Від�?лідковуванн�? Кори�?тувача
+common#:#obj_trac#:#Від�?лідковуванн�? Кори�?тувача###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Дані від�?лідковуванн�? дл�? до�?тупу кори�?тувача
 common#:#obj_tst#:#Те�?т
 common#:#obj_typ#:#Визначенн�? Типу Об'єкта ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed

@@ -1043,7 +1043,7 @@ common#:#alm_leave#:#AICC Lernmodulabonnement aufheben
 common#:#alm_read#:#AICC Lernmodul lesen
 common#:#alm_visible#:#AICC Lernmodul ist sichtbar
 common#:#alm_write#:#AICC Lernmodul bearbeiten
-common#:#already_delivered_files#:#Bereits abgegebene Dateien
+common#:#already_delivered_files#:#Bereits abgegebene Dateien###30 Jul 2006 content changed
 common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
@@ -1482,7 +1482,7 @@ common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
 common#:#deleted_users#:#Die BenutzerInnen wurden gelöscht.
-common#:#deliver#:#Übung abgeben
+common#:#deliver#:#Übung abgeben###30 Jul 2006 content changed
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#descending_order#:#Absteigende Reihenfolge
@@ -1570,16 +1570,20 @@ common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
 common#:#exc_deassign_members#:#Mitglied(er) löschen
 common#:#exc_delete#:#Übung löschen
 common#:#exc_details#:#Übungsdetails
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
 common#:#exc_edit_permission#:#Rechteeinstellungen ändern
-common#:#exc_edit_until#:#Zu bearbeiten bis
-common#:#exc_files#:#Dateien
+common#:#exc_edit_until#:#Zu bearbeiten bis###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
+common#:#exc_files#:#Dateien###30 Jul 2006 content changed
 common#:#exc_files_returned#:#Abgegebene Dateien###26 Jul 2006 content changed
 common#:#exc_groups#:#Gruppen
 common#:#exc_header_members#:#Übung (Mitglieder)
-common#:#exc_instruction#:#Arbeitsanweisung
+common#:#exc_instruction#:#Arbeitsanweisung###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Letzte Übertragung###26 Jul 2006 content changed
 common#:#exc_mail_users#:#Mail an Nutzer verschicken
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung
@@ -1593,6 +1597,7 @@ common#:#exc_read#:#Übung lesen
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Rollen
 common#:#exc_save_changes#:#Änderungen speichern
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Suchen nach
 common#:#exc_select_one_file#:#Bitte wählen Sie genau eine Datei aus.
 common#:#exc_send_exercise#:#Übung verschicken###10 Jul 2006 content changed
@@ -1605,8 +1610,8 @@ common#:#exc_status_sent#:#Zugestellt
 common#:#exc_status_solved#:#Gelöst
 common#:#exc_status_submitted#:#Übertragen
 common#:#exc_submission#:#Submission###26 Jul 2006 new variable
-common#:#exc_time_over_short#:#Die Zeit ist abgelaufen
-common#:#exc_time_to_send#:#Verbleibende Bearbeitungsdauer
+common#:#exc_time_over_short#:#Die Zeit ist abgelaufen###30 Jul 2006 content changed
+common#:#exc_time_to_send#:#Verbleibende Bearbeitungsdauer###30 Jul 2006 content changed
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#exc_users#:#Benutzern
 common#:#exc_visible#:#Übung ist sichtbar
@@ -2639,7 +2644,7 @@ common#:#obj_svy#:#Umfrage
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_taxf_desc#:#Ordner für Taxonomien
-common#:#obj_trac#:#Zugriffsstatistiken
+common#:#obj_trac#:#Zugriffsstatistiken###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Benutzerzugriff Tracking-Daten
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
@@ -6379,7 +6384,7 @@ trac#:#trac_objects#:#Lernfortschritt der NutzerInnen###10 Jul 2006 content chan
 trac#:#trac_occurrences#:#Pfad:
 trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit
-trac#:#trac_progress#:#Persönlicher Lernfortschritt
+trac#:#trac_progress#:#Persönlicher Lernfortschritt###30 Jul 2006 content changed
 trac#:#trac_query#:#Titel/Beschreibung:###10 Jul 2006 content changed
 trac#:#trac_reached_objectives#:#Erreichte Lernziele
 trac#:#trac_reached_points#:#Erreichte Punktzahl

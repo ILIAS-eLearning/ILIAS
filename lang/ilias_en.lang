@@ -1571,13 +1571,15 @@ common#:#exc_date_not_valid#:#The date is not valid
 common#:#exc_deassign_members#:#Delete member(s)
 common#:#exc_delete#:#Delete exercise
 common#:#exc_details#:#Exercise details
+common#:#exc_download_all#:#Download All
 common#:#exc_download_files#:#Download Files
 common#:#exc_download_new#:#Download New
-common#:#exc_download_all#:#Download All
 common#:#exc_edit#:#New exercise created
 common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings
 common#:#exc_edit_until#:#Edit Until
+common#:#exc_exercise_sent#:#Exercise Sent
+common#:#exc_feedback_sent#:#Feedback Sent
 common#:#exc_files#:#Files
 common#:#exc_files_returned#:#Submitted Files
 common#:#exc_groups#:#Groups
@@ -1596,6 +1598,7 @@ common#:#exc_read#:#Access exercise
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
+common#:#exc_schedule#:#Schedule
 common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Send exercise by mail
@@ -1606,9 +1609,6 @@ common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_sent#:#Delivered
 common#:#exc_status_solved#:#Solved
-common#:#exc_schedule#:#Schedule
-common#:#exc_feedback_sent#:#Feedback Sent
-common#:#exc_exercise_sent#:#Exercise Sent
 common#:#exc_status_submitted#:#Submitted
 common#:#exc_submission#:#Submission
 common#:#exc_time_over_short#:#Time is over.

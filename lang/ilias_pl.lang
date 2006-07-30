@@ -988,7 +988,7 @@ common#:#alm_leave#:#Odwołaj subskrypcję Modułu Nauczania AICC
 common#:#alm_read#:#Prawo czytania Modułu Nauczania AICC
 common#:#alm_visible#:#Moduł Nauczania AICC jest widoczny
 common#:#alm_write#:#Edycja Modułu Nauczania AICC
-common#:#already_delivered_files#:#Dostarczone pliki
+common#:#already_delivered_files#:#Dostarczone pliki###30 Jul 2006 content changed
 common#:#and#:#i
 common#:#announce#:#Ogłoś
 common#:#announce_changes#:#Ogłoś zmiany
@@ -1422,7 +1422,7 @@ common#:#delete_tr_data#:#Usuń dane śledzenia
 common#:#deleted#:#Usunięte
 common#:#deleted_user#:#Użytkownik został usunięty
 common#:#deleted_users#:#Usunięci użytkownicy
-common#:#deliver#:#Dostarcz ćwiczenie
+common#:#deliver#:#Dostarcz ćwiczenie###30 Jul 2006 content changed
 common#:#department#:#Katedra
 common#:#desc#:#Opis
 common#:#descending_order#:#Porządek malejący
@@ -1508,16 +1508,20 @@ common#:#exc_date_not_valid#:#Data jest nieprawidłowa
 common#:#exc_deassign_members#:#Usuń uczestników
 common#:#exc_delete#:#Usuń ćwiczenie
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Nowe ćwiczenie zostało utworzone
 common#:#exc_edit_exercise#:#Edytuj ćwiczenie
 common#:#exc_edit_permission#:#Zmień ustawienia uprawnień
-common#:#exc_edit_until#:#Dostępne aż do
+common#:#exc_edit_until#:#Dostępne aż do###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Pliki###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Przesłane pliki###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupy
 common#:#exc_header_members#:#Ćwiczenie(uczestnicy)
-common#:#exc_instruction#:#Instrukcja obsługi
+common#:#exc_instruction#:#Instrukcja obsługi###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Ten użytkownik jest już przydzielony do tego ćwiczenia
@@ -1531,6 +1535,7 @@ common#:#exc_read#:#Dostęp do ćwiczenia
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Role
 common#:#exc_save_changes#:#Zachowaj
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Szukaj
 common#:#exc_select_one_file#:#Wybierz dokładnie jeden plik.
 common#:#exc_send_exercise#:#Wyślij ćwiczenie###10 Jul 2006 content changed
@@ -2572,7 +2577,7 @@ common#:#obj_svy#:#Ankieta
 common#:#obj_tax#:#Klasyfikacja
 common#:#obj_taxf#:#Klasyfikacje
 common#:#obj_taxf_desc#:#Folder dla klasyfikacji
-common#:#obj_trac#:#Śledzenie użytkownika
+common#:#obj_trac#:#Śledzenie użytkownika###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Dostęp użytkownika do danych z śledzenia
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definicja typu obiektu
@@ -6194,7 +6199,7 @@ trac#:#trac_objects#:#Lista obiektów###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Ścieżka:
 trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Czas wykonania
-trac#:#trac_progress#:#Osobisty postęp nauczania
+trac#:#trac_progress#:#Osobisty postęp nauczania###30 Jul 2006 content changed
 trac#:#trac_query#:#Tytuł/opis:###10 Jul 2006 content changed
 trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
 trac#:#trac_reached_points#:#Osiągnięta punktacja

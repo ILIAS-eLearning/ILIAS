@@ -1042,7 +1042,7 @@ common#:#alm_leave#:#Annullare iscrizione ad un modulo AICC
 common#:#alm_read#:#Accedere in lettura ad un modulo AICC
 common#:#alm_visible#:#Vedere un modulo AICC
 common#:#alm_write#:#Modificare un modulo AICC
-common#:#already_delivered_files#:#File gi&#224; inviati
+common#:#already_delivered_files#:#File gi&#224; inviati###30 Jul 2006 content changed
 common#:#and#:#AND
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
@@ -1481,7 +1481,7 @@ common#:#delete_tr_data#:#Elimina i dati del tracciamento
 common#:#deleted#:#Eliminato
 common#:#deleted_user#:#L&#039;utente &#232; stato eliminato 
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#Invia l&#039;esercitazione 
+common#:#deliver#:#Invia l&#039;esercitazione ###30 Jul 2006 content changed
 common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#descending_order#:#Ordinamento discendente
@@ -1569,16 +1569,20 @@ common#:#exc_date_not_valid#:#La data non &#232; valida
 common#:#exc_deassign_members#:#Rimuovi membro(i)
 common#:#exc_delete#:#Eliminare una esercitazione
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Creata nuova esercitazione
 common#:#exc_edit_exercise#:#Modifica l&#039;esercitazione
 common#:#exc_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#exc_edit_until#:#Data scadenza 
+common#:#exc_edit_until#:#Data scadenza ###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Scegli il file###10 Jul 2006 content changed
 common#:#exc_files_returned#:#File restituiti###10 Jul 2006 content changed
 common#:#exc_groups#:#Gruppi
 common#:#exc_header_members#:#Esercitazione (membri)
-common#:#exc_instruction#:#Istruzioni per l&#039;esecuzione 
+common#:#exc_instruction#:#Istruzioni per l&#039;esecuzione ###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Questi utenti sono gi&#224; stati aggiunti alla esercizitazione
@@ -1592,6 +1596,7 @@ common#:#exc_read#:#Accedere in lettura ad una esercitazione
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Ruoli
 common#:#exc_save_changes#:#Salva
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Ricerca
 common#:#exc_select_one_file#:#Per favore, scegli un file solamente.
 common#:#exc_send_exercise#:#Invia l&#039;esercitazione###10 Jul 2006 content changed
@@ -2636,7 +2641,7 @@ common#:#obj_svy#:#Sondaggio
 common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
 common#:#obj_taxf_desc#:#Cartella per le tassonomie
-common#:#obj_trac#:#Tracciamento utenti
+common#:#obj_trac#:#Tracciamento utenti###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Per configurare la modalit&#224; di tracciamento degli utenti.
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
@@ -6376,7 +6381,7 @@ trac#:#trac_objects#:#Liste di oggetti###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Percorso:
 trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Tempo di esecuzione presunto
-trac#:#trac_progress#:#Progressi didattici personali
+trac#:#trac_progress#:#Progressi didattici personali###30 Jul 2006 content changed
 trac#:#trac_query#:#Titolo/descrizione###10 Jul 2006 content changed
 trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
 trac#:#trac_reached_points#:#Punteggio raggiunto

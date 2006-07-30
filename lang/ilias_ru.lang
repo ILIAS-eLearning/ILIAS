@@ -830,7 +830,7 @@ common#:#alm_leave#:#Отпи�?ать�?�? от Обучающего модул�?
 common#:#alm_read#:#До�?туп дл�? чтени�? к обучающему модулю AICC
 common#:#alm_visible#:#AICC Обучающий модуль виден
 common#:#alm_write#:#Редактировать AICC Обучающий модуль
-common#:#already_delivered_files#:#Уже переданные файлы
+common#:#already_delivered_files#:#Уже переданные файлы###30 Jul 2006 content changed
 common#:#and#:#и
 common#:#announce#:#Объ�?вить
 common#:#announce_changes#:#Объ�?вить изменени�?
@@ -1206,7 +1206,7 @@ common#:#delete_tr_data#:#Удалить данные мониторинга
 common#:#deleted#:#Удалено
 common#:#deleted_user#:#Пользователь был удален
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#До�?тавлено упражнение
+common#:#deliver#:#До�?тавлено упражнение###30 Jul 2006 content changed
 common#:#department#:#Отдел
 common#:#desc#:#Опи�?ание
 common#:#description#:#Опи�?ание
@@ -1289,16 +1289,20 @@ common#:#exc_date_not_valid#:#Данные неправильны
 common#:#exc_deassign_members#:#Удалить члена(ов)
 common#:#exc_delete#:#Удалить Упражнение
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#�?овое упражнение �?оздано
 common#:#exc_edit_exercise#:#Редактировать Упражнение
 common#:#exc_edit_permission#:#Может измен�?ть параметры до�?тупа
-common#:#exc_edit_until#:#Редактировать до
+common#:#exc_edit_until#:#Редактировать до###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#файлы###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Вернувшие�?�? файлы###10 Jul 2006 content changed
 common#:#exc_groups#:#Группы
 common#:#exc_header_members#:#Упражнени�?
-common#:#exc_instruction#:#Ин�?трукции
+common#:#exc_instruction#:#Ин�?трукции###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Эти пользователи уже выбраны на упражнение
@@ -1312,6 +1316,7 @@ common#:#exc_read#:#До�?туп на чтение к упражнению
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Стату�?ы
 common#:#exc_save_changes#:#Сохранить
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Пои�?к в
 common#:#exc_select_one_file#:#Пожалуй�?та, выберите только один файл.
 common#:#exc_send_exercise#:#По�?лать упражнение###10 Jul 2006 content changed
@@ -2173,7 +2178,7 @@ common#:#obj_svy#:#опро�?
 common#:#obj_tax#:#Си�?тематика
 common#:#obj_taxf#:#Си�?тематики
 common#:#obj_taxf_desc#:#Каталог дл�? �?и�?тематик
-common#:#obj_trac#:#Мониторинг
+common#:#obj_trac#:#Мониторинг###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Данные мониторинга до�?тупа пользовател�?
 common#:#obj_tst#:#Те�?т
 common#:#obj_typ#:#Определение типа объекта

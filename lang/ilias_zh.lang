@@ -1589,11 +1589,15 @@ common#:#exc_date_not_valid#:#日期无效###07 Apr 2005 content changed
 common#:#exc_deassign_members#:#删除用户###07 Apr 2005 content changed
 common#:#exc_delete#:#删除练习###07 Apr 2005 content changed
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#已创建新练习###07 Apr 2005 content changed
 common#:#exc_edit_exercise#:#编辑练习###07 Apr 2005 content changed
 common#:#exc_edit_permission#:#更改许�?�设置###07 Apr 2005 content changed
 common#:#exc_edit_until#:#编辑到###07 Apr 2005 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#文件###07 Apr 2005 content changed
 common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
 common#:#exc_groups#:#组###07 Apr 2005 content changed
@@ -1612,6 +1616,7 @@ common#:#exc_read#:#访问练习###07 Apr 2005 content changed
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#�?存###07 Apr 2005 content changed
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#�?�寻###07 Apr 2005 content changed
 common#:#exc_select_one_file#:#请确实选择一个文件。###07 Apr 2005 content changed
 common#:#exc_send_exercise#:#�?��?练习###07 Apr 2005 content changed

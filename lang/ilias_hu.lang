@@ -889,6 +889,7 @@ common#:#alm_read#:#Olvasási elérés AICC-tananyaghoz
 common#:#alm_visible#:#AICC-tananyag látható
 common#:#alm_write#:#AICC-tananyag szerkesztése
 common#:#already_delivered_files#:#Kézbesített fájlok
+###30 Jul 2006 content changed
 common#:#and#:#és
 common#:#announce#:#Hirdetmény
 common#:#announce_changes#:#Hirdetmény változásai
@@ -1289,6 +1290,7 @@ common#:#deleted#:#Törölve
 common#:#deleted_user#:#A felhasználó törölve lett.
 common#:#deleted_users#:#Törölt felhasználók
 common#:#deliver#:#Gyakorlat beküldése
+###30 Jul 2006 content changed
 common#:#department#:#Tagozat / Szak / Évfolyam
 common#:#desc#:#Leírás
 common#:#descending_order#:#Csökkenő sorrend
@@ -1364,16 +1366,23 @@ common#:#exc_create#:#Gyakorlat létrehozása
 common#:#exc_date_not_valid#:#A dátum nem érvényes
 common#:#exc_deassign_members#:#Tag(ok) törlése
 common#:#exc_delete#:#Gyakorlat törlése
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Új gyakorlat létrehozva.
 common#:#exc_edit_exercise#:#Gyakorlat szerkesztése
 common#:#exc_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#exc_edit_until#:#Kidolgozási határidő
+###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Fájlok
+###30 Jul 2006 content changed
 common#:#exc_files_returned#:#Visszaküldött fájlok
 common#:#exc_groups#:#Csoportok
 common#:#exc_header_members#:#Gyakorlat (tagok)
 common#:#exc_instruction#:#Feladatleírás
+###30 Jul 2006 content changed
 common#:#exc_members_already_assigned#:#Ezek a felhasználók már hozzá vannak rendelve ehhez a gyakorlathoz.
 common#:#exc_members_assigned#:#Tagok hozzárendelve.
 common#:#exc_new#:#Új gyakorlat
@@ -1383,6 +1392,7 @@ common#:#exc_obj#:#Gyakorlat
 common#:#exc_read#:#Gyakorlat elérése
 common#:#exc_roles#:#Szerepek
 common#:#exc_save_changes#:#Mentés
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Keresendő
 common#:#exc_select_one_file#:#Pontosan egy fájlt válasszon!
 common#:#exc_send_exercise#:#Gyakorlat elküldése
@@ -2377,6 +2387,7 @@ common#:#obj_tax#:#Osztályozás
 common#:#obj_taxf#:#Osztályozások
 common#:#obj_taxf_desc#:#Mappa az osztályozásoknak
 common#:#obj_trac#:#Felhasználói nyomkövetés
+###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Felhasználói hozzáférés nyomkövetési adatai
 common#:#obj_tst#:#Teszt
 common#:#obj_typ#:#Objektumtípus definíció
@@ -5636,9 +5647,11 @@ trac#:#trac_not_attempted#:#Nem csatlakozott
 trac#:#trac_not_completed#:#Befejezetlen
 trac#:#trac_num_visits#:#Látogatók száma
 trac#:#trac_objects#:#Felhasználók tanulmányokban való előrehaladása
+###30 Jul 2006 content changed
 trac#:#trac_occurrences#:#Útvonal:
 trac#:#trac_processing_time#:#Feldolgozási idő
 trac#:#trac_progress#:#Egyéni tanulmányi előmenetel
+###30 Jul 2006 content changed
 trac#:#trac_query#:#Cím/leírás:
 trac#:#trac_reached_points#:#Elért pontok
 trac#:#trac_reached_visits#:#Megkívánt látogatások

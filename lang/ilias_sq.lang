@@ -1005,7 +1005,7 @@ common#:#alm_leave#:#Çregjistrohu nga Moduli Mësimor AICC
 common#:#alm_read#:#Qasje për Lexim në Modulin Mësimor AICC
 common#:#alm_visible#:#Moduli Mësimor AICC është i dukshëm
 common#:#alm_write#:#Edito Modulin Mësimor AICC
-common#:#already_delivered_files#:#Skedarët tashmë të dorëzuara
+common#:#already_delivered_files#:#Skedarët tashmë të dorëzuara###30 Jul 2006 content changed
 common#:#and#:#dhe
 common#:#announce#:#Lajmëro
 common#:#announce_changes#:#Lajmëro Ndryshimet
@@ -1432,7 +1432,7 @@ common#:#delete_tr_data#:#Fshij të dhënat për gjurmim
 common#:#deleted#:#Të fshira
 common#:#deleted_user#:#Shfrytëzuesi është fshirë
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#Dërgo ushtrim
+common#:#deliver#:#Dërgo ushtrim###30 Jul 2006 content changed
 common#:#department#:#Departament
 common#:#desc#:#Përshkrimi
 common#:#descending_order#:#Descending order###23 Dec 2005 new variable
@@ -1516,16 +1516,20 @@ common#:#exc_date_not_valid#:#Data është jovalide
 common#:#exc_deassign_members#:#Fshij anëtar(ë)
 common#:#exc_delete#:#Fshij ushtrimin
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Një ushtrim i ri është krijuar
 common#:#exc_edit_exercise#:#Edito ushtrimin
 common#:#exc_edit_permission#:#Ndërro konfigurimet e të drejtave
-common#:#exc_edit_until#:#Data e skadimit
+common#:#exc_edit_until#:#Data e skadimit###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Skedarët###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Skedarët e rikthyer###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupet
 common#:#exc_header_members#:#Ushtrime (anëtarët)
-common#:#exc_instruction#:#Instruksione për punë
+common#:#exc_instruction#:#Instruksione për punë###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Këta shfrytëzues tanimë janë caktuar në këtë ushtrim
@@ -1539,6 +1543,7 @@ common#:#exc_read#:#Qasje në ushtrim
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Rolet
 common#:#exc_save_changes#:#Ruaj
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Kërko për
 common#:#exc_select_one_file#:#Ju lutem përzgjedh saktësisht vetëm një skedar.
 common#:#exc_send_exercise#:#Dërgo ushtrimin###10 Jul 2006 content changed
@@ -2556,7 +2561,7 @@ common#:#obj_svy#:#Kuestioner
 common#:#obj_tax#:#Taksonomi
 common#:#obj_taxf#:#Taksonomitë
 common#:#obj_taxf_desc#:#Direktoriumi për Taksonomitë
-common#:#obj_trac#:#Gjurmimi i Shfrytëzuesit
+common#:#obj_trac#:#Gjurmimi i Shfrytëzuesit###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Gjurmimi i qasjes të shfrytëzuesit
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definimi i Tipit të Objekteve

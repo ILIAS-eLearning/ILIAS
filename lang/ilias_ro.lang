@@ -966,7 +966,7 @@ common#:#alm_leave#:#Iesire din Modulul de Invatare AICC
 common#:#alm_read#:#Permisiune de citire a Modulului de Invatare AICC
 common#:#alm_visible#:#Modulul de Invatare AICC este vizibil
 common#:#alm_write#:#Editati Modulul de Invatare AICC
-common#:#already_delivered_files#:#Fisiere deja livrate
+common#:#already_delivered_files#:#Fisiere deja livrate###30 Jul 2006 content changed
 common#:#and#:#si
 common#:#announce#:#Anuntati
 common#:#announce_changes#:#Anuntati Schimbarile
@@ -1339,7 +1339,7 @@ common#:#delete_tr_data#:#Stergeti datele de urmarire
 common#:#deleted#:#Sters
 common#:#deleted_user#:#Utilizatorul a fost sters
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#Da exercitiu spre rezolvare
+common#:#deliver#:#Da exercitiu spre rezolvare###30 Jul 2006 content changed
 common#:#department#:#Departament
 common#:#desc#:#Descriere
 common#:#descending_order#:#Descending order###23 Dec 2005 new variable
@@ -1420,16 +1420,20 @@ common#:#exc_date_not_valid#:#Data nu este valabila
 common#:#exc_deassign_members#:#Stergeti membrul/membrii
 common#:#exc_delete#:#Stergeti exercitiul
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Exercitiu nou creat
 common#:#exc_edit_exercise#:#Editati exercitiul
 common#:#exc_edit_permission#:#Schimbati setarile de permisiune
-common#:#exc_edit_until#:#Editati pana cand
+common#:#exc_edit_until#:#Editati pana cand###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Fisiere###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Fisiere returnate###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupuri
 common#:#exc_header_members#:#Exercitiu (membrii)
-common#:#exc_instruction#:#Instructiuni de lucru
+common#:#exc_instruction#:#Instructiuni de lucru###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Exercitiul a fost desemnat deja acestor utilizatori
@@ -1443,6 +1447,7 @@ common#:#exc_read#:#Accesati exercitiul
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Roluri
 common#:#exc_save_changes#:#Salvati
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Cautati
 common#:#exc_select_one_file#:#Va rugam selectati doar un fisier.
 common#:#exc_send_exercise#:#Trimiteti exercitiul###10 Jul 2006 content changed
@@ -2341,7 +2346,7 @@ common#:#obj_svy#:#Sondaj
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomii
 common#:#obj_taxf_desc#:#Dosar pentru taxonomii
-common#:#obj_trac#:#Urmarirea utilizatorului
+common#:#obj_trac#:#Urmarirea utilizatorului###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Date de urmarire a accesului utilizatorului
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definitia Tipului Obiectului

@@ -1571,11 +1571,15 @@ common#:#exc_date_not_valid#:#A data não é válida###07 Apr 2005 content chang
 common#:#exc_deassign_members#:#Apagar membro(s)###07 Apr 2005 content changed
 common#:#exc_delete#:#Apagar exercício###07 Apr 2005 content changed
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Novo exercício criado###07 Apr 2005 content changed
 common#:#exc_edit_exercise#:#Editar exercício###07 Apr 2005 content changed
 common#:#exc_edit_permission#:#Mudar definições de permissões###07 Apr 2005 content changed
 common#:#exc_edit_until#:#Editar até###07 Apr 2005 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Ficheiros###07 Apr 2005 content changed
 common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
 common#:#exc_groups#:#Grupos###07 Apr 2005 content changed
@@ -1594,6 +1598,7 @@ common#:#exc_read#:#Aceder ao exercício###07 Apr 2005 content changed
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Guardar###07 Apr 2005 content changed
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Procurar por###07 Apr 2005 content changed
 common#:#exc_select_one_file#:#Por favor seleccione exactamente um ficheiro.###07 Apr 2005 content changed
 common#:#exc_send_exercise#:#Enviar exercício###07 Apr 2005 content changed

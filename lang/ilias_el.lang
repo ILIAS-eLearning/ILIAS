@@ -881,7 +881,7 @@ common#:#alm_leave#:#Διαγραφή από την Εκπαιδευτική Μ�
 common#:#alm_read#:#Πρόσβαση ανάγνωσης στην Εκπαιδευτική Μονάδα AICC
 common#:#alm_visible#:#Η Εκπαιδευτική Μονάδα AICC είναι ορατή
 common#:#alm_write#:#Επεξεργασία Εκπαιδευτικής Μονάδας AICC
-common#:#already_delivered_files#:#Ήδη παραδοθέντα αρχεία
+common#:#already_delivered_files#:#Ήδη παραδοθέντα αρχεία###30 Jul 2006 content changed
 common#:#and#:#και
 common#:#announce#:#Ανακοίνωση
 common#:#announce_changes#:#Ανακοίνωση αλλαγών
@@ -1283,7 +1283,7 @@ common#:#delete_tr_data#:#Διαγραφή ιχνηλατημένων δεδομ
 common#:#deleted#:#Διαγράφηκε
 common#:#deleted_user#:#Ο χρήστης διαγράφηκε
 common#:#deleted_users#:#Διαγραμμένοι χρήστες
-common#:#deliver#:#Παράδοση άσκησης
+common#:#deliver#:#Παράδοση άσκησης###30 Jul 2006 content changed
 common#:#department#:#Τμήμα
 common#:#desc#:#Περιγραφή
 common#:#descending_order#:#Φθίνουσα ταξινόμηση
@@ -1359,16 +1359,20 @@ common#:#exc_create#:#Δημιουργία άσκησης
 common#:#exc_date_not_valid#:#Η ημερομηνία δεν είναι έγκυρη
 common#:#exc_deassign_members#:#Διαγραφή μέλους/ών
 common#:#exc_delete#:#Διαγραφή άσκησης
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Η νέα άσκηση δημιουργήθηκε
 common#:#exc_edit_exercise#:#Επεξεργασία άσκησης
 common#:#exc_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
-common#:#exc_edit_until#:#Επεξεργασία μέχρι
-common#:#exc_files#:#Αρχεία
+common#:#exc_edit_until#:#Επεξεργασία μέχρι###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
+common#:#exc_files#:#Αρχεία###30 Jul 2006 content changed
 common#:#exc_files_returned#:#Αρχεία που επιστράφηκαν###26 Jul 2006 content changed
 common#:#exc_groups#:#Ομάδες
 common#:#exc_header_members#:#Άσκηση (μέλη)
-common#:#exc_instruction#:#Οδηγίες εργασίας
+common#:#exc_instruction#:#Οδηγίες εργασίας###30 Jul 2006 content changed
 common#:#exc_members_already_assigned#:#Αυτοί οι χρήστες είναι ήδη εγγεγραμμένοι σε αυτή την άσκηση
 common#:#exc_members_assigned#:#Τα μέλη καταχωρήθηκαν
 common#:#exc_new#:#Νέα άσκηση
@@ -1378,6 +1382,7 @@ common#:#exc_obj#:#Άσκηση
 common#:#exc_read#:#Πρόσβαση σε άσκηση
 common#:#exc_roles#:#Ρόλοι
 common#:#exc_save_changes#:#Αποθήκευση
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Αναζήτηση για
 common#:#exc_select_one_file#:#Παρακαλώ επιλέξτε ακριβώς ένα αρχείο.
 common#:#exc_send_exercise#:#Αποστολή άσκησης###28 Jul 2006 content changed
@@ -2372,7 +2377,7 @@ common#:#obj_svy#:#Έρευνα
 common#:#obj_tax#:#Κατάταξη
 common#:#obj_taxf#:#Κατατάξεις
 common#:#obj_taxf_desc#:#Φάκελος για τις κατατάξεις
-common#:#obj_trac#:#Ιχνηλάτιση χρηστών
+common#:#obj_trac#:#Ιχνηλάτιση χρηστών###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Πρόσβαση χρήστη σε ιχνηλατημένα δεδομένα
 common#:#obj_tst#:#Διαγώνισμα
 common#:#obj_typ#:#Ορισμός τύπου του αντικειμένου
@@ -5660,11 +5665,11 @@ trac#:#trac_not_completed#:#Δεν ολοκληρώθηκε
 trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
 trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
 trac#:#trac_num_visits#:#Αριθμός επισκέψεων
-trac#:#trac_objects#:#Λίστα αντικειμένων
+trac#:#trac_objects#:#Λίστα αντικειμένων###30 Jul 2006 content changed
 trac#:#trac_occurrences#:#Διαδρομή:
 trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Χρόνος επεξεργασίας
-trac#:#trac_progress#:#Προσωπική εκπαιδευτική πρόοδος
+trac#:#trac_progress#:#Προσωπική εκπαιδευτική πρόοδος###30 Jul 2006 content changed
 trac#:#trac_query#:#Τίτλος/περιγραφή:
 trac#:#trac_reached_points#:#Σκορ που επιτεύχθηκε
 trac#:#trac_reached_visits#:#Απαιτούμενες επισκέψεις
