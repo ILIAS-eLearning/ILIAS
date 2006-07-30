@@ -270,7 +270,7 @@ class ilTestOutputGUI
 	function outShortResult($user_question_order) 
 	{
 		if(!$_GET['crs_show_result'])
-		{
+		{/*
 			$this->tpl->setCurrentBlock("percentage");
 			$this->tpl->setVariable("PERCENTAGE", 200);
 			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf($this->lng->txt("tst_position"), $this->sequence, count($user_question_order)));
@@ -282,7 +282,7 @@ class ilTestOutputGUI
 			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf($this->lng->txt("tst_position"), $this->sequence, count($user_question_order)));
 			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
 		}
 		else
 		{
@@ -296,7 +296,7 @@ class ilTestOutputGUI
 				}
 				$pos++;
 			}
-
+/*
 			$this->tpl->setCurrentBlock("percentage");
 			$this->tpl->setVariable("PERCENTAGE", 200);
 			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf($this->lng->txt("tst_position"), $pos, $num_wrong));
@@ -308,7 +308,7 @@ class ilTestOutputGUI
 			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf($this->lng->txt("tst_position"), $pos, $num_wrong));
 			$this->tpl->setVariable("HUNDRED_PERCENT", "200");
 			$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
 		}
 	}
 
