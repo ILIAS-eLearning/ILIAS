@@ -133,6 +133,15 @@ class ilSoapUtils extends ilSoapAdministration
 		$ilDB = $GLOBALS['ilDB'];
 		for($i = 0; $i < count($solution); $i += 3)
 		{
+			if (($active->active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
+			{
+				$deletequery = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+					$ilDB->quote($active->active_id . ""),
+					$ilDB->quote($question_id . ""),
+					$ilDB->quote($pass . "")
+				);
+				$ilDB->query($deletequery);
+			}
 			$query = sprintf("INSERT INTO tst_solutions ".
 				"SET active_fi = %s, ".
 				"question_fi = %s, ".
