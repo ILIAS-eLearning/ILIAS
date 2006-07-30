@@ -21,17 +21,16 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("classes/class.ilExplorer.php");
+
 /**
 * LM Menu Object Selector
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @package core
+* @ingroup ModulesIliasLearningModule
 */
-
-require_once("classes/class.ilExplorer.php");
-
 class ilLMMenuObjectSelector extends ilExplorer
 {
 

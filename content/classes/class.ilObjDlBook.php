@@ -29,7 +29,7 @@ require_once("content/classes/class.ilObjContentObject.php");
 * @author Databay AG <ay@databay.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilObjDlBook extends ilObjContentObject
 {

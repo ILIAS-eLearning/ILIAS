@@ -30,7 +30,7 @@ include_once("content/classes/class.ilObjContentObjectAccess.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package AccessControl
+* @ingroup ModulesIliasLearningModule
 */
 class ilObjLearningModuleAccess extends ilObjContentObjectAccess
 {

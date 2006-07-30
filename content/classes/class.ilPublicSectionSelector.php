@@ -21,18 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/class.ilLMExplorer.php");
+require_once("content/classes/class.ilLMObject.php");
+
 /*
 * Public Section Explorer
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @package core
+* @ingroup ModulesIliasLearningModule
 */
-
-require_once("content/classes/class.ilLMExplorer.php");
-require_once("content/classes/class.ilLMObject.php");
-
 class ilPublicSectionSelector extends ilLMExplorer
 {
 	/**

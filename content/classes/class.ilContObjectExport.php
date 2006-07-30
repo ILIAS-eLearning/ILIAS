@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -26,12 +26,12 @@ require_once("content/classes/class.ilObjContentObject.php");
 /**
 * Export class for content objects
 *
-* @author Databay AG <ay@databay.de>
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Databay AG <ay@databay.de>
 *
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilContObjectExport
 {

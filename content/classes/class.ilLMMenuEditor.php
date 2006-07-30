@@ -26,7 +26,8 @@
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
-* @package application
+*
+* @ingroup ModulesIliasLearningModule
 */
 class ilLMMenuEditor
 {

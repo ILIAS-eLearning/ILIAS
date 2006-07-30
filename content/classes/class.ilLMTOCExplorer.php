@@ -21,18 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/class.ilLMExplorer.php");
+require_once("content/classes/class.ilStructureObject.php");
+
 /*
 * Explorer View for Learning Module Editor
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
-
-require_once("content/classes/class.ilLMExplorer.php");
-require_once("content/classes/class.ilStructureObject.php");
-
 class ilLMTOCExplorer extends ilLMExplorer
 {
 	var	$offline;

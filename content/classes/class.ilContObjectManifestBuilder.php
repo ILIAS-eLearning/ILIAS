@@ -31,7 +31,7 @@ require_once("content/classes/class.ilObjContentObject.php");
 *
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilContObjectManifestBuilder
 {

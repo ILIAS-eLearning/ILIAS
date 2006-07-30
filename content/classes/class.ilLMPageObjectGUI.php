@@ -33,12 +33,11 @@ require_once ("content/classes/class.ilInternalLinkGUI.php");
 * User Interface for Learning Module Page Objects Editing
 *
 * @author Alex Killing <alex.killing@gmx.de>
-*
 * @version $Id$
 *
 * @ilCtrl_Calls ilLMPageObjectGUI: ilPageObjectGUI, ilMDEditorGUI
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilLMPageObjectGUI extends ilLMObjectGUI
 {

@@ -21,24 +21,22 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-/**
-* Class ilObjContentObjectGUI
-*
-* @author Stefan Meyer <smeyer@databay.de>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @extends ilObjectGUI
-* @package ilias-core
-*/
-
 include_once "classes/class.ilObjectGUI.php";
 include_once "content/classes/class.ilObjContentObject.php";
 include_once ("content/classes/class.ilLMPageObjectGUI.php");
 include_once ("content/classes/class.ilStructureObjectGUI.php");
 
+/**
+* Class ilObjContentObjectGUI
+*
+* @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+*
+* $Id$
+*
+* @ingroup ModulesIliasLearningModule
+*/
 class ilObjContentObjectGUI extends ilObjectGUI
 {
 	var $ctrl;
