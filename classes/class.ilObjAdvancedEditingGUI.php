@@ -234,17 +234,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 										 $this->ctrl->getLinkTarget($this, "settings"),
 										 array("", "view", "settings", "saveSettings"),
 										 "", "");
-		if ($this->object->_getRichTextEditor())
-		{
-			$tabs_gui->addSubTabTarget("adve_assessment_settings",
-											 $this->ctrl->getLinkTarget($this, "assessment"),
-											 array("assessment", "saveAssessmentSettings"),
-											 "", "");
-			$tabs_gui->addSubTabTarget("adve_survey_settings",
-											 $this->ctrl->getLinkTarget($this, "survey"),
-											 array("survey", "saveSurveySettings"),
-											 "", "");
-		}
+		$tabs_gui->addSubTabTarget("adve_assessment_settings",
+										 $this->ctrl->getLinkTarget($this, "assessment"),
+										 array("assessment", "saveAssessmentSettings"),
+										 "", "");
+		$tabs_gui->addSubTabTarget("adve_survey_settings",
+										 $this->ctrl->getLinkTarget($this, "survey"),
+										 array("survey", "saveSurveySettings"),
+										 "", "");
 	}
 	
 	/**
