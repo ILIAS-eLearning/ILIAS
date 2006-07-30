@@ -1033,6 +1033,11 @@ div.il_info
 	font-size: 90%;
 	text-align:left;
 }
+div.il_PermDescription
+{
+	font-size: 60%;
+	font-style: italic;
+}
 
 /* ---------------- headlines ------------------ */
 

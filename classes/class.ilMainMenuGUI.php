@@ -157,7 +157,8 @@ class ilMainMenuGUI
 		//$this->tpl->setVariable("TARGET_HELP", "ilias_help");
 		//$this->tpl->parseCurrentBlock();
 
-
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		
 		// mail & desktop button
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{

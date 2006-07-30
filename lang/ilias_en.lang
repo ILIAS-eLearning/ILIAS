@@ -2106,13 +2106,13 @@ common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be remov
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
-common#:#info_from_role#:#Granted by role/ownership
+common#:#info_from_role#:#Granted by Role / Ownership
 common#:#info_is_member#:#User is member
 common#:#info_is_not_member#:#User is not a member
 common#:#info_not_assigned#:#not assigned
 common#:#info_owner_of_object#:#Owner of object
-common#:#info_permission_origin#:#Original position
-common#:#info_permission_source#:#effective from*
+common#:#info_permission_origin#:#Original Position
+common#:#info_permission_source#:#Effective From*
 common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.
 common#:#info_short#:#Info
 common#:#info_status_info#:#Permissions of User
