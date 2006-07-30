@@ -1042,6 +1042,7 @@ class assJavaApplet extends assQuestion
 		}
 
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
+		return $points;
 	}
 
 	/**
