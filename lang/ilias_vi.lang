@@ -993,7 +993,7 @@ common#:#alm_leave#:#Hủy đăng ký h�?c phần AICC
 common#:#alm_read#:#�?�?c h�?c phần AICC
 common#:#alm_visible#:#Nhìn thấy h�?c phần AICC
 common#:#alm_write#:#Sửa h�?c phần AICC
-common#:#already_delivered_files#:#Các file đã nộp
+common#:#already_delivered_files#:#Các file đã nộp###30 Jul 2006 content changed
 common#:#and#:#và
 common#:#announce#:#Thông báo
 common#:#announce_changes#:#Thông báo thay đổi
@@ -1424,7 +1424,7 @@ common#:#delete_tr_data#:#Xóa thông tin theo dõi
 common#:#deleted#:#�?ã xóa
 common#:#deleted_user#:#�?ã xóa ngư�?i sử dụng
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#Nộp bài tập
+common#:#deliver#:#Nộp bài tập###30 Jul 2006 content changed
 common#:#department#:#Phòng (Khoa)
 common#:#desc#:#Mô tả
 common#:#descending_order#:#Sắp xếp giảm dần
@@ -1510,16 +1510,20 @@ common#:#exc_date_not_valid#:#Ngày không hợp lệ
 common#:#exc_deassign_members#:#Xóa (các) thành viên
 common#:#exc_delete#:#Xóa bài tập
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#�?ã tạo bài tập mới
 common#:#exc_edit_exercise#:#Sửa bài tập
 common#:#exc_edit_permission#:#Thay đổi thiết lập quy�?n hạn
-common#:#exc_edit_until#:#Sửa đến khi
+common#:#exc_edit_until#:#Sửa đến khi###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#File###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Các file nộp lại###10 Jul 2006 content changed
 common#:#exc_groups#:#Nhóm
 common#:#exc_header_members#:#Bài tập (thành viên)
-common#:#exc_instruction#:#Hướng dẫn làm việc
+common#:#exc_instruction#:#Hướng dẫn làm việc###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Những ngư�?i sử dụng này đã được chỉ định vào bài tập này
@@ -1533,6 +1537,7 @@ common#:#exc_read#:#Truy cập bài tập
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Vai trò
 common#:#exc_save_changes#:#Ghi
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Tìm để có
 common#:#exc_select_one_file#:#Hãy ch�?n chính xác một file.
 common#:#exc_send_exercise#:#Gửi bài tập###10 Jul 2006 content changed
@@ -2569,7 +2574,7 @@ common#:#obj_svy#:#Khảo sát
 common#:#obj_tax#:#Phân loại
 common#:#obj_taxf#:#Phân loại
 common#:#obj_taxf_desc#:#Thư mục cho các phân loại
-common#:#obj_trac#:#Theo dõi ngư�?i sử dụng
+common#:#obj_trac#:#Theo dõi ngư�?i sử dụng###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Theo dõi thông tin truy cập của ngư�?i sử dụng
 common#:#obj_tst#:#Bài kiểm tra
 common#:#obj_typ#:#�?ịnh nghĩa kiểu đối tượng
@@ -6172,7 +6177,7 @@ trac#:#trac_objects#:#Danh sách các đối tượng###10 Jul 2006 content chan
 trac#:#trac_occurrences#:#�?ư�?ng dẫn:
 trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Assumed processing time###25 Feb 2006 new variable
-trac#:#trac_progress#:#Tiến trình h�?c tập cá nhân
+trac#:#trac_progress#:#Tiến trình h�?c tập cá nhân###30 Jul 2006 content changed
 trac#:#trac_query#:#Tiêu đ�?/mô tả:###10 Jul 2006 content changed
 trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
 trac#:#trac_reached_points#:#Achieved score###25 Feb 2006 new variable

@@ -984,7 +984,7 @@ common#:#alm_leave#:#Frameld AICC L&aelig;rer Modul
 common#:#alm_read#:#L&aelig;se adgang til AICC L&aelig;rer Modul
 common#:#alm_visible#:#AICC L&aelig;rer Modul er synligt
 common#:#alm_write#:#Rediger AICC L&aelig;rer Modul
-common#:#already_delivered_files#:#Filerne er allerede leveret
+common#:#already_delivered_files#:#Filerne er allerede leveret###30 Jul 2006 content changed
 common#:#and#:#og
 common#:#announce#:#Annoncer
 common#:#announce_changes#:#Annoncer &aelig;ndringer
@@ -1418,7 +1418,7 @@ common#:#delete_tr_data#:#Slet Sporingsdata
 common#:#deleted#:#Slettet
 common#:#deleted_user#:#Brugeren er blever slettet
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#levere exercise
+common#:#deliver#:#levere exercise###30 Jul 2006 content changed
 common#:#department#:#Afdeling
 common#:#desc#:#Beskrivelse
 common#:#descending_order#:#faldende order
@@ -1504,16 +1504,20 @@ common#:#exc_date_not_valid#:#Dat&oslash;n er ikke gyldig
 common#:#exc_deassign_members#:#Slet medlem(mer)
 common#:#exc_delete#:#Slet &oslash;velser
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Ny &oslash;velse er blevet oprettet
 common#:#exc_edit_exercise#:#Rediger &oslash;velse
 common#:#exc_edit_permission#:#&aelig;ndrer rettigheds indstillinger
-common#:#exc_edit_until#:#Rediger indtil
+common#:#exc_edit_until#:#Rediger indtil###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Filer###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Returnerede filer###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupper
 common#:#exc_header_members#:#&oslash;velse (medlemmer)
-common#:#exc_instruction#:#Arbejdsinstruktioner
+common#:#exc_instruction#:#Arbejdsinstruktioner###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Disse brugere er allerede tildelt denne &oslash;velse
@@ -1527,6 +1531,7 @@ common#:#exc_read#:#Adgangs&oslash;velse
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Roller
 common#:#exc_save_changes#:#Gem
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#S&oslash;g efter
 common#:#exc_select_one_file#:#V&aelig;lg venligst kun en fil.
 common#:#exc_send_exercise#:#Send &oslash;velse###10 Jul 2006 content changed
@@ -2568,7 +2573,7 @@ common#:#obj_svy#:#Unders&oslash;gelse
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_taxf_desc#:#Mappe til taxonomies
-common#:#obj_trac#:#Bruger Sporing
+common#:#obj_trac#:#Bruger Sporing###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Sporing/Overvaagning af brugere
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekt Type Definition
@@ -6190,7 +6195,7 @@ trac#:#trac_objects#:#Liste af objekter###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Sti
 trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Processing time
-trac#:#trac_progress#:#Personlig l&aelig;ringsfremgang
+trac#:#trac_progress#:#Personlig l&aelig;ringsfremgang###30 Jul 2006 content changed
 trac#:#trac_query#:#Overskrift###10 Jul 2006 content changed
 trac#:#trac_reached_objectives#:#Reached Learning Objectives###10 Jul 2006 new variable
 trac#:#trac_reached_points#:#Arkiverede resultater

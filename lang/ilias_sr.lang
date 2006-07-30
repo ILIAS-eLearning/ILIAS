@@ -1005,7 +1005,7 @@ common#:#alm_leave#:#Ispišite se iz AICC metode ucenja
 common#:#alm_read#:#Procitajte pristup AICC metodi ucenja
 common#:#alm_visible#:#AICC metod ucenja je vidljiv
 common#:#alm_write#:#Uredi AICC metodu ucenja
-common#:#already_delivered_files#:#Datoteke su vec isporucene
+common#:#already_delivered_files#:#Datoteke su vec isporucene###30 Jul 2006 content changed
 common#:#and#:#i
 common#:#announce#:#Saopštiti
 common#:#announce_changes#:#Promene saopštenja
@@ -1432,7 +1432,7 @@ common#:#delete_tr_data#:#Obriši pracenje podatka
 common#:#deleted#:#Obrisano
 common#:#deleted_user#:#Korisnik je izbrisan
 common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
-common#:#deliver#:#Predaj vežbu
+common#:#deliver#:#Predaj vežbu###30 Jul 2006 content changed
 common#:#department#:#Odeljenje
 common#:#desc#:#Opis
 common#:#descending_order#:#Descending order###23 Dec 2005 new variable
@@ -1516,16 +1516,20 @@ common#:#exc_date_not_valid#:#Datum nije ispravan
 common#:#exc_deassign_members#:#Obriši clana / clanove
 common#:#exc_delete#:#Obriši vežbu
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Nova vežba je kreirana
 common#:#exc_edit_exercise#:#Uredi vežbu
 common#:#exc_edit_permission#:#Promenite okvir za dozvolu
-common#:#exc_edit_until#:#Uredi do
+common#:#exc_edit_until#:#Uredi do###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Datoteke###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Vracene dadoteke###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupe
 common#:#exc_header_members#:#Vežba (clanovi)
-common#:#exc_instruction#:#Instrukcije za rad
+common#:#exc_instruction#:#Instrukcije za rad###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Last submission###10 Jul 2006 new variable
 common#:#exc_mail_users#:#Send mail to user(s)###10 Jul 2006 new variable
 common#:#exc_members_already_assigned#:#Ovi korisnici su vec pridruženi ovoj vežbi
@@ -1539,6 +1543,7 @@ common#:#exc_read#:#Pristupite vežbi
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Funkcije
 common#:#exc_save_changes#:#Snimi
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Traži
 common#:#exc_select_one_file#:#Molimo odaberite tacno jednu datoteku.
 common#:#exc_send_exercise#:#Pošalji vežbu###10 Jul 2006 content changed
@@ -2556,7 +2561,7 @@ common#:#obj_svy#:#Anketa
 common#:#obj_tax#:#Taksonomija
 common#:#obj_taxf#:#Taksonomije
 common#:#obj_taxf_desc#:#Registrator za taksonomije
-common#:#obj_trac#:#Pracenje korisnika
+common#:#obj_trac#:#Pracenje korisnika###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Korisnicki pristup pracenju podataka
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definicija vrste objekta

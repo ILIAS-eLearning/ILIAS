@@ -1501,11 +1501,15 @@ common#:#exc_date_not_valid#:#La date n'est pas valide###07 Apr 2005 content cha
 common#:#exc_deassign_members#:#Détruire membre(s)###07 Apr 2005 content changed
 common#:#exc_delete#:#Détruire exercice###07 Apr 2005 content changed
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Nouvel exercice créé###07 Apr 2005 content changed
 common#:#exc_edit_exercise#:#Modifier exercice###07 Apr 2005 content changed
 common#:#exc_edit_permission#:#Changer les paramètres de permission###07 Apr 2005 content changed
 common#:#exc_edit_until#:#Modifier jusqu'à###07 Apr 2005 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Fichiers###07 Apr 2005 content changed
 common#:#exc_files_returned#:#Fichiers rendus###13 may 2006 content changed
 common#:#exc_groups#:#Groupes###07 Apr 2005 content changed
@@ -1524,6 +1528,7 @@ common#:#exc_read#:#Accéder à l'exercice###07 Apr 2005 content changed
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Rôles###07 Apr 2005 content changed
 common#:#exc_save_changes#:#Enregistrer###07 Apr 2005 content changed
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Rechercher###07 Apr 2005 content changed
 common#:#exc_select_one_file#:#Veuillez sélectionner exactement un fichier.###07 Apr 2005 content changed
 common#:#exc_send_exercise#:#Envoyer exercice###07 Apr 2005 content changed

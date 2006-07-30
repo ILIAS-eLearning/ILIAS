@@ -1043,7 +1043,7 @@ common#:#alm_leave#:#Darse de baja del Módulo de aprendizaje AICC
 common#:#alm_read#:#Acceso de lectura al Módulo de aprendizaje AICC
 common#:#alm_visible#:#Módulo de aprendizaje AICC visible
 common#:#alm_write#:#Editar Módulo de aprendizaje AICC
-common#:#already_delivered_files#:#Archivos ya enviados
+common#:#already_delivered_files#:#Archivos ya enviados###30 Jul 2006 content changed
 common#:#and#:#y
 common#:#announce#:#anunciar
 common#:#announce_changes#:#anunciar cambios
@@ -1482,7 +1482,7 @@ common#:#delete_tr_data#:#Eliminar datos de Seguimiento
 common#:#deleted#:#borrados
 common#:#deleted_user#:#El usuario ha sido eliminado
 common#:#deleted_users#:#Usuarios eliminados
-common#:#deliver#:#Enviar actividad
+common#:#deliver#:#Enviar actividad###30 Jul 2006 content changed
 common#:#department#:#Departamento
 common#:#desc#:#Descripción
 common#:#descending_order#:#Orden descendiente
@@ -1570,16 +1570,20 @@ common#:#exc_date_not_valid#:#La fecha no es válida
 common#:#exc_deassign_members#:#Eliminar miembro(s)
 common#:#exc_delete#:#Eliminar Actividad
 common#:#exc_details#:#Detalles de la actividad
+common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
+common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Nuevo actividad creada
 common#:#exc_edit_exercise#:#Editar actividad
 common#:#exc_edit_permission#:#Modificar configuración de permisos
-common#:#exc_edit_until#:#Fecha limite de entrega
+common#:#exc_edit_until#:#Fecha limite de entrega###30 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
+common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
 common#:#exc_files#:#Archivos###10 Jul 2006 content changed
 common#:#exc_files_returned#:#Archivos entregados###10 Jul 2006 content changed
 common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Actividad (miembros)
-common#:#exc_instruction#:#Instrucciones de trabajo
+common#:#exc_instruction#:#Instrucciones de trabajo###30 Jul 2006 content changed
 common#:#exc_last_submission#:#Último envío###26 Jul 2006 content changed
 common#:#exc_mail_users#:#Enviar correo a usuario(s) seleccionado(s)
 common#:#exc_members_already_assigned#:#Estos usuarios están ya asignados a esta actividad
@@ -1593,6 +1597,7 @@ common#:#exc_read#:#Acceso actividad
 common#:#exc_resubmitted_advice#:#Este símbolo se muestro en caso de que un nuevo fichero haya sido enviado tras haber marcado el campo "resuelto"
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Guardar
+common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
 common#:#exc_search_for#:#Buscar
 common#:#exc_select_one_file#:#Por favor seleccione exactamente un archivo
 common#:#exc_send_exercise#:#Enviar actividad###10 Jul 2006 content changed
@@ -1605,8 +1610,8 @@ common#:#exc_status_sent#:#Por correo
 common#:#exc_status_solved#:#corregido
 common#:#exc_status_submitted#:#Entregado
 common#:#exc_submission#:#Submission###26 Jul 2006 new variable
-common#:#exc_time_over_short#:#el tiempo de entrega finalizo
-common#:#exc_time_to_send#:#Tiempo de trabajo restante
+common#:#exc_time_over_short#:#el tiempo de entrega finalizo###30 Jul 2006 content changed
+common#:#exc_time_to_send#:#Tiempo de trabajo restante###30 Jul 2006 content changed
 common#:#exc_upload_error#:#Error cargando archivo
 common#:#exc_users#:#Usuarios
 common#:#exc_visible#:#Actividad es visible
@@ -2639,7 +2644,7 @@ common#:#obj_svy#:#Encuesta
 common#:#obj_tax#:#Taxonomía
 common#:#obj_taxf#:#Taxonomías
 common#:#obj_taxf_desc#:#Carpeta para taxonomías
-common#:#obj_trac#:#Seguimiento de usuarios
+common#:#obj_trac#:#Seguimiento de usuarios###30 Jul 2006 content changed
 common#:#obj_trac_desc#:#Datos de seguimiento de usuario (accesos)
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definición del tipo de objeto
@@ -6380,7 +6385,7 @@ trac#:#trac_objects#:#Progreso de los usuarios###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Ruta:
 trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
 trac#:#trac_processing_time#:#Tiempo de proceso asumido
-trac#:#trac_progress#:#Mi Progreso
+trac#:#trac_progress#:#Mi Progreso###30 Jul 2006 content changed
 trac#:#trac_query#:#Titulo/descripcion:###10 Jul 2006 content changed
 trac#:#trac_reached_objectives#:#Objetivos alcanzados
 trac#:#trac_reached_points#:#Puntuación conseguida
