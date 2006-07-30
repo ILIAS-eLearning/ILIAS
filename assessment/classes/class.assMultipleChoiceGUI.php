@@ -106,7 +106,6 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				if (strlen($answer->getImage())) $graphical_answer_setting = 1;
 			}
 		}
-		$this->object->setGraphicalAnswerSetting($graphical_answer_setting);
 		$this->getQuestionTemplate("qt_multiple_choice_mr");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
 
