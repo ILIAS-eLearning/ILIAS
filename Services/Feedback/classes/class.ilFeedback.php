@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,14 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesFeedback Services/Feedback
+ */
+
 /**
 * FeedbackGUI Class
 *
 * @author	Helmuth Antholzer <helmuth.antholzer@maguma.com>
 * @version	$Id$
+* @ingroup	ServicesFeedback
 *
 */
-
 class ilFeedback {
 	function ilFeedback($a_id = 0){
 		if($a_id > 0){

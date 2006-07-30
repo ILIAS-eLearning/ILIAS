@@ -32,7 +32,7 @@
 *
 * @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI
 *
-* @ingroup InfoScreen
+* @ingroup ServicesInfoScreen
 */
 class ilInfoScreenGUI
 {
@@ -78,7 +78,11 @@ class ilInfoScreenGUI
 	function &executeCommand()
 	{
 		global $rbacsystem;
-		global $tpl; 
+		global $tpl;
+		global $lng;
+		
+		// load additional language modules
+		$lng->loadLanguageModule("barometer");
 
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -679,19 +683,17 @@ class ilInfoScreenGUI
 			 
 		if ($this->feedback_enabled)
 		{
-			// dummy
-			/*$tabs_gui->addSubTabTarget("feedback",
-				$this->ctrl->getLinkTarget($this, "dummy"),
-				"", "ilfeedbackgui");
-*/
 			// this should work with feedback class available
 			// maybe a line... "@ ilCtrl_Calls ilFeedbackGUI:"
 			// in the header of feedbackgui is necessary
 			
 			$tabs_gui->addSubTabTarget("feedback",
-				$this->ctrl->getLinkTargetByClass('ilfeedbackgui','fbList'),
+				$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
 				"", "ilfeedbackgui");
-			
+			/*
+			$tabs_gui->addSubTabTarget("feedb_feedback_settings",
+				$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
+				"", "ilfeedbackgui");*/
 		}
 	}
 

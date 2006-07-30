@@ -556,7 +556,7 @@ class ilTableGUI
 				}
 
 				$this->tpl->setCurrentBlock("tbl_content_row");
-				$rowcolor = ilUtil::switchColor($count,"tblrow2","tblrow1");
+				$rowcolor = ilUtil::switchColor($count,"tblrow1","tblrow2");
 				$this->tpl->setVariable("ROWCOLOR", $rowcolor);
 				$this->tpl->parseCurrentBlock();
 			

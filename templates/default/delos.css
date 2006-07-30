@@ -530,6 +530,7 @@ table.il_PDBlock
 	border-style:solid;
 	border-color:#9EADBA;
 	margin-bottom:25px;
+	clear:both;
 }
 
 th.il_PDBlockHeader
