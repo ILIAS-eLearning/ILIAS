@@ -723,7 +723,7 @@ class assSingleChoice extends assQuestion
 				}
 			}
 		}
-		$this->object->setGraphicalAnswerSetting($hasimages);
+		$this->setGraphicalAnswerSetting($hasimages);
 		parent::loadFromDb($question_id);
 	}
 
