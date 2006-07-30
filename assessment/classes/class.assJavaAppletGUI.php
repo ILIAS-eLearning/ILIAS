@@ -585,7 +585,7 @@ class assJavaAppletGUI extends assQuestionGUI
 	function getActiveUserData($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT user_fi FROM tst_active WHERE active_id = %s",
+		$query = sprintf("SELECT * FROM tst_active WHERE active_id = %s",
 			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
