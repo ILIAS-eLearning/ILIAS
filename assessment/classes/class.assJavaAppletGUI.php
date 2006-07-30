@@ -399,6 +399,7 @@ class assJavaAppletGUI extends assQuestionGUI
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
+		$userdata = $this->getActiveUserData($active_id);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -409,7 +410,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_id");
-		$template->setVariable("PARAM_VALUE", $test_id);
+		$template->setVariable("PARAM_VALUE", $userdata["test_id"]);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "question_id");
@@ -417,7 +418,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "user_id");
-		$template->setVariable("PARAM_VALUE", $user_id);
+		$template->setVariable("PARAM_VALUE", $userdata["user_id"]);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "points_max");
@@ -525,16 +526,8 @@ class assJavaAppletGUI extends assQuestionGUI
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, TRUE);
 		$template->setCurrentBlock("appletparam");
-		$template->setVariable("PARAM_NAME", "test_id");
-		$template->setVariable("PARAM_VALUE", $test_id);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "question_id");
 		$template->setVariable("PARAM_VALUE", $this->object->getId());
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("appletparam");
-		$template->setVariable("PARAM_NAME", "user_id");
-		$template->setVariable("PARAM_VALUE", $user_id);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "points_max");
