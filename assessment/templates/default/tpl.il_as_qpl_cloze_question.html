@@ -33,12 +33,7 @@ function helpline(help)
 <tr>
   <td class="option">{TEXT_CLOZE_TEXT}<span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="4">
-  	<!--div id="bbcodebuttons" style="position:relative;visibility:visible;">
-			<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="Hier wird eine kleine Hilfe stehen" />
-			<br />
-			<input type="button" class="ilEditSubmit" accesskey="g" name="addbbcode0" value=" gap " onClick="" onMouseOver="helpline('g')" />
-    </div-->
-		<textarea class="fullwidth" name="clozetext" id="clozetext" cols="40" rows="10">{VALUE_CLOZE_TEXT}</textarea>
+		<textarea name="clozetext" id="clozetext" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_CLOZE_TEXT}</textarea>
 		<br />
 		<span class="small">{TEXT_CLOSE_HINT}</span>
 	</td>
