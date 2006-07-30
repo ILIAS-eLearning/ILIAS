@@ -1902,6 +1902,20 @@
 			</applet>
 		</xsl:when>
 
+		<!-- text/html -->
+		<xsl:when test="$type = 'text/html'">
+			<iframe frameborder="0">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:call-template name="MOBParams">
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="mode">attributes</xsl:with-param>
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
+			</iframe>
+		</xsl:when>
+
 		<!-- all other mime types: output standard object/embed tag -->
 		<xsl:otherwise>
 			<!--<object>
