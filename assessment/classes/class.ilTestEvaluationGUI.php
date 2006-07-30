@@ -1683,7 +1683,7 @@ class ilTestEvaluationGUI
 		foreach ($result_array as $question_data)
 		{
 			$question_id = $question_data["qid"];
-			if (is_numeric($question))
+			if (is_numeric($question_id))
 			{
 				$this->tpl->setCurrentBlock("question");
 				$question_gui = $this->object->createQuestionGUI("", $question_id);
