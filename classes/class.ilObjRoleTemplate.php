@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "class.ilObject.php";
 
 /**
 * Class ilObjRoleTemplate
@@ -28,12 +29,8 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends ilObject
-* @package ilias-core
+* @ingroup	ServicesAccessControl
 */
-
-require_once "class.ilObject.php";
-
 class ilObjRoleTemplate extends ilObject
 {
 	/**

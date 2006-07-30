@@ -22,12 +22,13 @@
 */
 
 /**
-* Class ilObjectStatusGUI
+* This class displays the permission status of a user concerning a specific object.
+* ("Permissions" -> "Permission of User")
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @package core
+* @ingroup	ServicesAccessControl
 */
 class ilObjectStatusGUI
 {

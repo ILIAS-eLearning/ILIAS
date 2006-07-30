@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "class.ilObjectGUI.php";
 
 /**
 * Class ilObjRoleTemplateGUI
@@ -30,12 +31,8 @@
 *
 * @ilCtrl_Calls ilObjRoleTemplateGUI:
 *
-* @extends ilObjectGUI
-* @package ilias-core
+* @ingroup	ServicesAccessControl
 */
-
-require_once "class.ilObjectGUI.php";
-
 class ilObjRoleTemplateGUI extends ilObjectGUI
 {
 	/**

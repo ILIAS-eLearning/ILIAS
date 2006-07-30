@@ -666,11 +666,12 @@ class ilUtil
 
 				if ($newoffset == $AOffset)
 				{
-					$LinkBar .= "<font color='Gray'>[<b>".$i."</b>]</font> ";
+					$LinkBar .= "[".$i."] ";
 				}
 				else
 				{
-					$LinkBar .= "[<a".$layout_link." href=\"".$link.$newoffset."\">$i</a>] ";
+					$LinkBar .= '<a '.$layout_link.' href="'.
+						$link.$newoffset.'">['.$i.']</a> ';
 				}
 			}
 			//			}

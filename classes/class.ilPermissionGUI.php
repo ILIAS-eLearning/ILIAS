@@ -32,7 +32,7 @@
 *
 * @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI
 *
-* @package ilias-core
+* @ingroup	ServicesAccessControl
 */
 class ilPermissionGUI
 {

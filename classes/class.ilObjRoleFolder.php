@@ -22,18 +22,16 @@
 */
 
 
+require_once "class.ilObject.php";
+
 /**
 * Class ilObjRoleFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 * 
-* @extends ilObject
-* @package ilias-core
+* @ingroup	ServicesAccessControl
 */
-
-require_once "class.ilObject.php";
-
 class ilObjRoleFolder extends ilObject
 {
 	/**
