@@ -32,7 +32,7 @@ require_once ("content/classes/class.ilStructureObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilLMObjectFactory
 {

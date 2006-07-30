@@ -31,7 +31,7 @@
 * @ilCtrl_Calls ilObjDlBookGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjStyleSheetGUI, ilMDEditorGUI
 * @ilCtrl_Calls ilObjDlBookGUI: ilLearningProgressGUI, ilPermissionGUI
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 include_once "content/classes/class.ilObjContentObjectGUI.php";
 include_once "content/classes/class.ilObjDlBook.php";

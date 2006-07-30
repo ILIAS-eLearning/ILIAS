@@ -33,7 +33,7 @@ require_once("./content/classes/class.ilLMObjectGUI.php");
 *
 * @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerInterface, ilMDEditorGUI
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilStructureObjectGUI extends ilLMObjectGUI
 {

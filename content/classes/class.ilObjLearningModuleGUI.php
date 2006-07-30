@@ -32,7 +32,7 @@ require_once("content/classes/class.ilObjContentObjectGUI.php");
 * @ilCtrl_Calls ilObjLearningModuleGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjStyleSheetGUI, ilMDEditorGUI
 * @ilCtrl_Calls ilObjLearningModuleGUI: ilLearningProgressGUI, ilPermissionGUI
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 {

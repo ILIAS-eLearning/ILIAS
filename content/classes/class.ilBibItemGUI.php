@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -31,7 +31,7 @@ require_once("class.ilBibItem.php");
 * @author Jens Conze <jc@databay.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilBibItemGUI
 {
@@ -461,7 +461,7 @@ class ilBibItemGUI
 		}
 		$this->tpl->addBlockFile($a_temp_var, $a_temp_block, "tpl.bib_data_editor.html", false);
 
-#echo "Prüfen, ob BibItems vorhanden sind:<br>\n";
+#echo "Prï¿½fen, ob BibItems vorhanden sind:<br>\n";
 		if (!is_array($data = $this->bib_obj->getElement("BibItem")))
 		{
 #echo "Nein!<br>\n";

@@ -29,7 +29,7 @@ require_once("content/classes/class.ilObjContentObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilObjLearningModule extends ilObjContentObject
 {

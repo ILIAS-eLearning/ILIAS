@@ -43,7 +43,7 @@ define ("IL_NO_HEADER", "none");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilLMPageObject extends ilLMObject
 {

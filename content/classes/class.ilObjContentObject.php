@@ -22,23 +22,23 @@
 */
 
 
-/**
-* Class ilObjContentObject
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @version $Id$
-*
-* @extends ilObject
-* @package ilias-core
-*/
-
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilMetaData.php";
 require_once("classes/class.ilNestedSetXML.php");
-//require_once("content/classes/class.ilPageObject.php");
 
+/** @defgroup ModulesIliasLearningModule Modules/IliasLearningModule
+ */
+
+/**
+* Class ilObjContentObject
+*
+* @author Alex Killing <alex.killing@gmx.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+*
+* @version $Id$
+*
+* @ingroup ModulesIliasLearningModule
+*/
 class ilObjContentObject extends ilObject
 {
 	var $lm_tree;

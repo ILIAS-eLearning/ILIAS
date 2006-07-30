@@ -47,8 +47,7 @@ include_once("Services/MetaData/classes/class.ilMD.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSaxParser
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilContObjParser extends ilMDSaxParser
 {

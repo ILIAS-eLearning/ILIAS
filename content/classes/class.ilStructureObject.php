@@ -31,7 +31,7 @@ require_once("content/classes/class.ilLMObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package application
+* @ingroup ModulesIliasLearningModule
 */
 class ilStructureObject extends ilLMObject
 {
