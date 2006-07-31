@@ -1301,7 +1301,7 @@ common#:#check_link#:#Externen Link überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
-common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer deren Zugang zeitlich begrenzt ist 2 Wochen vor Ablauf darüber informiert.
+common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, 2 Wochen vor Ablauf darüber informiert.
 common#:#check_web_resources#:#Links überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Links nach ungültigen externen Links überprüft.
 common#:#checked_files#:#Importierbare Dateien
@@ -1375,7 +1375,7 @@ common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, wer
 common#:#cron_forum_notification_directly#:#sofort bei Neueintrag
 common#:#cron_forum_notification_never#:#nie
 common#:#cron_jobs#:#Cron-jobs
-common#:#cron_jobs_desc#:#Ein Cron-job ist automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.###10 Jul 2006 content changed
+common#:#cron_jobs_desc#:#Ein Cron-job ist ein automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.###10 Jul 2006 content changed
 common#:#cron_lucene_index#:#Lucene Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie voher den Lucene-Server unter 'Administration -> Suche'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#crs#:#Kurs
@@ -2735,7 +2735,7 @@ common#:#parse#:#Parsen
 common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
 common#:#passwd_generation#:#Passwortgenerierung
-common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit eigene Paswwörter festzulegen.
+common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit, eigene Paswwörter festzulegen.
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~###08 Feb 2006 content changed
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.###10 Jul 2006 content changed
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
