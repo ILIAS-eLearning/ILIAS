@@ -6424,3 +6424,5 @@ crs#:#event_end_date#:#Ende
 crs#:#event_date_time#:#Datum & Zeit
 crs#:#event_fullday#:#Ganztags
 crs#:#event_fulltime_info#:#Keine Zeit festgelegt
+crs#:#event_etime_smaller_stime#:#Der Endtermin ist früher als der Starttermin. Bitte geben Sie eine gültige Zeitspanne ein.
+crs#:#event_full_time_info#:#ganztags
