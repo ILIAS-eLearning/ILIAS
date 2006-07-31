@@ -23,15 +23,30 @@
 		  </td>
 		</tr>
 		<tr class="std">
+		  <td class="option">{TXT_REGISTRATION}</td>
+		  <td class="option_value">
+			<input type="checkbox" name="registration" value="1" {REG_CHECKED} />&nbsp;{REGISTRATION_INFO}
+		  </td>
+		</tr>
+		<tr class="tblheader">
+		  <th class="std" colspan="2">{TXT_DATE_TIME}</th>
+		</tr>
+		<tr class="std">
 		  <td class="option">{TXT_START_DATE}</td>
 		  <td class="option_value">
-			{START_DATE}
+			{START_DATE}  {TXT_TIME}: {START_TIME}
 		  </td>
 		</tr>
 		<tr class="std">
-		  <td class="option">{TXT_TIME}</td>
+		  <td class="option">{TXT_END_DATE}</td>
 		  <td class="option_value">
-			{START_TIME} - {END_TIME}
+			{END_DATE}  {TXT_TIME}: {END_TIME}
+		  </td>
+		</tr>
+		<tr class="std">
+		  <td class="option">{TXT_FULLDAY}</td>
+		  <td class="option_value">
+			<input type="checkbox" name="fulltime" value="1" {FULL_CHECKED} />&nbsp;{FULLTIME_INFO}
 		  </td>
 		</tr>
 		<!--
@@ -39,12 +54,6 @@
 		  <th class="std" colspan="2">{TXT_REGISTRATION_PARTICIPANCE}</th>
 		</tr>
 		-->
-		<tr class="std">
-		  <td class="option">{TXT_REGISTRATION}</td>
-		  <td class="option_value">
-			<input type="checkbox" name="registration" value="1" {REG_CHECKED} />&nbsp;{REGISTRATION_INFO}
-		  </td>
-		</tr>
 		<!--
 		<tr class="std">
 		  <td class="option">{TXT_PARTICIPANCE}</td>

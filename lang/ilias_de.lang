@@ -4334,7 +4334,7 @@ crs#:#event_registration#:#Anmeldung
 crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Veranstaltung anmelden.
 crs#:#event_registration_participance#:#Anmeldung
 crs#:#event_save_participants#:#Teilnahme speichern
-crs#:#event_start_date#:#Datum
+crs#:#event_start_date#:#Start
 crs#:#event_table_create#:#Neue Veranstaltung
 crs#:#event_table_update#:#Veranstaltung bearbeiten
 crs#:#event_tbl_participants#:#Teilnehmer der Veranstaltung
@@ -6363,7 +6363,7 @@ trac#:#trac_marks#:#Noten
 trac#:#trac_mode#:#Modus
 trac#:#trac_mode_collection#:#Auswahl von Objekten
 trac#:#trac_mode_deactivated#:#Deaktiviert
-trac#:#trac_mode_exercise_returned#:#Übung abgegeben
+trac#:#trac_mode_exercise_returned#:#Übung gelöst 
 trac#:#trac_mode_manual#:#Manuell
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
@@ -6420,3 +6420,7 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+crs#:#event_end_date#:#Ende
+crs#:#event_date_time#:#Datum & Zeit
+crs#:#event_fullday#:#Ganztags
+crs#:#event_fulltime_info#:#Keine Zeit festgelegt
