@@ -62,20 +62,11 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 	{
 		global $ilDB;
 
-		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-		
-		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
-			"WHERE obj_id = '".$a_obj_id."'";
+		include_once './classes/class.ilExerciseMembers.php';
+		$users = ilExerciseMembers::_getReturned($a_obj_id);
+		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
 
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if(!in_array($row->user_id,$completed))
-			{
-				$user_ids[] = $row->user_id;
-			}
-		}
-		return $user_ids ? $user_ids : array();
+		return $users ? $users : array();
 	}		
 
 	function _getCompleted($a_obj_id)
@@ -83,7 +74,6 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		global $ilDB;
 
 		include_once './classes/class.ilExerciseMembers.php';
-
 		return ($ret = ilExerciseMembers::_getSolved($a_obj_id)) ? $ret : array();
 	}
 		
