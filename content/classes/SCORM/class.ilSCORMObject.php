@@ -107,6 +107,24 @@ class ilSCORMObject
 		$this->setType($obj_rec["type"]);
 		$this->setSLMId($obj_rec["slm_id"]);
 	}
+	
+	/**
+	* Count number of presentable SCOs/Assets of SCORM learning module. 
+	*/
+	function _lookupNumberOfPresentableItems($a_slm_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT count(*) as cnt FROM scorm_object as sob, sc_item as sit".
+			" WHERE sob.slm_id = ".$ilDB->quote($a_slm_id).
+			" AND sob.obj_id = sit.obj_id ".
+			" AND sit.identifierref <> ''";
+		
+		$set = $ilDB->query($q);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $rec["cnt"];
+	}
 
     /**
      * Create database record for SCORM object.
