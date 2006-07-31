@@ -129,10 +129,15 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 		$filter = new ilLPFilter($ilUser->getId());
 		
-		$this->xml_tpl->setCurrentBlock("filter");
+		$this->xml_tpl->addBlockFile('FILTER','filter','tpl.lp_pdf_filter.xml','Services/Tracking');
+		$this->xml_tpl->setVariable("LEARNING_PROGRESS_OF",$this->lng->txt('learning_progress'));
+
+		$name = ilObjUser::_lookupName($ilUser->getId());
+		$this->xml_tpl->setVariable("USER_FULLNAME",$name['lastname'].', '.$name['firstname']);
+		$this->xml_tpl->setVariable("DATE",ilFormat::formatUnixTime(time()));
 		$this->xml_tpl->setVariable("TXT_FILTER",$this->lng->txt('trac_lp_filter'));
-		$this->xml_tpl->setVariable("TXT_OBJECT_TYPES",$this->lng->txt('obj_types'));
-		$this->xml_tpl->setVariable("OBJECT_TYPES",$this->lng->txt('objs_'.$filter->getFilterType()));
+		$this->xml_tpl->setVariable("TXT_TYPE",$this->lng->txt('obj_types'));
+		$this->xml_tpl->setVariable("TYPE",$this->lng->txt('objs_'.$filter->getFilterType()));
 		$this->xml_tpl->setVariable("TXT_AREA",$this->lng->txt('trac_filter_area'));
 		$this->xml_tpl->setVariable("FILTER_LANG",$ilUser->getLanguage());
 		if($filter->getRootNode() == ROOT_FOLDER_ID)
@@ -146,8 +151,6 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 			$text .= "'";
 			$this->xml_tpl->setVariable("AREA",$text);
 		}
-		$this->xml_tpl->setVariable("TXT_TITLE_DESC",$this->lng->txt('trac_query'));
-		$this->xml_tpl->setVariable("TITLE_DESC",$filter->getQueryString());
 		$this->xml_tpl->parseCurrentBlock();
 
 		#echo htmlentities($this->xml_tpl->get());

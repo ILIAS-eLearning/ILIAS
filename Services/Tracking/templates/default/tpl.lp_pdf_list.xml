@@ -16,56 +16,6 @@
         <Description Language="{LANG}">{PAGE_DESCRIPTION}</Description>
       </General>
     </MetaData>
-<!-- BEGIN filter -->
-    <PageContent>
-      <Paragraph Language="de" Characteristic="Headline1">{TXT_FILTER}</Paragraph>
-    </PageContent>
-    <PageContent>
-      <Table Language="de" Width="50%" Border="0">
-        <TableRow>
-          <TableData>
-            <PageContent>
-              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">
-                <Strong>{TXT_OBJECT_TYPES}</Strong>
-              </Paragraph>
-            </PageContent>
-          </TableData>
-          <TableData>
-            <PageContent>
-              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">{OBJECT_TYPES}</Paragraph>
-            </PageContent>
-          </TableData>
-        </TableRow>
-        <TableRow>
-          <TableData>
-            <PageContent>
-              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">
-                <Strong>{TXT_AREA}</Strong>
-              </Paragraph>
-            </PageContent>
-          </TableData>
-          <TableData>
-            <PageContent>
-              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">{AREA}</Paragraph>
-            </PageContent>
-          </TableData>
-        </TableRow>
-        <TableRow>
-          <TableData>
-            <PageContent>
-              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">
-                <Strong>{TXT_TITLE_DESC}</Strong>
-              </Paragraph>
-            </PageContent>
-          </TableData>
-          <TableData>
-            <PageContent>
-              <Paragraph Language="{FILTER_LANG}" Characteristic="TableContent">{TITLE_DESC}</Paragraph>
-            </PageContent>
-          </TableData>
-        </TableRow>
-      </Table>
-    </PageContent>
-<!-- END filter -->
+{FILTER}
   </PageObject>
 </ContentObject>
