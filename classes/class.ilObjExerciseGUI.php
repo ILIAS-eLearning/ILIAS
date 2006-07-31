@@ -601,6 +601,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function membersObject()
 	{
 		global $rbacsystem;
+
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 	
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
@@ -856,8 +858,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_LCOMMENT", $this->lng->txt("exc_comment_for_learner"));
 				$this->tpl->setVariable("NAME_LCOMMENT",
 					"lcomment[$member_id]");
-// lp_todo	: get comment for user $member id
-// $lpcomment = ....
+				// lp_todo	: get comment for user $member id => DONE
+				$lpcomment = ilLPMarks::_lookupComment($member_id,$this->object->getId());
 				$this->tpl->setVariable("VAL_LCOMMENT",
 					ilUtil::prepareFormOutput($lpcomment));
 
@@ -874,8 +876,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_MARK", $this->lng->txt("exc_mark"));
 				$this->tpl->setVariable("NAME_MARK",
 					"mark[$member_id]");
-// lp_todo	: get mark for user $member_id
-// $mark = ....
+				// lp_todo	: get mark for user $member_id => DONE
+				$mark = ilLPMarks::_lookupMark($member_id,$this->object->getId());
+
 				$this->tpl->setVariable("VAL_MARK",
 					ilUtil::prepareFormOutput($mark));
 					
@@ -1241,14 +1244,22 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function __saveStatus()
 	{
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+
 		foreach($_POST["id"] as $key => $value)
 		{
 			$this->object->members_obj->setStatusSolvedForMember($key, $_POST["solved"][$key] ? 1 : 0);
 			$this->object->members_obj->setStatusFeedbackForMember($key, $_POST["feedback"][$key] ? 1 : 0);
 			$this->object->members_obj->setNoticeForMember($key,ilUtil::stripSlashes($_POST["notice"][$key]));
-// lp_todo	: save the following data
+
+// lp_todo	: save the following data => DONE
 // $_POST["mark"][$key]			has mark for user $key
 // $_POST["lcomment"][$key]		has comment for user $key
+
+			$marks_obj = new ilLPMarks($this->object->getId(),$key);
+			$marks_obj->setMark(ilUtil::stripSlashes($_POST['mark'][$key]));
+			$marks_obj->setComment(ilUtil::stripSlashes($_POST['lcomment'][$key]));
+			$marks_obj->update();
 		}
 		return true;
 	}
