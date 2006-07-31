@@ -6426,3 +6426,6 @@ crs#:#event_fullday#:#Ganztags
 crs#:#event_fulltime_info#:#Keine Zeit festgelegt
 crs#:#event_etime_smaller_stime#:#Der Endtermin ist früher als der Starttermin. Bitte geben Sie eine gültige Zeitspanne ein.
 crs#:#event_full_time_info#:#ganztags
+common#:#fold_edit_learning_progress#:#Lernfortschritt bearbeiten
+common#:#exc_edit_learning_progress#:#Lernfortschritt bearbeiten
+common#:#grp_edit_learning_progress#:#Lernfortschritt bearbeiten

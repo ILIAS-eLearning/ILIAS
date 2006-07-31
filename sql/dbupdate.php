@@ -11401,3 +11401,65 @@ ALTER TABLE `event_appointment` ADD `fulltime` TINYINT( 1 ) NOT NULL;
 
 <#804>
 ALTER TABLE `ut_lp_marks` CHANGE `comment` `comment` TEXT NOT NULL;
+
+
+<#805>
+<?php
+
+$query = "SELECT * FROM rbac_operations WHERE operation = 'edit_learning_progress'";
+												   $res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ops_id = $row->ops_id;
+}
+
+// Get type ids of 'exc', 'grp', 'fold'
+$query = "SELECT obj_id FROM object_data WHERE title IN ('exc','grp','fold') ".
+	"AND type = 'typ'";
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$type_ids[] = $row->obj_id;
+}
+// ASSIGN new operation to object types
+foreach($type_ids as $typ_id)
+{
+	$query = "INSERT INTO rbac_ta SET typ_id = '".$typ_id."', ".
+		"ops_id = '".$ops_id."'";
+
+	$ilDB->query($query);
+}
+
+// get template il_crs_admin Author and Local Administrator
+$query = "SELECT obj_id FROM object_data WHERE title IN ('il_grp_admin','il_crs_admin','Author','Local Administrator') ".
+	"AND type = 'rolt'";
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$rolt_ids[] = $row->obj_id;
+}
+
+// ASSIGN new operation to role templates
+foreach($rolt_ids as $rolt_id)
+{
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'grp', ".
+		"ops_id = '".$ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'exc', ".
+		"ops_id = '".$ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+
+	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
+		"type = 'fold', ".
+		"ops_id = '".$ops_id."', ".
+		"parent = '".ROLE_FOLDER_ID."'";
+	$ilDB->query($query);
+}
+?>
