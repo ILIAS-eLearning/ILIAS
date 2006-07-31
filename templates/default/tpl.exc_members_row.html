@@ -26,13 +26,17 @@
   <!-- END download_new_link -->
   <div style="margin: 2px 0px 0px 0px">
   <span class="small">
-  {TXT_NOTE}: <input type="text" name="{NAME_NOTE}" value="{VAL_NOTE}" size="45" maxlength="200" />
+  {TXT_NOTE}:<br /><input type="text" name="{NAME_NOTE}" value="{VAL_NOTE}" size="45" maxlength="200" /><br />
+  {TXT_LCOMMENT}:
+  <textarea name="{NAME_LCOMMENT}" cols="45" rows="2" wrap="virtual">{VAL_LCOMMENT}</textarea>
   </span>
   </div>
   </td>
   <td class="std" valign="top">
   {CHKBOX_SOLVED}<br />
-  <span class="small">{VAL_SOLVED_DATE}</span>
+  <span class="small">{VAL_SOLVED_DATE}<br />
+  {TXT_MARK}: <input type="text" name="{NAME_MARK}" value="{VAL_MARK}" size="5" maxlength="32" />
+  </span>
   </td>
   <td class="std" valign="top">
   {CHKBOX_FEEDBACK}<br />

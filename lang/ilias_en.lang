@@ -1572,6 +1572,8 @@ common#:#exc_ask_delete#:#Delete file?
 common#:#exc_assign_usr#:#Assign User
 common#:#exc_create#:#Create exercise
 common#:#exc_date_not_valid#:#The date is not valid
+exercise#:#exc_comment_for_learner#:#Comment for Learner
+exercise#:#exc_mark#:#Mark
 common#:#exc_deassign_members#:#Delete member(s)
 common#:#exc_delete#:#Delete exercise
 common#:#exc_details#:#Exercise details
