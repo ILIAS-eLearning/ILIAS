@@ -1317,7 +1317,6 @@ common#:#cleaned_file#:#File has been cleaned.
 common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
 common#:#clear_clipboard#:#Empty Clipboard
-common#:#client ip#:#Client IP
 common#:#client#:#Client
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
@@ -4374,7 +4373,6 @@ crs#:#tutor_lastname#:#Lastname
 crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Phone
 crs#:#tutor_title#:#Title
-crs_#:#crs_archives#:#Archives
 dateplaner#:#DateText#:#Message
 dateplaner#:#Day_long#:#Day View
 dateplaner#:#ERROR_DATE_EXISTS#:#This event already exists.
