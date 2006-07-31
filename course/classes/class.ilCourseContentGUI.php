@@ -485,8 +485,7 @@ class ilCourseContentGUI
 				$tpl->setVariable("EVENT_DESCRIPTION",$desc);
 			}
 			$tpl->setVariable("EVENT_TXT_DATE",$this->lng->txt('event_date'));
-			$tpl->setVariable("EVENT_DATE",ilFormat::formatUnixTime($appointment_obj->getStartingTime(),false));
-			$tpl->setVariable("EVENT_TIME",$appointment_obj->formatTime());
+			$tpl->setVariable("EVENT_DATE",$appointment_obj->appointmentToString());
 			$tpl->parseCurrentBlock();
 
 			$counter++;
@@ -1200,8 +1199,7 @@ class ilCourseContentGUI
 
 		$this->tpl->setCurrentBlock("tlt");
 		$this->tpl->setVariable("TXT_TLT",$this->lng->txt('event_date'));
-		$this->tpl->setVariable("TLT_VAL",ilFormat::formatUnixTime($item['start'],false).' '.
-								ilEventAppointment::_timeToString($item['start'],$item['end']));
+		$this->tpl->setVariable("TLT_VAL",ilEventAppointment::_appointmentToString($item['start'],$item['end'],$item['fulltime']));
 		$this->tpl->parseCurrentBlock();
 
 

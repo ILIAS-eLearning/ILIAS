@@ -369,6 +369,7 @@ class ilEvent
 			$event_appointment =& $event_obj->getFirstAppointment();
 			$item[$event_obj->getEventId()]['start'] = $event_appointment->getStartingTime();
 			$item[$event_obj->getEventId()]['end'] = $event_appointment->getEndingTime();
+			$item[$event_obj->getEventId()]['fulltime'] = $event_appointment->enabledFullTime();
 		}
 
 		return $item ? $item : array();

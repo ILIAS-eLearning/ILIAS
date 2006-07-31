@@ -4338,7 +4338,7 @@ crs#:#event_registration#:#Registration
 crs#:#event_registration_info#:#Allow users to register to the event.
 crs#:#event_registration_participance#:#Registration
 crs#:#event_save_participants#:#Save Participance
-crs#:#event_start_date#:#Date
+crs#:#event_start_date#:#Start
 crs#:#event_table_create#:#New Event
 crs#:#event_table_update#:#Edit Event
 crs#:#event_tbl_participants#:#List of Participants
@@ -6428,3 +6428,5 @@ crs#:#event_end_date#:#End
 crs#:#event_date_time#:#Date & Time
 crs#:#event_fullday#:#Full-Time
 crs#:#event_fulltime_info#:#No Time Specified
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
+crs#:#event_full_time_info#:#full-time

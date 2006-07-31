@@ -113,6 +113,53 @@ class ilEventAppointment
 		return $start.' - '. $end;
 	}
 
+	function _appointmentToString($start,$end,$fulltime)
+	{
+		global $lng;
+
+		$start_day = date('j',$start);
+		$start_month = date('n',$start);
+		$start_year = date('Y',$start);
+
+		$end_day = date('j',$end);
+		$end_month = date('n',$end);
+		$end_year = date('Y',$end);
+
+		if($start_day == $end_day and
+		   $start_month == $end_month and
+		   $start_year == $end_year)
+		{
+			$date_time = ilFormat::formatUnixTime($start,false);
+			if(!$fulltime)
+			{
+				$date_time .= (' '.ilEventAppointment::_timeToString($start,$end));
+			}
+			else
+			{
+				$date_time .= (' ('.$lng->txt('event_full_time_info').')');
+			}
+		}
+		else
+		{
+			if(!$fulltime)
+			{
+				$date_time = ilFormat::formatUnixTime($start,true) . ' - '.
+					ilFormat::formatUnixTime($end,true);
+			}
+			else
+			{
+				$date_time = ilFormat::formatUnixTime($start,false) . ' - '.
+					ilFormat::formatUnixTime($end,false);
+				$date_time .= (' ('.$lng->txt('event_full_time_info').')');
+			}
+		}
+		return $date_time;
+	}
+	function appointmentToString()
+	{
+		return ilEventAppointment::_appointmentToString($this->getStartingTime(),$this->getEndingTime(),$this->enabledFullTime());
+	}
+
 	function create()
 	{
 		if(!$this->getEventId())
