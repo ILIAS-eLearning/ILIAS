@@ -42,9 +42,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function ilObjExerciseGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
+		global $lng;
+		
 		$this->type = "exc";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		
+		$lng->loadLanguageModule("exercise");
 		$this->ctrl->saveParameter($this, array("sort_by", "sort_order", "offset"));
 	}
   
@@ -848,6 +851,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 					"notice[$member_id]");
 				$this->tpl->setVariable("VAL_NOTE",
 					ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
+					
+				// comment for learner
+				$this->tpl->setVariable("TXT_LCOMMENT", $this->lng->txt("exc_comment_for_learner"));
+				$this->tpl->setVariable("NAME_LCOMMENT",
+					"lcomment[$member_id]");
+// lp_todo	: get comment for user $member id
+// $lpcomment = ....
+				$this->tpl->setVariable("VAL_LCOMMENT",
+					ilUtil::prepareFormOutput($lpcomment));
 
 				// solved
 				$this->tpl->setVariable("CHKBOX_SOLVED",
@@ -857,6 +869,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$this->tpl->setVariable("VAL_SOLVED_DATE",
 						ilFormat::formatDate($sd, "datetime", true));
 				}
+				
+				// mark
+				$this->tpl->setVariable("TXT_MARK", $this->lng->txt("exc_mark"));
+				$this->tpl->setVariable("NAME_MARK",
+					"mark[$member_id]");
+// lp_todo	: get mark for user $member_id
+// $mark = ....
+				$this->tpl->setVariable("VAL_MARK",
+					ilUtil::prepareFormOutput($mark));
 					
 				// feedback
 				$this->ctrl->setParameter($this, "member_id", $member_id);
@@ -1225,6 +1246,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->object->members_obj->setStatusSolvedForMember($key, $_POST["solved"][$key] ? 1 : 0);
 			$this->object->members_obj->setStatusFeedbackForMember($key, $_POST["feedback"][$key] ? 1 : 0);
 			$this->object->members_obj->setNoticeForMember($key,ilUtil::stripSlashes($_POST["notice"][$key]));
+// lp_todo	: save the following data
+// $_POST["mark"][$key]			has mark for user $key
+// $_POST["lcomment"][$key]		has comment for user $key
 		}
 		return true;
 	}
