@@ -23,7 +23,16 @@ archive="gnu.jar,PfPLMS-API-adapter-core.jar,IliasApiAdapterApplet.jar"
 function setupApi () {
 	this.API = window.document.APIX;
 }
+
+<!-- BEGIN auto_launch -->
+function autoLaunch () {
+	this.setupApi();
+	this.API.{AUTO_LAUNCH_ITEM_CMD}({AUTO_LAUNCH_ID});
+}
+{AUTO_LAUNCH_CMD}
+<!-- END auto_launch -->
 </script>
+
 
 </body>
 </html>

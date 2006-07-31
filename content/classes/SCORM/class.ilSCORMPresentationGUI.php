@@ -100,9 +100,9 @@ class ilSCORMPresentationGUI
 	function frameset()
 	{
 		include_once("content/classes/SCORM/class.ilSCORMObject.php");
-		$nr = ilSCORMObject::_lookupNumberOfPresentableItems($this->slm->getId());
+		$items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
 
-		if ($nr > 1)
+		if (count($items) > 1)
 		{
 			$this->ctrl->setParameter($this, "expand", "1");
 			$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
@@ -114,13 +114,14 @@ class ilSCORMPresentationGUI
 			$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
 			$this->tpl->show("DEFAULT", false);
 		}
-		else
+		else if (count($items) == 1)
 		{
 			//$this->ctrl->setParameter($this, "expand", "1");
 			//$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
 			$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_one_page.html",
 				false, false, "content");
 			//$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
+			$this->ctrl->setParameter($this, "autolaunch", $items[0]);
 			$api_link = $this->ctrl->getLinkTarget($this, "api");
 			$this->tpl->setVariable("API_LINK", $api_link);
 			$pres_link = $this->ctrl->getLinkTarget($this, "view");
@@ -195,7 +196,7 @@ class ilSCORMPresentationGUI
 		}
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->show();
+		$this->tpl->show(false);
 	}
 
 	function api()
@@ -205,15 +206,40 @@ class ilSCORMPresentationGUI
 		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		$this->tpl = new ilTemplate("tpl.sahs_api.html", true, true, true);
+		
+		// for scorm modules with only one presentable item: launch item
+		if ($_GET["autolaunch"] != "")
+		{
+			$this->tpl->setCurrentBlock("auto_launch");
+			include_once("content/classes/SCORM/class.ilSCORMItem.php");
+			include_once("content/classes/SCORM/class.ilSCORMResource.php");
+			$sc_object =& new ilSCORMItem($_GET["autolaunch"]);
+			$id_ref = $sc_object->getIdentifierRef();
+			$sc_res_id = ilSCORMResource::_lookupIdByIdRef($id_ref, $sc_object->getSLMId());
+			$scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
+			
+			if ($scormtype == "asset")
+			{
+				$item_command = "IliasLaunchAsset";
+			}
+			else
+			{
+				$item_command = "IliasLaunchSahs";
+			}
+			$this->tpl->setVariable("AUTO_LAUNCH_ID", $_GET["autolaunch"]);
+			$this->tpl->setVariable("AUTO_LAUNCH_CMD", "this.autoLaunch();");
+			$this->tpl->setVariable("AUTO_LAUNCH_ITEM_CMD", $item_command);
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 		$this->tpl->setVariable("USER_FIRSTNAME",$ilias->account->getFirstname());
 		$this->tpl->setVariable("USER_LASTNAME",$ilias->account->getLastname());
 		$this->tpl->setVariable("REF_ID",$_GET["ref_id"]);
 		$this->tpl->setVariable("SESSION_ID",session_id());
-
 		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/sahs_presentation.php")));
+		
 		$this->tpl->parseCurrentBlock();
-
 		$this->tpl->show(false);
 		exit;
 	}
