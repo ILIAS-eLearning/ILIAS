@@ -99,15 +99,34 @@ class ilSCORMPresentationGUI
 	*/
 	function frameset()
 	{
-		$this->ctrl->setParameter($this, "expand", "1");
-		$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
-		$this->tpl = new ilTemplate("tpl.sahs_pres_frameset.html", false, false, "content");
-		$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
-		$api_link = $this->ctrl->getLinkTarget($this, "api");
-		$this->tpl->setVariable("API_LINK", $api_link);
-		$pres_link = $this->ctrl->getLinkTarget($this, "view");
-		$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
-		$this->tpl->show("DEFAULT", false);
+		include_once("content/classes/SCORM/class.ilSCORMObject.php");
+		$nr = ilSCORMObject::_lookupNumberOfPresentableItems($this->slm->getId());
+
+		if ($nr > 1)
+		{
+			$this->ctrl->setParameter($this, "expand", "1");
+			$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
+			$this->tpl = new ilTemplate("tpl.sahs_pres_frameset.html", false, false, "content");
+			$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
+			$api_link = $this->ctrl->getLinkTarget($this, "api");
+			$this->tpl->setVariable("API_LINK", $api_link);
+			$pres_link = $this->ctrl->getLinkTarget($this, "view");
+			$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
+			$this->tpl->show("DEFAULT", false);
+		}
+		else
+		{
+			//$this->ctrl->setParameter($this, "expand", "1");
+			//$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
+			$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_one_page.html",
+				false, false, "content");
+			//$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
+			$api_link = $this->ctrl->getLinkTarget($this, "api");
+			$this->tpl->setVariable("API_LINK", $api_link);
+			$pres_link = $this->ctrl->getLinkTarget($this, "view");
+			$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
+			$this->tpl->show("DEFAULT", false);
+		}
 		exit;
 	}
 
