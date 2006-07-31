@@ -267,13 +267,17 @@ class ilPaymentObject
 		return false;
 	}
 
-	function _isPurchasable($a_ref_id)
+	function _isPurchasable($a_ref_id, $a_vendor_id = 0)
 	{
 		global $ilDB;
 
 		// In the moment it's not possible to sell one object twice
 		$query = "SELECT * FROM payment_objects ".
-			"WHERE ref_id = '".$a_ref_id."'";
+			"WHERE ref_id = '".$a_ref_id."' ";
+		if ($a_vendor_id > 0)
+		{
+			$query .= "AND vendor_id = '".$a_vendor_id."' ";
+		}
 		#"AND status = '1' OR status = '3' ";
 		
 		$res = $ilDB->query($query);

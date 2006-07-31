@@ -552,7 +552,6 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",'payment');
 		$this->showButton('showStatistics',$this->lng->txt('back'));
 
-
 		sendInfo($this->lng->txt("paya_select_object_to_sell"));
 
 		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));

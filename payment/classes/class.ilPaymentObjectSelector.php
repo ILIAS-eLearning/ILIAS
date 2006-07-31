@@ -106,6 +106,8 @@ class ilPaymentObjectSelector extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id)
 	{
+		global $ilUser;
+
 		switch($a_type)
 		{
 			case 'lm':
@@ -121,8 +123,14 @@ class ilPaymentObjectSelector extends ilExplorer
 		}
 
 
-		if ($this->classname == 'ilpaymentstatisticgui' ||
-			$this->classname == 'ilobjpaymentsettingsgui')
+		if ($this->classname == 'ilpaymentstatisticgui')
+		{
+			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId()))
+			{
+				return true;
+			}
+		}
+		else if ($this->classname == 'ilobjpaymentsettingsgui')
 		{
 			if (!ilPaymentObject::_isPurchasable($a_ref_id))
 			{
@@ -156,10 +164,16 @@ class ilPaymentObjectSelector extends ilExplorer
 			return true;
 		}
 
-		if ($this->classname == 'ilpaymentstatisticgui' ||
-			$this->classname == 'ilobjpaymentsettingsgui')
+		if ($this->classname == 'ilpaymentstatisticgui')
 		{
-			if (ilPaymentObject::_isPurchasable($a_ref_id))
+			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId()))
+			{
+				return false;
+			}
+		}
+		else if ($this->classname == 'ilobjpaymentsettingsgui')
+		{
+			if (!ilPaymentObject::_isPurchasable($a_ref_id))
 			{
 				return false;
 			}
