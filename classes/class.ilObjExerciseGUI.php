@@ -699,8 +699,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->lng->txt("login"),
 				$this->lng->txt("exc_exercise_sent"),
 				$this->lng->txt("exc_submission"),
-				$this->lng->txt("exc_status_solved"),
-				$this->lng->txt("exc_feedback_sent")
+				$this->lng->txt("exc_grading"),
+				$this->lng->txt("mail")
 				));
 
 			$tbl->setColumnWidth(array("1%", "1%", "", "", "", "", "", ""));
@@ -858,7 +858,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_LCOMMENT", $this->lng->txt("exc_comment_for_learner"));
 				$this->tpl->setVariable("NAME_LCOMMENT",
 					"lcomment[$member_id]");
-				// lp_todo	: get comment for user $member id => DONE
 				$lpcomment = ilLPMarks::_lookupComment($member_id,$this->object->getId());
 				$this->tpl->setVariable("VAL_LCOMMENT",
 					ilUtil::prepareFormOutput($lpcomment));
@@ -866,6 +865,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				// solved
 				$this->tpl->setVariable("CHKBOX_SOLVED",
 					ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1));
+				$this->tpl->setVariable("TXT_SOLVED",
+					$this->lng->txt("exc_status_solved"));
 				if (($sd = ilObjExercise::_lookupSolvedTime($this->object->getId(), $member_id)) > 0)
 				{
 					$this->tpl->setVariable("VAL_SOLVED_DATE",
@@ -876,9 +877,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_MARK", $this->lng->txt("exc_mark"));
 				$this->tpl->setVariable("NAME_MARK",
 					"mark[$member_id]");
-				// lp_todo	: get mark for user $member_id => DONE
 				$mark = ilLPMarks::_lookupMark($member_id,$this->object->getId());
-
 				$this->tpl->setVariable("VAL_MARK",
 					ilUtil::prepareFormOutput($mark));
 					
@@ -899,7 +898,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$this->ctrl->getLinkTarget($this, "redirectFeedbackMail"));
 					//"mail_new.php?type=new&rcp_to=".$mem_obj->getLogin());
 				$this->tpl->setVariable("TXT_FEEDBACK",
-					$this->lng->txt("mail_feedback"));
+					$this->lng->txt("exc_send_mail"));
 				$this->ctrl->setParameter($this, "rcp_to", "");
 
 				$this->tpl->parseCurrentBlock();
@@ -1252,10 +1251,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->object->members_obj->setStatusFeedbackForMember($key, $_POST["feedback"][$key] ? 1 : 0);
 			$this->object->members_obj->setNoticeForMember($key,ilUtil::stripSlashes($_POST["notice"][$key]));
 
-// lp_todo	: save the following data => DONE
-// $_POST["mark"][$key]			has mark for user $key
-// $_POST["lcomment"][$key]		has comment for user $key
-
+			// save mark and comment
 			$marks_obj = new ilLPMarks($this->object->getId(),$key);
 			$marks_obj->setMark(ilUtil::stripSlashes($_POST['mark'][$key]));
 			$marks_obj->setComment(ilUtil::stripSlashes($_POST['lcomment'][$key]));
@@ -1414,10 +1410,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilAccess;
   
-		$next_class = $this->ctrl->getNextClass();
+		$next_class = strtolower($this->ctrl->getNextClass());
 		if ($ilAccess->checkAccess("visible", "", $this->object->getRefId()))
 		{
-			$force_active = (strtolower($next_class) == "ilinfoscreengui")
+			$force_active = ($next_class == "ilinfoscreengui")
 				? true
 				: false;
 			$tabs_gui->addTarget("info_short",
@@ -1433,7 +1429,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			
 		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("deliver",
+			$tabs_gui->addTarget("exc_your_submission",
 				$this->ctrl->getLinkTarget($this, "deliver"),
 				"deliver", "");
 		}
@@ -1451,6 +1447,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 
 		// learning progress
+		$save_sort_order = $_GET["sort_order"];		// hack, because exercise sort parameters
+		$save_sort_by = $_GET["sort_by"];			// must not be forwarded to learning progress
+		$save_offset = $_GET["offset"];
+		$_GET["offset"] = $_GET["sort_by"] = $_GET["sort_order"] = ""; 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if($ilAccess->checkAccess("read", "", $this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
 		{
@@ -1458,6 +1458,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''),
 		 '',array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
+		$_GET["sort_order"] = $save_sort_order;		// hack, part ii
+		$_GET["sort_by"] = $save_sort_by;
+		$_GET["offset"] = $save_offset;
+		
 		// permissions
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
@@ -1545,7 +1549,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser;
 
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
@@ -1596,6 +1600,53 @@ class ilObjExerciseGUI extends ilObjectGUI
 						$this->lng->txt("download"),
 						$this->ctrl->getLinkTarget($this, "downloadFile"));
 					$this->ctrl->setParameter($this, "file", "");
+				}
+			}
+		}
+		
+		// submission and feedback info only if read permission given
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		{
+			// submission
+			$info->addSection($this->lng->txt("exc_your_submission"));
+			$delivered_files = $this->object->getDeliveredFiles($ilUser->id);
+			$titles = array();
+			foreach($delivered_files as $file)
+			{
+				$titles[] = $file["filetitle"];
+			}
+			$files_str = implode($titles, ", ");
+			$info->addProperty($this->lng->txt("exc_files_returned"),
+				$files_str);
+			$last_sub = $this->object->getLastSubmission($ilUser->getId());
+			if ($last_sub)
+			{
+				$last_sub = ilFormat::formatDate($last_sub, "datetime", true);
+			}
+			else
+			{
+				$last_sub = "---";
+			}
+
+			$info->addProperty($this->lng->txt("exc_last_submission"),
+				$last_sub);
+			
+			// feedback from tutor
+			include_once("Services/Tracking/classes/class.ilLPMarks.php");
+			$lpcomment = ilLPMarks::_lookupComment($ilUser->getId(), $this->object->getId());
+			$mark = ilLPMarks::_lookupMark($ilUser->getId(), $this->object->getId());
+			if ($lpcomment != "" || $mark != "")
+			{
+				$info->addSection($this->lng->txt("exc_feedback_from_tutor"));
+				if ($lpcomment != "")
+				{
+					$info->addProperty($this->lng->txt("exc_comment"),
+						$lpcomment);
+				}
+				if ($mark != "")
+				{
+					$info->addProperty($this->lng->txt("exc_mark"),
+						$mark);
 				}
 			}
 		}

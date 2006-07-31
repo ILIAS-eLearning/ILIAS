@@ -1048,7 +1048,7 @@ common#:#alm_leave#:#Unsubscribe from AICC Learning Module
 common#:#alm_read#:#Read access to AICC Learning Module
 common#:#alm_visible#:#AICC Learning Module is visible
 common#:#alm_write#:#Edit AICC Learning Module
-common#:#already_delivered_files#:#Delivered Files
+common#:#already_delivered_files#:#Submitted Files
 common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
@@ -1486,7 +1486,7 @@ common#:#delete_tr_data#:#Delete tracking data
 common#:#deleted#:#Deleted
 common#:#deleted_user#:#The user has been deleted
 common#:#deleted_users#:#Deleted users
-common#:#deliver#:#Deliver Exercise
+common#:#deliver#:#Deliver
 common#:#department#:#Department
 common#:#desc#:#Description
 common#:#descending_order#:#Descending order
@@ -1573,6 +1573,10 @@ common#:#exc_create#:#Create exercise
 common#:#exc_date_not_valid#:#The date is not valid
 exercise#:#exc_comment_for_learner#:#Comment for Learner
 exercise#:#exc_mark#:#Mark
+exercise#:#exc_send_mail#:#Send Mail
+exercise#:#exc_comment#:#Comment
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor
+exercise#:#exc_your_submission#:#Your Submission
 common#:#exc_deassign_members#:#Delete member(s)
 common#:#exc_delete#:#Delete exercise
 common#:#exc_details#:#Exercise details
@@ -1591,6 +1595,7 @@ common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
+exercise#:#exc_grading#:#Grading
 common#:#exc_mail_users#:#Send mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
