@@ -11396,3 +11396,8 @@ ALTER TABLE sc_resource ADD INDEX import_id (import_id);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#803>
+ALTER TABLE `event_appointment` ADD `fulltime` TINYINT( 1 ) NOT NULL;
+
+<#804>
+ALTER TABLE `ut_lp_marks` CHANGE `comment` `comment` TEXT NOT NULL;
