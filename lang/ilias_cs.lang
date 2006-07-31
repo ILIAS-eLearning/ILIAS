@@ -740,6 +740,10 @@ barometer#:#duration#:#Duration###23 Dec 2005 new variable
 barometer#:#edit#:#Edit###23 Dec 2005 new variable
 barometer#:#edit_barometer#:#Edit feedback###23 Dec 2005 new variable
 barometer#:#every#:#every###23 Dec 2005 new variable
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 barometer#:#first_vote#:#1. Vote is the###23 Dec 2005 new variable
 barometer#:#from#:#from###23 Dec 2005 new variable
 barometer#:#hours#:#Hours###23 Dec 2005 new variable

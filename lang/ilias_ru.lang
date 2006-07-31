@@ -605,6 +605,10 @@ assessment#:#with_order#:#в пор�?дке
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Врем�? работы
 assessment#:#you_received_a_of_b_points#:#Вы набрали %d из %d баллов
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 bibitem#:#bibitem_add#:#Добавить
 bibitem#:#bibitem_author#:#�?втор
 bibitem#:#bibitem_av#:#�?В

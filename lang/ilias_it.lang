@@ -730,7 +730,7 @@ barometer#:#change_course#:#Modifica corso
 barometer#:#chart_type#:#Elenco dei tipi
 barometer#:#chart_users#:#Elenco degli utenti
 barometer#:#chart_votes#:#Elenco dei voti
-barometer#:#create#:#Crea nuovi suggerimenti
+barometer#:#create#:#Crea nuovi suggerimenti###31 Jul 2006 content changed
 barometer#:#day#:#Giorno
 barometer#:#days#:#Giorni
 barometer#:#delete#:#Elimina
@@ -738,8 +738,12 @@ barometer#:#duration#:#Durata
 barometer#:#edit#:#Modifica
 barometer#:#edit_barometer#:#Modifica suggerimento
 barometer#:#every#:#tutti
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 barometer#:#first_vote#:#1. Voto &#232;
-barometer#:#from#:#da
+barometer#:#from#:#da###31 Jul 2006 content changed
 barometer#:#hours#:#Ore
 barometer#:#lines#:#Linee
 barometer#:#login#:#Login
@@ -751,7 +755,7 @@ barometer#:#note#:#Commento
 barometer#:#optional#:#Opzionale
 barometer#:#options#:#Opzioni
 barometer#:#pie#:#Torta
-barometer#:#repeat#:#Ripeti
+barometer#:#repeat#:#Ripeti###31 Jul 2006 content changed
 barometer#:#required#:#Obbligatorio
 barometer#:#save#:#Salva
 barometer#:#save_vote#:#Salva
@@ -764,7 +768,7 @@ barometer#:#text_answer#:#Risposta
 barometer#:#time#:#In esecuzione
 barometer#:#title#:#Titolo
 barometer#:#type#:#Tipo
-barometer#:#until#:#fino a
+barometer#:#until#:#fino a###31 Jul 2006 content changed
 barometer#:#user#:#Utente
 barometer#:#vote#:#Voto
 barometer#:#votes#:#Voti
@@ -2100,13 +2104,13 @@ common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be remov
 common#:#info_deleted#:#Eliminazione eseguita
 common#:#info_enter_login_or_id#:#<i>(Inserisci nome o ID utente)</i>
 common#:#info_err_user_not_exist#:#L&#039;utente con lo user_id indicato non esiste 
-common#:#info_from_role#:#Fornito dal ruolo
+common#:#info_from_role#:#Fornito dal ruolo###31 Jul 2006 content changed
 common#:#info_is_member#:#L&#039;utente &#232; un membro 
 common#:#info_is_not_member#:#L&#039;utente non &#232; un membro 
 common#:#info_not_assigned#:#non assignato
 common#:#info_owner_of_object#:#Proprietario dell&#039;oggetto 
-common#:#info_permission_origin#:#Posizione originale
-common#:#info_permission_source#:#valido a partire dal
+common#:#info_permission_origin#:#Posizione originale###31 Jul 2006 content changed
+common#:#info_permission_source#:#valido a partire dal###31 Jul 2006 content changed
 common#:#info_remark_interrupted#:#Il Ruolo si interrompe in questa posizione. Le impostazioni predefinite del ruolo sono localizzate in quella posizione.###10 Jul 2006 content changed
 common#:#info_short#:#Info
 common#:#info_status_info#:#Informazioni sullo stato

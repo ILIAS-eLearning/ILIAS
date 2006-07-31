@@ -726,6 +726,10 @@ assessment#:#with_order#:#với thứ tự
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Th�?i gian làm
 assessment#:#you_received_a_of_b_points#:#Bạn đạt %d trong số %d điểm có thể
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 bibitem#:#bibitem_add#:#Thêm
 bibitem#:#bibitem_author#:#Tác giả
 bibitem#:#bibitem_av#:#AV
@@ -2033,13 +2037,13 @@ common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be remov
 common#:#info_deleted#:#�?ã xóa (các) đối tượng
 common#:#info_enter_login_or_id#:#<nhập vào tên đăng nhập>
 common#:#info_err_user_not_exist#:#Ngư�?i sử dụng có tên đăng nhập như thế không tồn tại
-common#:#info_from_role#:#Cho bởi vai trò
+common#:#info_from_role#:#Cho bởi vai trò###31 Jul 2006 content changed
 common#:#info_is_member#:#Ngư�?i sử dụng không phải là thành viên
 common#:#info_is_not_member#:#Ngư�?i sử dụng không phải là thành viên
 common#:#info_not_assigned#:#chưa được chỉ định
 common#:#info_owner_of_object#:#Chủ nhân của đối tượng
-common#:#info_permission_origin#:#Vị trí gốc
-common#:#info_permission_source#:#Có hiệu lực từ*
+common#:#info_permission_origin#:#Vị trí gốc###31 Jul 2006 content changed
+common#:#info_permission_source#:#Có hiệu lực từ*###31 Jul 2006 content changed
 common#:#info_remark_interrupted#:#Vai trò bị ngắt tại vị trí này. Thiết lập quy�?n hạn mặc định có hiệu lực tại vị trí đó.###10 Jul 2006 content changed
 common#:#info_short#:#Thông tin
 common#:#info_status_info#:#Thông tin trạng thái

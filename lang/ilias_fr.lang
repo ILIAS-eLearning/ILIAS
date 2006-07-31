@@ -714,6 +714,10 @@ assessment#:#with_order#:#dans l'ordre###07 Apr 2005 content changed
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Temps de travail###07 Apr 2005 content changed
 assessment#:#you_received_a_of_b_points#:#Vous avez obtenu %d points sur %d###07 Apr 2005 content changed
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 bibitem#:#bibitem_add#:#Ajouter###07 Apr 2005 content changed
 bibitem#:#bibitem_author#:#Auteur###07 Apr 2005 content changed
 bibitem#:#bibitem_av#:#AV###07 Apr 2005 content changed
