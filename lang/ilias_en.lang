@@ -6367,7 +6367,7 @@ trac#:#trac_marks#:#Marks
 trac#:#trac_mode#:#Mode
 trac#:#trac_mode_collection#:#Collection of objects
 trac#:#trac_mode_deactivated#:#Deactivated
-trac#:#trac_mode_exercise_returned#:#Exercise returned
+trac#:#trac_mode_exercise_returned#:#Exercise Solved 
 trac#:#trac_mode_manual#:#Manual
 trac#:#trac_mode_objectives#:#Learning objectives
 trac#:#trac_mode_scorm#:#SCORM/AICC
@@ -6424,3 +6424,7 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+crs#:#event_end_date#:#End
+crs#:#event_date_time#:#Date & Time
+crs#:#event_fullday#:#Full-Time
+crs#:#event_fulltime_info#:#No Time Specified

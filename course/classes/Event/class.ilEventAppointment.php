@@ -91,6 +91,15 @@ class ilEventAppointment
 		return isset($this->ending_time) ? $this->ending_time : time();
 	}
 
+	function toggleFullTime($a_status)
+	{
+		$this->fulltime = $a_status;
+	}
+	function enabledFullTime()
+	{
+		return $this->fulltime;
+	}
+
 	function formatTime()
 	{
 		return ilEventAppointment::_timeToString($this->getStartingTime(),$this->getEndingTime());
@@ -113,7 +122,8 @@ class ilEventAppointment
 		$query = "INSERT INTO event_appointment ".
 			"SET event_id = '".$this->getEventId()."', ".
 			"starting_time = '".$this->getStartingTime()."', ".
-			"ending_time = '".$this->getEndingTime()."'";
+			"ending_time = '".$this->getEndingTime()."', ".
+			"fulltime = '".(bool) $this->enabledFullTime()."'";
 
 		$this->db->query($query);
 		return true;
@@ -128,7 +138,8 @@ class ilEventAppointment
 		$query = "UPDATE event_appointment ".
 			"SET event_id = '".$this->getEventId()."', ".
 			"starting_time = '".$this->getStartingTime()."', ".
-			"ending_time = '".$this->getEndingTime()."' ".
+			"ending_time = '".$this->getEndingTime()."', ".
+			"fulltime = '".$this->enabledFullTime()."' ".
 			"WHERE appointment_id = '".$this->getAppointmentId()."'";
 
 		$this->db->query($query);
@@ -204,6 +215,7 @@ class ilEventAppointment
 			$this->setEventId($row->event_id);
 			$this->setStartingTime($row->starting_time);
 			$this->setEndingTime($row->ending_time);
+			$this->toggleFullTime($row->fulltime);
 		}
 		return true;
 	}
