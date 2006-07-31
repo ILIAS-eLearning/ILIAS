@@ -11392,3 +11392,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#801>
 ALTER TABLE sc_resource ADD INDEX import_id (import_id);
+<#802>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

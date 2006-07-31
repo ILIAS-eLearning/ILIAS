@@ -27,7 +27,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 * 
-* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI, ilRepositorySearchGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -567,6 +567,34 @@ class ilObjExerciseGUI extends ilObjectGUI
 		exit;
 	}
 
+	function addMembersObject()
+	{
+		global $ilAccess,$ilErr;
+
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
+		}
+		if(!count($_POST['user']))
+		{
+			sendInfo($this->lng->txt("no_checkbox"));
+			return false;
+		}
+
+		if(!$this->object->members_obj->assignMembers($_POST["user"]))
+		{
+			sendInfo($this->lng->txt("exc_members_already_assigned"));
+			return false;
+		}
+		else
+		{
+			sendInfo($this->lng->txt("exc_members_assigned"),true);
+		}
+		$this->ctrl->redirect($this, "members");
+		return false;
+	}
+
+
 	function membersObject()
 	{
 		global $rbacsystem;
@@ -581,7 +609,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 		// add member button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, 'newmembers'));
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("add_member"));
 		$this->tpl->parseCurrentBlock();
 	
@@ -1434,6 +1462,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($new_gui);
 				$this->tabs_gui->setTabActive('learning_progress');
 			break;
+
+			case 'ilrepositorysearchgui':
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search->setCallback($this,'addMembersObject');
+
+				// Set tabs
+				$this->tabs_gui->setTabActive('members');
+				$this->ctrl->setReturn($this,'members');
+				$ret =& $this->ctrl->forwardCommand($rep_search);
+				#$this->__setSubTabs('members');
+				#$this->tabs_gui->setSubTabActive('members');
+				break;
+
 	
 			default:
 				if(!$cmd)
