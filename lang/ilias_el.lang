@@ -627,6 +627,10 @@ assessment#:#width#:#Πλάτος
 assessment#:#with_order#:#με σειρά
 assessment#:#working_time#:#Χρόνος εργασίας
 assessment#:#you_received_a_of_b_points#:#Λάβατε %d από %d πιθανούς βαθμούς
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 bibitem#:#bibitem_add#:#Προσθήκη
 bibitem#:#bibitem_author#:#Συντάκτης
 bibitem#:#bibitem_av#:#AV
@@ -1844,13 +1848,13 @@ common#:#info_delete_sure#:#Είστε σίγουροι ότι θέλετε να
 common#:#info_deleted#:#Τα αντικείμενα διαγράφηκαν
 common#:#info_enter_login_or_id#:#<i>(Εισάγετε όνομα χρήστη ή παρωνύμιο)</i>
 common#:#info_err_user_not_exist#:#Δεν υπάρχει χρήστης με αυτό το όνομα ή αναγνωριστικό
-common#:#info_from_role#:#Δόθηκε από το ρόλο
+common#:#info_from_role#:#Δόθηκε από το ρόλο###31 Jul 2006 content changed
 common#:#info_is_member#:#Ο χρήστης είναι μέλος
 common#:#info_is_not_member#:#Ο χρήστης δεν είναι μέλος
 common#:#info_not_assigned#:#χωρίς ανάθεση
 common#:#info_owner_of_object#:#Ο ιδιοκτήτης του αντικειμένου
-common#:#info_permission_origin#:#Αρχική θέση
-common#:#info_permission_source#:#Αποτελεσματικό από*
+common#:#info_permission_origin#:#Αρχική θέση###31 Jul 2006 content changed
+common#:#info_permission_source#:#Αποτελεσματικό από*###31 Jul 2006 content changed
 common#:#info_remark_interrupted#:#Ο ρόλος έχει διακοπεί από αυτή τη θέση. Ως αποτέλεσμα οι προκαθορισμένες ρυθμίσεις άδειας του ρόλου είναι τοποθετημένες σε αυτή τη θέση.###25 Jul 2006 content changed
 common#:#info_short#:#Πληροφορίες
 common#:#info_status_info#:#Άδειες χρήστη

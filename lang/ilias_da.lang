@@ -717,6 +717,10 @@ assessment#:#with_order#:#med orden
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#arbejdstid
 assessment#:#you_received_a_of_b_points#:#Du fik %d af %d mulige point
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 bibitem#:#bibitem_add#:#Tilf&oslash;j
 bibitem#:#bibitem_author#:#Forfatter
 bibitem#:#bibitem_av#:#AV
@@ -2031,13 +2035,13 @@ common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be remov
 common#:#info_deleted#:#Objekt(er) slettet
 common#:#info_enter_login_or_id#:#<i>(Indtast bruger navn eller bruger ID)</i>
 common#:#info_err_user_not_exist#:#Brugeren med det bruger-ID findes ikke
-common#:#info_from_role#:#Givet via rolle
+common#:#info_from_role#:#Givet via rolle###31 Jul 2006 content changed
 common#:#info_is_member#:#Bruger er medlem
 common#:#info_is_not_member#:#Bruger er ikke medlem
 common#:#info_not_assigned#:#ikke tildelt
 common#:#info_owner_of_object#:#Ejer af objekt
-common#:#info_permission_origin#:#Original plads
-common#:#info_permission_source#:#G&aelig;lende fra*
+common#:#info_permission_origin#:#Original plads###31 Jul 2006 content changed
+common#:#info_permission_source#:#G&aelig;lende fra*###31 Jul 2006 content changed
 common#:#info_remark_interrupted#:#Role er afbrudt p&aring; denne position. Denne roles rettigheds indstillinger er opbevarede p&aring; den plads.###10 Jul 2006 content changed
 common#:#info_short#:#Info
 common#:#info_status_info#:#Statusinformation

@@ -740,6 +740,10 @@ barometer#:#duration#:#Duration
 barometer#:#edit#:#Edit
 barometer#:#edit_barometer#:#Edit feedback
 barometer#:#every#:#every
+barometer#:#feedb_edit_feedback#:#Edit Feedback
+barometer#:#feedb_feedback_list#:#Feedback List
+barometer#:#feedb_feedback_settings#:#Feedback Settings
+barometer#:#feedb_time#:#Time
 barometer#:#first_vote#:#1. Vote is the
 barometer#:#from#:#From
 barometer#:#hours#:#Hours
@@ -773,7 +777,6 @@ barometer#:#votes#:#Votes
 barometer#:#weeks#:#Weeks
 barometer#:#worst#:#Worst
 barometer#:#year#:#Year
-barometer#:#feedb_time#:#Time
 bibitem#:#bibitem_add#:#Add
 bibitem#:#bibitem_author#:#Author
 bibitem#:#bibitem_av#:#AV
@@ -963,9 +966,6 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
-barometer#:#feedb_feedback_settings#:#Feedback Settings
-barometer#:#feedb_feedback_list#:#Feedback List
-barometer#:#feedb_edit_feedback#:#Edit Feedback
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH#:#HH:MM

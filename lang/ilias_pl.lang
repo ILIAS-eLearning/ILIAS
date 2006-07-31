@@ -721,6 +721,10 @@ assessment#:#with_order#:#w kolejności
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Czas Pracy
 assessment#:#you_received_a_of_b_points#:#Otrzymałeś %d z %d możliwych punktów
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 bibitem#:#bibitem_add#:#Dodaj
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#ŚR
@@ -2035,13 +2039,13 @@ common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be remov
 common#:#info_deleted#:#Obiekty zostały usunięte
 common#:#info_enter_login_or_id#:#<i>(Podaj nazwę użytkownika lub ID użytkownika)</i>
 common#:#info_err_user_not_exist#:#użytkownik z tym user_id nie istnieje
-common#:#info_from_role#:#Pełniący rolę
+common#:#info_from_role#:#Pełniący rolę###31 Jul 2006 content changed
 common#:#info_is_member#:#Użytkownik jest członkiem
 common#:#info_is_not_member#:#Użytkownik nie jest członkiem
 common#:#info_not_assigned#:#nie przydzielony
 common#:#info_owner_of_object#:#Właściciel obiektu
-common#:#info_permission_origin#:#Pozycja oryginalna
-common#:#info_permission_source#:#efektywnie z *
+common#:#info_permission_origin#:#Pozycja oryginalna###31 Jul 2006 content changed
+common#:#info_permission_source#:#efektywnie z *###31 Jul 2006 content changed
 common#:#info_remark_interrupted#:#Rola jest przerwana w tej pozycji. Domyślne efektywne ustawienia uprawnień roli są ulokowane na tej pozycji.###10 Jul 2006 content changed
 common#:#info_short#:#Info
 common#:#info_status_info#:#Informacje o statusie

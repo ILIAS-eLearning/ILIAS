@@ -639,6 +639,10 @@ assessment#:#width#:#Szélesség
 assessment#:#with_order#:#sorrendben
 assessment#:#working_time#:#Megoldási idő
 assessment#:#you_received_a_of_b_points#:#Ön %d pontot kapott a lehetséges %d pontból
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 bibitem#:#bibitem_add#:#Hozzáadás
 bibitem#:#bibitem_author#:#Szerző
 bibitem#:#bibitem_av#:#Audiovizuális
@@ -1854,12 +1858,15 @@ common#:#info_deleted#:#Objektum(ok) törölve.
 common#:#info_enter_login_or_id#:#<i>(Bejelentkezési név vagy felhasználói ID megadása)</i>
 common#:#info_err_user_not_exist#:#Ezzel a bejelentkezési névvel vagy felhasználói ID-vel nincs felhasználó.
 common#:#info_from_role#:#Szerep/tulajdonjog által adva
+###31 Jul 2006 content changed
 common#:#info_is_member#:#A felhasználó tag
 common#:#info_is_not_member#:#A felhasználó nem tag
 common#:#info_not_assigned#:#nincs összerendelve
 common#:#info_owner_of_object#:#Objektum tulajdonosa
 common#:#info_permission_origin#:#Eredeti pozíció
+###31 Jul 2006 content changed
 common#:#info_permission_source#:#ténylegesen tőle*
+###31 Jul 2006 content changed
 common#:#info_remark_interrupted#:#A szerep megszakad ezen a pozíción. A szerep alapértelmezett jogosultsági beállításai arra a pozícióra korlátozódnak.
 common#:#info_short#:#Információ
 common#:#info_status_info#:#Felhasználó jogosultságai

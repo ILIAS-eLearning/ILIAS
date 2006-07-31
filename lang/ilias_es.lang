@@ -731,7 +731,7 @@ barometer#:#change_course#:#Cambiar curso
 barometer#:#chart_type#:#Tipo de cuadro
 barometer#:#chart_users#:#Cuadro de usuarios
 barometer#:#chart_votes#:#Cuadro de votos
-barometer#:#create#:#Crear nueva opinión
+barometer#:#create#:#Crear nueva opinión###31 Jul 2006 content changed
 barometer#:#day#:#Día
 barometer#:#days#:#Días
 barometer#:#delete#:#Eliminar
@@ -739,8 +739,12 @@ barometer#:#duration#:#Duración
 barometer#:#edit#:#Editar
 barometer#:#edit_barometer#:#Editar opinión
 barometer#:#every#:#cada
+barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
+barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
+barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
+barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
 barometer#:#first_vote#:#1. Voto es el
-barometer#:#from#:#desde
+barometer#:#from#:#desde###31 Jul 2006 content changed
 barometer#:#hours#:#Horas
 barometer#:#lines#:#Líneas
 barometer#:#login#:#Login
@@ -752,7 +756,7 @@ barometer#:#note#:#Comentario
 barometer#:#optional#:#Opcional
 barometer#:#options#:#Opciones
 barometer#:#pie#:#Sector
-barometer#:#repeat#:#Repetir
+barometer#:#repeat#:#Repetir###31 Jul 2006 content changed
 barometer#:#required#:#Requerido
 barometer#:#save#:#Guardar
 barometer#:#save_vote#:#Enviar voto
@@ -765,7 +769,7 @@ barometer#:#text_answer#:#Respuesta de texto
 barometer#:#time#:#Ejecutando
 barometer#:#title#:#Título
 barometer#:#type#:#Tipo
-barometer#:#until#:#hasta
+barometer#:#until#:#hasta###31 Jul 2006 content changed
 barometer#:#user#:#Usuario
 barometer#:#vote#:#Voto
 barometer#:#votes#:#Votos
@@ -2101,13 +2105,13 @@ common#:#info_delete_warning_no_trash#:#(WARNING: Los objetos seleccionados ser�
 common#:#info_deleted#:#Objeto(s) eliminado(s)
 common#:#info_enter_login_or_id#:#<i>(Introduzca nombre de usuario o ID de usuario)</i>
 common#:#info_err_user_not_exist#:#El usuario con ese user_id no existe
-common#:#info_from_role#:#Permitido por el rol:
+common#:#info_from_role#:#Permitido por el rol:###31 Jul 2006 content changed
 common#:#info_is_member#:#El usuario es un miembro
 common#:#info_is_not_member#:#El usuario no es un miembro
 common#:#info_not_assigned#:#no asignado
 common#:#info_owner_of_object#:#Propietario del objeto
-common#:#info_permission_origin#:#Posición original
-common#:#info_permission_source#:#efectivo desde*
+common#:#info_permission_origin#:#Posición original###31 Jul 2006 content changed
+common#:#info_permission_source#:#efectivo desde*###31 Jul 2006 content changed
 common#:#info_remark_interrupted#:#El rol se interrumpe en esta posición. La configuración por defecto del rol en uso está localizada en esa posición.###10 Jul 2006 content changed
 common#:#info_short#:#Info
 common#:#info_status_info#:#Información de estado
