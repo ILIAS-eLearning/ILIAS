@@ -1257,7 +1257,6 @@ common#:#cleaned_file#:#Plik został wyczyszczony.
 common#:#cleaning_failed#:#Czyszczenie się nie powiodło.
 common#:#clear#:#Wyczyść
 common#:#clear_clipboard#:#Opróżnij schowek
-common#:#client ip#:#IP klienta
 common#:#client#:#Klient
 common#:#client_id#:#ID Klienta
 common#:#client_ip#:#IP Klienta
@@ -1517,6 +1516,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Nowe ćwiczenie zostało utworzone
 common#:#exc_edit_exercise#:#Edytuj ćwiczenie
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Zmień ustawienia uprawnień
 common#:#exc_edit_until#:#Dostępne aż do###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1649,6 +1649,7 @@ common#:#fold_create_tst#:#Twórz Test
 common#:#fold_create_webr#:#Twórz nowy zasób web
 common#:#fold_delete#:#Usuń Folder
 common#:#fold_edit#:#Edytuj Folder
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
 common#:#fold_new#:#Nowy Folder
 common#:#fold_read#:#Prawo czytania Folderu
@@ -1808,6 +1809,7 @@ common#:#grp_deleted_export_files#:#Usunięto wybrane pliki.
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
 common#:#grp_dismiss_myself#:#Czy jesteś pewien, że chcesz usunąć siebie z grupy?
 common#:#grp_edit#:#Edytuj Grupę
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Zmień ustawienia uprawnień
 common#:#grp_err_administrator_required#:#Ten członek grupy nie może być usunięty, powinien być conajmniej jeden admninistrator grupy!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Każda grupa musi mieć conajmniej jednego administratora grupy.
@@ -4230,16 +4232,22 @@ crs#:#event_assign_materials_info#:#Assigned course materials will be displayed 
 crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
 crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
 crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
 crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
 crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
 crs#:#event_desc#:#Description###10 Jul 2006 new variable
 crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
 crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
 crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
 crs#:#event_file#:#File###10 Jul 2006 new variable
 crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
 crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
 crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
 crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
@@ -4288,7 +4296,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-crs_#:#crs_archives#:#Archiwa
 dateplaner#:#DateText#:#Wiadomość
 dateplaner#:#Day_long#:#Widok dnia
 dateplaner#:#ERROR_DATE_EXISTS#:#Taki termin już istnieje.
@@ -4510,6 +4517,13 @@ dateplaner#:#viewlist#:#widok
 dateplaner#:#week#:#tydzień
 dateplaner#:#wk_short#:#TD
 dateplaner#:#year#:#rok
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Pisz anonimowo
 forum#:#forum_anonymize_desc#:#Zapisz tę wiadomość anonimowo (twoja nazwa użytkownika ILIAS nie będzie nigdzie pokazywana).###10 Jul 2006 content changed
 forum#:#forums#:#Fora

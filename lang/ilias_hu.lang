@@ -1127,7 +1127,6 @@ common#:#cleaned_file#:#A fájl törlésre került.
 common#:#cleaning_failed#:#A rendbetétel nem sikerült.
 common#:#clear#:#Törlés
 common#:#clear_clipboard#:#Vágólap ürítése
-common#:#client ip#:#Kliens IP
 common#:#client#:#Kliens
 common#:#client_id#:#Kliensazonosító
 common#:#client_ip#:#Kliens IP
@@ -1375,6 +1374,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Új gyakorlat létrehozva.
 common#:#exc_edit_exercise#:#Gyakorlat szerkesztése
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#exc_edit_until#:#Kidolgozási határidő
 ###30 Jul 2006 content changed
@@ -1494,6 +1494,7 @@ common#:#fold_create_tst#:#Teszt létrehozása
 common#:#fold_create_webr#:#Webforrás létrehozása
 common#:#fold_delete#:#Mappa törlése
 common#:#fold_edit#:#Mappa szerkesztése
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#fold_new#:#Új mappa
 common#:#fold_read#:#Olvasási elérés a mappához
@@ -1650,6 +1651,7 @@ common#:#grp_deleted_export_files#:#Kiválasztott fájlok törölve.
 common#:#grp_dismiss_member#:#Biztosan meg akar válni a csoport alábbi tagjaitól?
 common#:#grp_dismiss_myself#:#Biztosan el akarja hagyni a csoportot?
 common#:#grp_edit#:#Csoport szerkesztése
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Engedélyezett beállítások cseréje
 common#:#grp_err_administrator_required#:#A tag nem távolítható el, mert legalább egy adminisztrátornak kell lennie csoportonként.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Az egyes csoportoknak legalább egy adminisztrátora kell hogy legyen
@@ -3919,10 +3921,15 @@ crs#:#crs_waiting_list#:#Várólista
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Az Ön helye a várólistán
 crs#:#edit_content#:#Tartalom szerkesztése
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#import_crs#:#Kurzus importálása
 crs#:#learners_view#:#Hallgatói nézet
 crs#:#subscription_times_not_valid#:#A regisztrácós periódus nem érvényes.
-crs_#:#crs_archives#:#Archívok
 dateplaner#:#DateText#:#Üzenet
 dateplaner#:#Day_long#:#Napi nézet
 dateplaner#:#ERROR_DATE_EXISTS#:#Ez az esemény már létezik.
@@ -4144,6 +4151,13 @@ dateplaner#:#viewlist#:#Nézet
 dateplaner#:#week#:#Hét
 dateplaner#:#wk_short#:#Hét
 dateplaner#:#year#:#Év
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Névtelenül írás
 forum#:#forum_anonymize_desc#:#Írja névtelenül ezt a levelet (ILIAS felhasználói neve sehol sem fog látszani).
 forum#:#forums#:#Fórumok (Csatolt fájl neve ne tartalmazzon ékezetes karaktert, szóközt!)

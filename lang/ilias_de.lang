@@ -1316,7 +1316,6 @@ common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
 common#:#clear#:#Abbrechen
 common#:#clear_clipboard#:#Zwischenablage leeren
-common#:#client ip#:#Client IP
 common#:#client#:#Client
 common#:#client_id#:#Mandanten ID
 common#:#client_ip#:#Client IP
@@ -1579,6 +1578,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
+common#:#exc_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1713,6 +1713,7 @@ common#:#fold_create_tst#:#Neuen Test anlegen
 common#:#fold_create_webr#:#Neue Web-Links anlegen
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
+common#:#fold_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
 common#:#fold_new#:#Neuer Ordner
 common#:#fold_read#:#Lesezugriff auf Ordner
@@ -1873,6 +1874,7 @@ common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?###23 Dec 2005 content changed
 common#:#grp_edit#:#Gruppe bearbeiten
+common#:#grp_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein Gruppen-Administrator benötigt
@@ -4312,16 +4314,22 @@ crs#:#event_assign_materials_info#:#Hier können Sie der Veranstaltung Kursmater
 crs#:#event_assign_materials_table#:#Zuordnung von Kursmaterialien
 crs#:#event_btn_add#:#Veranstaltung anlegen
 crs#:#event_date#:#Termin der Veranstaltung
+crs#:#event_date_time#:#Datum & Zeit
 crs#:#event_delete_file#:#Datei löschen?
 crs#:#event_delete_sure#:#Sind Sie sicher, dass Sie die folgende Veranstaltung löschen möchten?
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Veranstaltung
 crs#:#event_edit_members#:#Teilnehmer verwalten
+crs#:#event_end_date#:#Ende
+crs#:#event_etime_smaller_stime#:#Der Endtermin ist früher als der Starttermin. Bitte geben Sie eine gültige Zeitspanne ein.
 crs#:#event_existing_files#:#Vorhandene Dateien:
 crs#:#event_file#:#Datei
 crs#:#event_file_download#:#Dateien zum Herunterladen
 crs#:#event_file_name#:#Dateiname
 crs#:#event_file_size_info#:#Dateigröße
+crs#:#event_full_time_info#:#ganztags
+crs#:#event_fullday#:#Ganztags
+crs#:#event_fulltime_info#:#Keine Zeit festgelegt
 crs#:#event_further_informations#:#Weitere Informationen
 crs#:#event_general_infos#:#Allgemeine Informationen
 crs#:#event_general_properties#:#Allgemeine Informationen
@@ -4334,7 +4342,7 @@ crs#:#event_registration#:#Anmeldung
 crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Veranstaltung anmelden.
 crs#:#event_registration_participance#:#Anmeldung
 crs#:#event_save_participants#:#Teilnahme speichern
-crs#:#event_start_date#:#Start
+crs#:#event_start_date#:#Start###01 Aug 2006 content changed
 crs#:#event_table_create#:#Neue Veranstaltung
 crs#:#event_table_update#:#Veranstaltung bearbeiten
 crs#:#event_tbl_participants#:#Teilnehmer der Veranstaltung
@@ -4370,7 +4378,6 @@ crs#:#tutor_lastname#:#Nachname
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Telefon
 crs#:#tutor_title#:#Titel
-crs_#:#crs_archives#:#Archive
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
@@ -4592,6 +4599,13 @@ dateplaner#:#viewlist#:#Ansicht aktualisieren
 dateplaner#:#week#:#Woche
 dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Anonym Schreiben
 forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS Benutzername wird nicht angezeigt).###10 Jul 2006 content changed
 forum#:#forums#:#Foren
@@ -6363,7 +6377,7 @@ trac#:#trac_marks#:#Noten
 trac#:#trac_mode#:#Modus
 trac#:#trac_mode_collection#:#Auswahl von Objekten
 trac#:#trac_mode_deactivated#:#Deaktiviert
-trac#:#trac_mode_exercise_returned#:#Übung gelöst 
+trac#:#trac_mode_exercise_returned#:#Übung gelöst ###01 Aug 2006 content changed
 trac#:#trac_mode_manual#:#Manuell
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
@@ -6420,12 +6434,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-crs#:#event_end_date#:#Ende
-crs#:#event_date_time#:#Datum & Zeit
-crs#:#event_fullday#:#Ganztags
-crs#:#event_fulltime_info#:#Keine Zeit festgelegt
-crs#:#event_etime_smaller_stime#:#Der Endtermin ist früher als der Starttermin. Bitte geben Sie eine gültige Zeitspanne ein.
-crs#:#event_full_time_info#:#ganztags
-common#:#fold_edit_learning_progress#:#Lernfortschritt bearbeiten
-common#:#exc_edit_learning_progress#:#Lernfortschritt bearbeiten
-common#:#grp_edit_learning_progress#:#Lernfortschritt bearbeiten

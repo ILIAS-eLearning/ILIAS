@@ -1064,7 +1064,6 @@ common#:#cleaned_file#:#файл очищен.
 common#:#cleaning_failed#:#Очи�?тка неудачна.
 common#:#clear#:#Очи�?тить
 common#:#clear_clipboard#:#Очи�?тить буфер обмена
-common#:#client ip#:#Клиент IP
 common#:#client#:#Клиент
 common#:#client_id#:#Клиент ID
 common#:#client_ip#:#Клиент IP
@@ -1298,6 +1297,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#�?овое упражнение �?оздано
 common#:#exc_edit_exercise#:#Редактировать Упражнение
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Может измен�?ть параметры до�?тупа
 common#:#exc_edit_until#:#Редактировать до###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1410,6 +1410,7 @@ common#:#fold_create_svy#:#Создать опро�?
 common#:#fold_create_tst#:#Создать Те�?т
 common#:#fold_delete#:#Удалить Каталог
 common#:#fold_edit#:#Редактировать Каталог
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Может измен�?ть параметры до�?тупа
 common#:#fold_new#:#�?овый каталог
 common#:#fold_read#:#До�?туп дл�? чтени�? к Каталогу
@@ -1552,6 +1553,7 @@ common#:#grp_delete#:#Удалить Группу
 common#:#grp_dismiss_member#:#Вы уверены, что хотите отклонить �?ледующих членов группы?
 common#:#grp_dismiss_myself#:#Вы уверены, что хотите и�?ключить �?еб�? из группы?
 common#:#grp_edit#:#Редактировать Группу
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Может измен�?ть параметры до�?тупа
 common#:#grp_err_administrator_required#:#Член не может быть удален - в группе должен быть хот�? бы один админи�?тратор!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Каждой группе требует�?�? хот�? бы один админи�?тратор
@@ -3702,16 +3704,22 @@ crs#:#event_assign_materials_info#:#Assigned course materials will be displayed 
 crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
 crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
 crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
 crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
 crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
 crs#:#event_desc#:#Description###10 Jul 2006 new variable
 crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
 crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
 crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
 crs#:#event_file#:#File###10 Jul 2006 new variable
 crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
 crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
 crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
 crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
@@ -3759,7 +3767,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-crs_#:#crs_archives#:#�?рхивы
 dateplaner#:#DateText#:#Сообщение
 dateplaner#:#Day_long#:#Про�?мотреть день
 dateplaner#:#ERROR_DATE_EXISTS#:#Эта дата уже �?уще�?твует.
@@ -3980,6 +3987,13 @@ dateplaner#:#today#:#�?егодн�?
 dateplaner#:#viewlist#:#�?мотреть
 dateplaner#:#week#:#недел�?
 dateplaner#:#year#:#год
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forums#:#Форумы
 forum#:#forums_all_threads_marked_read#:#В�?е ветки были помечены как прочтенные
 forum#:#forums_attachments#:#Приложени�?

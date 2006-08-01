@@ -1315,7 +1315,6 @@ common#:#cleaned_file#:#Файл був очищений.
 common#:#cleaning_failed#:#Очищенн�? завершило�?ь невдало.
 common#:#clear#:#Очи�?тити
 common#:#clear_clipboard#:#Очи�?тити Буфір Обміну
-common#:#client ip#:#Ip Клієнта
 common#:#client#:#Клієнт
 common#:#client_id#:#ID Клієнта
 common#:#client_ip#:#Ip Клієнта
@@ -1578,6 +1577,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#�?ова вправа �?творена
 common#:#exc_edit_exercise#:#Редагувати вправу
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Змінити на�?тройки прав
 common#:#exc_edit_until#:#Редагувати поки###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1712,6 +1712,7 @@ common#:#fold_create_tst#:#Створити Те�?т
 common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
 common#:#fold_delete#:#Видалити Папку
 common#:#fold_edit#:#РЕдагувати Папку
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Змінити на�?тройки прав
 common#:#fold_new#:#�?ова Папка
 common#:#fold_read#:#До�?туп на читанн�? до Папки
@@ -1870,6 +1871,7 @@ common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new va
 common#:#grp_dismiss_member#:#Ви впевнені що бажаєте виключити на�?тупних кори�?тувачів з групи?
 common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити �?ебе з групи?###23 Dec 2005 content changed
 common#:#grp_edit#:#Редагувати Групу
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Змінити на�?тройки прав
 common#:#grp_err_administrator_required#:#Член не може бути видалений, потрібен хоча б один адміні�?тратор на групу !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Кожна група потребує принаймні одного адміні�?тратора
@@ -4296,16 +4298,22 @@ crs#:#event_assign_materials_info#:#Assigned course materials will be displayed 
 crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
 crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
 crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
 crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
 crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
 crs#:#event_desc#:#Description###10 Jul 2006 new variable
 crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
 crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
 crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
 crs#:#event_file#:#File###10 Jul 2006 new variable
 crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
 crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
 crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
 crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
@@ -4354,7 +4362,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-crs_#:#crs_archives#:#�?рхіви
 dateplaner#:#DateText#:#Повідомленн�?
 dateplaner#:#Day_long#:#Денний Огл�?д
 dateplaner#:#ERROR_DATE_EXISTS#:#Ц�? дата вже і�?нує.###02 Aug 2005 content changed
@@ -4576,6 +4583,13 @@ dateplaner#:#viewlist#:#огл�?д###02 Aug 2005 content changed
 dateplaner#:#week#:#тиждень###02 Aug 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#рік###02 Aug 2005 content changed
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 forum#:#forums#:#Форуми

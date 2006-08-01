@@ -1317,7 +1317,6 @@ common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
 common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
 common#:#clear#:#Limpar###07 Apr 2005 content changed
 common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
-common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#ID de cliente###07 Apr 2005 content changed
 common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
@@ -1580,6 +1579,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Novo exercício criado###07 Apr 2005 content changed
 common#:#exc_edit_exercise#:#Editar exercício###07 Apr 2005 content changed
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Mudar definições de permissões###07 Apr 2005 content changed
 common#:#exc_edit_until#:#Editar até###07 Apr 2005 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1714,6 +1714,7 @@ common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
 common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#fold_new#:#Nova Pasta###07 Apr 2005 content changed
 common#:#fold_read#:#Read access to Folder###17 Apr 2004 new variable
@@ -1874,6 +1875,7 @@ common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new va
 common#:#grp_dismiss_member#:#Tem a certeza que quer dispensar os seguintes membros do grupo.###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#Tem a certeza que quer dispensar-se do grupo.###19 Jun 2004 content changed
 common#:#grp_edit#:#Editar Grupo###07 Apr 2005 content changed
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Mudar definições de permissões###07 Apr 2005 content changed
 common#:#grp_err_administrator_required#:#O Membro não pôde ser removido, é necessário pelo menos um administrador por grupo !###07 Apr 2005 content changed
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Cada grupo necessita de pelo menos um administrador de grupo###07 Apr 2005 content changed
@@ -4314,16 +4316,22 @@ crs#:#event_assign_materials_info#:#Assigned course materials will be displayed 
 crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
 crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
 crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
 crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
 crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
 crs#:#event_desc#:#Description###10 Jul 2006 new variable
 crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
 crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
 crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
 crs#:#event_file#:#File###10 Jul 2006 new variable
 crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
 crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
 crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
 crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
@@ -4372,7 +4380,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-crs_#:#crs_archives#:#Archives###07 Aug 2004 new variable
 dateplaner#:#DateText#:#Mensagem###07 Apr 2005 content changed
 dateplaner#:#Day_long#:#Ver de Dias###07 Apr 2005 content changed
 dateplaner#:#ERROR_DATE_EXISTS#:#Este compromisso já existe.###07 Apr 2005 content changed
@@ -4594,6 +4601,13 @@ dateplaner#:#viewlist#:#ver###07 Apr 2005 content changed
 dateplaner#:#week#:#semana###07 Apr 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#ano###07 Apr 2005 content changed
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 forum#:#forums#:#Fórums###07 Apr 2005 content changed

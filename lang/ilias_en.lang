@@ -1571,12 +1571,6 @@ common#:#exc_ask_delete#:#Delete file?
 common#:#exc_assign_usr#:#Assign User
 common#:#exc_create#:#Create exercise
 common#:#exc_date_not_valid#:#The date is not valid
-exercise#:#exc_comment_for_learner#:#Comment for Learner
-exercise#:#exc_mark#:#Mark
-exercise#:#exc_send_mail#:#Send Mail
-exercise#:#exc_comment#:#Comment
-exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor
-exercise#:#exc_your_submission#:#Your Submission
 common#:#exc_deassign_members#:#Delete member(s)
 common#:#exc_delete#:#Delete exercise
 common#:#exc_details#:#Exercise details
@@ -1585,6 +1579,7 @@ common#:#exc_download_files#:#Download Files
 common#:#exc_download_new#:#Download New
 common#:#exc_edit#:#New exercise created
 common#:#exc_edit_exercise#:#Edit exercise
+common#:#exc_edit_learning_progress#:#Edit Learning Progress
 common#:#exc_edit_permission#:#Change permission settings
 common#:#exc_edit_until#:#Edit Until
 common#:#exc_exercise_sent#:#Exercise Sent
@@ -1595,7 +1590,6 @@ common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
-exercise#:#exc_grading#:#Grading
 common#:#exc_mail_users#:#Send mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
@@ -1720,6 +1714,7 @@ common#:#fold_create_tst#:#Create Test
 common#:#fold_create_webr#:#Create Web Resource
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
+common#:#fold_edit_learning_progress#:#Edit Learning Progress
 common#:#fold_edit_permission#:#Change Permission settings
 common#:#fold_new#:#New Folder
 common#:#fold_read#:#Read access to Folder
@@ -1880,6 +1875,7 @@ common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to leave the group?
 common#:#grp_edit#:#Edit Group
+common#:#grp_edit_learning_progress#:#Edit Learning Progress
 common#:#grp_edit_permission#:#Change permission settings
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
@@ -4320,16 +4316,22 @@ crs#:#event_assign_materials_info#:#Assigned course materials will be displayed 
 crs#:#event_assign_materials_table#:#Assignment of Course Materials
 crs#:#event_btn_add#:#Add Event
 crs#:#event_date#:#Date of Event:
+crs#:#event_date_time#:#Date & Time
 crs#:#event_delete_file#:#Delete File?
 crs#:#event_delete_sure#:#Do really want to delete this event?
 crs#:#event_desc#:#Description
 crs#:#event_details_workflow#:#Details/Workflow
 crs#:#event_edit_members#:#Edit Participants
+crs#:#event_end_date#:#End
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
 crs#:#event_existing_files#:#Existing Files:
 crs#:#event_file#:#File
 crs#:#event_file_download#:#Files for Download
 crs#:#event_file_name#:#Filename
 crs#:#event_file_size_info#:#Filesize
+crs#:#event_full_time_info#:#full-time
+crs#:#event_fullday#:#Full-Time
+crs#:#event_fulltime_info#:#No Time Specified
 crs#:#event_further_informations#:#Further Informations
 crs#:#event_general_infos#:#General Informations
 crs#:#event_general_properties#:#General Informations
@@ -4599,6 +4601,13 @@ dateplaner#:#viewlist#:#View
 dateplaner#:#week#:#Week
 dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
+exercise#:#exc_comment#:#Comment
+exercise#:#exc_comment_for_learner#:#Comment for Learner
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor
+exercise#:#exc_grading#:#Grading
+exercise#:#exc_mark#:#Mark
+exercise#:#exc_send_mail#:#Send Mail
+exercise#:#exc_your_submission#:#Your Submission
 forum#:#forum_anonymize#:#Write anonymously
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forums
@@ -6427,12 +6436,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-crs#:#event_end_date#:#End
-crs#:#event_date_time#:#Date & Time
-crs#:#event_fullday#:#Full-Time
-crs#:#event_fulltime_info#:#No Time Specified
-crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
-crs#:#event_full_time_info#:#full-time
-common#:#fold_edit_learning_progress#:#Edit Learning Progress
-common#:#exc_edit_learning_progress#:#Edit Learning Progress
-common#:#grp_edit_learning_progress#:#Edit Learning Progress
