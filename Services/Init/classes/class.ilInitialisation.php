@@ -27,7 +27,7 @@
 * perform basic setup: init database handler, load configuration file,
 * init user authentification & error handler, load object type definitions
 *
-* @author Alex Killing <alex.killing@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
 * @author Sascha Hofmann <shofmann@databay.de>
 
 * @version $Id$
