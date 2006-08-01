@@ -1198,7 +1198,6 @@ common#:#cleaned_file#:#Fisierul a fost curatat.
 common#:#cleaning_failed#:#Curatarea a esuat.
 common#:#clear#:#Goleste
 common#:#clear_clipboard#:#Clipboard gol
-common#:#client ip#:#Client IP
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
@@ -1429,6 +1428,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Exercitiu nou creat
 common#:#exc_edit_exercise#:#Editati exercitiul
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Schimbati setarile de permisiune
 common#:#exc_edit_until#:#Editati pana cand###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1544,6 +1544,7 @@ common#:#fold_create_svy#:#Creati Sondaj
 common#:#fold_create_tst#:#Creati Test
 common#:#fold_delete#:#Stergeti Dosar
 common#:#fold_edit#:#Editati Dosar
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Schimbati setarile de permisiune
 common#:#fold_new#:#Dosar nou
 common#:#fold_read#:#Permisiune de citire a dosarului
@@ -1687,6 +1688,7 @@ common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new va
 common#:#grp_dismiss_member#:#Sunteti sigur/a ca doriti sa eliminati urmatorii membrii din grup?
 common#:#grp_dismiss_myself#:# Sunteti sigur/a ca doriti sa va eliminati din grup?###23 Dec 2005 content changed
 common#:#grp_edit#:#Editati Grup
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Schimbati setarile de permisiune
 common#:#grp_err_administrator_required#:#Membrul nu a fost eliminat, este necesar cel putin un administrator pe grup!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Fiecare grup are nevoie de cel putin un administrator de grup
@@ -3665,16 +3667,22 @@ crs#:#event_assign_materials_info#:#Assigned course materials will be displayed 
 crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
 crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
 crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
 crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
 crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
 crs#:#event_desc#:#Description###10 Jul 2006 new variable
 crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
 crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
 crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
 crs#:#event_file#:#File###10 Jul 2006 new variable
 crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
 crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
 crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
 crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
@@ -3721,7 +3729,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-crs_#:#crs_archives#:#Arhive
 dateplaner#:#DateText#:#Mesaj
 dateplaner#:#Day_long#:#Vizualizarea zilei
 dateplaner#:#ERROR_DATE_EXISTS#:#Data aceasta exista deja.
@@ -3942,6 +3949,13 @@ dateplaner#:#today#:#azi
 dateplaner#:#viewlist#:#vizualizare
 dateplaner#:#week#:#saptamana
 dateplaner#:#year#:#an
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 forum#:#forums#:#Forumuri

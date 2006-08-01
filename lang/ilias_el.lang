@@ -1120,7 +1120,6 @@ common#:#cleaned_file#:#Το αρχείο καθαρίστηκε.
 common#:#cleaning_failed#:#Ο καθαρισμός απέτυχε.
 common#:#clear#:#Καθαρισμός
 common#:#clear_clipboard#:#Άδειασμα πρόχειρου
-common#:#client ip#:#IP Πελάτη
 common#:#client#:#Πελάτης
 common#:#client_id#:#Ταυτότητα πελάτη
 common#:#client_ip#:#IP Πελάτη
@@ -1368,6 +1367,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Η νέα άσκηση δημιουργήθηκε
 common#:#exc_edit_exercise#:#Επεξεργασία άσκησης
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#exc_edit_until#:#Επεξεργασία μέχρι###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1484,6 +1484,7 @@ common#:#fold_create_tst#:#Δημιουργία διαγωνίσματος
 common#:#fold_create_webr#:#Δημιουργία πηγής Ιστού
 common#:#fold_delete#:#Διαγραφή φακέλου
 common#:#fold_edit#:#Επεξεργασία φακέλου
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#fold_new#:#Νέος φάκελος
 common#:#fold_read#:#Πρόσβαση ανάγνωσης στο φάκελο
@@ -1640,6 +1641,7 @@ common#:#grp_deleted_export_files#:#Τα επιλεγμένα αρχεία δι�
 common#:#grp_dismiss_member#:#Είστε βέβαιοι οτι θέλετε να διαγράψετε το παρακάτω μέλος/η από την ομάδα;
 common#:#grp_dismiss_myself#:#Είστε βέβαιοι οτι θέλετε να διαγράψετε τον εαυτό σας από την ομάδα;
 common#:#grp_edit#:#Επεξεργασία ομάδας
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#grp_err_administrator_required#:#Το μέλος δεν μπορεί να διαγραφεί, απαιτείται τουλάχιστον ένας διαχειριστής ανά ομάδα!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Κάθε ομάδα χρειάζεται τουλάχιστον έναν διαχειριστή
@@ -3934,6 +3936,12 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Η θέσης σας στη λίστα αναμονής
 crs#:#edit_content#:#Επεξεργασία περιεχομένων
 crs#:#event#:#Event###26 Jul 2006 new variable
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#import_crs#:#Εισαγωγή μαθήματος
 crs#:#learners_view#:#Προβολή Εκπαιδευόμενων
 crs#:#subscription_times_not_valid#:#Δεν είναι έγκυρη η περίοδος εγγραφής.
@@ -3944,7 +3952,6 @@ crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
 crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
-crs_#:#crs_archives#:#Αρχεία
 dateplaner#:#DateText#:#Μήνυμα
 dateplaner#:#Day_long#:#Προβολή ημέρας
 dateplaner#:#ERROR_DATE_EXISTS#:#Αυτό το γεγονός υπάρχει ήδη.
@@ -4166,6 +4173,13 @@ dateplaner#:#viewlist#:#Προβολή
 dateplaner#:#week#:#Εβδομάδα
 dateplaner#:#wk_short#:#Εβδ
 dateplaner#:#year#:#Έτος
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Ανώνυμη γραφή
 forum#:#forum_anonymize_desc#:#Γράψτε το μήνυμα ανώνυμα (το παρωνύμιό σας του ILIAS δεν θα φαίνεται πουθενά).###25 Jul 2006 content changed
 forum#:#forums#:#Φόρουμ

@@ -1316,7 +1316,6 @@ common#:#cleaned_file#:#El archivo ha sido limpiado.
 common#:#cleaning_failed#:#La limpieza falló.
 common#:#clear#:#Borrar
 common#:#clear_clipboard#:#Vaciar portapapeles
-common#:#client ip#:#Ip Cliente
 common#:#client#:#Cliente
 common#:#client_id#:#ID de Cliente
 common#:#client_ip#:#Ip Cliente
@@ -1579,6 +1578,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Nuevo actividad creada
 common#:#exc_edit_exercise#:#Editar actividad
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Modificar configuración de permisos
 common#:#exc_edit_until#:#Fecha limite de entrega###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1713,6 +1713,7 @@ common#:#fold_create_tst#:#Crear Test
 common#:#fold_create_webr#:#Crear nuevo Recurso Web
 common#:#fold_delete#:#Borrar Carpeta
 common#:#fold_edit#:#Editar Carpeta
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Modificar configuración de permisos
 common#:#fold_new#:#Nueva Carpeta
 common#:#fold_read#:#acceso de lectura a la Carpeta
@@ -1873,6 +1874,7 @@ common#:#grp_deleted_export_files#:#Archivos seleccionados eliminados.
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
 common#:#grp_edit#:#Editar Grupo
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Modificar configuración de permisos
 common#:#grp_err_administrator_required#:#El miembro no puede ser borrado, al menos se requiere un administrador por grupo!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Cada grupo necesita al menos un administrador de grupo
@@ -4313,16 +4315,22 @@ crs#:#event_assign_materials_info#:#Los materiales del curso asignado serán mos
 crs#:#event_assign_materials_table#:#Asignación de materiales del curso
 crs#:#event_btn_add#:#Evento añadido
 crs#:#event_date#:#Fecha del Evento:
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
 crs#:#event_delete_file#:#¿Eliminar Fichero?
 crs#:#event_delete_sure#:#¿Realmente quiere eliminar este evento?
 crs#:#event_desc#:#Descripción
 crs#:#event_details_workflow#:#Detalles/Flujo de Trabajo
 crs#:#event_edit_members#:#editar participantes
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
 crs#:#event_existing_files#:#Ficheros existentes:
 crs#:#event_file#:#Fichero
 crs#:#event_file_download#:#Ficheros para descarga
 crs#:#event_file_name#:#Nombre de Fichero
 crs#:#event_file_size_info#:#Tamaño
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#event_further_informations#:#Información Detallada
 crs#:#event_general_infos#:#Información General
 crs#:#event_general_properties#:#Información General
@@ -4335,7 +4343,7 @@ crs#:#event_registration#:#Registro
 crs#:#event_registration_info#:#Permitir a los usuarios registrarse en el evento.
 crs#:#event_registration_participance#:#Registro
 crs#:#event_save_participants#:#Salvar participación
-crs#:#event_start_date#:#Fecha
+crs#:#event_start_date#:#Fecha###01 Aug 2006 content changed
 crs#:#event_table_create#:#Nuevo Evento
 crs#:#event_table_update#:#Editar Evento
 crs#:#event_tbl_participants#:#Lista de Participantes
@@ -4371,7 +4379,6 @@ crs#:#tutor_lastname#:#Apellidos
 crs#:#tutor_name#:#Nombre
 crs#:#tutor_phone#:#Teléfono
 crs#:#tutor_title#:#Título
-crs_#:#crs_archives#:#Archivar
 dateplaner#:#DateText#:#Mensaje
 dateplaner#:#Day_long#:#Vista diaria
 dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.
@@ -4593,6 +4600,13 @@ dateplaner#:#viewlist#:#vista
 dateplaner#:#week#:#semana
 dateplaner#:#wk_short#:#SEM
 dateplaner#:#year#:#año
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Escribir de forma anónima
 forum#:#forum_anonymize_desc#:#Escribe este mensaje de forma anónima (su nombre de usuario ILIAS no se mostrará en ningún sitio).###10 Jul 2006 content changed
 forum#:#forums#:#Foros
@@ -6364,7 +6378,7 @@ trac#:#trac_marks#:#Notas
 trac#:#trac_mode#:#Modo
 trac#:#trac_mode_collection#:#Colección de objetos
 trac#:#trac_mode_deactivated#:#Desactivado
-trac#:#trac_mode_exercise_returned#:#Actividad entregada
+trac#:#trac_mode_exercise_returned#:#Actividad entregada###01 Aug 2006 content changed
 trac#:#trac_mode_manual#:#Manual
 trac#:#trac_mode_objectives#:#Objetivos de aprendizaje
 trac#:#trac_mode_scorm#:#SCORM/AICC

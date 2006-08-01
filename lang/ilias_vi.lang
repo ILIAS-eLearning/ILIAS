@@ -1260,7 +1260,6 @@ common#:#cleaned_file#:#�?ã diệt virus trên file.
 common#:#cleaning_failed#:#Không diệt được virus.
 common#:#clear#:#Xóa bộ nhớ đệm
 common#:#clear_clipboard#:#Xóa bộ nhớ đệm
-common#:#client ip#:#�?ịa chỉ IP máy trạm
 common#:#client#:#Máy trạm
 common#:#client_id#:#Tên máy trạm
 common#:#client_ip#:#�?ịa chỉ IP máy trạm
@@ -1519,6 +1518,7 @@ common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#�?ã tạo bài tập mới
 common#:#exc_edit_exercise#:#Sửa bài tập
+common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#exc_edit_permission#:#Thay đổi thiết lập quy�?n hạn
 common#:#exc_edit_until#:#Sửa đến khi###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
@@ -1648,6 +1648,7 @@ common#:#fold_create_tst#:#Tạo bài kiểm tra
 common#:#fold_create_webr#:#Tạo tài nguyên web mới
 common#:#fold_delete#:#Xóa thư mục
 common#:#fold_edit#:#Sửa thư mục
+common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#fold_edit_permission#:#Thay đổi thiết lập quy�?n hạn
 common#:#fold_new#:#Thư mục mới
 common#:#fold_read#:#�?�?c thư mục
@@ -1807,6 +1808,7 @@ common#:#grp_deleted_export_files#:#�?ã xóa những file đã ch�?n.
 common#:#grp_dismiss_member#:#Bạn có chắc bạn muốn gạt b�? những thành viên sau ra kh�?i nhóm?
 common#:#grp_dismiss_myself#:#Bạn có chắc bạn muốn gạt b�? chính bạn ra kh�?i nhóm?
 common#:#grp_edit#:#Sửa nhóm
+common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
 common#:#grp_edit_permission#:#Thay đổi thiết lập quy�?n hạn
 common#:#grp_err_administrator_required#:#Không thể b�? thành viên, cần ít nhất một quản trị cho nhóm!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Mỗi nhóm cần ít nhất một quản trị nhóm
@@ -4221,16 +4223,22 @@ crs#:#event_assign_materials_info#:#Assigned course materials will be displayed 
 crs#:#event_assign_materials_table#:#Assignment of Course Materials###10 Jul 2006 new variable
 crs#:#event_btn_add#:#Add Event###10 Jul 2006 new variable
 crs#:#event_date#:#Date of Event:###10 Jul 2006 new variable
+crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
 crs#:#event_delete_file#:#Delete File?###10 Jul 2006 new variable
 crs#:#event_delete_sure#:#Do really want to delete this event?###10 Jul 2006 new variable
 crs#:#event_desc#:#Description###10 Jul 2006 new variable
 crs#:#event_details_workflow#:#Details/Workflow###10 Jul 2006 new variable
 crs#:#event_edit_members#:#Edit Participants###10 Jul 2006 new variable
+crs#:#event_end_date#:#End###01 Aug 2006 new variable
+crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
 crs#:#event_existing_files#:#Existing Files:###10 Jul 2006 new variable
 crs#:#event_file#:#File###10 Jul 2006 new variable
 crs#:#event_file_download#:#Files for Download###10 Jul 2006 new variable
 crs#:#event_file_name#:#Filename###10 Jul 2006 new variable
 crs#:#event_file_size_info#:#Filesize###10 Jul 2006 new variable
+crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
+crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
+crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#event_further_informations#:#Further Informations###10 Jul 2006 new variable
 crs#:#event_general_infos#:#General Informations###10 Jul 2006 new variable
 crs#:#event_general_properties#:#General Informations###10 Jul 2006 new variable
@@ -4279,7 +4287,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-crs_#:#crs_archives#:#File nén
 dateplaner#:#DateText#:#Thông tin
 dateplaner#:#Day_long#:#Xem cuộc hẹn
 dateplaner#:#ERROR_DATE_EXISTS#:#Cuộc hẹn này đã tồn tại.
@@ -4501,6 +4508,13 @@ dateplaner#:#viewlist#:#Xem
 dateplaner#:#week#:#tuần
 dateplaner#:#wk_short#:#Tuần
 dateplaner#:#year#:#năm
+exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
+exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
+exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
+exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
+exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Viết theo kiểu nặc danh
 forum#:#forum_anonymize_desc#:#Viết bài này một cách nặc danh (tên ngư�?i sử dụng ILIAS sẽ không hiện ở đâu cả).###10 Jul 2006 content changed
 forum#:#forums#:#Diễn đàn
