@@ -414,7 +414,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
@@ -606,8 +605,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("standard_matching_terms");
-				$answertext = ilUtil::insertLatexImages($answer->getDefinition(), "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-				$template->setVariable("DEFINITION", $answertext);
+				include_once "./classes/class.ilObjAdvancedEditing.php";
+				$editor = ilObjAdvancedEditing::_getRichTextEditor();
+				if (!$editor)
+				{
+					$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition(), TRUE));
+				}
+				else
+				{
+					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
+				}
 				$template->parseCurrentBlock();
 			}
 
@@ -630,8 +637,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$template->setVariable("QUESTIONTEXT", $questiontext);
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$editor = ilObjAdvancedEditing::_getRichTextEditor();
+		if (!$editor)
+		{
+			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
+		}
+		else
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
@@ -678,8 +693,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("standard_matching_terms");
-				$answertext = ilUtil::insertLatexImages($answer->getDefinition(), "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-				$template->setVariable("DEFINITION", $answertext);
+				include_once "./classes/class.ilObjAdvancedEditing.php";
+				$editor = ilObjAdvancedEditing::_getRichTextEditor();
+				if (!$editor)
+				{
+					$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition(), TRUE));
+				}
+				else
+				{
+					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
+				}
 				$template->parseCurrentBlock();
 			}
 
@@ -691,8 +714,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$template->setVariable("QUESTIONTEXT", $questiontext);
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$editor = ilObjAdvancedEditing::_getRichTextEditor();
+		if (!$editor)
+		{
+			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
+		}
+		else
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
 
@@ -788,8 +819,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				{
 					$template->setCurrentBlock("matching_terms");
 					$template->setVariable("DEFINITION_ID", $answer->getDefinitionId());
-					$answertext = ilUtil::insertLatexImages($answer->getDefinition(), "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-					$template->setVariable("DEFINITION_TEXT", $answertext);
+					include_once "./classes/class.ilObjAdvancedEditing.php";
+					$editor = ilObjAdvancedEditing::_getRichTextEditor();
+					if (!$editor)
+					{
+						$template->setVariable("DEFINITION_TEXT", ilUtil::prepareFormOutput($answer->getDefinition(), TRUE));
+					}
+					else
+					{
+						$template->setVariable("DEFINITION_TEXT", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
+					}
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock("javascript_matching_row");
@@ -845,8 +884,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("standard_matching_terms");
-					$answertext = ilUtil::insertLatexImages($answer->getDefinition(), "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-					$template->setVariable("DEFINITION", $answertext);
+					include_once "./classes/class.ilObjAdvancedEditing.php";
+					$editor = ilObjAdvancedEditing::_getRichTextEditor();
+					if (!$editor)
+					{
+						$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition(), TRUE));
+					}
+					else
+					{
+						$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
+					}
 					$template->parseCurrentBlock();
 				}
 
@@ -859,8 +906,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$template->setVariable("QUESTIONTEXT", $questiontext);
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$editor = ilObjAdvancedEditing::_getRichTextEditor();
+		if (!$editor)
+		{
+			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
+		}
+		else
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 

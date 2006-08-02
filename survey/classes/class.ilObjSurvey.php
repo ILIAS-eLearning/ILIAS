@@ -4856,5 +4856,23 @@ class ilObjSurvey extends ilObject
 		}
 		return "";
 	}
+
+	/**
+	* Prepares a string for a text area output in tests
+	*
+	* @param string $txt_output String which should be prepared for output
+	* @access public
+	*/
+	function prepareTextareaOutput($txt_output)
+	{
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$result = ilUtil::stripSlashes($txt_output, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+		if (!$this->isHTML($result))
+		{
+			// if the string does not contain HTML code, replace the newlines with HTML line breaks
+			$result = preg_replace("/[\n]/", "<br />", $result);
+		}
+		return $result;
+	}
 } // END class.ilObjSurvey
 ?>

@@ -786,7 +786,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$introduction = preg_replace("/[\n\r]+/", "<br />", $introduction);
 		$data["introduction"] = $introduction;
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
 		$data["shuffle_questions"] = 0;
@@ -1321,7 +1320,16 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($data["description"]));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", $data["introduction"]);
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$editor = ilObjAdvancedEditing::_getRichTextEditor();
+		if (!$editor)
+		{
+			$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($data["introduction"]));
+		}
+		else
+		{
+			$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($data["introduction"]));
+		}
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
 		$this->tpl->setVariable("TEXT_SEQUENCE", $this->lng->txt("tst_sequence"));
 		$this->tpl->setVariable("SEQUENCE_FIXED", $this->lng->txt("tst_sequence_fixed"));
@@ -4360,7 +4368,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (strlen($this->object->getIntroduction()))
 		{
 			$info->addSection($this->lng->txt("tst_introduction"));
-			$info->addProperty("", $this->object->getIntroduction());
+			$info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		}
 
 		$info->addSection($this->lng->txt("tst_general_properties"));
