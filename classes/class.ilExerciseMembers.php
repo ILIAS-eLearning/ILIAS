@@ -188,21 +188,46 @@ class ilExerciseMembers
 		}
 		return false;
 	}
+	
+	/**
+	* set status for member (notgraded|passed|failed)
+	*
+	* @param	int		$a_member_id		user id of member
+	* @param	string	$a_status			(notgraded|passed|failed)
+	*/
 	function setStatusForMember($a_member_id,$a_status)
 	{
-
-	  $query = "UPDATE exc_members ".
-	    "SET status = '".$a_status."', ".
-	    "status_time= '".date("Y-m-d H:i:s")."'".
-	    " WHERE obj_id = '".$this->getObjId()."' ".
-	    "AND usr_id = '".$a_member_id."'".
-		" AND status <> '".$a_status."'";
+		$query = "UPDATE exc_members ".
+			"SET status = '".$a_status."', ".
+			"status_time= '".date("Y-m-d H:i:s")."'".
+			" WHERE obj_id = '".$this->getObjId()."' ".
+			"AND usr_id = '".$a_member_id."'".
+			" AND status <> '".$a_status."'";
 	  
-	  $this->ilias->db->query($query);
-	  $this->read();
-	  
-	  return true;
+		$this->ilias->db->query($query);
+		$this->read();
+		
+		return true;
 	}
+	
+	/**
+	* Update status time (last change) for member.
+	*
+	* @param	int		$a_member_id		user id of member
+	*/
+	function updateStatusTimeForMember($a_member_id)
+	{
+		$query = "UPDATE exc_members ".
+			"SET status_time= '".date("Y-m-d H:i:s")."'".
+			" WHERE obj_id = '".$this->getObjId()."' ".
+			"AND usr_id = '".$a_member_id."'";
+	  
+		$this->ilias->db->query($query);
+		$this->read();
+		
+		return true;
+	}
+
 	
 	function setStatusSent($a_status)
 	{

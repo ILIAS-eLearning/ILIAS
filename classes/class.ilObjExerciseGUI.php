@@ -778,7 +778,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("USR_IMAGE",
 					$mem_obj->getPersonalPicturePath("xxsmall"));
 				$this->tpl->setVariable("USR_ALT", $this->lng->txt("personal_picture"));
-echo "-".ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id)."-"; 
+
 				// mail sent
 				if ($this->object->members_obj->getStatusSentByMember($member_id))
 				{
@@ -880,13 +880,28 @@ echo "-".ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id)."-
 				// solved
 				//$this->tpl->setVariable("CHKBOX_SOLVED",
 				//	ilUtil::formCheckbox($this->object->members_obj->getStatusByMember($member_id),"solved[$member_id]",1));
-				$this->tpl->setVariable("TXT_SOLVED",
-					$this->lng->txt("exc_status_solved"));
+				$status = ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id);
+				$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
+				$this->tpl->setVariable("TXT_NOTGRADED", $this->lng->txt("exc_notgraded"));
+				$this->tpl->setVariable("TXT_PASSED", $this->lng->txt("exc_passed"));
+				$this->tpl->setVariable("TXT_FAILED", $this->lng->txt("exc_failed"));
 				if (($sd = ilObjExercise::_lookupStatusTime($this->object->getId(), $member_id)) > 0)
 				{
+					$this->tpl->setCurrentBlock("status_date");
+					$this->tpl->setVariable("TXT_LAST_CHANGE", $this->lng->txt("last_change"));
 					$this->tpl->setVariable("VAL_STATUS_DATE",
 						ilFormat::formatDate($sd, "datetime", true));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("member_row");
 				}
+				switch($status)
+				{
+					case "passed": 	$pic = "scorm/passed.gif"; break;
+					case "failed":	$pic = "scorm/failed.gif"; break;
+					default: 		$pic = "scorm/not_attempted.gif"; break;
+				}
+				$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
+				$this->tpl->setVariable("ALT_STATUS", $this->lng->txt("exc_".$status));
 				
 				// mark
 				$this->tpl->setVariable("TXT_MARK", $this->lng->txt("exc_mark"));
@@ -1281,10 +1296,16 @@ echo "-".ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id)."-
 
 		foreach($_POST["id"] as $key => $value)
 		{
-			//$this->object->members_obj->setStatusSolvedForMember($key, $_POST["solved"][$key] ? 1 : 0);
-			$this->object->members_obj->setStatusFeedbackForMember($key, $_POST["feedback"][$key] ? 1 : 0);
+			$this->object->members_obj->setStatusForMember($key, $_POST["status"][$key]);
+			//$this->object->members_obj->setStatusFeedbackForMember($key, $_POST["feedback"][$key] ? 1 : 0);
 			$this->object->members_obj->setNoticeForMember($key,ilUtil::stripSlashes($_POST["notice"][$key]));
 
+			if (ilUtil::stripSlashes($_POST['mark'][$key]) != 
+				ilLPMarks::_lookupMark($key, $this->object->getId()))
+			{
+				$this->object->members_obj->updateStatusTimeForMember($key);
+			}
+				
 			// save mark and comment
 			$marks_obj = new ilLPMarks($this->object->getId(),$key);
 			$marks_obj->setMark(ilUtil::stripSlashes($_POST['mark'][$key]));
@@ -1673,7 +1694,8 @@ echo "-".ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id)."-
 			include_once("Services/Tracking/classes/class.ilLPMarks.php");
 			$lpcomment = ilLPMarks::_lookupComment($ilUser->getId(), $this->object->getId());
 			$mark = ilLPMarks::_lookupMark($ilUser->getId(), $this->object->getId());
-			if ($lpcomment != "" || $mark != "")
+			$status = ilExerciseMembers::_lookupStatus($this->object->getId(), $ilUser->getId());
+			if ($lpcomment != "" || $mark != "" || $status != "notgraded")
 			{
 				$info->addSection($this->lng->txt("exc_feedback_from_tutor"));
 				if ($lpcomment != "")
@@ -1685,6 +1707,11 @@ echo "-".ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id)."-
 				{
 					$info->addProperty($this->lng->txt("exc_mark"),
 						$mark);
+				}
+				if ($status != "notgraded")
+				{
+					$info->addProperty($this->lng->txt("status"),
+						$this->lng->txt("exc_".$status));
 				}
 			}
 		}
