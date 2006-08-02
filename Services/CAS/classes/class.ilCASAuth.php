@@ -35,64 +35,15 @@ include_once("Auth.php");
 * @ingroup ServicesCAS
 */
 class ilCASAuth extends Auth
-{
-	/**
-	 * Username
-	 *
-	 * @var string
-	 */
-//	var $username;
-	
-	/**
-	 * Name to be used for session
-	 *
-	 * @var string
-	 */
-//	var $_sessionName = '_authsession';
-	
-	/**
-	 * Authentication status
-	 *
-	 * @var string
-	 */
-//	var $status = '';
-	
-	/**
-	 * Auth lifetime in seconds
-	 *
-	 * If this variable is set to 0, auth never expires
-	 *
-	 * @var  integer
-	 * @see  setExpire(), checkAuth()
-	 */
-//	var $expire = 0;
-	
-	/**
-	 * Maximum time of idleness in seconds
-	 *
-	 * The difference to $expire is, that the idletime gets
-	 * refreshed each time, checkAuth() is called. If this
-	 * variable is set to 0, idle time is never checked.
-	 *
-	 * @var integer
-	 * @see setIdle(), checkAuth()
-	 */
-//	var $idle = 0;
-	
-	/**
-	 * Is the maximum idletime over?
-	 *
-	 * @var boolean
-	 * @see checkAuth(), drawLogin();
-	 */
-//	var $idled = false;
-	
+{	
 	/**
 	* Constructor
 	* @access	public
 	*/
 	function ilCASAuth($a_params)
 	{
+		parent::Auth("");
+		
 		include_once("./Services/CAS/phpcas/source/CAS/CAS.php");
 		$this->server_version = CAS_VERSION_2_0;
 		$this->server_hostname = $a_params["server_hostname"];
