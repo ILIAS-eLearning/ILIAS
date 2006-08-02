@@ -142,14 +142,14 @@ class ilXmlWriter
 	{
 		$this->genCmt = $genCmt;
 	}
-	
+
 	/**
 	* Escapes reserved characters
 	* @param	string	input text
 	* @return	string	escaped text
-	* @access	public
+	* @access	static
 	*/
-	function xmlEscapeData($data)
+	function _xmlEscapeData($data)
 	{
 		$position = 0;
 		$length = strlen($data);
@@ -369,7 +369,7 @@ class ilXmlWriter
 				// escape
 				if ($escape)
 				{
-	    			 $value = $this->xmlEscapeData($value);
+					$value = ilXmlWriter::_xmlEscapeData($value);
 	    		}
 				
 				$this->xmlStr .= " ".$name."=\"".$value."\"";
@@ -425,7 +425,7 @@ class ilXmlWriter
 		// escape
 		if ($escape)
 		{
-	    	 $data = $this->xmlEscapeData($data);
+			$data = ilXmlWriter::_xmlEscapeData($data);
 	    }
 		
 		$this->xmlStr .= $data;

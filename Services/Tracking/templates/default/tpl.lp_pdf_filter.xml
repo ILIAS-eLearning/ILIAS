@@ -1,8 +1,8 @@
    <PageContent>
-      <Paragraph Language="de" Characteristic="Headline1">{LEARNING_PROGRESS_OF}: {USER_FULLNAME}  (DATE)</Paragraph>
+      <Paragraph Language="de" Characteristic="Headline1">{LEARNING_PROGRESS_OF}: {USER_FULLNAME}  ({DATE})</Paragraph>
     </PageContent>
     <PageContent>
-      <Table Language="de">
+      <Table Language="de" Width="24cm">
         <TableRow>
           <TableData>
             <PageContent>
@@ -56,3 +56,4 @@
           </TableData>
         </TableRow>
       </Table>
+ </PageContent>

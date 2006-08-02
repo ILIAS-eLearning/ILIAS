@@ -28,7 +28,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilLPFilterGUI
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilLPFilterGUI, ilUserFilterGUI
 *
 * @package ilias-tracking
 *
@@ -37,6 +37,7 @@
 include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+include_once 'Services/Search/classes/class.ilUserFilterGUI.php';
 
 class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 {
@@ -68,7 +69,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilBench;
+		global $ilBench,$ilUser;
 
 		$ilBench->start('LearningProgress','1000_LPListOfObjects');
 
@@ -77,8 +78,21 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		switch($this->ctrl->getNextClass())
 		{
 			case 'illpfiltergui':
-
 				$this->ctrl->forwardCommand($this->filter_gui);
+				break;
+
+			case 'iluserfiltergui':
+				switch($this->getMode())
+				{
+					case LP_MODE_REPOSITORY:
+						$this->ctrl->setReturn($this,'show');
+						break;
+					default:
+						$this->ctrl->setReturn($this,'details');
+						break;
+				}
+				$this->user_filter_gui = new ilUserFilterGUI($ilUser->getId());
+				$this->ctrl->forwardCommand($this->user_filter_gui);
 				break;
 
 			default:
@@ -323,13 +337,31 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 
-		global $ilObjDataCache;
+		global $ilObjDataCache,$ilUser;
 
 		$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->details_obj_id);
 		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_obj_id);
 		$completed = ilLPStatusWrapper::_getCompleted($this->details_obj_id);
 
-		$all_users = $this->__sort(array_merge($completed,$in_progress,$not_attempted),'usr_data','lastname','usr_id');
+		$all_users = array_merge($completed,$in_progress,$not_attempted);
+
+		if(count($all_users) > 1)
+		{
+			include_once 'Services/Search/classes/class.ilUserFilterGUI.php';
+			$user_filter_gui = new ilUserFilterGUI($ilUser->getId());
+			$this->tpl->setVariable("FILTER",$user_filter_gui->getHTML());
+			$user_filter = new ilUserFilter($ilUser->getId());
+			$user_filter->enableMemberFilter(true);
+			$user_filter->setPossibleUsers($all_users);
+			
+			$all_users = $user_filter->getUsers();
+			if(!count($all_users))
+			{
+				sendInfo($this->lng->txt('trac_filter_no_access'));
+				return false;
+			}
+		}
+		$all_users = $this->__sort($all_users,'usr_data','lastname','usr_id');
 		$sliced_users = array_slice($all_users,$this->offset,$this->max_count);
 		
 		$this->obj_tpl = new ilTemplate('tpl.lp_loo_user_list.html',true,true,'Services/Tracking');

@@ -319,6 +319,36 @@ class ilLPItemListGUI
 		$this->html = $this->tpl->get();
 	}
 
+	function renderSimpleProgressFO()
+	{
+		global $tpl;
+		$this->tpl =& $tpl;
+
+		if(strlen($this->getDescription()))
+		{
+			$this->tpl->setCurrentBlock("description");
+			$this->tpl->setVariable("OBJ_DESC",ilXmlWriter::_xmlEscapeData($this->getDescription()));
+			$this->tpl->parseCurrentBlock();
+		}
+		if($this->user_status_info)
+		{
+			$this->tpl->setCurrentBlock("info");
+			$this->tpl->setVariable("INFO_PROP",ilXmlWriter::_xmlEscapeData($this->user_status_info[0]));
+			$this->tpl->setVariable("INFO_VAL",ilXmlWriter::_xmlEscapeData($this->user_status_info[1]));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("status");
+		$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_status')));
+		$this->tpl->setVariable("STATUS_VAL",ilXmlWriter::_xmlEscapeData($this->lng->txt($this->getUserStatus())));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("item");
+		$this->tpl->setVariable("OBJ_TITLE",ilXmlWriter::_xmlEscapeData($this->getTitle()));
+		$this->tpl->parseCurrentBlock();
+
+	}
+		
+
 	function renderObjectList()
 	{
 		$this->tpl = new ilTemplate('tpl.lp_item_list_row.html',true,true,'Services/Tracking');

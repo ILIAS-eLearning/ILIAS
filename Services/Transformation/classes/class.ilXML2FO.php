@@ -91,7 +91,7 @@ class ilXML2FO
 		xslt_free($this->xslt_handler);
 
 		#var_dump("<pre>",htmlentities($this->getFOString()),"<pre>");
-
+		#var_dump("<pre>",$this->getFOString(),"<pre>");
 		return true;
 	}
 

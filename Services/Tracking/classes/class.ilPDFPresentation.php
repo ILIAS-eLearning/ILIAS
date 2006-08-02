@@ -37,7 +37,8 @@
 * @package ilias-tracking
 *
 */
-
+include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
+include_once 'classes/class.ilXmlWriter.php';
 
 class ilPDFPresentation extends ilLearningProgressBaseGUI
 {
@@ -94,6 +95,8 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		include_once './Services/Tracking/classes/class.ilLPFilter.php';
 		$this->filter = new ilLPFilter($ilUser->getId());
 
+		include_once './Services/Tracking/classes/class.ilLPFilterGUI.php';
+		$this->filter_gui = new ilLPFilterGUI($ilUser->getId());
 
 	}
 
@@ -113,58 +116,46 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 	function __createPersonalProgressList()
 	{
-		// Load and fill xml template
-		$this->xml_tpl = new ilTemplate('tpl.lp_pdf_list.xml',true,true,'Services/Tracking');
+		global $ilObjDataCache,$ilUser;
 
+		// Load and fill xml template
+		$this->tpl = new ilTemplate('tpl.lp_pdf_list.xml',true,true,'Services/Tracking');
 		$this->__addMain();
-		$this->__addFilter();
+		$this->tpl->setVariable("FILTER",$this->filter_gui->getFO());
+
+		$this->filter->setRequiredPermission('read');
+		$type = $this->filter->getFilterType();
+		$this->tpl->setVariable("TXT_OBJS",$this->lng->txt('objs_'.$type));
+
+		// Sort objects by title
+		$objs = $this->filter->getObjects();
+		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
+		// Render item list
+		$counter = 0;
+		foreach($sorted_objs as $object_id)
+		{
+			$item_list =& ilLPItemListFactory::_getInstance(0,$object_id,$ilObjDataCache->lookupType($object_id));
+			#$item_list->setCurrentUser($this->tracked_user->getId());
+			$item_list->setCurrentUser($ilUser->getId());
+			$item_list->readUserInfo();
+			$item_list->renderSimpleProgressFO();
+		}
 
 		// Finally convert to fop
 		$this->__convert();
 	}
 
-	function __addFilter()
-	{
-		global $ilUser,$ilObjDataCache;
-
-		$filter = new ilLPFilter($ilUser->getId());
-		
-		$this->xml_tpl->addBlockFile('FILTER','filter','tpl.lp_pdf_filter.xml','Services/Tracking');
-		$this->xml_tpl->setVariable("LEARNING_PROGRESS_OF",$this->lng->txt('learning_progress'));
-
-		$name = ilObjUser::_lookupName($ilUser->getId());
-		$this->xml_tpl->setVariable("USER_FULLNAME",$name['lastname'].', '.$name['firstname']);
-		$this->xml_tpl->setVariable("DATE",ilFormat::formatUnixTime(time()));
-		$this->xml_tpl->setVariable("TXT_FILTER",$this->lng->txt('trac_lp_filter'));
-		$this->xml_tpl->setVariable("TXT_TYPE",$this->lng->txt('obj_types'));
-		$this->xml_tpl->setVariable("TYPE",$this->lng->txt('objs_'.$filter->getFilterType()));
-		$this->xml_tpl->setVariable("TXT_AREA",$this->lng->txt('trac_filter_area'));
-		$this->xml_tpl->setVariable("FILTER_LANG",$ilUser->getLanguage());
-		if($filter->getRootNode() == ROOT_FOLDER_ID)
-		{
-			$this->xml_tpl->setVariable("AREA",$this->lng->txt('trac_filter_repository'));
-		}
-		else
-		{
-			$text = $this->lng->txt('trac_below')." '";
-			$text .= $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($filter->getRootNode()));
-			$text .= "'";
-			$this->xml_tpl->setVariable("AREA",$text);
-		}
-		$this->xml_tpl->parseCurrentBlock();
-
-		#echo htmlentities($this->xml_tpl->get());
-	}
 
 	function __addMain()
 	{
 		global $ilUser;
 
-		$this->xml_tpl->setVariable("LANG",$ilUser->getLanguage());
-		$this->xml_tpl->setVariable("PDF_TITLE",$this->lng->txt('learning_progress'));
-		$this->xml_tpl->setVariable("PDF_DESCRIPTION",$this->lng->txt('learning_progress'));
-		$this->xml_tpl->setVariable("PAGE_TITLE",$this->lng->txt('learning_progress'));
-		$this->xml_tpl->setVariable("PAGE_DESCRIPTION",$this->lng->txt('learning_progress'));
+
+		$this->tpl->setVariable("LEARNING_PROGRESS_OF",$this->lng->txt('learning_progress'));
+
+		$name = ilObjUser::_lookupName($ilUser->getId());
+		$this->tpl->setVariable("USER_FULLNAME",$name['lastname'].', '.$name['firstname']);
+		$this->tpl->setVariable("DATE",ilFormat::formatUnixTime(time(),true));
 		
 		return true;
 	}
@@ -172,31 +163,33 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 	function __convert()
 	{
-		include_once 'Services/Transformation/classes/class.ilContentObject2FO.php';
+		#include_once 'Services/Transformation/classes/class.ilContentObject2FO.php';
 
-		$co2fo = new ilContentObject2FO();
-		$co2fo->setXMLString($xml = $this->xml_tpl->get());
+		#$co2fo = new ilContentObject2FO();
+		#$co2fo->setXMLString($xml = $this->xml_tpl->get());
 
-		if(!$co2fo->transform())
-		{
-			sendInfo($this->lng->txt('trac_error_pdf',true));
-			$this->ctrl->returnToParent($this);
-		}
+		#if(!$co2fo->transform())
+		#{
+		#	sendInfo($this->lng->txt('trac_error_pdf',true));
+		#	$this->ctrl->returnToParent($this);
+		#}
 
 		include_once 'Services/Transformation/classes/class.ilFO2PDF.php';
 
 		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($co2fo->getFOString());
+		#echo htmlentities($this->tpl->get());
+		$fo2pdf->setFOString($this->tpl->get());
+
+		#var_dump("<pre>",htmlentities($fo2pdf->getFOString()),"<pre>");
 
 		$pdf_base64 = $fo2pdf->send();
 
-		if(is_null($pdf_base64))
+		if(!$pdf_base64)
 		{
 			sendInfo($this->lng->txt('trac_error_pdf',true));
 			$this->ctrl->returnToParent($this);
 		}
 		ilUtil::deliverData($pdf_base64,'learning_progress.pdf','application/pdf');
 	}
-		
 }	
 ?>
