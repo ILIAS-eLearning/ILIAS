@@ -46,7 +46,7 @@
                      %I_Encoding; >
 
 <!-- AuthMode -->
-<!ENTITY % A_Mode " type  (default | local | ldap | radius | shibboleth | script )  'default'">
+<!ENTITY % A_Mode " type  (default | local | ldap | radius | shibboleth | cas | soap | script )  'default'">
 <!ELEMENT AuthMode (#PCDATA)>
 <!ATTLIST AuthMode %A_Mode;>
 
