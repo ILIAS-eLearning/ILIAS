@@ -424,7 +424,7 @@ class ilSurveyExecutionGUI
 		else
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", true);
-			$this->tpl->setVariable("TEXT_FINISHED", $this->object->getOutro());
+			$this->tpl->setVariable("TEXT_FINISHED", $this->object->prepareTextareaOutput($this->object->getOutro()));
 			$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();

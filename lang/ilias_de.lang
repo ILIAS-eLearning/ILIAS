@@ -113,8 +113,8 @@ assessment#:#add_questionpool#:#Fragenpool hinzufügen
 assessment#:#add_solution#:#Musterlösung hinzufügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
-assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
-assessment#:#answer_is_right#:#Ihre Lösung ist korrekt###28 Jul 2006 content changed
+assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
+assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
@@ -655,7 +655,7 @@ assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Startzeit
-assessment#:#tst_stat_all_users#:#Alle Nutzerinnen###29 Jul 2006 content changed
+assessment#:#tst_stat_all_users#:#Alle Nutzer und Nutzerinnen
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Nutzerinnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
 assessment#:#tst_stat_result_distancemean#:#Abstand zum arithmetischen Mittel
@@ -5837,7 +5837,7 @@ survey#:#anonymization#:#Anonymisierung
 survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_personalized#:#Keine Anonymisierung
-survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Anonymisierter Zugang
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
 survey#:#anonymize_with_code#:#Anonymisierung mit personalisiertem Zugriff über einen Zugangsschlüssel
@@ -6053,7 +6053,7 @@ survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Nutzerinnen und/oder Gruppen)!
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
+survey#:#nominal_question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_used#:#nicht verwendet

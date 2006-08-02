@@ -187,10 +187,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$introduction = preg_replace("/[\n\r]+/", "<br />", $introduction);
 		$this->object->setIntroduction($introduction);
 		$outro = ilUtil::stripSlashes($_POST["outro"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$outro = preg_replace("/[\n\r]+/", "<br />", $outro);
 		$this->object->setOutro($outro);
 
 		$this->object->setAnonymize($_POST["anonymize"]);
@@ -313,9 +311,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($this->object->getDescription()));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("introduction"));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->getIntroduction()));
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$editor = ilObjAdvancedEditing::_getRichTextEditor();
+		if (!$editor)
+		{
+			$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->getIntroduction()));
+		}
+		else
+		{
+			$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
+		}
 		$this->tpl->setVariable("TEXT_OUTRO", $this->lng->txt("outro"));
-		$this->tpl->setVariable("VALUE_OUTRO", ilUtil::prepareFormOutput($this->object->getOutro()));
+		if (!$editor)
+		{
+			$this->tpl->setVariable("VALUE_OUTRO", ilUtil::prepareFormOutput($this->object->getOutro()));
+		}
+		else
+		{
+			$this->tpl->setVariable("VALUE_OUTRO", $this->object->prepareTextareaOutput($this->object->getOutro()));
+		}
 		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
 		$this->tpl->setVariable("TEXT_START_DATE", $this->lng->txt("start_date"));
 		$this->tpl->setVariable("VALUE_START_DATE", ilUtil::makeDateSelect("start_date", $this->object->getStartYear(), $this->object->getStartMonth(), $this->object->getStartDay()));
@@ -3830,7 +3844,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$introduction = $this->object->getIntroduction();
 			$info->addSection($this->lng->txt("introduction"));
-			$info->addProperty("", $introduction);
+			$info->addProperty("", $this->object->prepareTextareaOutput($introduction));
 		}
 		
 		$info->addSection($this->lng->txt("svy_general_properties"));

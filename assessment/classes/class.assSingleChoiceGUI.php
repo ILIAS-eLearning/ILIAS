@@ -493,7 +493,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
@@ -553,7 +552,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 					$points = 0.0;
 				}
 				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-				$answertext = preg_replace("/[\n\r]+/", "<br />", $answertext);
 				$this->object->addAnswer(
 					$answertext,
 					ilUtil::stripSlashes($points),
@@ -690,8 +688,16 @@ class assSingleChoiceGUI extends assQuestionGUI
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("answer_row");
-			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-			$template->setVariable("ANSWER_TEXT", $answertext);
+			include_once "./classes/class.ilObjAdvancedEditing.php";
+			$editor = ilObjAdvancedEditing::_getRichTextEditor();
+			if (!$editor)
+			{
+				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
+			}
+			else
+			{
+				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+			}
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
 				$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("radiobutton_checked.gif"));
@@ -705,8 +711,16 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$template->setVariable("QUESTIONTEXT", $questiontext);
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$editor = ilObjAdvancedEditing::_getRichTextEditor();
+		if (!$editor)
+		{
+			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
+		}
+		else
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
@@ -744,13 +758,29 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-			$template->setVariable("ANSWER_TEXT", $answertext);
+			include_once "./classes/class.ilObjAdvancedEditing.php";
+			$editor = ilObjAdvancedEditing::_getRichTextEditor();
+			if (!$editor)
+			{
+				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
+			}
+			else
+			{
+				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+			}
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$template->setVariable("QUESTIONTEXT", $questiontext);
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$editor = ilObjAdvancedEditing::_getRichTextEditor();
+		if (!$editor)
+		{
+			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
+		}
+		else
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
 		return $questionoutput;
@@ -807,8 +837,16 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			$answertext = ilUtil::insertLatexImages($answer->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-			$template->setVariable("ANSWER_TEXT", $answertext);
+			include_once "./classes/class.ilObjAdvancedEditing.php";
+			$editor = ilObjAdvancedEditing::_getRichTextEditor();
+			if (!$editor)
+			{
+				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
+			}
+			else
+			{
+				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+			}
 			if (strcmp($user_solution, $answer_id) == 0)
 			{
 				$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
@@ -816,8 +854,16 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$template->setVariable("QUESTIONTEXT", $questiontext);
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$editor = ilObjAdvancedEditing::_getRichTextEditor();
+		if (!$editor)
+		{
+			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
+		}
+		else
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		return $questionoutput;
