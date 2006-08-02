@@ -45,7 +45,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 	var $type = '';
 
 
-	function ilPDFPresentation($a_mode,$a_ref_id,$a_user_id = 0)
+	function ilPDFPresentation($a_mode,$a_ref_id,$a_user_id = 0,$a_tracked_user = 0)
 	{
 		global $lng,$ilCtrl;
 
@@ -54,8 +54,17 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
 
+		$this->current_user_id = $a_tracked_user;
+
 		$this->__init();
 	}
+
+	function &getCurrentUserId()
+	{
+		return $this->current_user_id;
+	}
+
+	
 
 	/**
 	* execute command
@@ -90,14 +99,12 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 		include_once './classes/class.ilXmlWriter.php';
 		$this->xmlWriter = new ilXmlWriter();
-		
 
 		include_once './Services/Tracking/classes/class.ilLPFilter.php';
 		$this->filter = new ilLPFilter($ilUser->getId());
 
 		include_once './Services/Tracking/classes/class.ilLPFilterGUI.php';
 		$this->filter_gui = new ilLPFilterGUI($ilUser->getId());
-
 	}
 
 	function createList()
@@ -106,6 +113,9 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		{
 			case LP_ACTIVE_PROGRESS:
 				return $this->__createPersonalProgressList();
+
+			case LP_ACTIVE_OBJECTS:
+				return $this->__createObjectList();
 
 			default:
 				sendInfo('trac_pdf_error'. ' '.$this->getMode(),true);
@@ -121,8 +131,38 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		// Load and fill xml template
 		$this->tpl = new ilTemplate('tpl.lp_pdf_list.xml',true,true,'Services/Tracking');
 		$this->__addMain();
-		$this->tpl->setVariable("FILTER",$this->filter_gui->getFO());
 
+		$this->tpl->setVariable("FILTER",$this->filter_gui->getFO());
+		$this->filter->setRequiredPermission('read');
+		$type = $this->filter->getFilterType();
+		$this->tpl->setVariable("TXT_OBJS",$this->lng->txt('objs_'.$type));
+
+		// Sort objects by title
+		$objs = $this->filter->getObjects();
+		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
+		// Render item list
+		$counter = 0;
+		foreach($sorted_objs as $object_id)
+		{
+			$item_list =& ilLPItemListFactory::_getInstance(0,$object_id,$ilObjDataCache->lookupType($object_id));
+			$item_list->setCurrentUser($this->getCurrentUserId());
+			$item_list->readUserInfo();
+			$item_list->renderSimpleProgressFO();
+		}
+
+		// Finally convert to fop
+		$this->__convert();
+	}
+
+	function __createObjectList()
+	{
+		global $ilObjDataCache,$ilUser;
+
+		// Load and fill xml template
+		$this->tpl = new ilTemplate('tpl.lp_pdf_list.xml',true,true,'Services/Tracking');
+		$this->__addMain();
+
+		$this->tpl->setVariable("FILTER",$this->filter_gui->getFO());
 		$this->filter->setRequiredPermission('read');
 		$type = $this->filter->getFilterType();
 		$this->tpl->setVariable("TXT_OBJS",$this->lng->txt('objs_'.$type));
@@ -136,25 +176,28 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		{
 			$item_list =& ilLPItemListFactory::_getInstance(0,$object_id,$ilObjDataCache->lookupType($object_id));
 			#$item_list->setCurrentUser($this->tracked_user->getId());
-			$item_list->setCurrentUser($ilUser->getId());
+			$item_list->setCurrentUser($this->getCurrentUserId());
 			$item_list->readUserInfo();
-			$item_list->renderSimpleProgressFO();
+			$item_list->renderObjectListFO();
 		}
 
 		// Finally convert to fop
 		$this->__convert();
-	}
+	}		
 
 
 	function __addMain()
 	{
-		global $ilUser;
-
+		global $ilUser,$ilObjDataCache;
 
 		$this->tpl->setVariable("LEARNING_PROGRESS_OF",$this->lng->txt('learning_progress'));
-
-		$name = ilObjUser::_lookupName($ilUser->getId());
-		$this->tpl->setVariable("USER_FULLNAME",$name['lastname'].', '.$name['firstname']);
+		switch($this->getType())
+		{
+			case LP_ACTIVE_PROGRESS:
+				$name = ilObjUser::_lookupName($this->getCurrentUserId());
+				$this->tpl->setVariable("USER_FULLNAME",$name['lastname'].', '.$name['firstname']);
+				break;
+		}				
 		$this->tpl->setVariable("DATE",ilFormat::formatUnixTime(time(),true));
 		
 		return true;
