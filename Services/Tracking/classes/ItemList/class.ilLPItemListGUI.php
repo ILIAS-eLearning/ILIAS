@@ -330,17 +330,19 @@ class ilLPItemListGUI
 			$this->tpl->setVariable("OBJ_DESC",ilXmlWriter::_xmlEscapeData($this->getDescription()));
 			$this->tpl->parseCurrentBlock();
 		}
-		if($this->user_status_info)
-		{
-			$this->tpl->setCurrentBlock("info");
-			$this->tpl->setVariable("INFO_PROP",ilXmlWriter::_xmlEscapeData($this->user_status_info[0]));
-			$this->tpl->setVariable("INFO_VAL",ilXmlWriter::_xmlEscapeData($this->user_status_info[1]));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("status");
+
+		$this->tpl->setCurrentBlock("status_row");
 		$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_status')));
 		$this->tpl->setVariable("STATUS_VAL",ilXmlWriter::_xmlEscapeData($this->lng->txt($this->getUserStatus())));
 		$this->tpl->parseCurrentBlock();
+
+		if($this->user_status_info)
+		{
+			$this->tpl->setCurrentBlock("status_row");
+			$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->user_status_info[0]));
+			$this->tpl->setVariable("STATUS_VAL",ilXmlWriter::_xmlEscapeData($this->user_status_info[1]));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setCurrentBlock("item");
 		$this->tpl->setVariable("OBJ_TITLE",ilXmlWriter::_xmlEscapeData($this->getTitle()));
@@ -414,18 +416,18 @@ class ilLPItemListGUI
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 		if($num_na = ilLPStatusWrapper::_getCountNotAttempted($this->getId()))
 		{
-			$this->tpl->setCurrentBlock("status");
+			$this->tpl->setCurrentBlock("status_row");
 			$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_not_attempted')));
 			$this->tpl->setVariable("STATUS_VAL",ilLPStatusWrapper::_getCountNotAttempted($this->getId()));
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setCurrentBlock("status");
+		$this->tpl->setCurrentBlock("status_row");
 		$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_in_progress')));
 		$this->tpl->setVariable("STATUS_VAL",ilLPStatusWrapper::_getCountInProgress($this->getId()));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("status");
+		$this->tpl->setCurrentBlock("status_row");
 		$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_completed')));
 		$this->tpl->setVariable("STATUS_VAL",ilLPStatusWrapper::_getCountCompleted($this->getId()));
 		$this->tpl->parseCurrentBlock();

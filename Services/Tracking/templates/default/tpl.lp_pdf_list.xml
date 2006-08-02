@@ -31,16 +31,11 @@
 					<!-- BEGIN description -->
 					<fo:block>{OBJ_DESC}</fo:block>
 					<!-- END description -->
-					<!--BEGIN status -->
+					<!-- BEGIN status_row -->
 					<fo:block margin-top="1mm" color="red">
 						{STATUS_PROP}: {STATUS_VAL}
 					</fo:block>
-					<!-- END status -->				
-					<!--BEGIN info -->
-					<fo:block margin-top="1mm" color="red">
-						{INFO_PROP} {INFO_VAL}
-					</fo:block>
-					<!-- END info -->				
+					<!-- END status_row -->				
 				</fo:table-cell>
 			</fo:table-row>
 			<!-- END item -->
