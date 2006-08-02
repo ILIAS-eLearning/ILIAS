@@ -2381,7 +2381,7 @@ common#:#mep_visible#:#Media Pool is visible
 common#:#mep_write#:#Edit Media Pool Content
 common#:#message#:#Message
 common#:#message_content#:#Message Content
-common#:#message_no_delivered_files#:#You don't have delivered a file!
+common#:#message_no_delivered_files#:#You do not have submitted any files.
 common#:#message_to#:#Message to:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate

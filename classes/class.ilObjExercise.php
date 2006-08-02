@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -436,6 +436,30 @@ class ilObjExercise extends ilObject
 
 	}
 
+
+	/**
+	* Check whether exercise has been sent to any student per mail.
+	*/
+	function _lookupAnyExerciseSent($a_exc_id)
+	{
+  		global $ilDB;
+
+  		$q = "SELECT count(*) AS cnt FROM exc_members".
+			" WHERE sent_time <> '0000-00-00 00:00:00'".
+			" AND obj_id = ".$ilDB->quote($a_exc_id);
+		$set = $ilDB->query($q);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		if ($rec["cnt"] > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	/**
 	* Check how much files have been uploaded by the learner
 	* after the last download of the tutor.
