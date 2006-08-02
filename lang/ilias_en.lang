@@ -4608,6 +4608,9 @@ exercise#:#exc_grading#:#Grading
 exercise#:#exc_mark#:#Mark
 exercise#:#exc_send_mail#:#Send Mail
 exercise#:#exc_your_submission#:#Your Submission
+exercise#:#exc_notgraded#:#Not Graded
+exercise#:#exc_passed#:#Passed
+exercise#:#exc_failed#:#Failed
 forum#:#forum_anonymize#:#Write anonymously
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forums
