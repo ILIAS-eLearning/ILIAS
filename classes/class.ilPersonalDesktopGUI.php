@@ -74,7 +74,7 @@ class ilPersonalDesktopGUI
 	function &executeCommand()
 	{
 		global $ilUser;
-		
+
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
 		

@@ -193,13 +193,16 @@ class ilInitialisation
 				break;
 		}
 
-		$this->__buildHTTPPath();
+		$this->buildHTTPPath();
 	}
 	
 	/**
 	* builds http path
+	*
+	* this is also used by other classes now,
+	* e.g. in ilSoapAuthenticationCAS.php
 	*/
-	function __buildHTTPPath()
+	function buildHTTPPath()
 	{
 		if($_SERVER['HTTPS'] == 'on')
 		{

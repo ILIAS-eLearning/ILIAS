@@ -91,6 +91,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		include_once("./Services/Init/classes/class.ilInitialisation.php");
 		$init = new ilInitialisation();
 		$init->requireCommonIncludes();
+		$init->buildHTTPPath();
 		
 		if(!$this->getClient())
 		{
@@ -251,6 +252,9 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 
 		include_once("Services/CAS/classes/class.ilCASAuth.php");
 		$this->auth = new ilCASAuth($auth_params);
+		
+		// HTTP path will return full path to server.php directory
+		phpCAS::setFixedServiceURL(ILIAS_HTTP_PATH."/server.php");
 
 		return true;
 	}
