@@ -11471,3 +11471,11 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE exc_members ADD status ENUM('notgraded','failed','passed') NOT NULL DEFAULT 'notgraded';
 UPDATE exc_members SET status = 'passed' WHERE solved = 1;
 ALTER TABLE exc_members CHANGE solved_time status_time TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+<#808>
+ALTER TABLE frm_data ADD INDEX top_frm_fk (top_frm_fk);
+<#809>
+ALTER TABLE mail ADD INDEX folder_id (folder_id);
+<#810>
+ALTER TABLE mail ADD INDEX m_status (m_status);
+<#811>
+ALTER TABLE frm_posts ADD INDEX pos_date (pos_date);
