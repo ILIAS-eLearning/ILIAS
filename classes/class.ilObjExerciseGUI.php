@@ -762,7 +762,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				// checkbox
 				$this->tpl->setCurrentBlock("member_row");
 				$this->tpl->setVariable("ROW_CSS",
-					ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+					ilUtil::switchColor($counter++,"tblrow1","tblrow2"));
 				$this->tpl->setVariable("VAL_CHKBOX",
 					ilUtil::formCheckbox(0,"member[$member_id]",1));
 				$this->tpl->setVariable("VAL_ID",

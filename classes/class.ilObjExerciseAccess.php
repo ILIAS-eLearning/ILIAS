@@ -59,6 +59,27 @@ class ilObjExerciseAccess extends ilObjectAccess
 		return $commands;
 	}
 	
+	function _lookupRemainingWorkingTimeString($a_obj_id)
+	{
+		global $ilDB, $lng;
+		
+		$q = "SELECT time_stamp FROM exc_data WHERE obj_id = ".
+			$ilDB->quote($a_obj_id);
+		$set = $ilDB->query($q);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		if ($rec["time_stamp"] - time() <= 0)
+		{
+			$time_str = $lng->txt("exc_time_over_short");
+		}
+		else
+		{
+			$time_diff = ilUtil::int2array($rec["time_stamp"] - time(), null);
+			$time_str = ilUtil::timearray2string($time_diff);
+		}
+		return $time_str;
+	}
+	
 	/**
 	* check whether goto script will succeed
 	*/
