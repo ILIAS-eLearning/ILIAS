@@ -91,6 +91,7 @@ class ilLPFilterGUI
 		$tpl->setVariable("TBL_TITLE",$this->lng->txt('trac_lp_filter'));
 		$tpl->setVariable("TXT_AREA",$this->lng->txt('trac_filter_area'));
 
+
 		// Area
 		if($this->filter->getRootNode() == ROOT_FOLDER_ID)
 		{
@@ -133,6 +134,40 @@ class ilLPFilterGUI
 
 		return $tpl->get();
 	}
+
+	function getFO()
+	{
+		global $ilObjDataCache,$ilUser;
+
+		$tpl = new ilTemplate('tpl.lp_filter.xml',true,true,'Services/Tracking');
+
+		if(strlen($this->filter->getQueryString()))
+		{
+			$tpl->setCurrentBlock("filter_title");
+			$tpl->setVariable("TXT_TITLE",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_query')));
+			$tpl->setVariable("TITLE",ilXmlWriter::_xmlEscapeData($this->filter->getQueryString()));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setVariable("TXT_FILTER",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_lp_filter')));
+		$tpl->setVariable("TXT_TYPE",ilXmlWriter::_xmlEscapeData($this->lng->txt('obj_types')));
+		$tpl->setVariable("TYPE",ilXmlWriter::_xmlEscapeData($this->lng->txt('objs_'.$this->filter->getFilterType())));
+		$tpl->setVariable("TXT_AREA",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_filter_area')));
+		$tpl->setVariable("FILTER_LANG",ilXmlWriter::_xmlEscapeData($ilUser->getLanguage()));
+		if($this->filter->getRootNode() == ROOT_FOLDER_ID)
+		{
+			$tpl->setVariable("AREA",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_filter_repository')));
+		}
+		else
+		{
+			$text = $this->lng->txt('trac_below')." '";
+			$text .= $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($this->filter->getRootNode()));
+			$text .= "'";
+			$tpl->setVariable("AREA",ilXmlWriter::_xmlEscapeData($text));
+		}
+		return $tpl->get();
+	}
+		
 
 	function hideSelected()
 	{
