@@ -50,6 +50,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	function ilLPListOfProgressGUI($a_mode,$a_ref_id,$a_user_id = 0)
 	{
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id,$a_user_id);
+		$this->__checkPDF();
 
 		$this->__initFilterGUI();
 		$this->__initUser($a_user_id);
@@ -74,7 +75,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 			case 'ilpdfpresentation':
 				include_once './Services/Tracking/classes/class.ilPDFPresentation.php';
-				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->getRefId(),$this->getUserId());
+				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->getRefId(),$this->getUserId(),$this->tracked_user->getId());
 				$pdf_gui->setType(LP_ACTIVE_PROGRESS);
 				$this->ctrl->setReturn($this,'show');
 				$this->ctrl->forwardCommand($pdf_gui);
@@ -360,9 +361,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->__appendUserInfo($info);
 		$this->tpl->setVariable("USER_INFO",$info->getHTML());
 
-		#$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createList'),$this->lng->txt('pdf_export'));
-		$this->__initFilter();
+		if($this->activePDF())
+		{
+			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createList'),$this->lng->txt('pdf_export'));
+		}
 
+		$this->__initFilter();
 		$tpl = new ilTemplate('tpl.lp_progress_list.html',true,true,'Services/Tracking');
 		$this->filter->setRequiredPermission('read');
 		if(!count($objs = $this->filter->getObjects()))

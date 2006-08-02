@@ -11463,3 +11463,8 @@ foreach($rolt_ids as $rolt_id)
 	$ilDB->query($query);
 }
 ?>
+<#806>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

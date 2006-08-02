@@ -79,6 +79,18 @@ class ilLearningProgressBaseGUI
 		$this->anonymized = (bool) !ilObjUserTracking::_enabledUserRelatedData();
 	}
 
+	function activePDF()
+	{
+		return $this->active_pdf;
+	}
+
+	function __checkPDF()
+	{
+		include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		$rpc_server = new ilRPCServerSettings();
+		$this->active_pdf = $rpc_server->pingServer();
+	}
+
 	function isAnonymized()
 	{
 		return $this->anonymized;
@@ -150,10 +162,13 @@ class ilLearningProgressBaseGUI
 
 				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
 				{
-					$this->ctrl->setParameterByClass('illplistofprogressgui','user_id',$this->getUserId());
-					$this->tabs_gui->addSubTabTarget('trac_progress',
-											   $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-											   "","","",$a_active == LP_ACTIVE_PROGRESS);
+					if($this->isAnonymized())
+					{
+						$this->ctrl->setParameterByClass('illplistofprogressgui','user_id',$this->getUserId());
+						$this->tabs_gui->addSubTabTarget('trac_progress',
+														 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
+														 "","","",$a_active == LP_ACTIVE_PROGRESS);
+					}
 					if(!$this->isAnonymized())
 					{
 						// Check if it is a course

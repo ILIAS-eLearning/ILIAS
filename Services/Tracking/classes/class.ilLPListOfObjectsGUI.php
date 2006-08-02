@@ -28,7 +28,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilLPFilterGUI, ilUserFilterGUI
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilLPFilterGUI, ilUserFilterGUI, ilPDFPresentation
 *
 * @package ilias-tracking
 *
@@ -50,6 +50,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		global $ilUser,$ilObjDataCache;
 
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
+		$this->__checkPDF();
 
 		$this->__initFilterGUI();
 
@@ -79,6 +80,14 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			case 'illpfiltergui':
 				$this->ctrl->forwardCommand($this->filter_gui);
+				break;
+
+			case 'ilpdfpresentation':
+				include_once './Services/Tracking/classes/class.ilPDFPresentation.php';
+				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->getRefId(),$this->getUserId());
+				$pdf_gui->setType(LP_ACTIVE_OBJECTS);
+				$this->ctrl->setReturn($this,'show');
+				$this->ctrl->forwardCommand($pdf_gui);
 				break;
 
 			case 'iluserfiltergui':
@@ -495,6 +504,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		$tpl = new ilTemplate('tpl.lp_loo_objects.html',true,true,'Services/Tracking');
 
+		if($this->activePDF())
+		{
+			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createList'),$this->lng->txt('pdf_export'));
+		}
+
 		$this->filter->setRequiredPermission('edit_learning_progress');
 		if(!count($objs = $this->filter->getObjects()))
 		{
@@ -599,6 +613,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		if($a_details_id)
 		{
+			$_GET['details_id'] = $a_details_id;
 			$this->details_id = $a_details_id;
 			$this->details_obj_id = $ilObjDataCache->lookupObjId($this->details_id);
 			$this->details_type = $ilObjDataCache->lookupType($this->details_obj_id);

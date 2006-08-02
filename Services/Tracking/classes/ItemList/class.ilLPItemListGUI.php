@@ -377,7 +377,6 @@ class ilLPItemListGUI
 			$this->tpl->setVariable("VAL_PROP",$num_na);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->touchBlock('newline_prop');
-
 		}
 		
 		$this->tpl->setCurrentBlock("item_property");
@@ -399,6 +398,41 @@ class ilLPItemListGUI
 
 		
 		$this->html = $this->tpl->get();
+	}
+
+	function renderObjectListFO()
+	{
+		global $tpl;
+		$this->tpl =& $tpl;
+
+		if(strlen($this->getDescription()))
+		{
+			$this->tpl->setCurrentBlock("description");
+			$this->tpl->setVariable("OBJ_DESC",ilXmlWriter::_xmlEscapeData($this->getDescription()));
+			$this->tpl->parseCurrentBlock();
+		}
+		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		if($num_na = ilLPStatusWrapper::_getCountNotAttempted($this->getId()))
+		{
+			$this->tpl->setCurrentBlock("status");
+			$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_not_attempted')));
+			$this->tpl->setVariable("STATUS_VAL",ilLPStatusWrapper::_getCountNotAttempted($this->getId()));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("status");
+		$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_in_progress')));
+		$this->tpl->setVariable("STATUS_VAL",ilLPStatusWrapper::_getCountInProgress($this->getId()));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("status");
+		$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_completed')));
+		$this->tpl->setVariable("STATUS_VAL",ilLPStatusWrapper::_getCountCompleted($this->getId()));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("item");
+		$this->tpl->setVariable("OBJ_TITLE",ilXmlWriter::_xmlEscapeData($this->getTitle()));
+		$this->tpl->parseCurrentBlock();
 	}
 
 	function renderObjectDetails()
