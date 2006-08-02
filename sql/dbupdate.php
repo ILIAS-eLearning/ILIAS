@@ -11467,4 +11467,7 @@ foreach($rolt_ids as $rolt_id)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#807>
+ALTER TABLE exc_members ADD status ENUM('notgraded','failed','passed') NOT NULL DEFAULT 'notgraded';
+UPDATE exc_members SET status = 'passed' WHERE solved = 1;
+ALTER TABLE exc_members CHANGE solved_time status_time TIMESTAMP DEFAULT '0000-00-00 00:00:00';
