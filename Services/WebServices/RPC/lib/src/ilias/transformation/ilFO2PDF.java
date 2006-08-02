@@ -31,6 +31,7 @@ import java.io.UnsupportedEncodingException;
 import org.apache.avalon.framework.logger.Log4JLogger;
 import org.apache.fop.apps.Driver;
 import org.apache.fop.apps.FOPException;
+import org.apache.fop.messaging.MessageHandler;
 import org.apache.log4j.Logger;
 import org.xml.sax.InputSource;
 
@@ -58,6 +59,7 @@ public class ilFO2PDF {
 
             logger.info("Started driver");
             driver.setLogger(fopLogger);
+            MessageHandler.setScreenLogger(fopLogger);
             driver.setInputSource(new InputSource(getFoInputStream()));
             driver.setRenderer(Driver.RENDER_PDF);
             driver.setOutputStream(out);
