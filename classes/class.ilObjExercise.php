@@ -326,7 +326,7 @@ class ilObjExercise extends ilObject
 					"login" => $login,
 					"sent_time" => $rec["sent_time"],
 					"submission" => $this->getLastSubmission($rec["usr_id"]),
-					"solved_time" => $rec["solved_time"],
+					"status_time" => $rec["status_time"],
 					"feedback_time" => $rec["feedback_time"],
 					"usr_id" => $rec["usr_id"]
 					);
@@ -406,17 +406,17 @@ class ilObjExercise extends ilObject
 
 	/**
 	* Check whether student has upload new files after tutor has
-	* set the exercise to solved.
+	* set the exercise to another than notgraded.
 	*/
 	function _lookupUpdatedSubmission($exc_id, $member_id) 
 	{
 
   		global $ilDB, $lng;
 
-  		$q="SELECT exc_members.solved_time, exc_returned.timestamp ".
+  		$q="SELECT exc_members.status_time, exc_returned.timestamp ".
 			"FROM exc_members, exc_returned ".
-			"WHERE exc_members.solved_time < exc_returned.timestamp ".
-			"AND exc_members.solved_time <> '0000-00-00 00:00:00' ".
+			"WHERE exc_members.status_time < exc_returned.timestamp ".
+			"AND exc_members.status_time <> '0000-00-00 00:00:00' ".
 			"AND exc_returned.obj_id = exc_members.obj_id ".
 			"AND exc_returned.user_id = exc_members.usr_id ".
 			"AND exc_returned.obj_id='".$exc_id."' AND exc_returned.user_id='".$member_id."'";
@@ -491,7 +491,7 @@ class ilObjExercise extends ilObject
 	/**
 	* Get time when exercise has been set to solved.
 	*/
-	function _lookupSolvedTime($exc_id, $member_id) 
+	function _lookupStatusTime($exc_id, $member_id) 
 	{
 
   		global $ilDB, $lng;
@@ -503,7 +503,7 @@ class ilObjExercise extends ilObject
   		$set = $ilDB->query($q);
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			return $rec["solved_time"];
+			return $rec["status_time"];
 		}
 	}
 
@@ -527,7 +527,7 @@ class ilObjExercise extends ilObject
 	}
 
 	/**
-	* Get time when exercise has been set to solved.
+	* Get time when feedback mail has been sent.
 	*/
 	function _lookupFeedbackTime($exc_id, $member_id) 
 	{
@@ -588,7 +588,15 @@ class ilObjExercise extends ilObject
 		switch($a_operator)
 		{
 			case 'passed':
-				return ilExerciseMembers::_hasSolved($a_exc_id,$ilias->account->getId());
+				if (ilExerciseMembers::_lookupStatus($a_exc_id, $ilias->account->getId()) == "passed")
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
 
 			default:
 				return true;

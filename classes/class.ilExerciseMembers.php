@@ -37,7 +37,7 @@ class ilExerciseMembers
 	var $ref_id;
 	var $obj_id;
 	var $members;
-	var $status_solved;
+	var $status;
 	var $status_feedback;
 	var $status_sent;
 	var $status_returned;
@@ -82,7 +82,7 @@ class ilExerciseMembers
 		$query = "REPLACE INTO exc_members ".
 			"SET obj_id = '".$this->getObjId()."', ".
 			"usr_id = '".$a_usr_id."', ".
-			"solved = '0', sent = '0', feedback='0'";
+			"status = 'notgraded', sent = '0', feedback='0'";
 
 		$res = $this->ilias->db->query($query);
 		$this->read();
@@ -168,35 +168,35 @@ class ilExerciseMembers
 			return false;
 		}
 	}
-	function setStatusSolved($a_status)
+	function setStatus($a_status)
 	{
 		if(is_array($a_status))
 		{
-			$this->status_solved = $a_status;
+			$this->status = $a_status;
 			return true;
 		}
 	}
-	function getStatusSolved()
+	function getStatus()
 	{
-		return $this->status_solved ? $this->status_solved : array(0 => 0);
+		return $this->status ? $this->status : array();
 	}
-	function getStatusSolvedByMember($a_member_id)
+	function getStatusByMember($a_member_id)
 	{
-		if(isset($this->status_solved[$a_member_id]))
+		if(isset($this->status[$a_member_id]))
 		{
-			return $this->status_solved[$a_member_id];
+			return $this->status[$a_member_id];
 		}
 		return false;
 	}
-	function setStatusSolvedForMember($a_member_id,$a_status)
+	function setStatusForMember($a_member_id,$a_status)
 	{
 
 	  $query = "UPDATE exc_members ".
-	    "SET solved = '".($a_status ? 1 : 0)."', ".
-	    "solved_time=".($a_status ? ("'".date("Y-m-d H:i:s")."'") : ("'0000-00-00 00:00:00'")).
+	    "SET status = '".$a_status."', ".
+	    "status_time= '".date("Y-m-d H:i:s")."'".
 	    " WHERE obj_id = '".$this->getObjId()."' ".
 	    "AND usr_id = '".$a_member_id."'".
-		" AND solved <> '".($a_status ? 1 : 0)."'";
+		" AND status <> '".$a_status."'";
 	  
 	  $this->ilias->db->query($query);
 	  $this->read();
@@ -620,7 +620,7 @@ class ilExerciseMembers
 	function read()
 	{
 		$tmp_arr_members = array();
-		$tmp_arr_solved = array();
+		$tmp_arr_status = array();
 		$tmp_arr_sent = array();
 		$tmp_arr_notice = array();
 		$tmp_arr_returned = array();
@@ -635,13 +635,13 @@ class ilExerciseMembers
 			$tmp_arr_members[] = $row->usr_id;
 			$tmp_arr_notice[$row->usr_id] = $row->notice;
 			$tmp_arr_returned[$row->usr_id] = $row->returned;
-			$tmp_arr_solved[$row->usr_id] = $row->solved;
+			$tmp_arr_status[$row->usr_id] = $row->status;
 			$tmp_arr_sent[$row->usr_id] = $row->sent;
 			$tmp_arr_feedback[$row->usr_id] = $row->feedback;
 		}
 		$this->setMembers($tmp_arr_members);
 		$this->setNotice($tmp_arr_notice);
-		$this->setStatusSolved($tmp_arr_solved);
+		$this->setStatus($tmp_arr_status);
 		$this->setStatusSent($tmp_arr_sent);
 		$this->setStatusReturned($tmp_arr_returned);
 		$this->setStatusFeedback($tmp_arr_feedback);
@@ -661,7 +661,7 @@ class ilExerciseMembers
 			$data[] = array("usr_id" => $row->usr_id,
 							"notice" => $row->notice,
 							"returned" => $row->returned,
-							"solved" => $row->solved,
+							"status" => $row->status,
 							"sent"	 => $row->sent,
 							"feedback"	 => $row->feedback
 							);
@@ -673,7 +673,7 @@ class ilExerciseMembers
 				"usr_id = '".$row["usr_id"]."', ".
 				"notice = '".addslashes($row["notice"])."', ".
 				"returned = '".$row["returned"]."', ".
-				"solved = '".$row["solved"]."', ".
+				"status = '".$row["status"]."', ".
 				"feedback = '".$row["feedback"]."', ".
 				"sent = '".$row["sent"]."'";
 
@@ -690,6 +690,7 @@ class ilExerciseMembers
 		return true;
 	}
 
+	/*	deprecated; use _lookupStatus instead
 	function _hasSolved($a_exc_id,$a_usr_id)
 	{
 		global $ilDB;
@@ -721,7 +722,7 @@ class ilExerciseMembers
 			}
 		}
 		return false;
-	}
+	}*/
 
 	function _getMembers($a_obj_id)
 	{
@@ -756,6 +757,7 @@ class ilExerciseMembers
 		return $usr_ids ? $usr_ids : array();
 	}
 	
+	/* deprecated use _lookupStatus instead
 	function _getSolved($a_obj_id)
 	{
 		global $ilDB;
@@ -771,6 +773,29 @@ class ilExerciseMembers
 		}
 
 		return $usr_ids ? $usr_ids : array();
+	}*/
+
+	/**
+	* lookup current status (notgraded|passed|failed)
+	* @param	int		$a_obj_id	exercise id
+	* @param	int		$a_user_id	member id
+	* @return	mixed	false (if user is no member) or notgraded|passed|failed
+	*/
+	function _lookupStatus($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT status FROM exc_members ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id).
+			"AND usr_id = ".$ilDB->quote($a_user_id);
+
+		$res = $ilDB->query($query);
+		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $row["status"];
+		}
+
+		return false;
 	}
 
 } //END class.ilObjExercise

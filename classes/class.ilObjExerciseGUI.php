@@ -778,7 +778,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("USR_IMAGE",
 					$mem_obj->getPersonalPicturePath("xxsmall"));
 				$this->tpl->setVariable("USR_ALT", $this->lng->txt("personal_picture"));
-				
+echo "-".ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id)."-"; 
 				// mail sent
 				if ($this->object->members_obj->getStatusSentByMember($member_id))
 				{
@@ -878,13 +878,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 					ilUtil::prepareFormOutput($lpcomment));
 
 				// solved
-				$this->tpl->setVariable("CHKBOX_SOLVED",
-					ilUtil::formCheckbox($this->object->members_obj->getStatusSolvedByMember($member_id),"solved[$member_id]",1));
+				//$this->tpl->setVariable("CHKBOX_SOLVED",
+				//	ilUtil::formCheckbox($this->object->members_obj->getStatusByMember($member_id),"solved[$member_id]",1));
 				$this->tpl->setVariable("TXT_SOLVED",
 					$this->lng->txt("exc_status_solved"));
-				if (($sd = ilObjExercise::_lookupSolvedTime($this->object->getId(), $member_id)) > 0)
+				if (($sd = ilObjExercise::_lookupStatusTime($this->object->getId(), $member_id)) > 0)
 				{
-					$this->tpl->setVariable("VAL_SOLVED_DATE",
+					$this->tpl->setVariable("VAL_STATUS_DATE",
 						ilFormat::formatDate($sd, "datetime", true));
 				}
 				
@@ -1281,7 +1281,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		foreach($_POST["id"] as $key => $value)
 		{
-			$this->object->members_obj->setStatusSolvedForMember($key, $_POST["solved"][$key] ? 1 : 0);
+			//$this->object->members_obj->setStatusSolvedForMember($key, $_POST["solved"][$key] ? 1 : 0);
 			$this->object->members_obj->setStatusFeedbackForMember($key, $_POST["feedback"][$key] ? 1 : 0);
 			$this->object->members_obj->setNoticeForMember($key,ilUtil::stripSlashes($_POST["notice"][$key]));
 
@@ -1637,7 +1637,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
 		// submission and feedback info only if read permission given
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
