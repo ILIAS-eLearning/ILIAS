@@ -27,7 +27,7 @@
   <div style="margin: 2px 0px 0px 0px">
   <span class="small">
   {TXT_NOTE}:<br /><input type="text" name="{NAME_NOTE}" value="{VAL_NOTE}" size="45" maxlength="200" /><br />
-  {TXT_LCOMMENT}:
+  {TXT_LCOMMENT}:<br />
   <textarea name="{NAME_LCOMMENT}" cols="45" rows="2" wrap="virtual">{VAL_LCOMMENT}</textarea>
   </span>
   </div>
@@ -39,11 +39,12 @@
   </span>
   </td>
   <td class="std" valign="top">
-  {CHKBOX_FEEDBACK}<br />
+  <a class="il_ContainerItemCommand" target="_blank" href="{LINK_FEEDBACK}">{TXT_FEEDBACK}</a><br /><br />
+  <!--{CHKBOX_FEEDBACK}<br />-->
   <!-- BEGIN feedback_date -->
-  <span class="small">{VAL_FEEDBACK_DATE}</span><br />
+  <span class="small">{TXT_FEEDBACK_MAIL_SENT}<br />
+  {VAL_FEEDBACK_DATE}</span>
   <!-- END feedback_date -->
-  <a class="il_ContainerItemCommand" target="_blank" href="{LINK_FEEDBACK}">{TXT_FEEDBACK}</a>
   </td>
   	<!--<input type="text" name="{ROW_INPUT_NAME}" value="{ROW_INPUT_VALUE}" size="40" maxlength="200" />-->
 </tr>

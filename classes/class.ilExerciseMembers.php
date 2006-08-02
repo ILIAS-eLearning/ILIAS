@@ -301,8 +301,7 @@ class ilExerciseMembers
 	    "SET feedback = '".($a_status ? 1 : 0)."', ".
 	    "feedback_time=".($a_status ? ("'".date("Y-m-d H:i:s")."'") : ("'0000-00-00 00:00:00'")).
 	    " WHERE obj_id = '".$this->getObjId()."' ".
-	    "AND usr_id = '".$a_member_id."'".
-		" AND feedback <> '".($a_status ? 1 : 0)."'";
+	    "AND usr_id = '".$a_member_id."'";
 //echo "<br/><br/>$query";
 	  $this->ilias->db->query($query);
 	  $this->read();

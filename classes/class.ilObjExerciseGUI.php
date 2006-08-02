@@ -168,9 +168,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilUser;
 		require_once "./classes/class.ilUtil.php";
-	
-		$this->tabs_gui->setTabActive("deliver");
-
+		
+		$this->tabs_gui->setTabActive("exc_your_submission");
+		
 		if (mktime() > $this->object->getTimestamp())
 		{
 			sendInfo($this->lng->txt("exercise_time_over"));
@@ -257,7 +257,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilUser;
 	
 		$this->tabs_gui->setTabActive("view");
-		$this->tabs_gui->setSubTabActive("deliver");
+		$this->tabs_gui->setTabActive("exc_your_submission");
 
 		if(!$this->object->deliverFile($_FILES["deliver"], $ilUser->id))
 		{
@@ -525,7 +525,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 						sendInfo($this->lng->txt("exc_sent"),true);
 					}
 				break;
-				case "send_mails":
+				
+				case "redirectFeedbackMail":
+					$this->redirectFeedbackMailObject();
+					/*
 					include_once("./classes/class.ilObjUser.php");
 
 					if (!count($_POST["member"]))
@@ -542,9 +545,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 						}
 		
 						ilUtil::redirect("mail_new.php?type=new&rcp_to=".$recipients);
-					}
+					}*/
 					break;
-					case "delete_member":
+					
+				case "delete_member":
 						$this->__deassignMembers();
 					break;
 			}
@@ -653,6 +657,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->addBlockfile("MEMBER_TABLE", "term_table", "tpl.table.html");
 			$this->tpl->addBlockfile("TBL_CONTENT", "member_row", "tpl.exc_members_row.html");
 			
+			$sent_col = $this->object->_lookupAnyExerciseSent($this->object->getId());
+			
 			// SET FORMAACTION
 			$this->tpl->setCurrentBlock("tbl_form_header");
 			
@@ -678,8 +684,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 			$actions = array("save_status"		=> $this->lng->txt("exc_save_changes"),
-				 "send_member"		=> $this->lng->txt("exc_send_exercise"),
-				 "delete_member"	=> $this->lng->txt("exc_deassign_members"));
+				"redirectFeedbackMail"	=> $this->lng->txt("exc_send_mail"),
+				"send_member"		=> $this->lng->txt("exc_send_exercise"),
+				"delete_member"	=> $this->lng->txt("exc_deassign_members"));
 
 			$this->tpl->setCurrentBlock("tbl_action_select");
 			$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
@@ -693,11 +700,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 			// title & header columns
+			if ($sent_col)
+			{
+				$sent_str = $this->lng->txt("exc_exercise_sent");
+			}
+			else
+			{
+				$sent_str = "&nbsp;";
+			}
 			$tbl->setTitle($this->lng->txt("members"),"icon_usr.gif",
 				$this->lng->txt("exc_header_members"));
 			$tbl->setHeaderNames(array("", "", $this->lng->txt("name"),
 				$this->lng->txt("login"),
-				$this->lng->txt("exc_exercise_sent"),
+				$sent_str,
 				$this->lng->txt("exc_submission"),
 				$this->lng->txt("exc_grading"),
 				$this->lng->txt("mail")
@@ -888,8 +903,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 				if (($ft = ilObjExercise::_lookupFeedbackTime($this->object->getId(), $member_id)) > 0)
 				{
 					$this->tpl->setCurrentBlock("feedback_date");
-					$this->tpl->setVariable("VAL_FEEDBACK_DATE",
-						ilFormat::formatDate($ft, "datetime", true));
+					$this->tpl->setVariable("TXT_FEEDBACK_MAIL_SENT",
+						sprintf($this->lng->txt("exc_sent_at"),
+						ilFormat::formatDate($ft, "datetime", true)));
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("member_row");
 				}
@@ -926,8 +942,26 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function redirectFeedbackMailObject()
 	{
-		$this->object->members_obj->setStatusFeedbackForMember($_GET["member_id"], 1);
-		ilUtil::redirect("mail_new.php?type=new&rcp_to=".$_GET["rcp_to"]);
+		if ($_GET["member_id"] != "")
+		{
+			$this->object->members_obj->setStatusFeedbackForMember($_GET["member_id"], 1);
+			ilUtil::redirect("mail_new.php?type=new&rcp_to=".urlencode($_GET["rcp_to"]));
+		}
+		else if(count($_POST["member"]) > 0)
+		{
+			include_once("./classes/class.ilObjUser.php");
+			$logins = array();
+			foreach($_POST["member"] as $member => $val)
+			{
+				$logins[] = ilObjUser::_lookupLogin($member);
+				$this->object->members_obj->setStatusFeedbackForMember($member, 1);
+			}
+			$logins = implode($logins, ",");
+			ilUtil::redirect("mail_new.php?type=new&rcp_to=".urlencode($logins));
+		}
+
+		sendInfo($this->lng->txt("select_one"),true);
+		$this->ctrl->redirect($this, "members");
 	}
 	
 	/**
@@ -1438,8 +1472,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("edit_properties",
-			$this->ctrl->getLinkTarget($this, 'edit'),
-			"edit", "");
+				$this->ctrl->getLinkTarget($this, 'edit'),
+				"edit", "");
 			
 			$tabs_gui->addTarget("members",
 			$this->ctrl->getLinkTarget($this, 'members'),
@@ -1576,7 +1610,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if ($this->object->getTimestamp()-time() <= 0)
 		{
-			$time_str = "<b>".$this->lng->txt("exc_time_over_short")."</b>";
+			$time_str = $this->lng->txt("exc_time_over_short");
 		}
 		else
 		{
@@ -1584,7 +1618,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$time_str = ilUtil::timearray2string($time_diff);
 		}
 		$info->addProperty($this->lng->txt("exc_time_to_send"),
-			$time_str);
+			"<b>".$time_str."</b>");
 			
 		// download files
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
@@ -1616,6 +1650,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$titles[] = $file["filetitle"];
 			}
 			$files_str = implode($titles, ", ");
+			if ($files_str == "")
+			{
+				$files_str = $this->lng->txt("message_no_delivered_files");
+			}
 			$info->addProperty($this->lng->txt("exc_files_returned"),
 				$files_str);
 			$last_sub = $this->object->getLastSubmission($ilUser->getId());
