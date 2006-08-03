@@ -432,7 +432,10 @@ class ilInitialisation
 
 		// installation id
 		define ("IL_INST_ID", $ilSetting->get("inst_id"));
-
+		
+		// define default suffix replacements
+		define ("SUFFIX_REPL_DEFAULT", "php,php3,php4,inc,lang,phtml,htaccess");
+		define ("SUFFIX_REPL_ADDITIONAL", $ilSetting->get("suffix_repl_additional"));
 	}
 	
 	
@@ -754,7 +757,6 @@ class ilInitialisation
 		
 		// maintenance mode
 		$this->handleMaintenanceMode();
-		
 		
 		// $ilDB initialisation
 		$this->initDatabase();

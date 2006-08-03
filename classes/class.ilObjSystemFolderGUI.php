@@ -474,6 +474,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			// data privacy
 			$settings["enable_fora_statistics"] = $_POST["enable_fora_statistics"];
 
+			$settings["suffix_repl_additional"] = $_POST["suffix_repl_additional"];
+			
 			// dynamic links
 			$settings["links_dynamic"] = $_POST["links_dynamic"];
 		}
@@ -563,6 +565,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 			// links dynamic
 			$this->ilias->setSetting('links_dynamic',$_POST['links_dynamic']);
+			
+			$this->ilias->setSetting("suffix_repl_additional",
+				ilUtil::stripSlashes($_POST["suffix_repl_additional"]));
 
 			$settings = $this->ilias->getAllSettings();
 
@@ -655,9 +660,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_GENERATION",$this->lng->txt('passwd_generation'));
 
-		// Javascript Editing
-		//$this->tpl->setVariable("TXT_JS_EDIT", $this->lng->txt("enable_js_edit"));
-		//$this->tpl->setVariable("TXT_JS_EDIT_INFO", $this->lng->txt("enable_js_edit_info"));
+		// File Suffix Replacements
+		$this->tpl->setVariable("TXT_FILE_SUFFIX_REPL", $this->lng->txt("file_suffix_repl"));
+		$this->tpl->setVariable("INFO_FILE_SUFFIX_REPL",
+			$this->lng->txt("file_suffix_repl_info")." ".SUFFIX_REPL_DEFAULT);
 		
 		$this->tpl->setVariable("TXT_DYNAMIC_LINKS",$this->lng->txt('links_dynamic'));
 		$this->tpl->setVariable("INFO_DYNAMIC_LINKS",$this->lng->txt('links_dynamic_info'));
@@ -839,6 +845,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("JS_EDIT","checked=\"checked\"");
 		}*/
 
+		$this->tpl->setVariable("SUFFIX_REPL_ADDITIONAL", ilUtil::prepareFormOutput($settings['suffix_repl_additional']));
+		
 		if($settings['links_dynamic'])
 		{
 			$this->tpl->setVariable("LINKS_DYNAMIC_CHECKED","checked=\"checked\"");
