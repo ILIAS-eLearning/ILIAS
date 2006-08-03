@@ -54,6 +54,8 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 
 		$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
 		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
+		$users = array_diff($users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
+
 
 		return $users ? $users : array();
 	}
@@ -65,6 +67,8 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		include_once './classes/class.ilExerciseMembers.php';
 		$users = ilExerciseMembers::_getReturned($a_obj_id);
 		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
+		$users = array_diff($users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
+
 
 		return $users ? $users : array();
 	}		
@@ -74,8 +78,16 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		global $ilDB;
 
 		include_once './classes/class.ilExerciseMembers.php';
-		return ($ret = ilExerciseMembers::_getSolved($a_obj_id)) ? $ret : array();
+		return ($ret = ilExerciseMembers::_getPassedUsers($a_obj_id)) ? $ret : array();
 	}
+
+	function _getFailed($a_obj_id)
+	{
+		include_once './classes/class.ilExerciseMembers.php';
+		$failed = ilExerciseMembers::_getFailedUsers($a_obj_id);
+		return $failed ? $failed : array();
+	}
+
 		
 
 }	

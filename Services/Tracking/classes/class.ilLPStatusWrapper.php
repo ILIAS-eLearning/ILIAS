@@ -123,6 +123,34 @@ class ilLPStatusWrapper
 
 		return $cache[$a_obj_id];
 	}
+
+	/**
+	* Static function to read the number of user who have the status 'failed'
+	*/
+	function _getCountFailed($a_obj_id)
+	{
+		return count(ilLPStatusWrapper::_getFailed($a_obj_id));
+	}
+
+	/**
+	* Static function to read the users who have the status 'completed'
+	*/
+	function _getFailed($a_obj_id)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+
+		$cache[$a_obj_id] = call_user_func(array($class,'_getFailed'),$a_obj_id);
+
+		return $cache[$a_obj_id];
+	}
+
 	/**
 	* Reads informations about the object e.g test results, tlt, number of visits
 	*/
@@ -215,16 +243,30 @@ class ilLPStatusWrapper
 	{
 		static $cache = array();
 
-		#var_dump("<pre>","OBJ_ID: ", $a_obj_id,"TYPE : ",$a_type,"<pre>");
-		#var_dump("<pre>","CACHE ",$cache,"<pre>");
 		if(isset($cache[$a_obj_id.'_'.$a_type]))
 		{
 			return $cache[$a_obj_id.'_'.$a_type];
 		}
 
-		#var_dump("<pre>",'not_cached',"<pre>");
 		$class = ilLPStatusFactory::_getClassByIdAndType($a_obj_id,$a_type);
 		$cache[$a_obj_id.'_'.$a_type] = call_user_func(array($class,'_getCompleted'),$a_obj_id);
+		return $cache[$a_obj_id.'_'.$a_type];
+	}
+	function _getCountFailedByType($a_obj_id,$a_type)
+	{
+		return count(ilLPStatusWrapper::_getFailedByType($a_obj_id,$a_type));
+	}
+	function _getFailedByType($a_obj_id,$a_type)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id.'_'.$a_type]))
+		{
+			return $cache[$a_obj_id.'_'.$a_type];
+		}
+
+		$class = ilLPStatusFactory::_getClassByIdAndType($a_obj_id,$a_type);
+		$cache[$a_obj_id.'_'.$a_type] = call_user_func(array($class,'_getFailed'),$a_obj_id);
 		return $cache[$a_obj_id.'_'.$a_type];
 	}
 	function _getStatusInfoByType($a_obj_id,$a_type)

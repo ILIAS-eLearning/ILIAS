@@ -124,6 +124,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 	function __getNextClass()
 	{
+		global $ilAccess;
+
 		if(strlen($next_class = $this->ctrl->getNextClass()))
 		{
 			if($this->getMode() == LP_MODE_PERSONAL_DESKTOP)
@@ -138,6 +140,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				return 'illplistofobjectsgui';
 
 			case LP_MODE_REPOSITORY:
+				if($ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
+				{
+					return 'illplistofobjectsgui';
+				}
 				return 'illplistofprogressgui';
 
 			case LP_MODE_PERSONAL_DESKTOP:

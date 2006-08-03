@@ -36,6 +36,7 @@
 define('LP_STATUS_NOT_ATTEMPTED','trac_no_attempted');
 define('LP_STATUS_IN_PROGRESS','trac_in_progress');
 define('LP_STATUS_COMPLETED','trac_completed');
+define('LP_STATUS_FAILED','trac_failed');
 
 // Stati for events
 define('LP_STATUS_REGISTERED','trac_registered');
@@ -86,6 +87,14 @@ class ilLPStatus
 	function _getCompleted($a_obj_id)
 	{
 		return array();
+	}
+	function _getFailed($a_obj_id)
+	{
+		return array();
+	}
+	function _getCountFailed()
+	{
+		return 0;
 	}
 	function _getStatusInfo($a_obj_id)
 	{

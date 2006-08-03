@@ -391,6 +391,15 @@ class ilLPItemListGUI
 		$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_completed'));
 		$this->tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountCompleted($this->getId()));
 		$this->tpl->parseCurrentBlock();
+		$this->tpl->touchBlock('newline_prop');
+
+		if($num_failed = ilLPStatusWrapper::_getCountFailed($this->getId()))
+		{
+			$this->tpl->setCurrentBlock("item_property");
+			$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_failed'));
+			$this->tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountFailed($this->getId()));
+			$this->tpl->parseCurrentBlock();
+		}			
 
 		// Path
 		if($this->enabled('path'))
@@ -431,6 +440,14 @@ class ilLPItemListGUI
 		$this->tpl->setVariable("STATUS_PROP",ilXmlWriter::_xmlEscapeData($this->lng->txt('trac_completed')));
 		$this->tpl->setVariable("STATUS_VAL",ilLPStatusWrapper::_getCountCompleted($this->getId()));
 		$this->tpl->parseCurrentBlock();
+
+		if($num_failed = ilLPStatusWrapper::_getCountFailed($this->getId()))
+		{
+			$this->tpl->setCurrentBlock("status_row");
+			$this->tpl->setVariable("STATUS_PROP",$this->lng->txt('trac_failed'));
+			$this->tpl->setVariable("STATUS_VAL",ilLPStatusWrapper::_getCountFailed($this->getId()));
+			$this->tpl->parseCurrentBlock();
+		}			
 
 		$this->tpl->setCurrentBlock("item");
 		$this->tpl->setVariable("OBJ_TITLE",ilXmlWriter::_xmlEscapeData($this->getTitle()));
