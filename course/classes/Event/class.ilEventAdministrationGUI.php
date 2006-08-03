@@ -646,9 +646,7 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("TXT_END_DATE",$this->lng->txt('event_end_date'));
 
 		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('event_time'));
-
-		$appointment_obj =& $this->event_obj->getFirstAppointment();
-
+	
 		$this->tpl->setVariable("TXT_TUTOR_NAME",$this->lng->txt('tutor_name'));
 		$this->tpl->setVariable("TXT_TUTOR_EMAIL",$this->lng->txt('tutor_email'));
 		$this->tpl->setVariable("TXT_TUTOR_PHONE",$this->lng->txt('tutor_phone'));
@@ -658,13 +656,11 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("TXT_FULLDAY",$this->lng->txt('event_fullday'));
 		$this->tpl->setVariable("FULLTIME_INFO",$this->lng->txt('event_fulltime_info'));
 
-
-		$appointment_obj =& $this->event_obj->getFirstAppointment();
-	
-		$date = $this->__prepareDateSelect($appointment_obj->getStartingTime());
-		$end_date = $this->__prepareDateSelect($appointment_obj->getEndingTime());
-		$start_time = $this->__prepareTimeSelect($appointment_obj->getStartingTime());
-		$end_time = $this->__prepareTimeSelect($appointment_obj->getEndingTime());
+		$this->tpl->setVariable("FULL_CHECKED",$this->appointment_obj->enabledFullTime() ? 'checked="checked"' : '');
+		$date = $this->__prepareDateSelect($this->appointment_obj->getStartingTime());
+		$end_date = $this->__prepareDateSelect($this->appointment_obj->getEndingTime());
+		$start_time = $this->__prepareTimeSelect($this->appointment_obj->getStartingTime());
+		$end_time = $this->__prepareTimeSelect($this->appointment_obj->getEndingTime());
 
 		$this->tpl->setVariable("START_DATE",ilUtil::makeDateSelect('event_date',$date['y'],$date['m'],$date['d'],date('Y',time())));
 		$this->tpl->setVariable("START_TIME",ilUtil::makeTimeSelect('event_time_start',true,$start_time['h'],$start_time['m'],0,false));
@@ -740,12 +736,11 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("FULLTIME_INFO",$this->lng->txt('event_fulltime_info'));
 
 
-		$appointment_obj =& $this->event_obj->getFirstAppointment();
-		
-		$date = $this->__prepareDateSelect($appointment_obj->getStartingTime());
-		$end_date = $this->__prepareDateSelect($appointment_obj->getEndingTime());
-		$start_time = $this->__prepareTimeSelect($appointment_obj->getStartingTime());
-		$end_time = $this->__prepareTimeSelect($appointment_obj->getEndingTime());
+		$this->tpl->setVariable("FULL_CHECKED",$this->appointment_obj->enabledFullTime() ? 'checked="checked"' : '');
+		$date = $this->__prepareDateSelect($this->appointment_obj->getStartingTime());
+		$end_date = $this->__prepareDateSelect($this->appointment_obj->getEndingTime());
+		$start_time = $this->__prepareTimeSelect($this->appointment_obj->getStartingTime());
+		$end_time = $this->__prepareTimeSelect($this->appointment_obj->getEndingTime());
 
 		$this->tpl->setVariable("START_DATE",ilUtil::makeDateSelect('event_date',$date['y'],$date['m'],$date['d'],date('Y',time())));
 		$this->tpl->setVariable("START_TIME",ilUtil::makeTimeSelect('event_time_start',true,$start_time['h'],$start_time['m'],0,false));
@@ -927,7 +922,6 @@ class ilEventAdministrationGUI
 
 	function __load()
 	{
-		$this->appointment_obj =& $this->event_obj->getFirstAppointment();
 		$this->appointment_obj->setStartingTime($this->__toUnix($_POST['event_date'],$_POST['event_time_start']));
 		$this->appointment_obj->setEndingTime($this->__toUnix($_POST['event_end_date'],$_POST['event_time_end']));
 		$this->appointment_obj->toggleFullTime((bool) $_POST['fulltime']);
@@ -982,6 +976,11 @@ class ilEventAdministrationGUI
 
 			$this->event_obj = new ilEvent($this->event_id);
 			$this->event_obj->setObjId($this->container_obj->getId());
+
+			if(!is_object($this->appointment_obj))
+			{
+				$this->appointment_obj =& $this->event_obj->getFirstAppointment();
+			}
 		}
 		return true;
 	}

@@ -79,7 +79,7 @@ class ilEventAppointment
 	}
 	function getStartingTime()
 	{
-		return isset($this->starting_time) ? $this->starting_time : time();
+		return isset($this->starting_time) ? $this->starting_time : mktime(8,0,0,date('n',time()),date('d',time()),date('Y',time()));
 	}
 	
 	function setEndingTime($a_ending_time)
@@ -88,7 +88,7 @@ class ilEventAppointment
 	}
 	function getEndingTime()
 	{
-		return isset($this->ending_time) ? $this->ending_time : time();
+		return isset($this->ending_time) ? $this->ending_time : mktime(16,0,0,date('n',time()),date('d',time()),date('Y',time()));
 	}
 
 	function toggleFullTime($a_status)

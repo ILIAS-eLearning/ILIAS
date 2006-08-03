@@ -404,7 +404,7 @@ class ilEvent
 		}
 
 		// get assigned appointments
-		$this->appointments = ilEventAppointment::_readAppointmentsByEvent($this->event_id);
+		$this->appointments =& ilEventAppointment::_readAppointmentsByEvent($this->event_id);
 
 		// get assigned files
 		$this->readFiles();
