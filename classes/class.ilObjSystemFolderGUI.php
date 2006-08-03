@@ -549,6 +549,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			// webservice
 			$this->ilias->setSetting("soap_user_administration",$_POST["soap_user_administration"]);
+			$this->ilias->setSetting("rpc_server_host",trim($_POST["rpc_server_host"]));
+			$this->ilias->setSetting("rpc_server_port",trim($_POST["rpc_server_port"]));
 			
 			// data privacy
 			$this->ilias->setSetting("enable_fora_statistics",$_POST["enable_fora_statistics"]);
@@ -565,7 +567,18 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings = $this->ilias->getAllSettings();
 
 			// feedback
-			sendInfo($this->lng->txt("saved_successfully"));
+			$feedback = $this->lng->txt("saved_successfully");
+			if (trim($_POST["rpc_server_host"]) != "" ||
+				trim($_POST["rpc_server_port"]) != "")
+			{
+				include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+				$rpc_settings =& new ilRPCServerSettings();
+				if(!$rpc_settings->pingServer())
+				{
+					$feedback .= "<br />\n".$this->lng->txt('java_server_no_connection');
+				}
+			}
+			sendInfo($feedback);
 		}
 		
 		$this->displayBasicSettings();
@@ -689,7 +702,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_WEBSERVICES",$this->lng->txt('webservices'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION",$this->lng->txt('soap_user_administration'));
 		$this->tpl->setVariable("TXT_SOAP_USER_ADMINISTRATION_DESC",$this->lng->txt('soap_user_administration_desc'));
-		
+
+		$this->tpl->setVariable("TXT_JAVA_SERVER",$this->lng->txt('java_server'));
+		$this->tpl->setVariable("TXT_JAVA_SERVER_HOST",$this->lng->txt('java_server_host'));
+		$this->tpl->setVariable("TXT_JAVA_SERVER_PORT",$this->lng->txt('java_server_port'));
+		$this->tpl->setVariable("TXT_JAVA_SERVER_INFO",$this->lng->txt('java_server_info'));
+		$this->tpl->setVariable("TXT_JAVA_SERVER_README",$this->lng->txt('java_server_readme'));
+
 		$this->tpl->setVariable("TXT_DATA_PRIVACY",$this->lng->txt('data_privacy'));
 		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS",$this->lng->txt('enable_fora_statistics'));
 		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS_DESC",$this->lng->txt('enable_fora_statistics_desc'));
@@ -980,7 +999,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         {
             $this->tpl->setVariable("SOAP_USER_ADMINISTRATION_CHECK","checked=\"checked\"");
         }
-        
+
+        $this->tpl->setVariable("JAVA_SERVER_HOST",$settings["rpc_server_host"]);
+        $this->tpl->setVariable("JAVA_SERVER_PORT",$settings["rpc_server_port"]);
+
         if ($settings["enable_fora_statistics"])
         {
             $this->tpl->setVariable("ENABLE_FORA_STATISTICS_CHECK","checked=\"checked\"");
