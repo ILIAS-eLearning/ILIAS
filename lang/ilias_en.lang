@@ -1011,6 +1011,8 @@ common#:#administrate_users#:#Local user administration
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Adopt
+common#:#file_suffix_repl#:#File Upload Suffix Replacement
+common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#adve_lm_settings#:#LM / Glossary Settings

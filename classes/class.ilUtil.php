@@ -2490,30 +2490,37 @@ class ilUtil
 	}
 
 	/**
-	* rename uploaded executables for security reasons
+	* Rename uploaded executables for security reasons.
 	*/
 	function renameExecutables($a_dir)
 	{
-		ilUtil::rRenameSuffix($a_dir, "php", "sec");
-		ilUtil::rRenameSuffix($a_dir, "php3", "sec");
-		ilUtil::rRenameSuffix($a_dir, "php4", "sec");
-		ilUtil::rRenameSuffix($a_dir, "inc", "sec");
-		ilUtil::rRenameSuffix($a_dir, "lang", "sec");
-		ilUtil::rRenameSuffix($a_dir, "phtml", "sec");
-		ilUtil::rRenameSuffix($a_dir, "htaccess", "sec");
+		$def_arr = explode(",", SUFFIX_REPL_DEFAULT);
+		foreach ($def_arr as $def)
+		{
+			ilUtil::rRenameSuffix($a_dir, trim($def), "sec");
+		}
+		
+		$def_arr = explode(",", SUFFIX_REPL_ADDITIONAL);
+		foreach ($def_arr as $def)
+		{
+			ilUtil::rRenameSuffix($a_dir, trim($def), "sec");
+		}
 	}
 
 	/**
-	* Copies content of a directory $a_sdir recursively to a directory $a_tdir
-	* @param	string	$a_sdir		source directory
-	* @param	string	$a_tdir		target directory
+	* Renames all files with certain suffix and gives them a new suffix.
+	* This words recursively through a directory.
 	*
-	* @return	boolean	TRUE for sucess, FALSE otherwise
+	* @param	string	$a_dir			directory
+	* @param	string	$a_old_suffix	old suffix
+	* @param	string	$a_new_suffix	new suffix
+	*
 	* @access	public
 	*/
 	function rRenameSuffix ($a_dir, $a_old_suffix, $a_new_suffix)
 	{
-		if ($a_dir == "/" || $a_dir == "" || is_int(strpos($a_dir, "..")))
+		if ($a_dir == "/" || $a_dir == "" || is_int(strpos($a_dir, ".."))
+			|| trim($a_old_suffix) == "")
 		{
 			return false;
 		}
