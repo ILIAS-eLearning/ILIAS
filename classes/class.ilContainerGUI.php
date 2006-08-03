@@ -381,7 +381,7 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function showAdministrationPanel(&$tpl)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilSetting;
 		
 		if ($this->isActiveAdministrationPanel())
 		{
@@ -396,11 +396,14 @@ class ilContainerGUI extends ilObjectGUI
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
 				&& in_array($this->object->getType(), array("cat", "root")))
 			{
-				$tpl->setCurrentBlock("edit_cmd");
-				$tpl->setVariable("TXT_EDIT_PAGE", $this->lng->txt("edit_page"));
-				$tpl->setVariable("LINK_EDIT_PAGE", $this->ctrl->getLinkTarget($this, "editPageFrame"));
-				$tpl->setVariable("FRAME_EDIT_PAGE", ilFrameTargetInfo::_getFrame("MainContent"));
-				$tpl->parseCurrentBlock();
+				if ($ilSetting->get("enable_cat_page_edit"))
+				{
+					$tpl->setCurrentBlock("edit_cmd");
+					$tpl->setVariable("TXT_EDIT_PAGE", $this->lng->txt("edit_page"));
+					$tpl->setVariable("LINK_EDIT_PAGE", $this->ctrl->getLinkTarget($this, "editPageFrame"));
+					$tpl->setVariable("FRAME_EDIT_PAGE", ilFrameTargetInfo::_getFrame("MainContent"));
+					$tpl->parseCurrentBlock();
+				}
 			}
 			
 			$tpl->setCurrentBlock("admin_panel_cmd");
@@ -639,7 +642,7 @@ class ilContainerGUI extends ilObjectGUI
 
 	function renderItemList($a_type = "all")
 	{
-		global $objDefinition, $ilBench;
+		global $objDefinition, $ilBench, $ilSetting;
 		
 		include_once("classes/class.ilObjectListGUIFactory.php");
 
@@ -673,7 +676,7 @@ class ilContainerGUI extends ilObjectGUI
 				
 				$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 					"xhtml_page");
-				if ($xpage_id > 0)
+				if ($xpage_id > 0 && $ilSetting->get("enable_cat_page_edit"))
 				{
 					include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
 					$xpage = new ilXHTMLPage($xpage_id);
