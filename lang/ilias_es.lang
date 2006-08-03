@@ -2767,6 +2767,7 @@ common#:#pays_edit_permission#:#Modificar configuración de permisos
 common#:#pays_read#:#Modificar configuración del sistema de pago
 common#:#pays_visible#:#Configuración del sistema de pago visible
 common#:#pays_write#:#Editar configuración del sistema de pago
+common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
 common#:#per_object#:#Accesos por objeto
 common#:#perm_role_info_1#:#Este formulario determina los permisos del rol '%s' para objetos creados bajo el objeto '%s'.
 common#:#perm_role_info_2#:#Si quiere modificar los permisos del rol '%s' para todos los objetos ya existentes bajo '%s' debe activar la opción 'Modificar Objetos Existentes' al final de la pantalla.
@@ -4602,9 +4603,12 @@ dateplaner#:#wk_short#:#SEM
 dateplaner#:#year#:#año
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
 exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
 exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
 exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
+exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
 exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Escribir de forma anónima

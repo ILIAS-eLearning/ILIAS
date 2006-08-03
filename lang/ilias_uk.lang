@@ -2758,6 +2758,7 @@ common#:#pays_edit_permission#:#Змінити на�?тройки прав
 common#:#pays_read#:#До�?туп до на�?троювань оплати
 common#:#pays_visible#:#�?а�?тройки оплати є видимі
 common#:#pays_write#:#Редагувати на�?тройки оплати
+common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
 common#:#per_object#:#До�?туп дл�? кожного об'єкта ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.###10 Jul 2006 new variable
 common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all already existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
@@ -4585,9 +4586,12 @@ dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#рік###02 Aug 2005 content changed
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
 exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
 exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
 exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
+exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
 exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable

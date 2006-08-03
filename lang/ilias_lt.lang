@@ -127,7 +127,6 @@ assessment#:#ass_create_export_test_results#:#Eksportuoti testo rezultatus
 assessment#:#ass_export_files#:#Eksportuoti failus
 assessment#:#ass_file#:#Failas
 assessment#:#ass_question#:#Klausimas
-assessment#:#ass_questions#:#Klausimai
 assessment#:#ass_size#:#Dydis
 assessment#:#available_points#:#Prieinami taškai
 assessment#:#average_reached_points#:#Surinktų taškų vidurkis
@@ -363,15 +362,7 @@ assessment#:#qpl_paste_success#:#Klausimas(-ai) buvo įterptas(-i) į apklausą
 assessment#:#qpl_question_is_in_use#:#Klausimas, kurį ruošiatės redaguoti įtrauktas į %s testą(-us). Jei pakeisite šį klausimą, klausimas(-ai) teste(-uose) NEpasikeis, kadangi sistema sukuria įterpiamo į testą klausimo kopiją!
 assessment#:#qpl_questions_deleted#:#Klausimas(-ai) ištrintas(-i).
 assessment#:#qpl_select_file_for_import#:#Privalote pasirinkti klausimą importavimui!
-assessment#:#qt_cloze#:#Salygos Sakinys
-assessment#:#qt_imagemap#:#Paveikslėlio Žemėlapio Klausimas
-assessment#:#qt_javaapplet#:#Java Apleto Klausimas
-assessment#:#qt_matching#:#Atitikmens Klausimas
 assessment#:#qt_multiple_choice#:#Daugybinio Pasirinkimo Klausimas
-assessment#:#qt_multiple_choice_mr#:#Daugybinio Pasirinkimo Klausimas (daug atsakymų)
-assessment#:#qt_multiple_choice_sr#:#Daugybinio Pasirinkimo Klausimas (vienas atsakymas)
-assessment#:#qt_ordering#:#Eiliškumo Klausimas
-assessment#:#qt_text#:#Esė Klausimas
 assessment#:#question_saved_for_upload#:#Klausimas buvo automatiškai išsaugotas tam, kad būtų rezervuota vieta diske atsiųstam failui išsaugoti. Informuojame, kad jei atšauksite šią formą, privalėsite ištrinti klausimą iš apklausos!
 assessment#:#question_short#:#Kl.
 assessment#:#question_title#:#Klausimo pavadinimas
@@ -836,7 +827,6 @@ chat#:#chats#:#Pokalbiai
 chat#:#my_chats#:#Mano Pokalbiai
 common#:#3rd_party_software#:#3-ios šalies programa
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absoliutus kelias
 common#:#accept_usr_agreement#:#Sutikti su sutartimi?
 common#:#access#:#Priėjimas
@@ -1129,7 +1119,6 @@ common#:#cleaned_file#:#Failas buvo išvalytas.
 common#:#cleaning_failed#:#Valymas nepavyko.
 common#:#clear#:#Išvalyti
 common#:#clear_clipboard#:#Išvalyti Laikinąją Saugyklą
-common#:#client ip#:#Kliento IP
 common#:#client#:#Klientas
 common#:#client_id#:#Kliento ID
 common#:#client_ip#:#Kliento IP
@@ -1393,7 +1382,6 @@ common#:#exc_search_for#:#Ieškoti
 common#:#exc_select_one_file#:#Pasirinkite tik vieną failą.
 common#:#exc_send_exercise#:#Siųsti užduotis
 common#:#exc_sent#:#Užduotis buvo nusiųsta pasirinktiems vartotojams
-common#:#exc_status_returned#:#Grąžinta
 common#:#exc_status_saved#:#Užduotis atnaujinta
 common#:#exc_status_solved#:#Išspręsta
 common#:#exc_upload_error#:#Klaida siunčiant failą
@@ -1686,16 +1674,8 @@ common#:#hide_details#:#Paslėpti Detales
 common#:#hide_private_notes#:#Paslėpti privačias pastabas
 common#:#hide_public_notes#:#Paslėpti viešas pastabas
 common#:#hide_structure#:#Išjungti Struktūrinį-Rodymą
-common#:#hist_dbk:pg_create#:#Puslapis sukurtas
-common#:#hist_dbk:pg_cut#:#Puslapis iškirptas iš paragrafo "%1" [%2]
-common#:#hist_dbk:pg_paste#:#Puslapis įterptas į paragrafą "%1" [%2]
-common#:#hist_dbk:pg_update#:#Puslapis pakeistas
 common#:#hist_file_create#:#Failas sukurtas, jo pavadinimas yra "%1".
 common#:#hist_file_replace#:#Failas pakeistas, naujas failo pavadinimas yra "%1", nauja versija yra %2.
-common#:#hist_lm:pg_create#:#Puslapis sukurtas
-common#:#hist_lm:pg_cut#:#Puslapis iškirptas iš paragrafo "%1" [%2]
-common#:#hist_lm:pg_paste#:#Puslapis įterptas į paragrafą "%1" [%2]
-common#:#hist_lm:pg_update#:#Puslapis pakeistas
 common#:#hist_no_entries#:#Istorijoje įrašų nėra.
 common#:#hist_webr_add#:#Pridėta naujų Web Resursų su pavadinimu: "%1"
 common#:#hist_webr_delete#:#Ištrintass Web Resursas. Pavadinimas: "%1"
@@ -2121,7 +2101,7 @@ common#:#mep_visible#:#Media Apklausa yra matoma
 common#:#mep_write#:#Redaguoti Media Apklausos Turinį
 common#:#message#:#Pranešimas
 common#:#message_content#:#Pranešimo Turinys
-common#:#message_no_delivered_files#:#Jūs neturite atsiųsto failo!
+common#:#message_no_delivered_files#:#Jūs neturite atsiųsto failo!###03 Aug 2006 content changed
 common#:#message_to#:#Pranešimas Kam:
 common#:#meta_data#:#Metaduomenys
 common#:#migrate#:#Migruoti
@@ -2490,6 +2470,7 @@ common#:#pays_edit_permission#:#Keisti leidimo nustatymus
 common#:#pays_read#:#Eiti į mokėjimo nustatymus
 common#:#pays_visible#:#Mokėjimo nustatymai yra matomi
 common#:#pays_write#:#Redaguoti mokėjimo nustatymus
+common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
 common#:#per_object#:#Priėjimas kiekvienam objektui
 common#:#perm_settings#:#Leidimai
 common#:#permission#:#Leidimas
@@ -2773,7 +2754,6 @@ common#:#shib_language#:#Atributas kalbai
 common#:#shib_lastname#:#Atributas pavardei
 common#:#shib_login#:#Unikalus Shibboleth atributas
 common#:#shib_login_button#:#Kelias iki Shibboleth prisijungimo mygtuko
-common#:#shib_login_instructions#:#Instrukcijos rodomos prisijungimo laukelyje
 common#:#shib_phone_home#:#Atributas namų telefonų numeriui
 common#:#shib_phone_mobile#:#Atributas mobilaus telefono numeriui
 common#:#shib_phone_office#:#Atributas darbo telefono numeriui
@@ -2917,7 +2897,6 @@ common#:#today#:#Šiandien
 common#:#toggleGlobalDefault#:#Perjungti į Globalų Standartinį
 common#:#toggleGlobalFixed#:#Perjungti į Globalų Fiksuotą
 common#:#total#:#Viso
-common#:#total_online#:#Laikas online (DD:HH:MM:SS)
 common#:#tpl_path#:#Šablono Kelias
 common#:#trac_delete#:#Ištrinti Stebėjimo Duomenis
 common#:#trac_edit_permission#:#Keisti leidimo nustatymus
@@ -3126,7 +3105,6 @@ common#:#zip#:#Pašto Indeksas
 common#:#zipcode#:#Pašto Indeksas
 content#:#HTML export#:#HTML Eksportavimas
 content#:#PDF export#:#PDF Eksportavimas
-content#:#Puslapiai#:#Puslapiai
 content#:#add_menu_entry#:#Pridėti meniu įrašą >>
 content#:#all#:#Visi
 content#:#all_pages#:#visas Mokymo modulis 
@@ -3162,7 +3140,6 @@ content#:#cont_added_comment#:#Į istoriją buvo įkeltas komentaras.
 content#:#cont_added_term#:#Terminas pridėtas
 content#:#cont_all_definitions#:#Visi Apibrėžimai
 content#:#cont_all_pages#:#Visi Puslapiai
-content#:#cont_alphabetic#:#Alfabetinis a, b, ...
 content#:#cont_annex#:#Priedas
 content#:#cont_api_adapter#:#API Adapterio Pavadinimas
 content#:#cont_api_func_prefix#:#API Funkcijų Priešdėlis
@@ -3290,7 +3267,6 @@ content#:#cont_edit_term#:#Redaguoti Terminą
 content#:#cont_edition#:#Leidimas
 content#:#cont_enable_js#:#JavaScript aktyvus
 content#:#cont_enable_media#:#Media aktyvu
-content#:#cont_example#:#pvz.
 content#:#cont_export_files#:#Eksportuoti Failus
 content#:#cont_external#:#išorinis
 content#:#cont_external_url#:#išorinis url
@@ -3362,8 +3338,6 @@ content#:#cont_lvalue#:#Duomenų elementai
 content#:#cont_manifest#:#Manifestas
 content#:#cont_map_areas#:#Nuorodų Zonos
 content#:#cont_mastery_score#:#adlcp:masteryscore
-content#:#cont_matches#:#sutapimai
-content#:#cont_matching_question_javascript_hint#:#Prašome paimti apibūdinimą/paveikslėlį dešinėje pusėje virš termino kairėje ir padėti apibūdinimą/paveikslėlį jį taip, kad sutaptų su kitu apibūdinimu/paveikslėliu.
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Šaltinis
 content#:#cont_mep_structure#:#Media Apklausos Struktūra
@@ -3400,7 +3374,6 @@ content#:#cont_offline_versions#:#Offline Versijos
 content#:#cont_online#:#Online
 content#:#cont_or#:#ar
 content#:#cont_order#:#Rūšiavimo Tipas
-content#:#cont_ordering_question_javascript_hint#:#Paimkite apibūdinimą/paveikslėlį, perkelkite virš norimo apibūdinimo/paveikslėlio ir paleiskite. Žemiau esantis apibūdinimas/paveikslėlis pasislinks žemyn.
 content#:#cont_organization#:#Organizacija
 content#:#cont_organizations#:#Organizacijos
 content#:#cont_orig_size#:#Originalus Dydis
@@ -3426,20 +3399,16 @@ content#:#cont_publisher#:#Leidėjas
 content#:#cont_purpose#:#Tikslas
 content#:#cont_ref_helptext#:#(pvz. http://www.serveris.org/manopaveiksl.jpg)
 content#:#cont_ref_images#:#Nurodomi Paveikslėliai
-content#:#cont_reference#:#Nurodymas
 content#:#cont_remove_fullscreen#:#Pašalinti Visą Ekraną
 content#:#cont_removeiln#:#ar tikrai pašalinti vidinę nuorodą ?
 content#:#cont_repository_item#:#Saugyklos Elementas
 content#:#cont_repository_item_links#:#Saugyklos Elementų Nuorodos
-content#:#cont_reset_definitions#:#Atstatyti apibrėžimų pozicijas
-content#:#cont_reset_pictures#:#Atstatyti paveikslėlių pozicijas
 content#:#cont_resize_explanation#:#Jei ši parinktis aktyvuoti, įkelti paveikslėliai automatiškai pakeičiami iki nurodyto aukščio ir pločio.
 content#:#cont_resize_explanation2#:#Ši funkcija pakeičia lokalius paveikslėlius iki nurodyto aukščio ir pločio.
 content#:#cont_resize_image#:#Sumaž./Padidinti paveikslėlius
 content#:#cont_resource#:#Resursas
 content#:#cont_resource_type#:#tipas
 content#:#cont_resources#:#Resursai
-content#:#cont_roman#:#Romėniški i, ii, ...
 content#:#cont_rvalue#:#Reikšmė
 content#:#cont_saved_map_area#:#Išsaugota žemėlapio sritis
 content#:#cont_saved_map_data#:#Išsaugoti žemėlapio duomenys
@@ -3907,7 +3876,6 @@ crs#:#edit_content#:#Redaguoti turinį
 crs#:#import_crs#:#Importuoti kursą
 crs#:#learners_view#:#Studijuojančio matymas
 crs#:#subscription_times_not_valid#:#Registracijos laikas neteisingas.
-crs_#:#crs_archives#:#Archyvai
 dateplaner#:#DateText#:#Žinutė
 dateplaner#:#Day_long#:#Dienos Vaizdas
 dateplaner#:#ERROR_DATE_EXISTS#:#Šis įvykis jau yra.
@@ -4129,6 +4097,9 @@ dateplaner#:#viewlist#:#Rodyti
 dateplaner#:#week#:#Savaitė
 dateplaner#:#wk_short#:#SAV
 dateplaner#:#year#:#Metai
+exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
+exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
+exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 forum#:#forum_anonymize#:#Rašyti anonimiškai
 forum#:#forum_anonymize_desc#:#Rašyti šią žinutę anonimiškai (jūsų ILIAS vartotojo vardas niekur nepasirodys).
 forum#:#forums#:#Forumai
@@ -4903,7 +4874,6 @@ payment#:#pay_bmf_description_debit_entry#:#Patikrinkite ar visi jūsų pageidau
 payment#:#pay_bmf_description_payment_type#:#Pasirinkite kaip mokėsite.
 payment#:#pay_bmf_description_personal_data#:#Prašome pilnai užpildyti šią formą.
 payment#:#pay_bmf_house_number#:#Namo numeris
-payment#:#pay_bmf_info#:#Priėjimas prie šios medžiagos yra mokamas. Norėdami gauti prieigą prie tam tikro mokymo modulio, pasirinkite kainą. Galite pirkti vieną ar kelis mokymo modulius naudodami mygtuką "pirkėjo krepšelis" savo darbastalyje. Gausite prieigą prie pasirinktų objektų norimu laiku iškart.
 payment#:#pay_bmf_optional#:#neprivalomas
 payment#:#pay_bmf_or#:#ar
 payment#:#pay_bmf_password_not_valid#:#Jūsų slaptažodis buvo netinkamas.
@@ -5195,7 +5165,6 @@ survey#:#anonymize_anonymous_introduction#:#Ši apklausa anonimizuoja visus vart
 survey#:#anonymize_key_introduction#:#Ši apklausa anonimizuoja visus vartotojo duomenis. Norint suteikti jums prieigą prie apklausos, buvo sukurtas 32-simbolių apklausos kodas ir bus išsiųstas į jūsų ILIAS pašto dėžutę, kai tik pradėsite apklausą (po atsakymo į pirmą klausimą). Jūsų apklausos raktas yra<br /><span class="bold">%s</span><br />. Įveskite kodą žemiau esančiame laukelyje.
 survey#:#anonymize_resume_introduction#:#Norėdami tęsti, įveskite apklausos kodą. Kodas buvo išsiųstas į jūsų ILIAS pašto dėžutę kai jūs pradėjote apklausą.
 survey#:#anonymize_survey#:#Anonimizuoti apklausos duomenis
-survey#:#anonymize_survey_explanation#:#Kai įjungta, visi vartotojo duomenys bus anonimizuoti ir negalės būti stebimi.
 survey#:#anonymous_with_personalized_survey#:#Norėdami vykdyti personalizuotą apklausą privalote būti užsiregistravę!
 survey#:#answer#:#Atsakymas
 survey#:#apply#:#Taikyti
@@ -5437,10 +5406,6 @@ survey#:#qpl_questions_pasted#:#Klausimas(-ai) įterptas(-i).
 survey#:#qpl_savephrase_empty#:#Įveskite frazės pavadinimą!
 survey#:#qpl_savephrase_exists#:#Frazės pavadinimas jau egzistuoja! Įveskite kitą pavadinimą.
 survey#:#qpl_unfold_select_none#:#Pasirinkite bent vieną klausimų bloką jei norite išardyti klausimų blokus!
-survey#:#qt_metric#:#Metrinis klausimas
-survey#:#qt_nominal#:#Nominalus klausimas
-survey#:#qt_ordinal#:#Ordinal klausimas
-survey#:#qt_text#:#Esė
 survey#:#question_contains_no_categories#:#Šiam klausimui atsakymų nenurodyta
 survey#:#question_has_constraints#:#Išankstinės sąlygos
 survey#:#question_icon#:#Klausimo ikona

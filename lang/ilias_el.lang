@@ -2492,6 +2492,7 @@ common#:#pays_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#pays_read#:#Πρόσβαση στις ρυθμίσεις πληρωμής
 common#:#pays_visible#:#Οι ρυθμίσεις πληρωμής είναι ορατές
 common#:#pays_write#:#Επεξεργασία ρυθμίσεων πληρωμής
+common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
 common#:#per_object#:#Πρόσβαση ανά αντικείμενο
 common#:#perm_settings#:#Άδειες
 common#:#permission#:#Άδεια
@@ -4175,9 +4176,12 @@ dateplaner#:#wk_short#:#Εβδ
 dateplaner#:#year#:#Έτος
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
 exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
 exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
 exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
+exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
 exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Ανώνυμη γραφή

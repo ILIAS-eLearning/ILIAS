@@ -2768,6 +2768,7 @@ common#:#pays_edit_permission#:#Change permission settings
 common#:#pays_read#:#Access payment settings
 common#:#pays_visible#:#Payment settings are visible
 common#:#pays_write#:#Edit payment settings
+common#:#pdf_export#:#PDF Export
 common#:#per_object#:#Access per object
 common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.
 common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all already existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.
@@ -4603,14 +4604,14 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
 exercise#:#exc_comment#:#Comment
 exercise#:#exc_comment_for_learner#:#Comment for Learner
+exercise#:#exc_failed#:#Failed
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor
 exercise#:#exc_grading#:#Grading
 exercise#:#exc_mark#:#Mark
-exercise#:#exc_send_mail#:#Send Mail
-exercise#:#exc_your_submission#:#Your Submission
 exercise#:#exc_notgraded#:#Not Graded
 exercise#:#exc_passed#:#Passed
-exercise#:#exc_failed#:#Failed
+exercise#:#exc_send_mail#:#Send Mail
+exercise#:#exc_your_submission#:#Your Submission
 forum#:#forum_anonymize#:#Write anonymously
 forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forums
@@ -6439,4 +6440,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-common#:#pdf_export#:#PDF Export

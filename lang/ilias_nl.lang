@@ -2768,6 +2768,7 @@ common#:#pays_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 200
 common#:#pays_read#:#Toegang tot de betalngs-instellingen###07 Apr 2005 content changed
 common#:#pays_visible#:#Betalings-instellingen zijn zichtbaar###07 Apr 2005 content changed
 common#:#pays_write#:#Wijzig betalings-instellingen###07 Apr 2005 content changed
+common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
 common#:#per_object#:#Toegang per object###07 Apr 2005 content changed
 common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.###10 Jul 2006 new variable
 common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all already existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
@@ -4603,9 +4604,12 @@ dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#tonen###07 Apr 2005 content changed
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
 exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
 exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
 exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
+exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
 exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
