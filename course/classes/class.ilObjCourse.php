@@ -88,6 +88,8 @@ class ilObjCourse extends ilContainer
 		$this->ARCHIVE_DOWNLOAD = 3;
 		$this->ABO_ENABLED = 1;
 		$this->ABO_DISABLED = 0;
+		$this->SHOW_MEMBERS_ENABLED = 1;
+		$this->SHOW_MEMBERS_DISABLED = 0;
 
 		$this->type = "crs";
 		$this->ilObject($a_id,$a_call_by_reference);
@@ -348,6 +350,14 @@ class ilObjCourse extends ilContainer
 	function getAboStatus()
 	{
 		return $this->abo;
+	}
+	function setShowMembers($a_status)
+	{
+		$this->show_members = $a_status;
+	}
+	function getShowMembers()
+	{
+		return $this->show_members;
 	}
 
 	function getMessage()
@@ -686,7 +696,8 @@ class ilObjCourse extends ilContainer
 			"abo = '".(int) $this->getAboStatus()."', ".
 			#"objective_view = '".(int) $this->enabledObjectiveView()."', ".
 			"waiting_list = '".(int) $this->enabledWaitingList()."', ".
-			"important = '".ilUtil::prepareDBString($this->getImportantInformation())."' ".
+			"important = '".ilUtil::prepareDBString($this->getImportantInformation())."', ".
+			"show_members = '".(int) $this->getShowMembers()."' ".
 			"WHERE obj_id = '".$this->getId()."'";
 
 		$res = $ilDB->query($query);
@@ -724,7 +735,8 @@ class ilObjCourse extends ilContainer
 			"archive_type = '".IL_CRS_ARCHIVE_NONE."', ".
 			"abo = '".(int) $this->ABO_ENABLED."', ".
 			#"objective_view = '0', ".
-			"waiting_list = '1'";
+			"waiting_list = '1', ";
+			"show_members = '1'";
 
 		$res = $ilDB->query($query);
 	}
@@ -766,6 +778,7 @@ class ilObjCourse extends ilContainer
 			$this->setAboStatus($row->abo);
 			$this->enableWaitingList($row->waiting_list);
 			$this->setImportantInformation($row->important);
+			$this->setShowMembers($row->show_members);
 		}
 		return true;
 	}

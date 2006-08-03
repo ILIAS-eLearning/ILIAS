@@ -792,6 +792,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setArchiveEnd($this->toUnix($_POST['archive_end'],$_POST['archive_end_time']));
 		$this->object->setArchiveType($_POST['archive_type']);
 		$this->object->setAboStatus((int) $_POST['abo']);
+		$this->object->setShowMembers((int) $_POST['show_members']);
 
 		if($this->object->validate())
 		{
@@ -1035,6 +1036,13 @@ class ilObjCourseGUI extends ilContainerGUI
 																	 'abo',
 																	 1));
 		
+		$this->tpl->setVariable("TXT_SHOW_MEMBERS",$this->lng->txt('crs_show_members'));
+		$this->tpl->setVariable("TXT_SHOW_MEMBERS_INFO",$this->lng->txt('crs_show_members_info'));
+
+		$this->tpl->setVariable("SHOW_MEMBERS",ilUtil::formCheckbox($this->object->getShowMembers(),
+																	 'show_members',
+																	 1));
+
 		// Footer
 		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
@@ -2975,7 +2983,8 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "members",
 								 get_class($this));
 		}			
-		elseif ($ilAccess->checkAccess('read','',$this->ref_id))
+		elseif ($ilAccess->checkAccess('read','',$this->ref_id) &&
+			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED)
 		{
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
@@ -3201,9 +3210,15 @@ class ilObjCourseGUI extends ilContainerGUI
 	function membersGalleryObject()
 	{
 
-		global $rbacsystem;
+		global $rbacsystem, $ilErr, $ilAccess;
 		
-		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
+		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
+
+		if (!$is_admin &&
+			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED)
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+		}
 
 		$this->tabs_gui->setTabActive('members');
 
@@ -3990,7 +4005,15 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function mailMembersObject()
 	{
-		global $rbacreview;
+		global $rbacreview, $ilErr, $ilAccess;
+
+		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
+
+		if (!$is_admin &&
+			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED)
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+		}
 
 		$this->tabs_gui->setTabActive('members');
 
