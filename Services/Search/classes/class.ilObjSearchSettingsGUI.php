@@ -133,9 +133,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		// Lucene
 		$this->tpl->setVariable("TXT_LUCENE",$this->lng->txt('search_lucene'));
 		$this->tpl->setVariable("TXT_LUCENE_INFO",$this->lng->txt('search_lucene_info'));
-		$this->tpl->setVariable("TXT_LUCENE_README",$this->lng->txt('search_lucene_readme'));
-		$this->tpl->setVariable("TXT_LUCENE_HOST",$this->lng->txt('search_lucene_host'));
-		$this->tpl->setVariable("TXT_LUCENE_PORT",$this->lng->txt('search_lucene_port'));
 		
 		$this->tpl->setVariable("CHECK_TYPE_LUCENE",ilUtil::formCheckBox($this->object->settings_obj->enabledLucene() ? 1 : 0,
 																		 'search_lucene',1));
@@ -171,10 +168,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->object->settings_obj->enableLucene($_POST['search_lucene']);
 
 		$rpc_settings =& new ilRPCServerSettings();
-		$rpc_settings->setHost(ilUtil::stripslashes($_POST['lucene_host']));
-		$rpc_settings->setPort(ilUtil::stripslashes($_POST['lucene_port']));
-		$rpc_settings->update();
-
 		if($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer())
 		{
 			sendInfo($this->lng->txt('search_no_connection_lucene'),true);
