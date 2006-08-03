@@ -49,8 +49,11 @@ class ilLPStatusSCORM extends ilLPStatus
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 
-		return  array_diff(ilObjSCORMTracking::_getInProgress(ilLPCollectionCache::_getItems($a_obj_id),$a_obj_id),
-						   ilLPStatusSCORM::_getCompleted($a_obj_id));
+		$users = ilObjSCORMTracking::_getInProgress(ilLPCollectionCache::_getItems($a_obj_id),$a_obj_id);
+		$users = array_diff($users,ilLPStatusWrapper::_getCompleted($a_obj_id));
+		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
+
+		return $users;
 	}
 
 	function _getCompleted($a_obj_id)
@@ -63,9 +66,10 @@ class ilLPStatusSCORM extends ilLPStatus
 		$items = $status_info['scos'];
 
 		$counter = 0;
+		$users = array();
 		foreach($items as $sco_id)
 		{
-			$tmp_users = ilObjSCORMTracking::_getCompleted($sco_id,$a_obj_id);
+			$tmp_users = $status_info['completed'][$sco_id];
 			if(!$counter++)
 			{
 				$users = $tmp_users;
@@ -75,8 +79,26 @@ class ilLPStatusSCORM extends ilLPStatus
 				$users = array_intersect($users,$tmp_users);
 			}
 		}
-		return (array) $users;
+		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
+		return $users;
 	}
+
+	function _getFailed($a_obj_id)
+	{
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+
+		if(!count($status_info['scos']))
+		{
+			return array();
+		}
+		$users = array();
+		foreach($status_info['scos'] as $sco_id)
+		{
+			$users = array_merge($users,(array) $status_info['failed'][$sco_id]);
+		}
+		return array_unique($users);
+	}
+
 	
 	function _getStatusInfo($a_obj_id)
 	{
@@ -120,6 +142,7 @@ class ilLPStatusSCORM extends ilLPStatus
 			include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 			$status_info['completed'][$sco_id] = ilObjSCORMTracking::_getCompleted($sco_id,$a_obj_id);
 			$status_info['in_progress'][$sco_id] = ilObjSCORMTracking::_getInProgress($sco_id,$a_obj_id);
+			$status_info['failed'][$sco_id] = ilObjSCORMTracking::_getFailed($sco_id,$a_obj_id);
 		}
 		return $status_info;
 	}

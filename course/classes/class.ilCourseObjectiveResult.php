@@ -368,6 +368,8 @@ class ilCourseObjectiveResult
 		}
 
 		// Check accomplished
+		$fullfilled = array();
+		$pretest = array();
 		foreach($objectives['objectives'] as $kind => $data)
 		{
 			// objective does not allow to change status
@@ -384,18 +386,18 @@ class ilCourseObjectiveResult
 				}
 			}
 		}
-		if(is_array($fullfilled))
+		if(count($fullfilled))
 		{
 			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status VALUES(?,?,?)"),
 								   $fullfilled);
+			ilCourseObjectiveResult::__updatePassed($objectives['all_objectives']);
 		}
-		if(is_array($pretest))
+		if(count($pretest))
 		{
 			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status_pretest VALUES(?,?)"),
 								   $pretest);
 		}
-
-		#ilCourseObjectiveResult::__updatePassed($objectives['all_objectives']);
+		
 		return true;
 	}
 
@@ -418,6 +420,10 @@ class ilCourseObjectiveResult
 		}
 		return (($reached_points / $max_points * 100) >= $objective_data['tst_limit']) ? true : false;
 	}
+
+	function __updatePassed($objective_ids)
+	{
+	}		
 		
 }
 ?>
