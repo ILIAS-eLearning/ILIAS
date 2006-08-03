@@ -390,7 +390,7 @@ class ilCourseObjectiveResult
 		{
 			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status VALUES(?,?,?)"),
 								   $fullfilled);
-			ilCourseObjectiveResult::__updatePassed($objectives['all_objectives']);
+			ilCourseObjectiveResult::__updatePassed($a_user_id,$objectives['all_objectives']);
 		}
 		if(count($pretest))
 		{
@@ -421,9 +421,41 @@ class ilCourseObjectiveResult
 		return (($reached_points / $max_points * 100) >= $objective_data['tst_limit']) ? true : false;
 	}
 
-	function __updatePassed($objective_ids)
+	function __updatePassed($a_user_id,$objective_ids)
 	{
-	}		
+		global $ilDB;
+
+		$passed = array();
+		
+		$query = "SELECT COUNT(t1.crs_id) AS num,t1.crs_id FROM crs_objectives as t1 ".
+			"JOIN crs_objectives as t2 WHERE t1.crs_id = t2.crs_id and t1.objective_id ".
+			"IN ('".implode("','",$objective_ids)."') ".
+			"GROUP BY t1.crs_id";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$query = "SELECT COUNT(cs.objective_id) AS num_passed FROM crs_objective_status AS cs ".
+				"JOIN crs_objectives AS co ON cs.objective_id = co.objective_id ".
+				"WHERE crs_id = '".$row->crs_id."' ".
+				"AND user_id = '".$a_user_id."'";
+
+			$user_res = $ilDB->query($query);
+			while($user_row = $user_res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if($user_row->num_passed == $row->num)
+				{
+					$passed[] = $row->crs_id;
+				}
+			}
+		}
+		if(count($passed))
+		{
+			$query = "UPDATE crs_members SET passed = '1' ".
+				"WHERE usr_id = '".$a_user_id."' ".
+				"AND obj_id IN ('".implode("','",$passed)."') ";
+			$ilDB->query($query);
+		}
+	}
 		
 }
 ?>
