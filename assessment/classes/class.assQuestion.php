@@ -2104,7 +2104,7 @@ class assQuestion
 		global $ilDB;
 
 		$query = "SELECT DISTINCT(question_fi) FROM tst_test_result JOIN tst_active ".
-			"ON (active_id) ".
+			"ON (active_id = active_fi) ".
 			"WHERE question_fi IN ('".implode("','",$a_question_ids)."') ".
 			"AND user_fi = '".$a_user_id."'";
 		$res = $ilDB->query($query);
