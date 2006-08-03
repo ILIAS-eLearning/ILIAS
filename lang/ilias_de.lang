@@ -6438,4 +6438,13 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+common#:#pdf_export#:#PDF-Export
+common#:#java_server#:#Java-Server
+common#:#java_server_host#:#Host
+common#:#java_server_port#:#Port
+common#:#java_server_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
+common#:#java_server_readme#:#Zur Installationsanleitung
+common#:#java_server_no_connection#:#Achtung: Es kann keine Verbindung zum Java-Server hergestellt werden.
+crs#:#crs_show_members#:#Mitglieder anzeigen
+crs#:#crs_show_members_info#:#Wenn eingeschaltet, können Mitglieder des Kurses angezeigt werden.
 trac#:#trac_failed#:#Nicht bestanden
