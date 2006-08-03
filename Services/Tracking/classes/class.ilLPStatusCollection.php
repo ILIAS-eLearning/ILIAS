@@ -57,6 +57,7 @@ class ilLPStatusCollection extends ilLPStatus
 				// diff in progress and completed (use stored result in LPStatusWrapper)
 				$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
 				$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
+				$users = array_diff((array) $users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
 				return $users;
 
 			default:
@@ -93,6 +94,8 @@ class ilLPStatusCollection extends ilLPStatus
 
 		// Exclude all users with status completed.
 		$users = array_diff((array) $users,ilLPStatusWrapper::_getCompleted($a_obj_id));
+		// Exclude all users with status failed.
+		$users = array_diff((array) $users,ilLPStatusWrapper::_getFailed($a_obj_id));
 
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
@@ -115,8 +118,8 @@ class ilLPStatusCollection extends ilLPStatus
 		global $ilBench,$ilObjDataCache;
 		$ilBench->start('LearningProgress','9173_LPStatusCollection_completed');
 
-
 		$counter = 0;
+		$users = array();
 		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
 		{
 			$item_id = $ilObjDataCache->lookupObjId($item_id);
@@ -144,7 +147,9 @@ class ilLPStatusCollection extends ilLPStatus
 				$users = array_intersect($users,$tmp_users);
 			}
 		}
-			
+
+		
+
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
@@ -153,10 +158,27 @@ class ilLPStatusCollection extends ilLPStatus
 				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
 				break;
 		}
-
+		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
 		$ilBench->stop('LearningProgress','9173_LPStatusCollection_completed');
 		return (array) $users;
 	}
+
+	function _getFailed($a_obj_id)
+	{
+		global $ilObjDataCache;
+
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+
+		$users = array();
+		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
+		{
+			$item_id = $ilObjDataCache->lookupObjId($item_id);
+			$tmp_users = ilLPStatusWrapper::_getFailed($item_id);
+			$users = array_merge($users,$tmp_users);
+		}
+		return array_unique($users);
+	}
+		
 
 	function _getStatusInfo($a_obj_id)
 	{
