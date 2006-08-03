@@ -312,6 +312,11 @@ class ilLearningProgressBaseGUI
 				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/not_attempted.gif'));
 				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
 				break;
+
+			case LP_STATUS_FAILED:
+				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/failed.gif'));
+				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
+				break;
 		}
 		return true;
 	}
@@ -421,6 +426,10 @@ class ilLearningProgressBaseGUI
 		elseif(in_array($user_id,ilLPStatusWrapper::_getCompleted($a_obj_id)))
 		{
 			return $status = LP_STATUS_COMPLETED;
+		}
+		elseif(in_array($user_id,ilLPStatusWrapper::_getFailed($a_obj_id)))
+		{
+			return $status = LP_STATUS_FAILED;
 		}
 		else
 		{
@@ -625,12 +634,16 @@ class ilLearningProgressBaseGUI
 			ilUtil::getImagePath("scorm/incomplete.gif"));
 		$tpl->setVariable("IMG_COMPLETED",
 			ilUtil::getImagePath("scorm/completed.gif"));
+		$tpl->setVariable("IMG_FAILED",
+			ilUtil::getImagePath("scorm/failed.gif"));
 		$tpl->setVariable("TXT_NOT_ATTEMPTED",
 			$lng->txt("trac_not_attempted"));
 		$tpl->setVariable("TXT_IN_PROGRESS",
 			$lng->txt("trac_in_progress"));
 		$tpl->setVariable("TXT_COMPLETED",
 			$lng->txt("trac_completed"));
+		$tpl->setVariable("TXT_FAILED",
+			$lng->txt("trac_failed"));
 		return $tpl->get();
 	}
 }

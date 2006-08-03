@@ -351,8 +351,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->details_obj_id);
 		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_obj_id);
 		$completed = ilLPStatusWrapper::_getCompleted($this->details_obj_id);
+		$failed = ilLPStatusWrapper::_getFailed($this->details_obj_id);
 
-		$all_users = array_merge($completed,$in_progress,$not_attempted);
+		$all_users = array_merge($completed,$in_progress,$not_attempted,$failed);
 
 		if(count($all_users) > 1)
 		{

@@ -783,22 +783,38 @@ class ilExerciseMembers
 	}
 	
 	/* deprecated use _lookupStatus instead
-	function _getSolved($a_obj_id)
+	 modified and added this function again.
+	 Learning progress needs this function and _getFailedUsers
+	*/
+	function _getPassedUsers($a_obj_id)
 	{
 		global $ilDB;
 
-		$query = "SELECT DISTINCT(usr_id) as ud FROM exc_members ".
+		$query = "SELECT DISTINCT(usr_id) FROM exc_members ".
 			"WHERE obj_id = '".$a_obj_id."' ".
-			"AND solved = 1";
-
+			"AND status = 'passed'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$usr_ids[] = $row->ud;
+			$usr_ids[] = $row->usr_id;
 		}
-
 		return $usr_ids ? $usr_ids : array();
-	}*/
+	}
+
+	function _getFailedUsers($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT DISTINCT(usr_id) FROM exc_members ".
+			"WHERE obj_id = '".$a_obj_id."' ".
+			"AND status = 'failed'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$usr_ids[] = $row->usr_id;
+		}
+		return $usr_ids ? $usr_ids : array();
+	}
 
 	/**
 	* lookup current status (notgraded|passed|failed)
