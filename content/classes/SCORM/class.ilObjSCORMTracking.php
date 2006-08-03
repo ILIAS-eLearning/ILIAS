@@ -216,6 +216,23 @@ class ilObjSCORMTracking
 		return $user_ids ? $user_ids : array();
 	}
 
+	function _getFailed($scorm_item_id,$a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
+			"WHERE sco_id = '".$scorm_item_id."' ".
+			"AND obj_id = '".$a_obj_id."' ".
+			"AND lvalue = 'cmi.core.lesson_status' ".
+			"AND rvalue = 'failed'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[] = $row->user_id;
+		}
+		return $user_ids ? $user_ids : array();
+	}
+
 	function _getCountCompletedPerUser($a_scorm_item_ids,$a_obj_id)
 	{
 		global $ilDB;

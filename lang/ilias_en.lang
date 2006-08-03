@@ -6452,6 +6452,6 @@ common#:#java_server_port#:#Port
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
 common#:#java_server_readme#:#Setup informations
 common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.
-crs#:#crs_show_members#:#Show members
+crs#:#crs_show_members#:#Show Members
 crs#:#crs_show_members_info#:#If activated, members of the course can be shown.
 trac#:#trac_failed#:#Failed

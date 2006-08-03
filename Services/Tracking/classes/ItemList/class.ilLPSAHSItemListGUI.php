@@ -78,6 +78,10 @@ class ilLPSAHSItemListGUI extends ilLPObjectItemListGUI
 	{
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
+		if(in_array($this->getCurrentUser(),$this->status_info['failed'][$this->getChildId()]))
+		{
+			return $this->status = LP_STATUS_FAILED;
+		}
 		if(in_array($this->getCurrentUser(),$this->status_info['completed'][$this->getChildId()]))
 		{
 			return $this->status = LP_STATUS_COMPLETED;
