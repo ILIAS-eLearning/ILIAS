@@ -216,9 +216,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			return false;
 		}
 
-
 		$lp_collections = new ilLPCollections($this->getObjId());
-
 		$tpl =& new ilTemplate('tpl.trac_collections.html',true,true,'Services/Tracking');
 
 		//$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_assignments'));
@@ -237,15 +235,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		
 		$counter = 0;
 
+		$tpl->addBlockFile('MATERIALS','materials','tpl.trac_collections_sco_row.html','Services/Tracking');
+		$counter = 0;
 		foreach($items as $obj_id => $data)
 		{
-			$tpl->setCurrentBlock("trac_row");
-			#$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
-			#$tpl->setVariable("COLL_TITLE",ilSCORMItem::_lookupTitle($obj_id));
+			$tpl->setCurrentBlock("materials");
 			$tpl->setVariable("COLL_TITLE",$data['title']);
 			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$obj_id));
-
 
 			// Assigned
 			$tpl->setVariable("ASSIGNED_IMG_OK",$lp_collections->isAssigned($obj_id)
