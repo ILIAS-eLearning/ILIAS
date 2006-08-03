@@ -6446,7 +6446,6 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-common#:#pdf_export#:#PDF Export
 common#:#java_server#:#Java-Server
 common#:#java_server_host#:#Host
 common#:#java_server_port#:#Port
