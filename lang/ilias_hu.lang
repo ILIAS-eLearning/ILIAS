@@ -2136,6 +2136,7 @@ common#:#mep_write#:#Médiagyűjtemény-tartalom szerkesztése
 common#:#message#:#Üzenet
 common#:#message_content#:#Üzenetszöveg
 common#:#message_no_delivered_files#:#Nem küldött még fájlt.
+###03 Aug 2006 content changed
 common#:#message_to#:#Üzenet (kinek):
 common#:#meta_data#:#Metaadatok
 common#:#migrate#:#Migráció
@@ -2505,6 +2506,7 @@ common#:#pays_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#pays_read#:#Fizetési beállítások elérése
 common#:#pays_visible#:#Fizetési beállítások láthatók
 common#:#pays_write#:#Fizetési beállítások szerkesztése
+common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
 common#:#per_object#:#Elérés objektumonként
 common#:#perm_settings#:#Jogosultságok
 common#:#permission#:#Jogosultság
@@ -4153,9 +4155,12 @@ dateplaner#:#wk_short#:#Hét
 dateplaner#:#year#:#Év
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
 exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
 exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
 exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
+exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
 exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Névtelenül írás

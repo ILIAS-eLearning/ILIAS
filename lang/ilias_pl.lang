@@ -2700,6 +2700,7 @@ common#:#pays_edit_permission#:#Zmień ustawienia dostępu
 common#:#pays_read#:#Dostęp do ustawień płatności
 common#:#pays_visible#:#Ustawienia płatności są widoczne
 common#:#pays_write#:#Edycja ustawień płatności
+common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
 common#:#per_object#:#Dostęp przez obiekt
 common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.###10 Jul 2006 new variable
 common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all already existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
@@ -4519,9 +4520,12 @@ dateplaner#:#wk_short#:#TD
 dateplaner#:#year#:#rok
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
 exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
+exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
 exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
 exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
+exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
+exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
 exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Pisz anonimowo
