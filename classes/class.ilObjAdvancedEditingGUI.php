@@ -138,6 +138,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* Display settings for test and assessment.
+	*/
 	function assessmentObject()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_assessment.html");
@@ -167,6 +170,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	
+	/**
+	* Display settings for surveys.
+	*/
 	function surveyObject()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_survey.html");
@@ -196,6 +203,78 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* Display settings for learning module page JS editor (Currently HTMLArea)
+	*/
+	function learningModuleObject()
+	{
+		global $ilSetting;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_learning_module.html");
+				
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_LM_SETTINGS", $this->lng->txt("advanced_editing_lm_settings"));
+		$this->tpl->setVariable("TXT_LM_JS_EDITING", $this->lng->txt("advanced_editing_lm_js_editing"));
+		$this->tpl->setVariable("TXT_LM_JS_EDITING_DESC", $this->lng->txt("advanced_editing_lm_js_editing_desc"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+		if ($ilSetting->get("enable_js_edit"))
+		{
+			$this->tpl->setVariable("JS_EDIT", "checked=\"checked\"");
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Save settings for learning module JS editing.
+	*/
+	function saveLearningModuleSettingsObject()
+	{
+		global $ilSetting;
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		$ilSetting->set("enable_js_edit", $_POST["js_edit"]);
+		$this->ctrl->redirect($this, 'learningmodule');
+	}
+
+	/**
+	* Display settings for categories.
+	*/
+	function categoryObject()
+	{
+		global $ilSetting;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_category.html");
+				
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_CAT_SETTINGS", $this->lng->txt("adve_cat_settings"));
+		$this->tpl->setVariable("TXT_CAT_PAGE_EDITING", $this->lng->txt("advanced_editing_cat_page_editing"));
+		$this->tpl->setVariable("TXT_CAT_PAGE_EDITING_DESC", $this->lng->txt("advanced_editing_cat_page_editing_desc"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+		if ($ilSetting->get("enable_cat_page_edit"))
+		{
+			$this->tpl->setVariable("CAT_PAGE_EDIT", "checked=\"checked\"");
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Save settings for category editing
+	*/
+	function saveCategorySettingsObject()
+	{
+		global $ilSetting;
+
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$ilSetting->set("enable_cat_page_edit", $_POST["cat_page_edit"]);
+		$this->ctrl->redirect($this, 'category');
+	}
+
 	/**
 	* Save Assessment settings
 	*/
@@ -242,6 +321,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 										 $this->ctrl->getLinkTarget($this, "survey"),
 										 array("survey", "saveSurveySettings"),
 										 "", "");
+		$tabs_gui->addSubTabTarget("adve_cat_settings",
+										 $this->ctrl->getLinkTarget($this, "category"),
+										 array("category", "saveCategorySettings"),
+										 "", "");
+		$tabs_gui->addSubTabTarget("adve_lm_settings",
+										 $this->ctrl->getLinkTarget($this, "learningModule"),
+										 array("learningModule", "saveLearningModuleSettings"),
+										 "", "");
 	}
 	
 	/**
@@ -256,7 +343,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view", "assessment", "survey"), "", "");
+				$this->ctrl->getLinkTarget($this, "settings"),
+					array("settings","","view", "assessment", "survey", "learningModule",
+					"category"), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

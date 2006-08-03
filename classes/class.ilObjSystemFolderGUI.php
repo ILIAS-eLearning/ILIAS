@@ -441,7 +441,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings["default_repository_view"] = $_POST["default_rep_view"];
 			$settings["password_assistance"] = $_POST["password_assistance"];
 			$settings["passwd_auto_generate"] = $_POST["passwd_auto_generate"];
-			$settings["js_edit"] = $_POST["js_edit"];
+			//$settings["js_edit"] = $_POST["js_edit"];
 			$settings["enable_trash"] = $_POST["enable_trash"];
 			$settings["https"] = $_POST["https"];
 			
@@ -520,7 +520,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
 			$this->ilias->setSetting('passwd_auto_generate',$_POST['passwd_auto_generate']);
 
-			$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
+			//$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
 			$this->ilias->setSetting('enable_trash',$_POST['enable_trash']);
 
 			// contact
@@ -643,8 +643,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_GENERATION",$this->lng->txt('passwd_generation'));
 
 		// Javascript Editing
-		$this->tpl->setVariable("TXT_JS_EDIT", $this->lng->txt("enable_js_edit"));
-		$this->tpl->setVariable("TXT_JS_EDIT_INFO", $this->lng->txt("enable_js_edit_info"));
+		//$this->tpl->setVariable("TXT_JS_EDIT", $this->lng->txt("enable_js_edit"));
+		//$this->tpl->setVariable("TXT_JS_EDIT_INFO", $this->lng->txt("enable_js_edit_info"));
 		
 		$this->tpl->setVariable("TXT_DYNAMIC_LINKS",$this->lng->txt('links_dynamic'));
 		$this->tpl->setVariable("INFO_DYNAMIC_LINKS",$this->lng->txt('links_dynamic_info'));
@@ -814,10 +814,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 			
 		// js editing
+		/*
 		if($settings['enable_js_edit'])
 		{
 			$this->tpl->setVariable("JS_EDIT","checked=\"checked\"");
-		}
+		}*/
 
 		if($settings['links_dynamic'])
 		{
