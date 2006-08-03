@@ -735,7 +735,7 @@ class ilObjCourse extends ilContainer
 			"archive_type = '".IL_CRS_ARCHIVE_NONE."', ".
 			"abo = '".(int) $this->ABO_ENABLED."', ".
 			#"objective_view = '0', ".
-			"waiting_list = '1', ";
+			"waiting_list = '1', ".
 			"show_members = '1'";
 
 		$res = $ilDB->query($query);
