@@ -11481,3 +11481,93 @@ ALTER TABLE mail ADD INDEX m_status (m_status);
 ALTER TABLE frm_posts ADD INDEX pos_date (pos_date);
 <#812>
 ALTER TABLE `crs_settings` ADD `show_members` TINYINT NOT NULL DEFAULT '1';
+
+<#813>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+`objective_id` int(11) NOT NULL default '0',
+`passed` tinyint(4) NOT NULL default '0');
+
+<#814>
+<?php
+  // Store objective results in table crs_objective_result
+
+  // Get all objectives
+$query = "SELECT objective_id FROM crs_objectives ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	// check if objective is already processed
+	$res_passed = $ilDB->query("SELECT objective_id FROM tmp_migration WHERE objective_id = '".$row->objective_id."' AND passed = '1'");
+	if($res_passed->numRows())
+	{
+		continue;
+	}
+
+	// Read objective info
+	$query = "SELECT * FROM crs_objective_tst as ct JOIN crs_objective_qst as cq ".
+		"ON (ct.objective_id = cq.objective_id AND ct.obj_id = cq.obj_id) ".
+		"WHERE tst_status = '1' AND ct.objective_id = '".$row->objective_id."'";
+
+	$obj_info = $ilDB->query($query);
+	$objective_info = array();
+	while($obj_row = $obj_info->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$objective_info[$obj_row->obj_id]['questions'][] = $obj_row->question_id;
+		$objective_info[$obj_row->obj_id]['limit'] = $obj_row->tst_limit;
+	}
+	
+	// Read max reachable points
+	// Read user points
+	foreach($objective_info as $test_id => $data)
+	{
+		$query = "SELECT SUM(points) as reachable FROM qpl_questions WHERE ".
+			"question_id IN('".implode("','",$data['questions'])."')";
+		$reachable_res = $ilDB->query($query);
+		while($reachable_row = $reachable_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$objective_info[$test_id]['reachable'] = $reachable_row->reachable;
+		}
+		
+		$query = "SELECT user_fi, MAX(points) as reached FROM tst_test_result JOIN tst_active ON active_fi = active_id ".
+			"WHERE question_fi IN('".implode("','",$data['questions'])."') ".
+			"GROUP BY question_fi,user_fi";
+		$user_reached_res = $ilDB->query($query);
+		$objective_info[$test_id]['users'] = array();
+		while($user_reached_row = $user_reached_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$objective_info[$test_id]['users'][$user_reached_row->user_fi] += $user_reached_row->reached;
+		}
+	}
+	// Check reached
+	foreach($objective_info as $test_id => $data)
+	{
+		if(!$data['reachable'])
+		{
+			continue;
+		}
+		foreach($data['users'] as $user_id => $reached)
+		{
+			if(($reached / $data['reachable'] * 100) >= $data['limit'])
+			{
+				$query = "REPLACE INTO crs_objective_status ".
+					"SET objective_id = '".$row->objective_id."', ".
+					"user_id = '".$user_id."', ".
+					"status = '1'";
+				$ilDB->query($query);
+			}
+		}
+	}
+	// Now set objective passed
+	$query = "REPLACE INTO tmp_migration ".
+		"SET objective_id = '".$row->objective_id."', ".
+		"passed = '1'";
+	$ilDB->query($query);
+}
+?>
+<#815>
+DROP TABLE IF EXISTS tmp_migration;
+
+	
+		
+									   
