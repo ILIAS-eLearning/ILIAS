@@ -504,6 +504,11 @@ class ilCourseMembers
 		return $this->subscribers;
 	}
 
+	function getCountSubscribers()
+	{
+		return count($this->getSubscribers());
+	}
+
 	function getSubscriberData($a_usr_id)
 	{
 		return $this->__readSubscriberData($a_usr_id);

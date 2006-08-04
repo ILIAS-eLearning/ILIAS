@@ -107,11 +107,19 @@ class ilCourseRegisterGUI
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
 
-
-		if((($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
-			and $this->course_obj->getSubscriptionMaxMembers() != 0) or
-		   $this->waiting_list->getCountUsers())
+		if($this->course_obj->getSubscriptionMaxMembers())
 		{
+			$free = $this->course_obj->getSubscriptionMaxMembers() - 
+				$this->course_obj->members_obj->getCountMembers() - $this->course_obj->members_obj->getCountSubscribers();
+			$free = $free > 0 ? true : false;
+		}
+
+		if($this->course_obj->getSubscriptionMaxMembers() and (!$free or $this->waiting_list->getCountUsers()))
+		{
+
+			#if((($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
+			#	and $this->course_obj->getSubscriptionMaxMembers() != 0) or
+			#   $this->waiting_list->getCountUsers())
 			// First check password
 			if($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_PASSWORD)
 			{
@@ -245,7 +253,11 @@ class ilCourseRegisterGUI
 		{
 			$this->tpl->setCurrentBlock("waiting_list");
 			$this->tpl->setVariable("TXT_WAITING_LIST",$this->lng->txt('crs_free_places'));
-			$free_places = $this->course_obj->getSubscriptionMaxMembers() - $this->course_obj->members_obj->getCountMembers();
+
+			$free_places = $this->course_obj->getSubscriptionMaxMembers() - 
+				$this->course_obj->members_obj->getCountMembers() -
+				$this->course_obj->members_obj->getCountSubscribers();
+
 			$free_places = $free_places >= 0 ? $free_places : 0;
 			$this->tpl->setVariable("FREE_PLACES",$free_places);
 			$this->tpl->parseCurrentBlock();
@@ -413,7 +425,8 @@ class ilCourseRegisterGUI
 			$allow_subscription = false;
 		}
 		elseif($this->course_obj->getSubscriptionMaxMembers() and 
-			   ($this->course_obj->members_obj->getCountMembers() >= $this->course_obj->getSubscriptionMaxMembers()) and
+			   (($this->course_obj->members_obj->getCountMembers() + $this->course_obj->members_obj->getCountSubscribers()) 
+				>= $this->course_obj->getSubscriptionMaxMembers()) and
 			   $allow_subscription)
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_max_members_reached"));
