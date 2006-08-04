@@ -203,6 +203,11 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			$this->tabs_gui->clearTargets();
+		}
+
 		// role selection
 		$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
 		$rol = array();
@@ -330,6 +335,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		// new account mail
+		include_once 'classes/class.ilObjUserFolder.php';
 		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{
@@ -842,6 +848,11 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 			}
+		}
+
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			$this->tabs_gui->clearTargets();
 		}
 
 		$data = array();
