@@ -105,6 +105,8 @@ class ilUserFilterGUI
 		
 	function refresh()
 	{
+		$_GET['offset'] = 0;
+		$this->ctrl->saveParameter($this,'offset');
 		$this->filter->storeQueryStrings($_POST['filter']);
 		$this->ctrl->returnToParent($this);
 
