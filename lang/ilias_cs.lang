@@ -1011,17 +1011,23 @@ common#:#administrate_users#:#Local user administration###11 Sep 2004 new variab
 common#:#administration#:#Administrace###07 Apr 2005 content changed
 common#:#administrator#:#Administrátor###07 Apr 2005 content changed
 common#:#adopt#:#převzít###07 Apr 2005 content changed
-common#:#adopt_perm_from_template#:#Převzít nastavení přístupových práv ze šablony role###07 Apr 2005 content changed
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing###10 Jul 2006 new variable
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor###10 Jul 2006 new variable
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool###18 Jul 2006 new variable
+common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
+common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
 common#:#advanced_editing_no_rte#:#Don't use rich text editing###10 Jul 2006 new variable
 common#:#advanced_editing_settings#:#Advanced editing settings###10 Jul 2006 new variable
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE editor###10 Jul 2006 new variable
 common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
+common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
 common#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
 common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
+common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
 common#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
 common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
 common#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
@@ -1678,6 +1684,8 @@ common#:#file_not_found#:#Soubor nenalezen###07 Apr 2005 content changed
 common#:#file_not_valid#:#Soubor není validní!###07 Apr 2005 content changed
 common#:#file_notice#:#Please take care of the filesizelimit of  ###23 Jun 2004 new variable
 common#:#file_read#:#Download File###17 Apr 2004 new variable
+common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
+common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
 common#:#file_valid#:#Soubor je v pořádku!###07 Apr 2005 content changed
 common#:#file_version#:#Soubor neobsahuje verzi###07 Apr 2005 content changed
 common#:#file_visible#:#File is visible###17 Apr 2004 new variable
@@ -2160,6 +2168,12 @@ common#:#internal_system#:#Interní systém###07 Apr 2005 content changed
 common#:#ip_address#:#IP Adresa###07 Apr 2005 content changed
 common#:#is_already_your#:#již je váš###07 Apr 2005 content changed
 common#:#item#:#Položka###07 Apr 2005 content changed
+common#:#java_server#:#Java-Server###04 Aug 2006 new variable
+common#:#java_server_host#:#Host###04 Aug 2006 new variable
+common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###04 Aug 2006 new variable
+common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.###04 Aug 2006 new variable
+common#:#java_server_port#:#Port###04 Aug 2006 new variable
+common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#KBajtů###07 Apr 2005 content changed
 common#:#keywords#:#Klí�?ová slova###07 Apr 2005 content changed
@@ -4207,6 +4221,8 @@ crs#:#crs_show_link_lms#:#Show learning materials###01 Mar 2005 new variable
 crs#:#crs_show_link_objectives#:#Show objectives###01 Mar 2005 new variable
 crs#:#crs_show_link_or#:#Show other resources###01 Mar 2005 new variable
 crs#:#crs_show_link_tst#:#Show tests###01 Mar 2005 new variable
+crs#:#crs_show_members#:#Show Members###04 Aug 2006 new variable
+crs#:#crs_show_members_info#:#If activated, members of the course can be shown.###04 Aug 2006 new variable
 crs#:#crs_show_objectives_view#:#Objective view###01 Mar 2005 new variable
 crs#:#crs_size#:#File size###07 Aug 2004 new variable
 crs#:#crs_sort_activation#:#Sort by activation###07 Aug 2004 new variable
@@ -6357,6 +6373,7 @@ trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
+trac#:#trac_failed#:#Failed###04 Aug 2006 new variable
 trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###20 Jan 2006 new variable

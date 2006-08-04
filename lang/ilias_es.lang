@@ -1010,21 +1010,27 @@ common#:#administrate_users#:#Administración local de usuarios
 common#:#administration#:#Administración
 common#:#administrator#:#Administrador
 common#:#adopt#:#adoptar
-common#:#adopt_perm_from_template#:#Adoptar configuración de permisos de la Plantilla de Rol
 common#:#advanced_editing_allow_html_tags#:#Permitir las siguientes etiquetas HTML para la edición de texto
 common#:#advanced_editing_allow_javascript_editor#:#Habilitar un editor 'rich text'
 common#:#advanced_editing_assessment_settings#:#Tags HTML permitidos para la herramienta de Test&Assessment
-common#:#advanced_editing_no_rte#:#No usar el editor 'rich text'
-common#:#advanced_editing_settings#:#Configuración de edición avanzada
+common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
+common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
+common#:#advanced_editing_no_rte#:#No usar el editor 'rich text'###04 Aug 2006 content changed
+common#:#advanced_editing_settings#:#Configuración de edición avanzada###04 Aug 2006 content changed
 common#:#advanced_editing_survey_settings#:#Tags HTML permitidos para la herramienta de encuestas###25 Jul 2006 content changed
-common#:#advanced_editing_tinymce#:#Editor TinyMCE
-common#:#adve_assessment_settings#:#Configuración de Test&Assessment
-common#:#adve_edit_permission#:#Modificar configuración de permisos
-common#:#adve_general_settings#:#Configuración General
-common#:#adve_read#:#Acceso a Administración de edición avanzada
-common#:#adve_survey_settings#:#Configuración de Encuesta
-common#:#adve_visible#:#La administración de edición avanzada es visible
-common#:#adve_write#:#Administración de edición avanzada
+common#:#advanced_editing_tinymce#:#Editor TinyMCE###04 Aug 2006 content changed
+common#:#adve_assessment_settings#:#Configuración de Test&Assessment###04 Aug 2006 content changed
+common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
+common#:#adve_edit_permission#:#Modificar configuración de permisos###04 Aug 2006 content changed
+common#:#adve_general_settings#:#Configuración General###04 Aug 2006 content changed
+common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
+common#:#adve_read#:#Acceso a Administración de edición avanzada###04 Aug 2006 content changed
+common#:#adve_survey_settings#:#Configuración de Encuesta###04 Aug 2006 content changed
+common#:#adve_visible#:#La administración de edición avanzada es visible###04 Aug 2006 content changed
+common#:#adve_write#:#Administración de edición avanzada###04 Aug 2006 content changed
 common#:#agree_date#:#De acuerdo en
 common#:#all_authors#:#Todos los autores
 common#:#all_global_roles#:#Roles Globales
@@ -1677,6 +1683,8 @@ common#:#file_not_found#:#Archivo no encontrado
 common#:#file_not_valid#:#Archivo no válido
 common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de archivos de
 common#:#file_read#:#Descarga archivo
+common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
+common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
 common#:#file_valid#:#Archivo válido
 common#:#file_version#:#versión facilitada en el archivo
 common#:#file_visible#:#El archivo es visible
@@ -2159,6 +2167,12 @@ common#:#internal_system#:#Sistema Interno
 common#:#ip_address#:#dirección IP
 common#:#is_already_your#:#ya es su
 common#:#item#:#item
+common#:#java_server#:#Java-Server###04 Aug 2006 new variable
+common#:#java_server_host#:#Host###04 Aug 2006 new variable
+common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###04 Aug 2006 new variable
+common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.###04 Aug 2006 new variable
+common#:#java_server_port#:#Port###04 Aug 2006 new variable
+common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#matricularse
 common#:#kb#:#KByte
 common#:#keywords#:#Palabras clave
@@ -2583,7 +2597,7 @@ common#:#number_of_records#:#Número de registros
 common#:#obj#:#obj
 common#:#obj_adm#:#Configuración del Sistema
 common#:#obj_adm_desc#:#carpeta de configuración principal del sistema conteniendo todos los paneles para administrar tu instalación ILIAS.
-common#:#obj_adve#:#Edición avanzada
+common#:#obj_adve#:#Edición avanzada###04 Aug 2006 content changed
 common#:#obj_adve_desc#:#Configuración de administración para edición avanzada (JavaScript Rich Text Editors, soporte LaTeX, etc...)
 common#:#obj_alm#:#Módulo de aprendizaje AICC
 common#:#obj_assf#:#Tests###10 Jul 2006 content changed
@@ -4206,6 +4220,8 @@ crs#:#crs_show_link_lms#:#Mostrar materiales de aprendizaje
 crs#:#crs_show_link_objectives#:#Mostrar objetivos
 crs#:#crs_show_link_or#:#Mostrar otros recursos
 crs#:#crs_show_link_tst#:#Mostrar tests
+crs#:#crs_show_members#:#Show Members###04 Aug 2006 new variable
+crs#:#crs_show_members_info#:#If activated, members of the course can be shown.###04 Aug 2006 new variable
 crs#:#crs_show_objectives_view#:#Vista de objetivos
 crs#:#crs_size#:#Tamaño de archivo
 crs#:#crs_sort_activation#:#Ordenar por Activación
@@ -6356,6 +6372,7 @@ trac#:#trac_edit_time#:#Tiempo de proceso
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
 trac#:#trac_edited_scos#:#Contenido procesado
 trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
+trac#:#trac_failed#:#Failed###04 Aug 2006 new variable
 trac#:#trac_filter_area#:#Area:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Oculto:###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias

@@ -870,7 +870,13 @@ common#:#administrate_users#:#Helyi felhasználó adminisztrációja
 common#:#administration#:#Adminisztráció
 common#:#administrator#:#Adminisztrátor
 common#:#adopt#:#alkalmaz
-common#:#adopt_perm_from_template#:#Jogosultsági beállítások alkalmazása a szerepmintából.
+common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
+common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
+common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
+common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
 common#:#agree_date#:#Egyetértek:
 common#:#all_authors#:#Minden szerző
 common#:#all_global_roles#:#Globális szerepek
@@ -1458,6 +1464,8 @@ common#:#file_not_found#:#A fájl nem található
 common#:#file_not_valid#:#A fájl nem érvényes.
 common#:#file_notice#:#Ügyeljen a fájlméret határára:
 common#:#file_read#:#Fájl letöltve.
+common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
+common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
 common#:#file_valid#:#A fájl érvényes.
 common#:#file_version#:#A verziót a fájl tartalmazza.
 common#:#file_visible#:#A fájl látható.
@@ -1914,6 +1922,12 @@ common#:#internal_system#:#Belső rendszer
 common#:#ip_address#:#IP-cím
 common#:#is_already_your#:#már az Ön
 common#:#item#:#Tétel
+common#:#java_server#:#Java-Server###04 Aug 2006 new variable
+common#:#java_server_host#:#Host###04 Aug 2006 new variable
+common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###04 Aug 2006 new variable
+common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.###04 Aug 2006 new variable
+common#:#java_server_port#:#Port###04 Aug 2006 new variable
+common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#Csatlakozás
 common#:#kb#:#kByte
 common#:#keywords#:#Kulcsszavak
@@ -3864,6 +3878,8 @@ crs#:#crs_show_link_lms#:#Tanulási segédanyagok megjelenítése
 crs#:#crs_show_link_objectives#:#Célkitűzések megjelenítése
 crs#:#crs_show_link_or#:#További források megjelenítése
 crs#:#crs_show_link_tst#:#Tesztek megjelenítése
+crs#:#crs_show_members#:#Show Members###04 Aug 2006 new variable
+crs#:#crs_show_members_info#:#If activated, members of the course can be shown.###04 Aug 2006 new variable
 crs#:#crs_show_objectives_view#:#Célkitűzésnézet
 crs#:#crs_size#:#Fájlméret
 crs#:#crs_sort_activation#:#Aktiválás szerinti sorrend
@@ -5634,6 +5650,7 @@ trac#:#trac_edit_progress#:#Tanulmányi előmenetel szerkesztése
 trac#:#trac_edit_time#:#Feldolgozási idő
 trac#:#trac_edit_visits#:#Definiálja azt a látogatásszámot, amely ennek az objektumnak a teljesítéséhez szükséges!
 trac#:#trac_edited_scos#:#Feldolgozott tartalom
+trac#:#trac_failed#:#Failed###04 Aug 2006 new variable
 trac#:#trac_filter_area#:#Terület:
 trac#:#trac_filter_hidden#:#Rejtett:
 trac#:#trac_filter_limit_reached#:#A találatok száma korlátozott: %s. Használja a szűrőt a találatok számának csökkentésére.
