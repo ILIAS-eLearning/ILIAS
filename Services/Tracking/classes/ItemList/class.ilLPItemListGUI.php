@@ -391,10 +391,10 @@ class ilLPItemListGUI
 		$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_completed'));
 		$this->tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountCompleted($this->getId()));
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->touchBlock('newline_prop');
 
 		if($num_failed = ilLPStatusWrapper::_getCountFailed($this->getId()))
 		{
+			$this->tpl->touchBlock('newline_prop');
 			$this->tpl->setCurrentBlock("item_property");
 			$this->tpl->setVariable("TXT_PROP",$this->lng->txt('trac_failed'));
 			$this->tpl->setVariable("VAL_PROP",ilLPStatusWrapper::_getCountFailed($this->getId()));

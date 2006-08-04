@@ -60,10 +60,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->item_ref_id = (int) $_REQUEST['item_id'];
 		$this->item_id = $ilObjDataCache->lookupObjId($this->item_ref_id);
 		$this->offset = (int) $_GET['offset'];
-		$this->ctrl->saveParameter($this,'offset',$this->offset);
 		$this->ctrl->saveParameter($this,'details_id',$_REQUEST['details_id']);
 		$this->max_count = $ilUser->getPref('hits_per_page');
-		#$this->max_count = 1;
 	}
 	/**
 	* execute command
@@ -371,9 +369,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				return false;
 			}
 		}
+
 		$all_users = $this->__sort($all_users,'usr_data','lastname','usr_id');
 		$sliced_users = array_slice($all_users,$this->offset,$this->max_count);
-		
 		$this->obj_tpl = new ilTemplate('tpl.lp_loo_user_list.html',true,true,'Services/Tracking');
 
 
@@ -396,6 +394,22 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->obj_tpl->setVariable('HEAD_TIME_PASSED',$this->lng->txt('trac_time_passed'));
 		}
 
+		// Show linkbar
+		if(count($all_users) > $this->max_count)
+		{
+			$this->obj_tpl->setCurrentBlock("linkbar");
+			$this->ctrl->setParameter($this,'details_id',$this->details_id);
+			$this->obj_tpl->setVariable("LINKBAR",ilUtil::Linkbar($this->ctrl->getLinkTarget($this,'details'),
+																  count($all_users),
+																  $this->max_count,
+																  (int) $this->offset,
+																  array(),
+																  array('link' => '',
+																		'prev' => '<<<',
+																		'next' => '>>>')));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		// Render item list
 		$this->container_row_counter = 0;
 		foreach($sliced_users as $user)
@@ -411,26 +425,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		$this->tpl->setVariable("LP_OBJECTS",$this->obj_tpl->get());
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
-	}
-
-	function __showUserList()
-	{
-
-		// Show linkbar
-		if(count($all_users) > $this->max_count)
-		{
-			$this->tpl->setCurrentBlock("linkbar");
-			$this->ctrl->setParameter($this,'details_id',$this->details_id);
-			$this->tpl->setVariable("LINKBAR",ilUtil::Linkbar($this->ctrl->getLinkTarget($this,'details'),
-															  count($all_users),
-															  $this->max_count,
-															  (int) $this->offset,
-															  array(),
-															  array('link' => '',
-																	'prev' => '<<<',
-																	'next' => '>>>')));
-			$this->tpl->parseCurrentBlock();
-		}
 	}
 
 	function showDetails()
