@@ -4874,5 +4874,26 @@ class ilObjSurvey extends ilObject
 		}
 		return $result;
 	}
+
+	/**
+	* Checks if a given string contains HTML or not
+	*
+	* @param string $a_text Text which should be checked
+	
+	* @return boolean 
+	* @access public
+	*/
+	function isHTML($a_text)
+	{
+		if (preg_match("/<[^>]*?>/", $a_text))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE; 
+		}
+	}
+
 } // END class.ilObjSurvey
 ?>

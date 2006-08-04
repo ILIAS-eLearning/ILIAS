@@ -1990,6 +1990,7 @@ class ilObjectGUI
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
