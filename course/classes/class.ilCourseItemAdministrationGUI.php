@@ -94,13 +94,13 @@ class ilCourseItemAdministrationGUI
 				break;
 
 			default:
-				$this->tabs_gui->setSubTabActive('activation');
+				$this->tabs_gui->setSubTabActive('timings');
 				if(!$cmd)
 				{
 					$cmd = 'edit';
 				}
 				$this->$cmd();
-				$this->tabs_gui->setSubTabActive('activation');
+				$this->tabs_gui->setSubTabActive('timings');
 				break;
 		}
 	}
@@ -164,7 +164,6 @@ class ilCourseItemAdministrationGUI
 		$this->tpl->setVariable("TXT_BEGIN",$this->lng->txt('crs_timings_start'));
 		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_timings_END'));
 		$this->tpl->setVariable("TXT_ACTIVATION_ENABLED",$this->lng->txt('crs_timings_availability_enabled'));
-		$this->tpl->setVariable("TXT_VISIBILITY",$this->lng->txt('crs_timings_visibility'));
 		$this->tpl->setVariable("TXT_PRESETTING",$this->lng->txt('crs_timings_presetting_tbl'));
 		$this->tpl->setVariable("TXT_SUG_BEGIN",$this->lng->txt('crs_timings_sug_begin'));
 		$this->tpl->setVariable("TXT_SUG_END",$this->lng->txt('crs_suggestion_end'));
@@ -375,7 +374,7 @@ class ilCourseItemAdministrationGUI
 		global $rbacsystem,$ilUser;
 		
 		$this->tabs_gui->clearSubTabs();
-		$this->tabs_gui->addSubTabTarget("activation",
+		$this->tabs_gui->addSubTabTarget("timings",
 										 $this->ctrl->getLinkTarget($this,'edit'),
 										 "edit", get_class($this));
 		$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);

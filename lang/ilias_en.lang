@@ -980,7 +980,7 @@ common#:#actions#:#Actions
 common#:#activate_assessment_logging#:#Activate Test&Assessment logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activation
-common#:#activation#:#Activation
+common#:#activation#:#Edit Timings
 common#:#active#:#Active
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
@@ -3925,7 +3925,7 @@ content#:#set_public_mode#:#Set public access mode
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
 crs#:#activation_times_not_valid#:#The availability period is not valid.
-crs#:#add_event#:#Add Event
+crs#:#add_event#:#Add Session
 crs#:#assigned#:#Assigned
 crs#:#contact_email_not_valid#:#the contact email is not valid.
 crs#:#crs_accept_subscriber#:#Admission to course "%s" ### 2006-5-8 --- Content changed
@@ -4326,16 +4326,16 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Your position on the waiting list
 crs#:#edit_content#:#Edit Content
 crs#:#edit_timings_list#:#Edit Timings
-crs#:#event#:#Event
-crs#:#event_add_new_event#:#Added new event
+crs#:#event#:#Session
+crs#:#event_add_new_event#:#Added new session
 crs#:#event_assign_materials#:#Assign Materials
-crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the event.
+crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the session.
 crs#:#event_assign_materials_table#:#Assignment of Course Materials
-crs#:#event_btn_add#:#Add Event
-crs#:#event_date#:#Date of Event:
+crs#:#event_btn_add#:#Add Session
+crs#:#event_date#:#Date of Session:
 crs#:#event_date_time#:#Date & Time
 crs#:#event_delete_file#:#Delete File?
-crs#:#event_delete_sure#:#Do really want to delete this event?
+crs#:#event_delete_sure#:#Do really want to delete this session?
 crs#:#event_desc#:#Description
 crs#:#event_details_workflow#:#Details/Workflow
 crs#:#event_edit_members#:#Edit Participants
@@ -4356,14 +4356,14 @@ crs#:#event_lecturer#:#Name
 crs#:#event_location#:#Location
 crs#:#event_participation#:#Participation
 crs#:#event_register#:#Register
-crs#:#event_registered#:#You have been registered to this event.
+crs#:#event_registered#:#You have been registered to this session.
 crs#:#event_registration#:#Registration
-crs#:#event_registration_info#:#Allow users to register to the event.
+crs#:#event_registration_info#:#Allow users to register to the session.
 crs#:#event_registration_participance#:#Registration
 crs#:#event_save_participants#:#Save Participance
 crs#:#event_start_date#:#Start
-crs#:#event_table_create#:#New Event
-crs#:#event_table_update#:#Edit Event
+crs#:#event_table_create#:#New Session
+crs#:#event_table_update#:#Edit Session
 crs#:#event_tbl_participants#:#List of Participants
 crs#:#event_tbl_participated#:#Participated
 crs#:#event_tbl_registered#:#Registered
@@ -4373,8 +4373,8 @@ crs#:#event_tutor_data#:#Informations About the Lecturer
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
-crs#:#events#:#Events
-crs#:#events_deleted#:#Event deleted
+crs#:#events#:#Sessions
+crs#:#events_deleted#:#Session deleted
 crs#:#import_crs#:#Import Course
 crs#:#learners_view#:#Learners view
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
@@ -6457,3 +6457,4 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+crs#:#timings#:#Timings
