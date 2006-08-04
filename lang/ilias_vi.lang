@@ -960,17 +960,23 @@ common#:#administrate_users#:#Quản trị ngư�?i sử dụng nội bộ
 common#:#administration#:#Quản trị
 common#:#administrator#:#Ngư�?i quản trị
 common#:#adopt#:#Thừa hưởng
-common#:#adopt_perm_from_template#:#Thừa hưởng thiết lập quy�?n hạn từ vai trò mẫu
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing###10 Jul 2006 new variable
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor###10 Jul 2006 new variable
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool###18 Jul 2006 new variable
+common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
+common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
 common#:#advanced_editing_no_rte#:#Don't use rich text editing###10 Jul 2006 new variable
 common#:#advanced_editing_settings#:#Advanced editing settings###10 Jul 2006 new variable
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE editor###10 Jul 2006 new variable
 common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
+common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
 common#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
 common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
+common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
 common#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
 common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
 common#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
@@ -1612,6 +1618,8 @@ common#:#file_not_found#:#Không tìm thấy file
 common#:#file_not_valid#:#File không hợp lệ!
 common#:#file_notice#:#Hãy chú ý kích thước lớn nhất của file là
 common#:#file_read#:#Tải xuống file
+common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
+common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
 common#:#file_valid#:#File hợp lệ!
 common#:#file_version#:#Các phiên bản được cung cấp của File
 common#:#file_visible#:#Nhìn thấy file
@@ -2091,6 +2099,12 @@ common#:#internal_system#:#Hệ thống nội bộ
 common#:#ip_address#:#�?ịa chỉ IP
 common#:#is_already_your#:#đã là của bạn
 common#:#item#:#Mục
+common#:#java_server#:#Java-Server###04 Aug 2006 new variable
+common#:#java_server_host#:#Host###04 Aug 2006 new variable
+common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###04 Aug 2006 new variable
+common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.###04 Aug 2006 new variable
+common#:#java_server_port#:#Port###04 Aug 2006 new variable
+common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#Gia nhập
 common#:#kb#:#KByte
 common#:#keywords#:#Từ khóa
@@ -4114,6 +4128,8 @@ crs#:#crs_show_link_lms#:#Hiện tài liệu h�?c tập
 crs#:#crs_show_link_objectives#:#Hiện mục tiêu
 crs#:#crs_show_link_or#:#Hiện các tài nguyên khác
 crs#:#crs_show_link_tst#:#Hiện bài kiểm tra
+crs#:#crs_show_members#:#Show Members###04 Aug 2006 new variable
+crs#:#crs_show_members_info#:#If activated, members of the course can be shown.###04 Aug 2006 new variable
 crs#:#crs_show_objectives_view#:#Xem mục tiêu
 crs#:#crs_size#:#Kích thước file
 crs#:#crs_sort_activation#:#Sắp xếp theo kích hoạt###15 Jul 2006 content changed
@@ -6155,6 +6171,7 @@ trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Hãy định nghĩa số lần truy cập cần thiết để hoàn thành đối tượng này.
 trac#:#trac_edited_scos#:#Processed content###25 Feb 2006 new variable
 trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
+trac#:#trac_failed#:#Failed###04 Aug 2006 new variable
 trac#:#trac_filter_area#:#Khu vực:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Ẩn:###10 Jul 2006 content changed
 trac#:#trac_filter_no_access#:#Không tìm thấy đối tượng nào

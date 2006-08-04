@@ -951,17 +951,23 @@ common#:#administrate_users#:#Lokal bruger administration
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Arv
-common#:#adopt_perm_from_template#:#Arv indstillinger fra rolle template
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing###10 Jul 2006 new variable
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor###10 Jul 2006 new variable
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool###18 Jul 2006 new variable
+common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
+common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
 common#:#advanced_editing_no_rte#:#Don't use rich text editing###10 Jul 2006 new variable
 common#:#advanced_editing_settings#:#Advanced editing settings###10 Jul 2006 new variable
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE editor###10 Jul 2006 new variable
 common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
+common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
 common#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
 common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
+common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
 common#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
 common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
 common#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
@@ -1609,6 +1615,8 @@ common#:#file_not_found#:#Filen er ikke fundet
 common#:#file_not_valid#:#Filen er ikke gyldig!
 common#:#file_notice#:#Lig venligst m&aelig;rke til max st&oslash;rrelsen p&aring; ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
 common#:#file_read#:#Download Fil
+common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
+common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
 common#:#file_valid#:#Filen er gyldig!
 common#:#file_version#:#Version er vist i Filen
 common#:#file_visible#:#Filen er synlig
@@ -2089,6 +2097,12 @@ common#:#internal_system#:#Internt system
 common#:#ip_address#:#IP Addresse
 common#:#is_already_your#:#er allerede din
 common#:#item#:#Ting
+common#:#java_server#:#Java-Server###04 Aug 2006 new variable
+common#:#java_server_host#:#Host###04 Aug 2006 new variable
+common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###04 Aug 2006 new variable
+common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.###04 Aug 2006 new variable
+common#:#java_server_port#:#Port###04 Aug 2006 new variable
+common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#Tilmeld
 common#:#kb#:#KByte
 common#:#keywords#:#N&oslash;gleord
@@ -4119,6 +4133,8 @@ crs#:#crs_show_link_lms#:#Vis laerings material
 crs#:#crs_show_link_objectives#:#Vis objektiv
 crs#:#crs_show_link_or#:#Vis andre ressourcer
 crs#:#crs_show_link_tst#:#Vis tester
+crs#:#crs_show_members#:#Show Members###04 Aug 2006 new variable
+crs#:#crs_show_members_info#:#If activated, members of the course can be shown.###04 Aug 2006 new variable
 crs#:#crs_show_objectives_view#:#Objektiv syn
 crs#:#crs_size#:#Filstoerrelse
 crs#:#crs_sort_activation#:#Sorter efter aktivering###15 Jul 2006 content changed
@@ -6167,6 +6183,7 @@ trac#:#trac_edit_time#:#Udf&oslash;relses tid
 trac#:#trac_edit_visits#:#Definere antal af bes&oslash;g der er n&oslash;d til at f&aelig;rdigg&oslash;re det her objekt
 trac#:#trac_edited_scos#:#Gennemg&aring;et indhold
 trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
+trac#:#trac_failed#:#Failed###04 Aug 2006 new variable
 trac#:#trac_filter_area#:#Areal:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Gemt###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#Antallet af hits er begr&aelig;nset til %s. Brug filteret til at reducere dette.

@@ -1010,21 +1010,27 @@ common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
-common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich Text Editor aktivieren
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test & Assessment Werkzeug
-common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Richt Text Editor nicht erlauben
-common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
+common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
+common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
+common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Richt Text Editor nicht erlauben###04 Aug 2006 content changed
+common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen###04 Aug 2006 content changed
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
-common#:#advanced_editing_tinymce#:#TinyMCE Editor
-common#:#adve_assessment_settings#:#Test & Assessment Einstellungen
-common#:#adve_edit_permission#:#Rechteeinstellungen ändern
-common#:#adve_general_settings#:#Allgemeine Einstellungen
-common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen
-common#:#adve_survey_settings#:#Umfrage-Einstellungen
-common#:#adve_visible#:#Erweiterte Bearbeitungseinstellungen sind sichtbar
-common#:#adve_write#:#Erweiterte Bearbeitungseinstellungen bearbeiten
+common#:#advanced_editing_tinymce#:#TinyMCE Editor###04 Aug 2006 content changed
+common#:#adve_assessment_settings#:#Test & Assessment Einstellungen###04 Aug 2006 content changed
+common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
+common#:#adve_edit_permission#:#Rechteeinstellungen ändern###04 Aug 2006 content changed
+common#:#adve_general_settings#:#Allgemeine Einstellungen###04 Aug 2006 content changed
+common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
+common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen###04 Aug 2006 content changed
+common#:#adve_survey_settings#:#Umfrage-Einstellungen###04 Aug 2006 content changed
+common#:#adve_visible#:#Erweiterte Bearbeitungseinstellungen sind sichtbar###04 Aug 2006 content changed
+common#:#adve_write#:#Erweiterte Bearbeitungseinstellungen bearbeiten###04 Aug 2006 content changed
 common#:#agree_date#:#Zugestimmt am
 common#:#all_authors#:#Alle Autoren
 common#:#all_global_roles#:#Globale Rollen
@@ -1677,6 +1683,8 @@ common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Bitte beachten sie bei Ihrem Dateiupload die Uploadgrenze von
 common#:#file_read#:#Datei runterladen
+common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
+common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#file_visible#:#Datei ist sichtbar
@@ -2159,6 +2167,12 @@ common#:#internal_system#:#Internes System
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
+common#:#java_server#:#Java-Server###04 Aug 2006 new variable
+common#:#java_server_host#:#Host###04 Aug 2006 new variable
+common#:#java_server_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
+common#:#java_server_no_connection#:#Achtung: Es kann keine Verbindung zum Java-Server hergestellt werden.
+common#:#java_server_port#:#Port###04 Aug 2006 new variable
+common#:#java_server_readme#:#Zur Installationsanleitung
 common#:#join#:#Beitreten
 common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
@@ -2583,7 +2597,7 @@ common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
-common#:#obj_adve#:#Erweiterte Bearbeitung
+common#:#obj_adve#:#Erweiterte Bearbeitung###04 Aug 2006 content changed
 common#:#obj_adve_desc#:#Administrationseinstellungen für erweiterte Bearbeitung wie z.B. Javascript-basierte Editoren, erlaubte HTML-Auszeichnungen etc.
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_assf#:#Test & Assessment
@@ -4205,6 +4219,8 @@ crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
 crs#:#crs_show_link_objectives#:#Lernziele anzeigen
 crs#:#crs_show_link_or#:#Andere Objekte anzeigen
 crs#:#crs_show_link_tst#:#Tests anzeigen
+crs#:#crs_show_members#:#Mitglieder anzeigen
+crs#:#crs_show_members_info#:#Wenn eingeschaltet, können Mitglieder des Kurses angezeigt werden.
 crs#:#crs_show_objectives_view#:#Lernziel Ansicht
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Zeitvorgaben###15 Jul 2006 content changed
@@ -6355,6 +6371,7 @@ trac#:#trac_edit_time#:#Bearbeitungszeit
 trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
 trac#:#trac_edited_scos#:#Bearbeitete Inhalte
 trac#:#trac_editing_time_passed#:#Bearbeitungszeit überschritten
+trac#:#trac_failed#:#Nicht bestanden
 trac#:#trac_filter_area#:#Bereich:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Ausgeblendet:###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
@@ -6438,12 +6455,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-common#:#java_server#:#Java-Server
-common#:#java_server_host#:#Host
-common#:#java_server_port#:#Port
-common#:#java_server_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
-common#:#java_server_readme#:#Zur Installationsanleitung
-common#:#java_server_no_connection#:#Achtung: Es kann keine Verbindung zum Java-Server hergestellt werden.
-crs#:#crs_show_members#:#Mitglieder anzeigen
-crs#:#crs_show_members_info#:#Wenn eingeschaltet, können Mitglieder des Kurses angezeigt werden.
-trac#:#trac_failed#:#Nicht bestanden

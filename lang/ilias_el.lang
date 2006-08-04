@@ -858,11 +858,17 @@ common#:#administrate_users#:#Διαχείριση τοπικού χρήστη
 common#:#administration#:#Διαχείριση
 common#:#administrator#:#Διαχειριστής
 common#:#adopt#:#υιοθέτηση
-common#:#adopt_perm_from_template#:#Υιοθέτηση ρυθμίσεων έγκρισης πρόσβασης από το πρότυπο ρόλων
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool###18 Jul 2006 new variable
+common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
+common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
+common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
+common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
 common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
+common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
 common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
+common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
 common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
 common#:#agree_date#:#Συμφωνήθηκε
 common#:#all_authors#:#Όλοι οι συγγραφείς
@@ -1448,6 +1454,8 @@ common#:#file_not_found#:#Το αρχείο δεν βρέθηκε
 common#:#file_not_valid#:#Το αρχείο δεν είναι έγκυρο!
 common#:#file_notice#:#Παρακαλώ σημειώστε το μέγιστο μέγεθος αρχείου του
 common#:#file_read#:#Λήψη αρχείου
+common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
+common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
 common#:#file_valid#:#Το αρχείο είναι έγκυρο!
 common#:#file_version#:#Η έκδοση παρέχεται στο Αρχείο
 common#:#file_visible#:#Το αρχείο είναι ορατό
@@ -1902,6 +1910,12 @@ common#:#internal_system#:#Εσωτερικό σύστημα
 common#:#ip_address#:#Διεύθυνση IP
 common#:#is_already_your#:#είναι ήδη δικό σας
 common#:#item#:#Αντικείμενο
+common#:#java_server#:#Java-Server###04 Aug 2006 new variable
+common#:#java_server_host#:#Host###04 Aug 2006 new variable
+common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###04 Aug 2006 new variable
+common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.###04 Aug 2006 new variable
+common#:#java_server_port#:#Port###04 Aug 2006 new variable
+common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#ένωση
 common#:#kb#:#KByte
 common#:#keywords#:#Λέξεις κλειδιά
@@ -3855,6 +3869,8 @@ crs#:#crs_show_link_lms#:#Εμφάνιση εκπαιδευτικού υλικο
 crs#:#crs_show_link_objectives#:#Εμφάνιση αντικειμενικών σκοπών
 crs#:#crs_show_link_or#:#Εμφάνιση άλλων πηγών
 crs#:#crs_show_link_tst#:#Εμφάνιση διαγωνισμάτων
+crs#:#crs_show_members#:#Show Members###04 Aug 2006 new variable
+crs#:#crs_show_members_info#:#If activated, members of the course can be shown.###04 Aug 2006 new variable
 crs#:#crs_show_objectives_view#:#Προβολή αντικειμενικών σκοπών
 crs#:#crs_size#:#Μέγεθος αρχείου
 crs#:#crs_sort_activation#:#Ταξινόμηση σύμφωνα με την ενεργοποίηση###15 Jul 2006 content changed
@@ -5648,6 +5664,7 @@ trac#:#trac_edit_time#:#Χρόνος επεξεργασίας
 trac#:#trac_edit_visits#:#Παρακαλώ ορίστε τον αριθμό επισκέψεων που είναι απαραίτητες για να ολοκληρωθεί το αντικείμενο.
 trac#:#trac_edited_scos#:#Περιεχόμενο που επεξεργάστηκε
 trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
+trac#:#trac_failed#:#Failed###04 Aug 2006 new variable
 trac#:#trac_filter_area#:#Περιοχή:
 trac#:#trac_filter_hidden#:#Κρυφό:
 trac#:#trac_filter_limit_reached#:#Ο αριθμός προσβάσεων περιορίστηκε σε %s. Παρακαλώ χρησιμοποιήστε το φίλτρο για να περιορίσετε τον αριθμό των προσβάσεων.
