@@ -58,7 +58,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
 
 		$ilBench->stop('LearningProgress','9171_LPStatusObjectives_notAttempted');
-		return $user ? $user : array();
+		return $users ? $users : array();
 	}
 
 	function _getInProgress($a_obj_id)
