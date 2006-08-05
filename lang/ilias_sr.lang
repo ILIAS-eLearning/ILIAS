@@ -941,7 +941,7 @@ common#:#actions#:#Akcije
 common#:#activate_assessment_logging#:#Aktiviraj test i proveru prijave
 common#:#activate_https#:#HTTPS raspodela od strane ILIAS<br>(Uplata, Prijava)
 common#:#activate_tracking#:#Aktivirajte pracenje###10 Jul 2006 content changed
-common#:#activation#:#Aktiviranje
+common#:#activation#:#Aktiviranje###05 Aug 2006 content changed
 common#:#active#:#Aktivan
 common#:#active_roles#:#Aktivna uloga
 common#:#add#:#Dodati
@@ -4195,6 +4195,7 @@ crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable

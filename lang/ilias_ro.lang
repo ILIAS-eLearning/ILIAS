@@ -906,7 +906,7 @@ common#:#actions#:#Actiuni
 common#:#activate_assessment_logging#:#Activati log-ul de Testare si Evaluare
 common#:#activate_https#:#HTTPS oferit ILIAS<br>(Plata, Login)
 common#:#activate_tracking#:#Activati Cautarea###10 Jul 2006 content changed
-common#:#activation#:#Activare
+common#:#activation#:#Activare###05 Aug 2006 content changed
 common#:#active#:#Activ
 common#:#active_roles#:#Roluri Active
 common#:#add#:#Adaugati
@@ -3734,6 +3734,7 @@ crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable

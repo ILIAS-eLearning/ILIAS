@@ -833,7 +833,7 @@ common#:#actions#:#Ενέργειες
 common#:#activate_assessment_logging#:#Ενεργοποίηση καταγραφής διαγωνίσματος & αξιολόγησης
 common#:#activate_https#:#Διαχείρηση HTTPS από το ILIAS<br>(Πληρωμή, Σύνδεση)
 common#:#activate_tracking#:#Ενεργοποίηση Ιχνηλασίας
-common#:#activation#:#Ενεργοποίηση
+common#:#activation#:#Ενεργοποίηση###05 Aug 2006 content changed
 common#:#active#:#Ενεργό
 common#:#active_roles#:#Ενεργοί Ρόλοι
 common#:#add#:#Προσθήκη
@@ -3965,6 +3965,7 @@ crs#:#subscription_times_not_valid#:#Δεν είναι έγκυρη η περί�
 crs#:#timing_accepted#:#Accepted###22 Jul 2006 new variable
 crs#:#timing_not_accepted#:#Not Accepted###22 Jul 2006 new variable
 crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings_off#:#Switch Timings Administration Off###21 Jul 2006 new variable
 crs#:#timings_timings_on#:#Switch Timings Administration On###21 Jul 2006 new variable

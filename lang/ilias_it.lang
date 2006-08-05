@@ -978,7 +978,7 @@ common#:#actions#:#Azioni
 common#:#activate_assessment_logging#:#Attiva il tracciamento
 common#:#activate_https#:#HTTPS attivato (Pagamento, Login)
 common#:#activate_tracking#:#Attiva il tracciamento###10 Jul 2006 content changed
-common#:#activation#:#Attivazione
+common#:#activation#:#Attivazione###05 Aug 2006 content changed
 common#:#active#:#Attivo
 common#:#active_roles#:#Ruoli attivi
 common#:#add#:#Aggiungi
@@ -4380,6 +4380,7 @@ crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable

@@ -838,7 +838,7 @@ common#:#actions#:#Veiksmai
 common#:#activate_assessment_logging#:#Aktyvuoti Testavimo ir Vertinimo registravimą
 common#:#activate_https#:#HTTPS apdorojimas ILIAS sistemoje<br>(Mokėjimas, Prisijungimas)
 common#:#activate_tracking#:#Aktyvavimas
-common#:#activation#:#Aktyvavimas
+common#:#activation#:#Aktyvavimas###05 Aug 2006 content changed
 common#:#active#:#Aktyvus
 common#:#active_roles#:#Aktyvios Rolės
 common#:#add#:#Pridėti
@@ -3892,6 +3892,7 @@ crs#:#edit_content#:#Redaguoti turinį
 crs#:#import_crs#:#Importuoti kursą
 crs#:#learners_view#:#Studijuojančio matymas
 crs#:#subscription_times_not_valid#:#Registracijos laikas neteisingas.
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 dateplaner#:#DateText#:#Žinutė
 dateplaner#:#Day_long#:#Dienos Vaizdas
 dateplaner#:#ERROR_DATE_EXISTS#:#Šis įvykis jau yra.
