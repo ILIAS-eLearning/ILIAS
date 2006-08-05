@@ -33,6 +33,7 @@ include_once("./webservice/soap/lib/nusoap.php");
 */
 class ilSOAPAuth extends Auth
 {
+	var		$valid 	= array();
 	
 	/**
 	* Constructor
@@ -103,10 +104,19 @@ class ilSOAPAuth extends Auth
 				'new_user' => $new_user));
 		
 		// to do check SOAP error!?
-				
 		$valid["local_user"] = $local_user;
 		
+		$this->valid = $valid;
+		
 		return $valid;
+	}
+	
+	/**
+	* Get validation data.
+	*/
+	function getValidationData()
+	{
+		return $this->valid;
 	}
 	
 	/**
@@ -147,6 +157,46 @@ class ilSOAPAuth extends Auth
 				$this->status = AUTH_SOAP_NO_ILIAS_USER;
 				$this->logout();
 				return;
+			}
+			
+			// try to map external user via e-mail to ILIAS user
+			if ($validation_data["email"] != "")
+			{
+				$email_user = ilObjUser::_getLocalAccountsForEmail($validation_data["email"]);
+
+				// check, if password has been provided in user mapping screen
+				// (see ilStartUpGUI::showUserMappingSelection)
+				if ($_POST["LoginMappedUser"] != "")
+				{
+					if (count($email_user) > 0)
+					{
+						if (ilObjUser::_checkPassword($_POST["usr_id"], $_POST["password"]))
+						{
+							// password is correct -> map user
+							//$this->setAuth($local_user); (use login not id)
+							ilObjUser::_writeExternalAccount($_POST["usr_id"], $_GET["ext_uid"]);
+							ilObjUser::_writeAuthMode($_POST["usr_id"], "soap");
+							$_GET["cmd"] = $_POST["cmd"] = $_GET["auth_stat"]= "";
+							$local_user = ilObjUser::_lookupLogin($_POST["usr_id"]);
+							$this->status = "";
+							$this->setAuth($local_user);
+							return;
+						}
+						else
+						{
+							$this->sub_status = AUTH_WRONG_LOGIN;
+							return;
+						}
+					}
+				}
+				
+				if (count($email_user) > 0 && $_POST["CreateUser"] == "")
+				{					
+					$_GET["email"] = $validation_data["email"]; 
+					$this->status = AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL;
+					$this->logout();
+					return;
+				}
 			}
 
 			$userObj = new ilObjUser();

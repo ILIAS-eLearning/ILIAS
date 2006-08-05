@@ -31,6 +31,10 @@ define ("AUTH_CAS",6);
 define ("AUTH_SOAP",7);
 
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
+
+// an external user cannot be found in ilias, but his email address
+// matches one or more ILIAS users
+define('AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL', -101);
 define('AUTH_CAS_NO_ILIAS_USER', -90);
 
 /**
@@ -268,7 +272,7 @@ class ilAuthUtils
 		$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
 		$ilAuth->setExpire(0);
 		ini_set("session.cookie_lifetime", "0");
-
+//echo "-".get_class($ilAuth)."-";
 		$GLOBALS['ilAuth'] =& $ilAuth;
 	}
 	

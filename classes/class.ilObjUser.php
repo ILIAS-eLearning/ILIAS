@@ -1635,6 +1635,46 @@ class ilObjUser extends ilObject
 		}
 		return 'en';
 	}
+	
+	
+	function _checkPassword($a_usr_id, $a_pw)
+	{
+		global $ilDB;
+
+		$q = "SELECT passwd FROM usr_data ".
+			" WHERE usr_id=".$ilDB->quote($a_usr_id);
+		$usr_set = $ilDB->query($q);
+
+		if($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($usr_rec["passwd"] == md5($a_pw))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function _writeExternalAccount($a_usr_id, $a_ext_id)
+	{
+		global $ilDB;
+
+		$q = "UPDATE usr_data ".
+			" SET ext_account = ".$ilDB->quote($a_ext_id).
+			" WHERE usr_id=".$ilDB->quote($a_usr_id);
+		$usr_set = $ilDB->query($q);
+	}
+
+	function _writeAuthMode($a_usr_id, $a_auth_mode)
+	{
+		global $ilDB;
+
+		$q = "UPDATE usr_data ".
+			" SET auth_mode = ".$ilDB->quote($a_auth_mode).
+			" WHERE usr_id=".$ilDB->quote($a_usr_id);
+		$usr_set = $ilDB->query($q);
+	}
+
 	/**
 	 * returns the current language (may differ from user's pref setting!)
 	 * 
@@ -2728,6 +2768,37 @@ class ilObjUser extends ilObject
 
 		return $cnt_arr;
 	}
+	
+	/**
+	* check whether external account and authentication method
+	* matches with a user
+	*
+	*/
+	function _getLocalAccountsForEmail($a_email)
+	{
+		global $ilDB, $ilSetting;
+		
+		// default set to local (1)?
+		$or_str = "";
+		if ($ilSetting->get("auth_mode") == 1)
+		{
+			$or_str = " OR auth_mode = ".$ilDB->quote("default");
+		}
+		
+		$usr_set = $ilDB->query("SELECT * FROM usr_data WHERE ".
+			" email = ".$ilDB->quote($a_email)." AND ".
+			" (auth_mode = ".$ilDB->quote("local").$or_str.")");
+
+		$users = array();
+
+		while ($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$users[$usr_rec["usr_id"]] = $usr_rec["login"];
+		}
+
+		return $users;
+	}
+
 	
 	/**
 	* Create a personal picture image file from a temporary image file
