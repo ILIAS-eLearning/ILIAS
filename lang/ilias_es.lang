@@ -979,7 +979,7 @@ common#:#actions#:#acciones
 common#:#activate_assessment_logging#:#Activar informes de LOG de la herramienta de Tests
 common#:#activate_https#:#Activar HTTPS (Módulo de Pago, Login)
 common#:#activate_tracking#:#Activar Informe de Seguimiento###10 Jul 2006 content changed
-common#:#activation#:#activación
+common#:#activation#:#activación###05 Aug 2006 content changed
 common#:#active#:#Activo
 common#:#active_roles#:#Roles activos
 common#:#add#:#añadir
@@ -3924,7 +3924,7 @@ content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
 crs#:#activation_times_not_valid#:#El período de disponibilidad no es válido.
-crs#:#add_event#:#Añadir Evento
+crs#:#add_event#:#Añadir Evento###05 Aug 2006 content changed
 crs#:#assigned#:#Asignado
 crs#:#contact_email_not_valid#:#El email de contacto no es válido.
 crs#:#crs_accept_subscriber#:#Admisión en el curso "%s"
@@ -4326,15 +4326,15 @@ crs#:#crs_youre_position#:#Tu posición en la lista de espera
 crs#:#edit_content#:#Editar contenido
 crs#:#edit_timings_list#:#Editar Planificación Temporal
 crs#:#event#:#Event###26 Jul 2006 new variable
-crs#:#event_add_new_event#:#Nuevo evento añadido
+crs#:#event_add_new_event#:#Nuevo evento añadido###05 Aug 2006 content changed
 crs#:#event_assign_materials#:#Asignar Materiales
-crs#:#event_assign_materials_info#:#Los materiales del curso asignado serán mostrados directamente debajo del evento.
+crs#:#event_assign_materials_info#:#Los materiales del curso asignado serán mostrados directamente debajo del evento.###05 Aug 2006 content changed
 crs#:#event_assign_materials_table#:#Asignación de materiales del curso
-crs#:#event_btn_add#:#Evento añadido
-crs#:#event_date#:#Fecha del Evento:
+crs#:#event_btn_add#:#Evento añadido###05 Aug 2006 content changed
+crs#:#event_date#:#Fecha del Evento:###05 Aug 2006 content changed
 crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
 crs#:#event_delete_file#:#¿Eliminar Fichero?
-crs#:#event_delete_sure#:#¿Realmente quiere eliminar este evento?
+crs#:#event_delete_sure#:#¿Realmente quiere eliminar este evento?###05 Aug 2006 content changed
 crs#:#event_desc#:#Descripción
 crs#:#event_details_workflow#:#Detalles/Flujo de Trabajo
 crs#:#event_edit_members#:#editar participantes
@@ -4355,14 +4355,14 @@ crs#:#event_lecturer#:#Nombre
 crs#:#event_location#:#Lugar
 crs#:#event_participation#:#Participación
 crs#:#event_register#:#Registrarse
-crs#:#event_registered#:#Ha sido registrado en este evento.
+crs#:#event_registered#:#Ha sido registrado en este evento.###05 Aug 2006 content changed
 crs#:#event_registration#:#Registro
-crs#:#event_registration_info#:#Permitir a los usuarios registrarse en el evento.
+crs#:#event_registration_info#:#Permitir a los usuarios registrarse en el evento.###05 Aug 2006 content changed
 crs#:#event_registration_participance#:#Registro
 crs#:#event_save_participants#:#Salvar participación
 crs#:#event_start_date#:#Fecha###01 Aug 2006 content changed
-crs#:#event_table_create#:#Nuevo Evento
-crs#:#event_table_update#:#Editar Evento
+crs#:#event_table_create#:#Nuevo Evento###05 Aug 2006 content changed
+crs#:#event_table_update#:#Editar Evento###05 Aug 2006 content changed
 crs#:#event_tbl_participants#:#Lista de Participantes
 crs#:#event_tbl_participated#:#Participaron
 crs#:#event_tbl_registered#:#Registrados
@@ -4372,8 +4372,8 @@ crs#:#event_tutor_data#:#Información sobre el responsable###25 Jul 2006 content
 crs#:#event_unregister#:#Darse de baja
 crs#:#event_unregistered#:#Ha sido dado de baja
 crs#:#event_updated#:#Configuración salvada
-crs#:#events#:#Eventos
-crs#:#events_deleted#:#Evento eliminado
+crs#:#events#:#Eventos###05 Aug 2006 content changed
+crs#:#events_deleted#:#Evento eliminado###05 Aug 2006 content changed
 crs#:#import_crs#:#Importar curso
 crs#:#learners_view#:#Vista de alumnos
 crs#:#subscription_times_not_valid#:#El período de matrícula no es válido.
@@ -4384,6 +4384,7 @@ crs#:#timing_remark#:#Observación
 crs#:#timing_tutor_visible#:#Observación visible para los tutores del curso
 crs#:#timing_user_accept#:#Aceptar Planificación Temporal
 crs#:#timing_user_accepted#:#Planificación Temporal Aceptada
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 crs#:#timings_edit#:#Editar Planificación Temporal
 crs#:#timings_of#:#Planificación Temporal Desactivada
 crs#:#timings_timings#:#Planificación Temporal

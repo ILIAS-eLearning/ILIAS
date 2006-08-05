@@ -941,7 +941,7 @@ common#:#actions#:#Veprimet
 common#:#activate_assessment_logging#:#Aktivizo testin&Ruaj aktivitetin e vlerësimit
 common#:#activate_https#:#HTTPS mbahet nga ILIAS<br>(Pagesa, Identifikimi)
 common#:#activate_tracking#:#Aktivizo Gjurmimin###10 Jul 2006 content changed
-common#:#activation#:#Aktivizim
+common#:#activation#:#Aktivizim###05 Aug 2006 content changed
 common#:#active#:#Aktiv
 common#:#active_roles#:#Rolet Aktive
 common#:#add#:#Shto
@@ -4195,6 +4195,7 @@ crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable

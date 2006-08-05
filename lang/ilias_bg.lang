@@ -911,7 +911,7 @@ common#:#actions#:#Дей�?тви�?
 common#:#activate_assessment_logging#:#�?ктивиране запи�?ването на те�?та и оцен�?ването
 common#:#activate_https#:#HTTPS обработка от ILIAS<br>(Плащане, Реги�?траци�?)
 common#:#activate_tracking#:#�?ктивиране на про�?лед�?ването###10 Jul 2006 content changed
-common#:#activation#:#�?ктиваци�?
+common#:#activation#:#�?ктиваци�?###05 Aug 2006 content changed
 common#:#active#:#�?ктивен
 common#:#active_roles#:#�?ктивни роли
 common#:#add#:#Добав�?не
@@ -3794,6 +3794,7 @@ crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable

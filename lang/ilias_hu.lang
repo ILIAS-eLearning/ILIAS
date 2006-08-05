@@ -846,6 +846,7 @@ common#:#activate_assessment_logging#:#Teszt és kiértékelés naplózás bekap
 common#:#activate_https#:#HTTPS-t az ILIAS kezeli<br>(fizetés, bejelentkezés)
 common#:#activate_tracking#:#Aktiválás
 common#:#activation#:#Aktiválás
+###05 Aug 2006 content changed
 common#:#active#:#Aktív
 common#:#active_roles#:#Aktív szerepek
 common#:#add#:#Hozzáadás
@@ -3948,6 +3949,7 @@ crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
 crs#:#import_crs#:#Kurzus importálása
 crs#:#learners_view#:#Hallgatói nézet
 crs#:#subscription_times_not_valid#:#A regisztrácós periódus nem érvényes.
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 dateplaner#:#DateText#:#Üzenet
 dateplaner#:#Day_long#:#Napi nézet
 dateplaner#:#ERROR_DATE_EXISTS#:#Ez az esemény már létezik.

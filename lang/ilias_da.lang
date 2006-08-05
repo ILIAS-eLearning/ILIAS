@@ -924,7 +924,7 @@ common#:#actions#:#Handlinger
 common#:#activate_assessment_logging#:#Aktiver Test & opgaver logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Betaling, Login)
 common#:#activate_tracking#:#Aktiver sporing###10 Jul 2006 content changed
-common#:#activation#:#Aktivering
+common#:#activation#:#Aktivering###05 Aug 2006 content changed
 common#:#active#:#Aktiv
 common#:#active_roles#:#Aktive Roller
 common#:#add#:#Tilf&oslash;j
@@ -4297,6 +4297,7 @@ crs#:#timing_remark#:#Remark###10 Jul 2006 new variable
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors###10 Jul 2006 new variable
 crs#:#timing_user_accept#:#Accept Timings###10 Jul 2006 new variable
 crs#:#timing_user_accepted#:#Timings Accepted###22 Jul 2006 new variable
+crs#:#timings#:#Timings###05 Aug 2006 new variable
 crs#:#timings_edit#:#Edit Timings###10 Jul 2006 new variable
 crs#:#timings_of#:#Timings Off###22 Jul 2006 new variable
 crs#:#timings_timings#:#Timings###10 Jul 2006 new variable

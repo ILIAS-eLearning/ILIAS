@@ -979,7 +979,7 @@ common#:#actions#:#Aktionen
 common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
-common#:#activation#:#Verfügbarkeit
+common#:#activation#:#Verfügbarkeit###05 Aug 2006 content changed
 common#:#active#:#Aktiv
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
@@ -3923,7 +3923,7 @@ content#:#set_public_mode#:#Zugriffsmodus setzen
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
 crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#add_event#:#Sitzung hinzufügen
+crs#:#add_event#:#Sitzung hinzufügen###05 Aug 2006 content changed
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -4324,16 +4324,16 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Ihre Position auf der Warteliste
 crs#:#edit_content#:#Kursinhalt bearbeiten###10 Jul 2006 content changed
 crs#:#edit_timings_list#:#Lernplanung bearbeiten
-crs#:#event#:#Sitzung
-crs#:#event_add_new_event#:#Eine neue Sitzung wurde angelegt.
+crs#:#event#:#Sitzung###05 Aug 2006 content changed
+crs#:#event_add_new_event#:#Eine neue Sitzung wurde angelegt.###05 Aug 2006 content changed
 crs#:#event_assign_materials#:#Materialien zuordnen
-crs#:#event_assign_materials_info#:#Hier können Sie der Sitzung Kursmaterialien zuordnen. Diese werden dann direkt unterhalb der Sitzung angezeigt.
+crs#:#event_assign_materials_info#:#Hier können Sie der Sitzung Kursmaterialien zuordnen. Diese werden dann direkt unterhalb der Sitzung angezeigt.###05 Aug 2006 content changed
 crs#:#event_assign_materials_table#:#Zuordnung von Kursmaterialien
-crs#:#event_btn_add#:#Sitzung anlegen
-crs#:#event_date#:#Termin der Sitzung
+crs#:#event_btn_add#:#Sitzung anlegen###05 Aug 2006 content changed
+crs#:#event_date#:#Termin der Sitzung###05 Aug 2006 content changed
 crs#:#event_date_time#:#Datum & Zeit
 crs#:#event_delete_file#:#Datei löschen?
-crs#:#event_delete_sure#:#Sind Sie sicher, dass Sie die folgende Sitzung löschen möchten?
+crs#:#event_delete_sure#:#Sind Sie sicher, dass Sie die folgende Sitzung löschen möchten?###05 Aug 2006 content changed
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Sitzung
 crs#:#event_edit_members#:#Teilnehmer verwalten
@@ -4356,12 +4356,12 @@ crs#:#event_participation#:#Teilnahme
 crs#:#event_register#:#Register###10 Jul 2006 new variable
 crs#:#event_registered#:#You have been registered to this event.###10 Jul 2006 new variable
 crs#:#event_registration#:#Anmeldung
-crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Sitzung anmelden.
+crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Sitzung anmelden.###05 Aug 2006 content changed
 crs#:#event_registration_participance#:#Anmeldung
 crs#:#event_save_participants#:#Teilnahme speichern
 crs#:#event_start_date#:#Start###01 Aug 2006 content changed
-crs#:#event_table_create#:#Neue Sitzung
-crs#:#event_table_update#:#Sitzung bearbeiten
+crs#:#event_table_create#:#Neue Sitzung###05 Aug 2006 content changed
+crs#:#event_table_update#:#Sitzung bearbeiten###05 Aug 2006 content changed
 crs#:#event_tbl_participants#:#Teilnehmer der Sitzung
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
@@ -4371,8 +4371,8 @@ crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden###25 Jul 2006 c
 crs#:#event_unregister#:#Unregister###10 Jul 2006 new variable
 crs#:#event_unregistered#:#You have been unregistered.###10 Jul 2006 new variable
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
-crs#:#events#:#Sitzungen
-crs#:#events_deleted#:#Die Sitzung wurde gelöscht.
+crs#:#events#:#Sitzungen###05 Aug 2006 content changed
+crs#:#events_deleted#:#Die Sitzung wurde gelöscht.###05 Aug 2006 content changed
 crs#:#import_crs#:#Kurs importieren###10 Jul 2006 content changed
 crs#:#learners_view#:#Lerneransicht
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
@@ -4383,6 +4383,7 @@ crs#:#timing_remark#:#Bemerkung
 crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
 crs#:#timing_user_accept#:#Empfohlenen Lernplan akzeptieren
 crs#:#timing_user_accepted#:#Lernplan akzeptiert
+crs#:#timings#:#Zeitvorgaben
 crs#:#timings_edit#:#Zeitplanung bearbeiten
 crs#:#timings_of#:#Lernplanung von
 crs#:#timings_timings#:#Lernplanung
@@ -6455,4 +6456,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-crs#:#timings#:#Zeitvorgaben
