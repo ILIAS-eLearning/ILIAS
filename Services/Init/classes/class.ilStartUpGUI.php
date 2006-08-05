@@ -99,6 +99,19 @@ class ilStartUpGUI
 	{
 		global $ilSetting, $ilAuth, $ilUser, $tpl, $ilIliasIniFile, $ilias;
 
+		// if authentication of soap user failed, but email address is
+		// known, show users and ask for password
+		$status = $ilAuth->getStatus();
+		if ($status == "")
+		{
+			$status = $_GET["auth_stat"];
+		}
+		if ($status == AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL)
+		{
+			$this->showUserMappingSelection();
+			return;
+		}
+		
 		// login language selection is post type
 		if ($_POST["lang"] != "")
 		{
@@ -447,6 +460,75 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$_GET['lang']);
 			
+		$tpl->show();
+	}
+	
+	/**
+	* Show user selection screen, if external account could not be mapped
+	* to an ILIAS account, but the provided e-mail address is known.
+	*/
+	function showUserMappingSelection()
+	{
+		global $ilAuth, $tpl, $lng;
+		
+		$valid = $ilAuth->getValidationData();
+		
+		$tpl->addBlockFile("CONTENT", "content", "tpl.user_mapping_selection.html");
+		$email_user = ilObjUser::_getLocalAccountsForEmail($valid["email"]);
+
+		
+		if ($ilAuth->sub_status == AUTH_WRONG_LOGIN)
+		{
+			$tpl->setCurrentBlock("msg");
+			$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt("err_wrong_login"));
+			$tpl->parseCurrentBlock();
+		}
+		
+		include_once("classes/class.ilObjUser.php");
+		if (count($email_user) == 1)
+		{
+			//$user = new ilObjUser(key($email_user));
+			$tpl->setCurrentBlock("one_user");
+			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
+			$tpl->setVariable("VAL_USERNAME", current($email_user));
+			$tpl->setVariable("USER_ID", key($email_user));
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach($email_user as $key => $login)
+			{
+				$tpl->setCurrentBlock("user");
+				$tpl->setVariable("USR_ID", $key);
+				$tpl->setVariable("VAL_USER", $login);
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("multpiple_user");
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setCurrentBlock("content");
+		$this->ctrl->setParameter($this, "ext_uid", urlencode($_GET["ext_uid"]));
+		$this->ctrl->setParameter($this, "soap_pw", urlencode($_GET["soap_pw"]));
+		$this->ctrl->setParameter($this, "auth_stat", $_GET["auth_stat"]);
+		$tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
+		$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
+		if (count($email_user) == 1)
+		{
+			$tpl->setVariable("TXT_EXPLANATION", $lng->txt("ums_explanation"));
+			$tpl->setVariable("TXT_EXPLANATION_2", $lng->txt("ums_explanation_2"));
+		}
+		else
+		{
+			$tpl->setVariable("TXT_EXPLANATION", $lng->txt("ums_explanation_3"));
+			$tpl->setVariable("TXT_EXPLANATION_2", $lng->txt("ums_explanation_4"));
+		}
+		$tpl->setVariable("TXT_CREATE_USER", $lng->txt("ums_create_new_account"));
+		$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
+		$tpl->setVariable("PASSWORD", $_POST["password"]);
+		$tpl->setVariable("TXT_SUBMIT", $lng->txt("login"));
+		
 		$tpl->show();
 	}
 	

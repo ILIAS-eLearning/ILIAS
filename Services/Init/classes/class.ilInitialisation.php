@@ -646,14 +646,25 @@ class ilInitialisation
 		session_unset();
 		session_destroy();
 
+		$add = "";
+		if ($_GET["soap_pw"] != "")
+		{
+			$add = "&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"];
+		}
+		
 		$script = $this->updir."login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
-			"&auth_stat=".$a_auth_stat;
+			"&auth_stat=".$a_auth_stat.$add;
 
 		// todo do it better, if JS disabled
 		// + this is, when session "ends", so
 		// we should try to prevent some information about current
 		// location
-		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n";
+		//
+		// it is also used, when no session is there (goto -> login)
+		// maybe this can be prevented (by checking for "goto")
+		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n".
+			'Please click <a href="'.$script.'">here</a> if you are not redirected automatically.';
+
 		exit;
 
 	}
