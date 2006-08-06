@@ -2223,6 +2223,17 @@ class assQuestion
 		}		
 		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
 	}
+	
+	function createNewImageFileName($image_filename)
+	{
+		$extension = "";
+		if (preg_match("/.*\.(png|jpg|gif|jpeg)$/i", $image_filename, $matches))
+		{
+			$extension = "." . $matches[1];
+		}
+		$image_filename = md5($image_filename) . $extension;
+		return $image_filename;
+	}
 }
 
 ?>

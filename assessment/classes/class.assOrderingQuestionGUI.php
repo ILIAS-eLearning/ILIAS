@@ -458,8 +458,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 							$saved = true;
 							$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
 						}
-						$image_file = $_FILES[$key]["name"];
-						$image_file = str_replace(" ", "_", $image_file);
+						$image_file = $this->object->createNewImageFileName($_FILES[$key]["name"]);
 						$upload_result = $this->object->setImageFile($image_file, $_FILES[$key]['tmp_name']);
 						switch ($upload_result)
 						{
