@@ -520,6 +520,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 										$saved = true;
 										$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
 									}
+									$value2['name'] = $this->object->createNewImageFileName($value2['name']);
 									$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
 									switch ($upload_result)
 									{
