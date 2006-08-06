@@ -591,13 +591,50 @@ form.il_Form
 	border: 0px;
 }
 
-/* Tabs */
 
+/* MainMenu Tabs */
 div.il_MainMenu
 {
 	line-height: 22px;
 	white-space: nowrap;
+	padding:0px 15px 0px 15px;
 }
+
+a.MMInactive:link, a.MMInactive:visited
+{
+	padding:1px 5px 1px 5px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	background-color: #EBEBEB;
+	white-space: nowrap;
+}
+
+a.MMInactive:hover
+{
+	color: #000000;
+}
+
+a.MMActive:link, a.MMActive:visited
+{
+	padding:1px 5px 1px 5px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	background-color: #D9D9D9;
+	white-space: nowrap;
+}
+
+a.MMActive:hover
+{
+	color: #000000;
+}
+
+/* Tabs */
 
 div.il_Tab
 {
@@ -870,8 +907,8 @@ table.ilHeader
 
 div.ilMainHeader
 {
-	background-image: url(blueshadow/images/HeaderBackground.gif);
-	background-repeat: no-repeat;
+	background-image: url(blueshadow/images/HeaderBackground2.gif);
+	background-repeat: repeat-x;
 	background-color: #F0F0F0;
 }
 
@@ -902,6 +939,11 @@ div.ilLogin
 	border-color: #909090;
 	background-color: #EBEBEB;
 	white-space: nowrap;
+	
+	float:right;
+	text-align:right;
+	font-size:90%;
+
 }
 
 div.il_Footer
