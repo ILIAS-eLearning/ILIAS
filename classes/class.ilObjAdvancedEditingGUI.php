@@ -244,7 +244,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function categoryObject()
 	{
-		global $ilSetting;
+		global $ilSetting, $tree;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_category.html");
 				
@@ -254,6 +254,24 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CAT_PAGE_EDITING", $this->lng->txt("advanced_editing_cat_page_editing"));
 		$this->tpl->setVariable("TXT_CAT_PAGE_EDITING_DESC", $this->lng->txt("advanced_editing_cat_page_editing_desc"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("TXT_CAT_PAGES",
+			$this->lng->txt("cat_pages"));
+		$this->tpl->setVariable("TXT_UNDO_LAST_CAT_CHANGES",
+			$this->lng->txt("cat_undo_last_page_changes"));
+		$this->tpl->setVariable("TXT_CLEAR_CAT_PAGE",
+			$this->lng->txt("cat_clear_page"));
+			
+		$root_node = $tree->getNodeData(ROOT_FOLDER_ID);
+		$nodes = $tree->getSubTree($root_node, true, "cat");
+		$cats[0] = $this->lng->txt("please_select");
+		$cats[$root_node["ref_id"]] = "- ".$this->lng->txt("repository");
+		foreach($nodes as $node)
+		{
+			$cats[$node["ref_id"]] = str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;",($node["depth"]-1))."- ".$node["title"];
+		}
+		$this->tpl->setVariable("SELECT_CATEGORY",
+			ilUtil::formSelect("", "cat_id", $cats, false, true));
 
 		if ($ilSetting->get("enable_cat_page_edit"))
 		{
@@ -272,6 +290,58 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$ilSetting->set("enable_cat_page_edit", $_POST["cat_page_edit"]);
+		$this->ctrl->redirect($this, 'category');
+	}
+
+	/**
+	* Save settings for category editing
+	*/
+	function undoLastCategoryChangeObject()
+	{
+		global $ilSetting;
+
+		include_once("classes/class.ilContainer.php");
+		$xpage_id = ilContainer::_lookupContainerSetting(
+			ilObject::_lookupObjId($_POST["cat_id"]),
+			"xhtml_page");
+		if ($xpage_id > 0)
+		{
+			sendInfo($this->lng->txt("cat_pages_undone"), true);
+			include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+			$xpage = new ilXHTMLPage($xpage_id);
+			$xpage->undo();
+		}
+		else
+		{
+			sendInfo($this->lng->txt("cat_pages_not_created"), true);
+		}
+
+		$this->ctrl->redirect($this, 'category');
+	}
+
+	/**
+	* Save settings for category editing
+	*/
+	function clearCategoryPageObject()
+	{
+		global $ilSetting;
+
+		include_once("classes/class.ilContainer.php");
+		$xpage_id = ilContainer::_lookupContainerSetting(
+			ilObject::_lookupObjId($_POST["cat_id"]),
+			"xhtml_page");
+		if ($xpage_id > 0)
+		{
+			sendInfo($this->lng->txt("cat_pages_clear"), true);
+			include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+			$xpage = new ilXHTMLPage($xpage_id);
+			$xpage->clear();
+		}
+		else
+		{
+			sendInfo($this->lng->txt("cat_pages_not_created"), true);
+		}
+
 		$this->ctrl->redirect($this, 'category');
 	}
 

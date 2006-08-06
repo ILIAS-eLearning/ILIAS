@@ -24,16 +24,19 @@
 define("IL_LAST_NODE", -2);
 define("IL_FIRST_NODE", -1);
 
+/** @defgroup ServicesTree Services/Tree
+ */
+
 /**
 * Tree class
 * data representation in hierachical trees using the Nested Set Model with Gaps 
-* by Joe Celco
+* by Joe Celco.
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package ilias-core
+* @ingroup ServicesTree
 */
 class ilTree
 {
@@ -191,7 +194,10 @@ class ilTree
 		$this->gap = 50;
 	}
 	
-	// store user language
+	/**
+	* Store user language. This function is used by the "main"
+	* tree only (during initialisation).
+	*/
 	function initLangCode()
 	{
 		global $ilUser;
@@ -742,7 +748,7 @@ class ilTree
 	* @param    boolean     with data: default is true otherwise this function return only a ref_id array
 	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
 	*/
-	function getSubTree($a_node,$a_with_data = true)
+	function getSubTree($a_node,$a_with_data = true, $a_type = "")
 	{
 		if (!is_array($a_node))
 		{
@@ -762,11 +768,18 @@ class ilTree
 		}
 
 	    $subtree = array();
+		
+		$type_str = "";
+		if ($a_type != "")
+		{
+			$type_str = "AND ".$this->table_obj_data.".type='".$a_type."' ";
+		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE ".$this->table_tree.".lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
+			 $type_str.
 			 "ORDER BY ".$this->table_tree.".lft";
 
 		$r = $this->ilDB->query($q);

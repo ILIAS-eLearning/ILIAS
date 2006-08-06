@@ -21,6 +21,8 @@
 +-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesUtilities Services/Utilities
+ */
 
 /**
 * util class
@@ -29,7 +31,8 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @package ilias-core
+*
+* @ingroup	Services/Utilities
 */
 class ilUtil
 {
@@ -272,14 +275,15 @@ class ilUtil
 	*
 	* @access	public
 	* @param	string/array	value to be selected
-	* @param	string	variable name in formular
-	* @param	array	array with $options (key = lang_key, value = long name)
-	* @param	boolean
-	* @param	boolean	if true, the option values are displayed directly, otherwise
-	*					they are handled as language variable keys and the corresponding
-	*					language variable is displayed
+	* @param	string			variable name in formular
+	* @param	array			array with $options (key = lang_key, value = long name)
+	* @param	boolean			multiple selection list true/false
+	* @param	boolean			if true, the option values are displayed directly, otherwise
+	*							they are handled as language variable keys and the corresponding
+	*							language variable is displayed
+	* @param	int				size
 	*/
-	function formSelect ($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0")
+	function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0")
 	{
 		global $lng;
 

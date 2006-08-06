@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -33,7 +33,6 @@
 * 
 * @package ilias-core
 */
-
 class ilContainerLinkListGUI
 {
 	var $ctrl;
@@ -67,7 +66,7 @@ class ilContainerLinkListGUI
 	
 	function show()
 	{
-		global $lng;
+		global $lng, $tree;
 		
 		$tpl = new ilTemplate("tpl.container_link_help.html", true, true);
 		
@@ -75,6 +74,19 @@ class ilContainerLinkListGUI
 			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
 			"glo", "webr", "file", "exc",
 			"tst", "svy", "mep", "qpl", "spl");
+			
+		$childs = $tree->getChilds($_GET["ref_id"]);
+		foreach($childs as $child)
+		{
+			if (in_array($child["type"], array("lm", "dbk", "sahs", "htlm")))
+			{
+				$cnt["lres"]++;
+			}
+			else
+			{
+				$cnt[$child["type"]]++;
+			}
+		}
 			
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
@@ -84,11 +96,13 @@ class ilContainerLinkListGUI
 			$tpl->setVariable("ROWCOL", "tblrow".((($i++)%2)+1));
 			if ($type != "lres")
 			{
-				$tpl->setVariable("TYPE", $lng->txt("objs_".$type));
+				$tpl->setVariable("TYPE", $lng->txt("objs_".$type).
+					" (".((int)$cnt[$type]).")");
 			}
 			else
 			{
-				$tpl->setVariable("TYPE", $lng->txt("learning_resources"));
+				$tpl->setVariable("TYPE", $lng->txt("learning_resources").
+					" (".((int)$cnt["lres"]).")");
 			}
 			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
 			$tpl->parseCurrentBlock();
