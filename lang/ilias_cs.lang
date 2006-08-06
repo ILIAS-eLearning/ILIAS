@@ -3289,6 +3289,12 @@ common#:#udf_update_text_field#:#Edit text field###10 Jul 2006 new variable
 common#:#udf_value#:#Value###27 Jan 2006 new variable
 common#:#udf_value_deleted#:#The value has been deleted.###10 Jul 2006 new variable
 common#:#uid#:#UID### identical translation
+common#:#ums_create_new_account#:#Create New Account###06 Aug 2006 new variable
+common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.###06 Aug 2006 new variable
+common#:#ums_explanation_2#:#If this is not your account, please hit 'Create New Account'.###06 Aug 2006 new variable
+common#:#ums_explanation_3#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password.###06 Aug 2006 new variable
+common#:#ums_explanation_4#:#If none of them is your account, please hit 'Create New Account'.###06 Aug 2006 new variable
+common#:#ums_login_account#:#Login Account###06 Aug 2006 new variable
 common#:#unambiguousness#:#Unambiguousness###01 Mar 2005 new variable
 common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Odinstalovat###07 Apr 2005 content changed
