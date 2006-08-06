@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesInit Services/Init
+ */
 
 /**
 * ILIAS Initialisation Utility Class
@@ -32,8 +34,7 @@
 
 * @version $Id$
 *
-* @defgroup Services/Init The Init Service provides classes for the request initialisation.
-* @ingroup Services/Init
+* @ingroup ServicesInit
 */
 class ilInitialisation
 {

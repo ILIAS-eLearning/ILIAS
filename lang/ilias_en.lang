@@ -3289,12 +3289,10 @@ common#:#udf_update_text_field#:#Edit text field
 common#:#udf_value#:#Value
 common#:#udf_value_deleted#:#The value has been deleted.
 common#:#uid#:#UID
-common#:#ums_create_new_account#:#Create New Account
 common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.
 common#:#ums_explanation_2#:#If this is not your account, please hit 'Create New Account'.
 common#:#ums_explanation_3#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password.
 common#:#ums_explanation_4#:#If none of them is your account, please hit 'Create New Account'.
-common#:#ums_login_account#:#Login Account
 common#:#unambiguousness#:#Unambiguousness
 common#:#uncheck_all#:#Uncheck all
 common#:#uninstall#:#Uninstall
@@ -3316,6 +3314,15 @@ common#:#upload_error_file_not_found#:#Upload error: File not found.
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#uri#:#URI
 common#:#url#:#URL
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes
+common#:#cat_clear_page#:#Clear Page
+common#:#cat_pages#:#Category Pages
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.
+common#:#cat_pages_clear#:#Category page cleared.
+common#:#cat_pages_not_created#:#Category page not createded yet.
+common#:#ums_login_account#:#Login Account
+common#:#ums_create_new_account#:#Create New Account
+common#:#please_select#:#-- Please Select --
 common#:#url_a#:#a URL
 common#:#url_add#:#Add URL
 common#:#url_added#:#URL added

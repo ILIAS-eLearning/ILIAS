@@ -27,7 +27,7 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package ilias-core
+* @ingroup ServicesRegistration
 */
 
 define('IL_REG_MISSING_DOMAIN',1);

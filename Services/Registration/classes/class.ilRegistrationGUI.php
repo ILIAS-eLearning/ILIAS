@@ -21,17 +21,18 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesRegistration Services/Registration
+ */
+
 /**
 * Class ilRegistrationGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 *
-*
 * @ilCtrl_Calls ilRegistrationGUI:
 * 
-* 
-* @package ilias-core
+* @ingroup ServicesRegistration
 */
 
 require_once './Services/Registration/classes/class.ilRegistrationSettings.php';

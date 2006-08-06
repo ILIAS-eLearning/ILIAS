@@ -21,17 +21,18 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesXHTMLPage Services/XHTMLPage
+ */
 
 /**
-* Class ilContainer
-*
-* XHTML Page class
+* XHTML Page class. Should be used to store XHTML pages created by tiny
+* (e.g. for ategories).
 * 
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
 *
+* @ingroup	ServicesXHTMLPage
 */
-
 class ilXHTMLPage
 {
 	var $id = 0;
@@ -39,6 +40,8 @@ class ilXHTMLPage
 
 	/**
 	* Constructor
+	*
+	* @param	int		$a_id		page ID
 	*/
 	function ilXHTMLPage($a_id = 0)
 	{
@@ -49,26 +52,49 @@ class ilXHTMLPage
 		}
 	}
 	
+	/**
+	* Get page ID.
+	*
+	* @return	int		page ID
+	*/
 	function getId()
 	{
 		return $this->id;
 	}
 	
+	/**
+	* Set page ID.
+	*
+	* @param	int		$a_id		page ID
+	*/
 	function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
 
+	/**
+	* Get content of page.
+	*
+	* @return	string		page content
+	*/
 	function getContent()
 	{
 		return $this->content;
 	}
 	
+	/**
+	* Set content of page.
+	*
+	* @param	string	$a_content		page content
+	*/
 	function setContent($a_content)
 	{
 		$this->content = $a_content;
 	}
 
+	/**
+	* Read page data from database.
+	*/
 	function read()
 	{
 		global $ilDB;
@@ -81,12 +107,18 @@ class ilXHTMLPage
 		}
 	}
 	
+	/**
+	* Save the page.
+	*/
 	function save()
 	{
 		global $ilDB;
 		
 		if ($this->getId() > 0)
 		{
+			$ilDB->query("UPDATE xhtml_page SET ".
+				" save_content = content ".
+				" WHERE id = ".$ilDB->quote($this->getId()));
 			$ilDB->query("UPDATE xhtml_page SET ".
 				"content = ".$ilDB->quote($this->getContent()).
 				" WHERE id = ".$ilDB->quote($this->getId()));
@@ -98,5 +130,43 @@ class ilXHTMLPage
 			$this->setId($ilDB->getLastInsertId());
 		}
 	}
+	
+	/**
+	* Undo last change.
+	*/
+	function undo()
+	{
+		global $ilDB;
+		
+		if ($this->getId() > 0)
+		{
+			$ilDB->query("UPDATE xhtml_page SET ".
+				" content = save_content ".
+				" WHERE id = ".$ilDB->quote($this->getId()));
+			$ilDB->query("UPDATE xhtml_page SET ".
+				" save_content = ".$ilDB->quote($this->getContent()).
+				" WHERE id = ".$ilDB->quote($this->getId()));
+		}
+	}
+
+	/**
+	* Clear page.
+	*/
+	function clear()
+	{
+		global $ilDB;
+		
+		if ($this->getId() > 0)
+		{
+			$ilDB->query("UPDATE xhtml_page SET ".
+				" save_content = content ".
+				" WHERE id = ".$ilDB->quote($this->getId()));
+			$ilDB->query("UPDATE xhtml_page SET ".
+				" content = ".$ilDB->quote("").
+				" WHERE id = ".$ilDB->quote($this->getId()));
+			$this->setContent("");
+		}
+	}
+
 }
 ?>

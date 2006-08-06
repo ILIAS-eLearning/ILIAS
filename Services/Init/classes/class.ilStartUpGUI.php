@@ -29,7 +29,7 @@
 * @version	$Id$
 * @ilCtrl_Calls ilStartUpGUI: ilRegistrationGUI, ilPasswordAssistanceGUI
 *
-* @ingroup Services/Init
+* @ingroup ServicesInit
 */
 class ilStartUpGUI
 {

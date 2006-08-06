@@ -11567,6 +11567,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ?>
 <#815>
 DROP TABLE IF EXISTS tmp_migration;
+<#816>
+ALTER TABLE xhtml_page ADD COLUMN save_content MEDIUMTEXT;
 
 	
 		

@@ -21,14 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/**
-* Class ilObjAuthSettingsGUI
-*
-* @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$
-* 
-* @package ilias-core
-*/
 
 define('IL_REG_DISABLED',1);
 define('IL_REG_DIRECT',2);
@@ -40,7 +32,14 @@ define('IL_REG_ROLES_EMAIL',2);
 define('IL_REG_ERROR_UNKNOWN',1);
 define('IL_REG_ERROR_NO_PERM',2);
 
-
+/**
+* Class ilObjAuthSettingsGUI
+*
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$
+* 
+* @ingroup ServicesRegistration
+*/
 class ilRegistrationSettings
 {
 	function ilRegistrationSettings()

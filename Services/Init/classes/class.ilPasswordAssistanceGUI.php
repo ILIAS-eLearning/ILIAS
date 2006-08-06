@@ -28,7 +28,7 @@
 * @author Werner Randelshofer <wrandels@hsw.fhz.ch>
 * @version $Id$
 
-* @ingroup Services/Init
+* @ingroup ServicesInit
 */
 class ilPasswordAssistanceGUI
 {

@@ -21,21 +21,18 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
+
 /**
-* Class ilObjAuthSettingsGUI
+* Class ilRegistrationSettingsGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 *
-*
 * @ilCtrl_Calls ilRegistrationSettingsGUI:
 * 
-* 
-* @package ilias-core
+* @ingroup ServicesRegistration
 */
-
-require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
-
 class ilRegistrationSettingsGUI
 {
 	var $ctrl;
