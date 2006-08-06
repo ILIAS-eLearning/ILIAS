@@ -2997,6 +2997,12 @@ common#:#typ#:#Objektumtípus definíció
 common#:#type#:#Típus
 common#:#type_your_message_here#:#Ide gépelje be üzenetét!
 common#:#uid#:#Felhasználói azonosító (UID)
+common#:#ums_create_new_account#:#Create New Account###06 Aug 2006 new variable
+common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.###06 Aug 2006 new variable
+common#:#ums_explanation_2#:#If this is not your account, please hit 'Create New Account'.###06 Aug 2006 new variable
+common#:#ums_explanation_3#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password.###06 Aug 2006 new variable
+common#:#ums_explanation_4#:#If none of them is your account, please hit 'Create New Account'.###06 Aug 2006 new variable
+common#:#ums_login_account#:#Login Account###06 Aug 2006 new variable
 common#:#unambiguousness#:#Egyértelmű
 common#:#uncheck_all#:#Minden kijelölés megszüntetése
 common#:#uninstall#:#Eltávolítás
