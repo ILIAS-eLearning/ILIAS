@@ -381,14 +381,6 @@ td.submit {
 
 }
 
-/* special styles for permission screens */
-
-tr.obj_perm {
-	background-color: #F0FFF0;
-}
-
-
-
 /*Link, Visited, Hover, Focus, Activ*/
 a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited, a.il_ContainerItemCommand:hover
 {
@@ -882,7 +874,7 @@ div.il_InfoScreenSection
 	border-bottom-color:#909090;
 	color:#909090;
 	font-weight:normal;
-	font-size:130%
+	font-size:130%;
 }
 
 td.il_InfoScreenProperty
@@ -1978,7 +1970,6 @@ div.textbox
 
 div.il_MembersGallery
 {
-	background-color:white;
 	margin: 0px auto;
 	text-align:center;
 	width:95%;
@@ -1986,7 +1977,6 @@ div.il_MembersGallery
 	line-height: 1.33;
 	text-align:center;
 	display:block;
-	background-color:white;
 }
 
 div.il_Member

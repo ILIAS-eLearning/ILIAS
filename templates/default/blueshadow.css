@@ -445,6 +445,7 @@ table.il_ContainerBlock
 	border-width:1px;
 	border-style:solid;
 	border-color:#a0a0a0;
+	clear:both;
 }
 
 /* Personal Desktop Header*/
@@ -470,6 +471,7 @@ table.il_PDBlock
 	border-style:solid;
 	border-color:#a0a0a0;
 	margin-bottom:25px;
+	clear:both;
 }
 
 th.il_PDBlockHeader
@@ -770,6 +772,53 @@ a.subtabactive
 	a.subtabinactive a.subtabactive {float:none;}
 /* End IE5-Mac hack */
 
+/* InfoScreen */
+
+table.il_InfoScreen
+{
+	color:#222222;
+	background-color:#FFFFFF;
+	width:100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#A0A0A0;
+}
+
+th.il_InfoScreen
+{
+	text-align:left;
+}
+
+div.il_InfoScreenSection
+{
+	margin: 10px 4px 8px 4px;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#909090;
+	color:#909090;
+	font-weight:normal;
+	font-size:15px;
+}
+
+td.il_InfoScreenProperty
+{
+	border-right-width:1px;
+	border-right-style:solid;
+	border-right-color:#909090;
+	text-align: right;
+	padding: 3px 10px 3px 4px;
+	vertical-align: top;
+	color:#909090;
+}
+
+td.il_InfoScreenPropertyValue
+{
+	padding: 3px 4px 3px 10px;
+	vertical-align: top;
+}
+
 /* Explorer */
 
 div.il_Explorer
@@ -877,6 +926,12 @@ div.il_info
 {
 	font-size: 13px;
 	text-align:left;
+	font-weight: normal;
+}
+div.il_PermDescription
+{
+	font-size: 11px;
+	font-weight: normal;
 }
 
 /* ---------------- headlines ------------------ */
@@ -901,7 +956,22 @@ div.il_Header
 div.il_HeaderInner
 {
 	float:left;
+	margin: 0px;
+	padding: 0px;
 }
+
+h1.il_Header
+{
+	margin: 0px;
+}
+
+div.il_TreeIcons
+{
+	padding-right: 15px;
+	padding-top: 0px;
+	margin: 0px;
+}
+
 
 table.ilHeader
 {
@@ -1027,7 +1097,8 @@ td.il_RightColumn
 
 /* ------- Helptext --------- */
 span.il_Helptext {
-	font-size:11px;
+	font-size: 11px;
+	font-weight: normal;
 }
 
 /* ----------------- alternative text styles ------------- */
@@ -1355,6 +1426,21 @@ div.il_editarea
 	border-width: 1px;
 }
 
+div.il_editarea_disabled
+{
+	border: 2px dotted red;
+}
+
+a.il_PageDisabled
+{
+	border-bottom: 2px dotted red;
+}
+
+a.il_PageDeactivatedElements
+{
+	border-right: 2px dotted red;
+}
+
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
@@ -1519,6 +1605,18 @@ td.ilc_Page
 	border-top-width: 1px;
 	border-bottom-width: 1px;
 	margin-bottom: 0px;
+}
+
+td.ilc_PageDisabled
+{
+	padding:20px;
+	border-right-style: solid;
+	border-color: #EEEEEE;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	margin-bottom: 0px;
+	border-left: 3px dotted red;
 }
 
 table.ilc_LMNavigation {
@@ -1749,4 +1847,41 @@ div.imagebox
 	margin-bottom:5px;
 	font-size:14px;
 	font-weight: bold;
+}
+
+/* -- Members Gallery Styles -- */
+
+div.il_MembersGallery
+{
+	margin: 0px auto;
+	text-align:center;
+	width:95%;
+	padding: 8px;
+	line-height: 1.33;
+	text-align:center;
+	display:block;
+}
+
+div.il_Member
+{
+	page-break-before: auto;
+	margin: 0px 5px 20px 5px;
+	background-color: #EEEEEE;
+	padding: 10px 15px;
+	font-size: 75%;
+	display:block;
+	float:left;
+	white-space: nowrap;
+}
+
+div.il_Tutor
+{
+	page-break-before: auto;
+	margin: 0px 5px 20px 5px;
+	background-color: #BBBBBB;
+	padding: 10px 15px;
+	font-size: 75%;
+	display:block;
+	float:left;
+	white-space: nowrap;
 }
