@@ -2839,9 +2839,9 @@ class ilObjUser extends ilObject
 	*
 	* @param	string		size		"small", "xsmall" or "xxsmall"
 	*/
-	function getPersonalPicturePath($a_size = "small")
+	function getPersonalPicturePath($a_size = "small", $a_force_pic = false)
 	{
-		return ilObjUser::_getPersonalPicturePath($this->getId(),$a_size);
+		return ilObjUser::_getPersonalPicturePath($this->getId(),$a_size,$a_force_pic);
 	}
 
 	/**
@@ -2850,10 +2850,10 @@ class ilObjUser extends ilObject
 	* @param	string		size		"small", "xsmall" or "xxsmall"
 	* STATIC
 	*/
-	function _getPersonalPicturePath($a_usr_id,$a_size = "small")
+	function _getPersonalPicturePath($a_usr_id,$a_size = "small", $a_force_pic = false)
 	{
 		global $ilDB;
-
+		
 		$query = "SELECT * FROM usr_pref WHERE ".
 			"keyword = 'public_upload' ".
 			"AND value = 'y' ".
@@ -2870,7 +2870,6 @@ class ilObjUser extends ilObject
 		$res = $ilDB->query($query);
 		$profile = $res->numRows() ? true : false;
 
-
 		if(defined('ILIAS_MODULE'))
 		{
 			$webspace_dir = ('.'.$webspace_dir);
@@ -2880,7 +2879,8 @@ class ilObjUser extends ilObject
 		$image_dir = $webspace_dir."/usr_images";
 		$thumb_file = $image_dir."/usr_".$a_usr_id."_".$a_size.".jpg";
 
-		if($upload and $profile and @is_file($thumb_file))
+		if((($upload && $profile) || $a_force_pic)
+			&& @is_file($thumb_file))
 		{
 			$file = $thumb_file."?t=".rand(1, 99999);
 		}
