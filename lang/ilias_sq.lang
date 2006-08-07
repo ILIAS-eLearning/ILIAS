@@ -1180,6 +1180,7 @@ common#:#cat_a#:#një Kategori
 common#:#cat_add#:#Shto Kategori
 common#:#cat_added#:#Kategoria u shtua
 common#:#cat_cat_administrate_users#:#Administro llogarit e shfrytëzuesve lokal
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Krijo Kategori
 common#:#cat_create_alm#:#Krijo Modul Mësimor AICC
 common#:#cat_create_cat#:#Krijo Kategori
@@ -1206,8 +1207,13 @@ common#:#cat_delete#:#Fshij Kategori
 common#:#cat_edit#:#Edito Kategorinë
 common#:#cat_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#cat_new#:#Kategori e Re
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Qasje për Lexim në Kategori
 common#:#cat_read_users#:#Qasje për Lexim në llogarit e shfrytëzuesve lokal
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Kategoria është e dukshme
 common#:#cat_write#:#Edito Kategorinë
 common#:#categories#:#Kategoritë
@@ -2727,6 +2733,7 @@ common#:#phrase#:#Frazë
 common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#Ju lutem shënoni një destinacion
 common#:#please_enter_title#:#Ju lutem shënoni një titull
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Duhet të zgjedhni së paku një skedar të pranuar për ta fshirë!
 common#:#please_select_a_delivered_file_to_download#:#Duhet të zgjedhni së paku një skedar të pranuar për ta ngarkuar!
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

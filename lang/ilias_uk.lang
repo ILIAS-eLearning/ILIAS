@@ -1222,6 +1222,7 @@ common#:#cat_a#:#Категорі�?
 common#:#cat_add#:#Додати Категорію
 common#:#cat_added#:#Категорію додано
 common#:#cat_cat_administrate_users#:#�?дміні�?труванн�? локальними акаунтами кори�?тувачів
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Створити Категорію
 common#:#cat_create_alm#:#Створити AICC Учбовий Модуль
 common#:#cat_create_cat#:#Створити Категорію
@@ -1249,8 +1250,13 @@ common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити на�?тройки прав
 common#:#cat_new#:#�?ова категорі�?
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#До�?туп на читанн�? до Категорії
 common#:#cat_read_users#:#До�?туп на читанн�? до локальних акаунтів кори�?тувачів
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Категорі�? є видима
 common#:#cat_write#:#Редагувати Категорію
 common#:#categories#:#Категорії
@@ -2803,6 +2809,7 @@ common#:#phrase#:#Фраза
 common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#Будь ла�?ка введіть ціль
 common#:#please_enter_title#:#Будь ла�?ка введіть назву
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Ви маєте вибрати принаймні один до�?тавлений файл щоб видалити його!
 common#:#please_select_a_delivered_file_to_download#:#Ви маєте вибрати принаймні один до�?тавлений файл щоб завантажити його!
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

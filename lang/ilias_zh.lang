@@ -1242,6 +1242,7 @@ common#:#cat_a#:#一个类别###07 Apr 2005 content changed
 common#:#cat_add#:#增加类别###07 Apr 2005 content changed
 common#:#cat_added#:#类别已增加###07 Apr 2005 content changed
 common#:#cat_cat_administrate_users#:#Administrate local user accounts###11 Sep 2004 new variable
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#创建类别###07 Apr 2005 content changed
 common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#创建类别###07 Apr 2005 content changed
@@ -1269,8 +1270,13 @@ common#:#cat_delete#:#删除类别###07 Apr 2005 content changed
 common#:#cat_edit#:#编辑类别###07 Apr 2005 content changed
 common#:#cat_edit_permission#:#更改许�?�设置###07 Apr 2005 content changed
 common#:#cat_new#:#新类别###07 Apr 2005 content changed
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#类别设为读访问###07 Apr 2005 content changed
 common#:#cat_read_users#:#Read access to local user accounts###11 Sep 2004 new variable
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#类别�?�视###07 Apr 2005 content changed
 common#:#cat_write#:#编辑类别###07 Apr 2005 content changed
 common#:#categories#:#类别###07 Apr 2005 content changed
@@ -2831,6 +2837,7 @@ common#:#phrase#:#�?��?###07 Apr 2005 content changed
 common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#请输入一个目标###07 Apr 2005 content changed
 common#:#please_enter_title#:#请输入一个标题###07 Apr 2005 content changed
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###06 Oct 2004 new variable
 common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!###06 Oct 2004 new variable
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

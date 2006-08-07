@@ -1164,6 +1164,7 @@ common#:#cat_a#:#kategoria
 common#:#cat_add#:#Dodaj kategorię
 common#:#cat_added#:#Kategoria dodana
 common#:#cat_cat_administrate_users#:#Administracja kontami lokalnych użytkowników
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Twórz Kategorię
 common#:#cat_create_alm#:#Twórz Moduł Nauczania AICC
 common#:#cat_create_cat#:#Twórz Kategorię
@@ -1191,8 +1192,13 @@ common#:#cat_delete#:#Usuń Kategorię
 common#:#cat_edit#:#Edytuj kategorię
 common#:#cat_edit_permission#:#Zmień ustawienia uprawnień
 common#:#cat_new#:#Nowa kategoria
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Prawo czytania Kategorii
 common#:#cat_read_users#:#Prawo czytania kont lokalnych użytkowników
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Kategoria jest widoczna
 common#:#cat_write#:#Edycja Kategorii
 common#:#categories#:#Kategorie
@@ -2745,6 +2751,7 @@ common#:#phrase#:#Fraza
 common#:#please_choose#:#-- Wybierz --
 common#:#please_enter_target#:#Podaj przeznaczenie
 common#:#please_enter_title#:#Podaj tytuł
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Musisz zaznaczyć conajmniej jeden dostarczony plik do usunięcia!
 common#:#please_select_a_delivered_file_to_download#:#Musisz zaznaczyć conajmniej jeden dostarczony plik do pobrania!
 common#:#please_wait#:#Proszę czekać...

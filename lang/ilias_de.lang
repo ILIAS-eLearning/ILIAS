@@ -1223,6 +1223,7 @@ common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
 common#:#cat_cat_administrate_users#:#Lokale Benutzer verwalten
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
@@ -1250,8 +1251,13 @@ common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Lesezugriff auf Kategorie
 common#:#cat_read_users#:#Lesezugriff auf lokale Benutzer
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Kategorie ist sichtbar
 common#:#cat_write#:#Kategorie bearbeiten
 common#:#categories#:#Kategorien
@@ -2812,6 +2818,7 @@ common#:#phrase#:#Phrase
 common#:#please_choose#:#-- Bitte wählen --
 common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie zu löschen!
 common#:#please_select_a_delivered_file_to_download#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie herunterzuladen!
 common#:#please_wait#:#Bitte warten...
