@@ -557,13 +557,13 @@ class ilObjTestAccess extends ilObjectAccess
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
+				$tries = $row['tries'];
 				$user_id = $row["user_fi"];
 				$test_id = $row["test_fi"];
 				$active_id = $row["active_id"];
 				include_once "./assessment/classes/class.ilObjTest.php";
 				$pass = ilObjTest::_getResultPass($active_id);
 				$testres =& ilObjTestAccess::_getTestResult($active_id, $pass);
-
 				array_push($passed_users, 
 						   array(
 							   "user_id" => $user_id,
@@ -571,7 +571,8 @@ class ilObjTestAccess extends ilObjectAccess
 							   "reached_points" => $testres["reached_points"],
 							   "mark_short" => $testres["mark"]["short_name"],
 							   "mark_official" => $testres["mark"]["official_name"],
-							   "passed" => (bool) $testres['passed']
+							   "passed" => (bool) $testres['passed'],
+							   "failed" => ($tries and !$testres['passed'])
 							   )
 					);
 			}

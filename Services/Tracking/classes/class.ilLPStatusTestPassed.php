@@ -63,6 +63,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		}
 
 		$users = array_diff((array) $user_ids,ilLPStatusWrapper::_getCompleted($a_obj_id));
+		$users = array_diff((array) $user_ids,ilLPStatusWrapper::_getFailed($a_obj_id));
 
 		$ilBench->stop('LearningProgress','9182_LPStatusTestPassed_inProgress');
 		return $users ? $users : array();
@@ -74,7 +75,6 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 		global $ilBench;
 		$ilBench->start('LearningProgress','9183_LPStatusTestPassed_completed');
-
 
 		include_once './assessment/classes/class.ilObjTestAccess.php';
 		include_once './Services/Tracking/classes/class.ilTestResultCache.php';
@@ -91,11 +91,23 @@ class ilLPStatusTestPassed extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}
 
+	function _getFailed($a_obj_id)
+	{
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		foreach($status_info['results'] as $user_data)
+		{
+			if($user_data['failed'])
+			{
+				$user_ids[] = $user_data['user_id'];
+			}
+		}
+		return $user_ids ? $user_ids : array();
+	}
+
 	function _getStatusInfo($a_obj_id)
 	{
 		include_once './assessment/classes/class.ilObjTestAccess.php';
 		$status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);
-
 		return $status_info;
 	}
 		
