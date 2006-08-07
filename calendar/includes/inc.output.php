@@ -44,7 +44,7 @@
 */
 function doOutput($template) {
 		global $templatefolder, $actualtemplate ,$PAGETITLE, $DP_StyleFname, $DP_Style, $DP_language, $_SESSION;
-
+			
 		if($_SESSION[DP_JSscript] != "1" ) {
 			$jsscriptIn			= "<!-- ";
 			$jsscriptOut		= " -->";
@@ -63,6 +63,10 @@ function doOutput($template) {
 
 		$css_ilias	= '<LINK href="'.$DP_StyleFname.'" type="text/css" rel="stylesheet" />';
         $template	= str_replace("{css_ilias}","$css_ilias",$template);
+		
+		$template	= str_replace("{css_ilias_cont}",
+			'<LINK href="'.ilUtil::getNewContentStyleSheetLocation().'" type="text/css" rel="stylesheet" />',
+			$template);
 
 		$css		= '<LINK href=".'.DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/".$DP_Style.'.css" type="text/css" rel="stylesheet" />';
         $template	= str_replace("{css}","$css",$template);

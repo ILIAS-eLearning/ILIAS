@@ -91,7 +91,7 @@ require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.ilCalInterface.php');
 	$DP_Lang		= $Interface->getLang();			// language, selected by the user
 	$DP_Skin		= $Interface->getSkin();			// style(-sheet)-name, selected by the user 
 	$DP_Style		= $Interface->getStyle();			// skin-name, selected by the user 
-	$DP_StyleFname	= $Interface->getStyleFname();		// style(-sheet)-name including path, selected by the user 
+	$DP_StyleFname	= $Interface->getStyleFname();		// style(-sheet)-name including path, selected by the user
 	$DP_GroupIds	= $Interface->getGroupIds();		// GroupIDs of the current UserID (stub)
 	$DP_dlI			= $Interface->getDpDBHandler ();	// dateplaner database handler
 	$app			= $_REQUEST["app"];					// dateplaner application

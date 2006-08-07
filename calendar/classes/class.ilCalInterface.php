@@ -259,6 +259,8 @@ class ilCalInterface
 		$menu->setTemplate($tpl);
 		$menu->addMenuBlock("MAINMENU", "navigation");
 		$menu->setTemplateVars();*/
+		
+		$ilMainMenu->setActive("desktop");
 		$tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
 		
 		//tabs
