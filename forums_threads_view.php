@@ -740,8 +740,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 					$tpl->setCurrentBlock("usr_image");
 					$tpl->setVariable("USR_IMAGE", $xthumb_file."?t=".rand(1, 99999));
 					$tpl->parseCurrentBlock();
-					$tpl->setCurrentBlock("posts_row");
+					//$tpl->setCurrentBlock("posts_row");
 				}
+				$tpl->setCurrentBlock("posts_row");
 
 				$backurl = urlencode("forums_frameset.php?ref_id=".$_GET["ref_id"].
 									 "&thr_pk=".$_GET["thr_pk"].
@@ -759,6 +760,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			}
 			else
 			{
+				$tpl->setCurrentBlock("posts_row");
 				$tpl->setVariable("AUTHOR",$usr_data["login"]);
 			}
 

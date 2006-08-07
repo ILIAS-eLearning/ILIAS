@@ -191,6 +191,12 @@ td.nobackground {
 	vertical-align: top;
 }
 
+th
+{
+	text-align: left;
+	vertical-align: bottom;
+}
+
 td.std, th.std {
 	padding:2px;
 	text-align: left;
@@ -207,6 +213,12 @@ th.il_invisible, td.il_invisible {
 	font-weight:bold;
 	background-color: #C0C0C0;
 	background-image: url(blueshadow/images/cellpic5.gif);
+}
+
+tr.tbltitle {
+	border-bottom-width:1px;
+	border-bottom-color:#a0a0a0;;
+	border-bottom-style:solid;
 }
 
 .tblheader {
@@ -1139,6 +1151,22 @@ a.postnew, a.postnew:visited
     color: #2255a0;
     font-style: italic;
 }
+
+blockquote.ilForumQuote
+{
+	margin: 0px 20px;
+	padding: 5px;
+	border-width:1px;
+	border-color:#A0A0A0;
+	border-style:solid;
+}
+
+div.ilForumQuoteHead
+{
+	font-style: italic;
+	margin: 0px 0px 10px 0px;
+}
+
 /* ------------------ buttons -------------- */
 
 td.btn {
@@ -1302,6 +1330,11 @@ select.ilEditSelect {
 	background-image: none;
 	text-decoration:none;
 	font-size:10px;
+}
+
+img {
+	vertical-align: middle;
+	border: 0px;
 }
 
 /* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */
@@ -1644,6 +1677,16 @@ span.solutionbox {
 	border-style:solid;
 	border-color:black;
 }
+
+td.middle {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	border: none;
+	padding: 3px;
+	vertical-align: middle;
+}
+
 
 /* --- Test tool javascript styles --- */
 
