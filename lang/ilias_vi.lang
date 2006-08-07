@@ -1167,6 +1167,7 @@ common#:#cat_a#:#một chuyên mục
 common#:#cat_add#:#Thêm chuyên mục
 common#:#cat_added#:#�?ã thêm chuyên mục
 common#:#cat_cat_administrate_users#:#Quản trị các ngư�?i sử dụng nội bộ
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Tạo chuyên mục
 common#:#cat_create_alm#:#Tạo h�?c phần AICC
 common#:#cat_create_cat#:#Tạo chuyên mục
@@ -1194,8 +1195,13 @@ common#:#cat_delete#:#Xóa chuyên mục
 common#:#cat_edit#:#Sửa chuyên mục
 common#:#cat_edit_permission#:#Thay đổi thiết lập quy�?n hạn
 common#:#cat_new#:#Chuyên mục mới
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#�?�?c chuyên mục
 common#:#cat_read_users#:#�?�?c tài khoản ngư�?i sử dụng nội bộ
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Nhìn thấy chuyên mục
 common#:#cat_write#:#Sửa chuyên mục
 common#:#categories#:#Chuyên mục
@@ -2742,6 +2748,7 @@ common#:#phrase#:#Cụm từ
 common#:#please_choose#:#--- Hãy ch�?n ---
 common#:#please_enter_target#:#Hãy nhập vào mục tiêu
 common#:#please_enter_title#:#Hãy nhập vào tiêu đ�?
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Bạn phải ch�?n ít nhất một file đã nộp để xóa nó!
 common#:#please_select_a_delivered_file_to_download#:#Bạn phải ch�?n ít nhất một file đã nộp để tải xuống!
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

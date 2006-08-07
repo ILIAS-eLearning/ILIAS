@@ -1028,6 +1028,7 @@ common#:#cat_a#:#μια Κατηγορία
 common#:#cat_add#:#Προσθήκη Κατηγορίας
 common#:#cat_added#:#Η κατηγορία προστέθηκε
 common#:#cat_cat_administrate_users#:#Διαχείριση λογαριασμών τοπικών χρηστών
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Δημιουργία κατηγορίας
 common#:#cat_create_alm#:#Δημιουργία Εκπαιδευτικής Μονάδας AICC
 common#:#cat_create_cat#:#Δημιουργία κατηγορίας
@@ -1055,8 +1056,13 @@ common#:#cat_delete#:#Διαγραφή κατηγορίας
 common#:#cat_edit#:#Επεξεργασία κατηγορίας
 common#:#cat_edit_permission#:#Ρυθμίσεις αλλαγής αδειών
 common#:#cat_new#:#Νέα κατηγορία
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Πρόσβαση μόνο για ανάγνωση στην κατηγορία
 common#:#cat_read_users#:#Πρόσβαση μόνο για ανάγνωση σε λογαριασμούς τοπικών χρηστών
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Η κατηγορία είναι ορατή
 common#:#cat_write#:#Επεξεργασία κατηγορίας
 common#:#categories#:#Κατηγορίες
@@ -2531,6 +2537,7 @@ common#:#phrase#:#Φράση
 common#:#please_choose#:#-- Επιλογή --
 common#:#please_enter_target#:#Παρακαλώ εισάγετε ένα στόχο
 common#:#please_enter_title#:#Παρακαλώ εισέγετε ένα τίτλο
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Πρέπει να επιλέξετε τουλάχιστον ένα αρχείο που έχει παραδοθεί για να το διαγράψετε!
 common#:#please_select_a_delivered_file_to_download#:#Πρέπει να επιλέξετε τουλάχιστον ένα αρχείο που έχει παραδοθεί για να το κατεβάσετε!
 common#:#please_wait#:#Παρακαλώ περιμένετε...

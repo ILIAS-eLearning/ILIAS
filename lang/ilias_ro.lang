@@ -1111,6 +1111,7 @@ common#:#cat_a#:#o Categorie
 common#:#cat_add#:#Adaugati o Categorie
 common#:#cat_added#:#Categorie adaugata
 common#:#cat_cat_administrate_users#:#Administrati conturile de utilizatori locali
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Creati Categorie
 common#:#cat_create_alm#:#Creati Modul de Invatare AICC
 common#:#cat_create_cat#:#Creati Categorie
@@ -1136,8 +1137,13 @@ common#:#cat_delete#:#Stergeti Categorie
 common#:#cat_edit#:#Editati Categorie
 common#:#cat_edit_permission#:#Schimbati setarile de permisiune
 common#:#cat_new#:#Categorie Noua
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Permisiune de citire a Categoriei
 common#:#cat_read_users#:#Permisiune de citire a conturilor utilizatorilor locali
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Categoria este vizibila
 common#:#cat_write#:#Editati Categoria
 common#:#categories#:#Categorii
@@ -2507,6 +2513,7 @@ common#:#phone_office#:#Telefon, Birou
 common#:#phrase#:#Fraza
 common#:#please_enter_target#:#Va rugam introduceti o tinta
 common#:#please_enter_title#:# Va rugam introduceti un titlu
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Va rugam selectati cel putin un fisier livrat pentru a-l sterge!
 common#:#please_select_a_delivered_file_to_download#:#Trebuie sa  selectati cel putin un fisier livrat pentru a-l sterge!
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

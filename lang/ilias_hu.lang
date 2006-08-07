@@ -1035,6 +1035,7 @@ common#:#cat_a#:#egy kategória
 common#:#cat_add#:#Kategória hozzáadása
 common#:#cat_added#:#Kategória hozzáadva.
 common#:#cat_cat_administrate_users#:#Helyi felhasználói fiókok adminisztrálása
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Kategória létrehozása
 common#:#cat_create_alm#:#AICC-tananyag létrehozása
 common#:#cat_create_cat#:#Kategória létrehozása
@@ -1062,8 +1063,13 @@ common#:#cat_delete#:#Kategória törlése
 common#:#cat_edit#:#Kategória szerkesztése
 common#:#cat_edit_permission#:#Engedélyezett beállítások cseréje
 common#:#cat_new#:#Új kategória
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Olvasási elérés kategóriához
 common#:#cat_read_users#:#Olvasási elérés a helyi felhasználói fiókokhoz
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#A kategória látható
 common#:#cat_write#:#Kategória szerkesztése
 common#:#categories#:#Kategóriák
@@ -2546,6 +2552,7 @@ common#:#phrase#:#Mondat
 common#:#please_choose#:#Kiválasztás
 common#:#please_enter_target#:#Adjon meg célt!
 common#:#please_enter_title#:#Adjon meg címet!
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Legalább egy átadott fájlt ki kell választani a törléshez.
 common#:#please_select_a_delivered_file_to_download#:#Legalább egy átadott fájlt ki kell választania a letöltéshez!
 common#:#please_wait#:#Kérem, váron...

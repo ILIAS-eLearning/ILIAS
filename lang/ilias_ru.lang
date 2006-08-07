@@ -979,6 +979,7 @@ common#:#cat_a#:#в категории
 common#:#cat_add#:#Добавить категорию
 common#:#cat_added#:#Категори�? добавлена
 common#:#cat_cat_administrate_users#:#�?дмини�?трировать учетные запи�?и локальных пользователей
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Создать категорию
 common#:#cat_create_alm#:#Создать AICC обучающий модуль
 common#:#cat_create_cat#:#Создать категорию
@@ -1005,8 +1006,13 @@ common#:#cat_delete#:#Удалить категорию
 common#:#cat_edit#:#Редактировать категорию
 common#:#cat_edit_permission#:#Изменить параметры прав
 common#:#cat_new#:#�?ова�? категори�?
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#До�?туп дл�? чтени�? к категории
 common#:#cat_read_users#:#До�?туп дл�? чтени�? к учетным запи�?�?м локальных пользователей
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Категори�? видна
 common#:#cat_write#:#Редактировать категорию
 common#:#categories#:#Категории
@@ -2339,6 +2345,7 @@ common#:#phone_office#:#Телефон, Рабочий
 common#:#phrase#:#Фраза
 common#:#please_enter_target#:#Пожалуй�?та, введите предмет
 common#:#please_enter_title#:#Пожалуй�?та, задайте заголовок
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Выберите хоть один переданный файл дл�? его удалени�?!
 common#:#please_select_a_delivered_file_to_download#:#Выберите хоть один переданный файл дл�? его закачки!
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

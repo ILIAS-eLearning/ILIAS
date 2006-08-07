@@ -1223,6 +1223,7 @@ common#:#cat_a#:#una categoria
 common#:#cat_add#:#Añadir Categoría
 common#:#cat_added#:#Categoria añadida
 common#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Crear Categoría
 common#:#cat_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#cat_create_cat#:#Crear Categoría
@@ -1250,8 +1251,13 @@ common#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 common#:#cat_edit_permission#:#Modificar configuración de permisos
 common#:#cat_new#:#Nueva Categoría
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Acceso de lectura a Categoría
 common#:#cat_read_users#:#Acceso de lectura a las cuentas de usuario locales
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#La Categoría es visible
 common#:#cat_write#:#Editar Categoría
 common#:#categories#:#Categorías
@@ -2812,6 +2818,7 @@ common#:#phrase#:#conjunto
 common#:#please_choose#:#-- Seleccionar --
 common#:#please_enter_target#:#Por favor introduzca un destino.
 common#:#please_enter_title#:#Por favor introduzca un título.
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#¡Debe seleccionar al menos un archivo enviado para borrar!
 common#:#please_select_a_delivered_file_to_download#:#¡Debe seleccionar al menos un archivo enviado para descargar!
 common#:#please_wait#:#Por favor espere...

@@ -1160,6 +1160,7 @@ common#:#cat_a#:#en Kategori
 common#:#cat_add#:#Tilf&oslash;j Kategori
 common#:#cat_added#:#Kategori Tilf&oslash;jet
 common#:#cat_cat_administrate_users#:#Administrer lokale bruger kont&oslash;r
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Opret Kategori
 common#:#cat_create_alm#:#Opret AICC L&aelig;rer Modul
 common#:#cat_create_cat#:#Opret Kategori
@@ -1187,8 +1188,13 @@ common#:#cat_delete#:#Slet Kategori
 common#:#cat_edit#:#Rediger Kategori
 common#:#cat_edit_permission#:#&aelig;ndre rettigheds indstillinger
 common#:#cat_new#:#Ny Kategori
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#L&aelig;se rettigheder til Kategori
 common#:#cat_read_users#:#L&aelig;se rettigheder til local brugere ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Kategorien er synlig
 common#:#cat_write#:#Rediger Kategori
 common#:#categories#:#Kategorier
@@ -2741,6 +2747,7 @@ common#:#phrase#:#Motto
 common#:#please_choose#:#-- vaelg --
 common#:#please_enter_target#:#indtast en destination
 common#:#please_enter_title#:#indtast en titel
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Du skal mindst vaelge en fil at slette!
 common#:#please_select_a_delivered_file_to_download#:#Du skal mindst vaelge en at download!
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

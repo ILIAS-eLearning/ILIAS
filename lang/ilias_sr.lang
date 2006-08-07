@@ -1180,6 +1180,7 @@ common#:#cat_a#:#Kategorija
 common#:#cat_add#:#Dodajte kategoriju
 common#:#cat_added#:#Kategorija dodata
 common#:#cat_cat_administrate_users#:#Administrirajte naloge lokalnih korisnika
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Kreirajte kategoriju
 common#:#cat_create_alm#:#Kreirajte AICC metod ucenja
 common#:#cat_create_cat#:#Kreirajte kategoriju
@@ -1206,8 +1207,13 @@ common#:#cat_delete#:#Obrišite kategoriju
 common#:#cat_edit#:#Uredite kategoriju
 common#:#cat_edit_permission#:#Promenite okvir za dozvolu
 common#:#cat_new#:#Nova kategorija
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Procitajte pristup kategoriji
 common#:#cat_read_users#:#Procitajte pristup nalozima lokalnih korisnika
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Kategorija je vidljiva
 common#:#cat_write#:#Uredite kategoriju
 common#:#categories#:#Kategorije
@@ -2727,6 +2733,7 @@ common#:#phrase#:#Fraza
 common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#Molimo unesite cilj
 common#:#please_enter_title#:#Molimo unesite naslov
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Morate odabrati bar jedan isporucen fajl da biste ga obrisali!
 common#:#please_select_a_delivered_file_to_download#:#Morate odabrati bar jedan isporucen fajl da biste ga preneli!
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

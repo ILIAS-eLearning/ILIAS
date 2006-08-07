@@ -1157,6 +1157,7 @@ common#:#cat_a#:#une catégorie###07 Apr 2005 content changed
 common#:#cat_add#:#Ajouter catégorie###07 Apr 2005 content changed
 common#:#cat_added#:#Categorie ajoutée###07 Apr 2005 content changed
 common#:#cat_cat_administrate_users#:#Administration des utilisateurs locaux###07 Apr 2005 content changed
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Créer catégorie###07 Apr 2005 content changed
 common#:#cat_create_alm#:#Créer document AICC###07 Apr 2005 content changed
 common#:#cat_create_cat#:#Créer catégorie###07 Apr 2005 content changed
@@ -1184,8 +1185,13 @@ common#:#cat_delete#:#Détruire catégorie###07 Apr 2005 content changed
 common#:#cat_edit#:#Modifier catégorie###07 Apr 2005 content changed
 common#:#cat_edit_permission#:#Changer paramètres de permission###07 Apr 2005 content changed
 common#:#cat_new#:#Nouvelle catégorie###07 Apr 2005 content changed
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Accès en lecture à la catégorie###07 Apr 2005 content changed
 common#:#cat_read_users#:#Accès en lecture aux comptes utilisateurs locaux###07 Apr 2005 content changed
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#La catégorie est visible###07 Apr 2005 content changed
 common#:#cat_write#:#Modifier catégorie###07 Apr 2005 content changed
 common#:#categories#:#Catégories###07 Apr 2005 content changed
@@ -2737,6 +2743,7 @@ common#:#phrase#:#Expression###07 Apr 2005 content changed
 common#:#please_choose#:#-- Sélectionnez --### 06 oct 2005 content changed
 common#:#please_enter_target#:#Veuillez saisir une cible###07 Apr 2005 content changed
 common#:#please_enter_title#:#Veuillez saisir un titre###07 Apr 2005 content changed
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Vous devez sélectionner au moins un fichier délivré pour le supprimer.###07 Apr 2005 content changed
 common#:#please_select_a_delivered_file_to_download#:# Vous devez sélectionner au moins un fichier délivré pour le télécharger.###07 Apr 2005 content changed
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

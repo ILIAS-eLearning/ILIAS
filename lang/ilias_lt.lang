@@ -1020,6 +1020,7 @@ common#:#cat_a#:#Kategorija
 common#:#cat_add#:#Pridėti Kategoriją
 common#:#cat_added#:#Kategorija Pridėta
 common#:#cat_cat_administrate_users#:#Administruoti Lokalių vartotojų paskyras
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Sukurti Kategoriją
 common#:#cat_create_alm#:#Sukurti AICC Mokymo Modulį
 common#:#cat_create_cat#:#Sukurti Kategoriją
@@ -1047,8 +1048,13 @@ common#:#cat_delete#:#Ištrinti Kategoriją
 common#:#cat_edit#:#Redaguoti Kategoriją
 common#:#cat_edit_permission#:#Keisti leidimų nustatymus
 common#:#cat_new#:#Nauja Kategorija
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Galimybė skaityti Kategoriją
 common#:#cat_read_users#:#Galimybė skaityti lokalių vartotojų paskyras
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Kategorija yra matoma
 common#:#cat_write#:#Redaguoti Kategoriją
 common#:#categories#:#Kategorijos
@@ -2495,6 +2501,7 @@ common#:#phrase#:#Frazė
 common#:#please_choose#:#-- Pasirinkite --
 common#:#please_enter_target#:#Įrašykite tikslą
 common#:#please_enter_title#:#Įrašykite pavadinimą
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Privalote pasirinkti bent vieną įkeltą failą, norėdami jį ištrinti!
 common#:#please_select_a_delivered_file_to_download#:#Privalote pasirinkti bent vieną įkeltą failą, norėdami jį atsisiųsti!
 common#:#please_wait#:#Prašome palaukti...

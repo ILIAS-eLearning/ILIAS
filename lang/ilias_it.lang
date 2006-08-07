@@ -1222,6 +1222,7 @@ common#:#cat_a#:#Un contesto
 common#:#cat_add#:#Aggiungi contesto
 common#:#cat_added#:#Contesto aggiunto
 common#:#cat_cat_administrate_users#:#Amministrare utenti locali
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Crea un contesto
 common#:#cat_create_alm#:#Creare un modulo AICC
 common#:#cat_create_cat#:#Creare un contesto
@@ -1249,8 +1250,13 @@ common#:#cat_delete#:#Eliminare un contesto
 common#:#cat_edit#:#Propriet&#224; del contesto
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#cat_new#:#Nuovo contesto
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Accedere in lettura ad un contesto
 common#:#cat_read_users#:#Accedere in lettura agli utenti locali
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Vedere un contesto
 common#:#cat_write#:#Modificare un contesto
 common#:#categories#:#Contesti
@@ -2809,6 +2815,7 @@ common#:#phrase#:#Frase
 common#:#please_choose#:#-- Seleziona --
 common#:#please_enter_target#:#Per favore, specifica l&#039;oggetto.
 common#:#please_enter_title#:#Per favore, inserisci un titolo.
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#Devi segliere almeno uno tra i file inviati per eliminarlo!
 common#:#please_select_a_delivered_file_to_download#:#Devi scegliere almeno uno tra i file inviati per eseguire il download!
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable

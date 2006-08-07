@@ -1224,6 +1224,7 @@ common#:#cat_a#:#een kategorie###07 Apr 2005 content changed
 common#:#cat_add#:#Kategorie toevoegen###07 Apr 2005 content changed
 common#:#cat_added#:#Kategorie toegevoegd###07 Apr 2005 content changed
 common#:#cat_cat_administrate_users#:#Administreer lokale gebruiker###07 Apr 2005 content changed
+common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
 common#:#cat_create#:#Creëer kategorie###07 Apr 2005 content changed
 common#:#cat_create_alm#:#Creëer AICC Lesmodule###07 Apr 2005 content changed
 common#:#cat_create_cat#:#Creëer kategorie###07 Apr 2005 content changed
@@ -1251,8 +1252,13 @@ common#:#cat_delete#:#Verwijder kategorie###07 Apr 2005 content changed
 common#:#cat_edit#:#Wijzig kategorie###07 Apr 2005 content changed
 common#:#cat_edit_permission#:#Wijzige instellingen van de rechten###07 Apr 2005 content changed
 common#:#cat_new#:#Nieuwe kategorie###07 Apr 2005 content changed
+common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
+common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
+common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
+common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
 common#:#cat_read#:#Lees-toegang kategorie###07 Apr 2005 content changed
 common#:#cat_read_users#:#Lees-rechten op locale gebruikers###07 Apr 2005 content changed
+common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
 common#:#cat_visible#:#Kategorie is zichtbaar###07 Apr 2005 content changed
 common#:#cat_write#:#Wijzig kategorie###07 Apr 2005 content changed
 common#:#categories#:#Kategoriën###07 Apr 2005 content changed
@@ -2813,6 +2819,7 @@ common#:#phrase#:#Phrase###05 Nov 2004 new variable
 common#:#please_choose#:#-- Select --###06 Aug 2005 new variable
 common#:#please_enter_target#:#Voer een doel in###07 Apr 2005 content changed
 common#:#please_enter_title#:#Voer een titel in###07 Apr 2005 content changed
+common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
 common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###06 Oct 2004 new variable
 common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!###06 Oct 2004 new variable
 common#:#please_wait#:#Please wait...###10 Jul 2006 new variable
