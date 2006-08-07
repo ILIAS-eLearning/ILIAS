@@ -388,34 +388,6 @@ tr.obj_perm {
 }
 
 
-/* Container  list related styles */
-
-/* --- content styles (will move to content.css) --- */
-/*
-table.il_ContainerPageBlock {
-	border-width: 1px;
-	border-spacing: 0px;
-	border-style: solid;
-	border-color: #9EADBA;
-	border-collapse:collapse;
-	margin: 0px;
-	padding: 0px;
-	width:100%;
-	background-color: white;
-}
-
-td.il_ContainerPageBlock
-{
-	padding: 0px 10px 20px 10px;
-	border-left-style: solid;
-	border-right-style: solid;
-	border-color: #9EADBA;
-	border-left-width: 1px;
-	border-right-width: 1px;
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	margin-bottom: 0px;
-}*/
 
 /*Link, Visited, Hover, Focus, Activ*/
 a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited, a.il_ContainerItemCommand:hover
@@ -1139,26 +1111,6 @@ div.il_Footer
 	font-size: 90%;
 	text-align:center;
 }
-
-/*
-h1 {
-	margin-top:2px;
-	margin-bottom:3px;
-	font-size: 120%;
-}
-
-h2 {
-	color:#222222;
-	background-color: #E2EAF4;
-	border-width:1px;
-	border-color:#909090;
-	border-style:solid;
-	padding:3px;
-	margin-top:25px;
-	margin-bottom:0px;
-	background-image: url(images/TableHeaderBlue.gif);
-	background-repeat:repeat-x;
-}*/
 
 
 /* ----------------- invisible border ------------- */
@@ -2022,45 +1974,41 @@ div.textbox
 }
 
 
-/*--------------------course graduation photo styles---------- */
+/* -- Members Gallery Styles -- */
 
-#thumbs {
-        text-align:center;
-        display:block;
-        background-color:white;
+div.il_MembersGallery
+{
+	background-color:white;
+	margin: 0px auto;
+	text-align:center;
+	width:95%;
+	padding: 8px;
+	line-height: 1.33;
+	text-align:center;
+	display:block;
+	background-color:white;
 }
 
-.grad_body {
-        background-color:white;
-        margin: 0px auto;
-        text-align:center;
-        width:95%;
-        padding: 8px;
-        line-height: 1.33;
+div.il_Member
+{
+	page-break-before: auto;
+	margin: 0px 5px 20px 5px;
+	background-color: #EEEEEE;
+	padding: 10px 15px;
+	font-size: 75%;
+	display:block;
+	float:left;
+	white-space: nowrap;
 }
 
-#grad_picture {
-        page-break-before:auto;
-        margin-right:10px;
-        background-color:#eee;
-        padding:3px;
-        font-size:10px;
-        width:100px;
-        display:block;
-        float:left;
-        height:175px;
-        margin-bottom:20px;
-}
-
-#grad_tutor {
-        page-break-before:auto;
-        margin-right:10px;
-        background-color:#bbb;
-        padding:3px;
-        font-size:10px;
-        width:100px;
-        display:block;
-        float:left;
-        height:175px;
-        margin-bottom:20px;
+div.il_Tutor
+{
+	page-break-before: auto;
+	margin: 0px 5px 20px 5px;
+	background-color: #BBBBBB;
+	padding: 10px 15px;
+	font-size: 75%;
+	display:block;
+	float:left;
+	white-space: nowrap;
 }

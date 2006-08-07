@@ -32,7 +32,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ingroup	Services/Utilities
+* @ingroup	ServicesUtilities
 */
 class ilUtil
 {

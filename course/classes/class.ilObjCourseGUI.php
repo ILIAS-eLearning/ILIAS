@@ -3233,70 +3233,71 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			foreach($members as $member_id)
 			{
-			  // SET LINK TARGET FOR USER PROFILE
-			  $profile_target = $this->ctrl->getLinkTarget($this,"showProfile")."&"."user=".$member_id;
-			  // GET USER IMAGE
-			  unset($webspace_dir);
-			  
-			  $webspace_dir=ilUtil::getWebspaceDir();
-			  $image_file = ILIAS_ABSOLUTE_PATH."/".$webspace_dir."/usr_images"."/usr_".$member_id."_"."xsmall".".jpg";
-			  
-			  if (!file_exists($image_file)) {
-			    $thumb_file = ILIAS_HTTP_PATH."/templates/default/images/no_photo_xsmall.jpg";				
-			  }
-			  else {
-			    $image_url = ILIAS_HTTP_PATH."/".$webspace_dir."/usr_images";
-			    $thumb_file = $image_url."/usr_".$member_id."_"."xsmall".".jpg";
-			  }
-			  
-			  $file = $thumb_file."?t=".rand(1, 99999);
-			  
-			  $member_data = $this->object->members_obj->getUserData($member_id);
-			  
-			  // GET USER OBJ
-			  if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
-			    {
-			      
-			      switch($member_data["role"])
+				// get user object
+				if(!($usr_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
 				{
-				case $this->object->members_obj->ROLE_ADMIN:
-				  //admins
-				  
-				  $this->tpl->setCurrentBlock("tutors_row");
-				  $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
-				  $this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-				  $this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
-				  
-				  $this->tpl->parseCurrentBlock();
-				  break;
-				  
-				case $this->object->members_obj->ROLE_TUTOR:
-				  //tutors
-				  
-				  $this->tpl->setCurrentBlock("tutors_row");
-				  $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
-
-				  $this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-				  $this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
-				  
-				  $this->tpl->parseCurrentBlock();
-				  break;
-				  
-				  
-				case $this->object->members_obj->ROLE_MEMBER:
-				  //students
-				  $this->tpl->setCurrentBlock("members_row");
-				  $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
-
-
-				  $this->tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
-				  $this->tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
-				  
-				  $this->tpl->parseCurrentBlock();
-				  break;
+					continue;
 				}
-			      
-			    }
+
+				$public_profile = $usr_obj->getPref("public_profile");
+				
+				// SET LINK TARGET FOR USER PROFILE
+				$this->ctrl->setParameter($this, "user", $member_id);
+				$profile_target = $this->ctrl->getLinkTarget($this,"showProfile");
+			  
+				// GET USER IMAGE
+				$file = $usr_obj->getPersonalPicturePath("xsmall");
+				
+				$member_data = $this->object->members_obj->getUserData($member_id);
+				switch($member_data["role"])
+				{
+					// admins / tutors
+					case $this->object->members_obj->ROLE_ADMIN:
+					case $this->object->members_obj->ROLE_TUTOR:
+						if ($public_profile == "y")
+						{
+							$this->tpl->setCurrentBlock("tutor_linked");
+							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$this->tpl->setCurrentBlock("tutor_not_linked");
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						$this->tpl->setCurrentBlock("tutor");
+						break;
+
+					// all others
+					default:
+						if ($public_profile == "y")
+						{
+							$this->tpl->setCurrentBlock("member_linked");
+							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$this->tpl->setCurrentBlock("member_not_linked");
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						$this->tpl->setCurrentBlock("member");
+						break;
+				}
+				
+				// do not show name, if public profile is not activated
+				if ($public_profile == "y")
+				{
+					$this->tpl->setVariable("FIRSTNAME", $usr_obj->getFirstname());
+					$this->tpl->setVariable("LASTNAME", $usr_obj->getLastname());
+				}
+				$this->tpl->setVariable("LOGIN", $usr_obj->getLogin());
+				$this->tpl->parseCurrentBlock();
+
 			}
 			$this->tpl->setCurrentBlock("members");	
 			$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
