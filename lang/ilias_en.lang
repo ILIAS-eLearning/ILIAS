@@ -6474,3 +6474,6 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+common#:#back_to_crs_content#:#Back to Course Content
+common#:#back_to_grp_content#:#Back to Group Content
+common#:#back_to_fold_content#:#Back to Folder Content

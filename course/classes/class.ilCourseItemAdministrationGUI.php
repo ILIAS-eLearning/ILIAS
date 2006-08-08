@@ -69,7 +69,7 @@ class ilCourseItemAdministrationGUI
 		global $ilTabs;
 
 
-		$this->__setSubTabs();
+		$this->__setTabs();
 
 		$cmd = $this->ctrl->getCmd();
 
@@ -90,17 +90,17 @@ class ilCourseItemAdministrationGUI
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
 				$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
 				$this->ctrl->forwardCommand($new_gui);
-				$this->tabs_gui->setSubTabActive('preconditions');
+				$this->tabs_gui->setTabActive('preconditions');
 				break;
 
 			default:
-				$this->tabs_gui->setSubTabActive('timings');
+				$this->tabs_gui->setTabActive('timings');
 				if(!$cmd)
 				{
 					$cmd = 'edit';
 				}
 				$this->$cmd();
-				$this->tabs_gui->setSubTabActive('timings');
+				$this->tabs_gui->setTabActive('timings');
 				break;
 		}
 	}
@@ -369,18 +369,21 @@ class ilCourseItemAdministrationGUI
 					 's' => date('s',$a_unix_time));
 	}
 
-	function __setSubTabs()
+	function __setTabs()
 	{
 		global $rbacsystem,$ilUser;
 		
-		$this->tabs_gui->clearSubTabs();
-		$this->tabs_gui->addSubTabTarget("timings",
-										 $this->ctrl->getLinkTarget($this,'edit'),
-										 "edit", get_class($this));
+		$this->tabs_gui->clearTargets();
+
+		$this->tabs_gui->setBackTarget($this->lng->txt('back_to_'.$this->container_obj->getType().'_content'),
+									   'repository.php?ref_id='.$this->container_obj->getRefId());
+		$this->tabs_gui->addTarget("timings",
+								   $this->ctrl->getLinkTarget($this,'edit'),
+								   "edit", get_class($this));
 		$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);
-		$this->tabs_gui->addSubTabTarget("preconditions",
-										 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
-										 "", "ilConditionHandlerInterface");
+		$this->tabs_gui->addTarget("preconditions",
+								   $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
+								   "", "ilConditionHandlerInterface");
 		return true;
 	}
 
