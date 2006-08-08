@@ -2915,9 +2915,13 @@ class ilObjUser extends ilObject
 	function updateUserDefinedFields()
 	{
 		$fields = '';
+
 		foreach($this->user_defined_data as $field => $value)
 		{
-			$fields .= ("`".$field."` = '".ilUtil::prepareDBString($value)."', ");
+			if($field != 'usr_id')
+			{
+				$fields .= ("`".$field."` = '".ilUtil::prepareDBString($value)."', ");
+			}
 		} 
 
 		$query = "REPLACE INTO usr_defined_data ".

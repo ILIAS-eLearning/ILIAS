@@ -47,6 +47,39 @@ class ilUserDefinedData
 		
 		$this->__read();
 	}
+
+	function getUserId()
+	{
+		return $this->usr_id;
+	}
+
+	function set($a_field,$a_value)
+	{
+		$this->user_data[$a_field] = $a_value;
+	}
+	function get($a_field)
+	{
+		return isset($this->user_data[$a_field]) ? $this->user_data[$a_field] : '';
+	}
+
+	function update()
+	{
+		include_once 'classes/class.ilUserDefinedFields.php';
+		$udf_obj =& ilUserDefinedFields::_getInstance();
+
+		$sql = '';
+
+		foreach($udf_obj->getDefinitions() as $definition)
+		{
+			$sql .= ("`".$definition['field_id']."` = '".$this->get($definition['field_id'])."', ");
+		}
+
+		$query = "REPLACE INTO usr_defined_data ".
+			"SET ".$sql." ".
+			"usr_id = '".$this->getUserId()."'";
+		$this->db->query($query);
+		return true;
+	}
 	
 	function toXML()
 	{
@@ -54,7 +87,7 @@ class ilUserDefinedData
 		$xml_writer = new ilXmlWriter();
 		
 		include_once 'classes/class.ilUserDefinedFields.php';
-		$udf_obj = new ilUserDefinedFields();
+		$udf_obj =& ilUserDefinedFields::_getInstance();
 
 		foreach($udf_obj->getDefinitions() as $definition)
 		{

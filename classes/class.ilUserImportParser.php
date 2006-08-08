@@ -360,6 +360,10 @@ class ilUserImportParser extends ilSaxParser
 				$this->personalPicture = null;
 				$this->userCount++;
 				$this->userObj = new ilObjUser();
+
+				// user defined fields
+				$this->udf_data = array();
+				
 				// if we have an object id, store it
 				$this->user_id = (is_null($a_attribs["ObjId"]))? -1 : $a_attribs["ObjId"];
 				$this->userObj->setLanguage($a_attribs["Language"]);
@@ -400,6 +404,10 @@ class ilUserImportParser extends ilSaxParser
 					$this->logFailure($this->userObj->getLogin(),
 									  sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
 				}
+				break;
+
+			case 'UserDefinedField':
+				$this->tmp_udf_id = $a_attribs['Id'];
 				break;
 		}
 	}
@@ -861,6 +869,18 @@ class ilUserImportParser extends ilSaxParser
 									$this->assignToRole($this->userObj, $this->role_assign[$role_id]);
 								}
 							}
+
+							if(count($this->udf_data))
+							{
+								include_once 'classes/class.ilUserDefinedData.php';
+								$udd = new ilUserDefinedData($this->userObj->getId());
+								foreach($this->udf_data as $field => $value)
+								{
+									$udd->set($field,$value);
+								}
+								$udd->update();
+							}
+
 							$this->sendAccountMail();
 							$this->logSuccess($this->userObj->getLogin(),$this->userObj->getId(), "Insert");
 						}
@@ -931,6 +951,17 @@ class ilUserImportParser extends ilSaxParser
                                 $ilinc_user->setVar("login", $this->ilincdata["login"]);
                                 $ilinc_user->setVar("passwd", $this->ilincdata["password"]);
                                 $ilinc_user->update();
+							}
+
+							if(count($this->udf_data))
+							{
+								include_once 'classes/class.ilUserDefinedData.php';
+								$udd = new ilUserDefinedData($updateUser->getId());
+								foreach($this->udf_data as $field => $value)
+								{
+									$udd->set($field,$value);
+								}
+								$udd->update();
 							}
 
 							// update login
@@ -1122,6 +1153,15 @@ class ilUserImportParser extends ilSaxParser
 			case "iLincPasswd":
 				$this->$ilincdata["password"] = $this->cdata;
 				//$this->userObj->setiLincData($this->ilincdata);
+				break;
+
+			case 'UserDefinedField':
+				include_once 'classes/class.ilUserDefinedFields.php';
+				$udf = ilUserDefinedFields::_getInstance();
+				if($field_id = $udf->fetchFieldIdFromImportId($this->tmp_udf_id))
+				{
+					$this->udf_data[$field_id] = $this->cdata;
+				}
 				break;
 		}
 	}
