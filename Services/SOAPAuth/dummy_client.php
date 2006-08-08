@@ -43,10 +43,18 @@ if ($err = $client->getError())
 
 
 // isValidSession call
+//$valid = $client->call('isValidSession',
+//		array('ext_uid' => $ext_uid,
+//			'soap_pw' => $soap_pw,
+//			'new_user' => $new_user));
+
+$namespace = "http://testuri.org";
+
 $valid = $client->call('isValidSession',
-		array('ext_uid' => $ext_uid,
-			'soap_pw' => $soap_pw,
-			'new_user' => $new_user));
+		array('ns1:ext_uid' => $ext_uid,
+			'ns1:soap_pw' => $soap_pw,
+			'ns1:new_user' => $new_user), $namespace,
+			$namespace."/isValidSession");
 
 showResult($client,$valid,'isValidSession');
 
