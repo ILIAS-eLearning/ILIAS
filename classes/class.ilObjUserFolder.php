@@ -190,6 +190,8 @@ class ilObjUserFolder extends ilObject
 
 	function createXMLExport(&$settings, &$data, $filename)
 	{
+		include_once 'classes/class.ilUserDefinedData.php';
+
 		global $rbacreview;
 		global $ilDB;
 		global $log;
@@ -437,6 +439,11 @@ class ilObjUserFolder extends ilObject
 			{
 				if (strlen($row["auth_mode"])) $userline .= "<AuthMode type=\"".$row["auth_mode"]."\"></AuthMode>";
 			}
+
+			// Append User defined field data
+			$udf_data = new ilUserDefinedData($row['usr_id']);
+			$userline .= $udf_data->toXML();
+
 			$userline .= "</User>";
 			fwrite($file, $userline);
 		}

@@ -259,6 +259,8 @@ class ilUserDefinedFields
 	// Private
 	function __read()
 	{
+		global $ilSetting;
+
 		$query = "SELECT * FROM user_defined_field_definition ";
 		$res = $this->db->query($query);
 
@@ -267,6 +269,7 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['field_id'] = $row->field_id;
 			$this->definitions[$row->field_id]['field_name'] = $row->field_name;
 			$this->definitions[$row->field_id]['field_type'] = $row->field_type;
+			$this->definitions[$row->field_id]['il_id'] = 'il_'.$ilSetting->get('inst_id',0).'_udf_'.$row->field_id;
 
 			$tmp = unserialize(stripslashes($row->field_values));
 			sort($tmp);

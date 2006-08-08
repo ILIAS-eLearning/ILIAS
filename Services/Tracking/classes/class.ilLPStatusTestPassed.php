@@ -63,7 +63,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		}
 
 		$users = array_diff((array) $user_ids,ilLPStatusWrapper::_getCompleted($a_obj_id));
-		$users = array_diff((array) $user_ids,ilLPStatusWrapper::_getFailed($a_obj_id));
+		$users = array_diff((array) $users,ilLPStatusWrapper::_getFailed($a_obj_id));
 
 		$ilBench->stop('LearningProgress','9182_LPStatusTestPassed_inProgress');
 		return $users ? $users : array();
