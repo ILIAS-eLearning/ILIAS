@@ -680,6 +680,10 @@ if (is_array($topicData = $frm->getOneTopic()))
 			// GET USER DATA, USED FOR IMPORTED USERS
 			$usr_data = $frm->getUserData($node["author"],$node["import_name"]);
 
+			$backurl = urlencode("forums_threads_view.php?ref_id=".$_GET["ref_id"].
+					 "&thr_pk=".$_GET["thr_pk"].
+					 "&pos_pk=".$node["pos_pk"]."#".$node["pos_pk"]);
+
 			// get create- and update-dates
 			if ($node["update_user"] > 0)
 			{
@@ -710,7 +714,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 				if($last_user_data['usr_id'])
 				{
-					$edited_author = "<a target=\"$t_frame\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+					$edited_author = "<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET["thr_pk"]."&user=".
 						$last_user_data['usr_id']."&backurl=".$backurl."\">".$last_user_data['login']."</a>";
 				}
 				else
@@ -744,13 +748,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 				}
 				$tpl->setCurrentBlock("posts_row");
 
-				$backurl = urlencode("forums_frameset.php?ref_id=".$_GET["ref_id"].
-									 "&thr_pk=".$_GET["thr_pk"].
-									 "&pos_pk=".$node["pos_pk"]."#".$node["pos_pk"]);
-
 				//$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
-				$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
-				$tpl->setVariable("AUTHOR","<a target=\"$t_frame\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+				//$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
+				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET["thr_pk"]."&user=".
 								  $usr_data["usr_id"]."&backurl=".$backurl."\">".$usr_data["login"]."</a>");
 
 				if ($frm->_isModerator($_GET["ref_id"], $ilUser->getId()))
