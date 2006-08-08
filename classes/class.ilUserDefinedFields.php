@@ -42,6 +42,13 @@ class ilUserDefinedFields
 	var $definitions = array();
 	
 
+	/**
+	 * Constructor is private -> use getInstance
+	 * These definition are used e.g in User XML import.
+	 * To avoid instances of this class for every user object during import,
+	 * it caches this object in a singleton.
+	 *	
+	 */
 	function ilUserDefinedFields()
 	{
 		global $ilDB;
@@ -49,6 +56,50 @@ class ilUserDefinedFields
 		$this->db =& $ilDB;
 
 		$this->__read();
+	}
+
+	function &_getInstance()
+	{
+		static $udf = null;
+		
+		if(!is_object($udf))
+		{
+			return $udf = new ilUserDefinedFields();
+		}
+		return $udf;
+	}
+
+	function fetchFieldIdFromImportId($a_import_id)
+	{
+		global $ilSetting;
+
+		if(!strlen($a_import_id))
+		{
+			return 0;
+		}
+		$parts = explode('_',$a_import_id);
+
+		if($parts[0] != 'il')
+		{
+			return 0;
+		}
+		if($parts[1] != $ilSetting->get('inst_id',0))
+		{
+			return 0;
+		}
+		if($parts[2] != 'udf')
+		{
+			return 0;
+		}
+		if($parts[3])
+		{
+			// Check if field exists
+			if(is_array($this->definitions["$parts[3]"]))
+			{
+				return $parts[3];
+			}
+		}
+		return 0;
 	}
 	
 	function getDefinitions()

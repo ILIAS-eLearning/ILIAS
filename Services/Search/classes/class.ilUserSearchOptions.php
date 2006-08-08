@@ -143,7 +143,7 @@ class ilUserSearchOptions
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
 
-		$user_defined_fields = new ilUserDefinedFields();
+		$user_defined_fields =& ilUserDefinedFields::_getInstance();
 		
 		foreach($user_defined_fields->getSearchableDefinitions() as $definition)
 		{

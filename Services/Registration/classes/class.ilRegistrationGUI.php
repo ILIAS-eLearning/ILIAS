@@ -304,7 +304,7 @@ class ilRegistrationGUI
 	function showUserDefinedFields()
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
-		$user_defined_fields = new ilUserDefinedFields();
+		$user_defined_fields =& ilUserDefinedFields::_getInstance();
 
 		#$user_defined_data = $ilUser->getUserDefinedData();
 		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
@@ -355,7 +355,7 @@ class ilRegistrationGUI
 	function checkUserDefinedRequiredFields()
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
-		$user_defined_fields = new ilUserDefinedFields();
+		$user_defined_fields =& ilUserDefinedFields::_getInstance();
 
 		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 		{

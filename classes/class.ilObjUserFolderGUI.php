@@ -1915,7 +1915,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('add_user_defined_field'));
 
-		$user_field_definitions = new ilUserDefinedFields();
+		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 
 		if(!count($definitions = $user_field_definitions->getDefinitions()))
 		{
@@ -1961,8 +1961,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function editTextFieldObject()
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
-		
-		$udf = new ilUserDefinedFields();
+		$udf =& ilUserDefinedFields::_getInstance();
 		$definition = $udf->getDefinition((int) $_GET['field_id']);
 
 		// Save paremeter
@@ -1990,8 +1989,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
 		
-
-		$udf = new ilUserDefinedFields();
+		$udf =& ilUserDefinedFields::_getInstance();
 		$definition = $udf->getDefinition((int) $_GET['field_id']);
 
 		$udf->setFieldName(ilUtil::stripslashes($_POST['field_name']));
@@ -2015,7 +2013,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$_SESSION['select_num_values'] = $_SESSION['select_num_values'] ? $_SESSION['select_num_values'] : 0;
 
-		$udf = new ilUserDefinedFields();
+		$udf =& ilUserDefinedFields::_getInstance();
 		$definition = $udf->getDefinition((int) $_GET['field_id']);
 
 		// Save paremeter
@@ -2072,7 +2070,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$_POST['field_values'] = is_array($_POST['field_values']) ? $_POST['field_values'] : array();
 
-		$udf = new ilUserDefinedFields();
+		$udf =& ilUserDefinedFields::_getInstance();
 		$definition = $udf->getDefinition((int) $_GET['field_id']);
 
 
@@ -2112,7 +2110,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
 		
-		$udf = new ilUserDefinedFields();
+		$udf =& ilUserDefinedFields::_getInstance();
 		$udf->deleteValue((int) $_GET['field_id'],(int) $_GET['value_id']);
 
 		sendInfo($this->lng->txt('udf_value_deleted'));
@@ -2148,7 +2146,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DELETE_FIELD",$this->lng->txt('udf_delete_header'));
 		$this->tpl->setVariable("TXT_FIELD_NAME",$this->lng->txt('field_name'));
 
-		$user_field_definitions = new ilUserDefinedFields();
+		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 		$definition = $user_field_definitions->getDefinition((int) $_GET['field_id']);
 
 		$this->tpl->setVariable("FIELD_NAME",$definition['field_name']);
@@ -2161,8 +2159,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function deleteFieldObject()
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
+		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 
-		$user_field_definitions = new ilUserDefinedFields();
 		$user_field_definitions->delete((int) $_GET['field_id']);
 
 		sendInfo($this->lng->txt('udf_field_deleted'));
@@ -2175,8 +2173,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function updateFieldsObject()
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
-
-		$user_field_definitions = new ilUserDefinedFields();
+		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 
 		foreach($user_field_definitions->getDefinitions() as $field_id => $definition)
 		{
@@ -2190,7 +2187,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$user_field_definitions->update($field_id);
 		}
 
-		sendInfo($this->lng->txt('updated_user_defined_fields'));
+		sendInfo($this->lng->txt('settings_saved'));
 		$this->listUserDefinedFieldsObject();
 		
 		return true;
@@ -2315,8 +2312,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function saveFieldObject()
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
-
-		$user_field_definitions = new ilUserDefinedFields();
+		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 
 		if(!strlen($_POST['field_name']))
 		{
