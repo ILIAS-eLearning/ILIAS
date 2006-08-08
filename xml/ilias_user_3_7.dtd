@@ -19,7 +19,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?,UserDefinedField*)>
 
 <!ATTLIST User
 	Id CDATA #REQUIRED
@@ -86,3 +86,10 @@
 <!ELEMENT iLincID (#PCDATA)>
 <!ELEMENT iLincLogin (#PCDATA)>
 <!ELEMENT iLincPasswd (#PCDATA)>
+<!ELEMENT UserDefinedField (#PCDATA)>
+<!ATTLIST UserDefinedField
+    Id CDATA #REQUIRED,
+    Name CDATA #REQUIRED
+>
+
+
