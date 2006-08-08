@@ -86,11 +86,9 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 	{
 		switch($a_cmd)
 		{
-			case "":
-				$frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
-				break;
-
 			default:
+				$frame = ilFrameTargetInfo::_getFrame("MainContent");
+				break;
 		}
 
 		return $frame;

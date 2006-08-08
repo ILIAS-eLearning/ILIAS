@@ -3512,6 +3512,7 @@ content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
+content#:#cont_reference#:#Reference
 content#:#cont_Remark#:#Remark
 content#:#cont_Roman#:#Roman i, ii, ...  ### 2006-5-8 --- Content changed
 content#:#cont_TableContent#:#Table Content
