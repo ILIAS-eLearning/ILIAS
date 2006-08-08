@@ -788,7 +788,9 @@ class ilStartUpGUI
 		//
 		// index.php is called and public section is enabled
 		//
-		if ($ilSetting->get("pub_section") && $_POST["sendLogin"] != "1")
+		// && $ilAuth->status == "" is important for soap auth (public section on + user mapping, alex)
+		if ($ilSetting->get("pub_section") && $_POST["sendLogin"] != "1"
+			&& $ilAuth->status == "")
 		{
 			//
 			// TO DO: THE FOLLOWING BLOCK IS COPY&PASTED FROM HEADER.INC

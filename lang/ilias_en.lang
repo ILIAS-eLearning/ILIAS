@@ -1170,6 +1170,9 @@ common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP se
 common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
+common#:#auth_soap_namespace#:#Namespace
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style
 common#:#auth_user_default_role#:#Default Role
 common#:#auth_visible#:#Authentication settings are visible
 common#:#auth_write#:#Edit authentication settings
