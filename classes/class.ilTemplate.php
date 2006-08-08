@@ -293,8 +293,8 @@ class ilTemplate extends ilTemplateX
 	*/
 	function addILIASFooter()
 	{
-		global $ilias;
-		
+		global $ilias, $ilClientIniFile;
+
 		$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
 		$this->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
 		if (DEVMODE)
@@ -314,6 +314,15 @@ class ilTemplate extends ilTemplateX
 			{
 				$this->setVariable("MEMORY_USAGE", $mem_usage);
 			}
+
+			$this->setVariable("SESS_INFO", "<br />maxlifetime: ".
+				ini_get("session.gc_maxlifetime")." (".
+				(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
+				"timestamp: ".date("Y-m-d H:i:s", $_SESSION["_authsession"]["timestamp"]).
+				", idle: ".date("Y-m-d H:i:s", $_SESSION["_authsession"]["idle"]).
+				"<br />expire: ".($exp = $ilClientIniFile->readVariable("session","expire")).
+				" (".($exp/60)."), session ends at: ".
+				date("Y-m-d H:i:s", $_SESSION["_authsession"]["idle"] + $exp));
 			
 			if (version_compare(PHP_VERSION,'5','>='))
 			{
