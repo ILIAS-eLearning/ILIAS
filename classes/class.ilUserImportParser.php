@@ -408,6 +408,7 @@ class ilUserImportParser extends ilSaxParser
 
 			case 'UserDefinedField':
 				$this->tmp_udf_id = $a_attribs['Id'];
+				$this->tmp_udf_name = $a_attribs['Name'];
 				break;
 		}
 	}
@@ -1159,6 +1160,10 @@ class ilUserImportParser extends ilSaxParser
 				include_once 'classes/class.ilUserDefinedFields.php';
 				$udf = ilUserDefinedFields::_getInstance();
 				if($field_id = $udf->fetchFieldIdFromImportId($this->tmp_udf_id))
+				{
+					$this->udf_data[$field_id] = $this->cdata;
+				}
+				elseif($field_id = $udf->fetchFieldIdFromName($this->tmp_udf_name))
 				{
 					$this->udf_data[$field_id] = $this->cdata;
 				}

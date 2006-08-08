@@ -101,6 +101,17 @@ class ilUserDefinedFields
 		}
 		return 0;
 	}
+	function fetchFieldIdFromName($a_name)
+	{
+		foreach($this->definitions as $definition)
+		{
+			if($definition['field_name'] == $a_name)
+			{
+				return $definition['field_id'];
+			}
+		}
+		return 0;
+	}
 	
 	function getDefinitions()
 	{
