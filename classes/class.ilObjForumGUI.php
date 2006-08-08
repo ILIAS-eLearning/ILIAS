@@ -214,9 +214,10 @@ class ilObjForumGUI extends ilObjectGUI
 
 						if($thrData["thr_usr_id"] && $usr_data["usr_id"] != 0)
 						{
+							$backurl = urlencode("repository.php?ref_id=".$_GET["ref_id"]."&offset=".$Start);
 							$this->tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$this->object->getRefId().
-													"&user=".$usr_data["usr_id"]."&backurl=repository&offset=".
-													$Start."\">".$usr_data["login"]."</a>");
+													"&user=".$usr_data["usr_id"]."&backurl=".$backurl.
+													"\">".$usr_data["login"]."</a>");
 						}
 						else
 						{
