@@ -977,10 +977,15 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("CHK_ACCOUNT_MAIL", "checked=\"checked\"");
 			}
+			if ($_SESSION["error_post_vars"]["soap"]["use_dotnet"] == "1")
+			{
+				$this->tpl->setVariable("CHK_USEDOTNET", "checked=\"checked\"");
+			}
 			
 			$this->tpl->setVariable("SOAP_SERVER", $_SESSION["error_post_vars"]["soap"]["server"]);
 			$this->tpl->setVariable("SOAP_PORT", $_SESSION["error_post_vars"]["soap"]["port"]);
 			$this->tpl->setVariable("SOAP_URI", $_SESSION["error_post_vars"]["soap"]["uri"]);
+			$this->tpl->setVariable("SOAP_NAMESPACE", $_SESSION["error_post_vars"]["soap"]["namespace"]);
 			$current_default_role = $_SESSION["error_post_vars"]["soap"]["user_default_role"];
 		}
 		else
@@ -1005,10 +1010,15 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("CHK_ACCOUNT_MAIL", "checked=\"checked\"");
 			}
+			if ($settings["soap_auth_use_dotnet"] == "1")
+			{
+				$this->tpl->setVariable("CHK_USE_DOTNET", "checked=\"checked\"");
+			}
 			
 			$this->tpl->setVariable("SOAP_SERVER", $settings["soap_auth_server"]);
 			$this->tpl->setVariable("SOAP_PORT", $settings["soap_auth_port"]);
 			$this->tpl->setVariable("SOAP_URI", $settings["soap_auth_uri"]);
+			$this->tpl->setVariable("SOAP_NAMESPACE", $settings["soap_auth_namespace"]);
 			$current_default_role = $settings["soap_auth_user_default_role"];
 		}
 		
@@ -1039,6 +1049,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SOAP_PORT_DESC", $this->lng->txt("auth_soap_port_desc"));
 		$this->tpl->setVariable("TXT_SOAP_URI", $this->lng->txt("uri"));
 		$this->tpl->setVariable("TXT_SOAP_URI_DESC", $this->lng->txt("auth_soap_uri_desc"));
+		$this->tpl->setVariable("TXT_SOAP_NAMESPACE", $this->lng->txt("auth_soap_namespace"));
+		$this->tpl->setVariable("TXT_SOAP_NAMESPACE_DESC", $this->lng->txt("auth_soap_namespace_desc"));
+		$this->tpl->setVariable("TXT_USE_DOTNET", $this->lng->txt("auth_soap_use_dotnet"));
 		$this->tpl->setVariable("TXT_USE_HTTPS", $this->lng->txt("auth_soap_use_https"));
 		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_create_users"));
 		$this->tpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_soap_create_users_desc"));
@@ -1080,10 +1093,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$ilSetting->set("soap_auth_port", $_POST["soap"]["port"]);
 		$ilSetting->set("soap_auth_active", $_POST["soap"]["active"]);
 		$ilSetting->set("soap_auth_uri", $_POST["soap"]["uri"]);
+		$ilSetting->set("soap_auth_namespace", $_POST["soap"]["namespace"]);
 		$ilSetting->set("soap_auth_create_users", $_POST["soap"]["create_users"]);
 		$ilSetting->set("soap_auth_allow_local", $_POST["soap"]["allow_local"]);
 		$ilSetting->set("soap_auth_account_mail", $_POST["soap"]["account_mail"]);
 		$ilSetting->set("soap_auth_use_https", $_POST["soap"]["use_https"]);
+		$ilSetting->set("soap_auth_use_dotnet", $_POST["soap"]["use_dotnet"]);
 		$ilSetting->set("soap_auth_user_default_role", $_POST["soap"]["user_default_role"]);
 		sendInfo($this->lng->txt("auth_soap_settings_saved"),true);
 		

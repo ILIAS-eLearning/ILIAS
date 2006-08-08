@@ -46,6 +46,8 @@ class ilSOAPAuth extends Auth
 		$this->server_hostname = $a_params["server_hostname"];
 		$this->server_port = (int) $a_params["server_port"];
 		$this->server_uri = $a_params["server_uri"];
+		$this->namespace = $a_params["namespace"];
+		$this->use_dotnet = $a_params["use_dotnet"];
 		if ($a_params["https"])
 		{
 			$this->https = true;
@@ -98,11 +100,21 @@ class ilSOAPAuth extends Auth
 			$new_user = false;
 		}
 		
-		$valid = $this->soap_client->call('isValidSession',
-			array('ext_uid' => $a_ext_uid,
-				'soap_pw' => $a_soap_pw,
-				'new_user' => $new_user));
+		$soapAction = "";
+		$nspref = "";
+		if ($this->use_dotnet)
+		{
+			$soapAction = $this->namespace."/isValidSession";
+			$nspref = "ns1:";
+		}
 		
+		$valid = $this->soap_client->call('isValidSession',
+			array($nspref.'ext_uid' => $a_ext_uid,
+				$nspref.'soap_pw' => $a_soap_pw,
+				$nspref.'new_user' => $new_user),
+			$this->namespace,
+			$soapAction);
+
 		// to do check SOAP error!?
 		$valid["local_user"] = $local_user;
 		
@@ -158,16 +170,18 @@ class ilSOAPAuth extends Auth
 				$this->logout();
 				return;
 			}
-			
+//echo "1";
 			// try to map external user via e-mail to ILIAS user
 			if ($validation_data["email"] != "")
 			{
+//echo "2";
+//var_dump ($_POST);
 				$email_user = ilObjUser::_getLocalAccountsForEmail($validation_data["email"]);
 
 				// check, if password has been provided in user mapping screen
 				// (see ilStartUpGUI::showUserMappingSelection)
 				if ($_POST["LoginMappedUser"] != "")
-				{
+				{ 
 					if (count($email_user) > 0)
 					{
 						if (ilObjUser::_checkPassword($_POST["usr_id"], $_POST["password"]))
@@ -184,7 +198,10 @@ class ilSOAPAuth extends Auth
 						}
 						else
 						{
+//echo "6"; exit;
+							$this->status = AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL;
 							$this->sub_status = AUTH_WRONG_LOGIN;
+							$this->logout();
 							return;
 						}
 					}

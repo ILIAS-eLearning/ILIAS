@@ -127,7 +127,10 @@ class ilAuthUtils
 					"server_hostname" => $ilSetting->get("soap_auth_server"),
 					"server_port" => $ilSetting->get("soap_auth_port"),
 					"server_uri" => $ilSetting->get("soap_auth_uri"),
-					"https" => $ilSetting->get("soap_auth_use_https"));
+					"https" => $ilSetting->get("soap_auth_use_https"),
+					"namespace" => $ilSetting->get("soap_auth_namespace"),
+					"use_dotnet" => $ilSetting->get("soap_auth_use_dotnet")
+					);
 				// this starts already the session, AccountId is '' _authsession is null
 				// (assuming that ilSOAPAuth constructor calls Auth constructor
 				$ilSOAPAuth = new ilSOAPAuth($auth_params);

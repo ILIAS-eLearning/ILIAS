@@ -738,7 +738,6 @@ class ilInitialisation
 		$this->requireCommonIncludes();
 		global $ilBench;
 		
-		
 		// set error handler (to do: check preconditions for error handler to work)
 		$ilBench->start("Core", "HeaderInclude_GetErrorHandler");
 		$ilErr = new ilErrorHandling();
@@ -926,7 +925,7 @@ class ilInitialisation
 			return;
 		}
 		
-		
+//echo $_POST; exit;
 		//
 		// SUCCESSFUL AUTHENTICATION
 		//
@@ -934,7 +933,7 @@ class ilInitialisation
 //var_dump ($session[_authsession]);
 		if ($ilAuth->getAuth() && $ilias->account->isCurrentUserActive())
 		{
-//echo "C";
+//echo "C"; exit;
 			$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");
 //var_dump($_SESSION);
 			// get user data
@@ -989,16 +988,18 @@ class ilInitialisation
 			{
 				$inactive = true;
 			}
-
+			
 			// jump to public section (to do: is this always the indended
 			// behaviour, login could be another possibility (including
 			// message)
+//echo "-".$_GET["baseClass"]."-";
 			if ($_GET["baseClass"] != "ilStartUpGUI")
 			{
 				// $lng initialisation
 				$this->initLanguage();
 
-				if ($ilSetting->get("pub_section"))
+				if ($ilSetting->get("pub_section") &&
+					$ilAuth->status == "")
 				{
 					$this->goToPublicSection();
 				}
