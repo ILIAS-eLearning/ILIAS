@@ -582,17 +582,17 @@ class ilTableGUI
 			{
 				$numinfo = "(Dataset ".$start." - ".$end." of ".$this->max_count.")";
 			}
-			if ($this->max_count == 0)
+			if ($this->max_count > 0)
 			{
-				$numinfo = $this->lng->txt("no_datasets");
+				//$numinfo = $this->lng->txt("no_datasets");
+				$this->tpl->setCurrentBlock("tbl_footer_numinfo");
+				$this->tpl->setVariable("NUMINFO", $numinfo);
+				$this->tpl->parseCurrentBlock();
 			}
-	
-			$this->tpl->setCurrentBlock("tbl_footer_numinfo");
-			$this->tpl->setVariable("NUMINFO", $numinfo);
-			$this->tpl->parseCurrentBlock();
 		}
 		// table footer linkbar
-		if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit  != 0)
+		if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit  != 0
+			 && $this->max_count > 0)
 		{
 			$params = array(
 							"sort_by"		=> $this->header_vars[$this->order_column],
@@ -612,7 +612,7 @@ class ilTableGUI
 		}
 						
 		// table footer
-		if ($this->enabled["footer"])
+		if ($this->enabled["footer"] && $this->max_count > 0)
 		{
 			$this->tpl->setCurrentBlock("tbl_footer");
 			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);

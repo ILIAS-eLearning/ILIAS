@@ -36,7 +36,8 @@ require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
 // check write permission
-if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]) &&
+	!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }

@@ -1,6 +1,9 @@
+<!-- BEGIN mob_row -->
 <tr class="{CSS_ROW}">
 	<td class="std" valign="top" width="1">
-		<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
+		<!-- BEGIN chbox -->
+		<input type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
+		<!-- END chbox -->
 	</td>
 	<td class="std" valign="top" nowrap="1" width="1">
 		<img src="{IMG_OBJ}" border="0" />
@@ -8,7 +11,7 @@
 	<td class="std" valign="top">
 		<!-- BEGIN link -->
 		<div style="float:left;">
-			<a href="{LINK_VIEW}">
+			<a href="{LINK_VIEW}" <!-- BEGIN nf --> target="_blank" <!-- END nf --> >
 			{TXT_TITLE}
 			</a>
 		</div>
@@ -17,7 +20,7 @@
 			<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT}</a>
 			<!-- END edit -->
 			<!-- BEGIN show -->
-			<a class="il_ContainerItemCommand" href="{SHOW_LINK}" target="_new">{TXT_SHOW}</a>
+			<a class="il_ContainerItemCommand" href="{SHOW_LINK}" target="_blank">{TXT_SHOW}</a>
 			<!-- END show -->
 		</div>
 		<!-- END link -->
@@ -26,3 +29,9 @@
 		</div>
 	</td>
 </tr>
+<!-- END mob_row -->
+<!-- BEGIN no_row -->
+<tr class="{CSS_ROW}">
+<td>{TXT_EMPTY_FOLDER}</td>
+</tr>
+<!-- END no_row -->
