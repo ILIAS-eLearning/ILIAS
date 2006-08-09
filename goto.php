@@ -51,6 +51,13 @@ $target_type = $target_arr[0];
 $target_id = $target_arr[1];
 $target_ref_id = $target_arr[2];		// optional for pages
 
+// if anonymous and goto is not granted: go to login page
+include_once("Services/Init/classes/class.ilStartUpGUI.php");
+if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID && !ilStartUpGUI::_checkGoto($_GET["target"]))
+{
+	ilUtil::redirect("login.php?target=".$_GET["target"]."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
+}
+
 switch($target_type)
 {
 	// learning module pages
