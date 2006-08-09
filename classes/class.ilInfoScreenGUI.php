@@ -71,7 +71,7 @@ class ilInfoScreenGUI
 		$this->top_formbuttons = array();
 		$this->hiddenelements = array();
 	}
-	
+
 	/**
 	* execute command
 	*/
@@ -80,16 +80,16 @@ class ilInfoScreenGUI
 		global $rbacsystem;
 		global $tpl;
 		global $lng;
-		
+
 		// load additional language modules
 		$lng->loadLanguageModule("barometer");
 
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->ctrl->getCmd("showSummary");
-		
+
 		$this->setTabs();
-		
+
 		switch($next_class)
 		{
 			case "ilnotegui":
@@ -104,14 +104,14 @@ class ilInfoScreenGUI
 				$html = $this->ctrl->forwardCommand($fb_gui);
 				$tpl->setContent($html);
 				break;
-				
+
 			default:
 				return $this->$cmd();
 				break;
 		}
 		return true;
 	}
-	
+
 	/**
 	* enable notes
 	*/
@@ -127,8 +127,8 @@ class ilInfoScreenGUI
 	{
 		$this->learning_progress_enabled = $a_enable;
 	}
-	
-	
+
+
 	/**
 	* enable feedback
 	*/
@@ -136,7 +136,7 @@ class ilInfoScreenGUI
 	{
 		$this->feedback_enabled = $a_enable;
 	}
-	
+
 	/**
 	* add a new section
 	*/
@@ -145,7 +145,7 @@ class ilInfoScreenGUI
 		$this->sec_nr++;
 		$this->section[$this->sec_nr]["title"] = $a_title;
 	}
-	
+
 	/**
 	* set a form action
 	*/
@@ -153,7 +153,7 @@ class ilInfoScreenGUI
 	{
 		$this->form_action = $a_form_action;
 	}
-	
+
 	/**
 	* remove form action
 	*/
@@ -161,7 +161,7 @@ class ilInfoScreenGUI
 	{
 		$this->form_action = "";
 	}
-	
+
 	/**
 	* add a property to current section
 	*
@@ -189,7 +189,7 @@ class ilInfoScreenGUI
 		$checkbox .= " />";
 		if (strlen($a_checkbox_label))
 		{
-			$checkbox .= "&nbsp;<label for=\"$a_checkbox_name$a_checkbox_value\">$a_checkbox_label</label>"; 
+			$checkbox .= "&nbsp;<label for=\"$a_checkbox_name$a_checkbox_value\">$a_checkbox_label</label>";
 		}
 		$this->section[$this->sec_nr]["properties"][] =
 			array("name" => $a_name, "value" => $checkbox);
@@ -217,7 +217,7 @@ class ilInfoScreenGUI
 		$this->section[$this->sec_nr]["properties"][] =
 			array("name" => "<label for=\"$a_input_name\">$a_name</label>", "value" => $input);
 	}
-	
+
 	/**
 	* add a property to current section
 	*/
@@ -229,7 +229,7 @@ class ilInfoScreenGUI
 				array("title" => $a_title,"link" => $a_link,"target" => $a_frame);
 		}
 	}
-	
+
 	/**
 	* add a form button to the info screen
 	* the form buttons are only valid if a form action is set
@@ -243,24 +243,24 @@ class ilInfoScreenGUI
 			);
 		}
 	}
-	
+
 	function addHiddenElement($a_name, $a_value)
 	{
 		array_push($this->hiddenelements, array("name" => $a_name, "value" => $a_value));
 	}
-	
+
 	/**
 	* add standard meta data sections
 	*/
 	function addMetaDataSections($a_rep_obj_id,$a_obj_id, $a_type)
 	{
 		global $lng;
-		
+
 		$lng->loadLanguageModule("meta");
 
 		include_once("./Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($a_rep_obj_id,$a_obj_id, $a_type);
-		
+
 		if ($md_gen = $md->getGeneral())
 		{
 			// get first descrption
@@ -270,7 +270,7 @@ class ilInfoScreenGUI
 				$description = $md_des->getDescription();
 				break;
 			}
-			
+
 			// get language(s)
 			$langs = array();
 			foreach($ids = $md_gen->getLanguageIds() as $id)
@@ -282,7 +282,7 @@ class ilInfoScreenGUI
 				}
 			}
 			$langs = implode($langs, ", ");
-			
+
 			// keywords
 			$keywords = array();
 			foreach($ids = $md_gen->getKeywordIds() as $id)
@@ -292,7 +292,7 @@ class ilInfoScreenGUI
 			}
 			$keywords = implode($keywords, ", ");
 		}
-		
+
 		// authors
 		if(is_object($lifecycle = $md->getLifecycle()))
 		{
@@ -311,7 +311,7 @@ class ilInfoScreenGUI
 				}
 			}
 		}
-			
+
 		// copyright
 		$copyright = "";
 		if(is_object($rights = $md->getRights()))
@@ -332,17 +332,17 @@ class ilInfoScreenGUI
 				$learning_time = ilFormat::_secondsToString($seconds);
 			}
 		}
-		
+
 
 		// output
-		
+
 		// description
 		if ($description != "")
 		{
 			$this->addSection($lng->txt("description"));
 			$this->addProperty("",  nl2br($description));
 		}
-		
+
 		// general section
 		$this->addSection($lng->txt("meta_general"));
 		if ($langs != "")	// language
@@ -371,25 +371,25 @@ class ilInfoScreenGUI
 				$learning_time);
 		}
 	}
-	
+
 	/**
 	* show summary page
 	*/
 	function showSummary()
 	{
 		global $tpl, $ilAccess;
-		
+
 		$tpl->setContent($this->getHTML());
 	}
 
-	
+
 	/**
 	* get html
 	*/
 	function getHTML()
 	{
 		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true);
-		
+
 		// add top buttons
 		if (count($this->top_buttons) > 0)
 		{
@@ -405,7 +405,7 @@ class ilInfoScreenGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		// add top formbuttons
 		if ((count($this->top_formbuttons) > 0) && (strlen($this->form_action) > 0))
 		{
@@ -429,7 +429,7 @@ class ilInfoScreenGUI
 			$tpl->parseCurrentBlock();
 			$tpl->touchBlock("formbottom");
 		}
-		
+
 		if (count($this->hiddenelements))
 		{
 			foreach ($this->hiddenelements as $hidden)
@@ -451,7 +451,7 @@ class ilInfoScreenGUI
 					$this->section[$i]["title"]);
 				$tpl->parseCurrentBlock();
 				$tpl->touchBlock("row");
-				
+
 				// section properties
 				foreach($this->section[$i]["properties"] as $property)
 				{
@@ -485,7 +485,7 @@ class ilInfoScreenGUI
 				}
 			}
 		}
-		
+
 		// additional information
 		if (is_object($this->gui_object->object))
 		{
@@ -508,8 +508,8 @@ class ilInfoScreenGUI
 			$tpl->parseCurrentBlock();
 			$tpl->touchBlock("row");
 		}
-		
-		
+
+
 		// learning progress
 		if($this->learning_progress_enabled and $html = $this->showLearningProgress())
 		{
@@ -517,8 +517,8 @@ class ilInfoScreenGUI
 			$tpl->setVariable("LP_TABLE",$html);
 			$tpl->parseCurrentBlock();
 		}
-			
-		
+
+
 		// notes section
 		if ($this->private_notes_enabled)
 		{
@@ -527,7 +527,7 @@ class ilInfoScreenGUI
 			$tpl->setVariable("NOTES", $html);
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		return $tpl->get();
 	}
 
@@ -560,7 +560,7 @@ class ilInfoScreenGUI
 
 		$this->lng->loadLanguageModule('trac');
 		$tpl = new ilTemplate("tpl.lp_edit_manual.html",true,true,'Services/Tracking');
-		
+
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_trac.gif'));
 		$tpl->setVariable("ALT_IMG",$this->lng->txt('learning_progress'));
@@ -576,8 +576,8 @@ class ilInfoScreenGUI
 																  1 => $this->lng->txt('trac_completed')),
 															false,
 															true));
-															
-															
+
+
 		$tpl->setVariable("INFO_EDITED",$this->lng->txt('trac_info_edited'));
 
 		// More infos for lm's
@@ -597,7 +597,7 @@ class ilInfoScreenGUI
 			{
 				$tpl->setVariable("LAST_ACCESS",$this->lng->txt('trac_not_accessed'));
 			}
-			
+
 			$tpl->setVariable("TXT_VISITS",$this->lng->txt('trac_visits'));
 			$tpl->setVariable("VISITS",(int) $progress['visits']);
 
@@ -620,7 +620,7 @@ class ilInfoScreenGUI
 
 		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-		
+
 		$lp_marks = new ilLPMarks($this->gui_object->object->getId(),$ilUser->getId());
 		$lp_marks->setCompleted((bool) $_POST['lp_edit']);
 		$lp_marks->update();
@@ -630,8 +630,8 @@ class ilInfoScreenGUI
 
 		$this->showSummary();
 	}
-	
-	
+
+
 	/**
 	* show notes section
 	*/
@@ -641,7 +641,7 @@ class ilInfoScreenGUI
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		$notes_gui = new ilNoteGUI($this->gui_object->object->getId(), 0,
 			$this->gui_object->object->getType());
-		
+
 		$notes_gui->enablePrivateNotes();
 		//$notes_gui->enablePublicNotes();
 
@@ -650,17 +650,17 @@ class ilInfoScreenGUI
 			$html = $this->ctrl->forwardCommand($notes_gui);
 		}
 		else
-		{	
+		{
 			$html = $notes_gui->getNotesHTML();
 		}
-		
+
 		return $html;
 	}
 
 	function setTabs()
 	{
 		global $tpl;
-		
+
 		$this->getTabs($this->tabs_gui);
 	}
 
@@ -669,8 +669,8 @@ class ilInfoScreenGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
-		
+		global $rbacsystem,$ilUser;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$force_active = ($next_class == "ilnotegui")
 			? true
@@ -680,16 +680,29 @@ class ilInfoScreenGUI
 			 $this->ctrl->getLinkTarget($this, "showSummary"),
 			 array("showSummary", ""),
 			 get_class($this), "", $force_active);
-			 
+
 		if ($this->feedback_enabled)
 		{
 			// this should work with feedback class available
 			// maybe a line... "@ ilCtrl_Calls ilFeedbackGUI:"
 			// in the header of feedbackgui is necessary
-			
-			$tabs_gui->addSubTabTarget("feedback",
-				$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
-				"", "ilfeedbackgui");
+			include_once('Services/Feedback/classes/class.ilFeedback.php');
+			$feedback = new ilFeedback();
+			$feedback->setRefId($_GET['ref_id']);
+			$barometers = $feedback->getAllBarometer(0);
+			if(count($barometers))
+			{
+				foreach ($barometers as $barometer)
+				{
+					if($barometer->canVote($ilUser->getId(),$barometer->getId())==1)
+					{
+						$tabs_gui->addSubTabTarget("feedback",
+							$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
+							"", "ilfeedbackgui");
+							break;
+					}
+				}
+			}
 			/*
 			$tabs_gui->addSubTabTarget("feedb_feedback_settings",
 				$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),

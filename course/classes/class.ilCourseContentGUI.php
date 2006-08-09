@@ -24,9 +24,9 @@
 /**
 * Class ilCourseContentGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
+*
 * @extends ilObjectGUI
 * @package ilias-core
 *
@@ -65,9 +65,9 @@ class ilCourseContentGUI
 		$this->container_gui =& $container_gui_obj;
 		$this->container_obj =& $this->container_gui->object;
 
-		// 
+		//
 		$this->__initCourseObject();
-	}		
+	}
 
 	function &executeCommand()
 	{
@@ -130,7 +130,7 @@ class ilCourseContentGUI
 					$this->__forwardToObjectivePresentation();
 					break;
 				}
-				
+
 
 				if(!$cmd)
 				{
@@ -174,12 +174,12 @@ class ilCourseContentGUI
 		$this->tabs_gui->setSubTabActive('learners_view');
 
 		return true;
-	}		
+	}
 
 	function __forwardToArchivesGUI()
 	{
 		include_once 'course/classes/class.ilCourseArchivesGUI.php';
-		
+
 		$this->ctrl->setReturn($this,'');
 		$archives_gui = new ilCourseArchivesGUI($this->container_gui);
 		$this->ctrl->forwardCommand($archives_gui);
@@ -241,7 +241,7 @@ class ilCourseContentGUI
 			$obj_link = ilLink::_getLink($ref_id,$type);
 			$obj_frame = ilRepositoryExplorer::buildFrameTarget($type,$ref_id,$obj_id);
 			$obj_frame = $obj_frame ? $obj_frame : '';
-			
+
 			// Tmp fix for tests
 			$obj_frame = $type == 'tst' ? '' : $obj_frame;
 
@@ -274,7 +274,7 @@ class ilCourseContentGUI
 			}
 
 			// add to desktop link
-			if(!$ilUser->isDesktopItem($ref_id,$type) and 
+			if(!$ilUser->isDesktopItem($ref_id,$type) and
 			   $this->course_obj->getAboStatus())
 			{
 				if ($ilAccess->checkAccess('read','',$ref_id))
@@ -283,7 +283,7 @@ class ilCourseContentGUI
 					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_ref_id',$ref_id);
 					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_id',$ref_id);
 					$this->ctrl->setParameterByClass(get_class($this->container_gui),'type',$type);
-					
+
 					$this->tpl->setVariable("LINK_HREF",$this->ctrl->getLinkTarget($this->container_gui,'addToDesk'));
 					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("to_desktop"));
 					$this->tpl->parseCurrentBlock();
@@ -295,11 +295,11 @@ class ilCourseContentGUI
 					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_ref_id',$ref_id);
 					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_id',$ref_id);
 					$this->ctrl->setParameterByClass(get_class($this->container_gui),'type',$type);
-					
+
 					$this->tpl->setVariable("LINK_HREF",$this->ctrl->getLinkTarget($this->container_gui,'removeFromDesk'));
 					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("unsubscribe"));
 					$this->tpl->parseCurrentBlock();
-			}				
+			}
 
 
 			// Description
@@ -326,10 +326,10 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("ROW_CLASS_CENTER",'option_value_center');
 			$this->tpl->setVariable("OBJ_NR_START",++$counter.'.');
 			$this->tpl->parseCurrentBlock();
-		}			
+		}
 		return true;
 	}
-		
+
 
 
 
@@ -350,10 +350,10 @@ class ilCourseContentGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_page.html");
 
 		$this->container_gui->showPossibleSubObjects();
-		
+
 		// Feedback
 		$this->__showFeedBack();
-		
+
 		// Event
 		$this->__showEvents();
 
@@ -375,7 +375,7 @@ class ilCourseContentGUI
 		{
 			return true;
 		}
-		
+
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.event_row.html","course");
 
@@ -428,7 +428,7 @@ class ilCourseContentGUI
 				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('delete'));
 				$tpl->parseCurrentBlock();
 			}
-			
+
 
 
 			$event_items = $this->course_obj->items_obj->getItemsByEvent($event_obj->getEventId());
@@ -436,7 +436,7 @@ class ilCourseContentGUI
 			{
 				if(strlen($html = $this->__getItemHTML($cont_data)))
 				{
-					 /* Disabled: no manual sort 
+					 /* Disabled: no manual sort
 					 foreach($this->__getOptions($cont_data,$num) as $key => $image)
 					 {
 						 $tpl->setCurrentBlock("img");
@@ -476,7 +476,7 @@ class ilCourseContentGUI
 			$tpl->setVariable("EVENT_IMG",ilUtil::getImagePath('icon_event.gif'));
 			$tpl->setVariable("EVENT_ALT",$this->lng->txt('events'));
 			$tpl->setVariable("EVENT_TITLE",$event_obj->getTitle());
-			
+
 			$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
 			$tpl->setVariable("HREF_EVENT_TITLE",$this->ctrl->getLinkTargetByClass('ileventadministrationgui',
 																				   'info'));
@@ -503,7 +503,7 @@ class ilCourseContentGUI
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),
 									   ""));
-			$tbl->setHeaderVars(array("type","title","options"), 
+			$tbl->setHeaderVars(array("type","title","options"),
 								array("ref_id" => $this->course_obj->getRefId(),
 									  "cmdClass" => "ilobjcoursecontentgui",
 									  "cmdNode" => $_GET["cmdNode"]));
@@ -513,7 +513,7 @@ class ilCourseContentGUI
 		else
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title")));
-			$tbl->setHeaderVars(array("type","title"), 
+			$tbl->setHeaderVars(array("type","title"),
 								array("ref_id" => $this->course_obj->getRefId(),
 									  "cmdClass" => "ilobjcoursecontentgui",
 									  "cmdNode" => $_GET["cmdNode"]));
@@ -538,13 +538,13 @@ class ilCourseContentGUI
 	function __showMaterials()
 	{
 		include_once 'course/classes/Event/class.ilEventItems.php';
-		
+
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getId());
 
 		// NO ITEMS FOUND
 		if(!count($this->cont_arr))
-		{	
+		{
 			#sendInfo($this->lng->txt("crs_no_items_found"));
 			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -557,7 +557,7 @@ class ilCourseContentGUI
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html","course");
 		$cont_num = count($this->cont_arr);
-		
+
 		$this->container_gui->clearAdminCommandsDetermination();
 
 		// render table content data
@@ -614,7 +614,7 @@ class ilCourseContentGUI
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),
 									   ""));
-			$tbl->setHeaderVars(array("type","title","options"), 
+			$tbl->setHeaderVars(array("type","title","options"),
 								array("ref_id" => $this->course_obj->getRefId(),
 									  "cmdClass" => "ilobjcoursecontentgui",
 									  "cmdNode" => $_GET["cmdNode"]));
@@ -624,7 +624,7 @@ class ilCourseContentGUI
 		else
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),''));
-			$tbl->setHeaderVars(array("type","title",'options'), 
+			$tbl->setHeaderVars(array("type","title",'options'),
 								array("ref_id" => $this->course_obj->getRefId(),
 									  "cmdClass" => "ilobjcoursecontentgui",
 									  "cmdNode" => $_GET["cmdNode"]));
@@ -646,7 +646,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", $tpl->get());
 		$this->tpl->parseCurrentBlock();
 		$this->container_gui->showAdministrationPanel($this->tpl);
-		
+
 		return true;
 
 	}
@@ -741,7 +741,7 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("SUG_START",
 									ilUtil::makeDateSelect($item_prefix."[sug_start]",
 														   $date['y'],$date['m'],$date['d'],date('Y',time()),false));
-			
+
 			$this->tpl->setVariable("NAME_DURATION_A",$item_prefix."[duration_a]");
 			if(isset($_POST['item']["$item[ref_id]"]['duration_a']))
 			{
@@ -750,7 +750,7 @@ class ilCourseContentGUI
 			else
 			{
 				$this->tpl->setVariable("VAL_DURATION_A",intval(($end-$start)/(60*60*24)));
-			}				
+			}
 
 			$this->tpl->setVariable("SUG_END",ilFormat::formatUnixTime($item['suggestion_end']));
 
@@ -768,7 +768,7 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("LIM_END",
 									ilUtil::makeDateSelect($item_prefix."[lim_end]",
 														   $date['y'],$date['m'],$date['d'],date('Y',time()),false));
-			
+
 			$this->tpl->setVariable("NAME_CHANGE",$item_change_prefix."[change]");
 			$this->tpl->setVariable("NAME_ACTIVE",$item_active_prefix."[active]");
 
@@ -785,7 +785,7 @@ class ilCourseContentGUI
 
 			$this->tpl->setVariable("CHECKED_ACTIVE",$active ? 'checked="checked"' : '');
 			$this->tpl->setVariable("CHECKED_CHANGE",$change ? 'checked="checked"' : '');
-			
+
 			if(isset($this->failed["$item[ref_id]"]))
 			{
 				$this->tpl->setVariable("ROWCLASS",'tblrowmarked');
@@ -829,7 +829,7 @@ class ilCourseContentGUI
 
 		include_once 'course/classes/Timings/class.ilTimingAccepted.php';
 		$accept_obj = new ilTimingAccepted($this->course_obj->getId(),$ilUser->getId());
-		
+
 		$accept_obj->setRemark(ilUtil::stripSlashes($_POST['remark']));
 		$accept_obj->accept($_POST['accepted']);
 		$accept_obj->setVisible($_POST['tutor']);
@@ -891,7 +891,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'returnToMembers'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
-		
+
 		include_once 'course/classes/Timings/class.ilTimingAccepted.php';
 		$usr_accepted = new ilTimingAccepted($this->course_obj->getId(),(int) $_GET['member_id']);
 
@@ -930,7 +930,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_CHANGED",$this->lng->txt('crs_timings_changed'));
 		$this->tpl->setVariable("TXT_OWN_PRESETTING",$this->lng->txt('crs_timings_planed_start'));
 		$this->tpl->setVariable("TXT_INFO_OWN_PRESETTING",$this->lng->txt('crs_timings_from_until'));
-		
+
 		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
 		$items =& $this->items_obj->getItems();
 
@@ -1024,13 +1024,13 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("OWN_END",ilFormat::formatUnixTime($end));
 
 		}
-			
+
 		$this->tpl->parseCurrentBlock();
 
 		$sub_items_obj = new ilCourseItems($this->course_obj,$item['ref_id'],$_GET['member_id']);
 		foreach($sub_items_obj->getItems() as $item_data)
 		{
-			if(($item_data['timing_type'] == IL_CRS_TIMINGS_PRESETTING) or 
+			if(($item_data['timing_type'] == IL_CRS_TIMINGS_PRESETTING) or
 			   ilCourseItems::_hasChangeableTimings($item_data['ref_id']))
 			{
 				$this->__renderUserItem($item_data,$level+1);
@@ -1104,7 +1104,7 @@ class ilCourseContentGUI
 			}
 		}
 	}
-	
+
 	function __editUserTimings()
 	{
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings.html','course');
@@ -1137,7 +1137,7 @@ class ilCourseContentGUI
 
 
 		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
-		
+
 		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getId()),
 								 ilEvent::_getEventsAsArray($this->course_obj->getId()));
 		$sorted_items = $this->__sortByStart($all_items);
@@ -1334,7 +1334,7 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("LIM_START",ilFormat::formatUnixTime($item['earliest_start']));
 			$this->tpl->setVariable("LIM_END",ilFormat::formatUnixTime($item['latest_end']));
 		}
-			
+
 		$this->tpl->parseCurrentBlock();
 
 		if(!$_SESSION['crs_timings_user_hidden'])
@@ -1442,7 +1442,7 @@ class ilCourseContentGUI
 		return true;
 
 	}
-		
+
 
 	function &__loadFromPost(&$item)
 	{
@@ -1475,7 +1475,7 @@ class ilCourseContentGUI
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
 		$this->failed = array();
-		// Validate 
+		// Validate
 		foreach($_POST['item'] as $ref_id => $data)
 		{
 			$item_obj =& new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
@@ -1492,7 +1492,7 @@ class ilCourseContentGUI
 
 			$item_obj->setEarliestStart(time());
 			$item_obj->setLatestEnd($this->__toUnix($data['lim_end'],array('h' => 23,'m' => 55)));
-			
+
 			$item_obj->toggleVisible($old_data['visible']);
 			$item_obj->toggleChangeable($_POST['item_change'][$ref_id]['change']);
 
@@ -1524,7 +1524,7 @@ class ilCourseContentGUI
 		return false;
 	}
 
-		
+
 
 	function __getItemHTML($cont_data)
 	{
@@ -1539,7 +1539,7 @@ class ilCourseContentGUI
 			$activation = ilFormat::formatUnixTime($cont_data['start'],$long).' - '.
 				ilFormat::formatUnixTime($cont_data['end'],$long);
 		}
-				
+
 		// get item list gui object
 		if (!is_object ($this->list_gui[$cont_data["type"]]))
 		{
@@ -1555,7 +1555,7 @@ class ilCourseContentGUI
 		{
 			$item_list_gui =& $this->list_gui[$cont_data["type"]];
 		}
-				
+
 		// show administration command buttons (or not)
 		if (!$this->container_gui->isActiveAdministrationPanel())
 		{
@@ -1563,14 +1563,14 @@ class ilCourseContentGUI
 			$item_list_gui->enableLink(false);
 			$item_list_gui->enableCut(false);
 		}
-				
+
 		// add activation custom property
 		if ($activation != "")
 		{
 			$item_list_gui->addCustomProperty($this->lng->txt($cont_data['activation_info']), $activation,
 											  false, true);
 		}
-				
+
 		if($this->is_tutor)
 		{
 			$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
@@ -1582,10 +1582,10 @@ class ilCourseContentGUI
 																			   'edit'),
 											 'activation');
 		}
-				
+
 		$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
 												$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
-					
+
 		$this->container_gui->determineAdminCommands($cont_data['ref_id'],
 													 $item_list_gui->adminCommandsIncluded());
 
@@ -1622,16 +1622,16 @@ class ilCourseContentGUI
 					$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
 													 $cont_data['child']);
 					$tmp_array['lnk'] = $this->ctrl->getLinkTargetByClass('ilcourseitemadministrationgui','moveDown');
-							
+
 					$images[] = $tmp_array;
 				}
 			}
-			
+
 		}
 		return $images ? $images : array();
-	}		
+	}
 
-		
+
 	function __showMaterial(&$tpl,$cont_data,$num)
 	{
 		include_once './classes/class.ilObjectListGUIFactory.php';
@@ -1643,7 +1643,7 @@ class ilCourseContentGUI
 			$activation = ilFormat::formatUnixTime($cont_data['start'],true).' - '.
 				ilFormat::formatUnixTime($cont_data['end'],true);
 		}
-				
+
 		// get item list gui object
 		if (!is_object ($this->list_gui[$cont_data["type"]]))
 		{
@@ -1659,7 +1659,7 @@ class ilCourseContentGUI
 		{
 			$item_list_gui =& $this->list_gui[$cont_data["type"]];
 		}
-				
+
 		// show administration command buttons (or not)
 		if (!$this->container_gui->isActiveAdministrationPanel())
 		{
@@ -1667,14 +1667,14 @@ class ilCourseContentGUI
 			$item_list_gui->enableLink(false);
 			$item_list_gui->enableCut(false);
 		}
-				
+
 		// add activation custom property
 		if ($activation != "")
 		{
 			$item_list_gui->addCustomProperty($this->lng->txt($cont_data['activation_info']), $activation,
 											  false, true);
 		}
-				
+
 		if($this->is_tutor)
 		{
 			$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
@@ -1686,10 +1686,10 @@ class ilCourseContentGUI
 																			   'edit'),
 											 'activation');
 		}
-				
+
 		$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
 												$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
-					
+
 		$this->container_gui->determineAdminCommands($cont_data['ref_id'],
 													 $item_list_gui->adminCommandsIncluded());
 
@@ -1727,11 +1727,11 @@ class ilCourseContentGUI
 					$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
 													 $cont_data['child']);
 					$tmp_array['lnk'] = $this->ctrl->getLinkTargetByClass('ilcourseitemadministrationgui','moveDown');
-							
+
 					$images[] = $tmp_array;
 				}
 			}
-										
+
 			foreach($images as $key => $image)
 			{
 				$tpl->setCurrentBlock("img");
@@ -1742,7 +1742,7 @@ class ilCourseContentGUI
 				$tpl->parseCurrentBlock();
 			}
 			unset($images);
-					
+
 			$tpl->setCurrentBlock("options");
 			$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
 			$tpl->parseCurrentBlock();
@@ -1772,7 +1772,7 @@ class ilCourseContentGUI
 
 	function __showFeedback()
 	{
-		if($this->container_obj->getType() == 'crs')
+		if(!$this->is_tutor && $this->container_obj->getType() == 'crs')
 		{
 			include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
 			$feedbackGUI = new ilFeedbackGUI();
@@ -1828,14 +1828,14 @@ class ilCourseContentGUI
 			$this->tabs_gui->addSubTabTarget('timings_timings',
 											 $this->ctrl->getLinkTarget($this,'editUserTimings'));
 		}
-			
+
 
 		if($this->is_tutor)
 		{
 			$this->tabs_gui->addSubTabTarget('crs_archives',
 											 $this->ctrl->getLinkTargetByClass('ilcoursearchivesgui','view'));
 		}
-		
+
 		return true;
 	}
 
