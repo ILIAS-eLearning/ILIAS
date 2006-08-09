@@ -669,7 +669,7 @@ class ilInfoScreenGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem,$ilUser,$ilAccess;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$force_active = ($next_class == "ilnotegui")
@@ -683,26 +683,39 @@ class ilInfoScreenGUI
 
 		if ($this->feedback_enabled)
 		{
-			// this should work with feedback class available
-			// maybe a line... "@ ilCtrl_Calls ilFeedbackGUI:"
-			// in the header of feedbackgui is necessary
-			include_once('Services/Feedback/classes/class.ilFeedback.php');
-			$feedback = new ilFeedback();
-			$feedback->setRefId($_GET['ref_id']);
-			$barometers = $feedback->getAllBarometer(0);
-			if(count($barometers))
+			$show_feedback_tab=false;
+			if($ilAccess->checkAccess('write','edit',$_GET['ref_id']))
 			{
-				foreach ($barometers as $barometer)
+				$show_feedback_tab=true;
+			}
+			else
+			{
+				// this should work with feedback class available
+				// maybe a line... "@ ilCtrl_Calls ilFeedbackGUI:"
+				// in the header of feedbackgui is necessary
+				include_once('Services/Feedback/classes/class.ilFeedback.php');
+				$feedback = new ilFeedback();
+				$feedback->setRefId($_GET['ref_id']);
+				$barometers = $feedback->getAllBarometer(0);
+				if(count($barometers))
 				{
-					if($barometer->canVote($ilUser->getId(),$barometer->getId())==1)
+					foreach ($barometers as $barometer)
 					{
-						$tabs_gui->addSubTabTarget("feedback",
-							$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
-							"", "ilfeedbackgui");
+						if($barometer->canVote($ilUser->getId(),$barometer->getId())==1)
+						{
+							$show_feedback_tab=true;
 							break;
+						}
 					}
 				}
 			}
+			if ($show_feedback_tab)
+			{
+				$tabs_gui->addSubTabTarget("feedback",
+					$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
+					"", "ilfeedbackgui");
+			}
+
 			/*
 			$tabs_gui->addSubTabTarget("feedb_feedback_settings",
 				$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
