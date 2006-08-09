@@ -988,13 +988,13 @@ common#:#add_comments#:#Editar comentarios
 common#:#add_condition#:#Crear nueva asociación
 common#:#add_member#:#Añadir miembro
 common#:#add_members#:#Añadir Miembros
-common#:#add_new_user_defined_field#:#Añadir nuevo campo definido por el usuario
-common#:#add_new_user_defined_select_field#:#Añadir nueva caja de selección
-common#:#add_new_user_defined_text_field#:#Añadir nuevo campo de texto
+common#:#add_new_user_defined_field#:#Añadir nuevo campo definido por el usuario###09 Aug 2006 content changed
+common#:#add_new_user_defined_select_field#:#Añadir nueva caja de selección###09 Aug 2006 content changed
+common#:#add_new_user_defined_text_field#:#Añadir nuevo campo de texto###09 Aug 2006 content changed
 common#:#add_note#:#Añadir nota
 common#:#add_translation#:#Añadir Traducción
 common#:#add_user#:#Añadir usuario local
-common#:#add_user_defined_field#:#Añadir nuevo campo
+common#:#add_user_defined_field#:#Añadir nuevo campo###09 Aug 2006 content changed
 common#:#added_new_condition#:#Crear nueva condición.
 common#:#additional_info#:#Información Adicional
 common#:#adm_create_tax#:#Crear taxonomía
@@ -1162,10 +1162,13 @@ common#:#auth_soap_allow_local_desc#:#Esto permite a los usuarios SOAP autentica
 common#:#auth_soap_auth#:#Configurar autenticación SOAP
 common#:#auth_soap_auth_desc#:#Esta configuración trata sólo con la autenticación basada en SOAP, no con la interfaz SOAP de ILIAS
 common#:#auth_soap_create_users_desc#:#Crea automáticamente una cuenta de usuario ILIAS, para usuarios que se han autenticado con éxito contra SOAP, sin tener aún una cuenta ILIAS
+common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
 common#:#auth_soap_port_desc#:#E.g. 8080 si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_settings_saved#:#Configuración de autenticación SOAP
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
 common#:#auth_soap_use_https#:#Usar HTTPS
 common#:#auth_soap_user_default_role#:#Rol por defecto asignado a usuarios SOAP
 common#:#auth_soap_user_default_role_desc#:#Este rol se asigna a los usuarios SOAP creados automáticamente
@@ -1180,6 +1183,9 @@ common#:#available#:#Disponible
 common#:#available_languages#:#idiomas disponibles
 common#:#average_time#:#Tiempo medio
 common#:#back#:#Volver
+common#:#back_to_crs_content#:#Back to Course Content###09 Aug 2006 new variable
+common#:#back_to_fold_content#:#Back to Folder Content###09 Aug 2006 new variable
+common#:#back_to_grp_content#:#Back to Group Content###09 Aug 2006 new variable
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#datos básicos
 common#:#basic_settings#:#Configuración básica
@@ -1671,8 +1677,8 @@ common#:#faq_exercise#:#actividad FAQ
 common#:#fax#:#Fax
 common#:#feedback#:#feedback
 common#:#feedback_recipient#:#destinatario feedback
-common#:#field_name#:#Nombre de campo
-common#:#field_type#:#Tipo de campo
+common#:#field_name#:#Nombre de campo###09 Aug 2006 content changed
+common#:#field_type#:#Tipo de campo###09 Aug 2006 content changed
 common#:#file#:#Archivo
 common#:#file_a#:#un Archivo
 common#:#file_add#:#Cargar archivo
@@ -3139,7 +3145,7 @@ common#:#st_add#:#Añadir capítulo
 common#:#st_added#:#Capítulo añadido
 common#:#st_edit#:#Editar capítulo
 common#:#st_new#:#Nuevo capítulo
-common#:#standard_fields#:#Campos estándar
+common#:#standard_fields#:#Campos estándar###09 Aug 2006 content changed
 common#:#startpage#:#página principal
 common#:#statistic#:#Estadística
 common#:#status#:#Estado
@@ -3278,20 +3284,20 @@ common#:#txt_submitted#:#Se envió con éxito una solicitud de cuenta a ILIAS. S
 common#:#typ#:#Definición de Tipo de Objeto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#escriba su mensaje aquí
-common#:#udf_add_field#:#Añadir campo
-common#:#udf_added_field#:#Nuevo campo añadido
-common#:#udf_delete_header#:#Eliminar campo
+common#:#udf_add_field#:#Añadir campo###09 Aug 2006 content changed
+common#:#udf_added_field#:#Nuevo campo añadido###09 Aug 2006 content changed
+common#:#udf_delete_header#:#Eliminar campo###09 Aug 2006 content changed
 common#:#udf_delete_sure#:#¿Está seguro de querer eliminar este campo y todos los datos de usuario asignados?
 common#:#udf_duplicate_entries#:#Los valores tienen que ser únicos.
 common#:#udf_field_deleted#:#Campo eliminado
 common#:#udf_name_already_exists#:#Este nombre de campo ya existe. Por favor elija un nombre diferente
 common#:#udf_no_entries#:#Por favor introduzca al menos un valor.
 common#:#udf_no_name_given#:#Por favor introduzca un nombre de campo
-common#:#udf_type_select#:#Caja de selección (valores fijos)
-common#:#udf_type_text#:#Campo de texto (valores opcionales)
-common#:#udf_update_select_field#:#Editar caja de selección
+common#:#udf_type_select#:#Caja de selección (valores fijos)###09 Aug 2006 content changed
+common#:#udf_type_text#:#Campo de texto (valores opcionales)###09 Aug 2006 content changed
+common#:#udf_update_select_field#:#Editar caja de selección###09 Aug 2006 content changed
 common#:#udf_update_success#:#Modificaciones guardadas
-common#:#udf_update_text_field#:#Editar campo de texto
+common#:#udf_update_text_field#:#Editar campo de texto###09 Aug 2006 content changed
 common#:#udf_value#:#Valor
 common#:#udf_value_deleted#:#El valor ha sido eliminado.
 common#:#uid#:#uid
@@ -3342,8 +3348,8 @@ common#:#user_added#:#Usuario añadido
 common#:#user_assignment#:#Asignación de usuarios
 common#:#user_cant_receive_mail#:#el usuario no tiene permiso para usar el sistema de correo
 common#:#user_comment#:#comentario de Usuario
-common#:#user_defined_fields#:#Campos definidos por el usuario
-common#:#user_defined_list#:#Ver campos definidos por el usuario
+common#:#user_defined_fields#:#Campos definidos por el usuario###09 Aug 2006 content changed
+common#:#user_defined_list#:#Ver campos definidos por el usuario###09 Aug 2006 content changed
 common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
 common#:#user_ext_account#:#Cuenta Externa
@@ -3790,6 +3796,7 @@ content#:#cont_publisher#:#Editor/Editorial
 content#:#cont_purpose#:#Propósito
 content#:#cont_ref_helptext#:#(ej: http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Imágenes referenciadas
+content#:#cont_reference#:#Reference###09 Aug 2006 new variable
 content#:#cont_remove_fullscreen#:#Eliminar Pantalla Completa
 content#:#cont_removeiln#:#¿Realmente quiere eliminar el enlace interno?
 content#:#cont_repository_item#:#Item de Contenidos

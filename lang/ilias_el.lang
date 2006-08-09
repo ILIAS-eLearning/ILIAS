@@ -980,6 +980,9 @@ common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Επικύρωση χρηστών μέσω Shibboleth, can be used as second authentication method
 common#:#auth_shib_not_configured#:#Το Shibboleth δεν έχει ρυθμιστεί
 common#:#auth_shibboleth#:#Shibboleth
+common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
 common#:#auth_visible#:#Οι Ρυθμίσεις εγκυρότητας είναι ορατές
 common#:#auth_write#:#Επεξεργασία ρυθμίσεων επικύρωσης
 common#:#author#:#Συγγραφέας
@@ -989,6 +992,9 @@ common#:#available#:#Διαθέσιμο
 common#:#available_languages#:#Διαθέσιμες Γλώσσες
 common#:#average_time#:#Μέσος χρόνος
 common#:#back#:#Πίσω
+common#:#back_to_crs_content#:#Back to Course Content###09 Aug 2006 new variable
+common#:#back_to_fold_content#:#Back to Folder Content###09 Aug 2006 new variable
+common#:#back_to_grp_content#:#Back to Group Content###09 Aug 2006 new variable
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Βασικά δεδομένα
 common#:#basic_settings#:#Βασικές ρυθμίσεις
@@ -3460,6 +3466,7 @@ content#:#cont_publisher#:#Εκδότης
 content#:#cont_purpose#:#Σκοπός
 content#:#cont_ref_helptext#:#(π.χ. http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Αναφερόμενες εικόνες
+content#:#cont_reference#:#Reference###09 Aug 2006 new variable
 content#:#cont_remove_fullscreen#:#Μετακίνηση Πλήρους Οθόνης
 content#:#cont_removeiln#:#Θέλετε πραγματικά να μετακινήσετε τον εσωτερικό σύνδεσμο;
 content#:#cont_repository_item#:#Αντικείμενο Αποθηκευτικού Χώρου

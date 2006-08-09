@@ -987,6 +987,9 @@ common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#A felhasználói autentikáció Shibboleth-en keresztül. Másodlagos autentikációs módszerként használható.
 common#:#auth_shib_not_configured#:#Shibboleth még nincs konfigurálva.
 common#:#auth_shibboleth#:#Shibboleth
+common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
 common#:#auth_visible#:#Az autentikációs beállítások láthatók
 common#:#auth_write#:#Autentikációs beállítások szerkesztése
 common#:#author#:#Szerző
@@ -996,6 +999,9 @@ common#:#available#:#Elérhető
 common#:#available_languages#:#Alkalmazható nyelvek
 common#:#average_time#:#Átlagidő
 common#:#back#:#Vissza
+common#:#back_to_crs_content#:#Back to Course Content###09 Aug 2006 new variable
+common#:#back_to_fold_content#:#Back to Folder Content###09 Aug 2006 new variable
+common#:#back_to_grp_content#:#Back to Group Content###09 Aug 2006 new variable
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Alapadat
 common#:#basic_settings#:#Alapbeállítások
@@ -3475,6 +3481,7 @@ content#:#cont_publisher#:#Kiadó
 content#:#cont_purpose#:#Cél
 content#:#cont_ref_helptext#:#(például http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Hivatkozott képek
+content#:#cont_reference#:#Reference###09 Aug 2006 new variable
 content#:#cont_remove_fullscreen#:#Teljes képernyő eltávolítva.
 content#:#cont_removeiln#:#valóban eltávolítja a belső linket?
 content#:#cont_repository_item#:#Taneszköz tárolóbeli elem

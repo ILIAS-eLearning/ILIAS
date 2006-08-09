@@ -988,13 +988,13 @@ common#:#add_comments#:#Edit comments###10 Jul 2006 new variable
 common#:#add_condition#:#Neue Verknüpfung anlegen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
-common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
-common#:#add_new_user_defined_select_field#:#Neue Auswahlliste anlegen
-common#:#add_new_user_defined_text_field#:#Neues Textfeld anlegen
+common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen###09 Aug 2006 content changed
+common#:#add_new_user_defined_select_field#:#Neue Auswahlliste anlegen###09 Aug 2006 content changed
+common#:#add_new_user_defined_text_field#:#Neues Textfeld anlegen###09 Aug 2006 content changed
 common#:#add_note#:#Notiz hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#add_user#:#Lokalen Benutzer hinzufügen
-common#:#add_user_defined_field#:#Neues Feld anlegen
+common#:#add_user_defined_field#:#Neues Feld anlegen###09 Aug 2006 content changed
 common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
 common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
 common#:#adm_create_tax#:#Neue Taxonomie anlegen
@@ -1162,10 +1162,13 @@ common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate wit
 common#:#auth_soap_auth#:#Configure SOAP Authentication###10 Jul 2006 new variable
 common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.###10 Jul 2006 new variable
 common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.###10 Jul 2006 new variable
+common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
 common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
 common#:#auth_soap_settings_saved#:#SOAP authentication settings saved###10 Jul 2006 new variable
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
 common#:#auth_soap_use_https#:#Use HTTPS###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.###10 Jul 2006 new variable
@@ -1180,6 +1183,9 @@ common#:#available#:#Verfügbar
 common#:#available_languages#:#Verfügbare Sprachen
 common#:#average_time#:#Durchschnittszeit
 common#:#back#:#Zurück
+common#:#back_to_crs_content#:#Zurück zum Kursinhalt
+common#:#back_to_fold_content#:#Zurück zum Ordnerinhalt
+common#:#back_to_grp_content#:#Zurück zum Gruppeninhalt
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
 common#:#basic_settings#:#Grundeinstellungen
@@ -1671,8 +1677,8 @@ common#:#faq_exercise#:#FAQ/übungskapitel
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
-common#:#field_name#:#Feldname
-common#:#field_type#:#Feldtyp
+common#:#field_name#:#Feldname###09 Aug 2006 content changed
+common#:#field_type#:#Feldtyp###09 Aug 2006 content changed
 common#:#file#:#Datei
 common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
@@ -3139,7 +3145,7 @@ common#:#st_add#:#Kapitel anlegen
 common#:#st_added#:#Kapitel angelegt
 common#:#st_edit#:#Kapitel bearbeiten
 common#:#st_new#:#Neues Kapitel
-common#:#standard_fields#:#Standardfelder
+common#:#standard_fields#:#Standardfelder###09 Aug 2006 content changed
 common#:#startpage#:#Startseite
 common#:#statistic#:#Statistik
 common#:#status#:#Status
@@ -3278,20 +3284,20 @@ common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr B
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
-common#:#udf_add_field#:#Feld anlegen
-common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
-common#:#udf_delete_header#:#Benutzerdefiniertes Feld löschen
+common#:#udf_add_field#:#Feld anlegen###09 Aug 2006 content changed
+common#:#udf_added_field#:#Ein neues Feld wurde angelegt.###09 Aug 2006 content changed
+common#:#udf_delete_header#:#Benutzerdefiniertes Feld löschen###09 Aug 2006 content changed
 common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
 common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
 common#:#udf_no_entries#:#Bitte geben Sie mindestens einen Wert ein.
 common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
-common#:#udf_type_select#:#Auswahlliste (feste Werte)
-common#:#udf_type_text#:#Textfeld (beliebige Werte)
-common#:#udf_update_select_field#:#Auswahlliste bearbeiten
+common#:#udf_type_select#:#Auswahlliste (feste Werte)###09 Aug 2006 content changed
+common#:#udf_type_text#:#Textfeld (beliebige Werte)###09 Aug 2006 content changed
+common#:#udf_update_select_field#:#Auswahlliste bearbeiten###09 Aug 2006 content changed
 common#:#udf_update_success#:#Die Daten wurden aktualisiert.
-common#:#udf_update_text_field#:#Textfeld bearbeiten
+common#:#udf_update_text_field#:#Textfeld bearbeiten###09 Aug 2006 content changed
 common#:#udf_value#:#Wert
 common#:#udf_value_deleted#:#Der Wert wurde gelöscht.
 common#:#uid#:#UID
@@ -3342,8 +3348,8 @@ common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_cant_receive_mail#:#Der Benutzer hat nicht das Recht das Mailsystem zu benutzen.
 common#:#user_comment#:#User-Kommentar
-common#:#user_defined_fields#:#Benutzerdefinierte Felder
-common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
+common#:#user_defined_fields#:#Benutzerdefinierte Felder###09 Aug 2006 content changed
+common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder###09 Aug 2006 content changed
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
 common#:#user_ext_account#:#External Account###10 Jul 2006 new variable
@@ -3790,6 +3796,7 @@ content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_ref_images#:#Referenzierte Bilder
+content#:#cont_reference#:#Reference###09 Aug 2006 new variable
 content#:#cont_remove_fullscreen#:#Vollansicht entfernen
 content#:#cont_removeiln#:#Internen Link entfernen ?
 content#:#cont_repository_item#:#Objekt in Magazin
@@ -6469,6 +6476,3 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
-common#:#back_to_crs_content#:#Zurück zum Kursinhalt
-common#:#back_to_grp_content#:#Zurück zum Gruppeninhalt
-common#:#back_to_fold_content#:#Zurück zum Ordnerinhalt

@@ -972,6 +972,9 @@ common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Autorizuoti vartotojus naudojant Shibboleth, gali būti kaip antrinis autorizacijos būdas
 common#:#auth_shib_not_configured#:#Shibboleth kol kas nesukonfiguruotas
 common#:#auth_shibboleth#:#Shibboleth
+common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
 common#:#auth_visible#:#Autorizacijos nustatymai yra matomi
 common#:#auth_write#:#Redaguoti autorizacijos nustatymus
 common#:#author#:#Autoriu
@@ -981,6 +984,9 @@ common#:#available#:#Prieinama
 common#:#available_languages#:#Prieinamos Kalbos
 common#:#average_time#:#Laiko vidurkis
 common#:#back#:#Atgal
+common#:#back_to_crs_content#:#Back to Course Content###09 Aug 2006 new variable
+common#:#back_to_fold_content#:#Back to Folder Content###09 Aug 2006 new variable
+common#:#back_to_grp_content#:#Back to Group Content###09 Aug 2006 new variable
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Pradiniai Duomenys
 common#:#basic_settings#:#Pradiniai Nustatymai
@@ -3416,6 +3422,7 @@ content#:#cont_publisher#:#Leidėjas
 content#:#cont_purpose#:#Tikslas
 content#:#cont_ref_helptext#:#(pvz. http://www.serveris.org/manopaveiksl.jpg)
 content#:#cont_ref_images#:#Nurodomi Paveikslėliai
+content#:#cont_reference#:#Reference###09 Aug 2006 new variable
 content#:#cont_remove_fullscreen#:#Pašalinti Visą Ekraną
 content#:#cont_removeiln#:#ar tikrai pašalinti vidinę nuorodą ?
 content#:#cont_repository_item#:#Saugyklos Elementas
