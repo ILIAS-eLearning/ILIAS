@@ -210,8 +210,9 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 		}
 	}
 
-	function renderPath()
+	function renderPath($a_force_details = true)
 	{
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 		include_once 'classes/class.ilLink.php';
 
 		if(!count($this->references))
@@ -242,11 +243,16 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 				}
 			}
 			$this->tpl->setCurrentBlock("path_item");
+
+			if($a_force_details or ilObjUserTracking::_enabledUserRelatedData())
+			{
+				$this->ctrl->setParameterByClass($this->getCmdClass(),'details_id',$ref_id);
+				$this->tpl->setVariable("PATH_DETAILS",$this->ctrl->getLinkTargetByClass($this->getCmdClass(),'details'));
+				$this->tpl->setVariable("TXT_PATH_DETAILS",$this->lng->txt('details'));
+			}
+
 			$this->tpl->setVariable("OCCURRENCES",$this->lng->txt('trac_occurrences'));
 			$this->tpl->setVariable("PATH_ITEM",$path);
-			$this->ctrl->setParameterByClass($this->getCmdClass(),'details_id',$ref_id);
-			$this->tpl->setVariable("PATH_DETAILS",$this->ctrl->getLinkTargetByClass($this->getCmdClass(),'details'));
-			$this->tpl->setVariable("TXT_PATH_DETAILS",$this->lng->txt('details'));
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setCurrentBlock("path");

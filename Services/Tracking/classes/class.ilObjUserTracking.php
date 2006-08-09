@@ -138,9 +138,8 @@ class ilObjUserTracking extends ilObject
 	*/
 	function _enabledUserRelatedData()
 	{
-		global $ilias;
-
-		return (boolean) $ilias->getSetting("save_user_related_data");
+		global $ilSetting;
+		return (boolean) $ilSetting->get('save_user_related_data');
 	}
 
 	function setValidTimeSpan($a_time_span)

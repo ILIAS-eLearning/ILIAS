@@ -309,8 +309,18 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				else	// extra root folder handling (repository)
 				{
 					//$this->tpl->parseCurrentBlock();
-
 					// link
+				
+					// icon
+					$val = ilUtil::getImageTagByType("root",$this->tpl->tplPath);
+					$this->tpl->setCurrentBlock("text");
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
+					
+					// Link
 					$this->tpl->setCurrentBlock("begin_link");
 					$this->ctrl->setParameterByClass("iladministrationgui",
 						"admin_mode", "repository");
@@ -323,15 +333,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					$this->ctrl->clearParametersByClass("iladministrationgui");
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->touchBlock("end_link");
-					
-					// icon
-					$val = ilUtil::getImageTagByType("root",$this->tpl->tplPath);
-					$this->tpl->setCurrentBlock("text");
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("table_cell");
-					$this->tpl->parseCurrentBlock();
-					
+
+
 					// text
 					$name_field = explode("#separator#", $data["title"]);
 					$this->tpl->setCurrentBlock("text");
@@ -440,7 +443,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$settings["enable_calendar"] = $_POST["enable_calendar"];
 			$settings["default_repository_view"] = $_POST["default_rep_view"];
 			$settings["password_assistance"] = $_POST["password_assistance"];
-			$settings["passwd_auto_generate"] = $_POST["passwd_auto_generate"];
+			$settings["passwd_auto_generate"] = $_POST["password_auto_generate"];
 			//$settings["js_edit"] = $_POST["js_edit"];
 			$settings["enable_trash"] = $_POST["enable_trash"];
 			$settings["https"] = $_POST["https"];
@@ -520,7 +523,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting("default_repository_view",$_POST["default_rep_view"]);
 			$this->ilias->setSetting('https',$_POST['https']);
 			$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
-			$this->ilias->setSetting('passwd_auto_generate',$_POST['passwd_auto_generate']);
+			$this->ilias->setSetting('passwd_auto_generate',$_POST['password_auto_generate']);
 
 			//$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
 			$this->ilias->setSetting('enable_trash',$_POST['enable_trash']);
