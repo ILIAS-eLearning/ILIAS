@@ -38,7 +38,7 @@ class ilFeedback {
 			$this->id = $a_id;
 			$this->getBarometer();
 		}
-		
+
 	}
 	/* Set / Get Methods */
 	function setId($a_id){
@@ -62,42 +62,42 @@ class ilFeedback {
 	function setAnonymous($a_anonymous){
 		$this->anonymous = $a_anonymous;
 	}
-	
+
 	function getAnonymous(){
 		return($this->anonymous);
 	}
 	function setRequired($a_required){
 		$this->required = $a_required;
 	}
-	
+
 	function getRequired(){
 		return($this->required);
 	}
 	function setShowOn($a_show_location){
 		$this->show_on = $a_show_location;
 	}
-	
+
 	function getShowOn(){
 		return($this->show_on);
 	}
 	function setVotes($a_votes){
 		$this->votes = $a_votes;
 	}
-	
+
 	function getVotes(){
 		return($this->votes);
 	}
 	function setStarttime($a_starttime){
 		$this->starttime = $a_starttime;
 	}
-	
+
 	function getStarttime(){
 		return($this->starttime);
 	}
 	function setEndtime($a_endtime){
 		$this->endtime = $a_endtime;
 	}
-	
+
 	function getEndtime(){
 		return($this->endtime);
 	}
@@ -111,21 +111,21 @@ class ilFeedback {
 	function setIntervalUnit($a_interval_unit){
 		$this->interval_unit = $a_interval_unit;
 	}
-	
+
 	function getIntervalUnit(){
 		return($this->interval_unit);
 	}
 	function setFirstVoteBest($a_first_vote_best){
 		$this->first_vote_best = $a_first_vote_best;
 	}
-	
+
 	function getFirstVoteBest(){
 		return($this->first_vote_best);
 	}
 	function setObjId($a_obj_id){
 		$this->obj_id = $a_obj_id;
 	}
-	
+
 	function getObjId(){
 		return($this->obj_id);
 	}
@@ -138,7 +138,7 @@ class ilFeedback {
 	function setTextAnswer($a_text_answer){
 		$this->text_answer = $a_text_answer;
 	}
-	
+
 	function getTextAnswer(){
 		return($this->text_answer);
 	}
@@ -154,7 +154,7 @@ class ilFeedback {
 	function setNote($a_note){
 		$this->note = $a_note;
 	}
-	
+
 	/**
 	* set all data of a baromter
 	*/
@@ -175,7 +175,7 @@ class ilFeedback {
 		$this->setObjId($a_barometer['obj_id']);
 		$this->setRefId($a_barometer['ref_id']);
 	}
-	
+
 	/**
 	* create an new barometer
 	*/
@@ -191,7 +191,7 @@ class ilFeedback {
 			$ilDB->quote($this->show_on).", ".
 			$ilDB->quote($this->text_answer).", ".
 			$ilDB->quote($this->votes).", ".
-			$ilDB->quote($this->starttime).", ".	
+			$ilDB->quote($this->starttime).", ".
 			$ilDB->quote($this->endtime).", ".
 			$ilDB->quote($this->interval).", ".
 			$ilDB->quote($this->interval_unit).", ".
@@ -200,7 +200,7 @@ class ilFeedback {
 			$ilDB->quote($this->obj_id).")";
 		$ilDB->query($q);
 		$this->id = $ilDB->getLastInsertId();
-		
+
 
 	}
 
@@ -217,20 +217,20 @@ class ilFeedback {
 			"show_on=".$ilDB->quote($this->show_on).", ".
 			"text_answer=".$ilDB->quote($this->text_answer).", ".
 			"votes=".$ilDB->quote($this->votes).", ".
-			"starttime=".$ilDB->quote($this->starttime).", ".	
+			"starttime=".$ilDB->quote($this->starttime).", ".
 			"endtime=".$ilDB->quote($this->endtime).", ".
 			"repeat_interval=".$ilDB->quote($this->interval).", ".
 			"interval_unit=".$ilDB->quote($this->interval_unit).", ".
 			"first_vote_best=".$ilDB->quote($this->first_vote_best)." WHERE fb_id=".$ilDB->quote($this->id);
-			
+
 		$ilDB->query($q);
 		$this->id = $ilDB->getLastInsertId();
-		
+
 
 	}
 
 	/**
-	* get a baromter by id 
+	* get a baromter by id
 	*/
 	function getBarometer(){
 		global $ilDB;
@@ -238,8 +238,8 @@ class ilFeedback {
 		$res = $ilDB->query($q);
 		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			$this->setAllData($row);
-		
-		
+
+
 	}
 	/**
 	* get a barometer by obj_id
@@ -250,7 +250,7 @@ class ilFeedback {
 		$res = $ilDB->query($q);
 		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			$this->setAllData($row);
-	
+
 	}
 
 	/**
@@ -262,7 +262,7 @@ class ilFeedback {
 		$res = $ilDB->query($q);
 		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			$this->setAllData($row);
-	
+
 	}
 
 	/**
@@ -279,7 +279,7 @@ class ilFeedback {
 		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			$this->setAllData($row);
 	}
-	
+
 	/**
 	* get all barometers for a certain ref_id
 	* if no ref_id is set we get all barometers,
@@ -287,7 +287,6 @@ class ilFeedback {
 	*/
 	function getAllBarometer($a_show_inactive=1,$a_only_req=0){
 		global $ilDB;
-		
 		if($this->ref_id)
 			 $where.=" ref_id=".$ilDB->quote($this->ref_id);
 		if($a_only_req==1)
@@ -310,7 +309,7 @@ class ilFeedback {
 			$barometers[$i]->setAllData($row);
 			$i++;
 		}
-		
+
 		return $barometers ? $barometers : array();
 	}
 	/**
@@ -321,7 +320,7 @@ class ilFeedback {
 		foreach ($this->ids as $k => $v)
 			$this->ids[$k] = $ilDB->quote($v);
 		$q = "DELETE FROM feedback_items WHERE ".
-			"fb_id IN (".implode(',',$this->ids).")"; 
+			"fb_id IN (".implode(',',$this->ids).")";
 		$ilDB->query($q);
 		$q = "DELETE FROM feedback_results WHERE ".
 			"fb_id IN (".implode(',',$this->ids).")";
@@ -333,8 +332,8 @@ class ilFeedback {
 	*/
 	function saveResult(){
 		global $ilDB;
-		//Save Only if there is not already a result from this user for this barometer	
-		
+		//Save Only if there is not already a result from this user for this barometer
+
 		if($this->canVote($this->user_id,$this->id)==1){
 			$q = "INSERT INTO feedback_results (".
 				"fb_id,user_id,vote,note,votetime) VALUES (".
@@ -345,7 +344,7 @@ class ilFeedback {
 			$ilDB->query($q);
 		}
 	}
-	
+
 	/**
 	* check if a certain user has already answerd a certain barometer
 	*/
@@ -357,18 +356,18 @@ class ilFeedback {
 			"fb_id=".$ilDB->quote($a_fb_id)." AND ".
 			"user_id=".$ilDB->quote($a_user_id)." ORDER BY votetime DESC";;
 		$res = $ilDB->query($q);
-		
+
 		$row_results = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$q = "SELECT * FROM feedback_items WHERE ".
 			"fb_id = ".$ilDB->quote($a_fb_id);
 		$res1 = $ilDB->query($q);
 		$row_items = $res1->fetchRow(DB_FETCHMODE_ASSOC);
-		//Check if the user is Member of that course, otherwise its not necessary that he votes		
+		//Check if the user is Member of that course, otherwise its not necessary that he votes
 		if(($res->numRows()==0)&&ilCourseMembers::_isMember($ilUser->getId(),$row_items['obj_id']))
 			return(1);
-		
-		if(ilCourseMembers::_isMember($ilUser->getId(),$row_items['obj_id'])){	
-			
+
+		if(ilCourseMembers::_isMember($ilUser->getId(),$row_items['obj_id'])){
+
 			if($row_items['repeat_interval'] > 0){
 				$interval = $this->interval2seconds($row_items['repeat_interval'], $row_items['interval_unit']);
 				if((time() - $row_results['votetime']) >= $interval){
@@ -376,11 +375,11 @@ class ilFeedback {
 				}
 			}
 		}
-		
-		
+
+
 		return(0);
 	}
-	
+
 	/**
 	* get the information to display on the charts
 	*/
@@ -392,7 +391,7 @@ class ilFeedback {
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id WHERE '.
 			' '.$user_filter.' feedback_results.fb_id='.$ilDB->quote($this->id).
 			' ORDER BY feedback_results.votetime,usr_data.login';
-		
+
 		$res = $ilDB->query($q);
 		$i=0;
 		$j=1;
@@ -401,24 +400,24 @@ class ilFeedback {
 		$pvt='';
 		$datapie[0][0] = 'Vote';
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
-			
+
 			if(!isset($tmp[$row['user_id']]))
 				$tmp[$row['user_id']]=$j++;
 			if(!isset($tmpv[$row['vote']]))
-				$tmpv[$row['vote']] = $k++;	
+				$tmpv[$row['vote']] = $k++;
 			$data[$i][0] = $row['timelabel'];
 			$data[$i][$tmp[$row['user_id']]] = $row['vote'];
 			$legend[$row['login']] = $row['login'];
 			$legendpie[$row['vote']] = $row['vote'];
-			
-			
+
+
 			$datapie[0][$tmpv[$row['vote']]]++;
 			if($row['votetime']!=$pvt){
 				$i++;
-				
+
 			}
 			$pvt=$row['votetime'];
-			
+
 			$table[$n]['votetime'] = $row['timelabel'];
 			$table[$n]['user'] = $row['login'];
 			$table[$n]['vote'] = $row['vote'];
@@ -437,7 +436,7 @@ class ilFeedback {
 			}
 		}
 		return(array('data' => $data,'legend' => $legend,'legendpie' => $legendpie, 'datapie' => $datapie, 'table' => $table));
-		
+
 	}
 	/**
 	* get the comments of an user or all users
@@ -451,7 +450,7 @@ class ilFeedback {
 			' WHERE  feedback_results.note<>""'.
 			' '.$user_filter.' AND feedback_results.fb_id='.$ilDB->quote($this->id).
 			' ORDER BY feedback_results.votetime,usr_data.login';
-		
+
 		$res = $ilDB->query($q);
 		$i=0;
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
@@ -466,15 +465,15 @@ class ilFeedback {
 	* get all users that have answerd a certain barometer
 	*/
 	function getResultUsers(){
-	
+
 		global $ilDB;
 		$q='SELECT distinct(usr_data.login), feedback_results.user_id  FROM'.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id'.
 			' WHERE feedback_results.fb_id='.$ilDB->quote($this->id).
 			' ORDER BY feedback_results.votetime,usr_data.login';
-		
+
 		$res = $ilDB->query($q);
-		
+
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
  			$users[$row['user_id']] = $row['login'];
 		}
@@ -499,7 +498,7 @@ class ilFeedback {
 				// Months
 				$mult_by = 30 *  24 * 60 *60;
 				break;
-			
+
 			default:
 				//Hours
 				$mult_by = 60 * 60;

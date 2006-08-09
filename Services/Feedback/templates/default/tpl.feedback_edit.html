@@ -6,12 +6,12 @@
 		</th>
 	</tr>
 	<tr>
-		<td class="option">{TXT_TITLE}</td>
+		<td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
 		<td colspan="3" class="option_value"><input type="text" size="60" maxlength="200" name="title" value="{VALUE_TITLE}"></td>
 	</tr>
 	<tr>
-		<td class="option">{TXT_FTEXT}</td>
-		<td colspan="3" class="option_value"><textarea cols="60" rows="3" wrap="virtual"name="text">{VALUE_TEXT}</textarea></td>
+		<td class="option">{TXT_TOP_TEXT}<span class="asterisk">*</span></td>
+		<td colspan="3" class="option_value"><textarea cols="60" rows="3" wrap="virtual" name="text">{VALUE_TEXT}</textarea></td>
 	</tr>
 	<tr>
 		<td class="option">{TXT_ANONYMOUS}</td>
@@ -25,7 +25,7 @@
 			{SELECT_ACTIVATION_START_HOUR} : {SELECT_ACTIVATION_START_MINUTE}
 		</td>
 	</tr>
-	<tr> 
+	<tr>
 		<td class="option">{TXT_TYPE}</td>
 		<td class="option_value">{SELECT_TYPE}</td>
 		<td class="option">{TXT_UNTIL}</td>
@@ -47,14 +47,14 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="option" valign="top">{TXT_VOTES}</td>
+		<td class="option" valign="top">{TXT_VOTES}<span class="asterisk">*</span></td>
 		<td class="option_value">
-			<!-- BEGIN vote -->{VOTE_NUM}.&nbsp;{TXT_TEXT}&nbsp;&nbsp;<input type="text" name="vote[{VOTE_NUM}]" value="{VALUE_VOTE_TEXT}"a><br /><!-- END vote -->
+			<!-- BEGIN vote -->{VOTE_NUM}.&nbsp;{TXT_TEXT}&nbsp;&nbsp;<input type="text" name="vote[{VOTE_NUM}]" value="{VALUE_VOTE_TEXT}"><br /><!-- END vote -->
 			<div align="right"><input type="hidden" name="extra_votes" value="{VALUE_EXTRA_VOTES}"><input type="submit" class="submit" value="{TXT_NEW_VOTE}" name="cmd[{CMD_ADDVOTE}]"></div>
 		</td>
 		<td class="option">{TXT_FIRST_VOTE}</td>
 		<td class="option_value">
-			<input type="radio" name="first_vote_best" value="1" {BEST_CHECKED}>{TXT_BEST}  
+			<input type="radio" name="first_vote_best" value="1" {BEST_CHECKED}>{TXT_BEST}
 			<input type="radio" name="first_vote_best" value="0" {WORST_CHECKED}>{TXT_WORST} {TXT_VOTE}
 		</td>
 	</tr>
