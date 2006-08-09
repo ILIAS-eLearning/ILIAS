@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- ilias_user.dtd for ILIAS Users -->
 <!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
 <!-- $Id: ilias_user_3_7.dtd,v 1.1 2006/05/12 09:29:22 rku Exp $ -->
@@ -21,17 +20,22 @@
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
 	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?,UserDefinedField*)>
 
+<!--
+Id is ILIAS ID or unique identifier for this xml file
+-->
 <!ATTLIST User
 	Id CDATA #REQUIRED
-	ObjId CDATA #IMPLIED
 	Language (%langcode;) #REQUIRED
 	Action (%entityAction;) "Insert"
 >
 
 <!-- Role -->
 <!ELEMENT Role (#PCDATA)>
+
+<!--
+Id is ILIAS ID or unique identifier for this xml file
+-->
 <!ATTLIST Role
-    ObjId CDATA #IMPLIED
 	Id CDATA #REQUIRED
 	Type (Global | Local) #REQUIRED
 	Action (%relationshipAction;) "Assign"

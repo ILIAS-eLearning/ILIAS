@@ -2503,7 +2503,7 @@ class ilUtil
 		{
 			ilUtil::rRenameSuffix($a_dir, trim($def), "sec");
 		}
-		
+
 		$def_arr = explode(",", SUFFIX_REPL_ADDITIONAL);
 		foreach ($def_arr as $def)
 		{
@@ -3132,10 +3132,29 @@ class ilUtil
 		return false;
 	}
 
+	 /**
+     *  extract ref id from role title, e.g. 893 from 'il_122_role_893'
+	*	@param ilias id with format like il_<instid>_<objTyp>_ID
+	*	@return	id or false
+	*/
+
+	function __extractId($ilias_id)
+	{
+
+		$test_str = explode('_',$role_title);
+
+		if ($test_str[0] == 'il' || count($test_str) != 4)
+		{
+			$test2 = (int) $test_str[3];
+			return is_numeric ($test2) ? (int) $test2 : false;
+		}
+		return false;
+	}
+
 	/**
 	* Function that sorts ids by a given table field using WHERE IN
 	* E.g: __sort(array(6,7),'usr_data','lastname','usr_id') => sorts by lastname
-	* 
+	*
 	* @param array Array of ids
 	* @param string table name
 	* @param string table field
