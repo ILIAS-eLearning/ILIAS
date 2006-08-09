@@ -140,7 +140,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				return 'illplistofobjectsgui';
 
 			case LP_MODE_REPOSITORY:
-				if($ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
+				if(!$this->anonymized and $ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
 				{
 					return 'illplistofobjectsgui';
 				}

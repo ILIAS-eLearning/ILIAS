@@ -312,7 +312,7 @@ class ilLPItemListGUI
 		// Path
 		if($this->enabled('path'))
 		{
-			$this->renderPath();
+			$this->renderPath(true);
 		}
 
 		
@@ -404,7 +404,7 @@ class ilLPItemListGUI
 		// Path
 		if($this->enabled('path'))
 		{
-			$this->renderPath();
+			$this->renderPath(false);
 		}
 
 		
