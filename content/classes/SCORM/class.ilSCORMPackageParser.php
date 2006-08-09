@@ -51,6 +51,7 @@ class ilSCORMPackageParser extends ilSaxParser
 	var $current_organization;	// current organization object
 	var $current_resource;	// current resource object
 	var $item_stack;		// current open item objects
+	var $package_title = "";	// title for the package (title from organisation)
 
 
 	/**
@@ -86,6 +87,11 @@ class ilSCORMPackageParser extends ilSaxParser
 	function startParsing()
 	{
 		parent::startParsing();
+	}
+	
+	function getPackageTitle()
+	{
+		return $this->package_title;
 	}
 
 	/*
@@ -343,6 +349,7 @@ class ilSCORMPackageParser extends ilSaxParser
 							$this->current_organization->setTitle(
 								$this->current_organization->getTitle() . $a_data
 							);
+							$this->package_title = $this->current_organization->getTitle();
 							break;
 
 						case "item":

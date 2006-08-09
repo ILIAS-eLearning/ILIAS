@@ -309,7 +309,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		ilUtil::unzip($file_path);
 		ilUtil::renameExecutables($newObj->getDataDirectory());
 
-		$newObj->readObject();
+		$title = $newObj->readObject();
+		if ($title != "")
+		{
+			ilObject::_writeTitle($newObj->getId(), $title);
+		}
 		
 		sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
 		ilUtil::redirect("content/sahs_edit.php?ref_id=".$newObj->getRefId());
