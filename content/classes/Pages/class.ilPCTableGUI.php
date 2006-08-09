@@ -181,6 +181,7 @@ class ilPCTableGUI extends ilPageContentGUI
 				$this->content_obj->setTDWidth($hier_id, $_POST["td_width"]);
 			}
 		}
+		$this->setProperties();
 		$this->updated = $this->pg_obj->update();
 		$this->pg_obj->addHierIDs();
 		$this->edit();
@@ -198,15 +199,14 @@ class ilPCTableGUI extends ilPageContentGUI
 				$this->content_obj->setTDClass($hier_id, $_POST["td_class"]);
 			}
 		}
+		$this->setProperties();
 		$this->updated = $this->pg_obj->update();
 		$this->pg_obj->addHierIDs();
 		$this->edit();
 	}
 
-	/**
-	* save table properties in db and return to page edit screen
-	*/
-	function saveProperties()
+	
+	function setProperties()
 	{
 		// mask html
 		$caption = $_POST["tab_caption"];
@@ -220,6 +220,14 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->content_obj->setCellSpacing($_POST["tab_spacing"]);
 		$this->content_obj->setCellPadding($_POST["tab_padding"]);
 		$this->content_obj->setCaption($caption, $_POST["tab_cap_align"]);
+	}
+	
+	/**
+	* save table properties in db and return to page edit screen
+	*/
+	function saveProperties()
+	{
+		$this->setProperties();
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
