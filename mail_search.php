@@ -108,32 +108,64 @@ if ($_GET["addressbook"])
 
 if ($_GET["system"])
 {
-	$user = new ilObjUser();
-	$users = $user->searchUsers(addslashes(urldecode($_GET["search"])));
+	include_once 'Services/Search/classes/class.ilQueryParser.php';
+	include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+	include_once 'Services/Search/classes/class.ilSearchResult.php';
 
-	if ($users)
+	$all_results = new ilSearchResult();
+
+	$query_parser = new ilQueryParser(ilUtil::stripSlashes($_GET['search']));
+	$query_parser->setCombination(QP_COMBINATION_OR);
+	$query_parser->setMinWordLength(3);
+	$query_parser->parse();
+
+	$user_search =& ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+	$user_search->setFields(array('login'));
+	$result_obj = $user_search->performSearch();
+	$all_results->mergeEntries($result_obj);
+
+	$user_search->setFields(array('firstname'));
+	$result_obj = $user_search->performSearch();
+	$all_results->mergeEntries($result_obj);
+
+	
+	$user_search->setFields(array('lastname'));
+	$result_obj = $user_search->performSearch();
+	$all_results->mergeEntries($result_obj);
+
+	$all_results->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
+
+	foreach(($users = $all_results->getResults()) as $result)
 	{
-		$counter = 0;
+		global $rbacsystem;
 
-		foreach ($users as $user_data)
+		if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()) 
+		   and (ilObjUser::_lookupPref($result['obj_id'],'public_email') == 'y'))
 		{
-			if ($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
-			{
-				$tpl->setCurrentBlock("smtp_row");
-				$tpl->setVariable("PERSON_EMAIL",$user_data["email"]);
-				$tpl->setVariable("EMAIL",$user_data["email"]);
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->setCurrentBlock("person_search");
-			$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-			$tpl->setVariable("PERSON_LOGIN",$user_data["login"]);
-			$tpl->setVariable("LOGIN",$user_data["login"]);
-			$tpl->setVariable("FIRSTNAME",$user_data["firstname"]);
-			$tpl->setVariable("LASTNAME",$user_data["lastname"]);
+			$has_mail = true;
+			$tpl->setCurrentBlock("smtp_row");
+			$tpl->setVariable("PERSON_EMAIL",ilObjUser::_lookupEmail($result['obj_id']));
+			$tpl->setVariable("EMAIL",ilObjUser::_lookupEmail($result['obj_id']));
 			$tpl->parseCurrentBlock();
 		}
-	}
-	else
+		else
+		{
+			$tpl->setCurrentBlock("no_smtp_row");
+			$tpl->setVariable("NO_EMAIL",'');
+			$tpl->parseCurrentBlock();
+		}
+		$name = ilObjUser::_lookupName($result['obj_id']);
+		$login = ilObjUser::_lookupLogin($result['obj_id']);
+
+		$tpl->setCurrentBlock("person_search");
+		$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+		$tpl->setVariable("PERSON_LOGIN",$login);
+		$tpl->setVariable("LOGIN",$login);
+		$tpl->setVariable("FIRSTNAME",$name["firstname"]);
+		$tpl->setVariable("LASTNAME",$name["lastname"]);
+		$tpl->parseCurrentBlock();
+	}		
+	if(!count($users))
 	{
 		$tpl->setCurrentBlock("no_content");
 		$tpl->setVariable("TXT_PERSON_NO",$lng->txt("mail_search_no"));
@@ -163,11 +195,15 @@ if ($_GET["system"])
 		$tpl->parseCurrentBlock();
 	}
 
-	if ($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
+	if ($has_mail)
 	{
 		$tpl->setCurrentBlock("smtp");
 		$tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
 		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		$tpl->touchBlock('no_smtp');
 	}
 		
 	$tpl->setCurrentBlock("system");

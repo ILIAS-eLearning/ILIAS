@@ -1,7 +1,7 @@
 	<form action="{ACTION}" METHOD="post">
 	<table class="fullwidth">
 	  <!-- BEGIN addr -->
-	  <tr class="tblheader"><td class="std" colspan="6">{TXT_ADDR}</td></tr>
+	  <tr class="tblheader"><td class="std" colspan="7">{TXT_ADDR}</td></tr>
 		  <tr class="tblheader">
 			<td class="std"  width="4%">
 			  &nbsp;
@@ -66,6 +66,11 @@
 			  <b>{TXT_EMAIL}</b>
 			</td>
 			<!-- END smtp -->
+			<!-- BEGIN no_smtp -->
+			<td class="std" width="4%" colspan="2">
+			  &nbsp;
+			</td>
+			<!-- END no_smtp -->
 		  </tr>
 		  <!-- BEGIN person_search -->
 		  <tr class="{CSSROW}">
@@ -81,6 +86,9 @@
 			</td>
 			<td class="std"  valign="top">{EMAIL}</td>
 			<!-- END smtp_row -->
+			<!-- BEGIN no_smtp_row -->
+			<td class="std"  valign="top" colspan="2">{NO_EMAIL}</td>
+			<!-- END no_smtp_row -->
 		  </tr>
 		  <!-- END person_search -->
 		  <!-- BEGIN no_content -->
