@@ -4086,6 +4086,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
+				$this->tabs_gui->setTabActive('meta_data');
 				break;
 
 			case "ilcourseregistergui":
@@ -4150,6 +4151,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$this->tabs_gui->setTabActive('perm_settings');
 				break;
 
 			case 'ilrepositorysearchgui':
