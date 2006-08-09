@@ -25,9 +25,9 @@
 /**
 * Class ilObjUserFolder
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
+*
 * @extends ilObject
 * @package ilias-core
 */
@@ -55,7 +55,7 @@ class ilObjUserFolder extends ilObject
 	* @return	integer	new ref id
 	*/
 	function ilClone($a_parent_ref)
-	{		
+	{
 		// DISABLED
 		return false;
 
@@ -63,7 +63,7 @@ class ilObjUserFolder extends ilObject
 
 		// always call parent ilClone function first!!
 		$new_ref_id = parent::ilClone($a_parent_ref);
-		
+
 		// put here userfolder specific stuff
 
 		// ... and finally always return new reference ID!!
@@ -71,13 +71,13 @@ class ilObjUserFolder extends ilObject
 	}
 
 	/**
-	* delete userfolder and all related data	
+	* delete userfolder and all related data
 	* DISABLED
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// DISABLED
 		return false;
 
@@ -87,11 +87,11 @@ class ilObjUserFolder extends ilObject
 			return false;
 		}
 		// put here userfolder specific stuff
-		
+
 		// always call parent delete function at the end!!
 		return true;
 	}
-	
+
 
 	function getExportFilename($a_mode = "userfolder_export_excel_x86")
 	{
@@ -104,10 +104,10 @@ class ilObjUserFolder extends ilObject
 
 		switch($a_mode)
 		{
-			case "userfolder_export_excel_x86":				
+			case "userfolder_export_excel_x86":
 				$filename = $date."__".$inst_id."__xls_usrf.xls";
 				break;
-			case "userfolder_export_csv":				
+			case "userfolder_export_csv":
 				$filename = $date."__".$inst_id."__csv_usrf.csv";
 				break;
 			case "userfolder_export_xml":
@@ -116,11 +116,11 @@ class ilObjUserFolder extends ilObject
 		}
 		return $filename;
 	}
-	
-	
+
+
 /**
 * Get the location of the export directory for the user accounts
-* 
+*
 * Get the location of the export directory for the user accounts
 *
 * @access	public
@@ -134,7 +134,7 @@ class ilObjUserFolder extends ilObject
 
 /**
 * Get a list of the already exported files in the export directory
-* 
+*
 * Get a list of the already exported files in the export directory
 *
 * @return array A list of file names
@@ -143,7 +143,7 @@ class ilObjUserFolder extends ilObject
 	function getExportFiles()
 	{
 		$dir = $this->getExportDirectory();
-		
+
 		// quit if export dir not available
 		if (!@is_dir($dir) or
 			!is_writeable($dir))
@@ -179,7 +179,7 @@ class ilObjUserFolder extends ilObject
 
 		return $file;
 	}
-	
+
 	function escapeXML($value)
 	{
 		$value = str_replace("&", "&amp;", $value);
@@ -195,12 +195,12 @@ class ilObjUserFolder extends ilObject
 		global $rbacreview;
 		global $ilDB;
 		global $log;
-		
+
 		$file = fopen($filename, "w");
 		fwrite($file, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		fwrite($file, "<!DOCTYPE Users SYSTEM \"ilias_user_3_7.dtd\">\n");
 		fwrite($file, "<Users>");
-		foreach ($data as $row) 
+		foreach ($data as $row)
 		{
 			//$log->write(date("[y-m-d H:i:s] ")."User data export: processing user " . $row["login"]);
 			foreach ($row as $key => $value)
@@ -210,7 +210,7 @@ class ilObjUserFolder extends ilObject
 			$userline = "";
 			// TODO: Define combobox for "Action" ???
 			if (strlen($row["language"]) == 0) $row["language"] = "en";
-			$userline .= "<User ObjId=\"".$row["usr_id"]."\"  Id=\"".$row["login"]."\" Language=\"".$row["language"]."\" Action=\"Insert\">";
+			$userline .= "<User Id=\"il_".IL_INST_ID."_usr_".$row["usr_id"]."\" Language=\"".$row["language"]."\" Action=\"Insert\">";
 			if (array_search("login", $settings) !== FALSE)
 			{
 				$userline .= "<Login>".$row["login"]."</Login>";
@@ -235,14 +235,14 @@ class ilObjUserFolder extends ilObject
 					}
 					if (strlen($type))
 					{
-						$userline .= "<Role ObjId=\"".$rbacrow["rol_id"]."\" Id=\"".$rbacrow["title"]."\" Type=\"".$type."\">".$rbacrow["title"]."</Role>";
+						$userline .= "<Role Id=\"il_".IL_INST_ID."_role_".$rbacrow["rol_id"]."\" Type=\"".$type."\">".$rbacrow["title"]."</Role>";
 					}
 				}
 			}
 			//$log->write(date("[y-m-d H:i:s] ")."User data export: get all roles");
 			/* the export of roles is to expensive. on a system with 6000 users the following
 			   section needs 37 seconds
-				 
+
 			$roles = $rbacreview->getRolesByFilter(1, $row["usr_id"]);
 			$ass_roles = $rbacreview->assignedRoles($row["usr_id"]);
 			foreach ($roles as $role)
@@ -315,7 +315,7 @@ class ilObjUserFolder extends ilObject
 							}
 							$userline .= "<PersonalPicture imagetype=\"$imagetype\" encoding=\"Base64\">$base64</PersonalPicture>";
 						}
-					}					
+					}
 				}
 			}
 			if (array_search("gender", $settings) !== FALSE)
@@ -450,7 +450,7 @@ class ilObjUserFolder extends ilObject
 		fwrite($file, "</Users>");
 		fclose($file);
 	}
-	
+
 	function createCSVExport(&$settings, &$data, $filename)
 	{
 		$headerrow = array();
@@ -462,7 +462,7 @@ class ilObjUserFolder extends ilObject
 		$file = fopen($filename, "w");
 		$formattedrow =& ilUtil::processCSVRow($headerrow, TRUE, $separator);
 		fwrite($file, join ($separator, $formattedrow) ."");
-		foreach ($data as $row) 
+		foreach ($data as $row)
 		{
 			$csvrow = array();
 			foreach ($settings as $header)
@@ -474,7 +474,7 @@ class ilObjUserFolder extends ilObject
 		}
 		fclose($file);
 	}
-	
+
 	function createExcelExport(&$settings, &$data, $filename, $a_mode)
 	{
 		$result = @include_once 'Spreadsheet/Excel/Writer.php';
@@ -504,7 +504,7 @@ class ilObjUserFolder extends ilObject
 		$worksheet =& $workbook->addWorksheet();
 		$row = 0;
 		$col = 0;
-		
+
 		foreach ($settings as $value)
 		{
 			$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt($value), $a_mode), $format_title);
@@ -512,7 +512,7 @@ class ilObjUserFolder extends ilObject
 		}
 
 
-		foreach ($data as $index => $rowdata) 
+		foreach ($data as $index => $rowdata)
 		{
 			$row++;
 			$col = 0;
@@ -553,11 +553,11 @@ class ilObjUserFolder extends ilObject
 		}
 		$workbook->close();
 	}
-	
+
 	function getExportSettings()
 	{
 		global $ilDB;
-		
+
 		$db_settings = array();
 		$profile_fields =& $this->getProfileFields();
 		$query = "SELECT * FROM `settings` WHERE keyword LIKE '%usr_settings_export_%' AND value = '1'";
@@ -604,7 +604,7 @@ class ilObjUserFolder extends ilObject
 		array_push($export_settings, "auth_mode");
 		return $export_settings;
 	}
-	
+
 	/**
 	* build xml export file
 	*/
@@ -614,7 +614,7 @@ class ilObjUserFolder extends ilObject
 		global $log;
 		global $ilDB;
 		global $ilias;
-		
+
 		//get Log File
 		$expDir = $this->getExportDirectory();
 		//$expLog = &$log;
@@ -624,7 +624,7 @@ class ilObjUserFolder extends ilObject
 
 		// create export directory if needed
 		$this->createExportDirectory();
-		
+
 		//get data
 		//$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
 		$settings =& $this->getExportSettings();
@@ -653,10 +653,10 @@ class ilObjUserFolder extends ilObject
 				break;
 		}
 		//$expLog->write(date("[y-m-d H:i:s] ")."Finished export of user data");
-	
-		return $fullname;	
+
+		return $fullname;
 	}
-	
+
 
 	/**
 	* creates data directory for export files
@@ -674,7 +674,7 @@ class ilObjUserFolder extends ilObject
 				$this->ilias->raiseError("Userfolder data directory (".$usrf_data_dir
 					.") not writeable.",$this->ilias->error_obj->MESSAGE);
 			}
-			
+
 			// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 			$export_dir = $usrf_data_dir."/export";
 			ilUtil::makeDir($export_dir);
@@ -684,7 +684,7 @@ class ilObjUserFolder extends ilObject
 			}
 		}
 	}
-	
+
 	function &getProfileFields()
 	{
 		$profile_fields = array(
@@ -715,11 +715,11 @@ class ilObjUserFolder extends ilObject
 		);
 		return $profile_fields;
 	}
-	
+
 	function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
 		global $ilDB;
-		
+
 		$ilDB->query("REPLACE INTO usr_new_account_mail ".
 			"(lang, subject, body, sal_g, sal_f, sal_m) VALUES ".
 			"(".$ilDB->quote($a_lang).",".$ilDB->quote($a_subject).",".$ilDB->quote($a_body).
@@ -729,7 +729,7 @@ class ilObjUserFolder extends ilObject
 	function _lookupNewAccountMail($a_lang)
 	{
 		global $ilDB;
-		
+
 		$set = $ilDB->query("SELECT * FROM usr_new_account_mail ".
 			" WHERE lang = ".$ilDB->quote($a_lang));
 
