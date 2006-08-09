@@ -107,7 +107,7 @@ class ilMainMenuGUI
 	*/
 	function setTemplateVars()
 	{
-		global $rbacsystem, $lng, $ilias;
+		global $rbacsystem, $lng, $ilias, $tree;
 
 		// administration button
 
@@ -271,8 +271,19 @@ class ilMainMenuGUI
 				$this->tpl->setCurrentBlock("userisanonymous");
 				$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
 				$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
+				
+				$target_str = "";
+				if ($_GET["ref_id"] != "")
+				{
+					if ($tree->isInTree($_GET["ref_id"]))
+					{
+						$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+						$type = ilObject::_lookupType($obj_id);
+						$target_str = $type."_".$_GET["ref_id"];
+					}
+				}
 				$this->tpl->setVariable("LINK_LOGIN",
-					$link_dir."login.php?cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
+					$link_dir."login.php?target=".$target_str."&cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
 				$this->tpl->parseCurrentBlock();
 			}
 			else
