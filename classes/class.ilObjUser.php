@@ -904,6 +904,21 @@ class ilObjUser extends ilObject
 		return $this->prefs[$a_keyword];
 	}
 
+	function _lookupPref($a_usr_id,$a_keyword)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM usr_pref WHERE usr_id='".$a_usr_id."' ".
+			"AND keyword = '".$a_keyword."'";
+		$res = $ilDB->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->value;
+		}
+		return false;
+	}
+
 	/**
 	* get all user preferences
 	* @access	private
@@ -1626,7 +1641,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT value FROM usr_pref WHERE usr_id='".$a_usr_id."' AND keyword = 'language'";
+		$q = "SELECT value FROM usr_pre WHERE usr_id='".$a_usr_id."' AND keyword = 'language'";
 		$r = $ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
