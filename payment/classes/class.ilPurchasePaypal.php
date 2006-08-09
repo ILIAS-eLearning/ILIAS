@@ -364,7 +364,7 @@ class ilPurchasePaypal
 			$m->From( $ilias->getSetting("admin_email") );
 			$m->To( $ilUser->getEmail() );
 			$m->Subject( $this->lng->txt("pay_message_subject") );	
-			$message = $this->lng->txt("pay_message_hello") . " " . utf8_encode($ilUser->getFirstname()) . " " . utf8_encode($ilUser->getLastname()) . ",\n\n";
+			$message = $this->lng->txt("pay_message_hello") . " " . $ilUser->getFirstname() . " " . $ilUser->getLastname() . ",\n\n";
 			$message .= $this->lng->txt("pay_message_thanks") . "\n\n";
 			$message .= $this->lng->txt("pay_message_attachment") . "\n\n";
 			$message .= $this->lng->txt("pay_message_regards") . "\n\n";
