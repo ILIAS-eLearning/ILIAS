@@ -1629,7 +1629,7 @@ class ilObjectGUI
 					$class_name = $this->objDefinition->getClassName($obj_type);
 					$class = strtolower("ilObj".$class_name."GUI");
 					$this->ctrl->setParameterByClass($class, "ref_id", $ctrl["ref_id"]);
-					$this->ctrl->setParameterByClass($class, "obj_id", $ctrl["ref_id"]);
+					$this->ctrl->setParameterByClass($class, "obj_id", $ctrl["obj_id"]);
 					$link = $this->ctrl->getLinkTargetByClass($class, "view");
 
 					/*
