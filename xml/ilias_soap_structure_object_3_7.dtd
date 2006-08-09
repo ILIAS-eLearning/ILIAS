@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT RepositoryObject (Title, Description, InternalLink, GotoLink,StructureObjects)>
 <!ATTLIST RepositoryObject
 	obj_id CDATA #REQUIRED

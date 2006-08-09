@@ -363,9 +363,22 @@ class ilUserImportParser extends ilSaxParser
 
 				// user defined fields
 				$this->udf_data = array();
-				
+
 				// if we have an object id, store it
-				$this->user_id = (is_null($a_attribs["ObjId"]))? -1 : $a_attribs["ObjId"];
+				$this->user_id = -1;
+				if (!is_null($a_attribs["Id"]))
+				{
+				    if (is_numeric($a_attribs["Id"]))
+				    {
+				        $this->user_id = $a_attribs["Id"];
+				    }
+				    else
+				    {
+				        $this->user_id = ($id = IlUtil::__extractId ($a_attribs["Id"]))?$id : -1;
+
+				    }
+				}
+
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
@@ -456,7 +469,20 @@ class ilUserImportParser extends ilSaxParser
 				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
-		        $this->user_id = (is_null($a_attribs["ObjId"]))? -1 : $a_attribs["ObjId"];
+
+				// if we have an object id, store it
+				$this->user_id = -1;
+                if (!is_null($a_attribs["Id"]))
+				{
+				    if (is_numeric($a_attribs["Id"]))
+				    {
+				        $this->user_id = $a_attribs["Id"];
+				    }
+				    else
+				    {
+				        $this->user_id = ($id = IlUtil::__extractId ($a_attribs["Id"]))?$id : -1;
+				    }
+				}
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
 				if ($this->action != "Insert"
 				&& $this->action != "Update"

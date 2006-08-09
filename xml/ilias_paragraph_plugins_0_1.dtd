@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- paragraph plugins dtd, has to be put in each plugin directory -->
 <!ELEMENT plugin (title, link, description?)>
 <!ATTLIST plugin
