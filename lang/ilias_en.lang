@@ -1163,16 +1163,16 @@ common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate wit
 common#:#auth_soap_auth#:#Configure SOAP Authentication
 common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.
 common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.
+common#:#auth_soap_namespace#:#Namespace
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.
 common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_settings_saved#:#SOAP authentication settings saved
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style
 common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
-common#:#auth_soap_namespace#:#Namespace
-common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.
-common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style
 common#:#auth_user_default_role#:#Default Role
 common#:#auth_visible#:#Authentication settings are visible
 common#:#auth_write#:#Edit authentication settings
@@ -1184,6 +1184,9 @@ common#:#available#:#Available
 common#:#available_languages#:#Available Languages
 common#:#average_time#:#Average time
 common#:#back#:#Back
+common#:#back_to_crs_content#:#Back to Course Content
+common#:#back_to_fold_content#:#Back to Folder Content
+common#:#back_to_grp_content#:#Back to Group Content
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
 common#:#basic_settings#:#Basic Settings
@@ -3512,7 +3515,6 @@ content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
-content#:#cont_reference#:#Reference
 content#:#cont_Remark#:#Remark
 content#:#cont_Roman#:#Roman i, ii, ...  ### 2006-5-8 --- Content changed
 content#:#cont_TableContent#:#Table Content
@@ -3795,6 +3797,7 @@ content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Referenced Images
+content#:#cont_reference#:#Reference
 content#:#cont_remove_fullscreen#:#Remove Full Screen
 content#:#cont_removeiln#:#really remove internal link ?
 content#:#cont_repository_item#:#Repository Item
@@ -6475,6 +6478,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-common#:#back_to_crs_content#:#Back to Course Content
-common#:#back_to_grp_content#:#Back to Group Content
-common#:#back_to_fold_content#:#Back to Folder Content

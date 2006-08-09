@@ -987,13 +987,13 @@ common#:#add_comments#:#Edit comments###10 Jul 2006 new variable
 common#:#add_condition#:#Crea una condizione
 common#:#add_member#:#Aggiungi membro
 common#:#add_members#:#aggiungi membri
-common#:#add_new_user_defined_field#:#Crea un nuovo campo per l&#039;utente 
-common#:#add_new_user_defined_select_field#:#Crea un menu a tendina
-common#:#add_new_user_defined_text_field#:#Crea un campo testo
+common#:#add_new_user_defined_field#:#Crea un nuovo campo per l&#039;utente ###09 Aug 2006 content changed
+common#:#add_new_user_defined_select_field#:#Crea un menu a tendina###09 Aug 2006 content changed
+common#:#add_new_user_defined_text_field#:#Crea un campo testo###09 Aug 2006 content changed
 common#:#add_note#:#Aggiungi nota
 common#:#add_translation#:#Aggiungi traduzione
 common#:#add_user#:#Aggiungi utenti locali
-common#:#add_user_defined_field#:#Crea un nuovo campo
+common#:#add_user_defined_field#:#Crea un nuovo campo###09 Aug 2006 content changed
 common#:#added_new_condition#:#Creata nuova condizione
 common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
 common#:#adm_create_tax#:#Creare una tassonomia
@@ -1161,10 +1161,13 @@ common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate wit
 common#:#auth_soap_auth#:#Configure SOAP Authentication###10 Jul 2006 new variable
 common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.###10 Jul 2006 new variable
 common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.###10 Jul 2006 new variable
+common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
 common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
 common#:#auth_soap_settings_saved#:#SOAP authentication settings saved###10 Jul 2006 new variable
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
 common#:#auth_soap_use_https#:#Use HTTPS###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.###10 Jul 2006 new variable
@@ -1179,6 +1182,9 @@ common#:#available#:#Presente
 common#:#available_languages#:#Lingue disponibili
 common#:#average_time#:#Tempo medio
 common#:#back#:#Indietro
+common#:#back_to_crs_content#:#Back to Course Content###09 Aug 2006 new variable
+common#:#back_to_fold_content#:#Back to Folder Content###09 Aug 2006 new variable
+common#:#back_to_grp_content#:#Back to Group Content###09 Aug 2006 new variable
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dati di base
 common#:#basic_settings#:#Impostazioni base
@@ -1670,8 +1676,8 @@ common#:#faq_exercise#:#FAQ/Esercitazioni
 common#:#fax#:#Fax
 common#:#feedback#:#Risposta
 common#:#feedback_recipient#:#Destinatario per le risposte
-common#:#field_name#:#Nome del campo
-common#:#field_type#:#Tipo del campo
+common#:#field_name#:#Nome del campo###09 Aug 2006 content changed
+common#:#field_type#:#Tipo del campo###09 Aug 2006 content changed
 common#:#file#:#File
 common#:#file_a#:#un file
 common#:#file_add#:#Aggiungi file
@@ -3136,7 +3142,7 @@ common#:#st_add#:#Aggiungi capitolo
 common#:#st_added#:#Captolo aggiunto
 common#:#st_edit#:#Modifica capitolo
 common#:#st_new#:#Nuovo capitolo
-common#:#standard_fields#:#Campi standard
+common#:#standard_fields#:#Campi standard###09 Aug 2006 content changed
 common#:#startpage#:#Pagina di partenza
 common#:#statistic#:#Statistiche
 common#:#status#:#Stato
@@ -3275,17 +3281,17 @@ common#:#txt_submitted#:#E&#039; stata registrata con successo la richiesta di p
 common#:#typ#:#Definizione di tipo di oggetto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#Scrivi il tuo messaggio qua
-common#:#udf_add_field#:#Aggiungi un campo
-common#:#udf_added_field#:#Aggiunto nuovo campo.
-common#:#udf_delete_header#:#Elimina campo
+common#:#udf_add_field#:#Aggiungi un campo###09 Aug 2006 content changed
+common#:#udf_added_field#:#Aggiunto nuovo campo.###09 Aug 2006 content changed
+common#:#udf_delete_header#:#Elimina campo###09 Aug 2006 content changed
 common#:#udf_delete_sure#:#Sei sicuro di voler eliminare questo campo e con esso tutti i valori corrispondenti inseriti dagli utenti?
 common#:#udf_duplicate_entries#:#I valori devono essere unici.
 common#:#udf_field_deleted#:#Campo duplicato.
 common#:#udf_name_already_exists#:#Il nome di questo campo &#232; gi&#224; presente. Scegli un nome diverso.
 common#:#udf_no_entries#:#Per favore, inserisci almeno un valore.
 common#:#udf_no_name_given#:#Per favore, definisci il nome del campo.
-common#:#udf_type_select#:#Menu a tendina (valori fissati)
-common#:#udf_type_text#:#Campo testo (valori variabili)
+common#:#udf_type_select#:#Menu a tendina (valori fissati)###09 Aug 2006 content changed
+common#:#udf_type_text#:#Campo testo (valori variabili)###09 Aug 2006 content changed
 common#:#udf_update_select_field#:#Edit select box###10 Jul 2006 new variable
 common#:#udf_update_success#:#Saved modifications.###10 Jul 2006 new variable
 common#:#udf_update_text_field#:#Edit text field###10 Jul 2006 new variable
@@ -3339,8 +3345,8 @@ common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utenti assegnati
 common#:#user_cant_receive_mail#:#l&#039;utente non pu&#242; usare la mail di sistema 
 common#:#user_comment#:#Commento utente
-common#:#user_defined_fields#:#Campi definiti dall&#039;utente 
-common#:#user_defined_list#:#Lista definita dall&#039;utente 
+common#:#user_defined_fields#:#Campi definiti dall&#039;utente ###09 Aug 2006 content changed
+common#:#user_defined_list#:#Lista definita dall&#039;utente ###09 Aug 2006 content changed
 common#:#user_deleted#:#Cancellazione eseguita
 common#:#user_detail#:#Dettagli dei dati
 common#:#user_ext_account#:#External Account###10 Jul 2006 new variable
@@ -3786,6 +3792,7 @@ content#:#cont_publisher#:#Editore
 content#:#cont_purpose#:#Scopo
 content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Immagini riferite
+content#:#cont_reference#:#Reference###09 Aug 2006 new variable
 content#:#cont_remove_fullscreen#:#Rimuovi a tutto schermo
 content#:#cont_removeiln#:#veramente rimuovere il collegamento interno?
 content#:#cont_repository_item#:#Risorsa

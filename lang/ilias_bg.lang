@@ -1068,10 +1068,13 @@ common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate wit
 common#:#auth_soap_auth#:#Configure SOAP Authentication###10 Jul 2006 new variable
 common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.###10 Jul 2006 new variable
 common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.###10 Jul 2006 new variable
+common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
+common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
 common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
 common#:#auth_soap_settings_saved#:#SOAP authentication settings saved###10 Jul 2006 new variable
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
+common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
 common#:#auth_soap_use_https#:#Use HTTPS###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.###10 Jul 2006 new variable
@@ -1086,6 +1089,9 @@ common#:#available#:#�?алично
 common#:#available_languages#:#�?алични езици
 common#:#average_time#:#Средно време
 common#:#back#:#�?азад
+common#:#back_to_crs_content#:#Back to Course Content###09 Aug 2006 new variable
+common#:#back_to_fold_content#:#Back to Folder Content###09 Aug 2006 new variable
+common#:#back_to_grp_content#:#Back to Group Content###09 Aug 2006 new variable
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#О�?новни данни
 common#:#basic_settings#:#Basic Settings###03 Nov 2005 new variable
@@ -3379,6 +3385,7 @@ content#:#cont_public_notes_desc#:#Allows users to share notes on every page of 
 content#:#cont_publisher#:#Публикувал
 content#:#cont_purpose#:#Предназначение
 content#:#cont_ref_helptext#:#(напр., http://www.server.org/myimage.jpg)
+content#:#cont_reference#:#Reference###09 Aug 2006 new variable
 content#:#cont_remove_fullscreen#:#Премахване на режим ц�?л екран
 content#:#cont_removeiln#:#наи�?тина ли да бъде премахнат вътрешни�?т линк ?
 content#:#cont_resource#:#Ре�?ур�?
