@@ -27,7 +27,6 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* 
 * @version $Id$
 *
 * @package ilias-core
@@ -333,6 +332,7 @@ class ilObjectGUI
 				$class = strtolower("ilObj".$class_name."GUI");
 				$this->ctrl->setParameterByClass($class, "ref_id", $par_id);
 				$tpl->setUpperIcon($this->ctrl->getLinkTargetByClass($class, "view"));
+				$this->ctrl->clearParametersByClass($class);
 			}
 			// link repository admin to admin settings
 			else if ($this->object->getRefId() == ROOT_FOLDER_ID)
@@ -821,7 +821,6 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
 									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
-
 		foreach ($_POST["trash_id"] as $id)
 		{
 			// INSERT AND SET PERMISSIONS
@@ -1986,7 +1985,6 @@ class ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		*/
 		//sendInfo($this->lng->txt("info_trash"));
-
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);

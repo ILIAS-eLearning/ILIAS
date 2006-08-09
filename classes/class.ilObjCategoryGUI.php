@@ -148,8 +148,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			return;
 		}
-		
-		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+		#$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
