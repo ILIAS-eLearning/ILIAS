@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * StartUp GUI class. Handles Login and Registration.
 *
@@ -892,7 +891,7 @@ class ilStartUpGUI
 	function _checkGoto($a_target)
 	{
 		global $objDefinition;
-		
+
 		if ($a_target == "")
 		{
 			return false;

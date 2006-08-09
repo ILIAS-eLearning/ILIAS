@@ -275,7 +275,7 @@ class ilMainMenuGUI
 				$target_str = "";
 				if ($_GET["ref_id"] != "")
 				{
-					if ($tree->isInTree($_GET["ref_id"]))
+					if ($tree->isInTree($_GET["ref_id"]) && $_GET["ref_id"] != $tree->getRootId())
 					{
 						$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
 						$type = ilObject::_lookupType($obj_id);
