@@ -104,7 +104,7 @@ class ilPurchaseBMFGUI
 
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
-		if(!count($items = $this->psc_obj->getEntries()))
+		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
@@ -246,7 +246,7 @@ class ilPurchaseBMFGUI
 
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
-		if(!count($items = $this->psc_obj->getEntries()))
+		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
@@ -344,7 +344,7 @@ class ilPurchaseBMFGUI
 
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
-		if(!count($items = $this->psc_obj->getEntries()))
+		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
@@ -460,7 +460,7 @@ class ilPurchaseBMFGUI
 
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
-		if(!count($items = $this->psc_obj->getEntries()))
+		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
@@ -647,7 +647,7 @@ class ilPurchaseBMFGUI
 
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
-		if(!count($items = $this->psc_obj->getEntries()))
+		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
@@ -830,7 +830,7 @@ class ilPurchaseBMFGUI
 
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
-		if(!count($items = $this->psc_obj->getEntries()))
+		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
@@ -1091,7 +1091,7 @@ class ilPurchaseBMFGUI
 		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
 
 		$i = 0;
-		foreach($sc_obj->getEntries() as $entry)
+		foreach($sc_obj->getEntries(PAY_METHOD_BMF) as $entry)
 		{
 			$pobject =& new ilPaymentObject($this->user_obj,$entry['pobject_id']);
 
@@ -1254,7 +1254,7 @@ class ilPurchaseBMFGUI
 	{
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
-		if(!count($items = $this->psc_obj->getEntries()))
+		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
 			return 0;
 		}
@@ -1307,7 +1307,7 @@ class ilPurchaseBMFGUI
 
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
-		if(!count($items = $this->psc_obj->getEntries()))
+		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 		}

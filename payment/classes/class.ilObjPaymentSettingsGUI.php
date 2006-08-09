@@ -874,6 +874,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	function addStatisticWorksheet(&$pewa)
 	{
+		include_once './classes/class.ilExcelUtils.php';
 		include_once './payment/classes/class.ilPaymentVendors.php';
 
 		$this->__initBookingObject();
@@ -904,16 +905,16 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$worksheet->writeString(0,0,$title,$pewa->getFormatTitle());
 
-		$worksheet->writeString(1,0,utf8_decode($this->lng->txt('payment_system')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,1,utf8_decode($this->lng->txt('paya_transaction')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,2,utf8_decode($this->lng->txt('title')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,3,utf8_decode($this->lng->txt('paya_vendor')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,4,utf8_decode($this->lng->txt('pays_cost_center')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,5,utf8_decode($this->lng->txt('paya_customer')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,6,utf8_decode($this->lng->txt('paya_order_date')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,7,utf8_decode($this->lng->txt('duration')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,8,utf8_decode($this->lng->txt('price_a')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,9,utf8_decode($this->lng->txt('paya_payed_access')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,0,ilExcelUtils::_convert_text($this->lng->txt('payment_system')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,1,ilExcelUtils::_convert_text($this->lng->txt('paya_transaction')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,2,ilExcelUtils::_convert_text($this->lng->txt('title')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,3,ilExcelUtils::_convert_text($this->lng->txt('paya_vendor')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,4,ilExcelUtils::_convert_text($this->lng->txt('pays_cost_center')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,5,ilExcelUtils::_convert_text($this->lng->txt('paya_customer')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,6,ilExcelUtils::_convert_text($this->lng->txt('paya_order_date')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,7,ilExcelUtils::_convert_text($this->lng->txt('duration')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,8,ilExcelUtils::_convert_text($this->lng->txt('price_a')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,9,ilExcelUtils::_convert_text($this->lng->txt('paya_payed_access')),$pewa->getFormatHeader());
 
 		$counter = 2;
 		foreach($bookings as $booking)
@@ -934,12 +935,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					$pay_method = $this->lng->txt("pays_paypal");
 					break;
 			}
-			$worksheet->writeString($counter,0,utf8_decode($pay_method));
-			$worksheet->writeString($counter,1,utf8_decode($booking['transaction_extern']));
-			$worksheet->writeString($counter,2,utf8_decode($tmp_obj->getTitle()));
-			$worksheet->writeString($counter,3,utf8_decode($tmp_vendor->getLogin()));
-			$worksheet->writeString($counter,4,utf8_decode(ilPaymentVendors::_getCostCenter($tmp_vendor->getId())));
-			$worksheet->writeString($counter,5,utf8_decode($tmp_purchaser->getLogin()));
+			$worksheet->writeString($counter,0,ilExcelUtils::_convert_text($pay_method));
+			$worksheet->writeString($counter,1,ilExcelUtils::_convert_text($booking['transaction_extern']));
+			$worksheet->writeString($counter,2,ilExcelUtils::_convert_text($tmp_obj->getTitle()));
+			$worksheet->writeString($counter,3,ilExcelUtils::_convert_text($tmp_vendor->getLogin()));
+			$worksheet->writeString($counter,4,ilExcelUtils::_convert_text(ilPaymentVendors::_getCostCenter($tmp_vendor->getId())));
+			$worksheet->writeString($counter,5,ilExcelUtils::_convert_text($tmp_purchaser->getLogin()));
 			$worksheet->writeString($counter,6,strftime('%Y-%m-%d %R',$booking['order_date']));
 			/*
 			$worksheet->write($counter,5,ilUtil::excelTime(date('Y',$booking['order_date']),
@@ -950,7 +951,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 														   date('s',$booking['order_date'])),$pewa->getFormatDate());
 			*/
 			$worksheet->writeString($counter,7,$booking['duration']);
-			$worksheet->writeString($counter,8,utf8_decode($booking['price']));
+			$worksheet->writeString($counter,8,ilExcelUtils::_convert_text($booking['price']));
 			
 			$payed_access = $booking['payed'] ? 
 				$this->lng->txt('yes') : 
@@ -973,6 +974,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	function addVendorWorksheet(&$pewa)
 	{
+		include_once './classes/class.ilExcelUtils.php';
+
 		$this->object->initPaymentVendorsObject();
 		if(!count($vendors = $this->object->payment_vendors_obj->getVendors()))
 		{
@@ -980,7 +983,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 
 		$workbook =& $pewa->getWorkbook();
-		$worksheet =& $workbook->addWorksheet(utf8_decode($this->lng->txt('pays_vendor')));
+		$worksheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($this->lng->txt('pays_vendor')));
 
 		// SHOW HEADER
 		$worksheet->mergeCells(0,0,0,2);
@@ -994,9 +997,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$worksheet->writeString(0,0,$title,$pewa->getFormatTitle());
 
-		$worksheet->writeString(1,0,utf8_decode($this->lng->txt('login')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,1,utf8_decode($this->lng->txt('fullname')),$pewa->getFormatHeader());
-		$worksheet->writeString(1,2,utf8_decode($this->lng->txt('pays_cost_center')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,0,ilExcelUtils::_convert_text($this->lng->txt('login')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,1,ilExcelUtils::_convert_text($this->lng->txt('fullname')),$pewa->getFormatHeader());
+		$worksheet->writeString(1,2,ilExcelUtils::_convert_text($this->lng->txt('pays_cost_center')),$pewa->getFormatHeader());
 
 		$counter = 2;
 		foreach($vendors as $vendor)
@@ -1004,9 +1007,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			// GET USER OBJ
 			if($tmp_obj = ilObjectFactory::getInstanceByObjId($vendor['vendor_id'],false))
 			{
-				$worksheet->writeString($counter,0,utf8_decode($tmp_obj->getLogin()));
-				$worksheet->writeString($counter,1,utf8_decode($tmp_obj->getFullname()));
-				$worksheet->writeString($counter,2,utf8_decode($vendor['cost_center']));
+				$worksheet->writeString($counter,0,ilExcelUtils::_convert_text($tmp_obj->getLogin()));
+				$worksheet->writeString($counter,1,ilExcelUtils::_convert_text($tmp_obj->getFullname()));
+				$worksheet->writeString($counter,2,ilExcelUtils::_convert_text($vendor['cost_center']));
 			}
 			unset($tmp_obj);
 			++$counter;
