@@ -2525,9 +2525,6 @@ common#:#msg_no_scan_log#:#Scan log ist noch nicht implementiert
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind ### 2006-5-8 --- Content changed
-=======
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
->>>>>>> 1.1222
 common#:#msg_no_title#:#Bitte geben Sie einen Titel ein!
 common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
 common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
@@ -5887,7 +5884,6 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
-
 survey#:#add_category#:#Antwort hinzufügen
 survey#:#add_heading#:#Überschrift hinzufügen
 survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.
