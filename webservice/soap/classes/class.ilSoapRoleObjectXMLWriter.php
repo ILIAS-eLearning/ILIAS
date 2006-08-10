@@ -109,10 +109,10 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 				if (is_object($ownerObj))
 				{
 					$attrs = array ("obj_id" => $ownerObj->getId(), "ref_id" => $ownerObj->getRefId(), "type" => $ownerObj->getType());
-					$this->xmlStartTag('Owner', $attrs);
+					$this->xmlStartTag('AssignedObject', $attrs);
 					$this->xmlElement ('Title', null, $ownerObj->getTitle());
 					$this->xmlElement ('Description', null, $ownerObj->getDescription());
-					$this->xmlEndTag ('Owner', $attrs);
+					$this->xmlEndTag ('AssignedObject', $attrs);
 				}
 			}
 

@@ -10,8 +10,8 @@
 <!ELEMENT Title (#PCDATA)>
 <!ELEMENT Description (#PCDATA)>
 <!ELEMENT Translation (#PCDATA)>
-<!ELEMENT Owner (Title, Description)>
-<!ATTLIST Owner
+<!ELEMENT AssignedObject (Title, Description)>
+<!ATTLIST AssignedObject
     obj_id CDATA #REQUIRED
     ref_id CDATA #REQUIRED
     type  CDATA #REQUIRED

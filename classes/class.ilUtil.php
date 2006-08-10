@@ -3141,7 +3141,7 @@ class ilUtil
 	function __extractId($ilias_id)
 	{
 
-		$test_str = explode('_',$role_title);
+		$test_str = explode('_',$ilias_id);
 
 		if ($test_str[0] == 'il' || count($test_str) != 4)
 		{

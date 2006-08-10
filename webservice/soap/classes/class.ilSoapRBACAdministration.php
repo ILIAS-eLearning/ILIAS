@@ -613,7 +613,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 					{
 				        /* @var $tmp_obj IlObjRole */
 			             $roles[] = array (
-			                 "obj_id" =>$rbacrow["rol_id"],
+			                "obj_id" =>$rbacrow["rol_id"],
 				            "title" => $tmp_obj->getTitle(),
 				            "description" => $tmp_obj->getDescription(),
 				            "role_type" => $type);

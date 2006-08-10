@@ -574,7 +574,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	* define ("IL_UPDATE_ON_CONFLICT", 2);
 	* define ("IL_IGNORE_ON_CONFLICT", 3);
 	*/
-	function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule)
+	function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail)
 	{
 
 		if(!$this->__checkSession($sid))
@@ -815,6 +815,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		//print_r ($permitted_roles);
 
 		$importParser = new ilUserImportParser("", IL_USER_IMPORT, $conflict_rule);
+		$importParser->setSendMail($send_account_mail);
 		$importParser->setFolderId($folder_id);
 		$importParser->setXMLContent($usr_xml);
 
