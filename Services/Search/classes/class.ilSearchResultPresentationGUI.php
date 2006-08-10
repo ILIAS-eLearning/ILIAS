@@ -238,7 +238,7 @@ class ilSearchResultPresentationGUI
 							break;
 					}
 					$item_list_gui->setChildId($child);
-					$tpl->setVariable("SEPERATOR",'->');
+					$tpl->setVariable("SEPERATOR",' -> ');
 					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('page'));
 					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame('page'));
 					$tpl->setVariable("TITLE",ilLMObject::_lookupTitle($child));
@@ -255,7 +255,7 @@ class ilSearchResultPresentationGUI
 					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('thread'));
 
 					$item_list_gui->setChildId($child);
-					$tpl->setVariable("SEPERATOR",':');
+					$tpl->setVariable("SEPERATOR",': ');
 					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('thread'));
 					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame(''));
 					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($child));
