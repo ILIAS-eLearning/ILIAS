@@ -49,6 +49,13 @@ class ilInternalLinkGUI
 	function ilInternalLinkGUI($a_default_type, $a_default_obj)
 	{
 		global $lng, $ilias, $ilCtrl, $tree;
+		
+		if (($_SESSION["il_link_cont_obj"] != "" && !$tree->isInTree($_SESSION["il_link_cont_obj"])) ||
+			($_SESSION["il_link_glossary"] != "" && !$tree->isInTree($_SESSION["il_link_glossary"])) ||
+			($_SESSION["il_link_mep"] != "" && !$tree->isInTree($_SESSION["il_link_mep"])))
+		{
+			$this->resetSessionVars();
+		}
 
 		$this->lng =& $lng;
 		$this->tree =& $tree;
@@ -151,10 +158,16 @@ class ilInternalLinkGUI
 		return $ret;
 	}
 
-	function resetLinkList()
+	function resetSessionVars()
 	{
 		$_SESSION["il_link_mep"] = "";
+		$_SESSION["il_link_mep_obj"] = "";
 		$_SESSION["il_link_type"] = "";
+	}
+	
+	function resetLinkList()
+	{
+		$this->resetSessionVars();
 		$this->determineLinkType();
 		$this->showLinkHelp();
 	}
