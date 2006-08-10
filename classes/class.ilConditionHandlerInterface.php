@@ -350,6 +350,7 @@ class ilConditionHandlerInterface
 
 		$exp->addFilter('crs');
 		$exp->addFilter('tst');
+		$exp->addFilter('sahs');
 
 		$exp->setSelectableTypes($this->ch_obj->getTriggerTypes());
 		$exp->setControlClass($this);

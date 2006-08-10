@@ -270,7 +270,7 @@ class ilConditionHandler
 	*/
 	function getTriggerTypes()
 	{
-		return array('crs','exc','tst');
+		return array('crs','exc','tst','sahs');
 	}
 
 
@@ -287,6 +287,9 @@ class ilConditionHandler
 
 			case 'crsg':
 				return array('not_member');
+
+			case 'sahs':
+				return array('passed');
 
 			default:
 				return array();
@@ -529,6 +532,13 @@ class ilConditionHandler
 			case 'crsg':
 				include_once './course/classes/class.ilObjCourseGrouping.php';
 				return ilObjCourseGrouping::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+
+			case 'sahs':
+				global $ilUser;
+
+				include_once './Services/Tracking/classes/class.ilLPStatusSCORM.php';
+				include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+				return in_array($ilUser->getId(),$completed = ilLPStatusSCORM::_getCompleted($condition['trigger_obj_id']));
 
 			default:
 				return false;
