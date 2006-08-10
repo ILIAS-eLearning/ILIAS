@@ -123,9 +123,20 @@ class ilObjForum extends ilObject
 	{
 		$this->anonymized = $a_status ? true : false;
 	}
-	
 
-		
+	function _lookupThreadSubject($a_thread_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT thr_subject FROM frm_threads ".
+			"WHERE thr_pk = '".$a_thread_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->thr_subject;
+		}
+		return '';
+	}
 		
 	// METHODS FOR UN-READ STATUS
 	function getCountUnread($a_usr_id,$a_thread_id = 0)
