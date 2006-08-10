@@ -213,33 +213,59 @@ class ilSearchResultPresentationGUI
 
 	function __appendChildLinks($html,$item,&$item_list_gui)
 	{
-		if(!count($item['child']) or $item['type'] != 'lm')
+		if(!count($item['child']))
 		{
 			return $html;
 		}
-		include_once 'content/classes/class.ilLMObject.php';
-
 		$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
-
 		$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
-		foreach($item['child'] as $child)
+		
+		switch($item['type'])
 		{
-			$tpl->setCurrentBlock("link_row");
-			
-			switch(ilLMObject::_lookupType($child))
-			{
-				case 'pg':
-					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('obj_pg'));
-					break;
-				case 'st':
-					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('obj_st'));
-					break;
-			}
-			$item_list_gui->setChildId($child);
-			$tpl->setVariable("LINK",$item_list_gui->getCommandLink('page'));
-			$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame('page'));
-			$tpl->setVariable("TITLE",ilLMObject::_lookupTitle($child));
-			$tpl->parseCurrentBlock();
+			case 'lm':
+				include_once 'content/classes/class.ilLMObject.php';
+				foreach($item['child'] as $child)
+				{
+					$tpl->setCurrentBlock("link_row");
+					
+					switch(ilLMObject::_lookupType($child))
+					{
+						case 'pg':
+							$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('obj_pg'));
+							break;
+						case 'st':
+							$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('obj_st'));
+							break;
+					}
+					$item_list_gui->setChildId($child);
+					$tpl->setVariable("SEPERATOR",'->');
+					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('page'));
+					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame('page'));
+					$tpl->setVariable("TITLE",ilLMObject::_lookupTitle($child));
+					$tpl->parseCurrentBlock();
+				}
+				break;
+
+			case 'frm':
+				include_once 'classes/class.ilObjForum.php';
+				
+				foreach($item['child'] as $child)
+				{
+					$tpl->setCurrentBlock("link_row");
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('thread'));
+
+					$item_list_gui->setChildId($child);
+					$tpl->setVariable("SEPERATOR",':');
+					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('thread'));
+					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame(''));
+					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($child));
+					$tpl->parseCurrentBlock();
+				}
+	
+				break;
+
+			default:
+				;
 		}
 		return $html . $tpl->get();
 	}

@@ -45,6 +45,16 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$this->ilObjectListGUI();
 	}
 
+	function setChildId($a_child_id)
+	{
+		$this->child_id = $a_child_id;
+	}
+	function getChildId()
+	{
+		return $this->child_id;
+	}
+
+
 	/**
 	* initialisation
 	*/
@@ -198,6 +208,19 @@ class ilObjForumListGUI extends ilObjectListGUI
 
 		return $target;
 	}
+
+	function getCommandLink($a_cmd)
+	{
+		switch($a_cmd)
+		{
+			case 'thread':
+				return "forums_frameset.php?ref_id=".$this->ref_id."&thr_pk=".$this->getChildId();
+
+			default:
+				return parent::getCommandLink($a_cmd);
+		}
+	}
+
 
 } // END class.ilObjForumListGUI
 ?>
