@@ -636,6 +636,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		// first verify
 
 		$importParser = new ilUserImportParser("", IL_VERIFY, $conflict_rule);
+	    $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
 		$importParser->setXMLContent($usr_xml);
 		$importParser->startParsing();
 
@@ -654,6 +655,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$importParser = new ilUserImportParser("", IL_EXTRACT_ROLES, $conflict_rule);
 		$importParser->setXMLContent($usr_xml);
+	    $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
 		$importParser->startParsing();
 
 		$roles = $importParser->getCollectedRoles();
@@ -816,6 +818,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$importParser = new ilUserImportParser("", IL_USER_IMPORT, $conflict_rule);
 		$importParser->setSendMail($send_account_mail);
+		$importParser->setUserMappingMode(IL_USER_MAPPING_ID);
 		$importParser->setFolderId($folder_id);
 		$importParser->setXMLContent($usr_xml);
 

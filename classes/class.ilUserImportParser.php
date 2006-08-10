@@ -33,6 +33,9 @@ define ("IL_IMPORT_SUCCESS", 1);
 define ("IL_IMPORT_WARNING", 2);
 define ("IL_IMPORT_FAILURE", 3);
 
+define ("IL_USER_MAPPING_LOGIN", 1);
+define ("IL_USER_MAPPING_ID", 2);
+
 require_once("classes/class.ilSaxParser.php");
 
 /**
@@ -179,6 +182,13 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	var $user_mapping;
 
+	/**
+	 *
+	 * mapping mode is used for import process
+	 *
+	 * @var int
+	 */
+	var $mapping_mode;
 
 	/**
 	 * Cached local roles.
@@ -231,6 +241,7 @@ class ilUserImportParser extends ilSaxParser
 		$this->localRoleCache = array();
 		$this->ilincdata = array();
 		$this->send_mail = false;
+		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
 
 		include_once("classes/class.ilAccountMail.php");
 		$this->acc_mail = new ilAccountMail();
@@ -375,7 +386,7 @@ class ilUserImportParser extends ilSaxParser
 
 				// if we have an object id, store it
 				$this->user_id = -1;
-				if (!is_null($a_attribs["Id"]))
+				if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID)
 				{
 				    if (is_numeric($a_attribs["Id"]))
 				    {
@@ -480,7 +491,8 @@ class ilUserImportParser extends ilSaxParser
 
 				// if we have an object id, store it
 				$this->user_id = -1;
-                if (!is_null($a_attribs["Id"]))
+
+                if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID)
 				{
 				    if (is_numeric($a_attribs["Id"]))
 				    {
@@ -1709,6 +1721,28 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	function isSendMail () {
 	    return $this->send_mail;
+	}
+
+	/**
+	 * write access to user mapping mode
+	 *
+	 * @param int $value must be one of IL_USER_MAPPING_ID or IL_USER_MAPPING_LOGIN, die otherwise
+	 */
+	function setUserMappingMode($value)
+	{
+	    if ($value == IL_USER_MAPPING_ID || $value == IL_USER_MAPPING_LOGIN)
+	       $this->mapping_mode = $value;
+	    else die ("wrong argument using methode setUserMappingMethod in ".__FILE__);
+	}
+
+	/**
+	 * read access to user mapping mode
+	 *
+	 * @return int one of IL_USER_MAPPING_ID or IL_USER_MAPPING_LOGIN
+	 */
+	function getUserMappingMode()
+	{
+	    return $this->mapping_mode;
 	}
 
 }
