@@ -94,7 +94,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
-		if ($cmd != "deliverVCard")
+		if ($cmd != "deliverVCard" && $cmd != "getPublicProfile")
 		{
 			$this->prepareOutput();
 		}
@@ -120,11 +120,11 @@ class ilObjUserGUI extends ilObjectGUI
 					$cmd = "edit";
 				}
 				$cmd .= "Object";
-				$this->$cmd();
+				$return = $this->$cmd();
 					
 				break;
 		}
-		return true;
+		return $return;
 	}
 
 
@@ -2024,6 +2024,12 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->getPublicProfile($a_additional, true));
 		}
 	}
+
+	// stupid....
+	function getPublicProfileObject($a_additional = "", $no_ilctrl = false)
+	{
+		return $this->getPublicProfile($a_additional, $no_ilctrl);
+	}
 	
 	/**
 	* get public profile html code
@@ -2112,7 +2118,6 @@ class ilObjUserGUI extends ilObjectGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-
 		return $tpl->get();
 	}
 	

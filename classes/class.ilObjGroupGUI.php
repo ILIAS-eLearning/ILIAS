@@ -186,6 +186,16 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('activation');
 				break;
 
+			case 'ilobjusergui':
+				require_once "./classes/class.ilObjUserGUI.php";
+				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+				$html = $this->ctrl->forwardCommand($user_gui);
+				$this->__setSubTabs('members');
+				$this->tabs_gui->setTabActive('group_members');
+				$this->tabs_gui->setSubTabActive('grp_members_gallery');
+				$this->tpl->setVariable("ADM_CONTENT", $html);
+				break;
+
 			default:
 				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp'))
 				{
@@ -1251,32 +1261,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		return $this->__showMembersTable($result_set,$user_ids);
     }
 
-	
-	/**
-         * Show the user profile if user click on image
-         * @author Arturo Gonzalez <arturogf@gmail.com>
-         * @access       public
-         */
-	function showProfileObject()
-	  {
-
-	    require_once "./classes/class.ilObjUserGUI.php";
-	    
-	    $this->tabs_gui->setTabActive('members');
-	   $this->__setSubTabs('members');
-	    
-	    $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-	    
-	    // SHOW PUBLIC PROFILE OR WARNING IF NOT PUBLIC
-	    if (($out = $user_gui->getPublicProfile())!="") {
-	      $this->tpl->setVariable("ADM_CONTENT","<center>".$out."</center>");
-	    }
-	    else {
-	      sendInfo($this->lng->txt('public_profile_not_visible'));
-	    }
-	    
-	  }
-	
+		
 	/**
 	 * Builds a group members gallery as a layer of left-floating images
 	 * @author Arturo Gonzalez <arturogf@gmail.com>
@@ -1284,87 +1269,102 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	function membersGalleryObject()
 	{
-	    global $rbacsystem;
-	    
-	    $is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
-	    
-	    $this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
-	    
-	    $this->__setSubTabs('members');
-	    
-	    $member_ids = $this->object->getGroupMemberIds();
-	    $admin_ids = $this->object->getGroupAdminIds();
-	    
-	    // fetch all users data in one shot to improve performance
-	    $members = $this->object->getGroupMemberData($member_ids);
-	    
-	    // MEMBERS
-	    if(count($members))
-	      {
-		foreach($members as $member)
-		  {
-		    // SET LINK TARGET FOR USER PROFILE
-		    $profile_target = $this->ctrl->getLinkTarget($this,"showProfile")."&"."user=".$member["id"];
-
-		    // GET USER IMAGE
-		    unset($webspace_dir);
-		    
-		    $webspace_dir=ilUtil::getWebspaceDir();
-		    $image_file = ILIAS_ABSOLUTE_PATH."/".$webspace_dir."/usr_images"."/usr_".$member["id"]."_"."xsmall".".jpg";
-		    
-		    if (!file_exists($image_file)) {
-		      $thumb_file = ILIAS_HTTP_PATH."/templates/default/images/no_photo_xsmall.jpg";				
-		    }
-		    else {
-		      $image_url = ILIAS_HTTP_PATH."/".$webspace_dir."/usr_images";
-		      $thumb_file = $image_url."/usr_".$member["id"]."_"."xsmall".".jpg";
-		    }
-		    
-		    $file = $thumb_file."?t=".rand(1, 99999);
-		    
-		    // GET USER OBJ
-		    if($tmp_obj = ilObjectFactory::getInstanceByObjId($member["id"],false))
-		      {
-			
-			switch(in_array($member["id"],$admin_ids))
-			  {
-			  case 1:
-			    //admins
-			    $this->tpl->setCurrentBlock("tutors_row");
-			    $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
-			    $this->tpl->setVariable("FIRSTNAME",$member["firstname"]);
-			    $this->tpl->setVariable("LASTNAME",$member["lastname"]);
-			    $this->tpl->parseCurrentBlock();
-			    break;
-			    
-			  case 0:
-			    //students
-			    $this->tpl->setCurrentBlock("members_row");
-			    $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
-			    $this->tpl->setVariable("FIRSTNAME",$member["firstname"]);
-			    $this->tpl->setVariable("LASTNAME",$member["lastname"]);
-			    $this->tpl->parseCurrentBlock();
-			    break;
-			  }
-			
-		      }
-		  }
-		$this->tpl->setCurrentBlock("members");	
-		$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('group_members'));
-		$this->tpl->parseCurrentBlock();
+		global $rbacsystem;
 		
-	      }
-	    
-	    $this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
-	    $this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
-	    
-	    $headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
-	    
-	    $this->tpl->setVariable("HEADLINE",$headline);
-	    
-	    $this->tpl->show();
-	    exit;
-	  }
+		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
+		
+		$this->__setSubTabs('members');
+		
+		$member_ids = $this->object->getGroupMemberIds();
+		$admin_ids = $this->object->getGroupAdminIds();
+		
+		// fetch all users data in one shot to improve performance
+		$members = $this->object->getGroupMemberData($member_ids);
+		
+		// MEMBERS
+		if(count($members))
+		{
+			foreach($members as $member)
+			{
+				// get user object
+				if(!($usr_obj = ilObjectFactory::getInstanceByObjId($member["id"],false)))
+				{
+					continue;
+				}
+				
+				$public_profile = $usr_obj->getPref("public_profile");
+
+				// SET LINK TARGET FOR USER PROFILE
+				$this->ctrl->setParameterByClass("ilobjusergui", "user", $member["id"]);
+				$profile_target = $this->ctrl->getLinkTargetByClass("ilobjusergui", "getPublicProfile");
+			
+				// GET USER IMAGE
+				$file = $usr_obj->getPersonalPicturePath("xsmall");
+				
+				switch(in_array($member["id"],$admin_ids))
+				{
+					//admins
+					case 1:
+						if ($public_profile == "y")
+						{
+							$this->tpl->setCurrentBlock("tutor_linked");
+							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$this->tpl->setCurrentBlock("tutor_not_linked");
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						$this->tpl->setCurrentBlock("tutor");
+						break;
+				
+					case 0:
+						if ($public_profile == "y")
+						{
+							$this->tpl->setCurrentBlock("member_linked");
+							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$this->tpl->setCurrentBlock("member_not_linked");
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						$this->tpl->setCurrentBlock("member");
+						break;
+				}
+			
+				// do not show name, if public profile is not activated
+				if ($public_profile == "y")
+				{
+					$this->tpl->setVariable("FIRSTNAME", $member["firstname"]);
+					$this->tpl->setVariable("LASTNAME", $member["lastname"]);
+				}
+				$this->tpl->setVariable("LOGIN", $usr_obj->getLogin());
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("members");	
+			//$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
+		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
+		
+		//$headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
+		
+		//$this->tpl->setVariable("HEADLINE",$headline);
+		
+		$this->tpl->show();
+		exit;
+	}
 	
 	
 	
@@ -1827,8 +1827,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
+			$mem_cmd = ($rbacsystem->checkAccess('write',$this->ref_id))
+				? "members"
+				: "membersGallery";
+
 			$tabs_gui->addTarget("group_members",
-								 $this->ctrl->getLinkTarget($this, "membersGallery"), array("members","mailMembers","membersGallery","showProfile"), get_class($this));
+				$this->ctrl->getLinkTarget($this, $mem_cmd), array("members","mailMembers","membersGallery","showProfile"), get_class($this));
 		}
 		
 		$applications = $this->object->getNewRegistrations();
@@ -2648,13 +2652,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this,'members'),
 				"members", get_class($this));
 				
+				$this->tabs_gui->addSubTabTarget("grp_members_gallery",
+				$this->ctrl->getLinkTarget($this,'membersGallery'),
+				"membersGallery", get_class($this));
+				
 				$this->tabs_gui->addSubTabTarget("mail_members",
 				$this->ctrl->getLinkTarget($this,'mailMembers'),
 				"mailMembers", get_class($this));
 
-				$this->tabs_gui->addSubTabTarget("grp_members_gallery",
-				$this->ctrl->getLinkTarget($this,'membersGallery'),
-				"membersGallery", get_class($this));
 				break;
 
 			case "activation":

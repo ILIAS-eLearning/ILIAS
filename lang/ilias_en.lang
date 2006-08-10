@@ -1915,7 +1915,7 @@ common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
-common#:#grp_members_gallery#:#Group members gallery
+common#:#grp_members_gallery#:#Group Members Gallery
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
@@ -4243,7 +4243,7 @@ crs#:#crs_show_link_objectives#:#Show objectives
 crs#:#crs_show_link_or#:#Show other resources
 crs#:#crs_show_link_tst#:#Show tests
 crs#:#crs_show_members#:#Show Members
-crs#:#crs_show_members_info#:#If activated, members of the course can be shown.
+crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send mail to members feature.
 crs#:#crs_show_objectives_view#:#Objective view
 crs#:#crs_size#:#File size
 crs#:#crs_sort_activation#:#Sort by Activation
