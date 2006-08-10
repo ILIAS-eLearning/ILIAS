@@ -381,7 +381,7 @@ class ilUserImportParser extends ilSaxParser
 				    {
 				        $this->user_id = $a_attribs["Id"];
 				    }
-				    elseif ($id = IlUtil::__extractId ($a_attribs["Id"]))
+				    elseif ($id = IlUtil::__extractId ($a_attribs["Id"], IL_INST_ID))
 				    {
 				        $this->user_id = $id;
 				    }
@@ -486,7 +486,7 @@ class ilUserImportParser extends ilSaxParser
 				    {
 				        $this->user_id = $a_attribs["Id"];
 				    }
-				    elseif ($id = IlUtil::__extractId ($a_attribs["Id"]))
+				    elseif ($id = IlUtil::__extractId ($a_attribs["Id"], IL_INST_ID))
 				    {
 				        $this->user_id = $id;
 				    }
