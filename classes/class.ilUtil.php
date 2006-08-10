@@ -3135,15 +3135,18 @@ class ilUtil
 	 /**
      *  extract ref id from role title, e.g. 893 from 'il_122_role_893'
 	*	@param ilias id with format like il_<instid>_<objTyp>_ID
+	*   @param int inst_id  Installation ID must match inst id in param ilias_id
 	*	@return	id or false
+	*
+	*
 	*/
 
-	function __extractId($ilias_id)
+	function __extractId($ilias_id, $inst_id)
 	{
 
 		$test_str = explode('_',$ilias_id);
 
-		if ($test_str[0] == 'il' || count($test_str) != 4)
+		if ($test_str[0] == 'il' && $test_str[1] == $inst_id && count($test_str) == 4)
 		{
 			$test2 = (int) $test_str[3];
 			return is_numeric ($test2) ? (int) $test2 : false;
