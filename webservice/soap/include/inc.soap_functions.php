@@ -503,13 +503,13 @@ function getRoles($sid, $role_type, $id)
 	return $soa->getRoles($sid, $role_type, $id);
 }
 
-function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule)
+function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail)
 {
 	include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->importUsers($sid, $folder_id, $usr_xml, $conflict_rule);
+	return $sua->importUsers($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail);
 }
 
 function getUsersForContainer ($sid, $ref_id, $attach_roles, $active)

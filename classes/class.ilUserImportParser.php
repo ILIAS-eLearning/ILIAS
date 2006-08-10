@@ -84,6 +84,14 @@ class ilUserImportParser extends ilSaxParser
 	 */
 	var $conflict_rule;
 
+
+	/**
+	 * send account notification
+	 *
+	 * @var boolean
+	 */
+	var $send_mail;
+
 	/**
 	 * This variable is used to report the error level of the validation process
 	 * or the importing process.
@@ -222,6 +230,7 @@ class ilUserImportParser extends ilSaxParser
 		$this->userCount = 0;
 		$this->localRoleCache = array();
 		$this->ilincdata = array();
+		$this->send_mail = false;
 
 		include_once("classes/class.ilAccountMail.php");
 		$this->acc_mail = new ilAccountMail();
@@ -372,10 +381,9 @@ class ilUserImportParser extends ilSaxParser
 				    {
 				        $this->user_id = $a_attribs["Id"];
 				    }
-				    else
+				    elseif ($id = IlUtil::__extractId ($a_attribs["Id"]))
 				    {
-				        $this->user_id = ($id = IlUtil::__extractId ($a_attribs["Id"]))?$id : -1;
-
+				        $this->user_id = $id;
 				    }
 				}
 
@@ -478,11 +486,12 @@ class ilUserImportParser extends ilSaxParser
 				    {
 				        $this->user_id = $a_attribs["Id"];
 				    }
-				    else
+				    elseif ($id = IlUtil::__extractId ($a_attribs["Id"]))
 				    {
-				        $this->user_id = ($id = IlUtil::__extractId ($a_attribs["Id"]))?$id : -1;
+				        $this->user_id = $id;
 				    }
 				}
+
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
 				if ($this->action != "Insert"
 				&& $this->action != "Update"
@@ -1675,11 +1684,31 @@ class ilUserImportParser extends ilSaxParser
 	function sendAccountMail()
 	{
 //var_dump($_POST["send_mail"]);
-		if ($_POST["send_mail"] != "")
+		if ($_POST["send_mail"] != "" ||
+		   ($this->isSendMail() && $this->userObj->getEmail() != "")
+		   )
 		{
 			$this->acc_mail->setUser($this->userObj);
 			$this->acc_mail->send();
 		}
+	}
+
+	/**
+	 * write access to property send mail
+	 *
+	 * @param mixed $value
+	 */
+	function setSendMail ($value) {
+	    $this->send_mail = $value ? true: false;
+	}
+
+	/**
+	 * read access to property send mail
+	 *
+	 * @return boolean
+	 */
+	function isSendMail () {
+	    return $this->send_mail;
 	}
 
 }
