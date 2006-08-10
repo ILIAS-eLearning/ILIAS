@@ -45,18 +45,39 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 
 	function ilAICCPresentationGUI()
 	{
-		global $ilias, $tpl, $lng;
+		global $ilias, $tpl, $lng, $ilCtrl;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->ctrl =& $ilCtrl;
 
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "frameset";
 
 		// Todo: check lm id
 		$this->slm =& new ilObjAICCLearningModule($_GET["ref_id"], true);
+	}
+	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilAccess, $ilLog;
 
-		$this->$cmd();
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd("frameset");
+
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+		}
+
+		switch($next_class)
+		{
+			default:
+				$this->$cmd();
+		}
 	}
 	
 	function view()
@@ -79,9 +100,10 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	{
 		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, true);
 		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
-		
+
 		require_once("./content/classes/AICC/class.ilAICCExplorer.php");
-		$exp = new ilAICCExplorer("sahs_presentation.php?cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
+		$exp = new ilAICCExplorer(
+			$this->ctrl->getLinkTarget($this, "view"), $this->slm);
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
 		//$exp->setFiltered(true);
@@ -108,7 +130,7 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "sahs_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
+		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, $_GET["cmd"])."&frame=".$_GET["frame"].
 			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();

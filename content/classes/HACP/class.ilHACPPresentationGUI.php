@@ -45,20 +45,41 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 
 	function ilHACPPresentationGUI()
 	{
-		global $ilias, $tpl, $lng;
+		global $ilias, $tpl, $lng, $ilCtrl;;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->ctrl =& $ilCtrl;
 
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "frameset";
 
 		// Todo: check lm id
 		$this->slm =& new ilObjHACPLearningModule($_GET["ref_id"], true);
-
-		$this->$cmd();
 	}
 	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilAccess, $ilLog;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd("frameset");
+
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+		}
+
+		switch($next_class)
+		{
+			default:
+				$this->$cmd();
+		}
+	}
+
 	/**
 	* output table of content
 	*/
@@ -68,7 +89,7 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 		
 		require_once("./content/classes/HACP/class.ilHACPExplorer.php");
-		$exp = new ilHACPExplorer("sahs_presentation.php?cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
+		$exp = new ilHACPExplorer($this->ctrl->getLinkTarget($this, "view"), $this->slm);
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
 		//$exp->setFiltered(true);
@@ -95,7 +116,7 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "sahs_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
+		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, $_GET["cmd"])."&frame=".$_GET["frame"].
 			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();

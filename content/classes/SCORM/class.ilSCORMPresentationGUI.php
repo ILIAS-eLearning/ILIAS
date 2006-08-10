@@ -99,10 +99,13 @@ class ilSCORMPresentationGUI
 	*/
 	function frameset()
 	{
+//echo "h".strtolower(get_class($this->slm))."h";
 		include_once("content/classes/SCORM/class.ilSCORMObject.php");
 		$items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
 
-		if (count($items) > 1)
+		if (count($items) > 1
+			|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
+			|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
 		{
 			$this->ctrl->setParameter($this, "expand", "1");
 			$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
@@ -145,7 +148,7 @@ class ilSCORMPresentationGUI
 		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 		
 		require_once("./content/classes/SCORM/class.ilSCORMExplorer.php");
-		$exp = new ilSCORMExplorer("sahs_presentation.php?cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
+		$exp = new ilSCORMExplorer($this->ctrl->getLinkTarget($this, "view"), $this->slm);
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
 		
