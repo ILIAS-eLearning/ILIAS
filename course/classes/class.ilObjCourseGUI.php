@@ -31,7 +31,7 @@
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilCourseContentInterface, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI
 *
 * 
 * @extends ilContainerGUI
@@ -3180,32 +3180,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		exit;
 	}
 
-	
-	/**
-         * Show the user profile if user click on image
-         * @author Arturo Gonzalez <arturogf@gmail.com>
-         * @access       public
-         */
-	function showProfileObject()
-	{
-	  require_once "./classes/class.ilObjUserGUI.php";
-
-	  $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-
-	  // SHOW PUBLIC PROFILE OR WARNING IF NOT PUBLIC
-	  if (($out = $user_gui->getPublicProfile("", TRUE))!="") {
-		  $this->setSubTabs('members');
-		  $this->tabs_gui->setTabActive('members');
-		  $this->tabs_gui->setSubTabActive('crs_members_gallery');
-		  $this->tpl->setVariable("ADM_CONTENT","<center>".$out."</center>");
-	  }
-	  else {
-	    sendInfo($this->lng->txt('public_profile_not_visible'));
-		$this->membersGalleryObject();
-	  }
-
-	}
-
 
 	/**
 	 * Builds a course members gallery as a layer of left-floating images
@@ -3247,8 +3221,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$public_profile = $usr_obj->getPref("public_profile");
 				
 				// SET LINK TARGET FOR USER PROFILE
-				$this->ctrl->setParameter($this, "user", $member_id);
-				$profile_target = $this->ctrl->getLinkTarget($this,"showProfile");
+				$this->ctrl->setParameterByClass("ilobjusergui", "user", $member_id);
+				$profile_target = $this->ctrl->getLinkTargetByClass("ilobjusergui","getPublicProfile");
 			  
 				// GET USER IMAGE
 				$file = $usr_obj->getPersonalPicturePath("xsmall");
@@ -4182,6 +4156,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once './course/classes/class.ilCourseContentGUI.php';
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
+				break;
+				
+			case 'ilobjusergui':
+				require_once "./classes/class.ilObjUserGUI.php";
+				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+				$html = $this->ctrl->forwardCommand($user_gui);
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->tabs_gui->setSubTabActive('crs_members_gallery');
+				$this->tpl->setVariable("ADM_CONTENT", $html);
 				break;
 
 			default:
