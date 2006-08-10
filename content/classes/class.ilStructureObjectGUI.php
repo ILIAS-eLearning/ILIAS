@@ -96,11 +96,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				break;
 
 			case "ilconditionhandlerinterface":
+				global $ilTabs;
 				include_once './classes/class.ilConditionHandlerInterface.php';
 
 				$this->setTabs();
 				$this->initConditionHandlerInterface();
 				$this->ctrl->forwardCommand($this->condHI);
+				$ilTabs->setTabActive('preconditions');
 				break;
 
 			default:
