@@ -3500,7 +3500,6 @@ content#:#citate_from#:#Citate From ...
 content#:#citate_page#:#Citate this Page
 content#:#citate_to#:#Citate To ...
 content#:#cont_Additional#:#Additional
-content#:#cont_empty_mep_folder#:#There are no media objects in this folder.
 content#:#cont_Alphabetic#:#Alphabetic a, b, ...  ### 2006-5-8 --- Content changed
 content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
@@ -3660,6 +3659,7 @@ content#:#cont_edit_src#:#Edit source code
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.
 content#:#cont_enable_js#:#JavaScript active
 content#:#cont_enable_media#:#Media active
 content#:#cont_export_files#:#Export Files

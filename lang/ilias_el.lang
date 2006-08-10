@@ -3332,6 +3332,7 @@ content#:#cont_edit_src#:#Επεξεργασία πηγαίου κώδικα
 content#:#cont_edit_tab_properties#:#Ιδιότητες Πίνακα
 content#:#cont_edit_term#:#Επεξεργασία Όρου
 content#:#cont_edition#:#Έκδοση
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Η JavaScript είναι ενεργή
 content#:#cont_enable_media#:#Τα Πολυμέσα είναι ενεργά
 content#:#cont_export_files#:#Εξαγωγή Αρχείων

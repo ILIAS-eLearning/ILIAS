@@ -3571,6 +3571,7 @@ content#:#cont_edit_src#:#Sửa mã nguồn
 content#:#cont_edit_tab_properties#:#Thuộc tính bảng
 content#:#cont_edit_term#:#Sửa thuật ngữ
 content#:#cont_edition#:#Ấn bản
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript hoạt động
 content#:#cont_enable_media#:#Phương tiện hoạt động
 content#:#cont_export_files#:#Các file xuất ra

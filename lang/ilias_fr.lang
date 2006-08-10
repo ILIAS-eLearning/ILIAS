@@ -3567,6 +3567,7 @@ content#:#cont_edit_src#:#Modifier source code###07 Apr 2005 content changed
 content#:#cont_edit_tab_properties#:#Propriétés du tableau###07 Apr 2005 content changed
 content#:#cont_edit_term#:#Modifier terme###07 Apr 2005 content changed
 content#:#cont_edition#:#Modifierion###07 Apr 2005 content changed
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:# JavaScript actif###07 Apr 2005 content changed
 content#:#cont_enable_media#:#Médias actifs###07 Apr 2005 content changed
 content#:#cont_export_files#:#Fichiers d'exportation###07 Apr 2005 content changed
