@@ -38,9 +38,10 @@
 */
 class ilInitialisation
 {
+
 	
-	/**
-	* get common include code files
+  /**
+	 * get common include code files
 	*/
 	function requireCommonIncludes()
 	{
@@ -242,8 +243,8 @@ class ilInitialisation
 			{
 				$uri = dirname($uri);
 			}
-		}		
-		return define('ILIAS_HTTP_PATH',$protocol.$host.$uri);
+		}
+		return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators($protocol.$host.$uri));
 	}
 
 	
