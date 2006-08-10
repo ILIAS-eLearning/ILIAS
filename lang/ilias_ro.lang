@@ -3188,6 +3188,7 @@ content#:#cont_edit_src#:#Editati codul sursa
 content#:#cont_edit_tab_properties#:#Proprietatile Tabelului
 content#:#cont_edit_term#:#Editati Termenul
 content#:#cont_edition#:#Editie
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript activ
 content#:#cont_enable_media#:#Media activ
 content#:#cont_export_files#:#Exportati Fisierele

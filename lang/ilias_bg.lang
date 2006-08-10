@@ -3251,6 +3251,7 @@ content#:#cont_edit_src#:#Редактиране на �?ор�? код
 content#:#cont_edit_tab_properties#:#Характери�?тики на таблица
 content#:#cont_edit_term#:#Редактиране на термин
 content#:#cont_edition#:#Редакци�?
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript активен
 content#:#cont_enable_media#:#Медиа активна
 content#:#cont_export_files#:#Ек�?портиране на файлове

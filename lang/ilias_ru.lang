@@ -3085,6 +3085,7 @@ content#:#cont_edit_src#:#Редактировать код и�?точника
 content#:#cont_edit_tab_properties#:#�?вой�?тва таблицы
 content#:#cont_edit_term#:#Редактировать термин
 content#:#cont_edition#:#Редактирование
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript активен
 content#:#cont_enable_media#:#Медиа активна
 content#:#cont_export_files#:#файлы �?к�?порта

@@ -3659,6 +3659,7 @@ content#:#cont_edit_src#:#Wijzigen media-object-eigenschappen###07 Apr 2005 cont
 content#:#cont_edit_tab_properties#:#Wijzigen paragrafen###07 Apr 2005 content changed
 content#:#cont_edit_term#:#Wijzig broncode###07 Apr 2005 content changed
 content#:#cont_edition#:#Tabel-eigenschappen###07 Apr 2005 content changed
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Wijzigen begrip###29 Nov 2004 content changed
 content#:#cont_export_files#:#Editie###07 Apr 2005 content changed

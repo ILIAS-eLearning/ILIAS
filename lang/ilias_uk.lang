@@ -3647,6 +3647,7 @@ content#:#cont_edit_src#:#Редагувати вихідний код
 content#:#cont_edit_tab_properties#:#Вла�?тиво�?ті Таблиці
 content#:#cont_edit_term#:#Редагувати Термін
 content#:#cont_edition#:#Випу�?к
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Дозволити JavaScript
 content#:#cont_enable_media#:#Дозволити Медіа
 content#:#cont_export_files#:#Ек�?портувати Файли

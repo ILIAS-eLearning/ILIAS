@@ -3499,6 +3499,7 @@ content#:#cont_edit_src#:#Uredi izvorni kod
 content#:#cont_edit_tab_properties#:#Osobine tabele
 content#:#cont_edit_term#:#Uredi termin
 content#:#cont_edition#:#Izdanje
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript aktivan
 content#:#cont_enable_media#:#Medij aktivan
 content#:#cont_export_files#:#Ispisani fajlovi

@@ -3654,6 +3654,7 @@ content#:#cont_edit_src#:#Modifica codice sorgente
 content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella
 content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Abilita i JavaScript
 content#:#cont_enable_media#:#Abilita i file multimediali
 content#:#cont_export_files#:#Esporta file

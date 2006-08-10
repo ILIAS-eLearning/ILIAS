@@ -3499,6 +3499,7 @@ content#:#cont_edit_src#:#Edito source code
 content#:#cont_edit_tab_properties#:#Karakteristikat e Tabelës
 content#:#cont_edit_term#:#Edito Termin
 content#:#cont_edition#:#Edicion
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript Aktive
 content#:#cont_enable_media#:#Multimedia Aktive
 content#:#cont_export_files#:#Eksporto Skedarë

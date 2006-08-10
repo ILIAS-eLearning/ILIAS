@@ -3659,6 +3659,7 @@ content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Propriedades da Tabela###07 Apr 2005 content changed
 content#:#cont_edit_term#:#Editar Termo###07 Apr 2005 content changed
 content#:#cont_edition#:#Edição###07 Apr 2005 content changed
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Exportar Ficheiros###07 Apr 2005 content changed

@@ -3571,6 +3571,7 @@ content#:#cont_edit_src#:#Rediger Kildekode
 content#:#cont_edit_tab_properties#:#Egenskaber for tables
 content#:#cont_edit_term#:#Rediger soegeord
 content#:#cont_edition#:#Udgave
+content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript aktiveret
 content#:#cont_enable_media#:#Aktiver Media
 content#:#cont_export_files#:#Exporterede Filer
