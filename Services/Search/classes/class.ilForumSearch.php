@@ -64,7 +64,7 @@ class ilForumSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row));
+			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row),$row->thr_pk);
 		}
 
 		// First: search post title, content:
