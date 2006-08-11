@@ -3705,12 +3705,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","cancelMember");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("tbl_action_btn");
 		$tpl->setVariable("BTN_NAME","removeSubscribers");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","cancelMember");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",4);
