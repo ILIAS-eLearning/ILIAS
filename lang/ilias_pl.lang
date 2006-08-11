@@ -123,6 +123,12 @@ assessment#:#applet_new_parameter#:#Nowy parametr
 assessment#:#applet_parameter#:#Parametr
 assessment#:#applet_parameters#:#Parametry Apletu
 assessment#:#apply#:#Zastosuj
+assessment#:#ass_create_export_file#:#Twórz plik eksportowy
+assessment#:#ass_create_export_test_results#:#Eksport Rezultatów testu
+assessment#:#ass_export_files#:#Eksport plików
+assessment#:#ass_file#:#Plik
+assessment#:#ass_question#:#Pytanie
+assessment#:#ass_size#:#Rozmiar
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -134,12 +140,6 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
-assessment#:#ass_create_export_file#:#Twórz plik eksportowy
-assessment#:#ass_create_export_test_results#:#Eksport Rezultatów testu
-assessment#:#ass_export_files#:#Eksport plików
-assessment#:#ass_file#:#Plik
-assessment#:#ass_question#:#Pytanie
-assessment#:#ass_size#:#Rozmiar
 assessment#:#available_points#:#Punkty do zdobycia
 assessment#:#average_reached_points#:#Średnio punktów
 assessment#:#backtocallingtest#:#Powrót do uruchomionego testu
@@ -423,6 +423,9 @@ assessment#:#radio_unset#:#Nie wybrany
 assessment#:#random_accept_sample#:#Akceptuj próbkę
 assessment#:#random_another_sample#:#Pobierz inną próbkę
 assessment#:#random_selection#:#Wybór przypadkowy
+assessment#:#range#:#Range ### 2006-8-11 --- Add new translation here.
+assessment#:#range_lower_limit#:#Lower limit ### 2006-8-11 --- Add new translation here.
+assessment#:#range_upper_limit#:#Upper limit ### 2006-8-11 --- Add new translation here.
 assessment#:#rectangle#:#Prostokąt
 assessment#:#rectangle_click_br_corner#:#Kliknij na prawy dolny róg wybranego obszaru.
 assessment#:#rectangle_click_tl_corner#:#Kliknij na lewy górny narożnik wybranego obszaru.
@@ -721,10 +724,59 @@ assessment#:#with_order#:#w kolejności
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Czas Pracy
 assessment#:#you_received_a_of_b_points#:#Otrzymałeś %d z %d możliwych punktów
+barometer#:#add#:#Add new Feedback ### 2006-8-11 --- Add new translation here.
+barometer#:#anonymous#:#Anonymous ### 2006-8-11 --- Add new translation here.
+barometer#:#barometer_title#:#Feedback ### 2006-8-11 --- Add new translation here.
+barometer#:#best#:#Best ### 2006-8-11 --- Add new translation here.
+barometer#:#change_course#:#Change Course ### 2006-8-11 --- Add new translation here.
+barometer#:#chart_type#:#Chart type ### 2006-8-11 --- Add new translation here.
+barometer#:#chart_users#:#Chart user ### 2006-8-11 --- Add new translation here.
+barometer#:#chart_votes#:#Chart votes ### 2006-8-11 --- Add new translation here.
+barometer#:#create#:#Create New Feedback ### 2006-8-11 --- Add new translation here.
+barometer#:#day#:#Day ### 2006-8-11 --- Add new translation here.
+barometer#:#days#:#Days ### 2006-8-11 --- Add new translation here.
+barometer#:#delete#:#Delete ### 2006-8-11 --- Add new translation here.
+barometer#:#duration#:#Duration ### 2006-8-11 --- Add new translation here.
+barometer#:#edit#:#Edit ### 2006-8-11 --- Add new translation here.
+barometer#:#edit_barometer#:#Edit feedback ### 2006-8-11 --- Add new translation here.
+barometer#:#every#:#every ### 2006-8-11 --- Add new translation here.
 barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
 barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
 barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
 barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
+barometer#:#first_vote#:#1. Vote is the ### 2006-8-11 --- Add new translation here.
+barometer#:#from#:#From ### 2006-8-11 --- Add new translation here.
+barometer#:#hours#:#Hours ### 2006-8-11 --- Add new translation here.
+barometer#:#lines#:#Lines ### 2006-8-11 --- Add new translation here.
+barometer#:#login#:#Login ### 2006-8-11 --- Add new translation here.
+barometer#:#missing_fields#:#Please fill in all required information ### 2006-8-11 --- Add new translation here.
+barometer#:#month#:#Month ### 2006-8-11 --- Add new translation here.
+barometer#:#months#:#Months ### 2006-8-11 --- Add new translation here.
+barometer#:#new_vote#:#New vote ### 2006-8-11 --- Add new translation here.
+barometer#:#note#:#Comment ### 2006-8-11 --- Add new translation here.
+barometer#:#optional#:#Optional ### 2006-8-11 --- Add new translation here.
+barometer#:#options#:#Options ### 2006-8-11 --- Add new translation here.
+barometer#:#pie#:#Pie ### 2006-8-11 --- Add new translation here.
+barometer#:#repeat#:#Repeat Every ### 2006-8-11 --- Add new translation here.
+barometer#:#required#:#Required ### 2006-8-11 --- Add new translation here.
+barometer#:#save#:#Save ### 2006-8-11 --- Add new translation here.
+barometer#:#save_vote#:#Submit vote ### 2006-8-11 --- Add new translation here.
+barometer#:#skip#:#Skip ### 2006-8-11 --- Add new translation here.
+barometer#:#statistics#:#Statistics ### 2006-8-11 --- Add new translation here.
+barometer#:#status#:#Status ### 2006-8-11 --- Add new translation here.
+barometer#:#table#:#Table ### 2006-8-11 --- Add new translation here.
+barometer#:#text#:#Text ### 2006-8-11 --- Add new translation here.
+barometer#:#text_answer#:#Text answer ### 2006-8-11 --- Add new translation here.
+barometer#:#time#:#Running ### 2006-8-11 --- Add new translation here.
+barometer#:#title#:#Title ### 2006-8-11 --- Add new translation here.
+barometer#:#type#:#Type ### 2006-8-11 --- Add new translation here.
+barometer#:#until#:#Until ### 2006-8-11 --- Add new translation here.
+barometer#:#user#:#User ### 2006-8-11 --- Add new translation here.
+barometer#:#vote#:#Vote ### 2006-8-11 --- Add new translation here.
+barometer#:#votes#:#Votes ### 2006-8-11 --- Add new translation here.
+barometer#:#weeks#:#Weeks ### 2006-8-11 --- Add new translation here.
+barometer#:#worst#:#Worst ### 2006-8-11 --- Add new translation here.
+barometer#:#year#:#Year ### 2006-8-11 --- Add new translation here.
 bibitem#:#bibitem_add#:#Dodaj
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#ŚR
@@ -915,8 +967,6 @@ chat#:#chat_yellow#:#żółty
 chat#:#chats#:#Czaty
 chat#:#my_chats#:#Moje Czaty
 common#:#3rd_party_software#:#Oprogramowanie innych firm
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement#:#Akceptuję zasady korzystania z systemu
 common#:#access#:#Dostęp
@@ -937,9 +987,13 @@ common#:#add_comments#:#Edit comments###10 Jul 2006 new variable
 common#:#add_condition#:#Twórz nowe skojarzenie
 common#:#add_member#:#Dodaj członka
 common#:#add_members#:#dodaj członków
+common#:#add_new_user_defined_field#:#Add New User-defined Field ### 2006-8-11 --- Add new translation here.
+common#:#add_new_user_defined_select_field#:#Add New Select Box ### 2006-8-11 --- Add new translation here.
+common#:#add_new_user_defined_text_field#:#Add New Text Field ### 2006-8-11 --- Add new translation here.
 common#:#add_note#:#Dodaj notatkę
 common#:#add_translation#:#Dodaj tłumaczenie
 common#:#add_user#:#Dodaj lokalnego użytkownika
+common#:#add_user_defined_field#:#Add New Field ### 2006-8-11 --- Add new translation here.
 common#:#added_new_condition#:#Utworzono nowy warunek.
 common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
 common#:#adm_create_tax#:#Twórz klasyfikację
@@ -1152,6 +1206,10 @@ common#:#bookmark_target#:#Przeznacznie
 common#:#bookmarks#:#Zakładki
 common#:#bookmarks_of#:#Zakładki do
 common#:#bottom_frame#:#Główna treść
+common#:#btn_add#:#Add ### 2006-8-11 --- Add new translation here.
+common#:#btn_new_value#:#New value ### 2006-8-11 --- Add new translation here.
+common#:#btn_next#:#Continue ### 2006-8-11 --- Add new translation here.
+common#:#btn_previous#:#Back ### 2006-8-11 --- Add new translation here.
 common#:#btn_remove_system#:#Usuń z systemu
 common#:#btn_undelete#:#Przywróć
 common#:#by#:#Przez
@@ -1312,10 +1370,10 @@ common#:#contra#:#Przeciw
 common#:#cookies_howto#:#Jak włączyć ciasteczka
 common#:#copied_object#:#Obiekty skopiowane
 common#:#copy#:#Kopiuj
-common#:#copyChapter#:#Kopiuj
-common#:#copyPage#:#Kopiuj
 common#:#copy_of#:#Kopia
 common#:#copy_to#:#do
+common#:#copyChapter#:#Kopiuj
+common#:#copyPage#:#Kopiuj
 common#:#could_not_verify_account#:#Nie możemy zweryfikować twojego konta. Skontaktuj się z administratorem systemu.
 common#:#count#:#Licz
 common#:#country#:#Kraj
@@ -1396,6 +1454,7 @@ common#:#custom_icon_size_small#:#Rozmiar indywidualnej ikony (mała)
 common#:#cut#:#Wytnij
 common#:#cutPage#:#Wytnij
 common#:#daily#:#codziennie
+common#:#data_privacy#:#Data Privacy Settings ### 2006-8-11 --- Add new translation here.
 common#:#database#:#Baza danych
 common#:#database_version#:#Wersja biezącej bazy danych
 common#:#dataset#:#Zestaw Danych
@@ -1423,6 +1482,7 @@ common#:#dbk_new#:#Nowa Książka Cyfrowa
 common#:#dbk_read#:#Prawo czytania Książki Cyfrowej
 common#:#dbk_visible#:#Książka Cyfrowa jest widoczna
 common#:#dbk_write#:#Edycja Książki Cyfrowej
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Domyślny widok dostępnych zasobów
 common#:#default#:#Domyślne
 common#:#default_language#:#Domyślny język
@@ -1481,6 +1541,8 @@ common#:#enable#:#Włącz
 common#:#enable_calendar#:#Włącz kalendarz
 common#:#enable_custom_icons#:#Włącz indywidualne ikony
 common#:#enable_custom_icons_info#:#To zezwala definiować indywidualne ikony dla pojedyńczych kategorii, kursów i grup. Sekcja właściwości kategorii, kursów i grup udostępni formularz zaladowania obrazku ikony.
+common#:#enable_fora_statistics#:#Enable Statistics in Forum ### 2006-8-11 --- Add new translation here.
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics. ### 2006-8-11 --- Add new translation here.
 common#:#enable_hist_user_comments#:#Włącz komentarze użytkownika w historii
 common#:#enable_hist_user_comments_desc#:#To daje okazję autorom dodawać komentarze do listy historii stron.
 common#:#enable_js_edit#:#Włącz edycję JavaScript
@@ -1615,6 +1677,8 @@ common#:#faq_exercise#:#Ćwiczenie (FAQ)
 common#:#fax#:#Faks
 common#:#feedback#:#Informacja systemowa
 common#:#feedback_recipient#:#Odbiorca
+common#:#field_name#:#Field Name ### 2006-8-11 --- Add new translation here.
+common#:#field_type#:#Field Type ### 2006-8-11 --- Add new translation here.
 common#:#file#:#Plik
 common#:#file_a#:#Plik
 common#:#file_add#:#Wyślij plik
@@ -1712,6 +1776,7 @@ common#:#frm_edit_permission#:#Zmień ustawienia uprawnień
 common#:#frm_edit_post#:#Edytuj wiadomość
 common#:#frm_new#:#Nowe Forum
 common#:#frm_read#:#Prawo czytania Forum
+common#:#frm_statistics_ranking#:#Ranking ### 2006-8-11 --- Add new translation here.
 common#:#frm_status_new#:#Status 'Nowy'###10 Jul 2006 content changed
 common#:#frm_status_new_desc#:#Wybierz okres jak długo ma być utrzymywany status 'Nowy' dla wpisów w forum.###10 Jul 2006 content changed
 common#:#frm_visible#:#Forum jest widoczne
@@ -1873,8 +1938,10 @@ common#:#grp_visible#:#Grupa jest widoczna
 common#:#grp_write#:#Edycja Grupy
 common#:#guest#:#Gość
 common#:#guests#:#Goście
+common#:#header_searchable#:#Searchable ### 2006-8-11 --- Add new translation here.
 common#:#header_title#:#Tytuł Nagłówka
 common#:#help#:#Pomoc
+common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#hide#:#Ukryj
 common#:#hide_details#:#Ukryj szczegóły
 common#:#hide_private_notes#:#Ukryj prywatne notatki
@@ -2379,11 +2446,11 @@ common#:#month_12_short#:#Gru
 common#:#monthly#:#miesięcznie
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Przesuń
-common#:#moveChapter#:#Przesuń rozdział
-common#:#movePage#:#Przesuń stronę
 common#:#move_selected_items#:#Przesuń wybrane pozycje
 common#:#move_to#:#Przesuń do
 common#:#move_users_to_style#:#Przesuń użytkowników do stylu###10 Jul 2006 content changed
+common#:#moveChapter#:#Przesuń rozdział
+common#:#movePage#:#Przesuń stronę
 common#:#msg_cancel#:#akcja przerwana
 common#:#msg_changes_ok#:#zmiany są w porządku
 common#:#msg_clear_clipboard#:#Schowek został wyczyszczony
@@ -2454,9 +2521,9 @@ common#:#msg_obj_exists#:#Tem obiekt już istnieje w tym folderze.
 common#:#msg_obj_modified#:#Zmiany zostały zachowane.
 common#:#msg_obj_no_link#:#nie może być połączony
 common#:#msg_obj_not_deletable_sold#:#Płatność jest uaktywniona dla następujących obiektów. One nie mogą być usunięte.
+common#:#msg_perm_adopted_from_itself#:#Nie możesz przejąć uprawnień z bieżącej roli/szablonu roli.
 common#:#msg_perm_adopted_from1#:#Ustawienia uprawnień zostały przejęte od
 common#:#msg_perm_adopted_from2#:#(Ustawienia zostały zachowane!)
-common#:#msg_perm_adopted_from_itself#:#Nie możesz przejąć uprawnień z bieżącej roli/szablonu roli.
 common#:#msg_removed#:#Obiekty zostały usunięte z systemu.
 common#:#msg_role_exists1#:#Rola/szablon roli z nazwą
 common#:#msg_role_exists2#:#już ustnieje! Wybierz inną nazwę.
@@ -2519,6 +2586,7 @@ common#:#no_roles_user_can_be_assigned_to#:#Brak ról globalnych do których mo�
 common#:#no_submission_made#:#---###10 Jul 2006 new variable
 common#:#no_title#:#Brak tytułu
 common#:#no_tst_in_personal_list#:#Brak testów na prywatnej liście.
+common#:#no_user_defined_fields_defined#:#No user-defined fields available. ### 2006-8-11 --- Add new translation here.
 common#:#no_users_applied#:#Nie zgłoszono użytkowników.
 common#:#no_users_selected#:#Wybierz jednego użytkownika.
 common#:#no_xml_file_found_in_zip#:#Nie znaleziono pliku XML wewnątrz pliku zip:
@@ -2704,9 +2772,9 @@ common#:#password#:#Hasło
 common#:#password_assistance_disabled#:#Pomoc do haseł jest dostępna tylko, gdy autoryzacja jest dokonywana za pomocą lokalnej bazy danych ILIAS.
 common#:#password_assistance_info#:#Jeśli pomoc do haseł jest włączona, to na stronie logowania do ILIAS pojawia się odnośnik z tekstem "Zapomniałeś hasła?". Użytkownicy mogą posłużyć się tym odnośnikiem dla przydziału nowego hasła, bez pomocy administratora systemu.###10 Jul 2006 content changed
 common#:#paste#:#Wklej
+common#:#paste_clipboard_items#:#Wklej pozycje ze schowka
 common#:#pasteChapter#:#Wklej rozdział
 common#:#pastePage#:#Wklej stronę
-common#:#paste_clipboard_items#:#Wklej pozycje ze schowka
 common#:#path#:#Scieżka
 common#:#path_not_set#:#Ścieżka nie została ustawiona.
 common#:#path_to_babylon#:#Ścieżka do Babylon
@@ -2998,12 +3066,12 @@ common#:#server#:#Serwer
 common#:#server_data#:#Dane serwera
 common#:#server_software#:#Oprogramowanie serwera
 common#:#set#:#Ustaw
-common#:#setSystemLanguage#:#Ustaw język systemowy
-common#:#setUserLanguage#:#Ustaw język użytkownika
 common#:#set_offline#:#Ustaw Offline
 common#:#set_online#:#Ustaw Online
+common#:#setSystemLanguage#:#Ustaw język systemowy
 common#:#settings#:#Ustawienia
 common#:#settings_saved#:#Ustawienia zapisane
+common#:#setUserLanguage#:#Ustaw język użytkownika
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Włacz Shibboleth
 common#:#shib_city#:#Atrybut miasta
@@ -3078,6 +3146,7 @@ common#:#st_add#:#Dodaj rozdział
 common#:#st_added#:#Rozdział dodany
 common#:#st_edit#:#Edytuj rozdział
 common#:#st_new#:#Nowy rozdział
+common#:#standard_fields#:#Standard Fields ### 2006-8-11 --- Add new translation here.
 common#:#startpage#:#Strona startowa
 common#:#statistic#:#Statystyka
 common#:#status#:#Status
@@ -3148,7 +3217,7 @@ common#:#test#:#Test
 common#:#test_intern#:#Test wewnętrzny
 common#:#test_module#:#Moduł Testu
 common#:#tests#:#Testy
-common#:#thread#:#Thread###11 Aug 2006 new variable
+common#:#thread#:#Thread ### 2006-8-11 --- Add new translation here.
 common#:#thumbnail#:#Miniatura
 common#:#time#:#Czas
 common#:#time_d#:#Dzień
@@ -3217,9 +3286,21 @@ common#:#txt_submitted#:#Twoje zgłoszenie założenia konta w ILIAS-ie zostało
 common#:#typ#:#Definicja typu obiektu
 common#:#type#:#Typ
 common#:#type_your_message_here#:#W tym miejscu wpisz swoją wiadomość
+common#:#udf_add_field#:#Add Field ### 2006-8-11 --- Add new translation here.
+common#:#udf_added_field#:#Added new field. ### 2006-8-11 --- Add new translation here.
+common#:#udf_delete_header#:#Delete Field ### 2006-8-11 --- Add new translation here.
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ? ### 2006-8-11 --- Add new translation here.
+common#:#udf_duplicate_entries#:#The values have to be unique. ### 2006-8-11 --- Add new translation here.
+common#:#udf_field_deleted#:#Deleted field. ### 2006-8-11 --- Add new translation here.
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name. ### 2006-8-11 --- Add new translation here.
+common#:#udf_no_entries#:#Please enter minimum one value. ### 2006-8-11 --- Add new translation here.
+common#:#udf_no_name_given#:#Please enter a field name. ### 2006-8-11 --- Add new translation here.
+common#:#udf_type_select#:#Select Box (fixed values) ### 2006-8-11 --- Add new translation here.
+common#:#udf_type_text#:#Text Field (optional values) ### 2006-8-11 --- Add new translation here.
 common#:#udf_update_select_field#:#Edit select box###10 Jul 2006 new variable
 common#:#udf_update_success#:#Saved modifications.###10 Jul 2006 new variable
 common#:#udf_update_text_field#:#Edit text field###10 Jul 2006 new variable
+common#:#udf_value#:#Value ### 2006-8-11 --- Add new translation here.
 common#:#udf_value_deleted#:#The value has been deleted.###10 Jul 2006 new variable
 common#:#uid#:#UID
 common#:#ums_create_new_account#:#Create New Account###06 Aug 2006 new variable
@@ -3269,6 +3350,8 @@ common#:#user_added#:#Użytkownik dodany
 common#:#user_assignment#:#Przydział użytkownika
 common#:#user_cant_receive_mail#:#użytkownik nie może używać systemu poczty elektronicznej
 common#:#user_comment#:#Komentarz użytkownika
+common#:#user_defined_fields#:#User-defined Fields ### 2006-8-11 --- Add new translation here.
+common#:#user_defined_list#:#Overview User-defined Fields ### 2006-8-11 --- Add new translation here.
 common#:#user_deleted#:#Użytkownik usunięty
 common#:#user_detail#:#Dane szczegółowe
 common#:#user_ext_account#:#External Account###10 Jul 2006 new variable
@@ -3405,9 +3488,6 @@ common#:#you_may_add_local_roles#:#Możesz dodać lokalną rolę
 common#:#your_message#:#Twoja wiadomość
 common#:#zip#:#Kod pocztowy
 common#:#zipcode#:#Kod pocztowy
-content#:#HTML export#:#Eksport HTML
-content#:#PDF export#:#Eksport PDF
-content#:#Pages#:#Strony
 content#:#add_menu_entry#:#Dodaj pozycję menu >>
 content#:#all#:#Wszystko
 content#:#all_pages#:#wnętrze Modułu Nauczania###25 Jul 2006 content changed
@@ -3417,26 +3497,6 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
-content#:#cont_Additional#:#Dodatkowe
-content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...###10 Jul 2006 content changed
-content#:#cont_Circle#:#Koło
-content#:#cont_Citation#:#Cytat
-content#:#cont_Code#:#Kod
-content#:#cont_Example#:#Przykład###10 Jul 2006 content changed
-content#:#cont_Headline1#:#Nagłówek 1
-content#:#cont_Headline2#:#Nagłówek 2
-content#:#cont_Headline3#:#Nagłówek 3
-content#:#cont_List#:#Lista
-content#:#cont_LocalFile#:#Plik lokalny
-content#:#cont_Mnemonic#:#Pamięciowy
-content#:#cont_Number#:#Liczba
-content#:#cont_Poly#:#Wielobok
-content#:#cont_Rect#:#Wielokąt
-content#:#cont_Reference#:#Referencja
-content#:#cont_Remark#:#Komentarz
-content#:#cont_Roman#:#Rzymskie I, II, ...###10 Jul 2006 content changed
-content#:#cont_TableContent#:#Zawartość tabeli
-content#:#cont_Unordered#:#Nieposortowany
 content#:#cont_act_number#:#Numeracja rozdziałów
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Aktywuj Menu
@@ -3446,8 +3506,10 @@ content#:#cont_add_definition#:#Dodaj definicję
 content#:#cont_add_fullscreen#:#dodaj Pełny widok
 content#:#cont_added_comment#:#Komentarz został dodany do historii.
 content#:#cont_added_term#:#Termin dodany
+content#:#cont_Additional#:#Dodatkowe
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
+content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...###10 Jul 2006 content changed
 content#:#cont_annex#:#Aneks
 content#:#cont_api_adapter#:#Nazwa adaptera API
 content#:#cont_api_func_prefix#:#Prefiks funkcji API
@@ -3476,6 +3538,8 @@ content#:#cont_characteristic#:#Charakterystyka
 content#:#cont_choose_cont_obj#:#Wybierz zawartość obiektu
 content#:#cont_choose_glossary#:#Wybierz słownik
 content#:#cont_choose_media_source#:#Wybierz źródło mediów
+content#:#cont_Circle#:#Koło
+content#:#cont_Citation#:#Cytat
 content#:#cont_citation_err_one#:#Musisz wybrać dokładnie jedną edycję
 content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy###10 Jul 2006 content changed
 content#:#cont_citations#:#Cytaty
@@ -3486,6 +3550,7 @@ content#:#cont_click_next_or_save#:#Kliknij na następny punkt wielokąta lub za
 content#:#cont_click_next_point#:#Kliknij na następny punkt wielokąta.
 content#:#cont_click_starting_point#:#Kliknij na punkt startowy wielokąta.
 content#:#cont_click_tl_corner#:#Kliknij na lewy górny róg określanej powierzchni.
+content#:#cont_Code#:#Kod
 content#:#cont_confirm_delete#:#naprawdę usunąć?
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
@@ -3542,6 +3607,7 @@ content#:#cont_ed_delete_item#:#usuń pozycję
 content#:#cont_ed_delete_row#:#usuń wiersz
 content#:#cont_ed_edit#:#edytuj
 content#:#cont_ed_edit_prop#:#edytuj właściwości
+content#:#cont_ed_enable#:#(De-)Activate Elements ### 2006-8-11 --- Add new translation here.
 content#:#cont_ed_go#:#Wykonaj
 content#:#cont_ed_insert_code#:#wstaw Kod
 content#:#cont_ed_insert_filelist#:#wstaw listę plików
@@ -3579,6 +3645,7 @@ content#:#cont_edition#:#Edycja
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Włącz JavaScript
 content#:#cont_enable_media#:#Włącz Media
+content#:#cont_Example#:#Przykład###10 Jul 2006 content changed
 content#:#cont_export_files#:#Eksport plików
 content#:#cont_external#:#zewnętrzny
 content#:#cont_external_url#:#zewnętrzny url
@@ -3602,6 +3669,9 @@ content#:#cont_get_orig_size#:#Ustaw oryginalny rozmiar
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Właściwości Słownika
 content#:#cont_header#:#Header###10 Jul 2006 new variable
+content#:#cont_Headline1#:#Nagłówek 1
+content#:#cont_Headline2#:#Nagłówek 2
+content#:#cont_Headline3#:#Nagłówek 3
 content#:#cont_height#:#Wysokość
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
@@ -3632,6 +3702,7 @@ content#:#cont_link_int#:#Łącznik (wewnętrzny)
 content#:#cont_link_select#:#Łącznik wewnętrzny
 content#:#cont_link_type#:#Typ łącznika
 content#:#cont_linked_mobs#:#Podłączone obiekty medialne
+content#:#cont_List#:#Lista
 content#:#cont_list_files#:#Lista plików
 content#:#cont_list_properties#:#Lista właściwości
 content#:#cont_lk_chapter#:#Rozdział
@@ -3648,6 +3719,7 @@ content#:#cont_lk_term#:#Hasło słownika
 content#:#cont_lk_term_new#:#Hasło słownika (nowa ramka)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Właściwości modułu nauczania
+content#:#cont_LocalFile#:#Plik lokalny
 content#:#cont_lvalue#:#Element danych
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Pole Łącznikowe
@@ -3656,6 +3728,7 @@ content#:#cont_max_time_allowed#:#Maks. dostępny czas
 content#:#cont_media_source#:#Źródło mediów
 content#:#cont_mep_structure#:#Struktura Puli Mediów
 content#:#cont_missing_preconditions#:#Musisz spełnić następujące wymagania wstępne aby uzyskać dostęp do rozdziału "%s".###10 Jul 2006 content changed
+content#:#cont_Mnemonic#:#Pamięciowy
 content#:#cont_mob_files#:#Pliki obiektowe
 content#:#cont_mob_inst_prop#:#Właściwości instancji
 content#:#cont_mob_prop#:#Właściwości obiektu
@@ -3681,6 +3754,7 @@ content#:#cont_none#:#Brak
 content#:#cont_nr_cols#:#Liczba kolumn
 content#:#cont_nr_items#:#Liczba pozycji
 content#:#cont_nr_rows#:#Liczba wierszy
+content#:#cont_Number#:#Liczba
 content#:#cont_obj_removed#:#Obiekty usunięte.
 content#:#cont_offline#:#Wersje Offline
 content#:#cont_offline_files#:#Wersje Offline
@@ -3704,6 +3778,7 @@ content#:#cont_personal_clipboard#:#Osobisty pulpit
 content#:#cont_pg_content#:#Zawartość strony
 content#:#cont_pg_title#:#Tytuł strony
 content#:#cont_please_select#:#wybierz
+content#:#cont_Poly#:#Wielobok
 content#:#cont_prereq_type#:#Typ warunków wstępnych
 content#:#cont_prerequisites#:#Warunki wstępne
 content#:#cont_preview#:#Podgląd
@@ -3713,9 +3788,11 @@ content#:#cont_public_notes#:#Notatki publiczne
 content#:#cont_public_notes_desc#:#Zezwala użytkownikom na współdzielenie notatek na każdej stronie modułu nauczania.
 content#:#cont_publisher#:#Wydawca
 content#:#cont_purpose#:#Cel
+content#:#cont_Rect#:#Wielokąt
 content#:#cont_ref_helptext#:#(np. http://www.serwer.org/mojobraz.jpg)
 content#:#cont_ref_images#:#Obrazy referencyjne
-content#:#cont_reference#:#Reference###09 Aug 2006 new variable
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Komentarz
 content#:#cont_remove_fullscreen#:#Usuń pełny widok
 content#:#cont_removeiln#:#naprawdę usunąć łącznik wewnętrzny?
 content#:#cont_repository_item#:#Pozycja dostępnych zasobów
@@ -3726,6 +3803,7 @@ content#:#cont_resize_image#:#Przeskaluj rysunki
 content#:#cont_resource#:#Zasób
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby
+content#:#cont_Roman#:#Rzymskie I, II, ...###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Wartość
 content#:#cont_saved_map_area#:#Zachowany obszar mapy
 content#:#cont_saved_map_data#:#Zachowana mapa danych
@@ -3795,6 +3873,7 @@ content#:#cont_table_html_import_info#:#Import działa tylko dla tablic XHTML. T
 content#:#cont_table_spreadsheet_import#:#Import skoroszytu
 content#:#cont_table_spreadsheet_import_info#:#Wklej tabelę z arkusza kalkulacyjnego poprzez schowek do pola tekstowego.
 content#:#cont_table_width#:#Szerokość tablicy
+content#:#cont_TableContent#:#Zawartość tabeli
 content#:#cont_target_within_source#:#Przeznaczenie nie może być wewnątrz obiektu źródłowego.
 content#:#cont_term#:#Termin
 content#:#cont_terms#:#Terminy
@@ -3819,6 +3898,7 @@ content#:#cont_tracking_items#:#Pozycje śledzone
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
 content#:#cont_tree_fixed#:#Struktura drzewa została naprawiona.
+content#:#cont_Unordered#:#Nieposortowany
 content#:#cont_update#:#Uaktualnij
 content#:#cont_update_names#:#Uaktualnij nazwy
 content#:#cont_upload_file#:#Wyślij plik
@@ -3839,6 +3919,7 @@ content#:#copied_to_clipboard#:#Obiekty skopiowane do schowka.
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Następujące zasoby są połączone z tym hasłem
+content#:#HTML export#:#Eksport HTML
 content#:#lm_menu_edit_entry#:#Edycja pozycji menu
 content#:#lm_menu_entry_target#:#Przeznaczenie
 content#:#lm_menu_entry_title#:#Tytuł
@@ -3850,15 +3931,17 @@ content#:#msg_entry_removed#:#Pozycja menu usunięta
 content#:#msg_entry_updated#:#Pozycja menu uaktualniona
 content#:#msg_page_no_public_access#:#Wywołana strona nie jest dostępna w sekcji publicznej. Tylko użytkownicy zarejestrowani mogą oglądać tę stronę. Najpierw zaloguj się aby mieć dostęp do tej strony.
 content#:#msg_page_not_public#:#Strona nie jest publiczna
+content#:#Pages#:#Strony
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
+content#:#PDF export#:#Eksport PDF
 content#:#pg#:#Strona
 content#:#public_section#:#Sekcja publiczna
 content#:#read offline#:#Czytaj Offline
-content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
-content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Wybierz plik.
 content#:#selected_pages_only#:#tylko strony wybrane poniżej###25 Jul 2006 content changed
+content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
+content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#set_public_mode#:#Ustaw tryb dostępu publicznego
 content#:#st#:#Rozdział
 content#:#start export#:#Start Eksport
@@ -4336,43 +4419,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-dateplaner#:#DateText#:#Wiadomość
-dateplaner#:#Day_long#:#Widok dnia
-dateplaner#:#ERROR_DATE_EXISTS#:#Taki termin już istnieje.
-dateplaner#:#ERROR_DB#:#Błąd zapisu do bazy danych!
-dateplaner#:#ERROR_DB_CONNECT#:#Baza danych jest rozłączona.
-dateplaner#:#ERROR_DEL_MSG#:#To jest termin cykliczny. Chcesz usunąć jedną lub wszystkie daty?
-dateplaner#:#ERROR_ENDDATE#:#Źle podano datę końcową. Format: dd/mm/rrrr
-dateplaner#:#ERROR_ENDTIME#:#Zły czas końcowy. Format: gg:mm
-dateplaner#:#ERROR_END_START#:#Źle podano datę końcową. Data końcowa wcześniejsza niż data początkowa.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Podaj prawidłowy plik csv.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>twoja przeglądarka nie obsługuje prawidłowo JavaScript. <br /> Zamknij to okno ręcznie. <br /> Dziękujemy</CENTER></B>###10 Jul 2006 content changed
-dateplaner#:#ERROR_ROTATIONEND#:#Źle podano datę końcową cyklu. Format: dd/mm/rrrr
-dateplaner#:#ERROR_ROT_END_START#:#Źle podano datę końcową cyklu. Data końcowa cyklu wcześniejsza niż data początkowa.
-dateplaner#:#ERROR_SHORTTEXT#:#Źle podano opis skrócony. Opis skrócony jest konieczny.
-dateplaner#:#ERROR_STARTDATE#:#Źle podano datę początkowa. Format: dd/mm/rrrr
-dateplaner#:#ERROR_STARTTIME#:#Zły czas początkowy. Format: gg:mm
-dateplaner#:#ERROR_TS#:#Błędny format daty
-dateplaner#:#Fr_long#:#Piątek
-dateplaner#:#Fr_short#:#Pt
-dateplaner#:#Language_file#:#polski
-dateplaner#:#Listbox_long#:#Lista terminów
-dateplaner#:#Mo_long#:#Poniedziałek
-dateplaner#:#Mo_short#:#Pn
-dateplaner#:#Month_long#:#Widok miesiąca
-dateplaner#:#Sa_long#:#Sobota
-dateplaner#:#Sa_short#:#So
-dateplaner#:#Su_long#:#Niedziela
-dateplaner#:#Su_short#:#Ni
-dateplaner#:#Text#:#Tekst
-dateplaner#:#Th_long#:#Czwartek
-dateplaner#:#Th_short#:#Cz
-dateplaner#:#Tu_long#:#Wtorek
-dateplaner#:#Tu_short#:#Wt
-dateplaner#:#View#:#Widok:
-dateplaner#:#We_long#:#Środa
-dateplaner#:#We_short#:#Śr
-dateplaner#:#Week_long#:#Widok tygodnia
 dateplaner#:#add_data#:#Dodatkowy termin
 dateplaner#:#app_#:#Wprowadzenie terminu grupowego
 dateplaner#:#app_date#:#wstaw termin
@@ -4389,19 +4435,20 @@ dateplaner#:#back#:#powrót
 dateplaner#:#begin_date#:#Początek terminu
 dateplaner#:#busytime#:#czas zajęty grupy
 dateplaner#:#c_date#:#Twórz termin
-dateplaner#:#changeTo#:#Zmień na:
 dateplaner#:#changedDates#:#Terminy zmienione
+dateplaner#:#changeTo#:#Zmień na:
 dateplaner#:#checkforfreetime#:#Sprawdź czy czas jest wolny
 dateplaner#:#created#:#Utworzony
 dateplaner#:#date#:#Termin
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
+dateplaner#:#DateText#:#Wiadomość
+dateplaner#:#Day_long#:#Widok dnia
 dateplaner#:#del_all#:#usuń wszystkie terminy
 dateplaner#:#del_one#:#usuń jeden termin
 dateplaner#:#delete#:#usuń
 dateplaner#:#deletedDates#:#Terminy usunięte
 dateplaner#:#discard#:#anuluj
-dateplaner#:#dv_Grouptime#:#czas wolny
 dateplaner#:#dv_button_cancel#:#Anuluj
 dateplaner#:#dv_button_delete#:#Usuń
 dateplaner#:#dv_button_insert#:#Wstaw
@@ -4411,6 +4458,7 @@ dateplaner#:#dv_date_end#:#Data zakończenia:
 dateplaner#:#dv_date_hm#:#Godz:Min
 dateplaner#:#dv_enddate#:#DataKon:
 dateplaner#:#dv_groupselect#:#Grupa wybrana:
+dateplaner#:#dv_Grouptime#:#czas wolny
 dateplaner#:#dv_groupview#:#Termin Grupowy:
 dateplaner#:#dv_groupview_text#:#Grupa:<br />
 dateplaner#:#dv_keywords#:#Klucze:
@@ -4429,9 +4477,26 @@ dateplaner#:#dv_whole_day#:#Cały dzień:
 dateplaner#:#dv_whole_rotation#:#Chcesz usunąć cały termin cykliczny? (kliknij pole wyboru)
 dateplaner#:#end_date#:#DataKon:
 dateplaner#:#endtime_for_view#:#Czas końca widoku:
+dateplaner#:#ERROR_DATE_EXISTS#:#Taki termin już istnieje.
+dateplaner#:#ERROR_DB#:#Błąd zapisu do bazy danych!
+dateplaner#:#ERROR_DB_CONNECT#:#Baza danych jest rozłączona.
+dateplaner#:#ERROR_DEL_MSG#:#To jest termin cykliczny. Chcesz usunąć jedną lub wszystkie daty?
+dateplaner#:#ERROR_END_START#:#Źle podano datę końcową. Data końcowa wcześniejsza niż data początkowa.
+dateplaner#:#ERROR_ENDDATE#:#Źle podano datę końcową. Format: dd/mm/rrrr
+dateplaner#:#ERROR_ENDTIME#:#Zły czas końcowy. Format: gg:mm
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Podaj prawidłowy plik csv.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>twoja przeglądarka nie obsługuje prawidłowo JavaScript. <br /> Zamknij to okno ręcznie. <br /> Dziękujemy</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#Nie mona utworzyć strumienia obrazu GD
+dateplaner#:#ERROR_ROT_END_START#:#Źle podano datę końcową cyklu. Data końcowa cyklu wcześniejsza niż data początkowa.
+dateplaner#:#ERROR_ROTATIONEND#:#Źle podano datę końcową cyklu. Format: dd/mm/rrrr
+dateplaner#:#ERROR_SHORTTEXT#:#Źle podano opis skrócony. Opis skrócony jest konieczny.
+dateplaner#:#ERROR_STARTDATE#:#Źle podano datę początkowa. Format: dd/mm/rrrr
+dateplaner#:#ERROR_STARTTIME#:#Zły czas początkowy. Format: gg:mm
+dateplaner#:#ERROR_TS#:#Błędny format daty
 dateplaner#:#execute#:#dokonanie wyboru
 dateplaner#:#extra_dates#:#Terminy jednodniowe
+dateplaner#:#Fr_long#:#Piątek
+dateplaner#:#Fr_short#:#Pt
 dateplaner#:#free#:#wolny
 dateplaner#:#freetime#:#Czas wolny grupy
 dateplaner#:#group#:#Grupa
@@ -4452,9 +4517,9 @@ dateplaner#:#help_group_l#:#Zawiera grupy do których zalogowany  użytkownik ma
 dateplaner#:#help_inbox#:#Strona główna terminarza terminarza
 dateplaner#:#help_inbox_l#:#Wszystkie nowe, zmienione i usunięte terminy grupowe są wyświetlone.
 dateplaner#:#help_keyword#:#Wybór klucza
+dateplaner#:#help_keyword_l#:#Zawiera klucze które użytkownik może skojarzyć z terminami.
 dateplaner#:#help_keywordUse#:#Wybór klucza
 dateplaner#:#help_keywordUse_l#:#Wybierz jeden lub więcej kluczy z okna dialogowego. <br /> Użyj klawisza Control do wyboru wielu pozycji.
-dateplaner#:#help_keyword_l#:#Zawiera klucze które użytkownik może skojarzyć z terminami.
 dateplaner#:#help_list#:#Terminarz - lista terminów
 dateplaner#:#help_list_l#:#Na liście są wyświetlone wszystkie terminy wybranego okresu.
 dateplaner#:#help_month#:#Terminarz - widok miesiąca
@@ -4489,7 +4554,9 @@ dateplaner#:#k_alldates#:#wszystkie terminy
 dateplaner#:#keep#:#trzymaj
 dateplaner#:#keyword#:#Klucz
 dateplaner#:#keywords#:#Klucze
+dateplaner#:#Language_file#:#polski
 dateplaner#:#last_change#:#Ostatnia zmiana
+dateplaner#:#Listbox_long#:#Lista terminów
 dateplaner#:#long_01#:#Styczeń
 dateplaner#:#long_02#:#Luty
 dateplaner#:#long_03#:#Marzec
@@ -4505,13 +4572,16 @@ dateplaner#:#long_12#:#Grudzień
 dateplaner#:#main_dates#:#Główne terminy
 dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#poprzedni miesiąc
+dateplaner#:#Mo_long#:#Poniedziałek
+dateplaner#:#Mo_short#:#Pn
 dateplaner#:#month#:#miesiąc
+dateplaner#:#Month_long#:#Widok miesiąca
 dateplaner#:#more#:#więcej
 dateplaner#:#mweek#:#poprzedni tydzień
 dateplaner#:#myeahr#:#poprzedni rok
+dateplaner#:#new_doc#:#twórz nowty termin
 dateplaner#:#newDates#:#Nowe terminy
 dateplaner#:#newKeyword#:#Nowy:
-dateplaner#:#new_doc#:#twórz nowty termin
 dateplaner#:#no_entry#:#brak dostępnych terminów
 dateplaner#:#o_day_date#:#termin 24g
 dateplaner#:#of#:#
@@ -4532,6 +4602,8 @@ dateplaner#:#r_year#:#co rok
 dateplaner#:#readimportfile#:#Wstaw
 dateplaner#:#rotation#:#Cykl
 dateplaner#:#rotation_dates#:#Terminy cykliczne
+dateplaner#:#Sa_long#:#Sobota
+dateplaner#:#Sa_short#:#So
 dateplaner#:#semester_name#:#Nazwa Semestru
 dateplaner#:#short_01#:#Sty
 dateplaner#:#short_02#:#Lut
@@ -4548,13 +4620,24 @@ dateplaner#:#short_12#:#Gru
 dateplaner#:#shorttext#:#Opis skrócony
 dateplaner#:#singleDate#:#pojedyńczy termin
 dateplaner#:#starttime_for_view#:#Czas początkowy widoku:
+dateplaner#:#Su_long#:#Niedziela
+dateplaner#:#Su_short#:#Ni
+dateplaner#:#Text#:#Tekst
+dateplaner#:#Th_long#:#Czwartek
+dateplaner#:#Th_short#:#Cz
 dateplaner#:#timedate#:#Czas / Data
 dateplaner#:#timeslice#:#Czas:
 dateplaner#:#title#:#Terminarz Ilias
 dateplaner#:#to#:#do
 dateplaner#:#today#:#dziś
+dateplaner#:#Tu_long#:#Wtorek
+dateplaner#:#Tu_short#:#Wt
+dateplaner#:#View#:#Widok:
 dateplaner#:#viewlist#:#widok
+dateplaner#:#We_long#:#Środa
+dateplaner#:#We_short#:#Śr
 dateplaner#:#week#:#tydzień
+dateplaner#:#Week_long#:#Widok tygodnia
 dateplaner#:#wk_short#:#TD
 dateplaner#:#year#:#rok
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4585,8 +4668,8 @@ forum#:#forums_disable_notification#:#Wyłącz powiadomienia
 forum#:#forums_download_attachment#:#Pobierz plik
 forum#:#forums_edit_post#:#Edytuj artykuł
 forum#:#forums_enable_notification#:#Włącz powiadomienia
-forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?
 forum#:#forums_info_censor_post#:#Jesteś pewien, że chcesz ukryć ten artykuł?
+forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?
 forum#:#forums_info_delete_post#:#Jesteś pewien, że chcesz usunąć ten artykuł włącznie z odpowiedziami?
 forum#:#forums_mark_read#:#Zaznacz wszystkie przeczytane
 forum#:#forums_new_entries#:#Nowe   pozycje forów
@@ -4623,6 +4706,10 @@ forum#:#forums_your_reply#:#Twoja odpowiedź
 forum#:#frm_anonymous_posting#:#Anonimowe wysyłanie postów
 forum#:#frm_anonymous_posting_desc#:#Jeśli wybrane,to anonimowe wysyłanie postów jest dozwolone na tym forum.
 forum#:#frm_default_view#:#Domyślny widok
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members. ### 2006-8-11 --- Add new translation here.
+forum#:#frm_statistics_enabled#:#Enable Statistics ### 2006-8-11 --- Add new translation here.
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants ### 2006-8-11 --- Add new translation here.
+forum#:#frm_statistics_ranking#:#Ranking ### 2006-8-11 --- Add new translation here.
 forum#:#frm_title_required#:#Wstaw tytuł.
 forum#:#is_read#:#Zaznacz jako przeczytane
 forum#:#new_post#:#Nowy post
@@ -5642,6 +5729,7 @@ registration#:#reg_settings_header#:#New Registration Settings###10 Jul 2006 new
 registration#:#reg_type#:#Registration Type###10 Jul 2006 new variable
 registration#:#reg_unknown_recipients#:#The following logins are not valid:###10 Jul 2006 new variable
 registration#:#registration_settings#:#New Registrations###10 Jul 2006 new variable
+search#:#add_members_header#:#Add members ### 2006-8-11 --- Add new translation here.
 search#:#append_results#:#Append results###10 Jul 2006 new variable
 search#:#search_active#:#Włącznie z aktywnymi użytkownikami
 search#:#search_added_new_folder#:#Dodano nowy folder.
@@ -5664,8 +5752,12 @@ search#:#search_delete_sure#:#Obiekt i jego zawartość zostanie usunięty bezpo
 search#:#search_details_info#:#Szczegóły wyszukania. Wybierz jeden lub więcej powyższych obiektów.
 search#:#search_direct#:#Proste szukanie
 search#:#search_fast_info#:#Szukaj tytułów, opisów i słów kluczowych we wszystkich typach obiektów
+search#:#search_for_grp_members#:#Search for group members ### 2006-8-11 --- Add new translation here.
+search#:#search_for_role_members#:#Search for role members ### 2006-8-11 --- Add new translation here.
+search#:#search_for_users#:#Search for users ### 2006-8-11 --- Add new translation here.
 search#:#search_full_info#:#Wybierz tę opcję dla szukania w dużej masie danych.
 search#:#search_group#:#Grupy
+search#:#search_grp_title#:#Group name ### 2006-8-11 --- Add new translation here.
 search#:#search_hits#:#Znaleziono w:
 search#:#search_in_magazin#:#W dostępnych zasobach
 search#:#search_in_result#:#Szukaj w wynikach
@@ -5698,7 +5790,9 @@ search#:#search_objects_moved#:#Obiekty przesunięte.
 search#:#search_one_action#:#Wybierz akcję.
 search#:#search_or#:#lub
 search#:#search_rename_title#:#Zmień tytuł
+search#:#search_results#:#Search results ### 2006-8-11 --- Add new translation here.
 search#:#search_results_saved#:#Zachowano rezultaty wyszukania
+search#:#search_role_title#:#Role name ### 2006-8-11 --- Add new translation here.
 search#:#search_save_as_select#:#Zachowaj jako:
 search#:#search_search_for#:#Szukaj
 search#:#search_search_no_results_saved#:#Brak zachowanych rezultatów wyszukania
@@ -5772,10 +5866,6 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Dodaj kategorię
 survey#:#add_heading#:#Dodaj nagłówek
 survey#:#add_limits_for_standard_numbers#:#Podaj dolny i górny limit dla numeracji kategorii.
@@ -5879,27 +5969,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Jeśli nic nie wprowadzono to maksymalna ilość znaków tekstu nie jest limitowana.
 survey#:#disinvite#:#Anuluj zaproszenie
 survey#:#display_all_available#:#Wyświetl wszystkie dostępne
-survey#:#dp_standard_attitude_agree5#:#Standardowe stany (mocno zgodny-zgodny-nie wiem-niezgodny-mocno niezgodny)
 survey#:#dp_standard_attitude_agree_disagree#:#Standardowe stany (zgodny-niezgodny)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standardowe stany (zgodny-nie wiem-niezgodny)
-survey#:#dp_standard_attitude_desired5#:#Standardowe stany (mocno pożądany-pożądany-neutralny-niepożądany-mocno niepożądany)
+survey#:#dp_standard_attitude_agree5#:#Standardowe stany (mocno zgodny-zgodny-nie wiem-niezgodny-mocno niezgodny)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standardowe stany  (pożądany-neutralny-niepożądany)
 survey#:#dp_standard_attitude_desired_undesired#:#Standardowe stany (pożądany-niepożądany)
-survey#:#dp_standard_attitude_good5#:#Standardowe stany (bardzo dobrze-dobrze-dość dobrze-słabo-nie akceptowalnie)
+survey#:#dp_standard_attitude_desired5#:#Standardowe stany (mocno pożądany-pożądany-neutralny-niepożądany-mocno niepożądany)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standardowe stany (dobrze-dość dobrze-nie akceptowalnie)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standardowe stany (dobrze-nie akceptowalnie)
+survey#:#dp_standard_attitude_good5#:#Standardowe stany (bardzo dobrze-dobrze-dość dobrze-słabo-nie akceptowalnie)
 survey#:#dp_standard_attitude_must5#:#Standardowe stany (musi-powinien-nie wiem-nie  powinien-nie musi)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standardowe stany (powinien-nie powinien)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standardowe stany (powinien-nie wiem-nie powinien)
 survey#:#dp_standard_behaviour_certainly5#:#Standardowe zachowanie (najpewniejszy-bardziej pozytywny-nie wiem-bardziej negatywny-niepewny wogóle)
 survey#:#dp_standard_behaviour_yes_no#:#Standardowe zachowanie (tak-nie)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standardowe zachowanie (tak -nie wiem-nie)
-survey#:#dp_standard_beliefs_always5#:#Standardowe przekonanie (zawsze-wiele razy -zmiennie-rzadko-nigdy)
 survey#:#dp_standard_beliefs_always_never#:#Standardowe przekonanie (zawsze-nigdy)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standardowe przekonanie  (zawsze-czasami-nigdy)
-survey#:#dp_standard_beliefs_true5#:#Standardowe przekonanie (wyraźnie prawda -prawda-nie wiem-fałsz-wyraźnie fałsz)
+survey#:#dp_standard_beliefs_always5#:#Standardowe przekonanie (zawsze-wiele razy -zmiennie-rzadko-nigdy)
 survey#:#dp_standard_beliefs_true_false#:#Standardowe przekonanie (prawda-fałsz)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standardowe przekonanie (prawda-nie wiem-fałsz)
+survey#:#dp_standard_beliefs_true5#:#Standardowe przekonanie (wyraźnie prawda -prawda-nie wiem-fałsz-wyraźnie fałsz)
 survey#:#dp_standard_numbers#:#Standardowe numery
 survey#:#duplicate#:#Powiel
 survey#:#duplicate_svy#:#Powiel ankietę
@@ -6122,6 +6212,10 @@ survey#:#survey_skip_next#:#pomiń i przejdź do nast. strony >>>###19 Jul 2006 
 survey#:#survey_skip_previous#:#<<< pomiń i przejdź do poprz. strony###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< pomiń i przejdź na pierwszą stronę
 survey#:#survey_start#:#<<< zapisz i przejdź na pierwszą stronę###25 Jul 2006 content changed
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#Wszystkie dane użytkowników tego przeglądu zostały usunięte!
 survey#:#svy_check_evaluation_access_introduction#:#Dopóki ewaluacja ankiety jest dostępna tylko dla uczestników musisz podawać swój kod dostępu dla otwarcia ewaluacji.
 survey#:#svy_check_evaluation_authentication_needed#:#Konieczne uwierzytelnienie
@@ -6178,10 +6272,101 @@ trac#:#info_found_objects#:#The user tracking refers to the following objects of
 trac#:#info_valid_request#:#Maksymalny czas pomiędzy dwoma żądaniami użytkownika.
 trac#:#last_login#:#Ostatnie logowanie
 trac#:#meta_typical_learning_time#:#Typowy czas nauczania
+trac#:#newUT_settings#:#Learning Module Statistics ### 2006-8-11 --- Add new translation here.
 trac#:#obj_types#:#Typy obiektów:###10 Jul 2006 content changed
 trac#:#search_area_info#:#Wybierz jeden obiekt.
 trac#:#search_terms#:#Search term(s)###10 Jul 2006 new variable
 trac#:#select_one#:#Wybierz jeden obiekt
+trac#:#stats_access#:#Access ### 2006-8-11 --- Add new translation here.
+trac#:#stats_accesses#:#Accesses ### 2006-8-11 --- Add new translation here.
+trac#:#stats_all#:#All ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter#:#Chapter ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_average_page_number#:#Average Number of Pages per Chapter ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_depth_coverage#:#Degree of Coverage with Depth ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_fewest_access#:#Fewest Access ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_listing#:#Chapter Listing ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#Total Dwell Time Depth ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_most_access_depth#:#Most Access with Depth ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_most_pages#:#Most Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_number#:#Number of Chapters ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_statisics#:#Chapter Statistics ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_stubbiest_total_dwell_time#:#Stubbiest Total Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_top#:#Top-Chapter (variance, access, etc.) ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_total_statistic#:#Total-Chapter-Statistic ### 2006-8-11 --- Add new translation here.
+trac#:#stats_choice#:#Selection ### 2006-8-11 --- Add new translation here.
+trac#:#stats_current#:#Currently ### 2006-8-11 --- Add new translation here.
+trac#:#stats_depth#:#Depth ### 2006-8-11 --- Add new translation here.
+trac#:#stats_duration#:#Duration ### 2006-8-11 --- Add new translation here.
+trac#:#stats_equivalent#:#is equivalent to ### 2006-8-11 --- Add new translation here.
+trac#:#stats_hits#:#Hits ### 2006-8-11 --- Add new translation here.
+trac#:#stats_hour#:#h ### 2006-8-11 --- Add new translation here.
+trac#:#stats_interval#:#Interval ### 2006-8-11 --- Add new translation here.
+trac#:#stats_interval_dwell_time#:#Interval of Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_interval_page_access#:#Interval of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_last#:#Last ### 2006-8-11 --- Add new translation here.
+trac#:#stats_legend#:#Legend ### 2006-8-11 --- Add new translation here.
+trac#:#stats_measurable_hits#:#Measurable Hits (Hits within a Session) ### 2006-8-11 --- Add new translation here.
+trac#:#stats_minute#:#m ### 2006-8-11 --- Add new translation here.
+trac#:#stats_navigation#:#Navigation/Observation Model (requires JRE 1.5 or higher) ### 2006-8-11 --- Add new translation here.
+trac#:#stats_new_selection#:#New Selection ### 2006-8-11 --- Add new translation here.
+trac#:#stats_occurrence#:#Occurrence ### 2006-8-11 --- Add new translation here.
+trac#:#stats_of#:#of ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page#:#Page ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_average_access#:#Average of Access to pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_average_dwell_time#:#Average of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_deviation_access#:#Deviation of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_deviation_dwell_time#:#Deviation of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_fewest_access#:#Fewest Access ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_highest_deviation#:#Highest Deviation ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_highest_varcoeff#:#Highest Variation Coefficient ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_least_deviation#:#Least Deviation ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_listing#:#Page Listing ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_longest_average_dwell_time#:#Average Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_longest_total_dwell_time#:#Total Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_lowest_varcoeff#:#Lowest Variation Coefficient ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_median_access#:#Median of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_median_dwell_time#:#Median of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_mode_access#:#Mode of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_most_access#:#Most Accesses ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_number#:#Number of Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_number_access#:#Number of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_range_access#:#Range of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_range_dwell_time#:#Range of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_stubbiest_average_dwell_time#:#Stubbiest Average Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_stubbiest_total_dwell_time#:#Stubbiest Total Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_total_dwell_time#:#Total-Pages-Dwell time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_total_statistic#:#Total-Pages-Statistic ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_varcoeff_access#:#Variation Coefficient of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_varcoeff_dwell_time#:#Variation Coefficient of Dwell time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_variance_access#:#Variance of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_variance_dwell_time#:#Variance of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_pages#:#Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_pages_statisics#:#Page Statistics ### 2006-8-11 --- Add new translation here.
+trac#:#stats_sec#:#sec ### 2006-8-11 --- Add new translation here.
+trac#:#stats_sel_lng#:#English ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session#:#Session ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_average_length#:#Average Session Length ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_average_page_access#:#Average Access to Pages per Session ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_evaluable#:#Evaluable Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_evaluable_access#:#Evaluable Session Access ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_evaluable_usr#:#Evaluable User ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_involved_usr#:#Number of involved Users ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_listing#:#Session Listing ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_longest#:#Longest Session ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_longest_total_duration_usr#:#Longest Total Duration per User ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_most#:#Most Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_number#:#Number of Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_total_duration#:#Total Duration of all Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_total_statistic#:#Total-Session-Statistic ### 2006-8-11 --- Add new translation here.
+trac#:#stats_sessions#:#Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_sessions_statisics#:#Session Statistics ### 2006-8-11 --- Add new translation here.
+trac#:#stats_start#:#Start ### 2006-8-11 --- Add new translation here.
+trac#:#stats_summation#:#Summation ### 2006-8-11 --- Add new translation here.
+trac#:#stats_tracked_user#:#Selected Users ### 2006-8-11 --- Add new translation here.
+trac#:#stats_until#:#until ### 2006-8-11 --- Add new translation here.
+trac#:#stats_user#:#User(s) ### 2006-8-11 --- Add new translation here.
+trac#:#stats_user_selected#:#User selected ### 2006-8-11 --- Add new translation here.
+trac#:#stats_with#:#with ### 2006-8-11 --- Add new translation here.
 trac#:#total_dwell_time#:#Total dwell time###10 Jul 2006 new variable
 trac#:#trac_activated#:#Śledzenie uaktywnione
 trac#:#trac_active_both#:#Uaktywniono śledzenie użytkownika i postępu nauczania
@@ -6227,6 +6412,7 @@ trac#:#trac_info_edited#:#Ustaw status na 'Kompletny' jeśli sądzisz że przero
 trac#:#trac_last_access#:#Ostatni dostęp
 trac#:#trac_learning_progress#:#Postęp nauczania###10 Jul 2006 content changed
 trac#:#trac_learning_progress_tbl_header#:#Postęp nauczania:
+trac#:#trac_lm_statistics#:#Access Statistics ### 2006-8-11 --- Add new translation here.
 trac#:#trac_lp_determination#:#Learning Progress Status Determination###10 Jul 2006 new variable
 trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status of the course.###10 Jul 2006 new variable
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.###10 Jul 2006 new variable

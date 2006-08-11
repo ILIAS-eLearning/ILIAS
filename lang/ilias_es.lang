@@ -122,6 +122,12 @@ assessment#:#applet_new_parameter#:#Nuevo parámetro
 assessment#:#applet_parameter#:#Parámetro
 assessment#:#applet_parameters#:#Parámetros del applet
 assessment#:#apply#:#Aplicar
+assessment#:#ass_create_export_file#:#Crear fichero de exportación
+assessment#:#ass_create_export_test_results#:#Exportar Resultados del Test
+assessment#:#ass_export_files#:#Exportar ficheros
+assessment#:#ass_file#:#Archivo
+assessment#:#ass_question#:#Pregunta
+assessment#:#ass_size#:#Tamaño
 assessment#:#assClozeTest#:#Pregunta Rellenar Huecos
 assessment#:#assImagemapQuestion#:#Pregunta Mapa de Imagen
 assessment#:#assJavaApplet#:#Pregunta Applet Java
@@ -133,12 +139,6 @@ assessment#:#assQuestions#:#Preguntas
 assessment#:#assSingleChoice#:#Pregunta de Opción Múltiple (respuesta única)
 assessment#:#assTextQuestion#:#Pregunta de Respuesta Corta
 assessment#:#assTextSubset#:#Pregunta Subconjunto de
-assessment#:#ass_create_export_file#:#Crear fichero de exportación
-assessment#:#ass_create_export_test_results#:#Exportar Resultados del Test
-assessment#:#ass_export_files#:#Exportar ficheros
-assessment#:#ass_file#:#Archivo
-assessment#:#ass_question#:#Pregunta
-assessment#:#ass_size#:#Tamaño
 assessment#:#available_points#:#Puntos disponibles
 assessment#:#average_reached_points#:#Puntuación media alcanzada
 assessment#:#backtocallingtest#:#Volver al Test origen
@@ -966,8 +966,6 @@ chat#:#chat_yellow#:#amarillo
 chat#:#chats#:#Chats
 chat#:#my_chats#:#Mis chats
 common#:#3rd_party_software#:#software externo
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
-common#:#HH#:#HH:MM
 common#:#absolute_path#:#ruta absoluta
 common#:#accept_usr_agreement#:#¿aceptar acuerdo de usuario?
 common#:#access#:#Acceso
@@ -1371,10 +1369,10 @@ common#:#contra#:#En contra
 common#:#cookies_howto#:#Cómo habilitar cookies
 common#:#copied_object#:#Objeto copiado
 common#:#copy#:#copiar
-common#:#copyChapter#:#Copiar
-common#:#copyPage#:#Copiar
 common#:#copy_of#:#Copia de
 common#:#copy_to#:#a
+common#:#copyChapter#:#Copiar
+common#:#copyPage#:#Copiar
 common#:#could_not_verify_account#:#Lo siento, no se pudo verificar su cuenta. Por favor contacte con el administrador del sistema.
 common#:#count#:#Cuenta
 common#:#country#:#País
@@ -1483,6 +1481,7 @@ common#:#dbk_new#:#Nuevo Digilib Book
 common#:#dbk_read#:#Acceso de lectura a Digibook
 common#:#dbk_visible#:#Digibook es visible
 common#:#dbk_write#:#Editar Digibook
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Vista de contenidos por defecto
 common#:#default#:#por defecto
 common#:#default_language#:#Idioma por defecto
@@ -1914,7 +1913,7 @@ common#:#grp_mail_subj_subscription_cancelled#:#Suscripción cancelada
 common#:#grp_mem_change_status#:#Modificar el estado del miembro
 common#:#grp_mem_leave#:#Dar de baja Miembro del Grupo
 common#:#grp_mem_send_mail#:#Enviar al miembro un mensaje
-common#:#grp_members_gallery#:#Galeria del grupo###11 Aug 2006 content changed
+common#:#grp_members_gallery#:#Galeria del grupo
 common#:#grp_msg_applicants_assigned#:#Solicitante(s) asignado(s) como miembro(s) de grupo
 common#:#grp_msg_applicants_removed#:#Solicitante(s) eliminados de la lista.
 common#:#grp_msg_member_assigned#:#Usuario(s) asignado(s) como miembro(s) del grupo.
@@ -1941,6 +1940,7 @@ common#:#guests#:#Invitados
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Título de Cabecera
 common#:#help#:#Ayuda
+common#:#HH#:#HH:MM
 common#:#hide#:#ocultar
 common#:#hide_details#:#ocultar detalles
 common#:#hide_private_notes#:#Ocultar notas privadas
@@ -2445,11 +2445,11 @@ common#:#month_12_short#:#Dic
 common#:#monthly#:#mensualmente
 common#:#months#:#Meses
 common#:#move#:#mover
-common#:#moveChapter#:#mover
-common#:#movePage#:#mover
 common#:#move_selected_items#:#Mover items seleccionados
 common#:#move_to#:#mover a
 common#:#move_users_to_style#:#Asignar usuarios al estilo###10 Jul 2006 content changed
+common#:#moveChapter#:#mover
+common#:#movePage#:#mover
 common#:#msg_cancel#:#Acción cancelada
 common#:#msg_changes_ok#:#las modificaciones fueron correctamente realizadas
 common#:#msg_clear_clipboard#:#Portapapeles limpiado
@@ -2520,9 +2520,9 @@ common#:#msg_obj_exists#:#Este objeto ya existe en esta carpeta
 common#:#msg_obj_modified#:#Modificaciones guardadas
 common#:#msg_obj_no_link#:#no está permitido ser enlazado
 common#:#msg_obj_not_deletable_sold#:#El sistema de pago está activado para los siguientes objetos. No puede ser eliminados.
+common#:#msg_perm_adopted_from_itself#:#No puede adoptar configuraciones de permisos desde el rol/plantilla de rol actual
 common#:#msg_perm_adopted_from1#:#configuración de permisos adoptada desde
 common#:#msg_perm_adopted_from2#:#(La configuración ha sido guardada!)
-common#:#msg_perm_adopted_from_itself#:#No puede adoptar configuraciones de permisos desde el rol/plantilla de rol actual
 common#:#msg_removed#:#Objeto(s) eliminado(s) del sistema
 common#:#msg_role_exists1#:#Un(a) rol/plantilla de rol con el nombre
 common#:#msg_role_exists2#:#ya existe! Por favor escoja otro nombre
@@ -2771,9 +2771,9 @@ common#:#password#:#contraseña
 common#:#password_assistance_disabled#:#La asistencia de contraseña estará únicamente disponible cuando la autentificación se realice mediante la base de datos ILIAS.
 common#:#password_assistance_info#:#Si la asistencia de contraseña está habilitada, un enlace con el texto "¿Olvidó su contraseña" es mostrado en la página de entrada de ILIAS. Los usuarios pueden usar este enlace para asignar una nueva contraseña a su cuenta de usuario, sin necesitar asistencia de un administrador de sistema.###10 Jul 2006 content changed
 common#:#paste#:#pegar
+common#:#paste_clipboard_items#:#Pegar items desde el portapapeles
 common#:#pasteChapter#:#Pegar
 common#:#pastePage#:#Pegar
-common#:#paste_clipboard_items#:#Pegar items desde el portapapeles
 common#:#path#:#ruta
 common#:#path_not_set#:#ruta no especificada
 common#:#path_to_babylon#:#ruta de babylon
@@ -3065,12 +3065,12 @@ common#:#server#:#servidor
 common#:#server_data#:#datos del Servidor
 common#:#server_software#:#software del servidor
 common#:#set#:#-establecer-
-common#:#setSystemLanguage#:#Establecer Idioma del Sistema
-common#:#setUserLanguage#:#Establecer Idioma del Usuario
 common#:#set_offline#:#set offline
 common#:#set_online#:#set online
+common#:#setSystemLanguage#:#Establecer Idioma del Sistema
 common#:#settings#:#Configuración
 common#:#settings_saved#:#Configuración grabada
+common#:#setUserLanguage#:#Establecer Idioma del Usuario
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Habilitar soporte de Shibboleth
 common#:#shib_city#:#Atributo para ciudad
@@ -3216,7 +3216,7 @@ common#:#test#:#Test
 common#:#test_intern#:#test interno
 common#:#test_module#:#Módulo de Test
 common#:#tests#:#Tests
-common#:#thread#:#Thread###11 Aug 2006 new variable
+common#:#thread#:#Thread ### 2006-8-11 --- Add new translation here.
 common#:#thumbnail#:#Thumbnail
 common#:#time#:#hora
 common#:#time_d#:#Día
@@ -3487,9 +3487,6 @@ common#:#you_may_add_local_roles#:#Puede añadir roles locales
 common#:#your_message#:#su mensaje
 common#:#zip#:#Código postal
 common#:#zipcode#:#Código postal
-content#:#HTML export#:#exportar a HTML
-content#:#PDF export#:#exportar a PDF
-content#:#Pages#:#Páginas
 content#:#add_menu_entry#:#Añadir opción de menú >>
 content#:#all#:#-Todo-
 content#:#all_pages#:#El módulo de aprendizaje completo###25 Jul 2006 content changed
@@ -3499,26 +3496,6 @@ content#:#citate#:#Citar
 content#:#citate_from#:#Citar desde ...
 content#:#citate_page#:#Citar esta página
 content#:#citate_to#:#Citar a ...
-content#:#cont_Additional#:#Adicional
-content#:#cont_Alphabetic#:#Alfabético A, B, ...###10 Jul 2006 content changed
-content#:#cont_Circle#:#Círculo
-content#:#cont_Citation#:#Cita
-content#:#cont_Code#:#Código
-content#:#cont_Example#:#Ejemplo###10 Jul 2006 content changed
-content#:#cont_Headline1#:#Cabecera 1
-content#:#cont_Headline2#:#Cabecera 2
-content#:#cont_Headline3#:#Cabecera 3
-content#:#cont_List#:#Lista
-content#:#cont_LocalFile#:#Fichero Local
-content#:#cont_Mnemonic#:#Nemónico
-content#:#cont_Number#:#Número
-content#:#cont_Poly#:#Polígono
-content#:#cont_Rect#:#Rectángulo
-content#:#cont_Reference#:#Referencia
-content#:#cont_Remark#:#Observación
-content#:#cont_Roman#:#Números Romános I, II, ...
-content#:#cont_TableContent#:#Tabla de Contenidos
-content#:#cont_Unordered#:#No ordenado/a
 content#:#cont_act_number#:#Numeración de capítulos
 content#:#cont_activate_page#:#Activar Página
 content#:#cont_active#:#Habilitar Menú
@@ -3528,8 +3505,10 @@ content#:#cont_add_definition#:#Añadir Definición
 content#:#cont_add_fullscreen#:#Añadir Pantalla Completa
 content#:#cont_added_comment#:#Un comentario ha sido añadido a la historia
 content#:#cont_added_term#:#-Término- añadido
+content#:#cont_Additional#:#Adicional
 content#:#cont_all_definitions#:#Todas las Definiciones
 content#:#cont_all_pages#:#Todas las Páginas
+content#:#cont_Alphabetic#:#Alfabético A, B, ...###10 Jul 2006 content changed
 content#:#cont_annex#:#Anexo
 content#:#cont_api_adapter#:#Nombre de adaptador API
 content#:#cont_api_func_prefix#:#Prefijo de las funciones del API
@@ -3558,6 +3537,8 @@ content#:#cont_characteristic#:#Característica
 content#:#cont_choose_cont_obj#:#Escojer Objeto Contenido
 content#:#cont_choose_glossary#:#Escoger Glosario
 content#:#cont_choose_media_source#:#Seleccionar fuente multimedia
+content#:#cont_Circle#:#Círculo
+content#:#cont_Citation#:#Cita
 content#:#cont_citation_err_one#:#Debe seleccionar exactamente una edición
 content#:#cont_citation_selection_not_valid#:#Su selección no es válida###10 Jul 2006 content changed
 content#:#cont_citations#:#Citas
@@ -3568,6 +3549,7 @@ content#:#cont_click_next_or_save#:#Por favor haga click en el siguiente punto d
 content#:#cont_click_next_point#:#Por favor haga click en el siguiente punto del polígono.
 content#:#cont_click_starting_point#:#Por favor haga click en el punto de comienzo del polígono.
 content#:#cont_click_tl_corner#:#Por favor haga click en la izquierda superior izquierda del área deseada.
+content#:#cont_Code#:#Código
 content#:#cont_confirm_delete#:#¿Desea realmente eliminar?
 content#:#cont_content#:#Contenido
 content#:#cont_content_obj#:#-Contenido Objeto-
@@ -3662,6 +3644,7 @@ content#:#cont_edition#:#Edición
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Habilitar Javascript
 content#:#cont_enable_media#:#Habilitar Media
+content#:#cont_Example#:#Ejemplo###10 Jul 2006 content changed
 content#:#cont_export_files#:#Exportar Ficheros
 content#:#cont_external#:#externo
 content#:#cont_external_url#:#URL externa
@@ -3685,6 +3668,9 @@ content#:#cont_get_orig_size#:#Establecer tamaño original
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Propiedades del Glosario
 content#:#cont_header#:#Cabecera
+content#:#cont_Headline1#:#Cabecera 1
+content#:#cont_Headline2#:#Cabecera 2
+content#:#cont_Headline3#:#Cabecera 3
 content#:#cont_height#:#Altura
 content#:#cont_how_published#:#Modo de publicación
 content#:#cont_href#:#href
@@ -3715,6 +3701,7 @@ content#:#cont_link_int#:#Enlace (interno)
 content#:#cont_link_select#:#Enlace interno
 content#:#cont_link_type#:#Tipo de enlace
 content#:#cont_linked_mobs#:#Objetos multimedia enlazados
+content#:#cont_List#:#Lista
 content#:#cont_list_files#:#Lista de Ficheros
 content#:#cont_list_properties#:#Propiedades de Lista
 content#:#cont_lk_chapter#:#Capítulo
@@ -3731,6 +3718,7 @@ content#:#cont_lk_term#:#Término de Glosario
 content#:#cont_lk_term_new#:#Término de Glosario (Nuevo Marco)
 content#:#cont_lm_menu#:#Menú
 content#:#cont_lm_properties#:#Propiedades del Módulo de Aprendizaje
+content#:#cont_LocalFile#:#Fichero Local
 content#:#cont_lvalue#:#-Datos-
 content#:#cont_manifest#:#Manifiesto
 content#:#cont_map_areas#:#Íreas de Enlace
@@ -3739,6 +3727,7 @@ content#:#cont_max_time_allowed#:#adlcp:max_tiempo_permitido
 content#:#cont_media_source#:#Fuente Multimedia
 content#:#cont_mep_structure#:#Estructura Banco Multimedia
 content#:#cont_missing_preconditions#:#Necesita cumplir las siguientes precondiciones para acceder al capítulo "%s".###10 Jul 2006 content changed
+content#:#cont_Mnemonic#:#Nemónico
 content#:#cont_mob_files#:#Ficheros Multimedia
 content#:#cont_mob_inst_prop#:#Propiedades de Instancia
 content#:#cont_mob_prop#:#Propiedades de Objeto
@@ -3764,6 +3753,7 @@ content#:#cont_none#:#Ninguno
 content#:#cont_nr_cols#:#Número de Columnas
 content#:#cont_nr_items#:#Número de Items
 content#:#cont_nr_rows#:#Número de Filas
+content#:#cont_Number#:#Número
 content#:#cont_obj_removed#:#Objetos eliminados.
 content#:#cont_offline#:#versiones offline
 content#:#cont_offline_files#:#-versiones offline-
@@ -3787,6 +3777,7 @@ content#:#cont_personal_clipboard#:#Portapapeles personal
 content#:#cont_pg_content#:#Contenido de Página
 content#:#cont_pg_title#:#Título de Página
 content#:#cont_please_select#:#por favor seleccione
+content#:#cont_Poly#:#Polígono
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#previsualizar
@@ -3796,9 +3787,11 @@ content#:#cont_public_notes#:#Notas Públicas
 content#:#cont_public_notes_desc#:#Permite a los usuarios compartir notas en cada página de un módulo de aprendizaje
 content#:#cont_publisher#:#Editor/Editorial
 content#:#cont_purpose#:#Propósito
+content#:#cont_Rect#:#Rectángulo
 content#:#cont_ref_helptext#:#(ej: http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Imágenes referenciadas
-content#:#cont_reference#:#Reference###09 Aug 2006 new variable
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Observación
 content#:#cont_remove_fullscreen#:#Eliminar Pantalla Completa
 content#:#cont_removeiln#:#¿Realmente quiere eliminar el enlace interno?
 content#:#cont_repository_item#:#Item de Contenidos
@@ -3809,6 +3802,7 @@ content#:#cont_resize_image#:#Redimensionar Imágenes
 content#:#cont_resource#:#Recurso
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
+content#:#cont_Roman#:#Números Romános I, II, ...
 content#:#cont_rvalue#:#Valor
 content#:#cont_saved_map_area#:#Map Area Grabada
 content#:#cont_saved_map_data#:#Grabados Datos de Mapa
@@ -3878,6 +3872,7 @@ content#:#cont_table_html_import_info#:#Importar sólo funciona con tablas confo
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_table_width#:#Anchura de Tabla
+content#:#cont_TableContent#:#Tabla de Contenidos
 content#:#cont_target_within_source#:#El Destino no debe estar dentro del objeto fuente.
 content#:#cont_term#:#Término
 content#:#cont_terms#:#Términos
@@ -3902,6 +3897,7 @@ content#:#cont_tracking_items#:#Items de seguimiento
 content#:#cont_translations#:#Traducción(es)
 content#:#cont_translations_assigned#:#La(s) traducción(s) ha sido asignada
 content#:#cont_tree_fixed#:#Estructura de árbol reparada.
+content#:#cont_Unordered#:#No ordenado/a
 content#:#cont_update#:#Actualizar
 content#:#cont_update_names#:#Actualizar Nombres
 content#:#cont_upload_file#:#Cargar Fichero
@@ -3922,6 +3918,7 @@ content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
 content#:#dgl_pagebreak#:#Salto de página
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
+content#:#HTML export#:#exportar a HTML
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
 content#:#lm_menu_entry_target#:#-Objetivo(Target)-
 content#:#lm_menu_entry_title#:#Título
@@ -3933,15 +3930,17 @@ content#:#msg_entry_removed#:#Entrada de menú eliminada
 content#:#msg_entry_updated#:#Entrada de menú actualizada
 content#:#msg_page_no_public_access#:#La página solicitada no está disponible en la sección pública. Sólo los usuarios registrados pueden ver dicha página. Por favor, identifíquese para acceder a esta página.
 content#:#msg_page_not_public#:#La página no es pública
+content#:#Pages#:#Páginas
 content#:#pages from#:#Páginas Desde
 content#:#par#:#Párrafo
+content#:#PDF export#:#exportar a PDF
 content#:#pg#:#Página
 content#:#public_section#:#Sección Pública
 content#:#read offline#:#Leer Offline
-content#:#selectFooter#:#Seleccionar como pie de pagina
-content#:#selectHeader#:#Seleccionar como cabecera
 content#:#select_a_file#:#Por favor seleccione un archivo
 content#:#selected_pages_only#:#sólo esas páginas seleccionadas debajo###25 Jul 2006 content changed
+content#:#selectFooter#:#Seleccionar como pie de pagina
+content#:#selectHeader#:#Seleccionar como cabecera
 content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
@@ -4419,43 +4418,6 @@ crs#:#tutor_lastname#:#Apellidos
 crs#:#tutor_name#:#Nombre
 crs#:#tutor_phone#:#Teléfono
 crs#:#tutor_title#:#Título
-dateplaner#:#DateText#:#Mensaje
-dateplaner#:#Day_long#:#Vista diaria
-dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.
-dateplaner#:#ERROR_DB#:#¡Error al escribir en la base de datos!
-dateplaner#:#ERROR_DB_CONNECT#:#La base de datos está desconectada
-dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una o todas las citas?
-dateplaner#:#ERROR_ENDDATE#:#Datos incorrectos para "Fecha Fin". Formato dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Datos incorrectos para "Hora Fin". Formato: hh:mm
-dateplaner#:#ERROR_END_START#:#Datos incorrectos para "Fecha Fin". La fecha es anterior a "Fecha inicio"
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor escoja un archivo CSV válido
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>su navegador no admite JavaScript. <BR>Por favor cierre esta ventana despues de insertar manualmente. <BR> Gracias</CENTER></B>###10 Jul 2006 content changed
-dateplaner#:#ERROR_ROTATIONEND#:#Fin de cita periódica incorrecta. Formato: dd/mm/yyyy
-dateplaner#:#ERROR_ROT_END_START#:#Fin de cita periódica incorrecta. La fecha fin es anterior a la fecha inicio
-dateplaner#:#ERROR_SHORTTEXT#:#Asunto Incorrecto. Necesita introducir un asunto
-dateplaner#:#ERROR_STARTDATE#:#Datos incorrectos para "Fecha inicio". Formato: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Datos incorrectos para "Hora inicio". Formato: hh:mm
-dateplaner#:#ERROR_TS#:#Formato de fecha incorrecto
-dateplaner#:#Fr_long#:#Viernes
-dateplaner#:#Fr_short#:#Vi
-dateplaner#:#Language_file#:#castellano
-dateplaner#:#Listbox_long#:#Lista de citas
-dateplaner#:#Mo_long#:#Lunes
-dateplaner#:#Mo_short#:#Lu
-dateplaner#:#Month_long#:#Vista mensual
-dateplaner#:#Sa_long#:#Sábado
-dateplaner#:#Sa_short#:#Sa
-dateplaner#:#Su_long#:#Domingo
-dateplaner#:#Su_short#:#Do
-dateplaner#:#Text#:#Nota
-dateplaner#:#Th_long#:#Jueves
-dateplaner#:#Th_short#:#Ju
-dateplaner#:#Tu_long#:#Martes
-dateplaner#:#Tu_short#:#Ma
-dateplaner#:#View#:#Visualización (diaria/semanal):
-dateplaner#:#We_long#:#Miércoles
-dateplaner#:#We_short#:#Mi
-dateplaner#:#Week_long#:#Vista semanal
 dateplaner#:#add_data#:#datos adicionales
 dateplaner#:#app_#:#Bandeja de entrada
 dateplaner#:#app_date#:#insertar cita
@@ -4472,19 +4434,20 @@ dateplaner#:#back#:#Volver
 dateplaner#:#begin_date#:#Comienzo de cita
 dateplaner#:#busytime#:#tiempo 'ocupado' en grupo
 dateplaner#:#c_date#:#Crear cita
-dateplaner#:#changeTo#:#Modificar a:
 dateplaner#:#changedDates#:#Citas modificadas
+dateplaner#:#changeTo#:#Modificar a:
 dateplaner#:#checkforfreetime#:#Buscar tiempo libre
 dateplaner#:#created#:#Creada
 dateplaner#:#date#:#Fecha
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
+dateplaner#:#DateText#:#Mensaje
+dateplaner#:#Day_long#:#Vista diaria
 dateplaner#:#del_all#:#eliminar todas las citas
 dateplaner#:#del_one#:#eliminar una cita
 dateplaner#:#delete#:#eliminar
 dateplaner#:#deletedDates#:#Citas eliminadas
 dateplaner#:#discard#:#descartar
-dateplaner#:#dv_Grouptime#:#tiempo libre
 dateplaner#:#dv_button_cancel#:#Cancelar
 dateplaner#:#dv_button_delete#:#Eliminar
 dateplaner#:#dv_button_insert#:#Insertar
@@ -4494,6 +4457,7 @@ dateplaner#:#dv_date_end#:#Fin de cita:
 dateplaner#:#dv_date_hm#:#Hora:
 dateplaner#:#dv_enddate#:#Fecha fin:
 dateplaner#:#dv_groupselect#:#Seleccionar Grupo:
+dateplaner#:#dv_Grouptime#:#tiempo libre
 dateplaner#:#dv_groupview#:#Cita de Grupo:
 dateplaner#:#dv_groupview_text#:#Grupo:
 dateplaner#:#dv_keywords#:#Palabras clave:
@@ -4512,9 +4476,26 @@ dateplaner#:#dv_whole_day#:#Día completo
 dateplaner#:#dv_whole_rotation#:#¿Quiere eliminar la cita periódica? (haga click en el checkbox)
 dateplaner#:#end_date#:#Fin de Cita
 dateplaner#:#endtime_for_view#:#Hora final para visualización
+dateplaner#:#ERROR_DATE_EXISTS#:#Esta cita ya existe.
+dateplaner#:#ERROR_DB#:#¡Error al escribir en la base de datos!
+dateplaner#:#ERROR_DB_CONNECT#:#La base de datos está desconectada
+dateplaner#:#ERROR_DEL_MSG#:#Esta es una cita periódica. ¿Quiere eliminar una o todas las citas?
+dateplaner#:#ERROR_END_START#:#Datos incorrectos para "Fecha Fin". La fecha es anterior a "Fecha inicio"
+dateplaner#:#ERROR_ENDDATE#:#Datos incorrectos para "Fecha Fin". Formato dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Datos incorrectos para "Hora Fin". Formato: hh:mm
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor escoja un archivo CSV válido
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>su navegador no admite JavaScript. <BR>Por favor cierre esta ventana despues de insertar manualmente. <BR> Gracias</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#No se pudo crear GD-image-stream
+dateplaner#:#ERROR_ROT_END_START#:#Fin de cita periódica incorrecta. La fecha fin es anterior a la fecha inicio
+dateplaner#:#ERROR_ROTATIONEND#:#Fin de cita periódica incorrecta. Formato: dd/mm/yyyy
+dateplaner#:#ERROR_SHORTTEXT#:#Asunto Incorrecto. Necesita introducir un asunto
+dateplaner#:#ERROR_STARTDATE#:#Datos incorrectos para "Fecha inicio". Formato: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Datos incorrectos para "Hora inicio". Formato: hh:mm
+dateplaner#:#ERROR_TS#:#Formato de fecha incorrecto
 dateplaner#:#execute#:#ejecutar acciones
 dateplaner#:#extra_dates#:#citas de día completo
+dateplaner#:#Fr_long#:#Viernes
+dateplaner#:#Fr_short#:#Vi
 dateplaner#:#free#:#Libre
 dateplaner#:#freetime#:#tiempo libre en el grupo
 dateplaner#:#group#:#Grupo
@@ -4535,9 +4516,9 @@ dateplaner#:#help_group_l#:#Contiene los grupos para los que el usuario identifi
 dateplaner#:#help_inbox#:#Bandeja de entrada del Calendario
 dateplaner#:#help_inbox_l#:#Aqui se muestran todas las citas nuevas, modificadas y eliminadas
 dateplaner#:#help_keyword#:#Selección de palabras clave
+dateplaner#:#help_keyword_l#:#Contiene las palabras clave que un usuario puede asociar a las citas.
 dateplaner#:#help_keywordUse#:#Selección de palabras clave
 dateplaner#:#help_keywordUse_l#:#Escoja una o más palabras clave de la caja de diálogo<br>NOTA: use la tecla CTRL para seleccionar para seleccionar varias palabras.
-dateplaner#:#help_keyword_l#:#Contiene las palabras clave que un usuario puede asociar a las citas.
 dateplaner#:#help_list#:#Lista de citas en el calendario
 dateplaner#:#help_list_l#:#En la lista de citas se muestran todas las citas de un período concreto.
 dateplaner#:#help_month#:#Vista mensual del calendario
@@ -4572,7 +4553,9 @@ dateplaner#:#k_alldates#:#todas las citas
 dateplaner#:#keep#:#Guardar
 dateplaner#:#keyword#:#Palabra clave
 dateplaner#:#keywords#:#Palabras clave
+dateplaner#:#Language_file#:#castellano
 dateplaner#:#last_change#:#Ultima modificación
+dateplaner#:#Listbox_long#:#Lista de citas
 dateplaner#:#long_01#:#Enero
 dateplaner#:#long_02#:#Febrero
 dateplaner#:#long_03#:#Marzo
@@ -4588,13 +4571,16 @@ dateplaner#:#long_12#:#Diciembre
 dateplaner#:#main_dates#:#Citas principales
 dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#último mes
+dateplaner#:#Mo_long#:#Lunes
+dateplaner#:#Mo_short#:#Lu
 dateplaner#:#month#:#mes
+dateplaner#:#Month_long#:#Vista mensual
 dateplaner#:#more#:#más
 dateplaner#:#mweek#:#última semana
 dateplaner#:#myeahr#:#último año
+dateplaner#:#new_doc#:#crear nueva cita
 dateplaner#:#newDates#:#Nuevas citas
 dateplaner#:#newKeyword#:#Nueva:
-dateplaner#:#new_doc#:#crear nueva cita
 dateplaner#:#no_entry#:#No hay citas disponibles
 dateplaner#:#o_day_date#:#fecha 24h
 dateplaner#:#of#:#de
@@ -4615,6 +4601,8 @@ dateplaner#:#r_year#:#cada año
 dateplaner#:#readimportfile#:#insertar
 dateplaner#:#rotation#:#Frecuencia
 dateplaner#:#rotation_dates#:#Citas periódicas
+dateplaner#:#Sa_long#:#Sábado
+dateplaner#:#Sa_short#:#Sa
 dateplaner#:#semester_name#:#Nombre del Semestre
 dateplaner#:#short_01#:#Ene
 dateplaner#:#short_02#:#Feb
@@ -4631,13 +4619,24 @@ dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Asunto
 dateplaner#:#singleDate#:#fecha única
 dateplaner#:#starttime_for_view#:#hora inicial de visualización:
+dateplaner#:#Su_long#:#Domingo
+dateplaner#:#Su_short#:#Do
+dateplaner#:#Text#:#Nota
+dateplaner#:#Th_long#:#Jueves
+dateplaner#:#Th_short#:#Ju
 dateplaner#:#timedate#:#Hora / Fecha
 dateplaner#:#timeslice#:#Hora:
 dateplaner#:#title#:#calendario ILIAS
 dateplaner#:#to#:#a
 dateplaner#:#today#:#hoy
+dateplaner#:#Tu_long#:#Martes
+dateplaner#:#Tu_short#:#Ma
+dateplaner#:#View#:#Visualización (diaria/semanal):
 dateplaner#:#viewlist#:#vista
+dateplaner#:#We_long#:#Miércoles
+dateplaner#:#We_short#:#Mi
 dateplaner#:#week#:#semana
+dateplaner#:#Week_long#:#Vista semanal
 dateplaner#:#wk_short#:#SEM
 dateplaner#:#year#:#año
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4668,8 +4667,8 @@ forum#:#forums_disable_notification#:#Deshabilitar notificación
 forum#:#forums_download_attachment#:#Descargar archivo
 forum#:#forums_edit_post#:#Editar mensaje
 forum#:#forums_enable_notification#:#Habilitar notificación
-forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?
 forum#:#forums_info_censor_post#:#¿Está seguro de que quiere ocultar este mensaje?
+forum#:#forums_info_censor2_post#:#¿Está seguro de que quiere continuar ocultando este mensaje?
 forum#:#forums_info_delete_post#:#¿Está seguro de que quiere eliminar este mensaje incluyendo sus respuestas?
 forum#:#forums_mark_read#:#marcar todas como leídas
 forum#:#forums_new_entries#:#nuevas entradas en foro
@@ -5866,10 +5865,6 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Alineación Vertical
 style#:#sty_white_space#:#Espacio en blanco
 style#:#sty_word_spacing#:#Espaciado entre palabras
-survey#:#SurveyMetricQuestion#:#Pregunta métrica
-survey#:#SurveyNominalQuestion#:#Pregunta nominal
-survey#:#SurveyOrdinalQuestion#:#Pregunta ordinal
-survey#:#SurveyTextQuestion#:#Pregunta de respuesta corta
 survey#:#add_category#:#Añadir categoria
 survey#:#add_heading#:#Añadir cabecera
 survey#:#add_limits_for_standard_numbers#:#Por favor introduzca un límite superior e inferior para los números estándar que quiere añadir como respuestas
@@ -5973,27 +5968,27 @@ survey#:#delete_user_data#:#Eliminar los datos de encuesta de los usuarios selec
 survey#:#description_maxchars#:#Si no se introduce ningún valor, el número de caracteres para esta respuesta es ilimitado.
 survey#:#disinvite#:#Disinvite
 survey#:#display_all_available#:#Mostrar todas las disponibles
-survey#:#dp_standard_attitude_agree5#:#Niveles Actitud (bastante de acuerdo-de acuerdo-indeciso-en desacuerdo-totalmente en desacuerdo)
 survey#:#dp_standard_attitude_agree_disagree#:#Niveles Actitud (de acuerdo-en desacuerdo)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Niveles Actitud (de acuero-indeciso-en desacuerdo)
-survey#:#dp_standard_attitude_desired5#:#Niveles Actitud (totalmente deseado-deseado-neutral-no deseado-totalmente no deseado)
+survey#:#dp_standard_attitude_agree5#:#Niveles Actitud (bastante de acuerdo-de acuerdo-indeciso-en desacuerdo-totalmente en desacuerdo)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Niveles Actitud (deseado-neutral-no deseado)
 survey#:#dp_standard_attitude_desired_undesired#:#Niveles Estándar (deseado-no deseado)
-survey#:#dp_standard_attitude_good5#:#Niveles Actitud (muy bien-bien-regular-pobre-inaceptable)
+survey#:#dp_standard_attitude_desired5#:#Niveles Actitud (totalmente deseado-deseado-neutral-no deseado-totalmente no deseado)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Niveles Actitud (bien-regular-inaceptable)
 survey#:#dp_standard_attitude_good_notacceptable#:#Niveles Actitud (bien-inaceptable)
+survey#:#dp_standard_attitude_good5#:#Niveles Actitud (muy bien-bien-regular-pobre-inaceptable)
 survey#:#dp_standard_attitude_must5#:#Niveles Actitud (requerido-debería-indeciso-no debería-no requerido)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Niveles Actitud (debería-no debería)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Niveles Actitud (debería-indeciso-no debería)
 survey#:#dp_standard_behaviour_certainly5#:#Niveles Comportamiento (most certainly-más positivo-indeciso-más negativo-most certainly not)
 survey#:#dp_standard_behaviour_yes_no#:#Niveles Comportamiento (si-no)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Niveles Comportamiento (si-indeciso-no)
-survey#:#dp_standard_beliefs_always5#:#Niveles Opinión (siempre-muchas veces-variable-rara vez-nunca)
 survey#:#dp_standard_beliefs_always_never#:#Niveles Opinión (siempre-nunca)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Niveles Opinión (siempre-a veces-nunca)
-survey#:#dp_standard_beliefs_true5#:#Niveles Opinión (Absolutamente cierto-cierto-indeciso-falso-absolutamente falso)
+survey#:#dp_standard_beliefs_always5#:#Niveles Opinión (siempre-muchas veces-variable-rara vez-nunca)
 survey#:#dp_standard_beliefs_true_false#:#Niveles Opinión (verdadero-falso)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Niveles Opinión (verdadero-indeciso-falso)
+survey#:#dp_standard_beliefs_true5#:#Niveles Opinión (Absolutamente cierto-cierto-indeciso-falso-absolutamente falso)
 survey#:#dp_standard_numbers#:#Niveles Números
 survey#:#duplicate#:#Duplicar
 survey#:#duplicate_svy#:#Duplicar encuesta
@@ -6216,6 +6211,10 @@ survey#:#survey_skip_next#:#saltar e ir a siguiente página >>>###19 Jul 2006 co
 survey#:#survey_skip_previous#:#<<< saltar e ir a página anterior###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< saltar e ir a página inicial
 survey#:#survey_start#:#<<< salvar e ir a página inicial###25 Jul 2006 content changed
+survey#:#SurveyMetricQuestion#:#Pregunta métrica
+survey#:#SurveyNominalQuestion#:#Pregunta nominal
+survey#:#SurveyOrdinalQuestion#:#Pregunta ordinal
+survey#:#SurveyTextQuestion#:#Pregunta de respuesta corta
 survey#:#svy_all_user_data_deleted#:#¡Todos los datos de usuario de esta encuesta han sido eliminados!
 survey#:#svy_check_evaluation_access_introduction#:#Ya que la evaluación de esta encuesta está sólo disponible para participantes de la encuesta necesita introducir su código de acceso para entrar en la evaluación.
 survey#:#svy_check_evaluation_authentication_needed#:#Necesita Identificación
