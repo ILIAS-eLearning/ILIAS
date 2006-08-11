@@ -86,8 +86,10 @@ class ilLPObjectiveItemListGUI extends ilLPObjectItemListGUI
 		{
 			return $this->status = LP_STATUS_COMPLETED;
 		}
-		if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getInProgress($this->getId())))
+		else
 		{
+#if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getInProgress($this->getId())))
+#		{
 			return $this->status = LP_STATUS_NOT_ATTEMPTED;
 		}
 	}

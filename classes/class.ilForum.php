@@ -365,6 +365,19 @@ class ilForum
 		}
 		return array();
 	}
+
+	function _lookupPostMessage($a_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM frm_posts WHERE pos_pk = '".$a_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->pos_message;
+		}
+		return '';
+	}
 	
 
 	/**

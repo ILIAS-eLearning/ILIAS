@@ -64,7 +64,8 @@ class ilForumSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row),$row->thr_pk);
+			$thread_post = $row->pos_thr_fk.'_0';
+			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row),$thread_post);
 		}
 
 		// First: search post title, content:
@@ -73,7 +74,7 @@ class ilForumSearch extends ilAbstractSearch
 		$and = $this->__createPostAndCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT top_frm_fk as frm_id,pos_thr_fk ".
+		$query = "SELECT top_frm_fk as frm_id,pos_thr_fk,pos_pk ".
 			$locate.
 			"FROM  frm_posts,frm_data ".
 			"WHERE pos_top_fk = top_pk ".
@@ -82,7 +83,8 @@ class ilForumSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row),$row->pos_thr_fk);
+			$thread_post = $row->pos_thr_fk.'_'.$row->pos_pk;
+			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row),$thread_post);
 		}
 		return $this->search_result;
 	}
