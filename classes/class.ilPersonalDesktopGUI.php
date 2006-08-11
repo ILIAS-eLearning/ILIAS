@@ -1520,13 +1520,20 @@ class ilPersonalDesktopGUI
 
 	function __loadNextClass()
 	{
-		if(isset($_SESSION['il_pd_history']))
+		$stored_classes = array('ilpersonaldesktopgui',
+								'ilpersonalprofilegui',
+								'ilpdnotesgui',
+								'ilbookmarkadministrationgui',
+								'illearningprogressgui',
+								'ilpaymentadmingui');
+
+		if(isset($_SESSION['il_pd_history']) and in_array($_SESSION['il_pd_history'],$stored_classes))
 		{
 			return $_SESSION['il_pd_history'];
 		}
 		else
 		{
-			return '';
+			$this->ctrl->getNextClass($this);
 		}
 	}
 	function __storeLastClass($a_class)
