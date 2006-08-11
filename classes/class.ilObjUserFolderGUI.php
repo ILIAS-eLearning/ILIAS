@@ -1438,6 +1438,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_CONFLICT", ilUtil::formSelect(IL_IGNORE_ON_CONFLICT, "conflict_handling_choice", $handlers, false, false));
 
 		// new account mail
+		$this->lng->loadLanguageModule("mail");
 		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{
