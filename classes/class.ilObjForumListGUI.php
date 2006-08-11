@@ -214,7 +214,14 @@ class ilObjForumListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case 'thread':
-				return "forums_frameset.php?ref_id=".$this->ref_id."&thr_pk=".$this->getChildId();
+				return "forums_frameset.php?ref_id=".$this->ref_id.
+					"&thr_pk=".$this->getChildId();
+
+			case 'posting':
+				$thread_post = $this->getChildId();
+				return "forums_frameset.php?target=1&ref_id=".$this->ref_id.
+					"&thr_pk=".$thread_post[0].
+					"&pos_pk=".$thread_post[1]."#".$thread_post[1];
 
 			default:
 				return parent::getCommandLink($a_cmd);

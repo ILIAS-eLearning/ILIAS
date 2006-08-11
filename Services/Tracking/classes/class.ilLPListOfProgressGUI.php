@@ -92,7 +92,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	function show()
 	{
 		global $ilObjDataCache;
-
 	
 		switch($this->getMode())
 		{

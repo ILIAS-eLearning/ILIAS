@@ -251,14 +251,16 @@ class ilSearchResultPresentationGUI
 				
 				foreach($item['child'] as $child)
 				{
+					$thread_post = explode('_',$child);
+
 					$tpl->setCurrentBlock("link_row");
 					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('thread'));
 
-					$item_list_gui->setChildId($child);
+					$item_list_gui->setChildId($thread_post);
 					$tpl->setVariable("SEPERATOR",': ');
-					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('thread'));
+					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('posting'));
 					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame(''));
-					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($child));
+					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($thread_post[0]));
 					$tpl->parseCurrentBlock();
 				}
 	
