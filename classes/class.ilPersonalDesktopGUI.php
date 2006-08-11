@@ -95,9 +95,14 @@ class ilPersonalDesktopGUI
 		{
 			//Feedback
 			case "ilfeedbackgui":
+				$this->getStandardTemplates();
+				$this->setTabs();
+				$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+					$this->lng->txt("personal_desktop"));
+
 				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
 				$feedback_gui = new ilFeedbackGUI();
-				$this->setTabs();
 				$ret =& $this->ctrl->forwardCommand($feedback_gui);
 				break;
 				// bookmarks
@@ -1338,7 +1343,7 @@ class ilPersonalDesktopGUI
 		// personal desktop home
 		$inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
 		(strtolower($this->cmdClass) == "ilpersonaldesktopgui" ||
-		$this->cmdClass == ""))
+		$this->cmdClass == "" || (strtolower($this->cmdClass)) == "ilfeedbackgui"))
 		? "tabactive"
 		: "tabinactive";
 		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTarget($this), $this->lng->txt("overview"));
