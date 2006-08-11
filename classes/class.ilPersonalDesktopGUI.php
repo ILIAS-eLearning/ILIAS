@@ -90,7 +90,7 @@ class ilPersonalDesktopGUI
 			$next_class = $this->__loadNextClass();
 		}
 		$this->__storeLastClass($next_class);
-		
+
 		switch($next_class)
 		{
 			//Feedback
