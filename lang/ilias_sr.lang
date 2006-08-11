@@ -53,7 +53,7 @@ administration#:#found#:#nadeno.
 administration#:#found_none#:#nije nadeno.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Registruj skenirane rezultate
-administration#:#log_scan_desc#:#Unesite skenirane rezultate na 'scanlog.log' u registru podataka klijenta. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+administration#:#log_scan_desc#:#Unesite skenirane rezultate na 'scanlog.log' u registru podataka klijenta. 
 administration#:#nothing_to_purge#:#Nema nicega za brisanje....
 administration#:#nothing_to_remove#:#Nema nicega za uklanjanje....
 administration#:#nothing_to_restore#:#Nema nicega za obnavljanje...
@@ -123,6 +123,12 @@ assessment#:#applet_new_parameter#:#Novi parametar
 assessment#:#applet_parameter#:#Parametar
 assessment#:#applet_parameters#:#Parametri pomocne aplikacije
 assessment#:#apply#:#Primeni
+assessment#:#ass_create_export_file#:#Kreiraj ispisan dokument
+assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-11 --- Add new translation here.
+assessment#:#ass_export_files#:#dokumenti za prenošenje
+assessment#:#ass_file#:#Dokument
+assessment#:#ass_question#:#Pitanje
+assessment#:#ass_size#:#Velicina
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -134,11 +140,6 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
-assessment#:#ass_create_export_file#:#Kreiraj ispisan dokument
-assessment#:#ass_export_files#:#dokumenti za prenošenje
-assessment#:#ass_file#:#Dokument
-assessment#:#ass_question#:#Pitanje
-assessment#:#ass_size#:#Velicina
 assessment#:#available_points#:#Moguci poeni
 assessment#:#average_reached_points#:#Prosek osvojenih poena
 assessment#:#backtocallingtest#:#Povratak na test za pozivanje
@@ -160,7 +161,8 @@ assessment#:#checkbox_unchecked#:#Neprovereno
 assessment#:#circle#:#Opseg
 assessment#:#circle_click_center#:#Molimo vas da kliknete u centar željenog podrucja.
 assessment#:#circle_click_circle#:#Molimo vas da kliknete mesto opsega željenog podrucja.
-assessment#:#close_text_hint#:#Možete definisati razmak unošenjem [gap][/gap] na mesto vašeg izbora u tekstu. Pritisnite dugme 'Create gaps' da biste dodali formu za uredivanje za svaki razmak. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#clientip#:#Client IP ### 2006-8-11 --- Add new translation here.
+assessment#:#close_text_hint#:#Možete definisati razmak unošenjem [gap][/gap] na mesto vašeg izbora u tekstu. Pritisnite dugme 'Create gaps' da biste dodali formu za uredivanje za svaki razmak. 
 assessment#:#cloze_text#:#Zatvori tekst###20 Jun 2005 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
@@ -168,6 +170,7 @@ assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s###03 Nov 
 assessment#:#cloze_textgap_rating#:#Text gap rating###03 Nov 2005 new variable
 assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase###10 Jul 2006 new variable
+assessment#:#concatenation#:#Concatenation ### 2006-8-11 --- Add new translation here.
 assessment#:#confirm_delete_all_user_data#:#Da li ste sigurni da želite da obrišete sve podatke o korisniku testa?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
 assessment#:#confirm_sync_questions#:#Pitanje koje ste promenili je kopija koja je kreirana za upotrebu sa aktivnim testom. Da li želite da izmenite i izvorno pitanje?
@@ -208,7 +211,7 @@ assessment#:#ects_grade_d#:#Ispravno ali sa znacajnim nedostacima
 assessment#:#ects_grade_d_short#:#ZADOVOLJAVAJUCE
 assessment#:#ects_grade_e#:#izvodenje nailazi na minimalne kriterijume
 assessment#:#ects_grade_e_short#:#DOVOLJNO
-assessment#:#ects_grade_f#:#potreban je veliki dalji rad ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_grade_f#:#potreban je veliki dalji rad 
 assessment#:#ects_grade_f_short#:#NEDOVOLJNO
 assessment#:#ects_grade_fx#:#Nešto više posla je potrebno pre nego što kredit bude dodeljen
 assessment#:#ects_grade_fx_short#:#NEDOVOLJNO
@@ -218,7 +221,7 @@ assessment#:#ects_range_error_b#:#Molimo vas unesite vrednost izmedu 0 i 100 za 
 assessment#:#ects_range_error_c#:#Molimo vas unesite vrednost izmedu 0 i 100 za ECTS stepen C!.
 assessment#:#ects_range_error_d#:#Molimo vas unesite vrednost izmedu 0 i 100 za ECTS stepen D!.
 assessment#:#ects_range_error_e#:#Molimo vas unesite vrednost izmedu 0 i 100 za ECTS stepen E!.
-assessment#:#ects_use_fx_grade#:#Koristite 'FX' stepen ukoliko ucesnici koji su pali na kraju završe test ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#ects_use_fx_grade#:#Koristite 'FX' stepen ukoliko ucesnici koji su pali na kraju završe test 
 assessment#:#ects_use_fx_grade_part2#:#procenat ukupnih poena.
 assessment#:#edit_content#:#Uredi sadržaj
 assessment#:#edit_properties#:#Uredi osobine
@@ -283,6 +286,7 @@ assessment#:#height#:#Velicina
 assessment#:#imagemap#:#Mapa slike
 assessment#:#imagemap_file#:#Datoteka mape slike
 assessment#:#imagemap_source#:#Poreklo mape slike
+assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled. ### 2006-8-11 --- Add new translation here.
 assessment#:#import_question#:#Unesite pitanje(a)
 assessment#:#insert_after#:#Ubacite posle
 assessment#:#insert_before#:#Ubacite pre
@@ -349,6 +353,7 @@ assessment#:#order_pictures#:#Poruci slike
 assessment#:#order_terms#:#Poruci termine
 assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###10 Jul 2006 new variable
 assessment#:#output_mode#:#Output mode###10 Jul 2006 new variable
+assessment#:#participants#:#Participants ### 2006-8-11 --- Add new translation here.
 assessment#:#pass#:#Pass###03 Nov 2005 new variable
 assessment#:#passed_official#:#Prošao
 assessment#:#passed_short#:#Prošao
@@ -359,6 +364,7 @@ assessment#:#please_select#:#-- molimo selektujte
 assessment#:#point#:#Point###10 Jul 2006 new variable
 assessment#:#points#:#Poeni
 assessment#:#points_checked#:#Points when checked###10 Jul 2006 new variable
+assessment#:#points_short#:#Pt. ### 2006-8-11 --- Add new translation here.
 assessment#:#points_unchecked#:#Points when unchecked###10 Jul 2006 new variable
 assessment#:#polygon#:#Poligon
 assessment#:#polygon_click_next_or_save#:#Molimo kliknite na sledecu tacku poligona ili sacuvajte ..... (Nije neophodno da ponovo kliknete na pocetnu tacku poligona!)
@@ -366,7 +372,7 @@ assessment#:#polygon_click_next_point#:#Molimo kliknite na sledecu tacku poligon
 assessment#:#polygon_click_starting_point#:#Molimo kliknite na pocetnu tacku poligona.
 assessment#:#postpone#:#Odloži pitanje
 assessment#:#postponed#:#odloženo
-assessment#:#preview#:#Pregled ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#preview#:#Pregled 
 assessment#:#previous_question_rows#:#<< Pitanja %d - %d od %d
 assessment#:#print_answers#:#Print Answers###20 Jun 2005 new variable
 assessment#:#print_view#:#Print view###10 Jul 2006 new variable
@@ -391,7 +397,7 @@ assessment#:#qpl_export_excel#:#Microsoft Excel file###10 Jul 2006 new variable
 assessment#:#qpl_export_select_none#:#Molimo proverite bar jedno pitanje radi .......
 assessment#:#qpl_export_xml#:#QTI XML file###10 Jul 2006 new variable
 assessment#:#qpl_general_properties#:#General properties###03 Nov 2005 new variable
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###09 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!###16 Jul 2005 new variable
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.###16 Jul 2005 new variable
@@ -411,7 +417,7 @@ assessment#:#question_short#:#Q
 assessment#:#question_title#:#Naziv pitanja
 assessment#:#question_type#:#Vrsta pitanja
 assessment#:#questionpool_not_entered#:#Molimo unesite naziv bazu pitanja!
-assessment#:#questions_from#:#pitanje iz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#questions_from#:#pitanje iz 
 assessment#:#radio_set#:#Postavi
 assessment#:#radio_unset#:#Raskloni
 assessment#:#random_accept_sample#:#Prihvati primer
@@ -442,6 +448,10 @@ assessment#:#save_text_answer_points#:#Sacuvaj smisao teksta pitanja###25 Jun 20
 assessment#:#scored_pass#:#Scored pass###10 Jul 2006 new variable
 assessment#:#search_found_groups#:#Pronadi grupe
 assessment#:#search_found_users#:#Pronadi korisnike
+assessment#:#search_groups#:#Search Groups ### 2006-8-11 --- Add new translation here.
+assessment#:#search_roles#:#Search Roles ### 2006-8-11 --- Add new translation here.
+assessment#:#search_term#:#Search Term ### 2006-8-11 --- Add new translation here.
+assessment#:#search_users#:#Search Users ### 2006-8-11 --- Add new translation here.
 assessment#:#see_details_for_further_information#:#Pogledaj detalje za predložena rešenja
 assessment#:#select_an_answer#:#-- Molimo odaberite odgovor
 assessment#:#select_gap#:#Odaberite razmak
@@ -482,12 +492,17 @@ assessment#:#tst_access_code_created#:#To provide you with permanent access to y
 assessment#:#tst_all_user_data_deleted#:#Svi podaci o korisniku ovog testa su obrisani!
 assessment#:#tst_allowed_users#:#Maximum number of users running the test simultaneously###10 Jul 2006 new variable
 assessment#:#tst_allowed_users_time_gap#:#Idle time for active users###10 Jul 2006 new variable
+assessment#:#tst_already_submitted#:#Test has already been finish and submitted. ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_already_taken#:#Testovi su vec preuzeti
+assessment#:#tst_answer_sheet#:#Test Answer Sheet ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_answered_questions#:#Answered questions###03 Nov 2005 new variable
 assessment#:#tst_best_solution_is#:#The best solution is###10 Jul 2006 new variable
 assessment#:#tst_browse_for_questions#:#Pregledajte pitanja
 assessment#:#tst_confirm_delete_results#:#Želite da obrišete sve prethodno unete rezultate ovog testa. To ce vratiti sva pitanja na njihove pretpostavljene vrednosti. Molimo obratite pažnju da ne možete vratiti broj pokušaja, koji ste vec tražili za ovaj test. Da li zaista želite da vratite sve prethodno unete rezultate?###23 Dec 2005 content changed
 assessment#:#tst_confirm_delete_results_info#:#Vaši prethodno uneti rezultati su obrisani. Uspešno ste vratili test!
+assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page. ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_count_correct_solutions#:#Count only complete solutions ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_count_partial_solutions#:#Count partial solutions ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_delete_all_user_data#:#Obriši sve podatke o korisniku
 assessment#:#tst_delete_missing_mark#:#Molimo odaberite bar jedan postupak ocenjivanja da biste ga obrisali
 assessment#:#tst_delete_results#:#Resetuj test
@@ -506,8 +521,10 @@ assessment#:#tst_eval_user_answer#:#Odgovor korisnika
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test###10 Jul 2006 new variable
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question###10 Jul 2006 new variable
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test? ###10 Jul 2006 new variable
+assessment#:#tst_finished#:#Finished ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_general_properties#:#Osnovne osobine
 assessment#:#tst_generate_xls#:#Generiši Excel
+assessment#:#tst_heading_scoring#:#Scoring ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_hide_previous_results#:#Hide previous results###03 Nov 2005 new variable
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes###03 Nov 2005 new variable
 assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
@@ -548,6 +565,7 @@ assessment#:#tst_no_taken_tests#:#Nema preuzetih testova!
 assessment#:#tst_no_tries#:#Nijedan
 assessment#:#tst_nr_of_tries#:#Maksimalan broj pokušaja###23 Dec 2005 content changed
 assessment#:#tst_nr_of_tries_of_user#:#Pokušaji su vec iskorišceni###23 Dec 2005 content changed
+assessment#:#tst_participating_users#:#Participating Users ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_pass_best_pass#:#Score the best pass of a user###03 Nov 2005 new variable
 assessment#:#tst_pass_details#:#Show details###03 Nov 2005 new variable
 assessment#:#tst_pass_last_pass#:#Score the last pass of a user###03 Nov 2005 new variable
@@ -558,13 +576,21 @@ assessment#:#tst_password_entered_wrong_password#:#You cannot start the test bec
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test###10 Jul 2006 new variable
 assessment#:#tst_percent_solved#:#Procenat rešenih
 assessment#:#tst_position#:#Question %s of %s###10 Jul 2006 new variable
+assessment#:#tst_print#:#Test & Assessment Print View ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_print_date#:#Date of Print ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_processing_time#:#Max. vreme obrade
 assessment#:#tst_properties#:#Test properties###23 Dec 2005 new variable
+assessment#:#tst_qst_order#:#Order ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_qst_resetsolved#:#Set unsolved ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_qst_result_sheet#:#Show result sheet ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_qst_setsolved#:#Set solved ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved. ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_question_no#:#Poruci
 assessment#:#tst_question_offer#:#Da li prihvatate ovaj uzorak ili želite drugi?
 assessment#:#tst_question_selection#:#Question selection###23 Dec 2005 new variable
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.###23 Dec 2005 new variable
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points###23 Dec 2005 new variable
+assessment#:#tst_question_solved_state#:#Solved ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_question_title#:#Naziv
 assessment#:#tst_question_type#:#Vrsta pitanja
 assessment#:#tst_questions_inserted#:#Pitanje(a) ubaceno(a)!
@@ -614,6 +640,7 @@ assessment#:#tst_sequence_postpone#:#Ucenik može odložiti pitanje za kraj test
 assessment#:#tst_sequence_properties#:#Karakteristike redosleda
 assessment#:#tst_session_settings#:#Podešavanja sesije
 assessment#:#tst_show_answer_print_sheet#:#Answers Printview###03 Nov 2005 new variable
+assessment#:#tst_show_answer_sheet#:#Show answers ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_show_results#:#Prikaži rezultate testa
 assessment#:#tst_show_solution_details#:#Score details###10 Jul 2006 new variable
 assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions###10 Jul 2006 new variable
@@ -623,6 +650,7 @@ assessment#:#tst_show_summary#:#Show question summary###10 Jul 2006 new variable
 assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test###10 Jul 2006 new variable
 assessment#:#tst_shuffle_questions#:#Shuffle questions###10 Jul 2006 new variable
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start###10 Jul 2006 new variable
+assessment#:#tst_signature#:#Signature ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_start_test#:#Zapocni test
 assessment#:#tst_started#:#Test Started###20 Jun 2005 new variable
 assessment#:#tst_starting_time#:#Vreme pocetka
@@ -646,7 +674,7 @@ assessment#:#tst_stat_result_specification#:#Specifikacija podataka o evaluaciji
 assessment#:#tst_stat_result_timeofwork#:#Vreme rada
 assessment#:#tst_stat_result_total_participants#:#Ukupan broj ucesnika
 assessment#:#tst_stat_selected_users#:#Odabrani ucesnici
-assessment#:#tst_stat_users_intro#:#Prikaži statisticku evaluaciju za ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_stat_users_intro#:#Prikaži statisticku evaluaciju za 
 assessment#:#tst_status_completed#:#završeno
 assessment#:#tst_status_completed_more_tries_possible#:#Završeno
 assessment#:#tst_status_missing#:#Postoje zahtevani elementi koji nedostaju u testu
@@ -654,20 +682,27 @@ assessment#:#tst_status_missing_elements#:#Sledeci elementi nedostaju:
 assessment#:#tst_status_not_entered#:#Nije zapoceto
 assessment#:#tst_status_ok#:#Status test je OK. Nema nedostajucih elemenata.
 assessment#:#tst_status_progress#:#U napretku
+assessment#:#tst_submit_answers#:#Yes, I want to submit my answers ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers. ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_submit_results#:#Yes, I do confirm the submission. ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_test_output#:#Test output###23 Dec 2005 new variable
+assessment#:#tst_text_count_system#:#Scoring system ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_time_already_spent#:#Vreme za rad je vec potrošeno###10 Jul 2006 content changed
 assessment#:#tst_time_already_spent_left#:#You have %s left.###10 Jul 2006 new variable
 assessment#:#tst_total_questions#:#Ukupan zbir pitanja
 assessment#:#tst_total_questions_description#:#Ukoliko setujete ovu vrednost, zbir pitanja unetih sa bazom pitanja je ignorisana. Ukoliko ne setujete ovu vrednost, potrebno je da unesete iznos za svaku odabranu bazu pitanja!###09 Aug 2005 content changed
+assessment#:#tst_tst_date#:#Date of Test ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_type#:#Vrsta testa
 assessment#:#tst_type_changed#:#Promenili ste vrstu testa! Svi prethodno obradeni testovi su izbrisani!
 assessment#:#tst_type_comment#:#Upozorenje: Promenom vrste testa koji su u toku obrisacete sve prethodno obradene testove!
 assessment#:#tst_types#:#Vrste testova
 assessment#:#tst_use_javascript#:#Koristite Javascript za vucenje i puštanje akcija
 assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
-assessment#:#tst_your_ects_mark_is#:#Vaša ECTS stepen je ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+assessment#:#tst_your_answers#:#These are your answers given to the following questions. ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_your_ects_mark_is#:#Vaša ECTS stepen je 
 assessment#:#tst_your_mark_is#:#Vaša ocena je
 assessment#:#tt_assessment#:#Provera testa
+assessment#:#tt_online_exam#:#Online Exam ### 2006-8-11 --- Add new translation here.
 assessment#:#tt_self_assessment#:#Licni provera testa
 assessment#:#tt_varying_randomtest#:#Varying random test###03 Nov 2005 new variable
 assessment#:#unlimited#:#neogranicen
@@ -676,6 +711,7 @@ assessment#:#unlock_question#:#Ovo pitanje je u uporebi u najmanje jednom testu 
 assessment#:#upload_image#:#Upload image###10 Jul 2006 new variable
 assessment#:#upload_imagemap#:#Pošaljite mapu slike
 assessment#:#uploaded_material#:#Poslat materijal
+assessment#:#user_not_invited#:#You are not supposed to take this exam. ### 2006-8-11 --- Add new translation here.
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s###10 Jul 2006 new variable
 assessment#:#warning_question_not_complete#:#Ovo pitanje nije potpuno!
 assessment#:#warning_test_not_complete#:#The test is not complete!###17 Aug 2005 new variable
@@ -819,7 +855,7 @@ chat#:#chat_blocked_users#:#Blocked users###30 Jul 2005 new variable
 chat#:#chat_blue#:#plava
 chat#:#chat_bold#:#polucrno
 chat#:#chat_chatroom_body#:#Soba za caskanje
-chat#:#chat_chatroom_rename#:#Uredi sobu za caskanje ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+chat#:#chat_chatroom_rename#:#Uredi sobu za caskanje 
 chat#:#chat_chatrooms#:#Sobe za caskanje###23 Dec 2005 content changed
 chat#:#chat_color#:#Boja pisma
 chat#:#chat_delete_sure#:#Da li ste sigurni da želite da obrišete ovu sobu za caskanje?
@@ -928,8 +964,6 @@ chat#:#chat_yellow#:#žuta
 chat#:#chats#:#Caskanja
 chat#:#my_chats#:#Moje caskanje
 common#:#3rd_party_software#:#Softver trece strane
-common#:#DD.MM.YYYY#:#DD.MM.GGGG.
-common#:#HH#:#CC:MM
 common#:#absolute_path#:#Apsolutna putanja
 common#:#accept_usr_agreement#:#Prihvatate Korisnicki sporazum?
 common#:#access#:#Pristup
@@ -1036,7 +1070,7 @@ common#:#archive#:#Arhiviraj
 common#:#are_you_sure#:#Da li ste sigurni?
 common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
 common#:#articels_unread#:#Neprocitani clanci
-common#:#as_of#:#kao od ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#as_of#:#kao od 
 common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Krirajte test i proveru beleški za odredeni vremenski period
 common#:#assessment_log_datetime#:#Datum/Vreme
@@ -1050,6 +1084,7 @@ common#:#assessment_log_text#:#Ubeležiti poruku
 common#:#assessment_log_user_answer#:#Korisnik je odgovorio na pitanje
 common#:#assessment_log_user_answers#:#Prikaži rad korisnika
 common#:#assessment_settings#:#Test i procena upravljackih podešavanja###23 Dec 2005 content changed
+common#:#assessment_settings_reporting_language#:#Reporting language ### 2006-8-11 --- Add new translation here.
 common#:#assf_edit_permission#:#Promenite okvir za dozvolu
 common#:#assf_read#:#Pristupi testu i proveri upravljanja###23 Dec 2005 content changed
 common#:#assf_visible#:#Test i procena upravljackih podešavanja su vidljivi
@@ -1114,6 +1149,9 @@ common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Prilagodi
 common#:#auth_script_desc#:#Potvrdite korisnike uz pomoc spoljne skripte
 common#:#auth_select#:#Odaberite autenticni metod
+common#:#auth_shib#:#Shibboleth ### 2006-8-11 --- Add new translation here.
+common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method ### 2006-8-11 --- Add new translation here.
+common#:#auth_shib_not_configured#:#Shibboleth is not configured yet ### 2006-8-11 --- Add new translation here.
 common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
 common#:#auth_soap#:#SOAP###10 Jul 2006 new variable
 common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.###10 Jul 2006 new variable
@@ -1174,6 +1212,7 @@ common#:#btn_undelete#:#Neobrisano
 common#:#by#:#Pomocu
 common#:#by_location#:#Order by location###03 Nov 2005 new variable
 common#:#by_type#:#Order by type###03 Nov 2005 new variable
+common#:#bytes#:#Bytes ### 2006-8-11 --- Add new translation here.
 common#:#calendar#:#Kalendar
 common#:#cancel#:#Poništiti
 common#:#cannot_find_xml#:#XML podaci ne mogu biti nadeni.
@@ -1209,6 +1248,7 @@ common#:#cat_create_spl#:#Kreirajte bazu pitanja za anketu
 common#:#cat_create_svy#:#Kreirajte anketu
 common#:#cat_create_tst#:#Kreirajte test
 common#:#cat_create_url#:#Kreirajte test
+common#:#cat_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#cat_delete#:#Obrišite kategoriju
 common#:#cat_edit#:#Uredite kategoriju
 common#:#cat_edit_permission#:#Promenite okvir za dozvolu
@@ -1276,6 +1316,8 @@ common#:#check_link_desc#:#Ukoliko je omoguceno sve spoljne veze u ILIAS metodam
 common#:#check_max_allowed_packet_size#:#Sadržaj stranice je prevelik.
 common#:#check_user_accounts#:#Provera korisnickih naloga
 common#:#check_user_accounts_desc#:#Ako su Cron poslovi aktivirani i ova opcija omogucena, svi korsnici ciji nalog istice bice obavešeteni putem elektronske pošte.
+common#:#check_web_resources#:#Check Web Resources ### 2006-8-11 --- Add new translation here.
+common#:#check_web_resources_desc#:#If enabled all Web Resources will be checked if they are active. ### 2006-8-11 --- Add new translation here.
 common#:#checked_files#:#Datoteka koja se može uvoziti
 common#:#chg_language#:#Promenite jezik
 common#:#chg_password#:#Promenite šifru
@@ -1322,12 +1364,13 @@ common#:#content_styles#:#Sadržaj Naslova
 common#:#context#:#Objašnjenje
 common#:#continue_work#:#Nastavi
 common#:#contra#:#Contra###23 Dec 2005 new variable
+common#:#cookies_howto#:#How to enable cookies ### 2006-8-11 --- Add new translation here.
 common#:#copied_object#:#Kopirani objekti
 common#:#copy#:#Kopiraj
-common#:#copyChapter#:#Copy###20 Jun 2005 new variable
-common#:#copyPage#:#Kopiraj
 common#:#copy_of#:#Kopija
 common#:#copy_to#:#prema
+common#:#copyChapter#:#Copy###20 Jun 2005 new variable
+common#:#copyPage#:#Kopiraj
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Izbroj
 common#:#country#:#Država
@@ -1338,15 +1381,16 @@ common#:#create_date#:#Kreiran na###03 Nov 2005 content changed
 common#:#create_export_file#:#Create export file###20 Jun 2005 new variable
 common#:#create_in#:#Kreiran u
 common#:#create_stylesheet#:#Kreiraj naslov
+common#:#created#:#Create date ### 2006-8-11 --- Add new translation here.
 common#:#cron_forum_notification#:#Send forum notifications###08 Nov 2005 new variable
 common#:#cron_forum_notification_cron#:#regularly per cron job###23 Dec 2005 new variable
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum topics, will get notifications by e-mail.###08 Nov 2005 new variable
 common#:#cron_forum_notification_directly#:#directly on new entries###23 Dec 2005 new variable
 common#:#cron_forum_notification_never#:#never###23 Dec 2005 new variable
 common#:#cron_jobs#:#Cron poslovi
-common#:#cron_jobs_desc#:#Crone poslovi su automatizovan proces koji radi u odredenim vremenskim intervalima. Naci cete informacije o postavljanju u 'INSTAL Documentation'. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_jobs_desc#:#Crone poslovi su automatizovan proces koji radi u odredenim vremenskim intervalima. Naci cete informacije o postavljanju u 'INSTAL Documentation'. 
 common#:#cron_lucene_index#:#Update Lucene search index###26 Jul 2005 new variable
-common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###26 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.
 common#:#crs#:#Kurs
 common#:#crs_a#:#kurs
 common#:#crs_activation_start_invalid#:#The start and the end time is not valid.###10 Jul 2006 new variable
@@ -1377,6 +1421,7 @@ common#:#crs_create_sahs#:#Kreiraj SCORM/AICC metod ucenja
 common#:#crs_create_spl#:#Kreiraj Bazu pitanja za test Anketu
 common#:#crs_create_svy#:#Kreiraj Anketu
 common#:#crs_create_tst#:#Kreiraj Test
+common#:#crs_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#crs_delete#:#Obriši Kurs
 common#:#crs_edit#:#Uredi Kurs
 common#:#crs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
@@ -1399,12 +1444,13 @@ common#:#crs_write#:#Uredi Kurs
 common#:#cumulative_time#:#Ukupno vreme
 common#:#cur_number_rec#:#Trenutni broj zapisa
 common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
-common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
 common#:#current_password#:#Važeca šifra
 common#:#custom_icon_size_big#:#Custom icon size (big)###03 Nov 2005 new variable
 common#:#custom_icon_size_small#:#Custom icon size (small)###03 Nov 2005 new variable
 common#:#cut#:#Seci
 common#:#cutPage#:#Seci
+common#:#daily#:#daily ### 2006-8-11 --- Add new translation here.
 common#:#data_privacy#:#Data Privacy Settings###19 Feb 2006 new variable
 common#:#database#:#Baza podataka
 common#:#database_version#:#Važeca verzija baze podataka
@@ -1433,6 +1479,7 @@ common#:#dbk_new#:#Nova Digilib knjiga
 common#:#dbk_read#:#Procitaj o pristupu Digilib knjizi
 common#:#dbk_visible#:#Digilib knjiga je vidljiva
 common#:#dbk_write#:#Uredi Digilib knjigu
+common#:#DD.MM.YYYY#:#DD.MM.GGGG.
 common#:#def_repository_view#:#Standardni pregled nosioca
 common#:#default#:#Standardni
 common#:#default_language#:#Standardni jezik
@@ -1460,7 +1507,9 @@ common#:#descending_order#:#Descending order###23 Dec 2005 new variable
 common#:#description#:#Opis
 common#:#desired_password#:#Željena šifra
 common#:#desktop_items#:#Licni detalji na radnoj površini
+common#:#details#:#Details ### 2006-8-11 --- Add new translation here.
 common#:#disable#:#Iskljuci
+common#:#disable_check#:#Disable check ### 2006-8-11 --- Add new translation here.
 common#:#disabled#:#Iskljuceno
 common#:#domain#:#Domen
 common#:#down#:#Dole
@@ -1470,6 +1519,7 @@ common#:#drafts#:#Skica
 common#:#drop#:#Ispusti
 common#:#edit#:#Uredi
 common#:#edit_comments#:#Edit comments for the selected user###10 Jul 2006 new variable
+common#:#edit_content#:#Edit content ### 2006-8-11 --- Add new translation here.
 common#:#edit_data#:#Prikaži podatak
 common#:#edit_operations#:#Uredi operacije
 common#:#edit_page#:#Edit Page###10 Jul 2006 new variable
@@ -1511,10 +1561,11 @@ common#:#err_enter_current_passwd#:#Molimo unesite vašu važecu šifru
 common#:#err_in_line#:#Greška u redu
 common#:#err_inactive#:#Ovaj nalog nije aktiviran. Molimo kontaktirajte sistem administratora radi pristupa.
 common#:#err_invalid_port#:#Pogrešan broj ulaza
-common#:#err_ldap_auth_failed#:#Korisnik nije autorizovan na LDAP serveru! Molimo obezbedite iste šifre na ILIAS i LDAP ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#err_ldap_auth_failed#:#Korisnik nije autorizovan na LDAP serveru! Molimo obezbedite iste šifre na ILIAS i LDAP 
 common#:#err_ldap_connect_failed#:#Konektovanje na LDAP server nije uspelo! Molimo proverite vaša podešavanja
 common#:#err_ldap_search_failed#:#Konektovanje na LDAP server nije uspelo! Molimo proverite BaseDN i pretragu baze
 common#:#err_ldap_user_not_found#:#Korisnik nije pronaden na LDAP serveru! Molimo proverite karakteristike za korisnicko ime i klasu objekta
+common#:#err_no_cookies#:#Please enable session cookies in your browser! ### 2006-8-11 --- Add new translation here.
 common#:#err_no_langfile_found#:#Nije pronadena datoteka sa jezicima!
 common#:#err_no_param#:#Nema parametra!
 common#:#err_over_3_param#:#Više od 3 parametra!
@@ -1703,11 +1754,17 @@ common#:#forum_notify_me_directly#:#Please inform me about direct answers to my 
 common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
 common#:#forum_post_replied#:#Na vaš unos na forumu je odgovoreno.
 common#:#forums#:#Forumi
+common#:#forums_articles#:#Articles ### 2006-8-11 --- Add new translation here.
+common#:#forums_last_post#:#Last Article ### 2006-8-11 --- Add new translation here.
+common#:#forums_moderators#:#Moderators ### 2006-8-11 --- Add new translation here.
+common#:#forums_new_articles#:#New articles ### 2006-8-11 --- Add new translation here.
 common#:#forums_overview#:#Pregled Foruma
+common#:#forums_threads#:#Topics ### 2006-8-11 --- Add new translation here.
 common#:#frm#:#Forum
 common#:#frm_a#:#Forum
 common#:#frm_add#:#Dodaj Forum
 common#:#frm_added#:#Forum je dodat
+common#:#frm_article#:#article ### 2006-8-11 --- Add new translation here.
 common#:#frm_create#:#Kreiraj Forum
 common#:#frm_delete#:#Ukloni Forum
 common#:#frm_delete_post#:#Ukloni oglas, cenzuru
@@ -1729,21 +1786,21 @@ common#:#gender_f#:#Ženski
 common#:#gender_m#:#Muški
 common#:#general_settings#:#Osnovna podešavanja
 common#:#generate#:#Generiši
-common#:#glo#:#Recnik ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#glo#:#Recnik 
 common#:#glo_a#:#Recnik
 common#:#glo_add#:#Dodaj Recnik
 common#:#glo_added#:#Recnik je dodat
-common#:#glo_create#:#Kreiraj Recnik ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#glo_delete#:#Obriši Recnik ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#glo_create#:#Kreiraj Recnik 
+common#:#glo_delete#:#Obriši Recnik 
 common#:#glo_edit_permission#:#Promenite okvir za dozvolu
 common#:#glo_join#:#Pretplatite se na Recnik
-common#:#glo_leave#:#Odjavite se sa Recnika ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#glo_leave#:#Odjavite se sa Recnika 
 common#:#glo_mode#:#Mode###20 Jun 2005 new variable
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).###20 Jun 2005 new variable
 common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
 common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
 common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
-common#:#glo_new#:#Novi Recnik ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#glo_new#:#Novi Recnik 
 common#:#glo_read#:#Upoznajte pristup Recniku
 common#:#glo_upload_file#:#Fajl
 common#:#glo_visible#:#Recnik termina je vidljiv
@@ -1753,7 +1810,7 @@ common#:#global_default#:#Opšti standardi
 common#:#global_fixed#:#Opšte utvrdeni
 common#:#global_settings#:#Opšta podešavanja
 common#:#global_user#:#Globalni korisnici
-common#:#glossaries#:#Recnici ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#glossaries#:#Recnici 
 common#:#glossary#:#Recnik
 common#:#glossary_added#:#Recnik je dodat
 common#:#group_access_denied#:#Pristup odbijen
@@ -1790,7 +1847,7 @@ common#:#group_req_registration_msg#:#Da biste se prikljucili ovoj grupi morate 
 common#:#group_reset#:#Vratite dozvolu za grupu
 common#:#group_status#:#Grupa je
 common#:#group_status_closed#:#Zatvoreno
-common#:#group_status_desc#:#Odreduje pocetni status grupe koristeci okvir za dozvolu iz funkcije šablona 'il_grp_status_closed' ili 'il_grp_ststus_open'<br />Otvoreno: Grupa je vidljiva; Korisnik može da se prijavi.<br />Zatvoreno: Grupa nije vidljiva za one koji nisu clanovi; Korisnika treba da pozove clan kako bi se pridružio. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#group_status_desc#:#Odreduje pocetni status grupe koristeci okvir za dozvolu iz funkcije šablona 'il_grp_status_closed' ili 'il_grp_ststus_open'<br />Otvoreno: Grupa je vidljiva; Korisnik može da se prijavi.<br />Zatvoreno: Grupa nije vidljiva za one koji nisu clanovi; Korisnika treba da pozove clan kako bi se pridružio. 
 common#:#group_status_public#:#Javno
 common#:#groupings#:#Membership Limitations###10 Jul 2006 new variable
 common#:#groupings_assigned_obj_crs#:#Assigned Courses###10 Jul 2006 new variable
@@ -1826,6 +1883,7 @@ common#:#grp_create_sahs#:#Kreiraj SCORM/AICC metod ucenja
 common#:#grp_create_spl#:#Kreiraj Bazu pitanja za proveru
 common#:#grp_create_svy#:#Kreiraj Proveru
 common#:#grp_create_tst#:#Kreiraj Test
+common#:#grp_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#grp_delete#:#Obriši Grupu
 common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#Da li ste sigurni da želite da udaljite sledece(g) clanove/clana iz grupe?
@@ -1878,6 +1936,7 @@ common#:#guests#:#Gosti
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Naziv zaglavlja
 common#:#help#:#Pomoc
+common#:#HH#:#CC:MM
 common#:#hide#:#sakri
 common#:#hide_details#:#sakri detalje###14 Jul 2005 content changed
 common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
@@ -1891,8 +1950,8 @@ common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].###10 Jul 2006 n
 common#:#hist_dbk_pg_update#:#Page changed.###10 Jul 2006 new variable
 common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
 common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
-common#:#hist_file_create#:#Fajle je kreiran, ime fajla je "%1". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#hist_file_replace#:#Fajl je premešten, novo ime fajla je "%1", nova verzija je "%2". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#hist_file_create#:#Fajle je kreiran, ime fajla je "%1". 
+common#:#hist_file_replace#:#Fajl je premešten, novo ime fajla je "%1", nova verzija je "%2". 
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.###10 Jul 2006 new variable
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.###10 Jul 2006 new variable
 common#:#hist_lm_pg_create#:#Page created.###10 Jul 2006 new variable
@@ -1903,6 +1962,9 @@ common#:#hist_lm_st_create#:#Chapter created.###18 Jul 2006 new variable
 common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.###10 Jul 2006 new variable
 common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.###10 Jul 2006 new variable
 common#:#hist_no_entries#:#Nema unosa u prošlosti.
+common#:#hist_webr_add#:#Added new Web Resource with title: "%1" ### 2006-8-11 --- Add new translation here.
+common#:#hist_webr_delete#:#Deleted Web Resource. Title: "%1" ### 2006-8-11 --- Add new translation here.
+common#:#hist_webr_update#:#Update Web Resource. Title: "%1" ### 2006-8-11 --- Add new translation here.
 common#:#history#:#Istorija
 common#:#hits_per_page#:#Pogoci/Stranica
 common#:#hlm#:#Metod ucenja HACP
@@ -2001,7 +2063,7 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cance
 common#:#ilinc_mail_subj_new_subscription#:#New subscription###08 Nov 2005 new variable
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled###03 Nov 2005 new variable
 common#:#ilinc_manage_course_documents#:#Materials###06 Aug 2005 new variable
-common#:#ilinc_mem_change_status#:#Change user's status###03 Nov 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#ilinc_mem_change_status#:#Change user's status
 common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar###03 Nov 2005 new variable
 common#:#ilinc_mem_send_mail#:#Send user a message###03 Nov 2005 new variable
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar###06 Aug 2005 new variable
@@ -2048,6 +2110,7 @@ common#:#in#:#u
 common#:#in_use#:#Jezik Korisnika
 common#:#inactive#:#Neaktivno
 common#:#inbox#:#Poštansko sanduce
+common#:#include_local#:#include local
 common#:#info#:#Informacije
 common#:#info_access_and_status_info#:#Access- and Statusinformation###20 Jun 2005 new variable
 common#:#info_access_permissions#:#Access permissions###20 Jun 2005 new variable
@@ -2067,7 +2130,7 @@ common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
 common#:#info_owner_of_object#:#Owner of object###23 Dec 2005 new variable
 common#:#info_permission_origin#:#Original position###20 Jun 2005 new variable
 common#:#info_permission_source#:#effective from*###20 Jun 2005 new variable
-common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###20 Jun 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.
 common#:#info_short#:#Info###20 Jun 2005 new variable
 common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Obrisani objekti
@@ -2103,7 +2166,9 @@ common#:#inst_id#:#Instalacioni ID
 common#:#inst_info#:#Informacije o instalaciji
 common#:#inst_name#:#Naziv instalacije
 common#:#install#:#Instaliraj
+common#:#install_local#:#Install With Local ### 2006-8-11 --- Add new translation here.
 common#:#installed#:#Instalirano
+common#:#installed_local#:#Installed With Local ### 2006-8-11 --- Add new translation here.
 common#:#institution#:#Institucija
 common#:#internal_local_roles_only#:#Lokalne funkcije (samo automatski generisane)
 common#:#internal_system#:#Interni sistem
@@ -2139,6 +2204,7 @@ common#:#lang_no#:#Norveški
 common#:#lang_path#:#Jezicka putanja
 common#:#lang_pl#:#Poljski
 common#:#lang_pt#:#Portugalski
+common#:#lang_ro#:#Romanian ### 2006-8-11 --- Add new translation here.
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sq#:#Albanian###20 Jun 2005 new variable
@@ -2164,7 +2230,7 @@ common#:#last_edited_on#:#Last edited on###03 Nov 2005 new variable
 common#:#last_login#:#Last login###10 Jul 2006 new variable
 common#:#last_update#:#Poslednje ažuriranje
 common#:#last_visit#:#Poslednja poseta
-common#:#lastname#:#Prezime ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#lastname#:#Prezime 
 common#:#launch#:#Pokreni
 common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP Baza DN
@@ -2251,7 +2317,10 @@ common#:#lo_new#:#Novi Predmet ucenja
 common#:#lo_no_content#:#Nema raspoloživih izvora ucenja
 common#:#lo_other_langs#:#Predmeti ucenja u drugim jezicima
 common#:#lo_overview#:#Pregled Predmeta ucenja
-common#:#local#:#Lokal ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#local#:#Lokal 
+common#:#local_language_file#:#local language file ### 2006-8-11 --- Add new translation here.
+common#:#local_language_files#:#local language files ### 2006-8-11 --- Add new translation here.
+common#:#local_languages_already_installed#:#Selected local language file(s) are already installed ### 2006-8-11 --- Add new translation here.
 common#:#locator#:#Lokacija:
 common#:#log_in#:#Login###03 Aug 2005 new variable
 common#:#logic_and#:#i
@@ -2264,11 +2333,13 @@ common#:#login_invalid#:#Izabrano korisnicko ime nije validno! Samo su sledeci k
 common#:#login_time#:#Vreme na vezi
 common#:#login_to_ilias#:#Prijava na ILIAS
 common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###10 Jul 2006 new variable
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via ### 2006-8-11 --- Add new translation here.
 common#:#logout#:#Odjava
 common#:#logout_text#:#Odjavili ste se sa ILIAS. Vaša sesija je zatvorena.
 common#:#logs#:#Podaci o prijavi
 common#:#los#:#Predmeti ucenja
 common#:#los_last_visited#:#Predmeti ucenja koji su zadnji poseceni
+common#:#lres#:#Learning Resources ### 2006-8-11 --- Add new translation here.
 common#:#mail#:#Pošta
 common#:#mail_a_root#:#Poštansko sanduce
 common#:#mail_addressbook#:#Adresar
@@ -2315,6 +2386,7 @@ common#:#matriculation#:#Upisivanje broja
 common#:#max_number_rec#:#Maksimalan broj zapisa
 common#:#max_time#:#Maksimalno vreme
 common#:#member#:#Clan
+common#:#member_status#:#Member Status ### 2006-8-11 --- Add new translation here.
 common#:#members#:#Clanovi
 common#:#membership_annulled#:#Vaše clanstvo je otkazano
 common#:#mep#:#Baza sredstava
@@ -2366,13 +2438,14 @@ common#:#month_11_long#:#Novembar
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Decembar
 common#:#month_12_short#:#Dec
+common#:#monthly#:#monthly ### 2006-8-11 --- Add new translation here.
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Premesti
-common#:#moveChapter#:#Premesti
-common#:#movePage#:#Premesti
 common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Premesti u
 common#:#move_users_to_style#:#Premesti korisnika u naslov###10 Jul 2006 content changed
+common#:#moveChapter#:#Premesti
+common#:#movePage#:#Premesti
 common#:#msg_cancel#:#Akcija otkazana
 common#:#msg_changes_ok#:#Promene su bile OK
 common#:#msg_clear_clipboard#:#Tablica ocišcena
@@ -2443,13 +2516,13 @@ common#:#msg_obj_exists#:#Ovaj objekat vec postoji u ovom registratoru
 common#:#msg_obj_modified#:#Promene su snimljene.
 common#:#msg_obj_no_link#:#nije dozvoljeno da budu povezane
 common#:#msg_obj_not_deletable_sold#:#Placanje je aktivirano za sledelce objekte. Oni ne mogu biti obrisani.
+common#:#msg_perm_adopted_from_itself#:#Ne možete prisvojiti dozvolu za podešavanje od važece funkcije/funkcije šablona.
 common#:#msg_perm_adopted_from1#:#Podešavanja za dozvolu usvojena od
 common#:#msg_perm_adopted_from2#:#(Podešavanja su snimljena!)
-common#:#msg_perm_adopted_from_itself#:#Ne možete prisvojiti dozvolu za podešavanje od važece funkcije/funkcije šablona.
 common#:#msg_removed#:#Objekti uklonjeni iz sistema.
 common#:#msg_role_exists1#:#Funkcija/funkcija šablona sa nazivom
 common#:#msg_role_exists2#:#vec postoji! Molimo odaberite drugi naziv
-common#:#msg_role_reserved_prefix#:#Prefiks 'il_' je rezervisan za automatsko generisanje funkcija. Molimo odaberite drugi naziv ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#msg_role_reserved_prefix#:#Prefiks 'il_' je rezervisan za automatsko generisanje funkcija. Molimo odaberite drugi naziv 
 common#:#msg_roleassignment_active_changed#:#Promenjena je aktivna funkcija raspodele
 common#:#msg_roleassignment_active_changed_comment#:#Ovo podešavanje korisnikovog profila nije sacuvano! Ako se korisnik ponovo prijavi sve aktivne funkcije raspodela vracaju se na njihove sacuvane vrednosti.###10 Jul 2006 content changed
 common#:#msg_roleassignment_changed#:#Funkcija raspodele je promenjena
@@ -2467,12 +2540,14 @@ common#:#my_grps#:#Moje Grupe
 common#:#my_los#:#Moji Predmeti ucenja
 common#:#my_tsts#:#Moji Testovi
 common#:#name#:#Ime
+common#:#never#:#never ### 2006-8-11 --- Add new translation here.
 common#:#new#:#Novo
 common#:#new_appointment#:#Novi Nalog
 common#:#new_folder#:#Novi Registrator
 common#:#new_group#:#Nova Grupa
 common#:#new_language#:#Novi Jezik
 common#:#new_list_password#:#Nove sugestije
+common#:#new_lowercase#:#new ### 2006-8-11 --- Add new translation here.
 common#:#new_mail#:#Nova pošta!
 common#:#news#:#Novosti
 common#:#next#:#sledece
@@ -2493,12 +2568,14 @@ common#:#no_frm_in_personal_list#:#Nema foruma na licnoj listi.
 common#:#no_global_role_left#:#Svaki korisnik treba da bude registrovan za jednu funkciju.
 common#:#no_grp_in_personal_list#:#Nema grupa u licnoj listi.
 common#:#no_import_available#:#Uvoz nije dostupan za tip
+common#:#no_import_file_found#:#No import file found ### 2006-8-11 --- Add new translation here.
 common#:#no_invalid_links#:#Pogrešne veze nisu pronadene.
 common#:#no_limit#:#Nema ogranicenja
 common#:#no_lo_in_personal_list#:#Nema predmeta ucenja na licnoj listi.
 common#:#no_local_users#:#Nema lokalnih korisnika
 common#:#no_objects#:#Nema objekata
 common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
+common#:#no_permission#:#You do not have the necessary permission. ### 2006-8-11 --- Add new translation here.
 common#:#no_permission_to_join#:#Nije vam dozvoljeno da se pridružite ovoj grupi!
 common#:#no_roles_user_can_be_assigned_to#:#Nema opštih funkcija na koje bi korisnik mogao biti registrovan. Zbog toga vam nije dozvoljeno da dodajete korisnike.
 common#:#no_submission_made#:#---###10 Jul 2006 new variable
@@ -2585,6 +2662,8 @@ common#:#obj_rolf_local_desc#:#Sadrži lokalne funkcije objekta br.
 common#:#obj_rolt#:#Šablon funkcija
 common#:#obj_root#:#Cvorište ILIAS putanje
 common#:#obj_sahs#:#SCORM/AICC metod ucenja
+common#:#obj_seas#:#Search ### 2006-8-11 --- Add new translation here.
+common#:#obj_seas_desc#:#Manage the search settings here. ### 2006-8-11 --- Add new translation here.
 common#:#obj_spl#:#Baza pitanja za Anketu
 common#:#obj_st#:#Poglavlje
 common#:#obj_stys#:#Podešavanje stila###10 Jul 2006 content changed
@@ -2603,6 +2682,7 @@ common#:#obj_uset#:#Podešavanja za Korisnika
 common#:#obj_usr#:#Korisnik
 common#:#obj_usrf#:#Nalozi korisnika###10 Jul 2006 content changed
 common#:#obj_usrf_desc#:#Odredite naloge korisnika
+common#:#obj_webr#:#Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#object#:#Objekat
 common#:#object_added#:#Objekat je dodat
 common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
@@ -2648,6 +2728,7 @@ common#:#objs_tst#:#Testovi
 common#:#objs_type#:#Vrste Objekta
 common#:#objs_url#:#URL-ovi
 common#:#objs_usr#:#Korisnici
+common#:#objs_webr#:#Web Resources ### 2006-8-11 --- Add new translation here.
 common#:#of#:#Od
 common#:#offline#:#nezavisno
 common#:#offline_version#:#Nezavisna verzija
@@ -2684,11 +2765,11 @@ common#:#passwd_not_match#:#Unosi za novu lozinku ne odgovaraju! Molimo ponovo u
 common#:#passwd_wrong#:#Lozinka koju ste uneli je pogrešna!
 common#:#password#:#Lozinka
 common#:#password_assistance_disabled#:#Asistencija oko lozinke je dostupna samo onda kada je autentifikacija korisnika obavljena preko ILIAS baze podataka.
-common#:#password_assistance_info#:#Ukoliko je asistencija omogucena, veza sa tekstom "Zaboravili ste vašu lozinku?" je prikazana na ILIAS stranici za prijavljivanje. Korisnici mogu da koriste ovu vezu kako bi registrovali novu lozinku za njihov korisnicki nalog bez potrebe za asistencijom sistem administratora. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#Ukoliko je asistencija omogucena, veza sa tekstom "Zaboravili ste vašu lozinku?" je prikazana na ILIAS stranici za prijavljivanje. Korisnici mogu da koriste ovu vezu kako bi registrovali novu lozinku za njihov korisnicki nalog bez potrebe za asistencijom sistem administratora. 
 common#:#paste#:#Zalepi
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#pasteChapter#:#Zalepi
 common#:#pastePage#:#Zalepi
-common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Putanja
 common#:#path_not_set#:#Putanja nije postavljena
 common#:#path_to_babylon#:#Putanja do Babilona
@@ -2778,6 +2859,7 @@ common#:#qpl_read#:#Procitaj o pristupu bazi pitanja za test
 common#:#qpl_upload_file#:#Pošalji fajlove
 common#:#qpl_visible#:#Baza pitanja za test je vidljiva
 common#:#qpl_write#:#Uredi bazu pitanja za test
+common#:#quarterly#:#quarterly ### 2006-8-11 --- Add new translation here.
 common#:#query_data#:#Podaci o pitanjima
 common#:#question#:#Pitanje
 common#:#question_pools#:#Baze pitanja
@@ -2944,6 +3026,14 @@ common#:#search_recipient#:#Nadi primaoca
 common#:#search_result#:#Nadi rezultat
 common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Nadi korisnika
+common#:#seas_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+common#:#seas_max_hits#:#Max hits ### 2006-8-11 --- Add new translation here.
+common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results. ### 2006-8-11 --- Add new translation here.
+common#:#seas_read#:#Read search settings ### 2006-8-11 --- Add new translation here.
+common#:#seas_search#:#Allow to use the search ### 2006-8-11 --- Add new translation here.
+common#:#seas_settings#:#Search settings ### 2006-8-11 --- Add new translation here.
+common#:#seas_visible#:#Search settings are visible ### 2006-8-11 --- Add new translation here.
+common#:#seas_write#:#Edit search settings ### 2006-8-11 --- Add new translation here.
 common#:#second#:#Second###10 Jul 2006 new variable
 common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Segmenti
@@ -2971,22 +3061,51 @@ common#:#server#:#Server
 common#:#server_data#:#Podaci o serveru
 common#:#server_software#:#Softver za server
 common#:#set#:#Posdesi
-common#:#setSystemLanguage#:#Podesi jezik sistema
-common#:#setUserLanguage#:#Podesi jezik korisnika
 common#:#set_offline#:#Podesi nezavisno
 common#:#set_online#:#Podesi onlajn
+common#:#setSystemLanguage#:#Podesi jezik sistema
 common#:#settings#:#Podešavanje
+common#:#settings_saved#:#Saved settings ### 2006-8-11 --- Add new translation here.
+common#:#setUserLanguage#:#Podesi jezik korisnika
+common#:#shib#:#Shibboleth ### 2006-8-11 --- Add new translation here.
+common#:#shib_active#:#Enable Shibboleth support ### 2006-8-11 --- Add new translation here.
+common#:#shib_city#:#Attribute for city ### 2006-8-11 --- Add new translation here.
+common#:#shib_configure#:#Configure Shibboleh Authentication ### 2006-8-11 --- Add new translation here.
+common#:#shib_country#:#Attribute for country ### 2006-8-11 --- Add new translation here.
+common#:#shib_data_conv#:#Absolute path to data manipulation API ### 2006-8-11 --- Add new translation here.
 common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read###19 May 2005 new variable
+common#:#shib_department#:#Attribute for department ### 2006-8-11 --- Add new translation here.
+common#:#shib_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+common#:#shib_email#:#Attribute for email address ### 2006-8-11 --- Add new translation here.
 common#:#shib_federation_name#:#Name of your Shibboleth federation###27 Jul 2006 new variable
+common#:#shib_firstname#:#Attribute for firstname ### 2006-8-11 --- Add new translation here.
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the###27 Jul 2006 new variable
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the###27 Jul 2006 new variable
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.###27 Jul 2006 new variable
+common#:#shib_institution#:#Attribute for institution ### 2006-8-11 --- Add new translation here.
+common#:#shib_instructions#:#Be sure to read the <a href="README.SHIBBOLETH.txt" target="_blank">README</a> for instructions on how to configure Shibboleth support for ILIAS. 
 common#:#shib_invalid_home_organization#:#Please choose a valid organization!###27 Jul 2006 new variable
+common#:#shib_language#:#Attribute for language ### 2006-8-11 --- Add new translation here.
+common#:#shib_lastname#:#Attribute for lastname ### 2006-8-11 --- Add new translation here.
+common#:#shib_login#:#Unique Shibboleth attribute ### 2006-8-11 --- Add new translation here.
+common#:#shib_login_button#:#Path to the image of a Shibboleth login button that is used to redirect users to the WAYF specified in the Shibboleth configuration ### 2006-8-11 --- Add new translation here.
 common#:#shib_login_external_wayf#:#Use external WAYF service###27 Jul 2006 new variable
 common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service###27 Jul 2006 new variable
 common#:#shib_login_type#:#Organization selection###27 Jul 2006 new variable
 common#:#shib_member_of#:#I'm a member of ...###27 Jul 2006 new variable
+common#:#shib_phone_home#:#Attribute for home phone number ### 2006-8-11 --- Add new translation here.
+common#:#shib_phone_mobile#:#Attribute for mobile phone number ### 2006-8-11 --- Add new translation here.
+common#:#shib_phone_office#:#Attribute for office phone number ### 2006-8-11 --- Add new translation here.
+common#:#shib_read#:#Read access to Shibboleth settings ### 2006-8-11 --- Add new translation here.
 common#:#shib_select_home_organization#:#For authentication via %s, please select your organization from the drop down list.###27 Jul 2006 new variable
+common#:#shib_settings_saved#:#The Shibboleth settings were saved ### 2006-8-11 --- Add new translation here.
+common#:#shib_street#:#Attribute for street ### 2006-8-11 --- Add new translation here.
+common#:#shib_title#:#Attribute for title ### 2006-8-11 --- Add new translation here.
+common#:#shib_update#:#Update this field on login ### 2006-8-11 --- Add new translation here.
+common#:#shib_user_default_role#:#Default role assigned to Shibboleth users ### 2006-8-11 --- Add new translation here.
+common#:#shib_visible#:#Shibboleth settings are visible ### 2006-8-11 --- Add new translation here.
+common#:#shib_write#:#Edit Shibboleth settings ### 2006-8-11 --- Add new translation here.
+common#:#shib_zipcode#:#Attribute for zipcode ### 2006-8-11 --- Add new translation here.
 common#:#show#:#Prikaži
 common#:#show_details#:#prikaži detalje###14 Jul 2005 content changed
 common#:#show_list#:#Prikaži Listu
@@ -3073,6 +3192,7 @@ common#:#system_message#:#Sistemska poruka
 common#:#system_style_settings#:#Sistemsko podešavanje stila
 common#:#system_styles#:#System Styles###03 Nov 2005 new variable
 common#:#table_mail_import#:#Uvoz pošte
+common#:#target#:#Target ### 2006-8-11 --- Add new translation here.
 common#:#tax#:#Taksonomija
 common#:#tax_add#:#Dodaj taksonomiju
 common#:#tax_delete#:#Obriši taksonomije
@@ -3091,7 +3211,7 @@ common#:#test#:#Test
 common#:#test_intern#:#Test stažista
 common#:#test_module#:#Model testa
 common#:#tests#:#Testovi
-common#:#thread#:#Thread###11 Aug 2006 new variable
+common#:#thread#:#Thread ### 2006-8-11 --- Add new translation here.
 common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
 common#:#time#:#Vreme
 common#:#time_d#:#Dan
@@ -3149,7 +3269,7 @@ common#:#tst_run#:#Run###20 Jun 2005 new variable
 common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Pošalji fajlove
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
 common#:#tst_visible#:#Test je vidljiv
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
 common#:#tst_write#:#Uredi Test
@@ -3190,6 +3310,7 @@ common#:#uninstalled#:#deinstalirano.
 common#:#unknown#:#NEPOZNATO
 common#:#unlabeled#:#Unlabeled###03 Nov 2005 new variable
 common#:#unread#:#Neprocitano
+common#:#unread_lowercase#:#unread ### 2006-8-11 --- Add new translation here.
 common#:#unselected#:#Nije odabrano
 common#:#unsubscribe#:#Odjava###14 May 2005 content changed
 common#:#unzip#:#Odpakuj
@@ -3252,17 +3373,19 @@ common#:#users#:#Korisnici
 common#:#users_not_imported#:#Sledeci korisnici ne postoje, njihove poruke ne mogu biti unete
 common#:#users_online#:#Korisnici na vezi###20 Jun 2005 content changed
 common#:#users_online_show_associated#:#Show members of my courses and groups only###20 Jun 2005 new variable
-common#:#users_online_show_n#:#Don't show active users###20 Jun 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#users_online_show_n#:#Don't show active users
 common#:#users_online_show_y#:#Show all active users###20 Jun 2005 new variable
 common#:#usertracking#:#Pracenje korisnika
 common#:#usr#:#Korisnik
 common#:#usr_a#:#Korisnik
+common#:#usr_active_only#:#Active Users only ### 2006-8-11 --- Add new translation here.
 common#:#usr_add#:#Dodaj Korisnika
 common#:#usr_added#:#Korisnik dodat
 common#:#usr_agreement#:#Korisnicki ugovor
 common#:#usr_agreement_empty#:#Ugovor ne sadrži nikakav tekst
 common#:#usr_edit#:#Uredi Korisnika
 common#:#usr_hits_per_page#:#Pogoci/stranica u tabeli
+common#:#usr_inactive_only#:#Inactive Users only ### 2006-8-11 --- Add new translation here.
 common#:#usr_new#:#Novi korisnik
 common#:#usr_settings_explanation_profile#:#Proverite ponudene ispitne okvire kako biste onemogucli ili sakrili licna podešavanja profila svih korisnika u petlju licnih profila na sopstvenoj radnoj površini. Sva onemogucena ili sakrivena podešavanja licnih profila je moguce urediti korišcenjem administrativnog stabla / korisnickih naloga.###05 Aug 2005 content changed
 common#:#usr_settings_header_profile#:#Podešavanje profila korisnika
@@ -3283,18 +3406,21 @@ common#:#usrf_write#:#Uredi korisnicke naloge
 common#:#usrimport_action_failed#:#Akcija je %1$ neuspešna.
 common#:#usrimport_action_ignored#:#Odbacena radnja %1$s.
 common#:#usrimport_action_replaced#:#Premeštena akcija %1$s od %2$s.
-common#:#usrimport_cant_delete#:#Nije moguce izvesti akciju "Obriši". Ne postoji takav korisnik u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_insert#:#Nije moguce izvesti akciju "Ubaci". Korisnik se vec nalazi u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_update#:#Nije moguce izvesti akciju "Ažuriraj". Ne postoji takav korisnik u bazi podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_conflict_handling_info#:#Kada je 'Ignor on confict' odabrano, ILIAS odbacuje radnju, ukoliko ne može biti izvršena (npr. Radnja 'insert' nije obavljena ukoliko vec postoji korisnik sa istom prijavom u bazi podataka.) Kada je 'Update on conflict' odabran, ILIAS ažurira bazu podataka ako radnja ne može biti izvedena. (Npr. 'Insert' akcija je premeštena na osnovu radnje 'Update' ukoliko korisnik sa istom prijavom postoji u bazi podataka). ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_global_role_for_action_required#:#Najmanje jedna opšta uloga mora biti odredena za "%1$s" akciju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_delete#:#Nije moguce izvesti akciju "Obriši". Ne postoji takav korisnik u bazi podataka. 
+common#:#usrimport_cant_insert#:#Nije moguce izvesti akciju "Ubaci". Korisnik se vec nalazi u bazi podataka. 
+common#:#usrimport_cant_update#:#Nije moguce izvesti akciju "Ažuriraj". Ne postoji takav korisnik u bazi podataka. 
+common#:#usrimport_conflict_handling_info#:#Kada je 'Ignor on confict' odabrano, ILIAS odbacuje radnju, ukoliko ne može biti izvršena (npr. Radnja 'insert' nije obavljena ukoliko vec postoji korisnik sa istom prijavom u bazi podataka.) Kada je 'Update on conflict' odabran, ILIAS ažurira bazu podataka ako radnja ne može biti izvedena. (Npr. 'Insert' akcija je premeštena na osnovu radnje 'Update' ukoliko korisnik sa istom prijavom postoji u bazi podataka). 
+common#:#usrimport_global_role_for_action_required#:#Najmanje jedna opšta uloga mora biti odredena za "%1$s" akciju. 
+common#:#usrimport_ignore_role#:#Ignore role ### 2006-8-11 --- Add new translation here.
 common#:#usrimport_login_is_not_unique#:#Prijava nije jedinstvena.
-common#:#usrimport_xml_attribute_missing#:#Atribut "%2$s" u elementu "%1$s" nedostaje. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_illegal#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je nelegalna. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_inapplicable#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je neprimenljiva za "%4$s" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_content_illegal#:#Sadržaj "%2$s" elementa "%1$s" je nezakonita. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" mora biti odredena za "%2$s" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" je neprimenljiv za "%2$s" radnju. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted. ### 2006-8-11 --- Add new translation here.
+common#:#usrimport_xml_attribute_missing#:#Atribut "%2$s" u elementu "%1$s" nedostaje. 
+common#:#usrimport_xml_attribute_value_illegal#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je nelegalna. 
+common#:#usrimport_xml_attribute_value_inapplicable#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je neprimenljiva za "%4$s" radnju. 
+common#:#usrimport_xml_element_content_illegal#:#Sadržaj "%2$s" elementa "%1$s" je nezakonita. 
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" mora biti odredena za "%2$s" radnju. 
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" je neprimenljiv za "%2$s" radnju. 
+common#:#valid#:#Valid ### 2006-8-11 --- Add new translation here.
 common#:#validate#:#Potvrdi
 common#:#value#:#Vrednost
 common#:#vcard#:#Podsetnica
@@ -3313,8 +3439,36 @@ common#:#visible_layers#:#Vidljivi slojevi
 common#:#visitor#:#Visitor###20 Jun 2005 new variable
 common#:#visitors#:#Visitors###20 Jun 2005 new variable
 common#:#visits#:#Posete
+common#:#web_resources#:#Web Resources ### 2006-8-11 --- Add new translation here.
+common#:#webr#:#Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_active#:#Active ### 2006-8-11 --- Add new translation here.
+common#:#webr_add#:#Add Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_add_item#:#Add Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_delete#:#Delete Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_delete_items#:#Delete Web Resource(s) ### 2006-8-11 --- Add new translation here.
+common#:#webr_deleted_items#:#Deleted Web Resource(s). ### 2006-8-11 --- Add new translation here.
+common#:#webr_disable_check#:#Disable check ### 2006-8-11 --- Add new translation here.
+common#:#webr_edit#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_edit_item#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+common#:#webr_fillout_all#:#Please fill out all required fields. ### 2006-8-11 --- Add new translation here.
+common#:#webr_item_updated#:#Saved modifications ### 2006-8-11 --- Add new translation here.
+common#:#webr_join#:#Subscribe Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_last_check#:#Last check ### 2006-8-11 --- Add new translation here.
+common#:#webr_last_check_table#:#Last check: ### 2006-8-11 --- Add new translation here.
+common#:#webr_leave#:#Unsubscribe Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_modified_items#:#Saved modifications. ### 2006-8-11 --- Add new translation here.
+common#:#webr_never_checked#:#Never checked ### 2006-8-11 --- Add new translation here.
+common#:#webr_new#:#Add new Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_no_items_created#:#No Web Resources created ### 2006-8-11 --- Add new translation here.
+common#:#webr_read#:#Read access to Web Resource ### 2006-8-11 --- Add new translation here.
+common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)? ### 2006-8-11 --- Add new translation here.
+common#:#webr_visible#:#Web Resource is visible ### 2006-8-11 --- Add new translation here.
+common#:#webr_write#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webservices#:#Web servisi
 common#:#week#:#Nedelja
+common#:#weekly#:#weekly ### 2006-8-11 --- Add new translation here.
+common#:#weeks#:#Weeks ### 2006-8-11 --- Add new translation here.
 common#:#welcome#:#Dobro došli
 common#:#who_is_online#:#Ko je na vezi?
 common#:#width_x_height#:#Width x Height###03 Nov 2005 new variable
@@ -3328,9 +3482,6 @@ common#:#you_may_add_local_roles#:#Modete dodati lokalne funkcije
 common#:#your_message#:#Vaša poruka
 common#:#zip#:#Poštanski broj
 common#:#zipcode#:#Poštanski broj
-content#:#HTML export#:#HTML izvoz
-content#:#PDF export#:#PDF izvoz
-content#:#Pages#:#Stranice
 content#:#add_menu_entry#:#Dodaj unos u meni >>
 content#:#all#:#Sve
 content#:#all_pages#:#ceo metod ucenja###25 Jul 2006 content changed
@@ -3340,26 +3491,6 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
-content#:#cont_Additional#:#Dodatni
-content#:#cont_Alphabetic#:#Abecedni A, B, ...###10 Jul 2006 content changed
-content#:#cont_Circle#:#Opseg
-content#:#cont_Citation#:#Citat
-content#:#cont_Code#:#Kod
-content#:#cont_Example#:#Primer###10 Jul 2006 content changed
-content#:#cont_Headline1#:#Glavni naslov 1
-content#:#cont_Headline2#:#Glavni naslov 2
-content#:#cont_Headline3#:#Glavni naslov 3
-content#:#cont_List#:#Lista
-content#:#cont_LocalFile#:#Lokalni fajl
-content#:#cont_Mnemonic#:#Simbolicki
-content#:#cont_Number#:#Broj
-content#:#cont_Poly#:#Poligon
-content#:#cont_Rect#:#Pravougaonik
-content#:#cont_Reference#:#Primedba
-content#:#cont_Remark#:#Napomena
-content#:#cont_Roman#:#Rimski I, II, ...###10 Jul 2006 content changed
-content#:#cont_TableContent#:#Sadržaj tabele
-content#:#cont_Unordered#:#Nenarucen
 content#:#cont_act_number#:#Numeracija poglavlja
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Omoguci meni
@@ -3369,8 +3500,10 @@ content#:#cont_add_definition#:#Dodaj definiciju
 content#:#cont_add_fullscreen#:#Dodaj ceo ekran
 content#:#cont_added_comment#:#Komentar je dodat u istoriju.
 content#:#cont_added_term#:#Termin je dodat
+content#:#cont_Additional#:#Dodatni
 content#:#cont_all_definitions#:#Sve definicije
 content#:#cont_all_pages#:#Sve stranice
+content#:#cont_Alphabetic#:#Abecedni A, B, ...###10 Jul 2006 content changed
 content#:#cont_annex#:#Dodatak
 content#:#cont_api_adapter#:#Naziv API adaptera
 content#:#cont_api_func_prefix#:#Prefiks API funkcija
@@ -3399,6 +3532,8 @@ content#:#cont_characteristic#:#Karakteristika
 content#:#cont_choose_cont_obj#:#Odaberite sadržaj objekta
 content#:#cont_choose_glossary#:#Odaberite Recnik
 content#:#cont_choose_media_source#:#Odaberite izvor medija
+content#:#cont_Circle#:#Opseg
+content#:#cont_Citation#:#Citat
 content#:#cont_citation_err_one#:#Morate izabrati tacno jedno izdanje
 content#:#cont_citation_selection_not_valid#:#Vaš odabir nije validan###10 Jul 2006 content changed
 content#:#cont_citations#:#Citati
@@ -3409,6 +3544,7 @@ content#:#cont_click_next_or_save#:#Molimo kliknite na sledecu tacku poligona il
 content#:#cont_click_next_point#:#Molimo kliknite na sledecu tacku poligona.
 content#:#cont_click_starting_point#:#Molimo kliknite na pocetnu tacku poligona.
 content#:#cont_click_tl_corner#:#Molimo kliknite u gornji levi ugao željenog podrucja.
+content#:#cont_Code#:#Kod
 content#:#cont_confirm_delete#:#zaista obrisati?
 content#:#cont_content#:#Sadržaj
 content#:#cont_content_obj#:#Sadržaj objekta
@@ -3425,7 +3561,7 @@ content#:#cont_create_export_file_xml#:#Kreiraj ispisan fajl (XML)
 content#:#cont_create_folder#:#Kreiraj Registrator
 content#:#cont_create_html_version#:#Creisraj HTML Paket
 content#:#cont_create_mob#:#Kreiraj Medija Objekat
-content#:#cont_credit_mode#:#Kreiraj nacin (za model lekcije 'standardno') ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_credit_mode#:#Kreiraj nacin (za model lekcije 'standardno') 
 content#:#cont_credit_off#:#Nema kredita
 content#:#cont_credit_on#:#Kredit
 content#:#cont_credits#:#Krediti
@@ -3503,6 +3639,7 @@ content#:#cont_edition#:#Izdanje
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript aktivan
 content#:#cont_enable_media#:#Medij aktivan
+content#:#cont_Example#:#Primer###10 Jul 2006 content changed
 content#:#cont_export_files#:#Ispisani fajlovi
 content#:#cont_external#:#spoljni
 content#:#cont_external_url#:#spoljni url
@@ -3526,6 +3663,9 @@ content#:#cont_get_orig_size#:#Podesi originalnu velicinu
 content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Karakteristike Recnika
 content#:#cont_header#:#Header###10 Jul 2006 new variable
+content#:#cont_Headline1#:#Glavni naslov 1
+content#:#cont_Headline2#:#Glavni naslov 2
+content#:#cont_Headline3#:#Glavni naslov 3
 content#:#cont_height#:#Visina
 content#:#cont_how_published#:#Kako je izdato
 content#:#cont_href#:#href
@@ -3556,6 +3696,7 @@ content#:#cont_link_int#:#Veza (unutrašnja)
 content#:#cont_link_select#:#Unutrašnja veza
 content#:#cont_link_type#:#Vrsta veze
 content#:#cont_linked_mobs#:#Povezani medijski predmeti
+content#:#cont_List#:#Lista
 content#:#cont_list_files#:#Spisak fajlova
 content#:#cont_list_properties#:#Spisak karakteristika
 content#:#cont_lk_chapter#:#Poglavlje
@@ -3572,6 +3713,7 @@ content#:#cont_lk_term#:#Recnik termina
 content#:#cont_lk_term_new#:#Recnik termina (Novi okvir)
 content#:#cont_lm_menu#:#Meni
 content#:#cont_lm_properties#:#Karakteristike metoda ucenja
+content#:#cont_LocalFile#:#Lokalni fajl
 content#:#cont_lvalue#:#Element podatka
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Podrucja veze
@@ -3579,7 +3721,8 @@ content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Izvor sredstava
 content#:#cont_mep_structure#:#Struktura baze sredstava
-content#:#cont_missing_preconditions#:#Neophodno je da ispunite sledece preduslove da biste pristupili poglavlju "%s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#Neophodno je da ispunite sledece preduslove da biste pristupili poglavlju "%s". 
+content#:#cont_Mnemonic#:#Simbolicki
 content#:#cont_mob_files#:#Fajlovi objekta
 content#:#cont_mob_inst_prop#:#Primerne karakteristike
 content#:#cont_mob_prop#:#Karakteristike objekta
@@ -3599,12 +3742,13 @@ content#:#cont_no_assign_itself#:#Objekat ne može biti namenjen samom sebi
 content#:#cont_no_manifest#:#imsmanifest.xml fajl nije pronaden u glavnom direktorijumu.
 content#:#cont_no_object_found#:#Nije pronaden nijedan objekat sa ovim nazivom
 content#:#cont_no_page#:#Nijedna stranica nije pronadena.
-content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.
 content#:#cont_no_zip_file#:#Import file is not a zip file.###20 Jul 2005 new variable
 content#:#cont_none#:#Nijedan
 content#:#cont_nr_cols#:#Broj kolona
 content#:#cont_nr_items#:#Broj predmeta
 content#:#cont_nr_rows#:#Broj redova
+content#:#cont_Number#:#Broj
 content#:#cont_obj_removed#:#Objekti uklonjeni.
 content#:#cont_offline#:#Nezavisne verzije
 content#:#cont_offline_files#:#Nezavisne verzije
@@ -3618,6 +3762,7 @@ content#:#cont_orig_size#:#Originalna velicina
 content#:#cont_page_deactivated#:#Page is deactivated.###10 Jul 2006 new variable
 content#:#cont_page_deactivated_elements#:#Page contains deactivated elements.###10 Jul 2006 new variable
 content#:#cont_page_header#:#Zaglavlje stranice
+content#:#cont_page_link#:#Page Link ### 2006-8-11 --- Add new translation here.
 content#:#cont_page_select_target_now#:#Stranica obeležena za premeštanje.  Sada odaberite cilj.
 content#:#cont_pages#:#Stranice
 content#:#cont_parameter#:#Parametar
@@ -3627,6 +3772,7 @@ content#:#cont_personal_clipboard#:#Licni Klipbord
 content#:#cont_pg_content#:#Sadržaj stranice
 content#:#cont_pg_title#:#Naslov stranice
 content#:#cont_please_select#:#molimo odaberite
+content#:#cont_Poly#:#Poligon
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Pregled
@@ -3636,20 +3782,26 @@ content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Izdavac
 content#:#cont_purpose#:#Svrha
+content#:#cont_Rect#:#Pravougaonik
 content#:#cont_ref_helptext#:#(npr. http:www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Vezane slike
-content#:#cont_reference#:#Reference###09 Aug 2006 new variable
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Napomena
 content#:#cont_remove_fullscreen#:#Ukloni ceo ekran
 content#:#cont_removeiln#:#zaista ukloniti unutrašnju vezu?
 content#:#cont_repository_item#:#Spremište predmeta
 content#:#cont_repository_item_links#:#Spremište predmetnih veza
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height. ### 2006-8-11 --- Add new translation here.
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height. ### 2006-8-11 --- Add new translation here.
+content#:#cont_resize_image#:#Resize images ### 2006-8-11 --- Add new translation here.
 content#:#cont_resource#:#Resursi
 content#:#cont_resource_type#:#vrsta
 content#:#cont_resources#:#Resursi
+content#:#cont_Roman#:#Rimski I, II, ...###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Vrednost
 content#:#cont_saved_map_area#:#Mapa podrucja je sacuvana
 content#:#cont_saved_map_data#:#Mapa podataka je sacuvana
-content#:#cont_sc_auto_review#:#Namesti metod lekcije na 'proveru' ako je student završio SCO ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_sc_auto_review#:#Namesti metod lekcije na 'proveru' ako je student završio SCO 
 content#:#cont_sc_less_mode_browse#:#Pregledaj
 content#:#cont_sc_less_mode_normal#:#Standardno
 content#:#cont_sc_stat_browsed#:#Pregledano
@@ -3711,8 +3863,11 @@ content#:#cont_table_border#:#Granica tabele
 content#:#cont_table_cellpadding#:#Ispunjavanje celija u tabeli
 content#:#cont_table_cellspacing#:#Razmaci u celijama tabele
 content#:#cont_table_html_import#:#Uvezi HTML tabelu
-content#:#cont_table_html_import_info#:#Uvezi samo odgovarajuce radove sa XHTML tabele. Tabela mora biti usmerena petlja. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_table_html_import_info#:#Uvezi samo odgovarajuce radove sa XHTML tabele. Tabela mora biti usmerena petlja. 
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import ### 2006-8-11 --- Add new translation here.
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea. ### 2006-8-11 --- Add new translation here.
 content#:#cont_table_width#:#Širina tabele
+content#:#cont_TableContent#:#Sadržaj tabele
 content#:#cont_target_within_source#:#Cilj ne sme biti unutar izvornog objekta.
 content#:#cont_term#:#Termin
 content#:#cont_terms#:#Termini
@@ -3737,6 +3892,7 @@ content#:#cont_tracking_items#:#Pracenje predmeta
 content#:#cont_translations#:#Prevod(i)
 content#:#cont_translations_assigned#:#Prevod(i) je(su) prijavljen(i)
 content#:#cont_tree_fixed#:#Struktura drveta je utvrdena.
+content#:#cont_Unordered#:#Nenarucen
 content#:#cont_update#:#Ažuriraj
 content#:#cont_update_names#:#Ažuriraj imena
 content#:#cont_upload_file#:#Ažuriraj datoteku
@@ -3752,13 +3908,14 @@ content#:#cont_width#:#Širina
 content#:#cont_wysiwyg#:#Sadržaj WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Godina
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
 content#:#copied_to_clipboard#:#Objekti su kopirani u tablicu
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
+content#:#HTML export#:#HTML izvoz
 content#:#lm_menu_edit_entry#:#Uredi unos u meni
-content#:#lm_menu_entry_target#:#Cilj ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#lm_menu_entry_target#:#Cilj 
 content#:#lm_menu_entry_title#:#Naslov
 content#:#lm_menu_new_entry#:#Kreiraj novi unos u meni
 content#:#lm_menu_select_internal_object#:#Odaberite interne objekte >>
@@ -3766,18 +3923,23 @@ content#:#lm_menu_select_object_to_add#:#Molimo selektujte objekat koji želite 
 content#:#msg_entry_added#:#Unos u meni je dodat
 content#:#msg_entry_removed#:#Unos u meni je uklonjen
 content#:#msg_entry_updated#:#Unos u meni je ažuriran
+content#:#msg_page_no_public_access#:#The page you called is not available in the public area. Only registered users may view this page. Please login first to access this page. ### 2006-8-11 --- Add new translation here.
+content#:#msg_page_not_public#:#Page is not public ### 2006-8-11 --- Add new translation here.
+content#:#Pages#:#Stranice
 content#:#pages from#:#Stranice od
 content#:#par#:#Paragraf
+content#:#PDF export#:#PDF izvoz
 content#:#pg#:#Stranica
 content#:#public_section#:#Javna sekcija###19 Jul 2005 content changed
 content#:#read offline#:#Procitaj nezavisno
-content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
-content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Molimo odaberite datoteku.
 content#:#selected_pages_only#:#samo te dole odabrane stranice###25 Jul 2006 content changed
-content#:#set_public_mode#:#Podesi nacin za javni pristup ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
+content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#set_public_mode#:#Podesi nacin za javni pristup 
 content#:#st#:#Poglavlje
 content#:#start export#:#Zapocni izvoz
+crs#:#activation_times_not_valid#:#The availability period is not valid. ### 2006-8-11 --- Add new translation here.
 crs#:#add_event#:#Add Event###10 Jul 2006 new variable
 crs#:#assigned#:#Prijavljeno
 crs#:#contact_email_not_valid#:#the contact email is not valid.###24 Jun 2005 new variable
@@ -3820,6 +3982,9 @@ crs#:#crs_archive_type#:#Arhiviraj vrstu
 crs#:#crs_archive_type_disabled#:#Nema pristupa###23 Dec 2005 content changed
 crs#:#crs_archives_deleted#:#Arhiva(e) je (su) obrisana(e)
 crs#:#crs_auto_fill#:#Automatsko popunjavanje
+crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below). ### 2006-8-11 --- Add new translation here.
+crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below). ### 2006-8-11 --- Add new translation here.
+crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course. ### 2006-8-11 --- Add new translation here.
 crs#:#crs_blocked#:#Pristup je odbacen
 crs#:#crs_blocked_member#:#Clanstvo na kursu###23 Dec 2005 content changed
 crs#:#crs_blocked_member_body#:#Vaše clanstvo je završeno.###23 Dec 2005 content changed
@@ -3932,6 +4097,8 @@ crs#:#crs_member_unblocked#:#Clan (odblokiran)
 crs#:#crs_member_updated#:#Clan je ažuriran
 crs#:#crs_members#:#Members###20 Jul 2006 new variable
 crs#:#crs_members_deleted#:#Uklonjeni clanovi
+crs#:#crs_members_footer#:#course member(s) ### 2006-8-11 --- Add new translation here.
+crs#:#crs_members_footer_passed#:#passed ### 2006-8-11 --- Add new translation here.
 crs#:#crs_members_print_title#:#Clanovi kursa
 crs#:#crs_members_table#:#Course Participants###20 Jul 2006 new variable
 crs#:#crs_members_title#:#Clanovi kursa
@@ -3942,8 +4109,8 @@ crs#:#crs_moved_objective#:#Pomereni ciljevi ucenja.
 crs#:#crs_new_search#:#Nova pretraga
 crs#:#crs_new_subscription#:#Nova prijava na kurs###23 Dec 2005 content changed
 crs#:#crs_new_subscription_body#:#Novi korisnik je prijavljen###23 Dec 2005 content changed
-crs#:#crs_new_subscription_request#:#Request to join course "%s"###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request#:#Request to join course "%s"
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
 crs#:#crs_no_archive_selected#:#Nijedna arhiva nije selektovana
 crs#:#crs_no_archives_available#:#Nema raspoloživih arhiva
 crs#:#crs_no_archives_selected#:#Molimo odaberite arhivu
@@ -4026,15 +4193,23 @@ crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list###09 Jul 2005 new variable
 crs#:#crs_print_list#:#Odštampaj spisak
 crs#:#crs_question_assignment#:#Raspodela pitanja
+crs#:#crs_reg#:#Registration ### 2006-8-11 --- Add new translation here.
+crs#:#crs_reg_deactivated#:#Disabled ### 2006-8-11 --- Add new translation here.
+crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time. ### 2006-8-11 --- Add new translation here.
 crs#:#crs_reg_subscription_deactivated#:#Registracija je onemogucena
 crs#:#crs_reg_subscription_end_earlier#:#Vreme za registraciju je isteklo
 crs#:#crs_reg_subscription_max_members_reached#:#Maksimalan broj korisnika je premašen
 crs#:#crs_reg_subscription_start_later#:#Vreme za registraciju pocinje kasnije
+crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration procedures below. ### 2006-8-11 --- Add new translation here.
 crs#:#crs_reg_until#:#Datum registracije###23 Dec 2005 content changed
 crs#:#crs_reg_user_already_assigned#:#Vec ste se perijavili na ovaj kurs
 crs#:#crs_reg_user_already_subscribed#:#Vec ste se pretplatili na ovaj kurs###23 Dec 2005 content changed
 crs#:#crs_reg_user_blocked#:#Blokirani ste od strane ovog kursa
 crs#:#crs_registration#:#Registracija kursa
+crs#:#crs_registration_deactivated#:#Choose this option for disabling course registration. No user can join this course. ### 2006-8-11 --- Add new translation here.
+crs#:#crs_registration_limited#:#Limited Registration Period ### 2006-8-11 --- Add new translation here.
+crs#:#crs_registration_type#:#Registration Procedure ### 2006-8-11 --- Add new translation here.
+crs#:#crs_registration_unlimited#:#Unlimited Registration Period ### 2006-8-11 --- Add new translation here.
 crs#:#crs_reject_subscriber#:#Pretplata na kurs###23 Dec 2005 content changed
 crs#:#crs_reject_subscriber_body#:#Vaša pretplata je odbijena.###23 Dec 2005 content changed
 crs#:#crs_reset_results#:#Vrati rezultate
@@ -4050,6 +4225,7 @@ crs#:#crs_select_exactly_one_tst#:#Molimo odaberite samo jedan test
 crs#:#crs_select_native_lm#:#Samostalna poglavlja mogu jedino biti dodeljena izvornim ILIAS metodama ucenja.
 crs#:#crs_select_one_archive#:#Molimo odaberite jednu arhivu.
 crs#:#crs_select_one_object#:#Molimo odaberite jedan predmet kursa.
+crs#:#crs_select_registration_type#:#Please select an admittance procedure. ### 2006-8-11 --- Add new translation here.
 crs#:#crs_select_starter#:#Odaberite pocetni predmet.###10 Jul 2006 content changed
 crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Podešavanja kursa###10 Jul 2006 content changed
@@ -4153,6 +4329,10 @@ crs#:#crs_view_mode#:#Course Presentation###15 Jul 2006 new variable
 crs#:#crs_view_objective#:#Objective Oriented View###15 Jul 2006 new variable
 crs#:#crs_view_standard#:#Standard View###15 Jul 2006 new variable
 crs#:#crs_view_timing#:#Timings View###15 Jul 2006 new variable
+crs#:#crs_visibility#:#Availability ### 2006-8-11 --- Add new translation here.
+crs#:#crs_visibility_limitless#:#Unlimited ### 2006-8-11 --- Add new translation here.
+crs#:#crs_visibility_until#:#Temporarily Available ### 2006-8-11 --- Add new translation here.
+crs#:#crs_visibility_unvisible#:#Not Available ### 2006-8-11 --- Add new translation here.
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###23 Dec 2005 new variable
 crs#:#crs_waiting_list#:#Waiting list###09 Jul 2005 new variable
 crs#:#crs_xml#:#XML
@@ -4210,6 +4390,7 @@ crs#:#events#:#Events###10 Jul 2006 new variable
 crs#:#events_deleted#:#Event deleted###10 Jul 2006 new variable
 crs#:#import_crs#:#Import course###03 Nov 2005 new variable
 crs#:#learners_view#:#Pregled ucenika
+crs#:#subscription_times_not_valid#:#The registration period is not valid. ### 2006-8-11 --- Add new translation here.
 crs#:#timing_accept_table#:####10 Jul 2006 new variable
 crs#:#timing_accepted#:#Accepted###22 Jul 2006 new variable
 crs#:#timing_not_accepted#:#Not Accepted###22 Jul 2006 new variable
@@ -4230,43 +4411,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-dateplaner#:#DateText#:#Poruka
-dateplaner#:#Day_long#:#Dnevni pregled
-dateplaner#:#ERROR_DATE_EXISTS#:#Ovaj datum vec postoji.###02 Aug 2005 content changed
-dateplaner#:#ERROR_DB#:#Pisana greška baze podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-dateplaner#:#ERROR_DB_CONNECT#:#Baza podataka je iskljucena
-dateplaner#:#ERROR_DEL_MSG#:#Ovo je vraceni datum. Da li bite želeli da obrišete jedan datum ili seriju###02 Aug 2005 content changed
-dateplaner#:#ERROR_ENDDATE#:#Pogrešan unos datuma završetka. Format: dd/mm/gggg ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-dateplaner#:#ERROR_ENDTIME#:#Pogrešno vreme završetka. Format: cc:mm
-dateplaner#:#ERROR_END_START#:#Pogrešan unos krajnjeg datuma. Datum završetka je pre datuma pocetka.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Molimo preuzmite valjanu CSV datoteku.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>vaš pretraživac ne prihvata JavaScript.<br />Molimo manuelno zatvorite Prozor posle ubacivanja.<br />Hvala vam</CENTER><B>###10 Jul 2006 content changed
-dateplaner#:#ERROR_ROTATIONEND#:#Vracanje pogrešnog unosa datuma završetka. Format: dd/mm/gggg ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-dateplaner#:#ERROR_ROT_END_START#:#Vracanje pogrešnog unosa datuma završetka. Vracanje datuma završetka pre datuma pocetka.
-dateplaner#:#ERROR_SHORTTEXT#:#Pogrešan unos kratkog teksta. Kratki tekst je zahtevan.
-dateplaner#:#ERROR_STARTDATE#:#Pogrešan unos datuma pocetka. Format: dd/mm/gggg ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-dateplaner#:#ERROR_STARTTIME#:#Pogrešno vreme pocetka. Format: cc:mm
-dateplaner#:#ERROR_TS#:#Nepravilan format datuma
-dateplaner#:#Fr_long#:#Petak
-dateplaner#:#Fr_short#:#Pet
-dateplaner#:#Language_file#:#Engleski
-dateplaner#:#Listbox_long#:#Spisak datuma###02 Aug 2005 content changed
-dateplaner#:#Mo_long#:#Ponedeljak
-dateplaner#:#Mo_short#:#Pon
-dateplaner#:#Month_long#:#Mesecni pregled
-dateplaner#:#Sa_long#:#Subota
-dateplaner#:#Sa_short#:#Sub
-dateplaner#:#Su_long#:#Nedelja
-dateplaner#:#Su_short#:#Ned
-dateplaner#:#Text#:#tekst
-dateplaner#:#Th_long#:#Cetvrtak
-dateplaner#:#Th_short#:#Cet
-dateplaner#:#Tu_long#:#Utorak
-dateplaner#:#Tu_short#:#Ut
-dateplaner#:#View#:#Pregled:
-dateplaner#:#We_long#:#Sreda
-dateplaner#:#We_short#:#Sre
-dateplaner#:#Week_long#:#Nedeljni pregled
 dateplaner#:#add_data#:#Dodatni podaci###02 Aug 2005 content changed
 dateplaner#:#app_#:#grupiši datume ulazne pošte###02 Aug 2005 content changed
 dateplaner#:#app_date#:#ubaci datum###02 Aug 2005 content changed
@@ -4283,19 +4427,20 @@ dateplaner#:#back#:#nazad###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Datum pocetka
 dateplaner#:#busytime#:#zauzeto vreme grupe###02 Aug 2005 content changed
 dateplaner#:#c_date#:#Kreiraj datum###02 Aug 2005 content changed
-dateplaner#:#changeTo#:#Promeni u:
 dateplaner#:#changedDates#:#Promenjeni datumi###02 Aug 2005 content changed
+dateplaner#:#changeTo#:#Promeni u:
 dateplaner#:#checkforfreetime#:#Proveri slobodno vreme
 dateplaner#:#created#:#Kreirano
 dateplaner#:#date#:#datum
 dateplaner#:#date_format#:#m/d/G C:m
-dateplaner#:#date_format_middle#:#m/d/G ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#date_format_middle#:#m/d/G 
+dateplaner#:#DateText#:#Poruka
+dateplaner#:#Day_long#:#Dnevni pregled
 dateplaner#:#del_all#:#obriši sve datume###02 Aug 2005 content changed
 dateplaner#:#del_one#:#obriši jedan datum###02 Aug 2005 content changed
 dateplaner#:#delete#:#obriši###02 Aug 2005 content changed
 dateplaner#:#deletedDates#:#obrisani datumi###02 Aug 2005 content changed
 dateplaner#:#discard#:#odbaci###02 Aug 2005 content changed
-dateplaner#:#dv_Grouptime#:#slobodno vreme drugih clanova grupe (uhvati vreme)###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#poništi
 dateplaner#:#dv_button_delete#:#Obriši
 dateplaner#:#dv_button_insert#:#Ubaci
@@ -4305,6 +4450,7 @@ dateplaner#:#dv_date_end#:#Završni datum:
 dateplaner#:#dv_date_hm#:#Cas:Minut
 dateplaner#:#dv_enddate#:#Završni datum:
 dateplaner#:#dv_groupselect#:#Grupiši odabir:
+dateplaner#:#dv_Grouptime#:#slobodno vreme drugih clanova grupe (uhvati vreme)###02 Aug 2005 content changed
 dateplaner#:#dv_groupview#:#Grupiši datum:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupiši:<br />
 dateplaner#:#dv_keywords#:#Kljucne reci:
@@ -4323,9 +4469,26 @@ dateplaner#:#dv_whole_day#:#Ceo dan:
 dateplaner#:#dv_whole_rotation#:#Da li biste želeli da obrišete celu seriju vracanja? (klikni na ispitni okvir)
 dateplaner#:#end_date#:#Datum završetka
 dateplaner#:#endtime_for_view#:#Vreme završetka za pregled:
+dateplaner#:#ERROR_DATE_EXISTS#:#Ovaj datum vec postoji.###02 Aug 2005 content changed
+dateplaner#:#ERROR_DB#:#Pisana greška baze podataka. 
+dateplaner#:#ERROR_DB_CONNECT#:#Baza podataka je iskljucena
+dateplaner#:#ERROR_DEL_MSG#:#Ovo je vraceni datum. Da li bite želeli da obrišete jedan datum ili seriju###02 Aug 2005 content changed
+dateplaner#:#ERROR_END_START#:#Pogrešan unos krajnjeg datuma. Datum završetka je pre datuma pocetka.
+dateplaner#:#ERROR_ENDDATE#:#Pogrešan unos datuma završetka. Format: dd/mm/gggg 
+dateplaner#:#ERROR_ENDTIME#:#Pogrešno vreme završetka. Format: cc:mm
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Molimo preuzmite valjanu CSV datoteku.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>vaš pretraživac ne prihvata JavaScript.<br />Molimo manuelno zatvorite Prozor posle ubacivanja.<br />Hvala vam</CENTER><B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#Nije moguce kreirati GD-picture-stream
+dateplaner#:#ERROR_ROT_END_START#:#Vracanje pogrešnog unosa datuma završetka. Vracanje datuma završetka pre datuma pocetka.
+dateplaner#:#ERROR_ROTATIONEND#:#Vracanje pogrešnog unosa datuma završetka. Format: dd/mm/gggg 
+dateplaner#:#ERROR_SHORTTEXT#:#Pogrešan unos kratkog teksta. Kratki tekst je zahtevan.
+dateplaner#:#ERROR_STARTDATE#:#Pogrešan unos datuma pocetka. Format: dd/mm/gggg 
+dateplaner#:#ERROR_STARTTIME#:#Pogrešno vreme pocetka. Format: cc:mm
+dateplaner#:#ERROR_TS#:#Nepravilan format datuma
 dateplaner#:#execute#:#izvedi izbore###02 Aug 2005 content changed
 dateplaner#:#extra_dates#:#Jedan dan datuma###02 Aug 2005 content changed
+dateplaner#:#Fr_long#:#Petak
+dateplaner#:#Fr_short#:#Pet
 dateplaner#:#free#:#slobodno ###02 Aug 2005 content changed
 dateplaner#:#freetime#:#slobodno vreme u grupi###02 Aug 2005 content changed
 dateplaner#:#group#:#grupa###02 Aug 2005 content changed
@@ -4346,9 +4509,9 @@ dateplaner#:#help_group_l#:#Sadrži grupe za koje prijavljeni korisnik ima admin
 dateplaner#:#help_inbox#:#Kalendar ulazne pošte
 dateplaner#:#help_inbox_l#:#Ovde su prikazani svi novi, promenjeni i obrisani grupni sastanci.###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Selekcija kljucne reci
+dateplaner#:#help_keyword_l#:#Sadrži kljucne reci uz pomoc kojih korisnik može zakazivati sastanke.
 dateplaner#:#help_keywordUse#:#Selekcija kljucne reci
 dateplaner#:#help_keywordUse_l#:#Izaberite jednu ili više kljucnih reci iz okvira za dijalog.<br />Ukucajte:koristi CTRL taster za selektovanje nekoliko ulaza.
-dateplaner#:#help_keyword_l#:#Sadrži kljucne reci uz pomoc kojih korisnik može zakazivati sastanke.
 dateplaner#:#help_list#:#Kalendarski spisak sastanaka###02 Aug 2005 content changed
 dateplaner#:#help_list_l#:#Na listi sastanaka svi sastanci preko datog vremenskog perioda su prikazani.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Mesecni pregled Kalendara
@@ -4360,7 +4523,7 @@ dateplaner#:#help_properties_del_l#:#Izaberite kljucnu reci iz okvira za dijalog
 dateplaner#:#help_properties_import#:#Uvoz Outlook-CSV-datoteka
 dateplaner#:#help_properties_import_l#:#Ovde CSV-datoteka koja sadrži Outlook-sastanke može biti odabrana. Ti sastanci ce biti uneti u kalendar.###02 Aug 2005 content changed
 dateplaner#:#help_properties_new#:#Dodaj kljucnu rec, max. 20 karaktera
-dateplaner#:#help_properties_new_l#:#Dodaj novu kljucnu rec u polje<"\"new\". Važno: max. 20 karaktera. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+dateplaner#:#help_properties_new_l#:#Dodaj novu kljucnu rec u polje<"\"new\". Važno: max. 20 karaktera. 
 dateplaner#:#help_properties_time#:#Prikaži vreme za dnevni pregled/mesecni pregled
 dateplaner#:#help_properties_time_l#:#Standardno prikazano vreme za dnevni i nedeljni pregled može biti promenjeno. Ako su sastanci izvan prikazanog vremena za date dane ili neh-delju, prikazano vreme bice bromenjeno za taj vremenski razmak. Standard je  8h-18h.
 dateplaner#:#help_rotation#:#Vracanje
@@ -4383,7 +4546,9 @@ dateplaner#:#k_alldates#:#svi sastanci###02 Aug 2005 content changed
 dateplaner#:#keep#:#cuvaj###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Kljucna rec:
 dateplaner#:#keywords#:#Kljucne reci:
+dateplaner#:#Language_file#:#Engleski
 dateplaner#:#last_change#:#Poslednja promena
+dateplaner#:#Listbox_long#:#Spisak datuma###02 Aug 2005 content changed
 dateplaner#:#long_01#:#Januar
 dateplaner#:#long_02#:#februar
 dateplaner#:#long_03#:#Mart
@@ -4399,13 +4564,16 @@ dateplaner#:#long_12#:#Decembar
 dateplaner#:#main_dates#:#Glavni sastanci###02 Aug 2005 content changed
 dateplaner#:#menue#:#Meni
 dateplaner#:#mmonth#:#prošli mesec###02 Aug 2005 content changed
+dateplaner#:#Mo_long#:#Ponedeljak
+dateplaner#:#Mo_short#:#Pon
 dateplaner#:#month#:#mesec###02 Aug 2005 content changed
+dateplaner#:#Month_long#:#Mesecni pregled
 dateplaner#:#more#:#više###02 Aug 2005 content changed
 dateplaner#:#mweek#:#prošla nedelja###02 Aug 2005 content changed
 dateplaner#:#myeahr#:#prošla godina###02 Aug 2005 content changed
+dateplaner#:#new_doc#:#kreiraj novi sastanak###02 Aug 2005 content changed
 dateplaner#:#newDates#:#Novi sastanci###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Novo:
-dateplaner#:#new_doc#:#kreiraj novi sastanak###02 Aug 2005 content changed
 dateplaner#:#no_entry#:#nema raspoloživih datuma###02 Aug 2005 content changed
 dateplaner#:#o_day_date#:#24-casovni sastanak###02 Aug 2005 content changed
 dateplaner#:#of#:#od
@@ -4426,6 +4594,8 @@ dateplaner#:#r_year#:#svake godine###02 Aug 2005 content changed
 dateplaner#:#readimportfile#:#ubaci###02 Aug 2005 content changed
 dateplaner#:#rotation#:#vracanje
 dateplaner#:#rotation_dates#:#povratni sastanci###02 Aug 2005 content changed
+dateplaner#:#Sa_long#:#Subota
+dateplaner#:#Sa_short#:#Sub
 dateplaner#:#semester_name#:#Naziv polugodišta
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -4442,13 +4612,24 @@ dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Kratak tekst
 dateplaner#:#singleDate#:#jedan sastanak###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Pocetno vreme za pregled:
+dateplaner#:#Su_long#:#Nedelja
+dateplaner#:#Su_short#:#Ned
+dateplaner#:#Text#:#tekst
+dateplaner#:#Th_long#:#Cetvrtak
+dateplaner#:#Th_short#:#Cet
 dateplaner#:#timedate#:#Vreme / datum
 dateplaner#:#timeslice#:#Vreme:
 dateplaner#:#title#:#ILIAS kalendar
 dateplaner#:#to#:#za
 dateplaner#:#today#:#danas###02 Aug 2005 content changed
+dateplaner#:#Tu_long#:#Utorak
+dateplaner#:#Tu_short#:#Ut
+dateplaner#:#View#:#Pregled:
 dateplaner#:#viewlist#:#Pregled###02 Aug 2005 content changed
+dateplaner#:#We_long#:#Sreda
+dateplaner#:#We_short#:#Sre
 dateplaner#:#week#:#nedelja###02 Aug 2005 content changed
+dateplaner#:#Week_long#:#Nedeljni pregled
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#godina###02 Aug 2005 content changed
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4462,8 +4643,9 @@ exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
 exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
 exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
 forum#:#forum_anonymize#:#Write anonymously###23 Dec 2005 new variable
-forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+forum#:#forum_anonymize_desc#:#Write this message anonymously (your ILIAS user name won't be shown anywhere).
 forum#:#forums#:#Forumi
+forum#:#forums_all_threads_marked_read#:#All threads have been marked as read ### 2006-8-11 --- Add new translation here.
 forum#:#forums_attachments#:#Dodaci
 forum#:#forums_attachments_add#:#Dodaj dodatak
 forum#:#forums_attachments_edit#:#Uredi dodatak
@@ -4472,13 +4654,14 @@ forum#:#forums_censor_comment#:#Komentar kriticara
 forum#:#forums_count#:#Broj foruma
 forum#:#forums_count_art#:#Broj clanaka
 forum#:#forums_count_thr#:#Broj navoja
+forum#:#forums_created_by#:#Created by ### 2006-8-11 --- Add new translation here.
 forum#:#forums_delete_file#:#Obriši dodatak
 forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new variable
 forum#:#forums_download_attachment#:#Prevuci datoteku
 forum#:#forums_edit_post#:#Uredi clanak
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
-forum#:#forums_info_censor2_post#:#Opozvati cenzuru?
 forum#:#forums_info_censor_post#:#Da li ste sigurni da želite da sakrijete ovaj clanak?
+forum#:#forums_info_censor2_post#:#Opozvati cenzuru?
 forum#:#forums_info_delete_post#:#Da li ste sigurni da želite da obrišete ovaj clanak ukljucujuci i reagovanja?
 forum#:#forums_mark_read#:#Markiraj sve procitano
 forum#:#forums_new_entries#:#Novi unosi na forumu
@@ -4498,6 +4681,7 @@ forum#:#forums_post_new_entry#:#Novi clanak je kreiran
 forum#:#forums_posts#:#Svi clanci
 forum#:#forums_posts_not_available#:#Clanci nisu dostupni
 forum#:#forums_print_thread#:#Štampaj stupce
+forum#:#forums_print_view#:#Print view ### 2006-8-11 --- Add new translation here.
 forum#:#forums_quote#:#Citat
 forum#:#forums_respond#:#postavljen odgovor
 forum#:#forums_subject#:#Tema
@@ -4537,8 +4721,8 @@ ilinc#:#ilinc_user_added#:#User account created on iLinc server###10 Jul 2006 ne
 ilinc#:#ilinc_user_id#:#iLinc UserID###10 Jul 2006 new variable
 ilinc#:#ilinc_user_settings#:#iLinc User settings###10 Jul 2006 new variable
 jscalendar#:#about_calendar#:#O Kalendaru
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nZa poslednju verziju posetite: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Pogledajte radi detalja i http://gnu.org/licenses/lgpl.html.\n\nDatum odabira:\n- Koristite «, » dugmad kako biste odabrali godinu \n- Koristite <, > kako biste odabrali mesec\n- Zadržite taster miša na nekom od gore pomenutih dugmadi radi brže selekcije. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\n\n Odabir vremena\n- kliknite na bilo koji deo vremena kako biste ga uvecali \n- ili Shift-klik kako biste ga umanjili\n- ili kliknite i izvucite radi brže selekcije. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nZa poslednju verziju posetite: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Pogledajte radi detalja i http://gnu.org/licenses/lgpl.html.\n\nDatum odabira:\n- Koristite «, » dugmad kako biste odabrali godinu \n- Koristite <, > kako biste odabrali mesec\n- Zadržite taster miša na nekom od gore pomenutih dugmadi radi brže selekcije. 
+jscalendar#:#about_time#:#\n\n Odabir vremena\n- kliknite na bilo koji deo vremena kako biste ga uvecali \n- ili Shift-klik kako biste ga umanjili\n- ili kliknite i izvucite radi brže selekcije. 
 jscalendar#:#close#:#Zatvori
 jscalendar#:#day_first#:#Prikaži %s prvo
 jscalendar#:#def_date_format#:#5G-%m-%d
@@ -4738,7 +4922,7 @@ meta#:#meta_c_CA#:#Kanada
 meta#:#meta_c_CC#:#Cocos (Keeling) Islands
 meta#:#meta_c_CF#:#Centralno Africka Republika
 meta#:#meta_c_CG#:#Kongo
-meta#:#meta_c_CH#:#Švajcarska ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_c_CH#:#Švajcarska 
 meta#:#meta_c_CI#:#Obala Slonovace###10 Jul 2006 content changed
 meta#:#meta_c_CK#:#Kukova Ostrva
 meta#:#meta_c_CL#:#Cile
@@ -4884,7 +5068,7 @@ meta#:#meta_c_SA#:#Saudijska Arabija
 meta#:#meta_c_SB#:#Solomoni
 meta#:#meta_c_SC#:#Sejšeli
 meta#:#meta_c_SD#:#Sudan
-meta#:#meta_c_SE#:#Švedska ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_c_SE#:#Švedska 
 meta#:#meta_c_SG#:#Singapur
 meta#:#meta_c_SH#:#Sv. Jelena
 meta#:#meta_c_SI#:#Slovenija
@@ -4899,7 +5083,7 @@ meta#:#meta_c_ST#:#Sao Tome i Principe
 meta#:#meta_c_SV#:#Salvador
 meta#:#meta_c_SY#:#Sirijska Arapska Republika
 meta#:#meta_c_SZ#:#Svazilend
-meta#:#meta_c_TC#:#Turkes i Kejkes ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_c_TC#:#Turkes i Kejkes 
 meta#:#meta_c_TD#:#Cad
 meta#:#meta_c_TF#:#Južne Francuske Teritorije
 meta#:#meta_c_TG#:#Togo
@@ -4918,7 +5102,7 @@ meta#:#meta_c_TZ#:#Tanzanija
 meta#:#meta_c_UA#:#Ukrajina
 meta#:#meta_c_UG#:#Uganda
 meta#:#meta_c_UM#:#Americka mala udaljena ostrva
-meta#:#meta_c_US#:#S.A.D. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_c_US#:#S.A.D. 
 meta#:#meta_c_UY#:#Urugvaj
 meta#:#meta_c_UZ#:#Ubekistan
 meta#:#meta_c_VA#:#Vatikan
@@ -5017,7 +5201,7 @@ meta#:#meta_l_ay#:#Aymara
 meta#:#meta_l_az#:#Azerbejdžanski
 meta#:#meta_l_ba#:#Bashkir
 meta#:#meta_l_be#:#Beloruski
-meta#:#meta_l_bg#:#Bugarski ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_l_bg#:#Bugarski 
 meta#:#meta_l_bh#:#Bihari
 meta#:#meta_l_bi#:#Bislamski
 meta#:#meta_l_bn#:#Bengali
@@ -5043,7 +5227,7 @@ meta#:#meta_l_fo#:#Faranski
 meta#:#meta_l_fr#:#Francuski
 meta#:#meta_l_fy#:#Frisian
 meta#:#meta_l_ga#:#Irski
-meta#:#meta_l_gd#:#Škotski ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_l_gd#:#Škotski 
 meta#:#meta_l_gl#:#Galicijski
 meta#:#meta_l_gn#:#Guarani
 meta#:#meta_l_gu#:#Gujarati
@@ -5184,7 +5368,7 @@ meta#:#meta_or_composite#:#Ili složen
 meta#:#meta_other#:#drugo
 meta#:#meta_other_plattform_requirements#:#drugi zahtevi programa rada
 meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Molimo odaberite ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_please_select#:#Molimo odaberite 
 meta#:#meta_prerequisite#:#Preduslov
 meta#:#meta_problem_statement#:#Problemski izveštaj
 meta#:#meta_publisher#:#Izdavac
@@ -5224,7 +5408,7 @@ meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
 meta#:#meta_title#:#Naziv
 meta#:#meta_training#:#Trening
 meta#:#meta_type#:#Vrsta resursa ucenja
-meta#:#meta_typical_age_range#:#Tipicnan starosni domet ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+meta#:#meta_typical_age_range#:#Tipicnan starosni domet 
 meta#:#meta_typical_learning_time#:#Tiicno vreme ucenja
 meta#:#meta_unavailable#:#Nedostubn
 meta#:#meta_unix#:#Unix
@@ -5240,7 +5424,7 @@ meta#:#meta_yes#:#Da
 payment#:#currency_cent#:#Cent
 payment#:#currency_euro#:#Evro
 payment#:#duration#:#Trajanje
-payment#:#excel_export#:#Excel izvoz ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#excel_export#:#Excel izvoz 
 payment#:#info#:#Informacije o nacinu placanja
 payment#:#pay_add_to_shopping_cart#:#Dodaj u kolica za kupovinu
 payment#:#pay_added_to_shopping_cart#:#Dodat predmet u kolica za kupovinu.
@@ -5262,8 +5446,8 @@ payment#:#pay_bmf_credit_card_not_valid#:#Podaci o kreditnoj kartici koje ste un
 payment#:#pay_bmf_debit_entry#:#unos zaduženja (samo racuni nemacke banke)
 payment#:#pay_bmf_debit_entry_data#:#unos zaduženja
 payment#:#pay_bmf_debit_entry_not_valid#:#Podaci o zaduženju koje ste uneli nisu validni. Molimo proverite da li ste pravilno popunili sva polja.###10 Jul 2006 content changed
-payment#:#pay_bmf_description_credit_card#:#Proverite da li su svi clanci koje želite da porucite u kolicima za kupovinu. Popunjavanjem vaših podataka sa kreditne kartice i klikom na dugme "Sacuvaj" potvrdujete ono što želite da porucite, što odmah pocinje. Provera podataka može potrajati nekoliko sekundi. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_debit_entry#:#Proverite da li su svi clanci koje želite da porucite u kolicima za kupovinu. Popunjavanjem vaših podataka o zaduženju i klikom na dugme "Sacuvaj" potvrdujete ono što želite da porucite, što odmah pocinje. Provera podataka može potrajati nekoliko sekundi. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_description_credit_card#:#Proverite da li su svi clanci koje želite da porucite u kolicima za kupovinu. Popunjavanjem vaših podataka sa kreditne kartice i klikom na dugme "Sacuvaj" potvrdujete ono što želite da porucite, što odmah pocinje. Provera podataka može potrajati nekoliko sekundi. 
+payment#:#pay_bmf_description_debit_entry#:#Proverite da li su svi clanci koje želite da porucite u kolicima za kupovinu. Popunjavanjem vaših podataka o zaduženju i klikom na dugme "Sacuvaj" potvrdujete ono što želite da porucite, što odmah pocinje. Provera podataka može potrajati nekoliko sekundi. 
 payment#:#pay_bmf_description_payment_type#:#Odaberite nacin placanja.
 payment#:#pay_bmf_description_personal_data#:#Popune ceo sledeci obrazac
 payment#:#pay_bmf_house_number#:#Broj kuce
@@ -5295,7 +5479,7 @@ payment#:#pay_confirm_order#:#Molimo potvrdite vašu porudžbinu unošenjev svoj
 payment#:#pay_customer_no#:#Kupac br.
 payment#:#pay_deleted_booking#:#Unos je obrisan
 payment#:#pay_deleted_items#:#Odabrani predmeti su obrisani.
-payment#:#pay_ending#:#završava sa ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pay_ending#:#završava sa 
 payment#:#pay_entitled_retrieve#:#Potvrdi podatke za
 payment#:#pay_expires_info#:#Predmet je raspoloživ. Placanje je isteklo. Ne možete ga kupiti.
 payment#:#pay_filter#:#filter
@@ -5377,7 +5561,7 @@ payment#:#paya_header#:#Administracija placanja
 payment#:#paya_insert_only_numbers#:#Molimo ubacite samo cele brojeve.
 payment#:#paya_locator#:#Administracija placanja
 payment#:#paya_months#:#Mesec(i)
-payment#:#paya_no_booking_id_given#:#Greška: nije data "identifikacija angažovanja" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#paya_no_booking_id_given#:#Greška: nije data "identifikacija angažovanja" 
 payment#:#paya_no_bookings#:#Statistika nije dostupna.
 payment#:#paya_no_object_selected#:#Molimo odaberite jedan predmet.
 payment#:#paya_no_objects_assigned#:#Nema predmeta za prodaju.
@@ -5438,14 +5622,14 @@ payment#:#pays_edit_vendor#:#Uredi korisnika
 payment#:#pays_email_vendor#:#E-Mail address of the vendor###10 Jul 2006 new variable
 payment#:#pays_general#:#General###10 Jul 2006 new variable
 payment#:#pays_general_settings#:#Opšta podešavanja
-payment#:#pays_general_settings_not_valid#:#Vaša opšta podešavanja nisu ispravna. Molimo proverite da li su sva polja pravilno popunjena. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_general_settings_not_valid#:#Vaša opšta podešavanja nisu ispravna. Molimo proverite da li su sva polja pravilno popunjena. 
 payment#:#pays_header_select_vendor#:#Odabir prodavca
 payment#:#pays_no_username_given#:#Nema datih korisnickih imena
 payment#:#pays_no_valid_username_given#:#Nema važecih datih korisnickih imena
 payment#:#pays_no_vendor_selected#:#Nema odabranog prodavca
 payment#:#pays_number_bookings#:#Aktiviraj angažovanje
-payment#:#pays_objects_bill_exist#:#Nacin placanja 'racun' je aktiviran za neke objekte. Zbog toga ne može biti deaktiviran. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-payment#:#pays_objects_bmf_exist#:#Nacin placanja 'BMF' je aktiviran za neke objekte. Zbog toga ne može biti deaktiviran. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bill_exist#:#Nacin placanja 'racun' je aktiviran za neke objekte. Zbog toga ne može biti deaktiviran. 
+payment#:#pays_objects_bmf_exist#:#Nacin placanja 'BMF' je aktiviran za neke objekte. Zbog toga ne može biti deaktiviran. 
 payment#:#pays_objects_paypal_exist#:#Pay method 'PayPal' is activated for some objects. Therefore it can not be deactivated.###10 Jul 2006 new variable
 payment#:#pays_offline#:#Nezavisno
 payment#:#pays_online#:#Na vezi
@@ -5469,20 +5653,20 @@ payment#:#price_a#:#Cena
 payment#:#prices#:#Cene
 payment#:#update#:#Ažuriraj
 pwassist#:#password_assistance#:#Pomoc oko lozinke
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_enter_username_and_email#:#Unesite korisnicko ime i povezane email adrese u polja prikazana dole.\nILIAS ce oslati poruku na tu email adresu. Poruka sadrži adresu za web stranicu gde možete uneti novu lozinku za korisnicki nalog.\nU slucaju da niste u mogucnosti da prijavite lozinku za vaš korisnicki nalog koristeci ovu formu, kontaktirajte vašeg administratora kursa ili pošaljite email %1$s. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Unesite korisnicko ime i povezane email adrese u polja prikazana dole.\nILIAS ce oslati poruku na tu email adresu. Poruka sadrži adresu za web stranicu gde možete uneti novu lozinku za korisnicki nalog.\nU slucaju da niste u mogucnosti da prijavite lozinku za vaš korisnicki nalog koristeci ovu formu, kontaktirajte vašeg administratora kursa ili pošaljite email %1$s. 
 pwassist#:#pwassist_enter_username_and_new_password#:#Unesite korisnicko ime i novu lozinku zu polja za unos.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Molimo ispravite tekst u polja za unos.\nKorisnicko ime i email adresa koje ste uneli ne odgovaraju nijednom unosu iz baze podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_login_not_match#:#Molimo unesite drugo korisnicko ime.\nKorisnicko ime koje ste uneli ne odgovara korisnickom imenu za koje ste tražili pomoc oko lozinke. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#Registrujte novu lozinku za vaš korisnicki nalog.\n\t%1$s\n\nOva poruka je automatski generisana uz pomoc ILIAS servera\n\t%2$s\n\nVi (ili neko na %3$s) ste tražili pomoc oko lozinke za korisnicki nalog "%4$s".\n\n Molimo pažljivo proverite dole navedene uslove u u skladu postupite:\n\n- Ukoliko ste koristili model pomoci oko lozinke ILIAS servera slucajno:\nObrišite ovu poruku.\n\n-Ako ste sigurni da nikada necete tražiti pomoc oko lozinke na ILIAS serveru:\nMolimo obratite se %5$s. \n\n Ako ste tražili pomoc oko lozinke, molimo postupite na sledeci nacin:\n\n1. Otvorite vaš pretraživac.\n\n2. Unesite sledecu adresu u vaš pretraživac.\n\t%1$s\n\n Važno:Adresa je jedan red. Ukoliko vidite ovu adresu razdvojenu u više redova onda je vaš program ubacio razmeke izmedu redova.\n\n3. Na web stranici prikazanoj od strane vašeg pretraživaca unesite novu lozinku za vaš korisnicki nalog.\n\nMolimo vas da obratite pažnju da, iz bezbednosnih razloga, možete izvesti samo tri koraka tacno jedanput i to u ogranicenom vremenu. Posle toga adresa postaje nevažeca i morate ponovo koristiti pomoc oko lozinke na ILIAS serveru. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#Poruka je poslata %1$s.\nMolimo proverite vaše poštansko sanduce. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.
+pwassist#:#pwassist_invalid_username_or_email#:#Molimo ispravite tekst u polja za unos.\nKorisnicko ime i email adresa koje ste uneli ne odgovaraju nijednom unosu iz baze podataka. 
+pwassist#:#pwassist_login_not_match#:#Molimo unesite drugo korisnicko ime.\nKorisnicko ime koje ste uneli ne odgovara korisnickom imenu za koje ste tražili pomoc oko lozinke. 
+pwassist#:#pwassist_mail_body#:#Registrujte novu lozinku za vaš korisnicki nalog.\n\t%1$s\n\nOva poruka je automatski generisana uz pomoc ILIAS servera\n\t%2$s\n\nVi (ili neko na %3$s) ste tražili pomoc oko lozinke za korisnicki nalog "%4$s".\n\n Molimo pažljivo proverite dole navedene uslove u u skladu postupite:\n\n- Ukoliko ste koristili model pomoci oko lozinke ILIAS servera slucajno:\nObrišite ovu poruku.\n\n-Ako ste sigurni da nikada necete tražiti pomoc oko lozinke na ILIAS serveru:\nMolimo obratite se %5$s. \n\n Ako ste tražili pomoc oko lozinke, molimo postupite na sledeci nacin:\n\n1. Otvorite vaš pretraživac.\n\n2. Unesite sledecu adresu u vaš pretraživac.\n\t%1$s\n\n Važno:Adresa je jedan red. Ukoliko vidite ovu adresu razdvojenu u više redova onda je vaš program ubacio razmeke izmedu redova.\n\n3. Na web stranici prikazanoj od strane vašeg pretraživaca unesite novu lozinku za vaš korisnicki nalog.\n\nMolimo vas da obratite pažnju da, iz bezbednosnih razloga, možete izvesti samo tri koraka tacno jedanput i to u ogranicenom vremenu. Posle toga adresa postaje nevažeca i morate ponovo koristiti pomoc oko lozinke na ILIAS serveru. 
+pwassist#:#pwassist_mail_sent#:#Poruka je poslata %1$s.\nMolimo proverite vaše poštansko sanduce. 
 pwassist#:#pwassist_mail_subject#:#ILIAS pomoc oko lozinke
-pwassist#:#pwassist_not_permitted#:#Molimo unesite drugo korisnicko ime. \nPomoc oko lozinke nije dopuštena za korisnicko ime koje ste uneli. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#Lozinka je uspešno dodeljena korisniku "%1$s". ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_session_expired#:#Molimo ponovo popune obrazac.\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Molimo kontaktirajte sistem administratora.\nLozinka ne može biti prijavljena korisnickom nalogu usled greške tokom ažuriranja baze podataka. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###19 May 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Molimo unesite drugo korisnicko ime. \nPomoc oko lozinke nije dopuštena za korisnicko ime koje ste uneli. 
+pwassist#:#pwassist_password_assigned#:#Lozinka je uspešno dodeljena korisniku "%1$s". 
+pwassist#:#pwassist_session_expired#:#Molimo ponovo popune obrazac.\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata. 
+pwassist#:#pwassist_update_error#:#Molimo kontaktirajte sistem administratora.\nLozinka ne može biti prijavljena korisnickom nalogu usled greške tokom ažuriranja baze podataka. 
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
 rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
@@ -5674,10 +5858,6 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Dodaj kategoriju###03 Nov 2005 content changed
 survey#:#add_heading#:#Dodaj zaglavlje
 survey#:#add_limits_for_standard_numbers#:#Molimo unesite donju i gornju granicu za standardne brojeve koje želite da dodate kao kategorije.###03 Nov 2005 content changed
@@ -5687,10 +5867,10 @@ survey#:#add_standard_numbers#:#Add standard numbers###03 Nov 2005 new variable
 survey#:#already_completed_survey#:#Vec ste popunili anketu! Ne možete ponovo pristupiti anketi.###05 Feb 2006 content changed
 survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Ova anketa cuva podatke o korisnicima. Da obezbedite pristup anketi morate koristiti 32-karakterni kod za anketu koji možete dobiti od autora/administratora ove ankete<br />Molimo unesite je u polje sa tekstom ispod.###10 Jul 2006 content changed
-survey#:#anonymize_key_introduction#:#Ova anketa cuva podatke o korisnicima. Da obezbedite pristup anketi, 32-karakterni kod je kreiran od strane sitema i bice poslat u vaše ILIAS poštansko sanduce kada stratujete anketu (pošto odgovorite na prvo pitanje) .Vaše pristpni kod za anketu je<br /><span class="bold">%s</span>.<br />Molimo unesite je u polje sa tekstom ispod. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_key_introduction#:#Ova anketa cuva podatke o korisnicima. Da obezbedite pristup anketi, 32-karakterni kod je kreiran od strane sitema i bice poslat u vaše ILIAS poštansko sanduce kada stratujete anketu (pošto odgovorite na prvo pitanje) .Vaše pristpni kod za anketu je<br /><span class="bold">%s</span>.<br />Molimo unesite je u polje sa tekstom ispod. 
 survey#:#anonymize_personalized#:#No anonymization###10 Jul 2006 new variable
 survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
-survey#:#anonymize_resume_introduction#:#Molimo unesite vaš pristupni kod za anketu da biste nastavili sa anketom. U vaše ILIAS poštansko sanduce poslato je kada ste zapoceli anketu. ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#anonymize_resume_introduction#:#Molimo unesite vaš pristupni kod za anketu da biste nastavili sa anketom. U vaše ILIAS poštansko sanduce poslato je kada ste zapoceli anketu. 
 survey#:#anonymize_survey#:#Ucini anonimnim anketne podatke
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code###10 Jul 2006 new variable
 survey#:#anonymize_without_code#:#Anonymization with free access to the survey###10 Jul 2006 new variable
@@ -5763,7 +5943,7 @@ survey#:#dc_no#:#ne
 survey#:#dc_notacceptable#:#nije prihvatljivo
 survey#:#dc_poor#:#slabo
 survey#:#dc_rarely#:#retko
-survey#:#dc_should#:#trebalo bi ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#dc_should#:#trebalo bi 
 survey#:#dc_shouldnot#:#ne bi trebalo
 survey#:#dc_sometimes#:#ponekad
 survey#:#dc_stronglyagree#:#jako saglasan
@@ -5781,27 +5961,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Ako nije unet maksimalan broj karaktera za ovo pitanje, odgovor je neogranicen.
 survey#:#disinvite#:#Nepozvan###03 Nov 2005 content changed
 survey#:#display_all_available#:#Prikaži sve raspoloživo
-survey#:#dp_standard_attitude_agree5#:#Standardni stav (jako saglasno-saglasno-neodlucno-neslaganje-veliko neslaganje)
 survey#:#dp_standard_attitude_agree_disagree#:#Standardni stav (saglasnost-nesaglasnost)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standardni stav (saglasnost-neodlucnost-nesaglasnost)
-survey#:#dp_standard_attitude_desired5#:#Standardni stav (veoma željeno-željeno-neutralno-neželjeno-veomaneželjeno)
+survey#:#dp_standard_attitude_agree5#:#Standardni stav (jako saglasno-saglasno-neodlucno-neslaganje-veliko neslaganje)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standardni stav (željeno-neutrano-neželjeno)
 survey#:#dp_standard_attitude_desired_undesired#:#Standardni stav (željeno-neželjeno)
-survey#:#dp_standard_attitude_good5#:#Standardni stav (veoma dobro-dobro-istinito-slabo-neprihvatljivo)
+survey#:#dp_standard_attitude_desired5#:#Standardni stav (veoma željeno-željeno-neutralno-neželjeno-veomaneželjeno)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standardni stav (dobro-istinito-neprihvatljivo)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standardni stav (dobro-neprihvatljivo)
+survey#:#dp_standard_attitude_good5#:#Standardni stav (veoma dobro-dobro-istinito-slabo-neprihvatljivo)
 survey#:#dp_standard_attitude_must5#:#Standardni stav (mora-trebalo bi-neodlucno-ne bi trebalo-ne sme)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standardni stav (trebalo bi-ne bi trebalo)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#standardni stav (trebalo bi-neodlucno-ne bi trebalo)
 survey#:#dp_standard_behaviour_certainly5#:#Standardno ponašanje (najsigurnije-više pozitivno-neodlucno-više negativno-nije najsigurnije)
 survey#:#dp_standard_behaviour_yes_no#:#Standardno ponašanje (da-ne)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standardno ponašanje (da-neodlucno-ne)
-survey#:#dp_standard_beliefs_always5#:#Standardna uverenja (uvek-više puta-variranje-retko-nikada)
 survey#:#dp_standard_beliefs_always_never#:#Standardna uverenja (uvek-nikada)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standardna uverenja (uvek-ponekad-nikada)
-survey#:#dp_standard_beliefs_true5#:#Standardna uverenja (definitivno istinito-istinito-pogrešno-definitivno pogrešno)
+survey#:#dp_standard_beliefs_always5#:#Standardna uverenja (uvek-više puta-variranje-retko-nikada)
 survey#:#dp_standard_beliefs_true_false#:#Standardna uverenja (istinito-pogrešno)
 survey#:#dp_standard_beliefs_true_undecided_false#:#standardna uverenja (istinito-neodlucno-pogrešno)
+survey#:#dp_standard_beliefs_true5#:#Standardna uverenja (definitivno istinito-istinito-pogrešno-definitivno pogrešno)
 survey#:#dp_standard_numbers#:#Standardni brojevi
 survey#:#duplicate#:#Umnoži
 survey#:#duplicate_svy#:#Umnoži anketu
@@ -5811,7 +5991,7 @@ survey#:#edit_heading#:#Uredi zaglavlje
 survey#:#end_date#:#Datum završetka
 survey#:#end_date_reached#:#Ne možete startovati anketu. Datum završetka je nastupio!
 survey#:#enter_anonymous_id#:#Pristupni anketni kod
-survey#:#enter_phrase_title#:#Molimo unesite naslov fraze ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#enter_phrase_title#:#Molimo unesite naslov fraze 
 survey#:#enter_questionblock_title#:#Molimo unesite naziv bloka pitanja!
 survey#:#enter_valid_number_of_codes#:#Molimo unesite validni broj kako bite generisali pristupne anketne kodove!
 survey#:#enter_value#:#Unesite vrednost
@@ -5847,7 +6027,13 @@ survey#:#glossary_term#:#Recnik termina
 survey#:#harmonic_mean#:#Harmonijska sredina
 survey#:#heading#:#Zaglavlje
 survey#:#horizontal#:#horizontalno
+survey#:#import_error_closing_file#:#Error closing the import file! ### 2006-8-11 --- Add new translation here.
+survey#:#import_error_opening_file#:#Error opening the import file! ### 2006-8-11 --- Add new translation here.
+survey#:#import_error_survey_no_proper_values#:#The survey properties do not contain proper values! ### 2006-8-11 --- Add new translation here.
+survey#:#import_error_survey_no_properties#:#No survey properties found. Cannot import the survey! ### 2006-8-11 --- Add new translation here.
+survey#:#import_no_file_selected#:#No file selected! ### 2006-8-11 --- Add new translation here.
 survey#:#import_question#:#Unesi pitanja
+survey#:#import_wrong_file_type#:#Wrong file type! ### 2006-8-11 --- Add new translation here.
 survey#:#insert_after#:#Ubaci posle
 survey#:#insert_before#:#Ubaci pre
 survey#:#insert_missing_question#:#Molimo odaberite najmanje jedno pitanja za ubacivanje u anketu!
@@ -5933,7 +6119,7 @@ survey#:#qpl_past_questions_confirmation#:#Da li ste sigurni da želite da zalep
 survey#:#qpl_phrases_deleted#:#Fraza je obrisana.
 survey#:#qpl_questions_deleted#:#Pitanja su obrisana.
 survey#:#qpl_questions_pasted#:#Pitanja su zalepljena.
-survey#:#qpl_savephrase_empty#:#Molimo unesite naslov fraze ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#qpl_savephrase_empty#:#Molimo unesite naslov fraze 
 survey#:#qpl_savephrase_exists#:#Naslov fraze vec postoji! Molimo unesite drugi naslov.
 survey#:#qpl_unfold_select_none#:#Molimo odaberite najmanje jedan blok pitanja ukoliko želite da sastavite blokove pitanja!
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###03 Nov 2005 new variable
@@ -5991,7 +6177,7 @@ survey#:#spl_select_file_for_import#:#Morate odabrati datoteku za unošenje!
 survey#:#start_date#:#Datum pocetka
 survey#:#start_date_not_reached#:#Ne možete zapoceti anketu dok datum pocetka nije dosegnut!
 survey#:#start_survey#:#zapocni anketu
-survey#:#subject_mail_survey_id#:#Vaš anketni kod za "%s" ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+survey#:#subject_mail_survey_id#:#Vaš anketni kod za "%s" 
 survey#:#subtype#:#Podvrsta
 survey#:#survey_code#:#Anketni pristupni kod
 survey#:#survey_code_message_sent#:#Anketni kod koji vam dozvoljava da vratite anketu poslat je u vaše poštansko sanduce!
@@ -6018,6 +6204,10 @@ survey#:#survey_skip_next#:#preskoci >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< preskoci###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#Preskoci i idi na pocetnu stranicu
 survey#:#survey_start#:#idi na pocetnu stranicu###25 Jul 2006 content changed
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#Svi korisnicki podaci ove ankete su obrisani!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
@@ -6191,7 +6381,7 @@ trac#:#trac_crs_members#:#Course members:###28 Feb 2006 new variable
 trac#:#trac_crs_objects#:#Learning progress of course members###10 Jul 2006 new variable
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
 trac#:#trac_crs_relevant_items#:#Course Materials###10 Jul 2006 new variable
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
 trac#:#trac_edit_progress#:#Edit learning progress###24 Jan 2006 new variable
 trac#:#trac_edit_time#:#Processing time###25 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
@@ -6210,7 +6400,7 @@ trac#:#trac_head_timing#:#Edit Until###10 Jul 2006 new variable
 trac#:#trac_hide#:#Hide###23 Dec 2005 new variable
 trac#:#trac_in_progress#:#In progress###23 Dec 2005 new variable
 trac#:#trac_inactive_both#:#User Tracking and Learning progress deactivated###10 Jul 2006 new variable
-trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.###24 Jan 2006 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.
 trac#:#trac_last_access#:#Last access###24 Jan 2006 new variable
 trac#:#trac_learning_progress#:#Learning progress###23 Dec 2005 new variable
 trac#:#trac_learning_progress_tbl_header#:#Learning progress of:###23 Dec 2005 new variable
@@ -6257,7 +6447,7 @@ trac#:#trac_reached_visits#:#Required visits###25 Feb 2006 new variable
 trac#:#trac_refresh#:#Refresh###23 Dec 2005 new variable
 trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
 trac#:#trac_required_visits#:#Number of required visits###20 Jan 2006 new variable
-trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed ### 2006-5-8 --- Content changed
+trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_select_one#:#You made no selection###20 Jan 2006 new variable
 trac#:#trac_settings#:#Settings###23 Dec 2005 new variable
 trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable

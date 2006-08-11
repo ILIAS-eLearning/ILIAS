@@ -35,6 +35,7 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analysis_options#:#Options d'analyse###08 may 2006 content changed
+administration#:#analyze_data#:#Analyze and repair data integrity ### 2006-8-11 --- Add new translation here.
 administration#:#analyzing#:#Analyse en cours...###07 Apr 2005 content changed
 administration#:#analyzing_tree_structure#:#Analyse de la structure de l'arborescence...###07 Apr 2005 content changed
 administration#:#check_tree#:#Vérifier structure de l'arborescence###07 Apr 2005 content changed
@@ -109,6 +110,7 @@ assessment#:#add_gap#:#Ajouter texte à trous###07 Apr 2005 content changed
 assessment#:#add_imagemap#:#Ajouter image réactive###07 Apr 2005 content changed
 assessment#:#add_matching_pair#:#Ajouter appariements###07 Apr 2005 content changed
 assessment#:#add_questionpool#:#Ajouter jeu de questions###07 Apr 2005 content changed
+assessment#:#add_solution#:#Add suggested solution ### 2006-8-11 --- Add new translation here.
 assessment#:#all_available_question_pools#:#Tous les jeux de questions disponibles###07 Apr 2005 content changed
 assessment#:#answer#:#Réponse###07 Apr 2005 content changed
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
@@ -121,6 +123,12 @@ assessment#:#applet_new_parameter#:#Nouveau paramètre###07 Apr 2005 content cha
 assessment#:#applet_parameter#:#Paramètre###07 Apr 2005 content changed
 assessment#:#applet_parameters#:#Paramètres de l'applet###07 Apr 2005 content changed
 assessment#:#apply#:#Appliquer###07 Apr 2005 content changed
+assessment#:#ass_create_export_file#:#Créerfichier d'exportation###07 Apr 2005 content changed
+assessment#:#ass_create_export_test_results#:#Exporter Résultats du test### 06 oct 2005 Content changed
+assessment#:#ass_export_files#:#Fichiers d'exportation###07 Apr 2005 content changed
+assessment#:#ass_file#:#Fichier###07 Apr 2005 content changed
+assessment#:#ass_question#:#Question###07 Apr 2005 content changed
+assessment#:#ass_size#:#Taille###07 Apr 2005 content changed
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -132,12 +140,6 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
-assessment#:#ass_create_export_file#:#Créerfichier d'exportation###07 Apr 2005 content changed
-assessment#:#ass_create_export_test_results#:#Exporter Résultats du test### 06 oct 2005 Content changed
-assessment#:#ass_export_files#:#Fichiers d'exportation###07 Apr 2005 content changed
-assessment#:#ass_file#:#Fichier###07 Apr 2005 content changed
-assessment#:#ass_question#:#Question###07 Apr 2005 content changed
-assessment#:#ass_size#:#Taille###07 Apr 2005 content changed
 assessment#:#available_points#:#Points disponibles###07 Apr 2005 content changed
 assessment#:#average_reached_points#:#Niveaux moyens atteints###07 Apr 2005 content changed
 assessment#:#backtocallingtest#:#Retour au test###07 Apr 2005 content changed
@@ -421,11 +423,15 @@ assessment#:#radio_unset#:#Déselectionné###07 Apr 2005 content changed
 assessment#:#random_accept_sample#:#Accepter échantillon###07 Apr 2005 content changed
 assessment#:#random_another_sample#:#Obtenir un autre échantillon###07 Apr 2005 content changed
 assessment#:#random_selection#:#Sélection aléatoire###07 Apr 2005 content changed
+assessment#:#range#:#Range ### 2006-8-11 --- Add new translation here.
+assessment#:#range_lower_limit#:#Lower limit ### 2006-8-11 --- Add new translation here.
+assessment#:#range_upper_limit#:#Upper limit ### 2006-8-11 --- Add new translation here.
 assessment#:#rectangle#:#Rectangle###07 Apr 2005 content changed
 assessment#:#rectangle_click_br_corner#:#Veuillez cliquer sur le coin inférieur droit de la zone désirée.###07 Apr 2005 content changed
 assessment#:#rectangle_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée.###07 Apr 2005 content changed
 assessment#:#region#:#Zone###07 Apr 2005 content changed
 assessment#:#remove_question#:#Supprimer###07 Apr 2005 content changed
+assessment#:#remove_solution#:#Remove suggested solution ### 2006-8-11 --- Add new translation here.
 assessment#:#report_date_not_reached#:#Vous n'avez pas atteint la date de rapport. Vous pourrez voir les résultats du test le %s###07 Apr 2005 content changed
 assessment#:#reset_definitions#:#Reset definition positions###10 Jul 2006 new variable
 assessment#:#reset_filter#:#Remettre le filtre à zéro###07 Apr 2005 content changed
@@ -489,6 +495,7 @@ assessment#:#tst_allowed_users_time_gap#:#Idle time for active users###10 Jul 20
 assessment#:#tst_already_submitted#:#Le test a déjà été passé et enregistré.### 06 oct 2005 Content changed
 assessment#:#tst_already_taken#:#Tests déjà pris###07 Apr 2005 content changed
 assessment#:#tst_answer_sheet#:#Feuille de réponse au test### 06 oct 2005 Content changed
+assessment#:#tst_answered_questions#:#Answered questions ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_best_solution_is#:#The best solution is###10 Jul 2006 new variable
 assessment#:#tst_browse_for_questions#:#Parcourir les questions###07 Apr 2005 content changed
 assessment#:#tst_confirm_delete_results#:#Vous êtes sur le point de détruire tous les résultats précédents des questions de ce test. Cela remettra toutes les questions à leur valeur par défaut. Souvenez-vous que vous ne pouvez pas réinitialiser le nombre de tentatives que vous avez faites pour ce test. Voulez-vous vraiment réinitialiser les résultats saisis ?###07 Apr 2005 content changed
@@ -688,10 +695,13 @@ assessment#:#tst_total_questions#:#Nombre total de questions###07 Apr 2005 conte
 assessment#:#tst_total_questions_description#:#Si vous saisissez une valeur ici, le nombre de questions pour chaque jeu de questions sera ignoré.  Si vous ne mettez rien ici, vous devez spécifier un nombre pour chaque jeu de questions.###07 Apr 2005 content changed
 assessment#:#tst_tst_date#:#Date du Test###08 may 2006 content changed
 assessment#:#tst_type#:#Type de test###07 Apr 2005 content changed
+assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted! ### 2006-8-11 --- Add new translation here.
+assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests! ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_types#:#Types de test###07 Apr 2005 content changed
 assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions###07 Apr 2005 content changed
 assessment#:#tst_your_answer_was#:#Votre réponse était###08 may 2006 content changed
 assessment#:#tst_your_answers#:#Ce sont vos réponses aux questions suivantes.###08 may 2006 content changed
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_your_mark_is#:#Votre note est###07 Apr 2005 content changed
 assessment#:#tt_assessment#:#Test d'évaluation###07 Apr 2005 content changed
 assessment#:#tt_online_exam#:#Examen en ligne###08 may 2006 content changed
@@ -714,10 +724,59 @@ assessment#:#with_order#:#dans l'ordre###07 Apr 2005 content changed
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Temps de travail###07 Apr 2005 content changed
 assessment#:#you_received_a_of_b_points#:#Vous avez obtenu %d points sur %d###07 Apr 2005 content changed
+barometer#:#add#:#Add new Feedback ### 2006-8-11 --- Add new translation here.
+barometer#:#anonymous#:#Anonymous ### 2006-8-11 --- Add new translation here.
+barometer#:#barometer_title#:#Feedback ### 2006-8-11 --- Add new translation here.
+barometer#:#best#:#Best ### 2006-8-11 --- Add new translation here.
+barometer#:#change_course#:#Change Course ### 2006-8-11 --- Add new translation here.
+barometer#:#chart_type#:#Chart type ### 2006-8-11 --- Add new translation here.
+barometer#:#chart_users#:#Chart user ### 2006-8-11 --- Add new translation here.
+barometer#:#chart_votes#:#Chart votes ### 2006-8-11 --- Add new translation here.
+barometer#:#create#:#Create New Feedback ### 2006-8-11 --- Add new translation here.
+barometer#:#day#:#Day ### 2006-8-11 --- Add new translation here.
+barometer#:#days#:#Days ### 2006-8-11 --- Add new translation here.
+barometer#:#delete#:#Delete ### 2006-8-11 --- Add new translation here.
+barometer#:#duration#:#Duration ### 2006-8-11 --- Add new translation here.
+barometer#:#edit#:#Edit ### 2006-8-11 --- Add new translation here.
+barometer#:#edit_barometer#:#Edit feedback ### 2006-8-11 --- Add new translation here.
+barometer#:#every#:#every ### 2006-8-11 --- Add new translation here.
 barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
 barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
 barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
 barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
+barometer#:#first_vote#:#1. Vote is the ### 2006-8-11 --- Add new translation here.
+barometer#:#from#:#From ### 2006-8-11 --- Add new translation here.
+barometer#:#hours#:#Hours ### 2006-8-11 --- Add new translation here.
+barometer#:#lines#:#Lines ### 2006-8-11 --- Add new translation here.
+barometer#:#login#:#Login ### 2006-8-11 --- Add new translation here.
+barometer#:#missing_fields#:#Please fill in all required information ### 2006-8-11 --- Add new translation here.
+barometer#:#month#:#Month ### 2006-8-11 --- Add new translation here.
+barometer#:#months#:#Months ### 2006-8-11 --- Add new translation here.
+barometer#:#new_vote#:#New vote ### 2006-8-11 --- Add new translation here.
+barometer#:#note#:#Comment ### 2006-8-11 --- Add new translation here.
+barometer#:#optional#:#Optional ### 2006-8-11 --- Add new translation here.
+barometer#:#options#:#Options ### 2006-8-11 --- Add new translation here.
+barometer#:#pie#:#Pie ### 2006-8-11 --- Add new translation here.
+barometer#:#repeat#:#Repeat Every ### 2006-8-11 --- Add new translation here.
+barometer#:#required#:#Required ### 2006-8-11 --- Add new translation here.
+barometer#:#save#:#Save ### 2006-8-11 --- Add new translation here.
+barometer#:#save_vote#:#Submit vote ### 2006-8-11 --- Add new translation here.
+barometer#:#skip#:#Skip ### 2006-8-11 --- Add new translation here.
+barometer#:#statistics#:#Statistics ### 2006-8-11 --- Add new translation here.
+barometer#:#status#:#Status ### 2006-8-11 --- Add new translation here.
+barometer#:#table#:#Table ### 2006-8-11 --- Add new translation here.
+barometer#:#text#:#Text ### 2006-8-11 --- Add new translation here.
+barometer#:#text_answer#:#Text answer ### 2006-8-11 --- Add new translation here.
+barometer#:#time#:#Running ### 2006-8-11 --- Add new translation here.
+barometer#:#title#:#Title ### 2006-8-11 --- Add new translation here.
+barometer#:#type#:#Type ### 2006-8-11 --- Add new translation here.
+barometer#:#until#:#Until ### 2006-8-11 --- Add new translation here.
+barometer#:#user#:#User ### 2006-8-11 --- Add new translation here.
+barometer#:#vote#:#Vote ### 2006-8-11 --- Add new translation here.
+barometer#:#votes#:#Votes ### 2006-8-11 --- Add new translation here.
+barometer#:#weeks#:#Weeks ### 2006-8-11 --- Add new translation here.
+barometer#:#worst#:#Worst ### 2006-8-11 --- Add new translation here.
+barometer#:#year#:#Year ### 2006-8-11 --- Add new translation here.
 bibitem#:#bibitem_add#:#Ajouter###07 Apr 2005 content changed
 bibitem#:#bibitem_author#:#Auteur###07 Apr 2005 content changed
 bibitem#:#bibitem_av#:#AV###07 Apr 2005 content changed
@@ -908,8 +967,6 @@ chat#:#chat_yellow#:#jaune###07 Apr 2005 content changed
 chat#:#chats#:#Chats###07 Apr 2005 content changed
 chat#:#my_chats#:#Mes chats###07 Apr 2005 content changed
 common#:#3rd_party_software#:#Logiciels tierce partie###07 Apr 2005 content changed
-common#:#DD.MM.YYYY#:#JJ.MM.AAAA###07 Apr 2005 content changed
-common#:#HH#:#HH:MM###07 Apr 2005 content changed
 common#:#absolute_path#:#Chemin absolu###07 Apr 2005 content changed
 common#:#accept_usr_agreement#:#Accepter la charte d'utilisation ?###07 Apr 2005 content changed
 common#:#access#:#Accès###07 Apr 2005 content changed
@@ -930,9 +987,13 @@ common#:#add_comments#:#Edit comments###10 Jul 2006 new variable
 common#:#add_condition#:#Créer nouvelle association###07 Apr 2005 content changed
 common#:#add_member#:#Ajouter membre###07 Apr 2005 content changed
 common#:#add_members#:#Ajouter membres###07 Apr 2005 content changed
+common#:#add_new_user_defined_field#:#Add New User-defined Field ### 2006-8-11 --- Add new translation here.
+common#:#add_new_user_defined_select_field#:#Add New Select Box ### 2006-8-11 --- Add new translation here.
+common#:#add_new_user_defined_text_field#:#Add New Text Field ### 2006-8-11 --- Add new translation here.
 common#:#add_note#:#Ajouter une note###08 may 2006 content changed
 common#:#add_translation#:#Ajouter traduction###07 Apr 2005 content changed
 common#:#add_user#:#Ajouter utilisateur local###07 Apr 2005 content changed
+common#:#add_user_defined_field#:#Add New Field ### 2006-8-11 --- Add new translation here.
 common#:#added_new_condition#:#Nouvelle condition créée###07 Apr 2005 content changed
 common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
 common#:#adm_create_tax#:#Créer taxinomie###07 Apr 2005 content changed
@@ -1145,6 +1206,10 @@ common#:#bookmark_target#:#Cible###07 Apr 2005 content changed
 common#:#bookmarks#:#Liens internet###07 Apr 2005 content changed
 common#:#bookmarks_of#:#Liens internet de###07 Apr 2005 content changed
 common#:#bottom_frame#:#Contenu principal###08 may 2006 content changed
+common#:#btn_add#:#Add ### 2006-8-11 --- Add new translation here.
+common#:#btn_new_value#:#New value ### 2006-8-11 --- Add new translation here.
+common#:#btn_next#:#Continue ### 2006-8-11 --- Add new translation here.
+common#:#btn_previous#:#Back ### 2006-8-11 --- Add new translation here.
 common#:#btn_remove_system#:#Supprimer du système###07 Apr 2005 content changed
 common#:#btn_undelete#:#Restaurer###07 Apr 2005 content changed
 common#:#by#:#par###07 Apr 2005 content changed
@@ -1305,10 +1370,10 @@ common#:#contra#:#Contre###08 may 2006 content changed
 common#:#cookies_howto#:#Comment autoriser les cookies###06 oct 2005 content changed
 common#:#copied_object#:#Objet copié###07 Apr 2005 content changed
 common#:#copy#:#Copie###07 Apr 2005 content changed
-common#:#copyChapter#:#Copie###06 oct 2005 content changed
-common#:#copyPage#:#Copie###07 Apr 2005 content changed
 common#:#copy_of#:#Copie de###07 Apr 2005 content changed
 common#:#copy_to#:#vers###07 Apr 2005 content changed
+common#:#copyChapter#:#Copie###06 oct 2005 content changed
+common#:#copyPage#:#Copie###07 Apr 2005 content changed
 common#:#could_not_verify_account#:#Désolé, nous ne pouvons valider votre compte d'utilisateur. Prenez contact avec l'administrateur d'Ilias###06 oct 2005 content changed
 common#:#count#:#Décompte###07 Apr 2005 content changed
 common#:#country#:#Pays###07 Apr 2005 content changed
@@ -1389,6 +1454,7 @@ common#:#custom_icon_size_small#:#Personnaliser la taille de l'icône (petite)##
 common#:#cut#:#Couper###07 Apr 2005 content changed
 common#:#cutPage#:#Couper###07 Apr 2005 content changed
 common#:#daily#:#quotidiennement###07 Apr 2005 content changed
+common#:#data_privacy#:#Data Privacy Settings ### 2006-8-11 --- Add new translation here.
 common#:#database#:#Base de données###07 Apr 2005 content changed
 common#:#database_version#:#Version courante de la base de données###07 Apr 2005 content changed
 common#:#dataset#:#Item###07 Apr 2005 content changed
@@ -1416,6 +1482,7 @@ common#:#dbk_new#:#Nouveau livre Digilib###07 Apr 2005 content changed
 common#:#dbk_read#:#Accès en lecture au livre Digilib###07 Apr 2005 content changed
 common#:#dbk_visible#:#Le livre Digilib est visible###07 Apr 2005 content changed
 common#:#dbk_write#:#Modifier livre Digilib###07 Apr 2005 content changed
+common#:#DD.MM.YYYY#:#JJ.MM.AAAA###07 Apr 2005 content changed
 common#:#def_repository_view#:#Affichage par défaut des activités###07 Apr 2005 content changed
 common#:#default#:#Défaut###07 Apr 2005 content changed
 common#:#default_language#:#Langue par défaut###07 Apr 2005 content changed
@@ -1474,6 +1541,8 @@ common#:#enable#:#Activer###07 Apr 2005 content changed
 common#:#enable_calendar#:#Activer l'agenda###06 oct 2005 content changed
 common#:#enable_custom_icons#:#Autoriser les icônes personnalisés###08 may 2006 content changed
 common#:#enable_custom_icons_info#:#Ceci permet de définir des icônes personnalisées pour des catégories, des cours ou des groupes particuliers. L'onglet propriétés des catégories, cours ou groupes permet de téléverser un fichier image destiné à servir d'icône.###08 may 2006 content changed
+common#:#enable_fora_statistics#:#Enable Statistics in Forum ### 2006-8-11 --- Add new translation here.
+common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics. ### 2006-8-11 --- Add new translation here.
 common#:#enable_hist_user_comments#:#Activer les commentaires d'utilisateurs dans l'historique###07 Apr 2005 content changed
 common#:#enable_hist_user_comments_desc#:#Donne la possibilité aux auteurs d'ajouter des commentaire à l'historique des pages.###07 Apr 2005 content changed
 common#:#enable_js_edit#:#Activer éditeur javascript###07 Apr 2005 content changed
@@ -1571,6 +1640,7 @@ common#:#exc_visible#:#L'exercice est visible###07 Apr 2005 content changed
 common#:#exc_write#:#Modifier exercice###07 Apr 2005 content changed
 common#:#excs#:#Exercices###07 Apr 2005 content changed
 common#:#execute#:#Exécuter###07 Apr 2005 content changed
+common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files! ### 2006-8-11 --- Add new translation here.
 common#:#exp_html#:#Exporter HTML###08 may 2006 content changed
 common#:#expand#:#Développer###08 may 2006 content changed
 common#:#explorer_frame#:#Explorer Tree###28 Feb 2006 new variable
@@ -1607,6 +1677,8 @@ common#:#faq_exercise#:#Exercice de FAQ###07 Apr 2005 content changed
 common#:#fax#:#Fax###07 Apr 2005 content changed
 common#:#feedback#:#Retours###07 Apr 2005 content changed
 common#:#feedback_recipient#:#Destinataires des retours###07 Apr 2005 content changed
+common#:#field_name#:#Field Name ### 2006-8-11 --- Add new translation here.
+common#:#field_type#:#Field Type ### 2006-8-11 --- Add new translation here.
 common#:#file#:#Fichier###07 Apr 2005 content changed
 common#:#file_a#:#un fichier###07 Apr 2005 content changed
 common#:#file_add#:#Téléverser un fichier###07 Apr 2005 content changed
@@ -1704,6 +1776,7 @@ common#:#frm_edit_permission#:#Changer paramètres de permission###07 Apr 2005 c
 common#:#frm_edit_post#:#Modifier un message###07 Apr 2005 content changed
 common#:#frm_new#:#Nouveau forum###07 Apr 2005 content changed
 common#:#frm_read#:#Accès en lecture au forum###07 Apr 2005 content changed
+common#:#frm_statistics_ranking#:#Ranking ### 2006-8-11 --- Add new translation here.
 common#:#frm_status_new#:#Statut 'Nouveau'###06 oct 2005 content changed
 common#:#frm_status_new_desc#:#Définir le délai de maintien du statut 'Nouveau' pour les derniers messages de forum .###06 oct 2005 content changed
 common#:#frm_visible#:#Le forum est visible###07 Apr 2005 content changed
@@ -1865,8 +1938,10 @@ common#:#grp_visible#:#Le groupe est visible###07 Apr 2005 content changed
 common#:#grp_write#:#Modifier groupe###07 Apr 2005 content changed
 common#:#guest#:#Invité###07 Apr 2005 content changed
 common#:#guests#:#Invités###07 Apr 2005 content changed
+common#:#header_searchable#:#Searchable ### 2006-8-11 --- Add new translation here.
 common#:#header_title#:#Titre d'entête###07 Apr 2005 content changed
 common#:#help#:#Aide###07 Apr 2005 content changed
+common#:#HH#:#HH:MM###07 Apr 2005 content changed
 common#:#hide#:#masquer###07 Apr 2005 content changed
 common#:#hide_details#:#cacher détails###07 Apr 2005 content changed
 common#:#hide_private_notes#:#Cacher les notes personnelles###08 may 2006 content changed
@@ -2040,7 +2115,7 @@ common#:#in#:#dans###07 Apr 2005 content changed
 common#:#in_use#:#Langue utilisateur###07 Apr 2005 content changed
 common#:#inactive#:#Inactif###07 Apr 2005 content changed
 common#:#inbox#:#Réception###07 Apr 2005 content changed
-common#:#include_local#:#include local###Inclure le fichier langue local lors de la mise à jour des langues###06 oct 2005 content changed
+common#:#include_local#:#include local
 common#:#info#:#Informations###07 Apr 2005 content changed
 common#:#info_access_and_status_info#:#Accès et statut de l'information###06 oct 2005 content changed
 common#:#info_access_permissions#:#Accèss permissions###06 oct 2005 content changed
@@ -2371,11 +2446,11 @@ common#:#month_12_short#:#Déc###07 Apr 2005 content changed
 common#:#monthly#:#mensuel###07 Apr 2005 content changed
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Couper###07 Apr 2005 content changed
-common#:#moveChapter#:#Couper###07 Apr 2005 content changed
-common#:#movePage#:#Couper###07 Apr 2005 content changed
 common#:#move_selected_items#:#Déplacer les objets sélectionnés###06 oct 2005 content changed
 common#:#move_to#:#Couper vers###07 Apr 2005 content changed
 common#:#move_users_to_style#:#Déplacer les utilisateurs dans le style XXX###07 Apr 2005 content changed
+common#:#moveChapter#:#Couper###07 Apr 2005 content changed
+common#:#movePage#:#Couper###07 Apr 2005 content changed
 common#:#msg_cancel#:#Action annulée###07 Apr 2005 content changed
 common#:#msg_changes_ok#:#Les changements sont valides###07 Apr 2005 content changed
 common#:#msg_clear_clipboard#:#Presse-papier effacé###07 Apr 2005 content changed
@@ -2446,9 +2521,9 @@ common#:#msg_obj_exists#:#Cet objet existe déjà dans le dossier.###07 Apr 2005
 common#:#msg_obj_modified#:#Modifications enregistrées.###07 Apr 2005 content changed
 common#:#msg_obj_no_link#:#ne peuvent pas être liés###07 Apr 2005 content changed
 common#:#msg_obj_not_deletable_sold#:#Le paiement est activé pour les objets suivants. Ils ne peuvent pas être supprimés.###07 Apr 2005 content changed
+common#:#msg_perm_adopted_from_itself#:#Vous ne pouvez pas adopter les paramètres de permissions depuis le rôle ou le modèle de rôle courant lui-même.###07 Apr 2005 content changed
 common#:#msg_perm_adopted_from1#:#Paramètres de permissions adoptés depuis###07 Apr 2005 content changed
 common#:#msg_perm_adopted_from2#:#(Les paramètres ont été enregistrés !)###07 Apr 2005 content changed
-common#:#msg_perm_adopted_from_itself#:#Vous ne pouvez pas adopter les paramètres de permissions depuis le rôle ou le modèle de rôle courant lui-même.###07 Apr 2005 content changed
 common#:#msg_removed#:#Objet(s) supprimé(s) du système###07 Apr 2005 content changed
 common#:#msg_role_exists1#:#Un rôle/modèle de rôle portant le nom###07 Apr 2005 content changed
 common#:#msg_role_exists2#:#existe déjà !  Veuillez choisir un autre nom.###07 Apr 2005 content changed
@@ -2511,6 +2586,7 @@ common#:#no_roles_user_can_be_assigned_to#:#Il n'y a aucun rôle global auquel l
 common#:#no_submission_made#:#---###10 Jul 2006 new variable
 common#:#no_title#:#Pas de titre###07 Apr 2005 content changed
 common#:#no_tst_in_personal_list#:#Pas de tests dans la liste personnelle###07 Apr 2005 content changed
+common#:#no_user_defined_fields_defined#:#No user-defined fields available. ### 2006-8-11 --- Add new translation here.
 common#:#no_users_applied#:#Veuillez sélectionner un utilisateur###07 Apr 2005 content changed
 common#:#no_users_selected#:#Veuillez sélectionner un utilisateur###07 Apr 2005 content changed
 common#:#no_xml_file_found_in_zip#:#Pas de fichier XML trouvé dans le fichier ZIP.###07 Apr 2005 content changed
@@ -2696,9 +2772,9 @@ common#:#password#:#Mot de passe###07 Apr 2005 content changed
 common#:#password_assistance_disabled#:#L'assistance pour les mots de passe n'est disponible que quand l'authentification des utilisateurs se fait par la base ILIAS locale.###07 Apr 2005 content changed
 common#:#password_assistance_info#:#Si l'assistance pour les mots de passe est active, un lien avec le texte "mot de passe oublié" est affiché dans la page de connexion d'ILIAS. Les utilisateurs peuvent utiliser ce lien pour assigner un nouveau mot de passe à leur compte, sans l'assistance d'un administrateur.###07 Apr 2005 content changed
 common#:#paste#:#Coller###07 Apr 2005 content changed
+common#:#paste_clipboard_items#:#Coller des objets depuis le presse-papier### 06 oct 2005 content changed
 common#:#pasteChapter#:#Coller###07 Apr 2005 content changed
 common#:#pastePage#:#Coller###07 Apr 2005 content changed
-common#:#paste_clipboard_items#:#Coller des objets depuis le presse-papier### 06 oct 2005 content changed
 common#:#path#:#Chemin###07 Apr 2005 content changed
 common#:#path_not_set#:#Chemin non défini###07 Apr 2005 content changed
 common#:#path_to_babylon#:#Chemin de Babylon###07 Apr 2005 content changed
@@ -2990,12 +3066,12 @@ common#:#server#:#Serveur###07 Apr 2005 content changed
 common#:#server_data#:#Données Serveur###07 Apr 2005 content changed
 common#:#server_software#:#Logiciel serveur###07 Apr 2005 content changed
 common#:#set#:#Fixer###07 Apr 2005 content changed
-common#:#setSystemLanguage#:#Fixer la langue du système###07 Apr 2005 content changed
-common#:#setUserLanguage#:#Fixer la langue utilisateur###07 Apr 2005 content changed
 common#:#set_offline#:#Mettre hors-ligne###07 Apr 2005 content changed
 common#:#set_online#:#Mettre en ligne###07 Apr 2005 content changed
+common#:#setSystemLanguage#:#Fixer la langue du système###07 Apr 2005 content changed
 common#:#settings#:#Paramètres###07 Apr 2005 content changed
 common#:#settings_saved#:#Paramètres enregistrés### 06 oct 2005 content changed
+common#:#setUserLanguage#:#Fixer la langue utilisateur###07 Apr 2005 content changed
 common#:#shib#:#Shibboleth### 06 oct 2005 Content changed
 common#:#shib_active#:#Autoriser le support Shibboleth### 06 oct 2005 content changed
 common#:#shib_city#:#Attribut de la ville### 06 oct 2005 content changed
@@ -3070,6 +3146,7 @@ common#:#st_add#:#Ajouter chapitre###07 Apr 2005 content changed
 common#:#st_added#:#Chapitre ajouté###07 Apr 2005 content changed
 common#:#st_edit#:#Modifier chapitre###07 Apr 2005 content changed
 common#:#st_new#:#Nouveau chapitre###07 Apr 2005 content changed
+common#:#standard_fields#:#Standard Fields ### 2006-8-11 --- Add new translation here.
 common#:#startpage#:#Page de départ###07 Apr 2005 content changed
 common#:#statistic#:#Statistiques###07 Apr 2005 content changed
 common#:#status#:#Etat###07 Apr 2005 content changed
@@ -3140,7 +3217,7 @@ common#:#test#:#Test###07 Apr 2005 content changed
 common#:#test_intern#:#Test interne###07 Apr 2005 content changed
 common#:#test_module#:#Module de test###07 Apr 2005 content changed
 common#:#tests#:#Tests###07 Apr 2005 content changed
-common#:#thread#:#Thread###11 Aug 2006 new variable
+common#:#thread#:#Thread ### 2006-8-11 --- Add new translation here.
 common#:#thumbnail#:#Miniature###08 may 2006 content changed
 common#:#time#:#Heure###07 Apr 2005 content changed
 common#:#time_d#:#Jour###07 Apr 2005 content changed
@@ -3209,9 +3286,21 @@ common#:#txt_submitted#:#Vous avez soumis une demande d'inscription à ILIAS. Vo
 common#:#typ#:#Définition de type d'objet###07 Apr 2005 content changed
 common#:#type#:#Type###07 Apr 2005 content changed
 common#:#type_your_message_here#:#Saisissez votre message ici###07 Apr 2005 content changed
+common#:#udf_add_field#:#Add Field ### 2006-8-11 --- Add new translation here.
+common#:#udf_added_field#:#Added new field. ### 2006-8-11 --- Add new translation here.
+common#:#udf_delete_header#:#Delete Field ### 2006-8-11 --- Add new translation here.
+common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ? ### 2006-8-11 --- Add new translation here.
+common#:#udf_duplicate_entries#:#The values have to be unique. ### 2006-8-11 --- Add new translation here.
+common#:#udf_field_deleted#:#Deleted field. ### 2006-8-11 --- Add new translation here.
+common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name. ### 2006-8-11 --- Add new translation here.
+common#:#udf_no_entries#:#Please enter minimum one value. ### 2006-8-11 --- Add new translation here.
+common#:#udf_no_name_given#:#Please enter a field name. ### 2006-8-11 --- Add new translation here.
+common#:#udf_type_select#:#Select Box (fixed values) ### 2006-8-11 --- Add new translation here.
+common#:#udf_type_text#:#Text Field (optional values) ### 2006-8-11 --- Add new translation here.
 common#:#udf_update_select_field#:#Edit select box###10 Jul 2006 new variable
 common#:#udf_update_success#:#Saved modifications.###10 Jul 2006 new variable
 common#:#udf_update_text_field#:#Edit text field###10 Jul 2006 new variable
+common#:#udf_value#:#Value ### 2006-8-11 --- Add new translation here.
 common#:#udf_value_deleted#:#The value has been deleted.###10 Jul 2006 new variable
 common#:#uid#:#UID###07 Apr 2005 content changed
 common#:#ums_create_new_account#:#Create New Account###06 Aug 2006 new variable
@@ -3261,6 +3350,8 @@ common#:#user_added#:#Utilisateur ajouté###07 Apr 2005 content changed
 common#:#user_assignment#:#Assignation d'utilisateur###07 Apr 2005 content changed
 common#:#user_cant_receive_mail#:#L'utilisateur n'est pas autorisé à utiliser l'envoi de message système### 06 oct 2005 content changed
 common#:#user_comment#:#Commentaire de l'utilisateur###07 Apr 2005 content changed
+common#:#user_defined_fields#:#User-defined Fields ### 2006-8-11 --- Add new translation here.
+common#:#user_defined_list#:#Overview User-defined Fields ### 2006-8-11 --- Add new translation here.
 common#:#user_deleted#:#Utilisateur détruit###07 Apr 2005 content changed
 common#:#user_detail#:#Détail###07 Apr 2005 content changed
 common#:#user_ext_account#:#External Account###10 Jul 2006 new variable
@@ -3397,9 +3488,6 @@ common#:#you_may_add_local_roles#:#Vous pouvez ajouter des rôles locaux###07 Ap
 common#:#your_message#:#Votre message###07 Apr 2005 content changed
 common#:#zip#:#Code postal###07 Apr 2005 content changed
 common#:#zipcode#:#Code postal###07 Apr 2005 content changed
-content#:#HTML export#:#Exportation HTML###07 Apr 2005 content changed
-content#:#PDF export#:#Exportation PDF###07 Apr 2005 content changed
-content#:#Pages#:#Pages###07 Apr 2005 content changed
 content#:#add_menu_entry#:#Ajouter entrée de menu >>###07 Apr 2005 content changed
 content#:#all#:#Tout###07 Apr 2005 content changed
 content#:#all_pages#:#le document entier###07 Apr 2005 content changed
@@ -3409,26 +3497,6 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
-content#:#cont_Additional#:#Additionel###07 Apr 2005 content changed
-content#:#cont_Alphabetic#:#Alphabétique A, B, ...###07 Apr 2005 content changed
-content#:#cont_Circle#:#Cercle###07 Apr 2005 content changed
-content#:#cont_Citation#:#Citation###07 Apr 2005 content changed
-content#:#cont_Code#:#Code###07 Apr 2005 content changed
-content#:#cont_Example#:#Exemple###07 Apr 2005 content changed
-content#:#cont_Headline1#:#Titre 1###07 Apr 2005 content changed
-content#:#cont_Headline2#:#Titre 2###07 Apr 2005 content changed
-content#:#cont_Headline3#:#Titre 3###07 Apr 2005 content changed
-content#:#cont_List#:#Liste###07 Apr 2005 content changed
-content#:#cont_LocalFile#:#Fichier local###07 Apr 2005 content changed
-content#:#cont_Mnemonic#:#Mnémonique###07 Apr 2005 content changed
-content#:#cont_Number#:#Nombre###07 Apr 2005 content changed
-content#:#cont_Poly#:#Polygone###07 Apr 2005 content changed
-content#:#cont_Rect#:#Rectangle###07 Apr 2005 content changed
-content#:#cont_Reference#:#Référence###07 Apr 2005 content changed
-content#:#cont_Remark#:#Remarque###07 Apr 2005 content changed
-content#:#cont_Roman#:#Romain I, II, ...###07 Apr 2005 content changed
-content#:#cont_TableContent#:#Contenu du tableau###07 Apr 2005 content changed
-content#:#cont_Unordered#:#Non trié###07 Apr 2005 content changed
 content#:#cont_act_number#:#Numérotation de chapitre###07 Apr 2005 content changed
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Activer menu###07 Apr 2005 content changed
@@ -3438,8 +3506,10 @@ content#:#cont_add_definition#:#Ajouter définition###07 Apr 2005 content change
 content#:#cont_add_fullscreen#:#Ajouter plein écran###07 Apr 2005 content changed
 content#:#cont_added_comment#:#Commentaire ajouté à l'historique###07 Apr 2005 content changed
 content#:#cont_added_term#:#Terme ajouté###07 Apr 2005 content changed
+content#:#cont_Additional#:#Additionel###07 Apr 2005 content changed
 content#:#cont_all_definitions#:#Toutes les définitions###07 Apr 2005 content changed
 content#:#cont_all_pages#:#Toutes les pages###07 Apr 2005 content changed
+content#:#cont_Alphabetic#:#Alphabétique A, B, ...###07 Apr 2005 content changed
 content#:#cont_annex#:#Annexe###07 Apr 2005 content changed
 content#:#cont_api_adapter#:#Nom de l'adaptateur d'API###07 Apr 2005 content changed
 content#:#cont_api_func_prefix#:#Préfixe des fonctions d'API###07 Apr 2005 content changed
@@ -3468,6 +3538,8 @@ content#:#cont_characteristic#:#Caractéristique###07 Apr 2005 content changed
 content#:#cont_choose_cont_obj#:#Choisir l'objet de contenu###07 Apr 2005 content changed
 content#:#cont_choose_glossary#:#Choisir glossaire###07 Apr 2005 content changed
 content#:#cont_choose_media_source#:#Choisir une source de média###07 Apr 2005 content changed
+content#:#cont_Circle#:#Cercle###07 Apr 2005 content changed
+content#:#cont_Citation#:#Citation###07 Apr 2005 content changed
 content#:#cont_citation_err_one#:#Vous devez sélectionner exactement une édition###07 Apr 2005 content changed
 content#:#cont_citation_selection_not_valid#:#Votre sélection n'est pas valide###07 Apr 2005 content changed
 content#:#cont_citations#:#Citations###07 Apr 2005 content changed
@@ -3478,6 +3550,7 @@ content#:#cont_click_next_or_save#:#Veuillez cliquer sur le point suivant du pol
 content#:#cont_click_next_point#:# Veuillez cliquer sur le point suivant du polygone###07 Apr 2005 content changed
 content#:#cont_click_starting_point#:# Veuillez cliquer sur le point de départ du polygone###07 Apr 2005 content changed
 content#:#cont_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée###07 Apr 2005 content changed
+content#:#cont_Code#:#Code###07 Apr 2005 content changed
 content#:#cont_confirm_delete#:#Etes-vous sûr(e) de vouloir détruire cet objet?###07 Apr 2005 content changed
 content#:#cont_content#:#Contenu###07 Apr 2005 content changed
 content#:#cont_content_obj#:#Objet de contenu###07 Apr 2005 content changed
@@ -3534,6 +3607,7 @@ content#:#cont_ed_delete_item#:#détruire objet###07 Apr 2005 content changed
 content#:#cont_ed_delete_row#:#détruire ligne###07 Apr 2005 content changed
 content#:#cont_ed_edit#:#modifier###07 Apr 2005 content changed
 content#:#cont_ed_edit_prop#:#modifier propriétés###07 Apr 2005 content changed
+content#:#cont_ed_enable#:#(De-)Activate Elements ### 2006-8-11 --- Add new translation here.
 content#:#cont_ed_go#:#Envoi###07 Apr 2005 content changed
 content#:#cont_ed_insert_code#:#insérer code###07 Apr 2005 content changed
 content#:#cont_ed_insert_filelist#:#insérer  liste de fichiers###07 Apr 2005 content changed
@@ -3571,6 +3645,7 @@ content#:#cont_edition#:#Modifierion###07 Apr 2005 content changed
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:# JavaScript actif###07 Apr 2005 content changed
 content#:#cont_enable_media#:#Médias actifs###07 Apr 2005 content changed
+content#:#cont_Example#:#Exemple###07 Apr 2005 content changed
 content#:#cont_export_files#:#Fichiers d'exportation###07 Apr 2005 content changed
 content#:#cont_external#:#externe###07 Apr 2005 content changed
 content#:#cont_external_url#:#URL externe###07 Apr 2005 content changed
@@ -3594,6 +3669,9 @@ content#:#cont_get_orig_size#:#Mettre à la taille originale###07 Apr 2005 conte
 content#:#cont_glo_menu#:#Menu### 06 oct 2005 content changed
 content#:#cont_glo_properties#:#Propriétés de glossaire###07 Apr 2005 content changed
 content#:#cont_header#:#Header###10 Jul 2006 new variable
+content#:#cont_Headline1#:#Titre 1###07 Apr 2005 content changed
+content#:#cont_Headline2#:#Titre 2###07 Apr 2005 content changed
+content#:#cont_Headline3#:#Titre 3###07 Apr 2005 content changed
 content#:#cont_height#:#Hauteur###07 Apr 2005 content changed
 content#:#cont_how_published#:#Publié comment XXX###07 Apr 2005 content changed
 content#:#cont_href#:#href###07 Apr 2005 content changed
@@ -3624,6 +3702,7 @@ content#:#cont_link_int#:#Lien (interne)###07 Apr 2005 content changed
 content#:#cont_link_select#:#Lien interne###07 Apr 2005 content changed
 content#:#cont_link_type#:#Type de lien###07 Apr 2005 content changed
 content#:#cont_linked_mobs#:#Objets multimédias liés### 06 oct 2005 content changed
+content#:#cont_List#:#Liste###07 Apr 2005 content changed
 content#:#cont_list_files#:#Liste des fichiers###07 Apr 2005 content changed
 content#:#cont_list_properties#:#Propriétés de la liste###07 Apr 2005 content changed
 content#:#cont_lk_chapter#:#Chapitre###07 Apr 2005 content changed
@@ -3640,6 +3719,7 @@ content#:#cont_lk_term#:#Terme de glossaire###07 Apr 2005 content changed
 content#:#cont_lk_term_new#:#Terme de glossaire (nouveau cadre)###07 Apr 2005 content changed
 content#:#cont_lm_menu#:#Menu###07 Apr 2005 content changed
 content#:#cont_lm_properties#:#Propriété du document###07 Apr 2005 content changed
+content#:#cont_LocalFile#:#Fichier local###07 Apr 2005 content changed
 content#:#cont_lvalue#:#Elément de données XXX###07 Apr 2005 content changed
 content#:#cont_manifest#:#Manifeste###07 Apr 2005 content changed
 content#:#cont_map_areas#:#Zone de lien###07 Apr 2005 content changed
@@ -3648,6 +3728,7 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###07 Apr 2005 content cha
 content#:#cont_media_source#:#Source de média###07 Apr 2005 content changed
 content#:#cont_mep_structure#:#Structure du média pool###07 Apr 2005 content changed
 content#:#cont_missing_preconditions#:#Vous devez remplis les conditions suivantes avant de pouvoir accéder au chapitre "%s".###07 Apr 2005 content changed
+content#:#cont_Mnemonic#:#Mnémonique###07 Apr 2005 content changed
 content#:#cont_mob_files#:#Fichiers objets###07 Apr 2005 content changed
 content#:#cont_mob_inst_prop#:#Propriétés de l'instance###07 Apr 2005 content changed
 content#:#cont_mob_prop#:#Propriétés de l'objet###07 Apr 2005 content changed
@@ -3673,6 +3754,7 @@ content#:#cont_none#:#Aucun###07 Apr 2005 content changed
 content#:#cont_nr_cols#:#Nombre de colonnes###07 Apr 2005 content changed
 content#:#cont_nr_items#:#Nombre d'objets###07 Apr 2005 content changed
 content#:#cont_nr_rows#:#Nombre de lignes###07 Apr 2005 content changed
+content#:#cont_Number#:#Nombre###07 Apr 2005 content changed
 content#:#cont_obj_removed#:#Objets supprimés###07 Apr 2005 content changed
 content#:#cont_offline#:#Versions hors-ligne###07 Apr 2005 content changed
 content#:#cont_offline_files#:#Versions hors-ligne###07 Apr 2005 content changed
@@ -3696,6 +3778,7 @@ content#:#cont_personal_clipboard#:#Presse-papier personnel###07 Apr 2005 conten
 content#:#cont_pg_content#:#Contenu de page###07 Apr 2005 content changed
 content#:#cont_pg_title#:#Titre de page###07 Apr 2005 content changed
 content#:#cont_please_select#:#veuillez sélectionner###07 Apr 2005 content changed
+content#:#cont_Poly#:#Polygone###07 Apr 2005 content changed
 content#:#cont_prereq_type#:#adlcp:prerequisites.type###07 Apr 2005 content changed
 content#:#cont_prerequisites#:#adlcp:prerequisites###07 Apr 2005 content changed
 content#:#cont_preview#:#Prévisualisation###07 Apr 2005 content changed
@@ -3705,9 +3788,11 @@ content#:#cont_public_notes#:#Notes publiques###08 may 2006 content changed
 content#:#cont_public_notes_desc#:#Autorise les utilisateurs à partager leurs notes sur toutes les pages du document.###08 may 2006 content changed
 content#:#cont_publisher#:#Editeur###07 Apr 2005 content changed
 content#:#cont_purpose#:#But###07 Apr 2005 content changed
+content#:#cont_Rect#:#Rectangle###07 Apr 2005 content changed
 content#:#cont_ref_helptext#:#(par ex. http://www.serveur.org/monimage.jpg)###07 Apr 2005 content changed
 content#:#cont_ref_images#:#Images référencées###07 Apr 2005 content changed
-content#:#cont_reference#:#Reference###09 Aug 2006 new variable
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Remarque###07 Apr 2005 content changed
 content#:#cont_remove_fullscreen#:#Supprimer plein écran###07 Apr 2005 content changed
 content#:#cont_removeiln#:#Etes-vous sûr(e) de vouloir détruire ce lien interne?###07 Apr 2005 content changed
 content#:#cont_repository_item#:#Activité###07 Apr 2005 content changed
@@ -3718,6 +3803,7 @@ content#:#cont_resize_image#:#Redimensionner les images###07 Apr 2005 content ch
 content#:#cont_resource#:#Ressource###07 Apr 2005 content changed
 content#:#cont_resource_type#:#type###07 Apr 2005 content changed
 content#:#cont_resources#:#Ressources###07 Apr 2005 content changed
+content#:#cont_Roman#:#Romain I, II, ...###07 Apr 2005 content changed
 content#:#cont_rvalue#:#Valeur###07 Apr 2005 content changed
 content#:#cont_saved_map_area#:#Zone enregistrée###07 Apr 2005 content changed
 content#:#cont_saved_map_data#:#Données d'image réactive enregistrées###07 Apr 2005 content changed
@@ -3787,6 +3873,7 @@ content#:#cont_table_html_import_info#:#L'importation fonctionne uniquement avec
 content#:#cont_table_spreadsheet_import#:#Importation tableur###07 Apr 2005 content changed
 content#:#cont_table_spreadsheet_import_info#:#Collez un tableau depuis un tableur dans la zone de texte en utilisant le presse-papier.###07 Apr 2005 content changed
 content#:#cont_table_width#:#Largeur du tableau###07 Apr 2005 content changed
+content#:#cont_TableContent#:#Contenu du tableau###07 Apr 2005 content changed
 content#:#cont_target_within_source#:#La cible ne doit pas être dans l'objet source.###07 Apr 2005 content changed
 content#:#cont_term#:#Terme###07 Apr 2005 content changed
 content#:#cont_terms#:#Termes###07 Apr 2005 content changed
@@ -3811,6 +3898,7 @@ content#:#cont_tracking_items#:#Suivi d'objets###07 Apr 2005 content changed
 content#:#cont_translations#:#Traduction(s)###07 Apr 2005 content changed
 content#:#cont_translations_assigned#:#Les traductions ont été assignées###07 Apr 2005 content changed
 content#:#cont_tree_fixed#:#L'arborescence a été corrigée.###07 Apr 2005 content changed
+content#:#cont_Unordered#:#Non trié###07 Apr 2005 content changed
 content#:#cont_update#:#Mettre à jour###07 Apr 2005 content changed
 content#:#cont_update_names#:#Mettre à jour les noms###07 Apr 2005 content changed
 content#:#cont_upload_file#:#Téléverser fichier###07 Apr 2005 content changed
@@ -3831,6 +3919,7 @@ content#:#copied_to_clipboard#:#Objet(s) copié(s) dans le presse-papier.###07 A
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Déf.###08 may 2006 content changed
 content#:#glo_term_used_in#:#Ressources liées à ce terme###08 may 2006 content changed
+content#:#HTML export#:#Exportation HTML###07 Apr 2005 content changed
 content#:#lm_menu_edit_entry#:#Modifier entrée de menu###07 Apr 2005 content changed
 content#:#lm_menu_entry_target#:#Cible###07 Apr 2005 content changed
 content#:#lm_menu_entry_title#:#Titre###07 Apr 2005 content changed
@@ -3842,15 +3931,17 @@ content#:#msg_entry_removed#:#Entrée de menu supprimée###07 Apr 2005 content c
 content#:#msg_entry_updated#:#Entrée de menu mise à jour###07 Apr 2005 content changed
 content#:#msg_page_no_public_access#:#La page demandée n'est pas disponible dans la section publique. Seuls les utilisateurs inscrits préalablement peuvent accéder à cette page.### 06 oct 2005 content changed
 content#:#msg_page_not_public#:#La page n'est pas publique### 06 oct 2005 content changed
+content#:#Pages#:#Pages###07 Apr 2005 content changed
 content#:#pages from#:#Pages depuis###07 Apr 2005 content changed
 content#:#par#:#Paragraphe###07 Apr 2005 content changed
+content#:#PDF export#:#Exportation PDF###07 Apr 2005 content changed
 content#:#pg#:#Page###07 Apr 2005 content changed
 content#:#public_section#:#Section publique###07 Apr 2005 content changed
 content#:#read offline#:#Lire hors ligne###07 Apr 2005 content changed
-content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
-content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Veuillez choisir un fichier###07 Apr 2005 content changed
 content#:#selected_pages_only#:#seulement les pages sélectionnées ci-dessous###07 Apr 2005 content changed
+content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
+content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#set_public_mode#:#Définir le mode d'accès public###07 Apr 2005 content changed
 content#:#st#:#Chapitre###07 Apr 2005 content changed
 content#:#start export#:#Commencer l'exportation###07 Apr 2005 content changed
@@ -4328,43 +4419,6 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
-dateplaner#:#DateText#:#Message###07 Apr 2005 content changed
-dateplaner#:#Day_long#:#vue par journée###07 Apr 2005 content changed
-dateplaner#:#ERROR_DATE_EXISTS#:#Ce créneau horaire est déjà pris.###07 Apr 2005 content changed
-dateplaner#:#ERROR_DB#:#Erreur d'écriture dans la base de données !###07 Apr 2005 content changed
-dateplaner#:#ERROR_DB_CONNECT#:#La base de données n'est pas accessible !###07 Apr 2005 content changed
-dateplaner#:#ERROR_DEL_MSG#:#Cet événement est répétitif. Voulez-vous supprimer cet événement-là ou bien tous les événements répétés ?###07 Apr 2005 content changed
-dateplaner#:#ERROR_ENDDATE#:#format de date de fin erroné. Format: jj/mm/yyyy###07 Apr 2005 content changed
-dateplaner#:#ERROR_ENDTIME#:#Format d'heure de fin erroné. Format: hh:mm###07 Apr 2005 content changed
-dateplaner#:#ERROR_END_START#:#Date de fin erronée. La date de fin est antérieure à la date de début###07 Apr 2005 content changed
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Prenez soin d'utiliser un fichier CSV valide.###07 Apr 2005 content changed
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Votre navigateur n'accepte pas le Javascript <BR> Veuillez fermer manuellement cette fenêtre après l'insertion. <BR> Merci</CENTER></B>###07 Apr 2005 content changed
-dateplaner#:#ERROR_ROTATIONEND#:#Format de date de fin de répétition erronée. Format: jj/mm/yyyy###07 Apr 2005 content changed
-dateplaner#:#ERROR_ROT_END_START#:#Date de fin de répétition erronée. La date de fin est antérieure à la date de départ.###07 Apr 2005 content changed
-dateplaner#:#ERROR_SHORTTEXT#:#Veuillez taper un message court (obligatoire).###07 Apr 2005 content changed
-dateplaner#:#ERROR_STARTDATE#:#Format de date de départ erroné. Format: jj/mm/yyyy###07 Apr 2005 content changed
-dateplaner#:#ERROR_STARTTIME#:#Format d'heure de départ erroné. Format: hh:mm###07 Apr 2005 content changed
-dateplaner#:#ERROR_TS#:#Format de date erroné###07 Apr 2005 content changed
-dateplaner#:#Fr_long#:#Vendredi###07 Apr 2005 content changed
-dateplaner#:#Fr_short#:#Ve###07 Apr 2005 content changed
-dateplaner#:#Language_file#:#Français###07 Apr 2005 content changed
-dateplaner#:#Listbox_long#:#Liste des événements###07 Apr 2005 content changed
-dateplaner#:#Mo_long#:#Lundi###07 Apr 2005 content changed
-dateplaner#:#Mo_short#:#Lu###07 Apr 2005 content changed
-dateplaner#:#Month_long#:#Vue par mois###07 Apr 2005 content changed
-dateplaner#:#Sa_long#:#Samedi###07 Apr 2005 content changed
-dateplaner#:#Sa_short#:#Sa###07 Apr 2005 content changed
-dateplaner#:#Su_long#:#Dimanche###07 Apr 2005 content changed
-dateplaner#:#Su_short#:#Di###07 Apr 2005 content changed
-dateplaner#:#Text#:#Texte###07 Apr 2005 content changed
-dateplaner#:#Th_long#:#Jeudi###07 Apr 2005 content changed
-dateplaner#:#Th_short#:#Je###07 Apr 2005 content changed
-dateplaner#:#Tu_long#:#Mardi###07 Apr 2005 content changed
-dateplaner#:#Tu_short#:#Ma###07 Apr 2005 content changed
-dateplaner#:#View#:#Voir###07 Apr 2005 content changed
-dateplaner#:#We_long#:#Mercredi###07 Apr 2005 content changed
-dateplaner#:#We_short#:#Me###07 Apr 2005 content changed
-dateplaner#:#Week_long#:#Vue par semaine###07 Apr 2005 content changed
 dateplaner#:#add_data#:#Données additionnelles###07 Apr 2005 content changed
 dateplaner#:#app_#:#événements attribués au groupe###07 Apr 2005 content changed
 dateplaner#:#app_date#:#Ajouter un événement###07 Apr 2005 content changed
@@ -4381,19 +4435,20 @@ dateplaner#:#back#:#Retour###07 Apr 2005 content changed
 dateplaner#:#begin_date#:#Date de début###07 Apr 2005 content changed
 dateplaner#:#busytime#:#temps occupé pour le groupe###07 Apr 2005 content changed
 dateplaner#:#c_date#:#Ajouter un événement###07 Apr 2005 content changed
-dateplaner#:#changeTo#:#Changer en:###07 Apr 2005 content changed
 dateplaner#:#changedDates#:#Evénements modifiés###07 Apr 2005 content changed
+dateplaner#:#changeTo#:#Changer en:###07 Apr 2005 content changed
 dateplaner#:#checkforfreetime#:#Vérifier si le créneau horaire est libre###07 Apr 2005 content changed
 dateplaner#:#created#:#créé###07 Apr 2005 content changed
 dateplaner#:#date#:#Date###07 Apr 2005 content changed
 dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes###07 Apr 2005 content changed
 dateplaner#:#date_format_middle#:#m/d/y//month/day/Year###07 Apr 2005 content changed
+dateplaner#:#DateText#:#Message###07 Apr 2005 content changed
+dateplaner#:#Day_long#:#vue par journée###07 Apr 2005 content changed
 dateplaner#:#del_all#:#Supprimer tous les événements###07 Apr 2005 content changed
 dateplaner#:#del_one#:#Supprimer un événement###07 Apr 2005 content changed
 dateplaner#:#delete#:#Supprimer###07 Apr 2005 content changed
 dateplaner#:#deletedDates#:#Evénements supprimés###07 Apr 2005 content changed
 dateplaner#:#discard#:# discard###07 Apr 2005 content changed
-dateplaner#:#dv_Grouptime#:#Temps disponible###07 Apr 2005 content changed
 dateplaner#:#dv_button_cancel#:#Annuler###07 Apr 2005 content changed
 dateplaner#:#dv_button_delete#:#Supprimer###07 Apr 2005 content changed
 dateplaner#:#dv_button_insert#:#Ajouter###07 Apr 2005 content changed
@@ -4403,6 +4458,7 @@ dateplaner#:#dv_date_end#:#Fin de l'événement :###07 Apr 2005 content changed
 dateplaner#:#dv_date_hm#:#Heure:Minute###07 Apr 2005 content changed
 dateplaner#:#dv_enddate#:#Date de fin :###07 Apr 2005 content changed
 dateplaner#:#dv_groupselect#:#Attribution au groupe :###07 Apr 2005 content changed
+dateplaner#:#dv_Grouptime#:#Temps disponible###07 Apr 2005 content changed
 dateplaner#:#dv_groupview#:#Evénement du groupe :###07 Apr 2005 content changed
 dateplaner#:#dv_groupview_text#:#Groupe :<br>###07 Apr 2005 content changed
 dateplaner#:#dv_keywords#:#Mots clé :###07 Apr 2005 content changed
@@ -4421,9 +4477,26 @@ dateplaner#:#dv_whole_day#:#Journée entière :###07 Apr 2005 content changed
 dateplaner#:#dv_whole_rotation#:#Voulez-vous supprimer l'événement pour toutes les dates ? (Cochez la case)###07 Apr 2005 content changed
 dateplaner#:#end_date#:#Fin de l'événement###07 Apr 2005 content changed
 dateplaner#:#endtime_for_view#:#Date de fin pour la vue :###07 Apr 2005 content changed
+dateplaner#:#ERROR_DATE_EXISTS#:#Ce créneau horaire est déjà pris.###07 Apr 2005 content changed
+dateplaner#:#ERROR_DB#:#Erreur d'écriture dans la base de données !###07 Apr 2005 content changed
+dateplaner#:#ERROR_DB_CONNECT#:#La base de données n'est pas accessible !###07 Apr 2005 content changed
+dateplaner#:#ERROR_DEL_MSG#:#Cet événement est répétitif. Voulez-vous supprimer cet événement-là ou bien tous les événements répétés ?###07 Apr 2005 content changed
+dateplaner#:#ERROR_END_START#:#Date de fin erronée. La date de fin est antérieure à la date de début###07 Apr 2005 content changed
+dateplaner#:#ERROR_ENDDATE#:#format de date de fin erroné. Format: jj/mm/yyyy###07 Apr 2005 content changed
+dateplaner#:#ERROR_ENDTIME#:#Format d'heure de fin erroné. Format: hh:mm###07 Apr 2005 content changed
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Prenez soin d'utiliser un fichier CSV valide.###07 Apr 2005 content changed
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Votre navigateur n'accepte pas le Javascript <BR> Veuillez fermer manuellement cette fenêtre après l'insertion. <BR> Merci</CENTER></B>###07 Apr 2005 content changed
 dateplaner#:#error_minical_img#:#Impossible de créer le flux d'image GD###07 Apr 2005 content changed
+dateplaner#:#ERROR_ROT_END_START#:#Date de fin de répétition erronée. La date de fin est antérieure à la date de départ.###07 Apr 2005 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Format de date de fin de répétition erronée. Format: jj/mm/yyyy###07 Apr 2005 content changed
+dateplaner#:#ERROR_SHORTTEXT#:#Veuillez taper un message court (obligatoire).###07 Apr 2005 content changed
+dateplaner#:#ERROR_STARTDATE#:#Format de date de départ erroné. Format: jj/mm/yyyy###07 Apr 2005 content changed
+dateplaner#:#ERROR_STARTTIME#:#Format d'heure de départ erroné. Format: hh:mm###07 Apr 2005 content changed
+dateplaner#:#ERROR_TS#:#Format de date erroné###07 Apr 2005 content changed
 dateplaner#:#execute#:#Valider les choix###07 Apr 2005 content changed
 dateplaner#:#extra_dates#:#événements du jour###07 Apr 2005 content changed
+dateplaner#:#Fr_long#:#Vendredi###07 Apr 2005 content changed
+dateplaner#:#Fr_short#:#Ve###07 Apr 2005 content changed
 dateplaner#:#free#:#Libre###07 Apr 2005 content changed
 dateplaner#:#freetime#:#Temps disponible du groupe###07 Apr 2005 content changed
 dateplaner#:#group#:#Groupe###07 Apr 2005 content changed
@@ -4444,9 +4517,9 @@ dateplaner#:#help_group_l#:#Les groupes affichés sont ceux pour lesquels vous a
 dateplaner#:#help_inbox#:#Evénements en attente###07 Apr 2005 content changed
 dateplaner#:#help_inbox_l#:#Ici, tous les événements de groupe nouveaux, modifiés ou supprimés sont affichés.###07 Apr 2005 content changed
 dateplaner#:#help_keyword#:#Choix de mot clé###07 Apr 2005 content changed
+dateplaner#:#help_keyword_l#:#Contient les mots clé que vous pouvez associer aux événements.###07 Apr 2005 content changed
 dateplaner#:#help_keywordUse#:#Choix de mot clé###07 Apr 2005 content changed
 dateplaner#:#help_keywordUse_l#:#Choisissez un ou plusieurs mots clé dans la boîte de dialogue. <br>Astuce : utilisez la touche CTRL pour sélectionner plusieurs mots clé.###07 Apr 2005 content changed
-dateplaner#:#help_keyword_l#:#Contient les mots clé que vous pouvez associer aux événements.###07 Apr 2005 content changed
 dateplaner#:#help_list#:#Liste des événements dans l'agenda###07 Apr 2005 content changed
 dateplaner#:#help_list_l#:#Dans la liste des événements, ceux au delà d'une période donnée sont affichés.###07 Apr 2005 content changed
 dateplaner#:#help_month#:#Agenda par mois###07 Apr 2005 content changed
@@ -4481,7 +4554,9 @@ dateplaner#:#k_alldates#:#Tous les événements###07 Apr 2005 content changed
 dateplaner#:#keep#:#Conserver###07 Apr 2005 content changed
 dateplaner#:#keyword#:#Mot clé###07 Apr 2005 content changed
 dateplaner#:#keywords#:#Mots clé###07 Apr 2005 content changed
+dateplaner#:#Language_file#:#Français###07 Apr 2005 content changed
 dateplaner#:#last_change#:#Dernièrement modifié(s)###07 Apr 2005 content changed
+dateplaner#:#Listbox_long#:#Liste des événements###07 Apr 2005 content changed
 dateplaner#:#long_01#:#Janvier###07 Apr 2005 content changed
 dateplaner#:#long_02#:#Février###07 Apr 2005 content changed
 dateplaner#:#long_03#:#Mars###07 Apr 2005 content changed
@@ -4497,13 +4572,16 @@ dateplaner#:#long_12#:#Décembre###07 Apr 2005 content changed
 dateplaner#:#main_dates#:#Evénements principaux###07 Apr 2005 content changed
 dateplaner#:#menue#:#Menu###07 Apr 2005 content changed
 dateplaner#:#mmonth#:#Mois précédent###07 Apr 2005 content changed
+dateplaner#:#Mo_long#:#Lundi###07 Apr 2005 content changed
+dateplaner#:#Mo_short#:#Lu###07 Apr 2005 content changed
 dateplaner#:#month#:#Mois###07 Apr 2005 content changed
+dateplaner#:#Month_long#:#Vue par mois###07 Apr 2005 content changed
 dateplaner#:#more#:#Davantage###07 Apr 2005 content changed
 dateplaner#:#mweek#:#Semaine précédente###07 Apr 2005 content changed
 dateplaner#:#myeahr#:#Année précédente###07 Apr 2005 content changed
+dateplaner#:#new_doc#:#Ajouter un nouvel événement###07 Apr 2005 content changed
 dateplaner#:#newDates#:#Nouveaux événements###07 Apr 2005 content changed
 dateplaner#:#newKeyword#:#Nouveau###07 Apr 2005 content changed
-dateplaner#:#new_doc#:#Ajouter un nouvel événement###07 Apr 2005 content changed
 dateplaner#:#no_entry#:#Aucun événement prévu###07 Apr 2005 content changed
 dateplaner#:#o_day_date#:#Evénement de 24h###07 Apr 2005 content changed
 dateplaner#:#of#:#de###07 Apr 2005 content changed
@@ -4524,6 +4602,8 @@ dateplaner#:#r_year#:#Tous les ans###07 Apr 2005 content changed
 dateplaner#:#readimportfile#:#Insérer###07 Apr 2005 content changed
 dateplaner#:#rotation#:#Périodicité###07 Apr 2005 content changed
 dateplaner#:#rotation_dates#:#événements périodiques###07 Apr 2005 content changed
+dateplaner#:#Sa_long#:#Samedi###07 Apr 2005 content changed
+dateplaner#:#Sa_short#:#Sa###07 Apr 2005 content changed
 dateplaner#:#semester_name#:#xxx Nom de semestre###07 Apr 2005 content changed
 dateplaner#:#short_01#:#Jan###07 Apr 2005 content changed
 dateplaner#:#short_02#:#Fev###07 Apr 2005 content changed
@@ -4540,13 +4620,24 @@ dateplaner#:#short_12#:#Dec###07 Apr 2005 content changed
 dateplaner#:#shorttext#:#Texte court###07 Apr 2005 content changed
 dateplaner#:#singleDate#:#événement unique###07 Apr 2005 content changed
 dateplaner#:#starttime_for_view#:#Heure de début pour l'affichage###07 Apr 2005 content changed
+dateplaner#:#Su_long#:#Dimanche###07 Apr 2005 content changed
+dateplaner#:#Su_short#:#Di###07 Apr 2005 content changed
+dateplaner#:#Text#:#Texte###07 Apr 2005 content changed
+dateplaner#:#Th_long#:#Jeudi###07 Apr 2005 content changed
+dateplaner#:#Th_short#:#Je###07 Apr 2005 content changed
 dateplaner#:#timedate#:#Heure / Date###07 Apr 2005 content changed
 dateplaner#:#timeslice#:#Horaire :###07 Apr 2005 content changed
 dateplaner#:#title#:#Agenda Ilias###07 Apr 2005 content changed
 dateplaner#:#to#:#à###07 Apr 2005 content changed
 dateplaner#:#today#:#aujourd'hui###07 Apr 2005 content changed
+dateplaner#:#Tu_long#:#Mardi###07 Apr 2005 content changed
+dateplaner#:#Tu_short#:#Ma###07 Apr 2005 content changed
+dateplaner#:#View#:#Voir###07 Apr 2005 content changed
 dateplaner#:#viewlist#:#Voir###07 Apr 2005 content changed
+dateplaner#:#We_long#:#Mercredi###07 Apr 2005 content changed
+dateplaner#:#We_short#:#Me###07 Apr 2005 content changed
 dateplaner#:#week#:#semaine###07 Apr 2005 content changed
+dateplaner#:#Week_long#:#Vue par semaine###07 Apr 2005 content changed
 dateplaner#:#wk_short#:#Sem.### 06 oct 2005 content changed
 dateplaner#:#year#:#année###07 Apr 2005 content changed
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4577,8 +4668,8 @@ forum#:#forums_disable_notification#:#Désactiver la notification###08 may 2006 
 forum#:#forums_download_attachment#:#Télécharger fichier###07 Apr 2005 content changed
 forum#:#forums_edit_post#:#Modifier article###07 Apr 2005 content changed
 forum#:#forums_enable_notification#:#activer la notification###08 may 2006 content changed
-forum#:#forums_info_censor2_post#:#Etes-vous sûr(e) de vouloir continuer à cacher cet article ?###07 Apr 2005 content changed
 forum#:#forums_info_censor_post#:#Etes-vous sûr(e) de vouloir cacher cet article ?###07 Apr 2005 content changed
+forum#:#forums_info_censor2_post#:#Etes-vous sûr(e) de vouloir continuer à cacher cet article ?###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#Etes-vous sûr(e) de vouloir détruire cet article et toutes les réponses ?###07 Apr 2005 content changed
 forum#:#forums_mark_read#:#Marquer tous lus###07 Apr 2005 content changed
 forum#:#forums_new_entries#:#Nouvelles entrées de forum###07 Apr 2005 content changed
@@ -4615,6 +4706,10 @@ forum#:#forums_your_reply#:#Votre réponse###07 Apr 2005 content changed
 forum#:#frm_anonymous_posting#:#Envoi anonyme###08 may 2006 content changed
 forum#:#frm_anonymous_posting_desc#:#Si cela est activé, l'envoi de messages anonymes sur ce forum est permis.###08 may 2006 content changed
 forum#:#frm_default_view#:#Affichage par défaut###07 Apr 2005 content changed
+forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members. ### 2006-8-11 --- Add new translation here.
+forum#:#frm_statistics_enabled#:#Enable Statistics ### 2006-8-11 --- Add new translation here.
+forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants ### 2006-8-11 --- Add new translation here.
+forum#:#frm_statistics_ranking#:#Ranking ### 2006-8-11 --- Add new translation here.
 forum#:#frm_title_required#:#Veuillez saisir un titre###07 Apr 2005 content changed
 forum#:#is_read#:#marqué comme lu###07 Apr 2005 content changed
 forum#:#new_post#:#Nouveau message###08 may 2006 content changed
@@ -5634,6 +5729,7 @@ registration#:#reg_settings_header#:#New Registration Settings###10 Jul 2006 new
 registration#:#reg_type#:#Registration Type###10 Jul 2006 new variable
 registration#:#reg_unknown_recipients#:#The following logins are not valid:###10 Jul 2006 new variable
 registration#:#registration_settings#:#New Registrations###10 Jul 2006 new variable
+search#:#add_members_header#:#Add members ### 2006-8-11 --- Add new translation here.
 search#:#append_results#:#Append results###10 Jul 2006 new variable
 search#:#search_active#:#Inclure utilisateurs actifs###07 Apr 2005 content changed
 search#:#search_added_new_folder#:#Nouveau dossier ajouté### 06 oct 2005 Content changed
@@ -5656,8 +5752,12 @@ search#:#search_delete_sure#:#L'objet et son contenu seront détruits de façon 
 search#:#search_details_info#:#Recherche détaillée. Choisissez au moins un objet au-dessus.###06 oct 2005 Content changed
 search#:#search_direct#:#Recherche directe### 06 oct 2005 Content changed
 search#:#search_fast_info#:#Recherche dans les titres, descriptions et mot-clé de tous les types d'objets### 06 oct 2005 Content changed
+search#:#search_for_grp_members#:#Search for group members ### 2006-8-11 --- Add new translation here.
+search#:#search_for_role_members#:#Search for role members ### 2006-8-11 --- Add new translation here.
+search#:#search_for_users#:#Search for users ### 2006-8-11 --- Add new translation here.
 search#:#search_full_info#:#Choisissez cette option pour effectuer une recherche dans la totalité des données.### 06 oct 2005 Content changed
 search#:#search_group#:#Groupes###07 Apr 2005 content changed
+search#:#search_grp_title#:#Group name ### 2006-8-11 --- Add new translation here.
 search#:#search_hits#:#Trouvé dans :### 06 oct 2005 Content changed
 search#:#search_in_magazin#:#Dans Activités### 06 oct 2005 Content changed
 search#:#search_in_result#:#Chercher dans les résultats###07 Apr 2005 content changed
@@ -5690,7 +5790,9 @@ search#:#search_objects_moved#:#Objets déplacés###07 Apr 2005 content changed
 search#:#search_one_action#:#Sélectionner une action###07 Apr 2005 content changed
 search#:#search_or#:#ou###07 Apr 2005 content changed
 search#:#search_rename_title#:#Renommer titre###07 Apr 2005 content changed
+search#:#search_results#:#Search results ### 2006-8-11 --- Add new translation here.
 search#:#search_results_saved#:#Résultats de recherche enregistrés###07 Apr 2005 content changed
+search#:#search_role_title#:#Role name ### 2006-8-11 --- Add new translation here.
 search#:#search_save_as_select#:#Enregistrer sous :###07 Apr 2005 content changed
 search#:#search_search_for#:#Rechercher###07 Apr 2005 content changed
 search#:#search_search_no_results_saved#:#Aucun résultat de recherche enregistré###07 Apr 2005 content changed
@@ -5764,10 +5866,6 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Ajouter catégorie###07 Apr 2005 content changed
 survey#:#add_heading#:#Ajouter titre###07 Apr 2005 content changed
 survey#:#add_limits_for_standard_numbers#:#Veuillez saisir des limites basse et haute pour les nombres standard que vous voulez ajouter comme catégories###07 Apr 2005 content changed
@@ -5871,27 +5969,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Si rien n'est saisi, le nombre de caractères pour cette réponse texte est illimité###07 Apr 2005 content changed
 survey#:#disinvite#:#Annuler l'invitation###07 Apr 2005 content changed
 survey#:#display_all_available#:#Afficher disponibles XXX###07 Apr 2005 content changed
-survey#:#dp_standard_attitude_agree5#:#Attitude standard (tout à fait d'accord – d'accord – sans opinion – pas d'accord – pas d'accord du tout)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_agree_disagree#:#Attitude standard (d'accord – pas d'accord)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Attitude standard (d'accord – sans opinion - pas d'accord)###07 Apr 2005 content changed
-survey#:#dp_standard_attitude_desired5#:#Attitude standard (tout à fait souhaitable – souhaitable – indifférent – non souhaitable – pas souhaitable du tout)###07 Apr 2005 content changed
+survey#:#dp_standard_attitude_agree5#:#Attitude standard (tout à fait d'accord – d'accord – sans opinion – pas d'accord – pas d'accord du tout)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Attitude standard (souhaitable – indifférent – non souhaitable)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_desired_undesired#:#Attitude standard (souhaitable – non souhaitable)###07 Apr 2005 content changed
-survey#:#dp_standard_attitude_good5#:#Attitude standard  (très bien – bien – correct – mauvais – inacceptable)###07 Apr 2005 content changed
+survey#:#dp_standard_attitude_desired5#:#Attitude standard (tout à fait souhaitable – souhaitable – indifférent – non souhaitable – pas souhaitable du tout)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Attitude standard (bien – correct – mauvais)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_good_notacceptable#:#Attitude standard (bien  – inacceptable)###07 Apr 2005 content changed
+survey#:#dp_standard_attitude_good5#:#Attitude standard  (très bien – bien – correct – mauvais – inacceptable)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_must5#:#Attitude standard  (doit – devrait – sans opinion – ne devrait pas – ne doit pas)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_shold_shouldnot#:#Attitude standard (devrait – ne devrait pas)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Attitude standard (devrait – sans opinion – ne devrait pas)###07 Apr 2005 content changed
 survey#:#dp_standard_behaviour_certainly5#:#Comportement standard (très certainement – plutôt – sans opinion – plutôt pas – très certainement pas)###07 Apr 2005 content changed
 survey#:#dp_standard_behaviour_yes_no#:#Comportement standard (oui – non)###07 Apr 2005 content changed
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Comportement standard (oui - sans opinion – non)###07 Apr 2005 content changed
-survey#:#dp_standard_beliefs_always5#:#Croyances standard (toujours – souvent – variable – rarement – jamais)###07 Apr 2005 content changed
 survey#:#dp_standard_beliefs_always_never#:#Croyances standard (toujours – jamais)###07 Apr 2005 content changed
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Croyances standard (toujours – parfois – jamais)###07 Apr 2005 content changed
-survey#:#dp_standard_beliefs_true5#:#Croyances standard (définitivement vrai – vrai – sans opinion – faux – définitivement faux)###07 Apr 2005 content changed
+survey#:#dp_standard_beliefs_always5#:#Croyances standard (toujours – souvent – variable – rarement – jamais)###07 Apr 2005 content changed
 survey#:#dp_standard_beliefs_true_false#:#Croyances standard (vrai – faux)###07 Apr 2005 content changed
 survey#:#dp_standard_beliefs_true_undecided_false#:#Croyances standard (vrai – sans opinion – faux)###07 Apr 2005 content changed
+survey#:#dp_standard_beliefs_true5#:#Croyances standard (définitivement vrai – vrai – sans opinion – faux – définitivement faux)###07 Apr 2005 content changed
 survey#:#dp_standard_numbers#:#Nombres standards###07 Apr 2005 content changed
 survey#:#duplicate#:#Dupliquer###07 Apr 2005 content changed
 survey#:#duplicate_svy#:#Dupliquer sondage###07 Apr 2005 content changed
@@ -6114,6 +6212,10 @@ survey#:#survey_skip_next#:#passer et page suivante >>>###07 Apr 2005 content ch
 survey#:#survey_skip_previous#:#<<< passer et page précédente###07 Apr 2005 content changed
 survey#:#survey_skip_start#:#<<< passer et revenir à la page de départ###07 Apr 2005 content changed
 survey#:#survey_start#:#<<< revenir à la page de départ###07 Apr 2005 content changed
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#Toutes les données utilisateurs de ce sondage ont été détruites.###07 Apr 2005 content changed
 survey#:#svy_check_evaluation_access_introduction#:#Depuis que l'évaluation de l'enquête est seulement accessible aux participants, vous devez saisir votre code d'accès à l'enquête pour l'ouvrir.###08 may 2006 content changed
 survey#:#svy_check_evaluation_authentication_needed#:#Authentification requise###08 may 2006 content changed
@@ -6170,10 +6272,101 @@ trac#:#info_found_objects#:#The user tracking refers to the following objects of
 trac#:#info_valid_request#:#La durée maximum valide entre deux requêtes d'un utilisateur.###08 may 2006 content changed
 trac#:#last_login#:#Dernière connexion###08 may 2006 content changed
 trac#:#meta_typical_learning_time#:#Durée typique d'apprentissage###08 may 2006 content changed
+trac#:#newUT_settings#:#Learning Module Statistics ### 2006-8-11 --- Add new translation here.
 trac#:#obj_types#:#Types d'objet :###08 may 2006 content changed
 trac#:#search_area_info#:#Choissez un objet, SVP.###08 may 2006 content changed
 trac#:#search_terms#:#Search term(s)###10 Jul 2006 new variable
 trac#:#select_one#:#Choissez un objet, SVP.###08 may 2006 content changed
+trac#:#stats_access#:#Access ### 2006-8-11 --- Add new translation here.
+trac#:#stats_accesses#:#Accesses ### 2006-8-11 --- Add new translation here.
+trac#:#stats_all#:#All ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter#:#Chapter ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_average_page_number#:#Average Number of Pages per Chapter ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_depth_coverage#:#Degree of Coverage with Depth ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_fewest_access#:#Fewest Access ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_listing#:#Chapter Listing ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#Total Dwell Time Depth ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_most_access_depth#:#Most Access with Depth ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_most_pages#:#Most Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_number#:#Number of Chapters ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_statisics#:#Chapter Statistics ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_stubbiest_total_dwell_time#:#Stubbiest Total Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_top#:#Top-Chapter (variance, access, etc.) ### 2006-8-11 --- Add new translation here.
+trac#:#stats_chapter_total_statistic#:#Total-Chapter-Statistic ### 2006-8-11 --- Add new translation here.
+trac#:#stats_choice#:#Selection ### 2006-8-11 --- Add new translation here.
+trac#:#stats_current#:#Currently ### 2006-8-11 --- Add new translation here.
+trac#:#stats_depth#:#Depth ### 2006-8-11 --- Add new translation here.
+trac#:#stats_duration#:#Duration ### 2006-8-11 --- Add new translation here.
+trac#:#stats_equivalent#:#is equivalent to ### 2006-8-11 --- Add new translation here.
+trac#:#stats_hits#:#Hits ### 2006-8-11 --- Add new translation here.
+trac#:#stats_hour#:#h ### 2006-8-11 --- Add new translation here.
+trac#:#stats_interval#:#Interval ### 2006-8-11 --- Add new translation here.
+trac#:#stats_interval_dwell_time#:#Interval of Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_interval_page_access#:#Interval of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_last#:#Last ### 2006-8-11 --- Add new translation here.
+trac#:#stats_legend#:#Legend ### 2006-8-11 --- Add new translation here.
+trac#:#stats_measurable_hits#:#Measurable Hits (Hits within a Session) ### 2006-8-11 --- Add new translation here.
+trac#:#stats_minute#:#m ### 2006-8-11 --- Add new translation here.
+trac#:#stats_navigation#:#Navigation/Observation Model (requires JRE 1.5 or higher) ### 2006-8-11 --- Add new translation here.
+trac#:#stats_new_selection#:#New Selection ### 2006-8-11 --- Add new translation here.
+trac#:#stats_occurrence#:#Occurrence ### 2006-8-11 --- Add new translation here.
+trac#:#stats_of#:#of ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page#:#Page ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_average_access#:#Average of Access to pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_average_dwell_time#:#Average of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_deviation_access#:#Deviation of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_deviation_dwell_time#:#Deviation of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_fewest_access#:#Fewest Access ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_highest_deviation#:#Highest Deviation ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_highest_varcoeff#:#Highest Variation Coefficient ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_least_deviation#:#Least Deviation ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_listing#:#Page Listing ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_longest_average_dwell_time#:#Average Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_longest_total_dwell_time#:#Total Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_lowest_varcoeff#:#Lowest Variation Coefficient ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_median_access#:#Median of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_median_dwell_time#:#Median of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_mode_access#:#Mode of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_most_access#:#Most Accesses ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_number#:#Number of Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_number_access#:#Number of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_range_access#:#Range of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_range_dwell_time#:#Range of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_stubbiest_average_dwell_time#:#Stubbiest Average Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_stubbiest_total_dwell_time#:#Stubbiest Total Dwell Time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_total_dwell_time#:#Total-Pages-Dwell time ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_total_statistic#:#Total-Pages-Statistic ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_varcoeff_access#:#Variation Coefficient of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_varcoeff_dwell_time#:#Variation Coefficient of Dwell time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_variance_access#:#Variance of Access to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_page_variance_dwell_time#:#Variance of Dwell Time to Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_pages#:#Pages ### 2006-8-11 --- Add new translation here.
+trac#:#stats_pages_statisics#:#Page Statistics ### 2006-8-11 --- Add new translation here.
+trac#:#stats_sec#:#sec ### 2006-8-11 --- Add new translation here.
+trac#:#stats_sel_lng#:#English ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session#:#Session ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_average_length#:#Average Session Length ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_average_page_access#:#Average Access to Pages per Session ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_evaluable#:#Evaluable Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_evaluable_access#:#Evaluable Session Access ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_evaluable_usr#:#Evaluable User ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_involved_usr#:#Number of involved Users ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_listing#:#Session Listing ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_longest#:#Longest Session ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_longest_total_duration_usr#:#Longest Total Duration per User ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_most#:#Most Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_number#:#Number of Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_total_duration#:#Total Duration of all Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_session_total_statistic#:#Total-Session-Statistic ### 2006-8-11 --- Add new translation here.
+trac#:#stats_sessions#:#Sessions ### 2006-8-11 --- Add new translation here.
+trac#:#stats_sessions_statisics#:#Session Statistics ### 2006-8-11 --- Add new translation here.
+trac#:#stats_start#:#Start ### 2006-8-11 --- Add new translation here.
+trac#:#stats_summation#:#Summation ### 2006-8-11 --- Add new translation here.
+trac#:#stats_tracked_user#:#Selected Users ### 2006-8-11 --- Add new translation here.
+trac#:#stats_until#:#until ### 2006-8-11 --- Add new translation here.
+trac#:#stats_user#:#User(s) ### 2006-8-11 --- Add new translation here.
+trac#:#stats_user_selected#:#User selected ### 2006-8-11 --- Add new translation here.
+trac#:#stats_with#:#with ### 2006-8-11 --- Add new translation here.
 trac#:#total_dwell_time#:#Total dwell time###10 Jul 2006 new variable
 trac#:#trac_activated#:#Suivi activé###08 may 2006 content changed
 trac#:#trac_active_both#:#User Tracking and Learning progress activated###10 Jul 2006 new variable
@@ -6219,6 +6412,7 @@ trac#:#trac_info_edited#:#Choisissez le statut 'terminé' si vous pensez avoir t
 trac#:#trac_last_access#:#Dernier accès###08 may 2006 content changed
 trac#:#trac_learning_progress#:#Suivi###25 Apr 2006 content changed
 trac#:#trac_learning_progress_tbl_header#:#Suivi de :###08 may 2006 content changed
+trac#:#trac_lm_statistics#:#Access Statistics ### 2006-8-11 --- Add new translation here.
 trac#:#trac_lp_determination#:#Learning Progress Status Determination###10 Jul 2006 new variable
 trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status of the course.###10 Jul 2006 new variable
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.###10 Jul 2006 new variable
