@@ -35,16 +35,16 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analysis_options#:#Analyse-Optionen
-administration#:#analyze_data#:#Analysiere und repariere Datenintegrität###23 Dec 2005 content changed
+administration#:#analyze_data#:#Analysiere und repariere Datenintegrität
 administration#:#analyzing#:#Analysiert...
 administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
 administration#:#check_tree#:#Überprüfe Baumstruktur
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!
 administration#:#clean#:#Räume auf
-administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur###23 Dec 2005 content changed
+administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
 administration#:#cleaning_final#:#Endgültig bereinigen...
-administration#:#disabled#:#Deaktiviert###10 Jul 2006 content changed
+administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
 administration#:#dump_tree#:#Tree auflisten
 administration#:#dump_tree_desc#:#Analysiere die Baumstruktur und liste alle Baumknoten zusammen mit den Analysedaten auf.
@@ -53,7 +53,7 @@ administration#:#found#:#Gefunden
 administration#:#found_none#:#Nicht gefunden
 administration#:#initializing_gaps#:#Initialisiere Lücken in der Baumstruktur...
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
-administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern ### 2006-5-8 --- Content changed
+administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...
 administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
@@ -732,7 +732,7 @@ barometer#:#change_course#:#Kurswechsel
 barometer#:#chart_type#:#Auswertungsart
 barometer#:#chart_users#:#Diagramm Benutzer
 barometer#:#chart_votes#:#Diagramm Wertungen
-barometer#:#create#:#Neues Barometer erstellen###31 Jul 2006 content changed
+barometer#:#create#:#Neues Barometer erstellen
 barometer#:#day#:#Tag
 barometer#:#days#:#Tage
 barometer#:#delete#:#Löschen
@@ -740,37 +740,37 @@ barometer#:#duration#:#Dauer
 barometer#:#edit#:#Bearbeiten
 barometer#:#edit_barometer#:#Barometer bearbeiten
 barometer#:#every#:#alle
-barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
-barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
-barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
-barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
+barometer#:#feedb_edit_feedback#:#barometer bearbeiten
+barometer#:#feedb_feedback_list#:#List der Barometer
+barometer#:#feedb_feedback_settings#:#Brometer-Einstellungen
+barometer#:#feedb_time#:#Zeit
 barometer#:#first_vote#:#1. Wertung ist die
-barometer#:#from#:#von###31 Jul 2006 content changed
+barometer#:#from#:#von
 barometer#:#hours#:#Stunden
 barometer#:#lines#:#Liniendiagramm
-barometer#:#login#:#Login###23 Dec 2005 new variable
+barometer#:#login#:#Benutzername
 barometer#:#missing_fields#:#Bitte füllen Sie alle notwendigen Felder aus
 barometer#:#month#:#Monat
 barometer#:#months#:#Monate
 barometer#:#new_vote#:#Neue Wertung
 barometer#:#note#:#Kommentar
-barometer#:#optional#:#Optional###23 Dec 2005 new variable
+barometer#:#optional#:#Optional
 barometer#:#options#:#Optionen
 barometer#:#pie#:#Tortendiagramm
-barometer#:#repeat#:#Wiederholung###31 Jul 2006 content changed
-barometer#:#required#:#Plicht
+barometer#:#repeat#:#Wiederholungsrhythmus
+barometer#:#required#:#Pflicht
 barometer#:#save#:#Speichern
 barometer#:#save_vote#:#Wertung abgeben
 barometer#:#skip#:#Überspringen
 barometer#:#statistics#:#Statististiken
-barometer#:#status#:#Status###23 Dec 2005 new variable
+barometer#:#status#:#Status
 barometer#:#table#:#Tabelle
-barometer#:#text#:#Text###23 Dec 2005 new variable
+barometer#:#text#:#Text
 barometer#:#text_answer#:#Textantwort
 barometer#:#time#:#Laufzeit
 barometer#:#title#:#Titel
 barometer#:#type#:#Typ
-barometer#:#until#:#bis###31 Jul 2006 content changed
+barometer#:#until#:#bis
 barometer#:#user#:#Benutzer
 barometer#:#vote#:#Note
 barometer#:#votes#:#Wertungen
@@ -841,8 +841,8 @@ chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Weitere Benutzer (anwesend)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
-chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.###10 Jul 2006 content changed
-chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.###10 Jul 2006 content changed
+chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
+chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.
 chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
 chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
 chat#:#chat_add_private_chatroom#:#Privaten Chatraum anlegen
@@ -980,24 +980,24 @@ common#:#actions#:#Aktionen
 common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
-common#:#activation#:#Verfügbarkeit###05 Aug 2006 content changed
+common#:#activation#:#Verfügbarkeit
 common#:#active#:#Aktiv
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
-common#:#add_comments#:#Edit comments###10 Jul 2006 new variable
+common#:#add_comments#:#Kommentare bearbeiten
 common#:#add_condition#:#Neue Verknüpfung anlegen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
-common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen###09 Aug 2006 content changed
-common#:#add_new_user_defined_select_field#:#Neue Auswahlliste anlegen###09 Aug 2006 content changed
-common#:#add_new_user_defined_text_field#:#Neues Textfeld anlegen###09 Aug 2006 content changed
+common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
+common#:#add_new_user_defined_select_field#:#Neue Auswahlliste anlegen
+common#:#add_new_user_defined_text_field#:#Neues Textfeld anlegen
 common#:#add_note#:#Notiz hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#add_user#:#Lokalen Benutzer hinzufügen
-common#:#add_user_defined_field#:#Neues Feld anlegen###09 Aug 2006 content changed
+common#:#add_user_defined_field#:#Neues Feld anlegen
 common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
-common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
+common#:#additional_info#:#Additional Information
 common#:#adm_create_tax#:#Neue Taxonomie anlegen
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
@@ -1005,7 +1005,7 @@ common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#admin_panel#:#Administrationsmenü
 common#:#admin_panel_disable#:#Administrationsmenü aus
-common#:#admin_panel_enable#:#Administrationsmenü an###25 Jul 2006 content changed
+common#:#admin_panel_enable#:#Administrationsmenü an
 common#:#administrate#:#Administrieren
 common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
@@ -1014,24 +1014,24 @@ common#:#adopt#:#Übernehmen
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich Text Editor aktivieren
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test & Assessment Werkzeug
-common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
-common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
-common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
-common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
-common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
-common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Richt Text Editor nicht erlauben###04 Aug 2006 content changed
-common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen###04 Aug 2006 content changed
+common#:#advanced_editing_cat_page_editing#:#Seiteneditor für Kategorien aktivieren
+common#:#advanced_editing_cat_page_editing_desc#:#Diese Einstellung erlaubt das Hinzufügen von Text und anderen Inhalten auf Kategorienseiten. Ist der Seiteneditor deaktiviert, werden in Kategorien nur die enthaltenen Inhaltsobjekte angezeigt.
+common#:#advanced_editing_lm_js_editing#:#Aktiviere HTMLArea-Textfelder bei der Inhaltebearbeitung
+common#:#advanced_editing_lm_js_editing_desc#:#Aktiviert HTMLArea- und JavaScript-Unterstützung für den Seiteneditor in Lernmodulen und Glossaren.
+common#:#advanced_editing_lm_settings#:#Lernmodul- und Glossar-Einstellungen
+common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Rich-Text-Editor nicht erlauben
+common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
-common#:#advanced_editing_tinymce#:#TinyMCE Editor###04 Aug 2006 content changed
-common#:#adve_assessment_settings#:#Test & Assessment Einstellungen###04 Aug 2006 content changed
-common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
-common#:#adve_edit_permission#:#Rechteeinstellungen ändern###04 Aug 2006 content changed
-common#:#adve_general_settings#:#Allgemeine Einstellungen###04 Aug 2006 content changed
-common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
-common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen###04 Aug 2006 content changed
-common#:#adve_survey_settings#:#Umfrage-Einstellungen###04 Aug 2006 content changed
-common#:#adve_visible#:#Erweiterte Bearbeitungseinstellungen sind sichtbar###04 Aug 2006 content changed
-common#:#adve_write#:#Erweiterte Bearbeitungseinstellungen bearbeiten###04 Aug 2006 content changed
+common#:#advanced_editing_tinymce#:#TinyMCE-Editor
+common#:#adve_assessment_settings#:#Test&Assessment-Einstellungen
+common#:#adve_cat_settings#:#Kategorien-Einstellungen
+common#:#adve_edit_permission#:#Rechteeinstellungen ändern
+common#:#adve_general_settings#:#Allgemeine Einstellungen
+common#:#adve_lm_settings#:#Lernmodul-/Glossar-Einstellungen
+common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen
+common#:#adve_survey_settings#:#Umfrage-Einstellungen
+common#:#adve_visible#:#Erweiterte Bearbeitungseinstellungen sind sichtbar
+common#:#adve_write#:#Erweiterte Bearbeitungseinstellungen bearbeiten
 common#:#agree_date#:#Zugestimmt am
 common#:#all_authors#:#Alle Autoren
 common#:#all_global_roles#:#Globale Rollen
@@ -1039,7 +1039,7 @@ common#:#all_lms#:#Alle Lernmodule
 common#:#all_local_roles#:#Lokale Rollen (alle)
 common#:#all_objects#:#Alle Objekte
 common#:#all_roles#:#Alle Rollen
-common#:#all_topics#:#All Topics###10 Jul 2006 new variable
+common#:#all_topics#:#All Themen
 common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
@@ -1054,7 +1054,7 @@ common#:#alm_leave#:#AICC Lernmodulabonnement aufheben
 common#:#alm_read#:#AICC Lernmodul lesen
 common#:#alm_visible#:#AICC Lernmodul ist sichtbar
 common#:#alm_write#:#AICC Lernmodul bearbeiten
-common#:#already_delivered_files#:#Bereits abgegebene Dateien###30 Jul 2006 content changed
+common#:#already_delivered_files#:#Bereits abgegebene Dateien
 common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
@@ -1070,7 +1070,7 @@ common#:#apply_filter#:#Filter anwenden
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
 common#:#approve_date#:#Freigegeben am
-common#:#approve_recipient#:#E-Mail Benachrichtigung für (Benutzername ID)###10 Jul 2006 content changed
+common#:#approve_recipient#:#E-Mail-Benachrichtigung für (Benutzername ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
 common#:#arrow_downright#:#Pfeil von oben nach unten rechts
@@ -1095,12 +1095,12 @@ common#:#assf_read#:#Zugriff auf die Test&Assessment-Adminstration
 common#:#assf_visible#:#Test&Assessment Administration ist sichtbar
 common#:#assf_write#:#Bearbeiten der Test&Assessment Administration
 common#:#assign#:#Annehmen
-common#:#assign_global_role#:#Einer globalen Rolle zuordnen###23 Dec 2005 content changed
+common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
-common#:#assign_local_role#:#Lokale Rolle zuweisen###23 Dec 2005 content changed
+common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
-common#:#assigned_roles#:#Zugewiesene Rollen###23 Dec 2005 content changed
-common#:#assigned_users#:#Zugewiesene Benutzer###23 Dec 2005 content changed
+common#:#assigned_roles#:#Zugewiesene Rollen
+common#:#assigned_users#:#Zugewiesene Benutzer
 common#:#associated_user#:#Mitglied
 common#:#associated_users#:#Mitglieder
 common#:#at_least_one_style#:#Es muß mindestens ein Style aktiviert sein.
@@ -1108,20 +1108,20 @@ common#:#at_location#:#an Position
 common#:#attachment#:#Anhang
 common#:#attachments#:#Anhänge
 common#:#attend#:#Teilnehmen
-common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformular###23 Dec 2005 content changed
-common#:#auth_allow_local#:#Allow Local Authentication###10 Jul 2006 new variable
-common#:#auth_cas#:#CAS###10 Jul 2006 new variable
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.###10 Jul 2006 new variable
-common#:#auth_cas_auth#:#Configure CAS Authentication###10 Jul 2006 new variable
-common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)###10 Jul 2006 new variable
-common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.###10 Jul 2006 new variable
-common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
-common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
-common#:#auth_cas_settings_saved#:#CAS settings saved###10 Jul 2006 new variable
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/###10 Jul 2006 new variable
-common#:#auth_cas_user_default_role_desc#:#This role is assigned to automatically created CAS users.###10 Jul 2006 new variable
+common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformular
+common#:#auth_allow_local#:#Erlaube lokale Authentifizierung
+common#:#auth_cas#:#CAS
+common#:#auth_cas_allow_local_desc#:#Erlaubt CAS-Usern, sich mit ihrem lokalen ILIAS-Benutzernamen und -Passwort anzumelden/zu authentifizieren.
+common#:#auth_cas_auth#:#Configure CAS-Authentifizierung
+common#:#auth_cas_auth_desc#:#CAS erfordert PHP 4.3.1 oder höher mit CURL-Unterstützung (7.5 oder höher)
+common#:#auth_cas_create_users_desc#:#Erzeugt automatisch ein ILIAS-Benutzerkonto für Anwender, die sich erfolgreich gegen CAS authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügten.
+common#:#auth_cas_port_desc#:#Zum Beispiel "443" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
+common#:#auth_cas_server_desc#:#Zum Beispiel "auth.yourserver.com" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
+common#:#auth_cas_settings_saved#:#CAS-Einstellungen gespeichert
+common#:#auth_cas_uri_desc#:#Lokale URI, zum Beispiel "cas" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
+common#:#auth_cas_user_default_role_desc#:#Diese Rolle erhalten automatisch erzeugte CAS-User.
 common#:#auth_configure#:#konfigurieren...
-common#:#auth_create_users#:#Create non-existing users automatically###10 Jul 2006 new variable
+common#:#auth_create_users#:#Lege noch nicht eingetragene Benutzer automatisch an.
 common#:#auth_default#:#Standardeinstellung
 common#:#auth_default_mode_changed_to#:#Standard-Authentifizierungsmodus gewechselt nach
 common#:#auth_edit_permission#:#Rechteeinstellungen ändern
@@ -1132,12 +1132,12 @@ common#:#auth_ldap_not_configured#:#LDAP ist noch nicht eingerichtet
 common#:#auth_ldap_settings_saved#:#LDAP-Einstellungen gespeichert
 common#:#auth_local#:#ILIAS Datenbank
 common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
-common#:#auth_login_instructions#:#Instructions on Login Screen###15 Jul 2006 new variable
+common#:#auth_login_instructions#:#Anweisungen auf dem Anmeldebildschirm
 common#:#auth_mode#:#Authentifizierungsmodus
 common#:#auth_mode_not_changed#:#(Keine Änderung)
 common#:#auth_mode_roles_changed#:#Authentifizierungsmodus für diese Rolle geändert
-common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
-common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
+common#:#auth_new_account_mail_desc#:#Sendet Nachricht über neuen Account an Benutzer, wenn dieser automatisch angelegt wurde. Ein Passwort wird nur erzeugt, wenn auch "Lokale Benutzerverwaltung" aktiviert ist. 
+common#:#auth_per_default#:#Standardwert
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#RADIUS-Authentifizierung konfigurieren
 common#:#auth_radius_desc#:#Authentifizierung über einen RADIUS Server
@@ -1149,7 +1149,7 @@ common#:#auth_radius_server_desc#:#Mehrere Server können mit Komma getrennt ang
 common#:#auth_radius_settings_saved#:#RADIUS-Einstellungen gespeichert
 common#:#auth_radius_shared_secret#:#Shared Secret
 common#:#auth_read#:#Lesezugriff auf Authentifizierung
-common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.###10 Jul 2006 content changed
+common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.
 common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_script#:#Benutzerdefiniert
 common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
@@ -1158,22 +1158,22 @@ common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#User-Authentifizierung über Shibboleth - Kann als zweite Authentifizierungsmethode verwendet werden.
 common#:#auth_shib_not_configured#:#Shibboleth ist noch nicht eingerichtet
 common#:#auth_shibboleth#:#Shibboleth
-common#:#auth_soap#:#SOAP###10 Jul 2006 new variable
-common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.###10 Jul 2006 new variable
-common#:#auth_soap_auth#:#Configure SOAP Authentication###10 Jul 2006 new variable
-common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.###10 Jul 2006 new variable
-common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.###10 Jul 2006 new variable
-common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
-common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
-common#:#auth_soap_port_desc#:#E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
-common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
-common#:#auth_soap_settings_saved#:#SOAP authentication settings saved###10 Jul 2006 new variable
-common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php###10 Jul 2006 new variable
-common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
-common#:#auth_soap_use_https#:#Use HTTPS###10 Jul 2006 new variable
-common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###10 Jul 2006 new variable
-common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.###10 Jul 2006 new variable
-common#:#auth_user_default_role#:#Default Role###10 Jul 2006 new variable
+common#:#auth_soap#:#SOAP
+common#:#auth_soap_allow_local_desc#:#Erlaubt SOAP-Usern, sich mit ihrem lokalen ILIAS-Benutzernamen und -Passwort zu authentifizieren/anzumelden.
+common#:#auth_soap_auth#:#Konfiguriere SOAP-Authentifizierung
+common#:#auth_soap_auth_desc#:#Diese Einstellung betrifft nur die SOAP-basierte Benutzerauthentifizierung, nicht aber das ILIAS-SOAP-Interface.
+common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Benutzerkonto für Anwender, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügten.
+common#:#auth_soap_namespace#:#Namensraum
+common#:#auth_soap_namespace_desc#:#Entsprechend Definition in WSDL. Muss angegeben werden, wenn .NET SOAP style genutzt wird.
+common#:#auth_soap_port_desc#:#Zum Beispiel "8080", wenn die absolute SOAP-Server-URI http://auth.yourserver.com:8080/dir/server.php lautet.
+common#:#auth_soap_server_desc#:#Zum Beispiel "auth.yourserver.com", wenn die absolute SOAP-Server-URI http://auth.yourserver.com:8080/dir/server.php lautet.
+common#:#auth_soap_settings_saved#:#Einstellungen für SOAP-Authentifizierung gespeichert!
+common#:#auth_soap_uri_desc#:#Lokale URI, z. B. "dir/server.php", wenn die absolute SOAP-Server-URI http://auth.yourserver.com:8080/dir/server.php lautet.
+common#:#auth_soap_use_dotnet#:#.NET SOAP Style verwenden
+common#:#auth_soap_use_https#:#HTTPS verwenden
+common#:#auth_soap_user_default_role#:#Standardrolle SOAP-User
+common#:#auth_soap_user_default_role_desc#:#Diese Rolle erhalten gegen SOAP authentifizierte Benutzer.
+common#:#auth_user_default_role#:#Standardrolle
 common#:#auth_visible#:#Authentifizierung ist sichtbar
 common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
 common#:#authentication_settings#:#Authentifizierung
@@ -1230,7 +1230,7 @@ common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
 common#:#cat_cat_administrate_users#:#Lokale Benutzer verwalten
-common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
+common#:#cat_clear_page#:#Seite leeren
 common#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
@@ -1258,13 +1258,13 @@ common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie
-common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
-common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
-common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
-common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
+common#:#cat_pages#:#Kategorien-Seiten
+common#:#cat_pages_clear#:#Kategorie-Seite geleert
+common#:#cat_pages_not_created#:#Kategorie-Seite wurde noch nicht erzeugt.
+common#:#cat_pages_undone#:#Letzte Änderung der Kategorie-Seite rückgängig machen
 common#:#cat_read#:#Lesezugriff auf Kategorie
 common#:#cat_read_users#:#Lesezugriff auf lokale Benutzer
-common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
+common#:#cat_undo_last_page_changes#:#Letzte Änderung der Seite rückgängig machen
 common#:#cat_visible#:#Kategorie ist sichtbar
 common#:#cat_write#:#Kategorie bearbeiten
 common#:#categories#:#Kategorien
@@ -1342,9 +1342,9 @@ common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
 common#:#close_window#:#Fenster schließen
 common#:#cnt_new#:#(%s Neu)
-common#:#collapse#:#Collapse###06 Jan 2006 new variable
+common#:#collapse#:#Einklappen
 common#:#comma_separated#:#Kommagetrennt
-common#:#comment#:#Kommentar###10 Jul 2006 content changed
+common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
 common#:#condition#:#Bedingung
 common#:#condition_already_assigned#:#Diese Objekt wurde bereits zugeordnet.
@@ -1368,7 +1368,7 @@ common#:#content#:#Inhalt
 common#:#content_styles#:#Content Styles
 common#:#context#:#Kontext
 common#:#continue_work#:#Fortsetzen
-common#:#contra#:#Contra###23 Dec 2005 new variable
+common#:#contra#:#Contra
 common#:#cookies_howto#:#So aktivieren Sie Cookies
 common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
 common#:#copy#:#Kopieren
@@ -1393,9 +1393,9 @@ common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, wer
 common#:#cron_forum_notification_directly#:#sofort bei Neueintrag
 common#:#cron_forum_notification_never#:#nie
 common#:#cron_jobs#:#Cron-jobs
-common#:#cron_jobs_desc#:#Ein Cron-job ist ein automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.###10 Jul 2006 content changed
+common#:#cron_jobs_desc#:#Ein Cron-job ist ein automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.
 common#:#cron_lucene_index#:#Lucene Suchindex aktualisieren
-common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie voher den Lucene-Server unter 'Administration -> Suche'. ### 2006-5-8 --- Content changed 
+common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie voher den Lucene-Server unter 'Administration -> Suche'.  
 common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
 common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht gültig.
@@ -1432,12 +1432,12 @@ common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_info#:#Info
-common#:#crs_join#:#Kurs abonnieren###23 Dec 2005 content changed
-common#:#crs_leave#:#Kursabonnement aufheben###23 Dec 2005 content changed
+common#:#crs_join#:#Kurs abonnieren
+common#:#crs_leave#:#Kursabonnement aufheben
 common#:#crs_management_system#:#Kursmanagement-System
 common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_member_passed#:#Bestanden
-common#:#crs_members_gallery#:#Kursmitglieder (Galerie)###08 Aug 2006 content changed
+common#:#crs_members_gallery#:#Mitglieder-Galerie
 common#:#crs_new#:#Neuer Kurs
 common#:#crs_no_content#:#Ohne Inhalt
 common#:#crs_read#:#Kurs lesen
@@ -1449,7 +1449,7 @@ common#:#crs_write#:#Kurs bearbeiten
 common#:#cumulative_time#:#Kumulative Zeit
 common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
 common#:#current_ip#:#Aktuelle IP:
-common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.###10 Jul 2006 content changed
+common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
 common#:#current_password#:#Derzeitiges Passwort
 common#:#custom_icon_size_big#:#Symbolgrösse anpassen (gross)
 common#:#custom_icon_size_small#:#Symbolgrösse anpassen (klein)
@@ -1504,7 +1504,7 @@ common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
 common#:#deleted_users#:#Die BenutzerInnen wurden gelöscht.
-common#:#deliver#:#Übung abgeben###30 Jul 2006 content changed
+common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#descending_order#:#Absteigende Reihenfolge
@@ -1522,7 +1522,7 @@ common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
-common#:#edit_comments#:#Edit comments for the selected user###10 Jul 2006 new variable
+common#:#edit_comments#:#Kommentare für ausgewählte Benutzer bearbeiten
 common#:#edit_content#:#Inhalt bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
@@ -1535,7 +1535,7 @@ common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
 common#:#email#:#E-Mail
-common#:#email_feedback#:#Mail feedback###10 Jul 2006 new variable
+common#:#email_feedback#:#Mail-Feedback
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
@@ -1545,21 +1545,21 @@ common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) fü
 common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
 common#:#enable_fora_statistics_desc#:#Wenn dies deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
-common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.###23 Dec 2005 content changed
+common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
-common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)###25 Jul 2006 content changed
+common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_registration#:#Registrierung von Benutzerkonten zulassen
 common#:#enable_trash#:#Papierkorb verwenden
 common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Papierkorb verschoben und können später wieder hergestellt werden. Ist der Papierkorb deaktiviert, werden gelöschte Objekte unwiderruflich aus dem System entfernt!
 common#:#enabled#:#Eingeschaltet
-common#:#enter_filename_deliver#:#Bitte geben Sie hier Ihre Lösungsergebnisse ab###10 Jul 2006 content changed
+common#:#enter_filename_deliver#:#Bitte geben Sie hier Ihre Lösungsergebnisse ab
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
-common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
-common#:#err_auth_ext_user_exists#:#External account '%s' for authentication mode '%s' is already existing. (User '%s')###10 Jul 2006 new variable
-common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
+common#:#err_auth_cas_no_ilias_user#:#Anmeldung fehlgeschlagen! Die CAS-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
+common#:#err_auth_ext_user_exists#:#Das externe Benutzerkonto '%s' für die Authentifizierungsmethode '%s' existiert bereits. (Benutzer '%s')
+common#:#err_auth_soap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die SOAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_enter_current_passwd#:#Bitte geben Sie Ihr momentanes Passwort an!
 common#:#err_in_line#:#Fehler in Zeile
@@ -1577,7 +1577,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
-common#:#err_wrong_login#:#Benutzername oder Passwort ungültig###22 May 2006 content changed
+common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
@@ -1592,49 +1592,49 @@ common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
 common#:#exc_deassign_members#:#Mitglied(er) löschen
 common#:#exc_delete#:#Übung löschen
 common#:#exc_details#:#Übungsdetails
-common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
-common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
-common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
+common#:#exc_download_all#:#Alle herunterladen
+common#:#exc_download_files#:#Download-Dateien###28 Jul 2006 new variable
+common#:#exc_download_new#:#Neue herunterladen
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
 common#:#exc_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#exc_edit_permission#:#Rechteeinstellungen ändern
-common#:#exc_edit_until#:#Zu bearbeiten bis###30 Jul 2006 content changed
-common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
-common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
-common#:#exc_files#:#Dateien###30 Jul 2006 content changed
-common#:#exc_files_returned#:#Abgegebene Dateien###26 Jul 2006 content changed
+common#:#exc_edit_until#:#Zu bearbeiten bis
+common#:#exc_exercise_sent#:#Übung versandt
+common#:#exc_feedback_sent#:#Feedback versandt
+common#:#exc_files#:#Dateien
+common#:#exc_files_returned#:#Abgegebene Dateien
 common#:#exc_groups#:#Gruppen
 common#:#exc_header_members#:#Übung (Mitglieder)
-common#:#exc_instruction#:#Arbeitsanweisung###30 Jul 2006 content changed
-common#:#exc_last_submission#:#Letzte Übertragung###26 Jul 2006 content changed
+common#:#exc_instruction#:#Arbeitsanweisung
+common#:#exc_last_submission#:#Letzte Übertragung
 common#:#exc_mail_users#:#Mail an Nutzer verschicken
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
-common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved###10 Jul 2006 new variable
+common#:#exc_members_comments_saved#:#Die Kommentare zu den Übungen der ausgewählten Benutzer wurden gespeichert.
 common#:#exc_new#:#Neue Übung
 common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
 common#:#exc_notices#:#Bemerkungen
 common#:#exc_obj#:#Übung
 common#:#exc_read#:#Übung lesen
-common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
+common#:#exc_resubmitted_advice#:#Dieses Zeichen erscheint, wenn eine neue Übungsdatei abgegeben wird, nachdem für den Benutzer das Häkchen "Gelöst" gewählt wurde.
 common#:#exc_roles#:#Rollen
 common#:#exc_save_changes#:#Änderungen speichern
-common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
+common#:#exc_schedule#:#Terminplan
 common#:#exc_search_for#:#Suchen nach
 common#:#exc_select_one_file#:#Bitte wählen Sie genau eine Datei aus.
-common#:#exc_send_exercise#:#Übung verschicken###10 Jul 2006 content changed
+common#:#exc_send_exercise#:#Übung verschicken
 common#:#exc_sent#:#Die Übung wurde an die ausgewählten Mitglieder verschickt
-common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
-common#:#exc_status#:#Status###10 Jul 2006 new variable
+common#:#exc_sent_at#:#Versandt am <br />%s
+common#:#exc_status#:#Status
 common#:#exc_status_resubmitted#:#Erneut übertragen
 common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
 common#:#exc_status_sent#:#Zugestellt
 common#:#exc_status_solved#:#Gelöst
 common#:#exc_status_submitted#:#Übertragen
-common#:#exc_submission#:#Submission###26 Jul 2006 new variable
-common#:#exc_time_over_short#:#Die Zeit ist abgelaufen###30 Jul 2006 content changed
-common#:#exc_time_to_send#:#Verbleibende Bearbeitungsdauer###30 Jul 2006 content changed
+common#:#exc_submission#:#Einreichung
+common#:#exc_time_over_short#:#Die Zeit ist abgelaufen
+common#:#exc_time_to_send#:#Verbleibende Bearbeitungsdauer
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#exc_users#:#Benutzern
 common#:#exc_visible#:#Übung ist sichtbar
@@ -1643,8 +1643,8 @@ common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
 common#:#exercise_time_over#:#Sie haben das Enddatum für die Verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
 common#:#exp_html#:#HTML exportieren
-common#:#expand#:#Expand###06 Jan 2006 new variable
-common#:#explorer_frame#:#Explorer Tree###17 Jan 2006 new variable
+common#:#expand#:#Ausklappen
+common#:#explorer_frame#:#Explorer-Baum
 common#:#export#:#Export
 common#:#export_group_members#:#Gruppenmitglieder exportieren (nach Microsoft Excel)
 common#:#export_html#:#Exportieren als HTML-Datei
@@ -1678,8 +1678,8 @@ common#:#faq_exercise#:#FAQ/übungskapitel
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
-common#:#field_name#:#Feldname###09 Aug 2006 content changed
-common#:#field_type#:#Feldtyp###09 Aug 2006 content changed
+common#:#field_name#:#Feldname
+common#:#field_type#:#Feldtyp
 common#:#file#:#Datei
 common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
@@ -1777,9 +1777,9 @@ common#:#frm_edit_permission#:#Rechteeinstellungen ändern
 common#:#frm_edit_post#:#Forumbeiträge anlegen
 common#:#frm_new#:#Neues Forum
 common#:#frm_read#:#Forum lesen
-common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
-common#:#frm_status_new#:#Status 'Neu' ### 2006-5-8 --- Content changed
-common#:#frm_status_new_desc#:#Bitte wählen Sie eine Zeitdauer, wie lange der Status 'Neu' für Forenbeiträge angezeigt wird. ### 2006-5-8 --- Content changed
+common#:#frm_statistics_ranking#:#Rangliste
+common#:#frm_status_new#:#Status 'Neu' 
+common#:#frm_status_new_desc#:#Bitte wählen Sie eine Zeitdauer, wie lange der Status 'Neu' für Forenbeiträge angezeigt wird. 
 common#:#frm_visible#:#Forum ist sichtbar
 common#:#frm_write#:#Forum bearbeiten
 common#:#from#:#Von
@@ -1833,27 +1833,27 @@ common#:#group_memstat#:#Mitgliederstatus
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
-common#:#group_new_registrations#:#Aufnahmeanträge###23 Dec 2005 content changed
-common#:#group_no_registration#:#Zur Gruppe beitreten###23 Dec 2005 content changed
-common#:#group_no_registration_msg#:#Sie können direkt zu dieser Gruppe beitreten.###23 Dec 2005 content changed
+common#:#group_new_registrations#:#Aufnahmeanträge
+common#:#group_no_registration#:#Zur Gruppe beitreten
+common#:#group_no_registration_msg#:#Sie können direkt zu dieser Gruppe beitreten.
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
-common#:#group_password_registration_msg#:#Wenn Ihnen ein Gruppen-Administrator das Gruppen-Passwort mitgeteilt hat, können Sie zur Gruppe beitreten.###23 Dec 2005 content changed
+common#:#group_password_registration_msg#:#Wenn Ihnen ein Gruppen-Administrator das Gruppen-Passwort mitgeteilt hat, können Sie zur Gruppe beitreten.
 common#:#group_registration#:#Gruppenbeitritt
 common#:#group_registration_expiration_date#:#Ablaufdatum
 common#:#group_registration_expiration_time#:#Ablaufzeit
-common#:#group_registration_expired#:#Zeitraum für Beitritte ist abgelaufen###23 Dec 2005 content changed
-common#:#group_registration_expired_msg#:#Der Zeitraum für Beitritte in die Gruppe ist abgelaufen.<br/>Bitte wenden Sie sich an einen Gruppen-Administrator.
-common#:#group_registration_mode#:#Beitrittsverfahren###23 Dec 2005 content changed
+common#:#group_registration_expired#:#Zeitraum für Beitritte ist abgelaufen
+common#:#group_registration_expired_msg#:#Der Zeitraum für Beitritte in die Gruppe ist abgelaufen.<br />Bitte wenden Sie sich an einen Gruppen-Administrator.
+common#:#group_registration_mode#:#Beitrittsverfahren
 common#:#group_registration_time#:#Zeitraum
 common#:#group_req_direct#:#Direkter Beitritt
-common#:#group_req_password#:#Beitritt mit Gruppenpasswort###23 Dec 2005 content changed
-common#:#group_req_registration#:#Antrag mit Bestätigung###23 Dec 2005 content changed
-common#:#group_req_registration_msg#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppen-Administrator Ihren Antrag angenommen oder abgelehnt hat.###23 Dec 2005 content changed
+common#:#group_req_password#:#Beitritt mit Gruppenpasswort
+common#:#group_req_registration#:#Antrag mit Bestätigung
+common#:#group_req_registration_msg#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppen-Administrator Ihren Antrag angenommen oder abgelehnt hat.
 common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
 common#:#group_status#:#Gruppe ist
 common#:#group_status_closed#:#Geschlossen
-common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die Rollenvorlage 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen wird.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann mit dem ausgewählten Beitrittsverfahren in die Gruppe beitreten.<br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden. ### 2006-5-8 --- Content changed
+common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die Rollenvorlage 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen wird.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann mit dem ausgewählten Beitrittsverfahren in die Gruppe beitreten.<br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden. 
 common#:#group_status_public#:#Öffentlich
 common#:#groupings#:#Mitgliedsschaft-Beschränkungen
 common#:#groupings_assigned_obj_crs#:#Zugeordnete Kurse
@@ -1893,7 +1893,7 @@ common#:#grp_create_webr#:#Neue Web-Links anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
-common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?###23 Dec 2005 content changed
+common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
 common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
@@ -1903,7 +1903,7 @@ common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durc
 common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
 common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
-common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Beitrittszeitraums an !###23 Dec 2005 content changed
+common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Beitrittszeitraums an !
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
 common#:#grp_join#:#Benutzer kann Gruppe beitreten
 common#:#grp_leave#:#Benutzer kann Gruppe verlassen
@@ -1915,11 +1915,11 @@ common#:#grp_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
-common#:#grp_members_gallery#:#Mitgliedergallerie###11 Aug 2006 content changed
+common#:#grp_members_gallery#:#Mitglieder-Galerie
 common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt
 common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
-common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben###23 Dec 2005 content changed
+common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
 common#:#grp_new_search#:#Neue Suche
@@ -1928,9 +1928,9 @@ common#:#grp_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#grp_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 common#:#grp_options#:#Optionen
 common#:#grp_read#:#Lesezugriff auf Gruppe
-common#:#grp_register#:#Beitreten###23 Dec 2005 content changed
+common#:#grp_register#:#Beitreten
 common#:#grp_registration#:#Zur Gruppe beitreten
-common#:#grp_registration_completed#:#Sie sind zur Gruppe beigetreten###23 Dec 2005 content changed
+common#:#grp_registration_completed#:#Sie sind zur Gruppe beigetreten
 common#:#grp_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#grp_search_members#:#Benutzersuche
 common#:#grp_select_one_file#:#Bitte wählen Sie eine Datei aus.
@@ -2068,7 +2068,7 @@ common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufg
 common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft
 common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
 common#:#ilinc_manage_course_documents#:#Agenda
-common#:#ilinc_mem_change_status#:#Mitgliedsstatus ändern###10 Jul 2006 content changed
+common#:#ilinc_mem_change_status#:#Mitgliedsstatus ändern
 common#:#ilinc_mem_leave#:#Benutzer aus dem LearnLinc Seminar austragen
 common#:#ilinc_mem_send_mail#:#Benutzer eine Nachricht senden
 common#:#ilinc_msg_joined#:#Sie sind dem LearnLinc Seminar beigetreten
@@ -2078,7 +2078,7 @@ common#:#ilinc_no_akclassvalues#:#keine
 common#:#ilinc_no_docent_assigned#:#Niemand zugewiesen
 common#:#ilinc_notset#:#Nicht gesetzt
 common#:#ilinc_remark#:#Hinweis
-common#:#ilinc_server_not_active#:#Der iLinc-Server ist nicht aktiv###10 Jul 2006 content changed
+common#:#ilinc_server_not_active#:#Der iLinc-Server ist nicht aktiv
 common#:#ilinc_student#:#Teilnehmer
 common#:#ilinc_upload_pic_linktext#:#Hochladen
 common#:#ilinc_upload_pic_text#:#Um Ihr Bild in LearnLinc Seminaren anzuzeigen, benutzen Sie bitte diesen Link:
@@ -2123,19 +2123,19 @@ common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User au
 common#:#info_assigned#:#zugewiesen
 common#:#info_available_roles#:#Verfügbare Rollen
 common#:#info_change_user_view#:#Benutzersicht wechseln
-common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:###23 Dec 2005 content changed
+common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System entfernt und können nicht wiederhergestellt werden!)
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_enter_login_or_id#:#<i>(Geben Sie Benutzernamen oder Benutzer-ID ein)</i>
 common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser user_id existiert nicht
-common#:#info_from_role#:#Gewährt durch Rollenmitgliedschaft/Besitz###31 Jul 2006 content changed
+common#:#info_from_role#:#Gewährt durch Rollenmitgliedschaft/Besitz
 common#:#info_is_member#:#Benutzer ist Mitglied
 common#:#info_is_not_member#:#Benutzer ist kein Mitglied
 common#:#info_not_assigned#:#nicht zugewiesen
 common#:#info_owner_of_object#:#Besitzer des Objektes
-common#:#info_permission_origin#:#Absolute Position###31 Jul 2006 content changed
-common#:#info_permission_source#:#wirksam von*###31 Jul 2006 content changed
-common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.###10 Jul 2006 content changed
+common#:#info_permission_origin#:#Absolute Position
+common#:#info_permission_source#:#wirksam von*
+common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.
 common#:#info_short#:#Info
 common#:#info_status_info#:#Rechte des Benutzers
 common#:#info_trash#:#Gelöschte Objekte
@@ -2180,11 +2180,11 @@ common#:#internal_system#:#Internes System
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
-common#:#java_server#:#Java-Server###04 Aug 2006 new variable
-common#:#java_server_host#:#Host###04 Aug 2006 new variable
+common#:#java_server#:#Java-Server
+common#:#java_server_host#:#Host
 common#:#java_server_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
 common#:#java_server_no_connection#:#Achtung: Es kann keine Verbindung zum Java-Server hergestellt werden.
-common#:#java_server_port#:#Port###04 Aug 2006 new variable
+common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Zur Installationsanleitung
 common#:#join#:#Beitreten
 common#:#kb#:#KByte
@@ -2216,7 +2216,7 @@ common#:#lang_sq#:#Albanisch
 common#:#lang_sr#:#Serbisch
 common#:#lang_sv#:#Schwedisch
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_timeformat_no_sec#:#H:i###10 Jul 2006 new variable
+common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uk#:#Ukrainisch
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamesisch
@@ -2229,7 +2229,7 @@ common#:#languages#:#Sprachen
 common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
 common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
-common#:#last_access#:#Letzter Zugriff:###10 Jul 2006 content changed
+common#:#last_access#:#Letzter Zugriff:
 common#:#last_change#:#Letzte Änderung
 common#:#last_edited_on#:#Zuletzt bearbeitet am
 common#:#last_login#:#Letztes Login
@@ -2256,8 +2256,8 @@ common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
 common#:#learning module#:#Lernmodul
 common#:#learning_objects#:#Lernobjekte
-common#:#learning_progress#:#Lernfortschritt###10 Jul 2006 content changed
-common#:#learning_resourc#:#Learning Resource###10 Jul 2006 new variable
+common#:#learning_progress#:#Lernfortschritt
+common#:#learning_resourc#:#Lernmaterial
 common#:#learning_resource#:#Lernmaterial
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
@@ -2266,7 +2266,7 @@ common#:#link_check#:#Links überprüfen
 common#:#link_check_body_top#:#Sie erhalten diese Mail, da sie über ungültige Links der folgenden ILIAS Lerneinheiten informiert werden möchten:
 common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Email über nicht gültige Links dieser Lerneinheit informiert.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
-common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert. ### 2006-5-8 --- Content changed
+common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert. 
 common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
 common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-Id an den Web-Link anhängen.
@@ -2337,8 +2337,8 @@ common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte w
 common#:#login_invalid#:#Der gewählte Benutzername ist nicht erlaubt! Ihr Benutzername muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service###10 Jul 2006 new variable
-common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über ###27 Jul 2006 content changed
+common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
+common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über 
 common#:#logout#:#Abmelden
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#logs#:#Log-Daten
@@ -2355,8 +2355,8 @@ common#:#mail_d_drafts#:#Entwürfe
 common#:#mail_delete_error#:#Fehler beim Löschen
 common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
-common#:#mail_edit_permission#:#Rechteeinstellungen ändern###28 Jul 2006 content changed
-common#:#mail_feedback#:#Mail feedback###10 Jul 2006 new variable
+common#:#mail_edit_permission#:#Rechteeinstellungen ändern
+common#:#mail_feedback#:#Mail-Feedback
 common#:#mail_folders#:#Mail-Ordner
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Exportdatei
@@ -2368,10 +2368,10 @@ common#:#mail_maxsize_box#:#Max. Mailbox-Grösse
 common#:#mail_maxsize_mail#:#Max. Mail-Grösse
 common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
 common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
-common#:#mail_members#:#Mail an Mitglieder###28 Jul 2006 content changed
+common#:#mail_members#:#Mail an Mitglieder
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_read#:#Lesezugriff auf Maileinstellungen
-common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden###28 Jul 2006 content changed
+common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
 common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
@@ -2391,7 +2391,7 @@ common#:#matriculation#:#Matrikelnummer
 common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
 common#:#member#:#Mitglied
-common#:#member_status#:#Mitgliedsstatus###23 Dec 2005 content changed
+common#:#member_status#:#Mitgliedsstatus
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft ist beendet worden.
 common#:#mep#:#Media-Pool
@@ -2407,7 +2407,7 @@ common#:#mep_visible#:#Media-Pool ist sichtbar
 common#:#mep_write#:#Inhalt des Media-Pools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
-common#:#message_no_delivered_files#:#Sie haben noch keine Lösungsergebnisse abgegeben!###10 Jul 2006 content changed
+common#:#message_no_delivered_files#:#Sie haben noch keine Lösungsergebnisse abgegeben!
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
@@ -2450,7 +2450,7 @@ common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
 common#:#move_selected_items#:#Ausgewählte Elemente verschieben
 common#:#move_to#:#Ablegen in
-common#:#move_users_to_style#:#Benutzer Style zuordnen###10 Jul 2006 content changed
+common#:#move_users_to_style#:#Benutzer Style zuordnen
 common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
@@ -2476,9 +2476,9 @@ common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle 
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
-common#:#msg_no_file#:#Sie haben keine Datei ausgewählt###10 Jul 2006 content changed
+common#:#msg_no_file#:#Sie haben keine Datei ausgewählt
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
-common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern###10 Jul 2006 content changed
+common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
 common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Benutzerzuweisung zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
@@ -2498,7 +2498,7 @@ common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung 
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
 common#:#msg_no_perm_read#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
-common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.###10 Jul 2006 new variable
+common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt '%s' zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
 common#:#msg_no_perm_read_track#:#Sie besitzen keine ausreichende Berechtigung um Tracking-Daten anzuzeigen.
 common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
@@ -2508,13 +2508,13 @@ common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten
 common#:#msg_no_scan_log#:#Scan log ist noch nicht implementiert
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind ### 2006-5-8 --- Content changed
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind 
 common#:#msg_no_title#:#Bitte geben Sie einen Titel ein!
 common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
 common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Sie haben keine URL eingegeben
 common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
-common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:###10 Jul 2006 content changed
+common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
 common#:#msg_nothing_found#:#Nichts gefunden!
 common#:#msg_obj_created#:#Objekt angelegt!
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
@@ -2527,9 +2527,9 @@ common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstel
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen
-common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen ### 2006-5-8 --- Content changed
+common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen 
 common#:#msg_roleassignment_active_changed#:#Aktive Rollenzuweisung geändert
-common#:#msg_roleassignment_active_changed_comment#:#Diese Einstellung wird nicht im Benutzerprofil gespeichert! Wenn der Benutzer sich ab- und wieder anmeldet, wird die Rollenzuweisung wieder auf die gespeicherten Einstellungen zurückgesetzt. ### 2006-5-8 --- Content changed
+common#:#msg_roleassignment_active_changed_comment#:#Diese Einstellung wird nicht im Benutzerprofil gespeichert! Wenn der Benutzer sich ab- und wieder anmeldet, wird die Rollenzuweisung wieder auf die gespeicherten Einstellungen zurückgesetzt.
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
 common#:#msg_sysrole_not_deletable#:#Die Systemrolle kann nicht gelöscht werden
 common#:#msg_sysrole_not_editable#:#Die Rechteeinstellungen der Systemrolle können nicht geändert werden. Die Systemrolle erlaubt den zugeordneten Benutzern uneingeschränkten Zugriff auf alle Objekte und Funktionen.
@@ -2583,7 +2583,7 @@ common#:#no_parent_access#:#Kein Zugriff auf ein übergeordnetes Objekt!
 common#:#no_permission#:#Sie haben nicht die entsprechenden Zugriffsrechte!
 common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
 common#:#no_roles_user_can_be_assigned_to#:#Sie haben keinen Zugriff auf globale Rollen, deswegen können Sie keine lokalen Benutzer anlegen.
-common#:#no_submission_made#:#---###10 Jul 2006 new variable
+common#:#no_submission_made#:#---
 common#:#no_title#:#Kein Titel
 common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
 common#:#no_user_defined_fields_defined#:#Keine Felder vorhanden.
@@ -2604,28 +2604,28 @@ common#:#note#:#Notiz
 common#:#note_all_pub_notes#:#Alle Notizen
 common#:#note_my_pub_notes#:#Nur eigene Notizen
 common#:#notes#:#Notizen
-common#:#num_users#:#Anzahl Benutzer###10 Jul 2006 content changed
+common#:#num_users#:#Anzahl Benutzer
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
-common#:#obj_adve#:#Erweiterte Bearbeitung###04 Aug 2006 content changed
+common#:#obj_adve#:#Erweiterte Bearbeitung
 common#:#obj_adve_desc#:#Administrationseinstellungen für erweiterte Bearbeitung wie z.B. Javascript-basierte Editoren, erlaubte HTML-Auszeichnungen etc.
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_assf#:#Test & Assessment
 common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
-common#:#obj_auth#:#Authentifizierung/Neuanmeldung###10 Jul 2006 content changed
-common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, ...) sowie die Neuanmeldungen.###10 Jul 2006 content changed
+common#:#obj_auth#:#Authentifizierung/Neuanmeldung
+common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, CAS, ...) sowie die Neuanmeldungen.
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
-common#:#obj_chac#:#Chateinstellungen###10 Jul 2006 content changed
+common#:#obj_chac#:#Chateinstellungen
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
-common#:#obj_extt#:#Software von Drittanbietern###10 Jul 2006 content changed
+common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
 common#:#obj_file#:#Datei
 common#:#obj_fold#:#Ordner
@@ -2650,10 +2650,10 @@ common#:#obj_mob#:#Medienobjekt
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
-common#:#obj_objf#:#Objektdefinitionen###10 Jul 2006 content changed
+common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
-common#:#obj_pays#:#Paymenteinstellungen###10 Jul 2006 content changed
+common#:#obj_pays#:#Paymenteinstellungen
 common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
 common#:#obj_pg#:#Seite
 common#:#obj_qpl#:#Fragenpool für Test
@@ -2671,13 +2671,13 @@ common#:#obj_seas#:#Suche
 common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
-common#:#obj_stys#:#Skin/Style Einstellungen###10 Jul 2006 content changed
+common#:#obj_stys#:#Skin/Style Einstellungen
 common#:#obj_stys_desc#:#Enthält Einstellungen für systemweite Styles und Styles für die Anzeige von Inhalten.
 common#:#obj_svy#:#Umfrage
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_taxf_desc#:#Ordner für Taxonomien
-common#:#obj_trac#:#Zugriffsstatistiken###30 Jul 2006 content changed
+common#:#obj_trac#:#Zugriffsstatistiken
 common#:#obj_trac_desc#:#Benutzerzugriff Tracking-Daten
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
@@ -2685,7 +2685,7 @@ common#:#obj_type#:#Objekttyp
 common#:#obj_url#:#URL
 common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
-common#:#obj_usrf#:#Benutzerkonten###10 Jul 2006 content changed
+common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#obj_webr#:#Web-Links
 common#:#object#:#Objekt
@@ -2765,12 +2765,12 @@ common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
 common#:#passwd_generation#:#Passwortgenerierung
 common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit, eigene Paswwörter festzulegen.
-common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~###08 Feb 2006 content changed
-common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.###10 Jul 2006 content changed
+common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~
+common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
 common#:#password_assistance_disabled#:#Passwort-Unterstützung ist nur dann verfügbar, wenn die Authentisierung der Benutzer über die ILIAS-Datenbank erfolgt.
-common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Anmelde-Seite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten. ### 2006-5-8 --- Content changed
+common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Anmelde-Seite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
 common#:#paste#:#Einfügen
 common#:#pasteChapter#:#Einfügen
 common#:#pastePage#:#Einfügen
@@ -2804,7 +2804,7 @@ common#:#perm_settings#:#Rechte
 common#:#perma_link#:#Link zu dieser Seite
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
-common#:#permission_settings#:#Rechteeinstellungen###10 Jul 2006 content changed
+common#:#permission_settings#:#Rechteeinstellungen
 common#:#permission_settings_info#:#This form determines which role is allowed to do what with the current object '%s'.###10 Jul 2006 new variable
 common#:#person_title#:#Titel
 common#:#personal_data#:#Daten zur Person
@@ -2825,7 +2825,7 @@ common#:#phrase#:#Phrase
 common#:#please_choose#:#-- Bitte wählen --
 common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
-common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
+common#:#please_select#:#-- Bitte auswählen --
 common#:#please_select_a_delivered_file_to_delete#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie zu löschen!
 common#:#please_select_a_delivered_file_to_download#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie herunterzuladen!
 common#:#please_wait#:#Bitte warten...
@@ -2839,9 +2839,9 @@ common#:#previous#:#zurück
 common#:#print#:#Drucken
 common#:#print_view#:#Druckansicht
 common#:#private_notes#:#Private Notizen
-common#:#pro#:#Pro###23 Dec 2005 new variable
+common#:#pro#:#Pro
 common#:#profile#:#Profil
-common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert###10 Jul 2006 content changed
+common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
 common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
@@ -2880,7 +2880,7 @@ common#:#refresh_list#:#Liste aktualisieren
 common#:#refuse#:#Ablehnen
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen bei der eLearning-Plattform ILIAS!
-common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:###10 Jul 2006 content changed
+common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
 common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene Email-Adresse geschickt.
@@ -2952,7 +2952,7 @@ common#:#role_deleted_desktop_items#:#Die Zuordnung wurde entfernt.
 common#:#role_desk_add#:#Angebot zuordnen
 common#:#role_desk_none_created#:#Dieser Rolle sind keine Angebote zugeordnet.
 common#:#role_edit#:#Rolle bearbeiten
-common#:#role_header_edit_users#:#Benutzerzuweisung ändern###23 Dec 2005 content changed
+common#:#role_header_edit_users#:#Benutzerzuweisung ändern
 common#:#role_list_users#:#Benutzer auflisten
 common#:#role_mailto#:#Mail an alle zugewiesenen Benutzer
 common#:#role_new#:#Neue Rolle
@@ -3078,23 +3078,23 @@ common#:#shib_city#:#Attribut für Stadt
 common#:#shib_configure#:#Shibboleh Authentifizierung konfigurieren
 common#:#shib_country#:#Attribut für Land
 common#:#shib_data_conv#:#Pfad zum Daten Manipulations-API
-common#:#shib_data_conv_warning#:#Das angegebene Daten Manipulations-API kann nicht gelesen werden.###19 May 2005 new variable
+common#:#shib_data_conv_warning#:#Das angegebene Daten-Manipulations-API kann nicht gelesen werden.
 common#:#shib_department#:#Attribut für Departement
 common#:#shib_edit_permission#:#Zugriffsberechtigungen ändern
 common#:#shib_email#:#Attribut für Emailadresse
 common#:#shib_federation_name#:#Name der Shibboleth Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
-common#:#shib_gender#:#Attribut für Geschlecht (muss 'm' oder 'f' sein) ### 2006-5-8 --- Content changed
+common#:#shib_gender#:#Attribut für Geschlecht (muss 'm' oder 'f' sein)
 common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br>Bei Fragen dazu, wenden Sie sich bitte an den
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity Providern an, von den der Benützer auf der ILIAS Anmeldeseite auswählen kann.<br>Auf jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br>Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS Installation Teil von mehrere Föderationen ist.
 common#:#shib_institution#:#Attribut für Institution
-common#:#shib_instructions#:#Bitte lesen Sie <a href="README.SHIBBOLETH.txt" target="_blank">README</a> für Instruktionen um Shibboleth zu konfigurieren für ILIAS. ### 2006-5-8 --- Content changed
+common#:#shib_instructions#:#Bitte lesen Sie <a href="README.SHIBBOLETH.txt" target="_blank">README</a> für Instruktionen, um Shibboleth für ILIAS zu konfigurieren.
 common#:#shib_invalid_home_organization#:#Bitten wählen Sie eine gültige Organisation
 common#:#shib_language#:#Attribut für Sprache
 common#:#shib_lastname#:#Attribut für Nachnamen
 common#:#shib_login#:#Eindeutiges Shibboleth Attribut
-common#:#shib_login_button#:#Pfad zum Shibboleth Login Button###27 Jul 2006 content changed
+common#:#shib_login_button#:#Pfad zum Shibboleth-Login-Button
 common#:#shib_login_external_wayf#:#Einen externen WAYF-Dienst benutzen
 common#:#shib_login_internal_wayf#:#Den ILIAS WAYF-Dienst benutzen
 common#:#shib_login_type#:#Auswahl der Organisation
@@ -3146,7 +3146,7 @@ common#:#st_add#:#Kapitel anlegen
 common#:#st_added#:#Kapitel angelegt
 common#:#st_edit#:#Kapitel bearbeiten
 common#:#st_new#:#Neues Kapitel
-common#:#standard_fields#:#Standardfelder###09 Aug 2006 content changed
+common#:#standard_fields#:#Standardfelder
 common#:#startpage#:#Startseite
 common#:#statistic#:#Statistik
 common#:#status#:#Status
@@ -3239,7 +3239,7 @@ common#:#time_limits#:#Zugang
 common#:#time_segment#:#Zeitraum
 common#:#title#:#Titel
 common#:#to#:#Bis
-common#:#to_client_list#:#Zur Mandantenauswahl###10 Jul 2006 content changed
+common#:#to_client_list#:#Zur Mandantenauswahl
 common#:#to_desktop#:#Auf den Schreibtisch
 common#:#today#:#Heute
 common#:#toggleGlobalDefault#:#Standard-Style umschalten
@@ -3286,20 +3286,20 @@ common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr B
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
-common#:#udf_add_field#:#Feld anlegen###09 Aug 2006 content changed
-common#:#udf_added_field#:#Ein neues Feld wurde angelegt.###09 Aug 2006 content changed
-common#:#udf_delete_header#:#Benutzerdefiniertes Feld löschen###09 Aug 2006 content changed
+common#:#udf_add_field#:#Feld anlegen
+common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
+common#:#udf_delete_header#:#Benutzerdefiniertes Feld löschen
 common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie diese Feld und alle zugehörigen Benutzerdaten löschen möchten ?
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
 common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
 common#:#udf_no_entries#:#Bitte geben Sie mindestens einen Wert ein.
 common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
-common#:#udf_type_select#:#Auswahlliste (feste Werte)###09 Aug 2006 content changed
-common#:#udf_type_text#:#Textfeld (beliebige Werte)###09 Aug 2006 content changed
-common#:#udf_update_select_field#:#Auswahlliste bearbeiten###09 Aug 2006 content changed
+common#:#udf_type_select#:#Auswahlliste (feste Werte)
+common#:#udf_type_text#:#Textfeld (beliebige Werte)
+common#:#udf_update_select_field#:#Auswahlliste bearbeiten
 common#:#udf_update_success#:#Die Daten wurden aktualisiert.
-common#:#udf_update_text_field#:#Textfeld bearbeiten###09 Aug 2006 content changed
+common#:#udf_update_text_field#:#Textfeld bearbeiten
 common#:#udf_value#:#Wert
 common#:#udf_value_deleted#:#Der Wert wurde gelöscht.
 common#:#uid#:#UID
@@ -3350,22 +3350,22 @@ common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_cant_receive_mail#:#Der Benutzer hat nicht das Recht das Mailsystem zu benutzen.
 common#:#user_comment#:#User-Kommentar
-common#:#user_defined_fields#:#Benutzerdefinierte Felder###09 Aug 2006 content changed
-common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder###09 Aug 2006 content changed
+common#:#user_defined_fields#:#Benutzerdefinierte Felder
+common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
-common#:#user_ext_account#:#External Account###10 Jul 2006 new variable
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS or SOAP authentication)###10 Jul 2006 new variable
+common#:#user_ext_account#:#Externes Benutzerkonto
+common#:#user_ext_account_desc#:#Benutzerkonto, das für die externe Authentifizierung benutzt wird. (CAS- oder SOAP-Authentifizierung)
 common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
 common#:#user_language#:#Benutzersprache
-common#:#user_new_account_mail#:#New Account Mail###10 Jul 2006 new variable
-common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.###10 Jul 2006 new variable
+common#:#user_new_account_mail#:#Benachrichtigung über Neuanmeldung
+common#:#user_new_account_mail_desc#:#Diese Nachricht kann versandt werden, wenn ein Benutzer automatisch und nicht von der Person selbst angelegt wurde .
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
 common#:#user_not_known#:#Bitte geben Sie einen gültigen Benutzernamen ein.
-common#:#user_profile_other#:#Weitere Informationen
-common#:#user_send_new_account_mail#:#Send new account mail###10 Jul 2006 new variable
+common#:#user_profile_other#:#Weitere Informationen Benachrichtigung über Neuanmeldung
+common#:#user_send_new_account_mail#:#Sende 
 common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
 common#:#userfolder_export_csv#:#Durch Komma getrennte Werte (CSV)
@@ -3393,7 +3393,7 @@ common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_inactive_only#:#Nur nicht-aktive Nutzer
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld im Registrierformular und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, dass der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Registrierung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden. ### 2006-5-8 --- Content changed
+common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld im Registrierformular und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, dass der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Registrierung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden. 
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
 common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
@@ -3412,20 +3412,20 @@ common#:#usrf_write#:#Benutzerkonten bearbeiten
 common#:#usrimport_action_failed#:#Aktion %1$s fehlgeschlagen.
 common#:#usrimport_action_ignored#:#Aktion %1$s ignoriert.
 common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
-common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden. ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden. ### 2006-5-8 --- Content changed
-common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden. ### 2006-5-8 --- Content changed
-common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit demselben Benutzernamen in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Benutzernamen in der Datenbank vorhanden ist). ### 2006-5-8 --- Content changed
-common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden. ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden. 
+common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden. 
+common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden. 
+common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit demselben Benutzernamen in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Benutzernamen in der Datenbank vorhanden ist). 
+common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden. 
 common#:#usrimport_ignore_role#:#Rolle ignorieren
 common#:#usrimport_login_is_not_unique#:#Benutzername ist nicht eindeutig.
 common#:#usrimport_with_specified_role_not_permitted#:#Sie haben keine Berechtigung zum Importieren von Benutzern mit der angegebenen Rolle.
-common#:#usrimport_xml_attribute_missing#:#Attribut "%2$s" fehlt in Element "%1$s". ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_illegal#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist ungültig. ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_attribute_value_inapplicable#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist nicht anwendbar bei Aktion "%4$s". ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_content_illegal#:#Inhalt "%2$s" des Elements "%1$s" ist ungültig. ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" muss für "%2$s" Aktion angegeben werden. ### 2006-5-8 --- Content changed
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Aktion nicht anwendbar. ### 2006-5-8 --- Content changed
+common#:#usrimport_xml_attribute_missing#:#Attribut "%2$s" fehlt in Element "%1$s". 
+common#:#usrimport_xml_attribute_value_illegal#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist ungültig. 
+common#:#usrimport_xml_attribute_value_inapplicable#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist nicht anwendbar bei Aktion "%4$s".
+common#:#usrimport_xml_element_content_illegal#:#Inhalt "%2$s" des Elements "%1$s" ist ungültig. 
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" muss für "%2$s" Aktion angegeben werden. 
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Aktion nicht anwendbar. 
 common#:#valid#:#Gültig
 common#:#validate#:#Validieren
 common#:#value#:#Wert
@@ -3453,7 +3453,7 @@ common#:#webr_add_item#:#Link hinzufügen
 common#:#webr_delete#:#Web-Links löschen
 common#:#webr_delete_items#:#Web-Links löschen.
 common#:#webr_deleted_items#:#Der/die Link(s) wurde(n) gelöscht.
-common#:#webr_disable_check#:#Überprüfung deaktivieren###25 Jul 2006 content changed
+common#:#webr_disable_check#:#Überprüfung deaktivieren
 common#:#webr_edit#:#Web-Links bearbeiten
 common#:#webr_edit_item#:#Link bearbeiten
 common#:#webr_edit_permission#:#Rechteeinstellungen ändern
@@ -3501,11 +3501,11 @@ content#:#citate_from#:#Zitieren von ...
 content#:#citate_page#:#Diese Seite zitieren
 content#:#citate_to#:#Zitieren bis ...
 content#:#cont_Additional#:#Zusatz
-content#:#cont_Alphabetic#:#Alphabetisch A, B, ...###10 Jul 2006 content changed
+content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
 content#:#cont_Code#:#Cod
-content#:#cont_Example#:#Beispiel###10 Jul 2006 content changed
+content#:#cont_Example#:#Beispiel
 content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
 content#:#cont_Headline3#:#Überschrift 3
@@ -3517,11 +3517,11 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rechteck
 content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
-content#:#cont_Roman#:#Römisch I, II, ...###10 Jul 2006 content changed
+content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_TableContent#:#Tabelleninhalt
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_act_number#:#Kapitelnummerierung
-content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
+content#:#cont_activate_page#:#Aktiviere Seite
 content#:#cont_active#:#Aktiviere Lerneinheiten-Menü
 content#:#cont_add_area#:#Bereich zufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
@@ -3543,7 +3543,7 @@ content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
-content#:#cont_browser_not_js_capable#:#Der JavaScript-Editor wird für Ihre Browserversion leider nicht unterstützt. ### 2006-5-8 --- Content changed
+content#:#cont_browser_not_js_capable#:#Der JavaScript-Editor wird von Ihrem Browser leider nicht unterstützt. 
 content#:#cont_cant_copy_folders#:#Ordner können nicht in die Zwischenablage kopiert werden
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
@@ -3556,11 +3556,11 @@ content#:#cont_chapters#:#Kapitel
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
 content#:#cont_chapters_only#:#Nur Kapitel
 content#:#cont_characteristic#:#Art
-content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object' ### 2006-5-8 --- Content changed 
+content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object' 
 content#:#cont_choose_glossary#:#Wählen Sie das Glossar
 content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
 content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
-content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.###10 Jul 2006 content changed
+content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
@@ -3585,7 +3585,7 @@ content#:#cont_create_export_file_xml#:#Erzeuge XML-Exportdatei
 content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_html_version#:#Erzeuge HTML-Dateipaket
 content#:#cont_create_mob#:#Medienobjekt anlegen
-content#:#cont_credit_mode#:#Credit-Modus (bei Lesson-Modus 'normal') ### 2006-5-8 --- Content changed
+content#:#cont_credit_mode#:#Credit-Modus (bei Lesson-Modus 'normal') 
 content#:#cont_credit_off#:#Kein Credit
 content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Punkte
@@ -3608,7 +3608,7 @@ content#:#cont_disable_js#:#JavaScript inaktiv
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_downloads#:#Downloads
-content#:#cont_downloads_desc#:#Ermöglicht Anwendern freigegebene Exportdateien herunterzuladen###23 Dec 2005 content changed
+content#:#cont_downloads_desc#:#Ermöglicht Anwendern freigegebene Exportdateien herunterzuladen
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
@@ -3625,7 +3625,7 @@ content#:#cont_ed_delete_item#:#Eintrag löschen
 content#:#cont_ed_delete_row#:#Zeile löschen
 content#:#cont_ed_edit#:#Bearbeiten
 content#:#cont_ed_edit_prop#:#Eigenschaften
-content#:#cont_ed_enable#:#De-/Aktivieren###10 Jul 2006 content changed
+content#:#cont_ed_enable#:#De-/Aktivieren
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#Code einfügen
 content#:#cont_ed_insert_filelist#:#Dateiliste einf.
@@ -3660,7 +3660,7 @@ content#:#cont_edit_src#:# Quellcode bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
-content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
+content#:#cont_empty_mep_folder#:#Es sind keine Medien in diesem Ordner.
 content#:#cont_enable_js#:#JavaScript aktiv
 content#:#cont_enable_media#:#Medienobjekte aktiv
 content#:#cont_export_files#:#Datei exportieren
@@ -3673,11 +3673,11 @@ content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn
 content#:#cont_footer#:#Fußzeile
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Diese Operation ist nicht möglich!
-content#:#cont_frame_botright#:#Content Details (Glossary)###18 Jan 2006 new variable
+content#:#cont_frame_botright#:#Content Details (Glossar)
 content#:#cont_frame_maincontent#:#Learning Resource Main Content###18 Jan 2006 new variable
 content#:#cont_frame_right#:#Content Details###18 Jan 2006 new variable
 content#:#cont_frame_toc#:#Inhaltsverzeichnis
-content#:#cont_frame_topright#:#Content Details (FAQ and Media)###18 Jan 2006 new variable
+content#:#cont_frame_topright#:#Content Details (FAQ und Medien)###18 Jan 2006 new variable
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
@@ -3739,14 +3739,14 @@ content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Medienquelle
 content#:#cont_mep_structure#:#Struktur Media-Pool
-content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel "%s". ### 2006-5-8 --- Content changed
+content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel "%s". 
 content#:#cont_mob_files#:#Objektdateien
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Eigenschaften des Objektes
 content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
 content#:#cont_move_object#:#Objekt verschieben
-content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen###10 Jul 2006 content changed
+content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
 content#:#cont_name#:#Name
 content#:#cont_new_area#:#Neuer Link-Bereich
 content#:#cont_new_assignment#:#Neue Zuordnung
@@ -3759,7 +3759,7 @@ content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zug
 content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
 content#:#cont_no_page#:#Keine Seite gefunden
-content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner '%s'. ### 2006-5-8 --- Content changed
+content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner '%s'. 
 content#:#cont_no_zip_file#:#Die Importdatei ist keine ZIP-Datei
 content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
@@ -3794,7 +3794,7 @@ content#:#cont_preview#:#Vorschau
 content#:#cont_print_view#:#Druckansicht
 content#:#cont_public_access#:#Öffentlicher Zugriff
 content#:#cont_public_notes#:#Öffentliche Notizen
-content#:#cont_public_notes_desc#:#Erlaubt Nutzern, auf jeder Seite eines Lernmoduls öffentliche Notizen anzulegen.###23 Dec 2005 content changed
+content#:#cont_public_notes_desc#:#Erlaubt Nutzern, auf jeder Seite eines Lernmoduls öffentliche Notizen anzulegen.
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
@@ -3812,7 +3812,7 @@ content#:#cont_resources#:#Ressourcen
 content#:#cont_rvalue#:#Wert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
-content#:#cont_sc_auto_review#:#Nach Abschluß Lesson-Modus auf 'review' setzen. ### 2006-5-8 --- Content changed
+content#:#cont_sc_auto_review#:#Nach Abschluß Lesson-Modus auf 'review' setzen. 
 content#:#cont_sc_less_mode_browse#:#Anzeigen (Browse)
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Besucht
@@ -3917,7 +3917,7 @@ content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
-content#:#cont_zip_file_invalid#:#Datei ist keine gültige Importdatei. <br />Sie enthält keine Datei '%s'. ### 2006-5-8 --- Content changed
+content#:#cont_zip_file_invalid#:#Datei ist keine gültige Importdatei. <br />Sie enthält keine Datei '%s'. 
 content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
 content#:#dgl_pagebreak#:#Seitenumbruch
 content#:#glo_definition_abbr#:#Def.
@@ -3941,16 +3941,16 @@ content#:#read offline#:#Offline lesen
 content#:#selectFooter#:#Als Fußzeile auswählen
 content#:#selectHeader#:#Als Kopfzeile auswählen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
-content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten ### 2006-5-8 --- Content changed
+content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten 
 content#:#set_public_mode#:#Zugriffsmodus setzen
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
-crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig. ### 2006-5-8 --- Content changed
-crs#:#add_event#:#Sitzung hinzufügen###05 Aug 2006 content changed
+crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig. 
+crs#:#add_event#:#Sitzung hinzufügen
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
-crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.###23 Dec 2005 content changed
+crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
+crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
@@ -3962,11 +3962,11 @@ crs#:#crs_add_member#:#Mitglied(er) hinzufügen
 crs#:#crs_add_objective#:#Lernziel hinzufügen
 crs#:#crs_add_remove_from_desktop#:#Auf den Schreibtisch
 crs#:#crs_add_remove_from_desktop_info#:#Wenn eingeschaltet, haben die Teilnehmer die Möglichkeit Kursmaterialien auf ihren Persönlichen Schreibtisch zu platzieren bzw. zu entfernen.
-crs#:#crs_add_starter#:#Startobjekt hinzufügen###10 Jul 2006 content changed
-crs#:#crs_add_subscribers#:#In Kurs aufnehmen###23 Dec 2005 content changed
+crs#:#crs_add_starter#:#Startobjekt hinzufügen
+crs#:#crs_add_subscribers#:#In Kurs aufnehmen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
-crs#:#crs_added_member#:#Aufnahme in Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_added_member_body#:#Sie sind in den Kurs "%s" aufgenommen worden.###23 Dec 2005 content changed
+crs#:#crs_added_member#:#Aufnahme in Kurs "%s"
+crs#:#crs_added_member_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
 crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
 crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
@@ -3978,24 +3978,24 @@ crs#:#crs_administrators#:#Administratoren
 crs#:#crs_allow_abo#:#Erlaube Abonnierung von Kursobjekten
 crs#:#crs_already_assigned_to_list#:#Sie wurden bereits in die Warteliste aufgenommen.
 crs#:#crs_archive#:#Archive
-crs#:#crs_archive_disabled#:#Deaktiviert###23 Dec 2005 content changed
-crs#:#crs_archive_download#:#Herunterladen###15 Jul 2006 content changed
+crs#:#crs_archive_disabled#:#Deaktiviert
+crs#:#crs_archive_download#:#Herunterladen
 crs#:#crs_archive_info#:#Wenn eingeschaltet, werden alle Kursinhalte ausgeblendet. Lediglich HMTL-Archive des Kurses werden angezeigt bzw. zum Herunterladen angeboten.
 crs#:#crs_archive_lang#:#Sprache
 crs#:#crs_archive_read#:#Lesezugriff
-crs#:#crs_archive_select_type#:#Archivansicht###23 Dec 2005 content changed
+crs#:#crs_archive_select_type#:#Archivansicht
 crs#:#crs_archive_type#:#Archivtyp
-crs#:#crs_archive_type_disabled#:#Nicht verfügbar###23 Dec 2005 content changed
+crs#:#crs_archive_type_disabled#:#Nicht verfügbar
 crs#:#crs_archives_deleted#:#Das/die Archiv(e) wurde(n) gelöscht
 crs#:#crs_auto_fill#:#Automatisch auffüllen
 crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Beitrittsart!
-crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Beitrittsart - nur während eines definierten Zeitraums freizuschalten.###08 Nov 2005 content changed
+crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Beitrittsart - nur während eines definierten Zeitraums freizuschalten.
 crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kurs-Administratoren und Tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
 crs#:#crs_blocked#:#Zugang gesperrt
-crs#:#crs_blocked_member#:#Status in Kurs "\%s\"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_cancel_subscription_body#:#Ein Teilnehmer ist aus dem Kurs "%s" ausgetreten.###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
+crs#:#crs_blocked_member#:#Status in Kurs "\%s\"
+crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
+crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
+crs#:#crs_cancel_subscription_body#:#Ein Teilnehmer ist aus dem Kurs "%s" ausgetreten.
 crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
 crs#:#crs_chapter_already_assigned#:#Diese(s) Kapitel wurde(n) bereits zugeordnet.
 crs#:#crs_contact#:#Kontakt
@@ -4004,7 +4004,7 @@ crs#:#crs_contact_email#:#E-Mail
 crs#:#crs_contact_name#:#Name
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Zuständigkeit
-crs#:#crs_content#:#Kursinhalt###15 Jul 2006 content changed
+crs#:#crs_content#:#Kursinhalt
 crs#:#crs_copy_cat_not_allowed#:#Es ist nicht möglich Kategorien zu kopieren.
 crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_count_questions#:#Anzahl von Fragen
@@ -4021,11 +4021,11 @@ crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernzie
 crs#:#crs_delete_subscribers#:#Antrag löschen
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, dass die folgenden Anträge gelöscht werden sollen?
 crs#:#crs_details#:#Kursdetails
-crs#:#crs_dismiss_member#:#Mitgliedschaft in Kurs "%s" beendet###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft in Kurs "%s" ist beendet worden.###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
+crs#:#crs_dismiss_member#:#Mitgliedschaft in Kurs "%s" beendet
+crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft in Kurs "%s" ist beendet worden.
 crs#:#crs_edit_archive#:#Archive bearbeiten
 crs#:#crs_edit_content#:#Inhalt bearbeiten
-crs#:#crs_edit_start_objects#:#Edit Start Objects###10 Jul 2006 new variable
+crs#:#crs_edit_start_objects#:#Startobjekte bearbeiten
 crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
 crs#:#crs_end#:#Ende
 crs#:#crs_existing_files#:#Vorhandene Dateien:
@@ -4036,7 +4036,7 @@ crs#:#crs_file_name#:#Dateiname
 crs#:#crs_file_size_info#:#Dateigröße
 crs#:#crs_filename#:#Dateiname
 crs#:#crs_free_places#:#Freie Plätze
-crs#:#crs_from#:#Von:###10 Jul 2006 content changed
+crs#:#crs_from#:#Von:
 crs#:#crs_further_settings#:#Weitere Einstellungen
 crs#:#crs_general_info#:#Allgemeine Informationen
 crs#:#crs_general_informations#:#Allgemeine Informationen
@@ -4075,11 +4075,11 @@ crs#:#crs_hide_link_tst#:#Tests verbergen
 crs#:#crs_html#:#HTML
 crs#:#crs_important_info#:#Wichtige Informationen
 crs#:#crs_info_download#:#Dateien zum Herunterladen
-crs#:#crs_info_reg#:#Aufnahmeverfahren###23 Dec 2005 content changed
-crs#:#crs_info_reg_confirmation#:#Sie können die Aufnahme in diesen Kurs beantragen. Sie erhalten eine Nachricht, wenn ein Kurs-Administrator Ihren Antrag angenommen oder abgelehnt hat.###23 Dec 2005 content changed
-crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.###23 Dec 2005 content changed
-crs#:#crs_info_reg_direct#:#Sie können direkt in diesen Kurs beitreten.###23 Dec 2005 content changed
-crs#:#crs_info_reg_password#:#Wenn Sie das Kurs-Passwort von einem Kurs-Administrator erhalten haben, können Sie in diesen Kurs beitreten.###23 Dec 2005 content changed
+crs#:#crs_info_reg#:#Aufnahmeverfahren
+crs#:#crs_info_reg_confirmation#:#Sie können die Aufnahme in diesen Kurs beantragen. Sie erhalten eine Nachricht, wenn ein Kurs-Administrator Ihren Antrag angenommen oder abgelehnt hat.
+crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
+crs#:#crs_info_reg_direct#:#Sie können direkt in diesen Kurs beitreten.
+crs#:#crs_info_reg_password#:#Wenn Sie das Kurs-Passwort von einem Kurs-Administrator erhalten haben, können Sie in diesen Kurs beitreten.
 crs#:#crs_info_settings#:#Kursinformationen
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
@@ -4113,10 +4113,10 @@ crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
-crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_body#:#Ein neuer Teilnehmer ist zum Kurs "%s" beigetreten.###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s" ### 2006-5-8 --- Content changed
-crs#:#crs_new_subscription_request_body#:#Ein Benutzer hat einen Aufnahmeantrag für den Kurs "%s" gestellt. ### 2006-5-8 --- Content changed 
+crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
+crs#:#crs_new_subscription_body#:#Ein neuer Teilnehmer ist zum Kurs "%s" beigetreten.
+crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s" 
+crs#:#crs_new_subscription_request_body#:#Ein Benutzer hat einen Aufnahmeantrag für den Kurs "%s" gestellt.
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
@@ -4127,7 +4127,7 @@ crs#:#crs_no_items_found#:#Es sind keine Objekte vorhanden
 crs#:#crs_no_language#:#Keine Sprache angegeben
 crs#:#crs_no_lm_selected#:#Bitte wählen Sie mindestens eine Lerneinheit aus.
 crs#:#crs_no_lms_assigned#:#Diesem Lernziel sind keine Lernmaterialien zugeordnet.
-crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.###10 Jul 2006 new variable
+crs#:#crs_no_lms_inside_course#:#Keine Lernmaterialien in diesem Kurs gefunden.
 crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lerneinheiten, die diesem Lernziel zugeordnet werden könnten.
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
@@ -4166,8 +4166,8 @@ crs#:#crs_objective_question_assignment#:#Fragenzuordnung
 crs#:#crs_objective_result#:#Nach Test
 crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
 crs#:#crs_objective_view#:#Lernziel orientierte Ansicht
-crs#:#crs_objectives#:#Lernziele###29 Jul 2006 content changed
-crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen###29 Jul 2006 content changed
+crs#:#crs_objectives#:#Lernziele
+crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen
 crs#:#crs_objectives_assigned_lm#:#Die ausgewählten Lernmaterialien wurden zugeordnet.
 crs#:#crs_objectives_assigned_lms#:#Zugeordnete Lernmaterialien
 crs#:#crs_objectives_assigned_new_questions#:#Eine neue Zuordnung wurde angelegt.
@@ -4202,24 +4202,24 @@ crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg#:#Kursbeitritt
 crs#:#crs_reg_deactivated#:#Ausgeschaltet
 crs#:#crs_reg_lim_info#:#Beitritte sind nur während eines festen Zeitraumes möglich. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
-crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl von Kursmitgliedern fest. Wird die Zahl überschritten, sind keine Beitritte mehr möglich. ('0' bedeutet unbegrenzt) ### 2006-5-8 --- Content changed
-crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kurs-Administratoren und Tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert. ### 2006-5-8 --- Content changed
+crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl von Kursmitgliedern fest. Wird die Zahl überschritten, sind keine Beitritte mehr möglich. ('0' bedeutet unbegrenzt) 
+crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kurs-Administratoren und Tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert. 
 crs#:#crs_reg_subscription_deactivated#:#Die Registrierung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Zeit für Beitritte ist abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
 crs#:#crs_reg_subscription_start_later#:#Die Zeit für Beitritte hat noch nicht begonnen
-crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Beitritte zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.###23 Dec 2005 content changed
-crs#:#crs_reg_until#:#Zeitraum für Beitritte###23 Dec 2005 content changed
+crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Beitritte zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
+crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
-crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits Mitglied dieses Kurses###23 Dec 2005 content changed
+crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits Mitglied dieses Kurses
 crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
 crs#:#crs_registration#:#Zum Kurs beitreten
-crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um Beitritte zu deaktivieren. Es können keine Benutzer zum Kurs beitreten.###23 Dec 2005 content changed
-crs#:#crs_registration_limited#:#Zeitlich begrenzt###15 Jul 2006 content changed
-crs#:#crs_registration_type#:#Beitrittsverfahren###23 Dec 2005 content changed
-crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt###15 Jul 2006 content changed
-crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_reject_subscriber_body#:#Ihr Antrag für den Kurs "%s" ist abgelehnt worden.###23 Dec 2005 content changed
+crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um Beitritte zu deaktivieren. Es können keine Benutzer zum Kurs beitreten.
+crs#:#crs_registration_limited#:#Zeitlich begrenzt
+crs#:#crs_registration_type#:#Beitrittsverfahren
+crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
+crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
+crs#:#crs_reject_subscriber_body#:#Ihr Antrag für den Kurs "%s" ist abgelehnt worden.
 crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle/Status
@@ -4233,52 +4233,52 @@ crs#:#crs_select_exactly_one_tst#:#Bitte wählen Sie genau einen Test aus.
 crs#:#crs_select_native_lm#:#Einzelne Kapitel können nur aus ILIAS-Lerneinheiten zugeordnet werden.
 crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
 crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
-crs#:#crs_select_registration_type#:#Bitte wählen Sie ein Beitrittsverfahren aus.###23 Dec 2005 content changed
-crs#:#crs_select_starter#:#Startobjekt auswählen###10 Jul 2006 content changed
-crs#:#crs_set_on_waiting_list#:#Sie können sich auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, wenn Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.###23 Dec 2005 content changed
-crs#:#crs_settings#:#Kurseinstellungen###10 Jul 2006 content changed
+crs#:#crs_select_registration_type#:#Bitte wählen Sie ein Beitrittsverfahren aus.
+crs#:#crs_select_starter#:#Startobjekt auswählen
+crs#:#crs_set_on_waiting_list#:#Sie können sich auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, wenn Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
+crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
 crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
 crs#:#crs_show_link_objectives#:#Lernziele anzeigen
 crs#:#crs_show_link_or#:#Andere Objekte anzeigen
 crs#:#crs_show_link_tst#:#Tests anzeigen
 crs#:#crs_show_members#:#Mitglieder anzeigen
-crs#:#crs_show_members_info#:#Wenn eingeschaltet, können Mitglieder des Kurses angezeigt werden.###11 Aug 2006 content changed
+crs#:#crs_show_members_info#:#Wenn eingeschaltet, können Mitglieder des Kurses angezeigt werden.
 crs#:#crs_show_objectives_view#:#Lernziel Ansicht
 crs#:#crs_size#:#Dateigröße
-crs#:#crs_sort_activation#:#Nach Zeitvorgaben###15 Jul 2006 content changed
-crs#:#crs_sort_manual#:#Manuelle Sortierung###15 Jul 2006 content changed
+crs#:#crs_sort_activation#:#Nach Zeitvorgaben
+crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_manual_info#:#Wenn ausgewählt, können die Kursmaterialien manuell in beliebiger Reihenfolge sortiert werden.
 crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach Lernplanung.
-crs#:#crs_sort_title#:#Nach Titel###15 Jul 2006 content changed
+crs#:#crs_sort_title#:#Nach Titel
 crs#:#crs_sort_title_info#:#Wählen Sie diese Einstellung, um die Kursmaterialien automatisch nach ihrem Titel zu sortieren.
 crs#:#crs_sortorder#:#Sortierung
-crs#:#crs_sortorder_abo#:#Sortierung###15 Jul 2006 content changed
+crs#:#crs_sortorder_abo#:#Sortierung
 crs#:#crs_start#:#Start
-crs#:#crs_start_objects#:#Startobjekte###10 Jul 2006 content changed
+crs#:#crs_start_objects#:#Startobjekte
 crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
 crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Status in Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert###23 Dec 2005 content changed
+crs#:#crs_status_changed#:#Status in Kurs "%s"
+crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert
 crs#:#crs_structure#:#Kursstruktur
-crs#:#crs_subscribers#:#Aufnahmeanträge###23 Dec 2005 content changed
+crs#:#crs_subscribers#:#Aufnahmeanträge
 crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
 crs#:#crs_subscription#:#Beitrittsverfahren
-crs#:#crs_subscription_max_members#:#Maximale Mitgliederanzahl###15 Jul 2006 content changed
+crs#:#crs_subscription_max_members#:#Maximale Mitgliederanzahl
 crs#:#crs_subscription_notify#:#Benachrichtigung bei Beitritten
-crs#:#crs_subscription_options_confirmation#:#Antrag mit Bestätigung###23 Dec 2005 content changed
+crs#:#crs_subscription_options_confirmation#:#Antrag mit Bestätigung
 crs#:#crs_subscription_options_deactivated#:#Beantragung ausgeschaltet
-crs#:#crs_subscription_options_direct#:#Direkter Beitritt###23 Dec 2005 content changed
-crs#:#crs_subscription_options_password#:#Beitritt mit Kurspasswort###23 Dec 2005 content changed
+crs#:#crs_subscription_options_direct#:#Direkter Beitritt
+crs#:#crs_subscription_options_password#:#Beitritt mit Kurspasswort
 crs#:#crs_subscription_requested#:#Sie haben einen Aufnahmeantrag für den Kurs gestellt.
-crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen worden.###23 Dec 2005 content changed
+crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen worden.
 crs#:#crs_subscription_type#:#Beitrittsverfahren
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_suggestion_end#:#Empfohlenes Ende
 crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, dass die ausgewählten Archive gelöscht werden sollen
 crs#:#crs_syllabus#:#Kursprogramm
-crs#:#crs_table_start_objects#:#Startobjekte###10 Jul 2006 content changed
+crs#:#crs_table_start_objects#:#Startobjekte
 crs#:#crs_test_status_complete#:#Fertiggestellt
 crs#:#crs_test_status_not_complete#:#Nicht fertiggestellt
 crs#:#crs_test_status_random#:#Zufallstest
@@ -4298,13 +4298,13 @@ crs#:#crs_timings_info_active#:#(Aktiv)
 crs#:#crs_timings_late_end#:#Spätestes Ende
 crs#:#crs_timings_not_changed#:#Lernplan nicht geändert
 crs#:#crs_timings_planed_info#:#Geplante Bearbeitungszeit
-crs#:#crs_timings_planed_start#:#Geplant###15 Jul 2006 content changed
+crs#:#crs_timings_planed_start#:#Geplant
 crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
 crs#:#crs_timings_presetting_tbl#:#Lernplanung
 crs#:#crs_timings_short_active#:#Lernplanung
 crs#:#crs_timings_short_changeable#:#Änderbar
 crs#:#crs_timings_short_limit_start_end#:#Spätestes Ende
-crs#:#crs_timings_short_start_end#:#Empfehlung###13 Jul 2006 content changed
+crs#:#crs_timings_short_start_end#:#Empfehlung
 crs#:#crs_timings_start#:#Startzeit
 crs#:#crs_timings_start_end_info#:#(Start/Ende)
 crs#:#crs_timings_sug_begin#:#Empfohlener Start
@@ -4313,14 +4313,14 @@ crs#:#crs_timings_suggested_info#:#Empfohlene Bearbeitungszeit
 crs#:#crs_timings_time_frame#:#Zeitrahmen
 crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Kursmaterialien ist mit dem angegebenen spätest möglichen Lernzeitpunkt nicht konsistent.
 crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehen Verfügbarkeit sichtbar.
-crs#:#crs_to#:#Bis:###10 Jul 2006 content changed
+crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
 crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
 crs#:#crs_tutors#:#Tutoren
 crs#:#crs_unblocked#:#Freigeschaltet
-crs#:#crs_unblocked_member#:#Status in Kurs "%s"###23 Dec 2005 content changed ### 2006-5-8 --- Content changed
-crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet###23 Dec 2005 content changed
+crs#:#crs_unblocked_member#:#Status in Kurs "%s"
+crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet
 crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe#:#Austreten
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie aus diesem Kurs austreten möchten?
@@ -4339,24 +4339,24 @@ crs#:#crs_view_standard#:#Standard Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_visibility#:#Verfügbarkeit
 crs#:#crs_visibility_limitless#:#Unbegrenzt
-crs#:#crs_visibility_until#:#Zeitlich begrenzt###15 Jul 2006 content changed
-crs#:#crs_visibility_unvisible#:#Nicht verfügbar###15 Jul 2006 content changed
+crs#:#crs_visibility_until#:#Zeitlich begrenzt
+crs#:#crs_visibility_unvisible#:#Nicht verfügbar
 crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen.
-crs#:#crs_waiting_list#:#Warteliste###15 Jul 2006 content changed
+crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Ihre Position auf der Warteliste
-crs#:#edit_content#:#Kursinhalt bearbeiten###10 Jul 2006 content changed
+crs#:#edit_content#:#Kursinhalt bearbeiten
 crs#:#edit_timings_list#:#Lernplanung bearbeiten
-crs#:#event#:#Sitzung###05 Aug 2006 content changed
-crs#:#event_add_new_event#:#Eine neue Sitzung wurde angelegt.###05 Aug 2006 content changed
+crs#:#event#:#Sitzung
+crs#:#event_add_new_event#:#Eine neue Sitzung wurde angelegt.
 crs#:#event_assign_materials#:#Materialien zuordnen
-crs#:#event_assign_materials_info#:#Hier können Sie der Sitzung Kursmaterialien zuordnen. Diese werden dann direkt unterhalb der Sitzung angezeigt.###05 Aug 2006 content changed
+crs#:#event_assign_materials_info#:#Hier können Sie der Sitzung Kursmaterialien zuordnen. Diese werden dann direkt unterhalb der Sitzung angezeigt.
 crs#:#event_assign_materials_table#:#Zuordnung von Kursmaterialien
-crs#:#event_btn_add#:#Sitzung anlegen###05 Aug 2006 content changed
-crs#:#event_date#:#Termin der Sitzung###05 Aug 2006 content changed
+crs#:#event_btn_add#:#Sitzung anlegen
+crs#:#event_date#:#Termin der Sitzung
 crs#:#event_date_time#:#Datum & Zeit
 crs#:#event_delete_file#:#Datei löschen?
-crs#:#event_delete_sure#:#Sind Sie sicher, dass Sie die folgende Sitzung löschen möchten?###05 Aug 2006 content changed
+crs#:#event_delete_sure#:#Sind Sie sicher, dass Sie die folgende Sitzung löschen möchten?
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Sitzung
 crs#:#event_edit_members#:#Teilnehmer verwalten
@@ -4373,33 +4373,33 @@ crs#:#event_fulltime_info#:#Keine Zeit festgelegt
 crs#:#event_further_informations#:#Weitere Informationen
 crs#:#event_general_infos#:#Allgemeine Informationen
 crs#:#event_general_properties#:#Allgemeine Informationen
-crs#:#event_lecturer#:#Name###10 Jul 2006 new variable
+crs#:#event_lecturer#:#Name
 crs#:#event_location#:#Ort
 crs#:#event_participation#:#Teilnahme
-crs#:#event_register#:#Register###10 Jul 2006 new variable
-crs#:#event_registered#:#You have been registered to this event.###10 Jul 2006 new variable
+crs#:#event_register#:#Register
+crs#:#event_registered#:#Sie haben sich für diese Sitzung angemeldet.
 crs#:#event_registration#:#Anmeldung
-crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Sitzung anmelden.###05 Aug 2006 content changed
+crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Sitzung anmelden.
 crs#:#event_registration_participance#:#Anmeldung
 crs#:#event_save_participants#:#Teilnahme speichern
-crs#:#event_start_date#:#Start###01 Aug 2006 content changed
-crs#:#event_table_create#:#Neue Sitzung###05 Aug 2006 content changed
-crs#:#event_table_update#:#Sitzung bearbeiten###05 Aug 2006 content changed
+crs#:#event_start_date#:#Start
+crs#:#event_table_create#:#Neue Sitzung
+crs#:#event_table_update#:#Sitzung bearbeiten
 crs#:#event_tbl_participants#:#Teilnehmer der Sitzung
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
 crs#:#event_time#:#Uhrzeit
 crs#:#event_title#:#Titel
-crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden###25 Jul 2006 content changed
-crs#:#event_unregister#:#Unregister###10 Jul 2006 new variable
-crs#:#event_unregistered#:#You have been unregistered.###10 Jul 2006 new variable
+crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden
+crs#:#event_unregister#:#Abmelden
+crs#:#event_unregistered#:#Sie wurden abgemeldet.
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
-crs#:#events#:#Sitzungen###05 Aug 2006 content changed
-crs#:#events_deleted#:#Die Sitzung wurde gelöscht.###05 Aug 2006 content changed
-crs#:#import_crs#:#Kurs importieren###10 Jul 2006 content changed
+crs#:#events#:#Sitzungen
+crs#:#events_deleted#:#Die Sitzung wurde gelöscht.
+crs#:#import_crs#:#Kurs importieren
 crs#:#learners_view#:#Lerneransicht
-crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig. ### 2006-5-8 --- Content changed
-crs#:#timing_accept_table#:#Lernplanung: Bemerkungen###15 Jul 2006 content changed
+crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig. 
+crs#:#timing_accept_table#:#Lernplanung: Bemerkungen
 crs#:#timing_accepted#:#Akzeptiert
 crs#:#timing_not_accepted#:#Nicht akzeptiert
 crs#:#timing_remark#:#Bemerkung
@@ -4416,7 +4416,7 @@ crs#:#timings_usr_edit#:#Persönliche Lernplanung
 crs#:#tutor_email#:#E-Mail
 crs#:#tutor_firstname#:#Vorname
 crs#:#tutor_lastname#:#Nachname
-crs#:#tutor_name#:#Name###21 Jul 2006 new variable
+crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Telefon
 crs#:#tutor_title#:#Titel
 dateplaner#:#DateText#:#Nachricht
@@ -4429,7 +4429,7 @@ dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm
 dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gültige CSV-Datei angeben.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein JavaScript. <br /> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <br /> Danke</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein JavaScript. <br /> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <br /> Danke</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Falsche Eingaben bei Turnus Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ROT_END_START#:#Falsche Eingaben bei Turnus Enddatum. Turnus Enddatum vom dem Startdatum.
 dateplaner#:#ERROR_SHORTTEXT#:#Falsche Eingaben beim Kurztext. Es ist ein Kurztext erforderlich.
@@ -4495,7 +4495,7 @@ dateplaner#:#dv_date_hm#:#Stunde:Minute
 dateplaner#:#dv_enddate#:#Enddatum:
 dateplaner#:#dv_groupselect#:#Gruppenauswahl:
 dateplaner#:#dv_groupview#:#Gruppentermin:
-dateplaner#:#dv_groupview_text#:#Gruppe:<br /> ### 2006-5-8 --- Content changed
+dateplaner#:#dv_groupview_text#:#Gruppe:<br /> 
 dateplaner#:#dv_keywords#:#Keyword:
 dateplaner#:#dv_keywordselect#:#Keywordauswahl:
 dateplaner#:#dv_message#:#Mitteilung:
@@ -4512,7 +4512,7 @@ dateplaner#:#dv_whole_day#:#Ganztägig:
 dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin löschen? (bitte Checkbox anklicken)
 dateplaner#:#end_date#:#Termin Ende
 dateplaner#:#endtime_for_view#:#Endzeit für Ansichten:
-dateplaner#:#error_minical_img#:#Kann keinen 'GD-picture-stream' erzeugen ### 2006-5-8 --- Content changed
+dateplaner#:#error_minical_img#:#Kann keinen 'GD-picture-stream' erzeugen
 dateplaner#:#execute#:#Aktionen ausführen
 dateplaner#:#extra_dates#:#Ganztages Termine
 dateplaner#:#free#:#frei
@@ -4523,7 +4523,7 @@ dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eine
 dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
 dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders ### 2006-5-8 --- Content changed
+dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
 dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_filename#:#dp_help_de.html
@@ -4549,7 +4549,7 @@ dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein
 dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
 dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Kalender von Outlook erstellt wurde, um diese zu importieren.
 dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
-dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.###10 Jul 2006 content changed
+dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
 dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht für Termine bestimmt ist, kann in den Einstellungen verändert werden. Termine außerhalb dieses Zeitraumes werden natürlich trotzdem angezeigt. Standard ist 8-18 Uhr.
 dateplaner#:#help_rotation#:#Rotation
@@ -4640,18 +4640,18 @@ dateplaner#:#viewlist#:#Ansicht aktualisieren
 dateplaner#:#week#:#Woche
 dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
-exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
-exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
-exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
-exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
-exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
-exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
-exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
-exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
-exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
-exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
+exercise#:#exc_comment#:#Kommentar
+exercise#:#exc_comment_for_learner#:#Kommentar für Lerner
+exercise#:#exc_failed#:#Nicht bestanden
+exercise#:#exc_feedback_from_tutor#:#Feedback des Tutors
+exercise#:#exc_grading#:#Bewertung
+exercise#:#exc_mark#:#Note
+exercise#:#exc_notgraded#:#Nicht bewertet
+exercise#:#exc_passed#:#Bestanden
+exercise#:#exc_send_mail#:#Nachricht versenden
+exercise#:#exc_your_submission#:#Ihre Einreichung
 forum#:#forum_anonymize#:#Anonym Schreiben
-forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS Benutzername wird nicht angezeigt).###10 Jul 2006 content changed
+forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS Benutzername wird nicht angezeigt).
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
 forum#:#forums_attachments#:#Dateianhänge
@@ -4677,7 +4677,7 @@ forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_not_available#:#Keine Foren verfügbar
 forum#:#forums_notification#:#Benachrichtigung
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
-forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt. ### 2006-5-8 --- Content changed
+forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt. 
 forum#:#forums_notification_is_disabled#:#Sie werden (noch) nicht über neue Nachrichten zu diesem Thema benachrichtigt.
 forum#:#forums_notification_is_enabled#:#Zur Zeit werden Sie bereits über neue Nachrichten zu diesem Thema benachrichtigt.
 forum#:#forums_notification_show_post#:#Zur Nachricht gehen: %s
@@ -4726,11 +4726,11 @@ ilinc#:#ilinc_akuservalues_refreshed#:#Kostenstellen aktualisiert
 ilinc#:#ilinc_connection_error#:#Fehler: Keine Verbindung zum iLinc Server!
 ilinc#:#ilinc_no_account_yet#:#Noch kein iLinc-Konto vorhanden
 ilinc#:#ilinc_user_added#:#Benutzerkonto angelegt auf iLinc-Server
-ilinc#:#ilinc_user_id#:#iLinc UserID###10 Jul 2006 new variable
+ilinc#:#ilinc_user_id#:#iLinc UserID
 ilinc#:#ilinc_user_settings#:#iLinc Benutzerdaten
 jscalendar#:#about_calendar#:#Über den Kalender
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten. ### 2006-5-8 --- Content changed
-jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl. ### 2006-5-8 --- Content changed
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten. 
+jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl. 
 jscalendar#:#close#:#Schließen
 jscalendar#:#day_first#:#%s zuerst Anzeigen
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -4790,8 +4790,8 @@ mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
 mail#:#forward#:#Weiterleiten
 mail#:#linebreak#:#Zeilenumbruch
-mail#:#mail_account_mail#:#Account Mail###10 Jul 2006 new variable
-mail#:#mail_account_mail_check#:#Send Account Mail###10 Jul 2006 new variable
+mail#:#mail_account_mail#:#Benutzerkonten-Nachricht
+mail#:#mail_account_mail_check#:#Benutzerkonten-Nachricht versenden
 mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
@@ -4863,15 +4863,15 @@ mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
-mail#:#mail_salutation_female#:#Salutation, female###10 Jul 2006 new variable
-mail#:#mail_salutation_general#:#Salutation, general###10 Jul 2006 new variable
-mail#:#mail_salutation_male#:#Salutation, male###10 Jul 2006 new variable
+mail#:#mail_salutation_female#:#Anrede, weiblich
+mail#:#mail_salutation_general#:#Anrede, allgemein
+mail#:#mail_salutation_male#:#Anrede, männlich
 mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
 mail#:#mail_search_addressbook#:#im Addressbuch suchen
 mail#:#mail_search_system#:#im System suchen
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
-mail#:#mail_send_with_system_address#:#Send With System Address###10 Jul 2006 new variable
+mail#:#mail_send_with_system_address#:#Mit Adresse des Systems senden
 mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Nachrichten gelöscht werden sollen?
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die markierten Dateien gelöscht werden sollen?
@@ -4931,7 +4931,7 @@ meta#:#meta_c_CC#:#Kokos (Keeling) Inseln
 meta#:#meta_c_CF#:#Zentralafrikanische Republik
 meta#:#meta_c_CG#:#Kongo
 meta#:#meta_c_CH#:#Schweiz
-meta#:#meta_c_CI#:#Elfenbeinküste###10 Jul 2006 content changed
+meta#:#meta_c_CI#:#Elfenbeinküste
 meta#:#meta_c_CK#:#Cook Inseln
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Kamerun
@@ -5004,12 +5004,12 @@ meta#:#meta_c_KH#:#Kambodscha
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Komoren
 meta#:#meta_c_KN#:#Saint Kitts und Nevis
-meta#:#meta_c_KP#:#Nord-Korea (Volksrepublik Korea)###10 Jul 2006 content changed
+meta#:#meta_c_KP#:#Nord-Korea (Volksrepublik Korea)
 meta#:#meta_c_KR#:#Süd-Korea (Republik)
 meta#:#meta_c_KW#:#Kuwait
 meta#:#meta_c_KY#:#Kaiman Inseln
 meta#:#meta_c_KZ#:#Kasachstan
-meta#:#meta_c_LA#:#Laos###10 Jul 2006 content changed
+meta#:#meta_c_LA#:#Laos
 meta#:#meta_c_LB#:#Libanon
 meta#:#meta_c_LC#:#Saint Lucia
 meta#:#meta_c_LI#:#Liechtenstein
@@ -5362,14 +5362,14 @@ meta#:#meta_narrative_text#:#Erzählender Text
 meta#:#meta_networked#:#Vernetzt
 meta#:#meta_new_element#:#Neues Element
 meta#:#meta_no#:#Nein
-meta#:#meta_no_annotation#:#Keine Metadaten für den Bereich 'Anmerkung' vorhanden. ### 2006-5-8 --- Content changed
-meta#:#meta_no_classification#:#Keine Metadaten für den Bereich 'Klassifizierung' vorhanden. ### 2006-5-8 --- Content changed
-meta#:#meta_no_educational#:#Keine Metadaten für den Bereich 'Ausbildung' vorhanden. ### 2006-5-8 --- Content changed
-meta#:#meta_no_lifecycle#:#Keine Metadaten für den Bereich 'Lebenszyklus' vorhanden. ### 2006-5-8 --- Content changed
-meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Bereich 'Meta-Metadaten' vorhanden. ### 2006-5-8 --- Content changed
-meta#:#meta_no_relation#:#Keine Metadate für den Bereich 'Beziehungen' vorhanden. ### 2006-5-8 --- Content changed
-meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden. ### 2006-5-8 --- Content changed
-meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden. ### 2006-5-8 --- Content changed
+meta#:#meta_no_annotation#:#Keine Metadaten für den Bereich 'Anmerkung' vorhanden. 
+meta#:#meta_no_classification#:#Keine Metadaten für den Bereich 'Klassifizierung' vorhanden. 
+meta#:#meta_no_educational#:#Keine Metadaten für den Bereich 'Ausbildung' vorhanden. 
+meta#:#meta_no_lifecycle#:#Keine Metadaten für den Bereich 'Lebenszyklus' vorhanden. 
+meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Bereich 'Meta-Metadaten' vorhanden. 
+meta#:#meta_no_relation#:#Keine Metadate für den Bereich 'Beziehungen' vorhanden. 
+meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden. 
+meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden. 
 meta#:#meta_none#:#Keins
 meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#...oder zusammengefasst...
@@ -5447,25 +5447,25 @@ payment#:#pay_bmf_bank_code#:#Bankleitzahl
 payment#:#pay_bmf_card_holder#:#Karteninhaber
 payment#:#pay_bmf_card_number#:#Kartennummer
 payment#:#pay_bmf_check_number#:#Kartenprüfnummer
-payment#:#pay_bmf_check_terms_conditions#:#Bitte bestätigen Sie, dass Sie die AGB gelesen haben und akzeptieren.###10 Jul 2006 content changed
+payment#:#pay_bmf_check_terms_conditions#:#Bitte bestätigen Sie, dass Sie die AGB gelesen haben und akzeptieren.
 payment#:#pay_bmf_credit_card#:#Kreditkarte
 payment#:#pay_bmf_credit_card_data#:#Kreditkarte
-payment#:#pay_bmf_credit_card_not_valid#:#Ihre Angaben zur Kreditkarte sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.###10 Jul 2006 content changed
+payment#:#pay_bmf_credit_card_not_valid#:#Ihre Angaben zur Kreditkarte sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pay_bmf_debit_entry#:#Lastschriftverfahren (nur mit deutschen Konten)
 payment#:#pay_bmf_debit_entry_data#:#Lastschriftverfahren
-payment#:#pay_bmf_debit_entry_not_valid#:#Ihre Angaben für das Lastschriftverfahren sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.###10 Jul 2006 content changed
-payment#:#pay_bmf_description_credit_card#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kreditkarten-Daten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern. ### 2006-5-8 --- Content changed
-payment#:#pay_bmf_description_debit_entry#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kontodaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern. ### 2006-5-8 --- Content changed
+payment#:#pay_bmf_debit_entry_not_valid#:#Ihre Angaben für das Lastschriftverfahren sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pay_bmf_description_credit_card#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kreditkarten-Daten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern. 
+payment#:#pay_bmf_description_debit_entry#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kontodaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern. 
 payment#:#pay_bmf_description_payment_type#:#Bitte wählen Sie eine Bezahlart aus.
 payment#:#pay_bmf_description_personal_data#:#Bitte füllen Sie das nachfolgende Formular vollständig aus.
 payment#:#pay_bmf_house_number#:#Hausnummer
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#oder
-payment#:#pay_bmf_password_not_valid#:#Ihr Passwort ist nicht gültig.###10 Jul 2006 content changed
+payment#:#pay_bmf_password_not_valid#:#Ihr Passwort ist nicht gültig.
 payment#:#pay_bmf_payment_type#:#Bezahlart
-payment#:#pay_bmf_payment_type_not_valid#:#Die Bezahlart, die Sie gewählt haben, ist nicht gültig. Bitte wählen Sie eine andere.###10 Jul 2006 content changed
+payment#:#pay_bmf_payment_type_not_valid#:#Die Bezahlart, die Sie gewählt haben, ist nicht gültig. Bitte wählen Sie eine andere.
 payment#:#pay_bmf_personal_data#:#Ihre persönlichen Daten
-payment#:#pay_bmf_personal_data_not_valid#:#Ihre persönlichen Daten sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.###10 Jul 2006 content changed
+payment#:#pay_bmf_personal_data_not_valid#:#Ihre persönlichen Daten sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pay_bmf_please_select#:#Bitte wählen
 payment#:#pay_bmf_po_box#:#Postfach
 payment#:#pay_bmf_server_error_code#:#Der Payment-Server meldet einen Fehler Code
@@ -5474,7 +5474,7 @@ payment#:#pay_bmf_server_error_sysadmin#:#Bitte wenden Sie sich für weitere Inf
 payment#:#pay_bmf_shopping_cart_empty#:#Ihr Warenkorb ist leer.
 payment#:#pay_bmf_street_or_pobox#:#Bitte geben Sie entweder Straße und Hausnummer oder ein Postfach ein.
 payment#:#pay_bmf_terms_conditions#:#AGB
-payment#:#pay_bmf_terms_conditions_read#:#Ich habe die AGB gelesen und akzeptiere sie.###10 Jul 2006 content changed
+payment#:#pay_bmf_terms_conditions_read#:#Ich habe die AGB gelesen und akzeptiere sie.
 payment#:#pay_bmf_terms_conditions_show#:#anzeigen
 payment#:#pay_bmf_thanks#:#Vielen Dank. Ihre Bestellung wurde erfolgreich durchgeführt.
 payment#:#pay_bmf_total_amount#:#Gesamtsumme
@@ -5524,7 +5524,7 @@ payment#:#pay_paypal_success#:#Vielen Dank für Ihren Kauf von ILIAS Objekten! S
 payment#:#pay_paypal_unreachable#:#Es konnte keine Verbindung zum Payment-Server von PayPal aufgebaut werden.
 payment#:#pay_reset_filter#:#Filter zurücksetzen
 payment#:#pay_select_one_item#:#Bitte wählen Sie mindestens einen Artikel aus.
-payment#:#pay_select_price#:#Bitte wählen Sie eine Preis-/Dauer-Kombination aus.###10 Jul 2006 content changed
+payment#:#pay_select_price#:#Bitte wählen Sie eine Preis-/Dauer-Kombination aus.
 payment#:#pay_send_order#:#Bestellung abschicken
 payment#:#pay_shopping_cart_empty#:#Ihr Einkaufswagen ist leer.
 payment#:#pay_starting#:#beginnt mit
@@ -5542,7 +5542,7 @@ payment#:#paya_added_new_price#:#Ein neuer Preis wurde angelegt
 payment#:#paya_added_trustee#:#Ein neuer Verwalter wurde angelegt.
 payment#:#paya_bookings_available#:#Dieses Objekt wurde bereits gekauft. Bitte löschen Sie zuerst die Statistikdaten.
 payment#:#paya_buyable#:#Kaufbar
-payment#:#paya_buyed_objects#:#Gekaufte Objekte###10 Jul 2006 content changed
+payment#:#paya_buyed_objects#:#Gekaufte Objekte
 payment#:#paya_count_purchaser#:#Anzahl Käufer
 payment#:#paya_customer#:#Käufer
 payment#:#paya_customer_added_successfully#:#Der Verkaufsvorgang wurde erfolgreich zur Statistik hinzugefügt.
@@ -5569,7 +5569,7 @@ payment#:#paya_header#:#Paymentverwaltung
 payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
 payment#:#paya_locator#:#Paymentverwaltung
 payment#:#paya_months#:#Monat(e)
-payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben###10 Jul 2006 content changed
+payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
 payment#:#paya_no_object_selected#:#Sie haben kein Objekt ausgewählt.
 payment#:#paya_no_objects_assigned#:#Sie haben noch keine Objekte verkauft.
@@ -5578,7 +5578,7 @@ payment#:#paya_no_prices_selected#:#Bitte wählen Sie mindestens einen Preis aus
 payment#:#paya_no_settings_necessary#:#Bei der ausgewählten Bezahlart sind keine weiteren Einstellungen nötig
 payment#:#paya_no_trustees#:#Es sind keine Verwalter angelegt.
 payment#:#paya_no_valid_login#:#Dieser Benutzername ist nicht gültig.
-payment#:#paya_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.###10 Jul 2006 content changed
+payment#:#paya_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
 payment#:#paya_not_assign_yourself#:#Sie können sich nicht selbst als Verwalter zuordnen.
 payment#:#paya_not_buyable#:#Nicht kaufbar
 payment#:#paya_object#:#Objekte
@@ -5630,20 +5630,20 @@ payment#:#pays_edit_vendor#:#Benutzer bearbeiten
 payment#:#pays_email_vendor#:#E-Mail-Adresse des Verkäufers
 payment#:#pays_general#:#Allgemein
 payment#:#pays_general_settings#:#Allgemeine Einstellungen
-payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.###10 Jul 2006 content changed
+payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pays_header_select_vendor#:#Verkäuferauswahl
 payment#:#pays_no_username_given#:#Bitte geben Sie einen Benutzernamen ein.
 payment#:#pays_no_valid_username_given#:#Der angegebene Benutzername ist nicht gültig.
 payment#:#pays_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
 payment#:#pays_number_bookings#:#Verkaufsvorgänge
-payment#:#pays_objects_bill_exist#:#Für einige Objekte ist die Bezahlart 'Rechnung' aktiviert. Diese kann deswegen nicht deaktiviert werden. ### 2006-5-8 --- Content changed
-payment#:#pays_objects_bmf_exist#:#Für einige Objekte ist die Bezahlart 'BMF' aktiviert. Diese kann deswegen nicht deaktiviert werden. ### 2006-5-8 --- Content changed
+payment#:#pays_objects_bill_exist#:#Für einige Objekte ist die Bezahlart 'Rechnung' aktiviert. Diese kann deswegen nicht deaktiviert werden. 
+payment#:#pays_objects_bmf_exist#:#Für einige Objekte ist die Bezahlart 'BMF' aktiviert. Diese kann deswegen nicht deaktiviert werden.
 payment#:#pays_objects_paypal_exist#:#Für einige Objekte ist die Bezahlart 'PayPal' aktiviert. Diese kann deswegen nicht deaktiviert werden.
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
-payment#:#pays_page_style#:#Page style###10 Jul 2006 new variable
+payment#:#pays_page_style#:#Seitenstil
 payment#:#pays_pay_methods#:#Bezahlarten
-payment#:#pays_paypal#:#PayPal###10 Jul 2006 new variable
+payment#:#pays_paypal#:#PayPal
 payment#:#pays_paypal_settings#:#Einstellungen für PayPal
 payment#:#pays_paypal_settings_not_valid#:#Ihre Einstellungen für PayPal sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pays_pdf_path#:#Pfad zur Rechnungs-Generierung als PDF-Datei
@@ -5661,20 +5661,20 @@ payment#:#price_a#:#Preis
 payment#:#prices#:#Preise
 payment#:#update#:#Aktualisieren
 pwassist#:#password_assistance#:#Passwort-Unterstützung
-pwassist#:#pwassist_enter_email#:#Geben Sie eine Email-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Das E-Mail enthält alle Benutzernamen, in deren Profil die Email eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der Passwort-Vergessen-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine Email erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_enter_email#:#Geben Sie eine Email-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Das E-Mail enthält alle Benutzernamen, in deren Profil die Email eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der Passwort-Vergessen-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine Email erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. 
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. 
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
-pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefeld.\nDie E-Mail Adresse, die Sie eingegeben haben, ist in der Datenbank nicht vorhanden. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_mail_sent#:#ILIAS hat ein E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefeld.\nDie E-Mail Adresse, die Sie eingegeben haben, ist in der Datenbank nicht vorhanden. 
+pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden. 
+pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten. 
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%1$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern. 
+pwassist#:#pwassist_mail_sent#:#ILIAS hat ein E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail. 
 pwassist#:#pwassist_mail_subject#:#ILIAS Passwort-Unterstützung
-pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort-Unterstützung ist für den angegebenen Benutzer nicht erlaubt. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.###10 Jul 2006 content changed
-pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden. ### 2006-5-8 --- Content changed
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort-Unterstützung ist für den angegebenen Benutzer nicht erlaubt. 
+pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
+pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde. 
+pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden. 
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen. 
 rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
 rbac#:#filter_all_roles#:#Zeige alle Rollen im aktuellen Kontext
 rbac#:#filter_global_roles#:#Zeige nur globale Rollen
@@ -5693,21 +5693,21 @@ rbac#:#perm_class_object#:#Objektspezifische Operationen
 rbac#:#perm_class_object_desc#:#Hier sind Operationen aufgeführt, die nur für den aktuellen Objekttyp verfügbar sind.
 rbac#:#perm_class_rbac#:#Rechteeinstellungen
 rbac#:#perm_class_rbac_desc#:#Hier steuern Sie den Zugriff auf die Rechteeinstellungen (dieses Menü) und die automatische Zugriffsregelung für neu erzeugte Objekte.
-rbac#:#perm_local_role#:#Lokale Rolle###22 May 2006 content changed
+rbac#:#perm_local_role#:#Lokale Rolle
 rbac#:#perm_local_role_desc#:#Diese Rolle ist lokal an diesem Objekt definiert und entspricht bereits einer lokalen Zugriffsregelung
 rbac#:#perm_use_local_policy#:#Verwende lokale Zugriffsregelung
 rbac#:#perm_use_local_policy_desc#:#Wenn die lokale Zugriffsregelung aktiviert ist, können an dieser Stelle andere Rechtevorgaben definiert werden
 registration#:#reg_add_assignment#:#Neue Zuordnung
 registration#:#reg_added_assignment#:#Eine neue Zuordung wurde angelegt.
 registration#:#reg_approve#:#Neuanmeldung mit Überprüfung
-registration#:#reg_approve_info#:#Alle neu angemeldeten Benutzer müssen vom einem Administrator freigeschaltet werden. ### 2006-5-8 --- Content changed
+registration#:#reg_approve_info#:#Alle neu angemeldeten Benutzer müssen vom einem Administrator freigeschaltet werden. 
 registration#:#reg_available_roles#:#Verfügbare Rollen:
-registration#:#reg_default#:#Default###10 Jul 2006 new variable
+registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
 registration#:#reg_direct#:#Direkte Anmeldung
 registration#:#reg_direct_info#:#Wenn eingeschaltet, werden alle neu angemeldeten Benutzer automatisch freigeschaltet.
 registration#:#reg_disabled#:#Keine Registrierung möglich
-registration#:#reg_domain#:#Domäne (z.B. '@your_domain.de') ### 2006-5-8 --- Content changed
+registration#:#reg_domain#:#Domäne (z.B. '@your_domain.de') 
 registration#:#reg_email#:#Automatische Rollenzuweisung
 registration#:#reg_email_role_assignment#:#Rollenzuweisung über Email-Adresse
 registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
@@ -5810,7 +5810,7 @@ search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_type#:#Suchart
 search#:#search_user#:#Benutzer
 search#:#until#:#bis
-style#:#sty_all#:#All###10 Jul 2006 new variable
+style#:#sty_all#:#All
 style#:#sty_background#:#Background###10 Jul 2006 new variable
 style#:#sty_background_attachment#:#Background Attachment###10 Jul 2006 new variable
 style#:#sty_background_color#:#Background Color###10 Jul 2006 new variable
@@ -6277,97 +6277,97 @@ trac#:#obj_types#:#Objekttypen:
 trac#:#search_area_info#:#Bitte wählen Sie ein Objekt aus.
 trac#:#search_terms#:#Suchbegriff(e)
 trac#:#select_one#:#Bitte wählen Sie ein Objekt aus.
-trac#:#stats_access#:#Zugriff###25 Jul 2006 content changed
-trac#:#stats_accesses#:#Zugriffe###25 Jul 2006 content changed
+trac#:#stats_access#:#Zugriff
+trac#:#stats_accesses#:#Zugriffe
 trac#:#stats_all#:#Alle
-trac#:#stats_chapter#:#Kapitel###25 Jul 2006 content changed
-trac#:#stats_chapter_average_page_number#:#durchschn. Seitenanzahl je Kapitel###25 Jul 2006 content changed
-trac#:#stats_chapter_depth_coverage#:#Abdeckungsgrade der Tiefe###25 Jul 2006 content changed
-trac#:#stats_chapter_fewest_access#:#Wenigsten Zugriffe###25 Jul 2006 content changed
-trac#:#stats_chapter_listing#:#Kapitel-Auflistung###25 Jul 2006 content changed
-trac#:#stats_chapter_longest_total_dwell_time_depth#:#Längste GesamtVerweildauer Tiefe###25 Jul 2006 content changed
-trac#:#stats_chapter_most_access_depth#:#Meisten Zugriffe der Tiefe###25 Jul 2006 content changed
-trac#:#stats_chapter_most_pages#:#Meisten Seiten###25 Jul 2006 content changed
-trac#:#stats_chapter_number#:#Anzahl der Kapitel###25 Jul 2006 content changed
+trac#:#stats_chapter#:#Kapitel
+trac#:#stats_chapter_average_page_number#:#durchschn. Seitenanzahl je Kapitel
+trac#:#stats_chapter_depth_coverage#:#Abdeckungsgrade der Tiefe
+trac#:#stats_chapter_fewest_access#:#Wenigsten Zugriffe
+trac#:#stats_chapter_listing#:#Kapitel-Auflistung
+trac#:#stats_chapter_longest_total_dwell_time_depth#:#Längste GesamtVerweildauer Tiefe
+trac#:#stats_chapter_most_access_depth#:#Meisten Zugriffe der Tiefe
+trac#:#stats_chapter_most_pages#:#Meisten Seiten
+trac#:#stats_chapter_number#:#Anzahl der Kapitel
 trac#:#stats_chapter_statisics#:#Kapitel-Statistiken
-trac#:#stats_chapter_stubbiest_total_dwell_time#:#Kürzeste GesamtVerweildauer###25 Jul 2006 content changed
-trac#:#stats_chapter_top#:#Top-Kapitel (Varianz, Zugriffe, usw.)###25 Jul 2006 content changed
+trac#:#stats_chapter_stubbiest_total_dwell_time#:#Kürzeste GesamtVerweildauer
+trac#:#stats_chapter_top#:#Top-Kapitel (Varianz, Zugriffe, usw.)
 trac#:#stats_chapter_total_statistic#:#Gesamt-Kapitel-Statistik
 trac#:#stats_choice#:#Auswahl
 trac#:#stats_current#:#Aktuell
-trac#:#stats_depth#:#Tiefe###25 Jul 2006 content changed
-trac#:#stats_duration#:#Dauer###25 Jul 2006 content changed
+trac#:#stats_depth#:#Tiefe
+trac#:#stats_duration#:#Dauer
 trac#:#stats_equivalent#:#entspricht
-trac#:#stats_hits#:#Zugriffe###25 Jul 2006 content changed
+trac#:#stats_hits#:#Zugriffe
 trac#:#stats_hour#:#h
-trac#:#stats_interval#:#Intervall###25 Jul 2006 content changed
-trac#:#stats_interval_dwell_time#:#Verweildauer-Intervalle###25 Jul 2006 content changed
-trac#:#stats_interval_page_access#:#Seitenzugriffe-Intervalle###25 Jul 2006 content changed
-trac#:#stats_last#:#letzter###25 Jul 2006 content changed
-trac#:#stats_legend#:#Legende###25 Jul 2006 content changed
-trac#:#stats_measurable_hits#:#messbare Zugriffe (innerhalb einer Session)###25 Jul 2006 content changed
+trac#:#stats_interval#:#Intervall
+trac#:#stats_interval_dwell_time#:#Verweildauer-Intervalle
+trac#:#stats_interval_page_access#:#Seitenzugriffe-Intervalle
+trac#:#stats_last#:#letzter
+trac#:#stats_legend#:#Legende
+trac#:#stats_measurable_hits#:#messbare Zugriffe (innerhalb einer Session)
 trac#:#stats_minute#:#min
 trac#:#stats_navigation#:#Navigations-/Beobachtungsmodell (erfordert JRE 1.5 oder höher)
 trac#:#stats_new_selection#:#neue Auswahl
-trac#:#stats_occurrence#:#Ausprägung###25 Jul 2006 content changed
+trac#:#stats_occurrence#:#Ausprägung
 trac#:#stats_of#:#von
-trac#:#stats_page#:#Seite###25 Jul 2006 content changed
-trac#:#stats_page_average_access#:#Mittelwert der Seitenzugriffe###25 Jul 2006 content changed
-trac#:#stats_page_average_dwell_time#:#Mittelwert der Seitenverweildauer###25 Jul 2006 content changed
-trac#:#stats_page_deviation_access#:#Standartabweichung der Seitenzugriffe###25 Jul 2006 content changed
-trac#:#stats_page_deviation_dwell_time#:#Standartabweichung der Seitenverweildauer###25 Jul 2006 content changed
-trac#:#stats_page_fewest_access#:#Wenigsten Zugriffe###25 Jul 2006 content changed
-trac#:#stats_page_highest_deviation#:#Höchste Standartabweichung###25 Jul 2006 content changed
-trac#:#stats_page_highest_varcoeff#:#Höchster Variationskoeffizient###25 Jul 2006 content changed
-trac#:#stats_page_least_deviation#:#Geringste Standartabweichung###25 Jul 2006 content changed
-trac#:#stats_page_listing#:#Seiten-Auflistung###25 Jul 2006 content changed
-trac#:#stats_page_longest_average_dwell_time#:#Längste durchschn. Verweildauer###25 Jul 2006 content changed
-trac#:#stats_page_longest_total_dwell_time#:#Längste Gesamtverweildauer###25 Jul 2006 content changed
-trac#:#stats_page_lowest_varcoeff#:#Niedrigster Variationskoeffizient###25 Jul 2006 content changed
-trac#:#stats_page_median_access#:#Median der Seitenzugriffe###25 Jul 2006 content changed
-trac#:#stats_page_median_dwell_time#:#Median der Seitenverweildauer###25 Jul 2006 content changed
-trac#:#stats_page_mode_access#:#Modalwert der Seitenzugriffe###25 Jul 2006 content changed
-trac#:#stats_page_most_access#:#Meisten Zugriffe###25 Jul 2006 content changed
-trac#:#stats_page_number#:#Anzahl der Seiten###25 Jul 2006 content changed
-trac#:#stats_page_number_access#:#Anzahl der Zugriffe auf Seiten###25 Jul 2006 content changed
-trac#:#stats_page_range_access#:#Spannweite der Seitenzugriffe###25 Jul 2006 content changed
-trac#:#stats_page_range_dwell_time#:#Spannweite der SeitenVerweildauer###25 Jul 2006 content changed
-trac#:#stats_page_stubbiest_average_dwell_time#:#Kürzeste durchschn. Verweildauer###25 Jul 2006 content changed
-trac#:#stats_page_stubbiest_total_dwell_time#:#Kürzeste Gesamtverweildauer###25 Jul 2006 content changed
-trac#:#stats_page_total_dwell_time#:#Gesamte-Seiten-Verweilzeit###25 Jul 2006 content changed
+trac#:#stats_page#:#Seite
+trac#:#stats_page_average_access#:#Mittelwert der Seitenzugriffe
+trac#:#stats_page_average_dwell_time#:#Mittelwert der Seitenverweildauer
+trac#:#stats_page_deviation_access#:#Standartabweichung der Seitenzugriffe
+trac#:#stats_page_deviation_dwell_time#:#Standartabweichung der Seitenverweildauer
+trac#:#stats_page_fewest_access#:#Wenigsten Zugriffe
+trac#:#stats_page_highest_deviation#:#Höchste Standartabweichung
+trac#:#stats_page_highest_varcoeff#:#Höchster Variationskoeffizient
+trac#:#stats_page_least_deviation#:#Geringste Standartabweichung
+trac#:#stats_page_listing#:#Seiten-Auflistung
+trac#:#stats_page_longest_average_dwell_time#:#Längste durchschn. Verweildauer
+trac#:#stats_page_longest_total_dwell_time#:#Längste Gesamtverweildauer
+trac#:#stats_page_lowest_varcoeff#:#Niedrigster Variationskoeffizient
+trac#:#stats_page_median_access#:#Median der Seitenzugriffe
+trac#:#stats_page_median_dwell_time#:#Median der Seitenverweildauer
+trac#:#stats_page_mode_access#:#Modalwert der Seitenzugriffe
+trac#:#stats_page_most_access#:#Meisten Zugriffe
+trac#:#stats_page_number#:#Anzahl der Seiten
+trac#:#stats_page_number_access#:#Anzahl der Zugriffe auf Seiten
+trac#:#stats_page_range_access#:#Spannweite der Seitenzugriffe
+trac#:#stats_page_range_dwell_time#:#Spannweite der SeitenVerweildauer
+trac#:#stats_page_stubbiest_average_dwell_time#:#Kürzeste durchschn. Verweildauer
+trac#:#stats_page_stubbiest_total_dwell_time#:#Kürzeste Gesamtverweildauer
+trac#:#stats_page_total_dwell_time#:#Gesamte-Seiten-Verweilzeit
 trac#:#stats_page_total_statistic#:#Gesamt-Seiten-Statistik
-trac#:#stats_page_varcoeff_access#:#Variationskoeffizient der Seitenzugriffe###25 Jul 2006 content changed
-trac#:#stats_page_varcoeff_dwell_time#:#Variationskoeffizient der Seitenverweildauer###25 Jul 2006 content changed
-trac#:#stats_page_variance_access#:#Varianz der Seitenzugriffe###25 Jul 2006 content changed
-trac#:#stats_page_variance_dwell_time#:#Varianz der Seitenverweildauer###25 Jul 2006 content changed
-trac#:#stats_pages#:#Seiten###25 Jul 2006 content changed
+trac#:#stats_page_varcoeff_access#:#Variationskoeffizient der Seitenzugriffe
+trac#:#stats_page_varcoeff_dwell_time#:#Variationskoeffizient der Seitenverweildauer
+trac#:#stats_page_variance_access#:#Varianz der Seitenzugriffe
+trac#:#stats_page_variance_dwell_time#:#Varianz der Seitenverweildauer
+trac#:#stats_pages#:#Seiten
 trac#:#stats_pages_statisics#:#Seiten-Statistiken
 trac#:#stats_sec#:#s
-trac#:#stats_sel_lng#:#deutsch###25 Jul 2006 content changed
-trac#:#stats_session#:#Session###25 Jul 2006 content changed
-trac#:#stats_session_average_length#:#durchschn. Sessionlänge###25 Jul 2006 content changed
-trac#:#stats_session_average_page_access#:#durchschn. Seitenzugriffe je Session###25 Jul 2006 content changed
-trac#:#stats_session_evaluable#:#Auswertbare Sessions###25 Jul 2006 content changed
-trac#:#stats_session_evaluable_access#:#Auswertbare Sessionzugriffe###25 Jul 2006 content changed
-trac#:#stats_session_evaluable_usr#:#Auswertbare Benutzer###25 Jul 2006 content changed
-trac#:#stats_session_involved_usr#:#Anzahl beteiligter Benutzer###25 Jul 2006 content changed
-trac#:#stats_session_listing#:#Session Auflistung###25 Jul 2006 content changed
-trac#:#stats_session_longest#:#Längste Session###25 Jul 2006 content changed
-trac#:#stats_session_longest_total_duration_usr#:#Längste Gesamtdauer pro Benutzer###25 Jul 2006 content changed
-trac#:#stats_session_most#:#Meiste Sessions###25 Jul 2006 content changed
-trac#:#stats_session_number#:#Anzahl der Sessions###25 Jul 2006 content changed
-trac#:#stats_session_total_duration#:#Gesamtdauer aller Sessions###25 Jul 2006 content changed
+trac#:#stats_sel_lng#:#deutsch
+trac#:#stats_session#:#Session
+trac#:#stats_session_average_length#:#durchschn. Sessionlänge
+trac#:#stats_session_average_page_access#:#durchschn. Seitenzugriffe je Session
+trac#:#stats_session_evaluable#:#Auswertbare Sessions
+trac#:#stats_session_evaluable_access#:#Auswertbare Sessionzugriffe
+trac#:#stats_session_evaluable_usr#:#Auswertbare Benutzer
+trac#:#stats_session_involved_usr#:#Anzahl beteiligter Benutzer
+trac#:#stats_session_listing#:#Session Auflistung
+trac#:#stats_session_longest#:#Längste Session
+trac#:#stats_session_longest_total_duration_usr#:#Längste Gesamtdauer pro Benutzer
+trac#:#stats_session_most#:#Meiste Sessions
+trac#:#stats_session_number#:#Anzahl der Sessions
+trac#:#stats_session_total_duration#:#Gesamtdauer aller Sessions
 trac#:#stats_session_total_statistic#:#Gesamt-Session-Statistik
-trac#:#stats_sessions#:#Sessions###25 Jul 2006 content changed
+trac#:#stats_sessions#:#Sessions
 trac#:#stats_sessions_statisics#:#Session-Statistiken
-trac#:#stats_start#:#Start###25 Jul 2006 content changed
-trac#:#stats_summation#:#Summe###25 Jul 2006 content changed
+trac#:#stats_start#:#Start
+trac#:#stats_summation#:#Summe
 trac#:#stats_tracked_user#:#Benutzer
 trac#:#stats_until#:#bis
 trac#:#stats_user#:#Benutzer
 trac#:#stats_user_selected#:#User ausgewählt
 trac#:#stats_with#:#mit
-trac#:#total_dwell_time#:#Gesamtverweildauer###25 Jul 2006 content changed
+trac#:#total_dwell_time#:#Gesamtverweildauer
 trac#:#trac_activated#:#Tracking aktiviert
 trac#:#trac_active_both#:#Zugriffsstatistiken und Lernfortschritt aktiviert
 trac#:#trac_active_lp_only#:#Lernfortschritt aktiviert
@@ -6389,15 +6389,15 @@ trac#:#trac_crs_members#:#Kursteilnehmer:
 trac#:#trac_crs_objects#:#Lernfortschritt der KursteilnehmerInnen
 trac#:#trac_crs_releavant_items#:#Kursobjekte
 trac#:#trac_crs_relevant_items#:#Kursmaterialien
-trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Materialien aus, anhand derer der Lernfortschritt bestimmt wird.###10 Jul 2006 content changed
+trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Materialien aus, anhand derer der Lernfortschritt bestimmt wird.
 trac#:#trac_edit_progress#:#Lernfortschritt bearbeiten
 trac#:#trac_edit_time#:#Bearbeitungszeit
 trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuche ein.
 trac#:#trac_edited_scos#:#Bearbeitete Inhalte
 trac#:#trac_editing_time_passed#:#Bearbeitungszeit überschritten
 trac#:#trac_failed#:#Nicht bestanden
-trac#:#trac_filter_area#:#Bereich:###10 Jul 2006 content changed
-trac#:#trac_filter_hidden#:#Ausgeblendet:###10 Jul 2006 content changed
+trac#:#trac_filter_area#:#Bereich:
+trac#:#trac_filter_hidden#:#Ausgeblendet:
 trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
 trac#:#trac_filter_no_access#:#Es wurden keine passenden Objekte gefunden.
 trac#:#trac_filter_none#:#Keine
@@ -6408,25 +6408,25 @@ trac#:#trac_head_timing#:#Zu bearbeiten bis
 trac#:#trac_hide#:#Ausblenden
 trac#:#trac_in_progress#:#In Bearbeitung
 trac#:#trac_inactive_both#:#Zugriffsstatistiken und Lernfortschritt deaktiviert
-trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, dass Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.###10 Jul 2006 content changed
+trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, dass Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern.
 trac#:#trac_last_access#:#Letzter Zugriff
-trac#:#trac_learning_progress#:#Lernfortschritt###10 Jul 2006 content changed
+trac#:#trac_learning_progress#:#Lernfortschritt
 trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
 trac#:#trac_lm_statistics#:#Zugriffstatistiken
 trac#:#trac_lp_determination#:#Ermittlung des Lernfortschritts
-trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird.###28 Jul 2006 content changed
-trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.###10 Jul 2006 new variable
-trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
+trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird.
+trac#:#trac_lp_determination_info_sco#:#Auswahl der Materialien, anhand derer der Gesamtstatus der SCORM-Lernmodule ermittelt wird.
+trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Note
 trac#:#trac_marks#:#Noten
 trac#:#trac_mode#:#Modus
 trac#:#trac_mode_collection#:#Auswahl von Objekten
 trac#:#trac_mode_deactivated#:#Deaktiviert
-trac#:#trac_mode_exercise_returned#:#Übung gelöst ###01 Aug 2006 content changed
+trac#:#trac_mode_exercise_returned#:#Übung gelöst 
 trac#:#trac_mode_manual#:#Manuell
 trac#:#trac_mode_objectives#:#Lernziele
-trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
-trac#:#trac_mode_scorm_aicc#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_scorm#:#SCORM/AICC
+trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
 trac#:#trac_mode_test_finished#:#Test durchgeführt
 trac#:#trac_mode_test_passed#:#Test bestanden
 trac#:#trac_mode_tlt#:#Typische Lerndauer
@@ -6443,31 +6443,31 @@ trac#:#trac_not_completed#:#Nicht bearbeitet
 trac#:#trac_not_participated#:#Nicht teilgenommen
 trac#:#trac_not_registered#:#Nicht angemeldet
 trac#:#trac_num_visits#:#Anzahl der Besuche
-trac#:#trac_objects#:#Lernfortschritt der NutzerInnen###10 Jul 2006 content changed
+trac#:#trac_objects#:#Lernfortschritt der NutzerInnen
 trac#:#trac_occurrences#:#Pfad:
 trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit
-trac#:#trac_progress#:#Persönlicher Lernfortschritt###30 Jul 2006 content changed
-trac#:#trac_query#:#Titel/Beschreibung:###10 Jul 2006 content changed
+trac#:#trac_progress#:#Persönlicher Lernfortschritt
+trac#:#trac_query#:#Titel/Beschreibung:
 trac#:#trac_reached_objectives#:#Erreichte Lernziele
 trac#:#trac_reached_points#:#Erreichte Punktzahl
 trac#:#trac_reached_visits#:#Benötigte Aufrufe
 trac#:#trac_refresh#:#Ansicht aktualisieren
 trac#:#trac_registered#:#Angemeldet
 trac#:#trac_required_visits#:#Anzahl benötigter Besuche
-trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
+trac#:#trac_sahs_relevant_items#:#SCOs
 trac#:#trac_select_one#:#Sie haben keine Auswahl getroffen.
 trac#:#trac_settings#:#Einstellungen
 trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
 trac#:#trac_show#:#Lernfortschritt anzeigen
 trac#:#trac_show_hidden#:#Wieder anzeigen
 trac#:#trac_spent_time#:#Gesamtbearbeitungszeit
-trac#:#trac_status#:#Status###23 Dec 2005 new variable
+trac#:#trac_status#:#Status
 trac#:#trac_time_passed#:#Bearbeitungszeit überschritten
 trac#:#trac_total_online#:#Gesamtzeit online
 trac#:#trac_update_edit_user#:#Die Änderungen wurden übernommen
 trac#:#trac_updated_status#:#Der Status wurde aktualisiert.
-trac#:#trac_user_data#:#Benutzerdaten###10 Jul 2006 content changed
+trac#:#trac_user_data#:#Benutzerdaten
 trac#:#trac_usr_list#:#Benutzer
 trac#:#trac_valid_request#:#Max. Zeit zwischen Anfragen
 trac#:#trac_view_crs#:#Zur Kursübersicht
