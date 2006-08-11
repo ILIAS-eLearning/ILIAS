@@ -287,6 +287,7 @@ class ilFeedback {
 	*/
 	function getAllBarometer($a_show_inactive=1,$a_only_req=0){
 		global $ilDB;
+
 		if($this->ref_id)
 			 $where.=" ref_id=".$ilDB->quote($this->ref_id);
 		if($a_only_req==1)
@@ -295,6 +296,7 @@ class ilFeedback {
 			else
 				$where = ' required = 1 ';
 		$q = "SELECT * FROM feedback_items WHERE ".$where;
+		
 		if($a_show_inactive==0){
 			if($where!='')
 				$where = ' AND'.$where;
@@ -351,7 +353,7 @@ class ilFeedback {
 	function canVote($a_user_id,$a_fb_id){
 		global $ilDB, $ilUser;
 		include_once('course/classes/class.ilCourseMembers.php');
-
+		
 		$q = "SELECT * FROM feedback_results WHERE ".
 			"fb_id=".$ilDB->quote($a_fb_id)." AND ".
 			"user_id=".$ilDB->quote($a_user_id)." ORDER BY votetime DESC";;
@@ -362,6 +364,13 @@ class ilFeedback {
 			"fb_id = ".$ilDB->quote($a_fb_id);
 		$res1 = $ilDB->query($q);
 		$row_items = $res1->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		// check end time
+		if (!($row_items["starttime"]<=time() && $row_items["endtime"]>=time()))
+		{
+			return (0);
+		}
+		
 		//Check if the user is Member of that course, otherwise its not necessary that he votes
 		if(($res->numRows()==0)&&ilCourseMembers::_isMember($ilUser->getId(),$row_items['obj_id']))
 			return(1);
