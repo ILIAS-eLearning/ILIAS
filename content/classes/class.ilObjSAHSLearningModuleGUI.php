@@ -313,6 +313,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		if ($title != "")
 		{
 			ilObject::_writeTitle($newObj->getId(), $title);
+			$md = new ilMD($newObj->getId(),0, $newObj->getType());
+			if(is_object($md_gen = $md->getGeneral()))
+			{
+				$md_gen->setTitle($title);
+				$md_gen->update();
+			}
 		}
 		
 		sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
