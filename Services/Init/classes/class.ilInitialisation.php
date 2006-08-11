@@ -633,9 +633,11 @@ class ilInitialisation
 		$_GET["cmd"] = "frameset";
 		$jump_script = "repository.php";
 		$script = $this->updir.$jump_script."?cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
-		
+
 		// todo do it better, if JS disabled
-		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n";
+		//echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n";
+		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n".
+			'Please click <a href="'.$script.'">here</a> if you are not redirected automatically.';
 		exit;
 	}
 	
