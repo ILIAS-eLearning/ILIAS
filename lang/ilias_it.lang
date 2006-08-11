@@ -3213,6 +3213,7 @@ common#:#test#:#Test
 common#:#test_intern#:#Test interno
 common#:#test_module#:#Modulo test
 common#:#tests#:#Test
+common#:#thread#:#Thread###11 Aug 2006 new variable
 common#:#thumbnail#:#Thumbnail
 common#:#time#:#Ora
 common#:#time_d#:#Giorno

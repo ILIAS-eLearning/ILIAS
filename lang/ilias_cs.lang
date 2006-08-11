@@ -3217,6 +3217,7 @@ common#:#test#:#Test###24 Jun 2004 new variable
 common#:#test_intern#:#Test Intern### translation not available
 common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Tests###16 Mar 2004 new variable
+common#:#thread#:#Thread###11 Aug 2006 new variable
 common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
 common#:#time#:#Čas###07 Apr 2005 content changed
 common#:#time_d#:#Day###24 Jun 2004 new variable

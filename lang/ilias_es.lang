@@ -1914,7 +1914,7 @@ common#:#grp_mail_subj_subscription_cancelled#:#Suscripción cancelada
 common#:#grp_mem_change_status#:#Modificar el estado del miembro
 common#:#grp_mem_leave#:#Dar de baja Miembro del Grupo
 common#:#grp_mem_send_mail#:#Enviar al miembro un mensaje
-common#:#grp_members_gallery#:#Galeria del grupo
+common#:#grp_members_gallery#:#Galeria del grupo###11 Aug 2006 content changed
 common#:#grp_msg_applicants_assigned#:#Solicitante(s) asignado(s) como miembro(s) de grupo
 common#:#grp_msg_applicants_removed#:#Solicitante(s) eliminados de la lista.
 common#:#grp_msg_member_assigned#:#Usuario(s) asignado(s) como miembro(s) del grupo.
@@ -3216,6 +3216,7 @@ common#:#test#:#Test
 common#:#test_intern#:#test interno
 common#:#test_module#:#Módulo de Test
 common#:#tests#:#Tests
+common#:#thread#:#Thread###11 Aug 2006 new variable
 common#:#thumbnail#:#Thumbnail
 common#:#time#:#hora
 common#:#time_d#:#Día
