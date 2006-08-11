@@ -379,12 +379,6 @@ class ilConditionHandlerInterface
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
 
-		// does not work in the moment
-		#this->tpl->setCurrentBlock("btn_cell");
-		#this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'selector'));
-		#this->tpl->setVariable("BTN_TXT",$this->lng->txt('new_selection'));
-		#this->tpl->parseCurrentBlock();
-
 		$this->ctrl->setParameter($this,'source_id',(int) $_GET['source_id']);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CSS_TABLE",'std');

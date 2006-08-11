@@ -124,26 +124,15 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#assClozeTest#:#Lückentext-Frage
-assessment#:#assClozeTest#:#Lückentext-Frage
-assessment#:#assImagemapQuestion#:#ImageMap-Frage
 assessment#:#assImagemapQuestion#:#ImageMap-Frage
 assessment#:#assJavaApplet#:#Java-Applet-Frage
-assessment#:#assJavaApplet#:#Java-Applet-Frage
-assessment#:#assMatchingQuestion#:#Zuordnungsfrage
 assessment#:#assMatchingQuestion#:#Zuordnungsfrage
 assessment#:#assMultipleChoice#:#Multiple Choice Frage (Mehrfachauswahl)
-assessment#:#assMultipleChoice#:#Multiple Choice Frage (Mehrfachauswahl)
-assessment#:#assNumeric#:#Numerische Frage
 assessment#:#assNumeric#:#Numerische Frage
 assessment#:#assOrderingQuestion#:#Anordnungsfrage
-assessment#:#assOrderingQuestion#:#Anordnungsfrage
-assessment#:#assQuestions#:#Fragen
 assessment#:#assQuestions#:#Fragen
 assessment#:#assSingleChoice#:#Multiple Choice Frage (Einfachauswahl)
-assessment#:#assSingleChoice#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#assTextQuestion#:#Freitext-Frage
-assessment#:#assTextQuestion#:#Freitext-Frage
-assessment#:#assTextSubset#:#Text-Teilmenge
 assessment#:#assTextSubset#:#Text-Teilmenge
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
 assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
@@ -979,8 +968,6 @@ chat#:#chats#:#Chats
 chat#:#my_chats#:#Meine Chats
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
-common#:#DD.MM.YYYY#:#TT.MM.JJJJ
-common#:#HH#:#SS:MM
 common#:#HH#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
@@ -2462,10 +2449,7 @@ common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
 common#:#move_selected_items#:#Ausgewählte Elemente verschieben
-common#:#move_selected_items#:#Ausgewählte Elemente verschieben
 common#:#move_to#:#Ablegen in
-common#:#move_to#:#Ablegen in
-common#:#move_users_to_style#:#Benutzer Style zuordnen###10 Jul 2006 content changed
 common#:#move_users_to_style#:#Benutzer Style zuordnen###10 Jul 2006 content changed
 common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
@@ -3234,7 +3218,6 @@ common#:#test_intern#:#Interner Test
 common#:#test_module#:#Test
 common#:#tests#:#Tests
 common#:#thread#:#Thema
-common#:#thread#:#Thema
 common#:#thumbnail#:#Miniaturbild
 common#:#time#:#Zeit
 common#:#time_d#:#Tag
@@ -3956,8 +3939,6 @@ content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
 content#:#selectFooter#:#Als Fußzeile auswählen
-content#:#selectFooter#:#Als Fußzeile auswählen
-content#:#selectHeader#:#Als Kopfzeile auswählen
 content#:#selectHeader#:#Als Kopfzeile auswählen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten ### 2006-5-8 --- Content changed
@@ -6498,3 +6479,4 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen. Wählen Sie dazu bitte folgenden Link:

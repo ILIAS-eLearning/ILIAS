@@ -6480,3 +6480,4 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.

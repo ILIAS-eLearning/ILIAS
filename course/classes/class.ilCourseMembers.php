@@ -783,6 +783,8 @@ class ilCourseMembers
 		$mail =& new ilFormatMail($a_usr_id);
 		$subject = sprintf($this->lng->txt("crs_new_subscription_request"),$this->course_obj->getTitle());
 		$body = sprintf($this->lng->txt("crs_new_subscription_request_body"),$this->course_obj->getTitle());
+		$body .= ("\n\n".$this->lng->txt('crs_new_subscription_request_body2'));
+		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_obj->getRefId()."&client_id=".CLIENT_ID);
 
 		$query = "SELECT usr_id FROM crs_members ".
 			"WHERE status = '".$this->STATUS_NOTIFY."' ".
@@ -792,7 +794,6 @@ class ilCourseMembers
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
-
 			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
 			unset($tmp_user);
 		}
