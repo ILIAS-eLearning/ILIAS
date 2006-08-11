@@ -39,9 +39,6 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
-BETA RELEASES ARE FOR TEST PURPOSES ONLY. DO NOT USE BETA RELEASES WITHIN
-A PRODUCTIVE ENVIRONMENT. DATA CORRUPTION MAY OCCUR.
-
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
 under the GNU General Public License (GPL). It uses the MySQL database and the
@@ -225,7 +222,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.7.0_beta1.tar.gz
+    ilias-3.7.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -621,14 +618,6 @@ components:
         /opt/ilias/bin/pear install HTTP_Request
 		/opt/ilias/bin/pear install XML_RPC
 
-    Important note: Some users experienced problems with the Auth module
-	version 1.3.0r3 beta (white screen after login). If you have similar
-	problems please install an older version of the Auth module:
-	
-        - download version 1.2.3 from http://pear.php.net/package/Auth
-		- move to your download directory
-        - /opt/ilias/bin/pear install ./Auth-1.2.3.tgz 
-
     The default PHP configuration file must be copied to /opt/ilias/config:
 
         cp php.ini-dist /opt/ilias/config/php.ini
@@ -729,7 +718,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.7.0_beta1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.7.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -840,11 +829,6 @@ components:
 
 3. Updating ILIAS 3
 
-PLEASE DO NOT APPLY THE FOLLOWING UPDATE PROCEDURES TO THIS BETA VERSION. THIS
-VERSION IS FOR TEST PURPOSES ONLY.
-
----
-
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 stable version to
 ILIAS 3.7.0.
 
@@ -902,7 +886,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.7.0_beta1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.7.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
