@@ -112,7 +112,7 @@ assessment#:#add_questionpool#:#Añadir banco de preguntas
 assessment#:#add_solution#:#Añadir solución recomendada
 assessment#:#all_available_question_pools#:#Todos los bancos de preguntas disponibles
 assessment#:#answer#:#Respuesta
-assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###28 Jul 2006 new variable
+assessment#:#answer_is_not_correct_but_positive#:#Ha obtenido puntos para su solución, pero no es la mejor posible
 assessment#:#answer_is_right#:#Su solución es correcta###28 Jul 2006 content changed
 assessment#:#answer_is_wrong#:#Su solución es errónea
 assessment#:#answer_picture#:#Imagen respuesta
@@ -739,10 +739,10 @@ barometer#:#duration#:#Duración
 barometer#:#edit#:#Editar
 barometer#:#edit_barometer#:#Editar opinión
 barometer#:#every#:#cada
-barometer#:#feedb_edit_feedback#:#Edit Feedback###31 Jul 2006 new variable
-barometer#:#feedb_feedback_list#:#Feedback List###31 Jul 2006 new variable
-barometer#:#feedb_feedback_settings#:#Feedback Settings###31 Jul 2006 new variable
-barometer#:#feedb_time#:#Time###31 Jul 2006 new variable
+barometer#:#feedb_edit_feedback#:#Editar Feedback
+barometer#:#feedb_feedback_list#:#Lista de Feedback
+barometer#:#feedb_feedback_settings#:#Configuración de Feedback
+barometer#:#feedb_time#:#Fecha
 barometer#:#first_vote#:#1. Voto es el
 barometer#:#from#:#desde###31 Jul 2006 content changed
 barometer#:#hours#:#Horas
@@ -1013,24 +1013,24 @@ common#:#adopt#:#adoptar
 common#:#advanced_editing_allow_html_tags#:#Permitir las siguientes etiquetas HTML para la edición de texto
 common#:#advanced_editing_allow_javascript_editor#:#Habilitar un editor 'rich text'
 common#:#advanced_editing_assessment_settings#:#Tags HTML permitidos para la herramienta de Test&Assessment
-common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###04 Aug 2006 new variable
-common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###04 Aug 2006 new variable
-common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###04 Aug 2006 new variable
-common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###04 Aug 2006 new variable
-common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###04 Aug 2006 new variable
-common#:#advanced_editing_no_rte#:#No usar el editor 'rich text'###04 Aug 2006 content changed
-common#:#advanced_editing_settings#:#Configuración de edición avanzada###04 Aug 2006 content changed
-common#:#advanced_editing_survey_settings#:#Tags HTML permitidos para la herramienta de encuestas###25 Jul 2006 content changed
-common#:#advanced_editing_tinymce#:#Editor TinyMCE###04 Aug 2006 content changed
-common#:#adve_assessment_settings#:#Configuración de Test&Assessment###04 Aug 2006 content changed
-common#:#adve_cat_settings#:#Category Settings###04 Aug 2006 new variable
-common#:#adve_edit_permission#:#Modificar configuración de permisos###04 Aug 2006 content changed
-common#:#adve_general_settings#:#Configuración General###04 Aug 2006 content changed
-common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
-common#:#adve_read#:#Acceso a Administración de edición avanzada###04 Aug 2006 content changed
-common#:#adve_survey_settings#:#Configuración de Encuesta###04 Aug 2006 content changed
-common#:#adve_visible#:#La administración de edición avanzada es visible###04 Aug 2006 content changed
-common#:#adve_write#:#Administración de edición avanzada###04 Aug 2006 content changed
+common#:#advanced_editing_cat_page_editing#:#Habilitar Edición de Contenido para Páginas de Categorías
+common#:#advanced_editing_cat_page_editing_desc#:#Esto habilita la edición de contenido de páginas de categorías. Cuando se desactiva, las categorías sólo se muestran como un conjunto de listas de items.
+common#:#advanced_editing_lm_js_editing#:#Habilitar HTMLArea para edición de contenido.
+common#:#advanced_editing_lm_js_editing_desc#:#Habilita soporte HTMLArea y JavaScript para la edición de páginas en los módulos de aprendizaje y glosarios.
+common#:#advanced_editing_lm_settings#:#Configuración de Módulos de Aprendizaje y Glosarios
+common#:#advanced_editing_no_rte#:#No usar el editor 'rich text'
+common#:#advanced_editing_settings#:#Configuración de edición avanzada
+common#:#advanced_editing_survey_settings#:#Tags HTML permitidos para la herramienta de encuestas
+common#:#advanced_editing_tinymce#:#Editor TinyMCE
+common#:#adve_assessment_settings#:#Configuración de Test&Assessment
+common#:#adve_cat_settings#:#Configuración de Categoría
+common#:#adve_edit_permission#:#Modificar configuración de permisos
+common#:#adve_general_settings#:#Configuración General
+common#:#adve_lm_settings#:#LM / Configuración de Glosario
+common#:#adve_read#:#Acceso a Administración de edición avanzada
+common#:#adve_survey_settings#:#Configuración de Encuestas
+common#:#adve_visible#:#La administración de edición avanzada es visible
+common#:#adve_write#:#Administración de edición avanzada
 common#:#agree_date#:#De acuerdo en
 common#:#all_authors#:#Todos los autores
 common#:#all_global_roles#:#Roles Globales
@@ -1162,13 +1162,13 @@ common#:#auth_soap_allow_local_desc#:#Esto permite a los usuarios SOAP autentica
 common#:#auth_soap_auth#:#Configurar autenticación SOAP
 common#:#auth_soap_auth_desc#:#Esta configuración trata sólo con la autenticación basada en SOAP, no con la interfaz SOAP de ILIAS
 common#:#auth_soap_create_users_desc#:#Crea automáticamente una cuenta de usuario ILIAS, para usuarios que se han autenticado con éxito contra SOAP, sin tener aún una cuenta ILIAS
-common#:#auth_soap_namespace#:#Namespace###09 Aug 2006 new variable
-common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.###09 Aug 2006 new variable
+common#:#auth_soap_namespace#:#Namespace
+common#:#auth_soap_namespace_desc#:#Como se definie en WSDL. Se debe especificar si se quiere usar el estilo SOAP .NET
 common#:#auth_soap_port_desc#:#E.g. 8080 si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#E.g. auth.yourserver.com si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_settings_saved#:#Configuración de autenticación SOAP
 common#:#auth_soap_uri_desc#:#Local URI, e.g. dir/server.php si la dirección completa del servidor SOAP es http://auth.yourserver.com:8080/dir/server.php
-common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style###09 Aug 2006 new variable
+common#:#auth_soap_use_dotnet#:#Usar SOAP estilo .NET
 common#:#auth_soap_use_https#:#Usar HTTPS
 common#:#auth_soap_user_default_role#:#Rol por defecto asignado a usuarios SOAP
 common#:#auth_soap_user_default_role_desc#:#Este rol se asigna a los usuarios SOAP creados automáticamente
@@ -1183,9 +1183,9 @@ common#:#available#:#Disponible
 common#:#available_languages#:#idiomas disponibles
 common#:#average_time#:#Tiempo medio
 common#:#back#:#Volver
-common#:#back_to_crs_content#:#Back to Course Content###09 Aug 2006 new variable
-common#:#back_to_fold_content#:#Back to Folder Content###09 Aug 2006 new variable
-common#:#back_to_grp_content#:#Back to Group Content###09 Aug 2006 new variable
+common#:#back_to_crs_content#:#Volver al Contenido del Curso
+common#:#back_to_fold_content#:#Volver al Contenido de la Carpeta
+common#:#back_to_grp_content#:#Volver al Contenido del Grupo
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#datos básicos
 common#:#basic_settings#:#Configuración básica
@@ -1229,7 +1229,7 @@ common#:#cat_a#:#una categoria
 common#:#cat_add#:#Añadir Categoría
 common#:#cat_added#:#Categoria añadida
 common#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
-common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
+common#:#cat_clear_page#:#Limpiar Página
 common#:#cat_create#:#Crear Categoría
 common#:#cat_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#cat_create_cat#:#Crear Categoría
@@ -1257,13 +1257,13 @@ common#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 common#:#cat_edit_permission#:#Modificar configuración de permisos
 common#:#cat_new#:#Nueva Categoría
-common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
-common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
-common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
-common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
+common#:#cat_pages#:#Páginas de Categoría
+common#:#cat_pages_clear#:#Página de Categoría borrada.
+common#:#cat_pages_not_created#:#Página de Categoría no creada aún
+common#:#cat_pages_undone#:#Últimass modificaciones de página de categoría deshechas
 common#:#cat_read#:#Acceso de lectura a Categoría
 common#:#cat_read_users#:#Acceso de lectura a las cuentas de usuario locales
-common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
+common#:#cat_undo_last_page_changes#:#Deshacer últimas modificaciones de página
 common#:#cat_visible#:#La Categoría es visible
 common#:#cat_write#:#Editar Categoría
 common#:#categories#:#Categorías
@@ -1591,22 +1591,22 @@ common#:#exc_date_not_valid#:#La fecha no es válida
 common#:#exc_deassign_members#:#Eliminar miembro(s)
 common#:#exc_delete#:#Eliminar Actividad
 common#:#exc_details#:#Detalles de la actividad
-common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
-common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
-common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
+common#:#exc_download_all#:#Descargar todo
+common#:#exc_download_files#:#Descargar ficheros
+common#:#exc_download_new#:#Descargar nuevos
 common#:#exc_edit#:#Nuevo actividad creada
 common#:#exc_edit_exercise#:#Editar actividad
-common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+common#:#exc_edit_learning_progress#:#Editar Progreso de Aprendizaje
 common#:#exc_edit_permission#:#Modificar configuración de permisos
 common#:#exc_edit_until#:#Fecha limite de entrega###30 Jul 2006 content changed
-common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
-common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
-common#:#exc_files#:#Archivos###10 Jul 2006 content changed
-common#:#exc_files_returned#:#Archivos entregados###10 Jul 2006 content changed
+common#:#exc_exercise_sent#:#Ejercicio Enviado
+common#:#exc_feedback_sent#:#Feedback Enviado
+common#:#exc_files#:#Archivos
+common#:#exc_files_returned#:#Archivos entregados
 common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Actividad (miembros)
-common#:#exc_instruction#:#Instrucciones de trabajo###30 Jul 2006 content changed
-common#:#exc_last_submission#:#Último envío###26 Jul 2006 content changed
+common#:#exc_instruction#:#Instrucciones de trabajo
+common#:#exc_last_submission#:#Último envío
 common#:#exc_mail_users#:#Enviar correo a usuario(s) seleccionado(s)
 common#:#exc_members_already_assigned#:#Estos usuarios están ya asignados a esta actividad
 common#:#exc_members_assigned#:#Miembros asignados
@@ -1619,21 +1619,21 @@ common#:#exc_read#:#Acceso actividad
 common#:#exc_resubmitted_advice#:#Este símbolo se muestro en caso de que un nuevo fichero haya sido enviado tras haber marcado el campo "resuelto"
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Guardar
-common#:#exc_schedule#:#Schedule###30 Jul 2006 new variable
+common#:#exc_schedule#:#Fecha de Entrega
 common#:#exc_search_for#:#Buscar
 common#:#exc_select_one_file#:#Por favor seleccione exactamente un archivo
 common#:#exc_send_exercise#:#Enviar actividad###10 Jul 2006 content changed
 common#:#exc_sent#:#La actividad ha sido enviada a los usuarios seleccionados
-common#:#exc_sent_at#:#Sent at <br />%s###29 Jul 2006 new variable
+common#:#exc_sent_at#:#Enviado a <br />%s
 common#:#exc_status#:#Estado
 common#:#exc_status_resubmitted#:#Reenviado
 common#:#exc_status_saved#:#Actividad Actualizada
 common#:#exc_status_sent#:#Por correo
 common#:#exc_status_solved#:#corregido
 common#:#exc_status_submitted#:#Entregado
-common#:#exc_submission#:#Submission###26 Jul 2006 new variable
-common#:#exc_time_over_short#:#el tiempo de entrega finalizo###30 Jul 2006 content changed
-common#:#exc_time_to_send#:#Tiempo de trabajo restante###30 Jul 2006 content changed
+common#:#exc_submission#:#Envío
+common#:#exc_time_over_short#:#el tiempo de entrega finalizó
+common#:#exc_time_to_send#:#Tiempo de trabajo restante
 common#:#exc_upload_error#:#Error cargando archivo
 common#:#exc_users#:#Usuarios
 common#:#exc_visible#:#Actividad es visible
@@ -1695,8 +1695,8 @@ common#:#file_not_found#:#Archivo no encontrado
 common#:#file_not_valid#:#Archivo no válido
 common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de archivos de
 common#:#file_read#:#Descarga archivo
-common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
-common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
+common#:#file_suffix_repl#:#Reemplazo de extensión en la carga de ficheros
+common#:#file_suffix_repl_info#:#Los ficheros terminados con estas extensiones (separadas por coma) serán renombradas con una extensión ".sec" si se cargan en el espacio web. Esto se realiza por defecto con las extensiones:
 common#:#file_valid#:#Archivo válido
 common#:#file_version#:#versión facilitada en el archivo
 common#:#file_visible#:#El archivo es visible
@@ -1733,7 +1733,7 @@ common#:#fold_create_tst#:#Crear Test
 common#:#fold_create_webr#:#Crear nuevo Recurso Web
 common#:#fold_delete#:#Borrar Carpeta
 common#:#fold_edit#:#Editar Carpeta
-common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+common#:#fold_edit_learning_progress#:#Editar Progreso de Aprendizaje
 common#:#fold_edit_permission#:#Modificar configuración de permisos
 common#:#fold_new#:#Nueva Carpeta
 common#:#fold_read#:#acceso de lectura a la Carpeta
@@ -1747,14 +1747,14 @@ common#:#forgot_password#:#¿Olvidó su contraseña?
 common#:#forgot_username#:#¿Olvidó su nombre de usuario?
 common#:#form_empty_fields#:#por favor complete estos campos:
 common#:#forum#:#Foro
-common#:#forum_direct_notification#:#Dir. Notification###28 Jul 2006 new variable
-common#:#forum_general_notification#:#Gen. Notification###28 Jul 2006 new variable
+common#:#forum_direct_notification#:#Notificación directa
+common#:#forum_general_notification#:#Notificación general
 common#:#forum_import#:#Importación de foro
 common#:#forum_import_file#:#Importar fichero
 common#:#forum_notification#:#Notificación
 common#:#forum_notify_me#:#Notificarme cuando se envíe una respuesta
-common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###28 Jul 2006 new variable
-common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.###28 Jul 2006 new variable
+common#:#forum_notify_me_directly#:#Informarme sobre respuestas directas a mi contribución
+common#:#forum_notify_me_generally#:#Informarme sobre cualquier nueva contribución a mi asunto
 common#:#forum_post_replied#:#Tu envío al foro ha sido respondido
 common#:#forums#:#Foros
 common#:#forums_articles#:#Mensajes
@@ -1894,7 +1894,7 @@ common#:#grp_deleted_export_files#:#Archivos seleccionados eliminados.
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
 common#:#grp_edit#:#Editar Grupo
-common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+common#:#grp_edit_learning_progress#:#Editar Progreso de Aprendizaje
 common#:#grp_edit_permission#:#Modificar configuración de permisos
 common#:#grp_err_administrator_required#:#El miembro no puede ser borrado, al menos se requiere un administrador por grupo!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Cada grupo necesita al menos un administrador de grupo
@@ -2179,12 +2179,12 @@ common#:#internal_system#:#Sistema Interno
 common#:#ip_address#:#dirección IP
 common#:#is_already_your#:#ya es su
 common#:#item#:#item
-common#:#java_server#:#Java-Server###04 Aug 2006 new variable
-common#:#java_server_host#:#Host###04 Aug 2006 new variable
-common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###04 Aug 2006 new variable
-common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.###04 Aug 2006 new variable
-common#:#java_server_port#:#Port###04 Aug 2006 new variable
-common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
+common#:#java_server#:#Servidor-Java
+common#:#java_server_host#:#Host
+common#:#java_server_info#:#Si se activa, es posible buscar en archivos PDF, HTML y en módulos de aprendizaje HTML
+common#:#java_server_no_connection#:#Atención: No se puede conectar al servidor Java
+common#:#java_server_port#:#Puerto
+common#:#java_server_readme#:#Información de Setup
 common#:#join#:#matricularse
 common#:#kb#:#KByte
 common#:#keywords#:#Palabras clave
@@ -2793,7 +2793,7 @@ common#:#pays_edit_permission#:#Modificar configuración de permisos
 common#:#pays_read#:#Modificar configuración del sistema de pago
 common#:#pays_visible#:#Configuración del sistema de pago visible
 common#:#pays_write#:#Editar configuración del sistema de pago
-common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
+common#:#pdf_export#:#Exportar a PDF
 common#:#per_object#:#Accesos por objeto
 common#:#perm_role_info_1#:#Este formulario determina los permisos del rol '%s' para objetos creados bajo el objeto '%s'.
 common#:#perm_role_info_2#:#Si quiere modificar los permisos del rol '%s' para todos los objetos ya existentes bajo '%s' debe activar la opción 'Modificar Objetos Existentes' al final de la pantalla.
@@ -2824,7 +2824,7 @@ common#:#phrase#:#conjunto
 common#:#please_choose#:#-- Seleccionar --
 common#:#please_enter_target#:#Por favor introduzca un destino.
 common#:#please_enter_title#:#Por favor introduzca un título.
-common#:#please_select#:#-- Please Select --###07 Aug 2006 new variable
+common#:#please_select#:#-- Seleccione por favor --
 common#:#please_select_a_delivered_file_to_delete#:#¡Debe seleccionar al menos un archivo enviado para borrar!
 common#:#please_select_a_delivered_file_to_download#:#¡Debe seleccionar al menos un archivo enviado para descargar!
 common#:#please_wait#:#Por favor espere...
@@ -2836,7 +2836,7 @@ common#:#predefined_template#:#Plantilla de rol predefinida
 common#:#presentation_options#:#opciones de presentación
 common#:#previous#:#anterior
 common#:#print#:#imprimir
-common#:#print_view#:#Print View###26 Jul 2006 new variable
+common#:#print_view#:#Vista de Impresión
 common#:#private_notes#:#Notas privadas
 common#:#pro#:#A favor
 common#:#profile#:#Perfil
@@ -3302,12 +3302,12 @@ common#:#udf_update_text_field#:#Editar campo de texto###09 Aug 2006 content cha
 common#:#udf_value#:#Valor
 common#:#udf_value_deleted#:#El valor ha sido eliminado.
 common#:#uid#:#uid
-common#:#ums_create_new_account#:#Create New Account###06 Aug 2006 new variable
-common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.###06 Aug 2006 new variable
-common#:#ums_explanation_2#:#If this is not your account, please hit 'Create New Account'.###06 Aug 2006 new variable
-common#:#ums_explanation_3#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password.###06 Aug 2006 new variable
-common#:#ums_explanation_4#:#If none of them is your account, please hit 'Create New Account'.###06 Aug 2006 new variable
-common#:#ums_login_account#:#Login Account###06 Aug 2006 new variable
+common#:#ums_create_new_account#:#Crear Nueva Cuenta
+common#:#ums_explanation#:#Su cuenta externa no pudo ser mapeada en una cuenta ILIAS. Pero ILIAS ha encontrado una cuenta con su dirección de correo. Si esta es su cuenta, por favor entre a ILIAS con su password
+common#:#ums_explanation_2#:#Si esta no es su cuenta, por favor haga click en 'Crear Nueva Cuenta'
+common#:#ums_explanation_3#:#Su cuenta externa no pudo ser mapeada en una cuenta ILIAS. Pero ILIAS ha encontrado múltiples cuentas con su dirección de correo. Si una de estas es su cuenta, por favor entre con su contraseña ILIAS.
+common#:#ums_explanation_4#:#Si ninguna de estas es su cuenta, por favor haga click en 'Crear Nueva Cuenta'.
+common#:#ums_login_account#:#Cuenta de Entrada
 common#:#unambiguousness#:#Identificación
 common#:#uncheck_all#:#deseleccionar todo
 common#:#uninstall#:#desinstalar
@@ -3659,7 +3659,7 @@ content#:#cont_edit_src#:#Editar código fuente
 content#:#cont_edit_tab_properties#:#Propiedades de Tabla
 content#:#cont_edit_term#:#Editar Término
 content#:#cont_edition#:#Edición
-content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
+content#:#cont_empty_mep_folder#:#No hay objetos multimedia en esta carpeta
 content#:#cont_enable_js#:#Habilitar Javascript
 content#:#cont_enable_media#:#Habilitar Media
 content#:#cont_export_files#:#Exportar Ficheros
@@ -4116,7 +4116,7 @@ crs#:#crs_new_subscription#:#Nueva suscripción a curso###10 Jul 2006 content ch
 crs#:#crs_new_subscription_body#:#Se ha suscrito un nuevo usuario###10 Jul 2006 content changed
 crs#:#crs_new_subscription_request#:#Petición para matricularse en el curso "%s"###10 Jul 2006 content changed
 crs#:#crs_new_subscription_request_body#:#Un usuario ha solicitado matricularse en el curso "%s"###10 Jul 2006 content changed
-crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
+crs#:#crs_new_subscription_request_body2#:#Debe dirigirse a la administración de miembros de ese curso para aceptar o rechazar la solicitud de pertenencia
 crs#:#crs_no_archive_selected#:#No hay archivos seleccionados
 crs#:#crs_no_archives_available#:#No hay archivos disponibles
 crs#:#crs_no_archives_selected#:#Por favor seleccione un archivo
@@ -4242,8 +4242,8 @@ crs#:#crs_show_link_lms#:#Mostrar materiales de aprendizaje
 crs#:#crs_show_link_objectives#:#Mostrar objetivos
 crs#:#crs_show_link_or#:#Mostrar otros recursos
 crs#:#crs_show_link_tst#:#Mostrar tests
-crs#:#crs_show_members#:#Show Members###04 Aug 2006 new variable
-crs#:#crs_show_members_info#:#If activated, members of the course can be shown.###04 Aug 2006 new variable
+crs#:#crs_show_members#:#Mostrar miembros
+crs#:#crs_show_members_info#:#Si se activa, los miembros del curso pueden ser mostrados
 crs#:#crs_show_objectives_view#:#Vista de objetivos
 crs#:#crs_size#:#Tamaño de archivo
 crs#:#crs_sort_activation#:#Ordenar por Activación
@@ -4347,29 +4347,29 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Tu posición en la lista de espera
 crs#:#edit_content#:#Editar contenido
 crs#:#edit_timings_list#:#Editar Planificación Temporal
-crs#:#event#:#Event###26 Jul 2006 new variable
+crs#:#event#:#Evento
 crs#:#event_add_new_event#:#Nuevo evento añadido###05 Aug 2006 content changed
 crs#:#event_assign_materials#:#Asignar Materiales
 crs#:#event_assign_materials_info#:#Los materiales del curso asignado serán mostrados directamente debajo del evento.###05 Aug 2006 content changed
 crs#:#event_assign_materials_table#:#Asignación de materiales del curso
 crs#:#event_btn_add#:#Evento añadido###05 Aug 2006 content changed
 crs#:#event_date#:#Fecha del Evento:###05 Aug 2006 content changed
-crs#:#event_date_time#:#Date & Time###01 Aug 2006 new variable
+crs#:#event_date_time#:#Hora y Fecha
 crs#:#event_delete_file#:#¿Eliminar Fichero?
 crs#:#event_delete_sure#:#¿Realmente quiere eliminar este evento?###05 Aug 2006 content changed
 crs#:#event_desc#:#Descripción
 crs#:#event_details_workflow#:#Detalles/Flujo de Trabajo
 crs#:#event_edit_members#:#editar participantes
-crs#:#event_end_date#:#End###01 Aug 2006 new variable
-crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.###01 Aug 2006 new variable
+crs#:#event_end_date#:#Fin
+crs#:#event_etime_smaller_stime#:#La hora de fin es anterior a la hora de inicio. Por favor introduzca un período de tiempo válido
 crs#:#event_existing_files#:#Ficheros existentes:
 crs#:#event_file#:#Fichero
 crs#:#event_file_download#:#Ficheros para descarga
 crs#:#event_file_name#:#Nombre de Fichero
 crs#:#event_file_size_info#:#Tamaño
-crs#:#event_full_time_info#:#full-time###01 Aug 2006 new variable
-crs#:#event_fullday#:#Full-Time###01 Aug 2006 new variable
-crs#:#event_fulltime_info#:#No Time Specified###01 Aug 2006 new variable
+crs#:#event_full_time_info#:#full-time
+crs#:#event_fullday#:#Full-Time
+crs#:#event_fulltime_info#:#No se ha especificado hora
 crs#:#event_further_informations#:#Información Detallada
 crs#:#event_general_infos#:#Información General
 crs#:#event_general_properties#:#Información General
@@ -4406,7 +4406,7 @@ crs#:#timing_remark#:#Observación
 crs#:#timing_tutor_visible#:#Observación visible para los tutores del curso
 crs#:#timing_user_accept#:#Aceptar Planificación Temporal
 crs#:#timing_user_accepted#:#Planificación Temporal Aceptada
-crs#:#timings#:#Timings###05 Aug 2006 new variable
+crs#:#timings#:#Planificación Temporal
 crs#:#timings_edit#:#Editar Planificación Temporal
 crs#:#timings_of#:#Planificación Temporal Desactivada
 crs#:#timings_timings#:#Planificación Temporal
@@ -4640,16 +4640,16 @@ dateplaner#:#viewlist#:#vista
 dateplaner#:#week#:#semana
 dateplaner#:#wk_short#:#SEM
 dateplaner#:#year#:#año
-exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
-exercise#:#exc_comment_for_learner#:#Comment for Learner###01 Aug 2006 new variable
-exercise#:#exc_failed#:#Failed###03 Aug 2006 new variable
-exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor###01 Aug 2006 new variable
-exercise#:#exc_grading#:#Grading###01 Aug 2006 new variable
-exercise#:#exc_mark#:#Mark###01 Aug 2006 new variable
-exercise#:#exc_notgraded#:#Not Graded###03 Aug 2006 new variable
-exercise#:#exc_passed#:#Passed###03 Aug 2006 new variable
-exercise#:#exc_send_mail#:#Send Mail###01 Aug 2006 new variable
-exercise#:#exc_your_submission#:#Your Submission###01 Aug 2006 new variable
+exercise#:#exc_comment#:#Comentario
+exercise#:#exc_comment_for_learner#:#Comentario para el Alumno
+exercise#:#exc_failed#:#No superado
+exercise#:#exc_feedback_from_tutor#:#Feedback del Tutor
+exercise#:#exc_grading#:#Calificación
+exercise#:#exc_mark#:#Nota
+exercise#:#exc_notgraded#:#No calificado
+exercise#:#exc_passed#:#Superado
+exercise#:#exc_send_mail#:#Enviar Mail
+exercise#:#exc_your_submission#:#Su envío
 forum#:#forum_anonymize#:#Escribir de forma anónima
 forum#:#forum_anonymize_desc#:#Escribe este mensaje de forma anónima (su nombre de usuario ILIAS no se mostrará en ningún sitio).###10 Jul 2006 content changed
 forum#:#forums#:#Foros
@@ -5494,7 +5494,7 @@ payment#:#pay_filter#:#Filtrar
 payment#:#pay_goto_buyed_objects#:#Mostrar productos comprados
 payment#:#pay_goto_shopping_cart#:#Ir al carrito de la compra
 payment#:#pay_header#:#Pago
-payment#:#pay_hint_paypal#:#Hint for PayPal###29 Jul 2006 new variable
+payment#:#pay_hint_paypal#:#Pista para PayPal
 payment#:#pay_info#:#El acceso al siguiente material no es libre. Si quiere tener acceso a un objeto de aprendizaje concreto por favor seleccione un precio. Puede comprar uno o varios objetos de aprendizaje usando el botón "carrito de la compra" en su escritorio personal. Tendrá acceso inmediato al objeto elegido por un período de tiempo.
 payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###29 Jul 2006 new variable
 payment#:#pay_item_already_in_sc#:#Este objeto ya existe en su carrito de la compra.
@@ -5534,7 +5534,7 @@ payment#:#pay_step3_credit_card#:#Su pedido - Paso 3/3: Introduzca sus datos de 
 payment#:#pay_step3_debit_entry#:#Su pedido - Paso 3/3: Introduzca sus datos bancarios y envíe su pedido
 payment#:#pay_update_view#:#Actualizar vista
 payment#:#paya_access#:#Acceso
-payment#:#paya_add_customer#:#Add Selling Process###29 Jul 2006 new variable
+payment#:#paya_add_customer#:#Añadir proceso de venta
 payment#:#paya_add_price#:#Añadir nuevo precio
 payment#:#paya_add_price_title#:#Nuevo precio
 payment#:#paya_added_new_object#:#Nuevo objeto añadido. Por favor edite el método de pago y los precios
@@ -5545,7 +5545,7 @@ payment#:#paya_buyable#:#En venta
 payment#:#paya_buyed_objects#:#Productos comprados###10 Jul 2006 content changed
 payment#:#paya_count_purchaser#:#Numero de compradores
 payment#:#paya_customer#:#Cliente
-payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.###29 Jul 2006 new variable
+payment#:#paya_customer_added_successfully#:#El proceso de venta fue añadido a las estadísticas con éxito
 payment#:#paya_delete_price#:#Eliminar precio
 payment#:#paya_delete_trustee_msg#:#Administradores seleccionados eliminados.
 payment#:#paya_deleted_last_price#:#El último precio ha sido eliminado
@@ -5559,9 +5559,9 @@ payment#:#paya_edit_prices_first#:#Por favor edite primero los precios.
 payment#:#paya_enabled#:#Habilitado
 payment#:#paya_enter_login#:#Por favor introduzca un nombre de usuario
 payment#:#paya_err_adding_object#:#Error añadiendo objeto
-payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.###29 Jul 2006 new variable
-payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).###29 Jul 2006 new variable
-payment#:#paya_error_no_object_id_given#:#Please choose an object.###29 Jul 2006 new variable
+payment#:#paya_error_adding_customer#:#Ocurrió un error añadiendo el proceso de venta a las estadísticas
+payment#:#paya_error_mandatory_fields#:#Por favor introduzca todos los campos obligatorios (*).
+payment#:#paya_error_no_object_id_given#:#Por favor escoja un objeto
 payment#:#paya_error_update_booking#:#Error grabando datos estadísticos.
 payment#:#paya_expires#:#Expire payment
 payment#:#paya_filter_reseted#:#Filtro reseteado
@@ -5881,7 +5881,7 @@ survey#:#anonymization#:#Anonimato
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 32 caracteres que puede recibir del autor de la encuesta o la persona encargada de evaluarla<br />Por favor introdúzcalo en el campo texto siguiente###10 Jul 2006 content changed
 survey#:#anonymize_key_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, se creó un código de 32 caracteres por el sistema y le será enviado a su bandeja de entrada ILIAS cuando comience la encuesta (después de contestar la primera pregunta). Su código de acceso a la encuesta es<br /><span class="bold">%s</span><br />Por favor, introdúzcalo en el campo de texto inferior.###10 Jul 2006 content changed
 survey#:#anonymize_personalized#:#Sin anonimato
-survey#:#anonymize_registered_user#:#Anonymized survey access###29 Jul 2006 new variable
+survey#:#anonymize_registered_user#:#Acceso de encuesta anónimo
 survey#:#anonymize_resume_introduction#:#Por favor introduzca su código de acceso a la encuesta. Le fué enviado a su bandeja de entrada cuando comenzó la encuesta.
 survey#:#anonymize_survey#:#Ocultar datos de usuario en la encuesta
 survey#:#anonymize_with_code#:#Anonimato con acceso personal usando un código de encuesta
@@ -6097,8 +6097,8 @@ survey#:#no_search_results#:#No hay resultados de búsqueda!
 survey#:#no_target_selected_for_move#:#Debe seleccionar una posición de destino!
 survey#:#no_user_or_group_selected#:#Por favor seleccione una opción de lo que está buscando (usuarios y/o grupos)
 survey#:#no_user_phrases_defined#:#No hay conjuntos de respuestas definidos por el usuario disponibles!
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
-survey#:#nominal_question_not_checked#:#Por favor seleccione una de las respuestas ofrecidas!
+survey#:#nominal_question_mr_not_checked#:#Por favor marque al menos una de las respuestas ofrecidas
+survey#:#nominal_question_not_checked#:#Por favor seleccione una de las respuestas ofrecidas
 survey#:#non_ratio#:#Non-Ratio###10 Jul 2006 content changed
 survey#:#not_used#:#no usada
 survey#:#obligatory#:#obligatorio
@@ -6394,8 +6394,8 @@ trac#:#trac_edit_progress#:#Editar progreso de aprendizaje
 trac#:#trac_edit_time#:#Tiempo de proceso
 trac#:#trac_edit_visits#:#Por favor defina el numero de visitas que es necesario para completar este objeto.
 trac#:#trac_edited_scos#:#Contenido procesado
-trac#:#trac_editing_time_passed#:#Editing time Passed###25 Jul 2006 new variable
-trac#:#trac_failed#:#Failed###04 Aug 2006 new variable
+trac#:#trac_editing_time_passed#:#Tiempo de edición superado
+trac#:#trac_failed#:#No superado
 trac#:#trac_filter_area#:#Area:###10 Jul 2006 content changed
 trac#:#trac_filter_hidden#:#Oculto:###10 Jul 2006 content changed
 trac#:#trac_filter_limit_reached#:#El número de coincidencias se limita a %s. Por favor use el filtro para reducir las coincidencias
@@ -6403,7 +6403,7 @@ trac#:#trac_filter_no_access#:#No se encontraron objetos
 trac#:#trac_filter_none#:#Ninguno
 trac#:#trac_filter_repository#:#En Contenidos
 trac#:#trac_fold_relevant_items#:#Contenido de carpeta
-trac#:#trac_grp_relevant_items#:#Group Materials###28 Jul 2006 new variable
+trac#:#trac_grp_relevant_items#:#Materiales de Grupo
 trac#:#trac_head_timing#:#Entregar hasta
 trac#:#trac_hide#:#Ocultar
 trac#:#trac_in_progress#:#En progreso
@@ -6440,12 +6440,12 @@ trac#:#trac_not_accessed#:#No accedido
 trac#:#trac_not_assigned#:#No asignado
 trac#:#trac_not_attempted#:#No visitado
 trac#:#trac_not_completed#:#No completado
-trac#:#trac_not_participated#:#Not Participated###25 Jul 2006 new variable
-trac#:#trac_not_registered#:#Not Registered###25 Jul 2006 new variable
+trac#:#trac_not_participated#:#No participó
+trac#:#trac_not_registered#:#No registrado
 trac#:#trac_num_visits#:#Numero de visitas
 trac#:#trac_objects#:#Progreso de los usuarios###10 Jul 2006 content changed
 trac#:#trac_occurrences#:#Ruta:
-trac#:#trac_participated#:#Participated###25 Jul 2006 new variable
+trac#:#trac_participated#:#Participó
 trac#:#trac_processing_time#:#Tiempo de proceso asumido
 trac#:#trac_progress#:#Mi Progreso###30 Jul 2006 content changed
 trac#:#trac_query#:#Titulo/descripcion:###10 Jul 2006 content changed
@@ -6453,7 +6453,7 @@ trac#:#trac_reached_objectives#:#Objetivos alcanzados
 trac#:#trac_reached_points#:#Puntuación conseguida
 trac#:#trac_reached_visits#:#Visitas requeridas
 trac#:#trac_refresh#:#Actualizar
-trac#:#trac_registered#:#Registered###25 Jul 2006 new variable
+trac#:#trac_registered#:#Registrado
 trac#:#trac_required_visits#:#Número de visitas requeridas
 trac#:#trac_sahs_relevant_items#:#SCO's###10 Jul 2006 content changed
 trac#:#trac_select_one#:#No hizo selección
