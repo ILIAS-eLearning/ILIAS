@@ -123,12 +123,6 @@ assessment#:#applet_new_parameter#:#Nuovi parametri
 assessment#:#applet_parameter#:#Parametri
 assessment#:#applet_parameters#:#Parametri dell&#039;applet
 assessment#:#apply#:#Conferma
-assessment#:#ass_create_export_file#:#Crea file di export
-assessment#:#ass_create_export_test_results#:#Exporta i risultati del
-assessment#:#ass_export_files#:#File di export
-assessment#:#ass_file#:#Scegli il file
-assessment#:#ass_question#:#Domanda
-assessment#:#ass_size#:#Dimensioni
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -140,6 +134,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#Crea file di export
+assessment#:#ass_create_export_test_results#:#Exporta i risultati del
+assessment#:#ass_export_files#:#File di export
+assessment#:#ass_file#:#Scegli il file
+assessment#:#ass_question#:#Domanda
+assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
 assessment#:#average_reached_points#:#Punteggio medio raggiunto
 assessment#:#backtocallingtest#:#Torna al test
@@ -967,6 +967,8 @@ chat#:#chat_yellow#:#giallo
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Le mie Chat
 common#:#3rd_party_software#:#Software di terze parti
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
@@ -1370,10 +1372,10 @@ common#:#contra#:#Contro
 common#:#cookies_howto#:#Come abilitare i cookie
 common#:#copied_object#:#Oggetto copiato
 common#:#copy#:#Copia
-common#:#copy_of#:#Copia di
-common#:#copy_to#:#a
 common#:#copyChapter#:#Copia
 common#:#copyPage#:#Copia
+common#:#copy_of#:#Copia di
+common#:#copy_to#:#a
 common#:#could_not_verify_account#:#Mi dispiace, non puoi verificare il tuo profilo. Contatta il tuo amministratore.
 common#:#count#:#Conta
 common#:#country#:#Nazione
@@ -1482,7 +1484,6 @@ common#:#dbk_new#:#Nuovo libro digitale
 common#:#dbk_read#:#Accedere in lettura ad un libro digitale
 common#:#dbk_visible#:#Vedere un libro digitale
 common#:#dbk_write#:#Modificare un libro digitale
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Vista risorse predefinite
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita
@@ -1941,7 +1942,6 @@ common#:#guests#:#Ospiti
 common#:#header_searchable#:#Ricercabile
 common#:#header_title#:#Intestazione
 common#:#help#:#Aiuto
-common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#hide#:#nascondi
 common#:#hide_details#:#Nascondi dettagli
 common#:#hide_private_notes#:#Nascondi le note private
@@ -2446,11 +2446,11 @@ common#:#month_12_short#:#Dic
 common#:#monthly#:#mensilmente
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Sposta
+common#:#moveChapter#:#Sposta
+common#:#movePage#:#Sposta
 common#:#move_selected_items#:#Sposta gli oggetti selezionati
 common#:#move_to#:#Inserisci in cartella
 common#:#move_users_to_style#:#Modifica lo stile degli utenti###10 Jul 2006 content changed
-common#:#moveChapter#:#Sposta
-common#:#movePage#:#Sposta
 common#:#msg_cancel#:#Esecuzione annullata
 common#:#msg_changes_ok#:#Modifiche effettuate
 common#:#msg_clear_clipboard#:#Cancellazione eseguita
@@ -2521,9 +2521,9 @@ common#:#msg_obj_exists#:#Questo oggetto esiste gi&#224; nella cartella
 common#:#msg_obj_modified#:#Modifiche salvate.
 common#:#msg_obj_no_link#:#non possono essere collegati
 common#:#msg_obj_not_deletable_sold#:#Il pagamento &#232; stato attivato per i seguenti oggetti. Non possono perci&#242; essere modificati.
-common#:#msg_perm_adopted_from_itself#:#Non puoi assegnare le impostazioni dei permessi del corrente ruolo/template di ruolo a se stesso.
 common#:#msg_perm_adopted_from1#:#Impostazione dei permessi adottata da
 common#:#msg_perm_adopted_from2#:#(l&#039;impostazione &#232; stata salvata!)
+common#:#msg_perm_adopted_from_itself#:#Non puoi assegnare le impostazioni dei permessi del corrente ruolo/template di ruolo a se stesso.
 common#:#msg_removed#:#Oggetti cancellati dal sistema.
 common#:#msg_role_exists1#:#Un ruolo/template di ruolo con il nome
 common#:#msg_role_exists2#:#esiste gi&#224;! Per favore, scegline un altro.
@@ -2772,9 +2772,9 @@ common#:#password#:#Password
 common#:#password_assistance_disabled#:#Il servizio di assistenza per la password &#232; disponibile solamente se l&#039;autenticazione viene effettuata utilizzando il database di ILIAS.
 common#:#password_assistance_info#:#Se il servizio di assistenza per la password &#232; attivo, viene mostrato sulla pagina di login un link con la dicitura &#034;Dimenticata la password?&#034;. Gli utenti possono usare questo link per ottenere una nuova password, senza l&#039;intervento dell&#039;amministratore. ###10 Jul 2006 content changed
 common#:#paste#:#Incolla
-common#:#paste_clipboard_items#:#Incolla oggetti dagli appunti
 common#:#pasteChapter#:#Incolla capitolo
 common#:#pastePage#:#Incolla pagina
+common#:#paste_clipboard_items#:#Incolla oggetti dagli appunti
 common#:#path#:#percorso
 common#:#path_not_set#:#Persorso non specificato
 common#:#path_to_babylon#:#Percorso di BABYLON
@@ -3066,12 +3066,12 @@ common#:#server#:#Server
 common#:#server_data#:#Dati del server
 common#:#server_software#:#Software
 common#:#set#:#Imposta
+common#:#setSystemLanguage#:#Imposta come lingua di sistema
+common#:#setUserLanguage#:#Imposta come lingua utente
 common#:#set_offline#:#Metti offline
 common#:#set_online#:#Metti online
-common#:#setSystemLanguage#:#Imposta come lingua di sistema
 common#:#settings#:#Impostazioni
 common#:#settings_saved#:#Impostazioni salvate
-common#:#setUserLanguage#:#Imposta come lingua utente
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Abilita l&#039;uso di Shibboleth
 common#:#shib_city#:#Attributo per la citt&#224;
@@ -3488,6 +3488,9 @@ common#:#you_may_add_local_roles#:#Aggiungi ruoli locali
 common#:#your_message#:#Il tuo messaggio
 common#:#zip#:#Codice postale
 common#:#zipcode#:#Codice postale
+content#:#HTML export#:#Esporta HTML
+content#:#PDF export#:#Esporta PDF
+content#:#Pages#:#Pagine
 content#:#add_menu_entry#:#Aggiungi voce nel menu >>
 content#:#all#:#Tutti
 content#:#all_pages#:#l&#039;intero modulo ###25 Jul 2006 content changed
@@ -3497,6 +3500,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Extra
+content#:#cont_Alphabetic#:#Alfabetico A, B, ...###10 Jul 2006 content changed
+content#:#cont_Circle#:#Cerchio
+content#:#cont_Citation#:#Citazione
+content#:#cont_Code#:#Codice
+content#:#cont_Example#:#cio&#232;###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Intestazione 1
+content#:#cont_Headline2#:#Intestazione 2
+content#:#cont_Headline3#:#Intestazione 3
+content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#File locale
+content#:#cont_Mnemonic#:#Mnemonico
+content#:#cont_Number#:#Numero
+content#:#cont_Poly#:#Poligono
+content#:#cont_Rect#:#Rettangolo
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Osservazione
+content#:#cont_Roman#:#Romani I, II, ...###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Indice
+content#:#cont_Unordered#:#Non ordinato
 content#:#cont_act_number#:#Numerazione capitoli
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Abilita menu
@@ -3506,10 +3529,8 @@ content#:#cont_add_definition#:#Aggiungi voce
 content#:#cont_add_fullscreen#:#Aggiungi a tutto schermo
 content#:#cont_added_comment#:#Il commento &#232; stato aggiunto nella storia.
 content#:#cont_added_term#:#Termine aggiunto
-content#:#cont_Additional#:#Extra
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
-content#:#cont_Alphabetic#:#Alfabetico A, B, ...###10 Jul 2006 content changed
 content#:#cont_annex#:#Allegati
 content#:#cont_api_adapter#:#Nome del modulo Adapter (API)
 content#:#cont_api_func_prefix#:#Prefisso delle funzioni (API)
@@ -3538,8 +3559,6 @@ content#:#cont_characteristic#:#Stile
 content#:#cont_choose_cont_obj#:#Scegli l&#039;oggetto contenuto
 content#:#cont_choose_glossary#:#Scegli il glossario
 content#:#cont_choose_media_source#:#Scegli una sorgente multimediale
-content#:#cont_Circle#:#Cerchio
-content#:#cont_Citation#:#Citazione
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.###10 Jul 2006 content changed
 content#:#cont_citations#:#Citazioni
@@ -3550,7 +3569,6 @@ content#:#cont_click_next_or_save#:#Per favore, clicca nel punto successivo del 
 content#:#cont_click_next_point#:#Per favore, clicca nel punto successivo del poligono.
 content#:#cont_click_starting_point#:#Per favore, clicca nel punto di partenza del poligono.
 content#:#cont_click_tl_corner#:#Per favore, clicca nell&#039;angolo superiore sinistro dell&#039;area desiderata.
-content#:#cont_Code#:#Codice
 content#:#cont_confirm_delete#:#veramente eliminare?
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
@@ -3645,7 +3663,6 @@ content#:#cont_edition#:#Edizione
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Abilita i JavaScript
 content#:#cont_enable_media#:#Abilita i file multimediali
-content#:#cont_Example#:#cio&#232;###10 Jul 2006 content changed
 content#:#cont_export_files#:#Esporta file
 content#:#cont_external#:#esterno
 content#:#cont_external_url#:#url esterna
@@ -3669,9 +3686,6 @@ content#:#cont_get_orig_size#:#Ripristina le dimensioni originali
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Propriet&#224; del glossario
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#Intestazione 1
-content#:#cont_Headline2#:#Intestazione 2
-content#:#cont_Headline3#:#Intestazione 3
 content#:#cont_height#:#Altezza
 content#:#cont_how_published#:#Tipo di pubblicazione
 content#:#cont_href#:#href
@@ -3702,7 +3716,6 @@ content#:#cont_link_int#:#Link (interno)
 content#:#cont_link_select#:#Collegamento interno
 content#:#cont_link_type#:#Tipo di collegamento
 content#:#cont_linked_mobs#:#Oggetto multimediale collegato
-content#:#cont_List#:#Lista
 content#:#cont_list_files#:#Elenco file
 content#:#cont_list_properties#:#Elenca le propriet&#224;
 content#:#cont_lk_chapter#:#Capitolo
@@ -3719,7 +3732,6 @@ content#:#cont_lk_term#:#Glossario
 content#:#cont_lk_term_new#:#Glossario (Nuovo frame)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Propriet&#224;
-content#:#cont_LocalFile#:#File locale
 content#:#cont_lvalue#:#Dati
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
@@ -3728,7 +3740,6 @@ content#:#cont_max_time_allowed#:#tempo massimo consentito
 content#:#cont_media_source#:#Sorgenti multimediale
 content#:#cont_mep_structure#:#Struttura libreria multimediale
 content#:#cont_missing_preconditions#:#Devi soddisfare i seguenti prerequisiti per poter accedere al capitolo &#034;%s&#034;. ###10 Jul 2006 content changed
-content#:#cont_Mnemonic#:#Mnemonico
 content#:#cont_mob_files#:#File oggetto
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto
@@ -3754,7 +3765,6 @@ content#:#cont_none#:#Nessuno
 content#:#cont_nr_cols#:#Numero di colonne
 content#:#cont_nr_items#:#Numero di elementi
 content#:#cont_nr_rows#:#Numero di righe
-content#:#cont_Number#:#Numero
 content#:#cont_obj_removed#:#Oggetti cancellati.
 content#:#cont_offline#:#Versione Offline
 content#:#cont_offline_files#:#Versioni offline
@@ -3778,7 +3788,6 @@ content#:#cont_personal_clipboard#:#Appunti personali
 content#:#cont_pg_content#:#Contenuto pagina
 content#:#cont_pg_title#:#Titolo pagina
 content#:#cont_please_select#:#per favore scegli
-content#:#cont_Poly#:#Poligono
 content#:#cont_prereq_type#:#tipo di prerequisiti
 content#:#cont_prerequisites#:#prerequisiti
 content#:#cont_preview#:#Anteprima
@@ -3788,11 +3797,8 @@ content#:#cont_public_notes#:#Note pubbliche
 content#:#cont_public_notes_desc#:#Consente agli utenti di condividere le note in tutte le pagine del modulo.
 content#:#cont_publisher#:#Editore
 content#:#cont_purpose#:#Scopo
-content#:#cont_Rect#:#Rettangolo
 content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Immagini riferite
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#Osservazione
 content#:#cont_remove_fullscreen#:#Rimuovi a tutto schermo
 content#:#cont_removeiln#:#veramente rimuovere il collegamento interno?
 content#:#cont_repository_item#:#Risorsa
@@ -3803,7 +3809,6 @@ content#:#cont_resize_image#:#Ridimesiona le immagini
 content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse
-content#:#cont_Roman#:#Romani I, II, ...###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Valori
 content#:#cont_saved_map_area#:#Area salvata
 content#:#cont_saved_map_data#:#Dati salvati
@@ -3873,7 +3878,6 @@ content#:#cont_table_html_import_info#:#Importare solo lavori con tabelle confor
 content#:#cont_table_spreadsheet_import#:#Importa foglio di calcolo
 content#:#cont_table_spreadsheet_import_info#:#Incolla la tabella del foglio di calcolo utilizzando gli appunti nella textarea.
 content#:#cont_table_width#:#Larghezza tabella
-content#:#cont_TableContent#:#Indice
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Voce
 content#:#cont_terms#:#Gestione voci
@@ -3898,7 +3902,6 @@ content#:#cont_tracking_items#:#Voci tracciate
 content#:#cont_translations#:#Traduzioni
 content#:#cont_translations_assigned#:#La traduzione deve essere associata
 content#:#cont_tree_fixed#:#La struttura dell&#039;albero &#232; stata ripristinata.
-content#:#cont_Unordered#:#Non ordinato
 content#:#cont_update#:#Aggiorna
 content#:#cont_update_names#:#Aggiorna i nomi
 content#:#cont_upload_file#:#Aggiungi file
@@ -3919,7 +3922,6 @@ content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Le seguenti risorse sono collegate con quel termine
-content#:#HTML export#:#Esporta HTML
 content#:#lm_menu_edit_entry#:#Modifica voce del menu
 content#:#lm_menu_entry_target#:#Obiettivo
 content#:#lm_menu_entry_title#:#Titolo
@@ -3931,17 +3933,15 @@ content#:#msg_entry_removed#:#Voce tolta dal menu
 content#:#msg_entry_updated#:#Voce del menu aggiornata
 content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; disponibile nella sezione pubblica. Solamente gli utenti registrati possono vederla. Per poter accedervi devi prima effettuare il login.
 content#:#msg_page_not_public#:#La pagina non &#232; pubblica
-content#:#Pages#:#Pagine
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
-content#:#PDF export#:#Esporta PDF
 content#:#pg#:#Pagina
 content#:#public_section#:#Sezione pubblica
 content#:#read offline#:#Leggi offline
-content#:#select_a_file#:#Per favore seleziona un file.
-content#:#selected_pages_only#:#solamente le pagine selezionate sotto ###25 Jul 2006 content changed
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Per favore seleziona un file.
+content#:#selected_pages_only#:#solamente le pagine selezionate sotto ###25 Jul 2006 content changed
 content#:#set_public_mode#:#Imposta in modalit&#224; di accesso pubblico
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
@@ -4117,6 +4117,7 @@ crs#:#crs_new_subscription#:#Nuova iscrizione al corso###10 Jul 2006 content cha
 crs#:#crs_new_subscription_body#:#Un nuovo utente &#232; stato iscritto###10 Jul 2006 content changed
 crs#:#crs_new_subscription_request#:#Richiesta di iscrizione al corso &#034;%s&#034; ###10 Jul 2006 content changed
 crs#:#crs_new_subscription_request_body#:#Un utente ha richiesto di iscriversi al corso &#034;%s&#034;. ###10 Jul 2006 content changed
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#Nessun archivio &#232; stato scelto
 crs#:#crs_no_archives_available#:#Non ci sono archivi disponibili
 crs#:#crs_no_archives_selected#:#Per favore scegli un archivio
@@ -4419,6 +4420,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#Messaggi
+dateplaner#:#Day_long#:#Vista giornaliera
+dateplaner#:#ERROR_DATE_EXISTS#:#Questo appuntamento esiste gi&#224;.
+dateplaner#:#ERROR_DB#:#Errore di scrittura nel Database!
+dateplaner#:#ERROR_DB_CONNECT#:#Il database non &#232; connesso.
+dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi eliminare solo questo o tutte le ricorrenze
+dateplaner#:#ERROR_ENDDATE#:#Data finale errata. Formato: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Ora finale errata. Formato: hh:mm
+dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere successiva alla data iniziale.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Per favore, seleziona un file csv corretto.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Il tuo browser non accetta i Javascript. <BR> Per favore chiudi questa finestra dopo aver inserito manualmente. <BR> Grazie.</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Data finale della ricorsione errata. Formato: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Data finale della ricorsione errata. La data finale della ricorrenza &#232; antecedente alla data di inizio.
+dateplaner#:#ERROR_SHORTTEXT#:#Errato inserimento testo. Il testo &#232; obbligatorio.
+dateplaner#:#ERROR_STARTDATE#:#Data iniziale errata. Formato: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Ora iniziale errata. Formato: hh:mm
+dateplaner#:#ERROR_TS#:#Formato della data non corretto
+dateplaner#:#Fr_long#:#Venerdi
+dateplaner#:#Fr_short#:#Ve
+dateplaner#:#Language_file#:#Inglese
+dateplaner#:#Listbox_long#:#Lista degli appuntamenti
+dateplaner#:#Mo_long#:#Lunedi
+dateplaner#:#Mo_short#:#Lu
+dateplaner#:#Month_long#:#Vista mensile
+dateplaner#:#Sa_long#:#Sabato
+dateplaner#:#Sa_short#:#Sa
+dateplaner#:#Su_long#:#Domenica
+dateplaner#:#Su_short#:#Do
+dateplaner#:#Text#:#Testo
+dateplaner#:#Th_long#:#Giovedi
+dateplaner#:#Th_short#:#Gi
+dateplaner#:#Tu_long#:#Martedi
+dateplaner#:#Tu_short#:#Ma
+dateplaner#:#View#:#Impostazioni della vista:
+dateplaner#:#We_long#:#Mercoledi
+dateplaner#:#We_short#:#Me
+dateplaner#:#Week_long#:#Vista settimanale
 dateplaner#:#add_data#:#Dati addizionali
 dateplaner#:#app_#:#Appuntamenti del gruppo
 dateplaner#:#app_date#:#Inserisci appuntamento
@@ -4435,20 +4473,19 @@ dateplaner#:#back#:#Indietro
 dateplaner#:#begin_date#:#Giorno:
 dateplaner#:#busytime#:#Tempo occupato del gruppo
 dateplaner#:#c_date#:#Crea appuntamento
-dateplaner#:#changedDates#:#Appuntamenti modificati
 dateplaner#:#changeTo#:#Modifica in:
+dateplaner#:#changedDates#:#Appuntamenti modificati
 dateplaner#:#checkforfreetime#:#Cerca intervalli liberi
 dateplaner#:#created#:#Creato
 dateplaner#:#date#:#Appuntamento
 dateplaner#:#date_format#:#m/d/Y H:i (Mese/Giorno/Annoa4cifre Ore24:Minuti)
 dateplaner#:#date_format_middle#:#m/d/y (Mese/Giorno/Anno)
-dateplaner#:#DateText#:#Messaggi
-dateplaner#:#Day_long#:#Vista giornaliera
 dateplaner#:#del_all#:#Cancella tutti gli appuntamenti
 dateplaner#:#del_one#:#Cancella un appuntamento
 dateplaner#:#delete#:#Cancella
 dateplaner#:#deletedDates#:#Appuntamenti cancellati
 dateplaner#:#discard#:#Scartato
+dateplaner#:#dv_Grouptime#:#Tempo libero
 dateplaner#:#dv_button_cancel#:#Annulla
 dateplaner#:#dv_button_delete#:#Elimina
 dateplaner#:#dv_button_insert#:#Inserisci
@@ -4458,7 +4495,6 @@ dateplaner#:#dv_date_end#:#Fine appuntamento:
 dateplaner#:#dv_date_hm#:#Ore:Minuti
 dateplaner#:#dv_enddate#:#Giorno
 dateplaner#:#dv_groupselect#:#Gruppo
-dateplaner#:#dv_Grouptime#:#Tempo libero
 dateplaner#:#dv_groupview#:#Appuntamenti gruppo:
 dateplaner#:#dv_groupview_text#:#Gruppi:<br>
 dateplaner#:#dv_keywords#:#Parole Chiave (keywords):
@@ -4477,26 +4513,9 @@ dateplaner#:#dv_whole_day#:#Giorno intero:
 dateplaner#:#dv_whole_rotation#:#Vuoi eliminare tutti gli appuntamenti ricorrenti? (seleziona la casella)
 dateplaner#:#end_date#:#Fine dell&#039;appuntamento
 dateplaner#:#endtime_for_view#:#Ora finale della vista:
-dateplaner#:#ERROR_DATE_EXISTS#:#Questo appuntamento esiste gi&#224;.
-dateplaner#:#ERROR_DB#:#Errore di scrittura nel Database!
-dateplaner#:#ERROR_DB_CONNECT#:#Il database non &#232; connesso.
-dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi eliminare solo questo o tutte le ricorrenze
-dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere successiva alla data iniziale.
-dateplaner#:#ERROR_ENDDATE#:#Data finale errata. Formato: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Ora finale errata. Formato: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Per favore, seleziona un file csv corretto.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Il tuo browser non accetta i Javascript. <BR> Per favore chiudi questa finestra dopo aver inserito manualmente. <BR> Grazie.</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#Impossibile creare uno stream GD
-dateplaner#:#ERROR_ROT_END_START#:#Data finale della ricorsione errata. La data finale della ricorrenza &#232; antecedente alla data di inizio.
-dateplaner#:#ERROR_ROTATIONEND#:#Data finale della ricorsione errata. Formato: dd/mm/yyyy
-dateplaner#:#ERROR_SHORTTEXT#:#Errato inserimento testo. Il testo &#232; obbligatorio.
-dateplaner#:#ERROR_STARTDATE#:#Data iniziale errata. Formato: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Ora iniziale errata. Formato: hh:mm
-dateplaner#:#ERROR_TS#:#Formato della data non corretto
 dateplaner#:#execute#:#scelte eseguite
 dateplaner#:#extra_dates#:#Appuntamento di un giorno
-dateplaner#:#Fr_long#:#Venerdi
-dateplaner#:#Fr_short#:#Ve
 dateplaner#:#free#:#libero
 dateplaner#:#freetime#:#tempo libero del gruppo
 dateplaner#:#group#:#Gruppo
@@ -4517,9 +4536,9 @@ dateplaner#:#help_group_l#:#Contiene i gruppi per i quali l&#039;utente corrente
 dateplaner#:#help_inbox#:#Agenda in ingresso
 dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.
 dateplaner#:#help_keyword#:#Scelta parola chiave
-dateplaner#:#help_keyword_l#:#Contiene le parole chiave che l&#039;utente pu&#242; associare ad un appuntamento.
 dateplaner#:#help_keywordUse#:#Scelta parola chiave
 dateplaner#:#help_keywordUse_l#:#Scegli una o pi&#249; parole chiave dalla finestra di dialogo. <br>Suggerimento: usa il tasto CTRL per selezionare pi&#249; di una voce.
+dateplaner#:#help_keyword_l#:#Contiene le parole chiave che l&#039;utente pu&#242; associare ad un appuntamento.
 dateplaner#:#help_list#:#Appuntamenti agenda.
 dateplaner#:#help_list_l#:#In dettaglio vengono mostrati gli appuntamenti di durata maggiore di un dato periodo.
 dateplaner#:#help_month#:#Agenda vista mensile
@@ -4554,9 +4573,7 @@ dateplaner#:#k_alldates#:#tutti gli appuntamenti
 dateplaner#:#keep#:#Tieni
 dateplaner#:#keyword#:#Scegli una keyword
 dateplaner#:#keywords#:#Definizione delle Parole Chiave (keywords)
-dateplaner#:#Language_file#:#Inglese
 dateplaner#:#last_change#:#Data ultima modifica
-dateplaner#:#Listbox_long#:#Lista degli appuntamenti
 dateplaner#:#long_01#:#Gennaio
 dateplaner#:#long_02#:#Febbraio
 dateplaner#:#long_03#:#Marzo
@@ -4572,16 +4589,13 @@ dateplaner#:#long_12#:#Dicembre
 dateplaner#:#main_dates#:#Appuntamenti principali
 dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#Mese precedente
-dateplaner#:#Mo_long#:#Lunedi
-dateplaner#:#Mo_short#:#Lu
 dateplaner#:#month#:#Mese
-dateplaner#:#Month_long#:#Vista mensile
 dateplaner#:#more#:#ancora
 dateplaner#:#mweek#:#Settimana precedente
 dateplaner#:#myeahr#:#Anno precedente
-dateplaner#:#new_doc#:#Crea un nuovo appuntamento
 dateplaner#:#newDates#:#Nuovi appuntamenti
 dateplaner#:#newKeyword#:#Nuova:
+dateplaner#:#new_doc#:#Crea un nuovo appuntamento
 dateplaner#:#no_entry#:#Non sono presenti appuntamenti
 dateplaner#:#o_day_date#:#Appuntamento di 24h
 dateplaner#:#of#:#da
@@ -4602,8 +4616,6 @@ dateplaner#:#r_year#:#Tutti gli anni
 dateplaner#:#readimportfile#:#Inserisci
 dateplaner#:#rotation#:#Ripeti
 dateplaner#:#rotation_dates#:#Ripeti appuntamenti
-dateplaner#:#Sa_long#:#Sabato
-dateplaner#:#Sa_short#:#Sa
 dateplaner#:#semester_name#:#Nome semestre
 dateplaner#:#short_01#:#Gen
 dateplaner#:#short_02#:#Feb
@@ -4620,24 +4632,13 @@ dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Testo breve
 dateplaner#:#singleDate#:#Appuntamento singolo
 dateplaner#:#starttime_for_view#:#Ora di inizio della vista:
-dateplaner#:#Su_long#:#Domenica
-dateplaner#:#Su_short#:#Do
-dateplaner#:#Text#:#Testo
-dateplaner#:#Th_long#:#Giovedi
-dateplaner#:#Th_short#:#Gi
 dateplaner#:#timedate#:#Ora/Giorno
 dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agenda ILIAS
 dateplaner#:#to#:#a:
 dateplaner#:#today#:#Oggi
-dateplaner#:#Tu_long#:#Martedi
-dateplaner#:#Tu_short#:#Ma
-dateplaner#:#View#:#Impostazioni della vista:
 dateplaner#:#viewlist#:#Vista
-dateplaner#:#We_long#:#Mercoledi
-dateplaner#:#We_short#:#Me
 dateplaner#:#week#:#Settimana
-dateplaner#:#Week_long#:#Vista settimanale
 dateplaner#:#wk_short#:#Set
 dateplaner#:#year#:#Anno
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4668,8 +4669,8 @@ forum#:#forums_disable_notification#:#Disabilita la notifica
 forum#:#forums_download_attachment#:#Download dell&#039;allegato
 forum#:#forums_edit_post#:#Modifica messaggio
 forum#:#forums_enable_notification#:#Abilita la notifica
-forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo messaggio?
 forum#:#forums_info_censor2_post#:#Sei sicuro di voler continuare a nascondere questo messaggio?
+forum#:#forums_info_censor_post#:#Sei sicuro di voler nascondere questo messaggio?
 forum#:#forums_info_delete_post#:#Sei sicuro di voler eliminare questo messaggio comprese tutte le risposte?
 forum#:#forums_mark_read#:#Segna come letto
 forum#:#forums_new_entries#:#Nuovi forum
@@ -5866,6 +5867,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Aggiungi categoria
 survey#:#add_heading#:#Aggiungi intestazione
 survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
@@ -5969,27 +5974,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Se non &#232; indicato, la risposta non ha un numero massimo di caratteri (senza limite).
 survey#:#disinvite#:#Annulla l&#039;invito
 survey#:#display_all_available#:#Mostra
+survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d&#039;accordo-d&#039;accordo-indeciso-in disaccordo-molto in disaccordo)
 survey#:#dp_standard_attitude_agree_disagree#:#Giudizio standard (d&#039;accordo-disaccordo)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Giudizio standard (d&#039;accordo-indeciso-in disaccordo)
-survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d&#039;accordo-d&#039;accordo-indeciso-in disaccordo-molto in disaccordo)
+survey#:#dp_standard_attitude_desired5#:#Giudizio standard (fortemente desiderato-desiderato-indifferente-non desiderato-fortemente non desiderato)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Giudizio standard (desiderato-indifferente-non desiderato)
 survey#:#dp_standard_attitude_desired_undesired#:#Giudizio standard (desiderato-non desiderato)
-survey#:#dp_standard_attitude_desired5#:#Giudizio standard (fortemente desiderato-desiderato-indifferente-non desiderato-fortemente non desiderato)
+survey#:#dp_standard_attitude_good5#:#Giudizio standard (molto buono-buono-sufficiente-insufficiente-molto insufficiente)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Giudizio standard (buono-sufficiente-insufficiente)
 survey#:#dp_standard_attitude_good_notacceptable#:#Giudizio standard (buono-insufficiente)
-survey#:#dp_standard_attitude_good5#:#Giudizio standard (molto buono-buono-sufficiente-insufficiente-molto insufficiente)
 survey#:#dp_standard_attitude_must5#:#Giudizio standard (deve-dovrebbe-indeciso-non dovrebbe-non deve)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Giudizio standard (dovrebbe-non dovrebbe)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Giudizio standard (dovrebbe-indeciso-non dovrebbe)
 survey#:#dp_standard_behaviour_certainly5#:#Comportamento standard (molto sicuro-pi&#249; positivo-indeciso-pi&#249; negativo-molto negativo)
 survey#:#dp_standard_behaviour_yes_no#:#Comportamento standard (si-no)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Comportamento standard (si-indeciso-no)
+survey#:#dp_standard_beliefs_always5#:#Affidabilit&#224; standard (sempre-molte volte-qualche volta-raramente-mai)
 survey#:#dp_standard_beliefs_always_never#:#Affidabilit&#224; standard (sempre-mai)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Affidabilit&#224; standard (sempre-qualche volta-mai)
-survey#:#dp_standard_beliefs_always5#:#Affidabilit&#224; standard (sempre-molte volte-qualche volta-raramente-mai)
+survey#:#dp_standard_beliefs_true5#:#Affidabilit&#224; standard (sicuramente vero-vero-indeciso-falso-sicuramente falso)
 survey#:#dp_standard_beliefs_true_false#:#Affidabilit&#224; standard (vero-falso)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Affidabilit&#224; standard (vero-indeciso-falso)
-survey#:#dp_standard_beliefs_true5#:#Affidabilit&#224; standard (sicuramente vero-vero-indeciso-falso-sicuramente falso)
 survey#:#dp_standard_numbers#:#Numeri standard
 survey#:#duplicate#:#Duplica
 survey#:#duplicate_svy#:#Duplica il sondaggio
@@ -6212,10 +6217,6 @@ survey#:#survey_skip_next#:#Salta e vai alla pagina successiva >>>###19 Jul 2006
 survey#:#survey_skip_previous#:#<<< Salta e torna alla pagina precedente###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< Salta e torna alla pagina iniziale
 survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale###25 Jul 2006 content changed
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo sondaggio sono stati eliminati!
 survey#:#svy_check_evaluation_access_introduction#:#Il sondaggio di prova &#232; accessibile solo dai partecipanti: per poter accedere occorre inserire il codice di accesso.
 survey#:#svy_check_evaluation_authentication_needed#:#Richeista autenticazione

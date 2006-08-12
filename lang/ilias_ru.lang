@@ -123,12 +123,6 @@ assessment#:#applet_new_parameter#:#�?овый параметр
 assessment#:#applet_parameter#:#Параметр
 assessment#:#applet_parameters#:#Параметры апплета
 assessment#:#apply#:#Применить
-assessment#:#ass_create_export_file#:#Создать файл �?к�?порта
-assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-11 --- Add new translation here.
-assessment#:#ass_export_files#:#файлы �?к�?порта
-assessment#:#ass_file#:#файл
-assessment#:#ass_question#:#Вопро�?
-assessment#:#ass_size#:#Размер
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -140,6 +134,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#Создать файл �?к�?порта
+assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-11 --- Add new translation here.
+assessment#:#ass_export_files#:#файлы �?к�?порта
+assessment#:#ass_file#:#файл
+assessment#:#ass_question#:#Вопро�?
+assessment#:#ass_size#:#Размер
 assessment#:#available_points#:#До�?тупные пункты
 assessment#:#average_reached_points#:#Обычно до�?тигаемые пункты
 assessment#:#backtocallingtest#:#�?азад к вызванному те�?ту
@@ -962,6 +962,8 @@ chat#:#chat_yellow#:#желтый
 chat#:#chats#:#Чаты
 chat#:#my_chats#:#Мои Чаты
 common#:#3rd_party_software#:#3-�? вер�?и�? программного обе�?печени�?
+common#:#DD.MM.YYYY#:#ДД.ММ.ГГГГ
+common#:#HH#:#ЧЧ:ММ
 common#:#absolute_path#:#Полный путь
 common#:#accept_usr_agreement#:#Прин�?ть �?оглашение �? пользователем?
 common#:#access#:#До�?туп
@@ -1365,10 +1367,10 @@ common#:#contra#:#Contra ### 2006-8-11 --- Add new translation here.
 common#:#cookies_howto#:#How to enable cookies ### 2006-8-11 --- Add new translation here.
 common#:#copied_object#:#Скопирован объект
 common#:#copy#:#Копировать
-common#:#copy_of#:#Копировать из 
-common#:#copy_to#:#Копировать в
 common#:#copyChapter#:#Copy ### 2006-8-11 --- Add new translation here.
 common#:#copyPage#:#Копировать Страницу
+common#:#copy_of#:#Копировать из 
+common#:#copy_to#:#Копировать в
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator. ### 2006-8-11 --- Add new translation here.
 common#:#count#:#Итог
 common#:#country#:#Страна
@@ -1475,7 +1477,6 @@ common#:#dbk_new#:#�?ова�? цифрова�? книга
 common#:#dbk_read#:#До�?туп дл�? чтени�? к цифровой книге
 common#:#dbk_visible#:#Цифрова�? книга видима
 common#:#dbk_write#:#Редактировать цифровую книгу
-common#:#DD.MM.YYYY#:#ДД.ММ.ГГГГ
 common#:#def_repository_view#:#Другой вид репозитори�?
 common#:#default#:#Другой
 common#:#default_language#:#Другой �?зык
@@ -1934,7 +1935,6 @@ common#:#guests#:#Го�?ти
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Заголовок названи�?(книги)
 common#:#help#:#Помощь
-common#:#HH#:#ЧЧ:ММ
 common#:#hide#:#Скрыть
 common#:#hide_details#:#Скрыть детали
 common#:#hide_private_notes#:#Hide private notes ### 2006-8-11 --- Add new translation here.
@@ -2437,11 +2437,11 @@ common#:#month_12_short#:#Дек
 common#:#monthly#:#ежеме�?�?чно
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Переме�?тить
+common#:#moveChapter#:#Переме�?тить Главу
+common#:#movePage#:#Переме�?тить Страницу
 common#:#move_selected_items#:#Move selected items ### 2006-8-11 --- Add new translation here.
 common#:#move_to#:#Переме�?тить в
 common#:#move_users_to_style#:#Переме�?тить пользователей в �?тиль###10 Jul 2006 content changed
-common#:#moveChapter#:#Переме�?тить Главу
-common#:#movePage#:#Переме�?тить Страницу
 common#:#msg_cancel#:#Дей�?твие прервано
 common#:#msg_changes_ok#:#Изменени�? прошли у�?пешно
 common#:#msg_clear_clipboard#:#Буфер обмена очищен
@@ -2512,9 +2512,9 @@ common#:#msg_obj_exists#:#Объект уже �?уще�?твует в �?том �
 common#:#msg_obj_modified#:#Изменени�? �?охранены.
 common#:#msg_obj_no_link#:#не разрешены к при�?оединению
 common#:#msg_obj_not_deletable_sold#:#Платеж активирован дл�? �?ледующих объектов. Они не могут быть удалены.
-common#:#msg_perm_adopted_from_itself#:#Вы не можете на�?ледовать у�?тановки до�?тупа выбранных роли/ролей шаблона �?ами в �?еб�?.
 common#:#msg_perm_adopted_from1#:#У�?тановки до�?тупа на�?ледованы из
 common#:#msg_perm_adopted_from2#:#(У�?тановки уже �?охранены!)
+common#:#msg_perm_adopted_from_itself#:#Вы не можете на�?ледовать у�?тановки до�?тупа выбранных роли/ролей шаблона �?ами в �?еб�?.
 common#:#msg_removed#:#Объект(ы) перемещен(ы) из �?и�?темы.
 common#:#msg_role_exists1#:#Шаблон Роли/Ролей �? именем
 common#:#msg_role_exists2#:#уже �?уще�?твует! Пожалуй�?та, выберите другое им�?
@@ -2763,9 +2763,9 @@ common#:#password#:#Пароль
 common#:#password_assistance_disabled#:#�?�?�?и�?ент паролей до�?тупен только в том �?луче, е�?ли пользователь авторизирует�?�? через локальную базу ILIAS.
 common#:#password_assistance_info#:#Когда а�?�?и�?тент паролей включен, то по �?�?ылке "Забыли пароль?", можно перейти на �?траницу ILIAS-логинов. Пользователи могут и�?пользовать �?ту �?�?ылку дл�? назначени�? нового парол�? �?воему учетные запи�?и, не обраща�?�?ь к �?и�?темному админи�?тратору. 
 common#:#paste#:#В�?тавить
-common#:#paste_clipboard_items#:#Paste items from clipboard ### 2006-8-11 --- Add new translation here.
 common#:#pasteChapter#:#В�?тавить Главу
 common#:#pastePage#:#В�?тавить Страницу
+common#:#paste_clipboard_items#:#Paste items from clipboard ### 2006-8-11 --- Add new translation here.
 common#:#path#:#Путь
 common#:#path_not_set#:#Путь неу�?тановлен
 common#:#path_to_babylon#:#Путь к Babylon
@@ -3057,12 +3057,12 @@ common#:#server#:#Сервер
 common#:#server_data#:#Данные �?ервера
 common#:#server_software#:#ПО �?ервера
 common#:#set#:#У�?тановить
+common#:#setSystemLanguage#:#Язык �?и�?темы
+common#:#setUserLanguage#:#Язык пользовател�?
 common#:#set_offline#:#У�?тановить Онлайн
 common#:#set_online#:#У�?тановить Оффлайн
-common#:#setSystemLanguage#:#Язык �?и�?темы
 common#:#settings#:#У�?тановки
 common#:#settings_saved#:#Saved settings ### 2006-8-11 --- Add new translation here.
-common#:#setUserLanguage#:#Язык пользовател�?
 common#:#shib#:#Shibboleth ### 2006-8-11 --- Add new translation here.
 common#:#shib_active#:#Enable Shibboleth support ### 2006-8-11 --- Add new translation here.
 common#:#shib_city#:#Attribute for city ### 2006-8-11 --- Add new translation here.
@@ -3476,6 +3476,9 @@ common#:#you_may_add_local_roles#:#Вы можете добавить Локал
 common#:#your_message#:#Ваше �?ообщение
 common#:#zip#:#Zip Код / Индек�?
 common#:#zipcode#:#Zip Код / Индек�?
+content#:#HTML export#:#Эк�?порт в HTML
+content#:#PDF export#:#Эк�?порт в PDF
+content#:#Pages#:#Страницы
 content#:#add_menu_entry#:#Добавить меню entry >>
 content#:#all#:#В�?е
 content#:#all_pages#:#Вход в Обучающий модуль###25 Jul 2006 content changed
@@ -3485,6 +3488,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Дополнительный
+content#:#cont_Alphabetic#:#�?лфавитный A, B, ...###10 Jul 2006 content changed
+content#:#cont_Circle#:#Круг
+content#:#cont_Citation#:#Цитата
+content#:#cont_Code#:#Код
+content#:#cont_Example#:#�?апример###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Заголовок 1
+content#:#cont_Headline2#:#Заголовок 2
+content#:#cont_Headline3#:#Заголовок 3
+content#:#cont_List#:#Спи�?ок
+content#:#cont_LocalFile#:#Локальный файл
+content#:#cont_Mnemonic#:#Мнемониче�?кий
+content#:#cont_Number#:#�?омер
+content#:#cont_Poly#:#Многоугольник
+content#:#cont_Rect#:#Пр�?моугольник
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Ремарка
+content#:#cont_Roman#:#Рим�?кий I, II, ...###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Содержимое таблицы
+content#:#cont_Unordered#:#�?еупор�?доченно
 content#:#cont_act_number#:#�?умераци�? Глав
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#�?ктивное меню
@@ -3494,10 +3517,8 @@ content#:#cont_add_definition#:#Добавить Определение
 content#:#cont_add_fullscreen#:#Добавить Полный �?кран
 content#:#cont_added_comment#:#Комментарии были добавлены в и�?торию.
 content#:#cont_added_term#:#термин добавлен
-content#:#cont_Additional#:#Дополнительный
 content#:#cont_all_definitions#:#В�?е Определени�?
 content#:#cont_all_pages#:#В�?е Страницы
-content#:#cont_Alphabetic#:#�?лфавитный A, B, ...###10 Jul 2006 content changed
 content#:#cont_annex#:#При�?оединить
 content#:#cont_api_adapter#:#�?азвание API �?даптера
 content#:#cont_api_func_prefix#:#Префик�? API Функций
@@ -3526,8 +3547,6 @@ content#:#cont_characteristic#:#Характери�?тики
 content#:#cont_choose_cont_obj#:#Выберите Объект Содержимое
 content#:#cont_choose_glossary#:#Выберите Словарь
 content#:#cont_choose_media_source#:#Выберите Медиа И�?точник
-content#:#cont_Circle#:#Круг
-content#:#cont_Citation#:#Цитата
 content#:#cont_citation_err_one#:#Вы должны выбрать только один вариант
 content#:#cont_citation_selection_not_valid#:#Ваш выбор недей�?твителен###10 Jul 2006 content changed
 content#:#cont_citations#:#Цитаты
@@ -3538,7 +3557,6 @@ content#:#cont_click_next_or_save#:#Пожалуй�?та, щелкните на 
 content#:#cont_click_next_point#:#Пожалуй�?та, щелкните на �?ледующей точке многоугольника.
 content#:#cont_click_starting_point#:#Пожалуй�?та, щелкните на первой точке многоугольника.
 content#:#cont_click_tl_corner#:#Пожалуй�?та, щелкните в выберите верхний левый угол желаемой обла�?ти.
-content#:#cont_Code#:#Код
 content#:#cont_confirm_delete#:#дей�?твительно удалить?
 content#:#cont_content#:#Содержимое
 content#:#cont_content_obj#:#Объект �?одержимого
@@ -3633,7 +3651,6 @@ content#:#cont_edition#:#Редактирование
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript активен
 content#:#cont_enable_media#:#Медиа активна
-content#:#cont_Example#:#�?апример###10 Jul 2006 content changed
 content#:#cont_export_files#:#файлы �?к�?порта
 content#:#cont_external#:#внешний
 content#:#cont_external_url#:#внешний url
@@ -3657,9 +3674,6 @@ content#:#cont_get_orig_size#:#У�?тановить оригинальный р�
 content#:#cont_glo_menu#:#Menu ### 2006-8-11 --- Add new translation here.
 content#:#cont_glo_properties#:#Словарь �?вой�?тв
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#Заголовок 1
-content#:#cont_Headline2#:#Заголовок 2
-content#:#cont_Headline3#:#Заголовок 3
 content#:#cont_height#:#Вы�?ота
 content#:#cont_how_published#:#Как опубликовано
 content#:#cont_href#:#�?�?ылка
@@ -3690,7 +3704,6 @@ content#:#cont_link_int#:#С�?ылка (внутренн�?�?)
 content#:#cont_link_select#:#Внешн�?�? С�?ылка
 content#:#cont_link_type#:#Тип С�?ылки
 content#:#cont_linked_mobs#:#Св�?занные Медиа Объекты
-content#:#cont_List#:#Спи�?ок
 content#:#cont_list_files#:#Спи�?ок файлов
 content#:#cont_list_properties#:#Спи�?ок �?вой�?тв
 content#:#cont_lk_chapter#:#Глава
@@ -3707,7 +3720,6 @@ content#:#cont_lk_term#:#Словарь терминов
 content#:#cont_lk_term_new#:#Словарь терминов (�?овый Фрейм)
 content#:#cont_lm_menu#:#Меню
 content#:#cont_lm_properties#:#�?вой�?тва Обучающего Модул�?
-content#:#cont_LocalFile#:#Локальный файл
 content#:#cont_lvalue#:#Элемент данных
 content#:#cont_manifest#:#Манифе�?т
 content#:#cont_map_areas#:#Обла�?ть �?�?ылок
@@ -3716,7 +3728,6 @@ content#:#cont_max_time_allowed#:#adlcp:мак�?имально разрешен�
 content#:#cont_media_source#:#Медиа И�?точник
 content#:#cont_mep_structure#:#Структура Медиа �?абора
 content#:#cont_missing_preconditions#:#Вам нужно полно�?тью заполнить �?ледующие об�?зательные у�?лови�? дл�? до�?тупа к главе "%s". 
-content#:#cont_Mnemonic#:#Мнемониче�?кий
 content#:#cont_mob_files#:#файлы объектов
 content#:#cont_mob_inst_prop#:#�?вой�?тва примера
 content#:#cont_mob_prop#:#�?вой�?тва объекта
@@ -3741,7 +3752,6 @@ content#:#cont_none#:#�?ет
 content#:#cont_nr_cols#:#Количе�?тво �?толбцов
 content#:#cont_nr_items#:#Количе�?тво пунктов
 content#:#cont_nr_rows#:#Количе�?тво �?трок
-content#:#cont_Number#:#�?омер
 content#:#cont_obj_removed#:#Объекты перемещены.
 content#:#cont_offline#:#Оффлайн вер�?ии
 content#:#cont_offline_files#:#Оффлайн вер�?ии
@@ -3765,7 +3775,6 @@ content#:#cont_personal_clipboard#:#Личный буфер обмена
 content#:#cont_pg_content#:#Содержимое �?траницы
 content#:#cont_pg_title#:#Заголовок �?траницы
 content#:#cont_please_select#:#пожалуй�?та, выберите
-content#:#cont_Poly#:#Многоугольник
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Предпро�?мотр
@@ -3775,11 +3784,8 @@ content#:#cont_public_notes#:#Public Notes ### 2006-8-11 --- Add new translation
 content#:#cont_public_notes_desc#:#Allow users to share notes on every page of the learning module. ### 2006-8-11 --- Add new translation here.
 content#:#cont_publisher#:#Публикатор
 content#:#cont_purpose#:#Результат (purpose)
-content#:#cont_Rect#:#Пр�?моугольник
 content#:#cont_ref_helptext#:#(н.р. http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#С�?ылающие�?�? Изображени�?
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#Ремарка
 content#:#cont_remove_fullscreen#:#Убрать Полный �?кран
 content#:#cont_removeiln#:#дей�?твительно убрать внутреннюю �?�?ылку?
 content#:#cont_repository_item#:#Пункт репозитори�?
@@ -3790,7 +3796,6 @@ content#:#cont_resize_image#:#Подогнать изображени�?
 content#:#cont_resource#:#Ре�?ур�?
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ре�?ур�?ы
-content#:#cont_Roman#:#Рим�?кий I, II, ...###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Стоимо�?ть
 content#:#cont_saved_map_area#:#Сохранена карта обла�?ти
 content#:#cont_saved_map_data#:#Сохранены данные карты
@@ -3860,7 +3865,6 @@ content#:#cont_table_html_import_info#:#Импортировать только 
 content#:#cont_table_spreadsheet_import#:#Импорт Spreadsheet
 content#:#cont_table_spreadsheet_import_info#:#В�?тавьте таблицу �? spreadsheet приложени�? через буфер обмена в обла�?ть тек�?та.
 content#:#cont_table_width#:#Ширина таблицы
-content#:#cont_TableContent#:#Содержимое таблицы
 content#:#cont_target_within_source#:#Цель не должна быть внутри и�?точника объекта.
 content#:#cont_term#:#термин
 content#:#cont_terms#:#термины
@@ -3885,7 +3889,6 @@ content#:#cont_tracking_items#:#Пункты мониторинга
 content#:#cont_translations#:#Перевод(ы)
 content#:#cont_translations_assigned#:#Перевод(ы) заданы
 content#:#cont_tree_fixed#:#Дерево �?труктуры зафик�?ировано.
-content#:#cont_Unordered#:#�?еупор�?доченно
 content#:#cont_update#:#Обновить
 content#:#cont_update_names#:#Обновить Имена
 content#:#cont_upload_file#:#Закачать файл
@@ -3905,7 +3908,6 @@ content#:#copied_to_clipboard#:#Скопирован(ы) объект(ы) в б�
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def. ### 2006-8-11 --- Add new translation here.
 content#:#glo_term_used_in#:#The following resources linking to that term ### 2006-8-11 --- Add new translation here.
-content#:#HTML export#:#Эк�?порт в HTML
 content#:#lm_menu_edit_entry#:#Вход в меню редактировани�?
 content#:#lm_menu_entry_target#:#Цель/Предмет
 content#:#lm_menu_entry_title#:#Заголовок
@@ -3917,17 +3919,15 @@ content#:#msg_entry_removed#:#Меню входа перемещено
 content#:#msg_entry_updated#:#Меню входа обновлено
 content#:#msg_page_no_public_access#:#Запрошенна�? вами �?траница находит�?�? не в общей �?екции. Она до�?тупна только зареги�?трированным пользовател�?м. Дл�? про�?мотра �?той �?траницы, пожалуй�?та, �?начала введите логин.
 content#:#msg_page_not_public#:#Страница не опубликована
-content#:#Pages#:#Страницы
 content#:#pages from#:#Страницы из
 content#:#par#:#Параграф
-content#:#PDF export#:#Эк�?порт в PDF
 content#:#pg#:#Страница
 content#:#public_section#:#Обща�? �?екци�?
 content#:#read offline#:#Читать оффлайн
-content#:#select_a_file#:#Пожалуй�?та, выберите файл.
-content#:#selected_pages_only#:#только �?ти �?траницы выбраны ниже###25 Jul 2006 content changed
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Пожалуй�?та, выберите файл.
+content#:#selected_pages_only#:#только �?ти �?траницы выбраны ниже###25 Jul 2006 content changed
 content#:#set_public_mode#:#У�?тановить модель общего до�?тупа
 content#:#st#:#Глава
 content#:#start export#:#�?ачать �?к�?порт
@@ -4103,6 +4103,7 @@ crs#:#crs_new_subscription#:#�?ова�? подпи�?ка кур�?а###10 Jul 200
 crs#:#crs_new_subscription_body#:#�?овый пользователь был подпи�?ан###10 Jul 2006 content changed
 crs#:#crs_new_subscription_request#:#Request to join course "%s" 
 crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s". 
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#�?ет выбранных архивов
 crs#:#crs_no_archives_available#:#�?ет до�?тупных архивов
 crs#:#crs_no_archives_selected#:#Пожалуй�?та, выберите архив
@@ -4405,6 +4406,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#Сообщение
+dateplaner#:#Day_long#:#Про�?мотреть день
+dateplaner#:#ERROR_DATE_EXISTS#:#Эта дата уже �?уще�?твует.
+dateplaner#:#ERROR_DB#:#Ошибка запи�?и в базу данных!
+dateplaner#:#ERROR_DB_CONNECT#:#База данных недо�?тупна.
+dateplaner#:#ERROR_DEL_MSG#:#Дата повтор�?ет�?�?. Желаете удалить дату или группу 
+dateplaner#:#ERROR_ENDDATE#:#Ошибка задани�? даты окончани�?. Формат: дд/мм/гггг
+dateplaner#:#ERROR_ENDTIME#:#Ошибка задани�? времени окончани�?. Формат: чч:мм
+dateplaner#:#ERROR_END_START#:#Ошибка задани�? даты окончани�?. Дата окончани�? раньше даты начала.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Пожалуй�?та, возьмите корректный CSV файл.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ваш браузер не поддерживает JavaScript.<br />Пожалуй�?та, закройте �?то окно по�?ле в�?тавки вручную.<br />Спа�?ибо.</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Ошибка даты окончани�?. Формат: дд/мм/гггг
+dateplaner#:#ERROR_ROT_END_START#:#Ошибка задани�? даты окончани�?. Текуща�? дата окончани�? раньше даты начала.
+dateplaner#:#ERROR_SHORTTEXT#:#Ошибка ввода короткого тек�?та. Тек�?т об�?зателен.
+dateplaner#:#ERROR_STARTDATE#:#Ошибка задани�? даты начала. Формат: дд/мм/гггг
+dateplaner#:#ERROR_STARTTIME#:#Ошибка задани�? времени начала. Формат: чч:мм
+dateplaner#:#ERROR_TS#:#�?екорректный формат даты
+dateplaner#:#Fr_long#:#П�?тница
+dateplaner#:#Fr_short#:#Пт
+dateplaner#:#Language_file#:#�?нглий�?кий
+dateplaner#:#Listbox_long#:#Спи�?ок дат
+dateplaner#:#Mo_long#:#Понедельник
+dateplaner#:#Mo_short#:#Пн
+dateplaner#:#Month_long#:#Про�?мотреть ме�?�?ц
+dateplaner#:#Sa_long#:#Суббота
+dateplaner#:#Sa_short#:#Сб
+dateplaner#:#Su_long#:#Во�?кре�?енье
+dateplaner#:#Su_short#:#В�?
+dateplaner#:#Text#:#Тек�?т
+dateplaner#:#Th_long#:#Четверг
+dateplaner#:#Th_short#:#Чт
+dateplaner#:#Tu_long#:#Вторник
+dateplaner#:#Tu_short#:#Вт
+dateplaner#:#View#:#Про�?мотр:
+dateplaner#:#We_long#:#Среда
+dateplaner#:#We_short#:#Ср
+dateplaner#:#Week_long#:#Про�?мотреть неделю
 dateplaner#:#add_data#:#Дополнительна�? дата
 dateplaner#:#app_#:#группировка дат (вход�?щие)
 dateplaner#:#app_date#:#в�?тавить дату
@@ -4421,20 +4459,19 @@ dateplaner#:#back#:#назад
 dateplaner#:#begin_date#:#Дата начала
 dateplaner#:#busytime#:#врем�? зан�?то в группе
 dateplaner#:#c_date#:#Создать дату
-dateplaner#:#changedDates#:#Данные изменены
 dateplaner#:#changeTo#:#Изменить на:
+dateplaner#:#changedDates#:#Данные изменены
 dateplaner#:#checkforfreetime#:#Проверить �?вободное врем�?
 dateplaner#:#created#:#Создана
 dateplaner#:#date#:#Дата
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
-dateplaner#:#DateText#:#Сообщение
-dateplaner#:#Day_long#:#Про�?мотреть день
 dateplaner#:#del_all#:#удалить в�?е даты
 dateplaner#:#del_one#:#удалить дату
 dateplaner#:#delete#:#удалить
 dateplaner#:#deletedDates#:#Даты удалены
 dateplaner#:#discard#:#�?бро�?ить
+dateplaner#:#dv_Grouptime#:#�?вободное врем�?
 dateplaner#:#dv_button_cancel#:#Отменить
 dateplaner#:#dv_button_delete#:#Удалить
 dateplaner#:#dv_button_insert#:#В�?тавить
@@ -4444,7 +4481,6 @@ dateplaner#:#dv_date_end#:#Дата конца:
 dateplaner#:#dv_date_hm#:#Ча�?ы:Минуты
 dateplaner#:#dv_enddate#:#Дата конца:
 dateplaner#:#dv_groupselect#:#Выбор группы:
-dateplaner#:#dv_Grouptime#:#�?вободное врем�?
 dateplaner#:#dv_groupview#:#Дата группа:
 dateplaner#:#dv_groupview_text#:#Группа:<br/>
 dateplaner#:#dv_keywords#:#Ключевое �?лово:
@@ -4463,26 +4499,9 @@ dateplaner#:#dv_whole_day#:#Целый день:
 dateplaner#:#dv_whole_rotation#:#Хотите вы удалить вхождени�? группы повторений? (щелчок на поле выбора)
 dateplaner#:#end_date#:#Дата окончани�?
 dateplaner#:#endtime_for_view#:#Врем�? окончани�? про�?мотра:
-dateplaner#:#ERROR_DATE_EXISTS#:#Эта дата уже �?уще�?твует.
-dateplaner#:#ERROR_DB#:#Ошибка запи�?и в базу данных!
-dateplaner#:#ERROR_DB_CONNECT#:#База данных недо�?тупна.
-dateplaner#:#ERROR_DEL_MSG#:#Дата повтор�?ет�?�?. Желаете удалить дату или группу 
-dateplaner#:#ERROR_END_START#:#Ошибка задани�? даты окончани�?. Дата окончани�? раньше даты начала.
-dateplaner#:#ERROR_ENDDATE#:#Ошибка задани�? даты окончани�?. Формат: дд/мм/гггг
-dateplaner#:#ERROR_ENDTIME#:#Ошибка задани�? времени окончани�?. Формат: чч:мм
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Пожалуй�?та, возьмите корректный CSV файл.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ваш браузер не поддерживает JavaScript.<br />Пожалуй�?та, закройте �?то окно по�?ле в�?тавки вручную.<br />Спа�?ибо.</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#�?е могу �?оздать поток GD-изображени�?
-dateplaner#:#ERROR_ROT_END_START#:#Ошибка задани�? даты окончани�?. Текуща�? дата окончани�? раньше даты начала.
-dateplaner#:#ERROR_ROTATIONEND#:#Ошибка даты окончани�?. Формат: дд/мм/гггг
-dateplaner#:#ERROR_SHORTTEXT#:#Ошибка ввода короткого тек�?та. Тек�?т об�?зателен.
-dateplaner#:#ERROR_STARTDATE#:#Ошибка задани�? даты начала. Формат: дд/мм/гггг
-dateplaner#:#ERROR_STARTTIME#:#Ошибка задани�? времени начала. Формат: чч:мм
-dateplaner#:#ERROR_TS#:#�?екорректный формат даты
 dateplaner#:#execute#:#выполнить выбор
 dateplaner#:#extra_dates#:#Однодневные даты
-dateplaner#:#Fr_long#:#П�?тница
-dateplaner#:#Fr_short#:#Пт
 dateplaner#:#free#:#�?вободно
 dateplaner#:#freetime#:#�?вободное врем�? в группе
 dateplaner#:#group#:#группа
@@ -4503,9 +4522,9 @@ dateplaner#:#help_group_l#:#Contains the groups for which the logged-in user has
 dateplaner#:#help_inbox#:#Календарь (вход�?щие)
 dateplaner#:#help_inbox_l#:#Зде�?ь показаны в�?е новые, изменные и удаленные группы данных.
 dateplaner#:#help_keyword#:#Выбор ключевого �?лова
-dateplaner#:#help_keyword_l#:#Содержит ключевые �?лова, которые пользователь может а�?�?оциировать �? датами.
 dateplaner#:#help_keywordUse#:#Выбор ключевого �?лова
 dateplaner#:#help_keywordUse_l#:#Выберите одно или более ключевых �?лов из меню диалога.<br />Совет: во�?пользуйте�?ь клавишей CTRL дл�? выбора не�?кольких �?лов.
+dateplaner#:#help_keyword_l#:#Содержит ключевые �?лова, которые пользователь может а�?�?оциировать �? датами.
 dateplaner#:#help_list#:#Спи�?ок календарных дат
 dateplaner#:#help_list_l#:#В �?пи�?ке дат, будут показаны в�?е даты и�?ходного периода времени.
 dateplaner#:#help_month#:#Про�?мотр календарных ме�?�?цев
@@ -4540,9 +4559,7 @@ dateplaner#:#k_alldates#:#в�?е даты
 dateplaner#:#keep#:#держать
 dateplaner#:#keyword#:#Ключевое �?лово
 dateplaner#:#keywords#:#Ключевые �?лова
-dateplaner#:#Language_file#:#�?нглий�?кий
 dateplaner#:#last_change#:#По�?ледние изменени�?
-dateplaner#:#Listbox_long#:#Спи�?ок дат
 dateplaner#:#long_01#:#Январь
 dateplaner#:#long_02#:#Февраль
 dateplaner#:#long_03#:#Март
@@ -4558,16 +4575,13 @@ dateplaner#:#long_12#:#Декабрь
 dateplaner#:#main_dates#:#О�?новные даты
 dateplaner#:#menue#:#Меню
 dateplaner#:#mmonth#:#по�?ледний ме�?�?ц
-dateplaner#:#Mo_long#:#Понедельник
-dateplaner#:#Mo_short#:#Пн
 dateplaner#:#month#:#ме�?�?ц
-dateplaner#:#Month_long#:#Про�?мотреть ме�?�?ц
 dateplaner#:#more#:#больше
 dateplaner#:#mweek#:#по�?ледн�?�? недел�?
 dateplaner#:#myeahr#:#по�?ледний год
-dateplaner#:#new_doc#:#�?оздать новую дату
 dateplaner#:#newDates#:#�?овые даты
 dateplaner#:#newKeyword#:#�?овый:
+dateplaner#:#new_doc#:#�?оздать новую дату
 dateplaner#:#no_entry#:#нет до�?тупных дат
 dateplaner#:#o_day_date#:#24-ча�?ова�? дата
 dateplaner#:#of#:#
@@ -4588,8 +4602,6 @@ dateplaner#:#r_year#:#каждый год
 dateplaner#:#readimportfile#:#в�?тавить
 dateplaner#:#rotation#:#Повторить
 dateplaner#:#rotation_dates#:#Повторные даты
-dateplaner#:#Sa_long#:#Суббота
-dateplaner#:#Sa_short#:#Сб
 dateplaner#:#semester_name#:#�?азвание �?еме�?тра
 dateplaner#:#short_01#:#Янв
 dateplaner#:#short_02#:#Фев
@@ -4606,24 +4618,13 @@ dateplaner#:#short_12#:#Дек
 dateplaner#:#shorttext#:#Короткий тек�?т
 dateplaner#:#singleDate#:#одиночна�? дата
 dateplaner#:#starttime_for_view#:#Про�?мотреть врем�? начала:
-dateplaner#:#Su_long#:#Во�?кре�?енье
-dateplaner#:#Su_short#:#В�?
-dateplaner#:#Text#:#Тек�?т
-dateplaner#:#Th_long#:#Четверг
-dateplaner#:#Th_short#:#Чт
 dateplaner#:#timedate#:#Врем�?/Дата
 dateplaner#:#timeslice#:#Врем�?:
 dateplaner#:#title#:#ILIAS календарь
 dateplaner#:#to#:#в
 dateplaner#:#today#:#�?егодн�?
-dateplaner#:#Tu_long#:#Вторник
-dateplaner#:#Tu_short#:#Вт
-dateplaner#:#View#:#Про�?мотр:
 dateplaner#:#viewlist#:#�?мотреть
-dateplaner#:#We_long#:#Среда
-dateplaner#:#We_short#:#Ср
 dateplaner#:#week#:#недел�?
-dateplaner#:#Week_long#:#Про�?мотреть неделю
 dateplaner#:#wk_short#:#WK ### 2006-8-11 --- Add new translation here.
 dateplaner#:#year#:#год
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4653,8 +4654,8 @@ forum#:#forums_disable_notification#:#Disable notification ### 2006-8-11 --- Add
 forum#:#forums_download_attachment#:#Загрузить файл
 forum#:#forums_edit_post#:#Редактировать �?татью
 forum#:#forums_enable_notification#:#Enable notification ### 2006-8-11 --- Add new translation here.
-forum#:#forums_info_censor_post#:#Вы дей�?твительно хотите �?крыть �?ту �?татью?
 forum#:#forums_info_censor2_post#:#�?ннулировать цензуру?
+forum#:#forums_info_censor_post#:#Вы дей�?твительно хотите �?крыть �?ту �?татью?
 forum#:#forums_info_delete_post#:#Вы уверены, что хотите удалить �?ту �?татью вме�?те �? откликами?
 forum#:#forums_mark_read#:#Пометить в�?е как прочтенные
 forum#:#forums_new_entries#:#�?овые ветки Форумов
@@ -5850,6 +5851,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Добавить категорию 
 survey#:#add_heading#:#Добавить заголовок 
 survey#:#add_limits_for_standard_numbers#:#Пожалуй�?та, введите нижний и верхний предел дл�? �?тандартных чи�?ел, которые вы хотите добавить как категории.
@@ -5953,27 +5958,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 survey#:#disinvite#:#Uninvite
 survey#:#display_all_available#:#Показать в�?е до�?тупные 
+survey#:#dp_standard_attitude_agree5#:#Standard attitude (полно�?тью �?огла�?ен-�?огла�?ен-не знаю-не�?огла�?ен-полно�?тью не�?огла�?ен)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (�?огла�?ен-не�?огла�?ен)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (�?огла�?ен-не  знаю-не�?огла�?ен)
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (полно�?тью �?огла�?ен-�?огла�?ен-не знаю-не�?огла�?ен-полно�?тью не�?огла�?ен)
+survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)
 survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
+survey#:#dp_standard_attitude_good5#:#Standard attitude (очень хорошо-хорошо-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (хорошо-fair-not acceptable)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (хорошо-not acceptable)
-survey#:#dp_standard_attitude_good5#:#Standard attitude (очень хорошо-хорошо-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (возможно-невозможно)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (возможно-не знаю-невозможно)
 survey#:#dp_standard_behaviour_certainly5#:#Standard behavior (most certainly-более положительно-не знаю-более отрицательно-most certainly not)
 survey#:#dp_standard_behaviour_yes_no#:#Standard behavior (да-нет)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behavior (да-неизве�?тно-нет)
+survey#:#dp_standard_beliefs_always5#:#Standard beliefs (в�?егда-many times-varying-редко-никогда)
 survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (в�?егда-никогда)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (в�?егда-иногда-никогда)
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (в�?егда-many times-varying-редко-никогда)
+survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (правильно-неправильно)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (правильно-неопределено-неправильно)
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_numbers#:#Стандартные чи�?ла 
 survey#:#duplicate#:#Дублирование
 survey#:#duplicate_svy#:#Дубликат опро�?а 
@@ -6196,10 +6201,6 @@ survey#:#survey_skip_next#:#пропу�?тить >>>###19 Jul 2006 content chang
 survey#:#survey_skip_previous#:#<<< пропу�?тить###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#пропу�?тить и выйти на главную �?траницу
 survey#:#survey_start#:#выйти на главную �?траницу###25 Jul 2006 content changed
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#В�?е пользователь�?кие данные �?того опро�?а были удалены!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation. ### 2006-8-11 --- Add new translation here.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed ### 2006-8-11 --- Add new translation here.

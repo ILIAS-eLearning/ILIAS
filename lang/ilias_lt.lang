@@ -3716,6 +3716,7 @@ crs#:#crs_new_subscription#:#Vartotojas prisijungė prie kurso "%s"
 crs#:#crs_new_subscription_body#:#Vartotojas prisijungė prie kurso "%s".
 crs#:#crs_new_subscription_request#:#Prašymas prisijungti prie kurso "%s"
 crs#:#crs_new_subscription_request_body#:#Vartotojas prašo prisijungimo prie kurso "%s".
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#Archyvų nepasirinkta
 crs#:#crs_no_archives_available#:#Nėra prieinamų archyvų
 crs#:#crs_no_archives_selected#:#Pasirinkite archyvą

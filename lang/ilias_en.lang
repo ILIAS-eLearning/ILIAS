@@ -4118,6 +4118,7 @@ crs#:#crs_new_subscription#:#User joined course "%s" ### 2006-5-8 --- Content ch
 crs#:#crs_new_subscription_body#:#A user has joined course "%s". ### 2006-5-8 --- Content changed
 crs#:#crs_new_subscription_request#:#Request to join course "%s" ### 2006-5-8 --- Content changed
 crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s". ### 2006-5-8 --- Content changed
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.
 crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
@@ -6480,4 +6481,3 @@ trac#:#view_mode#:#View mode
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.

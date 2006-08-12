@@ -123,12 +123,6 @@ assessment#:#applet_new_parameter#:#Parametru nou
 assessment#:#applet_parameter#:#Parametru
 assessment#:#applet_parameters#:#Parametrii Applet
 assessment#:#apply#:#Aplica
-assessment#:#ass_create_export_file#:#Creati fisier pentru export
-assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-11 --- Add new translation here.
-assessment#:#ass_export_files#:#Exportati fisierele
-assessment#:#ass_file#:#Fisier
-assessment#:#ass_question#:#Question ### 2006-8-11 --- Add new translation here.
-assessment#:#ass_size#:#Marime
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -140,6 +134,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#Creati fisier pentru export
+assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-11 --- Add new translation here.
+assessment#:#ass_export_files#:#Exportati fisierele
+assessment#:#ass_file#:#Fisier
+assessment#:#ass_question#:#Question ### 2006-8-11 --- Add new translation here.
+assessment#:#ass_size#:#Marime
 assessment#:#available_points#:#Punctaj disponibil
 assessment#:#average_reached_points#:#Media punctelor obtinute
 assessment#:#backtocallingtest#:#Back to the calling test ### 2006-8-11 --- Add new translation here.
@@ -965,6 +965,8 @@ chat#:#chat_yellow#:#galben
 chat#:#chats#:#Chat-uri
 chat#:#my_chats#:#Chat-urile mele
 common#:#3rd_party_software#:#software introdus
+common#:#DD.MM.YYYY#:#ZZ.LL.AAAA
+common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#absolute_path#:#Path absolut
 common#:#accept_usr_agreement#:#Acceptati conditiile impuse utilizatorilor?
 common#:#access#:#Acces
@@ -1368,10 +1370,10 @@ common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#cookies_howto#:#How to enable cookies ### 2006-8-11 --- Add new translation here.
 common#:#copied_object#:#Obiect copiat
 common#:#copy#:#Copiati
-common#:#copy_of#:#Copie a
-common#:#copy_to#:#catre
 common#:#copyChapter#:#Copy ### 2006-8-11 --- Add new translation here.
 common#:#copyPage#:#Copie
+common#:#copy_of#:#Copie a
+common#:#copy_to#:#catre
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator. ### 2006-8-11 --- Add new translation here.
 common#:#count#:#Numaratoare
 common#:#country#:#Tara
@@ -1478,7 +1480,6 @@ common#:#dbk_new#:#Noua Carte din Biblioteca Digitala
 common#:#dbk_read#:#Permisiune de citire a Cartii din Biblioteca Digitala
 common#:#dbk_visible#:# Cartea din Biblioteca Digitala este vizibila
 common#:#dbk_write#:#Editati Cartea din Biblioteca Digitala
-common#:#DD.MM.YYYY#:#ZZ.LL.AAAA
 common#:#def_repository_view#:#Default repository view ### 2006-8-11 --- Add new translation here.
 common#:#default#:#Implicit
 common#:#default_language#:#Limba implicita
@@ -1937,7 +1938,6 @@ common#:#guests#:#Invitati
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Titlu
 common#:#help#:#Ajutor
-common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#hide#:#hide ### 2006-8-11 --- Add new translation here.
 common#:#hide_details#:#Ascundeti detaliile
 common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
@@ -2441,11 +2441,11 @@ common#:#month_12_short#:#Dec
 common#:#monthly#:#monthly ### 2006-8-11 --- Add new translation here.
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Mutati
+common#:#moveChapter#:#Mutati
+common#:#movePage#:#Mutati
 common#:#move_selected_items#:#Move selected items ### 2006-8-11 --- Add new translation here.
 common#:#move_to#:#Mutati in
 common#:#move_users_to_style#:#Move Users to Style ### 2006-8-11 --- Add new translation here.
-common#:#moveChapter#:#Mutati
-common#:#movePage#:#Mutati
 common#:#msg_cancel#:#Actiune anulata
 common#:#msg_changes_ok#:#Schimbarile au fost acceptate
 common#:#msg_clear_clipboard#:#Clipboard golit
@@ -2516,9 +2516,9 @@ common#:#msg_obj_exists#:#Acest obiect exista deja in dosar
 common#:#msg_obj_modified#:#Modificarile au fost salvate.
 common#:#msg_obj_no_link#:#Nu este permisa adaugarea unui link
 common#:#msg_obj_not_deletable_sold#:#Plata este activata pentru urmatoarele obiecte. Acestea nu pot fi sterse.
-common#:#msg_perm_adopted_from_itself#:#Nu puteti adopta starile de permisiune de la rolul curent sau din tabelul de roluri.
 common#:#msg_perm_adopted_from1#:#Setarile de permisiune adoptate de la
 common#:#msg_perm_adopted_from2#:#(Setarile au fost salvate!)
+common#:#msg_perm_adopted_from_itself#:#Nu puteti adopta starile de permisiune de la rolul curent sau din tabelul de roluri.
 common#:#msg_removed#:#Obiecte eliminate din sistem.
 common#:#msg_role_exists1#:#Un rol/tabel de roluri cu numele
 common#:#msg_role_exists2#:#exista deja! Va rugam alegeti un alt nume
@@ -2767,9 +2767,9 @@ common#:#password#:#Parola
 common#:#password_assistance_disabled#:#Asistenta pentru parola aste valabila doar cand autentificarea utilizatorului se face printr-o baza de date ILIAS locala.
 common#:#password_assistance_info#:#Daca asistenta pentru parola este activata, apare un link cu textul "Ati uitat parola?" pe pagina de login ILIAS. Uilizatorii pot folosi acest link pentru a desemna o noua parola contului lor, fara a avea nevoie de ajutor de la administratorul de sistem. 
 common#:#paste#:#Lipiti
-common#:#paste_clipboard_items#:#Paste items from clipboard ### 2006-8-11 --- Add new translation here.
 common#:#pasteChapter#:#Lipiti
 common#:#pastePage#:#Lipiti
+common#:#paste_clipboard_items#:#Paste items from clipboard ### 2006-8-11 --- Add new translation here.
 common#:#path#:#Path
 common#:#path_not_set#:#Path Nesetat
 common#:#path_to_babylon#:#Path catre aplicatia Babylon
@@ -3061,12 +3061,12 @@ common#:#server#:#Server
 common#:#server_data#:#Date despre Server
 common#:#server_software#:#Software Server
 common#:#set#:#Setati
+common#:#setSystemLanguage#:#Setati Limba Sistemului
+common#:#setUserLanguage#:#Setati Limba Utilizatorului
 common#:#set_offline#:#Setati Offline
 common#:#set_online#:#Setati Online
-common#:#setSystemLanguage#:#Setati Limba Sistemului
 common#:#settings#:#Setari
 common#:#settings_saved#:#Saved settings ### 2006-8-11 --- Add new translation here.
-common#:#setUserLanguage#:#Setati Limba Utilizatorului
 common#:#shib#:#Shibboleth ### 2006-8-11 --- Add new translation here.
 common#:#shib_active#:#Enable Shibboleth support ### 2006-8-11 --- Add new translation here.
 common#:#shib_city#:#Attribute for city ### 2006-8-11 --- Add new translation here.
@@ -3476,6 +3476,9 @@ common#:#you_may_add_local_roles#:#Puteti adauga Roluri Locale
 common#:#your_message#:#Mesajul Dumneavoastra
 common#:#zip#:#Cod Postal
 common#:#zipcode#:#Cod Postal
+content#:#HTML export#:#Exportati HTML
+content#:#PDF export#:#Exportati PDF
+content#:#Pages#:#Pagini
 content#:#add_menu_entry#:#Adaugati in meniu >>
 content#:#all#:#Tot
 content#:#all_pages#:#intregul Modul de Invatare###25 Jul 2006 content changed
@@ -3485,6 +3488,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Aditional
+content#:#cont_Alphabetic#:#A, B, ... din alfabet###10 Jul 2006 content changed
+content#:#cont_Circle#:#Incercuiti
+content#:#cont_Citation#:#Citate
+content#:#cont_Code#:#Cod
+content#:#cont_Example#:#Exemplu###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Titlul 1
+content#:#cont_Headline2#:#Titlul 2
+content#:#cont_Headline3#:#Titlul 3
+content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#Fisier Local
+content#:#cont_Mnemonic#:#Mnemonic
+content#:#cont_Number#:#Numar
+content#:#cont_Poly#:#Poligon
+content#:#cont_Rect#:#Dreptunghi
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Remarca
+content#:#cont_Roman#:#Roman I, II, ...###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Continutul tabelului
+content#:#cont_Unordered#:#Neordonat
 content#:#cont_act_number#:#Numerotarea Capitolelor
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Activati Meniu
@@ -3494,10 +3517,8 @@ content#:#cont_add_definition#:#Adaugati Definitie
 content#:#cont_add_fullscreen#:#Adaugati Full Screen
 content#:#cont_added_comment#:#Comentariul a fost adaugat in history.
 content#:#cont_added_term#:#Termen adaugat
-content#:#cont_Additional#:#Aditional
 content#:#cont_all_definitions#:#Toate Definitiile
 content#:#cont_all_pages#:#Toate Paginile
-content#:#cont_Alphabetic#:#A, B, ... din alfabet###10 Jul 2006 content changed
 content#:#cont_annex#:#Anexa
 content#:#cont_api_adapter#:#Numele Adaptorului API
 content#:#cont_api_func_prefix#:#Prefix Functii API
@@ -3526,8 +3547,6 @@ content#:#cont_characteristic#:#Caracteristica
 content#:#cont_choose_cont_obj#:#Alegeti Obiectul din Continut
 content#:#cont_choose_glossary#:#alegeti Glosar
 content#:#cont_choose_media_source#:#Alegeti Sursa Media
-content#:#cont_Circle#:#Incercuiti
-content#:#cont_Citation#:#Citate
 content#:#cont_citation_err_one#:#Trebuie sa selectati exact o editie
 content#:#cont_citation_selection_not_valid#:#Selectia dumneavoastra nu este valida###10 Jul 2006 content changed
 content#:#cont_citations#:#Citate
@@ -3538,7 +3557,6 @@ content#:#cont_click_next_or_save#:#Va rugam apasati in urmatorul punct al polig
 content#:#cont_click_next_point#:#Va rugam apasati in urmatorul punct al poligonului.
 content#:#cont_click_starting_point#:#Va rugam apasati in punctul de start al poligonului.
 content#:#cont_click_tl_corner#:#Va rugam apasati in coltul stanga sus al ariei dorite.
-content#:#cont_Code#:#Cod
 content#:#cont_confirm_delete#:#stergeti sigur ?
 content#:#cont_content#:#Continut
 content#:#cont_content_obj#:#Obiect din Continut
@@ -3633,7 +3651,6 @@ content#:#cont_edition#:#Editie
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript activ
 content#:#cont_enable_media#:#Media activ
-content#:#cont_Example#:#Exemplu###10 Jul 2006 content changed
 content#:#cont_export_files#:#Exportati Fisierele
 content#:#cont_external#:#extern
 content#:#cont_external_url#:#url extern
@@ -3657,9 +3674,6 @@ content#:#cont_get_orig_size#:#Setati marimea originala
 content#:#cont_glo_menu#:#Menu ### 2006-8-11 --- Add new translation here.
 content#:#cont_glo_properties#:#Proprietatile Glosarului
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#Titlul 1
-content#:#cont_Headline2#:#Titlul 2
-content#:#cont_Headline3#:#Titlul 3
 content#:#cont_height#:#Inaltime
 content#:#cont_how_published#:#Cum a fost publicat
 content#:#cont_href#:#hreferinta
@@ -3690,7 +3704,6 @@ content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#Link Intern
 content#:#cont_link_type#:#Tip Link
 content#:#cont_linked_mobs#:#obiecte media cu link
-content#:#cont_List#:#Lista
 content#:#cont_list_files#:#Listati Fisierele
 content#:#cont_list_properties#:#Listati Propietatile
 content#:#cont_lk_chapter#:#Capitol
@@ -3707,7 +3720,6 @@ content#:#cont_lk_term#:#Termen din Glosar
 content#:#cont_lk_term_new#:#Termen din Glosar (Frame nou)
 content#:#cont_lm_menu#:#Meniu
 content#:#cont_lm_properties#:#Proprietatile Modulului de Invatare
-content#:#cont_LocalFile#:#Fisier Local
 content#:#cont_lvalue#:#element din date
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Arii cu Link
@@ -3716,7 +3728,6 @@ content#:#cont_max_time_allowed#:#adlcp:timpulmaximpermis
 content#:#cont_media_source#:#Sursa Media
 content#:#cont_mep_structure#:#Structura din Baza Media
 content#:#cont_missing_preconditions#:#Trebuie sa indepliniti urmatoarele preconditii pentru a accesa Capitolul "%s". 
-content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_mob_files#:#Fisiere cu Obiecte
 content#:#cont_mob_inst_prop#:#Proprietatile Exemplului
 content#:#cont_mob_prop#:#Proprietatile Obiectului
@@ -3741,7 +3752,6 @@ content#:#cont_none#:#nimic
 content#:#cont_nr_cols#:#Numar de Coloane
 content#:#cont_nr_items#:#Numar de Obiecte
 content#:#cont_nr_rows#:#Numar de Randuri
-content#:#cont_Number#:#Numar
 content#:#cont_obj_removed#:#Obiecte eliminate.
 content#:#cont_offline#:#Versiuni Offline
 content#:#cont_offline_files#:#Versiuni Offline
@@ -3765,7 +3775,6 @@ content#:#cont_personal_clipboard#:#Clipboard Personal
 content#:#cont_pg_content#:#Continutul Paginii
 content#:#cont_pg_title#:#Titlul paginii
 content#:#cont_please_select#:#Va rugam selectati
-content#:#cont_Poly#:#Poligon
 content#:#cont_prereq_type#:#adlcp:cerinte.tip
 content#:#cont_prerequisites#:#adlcp:cerinte obligatorii
 content#:#cont_preview#:#Previzualizare
@@ -3775,11 +3784,8 @@ content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Editura
 content#:#cont_purpose#:#Scop
-content#:#cont_Rect#:#Dreptunghi
 content#:#cont_ref_helptext#:#(ex. http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Referenced Images ### 2006-8-11 --- Add new translation here.
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#Remarca
 content#:#cont_remove_fullscreen#:#Elimina Full Screen
 content#:#cont_removeiln#:#sigur doriti sa eliminati link-ul intern?
 content#:#cont_repository_item#:#Repository Item ### 2006-8-11 --- Add new translation here.
@@ -3790,7 +3796,6 @@ content#:#cont_resize_image#:#Resize images ### 2006-8-11 --- Add new translatio
 content#:#cont_resource#:#Resursa
 content#:#cont_resource_type#:#tip
 content#:#cont_resources#:#Resurse
-content#:#cont_Roman#:#Roman I, II, ...###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Valoare
 content#:#cont_saved_map_area#:#Arie cu harti salvata
 content#:#cont_saved_map_data#:#Date despre harti salvate
@@ -3860,7 +3865,6 @@ content#:#cont_table_html_import_info#:#Importarea functioneaza doar cu tabele c
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import ### 2006-8-11 --- Add new translation here.
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea. ### 2006-8-11 --- Add new translation here.
 content#:#cont_table_width#:#Latimea Tabelului
-content#:#cont_TableContent#:#Continutul tabelului
 content#:#cont_target_within_source#:#Tinta trebuie sa fie in interiorul obiectului sursa.
 content#:#cont_term#:#Termen
 content#:#cont_terms#:#Termeni
@@ -3885,7 +3889,6 @@ content#:#cont_tracking_items#:#Obiecte de urmarire
 content#:#cont_translations#:#Traducere
 content#:#cont_translations_assigned#:#Traducerea a fost desemnata
 content#:#cont_tree_fixed#:#Structura succesiunii a fost reparata.
-content#:#cont_Unordered#:#Neordonat
 content#:#cont_update#:#Actualizare
 content#:#cont_update_names#:#Actualizare Nume
 content#:#cont_upload_file#:#Incarcati Fisierul
@@ -3905,7 +3908,6 @@ content#:#copied_to_clipboard#:#Obiecte copiate in clipboard.
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term ### 2006-8-11 --- Add new translation here.
-content#:#HTML export#:#Exportati HTML
 content#:#lm_menu_edit_entry#:#Editati intrarile din menu
 content#:#lm_menu_entry_target#:#Tinta
 content#:#lm_menu_entry_title#:#Titlu
@@ -3917,17 +3919,15 @@ content#:#msg_entry_removed#:#Intrare in meniu inlaturata
 content#:#msg_entry_updated#:#Intrare in meniu actualizata
 content#:#msg_page_no_public_access#:#Pagina pe care o cautati nu este disponibila in sectiunea publica. Doar utilizatorii inregistrati o pot vedea. Va rugam, mai intii sa va autentificati pentru a avea acces la aceasta pagina
 content#:#msg_page_not_public#:#Pagina nu este publica
-content#:#Pages#:#Pagini
 content#:#pages from#:#Pagini din
 content#:#par#:#Paragraf
-content#:#PDF export#:#Exportati PDF
 content#:#pg#:#Pagina
 content#:#public_section#:#Sectiunea Publica
 content#:#read offline#:#Cititi Offline
-content#:#select_a_file#:#Va rugam selectati un fisier.
-content#:#selected_pages_only#:#numai paginile selectate mai jos###25 Jul 2006 content changed
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Va rugam selectati un fisier.
+content#:#selected_pages_only#:#numai paginile selectate mai jos###25 Jul 2006 content changed
 content#:#set_public_mode#:#Setati mod de acces public
 content#:#st#:#Capitol
 content#:#start export#:#Incepeti Exportarea
@@ -4103,6 +4103,7 @@ crs#:#crs_new_subscription#:#Inscriere noua la curs###23 Dec 2005 content change
 crs#:#crs_new_subscription_body#:#s-a inscris un nou utilizator###23 Dec 2005 content changed
 crs#:#crs_new_subscription_request#:#Request to join course "%s"
 crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#Nici o arhiva selectata
 crs#:#crs_no_archives_available#:#Nu exista arhive disponibile
 crs#:#crs_no_archives_selected#:#Va rugam selectati o arhiva
@@ -4403,6 +4404,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#Mesaj
+dateplaner#:#Day_long#:#Vizualizarea zilei
+dateplaner#:#ERROR_DATE_EXISTS#:#Data aceasta exista deja.
+dateplaner#:#ERROR_DB#:#Eroare de scriere in baza de date!
+dateplaner#:#ERROR_DB_CONNECT#:#Baza de date este deconectata.
+dateplaner#:#ERROR_DEL_MSG#:#Aceasta data exista deja. Doriti sa stergeti o data sau pe ambele
+dateplaner#:#ERROR_ENDDATE#:#Informatii gresite despre data limita. Formateaza: zz/ll/aaaa
+dateplaner#:#ERROR_ENDTIME#:#Termen limita gresit. Formatati: hh:mm
+dateplaner#:#ERROR_END_START#:#Informatii gresite despre data limita. Data limita este inaintea datei de incepere.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Va rugam folositi un fisier CSV valid.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>browser-ul dumneavoastra nu accepta JavaScript.<br />Va rugam inchideti aceasta fereastra dupa inserarea manuala.<br />Multumim</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Informatii gresite despre date limita de rotatie. Formateaza: zz/ll/aaaa
+dateplaner#:#ERROR_ROT_END_START#:#Informatii gresite despre date limita de rotatie. Datele limita se afla inaintea datei de incepere.
+dateplaner#:#ERROR_SHORTTEXT#:#Informatii gresite despre mesajele scurte. Sunt necesare masajele scurte.
+dateplaner#:#ERROR_STARTDATE#:#Informatii gresite despre data de incepere. Formateaza: zz/ll/aaaa
+dateplaner#:#ERROR_STARTTIME#:#Data de incepere gresita. Formateaza: hh:mm
+dateplaner#:#ERROR_TS#:#Formatare incorecta a datei
+dateplaner#:#Fr_long#:#Vineri
+dateplaner#:#Fr_short#:#Vi
+dateplaner#:#Language_file#:#Engleza
+dateplaner#:#Listbox_long#:#Listarea intrarilor
+dateplaner#:#Mo_long#:#Luni
+dateplaner#:#Mo_short#:#Lu
+dateplaner#:#Month_long#:#Vizualizarea lunii
+dateplaner#:#Sa_long#:#Sambata
+dateplaner#:#Sa_short#:#Sa
+dateplaner#:#Su_long#:#Duminica
+dateplaner#:#Su_short#:#Du
+dateplaner#:#Text#:#Text
+dateplaner#:#Th_long#:#Joi
+dateplaner#:#Th_short#:#Jo
+dateplaner#:#Tu_long#:#Marti
+dateplaner#:#Tu_short#:#Ma
+dateplaner#:#View#:#Vizualizare:
+dateplaner#:#We_long#:#Miercuri
+dateplaner#:#We_short#:#Mi
+dateplaner#:#Week_long#:#Vizualizarea saptamanii
 dateplaner#:#add_data#:#Date Aditionale
 dateplaner#:#app_#:#Inbox al intalnirilor grupului
 dateplaner#:#app_date#:#inserati data
@@ -4419,20 +4457,19 @@ dateplaner#:#back#:#inapoi
 dateplaner#:#begin_date#:#Data de Incepere
 dateplaner#:#busytime#:#timp ocupat in grup
 dateplaner#:#c_date#:#Stabiliti intilnire
-dateplaner#:#changedDates#:#Date schimbate
 dateplaner#:#changeTo#:#Schimbati in:
+dateplaner#:#changedDates#:#Date schimbate
 dateplaner#:#checkforfreetime#:#Verificati daca exista timp liber
 dateplaner#:#created#:#Creat
 dateplaner#:#date#:#Data
 dateplaner#:#date_format#:#l/z/a H:m
 dateplaner#:#date_format_middle#:#l/z/a
-dateplaner#:#DateText#:#Mesaj
-dateplaner#:#Day_long#:#Vizualizarea zilei
 dateplaner#:#del_all#:#stergeti toate datele
 dateplaner#:#del_one#:#stergeti o data
 dateplaner#:#delete#:#stergeti
 dateplaner#:#deletedDates#:#Date sterse
 dateplaner#:#discard#:#aruncati
+dateplaner#:#dv_Grouptime#:#timp liber
 dateplaner#:#dv_button_cancel#:#Anulati
 dateplaner#:#dv_button_delete#:#Stergeti
 dateplaner#:#dv_button_insert#:#Inserati
@@ -4442,7 +4479,6 @@ dateplaner#:#dv_date_end#:#Data de terminare:
 dateplaner#:#dv_date_hm#:#Ora:Minut
 dateplaner#:#dv_enddate#:#Data de terminare:
 dateplaner#:#dv_groupselect#:#Selectare Grup:
-dateplaner#:#dv_Grouptime#:#timp liber
 dateplaner#:#dv_groupview#:#Data Grup:
 dateplaner#:#dv_groupview_text#:#Grup:<br />
 dateplaner#:#dv_keywords#:#Cuvinte cheie:
@@ -4461,26 +4497,9 @@ dateplaner#:#dv_whole_day#:#Intreaga zi:
 dateplaner#:#dv_whole_rotation#:#Doriti sa stergeti toata seria de rotatie? (selectati)
 dateplaner#:#end_date#:#Data limita
 dateplaner#:#endtime_for_view#:#Data limita de vizualizare:
-dateplaner#:#ERROR_DATE_EXISTS#:#Data aceasta exista deja.
-dateplaner#:#ERROR_DB#:#Eroare de scriere in baza de date!
-dateplaner#:#ERROR_DB_CONNECT#:#Baza de date este deconectata.
-dateplaner#:#ERROR_DEL_MSG#:#Aceasta data exista deja. Doriti sa stergeti o data sau pe ambele
-dateplaner#:#ERROR_END_START#:#Informatii gresite despre data limita. Data limita este inaintea datei de incepere.
-dateplaner#:#ERROR_ENDDATE#:#Informatii gresite despre data limita. Formateaza: zz/ll/aaaa
-dateplaner#:#ERROR_ENDTIME#:#Termen limita gresit. Formatati: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Va rugam folositi un fisier CSV valid.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>browser-ul dumneavoastra nu accepta JavaScript.<br />Va rugam inchideti aceasta fereastra dupa inserarea manuala.<br />Multumim</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#Imaginea GD nu a putut fi creata
-dateplaner#:#ERROR_ROT_END_START#:#Informatii gresite despre date limita de rotatie. Datele limita se afla inaintea datei de incepere.
-dateplaner#:#ERROR_ROTATIONEND#:#Informatii gresite despre date limita de rotatie. Formateaza: zz/ll/aaaa
-dateplaner#:#ERROR_SHORTTEXT#:#Informatii gresite despre mesajele scurte. Sunt necesare masajele scurte.
-dateplaner#:#ERROR_STARTDATE#:#Informatii gresite despre data de incepere. Formateaza: zz/ll/aaaa
-dateplaner#:#ERROR_STARTTIME#:#Data de incepere gresita. Formateaza: hh:mm
-dateplaner#:#ERROR_TS#:#Formatare incorecta a datei
 dateplaner#:#execute#:#aplicati selectiile
 dateplaner#:#extra_dates#:#Date suplimentare
-dateplaner#:#Fr_long#:#Vineri
-dateplaner#:#Fr_short#:#Vi
 dateplaner#:#free#:#liber
 dateplaner#:#freetime#:#Timp liber in grup
 dateplaner#:#group#:#grup
@@ -4501,9 +4520,9 @@ dateplaner#:#help_group_l#:#Contine grupurile pentru care utilizatorul logat are
 dateplaner#:#help_inbox#:#Inbox al Calendarului
 dateplaner#:#help_inbox_l#:#Aici sunt afisate toate datele grupului noi, modificate sau sterse.
 dateplaner#:#help_keyword#:#Selectarea cuvantului cheie
-dateplaner#:#help_keyword_l#:#Contine toate cuvintele cheie pe care un utilizator le poate asocia cu date.
 dateplaner#:#help_keywordUse#:#Selectarea cuvantului cheie
 dateplaner#:#help_keywordUse_l#:#Alegeti unul sau mai multe cuvinte cheie din fereastra de dialog.<br />INDICIU: folositi tasta CTRL pentru a selecta mai multe intrari.
+dateplaner#:#help_keyword_l#:#Contine toate cuvintele cheie pe care un utilizator le poate asocia cu date.
 dateplaner#:#help_list#:#Lista datelor din calendar
 dateplaner#:#help_list_l#:#In lista datelor, sunt afisate toate datele dintr-o anume perioada de timp.
 dateplaner#:#help_month#:#Vizualizarea lunilor din calendar
@@ -4538,9 +4557,7 @@ dateplaner#:#k_alldates#:#toate datele
 dateplaner#:#keep#:#pastreaza
 dateplaner#:#keyword#:#Cuvant cheie
 dateplaner#:#keywords#:#Cuvinte cheie
-dateplaner#:#Language_file#:#Engleza
 dateplaner#:#last_change#:#Modificat ultima data in
-dateplaner#:#Listbox_long#:#Listarea intrarilor
 dateplaner#:#long_01#:#Ianuarie
 dateplaner#:#long_02#:#Februarie
 dateplaner#:#long_03#:#Martie
@@ -4556,16 +4573,13 @@ dateplaner#:#long_12#:#Decembrie
 dateplaner#:#main_dates#:#Datele Importante
 dateplaner#:#menue#:#Meniu
 dateplaner#:#mmonth#:#ultima luna
-dateplaner#:#Mo_long#:#Luni
-dateplaner#:#Mo_short#:#Lu
 dateplaner#:#month#:#luna
-dateplaner#:#Month_long#:#Vizualizarea lunii
 dateplaner#:#more#:#mai mult
 dateplaner#:#mweek#:#saptamana trecuta
 dateplaner#:#myeahr#:#anul trecut
-dateplaner#:#new_doc#:#creati data noua
 dateplaner#:#newDates#:#Date noi
 dateplaner#:#newKeyword#:#Nou:
+dateplaner#:#new_doc#:#creati data noua
 dateplaner#:#no_entry#:#nici o data disponibila
 dateplaner#:#o_day_date#:#Zi de 24h
 dateplaner#:#of#:#din
@@ -4586,8 +4600,6 @@ dateplaner#:#r_year#:#o data pe an
 dateplaner#:#readimportfile#:#insereaza
 dateplaner#:#rotation#:#Rotatie
 dateplaner#:#rotation_dates#:#Datele rotatiei
-dateplaner#:#Sa_long#:#Sambata
-dateplaner#:#Sa_short#:#Sa
 dateplaner#:#semester_name#:#Numele semestrului
 dateplaner#:#short_01#:#Ian
 dateplaner#:#short_02#:#Feb
@@ -4604,24 +4616,13 @@ dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Mesaj scurt
 dateplaner#:#singleDate#:#data unica
 dateplaner#:#starttime_for_view#:#Timpul de incepere al vizualizarii:
-dateplaner#:#Su_long#:#Duminica
-dateplaner#:#Su_short#:#Du
-dateplaner#:#Text#:#Text
-dateplaner#:#Th_long#:#Joi
-dateplaner#:#Th_short#:#Jo
 dateplaner#:#timedate#:#Timp / Data
 dateplaner#:#timeslice#:#Timp:
 dateplaner#:#title#:#calendar ILIAS
 dateplaner#:#to#:#catre
 dateplaner#:#today#:#azi
-dateplaner#:#Tu_long#:#Marti
-dateplaner#:#Tu_short#:#Ma
-dateplaner#:#View#:#Vizualizare:
 dateplaner#:#viewlist#:#vizualizare
-dateplaner#:#We_long#:#Miercuri
-dateplaner#:#We_short#:#Mi
 dateplaner#:#week#:#saptamana
-dateplaner#:#Week_long#:#Vizualizarea saptamanii
 dateplaner#:#wk_short#:#WK ### 2006-8-11 --- Add new translation here.
 dateplaner#:#year#:#an
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4652,8 +4653,8 @@ forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new var
 forum#:#forums_download_attachment#:#Download fisier
 forum#:#forums_edit_post#:#Editeaza Articolul
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
-forum#:#forums_info_censor_post#:#Sunteti sigur/a ca doriti sa ascundeti acest articol?
 forum#:#forums_info_censor2_post#:#Revoc Cenzura?
+forum#:#forums_info_censor_post#:#Sunteti sigur/a ca doriti sa ascundeti acest articol?
 forum#:#forums_info_delete_post#:#Sunteti sigur/a ca doriti sa stergeti acest articol inclusiv raspunsurile?
 forum#:#forums_mark_read#:#Marcheaza toate ca citite
 forum#:#forums_new_entries#:#Intrari noi in forumuri
@@ -5849,6 +5850,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Adaugati categorie###03 Nov 2005 content changed
 survey#:#add_heading#:#Adaugati titlu de paragraf
 survey#:#add_limits_for_standard_numbers#:#Va rugam introduceti o limita inferioara si superioara pentru numarul standard de categorii pe care doriti sa le adaugati.###03 Nov 2005 content changed
@@ -5952,27 +5957,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Daca nu s-a introdus nimic numarul maxim de caractere pentru acest raspuns este nelimitat.
 survey#:#disinvite#:#Invitati sa paraseasca###03 Nov 2005 content changed
 survey#:#display_all_available#:#Aratati tot disponibil
+survey#:#dp_standard_attitude_agree5#:#Atitudine standard (total de acord-de acord-nehotarat-in dezacord-total in dezacord)
 survey#:#dp_standard_attitude_agree_disagree#:#Atitudine standard (de acord-in dezacord)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Atitudine standard (de acord-nehotarat-in dezacord)
-survey#:#dp_standard_attitude_agree5#:#Atitudine standard (total de acord-de acord-nehotarat-in dezacord-total in dezacord)
+survey#:#dp_standard_attitude_desired5#:#Atitudine standard (foarte dorit-dorit-neutru-nedorit-nedorit cu siguranta)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Atitudine standard (dorit-neutru-nedorit)
 survey#:#dp_standard_attitude_desired_undesired#:#Atitudine standard (dorit-nedorit)
-survey#:#dp_standard_attitude_desired5#:#Atitudine standard (foarte dorit-dorit-neutru-nedorit-nedorit cu siguranta)
+survey#:#dp_standard_attitude_good5#:#Atitudine standard (foarte bine-bine-corect-slab-inacceptabil)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Atitudine standard (bine-corect-inacceptabil)
 survey#:#dp_standard_attitude_good_notacceptable#:#Atitudine standard (bine-inacceptabil)
-survey#:#dp_standard_attitude_good5#:#Atitudine standard (foarte bine-bine-corect-slab-inacceptabil)
 survey#:#dp_standard_attitude_must5#:#Atitudine standard (trebuie-ar trebui-nehotarat-ar trebui sa nu-trebuie sa nu)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Atitudine standard Standard (ar trebui-ar trebui sa nu)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Atitudine standard (ar trebui-nehotarat-ar trebui sa nu)
 survey#:#dp_standard_behaviour_certainly5#:#Comportament standard (cu siguranta-mai degraba pozitiv-nehotarat-mai degraba negativ-cu siguranta nu)
 survey#:#dp_standard_behaviour_yes_no#:#Comportament standard (da-nu)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Comportament standard (da-nehotarat-nu)
+survey#:#dp_standard_beliefs_always5#:#Pareri standard (intotdeauna-de multe ori-variabil-rareori-niciodata)
 survey#:#dp_standard_beliefs_always_never#:#Pareri standard (intotdeauna-niciodata)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Pareri standard (intotdeauna-uneori-niciodata)
-survey#:#dp_standard_beliefs_always5#:#Pareri standard (intotdeauna-de multe ori-variabil-rareori-niciodata)
+survey#:#dp_standard_beliefs_true5#:#Pareri standard (cu siguranta adevarat-adevarat-nehotarat-fals-cu siguranta fals)
 survey#:#dp_standard_beliefs_true_false#:#Pareri standard (adevarat-fals)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Pareri standard (adevarat-nehotarat-fals)
-survey#:#dp_standard_beliefs_true5#:#Pareri standard (cu siguranta adevarat-adevarat-nehotarat-fals-cu siguranta fals)
 survey#:#dp_standard_numbers#:#Numere standard
 survey#:#duplicate#:#Duplicat
 survey#:#duplicate_svy#:#Sondaj Duplicat
@@ -6195,10 +6200,6 @@ survey#:#survey_skip_next#:#Sariti peste >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< Sariti peste###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#Sariti si mergeti la pagina de inceput
 survey#:#survey_start#:#Mergeti la pagina de inceput###25 Jul 2006 content changed
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#Toate datele despre utilizator din sondaj au fost sterse!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable

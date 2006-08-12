@@ -3766,6 +3766,7 @@ crs#:#crs_new_subscription#:#Ο χρήστης συμμετείχε στο μά�
 crs#:#crs_new_subscription_body#:#Ένας χρήστης συμμετείχε στο μάθημα "%s".
 crs#:#crs_new_subscription_request#:#Αίτηση για συμμετοχή στο μάθημα "%s"
 crs#:#crs_new_subscription_request_body#:#Ένας χρήστης έκανε αίτηση για συμμετοχή στο μάθημα "%s".
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#Δεν επιλέχθηκαν αρχεία
 crs#:#crs_no_archives_available#:#Δεν υπάρχουν διαθέσιμα αρχεία
 crs#:#crs_no_archives_selected#:#Παρακαλώ επιλέξτε ένα αρχείο

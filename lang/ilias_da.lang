@@ -123,12 +123,6 @@ assessment#:#applet_new_parameter#:#Ny parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Anvend parametere
 assessment#:#apply#:#Tilf&oslash;j
-assessment#:#ass_create_export_file#:#Opret eksport fil
-assessment#:#ass_create_export_test_results#:#Ekporter test resulter
-assessment#:#ass_export_files#:#Exporter filer
-assessment#:#ass_file#:#Fil
-assessment#:#ass_question#:#Sp&oslash;rgsm&aring;l
-assessment#:#ass_size#:#St&oslash;rrelse
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -140,6 +134,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#Opret eksport fil
+assessment#:#ass_create_export_test_results#:#Ekporter test resulter
+assessment#:#ass_export_files#:#Exporter filer
+assessment#:#ass_file#:#Fil
+assessment#:#ass_question#:#Sp&oslash;rgsm&aring;l
+assessment#:#ass_size#:#St&oslash;rrelse
 assessment#:#available_points#:#Tilg&aelig;ngelige point
 assessment#:#average_reached_points#:#Gennemsnitlig n&aring;et point
 assessment#:#backtocallingtest#:#Tilbage til test
@@ -967,6 +967,8 @@ chat#:#chat_yellow#:#Gul
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Mine Chat
 common#:#3rd_party_software#:#Tredje Parts Software
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#absolute_path#:#Hele Stien
 common#:#accept_usr_agreement#:#Accepter brugeraftalen?
 common#:#access#:#Adgang
@@ -1370,10 +1372,10 @@ common#:#contra#:#Kontra
 common#:#cookies_howto#:#Aktivering af cookies
 common#:#copied_object#:#Kopieret Objekt
 common#:#copy#:#Kopier
-common#:#copy_of#:#Kopi af
-common#:#copy_to#:#Til
 common#:#copyChapter#:#Kopier
 common#:#copyPage#:#Kopier
+common#:#copy_of#:#Kopi af
+common#:#copy_to#:#Til
 common#:#could_not_verify_account#:#Undskyld, vi kunne ikke valider din konto. Kontakt system administratoren
 common#:#count#:#T&aelig;l
 common#:#country#:#Land
@@ -1482,7 +1484,6 @@ common#:#dbk_new#:#Ny Digilib Bog
 common#:#dbk_read#:#L&aelig;se adgang til Digilib Bog
 common#:#dbk_visible#:#Digilib Bog er synlig
 common#:#dbk_write#:#Rediger Digilib Bog
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Standard repository visning
 common#:#default#:#Standard
 common#:#default_language#:#standard Sprog
@@ -1941,7 +1942,6 @@ common#:#guests#:#G&aelig;ster
 common#:#header_searchable#:#Searchable ### 2006-8-11 --- Add new translation here.
 common#:#header_title#:#Overskrift
 common#:#help#:#Hj&aelig;lp
-common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#hide#:#Skjul
 common#:#hide_details#:#skjul detaljer
 common#:#hide_private_notes#:#Skjul private noter
@@ -2446,11 +2446,11 @@ common#:#month_12_short#:#Dec
 common#:#monthly#:#maanedlig
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Flyt
+common#:#moveChapter#:#Flyt
+common#:#movePage#:#Flyt
 common#:#move_selected_items#:#Flyt maerkeret ting
 common#:#move_to#:#Flyt til
 common#:#move_users_to_style#:#Flyt bruger til ud udsene###10 Jul 2006 content changed
-common#:#moveChapter#:#Flyt
-common#:#movePage#:#Flyt
 common#:#msg_cancel#:#Handling annulleret
 common#:#msg_changes_ok#:#&aelig;ndringerne er ok
 common#:#msg_clear_clipboard#:#Udklipsholder er t&oslash;mt
@@ -2521,9 +2521,9 @@ common#:#msg_obj_exists#:#Dette object eksisterer allerede I denne mappe
 common#:#msg_obj_modified#:#Modifikationer er gemt.
 common#:#msg_obj_no_link#:#er ikke tilladt at blive linket til
 common#:#msg_obj_not_deletable_sold#:#Betaling er aktiveret for f&oslash;lgende objekter. De kan ikke slettes.
-common#:#msg_perm_adopted_from_itself#:#Du kan ikke arve rettigheds indstillinger med din nuvaerende rolle.
 common#:#msg_perm_adopted_from1#:#rettigheder er arvet fra
 common#:#msg_perm_adopted_from2#:#(Indstillinger er blevet gemt!)
+common#:#msg_perm_adopted_from_itself#:#Du kan ikke arve rettigheds indstillinger med din nuvaerende rolle.
 common#:#msg_removed#:#Objekt(er) er fjernet fra systemet.
 common#:#msg_role_exists1#:#en rolle/rolle template med navnet
 common#:#msg_role_exists2#:#eksisteret allerede! Vaelg venligst et andet navn
@@ -2772,9 +2772,9 @@ common#:#password#:#Password
 common#:#password_assistance_disabled#:#Password assistance er kun tilg&aelig;ngelig, naar authentication er gjort via lokal ILIAS database.
 common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator. 
 common#:#paste#:#Indsaet
-common#:#paste_clipboard_items#:#Indsaet fra udklipsholderen
 common#:#pasteChapter#:#Indsaet
 common#:#pastePage#:#Indsaet
+common#:#paste_clipboard_items#:#Indsaet fra udklipsholderen
 common#:#path#:#Sti
 common#:#path_not_set#:#Sti er ikke angivet
 common#:#path_to_babylon#:#Sti til Babylon
@@ -3066,12 +3066,12 @@ common#:#server#:#Server
 common#:#server_data#:#Server data 
 common#:#server_software#:#Server Software
 common#:#set#:#Saet
+common#:#setSystemLanguage#:#S&aelig;t system sprog
+common#:#setUserLanguage#:#S&aelig;t Bruger sprog
 common#:#set_offline#:#Saet til Offline
 common#:#set_online#:#Saet til Online
-common#:#setSystemLanguage#:#S&aelig;t system sprog
 common#:#settings#:#Indstillinger
 common#:#settings_saved#:#Gem instillinger
-common#:#setUserLanguage#:#S&aelig;t Bruger sprog
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Aktivere shibboleth support
 common#:#shib_city#:#Tilf&oslash;j by
@@ -3488,6 +3488,9 @@ common#:#you_may_add_local_roles#:#Du kan tilfoeje lokale roller
 common#:#your_message#:#Din Besked
 common#:#zip#:#Postnummer
 common#:#zipcode#:#Postnummer
+content#:#HTML export#:#HTML Exportering
+content#:#PDF export#:#PDF Exportering
+content#:#Pages#:#Sider
 content#:#add_menu_entry#:#Tilfoej menu registrering
 content#:#all#:#Alle
 content#:#all_pages#:#Sidste indlaerings modul###25 Jul 2006 content changed
@@ -3497,6 +3500,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Ekstra
+content#:#cont_Alphabetic#:#Alfabetisk A, B, ...###10 Jul 2006 content changed
+content#:#cont_Circle#:#Cirkel
+content#:#cont_Citation#:#Henvisning
+content#:#cont_Code#:#Kode
+content#:#cont_Example#:#Eksempel###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Overskrift 1
+content#:#cont_Headline2#:#Overskrift 2
+content#:#cont_Headline3#:#Overskrift 3
+content#:#cont_List#:#Liste
+content#:#cont_LocalFile#:#Lokale Filer
+content#:#cont_Mnemonic#:#mnemoteknisk
+content#:#cont_Number#:#Nummer
+content#:#cont_Poly#:#Polygon
+content#:#cont_Rect#:#Rektangel
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Iagttage
+content#:#cont_Roman#:#Roman I, II, ...###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Tabel indhold
+content#:#cont_Unordered#:#Usorteret
 content#:#cont_act_number#:#Kapitel nummerering
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Aktiver Menu
@@ -3506,10 +3529,8 @@ content#:#cont_add_definition#:#tilfoej Definition
 content#:#cont_add_fullscreen#:#Tilfoej Fuldskaermd
 content#:#cont_added_comment#:#Kommentar er blevet tilfoejet til historie
 content#:#cont_added_term#:#Periode tilfoejet
-content#:#cont_Additional#:#Ekstra
 content#:#cont_all_definitions#:#Alle Definitationer
 content#:#cont_all_pages#:#Alle sider
-content#:#cont_Alphabetic#:#Alfabetisk A, B, ...###10 Jul 2006 content changed
 content#:#cont_annex#:#Annex
 content#:#cont_api_adapter#:#API Adapter Navn
 content#:#cont_api_func_prefix#:#API Funktioner Prefix
@@ -3538,8 +3559,6 @@ content#:#cont_characteristic#:#Karakteristisk
 content#:#cont_choose_cont_obj#:#Vaelg indhold til objektet
 content#:#cont_choose_glossary#:#Vaelg  glosar
 content#:#cont_choose_media_source#:#Vaelg media kilde
-content#:#cont_Circle#:#Cirkel
-content#:#cont_Citation#:#Henvisning
 content#:#cont_citation_err_one#:#Du skal kun vaelge EN udgave
 content#:#cont_citation_selection_not_valid#:#Dit valg er ikke muligt###10 Jul 2006 content changed
 content#:#cont_citations#:#Citater
@@ -3550,7 +3569,6 @@ content#:#cont_click_next_or_save#:#Klik paa det naeste punkt paa polygonen elle
 content#:#cont_click_next_point#:# Klik paa det naeste punkt paa polygonen
 content#:#cont_click_starting_point#:#Klik paa start punktet paa polygonen
 content#:#cont_click_tl_corner#:#Klik i venstre side af toppen i det oenskede omraade
-content#:#cont_Code#:#Kode
 content#:#cont_confirm_delete#:#Vil du virkeligt slette
 content#:#cont_content#:#Indhold
 content#:#cont_content_obj#:#Indholdsobjekt
@@ -3645,7 +3663,6 @@ content#:#cont_edition#:#Udgave
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript aktiveret
 content#:#cont_enable_media#:#Aktiver Media
-content#:#cont_Example#:#Eksempel###10 Jul 2006 content changed
 content#:#cont_export_files#:#Exporterede Filer
 content#:#cont_external#:#eksternt
 content#:#cont_external_url#:#external url
@@ -3669,9 +3686,6 @@ content#:#cont_get_orig_size#:#Saet original stoerrelse
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Egenskaber for opslag
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#Overskrift 1
-content#:#cont_Headline2#:#Overskrift 2
-content#:#cont_Headline3#:#Overskrift 3
 content#:#cont_height#:#Hoejde
 content#:#cont_how_published#:#Udgivet hvor
 content#:#cont_href#:#href
@@ -3702,7 +3716,6 @@ content#:#cont_link_int#:#Link (internt )
 content#:#cont_link_select#:#Internt Link
 content#:#cont_link_type#:#Link type
 content#:#cont_linked_mobs#:#Link medie objekter
-content#:#cont_List#:#Liste
 content#:#cont_list_files#:#Fil-liste
 content#:#cont_list_properties#:#Egenskaber for liste
 content#:#cont_lk_chapter#:#Kapitel
@@ -3719,7 +3732,6 @@ content#:#cont_lk_term#:#Glossary Term
 content#:#cont_lk_term_new#:#Ordbogs opsaetning (Ny Ramme)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Egenskaber for Laerermodul
-content#:#cont_LocalFile#:#Lokale Filer
 content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link omraader
@@ -3728,7 +3740,6 @@ content#:#cont_max_time_allowed#:#adlcp:maxtid tilladt
 content#:#cont_media_source#:#Media Kilde
 content#:#cont_mep_structure#:#Media Pool Struktur
 content#:#cont_missing_preconditions#:#Du skal udfylde alle forhaandsbetingelse til at faa adgang til det her kapitel###10 Jul 2006 content changed
-content#:#cont_Mnemonic#:#mnemoteknisk
 content#:#cont_mob_files#:#Objekt Filer
 content#:#cont_mob_inst_prop#:#Vigtige Egenskaber
 content#:#cont_mob_prop#:#Egenskaber for Objekt
@@ -3754,7 +3765,6 @@ content#:#cont_none#:#Ingen
 content#:#cont_nr_cols#:#Antal kolonner
 content#:#cont_nr_items#:#Antal ting
 content#:#cont_nr_rows#:#Antal linjer
-content#:#cont_Number#:#Nummer
 content#:#cont_obj_removed#:#Objekter er fjernede.
 content#:#cont_offline#:#Offline Versioner
 content#:#cont_offline_files#:#Offline version
@@ -3778,7 +3788,6 @@ content#:#cont_personal_clipboard#:#Personlig udklipsholder
 content#:#cont_pg_content#:#Side Indhold
 content#:#cont_pg_title#:#Side Titel
 content#:#cont_please_select#:#Vaelg venligst
-content#:#cont_Poly#:#Polygon
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Se eksempel
@@ -3788,11 +3797,8 @@ content#:#cont_public_notes#:#Offentligt notater
 content#:#cont_public_notes_desc#:#Allow users to share notes on every page of the learning module.
 content#:#cont_publisher#:#Udgiver
 content#:#cont_purpose#:#Formaaler
-content#:#cont_Rect#:#Rektangel
 content#:#cont_ref_helptext#:#(f.eks http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Referenced Images
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#Iagttage
 content#:#cont_remove_fullscreen#:#fjern fulsskaerm
 content#:#cont_removeiln#:#really remove internal link ?
 content#:#cont_repository_item#:#Repository Item
@@ -3803,7 +3809,6 @@ content#:#cont_resize_image#:#Resize billede
 content#:#cont_resource#:#Resourcer
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resourcer
-content#:#cont_Roman#:#Roman I, II, ...###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Vaerdie
 content#:#cont_saved_map_area#:#Gemt kort omraade
 content#:#cont_saved_map_data#:#Gemt omraade data
@@ -3873,7 +3878,6 @@ content#:#cont_table_html_import_info#:#Import only works with XHTML conform tab
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_table_width#:#Table Width
-content#:#cont_TableContent#:#Tabel indhold
 content#:#cont_target_within_source#:#Destinationen maa ikke vaere den samme som kilden.
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
@@ -3898,7 +3902,6 @@ content#:#cont_tracking_items#:#Sporer ting
 content#:#cont_translations#:#Oversaettelse
 content#:#cont_translations_assigned#:#Oversaettelsen er uddelt
 content#:#cont_tree_fixed#:#Struktur er lavet
-content#:#cont_Unordered#:#Usorteret
 content#:#cont_update#:#Updater
 content#:#cont_update_names#:#Updateringsnavne
 content#:#cont_upload_file#:#Upload Fil
@@ -3919,7 +3922,6 @@ content#:#copied_to_clipboard#:#Kopierede objekter til udklipholder.
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#De foelgende ressourcer til denne term
-content#:#HTML export#:#HTML Exportering
 content#:#lm_menu_edit_entry#:#aendre menu indgang
 content#:#lm_menu_entry_target#:#Target
 content#:#lm_menu_entry_title#:#Title
@@ -3931,17 +3933,15 @@ content#:#msg_entry_removed#:#Menu indgang fjernet
 content#:#msg_entry_updated#:#Menu indgang opdateret
 content#:#msg_page_no_public_access#:#Den kladte side er ikke gyldig i offentlig sektion. Kun registreret bruger kan se denne side
 content#:#msg_page_not_public#:#Side er ikke offentlig
-content#:#Pages#:#Sider
 content#:#pages from#:#Sider fra
 content#:#par#:#Linje
-content#:#PDF export#:#PDF Exportering
 content#:#pg#:#side
 content#:#public_section#:#Offentlig sektion
 content#:#read offline#:#Laes Offline
-content#:#select_a_file#:#Vaelg en fil.
-content#:#selected_pages_only#:#Kun den side under 
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Vaelg en fil.
+content#:#selected_pages_only#:#Kun den side under 
 content#:#set_public_mode#:#Saet offentlig adgang
 content#:#st#:#Kapitel
 content#:#start export#:#Start Exportering
@@ -4117,6 +4117,7 @@ crs#:#crs_new_subscription#:#Nyt kursus tilmelding###10 Jul 2006 content changed
 crs#:#crs_new_subscription_body#:#En ny brugere er blevet tilmeldt###10 Jul 2006 content changed
 crs#:#crs_new_subscription_request#:#Forsoeg at komme paa kursus###10 Jul 2006 content changed
 crs#:#crs_new_subscription_request_body#:#En bruger forsoeger at komme paa kursus###10 Jul 2006 content changed
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#Ingen arkiver valgt
 crs#:#crs_no_archives_available#:#Ingen arkiver til raadighed
 crs#:#crs_no_archives_selected#:#Vaelg venligst et arkiv
@@ -4419,6 +4420,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#Besked
+dateplaner#:#Day_long#:#Dagsoversigt
+dateplaner#:#ERROR_DATE_EXISTS#:#Denne dato eksisterer allerede.
+dateplaner#:#ERROR_DB#:#Kunne ikke skrive til Database!
+dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.
+dateplaner#:#ERROR_DEL_MSG#:#Dette er en Rotations Dato. Vil du slette en eller alle dato.er
+dateplaner#:#ERROR_ENDDATE#:#Forkert slutdato input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Forkert sluttidspunkt. Format: hh:mm
+dateplaner#:#ERROR_END_START#:#Forkert Slutdato input. Slutdato er foer Startdato.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Bug en gyldig csv Fil.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Din browser understoetter ikke Javascript. <BR> Luk dette vindue efter manuel indsaetning. <BR> Tak</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Forkert Raekkefoelge Slutdato input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Forkert Raekkefoelge  slutdato er foer dtartdato.
+dateplaner#:#ERROR_SHORTTEXT#:#Forkert korttekst input. Korttekst er paakraevet.
+dateplaner#:#ERROR_STARTDATE#:#Forkert startdato input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Forkert starttidspunkt. Format: hh:mm
+dateplaner#:#ERROR_TS#:#ukorrekt dato format
+dateplaner#:#Fr_long#:#Fredag
+dateplaner#:#Fr_short#:#Fre
+dateplaner#:#Language_file#:#engelsk
+dateplaner#:#Listbox_long#:#Oversigt over aftaler
+dateplaner#:#Mo_long#:#Mandag
+dateplaner#:#Mo_short#:#Ma
+dateplaner#:#Month_long#:#Maanedsoversigt
+dateplaner#:#Sa_long#:#Loerdag
+dateplaner#:#Sa_short#:#loe
+dateplaner#:#Su_long#:#Soendag
+dateplaner#:#Su_short#:#Soe
+dateplaner#:#Text#:#Tekst
+dateplaner#:#Th_long#:#Torsdag
+dateplaner#:#Th_short#:#To
+dateplaner#:#Tu_long#:#Tirsdag
+dateplaner#:#Tu_short#:#Ti
+dateplaner#:#View#:#Oversigt:
+dateplaner#:#We_long#:#Onsdag
+dateplaner#:#We_short#:#On
+dateplaner#:#Week_long#:#Weekend Oversigt
 dateplaner#:#add_data#:#Briugt data
 dateplaner#:#app_#:#Datoplanlaegning
 dateplaner#:#app_date#:#indsaet dato
@@ -4435,20 +4473,19 @@ dateplaner#:#back#:#Tilbage
 dateplaner#:#begin_date#:#Begyndelse af dato
 dateplaner#:#busytime#:#Travl tid i gruppe
 dateplaner#:#c_date#:#Opret Aftale
-dateplaner#:#changedDates#:#aendrede datoer
 dateplaner#:#changeTo#:#aendret til:
+dateplaner#:#changedDates#:#aendrede datoer
 dateplaner#:#checkforfreetime#:#Soeg efter ledig tid
 dateplaner#:#created#:#Oprettet
 dateplaner#:#date#:#Dato
 dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
-dateplaner#:#DateText#:#Besked
-dateplaner#:#Day_long#:#Dagsoversigt
 dateplaner#:#del_all#:#Slet alle dato.er
 dateplaner#:#del_one#:#Slet en dato
 dateplaner#:#delete#:#slet
 dateplaner#:#deletedDates#:#Slettede datoer
 dateplaner#:#discard#:#Afbryd
+dateplaner#:#dv_Grouptime#:#ledig tid
 dateplaner#:#dv_button_cancel#:#Annuler
 dateplaner#:#dv_button_delete#:#Slet
 dateplaner#:#dv_button_insert#:#Indsaet
@@ -4458,7 +4495,6 @@ dateplaner#:#dv_date_end#:#Slut dato:
 dateplaner#:#dv_date_hm#:#Time:Minut
 dateplaner#:#dv_enddate#:#Slutdato:
 dateplaner#:#dv_groupselect#:#Valg af gruppe:
-dateplaner#:#dv_Grouptime#:#ledig tid
 dateplaner#:#dv_groupview#:#Gruppedato:
 dateplaner#:#dv_groupview_text#:#Gruppe:<br>
 dateplaner#:#dv_keywords#:#Noegleord:
@@ -4477,26 +4513,9 @@ dateplaner#:#dv_whole_day#:#Hele dagen:
 dateplaner#:#dv_whole_rotation#:#Vil du slette hele Rotationdatoen? (Marker checkboxen)
 dateplaner#:#end_date#:#Slutdato
 dateplaner#:#endtime_for_view#:#Slutdato for gennemgang:
-dateplaner#:#ERROR_DATE_EXISTS#:#Denne dato eksisterer allerede.
-dateplaner#:#ERROR_DB#:#Kunne ikke skrive til Database!
-dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.
-dateplaner#:#ERROR_DEL_MSG#:#Dette er en Rotations Dato. Vil du slette en eller alle dato.er
-dateplaner#:#ERROR_END_START#:#Forkert Slutdato input. Slutdato er foer Startdato.
-dateplaner#:#ERROR_ENDDATE#:#Forkert slutdato input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Forkert sluttidspunkt. Format: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Bug en gyldig csv Fil.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Din browser understoetter ikke Javascript. <BR> Luk dette vindue efter manuel indsaetning. <BR> Tak</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#kan ikke oprette GD-picture-stream
-dateplaner#:#ERROR_ROT_END_START#:#Forkert Raekkefoelge  slutdato er foer dtartdato.
-dateplaner#:#ERROR_ROTATIONEND#:#Forkert Raekkefoelge Slutdato input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_SHORTTEXT#:#Forkert korttekst input. Korttekst er paakraevet.
-dateplaner#:#ERROR_STARTDATE#:#Forkert startdato input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Forkert starttidspunkt. Format: hh:mm
-dateplaner#:#ERROR_TS#:#ukorrekt dato format
 dateplaner#:#execute#:#Koer din valg
 dateplaner#:#extra_dates#:#Endags dato.er
-dateplaner#:#Fr_long#:#Fredag
-dateplaner#:#Fr_short#:#Fre
 dateplaner#:#free#:#ledig
 dateplaner#:#freetime#:#Ledig tid i gruppen
 dateplaner#:#group#:#gruppe
@@ -4517,9 +4536,9 @@ dateplaner#:#help_group_l#:#Indeholder gruppen som bruger har administrator rett
 dateplaner#:#help_inbox#:#Dateplanlaegnings indboks
 dateplaner#:#help_inbox_l#:#Her er alle nye, aendrede og slettede gruppedato.er vist.
 dateplaner#:#help_keyword#:#Valg af noegleord
-dateplaner#:#help_keyword_l#:#Indeholder noegleordet som en bruge kan bruge til at henvise til en dato.
 dateplaner#:#help_keywordUse#:#Valg af noegleord
 dateplaner#:#help_keywordUse_l#:#Vaelg et eller flere noegleord fra dialog boksen. <br>TIP: Brug CTRL tasten for at markere flere ord.
+dateplaner#:#help_keyword_l#:#Indeholder noegleordet som en bruge kan bruge til at henvise til en dato.
 dateplaner#:#help_list#:#Datoplanlaegnings datoliste
 dateplaner#:#help_list_l#:#I datolisten er alle dato.er over en given periode vist.
 dateplaner#:#help_month#:#Datoplanlaegnings maanedsoversigt
@@ -4554,9 +4573,7 @@ dateplaner#:#k_alldates#:#alle datoer
 dateplaner#:#keep#:#Behold
 dateplaner#:#keyword#:#Noegleord
 dateplaner#:#keywords#:#Noegleord
-dateplaner#:#Language_file#:#engelsk
 dateplaner#:#last_change#:#Sidst aendret
-dateplaner#:#Listbox_long#:#Oversigt over aftaler
 dateplaner#:#long_01#:#January
 dateplaner#:#long_02#:#Feburar
 dateplaner#:#long_03#:#Marts
@@ -4572,16 +4589,13 @@ dateplaner#:#long_12#:#December
 dateplaner#:#main_dates#:#Hoved datoer
 dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#sidste maaned
-dateplaner#:#Mo_long#:#Mandag
-dateplaner#:#Mo_short#:#Ma
 dateplaner#:#month#:#maaned
-dateplaner#:#Month_long#:#Maanedsoversigt
 dateplaner#:#more#:#mere
 dateplaner#:#mweek#:#sidste aar
 dateplaner#:#myeahr#:#sidste aar
-dateplaner#:#new_doc#:#Opret ny dato
 dateplaner#:#newDates#:#Nye datoer
 dateplaner#:#newKeyword#:#Ny
+dateplaner#:#new_doc#:#Opret ny dato
 dateplaner#:#no_entry#:#Ingen dag tilg&aelig;ngelig
 dateplaner#:#o_day_date#:#24 timers dag
 dateplaner#:#of#:#af
@@ -4602,8 +4616,6 @@ dateplaner#:#r_year#:#hvert aar
 dateplaner#:#readimportfile#:#indsaet
 dateplaner#:#rotation#:#Rotation
 dateplaner#:#rotation_dates#:#Rotations Datoer
-dateplaner#:#Sa_long#:#Loerdag
-dateplaner#:#Sa_short#:#loe
 dateplaner#:#semester_name#:#Semester Navn
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
@@ -4620,24 +4632,13 @@ dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Kort Tekst
 dateplaner#:#singleDate#:#enkelt dato
 dateplaner#:#starttime_for_view#:#Starttid for visning:
-dateplaner#:#Su_long#:#Soendag
-dateplaner#:#Su_short#:#Soe
-dateplaner#:#Text#:#Tekst
-dateplaner#:#Th_long#:#Torsdag
-dateplaner#:#Th_short#:#To
 dateplaner#:#timedate#:#Tid / Dato
 dateplaner#:#timeslice#:#Tid:
 dateplaner#:#title#:#Ilias dato planaegning
 dateplaner#:#to#:#til
 dateplaner#:#today#:#idag
-dateplaner#:#Tu_long#:#Tirsdag
-dateplaner#:#Tu_short#:#Ti
-dateplaner#:#View#:#Oversigt:
 dateplaner#:#viewlist#:#vis
-dateplaner#:#We_long#:#Onsdag
-dateplaner#:#We_short#:#On
 dateplaner#:#week#:#uge
-dateplaner#:#Week_long#:#Weekend Oversigt
 dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#aar
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4668,8 +4669,8 @@ forum#:#forums_disable_notification#:#Disable notification
 forum#:#forums_download_attachment#:#Download fil
 forum#:#forums_edit_post#:#Rediger Artikel
 forum#:#forums_enable_notification#:#Enable notification
-forum#:#forums_info_censor_post#:#Er du sikker paa du vil skjule denne artikel?
 forum#:#forums_info_censor2_post#:#Genkald moderator?
+forum#:#forums_info_censor_post#:#Er du sikker paa du vil skjule denne artikel?
 forum#:#forums_info_delete_post#:#Er du sikker paa at du vil slette den artikel inkl. eventuelle svar paa den?
 forum#:#forums_mark_read#:#Marker alle som laest
 forum#:#forums_new_entries#:#Ny forum traad
@@ -5866,6 +5867,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Tilfoej kategori
 survey#:#add_heading#:#Tilfoej retning
 survey#:#add_limits_for_standard_numbers#:#Indtast venligst en nedre og oevre graense for de standart numre du vil tilfoeje tilkatagorier.
@@ -5969,27 +5974,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Hvis der ikke er et maximum karakter vil test svar vaere ubegraenset
 survey#:#disinvite#:#inviter ikke
 survey#:#display_all_available#:#Vis alle tilg&aelig;ngelige
+survey#:#dp_standard_attitude_agree5#:#Standard indstilling (meget enig-enig-ubestemt-uenig-meget uenig)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard indstilling (enig-uenig)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard indstilling (enig-ubestemt-uenig)
-survey#:#dp_standard_attitude_agree5#:#Standard indstilling (meget enig-enig-ubestemt-uenig-meget uenig)
+survey#:#dp_standard_attitude_desired5#:#Standard indstilling (meget oensket- oensket-neutral-uoensket-megetuoensket)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard indstilling (oensket-neutral-uoensket)
 survey#:#dp_standard_attitude_desired_undesired#:#Standard indstilling (oensket-uoensket)
-survey#:#dp_standard_attitude_desired5#:#Standard indstilling (meget oensket- oensket-neutral-uoensket-megetuoensket)
+survey#:#dp_standard_attitude_good5#:#Standard indstilling (meget god-god-fair-daarlig-ikke acceptabel)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard indstilling (god-fair-ikke acceptabel)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard indstilling (god-ikke acceptabel)
-survey#:#dp_standard_attitude_good5#:#Standard indstilling (meget god-god-fair-daarlig-ikke acceptabel)
 survey#:#dp_standard_attitude_must5#:#Standard indstilling (skal-burde-ubestemt-burde ikke-skal ikke)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard indstilling (burde-burde ikke)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard indstilling (burde-ubestemt-burde ikke)
 survey#:#dp_standard_behaviour_certainly5#:#Standard opfoersel (helt sikkert-mere positivt-ubestemt-mere negativt-helt sikert ikke)
 survey#:#dp_standard_behaviour_yes_no#:#Standard opfoersel (ja-nej)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard opfoersel (ja-ubestemt-nej)
+survey#:#dp_standard_beliefs_always5#:#Standard tro (altid-mange gange-variere-sjaeldent-aldrig)
 survey#:#dp_standard_beliefs_always_never#:#Standard tro (altid-aldrig)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard tro (altid-nogen gange-aldrig)
-survey#:#dp_standard_beliefs_always5#:#Standard tro (altid-mange gange-variere-sjaeldent-aldrig)
+survey#:#dp_standard_beliefs_true5#:#Standard tro (helt sikkert sandt-sandt-ubestemt-falsk-helt sikkert falsk)
 survey#:#dp_standard_beliefs_true_false#:#Standard tro (sandt-falsk)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard tro (sandt-ubestemt-falsk)
-survey#:#dp_standard_beliefs_true5#:#Standard tro (helt sikkert sandt-sandt-ubestemt-falsk-helt sikkert falsk)
 survey#:#dp_standard_numbers#:#Standard numre
 survey#:#duplicate#:#Kopier
 survey#:#duplicate_svy#:#Kopier spoergeskema
@@ -6212,10 +6217,6 @@ survey#:#survey_skip_next#:#Undlad >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< Undlad###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#Undlad og gaa til start side
 survey#:#survey_start#:#gaa til start side###25 Jul 2006 content changed
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#Alt bruger data for dette spoergeskema er blevet slettet!
 survey#:#svy_check_evaluation_access_introduction#:#Undersoegelse kode skal bruges
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed

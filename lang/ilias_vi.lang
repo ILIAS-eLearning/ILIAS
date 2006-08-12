@@ -130,12 +130,6 @@ assessment#:#applet_new_parameter#:#Tham số mới
 assessment#:#applet_parameter#:#Tham số
 assessment#:#applet_parameters#:#Tham số applet
 assessment#:#apply#:#�?p dụng
-assessment#:#ass_create_export_file#:#Tạo file xuất ra
-assessment#:#ass_create_export_test_results#:#Xuất ra<br>Kết quả bài kiểm tra
-assessment#:#ass_export_files#:#Các file xuất ra
-assessment#:#ass_file#:#File
-assessment#:#ass_question#:#Câu h�?i
-assessment#:#ass_size#:#Kích thước
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -147,6 +141,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#Tạo file xuất ra
+assessment#:#ass_create_export_test_results#:#Xuất ra<br>Kết quả bài kiểm tra
+assessment#:#ass_export_files#:#Các file xuất ra
+assessment#:#ass_file#:#File
+assessment#:#ass_question#:#Câu h�?i
+assessment#:#ass_size#:#Kích thước
 assessment#:#available_points#:#�?iểm sử dụng được
 assessment#:#average_reached_points#:#�?iểm trung bình đạt được
 assessment#:#backtocallingtest#:#Quay lại bài kiểm tra đang g�?i
@@ -974,6 +974,8 @@ chat#:#chat_yellow#:#vàng
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Chat của tôi
 common#:#3rd_party_software#:#Phần m�?m bên thứ ba
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#absolute_path#:#�?ư�?ng dẫn tuyệt đối
 common#:#accept_usr_agreement#:#Chấp nhận th�?a thuận sử dụng?
 common#:#access#:#Truy cập
@@ -1377,10 +1379,10 @@ common#:#contra#:#Contra///
 common#:#cookies_howto#:#Làm sao để cho phép cookies
 common#:#copied_object#:#�?ối tượng đã sao chép
 common#:#copy#:#Sao chép
-common#:#copy_of#:#Sao chép của
-common#:#copy_to#:#đến
 common#:#copyChapter#:#Sao chép
 common#:#copyPage#:#Sao chép
+common#:#copy_of#:#Sao chép của
+common#:#copy_to#:#đến
 common#:#could_not_verify_account#:#Xin lỗi, chúng tôi không thể thẩm tra tài khoản của bạn. Hãy liên hệ quản trị hệ thống.
 common#:#count#:#�?ếm
 common#:#country#:#Quốc gia
@@ -1489,7 +1491,6 @@ common#:#dbk_new#:#Digilib Book mới
 common#:#dbk_read#:#�?�?c Digilib Book
 common#:#dbk_visible#:#Nhìn thấy Digilib Book
 common#:#dbk_write#:#Sửa Digilib Book
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Cách xem kho kiến thức mặc định
 common#:#default#:#Mặc định
 common#:#default_language#:#Ngôn ngữ mặc định
@@ -1948,7 +1949,6 @@ common#:#guests#:#Khách
 common#:#header_searchable#:#Searchable ### 2006-8-11 --- Add new translation here.
 common#:#header_title#:#Tiêu đ�? trên cùng
 common#:#help#:#Trợ giúp
-common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#hide#:#ẩn
 common#:#hide_details#:#ẩn chi tiết
 common#:#hide_private_notes#:#Ẩn các ghi chép cá nhân
@@ -2453,11 +2453,11 @@ common#:#month_12_short#:#T12
 common#:#monthly#:#hàng tháng
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Di chuyển
+common#:#moveChapter#:#Di chuyển chương
+common#:#movePage#:#Di chuyển trang
 common#:#move_selected_items#:#Di chuyển các mục đã ch�?n
 common#:#move_to#:#Di chuyển tới
 common#:#move_users_to_style#:#Di chuyển ngư�?i sử dụng sang giao diện###10 Jul 2006 content changed
-common#:#moveChapter#:#Di chuyển chương
-common#:#movePage#:#Di chuyển trang
 common#:#msg_cancel#:#�?ã hủy b�? thao tác
 common#:#msg_changes_ok#:#Thay đổi OK
 common#:#msg_clear_clipboard#:#�?ã xóa sạch bộ nhớ đệm
@@ -2528,9 +2528,9 @@ common#:#msg_obj_exists#:#�?ối tượng đã tồn tại trong thư mục này
 common#:#msg_obj_modified#:#�?ã ghi các thay đổi.
 common#:#msg_obj_no_link#:#không được phép liên kết
 common#:#msg_obj_not_deletable_sold#:#Thanh toán đã hoạt động cho các đối tượng sau. Không thể xóa chúng.
-common#:#msg_perm_adopted_from_itself#:#Bạn không thể nhận thiết lập quy�?n hạn từ vai trò/vai trò mẫu hiện th�?i.
 common#:#msg_perm_adopted_from1#:#Thiết lập quy�?n hạn thừa kế từ
 common#:#msg_perm_adopted_from2#:#(Thiết lập đã ghi!)
+common#:#msg_perm_adopted_from_itself#:#Bạn không thể nhận thiết lập quy�?n hạn từ vai trò/vai trò mẫu hiện th�?i.
 common#:#msg_removed#:#�?ã xóa (các) đối tượng kh�?i hệ thống.
 common#:#msg_role_exists1#:#Một vai trò/vai trò mẫu với tên
 common#:#msg_role_exists2#:#đang tồn tại! Hãy ch�?n tên khác
@@ -2779,9 +2779,9 @@ common#:#password#:#Mật khẩu
 common#:#password_assistance_disabled#:#Trợ giúp mật khẩu chỉ có thể sử dụng được, khi xác thực ngư�?i sử dụng qua cơ sở dữ liệu ILIAS nội bộ.
 common#:#password_assistance_info#:#Nếu trợ giúp mật khẩu được cho phép, những liên kết "Quên mật khẩu?" và "Quên tên đăng nhập?" sẽ hiện trên trang đăng nhập của ILIAS. Ngư�?i sử dụng có thể sử dụng những liên kết này để lấy mật khẩu mới cho tài khoản của h�? cũng như là tên đăng nhập, mà không cần trợ giúp từ quản trị hệ thống. 
 common#:#paste#:#Dán
-common#:#paste_clipboard_items#:#Dán mục từ bộ nhớ đệm
 common#:#pasteChapter#:#Dán chương
 common#:#pastePage#:#Dán trang
+common#:#paste_clipboard_items#:#Dán mục từ bộ nhớ đệm
 common#:#path#:#�?ư�?ng dẫn
 common#:#path_not_set#:#Chưa đặt đư�?ng dẫn
 common#:#path_to_babylon#:#�?ư�?ng dẫn đến thư mục Babylon
@@ -3073,12 +3073,12 @@ common#:#server#:#Máy chủ
 common#:#server_data#:#Dữ liệu máy chủ
 common#:#server_software#:#Phần m�?m máy chủ
 common#:#set#:#�?ặt
+common#:#setSystemLanguage#:#Ngôn ngữ hệ thống
+common#:#setUserLanguage#:#Ngôn ngữ ngư�?i sử dụng
 common#:#set_offline#:#�?ặt Offline
 common#:#set_online#:#�?ặt Online
-common#:#setSystemLanguage#:#Ngôn ngữ hệ thống
 common#:#settings#:#Thiết lập
 common#:#settings_saved#:#�?ã ghi thiết lập
-common#:#setUserLanguage#:#Ngôn ngữ ngư�?i sử dụng
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Cho phép hỗ trợ Shibboleth
 common#:#shib_city#:#Thuộc tính thành phố
@@ -3495,6 +3495,9 @@ common#:#you_may_add_local_roles#:#Bạn có thể thêm vai trò nội bộ
 common#:#your_message#:#Thư của bạn
 common#:#zip#:#Mã bưu điện
 common#:#zipcode#:#Mã bưu điện
+content#:#HTML export#:#Xuất ra HTML
+content#:#PDF export#:#Xuất ra PDF
+content#:#Pages#:#Trang
 content#:#add_menu_entry#:#Thêm mục trên bảng ch�?n >>
 content#:#all#:#Tất cả
 content#:#all_pages#:#toàn bộ h�?c phần###25 Jul 2006 content changed
@@ -3504,6 +3507,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Bổ sung
+content#:#cont_Alphabetic#:#Theo thứ tự chữ cái A, B, ...###10 Jul 2006 content changed
+content#:#cont_Circle#:#Vòng tròn
+content#:#cont_Citation#:#Trích dẫn
+content#:#cont_Code#:#Mã
+content#:#cont_Example#:#Ví dụ###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Tiêu đ�? cấp 1
+content#:#cont_Headline2#:#Tiêu đ�? cấp 2
+content#:#cont_Headline3#:#Tiêu đ�? cấp 3
+content#:#cont_List#:#Danh mục
+content#:#cont_LocalFile#:#File nội bộ
+content#:#cont_Mnemonic#:#Giúp trí nhớ
+content#:#cont_Number#:#Số
+content#:#cont_Poly#:#�?a giác
+content#:#cont_Rect#:#Hình chữ nhật
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#L�?i bình luận
+content#:#cont_Roman#:#La Mã I, II, ...###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Nội dung bảng
+content#:#cont_Unordered#:#Không được sắp xếp
 content#:#cont_act_number#:#�?ánh số chương
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Bảng ch�?n hoạt động
@@ -3513,10 +3536,8 @@ content#:#cont_add_definition#:#Thêm định nghĩa
 content#:#cont_add_fullscreen#:#Thêm chế độ xem toàn màn hình
 content#:#cont_added_comment#:#Bình luận đã được bổ sung vào lịch sử.
 content#:#cont_added_term#:#�?ã thêm thuật ngữ
-content#:#cont_Additional#:#Bổ sung
 content#:#cont_all_definitions#:#Tất cả định nghĩa
 content#:#cont_all_pages#:#Trang
-content#:#cont_Alphabetic#:#Theo thứ tự chữ cái A, B, ...###10 Jul 2006 content changed
 content#:#cont_annex#:#Sáp nhập
 content#:#cont_api_adapter#:#Tên chuyển đổi API
 content#:#cont_api_func_prefix#:#Ti�?n tố hàm API
@@ -3545,8 +3566,6 @@ content#:#cont_characteristic#:#�?ặc điểm
 content#:#cont_choose_cont_obj#:#Ch�?n đối tượng nội dung
 content#:#cont_choose_glossary#:#Ch�?n bảng chú giải
 content#:#cont_choose_media_source#:#Ch�?n nguồn phương tiện
-content#:#cont_Circle#:#Vòng tròn
-content#:#cont_Citation#:#Trích dẫn
 content#:#cont_citation_err_one#:#Bạn phải ch�?n chính xác một ấn bản
 content#:#cont_citation_selection_not_valid#:#Bạn ch�?n không hợp lệ###10 Jul 2006 content changed
 content#:#cont_citations#:#Trích dẫn
@@ -3557,7 +3576,6 @@ content#:#cont_click_next_or_save#:#Hãy kích chuột vào điểm tiếp theo 
 content#:#cont_click_next_point#:#Hãy kích chuột vào điểm tiếp theo của đa giác.
 content#:#cont_click_starting_point#:#Hãy kích chuột vào điểm đầu của đa giác.
 content#:#cont_click_tl_corner#:#Hãy kích chuột vào góc trên bên trái của vùng mong muốn.
-content#:#cont_Code#:#Mã
 content#:#cont_confirm_delete#:#Xóa thật ?
 content#:#cont_content#:#Nội dung
 content#:#cont_content_obj#:#�?ối tượng nội dung
@@ -3652,7 +3670,6 @@ content#:#cont_edition#:#Ấn bản
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript hoạt động
 content#:#cont_enable_media#:#Phương tiện hoạt động
-content#:#cont_Example#:#Ví dụ###10 Jul 2006 content changed
 content#:#cont_export_files#:#Các file xuất ra
 content#:#cont_external#:#bên ngoài
 content#:#cont_external_url#:#liên kết bên ngoài
@@ -3676,9 +3693,6 @@ content#:#cont_get_orig_size#:#�?ặt kích thước nguyên bản
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Thuộc tính bảng chú giải
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#Tiêu đ�? cấp 1
-content#:#cont_Headline2#:#Tiêu đ�? cấp 2
-content#:#cont_Headline3#:#Tiêu đ�? cấp 3
 content#:#cont_height#:#Chi�?u cao
 content#:#cont_how_published#:#Xuất bản như thế nào
 content#:#cont_href#:#href
@@ -3709,7 +3723,6 @@ content#:#cont_link_int#:#Liên kết (nội)
 content#:#cont_link_select#:#Liên kết nội
 content#:#cont_link_type#:#Kiểu liên kết
 content#:#cont_linked_mobs#:#�?ối tượng phương tiện truy�?n thông đã liên kết
-content#:#cont_List#:#Danh mục
 content#:#cont_list_files#:#Danh sách file
 content#:#cont_list_properties#:#Thuộc tính danh sách
 content#:#cont_lk_chapter#:#Chương
@@ -3726,7 +3739,6 @@ content#:#cont_lk_term#:#Bảng chú giải thuật ngữ
 content#:#cont_lk_term_new#:#Bảng chú giải thuật ngữ (khung mới)
 content#:#cont_lm_menu#:#Bảng ch�?n
 content#:#cont_lm_properties#:#Thuộc tính của h�?c phần
-content#:#cont_LocalFile#:#File nội bộ
 content#:#cont_lvalue#:#Yếu tố dữ liệu
 content#:#cont_manifest#:#Khai vào bản kê
 content#:#cont_map_areas#:#Các vùng liên kết
@@ -3735,7 +3747,6 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Nguồn phương tiện
 content#:#cont_mep_structure#:#Cấu trúc thư viện phương tiện
 content#:#cont_missing_preconditions#:#�?ể truy cập chương "%s", bạn cần đáp ứng các đi�?u kiện tiên quyết sau. 
-content#:#cont_Mnemonic#:#Giúp trí nhớ
 content#:#cont_mob_files#:#File của đối tượng
 content#:#cont_mob_inst_prop#:#Thuộc tính hiển thị
 content#:#cont_mob_prop#:#Thuộc tính đối tượng
@@ -3761,7 +3772,6 @@ content#:#cont_none#:#Không có gì
 content#:#cont_nr_cols#:#Số cột
 content#:#cont_nr_items#:#Số mục
 content#:#cont_nr_rows#:#Số hàng
-content#:#cont_Number#:#Số
 content#:#cont_obj_removed#:#�?ã xóa đối tượng.
 content#:#cont_offline#:#Phiên bản Offline
 content#:#cont_offline_files#:#Phiên bản Offline
@@ -3785,7 +3795,6 @@ content#:#cont_personal_clipboard#:#Bộ nhớ đệm cá nhân
 content#:#cont_pg_content#:#Nội dung trang
 content#:#cont_pg_title#:#Tiêu đ�? trang
 content#:#cont_please_select#:#hãy ch�?n
-content#:#cont_Poly#:#�?a giác
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Xem trước
@@ -3795,11 +3804,8 @@ content#:#cont_public_notes#:#Lưu ý công khai
 content#:#cont_public_notes_desc#:#Cho phép ngư�?i sử dụng chia sẻ các ghi chép trên m�?i trang của h�?c phần.
 content#:#cont_publisher#:#Nhà xuất bản
 content#:#cont_purpose#:#Mục đích
-content#:#cont_Rect#:#Hình chữ nhật
 content#:#cont_ref_helptext#:#(ví dụ: http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Các ảnh đã tham chiếu
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#L�?i bình luận
 content#:#cont_remove_fullscreen#:#B�? chế độ xem toàn màn hình
 content#:#cont_removeiln#:#thật sự b�? liên kết nội bộ ?
 content#:#cont_repository_item#:#Mục trong kho kiến thức
@@ -3810,7 +3816,6 @@ content#:#cont_resize_image#:#Thay đổi kích thước phương tiện
 content#:#cont_resource#:#Tài nguyên
 content#:#cont_resource_type#:#kiểu
 content#:#cont_resources#:#Tài nguyên
-content#:#cont_Roman#:#La Mã I, II, ...###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Giá trị
 content#:#cont_saved_map_area#:#�?ã ghi vùng bản đồ
 content#:#cont_saved_map_data#:#�?ã ghi dữ liệu bản đồ
@@ -3880,7 +3885,6 @@ content#:#cont_table_html_import_info#:#Nhập chỉ làm việc với bảng ph
 content#:#cont_table_spreadsheet_import#:#Nhập bảng tính (Excel)
 content#:#cont_table_spreadsheet_import_info#:#Dán bảng từ ứng dụng bảng tính qua bộ nhớ đệm vào vùng văn bản.
 content#:#cont_table_width#:#�?ộ rộng bảng
-content#:#cont_TableContent#:#Nội dung bảng
 content#:#cont_target_within_source#:#Mục tiêu phải không ở trong đối tượng nguồn.
 content#:#cont_term#:#Thuật ngữ
 content#:#cont_terms#:#Các thuật ngữ
@@ -3905,7 +3909,6 @@ content#:#cont_tracking_items#:#Các khoản mục theo dõi
 content#:#cont_translations#:#Bản dịch
 content#:#cont_translations_assigned#:#(Các) bản dịch đã được chỉ định
 content#:#cont_tree_fixed#:#Cây cấu trúc đã được sửa chữa.
-content#:#cont_Unordered#:#Không được sắp xếp
 content#:#cont_update#:#Cập nhật
 content#:#cont_update_names#:#Tên cập nhật
 content#:#cont_upload_file#:#Tải lên File
@@ -3926,7 +3929,6 @@ content#:#copied_to_clipboard#:#�?ã sao chép (các) đối tượng vào bộ 
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#�?N.
 content#:#glo_term_used_in#:#Các tài nguyên sau liên kết tới thuật ngữ đó
-content#:#HTML export#:#Xuất ra HTML
 content#:#lm_menu_edit_entry#:#Sửa mục ch�?n
 content#:#lm_menu_entry_target#:#Mục tiêu
 content#:#lm_menu_entry_title#:#Tiêu đ�?
@@ -3938,17 +3940,15 @@ content#:#msg_entry_removed#:#�?ã xóa mục ch�?n
 content#:#msg_entry_updated#:#�?ã cập nhật mục ch�?n
 content#:#msg_page_no_public_access#:#Trang bạn yêu cầu không có ở phần công khai. Chỉ những ngư�?i sử dụng đã đăng ký mới có thể xem trang này. Hãy đăng nhập trước khi truy cập trang này.
 content#:#msg_page_not_public#:#Trang không công khai
-content#:#Pages#:#Trang
 content#:#pages from#:#Trang từ
 content#:#par#:#�?oạn
-content#:#PDF export#:#Xuất ra PDF
 content#:#pg#:#Trang
 content#:#public_section#:#Khu vực công khai
 content#:#read offline#:#�?�?c offline
-content#:#select_a_file#:#Hãy ch�?n một file.
-content#:#selected_pages_only#:#chỉ những trang đã ch�?n dưới đây 
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Hãy ch�?n một file.
+content#:#selected_pages_only#:#chỉ những trang đã ch�?n dưới đây 
 content#:#set_public_mode#:#�?ặt phương thức truy cập công khai
 content#:#st#:#Chương
 content#:#start export#:#Bắt đầu xuất ra
@@ -4124,6 +4124,7 @@ crs#:#crs_new_subscription#:#�?ăng ký mới khóa h�?c###10 Jul 2006 content 
 crs#:#crs_new_subscription_body#:#Một ngư�?i sử dụng mới đã đăng ký###10 Jul 2006 content changed
 crs#:#crs_new_subscription_request#:#Yêu cầu gia nhập khóa h�?c "%s" 
 crs#:#crs_new_subscription_request_body#:#Một ngư�?i sử dụng đã yêu cầu gia nhập khóa h�?c "%s". 
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#Chưa lựa ch�?n file nén nào
 crs#:#crs_no_archives_available#:#Không có file nén sử dụng được
 crs#:#crs_no_archives_selected#:#Hãy ch�?n một file nén
@@ -4426,6 +4427,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#Thông tin
+dateplaner#:#Day_long#:#Xem cuộc hẹn
+dateplaner#:#ERROR_DATE_EXISTS#:#Cuộc hẹn này đã tồn tại.
+dateplaner#:#ERROR_DB#:#Lỗi ghi cơ sở dữ liệu!
+dateplaner#:#ERROR_DB_CONNECT#:#Cơ sở dữ liệu đã ngắt kết nối.
+dateplaner#:#ERROR_DEL_MSG#:#�?ây là cuộc hẹn có định kỳ. Bạn muốn xóa một cuộc hẹn hay cả chuỗi
+dateplaner#:#ERROR_ENDDATE#:#Nhập sai ngày kết thúc. �?ịnh dạng: Ngày/Tháng/Năm
+dateplaner#:#ERROR_ENDTIME#:#Nhập sai th�?i điểm kết thúc. �?ịnh dạng: Gi�?:Phút
+dateplaner#:#ERROR_END_START#:#Nhập sai ngày kết thúc. Ngày kết thúc bị đặt trước ngày bắt đầu.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Hãy nhập file CSV hợp lệ.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Trình duyệt của bạn không chấp nhận JavaScript.<br />Hãy tự đóng cửa sổ này sau khi thêm.<br />Cảm ơn</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Nhập sai ngày kết thúc hẹn định kỳ. �?ịnh dạng: Ngày/Tháng/Năm
+dateplaner#:#ERROR_ROT_END_START#:#Nhập sai ngày kết thúc hẹn định kỳ. Ngày kết thúc bị đặt trước ngày bắt đầu.
+dateplaner#:#ERROR_SHORTTEXT#:#Thông tin ngắn nhập sai. Yêu cầu có thông tin ngắn.
+dateplaner#:#ERROR_STARTDATE#:#Nhập sai ngày bắt đầu. �?ịnh dạng: Ngày/Tháng/Năm
+dateplaner#:#ERROR_STARTTIME#:#Nhập sai th�?i điểm bắt đầu. �?ịnh dạng: Gi�?:Phút
+dateplaner#:#ERROR_TS#:#�?ịnh dạng ngày không đúng
+dateplaner#:#Fr_long#:#Thứ sáu
+dateplaner#:#Fr_short#:#T6
+dateplaner#:#Language_file#:#Vietnamese
+dateplaner#:#Listbox_long#:#Danh sách hẹn
+dateplaner#:#Mo_long#:#Thứ hai
+dateplaner#:#Mo_short#:#T2
+dateplaner#:#Month_long#:#Xem theo tháng
+dateplaner#:#Sa_long#:#Thứ bảy
+dateplaner#:#Sa_short#:#T7
+dateplaner#:#Su_long#:#Chủ nhật
+dateplaner#:#Su_short#:#CN
+dateplaner#:#Text#:#Thông tin đầy đủ
+dateplaner#:#Th_long#:#Thứ năm
+dateplaner#:#Th_short#:#T5
+dateplaner#:#Tu_long#:#Thứ ba
+dateplaner#:#Tu_short#:#T3
+dateplaner#:#View#:#Xem:
+dateplaner#:#We_long#:#Thứ tư
+dateplaner#:#We_short#:#T4
+dateplaner#:#Week_long#:#Xem theo tuần
 dateplaner#:#add_data#:#Thông tin bổ sung
 dateplaner#:#app_#:#Các cuộc hẹn của nhóm
 dateplaner#:#app_date#:#thêm cuộc hẹn
@@ -4442,20 +4480,19 @@ dateplaner#:#back#:#Quay lại
 dateplaner#:#begin_date#:#Bắt đầu
 dateplaner#:#busytime#:#th�?i gian bận trong nhóm
 dateplaner#:#c_date#:#Tạo cuộc hẹn mới
-dateplaner#:#changedDates#:#Cuộc hẹn đã thay đổi
 dateplaner#:#changeTo#:#Thay đổi thành:
+dateplaner#:#changedDates#:#Cuộc hẹn đã thay đổi
 dateplaner#:#checkforfreetime#:#Kiểm tra tìm th�?i gian rỗi
 dateplaner#:#created#:#�?ã tạo
 dateplaner#:#date#:#Cuộc hẹn
 dateplaner#:#date_format#:#d/m/Y H:i
 dateplaner#:#date_format_middle#:#d/m/y
-dateplaner#:#DateText#:#Thông tin
-dateplaner#:#Day_long#:#Xem cuộc hẹn
 dateplaner#:#del_all#:#xóa tất cả cuộc hẹn
 dateplaner#:#del_one#:#xóa một cuộc hẹn
 dateplaner#:#delete#:#xóa
 dateplaner#:#deletedDates#:#Cuộc hẹn đã xóa
 dateplaner#:#discard#:#loại b�?
+dateplaner#:#dv_Grouptime#:#Th�?i gian rỗi
 dateplaner#:#dv_button_cancel#:#Hủy b�?
 dateplaner#:#dv_button_delete#:#Xóa
 dateplaner#:#dv_button_insert#:#Thêm
@@ -4465,7 +4502,6 @@ dateplaner#:#dv_date_end#:#Kết thúc cuộc hẹn
 dateplaner#:#dv_date_hm#:#Gi�?:Phút
 dateplaner#:#dv_enddate#:#Ngày kết thúc:
 dateplaner#:#dv_groupselect#:#Ch�?n nhóm:
-dateplaner#:#dv_Grouptime#:#Th�?i gian rỗi
 dateplaner#:#dv_groupview#:#Nhóm cuộc hẹn:
 dateplaner#:#dv_groupview_text#:#Nhóm:<br />
 dateplaner#:#dv_keywords#:#Từ khóa:
@@ -4484,26 +4520,9 @@ dateplaner#:#dv_whole_day#:#Cả ngày:
 dateplaner#:#dv_whole_rotation#:#Bạn muốn xóa toàn bộ chuỗi hẹn định kỳ? (đánh dấu vào hộp ch�?n)
 dateplaner#:#end_date#:#Kết thúc
 dateplaner#:#endtime_for_view#:#Th�?i gian kết thúc để xem:
-dateplaner#:#ERROR_DATE_EXISTS#:#Cuộc hẹn này đã tồn tại.
-dateplaner#:#ERROR_DB#:#Lỗi ghi cơ sở dữ liệu!
-dateplaner#:#ERROR_DB_CONNECT#:#Cơ sở dữ liệu đã ngắt kết nối.
-dateplaner#:#ERROR_DEL_MSG#:#�?ây là cuộc hẹn có định kỳ. Bạn muốn xóa một cuộc hẹn hay cả chuỗi
-dateplaner#:#ERROR_END_START#:#Nhập sai ngày kết thúc. Ngày kết thúc bị đặt trước ngày bắt đầu.
-dateplaner#:#ERROR_ENDDATE#:#Nhập sai ngày kết thúc. �?ịnh dạng: Ngày/Tháng/Năm
-dateplaner#:#ERROR_ENDTIME#:#Nhập sai th�?i điểm kết thúc. �?ịnh dạng: Gi�?:Phút
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Hãy nhập file CSV hợp lệ.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Trình duyệt của bạn không chấp nhận JavaScript.<br />Hãy tự đóng cửa sổ này sau khi thêm.<br />Cảm ơn</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#Không thể tạo GD-picture-stream
-dateplaner#:#ERROR_ROT_END_START#:#Nhập sai ngày kết thúc hẹn định kỳ. Ngày kết thúc bị đặt trước ngày bắt đầu.
-dateplaner#:#ERROR_ROTATIONEND#:#Nhập sai ngày kết thúc hẹn định kỳ. �?ịnh dạng: Ngày/Tháng/Năm
-dateplaner#:#ERROR_SHORTTEXT#:#Thông tin ngắn nhập sai. Yêu cầu có thông tin ngắn.
-dateplaner#:#ERROR_STARTDATE#:#Nhập sai ngày bắt đầu. �?ịnh dạng: Ngày/Tháng/Năm
-dateplaner#:#ERROR_STARTTIME#:#Nhập sai th�?i điểm bắt đầu. �?ịnh dạng: Gi�?:Phút
-dateplaner#:#ERROR_TS#:#�?ịnh dạng ngày không đúng
 dateplaner#:#execute#:#thực hiện lựa ch�?n
 dateplaner#:#extra_dates#:#Hẹn cả một ngày
-dateplaner#:#Fr_long#:#Thứ sáu
-dateplaner#:#Fr_short#:#T6
 dateplaner#:#free#:#rỗi
 dateplaner#:#freetime#:#th�?i gian rỗi trong nhóm
 dateplaner#:#group#:#nhóm
@@ -4524,9 +4543,9 @@ dateplaner#:#help_group_l#:#Contains the groups for which the logged-in ngư�?i
 dateplaner#:#help_inbox#:#Hộp thư lịch
 dateplaner#:#help_inbox_l#:#Ở đây hiện tất cả các cuộc hẹn mới, đã thay đổi và đã xóa của nhóm.
 dateplaner#:#help_keyword#:#Lựa ch�?n từ khóa
-dateplaner#:#help_keyword_l#:#Chứa các từ khóa mà ngư�?i sử dụng có thể kết hợp với các cuộc hẹn.
 dateplaner#:#help_keywordUse#:#Lựa ch�?n từ khóa
 dateplaner#:#help_keywordUse_l#:#Ch�?n một hoặc nhi�?u từ khóa từ hộp thoại.<br />Mẹo: sử dụng phím CTRL để ch�?n nhi�?u mục cùng lúc.
+dateplaner#:#help_keyword_l#:#Chứa các từ khóa mà ngư�?i sử dụng có thể kết hợp với các cuộc hẹn.
 dateplaner#:#help_list#:#Calendar date list
 dateplaner#:#help_list_l#:#In the date list, all dates over a given period của time are displayed.
 dateplaner#:#help_month#:#Xem tháng trên lịch
@@ -4561,9 +4580,7 @@ dateplaner#:#k_alldates#:#tất cả cuộc hẹn
 dateplaner#:#keep#:#giữ
 dateplaner#:#keyword#:#Từ khóa
 dateplaner#:#keywords#:#Từ khóa
-dateplaner#:#Language_file#:#Vietnamese
 dateplaner#:#last_change#:#Lần thay đổi gần nhất
-dateplaner#:#Listbox_long#:#Danh sách hẹn
 dateplaner#:#long_01#:#Tháng Một
 dateplaner#:#long_02#:#Tháng Hai
 dateplaner#:#long_03#:#Tháng Ba
@@ -4579,16 +4596,13 @@ dateplaner#:#long_12#:#Tháng Mư�?i Hai
 dateplaner#:#main_dates#:#Cuộc hẹn chính trong tháng
 dateplaner#:#menue#:#Bảng ch�?n
 dateplaner#:#mmonth#:#tháng trước
-dateplaner#:#Mo_long#:#Thứ hai
-dateplaner#:#Mo_short#:#T2
 dateplaner#:#month#:#tháng
-dateplaner#:#Month_long#:#Xem theo tháng
 dateplaner#:#more#:#more
 dateplaner#:#mweek#:#tuần trước
 dateplaner#:#myeahr#:#năm trước
-dateplaner#:#new_doc#:#tạo cuộc hẹn mới
 dateplaner#:#newDates#:#Cuộc hẹn mới
 dateplaner#:#newKeyword#:#Mới:
+dateplaner#:#new_doc#:#tạo cuộc hẹn mới
 dateplaner#:#no_entry#:#không có cuộc hẹn nào
 dateplaner#:#o_day_date#:#cuộc hẹn 24-gi�?
 dateplaner#:#of#:#của
@@ -4609,8 +4623,6 @@ dateplaner#:#r_year#:#mỗi năm
 dateplaner#:#readimportfile#:#thêm
 dateplaner#:#rotation#:#�?ịnh kỳ
 dateplaner#:#rotation_dates#:#Cuộc hẹn định kỳ
-dateplaner#:#Sa_long#:#Thứ bảy
-dateplaner#:#Sa_short#:#T7
 dateplaner#:#semester_name#:#Tên h�?c kỳ
 dateplaner#:#short_01#:#Th1
 dateplaner#:#short_02#:#Th2
@@ -4627,24 +4639,13 @@ dateplaner#:#short_12#:#Th12
 dateplaner#:#shorttext#:#Thông tin ngắn
 dateplaner#:#singleDate#:#single date
 dateplaner#:#starttime_for_view#:#Th�?i gian bắt đầu để xem:
-dateplaner#:#Su_long#:#Chủ nhật
-dateplaner#:#Su_short#:#CN
-dateplaner#:#Text#:#Thông tin đầy đủ
-dateplaner#:#Th_long#:#Thứ năm
-dateplaner#:#Th_short#:#T5
 dateplaner#:#timedate#:#Th�?i gian / Cuộc hẹn
 dateplaner#:#timeslice#:#Th�?i gian:
 dateplaner#:#title#:#Lịch ILIAS
 dateplaner#:#to#:#tới
 dateplaner#:#today#:#hôm nay
-dateplaner#:#Tu_long#:#Thứ ba
-dateplaner#:#Tu_short#:#T3
-dateplaner#:#View#:#Xem:
 dateplaner#:#viewlist#:#Xem
-dateplaner#:#We_long#:#Thứ tư
-dateplaner#:#We_short#:#T4
 dateplaner#:#week#:#tuần
-dateplaner#:#Week_long#:#Xem theo tuần
 dateplaner#:#wk_short#:#Tuần
 dateplaner#:#year#:#năm
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4675,8 +4676,8 @@ forum#:#forums_disable_notification#:#Tắt thông báo
 forum#:#forums_download_attachment#:#Tiêu đ�? tải xuống
 forum#:#forums_edit_post#:#Sửa bài
 forum#:#forums_enable_notification#:#Bật thông báo
-forum#:#forums_info_censor_post#:#Bạn có chắc bạn muốn ẩn bài này?
 forum#:#forums_info_censor2_post#:#Thu hồi kiểm duyệt?
+forum#:#forums_info_censor_post#:#Bạn có chắc bạn muốn ẩn bài này?
 forum#:#forums_info_delete_post#:#Bạn có chắc bạn muốn xóa bài này bao gồm cả các phản hồi?
 forum#:#forums_mark_read#:#�?ánh dấu tất cả là đã đ�?c
 forum#:#forums_new_entries#:#Mục nhập diễn đàn mới
@@ -5873,6 +5874,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Thêm mục
 survey#:#add_heading#:#Thêm tiêu đ�?
 survey#:#add_limits_for_standard_numbers#:#Hãy nhập vào giới hạn dưới và giới hạn trên cho số chuẩn bạn muốn thêm như là mục.
@@ -5976,27 +5981,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Nếu không nhập gì có nghĩa là không giới hạn số ký tự.
 survey#:#disinvite#:#Hủy m�?i
 survey#:#display_all_available#:#Hiển thị tất cả sử dụng được
+survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
+survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)
 survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
+survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)
-survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)
 survey#:#dp_standard_behaviour_certainly5#:#Standard behavior (most certainly-more positive-undecided-more negative-most certainly not)
 survey#:#dp_standard_behaviour_yes_no#:#Standard behavior (yes-no)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behavior (yes-undecided-no)
+survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
 survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
+survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_numbers#:#Standard numbers
 survey#:#duplicate#:#Nhân đôi
 survey#:#duplicate_svy#:#Nhân đôi khảo sát
@@ -6219,10 +6224,6 @@ survey#:#survey_skip_next#:#B�? qua >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<< B�? qua###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#B�? qua và đi đến trang đầu
 survey#:#survey_start#:#�?i tới trang đầu###25 Jul 2006 content changed
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#Tất cả thông tin ngư�?i sử dụng của khảo sát này đã được xóa!
 survey#:#svy_check_evaluation_access_introduction#:#Chỉ những ngư�?i tham gia khảo sát mới có thể đánh giá khảo sát, bạn cần nhập mã truy cập khảo sát để mở đánh giá.
 survey#:#svy_check_evaluation_authentication_needed#:#Cần xác thực

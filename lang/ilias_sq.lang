@@ -123,12 +123,6 @@ assessment#:#applet_new_parameter#:#Parametër i ri
 assessment#:#applet_parameter#:#Parametër
 assessment#:#applet_parameters#:#Parametrat për applet
 assessment#:#apply#:#Apliko
-assessment#:#ass_create_export_file#:#Krijo skedarin për eksportim
-assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-11 --- Add new translation here.
-assessment#:#ass_export_files#:#Eksporto skedarët
-assessment#:#ass_file#:#Skedari
-assessment#:#ass_question#:#Pyetje
-assessment#:#ass_size#:#Madhësi
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -140,6 +134,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#Krijo skedarin për eksportim
+assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-11 --- Add new translation here.
+assessment#:#ass_export_files#:#Eksporto skedarët
+assessment#:#ass_file#:#Skedari
+assessment#:#ass_question#:#Pyetje
+assessment#:#ass_size#:#Madhësi
 assessment#:#available_points#:#Pikët e mundshme
 assessment#:#average_reached_points#:#Mesatarja e pikëve të arritura
 assessment#:#backtocallingtest#:#Mbrapa në testin qëllimor
@@ -964,6 +964,8 @@ chat#:#chat_yellow#:#e verdhë
 chat#:#chats#:#Chat-et
 chat#:#my_chats#:#Chat-et mia
 common#:#3rd_party_software#:#program i jashtëm ndihmës
+common#:#DD.MM.YYYY#:#DD.MM.VVVV
+common#:#HH#:#OO:MM
 common#:#absolute_path#:#Shtegu Absolut
 common#:#accept_usr_agreement#:#Pranoni marrëveshjen si shfrytëzues?
 common#:#access#:#Qasje
@@ -1367,10 +1369,10 @@ common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#cookies_howto#:#How to enable cookies ### 2006-8-11 --- Add new translation here.
 common#:#copied_object#:#Objektet e kopjuar
 common#:#copy#:#Kopjo
-common#:#copy_of#:#Kopjo nga
-common#:#copy_to#:#në
 common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Kopjo
+common#:#copy_of#:#Kopjo nga
+common#:#copy_to#:#në
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Numëro
 common#:#country#:#Vendi
@@ -1479,7 +1481,6 @@ common#:#dbk_new#:#Krijo Libër Diglib të Ri
 common#:#dbk_read#:#Qasje për lexim në Librin Diglib
 common#:#dbk_visible#:#Libri Diglib është i dukshëm
 common#:#dbk_write#:#Edito Librin Diglib
-common#:#DD.MM.YYYY#:#DD.MM.VVVV
 common#:#def_repository_view#:#Pamja e paradefinuar e Magazinës
 common#:#default#:#Paradefinim
 common#:#default_language#:#Gjuha e Paradefinuar
@@ -1936,7 +1937,6 @@ common#:#guests#:#Vizitorët
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Titulli Kryesues
 common#:#help#:#Ndihmë
-common#:#HH#:#OO:MM
 common#:#hide#:#fsheh
 common#:#hide_details#:#fsheh detajet###14 Jul 2005 content changed
 common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
@@ -2441,11 +2441,11 @@ common#:#month_12_short#:#Dhj
 common#:#monthly#:#monthly ### 2006-8-11 --- Add new translation here.
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Zhvendos
+common#:#moveChapter#:#Zhvendos
+common#:#movePage#:#Zhvendos
 common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Zhvendos në
 common#:#move_users_to_style#:#Zhvendos shfrytëzuesit në stilin###10 Jul 2006 content changed
-common#:#moveChapter#:#Zhvendos
-common#:#movePage#:#Zhvendos
 common#:#msg_cancel#:#Veprimi u anulua
 common#:#msg_changes_ok#:#Ndërrimet ishin OK
 common#:#msg_clear_clipboard#:#Klipbord është pastruar
@@ -2516,9 +2516,9 @@ common#:#msg_obj_exists#:#Ky objekt ekziston në këtë direktorium
 common#:#msg_obj_modified#:#Modifikimet janë ruajtur.
 common#:#msg_obj_no_link#:#nuk lejohen të lidhen (link)
 common#:#msg_obj_not_deletable_sold#:#Pagesa është e aktivizuar për objektet vijuese. Ato nuk mund të fshihen.
-common#:#msg_perm_adopted_from_itself#:#Nuk mund të adoptoni konfigurimet për të drejta prej rolit apo shabllonit të rolit aktual në vetvete.
 common#:#msg_perm_adopted_from1#:#Konfigurimet për të drejtat janë adoptuar nga
 common#:#msg_perm_adopted_from2#:#(Konfigurimet janë ruajtur)
+common#:#msg_perm_adopted_from_itself#:#Nuk mund të adoptoni konfigurimet për të drejta prej rolit apo shabllonit të rolit aktual në vetvete.
 common#:#msg_removed#:#Objektet janë larguar nga sistemi.
 common#:#msg_role_exists1#:#Roli/shablloni i rolit me emër
 common#:#msg_role_exists2#:#tanimë ekziston! Ju lutem të zgjedhëni emër tjetër.
@@ -2767,9 +2767,9 @@ common#:#password#:#Parulla
 common#:#password_assistance_disabled#:#Asistenca për parullë është e mundshme vetëm kur shfrytëzuesi verifikohet përmes databazës lokale ILIAS.
 common#:#password_assistance_info#:#Nëse asistenca për parullë është e aktivizuar, atëherë një link me tekstin "Keni Harruar Parullën?" do të paraqitet në faqen për identifikim të ILIAS. Shfrytëzuesit mund ta përdorin këtë link për të vendosur parullë në llogaritë e tyre pa ndihmë të administratorit të sistemit. 
 common#:#paste#:#Vendos
-common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#pasteChapter#:#Vendos
 common#:#pastePage#:#Vendos
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Shtegu
 common#:#path_not_set#:#Shtegu nuk është dhënë
 common#:#path_to_babylon#:#Shtegu për Babylon
@@ -3061,12 +3061,12 @@ common#:#server#:#Server
 common#:#server_data#:#Të dhënat e Serverit
 common#:#server_software#:#Softuari i Serverit
 common#:#set#:#Vendos
+common#:#setSystemLanguage#:#Vendos Gjuhën e Sistemit
+common#:#setUserLanguage#:#Vendos Gjuhën e Shfrytëzuesit
 common#:#set_offline#:#Vendos Offline
 common#:#set_online#:#Vendos në Online
-common#:#setSystemLanguage#:#Vendos Gjuhën e Sistemit
 common#:#settings#:#Konfigurimet
 common#:#settings_saved#:#Saved settings ### 2006-8-11 --- Add new translation here.
-common#:#setUserLanguage#:#Vendos Gjuhën e Shfrytëzuesit
 common#:#shib#:#Shibboleth ### 2006-8-11 --- Add new translation here.
 common#:#shib_active#:#Enable Shibboleth support ### 2006-8-11 --- Add new translation here.
 common#:#shib_city#:#Attribute for city ### 2006-8-11 --- Add new translation here.
@@ -3482,6 +3482,9 @@ common#:#you_may_add_local_roles#:#Ju Mund Të Shtoni Role Lokale
 common#:#your_message#:#Porosia Juaj
 common#:#zip#:#Kodi Postar
 common#:#zipcode#:#Kodi Postar
+content#:#HTML export#:#Eksport në HTML
+content#:#PDF export#:#Eksport në PDF
+content#:#Pages#:#Faqet
 content#:#add_menu_entry#:#Shto artikull në meny >>
 content#:#all#:#Të Gjitha
 content#:#all_pages#:#gjithë moduli Mësimor###25 Jul 2006 content changed
@@ -3491,6 +3494,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Shtesë
+content#:#cont_Alphabetic#:#Sipas Alfabetit A,B, …###10 Jul 2006 content changed
+content#:#cont_Circle#:#Rreth
+content#:#cont_Citation#:#Citat
+content#:#cont_Code#:#Kod
+content#:#cont_Example#:#Shembull###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Titull 1
+content#:#cont_Headline2#:#Titull 2
+content#:#cont_Headline3#:#Titull 3
+content#:#cont_List#:#Listë
+content#:#cont_LocalFile#:#Skedari Lokale
+content#:#cont_Mnemonic#:#Fjalë Kyçe
+content#:#cont_Number#:#Numër
+content#:#cont_Poly#:#Poligon
+content#:#cont_Rect#:#Katërkëndësh
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Koment
+content#:#cont_Roman#:#Sipas numrave Romak I, II, …###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Përmbajtja
+content#:#cont_Unordered#:#Të paradhitura
 content#:#cont_act_number#:#Numerizimi i Kapitujve
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Aktivizo Menynë
@@ -3500,10 +3523,8 @@ content#:#cont_add_definition#:#Shto Definicion
 content#:#cont_add_fullscreen#:#Shto Full-Screen
 content#:#cont_added_comment#:#Komenti është vendosur në histori.
 content#:#cont_added_term#:#Termi është shtuar
-content#:#cont_Additional#:#Shtesë
 content#:#cont_all_definitions#:#Të gjitha Definicionet
 content#:#cont_all_pages#:#Të gjitha Faqet
-content#:#cont_Alphabetic#:#Sipas Alfabetit A,B, …###10 Jul 2006 content changed
 content#:#cont_annex#:#Aneksi
 content#:#cont_api_adapter#:#Emri i API Adapterit
 content#:#cont_api_func_prefix#:#Prefiksi i API Funksioneve
@@ -3532,8 +3553,6 @@ content#:#cont_characteristic#:#Karakteristika
 content#:#cont_choose_cont_obj#:#Zgjedh Objektet me Përmbajtje
 content#:#cont_choose_glossary#:#Zgjedh Fjalorthin
 content#:#cont_choose_media_source#:#Zgjedh Burim Multimedial
-content#:#cont_Circle#:#Rreth
-content#:#cont_Citation#:#Citat
 content#:#cont_citation_err_one#:#Duhet të zgjedhni saktësisht një edicion
 content#:#cont_citation_selection_not_valid#:#Përzgjedhja juaj nuk është valide###10 Jul 2006 content changed
 content#:#cont_citations#:#Citatet
@@ -3544,7 +3563,6 @@ content#:#cont_click_next_or_save#:#Ju lutem klikoni në pikën e ardhshme të p
 content#:#cont_click_next_point#:#Ju lutem klikoni në pikën e ardhshme të poligonit.
 content#:#cont_click_starting_point#:#Ju lutem klikoni në pikën fillestare të poligonit.
 content#:#cont_click_tl_corner#:#Ju lutem klikoni në këndin lart majtas të hapësirës.
-content#:#cont_Code#:#Kod
 content#:#cont_confirm_delete#:#vërtet t'i fshini? 
 content#:#cont_content#:#Përmbajtja
 content#:#cont_content_obj#:#Objekt me Përmbajtje
@@ -3639,7 +3657,6 @@ content#:#cont_edition#:#Edicion
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript Aktive
 content#:#cont_enable_media#:#Multimedia Aktive
-content#:#cont_Example#:#Shembull###10 Jul 2006 content changed
 content#:#cont_export_files#:#Eksporto Skedarë
 content#:#cont_external#:#eksternal
 content#:#cont_external_url#:#url eksternale
@@ -3663,9 +3680,6 @@ content#:#cont_get_orig_size#:#Vendos madhësinë origjinale
 content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Karakteristikat e Fjalorthit
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#Titull 1
-content#:#cont_Headline2#:#Titull 2
-content#:#cont_Headline3#:#Titull 3
 content#:#cont_height#:#Lartësia
 content#:#cont_how_published#:#Si është botuar
 content#:#cont_href#:#href
@@ -3696,7 +3710,6 @@ content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#link intern
 content#:#cont_link_type#:#Tipi i Linkut
 content#:#cont_linked_mobs#:#objektet multimediale të linkuara
-content#:#cont_List#:#Listë
 content#:#cont_list_files#:#Listo Skedarët
 content#:#cont_list_properties#:#Listo Karakteristikat
 content#:#cont_lk_chapter#:#Kapitull
@@ -3713,7 +3726,6 @@ content#:#cont_lk_term#:#Term të Fjalorthit
 content#:#cont_lk_term_new#:#Term të Fjalorthit (Kornizë e Re)
 content#:#cont_lm_menu#:#Meny
 content#:#cont_lm_properties#:#Karakteristikat e Modulit Mësimor
-content#:#cont_LocalFile#:#Skedari Lokale
 content#:#cont_lvalue#:#Data
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Area
@@ -3722,7 +3734,6 @@ content#:#cont_max_time_allowed#:#adlcp: koha maksimale
 content#:#cont_media_source#:#Burime Multimediale
 content#:#cont_mep_structure#:#Struktura e Fondit Multimedial
 content#:#cont_missing_preconditions#:#Duhet të përmbushni parakushtet vijuese për të pasur qasje në kapitullin "%s". 
-content#:#cont_Mnemonic#:#Fjalë Kyçe
 content#:#cont_mob_files#:#Objekt Skedarët
 content#:#cont_mob_inst_prop#:#Karakteristikat e Instancave
 content#:#cont_mob_prop#:#Karakteristikat e Objektit
@@ -3748,7 +3759,6 @@ content#:#cont_none#:#Asnjë
 content#:#cont_nr_cols#:#Numri i Kolonave
 content#:#cont_nr_items#:#Numri i Artikujve
 content#:#cont_nr_rows#:#Numri i Rreshtave
-content#:#cont_Number#:#Numër
 content#:#cont_obj_removed#:#Objektet largohen.
 content#:#cont_offline#:#Versionet Offline
 content#:#cont_offline_files#:#Offline versionet
@@ -3772,7 +3782,6 @@ content#:#cont_personal_clipboard#:#Klipbordi Personal
 content#:#cont_pg_content#:#Përmbajtje e Faqes
 content#:#cont_pg_title#:#Titull i Faqes
 content#:#cont_please_select#:#ju lutem zgjedh
-content#:#cont_Poly#:#Poligon
 content#:#cont_prereq_type#:#adlcp:parakushtet.tipi
 content#:#cont_prerequisites#:#adlcp:parakushtet
 content#:#cont_preview#:#Pamja
@@ -3782,11 +3791,8 @@ content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Botuesi
 content#:#cont_purpose#:#Qëllimi
-content#:#cont_Rect#:#Katërkëndësh
 content#:#cont_ref_helptext#:#(p.sh. http://ëëë.server.org/mypage.jpg)
 content#:#cont_ref_images#:#Imazhet e Referuara
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#Koment
 content#:#cont_remove_fullscreen#:#Largo Full Screen
 content#:#cont_removeiln#:#vërtet të largoni linkun internal?
 content#:#cont_repository_item#:#Artikujt e Magazinës
@@ -3797,7 +3803,6 @@ content#:#cont_resize_image#:#Resize images ### 2006-8-11 --- Add new translatio
 content#:#cont_resource#:#Burim
 content#:#cont_resource_type#:#tipi
 content#:#cont_resources#:#Burimet
-content#:#cont_Roman#:#Sipas numrave Romak I, II, …###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Vlera
 content#:#cont_saved_map_area#:#Area e ruajtur
 content#:#cont_saved_map_data#:#Të dhënat e ruajtura
@@ -3867,7 +3872,6 @@ content#:#cont_table_html_import_info#:#Importimi funksionon vetëm me XHTML tab
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import ### 2006-8-11 --- Add new translation here.
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea. ### 2006-8-11 --- Add new translation here.
 content#:#cont_table_width#:#Gjerësia e Tabelës
-content#:#cont_TableContent#:#Përmbajtja
 content#:#cont_target_within_source#:#Destinimi nuk mund të jetë brenda vet objektit.
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Termet
@@ -3892,7 +3896,6 @@ content#:#cont_tracking_items#:#Artikujt e Gjurmuar
 content#:#cont_translations#:#Përkthim(et)
 content#:#cont_translations_assigned#:#Përkthimi(et) janë caktuar.
 content#:#cont_tree_fixed#:#Struktura e Trungut është Rregulluar.
-content#:#cont_Unordered#:#Të paradhitura
 content#:#cont_update#:#Aktualizo
 content#:#cont_update_names#:#Aktualizo Emrat
 content#:#cont_upload_file#:#Ngarko Skedar
@@ -3913,7 +3916,6 @@ content#:#copied_to_clipboard#:#Objektet e kopjuara në klipbord.
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
-content#:#HTML export#:#Eksport në HTML
 content#:#lm_menu_edit_entry#:#Edito të dhënat e menysë
 content#:#lm_menu_entry_target#:#Destinacioni
 content#:#lm_menu_entry_title#:#Titulli
@@ -3925,17 +3927,15 @@ content#:#msg_entry_removed#:#Është larguar nga menyja
 content#:#msg_entry_updated#:#Është aktualizuar menyja
 content#:#msg_page_no_public_access#:#The page you called is not available in the public area. Only registered users may view this page. Please login first to access this page. ### 2006-8-11 --- Add new translation here.
 content#:#msg_page_not_public#:#Page is not public ### 2006-8-11 --- Add new translation here.
-content#:#Pages#:#Faqet
 content#:#pages from#:#Faqet Prej
 content#:#par#:#Paragraf
-content#:#PDF export#:#Eksport në PDF
 content#:#pg#:#Faqe
 content#:#public_section#:#Seksioni Publik###19 Jul 2005 content changed
 content#:#read offline#:#Lexo Offline
-content#:#select_a_file#:#Ju lutem të zgjedhni një skedar.
-content#:#selected_pages_only#:#vetëm faqet e zgjedhura më poshtë###25 Jul 2006 content changed
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Ju lutem të zgjedhni një skedar.
+content#:#selected_pages_only#:#vetëm faqet e zgjedhura më poshtë###25 Jul 2006 content changed
 content#:#set_public_mode#:#Vendos modin për qasje publike
 content#:#st#:#Kapitull
 content#:#start export#:#Fillo Eksportimin
@@ -4111,6 +4111,7 @@ crs#:#crs_new_subscription#:#Abonim i Ri në Kurs###23 Dec 2005 content changed
 crs#:#crs_new_subscription_body#:#Shfrytëzues i ri ka abonuar###23 Dec 2005 content changed
 crs#:#crs_new_subscription_request#:#Request to join course "%s"
 crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#Nuk është zgjedhur asnjë arkiv
 crs#:#crs_no_archives_available#:#Nuk ka asnjë arkiv
 crs#:#crs_no_archives_selected#:#Ju lutem zgjedhni një arkiv
@@ -4411,6 +4412,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#Porosi
+dateplaner#:#Day_long#:#Pamja Ditore
+dateplaner#:#ERROR_DATE_EXISTS#:#Ky termin tanimë ekziston###02 Aug 2005 content changed
+dateplaner#:#ERROR_DB#:#Gabim gjatë shkrimit në databazë!
+dateplaner#:#ERROR_DB_CONNECT#:#Databaza është e çkyqur
+dateplaner#:#ERROR_DEL_MSG#:#Ky është termin periodik. Dëshironi të fshini një termin prej tyre apo gjithë serinë.###02 Aug 2005 content changed
+dateplaner#:#ERROR_ENDDATE#:#Data përfundimtare e terminit është dhënë gabimisht. Formati është: dd/mm/vvvv
+dateplaner#:#ERROR_ENDTIME#:#Ora e përfundimtare e terminit është dhënë gabimisht. Formati është: oo:mm
+dateplaner#:#ERROR_END_START#:#Data përfundimtare e terminit është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Ju lutem të specifikoni skedar CVS valide.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>shfletuesi juaj i faqeve(brouser-i) nuk përkrah JavaScript.<br/>Ju lutem mbylleni këtë dritare pasi ta keni vendosur manualisht.<br/> Ju Faleminderit</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Data përfundimtare e terminit periodik është dhënë gabimisht. Formati është: dd/mm/vvvv
+dateplaner#:#ERROR_ROT_END_START#:#Data përfundimtare e terminit periodik është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
+dateplaner#:#ERROR_SHORTTEXT#:#Gabim gjatë vendosjes së tekstit. Teksti është obligativ
+dateplaner#:#ERROR_STARTDATE#:#Gabim gjatë vendosjes së datës së fillimit. Formati është: dd/mm/vvvv
+dateplaner#:#ERROR_STARTTIME#:#Gabim gjatë vendosjes së orës së fillimit. Formati është: oo:mm
+dateplaner#:#ERROR_TS#:#Formati i datës është i gabuar
+dateplaner#:#Fr_long#:#e Premte
+dateplaner#:#Fr_short#:#P
+dateplaner#:#Language_file#:#Anglisht
+dateplaner#:#Listbox_long#:#Lista e Terminëve###02 Aug 2005 content changed
+dateplaner#:#Mo_long#:#e Hënë
+dateplaner#:#Mo_short#:#H
+dateplaner#:#Month_long#:#Pamje Mujore
+dateplaner#:#Sa_long#:#e Shtunë
+dateplaner#:#Sa_short#:#Sh
+dateplaner#:#Su_long#:#E Diel
+dateplaner#:#Su_short#:#D
+dateplaner#:#Text#:#Teksti
+dateplaner#:#Th_long#:#e Enjte
+dateplaner#:#Th_short#:#E
+dateplaner#:#Tu_long#:#e Martë
+dateplaner#:#Tu_short#:#M
+dateplaner#:#View#:#Definimi i pamjes:
+dateplaner#:#We_long#:#e Mërkurë
+dateplaner#:#We_short#:#Mk
+dateplaner#:#Week_long#:#Pamja Javore
 dateplaner#:#add_data#:#Të Dhëna shtesë###02 Aug 2005 content changed
 dateplaner#:#app_#:#Grupi i Termineve###02 Aug 2005 content changed
 dateplaner#:#app_date#:#vendos termin###02 Aug 2005 content changed
@@ -4427,20 +4465,19 @@ dateplaner#:#back#:#prapa###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Data e Fillimit
 dateplaner#:#busytime#:#koha e nxënë brenda në grup###02 Aug 2005 content changed
 dateplaner#:#c_date#:#Krijo Termin###02 Aug 2005 content changed
-dateplaner#:#changedDates#:#Terminët e ndërruara###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#E ndërruar në:
+dateplaner#:#changedDates#:#Terminët e ndërruara###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Kontrollo për kohë të lirë
 dateplaner#:#created#:#Krijohet
 dateplaner#:#date#:#Termin
 dateplaner#:#date_format#:#m/d/V H:i
 dateplaner#:#date_format_middle#:#m/d/V
-dateplaner#:#DateText#:#Porosi
-dateplaner#:#Day_long#:#Pamja Ditore
 dateplaner#:#del_all#:#fshij të gjithë terminët###02 Aug 2005 content changed
 dateplaner#:#del_one#:#fshij një termin###02 Aug 2005 content changed
 dateplaner#:#delete#:#fshij###02 Aug 2005 content changed
 dateplaner#:#deletedDates#:#Terminet e fshira###02 Aug 2005 content changed
 dateplaner#:#discard#:#anulo###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#koha e lirë###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Anulo
 dateplaner#:#dv_button_delete#:#Fshij
 dateplaner#:#dv_button_insert#:#Vendos
@@ -4450,7 +4487,6 @@ dateplaner#:#dv_date_end#:#Data e përfundimit:
 dateplaner#:#dv_date_hm#:#Orë:Minuta
 dateplaner#:#dv_enddate#:#Data e përfundimit:
 dateplaner#:#dv_groupselect#:#Zgjedh Grupin:
-dateplaner#:#dv_Grouptime#:#koha e lirë###02 Aug 2005 content changed
 dateplaner#:#dv_groupview#:#Grup Termini:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Grupi:<br/>
 dateplaner#:#dv_keywords#:#Fjalëkyçe:
@@ -4469,26 +4505,9 @@ dateplaner#:#dv_whole_day#:#E tërë dita:
 dateplaner#:#dv_whole_rotation#:#A dëshironi të fshini të gjitha seritë e termineve periodike? (kliko ne checkbox)
 dateplaner#:#end_date#:#Përfundimi i Terminit:
 dateplaner#:#endtime_for_view#:#Paraqit terminet deri në kohë:
-dateplaner#:#ERROR_DATE_EXISTS#:#Ky termin tanimë ekziston###02 Aug 2005 content changed
-dateplaner#:#ERROR_DB#:#Gabim gjatë shkrimit në databazë!
-dateplaner#:#ERROR_DB_CONNECT#:#Databaza është e çkyqur
-dateplaner#:#ERROR_DEL_MSG#:#Ky është termin periodik. Dëshironi të fshini një termin prej tyre apo gjithë serinë.###02 Aug 2005 content changed
-dateplaner#:#ERROR_END_START#:#Data përfundimtare e terminit është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
-dateplaner#:#ERROR_ENDDATE#:#Data përfundimtare e terminit është dhënë gabimisht. Formati është: dd/mm/vvvv
-dateplaner#:#ERROR_ENDTIME#:#Ora e përfundimtare e terminit është dhënë gabimisht. Formati është: oo:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Ju lutem të specifikoni skedar CVS valide.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>shfletuesi juaj i faqeve(brouser-i) nuk përkrah JavaScript.<br/>Ju lutem mbylleni këtë dritare pasi ta keni vendosur manualisht.<br/> Ju Faleminderit</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#Nuk mund të krijoj 'GD-Picture-Stream' 
-dateplaner#:#ERROR_ROT_END_START#:#Data përfundimtare e terminit periodik është dhënë gabimisht. Data përfundimtare duhet të jetë pas datës së fillimit.
-dateplaner#:#ERROR_ROTATIONEND#:#Data përfundimtare e terminit periodik është dhënë gabimisht. Formati është: dd/mm/vvvv
-dateplaner#:#ERROR_SHORTTEXT#:#Gabim gjatë vendosjes së tekstit. Teksti është obligativ
-dateplaner#:#ERROR_STARTDATE#:#Gabim gjatë vendosjes së datës së fillimit. Formati është: dd/mm/vvvv
-dateplaner#:#ERROR_STARTTIME#:#Gabim gjatë vendosjes së orës së fillimit. Formati është: oo:mm
-dateplaner#:#ERROR_TS#:#Formati i datës është i gabuar
 dateplaner#:#execute#:#ekzekuto veprimet###02 Aug 2005 content changed
 dateplaner#:#extra_dates#:#Termin Një Ditor###02 Aug 2005 content changed
-dateplaner#:#Fr_long#:#e Premte
-dateplaner#:#Fr_short#:#P
 dateplaner#:#free#:#e lirë###02 Aug 2005 content changed
 dateplaner#:#freetime#:#Koha e lirë në grup###02 Aug 2005 content changed
 dateplaner#:#group#:#grupi###02 Aug 2005 content changed
@@ -4509,9 +4528,9 @@ dateplaner#:#help_group_l#:#Përmban grupe për të cilët shfrytëzuesit e iden
 dateplaner#:#help_inbox#:#Inbox i Agjendës
 dateplaner#:#help_inbox_l#:#Këtu shihen të gjitha terminet e reja, të ndërruara, të fshira, të grupeve###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Zgjedhja e fjalës kyçe
-dateplaner#:#help_keyword_l#:#Përmban fjalëkyqe të cilën shfrytëzuesi mund të ja shoqëroj terminit.
 dateplaner#:#help_keywordUse#:#Zgjedhja e fjalës kyçe
 dateplaner#:#help_keywordUse_l#:#Zgjedh një apo më shumë fjalëkyqe nga menyja për zgjedhje. <br/>Këshillë: përdor tastin CTRL për të zgjedhur më shumë të dhëna.
+dateplaner#:#help_keyword_l#:#Përmban fjalëkyqe të cilën shfrytëzuesi mund të ja shoqëroj terminit.
 dateplaner#:#help_list#:#Lista e Termineve të Agjendës###02 Aug 2005 content changed
 dateplaner#:#help_list_l#:#Në listën e termineve do të shihen të gjitha terminet sipër periudhës së dhënë kohore.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Pamja mujore e Agjendës
@@ -4546,9 +4565,7 @@ dateplaner#:#k_alldates#:#të gjitha terminet###02 Aug 2005 content changed
 dateplaner#:#keep#:#mbaj###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Fjalëkyqe
 dateplaner#:#keywords#:#Fjalët kyçe
-dateplaner#:#Language_file#:#Anglisht
 dateplaner#:#last_change#:#Data e ndërrimit të fundit
-dateplaner#:#Listbox_long#:#Lista e Terminëve###02 Aug 2005 content changed
 dateplaner#:#long_01#:#Janar
 dateplaner#:#long_02#:#Shkurt
 dateplaner#:#long_03#:#Mars
@@ -4564,16 +4581,13 @@ dateplaner#:#long_12#:#Dhjetor
 dateplaner#:#main_dates#:#Terminet Kryesore###02 Aug 2005 content changed
 dateplaner#:#menue#:#Meny
 dateplaner#:#mmonth#:#muajin e kaluar###02 Aug 2005 content changed
-dateplaner#:#Mo_long#:#e Hënë
-dateplaner#:#Mo_short#:#H
 dateplaner#:#month#:#muaji###02 Aug 2005 content changed
-dateplaner#:#Month_long#:#Pamje Mujore
 dateplaner#:#more#:#më tepër###02 Aug 2005 content changed
 dateplaner#:#mweek#:#javën e kaluar###02 Aug 2005 content changed
 dateplaner#:#myeahr#:#vitin e kaluar###02 Aug 2005 content changed
-dateplaner#:#new_doc#:#krijo termin###02 Aug 2005 content changed
 dateplaner#:#newDates#:#Termine të Reja###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#Të Reja:
+dateplaner#:#new_doc#:#krijo termin###02 Aug 2005 content changed
 dateplaner#:#no_entry#:#nuk ka termine###02 Aug 2005 content changed
 dateplaner#:#o_day_date#:#Termin 24 orë###02 Aug 2005 content changed
 dateplaner#:#of#:#që nga
@@ -4594,8 +4608,6 @@ dateplaner#:#r_year#:#çdo vit###02 Aug 2005 content changed
 dateplaner#:#readimportfile#:#vendos###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Përsëritje
 dateplaner#:#rotation_dates#:#Terminet Periodike###02 Aug 2005 content changed
-dateplaner#:#Sa_long#:#e Shtunë
-dateplaner#:#Sa_short#:#Sh
 dateplaner#:#semester_name#:#Emri i Semestrit
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Shk
@@ -4612,24 +4624,13 @@ dateplaner#:#short_12#:#Dhj
 dateplaner#:#shorttext#:#Tekst i Shkurt
 dateplaner#:#singleDate#:#termin i vetëm###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Paraqit terminet prej kohës:
-dateplaner#:#Su_long#:#E Diel
-dateplaner#:#Su_short#:#D
-dateplaner#:#Text#:#Teksti
-dateplaner#:#Th_long#:#e Enjte
-dateplaner#:#Th_short#:#E
 dateplaner#:#timedate#:#Ora / Data
 dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agjenda e ILIAS-it
 dateplaner#:#to#:#deri
 dateplaner#:#today#:#sot###02 Aug 2005 content changed
-dateplaner#:#Tu_long#:#e Martë
-dateplaner#:#Tu_short#:#M
-dateplaner#:#View#:#Definimi i pamjes:
 dateplaner#:#viewlist#:#aktualizo pamjen###02 Aug 2005 content changed
-dateplaner#:#We_long#:#e Mërkurë
-dateplaner#:#We_short#:#Mk
 dateplaner#:#week#:#java###02 Aug 2005 content changed
-dateplaner#:#Week_long#:#Pamja Javore
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#viti###02 Aug 2005 content changed
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4660,8 +4661,8 @@ forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new var
 forum#:#forums_download_attachment#:#Shkarko Skedar
 forum#:#forums_edit_post#:#Edito Artikullin
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
-forum#:#forums_info_censor_post#:#A jeni të sigurt për ta fshehur këtë artikull?
 forum#:#forums_info_censor2_post#:#A jeni të sigurt për ta tërhequr censurën?
+forum#:#forums_info_censor_post#:#A jeni të sigurt për ta fshehur këtë artikull?
 forum#:#forums_info_delete_post#:#A jeni të sigurt për ta fshirë artikullin dukë përfshirë edhe të gjitha përgjigjet.
 forum#:#forums_mark_read#:#Shënjo të gjitha të lexuara
 forum#:#forums_new_entries#:#Forume të Reja
@@ -5858,6 +5859,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Shto Kategori###03 Nov 2005 content changed
 survey#:#add_heading#:#Shto titull
 survey#:#add_limits_for_standard_numbers#:#Ju lutem jepni limitin e poshtëm dhe të epërm të numrave standard që doni t'i shtoni si kategori.
@@ -5961,27 +5966,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Nëse nuk shënohet asgjë, numri maksimal i karaktereve për këtë tekst të përgjigjes do të jetë i pakufizuar.
 survey#:#disinvite#:#Anulo ftesën###03 Nov 2005 content changed
 survey#:#display_all_available#:#Paraqit të gjitha
+survey#:#dp_standard_attitude_agree5#:#Qëndrim Standard (plotësisht dakord-dakord-pavendosur-jodakord-plotësisht jodakord)
 survey#:#dp_standard_attitude_agree_disagree#:#Qëndrim Standard (dakord-jodakord)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Qëndrim Standard (dakord-pavendosur -jodakord)
-survey#:#dp_standard_attitude_agree5#:#Qëndrim Standard (plotësisht dakord-dakord-pavendosur-jodakord-plotësisht jodakord)
+survey#:#dp_standard_attitude_desired5#:#Qëndrim Standard (plotësisht dëshirohet-dëshirohet-neutral-nuk dëshirohet-plotësisht nuk dëshirohet)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Qëndrim Standard (dëshirohet-neutral-nuk dëshirohet)
 survey#:#dp_standard_attitude_desired_undesired#:#Qëndrim Standard (dëshirohet-nuk dëshirohet)
-survey#:#dp_standard_attitude_desired5#:#Qëndrim Standard (plotësisht dëshirohet-dëshirohet-neutral-nuk dëshirohet-plotësisht nuk dëshirohet)
+survey#:#dp_standard_attitude_good5#:#Qëndrim Standard (shumë mirë-mirë-drejt-dobët-e papranueshme)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Qëndrim Standard (mirë-drejt-e papranueshme)
 survey#:#dp_standard_attitude_good_notacceptable#:#Qëndrim Standard (mirë-pamjaftueshëm)
-survey#:#dp_standard_attitude_good5#:#Qëndrim Standard (shumë mirë-mirë-drejt-dobët-e papranueshme)
 survey#:#dp_standard_attitude_must5#:#Qëndrim Standard (duhet patjetër-i/e pavendosur-duhet-nuk duhet-patjetër nuk duhet)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Qëndrim Standard (duhet-nuk duhet)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Qëndrim Standard (duhet-i/e pavendosur-nuk duhet)
 survey#:#dp_standard_behaviour_certainly5#:#Sjellje Standarde (plotësisht sigurt-më shumë pozitiv-i/e pavendosur-më shumë negativ- plotësisht pasigurt)
 survey#:#dp_standard_behaviour_yes_no#:#Sjellje Standarde (po-jo)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Sjellje Standarde (po-i/e pavendosur-jo)
+survey#:#dp_standard_beliefs_always5#:#Mendim Standard (gjithnjë-shumë herë-ndryshon-rrallë-kurrë)
 survey#:#dp_standard_beliefs_always_never#:#Mendim Standard (gjithnjë-kurrë)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Mendim Standard (gjithnjë-disa herë-kurrë)
-survey#:#dp_standard_beliefs_always5#:#Mendim Standard (gjithnjë-shumë herë-ndryshon-rrallë-kurrë)
+survey#:#dp_standard_beliefs_true5#:#Mendim Standard (plotësisht e saktë-saktë-i/e pavendosur-pasaktë-plotësisht e pasaktë)
 survey#:#dp_standard_beliefs_true_false#:#Mendim Standard (saktë-pasaktë)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Mendim Standard (saktë-i/e pavendosur-pasaktë)
-survey#:#dp_standard_beliefs_true5#:#Mendim Standard (plotësisht e saktë-saktë-i/e pavendosur-pasaktë-plotësisht e pasaktë)
 survey#:#dp_standard_numbers#:#Numrat Standard
 survey#:#duplicate#:#Dubliko
 survey#:#duplicate_svy#:#Dubliko kuestionerin
@@ -6204,10 +6209,6 @@ survey#:#survey_skip_next#:#anashkalo >>>###19 Jul 2006 content changed
 survey#:#survey_skip_previous#:#<<<anashkalo###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#anashkalo dhe shko në faqen e fillimit
 survey#:#survey_start#:#shko në faqen e fillimit###25 Jul 2006 content changed
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#Të gjitha të dhënat e shfrytëzuesve për këtë kuestioner janë fshirë!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
