@@ -123,12 +123,6 @@ assessment#:#applet_new_parameter#:#Nieuwe parameter###07 Apr 2005 content chang
 assessment#:#applet_parameter#:#Parameter###05 Nov 2004 new variable
 assessment#:#applet_parameters#:#Applet-parameters###07 Apr 2005 content changed
 assessment#:#apply#:#Toepassen###07 Apr 2005 content changed
-assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
-assessment#:#ass_create_export_test_results#:#Export test results###17 Apr 2005 new variable
-assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
-assessment#:#ass_file#:#File###19 Oct 2004 new variable
-assessment#:#ass_question#:#Question###17 Jan 2005 new variable
-assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -140,6 +134,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
+assessment#:#ass_create_export_test_results#:#Export test results###17 Apr 2005 new variable
+assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
+assessment#:#ass_file#:#File###19 Oct 2004 new variable
+assessment#:#ass_question#:#Question###17 Jan 2005 new variable
+assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Beschikbare punten###07 Apr 2005 content changed
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
@@ -967,6 +967,8 @@ chat#:#chat_yellow#:#geel###07 Apr 2005 content changed
 chat#:#chats#:#Chats###05 Nov 2004 new variable
 chat#:#my_chats#:#Mijn Chats###07 Apr 2005 content changed
 common#:#3rd_party_software#:#software van derden(3)###07 Apr 2005 content changed
+common#:#DD.MM.YYYY#:#DD.MM.YYYY###05 Nov 2004 new variable
+common#:#HH#:#HH:MM###05 Nov 2004 new variable
 common#:#absolute_path#:#Absolute pad###07 Apr 2005 content changed
 common#:#accept_usr_agreement#:#Gebruikers-overeenkomst accepteren?###07 Apr 2005 content changed
 common#:#access#:#Toegang###07 Apr 2005 content changed
@@ -1370,10 +1372,10 @@ common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Gecopiëerd object###07 Apr 2005 content changed
 common#:#copy#:#Copie###07 Apr 2005 content changed
-common#:#copy_of#:#Copie van###07 Apr 2005 content changed
-common#:#copy_to#:#naar###07 Apr 2005 content changed
 common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Copie###07 Apr 2005 content changed
+common#:#copy_of#:#Copie van###07 Apr 2005 content changed
+common#:#copy_to#:#naar###07 Apr 2005 content changed
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Aantal###07 Apr 2005 content changed
 common#:#country#:#Land###07 Apr 2005 content changed
@@ -1482,7 +1484,6 @@ common#:#dbk_new#:#Nieuw Digilib-boek###07 Apr 2005 content changed
 common#:#dbk_read#:#Lees-toegang op Digiboek###07 Apr 2005 content changed
 common#:#dbk_visible#:#Digiboek is zichtbaar###07 Apr 2005 content changed
 common#:#dbk_write#:#Wijzig Digiboek###07 Apr 2005 content changed
-common#:#DD.MM.YYYY#:#DD.MM.YYYY###05 Nov 2004 new variable
 common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
 common#:#default#:#Standaard###07 Apr 2005 content changed
 common#:#default_language#:#Standaard taal###07 Apr 2005 content changed
@@ -1941,7 +1942,6 @@ common#:#guests#:#Gasten###07 Apr 2005 content changed
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Hoofdtitel###07 Apr 2005 content changed
 common#:#help#:#Hulp###07 Apr 2005 content changed
-common#:#HH#:#HH:MM###05 Nov 2004 new variable
 common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#details verbergen###07 Apr 2005 content changed
 common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
@@ -2446,11 +2446,11 @@ common#:#month_12_short#:#Dec###05 Nov 2004 new variable
 common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Verplaatsen###07 Apr 2005 content changed
+common#:#moveChapter#:#Verplaatsen###07 Apr 2005 content changed
+common#:#movePage#:#Verplaatsen###07 Apr 2005 content changed
 common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Verplaatsen naar###07 Apr 2005 content changed
 common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
-common#:#moveChapter#:#Verplaatsen###07 Apr 2005 content changed
-common#:#movePage#:#Verplaatsen###07 Apr 2005 content changed
 common#:#msg_cancel#:#Activiteit gestopt###07 Apr 2005 content changed
 common#:#msg_changes_ok#:#De wijzigingen waren in order###07 Apr 2005 content changed
 common#:#msg_clear_clipboard#:#Klembord leeggemaakt###07 Apr 2005 content changed
@@ -2521,9 +2521,9 @@ common#:#msg_obj_exists#:#Dit object bestaat al in deze map###07 Apr 2005 conten
 common#:#msg_obj_modified#:#Wijzigingen opgeslagen.###07 Apr 2005 content changed
 common#:#msg_obj_no_link#:#zijn niet toegestaan te worden gelinkt###07 Apr 2005 content changed
 common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.###29 Nov 2004 new variable
-common#:#msg_perm_adopted_from_itself#:#U kunt de instellingen van rechten niet overnemen van de huidige rol-sjabloon/sjablonen zelf.###07 Apr 2005 content changed
 common#:#msg_perm_adopted_from1#:#Instellingen van rechten overgenomen van###07 Apr 2005 content changed
 common#:#msg_perm_adopted_from2#:#(Instellingen zijn opgeslagen!)###07 Apr 2005 content changed
+common#:#msg_perm_adopted_from_itself#:#U kunt de instellingen van rechten niet overnemen van de huidige rol-sjabloon/sjablonen zelf.###07 Apr 2005 content changed
 common#:#msg_removed#:#Object(en) verwijderd van het systeem.###07 Apr 2005 content changed
 common#:#msg_role_exists1#:#Een rol/rol-sjabloon met dezelfde naam###07 Apr 2005 content changed
 common#:#msg_role_exists2#:#bestaat al! Kies een andere naam###07 Apr 2005 content changed
@@ -2772,9 +2772,9 @@ common#:#password#:#Wachtwoord###07 Apr 2005 content changed
 common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.###12 Nov 2004 new variable
 common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.
 common#:#paste#:#Plakken###07 Apr 2005 content changed
-common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#pasteChapter#:#Plakken###07 Apr 2005 content changed
 common#:#pastePage#:#Plakken###07 Apr 2005 content changed
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Pad###07 Apr 2005 content changed
 common#:#path_not_set#:#Pad niet ingesteld###07 Apr 2005 content changed
 common#:#path_to_babylon#:#Pad naar Babylon###07 Apr 2005 content changed
@@ -3066,12 +3066,12 @@ common#:#server#:#Server###05 Nov 2004 new variable
 common#:#server_data#:#Server-gegevens ###29 Nov 2004 content changed
 common#:#server_software#:#Server-software###07 Apr 2005 content changed
 common#:#set#:#Instellen###07 Apr 2005 content changed
+common#:#setSystemLanguage#:#Stel systeemtaal in###07 Apr 2005 content changed
+common#:#setUserLanguage#:#Stel gebruikerstaal in###07 Apr 2005 content changed
 common#:#set_offline#:#Ga offline###07 Apr 2005 content changed
 common#:#set_online#:#Ga online###07 Apr 2005 content changed
-common#:#setSystemLanguage#:#Stel systeemtaal in###07 Apr 2005 content changed
 common#:#settings#:#Instellingen###07 Apr 2005 content changed
 common#:#settings_saved#:#Saved settings###13 May 2005 new variable
-common#:#setUserLanguage#:#Stel gebruikerstaal in###07 Apr 2005 content changed
 common#:#shib#:#Shibboleth###13 May 2005 new variable
 common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
 common#:#shib_city#:#Attribute for city###13 May 2005 new variable
@@ -3488,6 +3488,9 @@ common#:#you_may_add_local_roles#:#U mag lokale rollen toevoegen###07 Apr 2005 c
 common#:#your_message#:#Uw bericht###07 Apr 2005 content changed
 common#:#zip#:#Zip-code###07 Apr 2005 content changed
 common#:#zipcode#:####07 Apr 2005 content changed
+content#:#HTML export#:#Zip-code###07 Apr 2005 content changed
+content#:#PDF export#:####07 Apr 2005 content changed
+content#:#Pages#:#HTM-export###07 Apr 2005 content changed
 content#:#add_menu_entry#:#Add menu entry >>###23 Dec 2004 new variable
 content#:#all#:#PDF-export###07 Apr 2005 content changed
 content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
@@ -3497,6 +3500,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Pagina's
+content#:#cont_Alphabetic#:#Allemaal###07 Apr 2005 content changed
+content#:#cont_Circle#:#Additioneel###07 Apr 2005 content changed
+content#:#cont_Citation#:#Alphabetisch a, b, ...###07 Apr 2005 content changed
+content#:#cont_Code#:#Cirkel###07 Apr 2005 content changed
+content#:#cont_Example#:#Citaat###07 Apr 2005 content changed
+content#:#cont_Headline1#:#Code###07 Apr 2005 content changed
+content#:#cont_Headline2#:#Voorbeeld###07 Apr 2005 content changed
+content#:#cont_Headline3#:#Kopregel 1###07 Apr 2005 content changed
+content#:#cont_List#:#Kopregel 2###07 Apr 2005 content changed
+content#:#cont_LocalFile#:#Kopregel 3###07 Apr 2005 content changed
+content#:#cont_Mnemonic#:#Lijst###07 Apr 2005 content changed
+content#:#cont_Number#:#Lokaal-bestand###07 Apr 2005 content changed
+content#:#cont_Poly#:#Mnemonic###07 Apr 2005 content changed
+content#:#cont_Rect#:#Nummer###07 Apr 2005 content changed
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Rechthoek###07 Apr 2005 content changed
+content#:#cont_Roman#:#Referentie###07 Apr 2005 content changed
+content#:#cont_TableContent#:#Opmerking###07 Apr 2005 content changed
+content#:#cont_Unordered#:#Romeins I, II, ...###07 Apr 2005 content changed
 content#:#cont_act_number#:#Tabel-inhoud###07 Apr 2005 content changed
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Ongesorteerd###07 Apr 2005 content changed
@@ -3506,10 +3529,8 @@ content#:#cont_add_definition#:#Inschakelen menu###07 Apr 2005 content changed
 content#:#cont_add_fullscreen#:#Toevoegen gebieden###07 Apr 2005 content changed
 content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
 content#:#cont_added_term#:#Definitie toevoegen###07 Apr 2005 content changed
-content#:#cont_Additional#:#Pagina's
 content#:#cont_all_definitions#:#Voeg een volledig scherm toe###07 Apr 2005 content changed
 content#:#cont_all_pages#:#Begrip toegevoegd###07 Apr 2005 content changed
-content#:#cont_Alphabetic#:#Allemaal###07 Apr 2005 content changed
 content#:#cont_annex#:#Alle paginas###07 Apr 2005 content changed
 content#:#cont_api_adapter#:#Alphabetisch a, b, ...###07 Apr 2005 content changed
 content#:#cont_api_func_prefix#:#Annex###07 Apr 2005 content changed
@@ -3538,8 +3559,6 @@ content#:#cont_characteristic#:#Hoofdstukken en pagina's
 content#:#cont_choose_cont_obj#:#Alleen hoofdstukken###07 Apr 2005 content changed
 content#:#cont_choose_glossary#:#Karakteristieken###07 Apr 2005 content changed
 content#:#cont_choose_media_source#:#Kies het content-object###07 Apr 2005 content changed
-content#:#cont_Circle#:#Additioneel###07 Apr 2005 content changed
-content#:#cont_Citation#:#Alphabetisch a, b, ...###07 Apr 2005 content changed
 content#:#cont_citation_err_one#:#Kies de woordenlijst###07 Apr 2005 content changed
 content#:#cont_citation_selection_not_valid#:#Kies Mediabron###07 Apr 2005 content changed
 content#:#cont_citations#:#U moet een precies één editie selecteren!###07 Apr 2005 content changed
@@ -3550,7 +3569,6 @@ content#:#cont_click_next_or_save#:#Klik op het centrum van het gewenste gebied#
 content#:#cont_click_next_point#:#Klik op een cirkelpunt van het gewenste gebied###07 Apr 2005 content changed
 content#:#cont_click_starting_point#:#Klik op de volgende punt van de polygoon of sla het gebied op. (Het is niet noodzakelijk om weer op het startpunt van de polygoon te klikken!)###07 Apr 2005 content changed
 content#:#cont_click_tl_corner#:#Klik op de volgende punt van de polygoon###07 Apr 2005 content changed
-content#:#cont_Code#:#Cirkel###07 Apr 2005 content changed
 content#:#cont_confirm_delete#:#really delete ?###29 Nov 2004 new variable
 content#:#cont_content#:#Klik op het startpunt van de polygoon###07 Apr 2005 content changed
 content#:#cont_content_obj#:#Klik op de hoek linksboven van het gewenste gebied.###07 Apr 2005 content changed
@@ -3645,7 +3663,6 @@ content#:#cont_edition#:#Tabel-eigenschappen###07 Apr 2005 content changed
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Wijzigen begrip###29 Nov 2004 content changed
-content#:#cont_Example#:#Citaat###07 Apr 2005 content changed
 content#:#cont_export_files#:#Editie###07 Apr 2005 content changed
 content#:#cont_external#:#Inschakelen Media###07 Apr 2005 content changed
 content#:#cont_external_url#:#external url###29 Nov 2004 new variable
@@ -3669,9 +3686,6 @@ content#:#cont_get_orig_size#:#Volledig scherm###07 Apr 2005 content changed
 content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Haal link###07 Apr 2005 content changed
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#Code###07 Apr 2005 content changed
-content#:#cont_Headline2#:#Voorbeeld###07 Apr 2005 content changed
-content#:#cont_Headline3#:#Kopregel 1###07 Apr 2005 content changed
 content#:#cont_height#:#Instellen organisatie-grootte###07 Apr 2005 content changed
 content#:#cont_how_published#:#Woordenlijst eigenschappen###07 Apr 2005 content changed
 content#:#cont_href#:#Hoogte###07 Apr 2005 content changed
@@ -3702,7 +3716,6 @@ content#:#cont_link_int#:#Link-gebied###07 Apr 2005 content changed
 content#:#cont_link_select#:#Link(extern)###07 Apr 2005 content changed
 content#:#cont_link_type#:#Link (intern)###07 Apr 2005 content changed
 content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
-content#:#cont_List#:#Kopregel 2###07 Apr 2005 content changed
 content#:#cont_list_files#:#interne link###07 Apr 2005 content changed
 content#:#cont_list_properties#:#Link-type###07 Apr 2005 content changed
 content#:#cont_lk_chapter#:#Geef bestandenlijst###07 Apr 2005 content changed
@@ -3719,7 +3732,6 @@ content#:#cont_lk_term#:#Pagina (Nieuw Frame)###07 Apr 2005 content changed
 content#:#cont_lk_term_new#:#Enquête###07 Apr 2005 content changed
 content#:#cont_lm_menu#:#Woordenlijst begrip###07 Apr 2005 content changed
 content#:#cont_lm_properties#:#Woordenlijst begrip (Nieuw Frame)###07 Apr 2005 content changed
-content#:#cont_LocalFile#:#Kopregel 3###07 Apr 2005 content changed
 content#:#cont_lvalue#:#Menu###07 Apr 2005 content changed
 content#:#cont_manifest#:#Eigenschappen leermodule###07 Apr 2005 content changed
 content#:#cont_map_areas#:#Gegevens-element###07 Apr 2005 content changed
@@ -3728,7 +3740,6 @@ content#:#cont_max_time_allowed#:#overeenkomsten###07 Apr 2005 content changed
 content#:#cont_media_source#:#Sleep een definitie/ plaatsje aan de rechter kant over een begrip en laat de definitie/het plaatje erop vallen om het begrip en de definitie/het plaatje met elkaar te verbinden.###07 Apr 2005 content changed
 content#:#cont_mep_structure#:#adlcp:maxtimeallowed###07 Apr 2005 content changed
 content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
-content#:#cont_Mnemonic#:#Lijst###07 Apr 2005 content changed
 content#:#cont_mob_files#:#Media bron###07 Apr 2005 content changed
 content#:#cont_mob_inst_prop#:#Media-pool-structuur###07 Apr 2005 content changed
 content#:#cont_mob_prop#:#Object-bestanden###07 Apr 2005 content changed
@@ -3754,7 +3765,6 @@ content#:#cont_none#:#Kan geen object met deze titel vinden###07 Apr 2005 conten
 content#:#cont_nr_cols#:#Geen pagina gevonden.###07 Apr 2005 content changed
 content#:#cont_nr_items#:#Geen enkele###07 Apr 2005 content changed
 content#:#cont_nr_rows#:#Aantal kolommen###07 Apr 2005 content changed
-content#:#cont_Number#:#Lokaal-bestand###07 Apr 2005 content changed
 content#:#cont_obj_removed#:#Aantal eenheden###07 Apr 2005 content changed
 content#:#cont_offline#:#Aantal rijen###07 Apr 2005 content changed
 content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
@@ -3778,7 +3788,6 @@ content#:#cont_personal_clipboard#:#Parameter###07 Apr 2005 content changed
 content#:#cont_pg_content#:#parameters###07 Apr 2005 content changed
 content#:#cont_pg_title#:#Klembord###07 Apr 2005 content changed
 content#:#cont_please_select#:#Pagina-inhoud###07 Apr 2005 content changed
-content#:#cont_Poly#:#Mnemonic###07 Apr 2005 content changed
 content#:#cont_prereq_type#:#Pagina-titel###07 Apr 2005 content changed
 content#:#cont_prerequisites#:#selecteer a.u.b###07 Apr 2005 content changed
 content#:#cont_preview#:#adlcp:prerequisites.type###07 Apr 2005 content changed
@@ -3788,11 +3797,8 @@ content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Laten zien###07 Apr 2005 content changed
 content#:#cont_purpose#:#Printoverzicht###07 Apr 2005 content changed
-content#:#cont_Rect#:#Nummer###07 Apr 2005 content changed
 content#:#cont_ref_helptext#:#Uitgever###07 Apr 2005 content changed
 content#:#cont_ref_images#:#Referenced Images###01 Mar 2005 new variable
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#Rechthoek###07 Apr 2005 content changed
 content#:#cont_remove_fullscreen#:#(bijv. http://www.server.org/myimage.jpg)###07 Apr 2005 content changed
 content#:#cont_removeiln#:#really remove internal link ?###07 Jan 2005 new variable
 content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
@@ -3803,7 +3809,6 @@ content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Terugzetten positie definitie###07 Apr 2005 content changed
 content#:#cont_resource_type#:#Terugzetten positie plaatsje###07 Apr 2005 content changed
 content#:#cont_resources#:#Middelen###07 Apr 2005 content changed
-content#:#cont_Roman#:#Referentie###07 Apr 2005 content changed
 content#:#cont_rvalue#:#Bronnen###07 Apr 2005 content changed
 content#:#cont_saved_map_area#:#Romeins I, II, ...###07 Apr 2005 content changed
 content#:#cont_saved_map_data#:#Waarde###07 Apr 2005 content changed
@@ -3873,7 +3878,6 @@ content#:#cont_table_html_import_info#:#Import only works with XHTML conform tab
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#Tussen-cellen-ruimte in tabel###07 Apr 2005 content changed
-content#:#cont_TableContent#:#Opmerking###07 Apr 2005 content changed
 content#:#cont_target_within_source#:#Cel-ruimte in tabel###07 Apr 2005 content changed
 content#:#cont_term#:#Tabel-breedte###07 Apr 2005 content changed
 content#:#cont_terms#:#Doel mag niet binnen het bron-Object.###07 Apr 2005 content changed
@@ -3898,7 +3902,6 @@ content#:#cont_tracking_items#:#Totaal tijd###07 Apr 2005 content changed
 content#:#cont_translations#:#Tracking-gegevens###07 Apr 2005 content changed
 content#:#cont_translations_assigned#:#Tracking-onderdelen###07 Apr 2005 content changed
 content#:#cont_tree_fixed#:#Vertaling(en)###07 Apr 2005 content changed
-content#:#cont_Unordered#:#Romeins I, II, ...###07 Apr 2005 content changed
 content#:#cont_update#:#De vertaling(en) zijn toegewezen###07 Apr 2005 content changed
 content#:#cont_update_names#:#Boom-structuur is gerepareerd.###07 Apr 2005 content changed
 content#:#cont_upload_file#:#Bijwerken###07 Apr 2005 content changed
@@ -3919,7 +3922,6 @@ content#:#copied_to_clipboard#:#xml:base###07 Apr 2005 content changed
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
-content#:#HTML export#:#Zip-code###07 Apr 2005 content changed
 content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
 content#:#lm_menu_entry_target#:#Target###23 Dec 2004 new variable
 content#:#lm_menu_entry_title#:#Title###23 Dec 2004 new variable
@@ -3931,17 +3933,15 @@ content#:#msg_entry_removed#:#Menu entry removed###23 Dec 2004 new variable
 content#:#msg_entry_updated#:#Menu entry updated###23 Dec 2004 new variable
 content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.###09 Apr 2005 new variable
 content#:#msg_page_not_public#:#Page is not public###09 Apr 2005 new variable
-content#:#Pages#:#HTM-export###07 Apr 2005 content changed
 content#:#pages from#:#Jaar###07 Apr 2005 content changed
 content#:#par#:#Gecopiëerde object(en) naar het klembord.###07 Apr 2005 content changed
-content#:#PDF export#:####07 Apr 2005 content changed
 content#:#pg#:#Pagina's van
 content#:#public_section#:#Public Section###19 Dec 2004 new variable
 content#:#read offline#:#Paragrafen###07 Apr 2005 content changed
-content#:#select_a_file#:#Bladzijde###07 Apr 2005 content changed
-content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Bladzijde###07 Apr 2005 content changed
+content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
 content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Lezen offline###07 Apr 2005 content changed
 content#:#start export#:#Selecteer a.u.b. een bestand.###07 Apr 2005 content changed
@@ -4117,6 +4117,7 @@ crs#:#crs_new_subscription#:#Verplaats cursus-bijdrage###07 Apr 2005 content cha
 crs#:#crs_new_subscription_body#:#Nieuwe zoekopdracht###07 Apr 2005 content changed
 crs#:#crs_new_subscription_request#:#Request to join course "%s"
 crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#Nieuw cursus-abonnement###07 Apr 2005 content changed
 crs#:#crs_no_archives_available#:#Een nieuwe gebruiker heeft zich geabonneerd###07 Apr 2005 content changed
 crs#:#crs_no_archives_selected#:#Geen archief geselecteerd###07 Apr 2005 content changed
@@ -4419,6 +4420,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#XML###07 Apr 2005 content changed
+dateplaner#:#Day_long#:#Archiveer###07 Apr 2005 content changed
+dateplaner#:#ERROR_DATE_EXISTS#:#Bericht###07 Apr 2005 content changed
+dateplaner#:#ERROR_DB#:#Dagoverzicht###07 Apr 2005 content changed
+dateplaner#:#ERROR_DB_CONNECT#:#Deze afspraak bestaat al.###07 Apr 2005 content changed
+dateplaner#:#ERROR_DEL_MSG#:#Gegevensbank schrijffout!###07 Apr 2005 content changed
+dateplaner#:#ERROR_ENDDATE#:#De verbinding met de gegevensbank is verbroken.###07 Apr 2005 content changed
+dateplaner#:#ERROR_ENDTIME#:#Dit is een herhalings-afspraak. Wilt u één afspraak van de serie verwijderen###07 Apr 2005 content changed
+dateplaner#:#ERROR_END_START#:#Foutieve invoer einddatum. Formaat: dd/mm/yyyy###07 Apr 2005 content changed
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Foutieve invoer eindtijd. Formaat: hh:mm###07 Apr 2005 content changed
+dateplaner#:#ERROR_JAVASCRIPT#:#Foutieve invoer einddatum. Einddatum ligt voor de startdatum.###03 Oct 2004 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#Geef een geldige CSV-bestand aan.###07 Apr 2005 content changed
+dateplaner#:#ERROR_ROT_END_START#:#<B><CENTER>Uw browser excepteert geen JavaScript.<br />Sluit dit venster nadat u het met de hand ingevoegd hebt.<br />Dank u</CENTER></B>###07 Apr 2005 content changed
+dateplaner#:#ERROR_SHORTTEXT#:#Foutieve invoer repeterende einddatum. Formaat: dd/mm/yyyy###07 Apr 2005 content changed
+dateplaner#:#ERROR_STARTDATE#:#Foutieve invoer repeterende einddatum. Einddatum ligt voor de startdatum.###07 Apr 2005 content changed
+dateplaner#:#ERROR_STARTTIME#:#Verkeerde invoer korte tekst. Korte tekst is vereist.###07 Apr 2005 content changed
+dateplaner#:#ERROR_TS#:#Foutieve invoer start-datum. Formaat: dd/mm/yyyy###07 Apr 2005 content changed
+dateplaner#:#Fr_long#:#Foutieve invoer starttijd. Formaat: hh:mm###07 Apr 2005 content changed
+dateplaner#:#Fr_short#:#Niet correct datum-formaat###07 Apr 2005 content changed
+dateplaner#:#Language_file#:#Vrijdag###07 Apr 2005 content changed
+dateplaner#:#Listbox_long#:#Fr###07 Apr 2005 content changed
+dateplaner#:#Mo_long#:#Engels###07 Apr 2005 content changed
+dateplaner#:#Mo_short#:#Lijst met afspraken###07 Apr 2005 content changed
+dateplaner#:#Month_long#:#Maandag###07 Apr 2005 content changed
+dateplaner#:#Sa_long#:#Mo###07 Apr 2005 content changed
+dateplaner#:#Sa_short#:#maandoverzicht###07 Apr 2005 content changed
+dateplaner#:#Su_long#:#Zaterdag###07 Apr 2005 content changed
+dateplaner#:#Su_short#:#Sa###07 Apr 2005 content changed
+dateplaner#:#Text#:#zondag###07 Apr 2005 content changed
+dateplaner#:#Th_long#:#Su###07 Apr 2005 content changed
+dateplaner#:#Th_short#:#Tekst###07 Apr 2005 content changed
+dateplaner#:#Tu_long#:#Donderdag###07 Apr 2005 content changed
+dateplaner#:#Tu_short#:#Th###07 Apr 2005 content changed
+dateplaner#:#View#:#Dinsdag###07 Apr 2005 content changed
+dateplaner#:#We_long#:#Tu###07 Apr 2005 content changed
+dateplaner#:#We_short#:#Tonen:###07 Apr 2005 content changed
+dateplaner#:#Week_long#:#Woensdag###07 Apr 2005 content changed
 dateplaner#:#add_data#:#We###07 Apr 2005 content changed
 dateplaner#:#app_#:#Week-overzicht###07 Apr 2005 content changed
 dateplaner#:#app_date#:#Additionele gegevens###07 Apr 2005 content changed
@@ -4435,20 +4473,19 @@ dateplaner#:#back#:#Kalender###07 Apr 2005 content changed
 dateplaner#:#begin_date#:#toepassen###07 Apr 2005 content changed
 dateplaner#:#busytime#:#terug###07 Apr 2005 content changed
 dateplaner#:#c_date#:#Begindatum###07 Apr 2005 content changed
-dateplaner#:#changedDates#:#Creëer afspraak###07 Apr 2005 content changed
 dateplaner#:#changeTo#:#tijd bezig in groep###07 Apr 2005 content changed
+dateplaner#:#changedDates#:#Creëer afspraak###07 Apr 2005 content changed
 dateplaner#:#checkforfreetime#:#Wijzigen in:###07 Apr 2005 content changed
 dateplaner#:#created#:#Gewijzigde afspraken###07 Apr 2005 content changed
 dateplaner#:#date#:#Controleer op beschikbare tijd###07 Apr 2005 content changed
 dateplaner#:#date_format#:#Gecreëerd###07 Apr 2005 content changed
 dateplaner#:#date_format_middle#:#Datum###07 Apr 2005 content changed
-dateplaner#:#DateText#:#XML###07 Apr 2005 content changed
-dateplaner#:#Day_long#:#Archiveer###07 Apr 2005 content changed
 dateplaner#:#del_all#:#m/d/Y H:i###07 Apr 2005 content changed
 dateplaner#:#del_one#:#m/d/y###07 Apr 2005 content changed
 dateplaner#:#delete#:#verwijder alle datums###07 Apr 2005 content changed
 dateplaner#:#deletedDates#:#verwijder datum###07 Apr 2005 content changed
 dateplaner#:#discard#:#verwijderen###07 Apr 2005 content changed
+dateplaner#:#dv_Grouptime#:#Afspraken verwijderd###07 Apr 2005 content changed
 dateplaner#:#dv_button_cancel#:#verwerpen###07 Apr 2005 content changed
 dateplaner#:#dv_button_delete#:#beschikbare tijd###07 Apr 2005 content changed
 dateplaner#:#dv_button_insert#:#Annuleren###07 Apr 2005 content changed
@@ -4458,7 +4495,6 @@ dateplaner#:#dv_date_end#:#Bijwerken###07 Apr 2005 content changed
 dateplaner#:#dv_date_hm#:#Start-datum:###07 Apr 2005 content changed
 dateplaner#:#dv_enddate#:#Einddatum:###07 Apr 2005 content changed
 dateplaner#:#dv_groupselect#:#Uur:Minuut###07 Apr 2005 content changed
-dateplaner#:#dv_Grouptime#:#Afspraken verwijderd###07 Apr 2005 content changed
 dateplaner#:#dv_groupview#:#Einddatum:###07 Apr 2005 content changed
 dateplaner#:#dv_groupview_text#:#Groep selecteren:###07 Apr 2005 content changed
 dateplaner#:#dv_keywords#:#Groeps-afspraak:###07 Apr 2005 content changed
@@ -4477,26 +4513,9 @@ dateplaner#:#dv_whole_day#:#Start-datum:###07 Apr 2005 content changed
 dateplaner#:#dv_whole_rotation#:#Tekst:###07 Apr 2005 content changed
 dateplaner#:#end_date#:#Gehele dag:###07 Apr 2005 content changed
 dateplaner#:#endtime_for_view#:#Wilt u de gehele herhalende series verwijderen? (Selecteer het keuzeveld)###07 Apr 2005 content changed
-dateplaner#:#ERROR_DATE_EXISTS#:#Bericht###07 Apr 2005 content changed
-dateplaner#:#ERROR_DB#:#Dagoverzicht###07 Apr 2005 content changed
-dateplaner#:#ERROR_DB_CONNECT#:#Deze afspraak bestaat al.###07 Apr 2005 content changed
-dateplaner#:#ERROR_DEL_MSG#:#Gegevensbank schrijffout!###07 Apr 2005 content changed
-dateplaner#:#ERROR_END_START#:#Foutieve invoer einddatum. Formaat: dd/mm/yyyy###07 Apr 2005 content changed
-dateplaner#:#ERROR_ENDDATE#:#De verbinding met de gegevensbank is verbroken.###07 Apr 2005 content changed
-dateplaner#:#ERROR_ENDTIME#:#Dit is een herhalings-afspraak. Wilt u één afspraak van de serie verwijderen###07 Apr 2005 content changed
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Foutieve invoer eindtijd. Formaat: hh:mm###07 Apr 2005 content changed
-dateplaner#:#ERROR_JAVASCRIPT#:#Foutieve invoer einddatum. Einddatum ligt voor de startdatum.###03 Oct 2004 content changed
 dateplaner#:#error_minical_img#:#Einddatum###07 Apr 2005 content changed
-dateplaner#:#ERROR_ROT_END_START#:#<B><CENTER>Uw browser excepteert geen JavaScript.<br />Sluit dit venster nadat u het met de hand ingevoegd hebt.<br />Dank u</CENTER></B>###07 Apr 2005 content changed
-dateplaner#:#ERROR_ROTATIONEND#:#Geef een geldige CSV-bestand aan.###07 Apr 2005 content changed
-dateplaner#:#ERROR_SHORTTEXT#:#Foutieve invoer repeterende einddatum. Formaat: dd/mm/yyyy###07 Apr 2005 content changed
-dateplaner#:#ERROR_STARTDATE#:#Foutieve invoer repeterende einddatum. Einddatum ligt voor de startdatum.###07 Apr 2005 content changed
-dateplaner#:#ERROR_STARTTIME#:#Verkeerde invoer korte tekst. Korte tekst is vereist.###07 Apr 2005 content changed
-dateplaner#:#ERROR_TS#:#Foutieve invoer start-datum. Formaat: dd/mm/yyyy###07 Apr 2005 content changed
 dateplaner#:#execute#:#Eindtijd voor overzicht###07 Apr 2005 content changed
 dateplaner#:#extra_dates#:#Kan geen GD-figuren creëren###07 Apr 2005 content changed
-dateplaner#:#Fr_long#:#Foutieve invoer starttijd. Formaat: hh:mm###07 Apr 2005 content changed
-dateplaner#:#Fr_short#:#Niet correct datum-formaat###07 Apr 2005 content changed
 dateplaner#:#free#:#uitvoeren keuzen###07 Apr 2005 content changed
 dateplaner#:#freetime#:#Afspraken van één dag###07 Apr 2005 content changed
 dateplaner#:#group#:#vrij###07 Apr 2005 content changed
@@ -4517,9 +4536,9 @@ dateplaner#:#help_group_l#:#<br /><b>klik hier voor meer informatie.</b>###07 Ap
 dateplaner#:#help_inbox#:#Groeps-afspraken selectie###07 Apr 2005 content changed
 dateplaner#:#help_inbox_l#:#Bevat de groepen voor welke de ingelogde gebruiker administrateurs-rechten heeft en waarvoor een afspraak kan worden gemaakt. <br />Na dit gekozen te hebben, is het mogelijk de ongeplande tijd van de groep te zien.###07 Apr 2005 content changed
 dateplaner#:#help_keyword#:#Kalender Inbox###07 Apr 2005 content changed
-dateplaner#:#help_keyword_l#:#Sleutelwoord selectie:###07 Apr 2005 content changed
 dateplaner#:#help_keywordUse#:#Hier worden alle nieuwe, gewijzigde en verwijderde gegevens van groepen getoond.###07 Apr 2005 content changed
 dateplaner#:#help_keywordUse_l#:#Sleutelwoord selectie:###07 Apr 2005 content changed
+dateplaner#:#help_keyword_l#:#Sleutelwoord selectie:###07 Apr 2005 content changed
 dateplaner#:#help_list#:#Kies één of meer sleutelwoorden van de dialoogvenster.<br />TIP: gebruik de CTRL toets voor het selecteren van meerdere mogelijkheden.###07 Apr 2005 content changed
 dateplaner#:#help_list_l#:#Bevat de sleutelwoorden welke een gebruiker kan associëren met afspraken.###07 Apr 2005 content changed
 dateplaner#:#help_month#:#Kalender lijst datums###07 Apr 2005 content changed
@@ -4554,9 +4573,7 @@ dateplaner#:#k_alldates#:#Inbox###07 Apr 2005 content changed
 dateplaner#:#keep#:#Dese afspraken werden met success geregistreerd:###07 Apr 2005 content changed
 dateplaner#:#keyword#:#alle datums###07 Apr 2005 content changed
 dateplaner#:#keywords#:#houd###07 Apr 2005 content changed
-dateplaner#:#Language_file#:#Vrijdag###07 Apr 2005 content changed
 dateplaner#:#last_change#:#Sleutelwoord###07 Apr 2005 content changed
-dateplaner#:#Listbox_long#:#Fr###07 Apr 2005 content changed
 dateplaner#:#long_01#:#Sleutelwoorden###07 Apr 2005 content changed
 dateplaner#:#long_02#:#Laatst gewijzigd###07 Apr 2005 content changed
 dateplaner#:#long_03#:#January###07 Apr 2005 content changed
@@ -4572,16 +4589,13 @@ dateplaner#:#long_12#:#Oktober###07 Apr 2005 content changed
 dateplaner#:#main_dates#:#November###07 Apr 2005 content changed
 dateplaner#:#menue#:#December###07 Apr 2005 content changed
 dateplaner#:#mmonth#:#Algemene afspraken###07 Apr 2005 content changed
-dateplaner#:#Mo_long#:#Engels###07 Apr 2005 content changed
-dateplaner#:#Mo_short#:#Lijst met afspraken###07 Apr 2005 content changed
 dateplaner#:#month#:#Menu###07 Apr 2005 content changed
-dateplaner#:#Month_long#:#Maandag###07 Apr 2005 content changed
 dateplaner#:#more#:#laatste maand###07 Apr 2005 content changed
 dateplaner#:#mweek#:#maand###07 Apr 2005 content changed
 dateplaner#:#myeahr#:#meer###07 Apr 2005 content changed
-dateplaner#:#new_doc#:#Nieuwe afspraken###07 Apr 2005 content changed
 dateplaner#:#newDates#:#vorige week###07 Apr 2005 content changed
 dateplaner#:#newKeyword#:#laatste jaar###07 Apr 2005 content changed
+dateplaner#:#new_doc#:#Nieuwe afspraken###07 Apr 2005 content changed
 dateplaner#:#no_entry#:#Nieuw:###07 Apr 2005 content changed
 dateplaner#:#o_day_date#:#creëer een nieuwe datum###07 Apr 2005 content changed
 dateplaner#:#of#:#geen afspraken beschikbaar###07 Apr 2005 content changed
@@ -4602,8 +4616,6 @@ dateplaner#:#r_year#:#Eens###07 Apr 2005 content changed
 dateplaner#:#readimportfile#:#elke week###07 Apr 2005 content changed
 dateplaner#:#rotation#:#elk jaar###07 Apr 2005 content changed
 dateplaner#:#rotation_dates#:#invoegen###07 Apr 2005 content changed
-dateplaner#:#Sa_long#:#Mo###07 Apr 2005 content changed
-dateplaner#:#Sa_short#:#maandoverzicht###07 Apr 2005 content changed
 dateplaner#:#semester_name#:#Reperterend###07 Apr 2005 content changed
 dateplaner#:#short_01#:#Reperterende afspraken###07 Apr 2005 content changed
 dateplaner#:#short_02#:#Semester-naam###07 Apr 2005 content changed
@@ -4620,24 +4632,13 @@ dateplaner#:#short_12#:#Okt###07 Apr 2005 content changed
 dateplaner#:#shorttext#:#Nov###07 Apr 2005 content changed
 dateplaner#:#singleDate#:#Dec###07 Apr 2005 content changed
 dateplaner#:#starttime_for_view#:#Korte tekst###07 Apr 2005 content changed
-dateplaner#:#Su_long#:#Zaterdag###07 Apr 2005 content changed
-dateplaner#:#Su_short#:#Sa###07 Apr 2005 content changed
-dateplaner#:#Text#:#zondag###07 Apr 2005 content changed
-dateplaner#:#Th_long#:#Su###07 Apr 2005 content changed
-dateplaner#:#Th_short#:#Tekst###07 Apr 2005 content changed
 dateplaner#:#timedate#:#enkele datum###07 Apr 2005 content changed
 dateplaner#:#timeslice#:#Start-tijd voor overzicht###07 Apr 2005 content changed
 dateplaner#:#title#:#Tijd / Datum###07 Apr 2005 content changed
 dateplaner#:#to#:#Tijd:###07 Apr 2005 content changed
 dateplaner#:#today#:#ILIAS kalender###07 Apr 2005 content changed
-dateplaner#:#Tu_long#:#Donderdag###07 Apr 2005 content changed
-dateplaner#:#Tu_short#:#Th###07 Apr 2005 content changed
-dateplaner#:#View#:#Dinsdag###07 Apr 2005 content changed
 dateplaner#:#viewlist#:#naar###07 Apr 2005 content changed
-dateplaner#:#We_long#:#Tu###07 Apr 2005 content changed
-dateplaner#:#We_short#:#Tonen:###07 Apr 2005 content changed
 dateplaner#:#week#:#vandaag###07 Apr 2005 content changed
-dateplaner#:#Week_long#:#Woensdag###07 Apr 2005 content changed
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#tonen###07 Apr 2005 content changed
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4668,8 +4669,8 @@ forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new var
 forum#:#forums_download_attachment#:#Aantal threads###07 Apr 2005 content changed
 forum#:#forums_edit_post#:#Verwijderen attachment###07 Apr 2005 content changed
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
-forum#:#forums_info_censor_post#:#Wijzigen artikel###07 Apr 2005 content changed
 forum#:#forums_info_censor2_post#:#Download bestand###07 Apr 2005 content changed
+forum#:#forums_info_censor_post#:#Wijzigen artikel###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#Herroep censor?###07 Apr 2005 content changed
 forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_new_entries#:#Laatste artikel###07 Apr 2005 content changed
@@ -5866,6 +5867,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#laat zien###07 Apr 2005 content changed
 survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Gebruikers###07 Apr 2005 content changed
@@ -5969,27 +5974,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
 survey#:#disinvite#:#ja###07 Apr 2005 content changed
 survey#:#display_all_available#:#Definiëer vraagblok###07 Apr 2005 content changed
+survey#:#dp_standard_attitude_agree5#:#Onuitgenodigd###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_agree_disagree#:#Laat alles wat beschikbaar is zien###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standaard gedrag (sterk overeenkomen-overeenkomen-onbepaald-oneens zijn-sterk oneens zijn)###07 Apr 2005 content changed
-survey#:#dp_standard_attitude_agree5#:#Onuitgenodigd###07 Apr 2005 content changed
+survey#:#dp_standard_attitude_desired5#:#Standard gedrag (overeenkomen-oneens zijn)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standaard gedrag (overeenkomen-onbepaald-oneens zijn)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_desired_undesired#:#Standaard gedrag (sterk gewenst-gewenst-neutraal-ongewenst-strongly ongewenst)###07 Apr 2005 content changed
-survey#:#dp_standard_attitude_desired5#:#Standard gedrag (overeenkomen-oneens zijn)###07 Apr 2005 content changed
+survey#:#dp_standard_attitude_good5#:#Standaard gedrag (gewenst-neutraal-ongewenst)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standaard gedrag (gewenst-ongewenst)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_good_notacceptable#:#Standaard gedrag (heel goed-goed-redelijk-slecht-niet  acceptabel)###07 Apr 2005 content changed
-survey#:#dp_standard_attitude_good5#:#Standaard gedrag (gewenst-neutraal-ongewenst)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_must5#:#Standaard gedrag (goed-redelijk-niet acceptabel)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standaard gedrag (goed-niet acceptabel)###07 Apr 2005 content changed
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standaard gedrag (moet-zou-onbepaald-zou niet-moet niet)###07 Apr 2005 content changed
 survey#:#dp_standard_behaviour_certainly5#:#Standaard gedrag (zou-zou niet)###07 Apr 2005 content changed
 survey#:#dp_standard_behaviour_yes_no#:#Standaard gedrag (zou-onbepaald-zou niet)###07 Apr 2005 content changed
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standaard gedrag (heel zeker-meer positief-onbepaald-meer negatief-heel zeker niet)###07 Apr 2005 content changed
+survey#:#dp_standard_beliefs_always5#:#Standaard gedrag (ja-nee)###07 Apr 2005 content changed
 survey#:#dp_standard_beliefs_always_never#:#Standaard gedrag (ja-onbepaald-nee)###07 Apr 2005 content changed
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standaard geloof (altijd-vaak-variërend-zelden-nooit)###07 Apr 2005 content changed
-survey#:#dp_standard_beliefs_always5#:#Standaard gedrag (ja-nee)###07 Apr 2005 content changed
+survey#:#dp_standard_beliefs_true5#:#Standaard geloof (altijd-nooit)###07 Apr 2005 content changed
 survey#:#dp_standard_beliefs_true_false#:#Standaard geloof (altijd-soms-nooit)###07 Apr 2005 content changed
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standaard geloof (definitief waar-waar-onbepaald-niet waar-definitief niet waar)###07 Apr 2005 content changed
-survey#:#dp_standard_beliefs_true5#:#Standaard geloof (altijd-nooit)###07 Apr 2005 content changed
 survey#:#dp_standard_numbers#:#Standaard geloof (waar-niet waar)###07 Apr 2005 content changed
 survey#:#duplicate#:#Standaard geloof (waar-onbepaald-niet waar)###07 Apr 2005 content changed
 survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
@@ -6212,10 +6217,6 @@ survey#:#survey_skip_next#:#Vragen###07 Apr 2005 content changed
 survey#:#survey_skip_previous#:#Sla over en beëindig enquête###07 Apr 2005 content changed
 survey#:#survey_skip_start#:#Sla over >>>###07 Apr 2005 content changed
 survey#:#survey_start#:#<<< overslaan###26 Nov 2004 content changed
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#sla over en ga naar de start-pagina###07 Apr 2005 content changed
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable

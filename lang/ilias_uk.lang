@@ -123,12 +123,6 @@ assessment#:#applet_new_parameter#:#�?овий параметр
 assessment#:#applet_parameter#:#Параметр
 assessment#:#applet_parameters#:#Параметри аплета
 assessment#:#apply#:#Примінити
-assessment#:#ass_create_export_file#:#Створити файл ек�?порту
-assessment#:#ass_create_export_test_results#:#Export test results###17 Apr 2005 new variable
-assessment#:#ass_export_files#:#Файли ек�?порту
-assessment#:#ass_file#:#Файл
-assessment#:#ass_question#:#Питанн�?
-assessment#:#ass_size#:#Розмір
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -140,6 +134,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#Створити файл ек�?порту
+assessment#:#ass_create_export_test_results#:#Export test results###17 Apr 2005 new variable
+assessment#:#ass_export_files#:#Файли ек�?порту
+assessment#:#ass_file#:#Файл
+assessment#:#ass_question#:#Питанн�?
+assessment#:#ass_size#:#Розмір
 assessment#:#available_points#:#До�?тупні пункти
 assessment#:#average_reached_points#:#Середньо до�?�?жні пунктиe
 assessment#:#backtocallingtest#:#�?азад до визоваючого те�?ту
@@ -967,6 +967,8 @@ chat#:#chat_yellow#:#жовтий
 chat#:#chats#:#Чати
 chat#:#my_chats#:#Мої Чати
 common#:#3rd_party_software#:#програмне забезпеченн�? �?торонніх виробників
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#absolute_path#:#�?б�?олютний Шл�?х
 common#:#accept_usr_agreement#:#Прийн�?ти угоду кори�?тувача?
 common#:#access#:#До�?туп
@@ -1370,10 +1372,10 @@ common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#Скопійовані об'єкти 
 common#:#copy#:#Копіювати
-common#:#copy_of#:#Копі�?
-common#:#copy_to#:#дл�?
 common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#Копіювати
+common#:#copy_of#:#Копі�?
+common#:#copy_to#:#дл�?
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#Кількі�?ть
 common#:#country#:#Країна
@@ -1482,7 +1484,6 @@ common#:#dbk_new#:#�?ова Digilib Book
 common#:#dbk_read#:#До�?туп на читанн�? до Digilib Книги
 common#:#dbk_visible#:#Digilib Книга є видимою
 common#:#dbk_write#:#Редагувати Digilib Книгу
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#def_repository_view#:#Вид репозіторію по замовчанню
 common#:#default#:#Замовчанн�?
 common#:#default_language#:#Мова за Умовчанн�?м
@@ -1939,7 +1940,6 @@ common#:#guests#:#Го�?ті
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#�?азва Заголовку
 common#:#help#:#Допомога
-common#:#HH#:#HH:MM###10 Jul 2006 new variable
 common#:#hide#:#�?ховати
 common#:#hide_details#:#�?ховати деталі###14 Jul 2005 content changed
 common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
@@ -2444,11 +2444,11 @@ common#:#month_12_short#:#Гру
 common#:#monthly#:#щомі�?�?ц�?
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#Перемі�?тити
+common#:#moveChapter#:#Перемі�?тити
+common#:#movePage#:#Перемі�?тити
 common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#Перемі�?тити в
 common#:#move_users_to_style#:#Перемі�?тити кори�?тувачів до �?тилю###10 Jul 2006 content changed
-common#:#moveChapter#:#Перемі�?тити
-common#:#movePage#:#Перемі�?тити
 common#:#msg_cancel#:#Ді�? відмінена
 common#:#msg_changes_ok#:#Зміни відбули�?ь добре
 common#:#msg_clear_clipboard#:#Буфер обміну очищений
@@ -2519,9 +2519,9 @@ common#:#msg_obj_exists#:#Цей об'єкт вже і�?нує у цій пап�
 common#:#msg_obj_modified#:#Зміни збережені.
 common#:#msg_obj_no_link#:#не дозволено бути зв'�?заним 
 common#:#msg_obj_not_deletable_sold#:#Оплата активована дл�? на�?тупних об'єктів. Вони не можуть бути видалені. 
-common#:#msg_perm_adopted_from_itself#:#Ви не можете на�?лідувати на�?тройки прав з поточної ролі/шаблонц ролі на �?ебе �?амих.
 common#:#msg_perm_adopted_from1#:#�?а�?тройки прав на�?лідовані з
 common#:#msg_perm_adopted_from2#:#(�?а�?тройки були збережені!)
+common#:#msg_perm_adopted_from_itself#:#Ви не можете на�?лідувати на�?тройки прав з поточної ролі/шаблонц ролі на �?ебе �?амих.
 common#:#msg_removed#:#Об'єкт(и) видалений з �?и�?теми. 
 common#:#msg_role_exists1#:#Роль/шаблон ролі з ім'�?м 
 common#:#msg_role_exists2#:#вже і�?нує! Будь ла�?ка виберіть інше ім'�? 
@@ -2770,9 +2770,9 @@ common#:#password#:#Пароль
 common#:#password_assistance_disabled#:#Відновленн�? можливе тільки тоді, коли аутентифікаці�? кори�?тувачів проходить через локальні базу даних ILIAS.
 common#:#password_assistance_info#:#Якщо відновленн�? паролю дозволено, по�?иланн�? з тек�?том "Забули пароль?" буде показувати�?ь на �?торінці з логіном до ILIAS. Кори�?тувачі можуть викори�?товувати це по�?иланн�? щоб призначити новий пароль до �?вого акаунту, без потреби турбувати �?и�?темного адміні�?тратора. 
 common#:#paste#:#В�?тавити
-common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#pasteChapter#:#В�?тавити
 common#:#pastePage#:#В�?тавити
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#Шл�?х
 common#:#path_not_set#:#Шл�?х не в�?тановлений
 common#:#path_to_babylon#:#Шл�?х до Babylon
@@ -3064,12 +3064,12 @@ common#:#server#:#Сервер
 common#:#server_data#:#Дані �?ерверу
 common#:#server_software#:#Програмне Забезпеченн�? Серверу
 common#:#set#:#В�?тановити
+common#:#setSystemLanguage#:#В�?тановити Си�?темну Мову
+common#:#setUserLanguage#:#В�?тановити Мову Кори�?тувача
 common#:#set_offline#:#В�?тановити Оффлайн
 common#:#set_online#:#В�?тановити Онлайн
-common#:#setSystemLanguage#:#В�?тановити Си�?темну Мову
 common#:#settings#:#�?а�?тройки
 common#:#settings_saved#:#Saved settings###13 May 2005 new variable
-common#:#setUserLanguage#:#В�?тановити Мову Кори�?тувача
 common#:#shib#:#Shibboleth###13 May 2005 new variable
 common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
 common#:#shib_city#:#Attribute for city###13 May 2005 new variable
@@ -3486,6 +3486,9 @@ common#:#you_may_add_local_roles#:#Ви Можете Додати Локальн
 common#:#your_message#:#Ваше Повідомленн�?
 common#:#zip#:#Поштовий Код
 common#:#zipcode#:#Поштовий Код
+content#:#HTML export#:#Ек�?порт HTML
+content#:#PDF export#:#Ек�?порт PDF
+content#:#Pages#:#Сторінки
 content#:#add_menu_entry#:#Додати нове входженн�? >>
 content#:#all#:#�?�?і
 content#:#all_pages#:#цілі�?ний Учбовий модуль 
@@ -3495,6 +3498,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Додатковий
+content#:#cont_Alphabetic#:#�?лфавіт A, B, ...###10 Jul 2006 content changed
+content#:#cont_Circle#:#Коло
+content#:#cont_Citation#:#Цитата
+content#:#cont_Code#:#Код
+content#:#cont_Example#:#Приклад###10 Jul 2006 content changed
+content#:#cont_Headline1#:#Заголовок 1
+content#:#cont_Headline2#:#Заголовок 2
+content#:#cont_Headline3#:#Заголовок 3
+content#:#cont_List#:#Спи�?ок
+content#:#cont_LocalFile#:#Локальний Файл
+content#:#cont_Mnemonic#:#Мнемонічний
+content#:#cont_Number#:#Чи�?ло
+content#:#cont_Poly#:#Полігон
+content#:#cont_Rect#:#Пр�?мокутник
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#Ремарка
+content#:#cont_Roman#:#Рим�?ькі I, II, ...###10 Jul 2006 content changed
+content#:#cont_TableContent#:#Вмі�?т Таблиці
+content#:#cont_Unordered#:#�?евпор�?дкований
 content#:#cont_act_number#:#�?умераці�? Глав
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Дозволити Меню
@@ -3504,10 +3527,8 @@ content#:#cont_add_definition#:#Додати Визначенн�?
 content#:#cont_add_fullscreen#:#Додати Повний Екран
 content#:#cont_added_comment#:#Коментарій був доданий в і�?торію.
 content#:#cont_added_term#:#Термін доданий
-content#:#cont_Additional#:#Додатковий
 content#:#cont_all_definitions#:#У�?і Визначенн�?
 content#:#cont_all_pages#:#У�?і Сторінки
-content#:#cont_Alphabetic#:#�?лфавіт A, B, ...###10 Jul 2006 content changed
 content#:#cont_annex#:#Доповненн�?
 content#:#cont_api_adapter#:#API Ім'�? �?даптору 
 content#:#cont_api_func_prefix#:#API Префік�? Функцій
@@ -3536,8 +3557,6 @@ content#:#cont_characteristic#:#Характери�?тика
 content#:#cont_choose_cont_obj#:#Виберіть Об'єкт Вмі�?ту 
 content#:#cont_choose_glossary#:#Виберіть Гло�?арій
 content#:#cont_choose_media_source#:#Виберіть Медіа Джерело
-content#:#cont_Circle#:#Коло
-content#:#cont_Citation#:#Цитата
 content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне виданн�?
 content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорректним###10 Jul 2006 content changed
 content#:#cont_citations#:#Цитати
@@ -3548,7 +3567,6 @@ content#:#cont_click_next_or_save#:#Будь ла�?ка клікніть на н
 content#:#cont_click_next_point#:#Будь ла�?ка клікніть на на�?тупну точку полігона.
 content#:#cont_click_starting_point#:#Будь ла�?ка клікніть на початкову точку полігона.
 content#:#cont_click_tl_corner#:#Будь ла�?ка клікніть на верхній лівий кут бажаної обла�?ті.
-content#:#cont_Code#:#Код
 content#:#cont_confirm_delete#:#дій�?но видалити ?
 content#:#cont_content#:#Вмі�?т
 content#:#cont_content_obj#:#Об'єкт Вмі�?ту 
@@ -3643,7 +3661,6 @@ content#:#cont_edition#:#Випу�?к
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Дозволити JavaScript
 content#:#cont_enable_media#:#Дозволити Медіа
-content#:#cont_Example#:#Приклад###10 Jul 2006 content changed
 content#:#cont_export_files#:#Ек�?портувати Файли
 content#:#cont_external#:#зовнішній
 content#:#cont_external_url#:#зовнішній url
@@ -3667,9 +3684,6 @@ content#:#cont_get_orig_size#:#В�?тановити оригінальний р�
 content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Вла�?тиво�?ті Гло�?арію
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#Заголовок 1
-content#:#cont_Headline2#:#Заголовок 2
-content#:#cont_Headline3#:#Заголовок 3
 content#:#cont_height#:#Ви�?ота
 content#:#cont_how_published#:#Як опублікувати
 content#:#cont_href#:#href
@@ -3700,7 +3714,6 @@ content#:#cont_link_int#:#По�?иланн�? (внутрішнє)
 content#:#cont_link_select#:#Внутрішнє По�?иланн�?
 content#:#cont_link_type#:#Тип По�?иланн�?
 content#:#cont_linked_mobs#:#Зв'�?зані медіа об'єкти 
-content#:#cont_List#:#Спи�?ок
 content#:#cont_list_files#:#Спи�?ок Файлів
 content#:#cont_list_properties#:#Вла�?тиво�?ті Спи�?ку
 content#:#cont_lk_chapter#:#Глава
@@ -3717,7 +3730,6 @@ content#:#cont_lk_term#:#Термін Гло�?арі�?
 content#:#cont_lk_term_new#:#Термін Гло�?арі�? (�?овий Фрейм)
 content#:#cont_lm_menu#:#Меню
 content#:#cont_lm_properties#:#Вла�?тиво�?ті Учбового Модул�?
-content#:#cont_LocalFile#:#Локальний Файл
 content#:#cont_lvalue#:#Елемент даних
 content#:#cont_manifest#:#Маніфе�?т
 content#:#cont_map_areas#:#Обла�?ті По�?иланн�?
@@ -3726,7 +3738,6 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Медіа Джерело
 content#:#cont_mep_structure#:#Структура Медіа Банку
 content#:#cont_missing_preconditions#:#Ви маєте виконати на�?тупні попередні умови щоб отримати до�?туп до глави "%s". 
-content#:#cont_Mnemonic#:#Мнемонічний
 content#:#cont_mob_files#:#Файли Об'єкта 
 content#:#cont_mob_inst_prop#:#Вла�?тиво�?ті Екземпл�?ру
 content#:#cont_mob_prop#:#Вла�?тиво�?ті Об'єкта 
@@ -3752,7 +3763,6 @@ content#:#cont_none#:#�?ічого
 content#:#cont_nr_cols#:#Кількі�?ть Колонок
 content#:#cont_nr_items#:#Кількі�?ть Пунктів
 content#:#cont_nr_rows#:#Кількі�?ть Р�?дків
-content#:#cont_Number#:#Чи�?ло
 content#:#cont_obj_removed#:#Об'єкт видалений. 
 content#:#cont_offline#:#Оффлайн Вер�?ії
 content#:#cont_offline_files#:#Оффлайн вер�?ії
@@ -3776,7 +3786,6 @@ content#:#cont_personal_clipboard#:#О�?оби�?тий Буфер Обміну
 content#:#cont_pg_content#:#Вмі�?т Сторінки
 content#:#cont_pg_title#:#�?азва Сторінки
 content#:#cont_please_select#:#будь ла�?ка виберіть
-content#:#cont_Poly#:#Полігон
 content#:#cont_prereq_type#:#adlcp:попередні умови.тип
 content#:#cont_prerequisites#:#adlcp:попередні умови
 content#:#cont_preview#:#Попередній Огл�?д
@@ -3786,11 +3795,8 @@ content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#Видавник
 content#:#cont_purpose#:#Призначенн�?
-content#:#cont_Rect#:#Пр�?мокутник
 content#:#cont_ref_helptext#:#(наприклад http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Зображенн�? з по�?иланн�?м
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#Ремарка
 content#:#cont_remove_fullscreen#:#Видалити Повний Екран
 content#:#cont_removeiln#:#дій�?но видалити внутрішнє по�?иланн�? ?
 content#:#cont_repository_item#:#Об'єкт Репозиторію 
@@ -3801,7 +3807,6 @@ content#:#cont_resize_image#:#Смінити розмір зображень
 content#:#cont_resource#:#Ре�?ур�?
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ре�?ур�?и
-content#:#cont_Roman#:#Рим�?ькі I, II, ...###10 Jul 2006 content changed
 content#:#cont_rvalue#:#Значенн�?
 content#:#cont_saved_map_area#:#Збережена карта обла�?ті
 content#:#cont_saved_map_data#:#Зберегти дані карти
@@ -3871,7 +3876,6 @@ content#:#cont_table_html_import_info#:#Імпорт працює тільки �
 content#:#cont_table_spreadsheet_import#:#Імпортувати Spreadsheet
 content#:#cont_table_spreadsheet_import_info#:#В�?тавте таблицю з spreadsheet програми через буфер обміну в обла�?ть дл�? тек�?ту.
 content#:#cont_table_width#:#Ширина Таблиці
-content#:#cont_TableContent#:#Вмі�?т Таблиці
 content#:#cont_target_within_source#:#Ціль не повинна бути в�?ередині вихідного об'єкту. 
 content#:#cont_term#:#Термін
 content#:#cont_terms#:#Терміни
@@ -3896,7 +3900,6 @@ content#:#cont_tracking_items#:#Об'єкти Спо�?тереженн�?
 content#:#cont_translations#:#Переклад(и)
 content#:#cont_translations_assigned#:#Переклад(и) були призначені
 content#:#cont_tree_fixed#:#Деревоподібна �?труктура була виправлена.
-content#:#cont_Unordered#:#�?евпор�?дкований
 content#:#cont_update#:#Обновити
 content#:#cont_update_names#:#Оновити Імена
 content#:#cont_upload_file#:#Завантажити Файл
@@ -3917,7 +3920,6 @@ content#:#copied_to_clipboard#:#Об'єкти, �?копійовані в буф�
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
-content#:#HTML export#:#Ек�?порт HTML
 content#:#lm_menu_edit_entry#:#Редагувати пункт меню
 content#:#lm_menu_entry_target#:#Ціль
 content#:#lm_menu_entry_title#:#�?азва
@@ -3929,17 +3931,15 @@ content#:#msg_entry_removed#:#Пункт меню видалений
 content#:#msg_entry_updated#:#Пункт меню оновлений
 content#:#msg_page_no_public_access#:#The page you called is not available in the public area. Only registered users may view this page. Please login first to access this page. ### 2006-8-11 --- Add new translation here.
 content#:#msg_page_not_public#:#Page is not public ### 2006-8-11 --- Add new translation here.
-content#:#Pages#:#Сторінки
 content#:#pages from#:#Сторінки З
 content#:#par#:#Параграф
-content#:#PDF export#:#Ек�?порт PDF
 content#:#pg#:#Сторінка
 content#:#public_section#:#Публічна Секці�?###19 Jul 2005 content changed
 content#:#read offline#:#Прочитати Оффлайн
-content#:#select_a_file#:#Будь ла�?ка виберіть файл.
-content#:#selected_pages_only#:#тільки ті �?торінки вибрані нижче 
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Будь ла�?ка виберіть файл.
+content#:#selected_pages_only#:#тільки ті �?торінки вибрані нижче 
 content#:#set_public_mode#:#В�?тановити публічний режим до�?тупу
 content#:#st#:#Глава
 content#:#start export#:#Почати Ек�?порт
@@ -4115,6 +4115,7 @@ crs#:#crs_new_subscription#:#�?ова підпи�?ка на кур�?###23 Dec 20
 crs#:#crs_new_subscription_body#:#�?овий кори�?тувач підпи�?аний###23 Dec 2005 content changed
 crs#:#crs_new_subscription_request#:#Request to join course "%s"
 crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#�?емає вибраних архівів
 crs#:#crs_no_archives_available#:#�?емає до�?тупних архівів
 crs#:#crs_no_archives_selected#:#Будь ла�?ка виберіть архів
@@ -4417,6 +4418,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#Повідомленн�?
+dateplaner#:#Day_long#:#Денний Огл�?д
+dateplaner#:#ERROR_DATE_EXISTS#:#Ц�? дата вже і�?нує.###02 Aug 2005 content changed
+dateplaner#:#ERROR_DB#:#Помилка запи�?у в базу даних!
+dateplaner#:#ERROR_DB_CONNECT#:#База даних роз'єднана. 
+dateplaner#:#ERROR_DEL_MSG#:#Ц�? дата повторюєть�?�?. Ви бажаєе видалити одну або у�?і дати###02 Aug 2005 content changed
+dateplaner#:#ERROR_ENDDATE#:#�?евірний ввод кінцевої дати. Формат: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#�?евірний кінцевий ча�?. Формат: hh:mm
+dateplaner#:#ERROR_END_START#:#�?евірний ввод кінцевої дати. Кінцева дата раніше ніж початкова.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Будь ла�?ка візміть дій�?ний csv Файл.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>ваш браузер не підтримує JavaScript. <BR> Будь ла�?ка закрийте це Вікно пі�?л�? ручної в�?тавки. <BR> Д�?кумо</CENTER></B>###10 Jul 2006 content changed
+dateplaner#:#ERROR_ROTATIONEND#:#�?евірний ввод Кинцевої дати з повторенн�?м. Формат: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#�?евірний ввод кінцевої дати що повторюєть�?�?. Кінцева дата що повторюєть�?�? перед початковою датою.
+dateplaner#:#ERROR_SHORTTEXT#:#�?евірний ввод короткого опи�?у. Потрібен короткий опи�?.
+dateplaner#:#ERROR_STARTDATE#:#�?евірний ввод початкової дати. Формат: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#�?евірна початкова дата. Формат: hh:mm
+dateplaner#:#ERROR_TS#:#�?евірний формат дати
+dateplaner#:#Fr_long#:#П'�?тниц�? 
+dateplaner#:#Fr_short#:#Пт
+dateplaner#:#Language_file#:#англій�?ька
+dateplaner#:#Listbox_long#:#Спи�?ок Дат###02 Aug 2005 content changed
+dateplaner#:#Mo_long#:#Понеділок
+dateplaner#:#Mo_short#:#Пн
+dateplaner#:#Month_long#:#Мі�?�?чний Огл�?д
+dateplaner#:#Sa_long#:#Субота
+dateplaner#:#Sa_short#:#Сб
+dateplaner#:#Su_long#:#�?еділ�?
+dateplaner#:#Su_short#:#�?д
+dateplaner#:#Text#:#Тек�?т
+dateplaner#:#Th_long#:#Четвер
+dateplaner#:#Th_short#:#Чт
+dateplaner#:#Tu_long#:#Вівторок
+dateplaner#:#Tu_short#:#Вт
+dateplaner#:#View#:#Огл�?д:
+dateplaner#:#We_long#:#П'�?тниц�? 
+dateplaner#:#We_short#:#Пт
+dateplaner#:#Week_long#:#Тижневий Огл�?д
 dateplaner#:#add_data#:#Додаткова дата###02 Aug 2005 content changed
 dateplaner#:#app_#:#group dates inbox###02 Aug 2005 content changed
 dateplaner#:#app_date#:#в�?тавити дату###02 Aug 2005 content changed
@@ -4433,20 +4471,19 @@ dateplaner#:#back#:#назад###02 Aug 2005 content changed
 dateplaner#:#begin_date#:#Початок Дати
 dateplaner#:#busytime#:#зайн�?тий ча�? в групі###02 Aug 2005 content changed
 dateplaner#:#c_date#:#Створити Дату###02 Aug 2005 content changed
-dateplaner#:#changedDates#:#Змінені дати###02 Aug 2005 content changed
 dateplaner#:#changeTo#:#Змінити на:
+dateplaner#:#changedDates#:#Змінені дати###02 Aug 2005 content changed
 dateplaner#:#checkforfreetime#:#Перевірити на вільний ча�?
 dateplaner#:#created#:#Створений
 dateplaner#:#date#:#Дата
 dateplaner#:#date_format#:#m/d/Y H:i//мі�?�?ць/день/Рік4Цифри Година24:Хвилини
 dateplaner#:#date_format_middle#:#m/d/y//мі�?�?ць/день/Рік
-dateplaner#:#DateText#:#Повідомленн�?
-dateplaner#:#Day_long#:#Денний Огл�?д
 dateplaner#:#del_all#:#видалити у�?і дати###02 Aug 2005 content changed
 dateplaner#:#del_one#:#видалити одну дату###02 Aug 2005 content changed
 dateplaner#:#delete#:#видалити###02 Aug 2005 content changed
 dateplaner#:#deletedDates#:#Видалені дати###02 Aug 2005 content changed
 dateplaner#:#discard#:#відкинути###02 Aug 2005 content changed
+dateplaner#:#dv_Grouptime#:#вільний ча�?###02 Aug 2005 content changed
 dateplaner#:#dv_button_cancel#:#Відмінити
 dateplaner#:#dv_button_delete#:#Видалити
 dateplaner#:#dv_button_insert#:#В�?тавити
@@ -4456,7 +4493,6 @@ dateplaner#:#dv_date_end#:#Дата Кінц�?:
 dateplaner#:#dv_date_hm#:#Година:Хвилина
 dateplaner#:#dv_enddate#:#Кінцева дата:
 dateplaner#:#dv_groupselect#:#Вибір групи:
-dateplaner#:#dv_Grouptime#:#вільний ча�?###02 Aug 2005 content changed
 dateplaner#:#dv_groupview#:#Дата групи:###02 Aug 2005 content changed
 dateplaner#:#dv_groupview_text#:#Група:<br>
 dateplaner#:#dv_keywords#:#Ключові �?лова:
@@ -4475,26 +4511,9 @@ dateplaner#:#dv_whole_day#:#Цілий день:
 dateplaner#:#dv_whole_rotation#:#Ви бажаєте видалити у�?і повтори дати? (відмітьте чекбок�?)
 dateplaner#:#end_date#:#Кінець Дати
 dateplaner#:#endtime_for_view#:#Кінцевий ча�? дл�? огл�?ду:
-dateplaner#:#ERROR_DATE_EXISTS#:#Ц�? дата вже і�?нує.###02 Aug 2005 content changed
-dateplaner#:#ERROR_DB#:#Помилка запи�?у в базу даних!
-dateplaner#:#ERROR_DB_CONNECT#:#База даних роз'єднана. 
-dateplaner#:#ERROR_DEL_MSG#:#Ц�? дата повторюєть�?�?. Ви бажаєе видалити одну або у�?і дати###02 Aug 2005 content changed
-dateplaner#:#ERROR_END_START#:#�?евірний ввод кінцевої дати. Кінцева дата раніше ніж початкова.
-dateplaner#:#ERROR_ENDDATE#:#�?евірний ввод кінцевої дати. Формат: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#�?евірний кінцевий ча�?. Формат: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Будь ла�?ка візміть дій�?ний csv Файл.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>ваш браузер не підтримує JavaScript. <BR> Будь ла�?ка закрийте це Вікно пі�?л�? ручної в�?тавки. <BR> Д�?кумо</CENTER></B>###10 Jul 2006 content changed
 dateplaner#:#error_minical_img#:#�?еможливо �?творити GD-picture-stream
-dateplaner#:#ERROR_ROT_END_START#:#�?евірний ввод кінцевої дати що повторюєть�?�?. Кінцева дата що повторюєть�?�? перед початковою датою.
-dateplaner#:#ERROR_ROTATIONEND#:#�?евірний ввод Кинцевої дати з повторенн�?м. Формат: dd/mm/yyyy
-dateplaner#:#ERROR_SHORTTEXT#:#�?евірний ввод короткого опи�?у. Потрібен короткий опи�?.
-dateplaner#:#ERROR_STARTDATE#:#�?евірний ввод початкової дати. Формат: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#�?евірна початкова дата. Формат: hh:mm
-dateplaner#:#ERROR_TS#:#�?евірний формат дати
 dateplaner#:#execute#:#виконати варіанти###02 Aug 2005 content changed
 dateplaner#:#extra_dates#:#Одноденні Дати###02 Aug 2005 content changed
-dateplaner#:#Fr_long#:#П'�?тниц�? 
-dateplaner#:#Fr_short#:#Пт
 dateplaner#:#free#:#вільний###02 Aug 2005 content changed
 dateplaner#:#freetime#:#вільний Ча�? в групі###02 Aug 2005 content changed
 dateplaner#:#group#:#група###02 Aug 2005 content changed
@@ -4515,9 +4534,9 @@ dateplaner#:#help_group_l#:#Мі�?тить групи дл�? �?ких залог
 dateplaner#:#help_inbox#:#Планувальник Вхідні
 dateplaner#:#help_inbox_l#:#Тут показані у�?і нові, змінені та видалені дати груп.###02 Aug 2005 content changed
 dateplaner#:#help_keyword#:#Вибір ключового �?лова
-dateplaner#:#help_keyword_l#:#Мі�?тить ключові �?лова �?кі кори�?тувач може а�?оціювати з датами.
 dateplaner#:#help_keywordUse#:#Вибір ключового �?лова
 dateplaner#:#help_keywordUse_l#:#Виберіть одне або більше ключових �?лів з діалогового вікна. <br>Порада: викори�?товуйте клавішу CTRL дл�? вибору декількох �?лів.
+dateplaner#:#help_keyword_l#:#Мі�?тить ключові �?лова �?кі кори�?тувач може а�?оціювати з датами.
 dateplaner#:#help_list#:#Планувальник �?пи�?ок дат###02 Aug 2005 content changed
 dateplaner#:#help_list_l#:#В �?пи�?ку дат показані у�?і дати за даний період.###02 Aug 2005 content changed
 dateplaner#:#help_month#:#Планувальник мі�?�?чний огл�?д
@@ -4552,9 +4571,7 @@ dateplaner#:#k_alldates#:#у�?і дати###02 Aug 2005 content changed
 dateplaner#:#keep#:#зберегти###02 Aug 2005 content changed
 dateplaner#:#keyword#:#Клю�?ове �?лово
 dateplaner#:#keywords#:#Ключові �?лова
-dateplaner#:#Language_file#:#англій�?ька
 dateplaner#:#last_change#:#О�?танн�? зміна
-dateplaner#:#Listbox_long#:#Спи�?ок Дат###02 Aug 2005 content changed
 dateplaner#:#long_01#:#Січень
 dateplaner#:#long_02#:#Лютий
 dateplaner#:#long_03#:#Березень
@@ -4570,16 +4587,13 @@ dateplaner#:#long_12#:#Грудень
 dateplaner#:#main_dates#:#Головні Дати###02 Aug 2005 content changed
 dateplaner#:#menue#:#Меню
 dateplaner#:#mmonth#:#о�?танній мі�?�?ць###02 Aug 2005 content changed
-dateplaner#:#Mo_long#:#Понеділок
-dateplaner#:#Mo_short#:#Пн
 dateplaner#:#month#:#мі�?�?ць###02 Aug 2005 content changed
-dateplaner#:#Month_long#:#Мі�?�?чний Огл�?д
 dateplaner#:#more#:#більше###02 Aug 2005 content changed
 dateplaner#:#mweek#:#о�?танній тиждень###02 Aug 2005 content changed
 dateplaner#:#myeahr#:#о�?танній рік###02 Aug 2005 content changed
-dateplaner#:#new_doc#:#�?творити нову дату###02 Aug 2005 content changed
 dateplaner#:#newDates#:#�?ові дати###02 Aug 2005 content changed
 dateplaner#:#newKeyword#:#�?ове:
+dateplaner#:#new_doc#:#�?творити нову дату###02 Aug 2005 content changed
 dateplaner#:#no_entry#:#немає до�?тупних дат###02 Aug 2005 content changed
 dateplaner#:#o_day_date#:#24h дата###02 Aug 2005 content changed
 dateplaner#:#of#:#
@@ -4600,8 +4614,6 @@ dateplaner#:#r_year#:#кожен рік###02 Aug 2005 content changed
 dateplaner#:#readimportfile#:#в�?тавити###02 Aug 2005 content changed
 dateplaner#:#rotation#:#Повторенн�?
 dateplaner#:#rotation_dates#:#Дати Потоврів###02 Aug 2005 content changed
-dateplaner#:#Sa_long#:#Субота
-dateplaner#:#Sa_short#:#Сб
 dateplaner#:#semester_name#:#Ім'�? Семе�?тру 
 dateplaner#:#short_01#:#Січ
 dateplaner#:#short_02#:#Лют
@@ -4618,24 +4630,13 @@ dateplaner#:#short_12#:#Гру
 dateplaner#:#shorttext#:#Короткий Тек�?т
 dateplaner#:#singleDate#:#одиночна дата###02 Aug 2005 content changed
 dateplaner#:#starttime_for_view#:#Початковий ча�? дл�? огл�?ду:
-dateplaner#:#Su_long#:#�?еділ�?
-dateplaner#:#Su_short#:#�?д
-dateplaner#:#Text#:#Тек�?т
-dateplaner#:#Th_long#:#Четвер
-dateplaner#:#Th_short#:#Чт
 dateplaner#:#timedate#:#Ча�? / Дата
 dateplaner#:#timeslice#:#Ча�?:
 dateplaner#:#title#:#Планувальник Ilias
 dateplaner#:#to#:#дл�?
 dateplaner#:#today#:#�?ьогодні###02 Aug 2005 content changed
-dateplaner#:#Tu_long#:#Вівторок
-dateplaner#:#Tu_short#:#Вт
-dateplaner#:#View#:#Огл�?д:
 dateplaner#:#viewlist#:#огл�?д###02 Aug 2005 content changed
-dateplaner#:#We_long#:#П'�?тниц�? 
-dateplaner#:#We_short#:#Пт
 dateplaner#:#week#:#тиждень###02 Aug 2005 content changed
-dateplaner#:#Week_long#:#Тижневий Огл�?д
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#рік###02 Aug 2005 content changed
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4666,8 +4667,8 @@ forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new var
 forum#:#forums_download_attachment#:#Завантажити файл
 forum#:#forums_edit_post#:#Редагувати По�?т
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
-forum#:#forums_info_censor_post#:#Ви впевнені що ви бажаєте �?ховати цей по�?т?
 forum#:#forums_info_censor2_post#:#Відмінити права на Цензуру?
+forum#:#forums_info_censor_post#:#Ви впевнені що ви бажаєте �?ховати цей по�?т?
 forum#:#forums_info_delete_post#:#Ви впевнені що ви бажаєте видалитти цей по�?т разом з у�?іма відповід�?ми на нього?
 forum#:#forums_mark_read#:#Помітити у�?е �?к прочитане
 forum#:#forums_new_entries#:#�?ові �?адходженн�? в Форуми
@@ -5864,6 +5865,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Додати категорію###03 Nov 2005 content changed
 survey#:#add_heading#:#Додати заголовок
 survey#:#add_limits_for_standard_numbers#:#Будь ла�?ка введіть нижній та верхній ліміти дл�? �?тандартних номерів, що ви бажаєте додати �?к категорії.###03 Nov 2005 content changed
@@ -5967,27 +5972,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#Якщо нічого не введено, мак�?имальна кількі�?ть �?имволів дл�? цієї тек�?тової відповіді необмежена.
 survey#:#disinvite#:#�?е запрошувати###03 Nov 2005 content changed
 survey#:#display_all_available#:#Показати у�?і до�?тупні
+survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
+survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)
 survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
+survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)
-survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
 survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)
 survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)
 survey#:#dp_standard_behaviour_yes_no#:#Standard behaviour (yes-no)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behaviour (yes-undecided-no)
+survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
 survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
+survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_numbers#:#Стандартні цифри
 survey#:#duplicate#:#Робити копію
 survey#:#duplicate_svy#:#Зробити копію опитуванн�?
@@ -6210,10 +6215,6 @@ survey#:#survey_skip_next#:#пропу�?тити та на�?тупна �?тор�
 survey#:#survey_skip_previous#:#<<< пропу�?тити та попередн�? �?торінка###19 Jul 2006 content changed
 survey#:#survey_skip_start#:#<<< пропу�?тити та перейти до початкової �?торінки
 survey#:#survey_start#:#<<< зберегти та перейти до початкової �?торінки###25 Jul 2006 content changed
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#У�?і дані кори�?тувача цього опитуванн�? були видалені!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable

@@ -141,12 +141,6 @@ assessment#:#applet_new_parameter#:#新�?�数###07 Apr 2005 content changed
 assessment#:#applet_parameter#:#�?�数###07 Apr 2005 content changed
 assessment#:#applet_parameters#:#Applet �?�数###07 Apr 2005 content changed
 assessment#:#apply#:#申请###07 Apr 2005 content changed
-assessment#:#ass_create_export_file#:#创建导出文件###07 Apr 2005 content changed
-assessment#:#ass_create_export_test_results#:#Export test results###17 Apr 2005 new variable
-assessment#:#ass_export_files#:#导出文件###07 Apr 2005 content changed
-assessment#:#ass_file#:#文件###07 Apr 2005 content changed
-assessment#:#ass_question#:#Question###17 Jan 2005 new variable
-assessment#:#ass_size#:#大�?###19 Oct 2004 new variable
 assessment#:#assClozeTest#:#Cloze Question###10 Jul 2006 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###10 Jul 2006 new variable
 assessment#:#assJavaApplet#:#Java Applet Question###10 Jul 2006 new variable
@@ -158,6 +152,12 @@ assessment#:#assQuestions#:#Questions###10 Jul 2006 new variable
 assessment#:#assSingleChoice#:#Multiple Choice Question (single response)###10 Jul 2006 new variable
 assessment#:#assTextQuestion#:#Essay Question###10 Jul 2006 new variable
 assessment#:#assTextSubset#:#Text subset question###10 Jul 2006 new variable
+assessment#:#ass_create_export_file#:#创建导出文件###07 Apr 2005 content changed
+assessment#:#ass_create_export_test_results#:#Export test results###17 Apr 2005 new variable
+assessment#:#ass_export_files#:#导出文件###07 Apr 2005 content changed
+assessment#:#ass_file#:#文件###07 Apr 2005 content changed
+assessment#:#ass_question#:#Question###17 Jan 2005 new variable
+assessment#:#ass_size#:#大�?###19 Oct 2004 new variable
 assessment#:#available_points#:#分值###07 Apr 2005 content changed
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
@@ -985,6 +985,8 @@ chat#:#chat_yellow#:#yellow###05 Mar 2004 new variable
 chat#:#chats#:#Chats###05 Mar 2004 new variable
 chat#:#my_chats#:#My Chats###05 Mar 2004 new variable
 common#:#3rd_party_software#:#第三方软件###11 Apr 2004 content changed
+common#:#DD.MM.YYYY#:#日（二�?数字）.月（二�?数字）.年（四�?数字）###07 Apr 2005 content changed
+common#:#HH#:#�?时（二�?数字）:分（二�?数字）###07 Apr 2005 content changed
 common#:#absolute_path#:#�?对路径###07 Apr 2005 content changed
 common#:#accept_usr_agreement#:#接�?�用户�??议？###07 Apr 2005 content changed
 common#:#access#:#访问###07 Apr 2005 content changed
@@ -1388,10 +1390,10 @@ common#:#contra#:#Contra###23 Dec 2005 new variable
 common#:#cookies_howto#:#How to enable cookies###13 May 2005 new variable
 common#:#copied_object#:#已拷�?对象###07 Apr 2005 content changed
 common#:#copy#:#拷�?###07 Apr 2005 content changed
-common#:#copy_of#:#的拷�?###07 Apr 2005 content changed
-common#:#copy_to#:#至###07 Apr 2005 content changed
 common#:#copyChapter#:#Copy###20 Jun 2005 new variable
 common#:#copyPage#:#拷�?页�?�###07 Apr 2005 content changed
+common#:#copy_of#:#的拷�?###07 Apr 2005 content changed
+common#:#copy_to#:#至###07 Apr 2005 content changed
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.###10 Aug 2005 new variable
 common#:#count#:#数目###07 Apr 2005 content changed
 common#:#country#:#国家###07 Apr 2005 content changed
@@ -1500,7 +1502,6 @@ common#:#dbk_new#:#新数字图书###07 Apr 2005 content changed
 common#:#dbk_read#:#电�?图书设为读访问###24 Sep 2004 content changed
 common#:#dbk_visible#:#电�?图书�?�视###24 Sep 2004 content changed
 common#:#dbk_write#:#编辑电�?图书###24 Sep 2004 content changed
-common#:#DD.MM.YYYY#:#日（二�?数字）.月（二�?数字）.年（四�?数字）###07 Apr 2005 content changed
 common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
 common#:#default#:#缺�?###07 Apr 2005 content changed
 common#:#default_language#:#缺�?语言###07 Apr 2005 content changed
@@ -1959,7 +1960,6 @@ common#:#guests#:#客人###07 Apr 2005 content changed
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
 common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#帮助###07 Apr 2005 content changed
-common#:#HH#:#�?时（二�?数字）:分（二�?数字）###07 Apr 2005 content changed
 common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#�?�?详情###07 Apr 2005 content changed
 common#:#hide_private_notes#:#Hide private notes###03 Nov 2005 new variable
@@ -2464,11 +2464,11 @@ common#:#month_12_short#:#Dec###17 Mar 2004 new variable
 common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#months#:#Months###25 Jul 2006 new variable
 common#:#move#:#移###07 Apr 2005 content changed
+common#:#moveChapter#:#移###07 Apr 2005 content changed
+common#:#movePage#:#移###07 Apr 2005 content changed
 common#:#move_selected_items#:#Move selected items###20 Jun 2005 new variable
 common#:#move_to#:#移到###07 Apr 2005 content changed
 common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
-common#:#moveChapter#:#移###07 Apr 2005 content changed
-common#:#movePage#:#移###07 Apr 2005 content changed
 common#:#msg_cancel#:#�?作已�?�消###07 Apr 2005 content changed
 common#:#msg_changes_ok#:#更改�?功###07 Apr 2005 content changed
 common#:#msg_clear_clipboard#:#剪贴�?�已清除###07 Apr 2005 content changed
@@ -2539,9 +2539,9 @@ common#:#msg_obj_exists#:#此对象已存在于文件夹中###07 Apr 2005 conten
 common#:#msg_obj_modified#:#已�?存修改。###07 Apr 2005 content changed
 common#:#msg_obj_no_link#:#are not allowed to be linked### new variable 18 Feb 2004
 common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.###29 Nov 2004 new variable
-common#:#msg_perm_adopted_from_itself#:#您�?能从当�?角色或角色模�?�本身�?�得�?��?。###07 Apr 2005 content changed
 common#:#msg_perm_adopted_from1#:#�?��?设置�?�纳于###07 Apr 2005 content changed
 common#:#msg_perm_adopted_from2#:#（已�?存设置�?）###07 Apr 2005 content changed
+common#:#msg_perm_adopted_from_itself#:#您�?能从当�?角色或角色模�?�本身�?�得�?��?。###07 Apr 2005 content changed
 common#:#msg_removed#:#已从系统删除对象。###07 Apr 2005 content changed
 common#:#msg_role_exists1#:#具有�??称的角色或角色对象###07 Apr 2005 content changed
 common#:#msg_role_exists2#:#已存在�?请选择其它�??称###07 Apr 2005 content changed
@@ -2790,9 +2790,9 @@ common#:#password#:#�?�令###07 Apr 2005 content changed
 common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.###12 Nov 2004 new variable
 common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.
 common#:#paste#:#粘贴###07 Apr 2005 content changed
-common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#pasteChapter#:#粘贴###07 Apr 2005 content changed
 common#:#pastePage#:#粘贴###07 Apr 2005 content changed
+common#:#paste_clipboard_items#:#Paste items from clipboard###20 Jun 2005 new variable
 common#:#path#:#路径###07 Apr 2005 content changed
 common#:#path_not_set#:#未设定路径###07 Apr 2005 content changed
 common#:#path_to_babylon#:#到Babylon翻译器的路径###07 Apr 2005 content changed
@@ -3084,12 +3084,12 @@ common#:#server#:#�?务器###07 Apr 2005 content changed
 common#:#server_data#:#�?务器数�?�###29 Nov 2004 content changed
 common#:#server_software#:#�?务器软件###07 Apr 2005 content changed
 common#:#set#:#设定###07 Apr 2005 content changed
+common#:#setSystemLanguage#:#设定系统语言###07 Apr 2005 content changed
+common#:#setUserLanguage#:#设定用户语言###07 Apr 2005 content changed
 common#:#set_offline#:#设定离线###07 Apr 2005 content changed
 common#:#set_online#:#设定在线###07 Apr 2005 content changed
-common#:#setSystemLanguage#:#设定系统语言###07 Apr 2005 content changed
 common#:#settings#:#设置###07 Apr 2005 content changed
 common#:#settings_saved#:#Saved settings###13 May 2005 new variable
-common#:#setUserLanguage#:#设定用户语言###07 Apr 2005 content changed
 common#:#shib#:#Shibboleth###13 May 2005 new variable
 common#:#shib_active#:#Enable Shibboleth support###13 May 2005 new variable
 common#:#shib_city#:#Attribute for city###13 May 2005 new variable
@@ -3506,6 +3506,9 @@ common#:#you_may_add_local_roles#:#您�?�以增加局部角色###07 Apr 2005 con
 common#:#your_message#:#您的消�?�###07 Apr 2005 content changed
 common#:#zip#:#邮政编�?###14 Sep 2004 content changed
 common#:#zipcode#:#邮政编�?###14 Sep 2004 content changed
+content#:#HTML export#:#HTML导出t###07 Apr 2005 content changed
+content#:#PDF export#:#PDF导出###07 Apr 2005 content changed
+content#:#Pages#:#页###07 Apr 2005 content changed
 content#:#add_menu_entry#:#Add menu entry >>###23 Dec 2004 new variable
 content#:#all#:#全部###07 Apr 2005 content changed
 content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
@@ -3515,6 +3518,26 @@ content#:#citate#:#Citate###10 Jul 2006 new variable
 content#:#citate_from#:#Citate From ...###10 Jul 2006 new variable
 content#:#citate_page#:#Citate this Page###10 Jul 2006 new variable
 content#:#citate_to#:#Citate To ...###10 Jul 2006 new variable
+content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
+content#:#cont_Alphabetic#:#按照字�?次�? A, B, ...###07 Apr 2005 content changed
+content#:#cont_Circle#:#圆###07 Apr 2005 content changed
+content#:#cont_Citation#:#引用###07 Apr 2005 content changed
+content#:#cont_Code#:#Code###08 May 2004 new variable
+content#:#cont_Example#:#例�?###07 Apr 2005 content changed
+content#:#cont_Headline1#:#标题　１###07 Apr 2005 content changed
+content#:#cont_Headline2#:#标题　２###07 Apr 2005 content changed
+content#:#cont_Headline3#:#标题　３###07 Apr 2005 content changed
+content#:#cont_List#:#列表###07 Apr 2005 content changed
+content#:#cont_LocalFile#:#局部文件###07 Apr 2005 content changed
+content#:#cont_Mnemonic#:#记忆的###07 Apr 2005 content changed
+content#:#cont_Number#:#数字###07 Apr 2005 content changed
+content#:#cont_Poly#:# 多边形###07 Apr 2005 content changed
+content#:#cont_Rect#:#长方形###07 Apr 2005 content changed
+content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
+content#:#cont_Remark#:#注释###07 Apr 2005 content changed
+content#:#cont_Roman#:#罗马数字 I, II, ...###07 Apr 2005 content changed
+content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
+content#:#cont_Unordered#:#未排�?的###07 Apr 2005 content changed
 content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
 content#:#cont_activate_page#:#Activate Page###10 Jul 2006 new variable
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
@@ -3524,10 +3547,8 @@ content#:#cont_add_definition#:#增加定义###07 Apr 2005 content changed
 content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
 content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
 content#:#cont_added_term#:#术语已增加###07 Apr 2005 content changed
-content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_all_definitions#:#全部定义###07 Apr 2005 content changed
 content#:#cont_all_pages#:#全部页###07 Apr 2005 content changed
-content#:#cont_Alphabetic#:#按照字�?次�? A, B, ...###07 Apr 2005 content changed
 content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
@@ -3556,8 +3577,6 @@ content#:#cont_characteristic#:#特性###07 Apr 2005 content changed
 content#:#cont_choose_cont_obj#:#选择内容对象###07 Apr 2005 content changed
 content#:#cont_choose_glossary#:#选择术语表###07 Apr 2005 content changed
 content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
-content#:#cont_Circle#:#圆###07 Apr 2005 content changed
-content#:#cont_Citation#:#引用###07 Apr 2005 content changed
 content#:#cont_citation_err_one#:#您必须确实选择一个版本###14 Sep 2004 content changed
 content#:#cont_citation_selection_not_valid#:#您的选择无效###07 Apr 2005 content changed
 content#:#cont_citations#:#引用###07 Apr 2005 content changed
@@ -3568,7 +3587,6 @@ content#:#cont_click_next_or_save#:#请点击多边形的下一点或�?存此�
 content#:#cont_click_next_point#:#请点击此多边形的下一点。###07 Apr 2005 content changed
 content#:#cont_click_starting_point#:#请点击此多边形的起始点。###07 Apr 2005 content changed
 content#:#cont_click_tl_corner#:#请点击目标区域的左上角。###07 Apr 2005 content changed
-content#:#cont_Code#:#Code###08 May 2004 new variable
 content#:#cont_confirm_delete#:#really delete ?###29 Nov 2004 new variable
 content#:#cont_content#:#内容###07 Apr 2005 content changed
 content#:#cont_content_obj#:#内容对象###07 Apr 2005 content changed
@@ -3663,7 +3681,6 @@ content#:#cont_edition#:#版本###07 Apr 2005 content changed
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
-content#:#cont_Example#:#例�?###07 Apr 2005 content changed
 content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#外部的###07 Apr 2005 content changed
 content#:#cont_external_url#:#external url###29 Nov 2004 new variable
@@ -3687,9 +3704,6 @@ content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_glo_menu#:#Menu###15 Jul 2005 new variable
 content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
 content#:#cont_header#:#Header###10 Jul 2006 new variable
-content#:#cont_Headline1#:#标题　１###07 Apr 2005 content changed
-content#:#cont_Headline2#:#标题　２###07 Apr 2005 content changed
-content#:#cont_Headline3#:#标题　３###07 Apr 2005 content changed
 content#:#cont_height#:#高###07 Apr 2005 content changed
 content#:#cont_how_published#:#如何�?�行的###07 Apr 2005 content changed
 content#:#cont_href#:#href###05 Nov 2004 new variable
@@ -3720,7 +3734,6 @@ content#:#cont_link_int#:#链接（内部）###07 Apr 2005 content changed
 content#:#cont_link_select#:#内部链接###07 Apr 2005 content changed
 content#:#cont_link_type#:#链接类型###07 Apr 2005 content changed
 content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
-content#:#cont_List#:#列表###07 Apr 2005 content changed
 content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#列表属性###07 Apr 2005 content changed
 content#:#cont_lk_chapter#:#章###07 Apr 2005 content changed
@@ -3737,7 +3750,6 @@ content#:#cont_lk_term#:#术语表中的术语###07 Apr 2005 content changed
 content#:#cont_lk_term_new#:#术语表中的术语（新框架）###07 Apr 2005 content changed
 content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#学习模�?�属性###07 Apr 2005 content changed
-content#:#cont_LocalFile#:#局部文件###07 Apr 2005 content changed
 content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#声明###07 Apr 2005 content changed
 content#:#cont_map_areas#:#链接区域###07 Apr 2005 content changed
@@ -3746,7 +3758,6 @@ content#:#cont_max_time_allowed#:#adlcp�?许的最长时间###07 Apr 2005 conte
 content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
-content#:#cont_Mnemonic#:#记忆的###07 Apr 2005 content changed
 content#:#cont_mob_files#:#对象文件###07 Apr 2005 content changed
 content#:#cont_mob_inst_prop#:#�?�时属性###07 Apr 2005 content changed
 content#:#cont_mob_prop#:#对象属性###07 Apr 2005 content changed
@@ -3772,7 +3783,6 @@ content#:#cont_none#:#无###07 Apr 2005 content changed
 content#:#cont_nr_cols#:#列数###07 Apr 2005 content changed
 content#:#cont_nr_items#:#项数###07 Apr 2005 content changed
 content#:#cont_nr_rows#:#行数###07 Apr 2005 content changed
-content#:#cont_Number#:#数字###07 Apr 2005 content changed
 content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
 content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
@@ -3796,7 +3806,6 @@ content#:#cont_personal_clipboard#:#个人剪贴�?�###07 Apr 2005 content change
 content#:#cont_pg_content#:#页内容###07 Apr 2005 content changed
 content#:#cont_pg_title#:#页标题###07 Apr 2005 content changed
 content#:#cont_please_select#:#please select###16 Aug 2004 new variable
-content#:#cont_Poly#:# 多边形###07 Apr 2005 content changed
 content#:#cont_prereq_type#:#adlcp先决�?�件。类型###07 Apr 2005 content changed
 content#:#cont_prerequisites#:#adlcp先决�?�件###07 Apr 2005 content changed
 content#:#cont_preview#:#预览###07 Apr 2005 content changed
@@ -3806,11 +3815,8 @@ content#:#cont_public_notes#:#Public Notes###03 Nov 2005 new variable
 content#:#cont_public_notes_desc#:#Allows users to share notes on every page of the learning module.###03 Nov 2005 new variable
 content#:#cont_publisher#:#出版者###07 Apr 2005 content changed
 content#:#cont_purpose#:#用途###07 Apr 2005 content changed
-content#:#cont_Rect#:#长方形###07 Apr 2005 content changed
 content#:#cont_ref_helptext#:#例如， http://www.server.org/myimage.jpg)###07 Apr 2005 content changed
 content#:#cont_ref_images#:#Referenced Images###01 Mar 2005 new variable
-content#:#cont_Reference#:#Reference ### 2006-8-11 --- Content changed
-content#:#cont_Remark#:#注释###07 Apr 2005 content changed
 content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
 content#:#cont_removeiln#:#really remove internal link ?###07 Jan 2005 new variable
 content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
@@ -3821,7 +3827,6 @@ content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#资�?###07 Apr 2005 content changed
 content#:#cont_resource_type#:#类型###07 Apr 2005 content changed
 content#:#cont_resources#:#资�?###07 Apr 2005 content changed
-content#:#cont_Roman#:#罗马数字 I, II, ...###07 Apr 2005 content changed
 content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
 content#:#cont_saved_map_area#:#已存映射区域###07 Apr 2005 content changed
 content#:#cont_saved_map_data#:#已存映射日期###07 Apr 2005 content changed
@@ -3891,7 +3896,6 @@ content#:#cont_table_html_import_info#:#Import only works with XHTML conform tab
 content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
 content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#表格宽度###07 Apr 2005 content changed
-content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_target_within_source#:#目标�?必在�?对象中。###07 Apr 2005 content changed
 content#:#cont_term#:#术语###07 Apr 2005 content changed
 content#:#cont_terms#:#术语###07 Apr 2005 content changed
@@ -3916,7 +3920,6 @@ content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
 content#:#cont_translations#:#翻译###07 Apr 2005 content changed
 content#:#cont_translations_assigned#:#已指定翻译###07 Apr 2005 content changed
 content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new variable
-content#:#cont_Unordered#:#未排�?的###07 Apr 2005 content changed
 content#:#cont_update#:#更新###07 Apr 2005 content changed
 content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#上载文件###07 Apr 2005 content changed
@@ -3937,7 +3940,6 @@ content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new
 content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
-content#:#HTML export#:#HTML导出t###07 Apr 2005 content changed
 content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
 content#:#lm_menu_entry_target#:#Target###23 Dec 2004 new variable
 content#:#lm_menu_entry_title#:#Title###23 Dec 2004 new variable
@@ -3949,17 +3951,15 @@ content#:#msg_entry_removed#:#Menu entry removed###23 Dec 2004 new variable
 content#:#msg_entry_updated#:#Menu entry updated###23 Dec 2004 new variable
 content#:#msg_page_no_public_access#:#The page you called is not available in the public section. Only registered users may view this page. Please login first to access this page.###09 Apr 2005 new variable
 content#:#msg_page_not_public#:#Page is not public###09 Apr 2005 new variable
-content#:#Pages#:#页###07 Apr 2005 content changed
 content#:#pages from#:#页�?于###07 Apr 2005 content changed
 content#:#par#:#段�?�###07 Apr 2005 content changed
-content#:#PDF export#:#PDF导出###07 Apr 2005 content changed
 content#:#pg#:#页�?于###07 Apr 2005 content changed
 content#:#public_section#:#Public Section###19 Dec 2004 new variable
 content#:#read offline#:#在线读###07 Apr 2005 content changed
-content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
-content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
 content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
+content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
 content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#章标题###07 Apr 2005 content changed
 content#:#start export#:#开始导出###07 Apr 2005 content changed
@@ -4135,6 +4135,7 @@ crs#:#crs_new_subscription#:#New course subscription###07 Aug 2004 new variable
 crs#:#crs_new_subscription_body#:#A new user has been subscribed###07 Aug 2004 new variable
 crs#:#crs_new_subscription_request#:#Request to join course "%s"
 crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###12 Aug 2006 new variable
 crs#:#crs_no_archive_selected#:#No archives selected###07 Aug 2004 new variable
 crs#:#crs_no_archives_available#:#There are no archives available###07 Aug 2004 new variable
 crs#:#crs_no_archives_selected#:#Please select an archive###07 Aug 2004 new variable
@@ -4437,6 +4438,43 @@ crs#:#tutor_lastname#:#Lastname###10 Jul 2006 new variable
 crs#:#tutor_name#:#Name###21 Jul 2006 new variable
 crs#:#tutor_phone#:#Phone###10 Jul 2006 new variable
 crs#:#tutor_title#:#Title###10 Jul 2006 new variable
+dateplaner#:#DateText#:#Message###16 Mar 2004 new variable
+dateplaner#:#Day_long#:#Day View###16 Mar 2004 new variable
+dateplaner#:#ERROR_DATE_EXISTS#:#This date already exists.###16 Mar 2004 new variable
+dateplaner#:#ERROR_DB#:#Database write error!###16 Mar 2004 new variable
+dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.###16 Mar 2004 new variable
+dateplaner#:#ERROR_DEL_MSG#:#This is a Rotation Date. Would you like to delete one or all dates###16 Mar 2004 new variable
+dateplaner#:#ERROR_ENDDATE#:#Wrong Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
+dateplaner#:#ERROR_ENDTIME#:#Wrong Endtime. Format: hh:mm###16 Mar 2004 new variable
+dateplaner#:#ERROR_END_START#:#Wrong Enddate input. Enddate is before Startdate.###16 Mar 2004 new variable
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid csv File.###16 Mar 2004 new variable
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript. <BR> Please close this Window after insert manually. <BR> Thank you</CENTER></B>
+dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
+dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.###16 Mar 2004 new variable
+dateplaner#:#ERROR_SHORTTEXT#:#Wrong Shorttext input. Shorttext is required.###16 Mar 2004 new variable
+dateplaner#:#ERROR_STARTDATE#:#Wrong Startdate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
+dateplaner#:#ERROR_STARTTIME#:#Wrong Starttime. Format: hh:mm###16 Mar 2004 new variable
+dateplaner#:#ERROR_TS#:#Incorrect date format###16 Mar 2004 new variable
+dateplaner#:#Fr_long#:#Friday###16 Mar 2004 new variable
+dateplaner#:#Fr_short#:#Fr###16 Mar 2004 new variable
+dateplaner#:#Language_file#:#english###16 Mar 2004 new variable
+dateplaner#:#Listbox_long#:#List of Dates###16 Mar 2004 new variable
+dateplaner#:#Mo_long#:#Monday###16 Mar 2004 new variable
+dateplaner#:#Mo_short#:#Mo###16 Mar 2004 new variable
+dateplaner#:#Month_long#:#Month View###16 Mar 2004 new variable
+dateplaner#:#Sa_long#:#Saturday###16 Mar 2004 new variable
+dateplaner#:#Sa_short#:#Sa###16 Mar 2004 new variable
+dateplaner#:#Su_long#:#Sunday###16 Mar 2004 new variable
+dateplaner#:#Su_short#:#Su###16 Mar 2004 new variable
+dateplaner#:#Text#:#Text###16 Mar 2004 new variable
+dateplaner#:#Th_long#:#Thursday###16 Mar 2004 new variable
+dateplaner#:#Th_short#:#Th###16 Mar 2004 new variable
+dateplaner#:#Tu_long#:#Tuesday###16 Mar 2004 new variable
+dateplaner#:#Tu_short#:#Tu###16 Mar 2004 new variable
+dateplaner#:#View#:#View:###16 Mar 2004 new variable
+dateplaner#:#We_long#:#Wednesday###16 Mar 2004 new variable
+dateplaner#:#We_short#:#We###16 Mar 2004 new variable
+dateplaner#:#Week_long#:#Week View###16 Mar 2004 new variable
 dateplaner#:#add_data#:#Additional data###16 Mar 2004 new variable
 dateplaner#:#app_#:#group dates inbox###16 Mar 2004 new variable
 dateplaner#:#app_date#:#insert date###16 Mar 2004 new variable
@@ -4453,20 +4491,19 @@ dateplaner#:#back#:#back###16 Mar 2004 new variable
 dateplaner#:#begin_date#:#Begin of Date###16 Mar 2004 new variable
 dateplaner#:#busytime#:#busy time in group###16 Mar 2004 new variable
 dateplaner#:#c_date#:#Create Date###16 Mar 2004 new variable
-dateplaner#:#changedDates#:#Changed dates###16 Mar 2004 new variable
 dateplaner#:#changeTo#:#Change to:###16 Mar 2004 new variable
+dateplaner#:#changedDates#:#Changed dates###16 Mar 2004 new variable
 dateplaner#:#checkforfreetime#:#Check for free time###16 Mar 2004 new variable
 dateplaner#:#created#:#Created###16 Mar 2004 new variable
 dateplaner#:#date#:#Date###16 Mar 2004 new variable
 dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes###16 Mar 2004 new variable
 dateplaner#:#date_format_middle#:#m/d/y//month/day/Year###16 Mar 2004 new variable
-dateplaner#:#DateText#:#Message###16 Mar 2004 new variable
-dateplaner#:#Day_long#:#Day View###16 Mar 2004 new variable
 dateplaner#:#del_all#:#delete all dates###16 Mar 2004 new variable
 dateplaner#:#del_one#:#delete one date###16 Mar 2004 new variable
 dateplaner#:#delete#:#delete###16 Mar 2004 new variable
 dateplaner#:#deletedDates#:#Deleted dates###16 Mar 2004 new variable
 dateplaner#:#discard#:#discard###16 Mar 2004 new variable
+dateplaner#:#dv_Grouptime#:#free time###16 Mar 2004 new variable
 dateplaner#:#dv_button_cancel#:#Cancel###16 Mar 2004 new variable
 dateplaner#:#dv_button_delete#:#Delete###16 Mar 2004 new variable
 dateplaner#:#dv_button_insert#:#Insert###16 Mar 2004 new variable
@@ -4476,7 +4513,6 @@ dateplaner#:#dv_date_end#:#Date End:###16 Mar 2004 new variable
 dateplaner#:#dv_date_hm#:#Hour:Minute###16 Mar 2004 new variable
 dateplaner#:#dv_enddate#:#Enddate:###16 Mar 2004 new variable
 dateplaner#:#dv_groupselect#:#Groupselect:###16 Mar 2004 new variable
-dateplaner#:#dv_Grouptime#:#free time###16 Mar 2004 new variable
 dateplaner#:#dv_groupview#:#Groupdate:###16 Mar 2004 new variable
 dateplaner#:#dv_groupview_text#:#Group:<br>###16 Mar 2004 new variable
 dateplaner#:#dv_keywords#:#Keywords:###16 Mar 2004 new variable
@@ -4495,26 +4531,9 @@ dateplaner#:#dv_whole_day#:#Whole day:###16 Mar 2004 new variable
 dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox)###16 Mar 2004 new variable
 dateplaner#:#end_date#:#End of Date###16 Mar 2004 new variable
 dateplaner#:#endtime_for_view#:#Endtime for view:###16 Mar 2004 new variable
-dateplaner#:#ERROR_DATE_EXISTS#:#This date already exists.###16 Mar 2004 new variable
-dateplaner#:#ERROR_DB#:#Database write error!###16 Mar 2004 new variable
-dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.###16 Mar 2004 new variable
-dateplaner#:#ERROR_DEL_MSG#:#This is a Rotation Date. Would you like to delete one or all dates###16 Mar 2004 new variable
-dateplaner#:#ERROR_END_START#:#Wrong Enddate input. Enddate is before Startdate.###16 Mar 2004 new variable
-dateplaner#:#ERROR_ENDDATE#:#Wrong Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_ENDTIME#:#Wrong Endtime. Format: hh:mm###16 Mar 2004 new variable
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid csv File.###16 Mar 2004 new variable
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript. <BR> Please close this Window after insert manually. <BR> Thank you</CENTER></B>
 dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
-dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.###16 Mar 2004 new variable
-dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_SHORTTEXT#:#Wrong Shorttext input. Shorttext is required.###16 Mar 2004 new variable
-dateplaner#:#ERROR_STARTDATE#:#Wrong Startdate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_STARTTIME#:#Wrong Starttime. Format: hh:mm###16 Mar 2004 new variable
-dateplaner#:#ERROR_TS#:#Incorrect date format###16 Mar 2004 new variable
 dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
 dateplaner#:#extra_dates#:#One Day Dates###16 Mar 2004 new variable
-dateplaner#:#Fr_long#:#Friday###16 Mar 2004 new variable
-dateplaner#:#Fr_short#:#Fr###16 Mar 2004 new variable
 dateplaner#:#free#:#free###16 Mar 2004 new variable
 dateplaner#:#freetime#:#free Time in group###16 Mar 2004 new variable
 dateplaner#:#group#:#group###16 Mar 2004 new variable
@@ -4535,9 +4554,9 @@ dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has 
 dateplaner#:#help_inbox#:#Dateplaner Inbox###16 Mar 2004 new variable
 dateplaner#:#help_inbox_l#:#Here all new, changed and deleted groupdates are displayed.###16 Mar 2004 new variable
 dateplaner#:#help_keyword#:#Keyword selection###16 Mar 2004 new variable
-dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.###16 Mar 2004 new variable
 dateplaner#:#help_keywordUse#:#Keyword  selection###16 Mar 2004 new variable
 dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box. <br>TIP: use the CTRL key for selecting several entrys.###16 Mar 2004 new variable
+dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.###16 Mar 2004 new variable
 dateplaner#:#help_list#:#Dateplaner datelist###16 Mar 2004 new variable
 dateplaner#:#help_list_l#:#In the datelis all dates over a given period of time are displayed.###16 Mar 2004 new variable
 dateplaner#:#help_month#:#Dateplaner monthview###16 Mar 2004 new variable
@@ -4572,9 +4591,7 @@ dateplaner#:#k_alldates#:#all dates###16 Mar 2004 new variable
 dateplaner#:#keep#:#keep###16 Mar 2004 new variable
 dateplaner#:#keyword#:#Keyword###16 Mar 2004 new variable
 dateplaner#:#keywords#:#Keywords###16 Mar 2004 new variable
-dateplaner#:#Language_file#:#english###16 Mar 2004 new variable
 dateplaner#:#last_change#:#Last changed###16 Mar 2004 new variable
-dateplaner#:#Listbox_long#:#List of Dates###16 Mar 2004 new variable
 dateplaner#:#long_01#:#January###16 Mar 2004 new variable
 dateplaner#:#long_02#:#February###16 Mar 2004 new variable
 dateplaner#:#long_03#:#March###16 Mar 2004 new variable
@@ -4590,16 +4607,13 @@ dateplaner#:#long_12#:#December###16 Mar 2004 new variable
 dateplaner#:#main_dates#:#Main Dates###16 Mar 2004 new variable
 dateplaner#:#menue#:#Menu###16 Mar 2004 new variable
 dateplaner#:#mmonth#:#last month###16 Mar 2004 new variable
-dateplaner#:#Mo_long#:#Monday###16 Mar 2004 new variable
-dateplaner#:#Mo_short#:#Mo###16 Mar 2004 new variable
 dateplaner#:#month#:#month###16 Mar 2004 new variable
-dateplaner#:#Month_long#:#Month View###16 Mar 2004 new variable
 dateplaner#:#more#:#more###16 Mar 2004 new variable
 dateplaner#:#mweek#:#last week###16 Mar 2004 new variable
 dateplaner#:#myeahr#:#last year###16 Mar 2004 new variable
-dateplaner#:#new_doc#:#create new date###16 Mar 2004 new variable
 dateplaner#:#newDates#:#New dates###16 Mar 2004 new variable
 dateplaner#:#newKeyword#:#New:###16 Mar 2004 new variable
+dateplaner#:#new_doc#:#create new date###16 Mar 2004 new variable
 dateplaner#:#no_entry#:#no dates available###16 Mar 2004 new variable
 dateplaner#:#o_day_date#:#24h date###16 Mar 2004 new variable
 dateplaner#:#of#:#of###16 Mar 2004 new variable
@@ -4620,8 +4634,6 @@ dateplaner#:#r_year#:#every year###16 Mar 2004 new variable
 dateplaner#:#readimportfile#:#insert###16 Mar 2004 new variable
 dateplaner#:#rotation#:#Rotation###16 Mar 2004 new variable
 dateplaner#:#rotation_dates#:#Rotation Dates###16 Mar 2004 new variable
-dateplaner#:#Sa_long#:#Saturday###16 Mar 2004 new variable
-dateplaner#:#Sa_short#:#Sa###16 Mar 2004 new variable
 dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
 dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
 dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
@@ -4638,24 +4650,13 @@ dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
 dateplaner#:#shorttext#:#Short Text###16 Mar 2004 new variable
 dateplaner#:#singleDate#:#single date###16 Mar 2004 new variable
 dateplaner#:#starttime_for_view#:#Starttime for view:###16 Mar 2004 new variable
-dateplaner#:#Su_long#:#Sunday###16 Mar 2004 new variable
-dateplaner#:#Su_short#:#Su###16 Mar 2004 new variable
-dateplaner#:#Text#:#Text###16 Mar 2004 new variable
-dateplaner#:#Th_long#:#Thursday###16 Mar 2004 new variable
-dateplaner#:#Th_short#:#Th###16 Mar 2004 new variable
 dateplaner#:#timedate#:#Time / Date###16 Mar 2004 new variable
 dateplaner#:#timeslice#:#Time:###16 Mar 2004 new variable
 dateplaner#:#title#:#Ilias dateplaner###16 Mar 2004 new variable
 dateplaner#:#to#:#to###16 Mar 2004 new variable
 dateplaner#:#today#:#today###16 Mar 2004 new variable
-dateplaner#:#Tu_long#:#Tuesday###16 Mar 2004 new variable
-dateplaner#:#Tu_short#:#Tu###16 Mar 2004 new variable
-dateplaner#:#View#:#View:###16 Mar 2004 new variable
 dateplaner#:#viewlist#:#view###16 Mar 2004 new variable
-dateplaner#:#We_long#:#Wednesday###16 Mar 2004 new variable
-dateplaner#:#We_short#:#We###16 Mar 2004 new variable
 dateplaner#:#week#:#week###16 Mar 2004 new variable
-dateplaner#:#Week_long#:#Week View###16 Mar 2004 new variable
 dateplaner#:#wk_short#:#WK###20 Jun 2005 new variable
 dateplaner#:#year#:#year###16 Mar 2004 new variable
 exercise#:#exc_comment#:#Comment###01 Aug 2006 new variable
@@ -4686,8 +4687,8 @@ forum#:#forums_disable_notification#:#Disable notification###08 Nov 2005 new var
 forum#:#forums_download_attachment#:#下载文件###07 Apr 2005 content changed
 forum#:#forums_edit_post#:#编辑文章###07 Apr 2005 content changed
 forum#:#forums_enable_notification#:#Enable notification###08 Nov 2005 new variable
-forum#:#forums_info_censor_post#:#您肯定�?�?�?这篇文章�?�？###07 Apr 2005 content changed
 forum#:#forums_info_censor2_post#:#您肯定�?继续�?�?此篇文章�?�？###07 Apr 2005 content changed
+forum#:#forums_info_censor_post#:#您肯定�?�?�?这篇文章�?�？###07 Apr 2005 content changed
 forum#:#forums_info_delete_post#:#您肯定�?删除这篇文章�?�其答覆�?�？###07 Apr 2005 content changed
 forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_new_entries#:#新论�?��?�目###07 Apr 2005 content changed
@@ -5884,6 +5885,10 @@ style#:#sty_top#:#Top###10 Jul 2006 new variable
 style#:#sty_vertical_align#:#Vertical Alignment###10 Jul 2006 new variable
 style#:#sty_white_space#:#White Space###10 Jul 2006 new variable
 style#:#sty_word_spacing#:#Word Spacing###10 Jul 2006 new variable
+survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
+survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
+survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
+survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_category#:#Add category###21 May 2004 new variable
 survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.###07 Jun 2004 new variable
@@ -5987,27 +5992,27 @@ survey#:#delete_user_data#:#Delete the survey data of the selected users###10 Ju
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
 survey#:#disinvite#:#Disinvite###27 May 2004 new variable
 survey#:#display_all_available#:#Display all available###10 Jun 2004 new variable
+survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)###23 May 2004 new variable
 survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)###23 May 2004 new variable
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)###23 May 2004 new variable
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)###23 May 2004 new variable
+survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)###23 May 2004 new variable
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)###23 May 2004 new variable
 survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)###23 May 2004 new variable
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)###23 May 2004 new variable
+survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)###23 May 2004 new variable
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)###23 May 2004 new variable
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)###23 May 2004 new variable
-survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)###23 May 2004 new variable
 survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)###23 May 2004 new variable
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)###23 May 2004 new variable
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)###23 May 2004 new variable
 survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)###23 May 2004 new variable
 survey#:#dp_standard_behaviour_yes_no#:#Standard behaviour (yes-no)###23 May 2004 new variable
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behaviour (yes-undecided-no)###23 May 2004 new variable
+survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)###23 May 2004 new variable
 survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)###23 May 2004 new variable
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)###23 May 2004 new variable
+survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)###23 May 2004 new variable
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May 2004 new variable
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)###23 May 2004 new variable
 survey#:#dp_standard_numbers#:#Standard numbers###07 Jun 2004 new variable
 survey#:#duplicate#:#Duplicate###21 May 2004 new variable
 survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
@@ -6230,10 +6235,6 @@ survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable
 survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new variable
 survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
-survey#:#SurveyMetricQuestion#:#Metric question###10 Jul 2006 new variable
-survey#:#SurveyNominalQuestion#:#Nominal question###10 Jul 2006 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal question###10 Jul 2006 new variable
-survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
