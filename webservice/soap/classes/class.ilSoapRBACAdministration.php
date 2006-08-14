@@ -560,16 +560,16 @@ class ilSoapRBACAdministration extends ilSoapAdministration
                 if (!$user_id)
                 // could not find a valid user
                 {
-                  return $this->__raiseError('Login \''.$id.'\' does not exist!','Client');
+                  return $this->__raiseError('User with login \''.$id.'\' does not exist!','Client');
                 }
             } else
             // this is an id, check for login
             {
-                $login = ilObjUser::_lookupLogin($user_id);
-                if (!$user_id)
+                $login = ilObjUser::_lookupLogin($id);
+                if (!$login)
                 // could not find a valid user
                 {
-                  return $this->__raiseError('User \''.$id.'\' does not exist!','Client');
+                  return $this->__raiseError('User with Id \''.$id.'\' does not exist!','Client');
                 }
 
                 $user_id = $id;
@@ -587,7 +587,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             }
 
 
-    		$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.rol_id IN ('%s') AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id",
+    		$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.rol_id IN ('%s') AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id AND rbac_ua.usr_id=".$user_id,
 					join ("','", $rbacreview->assignedRoles($user_id))
 			);
 
