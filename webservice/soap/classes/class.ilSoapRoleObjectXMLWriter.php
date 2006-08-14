@@ -91,7 +91,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 				continue;
 			}
 
-			$attrs = array(	'role_type' => ucwords($role["role_type"]), 'obj_id' => $role["obj_id"], 'id' => $role["title"]);
+			$attrs = array(	'role_type' => ucwords($role["role_type"]), 'id' => $role["obj_id"]);
 
 			// open tag
 			$this->xmlStartTag("Role", $attrs);

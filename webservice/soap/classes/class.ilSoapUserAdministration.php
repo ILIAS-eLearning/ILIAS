@@ -775,10 +775,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 				$role_id = $role->role_id;
 			}
 
-			if (array_search($role_name, $permitted_local_roles))
-					$permitted_roles[$role_name] = $role_id;
-			elseif (array_search($role_name, $permitted_global_roles))
-					$permitted_roles[$role_name] = $role_id;
+			if (array_search($role_name, $permitted_local_roles) || array_search($role_name, $permitted_global_roles))
+				$permitted_roles[$role_id] = $role_id;
 			else return $this->__raiseError("Could not find role ".$role_name.". Either you use an invalid/deleted role or you try to assign a local role into the non-standard user folder and this role is not in its subtree.",'Server');
 		}
 
@@ -788,7 +786,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 
 
-		foreach ($permitted_roles as $role_id)
+		foreach ($permitted_roles as $role_id => $role_name)
 		{
 		    if ($role_id != "")
 				{
