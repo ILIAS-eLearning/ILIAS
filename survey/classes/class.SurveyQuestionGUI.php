@@ -664,10 +664,14 @@ class SurveyQuestionGUI
 				{
 					$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex);
 				}
+				$_SESSION["spl_modified"] = true;
+				unset($_SESSION["spl_move"]);
+			}
+			else
+			{
+				sendInfo("wrong_categories_selected_for_insert");
 			}
 		}
-		$_SESSION["spl_modified"] = true;
-		unset($_SESSION["spl_move"]);
 		$this->categories();
 	}
 	
@@ -695,10 +699,14 @@ class SurveyQuestionGUI
 				{
 					$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex+1);
 				}
+				$_SESSION["spl_modified"] = true;
+				unset($_SESSION["spl_move"]);
+			}
+			else
+			{
+				sendInfo("wrong_categories_selected_for_insert");
 			}
 		}
-		$_SESSION["spl_modified"] = true;
-		unset($_SESSION["spl_move"]);
 		$this->categories();
 	}
 }
