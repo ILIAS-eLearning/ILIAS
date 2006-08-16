@@ -591,13 +591,23 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		global $rbacreview, $rbacsystem, $tree, $lng;
 
     	// this takes time but is nescessary
-    	$error = false;
-   		$this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
+
+		
+    		$error = false;
+   		/*
+			
+		// validate to prevent wrong XMLs
+		// does not work in php4 -> any ideas? 
+		$this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
    		if ($error)
    		{
-   		    return $this->__raiseError($error, "Client");
+		    $msg = array();
+	            foreach ($error as $err) {
+			$msg []= "(".$err["line"].",".$err["col"]."): ".$err["errormessage"];
+		    }
+   		    return $this->__raiseError(join("\n",$msg), "Client");
    		}
-
+		*/
 
 		switch ($conflict_rule)
 		{
@@ -634,6 +644,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 
 		// first verify
+
 
 		$importParser = new ilUserImportParser("", IL_VERIFY, $conflict_rule);
 	    $importParser->setUserMappingMode(IL_USER_MAPPING_ID);

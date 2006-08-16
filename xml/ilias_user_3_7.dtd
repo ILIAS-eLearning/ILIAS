@@ -92,7 +92,7 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT iLincPasswd (#PCDATA)>
 <!ELEMENT UserDefinedField (#PCDATA)>
 <!ATTLIST UserDefinedField
-    Id CDATA #REQUIRED,
+    Id CDATA #REQUIRED
     Name CDATA #REQUIRED
 >
 
