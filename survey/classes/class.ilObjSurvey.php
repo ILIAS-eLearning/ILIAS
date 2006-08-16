@@ -3414,10 +3414,18 @@ class ilObjSurvey extends ilObject
 		if ($user_id > 0)
 		{
 			include_once "./classes/class.ilObjUser.php";
-			$user = new ilObjUser($user_id);
-			$username = $user->getFullname();
-			$gender = $user->getGender();
-			if (strlen($gender) == 1) $gender = $this->lng->txt("gender_$gender");
+			if (strlen(ilObjUser::_lookupLogin($user_id)) == 0)
+			{
+				$username = $this->lng->txt("deleted_user");
+				$gender = "";
+			}
+			else
+			{
+				$user = new ilObjUser($user_id);
+				$username = $user->getFullname();
+				$gender = $user->getGender();
+				if (strlen($gender) == 1) $gender = $this->lng->txt("gender_$gender");
+			}
 		}
 		$resultset = array(
 			"name" => $username,
