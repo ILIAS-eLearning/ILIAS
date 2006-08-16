@@ -311,15 +311,24 @@ class assQuestionGUI
 			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
-		//$page_gui->setHeader($this->object->getTitle());
 		include_once "./assessment/classes/class.ilObjTest.php";
-		$maxpoints = " (".$this->object->getMaximumPoints()." ".$this->lng->txt("points").")";
-		if (ilObjTest::_getHideTitlePoints($active_id))
+
+		$maxpoints = "";
+		if (!ilObjTest::_getHideTitlePoints($active_id))
 		{
-			$maxpoints = "";
+			$maxpoints = $this->object->getMaximumPoints();
+			if ($maxpoints == 1)
+			{
+				$maxpoints = " (".$maxpoints." ".$this->lng->txt("point").")";
+			}
+			else
+			{
+				$maxpoints = " (".$maxpoints." ".$this->lng->txt("points").")";
+			}
 		}
 		$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints);
 		$presentation = $page_gui->presentation();
+		if (strlen($maxpoints)) $presentation = str_replace($maxpoints, "<em>$maxpoints</em>", $presentation);
 		return $presentation;
 	}
 	

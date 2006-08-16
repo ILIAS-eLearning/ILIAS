@@ -441,7 +441,7 @@ assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speicher
 assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#save_finish#:#Test beenden
-assessment#:#save_introduction#:#Zur Einführung
+assessment#:#save_introduction#:#Zur Startseite
 assessment#:#save_next#:#Weiter
 assessment#:#save_previous#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
@@ -538,7 +538,7 @@ assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s 
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
-assessment#:#tst_introduction#:#Einführung
+assessment#:#tst_introduction#:#Startseite
 assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
@@ -617,7 +617,7 @@ assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
-assessment#:#tst_results_back_introduction#:#Zurück zur Einleitungsseite
+assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
 assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_score_cut_question#:#Negative Punkte für alle Fragen bei Null abschneiden
@@ -637,7 +637,7 @@ assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence#:#Reihenfolge
-assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen ist fest
+assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
 assessment#:#tst_sequence_postpone#:#Die Lernenden können einzelne Fragen zurückstellen
 assessment#:#tst_sequence_properties#:#Reihenfolge-Einstellungen
 assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
@@ -647,7 +647,7 @@ assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_solution_details#:#Bewertungsdeteils
 assessment#:#tst_show_solution_details_description#:#Teilnehmer und Teilnehmerinnen dürfen die detaillierten Ergebnisse der beantworteten Fragen einsehen
 assessment#:#tst_show_solution_printview#:#Druckausgabe der Ergebnisse
-assessment#:#tst_show_solution_printview_description#:#Teilnehmerinnen und Teilnehmer können eine Durckausgabe ihrer Ergebnisse sehen
+assessment#:#tst_show_solution_printview_description#:#Teilnehmerinnen und Teilnehmer können eine Druckausgabe ihrer Ergebnisse sehen
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
 assessment#:#tst_show_summary_description#:#Bietet Teilnehmerinnen und Teilnehmern eine Fragenübersicht mit allen Testfragen an
 assessment#:#tst_shuffle_questions#:#Fragen mischen
@@ -723,7 +723,7 @@ assessment#:#width#:#Breite
 assessment#:#with_order#:#mit der Reihenfolge
 assessment#:#worked_through#:#Beantwortet
 assessment#:#working_time#:#Bearbeitungszeit
-assessment#:#you_received_a_of_b_points#:#Sie haben %d von %d möglichen Punkten erreicht
+assessment#:#you_received_a_of_b_points#:#Sie haben %d von %d möglichen Punkten erreicht.
 barometer#:#add#:#neues Barometer
 barometer#:#anonymous#:#Anonym
 barometer#:#barometer_title#:#Stimmungsbarometer
@@ -2509,16 +2509,16 @@ common#:#msg_no_scan_log#:#Scan log ist noch nicht implementiert
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind 
-common#:#msg_no_title#:#Bitte geben Sie einen Titel ein!
+common#:#msg_no_title#:#Bitte geben Sie einen Titel ein
 common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.###19 Jul 2006 new variable
 common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.###19 Jul 2006 new variable
 common#:#msg_no_url#:#Sie haben keine URL eingegeben
 common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
 common#:#msg_nothing_found#:#Nichts gefunden!
-common#:#msg_obj_created#:#Objekt angelegt!
+common#:#msg_obj_created#:#Objekt angelegt
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
-common#:#msg_obj_modified#:#Änderungen gespeichert!
+common#:#msg_obj_modified#:#Änderungen gespeichert
 common#:#msg_obj_no_link#:#können nicht verknüpft werden
 common#:#msg_obj_not_deletable_sold#:#Die folgenden Objekte können nicht gelöscht werden, da das Payment für sie aktiviert ist:
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
@@ -5919,7 +5919,7 @@ survey#:#codes#:#Zugangscodes
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten der Umfrage löschen wollen?
-survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Umfragedaten für die ausgwählten Teilnehmerinnen und Teilnehmer löschen wollen?
+survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Umfragedaten für die ausgewählten Teilnehmerinnen und Teilnehmer löschen wollen?
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraint_add#:#Vorbedingung hinzufügen
@@ -5960,7 +5960,7 @@ survey#:#dc_should#:#sollte
 survey#:#dc_shouldnot#:#sollte nicht
 survey#:#dc_sometimes#:#manchmal
 survey#:#dc_stronglyagree#:#absolut einverstanden
-survey#:#dc_stronglydesired#:#abolut erwünscht
+survey#:#dc_stronglydesired#:#absolut erwünscht
 survey#:#dc_stronglydisagree#:#absolut nicht einverstanden
 survey#:#dc_stronglyundesired#:#absolut nicht erwünscht
 survey#:#dc_true#:#wahr
@@ -5986,7 +5986,7 @@ survey#:#dp_standard_attitude_good_notacceptable#:#Standard-Haltung (gut-inakzep
 survey#:#dp_standard_attitude_must5#:#Standard-Haltung (muss-sollte-unentschlossen-sollte nicht-darf nicht)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard-Haltung (sollte-sollte nicht)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard-Haltung (sollte-unentschlossen-sollte nicht)
-survey#:#dp_standard_behaviour_certainly5#:#Standard-Verhaltensweisea (absolut sicher-eher positiv-unentschlossen-eher negativ-abolut unsicher)
+survey#:#dp_standard_behaviour_certainly5#:#Standard-Verhaltensweisea (absolut sicher-eher positiv-unentschlossen-eher negativ-absolut unsicher)
 survey#:#dp_standard_behaviour_yes_no#:#Standard-Verhaltensweise (ja-nein)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard-Verhaltensweise (ja-unentschlossen-nein)
 survey#:#dp_standard_beliefs_always5#:#Standard-Vorstellungen (immer-häufig-unterschiedlich-selten-nie)
@@ -6157,7 +6157,7 @@ survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#resume_survey#:#Umfrage fortsetzen
 survey#:#save_back_to_survey#:#Speichern und zurück zur Umfrage
-survey#:#save_obligatory_state#:#Pflichteingaben speichern
+survey#:#save_obligatory_state#:#verpflichtend-Status speichern
 survey#:#save_phrase#:#Als Phrase speichern
 survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Antworten aus, um diese in einer neuen Phrase speichern zu können!
 survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
