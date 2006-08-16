@@ -535,7 +535,7 @@ class ilInitialisation
 		
 	function checkUserClientIP()
 	{
-		global $ilUser, $ilLog, $ilAuth;
+		global $ilUser, $ilLog, $ilAuth, $ilias;
 		
 		// check client ip
 		$clientip = $ilUser->getClientIP();
