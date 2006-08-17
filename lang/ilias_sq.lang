@@ -6256,6 +6256,7 @@ survey#:#view_constraints_introduction#:#Jeni duke parë "detyrimet" e pyetjeve/
 survey#:#view_phrase#:#Shih frazën
 survey#:#warning_question_in_use#:#Kujdes! Pyetjen që po editoni është në përdorim nga kuestionerët vijues. Nëse vazhdoni dhe e ruani pyetjen, të gjitha përgjigjet e kuestionerëve të më poshtëm do të fshihen. Nëse dëshironi ta ndërroni pyetjen dhe ta përdorni atë në kuestioner tjetër, atëherë zgjedhni "Dubliko" në shfletuesin e pyetjes për të krijuar kopje tjetër të kësaj pyetje. 
 survey#:#warning_question_not_complete#:#Pyetja nuk është kompletuar!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable

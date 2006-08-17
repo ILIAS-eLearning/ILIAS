@@ -6264,6 +6264,7 @@ survey#:#view_constraints_introduction#:#You are viewing the constraints of the 
 survey#:#view_phrase#:#Aantal gebruikers dat deze waarde invoerde###07 Apr 2005 content changed
 survey#:#warning_question_in_use#:#Waarden###07 Apr 2005 content changed
 survey#:#warning_question_not_complete#:#Toon gezegde###07 Apr 2005 content changed
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable

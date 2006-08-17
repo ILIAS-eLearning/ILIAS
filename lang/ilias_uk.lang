@@ -6262,6 +6262,7 @@ survey#:#view_constraints_introduction#:#Ви перегл�?даєте обме�
 survey#:#view_phrase#:#Дивити�?ь фразу
 survey#:#warning_question_in_use#:#Попередженн�?! Питанн�? що ви бажаєте відредагувати викори�?товуєть�?�? в опитуванн�?х перелічених нижче. Якщо ви вирішите продовжити та збережети/за�?то�?уєте це питанн�?, у�?і відповіді в опитуванн�?х перелічених нижче будуть видалені. Якщо ви бажаєте змінити питанн�? та викори�?товувати його в іншому опитуванні, будь ла�?ка виберіть дублювати в браузері питань щоб �?творити новий екземпл�?р цього питанн�?.
 survey#:#warning_question_not_complete#:#Питанн�? не закінчене!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable

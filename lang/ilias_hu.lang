@@ -36,7 +36,6 @@
 <!-- language file start -->
 administration#:#analysis_options#:#Analysis options ### 2006-8-10 --- Add new translation here.
 administration#:#analyze_data#:#Adatintegritás vizsgálata és javítása
-administration#:#analyze_desc#:#A rendszer átvizsgálása sérült/érvénytelen/hiányzó/megengedett határon túli adatok után.
 administration#:#analyzing#:#Analyzing... ### 2006-8-10 --- Add new translation here.
 administration#:#analyzing_tree_structure#:#Fastruktúra elemzése …
 administration#:#check_tree#:#Fastruktúra ellenőrzése
@@ -45,7 +44,6 @@ administration#:#clean#:#Rendbetétel
 administration#:#clean_desc#:#Érvénytelen hivatkozások és keresőfa-bejegyzések eltávolítása. Üres helyek inicializálása a keresőfa struktúrában.
 administration#:#cleaning#:#Tisztítás …
 administration#:#cleaning_final#:#Befejező tisztítás …
-administration#:#closing_gaps#:#Üres helyek lezárása a keresőfában ….
 administration#:#disabled#:#Disabled ### 2006-8-10 --- Add new translation here.
 administration#:#done#:#Kész
 administration#:#dump_tree#:#Faszerkezet vizsgálata
@@ -87,7 +85,6 @@ administration#:#scan_completed#:#Az átvizsgálás befejeződött
 administration#:#scan_desc#:#Rendszer átvizsgálása korrupt/érvénytelen/hiányzó/gazdátlan objektumok után.
 administration#:#scan_details#:#Keresés részletezése
 administration#:#scan_modes#:#Használt módok átvizsgálása
-administration#:#scan_only#:#Csak átvizsgálás
 administration#:#scanning_system#:#Scanning system... ### 2006-8-10 --- Add new translation here.
 administration#:#searching_deleted_objs#:#Törölt objektumok keresése …
 administration#:#searching_invalid_childs#:#Érvénytelen fabejegyzések keresése …
@@ -103,7 +100,6 @@ administration#:#tree_corrupt#:#A fa meghibásodott. A részletekért nézze meg
 administration#:#view_last_log#:#Átvizsgálás naplójának megtekintése
 administration#:#view_log#:#Részletek megtekintése
 assessment#:#0_unlimited#:#(0 = korlátlan)
-assessment#:#ţlose_text_hint#:#ࡋitöltendő üres ըelyet a szövegben a <gaͰ> </gap> tag-ekܠmegadásával hozhat létre az ön ߡltal kiválasztoੴt helyen. A tagԭek között legye๮ egy szóköz! EzĠután a ਧKitöltendő helyեk' gombot megny੯mva az egyes kiŴöltendő helyek szerkeszthető beviteli mezőjét veheti fel.
 assessment#:#action#:#Action ### 2006-8-10 --- Add new translation here.
 assessment#:#add_answer#:#Válasz hozzáadása
 assessment#:#add_answer_tf#:#igaz/hamis válaszok
@@ -127,12 +123,6 @@ assessment#:#applet_new_parameter#:#Új paraméter
 assessment#:#applet_parameter#:#Paraméter
 assessment#:#applet_parameters#:#Applet-paraméterek
 assessment#:#apply#:#Alkalmaz
-assessment#:#ass_create_export_file#:#Export fájl létrehozása
-assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-10 --- Add new translation here.
-assessment#:#ass_export_files#:#Export files ### 2006-8-10 --- Add new translation here.
-assessment#:#ass_file#:#File ### 2006-8-10 --- Add new translation here.
-assessment#:#ass_question#:#Question ### 2006-8-10 --- Add new translation here.
-assessment#:#ass_size#:#Size ### 2006-8-10 --- Add new translation here.
 assessment#:#assClozeTest#:#Mondatkiegészítés
 assessment#:#assImagemapQuestion#:#Képtérképes kérdés
 assessment#:#assJavaApplet#:#Java Applet kérdés
@@ -144,6 +134,12 @@ assessment#:#assQuestions#:#Kérdések
 assessment#:#assSingleChoice#:#Többszörös választási lehetőségű kérdés (egyszeres válasz)
 assessment#:#assTextQuestion#:#Esszékérdés
 assessment#:#assTextSubset#:#Szövegrész kérdés
+assessment#:#ass_create_export_file#:#Export fájl létrehozása
+assessment#:#ass_create_export_test_results#:#Export test results ### 2006-8-10 --- Add new translation here.
+assessment#:#ass_export_files#:#Export files ### 2006-8-10 --- Add new translation here.
+assessment#:#ass_file#:#File ### 2006-8-10 --- Add new translation here.
+assessment#:#ass_question#:#Question ### 2006-8-10 --- Add new translation here.
+assessment#:#ass_size#:#Size ### 2006-8-10 --- Add new translation here.
 assessment#:#available_points#:#Available points ### 2006-8-10 --- Add new translation here.
 assessment#:#average_reached_points#:#Average reached points ### 2006-8-10 --- Add new translation here.
 assessment#:#backtocallingtest#:#Back to the calling test ### 2006-8-10 --- Add new translation here.
@@ -156,9 +152,7 @@ assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to ex
 assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test! ### 2006-8-10 --- Add new translation here.
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test! ### 2006-8-10 --- Add new translation here.
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data! ### 2006-8-10 --- Add new translation here.
-assessment#:#cannot_readൟquestionpool#:#Niծcs megfelelő jo੧osultsága a kérդésgyűjtemény ad੡tainak olvasásáըoz.
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data! ### 2006-8-10 --- Add new translation here.
-assessment#:#ch୥ckbox_checked#:#Kթválasztott
 assessment#:#change_solution#:#Javasolt megoldás változtatása.
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test. ### 2006-8-10 --- Add new translation here.
 assessment#:#changelog_heading#:#Changelog ### 2006-8-10 --- Add new translation here.
@@ -203,7 +197,6 @@ assessment#:#duplicate_matching_values_selected#:#Többszörösen illeszkedő é
 assessment#:#duplicate_order_values_entered#:#Többszörös sorrendi értékeket adott meg.
 assessment#:#duplicate_qpl#:#Kérdésgyűjtemény duplikálása teszthez
 assessment#:#duplicate_tst#:#Teszt másolati példányának létrehozása
-assessment#:#ɣannot_execute_tݥst#:#Nincs megfel੥lő jogosultságaܠa teszt futtatáੳához.
 assessment#:#ects_allow_ects_grades#:#ETCS kategória mutatása a kapott érdemjegyhez
 assessment#:#ects_fill_out_all_values#:#Adjon meg kategóriát minden ECTS százalékoz!
 assessment#:#ects_grade#:#ETCS kategória
@@ -233,7 +226,6 @@ assessment#:#edit_content#:#Tartalom szerkesztése
 assessment#:#edit_properties#:#Tulajdonságok szerkesztése
 assessment#:#end_tag#:#Zárócímke
 assessment#:#ending_time_reached#:#Elérte a befejezési időt
-assessment#:#enhanced#:#Fokozott mód
 assessment#:#enlarge#:#növelés
 assessment#:#enter_anonymous_code#:#Enter anonymous access code ### 2006-8-10 --- Add new translation here.
 assessment#:#enter_enough_positive_points#:#A kérdéssel elérhető maximális pontszámnak magasabbnak kell lennie 0-nál! Megfelelő, nem negatív pontszámokat adjon válaszaihoz.
@@ -263,7 +255,6 @@ assessment#:#eval_search_userselection#:#A statisztikai kiértékeléshez felvee
 assessment#:#eval_selected_users#:#Értékelendő felhasználók kiválasztása
 assessment#:#exp_eval_data#:#Kiértékelési adatok exportja, mint
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
 assessment#:#exp_type_spss#:#Vesszővel tagolt szöveg (CSV)
 assessment#:#export#:#Export ### 2006-8-10 --- Add new translation here.
 assessment#:#failed_official#:#elégtelen
@@ -383,7 +374,6 @@ assessment#:#postponed#:#Későbbre halasztott
 assessment#:#preview#:#Előnézet
 assessment#:#previous_question_rows#:#<< Kérdések %d - %d a %nak(nek)
 assessment#:#print_answers#:#Válaszok nyomtatása
-assessment#:#print_results#:#Eredmények nyomtatása
 assessment#:#print_view#:#Nyomtatási nézet
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields! ### 2006-8-10 --- Add new translation here.
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Nincs a kiválasztott kérdéseknek elérhető értékelése. A kérdés nem volt még használva tesztben.
@@ -420,10 +410,7 @@ assessment#:#qpl_paste_success#:#A kérdés(ek) beillesztésre került(ek) a ké
 assessment#:#qpl_question_is_in_use#:#A szerkesztendő kérdés %s tesztben szerepel. Ha megváltoztatja a kérdést, az a teszt(ek)ben nem fog megváltozni, mivel a rendszer másolatot hoz létre a kérdésekről, mielőtt beteszi azokat a tesztekbe.
 assessment#:#qpl_questions_deleted#:#Kérdés(ek) törölve.
 assessment#:#qpl_select_file_for_import#:#Ki kell választania egy fájlt az importáláshoz.
-assessment#:#qt_cloze#:#Mondatkiegészítés
-assessment#:#qt_imagemap#:#Képtérképes kérdés
 assessment#:#qt_multiple_choice#:#Multiple Choice Question ### 2006-8-10 --- Add new translation here.
-assessment#:#qt_multiple_choice_sr#:#Többszörös választási lehetőségű kérdés (egyszeres válasz)
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it! ### 2006-8-10 --- Add new translation here.
 assessment#:#question_short#:#Q ### 2006-8-10 --- Add new translation here.
 assessment#:#question_title#:#Kérdéscím
@@ -506,7 +493,6 @@ assessment#:#tst_allowed_users#:#A tesztet egyidejűleg végző felhasználók m
 assessment#:#tst_allowed_users_time_gap#:#Felhasználók tétlenül töltött ideje
 assessment#:#tst_already_submitted#:#A teszt befejeződött és leadásra került.
 assessment#:#tst_already_taken#:#A tesztek már használatban vannak.
-assessment#:#tst_anon_eval#:#Névtelen kitöltők összesített eredményei
 assessment#:#tst_answer_sheet#:#Teszt válaszlapja
 assessment#:#tst_answered_questions#:#Answered questions ### 2006-8-10 --- Add new translation here.
 assessment#:#tst_best_solution_is#:#A legjobb megoldás
@@ -552,7 +538,7 @@ assessment#:#tst_insert_missing_question#:#Válasszon legalább egy kérdést a 
 assessment#:#tst_insert_questions#:#Biztosan be akarja tenni az alábbi kérdés(eke)t a tesztbe?
 assessment#:#tst_insert_questions_and_results#:#Ezt a tesztet % felhasználó hajtotta végre. Ha további kérdéseket tesz be ebbe a tesztbe, ezen hallgatók minden teszteredménye eltávolításra kerül. Biztosan be akarja tenni az alábbi kérdéseket a tesztbe?
 assessment#:#tst_introduction#:#Bevezetés
-assessment#:#tst_maintenance_information_no_results#:#Nincsenek felhasználói adatbeállítások a teszthez. Legalább egy felhasználói adatbeállításra szükség van az adatok karbantartásához.
+assessment#:#tst_maintenance_information_no_results#:#Nincsenek felhasználói adatbeállítások a teszthez. Legalább egy felhasználói adatbeállításra szükség van az adatok karbantartásához.###17 Aug 2006 content changed
 assessment#:#tst_mark#:#Jelölés
 assessment#:#tst_mark_create_new_mark_step#:#Új jelöléslépés létrehozása
 assessment#:#tst_mark_create_simple_mark_schema#:#Egyszerű érdemjegyképzés létrehozása
@@ -717,7 +703,6 @@ assessment#:#tst_your_answers#:#Ezek az Ön által adott válaszok az alábbi k�
 assessment#:#tst_your_ects_mark_is#:#Az Ön ECTS osztályzata
 assessment#:#tst_your_mark_is#:#Értékelés
 assessment#:#tt_assessment#:#Ellenőrző teszt
-assessment#:#tt_navigation_controlling#:#Hallgatók tesztnavigálásának felügyelete
 assessment#:#tt_online_exam#:#On-line vizsga
 assessment#:#tt_self_assessment#:#Self assessment test ### 2006-8-10 --- Add new translation here.
 assessment#:#tt_varying_randomtest#:#Véletlenkiválasztásos teszt
@@ -857,7 +842,6 @@ chat#:#chat_active_users#:#További felhasználók (jelen)
 chat#:#chat_add_allowed_hosts#:#Adja meg a chat-szerverként elérhető host címét!
 chat#:#chat_add_external_ip#:#Adja meg a szerver külső IP-címét!
 chat#:#chat_add_internal_ip#:#Adja meg a szerver belső IP-jét!
-chat#:#chat_add_ip#:#Adja meg a szerver IP-jét!
 chat#:#chat_add_moderator_password#:#Please add a moderator password. ### 2006-8-10 --- Add new translation here.
 chat#:#chat_add_port#:#Adja meg a szerverportot!
 chat#:#chat_add_private_chatroom#:#Privát csetszoba felvétele
@@ -951,7 +935,6 @@ chat#:#chat_server_allowed#:#Engedélyezett host-ok
 chat#:#chat_server_allowed_b#:#(például 192.168.1.1,192.168.1.2)
 chat#:#chat_server_external_ip#:#Szerver külső IP-címe
 chat#:#chat_server_internal_ip#:#Szerver belső IP-címe
-chat#:#chat_server_ip#:#Szerver-IP
 chat#:#chat_server_logfile#:#Log file path ### 2006-8-10 --- Add new translation here.
 chat#:#chat_server_loglevel#:#Naplózási szint
 chat#:#chat_server_not_active#:#A chat-szerver nem aktív.
@@ -982,9 +965,9 @@ chat#:#chat_whisper#:#Súgó
 chat#:#chat_yellow#:#sárga
 chat#:#chats#:#Chat-ek
 chat#:#my_chats#:#Chat-jeim
-coͭmon#:#cannot_uninstall_syੳtemlanguage#:#Nemഠtávolíthatja elਠa rendszernyelv٥t.
 common#:#3rd_party_software#:#Harmadik fél szoftvere
-common#:#ţat_create_htlm#:#ɈTML-tananyag léմrehozása
+common#:#DD.MM.YYYY#:#DD.MM.YYYY ### 2006-8-10 --- Add new translation here.
+common#:#HH#:#HH:MM
 common#:#absolute_path#:#Abszolút elérési út
 common#:#accept_usr_agreement#:#Jelölje be a négyzetet majd nyomja meg a gombot.
 common#:#access#:#Access ### 2006-8-10 --- Add new translation here.
@@ -1027,7 +1010,6 @@ common#:#administrate_users#:#Helyi felhasználó adminisztrációja
 common#:#administration#:#Adminisztráció
 common#:#administrator#:#Adminisztrátor
 common#:#adopt#:#alkalmaz
-common#:#adopt_perm_from_template#:#Jogosultsági beállítások alkalmazása a szerepmintából.
 common#:#advanced_editing_allow_html_tags#:#A kiválasztott HTML tag-ek szövegként szerkesztésének engedélyezése
 common#:#advanced_editing_allow_javascript_editor#:#Rich Text szerkesztő engedélyezése
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool ### 2006-8-10 --- Add new translation here.
@@ -1151,7 +1133,6 @@ common#:#auth_local#:#ILIAS adatbázis
 common#:#auth_local_desc#:#Felhasználói autentikáció helyi ILIAS adatbázison keresztül (alapértelmezett)
 common#:#auth_login_instructions#:#Instructions shown on login page ### 2006-8-10 --- Add new translation here.
 common#:#auth_mode#:#Autentikációs mód
-common#:#auth_mode_changed_to#:#Autentikációs mód megváltoztatása
 common#:#auth_mode_not_changed#:#(Semmi nem változott)
 common#:#auth_mode_roles_changed#:#Autentikációs mód megváltoztatva ehhez a szerephez.
 common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated. ### 2006-8-10 --- Add new translation here.
@@ -1238,7 +1219,6 @@ common#:#by_type#:#Típus szerint rendezés
 common#:#bytes#:#Bájt
 common#:#calendar#:#Határidőnapló
 common#:#cancel#:#Mégsem
-common#:#cann࡯t_unzip_file#:#Neխ lehet kicsomag੯lni a fájlt.
 common#:#cannot_find_xml#:#Nem található XML fájl.
 common#:#cannot_uninstall_language_in_use#:#Nem ུávolíthatja el ѡ jelenleg hasznૡlt nyelvet.
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language! ### 2006-8-10 --- Add new translation here.
@@ -1246,15 +1226,10 @@ common#:#cannot_unzip_file#:#Cannot unpack file. ### 2006-8-10 --- Add new trans
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it. ### 2006-8-10 --- Add new translation here.
 common#:#cat#:#Category ### 2006-8-10 --- Add new translation here.
 common#:#cat_a#:#a Category ### 2006-8-10 --- Add new translation here.
-common#:#cat_୲ead#:#Olvasási elשrés kategóriáho੺
-common#:#cat_੡dded#:#Kategória ཨozzáadva.
-common#:#cat_aਉegy kategória#:#_aਉegy kategória
 common#:#cat_add#:#Add Category ### 2006-8-10 --- Add new translation here.
 common#:#cat_added#:#Category added ### 2006-8-10 --- Add new translation here.
 common#:#cat_cat_administrate_users#:#Administrate local user accounts ### 2006-8-10 --- Add new translation here.
 common#:#cat_clear_page#:#Clear Page ### 2006-8-10 --- Add new translation here.
-common#:#cat_crɥate_qpl#:#Teszt-kשrdésgyűjtemény ੬étrehozása
-common#:#cat_creat๥_chat#:#Chat létrݥhozása
 common#:#cat_create#:#Kategória létrehozása
 common#:#cat_create_alm#:#Create AICC Learning Module ### 2006-8-10 --- Add new translation here.
 common#:#cat_create_cat#:#Kategória létrehozása
@@ -1354,14 +1329,12 @@ common#:#choose_language#:#Válassza ki a használni kívánt nyelvet!
 common#:#choose_location#:#Területválasztás
 common#:#choose_only_one_language#:#Csak egy nyelvet válasszon!
 common#:#chown_warning#:#Figyelem! Hozzáférési jogosultságát elveszítheti ehhez az objektumhoz a tulajdonos megváltoztatásával.
-common#:#c͡t_create_mep#:#Médiagyűjt੥mény létrehozásա
 common#:#city#:#Város, állam
 common#:#cleaned_file#:#A fájl törlésre került.
 common#:#cleaning_failed#:#A rendbetétel nem sikerült.
 common#:#clear#:#Törlés
 common#:#clear_clipboard#:#Vágólap ürítése
 common#:#client#:#Client ### 2006-8-10 --- Add new translation here.
-common#:#client ip#:#Kliens IP
 common#:#client_id#:#Kliensazonosító
 common#:#client_ip#:#Kliens IP
 common#:#clipboard#:#Vágólap
@@ -1398,10 +1371,10 @@ common#:#contra#:#Ellene
 common#:#cookies_howto#:#Hogyan engedélyezhetők a cookie-k?
 common#:#copied_object#:#Másolt objektum
 common#:#copy#:#Másolás
-common#:#copy_of#:#Másolandó:
-common#:#copy_to#:#ide:
 common#:#copyChapter#:#Másolás
 common#:#copyPage#:#Másolás
+common#:#copy_of#:#Másolandó:
+common#:#copy_to#:#ide:
 common#:#could_not_verify_account#:#Sajnáljuk, nem tudjuk igazolni bejelentkezését. Vegye fel a kapcsolatot a rendszeradminisztrátorral!
 common#:#count#:#Számlálás
 common#:#country#:#Ország
@@ -1510,7 +1483,6 @@ common#:#dbk_new#:#Új elektronikus könyv
 common#:#dbk_read#:#Olvasási elérés elektronikus könyvhöz
 common#:#dbk_visible#:#Az elektronikus könyv látható
 common#:#dbk_write#:#Elektronikus könyv szerkesztése
-common#:#DD.MM.YYYY#:#DD.MM.YYYY ### 2006-8-10 --- Add new translation here.
 common#:#def_repository_view#:#Alapértelmezett taneszköz tároló
 common#:#default#:#Alapértelmezett
 common#:#default_language#:#Alapértelmezett nyelv
@@ -1655,7 +1627,6 @@ common#:#exc_sent#:#Ez a gyakorlat már elküldésre került a kiválasztott fel
 common#:#exc_sent_at#:#Sent at <br />%s ### 2006-8-10 --- Add new translation here.
 common#:#exc_status#:#Állapot
 common#:#exc_status_resubmitted#:#Úraküldve
-common#:#exc_status_returned#:#Visszaküldve
 common#:#exc_status_saved#:#Exercise updated ### 2006-8-10 --- Add new translation here.
 common#:#exc_status_sent#:#Kézbesítve
 common#:#exc_status_solved#:#Megoldva
@@ -1690,7 +1661,6 @@ common#:#extt_ilinc_connection_data#:#Kapcsolati adatok
 common#:#extt_ilinc_customer_id#:#Ügyfél ID
 common#:#extt_ilinc_desc#:#Virtuális osztályterem biztosítása. Kereskedelmi szolgáltatás. Felhasználói fiókért és további információkért vegye fel a kapcsolatot a netucate-tel a www.netucate.com címen.
 common#:#extt_ilinc_enable#:#LearnLinc támogatás engedélyezése
-common#:#extt_ilinc_port#:#Port
 common#:#extt_ilinc_protocol_port#:#Protocol & Port ### 2006-8-10 --- Add new translation here.
 common#:#extt_ilinc_registrar_login#:#Bejelentkezési ID
 common#:#extt_ilinc_registrar_passwd#:#Jelszó
@@ -1867,7 +1837,6 @@ common#:#group_no_registration#:#Csoporthoz csatlakozás
 common#:#group_no_registration_msg#:#Közvetlenül csatlkozhat ehhez a csoporthoz.
 common#:#group_not_available#:#Nincs elérhető csoport
 common#:#group_objects#:#Csoportobjektumok
-common#:#group_password_registration_expired_msg#:#Ennek a csoportnak a regisztrációs periódusa letelt, a hirdetmények nem érhetők el tovább. Vegye fel a kapcsolatot a megfelelő csoporttulajdonossal vagy adminisztrátorral!
 common#:#group_registration#:#Regisztráció
 common#:#group_registration_expiration_date#:#Lejárati dátum
 common#:#group_registration_expiration_time#:#Lejárati idő
@@ -1971,13 +1940,11 @@ common#:#guests#:#vendég
 common#:#header_searchable#:#Kereshető
 common#:#header_title#:#Fejléccím
 common#:#help#:#Segítség
-common#:#HH#:#HH:MM
 common#:#hide#:#elrejt
 common#:#hide_details#:#Részletek elrejtése
 common#:#hide_private_notes#:#Jegyzeteim elrejtése
 common#:#hide_public_notes#:#Nyilvános jegyzetek elrejtése
 common#:#hide_structure#:#Tiltott struktúranézet
-common#:#hist_dbk#:#Lap létrehozva.
 common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted. ### 2006-8-10 --- Add new translation here.
 common#:#hist_dbk_delete_st#:#Fejezet: "%1" [%2] törlve.
 common#:#hist_dbk_pg_create#:#Lap létrehozva.
@@ -1988,7 +1955,6 @@ common#:#hist_dbk_st_cut_page#:#Lap: "%1" [%2] kivágva fejezetből.
 common#:#hist_dbk_st_paste_page#:#Lap: "%1" [%2] beillesztve fejezetbe.
 common#:#hist_file_create#:#Fájl létrehozva, a fájl neve "%1".
 common#:#hist_file_replace#:#Fájl lecserélve, az új fájl neve "%1", az új verzió %2.
-common#:#hist_lm#:#Lap létrehozva.
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted. ### 2006-8-10 --- Add new translation here.
 common#:#hist_lm_delete_st#:#Fejezet: "%1" [%2] törölve.
 common#:#hist_lm_pg_create#:#Lap  létrehozva.
@@ -2040,7 +2006,6 @@ common#:#icla_add#:#LearnLinc osztályterem felvétele
 common#:#icla_deleted#:#LearnLinc osztálytermek törölve.
 common#:#icla_edit#:#LearnLinc osztályterem szerkesztése
 common#:#icla_new#:#Új LearnLinc osztályterem
-common#:#icla_read#:#Olvasási jogosultság az iLinc osztályteremhez
 common#:#icon_settings#:#Icon Settings ### 2006-8-10 --- Add new translation here.
 common#:#icons_in_header#:#Címsoroszlop
 common#:#icons_in_item_rows#:#Tételoszlopok
@@ -2115,7 +2080,6 @@ common#:#ilinc_server_not_active#:#Az iLinc szerver nincs aktiválva.
 common#:#ilinc_student#:#Résztvevő
 common#:#ilinc_upload_pic_linktext#:#Feltöltve.
 common#:#ilinc_upload_pic_text#:#Fényképének a LearnLinc szemináriumban megjelenítéséhez használja ezt a linket:
-common#:#ilince_err_at_least_one_groupadministrator_is_needed#:#Minden LearnLinc szemináriumhoz kell legelább egy admihisztrátor
 common#:#image#:#Image ### 2006-8-10 --- Add new translation here.
 common#:#image_gen_unsucc#:#A képgenerálás sikerült. Vegye fel a kapcsolatot a rendszeradminisztrátorral, és ellenőrizze a konvertálási útvonalat.
 common#:#import#:#Import
@@ -2251,7 +2215,6 @@ common#:#lang_sr#:#Szerb
 common#:#lang_sv#:#Svéd
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
-common#:#lang_ua#:#Ukrán
 common#:#lang_uk#:#Ukrainian ### 2006-8-10 --- Add new translation here.
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnámi
@@ -2481,11 +2444,11 @@ common#:#month_12_short#:#Dec.
 common#:#monthly#:#havi
 common#:#months#:#Months ### 2006-8-10 --- Add new translation here.
 common#:#move#:#Áthelyez
+common#:#moveChapter#:#Áthelyez
+common#:#movePage#:#Áthelyez
 common#:#move_selected_items#:#Kiválasztott tételek áthelyezése
 common#:#move_to#:#Áthelyez (hova)
 common#:#move_users_to_style#:#Felhasználók stílushoz rendelése
-common#:#moveChapter#:#Áthelyez
-common#:#movePage#:#Áthelyez
 common#:#msg_cancel#:#Tevékenység megszakítva.
 common#:#msg_changes_ok#:#A változtatások rendben voltak
 common#:#msg_clear_clipboard#:#Vágólap megtisztítva.
@@ -2509,7 +2472,6 @@ common#:#msg_may_not_contain#:#Ez az objektum feltehetőleg nem tartalmazhatja a
 common#:#msg_min_one_active_role#:#Minden felhasználónak legalább egy aktív globális szerepe kell legyen.
 common#:#msg_min_one_role#:#Minden felhasználónak legalább egy aktív globál szerepe kell legyen.
 common#:#msg_multi_language_selected#:#Ugyanazt a nyelvet választotta egy másik fordításhoz.
-common#:#msg_no_adopt_selected#:#Nincs kiválasztott szerep az alapértelmezett jogosultsági beállítások alkalmazásához innen:
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation. ### 2006-8-10 --- Add new translation here.
 common#:#msg_no_delete_yourself#:#Nem törölheti a saját felhasználói fiókját.
 common#:#msg_no_file#:#Nem választott fájlt
@@ -2557,9 +2519,9 @@ common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
 common#:#msg_obj_modified#:#Módosítások elmentve.
 common#:#msg_obj_no_link#:#nem engedélyezett linkelése
 common#:#msg_obj_not_deletable_sold#:#A fizetés aktiválásra került az alábbi objektumokhoz. Az objektumok nem törölhetők.
-common#:#msg_perm_adopted_from_itself#:#Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből / szerepmintából.
 common#:#msg_perm_adopted_from1#:#A jogosultsági beállítások elődje
 common#:#msg_perm_adopted_from2#:#(Beállítások elmentve.)
+common#:#msg_perm_adopted_from_itself#:#Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből / szerepmintából.
 common#:#msg_removed#:#Az objektum(ok) eltávolításra kerültek a rendszerből.
 common#:#msg_role_exists1#:#Szerep / szerepminta ezen a néven:
 common#:#msg_role_exists2#:#már létezik. Válasszon másik megnevezést
@@ -2808,9 +2770,9 @@ common#:#password#:#Jelszó
 common#:#password_assistance_disabled#:#A jelszótámogatás csak akkor érhető el, ha a felhasználó-azonosítás a helyi ILIAS adatbázison keresztül történik.
 common#:#password_assistance_info#:#Ha engedélyezett a jelszótámogatás, "Elfelejtette jelszavát?" szövegű link jelenik meg az ILIAS bejelentkező képernyőjén. A felhasználók a link segítségével új jelszót adhatnak meg felhasználói fiókjukhoz a rendszeradminisztrátor segítségének igénybevétele nélkül.
 common#:#paste#:#Beillesztés
-common#:#paste_clipboard_items#:#Tételek bemásolása a vágólapról
 common#:#pasteChapter#:#Beillesztés
 common#:#pastePage#:#Beillesztés
+common#:#paste_clipboard_items#:#Tételek bemásolása a vágólapról
 common#:#path#:#Elérési útvonal
 common#:#path_not_set#:#Az útvonal nincs beállítva.
 common#:#path_to_babylon#:#Útvonal Babylon-hoz
@@ -3102,12 +3064,12 @@ common#:#server#:#Szerver
 common#:#server_data#:#Szerveradatok
 common#:#server_software#:#Szerverszoftver
 common#:#set#:#Beállítás
+common#:#setSystemLanguage#:#Rendszernyelv beállítása
+common#:#setUserLanguage#:#Felhasználói nyelv beállítása
 common#:#set_offline#:#Off-line-re állítás
 common#:#set_online#:#On-line-ra állítás
-common#:#setSystemLanguage#:#Rendszernyelv beállítása
 common#:#settings#:#Beállítások
 common#:#settings_saved#:#A beállítások mentésre kerültek
-common#:#setUserLanguage#:#Felhasználói nyelv beállítása
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Shibboleth támogatás engedélyezése
 common#:#shib_city#:#Tuladonságok a városhoz
@@ -3132,7 +3094,6 @@ common#:#shib_lastname#:#Tulajdonságok a keresztnévhez
 common#:#shib_login#:#Egyedi Shibboleth tulajdonságok
 common#:#shib_login_button#:#Elérési útvonal a Shibboleth bejelentkezési gombhoz
 common#:#shib_login_external_wayf#:#Use external WAYF service ### 2006-8-10 --- Add new translation here.
-common#:#shib_login_instructions#:#A bejelentkezési mezőben megjelenő utasítások
 common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service ### 2006-8-10 --- Add new translation here.
 common#:#shib_login_type#:#Organization selection ### 2006-8-10 --- Add new translation here.
 common#:#shib_phone_home#:#Attribute for home phone number ### 2006-8-10 --- Add new translation here.
@@ -3281,7 +3242,6 @@ common#:#today#:#Ma
 common#:#toggleGlobalDefault#:#Globálisan alapértelmezett átkapcsolása
 common#:#toggleGlobalFixed#:#Globálisan meghatározott átkapcsolása
 common#:#total#:#Összesen
-common#:#total_online#:#On-line idő (DD:HH:MM:SS)
 common#:#tpl_path#:#Template Path ### 2006-8-10 --- Add new translation here.
 common#:#trac_delete#:#Nyomkövetési adatok törlése
 common#:#trac_edit_permission#:#Jogosultsági beállítások változtatása
@@ -3404,7 +3364,6 @@ common#:#user_send_new_account_mail#:#Új beljelentkezési levél küldése
 common#:#user_statistics#:#Statisztikai adatok
 common#:#userdata#:#Felhasználói adatok
 common#:#userfolder_export_csv#:#Vesszővel tagolt szöveg (CSV)
-common#:#userfolder_export_excel_ppc#:#Microsoft Excel (IBM PPC)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel ### 2006-8-10 --- Add new translation here.
 common#:#userfolder_export_file#:#Fájl
 common#:#userfolder_export_file_size#:#Fájlméret
@@ -3524,6 +3483,9 @@ common#:#you_may_add_local_roles#:#Helyi szerepek felvétele
 common#:#your_message#:#Az Ön üzenete
 common#:#zip#:#Irányítószám
 common#:#zipcode#:#Irányítószám
+content#:#HTML export#:#HTML Export ### 2006-8-10 --- Add new translation here.
+content#:#PDF export#:#PDF-export
+content#:#Pages#:#Lapok
 content#:#add_menu_entry#:#Menübejegyzés felvétele >>
 content#:#all#:#Mind
 content#:#all_pages#:#a teljes tananyag
@@ -3533,6 +3495,26 @@ content#:#citate#:#Idéz
 content#:#citate_from#:#Idéz honnan …
 content#:#citate_page#:#Idézi ezt a lapot
 content#:#citate_to#:#Idéz hol …
+content#:#cont_Additional#:#További
+content#:#cont_Alphabetic#:#Ábécérend a, b, …
+content#:#cont_Circle#:#Kör
+content#:#cont_Citation#:#Idézet
+content#:#cont_Code#:#Kód
+content#:#cont_Example#:#pl.
+content#:#cont_Headline1#:#Címsor 1
+content#:#cont_Headline2#:#Címsor 2
+content#:#cont_Headline3#:#Címsor 3
+content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#Helyi fájl
+content#:#cont_Mnemonic#:#Emlékeztető
+content#:#cont_Number#:#Szám
+content#:#cont_Poly#:#Sokszög
+content#:#cont_Rect#:#Téglalap
+content#:#cont_Reference#:#Referencia
+content#:#cont_Remark#:#Észrevétel
+content#:#cont_Roman#:#Római i, ii, ...
+content#:#cont_TableContent#:#Tartalomtáblázat
+content#:#cont_Unordered#:#Listajeles
 content#:#cont_act_number#:#Fejezetszámozás
 content#:#cont_activate_page#:#Lap aktiválása
 content#:#cont_active#:#Menü engedélyezése
@@ -3542,10 +3524,8 @@ content#:#cont_add_definition#:#Definíció hozzáadása
 content#:#cont_add_fullscreen#:#Teljes képernyő hozzáadása
 content#:#cont_added_comment#:#A megjegyzés felvételre került a történetbe.
 content#:#cont_added_term#:#Fogalom hozzáadva.
-content#:#cont_Additional#:#További
 content#:#cont_all_definitions#:#Minden definíció
 content#:#cont_all_pages#:#Minden lap
-content#:#cont_Alphabetic#:#Ábécérend a, b, …
 content#:#cont_annex#:#Melléklet
 content#:#cont_api_adapter#:#API csatoló neve
 content#:#cont_api_func_prefix#:#API funkciók prefixe
@@ -3574,12 +3554,9 @@ content#:#cont_characteristic#:#Jellemző
 content#:#cont_choose_cont_obj#:#Tartalom-objektum választása
 content#:#cont_choose_glossary#:#Fogalomtár választása
 content#:#cont_choose_media_source#:#Médiaforrás választása
-content#:#cont_Circle#:#Kör
-content#:#cont_Citation#:#Idézet
 content#:#cont_citation_err_one#:#Pontosan egy kiadót kell kijelölnie
 content#:#cont_citation_selection_not_valid#:#A választása nem érvényes
 content#:#cont_citations#:#Idézetek
-content#:#cont_clean_frames#:#Az összes keret frissítése lapozáskor
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area. ### 2006-8-10 --- Add new translation here.
 content#:#cont_click_center#:#Kattintson a kívánt terület középpontjára!
 content#:#cont_click_circle#:#Kattintson a kívánt területet határoló körvonal egy pontjára!
@@ -3587,7 +3564,6 @@ content#:#cont_click_next_or_save#:#Kattintson a sokszög következő pontjára,
 content#:#cont_click_next_point#:#Kattintson a sokszög következő pontjára!
 content#:#cont_click_starting_point#:#Kattintson a sokszög kezdőpontjára!
 content#:#cont_click_tl_corner#:#Kattintson a kívánt terület bal felső sarkába!
-content#:#cont_Code#:#Kód
 content#:#cont_confirm_delete#:#valóban törli?
 content#:#cont_content#:#Tartalom
 content#:#cont_content_obj#:#Tartalom-objektum
@@ -3682,7 +3658,6 @@ content#:#cont_edition#:#Szerkesztés
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.###10 Aug 2006 new variable
 content#:#cont_enable_js#:#JavaScript aktív
 content#:#cont_enable_media#:#Média aktív
-content#:#cont_Example#:#pl.
 content#:#cont_export_files#:#Fájlok exportálása
 content#:#cont_external#:#külső
 content#:#cont_external_url#:#külső url
@@ -3706,9 +3681,6 @@ content#:#cont_get_orig_size#:#Eredeti méret beállítása
 content#:#cont_glo_menu#:#Menü
 content#:#cont_glo_properties#:#Fogalomtár tulajdonságok
 content#:#cont_header#:#Fejléc
-content#:#cont_Headline1#:#Címsor 1
-content#:#cont_Headline2#:#Címsor 2
-content#:#cont_Headline3#:#Címsor 3
 content#:#cont_height#:#Magasság
 content#:#cont_how_published#:#Hogy van publikálva
 content#:#cont_href#:#href
@@ -3739,7 +3711,6 @@ content#:#cont_link_int#:#Link (belső)
 content#:#cont_link_select#:#belső link
 content#:#cont_link_type#:#Linktípus
 content#:#cont_linked_mobs#:#Linkelt médiaobjektumok
-content#:#cont_List#:#Lista
 content#:#cont_list_files#:#Fájlok listázása
 content#:#cont_list_properties#:#Tulajdonságok listázása
 content#:#cont_lk_chapter#:#Fejezet
@@ -3756,17 +3727,14 @@ content#:#cont_lk_term#:#Fogalomtár fogalma
 content#:#cont_lk_term_new#:#Fogalomtár fogalma (új keret)
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Tananyag-tulajdonságok
-content#:#cont_LocalFile#:#Helyi fájl
 content#:#cont_lvalue#:#Adatelem
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Linkterületek
 content#:#cont_mastery_score#:#adlcp:masteryscore
-content#:#cont_matches#:#párok
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed ### 2006-8-10 --- Add new translation here.
 content#:#cont_media_source#:#Médiaforrás
 content#:#cont_mep_structure#:#Médiagyűjtemény-struktúra
 content#:#cont_missing_preconditions#:#Az alábbi előfeltételeket kell teljesítenie, hogy elérje a "%s" fejezetet.
-content#:#cont_Mnemonic#:#Emlékeztető
 content#:#cont_mob_files#:#Objektumfájlok
 content#:#cont_mob_inst_prop#:#Példánytulajdonságok
 content#:#cont_mob_prop#:#Objektumtulajdonságok
@@ -3792,7 +3760,6 @@ content#:#cont_none#:#Semmi
 content#:#cont_nr_cols#:#Oszlopok száma
 content#:#cont_nr_items#:#Tételek száma
 content#:#cont_nr_rows#:#Sorok száma
-content#:#cont_Number#:#Szám
 content#:#cont_obj_removed#:#Az objektum eltávolítva.
 content#:#cont_offline#:#Off-line verziók
 content#:#cont_offline_files#:#Off-line verziók
@@ -3800,7 +3767,6 @@ content#:#cont_offline_versions#:#Off-line verziók
 content#:#cont_online#:#On-line
 content#:#cont_or#:#vagy
 content#:#cont_order#:#Rendezési típus
-content#:#cont_ordering_question_javascript_hint#:#Húzzon egy definíciót/képet arra a definícióra/képre, ahová le akarja tenni, majd engedje el. Az aláhúzott definíció/kép és minden további definíció/kép le fog csúszni.
 content#:#cont_organization#:#Organization ### 2006-8-10 --- Add new translation here.
 content#:#cont_organizations#:#Szervezetek
 content#:#cont_orig_size#:#Eredeti méret
@@ -3817,7 +3783,6 @@ content#:#cont_personal_clipboard#:#Személyes vágólap
 content#:#cont_pg_content#:#Laptartalom
 content#:#cont_pg_title#:#Lapcím
 content#:#cont_please_select#:#válasszon
-content#:#cont_Poly#:#Sokszög
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Előnézet
@@ -3827,23 +3792,18 @@ content#:#cont_public_notes#:#Nyilvános jegyzetek
 content#:#cont_public_notes_desc#:#A felhasználók számára engedélyezett a jegyzetek megosztása a tananyag minden lapján.
 content#:#cont_publisher#:#Kiadó
 content#:#cont_purpose#:#Cél
-content#:#cont_Rect#:#Téglalap
 content#:#cont_ref_helptext#:#(például http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Hivatkozott képek
-content#:#cont_Reference#:#Referencia
-content#:#cont_Remark#:#Észrevétel
 content#:#cont_remove_fullscreen#:#Teljes képernyő eltávolítva.
 content#:#cont_removeiln#:#valóban eltávolítja a belső linket?
 content#:#cont_repository_item#:#Taneszköz tárolóbeli elem
 content#:#cont_repository_item_links#:#Taneszköz tárolóbeli elem linkek
-content#:#cont_reset_definitions#:#Definícióhelyek alapállapotba állítása
 content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height. ### 2006-8-10 --- Add new translation here.
 content#:#cont_resize_explanation2#:#Ez a funkció átméretezi a helyi képfájlokat a meghatározott szélességre és magasságra.
 content#:#cont_resize_image#:#Képek átméretezése
 content#:#cont_resource#:#Forrás
 content#:#cont_resource_type#:#Típus
 content#:#cont_resources#:#Források
-content#:#cont_Roman#:#Római i, ii, ...
 content#:#cont_rvalue#:#Érték
 content#:#cont_saved_map_area#:#Map terület elmentve.
 content#:#cont_saved_map_data#:#Map adatok elmentve.
@@ -3913,7 +3873,6 @@ content#:#cont_table_html_import_info#:#Az importálás csak XHTM-lel kompatibil
 content#:#cont_table_spreadsheet_import#:#Táblázatimport
 content#:#cont_table_spreadsheet_import_info#:#Táblázat bemásolása adatbázis-alkalmazásból vágólapon keresztül a szövegterületre.
 content#:#cont_table_width#:#Táblázatszélesség
-content#:#cont_TableContent#:#Tartalomtáblázat
 content#:#cont_target_within_source#:#A célútvonal nem lehet a forrásobjektumon belül.
 content#:#cont_term#:#Fogalom
 content#:#cont_terms#:#Fogalmak
@@ -3938,7 +3897,6 @@ content#:#cont_tracking_items#:#Nyomkövetési tételek
 content#:#cont_translations#:#Fordítás(ok)
 content#:#cont_translations_assigned#:#Fordítás(ok) hozzárendelve
 content#:#cont_tree_fixed#:#A struktúra rögzített lett.
-content#:#cont_Unordered#:#Listajeles
 content#:#cont_update#:#Frissítve
 content#:#cont_update_names#:#Nevek frissítése
 content#:#cont_upload_file#:#Fájl frissítése
@@ -3959,7 +3917,6 @@ content#:#copied_to_clipboard#:#Másolt objektum(ok) vágólapra tétele.
 content#:#dgl_pagebreak#:#Laptörés
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Az alábbi források linkelnek arra a fogalomra
-content#:#HTML export#:#HTML Export ### 2006-8-10 --- Add new translation here.
 content#:#lm_menu_edit_entry#:#Menübejegyzés szerkesztése
 content#:#lm_menu_entry_target#:#Cél
 content#:#lm_menu_entry_title#:#Cím
@@ -3971,17 +3928,15 @@ content#:#msg_entry_removed#:#Menübejegyzés eltávolítva.
 content#:#msg_entry_updated#:#Menübejegyzés frissítve.
 content#:#msg_page_no_public_access#:#Az ön által kért lap nem elérhető a nyilvános területen. Csak regisztrált felhasználók láthatják. Először jelentkezzen be a lap megtekintéséhez.
 content#:#msg_page_not_public#:#A lap nem nyilvános
-content#:#Pages#:#Lapok
 content#:#pages from#:#Első
 content#:#par#:#Bekezdés
-content#:#PDF export#:#PDF-export
 content#:#pg#:#Lap
 content#:#public_section#:#Nyilvános terület
 content#:#read offline#:#Off-line olvasás
-content#:#select_a_file#:#Válasszon ki egy fájlt!
-content#:#selected_pages_only#:#csak azokat az oldalakat, amelyek alább ki vannak választva
 content#:#selectFooter#:#Kiválasztás láblécként
 content#:#selectHeader#:#Kiválasztás fejlécként
+content#:#select_a_file#:#Válasszon ki egy fájlt!
+content#:#selected_pages_only#:#csak azokat az oldalakat, amelyek alább ki vannak választva
 content#:#set_public_mode#:#Nyilvános elérési mód beállítása
 content#:#st#:#Fejezet
 content#:#start export#:#Exportálás elindítása
@@ -4459,8 +4414,43 @@ crs#:#tutor_lastname#:#Vezetéknév
 crs#:#tutor_name#:#Name ### 2006-8-10 --- Add new translation here.
 crs#:#tutor_phone#:#Telefon
 crs#:#tutor_title#:#Cím
-crs_#:#crs_archives#:#Archívok
-dateplaner#:#੬ong_01#:#Január
+dateplaner#:#DateText#:#Message ### 2006-8-10 --- Add new translation here.
+dateplaner#:#Day_long#:#Napi nézet
+dateplaner#:#ERROR_DATE_EXISTS#:#Ez az esemény már létezik.
+dateplaner#:#ERROR_DB#:#Adatbázis-írási hiba.
+dateplaner#:#ERROR_DB_CONNECT#:#A kapcsolat az adatbázissal megszűnt.
+dateplaner#:#ERROR_DEL_MSG#:#Ez ismétlődő esemény. Szeretne törölni egy eseményt vagy a teljes sorozatot?
+dateplaner#:#ERROR_ENDDATE#:#Hibás a végdátum megadása. Formátum: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Hibás végdátum. Formátum: hh:mm
+dateplaner#:#ERROR_END_START#:#Hibás a végdátum megadása. A végdátum a kezdődátum előtti.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Érvényes vesszővel szeparált értékű fájlt adjon meg4
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>az Ön böngészője nem fogadja a JavaScript-et.<BR />A manuális bevitel után zárja be ezt az ablakot!<BR></CENTER></B>
+dateplaner#:#ERROR_ROTATIONEND#:#Hibás ismétlődő dátum megadásra került sor. Formátum: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Hibás ismétlődő végdátum megadására került sor. A végdátum a kezdődátum előtti.
+dateplaner#:#ERROR_SHORTTEXT#:#Hibás a rövid szöveg megadása. Rövid szöveg megadása szükséges.
+dateplaner#:#ERROR_STARTDATE#:#Hibás a kezdődátum megadása. Formátum: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Hibás kezdődátum. Formátum: hh:mm
+dateplaner#:#ERROR_TS#:#Nem megfelelő dátumformátum
+dateplaner#:#Fr_long#:#Péntek
+dateplaner#:#Fr_short#:#P.
+dateplaner#:#Language_file#:#angol
+dateplaner#:#Listbox_long#:#Eseménylista
+dateplaner#:#Mo_long#:#Hétfő
+dateplaner#:#Mo_short#:#H.
+dateplaner#:#Month_long#:#Havi nézet
+dateplaner#:#Sa_long#:#Szombat
+dateplaner#:#Sa_short#:#Szo.
+dateplaner#:#Su_long#:#Vasárnap
+dateplaner#:#Su_short#:#V.
+dateplaner#:#Text#:#Szöveg
+dateplaner#:#Th_long#:#Csütörtök
+dateplaner#:#Th_short#:#Cs.
+dateplaner#:#Tu_long#:#Kedd
+dateplaner#:#Tu_short#:#K.
+dateplaner#:#View#:#Nézet:
+dateplaner#:#We_long#:#Szerda
+dateplaner#:#We_short#:#Sze.
+dateplaner#:#Week_long#:#Heti nézet
 dateplaner#:#add_data#:#További adatok
 dateplaner#:#app_#:#Beérkezett csoportesemények
 dateplaner#:#app_date#:#Esemény létrehozása
@@ -4477,20 +4467,19 @@ dateplaner#:#back#:#vissza
 dateplaner#:#begin_date#:#Kezdődátum
 dateplaner#:#busytime#:#szorgalmi időszak a csoportban
 dateplaner#:#c_date#:#Esemény létrehozása
-dateplaner#:#changedDates#:#Megváltozott események
 dateplaner#:#changeTo#:#Mire változik:
+dateplaner#:#changedDates#:#Megváltozott események
 dateplaner#:#checkforfreetime#:#Szabadidő ellenőrzése
 dateplaner#:#created#:#Létrehozva
 dateplaner#:#date#:#Dátum
 dateplaner#:#date_format#:#hh:mm
 dateplaner#:#date_format_middle#:#m/d/y
-dateplaner#:#DateText#:#Message ### 2006-8-10 --- Add new translation here.
-dateplaner#:#Day_long#:#Napi nézet
 dateplaner#:#del_all#:#Az összes esemény törlése
 dateplaner#:#del_one#:#Egy esemény törlése
 dateplaner#:#delete#:#törlés
 dateplaner#:#deletedDates#:#Törölt események
 dateplaner#:#discard#:#elvetés
+dateplaner#:#dv_Grouptime#:#szabadidő
 dateplaner#:#dv_button_cancel#:#Mégsem
 dateplaner#:#dv_button_delete#:#Törlés
 dateplaner#:#dv_button_insert#:#Beszúrás
@@ -4500,7 +4489,6 @@ dateplaner#:#dv_date_end#:#Befejezési idő:
 dateplaner#:#dv_date_hm#:#Óra:perc
 dateplaner#:#dv_enddate#:#Végdátum:
 dateplaner#:#dv_groupselect#:#Csoportkiválasztás:
-dateplaner#:#dv_Grouptime#:#szabadidő
 dateplaner#:#dv_groupview#:#Csoportesemény:
 dateplaner#:#dv_groupview_text#:#Csoport:<BR />
 dateplaner#:#dv_keywords#:#Kulcsszavak:
@@ -4519,31 +4507,12 @@ dateplaner#:#dv_whole_day#:#Teljes nap:
 dateplaner#:#dv_whole_rotation#:#Törölni szeretné az ismétlődő sorozatokat? (kattintson a jelölőnégyzetre)
 dateplaner#:#end_date#:#Befejezési idő
 dateplaner#:#endtime_for_view#:#Végdátum a nézethez:
-dateplaner#:#ERROR_DATE_EXISTS#:#Ez az esemény már létezik.
-dateplaner#:#ERROR_DB#:#Adatbázis-írási hiba.
-dateplaner#:#ERROR_DB_CONNECT#:#A kapcsolat az adatbázissal megszűnt.
-dateplaner#:#ERROR_DEL_MSG#:#Ez ismétlődő esemény. Szeretne törölni egy eseményt vagy a teljes sorozatot?
-dateplaner#:#ERROR_END_START#:#Hibás a végdátum megadása. A végdátum a kezdődátum előtti.
-dateplaner#:#ERROR_ENDDATE#:#Hibás a végdátum megadása. Formátum: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Hibás végdátum. Formátum: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Érvényes vesszővel szeparált értékű fájlt adjon meg4
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>az Ön böngészője nem fogadja a JavaScript-et.<BR />A manuális bevitel után zárja be ezt az ablakot!<BR></CENTER></B>
 dateplaner#:#error_minical_img#:#Nem hozható létre 'GD-picture-stream'
-dateplaner#:#ERROR_ROT_END_START#:#Hibás ismétlődő végdátum megadására került sor. A végdátum a kezdődátum előtti.
-dateplaner#:#ERROR_ROTATIONEND#:#Hibás ismétlődő dátum megadásra került sor. Formátum: dd/mm/yyyy
-dateplaner#:#ERROR_SHORTTEXT#:#Hibás a rövid szöveg megadása. Rövid szöveg megadása szükséges.
-dateplaner#:#ERROR_STARTDATE#:#Hibás a kezdődátum megadása. Formátum: dd/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Hibás kezdődátum. Formátum: hh:mm
-dateplaner#:#ERROR_TS#:#Nem megfelelő dátumformátum
 dateplaner#:#execute#:#kiválasztás végrehajtása
 dateplaner#:#extra_dates#:#Egy napos események
-dateplaner#:#Fr_long#:#Péntek
-dateplaner#:#Fr_short#:#P.
 dateplaner#:#free#:#szabad
 dateplaner#:#freetime#:#szabadidő a csoportban
 dateplaner#:#group#:#csoport
-dateplaner#:#help_text#:#Szöveg Ԋ
-dateplaner#:#help_text_l#:#Itt viheݴő be a szöveg e੧y adott eseményըez.
 dateplaner#:#help_day#:#Határidőnapló napi nézete
 dateplaner#:#help_day_l#:#A napi nézetben a kiválasztott nap minden eseménye megjelent.
 dateplaner#:#help_enddate#:#Végdátum - szintaxis [nn/hh/éééé]
@@ -4561,9 +4530,9 @@ dateplaner#:#help_group_l#:#Azon csoportokat tartalmazza, amelyekben a bejelentk
 dateplaner#:#help_inbox#:#Határidőnapló - bejövő levelek
 dateplaner#:#help_inbox_l#:#Itt minden új, megváltozott és törölt csoportesemény megtekinthető.
 dateplaner#:#help_keyword#:#Kulcsszó kiválasztása
-dateplaner#:#help_keyword_l#:#Azon kulcsszavakat tartalmazza, amelyeket a felhasználó dátumokhoz kapcsolhat.
 dateplaner#:#help_keywordUse#:#Kulcsszó kiválasztása
 dateplaner#:#help_keywordUse_l#:#Válasszon egy vagy több kulcsszót a párbeszéddobozból.<BR>TIPP: használja a CTRL billentyűt több bejegyzés kiválasztásához.
+dateplaner#:#help_keyword_l#:#Azon kulcsszavakat tartalmazza, amelyeket a felhasználó dátumokhoz kapcsolhat.
 dateplaner#:#help_list#:#Határidőnapló dátumlistája
 dateplaner#:#help_list_l#:#Az eseménylistában egy adott időperiódus minden eseménye megjelenítésre kerül.
 dateplaner#:#help_month#:#Határidőnapló havi nézete
@@ -4586,6 +4555,8 @@ dateplaner#:#help_startdate#:#Start date - syntax[dd/mm/yyyy] ### 2006-8-10 --- 
 dateplaner#:#help_startdate_l#:#A találkozó kezdੑidőpontját tartաlmazza.<BR /> Aภszimbólum egy kͩs naptárt nyit ੭eg a megfelelő ൤átum kiválasztáੳához.
 dateplaner#:#help_starttime#:#Start time - syntax[hh/mm] 24-hour format ### 2006-8-10 --- Add new translation here.
 dateplaner#:#help_starttime_l#:#Contains the starting time of the event using 24-hour format. ### 2006-8-10 --- Add new translation here.
+dateplaner#:#help_text#:#Szöveg Ԋ
+dateplaner#:#help_text_l#:#Itt viheݴő be a szöveg e੧y adott eseményըez.
 dateplaner#:#help_week#:#Calendar week view ### 2006-8-10 --- Add new translation here.
 dateplaner#:#help_week_l#:#In the week view all events of a given week are displayed. ### 2006-8-10 --- Add new translation here.
 dateplaner#:#hour#:#hour ### 2006-8-10 --- Add new translation here.
@@ -4596,9 +4567,7 @@ dateplaner#:#k_alldates#:#All Events ### 2006-8-10 --- Add new translation here.
 dateplaner#:#keep#:#Keep ### 2006-8-10 --- Add new translation here.
 dateplaner#:#keyword#:#Keyword ### 2006-8-10 --- Add new translation here.
 dateplaner#:#keywords#:#Keywords ### 2006-8-10 --- Add new translation here.
-dateplaner#:#Language_file#:#angol
 dateplaner#:#last_change#:#Last changed ### 2006-8-10 --- Add new translation here.
-dateplaner#:#Listbox_long#:#Eseménylista
 dateplaner#:#long_01#:#January ### 2006-8-10 --- Add new translation here.
 dateplaner#:#long_02#:#February ### 2006-8-10 --- Add new translation here.
 dateplaner#:#long_03#:#March ### 2006-8-10 --- Add new translation here.
@@ -4614,17 +4583,13 @@ dateplaner#:#long_12#:#December ### 2006-8-10 --- Add new translation here.
 dateplaner#:#main_dates#:#Main Events ### 2006-8-10 --- Add new translation here.
 dateplaner#:#menue#:#Menu ### 2006-8-10 --- Add new translation here.
 dateplaner#:#mmonth#:#Last Month ### 2006-8-10 --- Add new translation here.
-dateplaner#:#Mo_long#:#Hétfő
-dateplaner#:#Mo_short#:#H.
 dateplaner#:#month#:#Month ### 2006-8-10 --- Add new translation here.
-dateplaner#:#Month_long#:#Havi nézet
 dateplaner#:#more#:#More ### 2006-8-10 --- Add new translation here.
 dateplaner#:#mweek#:#legutolsó hét
 dateplaner#:#myeahr#:#Last Year ### 2006-8-10 --- Add new translation here.
-dateplaner#:#neࡷ_doc#:#Új eseményԠlétrehozása
-dateplaner#:#new_doc#:#Create new event ### 2006-8-10 --- Add new translation here.
 dateplaner#:#newDates#:#New Events ### 2006-8-10 --- Add new translation here.
 dateplaner#:#newKeyword#:#New: ### 2006-8-10 --- Add new translation here.
+dateplaner#:#new_doc#:#Create new event ### 2006-8-10 --- Add new translation here.
 dateplaner#:#no_entry#:#No events available ### 2006-8-10 --- Add new translation here.
 dateplaner#:#o_day_date#:#24-hour event ### 2006-8-10 --- Add new translation here.
 dateplaner#:#of#:#of ### 2006-8-10 --- Add new translation here.
@@ -4645,8 +4610,6 @@ dateplaner#:#r_year#:#minden évben
 dateplaner#:#readimportfile#:#beszúrás
 dateplaner#:#rotation#:#Ismétlődés
 dateplaner#:#rotation_dates#:#Ismétlődő események
-dateplaner#:#Sa_long#:#Szombat
-dateplaner#:#Sa_short#:#Szo.
 dateplaner#:#semester_name#:#Szemeszter megnevezése
 dateplaner#:#short_01#:#Jan.
 dateplaner#:#short_02#:#Febr.
@@ -4663,24 +4626,13 @@ dateplaner#:#short_12#:#Dec.
 dateplaner#:#shorttext#:#Rövid szöveg
 dateplaner#:#singleDate#:#Egyszeri esemény
 dateplaner#:#starttime_for_view#:#Kezdőidő a nézethez:
-dateplaner#:#Su_long#:#Vasárnap
-dateplaner#:#Su_short#:#V.
-dateplaner#:#Text#:#Szöveg
-dateplaner#:#Th_long#:#Csütörtök
-dateplaner#:#Th_short#:#Cs.
 dateplaner#:#timedate#:#Idő / dátum
 dateplaner#:#timeslice#:#Idő:
 dateplaner#:#title#:#ILIAS határidőnapló
 dateplaner#:#to#:#Meddig
 dateplaner#:#today#:#Ma
-dateplaner#:#Tu_long#:#Kedd
-dateplaner#:#Tu_short#:#K.
-dateplaner#:#View#:#Nézet:
 dateplaner#:#viewlist#:#Nézet
-dateplaner#:#We_long#:#Szerda
-dateplaner#:#We_short#:#Sze.
 dateplaner#:#week#:#Hét
-dateplaner#:#Week_long#:#Heti nézet
 dateplaner#:#wk_short#:#Hét
 dateplaner#:#year#:#Év
 exercise#:#exc_comment#:#Comment ### 2006-8-10 --- Add new translation here.
@@ -4711,8 +4663,8 @@ forum#:#forums_disable_notification#:#Értesítés letiltása
 forum#:#forums_download_attachment#:#Fájl letöltése
 forum#:#forums_edit_post#:#Hozzászólás szerkesztése
 forum#:#forums_enable_notification#:#Értesítés engedélyezése
-forum#:#forums_info_censor_post#:#Biztosan el akarja rejteni ezt a hozzászólást?
 forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?
+forum#:#forums_info_censor_post#:#Biztosan el akarja rejteni ezt a hozzászólást?
 forum#:#forums_info_delete_post#:#Biztosan törölni akarja ezt a hozzászólást a válaszokkal együtt?
 forum#:#forums_mark_read#:#Mind bejelölése olvasottnak
 forum#:#forums_new_entries#:#Új fórumbejegyzések
@@ -5908,6 +5860,10 @@ style#:#sty_top#:#Top
 style#:#sty_vertical_align#:#Függőleges igazítás
 style#:#sty_white_space#:#Fehérkarakter
 style#:#sty_word_spacing#:#Szótávolság
+survey#:#SurveyMetricQuestion#:#Metric question ### 2006-8-10 --- Add new translation here.
+survey#:#SurveyNominalQuestion#:#Névleges kérdés
+survey#:#SurveyOrdinalQuestion#:#Sorrendi kérdés
+survey#:#SurveyTextQuestion#:#Esszé
 survey#:#add_category#:#Válasz felvétele
 survey#:#add_heading#:#Címsor hozzáadása
 survey#:#add_limits_for_standard_numbers#:#Adjon meg egy alacsonyabb és magasabb korlátot, hogy hány választ akar felvenni!
@@ -5922,7 +5878,6 @@ survey#:#anonymize_personalized#:#Nincs anonimizáció
 survey#:#anonymize_registered_user#:#Anonymized survey access ### 2006-8-10 --- Add new translation here.
 survey#:#anonymize_resume_introduction#:#Adja meg a kérdőívhez tartozó kódját a kérdőív folytatásához! Megküldésre került az Ön ILIAS postafiókjába, amikor megkezdte a kérdőív kitöltését.
 survey#:#anonymize_survey#:#Anonimizált kérdőívi adatok
-survey#:#anonymize_survey_explanation#:#Ha bekapcsolt, minden felhasználói adat anonim lesz, és nem lesz lehetőség a nyomkövetésre.
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code ### 2006-8-10 --- Add new translation here.
 survey#:#anonymize_without_code#:#Anonimizáció szabad eléréssel a kérdőívhez
 survey#:#anonymous_with_personalized_survey#:#Regisztrált felhasználónak kell lennie személyre szabott kérdőív futtatásához.
@@ -5972,7 +5927,6 @@ survey#:#continue#:#Folytatás >>
 survey#:#create_date#:#Létrehozva
 survey#:#create_new#:#új létrehozása
 survey#:#create_questionpool_before_add_question#:#Legalább egy kérdésgyűjteményt létre kell hoznia a kérdések eltárolására.
-survey#:#csv#:#Vesszővel elválasztott érték (CSV)
 survey#:#dc_agree#:#agree ### 2006-8-10 --- Add new translation here.
 survey#:#dc_always#:#mindig
 survey#:#dc_definitelyfalse#:#definíciószerűen hamis
@@ -6013,27 +5967,27 @@ survey#:#delete_user_data#:#Kiválasztott felhasználók kérdőívadatainak tö
 survey#:#description_maxchars#:#Ha nem kerül megadásra a karakterek maximális száma, a válasz hossza nem korlátozott.
 survey#:#disinvite#:#Nem meghívott
 survey#:#display_all_available#:#Minden elérhető megjelenítése
+survey#:#dp_standard_attitude_agree5#:#Jellemző állásfoglalás (nagyon egyetértek-egyetértek-nem eldöntött-nem értek egyet- nagyon nem értek egyet)
 survey#:#dp_standard_attitude_agree_disagree#:#Jellemző állásfoglalás (egyetértek-nem értek egyet)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Jellemző hozzáállás (egyetértek-nem eldöntött-nem értek egyet)
-survey#:#dp_standard_attitude_agree5#:#Jellemző állásfoglalás (nagyon egyetértek-egyetértek-nem eldöntött-nem értek egyet- nagyon nem értek egyet)
+survey#:#dp_standard_attitude_desired5#:#Jellemző állásfoglalás (nagyon megkívánt-megkívánt-semleges-kerülendő-nagyon kerülendő)
 survey#:#dp_standard_attitude_desired_neutral_undesired#:#Jellemző állásfoglalás (megkívánt-semleges-kerülendő)
 survey#:#dp_standard_attitude_desired_undesired#:#Jellemző állásfoglalás (megkívánt-kerülendő)
-survey#:#dp_standard_attitude_desired5#:#Jellemző állásfoglalás (nagyon megkívánt-megkívánt-semleges-kerülendő-nagyon kerülendő)
+survey#:#dp_standard_attitude_good5#:#Jellemző hozzáállás (nagyon jó-jó-korrekt-szegényes-nem elfogadható)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Jellemző állásfoglalás (jó-korrekt-nem elfogadható)
 survey#:#dp_standard_attitude_good_notacceptable#:#Jellemző állásfoglalás (jó-nem elfogadható)
-survey#:#dp_standard_attitude_good5#:#Jellemző hozzáállás (nagyon jó-jó-korrekt-szegényes-nem elfogadható)
 survey#:#dp_standard_attitude_must5#:#Jellemző állásfoglalás (kell-kellene-nem eldöntött-nem kellene-nem kell)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Jellemző állásfoglalás (kellene-nem kellene)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Jellemző állásfoglalás (kellene-nem döntött-nem kellene)
 survey#:#dp_standard_behaviour_certainly5#:#Jellemző viselkedés (biztosan-pozitívabb-nem eldöntött-negatívabb-bitzosan nem)
 survey#:#dp_standard_behaviour_yes_no#:#Jellemző viselkedés (igen-nem)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Jellemző viselkedés (igen-nem döntött-nem)
+survey#:#dp_standard_beliefs_always5#:#Jellemző hit (mindig-néhányszor-változóan-ritkán-soha)
 survey#:#dp_standard_beliefs_always_never#:#Jellemző hit (mindig-soha)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Jellemző hit (mindig-néha-soha)
-survey#:#dp_standard_beliefs_always5#:#Jellemző hit (mindig-néhányszor-változóan-ritkán-soha)
+survey#:#dp_standard_beliefs_true5#:#Jellemző hit (definíció szerint igaz-igaz-nem döntött-hamis-definíció szerint hamis)
 survey#:#dp_standard_beliefs_true_false#:#Jellemző hit (igaz-hamis)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Jellemző hit (igaz-nem döntött-hamis)
-survey#:#dp_standard_beliefs_true5#:#Jellemző hit (definíció szerint igaz-igaz-nem döntött-hamis-definíció szerint hamis)
 survey#:#dp_standard_numbers#:#Jellemző számok
 survey#:#duplicate#:#Másodpéldány létrehozása
 survey#:#duplicate_svy#:#Kérdőív többszörözése
@@ -6056,12 +6010,10 @@ survey#:#evaluation_access#:#Kiértékelési elérés
 survey#:#evaluation_access_all#:#Kiértékelés elérése minden felhasználó számára
 survey#:#evaluation_access_info#:#Elérése van a kérdőív-kiértékeléshez
 survey#:#evaluation_access_participants#:#Kiértékelési elérése a kérdőívkitöltők számára
-survey#:#excel#:#Microsoft Excel
 survey#:#existing_constraints#:#Existing preconditions ### 2006-8-10 --- Add new translation here.
 survey#:#exit#:#Kilépés
 survey#:#exp_type_csv#:#Vesszővel tagolt szöveg (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
-survey#:#exp_type_excel_mac#:#Microsoft Excel (IBM PPC)
 survey#:#export_data_as#:#Export data as ### 2006-8-10 --- Add new translation here.
 survey#:#fill_out_all_category_fields#:#Töltsön ki minden válaszmezőt, mielőtt újat vesz fel!
 survey#:#fill_out_all_required_fields_add_category#:#Töltsön ki minden kötelező mezőt, mielőtt új választ vesz fel!
@@ -6073,7 +6025,6 @@ survey#:#filter_all_question_types#:#Minden kérdéstípus
 survey#:#filter_all_questionpools#:#Minden kérdésgyűjtemény
 survey#:#filter_show_question_types#:#Kérdéstípusok megjelenítése
 survey#:#filter_show_questionpools#:#Kérdésgyűjtemények megjelenítése
-survey#:#finished#:#befejezve
 survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes. ### 2006-8-10 --- Add new translation here.
 survey#:#found_questions#:#Talált kérdések
 survey#:#geometric_mean#:#Geometriai jelentés
@@ -6122,7 +6073,6 @@ survey#:#metric_question_out_of_bounds#:#The value you entered is not between th
 survey#:#minimum#:#Minimum value ### 2006-8-10 --- Add new translation here.
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit! ### 2006-8-10 --- Add new translation here.
 survey#:#mode#:#Most selected value ### 2006-8-10 --- Add new translation here.
-survey#:#mode_੮r_of_selectionsԉKiválasztások s੺áma#:#e_੮r_of_selectionsԉKiválasztások s੺áma
 survey#:#mode_nr_of_selections#:#Nr of selections ### 2006-8-10 --- Add new translation here.
 survey#:#mode_text#:#Most selected value (Text) ### 2006-8-10 --- Add new translation here.
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response) ### 2006-8-10 --- Add new translation here.
@@ -6260,10 +6210,6 @@ survey#:#survey_skip_next#:#következő >>>
 survey#:#survey_skip_previous#:#<<< előző
 survey#:#survey_skip_start#:#ugrás és vissza a kezdőlapra
 survey#:#survey_start#:#vissza a kezdőlapra
-survey#:#SurveyMetricQuestion#:#Metric question ### 2006-8-10 --- Add new translation here.
-survey#:#SurveyNominalQuestion#:#Névleges kérdés
-survey#:#SurveyOrdinalQuestion#:#Sorrendi kérdés
-survey#:#SurveyTextQuestion#:#Esszé
 survey#:#svy_all_user_data_deleted#:#Minden, ehhez a kérdőívhez kapcsolódó felhasználói adat törlésre került.
 survey#:#svy_check_evaluation_access_introduction#:#Mivel ez a kérdőíves kiértékelés csak a kérdőívben résztvevők számára elérhető, meg kell adnia kérdőívelérési kódját a kiértékelés megnyitásához.
 survey#:#svy_check_evaluation_authentication_needed#:#Autentikáció szükséges
@@ -6311,6 +6257,7 @@ survey#:#view_constraints_introduction#:#Az alábbi kérdés/kérdésblokk előf
 survey#:#view_phrase#:#Mondat nézete
 survey#:#warning_question_in_use#:#Figyelmeztetés: Az Ön által szerkesztendő kérdést az alább listázott kérdőívek használják. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, az alább listázott kérdőívek minden válasza törlődik. Ha meg akarja változtatni a kérdést és másik kérdőívben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, a kérdés új példányának létrehozásához.
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.
 trac#:#found_objects#:#Megtalált objektumok
 trac#:#found_too_much_objects#:#Összesen több mint %s objektum van a találati listán, ezért finomítsa keresési kérését.
