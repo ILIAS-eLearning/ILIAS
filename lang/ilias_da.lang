@@ -539,7 +539,7 @@ assessment#:#tst_insert_missing_question#:#V&aelig;lg venligst mindst et sp&osla
 assessment#:#tst_insert_questions#:#Er du sikker p&aring; du vil inds&aelig;tte f&oslash;lgende sp&oslash;rgsm&aring;l i denne test?
 assessment#:#tst_insert_questions_and_results#:#Denne test er allerede taget af %s brugere. Hvis du inds&aelig;tter sp&oslash;rgsm&aring;l i denne test vil du slette alle resultater fra disse brugere. Er du sikker p&aring; du vil inds&aelig;tte f&oslash;lgende sp&oslash;rgsm&aring;l i denne test?
 assessment#:#tst_introduction#:#Introduktion
-assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.. 
+assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.. ###17 Aug 2006 content changed
 assessment#:#tst_mark#:#M&aelig;rke
 assessment#:#tst_mark_create_new_mark_step#:#Opret nyt m&aelig;rke
 assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpelt m&aelig;rke skema
@@ -6264,6 +6264,7 @@ survey#:#view_constraints_introduction#:#Du viser begraensinger paa foelgende sp
 survey#:#view_phrase#:#Vis saetning
 survey#:#warning_question_in_use#:#Advarsel! Spoergsmaalet du vil aendre er i brug af spoergeskemaet herunder. Hvis du vaelger at fortsaette og gemme dette spoergsmaal, vil alle svarende i spoergeskemaet blive slettet. Hvis du vil aendre spoergsmaalet og bruge det i et andet spoergeskema, vaelg da kopier i spoergsmaals browseren for at oprette en kopi af spoergsmaalet.
 survey#:#warning_question_not_complete#:#Spoergeskemaet er ikke faerdigt!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable

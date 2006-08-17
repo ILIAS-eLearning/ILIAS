@@ -539,7 +539,7 @@ assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Fra
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_introduction#:#Startseite
-assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.
+assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.###17 Aug 2006 content changed
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
 assessment#:#tst_mark_create_simple_mark_schema#:#Einfaches Notenschema erzeugen
@@ -6264,6 +6264,7 @@ survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folge
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Sie versucht haben, einen ungültigen Zugangscode zu verwenden.
 trac#:#found_objects#:#Gefundene Objekte
 trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefunden. Bitte verfeinern Sie daher Ihre Suchanfrage.

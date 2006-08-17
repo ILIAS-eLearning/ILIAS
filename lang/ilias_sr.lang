@@ -6256,6 +6256,7 @@ survey#:#view_constraints_introduction#:#Gledate ogranicenja sledecih pitanja/bl
 survey#:#view_phrase#:#Pregled fraze
 survey#:#warning_question_in_use#:#Upozorenje! Pitanje koje želite da uredite koristi se u anketi sa donjeg spiska. Ako odlucite da nastavite i snimite/primenite pitanje svi odgovori u dole navedenim anketama bice obrisani. Ako želite da promenite pitanje i iskoristite ga u drugoj anketi, molimo odaberite kopiju u pretraživacu pitanja da biste stvorili primerak ovog pitanja.
 survey#:#warning_question_not_complete#:#Pitanje nije potpuno!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable

@@ -5658,6 +5658,7 @@ survey#:#view_constraints_introduction#:#Βλέπετε τους περιορι�
 survey#:#view_phrase#:#Προβολή φράσης
 survey#:#warning_question_in_use#:#Προειδοποίηση! Η ερώτηση που θέλετε να επεξεργαστείτε χρησιμοποιείται από τις έρευνες που εμφανίζονται παρακάτω. Αν αποφασίσετε να συνεχίσετε και ν' αποθηκεύσετε/εφαρμόσετε την ερώτηση, όλες οι απαντήσεις από τις έρευνες που εμφανίζονται παρακάτω θα διαγραφούν. Αν θέλετε ν' αλλάξετε την ερώτηση και να την χρησιμοποιήσετε σε άλλη έρευνα, παρακαλώ επιλέξτε διπλότυπο στον πλοηγό ερωτήσεων για να δημιουργήσετε ένα αντίγραφο της ερώτησης.
 survey#:#warning_question_not_complete#:#Η ερώτηση δεν είναι ολοκληρωμένη!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#info_valid_request#:#Ο μέγιστος έγκυρος χρόνος μεταξύ δυο αιτήσεων του ίδιου χρήστη.
 trac#:#last_login#:#Τελευταία σύνδεση

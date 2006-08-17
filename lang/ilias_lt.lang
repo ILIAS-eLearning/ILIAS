@@ -475,7 +475,7 @@ assessment#:#tst_insert_missing_question#:#Pasirinkite bent vieną klausimą, ku
 assessment#:#tst_insert_questions#:#Ar tikrai norite įterpti šį(-iuos) klausimą(-us) į testą?
 assessment#:#tst_insert_questions_and_results#:#Šį testą jau laikė %s vartotojai(-ų). Įterpdami klausimą į šį testą, jūs panaikinsite visus tų vartotojų testo rezultatus. Ar tikrai norite įterpti šį(-iuos) klausimą(-us) į testą?
 assessment#:#tst_introduction#:#Įvadas
-assessment#:#tst_maintenance_information_no_results#:#Šiam testui nėra sukaupta vartotojų duomenų. Jums reikia bent vieno vartotojo duomenų tam, kad galėtumėte tvarkyti duomenimis..
+assessment#:#tst_maintenance_information_no_results#:#Šiam testui nėra sukaupta vartotojų duomenų. Jums reikia bent vieno vartotojo duomenų tam, kad galėtumėte tvarkyti duomenimis..###17 Aug 2006 content changed
 assessment#:#tst_mark#:#Įvertinimas
 assessment#:#tst_mark_create_new_mark_step#:#Sukurti naują įvertinimo žingsnį
 assessment#:#tst_mark_create_simple_mark_schema#:#Sukurti paprastą įvertinimo schemą
@@ -5555,6 +5555,7 @@ survey#:#view_constraints_introduction#:#Jūs žiūrite šio klausimo/klausimų 
 survey#:#view_phrase#:#Žiūrėti frazę
 survey#:#warning_question_in_use#:#Dėmesio! Klausimas, kurį norite redaguoti yra naudojamas žemiau išvardintose apklausose. Jei nuspręsite tęsti ir išsaugosite/taikysite klausimą, visi žemiau išvardintų apklausų atsakymai bus ištrinti. Jei norite pakeisti klausimą ir naudoti jį kitoje apklausoje, pasirinkite dubliavimą klausimų naršyklėje. Taip sukursite klausimo kopiją.
 survey#:#warning_question_not_complete#:#Klausimas nebaigtas!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 trac#:#info_valid_request#:#Maksimalus laikas tarp vartotojo užklausų.
 trac#:#last_login#:#Paskutinis prisijungimas
 trac#:#meta_typical_learning_time#:#Tipinis mokymosi laikas

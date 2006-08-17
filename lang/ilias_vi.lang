@@ -546,7 +546,7 @@ assessment#:#tst_insert_missing_question#:#Hãy ch�?n ít nhất một câu h�
 assessment#:#tst_insert_questions#:#Bạn có chắc bạn muốn thêm (những) câu h�?i sau đây vào bài kiểm tra?
 assessment#:#tst_insert_questions_and_results#:#Bài kiểm tra này đã được thực hiện bởi %s ngư�?i sử dụng. Thêm câu h�?i vào bài kiểm tra này sẽ hủy toàn bộ kết quả kiểm tra của những ngư�?i sử dụng này. Bạn có chắc bạn muốn thêm (những) câu h�?i sau đây vào bài kiểm tra?
 assessment#:#tst_introduction#:#Giới thiệu
-assessment#:#tst_maintenance_information_no_results#:#Không có tập hợp thông tin ngư�?i sử dụng nào tương ứng với bài kiểm tra này. Bạn cần ít nhất một tập hợp thông tin ngư�?i sử dụng để bảo trì dữ liệu.. 
+assessment#:#tst_maintenance_information_no_results#:#Không có tập hợp thông tin ngư�?i sử dụng nào tương ứng với bài kiểm tra này. Bạn cần ít nhất một tập hợp thông tin ngư�?i sử dụng để bảo trì dữ liệu.. ###17 Aug 2006 content changed
 assessment#:#tst_mark#:#�?iểm
 assessment#:#tst_mark_create_new_mark_step#:#Tạo thang điểm mới
 assessment#:#tst_mark_create_simple_mark_schema#:#Tạo giản đồ điểm
@@ -6271,6 +6271,7 @@ survey#:#view_constraints_introduction#:#Bạn đang xem phụ thuộc của câ
 survey#:#view_phrase#:#Xem cụm từ
 survey#:#warning_question_in_use#:#CẢNH B�?O! Câu h�?i bạn muốn sửa đang được sử dụng trong các khảo sát dưới đây. Nếu bạn quyết định tiếp tục và ghi / áp dụng câu h�?i, tất cả câu trả l�?i của các khảo sát dưới đây sẽ bị xóa. Nếu bạn muốn thay đổi câu h�?i và sử dụng nó trong một khảo sát khác, hãy nhân đôi câu h�?i này.
 survey#:#warning_question_not_complete#:#Chưa hoàn thành câu h�?i!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable

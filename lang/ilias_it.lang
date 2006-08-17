@@ -6264,6 +6264,7 @@ survey#:#view_constraints_introduction#:#Stai vedendo i vincoli definiti per le 
 survey#:#view_phrase#:#Vedi frase
 survey#:#warning_question_in_use#:#Attenzione! La domanda che vuoi modificare &#232; &#232; attualmente usata dai sondaggi indicati sotto. Se decidi di continuare e salvare/confermare la domanda, tutte le risposte dei sondaggi elencati sotto saranno cancellate. Se vuoi cambiare la domanda e usarla in un altro sondaggio, per favore scegli di duplicarla in modo da creare una nuova istanza della stessa.
 survey#:#warning_question_not_complete#:#La domanda non &#232; stata completata!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###19 Jul 2006 new variable
 trac#:#found_objects#:#Found objects###10 Jul 2006 new variable
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.###10 Jul 2006 new variable
