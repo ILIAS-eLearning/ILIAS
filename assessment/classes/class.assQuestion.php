@@ -2151,6 +2151,8 @@ class assQuestion
 			// if the string does not contain HTML code, replace the newlines with HTML line breaks
 			$result = preg_replace("/[\n]/", "<br />", $result);
 		}
+		$result = str_replace("{", "&#123;", $result);
+		$result = str_replace("}", "&#125;", $result);
 		return $result;
 	}
 
