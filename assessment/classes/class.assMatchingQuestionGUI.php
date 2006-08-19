@@ -291,7 +291,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_MATCHING_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_MATCHING_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_matching_pair"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS_PICTURES", $this->lng->txt("match_terms_and_pictures"));
@@ -606,16 +606,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("standard_matching_terms");
-				include_once "./classes/class.ilObjAdvancedEditing.php";
-				$editor = ilObjAdvancedEditing::_getRichTextEditor();
-				if (!$editor)
-				{
-					$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition(), TRUE));
-				}
-				else
-				{
-					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
-				}
+				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
 				$template->parseCurrentBlock();
 			}
 
@@ -638,16 +629,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
@@ -694,16 +676,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("standard_matching_terms");
-				include_once "./classes/class.ilObjAdvancedEditing.php";
-				$editor = ilObjAdvancedEditing::_getRichTextEditor();
-				if (!$editor)
-				{
-					$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition(), TRUE));
-				}
-				else
-				{
-					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
-				}
+				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
 				$template->parseCurrentBlock();
 			}
 
@@ -715,16 +688,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
 
@@ -820,16 +784,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				{
 					$template->setCurrentBlock("matching_terms");
 					$template->setVariable("DEFINITION_ID", $answer->getDefinitionId());
-					include_once "./classes/class.ilObjAdvancedEditing.php";
-					$editor = ilObjAdvancedEditing::_getRichTextEditor();
-					if (!$editor)
-					{
-						$template->setVariable("DEFINITION_TEXT", ilUtil::prepareFormOutput($answer->getDefinition(), TRUE));
-					}
-					else
-					{
-						$template->setVariable("DEFINITION_TEXT", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
-					}
+					$template->setVariable("DEFINITION_TEXT", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock("javascript_matching_row");
@@ -885,16 +840,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("standard_matching_terms");
-					include_once "./classes/class.ilObjAdvancedEditing.php";
-					$editor = ilObjAdvancedEditing::_getRichTextEditor();
-					if (!$editor)
-					{
-						$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($answer->getDefinition(), TRUE));
-					}
-					else
-					{
-						$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
-					}
+					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
 					$template->parseCurrentBlock();
 				}
 
@@ -907,16 +853,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 

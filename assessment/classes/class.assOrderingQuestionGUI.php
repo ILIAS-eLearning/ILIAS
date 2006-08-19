@@ -282,7 +282,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_PICTURES", $this->lng->txt("order_pictures"));
@@ -621,16 +621,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
-				include_once "./classes/class.ilObjAdvancedEditing.php";
-				$editor = ilObjAdvancedEditing::_getRichTextEditor();
-				if (!$editor)
-				{
-					$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
-				}
-				else
-				{
-					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-				}
+				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("ordering_row_standard");
@@ -644,16 +635,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
@@ -690,16 +672,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
-				include_once "./classes/class.ilObjAdvancedEditing.php";
-				$editor = ilObjAdvancedEditing::_getRichTextEditor();
-				if (!$editor)
-				{
-					$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
-				}
-				else
-				{
-					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-				}
+				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 				$template->setVariable("ANSWER_ID", $idx);
 				$template->parseCurrentBlock();
 			}
@@ -709,16 +682,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		}
 
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
 
@@ -814,16 +778,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("ordering_row_standard_text");
-					include_once "./classes/class.ilObjAdvancedEditing.php";
-					$editor = ilObjAdvancedEditing::_getRichTextEditor();
-					if (!$editor)
-					{
-						$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
-					}
-					else
-					{
-						$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-					}
+					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 					$template->setVariable("ANSWER_ID", $idx);
 					$template->parseCurrentBlock();
 				}
@@ -863,16 +818,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock("ordering_row_javascript_text");
-					include_once "./classes/class.ilObjAdvancedEditing.php";
-					$editor = ilObjAdvancedEditing::_getRichTextEditor();
-					if (!$editor)
-					{
-						$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
-					}
-					else
-					{
-						$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-					}
+					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 					$template->setVariable("ANSWER_ID", $idx);
 					$template->parseCurrentBlock();
 				}
@@ -889,16 +835,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 

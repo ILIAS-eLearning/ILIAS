@@ -7595,12 +7595,20 @@ class ilObjTest extends ilObject
 	function prepareTextareaOutput($txt_output)
 	{
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$result = ilUtil::stripSlashes($txt_output, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$result = $txt_output;
+		if ($prepare_for_latex_output)
+		{
+			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+		}
+		$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		if (!$this->isHTML($result))
 		{
 			// if the string does not contain HTML code, replace the newlines with HTML line breaks
 			$result = preg_replace("/[\n]/", "<br />", $result);
 		}
+		$result = str_replace("{", "&#123;", $result);
+		$result = str_replace("}", "&#125;", $result);
+		$result = str_replace("\\", "&#92;", $result);
 		return $result;
 	}
 } // END class.ilObjTest
