@@ -4866,7 +4866,7 @@ class ilObjSurvey extends ilObject
 	}
 
 	/**
-	* Prepares a string for a text area output in tests
+	* Prepares a string for a text area output in surveys
 	*
 	* @param string $txt_output String which should be prepared for output
 	* @access public
@@ -4874,12 +4874,20 @@ class ilObjSurvey extends ilObject
 	function prepareTextareaOutput($txt_output)
 	{
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$result = ilUtil::stripSlashes($txt_output, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+		$result = $txt_output;
+		if ($prepare_for_latex_output)
+		{
+			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+		}
+		$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 		if (!$this->isHTML($result))
 		{
 			// if the string does not contain HTML code, replace the newlines with HTML line breaks
 			$result = preg_replace("/[\n]/", "<br />", $result);
 		}
+		$result = str_replace("{", "&#123;", $result);
+		$result = str_replace("}", "&#125;", $result);
+		$result = str_replace("\\", "&#92;", $result);
 		return $result;
 	}
 

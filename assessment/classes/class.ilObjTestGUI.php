@@ -1320,16 +1320,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($data["description"]));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($data["introduction"]));
-		}
-		else
-		{
-			$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($data["introduction"]));
-		}
+		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($data["introduction"]));
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
 		$this->tpl->setVariable("TEXT_SEQUENCE", $this->lng->txt("tst_sequence"));
 		$this->tpl->setVariable("SEQUENCE_FIXED", $this->lng->txt("tst_sequence_fixed"));

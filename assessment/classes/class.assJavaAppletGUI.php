@@ -225,7 +225,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -456,16 +456,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
 		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());
@@ -550,16 +541,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template->parseCurrentBlock();
 
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
 		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());
@@ -677,16 +659,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		}
 		
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getJavaHeight());
 		$template->setVariable("APPLET_CODE", $this->object->getJavaCode());

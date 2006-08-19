@@ -298,16 +298,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$cloze_text = $this->object->getClozeText();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$this->tpl->setVariable("VALUE_CLOZE_TEXT", ilUtil::prepareFormOutput($cloze_text));
-		}
-		else
-		{
-			$this->tpl->setVariable("VALUE_CLOZE_TEXT", $this->object->prepareTextareaOutput($cloze_text));
-		}
+		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $this->object->prepareTextareaOutput($cloze_text));
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
 		$this->tpl->setVariable("CLOZE_ID", $this->object->getId());
 
@@ -670,16 +661,7 @@ class assClozeTestGUI extends assQuestionGUI
 		foreach ($cloze_text as $delimiter)
 		{
 			$template->setCurrentBlock("cloze_text");
-			include_once "./classes/class.ilObjAdvancedEditing.php";
-			$editor = ilObjAdvancedEditing::_getRichTextEditor();
-			if (!$editor)
-			{
-				$template->setVariable("CLOZE_TEXT", ilUtil::prepareFormOutput($delimiter[0], TRUE));
-			}
-			else
-			{
-				$template->setVariable("CLOZE_TEXT", $this->object->prepareTextareaOutput($delimiter[0], TRUE));
-			}
+			$template->setVariable("CLOZE_TEXT", $this->object->prepareTextareaOutput($delimiter[0], TRUE));
 			$template->parseCurrentBlock();
 			$gap = $this->object->getGap($counter);
 			foreach ($user_solution as $solution)
@@ -748,16 +730,7 @@ class assClozeTestGUI extends assQuestionGUI
 		foreach ($cloze_text as $delimiter)
 		{
 			$template->setCurrentBlock("cloze_text");
-			include_once "./classes/class.ilObjAdvancedEditing.php";
-			$editor = ilObjAdvancedEditing::_getRichTextEditor();
-			if (!$editor)
-			{
-				$template->setVariable("CLOZE_TEXT", ilUtil::prepareFormOutput($delimiter[0], TRUE));
-			}
-			else
-			{
-				$template->setVariable("CLOZE_TEXT", $this->object->prepareTextareaOutput($delimiter[0], TRUE));
-			}
+			$template->setVariable("CLOZE_TEXT", $this->object->prepareTextareaOutput($delimiter[0], TRUE));
 			$template->parseCurrentBlock();
 			$gap = $this->object->getGap($counter);
 			if ($gap)
@@ -833,16 +806,7 @@ class assClozeTestGUI extends assQuestionGUI
 		foreach ($cloze_text as $delimiter)
 		{
 			$template->setCurrentBlock("cloze_text");
-			include_once "./classes/class.ilObjAdvancedEditing.php";
-			$editor = ilObjAdvancedEditing::_getRichTextEditor();
-			if (!$editor)
-			{
-				$template->setVariable("CLOZE_TEXT", ilUtil::prepareFormOutput($delimiter[0], TRUE));
-			}
-			else
-			{
-				$template->setVariable("CLOZE_TEXT", $this->object->prepareTextareaOutput($delimiter[0], TRUE));
-			}
+			$template->setVariable("CLOZE_TEXT", $this->object->prepareTextareaOutput($delimiter[0], TRUE));
 			$template->parseCurrentBlock();
 			$gap = $this->object->getGap($counter);
 			if ($gap)

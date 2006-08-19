@@ -133,7 +133,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_TEXT_QUESTION_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_TEXT_QUESTION_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
 		$keywords = $this->object->getKeywords();
 		$this->tpl->setVariable("VALUE_KEYWORDS", ilUtil::prepareFormOutput($keywords));
 		$this->tpl->setVariable("VALUE_POINTS", ilUtil::prepareFormOutput($this->object->getPoints()));
@@ -328,16 +328,7 @@ class assTextQuestionGUI extends assQuestionGUI
 				}
 			}
 		}
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
@@ -362,16 +353,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
 		return $questionoutput;
@@ -416,16 +398,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		}
 		$template->setVariable("ESSAY", $user_solution);
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		return $questionoutput;

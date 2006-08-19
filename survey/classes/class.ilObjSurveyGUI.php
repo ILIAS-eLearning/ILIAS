@@ -311,25 +311,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($this->object->getDescription()));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("introduction"));
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->getIntroduction()));
-		}
-		else
-		{
-			$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
-		}
+		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		$this->tpl->setVariable("TEXT_OUTRO", $this->lng->txt("outro"));
-		if (!$editor)
-		{
-			$this->tpl->setVariable("VALUE_OUTRO", ilUtil::prepareFormOutput($this->object->getOutro()));
-		}
-		else
-		{
-			$this->tpl->setVariable("VALUE_OUTRO", $this->object->prepareTextareaOutput($this->object->getOutro()));
-		}
+		$this->tpl->setVariable("VALUE_OUTRO", $this->object->prepareTextareaOutput($this->object->getOutro()));
 		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
 		$this->tpl->setVariable("TEXT_START_DATE", $this->lng->txt("start_date"));
 		$this->tpl->setVariable("VALUE_START_DATE", ilUtil::makeDateSelect("start_date", $this->object->getStartYear(), $this->object->getStartMonth(), $this->object->getStartDay()));

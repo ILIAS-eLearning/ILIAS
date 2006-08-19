@@ -267,7 +267,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_answers_show"));
 		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
 		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
@@ -698,16 +698,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("answer_row");
-			include_once "./classes/class.ilObjAdvancedEditing.php";
-			$editor = ilObjAdvancedEditing::_getRichTextEditor();
-			if (!$editor)
-			{
-				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
-			}
-			else
-			{
-				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-			}
+			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			$checked = FALSE;
 			foreach ($user_solution as $mc_solution)
 			{
@@ -726,16 +717,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
@@ -773,29 +755,11 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			include_once "./classes/class.ilObjAdvancedEditing.php";
-			$editor = ilObjAdvancedEditing::_getRichTextEditor();
-			if (!$editor)
-			{
-				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
-			}
-			else
-			{
-				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-			}
+			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
 		return $questionoutput;
@@ -852,16 +816,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
-			include_once "./classes/class.ilObjAdvancedEditing.php";
-			$editor = ilObjAdvancedEditing::_getRichTextEditor();
-			if (!$editor)
-			{
-				$template->setVariable("ANSWER_TEXT", ilUtil::prepareFormOutput($answer->getAnswertext(), TRUE));
-			}
-			else
-			{
-				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-			}
+			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			foreach ($user_solution as $mc_solution)
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
@@ -872,16 +827,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
-		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$editor = ilObjAdvancedEditing::_getRichTextEditor();
-		if (!$editor)
-		{
-			$template->setVariable("QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext, TRUE));
-		}
-		else
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		return $questionoutput;
