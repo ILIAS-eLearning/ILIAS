@@ -751,8 +751,8 @@ class assTextQuestion extends assQuestion
 
 			// finally update objective result
 			include_once "./assessment/classes/class.ilObjTest.php";
-			include_once 'course/classes/class.ilCourseObjectiveResult.php';
-			ilCourseObjectiveResult::_updateUserResult(ilObjTest::_getUserIdFromActiveId($active_id),$question_id,$points);
+			include_once './course/classes/class.ilCourseObjectiveResult.php';
+			ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id),$question_id,$points);
 
 			return true;
 		}
