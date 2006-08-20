@@ -729,6 +729,64 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
+	* Displays a save confirmation dialog for test properties
+	*
+	* Displays a save confirmation dialog for test properties when
+	* already defined questions or question pools get lost after saving
+	*
+	* @param int $direction Direction of the change (0 = from random test to standard, anything else = from standard to random test)
+	* @access	private
+	*/
+	function confirmChangeProperties($direction = 0)
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties_save_confirmation.html", true);
+		$information = "";
+		switch ($direction)
+		{
+			case 0:
+				$information = $this->lng->txt("change_properties_from_random_to_standard");
+				break;
+			default:
+				$information = $this->lng->txt("change_properties_from_standard_to_random");
+				break;
+		}
+		foreach ($_POST as $key => $value)
+		{
+			if (strcmp($key, "cmd") != 0)
+			{
+				if (is_array($value))
+				{
+					foreach ($value as $k => $v)
+					{
+						$this->tpl->setCurrentBlock("hidden_variable");
+						$this->tpl->setVariable("HIDDEN_KEY", $key . "[" . $k . "]");
+						$this->tpl->setVariable("HIDDEN_VALUE", $v);
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("hidden_variable");
+					$this->tpl->setVariable("HIDDEN_KEY", $key);
+					$this->tpl->setVariable("HIDDEN_VALUE", $value);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+		}
+		$this->tpl->setCurrentBlock("hidden_variable");
+		$this->tpl->setVariable("HIDDEN_KEY", "tst_properties_confirmation");
+		$this->tpl->setVariable("HIDDEN_VALUE", "1");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_CONFIRMATION", $this->lng->txt("confirmation"));
+		$this->tpl->setVariable("TXT_INFORMATION", $information);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
 	* Save the form input of the properties form
 	*
 	* Save the form input of the properties form
@@ -737,6 +795,28 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
+		if (!array_key_exists("tst_properties_confirmation", $_POST))
+		{
+			if (($this->object->isRandomTest()) && (count($this->object->getRandomQuestionpools()) > 0))
+			{
+				if (($_POST["sel_test_types"] == TYPE_ONLINE_TEST) || ($_POST["sel_test_types"] == TYPE_ASSESSMENT) ||  ($_POST["sel_test_types"] == TYPE_SELF_ASSESSMENT))
+				{
+					// user tries to change from a random test with existing random question pools to a non random test
+					$this->confirmChangeProperties(0);
+					return;
+				}
+			}
+			if ((!$this->object->isRandomTest()) && (count($this->object->questions) > 0))
+			{
+				if (($_POST["sel_test_types"] == TYPE_VARYING_RANDOMTEST) || (strlen($_POST["chb_random"]) > 0))
+				{
+					// user tries to change from a non random test with existing questions to a random test
+					$this->confirmChangeProperties(1);
+					return;
+				}
+			}
+		}
+		
 		$total = $this->object->evalTotalPersons();
 		$deleteuserdata = false;
 		$randomtest_switch = false;

@@ -153,6 +153,8 @@ assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um de
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
+assessment#:#change_properties_from_random_to_standard#:#Sie wollen Ihre Testeinstellungen von einem Zufallstest zu einem Test mit festen Fragen ändern. Die Fragenpools, die Sie bereits zu diesem Zufallstest hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
+assessment#:#change_properties_from_standard_to_random#:#Sie wollen Ihre Testeinstellungen von einem Test mit festen Fragen zu einem Zufallstest ändern. Die Fragen, die Sie bereits zu diesem Test hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_solution#:#Musterlösung wechseln
 assessment#:#changelog_description#:#Die folgende Tabelle beinhaltet alle Änderungen von Autoren an diesem Test
 assessment#:#changelog_heading#:#Änderungen
