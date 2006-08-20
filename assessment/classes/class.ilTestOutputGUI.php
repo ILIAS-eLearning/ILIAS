@@ -439,10 +439,10 @@ class ilTestOutputGUI
 		if (($this->object->isOnlineTest() && !$finish) || ($this->object->getShowSummary() && !$this->object->isOnlineTest())) 
 		{
 			$this->tpl->setCurrentBlock("summary");
-			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
+			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("summary_bottom");
-			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("summary"));
+			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -472,10 +472,10 @@ class ilTestOutputGUI
 			else 
 			{
 				$this->tpl->setCurrentBlock("next");
-				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
+				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("question_summary") . " &gt;&gt;");
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("next_bottom");
-				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("summary") . " &gt;&gt;");
+				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("question_summary") . " &gt;&gt;");
 				$this->tpl->parseCurrentBlock();				
 			}
 		}
@@ -2307,7 +2307,7 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
 		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));	
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));		
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("question_summary"));		
 		
 		if ($this->object->getEnableProcessingTime())
 			$this->outProcessingTime();
@@ -2379,7 +2379,7 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));	
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("summary"));		
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("question_summary"));		
 		
 		if ($this->object->getEnableProcessingTime())
 			$this->outProcessingTime();

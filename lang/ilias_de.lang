@@ -376,6 +376,7 @@ assessment#:#preview#:#Vorschau
 assessment#:#previous_question_rows#:#<< Fragen %d - %d von %d
 assessment#:#print_answers#:#Antworten drucken
 assessment#:#print_view#:#Druckansicht
+assessment#:#question_summary#:#Fragenübersicht
 assessment#:#qpl_answertext_fields_not_filled#:#Die Frage kann nur gespeichert werden, wenn Sie alle Antwortfelder ausfüllen!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
@@ -644,7 +645,7 @@ assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
 assessment#:#tst_show_answer_print_sheet#:#Druckansicht der Antworten
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
-assessment#:#tst_show_solution_details#:#Bewertungsdeteils
+assessment#:#tst_show_solution_details#:#Bewertungsdetails
 assessment#:#tst_show_solution_details_description#:#Teilnehmer und Teilnehmerinnen dürfen die detaillierten Ergebnisse der beantworteten Fragen einsehen
 assessment#:#tst_show_solution_printview#:#Druckausgabe der Ergebnisse
 assessment#:#tst_show_solution_printview_description#:#Teilnehmerinnen und Teilnehmer können eine Druckausgabe ihrer Ergebnisse sehen
