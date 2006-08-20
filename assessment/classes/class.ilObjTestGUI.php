@@ -1732,9 +1732,9 @@ class ilObjTestGUI extends ilObjectGUI
 		foreach ($questiontypes as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("questiontype_row");
-			$this->tpl->setVariable("VALUE_QUESTION_TYPE", $value);
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($value));
-			if (strcmp($filter_question_type, $value) == 0)
+			$this->tpl->setVariable("VALUE_QUESTION_TYPE", $value["type_tag"]);
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($value["type_tag"]));
+			if (strcmp($filter_question_type, $value["type_tag"]) == 0)
 			{
 				$this->tpl->setVariable("SELECTED_QUESTION_TYPE", " selected=\"selected\"");
 			}
@@ -2773,13 +2773,20 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
+		if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) 
+		{
+			global $ilUser;
+			$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
 			$this->tpl->setCurrentBlock("QTypes");
 			$question_types =& $this->object->_getQuestiontypes();
 			foreach ($question_types as $data)
 			{
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data));
+				if ($data["question_type_id"] == $lastquestiontype)
+				{
+					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
+				}
+				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->parseCurrentBlock();
