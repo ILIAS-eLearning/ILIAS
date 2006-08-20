@@ -5066,8 +5066,9 @@ class ilObjTest extends ilObject
 		$query_result = $ilDB->query($query);
 		while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			array_push($questiontypes, $row["type_tag"]);
+			$questiontypes[$this->lng->txt($row["type_tag"])] = $row;
 		}
+		ksort($questiontypes);
 		return $questiontypes;
 	}
 	
