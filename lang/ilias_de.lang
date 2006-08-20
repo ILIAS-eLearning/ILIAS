@@ -531,7 +531,7 @@ assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_title_points#:#Punkte im Fragentitel
+assessment#:#tst_hide_title_points#:#Punkte im Fragentitel nicht anzeigen
 assessment#:#tst_hide_title_points_description#:#Ausgabe der maximalen Punktezahl im Fragentitel verhindern
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
