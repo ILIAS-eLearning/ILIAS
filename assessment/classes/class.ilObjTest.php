@@ -7468,9 +7468,9 @@ class ilObjTest extends ilObject
 			$result = $ilDB->query($query);
 			if ($result->numRows() >= $nr_of_users)
 			{
+				include_once "./classes/class.ilObjAssessmentFolder.php";
 				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 				{
-					include_once ("./classes/class.ilObjAssessmentFolder.php");
 					$this->logAction($this->lng->txtlng("assessment", "log_could_not_enter_test_due_to_simultaneous_users", ilObjAssessmentFolder::_getLogLanguage()));
 				}
 				return FALSE;
