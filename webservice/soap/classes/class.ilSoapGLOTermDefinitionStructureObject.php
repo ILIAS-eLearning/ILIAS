@@ -36,25 +36,20 @@
 include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
 
-class ilSoapGLOTermStructureObject extends ilSoapStructureObject{
-    var $glossary_ref_id;
+class ilSoapGLOTermDefinitionStructureObject extends ilSoapStructureObject{
 
-	function ilSoapGLOTermStructureObject($objId, $type, $title) {
+	function ilSoapGLOTermDefinitionStructureObject($objId, $type, $title) {
 		parent::ilSoapStructureObject($objId, $type, $title, "");
-	}
-
-	function setGlossaryRefId($refId) {
-	    $this->glossary_ref_id = $refId;
 	}
 
 
 	function getInternalLink () {
-		return "[iln term=\"".$this->getObjId()."\"]".$this->getTitle()."[/iln]";
+		return "";
 	}
 
 	function getGotoLink (){
 	    /* @var $ilInit ilInitialisation */
-		return ILIAS_HTTP_PATH."/". "goto.php?target=".$this->getType()."_".$this->getObjId()."_".$this->glossary_ref_id."&client_id=".CLIENT_ID;
+		return "";
 	}
 
 
