@@ -34,6 +34,7 @@
 
 include_once "./webservice/soap/classes/class.ilSoapStructureReader.php";
 include_once "./webservice/soap/classes/class.ilSoapStructureObjectFactory.php";
+include_once "./content/classes/class.ilGlossaryDefinition.php";
 
 class ilSoapGLOStructureReader extends ilSoapStructureReader
 {
@@ -44,17 +45,31 @@ class ilSoapGLOStructureReader extends ilSoapStructureReader
 	}
 
 	function _parseStructure () {
-	    /* @var $this->object ilObjGlossary */
+	    /* @var $object ilObjGlossary */
 
 	    $terms = $this->object->getTermlist();
 
 	    foreach ($terms as $term)
 		{
 
+		    /* @var $termStructureObject ilSoapGLOTermStructureObject*/
 		    $termStructureObject = ilSoapStructureObjectFactory::getInstance (
-		      $term["id"], "qit", $term["term"]);
+		      $term["id"], "git", $term["term"]);
+
+		    $termStructureObject->setGlossaryRefId($this->object->getRefId());
 
 		    $this->structureObject->addStructureObject($termStructureObject);
+
+		    $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
+
+		    foreach ($defs as $def) {
+		        $defStructureObject = ilSoapStructureObjectFactory::getInstance(
+		          $def["id"], "gdf",$def["short_text"]);
+
+                $termStructureObject->addStructureObject($defStructureObject);
+		    }
+
+		   // print_r($defs);
 
 		}
 
