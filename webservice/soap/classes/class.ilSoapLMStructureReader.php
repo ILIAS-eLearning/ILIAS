@@ -48,11 +48,11 @@ class ilSoapLMStructureReader extends ilSoapStructureReader
 
 		$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
 
-		$currentParentStructureObject = &  $this->structureObject;
+		$currentParentStructureObject = $this->structureObject;
 		$currentParent = 1;
 
 		$parents = array ();
-		$parents [$currentParent]= & $currentParentStructureObject;
+		$parents [$currentParent]= $currentParentStructureObject;
 
 		$lastStructureObject = null;
 		$lastNode = null;

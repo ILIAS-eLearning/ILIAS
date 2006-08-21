@@ -125,7 +125,7 @@
 	 * @return absolute plugin directory
 	 */
 	function getPluginDir () {
-		return ILIAS_ABSOLUTE_PATH."/content/plugins"."/".$this->directory;
+		return ILIAS_ABSOLUTE_PATH."/content/plugins/".$this->directory;
 	}
 	
 	/**
@@ -163,14 +163,22 @@
 	 */
 	
 	function getResourceURL () {
-		return ILIAS_HTTP_PATH."/content/plugins/".$this->directory."/resources";	
+		return $this->getSystemURL()."/content/plugins/".$this->directory."/resources";	
 	}
 	
 	/**
 	 * @return plugin url
 	 */
 	function getPluginURL () {
-		return ILIAS_HTTP_PATH."/content/plugins/".$this->directory;	
+		return $this->getSystemURL()."/content/plugins/".$this->directory;	
+	}
+	
+	/**
+	*	@return System base URL
+	*
+	*/
+	function getSystemURL () {
+		return str_replace("/content/plugins","",ILIAS_HTTP_PATH);
 	}
 	
 	/**

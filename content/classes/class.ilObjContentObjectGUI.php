@@ -167,7 +167,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					}
 				}
 				break;
-				
+
 			case 'ilpermissiongui':
 				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 				{
@@ -188,7 +188,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					? $_POST["new_type"]
 					: $_GET["new_type"];
 
-			
+
 				if ($cmd == "create" &&
 					!in_array($new_type, array("dbk", "lm")))
 				{
@@ -240,10 +240,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function properties()
 	{
 		global $lng;
-		
+
 		$lng->loadLanguageModule("style");
 		$this->setTabs();
-		
+
 		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 		$showViewInFrameset = true;
 
@@ -322,7 +322,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("style_edit");
 			$style_id = $this->object->getStyleSheetId();
-			
+
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
 				$_GET["ref_id"]);
 
@@ -360,7 +360,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					//	ilUtil::getImagePath("delete.gif"));
 				}
 			}
-			
+
 			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
 			{
 				$this->tpl->setVariable("VAL_STYLE",
@@ -398,7 +398,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$select_toc_mode = ilUtil::formSelect ($this->object->getTOCMode(), "toc_mode",
 			$arr_toc_mode, false, true);
 		$this->tpl->setVariable("SELECT_TOC_MODE", $select_toc_mode);
-		
+
 		// public notes
 		$this->tpl->setVariable("TXT_PUB_NOTES", $this->lng->txt("cont_public_notes"));
 		$this->tpl->setVariable("TXT_PUB_NOTES_DESC", $this->lng->txt("cont_public_notes_desc"));
@@ -418,7 +418,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHK_CLEAN_FRAMES", "checked");
 		}
-		
+
 		// history user comments
 		$this->tpl->setVariable("TXT_HIST_USER_COMMENTS", $this->lng->txt("enable_hist_user_comments"));
 		$this->tpl->setVariable("TXT_HIST_USER_COMMENTS_DESC", $this->lng->txt("enable_hist_user_comments_desc"));
@@ -456,7 +456,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHK_PRINT", "checked");
 		}
-		
+
 		// downloads
 		$this->tpl->setVariable("TXT_DOWNLOADS", $this->lng->txt("cont_downloads"));
 		$this->tpl->setVariable("TXT_DOWNLOADS_DESC", $this->lng->txt("cont_downloads_desc"));
@@ -467,7 +467,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHK_DOWNLOADS", "checked=\"checked\"");
 		}
-		
+
 		$this->tpl->setVariable("TXT_DOWNLOADS_PUBLIC_DESC", $this->lng->txt("cont_downloads_public_desc"));
 		$this->tpl->setVariable("CBOX_DOWNLOADS_PUBLIC", "cobj_act_downloads_public");
 		$this->tpl->setVariable("VAL_DOWNLOADS_PUBLIC", "y");
@@ -481,11 +481,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHK2_DOWNLOADS_PUBLIC", "disabled=\"disabled\"");
 		}
-		
+
 		// get user defined menu entries
 		$this->__initLMMenuEditor();
 		$entries = $this->lmme_obj->getMenuEntries();
-		
+
 		if (count($entries) > 0)
 		{
 			foreach ($entries as $entry)
@@ -493,7 +493,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->ctrl->setParameter($this, "menu_entry", $entry["id"]);
 
 				$this->tpl->setCurrentBlock("menu_entries");
-				
+
 				if ($entry["type"] == "intern")
 				{
 					$entry["link"] = ILIAS_HTTP_PATH."/goto.php?target=".$entry["link"];
@@ -504,7 +504,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				{
 					$entry["link"] = "http://".$entry["link"];
 				}
-				
+
 				$this->tpl->setVariable("ENTRY_LINK", $entry["link"]);
 				$this->tpl->setVariable("ENTRY_TITLE", $entry["title"]);
 
@@ -530,7 +530,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		// add entry link
 
 
@@ -548,7 +548,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function explorer()
 	{
 		global $ilUser, $ilias;
-		
+
 		switch ($this->object->getType())
 		{
 			case "lm":
@@ -583,7 +583,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->proceedDragDrop();
 		}
-	
+
 
 		if ($_GET["lmexpand"] == "")
 		{
@@ -604,12 +604,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$output = $exp->getOutput();
 
 		include_once("content/classes/Pages/class.ilPageEditorGUI.php");
-		if (ilPageEditorGUI::_doJSEditing()) 
+		if (ilPageEditorGUI::_doJSEditing())
 		{
 			//$this->tpl->touchBlock("includejavascript");
-			
+
 			$IDS = "";
-			for ($i=0;$i<count($exp->iconList);$i++) 
+			for ($i=0;$i<count($exp->iconList);$i++)
 			{
 				if ($i>0) $IDS .= ",";
 				$IDS .= "'".$exp->iconList[$i]."'";
@@ -620,8 +620,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			//$this->tpl->setVariable("POPUPLINK",$this->ctrl->getLinkTarget($this, "popup")."&ptype=movecopytreenode");
 			$this->tpl->setVariable("POPUPLINK",$this->ctrl->getLinkTarget($this, "popup")."&ptype=movecopytreenode");
 		}
-		
-		
+
+
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
@@ -633,7 +633,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		//$this->tpl->show(false);
 
 	}
-	
+
 	/**
 	* popup window for wysiwyg editor
 	*/
@@ -872,7 +872,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function saveProperties()
 	{
 		global $ilias;
-		
+
 		if ($ilias->getSetting("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))
@@ -923,7 +923,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 			$this->getTemplateFile("create", $new_type);
-			
+
 			$this->tpl->setVariable("TYPE_IMG",
 				ilUtil::getImagePath("icon_".$new_type.".gif"));
 			$this->tpl->setVariable("ALT_IMG",
@@ -945,8 +945,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			//	$_GET["ref_id"]."&new_type=".$new_type));
 			$this->ctrl->setParameter($this, "new_type", $new_type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			
-			
+
+
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -967,7 +967,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			// use the smaller one as limit
 			$max_filesize=min($umf, $pms);
 			if (!$max_filesize) $max_filesize=max($umf, $pms);
-			
+
 			// gives out the limit as a littel notice :)
 			$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." $max_filesize.");
 
@@ -1277,12 +1277,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$style->createFromXMLFile($style_file);
 			$newObj->writeStyleSheetId($style->getId());
 		}
-		
+
 		// delete import directory
 		ilUtil::delDir($newObj->getImportDirectory());
 
 		sendInfo($this->lng->txt($this->type."_added"),true);
-		
+
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilLMEditorGUI");
 	}
@@ -1336,7 +1336,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		$paste_active = false;
 		if (ilEditClipboard::getContentObjectType() == "st")
 		{
@@ -1429,7 +1429,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			
+
 			$this->tpl->setCurrentBlock("table_row");
 			// color changing
 			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
@@ -1458,7 +1458,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			{
 				$path_str = "---";
 			}
-			
+
 			// check whether page is header or footer
 			$add_str = "";
 			if ($page["obj_id"] == $this->object->getHeaderPage())
@@ -1469,9 +1469,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			{
 				$add_str = " <b>(".$this->lng->txt("cont_footer").")</b>";
 			}
-			
+
 			$this->tpl->setVariable("TEXT_CONTEXT", $path_str.$add_str);
-			
+
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -1580,7 +1580,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$id = $new_page->getId();
 			}
 		}
-		
+
 		// cut is not be possible in "all pages" form yet
 		if (ilEditClipboard::getAction() == "cut")
 		{
@@ -1753,7 +1753,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				if (is_object($obj))
 				{
 					$obj->setLMId($this->object->getId());
-					
+
 					include_once("classes/class.ilHistory.php");
 					ilHistory::_createEntry($this->object->getId(), "delete_".$obj->getType(),
 						array(ilLMObject::_lookupTitle($id), $id),
@@ -1868,7 +1868,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->setReturnLocation("permSave", $this->ctrl->getLinkTarget($this, "perm"));
 		$this->permSaveObject();
 	}
-	
+
 	/**
 	* info permissions
 	*/
@@ -2172,7 +2172,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_xml"));
 		$this->tpl->parseCurrentBlock();
-		
+
 		// create html export file button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportHTML"));
@@ -2195,7 +2195,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 	}
-		
+
 	/*
 	* list all export files
 	*/
@@ -2209,7 +2209,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->exportMenu();
-		
+
 		$export_files = $this->object->getExportFiles();
 
 		// create table
@@ -2319,7 +2319,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
+
 		$this->exportMenu();
 
 		// load files templates
@@ -2363,10 +2363,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$file = explode(":", $_POST["file"][0]);
 		$export_dir = $this->object->getExportDirectory($file[0]);
-		
+
 		if ($this->object->getPublicExportFile($file[0]) ==
 			$file[1])
 		{
@@ -2471,7 +2471,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$file = explode(":", $file);
 			$export_dir = $this->object->getExportDirectory($file[0]);
-			
+
 			$exp_file = $export_dir."/".$file[1];
 			$exp_dir = $export_dir."/".substr($file[1], 0, strlen($file[1]) - 4);
 			if (@is_file($exp_file))
@@ -2543,7 +2543,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function setilLMMenu($a_offline = false, $a_export_format = "")
 	{
 		global $ilCtrl,$ilUser;
-		
+
 		if (!$this->object->isActiveLMMenu())
 		{
 			return "";
@@ -2578,7 +2578,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			if (!$a_offline)
 			{
-				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]); 
+				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 				$tpl_menu->setVariable("BTN_LINK",
 					$this->ctrl->getLinkTargetByClass(
 						array("illmpresentationgui", "ilinfoscreengui"), "showSummary"));
@@ -2597,7 +2597,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			if (!$a_offline)
 			{
-				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]); 
+				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 				$tpl_menu->setVariable("BTN_LINK",
 					$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showTableOfContents"));
 				//ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showTableOfContents&ref_id="
@@ -2666,7 +2666,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					$entry["link"] = "http://".$entry["link"];
 				}
 
-				$tpl_menu->setVariable("BTN_LINK", $entry["link"]);
+				$tpl_menu->setVariable("BTN_LINK", ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id));
 				$tpl_menu->setVariable("BTN_TXT", $entry["title"]);
 				//$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 				$tpl_menu->setVariable("BTN_TARGET", "_blank");
@@ -2734,9 +2734,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function addLocations()
 	{
 		global $lng, $tree, $ilLocator;
-		
+
 		//$ilLocator->clearItems();
-		
+
 		$this->ctrl->addLocation(
 			"...",
 			"");
@@ -2824,7 +2824,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
-		
+
 		// back to upper context
 		//$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
 
@@ -2854,7 +2854,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "exportList"),
 				array("exportList", "viewExportLog"), get_class($this));
-	
+
 
 			if(@include_once('HTTP/Request.php'))
 			{
@@ -2880,7 +2880,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui','illmstatisticsgui'));
 		}
-		
+
 		$tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 			, "history", get_class($this));
 
@@ -2923,7 +2923,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
-		
+
 		// get page ids
 		foreach ($exp->format_options as $node)
 		{
@@ -2932,7 +2932,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$pages[] = $node["child"];
 			}
 		}
-		
+
 		$js_pages = ilUtil::array_php2js($pages);
 
 		//$this->tpl->setCurrentBlock("content");
@@ -2955,7 +2955,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		//$this->tpl->parseCurrentBlock();
 
 	}
-	
+
 	function savePublicSection()
 	{
 		//var_dump($_POST["lm_public_mode"]);exit;
@@ -2965,7 +2965,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editPublicSection");
 	}
-	
+
 	/**
 	* history
 	*
@@ -2974,7 +2974,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function history()
 	{
 		$this->setTabs();
-		
+
 		require_once("classes/class.ilHistoryGUI.php");
 		$hist_gui =& new ilHistoryGUI($this->object->getId() ,
 			$this->object->getType());
@@ -2982,7 +2982,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->ctrl->getParameterArray($this, "history"),
 			$this->object->isActiveHistoryUserComments()
 			);
-		
+
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
 
@@ -3094,7 +3094,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		return true;
 	}
-		
+
 
 
 	function refreshLinkCheck()
@@ -3128,7 +3128,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		return true;
 	}
-	
+
 	function __initLMMenuEditor()
 	{
 		include_once './content/classes/class.ilLMMenuEditor.php';
@@ -3147,13 +3147,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->setTabs();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_entry_form.html",true);
-		
+
 		if (isset($_GET["link_ref_id"]))
 		{
 			$obj_type = ilObject::_lookupType($_GET["link_ref_id"],true);
 			$obj_id = ilObject::_lookupObjectId($_GET["link_ref_id"]);
 			$title = ilObject::_lookupTitle($obj_id);
-			
+
 			$target_link = $obj_type."_".$_GET["link_ref_id"];
 			$this->tpl->setVariable("TITLE", $title);
 			$this->tpl->setVariable("TARGET", $target_link);
@@ -3187,23 +3187,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->setTitle($_POST["title"]);
 		$this->lmme_obj->setTarget($_POST["target"]);
 		$this->lmme_obj->setLinkRefId($_POST["link_ref_id"]);
-		
+
 		if ($_POST["link_ref_id"])
 		{
 			$this->lmme_obj->setLinkType("intern");
 		}
-		
+
 		$this->lmme_obj->create();
 
 		sendInfo($this->lng->txt("msg_entry_added"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
-	
+
 	/**
 	* drop a menu entry
 	*/
@@ -3213,14 +3213,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->delete($_GET["menu_entry"]);
 
 		sendInfo($this->lng->txt("msg_entry_removed"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
-	
+
 	/**
 	* edit menu entry form
 	*/
@@ -3230,7 +3230,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->readEntry($_GET["menu_entry"]);
 
@@ -3251,7 +3251,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TEXT2", $this->lng->txt("lm_menu_select_internal_object"));
 		//$this->tpl->parseCurrentBlock();
 	}
-	
+
 	/**
 	* update a menu entry
 	*/
@@ -3261,7 +3261,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// check title and target
 		if (empty($_POST["title"]))
 		{
@@ -3271,7 +3271,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->readEntry($_POST["menu_entry"]);
 		$this->lmme_obj->setTitle($_POST["title"]);
@@ -3281,15 +3281,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_entry_updated"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
-	
+
 	function showEntrySelector()
 	{
 		$this->setTabs();
-		
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_object_selector.html",true);
 
 		sendInfo($this->lng->txt("lm_menu_select_object_to_add"));
-		
+
 		require_once ("content/classes/class.ilLMMenuObjectSelector.php");
 		$exp = new ilLMMenuObjectSelector($this->ctrl->getLinkTarget($this,'test'),$this);
 
@@ -3297,7 +3297,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showEntrySelector'));
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->cur_ref_id);
-		
+
 		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy');
 		$exp->setSelectableTypes($sel_types);
 
@@ -3306,7 +3306,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
-		
+
 		// get page ids
 		foreach ($exp->format_options as $node)
 		{
@@ -3315,7 +3315,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$pages[] = $node["child"];
 			}
 		}
-		
+
 		//$this->tpl->setCurrentBlock("content");
 		//var_dump($this->object->getPublicAccessMode());
 		// access mode selector
@@ -3335,7 +3335,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
 		//$this->tpl->parseCurrentBlock();
 	}
-	
+
 	/**
 	* select page as header
 	*/
@@ -3360,7 +3360,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->updateProperties();
 		$this->ctrl->redirect($this, "pages");
 	}
-	
+
 	/**
 	* select page as footer
 	*/
@@ -3385,7 +3385,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->updateProperties();
 		$this->ctrl->redirect($this, "pages");
 	}
-	
+
 	/**
 	* redirect script
 	*
@@ -3420,7 +3420,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			exit;
 		}
 
-		
+
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
