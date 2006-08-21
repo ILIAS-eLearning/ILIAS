@@ -171,6 +171,8 @@ assessment#:#cannot_export_test#:#没有足够�?��?到处考试###07 Apr 2005 c
 assessment#:#cannot_maintain_test#:#没有足够�?��?维护考试###07 Apr 2005 content changed
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
 assessment#:#cannot_save_metaobject#:#没有足够�?��?�?存Meta数�?�###07 Apr 2005 content changed
+assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###21 Aug 2006 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###21 Aug 2006 new variable
 assessment#:#change_solution#:#更改建议答案###07 Apr 2005 content changed
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.###10 Jul 2006 new variable
 assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
@@ -432,6 +434,7 @@ assessment#:#qpl_select_file_for_import#:#You must select a file for import!###1
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
+assessment#:#question_summary#:#Question Summary###21 Aug 2006 new variable
 assessment#:#question_title#:#Question title###17 Dec 2004 new variable
 assessment#:#question_type#:#问题类型###07 Apr 2005 content changed
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable

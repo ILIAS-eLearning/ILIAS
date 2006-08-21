@@ -142,6 +142,8 @@ assessment#:#cannot_export_test#:#Δεν έχετε επαρκή δικαιώμ�
 assessment#:#cannot_maintain_test#:#Δεν έχετε επαρκή δικαιώματα για να συντηρήσετε το διαγώνισμα!
 assessment#:#cannot_read_questionpool#:#Δεν έχετε επαρκή δικαιώματα για να διαβάσετε τα δεδομένα της πηγής ερωτήσεων!
 assessment#:#cannot_save_metaobject#:#Δεν έχετε επαρκή δικαιώματα για να αποθηκεύσετε τα μετα-δεδομένα!
+assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###21 Aug 2006 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###21 Aug 2006 new variable
 assessment#:#change_solution#:#Αλλαγή της προτεινόμενης λύσης
 assessment#:#checkbox_checked#:#Επιλεγμένο
 assessment#:#checkbox_unchecked#:#Μη επιλεγμένο
@@ -361,6 +363,7 @@ assessment#:#qpl_select_file_for_import#:#Πρέπει να επιλέξετε �
 assessment#:#qt_multiple_choice#:#Ερώτηση πολλαπλών επιλογών
 assessment#:#question_saved_for_upload#:#Η ερώτηση αποθηκεύθηκε αυτόματα για να διαφυλλαχθεί χώρος στο σκληρό δίσκο ώστε να αποθηκευθεί το εκφορτωμένο αρχείο. Αν ακυρώσετε τη φόρμα τώρα, θα πρέπει να διαγράψετε την ερώτηση στην πηγή ερωτήσεων αν δεν θέλετε να την κρατήσετε!
 assessment#:#question_short#:#Ερ
+assessment#:#question_summary#:#Question Summary###21 Aug 2006 new variable
 assessment#:#question_title#:#Τίτλος ερώτησης
 assessment#:#question_type#:#Τύπος ερώτησης
 assessment#:#questionpool_not_entered#:#Παρακαλώ εισάγετε ένα όνομα για την πηγή ερωτήσεων!

@@ -153,6 +153,8 @@ assessment#:#cannot_export_test#:#Nie masz wystarczających uprawnień do ekspor
 assessment#:#cannot_maintain_test#:#Nie masz wystarczających uprawnień do utworzenia testu!
 assessment#:#cannot_read_questionpool#:#Nie masz wystarczających uprawnień do odczytu puli pytań!
 assessment#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień dla zachowania meta danych!
+assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###21 Aug 2006 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###21 Aug 2006 new variable
 assessment#:#change_solution#:#Zmień sugerowaną odpowiedź
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.###10 Jul 2006 new variable
 assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
@@ -414,6 +416,7 @@ assessment#:#qpl_select_file_for_import#:#Musisz wybrać plik do importu!
 assessment#:#qt_multiple_choice#:#Pytanie wielokrotnego wyboru
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
+assessment#:#question_summary#:#Question Summary###21 Aug 2006 new variable
 assessment#:#question_title#:#Tytuł pytania
 assessment#:#question_type#:#Typ pytania
 assessment#:#questionpool_not_entered#:#Podaj nazwę puli pytań!

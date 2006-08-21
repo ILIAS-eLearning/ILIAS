@@ -378,7 +378,6 @@ assessment#:#preview#:#Preview
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#print_answers#:#Print Answers
 assessment#:#print_view#:#Print view
-assessment#:#question_summary#:#Question Summary
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions
@@ -417,6 +416,7 @@ assessment#:#qpl_select_file_for_import#:#You must select a file for import!
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
+assessment#:#question_summary#:#Question Summary
 assessment#:#question_title#:#Question title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
