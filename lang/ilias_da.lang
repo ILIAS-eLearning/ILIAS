@@ -153,6 +153,8 @@ assessment#:#cannot_export_test#:#Du er ikke i besiddelse af de rigtige rettighe
 assessment#:#cannot_maintain_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at vedligeholde denne test!
 assessment#:#cannot_read_questionpool#:#Du har ikke rettighder til at l&aelig;se dat&aelig;n fra sp&oslash;rgsm&aring;ls gruppen
 assessment#:#cannot_save_metaobject#:#Du er ikke i besiddelse af de rigtige rettigheder til at gemme meta data!
+assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###21 Aug 2006 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###21 Aug 2006 new variable
 assessment#:#change_solution#:#&aelig;ndre foresl&aring;et l&oslash;sning
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.###10 Jul 2006 new variable
 assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
@@ -414,6 +416,7 @@ assessment#:#qpl_select_file_for_import#:#Du m&aring; v&aelig;lge en fil at impo
 assessment#:#qt_multiple_choice#:#Multiple Choice sp&oslash;rgsm&aring;l
 assessment#:#question_saved_for_upload#:#Sp&oslash;rgsm&aring;let blev gemt automatisk for at gemme harddisk plads til at gemme uploaded filer. Hvis du stopper dette nu skal du slette sp&oslash;rgsm&aring;let i sp&oslash;rgsm&aring;lsgruppen hvis du ikke &oslash;nsker at beholde det!
 assessment#:#question_short#:#Q
+assessment#:#question_summary#:#Question Summary###21 Aug 2006 new variable
 assessment#:#question_title#:#Sp&oslash;rgsm&aring;ls titel
 assessment#:#question_type#:#Sp&oslash;rgsm&aring;ls type
 assessment#:#questionpool_not_entered#:#Indtast venligst et navn for sp&oslash;rgsm&aring;lsgruppe!

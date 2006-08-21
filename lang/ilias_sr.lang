@@ -153,6 +153,8 @@ assessment#:#cannot_export_test#:#Ne posedujete potrebnu dozvolu za izvoz testa!
 assessment#:#cannot_maintain_test#:#Ne posedujete potrebnu dozvolu za održavanje testa!
 assessment#:#cannot_read_questionpool#:#Ne posedujete potrebnu dozvolu za citanje podataka o pitanjima!###09 Aug 2005 content changed
 assessment#:#cannot_save_metaobject#:#Ne posedujete dozvolu za snimanje metapodataka!
+assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###21 Aug 2006 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###21 Aug 2006 new variable
 assessment#:#change_solution#:#Promenite predložena rešenja
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.###10 Jul 2006 new variable
 assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
@@ -414,6 +416,7 @@ assessment#:#qpl_select_file_for_import#:#Morate odabrati dokument za unos!
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#question_saved_for_upload#:#Pitanje je automatski sacuvano u nameri da obezbedi prostor na hard disku za slanje datoteke. Ukoliko otkažete ovu formu sda, budite svesni da morate obrisati pitanje iz baze pitanja ako želite da ga sacuvate.
 assessment#:#question_short#:#Q
+assessment#:#question_summary#:#Question Summary###21 Aug 2006 new variable
 assessment#:#question_title#:#Naziv pitanja
 assessment#:#question_type#:#Vrsta pitanja
 assessment#:#questionpool_not_entered#:#Molimo unesite naziv bazu pitanja!

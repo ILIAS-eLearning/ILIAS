@@ -378,7 +378,6 @@ assessment#:#preview#:#Vorschau
 assessment#:#previous_question_rows#:#<< Fragen %d - %d von %d
 assessment#:#print_answers#:#Antworten drucken
 assessment#:#print_view#:#Druckansicht
-assessment#:#question_summary#:#Fragenübersicht
 assessment#:#qpl_answertext_fields_not_filled#:#Die Frage kann nur gespeichert werden, wenn Sie alle Antwortfelder ausfüllen!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
@@ -417,6 +416,7 @@ assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren
 assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
+assessment#:#question_summary#:#Fragenübersicht
 assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragentyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!

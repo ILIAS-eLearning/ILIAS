@@ -153,6 +153,8 @@ assessment#:#cannot_export_test#:#�?�?мате до�?татъчно права, 
 assessment#:#cannot_maintain_test#:#�?�?мате до�?татъчно права, за да поддържате те�?та!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data! ### 2006-8-11 --- Add new translation here.
 assessment#:#cannot_save_metaobject#:#�?�?мате до�?татъчно права, за да запи�?вате метаданните!
+assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###21 Aug 2006 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###21 Aug 2006 new variable
 assessment#:#change_solution#:#Пром�?на на предложеното решение
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.###10 Jul 2006 new variable
 assessment#:#changelog_heading#:#Changelog###10 Jul 2006 new variable
@@ -414,6 +416,7 @@ assessment#:#qpl_select_file_for_import#:#Тр�?бва да изберете ф�
 assessment#:#qt_multiple_choice#:#Multiple Choice Question###16 Jul 2005 new variable
 assessment#:#question_saved_for_upload#:#Въпро�?ът беше �?ъхранен автоматично, за да �?е запази хардди�?ково про�?тран�?тво за �?ъхранението на заредени�? файл. �?ко отмените този формул�?р �?ега, обърнете внимание, че тр�?бва да изтриете въпро�?а от набора �? въпро�?и, ако не желаете да го запазите!
 assessment#:#question_short#:#В
+assessment#:#question_summary#:#Question Summary###21 Aug 2006 new variable
 assessment#:#question_title#:#Заглавие на въпро�?а
 assessment#:#question_type#:#Тип на въпро�?а
 assessment#:#questionpool_not_entered#:#Мол�?, въведете име за набора от въпро�?и!
