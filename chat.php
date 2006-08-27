@@ -31,6 +31,7 @@
 * @package ilias-chat
 */
 
+
 require_once "include/inc.header.php";
 include_once "chat/classes/class.ilObjChatGUI.php";
 
