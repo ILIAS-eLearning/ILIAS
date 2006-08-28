@@ -35,7 +35,7 @@ require_once "classes/class.ilObject.php";
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Peter Gabriel <pgabriel@databay.de>
 * @version	$Id$
-* @package	ilias-core
+*
 */
 class ilObjUser extends ilObject
 {
@@ -755,10 +755,10 @@ class ilObjUser extends ilObject
 	*/
 	function _lookupHasIlias2Password($a_user_login)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		$q = "SELECT i2passwd FROM usr_data ".
-			 "WHERE login = '".$a_user_login."'";
+			 "WHERE login = ".$ilDB->quote($a_user_login)."";
 		$user_set = $ilias->db->query($q);
 
 		if ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))

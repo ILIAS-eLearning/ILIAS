@@ -42,6 +42,8 @@
 *	
 */
 
+$_REQUEST["app"] = str_replace(array(".", "/", "\\", "%"), "", $_REQUEST["app"]);
+
 	/**
 	* ilias module directory (up to the ilias root dir)
 	* @ var string

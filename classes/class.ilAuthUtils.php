@@ -42,7 +42,6 @@ define('AUTH_CAS_NO_ILIAS_USER', -90);
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
-* @package ilias
 *
 */
 
@@ -291,10 +290,10 @@ class ilAuthUtils
 		}
 		
 		$q = "SELECT auth_mode FROM usr_data WHERE ".
-			 "login='".$a_username."' AND ".
-			 "passwd='".md5($a_password)."'";
+			 "login = ".$ilDB->quote($a_username)." AND ".
+			 "passwd = ".$ilDB->quote(md5($a_password))."";
 		$r = $db->query($q);
-//echo "<br>+$q+";
+		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 //echo "+".$row->auth_mode."+";
 		return ilAuthUtils::_getAuthMode($row->auth_mode,$db);
