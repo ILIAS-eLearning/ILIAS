@@ -43,4 +43,5 @@ $ilCtrl->getCallStructure("ilobjchatgui");
 $chat_gui =& new ilObjChatGUI('',(int) $_GET['ref_id'],true,false);
 $ilCtrl->forwardCommand($chat_gui);
 $tpl->show();
+
 ?>
