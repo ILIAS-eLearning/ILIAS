@@ -95,7 +95,8 @@ class ilSCORMPresentationGUI
 
 
 	/**
-	* output main menu
+	* Output main frameset. If only one SCO/Asset is given, it is displayed
+	* without the table of contents explorer frame on the left.
 	*/
 	function frameset()
 	{
@@ -189,6 +190,9 @@ class ilSCORMPresentationGUI
 	}
 
 
+	/**
+	* SCORM content screen
+	*/
 	function view()
 	{
 		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
@@ -247,6 +251,10 @@ class ilSCORMPresentationGUI
 		exit;
 	}
 
+	/**
+	* This function is called by the API applet in the content frame
+	* when a SCO is started.
+	*/
 	function launchSahs()
 	{
 		global $ilUser, $ilDB;
@@ -300,7 +308,7 @@ class ilSCORMPresentationGUI
 			$val_rec["rvalue"] = str_replace("\n", "\\n", $val_rec["rvalue"]);
 			$re_value[$val_rec["lvalue"]] = $val_rec["rvalue"];
 		}
-
+		
 		foreach($re_value as $var => $value)
 		{
 			switch ($var)
@@ -383,6 +391,16 @@ class ilSCORMPresentationGUI
 			.$lng->txt("cont_sc_stat_running")
 		);
 		$this->tpl->parseCurrentBlock();
+		
+		// set icon, if more than one SCO/Asset is presented
+		$items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
+		if (count($items) > 1
+			|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
+			|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
+		{
+			$this->tpl->setVariable("SWITCH_ICON_CMD", "switch_icon();");
+		}
+
 
 		// lesson mode
 		$lesson_mode = $this->slm->getDefaultLessonMode();
@@ -424,6 +442,7 @@ class ilSCORMPresentationGUI
 		}
 
 		$this->tpl->show();
+		//echo htmlentities($this->tpl->get()); exit;
 	}
 
 	function finishSahs ()
