@@ -420,7 +420,7 @@ class ilSCORMExplorer extends ilExplorer
 		{
 			if ($this->isClickable($a_option["type"], $a_node_id, $sc_object))
 			{
-				$this->getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype);
+				$this->getOutputIcons($tpl, $a_option, $a_node_id, $scormtype);
 			}
 		}
 		$ilBench->stop("SCORMExplorer", "renderLink_OutputIcons");
