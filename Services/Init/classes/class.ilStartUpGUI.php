@@ -123,7 +123,8 @@ class ilStartUpGUI
 			if (empty($_GET['cookies']))
 			{
 				setcookie("iltest","cookie");
-				header('Location: '.$_SERVER['PHP_SELF']."?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".$_GET['client_id']."&lang=".$_GET['lang']); 
+				//header('Location: '.$_SERVER['PHP_SELF']."?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".$_GET['client_id']."&lang=".$_GET['lang']);
+				header("Location: index.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".$_GET['client_id']."&lang=".$_GET['lang']);
 			}
 			else
 			{
