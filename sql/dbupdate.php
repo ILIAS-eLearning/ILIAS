@@ -11573,5 +11573,38 @@ ALTER TABLE xhtml_page ADD COLUMN save_content MEDIUMTEXT;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#818>
+<?php
+// get all languages
+$q = "SELECT * FROM object_data WHERE type = ".$ilDB->quote("lng");
+$lang_set = $ilDB->query($q);
+while($lang_rec = $lang_set->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	// get all installed languages
+	if (substr($lang_rec["description"], 0, 9) == "installed")
+	{
+		$q = "SELECT * FROM lng_data WHERE lang_key = ".$ilDB->quote($lang_rec["title"]);
+		$var_set = $ilDB->query($q);
+		$lang_array = array();
+		
+		// get data from lng_data table
+		while($var_rec = $var_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$lang_array[$var_rec["module"]][$var_rec["identifier"]] = $var_rec["value"];
+		}
+		
+		// put data into lng_modules table
+		foreach($lang_array as $module => $lang_arr)
+		{
+			$query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES ".
+				 "(".$ilDB->quote($lang_rec["title"]).", " .
+				 " ".$ilDB->quote($module).", " . 
+				 " ".$ilDB->quote(serialize($lang_arr)).") ";
+			$ilDB->query($query);
+		}
+
+	}
+}
+?>
 
 									   
