@@ -25,10 +25,10 @@
 /**
 * Class ilObject
 * Basic functions for all objects
-* $Id$
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
 */
 class ilObject
 {
@@ -179,7 +179,7 @@ class ilObject
 			// check reference id
 			if (!isset($this->ref_id))
 			{
-				$message = "ilObject::read(): No ref_id given!";
+				$message = "ilObject::read(): No ref_id given! (".$this->type.")";
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
@@ -197,7 +197,7 @@ class ilObject
 			// check number of records
 			if ($object_set->numRows() == 0)
 			{
-				$message = "ilObject::read(): Object with ref_id ".$this->ref_id." not found!";
+				$message = "ilObject::read(): Object with ref_id ".$this->ref_id." not found! (".$this->type.")";
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
@@ -208,7 +208,7 @@ class ilObject
 			// check object id
 			if (!isset($this->id))
 			{
-				$message = "ilObject::read(): No obj_id given!";
+				$message = "ilObject::read(): No obj_id given! (".$this->type.")";
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
@@ -220,7 +220,7 @@ class ilObject
 			// check number of records
 			if ($object_set->numRows() == 0)
 			{
-				$message = "ilObject::read(): Object with obj_id: ".$this->id." not found!";
+				$message = "ilObject::read(): Object with obj_id: ".$this->id." (".$this->type.") not found!";
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 

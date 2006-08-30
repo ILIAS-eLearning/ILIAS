@@ -31,7 +31,6 @@ require_once "classes/class.ilObject.php";
 * $Id$
 *
 * @extends ilObject
-* @package ilias-core
 */
 class ilObjStyleSheet extends ilObject
 {
@@ -677,7 +676,7 @@ class ilObjStyleSheet extends ilObject
 			$a_style_id = $ilias->getSetting("default_content_style_id");
 		}
 
-		if ($a_style_id > 0)
+		if ($a_style_id > 0 && ilObject::_exists($a_style_id))
 		{
 			// check whether file is up to date
 			if (!ilObjStyleSheet::_lookupUpToDate($a_style_id))
