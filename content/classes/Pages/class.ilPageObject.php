@@ -515,7 +515,8 @@ class ilPageObject
 			"ed_align_right_float", "ed_delete_item", "ed_new_item_before",
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
-			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable");
+			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable",
+			"de_activate");
 
 		foreach ($lang_vars as $lang_var)
 		{
