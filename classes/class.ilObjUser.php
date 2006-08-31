@@ -1641,7 +1641,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT value FROM usr_pre WHERE usr_id='".$a_usr_id."' AND keyword = 'language'";
+		$q = "SELECT value FROM usr_pref WHERE usr_id='".$a_usr_id."' AND keyword = 'language'";
 		$r = $ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
