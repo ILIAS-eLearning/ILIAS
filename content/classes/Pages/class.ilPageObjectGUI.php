@@ -495,7 +495,7 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("TXT_CONFIRM_DELETE", $this->lng->txt("cont_confirm_delete"));
 				$this->tpl->setVariable("JS_DRAGDROP", ILIAS_HTTP_PATH."/content/js/wz_dragdrop.js");
 				$this->tpl->setVariable("IMG_DRAGDROP",
-					ilUtil::getImagePath("ilias_logo.png"));
+					ilUtil::getImagePath("icon_drag.gif"));
 				
 				if (!ilPageEditorGUI::_isBrowserJSEditCapable())
 				{
