@@ -539,11 +539,6 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("SEL_MEDIA_MODE",
 					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true));
 
-				// multiple actions
-				$this->tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
-				$this->tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
-				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
 				if ($this->getViewPageLink() != "")
 				{
 					$this->tpl->setCurrentBlock("view_link");
@@ -564,6 +559,16 @@ class ilPageObjectGUI
 						: "disable";
 					$this->tpl->setVariable("SEL_JAVA_SCRIPT",
 						ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true));
+				}
+				
+				// multiple actions
+				if ($sel_js_mode == "disable")
+				{
+					$this->tpl->setCurrentBlock("multi_actions");
+					$this->tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
+					$this->tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
+					$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+					$this->tpl->parseCurrentBlock();
 				}
 			}
 			else

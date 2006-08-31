@@ -3613,44 +3613,44 @@ content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Enable download of all public export files.
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
-content#:#cont_ed_align_center#:#align: center
-content#:#cont_ed_align_left#:#align: left
-content#:#cont_ed_align_left_float#:#align: left float
-content#:#cont_ed_align_right#:#align: right
-content#:#cont_ed_align_right_float#:#align: right float
+content#:#cont_ed_align_center#:#Align: Center
+content#:#cont_ed_align_left#:#Align: Left
+content#:#cont_ed_align_left_float#:#Align: Left Float
+content#:#cont_ed_align_right#:#Align: Right
+content#:#cont_ed_align_right_float#:#Align: Right Float
 content#:#cont_ed_class#:#Style
-content#:#cont_ed_col_left#:#move column left
-content#:#cont_ed_col_right#:#move column right
-content#:#cont_ed_copy_clip#:#copy to clipboard
-content#:#cont_ed_delete#:#delete
-content#:#cont_ed_delete_col#:#delete column
-content#:#cont_ed_delete_item#:#delete item
-content#:#cont_ed_delete_row#:#delete row
-content#:#cont_ed_edit#:#edit
-content#:#cont_ed_edit_prop#:#edit properties
+content#:#cont_ed_col_left#:#Move Column Left
+content#:#cont_ed_col_right#:#Move Column Right
+content#:#cont_ed_copy_clip#:#Copy to Clipboard
+content#:#cont_ed_delete#:#Delete
+content#:#cont_ed_delete_col#:#Delete Column
+content#:#cont_ed_delete_item#:#Delete Item
+content#:#cont_ed_delete_row#:#Delete Row
+content#:#cont_ed_edit#:#Edit
+content#:#cont_ed_edit_prop#:#Edit Properties
 content#:#cont_ed_enable#:#(De-)Activate Elements
 content#:#cont_ed_go#:#Go
-content#:#cont_ed_insert_code#:#insert Code
-content#:#cont_ed_insert_filelist#:#insert File List
-content#:#cont_ed_insert_list#:#insert List
-content#:#cont_ed_insert_media#:#insert Media
-content#:#cont_ed_insert_par#:#insert Paragr.
-content#:#cont_ed_insert_table#:#insert Table
-content#:#cont_ed_item_down#:#move item down
-content#:#cont_ed_item_up#:#move item up
-content#:#cont_ed_moveafter#:#move after
-content#:#cont_ed_movebefore#:#move before
-content#:#cont_ed_new_col_after#:#new column after
-content#:#cont_ed_new_col_before#:#new column before
-content#:#cont_ed_new_item_after#:#new item after
-content#:#cont_ed_new_item_before#:#new item before
-content#:#cont_ed_new_row_after#:#new row after
-content#:#cont_ed_new_row_before#:#new row before
-content#:#cont_ed_paste_clip#:#paste from clipboard
-content#:#cont_ed_row_down#:#move row down
-content#:#cont_ed_row_up#:#move row up
-content#:#cont_ed_split_page#:#split to new page
-content#:#cont_ed_split_page_next#:#split to next page
+content#:#cont_ed_insert_code#:#Insert Code
+content#:#cont_ed_insert_filelist#:#Insert File List
+content#:#cont_ed_insert_list#:#Insert List
+content#:#cont_ed_insert_media#:#Insert Media
+content#:#cont_ed_insert_par#:#Insert Paragr.
+content#:#cont_ed_insert_table#:#Insert Table
+content#:#cont_ed_item_down#:#Move Item Down
+content#:#cont_ed_item_up#:#Move Item Up
+content#:#cont_ed_moveafter#:#Move After
+content#:#cont_ed_movebefore#:#Move Before
+content#:#cont_ed_new_col_after#:#New Column After
+content#:#cont_ed_new_col_before#:#New Column Before
+content#:#cont_ed_new_item_after#:#New Item After
+content#:#cont_ed_new_item_before#:#New Item Before
+content#:#cont_ed_new_row_after#:#New Row After
+content#:#cont_ed_new_row_before#:#New Row Before
+content#:#cont_ed_paste_clip#:#Paste From Clipboard
+content#:#cont_ed_row_down#:#Move Row Down
+content#:#cont_ed_row_up#:#Move Row Up
+content#:#cont_ed_split_page#:#Split to New Page
+content#:#cont_ed_split_page_next#:#Split to Next Page
 content#:#cont_ed_width#:#Width
 content#:#cont_edit_area#:#Edit Area
 content#:#cont_edit_file_list_properties#:#Edit File List Properties

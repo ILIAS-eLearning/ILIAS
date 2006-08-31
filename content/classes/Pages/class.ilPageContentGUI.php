@@ -307,7 +307,7 @@ class ilPageContentGUI
 	 * gui function
 	 * set enabled if is not enabled and vice versa
 	 */
-	function switchEnable () 
+	function deactivate() 
 	{		
 		$obj = & $this->content_obj;
 		
