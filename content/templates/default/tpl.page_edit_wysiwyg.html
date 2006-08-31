@@ -52,27 +52,30 @@ parent.tree.location.replace('{LINK_TREE}');
 
 <script language="JavaScript" type="text/javascript">
 var stopHigh = false;
+var borderStore = new Array();
+
 /**
 *   On mouse over highlight the current block with colored border.
 */
 function doMouseOver(id) 
 {
-	
 	if(stopHigh) return;
 	stopHigh=true;
 	overId = id;
 	setTimeout("stopHigh=false",10);
 	
-    if (document.getElementById) 
+	if (document.getElementById) 
 	{
-        obj = document.getElementById(id);
-        obj.style.border="solid red 1px";
-    } 
+		obj = document.getElementById(id);
+		borderStore[id] = obj.style.border;
+		obj.style.border = "solid green 1px";
+	} 
 	else if(document.layers)
 	{
-        obj = eval("document."+id); 
-        obj.border="solid red 1px";
-    }
+		obj = eval("document."+id);
+		borderStore[id] = obj.border;
+		obj.border = "solid green 1px";
+	}
 }
 
 /**
@@ -87,7 +90,8 @@ function doMouseOut(id, dotted)
         obj = document.getElementById(id);
 		if(dotted == true)
 		{
-			obj.style.border="dotted gray 1px";
+			obj.style.border = borderStore[id];
+			/* obj.style.border="dotted gray 1px"; */
 		}
 		else
 		{
@@ -95,8 +99,9 @@ function doMouseOut(id, dotted)
 		}
     } else if(document.layers)
 	{
-        obj = eval("document."+id); 
-        obj.border="solid gray 1px";
+        obj = eval("document."+id);
+		obj.border = borderStore[id];
+        /* obj.border="solid gray 1px"; */
     }
 }
 
