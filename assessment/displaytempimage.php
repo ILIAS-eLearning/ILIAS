@@ -10,11 +10,15 @@
 	{
 		$type = "jpeg";
 	}
-  header("Content-Type: image/$type");
-  header('Content-Length: '.filesize($image));
-  readfile($image);
-	if (is_file($image))
+	$size = getimagesize($image);
+	if (is_array($size) && (strpos($size["mime"], "image") !== FALSE))
 	{
-		unlink ($image);
+		header("Content-Type: image/$type");
+		header('Content-Length: '.filesize($image));
+		readfile($image);
+		if (is_file($image))
+		{
+			unlink ($image);
+		}
 	}
 ?>
