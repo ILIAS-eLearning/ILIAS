@@ -32,6 +32,7 @@ include_once ("content/classes/class.ilEditClipboard.php");
 * GUI class for learning module editor
 *
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
 *
 * @ilCtrl_Calls ilLMEditorGUI: ilObjDlBookGUI, ilMetaDataGUI, ilObjLearningModuleGUI
@@ -107,7 +108,7 @@ class ilLMEditorGUI
 		$cmd = $this->ctrl->getCmd("frameset");
 
 		$next_class = $this->ctrl->getNextClass($this);
-//echo "lmeditorgui:$next_class:".$this->ctrl->getCmdClass().":<br>";
+//echo "lmeditorgui:$next_class:".$this->ctrl->getCmdClass().":$cmd:<br>";
 		$cmd = $this->ctrl->getCmd("frameset");
 
 		if ($next_class == "" && ($cmd != "explorer") && ($cmd != "frameset")

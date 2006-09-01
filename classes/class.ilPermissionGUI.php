@@ -399,12 +399,19 @@ class ilPermissionGUI
 		sendInfo($this->lng->txt("role_added"),true);
 		
 		// in administration jump to deault perm settings screen
-		if ($this->ctrl->getTargetScript() != "repository.php")
-		{
-			$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
-			$this->ctrl->setParameter($this,"ref_id",$rolf_id);
-			$this->ctrl->redirect($this,'perm');
-		}
+		// alex, ILIAS 3.6.5, 1.9.2006: this does not work and leads to errors in
+		// a) administration
+		//    -> repository trash & permissions -> item -> permissions ->
+		//    "you may add role" screen -> save
+		// b) other modules like learning modules
+		//    -> permissions -> "you may add role" screen
+		// deactivated for 3.6.6
+		//if ($this->ctrl->getTargetScript() != "repository.php")
+		//{
+		//	$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
+		//	$this->ctrl->setParameter($this,"ref_id",$rolf_id);
+		//	$this->ctrl->redirect($this,'perm');
+		//}
 
 		$this->ctrl->redirect($this,'perm');
 	}
