@@ -4619,6 +4619,36 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
+	function getBrowseForQuestionsTab(&$tabs_gui)
+	{
+		global $rbacsystem;
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		{
+			// edit page
+			$tabs_gui->setBackTarget($this->lng->txt("backtocallingtest"), $this->ctrl->getLinkTarget($this, "questions"));
+			$tabs_gui->addTarget("tst_browse_for_questions",
+				$this->ctrl->getLinkTarget($this, "browseForQuestions"),
+				array("browseForQuestions", "filter", "resetFilter", "insertQuestions"),
+				"", ""
+			);
+		}
+	}
+	
+	function getRandomQuestionsTab(&$tabs_gui)
+	{
+		global $rbacsystem;
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		{
+			// edit page
+			$tabs_gui->setBackTarget($this->lng->txt("backtocallingtest"), $this->ctrl->getLinkTarget($this, "questions"));
+			$tabs_gui->addTarget("random_selection",
+				$this->ctrl->getLinkTarget($this, "randomQuestions"),
+				array("randomQuestions"),
+				"", ""
+			);
+		}
+	}
+
 	/**
 	* adds tabs to tab gui object
 	*
@@ -4657,6 +4687,12 @@ class ilObjTestGUI extends ilObjectGUI
 			case "outResultsOverview":
 			case "checkPassword":
 				return;
+				break;
+			case "browseForQuestions":
+			case "filter":
+			case "resetFilter":
+			case "insertQuestions":
+				//return $this->getBrowseForQuestionsTab($tabs_gui);
 				break;
 		}
 		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)
