@@ -323,13 +323,13 @@ class ilMainMenuGUI
 
 		$script = "./".$a_script;
 
-		if ($this->start_template == true)
-		{
+		//if ($this->start_template == true)
+		//{
 			//if(is_file("./templates/".$ilias->account->skin."/tpl.start.html"))
 			//{
-				$script = "./start.php?script=".rawurlencode($script);
+	//			$script = "./start.php?script=".rawurlencode($script);
 			//}
-		}
+		//}
 		if (defined("ILIAS_MODULE"))
 		{
 			$script = ".".$script;

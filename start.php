@@ -33,8 +33,12 @@
 */
 //require_once "./include/inc.header.php";
 
-include("index.php");
+require_once "./include/inc.header.php";
+ilUtil::redirect("index.php");
+
 exit;
+//include("index.php");
+//exit;
 
 
 global $ilBench, $ilCtrl;
