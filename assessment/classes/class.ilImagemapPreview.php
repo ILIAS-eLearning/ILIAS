@@ -175,7 +175,7 @@ class ilImagemapPreview
 	{
 		if (is_file($this->preview_filename))
 		{
-			return $this->preview_filename;
+			return basename($this->preview_filename);
 		}
 		else
 		{
