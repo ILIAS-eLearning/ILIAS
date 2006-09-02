@@ -83,8 +83,18 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		// todo: clean this mess up, but note that there are several
+		// points where roles can be edited:
+		// - repository categories, courses, groups, learning modules
+		// glossaries (see object.xml)
+		// - administration -> repository trash and permissions ->
+		//   item ->edit role
+		// - administration -> repository trash and permissions ->
+		//   role folder -> role
+		// - administration -> roles -> role
 		if($this->ctrl->getTargetScript() == 'repository.php' ||
 			$this->ctrl->getTargetScript() == 'role.php' ||
+			strtolower($_GET["baseClass"]) == 'illmeditorgui' ||
 			$_GET["admin_mode"] == "repository")
 		{
 			$this->__prepareOutput();
