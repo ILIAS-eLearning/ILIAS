@@ -78,7 +78,8 @@ class ilLMEditorGUI
 
 		$this->ctrl =& $ilCtrl;
 
-		$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
+		//$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
+		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		// initiate variables
 		$this->ilias =& $ilias;
@@ -145,8 +146,13 @@ class ilLMEditorGUI
 				$book_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
 				//$ret =& $book_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($book_gui);
-
-				$this->displayLocator();
+				if (strcmp($cmd, "explorer") != 0)
+				{
+					// don't call the locator in the explorer frame
+					// this prevents a lot of log errors
+					// Helmut Schottmüller, 2006-07-21
+					$this->displayLocator();
+				}
 
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
@@ -204,7 +210,7 @@ class ilLMEditorGUI
 		$fs_gui->setFramesetTitle($this->lng->txt("editor"));
 		$fs_gui->setMainFrameName("content");
 		$fs_gui->setSideFrameName("tree");
-
+		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		if ($this->lm_obj->getType() == "dbk")
 		{
 			$fs_gui->setSideFrameSource(

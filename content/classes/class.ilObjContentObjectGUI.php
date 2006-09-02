@@ -124,6 +124,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 
 			case "illmpageobjectgui":
+				$this->ctrl->saveParameter($this, array("obj_id"));
 				$this->addLocations();
 				$this->ctrl->setReturn($this, "properties");
 //echo "!";
@@ -144,6 +145,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 
 			case "ilstructureobjectgui":
+				$this->ctrl->saveParameter($this, array("obj_id"));
 				$this->addLocations();
 				$this->ctrl->setReturn($this, "properties");
 				$st_gui =& new ilStructureObjectGUI($this->object, $this->object->lm_tree);
@@ -175,7 +177,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->addLocations();
+					$this->addLocations(true);
 					$this->setTabs();
 				}
 				include_once("./classes/class.ilPermissionGUI.php");
@@ -2730,8 +2732,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	/**
 	* display locator
+	*
+	* @param	boolean		$a_omit_obj_id	set to true, if obj id is not page id (e.g. permission gui)
 	*/
-	function addLocations()
+	function addLocations($a_omit_obj_id = false)
 	{
 		global $lng, $tree, $ilLocator;
 
@@ -2746,7 +2750,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
 			"repository.php?cmd=frameset&amp;ref_id=".$par_id,
 			ilFrameTargetInfo::_getFrame("MainContent"));
-		$obj_id = $_GET["obj_id"];
+		if (!$a_omit_obj_id)
+		{
+			$obj_id = $_GET["obj_id"];
+		}
 		$lmtree =& $this->object->getTree();
 
 		if (($obj_id != 0) && $lmtree->isInTree($obj_id))
@@ -2795,7 +2802,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 			}
 		}
-		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		if (!$a_omit_obj_id)
+		{
+			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		}
 	}
 
 
