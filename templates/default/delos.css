@@ -633,9 +633,9 @@ div.il_MainMenu
 	background-repeat: repeat-x;
 	background-position: bottom;	
 	margin: 0px;
-    width:100%;
+	width: 100%;
 	padding:0px 0px 6px 0px;
-    line-height:normal;
+	line-height: normal;
 }
 
 a.MMInactive:link, a.MMInactive:visited
@@ -903,23 +903,9 @@ div.il_Explorer
 	background-color: #FFFFFF;
 }
 
-/*div.il_RepExplorer
-{
-	background-color:#FFFFFF;
-	padding:20px;
-	border-spacing: 1px;
-	border-style: outset;
-	border-color: #9EADBA;
-	border-width: 1px;
-	margin-bottom: 0px;
-}*/
-
 div.il_ExplorerHeader
 {
-	padding-top:1px;
-	padding-left:3px;
-	padding-right:3px;
-	padding-bottom:1px;
+	padding-top: 1px 3px;
 	vertical-align:top;
 	text-align:left;
 	font-weight: bold;
@@ -966,7 +952,6 @@ div.il_ExplorerItemDescription
 }
 
 /* Table Links */
-
 a.tblheader, a.tblheader:visited
 {
 	color:#3444aa;
@@ -1967,7 +1952,6 @@ div.textbox
 
 
 /* -- Members Gallery Styles -- */
-
 div.il_MembersGallery
 {
 	margin: 0px auto;
