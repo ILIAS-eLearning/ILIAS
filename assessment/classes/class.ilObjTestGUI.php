@@ -1659,30 +1659,16 @@ class ilObjTestGUI extends ilObjectGUI
 		exit;
 	}
 
-	
+	/**
+	* Sets the filter for the question browser 
+	*
+	* Sets the filter for the question browser 
+	*
+	* @access	public
+	*/
 	function filterObject()
 	{
-		$filter_type = $_POST["sel_filter_type"];
-		if (!$filter_type)
-		{
-			$filter_type = $_GET["sel_filter_type"];
-		}
-		$filter_question_type = $_POST["sel_question_type"];
-		if (!$filter_question_type)
-		{
-			$filter_question_type = $_GET["sel_question_type"];
-		}
-		$filter_questionpool = $_POST["sel_questionpool"];
-		if (!$filter_questionpool)
-		{
-			$filter_questionpool = $_GET["sel_questionpool"];
-		}
-		$filter_text = $_POST["filter_text"];
-		if (!$filter_text)
-		{
-			$filter_text = $_GET["filter_text"];
-		}
-		$this->questionBrowser($filter_type, $filter_question_type, $filter_questionpool, $filter_text);
+		$this->questionBrowser();
 	}
 
 	/**
@@ -1694,10 +1680,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function resetFilterObject()
 	{
-		$_GET["sel_filter_type"] = "";
-		$_GET["sel_question_type"] = "";
-		$_GET["sel_questionpool"] = "";
-		$_GET["filter_text"] = "";
 		$this->questionBrowser();
 	}
 
@@ -1734,6 +1716,10 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!count($selected_array))
 		{
 			sendInfo($this->lng->txt("tst_insert_missing_question"), true);
+			$this->ctrl->setParameterByClass(get_class($this), "sel_filter_type", $_POST["sel_filter_type"]);
+			$this->ctrl->setParameterByClass(get_class($this), "sel_question_type", $_POST["sel_question_type"]);
+			$this->ctrl->setParameterByClass(get_class($this), "sel_questionpool", $_POST["sel_questionpool"]);
+			$this->ctrl->setParameterByClass(get_class($this), "filter_text", $_POST["filter_text"]);
 			$this->ctrl->redirect($this, "browseForQuestions");
 		}
 		else
@@ -1757,30 +1743,40 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function questionBrowser($filter_type = "", $filter_question_type = "", $filter_questionpool = "", $filter_text = "")
+	function questionBrowser()
 	{
 		global $rbacsystem;
 
 		$this->ctrl->setParameterByClass(get_class($this), "browse", "1");
-		if (!$filter_type)
+
+		if (strcmp($this->ctrl->getCmd(), "resetFilter") == 0)
 		{
-			$filter_type = $_GET["sel_filter_type"];
+			$filter_type = "";
+			$filter_question_type = "";
+			$filter_questionpool = "";
+			$filter_text = "";
 		}
+		else
+		{
+			if (is_array($_POST) && (count($_POST) > 0))
+			{
+				$filter_type = $_POST["sel_filter_type"];
+				$filter_question_type = $_POST["sel_question_type"];
+				$filter_questionpool = $_POST["sel_questionpool"];
+				$filter_text = $_POST["filter_text"];
+			}
+			else
+			{
+				$filter_type = $_GET["sel_filter_type"];
+				$filter_question_type = $_GET["sel_question_type"];
+				$filter_questionpool = $_GET["sel_questionpool"];
+				$filter_text = $_GET["filter_text"];
+			}
+		}
+
 		$this->ctrl->setParameterByClass(get_class($this), "sel_filter_type", $filter_type);
-		if (!$filter_question_type)
-		{
-			$filter_question_type = $_GET["sel_question_type"];
-		}
 		$this->ctrl->setParameterByClass(get_class($this), "sel_question_type", $filter_question_type);
-		if (!$filter_questionpool)
-		{
-			$filter_questionpool = $_GET["sel_questionpool"];
-		}
 		$this->ctrl->setParameterByClass(get_class($this), "sel_questionpool", $filter_questionpool);
-		if (!$filter_text)
-		{
-			$filter_text = $_GET["filter_text"];
-		}
 		$this->ctrl->setParameterByClass(get_class($this), "filter_text", $filter_text);
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questionbrowser.html", true);
@@ -2196,7 +2192,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$qpl_question_count[$key] = $count;
 			if ($count == 1)
 			{
-				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("assQuestion") . ")";
+				$available_qpl[$key] = $value . " ($count " . $this->lng->txt("ass_question") . ")";
 			}
 			else
 			{
@@ -3256,13 +3252,22 @@ class ilObjTestGUI extends ilObjectGUI
 		$counter = 0;
 		foreach ($_POST["chbUser"] as $key => $value)
 		{
-			$user = ilObjUser::_lookupName($this->object->_getUserIdFromActiveId($value));
+			$user_id = $this->object->_getUserIdFromActiveId($value);
+			$user = ilObjUser::_lookupName($user_id);
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("USER_ICON", ilUtil::getImagePath("icon_usr.gif"));
 			$this->tpl->setVariable("USER_ALT", $this->lng->txt("usr"));
 			$this->tpl->setVariable("USER_TITLE", $this->lng->txt("usr"));
 			$this->tpl->setVariable("TXT_FIRSTNAME", $user["firstname"]);
-			$this->tpl->setVariable("TXT_LASTNAME", $user["lastname"]);
+			if (strlen($user["lastname"]))
+			{
+				$this->tpl->setVariable("TXT_LASTNAME", $user["lastname"]);
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_LASTNAME", $this->lng->txt("deleted_user"));
+			}
+			$this->tpl->setVariable("TXT_LOGIN", ilObjUser::_lookupLogin($user_id));
 			$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 			$counter++;
@@ -3270,6 +3275,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("selectedusers");
 		$this->tpl->setVariable("HEADER_TXT_FIRSTNAME", $this->lng->txt("firstname"));
 		$this->tpl->setVariable("HEADER_TXT_LASTNAME", $this->lng->txt("lastname"));
+		$this->tpl->setVariable("HEADER_TXT_LOGIN", $this->lng->txt("login"));
 		$this->tpl->setVariable("BTN_CONFIRM_DELETE_SELECTED", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL_DELETE_SELECTED", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
@@ -3305,12 +3311,15 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				foreach ($total as $active_id => $user_name)
+				foreach ($total as $active_id => $user_data)
 				{
+					$user_name = $user_data["name"];
+					$user_login = $user_data["login"];
 					$this->tpl->setCurrentBlock("userrow");
 					$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("USER_ID", $active_id);
 					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
+					$this->tpl->setVariable("VALUE_USER_LOGIN", $user_login);
 					$last_access = $this->object->_getLastAccess($active_id);
 					$this->tpl->setVariable("LAST_ACCESS", ilFormat::formatDate($last_access));
 					$this->tpl->parseCurrentBlock();
@@ -3322,7 +3331,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("participanttable");
-				$this->tpl->setVariable("USER_NAME", $this->lng->txt("username"));
+				$this->tpl->setVariable("USER_NAME", $this->lng->txt("name"));
+				$this->tpl->setVariable("USER_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("LAST_ACCESS", $this->lng->txt("last_access"));
 				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 				$this->tpl->setVariable("DELETE", $this->lng->txt("delete_user_data"));
@@ -4692,7 +4702,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "filter":
 			case "resetFilter":
 			case "insertQuestions":
-				//return $this->getBrowseForQuestionsTab($tabs_gui);
+				return $this->getBrowseForQuestionsTab($tabs_gui);
 				break;
 		}
 		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)

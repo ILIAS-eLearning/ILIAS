@@ -796,7 +796,7 @@ class ilTestEvaluationGUI
 				array_push($titlerow, "&nbsp;");
 			}
 		}
-		$total_users =& $this->object->evalTotalParticipantsArray($_GET["sortname"]);
+		$total_users =& $this->object->evalTotalPersonsArray($_GET["sortname"]);
 		$selected_users = array();
 		if ($all_users == 1) 
 		{

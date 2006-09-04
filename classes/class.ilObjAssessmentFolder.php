@@ -354,7 +354,7 @@ class ilObjAssessmentFolder extends ilObject
 			}
 			array_push($log[$row["TIMESTAMP14"]], $row);
 		}
-		ksort($log);
+		krsort($log);
 		// flatten array
 		$log_array = array();
 		foreach ($log as $key => $value)
@@ -433,7 +433,7 @@ class ilObjAssessmentFolder extends ilObject
 			$row["href"] = $type_href;
 			array_push($log[$row["TIMESTAMP14"]], $row);
 		}
-		ksort($log);
+		krsort($log);
 		// flatten array
 		$log_array = array();
 		foreach ($log as $key => $value)

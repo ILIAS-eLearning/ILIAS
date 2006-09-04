@@ -22,6 +22,7 @@
 	<tr class="tblheader">
 		<th width="20"></th>
 		<th class="std">{USER_NAME}</th>
+		<th class="std">{USER_LOGIN}</th>
 		<th class="std">{LAST_ACCESS}</th>
 	</tr>
 </thead>
@@ -29,18 +30,19 @@
 <tr class="{ROW_CLASS}">
   <td class="{ROW_CLASS}"><input type="checkbox" name="chbUser[]" value="{USER_ID}" id="{USER_ID}" /></td>
   <td class="{ROW_CLASS}"><label for="{USER_ID}">{VALUE_USER_NAME}</label></td>
+  <td class="{ROW_CLASS}">{VALUE_USER_LOGIN}</td>
 	<td class="{ROW_CLASS}">{LAST_ACCESS}</td>
 </tr>
 <!-- END userrow -->
 <!-- BEGIN selectall -->
 <tr class="{ROW_CLASS}">
 	<td class="{ROW_CLASS}"><input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="setChecked('form_maintenance', 'chbUser', document.form_maintenance.chb_check_all.checked);" /></td>
-	<td class="{ROW_CLASS}" colspan="2"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+	<td class="{ROW_CLASS}" colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>
 <!-- END selectall -->
 <tr>
 	<td class="submit"><img src="{IMG_ARROW}" alt="{ARROW}" /></td>
-	<td class="submit" colspan="2"><input class="submit" type="submit" name="cmd[deleteSingleUserResults]" value="{DELETE}" /></td>
+	<td class="submit" colspan="3"><input class="submit" type="submit" name="cmd[deleteSingleUserResults]" value="{DELETE}" /></td>
 </tr>
 </table>
 <!-- END participanttable -->
