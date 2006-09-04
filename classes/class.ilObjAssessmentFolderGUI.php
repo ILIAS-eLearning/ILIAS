@@ -405,8 +405,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LOG_FROM", $this->lng->txt("from"));
 		if (!is_array($_POST["log_from_date"]))
 		{
-			$date_input = ilUtil::makeDateSelect("log_from_date", "", "", "", 2004);
-			$time_input = ilUtil::makeTimeSelect("log_from_time");
+			$date_input = ilUtil::makeDateSelect("log_from_date", "", "1", "1", 2004);
+			$time_input = ilUtil::makeTimeSelect("log_from_time", TRUE, 0, 0);
 		}
 		else
 		{

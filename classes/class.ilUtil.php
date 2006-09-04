@@ -774,17 +774,10 @@ class ilUtil
 	{
 		global $lng;
 
-		if (!strlen("$year$month$day")) {
-			$now = getdate();
-			$year = $now["year"];
-			$month = $now["mon"];
-			$day = $now["mday"];
-		} else {
-			// delete leading zeros
-			$year = (int)$year;
-			$month = (int)$month;
-			$day = (int)$day;
-		}
+		$now = getdate();
+		if (!strlen($year)) $year = $now["year"];
+		if (!strlen($month)) $month = $now["mon"];
+		if (!strlen($day)) $day = $now["mday"];
 
 		// build day select
 		$sel_day .= "<select name=\"".$prefix."[d]\" id=\"".$prefix."_d\">\n";

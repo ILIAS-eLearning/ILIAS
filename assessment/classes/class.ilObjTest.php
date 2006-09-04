@@ -4163,21 +4163,27 @@ class ilObjTest extends ilObject
 	function &evalTotalPersonsArray($name_sort_order = "asc")
 	{
 		global $ilDB;
-		
-		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+		$q = sprintf("SELECT tst_active.active_id, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($q);
 		$persons_array = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (strlen($row->firstname.$row->lastname.$row->title) == 0)
+			if (strlen($row["firstname"].$row["lastname"].$row["title"]) == 0)
 			{
-				$persons_array[$row->user_fi] = $this->lng->txt("deleted_user");
+				$persons_array[$row["active_id"]] = $this->lng->txt("deleted_user");
 			}
 			else
 			{
-				$persons_array[$row->user_fi] = trim("$row->lastname, $row->firstname $row->title");
+				if ($row["user_fi"] == ANONYMOUS_USER_ID)
+				{
+					$persons_array[$row["active_id"]] = $row["lastname"];
+				}
+				else
+				{
+					$persons_array[$row["active_id"]] = trim($row["lastname"] . ", " . $row["firstname"] . " " .  $row["title"]);
+				}
 			}
 		}
 		return $persons_array;
@@ -4194,20 +4200,27 @@ class ilObjTest extends ilObject
 	function &evalTotalParticipantsArray($name_sort_order = "asc")
 	{
 		global $ilDB;
-		$q = sprintf("SELECT tst_active.active_id, tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($name_sort_order), 
+		$q = sprintf("SELECT tst_active.active_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($q);
 		$persons_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if ($row["user_fi"] == ANONYMOUS_USER_ID)
+			if (strlen($row["firstname"].$row["lastname"].$row["title"]) == 0)
 			{
-				$persons_array[$row["active_id"]] = $row["lastname"];
+				$persons_array[$row["active_id"]] = array("name" => $this->lng->txt("deleted_user"));
 			}
 			else
 			{
-				$persons_array[$row["active_id"]] = trim($row["lastname"] . ", " . $row["firstname"] . " " .  $row["title"]);
+				if ($row["user_fi"] == ANONYMOUS_USER_ID)
+				{
+					$persons_array[$row["active_id"]] = array("name" => $row["lastname"]);
+				}
+				else
+				{
+					$persons_array[$row["active_id"]] = array("name" => trim($row["lastname"] . ", " . $row["firstname"] . " " .  $row["title"]), "login" => $row["login"]);
+				}
 			}
 		}
 		return $persons_array;
