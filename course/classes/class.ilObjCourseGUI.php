@@ -3189,7 +3189,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function membersGalleryObject()
 	{
 
-		global $rbacsystem, $ilErr, $ilAccess;
+		global $rbacsystem, $ilErr, $ilAccess,$ilUser;
 		
 		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
@@ -3204,6 +3204,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
 		
 		$this->setSubTabs('members');
+
+		// Unsubscribe
+		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
+		   $this->object->members_obj->isMember($ilUser->getId()))
+		{
+			$this->__showButton($this->ctrl->getLinkTarget($this,'unsubscribe'),$this->lng->txt("crs_unsubscribe"));
+		}
+
 
 		$this->object->initCourseMemberObject();
 
