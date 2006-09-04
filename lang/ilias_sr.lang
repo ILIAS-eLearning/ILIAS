@@ -6476,3 +6476,12 @@ trac#:#view_mode#:#View mode###10 Jul 2006 new variable
 trac#:#vm_access_of_users#:#Access of users###10 Jul 2006 new variable
 trac#:#vm_days_of_period#:#Days of period###10 Jul 2006 new variable
 trac#:#vm_times_of_day#:#Times of days###10 Jul 2006 new variable
+assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.###04 09 2006 new variable
+assessment#:#tst_no_solution_available#:#Short answer questions don't have a specified solution.###04 09 2006 new variable
+assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###04 09 2006 new variable
+common#:#frm_status_new#:#Status 'New'###04 09 2006 new variable
+common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.###04 09 2006 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###04 09 2006 new variable
+content#:#cont_reference#:#Reference###04 09 2006 new variable
+crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.###04 09 2006 new variable
+crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###04 09 2006 new variable

@@ -6477,3 +6477,11 @@ trac#:#view_mode#:#Nézetmód
 trac#:#vm_access_of_users#:#Felhasználók hozzáférése
 trac#:#vm_days_of_period#:#Periódus napjai
 trac#:#vm_times_of_day#:#Napok ideje
+assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###04 09 2006 new variable
+common#:#group_password_registration_msg#:#If you know the group password, you can join this group. Please contact a group administrator, if you don't know the password.###04 09 2006 new variable
+common#:#shib_member_of#:#I'm a member of ...###04 09 2006 new variable
+common#:#ums_explanation_2#:#If this is not your account, please hit 'Create New Account'.###04 09 2006 new variable
+common#:#ums_explanation_4#:#If none of them is your account, please hit 'Create New Account'.###04 09 2006 new variable
+content#:#cont_reference#:#Reference###04 09 2006 new variable
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.###04 09 2006 new variable
+payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.###04 09 2006 new variable
