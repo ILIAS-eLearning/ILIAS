@@ -6467,3 +6467,21 @@ trac#:#view_mode#:#View mode###10 Jul 2006 new variable
 trac#:#vm_access_of_users#:#Access of users###10 Jul 2006 new variable
 trac#:#vm_days_of_period#:#Days of period###10 Jul 2006 new variable
 trac#:#vm_times_of_day#:#Times of days###10 Jul 2006 new variable
+chat#:#chat_add_external_ip#:#Please add the server's external IP.###04 09 2006 new variable
+chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###04 09 2006 new variable
+common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.###04 09 2006 new variable
+common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.###04 09 2006 new variable
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.###04 09 2006 new variable
+common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###04 09 2006 new variable
+common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###04 09 2006 new variable
+common#:#users_online_show_n#:#Don't show active users###04 09 2006 new variable
+common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in the registration form and personal user profile on the personal desktop. Check 'Changeable' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings.###04 09 2006 new variable
+common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database. ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database. ### 2006-5-8 --- Content changed
+common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database. ### 2006-5-8 --- Content changed
+content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.###04 09 2006 new variable
+content#:#cont_reference#:#Reference###04 09 2006 new variable
+content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###04 09 2006 new variable
+crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.###04 09 2006 new variable
+crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###04 09 2006 new variable
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password. ### 2006-5-8 --- Content changed
