@@ -88,7 +88,7 @@ class ilLearningProgressBaseGUI
 	{
 		include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 		$rpc_server = new ilRPCServerSettings();
-		$this->active_pdf = $rpc_server->pingServer();
+		$this->active_pdf = $rpc_server->getHost() ? true : false;
 	}
 
 	function isAnonymized()
