@@ -64,7 +64,7 @@ class ilHACPExplorer extends ilAICCExplorer
 					$tpl->parseCurrentBlock();
 				}
 	
-				if ($picture == 'minus')
+				if ($picture == 'minus' && $this->show_minus)
 				{
 					$target = $this->createTarget('-',$a_node_id);
 					$tpl->setCurrentBlock("expander");
@@ -74,7 +74,8 @@ class ilHACPExplorer extends ilAICCExplorer
 				}
 	
 				if ($picture == 'blank' or $picture == 'winkel'
-				   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
+				   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke'
+				   or ($picture == 'minus' &&  !$this->show_minus))
 				{
 					$picture = 'blank';
 					$tpl->setCurrentBlock("lines");
@@ -86,7 +87,7 @@ class ilHACPExplorer extends ilAICCExplorer
 		
 		if ($this->output_icons)	{
 			if ($this->isClickable($a_option["type"], $a_node_id) && $a_option["type"]!="sbl")
-				$this->getOutputIcons(&$tpl, $a_option, $a_node_id);
+				$this->getOutputIcons($tpl, $a_option, $a_node_id);
 		}
 
 

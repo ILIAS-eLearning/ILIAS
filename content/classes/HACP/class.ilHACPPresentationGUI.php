@@ -104,6 +104,8 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 			$expanded = $_GET["scexpand"];
 		}
 		$exp->setExpand($expanded);
+		
+		$exp->forceExpandAll(true, false);
 
 		// build html-output
 		//666$exp->setOutput(0);
