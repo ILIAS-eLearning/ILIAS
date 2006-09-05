@@ -6556,3 +6556,5 @@ trac#:#trac_not_participated#:#Not Participated###04 09 2006 new variable
 trac#:#trac_not_registered#:#Not Registered###04 09 2006 new variable
 trac#:#trac_participated#:#Participated###04 09 2006 new variable
 trac#:#trac_registered#:#Registered###04 09 2006 new variable
+assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 09 2006 new variable
+assessment#:#tst_instant_verification#:#Instant verification###05 09 2006 new variable
