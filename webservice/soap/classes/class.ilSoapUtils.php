@@ -58,7 +58,8 @@ class ilSoapUtils extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		
+
+		global $ilLog;
 
 		include_once './classes/class.ilMimeMail.php';
 

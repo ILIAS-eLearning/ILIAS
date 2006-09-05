@@ -91,6 +91,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		// Include main header
 		include_once './include/inc.header.php';
 
+		global $rbacadmin;
+
 		if($tmp_user =& ilObjectFactory::getInstanceByObjId($user_id) and $tmp_user->getType() != 'usr')
 		{
 			return $this->__raiseError('No valid user id given. Please choose an existing id of an ILIAS user',
