@@ -924,6 +924,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["score_reporting"] = ilUtil::stripSlashes($_POST["score_reporting"]);
 		}
+		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+		{
+			$data["instant_verification"] = 0;
+		}
+		else
+		{
+			$data["instant_verification"] = ilUtil::stripSlashes($_POST["chb_instant_verification"]);
+		}
 		$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
 		$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
 		if (!$_POST["chb_starting_time"])
@@ -1039,6 +1047,14 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$this->object->setScoreReporting($data["score_reporting"]);
+		}
+		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT )
+		{
+			$this->object->setInstantVerification(0);
+		}
+		else
+		{
+			$this->object->setInstantVerification($data["instant_verification"]);
 		}
 		$this->object->setReportingDate($data["reporting_date"]);
 		$this->object->setNrOfTries($data["nr_of_tries"]);
@@ -1258,6 +1274,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["introduction"] = $this->object->getIntroduction();
 		$data["sequence_settings"] = $this->object->getSequenceSettings();
 		$data["score_reporting"] = $this->object->getScoreReporting();
+		$data["instant_verification"] = $this->object->getInstantVerification();
 		$data["reporting_date"] = $this->object->getReportingDate();
 		$data["nr_of_tries"] = $this->object->getNrOfTries();
 		$data["hide_previous_results"] = $this->object->getHidePreviousResults();
@@ -1271,16 +1288,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["score_cutting"] = $this->object->getScoreCutting();
 		$data["allowedUsers"] = $this->object->getAllowedUsers();
 		$data["allowedUsersTimeGap"] = $this->object->getAllowedUsersTimeGap();
-		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
-		{
-			$this->tpl->setCurrentBlock("score_reporting_very_question");
-			$this->tpl->setVariable("REPORT_AFTER_QUESTION", $this->lng->txt("tst_report_after_question"));
-			if ($data["score_reporting"] == 0)
-			{
-				$this->tpl->setVariable("SELECTED_QUESTION", " selected=\"selected\"");
-			} 
-			$this->tpl->parseCurrentBlock();
-		}
 		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
 		{
 			$data["pass_scoring"] = $this->object->getPassScoring();
@@ -1425,6 +1432,16 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		$this->tpl->setVariable("HEADING_SCORE", $this->lng->txt("tst_score_reporting"));
+		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+		{
+			$this->tpl->setVariable("DISABLED_INSTANT_VERIFICATION", " disabled=\"disabled\"");
+		}
+		$this->tpl->setVariable("TEXT_VERIFICATION", $this->lng->txt("tst_instant_verification"));
+		$this->tpl->setVariable("TEXT_INSTANT_VERIFICATION", $this->lng->txt("tst_allow_instant_verification"));
+		if ($this->object->getInstantVerification() == 1)
+		{
+			$this->tpl->setVariable("CHECKED_INSTANT_VERIFICATION", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("TEXT_SCORE_TYPE", $this->lng->txt("tst_score_type"));
 		$this->tpl->setVariable("REPORT_AFTER_TEST", $this->lng->txt("tst_report_after_test"));
 		$this->tpl->setVariable("REPORT_AFTER_FIRST_QUESTION", $this->lng->txt("tst_report_after_first_question"));
@@ -4513,13 +4530,15 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == SCORE_BEST_PASS)? "tst_pass_best_pass":"tst_pass_last_pass"));
 		}
 
+		if ($this->object->getInstantVerification() == 1)
+		{
+			$info->addSection($this->lng->txt("tst_instant_verification"));
+			$info->addProperty($this->lng->txt("tst_instant_verification"), $this->lng->txt("tst_allow_instant_verification"));
+		}
 		$info->addSection($this->lng->txt("tst_score_reporting"));
 		$score_reporting_text = "";
 		switch ($this->object->getScoreReporting())
 		{
-			case REPORT_AFTER_QUESTION:
-				$score_reporting_text = $this->lng->txt("tst_report_after_question");
-				break;
 			case REPORT_AFTER_TEST:
 				$score_reporting_text = $this->lng->txt("tst_report_after_test");
 				break;

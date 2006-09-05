@@ -94,7 +94,6 @@ define ("OQ_TERMS", 1);
 define("TEST_FIXED_SEQUENCE", 0);
 define("TEST_POSTPONE", 1);
 
-define("REPORT_AFTER_QUESTION", 0);
 define("REPORT_AFTER_TEST", 1);
 define("REPORT_AFTER_FIRST_QUESTION", 2);
 

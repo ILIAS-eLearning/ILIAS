@@ -1139,7 +1139,7 @@ class ilTestOutputGUI
 			return;
 		}
 			
-		if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)
+		if ($this->object->getInstantVerification() == 1)
 		{
 			$this->tpl->setCurrentBlock("direct_feedback");
 			$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
