@@ -1,7 +1,7 @@
-<?
+<?php
 
-class ilObjAICCCourseInterchangeFiles {
-	
+class ilObjAICCCourseInterchangeFiles 
+{
 	var $coursefiles;
 	var $data;
 	var $errorText;

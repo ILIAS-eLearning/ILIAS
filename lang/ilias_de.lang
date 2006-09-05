@@ -611,9 +611,9 @@ assessment#:#tst_random_test_description#:#Wenn ausgewählt, werden die Fragen d
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
-assessment#:#tst_report_after_first_question#:#Ergebnisausgabe bereits direkt nach dem Test-Start anbieten
+assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach dem Test-Start anbieten
 assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage anzeigen
-assessment#:#tst_report_after_test#:#Ergebnis am Ende des Tests anzeigen
+assessment#:#tst_report_after_test#:#Testergebnisse erst nach dem Abschluss eines Testdurchlaufs anbieten
 assessment#:#tst_result_congratulations#:#Glückwunsch! Sie haben den Test bestanden.
 assessment#:#tst_result_sorry#:#Sie haben den Test leider nicht bestanden.
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
