@@ -270,6 +270,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
 		include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
 		include_once 'course/classes/Event/class.ilEvent.php';
+		include_once 'classes/class.ilLink.php';
 
 		// read assigned events
 		$events = ilEvent::_getEvents($this->getObjId());
@@ -312,6 +313,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		{
 			$obj_id = $ilObjDataCache->lookupObjId($ref_id);
 			$tpl->setCurrentBlock("materials");
+
+			// Link to settings
+			$tpl->setVariable("COLL_LINK",ilLink::_getLink($ref_id,$ilObjDataCache->lookupType($obj_id)));
 			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
 			$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));
 			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
