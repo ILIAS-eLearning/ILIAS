@@ -1476,6 +1476,10 @@ class ilCourseContentGUI
 		}
 		$this->failed = array();
 		// Validate
+
+		$_POST['item'] = is_array($_POST['item']) ? $_POST['item'] : array();
+		$all_items = array();
+
 		foreach($_POST['item'] as $ref_id => $data)
 		{
 			$item_obj =& new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
@@ -1514,7 +1518,7 @@ class ilCourseContentGUI
 			return false;
 		}
 
-		// No do update
+		// No do update 
 		foreach($all_items as $ref_id => $item_obj_new)
 		{
 			$item_obj_new->update($ref_id);

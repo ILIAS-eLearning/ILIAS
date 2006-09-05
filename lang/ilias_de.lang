@@ -6486,4 +6486,5 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 content#:#cont_reference#:#Reference###04 09 2006 new variable
