@@ -493,6 +493,7 @@ assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangscode erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
 assessment#:#tst_all_user_data_deleted#:#Die Testdaten aller Nutzerinnen wurden gelöscht!
+assessment#:#tst_allow_instant_verification#:#Direkte Überprüfung der Antworten anbieten
 assessment#:#tst_allowed_users#:#Maximale Anzahl gleichzeitiger Teilnehmer und Teilnehmerinnen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit für Teilnehmer und Teilnehmerinnen
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Anworten abgeschickt.
@@ -541,6 +542,7 @@ assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s 
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
+assessment#:#tst_instant_verification#:#Direkte Überprüfung
 assessment#:#tst_introduction#:#Startseite
 assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.###17 Aug 2006 content changed
 assessment#:#tst_mark#:#Note

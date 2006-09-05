@@ -118,14 +118,25 @@ class ilObjTest extends ilObject
 * Defines the score reporting for the test
 * 
 * Defines the score reporting for the test. There are two values:
-* REPORT_AFTER_QUESTION (=0), REPORT_AFTER_TEST (=1). The default
-* value is REPORT_AFTER_QUESTION. If the score reporting is set to
+* REPORT_AFTER_TEST (=1) and REPORT_AFTER_FIRST_QUESTION (=2). The default
+* value is REPORT_AFTER_TEST. If the score reporting is set to
 * REPORT_AFTER_TEST, it is also possible to use the $reporting_date
 * attribute to set a time/date for the earliest reporting time.
 *
 * @var integer
 */
   var $score_reporting;
+	
+/**
+* Defines the question verification type for the test
+* 
+* Defines the question verification type for the test. When set to 1
+* a instant verification button will be offered during the test to verify
+* the question solution
+*
+* @var integer
+*/
+	var $instant_verification;
 
 /**
 * A time/date value to set the earliest reporting time for the test score
@@ -382,6 +393,7 @@ class ilObjTest extends ilObject
 		$this->questions = array();
 		$this->sequence_settings = TEST_FIXED_SEQUENCE;
 		$this->score_reporting = REPORT_AFTER_TEST;
+		$this->instant_verification = 0;
 		$this->reporting_date = "";
 		$this->nr_of_tries = 0;
 		$this->hide_previous_results = 0;
@@ -1182,13 +1194,14 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->author . ""),
 				$ilDB->quote($this->test_type . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
+				$ilDB->quote($this->instant_verification . ""),
 				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
 				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
@@ -1245,12 +1258,13 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->author . ""), 
         $ilDB->quote($this->test_type . ""), 
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
         $ilDB->quote($this->sequence_settings . ""), 
         $ilDB->quote($this->score_reporting . ""), 
+        $ilDB->quote($this->instant_verification . ""), 
         $ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
 				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
@@ -1717,6 +1731,7 @@ class ilObjTest extends ilObject
 				$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
 				$this->sequence_settings = $data->sequence_settings;
 				$this->score_reporting = $data->score_reporting;
+				$this->instant_verification = $data->instant_verification;
 				$this->nr_of_tries = $data->nr_of_tries;
 				$this->setHidePreviousResults($data->hide_previous_results);
 				$this->setHideTitlePoints($data->hide_title_points);
@@ -1947,6 +1962,28 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Sets the instant verification
+* 
+* Sets the instant verification of the ilObjTest object
+*
+* @param integer $instant_verification The instant verification
+* @access public
+* @see $instant_verification
+*/
+  function setInstantVerification($instant_verification = 0) 
+	{
+		switch ($instant_verification)
+		{
+			case 1:
+				$this->instant_verification = 1;
+				break;
+			default:
+				$this->instant_verification = 0;
+				break;
+		}
+  }
+
+/**
 * Sets the random test indicator
 * 
 * Sets the random test indicator
@@ -2022,6 +2059,20 @@ class ilObjTest extends ilObject
   function getScoreReporting() 
 	{
     return $this->score_reporting;
+  }
+
+/**
+* Gets the instant verification
+* 
+* Gets the instant verification of the ilObjTest object
+*
+* @return integer The instant verification of the test
+* @access public
+* @see $instant_verification
+*/
+  function getInstantVerification() 
+	{
+    return $this->instant_verification;
   }
 
 /**
@@ -5112,10 +5163,10 @@ class ilObjTest extends ilObject
 			switch ($assessmentcontrol->getSolutionswitch())
 			{
 				case "Yes":
-					$this->setScoreReporting(1);
+					$this->setInstantVerification(1);
 					break;
 				default:
-					$this->setScoreReporting(0);
+					$this->setInstantVerification(0);
 					break;
 			}
 		}
@@ -5401,6 +5452,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getScoreReporting()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		// solution details
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "instant_verification");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getInstantVerification()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// solution printview
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_solution_printview");
@@ -5447,7 +5504,17 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlEndTag("objectives");
 
 		// add qti assessmentcontrol
-		$a_xml_writer->xmlElement("assessmentcontrol", NULL, NULL);
+		if ($this->getInstantVerification() == 1)
+		{
+			$attrs = array(
+				"solutionswitch" => "Yes"
+			);
+		}
+		else
+		{
+			$attrs = NULL;
+		}
+		$a_xml_writer->xmlElement("assessmentcontrol", $attrs, NULL);
 
 		$attrs = array(
 			"ident" => "1"
@@ -5864,6 +5931,7 @@ class ilObjTest extends ilObject
 		$newObj->mark_schema = $original->mark_schema;
 		$newObj->sequence_settings = $original->getSequenceSettings();
 		$newObj->score_reporting = $original->getScoreReporting();
+		$newObj->instant_verification = $original->getInstantVerification();
 		$newObj->reporting_date = $original->getReportingDate();
 		$newObj->test_type = $original->getTestType();
 		$newObj->nr_of_tries = $original->getNrOfTries();

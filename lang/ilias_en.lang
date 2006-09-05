@@ -493,6 +493,7 @@ assessment#:#too_many_empty_parameters#:#Please fill out your empty applet param
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
+assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers
 assessment#:#tst_allowed_users#:#Maximum number of users running the test simultaneously
 assessment#:#tst_allowed_users_time_gap#:#Idle time for active users
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
@@ -541,6 +542,7 @@ assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
+assessment#:#tst_instant_verification#:#Instant verification
 assessment#:#tst_introduction#:#Introduction
 assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.
 assessment#:#tst_mark#:#Mark

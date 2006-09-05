@@ -11606,5 +11606,8 @@ while($lang_rec = $lang_set->fetchRow(DB_FETCHMODE_ASSOC))
 	}
 }
 ?>
-
-									   
+<#819>
+ALTER TABLE `tst_tests` ADD `instant_verification` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `score_reporting`;
+<#820>
+UPDATE tst_tests SET instant_verification = '1' WHERE score_reporting = 0;
+UPDATE tst_tests SET score_reporting = 1 WHERE score_reporting = 0;
