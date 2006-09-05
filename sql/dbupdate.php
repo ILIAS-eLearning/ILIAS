@@ -11611,3 +11611,16 @@ ALTER TABLE `tst_tests` ADD `instant_verification` ENUM( '0', '1' ) NOT NULL DEF
 <#820>
 UPDATE tst_tests SET instant_verification = '1' WHERE score_reporting = 0;
 UPDATE tst_tests SET score_reporting = 1 WHERE score_reporting = 0;
+
+<#821>
+<?php
+// fetch type id of folder object definition
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='fold'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// 18: create_frm, 20: create_lm, 21: create_slm, 22: create_glo, 25: create_file, 26: create_grp
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','17')";
+$this->db->query($query);
+?>

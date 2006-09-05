@@ -430,7 +430,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacsystem, $objDefinition;
+		global $rbacsystem, $objDefinition,$ilUser;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($a_target_id,false))
 		{
