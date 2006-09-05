@@ -25,65 +25,100 @@
 /**
 * redirect script for studip-users
 *
-* @author Arne Schrï¿½der <schroeder@data-quest.de>
+* @author Arne Schröder <schroeder@data-quest.de>
 *
 * @package studip-interface
 */
 
-/* ILIAS Version 3.6.1 */
-// start correct session and client
-if (isset($_POST["sess_id"]))
-	$_GET["sess_id"] = $_POST["sess_id"];
-if (isset($_GET["sess_id"]))
-{	
-	setcookie("PHPSESSID",$_GET["sess_id"]);
-	$_COOKIE["PHPSESSID"] = $_GET["sess_id"];
-}
+/* ILIAS Version 3.7.0stable */
 
-if (isset($_GET["client_id"]))
-	$_POST["client_id"] = $_GET["client_id"];
-if (isset($_POST["client_id"]))
-{	
-	setcookie("ilClientId",$_POST["client_id"]);
-	$_COOKIE["ilClientId"] = $_POST["client_id"];
-}
+$jump_to = 'index.php';
 
-	
 // redirect to specified page
+$redirect = false;
 switch($_GET['target'])
 {
-	case "login": 
-		$return_to="";
+	case 'start': 
+		switch($_GET['type'])
+		{
+			case 'lm':
+				$_GET['baseClass'] = 'ilLMPresentationGUI'; 
+				$jump_to = 'ilias.php';
+			break;
+			case 'tst':
+				$_GET['cmd'] = 'infoScreen';
+				$_GET['baseClass'] = 'ilObjTestGUI'; 
+				$jump_to = 'ilias.php';
+			break;
+			case 'sahs':
+				$_GET['baseClass'] = 'ilSAHSPresentationGUI'; 
+				$jump_to = 'ilias.php';
+			break;
+			case 'htlm':
+				$jump_to = 'content/fblm_presentation.php?ref_id='.$_GET['ref_id'];
+				$redirect = true;
+				break;
+			default:
+				unset($jump_to);
+		}
 	break;
-	case "start": 
-		if ($_GET["type"] == "lm")
-			$return_to = "ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $_GET["ref_id"]; 
-		if ($_GET["type"] == "tst")
-			$return_to = "ilias.php?baseClass=ilObjTestGUI&ref_id=" . $_GET["ref_id"] . "&cmd=infoScreen"; 
-		if ($_GET["type"] == "sahs")
-			$return_to = "content/sahs_presentation.php?ref_id=" . $_GET["ref_id"];
-		if ($_GET["type"] == "htlm")
-			$return_to = "content/fblm_presentation.php?ref_id=" . $_GET["ref_id"];
+	case 'new':	
+		$_POST['new_type'] = $_GET['type'];
+		$_POST['cmd']['create'] = 'add';
+		$_GET['cmd'] = 'post';
+		$jump_to = 'repository.php';
 	break;
-	case "new":	
-		$return_to = "repository.php?ref_id=" . $_GET["ref_id"] . "&cmd=create&new_type=" . $_GET["type"];
-		$_POST["new_type"] = $_GET["type"];
+	case 'edit':
+		switch($_GET['type'])
+			{
+				case 'lm':
+					$_GET['baseClass'] = 'ilLMEditorGUI'; 
+					$jump_to = 'ilias.php';
+				break;
+				case 'tst':
+					$_GET['cmd'] = '';
+					$_GET['baseClass'] = 'ilObjTestGUI'; 
+					$jump_to = 'ilias.php';
+				break;
+				case 'sahs':
+					$jump_to = 'content/sahs_edit.php?ref_id='.$_GET['ref_id'];
+					$redirect = true;
+				break;
+				case 'htlm':
+					$jump_to = 'content/fblm_edit.php?ref_id='.$_GET['ref_id'];
+					$redirect = true;
+				break;
+				default:
+					unset($jump_to);
+			}
 	break;
-	case "edit": 
-		if ($_GET["type"] == "lm")
-			$return_to = "ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $_GET["ref_id"];
-		if ($_GET["type"] == "tst")
-			$return_to = "ilias.php?baseClass=ilObjTestGUI&ref_id=" . $_GET["ref_id"] . "&cmd=";
-		if ($_GET["type"] == "sahs")
-			$return_to = "content/sahs_edit.php?ref_id=" . $_GET["ref_id"];
-		if ($_GET["type"] == "htlm")
-			$return_to = "content/fblm_edit.php?ref_id=" . $_GET["ref_id"];
+	case 'login':
 	break;
+	default:
+	unset($jump_to);
 }
 
-if ($return_to != "none")
-{
-	$_GET["script"] = $return_to;
-	include("start.php");
+if (isset($_GET['sess_id']))
+{	
+	setcookie('PHPSESSID',$_GET['sess_id']);
+	$_COOKIE['PHPSESSID'] = $_GET['sess_id'];
+} else {
+	unset($jump_to);
 }
+
+if (isset($_GET['client_id']))
+{	
+	setcookie('ilClientId',$_GET['client_id']);
+	$_COOKIE['ilClientId'] = $_GET['client_id'];
+} else {
+	unset($jump_to);
+}
+
+if ($redirect)
+{
+	header("Location: ".$jump_to);
+	exit();
+}
+elseif(isset($jump_to)) 
+	include($jump_to);
 ?>
