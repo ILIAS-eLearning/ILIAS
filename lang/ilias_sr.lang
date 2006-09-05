@@ -6485,3 +6485,6 @@ common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')###04 09 2006 ne
 content#:#cont_reference#:#Reference###04 09 2006 new variable
 crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.###04 09 2006 new variable
 crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###04 09 2006 new variable
+assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 09 2006 new variable
+assessment#:#tst_instant_verification#:#Instant verification###05 09 2006 new variable
+common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable

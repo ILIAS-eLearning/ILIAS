@@ -6485,3 +6485,6 @@ trac#:#vm_access_of_users#:#Access of users###10 Jul 2006 new variable
 trac#:#vm_days_of_period#:#Days of period###10 Jul 2006 new variable
 trac#:#vm_times_of_day#:#Times of days###10 Jul 2006 new variable
 content#:#cont_reference#:#Reference###04 09 2006 new variable
+assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 09 2006 new variable
+assessment#:#tst_instant_verification#:#Instant verification###05 09 2006 new variable
+common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable
