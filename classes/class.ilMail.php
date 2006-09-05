@@ -174,6 +174,10 @@ class ilMail
 	}
 	function isSOAPEnabled()
 	{
+		if(!extension_loaded('curl'))
+		{
+			return false;
+		}
 		return (bool) $this->soap_enabled;
 	}
 
