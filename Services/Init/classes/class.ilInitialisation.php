@@ -570,7 +570,7 @@ class ilInitialisation
 			!$in_user_agreement &&
 			$ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=getAcceptance");
+			ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
 		}
 	}
 	

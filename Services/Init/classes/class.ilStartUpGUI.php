@@ -712,7 +712,7 @@ class ilStartUpGUI
 			if ($_POST["status"]=="accepted")
 			{
 				$ilUser->writeAccepted();
-				ilUtil::redirect("index.php");
+				ilUtil::redirect("index.php?target=".$_GET["target"]);
 			}
 			$tpl->setVariable("VAL_CMD", "getAcceptance");
 			$tpl->setVariable("AGR_LANG_ACTION",
