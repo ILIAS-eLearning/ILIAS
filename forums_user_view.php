@@ -83,10 +83,13 @@ $user_gui->insertPublicProfile("USR_PROFILE","usr_profile", $add);
 infoPanel();
 
 //$tpl->setCurrentBlock("usertable");
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK",urldecode($_GET["backurl"]));
-$tpl->setVariable("BTN_TXT", $lng->txt("back"));
-$tpl->parseCurrentBlock();
+if($_GET['backurl'])
+{
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK",urldecode($_GET["backurl"]));
+	$tpl->setVariable("BTN_TXT", $lng->txt("back"));
+	$tpl->parseCurrentBlock();
+}
 
 if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {
