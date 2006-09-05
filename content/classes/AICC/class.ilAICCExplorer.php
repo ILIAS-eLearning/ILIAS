@@ -169,6 +169,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		if (is_array($a_option["tab"])) { //test if there are any tabs
 			foreach ($a_option["tab"] as $picture)
 			{
+				$pic = false;
 				if ($picture == 'plus')
 				{
 					$target = $this->createTarget('+',$a_node_id);
@@ -176,19 +177,20 @@ class ilAICCExplorer extends ilSCORMExplorer
 					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
 					$tpl->parseCurrentBlock();
+					$pic = true;
 				}
 	
-				if ($picture == 'minus')
+				if ($picture == 'minus' && $this->show_minus)
 				{
 					$target = $this->createTarget('-',$a_node_id);
 					$tpl->setCurrentBlock("expander");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
 					$tpl->parseCurrentBlock();
+					$pic = true;
 				}
-	
-				if ($picture == 'blank' or $picture == 'winkel'
-				   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
+
+				if (!$pic)
 				{
 					$picture = 'blank';
 					$tpl->setCurrentBlock("lines");
@@ -200,7 +202,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 
 		if ($this->output_icons)	{
 			if ($this->isClickable($a_option["type"], $a_node_id) && !$a_option["type"]=="sbl")
-				$this->getOutputIcons(&$tpl, $a_option, $a_node_id);
+				$this->getOutputIcons($tpl, $a_option, $a_node_id);
 		}
 
 		if ($this->isClickable($a_option["type"], $a_node_id))	// output link

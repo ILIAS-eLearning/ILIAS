@@ -119,6 +119,8 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 		}
 		$exp->setExpand($expanded);
 
+		$exp->forceExpandAll(true, false);
+		
 		// build html-output
 		//666$exp->setOutput(0);
 		$exp->setOutput(0);
