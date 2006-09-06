@@ -6480,11 +6480,11 @@ trac#:#vm_access_of_users#:#Προσπέλαση χρηστών
 trac#:#vm_days_of_period#:#Ημέρες της περιόδου
 trac#:#vm_times_of_day#:#Ώρες της ημέρας
 crs#:#crs_new_subscription_request_body2#:#Πρέπει να καλέσετε το διαχειριστή μέλος του μαθήματος για ν' αποδεχτεί ή ν' απορρίψει την αίτηση μέλους.
-assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###05 09 2006 new variable
-assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###05 09 2006 new variable
-assessment#:#question_summary#:#Question Summary###05 09 2006 new variable
-assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 09 2006 new variable
-assessment#:#tst_instant_verification#:#Instant verification###05 09 2006 new variable
-crs#:#crs_info_settings#:#Course Informations###05 09 2006 new variable
-survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###05 09 2006 new variable
-common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable
+assessment#:#change_properties_from_random_to_standard#:#Πρόκειται ν' αλλάξετε τις ιδιότητες του διαγωνίσματος από τυχαίο σε μη τυχαίο. Οι πληροφορίες στις πηγές ερωτήσεων που έχετε ήδη προσθέσει στο τυχαίο διαγώνισμα θα διαγραφούν από αυτό. Είστε σίγουροι ότι θέλετε ν' αλλάξετε τις ιδιότητες του διαγωνίσματος;
+assessment#:#change_properties_from_standard_to_random#:#Πρόκειται ν' αλλάξετε τις ιδιότητες του διαγωνίσματος από μη τυχαίο σε τυχαίο. Οι ερωτήσεις που έχετε ήδη προσθέσει στο διαγώνισμα θα διαγραφούν, διότι πρέπει να επιλέξετε πηγές ερωτήσεων για το τυχαίο διαγώνισμα. Είστε σίγουροι ότι θέλετε ν' αλλάξετε τις ιδιότητες του διαγωνίσματος;
+assessment#:#question_summary#:#Περίληψη ερώτησης
+assessment#:#tst_allow_instant_verification#:#Να επιτρέπεται άμεση επιβεβαίωση των απαντήσεων
+assessment#:#tst_instant_verification#:#Άμεση επιβεβαίωση
+crs#:#crs_info_settings#:#Πληροφορίες μαθήματος
+survey#:#wrong_categories_selected_for_insert#:#Το ILIAS δεν μπόρεσε να εκτελέσει την επιθυμητή ενέργεια. Παρακαλώ επιλέξτε ακριβώς μια απάντηση ως θέση στόχο!
+common#:#adopt_perm_from_template#:#Ρυθμίσεις άδειας αντιγραφής
