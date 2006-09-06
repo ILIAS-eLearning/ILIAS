@@ -63,6 +63,7 @@ class ilObjTestAccess extends ilObjectAccess
 
 		switch ($a_permission)
 		{
+			case "read":
 			case "visible":
 				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
 					(!$rbacsystem->checkAccess('write', $a_ref_id)))
