@@ -106,6 +106,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
 		switch ($a_permission)
 		{
+			case "read":
 			case "visible":
 				if (!ilObjContentObjectAccess::_lookupOnline($a_obj_id) &&
 					(!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))

@@ -207,7 +207,8 @@ class ilLPObjSettings
 			case 'lm':
 				return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
 							 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
-							 LP_MODE_TLT => $lng->txt('trac_mode_tlt'));
+							 LP_MODE_TLT => $lng->txt('trac_mode_tlt'),
+							 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
 
 			case 'htlm':
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
@@ -241,8 +242,6 @@ class ilLPObjSettings
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
 							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
 
-				
-				
 			default:
 				return array();
 		}
