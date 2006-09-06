@@ -685,6 +685,10 @@ class ilCourseMembers
 	{
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($a_usr_id,false);
 
+		$link = ("\n\n".$this->lng->txt('crs_mail_permanent_link'));
+		$link .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_obj->getRefId()."&client_id=".CLIENT_ID);
+		
+
 		switch($a_type)
 		{
 			case $this->NOTIFY_DISMISS_SUBSCRIBER:
@@ -695,6 +699,7 @@ class ilCourseMembers
 			case $this->NOTIFY_ACCEPT_SUBSCRIBER:
 				$subject = $this->lng->txt("crs_accept_subscriber");
 				$body = $this->lng->txt("crs_accept_subscriber_body");
+				$body .= $link;
 				break;
 			case $this->NOTIFY_DISMISS_MEMBER:
 				$subject = $this->lng->txt("crs_dismiss_member");
@@ -707,14 +712,17 @@ class ilCourseMembers
 			case $this->NOTIFY_UNBLOCK_MEMBER:
 				$subject = $this->lng->txt("crs_unblocked_member");
 				$body = $this->lng->txt("crs_unblocked_member_body");
+				$body .= $link;
 				break;
 			case $this->NOTIFY_ACCEPT_USER:
 				$subject = $this->lng->txt("crs_added_member");
 				$body = $this->lng->txt("crs_added_member_body");
+				$body .= $link;
 				break;
 			case $this->NOTIFY_STATUS_CHANGED:
 				$subject = $this->lng->txt("crs_status_changed");
 				$body = $this->__buildStatusBody($tmp_user);
+				$body .= $link;
 				break;
 
 			case $this->NOTIFY_SUBSCRIPTION_REQUEST:
