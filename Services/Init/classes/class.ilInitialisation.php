@@ -991,7 +991,7 @@ class ilInitialisation
 			{
 				$inactive = true;
 			}
-			
+
 			// jump to public section (to do: is this always the indended
 			// behaviour, login could be another possibility (including
 			// message)
@@ -1014,7 +1014,7 @@ class ilInitialisation
 				exit;
 			}
 		}
-		
+
 		//
 		// SUCCESSFUL AUTHENTICATED or NON-AUTH-AREA (Login, Registration, ...)
 		//
