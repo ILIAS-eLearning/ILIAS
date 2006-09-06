@@ -183,7 +183,7 @@ class ilGlossaryExport
 		$this->xml = new ilXmlWriter;
 
 		// set dtd definition
-		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
+		$this->xml->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co_3_7.dtd\">");
 
 		// set generated comment
 		$this->xml->xmlSetGenCmt("Export of ILIAS Glossary ".

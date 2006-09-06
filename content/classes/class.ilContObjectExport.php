@@ -215,7 +215,7 @@ class ilContObjectExport
 		$this->xml = new ilXmlWriter;
 
 		// set dtd definition
-		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_6.dtd\">");
+		$this->xml->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
 
 		// set generated comment
 		$this->xml->xmlSetGenCmt("Export of ILIAS Content Module ".
