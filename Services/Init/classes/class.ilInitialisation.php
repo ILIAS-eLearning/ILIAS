@@ -764,7 +764,12 @@ class ilInitialisation
 		// $ilClientIniFile initialisation
 		if (!$this->initClientIniFile())
 		{
-			ilUtil::redirect("./setup/setup.php");	// to do: this could fail in subdirectories
+			$c = $_COOKIE["ilClientId"];
+			setcookie("ilClientId", $ilIliasIniFile->readVariable("clients","default"));
+			$_COOKIE["ilClientId"] = $ilIliasIniFile->readVariable("clients","default");
+			echo ("Client $c does not exist. Please reload this page to return to the default client.");
+			exit;
+			//ilUtil::redirect("./setup/setup.php");	// to do: this could fail in subdirectories
 													// this is also source of a bug (see mantis)
 		}
 		
