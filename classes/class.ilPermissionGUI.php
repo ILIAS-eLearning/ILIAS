@@ -124,14 +124,6 @@ class ilPermissionGUI
 
 		$this->num_roles = count($this->roles);
 
-		// don't display table if no role in list
-		if ($this->num_roles < 1)
-		{
-			sendinfo($this->lng->txt("msg_no_roles_of_type"),false);
-			$this->__displayAddRoleForm();
-			return true;
-		}
-		
 		// render filter form
 	    $this->tpl->setCurrentBlock("filter");
 	    $this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
@@ -140,6 +132,14 @@ class ilPermissionGUI
 	    $this->tpl->setVariable("FILTER_NAME",'view');
 	    $this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
 	    $this->tpl->parseCurrentBlock();
+
+		// don't display table if no role in list
+		if ($this->num_roles < 1)
+		{
+			sendinfo($this->lng->txt("msg_no_roles_of_type"),false);
+			$this->__displayAddRoleForm();
+			return true;
+		}
 
 		$this->tpl->addBlockFile("PERM_PERMISSIONS", "permissions", "tpl.obj_perm_permissions.html");
 
