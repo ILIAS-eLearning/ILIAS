@@ -6488,3 +6488,9 @@ trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
 common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 content#:#cont_reference#:#Reference###04 09 2006 new variable
+crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
+grp#:#crs_add_grouping#:#Neue Mitgliedsschaft-Beschränkung
+grp#:#crs_grp_enter_title#:#Bitte füllen Sie alle notwendigen Felder aus.
+grp#:#crs_grp_added_grouping#:#Eine neue Mitgliedsschaft-Beschränkung wurde angelegt.
+grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedsschaft-Beschränkung entfernt werden soll ?
+grp#:#crs_grouping_deleted#:#Die Mitgliedsschaft-Beschränkung wurde gelöscht.
