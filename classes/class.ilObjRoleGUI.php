@@ -94,7 +94,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		// - administration -> roles -> role
 		if($this->ctrl->getTargetScript() == 'repository.php' ||
 			$this->ctrl->getTargetScript() == 'role.php' ||
+			$this->ctrl->getTargetScript() == 'sahs_edit.php' ||
+			$this->ctrl->getTargetScript() == 'chat.php' ||
+			$this->ctrl->getTargetScript() == 'link_resources.php' ||
 			strtolower($_GET["baseClass"]) == 'illmeditorgui' ||
+			strtolower($_GET["baseClass"]) == 'ilglossaryeditorgui' ||
 			$_GET["admin_mode"] == "repository")
 		{
 			$this->__prepareOutput();
