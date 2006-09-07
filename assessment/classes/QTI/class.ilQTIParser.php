@@ -1488,6 +1488,51 @@ class ilQTIParser extends ilSaxParser
 					}
 				}
 				break;
+			case "response_str":
+				if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0)
+				{
+					// test for non ILIAS generated question types
+					if (is_array($a_attribs))
+					{
+						foreach ($a_attribs as $attribute => $value)
+						{
+							switch (strtolower($attribute))
+							{
+								case "rcardinality":
+									include_once "./assessment/classes/QTI/class.ilQTIItem.php";
+									switch (strtolower($value))
+									{
+										case "single":
+											$this->founditems[count($this->founditems)-1]["type"] = QT_CLOZE;
+											break;
+										case "ordered":
+											$this->founditems[count($this->founditems)-1]["type"] = QT_TEXT;
+											break;
+									}
+									break;
+							}
+						}
+					}
+				}
+				break;
+			case "response_xy":
+				if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0)
+				{
+					$this->founditems[count($this->founditems)-1]["type"] = QT_IMAGEMAP;
+				}
+				break;
+			case "response_num":
+				if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0)
+				{
+					$this->founditems[count($this->founditems)-1]["type"] = QT_NUMERIC;
+				}
+				break;
+			case "response_grp":
+				if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0)
+				{
+					$this->founditems[count($this->founditems)-1]["type"] = QT_MATCHING;
+				}
+				break;
 			case "qticomment":
 				// check for "old" ILIAS qti format (not well formed)
 				$this->verifyqticomment = 1;
