@@ -431,3 +431,6 @@ wrong_password#:#Palavra-passe errada!###07 Apr 2005 content changed
 zip_path#:#Caminho para o Zip###07 Apr 2005 content changed
 zip_path_comment#:#necessário para exportar módulos de aprendizagem###07 Apr 2005 content changed
 zipcode#:#Código postal###14 Sep 2004 content changed
+lang_el#:#Greek###07 09 2006 new variable
+lang_ru#:#Russian###07 09 2006 new variable
+lang_vi#:#Vietnamese###07 09 2006 new variable

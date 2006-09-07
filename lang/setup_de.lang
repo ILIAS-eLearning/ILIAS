@@ -431,3 +431,6 @@ wrong_password#:#Falsches Passwort!
 zip_path#:#Zip-Befehlszeile
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zipcode#:#PLZ
+lang_el#:#Greek###07 09 2006 new variable
+lang_ru#:#Russian###07 09 2006 new variable
+lang_vi#:#Vietnamese###07 09 2006 new variable

@@ -427,3 +427,11 @@ wrong_password#:#Parulla është dhënë gabimisht!
 zip_path#:#Shtegu për Zip
 zip_path_comment#:#kërkohet për eksportim të moduleve mësimore
 zipcode#:#Kodi Postar
+collation#:#Collation###07 09 2006 new variable
+example#:#Example###07 09 2006 new variable
+info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###07 09 2006 new variable
+info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###07 09 2006 new variable
+installed_local#:#Installed With Local###07 09 2006 new variable
+lang_el#:#Greek###07 09 2006 new variable
+lang_ru#:#Russian###07 09 2006 new variable
+lang_vi#:#Vietnamese###07 09 2006 new variable

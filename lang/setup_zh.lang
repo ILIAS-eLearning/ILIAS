@@ -447,3 +447,6 @@ wrong_password#:#错误口令！ ###07 Apr 2005 content changed
 zip_path#:#Zip路径###07 Apr 2005 content changed
 zip_path_comment#:#用于导出学习模块###07 Apr 2005 content changed
 zipcode#:#邮政编码###14 Sep 2004 content changed
+lang_el#:#Greek###07 09 2006 new variable
+lang_ru#:#Russian###07 09 2006 new variable
+lang_vi#:#Vietnamese###07 09 2006 new variable

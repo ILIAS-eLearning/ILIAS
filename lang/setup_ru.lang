@@ -412,3 +412,27 @@ wrong_password#:#Ошибочный пароль!
 zip_path#:#Путь к Zip
 zip_path_comment#:#требуется для экспорта модулей обучения
 zipcode#:#Zip код
+3rdparty#:#3rd Party add-ons###07 09 2006 new variable
+check_failed_latex#:#Testing LaTeX CGI script failed###07 09 2006 new variable
+ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###07 09 2006 new variable
+db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###07 09 2006 new variable
+duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###07 09 2006 new variable
+info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###07 09 2006 new variable
+lang_el#:#Greek###07 09 2006 new variable
+lang_ru#:#Russian###07 09 2006 new variable
+lang_vi#:#Vietnamese###07 09 2006 new variable
+latex_url_comment#:#required for LaTeX support in ILIAS###07 09 2006 new variable
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###07 09 2006 new variable
+no_latex_url#:#No LaTeX CGI script URL given###07 09 2006 new variable
+setup_3rdparty_data#:#Setup third party add-ons###07 09 2006 new variable
+setup_process_step_3rdparty#:#Third party add-ons###07 09 2006 new variable
+status_3rdparty_false#:#3rd party add-ons missing###07 09 2006 new variable
+status_3rdparty_ok#:#3rd party add-ons installed###07 09 2006 new variable
+status_3rdparty_problems#:#3rd party add-ons problems###07 09 2006 new variable
+tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###07 09 2006 new variable
+tiny_nothing_to_do#:#The editor is installed, there is nothing to do###07 09 2006 new variable
+tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###07 09 2006 new variable
+tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###07 09 2006 new variable
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###07 09 2006 new variable
+unzip#:#Extract###07 09 2006 new variable
+url_to_latex#:#URL to LaTeX CGI script###07 09 2006 new variable

@@ -431,3 +431,7 @@ wrong_password#:#Parola incorecta!
 zip_path#:#Calea catre Zip
 zip_path_comment#:#necesara pentru exportul de module de invatare
 zipcode#:#Cod Zip
+installed_local#:#Installed With Local###07 09 2006 new variable
+lang_el#:#Greek###07 09 2006 new variable
+lang_ru#:#Russian###07 09 2006 new variable
+lang_vi#:#Vietnamese###07 09 2006 new variable
