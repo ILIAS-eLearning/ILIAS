@@ -3,7 +3,8 @@
 *
 * @module		language file lithuanian
 * @modulegroup		language
-* @author 		Arturas Kavaliauskas <rgb@soften.ktu.lt> 
+* @author 		Arturas Kavaliauskas <rgb@soften.ktu.lt>
+* @author 		Marius Gricius <marius.gricius@lka.lt>
 * @version		$Id$
 */
 
@@ -33,241 +34,242 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#3rd party software###28 Nov 2003 new variable
-3rdparty#:#3rd Party add-ons###10 Jul 2006 new variable
-absolute_path#:#Absolute path###21 Nov 2003 new variable
-access#:#Access###21 Nov 2003 new variable
-access_status#:#Access status###21 Nov 2003 new variable
-admin_login#:#Login as Administrator###05 Jan 2003 new variable
-antivir#:#AntiVir###18 Nov 2004 new variable
-available_clients#:#Available Clients###05 Jan 2003 new variable
-available_languages#:#galimos kalbos###07 Apr 2005 content changed
-back#:#atgal###07 Apr 2005 content changed
-cannot_create_datadir_no_write_access#:#No write access. Cannot create data directory###05 Jan 2003 new variable
-change#:#keisti###07 Apr 2005 content changed
-change_basic_settings#:#Change basic settings###21 Nov 2003 new variable
-change_password#:#Keisti slaptažodį###07 Apr 2005 content changed
-change_sort_direction#:#Change sort direction###05 Jan 2003 new variable
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
-check_failed_convert#:#Testing convert failed###05 Jan 2003 new variable
-check_failed_htmldoc#:#Testing HTMLdoc failed###05 Jan 2003 new variable
-check_failed_java#:#Testing java failed###05 Jan 2003 new variable
-check_failed_latex#:#Testing LaTeX CGI script failed###10 Jul 2006 new variable
-check_failed_unzip#:#Testing unzip failed###05 Jan 2003 new variable
-check_failed_zip#:#Testing zip failed###05 Jan 2003 new variable
-choose_language#:#pasirinkite kalbą###07 Apr 2005 content changed
-choose_languages#:#Pasirinkite papildomas kalbas ir/arba pašalinkite.###07 Apr 2005 content changed
-choose_password#:#Pasirinkite slaptažodį###07 Apr 2005 content changed
-city#:#City###21 Nov 2003 new variable
-clean_command#:#Clean Command###07 Jan 2005 new variable
-client#:#Client###05 Jan 2003 new variable
-client_access_mode_changed#:#Client's access mode changed###05 Jan 2003 new variablev
-client_data#:#Client Information###21 Nov 2003 new variable
-client_id#:#Client ID###21 Nov 2003 new variable
-client_info#:#Description###21 Nov 2003 new variable
-client_institution#:#Institution###21 Nov 2003 new variable
-client_login#:#Login with your Client ID###05 Jan 2003 new variable
-client_name#:#Name###21 Nov 2003 new variable
-client_setup_not_finished#:#Client setup is not finished yet###05 Jan 2003 new variable
-collation#:#Collation###23 Mar 2005 new variable
-contact#:#Contact Information###05 Jan 2003 new variable
-contact_data#:#Contact Information###21 Nov 2003 new variable
-convert_path#:#Path to Convert###21 Nov 2003 new variable
-convert_path_comment#:#required for displaying thumbnails of images###05 Jan 2003 new variable
-could_not_create_logfile#:#Could not create logfile###05 Jan 2003 new variable
-country#:#Country###21 Nov 2003 new variable
-create#:#create###28 Nov 2003 new variable
-create_datadir_failed#:#Creation of data directory failed###05 Jan 2003 new variable
-create_new_client#:#Create new client###21 Nov 2003 new variable
-create_webdir_failed#:#Creation of web directory failed###05 Jan 2003 new variable
-ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###10 Jul 2006 new variable
-ctrl_structure#:#Control Structure###03 Nov 2005 new variable
-ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###03 Nov 2005 new variable
-ctrl_structure_reloaded#:#Control Structure Reloaded.###03 Nov 2005 new variable
-data_path#:#duomenys saugomi (kelias)###07 Apr 2005 content changed
-database#:#duomenų bazė###07 Apr 2005 content changed
-database_create#:#Create database###21 Nov 2003 new variable
-database_exists#:#duomenų bazė jau yra###07 Apr 2005 content changed
-database_install#:#Install database###05 Jan 2003 new variable
-database_installed#:#Database installed###05 Jan 2003 new variable
-database_is_uptodate#:#Duomenų bazės struktūra tinkama###07 Apr 2005 content changed
-database_needs_update#:#Duomenų bazės struktūrą reikia atnaujinti###07 Apr 2005 content changed
-database_not_exists_create_first#:#Database does not exists. Please create database first.###05 Jan 2003 new variable
-database_ready#:#duomenų bazė paruošta.###07 Apr 2005 content changed
-database_update#:#atnaujinti duomenų bazės struktūrą###07 Apr 2005 content changed
-database_version#:#dabartinė duomenų bazės struktūros versija###07 Apr 2005 content changed
-datadir_path#:#Path to Data Directory###21 Nov 2003 new variable
-datadir_path_comment1#:#Mandatory###05 Jan 2003 new variable
-datadir_path_comment2#:#cannot be changed in this setup version###05 Jan 2003 new variable
-datadir_webspacedir_match#:#The path to your data directory points to the same directory where your webspace directory is located. Please choose another directory.###20 Dec 2003 new variable
-date#:#data###07 Apr 2005 content changed
-db_conn#:#Database connection###28 Nov 2003 new variable
-db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###10 Jul 2006 new variable
-db_host#:#duomenų bazės serveris###07 Apr 2005 content changed
-db_name#:#duomenų bazės vardas###07 Apr 2005 content changed
-db_needs_update#:#Database needs update###05 Jan 2003 new variable
-db_not_installed#:#Database not installed###01 Mar 2005 new variable
-db_pass#:#duomenų bazės slaptažodis###07 Apr 2005 content changed
-db_type#:#duomenų bazės tipas###07 Apr 2005 content changed
-db_user#:#duomenų bazės vartotojas###07 Apr 2005 content changed
-db_version#:#duomenų bazės struktūros versija###07 Apr 2005 content changed
-default#:#standartinis###07 Apr 2005 content changed
-default_client_changed#:#Changed default client###05 Jan 2003 new variable
-default_language#:#Default language###05 Jan 2003 new variable
-delete#:#šalinti###07 Apr 2005 content changed
-delete_confirm#:#Confirm client deletion###05 Jan 2003 new variable
-delete_info#:#Are you sure?###05 Jan 2003 new variable
-details#:#Details###21 Nov 2003 new variable
-dir_exists_create#:#Directory already exists. uncheck 'create' to select this directory as your data directory###05 Jan 2003 new variable
-disable#:#disable###05 Jan 2003 new variable
-disable_check#:#disable check###05 Jan 2003 new variable
-disable_logging#:#disable logging###28 Nov 2003 new variable
-disabled#:#disabled###28 Nov 2003 new variable
-display_clientlist#:#Display client selection###05 Jan 2003 new variable
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
-email#:#Email###21 Nov 2003 new variable
-email_not_valid#:#Email is not valid###21 Nov 2003 new variable
-en_by_default#:#(Anglų kalbos pašalinti negalima).###07 Apr 2005 content changed
-enable#:#enable###05 Jan 2003 new variable
-enabled#:#enabled###05 Jan 2003 new variable
-enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
-enter_password#:#Prašom įvesti slaptažodį###07 Apr 2005 content changed
-env_ok#:#Taigi, viskas atrodo teisingai.###07 Apr 2005 content changed
-env_using#:#ILIAS 3 veiks ant###07 Apr 2005 content changed
-env_warning#:#ILIAS 3 veikimas patikrintas tik ant GNU/Linux ir MS Windows naudojant Apache serverį!<br />Gali būti, ILIAS 3 sėkmingai veiks ir kitokiose aplinkose.###07 Apr 2005 content changed
-environment#:#Aplinka###07 Apr 2005 content changed
-err_create_database_failed#:#sukurti duomenų bazę nepavyko###07 Apr 2005 content changed
-err_wrong_login#:#Neteisingas prisijungimas###07 Apr 2005 content changed
-error_recipient#:#Error recipient###05 Jan 2003 new variable
-example#:#Example###23 Mar 2005 new variable
-feedback_recipient#:#Feedback recipient###05 Jan 2003 new variable
-file_does_not_exist#:#Byla neegzistuoja.###07 Apr 2005 content changed
-file_version#:#bylos versija###07 Apr 2005 content changed
-fill_both_fields#:#Prašom užpildyti abu laukelius!###07 Apr 2005 content changed
-fill_out_required_fields#:#Please fill out all fields marked as required.###05 Jan 2003 new variable
-filled_out#:#filled out correctly###05 Jan 2003 new variable
-finish#:#Finish setup###21 Nov 2003 new variable
+3rd_party_software#:#3-ios šalie programa
+3rdparty#:#3-ios Šalies priedai
+absolute_path#:#Absoliutus kelias
+access#:#Prieiga
+access_status#:#Prieigos statusas
+admin_login#:#Prisijungti kaip Administratorius
+antivir#:#AntiVir
+available_clients#:#Esami Klientai
+available_languages#:#galimos kalbos
+back#:#atgal
+cannot_create_datadir_no_write_access#:#Negalima rašyti. Negalime sukurti duomenų katalogo
+change#:#Keisti
+change_basic_settings#:#Keisti pradinius nustatymus
+change_password#:#Keisti slaptažodį
+change_sort_direction#:#Keisti rūšiavimo kryptį
+check_db_versions#:#Įsitikinkite, kad ILIAS nustatyta DB versija atitinka jūsų MySQL versiją. Paprastai tai padaroma gerai. Jei ne, jūsų DB versija nepalaikoma.<br> Pavyzdys 1: Jei nustatyta 'MySQL 4.1.x ar aukštesnė', o jūsų DB versija yra '4.0.12', tuomet ši MySQL versija nepalaikoma. Susisiekite su ILIAS komanda.<br />Pavyzdys 2: Jei nustatyta 'MySQL 4.1.x ar aukštesnė', o jūsų DB versija  yra '4.1.14', tuomet viskas yra gerai.
+check_failed_convert#:#'Convert' testas nepavyko
+check_failed_htmldoc#:#'FOP' testas nepavyko
+check_failed_htmldoc#:#'HTMLdoc' testas nepavyko
+check_failed_java#:#'java' testas nepavyko
+check_failed_latex#:#'LaTeX CGI' skripto testas nepavyko
+check_failed_unzip#:#'unzip' testas nepavyko
+check_failed_zip#:#'zip' testas nepavyko
+choose_language#:#Pasirinkite kalbą
+choose_languages#:#Pasirinkite papildomas kalbas ir/arba pašalinkite.
+choose_password#:#Pasirinkite slaptažodį
+city#:#Miestas, Rajonas
+clean_command#:#Išvalyti Komandą
+client#:#Klientas
+client_access_mode_changed#:#Kliento priegos būdas pasikeitė
+client_data#:#Kliento Informacija
+client_id#:#Kliento ID
+client_info#:#Apibūdinimas###21 Nov 2003 new variable
+client_institution#:#Institucija
+client_login#:#Prisijungti su savo Kliento ID
+client_name#:#Pavadinimas
+client_setup_not_finished#:#Kliento įdiegimas nebaigtas
+collation#:#Palyginimas
+contact#:#Kontaktinė Informacija
+contact_data#:#Kontaktinė Informacija
+convert_path#:#Kelias iki Convert
+convert_path_comment#:#būtina paveiksliukų miniatiūrų rodymui
+could_not_create_logfile#:#Negalima sukurti logfailo
+country#:#Šalis
+create#:#sukurti
+create_datadir_failed#:#Duomenų katalogo sukūrimas nepavyko
+create_new_client#:#Sukurti naują klientą
+create_webdir_failed#:#Web katalogo sukūrimas nepavyko
+ctrl_missing_desc#:#Kontrolinė Struktūra Nerasta. Paspauskite 'Perkrauti'.
+ctrl_structure#:#Kontrolinė Struktūra
+ctrl_structure_desc#:#Nesinaudokite šia funkcija, nebent  bus nurodyta atnaujinimo ar pataisymų diegimo metu
+ctrl_structure_reloaded#:#Kontrol Struktūra Perkrauta
+data_path#:#duomenų kelias
+database#:#duomenų bazė
+database_create#:#Sukurti duomenų bazę
+database_exists#:#duomenų bazė jau yra
+database_install#:#Įdiegti duomenų bazę
+database_installed#:#Duomenų bazė įdiegta
+database_is_uptodate#:#Duomenų bazės struktūra tinkama
+database_needs_update#:#Duomenų bazės struktūrą reikia atnaujinti
+database_not_exists_create_first#:#Duomenų bazė neegzistuoja. Pirma sukurkite duomenų bazę.
+database_ready#:#duomenų bazė paruošta.
+database_update#:#atnaujinti duomenų bazės struktūrą#
+database_version#:#dabartinė duomenų bazės struktūros versija
+datadir_path#:#Kelias iki Duomenų Katalogo
+datadir_path_comment1#:#Privaloma
+datadir_path_comment2#:#šioje diegimo versijoje nekeistina
+datadir_webspacedir_match#:#Kelias iki duomenų katalogo yra tas pats kaip iki web katalogo. Pasirinkite kitą katalogą.
+date#:#data
+db_conn#:#Duomenų bazės jungtis
+db_control_structure_missing#:#Kontrolinė Struktūra Nerasta (Žiūrėti 'Detaliau' -> 'Įrankiai')
+db_host#:#duomenų bazės serveris
+db_name#:#duomenų bazės pavadinimas
+db_needs_update#:#Duomenų bazei reikalingas atnaujinimas
+db_not_installed#:#Duomenų bazė neįdiegta
+db_pass#:#duomenų bazės slaptažodis
+db_type#:#duomenų bazės tipas
+db_user#:#duomenų bazės vartotojas
+db_version#:#duomenų bazės struktūros versija
+default#:#standartinis
+default_client_changed#:#Pakeistas pagrindinis klientas
+default_language#:#Pagrindinė kalba
+delete#:#šalinti
+delete_confirm#:#Patvirtinti kliento pašalinimą
+delete_info#:#Ar tikrai?
+details#:#Detaliau
+dir_exists_create#:#Katalogas jau yra. Norėdami pasirinkti šį katalogą duomenims saugoti, nuimkite žymę 'sukurti'
+disable#:#išjungti
+disable_check#:#išjungti patikrinimą
+disable_logging#:#išjungti įvykių registravimą
+disabled#:#išjungta
+display_clientlist#:#Rodyti klientų parinktį
+duplicate_ctrl#:#Klaida: Rastas dubliuotas užklausos struktūros apibrėžimas (Klasė %s) failuose:<br /><br />- %s<br />- %s<br /><br />Plpašalinkite failą, kuris nepriklauso oficialiam ILIAS paketui.<br />Po to, sužadinkite 'Įrankiai' -> 'Perkrauti Kontrolės Struktūrą' ILIAS Diegime.
+email#:#El.paštas
+email_not_valid#:#El.paštas netinkamas
+en_by_default#:#(Anglų kalbos pašalinti negalima).
+enable#:#įjungti
+enabled#:#įjungta
+enter_dir_and_filename#:#Įrašykite pilną (absoliutų) kelią ir failo pavadinimą!
+enter_password#:#Prašom įvesti slaptažodį
+env_ok#:#Taigi, viskas atrodo teisingai.
+env_using#:#ILIAS 3 veiks ant
+env_warning#:#ILIAS 3 veikimas patikrintas tik ant GNU/Linux ir MS Windows naudojant Apache serverį!<br />Gali būti, ILIAS 3 sėkmingai veiks ir kitokiose aplinkose.
+environment#:#Aplinka
+err_create_database_failed#:#sukurti duomenų bazę nepavyko
+err_wrong_login#:#Neteisingas prisijungimas
+error_recipient#:#Klaidos gavėjas
+example#:#Pavyzdys
+feedback_recipient#:#Atsiliepimų gavėjas
+file_does_not_exist#:#Byla neegzistuoja.
+file_version#:#bylos versija
+fill_both_fields#:#Prašom užpildyti abu laukelius!
+fill_out_required_fields#:#Užpildykite visus laukelius, pažymėtus žvaigždute.
+filled_out#:#užpildyta teisingai
+finish#:#Baigti diegimą
 finish_initial_setup_first#:#Please finish intial setup first###05 Jan 2003 new variable
-finish_setup#:#Finishing setup###21 Nov 2003 new variable
-firstname#:#Firstname###21 Nov 2003 new variable
-fop_path#:#Path to FOP###26 May 2004 new variable
-fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
-hide_clientlist#:#Hide client selection###05 Jan 2003 new variable
-host#:#Host###21 Nov 2003 new variable
-htmldoc_path#:#Path to HTMLdoc###21 Nov 2003 new variable
-htmldoc_path_comment#:#required to generate PDF billings (Paymentsystem)###05 Jan 2003 new variable
-http_path#:#HTTP path###21 Nov 2003 new variable
-id#:#ID###21 Nov 2003 new variabl
-ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
-ilias_homepage#:#ILIAS Homepage###05 Jan 2003 new variable
-ilias_nic#:#NIC Registration###21 Nov 2003 new variable
-ilias_nic_id#:#NIC ID###21 Nov 2003 new variable
-ilias_setup#:#ILIAS3 setup###21 Nov 2003 new variable
-ilias_version#:#ILIAS versija###07 Apr 2005 content changed
-include_local#:#include local###include local language file when updating language
-info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
-info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asteriks must be filled out. All informationen are stored in your database. On the next screen you may register your installation at our ILIAS-NIC server, whereby this data are transmitted to this server.###05 Jan 2003 new variable
-info_text_db#:#The database doesn't exists or is empty. Click the button below to install your database. If a database with the chosen name doesn't exists yet, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail, (e.g. due to restricted access permissions) please contact the responsible systemadministrator of the database server and ask him to create you a database with desired name in advanced.###05 Jan 2003 new variable
-info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
+finish_setup#:#Diegimas baigiamas
+firstname#:#Vardas
+fop_path#:#Kelias iki FOP
+fop_path_comment#:#būtinas PDF documentų generavimui
+hide_clientlist#:#Slėpti klientų parinktį
+host#:#Serveris
+htmldoc_path#:#Kelias iki HTMLdoc
+htmldoc_path_comment#:#butinas PDF sąskaitų generavimui (Mokėjimo sistema)
+http_path#:#HTTP kelias
+id#:#ID
+ilias_db_mode#:#ILIAS duomenų bazės būsena
+ilias_homepage#:#ILIAS Svetainė
+ilias_nic#:#NIC Registracija
+ilias_nic_id#:#NIC ID
+ilias_setup#:#ILIAS3 diegimas
+ilias_version#:#ILIAS versija
+include_local#:#įterpti lokalų kalbos failą atnaujinant kalbą
+info_text_3rdparty#:#Čia jūs diegsite 3-ių šalių priedus, būtinus ILIAS. Norėdami užbaigti šį žingsnį, sekite kiekvieno priedo diegimo informacija.
+info_text_contact#:#Čia nurodoma papildoma kliento informacija ir šio kliento administratoriaus kontaktiniai duomenys. Žvaigždute pažymėti laukeliai yra privalomi. Visa informacija saugoma duomenų bazėje. Sekančiame žingsnyje, galėsite savo instaliaciją užregistruoti mūsų ILIAS-NIC serveryje.
+info_text_db#:#Duomenų bazės nėra arba ji tuščia. Norėdami įdiegti duomenų bazę, paspauskite žemiau esantį mygtuką. Jei nurodytu pavadinimu duomenų bazės nėra, pažymėkite parinktį 'sukurti duomenų bazę'. Diegimo vedlys pamėgins sukurti duomenų bazę automatiškai. Jei bandymas sukurti nepavyktų (pvz., dėl leidimų apribojimo), susisiekite su duomenų bazės administratoriumi ir paprašykite, kad duomenų bazė nurodytu pavadinimu būtų sukurta iš anksto.
+info_text_db_collation1#:#Jei pasirinktas palyginimas nepalaikomas UTF-8 rūšiavimų sąraše, turite sukurti savo duomenų bazę rankiniu būdu taip pat. Bet kokiu atveju, įsitikinkite, kad simbolių parinktis duomenų bazėje yra nurodyta utf8.
 info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
-info_text_delete#:#You may delete this client by clicking on the delete button below. However, only your client.ini file is removed, keeping all files stored in clients data directories and the database. Files and database have to be removed manually by the system's administrator.###05 Jan 2003 new variable
-info_text_finish1#:#Congratulations! Your client setup were successful. Click on 'Login' to enter your ILIAS installation.###05 Jan 2003 new variable
-info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!###05 Jan 2003 new variable
-info_text_first_client#:#Your basic settings have been saved. Now we will setup your first client. Setup will guide you through the installation process. On the panel to the right you can always see the current status of the installation process.###05 Jan 2003 new variable
-info_text_first_install#:#It seems that you install ILIAS3 for the very first time, because no ilias.ini was found. In ilias.ini we store a master password to protect ILIAS setup from unauthorized access.###05 Jan 2003 new variable
-info_text_ini#:#Please choose a client ID. Allowed are any letter (execpt umlauts) and number. The client ID must be in one word.<br/>Next you enter your database connection data. Setup establishes a test connection to verify your settings and to test if the already database exists. If not, you may prompt Setup in the next installation step to create the database for you.###05 Jan 2003 new variable
-info_text_lang#:#Please choose additional languages and/or remove selected languages.###28 Nov 2003 new variable
-info_text_list#:#In this overview you see all available clients and there setup and access status. On the top right you may toggle the client selection screen on/off. If client selection is on, all available clients that are online will be displayed in a list on the start page of ILIAS. If client selection is turned off and a user hit the startpage, always the login screen of the <i>default</i> client is displayed. You may determine the default client with the button below.###05 Jan 2003 new variable
-info_text_login#:#Please enter the Client ID of your Installation and your account data. Your account has to be assigned to the 'administrator'-role.###05 Jan 2003 new variable
-info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations.<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please click this###28 Nov 2003 new variable
-info_text_nic2#:#with your installation infos to ilias-info@uni-koeln.de. Enter the nic-id you will receive in an response email into the appropiate field and select 'register via Email'.###05 Jan 2003 new variable
-info_text_nic3#:#You registered your installation. Your nic-id is###05 Jan 2003 new variable
-info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas###28 Nov 2003 new variable
-info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the pathes to 3rd party programs. These settings are valid for all clients you create later on.###28 Nov 2003 new variable
-ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.###05 Jan 2003 new variable
-ini_client_id_invalid#:#The client ID you entered contains invalid characers###05 Jan 2003 new variable
-ini_client_id_no_change#:#Client Id cannot be changed in this version after client directories has been created successfully.###28 Nov 2003 new variable
-ini_client_id_too_long#:#Client Id too long.###28 Nov 2003 new variable
-ini_client_id_too_short#:#Client ID too short###05 Jan 2003 new variable
-ini_db_name_exists#:#already exists! Please choose another database name###05 Jan 2003 new variable
-ini_no_client_id#:#No client ID given.###28 Nov 2003 new variable
-ini_no_db_host#:#No hostname###28 Nov 2003 new variable
-ini_no_db_name#:#no database name###05 Jan 2003 new variable
-ini_no_db_user#:#No database username###05 Jan 2003 new variable
-inifile#:#nustatymų byla###07 Apr 2005 content changed
-inifile_can_write#:#ILIAS 3 diegimo programa gali sukurti nustatymų bylą.###07 Apr 2005 content changed
-inifile_cannot_write#:#ILIAS 3 diegimo programa negali sukurti nustatymų bylos. Patikrinkite, ar pakankamos teisės į bylą.###07 Apr 2005 content changed
-inifile_content#:#Nustatymų bylos turinys:###07 Apr 2005 content changed
-inifile_exists#:#Nustatymų byla jau egzistuoja. Atkreipkite dėmesį, kad nauji nustatymai sunaikins senus.###07 Apr 2005 content changed
-inifile_fill_all#:#Prašom užpildyti visus laukelius!###07 Apr 2005 content changed
-inifile_firsttime#:#Nustatymų byla nerasta! Matomai, tai pirmas Jūsų ILIAS 3 startas.###07 Apr 2005 content changed
-inifile_written#:#Nustatymų byla sėkmingai sukurta.###07 Apr 2005 content changed
-input_error#:#Input error###21 Nov 2003 new variable
-inst_identification#:#Installation Identification###05 Jan 2003 new variable
-inst_name#:#diegimo vardas###07 Apr 2005 content changed
-install#:#įdiegti###07 Apr 2005 content changed
-installation#:#Instaliacija###07 Apr 2005 content changed
-installed#:#įdiegta###07 Apr 2005 content changed
-installed_local#:#Installed With Local###13 Apr 2005 new variable
-institution#:#Institution###21 Nov 2003 new variable
-intro_install#:#Tai pagrindinis ILIAS 3 diegimo programos puslapis. Iš čia Jūs galite vykdyti diegimo/atnaujinimo darbus.###07 Apr 2005 content changed
-ip_address#:#IP address###21 Nov 2003 new variable
-java_path#:#Path to Java###21 Nov 2003 new variable
-java_path_comment#:#required for SCORM Learning modules###05 Jan 2003 new variable
-lang_bg#:#Bulgarian###03 Nov 2005 new variable
-lang_cs#:#Czech###09 Mar 2004 new variable
-lang_da#:#Danish###01 Mar 2005 new variable
-lang_de#:#Vokiečių###07 Apr 2005 content changed
-lang_en#:#Anglų###07 Apr 2005 content changed
-lang_error_occurred#:#Įvyko klaida. Darbas nutraukiamas.###07 Apr 2005 content changed
-lang_es#:#Ispanų###07 Apr 2005 content changed
-lang_fr#:#Prancūzų###07 Apr 2005 content changed
-lang_hu#:#Hungarian###01 Mar 2005 new variable
-lang_id#:#Indoneziečių###07 Apr 2005 content changed
-lang_it#:#Italų###07 Apr 2005 content changed
-lang_lt#:#Lietuvių###07 Apr 2005 content changed
-lang_min_one_language#:#You must install at least one language!###05 Jan 2003 new variable
-lang_nl#:#Dutch###20 Dec 2003 new variable
-lang_no#:#Norvegų###07 Apr 2005 content changed
-lang_none_installed#:#No language installed###28 Nov 2003 new variable
-lang_not_installed_default#:#The language you selected as defualt language is not installed!###05 Jan 2003 new variable
-lang_pl#:#Lenkų###07 Apr 2005 content changed
-lang_pt#:#Portuguese###09 Mar 2004 new variable
-lang_ro#:#Romanian###19 May 2005 new variable
-lang_se#:#Švedų###07 Apr 2005 content changed
-lang_sq#:#Albanian###19 May 2005 new variable
-lang_sr#:#Serbian###19 May 2005 new variable
-lang_uk#:#Ukrainian###15 Jan 2004 new variable
-lang_xx#:#(kita)###07 Apr 2005 content changed
-lang_zh#:#Chinese###05 Jan 2003 new variable
-langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files###05 Jan 2003 new variable
-language#:#kalba###07 Apr 2005 content changed
-languages#:#kalbos###07 Apr 2005 content changed
-languages_installed#:#Įdiegtos kalbos.###28 Nov 2003 content changed
-lastname#:#Lastname###21 Nov 2003 new variable
-latex_url_comment#:#required for LaTeX support in ILIAS###10 Jul 2006 new variable
-list#:#list###05 Jan 2003 new variable
-list_disabled#:#Client selection disabled###05 Jan 2003 new variable
-list_enabled#:#Client selection enabled###05 Jan 2003 new variable
-log_path#:#Path to Logfile###21 Nov 2003 new variable
-log_path_comment#:#enter with filename. File will be created.###28 Nov 2003 new variable
-logged_out#:#Jūsų autentifikuota sesija užbaigta.###07 Apr 2005 content changed
-logging#:#Logging###21 Nov 2003 new variable
-login#:#autentifikacija###07 Apr 2005 content changed
-login_invalid#:#Login invalid###05 Jan 2003 new variable
-login_to_ilias#:#prisijungti prie ILIAS###07 Apr 2005 content changed
-logout#:#užbaigti autentifikuotą sesiją###07 Apr 2005 content changed
-main_datadir_outside_webspace#:#Main data directory outside webspace###05 Jan 2003 new variable
-missing_data#:#Missing data###05 Jan 2003 new variable
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###20 Jun 2005 new variable
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 Jun 2005 new variable
-name#:#Name###21 Nov 2003 new variable
-new#:#new###28 Nov 2003 new variable
-next#:#Next###21 Nov 2003 new variable
-nic_not_disabled#:#No NIC-ID & not disabled###05 Jan 2003 new variable
-nic_reg_disable#:#skip NIC registration###05 Jan 2003 new variable
-nic_reg_disable_comment#:#(register later)###05 Jan 2003 new variable
-nic_reg_disabled#:#NIC registration disabled###28 Nov 2003 new variable
+info_text_delete#:#Galite pašalinti šį klientą paspausdami šalinimo mygtuką. Tačiau yra pašalinama tik jūsų client.ini byla, išsaugant visus failus kliento duomenų kataloge ir duomenų bazę. Jie turi būti pašalinti administratoriaus rankiniu būdu.
+info_text_finish1#:#Sveikiname! Jūsų klientas įdiegtas sėkmingai. Norėdami įeiti į ILIAS, paspauskite 'Prisijungti'.
+info_text_finish2#:#Kai kurių nustatymų trūksta arba jie neteisingi. Pažiūrėkite į ptoceso shcemą ką reikia padaryti!
+info_text_first_client#:#Jūsų pagrindiniai nustatymai buvo išsaugoti. Dabar jūs įdiegsite pirmą klientą. Diegimo vedlys nurodys ką daryti. Dešinėje pusėje visada matysite diegimo statusą.
+info_text_first_install#:#Atrodo, kad diegiate ILIAS3 pirmą kartą, kadangi neradomeilias.ini failo. Šiame faile mes saugome pagrindinį slaptažodį ILIAS diegimo apsaugai.
+info_text_ini#:#Pasirinkite Kliento ID. Galimos raidės (išskyrus umlauts) ir skaičiai. Kliento ID turi būti viename žodyje. <br/>Toliau įveskite duomenų bazės prisijungimo duomenis. Vedlys užmegs bandomąjį ryšį ir patikrins ar tokia duomenų bazė egzistuoja. Jei ne, bus bus pasiūlyta jums sukurti duomenų bazę automatiškai
+info_text_lang#:#Pasirinkite papildomą kalbą ir/ar pašalinkite pasirinktas.
+info_text_list#:#Šiame lange matote visus klientus ir jų instaliacijas bei prieigos statusą. Dešinėje viršuje galite perjungti klientų pasirinkimo meniu. Jei klientų pasirinkimo meniu yra įjungtas, visi veikiantys klientai bus rodomi ILIAS pradiniame puslapyje. Jei klientų pasirinkimo meniu yra išjungtas, visada rodomas <i>pagrindinis</i> klientas. Pagrindinį klientą galite sužinoti mygtuko pagalba.
+info_text_login#:#Nurodykite jūsų Instaliacijos Kliento ID ir jūsų paskyros duomenis. Jūsų paskyra turi būti susieta su administratoriaus role.
+info_text_nic1#:#Gauti instaliacijos id (nic-id) iš mūsų ILIAS serverio. Unikalus nic-id yra būtinas norint dalintis turiniu su kitomis ILIAS instaliacijomis.<br/> Rekomenduojame naudoti online registraciją. Jei turite problemų su jungiamumu (pvz. esate už ugniasienės), galite gauti nic-id elektroniniu paštu: Paspauskite
+info_text_nic2#:#su instaliacijos informacija į ilias-info@uni-koeln.de. Nurodykite nic-id, kurį gausite atsakyme į nurodytą laukelį ir pasirinkite 'registruotis El.paštu'.
+info_text_nic3#:#Jūs užregistravote savo instaliaciją. Jūsų nic-id yra
+info_text_password#:#Čia galite pakeisti pagrindinį diegimo vedlio slaptažodį.
+info_text_pathes#:#ILIAS3 palaiko daug klientų su įvairiomis duomenų bazėmis. Žemiau jūs nurodysite pagrindinį duomenų katalogą, log failo vietą ir kelius iki 3-ių šalų programų. Šie nustatymai bus taikomi visiems vėliau sukurtiems klientams.
+ini_client_id_exists#:#Klientas su šiuo ID jau yra! Pasirinkite kitą kliento ID.
+ini_client_id_invalid#:#Nurodytas kliento ID turi netinkamų simbolių
+ini_client_id_no_change#:#Šioje versijoje, sėkmingai sukūrus kliento katalogus, kliento Id negali būti keičiamas.
+ini_client_id_too_long#:#Kliento Id pernelyg ilgas.
+ini_client_id_too_short#:#Kliento ID pernelyg trumpas.
+ini_db_name_exists#:#jau egzistuoja! Pasirinkite kitą duomenų bazės pavadinimą
+ini_no_client_id#:#Nenurodytas kliento ID.
+ini_no_db_host#:#Nenurodytas serveris
+ini_no_db_name#:#nenurodytas duomenų bazės pavadinimas
+ini_no_db_user#:#nenurodytas duomenų bazės vartotojas
+inifile#:#nustatymų byla
+inifile_can_write#:#ILIAS 3 diegimo vedlys gali sukurti nustatymų bylą.
+inifile_cannot_write#:#ILIAS 3 diegimo vedlys negali sukurti nustatymų bylos. Patikrinkite, ar pakankamos teisės į bylą.
+inifile_content#:#Nustatymų bylos turinys:
+inifile_exists#:#Nustatymų byla jau egzistuoja. Atkreipkite dėmesį, kad nauji nustatymai sunaikins senus.
+inifile_fill_all#:#Prašom užpildyti visus laukelius!
+inifile_firsttime#:#Nustatymų byla nerasta! Matomai, tai pirmas Jūsų ILIAS 3 startas.
+inifile_written#:#Nustatymų byla sėkmingai sukurta.
+input_error#:#Įvesties klaida
+inst_identification#:#Instaliacijos Identifikacija
+inst_name#:#diegimo pavadinimas
+install#:#įdiegti
+installation#:#Instaliacija
+installed#:#įdiegta
+installed_local#:#Įdiegta Su Lokaliu
+institution#:#Institucija
+intro_install#:#Tai pagrindinis ILIAS 3 diegimo programos puslapis. Iš čia Jūs galite vykdyti diegimo/atnaujinimo darbus.
+ip_address#:#IP adresas
+java_path#:#Kelias iki Java
+java_path_comment#:#būtina SCORM Mokymo moduliams
+lang_bg#:#Bulgarų
+lang_cs#:#Čekų
+lang_da#:#Danų
+lang_de#:#Vokiečių
+lang_en#:#Anglų
+lang_error_occurred#:#Įvyko klaida. Darbas nutraukiamas.
+lang_es#:#Ispanų
+lang_fr#:#Prancūzų
+lang_hu#:#Vengrų
+lang_id#:#Indoneziečių
+lang_it#:#Italų
+lang_lt#:#Lietuvių
+lang_min_one_language#:#Privalote įdiegti bent vieną kalbą!
+lang_nl#:#Olandų
+lang_no#:#Norvegų
+lang_none_installed#:#Nėra instaliuotų kalbų
+lang_not_installed_default#:#Jūsų pasirinkta kalba kaip pagrindinė - neįdiegta!
+lang_pl#:#Lenkų
+lang_pt#:#Portugalų
+lang_ro#:#Rumunų
+lang_se#:#Švedų
+lang_sq#:#Albanų
+lang_sr#:#Serbų
+lang_uk#:#Ukrainiečių
+lang_xx#:#(kita)
+lang_zh#:#Kinų
+langs_not_valid_not_installed#:#Šios kalbos neįdiegtos dėl nesuderinamų kalbos failų
+language#:#kalba
+languages#:#kalbos
+languages_installed#:#Įdiegtos kalbos.
+lastname#:#Pavardė
+latex_url_comment#:#būtina LaTeX palaikymui ILIAS sistemoje
+list#:#sąrašas
+list_disabled#:#Klientų parinktis išjungta
+list_enabled#:#Klientų parinktis įjungta
+log_path#:#Kelias iki Log failo
+log_path_comment#:#įveskite su failo pavadinimu. Failas bus sukurtas.
+logged_out#:#Jūsų autentifikuota sesija užbaigta.
+logging#:#Loginimas
+login#:#autentifikacija
+login_invalid#:#Prisijungimas netinkamas
+login_to_ilias#:#prisijungti prie ILIAS
+logout#:#atsijungti
+main_datadir_outside_webspace#:#Pagrindinis duomenų katalogas už web katalogo ribų
+missing_data#:#Trūkstami duomenys
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x ar žememiau
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x ar aukščiau
+name#:#Vardas
+new#:#naujas
+next#:#Toliau
+nic_not_disabled#:#Nėra NIC-ID ir neišjungta
+nic_reg_disable#:#praleisti NIC registraciją
+nic_reg_disable_comment#:#(registruoti vėliau)
+nic_reg_disabled#:#NIC registracija išjungta
 nic_reg_email#:#register via Email###28 Nov 2003 new variable
 nic_reg_enabled#:#NIC registration enabled!###05 Jan 2003 new variable
 nic_reg_enter_checksum#:#Enter sent checksum###05 Jan 2003 new variable
@@ -277,157 +279,157 @@ nic_reg_failed#:#NIC registration failed###28 Nov 2003 new variable
 nic_reg_online#:#register online###05 Jan 2003 new variable
 nic_registration#:#NIC Registration###21 Nov 2003 new variable
 no_changes#:#Jokių pakeitimų.###07 Apr 2005 content changed
-no_client_id#:#No Client ID given###05 Jan 2003 new variable
-no_client_name#:#NO CLIENT NAME###05 Jan 2003 new variable
-no_clients_available#:#No Clients available###05 Jan 2003 new variable
-no_database#:#No database###28 Nov 2003 new variable
-no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator###28 Nov 2003 new variable
-no_db_update_file#:#dbupdate.php byla nerasta!###07 Apr 2005 content changed
-no_latex_url#:#No LaTeX CGI script URL given###10 Jul 2006 new variable
-no_password#:#No password given###05 Jan 2003 new variable
-no_path_convert#:#No convert path given###05 Jan 2003 new variable
-no_path_datadir#:#No data directory given###05 Jan 2003 new variable
-no_path_fop#:#No FOP path given###26 May 2004 new variable
-no_path_given#:#No path given###05 Jan 2003 new variable
-no_path_htmldoc#:#No HTMLdoc path given###05 Jan 2003 new variable
-no_path_java#:#No java path given###05 Jan 2003 new variable
-no_path_log#:#No log path given###05 Jan 2003 new variable
-no_path_unzip#:#No unzip path given###05 Jan 2003 new variable
-no_path_zip#:#No zip path given###05 Jan 2003 new variable
-no_setup_pass_given#:#No setup password given###05 Jan 2003 new variable
-no_username#:#No username given###28 Nov 2003 new variable
-no_valid_client_id#:#No valid client ID###05 Jan 2003 new variable
-none#:#None###18 Nov 2004 new variable
-not_connected_to_db#:#Nėra ryšio su duomenų baze.###07 Apr 2005 content changed
-online#:#online###05 Jan 2003 new variable
-or#:#or###05 Jan 2003 new variable
-out_of_webspace#:#(vietos stygius)###14 Sep 2004 content changed
-overall_status#:#Overall status###05 Jan 2003 new variable
-overview#:#Overview###21 Nov 2003 new variable
-pass_does_not_match#:#Entered passwords does not match###05 Jan 2003 new variable
-password#:#slaptažodis###07 Apr 2005 content changed
-password_changed#:#Slaptažodis pakeistas.###07 Apr 2005 content changed
-password_empty#:#Tuščias slaptažodis!###07 Apr 2005 content changed
-password_enter_old#:#You must enter your old password first!###05 Jan 2003 new variable
-password_info#:#Siekiant apsaugoti nustatymų duomenis nuo pašalinių, Jums reikėtų slaptažodžiu apriboti priėjimą prie ILIAS 3 diegimo programos.###28 Nov 2003 content changed
-password_new_master#:#Set new master password###28 Nov 2003 new variable
-password_not_match#:#New Password entered does not match!###05 Jan 2003 new variable
-password_old_wrong#:#Old password entered is wrong!###05 Jan 2003 new variable
-password_retype#:#Retype new password###28 Nov 2003 new variable
-password_same#:#Old and new password are the same!###28 Nov 2003 new variable
-password_set#:#Slaptažodis išsaugotas.###07 Apr 2005 content changed
-path_not_set#:#Path not set###28 Nov 2003 new variable
-path_to_convert#:#Path to Convert###21 Nov 2003 new variable
-path_to_fop#:#Path to FOP###26 May 2004 new variable
-path_to_htmldoc#:#Path to HTMLdoc###21 Nov 2003 new variable
-path_to_java#:#Path to Java###21 Nov 2003 new variable
-path_to_unzip#:#Path to Unzip###21 Nov 2003 new variable
-path_to_zip#:#Path to Zip###21 Nov 2003 new variable
-pathes#:#Pathes###28 Nov 2003 new variable
-phone#:#Phone###21 Nov 2003 new variable
-port#:#port###21 Nov 2003 new variable
-position#:#Position###21 Nov 2003 new variable
-pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS 3.###05 Jan 2003 new variable
-pre_cookies_enabled#:#Cookies enabled###28 Nov 2003 new variable
-pre_error#:#Ne visi minimalūs sistemos reikalavimai įvykdyti. Išpildykite reikalavimus, kitaip ILIAS 3 sistemos diegimo tęsti nepavyks.###07 Apr 2005 content changed
-pre_folder_create#:#ILIAS 3 kataloge sukurti naujus pakatalogius galima###07 Apr 2005 content changed
-pre_folder_create_error#:#Cannot create subfolders! Please check your permission settings in your filesystem!###05 Jan 2003 new variable
-pre_folder_write#:#ILIAS 3 kataloge rašyti galima###07 Apr 2005 content changed
-pre_folder_write_error#:#Cannot write in ILIAS 3 folder! Please check your permission settings in your filesystem!###05 Jan 2003 new variable
-pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS 3 sistemos reikalavimai išpildyti.###14 Sep 2004 content changed
-pre_javascript_comment#:#You may run ILIAS without Javascript but you will miss some interface features.###12 Dec 2003 new variable
-pre_javascript_enabled#:#Javascript enabled###28 Nov 2003 new variable
-pre_php_version#:#PHP versija###07 Apr 2005 content changed
-pre_php_version_3#:#Your PHP version is much too old for using ILIAS 3! Please upgrade PHP.###05 Jan 2003 new variable
-pre_php_version_4.1#:#PEAR classes won't work properly with this version! Please upgrade PHP.###05 Jan 2003 new variable
-pre_php_version_4.2#:#DOMXML and XSLT support won't work properly with this version!###05 Jan 2003 new variable
-pre_php_version_5#:#ILIAS 3 has not been tested with PHP 5 yet. Use with own risk.###05 Jan 2003 new variable
-pre_php_version_unknown#:#ILIAS setup don't know this version. Use with own risk!###05 Jan 2003 new variable
-preliminaries#:#Preliminariai###07 Apr 2005 content changed
-prev#:#Previous###21 Nov 2003 new variable
-reload#:#Reload###03 Nov 2005 new variable
-required_field#:#required fields###21 Nov 2003 new variable
-reset#:#Atstatyti###07 Apr 2005 content changed
-root_access#:#root access###05 Jan 2003 new variable
-safe_mode_enabled#:#Safe mode is enabled!###28 Nov 2003 new variable
-save#:#Save###21 Nov 2003 new variable
-save_error#:#Save Error!###28 Nov 2003 new variable
-saved_successfully#:#Saved successfully###21 Nov 2003 new variable
-scan_command#:#Scan Command###18 Nov 2004 new variable
-select_client#:#Select a Client###28 Nov 2003 new variable
-server_info#:#Server Information###21 Nov 2003 new variable
-server_software#:#Server software###21 Nov 2003 new variable
-set_default_client#:#Set Default Client###21 Nov 2003 new variable
-set_newpasswd#:#Įveskite naują slaptažodį###07 Apr 2005 content changed
-set_oldpasswd#:#Įveskite seną slaptažodį###07 Apr 2005 content changed
-settings_changed#:#Settings changed###21 Nov 2003 new variable
-settings_saved#:#Settings saved###21 Nov 2003 new variable
-setup#:#diegimo programa###07 Apr 2005 content changed
-setup_3rdparty_data#:#Setup third party add-ons###10 Jul 2006 new variable
-setup_basic_settings#:#Setup basic settings###21 Nov 2003 new variable
-setup_contact_data#:#Setup Contact Information###21 Nov 2003 new variable
-setup_database#:#įdiegti duomenų bazę###07 Apr 2005 content changed
-setup_database_desc#:#įdiegti duomenų bazę###07 Apr 2005 content changed
-setup_db_first#:#Pirmiau įdiekite duomenų bazę!###07 Apr 2005 content changed
-setup_finished#:#Setup finished###05 Jan 2003 new variable
-setup_first_client#:#Setup your first Client###28 Nov 2003 new variable
-setup_ini_first#:#Pirmiau sukurkite nustatymų bylą!###07 Apr 2005 content changed
-setup_inifile#:#sukurti nustatymų bylą###07 Apr 2005 content changed
-setup_inifile_desc#:#sukurti nustatymų bylą###07 Apr 2005 content changed
-setup_languages#:#įdiegti kalbas###21 Jan 2004 content changed
-setup_languages_desc#:#įdiegti kalbas###07 Apr 2005 content changed
-setup_login#:#Login to Setup###28 Nov 2003 new variable
-setup_mainmenu#:#Pagrindinis meniu###14 Sep 2004 content changed
-setup_menu#:#diegimo menių###07 Apr 2005 content changed
-setup_nic_desc#:#registration of your installation at ILIAS-NIC-Server###05 Jan 2003 new variable
-setup_not_finished#:#Setup not finished###28 Nov 2003 new variable
-setup_pass#:#Setup password###21 Nov 2003 new variable
-setup_pass2#:#Retype setup Password###21 Nov 2003 new variable
-setup_pass_title#:#Set master password###05 Jan 2003 new variable
-setup_password#:#sukurti slaptažodį###07 Apr 2005 content changed
-setup_password_desc#:#sukurti slaptažodį###07 Apr 2005 content changed
-setup_process_status#:#Setup Process Status###28 Nov 2003 new variable
-setup_process_step_3rdparty#:#Third party add-ons###10 Jul 2006 new variable
-setup_process_step_contact#:#enter contact information###28 Nov 2003 new variable
-setup_process_step_db#:#create & update database###28 Nov 2003 new variable
-setup_process_step_finish#:#Finish installation###28 Nov 2003 new variable
-setup_process_step_ini#:#setup basic data###28 Nov 2003 new variable
-setup_process_step_lang#:#install system languages###28 Nov 2003 new variable
-setup_process_step_nic#:#register at ILIAS-NIC###28 Nov 2003 new variable
-setup_ready#:#Diegimas užbaigtas. Galite tęsti diegimą prisijungęs prie ILIAS 3 sistemos.###07 Apr 2005 content changed
-setup_welcome#:#ILIAS 3 diegimo sistema. Čia Jūs galite###07 Apr 2005 content changed
-sophos#:#Sophos###18 Nov 2004 new variable
-sort_by_this_column#:#Sort by this column###05 Jan 2003 new variable
-status#:#Status###21 Nov 2003 new variable
-status_3rdparty_false#:#3rd party add-ons missing###10 Jul 2006 new variable
-status_3rdparty_ok#:#3rd party add-ons installed###10 Jul 2006 new variable
-status_3rdparty_problems#:#3rd party add-ons problems###10 Jul 2006 new variable
-step#:#Step###21 Nov 2003 new variable
-street#:#Street###21 Nov 2003 new variable
-submit#:#Patvirtinti###07 Apr 2005 content changed
-tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###10 Jul 2006 new variable
-tiny_nothing_to_do#:#The editor is installed, there is nothing to do###10 Jul 2006 new variable
-tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###10 Jul 2006 new variable
-tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###10 Jul 2006 new variable
-tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
-title#:#Title###21 Nov 2003 new variable
-tools#:#Tools###03 Nov 2005 new variable
-unknown_client_id#:#Unknown Client###28 Nov 2003 new variable
-unknown_command#:#Unknown command###05 Jan 2003 new variable
-unknown_display_mode#:#Unknown display mode###05 Jan 2003 new variable
-unzip#:#Extract###10 Jul 2006 new variable
-unzip_path#:#Path to Unzip###21 Nov 2003 new variable
-unzip_path_comment#:#required for importing learning modules###28 Nov 2003 new variable
-update_applied#:#Atnaujinimas įvykdytas sėkmingai###07 Apr 2005 content changed
-update_error#:#Atnaujinimas nesėkmingas###07 Apr 2005 content changed
-update_not_found#:#Atnaujinimas nerastas!###07 Apr 2005 content changed
-url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
-username#:#username###28 Nov 2003 new variable
-version#:#versija###07 Apr 2005 content changed
-virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
-webspace_dir#:#Internetinis duomenų kelias###14 Sep 2004 content changed
-with#:#su###07 Apr 2005 content changed
-wrong_password#:#Klaidingas slaptažodis!###15 Jan 2004 content changed
-zip_path#:#Path to Zip###21 Nov 2003 new variable
-zip_path_comment#:#required for exporting learning modules###28 Nov 2003 new variable
-zipcode#:#Zipcode###21 Nov 2003 new variable
+no_client_id#:#Nenurodytas Kleinto ID
+no_client_name#:#NĖRA KLIENTO PAVADINIMO
+no_clients_available#:#Prienamų Klientų nėra
+no_database#:#Nėra duomenų bazės
+no_db_connect_consult_admin#:#Negalime prisijungti prie duomenų bazės. Susisiekite su sistemos administratoriumi
+no_db_update_file#:#dbupdate.php byla nerasta!
+no_latex_url#:#Nenurodytas LaTeX CGI skripto URL
+no_password#:#Nenurodytas slaptažodis
+no_path_convert#:#Nenurodytas kelias iki convert
+no_path_datadir#:#Nenurodytas kelias iki duomenų katalogo
+no_path_fop#:#Nenurodytas kelias iki FOP
+no_path_given#:#Nenurodytas kelias
+no_path_htmldoc#:#Nenurodytas kelias iki HTMLdoc
+no_path_java#:#Nenurodytas kelias iki java
+no_path_log#:#Nenurodytas kelias iki log
+no_path_unzip#:#Nenurodytas kelias iki unzip
+no_path_zip#:#Nenurodytas kelias iki unzip
+no_setup_pass_given#:#Nenurodytas diegimo slaptažodis
+no_username#:#Nenurodytas vartotojas
+no_valid_client_id#:#Nėra tinkamo kliento ID
+none#:#Nieko
+not_connected_to_db#:#Nėra ryšio su duomenų baze.
+online#:#online
+or#:#ar
+out_of_webspace#:#(vietos stygius)
+overall_status#:#Bendras statusas
+overview#:#Apžvalga
+pass_does_not_match#:#Įvesti slaptažodžiai nesutampa
+password#:#slaptažodis
+password_changed#:#Slaptažodis pakeistas.
+password_empty#:#Tuščias slaptažodis!
+password_enter_old#:#Pirma nurodykite savo seną slaptažodį!
+password_info#:#Siekiant apsaugoti nustatymų duomenis nuo pašalinių, Jums reikėtų slaptažodžiu apriboti priėjimą prie ILIAS 3 diegimo programos.
+password_new_master#:#Nustatyti naują pagrindinį slaptažodį
+password_not_match#:#Naujai įvestį Slaptažodžaž nesutampa!
+password_old_wrong#:#Įvestas senas slaptažodis yra klaidingas!
+password_retype#:#Pakartoti naują slaptažodį
+password_same#:#Senas ir naujas slaptažodžiai yra vienodi!
+password_set#:#Slaptažodis išsaugotas.
+path_not_set#:#Kelias nenurodytas
+path_to_convert#:#Kelias iki Convert
+path_to_fop#:#Kelias iki FOP
+path_to_htmldoc#:#Kelias iki HTMLdoc
+path_to_java#:#Kelias iki Java
+path_to_unzip#:#Kelias iki Unzip
+path_to_zip#:#Kelias iki Zip
+pathes#:#Keliai
+phone#:#Telefonas
+port#:#prievadas
+position#:#Pozicija
+pre_cookies_disabled#:#Sausainiukai išjungti. Sausainiukai būtini norint naudotis ILIAS 3.
+pre_cookies_enabled#:#Sausainiukai įjungti
+pre_error#:#Ne visi minimalūs sistemos reikalavimai įvykdyti. Išpildykite reikalavimus, kitaip ILIAS 3 sistemos diegimo tęsti nepavyks.
+pre_folder_create#:#ILIAS 3 kataloge sukurti naujus pakatalogius galima
+pre_folder_create_error#:#Negalime sukurti naujo pakatalogio! Patikrinkite leidimo nustatymus failų sistemoje!
+pre_folder_write#:#ILIAS 3 kataloge rašyti galima
+pre_folder_write_error#:#Negalima rašyti į ILIAS 3 katalogą! Patikrinkite leidimo nustatymus failų sistemoje!
+pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS 3 sistemos reikalavimai išpildyti.
+pre_javascript_comment#:#Galite naudoti ILIAS be Javascript , bet negalėsite naudotis kai kuriomis aplinkos funkcijomis.
+pre_javascript_enabled#:#Javascript įjungtas
+pre_php_version#:#PHP versija
+pre_php_version_3#:#Jūsų PHP versija pernelyg sena ILIAS 3 sistemai! Atnaujinkite PHP.
+pre_php_version_4.1#:#PEAR klasės su šia versija korektiškai neveiks ! Atnaujinkite PHP.
+pre_php_version_4.2#:#DOMXML ir XSLT palaikymas su šia versija korektiškai neveiks!
+pre_php_version_5#:#ILIAS 3 su PHP 5 versija dar nebuvo bandytasyet. Naudokitės savo atsakomybei.
+pre_php_version_unknown#:#ILIAS diegimo sistema šios versijos nežino. Naudokitės savo atsakomybei!
+preliminaries#:#Preliminariai
+prev#:#Ankstesnis
+reload#:#Perkrauti
+required_field#:#privalomi laukeliai
+reset#:#Atstatyti
+root_access#:#root prieiga
+safe_mode_enabled#:#'Safe mode' įjungtas!###28 Nov 2003 new variable
+save#:#Saugoti
+save_error#:#Klaida Išsaugant!
+saved_successfully#:#Sėkmingai išsaugota
+scan_command#:#Skanavimo Komanda
+select_client#:#Pasirinkite Klientą
+server_info#:#Serverio Informacija
+server_software#:#Serverio aplinka
+set_default_client#:#Nustatyti kaip Pagrindinį
+set_newpasswd#:#Įveskite naują slaptažodį
+set_oldpasswd#:#Įveskite seną slaptažodį
+settings_changed#:#Nustatymai pakeisti
+settings_saved#:#Nustatymai išsaugoti
+setup#:#diegimo programa
+setup_3rdparty_data#:#Įdiegti 3-ių šalių priedus
+setup_basic_settings#:#Įdiegti pagrindinius nustatymus
+setup_contact_data#:#Įdiegti Kontaktinius Duomenis
+setup_database#:#įdiegti duomenų bazę
+setup_database_desc#:#įdiegti duomenų bazę
+setup_db_first#:#Pirmiau įdiekite duomenų bazę!
+setup_finished#:#Diegimas baigtas
+setup_first_client#:#Įdiegti pirmą Klientą
+setup_ini_first#:#Pirmiau sukurkite nustatymų bylą!
+setup_inifile#:#sukurti nustatymų bylą
+setup_inifile_desc#:#sukurti nustatymų bylą
+setup_languages#:#įdiegti kalbas
+setup_languages_desc#:#įdiegti kalbas
+setup_login#:#Prisijungti Diegimo Procedūroms
+setup_mainmenu#:#Pagrindinis meniu
+setup_menu#:#diegimo meniu
+setup_nic_desc#:#jūsų instaliacijos registravimas ILIAS-NIC-Serveryje
+setup_not_finished#:#Diegimas nebaigtas
+setup_pass#:#Diegimo Slaptažodis
+setup_pass2#:#Pakartoti diegimo Slaptažodį
+setup_pass_title#:#Sukurti pagrindinė slaptažodį
+setup_password#:#sukurti slaptažodį
+setup_password_desc#:#sukurti slaptažodį
+setup_process_status#:#Diegimo Proceso Statusas
+setup_process_step_3rdparty#:#3-ios šalies priedai
+setup_process_step_contact#:#įvesti kontaktinius duomenis
+setup_process_step_db#:#sukurti ir atnaujinti duomenų bazę
+setup_process_step_finish#:#Užbaigti diegimą
+setup_process_step_ini#:#įdiegti pagrindinius duomenis
+setup_process_step_lang#:#įdiegti sistemos kalbas
+setup_process_step_nic#:#registruotis ILIAS-NIC
+setup_ready#:#Diegimas užbaigtas. Galite tęsti diegimą prisijungęs prie ILIAS 3 sistemos.
+setup_welcome#:#ILIAS 3 diegimo sistema. Čia Jūs galite
+sophos#:#Sophos
+sort_by_this_column#:#Rūšiuoti pagal šį stulpelį
+status#:#Statusas
+status_3rdparty_false#:#3-ios šalies priedų nėra
+status_3rdparty_ok#:#3-ios šalies priedai įdiegti
+status_3rdparty-problems#:#3-ios šalies priedų problemos
+step#:#Žingsniss
+street#:#Gatvė
+submit#:#Patvirtinti
+tiny_dir_does_not_exist#:#Katalogas su redaktoriumi neegzistuoja. Privalote išskleisti ZIP su redaktoriumi į numatytą vietą
+tiny_nothing_to_do#:#Redaktorius įdiegtas, ilsimės
+tiny_zip_changed#:#ZIP failas su redaktoriumi po paskutinio diegimo pasikeitė. Norėdami atnaujinti įdiegtą paketą, išskleiskite ZIP failą.
+tiny_zip_does_not_exist#:#ZIP failas su TinyMCE redaktoriumi numatytoje vietoje (Paslaugos/RTE) nerastas
+tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG redaktorius
+title#:#Pavadinimas
+tools#:#Įrankiai
+unknown_client_id#:#Nežinomas Klientas
+unknown_command#:#Nežinoma komanda
+unknown_display_mode#:#Nežinomas rodymo būdas
+unzip#:#Išskleisti
+unzip_path#:#Kelias iki Unzip
+unzip_path_comment#:#būtinas mokymo modulių importavimuivariable
+update_applied#:#Atnaujinimas įvykdytas sėkmingai
+update_error#:#Atnaujinimas nesėkmingas
+update_not_found#:#Atnaujinimas nerastas!
+url_to_latex#:#URL iki LaTeX CGI skripto
+username#:#vartotojas
+version#:#versija
+virus_scanner#:#Virusų Skaneris
+webspace_dir#:#Internetinis duomenų kelias
+with#:#su
+wrong_password#:#Klaidingas slaptažodis!
+zip_path#:#Kelias iki Zip
+zip_path_comment#:#būtina mokymo modulių eksportavimui
+zipcode#:#Pašto indeksas

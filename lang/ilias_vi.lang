@@ -6495,3 +6495,9 @@ trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have pr
 assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 09 2006 new variable
 assessment#:#tst_instant_verification#:#Instant verification###05 09 2006 new variable
 common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable
+crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:###07 09 2006 new variable
+grp#:#crs_add_grouping#:#Add Membership Limitation###07 09 2006 new variable
+grp#:#crs_grp_enter_title#:#Please fill out all required fields.###07 09 2006 new variable
+grp#:#crs_grp_added_grouping#:#Added new membership limitation.###07 09 2006 new variable
+grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###07 09 2006 new variable
+grp#:#crs_grouping_deleted#:#Deleted membership limitation.###07 09 2006 new variable
