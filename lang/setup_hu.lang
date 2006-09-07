@@ -456,3 +456,20 @@ tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not ex
 tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###10 Jul 2006 new variable
 unzip#:#Extract###10 Jul 2006 new variable
 url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
+check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###07 09 2006 new variable
+collation#:#Collation###07 09 2006 new variable
+example#:#Example###07 09 2006 new variable
+ilias_db_mode#:#ILIAS database mode###07 09 2006 new variable
+include_local#:#include local###07 09 2006 new variable
+info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###07 09 2006 new variable
+info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###07 09 2006 new variable
+installed_local#:#Installed With Local###07 09 2006 new variable
+lang_el#:#Greek###07 09 2006 new variable
+lang_ro#:#Romanian###07 09 2006 new variable
+lang_ru#:#Russian###07 09 2006 new variable
+lang_sq#:#Albanian###07 09 2006 new variable
+lang_sr#:#Serbian###07 09 2006 new variable
+lang_uk#:#Ukrainian###07 09 2006 new variable
+lang_vi#:#Vietnamese###07 09 2006 new variable
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###07 09 2006 new variable
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###07 09 2006 new variable

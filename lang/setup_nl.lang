@@ -432,3 +432,6 @@ wrong_password#:#Fout wachtwoord!###07 Apr 2005 content changed
 zip_path#:#Pad naar Zip###07 Apr 2005 content changed
 zip_path_comment#:#verplicht voor het exporteren van les-modules###07 Apr 2005 content changed
 zipcode#:#Zip-code
+lang_el#:#Greek###07 09 2006 new variable
+lang_ru#:#Russian###07 09 2006 new variable
+lang_vi#:#Vietnamese###07 09 2006 new variable
