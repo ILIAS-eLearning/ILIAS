@@ -309,12 +309,15 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$tpl->addBlockFile('MATERIALS','materials','tpl.trac_collections_row.html','Services/Tracking');
 		$counter = 0;
 		// Show materials
-		foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id => $id)
+		foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id)
 		{
 			$obj_id = $ilObjDataCache->lookupObjId($ref_id);
 			$tpl->setCurrentBlock("materials");
 
 			// Link to settings
+			$tpl->setVariable("COLL_MODE",
+							  $this->lng->txt('trac_mode').": ".
+							  ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($obj_id)));
 			$tpl->setVariable("COLL_LINK",ilLink::_getLink($ref_id,$ilObjDataCache->lookupType($obj_id)));
 			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
 			$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));

@@ -123,7 +123,7 @@ class ilLPCollections
 				case 'lm':
 				case 'tst':
 				case 'htlm':
-					$all_possible["$node[ref_id]"] = $node['ref_id'];
+					$all_possible[] = $node['ref_id'];
 					break;
 			}
 		}
