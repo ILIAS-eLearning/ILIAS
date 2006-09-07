@@ -217,6 +217,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 						in_array($new_type, array("dbk", "lm")))
 					{
 						$this->prepareOutput();
+						if ($cmd == "")			// this may be due to too big upload files
+						{
+							$cmd = "create";
+						}
 						$cmd .= "Object";
 						$ret =& $this->$cmd();
 					}
@@ -967,7 +971,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$pms=get_cfg_var("post_max_size");
 
 			// use the smaller one as limit
-			$max_filesize=min($umf, $pms);
+			$max_filesize = ((int) $umf < (int) $pms)
+				? $umf
+				: $pms;
+			if ((int) $pms == 0) $max_filesize = $umf;
+			
 			if (!$max_filesize) $max_filesize=max($umf, $pms);
 
 			// gives out the limit as a littel notice :)

@@ -651,8 +651,8 @@ components:
 
       determine the the maximum upload file size. Especially when using the
       file exchange functions in ILIAS the default value might be too low and
-      should be corrected. 'post_max_size' should be at least as high as
-      'upload_max_filesize'.
+      should be corrected. 'post_max_size' should be always some megabytes higher
+      than 'upload_max_filesize'.
 
     - include_path
 
