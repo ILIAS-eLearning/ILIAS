@@ -213,7 +213,12 @@ class ilLPCollections
 			$possible_items = ilLPCollections::_getPossibleItems($course_ref_id);
 		}
 
-		$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".(int) $a_obj_id."'";
+		$query = "SELECT * FROM ut_lp_collections as utc ".
+			"JOIN object_reference as obr ON item_id = ref_id ".
+			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
+			"WHERE utc.obj_id = '".$a_obj_id."' ".
+			"ORDER BY title";
+
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -243,8 +248,11 @@ class ilLPCollections
 			$course_ref_ids = ilObject::_getAllReferences($this->getObjId());
 			$course_ref_id = end($course_ref_ids);
 		}
-
-		$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$this->db->quote($this->obj_id)."'";
+		$query = "SELECT * FROM ut_lp_collections as utc ".
+			"JOIN object_reference as obr ON item_id = ref_id ".
+			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
+			"WHERE utc.obj_id = '".$this->db->quote($this->obj_id)."' ".
+			"ORDER BY title";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
