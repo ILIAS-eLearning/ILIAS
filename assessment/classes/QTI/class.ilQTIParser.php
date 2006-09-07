@@ -1443,7 +1443,50 @@ class ilQTIParser extends ilSaxParser
 				if ($this->verifymetadatafield == 1) $this->verifyfieldentry = 1;
 				break;
 			case "item":
-				array_push($this->founditems, array("title" => "", "type" => "", "ident" => $a_attribs["ident"]));
+				$title = "";
+				if (is_array($a_attribs))
+				{
+					foreach ($a_attribs as $attribute => $value)
+					{
+						switch (strtolower($attribute))
+						{
+							case "title":
+								$title = $value;
+								break;
+						}
+					}
+				}
+				array_push($this->founditems, array("title" => "$title", "type" => "", "ident" => $a_attribs["ident"]));
+				break;
+			case "response_lid":
+				if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0)
+				{
+					// test for non ILIAS generated question types
+					if (is_array($a_attribs))
+					{
+						foreach ($a_attribs as $attribute => $value)
+						{
+							switch (strtolower($attribute))
+							{
+								case "rcardinality":
+									include_once "./assessment/classes/QTI/class.ilQTIItem.php";
+									switch (strtolower($value))
+									{
+										case "single":
+											$this->founditems[count($this->founditems)-1]["type"] = QT_MULTIPLE_CHOICE_SR;
+											break;
+										case "multiple":
+											$this->founditems[count($this->founditems)-1]["type"] = QT_MULTIPLE_CHOICE_MR;
+											break;
+										case "ordered":
+											$this->founditems[count($this->founditems)-1]["type"] = QT_ORDERING;
+											break;
+									}
+									break;
+							}
+						}
+					}
+				}
 				break;
 			case "qticomment":
 				// check for "old" ILIAS qti format (not well formed)

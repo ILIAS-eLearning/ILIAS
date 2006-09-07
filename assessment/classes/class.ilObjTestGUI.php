@@ -613,37 +613,48 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
 			$this->tpl->setVariable("QUESTION_TITLE", $item["title"]);
 			$this->tpl->setVariable("QUESTION_IDENT", $item["ident"]);
+			include_once "./assessment/classes/QTI/class.ilQTIItem.php";
 			switch ($item["type"])
 			{
 				case "MULTIPLE CHOICE QUESTION":
+				case QT_MULTIPLE_CHOICE_MR:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
 					break;
 				case "SINGLE CHOICE QUESTION":
+				case QT_MULTIPLE_CHOICE_SR:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
 					break;
-				case "CLOZE QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
-					break;
-				case "IMAGE MAP QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
-					break;
-				case "JAVA APPLET QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
-					break;
-				case "MATCHING QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
-					break;
-				case "ORDERING QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
-					break;
-				case "TEXT QUESTION":
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
-					break;
 				case "NUMERIC QUESTION":
+				case QT_NUMERIC:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
 					break;
 				case "TEXTSUBSET QUESTION":
+				case QT_TEXTSUBSET:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
+					break;
+				case "CLOZE QUESTION":
+				case QT_CLOZE:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
+					break;
+				case "IMAGE MAP QUESTION":
+				case QT_IMAGEMAP:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
+					break;
+				case "JAVA APPLET QUESTION":
+				case QT_JAVAAPPLET:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
+					break;
+				case "MATCHING QUESTION":
+				case QT_MATCHING:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
+					break;
+				case "ORDERING QUESTION":
+				case QT_ORDERING:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
+					break;
+				case "TEXT QUESTION":
+				case QT_TEXT:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
 					break;
 			}
 			$this->tpl->parseCurrentBlock();
