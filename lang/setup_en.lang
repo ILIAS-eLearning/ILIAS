@@ -220,6 +220,7 @@ lang_bg#:#Bulgarian
 lang_cs#:#Czech
 lang_da#:#Danish
 lang_de#:#German
+lang_el#:#Greek
 lang_en#:#English
 lang_error_occurred#:#Encountered an error. Action aborted.
 lang_es#:#Spanish
@@ -236,11 +237,13 @@ lang_not_installed_default#:#The language you selected as the default language i
 lang_pl#:#Polish
 lang_pt#:#Portuguese
 lang_ro#:#Romanian
+lang_ru#:#Russian
 lang_se#:#Swedish
 lang_sq#:#Albanian
 lang_sr#:#Serbian
 lang_uk#:#Ukrainian
 lang_xx#:#Custom
+lang_vi#:#Vietnamese
 lang_zh#:#Chinese
 langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files
 language#:#language
