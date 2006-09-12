@@ -523,12 +523,6 @@ class ilTree
 					"END ".
 					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 				$this->ilDB->query($q);
-
-				if($this->__isMainTree())
-				{
-					ilDBx::_unlockTables();
-				}
-
 				break;
 
 			case IL_LAST_NODE:
@@ -618,10 +612,6 @@ class ilTree
 					{
 						$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') reusing gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.' for node '.$a_node_id.' '.$lft.'..'.$rgt);
 					}				
-					if($this->__isMainTree())
-					{
-						ilDBx::_unlockTables();
-					}
 				}
 				// Treatment for trees without gaps
 				else 
@@ -666,16 +656,17 @@ class ilTree
 						"END ".
 						"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 					$this->ilDB->query($q);
-
-					if($this->__isMainTree())
-					{
-						ilDBx::_unlockTables();
-					}
 				}
 
 				break;
 
 			default:
+
+				// this code shouldn't be executed
+				if($this->__isMainTree())
+				{
+					ilDBx::_lockTables(array('tree' => 'WRITE'));
+				}
 
 				// get right value of preceeding child
 				$q = "SELECT * FROM ".$this->table_tree." ".
@@ -713,11 +704,6 @@ class ilTree
 					"END ".
 					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 				$this->ilDB->query($q);
-				if($this->__isMainTree())
-				{
-					ilDBx::_unlockTables();
-				}
-
 				break;
 
 		}
@@ -732,6 +718,12 @@ class ilTree
 			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 
 		$this->ilDB->query($q);
+
+		// Finally unlock tables
+		if($this->__isMainTree())
+		{
+			ilDBx::_unlockTables();
+		}
 		
 		// reset deletion date
 		if ($a_reset_deletion_date)
