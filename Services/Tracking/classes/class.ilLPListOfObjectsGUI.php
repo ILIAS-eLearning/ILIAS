@@ -209,7 +209,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		// Edit link, details
 		if($type != 'sahs_item' and
 		   $type != 'objective' and
-		   $type != 'event')
+		   $type != 'event' and 
+		   !$item_list->isAnonymized())
 		{
 
 			// Edit link
@@ -269,7 +270,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$item_list->renderObjectDetails();
 
 		$this->obj_tpl->setVariable("ITEM_HTML",$item_list->getHTML());
-		$this->__showImageByStatus($this->obj_tpl,$item_list->getUserStatus());
+		if(!$item_list->isAnonymized())
+		{
+			$this->__showImageByStatus($this->obj_tpl,$item_list->getUserStatus());
+		}
 		$this->obj_tpl->setVariable("TBLROW",ilUtil::switchColor($this->container_row_counter,'tblrow1','tblrow2'));
 		$this->obj_tpl->parseCurrentBlock();
 

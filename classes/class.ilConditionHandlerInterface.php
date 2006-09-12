@@ -206,114 +206,164 @@ class ilConditionHandlerInterface
 		return true;
 	}
 
-	/**
-	* get conditioni list
-	*/
+
 	function listConditions()
 	{
-		global $rbacsystem;
+		global $ilObjDataCache;
 
 		$this->lng->loadLanguageModule('crs');
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit.html');
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
+		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('obj_'.$this->getTargetType()));
+		$this->tpl->setVariable("TABLE_TITLE",$this->getTargetTitle().' ('.$this->lng->txt('preconditions').')');
 
-		// No conditions => show add button and exit
-		if(!count($conditions = $this->__getConditionsOfTarget()))
+		// Table header
+		$this->tpl->setVariable("HEAD_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable("HEAD_CONDITION",$this->lng->txt('condition'));
+		
+		// Table footer
+		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('add_condition'));
+		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+
+
+		if(!count($conditions = ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType())))
 		{
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'selector'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("add_condition"));
-			$this->tpl->parseCurrentBlock();
-
-			sendInfo($this->lng->txt('no_conditions_found'));
+			$this->tpl->setVariable("EMPTY_TXT",$this->lng->txt('no_conditions_found'));
 			return true;
 		}
 
-		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-		$tpl->setVariable("WIDTH",'width="60%"');
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("COLUMN_COUNTS",4);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-		
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","delete");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
-		$tpl->parseCurrentBlock();
-		
-		$tpl->setCurrentBlock("plain_button");
-		$tpl->setVariable("PBTN_NAME","selector");
-		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("add_condition"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_row");
-
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.condition_handler_row.html");
-
 		$counter = 0;
-		#foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType()) as $condition)
 		foreach($conditions as $condition)
 		{
+			
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
 
-			$tpl->setCurrentBlock("tbl_content");
-			$tpl->setVariable("CHECKBOX",ilUtil::formCheckbox(0,"conditions[]",$condition['id']));
-			$tpl->setVariable("OBJ_TITLE",$tmp_obj->getTitle());
-			$tpl->setVariable("OBJ_DESCRIPTION",$tmp_obj->getDescription());
-			$tpl->setVariable("ROWCOL", ilUtil::switchColor($counter++,"tblrow2","tblrow1"));
+			$this->tpl->setCurrentBlock("table_content");
+			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($counter++,"tblrow1","tblrow2"));
+			$this->tpl->setVariable("CHECKBOX",ilUtil::formCheckbox(0,"conditions[]",$condition['id']));
+			$this->tpl->setVariable("TITLE",$ilObjDataCache->lookupTitle($condition['trigger_obj_id']));
+			if(strlen($desc = $ilObjDataCache->lookupDescription($condition['trigger_obj_id'])))
+			{
+				$this->tpl->setVariable("DESCRIPTION",$desc);
+			}
+			$this->tpl->setVariable("OBJ_CONDITION",$this->lng->txt('condition_'.$condition['operator']));
 
-			$tpl->setVariable("OBJ_CONDITION",$this->lng->txt('condition_'.$condition['operator']));
-			$tpl->setVariable("OBJ_CONDITION_VALUE",$condition['value'] ? $condition['value'] : $this->lng->txt('crs_not_available')); 
+			// Edit link
+			$this->tpl->setVariable("EDIT",$this->lng->txt('edit'));
 
-			$tpl->parseCurrentBlock();
+			$this->ctrl->setParameter($this,'condition_id',$condition['id']);
+			$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'edit'));
+			$this->ctrl->clearParameters($this);
+			$this->tpl->parseCurrentBlock();
 		}
-
-
-		// create table
-		include_once './classes/class.ilTableGUI.php';
-
-		$tbl =& new ilTableGUI();
-		$tbl->setStyle('table','std');
-
-		// title & header columns
-		$tbl->setTitle($this->getTargetTitle()." ".$this->lng->txt("preconditions"),"icon_".$this->getTargetType().".gif",
-					   $this->lng->txt("preconditions"));
-
-		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("condition"),
-								   $this->lng->txt("value")));
-		$tbl->setHeaderVars(array("","title","condition","value"), 
-							array("ref_id" => $this->getTargetRefId(),
-								  "cmdClass" => "ilobjcoursegui",
-								  "cmdNode" => $_GET["cmdNode"],
-								  "cmd" => "cci_edit"));
-		$tbl->setColumnWidth(array("1%","40%","30%","30%"));
-
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(10);
-
-		// footer
-		$tbl->disable("footer");
-		$tbl->disable('sort');
-
-		// render table
-		$tbl->setTemplate($tpl);
-		$tbl->render();
-
-		$this->tpl->setVariable("PRECONDITION_TABLE",$tpl->get());
-
 		return true;
 	}
+
+	function edit()
+	{
+		global $ilObjDataCache;
+
+		if(!$_GET['condition_id'])
+		{
+			sendInfo("Missing id: condition_id");
+			$this->listConditions();
+			return false;
+		}
+		$condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit_condition.html');
+		$this->ctrl->setParameter($this,'condition_id',(int) $_GET['condition_id']);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
+		// Table header
+		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
+		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('obj_'.$this->getTargetType()));
+		$this->tpl->setVariable("TABLE_TITLE",$this->getTargetTitle());
+		$this->tpl->setVariable("TRIGGER_TITLE",$ilObjDataCache->lookupTitle($condition['trigger_obj_id']));
+
+		// Condition selector
+		$this->tpl->setVariable("CONDITION",$this->lng->txt('condition'));
+
+		include_once "./classes/class.ilConditionHandler.php";
+		$ch_obj =& new ilConditionHandler();
+		foreach($ch_obj->getOperatorsByTargetType($condition['trigger_type']) as $operator)
+		{
+			$operators[$operator] = $this->lng->txt('condition_'.$operator);
+		}
+		$this->tpl->setVariable("SEL_CONDITION",ilUtil::formSelect($condition['operator'],
+																   "operator",
+																   $operators,
+																   false,
+																   true));
+		// Additional settings for SCO's
+		if($condition['trigger_type'] == 'sahs')
+		{
+			$this->lng->loadLanguageModule('trac');
+			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+			$lp_collections = new ilLPCollections($condition['trigger_obj_id']);
+
+			$counter = 0;
+			$this->tpl->setVariable("INFO_SCO",$this->lng->txt('trac_lp_determination_info_sco'));
+			$this->tpl->setVariable("ROWCOL_INFO",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			foreach(ilLPCollections::_getPossibleSAHSItems($condition['trigger_obj_id']) as $item_id => $sahs_item)
+			{
+				$this->tpl->setCurrentBlock("sco_row");
+				$this->tpl->setVariable("CHECK_SCO",ilUtil::formCheckbox($lp_collections->isAssigned($item_id),
+																		 'item_ids[]',
+																		 $item_id));
+				$this->tpl->setVariable("SCO_TITLE",$sahs_item['title']);
+				$this->tpl->setVariable("ROWCOL",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		// Table footer
+		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
+	}
+
+	function updateCondition()
+	{
+		global $ilObjDataCache;
+
+		if(!$_GET['condition_id'])
+		{
+			sendInfo("Missing id: condition_id");
+			$this->listConditions();
+			return false;
+		}
+
+		// Update condition
+		include_once 'classes/class.ilConditionHandler.php';
+		$condition_handler = new ilConditionHandler();
+
+		$condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
+		$condition_handler->setOperator($_POST['operator']);
+		$condition_handler->setValue('');
+		$condition_handler->updateCondition($condition['id']);
+
+		// Update relevant sco's
+		if($condition['trigger_type'] == 'sahs')
+		{
+			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+			$lp_collection = new ilLPCollections($condition['trigger_obj_id']);
+			$lp_collection->deleteAll();
+
+			$items = is_array($_POST['item_ids']) ? $_POST['item_ids'] : array();
+			foreach($items as $item_id)
+			{
+				$lp_collection->add($item_id);
+			}
+		}
+
+		sendInfo($this->lng->txt('settings_saved'));
+		$this->edit();
+	}
+		
 
 	function delete()
 	{
@@ -364,44 +414,69 @@ class ilConditionHandlerInterface
 
 	function add()
 	{
-		// TODO: ONLY FOR REFERENCED OBJECTS
-		$tmp_source_obj =& ilObjectFactory::getInstanceByRefId((int) $_GET['source_id']);
+		global $ilObjDataCache;
 
-		include_once "./classes/class.ilConditionHandler.php";
-
-		$ch_obj =& new ilConditionHandler();
-		
-		$operators[] = $this->lng->txt('condition_select_one');
-		foreach($ch_obj->getOperatorsByTargetType($tmp_source_obj->getType()) as $operator)
+		if(!$_GET['source_id'])
 		{
-			$operators[$operator] = $this->lng->txt('condition_'.$operator);
-		} 
+			sendInfo("Missing id: condition_id");
+			$this->selector();
+			return false;
+		}
+		$trigger_obj_id = $ilObjDataCache->lookupObjId((int) $_GET['source_id']);
+		$trigger_type = $ilObjDataCache->lookupType($trigger_obj_id);
+		$trigger_title = $ilObjDataCache->lookupTitle($trigger_obj_id);
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
-
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
 		$this->ctrl->setParameter($this,'source_id',(int) $_GET['source_id']);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("CSS_TABLE",'std');
-		$this->tpl->setVariable("WIDTH",'50%');
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
-		$this->tpl->setVariable("TBL_TITLE_ALT",$this->lng->txt('obj_',$this->getTargetType()));
+
+		// Table header
+		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
+		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('obj_'.$this->getTargetType()));
+		$this->tpl->setVariable("ADD_CONDITION",$this->lng->txt('add_condition'));
+		$this->tpl->setVariable("TABLE_TITLE",$this->getTargetTitle());
+		$this->tpl->setVariable("TRIGGER_TITLE",$trigger_title);
+
+		// Condition selector
+		$this->tpl->setVariable("CONDITION",$this->lng->txt('condition'));
+
+		include_once "./classes/class.ilConditionHandler.php";
+		$ch_obj =& new ilConditionHandler();
+		foreach($ch_obj->getOperatorsByTargetType($trigger_type) as $operator)
+		{
+			$operators[$operator] = $this->lng->txt('condition_'.$operator);
+		}
+		$this->tpl->setVariable("SEL_CONDITION",ilUtil::formSelect(0,
+																   "operator",
+																   $operators,
+																   false,
+																   true));
+		// Additional settings for SCO's
+		if($trigger_type == 'sahs')
+		{
+			$this->lng->loadLanguageModule('trac');
+			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+			$lp_collections = new ilLPCollections($trigger_obj_id);
+
+			$counter = 0;
+			$this->tpl->setVariable("INFO_SCO",$this->lng->txt('trac_lp_determination_info_sco'));
+			$this->tpl->setVariable("ROWCOL_INFO",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			foreach(ilLPCollections::_getPossibleSAHSItems($trigger_obj_id) as $item_id => $sahs_item)
+			{
+				$this->tpl->setCurrentBlock("sco_row");
+				$this->tpl->setVariable("CHECK_SCO",ilUtil::formCheckbox($lp_collections->isAssigned($item_id),
+																		 'item_ids[]',
+																		 $item_id));
+				$this->tpl->setVariable("SCO_TITLE",$sahs_item['title']);
+				$this->tpl->setVariable("ROWCOL",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 		
-
-		$this->tpl->setVariable("CONDITION_SELECT",ilUtil::formSelect('',
-																	  "operator",
-																	  $operators,
-																	  false,
-																	  true));
-
-		$title = $this->lng->txt('add_condition').' ('.$tmp_source_obj->getTitle().')';
-		unset($tmp_source_obj);
-
-		$this->tpl->setVariable("TBL_TITLE",$title);
-		
-		$this->tpl->setVariable("TXT_ADD",$this->lng->txt('add_condition'));
-		$this->tpl->setVariable("CMD_ADD",'assign');
-
-		return true;
+		// Table footer
+		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
 	}
 
 
@@ -439,6 +514,20 @@ class ilConditionHandlerInterface
 		$this->ch_obj->setTriggerType($trigger_obj->getType());
 		$this->ch_obj->setOperator($_POST['operator']);
 		$this->ch_obj->setValue('');
+
+		// Save assigned sco's
+		if($this->ch_obj->getTriggerType() == 'sahs')
+		{
+			include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+			$lp_collection = new ilLPCollections($this->ch_obj->getTriggerObjId());
+			$lp_collection->deleteAll();
+
+			$items = is_array($_POST['item_ids']) ? $_POST['item_ids'] : array();
+			foreach($items as $item_id)
+			{
+				$lp_collection->add($item_id);
+			}
+		}
 
 		$this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
 		if(!$this->ch_obj->storeCondition())
