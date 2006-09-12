@@ -67,16 +67,15 @@ class ilLPCollections
 
 	function add($item_id)
 	{
-		if($this->isAssigned($item_id))
-		{
-			return false;
-		}
-
-		$query = "INSERT INTO ut_lp_collections ".
+		$query = "DELETE FROM ut_lp_collections ".
+			"WHERE obj_id = '".$this->obj_id."' ".
+			"AND item_id = '".(int) $item_id."'";
+		$this->db->query($query);
+		
+		$query = "REPLACE INTO ut_lp_collections ".
 			"SET obj_id = '".$this->obj_id."', ".
 			"item_id = '".(int) $item_id."'";
 		$this->db->query($query);
-		
 		$this->__read();
 
 		return true;
@@ -176,6 +175,11 @@ class ilLPCollections
 		return array();
 	}
 
+	function deleteAll()
+	{
+		return ilLPCollections::_deleteAll($this->getObjId());
+	}
+
 
 	function _deleteAll($a_obj_id)
 	{
@@ -211,13 +215,17 @@ class ilLPCollections
 			$course_ref_ids = ilObject::_getAllReferences($a_obj_id);
 			$course_ref_id = end($course_ref_ids);
 			$possible_items = ilLPCollections::_getPossibleItems($course_ref_id);
-		}
 
-		$query = "SELECT * FROM ut_lp_collections as utc ".
-			"JOIN object_reference as obr ON item_id = ref_id ".
-			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
-			"WHERE utc.obj_id = '".$a_obj_id."' ".
-			"ORDER BY title";
+			$query = "SELECT * FROM ut_lp_collections as utc ".
+				"JOIN object_reference as obr ON item_id = ref_id ".
+				"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
+				"WHERE utc.obj_id = '".$a_obj_id."' ".
+				"ORDER BY title";
+		}
+		else
+		{
+			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$a_obj_id."'";
+		}
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -247,12 +255,16 @@ class ilLPCollections
 		{
 			$course_ref_ids = ilObject::_getAllReferences($this->getObjId());
 			$course_ref_id = end($course_ref_ids);
+			$query = "SELECT * FROM ut_lp_collections as utc ".
+				"JOIN object_reference as obr ON item_id = ref_id ".
+				"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
+				"WHERE utc.obj_id = '".$this->db->quote($this->obj_id)."' ".
+				"ORDER BY title";
 		}
-		$query = "SELECT * FROM ut_lp_collections as utc ".
-			"JOIN object_reference as obr ON item_id = ref_id ".
-			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
-			"WHERE utc.obj_id = '".$this->db->quote($this->obj_id)."' ".
-			"ORDER BY title";
+		else
+		{
+			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$this->getObjId()."'";
+		}
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

@@ -289,7 +289,7 @@ class ilConditionHandler
 				return array('not_member');
 
 			case 'sahs':
-				return array('passed');
+				return array('finished');
 
 			default:
 				return array();

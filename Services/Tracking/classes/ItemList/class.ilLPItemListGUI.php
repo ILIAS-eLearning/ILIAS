@@ -40,6 +40,7 @@ include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 class ilLPItemListGUI
 {
 	var $db = null;
+	var $anonymized = false;
 
 	function ilLPItemListGUI($a_id,$a_type)
 	{
@@ -54,6 +55,11 @@ class ilLPItemListGUI
 
 		$this->id = $a_id;
 		$this->type = $a_type;
+	}
+
+	function isAnonymized()
+	{
+		return $this->anonymized;
 	}
 
 	function setCmdClass($a_class)
