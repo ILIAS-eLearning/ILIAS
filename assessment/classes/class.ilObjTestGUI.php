@@ -2818,12 +2818,18 @@ class ilObjTestGUI extends ilObjectGUI
 		$testquestions =& $this->object->getTestQuestions();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-		$questionpools =& $this->object->get_qpl_titles();
+		//$questionpools =& $this->object->get_qpl_titles();
+		$questionpools = array();
 		$total = $this->object->evalTotalPersons();
 		if (count($testquestions) > 0)
 		{
 			foreach ($testquestions as $data)
 			{
+				if (!array_key_exists($data->obj_fi, $questionpools))
+				{
+					$pooltitle = $this->object->_lookupTitle($data["obj_fi"]);
+					$questionpools[$data["obj_fi"]] = $pooltitle;
+				}
 				$this->tpl->setCurrentBlock("QTab");
 				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {

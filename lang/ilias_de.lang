@@ -1699,7 +1699,7 @@ common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
-common#:#file_notice#:#Bitte beachten sie bei Ihrem Dateiupload die Uploadgrenze von
+common#:#file_notice#:#Bitte beachten Sie bei Ihrem Dateiupload die Uploadgrenze von
 common#:#file_read#:#Datei runterladen
 common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
