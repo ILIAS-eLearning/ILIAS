@@ -140,7 +140,8 @@ class ilTestEvaluationGUI
 					{
 						if (!array_key_exists($result_array["id"], $eval_users))
 						{
-							if (array_key_exists($result_array["id"], $participants))
+							$active = $this->object->getActiveTestUser($result_array["id"]);
+							if (array_key_exists($active->active_id, $participants))
 							{
 								$users[$result_array["id"]] = $eval_users[$result_array["id"]];
 							}
@@ -421,6 +422,7 @@ class ilTestEvaluationGUI
 				{
 					$counter = 0;
 					$uname = ilObjUser::_lookupName($user_id);
+					$user = new ilObjUser($user_id);
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $user->getId());
@@ -1690,7 +1692,7 @@ class ilTestEvaluationGUI
 	
 				$this->tpl->setVariable("COUNTER_QUESTION", $counter.".&nbsp;");
 				$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-				$result_output = $question_gui->getSolutionOutput($active_id, $pass);
+				$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE);
 				$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 				$this->tpl->parseCurrentBlock();
 				$counter ++;
