@@ -1703,7 +1703,7 @@ class ilTestOutputGUI
 					$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 					
 					$active = $this->object->getActiveTestUser($ilUser->getId());
-					$result_output = $question_gui->getSolutionOutput($active->active_id, $pass, TRUE);
+					$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
 					$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 					$this->tpl->parseCurrentBlock();
 					$counter ++;
