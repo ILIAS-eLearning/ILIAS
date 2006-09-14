@@ -79,7 +79,14 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple {
 * @see $points_unchecked
 */
   function getPointsUnchecked() {
-    return $this->points_unchecked;
+		if (round($this->points_unchecked) == $this->points_unchecked)
+		{
+			return sprintf("%d", $this->points_unchecked);
+		}
+		else
+		{
+			return sprintf("%.1f", round($this->points_unchecked, 1));
+		}
   }
 
 /**
@@ -93,7 +100,15 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple {
 */
   function setPointsUnchecked($points_unchecked = 0.0)
   {
-    $this->points_unchecked = $points_unchecked;
+		$new_points = str_replace(",", ".", $points_unchecked);
+		if ($this->checkPoints($new_points))
+		{
+			$this->points_unchecked = $new_points;
+		}
+		else
+		{
+			$this->points_unchecked = 0.0;
+		}
   }
 
 	function setPointsChecked($points_checked)

@@ -269,17 +269,10 @@ class assNumericGUI extends assQuestionGUI
 			if (preg_match("/lowerlimit_(\d+)/", $key, $matches))
 			{
 				$points = $_POST["points_$matches[1]"];
-				if (preg_match("/\d+/", $points))
+				if ($points < 0)
 				{
-					if ($points < 0)
-					{
-						$result = 1;
-						$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-					}
-				}
-				else
-				{
-					$points = 0.0;
+					$result = 1;
+					$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 				}
 				$lowerlimit = str_replace(",", ".", $_POST["lowerlimit_".$matches[1]]);
 				if (strlen($lowerlimit) == 0) $lowerlimit = 0.0;

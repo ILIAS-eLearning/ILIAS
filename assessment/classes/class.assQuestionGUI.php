@@ -773,6 +773,5 @@ class assQuestionGUI
 	function outAdditionalOutput()
 	{
 	}
-	
 }
 ?>

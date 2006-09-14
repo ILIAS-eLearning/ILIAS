@@ -612,10 +612,6 @@ class assImagemapQuestionGUI extends assQuestionGUI
 						if (preg_match("/answer_(\d+)/", $key, $matches))
 						{
 							$points = $_POST["points_$matches[1]"];
-							if (!preg_match("/\d+/", $points))
-							{
-								$points = 0.0;
-							}
 
 							$this->object->addAnswer(
 								ilUtil::stripSlashes($_POST["$key"]),

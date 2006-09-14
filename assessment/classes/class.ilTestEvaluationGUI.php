@@ -1662,8 +1662,8 @@ class ilTestEvaluationGUI
 		$this->tpl->setCurrentBlock("question_footer");
 		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
-		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");
-		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached) . "</strong>");
+		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . $total_max . "</strong>");
+		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . $total_reached . "</strong>");
 		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
 		$this->tpl->parseCurrentBlock();
 

@@ -3756,8 +3756,8 @@ class ilObjTest extends ilObject
 			$row = array(
 				"nr" => "$key",
 				"title" => ilUtil::prepareFormOutput($info["title"]),
-				"max" => sprintf("%d", $max_points),
-				"reached" => sprintf("%d", $reached_points),
+				"max" => $max_points,
+				"reached" => $reached_points,
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
 				"solution" => $href,
 				"type" => $info["type_tag"],

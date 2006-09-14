@@ -173,7 +173,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->getPoints()));
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", $answer->getPoints());
 			$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -547,10 +547,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 					}
 				}
 				$points = $_POST["points_$matches[1]"];
-				if (!preg_match("/\d+/", $points))
-				{
-					$points = 0.0;
-				}
 				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 				$this->object->addAnswer(
 					$answertext,
@@ -561,19 +557,18 @@ class assSingleChoiceGUI extends assQuestionGUI
 					);
 			}
 		}
-
 		if ($this->object->getMaximumPoints() < 0)
 		{
 			$result = 1;
 			$this->setErrorMessage($this->lng->txt("enter_enough_positive_points"));
 		}
-		
+
 		// Set the question id from a hidden form parameter
 		if ($_POST["multiple_choice_id"] > 0)
 		{
 			$this->object->setId($_POST["multiple_choice_id"]);
 		}
-		
+
 		if ($saved)
 		{
 			// If the question was saved automatically before an upload, we have to make
@@ -886,5 +881,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->writePostData();
 		$this->editQuestion();
 	}
+
 }
 ?>

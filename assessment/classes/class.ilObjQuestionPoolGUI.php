@@ -79,7 +79,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				? $_POST["sel_question_types"]
 				: $_GET["sel_question_types"];
 		}
-
 		if ($cmd != "createQuestion" && $cmd != "createQuestionForTest"
 			&& $next_class != "ilpageobjectgui")
 		{
@@ -1665,7 +1664,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "cancel":
 				break;
 			default:
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
+				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""));
 				break;
 		}
 		if ($_GET["q_id"] > 0)

@@ -156,7 +156,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("ANSWER_ORDER", $thisanswer->getOrder());
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 			$this->tpl->setVariable("VALUE_ORDER", $thisanswer->getSolutionOrder());
-			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", $thisanswer->getPoints()));
+			$this->tpl->setVariable("VALUE_ORDERING_POINTS", $thisanswer->getPoints());
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -475,17 +475,10 @@ class assOrderingQuestionGUI extends assQuestionGUI
 					}
 				}
 				$points = $_POST["points_$matches[1]"];
-				if (preg_match("/\d+/", $points))
+				if ($points < 0)
 				{
-					if ($points < 0)
-					{
-						$result = 1;
-						$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-					}
-				}
-				else
-				{
-					$points = 0.0;
+					$result = 1;
+					$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 				}
 				$answer = $_POST["$key"];
 				include_once "./classes/class.ilObjAdvancedEditing.php";
