@@ -134,7 +134,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("TERM_ID", $thispair->getTermId());
 			$this->tpl->setVariable("VALUE_TERM", ilUtil::prepareFormOutput($thispair->getTerm()));
 			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
-			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", $thispair->getPoints()));
+			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", $thispair->getPoints());
 			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -486,17 +486,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					}
 				}
 				$points = $_POST["points_$matches[1]"];
-				if (preg_match("/\d+/", $points))
+				if ($points < 0)
 				{
-					if ($points < 0)
-					{
-						$result = 1;
-						$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-					}
-				}
-				else
-				{
-					$points = 0.0;
+					$result = 1;
+					$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 				}
 				$this->object->add_matchingpair(
 					ilUtil::stripSlashes($_POST["$key"]),

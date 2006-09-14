@@ -149,7 +149,7 @@ class assJavaAppletGUI extends assQuestionGUI
 			$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("upload"));
 		}
 		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("available_points"));
-		$this->tpl->setVariable("VALUE_APPLET_POINTS", sprintf("%d", $this->object->getPoints()));
+		$this->tpl->setVariable("VALUE_APPLET_POINTS", $this->object->getPoints());
 		$this->tpl->parseCurrentBlock();
 
 		

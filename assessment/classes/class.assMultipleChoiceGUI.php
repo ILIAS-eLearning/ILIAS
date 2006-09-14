@@ -173,8 +173,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("answers");
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_CHECKED", sprintf("%d", $answer->getPoints()));
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_UNCHECKED", sprintf("%d", $answer->getPointsUnchecked()));
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_CHECKED", $answer->getPoints());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS_UNCHECKED", $answer->getPointsUnchecked());
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
 			$this->tpl->parseCurrentBlock();
 		}
@@ -542,14 +542,6 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				}
 				$points = $_POST["points_checked_$matches[1]"];
 				$points_unchecked = $_POST["points_unchecked_$matches[1]"];
-				if (!preg_match("/\d+/", $points))
-				{
-					$points = 0.0;
-				}
-				if (!preg_match("/\d+/", $points_unchecked))
-				{
-					$points_unchecked = 0.0;
-				}
 				$answertext = ilUtil::stripSlashes($_POST["$key"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 				$this->object->addAnswer(
 					$answertext,

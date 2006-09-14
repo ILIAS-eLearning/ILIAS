@@ -89,7 +89,7 @@ class ASS_AnswerSimple
 	)
 	{
 		$this->answertext = $answertext;
-		$this->points = $points;
+		$this->setPoints($points);
 		$this->order = $order;
 		$this->id = $id;
 	}
@@ -135,7 +135,35 @@ class ASS_AnswerSimple
 	*/
 	function getPoints()
 	{
-		return $this->points;
+		if (round($this->points) == $this->points)
+		{
+			return sprintf("%d", $this->points);
+		}
+		else
+		{
+			return sprintf("%.1f", round($this->points, 1));
+		}
+	}
+	
+	/**
+	* Checks, if the point value is numeric
+	*
+	* Checks, if the point value is numeric
+
+	* @return boolean true if the point value is numeric, false otherwise
+	* @access public
+	* @see $points
+	*/
+	function checkPoints($a_points)
+	{
+		if (is_numeric($a_points))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 
 	/**
@@ -208,7 +236,15 @@ class ASS_AnswerSimple
 	*/
 	function setPoints($points = 0.0)
 	{
-		$this->points = $points;
+		$new_points = str_replace(",", ".", $points);
+		if ($this->checkPoints($new_points))
+		{
+			$this->points = $new_points;
+		}
+		else
+		{
+			$this->points = 0.0;
+		}
 	}
 }
 

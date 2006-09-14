@@ -133,7 +133,7 @@ class assClozeTestGUI extends assQuestionGUI
 					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $value->getPoints()));
+					$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", $value->getPoints());
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
@@ -182,7 +182,7 @@ class assClozeTestGUI extends assQuestionGUI
 					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-					$this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", sprintf("%d", $value->getPoints()));
+					$this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", $value->getPoints());
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
@@ -486,14 +486,7 @@ class assClozeTestGUI extends assQuestionGUI
 									ilUtil::stripSlashes($value)
 								);
 							}
-							if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
-							{
-								$points = $_POST["points_$matches[1]_$matches[2]"];
-							}
-							else
-							{
-								$points = 0.0;
-							}
+							$points = $_POST["points_$matches[1]_$matches[2]"];
 							$this->object->setSingleAnswerPoints($matches[1], $matches[2], $points);
 							$this->object->setSingleAnswerState($matches[1], $matches[2], 1);
 						}
@@ -501,14 +494,7 @@ class assClozeTestGUI extends assQuestionGUI
 						{
 							if (strcmp($value, $answer_array[$matches[2]]->getAnswertext()) == 0)
 							{
-								if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
-								{
-									$points = $_POST["points_$matches[1]_$matches[2]"];
-								}
-								else
-								{
-									$points = 0.0;
-								}
+								$points = $_POST["points_$matches[1]_$matches[2]"];
 								$this->object->setSingleAnswerPoints($matches[1], $matches[2], $points);
 								$this->object->setSingleAnswerState($matches[1], $matches[2], 1);
 							}
@@ -540,14 +526,7 @@ class assClozeTestGUI extends assQuestionGUI
 								);
 							}
 						}
-						if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
-						{
-							$points = $_POST["points_$matches[1]_$matches[2]"];
-						}
-						else
-						{
-							$points = 0.0;
-						}
+						$points = $_POST["points_$matches[1]_$matches[2]"];
 						$this->object->setSingleAnswerPoints($matches[1], $matches[2], $points);
 						$this->object->setSingleAnswerState($matches[1], $matches[2], 1);
 					}
