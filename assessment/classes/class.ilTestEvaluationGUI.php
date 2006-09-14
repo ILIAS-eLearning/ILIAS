@@ -552,11 +552,18 @@ class ilTestEvaluationGUI
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_user_answer.html", true, true);
 		$this->tpl->setVariable("TITLE_USER_ANSWER", $this->lng->txt("tst_eval_user_answer"));
 		$this->tpl->setVariable("TEXT_USER", $this->lng->txt("user"));
-		include_once "./classes/class.ilObjUser.php";
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		$uname = ilObjUser::_lookupName($user_id);
-		if (strlen($uname["firstname"].$uname["lastname"]) == 0) $uname["firstname"] = $this->lng->txt("deleted_user");
-		$this->tpl->setVariable("TEXT_USERNAME", trim($uname["firstname"] . " " . $uname["lastname"]));
+		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
+		{
+			$this->tpl->setVariable("TEXT_USERNAME", $this->lng->txt("unknown"));
+		}
+		else
+		{
+			include_once "./classes/class.ilObjUser.php";
+			$user_id = $this->object->_getUserIdFromActiveId($active_id);
+			$uname = ilObjUser::_lookupName($user_id);
+			if (strlen($uname["firstname"].$uname["lastname"]) == 0) $uname["firstname"] = $this->lng->txt("deleted_user");
+			$this->tpl->setVariable("TEXT_USERNAME", trim($uname["firstname"] . " " . $uname["lastname"]));
+		}
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_QUESTIONTEXT", $questiontext);
 		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
@@ -1743,15 +1750,17 @@ class ilTestEvaluationGUI
 			"", "", $force_active
 		);
 		
-		$force_active = (is_numeric($_GET["active_id"]) && $_GET["etype"] == "selected") ? true	: false;
-		$tabs_gui->addTarget("eval_selected_users", 
-			$this->ctrl->getLinkTargetByClass(get_class($this), "evalStatSelected"), 
-			array("evalStatSelected", "evalSelectedUsers", "searchForEvaluation",
-			"addFoundUsersToEval", "removeSelectedUser"),	
-			"", "", $force_active
-		);
+		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+		{
+			$force_active = (is_numeric($_GET["active_id"]) && $_GET["etype"] == "selected") ? true	: false;
+			$tabs_gui->addTarget("eval_selected_users", 
+				$this->ctrl->getLinkTargetByClass(get_class($this), "evalStatSelected"), 
+				array("evalStatSelected", "evalSelectedUsers", "searchForEvaluation",
+				"addFoundUsersToEval", "removeSelectedUser"),	
+				"", "", $force_active
+			);
+		}
 		$ilTabs = $tabs_gui;
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}	
 }
 ?>
