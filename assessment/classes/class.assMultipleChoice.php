@@ -1110,19 +1110,15 @@ class assMultipleChoice extends assQuestion
 		$points = 0;
 		foreach ($this->answers as $key => $answer)
 		{
-			if (count($found_values) > 0) 
+			if (in_array($key, $found_values))
 			{
-				if (in_array($key, $found_values))
-				{
-					$points += $answer->getPoints();
-				}
-				else
-				{
-					$points += $answer->getPointsUnchecked();
-				}
+				$points += $answer->getPoints();
+			}
+			else
+			{
+				$points += $answer->getPointsUnchecked();
 			}
 		}
-
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$mc_scoring = ilObjTest::_getMCScoring($active_id);
 		if (($mc_scoring == 0) && (count($found_values) == 0))
