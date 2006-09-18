@@ -6436,7 +6436,19 @@ class ilObjTest extends ilObject
 		$result_array = array();
 
 		if (is_numeric($user_id))
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation, IF(test.active_id IS NULL,0,1) as test_started " .
+		{
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
+				"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
+				"FROM usr_data, tst_invited_user " . 
+				"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
+				"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
+				"ORDER BY %s",
+				$ilDB->quote($this->test_id),
+				$user_id,
+				$order
+			);
+/*		CREATED NEW VERSION FOR MYSQL 5 COMPATIBILITY (Helmut Schottmüller, 2006-09-18)
+				$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation, IF(test.active_id IS NULL,0,1) as test_started " .
 							 "FROM tst_invited_user t, usr_data ".
 							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
 							 "WHERE t.test_fi = %s and t.user_fi=usr_id AND usr_id=%s ".
@@ -6444,17 +6456,28 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->test_id),
 				$user_id,
 				$order
-			);
+			);*/
+		}
 		else 
 		{
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation, IF(test.active_id IS NULL,0,1) as test_started " .							 				
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
+				"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
+				"FROM usr_data, tst_invited_user " . 
+				"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
+				"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
+				"ORDER BY %s",
+				$ilDB->quote($this->test_id),
+				$order
+			);
+/*		CREATED NEW VERSION FOR MYSQL 5 COMPATIBILITY (Helmut Schottmüller, 2006-09-18)
+				$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation, IF(test.active_id IS NULL,0,1) as test_started " .							 				
 							 "FROM tst_invited_user t, usr_data ".
 							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
 							 "WHERE t.test_fi = %s and t.user_fi=usr_id ".
 							 "ORDER BY %s",
 				$ilDB->quote($this->test_id),
 				$order
-			);
+			);*/
 		}
 		
 		return $this->getArrayData($query, "usr_id");
