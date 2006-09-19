@@ -249,7 +249,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacsystem, $rbacreview, $log, $rbacadmin;
+		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin;
 
 		if(!$rbacsystem->checkAccess('create_user',USER_FOLDER_ID))
 		{
@@ -282,7 +282,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$this->__setUserData($new_user,$user_data);
 
 
-		$log->write('SOAP: addUser()');
+		$ilLog->write('SOAP: addUser()');
 
 		// Need this for entry in object_data
 		$new_user->setTitle($new_user->getFullname());
@@ -383,7 +383,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			}
 			if(!isset($user_data['user_language']))
 			{
-				$user_data['user_language'] = 'en';
+				$user_data['user_language'] = $lng->getDefaultLanguage();
 			}
 		}
 		foreach($user_data as $field => $value)
