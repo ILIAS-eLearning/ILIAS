@@ -328,11 +328,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(strlen($this->object->getImportantInformation()))
 		{
 			$info->addProperty($this->lng->txt('crs_important_info'),
-							   "<strong>".nl2br($this->object->getImportantInformation()."</strong>"));
+							   "<strong>".nl2br(
+							   ilUtil::makeClickable($this->object->getImportantInformation(), true)."</strong>"));
 		}
 		if(strlen($this->object->getSyllabus()))
 		{
-			$info->addProperty($this->lng->txt('crs_syllabus'), nl2br($this->object->getSyllabus()));
+			$info->addProperty($this->lng->txt('crs_syllabus'), nl2br(
+								ilUtil::makeClickable ($this->object->getSyllabus(), true)));
 		}
 		// files
 		if(count($files))
