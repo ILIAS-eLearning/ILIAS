@@ -114,6 +114,9 @@ class ilSOAPAuth extends Auth
 				$nspref.'new_user' => $new_user),
 			$this->namespace,
 			$soapAction);
+			
+//echo "<br>-".$valid["valid"]."-";
+//echo '<br><pre>' . htmlspecialchars($this->soap_client->response, ENT_QUOTES) . '</pre>';
 
 		// to do check SOAP error!?
 		$valid["local_user"] = $local_user;
