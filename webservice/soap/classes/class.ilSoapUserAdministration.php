@@ -249,7 +249,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin;
+		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin,$ilSetting;
 
 		if(!$rbacsystem->checkAccess('create_user',USER_FOLDER_ID))
 		{
@@ -311,6 +311,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$new_user->setLanguage($user_data['user_language']);
 		$new_user->setPref('style',$user_data['user_style']);
 		$new_user->setPref('skin',$user_data['user_skin']);
+		$new_user->setPref('hits_per_page',$ilSetting->get('hits_per_page'));
+		$new_user->setPref('show_users_online',$ilSetting->get('show_users_online'));
 		$new_user->writePrefs();
 
 		return $new_user->getId();
