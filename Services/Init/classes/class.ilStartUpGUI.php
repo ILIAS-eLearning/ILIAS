@@ -748,14 +748,14 @@ class ilStartUpGUI
 
 		// display client selection list if enabled
 		if (!isset($_GET["client_id"]) &&
-			!isset($_GET["cmd"]) &&
+			$_GET["cmd"] == "" &&
 			$ilIliasIniFile->readVariable("clients","list"))
 		{
 			$this->showClientList();
 			//include_once "./include/inc.client_list.php";
 			exit();
 		}
-		
+
 		/*
 		if ($_GET["cmd"] == "login")
 		{
