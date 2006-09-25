@@ -310,6 +310,10 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$str = $this->lng->txt("person_title");
 			}
+			if ($key == "ext_account")
+			{
+				continue;
+			}
 		
 			// check to see if dynamically required
 			if (isset($settings["require_" . $key]) && $settings["require_" . $key])
@@ -1016,6 +1020,10 @@ class ilObjUserGUI extends ilObjectGUI
 				if ($key == "title")
 				{
 					$str = $this->lng->txt("person_title");
+				}
+				if ($key == "ext_account")
+				{
+					continue;
 				}
 
                 // check to see if dynamically required
