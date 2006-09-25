@@ -702,9 +702,10 @@ class ilUtil
 	*
 	* @access	public
 	* @param	string	$text: Der Text
+	* @param	boolean	$detectGotoLinks	if true, internal goto-links will be retargeted to _self and text is replaced by title
 	* @return	string	clickable link
 	*/
-	function makeClickable($a_text)
+	function makeClickable($a_text, $detectGotoLinks = false)
 	{
 		// URL mit ://-Angabe
 		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])",
@@ -721,8 +722,46 @@ class ilUtil
 		// E-Mail
 		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
 		"<a  href=\"mailto:\\1\">\\1</a>", $ret);
-
+		
+		if ($detectGotoLinks) 
+		// replace target blank with self and text with object title.
+		{
+			$regExp = "<a[^>]*href=\"(".str_replace("/","\/",ILIAS_HTTP_PATH)."\/goto.php\?target=\w+_(\d+)[^\"]*)\"[^>]*>[^<]*<\/a>";
+//			echo htmlentities($regExp);
+			$ret = preg_replace_callback(
+				"/".$regExp."/i",
+				array("ilUtil", "replaceLinkProperties"), 
+				$ret);
+		} 
+		
 		return($ret);
+	}
+	
+	/**
+	 * replaces target _blank with _self and the link text with the according object title.
+	 * 
+	 * @private
+	 * 
+	 * @param string $matches 
+	 * 	$matches[0] contains complete link
+	 * 	$matches[1] contains href attribute
+	 * 	$matches[2] contains id of goto link
+	 * @return link containg a _self target, same href and new text content
+	 */
+	function replaceLinkProperties ($matches) 
+	{
+		$link = $matches[0];
+		$ref_id = $matches[2];
+		if ($ref_id > 0) 
+		{
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			if ($obj_id > 0) 
+			{
+				$title = ilObject::_lookupTitle($obj_id);
+				$link = "<a href=".$matches[1]." target=\"_self\">".$title."</a>";
+			}
+		}		
+		return $link;
 	}
 
 	/**
