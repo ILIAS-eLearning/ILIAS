@@ -609,7 +609,7 @@ class ilRepositorySearchGUI
 								  "firstname",
 								  "lastname"),
 							array("ref_id" => $_GET['ref_id'],
-								  "cmd" => 'show',
+								  "cmd" => $a_cmd,
 								  "cmdClass" => "ilrepositorysearchgui",
 								  "cmdNode" => $_GET["cmdNode"]));
 
@@ -808,6 +808,8 @@ class ilRepositorySearchGUI
 
 	function __setTableGUIBasicData(&$tbl,&$result_set,$from = "")
 	{
+		global $ilUser;
+
         switch($from)
 		{
 			case "group":
@@ -834,12 +836,11 @@ class ilRepositorySearchGUI
 				break;
 		}
 
-		#$tbl->disable('sort');
-		$tbl->disable('linkbar');
 		$tbl->setOrderColumn($order);
 		$tbl->setOrderDirection($direction);
 		$tbl->setOffset($offset);
-		$tbl->setLimit(1000);
+		#$tbl->setLimit($ilUser->getPref('hits_per_page'));
+		$tbl->setLimit(1000000);
 		$tbl->setMaxCount(count($result_set));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($result_set);
