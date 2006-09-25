@@ -579,10 +579,15 @@ class ilStartUpGUI
 			if ($client->checkDatabaseExists() and $client->ini->readVariable("client","access") and $client->getSetting("setup_ok"))
 			{
 				$this->ctrl->setParameter($this, "client_id", $key);
+				//$data[] = array(
+				//				$client->getName(),
+				//				"<a href=\"".$ilCtrl->getLinkTarget($this, "processIndexPHP")."\">Start page</a>",
+				//				"<a href=\"".$ilCtrl->getLinkTarget($this, "showLogin")."\">Login page</a>"
+				//				);
 				$data[] = array(
 								$client->getName(),
 								"<a href=\"".$ilCtrl->getLinkTarget($this, "processIndexPHP")."\">Start page</a>",
-								"<a href=\"".$ilCtrl->getLinkTarget($this, "showLogin")."\">Login page</a>"
+								"<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">Login page</a>"
 								);
 			}
 		}
