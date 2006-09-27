@@ -369,8 +369,7 @@ class assNumericGUI extends assQuestionGUI
 		}
 		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
 		$questiontext = $this->object->getQuestion();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$template->setVariable("QUESTIONTEXT", $questiontext);
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
 		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
