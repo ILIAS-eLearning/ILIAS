@@ -1787,5 +1787,34 @@ class SurveyQuestion
 		}		
 		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
 	}
+
+	/**
+	* Prepares a string for a text area output in surveys
+	*
+	* @param string $txt_output String which should be prepared for output
+	* @access public
+	*/
+	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
+	{
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$result = $txt_output;
+		$is_html = $this->isHTML($result);
+		if ($prepare_for_latex_output)
+		{
+			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
+		}
+		
+		$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+		if (!$is_html)
+		{
+			// if the string does not contain HTML code, replace the newlines with HTML line breaks
+			$result = preg_replace("/[\n]/", "<br />", $result);
+		}
+		$result = str_replace("{", "&#123;", $result);
+		$result = str_replace("}", "&#125;", $result);
+		$result = str_replace("\\", "&#92;", $result);
+		return $result;
+	}
 }
 ?>

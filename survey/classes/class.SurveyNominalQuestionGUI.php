@@ -140,7 +140,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
 		$this->tpl->setVariable("TXT_SR", $this->lng->txt("multiple_choice_single_response"));
 		$this->tpl->setVariable("TXT_MR", $this->lng->txt("multiple_choice_multiple_response"));
 		if ($this->object->getSubtype() == SUBTYPE_MCSR)
@@ -352,8 +352,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
 		$questiontext = $this->object->getQuestiontext();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$this->tpl->setVariable("QUESTIONTEXT", $questiontext);
+		$this->tpl->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if (! $this->object->getObligatory())
 		{
 			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
@@ -409,7 +408,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$this->object->setOrientation($_POST["orientation"]);
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestiontext($questiontext);
 		if ($_POST["obligatory"])
 		{
@@ -533,8 +531,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("FORM_DATA_MODIFIED_PRESS_SAVE", $this->lng->txt("form_data_modified_press_save"));
 		}
 		$questiontext = $this->object->getQuestiontext();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$this->tpl->setVariable("QUESTION_TEXT", $questiontext);
+		$this->tpl->setVariable("QUESTION_TEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -548,8 +545,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setCurrentBlock("detail_row");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question"));
 		$questiontext = $this->object->getQuestiontext();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $questiontext);
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("detail_row");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));

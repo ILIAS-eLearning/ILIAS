@@ -125,7 +125,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("VALUE_MAXCHARS", $this->object->getMaxChars());
 		}
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
@@ -174,8 +174,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		}
 		$this->tpl->setCurrentBlock("question_data_text");
 		$questiontext = $this->object->getQuestiontext();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$this->tpl->setVariable("QUESTIONTEXT", $questiontext);
+		$this->tpl->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if (! $this->object->getObligatory())
 		{
 			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
@@ -244,7 +243,6 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		}
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestiontext($questiontext);
 		if ($_POST["obligatory"])
 		{
@@ -276,8 +274,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setCurrentBlock("detail_row");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question"));
 		$questiontext = $this->object->getQuestiontext();
-		$questiontext = ilUtil::insertLatexImages($questiontext, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $questiontext);
+		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("detail_row");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));

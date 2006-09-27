@@ -2141,12 +2141,15 @@ class assQuestion
 	{
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$result = $txt_output;
+		$is_html = $this->isHTML($result);
 		if ($prepare_for_latex_output)
 		{
 			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
+			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
 		}
+		
 		$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		if (!$this->isHTML($result))
+		if (!$is_html)
 		{
 			// if the string does not contain HTML code, replace the newlines with HTML line breaks
 			$result = preg_replace("/[\n]/", "<br />", $result);
