@@ -683,7 +683,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$error = 1;
 		}
 		// check correct file type
-		if (strcmp($_FILES["qtidoc"]["type"], "text/xml") != 0)
+		if (strpos("xml", $_FILES["qtidoc"]["type"]) !== FALSE)
 		{
 //			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
 			$error = 1;

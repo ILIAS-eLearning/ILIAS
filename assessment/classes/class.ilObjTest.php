@@ -7112,12 +7112,13 @@ class ilObjTest extends ilObject
 				$notimeleft = TRUE;
 			}
 		}
-		$result = $this->canViewResults();
+		$result = FALSE;
 		if (($active->tries == 0) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
 		{
 			$result = FALSE;
 		}
 		if (($this->endingTimeReached()) || $notimeleft) $result = TRUE;
+		$result = $result & $this->canViewResults();
 		if ($this->getTestType() == TYPE_ONLINE_TEST)
 		{
 			return $result && $this->isActiveTestSubmitted();

@@ -4377,7 +4377,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function __prepareDateSelect($a_unix_time)
 	{
 		return array('y' => date('Y',$a_unix_time),
-					 'm' => date('m',$a_unix_time),
+					 'm' => date('n',$a_unix_time),
 					 'd' => date('d',$a_unix_time));
 	}
 
