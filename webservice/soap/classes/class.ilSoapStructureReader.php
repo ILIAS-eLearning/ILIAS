@@ -56,6 +56,14 @@ class ilSoapStructureReader {
 	function isValid () {
 	    return $this->structureObject != null && is_a($this->structureObject, "ilSoapStructureObject");
 	}
+	
+	
+	/**
+	* read access to parent object
+	*/
+	function getObject () {
+		return $this->object;
+	}
 }
 
 ?>

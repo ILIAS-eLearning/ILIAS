@@ -37,15 +37,17 @@ class ilSoapStructureObject
 	var $title;
 	var $type;
 	var $description;
+	var $parentRefId;
 
 	var $structureObjects = array ();
 
 
-	function ilSoapStructureObject ($objId, $type, $title, $description) {
+	function ilSoapStructureObject ($objId, $type, $title, $description, $parentRefId = null) {
 		$this->setObjId ($objId);
 		$this->setType ($type);
 		$this->setTitle ($title);
 		$this->setDescription ($description);
+		$this->parentRefId = $parentRefId;
 	}
 
 	/**
@@ -142,15 +144,17 @@ class ilSoapStructureObject
 	*	return current goto_link
 	*
 	*/
-	function getGotoLink () {
-		return ILIAS_HTTP_PATH."/". "goto.php?target=".$this->getType()."_".$this->getObjId()."&client_id=".CLIENT_ID;
+	function getGotoLink () 
+	{
+		return ILIAS_HTTP_PATH."/". "goto.php?target=".$this->getType()."_".$this->getObjId().(is_numeric ($this->getParentRefId())?"_".$this->getParentRefId():"")."&client_id=".CLIENT_ID;
 	}
 
 	/**
 	*	return current internal_link
 	*
 	*/
-	function getInternalLink () {
+	function getInternalLink () 
+	{
 		die ("abstract");
 	}
 
@@ -158,15 +162,35 @@ class ilSoapStructureObject
 	 * get xml tag attributes
 	 */
 
-	function _getXMLAttributes () {
+	function _getXMLAttributes () 
+	{
 		return array(	'type' => $this->getType(),
 					   	'obj_id' => $this->getObjId()
 		);
 	}
 
-	function _getTagName () {
+	function _getTagName () 
+	{
 		return "StructureObject";
 	}
+	
+	/**
+	* set ref id for parent object (used for permanent link if set)
+	*/
+	function setParentRefId ($parentRefId) 
+	{
+		$this->parentRefId = $parentRefId;
+	}
+	
+	
+	/**
+	* read access to parents ref id
+	*/
+	function getParentRefId() 
+	{
+		return $this->parentRefId;
+	}
+		
 
 	/**
 	 * export to xml writer

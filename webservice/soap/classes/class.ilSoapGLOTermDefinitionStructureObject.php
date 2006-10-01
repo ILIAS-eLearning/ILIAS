@@ -38,8 +38,8 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
 class ilSoapGLOTermDefinitionStructureObject extends ilSoapStructureObject{
 
-	function ilSoapGLOTermDefinitionStructureObject($objId, $type, $title) {
-		parent::ilSoapStructureObject($objId, $type, $title, "");
+	function ilSoapGLOTermDefinitionStructureObject($objId, $type, $title, $description, $parentRefId) {
+		parent::ilSoapStructureObject($objId, $type, $title, $description, $parentRefId);
 	}
 
 

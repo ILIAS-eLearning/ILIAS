@@ -135,7 +135,8 @@ class ilObjectXMLWriter extends ilXmlWriter
 		$this->xmlElement('Owner',null,$object->getOwner());
 		$this->xmlElement('CreateDate',null,$object->getCreateDate());
 		$this->xmlElement('LastUpdate',null,$object->getLastUpdateDate());
-		$this->xmlElement('ImportId',null,$object->getImportId());
+		$this->xmlElement('ImportId',null, $object->getImportId());
+		$this->xmlElement('PermanentLink', null, $this->__buildPermanentLink($object));
 
 		foreach(ilObject::_getAllReferences($object->getId()) as $ref_id)
 		{
@@ -202,6 +203,13 @@ class ilObjectXMLWriter extends ilXmlWriter
 		{
 			return $info[0]['type'];
 		}
+	}
+	
+	/**
+	* create permanent link for object
+	*/
+	function __buildPermanentLink ($object) {
+		return ILIAS_HTTP_PATH."/goto.php?target=".$object->getType()."_".$object->getRefId()."&client_id=".CLIENT_ID;
 	}
 
 }

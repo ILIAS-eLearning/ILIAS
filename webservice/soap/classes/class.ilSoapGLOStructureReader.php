@@ -54,9 +54,7 @@ class ilSoapGLOStructureReader extends ilSoapStructureReader
 
 		    /* @var $termStructureObject ilSoapGLOTermStructureObject*/
 		    $termStructureObject = ilSoapStructureObjectFactory::getInstance (
-		      $term["id"], "git", $term["term"]);
-
-		    $termStructureObject->setGlossaryRefId($this->object->getRefId());
+		      $term["id"], "git", $term["term"], "", $this->getObject()->getRefId());
 
 		    $this->structureObject->addStructureObject($termStructureObject);
 
@@ -64,7 +62,7 @@ class ilSoapGLOStructureReader extends ilSoapStructureReader
 
 		    foreach ($defs as $def) {
 		        $defStructureObject = ilSoapStructureObjectFactory::getInstance(
-		          $def["id"], "gdf",$def["short_text"]);
+		          $def["id"], "gdf", $def["short_text"], "", $this->getObject()->getRefId());
 
                 $termStructureObject->addStructureObject($defStructureObject);
 		    }

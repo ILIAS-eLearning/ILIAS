@@ -32,6 +32,8 @@
 */
 chdir('../..');
 
+define ("ILIAS_MODULE", "webservice/soap");
+
 global $HTTP_RAW_POST_DATA;
 
 #if(substr(phpversion(),0,1) == '5' and $HTTP_RAW_POST_DATA)
