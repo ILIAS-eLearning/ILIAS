@@ -39,25 +39,23 @@ class ilSoapStructureObjectFactory {
 		if ($classname != null)
     		switch ($object->getType())
     		{
-    			case "lm":
+                	case "lm":
+                	case "glo":
     				return new $classname(
     					$object->getId(), $object->getType(), $object->getTitle(),
     					$object->getLongDescription(), $object->getRefId());
-                case "glo":
-    				return new $classname(
-    					$object->getId(), $object->getType(), $object->getTitle(),
-    					$object->getLongDescription(), $object->getRefId());
+    				break;
     		}
 		return null;
 	}
 
-	function getInstance ($objId, $type, $title)
+	function getInstance ($objId, $type, $title, $description, $parentRefId)
 	{
 		$classname = ilSoapStructureObjectFactory::_getClassnameForType ($type);
 		if ($classname == null)
 		  return null;
 
-		return new $classname($objId, $type, $title);
+		return new $classname($objId, $type, $title, $description, $parentRefId);
 	}
 
 	function _getClassnameForType ($type)

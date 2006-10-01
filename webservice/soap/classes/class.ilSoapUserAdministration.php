@@ -988,7 +988,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$data = array();
 
 		$query = "SELECT usr_data.*, usr_pref.value AS language
-		          FROM usr_data, usr_pref
+		          FROM  usr_pref,usr_data
 		          LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id
 		          WHERE
 		           usr_pref.usr_id = usr_data.usr_id AND
