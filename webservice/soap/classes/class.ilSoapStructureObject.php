@@ -126,7 +126,8 @@ class ilSoapStructureObject
 	*	set current type
 	*
 	*/
-	function setType ($value) {
+	function setType ($value) 
+	{
 		$this->type = $value;
 	}
 
@@ -135,7 +136,8 @@ class ilSoapStructureObject
 	*	return current type
 	*
 	*/
-	function getType () {
+	function getType () 
+	{
 		return $this->type;
 	}
 
