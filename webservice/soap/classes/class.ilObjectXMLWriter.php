@@ -136,7 +136,6 @@ class ilObjectXMLWriter extends ilXmlWriter
 		$this->xmlElement('CreateDate',null,$object->getCreateDate());
 		$this->xmlElement('LastUpdate',null,$object->getLastUpdateDate());
 		$this->xmlElement('ImportId',null, $object->getImportId());
-		$this->xmlElement('PermanentLink', null, $this->__buildPermanentLink($object));
 
 		foreach(ilObject::_getAllReferences($object->getId()) as $ref_id)
 		{
@@ -173,11 +172,13 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_3_8.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS objects");
 		$this->xmlHeader();
 
-		$this->xmlStartTag("Objects");
+		$attrs = array ("nic_id" => IL_INST_ID, "installation_url" => ILIAS_HTTP_PATH, "client_id" => CLIENT_ID);
+		
+		$this->xmlStartTag("Objects", $attrs);
 
 		return true;
 	}
@@ -205,12 +206,6 @@ class ilObjectXMLWriter extends ilXmlWriter
 		}
 	}
 	
-	/**
-	* create permanent link for object
-	*/
-	function __buildPermanentLink ($object) {
-		return ILIAS_HTTP_PATH."/goto.php?target=".$object->getType()."_".$object->getRefId()."&client_id=".CLIENT_ID;
-	}
 
 }
 
