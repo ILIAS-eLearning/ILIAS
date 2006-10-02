@@ -240,8 +240,9 @@ class ilGlossaryPresentationGUI
 			
 			$tbl->setColumnWidth(array("30%", "70%"));
 		}
-
-		$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "listTerms");
+		
+		$header_params = $this->ctrl->getParameterArrayByClass("ilglossarypresentationgui", "listTerms");
+		//$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "listTerms");
 
 		if (!empty ($filter)) {
 			$header_params ["cmd"] = "searchTerms";

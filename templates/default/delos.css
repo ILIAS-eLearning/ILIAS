@@ -1130,8 +1130,7 @@ td.il_CenterColumn
 
 td.il_RightColumn
 {
-	padding-left:15px;
-	padding-left:15px;
+	padding-right:15px;
 	vertical-align:top;
 	width:20%;
 }

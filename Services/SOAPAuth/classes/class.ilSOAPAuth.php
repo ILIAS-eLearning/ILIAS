@@ -74,7 +74,8 @@ class ilSOAPAuth extends Auth
 		$this->uri = $uri;
 
 		$this->soap_client = new soap_client($this->uri);
-		
+//echo "<br>== Get SOAP client ==";
+//echo "<br>SOAP client with URI: ".$this->uri."<br>";
 		if ($err = $this->soap_client->getError()) 
 		{
 			die("SOAP Authentication Initialisation Error: ".$err);
@@ -114,8 +115,11 @@ class ilSOAPAuth extends Auth
 				$nspref.'new_user' => $new_user),
 			$this->namespace,
 			$soapAction);
-			
-//echo "<br>-".$valid["valid"]."-";
+
+//echo "<br>== Request ==";
+//echo '<br><pre>' . htmlspecialchars($this->soap_client->request, ENT_QUOTES) . '</pre><br>';
+//echo "<br>== Response ==";
+//echo "<br>Valid: -".$valid["valid"]."-";
 //echo '<br><pre>' . htmlspecialchars($this->soap_client->response, ENT_QUOTES) . '</pre>';
 
 		// to do check SOAP error!?
