@@ -543,7 +543,8 @@ class ilPersonalProfileGUI
 			{
 				// feedback
 				sendInfo($this->lng->txt("saved_successfully"),true);
-				$this->tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
+				$this->ctrl->redirect($this, "");
+				//$this->tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 			}
 			else
 			{
