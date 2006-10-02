@@ -1153,8 +1153,44 @@ class ilPageObject
 			}
 
 			$this->ilias->db->query($query);
+			
+			// handle media object usage
+			include_once("content/classes/Media/class.ilObjMediaObject.php");
+			$mob_ids = ilObjMediaObject::_getMobsOfObject(
+				$this->getParentType().":pg", $this->getId());
 			$this->saveMobUsage($this->getXMLFromDom());
+			foreach($mob_ids as $mob)	// check, whether media object can be deleted
+			{
+				if (ilObject::_exists($mob))
+				{
+					$mob_obj = new ilObjMediaObject($mob);
+					$usages = $mob_obj->getUsages();
+					if (count($usages) == 0)	// delete, if no usage exists
+					{
+						$mob_obj->delete();
+					}
+				}
+			}
+			
+			// handle file usages
+			include_once("classes/class.ilObjFile.php");
+			$file_ids = ilObjFile::_getFilesOfObject(
+				$this->getParentType().":pg", $this->getId());
 			$this->saveFileUsage();
+			foreach($file_ids as $file)	// check, whether file object can be deleted
+			{
+				if (ilObject::_exists($file))
+				{
+					$file_obj = new ilObjFile($file, false);
+					$usages = $file_obj->getUsages();
+					if (count($usages) == 0)	// delete, if no usage exists
+					{
+						$file_obj->delete();
+					}
+				}
+			}
+			
+			// save internal link information
 			$this->saveInternalLinks($this->getXMLFromDom());
 			$this->callUpdateListeners();
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";

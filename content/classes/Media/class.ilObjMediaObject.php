@@ -912,6 +912,7 @@ class ilObjMediaObject extends ilObject
 		$q = "DELETE FROM mob_usage WHERE usage_type='$a_type' AND usage_id='$a_id'";
 		$ilDB->query($q);
 	}
+
 	/**
 	* get mobs of object
 	*/
