@@ -104,6 +104,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
 		$this->tpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
 		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
+		$this->tpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
 
 		include_once("./classes/class.ilObjStyleSheet.php");
 		
@@ -273,6 +274,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
 		$this->tpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
 		$this->tpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
+		$this->tpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
 
 		include_once("./classes/class.ilObjStyleSheet.php");
 		

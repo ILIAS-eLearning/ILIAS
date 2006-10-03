@@ -35,6 +35,7 @@ q_help = "{TXT_QUOT} [quot]text[/quot]  (alt+q)";
 c_help = "{TXT_CODE} [code]code[/code]  (alt+c)";
 i_help = "{TXT_ILN} [iln page=\"page_id\"]text[/iln]";
 x_help = "{TXT_XLN} [xln url=\"http://url\"]text[/xln]  (alt+x)";
+t_help = "{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)";
 
 // old helpline messages of phpbb
 z_help = "List: [list]text[/list] (alt+l)";
@@ -47,7 +48,7 @@ s_help = "Font color: [color=red]text[/color]  Tip: you can also use color=#FF00
 
 // Define the bbCode tags
 bbcode = new Array();
-bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]');
+bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]', '[tex]','[/tex]');
 imageTag = false;
 
 // Shows the help messages in the helpline window
@@ -276,6 +277,7 @@ function storeCaret(textEl) {
 	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode4" value=" com " onClick="bbstyle(4)" onMouseOver="helpline('u')" />
 	<input type="button" class="ilEditSubmit" accesskey="q" name="addbbcode6" value=" quot " onClick="bbstyle(6)" onMouseOver="helpline('q')" />
 	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode8" value=" code " onClick="bbstyle(8)" onMouseOver="helpline('c')" />
+	<input type="button" class="ilEditSubmit" accesskey="x" name="addbbcode18" value=" tex " onClick="bbstyle(18)" onMouseOver="helpline('t')" />
 	<input type="button" class="ilEditSubmit" accesskey="f" name="addbbcode10" value=" fn " onClick="bbstyle(10)" onMouseOver="helpline('f')" />
 	<input type="button" class="ilEditSubmit" accesskey="x" name="addbbcode14" value=" xln " onClick="bbstyle(14)" onMouseOver="helpline('x')" />
 	<!-- BEGIN bb_ilink_button -->
