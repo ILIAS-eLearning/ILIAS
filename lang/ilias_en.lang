@@ -3894,6 +3894,7 @@ content#:#cont_text_fn#:#Footnote:
 content#:#cont_text_iln#:#Internal Link, e.g.:
 content#:#cont_text_quot#:#Quotation:
 content#:#cont_text_str#:#Strong Text:
+content#:#cont_text_tex#:#LaTeX Code:
 content#:#cont_text_xln#:#External Link:
 content#:#cont_time#:#Time
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
