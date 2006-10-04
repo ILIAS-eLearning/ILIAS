@@ -68,7 +68,6 @@ class ilCourseItemAdministrationGUI
 	{
 		global $ilTabs;
 
-
 		$this->__setTabs();
 
 		$cmd = $this->ctrl->getCmd();
