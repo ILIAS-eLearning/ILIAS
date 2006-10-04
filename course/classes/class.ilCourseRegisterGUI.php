@@ -116,7 +116,6 @@ class ilCourseRegisterGUI
 
 		if($this->course_obj->getSubscriptionMaxMembers() and (!$free or $this->waiting_list->getCountUsers()))
 		{
-
 			#if((($this->course_obj->getSubscriptionMaxMembers() <= $this->course_obj->members_obj->getCountMembers())
 			#	and $this->course_obj->getSubscriptionMaxMembers() != 0) or
 			#   $this->waiting_list->getCountUsers())
@@ -150,13 +149,15 @@ class ilCourseRegisterGUI
 				sendInfo($this->lng->txt('crs_already_assigned_to_list'),true);
 				ilUtil::redirect('repository.php?ref_id='.$this->tree->getParentId($this->course_id));
 			}				
-		}				
+		}
+
+		if($this->course_obj->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED)
+		{
+			$this->ilErr->raiseError($this->lng->txt("err_unknown_error"),$this->ilErr->MESSAGE);
+		}
+
 		switch($this->course_obj->getSubscriptionType())
 		{
-			case $this->course_obj->SUBSCRIPTION_DEACTIVATED:
-				$this->ilErr->raiseError($this->lng->txt("err_unknown_error"),$this->ilErr->MESSAGE);
-				exit;
-
 			case $this->course_obj->SUBSCRIPTION_DIRECT:
 				
 				$tmp_obj =& ilObjectFactory::getInstanceByObjId($this->user_id);
@@ -180,7 +181,8 @@ class ilCourseRegisterGUI
 
 				if($this->course_obj->members_obj->addSubscriber($this->user_id))
 				{
-					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_SUBSCRIPTION_REQUEST,$this->user_id);
+					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_SUBSCRIPTION_REQUEST,
+																	 $this->user_id);
 					sendInfo($this->lng->txt("crs_subscription_requested"),true);
 					$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->course_id));
 
@@ -283,24 +285,21 @@ class ilCourseRegisterGUI
 			$this->tpl->setVariable("INFO_REG_PRE",$this->lng->txt('crs_grp_info_reg').$courses.'<br>');
 		}
 
-		switch($this->course_obj->getSubscriptionType())
+		if($this->course_obj->getSubscriptionLimitationType() != IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{
-			case $this->course_obj->SUBSCRIPTION_DEACTIVATED:
-				$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_deactivated"));
-				break;
-			case $this->course_obj->SUBSCRIPTION_CONFIRMATION:
-				$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_confirmation"));
-				break;
-			case $this->course_obj->SUBSCRIPTION_DIRECT:
-				$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_direct"));
-				break;
-			case $this->course_obj->SUBSCRIPTION_PASSWORD:
-				$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_password"));
-				break;
-		}
+			switch($this->course_obj->getSubscriptionType())
+			{
+				case $this->course_obj->SUBSCRIPTION_CONFIRMATION:
+					$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_confirmation"));
+					break;
+				case $this->course_obj->SUBSCRIPTION_DIRECT:
+					$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_direct"));
+					break;
+				case $this->course_obj->SUBSCRIPTION_PASSWORD:
+					$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_password"));
+					break;
+			}
 
-		if($this->course_obj->getSubscriptionType() != $this->course_obj->SUBSCRIPTION_DEACTIVATED)
-		{
 			$this->tpl->setCurrentBlock("reg_until");
 			$this->tpl->setVariable("TXT_REG_UNTIL",$this->lng->txt("crs_reg_until"));
 
@@ -311,14 +310,19 @@ class ilCourseRegisterGUI
 			else if($this->course_obj->getSubscriptionStart() < time())
 			{
 				$this->tpl->setVariable("FROM",$this->lng->txt("crs_to"));
-				$this->tpl->setVariable("REG_UNTIL",strftime("%c",$this->course_obj->getSubscriptionEnd()));
+				$this->tpl->setVariable("REG_UNTIL",ilFormat::formatUnixTime($this->course_obj->getSubscriptionEnd(),true));
 			}
 			else if($this->course_obj->getSubscriptionStart() > time())
 			{
 				$this->tpl->setVariable("FROM",$this->lng->txt("crs_from"));
-				$this->tpl->setVariable("REG_UNTIL",strftime("%c",$this->course_obj->getSubscriptionStart()));
+				$this->tpl->setVariable("REG_UNTIL",ilFormat::formatUnixTime($this->course_obj->getSubscriptionStart(),true));
 			}
 			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			// Deactivated
+			$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_deactivated"));
 		}
 
 		if($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_PASSWORD and
@@ -396,7 +400,7 @@ class ilCourseRegisterGUI
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_already_subscribed"));
 			$allow_subscription = false;
 		}
-		if($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_DEACTIVATED)
+		if($this->course_obj->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_deactivated"));
 			$allow_subscription = false;
