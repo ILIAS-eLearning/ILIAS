@@ -6509,4 +6509,26 @@ trac#:#view_mode#:#Vaata olekut
 trac#:#vm_access_of_users#:#Access of users
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###05 10 2006 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###05 10 2006 new variable
+assessment#:#question_summary#:#Question Summary###05 10 2006 new variable
+assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 10 2006 new variable
+assessment#:#tst_instant_verification#:#Instant verification###05 10 2006 new variable
+content#:#cont_text_tex#:#LaTeX Code:###05 10 2006 new variable
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###05 10 2006 new variable
+crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:###05 10 2006 new variable
+grp#:#crs_add_grouping#:#Add Membership Limitation###05 10 2006 new variable
+grp#:#crs_grp_enter_title#:#Please fill out all required fields.###05 10 2006 new variable
+grp#:#crs_grp_added_grouping#:#Added new membership limitation.###05 10 2006 new variable
+grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###05 10 2006 new variable
+grp#:#crs_grouping_deleted#:#Deleted membership limitation.###05 10 2006 new variable
+crs#:#crs_grp_added_grouping#:#Added new membership limitation.###05 10 2006 new variable
+common#:#edit_grouping#:#Edit Membership Limitation###05 10 2006 new variable
+crs#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
+common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.###05 10 2006 new variable
+grp#:#crs_grp_table_assigned_courses#:#Assigned Groups###05 10 2006 new variable
+grp#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
+grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
+grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
+grp#:#crs_grouping_select_one#:#Please select one membership limitation.###05 10 2006 new variable
+grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###05 10 2006 new variable
