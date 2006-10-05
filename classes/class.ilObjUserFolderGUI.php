@@ -68,10 +68,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
-		if($this->ctrl->getTargetScript() != 'repository.php')
-		{
-			$this->prepareOutput();
-		}
+		$this->prepareOutput();
 
 		switch($next_class)
 		{
@@ -1079,6 +1076,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserFormObject ()
 	{
+		// Blind out tabs for local user import
+		if($this->ctrl->getTargetScript() == 'repository.php')
+		{
+			$this->tabs_gui->clearTargets();
+		}
+
 		$this->tabs_gui->setTabActive('obj_usrf');
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_form.html");
 
@@ -1439,6 +1442,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// new account mail
 		$this->lng->loadLanguageModule("mail");
+		include_once './classes/class.ilObjUserFolder.php';
 		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{
