@@ -6564,3 +6564,14 @@ grp#:#crs_grp_enter_title#:#Please fill out all required fields.###07 09 2006 ne
 grp#:#crs_grp_added_grouping#:#Added new membership limitation.###07 09 2006 new variable
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###07 09 2006 new variable
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.###07 09 2006 new variable
+content#:#cont_text_tex#:#LaTeX Code:###05 10 2006 new variable
+crs#:#crs_grp_added_grouping#:#Added new membership limitation.###05 10 2006 new variable
+common#:#edit_grouping#:#Edit Membership Limitation###05 10 2006 new variable
+crs#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
+common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.###05 10 2006 new variable
+grp#:#crs_grp_table_assigned_courses#:#Assigned Groups###05 10 2006 new variable
+grp#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
+grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
+grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
+grp#:#crs_grouping_select_one#:#Please select one membership limitation.###05 10 2006 new variable
+grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###05 10 2006 new variable

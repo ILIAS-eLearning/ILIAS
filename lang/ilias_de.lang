@@ -1862,7 +1862,7 @@ common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialis
 common#:#group_status_public#:#Öffentlich
 common#:#groupings#:#Mitgliedsschaft-Beschränkungen
 common#:#groupings_assigned_obj_crs#:#Zugeordnete Kurse
-common#:#groupings_assigned_obj_grp#:#zugeordnete Gruppen
+common#:#groupings_assigned_obj_grp#:#Zugeordnete Gruppen
 common#:#groups#:#Gruppen
 common#:#groups_overview#:#Gruppenübersicht
 common#:#grp#:#Gruppe
@@ -3960,7 +3960,7 @@ crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
-crs#:#crs_add_grouping#:#Kursgruppierung hinzufügen
+crs#:#crs_add_grouping#:#Neue Mitgliedsschaft-Beschränkung
 crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_member#:#Mitglied(er) hinzufügen
@@ -6494,3 +6494,15 @@ grp#:#crs_grp_enter_title#:#Bitte füllen Sie alle notwendigen Felder aus.
 grp#:#crs_grp_added_grouping#:#Eine neue Mitgliedsschaft-Beschränkung wurde angelegt.
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedsschaft-Beschränkung entfernt werden soll ?
 grp#:#crs_grouping_deleted#:#Die Mitgliedsschaft-Beschränkung wurde gelöscht.
+grp#:#edit_grouping#:#Mitgliedsschaft-Beschränkung bearbeiten.
+grp#:#crs_grp_no_courses_assigned#:#Es sind keine Gruppen zugeordnet.
+grp#:#grouping_change_assignment#:#Zuordnung ändern
+grp#:#crs_grp_assign_crs#:#Gruppen-Zuordnung
+grp#:#crs_grp_table_assigned_courses#:#Zugeordnete Gruppen
+content#:#cont_text_tex#:#LaTeX Code:###05 10 2006 new variable
+crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedsschaft-Beschränkung wurde angelegt.###05 10 2006 new variable
+common#:#edit_grouping#:#Mitgliedsschaft-Beschänkung bearbeiten###05 10 2006 new variable
+crs#:#grouping_change_assignment#:#Zuordnungen ändern###05 10 2006 new variable
+common#:#grouping_select_exactly_one#:#Bitte wählen Sie genau eine Mitgliedsschaft-Beschränkung aus.###05 10 2006 new variable
+grp#:#crs_grouping_select_one#:#Bitte treffen Sie eine Auswahl.###05 10 2006 new variable
+grp#:#crs_grp_info_reg#:#Sie können Sie nur für eine der folgenden Gruppen anmelden:###05 10 2006 new variable

@@ -393,7 +393,7 @@ class ilObjCourseGroupingGUI
 		$tmp_grouping->setUniqueField($_POST['unique']);
 		$tmp_grouping->update();
 
-		sendInfo($this->lng->txt('crs_grp_modified_grouping'));
+		sendInfo($this->lng->txt('settings_saved'));
 		$this->listGroupings();
 
 		return true;
