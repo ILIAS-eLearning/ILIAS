@@ -60,6 +60,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->item_ref_id = (int) $_REQUEST['item_id'];
 		$this->item_id = $ilObjDataCache->lookupObjId($this->item_ref_id);
 		$this->offset = (int) $_GET['offset'];
+		$this->ctrl->saveParameter($this,'offset',$this->offset);
 		$this->ctrl->saveParameter($this,'details_id',$_REQUEST['details_id']);
 		$this->max_count = $ilUser->getPref('hits_per_page');
 	}
@@ -474,6 +475,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		global $ilBench;
 
 		$ilBench->start('LearningProgress','1100_LPListOfObjects_show');
+
+		// Clear table offset
+		$this->ctrl->saveParameter($this,'offset',0);
 
 		// Show only detail of current repository item if called from repository
 		switch($this->getMode())
