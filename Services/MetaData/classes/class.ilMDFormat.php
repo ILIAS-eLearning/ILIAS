@@ -129,7 +129,10 @@ class ilMDFormat extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Format',null,$this->getFormat());
+		if($this->getFormat())
+		{
+			$writer->xmlElement('Format',null,$this->getFormat());
+		}
 	}
 
 

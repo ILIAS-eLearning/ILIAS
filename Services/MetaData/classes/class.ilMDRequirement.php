@@ -225,13 +225,17 @@ class ilMDRequirement extends ilMDBase
 			
 		if(strlen($this->getOperatingSystemName()))
 		{
-			$writer->xmlElement('OperatingSystem',array('Name' => $this->getOperatingSystemName(),
+			$writer->xmlElement('OperatingSystem',array('Name' => $this->getOperatingSystemName()
+														? $this->getOperatingSystemName()
+														: 'None',
 														'MinimumVersion' => $this->getOperatingSystemMinimumVersion(),
 														'MaximumVersion' => $this->getOperatingSystemMaximumVersion()));
 		}
-		if(strlen($this->getBrowserName()))
+		else
 		{
-			$writer->xmlElement('Browser',array('Name' => $this->getBrowserName(),
+			$writer->xmlElement('Browser',array('Name' => $this->getBrowserName()
+												? $this->getBrowserName()
+												: 'Any',
 												'MinimumVersion' => $this->getBrowserMinimumVersion(),
 												'MaximumVersion' => $this->getBrowserMaximumVersion()));
 		}

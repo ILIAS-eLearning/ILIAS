@@ -286,6 +286,15 @@ class ilMD extends ilMDBase
 			$gen->setExportMode($this->getExportMode());
 			$gen->toXML($writer);
 		}
+		else
+		{
+			// Defaults
+			include_once 'Services/MetaData/classes/class.ilMDGeneral.php';
+			$gen = new ilMDGeneral($this->getRBACId(),$this->getObjId());
+			$gen->setExportMode($this->getExportMode());
+			$gen->toXML($writer);
+		}
+			
 
 		// Lifecycle
 		if(is_object($lif =& $this->getLifecycle()))

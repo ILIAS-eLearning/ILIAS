@@ -149,7 +149,10 @@ class ilMDDescription extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
+		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode() ?
+												$this->getDescriptionLanguageCode() :
+												'en'),
+							$this->getDescription());
 	}
 
 

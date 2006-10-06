@@ -217,16 +217,27 @@ class ilMDLifecycle extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Lifecycle',array('Status' => $this->getStatus()));
-		$writer->xmlElement('Version',array('Language' => $this->getVersionLanguageCode()),$this->getVersion());
+		$writer->xmlStartTag('Lifecycle',array('Status' => $this->getStatus() 
+											   ? $this->getStatus() 
+											   : 'Draft'));
+		$writer->xmlElement('Version',array('Language' => $this->getVersionLanguageCode() 
+											? $this->getVersionLanguageCode()
+											: 'en'),
+							$this->getVersion());
 
 		// contribute
-		foreach($this->getContributeIds() as $id)
+		$contributes = $this->getContributeIds();
+		foreach($contributes as $id)
 		{
 			$con =& $this->getContribute($id);
 			$con->toXML($writer);
 		}
-
+		if(!count($contributes))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+			$con = new ilMDContribute($this->getRBACId(),$this->getObjId());
+			$con->toXML($writer);
+		}
 		$writer->xmlEndTag('Lifecycle');
 	}
 

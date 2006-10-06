@@ -149,7 +149,10 @@ class ilMDKeyword extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Keyword',array('Language' => $this->getKeywordLanguageCode()),$this->getKeyword());
+		$writer->xmlElement('Keyword',array('Language' => $this->getKeywordLanguageCode() ?
+											$this->getKeywordLanguageCode() :
+											'en'),
+							$this->getKeyword());
 	}
 
 

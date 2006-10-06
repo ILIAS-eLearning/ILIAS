@@ -175,7 +175,10 @@ class ilMDTypicalAgeRange extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('TypicalAgeRange',array('Language' => $this->getTypicalAgeRangeLanguageCode()),$this->getTypicalAgeRange());
+		$writer->xmlElement('TypicalAgeRange',array('Language' => $this->getTypicalAgeRangeLanguageCode()
+													? $this->getTypicalAgeRangeLanguageCode()
+													: 'en'),
+							$this->getTypicalAgeRange());
 	}
 
 

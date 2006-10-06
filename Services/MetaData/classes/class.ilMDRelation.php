@@ -218,21 +218,39 @@ class ilMDRelation extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Relation',array('Kind' => $this->getKind()));
+		$writer->xmlStartTag('Relation',array('Kind' => $this->getKind()
+											  ? $this->getKind()
+											  : 'IsPartOf'));
 		$writer->xmlStartTag('Resource');
 
 		// Identifier_
-		foreach($this->getIdentifier_Ids() as $id)
+		$ides = $this->getIdentifier_Ids();
+		foreach($ides as $id)
 		{
 			$ide =& $this->getIdentifier_($id);
 			$ide->toXML($writer);
 		}
+		if(!count($ides))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
+			$ide = new ilMDIdentifier_($this->getRBACId(),$this->getObjId());
+			$ide->toXML($writer);
+		}
+
 		// Description
-		foreach($this->getDescriptionIds() as $id)
+		$dess = $this->getDescriptionIds();
+		foreach($dess as $id)
 		{
 			$des =& $this->getDescription($id);
 			$des->toXML($writer);
 		}
+		if(!count($dess))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+			$des = new ilMDDescription($this->getRBACId(),$this->getObjId());
+			$des->toXML($writer);
+		}
+
 		$writer->xmlEndTag('Resource');
 		$writer->xmlEndTag('Relation');
 	}

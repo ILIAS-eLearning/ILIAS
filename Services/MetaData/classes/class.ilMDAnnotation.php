@@ -172,7 +172,10 @@ class ilMDAnnotation extends ilMDBase
 		$writer->xmlStartTag('Annotation');
 		$writer->xmlElement('Entity',null,$this->getEntity());
 		$writer->xmlElement('Date',null,$this->getDate());
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
+		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()
+												? $this->getDescriptionLanguageCode()
+												: 'en'),
+							$this->getDescription());
 		$writer->xmlEndTag('Annotation');
 	}
 
