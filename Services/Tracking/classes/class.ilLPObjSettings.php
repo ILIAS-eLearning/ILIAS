@@ -336,7 +336,7 @@ class ilLPObjSettings
 
 		#$type = strlen($a_type) ? $a_type : $this->obj_type;
 
-		switch($type)
+		switch($a_type)
 		{
 			case 'crs':
 				// If objectives are enabled return deactivated

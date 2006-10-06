@@ -244,7 +244,9 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 			}
 			$this->tpl->setCurrentBlock("path_item");
 
-			if($a_force_details or ilObjUserTracking::_enabledUserRelatedData())
+			#var_dump("<pre>",$a_force_details,ilObjUserTracking::_enabledUserRelatedData(),!$this->isAnonymized(),"<pre>");
+
+			if($a_force_details or (ilObjUserTracking::_enabledUserRelatedData() and !$this->isAnonymized()))
 			{
 				$this->ctrl->setParameterByClass($this->getCmdClass(),'details_id',$ref_id);
 				$this->tpl->setVariable("PATH_DETAILS",$this->ctrl->getLinkTargetByClass($this->getCmdClass(),'details'));

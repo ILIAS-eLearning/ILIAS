@@ -224,6 +224,7 @@ class ilLPCollections
 		}
 		else
 		{
+			// SAHS
 			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$a_obj_id."'";
 		}
 
@@ -234,10 +235,17 @@ class ilLPCollections
 			{
 				if(!in_array($row->item_id,$possible_items))
 				{
-					$query = "DELETE FROM ut_lp_collections ".
-						"WHERE obj_id = '".$a_obj_id."' ".
-						"AND item_id = '".$row->item_id."'";
-					$ilDB->query($query);
+					ilLPCollections::__deleteEntry($a_obj_id,$row->item_id);
+					continue;
+				}
+			}
+			// Check anonymized
+			if($ilObjDataCache->lookupType($item_obj_id = $ilObjDataCache->lookupObjId($row->item_id)) == 'tst')
+			{
+				include_once 'assessment/classes/class.ilObjTest.php';
+				if(ilObjTest::_lookupTestType($item_obj_id) == TYPE_SELF_ASSESSMENT)
+				{
+					ilLPCollections::__deleteEntry($a_obj_id,$row->item_id);
 					continue;
 				}
 			}
@@ -247,11 +255,23 @@ class ilLPCollections
 	}
 
 	// Private
+	function __deleteEntry($a_obj_id,$a_item_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM ut_lp_collections ".
+			"WHERE obj_id = '".$a_obj_id."' ".
+			"AND item_id = '".$a_item_id."'";
+		$ilDB->query($query);
+		return true;
+	}
+
+
 	function __read()
 	{
 		global $ilObjDataCache;
 
-		if($ilObjDataCache->lookupType($this->getObjId()) == 'crs')
+		if($ilObjDataCache->lookupType($this->getObjId()) != 'sahs')
 		{
 			$course_ref_ids = ilObject::_getAllReferences($this->getObjId());
 			$course_ref_id = end($course_ref_ids);
@@ -268,14 +288,21 @@ class ilLPCollections
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($ilObjDataCache->lookupType($this->getObjId()) == 'crs')
+			if($ilObjDataCache->lookupType($this->getObjId()) != 'sahs')
 			{
 				if(!in_array($row->item_id,ilLPCollections::_getPossibleItems($course_ref_id)))
 				{
-					$query = "DELETE FROM ut_lp_collections ".
-						"WHERE obj_id = '".$this->getObjId()."' ".
-						"AND item_id = '".$row->item_id."'";
-					$this->db->query($query);
+					$this->__deleteEntry($this->getObjId(),$row->item_id);
+					continue;
+				}
+			}
+			// Check anonymized
+			if($ilObjDataCache->lookupType($item_obj_id = $ilObjDataCache->lookupObjId($row->item_id)) == 'tst')
+			{
+				include_once 'assessment/classes/class.ilObjTest.php';
+				if(ilObjTest::_lookupTestType($item_obj_id) == TYPE_SELF_ASSESSMENT)
+				{
+					$this->__deleteEntry($a_obj_id,$row->item_id);
 					continue;
 				}
 			}
