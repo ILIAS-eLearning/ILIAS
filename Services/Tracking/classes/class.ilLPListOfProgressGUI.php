@@ -477,6 +477,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once './Services/Tracking/classes/class.ilLPFilter.php';
 
 		$this->filter = new ilLPFilter($ilUser->getId());
+		if($this->tracked_user->getId() != $ilUser->getId())
+		{
+			$this->filter->toggleAnonymizedCheck(true);
+		}
 	}
 
 	function __initDetails($a_details_id)

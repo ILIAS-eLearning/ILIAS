@@ -41,19 +41,18 @@ class ilLPTestListGUI extends ilLPObjectItemListGUI
 	{
 		parent::ilLPObjectItemListGUI($a_obj_id,'tst');
 
-		$this->__checkAnonymized();
+		$this->__readAnonymized();
 	}
 
 
-	function __checkAnonymized()
+	function __readAnonymized()
 	{
-		global $ilDB;
+		include_once 'assessment/classes/class.ilObjTest.php';
+		if(ilObjTest::_lookupTestType($this->getId()) == TYPE_SELF_ASSESSMENT)
+		{
+			$this->anonymized = true;
+		}
 
-		$query = "SELECT * FROM tst_tests ".
-			"WHERE obj_fi = '".$this->getId()."' ".
-			"AND test_type_fi = '2'";
-		$res = $ilDB->query($query);
-		$this->anonymized = (bool) $res->numRows();
 	}
 		
 }

@@ -312,17 +312,29 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id)
 		{
 			$obj_id = $ilObjDataCache->lookupObjId($ref_id);
+			$type = $ilObjDataCache->lookupType($obj_id);
+
+			$anonymized = $this->__checkItemAnonymized($obj_id,$type);
+
 			$tpl->setCurrentBlock("materials");
 
 			// Link to settings
 			$tpl->setVariable("COLL_MODE",
 							  $this->lng->txt('trac_mode').": ".
 							  ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($obj_id)));
+			if($anonymized)
+			{
+				$tpl->setVariable("ANONYMIZED",$this->lng->txt('trac_anonymized_info_short'));
+			}
 			$tpl->setVariable("COLL_LINK",ilLink::_getLink($ref_id,$ilObjDataCache->lookupType($obj_id)));
 			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
 			$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));
 			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$ref_id));
+
+			if(!$anonymized)
+			{
+				$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$ref_id));
+			}
 
 			$path = $this->__formatPath($tree->getPathFull($ref_id),$ref_id);
 			$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
@@ -428,5 +440,22 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		return $path;
 	}
 
+	function __checkItemAnonymized($a_obj_id,$a_type)
+	{
+		switch($a_type)
+		{
+			case 'tst':
+				include_once 'assessment/classes/class.ilObjTest.php';
+
+				if(ilObjTest::_lookupTestType($a_obj_id) == TYPE_SELF_ASSESSMENT)
+				{
+					return true;
+				}
+				return false;
+
+			default:
+				return false;
+		}
+	}
 }
 ?>

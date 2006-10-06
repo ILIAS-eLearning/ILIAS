@@ -74,6 +74,7 @@ class ilLearningProgressBaseGUI
 		$this->mode = $a_mode;
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
+		$this->obj_type = $ilObjDataCache->lookupType($this->obj_id);
 		$this->usr_id = $a_usr_id;
 
 		$this->anonymized = (bool) !ilObjUserTracking::_enabledUserRelatedData();
@@ -94,6 +95,22 @@ class ilLearningProgressBaseGUI
 	function isAnonymized()
 	{
 		return $this->anonymized;
+	}
+
+	function isObjectAnonymized()
+	{
+		switch($this->obj_type)
+		{
+			case 'tst':
+				include_once 'assessment/classes/class.ilObjTest.php';
+				if(ilObjTest::_lookupTestType($this->obj_id) == TYPE_SELF_ASSESSMENT)
+				{
+					return true;
+				}
+			default:
+				return false;
+		}
+		return false;
 	}
 	
 	function getMode()

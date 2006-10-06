@@ -43,6 +43,8 @@ class ilLPFilter
 	var $limit = 0;
 	var $limit_reached = false;
 
+	var $anonymized_check = false;
+
 	// Default values for filter
 	var $root_node = ROOT_FOLDER_ID;
 	var $filter_type = 'lm';
@@ -147,7 +149,15 @@ class ilLPFilter
 		}
 		$this->hidden = $tmp ? $tmp : array();
 	}
-		
+
+	function toggleAnonymizedCheck($a_status)
+	{
+		$this->anonymized_check = $a_status;
+	}
+	function checkItemAnonymized()
+	{
+		return $this->anonymized_check;
+	}
 
 	function update()
 	{
@@ -325,6 +335,18 @@ class ilLPFilter
 	 */
 	function searchFilterListener($a_ref_id,$a_data)
 	{
+		if($this->checkItemAnonymized())
+		{
+			switch($a_data['type'])
+			{
+				case 'tst':
+					include_once 'assessment/classes/class.ilObjTest.php';
+					if(ilObjTest::_lookupTestType($a_data['obj_id']) == TYPE_SELF_ASSESSMENT)
+					{
+						return false;
+					}
+			}
+		}
 		if($this->isHidden($a_data['obj_id']))
 		{
 			return false;

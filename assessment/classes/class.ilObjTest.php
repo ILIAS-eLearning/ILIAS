@@ -2256,6 +2256,31 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Lookup test type
+*
+* @param integer obj_id of test
+* @return integer The test type
+* @access static
+* @see $type
+*/
+  function _lookupTestType($a_obj_id)
+  {
+	  global $ilDB;
+	  
+	  $query = "SELECT test_type_fi FROM tst_tests ".
+		  "WHERE obj_fi = '".$a_obj_id."'";
+	  $res = $ilDB->query($query);
+	  while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	  {
+		  return $row['test_type_fi'];
+	  }
+	  return 0;
+  }
+
+	  
+
+
+/**
 * Gets the reporting date
 * 
 * Gets the reporting date of the ilObjTest object
