@@ -364,46 +364,89 @@ class ilMDGeneral extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('General',array('Structure' => $this->getStructure()));
+		$writer->xmlStartTag('General',array('Structure' => $this->getStructure() ?
+											 $this->getStructure() :
+											 'Atomic'));
+											 
 
 		// Identifier
 		$first = true;
-		foreach($this->getIdentifierIds() as $id)
+		$identifiers = array();
+		$identifiers = $this->getIdentifierIds();
+		foreach($identifiers as $id)
 		{
 			$ide =& $this->getIdentifier($id);
 			$ide->setExportMode($this->getExportMode());
 			$ide->toXML($writer);
 			$first = false;
 		}
+		if(!count($identifiers))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
+			$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId());
+			$ide->setExportMode(true);
+			$ide->toXML($writer,true);
+		}
 		
-		// TItle
-		$writer->xmlElement('Title',array('Language' => $this->getTitleLanguageCode()),$this->getTitle());
+		// Title
+		$writer->xmlElement('Title',array('Language' => $this->getTitleLanguageCode() ? 
+										  $this->getTitleLanguageCode() :
+										  'en'),
+							$this->getTitle());
 
 		// Language
-		foreach($this->getLanguageIds() as $id)
+		$languages = $this->getLanguageIds();
+		foreach($languages as $id)
 		{
 			$lan =& $this->getLanguage($id);
 			$lan->toXML($writer);
 		}
+		if(!count($languages))
+		{
+			// Default
+			include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+			$lan = new ilMDLanguage($this->getRBACId(),$this->getObjId());
+			$lan->toXML($writer);
+		}
 
 		// Description
-		foreach($this->getDescriptionIds() as $id)
+		$descriptions = $this->getDescriptionIds();
+		foreach($descriptions as $id)
 		{
 			$des =& $this->getDescription($id);
 			$des->toXML($writer);
 		}
+		if(!count($descriptions))
+		{
+			// Default
+			include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+			$des = new ilMDDescription($this->getRBACId(),$this->getObjId());
+			$des->toXML($writer);
+		}
+			
 
 		// Keyword
-		foreach($this->getKeywordIds() as $id)
+		$keywords = $this->getKeywordIds();
+		foreach($keywords as $id)
 		{
 			$key =& $this->getKeyword($id);
+			$key->toXML($writer);
+		}
+		if(!count($keywords))
+		{
+			// Default
+			include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+			$key = new ilMDKeyword($this->getRBACId(),$this->getObjId());
 			$key->toXML($writer);
 		}
 		
 		// Copverage
 		if(strlen($this->getCoverage()))
 		{
-			$writer->xmlElement('Coverage',array('Language' => $this->getCoverageLanguageCode()),$this->getCoverage());
+			$writer->xmlElement('Coverage',array('Language' => $this->getCoverageLanguageCode() ?
+												 $this->getCoverageLanguageCode() :
+												 'en'),
+								$this->getCoverage());
 		}
 		$writer->xmlEndTag('General');
 	}

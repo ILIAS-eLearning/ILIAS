@@ -2253,7 +2253,7 @@ class ilMDEditorGUI
 				$this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
 				$this->tpl->setVariable("CLASS_ID", $class_id);
 				$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("meta_purpose"));
-				$this->tpl->setVariable("TXT_DESCIPLINE", $this->lng->txt("meta_learning_resource_type"));
+				$this->tpl->setVariable("TXT_DISCIPLINE", $this->lng->txt("meta_learning_resource_type"));
 				$this->tpl->setVariable("TXT_IDEA", $this->lng->txt("meta_idea"));
 				$this->tpl->setVariable("TXT_PREREQUISITE", $this->lng->txt("meta_prerequisite"));
 				$this->tpl->setVariable("TXT_EDUCATIONALOBJECTIVE", $this->lng->txt("meta_educational_objective"));
@@ -2417,6 +2417,15 @@ class ilMDEditorGUI
 			case 'meta_classification':
 				$this->md_section = $this->md_obj->addClassification();
 				$this->md_section->save();
+
+				$taxon_path =& $this->md_section->addTaxonPath();
+				$taxon_path->save();
+
+				$taxon =& $taxon_path->addTaxon();
+				$taxon->save();
+
+				$key =& $this->md_section->addKeyword();
+				$key->save();
 				break;
 
 		}

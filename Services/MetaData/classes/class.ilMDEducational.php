@@ -444,20 +444,42 @@ class ilMDEducational extends ilMDBase
 	function toXML(&$writer)
 	{
 		$writer->xmlStartTag('Educational',
-							 array('InteractivityType' => $this->getInteractivityType(),
-								   'LearningResourceType' => $this->getLearningResourceType(),
-								   'InteractivityLevel' => $this->getInteractivityLevel(),
-								   'SemanticDensity' => $this->getSemanticDensity(),
-								   'IntendedEndUserRole' => $this->getIntendedEndUserRole(),
-								   'Context' => $this->getContext(),
-								   'Difficulty' => $this->getDifficulty()));
+							 array('InteractivityType' => $this->getInteractivityType()
+								   ? $this->getInteractivityType()
+								   : 'Active',
+								   'LearningResourceType' => $this->getLearningResourceType()
+								   ? $this->getLearningResourceType()
+								   : 'Exercise',
+								   'InteractivityLevel' => $this->getInteractivityLevel()
+								   ? $this->getInteractivityLevel()
+								   : 'Medium',
+								   'SemanticDensity' => $this->getSemanticDensity()
+								   ? $this->getSemanticDensity()
+								   : 'Medium',
+								   'IntendedEndUserRole' => $this->getIntendedEndUserRole()
+								   ? $this->getIntendedEndUserRole()
+								   : 'Learner',
+								   'Context' => $this->getContext()
+								   ? $this->getContext()
+								   : 'Other',
+								   'Difficulty' => $this->getDifficulty()
+								   ? $this->getDifficulty()
+								   : 'Medium'));
 							 
 		// TypicalAgeRange
-		foreach($this->getTypicalAgeRangeIds() as $id)
+		$typ_ages = $this->getTypicalAgeRangeIds();
+		foreach($typ_ages as $id)
 		{
 			$key =& $this->getTypicalAgeRange($id);
 			$key->toXML($writer);
 		}
+		if(!count($typ_ages))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
+			$typ = new ilMDTypicalAgeRange($this->getRBACId(),$this->getObjId());
+			$typ->toXML($writer);
+		}
+
 		// TypicalLearningTime
 		$writer->xmlElement('TypicalLearningTime',null,$this->getTypicalLearningTime());
 

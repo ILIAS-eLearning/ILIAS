@@ -204,14 +204,24 @@ class ilMDContribute extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Contribute',array('Role' => $this->getRole()));
+		$writer->xmlStartTag('Contribute',array('Role' => $this->getRole()
+												? $this->getRole()
+												: 'Author'));
 
 		// Entities
-		foreach($this->getEntityIds() as $id)
+		$entities = $this->getEntityIds();
+		foreach($entities as $id)
 		{
 			$ent =& $this->getEntity($id);
 			$ent->toXML($writer);
 		}
+		if(!count($entities))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDEntity.php';
+			$ent = new ilMDEntity($this->getRBACId(),$this->getObjId());
+			$ent->toXML($writer);
+		}
+			
 		$writer->xmlElement('Date',null,$this->getDate());
 		$writer->xmlEndTag('Contribute');
 	}

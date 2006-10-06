@@ -131,9 +131,16 @@ class ilMDOrComposite extends ilMDRequirement
 		// For all requirements
 		$writer->xmlStartTag('OrComposite');
 
-		foreach($this->getRequirementIds() as $id)
+		$reqs = $this->getRequirementIds();
+		foreach($reqs as $id)
 		{
 			$req = $this->getRequirement($id);
+			$req->toXML($writer);
+		}
+		if(!count($reqs))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+			$req = new ilMDRequirement($this->getRBACId(),$this->getObjId());
 			$req->toXML($writer);
 		}
 		$writer->xmlEndTag('OrComposite');

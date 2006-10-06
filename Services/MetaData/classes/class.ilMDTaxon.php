@@ -160,7 +160,9 @@ class ilMDTaxon extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Taxon',array('Language' => $this->getTaxonLanguageCode(),
+		$writer->xmlElement('Taxon',array('Language' => $this->getTaxonLanguageCode()
+										  ? $this->getTaxonLanguageCode()
+										  : 'en',
 										  'Id'		 => $this->getTaxonId()),$this->getTaxon());
 	}
 

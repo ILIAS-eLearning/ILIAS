@@ -142,7 +142,10 @@ class ilMDLocation extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Location',array('Type' => $this->getLocationType()),$this->getLocation());
+		$writer->xmlElement('Location',array('Type' => $this->getLocationType()
+											 ? $this->getLocationType()
+											 : 'LocalFile'),
+							$this->getLocation());
 	}
 
 

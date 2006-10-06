@@ -189,12 +189,22 @@ class ilMDTaxonPath extends ilMDBase
 	{
 		$writer->xmlStartTag('TaxonPath');
 
-		$writer->xmlElement('Source',array('Language' => $this->getSourceLanguageCode()),$this->getSource());
+		$writer->xmlElement('Source',array('Language' => $this->getSourceLanguageCode()
+										   ? $this->getSourceLanguageCode()
+										   : 'en'),
+							$this->getSource());
 
 		// Taxon
-		foreach($this->getTaxonIds() as $id)
+		$taxs = $this->getTaxonIds();
+		foreach($taxs as $id)
 		{
 			$tax =& $this->getTaxon($id);
+			$tax->toXML($writer);
+		}
+		if(!count($taxs))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
+			$tax = new ilMDTaxon($this->getRBACId(),$this->getObjId());
 			$tax->toXML($writer);
 		}
 		

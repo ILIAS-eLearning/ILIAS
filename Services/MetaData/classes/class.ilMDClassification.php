@@ -244,21 +244,41 @@ class ilMDClassification extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Classification',array('Purpose' => $this->getPurpose()));
+		$writer->xmlStartTag('Classification',array('Purpose' => $this->getPurpose()
+													? $this->getPurpose()
+													: 'Idea'));
 
 		// Taxon Path
-		foreach($this->getTaxonPathIds() as $id)
+		$taxs = $this->getTaxonPathIds();
+		foreach($taxs as $id)
 		{
 			$tax =& $this->getTaxonPath($id);
 			$tax->toXML($writer);
 		}
+		if(!count($taxs))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
+			$tax = new ilMDTaxonPath($this->getRBACId(),$this->getObjId());
+			$tax->toXML($writer);
+		}
+
 		// Description
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
+		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()
+												? $this->getDescriptionLanguageCode()
+												: 'en'),
+							$this->getDescription());
 		
 		// Keyword
-		foreach($this->getKeywordIds() as $id)
+		$keys = $this->getKeywordIds();
+		foreach($keys as $id)
 		{
 			$key =& $this->getKeyword($id);
+			$key->toXML($writer);
+		}
+		if(!count($keys))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+			$key = new ilMDKeyword($this->getRBACId(),$this->getObjId());
 			$key->toXML($writer);
 		}
 		$writer->xmlEndTag('Classification');

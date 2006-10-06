@@ -359,7 +359,7 @@ class ilMDTechnical extends ilMDBase
 	{
 		$writer->xmlStartTag('Technical');
 
-		// Foramt
+		// Format
 		foreach($this->getFormatIds() as $id)
 		{
 			$for =& $this->getFormat($id);
@@ -397,7 +397,9 @@ class ilMDTechnical extends ilMDBase
 		if(strlen($this->getInstallationRemarks()))
 		{
 			$writer->xmlElement('InstallationRemarks',
-								array('Language' => $this->getInstallationRemarksLanguageCode()),
+								array('Language' => $this->getInstallationRemarksLanguageCode()
+									  ? $this->getInstallationRemarksLanguageCode()
+									  : 'en'),
 								$this->getInstallationRemarks());
 		}
 
@@ -405,10 +407,12 @@ class ilMDTechnical extends ilMDBase
 		if(strlen($this->getOtherPlatformRequirements()))
 		{
 			$writer->xmlElement('OtherPlatformRequirements',
-								array('Language' => $this->getOtherPlatformRequirementsLanguageCode()),
+								array('Language' => $this->getOtherPlatformRequirementsLanguageCode()
+									  ? $this->getOtherPlatformRequirementsLanguageCode()
+									  : 'en'),
 								$this->getOtherPlatformRequirements());
 		}
-		// Durtation
+		// Duration
 		if(strlen($this->getDuration()))
 		{
 			$writer->xmlElement('Duration',null,$this->getDuration());

@@ -187,9 +187,16 @@ class ilMDRights extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Rights',array('Costs' => $this->getCosts(),
-											'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()));
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()),$this->getDescription());
+		$writer->xmlStartTag('Rights',array('Costs' => $this->getCosts()
+											? $this->getCosts()
+											: 'No',
+											'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()
+											? $this->getCopyrightAndOtherRestrictions()
+											: 'No'));
+		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()
+												? $this->getDescriptionLanguageCode()
+												: 'en'),
+							$this->getDescription());
 		$writer->xmlEndTag('Rights');
 	}
 

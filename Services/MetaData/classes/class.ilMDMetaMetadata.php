@@ -248,16 +248,30 @@ class ilMDMetaMetadata extends ilMDBase
 		$writer->xmlStartTag('Meta-Metadata',$attr ? $attr : null);
 
 		// ELEMENT IDENTIFIER
-		foreach($this->getIdentifierIds() as $id)
+		$identifiers = $this->getIdentifierIds();
+		foreach($identifiers as $id)
 		{
 			$ide =& $this->getIdentifier($id);
 			$ide->toXML($writer);
 		}
+		if(!count($identifiers))
+		{
+			include_once 'Services/Metadata/classes/class.ilMDIdentifier.php';
+			$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId());
+			$ide->toXML($writer);
+		}
 		
 		// ELEMETN Contribute
-		foreach($this->getContributeIds() as $id)
+		$contributes = $this->getContributeIds();
+		foreach($contributes as $id)
 		{
 			$con =& $this->getContribute($id);
+			$con->toXML($writer);
+		}
+		if(!count($contributes))
+		{
+			include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+			$con = new ilMDContribute($this->getRBACId(),$this->getObjId());
 			$con->toXML($writer);
 		}
 

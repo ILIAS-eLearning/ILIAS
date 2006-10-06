@@ -140,7 +140,10 @@ class ilMDLanguage extends ilMDBase
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Language',array('Language' => $this->getLanguageCode()),$this->getLanguage());
+		$writer->xmlElement('Language',array('Language' => $this->getLanguageCode() ? 
+											 $this->getLanguageCode() :
+											 'en'),
+							$this->getLanguage());
 	}
 
 

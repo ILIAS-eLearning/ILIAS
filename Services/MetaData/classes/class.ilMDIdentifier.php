@@ -143,19 +143,28 @@ class ilMDIdentifier extends ilMDBase
 	 */
 	function toXML(&$writer, $a_overwrite_id = false)
 	{
-		$entry = $this->getEntry();
+		$entry_default = ($this->getObjId() == 0)
+			? "il_".IL_INST_ID."_".$this->getObjType()."_".$this->getRBACId()
+			: "il_".IL_INST_ID."_".$this->getObjType()."_".$this->getObjId();
+
+		$entry = $this->getEntry() ? $this->getEntry() : $entry_default; 
 		$catalog = $this->getCatalog();
 
 		if ($this->getExportMode() && $this->getCatalog() != "ILIAS_NID")
 		{
-			$entry = ($this->getObjId() == 0)
-				? "il_".IL_INST_ID."_".$this->getObjType()."_".$this->getRBACId()
-				: "il_".IL_INST_ID."_".$this->getObjType()."_".$this->getObjId();
+			$entry = $entry_default;
 			$catalog = "ILIAS";
 		}
 
-		$writer->xmlElement('Identifier',array('Catalog' => $catalog,
-												'Entry'	 => $entry));
+		if(strlen($catalog))
+		{
+			$writer->xmlElement('Identifier',array('Catalog' => $catalog,
+												   'Entry'	 => $entry));
+		}
+		else
+		{
+			$writer->xmlElement('Identifier',array('Entry' => $entry));
+		}
 	}
 
 
