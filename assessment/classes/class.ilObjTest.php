@@ -4130,7 +4130,7 @@ class ilObjTest extends ilObject
 				$qworkedthrough += $value["workedthrough"];
 			}
 		}
-		if (!qworkedthrough)
+		if (!$qworkedthrough)
 		{
 			$atimeofwork = 0;
 		}
