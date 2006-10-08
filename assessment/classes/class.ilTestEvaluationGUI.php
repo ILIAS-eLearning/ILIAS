@@ -662,6 +662,11 @@ class ilTestEvaluationGUI
 		{
 			$export = 1;
 		}
+		if (($export == 1) && (strcmp($_POST["export_type"], "certificate") == 0))
+		{
+			$this->ctrl->redirectByClass("iltestcertificategui", "exportCertificate");
+			return;
+		}
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("save_text_answer_points")) == 0)
 		{
 

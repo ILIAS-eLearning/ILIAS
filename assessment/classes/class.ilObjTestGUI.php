@@ -31,6 +31,7 @@
 * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilTestOutputGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjTestGUI: ilTestCertificateGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -108,6 +109,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
+				break;
+
+			case "iltestcertificategui":
+				include_once "./assessment/classes/class.ilTestCertificateGUI.php";
+				$output_gui = new ilTestCertificateGUI($this->object);
+				$this->ctrl->forwardCommand($output_gui);
 				break;
 
 			default:
@@ -4696,6 +4703,16 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
+	* Shows the certificate editor
+	*/
+	function certificateObject()
+	{
+		include_once "./assessment/classes/class.ilTestCertificateGUI.php";
+		$output_gui = new ilTestCertificateGUI($this->object);
+		$output_gui->certificateEditor();
+	}
+
+	/**
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
@@ -4732,6 +4749,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "redirectQuestion":
 			case "outResultsOverview":
 			case "checkPassword":
+			case "exportCertificate":
 				return;
 				break;
 			case "browseForQuestions":
@@ -4794,8 +4812,28 @@ class ilObjTestGUI extends ilObjectGUI
 				$tabs_gui->addTarget("mark_schema",
 					 $this->ctrl->getLinkTarget($this,'marks'),
 					 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
-						"saveMarks", "cancelMarks"),
+						"saveMarks", "cancelMarks", 
+						"certificate", "certificateEditor", "certificateRemoveBackground",
+						"certificateSave", "certificatePreview", "certificateDelete", "certificateUpload"),
 					 "");
+				if ((strpos(strtolower($this->ctrl->getCmd()), "mark") !== FALSE) || (strpos(strtolower($this->ctrl->getCmd()), "certificate") !== FALSE))
+				{
+					$tabs_gui->addSubTabTarget(
+						"mark_schema",
+						$this->ctrl->getLinkTarget($this,'marks'),
+						array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
+							"saveMarks", "cancelMarks"),
+						"");
+					if (DEVMODE == 1)
+					{
+						$tabs_gui->addSubTabTarget(
+							"certificate",
+							$this->ctrl->getLinkTarget($this,'certificate'),
+							array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+								"certificatePreview", "certificateDelete", "certificateUpload"),
+							"");
+					}
+				}
 		
 				if ($this->object->isOnlineTest())
 				{
