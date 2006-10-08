@@ -141,6 +141,42 @@ class ilTinyMCE extends ilRTE
 		$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
 	}
 
+	/**
+	* Adds custom support for an RTE in an ILIAS form
+	*
+	* Adds custom support for an RTE in an ILIAS form
+	*
+	* @access public
+	*/
+	function addCustomRTESupport($obj_id, $obj_type, $tags)
+	{
+		include_once "./classes/class.ilTemplate.php";
+		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
+		$tpl->setCurrentBlock("tinymce");
+		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
+		include_once "./classes/class.ilObject.php";
+		$tpl->setVariable("OBJ_ID", $obj_id);
+		$tpl->setVariable("OBJ_TYPE", $obj_type);
+		$tpl->setVariable("CLIENT_ID", CLIENT_ID);
+		$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
+		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
+		$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
+		$more_buttons = "";
+		if (count($this->buttons) > 0)
+		{
+			$more_buttons = ",separator," . join(",", $this->buttons);
+		}
+		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
+		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
+		$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
+		include_once "./classes/class.ilUtil.php";
+		//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
+		$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
+		$tpl->setVariable("LANG", $this->_getEditorLanguage());
+		$tpl->parseCurrentBlock();
+		$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
+	}
+
 	function _buildAdvancedBlockformatsFromHTMLTags($a_html_tags)
 	{
 		$blockformats = array();
@@ -243,6 +279,11 @@ class ilTinyMCE extends ilRTE
 		if (in_array("sup", $a_html_tags))
 		{
 			array_push($theme_advanced_buttons, "sup");
+		}
+		if (in_array("font", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "fontselect");
+			array_push($theme_advanced_buttons, "fontsizeselect");
 		}
 		array_push($theme_advanced_buttons, "charmap");
 		if ((in_array("ol", $a_html_tags)) && (in_array("li", $a_html_tags)))

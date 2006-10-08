@@ -153,6 +153,34 @@ assessment#:#cannot_export_test#:#You do not possess sufficient permissions to e
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
+assessment#:#certificate#:#Certificate
+assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
+assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
+assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
+assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
+assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
+assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
+assessment#:#certificate_custom#:#Custom...
+assessment#:#certificate_edit#:#Create/edit a certificate template
+assessment#:#certificate_page_format#:#Page Format
+assessment#:#certificate_background_image#:#Background Image
+assessment#:#certificate_padding_top#:#Top Padding
+assessment#:#certificate_margin_body#:#Body Margin
+assessment#:#certificate_status#:#Status
+assessment#:#certificate_status_complete#:#The certificate is complete and could be used
+assessment#:#certificate_status_incomplete#:#The certificate is incomplete
+assessment#:#certificate_delete#:#Delete Certificate Data
+assessment#:#certificate_preview#:#Show Certificate Preview
+assessment#:#certificate_text#:#Certificate Text
+assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
+assessment#:#certificate_var_user_firstname#:#Jane
+assessment#:#certificate_var_user_lastname#:#Doe
+assessment#:#certificate_var_result_passed#:#passed
+assessment#:#certificate_var_result_points#:#38
+assessment#:#certificate_var_result_percent#:#83%
+assessment#:#certificate_var_max_points#:#46
+assessment#:#certificate_var_result_mark_short#:#B
+assessment#:#certificate_var_result_mark_long#:#Good
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?
 assessment#:#change_solution#:#Change suggested solution
@@ -257,6 +285,7 @@ assessment#:#eval_search_users#:#Users
 assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation
 assessment#:#eval_selected_users#:#Evaluation for selected users
 assessment#:#exp_eval_data#:#Export evaluation data as
+assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma separated value (CSV)
 assessment#:#export#:#Export
@@ -3962,7 +3991,7 @@ crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Create a HTML Archive
 crs#:#crs_add_archive_xml#:#Create a XML Archive
-crs#:#crs_add_grouping#:#Add Membership Limitation
+crs#:#crs_add_grouping#:#Add course grouping
 crs#:#crs_add_grp_assignment#:#Assign course(s)
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_member#:#Add Member(s)
@@ -4049,12 +4078,12 @@ crs#:#crs_general_info#:#General Informations
 crs#:#crs_general_informations#:#General Informations
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_assign#:#Change assignment
-crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following membership limitations?
-crs#:#crs_grouping_deleted#:#Deleted membership limitation.
+crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
+crs#:#crs_grouping_deleted#:#Deleted course grouping.
 crs#:#crs_grouping_modified_assignment#:#Changed assignment.
-crs#:#crs_grouping_select_one#:#Please select a membership limitation.
-crs#:#crs_groupings#:#Course membership limitations
-crs#:#crs_groupings_ask_delete#:#Delete Membership Limitation
+crs#:#crs_grouping_select_one#:#Please select a course grouping.
+crs#:#crs_groupings#:#Course groupings
+crs#:#crs_groupings_ask_delete#:#Delete course grouping
 crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_assigned_courses#:#Assigned courses.
@@ -4064,11 +4093,11 @@ crs#:#crs_grp_crs_assignment#:#Course assignment
 crs#:#crs_grp_deassigned_courses#:#Delete assignment
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
-crs#:#crs_grp_matriculation_required#:#This membership limitation requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.
+crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.
 crs#:#crs_grp_modified_grouping#:#Saved modifications.
 crs#:#crs_grp_no_course_selected#:#Please select one course.
 crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
-crs#:#crs_grp_table_assigned_courses#:#Assigned Courses
+crs#:#crs_grp_table_assigned_courses#:#Assigned courses
 crs#:#crs_header_archives#:#Course archives
 crs#:#crs_header_delete_members#:#Delete members
 crs#:#crs_header_delete_subscribers#:#Delete subscribers
@@ -6495,14 +6524,3 @@ grp#:#crs_grp_enter_title#:#Please fill out all required fields.
 grp#:#crs_grp_added_grouping#:#Added new membership limitation.
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.
-crs#:#crs_grp_added_grouping#:#Added new membership limitation.
-common#:#edit_grouping#:#Edit Membership Limitation
-crs#:#grouping_change_assignment#:#Change Assignment
-common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.
-grp#:#crs_grp_table_assigned_courses#:#Assigned Groups
-grp#:#grouping_change_assignment#:#Change Assignment
-grp#:#crs_grp_assign_crs#:#Assignment of Groups
-grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned
-grp#:#crs_grouping_select_one#:#Please select one membership limitation.
-grp#:#crs_grp_info_reg#:#You can only register to one of this groups:
-trac#:#trac_anonymized_info_short#:#(Anonymized)

@@ -3912,35 +3912,6 @@ class ilObjTest extends ilObject
 	}
 	
 /**
-* Returns true, if the test results can be viewed
-* 
-* Returns true, if the test results can be viewed
-*
-* @return boolean True, if the test results can be viewed, else false
-* @access public
-*/
-	function canViewResults()
-	{
-		$result = true;
-		if ($this->getTestType() != TYPE_SELF_ASSESSMENT)
-		{
-			if ($this->getReportingDate())
-			{
-				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
-				{
-					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now = mktime();
-					if ($now < $epoch_time) 
-					{
-						$result = false;
-					}
-				}
-			}
-		}
-		return $result;
-	}
-
-/**
 * Retrieves the user settings for the statistical evaluation tool
 * 
 * Retrieves the user settings for the statistical evaluation tool
@@ -7125,6 +7096,35 @@ class ilObjTest extends ilObject
 		return $result;
 	}
 
+/**
+* Returns true, if the test results can be viewed
+* 
+* Returns true, if the test results can be viewed
+*
+* @return boolean True, if the test results can be viewed, else false
+* @access public
+*/
+	function canViewResults()
+	{
+		$result = true;
+		if ($this->getTestType() != TYPE_SELF_ASSESSMENT)
+		{
+			if ($this->getReportingDate())
+			{
+				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
+				{
+					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					$now = mktime();
+					if ($now < $epoch_time) 
+					{
+						$result = false;
+					}
+				}
+			}
+		}
+		return $result;
+	}
+
 	function canShowTestResults($user_id) 
 	{
 		$active = $this->getActiveTestUser($user_id);
@@ -7137,7 +7137,7 @@ class ilObjTest extends ilObject
 				$notimeleft = TRUE;
 			}
 		}
-		$result = FALSE;
+		$result = TRUE;
 		if (($active->tries == 0) && ($this->getScoreReporting() == REPORT_AFTER_TEST))
 		{
 			$result = FALSE;
