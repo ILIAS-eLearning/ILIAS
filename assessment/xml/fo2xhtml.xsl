@@ -20,9 +20,8 @@
 	</xsl:template>
 	
 	<xsl:template match="//fo:block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
-		<xsl:if test="string-length(node())">
 			<xsl:choose>
-				<xsl:when test="node()='&#160;'">
+				<xsl:when test=" current()='&#160;'">
 					<br />
 				</xsl:when>
 				<xsl:otherwise>
@@ -53,7 +52,6 @@
 					</p>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template match="//fo:inline" xmlns:fo="http://www.w3.org/1999/XSL/Format">

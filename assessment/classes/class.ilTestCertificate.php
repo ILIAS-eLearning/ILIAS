@@ -168,7 +168,7 @@ class ilTestCertificate
 	*/
 	function getXSLPath()
 	{
-		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/certificate.xsl";
+		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/certificate.xml";
 	}
 	
 	/**
@@ -289,7 +289,10 @@ class ilTestCertificate
 	*/
 	function processFO2XHTML()
 	{
-		$xslfo = file_get_contents($this->getXSLPath());
+		if (file_exists($this->getXSLPath()))
+		{
+			$xslfo = file_get_contents($this->getXSLPath());
+		}
 		// retrieve form information (using a dirty way with regular expressions)
 		$pagewidth = "21cm";
 		if (preg_match("/page-width\=\"([^\"]+)\"/", $xslfo, $matches))
@@ -347,11 +350,14 @@ class ilTestCertificate
 		}
 
 		$xsl = file_get_contents("./assessment/xml/fo2xhtml.xsl");
-		$args = array( '/_xml' => $xslfo, '/_xsl' => $xsl );
-		$xh = xslt_create();
-		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, NULL);
-		xslt_error($xh);
-		xslt_free($xh);
+		if ((strlen($xslfo)) && (strlen($xsl)))
+		{
+			$args = array( '/_xml' => $xslfo, '/_xsl' => $xsl );
+			$xh = xslt_create();
+			$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, NULL);
+			xslt_error($xh);
+			xslt_free($xh);
+		}
 
 		return array(
 			"pageformat" => $pagesize,
@@ -628,14 +634,14 @@ class ilTestCertificate
 	*/
 	function isComplete()
 	{
-		if ((file_exists($this->getCertificatePath())) && (filesize($this->getXSLPath()) > 0))
+		if (file_exists($this->getCertificatePath()))
 		{
-			return TRUE;
+			if (file_exists($this->getXSLPath()) && (filesize($this->getXSLPath()) > 0))
+			{
+				return TRUE;
+			}
 		}
-		else
-		{
-			return FALSE;
-		}
+		return FALSE;
 	}
 	
 	/**
