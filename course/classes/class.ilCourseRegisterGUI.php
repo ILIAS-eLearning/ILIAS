@@ -113,6 +113,12 @@ class ilCourseRegisterGUI
 				$this->course_obj->members_obj->getCountMembers() - $this->course_obj->members_obj->getCountSubscribers();
 			$free = $free > 0 ? true : false;
 		}
+		if($this->course_obj->getSubscriptionMaxMembers() and
+		   !$free and
+		   !$this->course_obj->enabledWaitingList())
+		{
+			$ilErr->raiseError($this->lng->txt("crs_reg_subscription_max_members_reached"),$ilErr->MESSAGE);
+		}
 
 		if($this->course_obj->getSubscriptionMaxMembers() and (!$free or $this->waiting_list->getCountUsers()))
 		{
