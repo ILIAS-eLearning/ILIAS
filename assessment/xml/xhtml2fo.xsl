@@ -123,6 +123,34 @@
 			<xsl:apply-templates select="node()"></xsl:apply-templates>
 		</fo:inline>
 	</xsl:template>
+	
+	<xsl:template match="//ul">
+		<fo:list-block xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<xsl:apply-templates select="node()"></xsl:apply-templates>
+		</fo:list-block>
+	</xsl:template>
+	
+	<xsl:template match="//ol">
+		<fo:list-block xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<xsl:apply-templates select="node()"></xsl:apply-templates>
+		</fo:list-block>
+	</xsl:template>
+	
+	<xsl:template match="//li">
+		<fo:list-item xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<fo:list-item-label end-indent="label-end()">
+				<fo:block>o</fo:block>
+			</fo:list-item-label>
+			<fo:list-item-body start-indent="body-start()">
+				<fo:block> 
+					<fo:inline text-decoration="none">
+						<xsl:apply-templates select="node()"></xsl:apply-templates>
+					</fo:inline>
+				</fo:block>
+			</fo:list-item-body>
+		</fo:list-item>
+	</xsl:template>
+	
 
 	<xsl:template match="//br">
 		<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format"><xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text></fo:block>

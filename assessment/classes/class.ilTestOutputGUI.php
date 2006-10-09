@@ -1544,6 +1544,13 @@ class ilTestOutputGUI
 		}
 	}
 	
+	function outCertificate()
+	{
+		$this->ctrl->setParameterByClass("iltestcertificategui","active_id", $_GET["active_id"]);
+		$this->ctrl->setParameterByClass("iltestcertificategui","pass", $_GET["pass"]);
+		$this->ctrl->redirectByClass("iltestcertificategui", "certificateOutput");
+	}
+	
 /**
 * Output of the learners view of an existing test
 *
@@ -1599,7 +1606,19 @@ class ilTestOutputGUI
 		$counter = 0;
 		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_results.html", true);
 		$result_array =& $this->object->getTestResult($active->active_id, $pass);
-
+		
+		include_once "./assessment/classes/class.ilTestCertificate.php";
+		$cert = new ilTestCertificate($this->object);
+		if ($cert->isComplete())
+		{
+			$this->tpl->setCurrentBlock("certificate");
+			$this->ctrl->setParameter($this,"active_id", $active->active_id);
+			$this->ctrl->setParameter($this,"pass", $pass);
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TEXT_CERTIFICATE", $this->lng->txt("certificate_show"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		if (!$result_array["test"]["total_max_points"])
 		{
 			$percentage = 0;

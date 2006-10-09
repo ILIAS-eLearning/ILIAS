@@ -166,6 +166,7 @@ assessment#:#certificate_page_format#:#Page Format
 assessment#:#certificate_background_image#:#Background Image
 assessment#:#certificate_padding_top#:#Top Padding
 assessment#:#certificate_margin_body#:#Body Margin
+assessment#:#certificate_show#:#Show Certificate
 assessment#:#certificate_status#:#Status
 assessment#:#certificate_status_complete#:#The certificate is complete and could be used
 assessment#:#certificate_status_incomplete#:#The certificate is incomplete
@@ -181,6 +182,12 @@ assessment#:#certificate_var_result_percent#:#83%
 assessment#:#certificate_var_max_points#:#46
 assessment#:#certificate_var_result_mark_short#:#B
 assessment#:#certificate_var_result_mark_long#:#Good
+assessment#:#certificate_passed#:#passed
+assessment#:#certificate_failed#:#failed
+assessment#:#certificate_pageheight#:#Page Height
+assessment#:#certificate_pagewidth#:#Page Width
+assessment#:#certificate_wrong_unit#:#You have entered a wrong unit
+assessment#:#certificate_wrong_units#:#You have entered a wrong set of units
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?
 assessment#:#change_solution#:#Change suggested solution
