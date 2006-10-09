@@ -124,34 +124,86 @@
 		</fo:inline>
 	</xsl:template>
 	
-	<xsl:template match="//ul">
+	<!--xsl:template match="//ul">
 		<fo:list-block xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<xsl:apply-templates select="node()"></xsl:apply-templates>
+		</fo:list-block>
+	</xsl:template-->
+	
+	<xsl:attribute-set name="ul">
+		<xsl:attribute name="space-before">1em</xsl:attribute>
+		<xsl:attribute name="space-after">1em</xsl:attribute>
+	</xsl:attribute-set>
+	
+	<xsl:template match="ul">
+		<fo:list-block xsl:use-attribute-sets="ul" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<xsl:apply-templates select="node()"></xsl:apply-templates>
 		</fo:list-block>
 	</xsl:template>
 	
-	<xsl:template match="//ol">
-		<fo:list-block xmlns:fo="http://www.w3.org/1999/XSL/Format">
-			<xsl:apply-templates select="node()"></xsl:apply-templates>
-		</fo:list-block>
-	</xsl:template>
-	
-	<xsl:template match="//li">
-		<fo:list-item xmlns:fo="http://www.w3.org/1999/XSL/Format">
-			<fo:list-item-label end-indent="label-end()">
-				<fo:block>o</fo:block>
-			</fo:list-item-label>
-			<fo:list-item-body start-indent="body-start()">
-				<fo:block> 
-					<fo:inline text-decoration="none">
-						<xsl:apply-templates select="node()"></xsl:apply-templates>
-					</fo:inline>
-				</fo:block>
-			</fo:list-item-body>
+	<xsl:attribute-set name="ul-li">
+		<!-- for (unordered)fo:list-item -->
+		<xsl:attribute name="relative-align">baseline</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:template match="ul/li">
+		<fo:list-item xsl:use-attribute-sets="ul-li" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<xsl:call-template name="process-ul-li"/>
 		</fo:list-item>
 	</xsl:template>
 	
+	<xsl:param name="ul-label-1">&#x2022;</xsl:param>
+	<xsl:attribute-set name="ul-label-1">
+		<xsl:attribute name="font">1em serif</xsl:attribute>
+	</xsl:attribute-set>
+	
+	<xsl:param name="ul-label-2">o</xsl:param>
+	
+	<xsl:attribute-set name="ul-label-2">
+		<xsl:attribute name="font">0.67em monospace</xsl:attribute>
+		<xsl:attribute name="baseline-shift">0.25em</xsl:attribute>
+	</xsl:attribute-set>
+	
+	<xsl:param name="ul-label-3">-</xsl:param>
+	<xsl:attribute-set name="ul-label-3">
+		<xsl:attribute name="font">bold 0.9em sans-serif</xsl:attribute>
+		
+		<xsl:attribute name="baseline-shift">0.05em</xsl:attribute>
+	</xsl:attribute-set>
 
+	<xsl:template name="process-ul-li">
+		<fo:list-item-label end-indent="label-end()"
+			text-align="end" wrap-option="no-wrap" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<fo:block>
+				<xsl:variable name="depth" select="count(ancestor::ul)" />
+				<xsl:choose>
+					<xsl:when test="$depth = 1">
+						
+						<fo:inline xsl:use-attribute-sets="ul-label-1">
+							<xsl:value-of select="$ul-label-1"/>
+						</fo:inline>
+					</xsl:when>
+					<xsl:when test="$depth = 2">
+						<fo:inline xsl:use-attribute-sets="ul-label-2">
+							<xsl:value-of select="$ul-label-2"/>
+						</fo:inline>
+					</xsl:when>
+					
+					<xsl:otherwise>
+						<fo:inline xsl:use-attribute-sets="ul-label-3">
+							<xsl:value-of select="$ul-label-3"/>
+						</fo:inline>
+					</xsl:otherwise>
+				</xsl:choose>
+			</fo:block>
+		</fo:list-item-label>
+		<fo:list-item-body start-indent="body-start()" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<fo:block>
+				<xsl:apply-templates/>
+			</fo:block>
+		</fo:list-item-body>
+	</xsl:template>
+	
 	<xsl:template match="//br">
 		<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format"><xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text></fo:block>
 	</xsl:template>
