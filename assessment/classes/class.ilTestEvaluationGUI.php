@@ -664,6 +664,7 @@ class ilTestEvaluationGUI
 		}
 		if (($export == 1) && (strcmp($_POST["export_type"], "certificate") == 0))
 		{
+			$this->ctrl->setParameterByClass("iltestcertificategui","etype", $_GET["etype"]);
 			$this->ctrl->redirectByClass("iltestcertificategui", "exportCertificate");
 			return;
 		}
@@ -1358,6 +1359,10 @@ class ilTestEvaluationGUI
 
 		$this->tpl->setCurrentBlock("export_btn");
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
+		if (DEVMODE)
+		{
+			$this->tpl->setVariable("TEXT_CERTIFICATE", $this->lng->txt("exp_type_certificate"));
+		}
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
 		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));

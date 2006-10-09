@@ -228,21 +228,8 @@ class ilTestCertificate
 		global $ilLog;
 		if (file_exists($this->getCertificatePath()))
 		{
-			$result = $this->deleteBackgroundImage();
-			if (file_exists($this->getXSLPath()))
-			{
-				$ilLog->write("delete " . $this->getXSLPath());
-				$result = $result & unlink($this->getXSLPath());
-			}
-			if ($result)
-			{
-				$ilLog->write("delete " . $this->getCertificatePath());
-				rmdir($this->getCertificatePath());
-			}
-			else
-			{
-				$ilLog->write("ERROR: At least one of the certificate files for test id " . $this->object->getId() . " has not been deleted");
-			}
+			include_once "./classes/class.ilUtil.php";
+			ilUtil::delDir($this->getCertificatePath());
 		}
 	}
 
@@ -265,12 +252,23 @@ class ilTestCertificate
 			return $this->lng->txt("fill_out_all_required_fields");
 		}
 		
-		$unitexpression = "^(\d+)(pt|pc|px|em|mm|cm|in){0,1}\$";
+		$unitexpression = "^([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\$";
 		if (!preg_match("/$unitexpression/", $form_fields["padding_top"], $matches))
 		{
 			return $this->lng->txt("certificate_wrong_unit");
 		}
-		$unitexpression = "^(\d+)(pt|pc|px|em|mm|cm|in){0,1}\s+(\d+)(pt|pc|px|em|mm|cm|in){0,1}\s+(\d+)(pt|pc|px|em|mm|cm|in){0,1}\s+(\d+)(pt|pc|px|em|mm|cm|in){0,1}\$";
+		if (strcmp($form_fields["pageformat"], "custom") == 0)
+		{
+			if (!preg_match("/$unitexpression/", $form_fields["pageheight"], $matches))
+			{
+				return $this->lng->txt("certificate_wrong_unit");
+			}
+			if (!preg_match("/$unitexpression/", $form_fields["pagewidth"], $matches))
+			{
+				return $this->lng->txt("certificate_wrong_unit");
+			}
+		}
+		$unitexpression = "^([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\s+([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\s+([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\s+([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\$";
 		if (!preg_match("/$unitexpression/", $form_fields["margin_body"], $matches))
 		{
 			return $this->lng->txt("certificate_wrong_units");
@@ -409,7 +407,7 @@ class ilTestCertificate
 	* @return string XSL-FO code
 	* @access private
 	*/
-	function exchangeCertificateVariables($certificate_text, $user_data)
+	function exchangeCertificateVariables($certificate_text, $user_data = array())
 	{
 		if (count($user_data) == 0)
 		{
@@ -432,6 +430,110 @@ class ilTestCertificate
 		return $certificate_text;
 	}
 	
+	function createArchiveDirectory()
+	{
+		$dir = $this->getCertificatePath() . time() . "/";
+		include_once "./classes/class.ilUtil.php";
+		ilUtil::createDirectory($dir);
+		return $dir;
+	}
+	
+	function addPDFtoArchiveDirectory($pdfdata, $dir, $filename)
+	{
+		$fh = fopen($dir . $filename, "wb");
+		fwrite($fh, $pdfdata);
+		fclose($fh);
+	}
+	
+	/**
+	* Creates a ZIP file with user certificates
+	*
+	* Creates a ZIP file with user certificates
+	*
+	* @access private
+	*/
+	function outCertificates($type)
+	{
+		include_once "./classes/class.ilUtil.php";
+		$archive_dir = $this->createArchiveDirectory();
+		switch ($type)
+		{
+			case "selected":
+				break;
+			case "all":
+			default:
+				$total_users =& $this->object->evalTotalPersonsArray();
+				foreach ($total_users as $active_id => $name)
+				{
+					$user_id = $this->object->_getUserIdFromActiveId($active_id);
+					$pdf = $this->outCertificate($active_id, "", FALSE);
+					$this->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
+				}
+				$zipfile = time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificates.zip";
+				ilUtil::zip($archive_dir, $this->getCertificatePath() . $zipfile);
+				ilUtil::delDir($archive_dir);
+				ilUtil::deliverFile($this->getCertificatePath() . $zipfile, $zipfile, "application/zip");
+				break;
+		}
+	}
+
+	/**
+	* Creates a PDF preview of the XSL-FO certificate
+	*
+	* Creates a PDF preview of the XSL-FO certificate and delivers it
+	*
+	* @access private
+	*/
+	function outCertificate($active_id, $pass, $deliver = TRUE)
+	{
+		if (strlen($pass))
+		{
+			$result_array =& $this->object->getTestResult($active_id, $pass);
+		}
+		else
+		{
+			$result_array =& $this->object->getTestResult($active_id);
+		}
+		$passed = $result_array["test"]["passed"] ? $this->lng->txt("certificate_passed") : $this->lng->txt("certificate_failed");
+		if (!$result_array["test"]["total_max_points"])
+		{
+			$percentage = 0;
+		}
+		else
+		{
+			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+		}
+		$mark_obj = $this->object->mark_schema->getMatchingMark($percentage);
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
+		include_once "./classes/class.ilObjUser.php";
+		$user_data = ilObjUser::_lookupName($user_id);
+		$user_data = array(
+			"[USER_FULLNAME]" => trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"]),
+			"[USER_FIRSTNAME]" => $user_data["firstname"],
+			"[USER_LASTNAME]" => $user_data["lastname"],
+			"[RESULT_PASSED]" => $passed,
+			"[RESULT_POINTS]" => $result_array["test"]["total_reached_points"],
+			"[RESULT_PERCENT]" => sprintf("%2.2f", $percentage) . "%",
+			"[MAX_POINTS]" => $result_array["test"]["total_max_points"],
+			"[RESULT_MARK_SHORT]" => $mark_obj->getShortName(),
+			"[RESULT_MARK_LONG]" => $mark_obj->getOfficialName()
+		);
+		$xslfo = file_get_contents($this->getXSLPath());
+		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
+		$fo2pdf = new ilFO2PDF();
+		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo, $user_data));
+		$result = $fo2pdf->send();
+		if ($deliver)
+		{
+			include_once "./classes/class.ilUtil.php";
+			ilUtil::deliverData($result, "certificate.pdf", "application/pdf");
+		}
+		else
+		{
+			return $result;
+		}
+	}
+
 	/**
 	* Creates a PDF preview of the XSL-FO certificate
 	*

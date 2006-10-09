@@ -151,6 +151,31 @@ class ilTestCertificateGUI
 	}
 
 /**
+* Exports the user results as PDF certificates
+*
+* Exports the user results as PDF certificates using
+* XSL-FO via XML:RPC calls
+*
+* @access public
+*/
+	function exportCertificate()
+	{
+		$this->object->outCertificates($_GET["etype"]);
+	}
+	
+/**
+* Creates a certificate output for a given active id
+*
+* Creates a certificate output for a given active id
+*
+* @access public
+*/
+	function certificateOutput()
+	{
+		$this->object->outCertificate($_GET["active_id"], $_GET["pass"]);
+	}
+	
+/**
 * Removes the background image of a certificate
 *
 * Removes the background image of a certificate
@@ -169,7 +194,9 @@ class ilTestCertificateGUI
 			"pageformat" => $_POST["pageformat"],
 			"padding_top" => $_POST["padding_top"],
 			"margin_body" => $_POST["margin_body"],
-			"certificate_text" => $_POST["certificate_text"]
+			"certificate_text" => $_POST["certificate_text"],
+			"pageheight" => $_POST["pageheight"],
+			"pagewidth" => $_POST["pagewidth"]
 		);
 		return $form_fields;
 	}
@@ -286,6 +313,22 @@ class ilTestCertificateGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if (strcmp($form_fields["pageformat"], "custom") == 0)
+		{
+			$this->tpl->setCurrentBlock("custom_format");
+			$this->tpl->setVariable("TEXT_PAGEHEIGHT", $this->lng->txt("certificate_pageheight"));
+			$this->tpl->setVariable("TEXT_PAGEWIDTH", $this->lng->txt("certificate_pagewidth"));
+			if (strlen($form_fields["pageheight"]))
+			{
+				$this->tpl->setVariable("VALUE_PAGEHEIGHT", " value=\"".$form_fields["pageheight"]."\"");
+			}
+			if (strlen($form_fields["pagewidth"]))
+			{
+				$this->tpl->setVariable("VALUE_PAGEWIDTH", " value=\"".$form_fields["pagewidth"]."\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setVariable("TEXT_CERTIFICATE", $this->lng->txt("certificate_edit"));
 		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("certificate_status"));
@@ -352,19 +395,6 @@ class ilTestCertificateGUI
 		$rte->addCustomRTESupport($obj_id, $obj_type, $tags);
 		
 		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Exports the user results as PDF certificates
-*
-* Exports the user results as PDF certificates using
-* XSL-FO via XML:RPC calls
-*
-* @access public
-*/
-	function exportCertificate()
-	{
-		$this->setResultsTabs();
 	}
 	
 	/**
