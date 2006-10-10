@@ -22,6 +22,7 @@
 */
 
 require_once("./content/classes/class.ilLMObjectGUI.php");
+require_once("content/classes/class.ilLMObject.php");
 
 /**
 * Class ilStructureObjectGUI
