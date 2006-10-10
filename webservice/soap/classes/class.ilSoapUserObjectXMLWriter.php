@@ -102,7 +102,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_3_8.dtd\">");
 		$this->xmlSetGenCmt("User of ilias system");
 		$this->xmlHeader();
 
@@ -200,7 +200,9 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 				$this->__addElement ("iLincPasswd", $row["ilinc_passwd"], "ilinc_passwd");
 		}
 
-		$this->__addElement ("AuthMode", $row["auth_mode"], "auth_mode");
+		$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]));
+
+		$this->__addElement ("LastUpdate", $row["last_update"]);
 
 		$this->xmlEndTag('User');
 	}
