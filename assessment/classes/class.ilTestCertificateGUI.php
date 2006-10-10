@@ -210,6 +210,34 @@ class ilTestCertificateGUI
 */
 	function certificateDelete()
 	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT", $this->lng->txt("confirmation"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("table_row");
+		$this->tpl->setVariable("CSS_ROW", "tblrow1");
+		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("certificate_confirm_deletion_text"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("operation_btn");
+		$this->tpl->setVariable("BTN_NAME", "certificateDeleteConfirm");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("yes"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("operation_btn");
+		$this->tpl->setVariable("BTN_NAME", "certificateEditor");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("no"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
+* Deletes the certificate and all it's data
+*
+* Deletes the certificate and all it's data
+*
+* @access public
+*/
+	function certificateDeleteConfirm()
+	{
 		$this->object->deleteCertificate();
 		$this->ctrl->redirect($this, "certificateEditor");
 	}
@@ -343,6 +371,8 @@ class ilTestCertificateGUI
 			$this->tpl->setVariable("HREF_STATUS_IMAGE", ilUtil::getImagePath("icon_ok.gif"));
 			$this->tpl->setVariable("ALT_STATUS_IMAGE", $this->lng->txt("certificate_status_complete"));
 			$this->tpl->setVariable("PREVIEW_BUTTON_CERTIFICATE", $this->lng->txt("certificate_preview"));
+			$this->tpl->setVariable("PREVIEW_URL", $this->ctrl->getLinkTarget($this, "certificatePreview"));
+			$this->tpl->setVariable("IMG_PREVIEW", ilUtil::getImagePath("icon_preview.gif"));
 		}
 		else
 		{
@@ -369,7 +399,6 @@ class ilTestCertificateGUI
 		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TEXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TEXT_PREVIEW", $this->lng->txt("preview"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		include_once "./Services/RTE/classes/class.ilRTE.php";
