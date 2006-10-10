@@ -818,6 +818,10 @@ class ilUtil
 		if (!strlen($month)) $month = $now["mon"];
 		if (!strlen($day)) $day = $now["mday"];
 
+		$year = (int) $year;
+		$month = (int) $month;
+		$day = (int) $day;
+
 		// build day select
 		$sel_day .= "<select name=\"".$prefix."[d]\" id=\"".$prefix."_d\">\n";
 
