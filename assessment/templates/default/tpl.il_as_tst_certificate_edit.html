@@ -16,7 +16,7 @@
 		<input type="submit" class="submit" name="cmd[certificateDelete]" value="{DELETE_BUTTON_CERTIFICATE}" />
 <!-- END button_status -->
 <!-- BEGIN preview_certificate -->
-		<input type="submit" class="submit" name="cmd[certificatePreview]" value="{PREVIEW_BUTTON_CERTIFICATE}" />
+		<a href="{PREVIEW_URL}"><img alt="{PREVIEW_BUTTON_CERTIFICATE}" title="{PREVIEW_BUTTON_CERTIFICATE}" src="{IMG_PREVIEW}" /></a> <a href="{PREVIEW_URL}">{PREVIEW_BUTTON_CERTIFICATE}</a>
 <!-- END preview_certificate -->
 	</td>
 </tr>
@@ -69,7 +69,6 @@
 		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 		<div align="right">
 			<input type="submit" class="submit" name="cmd[certificateSave]" value="{TEXT_SAVE}" />
-			<input type="submit" class="submit" name="cmd[certificatePreview]" value="{TEXT_PREVIEW}" />
 		</div>
 	</td>
 </tr>
