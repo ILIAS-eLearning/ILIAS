@@ -426,7 +426,8 @@ class ilTestCertificate
 				"[RESULT_PERCENT]" => $this->lng->txt("certificate_var_result_percent"),
 				"[MAX_POINTS]" => $this->lng->txt("certificate_var_max_points"),
 				"[RESULT_MARK_SHORT]" => $this->lng->txt("certificate_var_result_mark_short"),
-				"[RESULT_MARK_LONG]" => $this->lng->txt("certificate_var_result_mark_long")
+				"[RESULT_MARK_LONG]" => $this->lng->txt("certificate_var_result_mark_long"),
+				"[TEST_TITLE]" => $this->object->getTitle()
 			);
 		}
 		foreach ($user_data as $var => $value)
@@ -522,7 +523,8 @@ class ilTestCertificate
 			"[RESULT_PERCENT]" => sprintf("%2.2f", $percentage) . "%",
 			"[MAX_POINTS]" => $result_array["test"]["total_max_points"],
 			"[RESULT_MARK_SHORT]" => $mark_obj->getShortName(),
-			"[RESULT_MARK_LONG]" => $mark_obj->getOfficialName()
+			"[RESULT_MARK_LONG]" => $mark_obj->getOfficialName(),
+			"[TEST_TITLE]" => $this->object->getTitle()
 		);
 		$xslfo = file_get_contents($this->getXSLPath());
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
