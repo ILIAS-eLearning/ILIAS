@@ -323,7 +323,7 @@ class ilTestCertificateGUI
 		if ($this->object->hasBackgroundImage())
 		{
 			$this->tpl->setCurrentBlock("background_exists");
-			$this->tpl->setVariable("BACKGROUND_THUMBNAIL", $this->object->getBackgroundImagePathWeb() . ".thumb.jpg");
+			$this->tpl->setVariable("BACKGROUND_THUMBNAIL", $this->object->getBackgroundImagePathWeb() . ".thumb.jpg" . "?" . time());
 			$this->tpl->setVariable("THUMBNAIL_ALT", $this->lng->txt("preview"));
 			$this->tpl->setVariable("DELETE_BUTTON", $this->lng->txt("delete"));
 			$this->tpl->parseCurrentBlock();
