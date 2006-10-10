@@ -6506,7 +6506,8 @@ crs#:#grouping_change_assignment#:#Zuordnungen ändern###05 10 2006 new variable
 common#:#grouping_select_exactly_one#:#Bitte wählen Sie genau eine Mitgliedsschaft-Beschränkung aus.###05 10 2006 new variable
 grp#:#crs_grouping_select_one#:#Bitte treffen Sie eine Auswahl.###05 10 2006 new variable
 grp#:#crs_grp_info_reg#:#Sie können Sie nur für eine der folgenden Gruppen anmelden:###05 10 2006 new variable
-trac#:#trac_anonymized_info_short#:#(Anonymisiert)assessment#:#certificate#:#Certificate###10 10 2006 new variable
+trac#:#trac_anonymized_info_short#:#(Anonymisiert)
+assessment#:#certificate#:#Zertifikat
 assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
 assessment#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
 assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
