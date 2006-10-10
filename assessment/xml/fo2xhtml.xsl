@@ -19,7 +19,7 @@
 		<xsl:apply-templates select="node()"></xsl:apply-templates>
 	</xsl:template>
 	
-	<xsl:template match="//fo:block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+	<xsl:template match="fo:block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<xsl:choose>
 				<xsl:when test=" current()='&#160;'">
 					<br />
@@ -71,49 +71,84 @@
 					<xsl:apply-templates select="node()"></xsl:apply-templates>
 				</u>
 			</xsl:when>
-			<xsl:when test="@font-size='8pt'">
+			<xsl:when test="@font-size or @font-family">
 				<font>
-					<xsl:attribute name="size"><xsl:text>1</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="node()"></xsl:apply-templates>
-				</font>
-			</xsl:when>
-			<xsl:when test="@font-size='10pt'">
-				<font>
-					<xsl:attribute name="size"><xsl:text>2</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="node()"></xsl:apply-templates>
-				</font>
-			</xsl:when>
-			<xsl:when test="@font-size='12pt'">
-				<font>
-					<xsl:attribute name="size"><xsl:text>3</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="node()"></xsl:apply-templates>
-				</font>
-			</xsl:when>
-			<xsl:when test="@font-size='14pt'">
-				<font>
-					<xsl:attribute name="size"><xsl:text>4</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="node()"></xsl:apply-templates>
-				</font>
-			</xsl:when>
-			<xsl:when test="@font-size='18pt'">
-				<font>
-					<xsl:attribute name="size"><xsl:text>5</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="node()"></xsl:apply-templates>
-				</font>
-			</xsl:when>
-			<xsl:when test="@font-size='24pt'">
-				<font>
-					<xsl:attribute name="size"><xsl:text>6</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="node()"></xsl:apply-templates>
-				</font>
-			</xsl:when>
-			<xsl:when test="@font-size='36pt'">
-				<font>
-					<xsl:attribute name="size"><xsl:text>7</xsl:text></xsl:attribute>
+					<xsl:choose>
+						<xsl:when test="@font-size='8pt'">
+							<xsl:attribute name="size"><xsl:text>1</xsl:text></xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@font-size='10pt'">
+							<xsl:attribute name="size"><xsl:text>2</xsl:text></xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@font-size='12pt'">
+							<xsl:attribute name="size"><xsl:text>3</xsl:text></xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@font-size='14pt'">
+							<xsl:attribute name="size"><xsl:text>4</xsl:text></xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@font-size='18pt'">
+							<xsl:attribute name="size"><xsl:text>5</xsl:text></xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@font-size='24pt'">
+							<xsl:attribute name="size"><xsl:text>6</xsl:text></xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@font-size='36pt'">
+							<xsl:attribute name="size"><xsl:text>7</xsl:text></xsl:attribute>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:choose>
+						<xsl:when test="@font-family">
+							<xsl:attribute name="face">
+								<xsl:choose>
+									<xsl:when test="contains(@font-family, &quot;'&quot;)">
+										<xsl:value-of select="substring(@font-family, 2, string-length(@font-family)-2)"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="@font-family"/>
+									</xsl:otherwise>
+								</xsl:choose>
+								
+							</xsl:attribute>
+						</xsl:when>
+					</xsl:choose>
 					<xsl:apply-templates select="node()"></xsl:apply-templates>
 				</font>
 			</xsl:when>
 		</xsl:choose>
+	</xsl:template>
+
+	<!-- Lists -->
+	
+	<xsl:template match="fo:list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		<xsl:choose>
+			<xsl:when test="contains(fo:list-item/fo:list-item-label/fo:block/fo:inline, '.')">
+				<ol>
+					<xsl:apply-templates select="node()"></xsl:apply-templates>
+				</ol>
+			</xsl:when>
+			<xsl:otherwise>
+				<ul>
+					<xsl:apply-templates select="node()"></xsl:apply-templates>
+				</ul>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="//fo:list-item" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		<li>
+			<xsl:apply-templates select="node()"></xsl:apply-templates>
+		</li>
+	</xsl:template>
+
+	<xsl:template match="//fo:list-item-label" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+	</xsl:template>
+
+	<xsl:template match="//fo:list-item-body" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		<xsl:apply-templates select="node()"></xsl:apply-templates>
+	</xsl:template>
+
+	<xsl:template match="fo:list-item-body/fo:block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		<xsl:apply-templates select="node()"></xsl:apply-templates>
 	</xsl:template>
 </xsl:stylesheet>
 
