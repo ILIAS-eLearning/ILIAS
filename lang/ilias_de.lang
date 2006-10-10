@@ -6506,4 +6506,40 @@ crs#:#grouping_change_assignment#:#Zuordnungen ändern###05 10 2006 new variable
 common#:#grouping_select_exactly_one#:#Bitte wählen Sie genau eine Mitgliedsschaft-Beschränkung aus.###05 10 2006 new variable
 grp#:#crs_grouping_select_one#:#Bitte treffen Sie eine Auswahl.###05 10 2006 new variable
 grp#:#crs_grp_info_reg#:#Sie können Sie nur für eine der folgenden Gruppen anmelden:###05 10 2006 new variable
-trac#:#trac_anonymized_info_short#:#(Anonymisiert)
+trac#:#trac_anonymized_info_short#:#(Anonymisiert)assessment#:#certificate#:#Certificate###10 10 2006 new variable
+assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
+assessment#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
+assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
+assessment#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
+assessment#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
+assessment#:#certificate_letter_landscape#:#US Brief Quer (8,5 inch x 11 inch)
+assessment#:#certificate_custom#:#Eigenes Format...
+assessment#:#certificate_edit#:#Zertifikat-Vorlage erstellen/bearbeiten
+assessment#:#certificate_page_format#:#Seitenformat
+assessment#:#certificate_background_image#:#Hintergrundbild
+assessment#:#certificate_padding_top#:#Abstand vom oberen Seitenrand
+assessment#:#certificate_margin_body#:#Ränder des Textbereiches
+assessment#:#certificate_show#:#Zertifikat anzeigen
+assessment#:#certificate_status#:#Status
+assessment#:#certificate_status_complete#:#Das Zertifikat ist vollständig und kann verwendet werden
+assessment#:#certificate_status_incomplete#:#Das Zertifikat ist unvollständig
+assessment#:#certificate_delete#:#Zertifikat löschen
+assessment#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
+assessment#:#certificate_text#:#Zertifikat-Text
+assessment#:#certificate_var_user_fullname#:#Erika Mustermann
+assessment#:#certificate_var_user_firstname#:#Erika
+assessment#:#certificate_var_user_lastname#:#Mustermann
+assessment#:#certificate_var_result_passed#:#bestanden
+assessment#:#certificate_var_result_points#:#38
+assessment#:#certificate_var_result_percent#:#83%
+assessment#:#certificate_var_max_points#:#46
+assessment#:#certificate_var_result_mark_short#:#2
+assessment#:#certificate_var_result_mark_long#:#Gut
+assessment#:#certificate_passed#:#bestanden
+assessment#:#certificate_failed#:#nicht bestanden
+assessment#:#certificate_pageheight#:#Seitenhöhe
+assessment#:#certificate_pagewidth#:#Seitenbreite
+assessment#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine falsche Einheit eingetragen
+assessment#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
+assessment#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
+assessment#:#exp_type_certificate#:#Zertifikat (PDF)
