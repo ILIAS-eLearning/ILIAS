@@ -166,7 +166,7 @@ class ilTinyMCE extends ilRTE
 		{
 			$more_buttons = ",separator," . join(",", $this->buttons);
 		}
-		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
+		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags, array("charmap")) . $more_buttons);
 		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
 		$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
 		include_once "./classes/class.ilUtil.php";
@@ -231,7 +231,7 @@ class ilTinyMCE extends ilRTE
 		}
 	}
 
-	function _buildAdvancedButtonsFromHTMLTags($a_html_tags)
+	function _buildAdvancedButtonsFromHTMLTags($a_html_tags, $remove_buttons = "")
 	{
 		$theme_advanced_buttons = array();
 		if (in_array("strong", $a_html_tags))
@@ -335,6 +335,16 @@ class ilTinyMCE extends ilRTE
 		array_push($theme_advanced_buttons, "separator");
 		array_push($theme_advanced_buttons, "undo");
 		array_push($theme_advanced_buttons, "redo");
+		if (is_array($remove_buttons))
+		{
+			foreach ($remove_buttons as $buttontext)
+			{
+				if (($res = array_search($buttontext, $theme_advanced_buttons)) !== FALSE)
+				{
+					unset($theme_advanced_buttons[$res]);
+				}
+			}
+		}
 		return join(",", $theme_advanced_buttons);
 	}
 	
