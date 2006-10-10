@@ -417,6 +417,7 @@ class ilTestCertificate
 	{
 		if (count($user_data) == 0)
 		{
+			include_once "./classes/class.ilFormat.php";
 			$user_data = array(
 				"[USER_FULLNAME]" => $this->lng->txt("certificate_var_user_fullname"),
 				"[USER_FIRSTNAME]" => $this->lng->txt("certificate_var_user_firstname"),
@@ -427,7 +428,9 @@ class ilTestCertificate
 				"[MAX_POINTS]" => $this->lng->txt("certificate_var_max_points"),
 				"[RESULT_MARK_SHORT]" => $this->lng->txt("certificate_var_result_mark_short"),
 				"[RESULT_MARK_LONG]" => $this->lng->txt("certificate_var_result_mark_long"),
-				"[TEST_TITLE]" => $this->object->getTitle()
+				"[TEST_TITLE]" => $this->object->getTitle(),
+				"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date"),
+				"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE)
 			);
 		}
 		foreach ($user_data as $var => $value)
@@ -514,6 +517,7 @@ class ilTestCertificate
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		include_once "./classes/class.ilObjUser.php";
 		$user_data = ilObjUser::_lookupName($user_id);
+		include_once "./classes/class.ilFormat.php";
 		$user_data = array(
 			"[USER_FULLNAME]" => trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"]),
 			"[USER_FIRSTNAME]" => $user_data["firstname"],
@@ -524,7 +528,9 @@ class ilTestCertificate
 			"[MAX_POINTS]" => $result_array["test"]["total_max_points"],
 			"[RESULT_MARK_SHORT]" => $mark_obj->getShortName(),
 			"[RESULT_MARK_LONG]" => $mark_obj->getOfficialName(),
-			"[TEST_TITLE]" => $this->object->getTitle()
+			"[TEST_TITLE]" => $this->object->getTitle(),
+			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date"),
+			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE)
 		);
 		$xslfo = file_get_contents($this->getXSLPath());
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
