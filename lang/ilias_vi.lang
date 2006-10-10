@@ -6512,3 +6512,40 @@ grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
 grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
 grp#:#crs_grouping_select_one#:#Please select one membership limitation.###05 10 2006 new variable
 grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###05 10 2006 new variable
+assessment#:#certificate#:#Certificate###10 10 2006 new variable
+assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)###10 10 2006 new variable
+assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###10 10 2006 new variable
+assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)###10 10 2006 new variable
+assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###10 10 2006 new variable
+assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###10 10 2006 new variable
+assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###10 10 2006 new variable
+assessment#:#certificate_custom#:#Custom...###10 10 2006 new variable
+assessment#:#certificate_edit#:#Create/edit a certificate template###10 10 2006 new variable
+assessment#:#certificate_page_format#:#Page Format###10 10 2006 new variable
+assessment#:#certificate_background_image#:#Background Image###10 10 2006 new variable
+assessment#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
+assessment#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
+assessment#:#certificate_show#:#Show Certificate###10 10 2006 new variable
+assessment#:#certificate_status#:#Status###10 10 2006 new variable
+assessment#:#certificate_status_complete#:#The certificate is complete and could be used###10 10 2006 new variable
+assessment#:#certificate_status_incomplete#:#The certificate is incomplete###10 10 2006 new variable
+assessment#:#certificate_delete#:#Delete Certificate Data###10 10 2006 new variable
+assessment#:#certificate_preview#:#Show Certificate Preview###10 10 2006 new variable
+assessment#:#certificate_text#:#Certificate Text###10 10 2006 new variable
+assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe###10 10 2006 new variable
+assessment#:#certificate_var_user_firstname#:#Jane###10 10 2006 new variable
+assessment#:#certificate_var_user_lastname#:#Doe###10 10 2006 new variable
+assessment#:#certificate_var_result_passed#:#passed###10 10 2006 new variable
+assessment#:#certificate_var_result_points#:#38###10 10 2006 new variable
+assessment#:#certificate_var_result_percent#:#83%###10 10 2006 new variable
+assessment#:#certificate_var_max_points#:#46###10 10 2006 new variable
+assessment#:#certificate_var_result_mark_short#:#B###10 10 2006 new variable
+assessment#:#certificate_var_result_mark_long#:#Good###10 10 2006 new variable
+assessment#:#certificate_passed#:#passed###10 10 2006 new variable
+assessment#:#certificate_failed#:#failed###10 10 2006 new variable
+assessment#:#certificate_pageheight#:#Page Height###10 10 2006 new variable
+assessment#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
+assessment#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
+assessment#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
+assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
+assessment#:#exp_type_certificate#:#Certificate (PDF)###10 10 2006 new variable
