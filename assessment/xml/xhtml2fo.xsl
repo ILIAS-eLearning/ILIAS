@@ -17,14 +17,14 @@
 				<fo:simple-page-master master-name="ILIAS_certificate">
 					<xsl:attribute name="page-height"><xsl:value-of select="$pageheight"></xsl:value-of></xsl:attribute>
 					<xsl:attribute name="page-width"><xsl:value-of select="$pagewidth"></xsl:value-of></xsl:attribute>
-					<xsl:if test="$backgroundimage">
 						<fo:region-body>
 							<xsl:attribute name="margin"><xsl:text>0</xsl:text></xsl:attribute>
-							<xsl:attribute name="background-image">
-								<xsl:value-of select="concat('url(', $backgroundimage, ')')"></xsl:value-of>
-							</xsl:attribute>
+							<xsl:if test="$backgroundimage">
+								<xsl:attribute name="background-image">
+									<xsl:value-of select="concat('url(', $backgroundimage, ')')"></xsl:value-of>
+								</xsl:attribute>
+							</xsl:if>
 						</fo:region-body>
-					</xsl:if>
 				</fo:simple-page-master>
 			</fo:layout-master-set>
 			

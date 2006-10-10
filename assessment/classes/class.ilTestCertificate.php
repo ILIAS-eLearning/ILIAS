@@ -567,6 +567,25 @@ class ilTestCertificate
 	}
 	
 	/**
+	* Saves the XSL-FO code to the ILIAS web directory
+	*
+	* Saves the XSL-FO code to the ILIAS web directory
+	*
+	* @param string $xslfo XSL-FO code
+	* @access private
+	*/
+	function saveCertificate($xslfo)
+	{
+		if (!file_exists($this->getCertificatePath()))
+		{
+			ilUtil::makeDirParents($this->getCertificatePath());
+		}
+		$fh = fopen($this->getXSLPath(), "w");
+		fwrite($fh, $xslfo);
+		fclose($fh);
+	}
+	
+	/**
 	* Uploads a background image for the certificate
 	*
 	* Uploads a background image for the certificate. Creates a new directory for the

@@ -302,7 +302,6 @@ class ilTestCertificateGUI
 		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
 		{
 			// try to save the certificate to an XSL-FO document
-			
 			// 1. run checks on all input fields
 			$result = $this->object->checkCertificateInput($form_fields);
 			if ($result !== TRUE)
@@ -312,9 +311,7 @@ class ilTestCertificateGUI
 			else
 			{
 				$xslfo = $this->object->processXHTML2FO($form_fields);
-				$fh = @fopen($this->object->getXSLPath(), "w");
-				@fwrite($fh, $xslfo);
-				@fclose($fh);
+				$this->object->saveCertificate($xslfo);
 			}
 		}
 		
