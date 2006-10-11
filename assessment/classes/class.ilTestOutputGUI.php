@@ -1611,12 +1611,32 @@ class ilTestOutputGUI
 		$cert = new ilTestCertificate($this->object);
 		if ($cert->isComplete())
 		{
-			$this->tpl->setCurrentBlock("certificate");
-			$this->ctrl->setParameter($this,"active_id", $active->active_id);
-			$this->ctrl->setParameter($this,"pass", $pass);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TEXT_CERTIFICATE", $this->lng->txt("certificate_show"));
-			$this->tpl->parseCurrentBlock();
+			$vis = $this->object->getCertificateVisibility();
+			$showcert = FALSE;
+			switch ($vis)
+			{
+				case 0:
+					$showcert = TRUE;
+					break;
+				case 1:
+					if ($result_array["test"]["passed"] == 1)
+					{
+						$showcert = TRUE;
+					}
+					break;
+				case 2:
+					$showcert = FALSE;
+					break;
+			}
+			if ($showcert)
+			{
+				$this->tpl->setCurrentBlock("certificate");
+				$this->ctrl->setParameter($this,"active_id", $active->active_id);
+				$this->ctrl->setParameter($this,"pass", $pass);
+				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+				$this->tpl->setVariable("TEXT_CERTIFICATE", $this->lng->txt("certificate_show"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		
 		if (!$result_array["test"]["total_max_points"])

@@ -65,10 +65,38 @@
 	</td>
 </tr>
 <tr>
+	<td class="option"><label for="certificate_visibility_0">{TEXT_CERTIFICATE_VISIBILITY}</label></td>
+	<td class="option_value">
+	{TEXT_CERTIFICATE_VISIBILITY_INTRODUCTION}<br />
+		<input type="radio" name="certificate_visibility" value="0" id="certificate_visibility_0"{CHECKED_CV_0} /> <label for="certificate_visibility_0">{TEXT_VISIBILITY_ALWAYS}</label><br />
+		<input type="radio" name="certificate_visibility" value="1" id="certificate_visibility_1"{CHECKED_CV_1} /> <label for="certificate_visibility_1">{TEXT_VISIBILITY_PASSED}</label><br />
+		<input type="radio" name="certificate_visibility" value="2" id="certificate_visibility_2"{CHECKED_CV_2} /> <label for="certificate_visibility_2">{TEXT_VISIBILITY_NEVER}</label>
+	</td>
+</tr>
+<tr>
 	<td class="submit" colspan="2">
 		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 		<div align="right">
 			<input type="submit" class="submit" name="cmd[certificateSave]" value="{TEXT_SAVE}" />
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="option_value" colspan="2">
+<div class="il_Description">
+		<b>{PH_INTRODUCTION}</b>:<br /><br />
+		<b>[USER_FULLNAME]</b>: {PH_USER_FULLNAME}<br />
+		<b>[USER_FIRSTNAME]</b>: {PH_USER_FIRSTNAME}<br />
+		<b>[USER_LASTNAME]</b>: {PH_USER_LASTNAME}<br />
+		<b>[RESULT_PASSED]</b>: {PH_RESULT_PASSED}<br />
+		<b>[RESULT_POINTS]</b>: {PH_RESULT_POINTS}<br />
+		<b>[RESULT_PERCENT]</b>: {PH_RESULT_PERCENT}<br />
+		<b>[MAX_POINTS]</b>: {PH_MAX_POINTS}<br />
+		<b>[RESULT_MARK_SHORT]</b>: {PH_RESULT_MARK_SHORT}<br />
+		<b>[RESULT_MARK_LONG]</b>: {PH_RESULT_MARK_LONG}<br />
+		<b>[TEST_TITLE]</b>: {PH_TEST_TITLE}<br />
+		<b>[DATE]</b>: {PH_DATE}<br />
+		<b>[DATETIME]</b>: {PH_DATETIME}<br />
 		</div>
 	</td>
 </tr>

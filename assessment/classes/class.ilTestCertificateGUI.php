@@ -196,7 +196,8 @@ class ilTestCertificateGUI
 			"margin_body" => $_POST["margin_body"],
 			"certificate_text" => $_POST["certificate_text"],
 			"pageheight" => $_POST["pageheight"],
-			"pagewidth" => $_POST["pagewidth"]
+			"pagewidth" => $_POST["pagewidth"],
+			"certificate_visibility" => $_POST["certificate_visibility"]
 		);
 		return $form_fields;
 	}
@@ -299,7 +300,7 @@ class ilTestCertificateGUI
 			}
 		}
 
-		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
+		if ((strcmp($this->ctrl->getCmd(), "certificateSave") == 0) || (strcmp($this->ctrl->getCmd(), "certificateRemoveBackground") == 0))
 		{
 			// try to save the certificate to an XSL-FO document
 			// 1. run checks on all input fields
@@ -311,6 +312,7 @@ class ilTestCertificateGUI
 			else
 			{
 				$xslfo = $this->object->processXHTML2FO($form_fields);
+				$this->object->saveCertificateVisibility($form_fields["certificate_visibility"]);
 				$this->object->saveCertificate($xslfo);
 			}
 		}
@@ -397,6 +399,39 @@ class ilTestCertificateGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TEXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		
+		$this->tpl->setVariable("PH_INTRODUCTION", $this->lng->txt("certificate_ph_introduction"));
+		$this->tpl->setVariable("PH_USER_FULLNAME", $this->lng->txt("certificate_ph_fullname"));
+		$this->tpl->setVariable("PH_USER_FIRSTNAME", $this->lng->txt("certificate_ph_firstname"));
+		$this->tpl->setVariable("PH_USER_LASTNAME", $this->lng->txt("certificate_ph_lastname"));
+		$this->tpl->setVariable("PH_RESULT_PASSED", $this->lng->txt("certificate_ph_passed"));
+		$this->tpl->setVariable("PH_RESULT_POINTS", $this->lng->txt("certificate_ph_resultpoints"));
+		$this->tpl->setVariable("PH_RESULT_PERCENT", $this->lng->txt("certificate_ph_resultpercent"));
+		$this->tpl->setVariable("PH_MAX_POINTS", $this->lng->txt("certificate_ph_maxpoints"));
+		$this->tpl->setVariable("PH_RESULT_MARK_SHORT", $this->lng->txt("certificate_ph_markshort"));
+		$this->tpl->setVariable("PH_RESULT_MARK_LONG", $this->lng->txt("certificate_ph_marklong"));
+		$this->tpl->setVariable("PH_TEST_TITLE", $this->lng->txt("certificate_ph_testtitle"));
+		$this->tpl->setVariable("PH_DATE", $this->lng->txt("certificate_ph_date"));
+		$this->tpl->setVariable("PH_DATETIME", $this->lng->txt("certificate_ph_datetime"));
+		
+		$this->tpl->setVariable("TEXT_CERTIFICATE_VISIBILITY", $this->lng->txt("certificate_visibility"));
+		$this->tpl->setVariable("TEXT_CERTIFICATE_VISIBILITY_INTRODUCTION", $this->lng->txt("certificate_visibility_introduction"));
+		$this->tpl->setVariable("TEXT_VISIBILITY_ALWAYS", $this->lng->txt("certificate_visibility_always"));
+		$this->tpl->setVariable("TEXT_VISIBILITY_NEVER", $this->lng->txt("certificate_visibility_never"));
+		$this->tpl->setVariable("TEXT_VISIBILITY_PASSED", $this->lng->txt("certificate_visibility_passed"));
+		switch ($form_fields["certificate_visibility"])
+		{
+			case 1:
+				$this->tpl->setVariable("CHECKED_CV_1", " checked=\"checked\"");
+				break;
+			case 2:
+				$this->tpl->setVariable("CHECKED_CV_2", " checked=\"checked\"");
+				break;
+			case 0:
+			default:
+				$this->tpl->setVariable("CHECKED_CV_0", " checked=\"checked\"");
+				break;
+		}
 
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();

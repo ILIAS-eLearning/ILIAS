@@ -10837,27 +10837,22 @@ $query = "SELECT tst_solutions.*, tst_active.active_id FROM tst_solutions, tst_a
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
-     if(function_exists('memory_get_usage'))
-       {
-            $memory_usage = " Memory usage: ".memory_get_usage();
-        }
-
-        $ilLog->write("-- MetaData (Migration type '".$row_pg->type."'): Processing obj number: ".$row_pg->obj_id.$memory_usage);
-
-$counter = 0;
+	if(function_exists('memory_get_usage'))
+  {
+		$memory_usage = " Memory usage: ".memory_get_usage();
+  }
+	$ilLog->write("-- MetaData (Migration type '".$row_pg->type."'): Processing obj number: ".$row_pg->obj_id.$memory_usage);
+	$counter = 0;
 	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 	{
-	     if(function_exists('memory_get_usage'))
-       {
-            $memory_usage = " Memory usage: ".memory_get_usage();
-        }
+		if(function_exists('memory_get_usage'))
+		{
+			$memory_usage = " Memory usage: ".memory_get_usage();
+		}
 		if(!(++$counter % 100))
-{
- 	       $ilLog->write("test_result number: $counter".$memory_usage);
-}
-
-
-
+		{
+			$ilLog->write("test_result number: $counter".$memory_usage);
+		}
 		$update = sprintf("UPDATE tst_solutions SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
 			$ilDB->quote($row["active_id"] . ""),
 			$ilDB->quote($row["test_fi"] . ""),
@@ -11623,4 +11618,26 @@ $typ_id = $row[0];
 // 18: create_frm, 20: create_lm, 21: create_slm, 22: create_glo, 25: create_file, 26: create_grp
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','17')";
 $this->db->query($query);
+?>
+<#822>
+<?php
+// add certificate_visibility field to tst_tests but only if it not exists
+$certificate_visibility = FALSE;
+$query = "SHOW COLUMNS FROM tst_tests";
+$res = $ilDB->query($query);
+if ($res->numRows())
+{
+	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		if (strcmp($data["Field"], "certificate_visibility") == 0)
+		{
+			$certificate_visibility = TRUE;
+		}
+	}
+}
+if ($certificate_visibility == FALSE)
+{
+	$query = "ALTER TABLE `tst_tests` ADD `certificate_visibility` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0' AFTER `show_question_titles`;";
+	$res = $ilDB->query($query);
+}
 ?>
