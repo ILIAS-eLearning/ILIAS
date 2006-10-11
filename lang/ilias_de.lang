@@ -6544,3 +6544,21 @@ assessment#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine fa
 assessment#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
 assessment#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
+assessment#:#certificate_ph_introduction#:#Die folgenden Platzhalter dürfen verwendet werden
+assessment#:#certificate_ph_fullname#:#Name des Teilnehmers oder der Teilnehmerin (Titel, Vorname und Nachname)
+assessment#:#certificate_ph_firstname#:#Vorname des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_lastname#:#Nachname des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhängig vom Testergebnis
+assessment#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_maxpoints#:#Maximal erreichbare Punktezahl
+assessment#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
+assessment#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
+assessment#:#certificate_ph_testtitle#:#Titel des Tests
+assessment#:#certificate_ph_date#:#Aktuelles Datum
+assessment#:#certificate_ph_datetime#:#Aktuelles Datum und Uhrzeit
+assessment#:#certificate_visibility#:#Sichtbarkeit
+assessment#:#certificate_visibility_introduction#:#Die Schaltfläche, die den Teilnehmern und Teilnehmerinnen in der Ergebnisansicht das Zertifikat anbietet ist
+assessment#:#certificate_visibility_always#:#Immer sichtbar
+assessment#:#certificate_visibility_never#:#Nicht sichtbar
+assessment#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat

@@ -37,7 +37,9 @@
 							<xsl:value-of select="$paddingtop"></xsl:value-of>
 						</xsl:attribute>
 					</fo:block>
-					<xsl:apply-templates select="node()"></xsl:apply-templates>
+					<fo:block>
+						<xsl:apply-templates select="node()"></xsl:apply-templates>
+					</fo:block>
 				</fo:flow>
 			</fo:page-sequence>
 		</fo:root>

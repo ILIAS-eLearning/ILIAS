@@ -365,7 +365,8 @@ class ilTestCertificate
 			"pageheight" => $pageheight,
 			"padding_top" => $paddingtop,
 			"margin_body" => $marginbody,
-			"certificate_text" => $output
+			"certificate_text" => $output,
+			"certificate_visibility" => $this->object->getCertificateVisibility()
 		);
 	}
 	
@@ -403,6 +404,19 @@ class ilTestCertificate
 		return $output;
 	}
 
+	/**
+	* Saves the visibility settings of the certificate
+	*
+	* Saves the visibility settings of the certificate
+	*
+	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	* @access private
+	*/
+	function saveCertificateVisibility($a_value)
+	{
+		$this->object->saveCertificateVisibility($a_value);
+	}
+	
 	/**
 	* Exchanges the variables in the certificate text with given values
 	*

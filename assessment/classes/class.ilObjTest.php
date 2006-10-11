@@ -373,6 +373,13 @@ class ilObjTest extends ilObject
 */
 	var $allowedUsersTimeGap;
 
+/**
+* visiblity settings for a test certificate
+*
+* @var int
+*/
+	var $certificate_visibility;
+
 	/**
 	* Constructor
 	* @access	public
@@ -416,6 +423,7 @@ class ilObjTest extends ilObject
 		$this->score_cutting = SCORE_CUT_QUESTION;
 		$this->pass_scoring = SCORE_LAST_PASS;
 		$this->password = "";
+		$this->certificate_visibility = 0;
 		$this->allowedUsers = "";
 		$this->allowedUsersTimeGap = "";
 		global $lng;
@@ -1194,7 +1202,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->author . ""),
 				$ilDB->quote($this->test_type . ""),
@@ -1231,7 +1239,8 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getPassword() . ""),
 				$allowedUsers,
 				$allowedUsersTimeGap,
-				$ilDB->quote($created)
+				$ilDB->quote($created),
+				$ilDB->quote("0")
       );
       
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -1764,6 +1773,7 @@ class ilObjTest extends ilObject
 				$this->setAllowedUsers($data->allowedUsers);
 				$this->setAllowedUsersTimeGap($data->allowedUsersTimeGap);
 				$this->setPassScoring($data->pass_scoring);
+				$this->setCertificateVisibility($data->certificate_visibility);
 				$this->loadQuestions();
 			}
 		}
@@ -7744,6 +7754,51 @@ class ilObjTest extends ilObject
 		$result = str_replace("}", "&#125;", $result);
 		$result = str_replace("\\", "&#92;", $result);
 		return $result;
+	}
+
+	/**
+	* Saves the visibility settings of the certificate
+	*
+	* Saves the visibility settings of the certificate
+	*
+	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	* @access private
+	*/
+	function saveCertificateVisibility($a_value)
+	{
+		global $ilDB;
+		
+		$query = sprintf("UPDATE tst_tests SET certificate_visibility = %s WHERE test_id = %s",
+			$ilDB->quote($a_value),
+			$ilDB->quote($this->getTestId())
+		);
+		$result = $ilDB->query($query);
+	}
+
+	/**
+	* Returns the visibility settings of the certificate
+	*
+	* Returns the visibility settings of the certificate
+	*
+	* @return integer The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	* @access public
+	*/
+	function getCertificateVisibility()
+	{
+		return $this->certificate_visibility;
+	}
+	
+	/**
+	* Sets the visibility settings of the certificate
+	*
+	* Sets the visibility settings of the certificate
+	*
+	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	* @access public
+	*/
+	function setCertificateVisibility($a_value)
+	{
+		$this->certificate_visibility = $a_value;
 	}
 } // END class.ilObjTest
 

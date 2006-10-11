@@ -189,6 +189,24 @@ assessment#:#certificate_pagewidth#:#Page Width
 assessment#:#certificate_wrong_unit#:#You have entered a wrong unit
 assessment#:#certificate_wrong_units#:#You have entered a wrong set of units
 assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
+assessment#:#certificate_ph_introduction#:#The following placeholders may be used
+assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)
+assessment#:#certificate_ph_firstname#:#First name of the user
+assessment#:#certificate_ph_lastname#:#Last name of the user
+assessment#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results
+assessment#:#certificate_ph_resultpoints#:#Reached points of the user
+assessment#:#certificate_ph_resultpercent#:#Reached percentage of the user
+assessment#:#certificate_ph_maxpoints#:#Maximum available points
+assessment#:#certificate_ph_markshort#:#Users mark (short version)
+assessment#:#certificate_ph_marklong#:#Users mark (official version)
+assessment#:#certificate_ph_testtitle#:#Title of the test
+assessment#:#certificate_ph_date#:#Actual date
+assessment#:#certificate_ph_datetime#:#Actual date and time
+assessment#:#certificate_visibility#:#Visibility
+assessment#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is
+assessment#:#certificate_visibility_always#:#Always visible
+assessment#:#certificate_visibility_never#:#Not visible
+assessment#:#certificate_visibility_passed#:#Only visible if a user passed the test
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?
 assessment#:#change_solution#:#Change suggested solution
