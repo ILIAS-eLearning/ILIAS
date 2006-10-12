@@ -154,6 +154,10 @@ assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 assessment#:#certificate#:#Certificate
+assessment#:#certificate_top#:#Top
+assessment#:#certificate_right#:#Right
+assessment#:#certificate_bottom#:#Bottom
+assessment#:#certificate_left#:#Left
 assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
 assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)

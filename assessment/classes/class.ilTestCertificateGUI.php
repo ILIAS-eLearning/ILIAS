@@ -193,7 +193,10 @@ class ilTestCertificateGUI
 		$form_fields = array(
 			"pageformat" => $_POST["pageformat"],
 			"padding_top" => $_POST["padding_top"],
-			"margin_body" => $_POST["margin_body"],
+			"margin_body_top" => $_POST["margin_body_top"],
+			"margin_body_right" => $_POST["margin_body_right"],
+			"margin_body_bottom" => $_POST["margin_body_bottom"],
+			"margin_body_left" => $_POST["margin_body_left"],
 			"certificate_text" => $_POST["certificate_text"],
 			"pageheight" => $_POST["pageheight"],
 			"pagewidth" => $_POST["pagewidth"],
@@ -387,9 +390,25 @@ class ilTestCertificateGUI
 			$this->tpl->setVariable("VALUE_PADDING_TOP", " value=\"".$form_fields["padding_top"]."\"");
 		}
 		$this->tpl->setVariable("TEXT_MARGIN_BODY", $this->lng->txt("certificate_margin_body"));
-		if (strlen($form_fields["margin_body"]) > 0)
+		$this->tpl->setVariable("TEXT_MARGIN_BODY_TOP", $this->lng->txt("certificate_top"));
+		$this->tpl->setVariable("TEXT_MARGIN_BODY_RIGHT", $this->lng->txt("certificate_right"));
+		$this->tpl->setVariable("TEXT_MARGIN_BODY_BOTTOM", $this->lng->txt("certificate_bottom"));
+		$this->tpl->setVariable("TEXT_MARGIN_BODY_LEFT", $this->lng->txt("certificate_left"));
+		if (strlen($form_fields["margin_body_top"]) > 0)
 		{
-			$this->tpl->setVariable("VALUE_MARGIN_BODY", " value=\"".$form_fields["margin_body"]."\"");
+			$this->tpl->setVariable("VALUE_MARGIN_BODY_TOP", " value=\"".$form_fields["margin_body_top"]."\"");
+		}
+		if (strlen($form_fields["margin_body_right"]) > 0)
+		{
+			$this->tpl->setVariable("VALUE_MARGIN_BODY_RIGHT", " value=\"".$form_fields["margin_body_right"]."\"");
+		}
+		if (strlen($form_fields["margin_body_bottom"]) > 0)
+		{
+			$this->tpl->setVariable("VALUE_MARGIN_BODY_BOTTOM", " value=\"".$form_fields["margin_body_bottom"]."\"");
+		}
+		if (strlen($form_fields["margin_body_left"]) > 0)
+		{
+			$this->tpl->setVariable("VALUE_MARGIN_BODY_LEFT", " value=\"".$form_fields["margin_body_left"]."\"");
 		}
 		$this->tpl->setVariable("TEXT_CERTIFICATE_TEXT", $this->lng->txt("certificate_text"));
 		if (strlen($form_fields["certificate_text"]) > 0)

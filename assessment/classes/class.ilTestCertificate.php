@@ -246,7 +246,10 @@ class ilTestCertificate
 	{
 		// 1. check the required fields
 		if ((strlen($form_fields["padding_top"]) == 0) ||
-			(strlen($form_fields["margin_body"]) == 0) ||
+			(strlen($form_fields["margin_body_top"]) == 0) ||
+			(strlen($form_fields["margin_body_right"]) == 0) ||
+			(strlen($form_fields["margin_body_bottom"]) == 0) ||
+			(strlen($form_fields["margin_body_left"]) == 0) ||
 			(strlen($form_fields["certificate_text"]) == 0))
 		{
 			return $this->lng->txt("fill_out_all_required_fields");
@@ -268,10 +271,21 @@ class ilTestCertificate
 				return $this->lng->txt("certificate_wrong_unit");
 			}
 		}
-		$unitexpression = "^([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\s+([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\s+([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\s+([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\$";
-		if (!preg_match("/$unitexpression/", $form_fields["margin_body"], $matches))
+		if (!preg_match("/$unitexpression/", $form_fields["margin_body_top"], $matches))
 		{
-			return $this->lng->txt("certificate_wrong_units");
+			return $this->lng->txt("certificate_wrong_unit");
+		}
+		if (!preg_match("/$unitexpression/", $form_fields["margin_body_right"], $matches))
+		{
+			return $this->lng->txt("certificate_wrong_unit");
+		}
+		if (!preg_match("/$unitexpression/", $form_fields["margin_body_bottom"], $matches))
+		{
+			return $this->lng->txt("certificate_wrong_unit");
+		}
+		if (!preg_match("/$unitexpression/", $form_fields["margin_body_left"], $matches))
+		{
+			return $this->lng->txt("certificate_wrong_unit");
 		}
 		if (strlen($form_fields["certificate_text"]) == 0)
 		{
@@ -343,10 +357,20 @@ class ilTestCertificate
 		{
 			$paddingtop = $matches[1];
 		}
-		$marginbody = "0 0 0 0";
+		$marginbody_top = "0";
+		$marginbody_right = "2cm";
+		$marginbody_bottom = "0";
+		$marginbody_left = "2cm";
 		if (preg_match("/fo:flow[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
 		{
 			$marginbody = $matches[1];
+			if (preg_match_all("/([^\s]+)/", $marginbody, $matches))
+			{
+				$marginbody_top = $matches[1][0];
+				$marginbody_right = $matches[1][1];
+				$marginbody_bottom = $matches[1][2];
+				$marginbody_left = $matches[1][3];
+			}
 		}
 
 		$xsl = file_get_contents("./assessment/xml/fo2xhtml.xsl");
@@ -366,7 +390,10 @@ class ilTestCertificate
 			"pagewidth" => $pagewidth,
 			"pageheight" => $pageheight,
 			"padding_top" => $paddingtop,
-			"margin_body" => $marginbody,
+			"margin_body_top" => $marginbody_top,
+			"margin_body_right" => $marginbody_right,
+			"margin_body_bottom" => $marginbody_bottom,
+			"margin_body_left" => $marginbody_left,
 			"certificate_text" => $output,
 			"certificate_visibility" => $this->object->getCertificateVisibility()
 		);
@@ -397,7 +424,7 @@ class ilTestCertificate
 			"pageheight" => $pageheight, 
 			"pagewidth" => $pagewidth,
 			"backgroundimage" => $backgroundimage,
-			"marginbody" => $form_data["margin_body"],
+			"marginbody" => $form_data["margin_body_top"] . " " . $form_data["margin_body_right"] . " " . $form_data["margin_body_bottom"] . " " . $form_data["margin_body_left"],
 			"paddingtop" => $form_data["padding_top"]
 		);
 		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
