@@ -664,7 +664,7 @@ class ilTestEvaluationGUI
 		{
 			if (array_key_exists("g_userfilter", $_GET))
 			{
-				$filtertext = $_GET["userfilter"];
+				$filtertext = $_GET["g_userfilter"];
 			}
 			if (array_key_exists("g_passedonly", $_GET))
 			{
@@ -695,6 +695,14 @@ class ilTestEvaluationGUI
 		if (($export == 1) && (strcmp($_POST["export_type"], "certificate") == 0))
 		{
 			$this->ctrl->setParameterByClass("iltestcertificategui","etype", $_GET["etype"]);
+			if ($passedonly)
+			{
+				$this->ctrl->setParameterByClass("iltestcertificategui", "g_passedonly", "1");
+			}
+			if (strlen($filtertext))
+			{
+				$this->ctrl->setParameterByClass("iltestcertificategui", "g_userfilter", $filtertext);
+			}
 			$this->ctrl->redirectByClass("iltestcertificategui", "exportCertificate");
 			return;
 		}
