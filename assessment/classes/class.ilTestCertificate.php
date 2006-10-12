@@ -359,6 +359,8 @@ class ilTestCertificate
 			xslt_free($xh);
 		}
 
+		$output = preg_replace("/<\?xml[^>]+?>/", "", $output);
+		
 		return array(
 			"pageformat" => $pagesize,
 			"pagewidth" => $pagewidth,
