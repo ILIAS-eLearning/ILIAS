@@ -478,28 +478,38 @@ class ilTestCertificate
 	*
 	* @access private
 	*/
-	function outCertificates($type)
+	function outCertificates($type, $userfilter = "", $passedonly = FALSE)
 	{
+		global $ilUser;
+		
 		include_once "./classes/class.ilUtil.php";
 		$archive_dir = $this->createArchiveDirectory();
+		$total_users = array();
 		switch ($type)
 		{
 			case "selected":
+				$total_users =& $this->object->getEvaluationParticipants($ilUser->getId(), "asc");
 				break;
 			case "all":
 			default:
 				$total_users =& $this->object->evalTotalPersonsArray();
-				foreach ($total_users as $active_id => $name)
+				break;
+		}
+		if (count($total_users))
+		{
+			foreach ($total_users as $active_id => $name)
+			{
+				$user_id = $this->object->_getUserIdFromActiveId($active_id);
+				$pdf = $this->outCertificate($active_id, "", FALSE, $userfilter, $passedonly);
+				if (strlen($pdf))
 				{
-					$user_id = $this->object->_getUserIdFromActiveId($active_id);
-					$pdf = $this->outCertificate($active_id, "", FALSE);
 					$this->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
 				}
-				$zipfile = time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificates.zip";
-				ilUtil::zip($archive_dir, $this->getCertificatePath() . $zipfile);
-				ilUtil::delDir($archive_dir);
-				ilUtil::deliverFile($this->getCertificatePath() . $zipfile, $zipfile, "application/zip");
-				break;
+			}
+			$zipfile = time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificates.zip";
+			ilUtil::zip($archive_dir, $this->getCertificatePath() . $zipfile);
+			ilUtil::delDir($archive_dir);
+			ilUtil::deliverFile($this->getCertificatePath() . $zipfile, $zipfile, "application/zip");
 		}
 	}
 
@@ -510,7 +520,7 @@ class ilTestCertificate
 	*
 	* @access private
 	*/
-	function outCertificate($active_id, $pass, $deliver = TRUE)
+	function outCertificate($active_id, $pass, $deliver = TRUE, $userfilter = "", $passedonly = FALSE)
 	{
 		if (strlen($pass))
 		{
@@ -520,6 +530,7 @@ class ilTestCertificate
 		{
 			$result_array =& $this->object->getTestResult($active_id);
 		}
+		if (($passedonly) && ($result_array["test"]["passed"] == FALSE)) return "";
 		$passed = $result_array["test"]["passed"] ? $this->lng->txt("certificate_passed") : $this->lng->txt("certificate_failed");
 		if (!$result_array["test"]["total_max_points"])
 		{
@@ -533,6 +544,13 @@ class ilTestCertificate
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		include_once "./classes/class.ilObjUser.php";
 		$user_data = ilObjUser::_lookupName($user_id);
+		if (strlen($userfilter))
+		{
+			if (strpos(strtolower($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"]), strtolower($userfilter)) === FALSE)
+			{
+				return "";
+			}
+		}
 		include_once "./classes/class.ilFormat.php";
 		$user_data = array(
 			"[USER_FULLNAME]" => trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"]),
