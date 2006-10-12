@@ -649,14 +649,44 @@ class ilTestEvaluationGUI
 		$textanswers = 0;
 		$export = 0;
 		$filter = 0;
+		$filtertext = "";
+		$passedonly = FALSE;
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("set_filter")) == 0)
 		{
 			$filter = 1;
+			$filtertext = $_POST["userfilter"];
+			if ($_POST["passedonly"] == 1)
+			{
+				$passedonly = TRUE;
+			}
+		}
+		else
+		{
+			if (array_key_exists("g_userfilter", $_GET))
+			{
+				$filtertext = $_GET["userfilter"];
+			}
+			if (array_key_exists("g_passedonly", $_GET))
+			{
+				if ($_GET["g_passedonly"] == 1)
+				{
+					$passedonly = TRUE;
+				}
+			}
 		}
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("reset_filter")) == 0)
 		{
 			$filter = 1;
-			$_POST["userfilter"] = "";
+			$filtertext = "";
+			$passedonly = FALSE;
+		}
+		if (strlen($filtertext))
+		{
+			$this->ctrl->setParameter($this, "g_userfilter", $filtertext);
+		}
+		if ($passedonly)
+		{
+			$this->ctrl->setParameter($this, "g_passedonly", "1");
 		}
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("export")) == 0)
 		{
@@ -708,15 +738,18 @@ class ilTestEvaluationGUI
 		$titlerow = array();
 		// build title columns
 		$sortimage = "";
+		$sortparameter = "asc";
 		if (strcmp($_GET["sortname"], "asc") == 0 || strcmp($_GET["sortname"], "") == 0)
 		{
 			$sortimage = " <img src=\"".ilUtil::getImagePath("asc_order.png", true)."\" alt=\"" . $this->lng->txt("ascending_order") . "\" />";
-			$this->ctrl->setParameter($this, "sortname", "desc");
+			$sortparameter = "asc";
+			$this->ctrl->setParameter($this, "sortname", "asc");
 		}
 		else
 		{
 			$sortimage = " <img src=\"".ilUtil::getImagePath("desc_order.png", true)."\" alt=\"" . $this->lng->txt("descending_order") . "\" />";
-			$this->ctrl->setParameter($this, "sortname", "asc");
+			$sortparameter = "desc";
+			$this->ctrl->setParameter($this, "sortname", "desc");
 		}
 		$name_column = $this->lng->txt("name");
 		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
@@ -811,7 +844,7 @@ class ilTestEvaluationGUI
 				array_push($titlerow, "&nbsp;");
 			}
 		}
-		$total_users =& $this->object->evalTotalPersonsArray($_GET["sortname"]);
+		$total_users =& $this->object->evalTotalPersonsArray($sortparameter);
 		$selected_users = array();
 		if ($all_users == 1) 
 		{
@@ -819,23 +852,9 @@ class ilTestEvaluationGUI
 		} 
 		else 
 		{
-			$selected_users =& $this->object->getEvaluationParticipants($ilUser->getId(), $_GET["sortname"]);
+			$selected_users =& $this->object->getEvaluationParticipants($ilUser->getId(), $sortparameter);
 		}
 
-		foreach ($selected_users as $key => $name)
-		{
-			if ($filter == 1)
-			{
-				if (strlen($_POST["userfilter"]))
-				{
-					$username = $selected_users[$key];
-					if (strpos(strtolower($username), strtolower($_POST["userfilter"])) === FALSE)
-					{
-						unset($selected_users[$key]);
-					}
-				}
-			}
-		}
 		//			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
 		$row = 0;
 		$question_legend = false;
@@ -863,6 +882,25 @@ class ilTestEvaluationGUI
 			}
 //				$ilBench->stop("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
 			$evaluation_array[$key] = $stat_eval;
+		}
+
+		foreach ($selected_users as $key => $name)
+		{
+			if (strlen($filtertext))
+			{
+				$username = $selected_users[$key];
+				if (strpos(strtolower($username), strtolower($filtertext)) === FALSE)
+				{
+					unset($selected_users[$key]);
+				}
+			}
+			if ($passedonly)
+			{
+				if ($evaluation_array[$key]["passed"] == 0)
+				{
+					unset($selected_users[$key]);
+				}
+			}
 		}
 
 		include_once "./classes/class.ilStatistics.php";
@@ -1275,6 +1313,14 @@ class ilTestEvaluationGUI
 		{
 			if (strcmp($title, $this->lng->txt("name")) == 0)
 			{
+				if (strcmp($sortparameter, "asc") == 0)
+				{
+					$this->ctrl->setParameter($this, "sortname", "desc");
+				}
+				else
+				{
+					$this->ctrl->setParameter($this, "sortname", "asc");
+				}
 				if ($all_users)
 				{
 					$title = "<a href=\"".$this->ctrl->getLinkTarget($this, "evalAllUsers")."\">" . $this->lng->txt("name") . "</a>";
@@ -1285,6 +1331,7 @@ class ilTestEvaluationGUI
 					$title = "<a href=\"".$this->ctrl->getLinkTarget($this, "evalSelectedUsers")."\">" . $this->lng->txt("name") . "</a>";
 					$title .= $sortimage;
 				}
+				$this->ctrl->setParameter($this, "sortname", $sortparameter);
 			}
 			if ($noq > 0)
 			{
@@ -1372,9 +1419,14 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("TEXT_FILTER_USERS", $this->lng->txt("filter_users"));
 		$this->tpl->setVariable("TEXT_FILTER", $this->lng->txt("set_filter"));
 		$this->tpl->setVariable("TEXT_RESET_FILTER", $this->lng->txt("reset_filter"));
-		if (strlen($_POST["userfilter"]) > 0)
+		$this->tpl->setVariable("TEXT_PASSEDONLY", $this->lng->txt("passed_only"));
+		if ($passedonly)
 		{
-			$this->tpl->setVariable("VALUE_FILTER_USERS", " value=\"" . $_POST["userfilter"] . "\"");
+			$this->tpl->setVariable("CHECKED_PASSEDONLY", " checked=\"checked\"");
+		}
+		if (strlen($filtertext) > 0)
+		{
+			$this->tpl->setVariable("VALUE_FILTER_USERS", " value=\"" . $filtertext . "\"");
 		}
 		$this->tpl->parseCurrentBlock();
 		

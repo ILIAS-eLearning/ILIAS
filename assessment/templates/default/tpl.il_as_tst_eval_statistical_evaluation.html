@@ -14,16 +14,15 @@
 <!-- END certificate -->					
 				</select> 
 				<input type="submit" class="submit" name="cmd[{BTN_COMMAND}]" value="{BTN_EXPORT}" />
+				<input type="button" class="submit" value="{BTN_PRINT}" onClick="javascript:window.print();" />
 			</form>
-		</td>
-		<td valign="top">
-			<input type="button" class="submit" value="{BTN_PRINT}" onClick="javascript:window.print();" />
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">
+		<td>
 			<form name="formFilterUsers" method="POST" action="{FORM_ACTION}">
-				{TEXT_FILTER_USERS}: <input type="text" name="userfilter" size="30"{VALUE_FILTER_USERS} /> 
+				{TEXT_FILTER_USERS}: <input type="text" name="userfilter" size="30"{VALUE_FILTER_USERS} />
+				<input type="checkbox" name="passedonly" id="passedonly" value="1"{CHECKED_PASSEDONLY} /> <label for="passedonly">{TEXT_PASSEDONLY}</label>
 				<input type="submit" class="submit" name="cmd[{BTN_COMMAND}]" value="{TEXT_FILTER}" />
 				<input type="submit" class="submit" name="cmd[{BTN_COMMAND}]" value="{TEXT_RESET_FILTER}" />
 			</form>

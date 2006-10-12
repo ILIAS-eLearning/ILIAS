@@ -413,6 +413,7 @@ assessment#:#output_mode#:#Output mode
 assessment#:#participants#:#Participants
 assessment#:#pass#:#Pass
 assessment#:#passed_official#:#passed
+assessment#:#passed_only#:#Passed tests only
 assessment#:#passed_short#:#passed
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
 assessment#:#percentile#:#Percentile
