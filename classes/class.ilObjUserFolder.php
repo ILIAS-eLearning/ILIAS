@@ -198,7 +198,7 @@ class ilObjUserFolder extends ilObject
 
 		$file = fopen($filename, "w");
 		fwrite($file, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		fwrite($file, "<!DOCTYPE Users SYSTEM \"ilias_user_3_7.dtd\">\n");
+		fwrite($file, "<!DOCTYPE Users SYSTEM \"".ILIAS_HTTP_PATH."/xml/ilias_user_3_8.dtd\">\n");
 		fwrite($file, "<Users>");
 		foreach ($data as $row)
 		{
@@ -438,6 +438,16 @@ class ilObjUserFolder extends ilObject
 			if (array_search("auth_mode", $settings) !== FALSE)
 			{
 				if (strlen($row["auth_mode"])) $userline .= "<AuthMode type=\"".$row["auth_mode"]."\"></AuthMode>";
+			}
+
+			if (array_search("last_update", $settings) !== FALSE)
+			{
+				if (strlen($row["last_update"])) $userline .= "<LastUpdate>".$row["last_update"]."</LastUpdate>";
+			}
+
+			if (array_search("last_login", $settings) !== FALSE)
+			{
+				if (strlen($row["last_login"])) $userline .= "<LastLogin>".$row["last_login"]."</LastLogin>";
 			}
 
 			// Append User defined field data
