@@ -352,14 +352,14 @@ class ilTestCertificate
 			echo $backgroundimage;
 		}
 		*/
-		$paddingtop = "0";
+		$paddingtop = "0cm";
 		if (preg_match("/padding-top\=\"([^\"]+)\"/", $xslfo, $matches))
 		{
 			$paddingtop = $matches[1];
 		}
-		$marginbody_top = "0";
+		$marginbody_top = "0cm";
 		$marginbody_right = "2cm";
-		$marginbody_bottom = "0";
+		$marginbody_bottom = "0cm";
 		$marginbody_left = "2cm";
 		if (preg_match("/fo:flow[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
 		{

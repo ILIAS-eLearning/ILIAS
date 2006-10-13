@@ -347,6 +347,7 @@ class ilTestCertificateGUI
 		if (strcmp($form_fields["pageformat"], "custom") == 0)
 		{
 			$this->tpl->setCurrentBlock("custom_format");
+			$this->tpl->setVariable("TEXT_PAGE_UNIT_DESCRIPTION", $this->lng->txt("certificate_unit_description"));
 			$this->tpl->setVariable("TEXT_PAGEHEIGHT", $this->lng->txt("certificate_pageheight"));
 			$this->tpl->setVariable("TEXT_PAGEWIDTH", $this->lng->txt("certificate_pagewidth"));
 			if (strlen($form_fields["pageheight"]))
@@ -381,6 +382,7 @@ class ilTestCertificateGUI
 			$this->tpl->setVariable("VALUE_STATUS", $this->lng->txt("certificate_status_incomplete"));
 		}
 		
+		$this->tpl->setVariable("BUTTON_SET_PAGEFORMAT", $this->lng->txt("change"));
 		$this->tpl->setVariable("TEXT_PAGE_FORMAT", $this->lng->txt("certificate_page_format"));
 		$this->tpl->setVariable("TEXT_BACKGROUND_IMAGE", $this->lng->txt("certificate_background_image"));
 		$this->tpl->setVariable("TEXT_UPLOAD", $this->lng->txt("upload"));
@@ -433,6 +435,7 @@ class ilTestCertificateGUI
 		$this->tpl->setVariable("PH_DATE", $this->lng->txt("certificate_ph_date"));
 		$this->tpl->setVariable("PH_DATETIME", $this->lng->txt("certificate_ph_datetime"));
 		
+		$this->tpl->setVariable("TEXT_UNIT_DESCRIPTION", $this->lng->txt("certificate_unit_description"));
 		$this->tpl->setVariable("TEXT_CERTIFICATE_VISIBILITY", $this->lng->txt("certificate_visibility"));
 		$this->tpl->setVariable("TEXT_CERTIFICATE_VISIBILITY_INTRODUCTION", $this->lng->txt("certificate_visibility_introduction"));
 		$this->tpl->setVariable("TEXT_VISIBILITY_ALWAYS", $this->lng->txt("certificate_visibility_always"));
