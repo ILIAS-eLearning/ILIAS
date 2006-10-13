@@ -28,10 +28,13 @@
 			<option value="{VALUE_PAGE_FORMAT}"{SELECTED_PAGE_FORMAT}>{NAME_PAGE_FORMAT}</option>
 <!-- END page_format_row -->
 		</select>
+		<input type="submit" class="submit" name="cmd[certificateSave]" value="{BUTTON_SET_PAGEFORMAT}" />
 <!-- BEGIN custom_format -->
 		<br />
 		<label for="pageheight">{TEXT_PAGEHEIGHT}</label> <input type="text" name="pageheight" id="pageheight" size="8"{VALUE_PAGEHEIGHT} />
 		<label for="pagewidth">{TEXT_PAGEWIDTH}</label> <input type="text" name="pagewidth" id="pagewidth" size="8"{VALUE_PAGEWIDTH} />
+		<br />
+		<em>{TEXT_PAGE_UNIT_DESCRIPTION}</em>
 <!-- END custom_format -->
 	</td>
 </tr>
@@ -50,15 +53,19 @@
   <td class="option"><label for="padding_top">{TEXT_PADDING_TOP}</label><span class="asterisk">*</span></td>
   <td class="option_value">
 		<input name="padding_top" id="padding_top" type="text" size="6"{VALUE_PADDING_TOP} />
+		<br />
+		<em>{TEXT_UNIT_DESCRIPTION}</em>
 	</td>
 </tr>
 <tr>
   <td class="option"><label for="margin_body_top">{TEXT_MARGIN_BODY}</label><span class="asterisk">*</span></td>
   <td class="option_value">
-		{TEXT_MARGIN_BODY_TOP} <input name="margin_body_top" id="margin_body_top" type="text" size="6"{VALUE_MARGIN_BODY_TOP} />
-		{TEXT_MARGIN_BODY_RIGHT} <input name="margin_body_right" id="margin_body_right" type="text" size="6"{VALUE_MARGIN_BODY_RIGHT} />
-		{TEXT_MARGIN_BODY_BOTTOM} <input name="margin_body_bottom" id="margin_body_bottom" type="text" size="6"{VALUE_MARGIN_BODY_BOTTOM} />
-		{TEXT_MARGIN_BODY_LEFT} <input name="margin_body_left" id="margin_body_left" type="text" size="6"{VALUE_MARGIN_BODY_LEFT} />
+		<label for="margin_body_top">{TEXT_MARGIN_BODY_TOP}</label> <input name="margin_body_top" id="margin_body_top" type="text" size="6"{VALUE_MARGIN_BODY_TOP} />
+		<label for="margin_body_right">{TEXT_MARGIN_BODY_RIGHT}</label> <input name="margin_body_right" id="margin_body_right" type="text" size="6"{VALUE_MARGIN_BODY_RIGHT} />
+		<label for="margin_body_bottom">{TEXT_MARGIN_BODY_BOTTOM}</label> <input name="margin_body_bottom" id="margin_body_bottom" type="text" size="6"{VALUE_MARGIN_BODY_BOTTOM} />
+		<label for="margin_body_left">{TEXT_MARGIN_BODY_LEFT}</label> <input name="margin_body_left" id="margin_body_left" type="text" size="6"{VALUE_MARGIN_BODY_LEFT} />
+		<br />
+		<em>{TEXT_UNIT_DESCRIPTION}</em>
 	</td>
 </tr>
 <tr>

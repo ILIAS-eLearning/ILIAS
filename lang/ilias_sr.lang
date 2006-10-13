@@ -6562,3 +6562,8 @@ assessment#:#certificate_visibility_never#:#Not visible###11 10 2006 new variabl
 assessment#:#certificate_visibility_passed#:#Only visible is a user passed the test###11 10 2006 new variable
 assessment#:#passed_only#:#Passed tests only###12 10 2006 new variable
 trac#:#trac_anonymized_info_short#:#(Anonymized)###12 10 2006 new variable
+assessment#:#certificate_top#:#Top###13 10 2006 new variable
+assessment#:#certificate_right#:#Right###13 10 2006 new variable
+assessment#:#certificate_bottom#:#Bottom###13 10 2006 new variable
+assessment#:#certificate_left#:#Left###13 10 2006 new variable
+assessment#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable

@@ -206,6 +206,7 @@ assessment#:#certificate_ph_marklong#:#Users mark (official version)
 assessment#:#certificate_ph_testtitle#:#Title of the test
 assessment#:#certificate_ph_date#:#Actual date
 assessment#:#certificate_ph_datetime#:#Actual date and time
+assessment#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 assessment#:#certificate_visibility#:#Visibility
 assessment#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is
 assessment#:#certificate_visibility_always#:#Always visible

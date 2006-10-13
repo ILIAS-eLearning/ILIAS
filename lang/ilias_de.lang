@@ -6567,3 +6567,4 @@ assessment#:#certificate_visibility_always#:#Immer sichtbar
 assessment#:#certificate_visibility_never#:#Nicht sichtbar
 assessment#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
 assessment#:#passed_only#:#Nur bestandene Tests
+assessment#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
