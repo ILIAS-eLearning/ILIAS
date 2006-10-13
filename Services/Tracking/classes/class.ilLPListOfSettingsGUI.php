@@ -271,6 +271,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
 		include_once 'course/classes/Event/class.ilEvent.php';
 		include_once 'classes/class.ilLink.php';
+		include_once 'classes/class.ilFrameTargetInfo.php';
 
 		// read assigned events
 		$events = ilEvent::_getEvents($this->getObjId());
@@ -327,6 +328,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$tpl->setVariable("ANONYMIZED",$this->lng->txt('trac_anonymized_info_short'));
 			}
 			$tpl->setVariable("COLL_LINK",ilLink::_getLink($ref_id,$ilObjDataCache->lookupType($obj_id)));
+			$tpl->setVariable("COLL_FRAME",ilFrameTargetInfo::_getFrame('MainContent',$ilObjDataCache->lookupType($obj_id)));
 			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
 			$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));
 			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));

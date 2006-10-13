@@ -205,6 +205,8 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function showPossibleSubObjects()
 	{
+		global $ilAccess;
+
 		$found = false;
 		$cmd = ($this->cmd != "")
 			? $this->cmd
@@ -259,11 +261,14 @@ class ilContainerGUI extends ilObjectGUI
 			// show addEvent button
 			if($this->object->getType() == 'crs')
 			{
-				$this->tpl->setCurrentBlock("event_button");
-				$this->tpl->setVariable("E_FORMACTION",$this->ctrl->getFormActionByClass('ileventadministrationgui'));
-				$this->tpl->setVariable("BTN_NAME_EVENT",'addEvent');
-				$this->tpl->setVariable("TXT_ADD_EVENT",$this->lng->txt('add_event'));
-				$this->tpl->parseCurrentBlock();
+				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$this->tpl->setCurrentBlock("event_button");
+					$this->tpl->setVariable("E_FORMACTION",$this->ctrl->getFormActionByClass('ileventadministrationgui'));
+					$this->tpl->setVariable("BTN_NAME_EVENT",'addEvent');
+					$this->tpl->setVariable("TXT_ADD_EVENT",$this->lng->txt('add_event'));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			$this->tpl->setCurrentBlock("add_commands");
 			// convert form to inline element, to show them in one row
