@@ -203,6 +203,7 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 		$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]));
 
 		$this->__addElement ("LastUpdate", $row["last_update"]);
+		$this->__addElement ("LastLogin", $row["last_login"]);
 
 		$this->xmlEndTag('User');
 	}

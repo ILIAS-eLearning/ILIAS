@@ -594,12 +594,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
     	// this takes time but is nescessary
 
-		
+
     		$error = false;
    		/*
-			
+
 		// validate to prevent wrong XMLs
-		// does not work in php4 -> any ideas? 
+		// does not work in php4 -> any ideas?
 		$this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
    		if ($error)
    		{
@@ -624,25 +624,30 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 
 
-		// determine where to import
-		if ($folder_id == -1)
-			$folder_id = USER_FOLDER_ID;
-
-		// get folder
-		$import_folder = ilObjectFactory::getInstanceByRefId($folder_id, false);
-
-		// id does not exist
-		if (!$import_folder)
-				return $this->__raiseError('Wrong reference id.','Server');
-
-		// folder is not a folder, can also be a category
-		if ($import_folder->getType() != "usrf" && $import_folder->getType() != "cat")
-		        return $this->__raiseError('Folder must be a usr folder or a category.','Server');
-
-		// check access to folder
-		if(!$rbacsystem->checkAccess('create_user',$folder_id))
+		// folder id 0, means to check permission on user basis!
+		// must have create user right in time_limit_owner property (which is ref_id of container)
+		if ($folder_id != 0)
 		{
-			return $this->__raiseError('Missing permission for creating users within '.$import_folder->getTitle(),'Server');
+    		// determine where to import
+    		if ($folder_id == -1)
+    			$folder_id = USER_FOLDER_ID;
+
+    			// get folder
+    		$import_folder = ilObjectFactory::getInstanceByRefId($folder_id, false);
+
+    		// id does not exist
+    		if (!$import_folder)
+    				return $this->__raiseError('Wrong reference id.','Server');
+
+    		// folder is not a folder, can also be a category
+    		if ($import_folder->getType() != "usrf" && $import_folder->getType() != "cat")
+    		        return $this->__raiseError('Folder must be a usr folder or a category.','Server');
+
+    		// check access to folder
+    		if(!$rbacsystem->checkAccess('create_user',$folder_id))
+    		{
+    			return $this->__raiseError('Missing permission for creating users within '.$import_folder->getTitle(),'Server');
+    		}
 		}
 
 		// first verify
@@ -735,7 +740,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					// isInSubtree variable with true. In all other cases it is initialized
 					// with false, and only set to true if we find the object id of the
 					// locally administrated category in the tree path to the local role.
-					$isInSubtree = $folder_id == USER_FOLDER_ID;
+					$isInSubtree = $folder_id == USER_FOLDER_ID || $folder_id == 0;
 
 					$path = "";
 

@@ -38,7 +38,7 @@
 
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
 
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, LastUpdate?, UserDefinedField*)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, LastUpdate?, LastLogin?, UserDefinedField*)>
 
 
 
@@ -177,6 +177,8 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime *** es gibt keine methode daf�r in ilObjUser. Implementieren? -->
 
 <!ELEMENT LastUpdate (#PCDATA)> <!-- @soap: read only property, is mysql timestamp e.g. 2003-08-15 10:07:30  -->
+
+<!ELEMENT LastLogin (#PCDATA)><!-- date of last login -->
 
 <!ELEMENT iLincID (#PCDATA)>
 
