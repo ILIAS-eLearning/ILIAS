@@ -777,7 +777,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#importUsers',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS import users into folder id, which should be ref_id of folder or user folder: conflict_rule: IL_FAIL_ON_CONFLICT = 1, IL_UPDATE_ON_CONFLICT = 2, IL_IGNORE_ON_CONFLICT = 3. The Return-Value is a protocol with the columns userid, login, action, message, following xmlresultset dtd. Send Account Mail = 0 deactivates sending a mail to each user, 1 activates it');
+								'ILIAS import users into folder id, which should be ref_id of folder or user folder (-1:System user folder, 0: checks access at user level, otherwise refid): conflict_rule: IL_FAIL_ON_CONFLICT = 1, IL_UPDATE_ON_CONFLICT = 2, IL_IGNORE_ON_CONFLICT = 3. The Return-Value is a protocol with the columns userid, login, action, message, following xmlresultset dtd. Send Account Mail = 0 deactivates sending a mail to each user, 1 activates it');
 
 		$this->server->register('getRoles',
 								array('sid' => 'xsd:string',
