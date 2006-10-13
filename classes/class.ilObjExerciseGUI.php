@@ -1708,11 +1708,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$info->addProperty($this->lng->txt("exc_mark"),
 						$mark);
 				}
-				if ($status != "notgraded")
+
+				if ($status == "") 
 				{
-					$info->addProperty($this->lng->txt("status"),
-						$this->lng->txt("exc_".$status));
+				  $info->addProperty($this->lng->txt("status"),
+						$this->lng->txt("message_no_delivered_files"));				
 				}
+				else
+					if ($status != "notgraded")
+					{
+					  $info->addProperty($this->lng->txt("status"),
+							$this->lng->txt("exc_".$status));
+					}
 			}
 		}
 
