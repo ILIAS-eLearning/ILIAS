@@ -87,6 +87,7 @@ class ilObjCourseGroupingGUI
 
 		// Fill table
 		$counter = 0;
+		$has_access = false;
 		foreach($items as $grouping_id)
 		{
 			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
@@ -123,6 +124,7 @@ class ilObjCourseGroupingGUI
 
 			if(ilObjCourseGrouping::_checkAccess($grouping_id))
 			{
+				$has_access = true;
 				$this->tpl->setVariable("CHECK_GRP",ilUtil::formCheckbox(0,'grouping[]',$grouping_id));
 			}
 			$this->tpl->setVariable("AMB_GRP",$this->lng->txt($tmp_obj->getUniqueField()));
@@ -134,7 +136,7 @@ class ilObjCourseGroupingGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if(count($items))
+		if(count($items) and $has_access)
 		{
 			$this->tpl->setCurrentBlock("has_items");
 			$this->tpl->setVariable("ARR_DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));

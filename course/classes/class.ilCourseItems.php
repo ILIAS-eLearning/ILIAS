@@ -75,19 +75,28 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 		return $this->user_id ? $this->user_id : $ilUser->getId();
 	}
 
-	function _hasTimings($a_ref_id)
+	function _hasCollectionTimings($a_ref_id)
 	{
-		global $tree,$ilDB;
+		global $tree,$ilDB,$ilObjDataCache;
 
-		$subtree = $tree->getSubTree($tree->getNodeData($a_ref_id));
-		foreach($subtree as $node)
+		// get all collections
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+
+		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
+		switch(ilLPObjSettings::_lookupMode($obj_id))
 		{
-			$ref_ids[] = $node['ref_id'];
-		}
+			case LP_MODE_COLLECTION:
+				include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
+				$ids = ilLPCollectionCache::_getItems($obj_id);
+				break;
+			default:
+				$ids = array($a_ref_id);
+				break;
+		} 
 
 		$query = "SELECT * FROM crs_items ".
 			"WHERE timing_type = '".IL_CRS_TIMINGS_PRESETTING."' ".
-			"AND obj_id IN('".implode("','",$ref_ids)."')";
+			"AND obj_id IN('".implode("','",$ids)."')";
 
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;

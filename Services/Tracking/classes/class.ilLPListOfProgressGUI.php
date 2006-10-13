@@ -180,7 +180,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		// Show timings header
 		include_once 'course/classes/class.ilCourseItems.php';
-		if($this->has_timings = ilCourseItems::_hasTimings($this->details_id))
+		if($this->has_timings = ilCourseItems::_hasCollectionTimings($this->details_id))
 		{
 			$this->tpl->setVariable('HEAD_TIMING',$this->lng->txt('trac_head_timing'));
 			$this->tpl->setVariable('HEAD_TIME_PASSED',$this->lng->txt('trac_time_passed'));
