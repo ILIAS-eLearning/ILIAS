@@ -411,27 +411,31 @@ class ilObjCourseGUI extends ilContainerGUI
 							   ilFormat::formatUnixTime($this->object->getActivationStart(),true)." - ".
 							   ilFormat::formatUnixTime($this->object->getActivationEnd(),true));
 		}
-		switch($this->object->getSubscriptionType())
+		switch($this->object->getSubscriptionLimitationType())
 		{
-			case $this->object->SUBSCRIPTION_DEACTIVATED:
+			case IL_CRS_SUBSCRIPTION_DEACTIVATED:
 				$txt = $this->lng->txt("crs_info_reg_deactivated");
 				break;
-			case $this->object->SUBSCRIPTION_CONFIRMATION:
-				$txt = $this->lng->txt("crs_info_reg_confirmation");
-				break;
-			case $this->object->SUBSCRIPTION_DIRECT:
-				$txt = $this->lng->txt("crs_info_reg_direct");
-				break;
-			case $this->object->SUBSCRIPTION_PASSWORD:
-				$txt = $this->lng->txt("crs_info_reg_password");
-				break;
-		}
 
+			default:
+				switch($this->object->getSubscriptionType())
+				{
+					case IL_CRS_SUBSCRIPTION_CONFIRMATION:
+						$txt = $this->lng->txt("crs_info_reg_confirmation");
+						break;
+					case IL_CRS_SUBSCRIPTION_DIRECT:
+						$txt = $this->lng->txt("crs_info_reg_direct");
+						break;
+					case IL_CRS_SUBSCRIPTION_PASSWORD:
+						$txt = $this->lng->txt("crs_info_reg_password");
+						break;
+				}
+		}
 		// subscription
 		$info->addProperty($this->lng->txt("crs_info_reg"),$txt);
 
 
-		if($this->object->getSubscriptionType() != $this->object->SUBSCRIPTION_DEACTIVATED)
+		if($this->object->getSubscriptionLimitationType() != IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{
 			if($this->object->getSubscriptionUnlimitedStatus())
 			{
@@ -453,7 +457,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		// archive
-		if($this->object->getArchiveType() != $this->object->ARCHIVE_DISABLED)
+		if($this->object->getArchiveType() != IL_CRS_ARCHIVE_NONE)
 		{
 			$info->addProperty($this->lng->txt("crs_archive"),
 							   ilFormat::formatUnixTime($this->object->getArchiveStart(),true)." - ".
