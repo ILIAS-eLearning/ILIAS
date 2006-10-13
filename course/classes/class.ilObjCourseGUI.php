@@ -4192,9 +4192,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
-
 				if( !$this->creation_mode
 					&& $cmd != 'infoScreen'
+					&& $cmd != 'sendfile'
 					&& !$rbacsystem->checkAccess("read",$this->object->getRefId())
 					|| $cmd == 'join'
 					|| $cmd == 'subscribe')

@@ -703,6 +703,7 @@ class ilCourseContentGUI
 			   $item['type'] == 'fold')
 			{
 				$this->tpl->setVariable("TITLE_LINK",ilLink::_getLink($item['ref_id'],$item['type']));
+				$this->tpl->setVariable("TITLE_FRAME",ilFrameTargetInfo::_getFrame('MainContent',$item['type']));
 				$this->tpl->setVariable("TITLE_LINK_NAME",$item['title']);
 			}
 			else
