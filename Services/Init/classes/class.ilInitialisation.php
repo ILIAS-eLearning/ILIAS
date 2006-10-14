@@ -679,7 +679,6 @@ class ilInitialisation
 	function initLanguage()
 	{
 		global $ilBench, $lng, $ilUser;
-		
 		//init language
 		$ilBench->start("Core", "HeaderInclude_initLanguage");
 		
@@ -687,7 +686,6 @@ class ilInitialisation
 		{
 			$_GET["lang"] = ($_GET["lang"]) ? $_GET["lang"] : $ilUser->getPref("language");
 		}
-		
 		if ($_POST['change_lang_to'] != "")
 		{
 			$_GET['lang'] = $_POST['change_lang_to'];
@@ -696,7 +694,8 @@ class ilInitialisation
 		$_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
 		
 		// prefer personal setting when coming from login screen
-		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
+		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the user agreement should be displayes (Helmut Schottmüller, 2006-10-14)
+		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() > 0)
 		{
 			$_SESSION['lang'] = $ilUser->getPref("language");
 		}
