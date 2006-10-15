@@ -319,19 +319,23 @@ $this->keywords          	= array(
 
 
 $this->linkscripts    	= array(
-			"1" => "donothing", 
-			"2" => "donothing", 
-			"3" => "donothing", 
+			"2" => "dofunction", 
+			"1" => "donothing",
+			"3" => "donothing",
 			"4" => "donothing");
-
 }
-
-
 
 function donothing($keywordin)
 {
 	return $keywordin;
 }
+
+function dofunction($keywordin)
+{
+        $outlink = "http://perldoc.perl.org/functions/".$keywordin.".html";
+        return "<a href=\"$outlink\">$keywordin</a>";
+}
+
 
 }
 
