@@ -1193,8 +1193,8 @@ class SurveyQuestion
 		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
 		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
 		{
-			$directory = escapeshellarg($directory);
-			exec("rm -rf $directory");
+			include_once "./classes/class.ilUtil.php";
+			ilUtil::delDir($directory);
 		}
 
 		include_once("./content/classes/Media/class.ilObjMediaObject.php");

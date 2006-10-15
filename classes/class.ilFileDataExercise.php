@@ -129,7 +129,8 @@ class ilFileDataExercise extends ilFileData
 		$delivered_file_path = $this->getExercisePath() . "/" . $this->obj_id . "/";
 		if (is_dir($delivered_file_path))
 		{
-			system("rm -rf " . ilUtil::escapeShellArg($delivered_file_path));
+			include_once "./classes/class.ilUtil.php";
+			ilUtil::delDir($delivered_file_path);
 		}
 		
 		return true;

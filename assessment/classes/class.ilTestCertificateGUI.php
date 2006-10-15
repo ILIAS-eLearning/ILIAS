@@ -138,6 +138,18 @@ class ilTestCertificateGUI
 	}
 	
 /**
+* Import a certificate from a ZIP archive
+*
+* Import a certificate from a ZIP archive
+*
+* @access public
+*/
+	function certificateImport()
+	{
+		$this->certificateEditor();
+	}
+	
+/**
 * Creates a certificate preview
 *
 * Creates a certificate preview
@@ -164,6 +176,19 @@ class ilTestCertificateGUI
 	}
 	
 /**
+* Exports the certificate
+*
+* Exports the certificate
+*
+* @access public
+*/
+	function certificateExportFO()
+	{
+		$this->object->deliverExportFileXML();
+	}
+	
+
+	/**
 * Creates a certificate output for a given active id
 *
 * Creates a certificate output for a given active id
@@ -376,11 +401,16 @@ class ilTestCertificateGUI
 			$this->tpl->setVariable("PREVIEW_BUTTON_CERTIFICATE", $this->lng->txt("certificate_preview"));
 			$this->tpl->setVariable("PREVIEW_URL", $this->ctrl->getLinkTarget($this, "certificatePreview"));
 			$this->tpl->setVariable("IMG_PREVIEW", ilUtil::getImagePath("icon_preview.gif"));
+			$this->tpl->setVariable("IMG_EXPORT", ilUtil::getImagePath("icon_file.gif"));
+			$this->tpl->setVariable("CERTIFICATE_EXPORT", $this->lng->txt("certificate_export"));
+			$this->tpl->setVariable("EXPORT_URL", $this->ctrl->getLinkTarget($this, "certificateExportFO"));
 		}
 		else
 		{
 			$this->tpl->setVariable("VALUE_STATUS", $this->lng->txt("certificate_status_incomplete"));
 		}
+		
+		$this->tpl->setVariable("TEXT_CERTIFICATE_IMPORT", $this->lng->txt("import"));
 		
 		$this->tpl->setVariable("BUTTON_SET_PAGEFORMAT", $this->lng->txt("change"));
 		$this->tpl->setVariable("TEXT_PAGE_FORMAT", $this->lng->txt("certificate_page_format"));
