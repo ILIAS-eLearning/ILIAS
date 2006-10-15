@@ -630,8 +630,8 @@ class ilObjTest extends ilObject
 		$directory = $tst_data_dir."/tst_".$this->getId();
 		if (is_dir($directory))
 		{
-			$directory = escapeshellarg($directory);
-			exec("rm -rf $directory");
+			include_once "./classes/class.ilUtil.php";
+			ilUtil::delDir($directory);
 		}
 		include_once("./content/classes/Media/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());

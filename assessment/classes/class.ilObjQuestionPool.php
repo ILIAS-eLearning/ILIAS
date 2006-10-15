@@ -220,8 +220,8 @@ class ilObjQuestionPool extends ilObject
 		$directory = $qpl_data_dir."/qpl_".$this->getId();
 		if (is_dir($directory))
 		{
-			$directory = escapeshellarg($directory);
-			exec("rm -rf $directory");
+			include_once "./classes/class.ilUtil.php";
+			ilUtil::delDir($directory);
 		}
 	}
 

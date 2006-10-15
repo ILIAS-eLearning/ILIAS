@@ -346,8 +346,8 @@ class ilObjSurvey extends ilObject
 		$directory = $svy_data_dir."/svy_".$this->getId();
 		if (is_dir($directory))
 		{
-			$directory = escapeshellarg($directory);
-			exec("rm -rf $directory");
+			include_once "./classes/class.ilUtil.php";
+			ilUtil::delDir($directory);
 		}
 
 		include_once("./content/classes/Media/class.ilObjMediaObject.php");

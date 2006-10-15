@@ -129,7 +129,20 @@ class ilTestCertificate
 	*/
 	function getBackgroundImagePath()
 	{
-		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/background.jpg";
+		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/" . $this->getBackgroundImageName();
+	}
+
+	/**
+	* Returns the filename of the background image
+	*
+	* Returns the filename of the background image
+	*
+	* @return string The filename of the background image
+	* @access public
+	*/
+	function getBackgroundImageName()
+	{
+		return "background.jpg";
 	}
 
 	/**
@@ -142,7 +155,7 @@ class ilTestCertificate
 	*/
 	function getBackgroundImageThumbPath()
 	{
-		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/background.jpg.thumb.jpg";
+		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/" . $this->getBackgroundImageName() . ".thumb.jpg";
 	}
 
 	/**
@@ -168,7 +181,20 @@ class ilTestCertificate
 	*/
 	function getXSLPath()
 	{
-		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/certificate.xml";
+		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/" . $this->getXSLName();
+	}
+	
+	/**
+	* Returns the filename of the XSL-FO file
+	*
+	* Returns the filename of the XSL-FO file
+	*
+	* @return string The filename of the XSL-FO file
+	* @access public
+	*/
+	function getXSLName()
+	{
+		return "certificate.xml";
 	}
 	
 	/**
@@ -182,7 +208,7 @@ class ilTestCertificate
 	function getBackgroundImagePathWeb()
 	{
 		include_once "./classes/class.ilUtil.php";
-		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/certificates/" . $this->object->getId() . "/background.jpg";
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/certificates/" . $this->object->getId() . "/" . $this->getBackgroundImageName();
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 	
@@ -408,7 +434,7 @@ class ilTestCertificate
 	* @return string XSL-FO code
 	* @access private
 	*/
-	function processXHTML2FO($form_data)
+	function processXHTML2FO($form_data, $for_export = FALSE)
 	{
 		$content = "<html><body>".$form_data["certificate_text"]."</body></html>";
 		$content = str_replace("<p>&nbsp;</p>", "<p><br /></p>", $content);
@@ -419,7 +445,14 @@ class ilTestCertificate
 		$pageformats = $this->getPageFormats();
 		$pageheight = $pageformats[$form_data["pageformat"]]["height"];
 		$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
-		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath() : "";
+		if ($for_export)
+		{
+			$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImageName() : "";
+		}
+		else
+		{
+			$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath() : "";
+		}
 		$params = array(
 			"pageheight" => $pageheight, 
 			"pagewidth" => $pagewidth,
@@ -635,13 +668,17 @@ class ilTestCertificate
 	* @param string $xslfo XSL-FO code
 	* @access private
 	*/
-	function saveCertificate($xslfo)
+	function saveCertificate($xslfo, $filename = "")
 	{
 		if (!file_exists($this->getCertificatePath()))
 		{
 			ilUtil::makeDirParents($this->getCertificatePath());
 		}
-		$fh = fopen($this->getXSLPath(), "w");
+		if (strlen($filename) == 0)
+		{
+			$filename = $this->getXSLPath();
+		}
+		$fh = fopen($filename, "w");
 		fwrite($fh, $xslfo);
 		fclose($fh);
 	}
@@ -661,7 +698,7 @@ class ilTestCertificate
 		if (!empty($image_tempfilename))
 		{
 			$image_filename = "background_upload";
-			$convert_filename = "background.jpg";
+			$convert_filename = $this->getBackgroundImageName();
 			$imagepath = $this->getCertificatePath();
 			if (!file_exists($imagepath))
 			{
@@ -787,6 +824,33 @@ class ilTestCertificate
 			)
 		);
 	}
+
+	/**
+	* build xml export file
+	*/
+	function deliverExportFileXML()
+	{
+		global $ilBench;
+
+		$ilBench->start("CertificateExport", "buildExportFile");
+		include_once "./classes/class.ilUtil.php";
+		$exportpath = $this->createArchiveDirectory();
+		ilUtil::makeDir($exportpath);
+		$xsl = file_get_contents($this->getXSLPath());
+		$xslexport = str_replace($this->getCertificatePath(), "", $xsl);
+		// save export xsl file
+		$this->saveCertificate($xslexport, $exportpath . $this->getXSLName());
+		// save background image
+		if ($this->hasBackgroundImage())
+		{
+			copy($this->getBackgroundImagePath(), $exportpath . $this->getBackgroundImageName());
+		}
+		$zipfile = time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificate.zip";
+		ilUtil::zip($exportpath, $this->getCertificatePath() . $zipfile);
+		ilUtil::delDir($exportpath);
+		ilUtil::deliverFile($this->getCertificatePath() . $zipfile, $zipfile, "application/zip");
+	}
+
 }
 
 ?>

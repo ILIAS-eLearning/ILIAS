@@ -18,6 +18,16 @@
 <!-- BEGIN preview_certificate -->
 		<br /><a href="{PREVIEW_URL}"><img alt="{PREVIEW_BUTTON_CERTIFICATE}" title="{PREVIEW_BUTTON_CERTIFICATE}" src="{IMG_PREVIEW}" /></a> <a href="{PREVIEW_URL}">{PREVIEW_BUTTON_CERTIFICATE}</a>
 <!-- END preview_certificate -->
+<!-- BEGIN certificate_export -->
+		<a href="{EXPORT_URL}"><img alt="{CERTIFICATE_EXPORT}" title="{CERTIFICATE_EXPORT}" src="{IMG_EXPORT}" /></a> <a href="{EXPORT_URL}">{CERTIFICATE_EXPORT}</a>
+<!-- END certificate_export -->
+	</td>
+</tr>
+<tr>
+	<td class="option"><label for="certificate_import">{TEXT_CERTIFICATE_IMPORT}</label></td>
+	<td class="option_value">
+		<input type="file" name="certificate_import" size="50" />
+		<input type="submit" class="submit" name="cmd[certificateImport]" value="{TEXT_UPLOAD}" />
 	</td>
 </tr>
 <tr>
