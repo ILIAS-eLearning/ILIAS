@@ -106,10 +106,13 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			}
 			else
 			{
-				$phrases[$row->phrase_id] = array(
-					"title" => $row->title,
-					"owner" => $row->owner_fi
-				);
+				if ($ilUser->getId() == $row->owner_fi)
+				{
+					$phrases[$row->phrase_id] = array(
+						"title" => $row->title,
+						"owner" => $row->owner_fi
+					);
+				}
 			}
 		}
 		return $phrases;
