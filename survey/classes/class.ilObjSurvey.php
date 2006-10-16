@@ -3843,10 +3843,10 @@ class ilObjSurvey extends ilObject
 		$a_xml_writer->xmlStartTag("material", $attrs);
 		$a_xml_writer->xmlElement("mattext", NULL, $this->getIntroduction());
 		$a_xml_writer->xmlEndTag("material");
-		$a_xml_writer->xmlStartTag("material", $attrs);
 		$attrs = array(
 			"label" => "outro"
 		);
+		$a_xml_writer->xmlStartTag("material", $attrs);
 		$a_xml_writer->xmlElement("mattext", NULL, $this->getOutro());
 		$a_xml_writer->xmlEndTag("material");
 		$a_xml_writer->xmlEndTag("objectives");
