@@ -593,9 +593,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		global $rbacreview, $rbacsystem, $tree, $lng;
 
     	// this takes time but is nescessary
-
-
-    		$error = false;
+   		$error = false;
    		/*
 
 		// validate to prevent wrong XMLs
@@ -691,7 +689,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		foreach ($all_gl_roles as $obj_data)
 		{
 			// check assignment permission if called from local admin
-			if($folder_id != USER_FOLDER_ID)
+			if($folder_id != USER_FOLDER_ID && $folder_id != 0)
 			{
 				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{
@@ -811,7 +809,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					if (in_array($role_id, $global_roles))
 					{
 						if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID, $_SESSION["RoleId"])
-						|| ($folder_id != USER_FOLDER_ID && ! ilObjRole::_getAssignUsersStatus($role_id))
+						|| ($folder_id != USER_FOLDER_ID && $folder_id != 0 && ! ilObjRole::_getAssignUsersStatus($role_id))
 						)
 						{
 							return $this->__raiseError($lng->txt("usrimport_with_specified_role_not_permitted")." $role_name ($role_id)",'Server');
