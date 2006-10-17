@@ -75,6 +75,8 @@ class ilCourseMembers
 
 		$this->course_obj =& $course_obj;
 
+		$this->__purgeDeleted();
+
 	}
 
 	function addDesktopItem($a_usr_id)
@@ -298,7 +300,10 @@ class ilCourseMembers
 	{
 		global $rbacadmin;
 
-		$this->__read($a_usr_id);
+		if(!$this->__read($a_usr_id))
+		{
+			return true;
+		}
 
 		switch($this->member_data["role"])
 		{
@@ -355,8 +360,10 @@ class ilCourseMembers
 	}
 	function getUserData($a_usr_id)
 	{
-		$this->__read($a_usr_id);
-
+		if(!$this->__read($a_usr_id))
+		{
+			return $a_usr_id;
+		}
 		return $this->member_data;
 	}
 
@@ -367,7 +374,7 @@ class ilCourseMembers
 
 	function getMembers($a_all = true)
 	{
-		$query = "SELECT usr_id FROM crs_members ".
+		$query = "SELECT cs.usr_id FROM crs_members as cs ".
 			"WHERE obj_id = '".$this->course_obj->getId()."' ".
 			"AND role = '".$this->ROLE_MEMBER."'";
 
@@ -385,7 +392,7 @@ class ilCourseMembers
 	}
 	function getAdmins()
 	{
-		$query = "SELECT usr_id FROM crs_members ".
+		$query = "SELECT cs.usr_id FROM crs_members as cs ".
 			"WHERE obj_id = '".$this->course_obj->getId()."' ".
 			"AND role = '".$this->ROLE_ADMIN."'";
 
@@ -398,7 +405,7 @@ class ilCourseMembers
 	}
 	function getTutors()
 	{
-		$query = "SELECT usr_id FROM crs_members ".
+		$query = "SELECT cs.usr_id FROM crs_members as cs ".
 			"WHERE obj_id = '".$this->course_obj->getId()."' ".
 			"AND role = '".$this->ROLE_TUTOR."'";
 
@@ -869,6 +876,11 @@ class ilCourseMembers
 
 	function __read($a_usr_id)
 	{
+		if(!ilObjUser::_lookupLogin($a_usr_id))
+		{
+			return false;
+		}
+
 		$query = "SELECT * FROM crs_members ".
 			"WHERE usr_id = '".$a_usr_id."' ".
 			"AND obj_id = '".$this->course_obj->getId()."'";
@@ -1086,6 +1098,26 @@ class ilCourseMembers
 		}
 		return $usr_ids ? $usr_ids : array();
 	}
+
+	function __purgeDeleted()
+	{
+		global $ilDB;
+
+		$query = "SELECT cs.usr_id as id FROM crs_members as cs ".
+			"LEFT JOIN usr_data as ud ".
+			"ON cs.usr_id = ud.usr_id ".
+			"WHERE obj_id = '".$this->course_obj->getId()."' ".
+			"AND ud.usr_id IS NULL";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$query = "DELETE FROM crs_members ".
+				"WHERE usr_id = '".$row->id."'";
+			$ilDB->query($query);
+		}
+	}
+
 
 }
 ?>
