@@ -132,9 +132,20 @@ class ilObjCourseGrouping
 
 	function getAssignedItems()
 	{
-		include_once './classes/class.ilConditionHandler.php';
+		global $tree;
 
-		return ilConditionHandler::_getConditionsOfTrigger($this->getType(),$this->getId());
+		include_once './classes/class.ilConditionHandler.php';
+		$condition_data = ilConditionHandler::_getConditionsOfTrigger($this->getType(),$this->getId());
+		$conditions = array();
+		foreach($condition_data as $condition)
+		{
+			if($tree->isDeleted($condition['target_ref_id']))
+			{
+				continue;
+			}
+			$conditions[] = $condition;
+		}
+		return count($conditions) ? $conditions : array();
 	}
 
 	function delete()
@@ -268,7 +279,7 @@ class ilObjCourseGrouping
 
 	function _checkAccess($grouping_id)
 	{
-		global $ilAccess;
+		global $ilAccess,$tree;
 
 		$tmp_grouping_obj = new ilObjCourseGrouping($grouping_id);
 
@@ -480,7 +491,7 @@ class ilObjCourseGrouping
 
 	function _checkGroupingDependencies(&$container_obj)
 	{
-		global $ilUser,$lng;
+		global $ilUser,$lng,$tree;
 
 		include_once './classes/class.ilConditionHandler.php';
 
@@ -502,6 +513,11 @@ class ilObjCourseGrouping
 		{
 			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
 			{
+				// Handle deleted items
+				if($tree->isDeleted($condition['target_ref_id']))
+				{
+					continue;
+				}
 				if($condition['operator'] == 'not_member')
 				{
 					switch($condition['value'])
@@ -554,7 +570,7 @@ class ilObjCourseGrouping
 
 	function _getGroupingItemsAsString(&$container_obj)
 	{
-		global $tree,$ilObjDataCache;
+		global $tree,$ilObjDataCache,$ilAccess,$tree;
 
 		include_once './classes/class.ilConditionHandler.php';
 
@@ -574,6 +590,12 @@ class ilObjCourseGrouping
 		{
 			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
 			{
+				// Continue if trigger is deleted
+				if($tree->isDeleted($condition['target_ref_id']))
+				{
+					continue;
+				}
+
 				if($condition['operator'] == 'not_member')
 				{
 					if(!$hash_table[$condition['target_ref_id']])
