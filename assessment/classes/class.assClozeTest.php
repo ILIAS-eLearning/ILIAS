@@ -194,7 +194,14 @@ class assClozeTest extends assQuestion
 			}
 			$result["delimiters"] = $delimiters;
 		}
-		//echo str_replace("\n", "<br />", str_replace(" ", "&nbsp;", ilUtil::prepareFormOutput(print_r($result, true))));
+		else
+		{
+			$result["gaps"] = array();
+			$result["delimiters"] = 
+				array(
+					array(0 => $this->cloze_text, 1 => "0")
+				);
+		}
 		return $result;		
 	}
 
