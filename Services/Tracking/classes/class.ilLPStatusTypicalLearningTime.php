@@ -92,8 +92,5 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 
 		return $status_info;
 	}
-		
-		
-
 }	
 ?>

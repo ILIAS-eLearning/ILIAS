@@ -184,19 +184,21 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 				}
 				foreach($this->status_info['collections'] as $item)
 				{
+					$object_id = $ilObjDataCache->lookupObjId($item);
+
 					// count full time if status is completed 
-					if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompleted($item)))
+					if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompleted($object_id)))
 					{
-						$user_time += ilLPStatusWrapper::_getTypicalLearningTime($item);
+						$user_time += ilLPStatusWrapper::_getTypicalLearningTime($object_id);
 						continue;
 					}
 
-					switch($ilObjDataCache->lookupType($item))
+					switch($ilObjDataCache->lookupType($object_id))
 					{
 						case 'lm':
-							$progress = ilLearningProgress::_getProgress($this->getCurrentUser(),$item);
+							$progress = ilLearningProgress::_getProgress($this->getCurrentUser(),$object_id);
 							$user_time += min($progress['spent_time'],
-											  ilLPStatusWrapper::_getTypicalLearningTime($item));
+											  ilLPStatusWrapper::_getTypicalLearningTime($object_id));
 							break;
 					}
 				}

@@ -128,13 +128,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function editUser()
 	{
+		global $ilObjDataCache;
+
 		// Load template
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_edit_user.html','Services/Tracking');
 
-		include_once("classes/class.ilInfoScreenGUI.php");
-		$info = new ilInfoScreenGUI($this);
 
-		$this->__showObjectDetails($info,$this->item_id);
+		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
+		$item_list = & ilLPItemListFactory::_getInstanceByRefId(0,$this->item_ref_id,$ilObjDataCache->lookupType($this->item_id));
+		$info =& $item_list->renderObjectInfo();
 		$this->__appendLPDetails($info,$this->item_id,(int) $_GET['user_id']);
 
 		// Finally set template variable
@@ -332,10 +334,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
 		}
 
-		include_once("classes/class.ilInfoScreenGUI.php");
-		$info = new ilInfoScreenGUI($this);
-
-		$this->__showObjectDetails($info,$this->details_obj_id);
+		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
+		$item_list = & ilLPItemListFactory::_getInstanceByRefId(0,$this->details_id,$this->details_type);
+		$info =& $item_list->renderObjectInfo();
 		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
 
 		$this->__showUsersList();
