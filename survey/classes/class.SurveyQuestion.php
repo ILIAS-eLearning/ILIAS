@@ -1805,7 +1805,8 @@ class SurveyQuestion
 			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
 		}
 		
-		$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+		// removed: did not work with magic_quotes_gpc = On
+		//$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 		if (!$is_html)
 		{
 			// if the string does not contain HTML code, replace the newlines with HTML line breaks

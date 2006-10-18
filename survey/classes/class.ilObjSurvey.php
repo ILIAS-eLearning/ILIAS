@@ -4887,7 +4887,8 @@ class ilObjSurvey extends ilObject
 		{
 			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 		}
-		$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+		// removed: did not work with magic_quotes_gpc = On
+		//$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 		if (!$this->isHTML($result))
 		{
 			// if the string does not contain HTML code, replace the newlines with HTML line breaks
