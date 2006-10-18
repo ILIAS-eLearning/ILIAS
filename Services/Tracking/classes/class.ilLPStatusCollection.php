@@ -194,10 +194,17 @@ class ilLPStatusCollection extends ilLPStatus
 
 	function _getTypicalLearningTime($a_obj_id)
 	{
+		global $ilObjDataCache;
+
+		if($ilObjDataCache->lookupType($a_obj_id) == 'sahs')
+		{
+			return parent::_getTypicalLearningTime($a_obj_id);
+		}
+
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		foreach($status_info['collections'] as $item)
 		{
-			$tlt += ilLPStatusWrapper::_getTypicalLearningTime($item);
+			$tlt += ilLPStatusWrapper::_getTypicalLearningTime($ilObjDataCache->lookupObjId($item));
 		}
 		return $tlt;
 	}

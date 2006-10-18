@@ -515,6 +515,41 @@ class ilLPItemListGUI
 		$this->html = $this->tpl->get();
 	}
 
+
+	function &renderObjectInfo($enable_details = false)
+	{
+		include_once("classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$info->addSection($this->lng->txt('details'));
+
+		// Title
+		$info->addProperty($this->lng->txt('title'),$this->getTitle());
+
+		// Description
+		if(strlen($desc = $this->getDescription()))
+		{
+			$info->addProperty($this->lng->txt('description'),$desc);
+		}
+		
+		// Mode
+		$info->addProperty($this->lng->txt('trac_mode'),ilLPObjSettings::_mode2Text($this->getMode()));
+
+		// Visits
+		if($this->getMode() == LP_MODE_VISITS)
+		{
+			$info->addProperty($this->lng->txt('trac_required_visits'),$this->status_info['visits']);
+		}
+		
+		// TLT
+		if($this->getTypicalLearningTime())
+		{
+			$info->addProperty($this->lng->txt('meta_typical_learning_time'),ilFormat::_secondsToString($this->getTypicalLearningTime()));
+		}
+
+		return $info; 
+	}
+
 	function __readEditingTime()
 	{
 		if(!$this->enabled('timings'))
