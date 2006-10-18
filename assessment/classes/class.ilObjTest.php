@@ -7744,7 +7744,8 @@ class ilObjTest extends ilObject
 			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
 		}
 		
-		$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		// removed: did not work with magic_quotes_gpc = On
+		//$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		if (!$is_html)
 		{
 			// if the string does not contain HTML code, replace the newlines with HTML line breaks
