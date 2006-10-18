@@ -674,7 +674,7 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("REG_CHECKED",$this->event_obj->enabledRegistration() ? 'checked="checked"' : '');
 		$this->tpl->setVariable("PART_CHECKED",$this->event_obj->enabledParticipation() ? 'checked="checked"' : '');
 		#$this->tpl->setVariable("TUTOR_FIRSTNAME",$this->event_obj->getFirstname());
-		$this->tpl->setVariable("TUTOR_LASTNAME",$this->event_obj->getName());
+		$this->tpl->setVariable("TUTOR_NAME",$this->event_obj->getName());
 		#$this->tpl->setVariable("TUTOR_TITLE",$this->event_obj->getPTitle());
 		$this->tpl->setVariable("TUTOR_EMAIL",$this->event_obj->getEmail());
 		$this->tpl->setVariable("TUTOR_PHONE",$this->event_obj->getPhone());

@@ -650,7 +650,8 @@ class ilRegistrationGUI
 				$lng = new ilLanguage(ilObjUser::_lookupLanguage($recipient));
 				$lng->loadLanguageModule('registration');
 
-				$umail = new ilFormatMail(6); // Send as system administrator
+				#$umail = new ilFormatMail(6); // Send as system administrator
+				$umail = new ilFormatMail($this->userObj->getId());
 				$umail->enableSoap(false);
 
 				$subject = $lng->txt("client_id") . " " . $ilias->client_id . ": " . $lng->txt("usr_new");

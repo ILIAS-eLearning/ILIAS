@@ -1074,7 +1074,7 @@ class ilPersonalDesktopGUI
 	*/
 	function displayUsersOnline()
 	{
-		global $ilias, $ilUser;
+		global $ilias, $ilUser,$rbacsystem;
 		
 		$users_online_pref = $ilias->account->getPref("show_users_online");
 		if ($users_online_pref != "y" && $users_online_pref != "associated")
@@ -1174,6 +1174,11 @@ class ilPersonalDesktopGUI
 		$this->tpl->setVariable("LINK_USER_DETAILS",
 		$this->ctrl->getLinkTarget($this, $cmd));
 		$this->tpl->setVariable("TXT_USER_DETAILS", $text);
+
+		// get mail settings id
+		include_once 'classes/class.ilMail.php';
+		$mail = new ilMail($ilUser->getId());
+		$mail_settings_id = $mail->getMailObjectReferenceId();
 		
 		// display details of users online
 		if ($showdetails)
@@ -1190,11 +1195,15 @@ class ilPersonalDesktopGUI
 					// hide mail-to icon for anonymous users
 					if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID and $_SESSION["AccountId"] != $user_id)
 					{
-						$this->tpl->setCurrentBlock("mailto_link");
-						//$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
-						$this->tpl->setVariable("TXT_MAIL",$this->lng->txt("mail"));
-						$this->tpl->setVariable("MAIL_USR_LOGIN",$user["login"]);
-						$this->tpl->parseCurrentBlock();
+						// No mail for users that do have permissions to use the mail system
+						if($rbacsystem->checkAccess('mail_visible',$mail_settings_id) and
+						   $rbacsystem->checkAccessOfUser($user_id,'mail_visible',$mail_settings_id))
+						{
+							$this->tpl->setCurrentBlock("mailto_link");
+							$this->tpl->setVariable("TXT_MAIL",$this->lng->txt("mail"));
+							$this->tpl->setVariable("MAIL_USR_LOGIN",$user["login"]);
+							$this->tpl->parseCurrentBlock();
+						}
 					}
 					
 					// check for profile
