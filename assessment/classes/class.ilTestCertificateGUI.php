@@ -311,6 +311,20 @@ class ilTestCertificateGUI
 			{
 				// handle the form post
 				
+				// handle the certificate import
+				if (strlen($_FILES["certificate_import"]["tmp_name"]))
+				{
+					$result = $this->object->importCertificate($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
+					if ($result == FALSE)
+					{
+						sendInfo($this->lng->txt("certificate_error_import"));
+					}
+					else
+					{
+						$this->ctrl->redirect($this, "certificateEditor");
+					}
+				}
+				
 				// handle the file upload
 				if (strlen($_FILES["background"]["tmp_name"]))
 				{

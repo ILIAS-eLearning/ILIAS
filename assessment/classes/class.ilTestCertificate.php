@@ -518,9 +518,9 @@ class ilTestCertificate
 	
 	function createArchiveDirectory()
 	{
-		$dir = $this->getCertificatePath() . time() . "/";
+		$dir = $this->getCertificatePath() . time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificate/";
 		include_once "./classes/class.ilUtil.php";
-		ilUtil::createDirectory($dir);
+		ilUtil::makeDirParents($dir);
 		return $dir;
 	}
 	
@@ -826,13 +826,14 @@ class ilTestCertificate
 	}
 
 	/**
-	* build xml export file
+	* Builds an export file in ZIP format and delivers it
+	*
+	* Builds an export file in ZIP format and delivers it
+	*
+	* @access private
 	*/
 	function deliverExportFileXML()
 	{
-		global $ilBench;
-
-		$ilBench->start("CertificateExport", "buildExportFile");
 		include_once "./classes/class.ilUtil.php";
 		$exportpath = $this->createArchiveDirectory();
 		ilUtil::makeDir($exportpath);
@@ -849,6 +850,94 @@ class ilTestCertificate
 		ilUtil::zip($exportpath, $this->getCertificatePath() . $zipfile);
 		ilUtil::delDir($exportpath);
 		ilUtil::deliverFile($this->getCertificatePath() . $zipfile, $zipfile, "application/zip");
+	}
+	
+	/**
+	* Reads an import ZIP file and creates a certificate of it
+	*
+	* Reads an import ZIP file and creates a certificate of it
+	*
+	* @return boolean TRUE if the import succeeds, FALSE otherwise
+	* @access private
+	*/
+	function importCertificate($zipfile, $filename)
+	{
+		include_once "./classes/class.ilUtil.php";
+		$importpath = $this->createArchiveDirectory();
+		if (!ilUtil::moveUploadedFile($zipfile, $filename, $importpath . $filename))
+		{
+			ilUtil::delDir($importpath);
+			return FALSE;
+		}
+		ilUtil::unzip($importpath . $filename, TRUE);
+		$subdir = str_replace(".zip", "", strtolower($filename)) . "/";
+		$copydir = "";
+		if (is_dir($importpath . $subdir))
+		{
+			$dirinfo = ilUtil::getDir($importpath . $subdir);
+			$copydir = $importpath . $subdir;
+		}
+		else
+		{
+			$dirinfo = ilUtil::getDir($importpath);
+			$copydir = $importpath;
+		}
+		$xmlfiles = 0;
+		$otherfiles = 0;
+		foreach ($dirinfo as $file)
+		{
+			if (strcmp($file["type"], "file") == 0)
+			{
+				if (strpos($file["entry"], ".xml") !== FALSE) 
+				{
+					$xmlfiles++;
+				}
+				else if (strpos($file["entry"], ".zip") !== FALSE)
+				{
+				}
+				else
+				{
+					$otherfiles++;
+				}
+			}
+		}
+		// if one XML file is in the archive, we try to import it
+		if ($xmlfiles == 1)
+		{
+			foreach ($dirinfo as $file)
+			{
+				if (strcmp($file["type"], "file") == 0)
+				{
+					if (strpos($file["entry"], ".xml") !== FALSE) 
+					{
+						$xsl = file_get_contents($copydir . $file["entry"]);
+						// as long as we cannot make RPC calls in a given directory, we have
+						// to add the complete path to every url
+						$xsl = preg_replace("/url\([']{0,1}(.*?)[']{0,1}\)/", "url(" . $this->getCertificatePath() . "\${1})", $xsl);
+						$this->saveCertificate($xsl);
+					}
+					else if (strpos($file["entry"], ".zip") !== FALSE)
+					{
+					}
+					else
+					{
+						@copy($copydir . $file["entry"], $this->getCertificatePath() . $file["entry"]);
+						if (strcmp($this->getBackgroundImagePath(), $this->getCertificatePath() . $file["entry"]) == 0)
+						{
+							// upload of the background image, create a preview
+							ilUtil::convertImage($this->getBackgroundImagePath(), $this->getBackgroundImageThumbPath(), "JPEG", 100);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			ilUtil::delDir($importpath);
+			return FALSE;
+		}
+		ilUtil::delDir($importpath);
+		return TRUE;
 	}
 
 }

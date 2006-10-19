@@ -4814,7 +4814,8 @@ class ilObjTestGUI extends ilObjectGUI
 					 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
 						"saveMarks", "cancelMarks", 
 						"certificate", "certificateEditor", "certificateRemoveBackground",
-						"certificateSave", "certificatePreview", "certificateDelete", "certificateUpload"),
+						"certificateSave", "certificatePreview", "certificateDelete", "certificateUpload",
+						"certificateImport"),
 					 "");
 				if ((strpos(strtolower($this->ctrl->getCmd()), "mark") !== FALSE) || (strpos(strtolower($this->ctrl->getCmd()), "certificate") !== FALSE))
 				{
@@ -4830,7 +4831,8 @@ class ilObjTestGUI extends ilObjectGUI
 							"certificate",
 							$this->ctrl->getLinkTarget($this,'certificate'),
 							array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
-								"certificatePreview", "certificateDelete", "certificateUpload"),
+								"certificatePreview", "certificateDelete", "certificateUpload",
+								"certificateImport"),
 							"");
 					}
 				}

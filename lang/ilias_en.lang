@@ -213,6 +213,8 @@ assessment#:#certificate_visibility_introduction#:#The button in the test result
 assessment#:#certificate_visibility_always#:#Always visible
 assessment#:#certificate_visibility_never#:#Not visible
 assessment#:#certificate_visibility_passed#:#Only visible if a user passed the test
+assessment#:#certificate_error_import#:#An error occured during the import of a certificate!
+assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?
 assessment#:#change_solution#:#Change suggested solution

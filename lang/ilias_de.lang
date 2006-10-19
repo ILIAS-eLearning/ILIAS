@@ -6568,3 +6568,6 @@ assessment#:#certificate_visibility_never#:#Nicht sichtbar
 assessment#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
 assessment#:#passed_only#:#Nur bestandene Tests
 assessment#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
+assessment#:#certificate_export#:#Zertifikat exportieren
+assessment#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
+assessment#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!

@@ -6641,3 +6641,6 @@ assessment#:#certificate_right#:#Right###13 10 2006 new variable
 assessment#:#certificate_bottom#:#Bottom###13 10 2006 new variable
 assessment#:#certificate_left#:#Left###13 10 2006 new variable
 assessment#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable
+assessment#:#certificate_export#:#Export Certificate###19 10 2006 new variable
+assessment#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
+assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###19 10 2006 new variable
