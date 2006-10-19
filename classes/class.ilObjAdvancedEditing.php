@@ -367,7 +367,13 @@ class ilObjAdvancedEditing extends ilObject
 			"td",
 			"tr",
 			"u",
-			"ul"			
+			"ul",
+			"ruby", // Ruby Annotation XHTML module
+			"rbc",
+			"rtc",
+			"rb",
+			"rt",
+			"rp"
 		);
 		return $tags;
 	}
