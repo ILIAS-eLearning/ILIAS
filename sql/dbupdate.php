@@ -11641,3 +11641,8 @@ if ($certificate_visibility == FALSE)
 	$res = $ilDB->query($query);
 }
 ?>
+<#823>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
