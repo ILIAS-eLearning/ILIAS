@@ -4825,16 +4825,12 @@ class ilObjTestGUI extends ilObjectGUI
 						array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
 							"saveMarks", "cancelMarks"),
 						"");
-					if (DEVMODE == 1)
-					{
-						$tabs_gui->addSubTabTarget(
-							"certificate",
-							$this->ctrl->getLinkTarget($this,'certificate'),
-							array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
-								"certificatePreview", "certificateDelete", "certificateUpload",
-								"certificateImport"),
-							"");
-					}
+					$tabs_gui->addSubTabTarget(
+						"certificate",
+						$this->ctrl->getLinkTarget($this,'certificate'),
+						array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+							"certificatePreview", "certificateDelete", "certificateUpload"),
+						"");
 				}
 		
 				if ($this->object->isOnlineTest())
