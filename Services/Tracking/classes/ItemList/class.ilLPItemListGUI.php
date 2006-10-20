@@ -515,6 +515,46 @@ class ilLPItemListGUI
 		$this->html = $this->tpl->get();
 	}
 
+	function renderObjectDetailsXML(&$writer)
+	{
+		$writer->xmlElement('ItemText',array('Style' => 'title'),$this->getTitle());
+		if(strlen($this->getDescription()))
+		{
+			$writer->xmlElement('ItemText',array('Style' => 'description'),$this->getDescription());
+		}
+
+		// User status
+		$writer->xmlStartTag('ItemInfo',array('Style' => 'alert'));
+		$writer->xmlElement('ItemInfoName',null,$this->lng->txt('trac_status').': ');
+		$writer->xmlElement('ItemInfoValue',null,$this->lng->txt($this->getUserStatus()));
+		$writer->xmlEndTag('ItemInfo');
+
+		// Status info
+		if($this->user_status_info)
+		{
+			$writer->xmlStartTag('ItemInfo',array('Style' => 'alert'));
+			$writer->xmlElement('ItemInfoName',null,$this->user_status_info[0].': ');
+			$writer->xmlElement('ItemInfoValue',null,$this->user_status_info[1]);
+			$writer->xmlEndTag('ItemInfo');
+		}
+
+		// Comment
+		if(strlen($this->getComment()))
+		{
+			$writer->xmlStartTag('ItemInfo',array('Style' => 'text'));
+			$writer->xmlElement('ItemInfoName',null,$this->lng->txt('trac_comment').': ');
+			$writer->xmlElement('ItemInfoValue',null,$this->getComment());
+			$writer->xmlEndTag('ItemInfo');
+		}
+		if(strlen($this->getMark()))
+		{
+			$writer->xmlStartTag('ItemInfo',array('Style' => 'text'));
+			$writer->xmlElement('ItemInfoName',null,$this->lng->txt('trac_mark').': ');
+			$writer->xmlElement('ItemInfoValue',null,$this->getMark());
+			$writer->xmlEndTag('ItemInfo');
+		}
+	}
+
 
 	function &renderObjectInfo($enable_details = false)
 	{
@@ -548,6 +588,56 @@ class ilLPItemListGUI
 		}
 
 		return $info; 
+	}
+
+	function renderObjectInfoXML(&$writer)
+	{
+		$writer->xmlStartTag('Info');
+		$writer->xmlElement('InfoHeader',null,$this->lng->txt('details'));
+
+		// Title
+		$writer->xmlStartTag('InfoBody');
+		$writer->xmlStartTag('InfoRow');
+		$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('title'));
+		$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$this->getTitle());
+		$writer->xmlEndTag('InfoRow');
+
+		// Description
+		if(strlen($desc = $this->getDescription()))
+		{
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('description'));
+			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$this->getDescription());
+			$writer->xmlEndTag('InfoRow');
+		}
+
+		// Mode
+		$writer->xmlStartTag('InfoRow');
+		$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('trac_mode'));
+		$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),ilLPObjSettings::_mode2Text($this->getMode()));
+		$writer->xmlEndTag('InfoRow');
+		
+		// Visits
+		if($this->getMode() == LP_MODE_VISITS)
+		{
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('trac_required_visits'));
+			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$this->status_info['visits']);
+			$writer->xmlEndTag('InfoRow');
+		}
+
+		// Tlt
+		if($this->getTypicalLearningTime())
+		{
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('meta_typical_learning_time'));
+			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
+								ilFormat::_secondsToString($this->getTypicalLearningTime()));
+			$writer->xmlEndTag('InfoRow');
+		}
+		$writer->xmlEndTag('InfoBody');
+		$writer->xmlEndTag('Info');
+			
 	}
 
 	function __readEditingTime()

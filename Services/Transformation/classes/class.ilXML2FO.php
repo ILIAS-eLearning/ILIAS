@@ -79,10 +79,10 @@ class ilXML2FO
 										"arg:/_xsl",
 										null,
 										$this->xslt_args,
-										array());
+										null);
 
 
-		if(strlen($error_msg = xslt_error($this->xslt_error)))
+		if(strlen($error_msg = xslt_error($this->xslt_handler)))
 		{
 			$ilLog->write("Error generating pdf: ".$error_msg);
 			return false;
@@ -90,18 +90,22 @@ class ilXML2FO
 
 		xslt_free($this->xslt_handler);
 
-		#var_dump("<pre>",htmlentities($this->getFOString()),"<pre>");
-		#var_dump("<pre>",$this->getFOString(),"<pre>");
 		return true;
 	}
 
 	// Private
 	function __init()
 	{
+
+		domxml_open_mem($this->getXMLString(), DOMXML_LOAD_VALIDATING, $error);
+		if($error)
+		{
+			var_dump("<pre>","XML ERROR: ".$error,htmlentities($this->getXMLString()),"<pre>");
+		}
+
 		$this->xslt_handler = xslt_create();
 		$this->xslt_args = array('/_xml' => $this->getXMLString(),
 								 '/_xsl' => file_get_contents($this->getXSLTLocation()));
-
 
 		return true;
 	}
