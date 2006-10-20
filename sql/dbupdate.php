@@ -11637,7 +11637,7 @@ if ($res->numRows())
 }
 if ($certificate_visibility == FALSE)
 {
-	$query = "ALTER TABLE `tst_tests` ADD `certificate_visibility` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0' AFTER `show_question_titles`;";
+	$query = "ALTER TABLE `tst_tests` ADD `certificate_visibility` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0' AFTER `show_question_titles`";
 	$res = $ilDB->query($query);
 }
 ?>

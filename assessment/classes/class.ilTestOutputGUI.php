@@ -1544,6 +1544,13 @@ class ilTestOutputGUI
 		}
 	}
 	
+/**
+* Output of a test certificate
+*
+* Output of a test certificate
+*
+* @access public
+*/
 	function outCertificate()
 	{
 		$this->ctrl->setParameterByClass("iltestcertificategui","active_id", $_GET["active_id"]);
