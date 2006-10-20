@@ -83,7 +83,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 			case 'ilpdfpresentation':
 				include_once './Services/Tracking/classes/class.ilPDFPresentation.php';
-				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->getRefId(),$this->getUserId());
+				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->details_id,$this->getUserId());
 				$pdf_gui->setType(LP_ACTIVE_OBJECTS);
 				$this->ctrl->setReturn($this,'show');
 				$this->ctrl->forwardCommand($pdf_gui);
@@ -332,6 +332,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		   $this->getMode() == LP_MODE_ADMINISTRATION)
 		{
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
+		}
+
+		if($this->activePDF())
+		{
+			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createDetails'),$this->lng->txt('pdf_export'));
 		}
 
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
@@ -615,6 +620,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		global $ilObjDataCache;
 
 
+		if(!$a_details_id)
+		{
+			$a_details_id = $this->getRefId();
+		}
 		if($a_details_id)
 		{
 			$_GET['details_id'] = $a_details_id;
