@@ -1239,8 +1239,8 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getPassword() . ""),
 				$allowedUsers,
 				$allowedUsersTimeGap,
-				$ilDB->quote($created),
-				$ilDB->quote("0")
+				$ilDB->quote("0"),
+				$ilDB->quote($created)
       );
       
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
