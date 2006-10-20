@@ -97,11 +97,11 @@ class ilXML2FO
 	function __init()
 	{
 
-		domxml_open_mem($this->getXMLString(), DOMXML_LOAD_VALIDATING, $error);
-		if($error)
-		{
-			var_dump("<pre>","XML ERROR: ".$error,htmlentities($this->getXMLString()),"<pre>");
-		}
+		#domxml_open_mem($this->getXMLString(), DOMXML_LOAD_VALIDATING, $error);
+		#if($error)
+		#{
+		#	var_dump("<pre>","XML ERROR: ".$error,htmlentities($this->getXMLString()),"<pre>");
+		#}
 
 		$this->xslt_handler = xslt_create();
 		$this->xslt_args = array('/_xml' => $this->getXMLString(),
