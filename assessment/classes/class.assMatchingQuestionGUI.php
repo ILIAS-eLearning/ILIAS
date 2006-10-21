@@ -638,7 +638,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		
 		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
-		$key2 = $keys;
+		$keys2 = $keys;
 		if ($this->object->getShuffle())
 		{
 			$keys = $this->object->pcArrayShuffle($keys);
