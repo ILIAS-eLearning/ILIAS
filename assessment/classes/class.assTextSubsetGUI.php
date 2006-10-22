@@ -88,7 +88,7 @@ class assTextSubsetGUI extends assQuestionGUI
 	{
 		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		// single response
-		$this->getQuestionTemplate("qt_textsubset");
+		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_textsubset.html", true);
 		// output of existing single response answers
 		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
@@ -626,7 +626,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_textsubset");
+		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}
 	

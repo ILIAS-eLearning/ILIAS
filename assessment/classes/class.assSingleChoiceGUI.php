@@ -106,7 +106,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			}
 		}
 		$this->object->setGraphicalAnswerSetting($graphical_answer_setting);
-		$this->getQuestionTemplate("qt_multiple_choice_sr");
+		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
 		// output of existing single response answers
 		if ($this->object->getAnswerCount() > 0)
@@ -831,7 +831,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_multiple_choice_sr");
+		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}
 

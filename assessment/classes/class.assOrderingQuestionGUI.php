@@ -97,7 +97,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	function editQuestion($ok = true)
 	{
 		$multiline_answers = $this->object->getMultilineAnswerSetting();
-		$this->getQuestionTemplate("qt_ordering");
+		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
 
 		// Output of existing answers
@@ -868,7 +868,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_ordering");
+		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}
 

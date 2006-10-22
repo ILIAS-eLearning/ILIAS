@@ -106,7 +106,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				if (strlen($answer->getImage())) $graphical_answer_setting = 1;
 			}
 		}
-		$this->getQuestionTemplate("qt_multiple_choice_mr");
+		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
 
 		if ($this->object->getAnswerCount() > 0)
@@ -846,7 +846,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_multiple_choice_mr");
+		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}
 	

@@ -96,7 +96,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 	{
 		include_once "./assessment/classes/class.ilImagemapPreview.php";
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_imagemap");
+		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 		if (($this->ctrl->getCmd() == "addArea" or $this->ctrl->getCmd() == "getCoords") and ($this->ctrl->getCmd() != "saveShape"))
 		{
@@ -930,7 +930,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_imagemap");
+		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}
 }

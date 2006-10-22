@@ -115,7 +115,7 @@ class assClozeTestGUI extends assQuestionGUI
 			"glo" => $this->lng->txt("glossary_term")
 		);
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_cloze");
+		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_question.html", true);
 		for ($i = 0; $i < $this->object->getGapCount(); $i++)
 		{
@@ -892,7 +892,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_cloze");
+		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}
 

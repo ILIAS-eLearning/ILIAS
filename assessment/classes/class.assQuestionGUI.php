@@ -281,7 +281,7 @@ class assQuestionGUI
 	/**
 	* get question template
 	*/
-	function getQuestionTemplate($q_type)
+	function getQuestionTemplate()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -643,7 +643,7 @@ class assQuestionGUI
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());
 				$_GET["q_id"] = $this->object->getId();
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());
-				$this->getQuestionTemplate($_GET["sel_question_types"]);
+				$this->getQuestionTemplate();
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", true);
@@ -669,7 +669,7 @@ class assQuestionGUI
 			case "st":
 				$_GET["q_id"] = $this->object->getId();
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());
-				$this->getQuestionTemplate($_GET["sel_question_types"]);
+				$this->getQuestionTemplate();
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				include_once("./content/classes/class.ilObjContentObject.php");
@@ -700,7 +700,7 @@ class assQuestionGUI
 			case "glo":
 				$_GET["q_id"] = $this->object->getId();
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());
-				$this->getQuestionTemplate($_GET["sel_question_types"]);
+				$this->getQuestionTemplate();
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", true);
