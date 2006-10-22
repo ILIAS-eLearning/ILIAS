@@ -95,7 +95,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	function editQuestion($has_error = 0, $delete = false)
 	{
 		$multiline_answers = $this->object->getMultilineAnswerSetting();
-		$this->getQuestionTemplate("qt_matching");
+		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
 
 		$tblrow = array("tblrow1top", "tblrow2top");
@@ -887,7 +887,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate("qt_matching");
+		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}	
 
