@@ -4808,6 +4808,11 @@ class ilObjTestGUI extends ilObjectGUI
 					 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"), 
 					 "", "", $force_active);
 					 
+				// meta data
+				$tabs_gui->addTarget("meta_data",
+					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+					 "", "ilmdeditorgui");
+
 				// mark schema
 				$tabs_gui->addTarget("mark_schema",
 					 $this->ctrl->getLinkTarget($this,'marks'),
@@ -4880,15 +4885,10 @@ class ilObjTestGUI extends ilObjectGUI
 										 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui',
 											   'illplistofprogressgui'));
 				}
-				
+
 				// permissions
 				$tabs_gui->addTarget("perm_settings",
 					$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-					 
-				// meta data
-				$tabs_gui->addTarget("meta_data",
-					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-					 "", "ilmdeditorgui");
 			}
 		}
 	}

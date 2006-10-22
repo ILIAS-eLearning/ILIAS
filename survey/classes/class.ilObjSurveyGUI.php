@@ -3961,6 +3961,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 "confirmRemoveHeading", "cancelRemoveHeading"),
 				 "", "", $force_active);
 				 
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
+	
 			// constraints
 			$tabs_gui->addTarget("constraints",
 				 $this->ctrl->getLinkTarget($this, "constraints"),
@@ -4001,15 +4006,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 $this->ctrl->getLinkTarget($this,'codes'),
 				 array("codes", "createSurveyCodes", "setCodeLanguage"),
 				 "");
-	
+				 
 			// permissions
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-				 
-			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
 		}
 	}
 	

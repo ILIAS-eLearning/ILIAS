@@ -1556,7 +1556,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 "savePhrase", "addPhrase"
 			 ),
 			 "", "", $force_active);
-			 
+
+		// meta data
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+			 "", "ilmdeditorgui");
+
 		// manage phrases
 		$tabs_gui->addTarget("manage_phrases",
 			 $this->ctrl->getLinkTarget($this,'phrases'),
@@ -1569,15 +1574,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 array("export", "createExportFile", "confirmDeleteExportFile", 
 			 "downloadExportFile", "cancelDeleteExportFile", "deleteExportFile"),
 			 "", "");
-			
+
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-			 
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-			 "", "ilmdeditorgui");
 	}
 
 } // END class.ilObjSurveyQuestionPoolGUI
