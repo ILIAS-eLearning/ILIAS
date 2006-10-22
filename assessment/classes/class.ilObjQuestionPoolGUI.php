@@ -1868,6 +1868,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
 			 "", "", $force_active);
 
+		// meta data
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+			 "", "ilmdeditorgui");
+
 		// print view
 		$tabs_gui->addTarget("print_view",
 			 $this->ctrl->getLinkTarget($this,'print'),
@@ -1879,15 +1884,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			 $this->ctrl->getLinkTarget($this,'export'),
 			 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
 			 "", "");
-			
+
 		// permissions
 		$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-			 
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-			 "", "ilmdeditorgui");
 	}
 
 } // END class.ilObjQuestionPoolGUI
