@@ -603,6 +603,20 @@ class ilObjUser extends ilObject
 		return $user_rec["usr_id"];
 	}
 
+	/**
+	* lookup last login
+	*/
+	function _lookupLastLogin($a_user_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT last_login FROM usr_data".
+			" WHERE usr_id =".$ilDB->quote($a_user_id);
+		$user_set = $ilDB->query($q);
+		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $user_rec["last_login"];
+	}
+
 
 	/**
 	* updates the login data of a "user"

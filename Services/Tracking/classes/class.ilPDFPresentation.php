@@ -129,6 +129,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		switch($this->getType())
 		{
 			case LP_ACTIVE_OBJECTS:
+			case LP_ACTIVE_PROGRESS:
 				return $this->__createObjectDetails();
 				
 			default:
@@ -157,12 +158,24 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 		$this->details_obj_id = $ilObjDataCache->lookupObjId($this->getRefId());
 		$item_list =& ilLPItemListFactory::_getInstance(0,$this->details_obj_id,$ilObjDataCache->lookupType($this->details_obj_id));
-		$item_list->renderObjectInfoXML($this->writer);
 
+		if($this->getType() == LP_ACTIVE_PROGRESS)
+		{
+			$item_list->setCurrentUser($this->current_user_id);
+			$item_list->readUserInfo();
+			$item_list->renderObjectInfoXML($this->writer,true,true);
+		}
+		else
+		{
+			$item_list->renderObjectInfoXML($this->writer,false,false);
+		}
 		// Items
-		$this->__showItems();
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		if(ilLPObjSettings::_isContainer(ilLPObjSettings::_lookupMode($this->details_obj_id)) or $this->getType() == LP_ACTIVE_OBJECTS)
+		{
+			$this->__showItems();
+		}
 		
-
 		$this->writer->xmlEndTag('LearningProgress');
 
 		$this->__toFO();
@@ -179,8 +192,18 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		$in_progress = ilLPStatusWrapper::_getInProgress($this->details_obj_id);
 		$completed = ilLPStatusWrapper::_getCompleted($this->details_obj_id);
 		$failed = ilLPStatusWrapper::_getFailed($this->details_obj_id);
-		$all_users = array_merge($completed,$in_progress,$not_attempted,$failed);
-		$all_users = $this->__sort($all_users,'usr_data','lastname','usr_id');
+
+		switch($this->getType())
+		{
+			case LP_ACTIVE_OBJECTS:
+				$all_users = array_merge($completed,$in_progress,$not_attempted,$failed);
+				$all_users = $this->__sort($all_users,'usr_data','lastname','usr_id');
+				break;
+
+			case LP_ACTIVE_PROGRESS:
+				$all_users = array($this->current_user_id);
+				break;
+		}
 
 		// Header
 		$this->writer->xmlStartTag('Items');

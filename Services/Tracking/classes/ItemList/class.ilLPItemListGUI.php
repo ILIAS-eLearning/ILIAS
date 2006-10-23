@@ -555,7 +555,6 @@ class ilLPItemListGUI
 		}
 	}
 
-
 	function &renderObjectInfo($enable_details = false)
 	{
 		include_once("classes/class.ilInfoScreenGUI.php");
@@ -590,13 +589,48 @@ class ilLPItemListGUI
 		return $info; 
 	}
 
-	function renderObjectInfoXML(&$writer)
+	function renderObjectInfoXML(&$writer,$a_enable_progress = false,$a_enable_user_info = false)
 	{
+		global $ilObjDataCache;
+
 		$writer->xmlStartTag('Info');
-		$writer->xmlElement('InfoHeader',null,$this->lng->txt('details'));
+		$writer->xmlStartTag('InfoBody');
+
+		if($a_enable_user_info)
+		{
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'title','Colspan' => '2'),$this->lng->txt('trac_user_data'));
+			$writer->xmlEndTag('InfoRow');
+
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('username'));
+			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),ilObjUser::_lookupLogin($this->getCurrentUser()));
+			$writer->xmlEndTag('InfoRow');
+			
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('name'));
+			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$ilObjDataCache->lookupTitle($this->getCurrentUser()));
+			$writer->xmlEndTag('InfoRow');
+
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('last_login'));
+			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
+								ilFormat::formatDate(ilObjUser::_lookupLastLogin($this->getCurrentUser())));
+			$writer->xmlEndTag('InfoRow');
+
+			include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('trac_total_online'));
+			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
+								ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($this->getCurrentUser())));
+			$writer->xmlEndTag('InfoRow');
+		}
+
+		$writer->xmlStartTag('InfoRow');
+		$writer->xmlElement('InfoColumn',array('Style' => 'title','Colspan' => 2),$this->lng->txt('details'));
+		$writer->xmlEndTag('InfoRow');
 
 		// Title
-		$writer->xmlStartTag('InfoBody');
 		$writer->xmlStartTag('InfoRow');
 		$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('title'));
 		$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$this->getTitle());
@@ -634,6 +668,72 @@ class ilLPItemListGUI
 			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
 								ilFormat::_secondsToString($this->getTypicalLearningTime()));
 			$writer->xmlEndTag('InfoRow');
+		}
+
+		if($a_enable_progress)
+		{
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'title','Colspan' => 2),$this->lng->txt('trac_learning_progress'));
+			$writer->xmlEndTag('InfoRow');
+
+			switch($this->getType())
+			{
+				case 'lm':
+				case 'htlm':
+					include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+					$progress = ilLearningProgress::_getProgress($this->getCurrentUser(),$this->getId());
+			
+					$writer->xmlStartTag('InfoRow');
+					$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('last_access'));
+					if($progress['access_time'])
+					{
+						$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
+											ilFormat::formatUnixTime($progress['access_time'],true));
+					}
+					else
+					{
+						$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
+											$this->lng->txt('trac_not_accessed'));
+					}
+					$writer->xmlEndTag('InfoRow');
+
+					$writer->xmlStartTag('InfoRow');
+					$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('trac_visits'));
+					$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$progress['visits']);
+					$writer->xmlEndTag('InfoRow');
+					break;
+			}
+			$writer->xmlStartTag('InfoRow');
+			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('trac_status'));
+			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$this->lng->txt($this->getUserStatus()));
+			$writer->xmlEndTag('InfoRow');
+
+			// Status info
+			if($this->user_status_info)
+			{
+				$writer->xmlStartTag('InfoRow');
+				$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->user_status_info[0]);
+				$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$this->user_status_info[1]);
+				$writer->xmlEndTag('InfoRow');
+			}
+			// Mark
+			if($this->getMark())
+			{
+				$writer->xmlStartTag('InfoRow');
+				$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('trac_mark'));
+				$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$this->getMark());
+				$writer->xmlEndTag('InfoRow');
+			}
+			
+			// Comment
+			if($this->getComment())
+			{
+				$writer->xmlStartTag('InfoRow');
+				$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('trac_comment'));
+				$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),$this->getComment());
+				$writer->xmlEndTag('InfoRow');
+			}
+
 		}
 		$writer->xmlEndTag('InfoBody');
 		$writer->xmlEndTag('Info');

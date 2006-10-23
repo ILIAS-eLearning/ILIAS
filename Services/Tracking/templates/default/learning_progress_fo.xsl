@@ -121,11 +121,19 @@
         </fo:block>
       </fo:table-cell>
     </xsl:if>
+    <xsl:if test="./@Style = 'title'">
+      <fo:table-cell border-style="solid" border-width="0.5mm" number-columns-spanned="2" padding="1mm" background-color="#ccdbf2">
+        <fo:block 
+          font-weight="bold">
+          <xsl:value-of select="." />
+        </fo:block>
+      </fo:table-cell>
+    </xsl:if>
   </xsl:template>  
 
   <!-- Items -->
   <xsl:template match="Items">
-    <fo:block text-align="justify" padding="2cm">
+    <fo:block text-align="justify" padding-top="1cm">
       <fo:list-block
         provisional-label-separation="0.5cm"
         provisional-distance-between-starts="1cm">
@@ -136,24 +144,24 @@
 
   <!-- Item -->
   <xsl:template match="Item">
-      <fo:list-item>
-        <fo:list-item-label end-indent="label-end()">
-          <fo:block font-weight="bold">
-            <xsl:number level="multiple" format="1.1" count="Item" />
-          </fo:block>
-        </fo:list-item-label>
-        <fo:list-item-body start-indent="body-start()">
-          <xsl:apply-templates select="./ItemText" />
-          <xsl:apply-templates select="./ItemInfo" />
-          <xsl:if test="./Item">
-            <fo:list-block
-              provisional-label-separation="0.5cm"
-              provisional-distance-between-starts="1cm">
-              <xsl:apply-templates select="Item" />
-            </fo:list-block>
-          </xsl:if>
-        </fo:list-item-body>
-      </fo:list-item>
+    <fo:list-item>
+      <fo:list-item-label end-indent="label-end()">
+        <fo:block font-weight="bold">
+          <xsl:number level="multiple" format="1.1" count="Item" />
+        </fo:block>
+      </fo:list-item-label>
+      <fo:list-item-body start-indent="body-start()">
+        <xsl:apply-templates select="./ItemText" />
+        <xsl:apply-templates select="./ItemInfo" />
+        <xsl:if test="./Item">
+          <fo:list-block
+            provisional-label-separation="0.5cm"
+            provisional-distance-between-starts="1cm">
+            <xsl:apply-templates select="Item" />
+          </fo:list-block>
+        </xsl:if>
+      </fo:list-item-body>
+    </fo:list-item>
   </xsl:template>
 
   <!-- ItemText -->
