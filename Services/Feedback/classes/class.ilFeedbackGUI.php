@@ -141,7 +141,7 @@ class ilFeedbackGUI
 		$tbl->setMaxCount(count($rows));
 		$tbl->tpl->setCurrentBlock("plain_button");
 		$tbl->tpl->setVariable("PBTN_NAME","addBarometer");
-		$tbl->tpl->setVariable("PBTN_VALUE",$this->lng->txt("add"));
+		$tbl->tpl->setVariable("PBTN_VALUE",$this->lng->txt("barometer_add"));
 		$tbl->tpl->parseCurrentBlock();
 		$tbl->tpl->setCurrentBlock("plain_buttons");
 		$tbl->tpl->parseCurrentBlock();
