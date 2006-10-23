@@ -57,6 +57,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		
 		// Set item id for details
 		$this->__initDetails((int) $_GET['details_id']);
+		$this->ctrl->saveParameter($this,'details_id',$_REQUEST['details_id']);
 	}
 		
 
@@ -75,7 +76,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 			case 'ilpdfpresentation':
 				include_once './Services/Tracking/classes/class.ilPDFPresentation.php';
-				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->getRefId(),$this->getUserId(),$this->tracked_user->getId());
+				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->details_id,$this->getUserId(),$this->tracked_user->getId());
 				$pdf_gui->setType(LP_ACTIVE_PROGRESS);
 				$this->ctrl->setReturn($this,'show');
 				$this->ctrl->forwardCommand($pdf_gui);
@@ -125,6 +126,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		{
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
 		}
+
+		if($this->activePDF())
+		{
+			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createDetails'),$this->lng->txt('pdf_export'));
+		}
+
 
 		if(!ilLPObjSettings::_isContainer($this->details_mode))
 		{
@@ -329,7 +336,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		if($this->show_user_info)
 		{
-			
 			$info->addSection($this->lng->txt("trac_user_data"));
 			$info->addProperty($this->lng->txt('username'),$this->tracked_user->getLogin());
 			$info->addProperty($this->lng->txt('name'),$this->tracked_user->getFullname());
@@ -487,6 +493,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	{
 		global $ilObjDataCache;
 
+		if(!$a_details_id)
+		{
+			$a_details_id = $this->getRefId();
+		}
 		if($a_details_id)
 		{
 			$ref_ids = ilObject::_getAllReferences($a_details_id);
