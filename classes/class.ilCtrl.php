@@ -181,6 +181,89 @@ class ilCtrl
 //echo "end forward<br>";
 	}
 
+	/**
+	* Gets an HTML output block from another GUI class and
+	* returns the flow of control to the calling class.
+	*
+	* @param	object		$a_gui_object		gui object that returns the HTML block
+	* @access	public
+	*
+	* @return	string		HTML
+	*/
+	function &getBlock(&$a_gui_object)
+	{
+		$class = strtolower(get_class($a_gui_object));
+
+		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
+		if ($nr > 0)
+		{
+			$current_node = $this->current_node;
+			
+			// set current node to new gui class
+			$this->current_node = $nr;
+			
+			// get block
+			$html = $a_gui_object->getBlock();
+			
+			// reset current node
+			$this->current_node = $current_node;
+			
+			// return block
+			return $html;
+		}
+		echo "ERROR: Can't getBlock from class $class."; exit;
+	}
+	
+	/**
+	* Set context of current user interface.
+	*/
+	function setContext($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
+	{
+		$this->context_obj_id = $a_obj_id;
+		$this->context_obj_type = $a_obj_type;
+		$this->context_sub_obj_id = $a_sub_obj_id;
+		$this->context_sub_obj_type = $a_sub_obj_type;
+	}
+
+	/**
+	* Get ContextObjId.
+	*
+	* @return	int	
+	*/
+	public function getContextObjId()
+	{
+		return $this->context_obj_id;
+	}
+
+	/**
+	* Get ContextObjType.
+	*
+	* @return	int	
+	*/
+	public function getContextObjType()
+	{
+		return $this->context_obj_type;
+	}
+
+	/**
+	* Get ContextSubObjId.
+	*
+	* @return	int	
+	*/
+	public function getContextSubObjId()
+	{
+		return $this->context_sub_obj_id;
+	}
+
+	/**
+	* Get ContextSubObjType.
+	*
+	* @return	int	
+	*/
+	public function getContextSubObjType()
+	{
+		return $this->context_sub_obj_type;
+	}
 
 	/**
 	* Searchs a node for a given class ($a_class) "near" the another

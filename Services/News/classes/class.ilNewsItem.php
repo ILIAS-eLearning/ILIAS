@@ -40,7 +40,7 @@ class ilNewsItem
 
 	private $creation_date;
 	private $priority = 1;
-	private $title;
+	private $title = "tt";
 	private $content;
 	private $context_obj_id;
 	private $context_obj_type;
@@ -93,7 +93,7 @@ class ilNewsItem
 	*
 	* @param	string	$a_title	Title of news item.
 	*/
-	public function setTitle($a_title)
+	public function setTitle($a_title = "tt")
 	{
 		$this->title = $a_title;
 	}
@@ -301,6 +301,35 @@ class ilNewsItem
 			"context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).",".
 			"content_type = ".$ilDB->quote($this->getContentType());
 		$ilDB->query($query);
+
+	}
+
+	/**
+	* Query NewsForContext
+	*
+	*/
+	public function queryNewsForContext()
+	{
+		global $ilDB;
+		
+		$query = "SELECT creation_date, priority, title, content, content_type ".
+			"FROM il_news_item ".
+			"WHERE ".
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
+				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
+			"ORDER BY creation_date DESC ".
+				"";
+				
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$result[] = $rec;
+		}
+		
+		return $result;
 
 	}
 

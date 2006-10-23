@@ -59,6 +59,12 @@ class ilObjFileGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 		
+		// set context
+		if (is_object($this->object))
+		{
+			$this->ctrl->setContext($this->object->getId(), "file");
+		}
+		
 //echo "-$cmd-";
 		switch ($next_class)
 		{
@@ -378,6 +384,7 @@ class ilObjFileGUI extends ilObjectGUI
 		}
 		
 		$info->enablePrivateNotes();
+		$info->enableNews();
 		
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
