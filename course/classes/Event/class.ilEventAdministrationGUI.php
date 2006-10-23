@@ -91,6 +91,7 @@ class ilEventAdministrationGUI
 				break;
 		}
 		$this->tabs_gui->clearSubTabs();
+		$this->tabs_gui->clearTargets();
 	}
 
 	function cancel()
