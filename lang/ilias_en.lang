@@ -793,7 +793,6 @@ assessment#:#with_order#:#with order
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
-barometer#:#add#:#Add new Feedback
 barometer#:#anonymous#:#Anonymous
 barometer#:#barometer_title#:#Feedback
 barometer#:#best#:#Best
@@ -6559,3 +6558,15 @@ grp#:#crs_grp_enter_title#:#Please fill out all required fields.
 grp#:#crs_grp_added_grouping#:#Added new membership limitation.
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.
+crs#:#crs_grp_added_grouping#:#Added new membership limitation.
+common#:#edit_grouping#:#Edit Membership Limitation
+crs#:#grouping_change_assignment#:#Change Assignment
+common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.
+grp#:#crs_grp_table_assigned_courses#:#Assigned Groups
+grp#:#grouping_change_assignment#:#Change Assignment
+grp#:#crs_grp_assign_crs#:#Assignment of Groups
+grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned
+grp#:#crs_grouping_select_one#:#Please select one membership limitation.
+grp#:#crs_grp_info_reg#:#You can only register to one of this groups:
+trac#:#trac_anonymized_info_short#:#(Anonymized)
+barometer#:#barometer_add#:#Add new Feedback

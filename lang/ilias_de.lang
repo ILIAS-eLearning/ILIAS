@@ -729,7 +729,6 @@ assessment#:#with_order#:#mit der Reihenfolge
 assessment#:#worked_through#:#Beantwortet
 assessment#:#working_time#:#Bearbeitungszeit
 assessment#:#you_received_a_of_b_points#:#Sie haben %d von %d möglichen Punkten erreicht.
-barometer#:#add#:#neues Barometer
 barometer#:#anonymous#:#Anonym
 barometer#:#barometer_title#:#Stimmungsbarometer
 barometer#:#best#:#beste
@@ -6571,3 +6570,4 @@ assessment#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WE
 assessment#:#certificate_export#:#Zertifikat exportieren
 assessment#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
 assessment#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
+barometer#:#barometer_add#:#neues Barometer

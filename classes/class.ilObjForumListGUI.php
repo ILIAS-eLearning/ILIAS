@@ -104,9 +104,15 @@ class ilObjForumListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		global $lng, $ilUser,$ilAccess;
 
 		$props = array();
+
+		// Return no properties if read access isn't granted (e.g. course visibility)
+		if(!$ilAccess->checkAccess('read','',$this->ref_id))
+		{
+			return array();
+		}
 
 		include_once("classes/class.ilForum.php");
 		include_once("classes/class.ilObjForum.php");
