@@ -30,7 +30,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI
+* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilNewsItemGUI
 *
 * @ingroup ServicesInfoScreen
 */
@@ -65,6 +65,7 @@ class ilInfoScreenGUI
 		$this->gui_object =& $a_gui_object;
 		$this->sec_nr = 0;
 		$this->private_notes_enabled = false;
+		$this->news_enabled = false;
 		$this->feedback_enabled = false;
 		$this->learning_progress_enabled = false;
 		$this->form_action = "";
@@ -135,6 +136,14 @@ class ilInfoScreenGUI
 	function enableFeedback($a_enable = true)
 	{
 		$this->feedback_enabled = $a_enable;
+	}
+
+	/**
+	* enable news
+	*/
+	function enableNews($a_enable = true)
+	{
+		$this->news_enabled = $a_enable;
 	}
 
 	/**
@@ -380,6 +389,15 @@ class ilInfoScreenGUI
 		global $tpl, $ilAccess;
 
 		$tpl->setContent($this->getHTML());
+		
+		// show news
+		if ($this->news_enabled)
+		{
+			include_once("Services/News/classes/class.ilNewsItemGUI.php");
+			$news_gui = new ilNewsItemGUI();
+			$html = $this->ctrl->getBlock($news_gui);
+			$tpl->setRightContent($html);
+		}
 	}
 
 

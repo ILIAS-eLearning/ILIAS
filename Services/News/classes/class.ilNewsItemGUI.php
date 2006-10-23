@@ -21,9 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define("IL_FORM_EDIT", 0);
-define("IL_FORM_CREATE", 1);
-define("IL_FORM_REENTER", 2);
+include_once ("Services/News/classes/class.ilNewsItemGUIGen.php");
 
 /**
 * User Interface for NewsItem entities.
@@ -31,187 +29,14 @@ define("IL_FORM_REENTER", 2);
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */
-class ilNewsItemGUI 
+class ilNewsItemGUI extends ilNewsItemGUIGen
 {
 
-	private $edit_mode;
-
-	/**
-	* Constructor.
-	*
-	*/
-	public function __construct()
+	function &getBlock()
 	{
-		global $ilCtrl;
-		
-		$this->ctrl = $ilCtrl;
-		
-		
-		if ($_GET["news_item_id"] > 0)
-		{
-			$this->news_item = new ilNewsItem($_GET["news_item_id"]);
-		}
-		
-		$this->ctrl->saveParameter($this, array("news_item_id"));
-
+		$obj_id = $this->ctrl->getContextObjId();
+		$obj_type = $this->ctrl->getContextObjType();
+		return "test-".$obj_id."-".$obj_type."-";
 	}
-
-	/**
-	* Execute command.
-	*
-	*/
-	public function &executeCommand()
-	{
-		global $ilCtrl;
-		
-		// get next class and command
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-		
-		switch ($next_class)
-		{
-			default:
-				$html = $this->$cmd();
-				break;
-		}
-		
-		return $html;
-
-	}
-
-	/**
-	* Set EditMode.
-	*
-	* @param	int	$a_edit_mode	Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_REENTER)
-	*/
-	public function setEditMode($a_edit_mode)
-	{
-		$this->edit_mode = $a_edit_mode;
-	}
-
-	/**
-	* Get EditMode.
-	*
-	* @return	int	Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_REENTER)
-	*/
-	public function getEditMode()
-	{
-		return $this->edit_mode;
-	}
-
-	/**
-	* Output NewsItem form.
-	*
-	*/
-	public function outputForm()
-	{
-		global $lng;
-		
-		$tpl = new ilTemplate("tpl.property_form.html", true, true);
-		$values = $this->getValues();
-		
-		$tpl->setCurrentBlock("prop_Varchar");
-		$tpl->setVariable("POST_VAR", "news_title");
-		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_title"));
-		$tpl->setVariable("PROPERTY_VALUE",
-			ilUtil::prepareFormOutput($values["Title"]));
-		$tpl->parseCurrentBlock();
-		
-		$tpl->setCurrentBlock("prop_Text");
-		$tpl->setVariable("POST_VAR", "news_content");
-		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_content"));
-		$tpl->setVariable("PROPERTY_VALUE",
-			ilUtil::prepareFormOutput($values["Content"]));
-		$tpl->parseCurrentBlock();
-		
-		
-		// save and cancel commands
-		$tpl->setCurrentBlock("cmd");
-		$tpl->setVariable("CMD", "update");
-		$tpl->setVariable("CMD_TXT", $lng->txt["save"]);
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("cmd");
-		$tpl->setVariable("CMD", "cancelUpdate");
-		$tpl->setVariable("CMD_TXT", $lng->txt["cancel"]);
-		$tpl->parseCurrentBlock();
-		
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction());
-		return $tpl->get();
-
-	}
-
-	/**
-	* Edit NewsItem.
-	*
-	*/
-	public function edit()
-	{
-		$this->setEditMode(IL_FORM_EDIT);
-		$this->outputForm();
-
-	}
-
-	/**
-	* Create NewsItem.
-	*
-	*/
-	public function create()
-	{
-		$this->setEditMode(IL_FORM_CREATE);
-		$this->outputForm();
-
-	}
-
-	/**
-	* Update NewsItem.
-	*
-	*/
-	public function update()
-	{
-		if ($this->checkInput())
-		{
-			
-			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
-			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
-			$this->news_item->update();
-		}
-		else
-		{
-			$this->setEditMode(IL_FORM_REENTER);
-			$this->outputForm();
-		}
-
-	}
-
-	/**
-	* Get current values for NewsItem form.
-	*
-	*/
-	public function getValues()
-	{
-		$values = array();
-		
-		switch ($this->getEditMode())
-		{
-			case IL_FORM_CREATE:
-				$values["Title"] = "tt";
-				$values["Content"] = "";
-				break;
-				
-			case IL_FORM_EDIT:
-				$values["Title"] = $this->news_item->getTitle();
-				$values["Content"] = $this->news_item->getContent();
-				break;
-				
-			case IL_FORM_REENTER:
-				$values["Title"] = ilUtil::stripSlashes($_POST["news_title"]);
-				$values["Content"] = ilUtil::stripSlashes($_POST["news_content"]);
-				break;
-		}
-		
-		return $values;
-
-	}
-
 
 }

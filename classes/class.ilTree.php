@@ -2068,6 +2068,27 @@ class ilTree
 		$q = "DELETE from ".$a_db_table." WHERE tree='".$a_tree."' AND child='".$a_child."'";
 		$ilDB->query($q);
 	}
+	
+	/**
+	* 
+	* @access	public
+	*
+	* DO NOT USE THIS FUNCTION YET. It is a proposal
+	*/
+	function moveSubTreeAlex($a_source_id, $a_target_id)
+	{
+		// check if both IDs are > 0
+		if($a_source_id <= 0 or $a_target_id <= 0)
+		{
+			$message = sprintf('%s::insertNode(): Invalid parameters! $a_source_id: %s $a_target_id: %s',
+							   get_class($this),
+							   $a_source_id,
+							   $a_target_id);
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+	}
+
 
 	// PRIVATE METHODS
 	/**

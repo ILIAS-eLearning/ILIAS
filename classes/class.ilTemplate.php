@@ -776,7 +776,27 @@ class ilTemplate extends ilTemplateX
 	{
 		$this->setVariable("ADM_CONTENT", $a_html);
 	}
+
+	/**
+	* sets content of right column
+	*/
+	function setRightContent($a_html)
+	{
+		$this->setCurrentBlock("right_column");
+		$this->setVariable("RIGHT_CONTENT", $a_html);
+		$this->parseCurrentBlock();
+	}
 	
+	/**
+	* sets content of left column
+	*/
+	function setLeftContent($a_html)
+	{
+		$this->setCurrentBlock("left_column");
+		$this->setVariable("LEFT_CONTENT", $a_html);
+		$this->parseCurrentBlock();
+	}
+
 	/**
 	* insert locator
 	* (add 
