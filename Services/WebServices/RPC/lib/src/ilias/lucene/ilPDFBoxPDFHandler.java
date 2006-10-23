@@ -82,9 +82,9 @@ public class ilPDFBoxPDFHandler implements ilDocumentHandler {
             PDFTextStripper stripper = new PDFTextStripper();
             docText = stripper.getText(new PDDocument(cosDOC));
         }
-        catch(IOException e) {
+        catch(Exception e) {
             closeCOSDocument(cosDOC);
-            throw new ilDocumentHandlerException("Cannot strip PDF document" + e);
+            throw new ilDocumentHandlerException("Cannot strip PDF document " + e);
         }
         Document doc = new Document();
         if(docText != null) {
