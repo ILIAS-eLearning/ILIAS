@@ -107,6 +107,7 @@ public class ilExtensionFileHandler implements ilFileHandler {
         
         Document doc = null;
         ilDocumentHandler doch = (ilDocumentHandler) new ilPDFBoxPDFHandler();
+        logger.debug("Start PDFBoxPDFHandler...");
         
         try {
             doc = doch.getDocument(new FileInputStream(file.getAbsolutePath()));
@@ -116,6 +117,9 @@ public class ilExtensionFileHandler implements ilFileHandler {
         }
         catch(ilDocumentHandlerException e) {
             throw new ilFileHandlerException(e.getMessage());
+        }
+        catch(Exception e) {
+            throw new ilFileHandlerException("Caught unknown exception " + e.getMessage());
         }
         return doc;
     }
