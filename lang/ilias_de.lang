@@ -4381,7 +4381,7 @@ crs#:#event_general_properties#:#Allgemeine Informationen
 crs#:#event_lecturer#:#Name
 crs#:#event_location#:#Ort
 crs#:#event_participation#:#Teilnahme
-crs#:#event_register#:#Register
+crs#:#event_register#:#Anmelden
 crs#:#event_registered#:#Sie haben sich für diese Sitzung angemeldet.
 crs#:#event_registration#:#Anmeldung
 crs#:#event_registration_info#:#Wenn aktiviert, können sich Benutzer für die Sitzung anmelden.

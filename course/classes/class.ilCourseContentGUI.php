@@ -434,7 +434,7 @@ class ilCourseContentGUI
 			$event_items = $this->course_obj->items_obj->getItemsByEvent($event_obj->getEventId());
 			foreach ($event_items as $cont_data)
 			{
-				if(strlen($html = $this->__getItemHTML($cont_data)))
+				if(strlen($html = $this->__getItemHTML($cont_data,true)))
 				{
 					 /* Disabled: no manual sort
 					 foreach($this->__getOptions($cont_data,$num) as $key => $image)
@@ -1531,7 +1531,7 @@ class ilCourseContentGUI
 
 
 
-	function __getItemHTML($cont_data)
+	function __getItemHTML($cont_data,$a_show_path = false)
 	{
 		include_once './classes/class.ilObjectListGUIFactory.php';
 
@@ -1575,6 +1575,15 @@ class ilCourseContentGUI
 			$item_list_gui->addCustomProperty($this->lng->txt($cont_data['activation_info']), $activation,
 											  false, true);
 		}
+
+		if($a_show_path and $this->is_tutor)
+		{
+			$item_list_gui->addCustomProperty($this->lng->txt('path'),
+											  $this->__buildPath($cont_data['ref_id']),
+											  false,
+											  true);
+		}
+
 
 		if($this->is_tutor)
 		{
@@ -1878,6 +1887,25 @@ class ilCourseContentGUI
 		return array('h' => date('G',$a_unix_time),
 					 'm' => date('i',$a_unix_time),
 					 's' => date('s',$a_unix_time));
+	}
+
+
+	function __buildPath($a_ref_id)
+	{
+		global $tree;
+
+		$path_arr = $tree->getPathFull($a_ref_id,$this->course_obj->getRefId());
+		$counter = 0;
+		foreach($path_arr as $data)
+		{
+			if($counter++)
+			{
+				$path .= " -> ";
+			}
+			$path .= $data['title'];
+		}
+
+		return $path;
 	}
 
 } // END class.ilCourseContentGUI
