@@ -528,6 +528,13 @@ class assQuestionGUI
 		$this->editQuestion();
 	}
 	
+	/**
+	* Handler for cmd[addSuggestedSolution] to add a suggested solution for the question
+	*
+	* Handler for cmd[addSuggestedSolution] to add a suggested solution for the question
+	*
+	* @access public
+	*/
 	function addSuggestedSolution()
 	{
 		global $tree;
