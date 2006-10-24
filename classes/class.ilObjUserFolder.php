@@ -191,6 +191,7 @@ class ilObjUserFolder extends ilObject
 	function createXMLExport(&$settings, &$data, $filename)
 	{
 		include_once 'classes/class.ilUserDefinedData.php';
+		include_once "./classes/class.ilObjUser.php";
 
 		global $rbacreview;
 		global $ilDB;
@@ -438,6 +439,12 @@ class ilObjUserFolder extends ilObject
 			if (array_search("auth_mode", $settings) !== FALSE)
 			{
 				if (strlen($row["auth_mode"])) $userline .= "<AuthMode type=\"".$row["auth_mode"]."\"></AuthMode>";
+			}
+			if (array_search("skin_style", $settings) !== FALSE)
+			{
+				$userline .= 
+					"<Look Skin=\"" . ilObjUser::_lookupPref($row["usr_id"], "skin") . "\" " . 
+					"Style=\"" . ilObjUser::_lookupPref($row["usr_id"], "style") . "\"></Look>";
 			}
 
 			if (array_search("last_update", $settings) !== FALSE)
