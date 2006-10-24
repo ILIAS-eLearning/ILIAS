@@ -18,7 +18,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?,UserDefinedField*)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, Look?, UserDefinedField*)>
 
 <!--
 Id is ILIAS ID or unique identifier for this xml file
@@ -53,6 +53,13 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ENTITY % A_Mode " type  (default | local | ldap | radius | shibboleth | cas | soap | script )  'default'">
 <!ELEMENT AuthMode (#PCDATA)>
 <!ATTLIST AuthMode %A_Mode;>
+
+<!-- Look -->
+<!ELEMENT Look (#PCDATA)>
+<!ATTLIST Look 
+    Skin CDATA #REQUIRED
+    Style CDATA #REQUIRED
+>
 
 <!-- Other Elements -->
 <!ELEMENT Login (#PCDATA)>

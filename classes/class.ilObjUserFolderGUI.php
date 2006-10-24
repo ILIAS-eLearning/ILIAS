@@ -2406,7 +2406,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"show_users_online" => 0
 		);
 		$no_export_fields = array(
-			"skin_style",
 			"hits_per_page",
 			"show_users_online"
 		);
@@ -2760,7 +2759,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("userfolder_export_files"));
 
-		$tbl->setHeaderNames(array("<input type=\"checkbox\" name=\"chb_check_all\" value=\"1\" onclick=\"setChecked('ObjectItems', 'file', document.ObjectItems.chb_check_all.checked);\" />", $this->lng->txt("userfolder_export_file"),
+		$tbl->setHeaderNames(array("", $this->lng->txt("userfolder_export_file"),
 			$this->lng->txt("userfolder_export_file_size"), $this->lng->txt("date") ));
 
 		$tbl->enabled["sort"] = false;
@@ -2819,6 +2818,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 				$this->tpl->parseCurrentBlock();
 			}
+		
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
 		} //if is_array
 		else
 		{
@@ -2838,7 +2842,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("OPTION_TEXT", $this->lng->txt($export_type));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		$this->tpl->setVariable("EXPORT_BUTTON", $this->lng->txt("create_export_file"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	}
@@ -2968,7 +2972,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("global_settings",
-				$this->ctrl->getLinkTarget($this, "settings"), "settings", "", "");
+				$this->ctrl->getLinkTarget($this, "settings"), array("settings", "saveGlobalUserSettings"), "", "");
 				
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
@@ -3003,7 +3007,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			case "settings":
 				$this->tabs_gui->addSubTabTarget("standard_fields",
 												 $this->ctrl->getLinkTarget($this,'settings'),
-												 "settings", get_class($this));
+												 array("settings", "saveGlobalUserSettings"), get_class($this));
 				$this->tabs_gui->addSubTabTarget("user_defined_fields",
 												 $this->ctrl->getLinkTarget($this,'listUserDefinedFields'),
 												 "listUserDefinedFields",get_class($this));
