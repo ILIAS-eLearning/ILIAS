@@ -774,8 +774,21 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					// text
 					$this->tpl->setCurrentBlock("definition");
 					$short_str = ilPCParagraph::xml2output($def["short_text"]);
-					//$short_str = str_replace("<", "&lt;", $short_str);
-					//$short_str = str_replace(">", "&gt;", $short_str);
+					
+					// replace tex
+					// if a tex end tag is missing a tex end tag
+					$ltexs = strrpos($short_str, "[tex]");
+					$ltexe = strrpos($short_str, "[/tex]");
+					if ($ltexs > $ltexe)
+					{
+						$page =& new ilPageObject("gdf", $def["id"]);
+						$page->buildDom();
+						$short_str = $page->getFirstParagraphText();
+						$short_str = strip_tags($short_str, "<br>");
+						$ltexe = strpos($short_str, "[/tex]", $ltexs);
+						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
+					}
+					$short_str = ilUtil::insertLatexImages($short_str);
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
 

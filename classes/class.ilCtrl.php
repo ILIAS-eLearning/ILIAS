@@ -331,7 +331,8 @@ class ilCtrl
 		}
 
 		echo "ERROR: Can't find target class $a_class for node $a_par_node ".
-			"(".$this->call_node[$a_par_node]["class"].").<br>"; exit;
+			"(".$this->call_node[$a_par_node]["class"].").<br>";
+		exit;
 	}
 
 	/**

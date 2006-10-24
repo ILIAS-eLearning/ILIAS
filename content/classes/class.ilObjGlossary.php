@@ -497,6 +497,8 @@ class ilObjGlossary extends ilObject
 		ilUtil::makeDir($mob_dir);
 		$file_dir = $a_target_dir."/files";
 		ilUtil::makeDir($file_dir);
+		$tex_dir = $a_target_dir."/teximg";
+		ilUtil::makeDir($tex_dir);
 
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
@@ -526,6 +528,7 @@ class ilObjGlossary extends ilObject
 		$_GET["cmd"] = "nop";
 		$glo_gui =& new ilGlossaryPresentationGUI();
 		$glo_gui->setOfflineMode(true);
+		$glo_gui->setOfflineDirectory($a_target_dir);
 		
 		// could be implemented in the future if other export
 		// formats are supported (e.g. scorm)

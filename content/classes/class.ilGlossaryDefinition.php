@@ -358,8 +358,25 @@ class ilGlossaryDefinition
 		$text = $this->page_object->getFirstParagraphText();
 		//$this->setShortText(ilUtil::shortenText($text, 180, true));
 		$text = str_replace("<br/>", "<br>", $text);
-
-		$this->setShortText(ilUtil::shortenText(strip_tags($text, "<br>"), 180, true));
+		$text = strip_tags($text, "<br>");
+		if (is_int(strpos(substr($text, 175, 10), "[tex]")))
+		{
+			$offset = 5;
+		}
+		$short = ilUtil::shortenText($text, 180 + $offset, true);
+		
+		// make short text longer, if tex end tag is missing
+		$ltexs = strrpos($short, "[tex]");
+		$ltexe = strrpos($short, "[/tex]");
+		if ($ltexs > $ltexe)
+		{
+			$ltexe = strpos($text, "[/tex]", $ltexs);
+			if ($ltexe > 0)
+			{
+				$short = ilUtil::shortenText($text, $ltexe+6, true);
+			}
+		}
+		$this->setShortText($short);
 		$this->update();
 	}
 
