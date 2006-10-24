@@ -3001,40 +3001,42 @@ class ilUtil
 	function buildLatexImages($a_text, $a_dir ,$a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
 		$result_text = $a_text;
-
-		while (preg_match('/' . $a_start . '(.*?)' . $a_end . '/ie', $result_text, $found))
+	
+		if ($a_cgi != "")
 		{
-			$cnt = (int) $GLOBALS["teximgcnt"]++;
-
-			// get image from cgi and write it to file
-			$fpr = fopen($a_cgi."?".rawurlencode($found[1]), "r");
-			$lcnt = 0;
-			while(!feof($fpr))
+			while (preg_match('/' . $a_start . '(.*?)' . $a_end . '/ie', $result_text, $found))
 			{
-				$buf = fread($fpr, 1024);
-				if ($lcnt == 0)
+				$cnt = (int) $GLOBALS["teximgcnt"]++;
+				// get image from cgi and write it to file
+				$fpr = fopen($a_cgi."?".rawurlencode($found[1]), "r");
+				$lcnt = 0;
+				while(!feof($fpr))
 				{
-					if (is_int(strpos(strtoupper(substr($buf, 0, 5)), "GIF")))
+					$buf = fread($fpr, 1024);
+					if ($lcnt == 0)
 					{
-						$suffix = "gif";
+						if (is_int(strpos(strtoupper(substr($buf, 0, 5)), "GIF")))
+						{
+							$suffix = "gif";
+						}
+						else
+						{
+							$suffix = "png";
+						}
+						$fpw = fopen($a_dir."/teximg/img".$cnt.".".$suffix, "w");
 					}
-					else
-					{
-						$suffix = "png";
-					}
-					$fpw = fopen($a_dir."/teximg/img".$cnt.".".$suffix, "w");
+					$lcnt++;
+					fwrite($fpw, $buf);
 				}
-				$lcnt++;
-				fwrite($fpw, $buf);
+				fclose($fpw);
+				fclose($fpr);
+	
+				// replace tex-tag
+				$img_str = "./teximg/img".$cnt.".".$suffix;
+				$result_text = str_replace($found[0],
+					'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
+	
 			}
-			fclose($fpw);
-			fclose($fpr);
-
-			// replace tex-tag
-			$img_str = "./teximg/img".$cnt.".".$suffix;
-			$result_text = str_replace($found[0],
-				'<img alt="'.$found[1].'" src="'.$img_str.'" />', $result_text);
-
 		}
 
 		return $result_text;

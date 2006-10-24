@@ -89,6 +89,22 @@ class ilGlossaryPresentationGUI
 		return $this->offline;
 	}
 
+	/**
+	* Set offline directory.
+	*/
+	function setOfflineDirectory($a_dir)
+	{
+		$this->offline_dir = $a_dir;
+	}
+	
+	
+	/**
+	* Get offline directory.
+	*/
+	function getOfflineDirectory()
+	{
+		return $this->offline_dir;
+	}
 
 
 	/**
@@ -241,7 +257,10 @@ class ilGlossaryPresentationGUI
 			$tbl->setColumnWidth(array("30%", "70%"));
 		}
 		
-		$header_params = $this->ctrl->getParameterArrayByClass("ilglossarypresentationgui", "listTerms");
+		if (!$this->offlineMode())
+		{
+			$header_params = $this->ctrl->getParameterArrayByClass("ilglossarypresentationgui", "listTerms");
+		}
 		//$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "listTerms");
 
 		if (!empty ($filter)) {
@@ -299,8 +318,30 @@ class ilGlossaryPresentationGUI
 					//
 					$this->tpl->setCurrentBlock("definition");
 					$short_str = ilPCParagraph::xml2output($def["short_text"]);
-					//$short_str = str_replace("<", "&lt;", $short_str);
-					//$short_str = str_replace(">", "&gt;", $short_str);
+					
+					// replace tex
+					// if a tex end tag is missing a tex end tag
+					$ltexs = strrpos($short_str, "[tex]");
+					$ltexe = strrpos($short_str, "[/tex]");
+					if ($ltexs > $ltexe)
+					{
+						$page =& new ilPageObject("gdf", $def["id"]);
+						$page->buildDom();
+						$short_str = $page->getFirstParagraphText();
+						$short_str = strip_tags($short_str, "<br>");
+						$ltexe = strpos($short_str, "[/tex]", $ltexs);
+						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
+					}
+					if (!$this->offlineMode())
+					{
+						$short_str = ilUtil::insertLatexImages($short_str);
+					}
+					else
+					{
+						$short_str = ilUtil::buildLatexImages($short_str,
+							$this->getOfflineDirectory());
+					}
+					
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
 
@@ -439,6 +480,7 @@ class ilGlossaryPresentationGUI
 			if ($this->offlineMode())
 			{
 				$page_gui->setOutputMode("offline");
+				$page_gui->setOfflineDirectory($this->getOfflineDirectory());
 			}
 			$page_gui->setSourcecodeDownloadScript($this->getLink($_GET["ref_id"]));
 			$page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen", $_GET["term_id"], $def["id"]));
