@@ -209,7 +209,31 @@ class ilUserImportParser extends ilSaxParser
 	 * Cached iLinc data
 	 */
 	var $ilincdata;
+	
+	/**
+	 * ILIAS skin
+	 */
+	var $skin;
+	
+	/**
+	 * ILIAS style
+	 */
+	var $style;
 
+	/**
+	 * User assigned styles
+	 */
+	var $userStyles;
+
+	/**
+	 * Indicates if the skins are hidden
+	 */
+	var $hideSkin;
+
+	/**
+	 * Indicates if the skins are enabled
+	 */
+	var $disableSkin;
 
 	/**
 	 * current user id, used for updating the login
@@ -229,7 +253,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function ilUserImportParser($a_xml_file, $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
 	{
-		global $lng, $tree;
+		global $lng, $tree, $ilias;
 
 		$this->roles = array();
 		$this->mode = $a_mode;
@@ -242,6 +266,25 @@ class ilUserImportParser extends ilSaxParser
 		$this->ilincdata = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
+		include_once "./classes/class.ilObjUser.php"; 
+		$this->userStyles = ilObjUser::_getAllUserAssignedStyles();
+		$settings = $ilias->getAllSettings();
+		if ($settings["usr_settings_hide_skin_style"] == 1)
+		{
+			$this->hideSkin = TRUE;
+		}
+		else
+		{
+			$this->hideSkin = FALSE;
+		}
+		if ($settings["usr_settings_disable_skin_style"] == 1)
+		{
+			$this->disableSkin = TRUE;
+		}
+		else
+		{
+			$this->disableSkin = FALSE;
+		}
 
 		include_once("classes/class.ilAccountMail.php");
 		$this->acc_mail = new ilAccountMail();
@@ -360,6 +403,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function importBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
+		global $ilias;
 		switch($a_name)
 		{
 			case "Role":
@@ -376,7 +420,14 @@ class ilUserImportParser extends ilSaxParser
 				);
 				break;
 
+			case "Look":
+				$this->skin = $a_attribs["Skin"];
+				$this->style = $a_attribs["Style"];
+				break;
+
 			case "User":
+				$this->skin = "";
+				$this->style = "";
 				$this->personalPicture = null;
 				$this->userCount++;
 				$this->userObj = new ilObjUser();
@@ -398,6 +449,11 @@ class ilUserImportParser extends ilSaxParser
 				    }
 				}
 
+				$this->userObj->setPref("skin",
+					$ilias->ini->readVariable("layout","skin"));
+				$this->userObj->setPref("style",
+					$ilias->ini->readVariable("layout","style"));
+				
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
@@ -875,11 +931,7 @@ class ilUserImportParser extends ilSaxParser
 							//insert user data in table user_data
 							$this->userObj->saveAsNew(false);
 
-							// set user preferences
-							$this->userObj->setPref("skin",
-								$ilias->ini->readVariable("layout","skin"));
-							$this->userObj->setPref("style",
-								$ilias->ini->readVariable("layout","style"));
+							// save user preferences (skin and style)
 							$this->userObj->writePrefs();
 
 							if (is_array($this->personalPicture))
@@ -991,6 +1043,11 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getLanguage())) $updateUser->setLanguage($this->userObj->getLanguage());
 							if (! is_null($this->userObj->getAuthMode())) $updateUser->setAuthMode($this->userObj->getAuthMode());
 
+							// save user preferences (skin and style)
+							$updateUser->setPref("skin", $this->userObj->getPref("skin"));
+							$updateUser->setPref("style", $this->userObj->getPref("style"));
+							$updateUser->writePrefs();
+							
 							$updateUser->update();
 
 							if ($this->ilincdata["id"]) {
@@ -1204,6 +1261,24 @@ class ilUserImportParser extends ilSaxParser
 				//$this->userObj->setiLincData($this->ilincdata);
 				break;
 
+			case "Look":
+				if (!$this->hideSkin)
+				{
+					// TODO: what to do with disabled skins? is it possible to change the skin via import?
+					if ((strlen($this->skin) > 0) && (strlen($this->style) > 0))
+					{
+						if (is_array($this->userStyles))
+						{
+							if (in_array($this->skin . ":" . $this->style, $this->userStyles))
+							{
+								$this->userObj->setPref("skin", $this->skin);
+								$this->userObj->setPref("style", $this->style);
+							}
+						}
+					}
+				}
+				break;
+				
 			case 'UserDefinedField':
 				include_once 'classes/class.ilUserDefinedFields.php';
 				$udf = ilUserDefinedFields::_getInstance();

@@ -26,7 +26,8 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @author Sascha Hofmann <saschahofmann@gmx.de> 
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI
@@ -2729,7 +2730,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function exportObject()
 	{
 		global $ilias;
-		
 		if ($_POST["cmd"]["export"])
 		{
 			$this->object->buildExportFile($_POST["export_type"]);
