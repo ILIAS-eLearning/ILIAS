@@ -910,7 +910,7 @@ class ilGlossaryPresentationGUI
 			$a_cmd = "layout";
 		}
 		//$script = "glossary_presentation.php";
-		
+
 		// handle online links
 		if (!$this->offlineMode())
 		{
@@ -946,7 +946,7 @@ class ilGlossaryPresentationGUI
 					{
 						$this->ctrl->setParameter($this, "obj_type", $a_type);
 					}
-					$link = $this->ctrl->getLinkTarget($this, "fullscreen");
+					$link = $this->ctrl->getLinkTarget($this, $a_cmd);
 					$link = str_replace("&", "&amp;", $link);
 					break;
 			}
