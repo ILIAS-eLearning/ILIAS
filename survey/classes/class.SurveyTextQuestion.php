@@ -62,6 +62,33 @@ class SurveyTextQuestion extends SurveyQuestion
 		$this->maxchars = 0;
 	}
 	
+	/**
+	* Returns the question data fields from the database
+	*
+	* Returns the question data fields from the database
+	*
+	* @param integer $id The question ID from the database
+	* @return array Array containing the question fields and data from the database
+	* @access public
+	*/
+	function _getQuestionDataArray($id)
+	{
+		global $ilDB;
+		
+    $query = sprintf("SELECT survey_question.*, survey_question_text.* FROM survey_question, survey_question_text WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_text.question_fi",
+      $ilDB->quote($id)
+    );
+    $result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			return $result->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+		else
+		{
+			return array();
+		}
+	}
+	
 /**
 * Loads a SurveyTextQuestion object from the database
 *

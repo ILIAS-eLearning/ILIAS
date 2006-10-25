@@ -1817,5 +1817,19 @@ class SurveyQuestion
 		$result = str_replace("\\", "&#92;", $result);
 		return $result;
 	}
+
+	/**
+	* Returns the question data fields from the database
+	*
+	* Returns the question data fields from the database
+	*
+	* @param integer $id The question ID from the database
+	* @return array Array containing the question fields and data from the database
+	* @access public
+	*/
+	function _getQuestionDataArray($id)
+	{
+		return array();
+	}
 }
 ?>

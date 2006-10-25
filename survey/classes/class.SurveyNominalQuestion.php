@@ -115,6 +115,33 @@ class SurveyNominalQuestion extends SurveyQuestion
     return $this->subtype;
   }
 	
+	/**
+	* Returns the question data fields from the database
+	*
+	* Returns the question data fields from the database
+	*
+	* @param integer $id The question ID from the database
+	* @return array Array containing the question fields and data from the database
+	* @access public
+	*/
+	function _getQuestionDataArray($id)
+	{
+		global $ilDB;
+		
+    $query = sprintf("SELECT survey_question.*, survey_question_nominal.* FROM survey_question, survey_question_nominal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_nominal.question_fi",
+      $ilDB->quote($id)
+    );
+    $result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			return $result->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+		else
+		{
+			return array();
+		}
+	}
+	
 /**
 * Loads a SurveyNominalQuestion object from the database
 *
