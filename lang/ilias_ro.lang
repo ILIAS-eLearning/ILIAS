@@ -6570,3 +6570,11 @@ assessment#:#certificate_unit_description#:#Enter units of measure as value[cm|m
 assessment#:#certificate_export#:#Export Certificate###19 10 2006 new variable
 assessment#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
 assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###19 10 2006 new variable
+assessment#:#general#:#General###25 10 2006 new variable
+assessment#:#output#:#Output###25 10 2006 new variable
+assessment#:#scoring#:#Scoring###25 10 2006 new variable
+content#:#cont_disable_html#:#HTML inactive###25 10 2006 new variable
+content#:#cont_enable_html#:#HTML active###25 10 2006 new variable
+barometer#:#barometer_add#:#Add new Feedbac###25 10 2006 new variable
+assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
+assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable
