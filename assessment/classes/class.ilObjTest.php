@@ -462,7 +462,6 @@ class ilObjTest extends ilObject
 	*/
 	function update()
 	{
-		$this->updateMetaData();
 		if (!parent::update())
 		{
 			return false;
@@ -1024,7 +1023,7 @@ class ilObjTest extends ilObject
 */
 	function isComplete()
 	{
-		if (($this->getTitle()) and ($this->author) and (count($this->mark_schema->mark_steps)) and (count($this->questions)))
+		if ((count($this->mark_schema->mark_steps)) and (count($this->questions)))
 		{
 			return true;
 		} 
@@ -1204,7 +1203,7 @@ class ilObjTest extends ilObject
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($this->author . ""),
+				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote($this->test_type . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
 				$ilDB->quote($this->sequence_settings . ""),
@@ -1268,7 +1267,7 @@ class ilObjTest extends ilObject
 				}
 			}
       $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
-        $ilDB->quote($this->author . ""), 
+        $ilDB->quote($this->getAuthor() . ""), 
         $ilDB->quote($this->test_type . ""), 
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
         $ilDB->quote($this->sequence_settings . ""), 
@@ -1734,7 +1733,7 @@ class ilObjTest extends ilObject
 			{
 				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->test_id = $data->test_id;
-				$this->author = $data->author;
+				$this->author = $this->getAuthor();
 				$this->test_type = $data->test_type_fi;
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
@@ -1832,20 +1831,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Sets the authors name
-* 
-* Sets the authors name of the ilObjTest object
-*
-* @param string $author A string containing the name of the test author
-* @access public
-* @see $author
-*/
-  function setAuthor($author = "") 
-	{
-    $this->author = $author;
-  }
-
-/**
 * Sets the introduction
 * 
 * Sets the introduction text of the ilObjTest object
@@ -1857,20 +1842,6 @@ class ilObjTest extends ilObject
   function setIntroduction($introduction = "") 
 	{
     $this->introduction = $introduction;
-  }
-
-/**
-* Gets the authors name
-* 
-* Gets the authors name of the ilObjTest object
-*
-* @return string The string containing the name of the test author
-* @access public
-* @see $author
-*/
-  function getAuthor() 
-	{
-    return $this->author;
   }
 
 /**
@@ -5818,24 +5789,84 @@ class ilObjTest extends ilObject
 	{
 		return $this->mark_schema->checkMarks();
 	}
-	
-	function updateMetaData()
+
+/**
+* Sets the authors name
+* 
+* Sets the authors name of the ilObjTest object
+*
+* @param string $author A string containing the name of the test author
+* @access public
+* @see $author
+*/
+  function setAuthor($author = "") 
 	{
-		global $ilUser;
+    $this->author = $author;
+  }
+	
+/**
+* Create meta data entry
+* 
+* Create meta data entry
+*
+* @access public
+*/
+	function createMetaData()
+	{
+		parent::createMetaData();
+		
+		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md_life =& $md->getLifecycle();
+		if (!$md_life)
+		{
+			global $ilUser;
+			
+			$md_life =& $md->addLifecycle();
+			$md_life->save();
+			$con =& $md_life->addContribute();
+			$con->setRole("Author");
+			$con->save();
+			$ent =& $con->addEntity();
+			$ent->setEntity($ilUser->getFullname());
+			$ent->save();
+		}
+	}
+
+/**
+* Gets the authors name
+* 
+* Gets the authors name of the ilObjTest object
+*
+* @return string The string containing the name of the test author
+* @access public
+* @see $author
+*/
+  function getAuthor() 
+	{
+		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md =& new ilMD($this->getId(), 0, $this->getType());
-		$md_gen =& $md->getGeneral();
-		if ($md_gen == false)
+		$md_life =& $md->getLifecycle();
+		if ($md_life)
 		{
-			include_once "./Services/MetaData/classes/class.ilMDCreator.php";
-			$md_creator = new ilMDCreator($this->getId(),0,$this->getType());
-			$md_creator->setTitle($this->getTitle());
-			$md_creator->setTitleLanguage($ilUser->getPref('language'));
-			$md_creator->create();
+			$ids =& $md_life->getContributeIds();
+			foreach ($ids as $id)
+			{
+				$md_cont =& $md_life->getContribute($id);
+				if (strcmp($md_cont->getRole(), "Author") == 0)
+				{
+					$entids =& $md_cont->getEntityIds();
+					foreach ($entids as $entid)
+					{
+						$md_ent =& $md_cont->getEntity($entid);
+						array_push($author, $md_ent->getEntity());
+					}
+				}
+			}
 		}
-		parent::updateMetaData();
-	}
-	
+		return join($author, ",");
+  }
+
 /**
 * Returns the available tests for the active user
 *

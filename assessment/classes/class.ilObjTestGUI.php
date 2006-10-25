@@ -878,9 +878,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$randomtest_switch = true;
 		}
-		$data["title"] = ilUtil::stripSlashes($_POST["title"]);
-		$data["description"] = ilUtil::stripSlashes($_POST["description"]);
-		$data["author"] = ilUtil::stripSlashes($_POST["author"]);
 		$data["password"] = $_POST["password"];
 		$data["allowedUsers"] = $_POST["allowedUsers"];
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
@@ -1048,9 +1045,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["pass_scoring"] = SCORE_LAST_PASS;
 		}
 		$this->object->setTestType($data["sel_test_types"]);
-		$this->object->setTitle($data["title"]);
-		$this->object->setDescription($data["description"]);
-		$this->object->setAuthor($data["author"]);
 		$this->object->setIntroduction($data["introduction"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setCountSystem($data["count_system"]);
@@ -1134,7 +1128,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->setShowSolutionPrintview(FALSE);
 		}
-		$this->update = $this->object->update();
 		$this->object->saveToDb(true);
 
 		if ($deleteuserdata)
@@ -1291,7 +1284,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		$data["sel_test_types"] = $this->object->getTestType();
-		$data["author"] = $this->object->getAuthor();
 		$data["introduction"] = $this->object->getIntroduction();
 		$data["sequence_settings"] = $this->object->getSequenceSettings();
 		$data["score_reporting"] = $this->object->getScoreReporting();
@@ -1328,8 +1320,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$data["starting_time"] = $this->object->getStartingTime();
 		$data["ending_time"] = $this->object->getEndingTime();
-		$data["title"] = $this->object->getTitle();
-		$data["description"] = $this->object->getDescription();
 		
 		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST) || ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST))
 		{
@@ -1421,12 +1411,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("tst_general_properties"));
 		$this->tpl->setVariable("TEXT_TEST_TYPES", $this->lng->txt("tst_types"));
 		$this->tpl->setVariable("TEST_TYPE_COMMENT", $this->lng->txt("tst_type_comment"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("VALUE_TITLE", ilUtil::prepareFormOutput($data["title"]));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("VALUE_AUTHOR", ilUtil::prepareFormOutput($data["author"]));
-		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($data["description"]));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
 		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($data["introduction"]));
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
