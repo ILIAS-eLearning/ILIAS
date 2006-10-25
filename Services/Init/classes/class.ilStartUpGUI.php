@@ -32,16 +32,16 @@
 */
 class ilStartUpGUI
 {
-	
+
 	/**
 	* constructor
 	*/
 	function ilStartUpGUI()
 	{
 		global $ilCtrl;
-				
+
 		$this->ctrl =& $ilCtrl;
-		
+
 		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target"));
 	}
 
@@ -70,7 +70,7 @@ class ilStartUpGUI
 				break;
 		}
 	}
-	
+
 	/**
 	* jump to registration gui
 	*/
@@ -110,13 +110,13 @@ class ilStartUpGUI
 			$this->showUserMappingSelection();
 			return;
 		}
-		
+
 		// login language selection is post type
 		if ($_POST["lang"] != "")
 		{
 			$_GET["lang"] = $_POST["lang"];
 		}
-		
+
 		// check for session cookies enabled
 		if (!isset($_COOKIE['iltest']))
 		{
@@ -135,62 +135,62 @@ class ilStartUpGUI
 		{
 			unset($_GET['cookies']);
 		}
-				
+
 		// check correct setup
 		if (!$ilSetting->get("setup_ok"))
 		{
 			die("Setup is not completed. Please run setup routine again. (Login)");
 		}
-		
+
 		if ($ilSetting->get("shib_active") && $ilSetting->get("shib_hos_type"))
 		{
 			require_once "classes/class.ilShibbolethWAYF.php";
 			// Check if we user selects Home Organization
 			$WAYF = new ShibWAYF();
 		}
-		
+
 		if (isset($WAYF) && $WAYF->isSelection())
 		{
 			if ($WAYF->isValidSelection())
 			{
 				// Set cookie
 				$WAYF->setSAMLCookie();
-				
+
 				// Redirect
 				$WAYF->redirect();
 			}
-		} 
+		}
 		elseif ($ilAuth->getAuth())
 		{
 			// Or we do authentication here
 			// To do: check whether some $ilInit method could be used here.
-			
+
 			if(!$ilUser->checkTimeLimit())
 			{
 				$ilAuth->logout();
 				session_destroy();
-				
+
 				// to do: get rid of this
 				ilUtil::redirect('login.php?time_limit=true');
 			}
-		
+
 			include_once './Services/Tracking/classes/class.ilOnlineTracking.php';
 			ilOnlineTracking::_addUser($ilUser->getId());
-		
+
 			// handle chat kicking
 			if ($ilSetting->get("chat_active"))
 			{
 				include_once "./chat/classes/class.ilChatServerCommunicator.php";
 				include_once "./chat/classes/class.ilChatRoom.php";
-		
+
 				ilChatServerCommunicator::_login();
 				ilChatRoom::_unkick($ilUser->getId());
 			}
-		
+
 			// update last forum visit
 			include_once './classes/class.ilObjForum.php';
 			ilObjForum::_updateOldAccess($ilUser->getId());
-		
+
 			if ($_GET["rep_ref_id"] != "")
 			{
 				$_GET["ref_id"] = $_GET["rep_ref_id"];
@@ -198,24 +198,24 @@ class ilStartUpGUI
 			$this->processStartingPage();
 			exit;
 		}
-		
+
 		// Instantiate login template
 		// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
 		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
-		
+
 		//language handling
 		if ($_GET["lang"] == "")
 		{
 			$_GET["lang"] = $ilIliasIniFile->readVariable("language","default");
 		}
-		
+
 		//instantiate language
-		$lng = new ilLanguage($_GET["lang"]);		
-		
+		$lng = new ilLanguage($_GET["lang"]);
+
 		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
-		
+
 		$languages = $lng->getInstalledLanguages();
-		
+
 		foreach ($languages as $lang_key)
 		{
 			$tpl->setCurrentBlock("languages");
@@ -226,19 +226,19 @@ class ilStartUpGUI
 			$tpl->setVariable("VSPACE", 0);
 			$tpl->parseCurrentBlock();
 		}
-		
-		// allow new registrations? 
+
+		// allow new registrations?
 		include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
 		if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
 		{
 			$tpl->setCurrentBlock("new_registration");
-			$tpl->setVariable("REGISTER", $lng->txt("registration")); 
+			$tpl->setVariable("REGISTER", $lng->txt("registration"));
 			$tpl->setVariable("CMD_REGISTER",
 				$this->ctrl->getLinkTargetByClass("ilregistrationgui", ""));
 			$tpl->parseCurrentBlock();
 		}
 		// allow password assistance? Surpress option if Authmode is not local database
-		if ($ilSetting->get("password_assistance") and AUTH_DEFAULT == AUTH_LOCAL)
+		if ($ilSetting->get("password_assistance"))
 		{
 			$tpl->setCurrentBlock("password_assistance");
 			$tpl->setVariable("FORGOT_PASSWORD", $lng->txt("forgot_password"));
@@ -250,7 +250,7 @@ class ilStartUpGUI
 			$tpl->setVariable("LANG_ID", $_GET["lang"]);
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		if ($ilSetting->get("pub_section"))
 		{
 			$tpl->setCurrentBlock("homelink");
@@ -258,16 +258,16 @@ class ilStartUpGUI
 			$tpl->setVariable("TXT_HOME",$lng->txt("home"));
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		if ($ilIliasIniFile->readVariable("clients","list"))
 		{
 			$tpl->setCurrentBlock("client_list");
 			$tpl->setVariable("TXT_CLIENT_LIST", $lng->txt("to_client_list"));
 			$tpl->setVariable("CMD_CLIENT_LIST",
 				$this->ctrl->getLinkTarget($this, "showClientList"));
-			$tpl->parseCurrentBlock();	
+			$tpl->parseCurrentBlock();
 		}
-		
+
 		// shibboleth login link
 		if ($ilSetting->get("shib_active"))
 		{
@@ -282,7 +282,7 @@ class ilStartUpGUI
 				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
 				$tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $WAYF->showNotice());
 				$tpl->setVariable("SHIB_IDP_LIST", $WAYF->generateSelection());
-				
+
 				$tpl->parseCurrentBlock();
 			} else {
 				$tpl->setCurrentBlock("shibboleth_login");
@@ -294,7 +294,7 @@ class ilStartUpGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		// cas login link
 		if ($ilSetting->get("cas_active"))
 		{
@@ -308,7 +308,7 @@ class ilStartUpGUI
 			$this->ctrl->setParameter($this, "forceCASLogin", "");
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		// login via ILIAS (this also includes radius and ldap)
 		if ($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH &&
 			$ilSetting->get("auth_mode") != AUTH_CAS)
@@ -323,16 +323,16 @@ class ilStartUpGUI
 		}
 
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-		
-		
+
+
 		$tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
 //echo "-".htmlentities($this->ctrl->getFormAction($this, "showLogin"))."-";
-		$tpl->setVariable("LANG_FORM_ACTION", 
+		$tpl->setVariable("LANG_FORM_ACTION",
 			$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 		$tpl->setVariable("LANG_ID", $_GET["lang"]);
-		
+
 		if ($_GET["inactive"])
 		{
 			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_inactive"));
@@ -341,8 +341,8 @@ class ilStartUpGUI
 		{
 			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
 		}
-		
-		// TODO: Move this to header.inc since an expired session could not detected in login script 
+
+		// TODO: Move this to header.inc since an expired session could not detected in login script
 		$status = $ilAuth->getStatus();
 		if ($status == "")
 		{
@@ -361,7 +361,7 @@ class ilStartUpGUI
 					// lang variable err_idled not existing
 					//$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
 					break;
-					
+
 				case AUTH_CAS_NO_ILIAS_USER:
 					$tpl->setVariable(TXT_MSG_LOGIN_FAILED,
 						$lng->txt("err_auth_cas_no_ilias_user"));
@@ -371,7 +371,7 @@ class ilStartUpGUI
 					$tpl->setVariable(TXT_MSG_LOGIN_FAILED,
 						$lng->txt("err_auth_soap_no_ilias_user"));
 					break;
-					
+
 				case AUTH_WRONG_LOGIN:
 				default:
 					$add = "";
@@ -379,28 +379,28 @@ class ilStartUpGUI
 					{
 						$add = "<br>".$auth_error->getMessage();
 					}
-					$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login").$add);			
+					$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login").$add);
 					break;
 			}
 		}
-		
-		
+
+
 		if ($_GET['time_limit'])
 		{
 			$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt('time_limit_reached'));
 		}
-		
+
 		// output wrong IP message
 		if($_GET['wrong_ip'])
 		{
 			$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt('wrong_ip_detected')." (".$_SERVER["REMOTE_ADDR"].")");
 		}
-		
+
 		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
 		$tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
 		$tpl->setVariable("LINK_USER_AGREEMENT",
 			$this->ctrl->getLinkTarget($this, "showUserAgreement"));
-		
+
 		// browser does not accept cookies
 		if ($_GET['cookies'] == 'nocookies')
 		{
@@ -409,7 +409,7 @@ class ilStartUpGUI
 			$tpl->setVariable("LINK_NO_COOKIES",
 				$this->ctrl->getLinkTarget($this, "showNoCookiesScreen"));
 		}
-		
+
 		$tpl->show("DEFAULT", false);
 	}
 
@@ -419,7 +419,7 @@ class ilStartUpGUI
 	function showLogout()
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
-		
+
 		// LOGOUT CHAT USER
 		if($ilSetting->get("chat_active"))
 		{
@@ -434,10 +434,10 @@ class ilStartUpGUI
 		$client_id = $_COOKIE["ilClientId"];
 		setcookie("ilClientId","");
 		$_COOKIE["ilClientId"] = "";
-		
+
 		//instantiate logout template
 		$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
-		
+
 		if ($ilSetting->get("pub_section"))
 		{
 			$tpl->setCurrentBlock("homelink");
@@ -445,24 +445,24 @@ class ilStartUpGUI
 			$tpl->setVariable("TXT_HOME",$lng->txt("home"));
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		if ($ilIliasIniFile->readVariable("clients","list"))
 		{
 			$tpl->setCurrentBlock("client_list");
 			$tpl->setVariable("TXT_CLIENT_LIST", $lng->txt("to_client_list"));
 			$tpl->setVariable("CMD_CLIENT_LIST",
 				$this->ctrl->getLinkTarget($this, "showClientList"));
-			$tpl->parseCurrentBlock();	
+			$tpl->parseCurrentBlock();
 		}
-		
+
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
 		$tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text"));
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$_GET['lang']);
-			
+
 		$tpl->show();
 	}
-	
+
 	/**
 	* Show user selection screen, if external account could not be mapped
 	* to an ILIAS account, but the provided e-mail address is known.
@@ -470,20 +470,20 @@ class ilStartUpGUI
 	function showUserMappingSelection()
 	{
 		global $ilAuth, $tpl, $lng;
-		
+
 		$valid = $ilAuth->getValidationData();
-		
+
 		$tpl->addBlockFile("CONTENT", "content", "tpl.user_mapping_selection.html");
 		$email_user = ilObjUser::_getLocalAccountsForEmail($valid["email"]);
 
-		
+
 		if ($ilAuth->sub_status == AUTH_WRONG_LOGIN)
 		{
 			$tpl->setCurrentBlock("msg");
 			$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt("err_wrong_login"));
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		include_once("classes/class.ilObjUser.php");
 		if (count($email_user) == 1)
 		{
@@ -506,7 +506,7 @@ class ilStartUpGUI
 			$tpl->setCurrentBlock("multpiple_user");
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		$tpl->setCurrentBlock("content");
 		$this->ctrl->setParameter($this, "ext_uid", urlencode($_GET["ext_uid"]));
 		$this->ctrl->setParameter($this, "soap_pw", urlencode($_GET["soap_pw"]));
@@ -528,10 +528,10 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
 		$tpl->setVariable("PASSWORD", $_POST["password"]);
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("login"));
-		
+
 		$tpl->show();
 	}
-	
+
 	/**
 	* show client list
 	*/
@@ -551,29 +551,29 @@ class ilStartUpGUI
 		$tpl->setVariable("PAGETITLE","Client List");
 		$tpl->setVariable("LOCATION_STYLESHEET","./templates/default/delos.css");
 		$tpl->setVariable("LOCATION_JAVASCRIPT","./templates/default");
-		
+
 		// load client list template
 		$tpl->addBlockfile("CONTENT", "content", "tpl.client_list.html");
-		
+
 		// load template for table
 		$tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
-		
+
 		// load template for table content data
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
-		
+
 		// load table content data
 		require_once("setup/classes/class.ilClientList.php");
 		require_once("setup/classes/class.ilClient.php");
 		require_once("classes/class.ilTableGUI.php");
 		$clientlist = new ilClientList();
 		$list = $clientlist->getClients();
-		
+
 		if (count($list) == 0)
 		{
 			header("Location: ./setup/setup.php");
 			exit();
 		}
-		
+
 		foreach ($list as $key => $client)
 		{
 			if ($client->checkDatabaseExists() and $client->ini->readVariable("client","access") and $client->getSetting("setup_ok"))
@@ -592,10 +592,10 @@ class ilStartUpGUI
 			}
 		}
 		$this->ctrl->setParameter($this, "client_id", "");
-		
+
 		// create table
 		$tbl = new ilTableGUI();
-		
+
 		// title & header columns
 		$tbl->setTitle("Available Clients");
 		$tbl->setHeaderNames(array("Installation Name","Public Access","Login"));
@@ -607,24 +607,24 @@ class ilStartUpGUI
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
-		
+
 		// content
 		$tbl->setData($data);
-		
+
 		// footer
 		$tbl->setFooter("tblfooter");
-		
+
 		// styles
 		$tbl->setStyle("table","std");
-		
+
 		$tbl->disable("icon");
 		$tbl->disable("numinfo");
-		
+
 		// render table
 		$tbl->render();
 		$tpl->show();
 	}
-	
+
 	/**
 	* show help screen, if cookies are disabled
 	*
@@ -633,7 +633,7 @@ class ilStartUpGUI
 	function showNoCookiesScreen()
 	{
 		global $tpl;
-		
+
 		$str = "<p style=\"margin:15px;\">
 			You need to enable Session Cookies in your Browser to use ILIAS.
 			<br/>
@@ -655,7 +655,7 @@ class ilStartUpGUI
 		$tpl->setVariable("CONTENT", $str);
 		$tpl->show();
 	}
-	
+
 	/**
 	* get user agreement acceptance
 	*/
@@ -663,32 +663,32 @@ class ilStartUpGUI
 	{
 		$this->showUserAgreement();
 	}
-	
+
 	/**
 	* show user agreement
 	*/
 	function showUserAgreement()
 	{
 		global $lng, $tpl, $ilUser;
-		
+
 		require_once "classes/class.ilUserAgreement.php";
-		
+
 		$tpl->addBlockFile("CONTENT", "content", "tpl.view_usr_agreement.html");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		
+
 		sendInfo();
 		// display infopanel if something happened
 		infoPanel();
-		
+
 		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
-		
+
 		// language selection
 		$languages = $lng->getInstalledLanguages();
-	
+
 		$count = (int) round(count($languages) / 2);
 		$num = 1;
-		
+
 		foreach ($languages as $lang_key)
 		{
 			$tpl->setCurrentBlock("languages");
@@ -706,12 +706,12 @@ class ilStartUpGUI
 			$num++;
 		}
 		$tpl->setCurrentBlock("content");
-		
+
 		// display tabs
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
 		$tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("usr_agreement"));
 		$tpl->setVariable("TXT_USR_AGREEMENT", ilUserAgreement::_getText());
-		
+
 		if ($this->ctrl->getCmd() == "getAcceptance")
 		{
 			if ($_POST["status"]=="accepted")
@@ -738,12 +738,12 @@ class ilStartUpGUI
 				$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		$tpl->show();
 
 
 	}
-	
+
 	/**
 	* process index.php
 	*/
@@ -765,31 +765,31 @@ class ilStartUpGUI
 		if ($_GET["cmd"] == "login")
 		{
 			$rep_ref_id = $_SESSION["il_rep_ref_id"];
-		
+
 			$ilAuth->logout();
 			session_destroy();
-		
+
 			// reset cookie
 			$client_id = $_COOKIE["ilClientId"];
 			setcookie("ilClientId","");
 			$_COOKIE["ilClientId"] = "";
-		
+
 			$_GET["client_id"] = $client_id;
 			$_GET["rep_ref_id"] = $rep_ref_id;
-			
-			
+
+
 			ilUtil::redirect("login.php?client_id=".$client_id."&lang=".$_GET['lang'].
 				"&rep_ref_id=".$rep_ref_id);
 		}*/
-		
-		
+
+
 		// if no start page was given, ILIAS defaults to the standard login page
 		if ($start == "")
 		{
 			$start = "login.php";
 		}
-		
-		
+
+
 		//
 		// index.php is called and public section is enabled
 		//
@@ -799,7 +799,7 @@ class ilStartUpGUI
 		{
 			//
 			// TO DO: THE FOLLOWING BLOCK IS COPY&PASTED FROM HEADER.INC
-				
+
 			$_POST["username"] = "anonymous";
 			$_POST["password"] = "anonymous";
 			$ilAuth->start();
@@ -811,7 +811,7 @@ class ilStartUpGUI
 			{
 				die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
 			}
-		
+
 			// get user id
 			$ilInit->initUserAccount();
 			$this->processStartingPage();
@@ -824,8 +824,8 @@ class ilStartUpGUI
 			$this->showLogin();
 		}
 	}
-	
-	
+
+
 	/**
 	* open start page (personal desktop or repository)
 	*
@@ -854,7 +854,7 @@ class ilStartUpGUI
 					$this->showLogin();
 				}
 			}
-			
+
 			// just go to public section
 			if (empty($_GET["ref_id"]))
 			{
@@ -890,10 +890,10 @@ class ilStartUpGUI
 					"/goto.php?target=".$_GET["target"]);
 			}
 		}
-		
+
 		include($start_script);
 	}
-	
+
 	function _checkGoto($a_target)
 	{
 		global $objDefinition;
@@ -905,12 +905,12 @@ class ilStartUpGUI
 
 		$t_arr = explode("_", $_GET["target"]);
 		$type = $t_arr[0];
-		
+
 		if ($type == "git")
 		{
 			$type = "glo";
 		}
-		
+
 		if ($type == "pg" | $type == "st")
 		{
 			$type = "lm";
@@ -924,7 +924,7 @@ class ilStartUpGUI
 		$location = $objDefinition->getLocation($type);
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
-		
+
 		return call_user_func(array($full_class, "_checkGoto"),
 			$a_target);
 	}

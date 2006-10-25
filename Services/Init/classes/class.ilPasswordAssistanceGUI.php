@@ -38,33 +38,33 @@ class ilPasswordAssistanceGUI
 	function ilPasswordAssistanceGUI()
 	{
 		global $ilCtrl;
-		
+
 		$this->ctrl =& $ilCtrl;
 	}
-	
+
 	/**
 	* execute command
 	*/
 	function &executeCommand()
 	{
 		global $ilias, $lng, $ilSetting, $ilErr, $ilAuth;
-		
+
 		// check hack attempts
-		if (!$ilSetting->get("password_assistance") || AUTH_DEFAULT != AUTH_LOCAL)
+		if (!$ilSetting->get("password_assistance")) // || AUTH_DEFAULT != AUTH_LOCAL)
 		{
 			if (empty($_SESSION["AccountId"]) and $_SESSION["AccountId"] !== false)
 			{
 				$ilErr->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
 			}
 		}
-		
+
 		// check correct setup
 		if (!$ilSetting->get("setup_ok"))
 		{
 			die("Setup is not completed. Please run setup routine again. (pwassist.php)");
 		}
 
-		// Change the language, if necessary. 
+		// Change the language, if necessary.
 		// And load the 'pwassist' language module
 		$lang = $_GET['lang'];
 		if ($lang != null && $lang != "" && $lng->getLangKey() != $lang)
@@ -75,9 +75,9 @@ class ilPasswordAssistanceGUI
 
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
-		
+
 		switch($next_class)
-		{				
+		{
 			default:
 				if ($cmd != "")
 				{
@@ -93,7 +93,7 @@ class ilPasswordAssistanceGUI
 				}
 				break;
 		}
-		
+
 		// Logout current session
 		//$ilAuth->logout();
 		//session_destroy();
@@ -104,9 +104,9 @@ class ilPasswordAssistanceGUI
 	/* Shows the password assistance form.
 	 * This form is used to request a password assistance mail from ILIAS.
 	 *
-	 * This form contains the following fields: 
-	 * username 
-	 * email 
+	 * This form contains the following fields:
+	 * username
+	 * email
 	 *
 	 * When the user submits the form, then this script is invoked with the cmd
 	 * 'submitAssistanceForm'.
@@ -121,25 +121,25 @@ class ilPasswordAssistanceGUI
 
 		// Create the form
 		$tpl->addBlockFile("CONTENT", "content", "tpl.pwassist_assistance.html");
-		
+
 		if ($message != "")
 		{
 			$tpl->setCurrentBlock("pw_message");
 			$tpl->setVariable("TXT_MESSAGE", str_replace("\\n","<br>",$message));
 			$tpl->parseCurrentBlock();
 		}
-		
+
 		$tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TARGET","target=\"_parent\"");
 		$tpl->setVariable("IMG_AUTH",
 			ilUtil::getImagePath("icon_auth_b.gif"));
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
-	
+
 		$contact_address = $ilias->getSetting("admin_email");
 		$tpl->setVariable
 		(
-			"TXT_ENTER_USERNAME_AND_EMAIL", 
+			"TXT_ENTER_USERNAME_AND_EMAIL",
 			str_replace
 			(
 				"\\n","<br>",
@@ -159,17 +159,17 @@ class ilPasswordAssistanceGUI
 		$tpl->setVariable("LINK_BACK",
 			$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
 		$tpl->setVariable("LANG", $lng->getLangKey());
-	
+
 		$tpl->show();
 	}
-	
-	
+
+
 	/* Shows the password assistance form.
 	 * This form is used to request a password assistance mail from ILIAS.
 	 *
-	 * This form contains the following fields: 
-	 * username 
-	 * email 
+	 * This form contains the following fields:
+	 * username
+	 * email
 	 *
 	 * When the user submits the form, then this script is invoked with the cmd
 	 * 'submitAssistanceForm'.
@@ -198,11 +198,11 @@ class ilPasswordAssistanceGUI
 			ilUtil::getImagePath("icon_auth_b.gif"));
 		$tpl->setVariable("TARGET","target=\"_parent\"");
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
-	
+
 		$contact_address = $ilias->getSetting("admin_email");
 		$tpl->setVariable
 		(
-			"TXT_ENTER_USERNAME_AND_EMAIL", 
+			"TXT_ENTER_USERNAME_AND_EMAIL",
 			str_replace
 			(
 				"\\n","<br>",
@@ -222,17 +222,17 @@ class ilPasswordAssistanceGUI
 		$tpl->setVariable("LINK_BACK",
 			$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
 		$tpl->setVariable("LANG", $lng->getLangKey());
-	
+
 		$tpl->show();
 	}
-	
+
 	/** Reads the submitted data from the password assistance form.
-	 * 
+	 *
 	 * The following form fields are read as HTTP POST parameters:
 	 * username
 	 * email
 	 *
-	 * If the submitted username and email address matches an entry in the user data 
+	 * If the submitted username and email address matches an entry in the user data
 	 * table, then ILIAS creates a password assistance session for the user, and
 	 * sends a password assistance mail to the email address.
 	 * For details about the creation of the session and the e-mail see function
@@ -241,38 +241,44 @@ class ilPasswordAssistanceGUI
 	function submitAssistanceForm()
 	{
 		global $tpl, $ilias, $lng, $rbacadmin, $rbacreview;
-		
+
 		require_once "classes/class.ilObjUser.php";
 		require_once "classes/class.ilUtil.php";
-		
+
 		// Retrieve form data
 		$username = $_POST["username"];
 		$email = $_POST["email"];
-		
+
 		// Retrieve a user object with matching user name and email address.
 		$userObj = null;
 		$userid = ilObjUser::getUserIdByLogin($username);
+		$txt_key = "pwassist_invalid_username_or_email";
 		if ($userid != 0)
 		{
 			$userObj = new ilObjUser($userid);
-			if (strcasecmp($userObj->getEmail(), $email) != 0) 
+			if (strcasecmp($userObj->getEmail(), $email) != 0)
 			{
 				$userObj = null;
+			} else if ($userObj->getAuthMode(true) != AUTH_LOCAL ||
+				 ($userObj->getAuthMode(true) == AUTH_DEFAULT && AUTH_DEFAULT != AUTH_LOCAL))
+			{
+			    $userObj = null;
+			    $txt_key = "pwassist_invalid_auth_mode";
 			}
 		}
-		
+
 		// No matching user object found?
 		// Show the password assistance form again, and display an error message.
-		if ($userObj == null) 
+		if ($userObj == null)
 		{
 			$this->showAssistanceForm
 			(
-				$lng->txt("pwassist_invalid_username_or_email"),
+				$lng->txt($txt_key),
 				$username,
 				$email
 			);
 		}
-	
+
 		// Matching user object found?
 		// Check if the user is permitted to use the password assistance function,
 		// and then send a password assistance mail to the email address.
@@ -284,7 +290,7 @@ class ilPasswordAssistanceGUI
 			// not allowed to use this feature
 			if ($rbacreview->isAssigned($userObj->getID, ANONYMOUS_ROLE_ID)
 			|| $rbacreview->isAssigned($userObj->getID, SYSTEM_ROLE_ID)
-			) 
+			)
 			{
 				$this->showAssistanceForm
 				(
@@ -308,14 +314,14 @@ class ilPasswordAssistanceGUI
 			}
 		}
 	}
-	
+
 	/** Reads the submitted data from the password assistance form.
-	 * 
+	 *
 	 * The following form fields are read as HTTP POST parameters:
 	 * username
 	 * email
 	 *
-	 * If the submitted username and email address matches an entry in the user data 
+	 * If the submitted username and email address matches an entry in the user data
 	 * table, then ILIAS creates a password assistance session for the user, and
 	 * sends a password assistance mail to the email address.
 	 * For details about the creation of the session and the e-mail see function
@@ -324,19 +330,19 @@ class ilPasswordAssistanceGUI
 	function submitUsernameAssistanceForm()
 	{
 		global $tpl, $ilias, $lng, $rbacadmin, $rbacreview;
-		
+
 		require_once "classes/class.ilObjUser.php";
 		require_once "classes/class.ilUtil.php";
-		
+
 		// Retrieve form data
 		$email = $_POST["email"];
-		
+
 		// Retrieve a user object with matching user name and email address.
 		$logins = ilObjUser::_getUserIdsByEmail($email);
-		
+
 		// No matching user object found?
 		// Show the password assistance form again, and display an error message.
-		if (count($logins)< 1)  
+		if (count($logins)< 1)
 		{
 			$this->showUsernameAssistanceForm
 			(
@@ -345,7 +351,7 @@ class ilPasswordAssistanceGUI
 				$email
 			);
 		}
-	
+
 		// Matching user object found?
 		// Check if the user is permitted to use the password assistance function,
 		// and then send a password assistance mail to the email address.
@@ -357,7 +363,7 @@ class ilPasswordAssistanceGUI
 			// not allowed to use this feature
 	/*		if ($rbacreview->isAssigned($userObj->getID, ANONYMOUS_ROLE_ID)
 			|| $rbacreview->isAssigned($userObj->getID, SYSTEM_ROLE_ID)
-			) 
+			)
 			{
 				$this->showAssistanceForm
 				(
@@ -365,7 +371,7 @@ class ilPasswordAssistanceGUI
 					$username,
 					$email
 				);
-			} 
+			}
 			else */
 			{
 				$this->sendUsernameAssistanceMail($email, $logins);
@@ -381,10 +387,10 @@ class ilPasswordAssistanceGUI
 			}
 		}
 	}
-	
+
 	/** Creates (or reuses) a password assistance session, and sends a password
 	 * assistance mail to the specified user.
-	 * 
+	 *
 	 * Note: To prevent DOS attacks, a new session is created only, if no session
 	 * exists, or if the existing session has been expired.
 	 *
@@ -398,12 +404,12 @@ class ilPasswordAssistanceGUI
 	function sendPasswordAssistanceMail($userObj)
 	{
 		global $lng, $ilias;
-	
+
 		include_once "classes/class.ilMailbox.php";
 		include_once "classes/class.ilMimeMail.php";
 		require_once "include/inc.pwassist_session_handler.php";
-		
-	
+
+
 		// Check if we need to create a new session
 		$pwassist_session = db_pwassist_session_find($userObj->getId());
 		if (count($pwassist_session) == 0 || $pwassist_session["expires"] < time())
@@ -415,11 +421,11 @@ class ilPasswordAssistanceGUI
 			session_destroy();
 			db_pwassist_session_write(
 				$pwassist_session["pwassist_id"],
-				3600, 
+				3600,
 				$userObj->getId()
 			);
 		}
-		
+
 		// Compose the mail
 		$server_url='http://'.$_SERVER['HTTP_HOST'].
 			substr($_SERVER['PHP_SELF'],0,strrpos($_SERVER['PHP_SELF'],'/')).
@@ -435,7 +441,7 @@ class ilPasswordAssistanceGUI
 		$mm->Subject($lng->txt("pwassist_mail_subject"));
 		$mm->From($contact_address);
 		$mm->To($userObj->getEmail());
-		
+
 		$mm->Body
 		(
 			str_replace
@@ -453,14 +459,14 @@ class ilPasswordAssistanceGUI
 				)
 			)
 		);
-		
+
 		$mm->Send();
 	}
-	
-	
+
+
 	/** Creates (or reuses) a password assistance session, and sends a password
 	 * assistance mail to the specified user.
-	 * 
+	 *
 	 * Note: To prevent DOS attacks, a new session is created only, if no session
 	 * exists, or if the existing session has been expired.
 	 *
@@ -474,12 +480,12 @@ class ilPasswordAssistanceGUI
 	function sendUsernameAssistanceMail($email, $logins)
 	{
 		global $lng, $ilias;
-	
+
 		include_once "classes/class.ilMailbox.php";
 		include_once "classes/class.ilMimeMail.php";
 		require_once "include/inc.pwassist_session_handler.php";
-		
-	
+
+
 		// Compose the mail
 		$server_url='http://'.$_SERVER['HTTP_HOST'].
 			substr($_SERVER['PHP_SELF'],0,strrpos($_SERVER['PHP_SELF'],'/')).
@@ -489,12 +495,12 @@ class ilPasswordAssistanceGUI
 					."&lang=".$lng->getLangKey();
 //echo "-".htmlentities($login_url)."-";
 		$contact_address=$ilias->getSetting("admin_email");
-	
+
 		$mm = new ilMimeMail();
 		$mm->Subject($lng->txt("pwassist_mail_subject"));
 		$mm->From($contact_address);
 		$mm->To($email);
-		
+
 		$mm->Body
 		(
 			str_replace
@@ -504,19 +510,19 @@ class ilPasswordAssistanceGUI
 				sprintf
 				(
 						$lng->txt("pwassist_username_mail_body"),
-						join ($logins,",\n"), 
-						$server_url, 
-						$_SERVER['REMOTE_ADDR'], 
+						join ($logins,",\n"),
+						$server_url,
+						$_SERVER['REMOTE_ADDR'],
 						$email,
 						'mailto:'.$contact_address,
-						$login_url								
+						$login_url
 				)
 			)
 		);
-		
+
 		$mm->Send();
 	}
-	
+
 	/* Assign password form.
 	 * This form is used to assign a password to a username.
 	 *
@@ -539,16 +545,16 @@ class ilPasswordAssistanceGUI
 	function showAssignPasswordForm($message="", $username="", $password1="", $password2="", $pwassist_id="")
 	{
 		global $tpl, $ilias, $lng, $rbacadmin, $rbacreview;
-		
+
 		require_once "include/inc.pwassist_session_handler.php";
 		require_once "classes/class.ilLanguage.php";
-		
+
 		// Retrieve form data
-		if ($pwassist_id == "") 
+		if ($pwassist_id == "")
 		{
 			$pwassist_id = $_GET["key"];
 		}
-	
+
 		// Retrieve the session, and check if it is valid
 		$pwassist_session = db_pwassist_session_read($pwassist_id);
 		if (count($pwassist_session) == 0 || $pwassist_session["expires"] < time())
@@ -584,13 +590,13 @@ class ilPasswordAssistanceGUI
 			$tpl->setVariable("CMD_BACK",
 				$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
 			$tpl->setVariable("LANG", $lng->getLangKey());
-		
+
 			$tpl->show();
 		}
 	}
-	
+
 	/** Reads the submitted data from the password assistance form.
-	 * 
+	 *
 	 * The following form fields are read as HTTP POST parameters:
 	 * key
 	 * username
@@ -610,18 +616,18 @@ class ilPasswordAssistanceGUI
 	 */
 	function submitAssignPasswordForm() {
 		global $tpl, $ilias, $lng, $rbacadmin, $rbacreview;
-		
+
 		require_once "include/inc.pwassist_session_handler.php";
-		
+
 		// Retrieve form data
 		$pwassist_id = $_POST["key"];
 		$username = $_POST["username"];
 		$password1 = $_POST["password1"];
 		$password2 = $_POST["password2"];
-	
+
 		// Retrieve the session
 		$pwassist_session = db_pwassist_session_read($pwassist_id);
-		
+
 		if (count($pwassist_session) == 0 || $pwassist_session["expires"] < time())
 		{
 			$this->showAssistanceForm($lng->txt("pwassist_session_expired"));
@@ -630,9 +636,9 @@ class ilPasswordAssistanceGUI
 		{
 			$is_successful = true;
 			$message = "";
-			
+
 			$userObj = new ilObjUser($pwassist_session["user_id"]);
-	
+
 			// Validate the entries of the user
 			// ----------------------------------
 			// check if the user still exists
@@ -641,7 +647,7 @@ class ilPasswordAssistanceGUI
 				$message = $lng->txt("user_does_not_exist");
 				$is_successful = false;
 			}
-			
+
 			// check if the username entered by the user matches the
 			// one of the user object.
 			if ($is_successful && strcasecmp($userObj->getLogin(), $username) != 0)
@@ -649,7 +655,7 @@ class ilPasswordAssistanceGUI
 				$message = $lng->txt("pwassist_login_not_match");
 				$is_successful = false;
 			}
-			
+
 			// check if the user entered the password correctly into the
 			// two entry fields.
 			if ($is_successful && $password1 != $password2)
@@ -657,14 +663,14 @@ class ilPasswordAssistanceGUI
 				$message = $lng->txt("passwd_not_match");
 				$is_successful = false;
 			}
-	
+
 			// validate the password
 			if ($is_successful && !ilUtil::isPassword($password1))
 			{
 				$message = $lng->txt("passwd_invalid");
 				$is_successful = false;
 			}
-			
+
 			// End of validation
 			// If the validation was successful, we change the password of the
 			// user.
@@ -672,23 +678,23 @@ class ilPasswordAssistanceGUI
 			if ($is_successful)
 			{
 				$is_successful = $userObj->resetPassword($password1,$password2);
-				if (! $is_successful) 
+				if (! $is_successful)
 				{
 					$message = $lng->txt("passwd_invalid");
 				}
 			}
-	
+
 			// If we are successful so far, we update the user object.
 			// ------------------
-			if ($is_successful) 
+			if ($is_successful)
 			{
 				$is_successfull = $userObj->update();
-				if (! $is_successful) 
+				if (! $is_successful)
 				{
 					$message = $lng->txt("update_error");
 				}
 			}
-			
+
 			// If we are successful, we destroy the password assistance
 			// session and redirect to the login page.
 			// Else we display the form again along with an error message.
@@ -716,17 +722,17 @@ class ilPasswordAssistanceGUI
 					$password2,
 					$pwassist_id
 				);
-			}	
+			}
 		}
 	}
-	
+
 	/* Message form.
 	 * This form is used to show a message to the user.
 	 */
 	function showMessageForm($message="", $text="")
 	{
 		global $tpl, $ilias, $lng;
-		
+
 		if ($message != "")
 		{
 			$tpl->setCurrentBlock("pw_message");
@@ -743,7 +749,7 @@ class ilPasswordAssistanceGUI
 		$tpl->setVariable("LINK_BACK",
 			$this->ctrl->getLinkTargetByClass("ilstartupgui", "showLogin"));
 		$tpl->setVariable("LANG", $lng->getLangKey());
-	
+
 		$tpl->show();
 	}
 }
