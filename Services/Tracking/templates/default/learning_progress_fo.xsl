@@ -136,7 +136,7 @@
     <fo:block text-align="justify" padding-top="1cm">
       <fo:list-block
         provisional-label-separation="0.5cm"
-        provisional-distance-between-starts="1cm">
+        provisional-distance-between-starts="0.5cm">
         <xsl:apply-templates select="Item" />
       </fo:list-block>
     </fo:block>
@@ -144,24 +144,28 @@
 
   <!-- Item -->
   <xsl:template match="Item">
-    <fo:list-item>
-      <fo:list-item-label end-indent="label-end()">
-        <fo:block font-weight="bold">
-          <xsl:number level="multiple" format="1.1" count="Item" />
-        </fo:block>
-      </fo:list-item-label>
-      <fo:list-item-body start-indent="body-start()">
-        <xsl:apply-templates select="./ItemText" />
-        <xsl:apply-templates select="./ItemInfo" />
-        <xsl:if test="./Item">
-          <fo:list-block
-            provisional-label-separation="0.5cm"
-            provisional-distance-between-starts="1cm">
-            <xsl:apply-templates select="Item" />
-          </fo:list-block>
-        </xsl:if>
-      </fo:list-item-body>
-    </fo:list-item>
+      <fo:list-item 
+        space-after="0.2cm">
+        <fo:list-item-label end-indent="label-end()">
+          <fo:block font-weight="bold">
+            <xsl:number level="multiple" format="1.1" count="Item" />
+          </fo:block>
+        </fo:list-item-label>
+        <fo:list-item-body start-indent="body-start()">
+          <xsl:apply-templates select="./ItemText" />
+          <xsl:apply-templates select="./ItemInfo" />
+          <xsl:if test="./Item">
+            <fo:block
+              padding-top="0.5cm">
+            <fo:list-block
+              provisional-label-separation="0.2cm"
+              provisional-distance-between-starts="1.4cm">
+              <xsl:apply-templates select="Item" />
+            </fo:list-block>    
+          </fo:block>
+          </xsl:if>
+        </fo:list-item-body>
+      </fo:list-item>
   </xsl:template>
 
   <!-- ItemText -->
@@ -169,12 +173,12 @@
     <fo:block>
       <xsl:choose>
         <xsl:when test="./@Style = 'title'">
-          <fo:block font-weight="bold" font-size="1.1em">
+          <fo:block font-weight="bold" font-size="1.1em" padding-bottom="0.1cm">
             <xsl:value-of select="." />
           </fo:block>            
         </xsl:when>
         <xsl:when test="./@Style = 'description'">
-          <fo:block>
+          <fo:block font-size="1em" font-style="italic">
             <xsl:value-of select="." />
           </fo:block>            
         </xsl:when>
