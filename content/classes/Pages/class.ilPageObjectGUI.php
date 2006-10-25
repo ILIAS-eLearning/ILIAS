@@ -525,19 +525,23 @@ class ilPageObjectGUI
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
 					? "disable"
 					: "enable";
-					
-				//if (DEVMODE)
-				//{
-					$js_mode = array("enable" => $this->lng->txt("cont_enable_js"),
-						"disable" => $this->lng->txt("cont_disable_js"));
-				//}
-				//else
-				//{
-				//	$js_mode = array("disable" => $this->lng->txt("cont_disable_js"));
-				//}
+				
+				$js_mode = array("enable" => $this->lng->txt("cont_enable_js"),
+					"disable" => $this->lng->txt("cont_disable_js"));
 				
 				$this->tpl->setVariable("SEL_MEDIA_MODE",
-					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true));
+					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true,
+					0, "ilEditSelect"));
+
+				// HTML active/inactive
+				$html_mode = array("enable" => $this->lng->txt("cont_enable_html"),
+					"disable" => $this->lng->txt("cont_disable_html"));
+				$sel_html_mode = ($ilUser->getPref("ilPageEditor_HTMLMode") == "disable")
+					? "disable"
+					: "enable";
+				$this->tpl->setVariable("SEL_HTML_MODE",
+					ilUtil::formSelect($sel_html_mode, "html_mode", $html_mode, false, true,
+					0, "ilEditSelect"));
 
 				if ($this->getViewPageLink() != "")
 				{
@@ -558,7 +562,8 @@ class ilPageObjectGUI
 						? "enable"
 						: "disable";
 					$this->tpl->setVariable("SEL_JAVA_SCRIPT",
-						ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true));
+						ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true,
+						0, "ilEditSelect"));
 				}
 				
 				// multiple actions
@@ -838,8 +843,12 @@ class ilPageObjectGUI
 		xslt_free($xh);
 
 		// unmask user html
-		$output = str_replace("&lt;","<",$output);
-		$output = str_replace("&gt;",">",$output);
+		if ($this->getOutputMode() != "edit" ||
+			$ilUser->getPref("ilPageEditor_HTMLMode") != "disable")
+		{
+			$output = str_replace("&lt;","<",$output);
+			$output = str_replace("&gt;",">",$output);
+		}
 		$output = str_replace("&amp;", "&", $output);
 		// replace latex code: todo: finish
 		if ($this->getOutputMode() != "offline")

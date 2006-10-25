@@ -3609,7 +3609,9 @@ content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_js#:#JavaScript inaktiv
-content#:#cont_disable_media#:#Medienobjekte inaktiv
+content#:#cont_disable_media#:#Medien inaktiv
+content#:#cont_disable_html#:#HTML inaktiv
+content#:#cont_enable_html#:#HTML aktiv
 content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Ermöglicht Anwendern freigegebene Exportdateien herunterzuladen
@@ -3666,7 +3668,7 @@ content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
 content#:#cont_empty_mep_folder#:#Es sind keine Medien in diesem Ordner.
 content#:#cont_enable_js#:#JavaScript aktiv
-content#:#cont_enable_media#:#Medienobjekte aktiv
+content#:#cont_enable_media#:#Medien aktiv
 content#:#cont_export_files#:#Datei exportieren
 content#:#cont_external#:#extern
 content#:#cont_external_url#:#Externe URL

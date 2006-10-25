@@ -283,7 +283,8 @@ class ilUtil
 	*							language variable is displayed
 	* @param	int				size
 	*/
-	function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0")
+	function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0",
+		$style_class = "")
 	{
 		global $lng;
 
@@ -296,8 +297,17 @@ class ilUtil
 			$multiple = "";
 			$size = 0;
 		}
+		
+		if ($style_class != "")
+		{
+			$class = " class=\"".$style_class."\"";
+		}
+		else
+		{
+			$class = "";
+		}
 
-		$str = "<select name=\"".$varname ."\"".$multiple." size=\"".$size."\">\n";
+		$str = "<select name=\"".$varname ."\"".$multiple." $class size=\"".$size."\">\n";
 
 		foreach ($options as $key => $val)
 		{
