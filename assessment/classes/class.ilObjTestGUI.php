@@ -819,7 +819,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if (($this->object->isRandomTest()) && (count($this->object->getRandomQuestionpools()) > 0))
 			{
-				if (($_POST["sel_test_types"] == TYPE_ONLINE_TEST) || ($_POST["sel_test_types"] == TYPE_ASSESSMENT) ||  ($_POST["sel_test_types"] == TYPE_SELF_ASSESSMENT))
+				if (!$_POST["chb_random"])
 				{
 					// user tries to change from a random test with existing random question pools to a non random test
 					$this->confirmChangeProperties(0);
@@ -828,7 +828,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			if ((!$this->object->isRandomTest()) && (count($this->object->questions) > 0))
 			{
-				if (($_POST["sel_test_types"] == TYPE_VARYING_RANDOMTEST) || (strlen($_POST["chb_random"]) > 0))
+				if ($_POST["chb_random"])
 				{
 					// user tries to change from a non random test with existing questions to a random test
 					$this->confirmChangeProperties(1);
@@ -855,10 +855,6 @@ class ilObjTestGUI extends ilObjectGUI
 			else
 			{
 				$data["random_test"] = ilUtil::stripSlashes($_POST["chb_random"]);
-			}
-			if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
-			{
-				$data["random_test"] = "1";
 			}
 		}
 		else
@@ -1075,7 +1071,7 @@ class ilObjTestGUI extends ilObjectGUI
     	$this->object->setRandomTest(0);
 		}
 		
-		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		if ($this->object->isRandomTest())
 		{
 			$this->object->setHidePreviousResults(1);
 			$this->object->setRandomTest(1);
@@ -1185,85 +1181,77 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_CHANGE", $this->lng->txt("change"));
 			$this->tpl->parseCurrentBlock();
 		}
-		if (
-			($data["sel_test_types"] == TYPE_ONLINE_TEST) || 
-			($data["sel_test_types"] == TYPE_ASSESSMENT) || 
-			($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST) || 
-			(($this->object->getTestType() == TYPE_ASSESSMENT || $this->object->getTestType() == TYPE_VARYING_RANDOMTEST || $this->object->getTestType() == TYPE_ONLINE_TEST) && strlen($data["sel_test_types"]) == 0)
-		) 
-		{
-			$this->lng->loadLanguageModule("jscalendar");
-			$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
-			$this->tpl->setCurrentBlock("calendar_javascript");
-			$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
-			$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
-			$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
-			$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
-			$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
-			$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
-			$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
-			$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
-			$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
-			$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
-			$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
-			$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
-			$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
-			$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
-			$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
-			$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
-			$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
-			$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
-			$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
-			$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
-			$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
-			$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
-			$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
-			$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
-			$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
-			$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
-			$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
-			$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
-			$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
-			$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
-			$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
-			$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
-			$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
-			$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
-			$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
-			$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
-			$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
-			$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
-			$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
-			$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
-			$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
-			$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
-			$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
-			$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
-			$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
-			$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
-			$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
-			$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
-			$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
-			$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
-			$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
-			$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
-			$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
-			$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
-			$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
-			$this->tpl->setVariable("WK", $this->lng->txt("wk"));
-			$this->tpl->setVariable("TIME", $this->lng->txt("time"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("CalendarJS");
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./assessment/js/calendar/calendar.js");
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./assessment/js/calendar/calendar-setup.js");
-			$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./assessment/js/calendar/calendar.css");
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("javascript_call_calendar");
-			$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
-			$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
-			$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->lng->loadLanguageModule("jscalendar");
+		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
+		$this->tpl->setCurrentBlock("calendar_javascript");
+		$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
+		$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
+		$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
+		$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
+		$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
+		$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
+		$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
+		$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
+		$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
+		$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
+		$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
+		$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
+		$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
+		$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
+		$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
+		$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
+		$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
+		$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
+		$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
+		$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
+		$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
+		$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
+		$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
+		$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
+		$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
+		$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
+		$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
+		$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
+		$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
+		$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
+		$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
+		$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
+		$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
+		$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
+		$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
+		$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
+		$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
+		$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
+		$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
+		$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
+		$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
+		$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
+		$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
+		$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
+		$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
+		$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
+		$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
+		$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
+		$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
+		$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
+		$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
+		$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
+		$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
+		$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
+		$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
+		$this->tpl->setVariable("WK", $this->lng->txt("wk"));
+		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("CalendarJS");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./assessment/js/calendar/calendar.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./assessment/js/calendar/calendar-setup.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./assessment/js/calendar/calendar.css");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("javascript_call_calendar");
+		$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
+		$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
+		$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
+		$this->tpl->parseCurrentBlock();
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
@@ -1290,7 +1278,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["score_cutting"] = $this->object->getScoreCutting();
 		$data["allowedUsers"] = $this->object->getAllowedUsers();
 		$data["allowedUsersTimeGap"] = $this->object->getAllowedUsersTimeGap();
-		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		if ($this->object->isRandomTest())
 		{
 			$data["pass_scoring"] = $this->object->getPassScoring();
 		}
@@ -1310,78 +1298,75 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["starting_time"] = $this->object->getStartingTime();
 		$data["ending_time"] = $this->object->getEndingTime();
 		
-		if ($data["sel_test_types"] == TYPE_ASSESSMENT || ($data["sel_test_types"] == TYPE_ONLINE_TEST) || ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST))
+		$this->tpl->setCurrentBlock("starting_time");
+		$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
+		if (!$data["starting_time"])
 		{
-			$this->tpl->setCurrentBlock("starting_time");
-			$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
-			if (!$data["starting_time"])
-			{
-				$date_input = ilUtil::makeDateSelect("starting_date");
-				$time_input = ilUtil::makeTimeSelect("starting_time");
-			}
-			else
-			{
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["starting_time"], $matches);
-				$date_input = ilUtil::makeDateSelect("starting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
-				$time_input = ilUtil::makeTimeSelect("starting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
-			}
-			$this->tpl->setVariable("IMG_STARTING_TIME_CALENDAR", ilUtil::getImagePath("calendar.png"));
-			$this->tpl->setVariable("TXT_STARTING_TIME_CALENDAR", $this->lng->txt("open_calendar"));
-			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-			if ($data["starting_time"])
-			{
-				$this->tpl->setVariable("CHECKED_STARTING_TIME", " checked=\"checked\"");
-			}
-			$this->tpl->setVariable("INPUT_STARTING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("ending_time");
-			$this->tpl->setVariable("TEXT_ENDING_TIME", $this->lng->txt("tst_ending_time"));
-			if (!$data["ending_time"])
-			{
-				$date_input = ilUtil::makeDateSelect("ending_date");
-				$time_input = ilUtil::makeTimeSelect("ending_time");
-			}
-			else
-			{
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["ending_time"], $matches);
-				$date_input = ilUtil::makeDateSelect("ending_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
-				$time_input = ilUtil::makeTimeSelect("ending_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
-			}
-			$this->tpl->setVariable("IMG_ENDING_TIME_CALENDAR", ilUtil::getImagePath("calendar.png"));
-			$this->tpl->setVariable("TXT_ENDING_TIME_CALENDAR", $this->lng->txt("open_calendar"));
-			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-			if ($data["ending_time"])
-			{
-				$this->tpl->setVariable("CHECKED_ENDING_TIME", " checked=\"checked\"");
-			}
-			$this->tpl->setVariable("INPUT_ENDING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("reporting_date");
-			$this->tpl->setVariable("TEXT_SCORE_DATE", $this->lng->txt("tst_score_reporting_date"));
-			if (!$data["reporting_date"])
-			{
-				$date_input = ilUtil::makeDateSelect("reporting_date");
-				$time_input = ilUtil::makeTimeSelect("reporting_time");
-			} else {
-				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["reporting_date"], $matches);
-				$date_input = ilUtil::makeDateSelect("reporting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
-				$time_input = ilUtil::makeTimeSelect("reporting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
-			}
-			$this->tpl->setVariable("IMG_REPORTING_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
-			$this->tpl->setVariable("TXT_REPORTING_DATE_CALENDAR", $this->lng->txt("open_calendar"));
-			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-			if ($data["reporting_date"] || ($data["sel_test_types"] == TYPE_ONLINE_TEST)) {
-				$this->tpl->setVariable("CHECKED_REPORTING_DATE", " checked=\"checked\"");
-			}
-			$this->tpl->setVariable("INPUT_REPORTING_DATE", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
-			if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) 
-			{
-				$this->tpl->setVariable("DISABLE_SCORE_REPORTING_DATE_CHECKBOX", " disabled=\"disabled\"");
-			}
-			$this->tpl->parseCurrentBlock();
+			$date_input = ilUtil::makeDateSelect("starting_date");
+			$time_input = ilUtil::makeTimeSelect("starting_time");
 		}
+		else
+		{
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["starting_time"], $matches);
+			$date_input = ilUtil::makeDateSelect("starting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
+			$time_input = ilUtil::makeTimeSelect("starting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
+		}
+		$this->tpl->setVariable("IMG_STARTING_TIME_CALENDAR", ilUtil::getImagePath("calendar.png"));
+		$this->tpl->setVariable("TXT_STARTING_TIME_CALENDAR", $this->lng->txt("open_calendar"));
+		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
+		if ($data["starting_time"])
+		{
+			$this->tpl->setVariable("CHECKED_STARTING_TIME", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("INPUT_STARTING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("ending_time");
+		$this->tpl->setVariable("TEXT_ENDING_TIME", $this->lng->txt("tst_ending_time"));
+		if (!$data["ending_time"])
+		{
+			$date_input = ilUtil::makeDateSelect("ending_date");
+			$time_input = ilUtil::makeTimeSelect("ending_time");
+		}
+		else
+		{
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["ending_time"], $matches);
+			$date_input = ilUtil::makeDateSelect("ending_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
+			$time_input = ilUtil::makeTimeSelect("ending_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
+		}
+		$this->tpl->setVariable("IMG_ENDING_TIME_CALENDAR", ilUtil::getImagePath("calendar.png"));
+		$this->tpl->setVariable("TXT_ENDING_TIME_CALENDAR", $this->lng->txt("open_calendar"));
+		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
+		if ($data["ending_time"])
+		{
+			$this->tpl->setVariable("CHECKED_ENDING_TIME", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("INPUT_ENDING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("reporting_date");
+		$this->tpl->setVariable("TEXT_SCORE_DATE", $this->lng->txt("tst_score_reporting_date"));
+		if (!$data["reporting_date"])
+		{
+			$date_input = ilUtil::makeDateSelect("reporting_date");
+			$time_input = ilUtil::makeTimeSelect("reporting_time");
+		} else {
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["reporting_date"], $matches);
+			$date_input = ilUtil::makeDateSelect("reporting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
+			$time_input = ilUtil::makeTimeSelect("reporting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
+		}
+		$this->tpl->setVariable("IMG_REPORTING_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
+		$this->tpl->setVariable("TXT_REPORTING_DATE_CALENDAR", $this->lng->txt("open_calendar"));
+		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
+		if ($data["reporting_date"] || ($data["sel_test_types"] == TYPE_ONLINE_TEST)) {
+			$this->tpl->setVariable("CHECKED_REPORTING_DATE", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("INPUT_REPORTING_DATE", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
+		if ($this->object->getTestType() == TYPE_ONLINE_TEST || $data["sel_test_types"] == TYPE_ONLINE_TEST) 
+		{
+			$this->tpl->setVariable("DISABLE_SCORE_REPORTING_DATE_CHECKBOX", " disabled=\"disabled\"");
+		}
+		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("test_types");
 		foreach ($this->object->test_types as $key => $value) {
@@ -1513,7 +1498,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHECKED_HIDE_TITLE_POINTS", " checked=\"checked\"");
 		}
-		if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
+		if ($data["random_test"])
 		{
 			$data["hide_previous_results"] = 1;
 		}
@@ -1525,7 +1510,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHECKED_HIDE_PREVIOUS_RESULTS",  " checked=\"checked\"");
 		}
-		if (($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST) || ($data["sel_test_types"] == TYPE_ONLINE_TEST))
+		if (($data["random_test"]) || ($data["sel_test_types"] == TYPE_ONLINE_TEST))
 		{
 			$this->tpl->setVariable("DISABLE_HIDE_PREVIOUS_RESULTS", " disabled=\"disabled\"");
 		}
@@ -1539,16 +1524,11 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($data["enable_processing_time"]) {
 			$this->tpl->setVariable("CHECKED_PROCESSING_TIME", " checked=\"checked\"");
 		}
-		$this->tpl->setVariable("TEXT_RANDOM_TEST", $this->lng->txt("tst_random_test"));
+		$this->tpl->setVariable("TEXT_RANDOM_TEST", $this->lng->txt("tst_random_selection"));
 		$this->tpl->setVariable("TEXT_RANDOM_TEST_DESCRIPTION", $this->lng->txt("tst_random_test_description"));
 		if ($data["random_test"]) 
 		{
 			$this->tpl->setVariable("CHECKED_RANDOM_TEST", " checked=\"checked\"");
-		}
-		if ($data["sel_test_types"] == TYPE_VARYING_RANDOMTEST)
-		{
-			$this->tpl->setVariable("CHECKED_RANDOM_TEST", " checked=\"checked\"");
-			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
 		}
 
 		$this->tpl->setVariable("HEADING_SCORING", $this->lng->txt("tst_heading_scoring"));
@@ -1597,7 +1577,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("SELECTED_LASTPASS", " selected=\"selected\"");
 		}
-		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+		if (!$this->object->isRandomTest())
 		{
 			$this->tpl->setVariable("DISABLE_PASS_SCORING", " disabled=\"disabled\"");
 		}
@@ -4465,7 +4445,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+					if (!$this->object->isRandomTest())
 					{
 						// it does not make sense to show always the last pass of a varying randomtest only in the print answers sheet
 						$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
@@ -4499,7 +4479,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
 	
 				// hide previous results
-				if (!($this->object->getTestType() == TYPE_VARYING_RANDOMTEST))
+				if (!$this->object->isRandomTest())
 				{
 					if ($this->object->getNrOfTries() != 1)
 					{
@@ -4531,7 +4511,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addSection($this->lng->txt("tst_heading_scoring"));
 		$info->addProperty($this->lng->txt("tst_text_count_system"), $this->lng->txt(($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS)? "tst_count_partial_solutions":"tst_count_correct_solutions"));
 		$info->addProperty($this->lng->txt("tst_score_mcmr_questions"), $this->lng->txt(($this->object->getMCScoring() == SCORE_ZERO_POINTS_WHEN_UNANSWERED)? "tst_score_mcmr_zero_points_when_unanswered":"tst_score_mcmr_use_scoring_system"));
-		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		if ($this->object->isRandomTest())
 		{
 			$info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == SCORE_BEST_PASS)? "tst_pass_best_pass":"tst_pass_last_pass"));
 		}

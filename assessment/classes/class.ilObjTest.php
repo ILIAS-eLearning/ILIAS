@@ -1812,15 +1812,7 @@ class ilObjTest extends ilObject
 		{
 			if (is_null($pass))
 			{
-				if ($this->getTestType() == TYPE_VARYING_RANDOMTEST)
-				{
-					$pass = $this->_getPass($active_id);
-				}
-				else
-				{
-					// normal random questions are created only once, for pass 0
-					$pass = 0;
-				}
+				$pass = $this->_getPass($active_id);
 			}
 			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
 				$ilDB->quote($active_id . ""),
@@ -4867,19 +4859,16 @@ class ilObjTest extends ilObject
 */
 	function startingTimeReached()
 	{
-		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST || $this->getTestType() == TYPE_VARYING_RANDOMTEST) 
+		if ($this->getStartingTime()) 
 		{
-			if ($this->getStartingTime()) 
+			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches))
 			{
-				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches))
+				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = mktime();
+				if ($now < $epoch_time) 
 				{
-					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now = mktime();
-					if ($now < $epoch_time) 
-					{
-						// starting time not reached
-						return false;
-					}
+					// starting time not reached
+					return false;
 				}
 			}
 		}
@@ -4897,19 +4886,16 @@ class ilObjTest extends ilObject
 */
 	function endingTimeReached()
 	{
-		if ($this->getTestType() == TYPE_ASSESSMENT || $this->getTestType() == TYPE_ONLINE_TEST || $this->getTestType() == TYPE_VARYING_RANDOMTEST) 
+		if ($this->getEndingTime()) 
 		{
-			if ($this->getEndingTime()) 
+			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
 			{
-				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
+				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = mktime();				
+				if ($now > $epoch_time) 
 				{
-					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now = mktime();				
-					if ($now > $epoch_time) 
-					{
-						// ending time reached
-						return true;
-					}
+					// ending time reached
+					return true;
 				}
 			}
 		}
@@ -7011,7 +6997,7 @@ class ilObjTest extends ilObject
 	function _getResultPass($active_id)
 	{
 		$counted_pass = NULL;
-		if (strcmp(ilObjTest::_getTestType($active_id), "tt_varying_randomtest") == 0)
+		if (ilObjTest::_lookupRandomTestFromActiveId($active_id))
 		{
 			if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS)
 			{
@@ -7907,6 +7893,30 @@ class ilObjTest extends ilObject
 	  while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 	  {
 		  return $row['anonymity'];
+	  }
+	  return 0;
+	}
+
+	/**
+	* Returns the random status of a test with a given object id
+	*
+	* Returns the random status of a test with a given object id
+	*
+	* @param int $a_obj_id The object id of the test object
+	* @return integer The value for the anonymity status (0 = no random, 1 = random)
+	* @access public
+	*/
+	function _lookupRandomTestFromActiveId($active_id)
+	{
+	  global $ilDB;
+	  
+	  $query = sprintf("SELECT tst_tests.random_test FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
+			$ilDB->quote($active_id . "")
+		);
+	  $res = $ilDB->query($query);
+	  while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	  {
+		  return $row['random_test'];
 	  }
 	  return 0;
 	}

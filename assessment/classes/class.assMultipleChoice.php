@@ -1232,10 +1232,10 @@ class assMultipleChoice extends assQuestion
 				);
 				$result = $ilDB->query($query);
 				$points_unchecked = 0;
-				$points_unchecked = $answer_obj->getPointsUnchecked();
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];
+					$points_unchecked = $answer_obj->getPointsUnchecked();
 					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, points_unchecked) VALUES (NULL, %s, %s, %s, %s, %s)",
 						$ilDB->quote($this->original_id. ""),
 						$ilDB->quote($answer_obj->getAnswertext(). ""),
