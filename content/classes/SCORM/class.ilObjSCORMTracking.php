@@ -175,35 +175,44 @@ class ilObjSCORMTracking
 			$where = "WHERE sco_id IN('";
 			$where .= implode("','",$scorm_item_id);
 			$where .= "') ";
-			$where .= ("AND obj_id = '".$a_obj_id."'");
+			$where .= ("AND obj_id = '".$a_obj_id."' ");
 			   
 		}
 		else
 		{
 			$where = "WHERE sco_id = '".$scorm_item_id."' ";
-			$where .= ("AND obj_id = '".$a_obj_id."'");
+			$where .= ("AND obj_id = '".$a_obj_id."' ");
 		}
 				
 
-		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
-			$where;
-#			"AND lvalue = 'cmi.core.lesson_status' ".
-#			"AND rvalue = 'incomplete'";
+		$query = "SELECT user_id,sco_id FROM scorm_tracking ".
+			$where.
+			"GROUP BY user_id, sco_id";
+		
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$user_ids[] = $row->user_id;
+			$in_progress[$row->sco_id][] = $row->user_id;
 		}
-		return $user_ids ? $user_ids : array();
+		return is_array($in_progress) ? $in_progress : array();
 	}
 
 	function _getCompleted($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 
+		if(is_array($scorm_item_id))
+		{
+			$where = "WHERE sco_id IN('".implode("','",$scorm_item_id)."') ";
+		}
+		else
+		{
+			$where = "sco_id = '".$scorm_item_id."' ";
+		}
+
 		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
-			"WHERE sco_id = '".$scorm_item_id."' ".
+			$where.
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND lvalue = 'cmi.core.lesson_status' ".
 			"AND ( rvalue = 'completed' ".
@@ -220,8 +229,17 @@ class ilObjSCORMTracking
 	{
 		global $ilDB;
 
+		if(is_array($scorm_item_id))
+		{
+			$where = "WHERE sco_id IN('".implode("','",$scorm_item_id)."') ";
+		}
+		else
+		{
+			$where = "sco_id = '".$scorm_item_id."' ";
+		}
+
 		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
-			"WHERE sco_id = '".$scorm_item_id."' ".
+			$where.
 			"AND obj_id = '".$a_obj_id."' ".
 			"AND lvalue = 'cmi.core.lesson_status' ".
 			"AND rvalue = 'failed'";
@@ -259,6 +277,38 @@ class ilObjSCORMTracking
 		return $users ? $users : array();
 	}
 
+	function _getProgressInfo($sco_item_ids,$a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM scorm_tracking ".
+			"WHERE sco_id IN('".implode("','",$sco_item_ids)."') ".
+			"AND obj_id = '".$a_obj_id."' ".
+			"AND lvalue = 'cmi.core.lesson_status'";
+
+		$res = $ilDB->query($query);
+
+		$info['completed'] = array();
+		$info['failed'] = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			switch($row->rvalue)
+			{
+				case 'completed':
+				case 'passed':
+					$info['completed'][$row->sco_id][] = $row->user_id;
+					break;
+
+				case 'failed':
+					$info['failed'][$row->sco_id][] = $row->user_id;
+					break;
+			}
+		}
+		$info['in_progress'] = ilObjSCORMTracking::_getInProgress($sco_item_ids,$a_obj_id);
+
+		return $info;
+	}
+			
 
 } // END class.ilObjSCORMTracking
 ?>

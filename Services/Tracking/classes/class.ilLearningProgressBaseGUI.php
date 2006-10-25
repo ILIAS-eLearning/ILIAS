@@ -454,31 +454,6 @@ class ilLearningProgressBaseGUI
 		}
 	}
 
-	function __readSCORMStatus($sco_id, $a_obj_id,$a_user_id = 0)
-	{
-		$user_id = $a_user_id > 0
-			? $a_user_id
-			: $this->tracked_user->getId();
-		
-		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
-
-		$in_progress = ilObjSCORMTracking::_getInProgress($sco_id,$a_obj_id);
-		$completed = ilObjSCORMTracking::_getCompleted($sco_id,$a_obj_id);
-
-		if(in_array($user_id, $in_progress) and !in_array($user_id, $completed))
-		{
-			return $status = LP_STATUS_IN_PROGRESS;
-		}
-		elseif(in_array($user_id, $completed))
-		{
-			return $status = LP_STATUS_COMPLETED;
-		}
-		else
-		{
-			return $status = LP_STATUS_NOT_ATTEMPTED;
-		}
-	}
-
 
 	function __showButton($a_link,$a_text,$a_target = '')
 	{
@@ -571,75 +546,6 @@ class ilLearningProgressBaseGUI
 		}
 	}
 
-
-	function __getStatusInfo($a_obj_id,$a_user_id)
-	{
-		switch($this->obj_data[$a_obj_id]['mode'])
-		{
-			case LP_MODE_TEST_PASSED:
-				// Get stored test results
-				include_once './Services/Tracking/classes/class.ilTestResultCache.php';
-				$test_res_cache =& ilTestResultCache::_getInstance();
-				$result = $test_res_cache->get($a_obj_id);
-
-				foreach($result as $res)
-				{
-					if($a_user_id == $res['user_id'])
-					{
-						return array($this->lng->txt('trac_reached_points'),
-									 $this->__getPercent($res['max_points'],$res['reached_points']));
-					}
-				}
-				return array($this->lng->txt('trac_reached_points'),
-							 "0.00%");
-								 
-			case LP_MODE_TLT:
-				if(!$this->obj_data[$a_obj_id]['tlt'])
-				{
-					return false;
-				}
-				include_once './Services/Tracking/classes/class.ilLearningProgress.php';
-				$user_data = ilLearningProgress::_getProgress($a_user_id,$a_obj_id);
-
-				return array($this->lng->txt('trac_edit_time'),
-							 $this->__getPercent($this->obj_data[$a_obj_id]['tlt'],$user_data['spent_time']));
-
-			case LP_MODE_VISITS:
-				if(!$this->obj_data[$a_obj_id]['visits'])
-				{
-					return false;
-				}
-				include_once './Services/Tracking/classes/class.ilLearningProgress.php';
-				$user_data = ilLearningProgress::_getProgress($a_user_id,$a_obj_id);
-
-				return array($this->lng->txt('trac_reached_visits'),
-							 $this->__getPercent($this->obj_data[$a_obj_id]['visits'],$user_data['visits']));
-
-			case LP_MODE_SCORM:
-				if(!$this->obj_data[$a_obj_id]['scos'])
-				{
-					return false;
-				}
-				$scorm_data = $this->__readScormCompleted($a_obj_id);
-				return array($this->lng->txt('trac_edited_scos'),
-							 $this->__getPercent($this->obj_data[$a_obj_id]['scos'],$scorm_data[$a_user_id]));
-		}
-	}
-
-	function __readScormCompleted($a_obj_id)
-	{
-		if(is_array($this->scorm_data[$a_obj_id]))
-		{
-			return $this->scorm_data[$a_obj_id];
-		}
-
-		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-
-		$this->scorm_data[$a_obj_id] = ilObjSCORMTracking::_getCountCompletedPerUser(ilLPCollectionCache::_getItems($a_obj_id),$a_obj_id);
-		return $this->scorm_data[$a_obj_id];
-	}
-	
 	function __getLegendHTML()
 	{
 		global $lng;
