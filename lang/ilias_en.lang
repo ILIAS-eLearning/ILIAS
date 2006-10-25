@@ -5744,6 +5744,7 @@ pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associa
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.
 pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database. ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and email address you have entered do not match an entry in the database. ### 2006-5-8 --- Content changed
+pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
 pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance. ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again. ### 2006-5-8 --- Content changed
 pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box. ### 2006-5-8 --- Content changed
@@ -6501,7 +6502,7 @@ trac#:#trac_marks#:#Marks
 trac#:#trac_mode#:#Mode
 trac#:#trac_mode_collection#:#Collection of objects
 trac#:#trac_mode_deactivated#:#Deactivated
-trac#:#trac_mode_exercise_returned#:#Exercise Solved 
+trac#:#trac_mode_exercise_returned#:#Exercise Solved
 trac#:#trac_mode_manual#:#Manual
 trac#:#trac_mode_objectives#:#Learning objectives
 trac#:#trac_mode_scorm#:#SCORM/AICC
