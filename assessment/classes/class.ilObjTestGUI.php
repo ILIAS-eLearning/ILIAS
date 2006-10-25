@@ -238,6 +238,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function exportObject()
 	{
+		$this->getOutputSubTabs();
+
 		global $tree;
 		global $rbacsystem;
 
@@ -1176,6 +1178,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
+		$this->getSettingsSubTabs();
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
@@ -3085,6 +3088,8 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function marksObject() 
 	{
+		$this->getSettingsSubTabs();
+
 		global $rbacsystem;
 
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -3859,6 +3864,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function printobject() 
 	{
+		$this->getOutputSubTabs();
+
 		global $rbacsystem, $ilUser;
 		
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -4707,9 +4714,87 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function certificateObject()
 	{
+		$this->getSettingsSubTabs();
 		include_once "./assessment/classes/class.ilTestCertificateGUI.php";
 		$output_gui = new ilTestCertificateGUI($this->object);
 		$output_gui->certificateEditor();
+	}
+
+	function getOutputSubTabs()
+	{
+		global $ilTabs;
+		
+		// export subtab
+		$ilTabs->addSubTabTarget("export",
+			 $this->ctrl->getLinkTarget($this,'export'),
+			 array("export", "createExportFile", "confirmDeleteExportFile",
+			 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
+			 "");
+			 
+		// print subtab
+		if (!$this->object->isRandomTest())
+		{
+			$ilTabs->addSubTabTarget("print",
+				 $this->ctrl->getLinkTarget($this,'print'),
+				 "print", "");
+		}
+			
+	}
+	
+	function getStatisticsSubTabs()
+	{
+		global $ilTabs;
+		
+		// user results subtab
+		$ilTabs->addSubTabTarget("tst_results_user",
+			 $this->ctrl->getLinkTarget($this,'eval_stat'),
+			 "eval_stat", "");
+	
+		// aggregated results subtab
+		$ilTabs->addTarget("tst_results_aggregated",
+			$this->ctrl->getLinkTarget($this, "eval_a"),
+			array("eval_a"),
+			"", "");
+	
+	}
+	
+	function getSettingsSubTabs()
+	{
+		global $ilTabs;
+		
+		// general subtab
+		$force_active = ($this->ctrl->getCmdClass() == "" &&
+			$this->ctrl->getCmd() == "")
+			? true
+			: false;
+		$ilTabs->addSubTabTarget("general",
+			 $this->ctrl->getLinkTarget($this,'properties'),
+			 array("properties", "saveProperties", "cancelProperties"),
+			 "",
+			 "", $force_active);
+	
+		// scoring subtab
+		$ilTabs->addSubTabTarget(
+			"scoring",
+			$this->ctrl->getLinkTarget($this,'scoring'),
+			array("scoring"),
+			"");
+	
+		// mark schema subtab
+		$ilTabs->addSubTabTarget(
+			"mark_schema",
+			$this->ctrl->getLinkTarget($this,'marks'),
+			array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
+				"saveMarks", "cancelMarks"),
+			"");
+	
+		// certificate subtab
+		$ilTabs->addSubTabTarget(
+			"certificate",
+			$this->ctrl->getLinkTarget($this,'certificate'),
+			array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+				"certificatePreview", "certificateDelete", "certificateUpload"),
+			"");
 	}
 
 	/**
@@ -4759,33 +4844,14 @@ class ilObjTestGUI extends ilObjectGUI
 				return $this->getBrowseForQuestionsTab($tabs_gui);
 				break;
 		}
+		
 		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)
 		{
 			global $ilAccess;
+
+			// questions tab
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
-				// properties
-				$force_active = ($this->ctrl->getCmdClass() == "" &&
-					$this->ctrl->getCmd() == "")
-					? true
-					: false;
-				$tabs_gui->addTarget("properties",
-					 $this->ctrl->getLinkTarget($this,'properties'),
-					 array("properties", "saveProperties", "cancelProperties"),
-					 "",
-					 "", $force_active);
-			}
-	
-			if ($ilAccess->checkAccess("visible", "", $this->ref_id))
-			{
-				$tabs_gui->addTarget("info",
-					 $this->ctrl->getLinkTarget($this,'infoScreen'),
-					 array("infoScreen", "outIntroductionPage", "showSummary", "setAnonymousId"));
-			}
-			
-			if ($ilAccess->checkAccess("write", "", $this->ref_id))
-			{
-				// questions
 				$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
 					? true
 					: false;
@@ -4807,73 +4873,72 @@ class ilObjTestGUI extends ilObjectGUI
 					 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
 					 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"), 
 					 "", "", $force_active);
-					 
-				// meta data
-				$tabs_gui->addTarget("meta_data",
-					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-					 "", "ilmdeditorgui");
+			}
 
-				// mark schema
-				$tabs_gui->addTarget("mark_schema",
-					 $this->ctrl->getLinkTarget($this,'marks'),
-					 array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
+			// info tab
+			if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+			{
+				$tabs_gui->addTarget("info",
+					 $this->ctrl->getLinkTarget($this,'infoScreen'),
+					 array("infoScreen", "outIntroductionPage", "showSummary", "setAnonymousId"));
+			}
+			
+			// settings tab
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))
+			{
+				$force_active = ($this->ctrl->getCmdClass() == "" &&
+					$this->ctrl->getCmd() == "")
+					? true
+					: false;
+				$tabs_gui->addTarget("settings",
+					 $this->ctrl->getLinkTarget($this,'properties'),
+					 array("properties", "saveProperties", "cancelProperties",
+						"marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
 						"saveMarks", "cancelMarks", 
 						"certificate", "certificateEditor", "certificateRemoveBackground",
 						"certificateSave", "certificatePreview", "certificateDelete", "certificateUpload",
 						"certificateImport"),
+					 "",
+					 "", $force_active);
+			}
+
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))
+			{
+				// meta data
+				$tabs_gui->addTarget("meta_data",
+					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+					 "", "ilmdeditorgui");
+			}
+		
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))
+			{
+				// participants
+				$tabs_gui->addTarget("participants",
+					 $this->ctrl->getLinkTarget($this,'participants'),
+					 array("participants", "searchParticipants", "addParticipants", "saveClientIP",
+					 "removeParticipant", "showAnswers", "showResults"), 
 					 "");
-				if ((strpos(strtolower($this->ctrl->getCmd()), "mark") !== FALSE) || (strpos(strtolower($this->ctrl->getCmd()), "certificate") !== FALSE))
-				{
-					$tabs_gui->addSubTabTarget(
-						"mark_schema",
-						$this->ctrl->getLinkTarget($this,'marks'),
-						array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
-							"saveMarks", "cancelMarks"),
-						"");
-					$tabs_gui->addSubTabTarget(
-						"certificate",
-						$this->ctrl->getLinkTarget($this,'certificate'),
-						array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
-							"certificatePreview", "certificateDelete", "certificateUpload"),
-						"");
-				}
-		
-				if ($this->object->isOnlineTest())
-				{
-					// participants
-					$tabs_gui->addTarget("participants",
-						 $this->ctrl->getLinkTarget($this,'participants'),
-						 array("participants", "searchParticipants", "addParticipants", "saveClientIP",
-						 "removeParticipant", "showAnswers", "showResults"), 
-						 "");
-				}
-		
-				// print
-				if (!$this->object->isRandomTest())
-				{
-					$tabs_gui->addTarget("print",
-						 $this->ctrl->getLinkTarget($this,'print'),
-						 "print", "");
-				}
-		
-				// export
-				$tabs_gui->addTarget("export",
-					 $this->ctrl->getLinkTarget($this,'export'),
-					 array("export", "createExportFile", "confirmDeleteExportFile",
-					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
-					 "");
-					
+
 				// maintenance
-				$tabs_gui->addTarget("maintenance",
+/*				$tabs_gui->addTarget("maintenance",
 					 $this->ctrl->getLinkTarget($this,'maintenance'),
 					 array("maintenance", "deleteAllUserData", "confirmDeleteAllUserData",
 					 "cancelDeleteAllUserData", "deleteSingleUserResults"), 
 					 "");
+	*/	
+					 
+				// output tab
+				$tabs_gui->addTarget("output",
+					 $this->ctrl->getLinkTarget($this,'export'),
+					 array("export", "createExportFile", "confirmDeleteExportFile",
+					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile",
+					 "print"),
+					 "");
 		
-				// status
-				$tabs_gui->addTarget("status",
-					 $this->ctrl->getLinkTarget($this,'status'),
-					 "status", "");
+				// statistics tab
+				$tabs_gui->addTarget("statistics",
+					 $this->ctrl->getLinkTarget($this,'statistics'),
+					 "statistics", "");
 
 				// learning progress
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
@@ -4885,6 +4950,11 @@ class ilObjTestGUI extends ilObjectGUI
 										 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui',
 											   'illplistofprogressgui'));
 				}
+
+				// status
+				$tabs_gui->addTarget("history",
+					 $this->ctrl->getLinkTarget($this,'status'),
+					 "status", "");
 
 				// permissions
 				$tabs_gui->addTarget("perm_settings",
