@@ -343,6 +343,7 @@ assessment#:#filter_users#:#Filter users
 assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
+assessment#:#general#:#General
 assessment#:#glossary_term#:#Glossary term
 assessment#:#graphical_answers#:#Graphical answer support
 assessment#:#graphical_answers_hide#:#Hide graphical answer support
@@ -417,6 +418,7 @@ assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
 assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
+assessment#:#output#:#Output
 assessment#:#output_mode#:#Output mode
 assessment#:#participants#:#Participants
 assessment#:#pass#:#Pass
@@ -513,6 +515,7 @@ assessment#:#save_next#:#Next
 assessment#:#save_previous#:#Previous
 assessment#:#save_text_answer_points#:#Save essay points
 assessment#:#scored_pass#:#Scored pass
+assessment#:#scoring#:#Scoring
 assessment#:#search_found_groups#:#Found groups
 assessment#:#search_found_users#:#Found users
 assessment#:#search_groups#:#Search Groups
