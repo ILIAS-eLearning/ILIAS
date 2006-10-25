@@ -49,7 +49,13 @@ class ilLPStatusSCORM extends ilLPStatus
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 
-		$users = ilObjSCORMTracking::_getInProgress(ilLPCollectionCache::_getItems($a_obj_id),$a_obj_id);
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+		$users = array();
+		foreach($status_info['in_progress'] as $in_progress)
+		{
+			$users = array_merge($users,$in_progress);
+		}
+		$users = array_unique($users);
 		$users = array_diff($users,ilLPStatusWrapper::_getCompleted($a_obj_id));
 		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
 
@@ -137,13 +143,16 @@ class ilLPStatusSCORM extends ilLPStatus
 				}
 		}
 
+		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+		$info = ilObjSCORMTracking::_getProgressInfo($status_info['scos'],$a_obj_id);
+
 		foreach($status_info['scos'] as $sco_id)
 		{
-			include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
-			$status_info['completed'][$sco_id] = ilObjSCORMTracking::_getCompleted($sco_id,$a_obj_id);
-			$status_info['in_progress'][$sco_id] = ilObjSCORMTracking::_getInProgress($sco_id,$a_obj_id);
-			$status_info['failed'][$sco_id] = ilObjSCORMTracking::_getFailed($sco_id,$a_obj_id);
+			$status_info['completed'][$sco_id] = $info['completed'][$sco_id] ? $info['completed'][$sco_id] : array();
+			$status_info['failed'][$sco_id] = $info['failed'][$sco_id] ? $info['failed'][$sco_id] : array();
+			$status_info['in_progress'][$sco_id] = $info['in_progress'][$sco_id] ? $info['in_progress'][$sco_id] : array();
 		}
+
 		return $status_info;
 	}
 }	

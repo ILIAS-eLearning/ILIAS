@@ -276,7 +276,7 @@ class ilWysiwygUtil
 		// alex changed
 		if ($attrs["class"] == "ilc_ExtLink") 
 		{
-			$new["convert"] = "[xln url=\"".$attrs[url]."\"]";
+			$new["convert"] = "[xln url=\"".str_replace("&","&amp;",$attrs[url])."\"]";
             $new["convert2"] = "[/xln]";
 		}
 		

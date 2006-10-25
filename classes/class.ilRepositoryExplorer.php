@@ -102,7 +102,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "content/fblm_presentation.php?ref_id=".$a_node_id;
 
 			case "sahs":
-				return "content/sahs_presentation.php?ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$a_node_id;
 
 			case "mep":
 				return "";
@@ -117,7 +117,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjforumgui";
 
 			case "glo":
-				return "content/glossary_presentation.php?ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilGlossaryPresentationGUI&ref_id=".$a_node_id;
 
 			case "exc":
 				return "exercise.php?cmd=view&ref_id=".$a_node_id;
