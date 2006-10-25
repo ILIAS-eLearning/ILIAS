@@ -529,6 +529,7 @@ class ilPageEditorGUI
 		global $ilUser, $ilias;
 
 		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
+		$ilUser->writePref("ilPageEditor_HTMLMode", $_POST["html_mode"]);
 		if ($ilias->getSetting("enable_js_edit"))
 		{
 			if ($ilUser->getPref("ilPageEditor_JavaScript") != $_POST["js_mode"])

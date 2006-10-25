@@ -3677,6 +3677,8 @@ content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Directory/File
 content#:#cont_disable_js#:#JavaScript inactive
 content#:#cont_disable_media#:#Media inactive
+content#:#cont_disable_html#:#HTML inactive
+content#:#cont_enable_html#:#HTML active
 content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Enable download of all public export files.
