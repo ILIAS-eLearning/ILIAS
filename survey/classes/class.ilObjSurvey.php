@@ -2384,13 +2384,20 @@ class ilObjSurvey extends ilObject
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
-		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag, survey_survey_question.heading FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT survey_question.question_id, survey_survey_question.heading FROM survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id ORDER BY survey_survey_question.sequence",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
+		include_once "./survey/classes/class.SurveyQuestion.php";
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$all_questions[$row["question_id"]] = $row;
+			$question =& $this->_instanciateQuestion($row["question_id"]);
+			$questionrow = $question->_getQuestionDataArray($row["question_id"]);
+			foreach ($row as $key => $value)
+			{
+				$questionrow[$key] = $value;
+			}
+			$all_questions[$row["question_id"]] = $questionrow;
 			if (array_key_exists($row["question_id"], $obligatory_states))
 			{
 				$all_questions[$row["question_id"]]["obligatory"] = $obligatory_states[$row["question_id"]];
