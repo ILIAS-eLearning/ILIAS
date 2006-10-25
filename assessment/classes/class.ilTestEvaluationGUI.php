@@ -1532,7 +1532,7 @@ class ilTestEvaluationGUI
 		{
 			$this->ctrl->redirect($this, "eval_stat");
 		}
-		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+		if (!$this->object->isRandomTest())
 		{
 			$this->ctrl->redirect($this, "passDetails");
 		}

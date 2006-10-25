@@ -1188,7 +1188,6 @@ class assSingleChoice extends assQuestion
 					$ilDB->quote($this->original_id)
 				);
 				$result = $ilDB->query($query);
-				$points_unchecked = 0;
 				foreach ($this->answers as $key => $value)
 				{
 					$answer_obj = $this->answers[$key];

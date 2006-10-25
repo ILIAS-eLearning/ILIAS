@@ -1068,7 +1068,7 @@ class ilTestOutputGUI
 			// show confirmation page
 			return $this->confirmFinishTest();
 		}
-		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		if ($this->object->isRandomTest())
 		{
 			// create a new set of random questions if more passes are allowed
 			$maxpass = $this->object->getNrOfTries();
@@ -1086,7 +1086,6 @@ class ilTestOutputGUI
 			
 		$this->object->setActiveTestUser(1, "", true);
 
-		//if (($this->object->getTestType() != TYPE_VARYING_RANDOMTEST) && (!$this->object->canViewResults())) 
 		if (!$this->object->canViewResults()) 
 		{
 			$this->outIntroductionPage($maxprocessingtimereached);
@@ -1404,7 +1403,7 @@ class ilTestOutputGUI
 	
 	function outResults()
 	{
-		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		if ($this->object->isRandomTest())
 		{
 			$this->outResultsOverview();
 		}
@@ -1425,7 +1424,7 @@ class ilTestOutputGUI
 	{
 		global $ilUser;
 		
-		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+		if (!$this->object->isRandomTest())
 		{
 			$this->ctrl->redirect($this, "outIntroductionPage");
 		}
@@ -1768,7 +1767,7 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		if ($this->object->getTestType() != TYPE_VARYING_RANDOMTEST)
+		if (!$this->object->isRandomTest())
 		{
 			$mark_obj = $this->object->mark_schema->getMatchingMark($percentage);
 			if ($mark_obj)
@@ -1790,7 +1789,7 @@ class ilTestOutputGUI
 			}
 			$this->tpl->setVariable("USER_FEEDBACK", $mark);
 		}
-		if ($this->object->getTestType() == TYPE_VARYING_RANDOMTEST)
+		if ($this->object->isRandomTest())
 		{
 			$this->tpl->setVariable("BACK_TO_OVERVIEW", $this->lng->txt("tst_results_back_overview"));
 		}
