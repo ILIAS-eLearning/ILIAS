@@ -48,7 +48,7 @@ class ilLPTestListGUI extends ilLPObjectItemListGUI
 	function __readAnonymized()
 	{
 		include_once 'assessment/classes/class.ilObjTest.php';
-		if(ilObjTest::_lookupTestType($this->getId()) == TYPE_SELF_ASSESSMENT)
+		if(ilObjTest::_lookupAnonymity($this->getId()))
 		{
 			$this->anonymized = true;
 		}

@@ -878,6 +878,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$randomtest_switch = true;
 		}
+		$data["anonymity"] = $_POST["anonymity"];
 		$data["password"] = $_POST["password"];
 		$data["allowedUsers"] = $_POST["allowedUsers"];
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
@@ -941,14 +942,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["score_reporting"] = ilUtil::stripSlashes($_POST["score_reporting"]);
 		}
-		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
-		{
-			$data["instant_verification"] = 0;
-		}
-		else
-		{
-			$data["instant_verification"] = ilUtil::stripSlashes($_POST["chb_instant_verification"]);
-		}
+		$data["instant_verification"] = ilUtil::stripSlashes($_POST["chb_instant_verification"]);
 		$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
 		$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
 		if (!$_POST["chb_starting_time"])
@@ -1049,6 +1043,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setCountSystem($data["count_system"]);
 		$this->object->setMCScoring($data["mc_scoring"]);
+		$this->object->setAnonymity($data["anonymity"]);
 		$this->object->setPassword($data["password"]);
 		$this->object->setAllowedUsers($data["allowedUsers"]);
 		$this->object->setAllowedUsersTimeGap($data["allowedUsersTimeGap"]);
@@ -1062,14 +1057,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->setScoreReporting($data["score_reporting"]);
 		}
-		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT )
-		{
-			$this->object->setInstantVerification(0);
-		}
-		else
-		{
-			$this->object->setInstantVerification($data["instant_verification"]);
-		}
+		$this->object->setInstantVerification($data["instant_verification"]);
 		$this->object->setReportingDate($data["reporting_date"]);
 		$this->object->setNrOfTries($data["nr_of_tries"]);
 		$this->object->setStartingTime($data["starting_time"]);
@@ -1283,6 +1271,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 		
+		$data["anonymity"] = $this->object->getAnonymity();
 		$data["sel_test_types"] = $this->object->getTestType();
 		$data["introduction"] = $this->object->getIntroduction();
 		$data["sequence_settings"] = $this->object->getSequenceSettings();
@@ -1409,6 +1398,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("SUBMIT_TYPE", $this->lng->txt("change"));
 		}
 		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("tst_general_properties"));
+		$this->tpl->setVariable("TEXT_ANONYMITY", $this->lng->txt("tst_anonymity"));
+		$this->tpl->setVariable("DESCRIPTION_ANONYMITY", $this->lng->txt("tst_anonymity_description"));
+		if ($data["anonymity"])
+		{
+			$this->tpl->setVariable("CHECKED_ANONYMITY", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("TEXT_TEST_TYPES", $this->lng->txt("tst_types"));
 		$this->tpl->setVariable("TEST_TYPE_COMMENT", $this->lng->txt("tst_type_comment"));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
@@ -1437,10 +1432,6 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		$this->tpl->setVariable("HEADING_SCORE", $this->lng->txt("tst_score_reporting"));
-		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
-		{
-			$this->tpl->setVariable("DISABLED_INSTANT_VERIFICATION", " disabled=\"disabled\"");
-		}
 		$this->tpl->setVariable("TEXT_VERIFICATION", $this->lng->txt("tst_instant_verification"));
 		$this->tpl->setVariable("TEXT_INSTANT_VERIFICATION", $this->lng->txt("tst_allow_instant_verification"));
 		if ($this->object->getInstantVerification() == 1)

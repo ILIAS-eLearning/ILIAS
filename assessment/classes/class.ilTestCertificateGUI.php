@@ -523,42 +523,6 @@ class ilTestCertificateGUI
 		
 		$this->tpl->parseCurrentBlock();
 	}
-	
-	/**
-	* set the tabs for the results overview ("results" in the repository)
-	*/
-	function setResultsTabs()
-	{
-		global $ilTabs;
-
-		include_once ("./classes/class.ilTabsGUI.php");
-		$tabs_gui = new ilTabsGUI();
-
-		// Test results tab
-		$tabs_gui->addTarget("tst_results_aggregated",
-			$this->ctrl->getLinkTargetByClass("ilTestEvaluationGUI", "eval_a"),
-			array("eval_a"),
-			"", "");
-
-		$force_active = (is_numeric($_GET["active_id"]) && $_GET["etype"] == "all") ? true	: false;
-		$tabs_gui->addTarget("eval_all_users", 
-			$this->ctrl->getLinkTargetByClass("ilTestEvaluationGUI", "eval_stat"),
-			array("exportCertificate"),	
-			"", "", $force_active
-		);
-		
-		if ($this->object->object->getTestType() != TYPE_SELF_ASSESSMENT)
-		{
-			$force_active = (is_numeric($_GET["active_id"]) && $_GET["etype"] == "selected") ? true	: false;
-			$tabs_gui->addTarget("eval_selected_users", 
-				$this->ctrl->getLinkTargetByClass("ilTestEvaluationGUI", "evalStatSelected"),
-				array("evalStatSelected", "evalSelectedUsers", "searchForEvaluation",
-				"addFoundUsersToEval", "removeSelectedUser"),	
-				"", "", $force_active
-			);
-		}
-		$ilTabs = $tabs_gui;
-	}	
 }
 
 ?>
