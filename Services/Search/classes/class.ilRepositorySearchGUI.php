@@ -56,6 +56,7 @@ class ilRepositorySearchGUI
 		$this->__loadQueries();
 
 		$this->result_obj = new ilSearchResult();
+		$this->result_obj->setMaxHits(1000000);
 		$this->settings =& new ilSearchSettings();
 
 	}
@@ -562,7 +563,7 @@ class ilRepositorySearchGUI
 			
 		}
 	}
-	function __showSearchUserTable($a_result_set,$a_user_ids = NULL,$a_cmd = "search",$tpl_var = 'RES_TABLE')
+	function __showSearchUserTable($a_result_set,$a_user_ids = NULL,$a_cmd = "performSearch",$tpl_var = 'RES_TABLE')
 	{
 		if(!$a_result_set)
 		{
@@ -816,12 +817,14 @@ class ilRepositorySearchGUI
 				$offset = $_GET["offset"];
 	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
 				$direction = $_GET["sort_order"];
+				$tbl->setLimit(1000000);
 				break;
 				
    			case "role":
 				$offset = $_GET["offset"];
 	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
 				$direction = $_GET["sort_order"];
+				$tbl->setLimit(1000000);
 				break;
 
 			default:
@@ -833,14 +836,13 @@ class ilRepositorySearchGUI
                 }
                 $order = $_GET["sort_by"];
 				$direction = $_GET["sort_order"];
+				$tbl->setLimit($ilUser->getPref('hits_per_page'));
 				break;
 		}
 
 		$tbl->setOrderColumn($order);
 		$tbl->setOrderDirection($direction);
 		$tbl->setOffset($offset);
-		#$tbl->setLimit($ilUser->getPref('hits_per_page'));
-		$tbl->setLimit(1000000);
 		$tbl->setMaxCount(count($result_set));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($result_set);
