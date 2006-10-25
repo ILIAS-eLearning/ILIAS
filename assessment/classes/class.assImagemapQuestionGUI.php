@@ -667,7 +667,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$this->ctrl->setParameterByClass("ilTestOutputGUI", "formtimestamp", time());
 		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");
 		include_once "./assessment/classes/class.ilObjTest.php";
-		if (ilObjTest::_getHidePreviousResults($active_id, true))
+		if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
 		{
 			$pass = ilObjTest::_getPass($active_id);
 			$info =& $this->object->getSolutionValues($active_id, $pass);
@@ -696,7 +696,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		if ($active_id)
 		{
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($active_id, true))
+			if ((!$showsolution) && !ilObjTest::_getUsePreviousAnswers($active_id, true))
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
@@ -826,7 +826,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($active_id, true))
+			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
@@ -842,7 +842,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if ((!$showsolution) && ilObjTest::_getHidePreviousResults($active_id, true))
+			if ((!$showsolution) && !ilObjTest::_getUsePreviousAnswers($active_id, true))
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}

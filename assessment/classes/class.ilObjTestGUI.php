@@ -875,13 +875,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$randomtest_switch = true;
 		}
 		$data["anonymity"] = $_POST["anonymity"];
+		$data["show_cancel"] = $_POST["show_cancel"];
 		$data["password"] = $_POST["password"];
 		$data["allowedUsers"] = $_POST["allowedUsers"];
 		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
 		include_once "./classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$data["introduction"] = $introduction;
-		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
+		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["chb_postpone"]);
 		$data["shuffle_questions"] = 0;
 		if (!$this->object->isRandomTest())
 		{
@@ -980,13 +981,13 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["enable_processing_time"] = "0";
 		}
-		if ($_POST["chb_hide_previous_results"])
+		if ($_POST["chb_use_previous_answers"])
 		{
-			$data["hide_previous_results"] = "1";
+			$data["use_previous_answers"] = "1";
 		}
 		else
 		{
-			$data["hide_previous_results"] = "0";
+			$data["use_previous_answers"] = "0";
 		}
 		if ($_POST["chb_hide_title_points"])
 		{
@@ -1040,6 +1041,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setCountSystem($data["count_system"]);
 		$this->object->setMCScoring($data["mc_scoring"]);
 		$this->object->setAnonymity($data["anonymity"]);
+		$this->object->setShowCancel($data["show_cancel"]);
 		$this->object->setPassword($data["password"]);
 		$this->object->setAllowedUsers($data["allowedUsers"]);
 		$this->object->setAllowedUsersTimeGap($data["allowedUsersTimeGap"]);
@@ -1061,7 +1063,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setProcessingTime($data["processing_time"]);
 		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
-		$this->object->setHidePreviousResults($data["hide_previous_results"]);
+		$this->object->setUsePreviousAnswers($data["use_previous_answers"]);
 		$this->object->setHideTitlePoints($data["hide_title_points"]);
 		if ($this->object->getTestType() == TYPE_ONLINE_TEST) 
 		{
@@ -1073,7 +1075,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if ($this->object->isRandomTest())
 		{
-			$this->object->setHidePreviousResults(1);
+			$this->object->setUsePreviousAnswers(0);
 			$this->object->setRandomTest(1);
 		}
 		else
@@ -1260,6 +1262,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		$data["anonymity"] = $this->object->getAnonymity();
+		$data["show_cancel"] = $this->object->getShowCancel();
 		$data["sel_test_types"] = $this->object->getTestType();
 		$data["introduction"] = $this->object->getIntroduction();
 		$data["sequence_settings"] = $this->object->getSequenceSettings();
@@ -1267,7 +1270,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["instant_verification"] = $this->object->getInstantVerification();
 		$data["reporting_date"] = $this->object->getReportingDate();
 		$data["nr_of_tries"] = $this->object->getNrOfTries();
-		$data["hide_previous_results"] = $this->object->getHidePreviousResults();
+		$data["use_previous_answers"] = $this->object->getUsePreviousAnswers();
 		$data["hide_title_points"] = $this->object->getHideTitlePoints();
 		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
 		$data["processing_time"] = $this->object->getProcessingTime();
@@ -1389,18 +1392,22 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHECKED_ANONYMITY", " checked=\"checked\"");
 		}
+		$this->tpl->setVariable("TEXT_SHOW_CANCEL", $this->lng->txt("tst_show_cancel"));
+		$this->tpl->setVariable("TEXT_SHOW_CANCEL_DESCRIPTION", $this->lng->txt("tst_show_cancel_description"));
+		if ($data["show_cancel"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_CANCEL", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("TEXT_TEST_TYPES", $this->lng->txt("tst_types"));
 		$this->tpl->setVariable("TEST_TYPE_COMMENT", $this->lng->txt("tst_type_comment"));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
 		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($data["introduction"]));
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
-		$this->tpl->setVariable("TEXT_SEQUENCE", $this->lng->txt("tst_sequence"));
-		$this->tpl->setVariable("SEQUENCE_FIXED", $this->lng->txt("tst_sequence_fixed"));
-		$this->tpl->setVariable("SEQUENCE_POSTPONE", $this->lng->txt("tst_sequence_postpone"));
-		if ($data["sequence_settings"] == 0) {
-			$this->tpl->setVariable("SELECTED_FIXED", " selected=\"selected\"");
-		} elseif ($data["sequence_settings"] == 1) {
-			$this->tpl->setVariable("SELECTED_POSTPONE", " selected=\"selected\"");
+		$this->tpl->setVariable("TEXT_POSTPONE", $this->lng->txt("tst_postpone"));
+		$this->tpl->setVariable("TEXT_POSTPONE_DESCRIPTION", $this->lng->txt("tst_postpone_description"));
+		if ($data["sequence_settings"] == 1) 
+		{
+			$this->tpl->setVariable("CHECKED_POSTPONE", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TEXT_SHUFFLE_QUESTIONS", $this->lng->txt("tst_shuffle_questions"));
 		$this->tpl->setVariable("TEXT_SHUFFLE_QUESTIONS_DESCRIPTION", $this->lng->txt("tst_shuffle_questions_description"));
@@ -1490,8 +1497,8 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->setVariable("TEXT_HIDE_PREVIOUS_RESULTS", $this->lng->txt("tst_hide_previous_results"));
-		$this->tpl->setVariable("TEXT_HIDE_PREVIOUS_RESULTS_DESCRIPTION", $this->lng->txt("tst_hide_previous_results_description"));
+		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS", $this->lng->txt("tst_use_previous_answers"));
+		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION", $this->lng->txt("tst_use_previous_answers_description"));
 		$this->tpl->setVariable("TEXT_HIDE_TITLE_POINTS", $this->lng->txt("tst_hide_title_points"));
 		$this->tpl->setVariable("TEXT_HIDE_TITLE_POINTS_DESCRIPTION", $this->lng->txt("tst_hide_title_points_description"));
 		if ($data["hide_title_points"] == 1)
@@ -1500,19 +1507,19 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if ($data["random_test"])
 		{
-			$data["hide_previous_results"] = 1;
+			$data["use_previous_answers"] = 0;
 		}
 		if ($data["sel_test_types"] == TYPE_ONLINE_TEST)
 		{
-			$data["hide_previous_results"] = 0;
+			$data["use_previous_answers"] = 1;
 		}
-		if ($data["hide_previous_results"] == 1)
+		if ($data["use_previous_answers"] == 1)
 		{
-			$this->tpl->setVariable("CHECKED_HIDE_PREVIOUS_RESULTS",  " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_USE_PREVIOUS_ANSWERS",  " checked=\"checked\"");
 		}
 		if (($data["random_test"]) || ($data["sel_test_types"] == TYPE_ONLINE_TEST))
 		{
-			$this->tpl->setVariable("DISABLE_HIDE_PREVIOUS_RESULTS", " disabled=\"disabled\"");
+			$this->tpl->setVariable("DISABLE_USE_PREVIOUS_ANSWERS", " disabled=\"disabled\"");
 		}
 		$this->tpl->setVariable("HEADING_SESSION", $this->lng->txt("tst_session_settings"));
 		$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("tst_nr_of_tries"));
@@ -4483,18 +4490,18 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					if ($this->object->getNrOfTries() != 1)
 					{
-						if ($this->object->getHidePreviousResults() == 1)
+						if ($this->object->getUsePreviousAnswers() == 0)
 						{
-							$info->addProperty($this->lng->txt("tst_hide_previous_results"), $this->lng->txt("tst_hide_previous_results_introduction"));
+							$info->addProperty($this->lng->txt("tst_use_previous_answers"), $this->lng->txt("tst_use_previous_answers_user"));
 						}
 						else
 						{
-							$checked_hide_results = false;
-							if ($ilUser->prefs["tst_hide_previous_results"])
+							$use_previous_answers = TRUE;
+							if (!$ilUser->prefs["tst_use_previous_answers"])
 							{
-								$checked_hide_results = true;
+								$checked_previous_answers = FALSE;
 							}
-							$info->addPropertyCheckbox($this->lng->txt("tst_hide_previous_results"), "chb_hide_previous_results", 1, $this->lng->txt("tst_hide_previous_results_hide"), $checked_hide_results);
+							$info->addPropertyCheckbox($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers", 1, $this->lng->txt("tst_use_previous_answers_user"), $checked_previous_answers);
 						}
 					}
 				}

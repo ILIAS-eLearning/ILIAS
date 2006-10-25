@@ -179,14 +179,14 @@ class ilObjTest extends ilObject
   var $nr_of_tries;
 
 /**
-* Tells ILIAS to hide the previous results of a learner in a later test pass
+* Tells ILIAS to use the previous answers of a learner in a later test pass
 * 
-* Tells ILIAS to hide the previous results of a learner in a later test pass
-* The default is 0 which shows the previous results in the next pass.
+* Tells ILIAS to use the previous answers of a learner in a later test pass
+* The default is 1 which shows the previous answers in the next pass.
 *
 * @var integer
 */
-	var $hide_previous_results;
+	var $use_previous_answers;
 
 /**
 * Tells ILIAS to hide the maximum points of a question in the question title
@@ -387,6 +387,13 @@ class ilObjTest extends ilObject
 */
 	var $anonymity;
 	
+/**
+* determines wheather a cancel test button is shown or not
+*
+* @var int
+*/
+	var $show_cancel;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -410,7 +417,7 @@ class ilObjTest extends ilObject
 		$this->instant_verification = 0;
 		$this->reporting_date = "";
 		$this->nr_of_tries = 0;
-		$this->hide_previous_results = 0;
+		$this->use_previous_answers = 1;
 		$this->hide_title_points = 0;
 		$this->starting_time = "";
 		$this->ending_time = "";
@@ -434,6 +441,7 @@ class ilObjTest extends ilObject
 		$this->allowedUsers = "";
 		$this->allowedUsersTimeGap = "";
 		$this->anonymity = 0;
+		$this->show_cancel = 1;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -1209,7 +1217,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, anonymity, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, anonymity, show_cancel, nr_of_tries, use_previous_answers, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote($this->test_type . ""),
@@ -1218,8 +1226,9 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->score_reporting . ""),
 				$ilDB->quote($this->instant_verification . ""),
 				$ilDB->quote($this->getAnonymity() . ""),
+				$ilDB->quote($this->getShowCancel() . ""),
 				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
-				$ilDB->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
+				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
 				$ilDB->quote($this->processing_time . ""),
 				$ilDB->quote("$this->enable_processing_time"),
@@ -1275,7 +1284,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, show_cancel = %s, nr_of_tries = %s, use_previous_answers = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->getAuthor() . ""), 
         $ilDB->quote($this->test_type . ""), 
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
@@ -1283,8 +1292,9 @@ class ilObjTest extends ilObject
         $ilDB->quote($this->score_reporting . ""), 
         $ilDB->quote($this->instant_verification . ""), 
 				$ilDB->quote($this->getAnonymity() . ""),
+				$ilDB->quote($this->getShowCancel() . ""),
         $ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
-				$ilDB->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
+				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
         $ilDB->quote($this->processing_time . ""),
 				$ilDB->quote("$this->enable_processing_time"),
@@ -1751,8 +1761,9 @@ class ilObjTest extends ilObject
 				$this->score_reporting = $data->score_reporting;
 				$this->instant_verification = $data->instant_verification;
 				$this->anonymity = $data->anonymity;
+				$this->show_cancel = $data->show_cancel;
 				$this->nr_of_tries = $data->nr_of_tries;
-				$this->setHidePreviousResults($data->hide_previous_results);
+				$this->setUsePreviousAnswers($data->use_previous_answers);
 				$this->setHideTitlePoints($data->hide_title_points);
 				$this->processing_time = $data->processing_time;
 				$this->enable_processing_time = $data->enable_processing_time;
@@ -2293,17 +2304,17 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Returns if the previous results should be hidden for a learner
+* Returns if the previous answers should be shown for a learner
 * 
-* Returns if the previous results should be hidden for a learner
+* Returns if the previous answers should be shown for a learner
 *
-* @return integer 1 if the previous results should be hidden, 0 otherwise
+* @return integer 1 if the previous answers should be shown, 0 otherwise
 * @access public
-* @see $hide_previous_results
+* @see $use_previous_answers
 */
-  function getHidePreviousResults() 
+  function getUsePreviousAnswers() 
 	{
-    return $this->hide_previous_results;
+    return $this->use_previous_answers;
   }
 
 /**
@@ -2352,41 +2363,39 @@ class ilObjTest extends ilObject
 * Returns if the previous results should be hidden for a learner
 *
 * @param integer $test_id The test id
-* @param boolean $use_active_user_setting If true, the tst_hide_previous_results of the active user should be used as well
+* @param boolean $use_active_user_setting If true, the tst_use_previous_answers- of the active user should be used as well
 * @return integer 1 if the previous results should be hidden, 0 otherwise
 * @access public
-* @see $hide_previous_results
+* @see $use_previous_answers
 */
-  function _getHidePreviousResults($active_id, $user_active_user_setting = false) 
+  function _getUsePreviousAnswers($active_id, $user_active_user_setting = false) 
 	{
 		global $ilDB;
 		global $ilUser;
 		
-		$user_hide_previous_results = 0;
-		if ($user_active_user_setting)
-		{
-			if (array_key_exists("tst_hide_previous_results", $ilUser->prefs))
-			{
-				$user_hide_previous_results = $ilUser->prefs["tst_hide_previous_results"];
-			}
-		}
-		$query = sprintf("SELECT tst_tests.hide_previous_results FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+		$use_previous_answers = 1;
+
+		$query = sprintf("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
 			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($row["hide_previous_results"] != 1)
+			$use_previous_answers = $row["use_previous_answers"];
+		}
+
+		if ($use_previous_answers == 1)
+		{
+			if ($user_active_user_setting)
 			{
-				return $row["hide_previous_results"] | $user_hide_previous_results;
-			}
-			else
-			{
-				return $row["hide_previous_results"];
+				if (array_key_exists("tst_use_previous_answers", $ilUser->prefs))
+				{
+					$use_previous_answers = $ilUser->prefs["tst_use_previous_answers"];
+				}
 			}
 		}
-		return 0;
+		return $use_previous_answers;
   }
 
 /**
@@ -2481,23 +2490,23 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Sets the status of the visibility of previous learner results
+* Sets the status of the visibility of previous learner answers
 * 
-* Sets the status of the visibility of previous learner results
+* Sets the status of the visibility of previous learner answers
 **
-* @param integer $hide_previous_results 1 if the previous results should be hidden.
+* @param integer $use_previous_answers 1 if the previous answers should be shown
 * @access public
-* @see $hide_previous_results
+* @see $use_previous_answers
 */
-  function setHidePreviousResults($hide_previous_results = 0) 
+  function setUsePreviousAnswers($use_previous_answers = 1) 
 	{
-		if ($hide_previous_results)
+		if ($use_previous_answers)
 		{
-			$this->hide_previous_results = 1;
+			$this->use_previous_answer = 1;
 		}
 		else
 		{
-			$this->hide_previous_results = 0;
+			$this->use_previous_answers = 0;
 		}
   }
 
@@ -5162,7 +5171,17 @@ class ilObjTest extends ilObject
 					$this->setNrOfTries($metadata["entry"]);
 					break;
 				case "hide_previous_results":
-					$this->setHidePreviousResults($metadata["entry"]);
+					if ($metadata["entry"] == 0)
+					{
+						$this->setUsePreviousAnswers(1);
+					}
+					else
+					{
+						$this->setUsePreviousAnswers(0);
+					}
+					break;
+				case "use_previous_answers":
+					$this->setUsePreviousAnswers($metadata["entry"]);
 					break;
 				case "hide_title_points":
 					$this->setHideTitlePoints($metadata["entry"]);
@@ -5184,6 +5203,9 @@ class ilObjTest extends ilObject
 					break;
 				case "anonymity":
 					$this->setAnonymity($metadata["entry"]);
+					break;
+				case "show_cancel":
+					$this->setShowCancel($metadata["entry"]);
 					break;
 				case "score_reporting":
 					$this->setScoreReporting($metadata["entry"]);
@@ -5390,10 +5412,10 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
-		// hide previous results
+		// use previous answers
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "hide_previous_results");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getHidePreviousResults());
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "use_previous_answers");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getUsePreviousAnswers());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// hide title points
@@ -5438,10 +5460,16 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getInstantVerification()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
-		// solution details
+		// anonymity
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "anonymity");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnonymity()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// show cancel
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_cancel");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowCancel()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// solution printview
@@ -5979,10 +6007,11 @@ class ilObjTest extends ilObject
 		$newObj->score_reporting = $original->getScoreReporting();
 		$newObj->instant_verification = $original->getInstantVerification();
 		$newObj->setAnonymity($original->getAnonymity());
+		$newObj->setShowCancel($original->getShowCancel());
 		$newObj->reporting_date = $original->getReportingDate();
 		$newObj->test_type = $original->getTestType();
 		$newObj->nr_of_tries = $original->getNrOfTries();
-		$newObj->setHidePreviousResults($original->getHidePreviousResults());
+		$newObj->setUsePreviousAnswers($original->getUsePreviousAnswers());
 		$newObj->processing_time = $original->getProcessingTime();
 		$newObj->enable_processing_time = $original->getEnableProcessingTime();
 		$newObj->starting_time = $original->getStartingTime();
@@ -7870,6 +7899,40 @@ class ilObjTest extends ilObject
 				break;
 			default:
 				$this->anonymity = 0;
+				break;
+		}
+	}
+	
+	/**
+	* Returns wheather the cancel test button is shown or not
+	*
+	* Returns wheather the cancel test button is shown or not
+	*
+	* @return integer The value for the show cancel status (0 = don't show, 1 = show)
+	* @access public
+	*/
+	function getShowCancel()
+	{
+		return $this->show_cancel;
+	}
+	
+	/**
+	* Sets the cancel test button status
+	*
+	* Sets the cancel test button status
+	*
+	* @param integer $a_value The value for the cancel test status (0 = don't show, 1 = show)
+	* @access public
+	*/
+	function setShowCancel($a_value = 1)
+	{
+		switch ($a_value)
+		{
+			case 1:
+				$this->show_cancel = 1;
+				break;
+			default:
+				$this->show_cancel = 0;
 				break;
 		}
 	}

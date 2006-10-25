@@ -710,7 +710,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			$solutions = NULL;
 			include_once "./assessment/classes/class.ilObjTest.php";
-			if (ilObjTest::_getHidePreviousResults($active_id, true))
+			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}

@@ -446,7 +446,7 @@ class ilTestOutputGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if (!$this->object->isOnlineTest()) 
+		if ($this->object->getShowCancel()) 
 		{
 			$this->tpl->setCurrentBlock("cancel_test");
 			$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
@@ -684,17 +684,17 @@ class ilTestOutputGUI
 		// hide previous results
 		if ($this->object->getNrOfTries() != 1)
 		{
-			if ($this->object->getHidePreviousResults() != 1)
+			if ($this->object->getUsePreviousAnswers() == 1)
 			{
-				if ($_POST["chb_hide_previous_results"])
+				if ($_POST["chb_use_previous_answers"])
 				{
-					$ilUser->setPref("tst_hide_previous_results", 1);
-					$ilUser->writePref("tst_hide_previous_results", 1);
+					$ilUser->setPref("tst_use_previous_answers", 1);
+					$ilUser->writePref("tst_use_previous_answers", 1);
 				}
 				else
 				{
-					$ilUser->setPref("tst_hide_previous_results", 0);
-					$ilUser->writePref("tst_hide_previous_results", 0);
+					$ilUser->setPref("tst_use_previous_answers", 0);
+					$ilUser->writePref("tst_use_previous_answers", 0);
 				}
 			}
 		}
