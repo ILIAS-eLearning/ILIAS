@@ -6,7 +6,7 @@
 	</tr>
 </thead>
 <tr>
-  <td class="option">{TEXT_TEST_TYPES}:</td>
+  <td class="option">{TEXT_TEST_TYPES}</td>
   <td class="option_value"><select name="sel_test_types"{ENABLED_TEST_TYPES}>
 <!-- BEGIN test_types -->  
   <option value="{VALUE_TEST_TYPE}"{SELECTED_TEST_TYPE}>{TEXT_TEST_TYPE}</option>
@@ -18,63 +18,83 @@
   </td>
 </tr>
 <tr>
-  <td class="option"><label for="anonymity">{TEXT_ANONYMITY}:</label></td>
+  <td class="option"><label for="anonymity">{TEXT_ANONYMITY}</label></td>
   <td class="option_value"><input type="checkbox" name="anonymity" id="anonymity" value="1"{CHECKED_ANONYMITY} /><br /><label for="anonymity"><em>{DESCRIPTION_ANONYMITY}</em></label></td>
 </tr>
 <tr>
-  <td class="option"><label for="chb_random">{TEXT_RANDOM_TEST}:</label></td>
+  <td class="option"><label for="chb_random">{TEXT_RANDOM_TEST}</label></td>
   <td class="option_value">
 		<input type="checkbox" name="chb_random" id="chb_random" value="1"{CHECKED_RANDOM_TEST}{ENABLED_RANDOM_TEST} />
 		<br /><label for="chb_random"><em>{TEXT_RANDOM_TEST_DESCRIPTION}</em></label>
 	</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_INTRODUCTION}:</td>
-  <td class="option_value"><textarea name="introduction" id="introduction" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_INTRODUCTION}</textarea></td>
+  <td class="option">{TEXT_INTRODUCTION}</td>
+  <td class="option_value"><textarea name="introduction" id="introduction" rows="10" cols="80" wrap="virtual" style="width95%;">{VALUE_INTRODUCTION}</textarea></td>
 </tr>
 <tr class="tblheader">
   <th colspan="2">{HEADING_SEQUENCE}</th>
 </tr>
 <tr>
-  <td class="option">{TEXT_SEQUENCE}:</td>
-  <td class="option_value"><select name="sequence_settings" {DISABLE_SEQUENCE}><option value="0"{SELECTED_FIXED}>{SEQUENCE_FIXED}</option><option value="1"{SELECTED_POSTPONE}>{SEQUENCE_POSTPONE}</option></select>
+  <td class="option"><label for="chb_postpone">{TEXT_POSTPONE}</label></td>
+  <td class="option_value">
+		<input type="checkbox" name="chb_postpone" id="chb_postpone" value="1"{CHECKED_POSTPONE} />
+		<br />
+		<label for="chb_postpone"><em>{TEXT_POSTPONE_DESCRIPTION}</em></label>
+	</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_SHUFFLE_QUESTIONS}:</td>
-  <td class="option_value"><input type="checkbox" name="chb_shuffle_questions" id="chb_shuffle_questions" value="1"{CHECKED_SHUFFLE_QUESTIONS} {DISABLE_SHUFFLE_QUESTIONS} /> <label for="chb_shuffle_questions">{TEXT_SHUFFLE_QUESTIONS_DESCRIPTION}</label></td>
+  <td class="option"><label for="chb_shuffle_questions">{TEXT_SHUFFLE_QUESTIONS}</label></td>
+  <td class="option_value">
+		<input type="checkbox" name="chb_shuffle_questions" id="chb_shuffle_questions" value="1"{CHECKED_SHUFFLE_QUESTIONS} {DISABLE_SHUFFLE_QUESTIONS} />
+		<br />
+		<label for="chb_shuffle_questions"><em>{TEXT_SHUFFLE_QUESTIONS_DESCRIPTION}</em></label>
+	</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_SHOW_SUMMARY}:</td>
-  <td class="option_value"><input type="checkbox" name="chb_show_summary" id="chb_show_summary" value="1"{CHECKED_SHOW_SUMMARY} {DISABLE_SHOW_SUMMARY} /> <label for="chb_show_summary">{TEXT_SHOW_SUMMARY_DESCRIPTION}</label></td>
+  <td class="option"><label for="chb_show_summary">{TEXT_SHOW_SUMMARY}</label></td>
+  <td class="option_value">
+		<input type="checkbox" name="chb_show_summary" id="chb_show_summary" value="1"{CHECKED_SHOW_SUMMARY} {DISABLE_SHOW_SUMMARY} />
+		<br />
+		<label for="chb_show_summary"><em>{TEXT_SHOW_SUMMARY_DESCRIPTION}</em></label>
+	</td>
+</tr>
+<tr>
+  <td class="option"><label for="chb_show_cancel">{TEXT_SHOW_CANCEL}</label></td>
+  <td class="option_value">
+		<input type="checkbox" name="chb_show_cancel" id="chb_show_cancel" value="1"{CHECKED_SHOW_CANCEL} {DISABLE_SHOW_CANCEL} />
+		<br />
+		<label for="chb_show_cancel"><em>{TEXT_SHOW_CANCEL_DESCRIPTION}</em></label>
+	</td>
 </tr>
 <tr class="tblheader">
   <th colspan="2">{HEADING_SCORING}</th>
 </tr>
 <tr>
-  <td class="option">{TEXT_COUNT_SYSTEM}:</td>
+  <td class="option">{TEXT_COUNT_SYSTEM}</td>
   <td class="option_value"><select name="count_system"{DISABLE_COUNT_SYSTEM}><option value="0"{SELECTED_PARTIAL}>{COUNT_PARTIAL_SOLUTIONS}</option><option value="1"{SELECTED_CORRECT}>{COUNT_CORRECT_SOLUTIONS}</option></select>
 </tr>
 <tr>
-  <td class="option">{TEXT_SCORE_MCMR}:</td>
+  <td class="option">{TEXT_SCORE_MCMR}</td>
   <td class="option_value"><select name="mc_scoring"{DISABLE_MC_SCORING}><option value="0"{SELECTED_ANTICHEAT}>{ZERO_POINTS_WHEN_UNANSWERED}</option><option value="1"{SELECTED_STANDARD}>{USE_SCORING_SYSTEM}</option></select>
 </tr>
 <tr>
-  <td class="option">{TEXT_PASS_SCORING}:</td>
+  <td class="option">{TEXT_PASS_SCORING}</td>
   <td class="option_value"><select name="pass_scoring" {DISABLE_PASS_SCORING}><option value="0"{SELECTED_LASTPASS}>{TEXT_LASTPASS}</option><option value="1"{SELECTED_BESTPASS}>{TEXT_BESTPASS}</option></select>
 </tr>
 <tr>
-  <td class="option">{TEXT_SCORE_CUTTING}:</td>
+  <td class="option">{TEXT_SCORE_CUTTING}</td>
   <td class="option_value"><select name="score_cutting"{DISABLE_SCORE_CUTTING}><option value="0"{SELECTED_CUT_QUESTION}>{TEXT_CUT_QUESTION}</option><option value="1"{SELECTED_CUT_TEST}>{TEXT_CUT_TEST}</option></select>
 </tr>
 <tr class="tblheader">
   <th colspan="2">{HEADING_SCORE}</th>
 </tr>
 <tr>
-  <td class="option">{TEXT_VERIFICATION}:</td>
+  <td class="option">{TEXT_VERIFICATION}</td>
   <td class="option_value"><input type="checkbox" name="chb_instant_verification" id="chb_instant_verification" value="1"{CHECKED_INSTANT_VERIFICATION}{DISABLED_INSTANT_VERIFICATION}/> <label for="chb_instant_verification">{TEXT_INSTANT_VERIFICATION}</label></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_SCORE_TYPE}:</td>
+  <td class="option">{TEXT_SCORE_TYPE}</td>
   <td class="option_value">
 		<select name="score_reporting"{DISABLE_SCORE_REPORTING}>
 			<option value="1"{SELECTED_TEST}>{REPORT_AFTER_TEST}</option>
@@ -84,60 +104,67 @@
 </tr>
 <!-- BEGIN reporting_date -->
 <tr>
-  <td class="option">{TEXT_SCORE_DATE}:</td>
+  <td class="option">{TEXT_SCORE_DATE}</td>
   <td class="option_value"><input type="checkbox" name="chb_reporting_date" id="chb_reporting_date" value="1"{CHECKED_REPORTING_DATE} {DISABLE_SCORE_REPORTING_DATE_CHECKBOX} /> <label for="chb_reporting_date">{TXT_ENABLED}</label><br>{INPUT_REPORTING_DATE} <input type="image" alt="{TXT_REPORTING_DATE_CALENDAR}" title="{TXT_REPORTING_DATE_CALENDAR}" src="{IMG_REPORTING_DATE_CALENDAR}" id="btn_cal_reporting_date" /></td>
 </tr>
 <!-- END reporting_date -->
 <tr>
-  <td class="option">{TEXT_SHOW_SOLUTION_DETAILS}:</td>
+  <td class="option">{TEXT_SHOW_SOLUTION_DETAILS}</td>
   <td class="option_value"><input type="checkbox" name="chb_show_solution_details" id="chb_show_solution_details" value="1"{CHECKED_SHOW_SOLUTION_DETAILS} {DISABLE_SHOW_SOLUTION_DETAILS} /> <label for="chb_show_solution_details">{TEXT_SHOW_SOLUTION_DETAILS_DESCRIPTION}</label></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_SHOW_SOLUTION_PRINTVIEW}:</td>
-  <td class="option_value"><input type="checkbox" name="chb_show_solution_printview" id="chb_show_solution_printview" value="1"{CHECKED_SHOW_SOLUTION_PRINTVIEW} {DISABLE_SHOW_SOLUTION_PRINTVIEW} /> <label for="chb_show_solution_printview">{TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION}</label></td>
+  <td class="option"><label for="chb_show_solution_printview">{TEXT_SHOW_SOLUTION_PRINTVIEW}</label></td>
+  <td class="option_value">
+		<input type="checkbox" name="chb_show_solution_printview" id="chb_show_solution_printview" value="1"{CHECKED_SHOW_SOLUTION_PRINTVIEW} {DISABLE_SHOW_SOLUTION_PRINTVIEW} />
+		<br />
+		<label for="chb_show_solution_printview"><em>{TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION}</em></label></td>
 </tr>
 <tr class="tblheader">
   <th colspan="2">{HEADING_SESSION}</th>
 </tr>
 <tr>
-  <td class="option">{TEXT_NR_OF_TRIES}:</td>
+  <td class="option">{TEXT_NR_OF_TRIES}</td>
   <td class="option_value"><input type="text" name="nr_of_tries" value="{VALUE_NR_OF_TRIES}" size="8" {DISABLE_NR_OF_TRIES} />{COMMENT_NR_OF_TRIES}</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_HIDE_PREVIOUS_RESULTS}:</td>
-  <td class="option_value"><input type="checkbox" name="chb_hide_previous_results" id="chb_hide_previous_results" value="1"{CHECKED_HIDE_PREVIOUS_RESULTS} {DISABLE_HIDE_PREVIOUS_RESULTS} /> <label for="chb_hide_previous_results">{TEXT_HIDE_PREVIOUS_RESULTS_DESCRIPTION}</label></td>
+  <td class="option"><label for="chb_use_previous_answers">{TEXT_USE_PREVIOUS_ANSWERS}</em></td> 
+  <td class="option_value">
+		<input type="checkbox" name="chb_use_previous_answers" id="chb_use_previous_answers" value="1"{CHECKED_USE_PREVIOUS_ANSWERS} {DISABLE_USE_PREVIOUS_ANSWERS} />
+		<br />
+		<label for="chb_use_previous_answers"><em>{TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION}</em></label>
+	</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_HIDE_TITLE_POINTS}:</td>
+  <td class="option">{TEXT_HIDE_TITLE_POINTS}</td>
   <td class="option_value"><input type="checkbox" name="chb_hide_title_points" id="chb_hide_title_points" value="1"{CHECKED_HIDE_TITLE_POINTS} /> <label for="chb_hide_title_points">{TEXT_HIDE_TITLE_POINTS_DESCRIPTION}</label></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_PROCESSING_TIME}:</td>
+  <td class="option">{TEXT_PROCESSING_TIME}</td>
   <td class="option_value"><input type="checkbox" name="chb_processing_time" id="chb_processing_time" value="1"{CHECKED_PROCESSING_TIME} /> <label for="chb_processing_time">{TXT_ENABLED}</label><br />
 		{MAX_PROCESSING_TIME}</td>
 </tr>
 <!-- BEGIN starting_time -->
 <tr>
-  <td class="option">{TEXT_STARTING_TIME}:</td>
+  <td class="option">{TEXT_STARTING_TIME}</td>
   <td class="option_value"><input type="checkbox" name="chb_starting_time" id="chb_starting_time" value="1"{CHECKED_STARTING_TIME} /> <label for="chb_starting_time">{TXT_ENABLED}</label><br>{INPUT_STARTING_TIME} <input type="image" alt="{TXT_STARTING_TIME_CALENDAR}" title="{TXT_STARTING_TIME_CALENDAR}" src="{IMG_STARTING_TIME_CALENDAR}" id="btn_cal_starting_time" /></td>
 </tr>
 <!-- END starting_time -->
 <!-- BEGIN ending_time -->
 <tr>
-  <td class="option">{TEXT_ENDING_TIME}:</td>
+  <td class="option">{TEXT_ENDING_TIME}</td>
   <td class="option_value"><input type="checkbox" name="chb_ending_time" id="chb_ending_time" value="1"{CHECKED_ENDING_TIME} /> <label for="chb_ending_time">{TXT_ENABLED}</label><br>{INPUT_ENDING_TIME} <input type="image" alt="{TXT_ENDING_TIME_CALENDAR}" title="{TXT_ENDING_TIME_CALENDAR}" src="{IMG_ENDING_TIME_CALENDAR}" id="btn_cal_ending_time" /></td>
 </tr>
 <!-- END ending_time -->
 <tr>
-  <td class="option">{TEXT_MAX_ALLOWED_USERS}:</td>
+  <td class="option">{TEXT_MAX_ALLOWED_USERS}</td>
   <td class="option_value">
-		{TEXT_ALLOWED_USERS}: <input type="text" name="allowedUsers" size="3"{VALUE_ALLOWED_USERS} />
+		{TEXT_ALLOWED_USERS} <input type="text" name="allowedUsers" size="3"{VALUE_ALLOWED_USERS} />
 		<br />
-		{TEXT_ALLOWED_USERS_TIME_GAP}: <input type="text" name="allowedUsersTimeGap" size="4"{VALUE_ALLOWED_USERS_TIME_GAP} /> {SECONDS}
+		{TEXT_ALLOWED_USERS_TIME_GAP} <input type="text" name="allowedUsersTimeGap" size="4"{VALUE_ALLOWED_USERS_TIME_GAP} /> {SECONDS}
 	</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_PASSWORD}:</td>
+  <td class="option">{TEXT_PASSWORD}</td>
   <td class="option_value"><input type="text" name="password" size="20"{VALUE_PASSWORD} /><br /><em>{TEXT_PASSWORD_DETAILS}</em></td>
 </tr>
 <tr><td colspan="2" class="submit">
@@ -154,20 +181,20 @@
 <script type="text/javascript">
 	Calendar.setup( 
 		{ 
-			button : "btn_cal_starting_time",
-			inputFieldsDate : "{INPUT_FIELDS_STARTING_DATE}"
+			button  "btn_cal_starting_time",
+			inputFieldsDate  "{INPUT_FIELDS_STARTING_DATE}"
 		} 
 	); 
 	Calendar.setup( 
 		{ 
-			button : "btn_cal_ending_time",
-			inputFieldsDate : "{INPUT_FIELDS_ENDING_DATE}"
+			button  "btn_cal_ending_time",
+			inputFieldsDate  "{INPUT_FIELDS_ENDING_DATE}"
 		} 
 	);
 	Calendar.setup( 
 		{ 
-			button : "btn_cal_reporting_date",
-			inputFieldsDate : "{INPUT_FIELDS_REPORTING_DATE}"
+			button  "btn_cal_reporting_date",
+			inputFieldsDate  "{INPUT_FIELDS_REPORTING_DATE}"
 		} 
 	); 
 </script> 

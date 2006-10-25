@@ -11649,4 +11649,12 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE `tst_tests` ADD `anonymity` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `instant_verification`;
 <#825>
 UPDATE tst_tests SET anonymity = '1' WHERE test_type_fi = 2;
+<#826>
+ALTER TABLE `tst_tests` ADD `show_cancel` ENUM( '0', '1' ) NOT NULL DEFAULT '1' AFTER `instant_verification`;
+<#827>
+ALTER TABLE `tst_tests` ADD `use_previous_answers` ENUM( '0', '1' ) NOT NULL DEFAULT '1' AFTER `hide_previous_results`;
+<#828>
+UPDATE tst_tests SET use_previous_answers = '0' WHERE hide_previous_results = '1';
+<#829>
+ALTER TABLE `tst_tests` DROP `hide_previous_results`;
 

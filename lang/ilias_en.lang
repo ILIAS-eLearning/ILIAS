@@ -652,6 +652,8 @@ assessment#:#tst_password_entered_wrong_password#:#You cannot start the test bec
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test
 assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_position#:#Question %s of %s
+assessment#:#tst_postpone#:#Postpone Questions
+assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test
 assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_processing_time#:#Max. processing time
@@ -713,16 +715,20 @@ assessment#:#tst_select_tsts#:#Please select a test for duplication
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
-assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
 assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
 assessment#:#tst_show_answer_print_sheet#:#Answers Printview
 assessment#:#tst_show_answer_sheet#:#Show answers
+assessment#:#tst_show_cancel#:#Show Suspend Test Option
+assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution
+assessment#:#tst_use_previous_answers#:#Use Previous Answers
+assessment#:#tst_use_previous_answers_description#:#If checked, the previous answers of a participant will be used as default values in future test passes
+assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
 assessment#:#tst_show_results#:#Show test results
 assessment#:#tst_show_solution_details#:#Score details
 assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions
-assessment#:#tst_show_solution_printview#:#Solution printview
-assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing
+assessment#:#tst_show_solution_printview#:#Show List of Answers
+assessment#:#tst_show_solution_printview_description#:#If List of Answers is enabled, an overview of all answered questions for a test participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission
 assessment#:#tst_show_summary#:#Show question summary
 assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test
 assessment#:#tst_shuffle_questions#:#Shuffle questions
