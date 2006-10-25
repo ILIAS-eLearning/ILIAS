@@ -457,13 +457,17 @@ class ilObjSAHSLearningModule extends ilObject
 		include_once("content/classes/SCORM/class.ilSCORMTree.php");
 		include_once("content/classes/SCORM/class.ilSCORMObject.php");
 		$sc_tree = new ilSCORMTree($this->getId());
-		$items = $sc_tree->getSubTree($sc_tree->getNodeData($sc_tree->readRootId()));
-		foreach($items as $item)
+		$r_id = $sc_tree->readRootId();
+		if ($r_id > 0)
 		{
-			$sc_object =& ilSCORMObject::_getInstance($item["obj_id"]);
-			$sc_object->delete();
+			$items = $sc_tree->getSubTree($sc_tree->getNodeData($r_id));
+			foreach($items as $item)
+			{
+				$sc_object =& ilSCORMObject::_getInstance($item["obj_id"]);
+				$sc_object->delete();
+			}
+			$sc_tree->removeTree($sc_tree->getTreeId());
 		}
-		$sc_tree->removeTree($sc_tree->getTreeId());
 
 
 		// always call parent delete function at the end!!
