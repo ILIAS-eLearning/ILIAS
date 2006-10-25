@@ -68,6 +68,10 @@ class ilSearchResult
 		{
 			$this->user_id = $ilUser->getId();
 		}
+
+		$this->__initSearchSettingsObject();
+		$this->setMaxHits($this->search_settings->getMaxHits());
+
 		$this->db =& $ilDB;
 	}
 
@@ -104,6 +108,14 @@ class ilSearchResult
 		return $this->limit_reached ? true : false;
 	}
 
+	function setMaxHits($a_max_hits)
+	{
+		$this->max_hits = $a_max_hits;
+	}
+	function getMaxHits()
+	{
+		return $this->max_hits;
+	}
 
 
 	/**
@@ -328,7 +340,7 @@ class ilSearchResult
 					$this->addResult($entry['obj_id'],$entry['obj_id'],$type);
 					$counter += count($entry['child']);
 					// Stop if maximum of hits is reached
-					if(++$counter > $this->search_settings->getMaxHits())
+					if(++$counter > $this->getMaxHits())
 					{
 						$this->limit_reached = true;
 						return true;
@@ -358,7 +370,7 @@ class ilSearchResult
 							
 							$counter += count($entry['child']);
 							// Stop if maximum of hits is reached
-							if(++$counter > $this->search_settings->getMaxHits())
+							if(++$counter > $this->getMaxHits())
 							{
 								$this->limit_reached = true;
 								return true;
