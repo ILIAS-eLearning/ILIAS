@@ -565,6 +565,8 @@ assessment#:#tst_allowed_users#:#Maximum number of users running the test simult
 assessment#:#tst_allowed_users_time_gap#:#Idle time for active users
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests already taken
+assessment#:#tst_anonymity#:#Anonymity
+assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions#:#Answered questions
 assessment#:#tst_best_solution_is#:#The best solution is

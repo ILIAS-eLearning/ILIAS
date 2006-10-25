@@ -449,7 +449,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			case 'tst':
 				include_once 'assessment/classes/class.ilObjTest.php';
 
-				if(ilObjTest::_lookupTestType($a_obj_id) == TYPE_SELF_ASSESSMENT)
+				if(ilObjTest::_lookupAnonymity($a_obj_id))
 				{
 					return true;
 				}

@@ -11645,4 +11645,8 @@ if ($certificate_visibility == FALSE)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#824>
+ALTER TABLE `tst_tests` ADD `anonymity` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `instant_verification`;
+<#825>
+UPDATE tst_tests SET anonymity = '1' WHERE test_type_fi = 2;
 

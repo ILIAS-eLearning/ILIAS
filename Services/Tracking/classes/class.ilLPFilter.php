@@ -341,7 +341,7 @@ class ilLPFilter
 			{
 				case 'tst':
 					include_once 'assessment/classes/class.ilObjTest.php';
-					if(ilObjTest::_lookupTestType($a_data['obj_id']) == TYPE_SELF_ASSESSMENT)
+					if(ilObjTest::_lookupAnonymity($a_data['obj_id']))
 					{
 						return false;
 					}

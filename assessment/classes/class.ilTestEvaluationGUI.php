@@ -552,7 +552,7 @@ class ilTestEvaluationGUI
 		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_user_answer.html", true, true);
 		$this->tpl->setVariable("TITLE_USER_ANSWER", $this->lng->txt("tst_eval_user_answer"));
 		$this->tpl->setVariable("TEXT_USER", $this->lng->txt("user"));
-		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
+		if ($this->object->getAnonymity())
 		{
 			$this->tpl->setVariable("TEXT_USERNAME", $this->lng->txt("unknown"));
 		}
@@ -760,7 +760,7 @@ class ilTestEvaluationGUI
 			$this->ctrl->setParameter($this, "sortname", "desc");
 		}
 		$name_column = $this->lng->txt("name");
-		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
+		if ($this->object->getAnonymity())
 		{
 			$name_column = $this->lng->txt("counter");
 		}
@@ -964,7 +964,7 @@ class ilTestEvaluationGUI
 
 			$evalrow = array();
 			$username = $this->lng->txt("user") . " " . $evalcounter++; 
-			if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+			if (!$this->object->getAnonymity())
 			{
 				$username = $selected_users[$key];
 			}
@@ -1739,7 +1739,7 @@ class ilTestEvaluationGUI
 		include_once "./classes/class.ilObjUser.php";
 		$uname = ilObjUser::_lookupName($user_id);
 		$struname = trim($uname["title"] . " " . $uname["firstname"] . " " . $uname["lastname"]);
-		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+		if (!$this->object->getAnonymity())
 		{
 			include_once "./classes/class.ilObjUser.php";
 			$uname = ilObjUser::_lookupName($user_id);
@@ -1817,7 +1817,7 @@ class ilTestEvaluationGUI
 			"", "", $force_active
 		);
 		
-		if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+		if (!$this->object->getAnonymity())
 		{
 			$force_active = (is_numeric($_GET["active_id"]) && $_GET["etype"] == "selected") ? true	: false;
 			$tabs_gui->addTarget("eval_selected_users", 

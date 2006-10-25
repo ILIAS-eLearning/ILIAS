@@ -380,6 +380,13 @@ class ilObjTest extends ilObject
 */
 	var $certificate_visibility;
 
+/**
+* Anonymity of the test users
+*
+* @var int
+*/
+	var $anonymity;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -426,6 +433,7 @@ class ilObjTest extends ilObject
 		$this->certificate_visibility = 0;
 		$this->allowedUsers = "";
 		$this->allowedUsersTimeGap = "";
+		$this->anonymity = 0;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -1201,7 +1209,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, anonymity, nr_of_tries, hide_previous_results, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote($this->test_type . ""),
@@ -1209,6 +1217,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
 				$ilDB->quote($this->instant_verification . ""),
+				$ilDB->quote($this->getAnonymity() . ""),
 				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
 				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
@@ -1266,13 +1275,14 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, nr_of_tries = %s, hide_previous_results = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->getAuthor() . ""), 
         $ilDB->quote($this->test_type . ""), 
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
         $ilDB->quote($this->sequence_settings . ""), 
         $ilDB->quote($this->score_reporting . ""), 
         $ilDB->quote($this->instant_verification . ""), 
+				$ilDB->quote($this->getAnonymity() . ""),
         $ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getHidePreviousResults() . "")),
 				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
@@ -1740,6 +1750,7 @@ class ilObjTest extends ilObject
 				$this->sequence_settings = $data->sequence_settings;
 				$this->score_reporting = $data->score_reporting;
 				$this->instant_verification = $data->instant_verification;
+				$this->anonymity = $data->anonymity;
 				$this->nr_of_tries = $data->nr_of_tries;
 				$this->setHidePreviousResults($data->hide_previous_results);
 				$this->setHideTitlePoints($data->hide_title_points);
@@ -5182,6 +5193,12 @@ class ilObjTest extends ilObject
 				case "show_solution_printview":
 					$this->setShowSolutionPrintview($metadata["entry"]);
 					break;
+				case "instant_verification":
+					$this->setInstantVerification($metadata["entry"]);
+					break;
+				case "anonymity":
+					$this->setAnonymity($metadata["entry"]);
+					break;
 				case "score_reporting":
 					$this->setScoreReporting($metadata["entry"]);
 					break;
@@ -5305,7 +5322,7 @@ class ilObjTest extends ilObject
 			$a_xml_writer->xmlElement("duration", NULL, sprintf("P0Y0M0DT%dH%dM%dS", $matches[1], $matches[2], $matches[3]));
 		}
 
-		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
+-		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
 		$a_xml_writer->xmlStartTag("qtimetadata");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "ILIAS_VERSION");
@@ -5433,6 +5450,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "instant_verification");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getInstantVerification()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// solution details
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "anonymity");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnonymity()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// solution printview
@@ -5969,6 +5992,7 @@ class ilObjTest extends ilObject
 		$newObj->sequence_settings = $original->getSequenceSettings();
 		$newObj->score_reporting = $original->getScoreReporting();
 		$newObj->instant_verification = $original->getInstantVerification();
+		$newObj->setAnonymity($original->getAnonymity());
 		$newObj->reporting_date = $original->getReportingDate();
 		$newObj->test_type = $original->getTestType();
 		$newObj->nr_of_tries = $original->getNrOfTries();
@@ -7148,18 +7172,15 @@ class ilObjTest extends ilObject
 	function canViewResults()
 	{
 		$result = true;
-		if ($this->getTestType() != TYPE_SELF_ASSESSMENT)
+		if ($this->getReportingDate())
 		{
-			if ($this->getReportingDate())
+			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
 			{
-				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
+				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = mktime();
+				if ($now < $epoch_time) 
 				{
-					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now = mktime();
-					if ($now < $epoch_time) 
-					{
-						$result = false;
-					}
+					$result = false;
 				}
 			}
 		}
@@ -7831,6 +7852,63 @@ class ilObjTest extends ilObject
 	function setCertificateVisibility($a_value)
 	{
 		$this->certificate_visibility = $a_value;
+	}
+
+	/**
+	* Returns the anonymity status of the test
+	*
+	* Returns the anonymity status of the test
+	*
+	* @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
+	* @access public
+	*/
+	function getAnonymity()
+	{
+		return $this->anonymity;
+	}
+	
+	/**
+	* Sets the anonymity status of the test
+	*
+	* Sets the anonymity status of the test
+	*
+	* @param integer $a_value The value for the anonymity status (0 = personalized, 1 = anonymized)
+	* @access public
+	*/
+	function setAnonymity($a_value = 0)
+	{
+		switch ($a_value)
+		{
+			case 1:
+				$this->anonymity = 1;
+				break;
+			default:
+				$this->anonymity = 0;
+				break;
+		}
+	}
+	
+	/**
+	* Returns the anonymity status of a test with a given object id
+	*
+	* Returns the anonymity status of a test with a given object id
+	*
+	* @param int $a_obj_id The object id of the test object
+	* @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
+	* @access public
+	*/
+	function _lookupAnonymity($a_obj_id)
+	{
+	  global $ilDB;
+	  
+	  $query = "SELECT anonymity FROM tst_tests ".
+		  "WHERE obj_fi = '".$a_obj_id."'";
+	  $res = $ilDB->query($query);
+	  while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	  {
+		  return $row['anonymity'];
+	  }
+	  return 0;
 	}
 } // END class.ilObjTest
 
