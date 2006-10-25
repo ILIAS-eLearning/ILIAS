@@ -6573,3 +6573,8 @@ assessment#:#certificate_export#:#Zertifikat exportieren
 assessment#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
 assessment#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
 barometer#:#barometer_add#:#neues Barometer
+assessment#:#general#:#General###25 10 2006 new variable
+assessment#:#output#:#Output###25 10 2006 new variable
+assessment#:#scoring#:#Scoring###25 10 2006 new variable
+assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
+assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable

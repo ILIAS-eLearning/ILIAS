@@ -6597,3 +6597,8 @@ trac#:#trac_anonymized_info_short#:#(Anónimo)
 content#:#cont_disable_html#:#HTML inactivo
 content#:#cont_enable_html#:#HTML activo
 barometer#:#barometer_add#:#Añadir nuevo feedback
+assessment#:#general#:#General###25 10 2006 new variable
+assessment#:#output#:#Output###25 10 2006 new variable
+assessment#:#scoring#:#Scoring###25 10 2006 new variable
+assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
+assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable
