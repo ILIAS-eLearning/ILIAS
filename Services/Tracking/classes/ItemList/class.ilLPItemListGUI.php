@@ -532,7 +532,7 @@ class ilLPItemListGUI
 		// Status info
 		if($this->user_status_info)
 		{
-			$writer->xmlStartTag('ItemInfo',array('Style' => 'alert'));
+			$writer->xmlStartTag('ItemInfo',array('Style' => 'text'));
 			$writer->xmlElement('ItemInfoName',null,$this->user_status_info[0].': ');
 			$writer->xmlElement('ItemInfoValue',null,$this->user_status_info[1]);
 			$writer->xmlEndTag('ItemInfo');
@@ -551,6 +551,15 @@ class ilLPItemListGUI
 			$writer->xmlStartTag('ItemInfo',array('Style' => 'text'));
 			$writer->xmlElement('ItemInfoName',null,$this->lng->txt('trac_mark').': ');
 			$writer->xmlElement('ItemInfoValue',null,$this->getMark());
+			$writer->xmlEndTag('ItemInfo');
+		}
+		if($this->enabled('timings') and $this->editing_time)
+		{
+			$writer->xmlStartTag('ItemInfo',array('Style' => $this->showTimingWarning() ?
+												  'alert' :
+												  'text'));
+			$writer->xmlElement('ItemInfoName',null,$this->lng->txt('trac_head_timing').": ");
+			$writer->xmlElement('ItemInfoValue',null,ilFormat::formatUnixTime($this->editing_time));
 			$writer->xmlEndTag('ItemInfo');
 		}
 	}

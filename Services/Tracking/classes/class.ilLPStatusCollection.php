@@ -60,6 +60,16 @@ class ilLPStatusCollection extends ilLPStatus
 				$users = array_diff((array) $users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
 				return $users;
 
+			case 'grp':
+				include_once 'classes/class.ilObjGroup.php';
+				$members = ilObjGroup::_getMembers($a_obj_id);
+
+				// diff in progress and completed (use stored result in LPStatusWrapper)
+				$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
+				$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
+				$users = array_diff((array) $users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
+				return $users;
+
 			default:
 				return array();
 		}
