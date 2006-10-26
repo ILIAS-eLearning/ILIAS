@@ -3506,6 +3506,8 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute 
 common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal. ### 2006-5-8 --- Content changed
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action. ### 2006-5-8 --- Content changed
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action. ### 2006-5-8 --- Content changed
+common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.
+common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.
 common#:#valid#:#Valid
 common#:#validate#:#Validate
 common#:#value#:#Value

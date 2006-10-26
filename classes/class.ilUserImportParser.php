@@ -479,6 +479,8 @@ class ilUserImportParser extends ilSaxParser
 						case "radius":
 						case "shibboleth":
 						case "script":
+						case "cas":
+						case "soap":
 							$this->userObj->setAuthMode($a_attribs["type"]);
 							break;
 						default:
@@ -585,6 +587,9 @@ class ilUserImportParser extends ilSaxParser
 						case "radius":
 						case "shibboleth":
 						case "script":
+						case "cas":
+						case "soap":
+							$this->userObj->setAuthMode($a_attribs["type"]);
 							break;
 						default:
 							$this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs["type"]));
@@ -777,7 +782,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function importEndTag($a_xml_parser, $a_name)
 	{
-		global $ilias, $rbacadmin, $rbacreview, $ilUser, $lng;
+		global $ilias, $rbacadmin, $rbacreview, $ilUser, $lng, $ilSetting;
 
 		switch($a_name)
 		{
@@ -869,6 +874,36 @@ class ilUserImportParser extends ilSaxParser
 									$this->action = "Ignore";
 								}
 								break;
+						}
+						break;
+				}
+				
+				// check external account conflict (if external account is already used)
+				// note: we cannot apply conflict rules in the same manner as to logins here
+				// so we ignore records with already existing external accounts.
+				$am = ($this->userObj->getAuthMode() == "default" || $this->userObj->getAuthMode() == "")
+					? ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode'))
+					: $this->userObj->getAuthMode();
+				$elogin = ($this->userObj->getExternalAccount() == "")
+					? ""
+					: ilObjUser::_checkExternalAuthAccount($am, $this->userObj->getExternalAccount());
+				switch ($this->action)
+				{
+					case "Insert" :
+						if ($elogin != "")
+						{
+							$this->logWarning($this->userObj->getLogin(),
+								$lng->txt("usrimport_no_insert_ext_account_exists")." (".$this->userObj->getExternalAccount().")");
+							$this->action = "Ignore";
+						}
+						break;
+						
+					case "Update" :
+						if ($elogin != "" && $elogin != $ilObjUser->getLogin())
+						{
+							$this->logWarning($this->userObj->getLogin(),
+								$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->userObj->getExternalAccount().")");
+							$this->action = "Ignore";
 						}
 						break;
 				}
@@ -1041,6 +1076,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getTimeLimitMessage())) $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
 							if (! is_null($this->userObj->getApproveDate())) $updateUser->setApproveDate($this->userObj->getApproveDate());
 							if (! is_null($this->userObj->getLanguage())) $updateUser->setLanguage($this->userObj->getLanguage());
+							if (! is_null($this->userObj->getExternalAccount())) $updateUser->setExternalAccount($this->userObj->getExternalAccount());
 							if (! is_null($this->userObj->getAuthMode())) $updateUser->setAuthMode($this->userObj->getAuthMode());
 
 							// save user preferences (skin and style)
@@ -1260,6 +1296,10 @@ class ilUserImportParser extends ilSaxParser
 				$this->$ilincdata["password"] = $this->cdata;
 				//$this->userObj->setiLincData($this->ilincdata);
 				break;
+				
+			case "ExternalAccount":
+				$this->userObj->setExternalAccount($this->cdata);
+				break;
 
 			case "Look":
 				if (!$this->hideSkin)
@@ -1316,7 +1356,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function verifyEndTag($a_xml_parser, $a_name)
 	{
-		global $lng,$ilAccess;
+		global $lng,$ilAccess,$ilSetting;
 
 		switch($a_name)
 		{
@@ -1515,7 +1555,36 @@ class ilUserImportParser extends ilSaxParser
 			case "Matriculation":
 				$this->userObj->setMatriculation($this->cdata);
 				break;
-
+				
+			case "ExternalAccount":
+//echo "-".$this->userObj->getAuthMode()."-".$this->userObj->getLogin()."-";
+				$am = ($this->userObj->getAuthMode() == "default" || $this->userObj->getAuthMode() == "")
+					? ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode'))
+					: $this->userObj->getAuthMode();
+				$elogin = (trim($this->cdata) == "")
+					? ""
+					: ilObjUser::_checkExternalAuthAccount($am, trim($this->cdata));
+				switch ($this->action)
+				{
+					case "Insert" :
+						if ($elogin != "")
+						{
+							$this->logWarning($this->userObj->getLogin(),
+								$lng->txt("usrimport_no_insert_ext_account_exists")." (".$this->cdata.")");
+						}
+						break;
+						
+					case "Update" :
+						if ($elogin != "" && $elogin != $ilObjUser->getLogin())
+						{
+							$this->logWarning($this->userObj->getLogin(),
+								$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->cdata.")");
+						}
+						break;
+				}
+				$this->userObj->setExternalAccount(trim($this->cdata));
+				break;
+				
 			case "Active":
 				if ($this->cdata != "true"
 				&& $this->cdata != "false")

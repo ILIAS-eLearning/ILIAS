@@ -6585,3 +6585,14 @@ content#:#cont_enable_html#:#HTML active###25 10 2006 new variable
 barometer#:#barometer_add#:#Add new Feedbac###25 10 2006 new variable
 assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
 assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable
+assessment#:#tst_postpone#:#Postpone Questions###26 10 2006 new variable
+assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test###26 10 2006 new variable
+assessment#:#tst_random_selection#:#Random Selection of Questions###26 10 2006 new variable
+assessment#:#tst_show_cancel#:#Show Suspend Test Option###26 10 2006 new variable
+assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution###26 10 2006 new variable
+assessment#:#tst_use_previous_answers#:#Use Previous Answers###26 10 2006 new variable
+assessment#:#tst_use_previous_answers_description#:#If checked, the previous answers of a participant will be used as default values in future test passes###26 10 2006 new variable
+assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes###26 10 2006 new variable
+common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###26 10 2006 new variable
+common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
+pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###26 10 2006 new variable
