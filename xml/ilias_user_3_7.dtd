@@ -18,7 +18,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, Look?, UserDefinedField*)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, ExternalAccount?,UserDefinedField*)>
 
 <!--
 Id is ILIAS ID or unique identifier for this xml file
@@ -54,13 +54,6 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT AuthMode (#PCDATA)>
 <!ATTLIST AuthMode %A_Mode;>
 
-<!-- Look -->
-<!ELEMENT Look (#PCDATA)>
-<!ATTLIST Look 
-    Skin CDATA #REQUIRED
-    Style CDATA #REQUIRED
->
-
 <!-- Other Elements -->
 <!ELEMENT Login (#PCDATA)>
 <!ELEMENT Password (#PCDATA)>
@@ -92,11 +85,12 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT TimeLimitFrom (#PCDATA)> <!-- content must be a unix timestamp -->
 <!ELEMENT TimeLimitUntil (#PCDATA)> <!-- content must be a unix timestamp -->
 <!ELEMENT TimeLimitMessage (#PCDATA)> <!-- content must be 0 or 1 -->
-<!ELEMENT ApproveDate (#PCDATA)> <!-- content must be a mysql datetime *** wenn aggreedate nicht funktioniert, soll dann approvedate importiert werden? -->
-<!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime *** es gibt keine methode daf�r in ilObjUser. Implementieren? -->
+<!ELEMENT ApproveDate (#PCDATA)>
+<!ELEMENT AgreeDate (#PCDATA)>
 <!ELEMENT iLincID (#PCDATA)>
 <!ELEMENT iLincLogin (#PCDATA)>
 <!ELEMENT iLincPasswd (#PCDATA)>
+<!ELEMENT ExternalAccount (#PCDATA)>
 <!ELEMENT UserDefinedField (#PCDATA)>
 <!ATTLIST UserDefinedField
     Id CDATA #REQUIRED
