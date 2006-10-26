@@ -816,10 +816,10 @@ class ilTestOutputGUI
 	
 	function calculateSequence() 
 	{
-		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
-		{
-			if ($this->object->isActiveTestSubmitted()) return "";
-		}
+//		if ($this->object->getTestType() == TYPE_ONLINE_TEST)
+//		{
+//			if ($this->object->isActiveTestSubmitted()) return "";
+//		}
 		$sequence = $_GET["sequence"];
 		if (array_key_exists("save_error", $_GET))
 		{
@@ -1138,7 +1138,7 @@ class ilTestOutputGUI
 			return;
 		}
 			
-		if ($this->object->getInstantVerification() == 1)
+		if ($this->object->getInstantFeedbackSolution() == 1)
 		{
 			$this->tpl->setCurrentBlock("direct_feedback");
 			$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
