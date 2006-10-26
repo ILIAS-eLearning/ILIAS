@@ -992,7 +992,7 @@ class ilInternalLinkGUI
 		$exp->addFilter("chat");
 
 		$sel_types = array('lm','dbk','htlm','glo','frm','exc','tst','svy','webr','chat',
-			'cat','crs','grp','file');
+			'cat','crs','grp','file','fold');
 		$exp->setSelectableTypes($sel_types);
 
 		/*
