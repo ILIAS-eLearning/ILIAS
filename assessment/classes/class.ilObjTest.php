@@ -428,7 +428,7 @@ class ilObjTest extends ilObject
 		$this->ects_fx = "";
 		$this->random_test = 0;
 		$this->shuffle_questions = FALSE;
-		$this->show_solution_details = TRUE;
+		$this->show_solution_details = 1;
 		$this->show_summary = FALSE;
 		$this->show_solution_printview = FALSE;
 		$this->random_question_count = "";
@@ -1172,11 +1172,7 @@ class ilObjTest extends ilObject
 		{
 			$shuffle_questions = 1;
 		}
-		$show_solution_details = 0;
-		if ($this->getShowSolutionDetails())
-		{
-			$show_solution_details = 1;
-		}
+		$show_solution_details = $this->getShowSolutionDetails();
 		$show_summary = 0;
 		if ($this->getShowSummary())
 		{
@@ -7433,18 +7429,20 @@ class ilObjTest extends ilObject
 * 
 * Sets if the the solution details should be presented to the user or not
 *
-* @param boolean $a_details TRUE if the solution details should be presented, FALSE otherwise
+* @param integer $a_details 1 if the solution details should be presented, 0 otherwise
 * @access public
 */
-	function setShowSolutionDetails($a_details = TRUE)
+	function setShowSolutionDetails($a_details = 1)
 	{
-		if ($a_details)
+		switch ($a_details)
 		{
-			$this->show_solution_details = TRUE;
-		}
-		else
-		{
-			$this->show_solution_details = FALSE;
+			case 0:
+				$this->show_solution_details = 0;
+				break;
+			case 1:
+			default:
+				$this->show_solution_details = 1;
+				break;
 		}
 	}
 

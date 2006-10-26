@@ -1084,11 +1084,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["show_solution_printview"] = 1;
 		}
+		$data["show_solution_details"] = $_POST["chb_show_solution_details"];
+		
 		$this->object->setCountSystem($data["count_system"]);
 		$this->object->setMCScoring($data["mc_scoring"]);
 		$this->object->setScoreCutting($data["score_cutting"]);
 		$this->object->setPassScoring($data["pass_scoring"]);
 		$this->object->setInstantFeedbackSolution($data["instant_feedback_solution"]);
+		$this->object->setShowSolutionDetails($data["show_solution_details"]);
 		$this->object->saveToDb(true);
 		sendInfo($this->lng->txt("msg_obj_modified"), TRUE);
 
@@ -1120,6 +1123,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["pass_scoring"] = $this->object->getPassScoring();
 		$data["instant_feedback_solution"] = $this->object->getInstantFeedbackSolution();
 		$data["show_solution_printview"] = $this->object->getShowSolutionPrintview();
+		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
 
 		$total = $this->object->evalTotalPersons();
 		
@@ -1294,6 +1298,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_RESULTS_PRESENTATION", $this->lng->txt("tst_results_presentation"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS", $this->lng->txt("tst_show_solution_details"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS_DESCRIPTION", $this->lng->txt("tst_show_solution_details_description"));
+		if ($data["show_solution_details"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_DETAILS", " checked=\"checked\"");
+		}
 
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW", $this->lng->txt("tst_show_solution_printview"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION", $this->lng->txt("tst_show_solution_printview_description"));
