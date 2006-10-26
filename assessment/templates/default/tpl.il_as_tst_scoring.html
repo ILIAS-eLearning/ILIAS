@@ -1,0 +1,143 @@
+<form name="frm_scoring" action="{FORMACTION}" method="post">
+<table class="std">
+<tr class="tblheader">
+	<th colspan="2">{TEXT_COUNT_SYSTEM}</th>
+</tr>
+<tr>
+  <td class="option"><label for="count_system_0">{COUNT_PARTIAL_SOLUTIONS}</label></td>
+  <td class="option_value"><input type="radio" name="count_system" id="count_system_0" value="0"{CHECKED_COUNT_PARTIAL_SOLUTIONS}{DISABLED_COUNT_PARTIAL_SOLUTIONS} />
+	<br />
+	<label for="count_system_0"><em>{COUNT_PARTIAL_SOLUTIONS_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="count_system_1">{COUNT_CORRECT_SOLUTIONS}</label></td>
+  <td class="option_value"><input type="radio" name="count_system" id="count_system_1" value="1"{CHECKED_COUNT_CORRECT_SOLUTIONS}{DISABLED_COUNT_CORRECT_SOLUTIONS} />
+	<br />
+	<label for="count_system_1"><em>{COUNT_CORRECT_SOLUTIONS_DESCRIPTION}</em></label></td>
+</tr>
+<tr class="tblheader">
+	<th colspan="2">{TEXT_SCORE_MCMR}</th>
+</tr>
+<tr>
+  <td class="option"><label for="mc_scoring_0">{ZERO_POINTS_WHEN_UNANSWERED}</label></td>
+  <td class="option_value"><input type="radio" name="mc_scoring" id="mc_scoring_0" value="0"{CHECKED_ZERO_POINTS_WHEN_UNANSWERED}{DISABLED_ZERO_POINTS_WHEN_UNANSWERED} />
+	<br />
+	<label for="mc_scoring_0"><em>{ZERO_POINTS_WHEN_UNANSWERED_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="mc_scoring_1">{USE_SCORING_SYSTEM}</label></td>
+  <td class="option_value"><input type="radio" name="mc_scoring" id="mc_scoring_1" value="1"{CHECKED_USE_SCORING_SYSTEM}{DISABLED_USE_SCORING_SYSTEM} />
+	<br />
+	<label for="mc_scoring_1"><em>{USE_SCORING_SYSTEM_DESCRIPTION}</em></label></td>
+</tr>
+<tr class="tblheader">
+	<th colspan="2">{TEXT_SCORE_CUTTING}</th>
+</tr>
+<tr>
+  <td class="option"><label for="score_cutting_0">{TEXT_CUT_QUESTION}</label></td>
+  <td class="option_value"><input type="radio" name="score_cutting" id="score_cutting_0" value="0"{CHECKED_CUT_QUESTION}{DISABLED_CUT_QUESTION} />
+	<br />
+	<label for="score_cutting_0"><em>{TEXT_CUT_QUESTION_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="score_cutting_1">{TEXT_CUT_TEST}</label></td>
+  <td class="option_value"><input type="radio" name="score_cutting" id="score_cutting_1" value="1"{CHECKED_CUT_TEST}{DISABLED_CUT_TEST} />
+	<br />
+	<label for="score_cutting_1"><em>{TEXT_CUT_TEST_DESCRIPTION}</em></label></td>
+</tr>
+<tr class="tblheader">
+	<th colspan="2">{TEXT_PASS_SCORING}</th>
+</tr>
+<tr>
+  <td class="option"><label for="pass_scoring_0">{TEXT_LASTPASS}</label></td>
+  <td class="option_value"><input type="radio" name="pass_scoring" id="pass_scoring_0" value="0"{CHECKED_LASTPASS}{DISABLED_LASTPASS} />
+	<br />
+	<label for="pass_scoring_0"><em>{TEXT_LASTPASS_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="pass_scoring_1">{TEXT_BESTPASS}</label></td>
+  <td class="option_value"><input type="radio" name="pass_scoring" id="pass_scoring_1" value="1"{CHECKED_BESTPASS}{DISABLED_BESTPASS} />
+	<br />
+	<label for="pass_scoring_1"><em>{TEXT_BESTPASS_DESCRIPTION}</em></label></td>
+</tr>
+<tr class="tblheader">
+	<th colspan="2">{TEXT_INSTANT_FEEDBACK}</th>
+</tr>
+<tr>
+  <td class="option"><label for="instant_feedback_answer">{TEXT_ANSWER_SPECIFIC_FEEDBACK}</label></td>
+  <td class="option_value"><input type="checkbox" name="chb_instant_feedback_answer" id="instant_feedback_answer" value="3"{CHECKED_ANSWER_SPECIFIC_FEEDBACK} />
+	<br />
+	<label for="instant_feedback_answer"><em>{TEXT_ANSWER_SPECIFIC_FEEDBACK_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="instant_feedback_results">{TEXT_SHOW_RESULTS}</label></td>
+  <td class="option_value"><input type="checkbox" name="chb_instant_feedback_results" id="instant_feedback_results" value="2"{CHECKED_SHOW_RESULTS} />
+	<br />
+	<label for="instant_feedback_results"><em>{TEXT_SHOW_RESULTS_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="instant_feedback_solution">{TEXT_SHOW_SOLUTION}</label></td>
+  <td class="option_value"><input type="checkbox" name="chb_instant_feedback_solution" id="instant_feedback_solution" value="1"{CHECKED_SHOW_SOLUTION} />
+	<br />
+	<label for="instant_feedback_solution"><em>{TEXT_SHOW_SOLUTION_DESCRIPTION}</em></label></td>
+</tr>
+<tr class="tblheader">
+	<th colspan="2">{TEXT_RESULTS_PRESENTATION}</th>
+</tr>
+<tr>
+  <td class="option"><label for="solution_details">{TEXT_SHOW_SOLUTION_DETAILS}</label></td>
+  <td class="option_value"><input type="checkbox" name="chb_solution_details" id="solution_details" value="3"{CHECKED_SHOW_SOLUTION_DETAILS} />
+	<br />
+	<label for="solution_details"><em>{TEXT_SHOW_SOLUTION_DETAILS_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="solution_printview">{TEXT_SHOW_SOLUTION_PRINTVIEW}</label></td>
+  <td class="option_value"><input type="checkbox" name="chb_solution_printview" id="solution_printview" value="3"{CHECKED_SHOW_SOLUTION_PRINTVIEW} />
+	<br />
+	<label for="solution_printview"><em>{TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"></td>
+  <td class="option_value"><strong>{TEXT_RESULTS_ACCESS}</strong></td>
+</tr>
+<tr>
+  <td class="option"><label for="results_access_0">{TEXT_RESULTS_FINISHED}</label></td>
+  <td class="option_value"><input type="radio" name="results_access" id="results_access_0" value="0"{CHECKED_RESULTS_FINISHED} />
+	<br />
+	<label for="results_access_0"><em>{TEXT_RESULTS_FINISHED_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="results_access_1">{TEXT_RESULTS_DATE}</label></td>
+  <td class="option_value"><input type="radio" name="results_access" id="results_access_1" value="1"{CHECKED_RESULTS_DATE} />
+	<br />
+	{INPUT_REPORTING_DATE} <input type="image" alt="{TXT_REPORTING_DATE_CALENDAR}" title="{TXT_REPORTING_DATE_CALENDAR}" src="{IMG_REPORTING_DATE_CALENDAR}" id="btn_cal_reporting_date" />
+	<br />
+	<label for="results_access_1"><em>{TEXT_RESULTS_DATE_DESCRIPTION}</em></label></td>
+</tr>
+<tr>
+  <td class="option"><label for="results_access_2">{TEXT_RESULTS_ALWAYS}</label></td>
+  <td class="option_value"><input type="radio" name="results_access" id="results_access_2" value="2"{CHECKED_RESULTS_ALWAYS} />
+	<br />
+	<label for="results_access_2"><em>{TEXT_RESULTS_ALWAYS_DESCRIPTION}</em></label></td>
+</tr>
+<tr><td colspan="2" class="submit">
+<!-- BEGIN command_buttons -->
+<div align="right">
+	<input name="cmd[saveScoring]" type="submit" class="submit" id="save" value="{SAVE}" />
+	<input name="cmd[cancelScoring]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+</div>
+<!-- END command_buttons -->
+</td></tr>
+</table>
+</form>
+<!-- BEGIN javascript_call_calendar -->
+<script type="text/javascript">
+	Calendar.setup( 
+		{ 
+			button : "btn_cal_reporting_date",
+			inputFieldsDate : "{INPUT_FIELDS_REPORTING_DATE}"
+		} 
+	); 
+</script> 
+<!-- END javascript_call_calendar -->
+

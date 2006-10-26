@@ -1294,6 +1294,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_RESULTS_PRESENTATION", $this->lng->txt("tst_results_presentation"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS", $this->lng->txt("tst_show_solution_details"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS_DESCRIPTION", $this->lng->txt("tst_show_solution_details_description"));
+
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW", $this->lng->txt("tst_show_solution_printview"));
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION", $this->lng->txt("tst_show_solution_printview_description"));
+		if ($data["show_solution_printview"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_PRINTVIEW", " checked=\"checked\"");
+		}
+
 		$this->tpl->setVariable("TEXT_RESULTS_ACCESS", $this->lng->txt("tst_results_access"));
 		$this->tpl->setVariable("TEXT_RESULTS_FINISHED", $this->lng->txt("tst_results_access_finished"));
 		$this->tpl->setVariable("TEXT_RESULTS_FINISHED_DESCRIPTION", $this->lng->txt("tst_results_access_finished_descr"));
@@ -1313,13 +1321,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_REPORTING_DATE_CALENDAR", $this->lng->txt("open_calendar"));
 		$this->tpl->setVariable("TEXT_RESULTS_ALWAYS", $this->lng->txt("tst_results_access_always"));
 		$this->tpl->setVariable("TEXT_RESULTS_ALWAYS_DESCRIPTION", $this->lng->txt("tst_results_access_always_descr"));
-
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW", $this->lng->txt("tst_show_solution_printview"));
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION", $this->lng->txt("tst_show_solution_printview_description"));
-		if ($data["show_solution_printview"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_PRINTVIEW", " checked=\"checked\"");
-		}
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
