@@ -1085,6 +1085,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["show_solution_printview"] = 1;
 		}
 		$data["show_solution_details"] = $_POST["chb_show_solution_details"];
+		$data["results_access"] = $_POST["results_access"];
 		
 		$this->object->setCountSystem($data["count_system"]);
 		$this->object->setMCScoring($data["mc_scoring"]);
@@ -1092,6 +1093,23 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setPassScoring($data["pass_scoring"]);
 		$this->object->setInstantFeedbackSolution($data["instant_feedback_solution"]);
 		$this->object->setShowSolutionDetails($data["show_solution_details"]);
+		$this->object->setScoreReporting($data["results_access"]);
+		if ($data["results_access"] == REPORT_AFTER_DATE)
+		{
+			$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d",
+				$_POST["reporting_date"]["y"],
+				$_POST["reporting_date"]["m"],
+				$_POST["reporting_date"]["d"],
+				$_POST["reporting_time"]["h"],
+				$_POST["reporting_time"]["m"],
+				0
+			);
+			$this->object->setReportingDate($data["reporting_date"]);
+		}
+		else
+		{
+			$this->object->setReportingDate("");
+		}
 		$this->object->saveToDb(true);
 		sendInfo($this->lng->txt("msg_obj_modified"), TRUE);
 
@@ -1124,6 +1142,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["instant_feedback_solution"] = $this->object->getInstantFeedbackSolution();
 		$data["show_solution_printview"] = $this->object->getShowSolutionPrintview();
 		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
+		$data["results_access"] = $this->object->getScoreReporting();
 
 		$total = $this->object->evalTotalPersons();
 		
@@ -1315,14 +1334,28 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_RESULTS_FINISHED_DESCRIPTION", $this->lng->txt("tst_results_access_finished_descr"));
 		$this->tpl->setVariable("TEXT_RESULTS_DATE", $this->lng->txt("tst_results_access_date"));
 		$this->tpl->setVariable("TEXT_RESULTS_DATE_DESCRIPTION", $this->lng->txt("tst_results_access_date_descr"));
-		if (!$data["reporting_date"])
+		if ($data["results_access"] != REPORT_AFTER_DATE)
 		{
-			$date_input = ilUtil::makeDateSelect("reporting_date");
-			$time_input = ilUtil::makeTimeSelect("reporting_time");
+			$report = getdate(time()+60*60*24*7);
+			$date_input = ilUtil::makeDateSelect("reporting_date", $report["year"], $report["mon"], $report["mday"]);
+			$time_input = ilUtil::makeTimeSelect("reporting_time", true, "12", "0", "0");
 		} else {
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["reporting_date"], $matches);
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getReportingDate(), $matches);
 			$date_input = ilUtil::makeDateSelect("reporting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
 			$time_input = ilUtil::makeTimeSelect("reporting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
+		}
+		switch ($data["results_access"])
+		{
+			case REPORT_ALWAYS:
+				$this->tpl->setVariable("CHECKED_RESULTS_ALWAYS", " checked=\"checked\"");
+				break;
+			case REPORT_AFTER_DATE:
+				$this->tpl->setVariable("CHECKED_RESULTS_DATE", " checked=\"checked\"");
+				break;
+			case REPORT_AFTER_TEST:
+			default:
+				$this->tpl->setVariable("CHECKED_RESULTS_FINISHED", " checked=\"checked\"");
+				break;
 		}
 		$this->tpl->setVariable("INPUT_REPORTING_DATE", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
 		$this->tpl->setVariable("IMG_REPORTING_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
@@ -4533,8 +4566,11 @@ class ilObjTestGUI extends ilObjectGUI
 			case REPORT_AFTER_TEST:
 				$score_reporting_text = $this->lng->txt("tst_report_after_test");
 				break;
-			case REPORT_AFTER_FIRST_QUESTION:
+			case REPORT_ALWAYS:
 				$score_reporting_text = $this->lng->txt("tst_report_after_first_question");
+				break;
+			case REPORT_AFTER_DATE:
+				$score_reporting_text = $this->lng->txt("tst_report_after_date");
 				break;
 		}
 		$info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text); 

@@ -11657,4 +11657,5 @@ ALTER TABLE `tst_tests` ADD `use_previous_answers` ENUM( '0', '1' ) NOT NULL DEF
 UPDATE tst_tests SET use_previous_answers = '0' WHERE hide_previous_results = '1';
 <#829>
 ALTER TABLE `tst_tests` DROP `hide_previous_results`;
-
+<#830>
+UPDATE `tst_tests` SET `score_reporting` = 3 WHERE length(`reporting_date`) > 0
