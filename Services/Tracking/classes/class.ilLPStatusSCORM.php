@@ -146,6 +146,10 @@ class ilLPStatusSCORM extends ilLPStatus
 		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
 		$info = ilObjSCORMTracking::_getProgressInfo($status_info['scos'],$a_obj_id);
 
+
+		$status_info['completed'] = array();
+		$status_info['failed'] = array();
+		$status_info['in_progress'] = array();
 		foreach($status_info['scos'] as $sco_id)
 		{
 			$status_info['completed'][$sco_id] = $info['completed'][$sco_id] ? $info['completed'][$sco_id] : array();
