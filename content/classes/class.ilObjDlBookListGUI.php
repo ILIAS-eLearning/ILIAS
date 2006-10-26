@@ -125,6 +125,8 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 			case "view":
 				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
 				$showViewInFrameset = true;
+
+				include_once 'payment/classes/class.ilPaymentObject.php';
 				$isBuyable = ilPaymentObject::_isBuyable($this->ref_id);
 				if (($isBuyable && ilPaymentObject::_hasAccess($this->ref_id) == false) ||
 					$showViewInFrameset)
