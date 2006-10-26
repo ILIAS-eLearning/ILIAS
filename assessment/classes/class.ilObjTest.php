@@ -118,7 +118,7 @@ class ilObjTest extends ilObject
 * Defines the score reporting for the test
 * 
 * Defines the score reporting for the test. There are two values:
-* REPORT_AFTER_TEST (=1) and REPORT_AFTER_FIRST_QUESTION (=2). The default
+* REPORT_AFTER_TEST (=1), REPORT_ALWAYS (=2) AND REPORT_AFTER_DATE (=3). The default
 * value is REPORT_AFTER_TEST. If the score reporting is set to
 * REPORT_AFTER_TEST, it is also possible to use the $reporting_date
 * attribute to set a time/date for the earliest reporting time.
