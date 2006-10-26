@@ -482,7 +482,7 @@ assessment#:#qpl_select_file_for_import#:#You must select a file for import!
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
-assessment#:#question_summary#:#Question Summary
+assessment#:#question_summary#:#List of Questions
 assessment#:#question_title#:#Question title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
@@ -576,7 +576,9 @@ assessment#:#tst_confirm_delete_results_info#:#Your previous entered question re
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_count_correct_solutions#:#Count only complete solutions
+assessment#:#tst_count_correct_solutions_description#:#Choose this mode to score only correct question solutions of participants. Incorrect or partial solutions will be scored with 0 points
 assessment#:#tst_count_partial_solutions#:#Count partial solutions
+assessment#:#tst_count_partial_solutions_description#:#Choose this mode to score question solutions dependend to the answers of the participants. This is the standard behaviour. Even partial solutions will be scored
 assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_delete_results#:#Reset test
@@ -611,6 +613,13 @@ assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
+assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question
+assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback
+assessment#:#tst_instant_feedback_answer_specific_desc#:#If you check this option, answer-specific feedback will be shown after a participant answered a question
+assessment#:#tst_instant_feedback_results#:#Show Results (only points)
+assessment#:#tst_instant_feedback_results_desc#:#If you check this option, the reached points will be shown after a participant answered a question
+assessment#:#tst_instant_feedback_solution#:#Show Solutions
+assessment#:#tst_instant_feedback_solution_desc#:#If you check this option, the correct solution will be shown after a participant answered a question
 assessment#:#tst_instant_verification#:#Instant verification
 assessment#:#tst_introduction#:#Introduction
 assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.
@@ -642,9 +651,11 @@ assessment#:#tst_no_tries#:#none
 assessment#:#tst_nr_of_tries#:#Max. number of passes
 assessment#:#tst_nr_of_tries_of_user#:#Passes already completed
 assessment#:#tst_participating_users#:#Participating Users
-assessment#:#tst_pass_best_pass#:#Score the best pass of a user
+assessment#:#tst_pass_best_pass#:#Score the best pass
+assessment#:#tst_pass_best_pass_description#:#Choose this mode to score the best test pass of a participant. This only works if more than one test pass is allowed.
 assessment#:#tst_pass_details#:#Show details
-assessment#:#tst_pass_last_pass#:#Score the last pass of a user
+assessment#:#tst_pass_last_pass#:#Score the last pass
+assessment#:#tst_pass_last_pass_description#:#Choose this mode to score the last test pass of a participant. This only works if more than one test pass is allowed.
 assessment#:#tst_pass_scoring#:#Multiple pass scoring
 assessment#:#tst_password#:#Test password
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test
@@ -692,17 +703,29 @@ assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_result_user_name#:#Test results for %s
 assessment#:#tst_results#:#Test results
+assessment#:#tst_results_access#:#Access to Test Results
+assessment#:#tst_results_access_finished#:#After Test is Finished
+assessment#:#tst_results_access_finished_descr#:#Choose this mode to offer test participants access to their test results when they have finished the test 
+assessment#:#tst_results_access_date#:#Date
+assessment#:#tst_results_access_date_descr#:#Choose this mode to offer test participants access to their test results when the specified date and time has been reached
+assessment#:#tst_results_access_always#:#Always
+assessment#:#tst_results_access_always_descr#:#Choose this mode to offer test participants always an access to their test results
 assessment#:#tst_results_aggregated#:#Aggregated test results
 assessment#:#tst_results_back_evaluation#:#Back to evaluation overview
 assessment#:#tst_results_back_introduction#:#Back to introduction
 assessment#:#tst_results_back_overview#:#Back to results overview
+assessment#:#tst_results_presentation#:#Test Results Presentation
 assessment#:#tst_resume_test#:#Resume the test
-assessment#:#tst_score_cut_question#:#Cut negative points for every question
-assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results
-assessment#:#tst_score_cutting#:#Cut negative points
+assessment#:#tst_score_cut_question#:#Cut off negative question points
+assessment#:#tst_score_cut_question_description#:#Choose this mode to set the results for each question to zero points that a participant answers with a result of less than zero points 
+assessment#:#tst_score_cut_test#:#Cut off negative test points
+assessment#:#tst_score_cut_test_description#:#Choose this mode to set the test results to zero points, if the sum of all question results is less than zero points
+assessment#:#tst_score_cutting#:#Cut off negative points
 assessment#:#tst_score_mcmr_questions#:#Multiple choice questions
-assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked
+assessment#:#tst_score_mcmr_use_scoring_system#:#Use the defined score
+assessment#:#tst_score_mcmr_use_scoring_system_description#:#Choose this mode to give the defined score for multiple choice questions with multiple response, even if a participant did not check one of the answers
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points for unchecked answers
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_description#:#Choose this mode to score 0 points for multiple choice questions with multiple response when no answer was checked by a participant
 assessment#:#tst_score_reporting#:#Score reporting
 assessment#:#tst_score_reporting_date#:#Score reporting date
 assessment#:#tst_score_type#:#Score reporting type
@@ -722,15 +745,16 @@ assessment#:#tst_show_answer_sheet#:#Show answers
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
 assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
-assessment#:#tst_use_previous_answers_description#:#If checked, the previous answers of a participant will be used as default values in future test passes
+assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
 assessment#:#tst_show_results#:#Show test results
-assessment#:#tst_show_solution_details#:#Score details
-assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions
+assessment#:#tst_show_solution_details#:#Show Solutions in Test Results
+assessment#:#tst_show_solution_details_description#:#If you check this option, the participants may see all solution details of their answered questions in the test results, including the correct solution
 assessment#:#tst_show_solution_printview#:#Show List of Answers
 assessment#:#tst_show_solution_printview_description#:#If List of Answers is enabled, an overview of all answered questions for a test participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission
-assessment#:#tst_show_summary#:#Show question summary
-assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test
+assessment#:#tst_show_summary#:#Show List of Questions
+assessment#:#tst_show_summary_description#:#Offers a list with all test questions available for the test participants during the test
 assessment#:#tst_shuffle_questions#:#Shuffle questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
 assessment#:#tst_signature#:#Signature

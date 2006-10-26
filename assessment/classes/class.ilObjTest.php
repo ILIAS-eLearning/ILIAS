@@ -1957,17 +1957,17 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Sets the instant verification
+* Sets the instant feedback for the solution
 * 
-* Sets the instant verification of the ilObjTest object
+* Sets the instant feedback for the solution
 *
-* @param integer $instant_verification The instant verification
+* @param integer $instant_feedback If 1, the solution will be shown after answering a question
 * @access public
 * @see $instant_verification
 */
-  function setInstantVerification($instant_verification = 0) 
+  function setInstantFeedbackSolution($instant_feedback = 0) 
 	{
-		switch ($instant_verification)
+		switch ($instant_feedback)
 		{
 			case 1:
 				$this->instant_verification = 1;
@@ -2057,15 +2057,15 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Gets the instant verification
+* Returns 1 if the correct solution will be shown after answering a question
 * 
-* Gets the instant verification of the ilObjTest object
+* Returns 1 if the correct solution will be shown after answering a question
 *
-* @return integer The instant verification of the test
+* @return integer The status of the solution instant feedback
 * @access public
 * @see $instant_verification
 */
-  function getInstantVerification() 
+  function getInstantFeedbackSolution() 
 	{
     return $this->instant_verification;
   }
@@ -2502,7 +2502,7 @@ class ilObjTest extends ilObject
 	{
 		if ($use_previous_answers)
 		{
-			$this->use_previous_answer = 1;
+			$this->use_previous_answers = 1;
 		}
 		else
 		{
@@ -3326,7 +3326,7 @@ class ilObjTest extends ilObject
 		global $ilUser;
 
 		$active = $this->getActiveTestUser();
-		$sequence_array = split(",", $active->sequence);
+		$sequence_array = explode(",", $active->sequence);
 		return $this->questions[$sequence_array[$sequence-1]];
 	}
 	
@@ -3472,6 +3472,26 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Returns the sequence array for the active test user
+* 
+* Returns the sequence array for the active test user
+*
+* @return array An array containing the sequence positions
+* @access	public
+*/
+	function &getActiveTestUserSequence()
+	{
+		$sequence_array = array();
+		$active = $this->getActiveTestUser();
+		if ($active)
+		{
+			$sequence = $active->sequence;
+			$sequence_array = explode(",", $sequence);
+		}
+		return $sequence_array;
+	}
+	
+/**
 * Gets the database row of the tst_active table for the active user
 * 
 * Gets the database row of the tst_active table for the active user
@@ -3487,7 +3507,7 @@ class ilObjTest extends ilObject
 
 		if (!$user_id) 
 		{
-			$user_id = $ilUser->id;
+			$user_id = $ilUser->getId();
 		}
 		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
 		{

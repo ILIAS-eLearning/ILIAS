@@ -6,18 +6,6 @@
 	</tr>
 </thead>
 <tr>
-  <td class="option">{TEXT_TEST_TYPES}</td>
-  <td class="option_value"><select name="sel_test_types"{ENABLED_TEST_TYPES}>
-<!-- BEGIN test_types -->  
-  <option value="{VALUE_TEST_TYPE}"{SELECTED_TEST_TYPE}>{TEXT_TEST_TYPE}</option>
-<!-- END test_types -->  
-  </select>
-<!-- BEGIN change_button -->
-	<input type="submit" class="submit" name="cmd[saveProperties]" value="{BTN_CHANGE}" />
-<!-- END change_button -->	
-  </td>
-</tr>
-<tr>
   <td class="option"><label for="anonymity">{TEXT_ANONYMITY}</label></td>
   <td class="option_value"><input type="checkbox" name="anonymity" id="anonymity" value="1"{CHECKED_ANONYMITY} /><br /><label for="anonymity"><em>{DESCRIPTION_ANONYMITY}</em></label></td>
 </tr>
@@ -66,58 +54,6 @@
 		<br />
 		<label for="chb_show_cancel"><em>{TEXT_SHOW_CANCEL_DESCRIPTION}</em></label>
 	</td>
-</tr>
-<tr class="tblheader">
-  <th colspan="2">{HEADING_SCORING}</th>
-</tr>
-<tr>
-  <td class="option">{TEXT_COUNT_SYSTEM}</td>
-  <td class="option_value"><select name="count_system"{DISABLE_COUNT_SYSTEM}><option value="0"{SELECTED_PARTIAL}>{COUNT_PARTIAL_SOLUTIONS}</option><option value="1"{SELECTED_CORRECT}>{COUNT_CORRECT_SOLUTIONS}</option></select>
-</tr>
-<tr>
-  <td class="option">{TEXT_SCORE_MCMR}</td>
-  <td class="option_value"><select name="mc_scoring"{DISABLE_MC_SCORING}><option value="0"{SELECTED_ANTICHEAT}>{ZERO_POINTS_WHEN_UNANSWERED}</option><option value="1"{SELECTED_STANDARD}>{USE_SCORING_SYSTEM}</option></select>
-</tr>
-<tr>
-  <td class="option">{TEXT_PASS_SCORING}</td>
-  <td class="option_value"><select name="pass_scoring" {DISABLE_PASS_SCORING}><option value="0"{SELECTED_LASTPASS}>{TEXT_LASTPASS}</option><option value="1"{SELECTED_BESTPASS}>{TEXT_BESTPASS}</option></select>
-</tr>
-<tr>
-  <td class="option">{TEXT_SCORE_CUTTING}</td>
-  <td class="option_value"><select name="score_cutting"{DISABLE_SCORE_CUTTING}><option value="0"{SELECTED_CUT_QUESTION}>{TEXT_CUT_QUESTION}</option><option value="1"{SELECTED_CUT_TEST}>{TEXT_CUT_TEST}</option></select>
-</tr>
-<tr class="tblheader">
-  <th colspan="2">{HEADING_SCORE}</th>
-</tr>
-<tr>
-  <td class="option">{TEXT_VERIFICATION}</td>
-  <td class="option_value"><input type="checkbox" name="chb_instant_verification" id="chb_instant_verification" value="1"{CHECKED_INSTANT_VERIFICATION}{DISABLED_INSTANT_VERIFICATION}/> <label for="chb_instant_verification">{TEXT_INSTANT_VERIFICATION}</label></td>
-</tr>
-<tr>
-  <td class="option">{TEXT_SCORE_TYPE}</td>
-  <td class="option_value">
-		<select name="score_reporting"{DISABLE_SCORE_REPORTING}>
-			<option value="1"{SELECTED_TEST}>{REPORT_AFTER_TEST}</option>
-			<option value="2"{SELECTED_FIRST_QUESTION}>{REPORT_AFTER_FIRST_QUESTION}</option>
-		</select>
-	</td>
-</tr>
-<!-- BEGIN reporting_date -->
-<tr>
-  <td class="option">{TEXT_SCORE_DATE}</td>
-  <td class="option_value"><input type="checkbox" name="chb_reporting_date" id="chb_reporting_date" value="1"{CHECKED_REPORTING_DATE} {DISABLE_SCORE_REPORTING_DATE_CHECKBOX} /> <label for="chb_reporting_date">{TXT_ENABLED}</label><br>{INPUT_REPORTING_DATE} <input type="image" alt="{TXT_REPORTING_DATE_CALENDAR}" title="{TXT_REPORTING_DATE_CALENDAR}" src="{IMG_REPORTING_DATE_CALENDAR}" id="btn_cal_reporting_date" /></td>
-</tr>
-<!-- END reporting_date -->
-<tr>
-  <td class="option">{TEXT_SHOW_SOLUTION_DETAILS}</td>
-  <td class="option_value"><input type="checkbox" name="chb_show_solution_details" id="chb_show_solution_details" value="1"{CHECKED_SHOW_SOLUTION_DETAILS} {DISABLE_SHOW_SOLUTION_DETAILS} /> <label for="chb_show_solution_details">{TEXT_SHOW_SOLUTION_DETAILS_DESCRIPTION}</label></td>
-</tr>
-<tr>
-  <td class="option"><label for="chb_show_solution_printview">{TEXT_SHOW_SOLUTION_PRINTVIEW}</label></td>
-  <td class="option_value">
-		<input type="checkbox" name="chb_show_solution_printview" id="chb_show_solution_printview" value="1"{CHECKED_SHOW_SOLUTION_PRINTVIEW} {DISABLE_SHOW_SOLUTION_PRINTVIEW} />
-		<br />
-		<label for="chb_show_solution_printview"><em>{TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION}</em></label></td>
 </tr>
 <tr class="tblheader">
   <th colspan="2">{HEADING_SESSION}</th>
@@ -181,22 +117,16 @@
 <script type="text/javascript">
 	Calendar.setup( 
 		{ 
-			button  "btn_cal_starting_time",
-			inputFieldsDate  "{INPUT_FIELDS_STARTING_DATE}"
+			button : "btn_cal_starting_time",
+			inputFieldsDate : "{INPUT_FIELDS_STARTING_DATE}"
 		} 
 	); 
 	Calendar.setup( 
 		{ 
-			button  "btn_cal_ending_time",
-			inputFieldsDate  "{INPUT_FIELDS_ENDING_DATE}"
+			button : "btn_cal_ending_time",
+			inputFieldsDate : "{INPUT_FIELDS_ENDING_DATE}"
 		} 
 	);
-	Calendar.setup( 
-		{ 
-			button  "btn_cal_reporting_date",
-			inputFieldsDate  "{INPUT_FIELDS_REPORTING_DATE}"
-		} 
-	); 
 </script> 
 <!-- END javascript_call_calendar -->
 
