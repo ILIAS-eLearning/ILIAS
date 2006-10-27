@@ -1,130 +1,6 @@
 <!-- BEGIN survey_online -->
 <form name="frm_invitation" action="{FORM_ACTION}" method="post">
-<!-- BEGIN inviation -->
-<table class="std">
-<thead>
-	<tr class="tblheader">
-		<th colspan="2">{SEARCH_INVITATION}</th>
-	</tr>
-</thead>
-<tr>
-  <td class="option">{SEARCH_TERM}:</td>
-  <td class="option_value"><input type="text" name="search_term" value="{VALUE_SEARCH_TERM}" size="60" /></td>
-</tr>
-<tr>
-	<td class="option">{TEXT_CONCATENATION}:</td>
-	<td class="option_value">
-	<input type="radio" name="concatenation" value="or"{CHECKED_OR} />{TEXT_AND}</input>
-	<input type="radio" name="concatenation" value="and"{CHECKED_AND} />{TEXT_OR}</input>
-	</td>
-</tr>
-<tr>
-  <td class="option">{SEARCH_FOR}:</td>
-  <td class="option_value"><input type="checkbox" name="search_for[]" id="cbusers" value="usr"{CHECKED_USERS} /> <label for="cbusers">{SEARCH_USERS}</label> <input type="checkbox" name="search_for[]" id="cbgroups" value="grp"{CHECKED_GROUPS} /> <label for="cbgroups">{SEARCH_GROUPS}</label> <input type="checkbox" name="search_for[]" id="cbroles" value="role"{CHECKED_ROLES} /> <label for="cbroles">{SEARCH_ROLES}</label></td>
-</tr>
-<tr><td colspan="2" class="submit">
-<div align="right">
-<input name="cmd[searchParticipants]" type="submit" class="submit" id="apply" value="{SEARCH}" />
-</div>
-</td></tr>
-</table>
-<!-- END inviation -->
-<!-- BEGIN user_result -->
-<br />
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="5">{TEXT_USER_TITLE}</th>
-	</tr>
-	<tr class="tblheader">
-		<th class="std"></th>
-		<th class="std">{TEXT_LOGIN}</th>
-		<th class="std">{TEXT_FIRSTNAME}</th>
-		<th class="std">{TEXT_LASTNAME}</th>
-		<th class="std">{TEXT_CLIENT_IP}</th>
-	</tr>
-</thead>
-<!-- BEGIN user_row -->
-<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="user_select[]" value="{COUNTER}" /></td>
-<td class="{COLOR_CLASS}" width="15%">{VALUE_LOGIN}</td>
-<td class="{COLOR_CLASS}" width="15%">{VALUE_FIRSTNAME}</td>
-<td class="{COLOR_CLASS}" width="15%">{VALUE_LASTNAME}</td>
-<td class="{COLOR_CLASS}" width="15%">{VALUE_CLIENT_IP}<input type="hidden" name="client_ip[]" value="{VALUE_CLIENT_IP}"></td>
-</tr>
-<!-- END user_row -->
-<!-- BEGIN selectall_user_row -->
-<tr>
-	<td class="{COLOR_CLASS}">
-		<input type="checkbox" name="chb_user_select_check_all" id="chb_user_select_check_all" value="1" onclick="setChecked('frm_invitation', 'user_select', document.frm_invitation.chb_user_select_check_all.checked);" />
-	</td>
-	<td colspan="4" class="{COLOR_CLASS}"><label for="chb_user_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
-</tr>
-<!-- END selectall_user_row -->
-<tr><td class="submit">{ARROW}</td><td class="submit" colspan="4"><input type="submit" class="submit" name="cmd[addParticipants]" value="{VALUE_ADD}" /></td></tr>
-</table>
-<!-- END user_result -->
-<!-- BEGIN group_result -->
-<br />
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="3">{TEXT_GROUP_TITLE}</th>
-	</tr>
-	<tr class="tblheader">
-		<th class="std"></th>
-		<th class="std">{TEXT_TITLE}</th>
-		<th class="std">{TEXT_DESCRIPTION}</th>
-	</tr>
-</thead>
-<!-- BEGIN group_row -->
-<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="group_select[]" value="{COUNTER}" /></td>
-<td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
-<td class="{COLOR_CLASS}" width="69%">{VALUE_DESCRIPTION}</td>
-</tr>
-<!-- END group_row -->
-<!-- BEGIN selectall_grp_row -->
-<tr>
-	<td class="{COLOR_CLASS}">
-		<input type="checkbox" name="chb_group_select_check_all" id="chb_group_select_check_all" value="1" onclick="setChecked('frm_invitation', 'group_select', document.frm_invitation.chb_group_select_check_all.checked);" />
-	</td>
-	<td colspan="2" class="{COLOR_CLASS}"><label for="chb_group_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
-</tr>
-<!-- END selectall_grp_row -->
-<tr><td class="submit">{ARROW}</td><td class="submit" colspan="2"><input type="submit" class="submit" name="cmd[addParticipants]" value="{VALUE_ADD}" /></td></tr>
-</table>
-<!-- END group_result -->
-<!-- BEGIN role_result -->
-<br />
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="3">{TEXT_ROLE_TITLE}</th>
-	</tr>
-	<tr class="tblheader">
-		<th class="std"></th>
-		<th class="std">{TEXT_TITLE}</th>
-		<th class="std">{TEXT_DESCRIPTION}</th>
-	</tr>
-</thead>
-<!-- BEGIN role_row -->
-<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="role_select[]" value="{COUNTER}" /></td>
-<td class="{COLOR_CLASS}" width="30%">{VALUE_TITLE}</td>
-<td class="{COLOR_CLASS}" width="69%">{VALUE_DESCRIPTION}</td>
-</tr>
-<!-- END role_row -->
-<!-- BEGIN selectall_role_row -->
-<tr>
-	<td class="{COLOR_CLASS}">
-		<input type="checkbox" name="chb_role_select_check_all" id="chb_role_select_check_all" value="1" onclick="setChecked('frm_invitation', 'role_select', document.frm_invitation.chb_role_select_check_all.checked);" />
-	</td>
-	<td colspan="2" class="{COLOR_CLASS}"><label for="chb_role_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
-</tr>
-<!-- END selectall_role_row -->
-<tr><td class="submit">{ARROW}</td><td class="submit" colspan="2"><input type="submit" class="submit" name="cmd[addParticipants]" value="{VALUE_ADD}" /></td></tr>
-</table>
-<!-- END role_result -->
 <!-- BEGIN invited_user_result -->
-<br />
 <table class="fullwidth">
 <thead>
 	<tr class="tblheader">
@@ -133,8 +9,8 @@
 	<tr class="tblheader">
 		<th class="std"></th>
 		<th class="std">{TEXT_IV_LOGIN}</th>
-		<th class="std">{TEXT_IV_FIRSTNAME}</th>
 		<th class="std">{TEXT_IV_LASTNAME}</th>
+		<th class="std">{TEXT_IV_FIRSTNAME}</th>
 		<th class="std">{TEXT_IV_CLIENT_IP}</th>
 		<th class="std">{TEXT_IV_TEST_STARTED}</th>
 		<th class="std">{TEXT_IV_TEST_FINISHED}</th>
@@ -142,10 +18,10 @@
 </thead>
 <!-- BEGIN invited_user_row -->
 <tr class="{COLOR_CLASS}">
-<td width="1%"><input type="checkbox" name="invited_users[]" value="{COUNTER}" /></td>
-<td width="10%">{VALUE_IV_LOGIN}</td>
-<td width="15%">{VALUE_IV_FIRSTNAME}</td>
-<td width="15%">{VALUE_IV_LASTNAME}</td>
+<td width="1%"><input type="checkbox" name="invited_users[]" id="invited_users_{COUNTER}" value="{COUNTER}" /></td>
+<td width="10%"><label for="invited_users_{COUNTER}">{VALUE_IV_LOGIN}</label></td>
+<td width="15%"><label for="invited_users_{COUNTER}">{VALUE_IV_LASTNAME}</label></td>
+<td width="15%"><label for="invited_users_{COUNTER}">{VALUE_IV_FIRSTNAME}</label></td>
 <td width="10%"><input type="text" name="clientip_{VALUE_IV_USR_ID}" value="{VALUE_IV_CLIENT_IP}" size="15" maxlength="15"/></td>
 <td width="10%">{VALUE_IV_TEST_STARTED}</td>
 <td width="40%">{VALUE_IV_TEST_FINISHED}</td>

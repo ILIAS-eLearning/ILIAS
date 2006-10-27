@@ -1094,6 +1094,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setInstantFeedbackSolution($data["instant_feedback_solution"]);
 		$this->object->setShowSolutionDetails($data["show_solution_details"]);
 		$this->object->setScoreReporting($data["results_access"]);
+		$this->object->setShowSolutionPrintview($data["show_solution_printview"]);
 		if ($data["results_access"] == REPORT_AFTER_DATE)
 		{
 			$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d",
@@ -3638,9 +3639,306 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
  /**
+	* Cancels the change of the fixed participants status when fixed participants already exist
+	*
+	* Cancels the change of the fixed participants status when fixed participants already exist
+	*
+	* @access	public
+	*/
+	function cancelFixedParticipantsStatusChangeObject()
+	{
+		$this->ctrl->redirect($this, "inviteParticipants");
+	}
+	
+ /**
+	* Confirms the change of the fixed participants status when fixed participants already exist
+	*
+	* Confirms the change of the fixed participants status when fixed participants already exist
+	*
+	* @access	public
+	*/
+	function confirmFixedParticipantsStatusChangeObject()
+	{
+		$fixed_participants = 0;
+		$invited_users = $this->object->getInvitedUsers();
+		foreach ($invited_users as $user_object)
+		{
+			$this->object->disinviteUser($user_object->usr_id);				
+		}
+		$this->object->setFixedParticipants($fixed_participants);
+		$this->object->saveToDb();
+		$this->ctrl->redirect($this, "inviteParticipants");
+	}
+	
+ /**
+	* Shows a confirmation dialog to remove fixed participants from the text
+	*
+	* Shows a confirmation dialog to remove fixed participants from the text
+	*
+	* @access	public
+	*/
+	function confirmFixedParticipantsStatusChange()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT", $this->lng->txt("tst_fixed_participants_disable"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("table_row");
+		$this->tpl->setVariable("CSS_ROW", "tblrow1");
+		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("tst_fixed_participants_disable_description"));
+		$this->tpl->parseCurrentBlock();
+
+		// cancel/confirm button
+		$buttons = array( "confirmFixedParticipantsStatusChange"  => $this->lng->txt("proceed"),
+			"cancelFixedParticipantsStatusChange"  => $this->lng->txt("cancel"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+ /**
+	* Saves the status change of the fixed participants status
+	*
+	* Saves the status change of the fixed participants status
+	*
+	* @access	public
+	*/
+	function saveFixedParticipantsStatusObject()
+	{
+		$fixed_participants = 0;
+		if (array_key_exists("chb_fixed_participants", $_POST))
+		{
+			if ($_POST["chb_fixed_participants"])
+			{
+				$fixed_participants = 1;
+			}
+		}
+		$invited_users = $this->object->getInvitedUsers();
+		if ($this->object->getFixedParticipants() && !$fixed_participants && count($invited_users))
+		{
+			$this->confirmFixedParticipantsStatusChange();
+		}
+		else
+		{
+			$this->object->setFixedParticipants($fixed_participants);
+			$this->object->saveToDb();
+			$this->ctrl->redirect($this, "inviteParticipants");
+		}
+	}
+	
+ /**
 	* Creates the output for user/group invitation to a test
 	*
 	* Creates the output for user/group invitation to a test
+	*
+	* @access	public
+	*/
+	function inviteParticipantsObject()
+	{
+		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->backToRepositoryObject();
+		}
+		
+		$this->getParticipantsSubTabs();
+
+		$total = $this->object->evalTotalPersons();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_fixed_users.html", true);
+
+		if ($_POST["cmd"]["cancel"])
+		{
+			$this->backToRepositoryObject();
+		}
+
+		if (strcmp($this->ctrl->getCmd(), "searchParticipants") == 0)
+		{
+			if (is_array($_POST["search_for"]))
+			{
+				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
+				{					
+					
+					include_once './classes/class.ilSearch.php';
+					$search =& new ilSearch($ilUser->id);
+					$search->setSearchString($_POST["search_term"]);
+					$search->setCombination($_POST["concatenation"]);
+					$search->setSearchFor($_POST["search_for"]);
+					$search->setSearchType("new");
+					if($search->validate($message))
+					{
+						$search->performSearch();
+					}
+					if ($message)
+					{
+						sendInfo($message);
+					}
+					
+					if(!$search->getNumberOfResults() && $search->getSearchFor())
+					{
+						sendInfo($this->lng->txt("search_no_match"));
+					}
+					$buttons = array("add");
+	
+					$invited_users = $this->object->getInvitedUsers();
+				
+					if ($searchresult = $search->getResultByType("usr"))
+					{												
+						$users = array();
+						foreach ($searchresult as $result_array)
+						{
+							if (!array_key_exists($result_array["id"], $invited_users))
+							{								
+								array_push($users, $result_array["id"]);
+							}
+						}
+						
+						$users = $this->object->getUserData($users);
+						
+						if (count ($users))
+							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"),"TEXT_USER_TITLE", $buttons);
+					}
+	
+					$searchresult = array();
+					
+					if ($searchresult = $search->getResultByType("grp"))
+					{
+						$groups = array();
+						
+						foreach ($searchresult as $result_array)
+						{							
+							array_push($groups, $result_array["id"]);
+						}
+						$groups = $this->object->getGroupData ($groups);
+						
+						if (count ($groups))
+							$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), "TEXT_GROUP_TITLE", $buttons);
+					}
+					
+					$searchresult = array();
+					
+					if ($searchresult = $search->getResultByType("role"))
+					{
+						$roles = array();
+						
+						foreach ($searchresult as $result_array)
+						{							
+							array_push($roles, $result_array["id"]);
+						}
+						
+						$roles = $this->object->getRoleData ($roles);			
+								
+						if (count ($roles))
+							$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), "TEXT_ROLE_TITLE", $buttons);
+					}
+					
+				}
+				
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_user_or_group_selected"));
+			}
+		}
+		
+		if ($_POST["cmd"]["save"])
+		{
+			$this->object->saveToDb();
+		}
+		$invited_users = $this->object->getInvitedUsers();
+
+		$buttons = array("save","remove","tst_show_answer_sheet","tst_show_results");
+		
+		if ($this->object->getFixedParticipants())
+		{
+			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			{
+				$this->tpl->setCurrentBlock("invitation");
+				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
+				$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
+				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
+				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
+				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
+				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
+				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
+				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
+				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
+				$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
+				if (is_array($_POST["search_for"]))
+				{
+					if (in_array("usr", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
+					}
+					if (in_array("grp", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
+					}
+					if (in_array("role", $_POST["search_for"]))
+					{
+						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
+					}
+				}
+				else
+				{
+					$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
+				}
+				if (strcmp($_POST["concatenation"], "and") == 0)
+				{
+					$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
+				}
+				else
+				{
+					$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
+				}
+				$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
+				$this->tpl->setVariable("SEARCH_INTRODUCTION", $this->lng->txt("participants_invitation_search_introduction"));
+				$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
+				$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
+				$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
+				$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TEXT_ALLOW_FIXED_PARTICIPANTS", $this->lng->txt("tst_allow_fixed_participants"));
+		$this->tpl->setVariable("BUTTON_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TEXT_FIXED_PARTICIPANTS", $this->lng->txt("participants_invitation"));
+		$this->tpl->setVariable("TEXT_FIXED_PARTICIPANTS_DESCRIPTION", $this->lng->txt("participants_invitation_description"));
+		if ($this->object->getFixedParticipants())
+		{
+			$this->tpl->setVariable("CHECKED_FIXED_PARTICIPANTS", " checked=\"checked\"");
+		}
+		if ($total && (count($invited_users) == 0))
+		{
+			sendInfo($this->lng->txt("tst_fixed_participants_data_exists"));
+			$this->tpl->setVariable("DISABLED_FIXED_PARTICIPANTS", " disabled=\"disabled\"");
+		}
+
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		{
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		}
+		$this->tpl->parseCurrentBlock();
+	}
+	
+ /**
+	* Creates the output of the test participants
+	*
+	* Creates the output of the test participants
 	*
 	* @access	public
 	*/
@@ -3655,6 +3953,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 		
+		$this->getParticipantsSubTabs();
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_invite.html", true);
 
 		if ($_POST["cmd"]["cancel"])
@@ -4063,6 +4363,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function addParticipantsObject()
 	{
+		$countusers = 0;
+		$countgroups = 0;
+		$countroles = 0;
 		// add users 
 		if (is_array($_POST["user_select"]))
 		{
@@ -4071,6 +4374,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{					
 				$client_ip = $_POST["client_ip"][$i];
 				$this->object->inviteUser($user_id, $client_ip);
+				$countusers++;
 				$i++;				
 			}
 		}
@@ -4080,6 +4384,7 @@ class ilObjTestGUI extends ilObjectGUI
 			foreach ($_POST["group_select"] as $group_id)
 			{
 				$this->object->inviteGroup($group_id);
+				$countgroups++;
 			}
 		}
 		// add role members
@@ -4088,14 +4393,39 @@ class ilObjTestGUI extends ilObjectGUI
 			foreach ($_POST["role_select"] as $role_id)
 			{					
 				$this->object->inviteRole($role_id);
+				$countroles++;
 			}
 		}
-		$this->ctrl->redirect($this, "participants");
+		$message = "";
+		if ($countusers)
+		{
+			$message = $this->lng->txt("tst_invited_selected_users");
+		}
+		if ($countgroups)
+		{
+			if (strlen($message)) $message .= "<br />";
+			$message = $this->lng->txt("tst_invited_selected_groups");
+		}
+		if ($countroles)
+		{
+			if (strlen($message)) $message .= "<br />";
+			$message = $this->lng->txt("tst_invited_selected_roles");
+		}
+		if (strlen($message))
+		{
+			sendInfo($message, TRUE);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("tst_invited_nobody"), TRUE);
+		}
+		
+		$this->ctrl->redirect($this, "inviteParticipants");
 	}
 	
 	function searchParticipantsObject()
 	{
-		$this->participantsObject();
+		$this->inviteParticipantsObject();
 	}
 	
 /**
@@ -4489,11 +4819,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					if (!$this->object->isRandomTest())
-					{
-						// it does not make sense to show always the last pass of a varying randomtest only in the print answers sheet
-						$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
-					}
+					$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
 				}
 			}
 		}
@@ -4747,9 +5073,27 @@ class ilObjTestGUI extends ilObjectGUI
 			 "eval_stat", "");
 	
 		// aggregated results subtab
-		$ilTabs->addTarget("tst_results_aggregated",
+		$ilTabs->addSubTabTarget("tst_results_aggregated",
 			$this->ctrl->getLinkTarget($this, "eval_a"),
 			array("eval_a"),
+			"", "");
+	
+	}
+	
+	function getParticipantsSubTabs()
+	{
+		global $ilTabs;
+		
+		// user results subtab
+		$ilTabs->addSubTabTarget("participants_data",
+			$this->ctrl->getLinkTarget($this,'participants'),
+			array("participants", "saveFixedParticipantsStatus"),
+			"", "");
+	
+		// aggregated results subtab
+		$ilTabs->addSubTabTarget("participants_invitation",
+			$this->ctrl->getLinkTarget($this, "inviteParticipants"),
+			array("inviteParticipants", "searchParticipants"),
 			"", "");
 	
 	}
@@ -4831,6 +5175,8 @@ class ilObjTestGUI extends ilObjectGUI
 			case "outResultsOverview":
 			case "checkPassword":
 			case "exportCertificate":
+			case "finishListOfAnswers":
+			case "backConfirmFinish":
 				return;
 				break;
 			case "browseForQuestions":
@@ -4912,7 +5258,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$tabs_gui->addTarget("participants",
 					 $this->ctrl->getLinkTarget($this,'participants'),
 					 array("participants", "searchParticipants", "addParticipants", "saveClientIP",
-					 "removeParticipant", "showAnswers", "showResults"), 
+					 "removeParticipant", "showAnswers", "showResults", "inviteParticipants",
+					 "saveFixedParticipantsStatus"), 
 					 "");
 
 				// maintenance

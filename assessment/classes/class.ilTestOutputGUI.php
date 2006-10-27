@@ -1040,10 +1040,19 @@ class ilTestOutputGUI
 */
 	function confirmFinishTest()
 	{
+		global $ilUser;
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish_confirmation.html", true);
 		$this->tpl->setVariable("FINISH_QUESTION", $this->lng->txt("tst_finish_confirmation_question"));
 		$this->tpl->setVariable("BUTTON_CONFIRM", $this->lng->txt("tst_finish_confirm_button"));
-		$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("tst_finish_confirm_cancel_button"));
+		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+		{
+			$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("tst_finish_confirm_list_of_answers_button"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("tst_finish_confirm_cancel_button"));
+		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -1065,8 +1074,25 @@ class ilTestOutputGUI
 		$actualpass = $this->object->_getPass($active->active_id);
 		if (($confirm) && ($actualpass == $this->object->getNrOfTries() - 1))
 		{
-			// show confirmation page
-			return $this->confirmFinishTest();
+			if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+			{
+				$template = new ilTemplate("tpl.il_as_tst_finish_navigation.html", TRUE, TRUE, TRUE);
+				$template->setVariable("BUTTON_FINISH", $this->lng->txt("btn_next"));
+				$template->setVariable("BUTTON_CANCEL", $this->lng->txt("btn_previous"));
+				
+				$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, TRUE);
+				$template_top->setCurrentBlock("button_print");
+				$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+				$template_top->parseCurrentBlock();
+	
+				$this->showListOfAnswers($active->active_id, NULL, $template_top->get(), $template->get());
+				return;
+			}
+			else
+			{
+				// show confirmation page
+				return $this->confirmFinishTest();
+			}
 		}
 		if ($this->object->isRandomTest())
 		{
@@ -1734,22 +1760,25 @@ class ilTestOutputGUI
 
 		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 		{
+			// TODO: Maybe it is more useful to add a button "Show List of Answers" here as well
 			$counter = 1;
 			// output of questions with solutions
 			foreach ($result_array as $question_data)
 			{
+				$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, TRUE);
 				$question = $question_data["qid"];
 				if (is_numeric($question))
 				{
 					$this->tpl->setCurrentBlock("printview_question");
 					$question_gui = $this->object->createQuestionGUI("", $question);
 		
-					$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
-					$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+					$template->setVariable("COUNTER_QUESTION", $counter.". ");
+					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 					
 					$active = $this->object->getActiveTestUser($ilUser->getId());
 					$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
-					$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
+					$template->setVariable("SOLUTION_OUTPUT", $result_output);
+					$this->tpl->setVariable("QUESTION_PRINTVIEW", $template->get());
 					$this->tpl->parseCurrentBlock();
 					$counter ++;
 				}
@@ -1873,23 +1902,20 @@ class ilTestOutputGUI
 	function showAnswersOfUser()
 	{
 		global $ilUser;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);			
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("navigation_buttons");
-		$this->tpl->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
-		$this->tpl->parseCurrentBlock();
-		$invited_user =& $this->object->getInvitedUsers($ilUser->getId());
-		$pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") . 
-			": " . $invited_user[$ilUser->getId()]->clientip . " - " . 
-			$this->lng->txt("matriculation") . ": " . 
-			$invited_user[$ilUser->getId()]->matriculation;
-		$this->tpl->setVariable("PAGETITLE", $pagetitle);
-		$this->outShowAnswersDetails($ilUser->getId());
+		$active = $this->object->getActiveTestUser();
+		
+		$template = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, TRUE);
+
+		$template->setCurrentBlock("button_print");
+		$template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+		$template->parseCurrentBlock();
+		
+		$template->setCurrentBlock("button_back");
+		$template->setVariable("BUTTON_BACK", $this->lng->txt("back"));
+		$template->setVariable("URL_BACK", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
+		$template->parseCurrentBlock();
+		
+		$this->showListOfAnswers($active->active_id, NULL, $template->get());
 	}
 
 /**
@@ -2439,6 +2465,147 @@ class ilTestOutputGUI
 		$this->tpl->setVariable("BACK_TO_INTRODUCTION", $this->lng->txt("tst_results_back_introduction"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	function backConfirmFinish()
+	{
+		global $ilUser;
+		$active = $this->object->getActiveTestUser();
+		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+		{
+			return $this->showListOfAnswers($active->active_id);
+		}
+		else
+		{
+			return $this->gotoQuestion();
+		}
+	}
+	
+	function finishListOfAnswers()
+	{
+		$this->confirmFinishTest();
+	}
+	
+	/**
+	* Creates an output of the list of answers for test participant
+	*
+	* @param integer $active_id Active id of the participant
+	* @param integer $pass Test pass of the participant
+	* @param boolean $testnavigation Deceides wheather to show a navigation for tests or not
+	* @access public
+	*/
+	function showListOfAnswers($active_id, $pass = NULL, $top_data = "", $bottom_data = "")
+	{
+		global $ilUser;
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", true);
+
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+	
+		if (strlen($top_data))
+		{
+			$this->tpl->setCurrentBlock("top_data");
+			$this->tpl->setVariable("TOP_DATA", $top_data);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if (strlen($bottom_data))
+		{
+			$this->tpl->setCurrentBlock("bottom_data");
+			$this->tpl->setVariable("BOTTOM_DATA", $bottom_data);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if (strlen($ilUser->getMatriculation()))
+		{
+			$this->tpl->setCurrentBlock("user_matric");
+			$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("user_matric_value");
+			$this->tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("user_matric_separator");
+		}
+
+		$invited_users = array_pop($this->object->getInvitedUsers($ilUser->getId()));
+		if (strlen($invited_users->clientip))
+		{
+			$this->tpl->setCurrentBlock("user_clientip");
+			$this->tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("matriculation"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("user_clientip_value");
+			$this->tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("user_clientip_separator");
+		}
+
+		// output of time/date and signature
+		$this->tpl->setCurrentBlock("freefield_bottom");
+		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
+		$this->tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", time()));
+
+		$freefieldtypes = array(
+			"freefield_bottom" => array(
+				array(
+					"title" => $this->lng->txt("tst_signature"), 
+					"length" => 300
+				)
+			)
+		);
+
+		foreach ($freefieldtypes as $type => $freefields) 
+		{
+			$counter = 0;
+			while ($counter < count($freefields)) 
+			{
+				$freefield = $freefields[$counter];
+				$this->tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
+				$this->tpl->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.gif"));
+				$counter ++;
+			}
+		}
+		$this->tpl->parseCurrentBlock();
+
+		
+		$result_array =& $this->object->getTestResult($active_id, $pass);
+		$counter = 1;
+		// output of questions with solutions
+		foreach ($result_array as $question_data)
+		{
+			$question = $question_data["qid"];
+			if (is_numeric($question))
+			{
+				$this->tpl->setCurrentBlock("printview_question");
+				$question_gui = $this->object->createQuestionGUI("", $question);
+				$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, TRUE);
+				$template->setVariable("COUNTER_QUESTION", $counter.". ");
+				$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+				
+				$result_output = $question_gui->getSolutionOutput($active_id, $pass);
+				$template->setVariable("SOLUTION_OUTPUT", $result_output);
+				$this->tpl->setVariable("QUESTION_OUTPUT", $template->get());
+				$this->tpl->parseCurrentBlock();
+				$counter ++;
+			}
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
+		$this->tpl->setVariable("VALUE_USR_NAME", $ilUser->getFullname());
+		$this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+
+		$invited_user =& $this->object->getInvitedUsers($ilUser->getId());
+		$pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") . 
+			": " . $invited_user[$ilUser->getId()]->clientip . " - " . 
+			$this->lng->txt("matriculation") . ": " . 
+			$invited_user[$ilUser->getId()]->matriculation;
+		$this->tpl->setVariable("PAGETITLE", $pagetitle);
 	}
  
 }
