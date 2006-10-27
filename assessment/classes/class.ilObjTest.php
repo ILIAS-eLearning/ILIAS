@@ -394,6 +394,13 @@ class ilObjTest extends ilObject
 */
 	var $show_cancel;
 	
+/**
+* determines wheather a test may have fixed participants or not
+*
+* @var int
+*/
+	var $fixed_participants;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -430,7 +437,7 @@ class ilObjTest extends ilObject
 		$this->shuffle_questions = FALSE;
 		$this->show_solution_details = 1;
 		$this->show_summary = FALSE;
-		$this->show_solution_printview = FALSE;
+		$this->show_solution_printview = 0;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
 		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
@@ -442,6 +449,7 @@ class ilObjTest extends ilObject
 		$this->allowedUsersTimeGap = "";
 		$this->anonymity = 0;
 		$this->show_cancel = 1;
+		$this->fixed_participants = 0;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -1178,11 +1186,7 @@ class ilObjTest extends ilObject
 		{
 			$show_summary = 1;
 		}
-		$show_solution_printview = 0;
-		if ($this->getShowSolutionPrintview())
-		{
-			$show_solution_printview = 1;
-		}
+		$show_solution_printview = $this->getShowSolutionPrintview();
 		$allowedUsers = $this->getAllowedUsers();
 		if ($allowedUsers == 0)
 		{
@@ -1213,7 +1217,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, anonymity, show_cancel, nr_of_tries, use_previous_answers, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, anonymity, show_cancel, fixed_participants, nr_of_tries, use_previous_answers, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote($this->test_type . ""),
@@ -1223,6 +1227,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->instant_verification . ""),
 				$ilDB->quote($this->getAnonymity() . ""),
 				$ilDB->quote($this->getShowCancel() . ""),
+				$ilDB->quote($this->getFixedParticipants() . ""),
 				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
@@ -1280,7 +1285,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, show_cancel = %s, nr_of_tries = %s, use_previous_answers = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->getAuthor() . ""), 
         $ilDB->quote($this->test_type . ""), 
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
@@ -1289,6 +1294,7 @@ class ilObjTest extends ilObject
         $ilDB->quote($this->instant_verification . ""), 
 				$ilDB->quote($this->getAnonymity() . ""),
 				$ilDB->quote($this->getShowCancel() . ""),
+				$ilDB->quote($this->getFixedParticipants() . ""),
         $ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
@@ -1758,6 +1764,7 @@ class ilObjTest extends ilObject
 				$this->instant_verification = $data->instant_verification;
 				$this->anonymity = $data->anonymity;
 				$this->show_cancel = $data->show_cancel;
+				$this->fixed_participants = $data->fixed_participants;
 				$this->nr_of_tries = $data->nr_of_tries;
 				$this->setUsePreviousAnswers($data->use_previous_answers);
 				$this->setHideTitlePoints($data->hide_title_points);
@@ -5223,6 +5230,9 @@ class ilObjTest extends ilObject
 				case "show_cancel":
 					$this->setShowCancel($metadata["entry"]);
 					break;
+				case "fixed_participants":
+					$this->setFixedParticipants($metadata["entry"]);
+					break;
 				case "score_reporting":
 					$this->setScoreReporting($metadata["entry"]);
 					break;
@@ -5486,6 +5496,12 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_cancel");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowCancel()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// fixed participants
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "fixed_participants");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getFixedParticipants()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// solution printview
@@ -7476,6 +7492,11 @@ class ilObjTest extends ilObject
 */
 	function canShowSolutionPrintview($user_id = NULL) 
 	{
+		// until it is not discussed further, the list of answers will be shown
+		// if it is activated. Even if the participant has not finished the test
+		return $this->getShowSolutionPrintview();
+		
+		/*
 		global $ilDB;
 		
 		if (!is_numeric($user_id))
@@ -7504,7 +7525,7 @@ class ilObjTest extends ilObject
 				return FALSE;
 			}
 		}
-		return FALSE;
+		return FALSE;*/
 	}
 	
 /**
@@ -7515,15 +7536,17 @@ class ilObjTest extends ilObject
 * @param boolean $a_details TRUE if the solution printview should be presented, FALSE otherwise
 * @access public
 */
-	function setShowSolutionPrintview($a_printview = TRUE)
+	function setShowSolutionPrintview($a_printview = 1)
 	{
-		if ($a_printview)
+		switch ($a_printview)
 		{
-			$this->show_solution_printview = TRUE;
-		}
-		else
-		{
-			$this->show_solution_printview = FALSE;
+			case 0:
+				$this->show_solution_printview = 0;
+				break;
+			case 1:
+			default:
+				$this->show_solution_printview = 1;
+				break;
 		}
 	}
 	
@@ -7951,6 +7974,40 @@ class ilObjTest extends ilObject
 				break;
 			default:
 				$this->show_cancel = 0;
+				break;
+		}
+	}
+	
+	/**
+	* Returns the fixed participants status
+	*
+	* Returns the fixed participants status
+	*
+	* @return integer The value for the fixed participants status (0 = don't allow, 1 = allow)
+	* @access public
+	*/
+	function getFixedParticipants()
+	{
+		return $this->fixed_participants;
+	}
+	
+	/**
+	* Sets the fixed participants status
+	*
+	* Sets the fixed participants status
+	*
+	* @param integer $a_value The value for the fixed participants status (0 = don't allow, 1 = allow)
+	* @access public
+	*/
+	function setFixedParticipants($a_value = 1)
+	{
+		switch ($a_value)
+		{
+			case 1:
+				$this->fixed_participants = 1;
+				break;
+			default:
+				$this->fixed_participants = 0;
 				break;
 		}
 	}

@@ -421,6 +421,10 @@ assessment#:#ordering_question_javascript_hint#:#Please drag a definition/pictur
 assessment#:#output#:#Output
 assessment#:#output_mode#:#Output mode
 assessment#:#participants#:#Participants
+assessment#:#participants_data#:#Participants Data
+assessment#:#participants_invitation#:#Fixed Participants
+assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.
+assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.
 assessment#:#pass#:#Pass
 assessment#:#passed_official#:#passed
 assessment#:#passed_only#:#Passed tests only
@@ -560,6 +564,7 @@ assessment#:#too_many_empty_parameters#:#Please fill out your empty applet param
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
+assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test
 assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers
 assessment#:#tst_allowed_users#:#Maximum number of users running the test simultaneously
 assessment#:#tst_allowed_users_time_gap#:#Idle time for active users
@@ -596,8 +601,12 @@ assessment#:#tst_eval_total_persons#:#Total number of persons who started the te
 assessment#:#tst_eval_user_answer#:#User answer
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
+assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finished#:#Finished
+assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! 
+assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
+assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? 
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
@@ -622,6 +631,11 @@ assessment#:#tst_instant_feedback_solution#:#Show Solutions
 assessment#:#tst_instant_feedback_solution_desc#:#If you check this option, the correct solution will be shown after a participant answered a question
 assessment#:#tst_instant_verification#:#Instant verification
 assessment#:#tst_introduction#:#Introduction
+assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
+assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants
+assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants
+assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
+assessment#:#tst_list_of_answers#:#List of Answers
 assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step
@@ -740,7 +754,7 @@ assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
 assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
-assessment#:#tst_show_answer_print_sheet#:#Answers Printview
+assessment#:#tst_show_answer_print_sheet#:#Show List of Answers
 assessment#:#tst_show_answer_sheet#:#Show answers
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
 assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution
@@ -2944,6 +2958,7 @@ common#:#print#:#Print
 common#:#print_view#:#Print View
 common#:#private_notes#:#Private Notes
 common#:#pro#:#Pro
+common#:#proceed#:#Proceed
 common#:#profile#:#Profile
 common#:#profile_changed#:#ILIAS eLearning - Your profile has changed
 common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.
