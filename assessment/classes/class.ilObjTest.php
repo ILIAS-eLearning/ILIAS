@@ -6592,6 +6592,25 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Returns a list of all participants in a test
+* 
+* Returns a list of all participants in a test
+*
+* @return array The user id's of the participants
+* @access public
+*/
+	function &getTestParticipants()
+	{
+		global $ilDB;
+		
+		$q = sprintf("SELECT tst_active.user_fi AS usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+			$ilDB->quote($this->getTestId())
+		);
+		return $this->getArrayData($q, "usr_id");
+	}
+	
+/**
 * Returns a data of all users specified by id list
 * 
 * Returns a data of all users specified by id list
@@ -6820,13 +6839,12 @@ class ilObjTest extends ilObject
 	function setActiveTestSubmitted($user_id) 
 	{
 		global $ilDB;
-		
-		$query = sprintf("UPDATE tst_active SET submitted=1, tries=1, submittimestamp=NOW() WHERE test_fi=%s AND user_fi=%s",
-			$ilDB->quote($this->test_id),
-			$ilDB->quote($user_id)
+
+		$query = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = NOW() WHERE test_fi = %s AND user_fi = %s",
+			$ilDB->quote($this->getTestId() . ""),
+			$ilDB->quote($user_id . "")
 		);		
-		$ilDB->query($query);				
-		
+		$ilDB->query($query);
 	}
 	
 	/**

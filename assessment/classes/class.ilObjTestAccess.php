@@ -481,7 +481,6 @@ class ilObjTestAccess extends ilObjectAccess
 	{
 		global $ilDB, $lng;
 		
-		$test_result = array();
 		$query = sprintf("SELECT tst_tests.* FROM tst_tests WHERE tst_tests.obj_fi = %s",
 			$ilDB->quote($a_test_id . "")
 		);
@@ -489,7 +488,7 @@ class ilObjTestAccess extends ilObjectAccess
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($row["test_type_fi"] == 4)
+			if ($row["fixed_participants"])
 			{
 				$query = sprintf("SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
 					$ilDB->quote($row["test_id"] . ""),

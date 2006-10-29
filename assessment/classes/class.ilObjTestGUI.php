@@ -261,14 +261,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
 		$this->tpl->parseCurrentBlock();
 		
-		// create export file button
-		if ($this->object->isOnlineTest()) 
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportfile")."&mode=results");
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_test_results"));
-			$this->tpl->parseCurrentBlock();
-		}
+		// create export test results button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportfile")."&mode=results");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_test_results"));
+		$this->tpl->parseCurrentBlock();
 		
 		$export_dir = $this->object->getExportDirectory();
 
@@ -887,14 +884,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["shuffle_questions"] = 1;
 		}
 		$data["show_summary"] = 0;
-		if (!$this->object->isOnlineTest())
-		{
-			if ($_POST["chb_show_summary"] == 1)
-			{
-				$data["show_summary"] = 1;
-			}
-		}
-		else
+		if ($_POST["chb_show_summary"] == 1)
 		{
 			$data["show_summary"] = 1;
 		}
@@ -1133,8 +1123,6 @@ class ilObjTestGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->backToRepositoryObject();
 		}
-		
-		$this->getSettingsSubTabs();
 
 		$data["count_system"] = $this->object->getCountSystem();
 		$data["mc_scoring"] = $this->object->getMCScoring();
@@ -1382,7 +1370,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
-		$this->getSettingsSubTabs();
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
@@ -1592,17 +1579,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TEXT_SHOW_SUMMARY", $this->lng->txt("tst_show_summary"));
 		$this->tpl->setVariable("TEXT_SHOW_SUMMARY_DESCRIPTION", $this->lng->txt("tst_show_summary_description"));
-		if ($this->object->isOnlineTest())
+		if ($this->object->getShowSummary())
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_SUMMARY", " checked=\"checked\"");
-			$this->tpl->setVariable("DISABLE_SHOW_SUMMARY", " disabled=\"disabled\"");
-		}
-		else
-		{
-			if ($this->object->getShowSummary())
-			{
-				$this->tpl->setVariable("CHECKED_SHOW_SUMMARY", " checked=\"checked\"");
-			}
 		}
 
 		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS", $this->lng->txt("tst_use_previous_answers"));
@@ -3095,8 +3074,6 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function marksObject() 
 	{
-		$this->getSettingsSubTabs();
-
 		global $rbacsystem;
 
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -3214,7 +3191,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$this->object->removeAllTestEditings();
 		sendInfo($this->lng->txt("tst_all_user_data_deleted"), true);
-		$this->ctrl->redirect($this, "maintenance");
+		$this->ctrl->redirect($this, "participants");
 	}
 	
 	/**
@@ -3226,7 +3203,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelDeleteAllUserDataObject()
 	{
-		$this->ctrl->redirect($this, "maintenance");
+		$this->ctrl->redirect($this, "participants");
 	}
 
 	/**
@@ -3238,9 +3215,15 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmDeleteSelectedUserDataObject()
 	{
-		$this->object->removeSelectedTestResults($_POST["chbUser"]);
+		$active_ids = array();
+		foreach ($_POST["chbUser"] as $user_id)
+		{
+			$active = $this->object->getActiveTestUser($user_id);
+			array_push($active_ids, $active->active_id);
+		}
+		$this->object->removeSelectedTestResults($active_ids);
 		sendInfo($this->lng->txt("tst_selected_user_data_deleted"), true);
-		$this->ctrl->redirect($this, "maintenance");
+		$this->ctrl->redirect($this, "participants");
 	}
 	
 	/**
@@ -3252,7 +3235,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelDeleteSelectedUserDataObject()
 	{
-		$this->ctrl->redirect($this, "maintenance");
+		$this->ctrl->redirect($this, "participants");
 	}
 	
 	/**
@@ -3288,7 +3271,8 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if (count($_POST["chbUser"]) == 0)
 		{
-			$this->ctrl->redirect($this, "maintenance");
+			sendInfo($this->lng->txt("select_one_user"), TRUE);
+			$this->ctrl->redirect($this, "participants");
 		}
 		sendInfo($this->lng->txt("confirm_delete_single_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
@@ -3303,9 +3287,8 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./classes/class.ilObjUser.php";
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		foreach ($_POST["chbUser"] as $key => $value)
+		foreach ($_POST["chbUser"] as $key => $user_id)
 		{
-			$user_id = $this->object->_getUserIdFromActiveId($value);
 			$user = ilObjUser::_lookupName($user_id);
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("USER_ICON", ilUtil::getImagePath("icon_usr.gif"));
@@ -3411,81 +3394,17 @@ class ilObjTestGUI extends ilObjectGUI
 	}	
 
 	/**
-	* Creates the status output for a test
+	* Creates the change history for a test
 	*
-	* Creates the status output for a test
+	* Creates the change history for a test
 	*
 	* @access	public
 	*/
-	function statusObject()
+	function historyObject()
 	{
 		global $rbacsystem;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_status.html", true);
-		if (!$this->object->isComplete())
-		{
-			if (!$this->object->isRandomTest())
-			{
-				if (count($this->object->questions) == 0)
-				{
-					$this->tpl->setCurrentBlock("list_element");
-					$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_questions"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			if (count($this->object->mark_schema->mark_steps) == 0)
-			{
-				$this->tpl->setCurrentBlock("list_element");
-				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_marks"));
-				$this->tpl->parseCurrentBlock();
-			}
-			if (strcmp($this->object->author, "") == 0)
-			{
-				$this->tpl->setCurrentBlock("list_element");
-				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_author"));
-				$this->tpl->parseCurrentBlock();
-			}
-			if (strcmp($this->object->title, "") == 0)
-			{
-				$this->tpl->setCurrentBlock("list_element");
-				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_missing_author"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			if ($this->object->isRandomTest())
-			{
-				$arr = $this->object->getRandomQuestionpools();
-				if (count($arr) == 0)
-				{
-					$this->tpl->setCurrentBlock("list_element");
-					$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_no_questionpools_for_random_test"));
-					$this->tpl->parseCurrentBlock();
-				}
-				$count = 0;
-				foreach ($arr as $array)
-				{
-					$count += $array["count"];
-				}
-				if (($count == 0) && ($this->object->getRandomQuestionCount() == 0))
-				{
-					$this->tpl->setCurrentBlock("list_element");
-					$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("tst_no_questions_for_random_test"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			
-			$this->tpl->setCurrentBlock("status_list");
-			$this->tpl->setVariable("TEXT_MISSING_ELEMENTS", $this->lng->txt("tst_status_missing_elements"));
-			$this->tpl->parseCurrentBlock();
-		}
-		$total = $this->object->evalTotalPersons();
-		if ($total > 0)
-		{
-			$this->tpl->setCurrentBlock("list_element");
-			$this->tpl->setVariable("TEXT_ELEMENT", sprintf($this->lng->txt("tst_in_use_edit_questions_disabled"), $total));
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			include_once "./classes/class.ilObjAssessmentFolder.php";
@@ -3523,16 +3442,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		if ($this->object->isComplete())
-		{
-			$this->tpl->setVariable("TEXT_STATUS_MESSAGE", $this->lng->txt("tst_status_ok"));
-			$this->tpl->setVariable("STATUS_CLASS", "bold");
-		}
-		else
-		{
-			$this->tpl->setVariable("TEXT_STATUS_MESSAGE", $this->lng->txt("tst_status_missing"));
-			$this->tpl->setVariable("STATUS_CLASS", "warning");
-		}
 		$this->tpl->parseCurrentBlock();
 	}	
 
@@ -3752,8 +3661,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 		
-		$this->getParticipantsSubTabs();
-
 		$total = $this->object->evalTotalPersons();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_fixed_users.html", true);
 
@@ -3766,9 +3673,11 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if (is_array($_POST["search_for"]))
 			{
+				$this->tpl->setCurrentBlock("search_results_title");
+				$this->tpl->setVariable("TEXT_SEARCH_RESULTS", $this->lng->txt("search_results"));
+				$this->tpl->parseCurrentBlock();
 				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
-				{					
-					
+				{
 					include_once './classes/class.ilSearch.php';
 					$search =& new ilSearch($ilUser->id);
 					$search->setSearchString($_POST["search_term"]);
@@ -3790,7 +3699,7 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 					$buttons = array("add");
 	
-					$invited_users = $this->object->getInvitedUsers();
+					$invited_users =& $this->object->getInvitedUsers();
 				
 					if ($searchresult = $search->getResultByType("usr"))
 					{												
@@ -3857,7 +3766,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$invited_users = $this->object->getInvitedUsers();
 
-		$buttons = array("save","remove","tst_show_answer_sheet","tst_show_results");
+		$buttons = array("save","remove");
 		
 		if ($this->object->getFixedParticipants())
 		{
@@ -3953,103 +3862,18 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 		
-		$this->getParticipantsSubTabs();
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_invite.html", true);
+		if ($this->object->getFixedParticipants())
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_invite.html", true);
+		}
+		else
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_participants.html", true);
+		}
 
 		if ($_POST["cmd"]["cancel"])
 		{
 			$this->backToRepositoryObject();
-		}
-
-		if (strcmp($this->ctrl->getCmd(), "searchParticipants") == 0)
-		{
-			if (is_array($_POST["search_for"]))
-			{
-				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
-				{					
-					
-					include_once './classes/class.ilSearch.php';
-					$search =& new ilSearch($ilUser->id);
-					$search->setSearchString($_POST["search_term"]);
-					$search->setCombination($_POST["concatenation"]);
-					$search->setSearchFor($_POST["search_for"]);
-					$search->setSearchType("new");
-					if($search->validate($message))
-					{
-						$search->performSearch();
-					}
-					if ($message)
-					{
-						sendInfo($message);
-					}
-					
-					if(!$search->getNumberOfResults() && $search->getSearchFor())
-					{
-						sendInfo($this->lng->txt("search_no_match"));
-						return;
-					}
-					$buttons = array("add");
-	
-					$invited_users = $this->object->getInvitedUsers();
-				
-					if ($searchresult = $search->getResultByType("usr"))
-					{												
-						$users = array();
-						foreach ($searchresult as $result_array)
-						{
-							if (!array_key_exists($result_array["id"], $invited_users))
-							{								
-								array_push($users, $result_array["id"]);
-							}
-						}
-						
-						$users = $this->object->getUserData($users);
-						
-						if (count ($users))
-							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"),"TEXT_USER_TITLE", $buttons);
-					}
-	
-					$searchresult = array();
-					
-					if ($searchresult = $search->getResultByType("grp"))
-					{
-						$groups = array();
-						
-						foreach ($searchresult as $result_array)
-						{							
-							array_push($groups, $result_array["id"]);
-						}
-						$groups = $this->object->getGroupData ($groups);
-						
-						if (count ($groups))
-							$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), "TEXT_GROUP_TITLE", $buttons);
-					}
-					
-					$searchresult = array();
-					
-					if ($searchresult = $search->getResultByType("role"))
-					{
-						$roles = array();
-						
-						foreach ($searchresult as $result_array)
-						{							
-							array_push($roles, $result_array["id"]);
-						}
-						
-						$roles = $this->object->getRoleData ($roles);			
-								
-						if (count ($roles))
-							$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), "TEXT_ROLE_TITLE", $buttons);
-					}
-					
-				}
-				
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_user_or_group_selected"));
-			}
 		}
 		
 		if ($_POST["cmd"]["save"])
@@ -4057,55 +3881,64 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->saveToDb();
 		}
 		
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
-			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			$this->tpl->setCurrentBlock("invitation");
+			$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
+			$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
+			$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
+			$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
+			$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
+			$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
+			$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
+			$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
+			$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
+			$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
+			if (is_array($_POST["search_for"]))
 			{
-				$this->tpl->setCurrentBlock("invitation");
-				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
-				$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
-				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
-				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
-				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
-				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
-				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
-				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
-				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
-				$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
-				if (is_array($_POST["search_for"]))
+				if (in_array("usr", $_POST["search_for"]))
 				{
-					if (in_array("usr", $_POST["search_for"]))
-					{
-						$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
-					}
-					if (in_array("grp", $_POST["search_for"]))
-					{
-						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
-					}
-					if (in_array("role", $_POST["search_for"]))
-					{
-						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
-					}
-					
+					$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
 				}
-				if (strcmp($_POST["concatenation"], "and") == 0)
+				if (in_array("grp", $_POST["search_for"]))
 				{
-					$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
+					$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
 				}
-				else if (strcmp($_POST["concatenation"], "or") == 0)
+				if (in_array("role", $_POST["search_for"]))
 				{
-					$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
+					$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
 				}
-				$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
-				$this->tpl->parseCurrentBlock();
+				
+			}
+			if (strcmp($_POST["concatenation"], "and") == 0)
+			{
+				$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
+			}
+			else if (strcmp($_POST["concatenation"], "or") == 0)
+			{
+				$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
+			}
+			$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if ($this->object->getFixedParticipants())
+		{
+			$invited_users =& $this->object->getInvitedUsers();
+			$buttons = array("save","delete_user_data", "remove_as_participant");
+			if (count($invited_users))
+			{
+				$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
 			}
 		}
-		$invited_users = $this->object->getInvitedUsers();
-
-		$buttons = array("save","remove","tst_show_answer_sheet","tst_show_results");
-		
-		if (count($invited_users))
+		else
 		{
-			$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
+			$invited_users =& $this->object->getTestParticipants();
+			$buttons = array("delete_user_data");
+			if (count($invited_users))
+			{
+				$this->outUserGroupTable("iv_participants", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
+			}
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
@@ -4124,9 +3957,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function removeParticipantObject()
 	{
-		if (is_array($_POST["invited_users"])) 
+		if (is_array($_POST["chbUser"])) 
 		{
-			foreach ($_POST["invited_users"] as $user_id)
+			foreach ($_POST["chbUser"] as $user_id)
 			{
 				$this->object->disinviteUser($user_id);				
 			}
@@ -4252,6 +4085,14 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data->clientip);
 					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
 					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started_line:"&nbsp;");
+					$this->ctrl->setParameter($this, "usr_id", $data->usr_id);
+					if ($data->test_started)
+					{
+						$this->tpl->setVariable("VALUE_TST_SHOW_ANSWER_SHEET", $this->lng->txt("tst_show_answer_sheet"));
+						$this->tpl->setVariable("URL_TST_SHOW_ANSWER_SHEET", $this->ctrl->getLinkTarget($this, "showAnswers"));
+						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
+						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTarget($this, "showResults"));
+					}
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
@@ -4269,6 +4110,59 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_IV_FIRSTNAME", $this->lng->txt("firstname"));
 				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
 				$this->tpl->setVariable("TEXT_IV_CLIENT_IP", $this->lng->txt("clientip"));
+				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
+				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
+					
+				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+				{
+					foreach ($buttons as $cat)
+					{
+						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+					}
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
+				}
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "iv_participants":
+				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
+				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
+				$counter = 0;
+				foreach ($data_array as $data)
+				{
+					$finished_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$finished);
+					$started_line = str_replace ("&user_id=","&user_id=".$data->usr_id,$started); 
+					$this->tpl->setCurrentBlock($block_row);
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $data->usr_id);
+					$this->tpl->setVariable("VALUE_IV_USR_ID", $data->usr_id);
+					$this->tpl->setVariable("VALUE_IV_LOGIN", $data->login);
+					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
+					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started_line:"&nbsp;");
+					if ($data->test_started)
+					{
+						$this->tpl->setVariable("VALUE_TST_SHOW_ANSWER_SHEET", $this->lng->txt("tst_show_answer_sheet"));
+						$this->tpl->setVariable("URL_TST_SHOW_ANSWER_SHEET", $this->ctrl->getLinkTarget($this, "showAnswers"));
+						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
+						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTarget($this, "showResults"));
+					}
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				if (count($data_array))
+				{
+					$this->tpl->setCurrentBlock("selectall");
+					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+					$counter++;
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" align=\"middle\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_IV_LOGIN", $this->lng->txt("login"));
+				$this->tpl->setVariable("TEXT_IV_FIRSTNAME", $this->lng->txt("firstname"));
+				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
 				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
 				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
 					
@@ -4437,19 +4331,7 @@ class ilObjTestGUI extends ilObjectGUI
 */
 	function showResultsObject()
 	{
-		$user_ids = array();
-		foreach ($_POST["invited_users"] as $user_id) 
-		{
-			if ($this->object->isActiveTestSubmitted($user_id)) 
-			{
-				array_push($user_ids, $user_id);
-			}
-		}
-		if (count($user_ids) == 0)
-		{
-			sendInfo($this->lng->txt("select_one_submitted_test"), true);
-			$this->ctrl->redirect($this, "participants");
-		}
+		$user_id = $_GET["usr_id"];
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_result_details.html", true);			
 		$this->tpl->setCurrentBlock("generic_css");
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
@@ -4460,13 +4342,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "participants"));
 		$this->tpl->parseCurrentBlock();
-		$counter = 0;
-		foreach ($user_ids as $user_id)
-		{
-			$counter++;
-			if ($counter < count($user_ids)) $this->tpl->touchBlock("ruler");
-			$this->outPrintUserResults($user_id);
-		}
+		$this->outPrintUserResults($user_id);
 	}
 
 /**
@@ -4579,139 +4455,10 @@ class ilObjTestGUI extends ilObjectGUI
 */
 	function showAnswersObject()
 	{
-		$user_ids = array();
-		foreach ($_POST["invited_users"] as $user_id) 
-		{
-			if ($this->object->isActiveTestSubmitted($user_id)) 
-			{
-				array_push($user_ids, $user_id);
-			}
-		}
-		if (count($user_ids) == 0)
-		{
-			sendInfo($this->lng->txt("select_one_submitted_test"), true);
-			$this->ctrl->redirect($this, "participants");
-		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", true);			
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./assessment/templates/default/test_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("navigation_buttons");
-		$this->tpl->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "participants"));
-		$this->tpl->parseCurrentBlock();
-		$counter = 0;
-		foreach ($user_ids as $user_id)
-		{
-			$counter++;
-			if ($counter < count($user_ids)) $this->tpl->touchBlock("ruler");
-			$this->outShowAnswersDetails($user_id);
-		}
+		$this->ctrl->setParameterByClass("iltestoutputgui", "usr_id", $_GET["usr_id"]);
+		$this->ctrl->redirectByClass("iltestoutputgui", "showParticipantAnswersForAuthor");
 	}
 
-/**
-* Outputs all answers including the solutions for the active user (output of the detail part)
-*
-* Outputs all answers including the solutions for the active user (output of the detail part)
-*
-* @access public
-*/
-	function outShowAnswersDetails($user_id) 
-	{
-		$active = $this->object->getActiveTestUser($user_id);
-		$t = $active->submittimestamp;
-		include_once "./classes/class.ilObjUser.php";
-		$ilUser = new ilObjUser($user_id);
-		
-		if (strlen($ilUser->getMatriculation()))
-		{
-			$this->tpl->setCurrentBlock("user_matric");
-			$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("user_matric_value");
-			$this->tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("user_matric_separator");
-		}
-
-		$invited_users = array_pop($this->object->getInvitedUsers($ilUser->getId()));
-		if (strlen($invited_users->clientip))
-		{
-			$this->tpl->setCurrentBlock("user_clientip");
-			$this->tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("clientip"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("user_clientip_value");
-			$this->tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("user_clientip_separator");
-		}
-		$pagetitle = $this->object->getTitle() . " - IP: " . $invited_users->clientip . " - " . $this->lng->txt("matriculation") . ": " . $ilUser->getMatriculation();
-		
-		include_once "./classes/class.ilUtil.php";
-
-		// output of submit date and signature
-		if ($active->submitted)
-		{
-			// only display submit date when it exists (not in the summary but in the print form)
-			$this->tpl->setCurrentBlock("freefield_bottom");
-			$this->tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
-			$this->tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", ilUtil::date_mysql2time($t)));
-
-			$freefieldtypes = array(
-				"freefield_bottom" => array(
-					array(
-						"title" => $this->lng->txt("tst_signature"), 
-						"length" => 300
-					)
-				)
-			);
-
-			foreach ($freefieldtypes as $type => $freefields) 
-			{
-				$counter = 0;
-				while ($counter < count($freefields)) 
-				{
-					$freefield = $freefields[$counter];
-					$this->tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
-					$this->tpl->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.gif"));
-					$counter ++;
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$counter = 1;
-		// output of questions with solutions
-		foreach ($this->object->questions as $question) 
-		{
-			$this->tpl->setCurrentBlock("question");
-			$question_gui = $this->object->createQuestionGUI("", $question);
-
-			$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
-			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			
-			$active = $this->object->getActiveTestUser($ilUser->getId());
-			$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
-			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
-			$this->tpl->parseCurrentBlock();
-			$counter ++;
-		}
-
-		$this->tpl->setCurrentBlock("answer_sheet");
-		$this->tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
-		
-		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
-		$this->tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("PAGETITLE", $pagetitle);
-	}
-	
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -4751,18 +4498,22 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->setParameter($output_gui, "sequence", $seq);
 		$info->setFormAction($this->ctrl->getFormAction($output_gui));
 		$online_access = false;
-		if ($this->object->isOnlineTest())
+		if ($this->object->getFixedParticipants())
 		{
 			include_once "./assessment/classes/class.ilObjTestAccess.php";
-			$online_access_result = 	ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
+			$online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
 			if ($online_access_result === true)
 			{
 				$online_access = true;
 			}
+			else
+			{
+				sendInfo($online_access_result);
+			}
 		}
 		if ($this->object->isComplete())
 		{
-			if ((!$this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id)) || ($this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id) && $online_access))
+			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
 				$executable = $this->object->isExecutable($ilUser->getId());
 				if ($executable["executable"])
@@ -4790,21 +4541,6 @@ class ilObjTestGUI extends ilObjectGUI
 				else
 				{
 					sendInfo($executable["errormessage"]);
-					if ($this->object->isOnlineTest()) 
-					{
-						if ($this->object->canShowSolutionPrintview($ilUser->getId()))
-						{
-							sendInfo($this->lng->txt("online_exam_show_answer_print_sheet"));
-						}			
-						if (!$this->object->isActiveTestSubmitted($ilUser->getId())) 
-						{
-							if ($this->object->startingTimeReached() && (!$this->object->endingTimeReached()))
-							{
-								$info->addFormButton("show_answers", $this->lng->txt("save_finish"));
-								sendInfo($this->lng->txt("online_exam_show_finish_test"));
-							}
-						} 
-					} 			
 				}
 				if (is_object($active))
 				{
@@ -4837,7 +4573,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		if ($this->object->isComplete())
 		{
-			if ((!$this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id)) || ($this->object->isOnlineTest() && $ilAccess->checkAccess("read", "", $this->ref_id) && $online_access))
+			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
 				// use javascript
 				$checked_javascript = false;
@@ -5036,7 +4772,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function certificateObject()
 	{
-		$this->getSettingsSubTabs();
 		include_once "./assessment/classes/class.ilTestCertificateGUI.php";
 		$output_gui = new ilTestCertificateGUI($this->object);
 		$output_gui->certificateEditor();
@@ -5087,7 +4822,11 @@ class ilObjTestGUI extends ilObjectGUI
 		// user results subtab
 		$ilTabs->addSubTabTarget("participants_data",
 			$this->ctrl->getLinkTarget($this,'participants'),
-			array("participants", "saveFixedParticipantsStatus"),
+			array("participants", "saveFixedParticipantsStatus",
+				"showParticipantAnswersForAuthor", "showResults",
+				"deleteAllUserData", "confirmDeleteAllUserData",
+				"cancelDeleteAllUserData", "deleteSingleUserResults"
+			),
 			"", "");
 	
 		// aggregated results subtab
@@ -5103,7 +4842,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilTabs;
 		
 		// general subtab
-		$force_active = ($this->ctrl->getCmdClass() == "" &&
+		$force_active = ($this->ctrl->getCmdClass() == "ilobjtestgui" &&
 			$this->ctrl->getCmd() == "")
 			? true
 			: false;
@@ -5185,6 +4924,26 @@ class ilObjTestGUI extends ilObjectGUI
 			case "insertQuestions":
 				return $this->getBrowseForQuestionsTab($tabs_gui);
 				break;
+			case "showParticipantAnswersForAuthor":
+			case "inviteParticipants":
+			case "participants":
+			case "showResults":
+			case "deleteAllUserData":
+			case "confirmDeleteAllUserData":
+			case "cancelDeleteAllUserData":
+			case "deleteSingleUserResults":
+					 $this->getParticipantsSubTabs();
+				break;
+			case "scoring":
+			case "properties":
+			case "marks":
+			case "certificate":
+			case "":
+				if (strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0)
+				{
+					$this->getSettingsSubTabs();
+				}
+				break;
 		}
 		
 		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)
@@ -5228,7 +4987,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// settings tab
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
-				$force_active = ($this->ctrl->getCmdClass() == "" &&
+				$force_active = ($this->ctrl->getCmdClass() == "ilobjtestgui" &&
 					$this->ctrl->getCmd() == "")
 					? true
 					: false;
@@ -5259,17 +5018,11 @@ class ilObjTestGUI extends ilObjectGUI
 					 $this->ctrl->getLinkTarget($this,'participants'),
 					 array("participants", "searchParticipants", "addParticipants", "saveClientIP",
 					 "removeParticipant", "showAnswers", "showResults", "inviteParticipants",
-					 "saveFixedParticipantsStatus"), 
-					 "");
-
-				// maintenance
-/*				$tabs_gui->addTarget("maintenance",
-					 $this->ctrl->getLinkTarget($this,'maintenance'),
-					 array("maintenance", "deleteAllUserData", "confirmDeleteAllUserData",
+					 "saveFixedParticipantsStatus", "showParticipantAnswersForAuthor",
+					 "deleteAllUserData", "confirmDeleteAllUserData",
 					 "cancelDeleteAllUserData", "deleteSingleUserResults"), 
 					 "");
-	*/	
-					 
+
 				// output tab
 				$tabs_gui->addTarget("output",
 					 $this->ctrl->getLinkTarget($this,'export'),
@@ -5294,10 +5047,10 @@ class ilObjTestGUI extends ilObjectGUI
 											   'illplistofprogressgui'));
 				}
 
-				// status
+				// history
 				$tabs_gui->addTarget("history",
-					 $this->ctrl->getLinkTarget($this,'status'),
-					 "status", "");
+					 $this->ctrl->getLinkTarget($this,'history'),
+					 "history", "");
 
 				// permissions
 				$tabs_gui->addTarget("perm_settings",

@@ -503,6 +503,7 @@ assessment#:#rectangle#:#Rectangle
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.
 assessment#:#region#:#Region
+assessment#:#remove_as_participant#:#Remove as Fixed Participant
 assessment#:#remove_question#:#Remove
 assessment#:#remove_solution#:#Remove suggested solution
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
@@ -523,6 +524,7 @@ assessment#:#scoring#:#Scoring
 assessment#:#search_found_groups#:#Found groups
 assessment#:#search_found_users#:#Found users
 assessment#:#search_groups#:#Search Groups
+assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
@@ -832,7 +834,7 @@ assessment#:#unlock_question#:#This question is in use of at least one test and 
 assessment#:#upload_image#:#Upload image
 assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
-assessment#:#user_not_invited#:#You are not supposed to take this exam.
+assessment#:#user_not_invited#:#You are not supposed to take this test.
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#warning_question_not_complete#:#The question is not complete!
@@ -3393,7 +3395,7 @@ common#:#tst_read#:#Read access to Test
 common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_upload_file#:#Upload file
-common#:#tst_user_not_invited#:#You are not supposed to take this exam.
+common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
 common#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!

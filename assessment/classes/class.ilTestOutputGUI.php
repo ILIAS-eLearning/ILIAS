@@ -1057,6 +1057,19 @@ class ilTestOutputGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	function showParticipantAnswersForAuthor()
+	{
+		$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, TRUE);
+		$template_top->setCurrentBlock("button_print");
+		$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+		$template_top->setVariable("BUTTON_BACK", $this->lng->txt("back"));
+		$template_top->setVariable("URL_BACK", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
+		$template_top->parseCurrentBlock();
+		$usr_id = $_GET["usr_id"];
+		$active = $this->object->getActiveTestUser($usr_id);
+		$this->showListOfAnswers($active->active_id, NULL, $template_top->get());
+	}
+	
 /**
 * Finish the test
 *
@@ -1067,11 +1080,20 @@ class ilTestOutputGUI
 	function finishTest($confirm = true)
 	{
 		global $ilUser;
+		global $ilias;
 		
 		unset($_SESSION["tst_next"]);
 		
 		$active = $this->object->getActiveTestUser($ilUser->getId());
 		$actualpass = $this->object->_getPass($active->active_id);
+		
+		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$confirm))
+		{		
+			$this->object->setActiveTestSubmitted($ilUser->getId());
+			$ilias->auth->setIdle($ilias->ini->readVariable("session","expire"), false);
+			$ilias->auth->setExpire(0);
+		}
+		
 		if (($confirm) && ($actualpass == $this->object->getNrOfTries() - 1))
 		{
 			if ($this->object->canShowSolutionPrintview($ilUser->getId()))
@@ -2388,7 +2410,7 @@ class ilTestOutputGUI
 	{
 		global $ilias, $ilUser;
 		
-		$this->object->setActiveTestSubmitted($ilUser->id);
+		$this->object->setActiveTestSubmitted($ilUser->getId());
 		$ilias->auth->setIdle($ilias->ini->readVariable("session","expire"), false);
 		$ilias->auth->setExpire(0);
 		$this->outIntroductionPage();
