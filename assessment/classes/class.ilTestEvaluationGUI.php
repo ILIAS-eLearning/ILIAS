@@ -1714,10 +1714,7 @@ class ilTestEvaluationGUI
 				$this->tpl->setCurrentBlock("question_row");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				//if ($this->object->isOnlineTest())
-					$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
-				//else
-				//	$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "run") . "&evaluation=" . $value["qid"] . "\">" . $value["title"] . "</a>");
+				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
 				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
 				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);

@@ -3925,6 +3925,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getFixedParticipants())
 		{
 			$invited_users =& $this->object->getInvitedUsers();
+			if (count($invited_users) == 0)	sendInfo($this->lng->txt("tst_participants_no_fixed"));
 			$buttons = array("save","delete_user_data", "remove_as_participant");
 			if (count($invited_users))
 			{
@@ -3934,6 +3935,7 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$invited_users =& $this->object->getTestParticipants();
+			if (count($invited_users) == 0)	sendInfo($this->lng->txt("tst_participants_no"));
 			$buttons = array("delete_user_data");
 			if (count($invited_users))
 			{
