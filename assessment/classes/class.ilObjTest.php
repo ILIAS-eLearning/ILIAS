@@ -6783,17 +6783,6 @@ class ilObjTest extends ilObject
 	}
 	
 	/**
-	 * gets TestType equals Online Test
-	 * 
-	 * @return	boolean true, if test type equals Online Test otherwise false
-	 */
-	
-	function isOnlineTest() 
-	{
-		return $this->getTestType()==TYPE_ONLINE_TEST;
-	}
-	
-	/**
 	 * get solved questions
 	 * 
 	 * @return array of int containing all question ids which have been set solved for the given user and test
@@ -7208,16 +7197,7 @@ class ilObjTest extends ilObject
 		if ($this->hasNrOfTriesRestriction() && is_object($active) && $this->isNrOfTriesReached($active->tries))
 		{
 			$result["executable"] = false;
-			if ($this->isOnlineTest())
-			{
-				// don't display an errormessage for online exams. It could confuse users
-				// because they will get either a finish test button or a print test button
-				$result["errormessage"] = "";
-			}
-			else
-			{
-				$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
-			}
+			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 			return $result;
 		}
 		
@@ -7271,10 +7251,6 @@ class ilObjTest extends ilObject
 		}
 		if (($this->endingTimeReached()) || $notimeleft) $result = TRUE;
 		$result = $result & $this->canViewResults();
-		if ($this->getTestType() == TYPE_ONLINE_TEST)
-		{
-			return $result && $this->isActiveTestSubmitted();
-		}
 		return $result;
 	}
 	

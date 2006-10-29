@@ -638,7 +638,8 @@ assessment#:#tst_invited_selected_groups#:#The selected groups have been added a
 assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_list_of_answers#:#List of Answers
-assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.
+assessment#:#tst_participants_no#:#Nobody has started the test right now!
+assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema

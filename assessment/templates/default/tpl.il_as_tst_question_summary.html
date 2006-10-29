@@ -9,7 +9,11 @@
 		<th class="std">{QUESTION_COUNTER}</th>
 		<th class="std">{QUESTION_TITLE}</th>
 		<th class="std">{POSTPONED}</th>
-		<th class="std">{QUESTION_POINTS}</th>
+		<th class="std">
+<!-- BEGIN title_question_points -->	
+			{QUESTION_POINTS}
+<!-- END title_question_points -->	
+		</th>
 		<th class="std">{WORKED_THROUGH}</th>
 	</tr>
 </thead>
@@ -18,7 +22,11 @@
 	<td class="{COLOR_CLASS}">{VALUE_QUESTION_COUNTER}</td>
 	<td class="{COLOR_CLASS}">{VALUE_QUESTION_TITLE}<br><small><em>{VALUE_QUESTION_DESCRIPTION}</em></small></td>	
 	<td class="{COLOR_CLASS}">{VALUE_POSTPONED}</td>
-	<td class="{COLOR_CLASS}">{VALUE_QUESTION_POINTS}</td>
+	<td class="{COLOR_CLASS}">
+<!-- BEGIN value_question_points -->	
+		{VALUE_QUESTION_POINTS}
+<!-- END value_question_points -->	
+	</td>
 	<td class="{COLOR_CLASS}"><img src="{VALUE_WORKED_THROUGH}" alt="{ALT_WORKED_THROUGH}" /></td>
 </tr>
 <!-- END question --> 
