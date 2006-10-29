@@ -160,15 +160,6 @@ class ilObjTest extends ilObject
   var $evaluation_data;
 
 /**
-* The test type
-* 
-* The test type
-*
-* @var integer
-*/
-  var $test_type;
-
-/**
 * Number of tries the user is allowed to do
 * 
 * Number of tries the user is allowed to do. If set to 0, the user has
@@ -250,18 +241,6 @@ class ilObjTest extends ilObject
 * @var float
 */
   var $ects_fx;
-
-/**
-* An array containing the different types of assessment tests
-*
-* The array contains the type strings of the test types
-* which has been retrieved from the database. The array keys
-* are identical with the database primary keys of the test
-* type strings.
-*
-* @var array
-*/
-	var $test_types;
 
 /**
 * The percentiles of the ECTS grades for this test
@@ -413,8 +392,6 @@ class ilObjTest extends ilObject
 		$this->type = "tst";
 		include_once "./assessment/classes/class.assMarkSchema.php";
 		$this->mark_schema = new ASS_MarkSchema();
-		//$this->ilObject($a_id, $a_call_by_reference);
-		$this->retrieveTestTypes();
 		$this->test_id = -1;
 		$this->author = $ilUser->fullname;
 		$this->introduction = "";
@@ -430,7 +407,6 @@ class ilObjTest extends ilObject
 		$this->ending_time = "";
 		$this->processing_time = "00:00:00";
 		$this->enable_processing_time = "0";
-		$this->test_type = TYPE_ASSESSMENT;
 		$this->ects_output = 0;
 		$this->ects_fx = "";
 		$this->random_test = 0;
@@ -953,28 +929,6 @@ class ilObjTest extends ilObject
 	}
 
 	
-	/**
-	* Retrieves the test types from the database
-	*
-	* Retrieves the test types from the database and sets the
-	* test_types array to the corresponding values.
-	*
-	* @access private
-	* @see $test_types
-	*/
-	function retrieveTestTypes()
-	{
-		global $ilDB;
-
-		$this->test_types = array();
-		$query = "SELECT * FROM tst_test_type ORDER BY test_type_id";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$this->test_types[$row->test_type_id] = $row->type_tag;
-		}
-	}
-	
 /**
 * Returns TRUE if the test title exists in the database
 * 
@@ -1217,10 +1171,9 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, instant_verification, anonymity, show_cancel, fixed_participants, nr_of_tries, use_previous_answers, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, score_reporting, instant_verification, anonymity, show_cancel, fixed_participants, nr_of_tries, use_previous_answers, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
-				$ilDB->quote($this->test_type . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
@@ -1285,9 +1238,8 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->getAuthor() . ""), 
-        $ilDB->quote($this->test_type . ""), 
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
         $ilDB->quote($this->sequence_settings . ""), 
         $ilDB->quote($this->score_reporting . ""), 
@@ -1756,7 +1708,6 @@ class ilObjTest extends ilObject
 				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->test_id = $data->test_id;
 				$this->author = $this->getAuthor();
-				$this->test_type = $data->test_type_fi;
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
 				$this->sequence_settings = $data->sequence_settings;
@@ -1929,20 +1880,6 @@ class ilObjTest extends ilObject
   function setSequenceSettings($sequence_settings = 0) 
 	{
     $this->sequence_settings = $sequence_settings;
-  }
-
-/**
-* Sets the test type
-* 
-* Sets the type of the ilObjTest object
-*
-* @param integer $type The test type value
-* @access public
-* @see $type
-*/
-  function setTestType($type = TYPE_ASSESSMENT) 
-  {
-    $this->test_type = $type;
   }
 
 /**
@@ -2238,45 +2175,6 @@ class ilObjTest extends ilObject
 		}
     return FALSE;
   }
-
-/**
-* Gets the test type
-* 
-* Gets the test type
-*
-* @return integer The test type
-* @access public
-* @see $type
-*/
-  function getTestType() 
-	{
-    return $this->test_type;
-  }
-
-/**
-* Lookup test type
-*
-* @param integer obj_id of test
-* @return integer The test type
-* @access static
-* @see $type
-*/
-  function _lookupTestType($a_obj_id)
-  {
-	  global $ilDB;
-	  
-	  $query = "SELECT test_type_fi FROM tst_tests ".
-		  "WHERE obj_fi = '".$a_obj_id."'";
-	  $res = $ilDB->query($query);
-	  while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-	  {
-		  return $row['test_type_fi'];
-	  }
-	  return 0;
-  }
-
-	  
-
 
 /**
 * Gets the reporting date
@@ -5093,32 +4991,6 @@ class ilObjTest extends ilObject
 		);
 	}
 	
-/**
-* Returns the test type for a given test id
-* 
-* Returns the test type for a given test id
-*
-* @param integer $test_id The database id of the test
-* @return integer The test type of the test
-* @access	public
-*/
-	function _getTestType($active_id)
-	{
-		global $ilDB;
-		
-		$result = "";
-		$query = sprintf("SELECT tst_test_type.type_tag FROM tst_test_type, tst_tests, tst_active WHERE tst_test_type.test_type_id = tst_tests.test_type_fi AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-			$ilDB->quote($active_id . "")
-		);
-		$query_result = $ilDB->query($query);
-		if ($query_result->numRows())
-		{
-			$row = $query_result->fetchRow(DB_FETCHMODE_ASSOC);
-			$result = $row["type_tag"];
-		}
-		return $result;
-	}
-	
 	/**
 	* Creates a list of all available question types
 	*
@@ -5181,9 +5053,6 @@ class ilObjTest extends ilObject
 		{
 			switch ($metadata["label"])
 			{
-				case "test_type":
-					$this->setTestType($metadata["entry"]);
-					break;
 				case "sequence_settings":
 					$this->setSequenceSettings($metadata["entry"]);
 					break;
@@ -5363,12 +5232,6 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->ilias->getSetting("ilias_version"));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
-		// test type
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "test_type");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getTestType());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
 		// sequence settings
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "sequence_settings");
@@ -5483,7 +5346,7 @@ class ilObjTest extends ilObject
 		// solution details
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "instant_verification");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getInstantVerification()));
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getInstantFeedbackSolution()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// anonymity
@@ -5550,7 +5413,7 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlEndTag("objectives");
 
 		// add qti assessmentcontrol
-		if ($this->getInstantVerification() == 1)
+		if ($this->getInstantFeedbackSolution() == 1)
 		{
 			$attrs = array(
 				"solutionswitch" => "Yes"
@@ -6037,11 +5900,10 @@ class ilObjTest extends ilObject
 		$newObj->mark_schema = $original->mark_schema;
 		$newObj->sequence_settings = $original->getSequenceSettings();
 		$newObj->score_reporting = $original->getScoreReporting();
-		$newObj->instant_verification = $original->getInstantVerification();
+		$newObj->instant_verification = $original->getInstantFeedbackSolution();
 		$newObj->setAnonymity($original->getAnonymity());
 		$newObj->setShowCancel($original->getShowCancel());
 		$newObj->reporting_date = $original->getReportingDate();
-		$newObj->test_type = $original->getTestType();
 		$newObj->nr_of_tries = $original->getNrOfTries();
 		$newObj->setUsePreviousAnswers($original->getUsePreviousAnswers());
 		$newObj->processing_time = $original->getProcessingTime();

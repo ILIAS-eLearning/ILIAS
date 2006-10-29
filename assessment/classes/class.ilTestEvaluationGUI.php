@@ -316,7 +316,7 @@ class ilTestEvaluationGUI
 		global $ilUser;
 		
 		$this->ctrl->setCmd("evalStatSelected");
-		$this->setResultsTabs();
+		//$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation_selection.html", true);
 		if ($search)
 		{
@@ -574,7 +574,7 @@ class ilTestEvaluationGUI
 	{
 		$this->ctrl->setCmdClass(get_class($this));
 		$this->ctrl->setCmd("eval_stat");
-		$this->setResultsTabs();
+		//$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation_selection.html", true);
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -740,7 +740,7 @@ class ilTestEvaluationGUI
 			$eval_statistical_settings = $this->saveEvaluationSettings();
 		}
 //		$this->ctrl->setCmd("evalSelectedUsers");
-		$this->setResultsTabs();
+		//$this->setResultsTabs();
 		$legend = array();
 		$legendquestions = array();
 		$titlerow = array();
@@ -1448,7 +1448,7 @@ class ilTestEvaluationGUI
 	
 	function eval_a()
 	{
-		$this->setResultsTabs();
+		//$this->setResultsTabs();
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", true);
@@ -1538,7 +1538,7 @@ class ilTestEvaluationGUI
 		}
 		include_once "./assessment/classes/class.ilObjTest.php";
 		$counted_pass = ilObjTest::_getResultPass($active_id);
-		$this->setResultsTabs();
+		//$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_detail_overview.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
@@ -1653,7 +1653,7 @@ class ilTestEvaluationGUI
 		$this->ctrl->saveParameter($this, "pass");		
 		if (!is_numeric($pass)) $pass = NULL;
 		
-		$this->setResultsTabs();
+		//$this->setResultsTabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_user_detail_detail.html", true);
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;

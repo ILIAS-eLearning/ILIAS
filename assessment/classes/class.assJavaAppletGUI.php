@@ -405,7 +405,15 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output_solution.html", TRUE, TRUE, TRUE);
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_type");
-		$template->setVariable("PARAM_VALUE", ilObjTest::_getTestType($active_id));
+		include_once "./assessment/classes/class.ilObjTest.php";
+		if (ilObjTest::_lookupAnonymity(ilObjTest::_getObjectIDFromTestID($userdata["test_id"])))
+		{
+			$template->setVariable("PARAM_VALUE", "0");
+		}
+		else
+		{
+			$template->setVariable("PARAM_VALUE", "1");
+		}
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_id");
@@ -600,7 +608,15 @@ class assJavaAppletGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, TRUE);
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_type");
-		$template->setVariable("PARAM_VALUE", ilObjTest::_getTestType($active_id));
+		include_once "./assessment/classes/class.ilObjTest.php";
+		if (ilObjTest::_lookupAnonymity(ilObjTest::_getObjectIDFromTestID($userdata["test_id"])))
+		{
+			$template->setVariable("PARAM_VALUE", "0");
+		}
+		else
+		{
+			$template->setVariable("PARAM_VALUE", "1");
+		}
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_id");

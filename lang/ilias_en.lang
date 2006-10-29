@@ -101,50 +101,50 @@ administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
-assessment#:#add_answer#:#Add answer
-assessment#:#add_answer_tf#:#true/false answers
-assessment#:#add_answer_yn#:#yes/no answers
-assessment#:#add_applet_parameter#:#Add applet parameter
-assessment#:#add_area#:#Add area
+assessment#:#add_answer#:#Add Answer
+assessment#:#add_answer_tf#:#True/False Answers
+assessment#:#add_answer_yn#:#Yes/No Answers
+assessment#:#add_applet_parameter#:#Add Applet Parameter
+assessment#:#add_area#:#Add Area
 assessment#:#add_gap#:#Add Gap Text
-assessment#:#add_imagemap#:#Import image map
-assessment#:#add_matching_pair#:#Add matching pair
-assessment#:#add_questionpool#:#Add question pool
-assessment#:#add_solution#:#Add suggested solution
+assessment#:#add_imagemap#:#Import Image Map
+assessment#:#add_matching_pair#:#Add Matching Pair
+assessment#:#add_questionpool#:#Add Question Pool
+assessment#:#add_solution#:#Add Suggested Solution
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#answer#:#Answer
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
 assessment#:#answer_is_right#:#Your solution is correct
 assessment#:#answer_is_wrong#:#Your solution is wrong
-assessment#:#answer_picture#:#Answer picture
-assessment#:#answer_text#:#Answer text
-assessment#:#applet_attributes#:#Applet attributes
-assessment#:#applet_new_parameter#:#New parameter
+assessment#:#answer_picture#:#Answer Picture
+assessment#:#answer_text#:#Answer Text
+assessment#:#applet_attributes#:#Applet Attributes
+assessment#:#applet_new_parameter#:#New Parameter
 assessment#:#applet_parameter#:#Parameter
-assessment#:#applet_parameters#:#Applet parameters
+assessment#:#applet_parameters#:#Applet Parameters
 assessment#:#apply#:#Apply
 assessment#:#assClozeTest#:#Cloze Question
 assessment#:#assImagemapQuestion#:#Image Map Question
 assessment#:#assJavaApplet#:#Java Applet Question
 assessment#:#assMatchingQuestion#:#Matching Question
-assessment#:#assMultipleChoice#:#Multiple Choice Question (multiple response)
-assessment#:#assNumeric#:#Numeric question
+assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Response)
+assessment#:#assNumeric#:#Numeric Question
 assessment#:#assOrderingQuestion#:#Ordering Question
 assessment#:#assQuestions#:#Questions
-assessment#:#assSingleChoice#:#Multiple Choice Question (single response)
+assessment#:#assSingleChoice#:#Multiple Choice Question (Single Response)
 assessment#:#assTextQuestion#:#Essay Question
-assessment#:#assTextSubset#:#Text subset question
-assessment#:#ass_create_export_file#:#Create export file
-assessment#:#ass_create_export_test_results#:#Export test results
-assessment#:#ass_export_files#:#Export files
+assessment#:#assTextSubset#:#Text Subset Question
+assessment#:#ass_create_export_file#:#Create Export File
+assessment#:#ass_create_export_test_results#:#Export Test Results
+assessment#:#ass_export_files#:#Export Files
 assessment#:#ass_file#:#File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
-assessment#:#available_points#:#Available points
-assessment#:#average_reached_points#:#Average reached points
+assessment#:#available_points#:#Available Points
+assessment#:#average_reached_points#:#Average Reached Points
 assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#by#:#by
-assessment#:#cancel_test#:#Suspend the test
+assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
@@ -165,7 +165,7 @@ assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
 assessment#:#certificate_custom#:#Custom...
-assessment#:#certificate_edit#:#Create/edit a certificate template
+assessment#:#certificate_edit#:#Create/Edit a Certificate Template
 assessment#:#certificate_export#:#Export Certificate
 assessment#:#certificate_page_format#:#Page Format
 assessment#:#certificate_background_image#:#Background Image
@@ -210,14 +210,14 @@ assessment#:#certificate_ph_datetime#:#Actual date and time
 assessment#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 assessment#:#certificate_visibility#:#Visibility
 assessment#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is
-assessment#:#certificate_visibility_always#:#Always visible
-assessment#:#certificate_visibility_never#:#Not visible
-assessment#:#certificate_visibility_passed#:#Only visible if a user passed the test
+assessment#:#certificate_visibility_always#:#Always Visible
+assessment#:#certificate_visibility_never#:#Not Visible
+assessment#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
 assessment#:#certificate_error_import#:#An error occured during the import of a certificate!
 assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?
-assessment#:#change_solution#:#Change suggested solution
+assessment#:#change_solution#:#Change Suggested Solution
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.
 assessment#:#changelog_heading#:#Changelog
 assessment#:#checkbox_checked#:#Checked
@@ -227,11 +227,11 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.
-assessment#:#cloze_text#:#Cloze text
-assessment#:#cloze_textgap_case_insensitive#:#Case insensitive
-assessment#:#cloze_textgap_case_sensitive#:#Case sensitive
-assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s
-assessment#:#cloze_textgap_rating#:#Text gap rating
+assessment#:#cloze_text#:#Cloze Text
+assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
+assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
+assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
+assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
@@ -242,29 +242,29 @@ assessment#:#coordinates#:#Coordinates
 assessment#:#correct_solution_is#:#The correct solution is
 assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
-assessment#:#create_gaps#:#Create gaps
-assessment#:#create_imagemap#:#Create an Image map
-assessment#:#create_new#:#Create new
+assessment#:#create_gaps#:#Create Gaps
+assessment#:#create_imagemap#:#Create an Image Map
+assessment#:#create_new#:#Create New
 assessment#:#definition#:#Definition
-assessment#:#delete_area#:#Delete area
-assessment#:#delete_image#:#Delete image
-assessment#:#delete_user_data#:#Delete test data of the selected users
+assessment#:#delete_area#:#Delete Area
+assessment#:#delete_image#:#Delete Image
+assessment#:#delete_user_data#:#Delete Test Data of the Selected Users
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
-assessment#:#detailed_output#:#Detailed output
-assessment#:#detailed_output_printview#:#Detailed output with question printviews
-assessment#:#detailed_output_solutions#:#Detailed output with question solutions
-assessment#:#direct_feedback#:#Verify your solution
+assessment#:#detailed_output#:#Detailed Output
+assessment#:#detailed_output_printview#:#Detailed Output with Question Printviews
+assessment#:#detailed_output_solutions#:#Detailed Output with Question Solutions
+assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#duplicate_qpl#:#Duplicate question pool for test
-assessment#:#duplicate_tst#:#Duplicate test
+assessment#:#duplicate_qpl#:#Duplicate Question Pool for Test
+assessment#:#duplicate_tst#:#Duplicate Test
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!
-assessment#:#ects_grade#:#ECTS grade
+assessment#:#ects_grade#:#ECTS Grade
 assessment#:#ects_grade_a#:#outstanding performance with only minor errors
 assessment#:#ects_grade_a_short#:#EXCELLENT
 assessment#:#ects_grade_b#:#above the average standard but with some errors
@@ -287,12 +287,12 @@ assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
-assessment#:#edit_content#:#Edit content
-assessment#:#edit_properties#:#Edit properties
-assessment#:#end_tag#:#End tag
+assessment#:#edit_content#:#Edit Content
+assessment#:#edit_properties#:#Edit Properties
+assessment#:#end_tag#:#End Tag
 assessment#:#ending_time_reached#:#You have reached the ending time
-assessment#:#enlarge#:#enlarge
-assessment#:#enter_anonymous_code#:#Enter anonymous access code
+assessment#:#enlarge#:#Enlarge
+assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
 assessment#:#enter_enough_positive_points#:#The maxium available points for the question must be greater than 0! Please enter sufficient non negative points for your answers.
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!
 assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.
@@ -300,13 +300,13 @@ assessment#:#error_importing_question#:#There was an error importing the questio
 assessment#:#error_open_image_file#:#Error opening an image file!
 assessment#:#error_open_java_file#:#Error opening an java applet!
 assessment#:#error_save_image_file#:#Error saving an image file!
-assessment#:#eval_all_users#:#Evaluation for all users
+assessment#:#eval_all_users#:#Evaluation for All Users
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
 assessment#:#eval_concatenation#:#Concatenation
 assessment#:#eval_data#:#Evaluation Data
-assessment#:#eval_found_selected_groups#:#Selected groups
-assessment#:#eval_found_selected_users#:#Selected users
+assessment#:#eval_found_selected_groups#:#Selected Groups
+assessment#:#eval_found_selected_users#:#Selected Users
 assessment#:#eval_imagemap_result#:#The image map selection is %s. You received %s points.
 assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
@@ -314,14 +314,14 @@ assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You receive
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.
 assessment#:#eval_search_groups#:#Groups
 assessment#:#eval_search_roles#:#Roles
-assessment#:#eval_search_term#:#Search term
+assessment#:#eval_search_term#:#Search Term
 assessment#:#eval_search_users#:#Users
 assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation
-assessment#:#eval_selected_users#:#Evaluation for selected users
+assessment#:#eval_selected_users#:#Evaluation for Selected Users
 assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Comma separated value (CSV)
+assessment#:#exp_type_spss#:#Comma Separated Value (CSV)
 assessment#:#export#:#Export
 assessment#:#failed_official#:#failed
 assessment#:#failed_short#:#failed
@@ -335,34 +335,34 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all req
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload image maps!
 assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!
 assessment#:#filter#:#Filter
-assessment#:#filter_all_question_types#:#All question types
-assessment#:#filter_all_questionpools#:#All question pools
-assessment#:#filter_show_question_types#:#Show question types
-assessment#:#filter_show_questionpools#:#Show question pools
-assessment#:#filter_users#:#Filter users
+assessment#:#filter_all_question_types#:#All Question Types
+assessment#:#filter_all_questionpools#:#All Question Pools
+assessment#:#filter_show_question_types#:#Show Question Types
+assessment#:#filter_show_questionpools#:#Show Question Pools
+assessment#:#filter_users#:#Filter Users
 assessment#:#gap#:#Gap
-assessment#:#gap_definition#:#Gap definition
-assessment#:#gap_selection#:#Gap selection
+assessment#:#gap_definition#:#Gap Definition
+assessment#:#gap_selection#:#Gap Selection
 assessment#:#general#:#General
-assessment#:#glossary_term#:#Glossary term
-assessment#:#graphical_answers#:#Graphical answer support
-assessment#:#graphical_answers_hide#:#Hide graphical answer support
-assessment#:#graphical_answers_show#:#Show graphical answer support
+assessment#:#glossary_term#:#Glossary Term
+assessment#:#graphical_answers#:#Graphical Answer Support
+assessment#:#graphical_answers_hide#:#Hide Graphical Answer Support
+assessment#:#graphical_answers_show#:#Show Graphical Answer Support
 assessment#:#height#:#Height
-assessment#:#imagemap#:#Image map
-assessment#:#imagemap_file#:#Image map file
-assessment#:#imagemap_source#:#Image map source
+assessment#:#imagemap#:#Image Map
+assessment#:#imagemap_file#:#Image Map File
+assessment#:#imagemap_source#:#Image Map Source
 assessment#:#import_errors_qti#:#The were errors parsing the QTI file. The import was cancelled.
-assessment#:#import_question#:#Import question(s)
-assessment#:#insert_after#:#Insert after
-assessment#:#insert_before#:#Insert before
+assessment#:#import_question#:#Import Question(s)
+assessment#:#insert_after#:#Insert After
+assessment#:#insert_before#:#Insert Before
 assessment#:#internal_links#:#Internal Links
 assessment#:#internal_links_update#:#Update
 assessment#:#javaapplet#:#Java Applet
 assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!
 assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.
-assessment#:#last_update#:#Last update
+assessment#:#last_update#:#Last Update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
@@ -384,24 +384,24 @@ assessment#:#log_user_data_removed#:#Removed all user data
 assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#maintenance#:#Maintenance
-assessment#:#mark_schema#:#Mark schema
-assessment#:#match_terms_and_definitions#:#Match terms and definitions
-assessment#:#match_terms_and_pictures#:#Match terms and pictures
+assessment#:#mark_schema#:#Mark Schema
+assessment#:#match_terms_and_definitions#:#Match Terms and Definitions
+assessment#:#match_terms_and_pictures#:#Match Terms and Pictures
 assessment#:#matches#:#matches
-assessment#:#matching_pair#:#Matching pair
+assessment#:#matching_pair#:#Matching Pair
 assessment#:#matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
 assessment#:#material#:#Material
-assessment#:#material_download#:#Material to download
-assessment#:#material_file#:#Material file
-assessment#:#maxchars#:#Maximum number of characters
+assessment#:#material_download#:#Material to Download
+assessment#:#material_file#:#Material File
+assessment#:#maxchars#:#Maximum Number of Characters
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
-assessment#:#maximum_points#:#Maxium available points
+assessment#:#maximum_points#:#Maxium Available Points
 assessment#:#meaning#:#Meaning
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.
-assessment#:#multiline_answers_hide#:#Use single-line answers
-assessment#:#multiline_answers_show#:#Use multi-line answers
-assessment#:#multiline_terms_hide#:#Use single-line terms
-assessment#:#multiline_terms_show#:#Use multi-line terms
+assessment#:#multiline_answers_hide#:#Use Single-Line Answers
+assessment#:#multiline_answers_show#:#Use Multi-Line Answers
+assessment#:#multiline_terms_hide#:#Use Single-Line Terms
+assessment#:#multiline_terms_show#:#Use Multi-Line Terms
 assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>
 assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved.
@@ -409,17 +409,17 @@ assessment#:#no_question_selected_for_move#:#Please check at least one question 
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
-assessment#:#not_worked_through#:#Not answered
-assessment#:#nr_of_correct_answers#:#Number of requested answers
+assessment#:#not_worked_through#:#Not Answered
+assessment#:#nr_of_correct_answers#:#Number of Requested Answers
 assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.
 assessment#:#optional_keywords#:#Optional input of keywords
 assessment#:#or#:#or
-assessment#:#order_pictures#:#Order pictures
-assessment#:#order_terms#:#Order terms
+assessment#:#order_pictures#:#Order Pictures
+assessment#:#order_terms#:#Order Terms
 assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
 assessment#:#output#:#Output
-assessment#:#output_mode#:#Output mode
+assessment#:#output_mode#:#Output Mode
 assessment#:#participants#:#Participants
 assessment#:#participants_data#:#Participants Data
 assessment#:#participants_invitation#:#Fixed Participants
@@ -427,7 +427,7 @@ assessment#:#participants_invitation_description#:#You are able to make this tes
 assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.
 assessment#:#pass#:#Pass
 assessment#:#passed_official#:#passed
-assessment#:#passed_only#:#Passed tests only
+assessment#:#passed_only#:#Passed Tests Only
 assessment#:#passed_short#:#passed
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
 assessment#:#percentile#:#Percentile
@@ -435,24 +435,24 @@ assessment#:#picture#:#Picture
 assessment#:#please_select#:#-- please select --
 assessment#:#point#:#Point
 assessment#:#points#:#Points
-assessment#:#points_checked#:#Points when checked
+assessment#:#points_checked#:#Points when Checked
 assessment#:#points_short#:#Pt.
-assessment#:#points_unchecked#:#Points when unchecked
+assessment#:#points_unchecked#:#Points when Unchecked
 assessment#:#polygon#:#Polygon
 assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
 assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.
 assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.
-assessment#:#postpone#:#Postpone question
+assessment#:#postpone#:#Postpone Question
 assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#print_answers#:#Print Answers
-assessment#:#print_view#:#Print view
+assessment#:#print_view#:#Print View
 assessment#:#qpl_answertext_fields_not_filled#:#The question could only be saved, if you fill out all answer text fields!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
-assessment#:#qpl_assessment_of_questions#:#Assessment of questions
-assessment#:#qpl_assessment_total_of_answers#:#Total of answers
-assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)
+assessment#:#qpl_assessment_of_questions#:#Assessment of Questions
+assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
+assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
@@ -465,10 +465,10 @@ assessment#:#qpl_duplicate_select_none#:#Please check at least one question to d
 assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
-assessment#:#qpl_export_excel#:#Microsoft Excel file
+assessment#:#qpl_export_excel#:#Microsoft Excel File
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
-assessment#:#qpl_export_xml#:#QTI XML file
-assessment#:#qpl_general_properties#:#General properties
+assessment#:#qpl_export_xml#:#QTI XML File
+assessment#:#qpl_general_properties#:#General Properties
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
@@ -487,42 +487,42 @@ assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
 assessment#:#question_summary#:#List of Questions
-assessment#:#question_title#:#Question title
+assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
 assessment#:#questions_from#:#questions from
 assessment#:#radio_set#:#Set
 assessment#:#radio_unset#:#Unset
-assessment#:#random_accept_sample#:#Accept sample
-assessment#:#random_another_sample#:#Get another sample
-assessment#:#random_selection#:#Random selection
+assessment#:#random_accept_sample#:#Accept Sample
+assessment#:#random_another_sample#:#Get another Sample
+assessment#:#random_selection#:#Random Selection
 assessment#:#range#:#Range
-assessment#:#range_lower_limit#:#Lower limit
-assessment#:#range_upper_limit#:#Upper limit
+assessment#:#range_lower_limit#:#Lower Limit
+assessment#:#range_upper_limit#:#Upper Limit
 assessment#:#rectangle#:#Rectangle
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Remove as Fixed Participant
 assessment#:#remove_question#:#Remove
-assessment#:#remove_solution#:#Remove suggested solution
+assessment#:#remove_solution#:#Remove Suggested Solution
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
-assessment#:#reset_definitions#:#Reset definition positions
-assessment#:#reset_filter#:#Reset filter
-assessment#:#reset_pictures#:#Reset picture positions
+assessment#:#reset_definitions#:#Reset Definition Positions
+assessment#:#reset_filter#:#Reset Filter
+assessment#:#reset_pictures#:#Reset Picture Positions
 assessment#:#result#:#Result
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a Java applet!
-assessment#:#save_edit#:#Save and edit content
-assessment#:#save_finish#:#Finish the test
-assessment#:#save_introduction#:#Go to introduction
+assessment#:#save_edit#:#Save and Edit Content
+assessment#:#save_finish#:#Finish the Test
+assessment#:#save_introduction#:#Go to Introduction
 assessment#:#save_next#:#Next
 assessment#:#save_previous#:#Previous
-assessment#:#save_text_answer_points#:#Save essay points
-assessment#:#scored_pass#:#Scored pass
+assessment#:#save_text_answer_points#:#Save Essay Points
+assessment#:#scored_pass#:#Scored Pass
 assessment#:#scoring#:#Scoring
-assessment#:#search_found_groups#:#Found groups
-assessment#:#search_found_users#:#Found users
+assessment#:#search_found_groups#:#Found Groups
+assessment#:#search_found_users#:#Found Users
 assessment#:#search_groups#:#Search Groups
 assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
@@ -530,37 +530,37 @@ assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
-assessment#:#select_gap#:#Select gap
+assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test
 assessment#:#select_one_user#:#Please select at least one user
 assessment#:#select_qpl_option#:#--- Please select a question pool ---
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#select_tst_option#:#--- Please select a test ---
-assessment#:#selected_image#:#Selected image
-assessment#:#set_edit_mode#:#Set edit mode
-assessment#:#set_filter#:#Set filter
+assessment#:#selected_image#:#Selected Image
+assessment#:#set_edit_mode#:#Set Edit Mode
+assessment#:#set_filter#:#Set Filter
 assessment#:#shape#:#Shape
-assessment#:#shuffle_answers#:#Shuffle answers
+assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#solution_comment_count_system#:#Questions which are answered partially correct will be scored with 0 points
 assessment#:#solution_comment_mc_scoring#:#Multiple choice questions with no checked answer will be scored with 0 points
 assessment#:#solution_comment_score_cutting#:#If the question result is negative, the points have been cut to zero points
-assessment#:#solution_hint#:#Suggested solution
+assessment#:#solution_hint#:#Suggested Solution
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
-assessment#:#solution_order#:#Solution order
-assessment#:#start_tag#:#Start tag
+assessment#:#solution_order#:#Solution Order
+assessment#:#start_tag#:#Start Tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time
-assessment#:#statistical_data#:#Statistical data
+assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
 assessment#:#symbol#:#Symbol
 assessment#:#term#:#Term
 assessment#:#test_cancelled#:#The test was cancelled
-assessment#:#test_reference#:#Test reference
+assessment#:#test_reference#:#Test Reference
 assessment#:#text_answers_saved#:#Essay points modified!
-assessment#:#text_gap#:#Text gap
+assessment#:#text_gap#:#Text Gap
 assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
-assessment#:#text_rating#:#Text matching method
+assessment#:#text_rating#:#Text Matching Method
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
 assessment#:#true#:#True
@@ -568,39 +568,39 @@ assessment#:#tst_access_code_created#:#To provide you with permanent access to y
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
 assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test
 assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers
-assessment#:#tst_allowed_users#:#Maximum number of users running the test simultaneously
-assessment#:#tst_allowed_users_time_gap#:#Idle time for active users
+assessment#:#tst_allowed_users#:#Maximum Number of Users Running the Test Simultaneously
+assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
-assessment#:#tst_already_taken#:#Tests already taken
+assessment#:#tst_already_taken#:#Tests Already Taken
 assessment#:#tst_anonymity#:#Anonymity
 assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
-assessment#:#tst_answered_questions#:#Answered questions
+assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
-assessment#:#tst_browse_for_questions#:#Browse for questions
+assessment#:#tst_browse_for_questions#:#Browse for Questions
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
-assessment#:#tst_count_correct_solutions#:#Count only complete solutions
+assessment#:#tst_count_correct_solutions#:#Count Only Complete Solutions
 assessment#:#tst_count_correct_solutions_description#:#Choose this mode to score only correct question solutions of participants. Incorrect or partial solutions will be scored with 0 points
-assessment#:#tst_count_partial_solutions#:#Count partial solutions
+assessment#:#tst_count_partial_solutions#:#Count Partial Solutions
 assessment#:#tst_count_partial_solutions_description#:#Choose this mode to score question solutions dependend to the answers of the participants. This is the standard behaviour. Even partial solutions will be scored
-assessment#:#tst_delete_all_user_data#:#Delete all user data
+assessment#:#tst_delete_all_user_data#:#Delete all User Data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
-assessment#:#tst_delete_results#:#Reset test
-assessment#:#tst_ending_time#:#Ending time
+assessment#:#tst_delete_results#:#Reset Test
+assessment#:#tst_ending_time#:#Ending Time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
-assessment#:#tst_eval_results_by_pass#:#Detailed question results
-assessment#:#tst_eval_show_answer#:#Show answer
-assessment#:#tst_eval_total_finished#:#Total finished tests (users who submitted the test with the finish test button)
-assessment#:#tst_eval_total_finished_average_time#:#Average test processing time
-assessment#:#tst_eval_total_passed#:#Total passed tests
-assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
-assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
+assessment#:#tst_eval_results_by_pass#:#Detailed Question Results
+assessment#:#tst_eval_show_answer#:#Show Answer
+assessment#:#tst_eval_total_finished#:#Total Finished Tests (users who submitted the test with the finish test button)
+assessment#:#tst_eval_total_finished_average_time#:#Average Test Processing Time
+assessment#:#tst_eval_total_passed#:#Total Passed Tests
+assessment#:#tst_eval_total_passed_average_points#:#Average Points of Passed Tests
+assessment#:#tst_eval_total_passed_average_time#:#Average Processing Time of all Passed Tests
 assessment#:#tst_eval_total_persons#:#Total number of persons who started the test
-assessment#:#tst_eval_user_answer#:#User answer
+assessment#:#tst_eval_user_answer#:#User Answer
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers
@@ -609,14 +609,14 @@ assessment#:#tst_finished#:#Finished
 assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! 
 assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
 assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? 
-assessment#:#tst_general_properties#:#General properties
+assessment#:#tst_general_properties#:#General Properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
-assessment#:#tst_hide_previous_results#:#Hide previous results
+assessment#:#tst_hide_previous_results#:#Hide Previous Results
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
 assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass
 assessment#:#tst_hide_previous_results_introduction#:#If you're processing more than one pass of this test, your previous entered results will not be used as default values
-assessment#:#tst_hide_title_points#:#Question title points
+assessment#:#tst_hide_title_points#:#Question Title Points
 assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
@@ -631,7 +631,7 @@ assessment#:#tst_instant_feedback_results#:#Show Results (only points)
 assessment#:#tst_instant_feedback_results_desc#:#If you check this option, the reached points will be shown after a participant answered a question
 assessment#:#tst_instant_feedback_solution#:#Show Solutions
 assessment#:#tst_instant_feedback_solution_desc#:#If you check this option, the correct solution will be shown after a participant answered a question
-assessment#:#tst_instant_verification#:#Instant verification
+assessment#:#tst_instant_verification#:#Instant Verification
 assessment#:#tst_introduction#:#Introduction
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
 assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants
@@ -641,16 +641,16 @@ assessment#:#tst_list_of_answers#:#List of Answers
 assessment#:#tst_participants_no#:#Nobody has started the test right now!
 assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!
 assessment#:#tst_mark#:#Mark
-assessment#:#tst_mark_create_new_mark_step#:#Create new mark step
-assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema
-assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
-assessment#:#tst_mark_official_form#:#Official form
+assessment#:#tst_mark_create_new_mark_step#:#Create New Mark Step
+assessment#:#tst_mark_create_simple_mark_schema#:#Create Simple Mark Schema
+assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
+assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
-assessment#:#tst_mark_short_form#:#Short form
-assessment#:#tst_max_allowed_users#:#Participants restriction
+assessment#:#tst_mark_short_form#:#Short Form
+assessment#:#tst_max_allowed_users#:#Participants Restriction
 assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
 assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
-assessment#:#tst_maximum_points#:#Maximum points
+assessment#:#tst_maximum_points#:#Maximum Points
 assessment#:#tst_missing_author#:#You have not entered the authors name in the test properties! Please add an authors name.
 assessment#:#tst_missing_marks#:#You do not have a mark schema in the test! Please add at least a simple mark schema to the test.
 assessment#:#tst_missing_questions#:#You do not have any questions in the test! Please add at least one question into the test.
@@ -665,52 +665,52 @@ assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from
 assessment#:#tst_no_solution_available#:#Short answer questions don't have a specified solution.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
-assessment#:#tst_nr_of_tries#:#Max. number of passes
-assessment#:#tst_nr_of_tries_of_user#:#Passes already completed
+assessment#:#tst_nr_of_tries#:#Max. Number of Passes
+assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_participating_users#:#Participating Users
-assessment#:#tst_pass_best_pass#:#Score the best pass
+assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_description#:#Choose this mode to score the best test pass of a participant. This only works if more than one test pass is allowed.
-assessment#:#tst_pass_details#:#Show details
-assessment#:#tst_pass_last_pass#:#Score the last pass
+assessment#:#tst_pass_details#:#Show Details
+assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_last_pass_description#:#Choose this mode to score the last test pass of a participant. This only works if more than one test pass is allowed.
-assessment#:#tst_pass_scoring#:#Multiple pass scoring
-assessment#:#tst_password#:#Test password
+assessment#:#tst_pass_scoring#:#Multiple Pass Scoring
+assessment#:#tst_password#:#Test Password
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test
-assessment#:#tst_percent_solved#:#Percent solved
+assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_postpone#:#Postpone Questions
 assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test
 assessment#:#tst_print#:#Test & Assessment Print View
 assessment#:#tst_print_date#:#Date of Print
-assessment#:#tst_processing_time#:#Max. processing time
-assessment#:#tst_properties#:#Test properties
+assessment#:#tst_processing_time#:#Max. Processing Time
+assessment#:#tst_properties#:#Test Properties
 assessment#:#tst_qst_order#:#Order
-assessment#:#tst_qst_resetsolved#:#Set unsolved
-assessment#:#tst_qst_result_sheet#:#Show result sheet
-assessment#:#tst_qst_setsolved#:#Set solved
+assessment#:#tst_qst_resetsolved#:#Set Unsolved
+assessment#:#tst_qst_result_sheet#:#Show Result Sheet
+assessment#:#tst_qst_setsolved#:#Set Solved
 assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
-assessment#:#tst_question_selection#:#Question selection
+assessment#:#tst_question_selection#:#Question Selection
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points
 assessment#:#tst_question_solved_state#:#Solved
 assessment#:#tst_question_title#:#Title
-assessment#:#tst_question_type#:#Question type
+assessment#:#tst_question_type#:#Question Type
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_qpl_unselected#:#There is at least one unselected question pool! You don't need to add a new question pool.
-assessment#:#tst_random_questionpools#:#Source question pools
+assessment#:#tst_random_questionpools#:#Source Question Pools
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_random_selection#:#Random Selection of Questions
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.
-assessment#:#tst_random_test#:#Random test
+assessment#:#tst_random_test#:#Random Test
 assessment#:#tst_random_test_description#:#If checked, the questions of the test will be chosen randomly from question pools
-assessment#:#tst_reached_points#:#Reached points
+assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_report_after_first_question#:#Offer test results when the test has been started
@@ -718,8 +718,8 @@ assessment#:#tst_report_after_question#:#Allow instant verification of answers
 assessment#:#tst_report_after_test#:#Offer test results when the test is finished
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.
-assessment#:#tst_result_user_name#:#Test results for %s
-assessment#:#tst_results#:#Test results
+assessment#:#tst_result_user_name#:#Test Results for %s
+assessment#:#tst_results#:#Test Results
 assessment#:#tst_results_access#:#Access to Test Results
 assessment#:#tst_results_access_finished#:#After Test is Finished
 assessment#:#tst_results_access_finished_descr#:#Choose this mode to offer test participants access to their test results when they have finished the test 
@@ -727,25 +727,25 @@ assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_descr#:#Choose this mode to offer test participants access to their test results when the specified date and time has been reached
 assessment#:#tst_results_access_always#:#Always
 assessment#:#tst_results_access_always_descr#:#Choose this mode to offer test participants always an access to their test results
-assessment#:#tst_results_aggregated#:#Aggregated test results
-assessment#:#tst_results_back_evaluation#:#Back to evaluation overview
-assessment#:#tst_results_back_introduction#:#Back to introduction
-assessment#:#tst_results_back_overview#:#Back to results overview
+assessment#:#tst_results_aggregated#:#Aggregated Test Results
+assessment#:#tst_results_back_evaluation#:#Back to Evaluation Overview
+assessment#:#tst_results_back_introduction#:#Back to Introduction
+assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_presentation#:#Test Results Presentation
-assessment#:#tst_resume_test#:#Resume the test
-assessment#:#tst_score_cut_question#:#Cut off negative question points
+assessment#:#tst_resume_test#:#Resume the Test
+assessment#:#tst_score_cut_question#:#Cut off Negative Question Points
 assessment#:#tst_score_cut_question_description#:#Choose this mode to set the results for each question to zero points that a participant answers with a result of less than zero points 
-assessment#:#tst_score_cut_test#:#Cut off negative test points
+assessment#:#tst_score_cut_test#:#Cut off Negative Test Points
 assessment#:#tst_score_cut_test_description#:#Choose this mode to set the test results to zero points, if the sum of all question results is less than zero points
-assessment#:#tst_score_cutting#:#Cut off negative points
-assessment#:#tst_score_mcmr_questions#:#Multiple choice questions
-assessment#:#tst_score_mcmr_use_scoring_system#:#Use the defined score
+assessment#:#tst_score_cutting#:#Cut off Negative Points
+assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions
+assessment#:#tst_score_mcmr_use_scoring_system#:#Use the Defined Score
 assessment#:#tst_score_mcmr_use_scoring_system_description#:#Choose this mode to give the defined score for multiple choice questions with multiple response, even if a participant did not check one of the answers
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points for unchecked answers
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 Points for Unchecked Answers
 assessment#:#tst_score_mcmr_zero_points_when_unanswered_description#:#Choose this mode to score 0 points for multiple choice questions with multiple response when no answer was checked by a participant
-assessment#:#tst_score_reporting#:#Score reporting
-assessment#:#tst_score_reporting_date#:#Score reporting date
-assessment#:#tst_score_type#:#Score reporting type
+assessment#:#tst_score_reporting#:#Score Reporting
+assessment#:#tst_score_reporting_date#:#Score Reporting Date
+assessment#:#tst_score_type#:#Score Reporting Type
 assessment#:#tst_select_file_for_import#:#You must select a file for import!
 assessment#:#tst_select_qpls#:#Please select a question pool for duplication
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question
@@ -754,51 +754,51 @@ assessment#:#tst_select_random_questions#:#Select the question pool(s) and the a
 assessment#:#tst_select_tsts#:#Please select a test for duplication
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
 assessment#:#tst_sequence#:#Sequence
-assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
-assessment#:#tst_sequence_properties#:#Sequence properties
-assessment#:#tst_session_settings#:#Session settings
+assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
+assessment#:#tst_sequence_properties#:#Sequence Properties
+assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_show_answer_print_sheet#:#Show List of Answers
-assessment#:#tst_show_answer_sheet#:#Show answers
+assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
 assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
-assessment#:#tst_show_results#:#Show test results
+assessment#:#tst_show_results#:#Show Test Results
 assessment#:#tst_show_solution_details#:#Show Solutions in Test Results
 assessment#:#tst_show_solution_details_description#:#If you check this option, the participants may see all solution details of their answered questions in the test results, including the correct solution
 assessment#:#tst_show_solution_printview#:#Show List of Answers
 assessment#:#tst_show_solution_printview_description#:#If List of Answers is enabled, an overview of all answered questions for a test participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission
 assessment#:#tst_show_summary#:#Show List of Questions
 assessment#:#tst_show_summary_description#:#Offers a list with all test questions available for the test participants during the test
-assessment#:#tst_shuffle_questions#:#Shuffle questions
+assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
 assessment#:#tst_signature#:#Signature
-assessment#:#tst_start_test#:#Start the test
+assessment#:#tst_start_test#:#Start the Test
 assessment#:#tst_started#:#Test Started
-assessment#:#tst_starting_time#:#Starting time
-assessment#:#tst_stat_all_users#:#All participants
+assessment#:#tst_starting_time#:#Starting Time
+assessment#:#tst_stat_all_users#:#All Participants
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)
-assessment#:#tst_stat_result_atimeofwork#:#Average time of work
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean
-assessment#:#tst_stat_result_distancemedian#:#Distance to median
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile
-assessment#:#tst_stat_result_firstvisit#:#First visit
-assessment#:#tst_stat_result_lastvisit#:#Last visit
-assessment#:#tst_stat_result_mark_median#:#Mark of median
-assessment#:#tst_stat_result_median#:#Median of test result in points
+assessment#:#tst_stat_result_atimeofwork#:#Average Time of Work
+assessment#:#tst_stat_result_distancemean#:#Distance to Arithmetic Mean
+assessment#:#tst_stat_result_distancemedian#:#Distance to Median
+assessment#:#tst_stat_result_distancequintile#:#Distance to Arithmetic Quintile
+assessment#:#tst_stat_result_firstvisit#:#First Visit
+assessment#:#tst_stat_result_lastvisit#:#Last Visit
+assessment#:#tst_stat_result_mark_median#:#Mark of Median
+assessment#:#tst_stat_result_median#:#Median of Test Result in Points
 assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through
 assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through
-assessment#:#tst_stat_result_rank_median#:#Rank of median
-assessment#:#tst_stat_result_rank_participant#:#Rank of participant
-assessment#:#tst_stat_result_resultsmarks#:#Test results in marks
-assessment#:#tst_stat_result_resultspoints#:#Test results in points
-assessment#:#tst_stat_result_specification#:#Specification of evaluation data
-assessment#:#tst_stat_result_timeofwork#:#Time of work
-assessment#:#tst_stat_result_total_participants#:#Total number of participants
-assessment#:#tst_stat_selected_users#:#Selected participants
-assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
+assessment#:#tst_stat_result_rank_median#:#Rank of Median
+assessment#:#tst_stat_result_rank_participant#:#Rank of Participant
+assessment#:#tst_stat_result_resultsmarks#:#Test Results in Marks
+assessment#:#tst_stat_result_resultspoints#:#Test Results in Points
+assessment#:#tst_stat_result_specification#:#Specification of Evaluation Data
+assessment#:#tst_stat_result_timeofwork#:#Time of Work
+assessment#:#tst_stat_result_total_participants#:#Total Number of Participants
+assessment#:#tst_stat_selected_users#:#Selected Participants
+assessment#:#tst_stat_users_intro#:#Show Statistical Evaluation for
 assessment#:#tst_status_completed#:#completed
 assessment#:#tst_status_completed_more_tries_possible#:#Completed
 assessment#:#tst_status_missing#:#There are required elements missing in this test!
@@ -809,31 +809,31 @@ assessment#:#tst_status_progress#:#In progress
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
-assessment#:#tst_test_output#:#Test output
-assessment#:#tst_text_count_system#:#Scoring system
+assessment#:#tst_test_output#:#Test Output
+assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
 assessment#:#tst_time_already_spent_left#:#You have %s left.
-assessment#:#tst_total_questions#:#Total amount of questions
+assessment#:#tst_total_questions#:#Total Amount of Questions
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool!
 assessment#:#tst_tst_date#:#Date of Test
-assessment#:#tst_type#:#Test type
+assessment#:#tst_type#:#Test Type
 assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
-assessment#:#tst_types#:#Test types
+assessment#:#tst_types#:#Test Types
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
 assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is
 assessment#:#tst_your_mark_is#:#Your mark is
-assessment#:#tt_assessment#:#Assessment test
+assessment#:#tt_assessment#:#Assessment Test
 assessment#:#tt_online_exam#:#Online Exam
-assessment#:#tt_self_assessment#:#Self assessment test
-assessment#:#tt_varying_randomtest#:#Varying random test
+assessment#:#tt_self_assessment#:#Self Assessment Test
+assessment#:#tt_varying_randomtest#:#Varying Random Test
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you do not want to delete the users test results, you can duplicate the question in the question pool and change that version.
-assessment#:#upload_image#:#Upload image
-assessment#:#upload_imagemap#:#Upload an Image map
+assessment#:#upload_image#:#Upload Image
+assessment#:#upload_imagemap#:#Upload an Image Map
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#user_not_invited#:#You are not supposed to take this test.
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.
@@ -5996,36 +5996,36 @@ style#:#sty_top#:#Top
 style#:#sty_vertical_align#:#Vertical Alignment
 style#:#sty_white_space#:#White Space
 style#:#sty_word_spacing#:#Word Spacing
-survey#:#SurveyMetricQuestion#:#Metric question
-survey#:#SurveyNominalQuestion#:#Nominal question
-survey#:#SurveyOrdinalQuestion#:#Ordinal question
+survey#:#SurveyMetricQuestion#:#Metric Question
+survey#:#SurveyNominalQuestion#:#Nominal Question
+survey#:#SurveyOrdinalQuestion#:#Ordinal Question
 survey#:#SurveyTextQuestion#:#Essay
-survey#:#add_category#:#Add answer
-survey#:#add_heading#:#Add heading
+survey#:#add_category#:#Add Answer
+survey#:#add_heading#:#Add Heading
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as answers.
-survey#:#add_phrase#:#Add phrase
-survey#:#add_phrase_introduction#:#Please select a phrase:
-survey#:#add_standard_numbers#:#Add standard numbers
+survey#:#add_phrase#:#Add Phrase
+survey#:#add_phrase_introduction#:#Please select a Phrase:
+survey#:#add_standard_numbers#:#Add Standard Numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below. ### 2006-5-8 --- Content changed
-survey#:#anonymize_personalized#:#No anonymization
-survey#:#anonymize_registered_user#:#Anonymized survey access
+survey#:#anonymize_personalized#:#No Anonymization
+survey#:#anonymize_registered_user#:#Anonymized Survey Access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
-survey#:#anonymize_survey#:#Anonymize survey data
+survey#:#anonymize_survey#:#Anonymize Survey Data
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
 survey#:#anonymize_without_code#:#Anonymization with free access to the survey
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
-survey#:#arithmetic_mean#:#Arithmetic mean
+survey#:#arithmetic_mean#:#Arithmetic Mean
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following question block(s) to the survey?
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#before#:#before
-survey#:#browse_for_questions#:#Browse for questions
-survey#:#cancel_survey#:#Suspend the survey
+survey#:#browse_for_questions#:#Browse for Questions
+survey#:#cancel_survey#:#Suspend the Survey
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey question pool!
@@ -6044,14 +6044,14 @@ survey#:#category_delete_select_none#:#Please check at least one answer to delet
 survey#:#category_nr_selected#:#Number of users that selected this answer
 survey#:#chart#:#Chart
 survey#:#check_category_to_save_phrase#:#You must select a least one answer to save a phrase!
-survey#:#codes#:#Access codes
+survey#:#codes#:#Access Codes
 survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
 survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
-survey#:#constraint_add#:#Add precondition
+survey#:#constraint_add#:#Add Precondition
 survey#:#constraints#:#Preconditions
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey. Since the first entity has no previous questions or questionblocks there is no possibility to define preconditions for it.
@@ -6061,7 +6061,7 @@ survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at 
 survey#:#contains#:#Contains
 survey#:#continue#:#Continue >>
 survey#:#create_date#:#Created
-survey#:#create_new#:#Create new
+survey#:#create_new#:#Create New
 survey#:#create_questionpool_before_add_question#:#You must create at least one question pool to store your questions!
 survey#:#dc_agree#:#agree
 survey#:#dc_always#:#always
@@ -6098,75 +6098,75 @@ survey#:#dc_undesired#:#undesired
 survey#:#dc_varying#:#varying
 survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
-survey#:#define_questionblock#:#Define question block
-survey#:#delete_user_data#:#Delete the survey data of the selected users
+survey#:#define_questionblock#:#Define Question Block
+survey#:#delete_user_data#:#Delete the Survey Data of the Selected Users
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 survey#:#disinvite#:#Disinvite
 survey#:#display_all_available#:#Display all available
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
-survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)
-survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)
-survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)
-survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)
-survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)
-survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)
-survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)
-survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)
-survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)
-survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)
-survey#:#dp_standard_behaviour_certainly5#:#Standard behavior (most certainly-more positive-undecided-more negative-most certainly not)
-survey#:#dp_standard_behaviour_yes_no#:#Standard behavior (yes-no)
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behavior (yes-undecided-no)
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)
-survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)
-survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
-survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
-survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
-survey#:#dp_standard_numbers#:#Standard numbers
+survey#:#dp_standard_attitude_agree5#:#Standard Attitude (strongly agree-agree-undecided-disagree-strongly disagree)
+survey#:#dp_standard_attitude_agree_disagree#:#Standard Attitude (agree-disagree)
+survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard Attitude (agree-undecided-disagree)
+survey#:#dp_standard_attitude_desired5#:#Standard Attitude (strongly desired-desired-neutral-undesired-strongly undesired)
+survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard Attitude (desired-neutral-undesired)
+survey#:#dp_standard_attitude_desired_undesired#:#Standard Attitude (desired-undesired)
+survey#:#dp_standard_attitude_good5#:#Standard Attitude (very good-good-fair-poor-not acceptable)
+survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard Attitude (good-fair-not acceptable)
+survey#:#dp_standard_attitude_good_notacceptable#:#Standard Attitude (good-not acceptable)
+survey#:#dp_standard_attitude_must5#:#Standard Attitude (must-should-undecided-should not-must not)
+survey#:#dp_standard_attitude_shold_shouldnot#:#Standard Attitude (should-should not)
+survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard Attitude (should-undecided-should not)
+survey#:#dp_standard_behaviour_certainly5#:#Standard Behavior (most certainly-more positive-undecided-more negative-most certainly not)
+survey#:#dp_standard_behaviour_yes_no#:#Standard Behavior (yes-no)
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard Behavior (yes-undecided-no)
+survey#:#dp_standard_beliefs_always5#:#Standard Beliefs (always-many times-varying-rarely-never)
+survey#:#dp_standard_beliefs_always_never#:#Standard Beliefs (always-never)
+survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard Beliefs (always-sometimes-never)
+survey#:#dp_standard_beliefs_true5#:#Standard Beliefs (definitely true-true-undecided-false-definitely false)
+survey#:#dp_standard_beliefs_true_false#:#Standard Beliefs (true-false)
+survey#:#dp_standard_beliefs_true_undecided_false#:#Standard Beliefs (true-undecided-false)
+survey#:#dp_standard_numbers#:#Standard Numbers
 survey#:#duplicate#:#Duplicate
-survey#:#duplicate_svy#:#Duplicate survey
+survey#:#duplicate_svy#:#Duplicate Survey
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the preconditions
-survey#:#edit_heading#:#Edit heading
-survey#:#end_date#:#End date
+survey#:#edit_heading#:#Edit Heading
+survey#:#end_date#:#End Date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
-survey#:#enter_anonymous_id#:#Survey access code
-survey#:#enter_phrase_title#:#Please enter a phrase title
-survey#:#enter_questionblock_title#:#Please enter a questionblock title!
+survey#:#enter_anonymous_id#:#Survey Access Code
+survey#:#enter_phrase_title#:#Please enter a Phrase Title
+survey#:#enter_questionblock_title#:#Please enter a Questionblock Title!
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
-survey#:#enter_value#:#Enter a value
+survey#:#enter_value#:#Enter a Value
 survey#:#error_add_heading#:#Please add a heading!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 survey#:#evaluation#:#Evaluation
-survey#:#evaluation_access#:#Evaluation access
-survey#:#evaluation_access_all#:#Evaluation access for all users
+survey#:#evaluation_access#:#Evaluation Access
+survey#:#evaluation_access_all#:#Evaluation Access for All Users
 survey#:#evaluation_access_info#:#You have access to the survey evaluation
-survey#:#evaluation_access_participants#:#Evaluation access for survey participants
-survey#:#existing_constraints#:#Existing preconditions
+survey#:#evaluation_access_participants#:#Evaluation Access for Survey Participants
+survey#:#existing_constraints#:#Existing Preconditions
 survey#:#exit#:#Exit
-survey#:#exp_type_csv#:#Comma separated value (CSV)
+survey#:#exp_type_csv#:#Comma Separated Value (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
-survey#:#export_data_as#:#Export data as
+survey#:#export_data_as#:#Export Data As
 survey#:#fill_out_all_category_fields#:#Please fill out all answer fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add answers!
 survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete answers!
 survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move answers!
 survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!
 survey#:#filter#:#Filter
-survey#:#filter_all_question_types#:#All question types
-survey#:#filter_all_questionpools#:#All question pools
-survey#:#filter_show_question_types#:#Show question types
-survey#:#filter_show_questionpools#:#Show question pools
+survey#:#filter_all_question_types#:#All Question Types
+survey#:#filter_all_questionpools#:#All Question Pools
+survey#:#filter_show_question_types#:#Show Question Types
+survey#:#filter_show_questionpools#:#Show Question Pools
 survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.
-survey#:#found_questions#:#Found questions
-survey#:#geometric_mean#:#Geometric mean
-survey#:#given_answers#:#Given answers
-survey#:#glossary_term#:#Glossary term
-survey#:#harmonic_mean#:#Harmonic mean
+survey#:#found_questions#:#Found Questions
+survey#:#geometric_mean#:#Geometric Mean
+survey#:#given_answers#:#Given Answers
+survey#:#glossary_term#:#Glossary Term
+survey#:#harmonic_mean#:#Harmonic Mean
 survey#:#heading#:#Heading
 survey#:#horizontal#:#horizontal
 survey#:#import_error_closing_file#:#Error closing the import file!
@@ -6174,45 +6174,45 @@ survey#:#import_error_opening_file#:#Error opening the import file!
 survey#:#import_error_survey_no_proper_values#:#The survey properties do not contain proper values!
 survey#:#import_error_survey_no_properties#:#No survey properties found. Cannot import the survey!
 survey#:#import_no_file_selected#:#No file selected!
-survey#:#import_question#:#Import question(s)
+survey#:#import_question#:#Import Question(s)
 survey#:#import_wrong_file_type#:#Wrong file type!
-survey#:#insert_after#:#Insert after
-survey#:#insert_before#:#Insert before
+survey#:#insert_after#:#Insert After
+survey#:#insert_before#:#Insert Before
 survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!
 survey#:#insert_missing_questionblock#:#Please select at least one question block to insert it into the survey!
 survey#:#introduction#:#Introduction
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
 survey#:#invitation#:#Invitation
-survey#:#invitation_mode#:#Invitation mode
-survey#:#invite_participants#:#Invite participants
-survey#:#invited_groups#:#Invited groups
-survey#:#invited_users#:#Invited users
+survey#:#invitation_mode#:#Invitation Mode
+survey#:#invite_participants#:#Invite Participants
+survey#:#invited_groups#:#Invited Groups
+survey#:#invited_users#:#Invited Users
 survey#:#label_resume_survey#:#Enter your 5 digit survey code
-survey#:#last_update#:#Last update
+survey#:#last_update#:#Last Update
 survey#:#legend#:#Legend
-survey#:#lower_limit#:#Lower limit
+survey#:#lower_limit#:#Lower Limit
 survey#:#maintenance#:#Maintenance
-survey#:#manage_phrases#:#Manage phrases
+survey#:#manage_phrases#:#Manage Phrases
 survey#:#material#:#Material
 survey#:#material_added_successfully#:#You successfully set a material link!
-survey#:#material_file#:#Material file
-survey#:#maxchars#:#Maximum number of characters
-survey#:#maximum#:#Maximum value
+survey#:#material_file#:#Material File
+survey#:#maxchars#:#Maximum Number of Characters
+survey#:#maximum#:#Maximum Value
 survey#:#median#:#Median
 survey#:#median_between#:#between
 survey#:#menuback#:#Back
-survey#:#menubacktosurvey#:#Back to the survey
+survey#:#menubacktosurvey#:#Back to the Survey
 survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 5 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.
 survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!
 survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
-survey#:#minimum#:#Minimum value
+survey#:#minimum#:#Minimum Value
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!
-survey#:#mode#:#Most selected value
-survey#:#mode_nr_of_selections#:#Nr of selections
-survey#:#mode_text#:#Most selected value (Text)
-survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
-survey#:#multiple_choice_single_response#:#Multiple choice (single response)
+survey#:#mode#:#Most Selected Value
+survey#:#mode_nr_of_selections#:#Nr of Selections
+survey#:#mode_text#:#Most Selected Value (Text)
+survey#:#multiple_choice_multiple_response#:#Multiple Choice (Multiple Response)
+survey#:#multiple_choice_single_response#:#Multiple Choice (Single Response)
 survey#:#new_survey_codes#:#new survey access code(s)
 survey#:#next_question_rows#:#Questions %d - %d of %d >>
 survey#:#no_available_constraints#:#There are no preconditions defined!
@@ -6239,13 +6239,13 @@ survey#:#online#:#online
 survey#:#or#:#or
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation
-survey#:#outro#:#Final statement
+survey#:#outro#:#Final Statement
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers
 survey#:#percentage_of_selections#:#Percentage of users that selected this answer
 survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#please_select#:#-- please select --
-survey#:#predefined_users#:#Predefined user set
+survey#:#predefined_users#:#Predefined User Set
 survey#:#preview#:#Preview
 survey#:#previous_question_rows#:#<< Questions %d - %d of %d
 survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?
@@ -6266,70 +6266,70 @@ survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter a
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
 survey#:#question_contains_no_categories#:#There are no answers defined for this question
 survey#:#question_has_constraints#:#Preconditions
-survey#:#question_icon#:#Question icon
+survey#:#question_icon#:#Question Icon
 survey#:#question_obligatory#:#The question is obligatory!
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
-survey#:#question_type#:#Question type
-survey#:#questionblock#:#Question block
+survey#:#question_type#:#Question Type
+survey#:#questionblock#:#Question Block
 survey#:#questionblock_has_constraints#:#Preconditions
-survey#:#questionblock_icon#:#Questionblock icon
-survey#:#questionblocks#:#Question blocks
+survey#:#questionblock_icon#:#Questionblock Icon
+survey#:#questionblocks#:#Question Blocks
 survey#:#questions#:#Questions
 survey#:#questions_inserted#:#Question(s) inserted!
 survey#:#questions_removed#:#Question(s) and/or question block(s) removed!
-survey#:#questiontype#:#Question type
+survey#:#questiontype#:#Question Type
 survey#:#ratio_absolute#:#Ratio-Absolute
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
 survey#:#ratio_scale_ge_zero#:#The minimum value for a ratio scale must be greater or equal zero
 survey#:#remove_question#:#Remove
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the survey?
-survey#:#reset_filter#:#Reset filter
-survey#:#resume_survey#:#Resume the survey
+survey#:#reset_filter#:#Reset Filter
+survey#:#resume_survey#:#Resume the Survey
 survey#:#save_back_to_survey#:#Save and go back to the survey
-survey#:#save_obligatory_state#:#Save obligatory states
-survey#:#save_phrase#:#Save as phrase
+survey#:#save_obligatory_state#:#Save Obligatory States
+survey#:#save_phrase#:#Save as Phrase
 survey#:#save_phrase_categories_not_checked#:#Please check at least two answers to save answers in a new phrase!
 survey#:#save_phrase_introduction#:#If you want to save the answers below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
 survey#:#search_field_all#:#Search in all fields
 survey#:#search_for#:#Search for
-survey#:#search_groups#:#Found groups
+survey#:#search_groups#:#Found Groups
 survey#:#search_invitation#:#Search for users or groups to invite
-survey#:#search_questions#:#Search questions
-survey#:#search_roles#:#Found roles
-survey#:#search_term#:#Search term
-survey#:#search_type_all#:#Search in all question types
-survey#:#search_users#:#Found users
+survey#:#search_questions#:#Search Questions
+survey#:#search_roles#:#Found Roles
+survey#:#search_term#:#Search Term
+survey#:#search_type_all#:#Search in all Question Types
+survey#:#search_users#:#Found Users
 survey#:#select_option#:#--- Please select an option ---
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
 survey#:#select_prior_question#:#Select a prior question
 survey#:#select_questionpool#:#Please select a question pool to store the created question
-survey#:#select_questionpool_short#:#Question pool for Survey
-survey#:#select_relation#:#Select a relation
+survey#:#select_questionpool_short#:#Question Pool for Survey
+survey#:#select_relation#:#Select a Relation
 survey#:#select_svy_option#:#--- Please select a survey ---
 survey#:#select_target_position_for_move#:#Please select a target position to move the answers and press one of the insert buttons!
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
-survey#:#select_value#:#Select a value
+survey#:#select_value#:#Select a Value
 survey#:#selection#:#Selection
-survey#:#set_filter#:#Set filter
+survey#:#set_filter#:#Set Filter
 survey#:#skipped#:#skipped
-survey#:#spl_general_properties#:#General properties
+survey#:#spl_general_properties#:#General Properties
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#If the questionpool is not online, it cannot be used in surveys.
 survey#:#spl_select_file_for_import#:#You must select a file for import!
-survey#:#start_date#:#Start date
+survey#:#start_date#:#Start Date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
-survey#:#start_survey#:#Start survey
+survey#:#start_survey#:#Start Survey
 survey#:#subject_mail_survey_id#:#Your survey code for "%s" ### 2006-5-8 --- Content changed
 survey#:#subtype#:#Subtype
-survey#:#survey_code#:#Survey access code
+survey#:#survey_code#:#Survey Access Code
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!
 survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.
-survey#:#survey_code_url#:#URL for direct access
+survey#:#survey_code_url#:#URL for Direct Access
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
-survey#:#survey_codes_lang#:#Language of the survey
+survey#:#survey_codes_lang#:#Language of the Survey
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
-survey#:#survey_finish#:#Finish survey
+survey#:#survey_finish#:#Finish Survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
@@ -6341,23 +6341,23 @@ survey#:#survey_question_obligatory#:#This question is obligatory. You must answ
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Questions
 survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
-survey#:#survey_skip_finish#:#skip and finish survey
-survey#:#survey_skip_next#:#skip >>
-survey#:#survey_skip_previous#:#<< skip
-survey#:#survey_skip_start#:#skip and go to start page
-survey#:#survey_start#:#Go to start page
+survey#:#survey_skip_finish#:#Skip and Finish Survey
+survey#:#survey_skip_next#:#Skip >>
+survey#:#survey_skip_previous#:#<< Skip
+survey#:#survey_skip_start#:#Skip and Go To Start Page
+survey#:#survey_start#:#Go To Start Page
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
-survey#:#svy_create_export_file#:#Create export file
-survey#:#svy_delete_all_user_data#:#Delete all user data
-survey#:#svy_eval_cumulated#:#Cumulated results
-survey#:#svy_eval_detail#:#Cumulated results (details)
-survey#:#svy_eval_user#:#User specific results
-survey#:#svy_export_files#:#Export files
+survey#:#svy_create_export_file#:#Create Export File
+survey#:#svy_delete_all_user_data#:#Delete all User Data
+survey#:#svy_eval_cumulated#:#Cumulated Results
+survey#:#svy_eval_detail#:#Cumulated Results (Details)
+survey#:#svy_eval_user#:#User Specific Results
+survey#:#svy_export_files#:#Export Files
 survey#:#svy_file#:#File
-survey#:#svy_general_properties#:#General properties
+survey#:#svy_general_properties#:#General Properties
 survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.
 survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.
 survey#:#svy_missing_questions#:#You do not have any questions in the survey! Please add at least one question to the survey.
@@ -6368,34 +6368,34 @@ survey#:#svy_select_file_for_import#:#You must select a file for import!
 survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions
 survey#:#svy_select_surveys#:#Please select a survey for duplication
 survey#:#svy_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
-survey#:#svy_show_questiontitles#:#Show question titles in survey
+survey#:#svy_show_questiontitles#:#Show Question Titles in Survey
 survey#:#svy_size#:#Size
-survey#:#svy_statistical_evaluation#:#Statistical evaluation
+survey#:#svy_statistical_evaluation#:#Statistical Evaluation
 survey#:#svy_status_missing#:#There are required elements missing in this survey!
 survey#:#svy_status_missing_elements#:#The following elements are missing:
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
 survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
-survey#:#title_resume_survey#:#Resume the survey - Enter survey code
+survey#:#title_resume_survey#:#Resume the Survey - Enter Survey Code
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
 survey#:#uploaded_material#:#Uploaded Material
-survey#:#upper_limit#:#Upper limit
+survey#:#upper_limit#:#Upper Limit
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#used#:#used
-survey#:#users_answered#:#Users answered
-survey#:#users_skipped#:#Users skipped
+survey#:#users_answered#:#Users Answered
+survey#:#users_skipped#:#Users Skipped
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#vertical#:#vertical
 survey#:#view_constraints_introduction#:#You are viewing the preconditions of the following question/question block:
-survey#:#view_phrase#:#View phrase
+survey#:#view_phrase#:#View Phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.
-trac#:#found_objects#:#Found objects
+trac#:#found_objects#:#Found Objects
 trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found. Therefore refine your search request, please.
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.
 trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!

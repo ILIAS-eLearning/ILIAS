@@ -164,6 +164,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->redirect($evaluation_gui, "eval_stat");
 	}
 
+	function evalStatSelectedObject()
+	{
+		include_once "./assessment/classes/class.ilTestEvaluationGUI.php";
+
+		$evaluation_gui =& new ilTestEvaluationGUI($this->object);
+		$this->ctrl->redirect($evaluation_gui, "evalStatSelected");
+	}
+
 	/**
 	* form for new test object import
 	*/
@@ -238,8 +246,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function exportObject()
 	{
-		$this->getOutputSubTabs();
-
 		global $tree;
 		global $rbacsystem;
 
@@ -373,9 +379,9 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo("cannot_export_test");
+			sendInfo("cannot_export_test", TRUE);
 		}
-		$this->exportObject();
+		$this->ctrl->redirect($this, "export");
 	}
 	
 	
@@ -3998,8 +4004,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function printobject() 
 	{
-		$this->getOutputSubTabs();
-
 		global $rbacsystem, $ilUser;
 		
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -4769,6 +4773,10 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
+	function statisticsObject()
+	{
+	}
+
 	/**
 	* Shows the certificate editor
 	*/
@@ -4805,9 +4813,17 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilTabs;
 		
 		// user results subtab
-		$ilTabs->addSubTabTarget("tst_results_user",
+		$ilTabs->addSubTabTarget("eval_all_users",
 			 $this->ctrl->getLinkTarget($this,'eval_stat'),
-			 "eval_stat", "");
+			 array("eval_stat", "evalAllUsers")
+			 , "");
+	
+		// selected user results subtab
+		$ilTabs->addSubTabTarget("eval_selected_users",
+			 $this->ctrl->getLinkTarget($this,'evalStatSelected'),
+			 array("evalStatSelected", "evalSelectedUsers",
+			 "searchForEvaluation")
+			 , "");
 	
 		// aggregated results subtab
 		$ilTabs->addSubTabTarget("tst_results_aggregated",
@@ -4946,6 +4962,19 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->getSettingsSubTabs();
 				}
 				break;
+			case "export":
+			case "print":
+				$this->getOutputSubTabs();
+				break;
+			case "statistics":
+			case "eval_a":
+			case "eval_stat":
+			case "evalStatSelected":
+			case "evalAllUsers":
+			case "evalSelectedUsers":
+			case "searchForEvaluation":
+				$this->getStatisticsSubTabs();
+				break;
 		}
 		
 		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)
@@ -5035,8 +5064,10 @@ class ilObjTestGUI extends ilObjectGUI
 		
 				// statistics tab
 				$tabs_gui->addTarget("statistics",
-					 $this->ctrl->getLinkTarget($this,'statistics'),
-					 "statistics", "");
+					 $this->ctrl->getLinkTarget($this,'eval_stat'),
+					 array("statistics", "eval_a", "eval_stat", "evalStatSelected",
+					 	"evalAllUsers", "evalSelectedUsers", "searchForEvaluation")
+					 , "");
 
 				// learning progress
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
