@@ -427,7 +427,7 @@ class ilTestOutputGUI
 			}
 		}
 		
-		if ($this->object->getShowSummary()) 
+		if ($this->object->getListOfQuestions()) 
 		{
 			$this->tpl->setCurrentBlock("summary");
 			$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
@@ -451,7 +451,7 @@ class ilTestOutputGUI
 
 		if ($finish)
 		{
-			if ($this->object->getShowSummary()) 
+			if ($this->object->getListOfQuestionsEnd()) 
 			{
 				$this->tpl->setCurrentBlock("next");
 				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("question_summary") . " &gt;&gt;");
@@ -716,7 +716,7 @@ class ilTestOutputGUI
 				if ($this->sequence > $questioncount)
 		//			if ($this->sequence > $this->object->getQuestionCount())
 				{
-					if ($this->object->getShowSummary())
+					if ($this->object->getListOfQuestionsEnd())
 					{
 						$this->outQuestionSummary();
 					}
@@ -788,7 +788,7 @@ class ilTestOutputGUI
 				$this->sequence = $this->calculateSequence();	
 				$this->object->setActiveTestUser($this->sequence);
 				$this->readFullSequence();
-				if ($this->object->getShowSummary())
+				if ($this->object->getListOfQuestionsStart())
 				{
 					$this->outQuestionSummary();
 				}

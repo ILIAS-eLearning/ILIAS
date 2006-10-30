@@ -889,10 +889,20 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["shuffle_questions"] = 1;
 		}
-		$data["show_summary"] = 0;
-		if ($_POST["chb_show_summary"] == 1)
+		$data["list_of_questions"] = 0;
+		if ($_POST["list_of_questions"] == 1)
 		{
-			$data["show_summary"] = 1;
+			$data["list_of_questions"] = 1;
+		}
+		$data["list_of_questions_start"] = 0;
+		if ($_POST["chb_list_of_questions_start"] == 1)
+		{
+			$data["list_of_questions_start"] = 1;
+		}
+		$data["list_of_questions_end"] = 0;
+		if ($_POST["chb_list_of_questions_end"] == 1)
+		{
+			$data["list_of_questions_end"] = 1;
 		}
 		$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
 		$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
@@ -1004,14 +1014,9 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->setShuffleQuestions(FALSE);
 		}
-		if ($data["show_summary"])
-		{
-			$this->object->setShowSummary(TRUE);
-		}
-		else
-		{
-			$this->object->setShowSummary(FALSE);
-		}
+		$this->object->setListOfQuestions($data["list_of_questions"]);
+		$this->object->setListOfQuestionsStart($data["list_of_questions_start"]);
+		$this->object->setListOfQuestionsEnd($data["list_of_questions_end"]);
 
 		$this->object->saveToDb(true);
 
@@ -1585,11 +1590,27 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TEXT_SHOW_SUMMARY", $this->lng->txt("tst_show_summary"));
 		$this->tpl->setVariable("TEXT_SHOW_SUMMARY_DESCRIPTION", $this->lng->txt("tst_show_summary_description"));
-		if ($this->object->getShowSummary())
+		$this->tpl->setVariable("TEXT_NO", $this->lng->txt("no"));
+		$this->tpl->setVariable("TEXT_YES", $this->lng->txt("tst_list_of_questions_yes"));
+		$this->tpl->setVariable("TEXT_LIST_OF_QUESTIONS_START", $this->lng->txt("tst_list_of_questions_start"));
+		$this->tpl->setVariable("TEXT_LIST_OF_QUESTIONS_END", $this->lng->txt("tst_list_of_questions_end"));
+		if ($this->object->getListOfQuestions())
 		{
-			$this->tpl->setVariable("CHECKED_SHOW_SUMMARY", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_YES", " checked=\"checked\"");
+			if ($this->object->getListOfQuestionsStart())
+			{
+				$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_START", " checked=\"checked\"");
+			}
+			if ($this->object->getListOfQuestionsEnd())
+			{
+				$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_END", " checked=\"checked\"");
+			}
 		}
-
+		else
+		{
+			$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_NO", " checked=\"checked\"");
+		}
+		
 		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS", $this->lng->txt("tst_use_previous_answers"));
 		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION", $this->lng->txt("tst_use_previous_answers_description"));
 		$this->tpl->setVariable("TEXT_HIDE_TITLE_POINTS", $this->lng->txt("tst_hide_title_points"));
@@ -1610,6 +1631,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("tst_nr_of_tries"));
 		$this->tpl->setVariable("VALUE_NR_OF_TRIES", $data["nr_of_tries"]);
 		$this->tpl->setVariable("COMMENT_NR_OF_TRIES", $this->lng->txt("0_unlimited"));
+		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
 		$this->tpl->setVariable("TEXT_PROCESSING_TIME", $this->lng->txt("tst_processing_time"));
 		$time_input = ilUtil::makeTimeSelect("processing_time", false, substr($data["processing_time"], 0, 2), substr($data["processing_time"], 3, 2), substr($data["processing_time"], 6, 2));
 		$this->tpl->setVariable("MAX_PROCESSING_TIME", $time_input . " (hh:mm:ss)");
@@ -4860,8 +4882,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilTabs;
 		
 		// general subtab
-		$force_active = ($this->ctrl->getCmdClass() == "ilobjtestgui" &&
-			$this->ctrl->getCmd() == "")
+		$force_active = ($this->ctrl->getCmd() == "")
 			? true
 			: false;
 		$ilTabs->addSubTabTarget("general",
@@ -4902,6 +4923,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
+		global $ilAccess;
 
 		switch ($this->ctrl->getCmd())
 		{
@@ -4957,7 +4979,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "marks":
 			case "certificate":
 			case "":
-				if (strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0)
+				if ($ilAccess->checkAccess("write", "", $this->ref_id))
 				{
 					$this->getSettingsSubTabs();
 				}
@@ -4979,8 +5001,6 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)
 		{
-			global $ilAccess;
-
 			// questions tab
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
@@ -5018,8 +5038,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// settings tab
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
-				$force_active = ($this->ctrl->getCmdClass() == "ilobjtestgui" &&
-					$this->ctrl->getCmd() == "")
+				$force_active = ($this->ctrl->getCmd() == "")
 					? true
 					: false;
 				$tabs_gui->addTarget("settings",
