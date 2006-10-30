@@ -1135,11 +1135,6 @@ class ilObjTest extends ilObject
 			$shuffle_questions = 1;
 		}
 		$show_solution_details = $this->getShowSolutionDetails();
-		$show_summary = 0;
-		if ($this->getShowSummary())
-		{
-			$show_summary = 1;
-		}
 		$show_solution_printview = $this->getShowSolutionPrintview();
 		$allowedUsers = $this->getAllowedUsers();
 		if ($allowedUsers == 0)
@@ -1205,7 +1200,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getPassScoring() . ""),
 				$ilDB->quote($shuffle_questions . ""),
 				$ilDB->quote($show_solution_details . ""),
-				$ilDB->quote($show_summary . ""),
+				$ilDB->quote($this->getListOfQuestionsSettings() . ""),
 				$ilDB->quote($show_solution_printview . ""),
 				$ilDB->quote($this->getPassword() . ""),
 				$allowedUsers,
@@ -1270,7 +1265,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getPassScoring() . ""),
 				$ilDB->quote($shuffle_questions . ""),
 				$ilDB->quote($show_solution_details . ""),
-				$ilDB->quote($show_summary . ""),
+				$ilDB->quote($this->getListOfQuestionsSettings() . ""),
 				$ilDB->quote($show_solution_printview . ""),
 				$ilDB->quote($this->getPassword() . ""),
 				$allowedUsers,
@@ -1724,7 +1719,7 @@ class ilObjTest extends ilObject
 				$this->reporting_date = $data->reporting_date;
 				$this->setShuffleQuestions($data->shuffle_questions);
 				$this->setShowSolutionDetails($data->show_solution_details);
-				$this->setShowSummary($data->show_summary);
+				$this->setListOfQuestionsSettings($data->show_summary);
 				$this->setShowSolutionPrintview($data->show_solution_printview);
 				$this->starting_time = $data->starting_time;
 				$this->ending_time = $data->ending_time;
@@ -5130,7 +5125,7 @@ class ilObjTest extends ilObject
 					$this->setPassScoring($metadata["entry"]);
 					break;
 				case "show_summary":
-					$this->setShowSummary($metadata["entry"]);
+					$this->setListOfQuestionsSettings($metadata["entry"]);
 					break;
 				case "reporting_date":
 					$iso8601period = $metadata["entry"];
@@ -5334,7 +5329,7 @@ class ilObjTest extends ilObject
 		// solution details
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_summary");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowSummary()));
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getListOfQuestionsSettings()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// solution details
@@ -7271,18 +7266,169 @@ class ilObjTest extends ilObject
 	}
 	
 /**
-* Returns if the question summary should be presented to the user or not
+* Returns the settings for the list of questions options in the test properties
 * 
-* Returns if the question summary should be presented to the user or not
+* Returns the settings for the list of questions options in the test properties
+* This could contain one of the following values:
+*   0 = No list of questions offered
+*   1 = A list of questions is offered
+*   3 = A list of questions is offered and the list of questions is shown as first page of the test
+*   5 = A list of questions is offered and the list of questions is shown as last page of the test
+*   7 = A list of questions is offered and the list of questions is shown as first and last page of the test
 *
-* @return boolean TRUE if the question summary should be presented, FALSE otherwise
+* @return integer TRUE if the list of questions should be presented, FALSE otherwise
 * @access public
 */
-	function getShowSummary()
+	function getListOfQuestionsSettings()
 	{
 		return $this->show_summary;
 	}
 	
+/**
+* Sets the settings for the list of questions options in the test properties
+* 
+* Sets the settings for the list of questions options in the test properties
+* This could contain one of the following values:
+*   0 = No list of questions offered
+*   1 = A list of questions is offered
+*   3 = A list of questions is offered and the list of questions is shown as first page of the test
+*   5 = A list of questions is offered and the list of questions is shown as last page of the test
+*   7 = A list of questions is offered and the list of questions is shown as first and last page of the test
+*
+* @param integer $a_value 0, 1, 3, 5 or 7
+* @access public
+*/
+	function setListOfQuestionsSettings($a_value = 0)
+	{
+		$this->show_summary = $a_value;
+	}
+	
+/**
+* Returns if the list of questions should be presented to the user or not
+* 
+* Returns if the list of questions should be presented to the user or not
+*
+* @return boolean TRUE if the list of questions should be presented, FALSE otherwise
+* @access public
+*/
+	function getListOfQuestions()
+	{
+		if (($this->show_summary & 1) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+/**
+* Sets if the the list of questions should be presented to the user or not
+* 
+* Sets if the the list of questions should be presented to the user or not
+*
+* @param boolean $a_value TRUE if the list of questions should be presented, FALSE otherwise
+* @access public
+*/
+	function setListOfQuestions($a_value = TRUE)
+	{
+		if ($a_value)
+		{
+			$this->show_summary = 1;
+		}
+		else
+		{
+			$this->show_summary = 0;
+		}
+	}
+
+/**
+* Returns if the list of questions should be presented as the first page of the test
+* 
+* Returns if the list of questions should be presented as the first page of the test
+*
+* @return boolean TRUE if the list of questions is shown as first page of the test, FALSE otherwise
+* @access public
+*/
+	function getListOfQuestionsStart()
+	{
+		if (($this->show_summary & 2) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+/**
+* Sets if the the list of questions as the start page of the test
+* 
+* Sets if the the list of questions as the start page of the test
+*
+* @param boolean $a_value TRUE if the list of questions should be the start page, FALSE otherwise
+* @access public
+*/
+	function setListOfQuestionsStart($a_value = TRUE)
+	{
+		if ($a_value && $this->getListOfQuestions())
+		{
+			$this->show_summary = $this->show_summary | 2;
+		}
+		if (!$a_value && $this->getListOfQuestions())
+		{
+			if ($this->getListOfQuestionsStart())
+			{
+				$this->show_summary = $this->show_summary ^ 2;
+			}
+		}
+	}
+
+/**
+* Returns if the list of questions should be presented as the last page of the test
+* 
+* Returns if the list of questions should be presented as the last page of the test
+*
+* @return boolean TRUE if the list of questions is shown as last page of the test, FALSE otherwise
+* @access public
+*/
+	function getListOfQuestionsEnd()
+	{
+		if (($this->show_summary & 4) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+/**
+* Sets if the the list of questions as the end page of the test
+* 
+* Sets if the the list of questions as the end page of the test
+*
+* @param boolean $a_value TRUE if the list of questions should be the end page, FALSE otherwise
+* @access public
+*/
+	function setListOfQuestionsEnd($a_value = TRUE)
+	{
+		if ($a_value && $this->getListOfQuestions())
+		{
+			$this->show_summary = $this->show_summary | 4;
+		}
+		if (!$a_value && $this->getListOfQuestions())
+		{
+			if ($this->getListOfQuestionsEnd())
+			{
+				$this->show_summary = $this->show_summary ^ 4;
+			}
+		}
+	}
+
 /**
 * Returns if the solution printview should be presented to the user or not
 * 
@@ -7315,26 +7461,6 @@ class ilObjTest extends ilObject
 			default:
 				$this->show_solution_details = 1;
 				break;
-		}
-	}
-
-/**
-* Sets if the the question summary should be presented to the user or not
-* 
-* Sets if the the question summary should be presented to the user or not
-*
-* @param boolean $a_details TRUE if the question_summary should be presented, FALSE otherwise
-* @access public
-*/
-	function setShowSummary($a_summary = TRUE)
-	{
-		if ($a_summary)
-		{
-			$this->show_summary = TRUE;
-		}
-		else
-		{
-			$this->show_summary = FALSE;
 		}
 	}
 

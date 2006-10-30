@@ -40,11 +40,16 @@
 	</td>
 </tr>
 <tr>
-  <td class="option"><label for="chb_show_summary">{TEXT_SHOW_SUMMARY}</label></td>
+  <td class="option"><label for="list_of_questions_no">{TEXT_SHOW_SUMMARY}</label></td>
   <td class="option_value">
-		<input type="checkbox" name="chb_show_summary" id="chb_show_summary" value="1"{CHECKED_SHOW_SUMMARY} {DISABLE_SHOW_SUMMARY} />
+		<input type="radio" name="list_of_questions" id="list_of_questions_no" value="0"{CHECKED_LIST_OF_QUESTIONS_NO} /> <label for="list_of_questions_no">{TEXT_NO}</label>
 		<br />
-		<label for="chb_show_summary"><em>{TEXT_SHOW_SUMMARY_DESCRIPTION}</em></label>
+		<input type="radio" name="list_of_questions" id="list_of_questions_yes" value="1"{CHECKED_LIST_OF_QUESTIONS_YES} /> <label for="list_of_questions_yes">{TEXT_YES}</label>
+		<br />
+		<span style="padding-left:2em"><input type="checkbox" name="chb_list_of_questions_start" id="chb_list_of_questions_start" value="1"{CHECKED_LIST_OF_QUESTIONS_START}{DISABLED_LIST_OF_QUESTIONS_START} /> <label for="chb_list_of_questions_start">{TEXT_LIST_OF_QUESTIONS_START}</label></span>
+		<br />
+		<span style="padding-left:2em"><input type="checkbox" name="chb_list_of_questions_end" id="chb_list_of_questions_end" value="1"{CHECKED_LIST_OF_QUESTIONS_END}{DISABLED_LIST_OF_QUESTIONS_END} /> <label for="chb_list_of_questions_end">{TEXT_LIST_OF_QUESTIONS_END}</label></span>
+		<p><em>{TEXT_SHOW_SUMMARY_DESCRIPTION}</em></p>
 	</td>
 </tr>
 <tr>
@@ -63,7 +68,7 @@
   <td class="option_value"><input type="text" name="nr_of_tries" value="{VALUE_NR_OF_TRIES}" size="8" {DISABLE_NR_OF_TRIES} />{COMMENT_NR_OF_TRIES}</td>
 </tr>
 <tr>
-  <td class="option"><label for="chb_use_previous_answers">{TEXT_USE_PREVIOUS_ANSWERS}</em></td> 
+  <td class="option"><label for="chb_use_previous_answers">{TEXT_USE_PREVIOUS_ANSWERS}</label></td> 
   <td class="option_value">
 		<input type="checkbox" name="chb_use_previous_answers" id="chb_use_previous_answers" value="1"{CHECKED_USE_PREVIOUS_ANSWERS} {DISABLE_USE_PREVIOUS_ANSWERS} />
 		<br />
@@ -86,13 +91,13 @@
 <!-- BEGIN starting_time -->
 <tr>
   <td class="option">{TEXT_STARTING_TIME}</td>
-  <td class="option_value"><input type="checkbox" name="chb_starting_time" id="chb_starting_time" value="1"{CHECKED_STARTING_TIME} /> <label for="chb_starting_time">{TXT_ENABLED}</label><br>{INPUT_STARTING_TIME} <input type="image" alt="{TXT_STARTING_TIME_CALENDAR}" title="{TXT_STARTING_TIME_CALENDAR}" src="{IMG_STARTING_TIME_CALENDAR}" id="btn_cal_starting_time" /></td>
+  <td class="option_value"><input type="checkbox" name="chb_starting_time" id="chb_starting_time" value="1"{CHECKED_STARTING_TIME} /> <label for="chb_starting_time">{TXT_ENABLED}</label><br />{INPUT_STARTING_TIME} <input type="image" alt="{TXT_STARTING_TIME_CALENDAR}" title="{TXT_STARTING_TIME_CALENDAR}" src="{IMG_STARTING_TIME_CALENDAR}" id="btn_cal_starting_time" /></td>
 </tr>
 <!-- END starting_time -->
 <!-- BEGIN ending_time -->
 <tr>
   <td class="option">{TEXT_ENDING_TIME}</td>
-  <td class="option_value"><input type="checkbox" name="chb_ending_time" id="chb_ending_time" value="1"{CHECKED_ENDING_TIME} /> <label for="chb_ending_time">{TXT_ENABLED}</label><br>{INPUT_ENDING_TIME} <input type="image" alt="{TXT_ENDING_TIME_CALENDAR}" title="{TXT_ENDING_TIME_CALENDAR}" src="{IMG_ENDING_TIME_CALENDAR}" id="btn_cal_ending_time" /></td>
+  <td class="option_value"><input type="checkbox" name="chb_ending_time" id="chb_ending_time" value="1"{CHECKED_ENDING_TIME} /> <label for="chb_ending_time">{TXT_ENABLED}</label><br />{INPUT_ENDING_TIME} <input type="image" alt="{TXT_ENDING_TIME_CALENDAR}" title="{TXT_ENDING_TIME_CALENDAR}" src="{IMG_ENDING_TIME_CALENDAR}" id="btn_cal_ending_time" /></td>
 </tr>
 <!-- END ending_time -->
 <tr>

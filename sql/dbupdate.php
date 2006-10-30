@@ -11663,4 +11663,5 @@ UPDATE `tst_tests` SET `score_reporting` = 3 WHERE length(`reporting_date`) > 0
 ALTER TABLE `tst_tests` ADD `fixed_participants` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `instant_verification`;
 <#832>
 UPDATE tst_tests SET fixed_participants = '1' WHERE test_type_fi = '4';
-
+<#833>
+ALTER TABLE `tst_tests` CHANGE `show_summary` `show_summary` ENUM( '0', '1', '2', '3', '4', '5', '6', '7' ) NOT NULL DEFAULT '0';
