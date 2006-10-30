@@ -11658,7 +11658,7 @@ UPDATE tst_tests SET use_previous_answers = '0' WHERE hide_previous_results = '1
 <#829>
 ALTER TABLE `tst_tests` DROP `hide_previous_results`;
 <#830>
-UPDATE `tst_tests` SET `score_reporting` = 3 WHERE length(`reporting_date`) > 0
+UPDATE `tst_tests` SET `score_reporting` = 3 WHERE length(`reporting_date`) > 0;
 <#831>
 ALTER TABLE `tst_tests` ADD `fixed_participants` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `instant_verification`;
 <#832>
