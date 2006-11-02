@@ -2051,9 +2051,9 @@ class ilTestOutputGUI
 					sprintf("%02d", $date["minutes"]).":".
 					sprintf("%02d", $date["seconds"])
 				),
-				$str_processing_time
+				$str_processing_time,
+				" <span id=\"timeleft\">" . sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left) . "</span>"
 			)
-			. " <span id=\"timeleft\">" . sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left) . "</span>"
 		);
 		$this->tpl->parseCurrentBlock();
 		$template = new ilTemplate("tpl.workingtime.js.html", TRUE, TRUE, TRUE);
