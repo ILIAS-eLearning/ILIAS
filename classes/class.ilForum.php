@@ -299,6 +299,24 @@ class ilForum
 
 		return $result;
 	}
+	
+	/**
+	* In some rare cases the thread number in frm_data is incorrect.
+	* This function fixes this. (called in ilObjForumGUI->showThreadsObject())
+	*/
+	function fixThreadNumber($a_top_pk, $a_num_threads)
+	{
+		global $ilDB;
+		
+		if ($a_top_pk > 0)
+		{
+			$query = "UPDATE frm_data SET top_num_threads = ".
+				$ilDB->quote($a_num_threads)." WHERE top_pk = ".
+				$ilDB->quote($a_top_pk);
+
+			$ilDB->query($query);
+		}
+	}
 
 	/**
 	* lookup forum data

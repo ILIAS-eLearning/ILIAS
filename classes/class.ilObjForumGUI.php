@@ -145,8 +145,16 @@ class ilObjForumGUI extends ilObjectGUI
 			$frm->setOrderField("thr_date DESC");
 			$resThreads = $frm->getThreadList($topicData["top_pk"]);
 			$thrNum = $resThreads->numRows();
+			
+			// check number of threads
+			if ($thrNum != $topicData['top_num_threads'])
+			{
+				$frm->fixThreadNumber($topicData['top_pk'], $thrNum);
+			}
+			
 			$pageHits = $frm->getPageHits();
 			$pageHits = $ilUser->getPref('hits_per_page');
+
 			if ($thrNum > 0)
 			{
 				$z = 0;
