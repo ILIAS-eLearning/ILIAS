@@ -533,7 +533,7 @@ class ilRegistrationGUI
 
 	function __validateRole()
 	{
-		global $ilDB,$ilias,$ilErr;
+		global $ilDB,$ilias,$ilErr,$lng;
 
 		// validate role
 		include_once("classes/class.ilObjRole.php");
