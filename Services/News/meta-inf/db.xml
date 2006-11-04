@@ -20,4 +20,5 @@
 	`creation_date` datetime;</step><step entity="NewsItem">ALTER TABLE `il_news_item`
 	`priority` enum(0,1,2) default 1;</step><step entity="NewsItem">ALTER TABLE `il_news_item`
 	`title` varchar(200);</step><step entity="NewsItem">ALTER TABLE `il_news_item`
-	`title` varchar(200) default 'tt';</step></db>
+	`title` varchar(200) default 'tt';</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`title` varchar(200);</step></db>

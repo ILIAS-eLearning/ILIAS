@@ -524,6 +524,36 @@ th.il_PDBlockSubHeader
 	border-top-style:solid;
 }
 
+/* Blocks */
+
+table.il_Block
+{
+	color:#222222;
+	background-color:#bbbbbb;
+	width:100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	margin-bottom:25px;
+	clear:both;
+}
+
+th.il_BlockHeader
+{
+	background-image: url(images/TableHeaderBlue.gif);
+	background-repeat:repeat-x;
+	font-weight: bold;
+	padding: 3px;
+	background-color: #E2EAF4;
+	text-align:left;
+	border-bottom-width:1px;
+	border-bottom-color:#9EADBA;
+	border-bottom-style:solid;
+	font-size: 90%;
+}
+
 /* Repository Header */
 table.ilc_RepHeader {
 	border-width: 0px;
