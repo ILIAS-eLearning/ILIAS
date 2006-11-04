@@ -2589,23 +2589,6 @@ class ilObjTest extends ilObject
 	}
 	
 /**
-* Removes all selected users for the test evaluation
-* 
-* Removes all selected users for the test evaluation
-*
-* @access public
-*/
-	function clearEvalSelectedUsers()
-	{
-		global $ilDB;
-		
-		$query = sprintf("DELETE FROM tst_eval_users WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
-		);
-		$result = $ilDB->query($query);
-	}
-	
-/**
 * Removes all references to the question in executed tests in case the question has been changed
 *
 * Removes all references to the question in executed tests in case the question has been changed.
@@ -2621,8 +2604,6 @@ class ilObjTest extends ilObject
 		global $ilDB;
 		// remove test_active entries, because test has changed
 		$this->deleteActiveTests();
-		// remove selected users/groups
-		$this->clearEvalSelectedUsers();
 		
 		// remove the question from tst_solutions
 		if ($question_id) 
@@ -2682,10 +2663,7 @@ class ilObjTest extends ilObject
 	function removeSelectedTestResults($active_ids) 
 	{
 		global $ilDB;
-		
-		// remove selected users/groups
-		$this->clearEvalSelectedUsers();
-		
+
 		// remove the question from tst_solutions
 		foreach ($active_ids as $active_id)
 		{
@@ -5957,149 +5935,6 @@ class ilObjTest extends ilObject
 			return $row["ref_id"];
 		}
 		return 0;
-	}
-	
-/**
-* Returns an array of users who are selected for a test evaluation of a given user
-* 
-* Returns an array of users who are selected for a test evaluation of a given user
-*
-* @access public
-*/
-	function &getEvaluationUsers($user_id, $sort_name_option = "asc")
-	{
-		global $ilDB;
-		
-		$users = array();
-		$query = sprintf("SELECT tst_eval_users.user_fi, usr_data.firstname, usr_data.lastname FROM tst_eval_users, usr_data WHERE tst_eval_users.test_fi = %s AND tst_eval_users.evaluator_fi = %s AND tst_eval_users.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($sort_name_option),
-			$ilDB->quote($this->getTestId() . ""),
-			$ilDB->quote($user_id . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
-		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$users[$row["user_fi"]] = trim($row["lastname"] . ", " . $row["firstname"] ." " . $row["title"]);
-			}
-		}
-		return $users;
-	}
-
-/**
-* Returns an array of users who are selected for a test evaluation of a given user
-* 
-* Returns an array of users who are selected for a test evaluation of a given user
-*
-* @access public
-*/
-	function &getEvaluationParticipants($user_id, $sort_name_option = "asc")
-	{
-		global $ilDB;
-		
-		$users = array();
-		$query = sprintf("SELECT tst_eval_users.user_fi, usr_data.firstname, usr_data.lastname FROM tst_eval_users, usr_data WHERE tst_eval_users.test_fi = %s AND tst_eval_users.evaluator_fi = %s AND tst_eval_users.user_fi = usr_data.usr_id ORDER BY usr_data.lastname " . strtoupper($sort_name_option),
-			$ilDB->quote($this->getTestId() . ""),
-			$ilDB->quote($user_id . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
-		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$active = $this->getActiveTestUser($row["user_fi"]);
-				if (is_object($active))
-				{
-					$users[$active->active_id] = trim($row["lastname"] . ", " . $row["firstname"] ." " . $row["title"]);
-				}
-			}
-		}
-		return $users;
-	}
-
-/**
-* Disinvites a user from a evaluation
-* 
-* Disinvites a user from a evaluation
-*
-* @param integer $user_id The database id of the disinvited user
-* @access public
-*/
-	function removeSelectedUser($user_id, $evaluator_id)
-	{
-		global $ilDB;
-		
-		$query = sprintf("DELETE FROM tst_eval_users WHERE test_fi = %s AND user_fi = %s AND evaluator_fi = %s",
-			$ilDB->quote($this->getTestId() . ""),
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($evaluator_id . "")
-		);
-		$result = $ilDB->query($query);
-	}
-
-/**
-* Invites a user to a evaluation
-* 
-* Invites a user to a evaluation
-*
-* @param integer $user_id The database id of the invited user
-* @access public
-*/
-	function addSelectedUser($user_id, $evaluator_id)
-	{
-		global $ilDB;
-		
-		$query = sprintf("SELECT user_fi FROM tst_active WHERE test_fi = %s AND user_fi = %s",
-			$ilDB->quote($this->getTestId() . ""),
-			$ilDB->quote($user_id . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			$query = sprintf("REPLACE INTO tst_eval_users (test_fi, evaluator_fi, user_fi) VALUES (%s, %s, %s)",
-				$ilDB->quote($this->getTestId() . ""),
-				$ilDB->quote($evaluator_id . ""),
-				$ilDB->quote($user_id . "")
-			);
-			$result = $ilDB->query($query);
-		}
-	}
-
-/**
-* Invites a group to a evaluation
-* 
-* Invites a group to a evaluation
-*
-* @param integer $group_id The database id of the invited group
-* @access public
-*/
-	function addSelectedGroup($group_id, $evaluator_id)
-	{
-		include_once "./classes/class.ilObjGroup.php";
-		$group = new ilObjGroup($group_id);
-		$members = $group->getGroupMemberIds();
-		foreach ($members as $user_id)
-		{
-			$this->addSelectedUser($user_id, $evaluator_id);
-		}		
-	}
-	
-/**
-* Adds a role to a evaluation
-* 
-* Adds a role to a evaluation
-*
-* @param integer $role_id The database id of the role to add
-* @access public
-*/
-	function addSelectedRole($role_id, $evaluator_id)
-	{
-		global $rbacreview;
-		$members =  $rbacreview->assignedUsers($role_id,"usr_id");
-		foreach ($members as $user_id)
-		{
-			$this->addSelectedUser($user_id, $evaluator_id);
-		}		
 	}
 	
 /**

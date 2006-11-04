@@ -156,12 +156,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->redirect($evaluation_gui, "eval_a");
 	}
 
-	function eval_statObject()
+	function evalAllUsersObject()
 	{
 		include_once "./assessment/classes/class.ilTestEvaluationGUI.php";
 
 		$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-		$this->ctrl->redirect($evaluation_gui, "eval_stat");
+		$evaluation_gui->evalAllUsers();
 	}
 
 	function evalStatSelectedObject()
@@ -4836,15 +4836,8 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		// user results subtab
 		$ilTabs->addSubTabTarget("eval_all_users",
-			 $this->ctrl->getLinkTarget($this,'eval_stat'),
-			 array("eval_stat", "evalAllUsers")
-			 , "");
-	
-		// selected user results subtab
-		$ilTabs->addSubTabTarget("eval_selected_users",
-			 $this->ctrl->getLinkTarget($this,'evalStatSelected'),
-			 array("evalStatSelected", "evalSelectedUsers",
-			 "searchForEvaluation")
+			 $this->ctrl->getLinkTarget($this, "evalAllUsers"),
+			 array("evalAllUsers")
 			 , "");
 	
 		// aggregated results subtab
@@ -4990,11 +4983,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 			case "statistics":
 			case "eval_a":
-			case "eval_stat":
-			case "evalStatSelected":
 			case "evalAllUsers":
-			case "evalSelectedUsers":
-			case "searchForEvaluation":
 				$this->getStatisticsSubTabs();
 				break;
 		}
@@ -5083,9 +5072,8 @@ class ilObjTestGUI extends ilObjectGUI
 		
 				// statistics tab
 				$tabs_gui->addTarget("statistics",
-					 $this->ctrl->getLinkTarget($this,'eval_stat'),
-					 array("statistics", "eval_a", "eval_stat", "evalStatSelected",
-					 	"evalAllUsers", "evalSelectedUsers", "searchForEvaluation")
+					 $this->ctrl->getLinkTarget($this, "evalAllUsers"),
+					 array("statistics", "evalAllUsers", "eval_a")
 					 , "");
 
 				// learning progress

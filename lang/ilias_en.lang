@@ -797,7 +797,7 @@ assessment#:#tst_stat_result_rank_median#:#Rank of Median
 assessment#:#tst_stat_result_rank_participant#:#Rank of Participant
 assessment#:#tst_stat_result_resultsmarks#:#Test Results in Marks
 assessment#:#tst_stat_result_resultspoints#:#Test Results in Points
-assessment#:#tst_stat_result_specification#:#Specification of Evaluation Data
+assessment#:#tst_stat_result_specification#:#Available Evaluation Data
 assessment#:#tst_stat_result_timeofwork#:#Time of Work
 assessment#:#tst_stat_result_total_participants#:#Total Number of Participants
 assessment#:#tst_stat_selected_users#:#Selected Participants
