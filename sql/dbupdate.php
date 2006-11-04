@@ -11665,3 +11665,18 @@ ALTER TABLE `tst_tests` ADD `fixed_participants` ENUM( '0', '1' ) NOT NULL DEFAU
 UPDATE tst_tests SET fixed_participants = '1' WHERE test_type_fi = '4';
 <#833>
 ALTER TABLE `tst_tests` CHANGE `show_summary` `show_summary` ENUM( '0', '1', '2', '3', '4', '5', '6', '7' ) NOT NULL DEFAULT '0';
+<#834>
+CREATE table `il_news_item`
+(
+	`id` int not null auto_increment primary key,
+	`creation_date` datetime,
+	`priority` enum('0','1','2') default 1,
+	`title` varchar(200),
+	`content` text,
+	`context_obj_id` int,
+	`context_obj_type` char(10),
+	`context_sub_obj_id` int,
+	`context_sub_obj_type` char(10),
+	`content_type` enum('text','html')
+);
+

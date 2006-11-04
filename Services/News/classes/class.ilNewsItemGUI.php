@@ -34,9 +34,13 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 
 	function &getBlock()
 	{
-		$obj_id = $this->ctrl->getContextObjId();
-		$obj_type = $this->ctrl->getContextObjType();
-		return "test-".$obj_id."-".$obj_type."-";
+		return $this->getNewsForContextBlock();
+	}
+	
+	function prepareBlockQueryNewsForContext(&$a_news_item)
+	{
+		$a_news_item->setContextObjId($this->ctrl->getContextObjId());
+		$a_news_item->setContextObjType($this->ctrl->getContextObjType());
 	}
 
 }
