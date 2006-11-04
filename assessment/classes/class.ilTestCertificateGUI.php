@@ -172,7 +172,7 @@ class ilTestCertificateGUI
 */
 	function exportCertificate()
 	{
-		$this->object->outCertificates($_GET["etype"], $_GET["g_userfilter"], $_GET["g_passedonly"]);
+		$this->object->outCertificates($_GET["g_userfilter"], $_GET["g_passedonly"]);
 	}
 	
 /**

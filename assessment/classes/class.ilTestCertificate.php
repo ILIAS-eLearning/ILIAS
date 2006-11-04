@@ -538,23 +538,14 @@ class ilTestCertificate
 	*
 	* @access private
 	*/
-	function outCertificates($type, $userfilter = "", $passedonly = FALSE)
+	function outCertificates($userfilter = "", $passedonly = FALSE)
 	{
 		global $ilUser;
 		
 		include_once "./classes/class.ilUtil.php";
 		$archive_dir = $this->createArchiveDirectory();
 		$total_users = array();
-		switch ($type)
-		{
-			case "selected":
-				$total_users =& $this->object->getEvaluationParticipants($ilUser->getId(), "asc");
-				break;
-			case "all":
-			default:
-				$total_users =& $this->object->evalTotalPersonsArray();
-				break;
-		}
+		$total_users =& $this->object->evalTotalPersonsArray();
 		if (count($total_users))
 		{
 			foreach ($total_users as $active_id => $name)
@@ -606,7 +597,7 @@ class ilTestCertificate
 		$user_data = ilObjUser::_lookupName($user_id);
 		if (strlen($userfilter))
 		{
-			if (strpos(strtolower($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"]), strtolower($userfilter)) === FALSE)
+			if (!@preg_match("/$userfilter/i", $user_data["lastname"] . ", " . $user_data["firstname"] . " " . $user_data["title"]))
 			{
 				return "";
 			}

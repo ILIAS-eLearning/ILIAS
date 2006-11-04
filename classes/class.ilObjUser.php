@@ -849,6 +849,22 @@ class ilObjUser extends ilObject
 		$this->setPref($a_keyword, $a_value);
 	}
 
+	
+	/**
+	* Deletes a userpref value of the user from the database
+	* @access	public
+	* @param	string	keyword
+	*/
+	function deletePref($a_keyword)
+	{
+		global $ilDB;
+
+		$query = sprintf("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($a_keyword . "")
+		);
+		$ilDB->query($query);
+	}
 
 	function _writePref($a_usr_id, $a_keyword, $a_value)
 	{
@@ -915,7 +931,14 @@ class ilObjUser extends ilObject
 	*/
 	function getPref($a_keyword)
 	{
-		return $this->prefs[$a_keyword];
+		if (array_key_exists($a_keyword, $this->prefs))
+		{
+			return $this->prefs[$a_keyword];
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 
 	function _lookupPref($a_usr_id,$a_keyword)
