@@ -903,14 +903,17 @@ class assNumeric extends assQuestion
 		global $ilDB;
 		global $ilUser;
 
-		include_once "./assessment/classes/class.ilObjTest.php";
-		$actualpass = ilObjTest::_getPass($active_id);
+		if (is_null($pass))
+		{
+			include_once "./assessment/classes/class.ilObjTest.php";
+			$pass = ilObjTest::_getPass($active_id);
+		}
 		$entered_values = 0;
 		$numeric_result = str_replace(",",".",$_POST["numeric_result"]);
 		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($actualpass . "")
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -942,7 +945,7 @@ class assNumeric extends assQuestion
 					$ilDB->quote($active_id),
 					$ilDB->quote($this->getId()),
 					$ilDB->quote($numeric_result),
-					$ilDB->quote($actualpass . "")
+					$ilDB->quote($pass . "")
 				);
 				$result = $ilDB->query($query);
 				$entered_values++;

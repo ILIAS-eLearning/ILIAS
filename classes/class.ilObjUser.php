@@ -877,13 +877,12 @@ class ilObjUser extends ilObject
 		$ilDB->query($q);
 
 		//INSERT
-		if ($a_value != "")
+		if (strlen($a_value) > 0)
 		{
 			$q = "INSERT INTO usr_pref ".
 				 "(usr_id, keyword, value) ".
 				 "VALUES ".
 				 "('".$a_usr_id."', '".$a_keyword."', '".$a_value."')";
-
 			$ilDB->query($q);
 		}
 	}

@@ -1304,13 +1304,16 @@ class assMatchingQuestion extends assQuestion
 		$entered_values = 0;
 		if ($saveWorkingDataResult)
 		{
-			include_once ("./assessment/classes/class.ilObjTest.php");
-			$activepass = ilObjTest::_getPass($active_id);
+			if (is_null($pass))
+			{
+				include_once "./assessment/classes/class.ilObjTest.php";
+				$pass = ilObjTest::_getPass($active_id);
+			}
 			
 			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 				$ilDB->quote($active_id . ""),
 				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($activepass . "")
+				$ilDB->quote($pass . "")
 			);
 			$result = $ilDB->query($query);
 			foreach ($_POST as $key => $value)
@@ -1327,7 +1330,7 @@ class assMatchingQuestion extends assQuestion
 								$ilDB->quote($this->getId()),
 								$ilDB->quote($value),
 								$ilDB->quote($matches[1]),
-								$ilDB->quote($activepass . "")
+								$ilDB->quote($pass . "")
 							);
 							$result = $ilDB->query($query);
 						}

@@ -1041,14 +1041,17 @@ class assTextSubset extends assQuestion
 		global $ilDB;
 		global $ilUser;
 
-		include_once "./assessment/classes/class.ilObjTest.php";
-		$actualpass = ilObjTest::_getPass($active_id);
+		if (is_null($pass))
+		{
+			include_once "./assessment/classes/class.ilObjTest.php";
+			$pass = ilObjTest::_getPass($active_id);
+		}
 		$entered_values = 0;
 		
 		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($actualpass . "")
+			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
 		foreach ($_POST as $key => $value)
@@ -1061,7 +1064,7 @@ class assTextSubset extends assQuestion
 						$ilDB->quote($active_id),
 						$ilDB->quote($this->getId()),
 						$ilDB->quote($value),
-						$ilDB->quote($actualpass . "")
+						$ilDB->quote($pass . "")
 					);
 					$result = $ilDB->query($query);
 					$entered_values++;
