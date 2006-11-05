@@ -1,5 +1,4 @@
 Shibboleth Authentication for ILIAS
-
 -------------------------------------------------------------------------------
 
 Requirements:
