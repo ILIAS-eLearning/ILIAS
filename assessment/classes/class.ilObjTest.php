@@ -2285,9 +2285,10 @@ class ilObjTest extends ilObject
 		{
 			if ($user_active_user_setting)
 			{
-				if (array_key_exists("tst_use_previous_answers", $ilUser->prefs))
+				$res = $ilUser->getPref("tst_use_previous_answers");
+				if ($res !== FALSE)
 				{
-					$use_previous_answers = $ilUser->prefs["tst_use_previous_answers"];
+					$use_previous_answers = $res;
 				}
 			}
 		}
@@ -6757,8 +6758,8 @@ class ilObjTest extends ilObject
 	function _getResultPass($active_id)
 	{
 		$counted_pass = NULL;
-		if (ilObjTest::_lookupRandomTestFromActiveId($active_id))
-		{
+		//if (ilObjTest::_lookupRandomTestFromActiveId($active_id))
+		//{
 			if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS)
 			{
 				$counted_pass = ilObjTest::_getBestPass($active_id);
@@ -6780,7 +6781,7 @@ class ilObjTest extends ilObject
 				}
 				if ($counted_pass < 0) $counted_pass = 0;
 			}
-		}
+		//}
 		return $counted_pass;
 	}
 	
@@ -7874,6 +7875,58 @@ class ilObjTest extends ilObject
 		  return $row['random_test'];
 	  }
 	  return 0;
+	}
+	
+	/**
+	* Returns the full name of a test user according to the anonymity status
+	*
+	* Returns the full name of a test user according to the anonymity status
+	*
+	* @param int $user_id The database ID of the user
+	* @param boolean $overwrite_anonymity Indicates if the anonymity status should be ignored
+	* @return string The full name of the user or UNKNOWN if the anonymity status is affected
+	* @access public
+	*/
+	function userLookupFullName($user_id, $overwrite_anonymity = FALSE)
+	{
+		if ($this->getAnonymity() && !$overwrite_anonymity)
+		{
+			return $this->lng->txt("unknown");
+		}
+		else
+		{
+			include_once "./classes/class.ilObjUser.php";
+			$uname = ilObjUser::_lookupName($user_id);
+			if (strlen($uname["firstname"].$uname["lastname"]) == 0) $uname["firstname"] = $this->lng->txt("deleted_user");
+			return trim($uname["firstname"] . " " . $uname["lastname"]);
+		}
+	}
+
+	/**
+	* Returns the "Start the Test" label for the Info page
+	*
+	* Returns the "Start the Test" label for the Info page
+	*
+	* @param int $active_id The active id of the current user
+	* @return string The "Start the Test" label
+	* @access public
+	*/
+	function getStartTestLabel($active_id)
+	{
+		if ($this->getNrOfTries() == 1)
+		{
+			return $this->lng->txt("tst_start_test");
+		}
+		$active_pass = $this->_getPass($active_id);
+		$res = $this->getNrOfResultsForPass($active_id, $active_pass);
+		if ($res == 0)
+		{
+			return $this->lng->txt("tst_start_new_test_pass");
+		}
+		else
+		{
+			return $this->lng->txt("tst_start_test");
+		}
 	}
 } // END class.ilObjTest
 

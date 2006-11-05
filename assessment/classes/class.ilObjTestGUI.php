@@ -1040,19 +1040,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Cancels the properties form
-	*
-	* Cancels the properties form and goes back to the parent object
-	*
-	* @access	public
-	*/
-	function cancelPropertiesObject()
-	{
-		sendInfo($this->lng->txt("msg_cancel"), true);
-		$this->backToRepositoryObject();
-	}
-	
-	/**
 	* Save the form input of the scoring form
 	*
 	* Save the form input of the scoring form
@@ -1364,9 +1351,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_RESULTS_ALWAYS_DESCRIPTION", $this->lng->txt("tst_results_access_always_descr"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		{
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
 		
 		$this->tpl->parseCurrentBlock();
@@ -1664,10 +1651,9 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("VALUE_PASSWORD", " value=\"". ilUtil::prepareFormOutput($data["password"])."\"");
 		}
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		{
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
 		if ($total > 0)
 		{
@@ -4499,6 +4485,62 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->infoScreen();
 	}
 	
+/**
+* Checks wheather the certificate button could be shown on the info page or not
+*
+* Checks wheather the certificate button could be shown on the info page or not
+*
+* @access public
+*/
+	function canShowCertificate($user_id, $active_id)
+	{
+		if ($this->object->canShowTestResults($user_id))
+		{
+			include_once "./assessment/classes/class.ilObjTest.php";
+			$counted_pass = ilObjTest::_getResultPass($active_id);
+			$result_array =& $this->object->getTestResult($active_id, $counted_pass);
+	
+			include_once "./assessment/classes/class.ilTestCertificate.php";
+			$cert = new ilTestCertificate($this->object);
+			if ($cert->isComplete())
+			{
+				$vis = $this->object->getCertificateVisibility();
+				$showcert = FALSE;
+				switch ($vis)
+				{
+					case 0:
+						$showcert = TRUE;
+						break;
+					case 1:
+						if ($result_array["test"]["passed"] == 1)
+						{
+							$showcert = TRUE;
+						}
+						break;
+					case 2:
+						$showcert = FALSE;
+						break;
+				}
+				if ($showcert)
+				{
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
 	/**
 	* show information screen
 	*/
@@ -4552,7 +4594,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$resume_text = $this->lng->txt("tst_resume_test");
 						if ($seq < 2)
 						{
-							$resume_text = $this->lng->txt("tst_start_test");
+							$resume_text = $this->object->getStartTestLabel($active->active_id);
 						}
 						// Commented out because this leads to problems in "normal" tests
 						if(!$_GET['crs_show_result'] or $this->object->getFirstSequence())
@@ -4563,7 +4605,7 @@ class ilObjTestGUI extends ilObjectGUI
 					else
 					{
 						// start new test
-						$info->addFormButton("start", $this->lng->txt("tst_start_test"));
+						$info->addFormButton("start", $this->object->getStartTestLabel($active->active_id));
 					}
 				}
 				else
@@ -4584,6 +4626,11 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
 					$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
+				}
+
+				if ($this->canShowCertificate($ilUser->getId(), $active->active_id))
+				{
+					$info->addFormButton("outCertificate", $this->lng->txt("certificate_show"));
 				}
 			}
 		}
@@ -4837,7 +4884,8 @@ class ilObjTestGUI extends ilObjectGUI
 		// user results subtab
 		$ilTabs->addSubTabTarget("eval_all_users",
 			 $this->ctrl->getLinkTarget($this, "evalAllUsers"),
-			 array("evalAllUsers")
+			 array("evalAllUsers", "evalUserDetail", "passDetails",
+			 	"outStatisticsResultsOverview", "statisticsPassDetails")
 			 , "");
 	
 		// aggregated results subtab
@@ -4881,7 +4929,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$ilTabs->addSubTabTarget("general",
 			 $this->ctrl->getLinkTarget($this,'properties'),
 			 array("properties", "saveProperties", "cancelProperties"),
-			 "",
+			 array("", "ilobjtestgui", "iltestcertificategui"),
 			 "", $force_active);
 	
 		// scoring subtab
@@ -4889,7 +4937,8 @@ class ilObjTestGUI extends ilObjectGUI
 			"scoring",
 			$this->ctrl->getLinkTarget($this,'scoring'),
 			array("scoring"),
-			"");
+			array("", "ilobjtestgui", "iltestcertificategui")
+		);
 	
 		// mark schema subtab
 		$ilTabs->addSubTabTarget(
@@ -4897,15 +4946,17 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this,'marks'),
 			array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
 				"saveMarks", "cancelMarks"),
-			"");
+			array("", "ilobjtestgui", "iltestcertificategui")
+		);
 	
 		// certificate subtab
 		$ilTabs->addSubTabTarget(
 			"certificate",
 			$this->ctrl->getLinkTarget($this,'certificate'),
 			array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
-				"certificatePreview", "certificateDelete", "certificateUpload"),
-			"");
+				"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport"),
+			array("", "ilobjtestgui", "iltestcertificategui")
+		);
 	}
 
 	/**
@@ -4971,8 +5022,11 @@ class ilObjTestGUI extends ilObjectGUI
 			case "properties":
 			case "marks":
 			case "certificate":
+			case "certificateImport":
+			case "certificateUpload":
+			case "certificateEditor":
 			case "":
-				if ($ilAccess->checkAccess("write", "", $this->ref_id))
+				if (($ilAccess->checkAccess("write", "", $this->ref_id)) && ((strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0) || (strcmp($this->ctrl->getCmdClass(), "iltestcertificategui") == 0) || (strlen($this->ctrl->getCmdClass()) == 0)))
 				{
 					$this->getSettingsSubTabs();
 				}
@@ -4984,6 +5038,10 @@ class ilObjTestGUI extends ilObjectGUI
 			case "statistics":
 			case "eval_a":
 			case "evalAllUsers":
+			case "evalUserDetail":
+			case "passDetails":
+			case "outStatisticsResultsOverview":
+			case "statisticsPassDetails":
 				$this->getStatisticsSubTabs();
 				break;
 		}
@@ -5027,9 +5085,6 @@ class ilObjTestGUI extends ilObjectGUI
 			// settings tab
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
-				$force_active = ($this->ctrl->getCmd() == "")
-					? true
-					: false;
 				$tabs_gui->addTarget("settings",
 					 $this->ctrl->getLinkTarget($this,'properties'),
 					 array("properties", "saveProperties", "cancelProperties",
@@ -5037,9 +5092,9 @@ class ilObjTestGUI extends ilObjectGUI
 						"saveMarks", "cancelMarks", 
 						"certificate", "certificateEditor", "certificateRemoveBackground",
 						"certificateSave", "certificatePreview", "certificateDelete", "certificateUpload",
-						"certificateImport", "scoring"),
-					 "",
-					 "", $force_active);
+						"certificateImport", "scoring", ""),
+					 array("", "ilobjtestgui", "iltestcertificategui")
+				);
 			}
 
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
@@ -5073,7 +5128,8 @@ class ilObjTestGUI extends ilObjectGUI
 				// statistics tab
 				$tabs_gui->addTarget("statistics",
 					 $this->ctrl->getLinkTarget($this, "evalAllUsers"),
-					 array("statistics", "evalAllUsers", "eval_a")
+					 array("statistics", "evalAllUsers", "eval_a", "evalUserDetail",
+					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails")
 					 , "");
 
 				// learning progress
@@ -5081,10 +5137,11 @@ class ilObjTestGUI extends ilObjectGUI
 				if(ilObjUserTracking::_enabledLearningProgress() and $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id))
 				{
 					$tabs_gui->addTarget('learning_progress',
-										 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
-										 '',
-										 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui',
-											   'illplistofprogressgui'));
+						$this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+							'',
+							array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui',
+								'illplistofprogressgui')
+					);
 				}
 
 				// history

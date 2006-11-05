@@ -809,25 +809,7 @@ class assQuestion
 	*/
 	function getReachedPoints($active_id, $pass = NULL)
 	{
-		global $ilDB;
-
-		$points = 0;
-		if (is_null($pass))
-		{
-			$pass = $this->getSolutionMaxPass($active_id);
-		}
-		$query = sprintf("SELECT * FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			$points = $row["points"];
-		}
-		return $points;
+		return $this->_getReachedPoints($active_id, $this->getId(), $pass);
 	}
 	
 	/**
@@ -856,8 +838,11 @@ class assQuestion
 	{
 		global $ilDB;
 		global $ilUser;
-		include_once "./assessment/classes/class.ilObjTest.php";
-		$pass = ilObjTest::_getPass($active_id);
+		if (is_null($pass))
+		{
+			include_once "./assessment/classes/class.ilObjTest.php";
+			$pass = ilObjTest::_getPass($active_id);
+		}
 		$reached_points = $this->calculateReachedPoints($active_id, $pass);
 		$query = sprintf("REPLACE INTO tst_test_result (active_fi, question_fi, pass, points) VALUES (%s, %s, %s, %s)",
 			$ilDB->quote($active_id . ""),
@@ -975,6 +960,8 @@ class assQuestion
 		
 		if (is_null($pass))
 		{
+			$pass = $this->getSolutionMaxPass($active_id);
+			/*
 			$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",
 				$ilDB->quote($active_id . ""),
 				$ilDB->quote($this->getId() . "")
@@ -989,6 +976,7 @@ class assQuestion
 			{
 				return $values;
 			}
+			*/
 		}		
 
 		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
@@ -1929,6 +1917,13 @@ class assQuestion
 */
 	function _getSolutionMaxPass($question_id, $active_id)
 	{
+/*		include_once "./assessment/classes/class.ilObjTest.php";
+		$pass = ilObjTest::_getPass($active_id);
+		return $pass;*/
+
+		// the following code was the old solution which added the non answered
+		// questions of a pass from the answered questions of the previous pass
+		// with the above solution, only the answered questions of the last pass are counted
 		global $ilDB;
 
 		$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",

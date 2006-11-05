@@ -520,7 +520,7 @@ assessment#:#save_next#:#Next
 assessment#:#save_previous#:#Previous
 assessment#:#save_text_answer_points#:#Save Essay Points
 assessment#:#scored_pass#:#Scored Pass
-assessment#:#scoring#:#Scoring
+assessment#:#scoring#:#Scoring and Results
 assessment#:#search_found_groups#:#Found Groups
 assessment#:#search_found_users#:#Found Users
 assessment#:#search_groups#:#Search Groups
@@ -617,7 +617,7 @@ assessment#:#tst_hide_previous_results_description#:#If checked, the previous re
 assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass
 assessment#:#tst_hide_previous_results_introduction#:#If you're processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_title_points#:#Question Title Points
-assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title
+assessment#:#tst_hide_title_points_description#:#Hide the output of the available points in the question title
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -673,7 +673,7 @@ assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_description#:#Choose this mode to score the best test pass of a participant. This only works if more than one test pass is allowed.
-assessment#:#tst_pass_details#:#Show Details
+assessment#:#tst_pass_details#:#Pass Details
 assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_last_pass_description#:#Choose this mode to score the last test pass of a participant. This only works if more than one test pass is allowed.
 assessment#:#tst_pass_scoring#:#Multiple Pass Scoring
@@ -722,6 +722,7 @@ assessment#:#tst_report_after_test#:#Offer test results when the test is finishe
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_result_user_name#:#Test Results for %s
+assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_results_access#:#Access to Test Results
 assessment#:#tst_results_access_finished#:#After Test is Finished
@@ -778,6 +779,7 @@ assessment#:#tst_show_summary_description#:#Offers a list with all test question
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
 assessment#:#tst_signature#:#Signature
+assessment#:#tst_start_new_test_pass#:#Start New Test Pass
 assessment#:#tst_start_test#:#Start the Test
 assessment#:#tst_started#:#Test Started
 assessment#:#tst_starting_time#:#Starting Time
