@@ -11683,4 +11683,8 @@ CREATE table `il_news_item`
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#836>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

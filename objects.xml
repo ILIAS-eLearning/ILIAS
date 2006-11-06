@@ -189,7 +189,7 @@
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="glo" class_name="Glossary" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+<object name="glo" class_name="Glossary" location="Modules/Glossary/classes" module="Modules/Glossary" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="listTerms" module="1">cont_terms</property>
 	<property name="perm">perm_settings</property>

@@ -28,7 +28,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package Modules/Glossary
+* @ingroup ModulesGlossary
 */
 class ilGlossaryLocatorGUI
 {
