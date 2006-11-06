@@ -6526,6 +6526,7 @@ assessment#:#certificate_page_format#:#Seitenformat
 assessment#:#certificate_background_image#:#Hintergrundbild
 assessment#:#certificate_padding_top#:#Abstand vom oberen Seitenrand
 assessment#:#certificate_margin_body#:#Ränder des Textbereiches
+assessment#:#certificate_not_well_formed#:#Der Zertifikat-Text ist nicht wohlgeformt. Bitte verwenden Sie gültiges XHTML für den Zertifikat-Text!
 assessment#:#certificate_show#:#Zertifikat anzeigen
 assessment#:#certificate_status#:#Status
 assessment#:#certificate_status_complete#:#Das Zertifikat ist vollständig und kann verwendet werden

@@ -171,6 +171,7 @@ assessment#:#certificate_page_format#:#Page Format
 assessment#:#certificate_background_image#:#Background Image
 assessment#:#certificate_padding_top#:#Top Padding
 assessment#:#certificate_margin_body#:#Body Margin
+assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
 assessment#:#certificate_show#:#Show Certificate
 assessment#:#certificate_status#:#Status
 assessment#:#certificate_status_complete#:#The certificate is complete and could be used
