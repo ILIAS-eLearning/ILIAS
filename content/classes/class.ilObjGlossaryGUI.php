@@ -23,7 +23,7 @@
 
 require_once("classes/class.ilObjectGUI.php");
 //require_once("classes/class.ilMetaDataGUI.php");
-require_once("content/classes/class.ilObjGlossary.php");
+require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 require_once("content/classes/class.ilTermDefinitionEditorGUI.php");
@@ -166,7 +166,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function assignObject()
 	{
-		include_once("content/classes/class.ilObjGlossary.php");
+		include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 
 		$this->object =& new ilObjGlossary($this->id, true);
 	}
@@ -267,7 +267,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		
 		// create and insert object in objecttree
-		include_once("content/classes/class.ilObjGlossary.php");
+		include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 		$newObj = new ilObjGlossary();
 		$newObj->setType($this->type);
 		$newObj->setTitle($_POST["Fobject"]["title"]);
@@ -319,7 +319,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 
 		// create and insert object in objecttree
-		include_once("content/classes/class.ilObjGlossary.php");
+		include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 		$newObj = new ilObjGlossary();
 		$newObj->setType($_GET["new_type"]);
 		$newObj->setTitle($_FILES["xmldoc"]["name"]);

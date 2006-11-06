@@ -472,7 +472,7 @@ class ilInternalLinkGUI
 
 			// glossary item link
 			case "GlossaryItem":
-				require_once("./content/classes/class.ilObjGlossary.php");
+				require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 				$glossary =& new ilObjGlossary($_SESSION["il_link_glossary"], true);
 
 				// get all glossary items

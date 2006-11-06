@@ -23,7 +23,7 @@
 
 require_once("classes/class.ilObjectGUI.php");
 require_once("classes/class.ilMetaDataGUI.php");
-require_once("content/classes/class.ilObjGlossary.php");
+require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 require_once("content/classes/class.ilTermDefinitionEditorGUI.php");
@@ -65,7 +65,7 @@ class ilGlossaryPresentationGUI
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		// Todo: check lm id
-		include_once("content/classes/class.ilObjGlossaryGUI.php");
+		include_once("./Modules/Glossary/classes/class.ilObjGlossaryGUI.php");
 		$this->glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, "");
 		$this->glossary =& $this->glossary_gui->object;
 
