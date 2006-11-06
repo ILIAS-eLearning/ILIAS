@@ -254,11 +254,11 @@ class ilUtil
 
 		if (is_file($base."p3p.xml"))
 		{
-			return $base."p3p.xml";
+			return ILIAS_HTTP_PATH."/p3p.xml";
 		}
 		else
 		{
-			return $base."p3p_template.xml";
+			return ILIAS_HTTP_PATH."/p3p_template.xml";
 		}
 	}
 
