@@ -31,7 +31,7 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 *
 * @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI
 *
-* @package Modules/Glossary
+* @ingroup ModulesGlossary
 */
 class ilGlossaryTermGUI
 {

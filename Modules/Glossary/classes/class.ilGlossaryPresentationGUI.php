@@ -39,7 +39,7 @@ require_once("content/classes/Pages/class.ilPCParagraph.php");
 *
 * @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI
 *
-* @package Modules/Glossary
+* @ingroup ModulesGlossary
 */
 class ilGlossaryPresentationGUI
 {

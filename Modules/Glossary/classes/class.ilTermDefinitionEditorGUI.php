@@ -32,7 +32,7 @@ require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 *
 * @ilCtrl_Calls ilTermDefinitionEditorGUI: ilPageObjectGUI, ilMDEditorGUI
 *
-* @package content
+* @ingroup ModulesGlossary
 */
 class ilTermDefinitionEditorGUI
 {
