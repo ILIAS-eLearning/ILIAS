@@ -32,7 +32,7 @@ require_once("content/classes/Media/class.ilObjMediaObject.php");
 require_once("content/classes/Media/class.ilMediaItem.php");
 require_once("content/classes/Media/class.ilMapArea.php");
 require_once("content/classes/class.ilBibItem.php");
-require_once("content/classes/class.ilObjGlossary.php");
+require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 require_once("content/classes/Pages/class.ilInternalLink.php");

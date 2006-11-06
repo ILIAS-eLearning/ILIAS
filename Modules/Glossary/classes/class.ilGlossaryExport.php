@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilObjGlossary.php");
+require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 
 /**
 * Export class for content objects

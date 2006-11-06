@@ -70,7 +70,7 @@ class ilGlossaryEditorGUI
 		{
 			case 'ilobjglossarygui':
 			default:
-				require_once "./content/classes/class.ilObjGlossaryGUI.php";
+				require_once "./Modules/Glossary/classes/class.ilObjGlossaryGUI.php";
 				$glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, false);
 				$this->ctrl->forwardCommand($glossary_gui);
 				break;
