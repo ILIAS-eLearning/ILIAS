@@ -24,7 +24,7 @@
 require_once("classes/class.ilObjectGUI.php");
 require_once("classes/class.ilMetaDataGUI.php");
 require_once("content/classes/class.ilObjGlossary.php");
-require_once("content/classes/class.ilGlossaryTermGUI.php");
+require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 require_once("content/classes/class.ilTermDefinitionEditorGUI.php");
 require_once("content/classes/Pages/class.ilPCParagraph.php");
@@ -770,7 +770,7 @@ class ilGlossaryPresentationGUI
 		global $ilias_locator;
 
 		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		require_once ("content/classes/class.ilGlossaryLocatorGUI.php");
+		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();
 		$gloss_loc->setMode("presentation");
 		if (!empty($_GET["term_id"]))

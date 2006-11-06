@@ -1749,7 +1749,7 @@ class ilLMPresentationGUI
 		//require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		//require_once("content/classes/class.ilLMPageObject.php");
 
-		require_once("content/classes/class.ilGlossaryTermGUI.php");
+		require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 		$term_gui =& new ilGlossaryTermGUI($_GET["obj_id"]);
 
 		// content style
@@ -2791,7 +2791,7 @@ class ilLMPresentationGUI
 		// glossary
 		if (count($glossary_links) > 0)
 		{
-			include_once("content/classes/class.ilGlossaryTerm.php");
+			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
 			// sort terms

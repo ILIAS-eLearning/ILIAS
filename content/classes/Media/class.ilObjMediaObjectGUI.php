@@ -1884,7 +1884,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				break;
 
 			case "GlossaryItem":
-				require_once("content/classes/class.ilGlossaryTerm.php");
+				require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$term =& new ilGlossaryTerm($t_arr[count($t_arr) - 1]);
 				$link_str = $this->lng->txt("term").
 					": ".$term->getTerm()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilGlossaryTerm.php");
+require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 
 /**
 * GUI class for glossary terms
@@ -556,7 +556,7 @@ class ilGlossaryTermGUI
 	*/
 	function displayLocator()
 	{
-		require_once ("content/classes/class.ilGlossaryLocatorGUI.php");
+		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);
