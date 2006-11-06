@@ -2792,7 +2792,7 @@ class ilLMPresentationGUI
 		if (count($glossary_links) > 0)
 		{
 			include_once("content/classes/class.ilGlossaryTerm.php");
-			include_once("content/classes/class.ilGlossaryDefinition.php");
+			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
 			// sort terms
 			$terms = array();

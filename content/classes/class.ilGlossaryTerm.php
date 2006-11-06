@@ -271,7 +271,7 @@ class ilGlossaryTerm
 	*/
 	function delete()
 	{
-		require_once("content/classes/class.ilGlossaryDefinition.php");
+		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 		$defs = ilGlossaryDefinition::getDefinitionList($this->getId());
 		foreach($defs as $def)
 		{

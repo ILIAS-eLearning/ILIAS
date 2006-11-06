@@ -2006,7 +2006,7 @@ class ilObjContentObject extends ilObject
 				fclose($fp);
 
 				// store linked/embedded media objects of glosssary term
-				include_once("content/classes/class.ilGlossaryDefinition.php");
+				include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 				$defs = ilGlossaryDefinition::getDefinitionList($int_link["id"]);
 				foreach($defs as $def)
 				{

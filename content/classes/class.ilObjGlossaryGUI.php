@@ -25,7 +25,7 @@ require_once("classes/class.ilObjectGUI.php");
 //require_once("classes/class.ilMetaDataGUI.php");
 require_once("content/classes/class.ilObjGlossary.php");
 require_once("content/classes/class.ilGlossaryTermGUI.php");
-require_once("content/classes/class.ilGlossaryDefinition.php");
+require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 require_once("content/classes/class.ilTermDefinitionEditorGUI.php");
 require_once("content/classes/Pages/class.ilPCParagraph.php");
 
@@ -860,7 +860,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function moveDefinitionUp()
 	{
-		include_once("content/classes/class.ilGlossaryDefinition.php");
+		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
 		$definition =& new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveUp();
@@ -873,7 +873,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function moveDefinitionDown()
 	{
-		include_once("content/classes/class.ilGlossaryDefinition.php");
+		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
 		$definition =& new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveDown();
@@ -1141,7 +1141,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function export()
 	{
-		require_once("content/classes/class.ilGlossaryExport.php");
+		require_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
 		$glo_exp = new ilGlossaryExport($this->object);
 		$glo_exp->buildExportFile();
 		$this->ctrl->redirect($this, "exportList");
@@ -1152,7 +1152,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function exportHTML()
 	{
-		require_once("content/classes/class.ilGlossaryExport.php");
+		require_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
 		$glo_exp = new ilGlossaryExport($this->object, "html");
 		$glo_exp->buildExportFile();
 //echo $this->tpl->get();

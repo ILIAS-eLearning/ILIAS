@@ -649,7 +649,7 @@ class ilObjGlossary extends ilObject
 			fclose($fp);
 
 			// store linked/embedded media objects of glosssary term
-			include_once("content/classes/class.ilGlossaryDefinition.php");
+			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 			foreach($defs as $def)
 			{
@@ -768,7 +768,7 @@ class ilObjGlossary extends ilObject
 		$this->file_ids = array();
 		foreach ($terms as $term)
 		{
-			include_once "./content/classes/class.ilGlossaryDefinition.php";
+			include_once "./Modules/Glossary/classes/class.ilGlossaryDefinition.php";
 			
 			$defs = ilGlossaryDefinition::getDefinitionList($term[id]);
 
@@ -1063,7 +1063,7 @@ class ilObjGlossary extends ilObject
 
 	function getXMLZip()
 	{
-		include_once("content/classes/class.ilGlossaryExport.php");
+		include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
 
 		$glo_exp = new ilGlossaryExport($this);
 
