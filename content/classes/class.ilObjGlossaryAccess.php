@@ -159,7 +159,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 			else
 			{
 				// determine learning object
-				include_once("content/classes/class.ilGlossaryTerm.php");
+				require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$glo_id = ilGlossaryTerm::_lookGlossaryID($t_arr[1]);
 				$ref_ids = ilObject::_getAllReferences($glo_id);
 			}

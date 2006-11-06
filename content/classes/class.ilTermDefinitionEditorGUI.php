@@ -87,7 +87,7 @@ class ilTermDefinitionEditorGUI
 		//$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm().", ".
 		//	$this->lng->txt("cont_definition")." ".$this->definition->getNr());
 
-		require_once ("content/classes/class.ilGlossaryLocatorGUI.php");
+		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);

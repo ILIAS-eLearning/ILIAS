@@ -24,7 +24,7 @@
 require_once("classes/class.ilObjectGUI.php");
 //require_once("classes/class.ilMetaDataGUI.php");
 require_once("content/classes/class.ilObjGlossary.php");
-require_once("content/classes/class.ilGlossaryTermGUI.php");
+require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 require_once("content/classes/class.ilTermDefinitionEditorGUI.php");
 require_once("content/classes/Pages/class.ilPCParagraph.php");
@@ -835,7 +835,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function addTerm()
 	{
 		// add term
-		include_once ("content/classes/class.ilGlossaryTerm.php");
+		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term =& new ilGlossaryTerm();
 		$term->setGlossary($this->object);
 		$term->setTerm(ilUtil::stripSlashes($_POST["new_term"]));
@@ -1421,7 +1421,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			if(is_object($this->object))
 			{
-				require_once("content/classes/class.ilGlossaryLocatorGUI.php");
+				require_once("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 				$gloss_loc =& new ilGlossaryLocatorGUI();
 				if (is_object($this->term))
 				{
@@ -1543,7 +1543,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 
 		// add term
-		include_once ("content/classes/class.ilGlossaryTerm.php");
+		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term =& new ilGlossaryTerm($_POST["id"][0]);
 
 		// add first definition

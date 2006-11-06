@@ -22,8 +22,7 @@
 */
 
 require_once("classes/class.ilObject.php");
-//require_once("classes/class.ilMetaData.php");
-require_once("./content/classes/class.ilGlossaryTerm.php");
+require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 
 /** @defgroup ModulesGlossary Modules/Glossary
  */
