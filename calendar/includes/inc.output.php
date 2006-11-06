@@ -68,6 +68,10 @@ function doOutput($template) {
 			'<LINK href="'.ilUtil::getNewContentStyleSheetLocation().'" type="text/css" rel="stylesheet" />',
 			$template);
 
+		$template	= str_replace("{p3p_link}",
+			'<LINK href="'.ilUtil::getP3PLocation().'" rel="P3Pv1" />',
+			$template);
+
 		$css		= '<LINK href=".'.DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/".$DP_Style.'.css" type="text/css" rel="stylesheet" />';
         $template	= str_replace("{css}","$css",$template);
         echo $template;
