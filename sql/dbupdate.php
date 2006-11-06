@@ -11679,4 +11679,8 @@ CREATE table `il_news_item`
 	`context_sub_obj_type` char(10),
 	`content_type` enum('text','html')
 );
+<#835>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
