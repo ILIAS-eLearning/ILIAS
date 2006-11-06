@@ -632,7 +632,7 @@ class ilInitialisation
 
 		$_GET["cmd"] = "frameset";
 		$jump_script = "repository.php";
-		$script = $this->updir.$jump_script."?cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
+		$script = $this->updir.$jump_script."?reloadpublic=1&cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
 
 		// todo do it better, if JS disabled
 		//echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n";
@@ -1006,7 +1006,7 @@ class ilInitialisation
 				$this->initLanguage();
 
 				if ($ilSetting->get("pub_section") &&
-					$ilAuth->status == "")
+					$ilAuth->status == "" && $_GET["reloadpublic"] != "1")
 				{
 					$this->goToPublicSection();
 				}
@@ -1060,8 +1060,8 @@ class ilInitialisation
 		$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 		
 		// get P3P file location
-		$location_p3p_file = ilUtil::getP3PLocation();
-		$tpl->setVariable("LOCATION_P3PFILE", $location_p3p_file);
+		//$location_p3p_file = ilUtil::getP3PLocation();
+		//$tpl->setVariable("LOCATION_P3PFILE", $location_p3p_file);
 		
 		// init infopanel
 				
