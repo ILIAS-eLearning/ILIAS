@@ -12,7 +12,7 @@
 	<module name="SAHSLearningModule" dir="content">
 		<baseclass name="ilSAHSPresentationGUI" dir="classes" />
 	</module>
-	<module name="Glossary" dir="content">
+	<module name="Glossary" dir="Modules/Glossary">
 		<baseclass name="ilGlossaryEditorGUI" dir="classes" />
 		<baseclass name="ilGlossaryPresentationGUI" dir="classes" />
 	</module>
