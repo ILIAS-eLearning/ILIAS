@@ -212,6 +212,8 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilias;
 
+		//header('P3P: policyref="'.ilUtil::getP3PLocation().'", '.
+		//	'CP="ALL IND DSP COR ADM CONo CUR CUSo IVAo IVDo PSA PSD TAI TELo OUR SAMo CNT COM INT NAV ONL PHY PRE PUR UNI"');
 		header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
 
 		$this->addErrorMessage();
