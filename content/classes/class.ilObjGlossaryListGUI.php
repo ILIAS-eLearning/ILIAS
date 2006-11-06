@@ -62,7 +62,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjglossarygui";
 		
 		// general commands array
-		include_once('class.ilObjGlossaryAccess.php');
+		include_once("./Modules/Glossary/classes/class.ilObjGlossaryAccess.php");
 		$this->commands = ilObjGlossaryAccess::_getCommands();
 	}
 
@@ -140,7 +140,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("content/classes/class.ilObjGlossaryAccess.php");
+		include_once("./Modules/Glossary/classes/class.ilObjGlossaryAccess.php");
 
 		if (!ilObjGlossaryAccess::_lookupOnline($this->obj_id))
 		{
