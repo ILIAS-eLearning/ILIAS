@@ -1059,6 +1059,10 @@ class ilInitialisation
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 		
+		// get P3P file location
+		$location_p3p_file = ilUtil::getP3PLocation();
+		$tpl->setVariable("LOCATION_P3PFILE", $location_p3p_file);
+		
 		// init infopanel
 				
 		// provide global browser information

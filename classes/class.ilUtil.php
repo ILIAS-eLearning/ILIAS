@@ -230,6 +230,39 @@ class ilUtil
 	}
 
 	/**
+	* Get p3p file path.
+	*
+	* @access	public
+	*/
+	function getP3PLocation()
+	{
+		global $ilias;
+
+		if (defined("ILIAS_MODULE"))
+		{
+			// added to find Stylesheet for MODULES like Services/Search
+			$base = '';
+			for($i = 0;$i < count(explode('/',ILIAS_MODULE));$i++)
+			{
+				$base .= "../";
+			}
+		}
+		else
+		{
+			$base = "./";
+		}
+
+		if (is_file($base."p3p.xml"))
+		{
+			return $base."p3p.xml";
+		}
+		else
+		{
+			return $base."p3p_template.xml";
+		}
+	}
+
+	/**
 	* get full style sheet file name (path inclusive) of current user
 	*
 	* @access	public
