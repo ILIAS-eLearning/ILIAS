@@ -317,6 +317,17 @@ class ilTestCertificate
 		{
 			return $this->lng->txt("certificate_missing_text");
 		}
+		if (strlen($form_fields["certificate_text"]) > 0)
+		{
+			include_once "class.ilXMLChecker.php";
+			$check = new ilXMLChecker();
+			$check->setXMLContent(str_replace("&nbsp;", " ", "<html>" . $form_fields["certificate_text"] . "</html>"));
+			$check->startParsing();
+			if ($check->hasError())
+			{
+				return $this->lng->txt("certificate_not_well_formed");
+			}
+		}
 		return TRUE;
 	}
 	
@@ -442,9 +453,17 @@ class ilTestCertificate
 		$xsl = file_get_contents("./assessment/xml/xhtml2fo.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
-		$pageformats = $this->getPageFormats();
-		$pageheight = $pageformats[$form_data["pageformat"]]["height"];
-		$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
+		if (strcmp($form_data["pageformat"], "custom") == 0)
+		{
+			$pageheight = $form_data["pageheight"];
+			$pagewidth = $form_data["pagewidth"];
+		}
+		else
+		{
+			$pageformats = $this->getPageFormats();
+			$pageheight = $pageformats[$form_data["pageformat"]]["height"];
+			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
+		}
 		if ($for_export)
 		{
 			$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImageName() : "";
