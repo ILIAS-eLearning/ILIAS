@@ -1386,7 +1386,12 @@ class ilObjectGUI
 		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
-
+		
+		$this->afterUpdate();
+	}
+	
+	function afterUpdate()
+	{
 		$this->ctrl->redirect($this);
 	}
 
