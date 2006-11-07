@@ -22,7 +22,7 @@
 */
 
 require_once("content/classes/class.ilLMObject.php");
-require_once("content/classes/Pages/class.ilPageObject.php");
+require_once("./Services/COPage/classes/class.ilPageObject.php");
 
 define ("IL_CHAPTER_TITLE", "st_title");
 define ("IL_PAGE_TITLE", "pg_title");

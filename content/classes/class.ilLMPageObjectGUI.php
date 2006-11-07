@@ -23,7 +23,7 @@
 
 require_once("./content/classes/class.ilLMObjectGUI.php");
 require_once("./content/classes/class.ilLMPageObject.php");
-require_once("./content/classes/Pages/class.ilPageObjectGUI.php");
+require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 //require_once ("content/classes/class.ilEditClipboardGUI.php");
 require_once ("content/classes/class.ilInternalLinkGUI.php");
 

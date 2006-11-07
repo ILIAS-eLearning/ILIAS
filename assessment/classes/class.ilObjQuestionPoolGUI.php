@@ -127,8 +127,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 						sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
 					}
 				}
-				include_once("content/classes/Pages/class.ilPageObject.php");
-				include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
@@ -247,8 +247,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function fullscreenObject()
 	{
-		include_once("content/classes/Pages/class.ilPageObject.php");
-		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		$page =& new ilPageObject("qpl", $_GET["pg_id"]);
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->showMediaFullscreen();
@@ -279,7 +279,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function download_paragraphObject()
 	{
-		include_once("content/classes/Pages/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject("qpl", $_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 		exit;

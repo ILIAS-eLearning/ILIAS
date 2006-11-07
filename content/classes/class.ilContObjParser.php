@@ -22,7 +22,7 @@
 */
 
 require_once("content/classes/class.ilLMPageObject.php");
-require_once("content/classes/Pages/class.ilPageObject.php");
+require_once("./Services/COPage/classes/class.ilPageObject.php");
 require_once("content/classes/class.ilStructureObject.php");
 require_once("content/classes/class.ilObjLearningModule.php");
 require_once("classes/class.ilMetaData.php");

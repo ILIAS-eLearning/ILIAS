@@ -299,8 +299,8 @@ class assQuestionGUI
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
 
-		include_once("content/classes/Pages/class.ilPageObject.php");
-		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		$this->lng->loadLanguageModule("content");
 		$page =& new ilPageObject("qpl", $this->object->getId());
 		$page_gui =& new ilPageObjectGUI($page);

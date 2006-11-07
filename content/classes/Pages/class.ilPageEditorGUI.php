@@ -22,7 +22,7 @@
 */
 
 //require_once ("classes/class.ilDOMUtil.php");
-include_once ("content/classes/Pages/class.ilPageObjectGUI.php");
+include_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 include_once ("classes/class.ilTabsGUI.php");
 
 /**

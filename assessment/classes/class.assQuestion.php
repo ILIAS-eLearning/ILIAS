@@ -615,7 +615,7 @@ class assQuestion
 	{
 		$qpl_id = $this->getObjId();
 
-		include_once "./content/classes/Pages/class.ilPageObject.php";
+		include_once "./Services/COPage/classes/class.ilPageObject.php";
 		$this->page = new ilPageObject("qpl", 0);
 		$this->page->setId($this->getId());
 		$this->page->setParentId($qpl_id);
@@ -1183,7 +1183,7 @@ class assQuestion
 			return;
 		}
 
-		include_once "./content/classes/Pages/class.ilPageObject.php";
+		include_once "./Services/COPage/classes/class.ilPageObject.php";
 		$page = new ilPageObject("qpl", $question_id);
 		$page->delete();
 		
@@ -1356,7 +1356,7 @@ class assQuestion
 	{
 		if ($a_q_id > 0)
 		{
-			include_once "./content/classes/Pages/class.ilPageObject.php";
+			include_once "./Services/COPage/classes/class.ilPageObject.php";
 			$page = new ilPageObject("qpl", $a_q_id);
 
 			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id,
@@ -1369,7 +1369,7 @@ class assQuestion
 
 	function getPageOfQuestion()
 	{
-		include_once "./content/classes/Pages/class.ilPageObject.php";
+		include_once "./Services/COPage/classes/class.ilPageObject.php";
 		$page = new ilPageObject("qpl", $this->id);
 		return $page->getXMLContent();
 	}

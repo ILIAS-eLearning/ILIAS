@@ -1257,7 +1257,7 @@ class ilLMPresentationGUI
 	{
 		global $ilUser;
 
-		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		require_once("content/classes/class.ilLMPageObject.php");
 
 		$page_id = $this->mapCurrentPageId($this->getCurrentPageId());
@@ -1316,7 +1316,7 @@ class ilLMPresentationGUI
 		$this->ilLocator();
 		$this->tpl->setVariable("MENU",$this->lm_gui->setilCitationMenu());
 
-		include_once("content/classes/Pages/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
 
 		$this->pg_obj =& new ilPageObject($this->lm->getType(),$page_id);
 		$xml = $this->pg_obj->getXMLContent();
@@ -1367,7 +1367,7 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "ilPage");
 
-		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		require_once("content/classes/class.ilLMPageObject.php");
 		
 		// page id is e.g. > 0 when footer or header page is processed
@@ -1834,7 +1834,7 @@ class ilLMPresentationGUI
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{
-			require_once("content/classes/Pages/class.ilPageObject.php");
+			require_once("./Services/COPage/classes/class.ilPageObject.php");
 			$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
 			$pg_obj->buildDom();
 
@@ -2620,7 +2620,7 @@ class ilLMPresentationGUI
 
 		$nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
 
-		include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		include_once("content/classes/class.ilLMPageObject.php");
 		include_once("content/classes/class.ilStructureObject.php");
 
@@ -3048,7 +3048,7 @@ class ilLMPresentationGUI
 	*/
 	function download_paragraph ()
 	{
-		require_once("content/classes/Pages/class.ilPageObject.php");
+		require_once("./Services/COPage/classes/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 	}

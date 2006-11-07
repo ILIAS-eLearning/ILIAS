@@ -1245,7 +1245,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				{
 					case "pg":
 
-						require_once("content/classes/Pages/class.ilPageObject.php");
+						require_once("./Services/COPage/classes/class.ilPageObject.php");
 						$page_obj = new ilPageObject($cont_type, $usage["id"]);
 
 						//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);

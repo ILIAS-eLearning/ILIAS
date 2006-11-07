@@ -22,7 +22,7 @@
 */
 
 include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
-include_once("./content/classes/Pages/class.ilPageObject.php");
+include_once("./Services/COPage/classes/class.ilPageObject.php");
 include_once("./content/classes/class.ilEditClipboardGUI.php");
 include_once("./content/classes/Pages/class.ilParagraphPlugins.php");
 include_once("./content/classes/Pages/class.ilParagraphPlugin.php");
@@ -945,7 +945,7 @@ class ilPageObjectGUI
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{
-			require_once("content/classes/Pages/class.ilPageObject.php");
+			require_once("./Services/COPage/classes/class.ilPageObject.php");
 			$pg_obj =& new ilPageObject($this->obj->getParentType(), $_GET["pg_id"]);
 			$pg_obj->buildDom();
 

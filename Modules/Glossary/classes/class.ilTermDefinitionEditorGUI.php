@@ -22,7 +22,7 @@
 */
 
 require_once("classes/class.ilObjStyleSheet.php");
-require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
+require_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
 /**
 * GUI class for glossary term definition editor

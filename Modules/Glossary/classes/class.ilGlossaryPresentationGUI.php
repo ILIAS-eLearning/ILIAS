@@ -409,7 +409,7 @@ class ilGlossaryPresentationGUI
 	{
 		global $ilUser;
 		
-		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		//$this->setLocator();
@@ -1055,7 +1055,7 @@ class ilGlossaryPresentationGUI
 	}
 	
 	function download_paragraph () {
-		include_once("content/classes/Pages/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject("gdf", $_GET["pg_id"]);
 		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
 	}
