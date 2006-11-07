@@ -211,7 +211,7 @@
 	<property name="listMedia" module="1">view_content</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="htlm" class_name="FileBasedLM" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+<object name="htlm" class_name="FileBasedLM" location="Modules/HTMLLearningModule/classes" module="Modules/HTMLLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<property name="listFiles" module="1">list_files</property>
 	<property name="perm">perm_settings</property>
 </object>

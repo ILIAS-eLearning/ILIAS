@@ -16,6 +16,10 @@
 		<baseclass name="ilGlossaryEditorGUI" dir="classes" />
 		<baseclass name="ilGlossaryPresentationGUI" dir="classes" />
 	</module>
+	<module name="HTMLLearningModule" dir="Modules/HTMLLearningModule">
+		<baseclass name="ilHTLMEditorGUI" dir="classes" />
+		<baseclass name="ilHTLMPresentationGUI" dir="classes" />
+	</module>
 	<module name="Assessment" dir="assessment">
 		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
 		<baseclass name="ilObjTestGUI" dir="classes" />

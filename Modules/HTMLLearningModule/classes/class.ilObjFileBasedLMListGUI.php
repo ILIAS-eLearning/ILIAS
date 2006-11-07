@@ -80,11 +80,11 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				$cmd_link = "content/fblm_presentation.php?ref_id=".$this->ref_id;
+				$cmd_link = "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->ref_id;
 				break;
 
 			case "edit":
-				$cmd_link = "content/fblm_edit.php?ref_id=".$this->ref_id;
+				$cmd_link = "ilias.php?baseClass=ilHTLMEditorGUI&ref_id=".$this->ref_id;
 				break;
 
 			default:
@@ -154,7 +154,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("content/classes/class.ilObjFileBasedLMAccess.php");
+		include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
 
 		if (!ilObjFileBasedLMAccess::_lookupOnline($this->obj_id))
 		{
