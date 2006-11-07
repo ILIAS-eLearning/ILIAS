@@ -3336,78 +3336,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Creates the maintenance form for a test
-	*
-	* Creates the maintenance form for a test
-	*
-	* @access	public
-	*/
-	function maintenanceObject()
-	{
-		global $rbacsystem;
-
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
-		{
-			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
-		}
-		
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
-			$total =& $this->object->evalTotalParticipantsArray();
-			if (count($total))
-			{
-				$color_class = array("tblrow1", "tblrow2");
-				$counter = 0;
-				foreach ($total as $active_id => $user_data)
-				{
-					$user_name = $user_data["name"];
-					$user_login = $user_data["login"];
-					$this->tpl->setCurrentBlock("userrow");
-					$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("USER_ID", $active_id);
-					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
-					$this->tpl->setVariable("VALUE_USER_LOGIN", $user_login);
-					$last_access = $this->object->_getLastAccess($active_id);
-					$this->tpl->setVariable("LAST_ACCESS", ilFormat::formatDate($last_access));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$counter++;
-				$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("participanttable");
-				$this->tpl->setVariable("USER_NAME", $this->lng->txt("name"));
-				$this->tpl->setVariable("USER_LOGIN", $this->lng->txt("login"));
-				$this->tpl->setVariable("LAST_ACCESS", $this->lng->txt("last_access"));
-				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-				$this->tpl->setVariable("DELETE", $this->lng->txt("delete_user_data"));
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock("adm_content");
-				$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
-	//			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
-				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("maintenance_information");
-				$this->tpl->setVariable("MAINTENANCE_INFORMATION", $this->lng->txt("tst_maintenance_information_no_results"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-			sendInfo($this->lng->txt("cannot_maintain_test"));
-		}
-	}	
-
-	/**
 	* Creates the change history for a test
 	*
 	* Creates the change history for a test
@@ -4099,6 +4027,16 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data->clientip);
 					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
 					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started_line:"&nbsp;");
+					if (strlen($data->active_id))
+					{
+						$last_access = $this->object->_getLastAccess($data->active_id);
+						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilFormat::formatDate($last_access));
+					}
+					else
+					{
+						$last_access = $this->lng->txt("not_yet_accessed");
+						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
+					}
 					$this->ctrl->setParameter($this, "usr_id", $data->usr_id);
 					if ($data->test_started)
 					{
@@ -4126,6 +4064,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_IV_CLIENT_IP", $this->lng->txt("clientip"));
 				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
 				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
+				$this->tpl->setVariable("TEXT_IV_LAST_ACCESS", $this->lng->txt("last_access"));
 					
 				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
 				{
@@ -4154,6 +4093,16 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
 					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished_line:"&nbsp;");
 					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started_line:"&nbsp;");
+					if (strlen($data->active_id))
+					{
+						$last_access = $this->object->_getLastAccess($data->active_id);
+						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilFormat::formatDate($last_access));
+					}
+					else
+					{
+						$last_access = $this->lng->txt("not_yet_accessed");
+						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
+					}
 					if ($data->test_started)
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_ANSWER_SHEET", $this->lng->txt("tst_show_answer_sheet"));
@@ -4179,6 +4128,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
 				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
 				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
+				$this->tpl->setVariable("TEXT_IV_LAST_ACCESS", $this->lng->txt("last_access"));
 					
 				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
 				{
@@ -5016,6 +4966,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "confirmDeleteAllUserData":
 			case "cancelDeleteAllUserData":
 			case "deleteSingleUserResults":
+			case "searchParticipants":
 					 $this->getParticipantsSubTabs();
 				break;
 			case "scoring":
