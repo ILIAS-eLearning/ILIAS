@@ -34,7 +34,7 @@ require_once ("classes/class.ilObjectGUI.php");
 * @version $Id$
 * @ilCtrl_Calls ilObjMediaObjectGUI: ilInternalLinkGUI, ilMDEditorGUI
 *
-* @package content
+* @ingroup ServicesMediaObjects
 */
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
