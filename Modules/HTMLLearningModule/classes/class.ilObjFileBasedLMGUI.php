@@ -31,8 +31,7 @@
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 *
-* @extends ilObjectGUI
-* @package content
+* @ingroup ModulesHTMLLearningModule
 */
 
 require_once("classes/class.ilObjectGUI.php");
