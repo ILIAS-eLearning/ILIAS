@@ -7,14 +7,13 @@
 </thead>
 <tr>
   <td class="option"><label for="online">{PROPERTY_ONLINE}</label></td>
-  <td class="option_value"><input type="checkbox" name="online" id="online" value="1"{PROPERTY_ONLINE_CHECKED}><br /><em>{PROPERTY_ONLINE_DESCRIPTION}</em></td>
+  <td class="option_value"><input type="checkbox" name="online" id="online" value="1"{PROPERTY_ONLINE_CHECKED}{PROPERTY_ONLINE_DISABLED}><br /><em>{PROPERTY_ONLINE_DESCRIPTION}</em></td>
 </tr>
-<tr><td colspan="2" class="submit">
-<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <!-- BEGIN command_buttons -->
+<tr><td colspan="2" class="submit">
 <div align="right">
 <input name="cmd[saveProperties]" type="submit" class="submit" id="save" value="{SAVE}" />
 </div>
-<!-- END command_buttons -->
 </td></tr>
+<!-- END command_buttons -->
 </table>
