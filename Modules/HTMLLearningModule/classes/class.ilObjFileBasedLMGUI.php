@@ -227,7 +227,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		// lm properties
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.fblm_properties.html",'content');
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.fblm_properties.html",
+			'Modules/HTMLLearningModule');
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
 
@@ -538,7 +539,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.fblm_edit_frameset.html", false, false, "content");
+		$this->tpl = new ilTemplate("tpl.fblm_edit_frameset.html", false, false,
+			"Modules/HTMLLearningModule");
 		$this->tpl->setVariable("HREF_FILES",$this->ctrl->getLinkTargetByClass(
 			"ilfilesystemgui", "listFiles"));
 		$this->tpl->show();
