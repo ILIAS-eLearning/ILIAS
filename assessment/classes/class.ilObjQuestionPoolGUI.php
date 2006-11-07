@@ -200,8 +200,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("PROPERTY_ONLINE_CHECKED", " checked=\"checked\"");
 		}
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		global $rbacsystem;
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		}
+		else
+		{
+			$this->tpl->setVariable("PROPERTY_ONLINE_DISABLED", " disabled=\"disabled\"");
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -870,8 +877,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
 			$this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_as_create_new_question.html", true);
-			$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
 		}
+		$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
 		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
 
 		// create filter form
@@ -903,7 +910,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// create edit buttons & table footer
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
-			$this->tpl->setCurrentBlock("standard");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
 			$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
@@ -916,12 +922,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock("Footer");
-			include_once "./classes/class.ilUtil.php";
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
+			$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
 		}
 
+		$this->tpl->setCurrentBlock("Footer");
+		include_once "./classes/class.ilUtil.php";
+		$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
+		$this->tpl->parseCurrentBlock();
+		
 		$this->tpl->setCurrentBlock("QTab");
 
 		// reset the filter
@@ -963,11 +975,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
 			}
+			$this->tpl->setCurrentBlock("checkable");
+			$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+			$this->tpl->parseCurrentBlock();
 			if ($editable)
 			{
-				$this->tpl->setCurrentBlock("checkable");
-				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("edit_link");
 				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
@@ -1050,14 +1062,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			if ($rbacsystem->checkAccess('write', $this->ref_id))
-			{
-				$counter++;
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-			}
+			$counter++;
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
 		}
 
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
@@ -1818,12 +1827,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				return $this->getEmbeddedTabs($tabs_gui);
 				break;
 		}
-	// properties
-		$tabs_gui->addTarget("properties",
-			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties", "",
-			 "");
-
 		// questions
 		$force_active = false;
 		$commands = $_POST["cmd"];
@@ -1867,6 +1870,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"addParameter", "assessment", "addGIT", "addST", "addPG", "delete",
 				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
 			 "", "", $force_active);
+
+	// properties
+		$tabs_gui->addTarget("properties",
+			 $this->ctrl->getLinkTarget($this,'properties'),
+			 "properties", "",
+			 "");
 
 		// meta data
 		$tabs_gui->addTarget("meta_data",
