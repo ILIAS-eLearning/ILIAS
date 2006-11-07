@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/Pages/class.ilPageObject.php");
+require_once("./Services/COPage/classes/class.ilPageObject.php");
 
 /**
 * Class ilGlossaryDefinition

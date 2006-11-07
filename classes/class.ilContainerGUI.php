@@ -90,8 +90,8 @@ class ilContainerGUI extends ilObjectGUI
 		global $lng;
 
 		// page object
-		include_once("./content/classes/Pages/class.ilPageObject.php");
-		include_once("./content/classes/Pages/class.ilPageObjectGUI.php");
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
 		$lng->loadLanguageModule("content");
 		

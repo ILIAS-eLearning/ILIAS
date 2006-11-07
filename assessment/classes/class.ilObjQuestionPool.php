@@ -1252,7 +1252,7 @@ class ilObjQuestionPool extends ilObject
 					$result = $ilDB->query($query);
 					if ($result->numRows() == 1)
 					{
-						include_once "./content/classes/Pages/class.ilPageObject.php";
+						include_once "./Services/COPage/classes/class.ilPageObject.php";
 						$page = new ilPageObject("qpl", $question_object["question_id"]);
 						$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 						$source_questionpool = $row["obj_fi"];

@@ -160,7 +160,7 @@ class ilLMEditorExplorer extends ilLMExplorer
 		}
 		else
 		{
-			include_once("content/classes/Pages/class.ilPageObject.php");
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
 			$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_id,
 				$this->lm_obj->getType());
 			if ($contains_dis)

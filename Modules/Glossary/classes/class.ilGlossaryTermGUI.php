@@ -205,7 +205,7 @@ class ilGlossaryTermGUI
 	function output($a_offline = false, $dir = "")
 	{
 		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
@@ -262,7 +262,7 @@ class ilGlossaryTermGUI
 	function getInternalLinks()
 	{
 		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
@@ -291,7 +291,7 @@ class ilGlossaryTermGUI
 		$this->displayLocator();
 		$this->setTabs();
 
-		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
