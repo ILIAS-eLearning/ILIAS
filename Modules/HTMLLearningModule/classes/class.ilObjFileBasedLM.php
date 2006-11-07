@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ModulesHTMLLearningModule Modules/HTMLLearningModule
+ */
 
 /**
 * File Based Learning Module (HTML) object
@@ -29,8 +31,7 @@
 *
 * $Id$
 *
-* @extends ilObject
-* @package content
+* @ingroup ModulesHTMLLearningModule
 */
 
 require_once "classes/class.ilObject.php";
