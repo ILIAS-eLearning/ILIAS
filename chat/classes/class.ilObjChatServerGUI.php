@@ -82,7 +82,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 	function editObject()
 	{
 		global $rbacsystem;
-
+	
 		$this->tabs_gui->setTabActive('edit_properties');
 
 		if (!$rbacsystem->checkAccess("read", $this->ref_id))
@@ -102,6 +102,14 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$port = $_SESSION["error_post_vars"]["chat_port"] ? 
 			$_SESSION["error_post_vars"]["chat_port"] :
 			$this->object->server_conf->getPort();
+		
+		$ssl_status = $_SESSION["error_post_vars"]["chat_ssl_status"] ? 
+			$_SESSION["error_post_vars"]["chat_ssl_status"] :
+			$this->object->server_conf->getSSLStatus();		
+			
+		$ssl_port = $_SESSION["error_post_vars"]["chat_ssl_port"] ? 
+			$_SESSION["error_post_vars"]["chat_ssl_port"] :
+			$this->object->server_conf->getSSLPort();
 
 		$moderator = $_SESSION["error_post_vars"]["chat_moderator"] ? 
 			$_SESSION["error_post_vars"]["chat_moderator"] :
@@ -144,6 +152,9 @@ class ilObjChatServerGUI extends ilObjectGUI
         $this->tpl->setVariable("TXT_CHAT_SERVER_EXTERNAL_IP",$this->lng->txt("chat_server_external_ip"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_MODERATOR",$this->lng->txt("chat_moderator_password"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_PORT",$this->lng->txt("chat_server_port"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_SSL_SETTINGS",$this->lng->txt("chat_server_ssl_settings"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_SSL_ACTIVE",$this->lng->txt("chat_server_ssl_active"));
+		$this->tpl->setVariable("TXT_CHAT_SERVER_SSL_PORT",$this->lng->txt("chat_server_ssl_port"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_LOGFILE",$this->lng->txt("chat_server_logfile"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_LEVEL",$this->lng->txt("chat_server_loglevel"));
 		$this->tpl->setVariable("TXT_CHAT_SERVER_ALLOWED",$this->lng->txt("chat_server_allowed"));
@@ -156,6 +167,8 @@ class ilObjChatServerGUI extends ilObjectGUI
         $this->tpl->setVariable("CHAT_SERVER_INTERNAL",$internal_ip);
         $this->tpl->setVariable("CHAT_SERVER_EXTERNAL",$external_ip);
 		$this->tpl->setVariable("CHAT_PORT",$port);
+		if ($ssl_status) $this->tpl->setVariable("CHAT_SSL_STATUS_CHECKED", "checked='checked'");
+		$this->tpl->setVariable("CHAT_SSL_PORT",$ssl_port);
 		$this->tpl->setVariable("CHAT_MODERATOR",$moderator);
 		$this->tpl->setVariable("CHAT_LOGFILE",$logfile);
 		$this->tpl->setVariable("CHAT_ALLOWED",$allowed);
@@ -173,14 +186,16 @@ class ilObjChatServerGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
-
-        $this->object->server_conf->setInternalIp($_POST["chat_internal_ip"]);
-        $this->object->server_conf->setExternalIp($_POST["chat_external_ip"]);
-		$this->object->server_conf->setPort($_POST["chat_port"]);
-		$this->object->server_conf->setModeratorPassword($_POST["chat_moderator"]);
-		$this->object->server_conf->setLogfile($_POST["chat_logfile"]);
-		$this->object->server_conf->setLogLevel($_POST["chat_loglevel"]);
-		$this->object->server_conf->setAllowedHosts($_POST["chat_allowed"]);
+		
+        $this->object->server_conf->setInternalIp(ilUtil::stripSlashes($_POST["chat_internal_ip"]));
+        $this->object->server_conf->setExternalIp(ilUtil::stripSlashes($_POST["chat_external_ip"]));
+		$this->object->server_conf->setPort(ilUtil::stripSlashes($_POST["chat_port"]));
+		$this->object->server_conf->setSSLStatus($_POST["chat_ssl_status"] ? 1 : 0);
+		$this->object->server_conf->setSSLPort(ilUtil::stripSlashes($_POST["chat_ssl_port"]));
+		$this->object->server_conf->setModeratorPassword(ilUtil::stripSlashes($_POST["chat_moderator"]));
+		$this->object->server_conf->setLogfile(ilUtil::stripSlashes($_POST["chat_logfile"]));
+		$this->object->server_conf->setLogLevel(ilUtil::stripSlashes($_POST["chat_loglevel"]));
+		$this->object->server_conf->setAllowedHosts(ilUtil::stripSlashes($_POST["chat_allowed"]));
 
 		if(!$this->object->server_conf->validate())
 		{

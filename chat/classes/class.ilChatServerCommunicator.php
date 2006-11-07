@@ -119,13 +119,12 @@ class ilChatServerCommunicator
 	}
 	
 	function getServerFrameSource()
-	{
-		return sprintf("http://%s:%s/%s%s",
+	{		
+		return sprintf("http".($this->chat->server_conf->getSSLStatus() && $this->chat->server_conf->getSSLPort() ? "s" : "")."://%s:%s/%s%s",
                        $this->chat->server_conf->getExternalIp(),
-					   $this->chat->server_conf->getPort(),
+					   ($this->chat->server_conf->getSSLStatus() && $this->chat->server_conf->getSSLPort() ? $this->chat->server_conf->getSSLPort() : $this->chat->server_conf->getPort()),
 					   $this->__formatLogin($this->chat->chat_user->getLogin()),
 					   $this->__getFormattedChatroom());
-
 	}
 
 	function isAlive()

@@ -6590,3 +6590,7 @@ assessment#:#tst_use_previous_answers_description#:#If checked, the previous ans
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes###26 10 2006 new variable
 common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###26 10 2006 new variable
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
+chat#:#chat_server_ssl_settings#:#SSL Einstellungen
+chat#:#chat_server_ssl_port#:#Server SSL Port
+chat#:#chat_server_ssl_active#:#SSL aktivieren
+chat#:#chat_add_ssl_port#:#Bitte geben Sie den Server-SSL-Port ein.

@@ -38,6 +38,8 @@ class ilChatServerConfig
     var $internal_ip;
     var $external_ip;
 	var $port;
+	var $ssl_status;
+	var $ssl_port;
 	var $moderator;
 	var $logfile;
 	var $loglevel;
@@ -99,6 +101,22 @@ class ilChatServerConfig
 	{
 		return $this->port;
 	}
+	function setSSLStatus($ssl_status = 0)
+	{
+		$this->ssl_status = $ssl_status;
+	}
+	function getSSLStatus()
+	{
+		return $this->ssl_status;
+	}	
+	function setSSLPort($ssl_port)
+	{
+		$this->ssl_port = $ssl_port;
+	}
+	function getSSLPort()
+	{
+		return $this->ssl_port;
+	}
 	function setModeratorPassword($a_passwd)
 	{
 		$this->moderator = $a_passwd;
@@ -159,6 +177,10 @@ class ilChatServerConfig
         }
         if(!$this->getExternalIp())
         {
+			if($this->error_message)
+			{
+				$this->error_message .= "<br />";
+			}
             $this->error_message .= $this->lng->txt("chat_add_external_ip");
         }
 		if(!$this->getPort())
@@ -169,6 +191,14 @@ class ilChatServerConfig
 			}
 			$this->error_message .= $this->lng->txt("chat_add_port");
 		}
+		if($this->getSSLStatus() && !$this->getSSLPort())
+		{
+			if($this->error_message)
+			{
+				$this->error_message .= "<br />";
+			}
+			$this->error_message .= $this->lng->txt("chat_add_ssl_port");
+		}		
 		if(!$this->getModeratorPassword())
 		{
 			if($this->error_message)
@@ -198,6 +228,8 @@ class ilChatServerConfig
         $this->ilias->setSetting("chat_internal_ip",$this->getInternalIp());
         $this->ilias->setSetting("chat_external_ip",$this->getExternalIp());
 		$this->ilias->setSetting("chat_port",$this->getPort());
+		$this->ilias->setSetting("chat_ssl_status",$this->getSSLStatus());
+		$this->ilias->setSetting("chat_ssl_port",$this->getSSLPort());
 		$this->ilias->setSetting("chat_logfile",$this->getLogfile());
 		$this->ilias->setSetting("chat_loglevel",$this->getLogLevel());
 		$this->ilias->setSetting("chat_hosts",$this->getAllowedHosts());
@@ -215,6 +247,8 @@ class ilChatServerConfig
         $this->internal_ip = $this->ilias->getSetting("chat_internal_ip");
         $this->external_ip = $this->ilias->getSetting("chat_external_ip");
 		$this->port = $this->ilias->getSetting("chat_port");
+		$this->ssl_status = $this->ilias->getSetting("chat_ssl_status");
+		$this->ssl_port = $this->ilias->getSetting("chat_ssl_port");
 		$this->moderator = $this->ilias->getSetting("chat_moderator_password");
 		$this->loglevel = $this->ilias->getSetting("chat_loglevel");
 		$this->logfile = $this->ilias->getSetting("chat_logfile");
@@ -269,6 +303,8 @@ class ilChatServerConfig
         $content .= "IpAddress = ".$this->getInternalIp()."\n";
         $content .= "ExternalIpAddress = ".$this->getExternalIp()."\n";
 		$content .= "Port = ".$this->getPort()."\n";
+		$content .= "SSLStatus = ".($this->getSSLStatus() ? $this->getSSLStatus() : 0)."\n";
+		$content .= "SSLPort = ".$this->getSSLPort()."\n";
 		$content .= "ModeratorPassword = ".$this->getModeratorPassword()."\n";
 		$content .= "HeaderFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/header.html\n";
 		$content .= "FooterFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/footer.html\n";
