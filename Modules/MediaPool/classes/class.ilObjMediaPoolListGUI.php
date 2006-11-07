@@ -28,7 +28,7 @@
 * @author 		Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ingroup Modules/MediaPool
+* @ingroup ModulesMediaPool
 */
 
 

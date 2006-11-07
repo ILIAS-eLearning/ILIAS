@@ -31,7 +31,7 @@
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
 *
-* @ingroup Modules/MediaPool
+* @ingroup ModulesMediaPool
 */
 
 include_once("classes/class.ilObjectGUI.php");
@@ -353,10 +353,13 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-//		$this->setReturnLocation("update", $this->ctrl->getLinkTarget($this, "listMedia"));
 		$this->updateObject();
 	}
 
+	function afterUpdate()
+	{
+		$this->ctrl->redirect($this, "listMedia");
+	}
 
 	/**
 	* list media objects

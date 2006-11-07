@@ -30,7 +30,7 @@ include_once("classes/class.ilObjectAccess.php");
 * @author 		Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ingroup Modules/MediaPool
+* @ingroup ModulesMediaPool
 */
 class ilObjMediaPoolAccess extends ilObjectAccess
 {
