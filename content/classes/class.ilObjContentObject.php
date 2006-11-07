@@ -1481,7 +1481,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		foreach ($this->mob_ids as $mob_id)
 		{
@@ -1950,7 +1950,7 @@ class ilObjContentObject extends ilObject
 		fclose($fp);
 		
 		// fullscreen
-		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
 		{
@@ -2053,7 +2053,7 @@ class ilObjContentObject extends ilObject
 			$ilBench->stop("ExportHTML", "exportPageHTML");
 			
 			// get all media objects of page
-			include_once("content/classes/Media/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 			$pg_mobs = ilObjMediaObject::_getMobsOfObject($this->getType().":pg", $page["obj_id"]);
 			foreach($pg_mobs as $pg_mob)
 			{

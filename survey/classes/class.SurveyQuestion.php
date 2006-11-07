@@ -749,7 +749,7 @@ class SurveyQuestion
 */
 	function copyXHTMLMediaObjectsOfQuestion($a_q_id)
 	{
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $a_q_id);
 		foreach ($mobs as $mob)
 		{
@@ -1197,7 +1197,7 @@ class SurveyQuestion
 			ilUtil::delDir($directory);
 		}
 
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
 		// remaining usages are not in text anymore -> delete them
 		// and media objects (note: delete method of ilObjMediaObject
@@ -1760,7 +1760,7 @@ class SurveyQuestion
 	function addQTIMaterial(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE)
 	{
 		include_once "./Services/RTE/classes/class.ilRTE.php";
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		$a_xml_writer->xmlStartTag("material");
 		$attrs = array(

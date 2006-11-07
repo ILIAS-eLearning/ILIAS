@@ -702,7 +702,7 @@ class ilObjGlossary extends ilObject
 		fclose($fp);
 		
 		// fullscreen
-		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
 		{
@@ -889,7 +889,7 @@ class ilObjGlossary extends ilObject
 	*/
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		foreach ($this->mob_ids as $mob_id)
 		{

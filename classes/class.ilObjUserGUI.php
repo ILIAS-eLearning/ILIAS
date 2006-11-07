@@ -2154,7 +2154,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$image = fread($fh, filesize($imagefile));
 				fclose($fh);
-				require_once "./content/classes/Media/class.ilObjMediaObject.php";
+				require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 				$mimetype = ilObjMediaObject::getMimeType($imagefile);
 				if (preg_match("/^image/", $mimetype))
 				{

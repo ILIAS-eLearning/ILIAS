@@ -285,7 +285,7 @@ class assOrderingQuestion extends assQuestion
 		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
-			include_once "./content/classes/Media/class.ilObjMediaObject.php";
+			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 			include_once "./Services/RTE/classes/class.ilRTE.php";
 			foreach ($_SESSION["import_mob_xhtml"] as $mob)
 			{
@@ -1206,7 +1206,7 @@ class assOrderingQuestion extends assQuestion
 			}
 			else
 			{
-				include_once "./content/classes/Media/class.ilObjMediaObject.php";
+				include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 				$mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
 				if (!preg_match("/^image/", $mimetype))
 				{

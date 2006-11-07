@@ -103,7 +103,7 @@ class ilSoapUtils extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		include_once "./content/classes/Media/class.ilObjMediaObject.php";
+		include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 		return ilObjMediaObject::_saveTempFileAsMediaObject($name, $tmp_name);
 	}
 	
@@ -116,7 +116,7 @@ class ilSoapUtils extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		include_once "./content/classes/Media/class.ilObjMediaObject.php";
+		include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 		return ilObjMediaObject::_getMobsOfObject($a_type, $a_id);
 	}
 	

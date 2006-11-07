@@ -33,7 +33,7 @@
 define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";
-require_once "./content/classes/Media/class.ilObjMediaObjectGUI.php";
+require_once "./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php";
 
 // recover parameter
 ilObjMediaObjectGUI::_recoverParameters();
