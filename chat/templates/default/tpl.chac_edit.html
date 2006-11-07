@@ -37,6 +37,13 @@
 			<td class="option_value"><input type="text" size="5" maxlength="5" name="chat_port" value="{CHAT_PORT}" /></td>
 		  </tr>
 		  <tr>
+			<td class="option">{TXT_CHAT_SERVER_SSL_SETTINGS}&nbsp;</td>
+			<td class="option_value">
+				<input type="checkbox" name="chat_ssl_status" value="1" {CHAT_SSL_STATUS_CHECKED} />&nbsp;{TXT_CHAT_SERVER_SSL_ACTIVE}<br />
+				{TXT_CHAT_SERVER_SSL_PORT}:&nbsp;<input type="text" size="5" maxlength="5" name="chat_ssl_port" value="{CHAT_SSL_PORT}" />
+			</td>
+		  </tr>
+		  <tr>
 			<td class="option">{TXT_CHAT_SERVER_MODERATOR}&nbsp;<span class="asterisk">*</span></td>
 			<td class="option_value"><input type="password" size="9" maxlength="16" name="chat_moderator" value="{CHAT_MODERATOR}" /></td>
 		  </tr>

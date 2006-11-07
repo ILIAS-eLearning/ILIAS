@@ -1061,7 +1061,7 @@ chat#:#chat_rooms_deleted#:#Chat room(s) deleted.
 chat#:#chat_select_one_room#:#Please select one chat room
 chat#:#chat_server_allowed#:#Allowed hosts
 chat#:#chat_server_allowed_b#:#(e.g. 192.168.1.1,192.168.1.2)
-chat#:#chat_server_external_ip#:#Server external IP
+chat#:#chat_server_external_ip#:#Server Address
 chat#:#chat_server_internal_ip#:#Server internal IP
 chat#:#chat_server_logfile#:#Log file path
 chat#:#chat_server_loglevel#:#Log level
@@ -6635,3 +6635,7 @@ grp#:#crs_grouping_select_one#:#Please select one membership limitation.
 grp#:#crs_grp_info_reg#:#You can only register to one of this groups:
 trac#:#trac_anonymized_info_short#:#(Anonymized)
 barometer#:#barometer_add#:#Add new Feedback
+chat#:#chat_server_ssl_settings#:#SSL Settings
+chat#:#chat_server_ssl_port#:#Server SSL Port
+chat#:#chat_server_ssl_active#:#SSL active
+chat#:#chat_add_ssl_port#:#Please add the server SSL port.
