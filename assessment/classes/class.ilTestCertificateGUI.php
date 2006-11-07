@@ -216,16 +216,16 @@ class ilTestCertificateGUI
 	function getFormFieldsFromPOST()
 	{
 		$form_fields = array(
-			"pageformat" => $_POST["pageformat"],
-			"padding_top" => $_POST["padding_top"],
-			"margin_body_top" => $_POST["margin_body_top"],
-			"margin_body_right" => $_POST["margin_body_right"],
-			"margin_body_bottom" => $_POST["margin_body_bottom"],
-			"margin_body_left" => $_POST["margin_body_left"],
-			"certificate_text" => $_POST["certificate_text"],
-			"pageheight" => $_POST["pageheight"],
-			"pagewidth" => $_POST["pagewidth"],
-			"certificate_visibility" => $_POST["certificate_visibility"]
+			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
+			"padding_top" => ilUtil::stripSlashes($_POST["padding_top"]),
+			"margin_body_top" => ilUtil::stripSlashes($_POST["margin_body_top"]),
+			"margin_body_right" => ilUtil::stripSlashes($_POST["margin_body_right"]),
+			"margin_body_bottom" => ilUtil::stripSlashes($_POST["margin_body_bottom"]),
+			"margin_body_left" => ilUtil::stripSlashes($_POST["margin_body_left"]),
+			"certificate_text" => ilUtil::stripSlashes($_POST["certificate_text"], FALSE),
+			"pageheight" => ilUtil::stripSlashes($_POST["pageheight"]),
+			"pagewidth" => ilUtil::stripSlashes($_POST["pagewidth"]),
+			"certificate_visibility" => ilUtil::stripSlashes($_POST["certificate_visibility"])
 		);
 		return $form_fields;
 	}

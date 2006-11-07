@@ -3,7 +3,7 @@
 <table class="fullwidth">
 <thead>
 	<tr class="tblheader">
-		<th colspan="9">{TEXT_INVITED_USER_TITLE}</th>
+		<th colspan="10">{TEXT_INVITED_USER_TITLE}</th>
 	</tr>
 	<tr class="tblheader">
 		<th class="std"></th>
@@ -13,6 +13,7 @@
 		<th class="std">{TEXT_IV_CLIENT_IP}</th>
 		<th class="std">{TEXT_IV_TEST_STARTED}</th>
 		<th class="std">{TEXT_IV_TEST_FINISHED}</th>
+		<th class="std">{TEXT_IV_LAST_ACCESS}</th>
 		<th class="std"></th>
 		<th class="std"></th>
 	</tr>
@@ -26,6 +27,7 @@
 <td><input type="text" name="clientip_{VALUE_IV_USR_ID}" value="{VALUE_IV_CLIENT_IP}" size="15" maxlength="15"/></td>
 <td>{VALUE_IV_TEST_STARTED}</td>
 <td>{VALUE_IV_TEST_FINISHED}</td>
+<td>{VALUE_IV_LAST_ACCESS}</td>
 <td>
 <!-- BEGIN answer_sheet -->
 	<a class="il_ContainerItemCommand" href="{URL_TST_SHOW_ANSWER_SHEET}">{VALUE_TST_SHOW_ANSWER_SHEET}</a>
@@ -43,13 +45,13 @@
 	<td class="{COLOR_CLASS}">
 		<input type="checkbox" name="chbUser_check_all" value="1" id="chbUser_check_all" onclick="setChecked('frm_invitation', 'chbUser', document.frm_invitation.chbUser_check_all.checked);" />
 	</td>
-	<td colspan="8" class="{COLOR_CLASS}"><label for="chbUser_check_all"><strong>{SELECT_ALL}</strong></label></td>
+	<td colspan="9" class="{COLOR_CLASS}"><label for="chbUser_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>
 <!-- END selectall -->
 <!-- BEGIN user_action_buttons -->
 <tr>
 	<td class="submit">{ARROW}</td>
-	<td class="submit" colspan="8">
+	<td class="submit" colspan="9">
 		<input type="submit" class="submit" name="cmd[saveClientIP]" value="{VALUE_SAVE}" />
 		<input type="submit" class="submit" name="cmd[deleteSingleUserResults]" value="{VALUE_DELETE_USER_DATA}" />
 		<input type="submit" class="submit" name="cmd[removeParticipant]" value="{VALUE_REMOVE_AS_PARTICIPANT}" />
