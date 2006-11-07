@@ -28,6 +28,9 @@ define ("IL_MODE_FULL", 3);
 require_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
 include_once "classes/class.ilObject.php";
 
+/** @defgroup ServicesMediaObjects Services/MediaObjects
+ */
+
 /**
 * Class ilObjMediaObject
 *
@@ -38,7 +41,7 @@ include_once "classes/class.ilObject.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ServicesMediaObjects
 */
 class ilObjMediaObject extends ilObject
 {

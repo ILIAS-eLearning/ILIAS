@@ -49,7 +49,7 @@ define("IL_TF_NEW", "New");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ServicesMediaObjects
 */
 class ilMapArea
 {
