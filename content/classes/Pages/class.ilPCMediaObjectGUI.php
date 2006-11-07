@@ -24,7 +24,7 @@
 require_once ("content/classes/Pages/class.ilPageContentGUI.php");
 //require_once ("content/classes/Pages/class.ilMediaObject.php");
 require_once ("content/classes/Pages/class.ilMediaAliasItem.php");
-require_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
+require_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 
 /**
 * Class ilPCMediaObjectGUI

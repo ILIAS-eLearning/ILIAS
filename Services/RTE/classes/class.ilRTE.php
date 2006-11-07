@@ -150,7 +150,7 @@ class ilRTE
 	function _cleanupMediaObjectUsage($a_text, $a_usage_type, $a_usage_id)
 	{
 		// get current stored mobs
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type,
 			$a_usage_id);
 		

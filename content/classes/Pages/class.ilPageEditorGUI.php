@@ -23,16 +23,6 @@
 
 //require_once ("classes/class.ilDOMUtil.php");
 include_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-//include_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
-//include_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
-//include_once ("content/classes/Pages/class.ilPCSourcecodeGUI.php");
-//include_once ("content/classes/Pages/class.ilPCTableGUI.php");
-//include_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
-//include_once ("content/classes/Pages/class.ilPCListGUI.php");
-//include_once ("content/classes/Pages/class.ilPCListItemGUI.php");
-//include_once ("content/classes/Pages/class.ilPCFileListGUI.php");
-//include_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
-//include_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
 include_once ("classes/class.ilTabsGUI.php");
 
 /**
@@ -362,7 +352,7 @@ class ilPageEditorGUI
 			// PC Media Object
 			case "ilpcmediaobjectgui":
 			case "ilobjmediaobjectgui":
-				include_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
+				include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 				include_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
 
 				$this->tabs_gui->clearTargets();
@@ -652,7 +642,7 @@ class ilPageEditorGUI
 	*/
 	function insertFromClipboard()
 	{
-		include_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
+		include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 		if ($_GET["clip_obj_id"] != "")
 		{
 			if ($_GET["clip_obj_type"] == "mob")

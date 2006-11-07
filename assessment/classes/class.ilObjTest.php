@@ -632,7 +632,7 @@ class ilObjTest extends ilObject
 			include_once "./classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
 		// remaining usages are not in text anymore -> delete them
 		// and media objects (note: delete method of ilObjMediaObject
@@ -5145,7 +5145,7 @@ class ilObjTest extends ilObject
 		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
-			include_once "./content/classes/Media/class.ilObjMediaObject.php";
+			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 			include_once "./Services/RTE/classes/class.ilRTE.php";
 			include_once "./assessment/classes/class.ilObjQuestionPool.php";
 			foreach ($_SESSION["import_mob_xhtml"] as $mob)
@@ -5575,7 +5575,7 @@ class ilObjTest extends ilObject
 	*/
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		include_once "./content/classes/Media/class.ilObjMediaObject.php";
+		include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 
 		foreach ($this->mob_ids as $mob_id)
 		{
@@ -7628,7 +7628,7 @@ class ilObjTest extends ilObject
 	function addQTIMaterial(&$a_xml_writer, $a_material)
 	{
 		include_once "./Services/RTE/classes/class.ilRTE.php";
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		$a_xml_writer->xmlStartTag("material");
 		$attrs = array(

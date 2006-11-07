@@ -190,7 +190,7 @@ class ilQuestionpoolExport
 
 	function exportXHTMLMediaObjects($a_export_dir)
 	{
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		
 		foreach ($this->questions as $question_id)
 		{

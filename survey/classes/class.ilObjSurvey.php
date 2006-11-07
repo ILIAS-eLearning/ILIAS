@@ -350,7 +350,7 @@ class ilObjSurvey extends ilObject
 			ilUtil::delDir($directory);
 		}
 
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->getId());
 		// remaining usages are not in text anymore -> delete them
 		// and media objects (note: delete method of ilObjMediaObject

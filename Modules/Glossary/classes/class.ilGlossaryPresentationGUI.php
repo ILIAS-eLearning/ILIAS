@@ -581,7 +581,7 @@ class ilGlossaryPresentationGUI
 
 		$link_xlm = "";
 
-		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 
 		$xml = "<dummy>";

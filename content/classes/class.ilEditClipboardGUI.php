@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 
 /**
 * Class ilEditClipboardGUI
@@ -276,7 +276,7 @@ class ilEditClipboardGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				
-				include_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 				$this->tpl->setVariable("MEDIA_INFO",
 					ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
 
@@ -322,7 +322,7 @@ class ilEditClipboardGUI
 		foreach($_POST["id"] AS $obj_id)
 		{
 			$this->ilias->account->removeObjectFromClipboard($obj_id, "mob");
-			include_once("content/classes/Media/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 			$mob = new ilObjMediaObject($obj_id);
 			$mob->delete();			// this method don't delete, if mob is used elsewhere
 		}

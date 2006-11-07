@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("content/classes/Media/class.ilObjMediaObject.php");
+require_once ("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 require_once ("content/classes/class.ilInternalLinkGUI.php");
 require_once ("classes/class.ilObjectGUI.php");
 
@@ -1891,7 +1891,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				break;
 
 			case "MediaObject":
-				require_once("content/classes/Media/class.ilObjMediaObject.php");
+				require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 				$mob =& new ilObjMediaObject($t_arr[count($t_arr) - 1]);
 				$link_str = $this->lng->txt("mob").
 					": ".$mob->getTitle()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;

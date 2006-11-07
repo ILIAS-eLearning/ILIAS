@@ -229,7 +229,7 @@ class ilTestExport
 
 	function exportXHTMLMediaObjects($a_export_dir)
 	{
-		include_once("./content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		
 		$mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->test_obj->getId());
 		foreach ($mobs as $mob)

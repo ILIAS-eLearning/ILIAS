@@ -38,8 +38,8 @@ include_once("classes/class.ilObjectGUI.php");
 include_once("content/classes/class.ilObjMediaPool.php");
 include_once("classes/class.ilTableGUI.php");
 include_once("classes/class.ilObjFolderGUI.php");
-include_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
-include_once("content/classes/Media/class.ilObjMediaObject.php");
+include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 include_once ("content/classes/class.ilEditClipboardGUI.php");
 
 class ilObjMediaPoolGUI extends ilObjectGUI
@@ -595,7 +595,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						}
 						
 						// output media info
-						include_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+						include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 						$this->tpl->setVariable("MEDIA_INFO",
 							ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
 
@@ -771,7 +771,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		
 		$link_xlm = "";
 
-		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		
 		$xml = "<dummy>";

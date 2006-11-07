@@ -282,7 +282,7 @@ class ilPageObject
 						return $tab;
 
 					case "MediaObject":
-						require_once("content/classes/Media/class.ilObjMediaObject.php");
+						require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 //echo "ilPageObject::getContentObject:nodename:".$child_node->node_name().":<br>";
 						$mal_node =& $child_node->first_child();
 //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
@@ -702,7 +702,7 @@ class ilPageObject
 		$path = "//MediaAlias";
 		$res =& xpath_eval($xpc, $path);
 
-		require_once("content/classes/Media/class.ilMediaItem.php");
+		require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$oid = $res->nodeset[$i]->get_attribute("OriginId");
@@ -754,7 +754,7 @@ class ilPageObject
 
 		// get xml of corresponding media objects
 		$mobs_xml = "";
-		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		foreach($mob_ids as $mob_id => $dummy)
 		{
 			$mob_obj =& new ilObjMediaObject($mob_id);
@@ -1155,7 +1155,7 @@ class ilPageObject
 			$this->ilias->db->query($query);
 			
 			// handle media object usage
-			include_once("content/classes/Media/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 			$mob_ids = ilObjMediaObject::_getMobsOfObject(
 				$this->getParentType().":pg", $this->getId());
 			$this->saveMobUsage($this->getXMLFromDom());
@@ -1306,7 +1306,7 @@ class ilPageObject
 			}
 		}
 
-		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 		foreach($usages as $mob_id => $val)
 		{

@@ -22,7 +22,7 @@
 */
 
 require_once("content/classes/class.ilLMPageObject.php");
-require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 
 /**
 * Class ilInternalLinkGUI
@@ -331,7 +331,7 @@ class ilInternalLinkGUI
 						switch ($this->mode)
 						{
 							case "link":
-								require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 								ilObjMediaObjectGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", "tblrow2");
@@ -381,7 +381,7 @@ class ilInternalLinkGUI
 						switch ($this->mode)
 						{
 							case "link":
-								require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 								ilObjMediaObjectGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", "tblrow2");
@@ -439,7 +439,7 @@ class ilInternalLinkGUI
 						switch ($this->mode)
 						{
 							case "link":
-								require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 								ilObjMediaObjectGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", $css_row);
@@ -494,7 +494,7 @@ class ilInternalLinkGUI
 					switch ($this->mode)
 					{
 						case "link":
-							require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+							require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 							ilObjMediaObjectGUI::_recoverParameters();
 							$tpl->setCurrentBlock("link_row");
 							$tpl->setVariable("ROWCLASS", "tblrow2");
@@ -553,7 +553,7 @@ class ilInternalLinkGUI
 						switch ($this->mode)
 						{
 							case "link":
-								require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 								ilObjMediaObjectGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$this->outputThumbnail($tpl, $obj["id"], "link");
@@ -674,7 +674,7 @@ class ilInternalLinkGUI
 							switch ($this->mode)
 							{
 								case "link":
-									require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+									require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 									ilObjMediaObjectGUI::_recoverParameters();
 									$tpl->setCurrentBlock("link_row");
 									$this->outputThumbnail($tpl, $obj["obj_id"], "link");

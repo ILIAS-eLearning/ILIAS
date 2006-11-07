@@ -1830,7 +1830,7 @@ class ilLMPresentationGUI
 		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
 		$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
 //echo "<br><br>".htmlentities($link_xml);
-		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{
@@ -2852,8 +2852,8 @@ class ilLMPresentationGUI
 		// referenced images
 		if (count($media_links) > 0)
 		{
-			include_once("content/classes/Media/class.ilObjMediaObject.php");
-			include_once("content/classes/Media/class.ilMediaItem.php");
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
 
 			foreach($media_links as $media)
 			{

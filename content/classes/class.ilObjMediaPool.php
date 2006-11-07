@@ -163,7 +163,7 @@ class ilObjMediaPool extends ilObject
 			switch ($child["type"])
 			{
 				case "mob":
-					include_once("content/classes/Media/class.ilObjMediaObject.php");
+					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 					$mob = new ilObjMediaObject($child["obj_id"]);
 					$mob->delete();
 					break;
