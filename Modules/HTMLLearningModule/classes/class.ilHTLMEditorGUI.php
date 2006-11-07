@@ -83,10 +83,10 @@ class ilHTLMEditorGUI
 	*/
 	function &executeCommand()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd("frameset");
+		$cmd = $this->ctrl->getCmd("");
 
 		switch($next_class)
 		{

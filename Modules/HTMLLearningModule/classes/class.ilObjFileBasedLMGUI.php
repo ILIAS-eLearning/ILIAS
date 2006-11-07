@@ -36,7 +36,7 @@
 */
 
 require_once("classes/class.ilObjectGUI.php");
-require_once("content/classes/class.ilObjFileBasedLM.php");
+require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
 require_once("classes/class.ilTableGUI.php");
 require_once("classes/class.ilFileSystemGUI.php");
 
@@ -221,7 +221,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		// view link
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "fblm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK",
+			"ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
@@ -287,7 +288,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
-		ilUtil::redirect("content/fblm_edit.php?ref_id=".$newObj->getRefId());
+		ilUtil::redirect("ilias.php?baseClass=ilHTLMEditorGUI&ref_id=".$newObj->getRefId());
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
@@ -309,14 +310,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		if (!defined("ILIAS_MODULE"))
+		/* if (!defined("ILIAS_MODULE"))
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK","content/fblm_edit.php?ref_id=".$this->object->getRefID());
 			$this->tpl->setVariable("BTN_TARGET"," target=\"".ilFrameTargetInfo::_getFrame("MainContent")."\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 			$this->tpl->parseCurrentBlock();
-		}
+		} */
 
 		//parent::editObject();
 	}
@@ -327,8 +328,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	function edit()
 	{
 		$this->prepareOutput();
-		$this->setFormAction("update", "fblm_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]);
+		//$this->setFormAction("update", "fblm_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
+		//	"&obj_id=".$_GET["obj_id"]);
 		$this->editObject();
 		//$this->tpl->show();
 	}
@@ -338,7 +339,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function cancel()
 	{
-		$this->setReturnLocation("cancel","fblm_edit.php?cmd=listFiles&ref_id=".$_GET["ref_id"]);
+		//$this->setReturnLocation("cancel","fblm_edit.php?cmd=listFiles&ref_id=".$_GET["ref_id"]);
 		$this->cancelObject();
 	}
 	
@@ -360,8 +361,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function update()
 	{
-		$this->setReturnLocation("update", "fblm_edit.php?cmd=listFiles&ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]);
+		//$this->setReturnLocation("update", "fblm_edit.php?cmd=listFiles&ref_id=".$_GET["ref_id"].
+		//	"&obj_id=".$_GET["obj_id"]);
 		$this->updateObject();
 	}
 
@@ -385,42 +386,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->permObject();
 	}
 	
-	/**
-	* info permissions
-	*/
-	function info()
-	{
-		$this->infoObject();
-	}
-
-	/**
-	* save permissions
-	*/
-	function permSave()
-	{
-		$this->setReturnLocation("permSave",
-			"fblm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
-		$this->permSaveObject();
-	}
-
-	/**
-	* add role
-	*/
-	function addRole()
-	{
-		$this->setReturnLocation("addRole",
-			"fblm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
-		$this->addRoleObject();
-	}
-
-	/**
-	* show owner of learning module
-	*/
-	function owner()
-	{
-		$this->ownerObject();
-	}
-
 	/**
 	* save bib item (admin call)
 	*/
@@ -721,15 +686,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		if (($this->object->getStartFile() != "") &&
 			(@is_file($dir."/".$this->object->getStartFile())))
 		{
-			ilUtil::redirect("../".$dir."/".$this->object->getStartFile());
+			ilUtil::redirect("./".$dir."/".$this->object->getStartFile());
 		}
 		else if (@is_file($dir."/index.html"))
 		{
-			ilUtil::redirect("../".$dir."/index.html");
+			ilUtil::redirect("./".$dir."/index.html");
 		}
 		else if (@is_file($dir."/index.htm"))
 		{
-			ilUtil::redirect("../".$dir."/index.htm");
+			ilUtil::redirect("./".$dir."/index.htm");
 		}
 	}
 
@@ -775,7 +740,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$info->addButton($this->lng->txt("view"),
-				"content/fblm_presentation.php?ref_id=".$this->object->getRefID(),
+				"ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID(),
 				' target="ilContObj'.$this->object->getId().'" ');
 		}
 		
