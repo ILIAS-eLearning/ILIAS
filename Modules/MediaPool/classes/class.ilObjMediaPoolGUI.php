@@ -35,7 +35,7 @@
 */
 
 include_once("classes/class.ilObjectGUI.php");
-include_once("content/classes/class.ilObjMediaPool.php");
+include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 include_once("classes/class.ilTableGUI.php");
 include_once("classes/class.ilObjFolderGUI.php");
 include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
@@ -65,11 +65,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$this->output_prepared = $a_prepare_output;
 
-		//if (defined("ILIAS_MODULE"))
-		//{
-		//	$this->setTabTargetScript("mep_edit.php");
-		//}
-//echo "ilobjmediapoolgui-".get_class($this->object)."-";
 	}
 
 	/**
@@ -145,7 +140,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 							? $tree->getRootId()
 							: $_GET["obj_id"];
 						$tree->insertNode($ret->getId(), $parent);
-						ilUtil::redirect("mep_edit.php?cmd=listMedia&ref_id=".
+						ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=".
 							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 						break;
 
@@ -274,7 +269,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("object_added"),true);
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		ilUtil::redirect("content/mep_edit.php?ref_id=".$newObj->getRefId());
+		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId());
 
 	}
 
@@ -295,15 +290,17 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+		/*
 		if (!defined("ILIAS_MODULE"))
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","content/mep_edit.php?ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_LINK",
+				"content/mep_edit.php?ref_id=".$this->object->getRefID());
 			$this->tpl->setVariable("BTN_TARGET"," target=\"".
 				ilFrameTargetInfo::_getFrame("MainContent")."\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 
 		parent::editObject();
 	}
@@ -314,8 +311,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	function edit()
 	{
 		//$this->prepareOutput();
-		$this->setFormAction("update", "mep_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]);
+		//$this->setFormAction("update", "mep_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
+		//	"&obj_id=".$_GET["obj_id"]);
 		$this->editObject();
 		$this->tpl->show();
 	}
@@ -356,40 +353,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->setReturnLocation("update", "mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]);
+//		$this->setReturnLocation("update", $this->ctrl->getLinkTarget($this, "listMedia"));
 		$this->updateObject();
-	}
-
-
-	/**
-	* info form
-	*/
-	function info()
-	{
-		//$this->prepareOutput();
-		$this->infoObject();
-		$this->tpl->show();
-	}
-
-	/**
-	* save permissions
-	*/
-	function permSave()
-	{
-		$this->setReturnLocation("permSave",
-			"mep_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
-		$this->permSaveObject();
-	}
-
-	/**
-	* add role
-	*/
-	function addRole()
-	{
-		$this->setReturnLocation("addRole",
-			"mep_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
-		$this->addRoleObject();
 	}
 
 
@@ -420,12 +385,11 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mep_list_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mep_list_row.html", "Modules/MediaPool");
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "mep_edit.php?ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$tbl->setHeaderNames(array("", "", $this->lng->txt("title")));
 
@@ -687,9 +651,10 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$fs_gui->setMainFrameName("content");
 		$fs_gui->setSideFrameName("tree");
 		$fs_gui->setMainFrameSource(
-			"mep_edit.php?cmd=listMedia&ref_id=".$this->ref_id);
+			$this->ctrl->getLinkTarget($this, "listMedia"));
+		$this->ctrl->setParameter($this, "expand", "1");
 		$fs_gui->setSideFrameSource(
-			"mep_edit.php?cmd=explorer&expand=1&ref_id=".$this->ref_id);
+			$this->ctrl->getLinkTarget($this, "explorer"));
 		$fs_gui->setFramesetTitle($this->object->getTitle());
 		$fs_gui->show();
 		exit;
@@ -707,7 +672,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
-		require_once ("content/classes/class.ilMediaPoolExplorer.php");
+		require_once ("./Modules/MediaPool/classes/class.ilMediaPoolExplorer.php");
 		$exp = new ilMediaPoolExplorer($this->ctrl->getLinkTarget($this, "listMedia"), $this->object);
 		$exp->setTargetGet("obj_id");
 		//$exp->setExpandTarget("mep_edit.php?cmd=explorer&ref_id=".$this->object->getRefId());
@@ -739,7 +704,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_mep_structure"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "mep_edit.php?cmd=explorer&ref_id=".$this->ref_id."&mepexpand=".$_GET["mepexpand"]);
+		$this->ctrl->setParameter($this, "mepexpand", $_GET["mepexpand"]);
+		$this->tpl->setVariable("ACTION",
+			$this->ctrl->getLinkTarget($this, "explorer"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show(false);
 
@@ -839,7 +806,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		$_SESSION["ilMepRemove"] = $_POST["id"];
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/MediaPool");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
@@ -1046,56 +1013,22 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		}
 
 		$folder_gui =& new ilObjFolderGUI("", 0, false, false);
-		$folder_gui->setFormAction("save", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
-			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		//$folder_gui->setFormAction("save",
+		//	"mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $_GET["obj_id"]);
+		$folder_gui->setFormAction("save",
+			$this->ctrl->getFormActionByClass("ilobjfoldergui"));
 		$folder_gui->createObject();
 		//$this->tpl->show();
 	}
 
-	/**
-	* prepare output
-	*/
-	/*
-	function prepareOutput()
-	{
-		//if (!defined("ILIAS_MODULE"))
-		//{
-			parent::prepareOutput();
-			return;
-		//}
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		$title = $this->object->getTitle();
-
-		// catch feedback message
-		sendInfo();
-
-		if (!empty($title))
-		{
-			$this->tpl->setCurrentBlock("header_image");
-			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mep_b.gif"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("content");
-			$this->tpl->setVariable("HEADER", $title);
-		}
-
-		$this->setTabs();
-		$this->setLocator();
-	}*/
 
 	/**
 	* output tabs
 	*/
 	function setTabs()
 	{
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($this->tabs_gui);
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}
 
 	/**

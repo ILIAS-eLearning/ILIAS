@@ -20,6 +20,9 @@
 		<baseclass name="ilHTLMEditorGUI" dir="classes" />
 		<baseclass name="ilHTLMPresentationGUI" dir="classes" />
 	</module>
+	<module name="MediaPool" dir="Modules/MediaPool">
+		<baseclass name="ilMediaPoolPresentationGUI" dir="classes" />
+	</module>
 	<module name="Assessment" dir="assessment">
 		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
 		<baseclass name="ilObjTestGUI" dir="classes" />
