@@ -1472,7 +1472,7 @@ class ilObjQuestionPool extends ilObject
 		include_once "./classes/class.ilObject.php";
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
 			{
 				if ($use_object_id)
 				{

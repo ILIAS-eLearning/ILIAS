@@ -1702,6 +1702,10 @@ class ilObjTest extends ilObject
 			{
 				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->test_id = $data->test_id;
+				if (strlen($this->getAuthor()) == 0)
+				{
+					$this->saveAuthorToMetadata($data->author);
+				}
 				$this->author = $this->getAuthor();
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
@@ -3067,7 +3071,7 @@ class ilObjTest extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./assessment/classes/class.ilObjQuestionPool.php");
 				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
@@ -4404,7 +4408,7 @@ class ilObjTest extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./assessment/classes/class.ilObjQuestionPool.php");
 				if (ilObjQuestionPool::_lookupOnline($row->obj_id))
@@ -4428,13 +4432,13 @@ class ilObjTest extends ilObject
 	{
 		global $rbacsystem;
 		global $ilDB;
-		
+
 		$result_array = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./assessment/classes/class.ilObjQuestionPool.php");
 				if (ilObjQuestionPool::_lookupOnline($row->obj_id) || $could_be_offline)
@@ -5709,6 +5713,40 @@ class ilObjTest extends ilObject
 	{
     $this->author = $author;
   }
+
+/**
+* Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
+* 
+* Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
+* This will only be called for conversion of "old" tests where the author hasn't been
+* stored in the lifecycle metadata
+*
+* @param string $a_author A string containing the name of the test author
+* @access private
+* @see $author
+*/
+	function saveAuthorToMetadata($a_author = "")
+	{
+		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md_life =& $md->getLifecycle();
+		if (!$md_life)
+		{
+			if (strlen($a_author) == 0)
+			{
+				global $ilUser;
+				$a_author = $ilUser->getFullname();
+			}
+			
+			$md_life =& $md->addLifecycle();
+			$md_life->save();
+			$con =& $md_life->addContribute();
+			$con->setRole("Author");
+			$con->save();
+			$ent =& $con->addEntity();
+			$ent->setEntity($a_author);
+			$ent->save();
+		}
+	}
 	
 /**
 * Create meta data entry
@@ -5720,22 +5758,7 @@ class ilObjTest extends ilObject
 	function createMetaData()
 	{
 		parent::createMetaData();
-		
-		$md =& new ilMD($this->getId(), 0, $this->getType());
-		$md_life =& $md->getLifecycle();
-		if (!$md_life)
-		{
-			global $ilUser;
-			
-			$md_life =& $md->addLifecycle();
-			$md_life->save();
-			$con =& $md_life->addContribute();
-			$con->setRole("Author");
-			$con->save();
-			$ent =& $con->addEntity();
-			$ent->setEntity($ilUser->getFullname());
-			$ent->save();
-		}
+		$this->saveAuthorToMetadata();
 	}
 
 /**
