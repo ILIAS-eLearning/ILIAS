@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/Media/class.ilMapArea.php");
+require_once("Services/MediaObjects/classes/class.ilMapArea.php");
 
 /**
 * Class ilMediaItem
