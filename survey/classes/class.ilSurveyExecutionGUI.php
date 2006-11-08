@@ -158,7 +158,15 @@ class ilSurveyExecutionGUI
 		}
 		if ($this->object->isAccessibleWithoutCode())
 		{
-			$_SESSION["anonymous_id"] = $this->object->createNewAccessCode();
+			$anonymous_id = $this->object->getUserSurveyCode($ilUser->getId());
+			if (strlen($anonymous_id))
+			{
+				$_SESSION["anonymous_id"] = $anonymous_id;
+			}
+			else
+			{
+				$_SESSION["anonymous_id"] = $this->object->createNewAccessCode();
+			}
 		}
 		
 		$activepage = "";

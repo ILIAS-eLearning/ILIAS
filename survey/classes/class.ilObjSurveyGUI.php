@@ -3824,7 +3824,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 			else
 			{
 				// free access
-				$info->addFormButton("start", $this->lng->txt("start_survey"));
+				$survey_started = $this->object->isSurveyStarted($ilUser->getId(), "");
+				if ($survey_started === 1)
+				{
+					sendInfo($this->lng->txt("already_completed_survey"));
+				}
+				elseif ($survey_started === 0)
+				{
+					$info->addFormButton("resume", $this->lng->txt("resume_survey"));
+				}
+				elseif ($survey_started === FALSE)
+				{
+					$info->addFormButton("start", $this->lng->txt("start_survey"));
+				}
 			}
 		}
 		
