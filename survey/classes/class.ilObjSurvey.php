@@ -3140,11 +3140,10 @@ class ilObjSurvey extends ilObject
 		
 		if (strcmp($user_id, "") == 0)
 		{
-			$user_id = 0;
-		}
-		if ($this->getAnonymize())
-		{
-			$user_id = 0;
+			if ($user_id == ANONYMOUS_USER_ID)
+			{
+				$user_id = 0;
+			}
 		}
 		$query = sprintf("INSERT INTO survey_finished (finished_id, survey_fi, user_fi, anonymous_id, state, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 			$ilDB->quote($this->getSurveyId() . ""),
@@ -3169,9 +3168,9 @@ class ilObjSurvey extends ilObject
 		
 		if ($this->getAnonymize())
 		{
-			$user_id = 0;
-			$query = sprintf("UPDATE survey_finished SET state = %s WHERE survey_fi = %s AND anonymous_id = %s",
+			$query = sprintf("UPDATE survey_finished SET state = %s, user_fi = %s WHERE survey_fi = %s AND anonymous_id = %s",
 				$ilDB->quote("1"),
+				$ilDB->quote($user_id . ""),
 				$ilDB->quote($this->getSurveyId() . ""),
 				$ilDB->quote($anonymize_id . "")
 			);
@@ -3202,10 +3201,20 @@ class ilObjSurvey extends ilObject
 		
 		if ($this->getAnonymize())
 		{
-			$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
-				$ilDB->quote($this->getSurveyId()),
-				$ilDB->quote($anonymize_id)
-			);
+			if ($user_id != ANONYMOUS_USER_ID)
+			{
+				$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+					$ilDB->quote($this->getSurveyId()),
+					$ilDB->quote($user_id)
+				);
+			}
+			else
+			{
+				$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
+					$ilDB->quote($this->getSurveyId()),
+					$ilDB->quote($anonymize_id)
+				);
+			}
 		}
 		else
 		{
@@ -3370,7 +3379,7 @@ class ilObjSurvey extends ilObject
 		$questions =& $this->getSurveyQuestions();
 		foreach ($users as $row)
 		{
-			if ($row["user_fi"] > 0)
+			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID))
 			{
 				$evaluation[$row["user_fi"]] = $this->getEvaluationByUser($questions, $row["user_fi"], $row["anonymous_id"]);
 			}
@@ -3424,9 +3433,9 @@ class ilObjSurvey extends ilObject
 			}
 			array_push($answers[$row["question_fi"]], $row);
 		}
-		$username = "";
+		$username = $this->lng->txt("anonymous");
 		$gender = "";
-		if ($user_id > 0)
+		if (($user_id > 0) && ($user_id != ANONYMOUS_USER_ID))
 		{
 			include_once "./classes/class.ilObjUser.php";
 			if (strlen(ilObjUser::_lookupLogin($user_id)) == 0)
@@ -4627,6 +4636,27 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
+	function getUserSurveyCode($user_id)
+	{
+		global $ilDB;
+		
+		if ($user_id == ANONYMOUS_USER_ID) return "";
+		$query = sprintf("SELECT anonymous_id FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+			$ilDB->quote($this->getSurveyId() . ""),
+			$ilDB->quote($user_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["anonymous_id"];
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
 	function isAnonymizedParticipant($key)
 	{
 		global $ilDB;
@@ -4868,7 +4898,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT survey_answer.TIMESTAMP+0 AS TIMESTAMP14 FROM survey_answer, survey_finished WHERE survey_finished.user_fi = survey_answer.user_fi AND survey_finished.anonymous_id = survey_answer.anonymous_id AND survey_finished.finished_id = %s ORDER BY survey_answer.TIMESTAMP DESC",
+		$query = sprintf("SELECT survey_answer.TIMESTAMP+0 AS TIMESTAMP14 FROM survey_answer, survey_finished WHERE (survey_finished.user_fi = survey_answer.user_fi OR survey_finished.anonymous_id = survey_answer.anonymous_id) AND survey_finished.finished_id = %s ORDER BY survey_answer.TIMESTAMP DESC",
 			$ilDB->quote($finished_id . "")
 		);
 		$result = $ilDB->query($query);
