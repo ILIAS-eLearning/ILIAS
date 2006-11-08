@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/class.SurveyQuestionGUI.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Metric survey question GUI representation
@@ -51,7 +51,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 
   {
 		$this->SurveyQuestionGUI();
-		include_once "./survey/classes/class.SurveyMetricQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
 		$this->object = new SurveyMetricQuestion();
 		if ($id >= 0)
 		{
@@ -81,8 +81,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 */
   function editQuestion() 
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_metric.html", true);
-	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_metric.html", "Modules/SurveyQuestionPool");
+	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", "Modules/SurveyQuestionPool");
 		$internallinks = array(
 			"lm" => $this->lng->txt("obj_lm"),
 			"st" => $this->lng->txt("obj_st"),
@@ -101,7 +101,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
 		if (count($this->object->material))
 		{
-			include_once "./survey/classes/class.SurveyQuestion.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_MATERIAL", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("material"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_MATERIAL", $this->lng->txt("remove"));
@@ -239,7 +239,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		if (count($this->object->material))
 		{
 			$this->tpl->setCurrentBlock("material_metric");
-			include_once "./survey/classes/class.SurveyQuestion.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
 			$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
 			$this->tpl->parseCurrentBlock();
@@ -302,8 +302,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 */
 	function preview()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", true);
-		$this->tpl->addBlockFile("METRIC", "metric", "tpl.il_svy_out_metric.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
+		$this->tpl->addBlockFile("METRIC", "metric", "tpl.il_svy_out_metric.html", "Modules/SurveyQuestionPool");
 		$this->outWorkingForm();
 		$this->tpl->parseCurrentBlock();
 	}

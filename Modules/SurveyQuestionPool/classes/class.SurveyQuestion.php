@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Basic class for all survey question types
@@ -1516,7 +1516,7 @@ class SurveyQuestion
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$internal_link = $row["internal_link"];
-				include_once "./survey/classes/class.SurveyQuestion.php";
+				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 				$resolved_link = SurveyQuestion::_resolveInternalLink($internal_link);
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
@@ -1642,7 +1642,7 @@ class SurveyQuestion
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			$qpl_object_id = $row["obj_fi"];
-			include_once "./survey/classes/class.ilObjSurveyQuestionPool.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 			return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id, $user_id);
 		}
 		else
@@ -1676,7 +1676,7 @@ class SurveyQuestion
   function &_instanciateQuestion($question_id) 
 	{
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
-		include_once "./survey/classes/class.$question_type.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
 		$question = new $question_type();
 		$question->loadFromDb($question_id);
 		return $question;

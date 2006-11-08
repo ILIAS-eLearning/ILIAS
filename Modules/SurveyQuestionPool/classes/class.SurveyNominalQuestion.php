@@ -21,22 +21,34 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/class.SurveyQuestion.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
+
+define("SUBTYPE_MCSR", 1);
+define("SUBTYPE_MCMR", 2);
 
 /**
-* Ordinal survey question
+* Nominal survey question
 *
-* The SurveyOrdinalQuestion class defines and encapsulates basic methods and attributes
-* for ordinal survey question types.
+* The SurveyNominalQuestion class defines and encapsulates basic methods and attributes
+* for nominal survey question types.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.SurveyOrdinalQuestion.php
+* @module   class.SurveyNominalQuestion.php
 * @modulegroup   Survey
 */
-class SurveyOrdinalQuestion extends SurveyQuestion 
+class SurveyNominalQuestion extends SurveyQuestion 
 {
+/**
+* Question subtype
+*
+* A question subtype (Multiple choice single response or multiple choice multiple response)
+*
+* @var integer
+*/
+  var $subtype;
+
 /**
 * Categories contained in this question
 *
@@ -47,9 +59,9 @@ class SurveyOrdinalQuestion extends SurveyQuestion
   var $categories;
 
 /**
-* SurveyOrdinalQuestion constructor
+* SurveyNominalQuestion constructor
 *
-* The constructor takes possible arguments an creates an instance of the SurveyOrdinalQuestion object.
+* The constructor takes possible arguments an creates an instance of the SurveyNominalQuestion object.
 *
 * @param string $title A title string to describe the question
 * @param string $description A description string to describe the question
@@ -57,128 +69,51 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-  function SurveyOrdinalQuestion(
+  function SurveyNominalQuestion(
     $title = "",
     $description = "",
     $author = "",
 		$questiontext = "",
     $owner = -1,
-		$orientation = 1
+		$subtype = SUBTYPE_MCSR,
+		$orientation = 0 
   )
 
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
-		include_once "./survey/classes/class.SurveyCategories.php";
+		$this->subtype = $subtype;
 		$this->orientation = $orientation;
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->categories = new SurveyCategories();
 	}
 	
 /**
-* Gets the available phrases from the database
+* Sets the question subtype
 *
-* Gets the available phrases from the database
+* Sets the question subtype
 *
-* @param boolean $useronly Returns only the user defined phrases if set to true. The default is false.
-* @result array All available phrases as key/value pairs
+* @param integer $subtype The question subtype
 * @access public
+* @see $subtype
 */
-	function &getAvailablePhrases($useronly = 0)
+  function setSubtype($subtype = SUBTYPE_MCSR) 
 	{
-		global $ilUser;
-		global $ilDB;
-		
-		$phrases = array();
-    $query = sprintf("SELECT * FROM survey_phrase WHERE defaultvalue = '1' OR owner_fi = %s ORDER BY title",
-      $ilDB->quote($ilUser->id)
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
-			{
-				if (!$useronly)
-				{
-					$phrases[$row->phrase_id] = array(
-						"title" => $this->lng->txt($row->title),
-						"owner" => $row->owner_fi
-					);
-				}
-			}
-			else
-			{
-				if ($ilUser->getId() == $row->owner_fi)
-				{
-					$phrases[$row->phrase_id] = array(
-						"title" => $row->title,
-						"owner" => $row->owner_fi
-					);
-				}
-			}
-		}
-		return $phrases;
-	}
-	
+    $this->subtype = $subtype;
+  }
+
 /**
-* Gets the available categories for a given phrase
+* Gets the question subtype
 *
-* Gets the available categories for a given phrase
+* Gets the question subtype
 *
-* @param integer $phrase_id The database id of the given phrase
-* @result array All available categories
+* @return integer The question subtype
 * @access public
+* @see $subtype
 */
-	function &getCategoriesForPhrase($phrase_id)
+  function getSubtype() 
 	{
-		global $ilDB;
-		$categories = array();
-    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
-      $ilDB->quote($phrase_id)
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
-			{
-				$categories[$row->category_id] = $this->lng->txt($row->title);
-			}
-			else
-			{
-				$categories[$row->category_id] = $row->title;
-			}
-		}
-		return $categories;
-	}
-	
-/**
-* Adds a phrase to the question
-*
-* Adds a phrase to the question
-*
-* @param integer $phrase_id The database id of the given phrase
-* @access public
-*/
-	function addPhrase($phrase_id)
-	{
-		global $ilUser;
-		global $ilDB;
-		
-    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s AND (survey_category.owner_fi = 0 OR survey_category.owner_fi = %s) ORDER BY survey_phrase_category.sequence",
-      $ilDB->quote($phrase_id),
-			$ilDB->quote($ilUser->id)
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
-			{
-				$this->categories->addCategory($this->lng->txt($row->title));
-			}
-			else
-			{
-				$this->categories->addCategory($row->title);
-			}
-		}
-	}
+    return $this->subtype;
+  }
 	
 	/**
 	* Returns the question data fields from the database
@@ -193,7 +128,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-    $query = sprintf("SELECT survey_question.*, survey_question_ordinal.* FROM survey_question, survey_question_ordinal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_ordinal.question_fi",
+    $query = sprintf("SELECT survey_question.*, survey_question_nominal.* FROM survey_question, survey_question_nominal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_nominal.question_fi",
       $ilDB->quote($id)
     );
     $result = $ilDB->query($query);
@@ -208,17 +143,17 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	}
 	
 /**
-* Loads a SurveyOrdinalQuestion object from the database
+* Loads a SurveyNominalQuestion object from the database
 *
-* Loads a SurveyOrdinalQuestion object from the database
+* Loads a SurveyNominalQuestion object from the database
 *
-* @param integer $id The database id of the ordinal survey question
+* @param integer $id The database id of the nominal survey question
 * @access public
 */
   function loadFromDb($id) 
 	{
 		global $ilDB;
-    $query = sprintf("SELECT survey_question.*, survey_question_ordinal.* FROM survey_question, survey_question_ordinal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_ordinal.question_fi",
+    $query = sprintf("SELECT survey_question.*, survey_question_nominal.* FROM survey_question, survey_question_nominal WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_nominal.question_fi",
       $ilDB->quote($id)
     );
     $result = $ilDB->query($query);
@@ -231,12 +166,13 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 				$this->title = $data->title;
 				$this->description = $data->description;
 				$this->obj_id = $data->obj_fi;
-				$this->orientation = $data->orientation;
 				$this->author = $data->author;
+				$this->subtype = $data->subtype;
+				$this->orientation = $data->orientation;
+				$this->obligatory = $data->obligatory;
 				$this->owner = $data->owner_fi;
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
-				$this->obligatory = $data->obligatory;
 				$this->complete = $data->complete;
 				$this->original_id = $data->original_id;
       }
@@ -244,7 +180,6 @@ class SurveyOrdinalQuestion extends SurveyQuestion
       $this->loadMaterialFromDb($id);
 
 			$this->categories->flushCategories();
-
       $query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
         $ilDB->quote($id)
       );
@@ -270,7 +205,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 */
 	function isComplete()
 	{
-		if ($this->title and $this->author and $this->questiontext and $this->categories->getCategoryCount())
+		if (strlen($this->title) && strlen($this->author) && strlen($this->questiontext) && $this->categories->getCategoryCount())
 		{
 			return 1;
 		}
@@ -279,11 +214,11 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			return 0;
 		}
 	}
-	
+
 /**
-* Saves a SurveyOrdinalQuestion object to a database
+* Saves a SurveyNominalQuestion object to a database
 *
-* Saves a SurveyOrdinalQuestion object to a database
+* Saves a SurveyNominalQuestion object to a database
 *
 * @access public
 */
@@ -291,7 +226,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
   {
 		global $ilDB;
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete()) 
+		{
 			$complete = 1;
 		}
 		if ($original_id)
@@ -302,13 +238,12 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		{
 			$original_id = "NULL";
 		}
-
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html",
 			$this->getId());
 
-    if ($this->id == -1) 
+		if ($this->id == -1) 
 		{
       // Write new dataset
       $now = getdate();
@@ -330,8 +265,9 @@ class SurveyOrdinalQuestion extends SurveyQuestion
       if ($result == DB_OK) 
 			{
         $this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO survey_question_ordinal (question_fi, orientation) VALUES (%s, %s)",
+				$query = sprintf("INSERT INTO survey_question_nominal (question_fi, subtype, orientation) VALUES (%s, %s, %s)",
 					$ilDB->quote($this->id . ""),
+					$ilDB->quote($this->getSubType() . ""),
 					$ilDB->quote(sprintf("%d", $this->orientation))
 				);
 				$ilDB->query($query);
@@ -350,7 +286,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 				$ilDB->quote($this->id)
       );
       $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_ordinal SET orientation = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_nominal SET subtype = %s, orientation = %s WHERE question_fi = %s",
+				$ilDB->quote($this->getSubType() . ""),
 				$ilDB->quote(sprintf("%d", $this->orientation)),
 				$ilDB->quote($this->id . "")
 			);
@@ -446,8 +383,15 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 							elseif (strcmp($flownode->node_name(), "response_lid") == 0)
 							{
 								$ident = $flownode->get_attribute("ident");
+								if (strcmp($ident, "MCSR") == 0)
+								{
+									$this->setSubtype(SUBTYPE_MCSR);
+								}
+								else
+								{
+									$this->setSubtype(SUBTYPE_MCMR);
+								}
 								$shuffle = "";
-
 								$response_lid_nodes = $flownode->child_nodes();
 								foreach ($response_lid_nodes as $resp_lid_id => $resp_lid_node)
 								{
@@ -516,7 +460,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		// add question description
 		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
 		$a_xml_writer->xmlElement("qticomment", NULL, "ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$a_xml_writer->xmlElement("qticomment", NULL, "Questiontype=".ORDINAL_QUESTION_IDENTIFIER);
+		$a_xml_writer->xmlElement("qticomment", NULL, "Questiontype=".NOMINAL_QUESTION_IDENTIFIER);
 		$a_xml_writer->xmlElement("qticomment", NULL, "Author=".$this->getAuthor());
 		// add ILIAS specific metadata
 		$a_xml_writer->xmlStartTag("itemmetadata");
@@ -546,9 +490,16 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		// add material with question text to presentation
 		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
 		// add answers to presentation
+		$ident = "MCMR";
+		$rcardinality = "Multiple";
+		if ($this->getSubtype() == SUBTYPE_MCSR)
+		{
+			$ident = "MCSR";
+			$rcardinality = "Single";
+		}
 		$attrs = array(
-			"ident" => "MCSR",
-			"rcardinality" => "Single"
+			"ident" => $ident,
+			"rcardinality" => $rcardinality
 		);
 		$a_xml_writer->xmlStartTag("response_lid", $attrs);
 		
@@ -603,14 +554,15 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		}
 		return $xml;
 	}
-
+	
 	function syncWithOriginal()
 	{
 		global $ilDB;
 		if ($this->original_id)
 		{
 			$complete = 0;
-			if ($this->isComplete()) {
+			if ($this->isComplete()) 
+			{
 				$complete = 1;
 			}
 			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
@@ -623,7 +575,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_nominal SET orientation = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_nominal SET subtype = %s, orientation = %s WHERE question_fi = %s",
+				$ilDB->quote($this->getSubType() . ""),
 				$ilDB->quote($this->getOrientation() . ""),
 				$ilDB->quote($this->original_id . "")
 			);
@@ -636,6 +589,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 					$ilDB->quote($this->original_id . "")
 				);
 				$result = $ilDB->query($query);
+
 				// create new category relations
 				for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
 				{
@@ -652,65 +606,6 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		}
 		parent::syncWithOriginal();
 	}
-
-/**
-* Adds standard numbers as categories
-*
-* Adds standard numbers as categories
-*
-* @param integer $lower_limit The lower limit
-* @param integer $upper_limit The upper limit
-* @access public
-*/
-	function addStandardNumbers($lower_limit, $upper_limit)
-	{
-		for ($i = $lower_limit; $i <= $upper_limit; $i++)
-		{
-			$this->categories->addCategory($i);
-		}
-	}
-
-/**
-* Saves a set of categories to a default phrase
-*
-* Saves a set of categories to a default phrase
-*
-* @param array $phrases The database ids of the seleted phrases
-* @param string $title The title of the default phrase
-* @access public
-*/
-	function savePhrase($phrases, $title)
-	{
-		global $ilUser;
-		global $ilDB;
-		
-		$query = sprintf("INSERT INTO survey_phrase (phrase_id, title, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$ilDB->quote($title . ""),
-			$ilDB->quote("1"),
-			$ilDB->quote($ilUser->id . "")
-		);
-    $result = $ilDB->query($query);
-		$phrase_id = $ilDB->getLastInsertId();
-				
-		$counter = 1;
-	  foreach ($phrases as $category) 
-		{
-			$query = sprintf("INSERT INTO survey_category (category_id, title, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$ilDB->quote($this->categories->getCategory($category) . ""),
-				$ilDB->quote("1"),
-				$ilDB->quote($ilUser->id . "")
-			);
-			$result = $ilDB->query($query);
-			$category_id = $ilDB->getLastInsertId();
-			$query = sprintf("INSERT INTO survey_phrase_category (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (NULL, %s, %s, %s)",
-				$ilDB->quote($phrase_id . ""),
-				$ilDB->quote($category_id . ""),
-				$ilDB->quote($counter . "")
-			);
-			$result = $ilDB->query($query);
-			$counter++;
-		}
-	}
 	
 	/**
 	* Returns the question type of the question
@@ -722,7 +617,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	*/
 	function getQuestionType()
 	{
-		return 2;
+		return 1;
 	}
 
 	/**
@@ -735,38 +630,73 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "survey_question_ordinal";
+		return "survey_question_nominal";
 	}
-	
+
 	function checkUserInput($post_data)
 	{
+		// multiple response questions are always non-obligatory
+		// if ($this->getSubType() == SUBTYPE_MCMR) return "";
 		$entered_value = $post_data[$this->getId() . "_value"];
-		
-		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
-		
-		if (strlen($entered_value) == 0) return $this->lng->txt("ordinal_question_not_checked");
-
+		if ($this->getSubType() == SUBTYPE_MCMR)
+		{
+			if (!$this->getObligatory()) return "";
+	
+			if (!is_array($entered_value))
+			{
+				return $this->lng->txt("nominal_question_mr_not_checked");
+			}
+		}
+		else
+		{
+			if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
+	
+			if (strlen($entered_value) == 0) return $this->lng->txt("nominal_question_not_checked");
+		}
 		return "";
 	}
-
+	
 	function saveUserInput($post_data, $survey_id, $user_id, $anonymous_id)
 	{
 		global $ilDB;
 
-		$entered_value = $post_data[$this->getId() . "_value"];
-		if (strlen($entered_value) == 0) return;
-		$entered_value = $ilDB->quote($entered_value . "");
-		$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($survey_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($anonymous_id . ""),
-			$entered_value,
-			"NULL"
-		);
-		$result = $ilDB->query($query);
+		if (is_array($post_data[$this->getId() . "_value"]))
+		{
+			foreach ($post_data[$this->getId() . "_value"] as $value)
+			{
+				$entered_value = $value;
+				if (strlen($entered_value) > 0)
+				{
+					$entered_value = $ilDB->quote($entered_value . "");
+					$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+						$ilDB->quote($survey_id . ""),
+						$ilDB->quote($this->getId() . ""),
+						$ilDB->quote($user_id . ""),
+						$ilDB->quote($anonymous_id . ""),
+						$entered_value,
+						"NULL"
+					);
+					$result = $ilDB->query($query);
+				}
+			}
+		}
+		else
+		{
+			$entered_value = $post_data[$this->getId() . "_value"];
+			if (strlen($entered_value) == 0) return;
+			$entered_value = $ilDB->quote($entered_value . "");
+			$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+				$ilDB->quote($survey_id . ""),
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($user_id . ""),
+				$ilDB->quote($anonymous_id . ""),
+				$entered_value,
+				"NULL"
+			);
+			$result = $ilDB->query($query);
+		}
 	}
-	
+
 	function &getCumulatedResults($survey_id, $nr_of_users)
 	{
 		global $ilDB;
@@ -781,17 +711,39 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			$ilDB->quote($survey_id)
 		);
 		$result = $ilDB->query($query);
+		$numrows = $result->numRows();
+		if ($numrows == 0) return $result_array;
 		
+		// count the answers for every answer value
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$cumulated["$row->value"]++;
 		}
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
-		$numrows = $result->numRows();
-		$result_array["USERS_ANSWERED"] = $result->numRows();
-		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
-
+		
+		if ($this->getSubType() == SUBTYPE_MCMR)
+		{
+			/* even a mcmr questions without answers could be an answered question
+			   so for this question type there is no possibility to count skipped questions */
+			/*$query = sprintf("SELECT answer_id, concat( question_fi,  \"_\", anonymous_id, \"_\", user_fi)  AS groupval FROM `survey_answer` WHERE question_fi = %s AND survey_fi = %s GROUP BY groupval",
+				$ilDB->quote($question_id),
+				$ilDB->quote($survey_id)
+			);
+			$mcmr_result = $ilDB->query($query);
+			$result_array["USERS_ANSWERED"] = $mcmr_result->numRows();
+			$result_array["USERS_SKIPPED"] = $nr_of_users - $mcmr_result->numRows();
+			$numrows = $mcmr_result->numRows();*/
+			$result_array["USERS_ANSWERED"] = $nr_of_users;
+			$result_array["USERS_SKIPPED"] = 0;
+		}
+		else
+		{
+			$result_array["USERS_ANSWERED"] = $result->numRows();
+			$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
+		}
+		$result_array["MEDIAN"] = "";
+		$result_array["ARITHMETIC_MEAN"] = "";
 		$prefix = "";
 		if (strcmp(key($cumulated), "") != 0)
 		{
@@ -800,50 +752,32 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		$result_array["MODE"] =  $prefix . $this->categories->getCategory(key($cumulated));
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+		$result_array["QUESTION_TYPE"] = "SurveyNominalQuestion";
+		$maxvalues = 0;
+		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
+		{
+			$maxvalues += $cumulated[$key];
+		}
 		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
 		{
 			$percentage = 0;
 			if ($numrows > 0)
 			{
-				$percentage = (float)((int)$cumulated[$key]/$numrows);
+				if ($this->getSubType() == SUBTYPE_MCMR)
+				{
+					if ($maxvalues > 0)
+					{
+						$percentage = (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]);
+					}
+				}
+				else
+				{
+					$percentage = (float)((int)$cumulated[$key]/$numrows);
+				}
 			}
 			$result_array["variables"][$key] = array("title" => $this->categories->getCategory($key), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 		}
-		ksort($cumulated, SORT_NUMERIC);
-		$median = array();
-		$total = 0;
-		foreach ($cumulated as $value => $key)
-		{
-			$total += $key;
-			for ($i = 0; $i < $key; $i++)
-			{
-				array_push($median, $value+1);
-			}
-		}
-		if ($total > 0)
-		{
-			if (($total % 2) == 0)
-			{
-				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
-				if (round($median_value) != $median_value)
-				{
-					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $this->categories->getCategory((int)floor($median_value)-1) . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $this->categories->getCategory((int)ceil($median_value)-1) . ")";
-				}
-			}
-			else
-			{
-				$median_value = $median[(($total+1)/2)-1];
-			}
-		}
-		else
-		{
-			$median_value = "";
-		}
-		$result_array["ARITHMETIC_MEAN"] = "";
-		$result_array["MEDIAN"] = $median_value;
-		$result_array["QUESTION_TYPE"] = "SurveyOrdinalQuestion";
 		return $result_array;
 	}
-	
 }
 ?>

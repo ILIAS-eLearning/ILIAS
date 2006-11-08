@@ -33,7 +33,7 @@
 */
 
 include_once "./classes/class.ilObject.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurveyQuestionPool extends ilObject
 {
@@ -334,7 +334,7 @@ class ilObjSurveyQuestionPool extends ilObject
     if ($question_id < 1)
       return;
 		
-		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question =& SurveyQuestion::_instanciateQuestion($question_id);
 		$question->delete($question_id);
 	}
@@ -450,7 +450,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		global $ilUser;
 		
 		$questiontype = $this->getQuestiontype($question_id);
-		include_once "./survey/classes/class.$questiontype.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.$questiontype.php";
 		$question = new $questiontype();
 		$question->loadFromDb($question_id);
 		$suffix = "";
@@ -520,27 +520,27 @@ class ilObjSurveyQuestionPool extends ilObject
 				{
           case "title":
             $order = " ORDER BY title $value";
-            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "description":
             $order = " ORDER BY description $value";
-            $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "type":
             $order = " ORDER BY questiontype_id $value";
-            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "author":
             $order = " ORDER BY author $value";
-            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "created":
             $order = " ORDER BY created $value";
-            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "updated":
             $order = " ORDER BY TIMESTAMP14 $value";
-            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
         }
       }
@@ -744,7 +744,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		foreach ($questions as $key => $value)
 		{
 			$questiontype = $this->getQuestiontype($value);
-			include_once "./survey/classes/class.$questiontype.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.$questiontype.php";
 			$question = new $questiontype();
 			$question->loadFromDb($value);
 			$xml .= $question->to_xml(false);
@@ -851,10 +851,10 @@ class ilObjSurveyQuestionPool extends ilObject
 					$question = "";
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
-						include_once "./survey/classes/class.SurveyNominalQuestion.php";
-						include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
-						include_once "./survey/classes/class.SurveyMetricQuestion.php";
-						include_once "./survey/classes/class.SurveyTextQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyOrdinalQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php";
 						switch ($questiontype[1])
 						{
 							case NOMINAL_QUESTION_IDENTIFIER:

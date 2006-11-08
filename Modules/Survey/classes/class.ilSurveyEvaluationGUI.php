@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Survey evaluation graphical output
@@ -114,7 +114,7 @@ class ilSurveyEvaluationGUI
 			return $this->evaluation();
 		}
 		$this->tpl->setVariable("TABS", "");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("AUTHENTICATION_NEEDED", $this->lng->txt("svy_check_evaluation_authentication_needed"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -246,9 +246,9 @@ class ilSurveyEvaluationGUI
 		$questions =& $this->object->getSurveyQuestions();
 		foreach ($questions as $data)
 		{
-			include_once "./survey/classes/class.SurveyQuestion.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question_type = SurveyQuestion::_getQuestionType($data["question_id"]);
-			include_once "./survey/classes/class.$question_type.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
 			$question = new $question_type();
 			$question->loadFromDb($data["question_id"]);
 
@@ -339,7 +339,7 @@ class ilSurveyEvaluationGUI
 						}
 						break;
 					case "SurveyNominalQuestion":
-						include_once "./survey/classes/class.SurveyNominalQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
@@ -370,7 +370,7 @@ class ilSurveyEvaluationGUI
 						}
 						break;
 					case "SurveyMetricQuestion":
-						include_once "./survey/classes/class.SurveyMetricQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
 						switch ($_POST["export_format"])
 						{
 							case TYPE_XLS:
@@ -484,16 +484,16 @@ class ilSurveyEvaluationGUI
 
 		$this->setEvalTabs();
 		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
 		$counter = 0;
 		$classes = array("tblrow1", "tblrow2");
 		$questions =& $this->object->getSurveyQuestions();
 		foreach ($questions as $data)
 		{
-			include_once "./survey/classes/class.SurveyQuestion.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question_type = SurveyQuestion::_getQuestionType($data["question_id"]);
 			$question_type_gui = $question_type . "GUI";
-			include_once "./survey/classes/class.$question_type". "GUI.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type". "GUI.php";
 			$question_gui = new $question_type_gui($data["question_id"]);
 			$question = $question_gui->object;
 			//$question->loadFromDb($data["question_id"]);
@@ -592,7 +592,7 @@ class ilSurveyEvaluationGUI
 		$eval =& $this->object->getEvaluationForAllUsers();
 		$this->setEvalTabs();
 		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
 		$counter = 0;
 		$classes = array("tblrow1top", "tblrow2top");
 		$csvrow = array();
@@ -630,7 +630,7 @@ class ilSurveyEvaluationGUI
 				switch ($question_data["questiontype_fi"])
 				{
 					case 1:
-						include_once "./survey/classes/class.SurveyNominalQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
 						if ($question_data["subtype"] == SUBTYPE_MCMR)
 						{
 							foreach ($question_data["answers"] as $cat => $cattext)
@@ -675,7 +675,7 @@ class ilSurveyEvaluationGUI
 					{
 						case 1:
 							// nominal question
-							include_once "./survey/classes/class.SurveyNominalQuestion.php";
+							include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
 							if (count($resultset["answers"][$question_id]))
 							{
 								if ($question_data["subtype"] == SUBTYPE_MCMR)

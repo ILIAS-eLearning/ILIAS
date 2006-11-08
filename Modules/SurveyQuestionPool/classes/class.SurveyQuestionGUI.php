@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Basic class for all survey question types
@@ -107,11 +107,11 @@ class SurveyQuestionGUI
 	{
 		if (!$questiontype)
 		{
-			include_once "./survey/classes/class.SurveyQuestion.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$questiontype = SurveyQuestion::_getQuestiontype($question_id);
 		}
 		$questiontypegui = $questiontype . "GUI";
-		include_once "./survey/classes/class.$questiontypegui.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.$questiontypegui.php";
 		$question = new $questiontypegui();
 		if ($question_id > 0)
 		{
@@ -123,8 +123,8 @@ class SurveyQuestionGUI
 	
 	function _getGUIClassNameForId($a_q_id)
 	{
-		include_once "./survey/classes/class.SurveyQuestion.php";
-		include_once "./survey/classes/class.SurveyQuestionGUI.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_type = SurveyQuestion::_getQuestiontype($a_q_id);
 		$class_name = SurveyQuestionGUI::_getClassNameForQType($q_type);
 		return $class_name;
@@ -137,7 +137,7 @@ class SurveyQuestionGUI
 	
 	function originalSyncForm()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", "Modules/SurveyQuestionPool");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
 		$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("no"));
@@ -184,7 +184,7 @@ class SurveyQuestionGUI
 		sendInfo($this->lng->txt("saved_successfully"), true);
 		$originalexists = $this->object->_questionExists($this->object->original_id);
 		$_GET["q_id"] = $this->object->getId();
-		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 		{
 			$this->originalSyncForm();
@@ -213,7 +213,7 @@ class SurveyQuestionGUI
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			$_GET["q_id"] = $this->object->getId();
-			include_once "./survey/classes/class.SurveyQuestion.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->originalSyncForm();
@@ -286,7 +286,7 @@ class SurveyQuestionGUI
 	{
 		global $tree;
 
-		include_once("./survey/classes/class.ilMaterialExplorer.php");
+		include_once("./Modules/SurveyQuestionPool/classes/class.ilMaterialExplorer.php");
 		switch ($_POST["internalLinkType"])
 		{
 			case "lm":
@@ -327,7 +327,7 @@ class SurveyQuestionGUI
 		// build html-output
 		$exp->setOutput(0);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "explorer", "tpl.il_svy_qpl_explorer.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "explorer", "tpl.il_svy_qpl_explorer.html", "Modules/SurveyQuestionPool");
 		$this->tpl->setVariable("EXPLORER_TREE",$exp->getOutput());
 		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -386,7 +386,7 @@ class SurveyQuestionGUI
 				$_GET["q_id"] = $this->object->getId();
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", true);
+				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");
 				foreach($pages as $page)
 				{
 					if($page["type"] == $_SESSION["search_link_type"])
@@ -415,7 +415,7 @@ class SurveyQuestionGUI
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
 				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
-				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", true);
+				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");
 				foreach($nodes as $node)
 				{
 					if($node["type"] == $_SESSION["search_link_type"])
@@ -439,7 +439,7 @@ class SurveyQuestionGUI
 				$_GET["q_id"] = $this->object->getId();
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", true);
+				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");
 				include_once "./content/classes/class.ilObjGlossary.php";
 				$glossary =& new ilObjGlossary($_GET["source_id"], true);
 				// get all glossary items
