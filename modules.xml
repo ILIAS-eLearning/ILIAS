@@ -23,9 +23,11 @@
 	<module name="MediaPool" dir="Modules/MediaPool">
 		<baseclass name="ilMediaPoolPresentationGUI" dir="classes" />
 	</module>
-	<module name="Assessment" dir="assessment">
-		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
+	<module name="Test" dir="Modules/Test">
 		<baseclass name="ilObjTestGUI" dir="classes" />
+	</module>
+	<module name="TestQuestionPool" dir="Modules/TestQuestionPool">
+		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
 	</module>
 	<module name="Survey" dir="Modules/Survey">
 		<baseclass name="ilObjSurveyGUI" dir="classes" />

@@ -305,14 +305,14 @@
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 </object>
-<object name="qpl" class_name="QuestionPool" location="assessment/classes" module="assessment" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+<object name="qpl" class_name="QuestionPool" location="Modules/TestQuestionPool/classes" module="Modules/TestQuestionPool" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="export" module="1">export</property>
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="tst" class_name="Test" location="assessment/classes" module="assessment" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+<object name="tst" class_name="Test" location="Modules/Test/classes" module="Modules/Test" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="marks" module="1">mark_schema</property>
