@@ -287,9 +287,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./survey/js/calendar/calendar.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./survey/js/calendar/calendar-setup.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./survey/js/calendar/calendar.css");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Modules/Survey/js/calendar/calendar.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Modules/Survey/js/calendar/calendar-setup.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Modules/Survey/js/calendar/calendar.css");
 		$this->tpl->parseCurrentBlock();
 
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 

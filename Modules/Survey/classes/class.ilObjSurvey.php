@@ -2384,7 +2384,7 @@ class ilObjSurvey extends ilObject
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
-		$query = sprintf("SELECT survey_question.question_id, survey_survey_question.heading FROM survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT survey_questiontype.type_tag, survey_question.question_id, survey_survey_question.heading FROM survey_questiontype, survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
