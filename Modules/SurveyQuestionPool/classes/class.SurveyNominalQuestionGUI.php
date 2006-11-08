@@ -598,7 +598,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		// display chart for nominal question for array $eval["variables"]
 		$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 		$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-		$this->tpl->setVariable("CHART","./survey/displaychart.php?grName=" . urlencode($this->object->getTitle()) .
+		$this->tpl->setVariable("CHART","./Modules/SurveyQuestionPool/displaychart.php?grName=" . urlencode($this->object->getTitle()) .
 			"&type=bars" . 
 			"&x=" . urlencode($this->lng->txt("answers")) . 
 			"&y=" . urlencode($this->lng->txt("users_answered")) . 
