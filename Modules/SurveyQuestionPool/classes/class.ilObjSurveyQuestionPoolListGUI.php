@@ -34,7 +34,7 @@
 
 
 include_once "./classes/class.ilObjectListGUI.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 {
@@ -61,7 +61,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjsurveyquestionpoolgui";
 
 		// general commands array
-		include_once("./survey/classes/class.ilObjSurveyQuestionPoolAccess.php");
+		include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolAccess.php");
 		$this->commands = ilObjSurveyQUestionPoolAccess::_getCommands();
 	}
 
@@ -119,7 +119,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
+		include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
 		if (!ilObjSurveyQuestionPool::_lookupOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),

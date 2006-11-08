@@ -22,7 +22,7 @@
 */
 
 include_once "./classes/class.ilObjectAccess.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Class ilObjSurveyAccess

@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/class.SurveyQuestionGUI.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Nominal survey question GUI representation
@@ -52,7 +52,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 
   {
 		$this->SurveyQuestionGUI();
-		include_once "./survey/classes/class.SurveyNominalQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
 		$this->object = new SurveyNominalQuestion();
 		if ($id >= 0)
 		{
@@ -82,8 +82,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 */
   function editQuestion() 
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal.html", true);
-	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal.html", "Modules/SurveyQuestionPool");
+	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", "Modules/SurveyQuestionPool");
 		$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
 		switch ($this->object->getOrientation())
 		{
@@ -122,7 +122,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
 		if (count($this->object->material))
 		{
-			include_once "./survey/classes/class.SurveyQuestion.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
 			$this->tpl->setVariable("TEXT_VALUE_MATERIAL", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("material"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_MATERIAL", $this->lng->txt("remove"));
@@ -191,7 +191,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		if (count($this->object->material))
 		{
 			$this->tpl->setCurrentBlock("material_nominal");
-			include_once "./survey/classes/class.SurveyQuestion.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
 			$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
 			$this->tpl->parseCurrentBlock();
@@ -373,8 +373,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 */
 	function preview()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", true);
-		$this->tpl->addBlockFile("NOMINAL", "nominal", "tpl.il_svy_out_nominal.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
+		$this->tpl->addBlockFile("NOMINAL", "nominal", "tpl.il_svy_out_nominal.html", "Modules/SurveyQuestionPool");
 		$this->outWorkingForm();
 		$this->tpl->parseCurrentBlock();
 	}
@@ -444,7 +444,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			$this->ctrl->redirect($this, "editQuestion");
 		}
 		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal_answers.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal_answers.html", "Modules/SurveyQuestionPool");
     // output of existing single response answers
 		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 		{

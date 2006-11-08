@@ -39,7 +39,7 @@
 */
 
 include_once "./classes/class.ilObjectGUI.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurveyGUI extends ilObjectGUI
 {
@@ -91,13 +91,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case "ilsurveyevaluationgui":
-				include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
+				include_once("./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
 				$ret =& $this->ctrl->forwardCommand($eval_gui);
 				break;
 
 			case "ilsurveyexecutiongui":
-				include_once("./survey/classes/class.ilSurveyExecutionGUI.php");
+				include_once("./Modules/Survey/classes/class.ilSurveyExecutionGUI.php");
 				$exec_gui = new ilSurveyExecutionGUI($this->object);
 				$ret =& $this->ctrl->forwardCommand($exec_gui);
 				break;
@@ -301,7 +301,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_properties.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_properties.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -540,9 +540,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
     $add_parameter = "&insert_question=1";
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questionbrowser.html", true);
-    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_svy_action_buttons.html", true);
-    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_svy_filter_questions.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questionbrowser.html", "Modules/Survey");
+    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_svy_action_buttons.html", "Modules/Survey");
+    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_svy_filter_questions.html", "Modules/Survey");
 
 		$questionpools =& $this->object->getQuestionpoolTitles();
 
@@ -917,7 +917,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function searchQuestionsExecuteObject()
 	{
-		include_once "./survey/classes/class.SurveySearch.php";
+		include_once "./Modules/Survey/classes/class.SurveySearch.php";
 		include_once "./classes/class.ilUtil.php";
 		$search = new SurveySearch(ilUtil::stripSlashes($_POST["search_term"]), $_POST["concat"], $_POST["search_field"], $_POST["search_type"]);
 		$search->search();
@@ -943,7 +943,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function searchQuestionsObject($search_results = false)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_search_questions.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_search_questions.html", "Modules/Survey");
 
 		if (is_array($search_results))
 		{
@@ -1052,7 +1052,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function removeQuestionsForm($checked_questions, $checked_questionblocks)
 	{
 		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_remove_questions.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_remove_questions.html", "Modules/Survey");
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$surveyquestions =& $this->object->getSurveyQuestions();
@@ -1111,7 +1111,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$questionblock = $this->object->getQuestionblock($questionblock_id);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", "Modules/Survey");
 		foreach ($_POST as $key => $value)
 		{
 			if (preg_match("/cb_(\d+)/", $key, $matches))
@@ -1153,7 +1153,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function createQuestionObject()
 	{
 		global $ilUser;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_qpl_select.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_qpl_select.html", "Modules/Survey");
 		$questionpools =& $this->object->getAvailableQuestionpools();
 		foreach ($questionpools as $key => $value)
 		{
@@ -1216,7 +1216,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function addHeadingObject($question_id = "")
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_heading.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_heading.html", "Modules/Survey");
 		$survey_questions =& $this->object->getSurveyQuestions();
 		if ($question_id)
 		{
@@ -1379,7 +1379,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function confirmRemoveHeadingForm()
 	{
 		sendInfo($this->lng->txt("confirm_remove_heading"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_confirm_removeheading.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_confirm_removeheading.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BTN_CONFIRM_REMOVE", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL_REMOVE", $this->lng->txt("cancel"));
@@ -1758,7 +1758,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questions.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questions.html", "Modules/Survey");
 
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$questionblock_titles =& $this->object->getQuestionblockTitles();
@@ -1849,7 +1849,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("QTab");
-				include_once "./survey/classes/class.SurveyQuestion.php";
+				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 				$ref_id = SurveyQuestion::_getRefIdFromObjId($data["obj_fi"]);
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 				{
@@ -2013,7 +2013,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function evaluationObject()
 	{
-		include_once("./survey/classes/class.ilSurveyEvaluationGUI.php");
+		include_once("./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php");
 		$eval_gui = new ilSurveyEvaluationGUI($this->object);
 		$this->ctrl->setCmdClass(get_class($eval_gui));
 		$this->ctrl->redirect($eval_gui, "evaluation");
@@ -2264,7 +2264,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", "Modules/Survey");
 
 		if ($this->object->getStatus() == STATUS_OFFLINE)
 		{
@@ -2438,7 +2438,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function deleteAllUserDataObject()
 	{
 		sendInfo($this->lng->txt("confirm_delete_all_user_data"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("confirm_delete");
 		$this->tpl->setVariable("BTN_CONFIRM_DELETE_ALL", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL_DELETE_ALL", $this->lng->txt("cancel"));
@@ -2514,7 +2514,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "maintenance");
 		}
 		sendInfo($this->lng->txt("confirm_delete_single_user_data"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
 
 		$this->tpl->setCurrentBlock("confirm_delete_selected");
 		$this->tpl->setVariable("BTN_CONFIRM_DELETE_SELECTED", $this->lng->txt("confirm"));
@@ -2549,7 +2549,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
 			$total =& $this->object->getSurveyParticipants();
 			if (count($total))
 			{
@@ -2611,7 +2611,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function statusObject()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_status.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_status.html", "Modules/Survey");
 		if (!$this->object->isComplete())
 		{
 			if (count($this->object->questions) == 0)
@@ -2690,7 +2690,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", "Modules/Survey");
 
 		$num = 0;
 
@@ -2776,7 +2776,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			include_once("./survey/classes/class.ilSurveyExport.php");
+			include_once("./Modules/Survey/classes/class.ilSurveyExport.php");
 			$survey_exp = new ilSurveyExport($this->object);
 			$survey_exp->buildExportFile();
 			$this->ctrl->redirect($this, "export");
@@ -2796,7 +2796,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->getTemplateFile("import", "svy");
 		$this->tpl->setCurrentBlock("option_qpl");
-		include_once("./survey/classes/class.ilObjSurvey.php");
+		include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
 		$svy = new ilObjSurvey();
 		$questionpools =& $svy->getAvailableQuestionpools(true);
 		if (count($questionpools) == 0)
@@ -2844,7 +2844,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
-		include_once("./survey/classes/class.ilObjSurvey.php");
+		include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
 		$newObj = new ilObjSurvey();
 		$newObj->setType($_GET["new_type"]);
 		$newObj->setTitle("dummy");
@@ -2883,7 +2883,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->getTemplateFile("create", $new_type);
 
-			include_once("./survey/classes/class.ilObjSurvey.php");
+			include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
 			$svy = new ilObjSurvey();
 			
 			$surveys =& ilObjSurvey::_getAvailableSurveys(true);
@@ -2978,7 +2978,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->createObject();
 			return;
 		}
-		include_once "./survey/classes/class.ilObjSurvey.php";
+		include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
 		include_once "./classes/class.ilUtil.php";
 		$ref_id = ilObjSurvey::_clone($_POST["svy"]);
 		// always send a message
@@ -3055,7 +3055,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		$_SESSION["ilExportFiles"] = $_POST["file"];
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Survey");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
@@ -3160,7 +3160,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", "Modules/Survey");
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$color_class = array("tblrow1", "tblrow2");
@@ -3264,7 +3264,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function addConstraintForm($step, &$survey_questions, $questions = false)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", "Modules/Survey");
 		if (is_array($questions))
 		{
 			foreach ($questions as $question)
@@ -3552,7 +3552,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_constraints_list.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_constraints_list.html", "Modules/Survey");
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$last_questionblock_title = "";
 		$counter = 1;
@@ -3715,7 +3715,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		include_once("classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
-		include_once "./survey/classes/class.ilSurveyExecutionGUI.php";
+		include_once "./Modules/Survey/classes/class.ilSurveyExecutionGUI.php";
 		$output_gui =& new ilSurveyExecutionGUI($this->object);
 		$info->setFormAction($this->ctrl->getFormAction($output_gui));
 		$info->enablePrivateNotes();
@@ -3869,7 +3869,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_without_code"));
 				break;
 		}
-		include_once "./survey/classes/class.ilObjSurveyAccess.php";
+		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
 		if ($ilAccess->checkAccess("write", "", $this->ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 		{
 			$info->addProperty($this->lng->txt("evaluation_access"), $this->lng->txt("evaluation_access_info"));

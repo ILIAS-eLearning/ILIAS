@@ -33,7 +33,7 @@
 */
 
 include_once "./classes/class.ilObject.php";
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurvey extends ilObject
 {
@@ -669,7 +669,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if (!SurveyQuestion::_isComplete($question_id))
 		{
 			return FALSE;
@@ -896,7 +896,7 @@ class ilObjSurvey extends ilObject
 	function getQuestionGUI($questiontype, $question_id)
 	{
 		$questiontypegui = $questiontype . "GUI";
-		include_once "./survey/classes/class.$questiontypegui.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.$questiontypegui.php";
 		$question = new $questiontypegui();
 		$question->object->loadFromDb($question_id);
 		return $question;
@@ -1799,7 +1799,7 @@ class ilObjSurvey extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
+				include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
 				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id))
 				{
 					$qpl_titles["$row->obj_id"] = $row->title;
@@ -2008,7 +2008,7 @@ class ilObjSurvey extends ilObject
 */
 	function removeQuestion($question_id)
 	{
-		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question =& $this->_instanciateQuestion($question_id);
 		$question->delete($question_id);
 		$this->removeConstraintsConcerningQuestion($question_id);
@@ -2388,7 +2388,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
-		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$question =& $this->_instanciateQuestion($row["question_id"]);
@@ -2697,7 +2697,7 @@ class ilObjSurvey extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
+				include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
 				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id) || $could_be_offline)
 				{
 					if ($use_obj_id)
@@ -3538,7 +3538,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			include_once("./survey/classes/class.ilObjSurveyQuestionPool.php");
+			include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
 			if (!$rbacsystem->checkAccess("write", $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)) || (!ilObjSurveyQuestionPool::_lookupOnline($row->obj_id)))
 			{
 				array_push($forbidden_pools, $row->obj_id);
@@ -3986,9 +3986,9 @@ class ilObjSurvey extends ilObject
 */
   function &_instanciateQuestion($question_id) 
 	{
-		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
-		include_once "./survey/classes/class.$question_type.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
 		$question = new $question_type();
 		$question->loadFromDb($question_id);
 		return $question;
@@ -4071,10 +4071,10 @@ class ilObjSurvey extends ilObject
 					$question = "";
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
-						include_once "./survey/classes/class.SurveyNominalQuestion.php";
-						include_once "./survey/classes/class.SurveyOrdinalQuestion.php";
-						include_once "./survey/classes/class.SurveyMetricQuestion.php";
-						include_once "./survey/classes/class.SurveyTextQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyOrdinalQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
+						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php";
 						switch ($questiontype[1])
 						{
 							case NOMINAL_QUESTION_IDENTIFIER:
@@ -4363,7 +4363,7 @@ class ilObjSurvey extends ilObject
 
 		$question_pointer = array();
 		// clone the questions
-		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		foreach ($original->questions as $key => $question_id)
 		{
 			$question = ilObjSurvey::_instanciateQuestion($question_id);

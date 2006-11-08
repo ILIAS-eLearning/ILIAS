@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once "./survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
 * Survey execution graphical output
@@ -247,7 +247,7 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", true);
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
 
 			if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)))
 			{
@@ -261,10 +261,10 @@ class ilSurveyExecutionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->outNavigationButtons("top", $page);
-			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
-			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
-			$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
-			$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
+			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", "Modules/SurveyQuestionPool");
+			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", "Modules/SurveyQuestionPool");
+			$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", "Modules/SurveyQuestionPool");
+			$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", "Modules/SurveyQuestionPool");
 			$this->tpl->setCurrentBlock("percentage");
 			$percentage = (int)(($page[0]["position"])*100);
 			$this->tpl->setVariable("PERCENT_BAR_START", ilUtil::getImagePath("bar_start.gif"));
@@ -376,7 +376,7 @@ class ilSurveyExecutionGUI
 	{
 		global $ilUser;
 		
-		include_once "./survey/classes/class.SurveyQuestion.php";
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question =& SurveyQuestion::_instanciateQuestion($data["question_id"]);
 		$error = $question->checkUserInput($_POST);
 		if (strlen($error) == 0)
@@ -431,7 +431,7 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", true);
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", "Modules/Survey");
 			$this->tpl->setVariable("TEXT_FINISHED", $this->object->prepareTextareaOutput($this->object->getOutro()));
 			$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
