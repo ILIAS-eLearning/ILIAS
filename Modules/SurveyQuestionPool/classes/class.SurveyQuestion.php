@@ -873,7 +873,7 @@ class SurveyQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		include_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
 			$this->ilias->db->quote($this->getId() . "")
 		);
@@ -1186,7 +1186,7 @@ class SurveyQuestion
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
-		include_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
 		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
@@ -1294,7 +1294,7 @@ class SurveyQuestion
 	
 	function syncWithOriginal()
 	{
-		include_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
 			$this->ilias->db->quote($this->original_id . "")
 		);
@@ -1469,9 +1469,9 @@ class SurveyQuestion
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
-			include_once "./content/classes/Pages/class.ilInternalLink.php";
+			include_once "./Services/COPage/classes/Pages/class.ilInternalLink.php";
 			include_once "./content/classes/class.ilLMObject.php";
-			include_once "./content/classes/class.ilGlossaryTerm.php";
+			include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
 			{
 				case "lm":
@@ -1534,7 +1534,7 @@ class SurveyQuestion
 			// there are resolved links -> reenter theses links to the database
 
 			// delete all internal links from the database
-			include_once "./content/classes/Pages/class.ilInternalLink.php";
+			include_once "./Services/COPage/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
 			$query = sprintf("SELECT * FROM survey_material WHERE question_fi = %s",
