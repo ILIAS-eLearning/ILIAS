@@ -470,7 +470,7 @@ class ilTestCertificate
 		}
 		else
 		{
-			$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath() : "";
+			$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath()  . $this->getDummyParameter() : "";
 		}
 		$params = array(
 			"pageheight" => $pageheight, 
@@ -950,6 +950,18 @@ class ilTestCertificate
 		return TRUE;
 	}
 
+	/**
+	* Creates a dummy parameter to add to an image url to prevent caching
+	*
+	* Creates a dummy parameter to add to an image url to prevent caching
+	*
+	* @return string The dummy parameter
+	* @access private
+	*/
+	function getDummyParameter()
+	{
+		return "?dummy=" . time();
+	}
 }
 
 ?>
