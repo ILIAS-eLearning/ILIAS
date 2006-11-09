@@ -31,8 +31,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.assOrderingQuestion.php
-* @modulegroup   Assessment
+* @ingroup ModulesTestQuestionPool
 */
 class assOrderingQuestion extends assQuestion
 {

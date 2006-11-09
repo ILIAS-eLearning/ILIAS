@@ -29,8 +29,7 @@
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.ilTestCertificateGUI.php
-* @modulegroup   Assessment
+* @ingroup ModulesTest
 */
 class ilTestCertificateGUI
 {

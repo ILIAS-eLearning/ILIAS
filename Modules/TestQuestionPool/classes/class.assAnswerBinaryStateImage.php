@@ -31,8 +31,7 @@ include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php"
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.assAnswerBinaryStateImage.php
-* @modulegroup   Assessment
+* @ingroup ModulesTestQuestionPool
 * @see ASS_AnswerSimple
 */
 class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState {

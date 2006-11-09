@@ -36,8 +36,8 @@ define("SUBTYPE_RATIO_ABSOLUTE", 5);
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.SurveyMetricQuestion.php
-* @modulegroup   Survey
+* @extends SurveyQuestion
+* @ingroup ModulesSurveyQuestionPool
 */
 class SurveyMetricQuestion extends SurveyQuestion 
 {

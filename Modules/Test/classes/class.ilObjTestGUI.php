@@ -34,8 +34,7 @@
 * @ilCtrl_Calls ilObjTestGUI: ilTestCertificateGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
-* @package assessment
+* @ingroup ModulesTest
 */
 
 include_once "./classes/class.ilObjectGUI.php";

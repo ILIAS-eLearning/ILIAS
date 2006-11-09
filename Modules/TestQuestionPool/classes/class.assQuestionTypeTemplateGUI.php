@@ -32,8 +32,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @author		Unknown <unknowns@email>
 * @version	$Id$
-* @module   class.assQuestionTypeTemplateGUI.php
-* @modulegroup   Assessment
+* @ingroup ModulesTestQuestionPool
 */
 class assQuestionTypeTemplateGUI extends assQuestionGUI
 {

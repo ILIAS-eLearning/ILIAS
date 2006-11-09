@@ -32,8 +32,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.ilTestOutputGUI.php
-* @modulegroup   assessment
+* @ingroup ModulesTest
 */
 class ilTestOutputGUI
 {

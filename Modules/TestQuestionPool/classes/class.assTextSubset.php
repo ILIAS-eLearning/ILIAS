@@ -32,8 +32,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @author   Nina Gharib <nina@wgserve.de>
 * @version	$Id$
-* @module   class.assTextSubset.php
-* @modulegroup   Assessment
+* @ingroup ModulesTestQuestionPool
 */
 class assTextSubset extends assQuestion
 {

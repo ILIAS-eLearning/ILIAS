@@ -34,8 +34,7 @@
 * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
-* @package survey
+* @ingroup ModulesSurvey
 */
 
 include_once "./classes/class.ilObjectGUI.php";

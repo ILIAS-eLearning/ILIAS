@@ -30,7 +30,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @version $Id$
 *
-* @package assessment
+* @ingroup ModulesTestQuestionPool
 */
 class ilQuestionpoolExport
 {

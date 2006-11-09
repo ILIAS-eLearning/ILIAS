@@ -35,8 +35,8 @@ define("SUBTYPE_MCMR", 2);
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.SurveyNominalQuestion.php
-* @modulegroup   Survey
+* @extends SurveyQuestion
+* @ingroup ModulesSurveyQuestionPool
 */
 class SurveyNominalQuestion extends SurveyQuestion 
 {

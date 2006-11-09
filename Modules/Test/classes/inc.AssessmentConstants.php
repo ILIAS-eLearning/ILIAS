@@ -27,6 +27,7 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
+* @ingroup ModulesTest
 */
 
 /**

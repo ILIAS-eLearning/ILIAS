@@ -30,6 +30,7 @@
 * $Id$
 *
 * @extends ilObjectListGUI
+* @ingroup ModulesSurvey
 */
 
 

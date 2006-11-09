@@ -31,8 +31,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.assAnswerTrueFalse.php
-* @modulegroup   Assessment
+* @ingroup ModulesTestQuestionPool
 * @see ASS_AnswerSimple
 */
 class ASS_AnswerTrueFalse extends ASS_AnswerSimple {

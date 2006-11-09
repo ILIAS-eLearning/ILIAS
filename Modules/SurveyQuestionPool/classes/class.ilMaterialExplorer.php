@@ -27,7 +27,7 @@
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
-* @package survey
+* @ingroup ModulesSurveyQuestionPool
 */
 
 include_once("./classes/class.ilExplorer.php");

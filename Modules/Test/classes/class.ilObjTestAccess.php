@@ -34,7 +34,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @author 	Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package AccessControl
+* @ingroup ModulesTest
 */
 class ilObjTestAccess extends ilObjectAccess
 {
