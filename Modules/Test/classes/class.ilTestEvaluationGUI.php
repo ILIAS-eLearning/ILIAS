@@ -360,13 +360,13 @@ class ilTestEvaluationGUI
 		$sortparameter = "asc";
 		if (strcmp($_GET["sortname"], "asc") == 0 || strcmp($_GET["sortname"], "") == 0)
 		{
-			$sortimage = " <img src=\"".ilUtil::getImagePath("asc_order.png", true)."\" alt=\"" . $this->lng->txt("ascending_order") . "\" />";
+			$sortimage = " <img src=\"".ilUtil::getImagePath("asc_order.gif")."\" alt=\"" . $this->lng->txt("ascending_order") . "\" />";
 			$sortparameter = "asc";
 			$this->ctrl->setParameter($this, "sortname", "asc");
 		}
 		else
 		{
-			$sortimage = " <img src=\"".ilUtil::getImagePath("desc_order.png", true)."\" alt=\"" . $this->lng->txt("descending_order") . "\" />";
+			$sortimage = " <img src=\"".ilUtil::getImagePath("desc_order.gif")."\" alt=\"" . $this->lng->txt("descending_order") . "\" />";
 			$sortparameter = "desc";
 			$this->ctrl->setParameter($this, "sortname", "desc");
 		}

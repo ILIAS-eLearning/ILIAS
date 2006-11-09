@@ -3596,31 +3596,31 @@ class ilObjSurvey extends ilObject
 				{
           case "title":
             $order = " ORDER BY title $value";
-            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "description":
             $order = " ORDER BY description $value";
-            $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "type":
             $order = " ORDER BY questiontype_id $value";
-            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "author":
             $order = " ORDER BY author $value";
-            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "created":
             $order = " ORDER BY created $value";
-            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "updated":
             $order = " ORDER BY TIMESTAMP14 $value";
-            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
 					case "qpl":
 						$order = " ORDER BY obj_fi $value";
-            $images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
 						break;
         }
       }
@@ -3722,11 +3722,11 @@ class ilObjSurvey extends ilObject
 				{
           case "title":
 						$order = " ORDER BY survey_questionblock.title $value";
-            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
 					case "svy":
 						$order = " ORDER BY survey_survey_question.survey_fi $value";
-            $images["svy"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            $images["svy"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . strtolower($value) . "ending order\" />";
 						break;
         }
       }

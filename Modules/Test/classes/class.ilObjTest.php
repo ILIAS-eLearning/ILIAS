@@ -4858,31 +4858,31 @@ class ilObjTest extends ilObject
         switch($key) {
           case "title":
             $order = " ORDER BY title $value";
-            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
+            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
             break;
           case "comment":
             $order = " ORDER BY comment $value";
-            $images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
+            $images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
             break;
           case "type":
             $order = " ORDER BY question_type_id $value";
-            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
+            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
             break;
           case "author":
             $order = " ORDER BY author $value";
-            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
+            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
             break;
           case "created":
             $order = " ORDER BY created $value";
-            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
+            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
             break;
           case "updated":
             $order = " ORDER BY TIMESTAMP14 $value";
-            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
+            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
             break;
           case "qpl":
             $order = " ORDER BY obj_fi $value";
-            $images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
+            $images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($value) . "ending_order")."\" />";
             break;
         }
       }
