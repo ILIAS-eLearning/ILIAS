@@ -1468,7 +1468,7 @@ class assQuestion
 	{
 		global $ilDB;
 		
-		include_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
 			$ilDB->quote($this->getId() . "")
 		);
@@ -1506,7 +1506,7 @@ class assQuestion
 		);
 		$result = $ilDB->query($query);
 		// delete the links in the int_link table
-		include_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
 	}
 	
@@ -1587,9 +1587,9 @@ class assQuestion
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
-			include_once "./content/classes/Pages/class.ilInternalLink.php";
+			include_once "./Services/COPage/classes/class.ilInternalLink.php";
 			include_once "./content/classes/class.ilLMObject.php";
-			include_once "./content/classes/class.ilGlossaryTerm.php";
+			include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
 			{
 				case "lm":
@@ -1652,7 +1652,7 @@ class assQuestion
 			// there are resolved links -> reenter theses links to the database
 
 			// delete all internal links from the database
-			include_once "./content/classes/Pages/class.ilInternalLink.php";
+			include_once "./Services/COPage/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
 
 			$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
@@ -1746,7 +1746,7 @@ class assQuestion
 	{
 		global $ilDB;
 		
-		include_once "./content/classes/Pages/class.ilInternalLink.php";
+		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
 			$ilDB->quote($this->original_id . "")
 		);
