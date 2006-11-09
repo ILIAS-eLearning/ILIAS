@@ -1709,7 +1709,7 @@ class ilTestOutputGUI
 		switch ($_GET["sortres"]) {
 			case "percent":
 				usort($result_array, "sort_percent");
-				$img_title_percent = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
+				$img_title_percent = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
 				if (strcmp($_GET["order"], "ASC") == 0) 
 				{
 					$sortpercent = "DESC";
@@ -1721,7 +1721,7 @@ class ilTestOutputGUI
 				break;
 			case "nr":
 				usort($result_array, "sort_nr");
-				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
+				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
 				if (strcmp($_GET["order"], "ASC") == 0) 
 				{
 					$sortnr = "DESC";
@@ -2321,7 +2321,7 @@ class ilTestOutputGUI
 		{
 			case nr:
 				usort($result_array, "sort_nr");
-				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
+				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
 				if (strcmp($_GET["order"], "ASC") == 0) 
 				{
 					$sortnr = "DESC";
@@ -2334,7 +2334,7 @@ class ilTestOutputGUI
 			
 			case "title":
 				usort($result_array, "sort_title");
-				$img_title_title = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
+				$img_title_title = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
 				if (strcmp($_GET["order"], "ASC") == 0) 
 				{
 					$sorttitle = "DESC";
@@ -2346,7 +2346,7 @@ class ilTestOutputGUI
 				break;
 			case "solved":
 				usort($result_array, "sort_solved");
-				$img_title_solved = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.png", true) . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
+				$img_title_solved = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
 				if (strcmp($_GET["order"], "ASC") == 0) 
 				{
 					$sortsolved = "DESC";

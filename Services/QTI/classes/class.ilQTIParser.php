@@ -243,7 +243,7 @@ class ilQTIParser extends ilSaxParser
 		switch (strtolower($a_name))
 		{
 			case "assessment":
-				include_once ("./assessment/classes/QTI/class.ilQTIAssessment.php");
+				include_once ("./Services/QTI/classes/class.ilQTIAssessment.php");
 				$this->assessment =& $this->assessments[array_push($this->assessments, new ilQTIAssessment())-1];
 				$this->in_assessment = TRUE;
 				if (is_array($a_attribs))
@@ -263,7 +263,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "assessmentcontrol":
-				include_once ("./assessment/classes/QTI/class.ilQTIAssessmentcontrol.php");
+				include_once ("./Services/QTI/classes/class.ilQTIAssessmentcontrol.php");
 				$this->assessmentcontrol = new ilQTIAssessmentcontrol();
 				if (is_array($a_attribs))
 				{
@@ -285,12 +285,12 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "objectives":
-				include_once ("./assessment/classes/QTI/class.ilQTIObjectives.php");
+				include_once ("./Services/QTI/classes/class.ilQTIObjectives.php");
 				$this->objectives = new ilQTIObjectives();
 				$this->in_objectives = TRUE;
 				break;
 			case "section":
-				include_once ("./assessment/classes/QTI/class.ilQTISection.php");
+				include_once ("./Services/QTI/classes/class.ilQTISection.php");
 				$this->section = new ilQTISection();
 				break;
 			case "itemmetadata":
@@ -300,23 +300,23 @@ class ilQTIParser extends ilSaxParser
 				$this->metadata = array("label" => "", "entry" => "");
 				break;
 			case "flow":
-				include_once ("./assessment/classes/QTI/class.ilQTIFlow.php");
+				include_once ("./Services/QTI/classes/class.ilQTIFlow.php");
 				$this->flow++;
 				break;
 			case "flow_mat":
-				include_once ("./assessment/classes/QTI/class.ilQTIFlowMat.php");
+				include_once ("./Services/QTI/classes/class.ilQTIFlowMat.php");
 				array_push($this->flow_mat, new ilQTIFlowMat());
 				break;
 			case "itemfeedback":
-				include_once ("./assessment/classes/QTI/class.ilQTIItemfeedback.php");
+				include_once ("./Services/QTI/classes/class.ilQTIItemfeedback.php");
 				$this->itemfeedback = new ilQTIItemfeedback();
 				break;
 			case "displayfeedback":
-				include_once ("./assessment/classes/QTI/class.ilQTIDisplayfeedback.php");
+				include_once ("./Services/QTI/classes/class.ilQTIDisplayfeedback.php");
 				$this->displayfeedback = new ilQTIDisplayfeedback();
 				break;
 			case "setvar":
-				include_once ("./assessment/classes/QTI/class.ilQTISetvar.php");
+				include_once ("./Services/QTI/classes/class.ilQTISetvar.php");
 				$this->setvar = new ilQTISetvar();
 				if (is_array($a_attribs))
 				{
@@ -335,7 +335,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "conditionvar":
-				include_once ("./assessment/classes/QTI/class.ilQTIConditionvar.php");
+				include_once ("./Services/QTI/classes/class.ilQTIConditionvar.php");
 				$this->conditionvar = new ilQTIConditionvar();
 				break;
 			case "not":
@@ -357,7 +357,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "varequal":
-				include_once("./assessment/classes/QTI/class.ilQTIResponseVar.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_EQUAL);
 				if (is_array($a_attribs))
 				{
@@ -379,7 +379,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "varlt":
-				include_once("./assessment/classes/QTI/class.ilQTIResponseVar.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_LT);
 				if (is_array($a_attribs))
 				{
@@ -398,7 +398,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "varlte":
-				include_once("./assessment/classes/QTI/class.ilQTIResponseVar.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_LTE);
 				if (is_array($a_attribs))
 				{
@@ -417,7 +417,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "vargt":
-				include_once("./assessment/classes/QTI/class.ilQTIResponseVar.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_GT);
 				if (is_array($a_attribs))
 				{
@@ -436,7 +436,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "vargte":
-				include_once("./assessment/classes/QTI/class.ilQTIResponseVar.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_GTE);
 				if (is_array($a_attribs))
 				{
@@ -455,7 +455,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "varsubset":
-				include_once("./assessment/classes/QTI/class.ilQTIResponseVar.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_SUBSET);
 				if (is_array($a_attribs))
 				{
@@ -477,7 +477,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "varinside":
-				include_once("./assessment/classes/QTI/class.ilQTIResponseVar.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_INSIDE);
 				if (is_array($a_attribs))
 				{
@@ -499,7 +499,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "varsubstring":
-				include_once("./assessment/classes/QTI/class.ilQTIResponseVar.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseVar.php");
 				$this->responsevar = new ilQTIResponseVar(RESPONSEVAR_SUBSTRING);
 				if (is_array($a_attribs))
 				{
@@ -521,7 +521,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "respcondition":
-				include_once("./assessment/classes/QTI/class.ilQTIRespcondition.php");
+				include_once("./Services/QTI/classes/class.ilQTIRespcondition.php");
 				$this->respcondition = new ilQTIRespcondition();
 				if (is_array($a_attribs))
 				{
@@ -540,11 +540,11 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "outcomes":
-				include_once("./assessment/classes/QTI/class.ilQTIOutcomes.php");
+				include_once("./Services/QTI/classes/class.ilQTIOutcomes.php");
 				$this->outcomes = new ilQTIOutcomes();
 				break;
 			case "decvar":
-				include_once("./assessment/classes/QTI/class.ilQTIDecvar.php");
+				include_once("./Services/QTI/classes/class.ilQTIDecvar.php");
 				$this->decvar = new ilQTIDecvar();
 				if (is_array($a_attribs))
 				{
@@ -578,7 +578,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "matimage":
-				include_once("./assessment/classes/QTI/class.ilQTIMatimage.php");
+				include_once("./Services/QTI/classes/class.ilQTIMatimage.php");
 				$this->matimage = new ilQTIMatimage();
 				if (is_array($a_attribs))
 				{
@@ -618,7 +618,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "material":
-				include_once("./assessment/classes/QTI/class.ilQTIMaterial.php");
+				include_once("./Services/QTI/classes/class.ilQTIMaterial.php");
 				$this->material = new ilQTIMaterial();
 				$this->material->setFlow($this->flow);
 				if (is_array($a_attribs))
@@ -635,7 +635,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "mattext":
-				include_once ("./assessment/classes/QTI/class.ilQTIMattext.php");
+				include_once ("./Services/QTI/classes/class.ilQTIMattext.php");
 				$this->mattext = new ilQTIMattext();
 				if (is_array($a_attribs))
 				{
@@ -681,7 +681,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "matapplet":
-				include_once ("./assessment/classes/QTI/class.ilQTIMatapplet.php");
+				include_once ("./Services/QTI/classes/class.ilQTIMatapplet.php");
 				$this->matapplet = New ilQTIMatapplet();
 				if (is_array($a_attribs))
 				{
@@ -734,13 +734,13 @@ class ilQTIParser extends ilSaxParser
 				break;
 			case "presentation":
 				$this->in_presentation = TRUE;
-				include_once ("./assessment/classes/QTI/class.ilQTIPresentation.php");
+				include_once ("./Services/QTI/classes/class.ilQTIPresentation.php");
 				$this->presentation = new ilQTIPresentation();
 				break;
 			case "response_label":
 				if ($this->render_type != NULL)
 				{
-				include_once("./assessment/classes/QTI/class.ilQTIResponseLabel.php");
+				include_once("./Services/QTI/classes/class.ilQTIResponseLabel.php");
 					$this->response_label = new ilQTIResponseLabel();
 					foreach ($a_attribs as $attribute => $value)
 					{
@@ -774,7 +774,7 @@ class ilQTIParser extends ilSaxParser
 			case "render_choice":
 				if ($this->in_response)
 				{
-					include_once("./assessment/classes/QTI/class.ilQTIRenderChoice.php");
+					include_once("./Services/QTI/classes/class.ilQTIRenderChoice.php");
 					$this->render_type = new ilQTIRenderChoice();
 					foreach ($a_attribs as $attribute => $value)
 					{
@@ -790,7 +790,7 @@ class ilQTIParser extends ilSaxParser
 			case "render_hotspot":
 				if ($this->in_response)
 				{
-					include_once("./assessment/classes/QTI/class.ilQTIRenderHotspot.php");
+					include_once("./Services/QTI/classes/class.ilQTIRenderHotspot.php");
 					$this->render_type = new ilQTIRenderHotspot();
 					foreach ($a_attribs as $attribute => $value)
 					{
@@ -812,7 +812,7 @@ class ilQTIParser extends ilSaxParser
 			case "render_fib":
 				if ($this->in_response)
 				{
-					include_once("./assessment/classes/QTI/class.ilQTIRenderFib.php");
+					include_once("./Services/QTI/classes/class.ilQTIRenderFib.php");
 					$this->render_type = new ilQTIRenderFib();
 					foreach ($a_attribs as $attribute => $value)
 					{
@@ -862,7 +862,7 @@ class ilQTIParser extends ilSaxParser
 			case "response_grp":
 				// Matching terms and definitions
 				// Matching terms and images
-				include_once "./assessment/classes/QTI/class.ilQTIResponse.php";
+				include_once "./Services/QTI/classes/class.ilQTIResponse.php";
 				switch (strtolower($a_name))
 				{
 					case "response_lid":
@@ -907,7 +907,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "item":
-				include_once("./assessment/classes/QTI/class.ilQTIItem.php");
+				include_once("./Services/QTI/classes/class.ilQTIItem.php");
 				$this->gap_index = 0;
 				$this->item =& $this->items[array_push($this->items, new ilQTIItem())-1];
 				if (is_array($a_attribs))
@@ -934,7 +934,7 @@ class ilQTIParser extends ilSaxParser
 				}
 				break;
 			case "resprocessing":
-				include_once("./assessment/classes/QTI/class.ilQTIResprocessing.php");
+				include_once("./Services/QTI/classes/class.ilQTIResprocessing.php");
 				$this->resprocessing = new ilQTIResprocessing();
 				if (is_array($a_attribs))
 				{
@@ -1200,9 +1200,9 @@ class ilQTIParser extends ilSaxParser
 				//           the complete flag must be calculated?
 				$qt = $this->item->determineQuestionType();
 				$presentation = $this->item->getPresentation(); 
-				if (file_exists("./assessment/classes/class.$qt.php"))
+				if (file_exists("./Modules/TestQuestionPool/classes/class.$qt.php"))
 				{
-					include_once "./assessment/classes/class.$qt.php";
+					include_once "./Modules/TestQuestionPool/classes/class.$qt.php";
 					$question = new $qt();
 					$question->fromXML($this->item, $this->qpl_id, $this->tst_id, $this->tst_object, $this->question_counter, $this->import_mapping);
 				}
@@ -1469,7 +1469,7 @@ class ilQTIParser extends ilSaxParser
 							switch (strtolower($attribute))
 							{
 								case "rcardinality":
-									include_once "./assessment/classes/QTI/class.ilQTIItem.php";
+									include_once "./Services/QTI/classes/class.ilQTIItem.php";
 									switch (strtolower($value))
 									{
 										case "single":
@@ -1499,7 +1499,7 @@ class ilQTIParser extends ilSaxParser
 							switch (strtolower($attribute))
 							{
 								case "rcardinality":
-									include_once "./assessment/classes/QTI/class.ilQTIItem.php";
+									include_once "./Services/QTI/classes/class.ilQTIItem.php";
 									switch (strtolower($value))
 									{
 										case "single":
