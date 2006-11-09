@@ -17,29 +17,8 @@
 </tr>
 </table>
 <br />
-<table class="fullwidth">
-<thead>
-<tr class="tblheader">
-	<th class="std" colspan="2">{SURVEY_CODE}</th>
-	<th class="std">{CODE_CREATED}</th>
-	<th class="std">{CODE_USED}</th>
-	<th class="std">{CODE_URL}</th>
-</tr>
-</thead>
-<!-- BEGIN coderow --> 
-<tr>
-	<td class="{COLOR_CLASS}">{CODE_SEQUENCE}</td>
-	<td class="{COLOR_CLASS}">{SURVEY_CODE}</td>
-	<td class="{COLOR_CLASS}">{CODE_CREATED}</td>
-	<td class="{COLOR_CLASS}">{CODE_USED}</td>
-	<td class="{COLOR_CLASS}"><a href="{CODE_URL}">{CODE_URL_NAME}</a></td>
-</tr>
-<!-- END coderow -->
+{CODES_TABLE}
 <!-- BEGIN emptyrow -->
-<tr>
-	<td class="{COLOR_CLASS}" colspan="5">{NO_CODES}</td>
-</tr>
+<p>{NO_CODES}</p>
 <!-- END emptyrow --> 
-</table>
-</td>
 </form>

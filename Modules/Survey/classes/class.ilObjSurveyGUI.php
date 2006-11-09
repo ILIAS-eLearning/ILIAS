@@ -3159,49 +3159,58 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", "Modules/Survey");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", true);
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			$color_class = array("tblrow1", "tblrow2");
-			$survey_codes =& $this->object->getSurveyCodes(TRUE);
-			if (count($survey_codes) == 0)
+			$codecount = $this->object->getSurveyCodesCount();
+			if ($codecount)
 			{
-				$this->tpl->setCurrentBlock("emptyrow");
-				$this->tpl->setVariable("COLOR_CLASS", "tblrow1");
-				$this->tpl->setVariable("NO_CODES", $this->lng->txt("survey_code_no_codes"));
-				$this->tpl->parseCurrentBlock();
+				$maxentries = $ilUser->getPref("hits_per_page");
+				if ($maxentries < 1)
+				{
+					$maxentries = 9999;
+				}
+	
+				$survey_codes =& $this->object->getSurveyCodesTableData($default_lang, $_GET["offset"], $maxentries, $_GET["sort_by"], $_GET["sort_order"]);
+				$headervars = array("", "counter", "date", "used", "url");
+	
+				include_once "./classes/class.ilTableGUI.php";
+				$tbl = new ilTableGUI(0, FALSE);
+				$tbl->setTitle($this->lng->txt("survey_code"));
+				$header_names = array(
+					"",
+					$this->lng->txt("survey_code"),
+					$this->lng->txt("create_date"),
+					$this->lng->txt("survey_code_used"),
+					$this->lng->txt("survey_code_url")
+				);
+				$tbl->setHeaderNames($header_names);
+	
+				$tbl->disable("sort");
+				$tbl->disable("auto_sort");
+				$tbl->disable("title");
+				$tbl->setLimit($maxentries);
+				$tbl->setOffset($_GET["offset"]);
+				$tbl->setData($survey_codes);
+				$tbl->setMaxCount($codecount);
+				$tbl->setOrderDirection($_GET["sort_order"]);
+	
+				$header_params = $this->ctrl->getParameterArray($this, "codes");
+				$tbl->setHeaderVars($headervars, $header_params);
+				
+				// footer
+				$tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
+				// render table
+				$tableoutput = $tbl->render();
+				$this->tpl->setVariable("CODES_TABLE", $tableoutput);
 			}
 			else
 			{
-				$counter = 1;
-				foreach ($survey_codes as $key => $row)
-				{
-					$this->tpl->setCurrentBlock("coderow");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$key % 2]);
-					$this->tpl->setVariable("CODE_SEQUENCE", $counter);
-					$this->tpl->setVariable("SURVEY_CODE", $row["survey_key"]);
-					include_once "./classes/class.ilFormat.php";
-					$this->tpl->setVariable("CODE_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date"));
-					$state = "<span class=\"smallred\">" . $this->lng->txt("not_used") . "</span>";
-					if ($this->object->isSurveyCodeUsed($row["survey_key"]))
-					{
-						$state = "<span class=\"smallgreen\">" . $this->lng->txt("used") . "</span>";
-					}
-					else
-					{
-						$this->tpl->setVariable("CODE_URL_NAME", $this->lng->txt("survey_code_url_name"));
-						$addlang = "";
-						if (strlen($default_lang))
-						{
-							$addlang = "&amp;lang=$default_lang";
-						}
-						$this->tpl->setVariable("CODE_URL", ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->object->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang);
-					}
-					$this->tpl->setVariable("CODE_USED", $state);
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
+				$this->tpl->setCurrentBlock("emptyrow");
+				$this->tpl->setVariable("NO_CODES", $this->lng->txt("survey_code_no_codes"));
+				$this->tpl->parseCurrentBlock();
 			}
+			
 			$languages = $this->lng->getInstalledLanguages();
 			foreach ($languages as $lang)
 			{
@@ -3217,10 +3226,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("SURVEY_CODE", $this->lng->txt("survey_code"));
-			$this->tpl->setVariable("CODE_CREATED", $this->lng->txt("create_date"));
-			$this->tpl->setVariable("CODE_USED", $this->lng->txt("survey_code_used"));
-			$this->tpl->setVariable("CODE_URL", $this->lng->txt("survey_code_url"));
 			$this->tpl->setVariable("TEXT_CREATE", $this->lng->txt("create"));
 			$this->tpl->setVariable("TEXT_SURVEY_CODES", $this->lng->txt("new_survey_codes"));
 			$this->tpl->setVariable("TEXT_SURVEY_CODES_LANG", $this->lng->txt("survey_codes_lang"));
