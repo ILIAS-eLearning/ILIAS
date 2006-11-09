@@ -4747,6 +4747,81 @@ class ilObjSurvey extends ilObject
 		return $codes;
 	}
 	
+	/**
+	* Returns the number of generated survey codes for the survey
+	*
+	* Returns the number of generated survey codes for the survey
+	*
+	* @return integer The number of generated survey codes
+	* @access public
+	*/
+	function getSurveyCodesCount()
+	{
+		global $ilDB;
+
+		$query = "SELECT anonymous_id FROM survey_anonymous";
+		$result = $ilDB->query($query);
+		return $result->numRows();
+	}
+	
+	/**
+	* Fetches the data for the survey codes table
+	*
+	* Fetches the data for the survey codes table
+	*
+	* @param string $lang Language for the survey code URL
+	* @param integer $offset Offset for the requested data
+	* @param integer $limit Limit of the requested data
+	* @return array The requested data
+	* @access public
+	*/
+	function &getSurveyCodesTableData($lang = "en", $offset = 0, $limit = 10)
+	{
+		global $ilDB;
+
+		include_once "./classes/class.ilFormat.php";
+		if (strlen($lang) == 0) $lang = "en";
+		if (strlen($offset) == 0) $offset = 0;
+		if (strlen($limit) == 0) $limit = 10;
+		
+		$order = "ORDER BY TIMESTAMP14, survey_finished.anonymous_id ASC";
+		$codes = array();
+		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s $order LIMIT $offset,$limit",
+			$ilDB->quote($this->getSurveyId() . "")
+		);
+		$result = $ilDB->query($query);
+		$counter = $offset+1;
+		if ($result->numRows() > 0)
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$created = ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date");
+
+				$url = "";
+				
+				$state = "<span class=\"smallred\">" . $this->lng->txt("not_used") . "</span>";
+				if ($this->isSurveyCodeUsed($row["survey_key"]))
+				{
+					$state = "<span class=\"smallgreen\">" . $this->lng->txt("used") . "</span>";
+				}
+				else
+				{
+					$addlang = "";
+					if (strlen($lang))
+					{
+						$addlang = "&amp;lang=$lang";
+					}
+					$url = "<a href=\"" . ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang . "\">";
+					$url .= $this->lng->txt("survey_code_url_name");
+					$url .= "</a>";
+				}
+				array_push($codes, array($counter, $row["survey_key"], $created, $state, $url));
+				$counter++;
+			}
+		}
+		return $codes;
+	}
+
 	function isSurveyCodeUsed($code)
 	{
 		global $ilDB;
