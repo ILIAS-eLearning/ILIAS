@@ -21,9 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./Services/COPages/classes/class.ilPCParagraph.php");
-require_once("./Services/COPages/classes/class.ilPageContentGUI.php");
-require_once("./Services/COPages/classes/class.ilWysiwygUtil.php");
+require_once("./Services/COPage/classes/class.ilPCParagraph.php");
+require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+require_once("./Services/COPage/classes/class.ilWysiwygUtil.php");
 
 /**
 * Class ilPCParagraphGUI
@@ -520,7 +520,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function popup()
 	{
-		include_once "./Services/COPages/classes/class.ilWysiwygUtil.php";
+		include_once "./Services/COPage/classes/class.ilWysiwygUtil.php";
 		$popup = new ilWysiwygUtil();
 		$popup->show($_GET["ptype"]);
 		exit;

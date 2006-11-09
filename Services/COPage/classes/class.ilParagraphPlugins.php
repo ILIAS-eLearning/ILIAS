@@ -5,7 +5,7 @@
 
 
 include_once("./classes/class.ilDOMXML.php");
-include_once("./Services/COPages/classes/class.ilParagraphPlugin.php");
+include_once("./Services/COPage/classes/class.ilParagraphPlugin.php");
 
 class ilParagraphPlugins {
 	/**

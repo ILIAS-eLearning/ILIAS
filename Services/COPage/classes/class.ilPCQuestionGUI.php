@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./Services/COPages/classes/class.ilPageContentGUI.php";
+include_once "./Services/COPage/classes/class.ilPageContentGUI.php";
 
 /**
 * Class ilPCQuestionGUI
