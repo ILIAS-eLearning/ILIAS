@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,50 +21,74 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./Services/COPages/classes/class.ilPageContent.php");
 
 /**
-* Class ilPCQuestion
-*
-* Assessment Question of ilPageObject
+* Top level GUI class for media pools.
 *
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
 *
-* @package content
+* @ilCtrl_Calls ilMediaPoolPresentationGUI: ilObjMediaPoolGUI
+*
+* @ingroup ModulesMediaPool
 */
-class ilPCQuestion extends ilPageContent
+class ilMediaPoolPresentationGUI
 {
-	var $dom;
-	var $q_node;			// node of Paragraph element
+	/**
+	* ilias object
+	* @var object ilias
+	* @access public
+	*/
+	var $ilias;
+	var $tpl;
+	var $lng;
+	var $objDefinition;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPCQuestion(&$a_dom)
+	function ilMediaPoolPresentationGUI()
 	{
-		parent::ilPageContent();
-		$this->setType("par");
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
+			$rbacsystem;
+		
+		$lng->loadLanguageModule("content");
 
-		$this->dom =& $a_dom;
+		$this->ctrl =& $ilCtrl;
+
+		// initiate variables
+		$this->ilias =& $ilias;
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->objDefinition =& $objDefinition;
 	}
 
-	function setNode(&$a_node)
+	/**
+	* execute command
+	*/
+	function &executeCommand()
 	{
-		parent::setNode($a_node);		// this is the PageContent node
-		$this->q_node =& $a_node->first_child();		//... and this the Paragraph node
-	}
+		global $tpl, $ilCtrl;
 
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd("");
 
-	function create(&$a_pg_obj, $a_hier_id)
-	{
-		echo "ERROR: PCQuestion create"; exit;
-	}
+		switch($next_class)
+		{
+			case "ilobjmediapoolgui":
+				require_once ("./Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php");
+				$mep_gui =& new ilObjMediaPoolGUI("", $_GET["ref_id"],true, false);
+				$ilCtrl->forwardCommand($mep_gui);
+				break;
 
-	function getType()
-	{
-		return "pcqst";
+			default:
+				$this->ctrl->setCmdClass("ilobjmediapoolgui");
+				//$this->ctrl->setCmd("");
+				return $this->executeCommand();
+				break;
+		}
 	}
 
 }

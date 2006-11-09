@@ -359,33 +359,6 @@ class ilEditClipboardGUI
 	}
 
 	/**
-	* create new medi object in clipboard
-	*/
-/*
-	function createMediaInClipboard()
-	{
-		require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
-		$mob_gui =& new ilPCMediaObjectGUI($this->obj, $this->lm_obj);
-//		$mob_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-		$mob_gui->insert("post", "saveMediaInClipboard");
-	}
-*/
-
-	/**
-	* save new media object in clipboard
-	*/
-/*
-	function saveMediaInClipboard()
-	{
-		require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
-		$mob_gui =& new ilPCMediaObjectGUI($this->obj, $this->lm_obj);
-		$mob =& $mob_gui->create(false);
-		$this->ilias->account->addObjectToClipboard($mob->getId(), "mob", $mob->getTitle());
-		$this->clipboard();
-	}
-*/
-
-	/**
 	* output tabs
 	*/
 	function setTabs()

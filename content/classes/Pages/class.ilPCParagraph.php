@@ -21,8 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/Pages/class.ilPageContent.php");
-require_once("./content/classes/Pages/class.ilWysiwygUtil.php");
+require_once("./Services/COPages/classes/class.ilPageContent.php");
+require_once("./Services/COPages/classes/class.ilWysiwygUtil.php");
 
 /**
 * Class ilPCParagraph

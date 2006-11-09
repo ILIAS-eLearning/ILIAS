@@ -23,7 +23,7 @@
 
 include_once ("content/classes/class.ilLMObjectFactory.php");
 include_once ("classes/class.ilDOMUtil.php");
-include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
+include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
 include_once ("classes/class.ilObjStyleSheet.php");
 include_once ("content/classes/class.ilEditClipboard.php");
 

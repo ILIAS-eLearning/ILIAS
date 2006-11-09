@@ -189,7 +189,7 @@ class ilInternalLinkGUI
 	{
 		global $ilUser;
 		
-		include_once("content/classes/Pages/class.ilPageEditorGUI.php");
+		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
 		if (ilPageEditorGUI::_doJSEditing())
 		{
 			$str = htmlspecialchars($str);
@@ -1035,7 +1035,7 @@ class ilInternalLinkGUI
 	{
 		global $ilias;
 		
-		include_once("content/classes/Pages/class.ilPageEditorGUI.php");
+		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
 		if($ilias->getSetting("enable_js_edit"))
 		{
 			if (ilPageEditorGUI::_doJSEditing())

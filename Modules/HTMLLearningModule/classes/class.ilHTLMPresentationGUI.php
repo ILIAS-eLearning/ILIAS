@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,50 +21,88 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./Services/COPages/classes/class.ilPageContentGUI.php";
 
 /**
-* Class ilPCQuestionGUI
-*
-* Adapter User Interface class for assessment questions
+* GUI class for html lm presentation
 *
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
 *
-* @package content
+* @ilCtrl_Calls ilHTLMPresentationGUI: ilObjFileBasedLMGUI
+*
+* @ingroup ModulesHTMLLearningModule
 */
-class ilPCQuestionGUI extends ilPageContentGUI
+class ilHTLMPresentationGUI
 {
+	/**
+	* ilias object
+	* @var object ilias
+	* @access public
+	*/
+	var $ilias;
+	var $tpl;
+	var $lng;
+	var $objDefinition;
+	var $ref_id;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPCQuestionGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilHTLMPresentationGUI()
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
-	}
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
+			$rbacsystem, $ilAccess;
+		
+		$lng->loadLanguageModule("content");
 
+		// check write permission
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
+
+
+		$this->ctrl =& $ilCtrl;
+
+		//$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
+		$this->ctrl->saveParameter($this, array("ref_id"));
+
+		// initiate variables
+		$this->ilias =& $ilias;
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->objDefinition =& $objDefinition;
+		$this->ref_id = $_GET["ref_id"];
+
+	}
 
 	/**
 	* execute command
 	*/
 	function &executeCommand()
 	{
-		// get current command
-		$cmd = $this->ctrl->getCmd();
-		$ret =& $this->$cmd();
-		return $ret;
-	}
+		global $tpl, $ilCtrl;
 
-	/**
-	* edit question
-	*/
-	function edit()
-	{
-		require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
-		$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
-		$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($q_gui)), "editQuestion");
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd("");
+
+		switch($next_class)
+		{
+			case "ilobjfilebasedlmgui":
+				require_once ("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php");
+				$fblm_gui =& new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
+				$ilCtrl->forwardCommand($fblm_gui);
+				$tpl->show();
+				break;
+
+			default:
+				$this->ctrl->setCmdClass("ilobjfilebasedlmgui");
+				$this->ctrl->setCmd("showLearningModule");
+				return $this->executeCommand();
+				break;
+		}
 	}
 
 }

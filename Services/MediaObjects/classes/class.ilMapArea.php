@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/Pages/class.ilInternalLink.php");
+require_once("./Services/COPage/classes/class.ilInternalLink.php");
 
 define("IL_AREA_RECT", "Rect");
 define("IL_AREA_CIRCLE", "Circle");
