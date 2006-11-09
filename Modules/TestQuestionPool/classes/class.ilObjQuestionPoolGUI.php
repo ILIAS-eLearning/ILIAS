@@ -37,8 +37,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
-* @package assessment
+* @ingroup ModulesTestQuestionPool
 */
 
 include_once "./classes/class.ilObjectGUI.php";

@@ -32,8 +32,8 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.SurveyNominalQuestionGUI.php
-* @modulegroup   Survey
+* @extends SurveyQuestionGUI
+* @ingroup ModulesSurveyQuestionPool
 */
 class SurveyNominalQuestionGUI extends SurveyQuestionGUI 
 {

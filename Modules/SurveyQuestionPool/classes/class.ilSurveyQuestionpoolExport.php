@@ -28,7 +28,7 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 *
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
-* @package survey
+* @ingroup ModulesSurveyQuestionPool
 */
 class ilSurveyQuestionpoolExport
 {

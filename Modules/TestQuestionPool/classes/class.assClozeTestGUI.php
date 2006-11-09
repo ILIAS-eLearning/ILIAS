@@ -31,8 +31,7 @@ include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.assClozeTestGUI.php
-* @modulegroup   Assessment
+* @ingroup ModulesTestQuestionPool
 */
 class assClozeTestGUI extends assQuestionGUI
 {

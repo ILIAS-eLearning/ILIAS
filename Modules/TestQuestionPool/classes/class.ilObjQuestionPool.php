@@ -30,8 +30,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @version $Id$
 *
 * @extends ilObject
-* @package ilias-core
-* @package assessment
+* @defgroup ModulesTestQuestionPool Modules/TestQuestionPool
 */
 
 class ilObjQuestionPool extends ilObject

@@ -27,7 +27,7 @@
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
-* @package assessment
+* @ingroup ModulesTestQuestionPool
 */
 
 include_once "./classes/class.ilExplorer.php";

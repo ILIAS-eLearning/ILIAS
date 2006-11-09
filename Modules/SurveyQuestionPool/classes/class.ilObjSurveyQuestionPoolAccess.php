@@ -32,7 +32,8 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 * @author 		Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package Survey
+* @extends ilObjectAccess
+* @ingroup ModulesSurveyQuestionPool
 */
 class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 {

@@ -30,7 +30,7 @@ require_once("./classes/class.ilSaxParser.php");
 * @version $Id: class.ilUserImportParser.php 12385 2006-10-26 09:50:48Z akill $
 *
 * @extends ilSaxParser
-* @package core
+* @ingroup ModulesTest
 */
 class ilXMLChecker extends ilSaxParser
 {

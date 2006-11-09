@@ -29,7 +29,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package assessment
+* @ingroup ModulesTest
 */
 class ilTestExport
 {

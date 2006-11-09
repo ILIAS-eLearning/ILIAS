@@ -31,8 +31,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @author		Helmut Schottmueller <helmut.schottmueller@mac.com>
 * @author 		Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-*
-* @package Survey
+* @ingroup ModulesTestQuestionPool
 */
 class ilObjQuestionPoolAccess extends ilObjectAccess
 {

@@ -34,8 +34,7 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
-* @package Survey
+* @ingroup ModulesSurveyQuestionPool
 */
 
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI

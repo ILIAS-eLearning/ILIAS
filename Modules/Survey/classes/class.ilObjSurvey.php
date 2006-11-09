@@ -28,8 +28,7 @@
 * @version $Id$
 *
 * @extends ilObject
-* @package ilias-core
-* @package survey
+* @defgroup ModulesSurvey Modules/Survey
 */
 
 include_once "./classes/class.ilObject.php";

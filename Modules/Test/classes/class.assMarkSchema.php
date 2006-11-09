@@ -30,8 +30,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.assMarkSchema.php
-* @modulegroup   Assessment
+* @ingroup ModulesTest
 */
 class ASS_MarkSchema 
 {

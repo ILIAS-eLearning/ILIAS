@@ -31,8 +31,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @module   class.assAnswerCloze.php
-* @modulegroup   Assessment
+* @ingroup ModulesTestQuestionPool
 * @see ASS_AnswerBinaryState
 */
 class ASS_AnswerCloze extends ASS_AnswerBinaryState {

@@ -28,8 +28,7 @@
 *
 * @author		Unknown <unknowns@email>
 * @version	$Id$
-* @module   class.assQuestionTypeTemplate.php
-* @modulegroup   Assessment
+* @ingroup ModulesTestQuestionPool
 */
 class assQuestionTypeTemplate extends assQuestion
 {

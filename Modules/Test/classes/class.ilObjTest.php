@@ -27,9 +27,8 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
+* @defgroup ModulesTest Modules/Test
 * @extends ilObject
-* @package ilias-core
-* @package assessment
 */
 
 include_once "./classes/class.ilObject.php";
