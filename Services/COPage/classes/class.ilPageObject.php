@@ -22,8 +22,8 @@
 */
 
 //require_once("content/classes/class.ilLMObject.php");
-require_once("content/classes/Pages/class.ilPageContent.php");
-require_once("content/classes/Pages/class.ilPCParagraph.php");
+require_once("./Services/COPage/classes/class.ilPageContent.php");
+require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 require_once("./syntax_highlight/php/Beautifier/Init.php");
 require_once("./syntax_highlight/php/Output/Output_css.php");
 
@@ -268,14 +268,14 @@ class ilPageObject
 				switch($child_node->node_name())
 				{
 					case "Paragraph":
-						require_once("content/classes/Pages/class.ilPCParagraph.php");
+						require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 						$par =& new ilPCParagraph($this->dom);
 						$par->setNode($cont_node);
 						$par->setHierId($a_hier_id);
 						return $par;
 
 					case "Table":
-						require_once("content/classes/Pages/class.ilPCTable.php");
+						require_once("./Services/COPage/classes/class.ilPCTable.php");
 						$tab =& new ilPCTable($this->dom);
 						$tab->setNode($cont_node);
 						$tab->setHierId($a_hier_id);
@@ -295,14 +295,14 @@ class ilPageObject
 						return $mob;
 
 					case "List":
-						require_once("content/classes/Pages/class.ilPCList.php");
+						require_once("./Services/COPage/classes/class.ilPCList.php");
 						$list =& new ilPCList($this->dom);
 						$list->setNode($cont_node);
 						$list->setHierId($a_hier_id);
 						return $list;
 
 					case "FileList":
-						require_once("content/classes/Pages/class.ilPCFileList.php");
+						require_once("./Services/COPage/classes/class.ilPCFileList.php");
 						$file_list =& new ilPCFileList($this->dom);
 						$file_list->setNode($cont_node);
 						$file_list->setHierId($a_hier_id);
@@ -310,7 +310,7 @@ class ilPageObject
 
 					// note: assessment handling is forwarded to assessment gui classes
 					case "Question":
-						require_once("content/classes/Pages/class.ilPCQuestion.php");
+						require_once("./Services/COPage/classes/class.ilPCQuestion.php");
 						$pc_question =& new ilPCQuestion($this->dom);
 						$pc_question->setNode($cont_node);
 						$pc_question->setHierId($a_hier_id);
@@ -319,21 +319,21 @@ class ilPageObject
 				break;
 
 			case "TableData":
-				require_once("content/classes/Pages/class.ilPCTableData.php");
+				require_once("./Services/COPage/classes/class.ilPCTableData.php");
 				$td =& new ilPCTableData($this->dom);
 				$td->setNode($cont_node);
 				$td->setHierId($a_hier_id);
 				return $td;
 
 			case "ListItem":
-				require_once("content/classes/Pages/class.ilPCListItem.php");
+				require_once("./Services/COPage/classes/class.ilPCListItem.php");
 				$td =& new ilPCListItem($this->dom);
 				$td->setNode($cont_node);
 				$td->setHierId($a_hier_id);
 				return $td;
 
 			case "FileItem":
-				require_once("content/classes/Pages/class.ilPCFileItem.php");
+				require_once("./Services/COPage/classes/class.ilPCFileItem.php");
 				$file_item =& new ilPCFileItem($this->dom);
 				$file_item->setNode($cont_node);
 				$file_item->setHierId($a_hier_id);
@@ -1341,7 +1341,7 @@ class ilPageObject
 		$doc = domxml_open_mem($a_xml);
 
 
-		include_once("content/classes/Pages/class.ilInternalLink.php");
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
 		ilInternalLink::_deleteAllLinksOfSource($this->getParentType().":pg", $this->getId());
 
 		// get all internal links

@@ -27,7 +27,7 @@ require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 require_once("./Modules/Glossary/classes/class.ilTermDefinitionEditorGUI.php");
-require_once("content/classes/Pages/class.ilPCParagraph.php");
+require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 
 /**
 * Class ilGlossaryPresentationGUI

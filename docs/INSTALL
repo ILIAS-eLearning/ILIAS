@@ -448,8 +448,7 @@ components:
 
 (a) MySQL database
 
-    IMPORTANT NOTE: ILIAS has been tested on several 4.0.x and 4.1.x. versions.
-	MySQL 5.x.x are not yet supported.
+    ILIAS version 3.7.x supports MySQL 4.x and MysSQL 5.x.
 
     Configure & make:
 

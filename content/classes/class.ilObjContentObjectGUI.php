@@ -609,7 +609,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
-		include_once("content/classes/Pages/class.ilPageEditorGUI.php");
+		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
 		if (ilPageEditorGUI::_doJSEditing())
 		{
 			//$this->tpl->touchBlock("includejavascript");
@@ -645,7 +645,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function popup()
 	{
-		include_once "./content/classes/Pages/class.ilWysiwygUtil.php";
+		include_once "./Services/COPage/classes/class.ilWysiwygUtil.php";
 		$popup = new ilWysiwygUtil();
 		$popup->show($_GET["ptype"]);
 		exit;

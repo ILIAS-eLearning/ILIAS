@@ -316,7 +316,7 @@ class ilPageEditorGUI
 			// Sourcecode
 			case "ilpcsourcecodegui":
 				$this->tabs_gui->clearTargets();
-				include_once ("content/classes/Pages/class.ilPCSourcecodeGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCSourcecodeGUI.php");
 				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $src_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($src_gui);
@@ -325,7 +325,7 @@ class ilPageEditorGUI
 			// Paragraph
 			case "ilpcparagraphgui":
 				$this->tabs_gui->clearTargets();
-				include_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCParagraphGUI.php");
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $par_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($par_gui);
@@ -334,7 +334,7 @@ class ilPageEditorGUI
 			// Table
 			case "ilpctablegui":
 				$this->tabs_gui->clearTargets();
-				include_once ("content/classes/Pages/class.ilPCTableGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCTableGUI.php");
 				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $tab_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
@@ -343,7 +343,7 @@ class ilPageEditorGUI
 			// Table Cell
 			case "ilpctabledatagui":
 				$this->tabs_gui->clearTargets();
-				include_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCTableDataGUI.php");
 				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $td_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($td_gui);
@@ -353,7 +353,7 @@ class ilPageEditorGUI
 			case "ilpcmediaobjectgui":
 			case "ilobjmediaobjectgui":
 				include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-				include_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCMediaObjectGUI.php");
 
 				$this->tabs_gui->clearTargets();
 
@@ -404,7 +404,7 @@ class ilPageEditorGUI
 			// List
 			case "ilpclistgui":
 				$this->tabs_gui->clearTargets();
-				include_once ("content/classes/Pages/class.ilPCListGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCListGUI.php");
 				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($list_gui);
@@ -413,7 +413,7 @@ class ilPageEditorGUI
 			// List Item
 			case "ilpclistitemgui":
 				$this->tabs_gui->clearTargets();
-				include_once ("content/classes/Pages/class.ilPCListItemGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCListItemGUI.php");
 				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $list_item_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($list_item_gui);
@@ -422,7 +422,7 @@ class ilPageEditorGUI
 			// File List
 			case "ilpcfilelistgui":
 				$this->tabs_gui->clearTargets();
-				include_once ("content/classes/Pages/class.ilPCFileListGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCFileListGUI.php");
 				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $file_list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($file_list_gui);
@@ -431,7 +431,7 @@ class ilPageEditorGUI
 			// File List Item
 			case "ilpcfileitemgui":
 				$this->tabs_gui->clearTargets();
-				include_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
+				include_once ("./Services/COPages/classes/class.ilPCFileItemGUI.php");
 				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $file_item_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($file_item_gui);
@@ -442,7 +442,7 @@ class ilPageEditorGUI
 				// clear tabs!?
 				//$this->tabs_gui->clearTargets();
 				
-				include_once("content/classes/Pages/class.ilPCQuestionGUI.php");
+				include_once("./Services/COPages/classes/class.ilPCQuestionGUI.php");
 				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id);
 				$cmd = $this->ctrl->getCmd();
 				$pc_question_gui->$cmd();

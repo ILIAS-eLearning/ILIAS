@@ -574,7 +574,7 @@ class ilLMObject
 	{
 		global $ilDB;
 		
-		include_once("content/classes/Pages/class.ilInternalLink.php");
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
 		{
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);

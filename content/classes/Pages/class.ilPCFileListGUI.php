@@ -21,8 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/Pages/class.ilPCFileList.php");
-require_once("./content/classes/Pages/class.ilPageContentGUI.php");
+require_once("./Services/COPages/classes/class.ilPCFileList.php");
+require_once("./Services/COPages/classes/class.ilPageContentGUI.php");
 
 /**
 * Class ilPCListGUI
