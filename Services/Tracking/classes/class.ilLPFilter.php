@@ -340,7 +340,7 @@ class ilLPFilter
 			switch($a_data['type'])
 			{
 				case 'tst':
-					include_once 'assessment/classes/class.ilObjTest.php';
+					include_once './Modules/Test/classes/class.ilObjTest.php';
 					if(ilObjTest::_lookupAnonymity($a_data['obj_id']))
 					{
 						return false;

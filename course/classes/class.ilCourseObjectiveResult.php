@@ -170,7 +170,7 @@ class ilCourseObjectiveResult
 
 	function getStatus($a_course_id)
 	{
-		include_once 'assessment/classes/class.assQuestion.php';
+		include_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 		include_once 'course/classes/class.ilCourseObjective.php';
 		$objective_ids = ilCourseObjective::_getObjectiveIds($a_course_id);
 		$objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);

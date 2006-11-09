@@ -51,7 +51,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		$ilBench->start('LearningProgress','9182_LPStatusTestPassed_inProgress');
 
 
-		include_once './assessment/classes/class.ilObjTestAccess.php';
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
 		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
 			"WHERE test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
@@ -76,7 +76,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		global $ilBench;
 		$ilBench->start('LearningProgress','9183_LPStatusTestPassed_completed');
 
-		include_once './assessment/classes/class.ilObjTestAccess.php';
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 		include_once './Services/Tracking/classes/class.ilTestResultCache.php';
 
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
@@ -106,7 +106,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 
 	function _getStatusInfo($a_obj_id)
 	{
-		include_once './assessment/classes/class.ilObjTestAccess.php';
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 		$status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);
 		return $status_info;
 	}

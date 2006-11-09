@@ -62,7 +62,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		require_once("assessment/classes/class.assQuestionGUI.php");
+		require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
 		$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 		$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($q_gui)), "editQuestion");
 	}

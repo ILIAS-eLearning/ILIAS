@@ -242,7 +242,7 @@ class ilLPCollections
 			// Check anonymized
 			if($ilObjDataCache->lookupType($item_obj_id = $ilObjDataCache->lookupObjId($row->item_id)) == 'tst')
 			{
-				include_once 'assessment/classes/class.ilObjTest.php';
+				include_once './Modules/Test/classes/class.ilObjTest.php';
 				if(ilObjTest::_lookupAnonymity($item_obj_id))
 				{
 					ilLPCollections::__deleteEntry($a_obj_id,$row->item_id);
@@ -299,7 +299,7 @@ class ilLPCollections
 			// Check anonymized
 			if($ilObjDataCache->lookupType($item_obj_id = $ilObjDataCache->lookupObjId($row->item_id)) == 'tst')
 			{
-				include_once 'assessment/classes/class.ilObjTest.php';
+				include_once './Modules/Test/classes/class.ilObjTest.php';
 				if(ilObjTest::_lookupAnonymity($item_obj_id))
 				{
 					$this->__deleteEntry($a_obj_id,$row->item_id);

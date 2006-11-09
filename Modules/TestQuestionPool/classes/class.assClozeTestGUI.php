@@ -631,7 +631,7 @@ class assClozeTestGUI extends assQuestionGUI
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$cloze =& $this->object->createCloseTextArray();
 		//print_r($cloze);
 		$cloze_text = $cloze["delimiters"];
@@ -702,7 +702,7 @@ class assClozeTestGUI extends assQuestionGUI
 	{
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$cloze =& $this->object->createCloseTextArray();
 		$cloze_text = $cloze["delimiters"];
 		$counter = 0;
@@ -776,7 +776,7 @@ class assClozeTestGUI extends assQuestionGUI
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$cloze =& $this->object->createCloseTextArray();
 		//print_r($cloze);
 		$cloze_text = $cloze["delimiters"];

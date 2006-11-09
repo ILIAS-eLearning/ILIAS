@@ -557,7 +557,7 @@ class ilCourseContentInterface
 			switch($tmp_obj->getType())
 			{
 				case 'tst':
-					include_once './assessment/classes/class.ilObjTestAccess.php';
+					include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 					$accomplished = ilObjTestAccess::_checkCondition($tmp_obj->getId(),'finished','') ? 'accomplished' : 'not_accomplished';
 					break;
 

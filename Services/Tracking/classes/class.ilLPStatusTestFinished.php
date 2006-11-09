@@ -47,7 +47,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 	{
 		global $ilDB;
 
-		include_once './assessment/classes/class.ilObjTestAccess.php';
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
 		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
 			"WHERE tries = 0 ".
@@ -66,7 +66,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 	{
 		global $ilDB;
 
-		include_once './assessment/classes/class.ilObjTestAccess.php';
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
 		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
 			"WHERE tries > 0 ".

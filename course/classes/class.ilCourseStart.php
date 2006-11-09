@@ -169,7 +169,7 @@ class ilCourseStart
 		switch($type)
 		{
 			case 'tst':
-				include_once './assessment/classes/class.ilObjTestAccess.php';
+				include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 				
 				if(!ilObjTestAccess::_checkCondition($obj_id,'finished',''))
 				{
@@ -177,7 +177,7 @@ class ilCourseStart
 				}
 				break;
 			case 'svy':
-				include_once './survey/classes/class.ilObjSurveyAccess.php';
+				include_once './Modules/Survey/classes/class.ilObjSurveyAccess.php';
 				if(!ilObjSurveyAccess::_lookupFinished($obj_id, $user_id))
 				{
 					return false;

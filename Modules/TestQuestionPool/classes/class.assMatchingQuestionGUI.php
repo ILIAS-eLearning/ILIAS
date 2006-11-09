@@ -531,7 +531,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
@@ -634,7 +634,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	{
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
@@ -695,7 +695,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
