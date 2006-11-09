@@ -295,7 +295,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("ESSAY", $user_solution);
 		$questiontext = $this->object->getQuestion();
 		if ($active_id)
@@ -339,7 +339,7 @@ class assTextQuestionGUI extends assQuestionGUI
 	{
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getMaxNumOfChars())
 		{
 			$template->setCurrentBlock("maximum_char_hint");
@@ -383,7 +383,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getMaxNumOfChars())
 		{
 			$template->setCurrentBlock("maximum_char_hint");

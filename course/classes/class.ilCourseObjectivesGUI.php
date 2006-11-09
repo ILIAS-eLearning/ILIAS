@@ -1199,7 +1199,7 @@ class ilCourseObjectivesGUI
 		{
 			++$counter;
 
-			include_once './assessment/classes/class.ilObjTest.php';
+			include_once './Modules/Test/classes/class.ilObjTest.php';
 
 			$tmp_question =& ilObjTest::_instanciateQuestion($question['question_id']);
 
@@ -1310,7 +1310,7 @@ class ilCourseObjectivesGUI
 		{
 			++$counter;
 
-			include_once './assessment/classes/class.ilObjTest.php';
+			include_once './Modules/Test/classes/class.ilObjTest.php';
 
 			$question = $this->objectives_qst_obj->getQuestion($qid);
 			$tmp_question =& ilObjTest::_instanciateQuestion($question['question_id']);

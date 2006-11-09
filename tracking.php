@@ -33,7 +33,7 @@
 require_once "./include/inc.header.php";
 require_once "./tracking/classes/class.ilUserTracking.php";
 require_once "./classes/class.ilUtil.php";
-require_once "./assessment/classes/class.ilObjTest.php";
+require_once "./Modules/Test/classes/class.ilObjTest.php";
 
 die("This script call is deprecated");
 

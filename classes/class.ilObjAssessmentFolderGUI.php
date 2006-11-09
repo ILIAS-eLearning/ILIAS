@@ -262,8 +262,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
 		$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
 		$this->tpl->parseCurrentBlock();
-		include_once "./assessment/classes/class.ilObjTest.php";
-		include_once "./assessment/classes/class.assQuestion.php";
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$available_tests =& ilObjTest::_getAvailableTests(1);
 		foreach ($available_tests as $key => $value)
 		{

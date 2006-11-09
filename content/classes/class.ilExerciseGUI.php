@@ -32,9 +32,9 @@
 */
 require_once "include/inc.header.php";
 require_once "content/classes/class.ilExercise.php";
-require_once "assessment/classes/class.assQuestionGUI.php";
+require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 require_once "classes/class.ilObjectGUI.php";
-require_once "assessment/classes/class.ilObjQuestionPool.php";
+require_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 require_once "classes/class.ilMetaDataGUI.php";
 
 class ilExerciseGUI extends assQuestionGUI {

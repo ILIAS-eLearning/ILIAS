@@ -833,7 +833,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// export button was pressed
 		if (count($_POST["q_id"]) > 0)
 		{
-			include_once("assessment/classes/class.ilQuestionpoolExport.php");
+			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
 			$qpl_exp = new ilQuestionpoolExport($this->object, "xml", $_POST["q_id"]);
 			$export_file = $qpl_exp->buildExportFile();
 			$filename = $export_file;
@@ -1418,7 +1418,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		global $rbacsystem;
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			include_once("assessment/classes/class.ilQuestionpoolExport.php");
+			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
 			$question_ids =& $this->object->getAllQuestionIds();
 			$qpl_exp = new ilQuestionpoolExport($this->object, $_POST["exporttype"], $question_ids);
 			$qpl_exp->buildExportFile();

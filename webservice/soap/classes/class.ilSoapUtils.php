@@ -129,7 +129,7 @@ class ilSoapUtils extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		include_once "./assessment/classes/class.ilObjTest.php";
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
 		$ilDB = $GLOBALS['ilDB'];
 		for($i = 0; $i < count($solution); $i += 3)

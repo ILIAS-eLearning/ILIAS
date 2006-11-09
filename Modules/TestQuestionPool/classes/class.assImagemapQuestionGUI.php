@@ -19,7 +19,7 @@
    | along with this program; if not, write to the Free Software                |
    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
    +----------------------------------------------------------------------------+
-*/
+*/                    
 
 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
@@ -745,7 +745,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$template->setVariable("IMG_SRC", "$imagepath");
@@ -793,7 +793,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$formaction = "#";
 		foreach ($this->object->answers as $answer_id => $answer)
 		{
@@ -874,7 +874,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$this->ctrl->setParameterByClass("ilTestOutputGUI", "formtimestamp", time());
 		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");
 		foreach ($this->object->answers as $answer_id => $answer)

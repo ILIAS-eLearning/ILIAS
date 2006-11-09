@@ -402,7 +402,7 @@ class assJavaAppletGUI extends assQuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output_solution.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_type");
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -530,7 +530,7 @@ class assJavaAppletGUI extends assQuestionGUI
 	{
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "question_id");
 		$template->setVariable("PARAM_VALUE", $this->object->getId());
@@ -605,7 +605,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$userdata = $this->getActiveUserData($active_id);
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "test_type");
 		include_once "./Modules/Test/classes/class.ilObjTest.php";

@@ -338,7 +338,7 @@ class assNumericGUI extends assQuestionGUI
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_numeric_output_solution.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_numeric_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if (is_array($solutions))
 		{
 			foreach ($solutions as $solution)
@@ -380,7 +380,7 @@ class assNumericGUI extends assQuestionGUI
 	{
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
 		$questiontext = $this->object->getQuestion();
 		$questiontext = $this->object->getQuestion();
@@ -409,7 +409,7 @@ class assNumericGUI extends assQuestionGUI
 		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if (is_array($solutions))
 		{
 			foreach ($solutions as $solution)

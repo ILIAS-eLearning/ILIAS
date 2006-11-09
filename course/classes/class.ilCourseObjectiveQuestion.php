@@ -208,7 +208,7 @@ class ilCourseObjectiveQuestion
 
 	function getMaxPointsByObjective()
 	{
-		include_once './assessment/classes/class.ilObjTest.php';
+		include_once './Modules/Test/classes/class.ilObjTest.php';
 
 		$points = 0;
 		foreach($this->getQuestions() as $question)
@@ -343,7 +343,7 @@ class ilCourseObjectiveQuestion
 	// PRIVATE
 	function __read()
 	{
-		include_once './assessment/classes/class.ilObjTest.php';
+		include_once './Modules/Test/classes/class.ilObjTest.php';
 
 		global $tree;
 

@@ -539,7 +539,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$solutions = array();
@@ -647,7 +647,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		foreach ($keys as $idx)
 		{
@@ -696,7 +696,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, TRUE);
+		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		if ($active_id)
