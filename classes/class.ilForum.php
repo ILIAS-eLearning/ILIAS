@@ -470,15 +470,16 @@ class ilForum
 		// MARK READ
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
 		$forum_obj->markPostRead($user,$thread,$lastInsert);
+		
+		$pos_data["ref_id"] = $this->getForumRefId();
 
 		// FINALLY SEND MESSAGE
-		$this->__sendMessage($parent_pos);
+		$this->__sendMessage($parent_pos, $pos_data);
 
 		// SEND NOTIFICATIONS ABOUT NEW POSTS IN A SPECIFIED TOPIC
 		if($this->ilias->getSetting("forum_notification") == 1)
 		{
-			$pos_data["top_name"] = $forum_obj->getTitle();
-			$pos_data["ref_id"] = $this->getForumRefId();
+			$pos_data["top_name"] = $forum_obj->getTitle();			
 			$this->sendNotifications($pos_data);
 		}
 
@@ -526,7 +527,7 @@ class ilForum
 
 		// get last insert id and return it
 		$lastInsert = $this->ilias->db->getLastInsertId();
-
+		
 		// update topic
 		$q = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 ";
 		$q .= "WHERE top_pk = '" . $topic . "'";
@@ -1474,11 +1475,14 @@ class ilForum
 	}
 
 
-	function __sendMessage($a_parent_pos)
+	function __sendMessage($a_parent_pos, $post_data = array())
 	{
-		$parent_data = $this->getOnePost($a_parent_pos);
+		global $ilUser;
 		
-		if($parent_data["notify"])
+		$parent_data = $this->getOnePost($a_parent_pos);
+				
+		// only if the current user is not the owner of the parent post and the parent's notification flag is set...
+		if($parent_data["notify"] && $parent_data["pos_usr_id"] != $ilUser->getId())
 		{
 			// SEND MESSAGE
 			include_once "./classes/class.ilMail.php";
@@ -1495,7 +1499,7 @@ class ilForum
 			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
 			$message = $tmp_mail_obj->sendMail($tmp_user->getLogin(),"","",
 											   $this->__formatSubject($thread_data),
-											   $this->__formatMessage($thread_data),
+											   $this->__formatMessage($thread_data, $post_data),
 											   array(),array("normal"));
 
 			unset($tmp_user);
@@ -1505,9 +1509,10 @@ class ilForum
 	
 	function __formatSubject($thread_data)
 	{
-		return "Forum notification";
+		return $this->lng->txt("forums_notification_subject");		
 	}
-	function __formatMessage($thread_data)
+	
+	function __formatMessage($thread_data, $post_data = array())
 	{
 		include_once "./classes/class.ilObjectFactory.php";
 
@@ -1518,7 +1523,10 @@ class ilForum
 		
 		$message = $this->lng->txt("forum").": ".$title." -> ".$thread_data["thr_subject"]."\n\n";
 		$message .= $this->lng->txt("forum_post_replied");
-
+		
+		$message .= "\n------------------------------------------------------------\n";
+		$message .= sprintf($this->lng->txt("forums_notification_show_post"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]);
+		
 		return $message;
 	}
 
@@ -1614,7 +1622,7 @@ class ilForum
 	{
 		include_once "./classes/class.ilMail.php";
 		include_once "./classes/class.ilObjUser.php";
-
+		
 		// GET THREAD DATA
 		$q = "SELECT thr_subject FROM frm_threads WHERE ";
 		$q .= "thr_pk = '" . $post_data["pos_thr_fk"] . "'";
@@ -1622,8 +1630,7 @@ class ilForum
 		$post_data["thr_subject"] = $thread_subject;
 
 		// GET AUTHOR OF NEW POST
-		$tmp_user =& new ilObjUser($post_data["pos_usr_id"]);
-		$post_data["pos_usr_name"] = $tmp_user->getLogin();
+		$post_data["pos_usr_name"] = ilObjUser::_lookupLogin($post_data["pos_usr_id"]);
 
 		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
 		$q = "SELECT user_id FROM frm_notification WHERE ";
@@ -1635,16 +1642,13 @@ class ilForum
 			$res->numRows() > 0)
 		{
 			while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$tmp_user =& new ilObjUser($row["user_id"]);
-
+			{								
 				// SEND NOTIFICATIONS BY E-MAIL
 				$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
-				$message = $tmp_mail_obj->sendMail($tmp_user->getLogin(),"","",
+				$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject(),
 												   $this->formatNotification($post_data),
 												   array(),array("normal"));
-				unset($tmp_user);
 				unset($tmp_mail_obj);
 			}
 		}
@@ -1697,6 +1701,6 @@ class ilForum
 		$q = "SELECT anonymized FROM frm_settings WHERE ";
 		$q .= "obj_id = '" . $this->getForumId() . "'";
 		return $this->ilias->db->getOne($q);
-	}
+	}	
 
 } // END class.Forum

@@ -260,12 +260,10 @@ $entries_count = count($entries);
 
 // TODO: READ FROM MAIL_OPTIONS
 $entries_max_hits = $ilUser->getPref('hits_per_page');
-
 // SHOW ENTRIES
 if($entries)
 {
 	$counter = 0;
-
 	foreach($entries as $entry)
 	{
 		// LINKBAR
@@ -307,10 +305,10 @@ if($entries)
 		}
 		$tpl->setCurrentBlock("addr_search");
 
-		$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+		$tpl->setVariable("CSSROW", ilUtil::switchColor(++$couter,'tblrow1', 'tblrow2'));		
 		if(is_array($_POST["entry_id"]))
 		{
-			$tpl->setVariable("CHECKED",in_array($entry["addr_id"],$_POST["entry_id"]) ? 'checked' : '');
+			$tpl->setVariable("CHECKED",in_array($entry["addr_id"],$_POST["entry_id"]) ? "checked='checked'" : "");
 		}
 		$tpl->setVariable("ENTRY_ID",$entry["addr_id"]);
 		$tpl->setVariable("LOGIN_LINK","./mail_new.php?mobj_id=".$_GET["mobj_id"]."&type=address&rcp=".urlencode($entry["login"]));
@@ -318,7 +316,10 @@ if($entries)
 		$tpl->setVariable("FIRSTNAME",$entry["firstname"]);
 		$tpl->setVariable("LASTNAME",$entry["lastname"]);
 		$tpl->parseCurrentBlock();
-	}		
+	}
+	
+	$tpl->setVariable("SELECT_ALL",$lng->txt('select_all'));	
+	$tpl->setVariable("ROWCLASS", ilUtil::switchColor(++$couter,'tblrow1', 'tblrow2'));
 }
 else
 {
