@@ -39,11 +39,30 @@ class ilnetucateResponse extends ilSaxParser
 	* Constructor
 	* @access	public
 	*/
-	function ilnetucateResponse($a_xml_str)
+	function ilnetucateResponse($a_str)
 	{
-		parent::ilSaxParser($a_xml_str);
-		
+		$xml_str = $this->validateInput($a_str);
+
+		parent::ilSaxParser($xml_str);
+				
 		$this->startParsing();
+	}
+	
+	function validateInput($a_str)
+	{
+		$response = split("\r\n\r\n",$a_str);
+	
+		$header = $response[0];
+		$response_data = $response[1];
+		
+		if (strpos($response_data,"<?xml") === false)
+		{
+			echo "netucateResponse::validateInput() : No valid response data!<br/>";
+			var_dump($header,$response_data);
+			exit;
+		}
+        
+        return chop($response_data);
 	}
 	
 	function isError()
@@ -112,7 +131,7 @@ class ilnetucateResponse extends ilSaxParser
 
 		if (!$parseOk && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE))
 		{
-				$this->ilias->raiseError("XML Parse Error: ",$this->ilias->error_obj->FATAL);
+				$this->ilias->raiseError("XML Parse Error: ".xml_error_string(xml_get_error_code($a_xml_parser)),$this->ilias->error_obj->FATAL);
 		}
 	}
 

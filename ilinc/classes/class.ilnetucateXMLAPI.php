@@ -94,8 +94,17 @@ class ilnetucateXMLAPI extends ilXmlWriter
 	{
 		global $ilErr,$lng;
 		
+		// get request xml data
 		$this->request = $this->xmlDumpMem();
 		
+		// compose request header
+		$header = "Host: ".$this->getServerAddr()."\r\n";
+		$header .= "User-Agent: ILIAS open source\r\n";
+		$header .= "Content-Type: text/xml\r\n";
+		$header .= "Content-Length: ".strlen($this->request)."\r\n";
+		$header .= "Connection: close\r\n\r\n";
+
+		// determine protocol
 		if ($this->getServerScheme() == "https")
 		{
 			$scheme = "ssl";
@@ -105,6 +114,7 @@ class ilnetucateXMLAPI extends ilXmlWriter
 			$scheme = "http";
 		}
 
+		// open socket connection to server
 		$sock = @fsockopen($scheme."://".$this->getServerAddr(), $this->getServerPort(), $errno, $errstr, $this->getServerTimeOut());
 
 		if (!$sock)
@@ -112,31 +122,20 @@ class ilnetucateXMLAPI extends ilXmlWriter
 			$ilErr->raiseError($lng->txt('ilinc_connection_error'),$ilErr->MESSAGE);
 		}
 
+		// send request
 		fputs($sock, "POST ".$this->getServerPath()." HTTP/1.0\r\n");
-		fputs($sock, "Host: ".$this->getServerScheme()."://".$this->getServerAddr().$this->getServerPath()."\r\n");
-		fputs($sock, "Content-type: text/xml\r\n");
-		fputs($sock, "Content-length: " . strlen($this->request) . "\r\n");
-		fputs($sock, "Accept: */*\r\n");
-		fputs($sock, "\r\n");
-		fputs($sock, $this->request."\r\n");
-		fputs($sock, "\r\n");
-		
-		$headers = "";
-		
-		while ($str = trim(fgets($sock, 4096)))
-		{
-			$headers .= "$str\n";
-		}
+		fputs($sock,$header.$this->request);
 		
 		$response = "";
 
+		// read response data and surpress error from buggy IIS software (missing 'close_notify' cause fatal error)
 		while (!feof($sock))
 		{
-			$response .= fgets($sock, 4096);
+			$response .= @fgets($sock, 128);
 		}
 		
 		fclose($sock);
-
+		
 		// return netucate response object
 		$response_obj =  new ilnetucateResponse($response);
 		
