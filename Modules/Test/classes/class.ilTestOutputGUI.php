@@ -764,14 +764,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->outTestPage();
 				break;
 			case "summary":
-				//if ($this->object->isOnlineTest())
-				//{
-				//	$this->ctrl->redirect($this, "outTestSummary");
-				//}
-				//else
-				//{
-					$this->ctrl->redirect($this, "outQuestionSummary");
-				//}
+				$this->ctrl->redirect($this, "outQuestionSummary");
 				break;
 			case "start":
 			case "resume":
@@ -1044,26 +1037,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 /**
-* Shows the answers of a test participant for the test author
-*
-* Shows the answers of a test participant for the test author
-*
-* @access public
-*/
-	function showParticipantAnswersForAuthor()
-	{
-		$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, "Modules/Test");
-		$template_top->setCurrentBlock("button_print");
-		$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-		$template_top->setVariable("BUTTON_BACK", $this->lng->txt("back"));
-		$template_top->setVariable("URL_BACK", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
-		$template_top->parseCurrentBlock();
-		$usr_id = $_GET["usr_id"];
-		$active = $this->object->getActiveTestUser($usr_id);
-		$this->showListOfAnswers($active->active_id, NULL, $template_top->get());
-	}
-	
-/**
 * Finish the test
 *
 * Finish the test
@@ -1127,7 +1100,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$this->outResults();
+			$this->outUserResultsOverview();
 		}
 
 		if($_GET['crs_show_result'])
@@ -1374,156 +1347,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 /**
-* Output of the test pass overview for a test participant
-*
-* Output of the test pass overview for a test participant
-*
-* @access public
-*/
-	function outResults()
-	{
-		$this->outResultsOverview();
-	}
-
-/**
-* Output of the learner overview for a varying random test
-*
-* Output of the learner overview for a varying random test
-*
-* @access public
-*/
-	function outResultsOverview()
-	{
-		global $ilUser;
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", "Modules/Test");
-		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_varying_results.html", "Modules/Test");
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		if (strcmp($this->ctrl->getCmd(), "outStatisticsResultsOverview") == 0)
-		{
-			$active_id = $_GET["active_id"];
-			$user_id = $this->object->_getUserIdFromActiveId($active_id);
-			if ($this->object->getNrOfTries() == 1)
-			{
-				$this->ctrl->setParameter($this, "active_id", $active_id);
-				$this->ctrl->setParameter($this, "pass", ilObjTest::_getResultPass($active_id));
-				$this->ctrl->redirect($this, "statisticsPassDetails");
-			}
-		}
-		else
-		{
-			$user_id = $ilUser->getId();
-			$active = $this->object->getActiveTestUser($user_id);
-			$active_id = $active->active_id;
-			if ($this->object->getNrOfTries() == 1)
-			{
-				$this->ctrl->setParameter($this, "active_id", $active_id);
-				$this->ctrl->setParameter($this, "pass", ilObjTest::_getResultPass($active_id));
-				$this->ctrl->redirect($this, "passDetails");
-			}
-		}
-		$counted_pass = ilObjTest::_getResultPass($active_id);
-		$reached_pass = $this->object->_getPass($active_id);
-		$result_percentage = 0;
-		$result_total_reached = 0;
-		$result_total_max = 0;
-		for ($pass = 0; $pass <= $reached_pass; $pass++)
-		{
-			$finishdate = $this->object->getPassFinishDate($active_id, $pass);
-			if ($finishdate > 0)
-			{
-				$result_array =& $this->object->getTestResult($active_id, $pass);
-				if (!$result_array["test"]["total_max_points"])
-				{
-					$percentage = 0;
-				}
-				else
-				{
-					$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
-				}
-				$total_max = $result_array["test"]["total_max_points"];
-				$total_reached = $result_array["test"]["total_reached_points"];
-				$this->tpl->setCurrentBlock("result_row");
-				if ($pass == $counted_pass)
-				{
-					$this->tpl->setVariable("COLOR_CLASS", "tblrowmarked");
-					$this->tpl->setVariable("VALUE_SCORED", "&otimes;");
-					$result_percentage = $percentage;
-					$result_total_reached = $total_reached;
-					$result_total_max = $total_max;
-				}
-				else
-				{
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
-				}
-				$this->tpl->setVariable("VALUE_PASS", $pass + 1);
-				$this->tpl->setVariable("VALUE_DATE", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($finishdate), "date"));
-				$this->tpl->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
-				$this->tpl->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
-				$this->tpl->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
-				if (strcmp($this->ctrl->getCmd(), "outStatisticsResultsOverview") == 0)
-				{
-					$this->ctrl->setParameterByClass(get_class($this), "active_id", $active_id);
-					$this->ctrl->setParameterByClass(get_class($this), "pass", $pass);
-					$this->tpl->setVariable("HREF_PASS_DETAILS", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "statisticsPassDetails")."&pass=$pass\">" . $this->lng->txt("tst_pass_details") . "</a>");
-				}
-				else
-				{
-					if ($this->object->canViewResults())
-					{
-						$this->tpl->setVariable("HREF_PASS_DETAILS", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "passDetails")."&pass=$pass\">" . $this->lng->txt("tst_pass_details") . "</a>");
-					}
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		$this->tpl->setCurrentBlock("results");
-		$this->tpl->setVariable("PASS_SCORED", $this->lng->txt("scored_pass"));
-		$this->tpl->setVariable("PASS_COUNTER", $this->lng->txt("pass"));
-		$this->tpl->setVariable("DATE", $this->lng->txt("date"));
-		$this->tpl->setVariable("ANSWERED_QUESTIONS", $this->lng->txt("tst_answered_questions"));
-		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
-		$this->tpl->setVariable("PERCENTAGE_CORRECT", $this->lng->txt("tst_percent_solved"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		if (strcmp($this->ctrl->getCmd(), "outStatisticsResultsOverview") == 0)
-		{
-			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_evaluation"));
-			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "evalAllUsers"));
-		}
-		else
-		{
-			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
-			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("iltestoutputgui", "outIntroductionPage"));
-		}
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("test_user_name");
-		if (strcmp($this->ctrl->getCmd(), "outStatisticsResultsOverview") == 0)
-		{
-			$uname = $this->object->userLookupFullName($user_id);
-		}
-		else
-		{
-			$uname = $this->object->userLookupFullName($user_id, TRUE);
-		}
-		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $uname));
-		$this->tpl->parseCurrentBlock();
-
-		if (strcmp($this->ctrl->getCmd(), "outStatisticsResultsOverview") != 0)
-		{
-			$result_pass = $this->object->_getResultPass($active_id);
-			$result_array =& $this->object->getTestResult($active_id, $result_pass);
-			$statement = $this->getFinalStatement($result_array["test"]);
-			$this->tpl->setVariable("USER_FEEDBACK", $statement);
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
 * Output of the learners view of an existing test pass
 *
 * Output of the learners view of an existing test pass
@@ -1563,316 +1386,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 /**
-* Output of the learners view of an existing test
-*
-* Output of the learners view of an existing test
-*
-* @access public
-*/
-	function outTestResults($print = false, $pass = NULL) 
-	{
-		global $ilUser;
-		
-		function sort_percent($a, $b) {
-			if (strcmp($_GET["order"], "ASC")) {
-				$smaller = 1;
-				$greater = -1;
-			} else {
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a["percent"] == $b["percent"]) {
-				if ($a["nr"] == $b["nr"]) return 0;
-		 	 	return ($a["nr"] < $b["nr"]) ? -1 : 1;
-			}
-			$apercent = 0.0;
-			if ($a["max"] != 0) 
-			{
-				$apercent = $a["reached"] / $a["max"];
-			}
-			$bpercent = 0.0;
-			if ($b["max"] != 0)
-			{
-				$bpercent = $b["reached"] / $b["max"];
-			}
-			return ($apercent < $bpercent) ? $smaller : $greater;
-		}
-
-		function sort_nr($a, $b) {
-			if (strcmp($_GET["order"], "ASC")) {
-				$smaller = 1;
-				$greater = -1;
-			} else {
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a["nr"] == $b["nr"]) return 0;
-			return ($a["nr"] < $b["nr"]) ? $smaller : $greater;
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", "Modules/Test");
-		if (strcmp($this->ctrl->getCmd(), "statisticsPassDetails") == 0)
-		{
-			$active_id = $_GET["active_id"];
-			$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		}
-		else
-		{
-			$user_id = $ilUser->getId();
-			$active = $this->object->getActiveTestUser($user_id);
-			$active_id = $active->active_id;
-		}
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_results.html", "Modules/Test");
-		$result_array =& $this->object->getTestResult($active_id, $pass);
-		
-		if (!$result_array["test"]["total_max_points"])
-		{
-			$percentage = 0;
-		}
-		else
-		{
-			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
-		}
-		$total_max = $result_array["test"]["total_max_points"];
-		$total_reached = $result_array["test"]["total_reached_points"];
-		$img_title_percent = "";
-		$img_title_nr = "";
-		switch ($_GET["sortres"]) {
-			case "percent":
-				usort($result_array, "sort_percent");
-				$img_title_percent = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) 
-				{
-					$sortpercent = "DESC";
-				} 
-				else 
-				{
-					$sortpercent = "ASC";
-				}
-				break;
-			case "nr":
-				usort($result_array, "sort_nr");
-				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) 
-				{
-					$sortnr = "DESC";
-				} 
-				else 
-				{
-					$sortnr = "ASC";
-				}
-				break;
-		}
-		if (!$sortpercent) {
-			$sortpercent = "ASC";
-		}
-		if (!$sortnr) {
-			$sortnr = "ASC";
-		}
-
-		foreach ($result_array as $key => $value) 
-		{
-			if (preg_match("/\d+/", $key)) {
-				$this->tpl->setCurrentBlock("question");
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				if (($this->object->getShowSolutionDetails() == 0) || (strcmp($this->ctrl->getCmd(), "statisticsPassDetails") == 0))
-				{
-					$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
-				}
-				else
-				{
-					$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "outEvaluationForm") . "&evaluation=" . $value["qid"] . "\">" . $value["title"] . "</a>");
-				}
-				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
-				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
-				if ((preg_match("/http/", $value["solution"])) || (preg_match("/goto/", $value["solution"])))
-				{
-					$this->tpl->setVariable("SOLUTION_HINT", "<a href=\"".$value["solution"]."\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
-				}
-				else
-				{
-					if ($value["solution"])
-					{
-						$this->tpl->setVariable("SOLUTION_HINT", $this->lng->txt($value["solution"]));
-					}
-					else
-					{
-						$this->tpl->setVariable("SOLUTION_HINT", "");
-					}
-				}
-				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-			}
-		}
-
-		$this->tpl->setCurrentBlock("footer");
-		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
-		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
-		$this->tpl->setVariable("SOLUTION_HINT", "");
-		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");
-		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached) . "</strong>");
-		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
-		$this->tpl->parseCurrentBlock();
-
-		if (($this->object->canShowSolutionPrintview($user_id))  || (strcmp($this->ctrl->getCmd(), "statisticsPassDetails") == 0))
-		{
-			// TODO: Maybe it is more useful to add a button "Show List of Answers" here as well
-			$counter = 1;
-			// output of questions with solutions
-			foreach ($result_array as $question_data)
-			{
-				$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/TestQuestionPool");
-				$question = $question_data["qid"];
-				if (is_numeric($question))
-				{
-					$this->tpl->setCurrentBlock("printview_question");
-					$question_gui = $this->object->createQuestionGUI("", $question);
-		
-					$template->setVariable("COUNTER_QUESTION", $counter.". ");
-					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-					
-					if (strcmp($this->ctrl->getCmd(), "statisticsPassDetails") == 0)
-					{
-						$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE);
-					}
-					else
-					{
-						$result_output = $question_gui->getSolutionOutput($active_id, $pass);
-					}
-					$template->setVariable("SOLUTION_OUTPUT", $result_output);
-					$this->tpl->setVariable("QUESTION_PRINTVIEW", $template->get());
-					$this->tpl->parseCurrentBlock();
-					$counter ++;
-				}
-			}
-			$this->tpl->setCurrentBlock("printview_details");
-			$this->tpl->setVariable("RESULTS_OVERVIEW", $this->lng->txt("tst_eval_results_by_pass"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("results");
-		$this->tpl->setVariable("QUESTION_COUNTER", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=nr&order=$sortnr\">" . $this->lng->txt("tst_question_no") . "</a>$img_title_nr");
-		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-		$this->tpl->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
-		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
-		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
-		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $this->ctrl->getLinkTargetByClass(get_class($this), "passDetails") . "&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		if (strcmp($this->ctrl->getCmd(), "statisticsPassDetails") == 0)
-		{
-			if ($this->object->getNrOfTries() == 1)
-			{
-				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_evaluation"));
-				$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "evalAllUsers"));
-			}
-			else
-			{
-				$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outStatisticsResultsOverview"));
-				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
-			}
-		}
-		else
-		{
-			if ($this->object->getNrOfTries() == 1)
-			{
-				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
-				$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("iltestoutputgui", "outIntroductionPage"));
-			}
-			else
-			{
-				$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outResultsOverview"));
-				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
-			}
-		}
-
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("test_user_name");
-		
-		if (strcmp($this->ctrl->getCmd(), "statisticsPassDetails") == 0)
-		{
-			$uname = $this->object->userLookupFullName($user_id);
-		}
-		else
-		{
-			$uname = $this->object->userLookupFullName($user_id, TRUE);
-		}
-		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-		$this->tpl->parseCurrentBlock();
-
-		if ((strcmp($this->ctrl->getCmd(), "statisticsPassDetails") != 0) &&
-			($this->object->getNrOfTries() == 1))
-		{
-			$statement = $this->getFinalStatement($result_array["test"]);
-			$this->tpl->setVariable("USER_FEEDBACK", $statement);
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	function outEvaluationForm()
-	{
-		global $ilUser;
-
-		$this->ctrl->saveParameter($this, "pass");
-		include_once("classes/class.ilObjStyleSheet.php");
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
-		$this->tpl->parseCurrentBlock();
-
-		// syntax style
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
-
-		$test_id = $this->object->getTestId();
-		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", "Modules/Test");
-		$this->tpl->setCurrentBlock("adm_content");
-		$active = $this->object->getActiveTestUser($ilUser->getId());
-		$result_output = $question_gui->getSolutionOutput($active->active_id, NULL, TRUE);
-		$best_output = $question_gui->getSolutionOutput("");
-		$this->tpl->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
-		$this->tpl->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
-		$maxpoints = $question_gui->object->getMaximumPoints();
-		if ($maxpoints == 1)
-		{
-			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle() . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
-		}
-		else
-		{
-			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle() . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
-		}
-		$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
-		$this->tpl->setVariable("BEST_OUTPUT", $best_output);
-		$this->tpl->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($active->active_id), $maxpoints));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-/**
-* Outputs all answers including the solutions for the active user
-*
-* Outputs all answers including the solutions for the active user
-*
-* @access public
-*/
-	function show_answers()
-	{
-		global $ilUser;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_answers_sheet_details.html", "Modules/Test");
-		$this->outShowAnswersDetails($ilUser->getId(), true);
-	}
-
-/**
 * Output of the results of the active learner
 *
 * Output of the results of the active learner
@@ -1896,122 +1409,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$template->parseCurrentBlock();
 		
 		$this->showListOfAnswers($active->active_id, NULL, $template->get());
-	}
-
-/**
-* Outputs all answers including the solutions for the active user (output of the detail part)
-*
-* Outputs all answers including the solutions for the active user (output of the detail part)
-*
-* @access public
-*/
-	function outShowAnswersDetails($user_id, $isForm = false) 
-	{
-		$active = $this->object->getActiveTestUser($user_id);
-		$t = $active->submittimestamp;
-		include_once "./classes/class.ilObjUser.php";
-		$ilUser = new ilObjUser($user_id);
-		
-		if (strlen($ilUser->getMatriculation()))
-		{
-			$this->tpl->setCurrentBlock("user_matric");
-			$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("user_matric_value");
-			$this->tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("user_matric_separator");
-		}
-
-		$invited_users = array_pop($this->object->getInvitedUsers($ilUser->getId()));
-		if (strlen($invited_users->clientip))
-		{
-			$this->tpl->setCurrentBlock("user_clientip");
-			$this->tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("matriculation"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("user_clientip_value");
-			$this->tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("user_clientip_separator");
-		}
-		
-		include_once "./classes/class.ilUtil.php";
-
-		// output of submit date and signature
-		if ($active->submitted)
-		{
-			// only display submit date when it exists (not in the summary but in the print form)
-			$this->tpl->setCurrentBlock("freefield_bottom");
-			$this->tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
-			$this->tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", ilUtil::date_mysql2time($t)));
-
-			$freefieldtypes = array(
-				"freefield_bottom" => array(
-					array(
-						"title" => $this->lng->txt("tst_signature"), 
-						"length" => 300
-					)
-				)
-			);
-
-			foreach ($freefieldtypes as $type => $freefields) 
-			{
-				$counter = 0;
-				while ($counter < count($freefields)) 
-				{
-					$freefield = $freefields[$counter];
-					$this->tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
-					$this->tpl->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.gif"));
-					$counter ++;
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$pass = NULL;
-		if ($this->object->isRandomTest())
-		{
-			$pass = $this->object->_getResultPass($active->active_id);
-			$this->object->loadQuestions($active->active_id, $pass);
-		}
-		$counter = 1;
-		// output of questions with solutions
-		foreach ($this->object->questions as $question) 
-		{
-			$this->tpl->setCurrentBlock("question");
-			$question_gui = $this->object->createQuestionGUI("", $question);
-
-			$this->tpl->setVariable("COUNTER_QUESTION", $counter.". ");
-			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-			
-			$active = $this->object->getActiveTestUser($ilUser->getId());
-			$result_output = $question_gui->getSolutionOutput($active->active_id, $pass);
-			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
-			$this->tpl->parseCurrentBlock();
-			$counter ++;
-		}
-
-		// output of submit buttons
-		if ($isForm && !$active->submitted) 
-		{
-			$this->tpl->setCurrentBlock("confirm");
-			$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("tst_submit_answers_txt"));
-			$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("back"));
-			$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_submit_answers"));
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("answer_sheet");
-		$this->tpl->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_answer_sheet"));
-		
-		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
-		$this->tpl->setVariable("VALUE_USR_NAME", $ilUser->getLastname().", ".$ilUser->getFirstname());
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -2148,234 +1545,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 /**
-	* Output of the learners view of an existing test without evaluation
-	*
-	* @access public
-	*/
-	function outTestSummary() 
-	{
-		global $ilUser;
-
-		// handle solved state
-		if (is_numeric($_GET["set_solved"]) && is_numeric($_GET["question_id"]))		 
-		{
-			$this->object->setQuestionSetSolved($_GET["set_solved"] , $_GET["question_id"], $ilUser->getId());
-		}
-			
-		function sort_title($a, $b) 
-		{
-			if (strcmp($_GET["order"], "ASC")) 
-			{
-				$smaller = 1;
-				$greater = -1;
-			} 
-			else 
-			{
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a["nr"] == $b["nr"]) return 0;
-			if (strcmp($a["title"],$b["title"])< 0)
-				return $smaller;
-			else if (strcmp($a["title"],$b["title"])> 0)
-				return $greater;
-			return 0;
-		}
-		
-		
-		function sort_nr($a, $b) 
-		{
-			if (strcmp($_GET["order"], "ASC")) 
-			{
-				$smaller = 1;
-				$greater = -1;
-			} 
-			else 
-			{
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a["nr"] == $b["nr"]) return 0;
-			return ($a["nr"] < $b["nr"]) ? $smaller : $greater;
-		}
-		
-		function sort_visited($a, $b) 
-		{
-			if (strcmp($_GET["order"], "ASC")) 
-			{
-				$smaller = 1;
-				$greater = -1;
-			} 
-			else 
-			{
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a["nr"] == $b["nr"]) 
-				return 0;
-			return ($a["visited"] < $b["visited"]) ? $smaller : $greater;
-		}
-
-		
-		function sort_solved($a, $b) 
-		{
-			if (strcmp($_GET["order"], "ASC")) 
-			{
-				$smaller = 1;
-				$greater = -1;
-			} 
-			else 
-			{
-				$smaller = -1;
-				$greater = 1;
-			}
-			if ($a["nr"] == $b["nr"]) return 0;
-			return ($a["solved"] < $b["solved"]) ? $smaller : $greater;
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_summary.html", "Modules/Test");
-		$user_id = $ilUser->id;
-		$active = $this->object->getActiveTestUser($ilUser->getId());
-		$color_class = array ("tblrow1", "tblrow2");
-		$counter = 0;
-		
-		$result_array = & $this->object->getTestSummary($active->active_id);
-		
-		$img_title_nr = "";
-		$img_title_title = "";
-		$img_title_solved = "";
-		
-		if (!$_GET["sort_summary"] )
-		{
-			$_GET["sort_summary"]  = "nr";
-			$_GET["order"] = "ASC";
-		} 
-		
-		switch ($_GET["sort_summary"]) 
-		{
-			case nr:
-				usort($result_array, "sort_nr");
-				$img_title_nr = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) 
-				{
-					$sortnr = "DESC";
-				} 
-				else 
-				{
-					$sortnr = "ASC";
-				}
-				break;			
-			
-			case "title":
-				usort($result_array, "sort_title");
-				$img_title_title = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) 
-				{
-					$sorttitle = "DESC";
-				} 
-				else 
-				{
-					$sorttitle = "ASC";
-				}
-				break;
-			case "solved":
-				usort($result_array, "sort_solved");
-				$img_title_solved = " <img src=\"" . ilUtil::getImagePath(strtolower($_GET["order"]) . "_order.gif") . "\" alt=\"".$this->lng->txt(strtolower($_GET["order"])."ending_order")."\" />";
-				if (strcmp($_GET["order"], "ASC") == 0) 
-				{
-					$sortsolved = "DESC";
-				} 
-				else 
-				{
-					$sortsolved = "ASC";
-				}
-				break;			
-		}
-		if (!$sorttitle) 
-		{
-			$sorttitle = "ASC";
-		}
-		if (!$sortsolved) 
-		{
-			$sortsolved = "ASC";
-		}
-		if (!$sortnr) 
-		{
-			$sortnr = "ASC";
-		}
-		
-		$img_solved = " <img border=\"0\"  align=\"middle\" src=\"" . ilUtil::getImagePath("solved.png", true) . "\" alt=\"".$this->lng->txt("tst_click_to_change_state")."\" />";
-		$img_not_solved = " <img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("not_solved.png", true) . "\" alt=\"".$this->lng->txt("tst_click_to_change_state")."\" />";
-		$goto_question =  " <img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("goto_question.png", true) . "\" alt=\"".$this->lng->txt("tst_qst_goto")."\" />";
-		
-		$disabled = $this->isMaxProcessingTimeReached() | $this->object->endingTimeReached();
-		
-		foreach ($result_array as $key => $value) 
-		{
-			if (preg_match("/\d+/", $key)) 
-			{
-				$this->tpl->setCurrentBlock("question");
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
-				$this->tpl->setVariable("VALUE_QUESTION_SOLVED", ($value["solved"] > 0) ?$img_solved : $img_not_solved);  
-				if (!$disabled)
-				{
-					$this->ctrl->setParameter($this, "sequence", $value["nr"]);
-					$this->tpl->setVariable("VALUE_QUESTION_HREF_GOTO", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">");
-					$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
-				}
-				$this->tpl->setVariable("VALUE_QUESTION_GOTO", $goto_question);
-				$solvedvalue = (($value["solved"]) ? "0" : "1");
-				$this->tpl->setVariable("VALUE_QUESTION_HREF_SET_SOLVED", $this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=".$_GET["order"]."&sort_summary=".$_GET["sort_summary"]."&set_solved=" . $solvedvalue."&question_id=".$value["qid"]);
-				$this->tpl->setVariable("VALUE_QUESTION_SET_SOLVED", ($value["solved"] > 0) ?$this->lng->txt("tst_qst_resetsolved"):$this->lng->txt("tst_qst_setsolved"));
-				$this->tpl->setVariable("VALUE_QUESTION_DESCRIPTION", $value["description"]);
-				$this->tpl->setVariable("VALUE_QUESTION_POINTS", $value["points"]."&nbsp;".$this->lng->txt("points_short"));
-				$this->tpl->parseCurrentBlock();
-				$counter ++;
-			}
-		}
-
-		if (!$disabled) 
-		{
-			$this->tpl->setCurrentBlock("back");
-			$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
-			$this->tpl->parseCurrentBlock();
-		} 
-		else 
-		{
-			sendinfo($this->lng->txt("detail_max_processing_time_reached"));
-		}
-		
-		$this->tpl->setVariable("QUESTION_ACTION","actions");
-		$this->tpl->setVariable("QUESTION_COUNTER","<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sortnr&sort_summary=nr\">".$this->lng->txt("tst_qst_order")."</a>".$img_title_nr);
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sorttitle&sort_summary=title\">".$this->lng->txt("tst_question_title")."</a>".$img_title_title);
-		$this->tpl->setVariable("QUESTION_SOLVED", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "outTestSummary")."&order=$sortsolved&sort_summary=solved\">".$this->lng->txt("tst_question_solved_state")."</a>".$img_title_solved);
-		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
-		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
-		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));	
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("question_summary"));		
-		
-		if ($this->object->getEnableProcessingTime())
-			$this->outProcessingTime();
-	}
-	
-	function finalSubmission()
-	{
-		global $ilias, $ilUser;
-		
-		$this->object->setActiveTestSubmitted($ilUser->getId());
-		$ilias->auth->setIdle($ilias->ini->readVariable("session","expire"), false);
-		$ilias->auth->setExpire(0);
-		$this->outIntroductionPage();
-	}
-	
-/**
-	* Output of a summary of all test questions for test participants
-	*
-	* @access public
-	*/
+* Output of a summary of all test questions for test participants
+*
+* @access public
+*/
 	function outQuestionSummary() 
 	{
 		global $ilUser;
@@ -2478,6 +1651,39 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->confirmFinishTest();
 	}
 	
+	/**
+	* Creates an output of the solution of an answer compared to the correct solution
+	*
+	* @access public
+	*/
+	function outCorrectSolution()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "Modules/Test");
+
+		include_once("classes/class.ilObjStyleSheet.php");
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$solution = $this->getCorrectSolutionOutput($_GET["evaluation"], $_GET["active_id"], $_GET["pass"]);
+		$this->tpl->setVariable("OUTPUT_SOLUTION", $solution);
+		$this->tpl->setVariable("TEXT_BACK", $this->lng->txt("back"));
+		$this->ctrl->saveParameter($this, "pass");
+		$this->ctrl->saveParameter($this, "active_id");
+		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "outUserPassDetails"));
+		$this->tpl->parseCurrentBlock();
+	}
+
 	/**
 	* Creates an output of the list of answers for test participant
 	*
@@ -2601,6 +1807,119 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("PAGETITLE", $pagetitle);
 	}
  
+/**
+* Output of the pass overview for a test called by a test participant
+*
+* Output of the pass overview for a test called by a test participant
+*
+* @access public
+*/
+	function outUserResultsOverview()
+	{
+		global $ilUser;
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_overview_participants.html", "Modules/Test");
+
+		$user_id = $ilUser->getId();
+		$active = $this->object->getActiveTestUser($user_id);
+		$active_id = $active->active_id;
+		if ($this->object->getNrOfTries() == 1)
+		{
+			$this->ctrl->setParameter($this, "active_id", $active_id);
+			$this->ctrl->setParameter($this, "pass", ilObjTest::_getResultPass($active_id));
+			$this->ctrl->redirect($this, "outUserPassDetails");
+		}
+
+		$overview = $this->getPassOverview($active_id, "iltestoutputgui", "outUserPassDetails");
+
+		$this->tpl->setVariable("PASS_OVERVIEW", $overview);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
+		$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
+		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
+		
+		$result_pass = $this->object->_getResultPass($active_id);
+		$result_array =& $this->object->getTestResult($active_id, $result_pass);
+		$statement = $this->getFinalStatement($result_array["test"]);
+		$user_data = $this->getResultsUserdata($user_id, TRUE);
+		$this->tpl->setVariable("USER_DATA", $user_data);
+		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("tst_results_overview"));
+		$this->tpl->setVariable("USER_FEEDBACK", $statement);
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
+* Output of the pass details of an existing test pass for the active test participant
+*
+* Output of the pass details of an existing test pass for the active test participant
+*
+* @access public
+*/
+	function outUserPassDetails()
+	{
+		$this->ctrl->saveParameter($this, "pass");
+		$this->ctrl->saveParameter($this, "active_id");
+		$active_id = $_GET["active_id"];
+		$pass = $_GET["pass"];
+		$result_array =& $this->object->getTestResult($active_id, $pass);
+
+		$command_solution_details = "";
+		if ($this->object->getShowSolutionDetails())
+		{
+			$command_solution_details = "outCorrectSolution";
+		}
+		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestoutputgui", "outUserPassDetails", $command_solution_details);
+
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_details_overview_participants.html", "Modules/Test");
+
+		if ($this->object->getNrOfTries() == 1)
+		{
+			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
+			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outUserResultsOverview"));
+			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
+		}
+
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("test_user_name");
+		
+		$uname = $this->object->userLookupFullName($user_id, TRUE);
+		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
+		$this->tpl->parseCurrentBlock();
+
+		if ($this->object->getNrOfTries() == 1)
+		{
+			$statement = $this->getFinalStatement($result_array["test"]);
+			$this->tpl->setVariable("USER_FEEDBACK", $statement);
+		}
+		
+		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("PASS_DETAILS", $overview);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+	}
+
 /**
 * Output of the pass overview for a test called from the statistics
 *
