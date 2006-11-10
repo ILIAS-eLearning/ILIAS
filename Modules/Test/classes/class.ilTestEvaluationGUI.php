@@ -1091,22 +1091,29 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirect($this, "statisticsPassDetails");
 		}
 
-		$this->tpl->setCurrentBlock("test_user_name");
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		$uname = $this->object->userLookupFullName($user_id);
-		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $uname));
-		$this->tpl->parseCurrentBlock();
-
 		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "statisticsPassDetails");
 
 		$this->tpl->setVariable("PASS_OVERVIEW", $overview);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_evaluation"));
 		$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "evalAllUsers"));
+		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
 		
-		$statement = $this->getFinalStatement($result_percentage, $result_total_reached, $result_total_max);
+		$result_pass = $this->object->_getResultPass($active_id);
+		$result_array =& $this->object->getTestResult($active_id, $result_pass);
+		$statement = $this->getFinalStatement($result_array["test"]);
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
+		$user_data = $this->getResultsUserdata($user_id);
+		$this->tpl->setVariable("USER_DATA", $user_data);
+		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("tst_results_overview"));
 		$this->tpl->setVariable("USER_FEEDBACK", $statement);
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -1145,21 +1152,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("test_user_name");
 		
-		if (strcmp($this->ctrl->getCmd(), "statisticsPassDetails") == 0)
-		{
-			$uname = $this->object->userLookupFullName($user_id);
-		}
-		else
-		{
-			$uname = $this->object->userLookupFullName($user_id, TRUE);
-		}
+		$uname = $this->object->userLookupFullName($user_id);
 		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 		$this->tpl->parseCurrentBlock();
 
-		if ((strcmp($this->ctrl->getCmd(), "statisticsPassDetails") != 0) &&
-			($this->object->getNrOfTries() == 1))
+		if ($this->object->getNrOfTries() == 1)
 		{
-			$statement = $this->getFinalStatement($percentage, $total_reached, $total_max);
+			$statement = $this->getFinalStatement($result_array["test"]);
 			$this->tpl->setVariable("USER_FEEDBACK", $statement);
 		}
 		
@@ -1170,6 +1169,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("PASS_DETAILS", $overview);
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 	}
 }

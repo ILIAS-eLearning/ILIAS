@@ -192,8 +192,22 @@ class ilTestServiceGUI
 * @return string HTML code of the final statement
 * @access public
 */
-	function getFinalStatement($result_percentage, $result_total_reached, $result_total_max)
+	function getFinalStatement(&$test_data_array)
 	{
+		if (!$test_data_array["total_max_points"])
+		{
+			$percentage = 0;
+		}
+		else
+		{
+			$percentage = ($test_data_array["total_reached_points"]/$test_data_array["total_max_points"])*100;
+		}
+		$total_max = $test_data_array["total_max_points"];
+		$total_reached = $test_data_array["total_reached_points"];
+		$result_percentage = $percentage;
+		$result_total_reached = $total_reached;
+		$result_total_max = $total_max;
+
 		$mark = "";
 		$mark_obj = $this->object->mark_schema->getMatchingMark($result_percentage);
 		if ($mark_obj)
@@ -469,6 +483,59 @@ class ilTestServiceGUI
 		$template->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 		$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 
+		return $template->get();
+	}
+
+/**
+* Returns the user data for a test results output
+*
+* Returns the user data for a test results output
+*
+* @param integer $user_id The user ID of the user
+* @param boolean $overwrite_anonymity TRUE if the anonymity status should be overwritten, FALSE otherwise
+* @return string HTML code of the user data for the test results
+* @access public
+*/
+	function getResultsUserdata($user_id, $overwrite_anonymity = FALSE)
+	{
+		$template = new ilTemplate("tpl.il_as_tst_results_userdata.html", TRUE, TRUE, "Modules/Test");
+		include_once "./classes/class.ilObjUser.php";
+		$user = new ilObjUser($user_id);
+		$active = $this->object->getActiveTestUser($user_id);
+		$t = $active->submittimestamp;
+		if (!$t)
+		{
+			$this->object->_getLastAccess($active->active_Id);
+		}
+		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
+
+		$title_matric = "";
+		if (strlen($user->getMatriculation()) && (($this->object->getAnonymity() == FALSE) || ($overwrite_anonymity)))
+		{
+			$template->setCurrentBlock("user_matric");
+			$template->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("user_matric_value");
+			$template->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
+			$template->parseCurrentBlock();
+			$template->touchBlock("user_matric_separator");
+			$title_matric = " - " . $this->lng->txt("matriculation") . ": " . $user->getMatriculation();
+		}
+
+		$template->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
+		$template->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
+		$template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
+		$uname = $this->object->userLookupFullName($user_id, $overwrite_anonymity);
+		$template->setVariable("VALUE_USR_NAME", $uname);
+		$template->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));
+		$template->setVariable("VALUE_TEST_DATE", strftime("%Y-%m-%d %H:%M:%S",ilUtil::date_mysql2time($t)));
+		$template->setVariable("TXT_PRINT_DATE", $this->lng->txt("tst_print_date"));
+		$template->setVariable("VALUE_PRINT_DATE", strftime("%Y-%m-%d %H:%M:%S",$print_date));
+		
+		// change the pagetitle
+		$pagetitle = ": " . $this->object->getTitle() . $title_matric;
+		$this->tpl->setHeaderPageTitle($pagetitle);
+		
 		return $template->get();
 	}
 }
