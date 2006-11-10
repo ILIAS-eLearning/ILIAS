@@ -1,0 +1,13 @@
+<form name="formManualScoring" action="{FORMACTION}" method="post">
+<p>
+{TEXT_SELECT_USER}: 
+	<select name="participants" id="participants">
+		<option value="0">{PLEASE_SELECT}</option>
+<!-- BEGIN participants -->
+		<option value="{ID_PARTICIPANT}"{SELECTED_PARTICIPANT}>{TEXT_PARTICIPANT}</option>
+<!-- END participants -->
+	</select>
+	<input type="submit" class="submit" name="cmd[selectParticipant]" value="{BUTTON_SELECT}" />
+</p>
+{PASS_OVERVIEW}
+</form>

@@ -32,6 +32,7 @@
 * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestCertificateGUI
+* @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTest
@@ -113,6 +114,12 @@ class ilObjTestGUI extends ilObjectGUI
 			case "iltestcertificategui":
 				include_once "./Modules/Test/classes/class.ilTestCertificateGUI.php";
 				$output_gui = new ilTestCertificateGUI($this->object);
+				$this->ctrl->forwardCommand($output_gui);
+				break;
+
+			case "iltestscoringgui":
+				include_once "./Modules/Test/classes/class.ilTestScoringGUI.php";
+				$output_gui = new ilTestScoringGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
@@ -4009,8 +4016,8 @@ class ilObjTestGUI extends ilObjectGUI
 		switch($a_type)
 		{
 			case "iv_usr":
-				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
-				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
+				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
+				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
@@ -4076,8 +4083,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "iv_participants":
-				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
-				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
+				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
+				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
@@ -4102,6 +4109,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$last_access = $this->lng->txt("not_yet_accessed");
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
 					}
+					$this->ctrl->setParameter($this, "usr_id", $data->usr_id);
 					if ($data->test_started)
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_ANSWER_SHEET", $this->lng->txt("tst_show_answer_sheet"));
@@ -4140,7 +4148,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "usr":
-				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("right.png", true) . "\" alt=\"".$this->lng->txt("objs_usr")."\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
+				$finished = "<a target=\"_BLANK\" href=\"".$this->ctrl->getLinkTarget($this, "participants")."\"><img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" />&nbsp;".$this->lng->txt("tst_qst_result_sheet")."</a>" ;
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
@@ -5074,7 +5082,13 @@ class ilObjTestGUI extends ilObjectGUI
 					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile",
 					 "print"),
 					 "");
-		
+
+				// scoring tab
+				$tabs_gui->addTarget("manscoring",
+					 $this->ctrl->getLinkTargetByClass("iltestscoringgui", "manscoring"),
+					 array("manscoring", "selectParticipant"),
+					 "");
+
 				// statistics tab
 				$tabs_gui->addTarget("statistics",
 					 $this->ctrl->getLinkTarget($this, "evalAllUsers"),

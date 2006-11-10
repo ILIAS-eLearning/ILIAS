@@ -22,6 +22,7 @@
 */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 
 /**
 * Output class for assessment test execution
@@ -33,15 +34,11 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup ModulesTest
+* @extends ilTestServiceGUI
 */
-class ilTestOutputGUI
+class ilTestOutputGUI extends ilTestServiceGUI
 {
-	var $object;
-	var $lng;
-	var $tpl;
-	var $ctrl;
-	var $ilias;
-	var $tree;
+	var $ref_id;
 
 	var $saveResult;
 	var $sequence;
@@ -60,14 +57,7 @@ class ilTestOutputGUI
 */
   function ilTestOutputGUI($a_object)
   {
-		global $lng, $tpl, $ilCtrl, $ilias, $tree;
-
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->ilias =& $ilias;
-		$this->object =& $a_object;
-		$this->tree =& $tree;
+		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
 	}
 	
@@ -90,18 +80,6 @@ class ilTestOutputGUI
 		return $ret;
 	}
 
-/**
-* Retrieves the ilCtrl command
-*
-* Retrieves the ilCtrl command
-*
-* @access public
-*/
-	function getCommand($cmd)
-	{
-		return $cmd;
-	}
-	
 	/**
 	 * updates working time and stores state saveresult to see if question has to be stored or not
 	 */
@@ -1396,18 +1374,6 @@ class ilTestOutputGUI
 	}
 	
 /**
-* Output of the pass overview for a test called from the statistics
-*
-* Output of the pass overview for a test called from the statistics
-*
-* @access public
-*/
-	function outStatisticsResultsOverview()
-	{
-		$this->outResultsOverview();
-	}
-	
-/**
 * Output of the test pass overview for a test participant
 *
 * Output of the test pass overview for a test participant
@@ -1419,29 +1385,6 @@ class ilTestOutputGUI
 		$this->outResultsOverview();
 	}
 
-	function outFinalStatement($result_percentage, $result_total_reached, $result_total_max)
-	{
-		$mark_obj = $this->object->mark_schema->getMatchingMark($result_percentage);
-		if ($mark_obj)
-		{
-			if ($mark_obj->getPassed()) 
-			{
-				$mark = $this->lng->txt("tst_result_congratulations");
-			} 
-			else 
-			{
-				$mark = $this->lng->txt("tst_result_sorry");
-			}
-			$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->getOfficialName() . "&quot;";
-		}
-		if ($this->object->ects_output)
-		{
-			$ects_mark = $this->object->getECTSGrade($result_total_reached, $result_total_max);
-			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
-		}
-		$this->tpl->setVariable("USER_FEEDBACK", $mark);
-	}
-	
 /**
 * Output of the learner overview for a varying random test
 *
@@ -1569,24 +1512,13 @@ class ilTestOutputGUI
 
 		if (strcmp($this->ctrl->getCmd(), "outStatisticsResultsOverview") != 0)
 		{
-			$this->outFinalStatement($result_percentage, $result_total_reached, $result_total_max);
+			$statement = $this->getFinalStatement($result_percentage, $result_total_reached, $result_total_max);
+			$this->tpl->setVariable("USER_FEEDBACK", $statement);
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Output of the learners view of an existing test pass for the test statistics
-*
-* Output of the learners view of an existing test pass for the test statistics
-*
-* @access public
-*/
-	function statisticsPassDetails()
-	{
-		$this->passDetails();
 	}
 	
 /**
@@ -1791,7 +1723,7 @@ class ilTestOutputGUI
 			// output of questions with solutions
 			foreach ($result_array as $question_data)
 			{
-				$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/Test");
+				$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/TestQuestionPool");
 				$question = $question_data["qid"];
 				if (is_numeric($question))
 				{
@@ -1873,7 +1805,8 @@ class ilTestOutputGUI
 		if ((strcmp($this->ctrl->getCmd(), "statisticsPassDetails") != 0) &&
 			($this->object->getNrOfTries() == 1))
 		{
-			$this->outFinalStatement($percentage, $total_reached, $total_max);
+			$statement = $this->getFinalStatement($percentage, $total_reached, $total_max);
+			$this->tpl->setVariable("USER_FEEDBACK", $statement);
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
@@ -2638,7 +2571,7 @@ class ilTestOutputGUI
 			{
 				$this->tpl->setCurrentBlock("printview_question");
 				$question_gui = $this->object->createQuestionGUI("", $question);
-				$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/Test");
+				$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/TestQuestionPool");
 				$template->setVariable("COUNTER_QUESTION", $counter.". ");
 				$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 				

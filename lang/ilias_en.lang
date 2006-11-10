@@ -385,6 +385,8 @@ assessment#:#log_user_data_removed#:#Removed all user data
 assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#maintenance#:#Maintenance
+assessment#:#manscoring#:#Manual Scoring
+assessment#:#manscoring_select_user#:#Please select a participant to set the score manually
 assessment#:#mark_schema#:#Mark Schema
 assessment#:#match_terms_and_definitions#:#Match Terms and Definitions
 assessment#:#match_terms_and_pictures#:#Match Terms and Pictures

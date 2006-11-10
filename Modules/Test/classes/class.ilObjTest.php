@@ -3734,7 +3734,10 @@ class ilObjTest extends ilObject
 		{
 			$this->loadQuestions($active_id, $pass);
 		}
-		
+		if (is_null($pass))
+		{
+			$pass = $this->_getPass($active_id);
+		}
 		$key = 1;
 		$result_array = array();
 
@@ -7909,18 +7912,25 @@ class ilObjTest extends ilObject
 	* @return string The full name of the user or UNKNOWN if the anonymity status is affected
 	* @access public
 	*/
-	function userLookupFullName($user_id, $overwrite_anonymity = FALSE)
+	function userLookupFullName($user_id, $overwrite_anonymity = FALSE, $sorted_order = FALSE, $suffix = "")
 	{
 		if ($this->getAnonymity() && !$overwrite_anonymity)
 		{
-			return $this->lng->txt("unknown");
+			return $this->lng->txt("unknown") . $suffix;
 		}
 		else
 		{
 			include_once "./classes/class.ilObjUser.php";
 			$uname = ilObjUser::_lookupName($user_id);
 			if (strlen($uname["firstname"].$uname["lastname"]) == 0) $uname["firstname"] = $this->lng->txt("deleted_user");
-			return trim($uname["firstname"] . " " . $uname["lastname"]);
+			if ($sorted_order)
+			{
+				return trim($uname["lastname"] . ", " . $uname["firstname"]) .  $suffix;
+			}
+			else
+			{
+				return trim($uname["firstname"] . " " . $uname["lastname"]) .  $suffix;
+			}
 		}
 	}
 
@@ -7950,6 +7960,7 @@ class ilObjTest extends ilObject
 			return $this->lng->txt("tst_start_test");
 		}
 	}
+
 } // END class.ilObjTest
 
 ?>

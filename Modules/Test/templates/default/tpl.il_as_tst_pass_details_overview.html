@@ -1,0 +1,47 @@
+<table class="fullwidth">
+<thead>
+	<tr class="tblheader">
+<!-- BEGIN question_counter_url -->
+		<th class="std"><a href="{URL_QUESTION_COUNTER}">{QUESTION_COUNTER}</a></th>
+<!-- END question_counter_url -->
+<!-- BEGIN question_counter_plain -->
+		<th class="std">{QUESTION_COUNTER}</th>
+<!-- END question_counter_plain -->
+		<th class="std">{QUESTION_TITLE}</th>
+		<th class="std">{MAX_POINTS}</th>
+		<th class="std">{REACHED_POINTS}</th>
+<!-- BEGIN percent_url -->
+		<th class="std"><a href="{URL_PERCENT_SOLVED}">{PERCENT_SOLVED}</a></th>
+<!-- END percent_url -->
+<!-- BEGIN percent_plain -->
+		<th class="std">{PERCENT_SOLVED}</th>
+<!-- END percent_plain -->
+		<th class="std">{SOLUTION_HINT_HEADER}</th>
+	</tr>
+</thead>
+<!-- BEGIN question -->
+<tr>
+<td class="{COLOR_CLASS}">{VALUE_QUESTION_COUNTER}</td>
+<!-- BEGIN linked_title -->
+<td class="{COLOR_CLASS}"><a href="{URL_QUESTION_TITLE}">{VALUE_QUESTION_TITLE}</a></td>
+<!-- END linked_title -->
+<!-- BEGIN plain_title -->
+<td class="{COLOR_CLASS}">{VALUE_QUESTION_TITLE}</td>
+<!-- END plain_title -->
+<td class="{COLOR_CLASS}">{VALUE_MAX_POINTS}</td>
+<td class="{COLOR_CLASS}">{VALUE_REACHED_POINTS}</td>
+<td class="{COLOR_CLASS}">{VALUE_PERCENT_SOLVED}</td>
+<td class="{COLOR_CLASS}">{SOLUTION_HINT}</td>
+</tr>
+<!-- END question --> 
+<!-- BEGIN footer -->
+<tr class="tblfooter">
+<td>{VALUE_QUESTION_COUNTER}</td>
+<td>{VALUE_QUESTION_TITLE}</td>
+<td>{VALUE_MAX_POINTS}</td>
+<td>{VALUE_REACHED_POINTS}</td>
+<td>{VALUE_PERCENT_SOLVED}</td>
+<td>{SOLUTION_HINT}</td>
+</tr>
+<!-- END footer --> 
+</table>

@@ -22,6 +22,7 @@
 */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 
 /**
 * Output class for assessment test evaluation
@@ -33,16 +34,10 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup ModulesTest
+* @extends ilTestServiceGUI
 */
-class ilTestEvaluationGUI
+class ilTestEvaluationGUI extends ilTestServiceGUI
 {
-	var $object;
-	var $lng;
-	var $tpl;
-	var $ctrl;
-	var $ilias;
-	var $tree;
-	
 /**
 * ilTestEvaluationGUI constructor
 *
@@ -54,46 +49,9 @@ class ilTestEvaluationGUI
 */
   function ilTestEvaluationGUI($a_object)
   {
-		global $lng, $tpl, $ilCtrl, $ilias, $tree;
-
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->ilias =& $ilias;
-		$this->object =& $a_object;
-		$this->tree =& $tree;
+		parent::ilTestServiceGUI($a_object);
 	}
 	
-	/**
-	* execute command
-	*/
-	function &executeCommand()
-	{
-		$cmd = $this->ctrl->getCmd();
-		$next_class = $this->ctrl->getNextClass($this);
-
-		$cmd = $this->getCommand($cmd);
-		switch($next_class)
-		{
-			default:
-				$ret =& $this->$cmd();
-				break;
-		}
-		return $ret;
-	}
-
-/**
-* Retrieves the ilCtrl command
-*
-* Retrieves the ilCtrl command
-*
-* @access public
-*/
-	function getCommand($cmd)
-	{
-		return $cmd;
-	}
-
 	/**
 	* Creates the output of a users text answer
 	*
@@ -572,8 +530,7 @@ class ilTestEvaluationGUI
 				$username = $selected_users[$key];
 			}
 			array_push($evalrow, array(
-				"html" => "<a href=\"".$this->ctrl->getLinkTargetByClass("iltestoutputgui", "outStatisticsResultsOverview")."&active_id=$key\">$username</a>",
-				// "html" => "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "evalUserDetail")."&active_id=$key\">$username</a>",
+				"html" => "<a href=\"".$this->ctrl->getLinkTarget($this, "outStatisticsResultsOverview")."&active_id=$key\">$username</a>",
 				"xls"  => $username,
 				"csv"  => $username
 			));
@@ -1110,6 +1067,109 @@ class ilTestEvaluationGUI
 		$this->tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
+* Output of the pass overview for a test called from the statistics
+*
+* Output of the pass overview for a test called from the statistics
+*
+* @access public
+*/
+	function outStatisticsResultsOverview()
+	{
+		global $ilUser;
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_overview_statistics.html", "Modules/Test");
+
+		$active_id = $_GET["active_id"];
+		if ($this->object->getNrOfTries() == 1)
+		{
+			$this->ctrl->setParameter($this, "active_id", $active_id);
+			$this->ctrl->setParameter($this, "pass", ilObjTest::_getResultPass($active_id));
+			$this->ctrl->redirect($this, "statisticsPassDetails");
+		}
+
+		$this->tpl->setCurrentBlock("test_user_name");
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
+		$uname = $this->object->userLookupFullName($user_id);
+		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name"), $uname));
+		$this->tpl->parseCurrentBlock();
+
+		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "statisticsPassDetails");
+
+		$this->tpl->setVariable("PASS_OVERVIEW", $overview);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_evaluation"));
+		$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "evalAllUsers"));
+		
+		$statement = $this->getFinalStatement($result_percentage, $result_total_reached, $result_total_max);
+		$this->tpl->setVariable("USER_FEEDBACK", $statement);
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
+* Output of the pass details of an existing test pass for the test statistics
+*
+* Output of the pass details of an existing test pass for the test statistics
+*
+* @access public
+*/
+	function statisticsPassDetails()
+	{
+		$this->ctrl->saveParameter($this, "pass");
+		$this->ctrl->saveParameter($this, "active_id");
+		$active_id = $_GET["active_id"];
+		$pass = $_GET["pass"];
+		$result_array =& $this->object->getTestResult($active_id, $pass);
+
+		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "statisticsPassDetails");
+
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_details_overview_statistics.html", "Modules/Test");
+
+		if ($this->object->getNrOfTries() == 1)
+		{
+			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_evaluation"));
+			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "evalAllUsers"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outStatisticsResultsOverview"));
+			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
+		}
+
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("test_user_name");
+		
+		if (strcmp($this->ctrl->getCmd(), "statisticsPassDetails") == 0)
+		{
+			$uname = $this->object->userLookupFullName($user_id);
+		}
+		else
+		{
+			$uname = $this->object->userLookupFullName($user_id, TRUE);
+		}
+		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
+		$this->tpl->parseCurrentBlock();
+
+		if ((strcmp($this->ctrl->getCmd(), "statisticsPassDetails") != 0) &&
+			($this->object->getNrOfTries() == 1))
+		{
+			$statement = $this->getFinalStatement($percentage, $total_reached, $total_max);
+			$this->tpl->setVariable("USER_FEEDBACK", $statement);
+		}
+		
+		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, TRUE);
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("PASS_DETAILS", $overview);
 		$this->tpl->parseCurrentBlock();
 	}
 }
