@@ -151,7 +151,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$frm_loc->setForum($frm);
 	$frm_loc->setThread($_GET["thr_pk"], $threadData["thr_subject"]);
 	$frm_loc->display();
-
+                                                                 
 	// set tabs
 	// display different buttons depending on viewmode
 
@@ -449,10 +449,16 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 					if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
 					{
-						$tpl->setCurrentBlock("notify");
-						$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
-						$tpl->setVariable("NOTIFY_CHECKED",$node["notify"] ? "checked=\"checked\"" : "");
-						$tpl->parseCurrentBlock();
+						global $ilUser;
+						
+						// only if gen. notification is disabled...
+						if(!$frm->isNotificationEnabled($ilUser->getId(), $_GET["thr_pk"]))
+						{
+							$tpl->setCurrentBlock("notify");
+							$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
+							$tpl->setVariable("NOTIFY_CHECKED",$node["notify"] ? "checked=\"checked\"" : "");
+							$tpl->parseCurrentBlock();
+						}
 					}
 
 /*					if ($frm->isAnonymized())

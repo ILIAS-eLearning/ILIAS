@@ -84,13 +84,13 @@ if ($_GET["cmd"] == "newthread")
 	);
 
 	$errors = ilUtil::checkFormEmpty($checkEmptyFields);
-	
 	if ($errors != "")
 	{
 		sendInfo($lng->txt("form_empty_fields")." ".$errors);
 	}
 	else
-	{		
+	{	
+		
 		// build new thread
 		$newPost = $frm->generateThread($topicData["top_pk"], $_SESSION["AccountId"], 
 			ilUtil::stripSlashes($formData["subject"]), ilUtil::stripSlashes($formData["message"]),$formData["notify"],$formData["notify_posts"],$formData["anonymize"]);
@@ -135,10 +135,13 @@ if ($rbacsystem->checkAccess("mail_visible",$umail->getMailObjectReferenceId()))
 	$tpl->setVariable("TXT_NOTIFY",$lng->txt("forum_direct_notification"));
 	$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me_directly"));
 	$tpl->parseCurrentBlock();
-	$tpl->setCurrentBlock("notify_posts");
-	$tpl->setVariable("TXT_NOTIFY_POSTS",$lng->txt("forum_general_notification"));
-	$tpl->setVariable("NOTIFY_POSTS",$lng->txt("forum_notify_me_generally"));
-	$tpl->parseCurrentBlock();
+	if ($ilias->getSetting("forum_notification") != 0)
+	{
+		$tpl->setCurrentBlock("notify_posts");
+		$tpl->setVariable("TXT_NOTIFY_POSTS",$lng->txt("forum_general_notification"));
+		$tpl->setVariable("NOTIFY_POSTS",$lng->txt("forum_notify_me_generally"));
+		$tpl->parseCurrentBlock();
+	}
 }
 /*if ($frm->isAnonymized())
 {
