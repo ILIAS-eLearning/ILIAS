@@ -4046,10 +4046,9 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->ctrl->setParameter($this, "usr_id", $data->usr_id);
 					if ($data->test_started)
 					{
-						$this->tpl->setVariable("VALUE_TST_SHOW_ANSWER_SHEET", $this->lng->txt("tst_show_answer_sheet"));
-						$this->tpl->setVariable("URL_TST_SHOW_ANSWER_SHEET", $this->ctrl->getLinkTarget($this, "showAnswers"));
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
-						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTarget($this, "showResults"));
+						$this->ctrl->setParameterByClass("iltestoutputgui", "active_id", $data->active_id);
+						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestoutputgui", "outParticipantsResultsOverview"));
 					}
 					$counter++;
 					$this->tpl->parseCurrentBlock();
@@ -4112,10 +4111,9 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->ctrl->setParameter($this, "usr_id", $data->usr_id);
 					if ($data->test_started)
 					{
-						$this->tpl->setVariable("VALUE_TST_SHOW_ANSWER_SHEET", $this->lng->txt("tst_show_answer_sheet"));
-						$this->tpl->setVariable("URL_TST_SHOW_ANSWER_SHEET", $this->ctrl->getLinkTarget($this, "showAnswers"));
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
-						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTarget($this, "showResults"));
+						$this->ctrl->setParameterByClass("iltestoutputgui", "active_id", $data->active_id);
+						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestoutputgui", "outParticipantsResultsOverview"));
 					}
 					$counter++;
 					$this->tpl->parseCurrentBlock();
@@ -4863,7 +4861,8 @@ class ilObjTestGUI extends ilObjectGUI
 			array("participants", "saveFixedParticipantsStatus",
 				"showParticipantAnswersForAuthor", "showResults",
 				"deleteAllUserData", "confirmDeleteAllUserData",
-				"cancelDeleteAllUserData", "deleteSingleUserResults"
+				"cancelDeleteAllUserData", "deleteSingleUserResults",
+				"outParticipantsResultsOverview", "outParticipantsPassDetails"
 			),
 			"", "");
 	
@@ -4969,6 +4968,8 @@ class ilObjTestGUI extends ilObjectGUI
 			case "inviteParticipants":
 			case "participants":
 			case "showResults":
+			case "outParticipantsPassDetails":
+			case "outParticipantsResultsOverview":
 			case "deleteAllUserData":
 			case "confirmDeleteAllUserData":
 			case "cancelDeleteAllUserData":
@@ -5072,7 +5073,8 @@ class ilObjTestGUI extends ilObjectGUI
 					 "removeParticipant", "showAnswers", "showResults", "inviteParticipants",
 					 "saveFixedParticipantsStatus", "showParticipantAnswersForAuthor",
 					 "deleteAllUserData", "confirmDeleteAllUserData",
-					 "cancelDeleteAllUserData", "deleteSingleUserResults"), 
+					 "cancelDeleteAllUserData", "deleteSingleUserResults",
+					 "outParticipantsResultsOverview", "outParticipantsPassDetails"), 
 					 "");
 
 				// output tab
