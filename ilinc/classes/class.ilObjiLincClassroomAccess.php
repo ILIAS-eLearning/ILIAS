@@ -87,7 +87,7 @@ class ilObjiLincClassroomAccess extends ilObjectAccess
 
 			case "write":
 			case "delete":
-				if(!$rbacsystem->checkAccessOfUser($user_id,'create',$a_ref_id,"ilca"))
+				if(!$rbacsystem->checkAccessOfUser($user_id,'write',$a_ref_id,"ilca"))
 				{
 					return false;
 				}	
