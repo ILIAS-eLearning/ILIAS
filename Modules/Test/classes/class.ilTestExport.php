@@ -26,7 +26,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 /**
 * Export class for tests
 *
-* @author Alex Killing <alex.killing@gmx.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 * @ingroup ModulesTest
