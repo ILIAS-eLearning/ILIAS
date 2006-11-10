@@ -538,6 +538,45 @@ class ilTestServiceGUI
 		
 		return $template->get();
 	}
+
+	/**
+	* Returns an output of the solution to an answer compared to the correct solution
+	*
+	* Returns an output of the solution to an answer compared to the correct solution
+	*
+	* @param integer $question_id Database ID of the question
+	* @return string HTML code of the correct solution comparison
+	* @access public
+	*/
+	function getCorrectSolutionOutput($question_id, $active_id, $pass)
+	{
+		global $ilUser;
+
+		$test_id = $this->object->getTestId();
+		$question_gui = $this->object->createQuestionGUI("", $question_id);
+
+		$template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", TRUE, TRUE, "Modules/Test");
+		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE);
+		$best_output = $question_gui->getSolutionOutput("");
+		$template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
+		$template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
+		$maxpoints = $question_gui->object->getMaximumPoints();
+		if ($maxpoints == 1)
+		{
+			$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle() . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
+		}
+		else
+		{
+			$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle() . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+		}
+		$template->setVariable("SOLUTION_OUTPUT", $result_output);
+		$template->setVariable("BEST_OUTPUT", $best_output);
+		$template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($active->active_id), $maxpoints));
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
+		return $template->get();
+	}
+
 }
 
 ?>

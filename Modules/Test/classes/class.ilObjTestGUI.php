@@ -4415,19 +4415,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("PAGETITLE", $pagetitle);
 	}
 
-/**
-* Output of the results of selected learners
-*
-* Output of the results of selected learners
-*
-* @access public
-*/
-	function showAnswersObject()
-	{
-		$this->ctrl->setParameterByClass("iltestoutputgui", "usr_id", $_GET["usr_id"]);
-		$this->ctrl->redirectByClass("iltestoutputgui", "showParticipantAnswersForAuthor");
-	}
-
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -4572,7 +4559,7 @@ class ilObjTestGUI extends ilObjectGUI
 					// test results button
 					if ($this->object->canShowTestResults($ilUser->getId())) 
 					{
-						$info->addFormButton("outResults", $this->lng->txt("tst_show_results"));
+						$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
 					}
 				}
 			}
@@ -4728,10 +4715,10 @@ class ilObjTestGUI extends ilObjectGUI
 			case "next":
 			case "summary":
 			case "finishTest":
-			case "outEvaluationForm":
+			case "outCorrectSolution":
 			case "passDetails":
 			case "showAnswersOfUser":
-			case "outResults":
+			case "outUserResultsOverview":
 			case "backFromSummary":
 			case "show_answers":
 			case "setsolved":
@@ -4744,7 +4731,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "finalSubmission":
 			case "postpone":
 			case "redirectQuestion":
-			case "outResultsOverview":
+			case "outUserPassDetails":
 			case "checkPassword":
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"));
 				break;
@@ -4934,10 +4921,10 @@ class ilObjTestGUI extends ilObjectGUI
 			case "summary":
 			case "directfeedback":
 			case "finishTest":
-			case "outEvaluationForm":
+			case "outCorrectSolution":
 			case "passDetails":
 			case "showAnswersOfUser":
-			case "outResults":
+			case "outUserResultsOverview":
 			case "backFromSummary":
 			case "show_answers":
 			case "setsolved":
@@ -4951,7 +4938,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "finalSubmission":
 			case "postpone":
 			case "redirectQuestion":
-			case "outResultsOverview":
+			case "outUserPassDetails":
 			case "checkPassword":
 			case "exportCertificate":
 			case "finishListOfAnswers":
