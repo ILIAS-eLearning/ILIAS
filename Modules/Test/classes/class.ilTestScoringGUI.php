@@ -47,6 +47,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
   function ilTestScoringGUI($a_object)
   {
 		parent::ilTestServiceGUI($a_object);
+		$this->ctrl->saveParameter($this, "active_id");
+		$this->ctrl->saveParameter($this, "pass");
 	}
 	
 	/**
@@ -72,14 +74,18 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			sendInfo($this->lng->txt("cannot_edit_test"));
 			return;
 		}
-		if (array_key_exists("active_id", $_GET))
+		if ((!($active_id > 0)) && (array_key_exists("active_id", $_GET)))
 		{
-			$active_id = $_GET["active_id"];
+			if (strlen($_GET["active_id"]))	$active_id = $_GET["active_id"];
 		}
 		$pass = 0;
 		if (array_key_exists("pass", $_GET))
 		{
-			$pass = $_GET["pass"];
+			if (strlen($_GET["pass"]))
+			{
+				$maxpass = $this->object->_getPass($active_id);	
+				if ($_GET["pass"] <= $maxpass) $pass = $_GET["pass"];
+			}
 		}
 		
 		$participants =& $this->object->getTestParticipants();
@@ -117,13 +123,39 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		
 		if ($active_id > 0)
 		{
+			// print pass overview
 			if ($this->object->getNrOfTries() != 1)
 			{
 				$overview = $this->getPassOverview($active_id, "iltestscoringgui", "manscoring");
 				$this->tpl->setVariable("PASS_OVERVIEW", $overview);
 			}
+			// print pass details with scoring
+			if (strlen($pass))
+			{
+				$result_array =& $this->object->getTestResult($active_id, $pass);
+				$scoring = $this->getPassListOfAnswersWithScoring($result_array, $active_id, $pass, TRUE);
+				$this->tpl->setVariable("SCORING_DATA", $scoring);
+			}
 		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+	}
+	
+	/**
+	* Sets the points of a question manually
+	*/
+	function setPointsManual()
+	{
+		if (array_key_exists("question", $_POST))
+		{
+			$keys = array_keys($_POST["question"]);
+			$question_id = $keys[0];
+			$points = $_POST["question"][$question_id];
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			$maxpoints = assQuestion::_getMaximumPoints($question_id); 
+			$result = assQuestion::_setReachedPoints($_GET["active_id"], $question_id, $points, $maxpoints, $_GET["pass"]);
+			if ($result) sendInfo($this->lng->txt("tst_change_points_done"));
+		}
+		$this->manscoring();
 	}
 
 }

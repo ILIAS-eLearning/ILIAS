@@ -366,6 +366,7 @@ assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or ne
 assessment#:#last_update#:#Last Update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
+assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by the test author
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
 assessment#:#log_mark_added#:#Mark added
@@ -582,6 +583,8 @@ assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_questions#:#Browse for Questions
+assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!
+assessment#:#tst_change_points_for_question#:#Change the Points for the Answer
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
@@ -596,7 +599,7 @@ assessment#:#tst_delete_results#:#Reset Test
 assessment#:#tst_ending_time#:#Ending Time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
-assessment#:#tst_eval_results_by_pass#:#Detailed Question Results
+assessment#:#tst_eval_results_by_pass#:#Detailed Question Results for Pass %s
 assessment#:#tst_eval_show_answer#:#Show Answer
 assessment#:#tst_eval_total_finished#:#Total Finished Tests (users who submitted the test with the finish test button)
 assessment#:#tst_eval_total_finished_average_time#:#Average Test Processing Time
