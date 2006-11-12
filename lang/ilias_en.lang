@@ -684,6 +684,7 @@ assessment#:#tst_pass_details#:#Pass Details
 assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_last_pass_description#:#Choose this mode to score the last test pass of a participant. This only works if more than one test pass is allowed.
 assessment#:#tst_pass_scoring#:#Multiple Pass Scoring
+assessment#:#tst_passes#:#Test Passes
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
@@ -769,7 +770,7 @@ assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
 assessment#:#tst_sequence_properties#:#Sequence Properties
 assessment#:#tst_session_settings#:#Session Settings
-assessment#:#tst_show_answer_print_sheet#:#Show List of Answers
+assessment#:#tst_list_of_answers_show#:#Show List of Answers
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
 assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution
