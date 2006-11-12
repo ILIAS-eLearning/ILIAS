@@ -6663,3 +6663,66 @@ assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default 
 common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###26 10 2006 new variable
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###26 10 2006 new variable
+assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
+assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by the test author###12 11 2006 new variable
+assessment#:#manscoring#:#Manual Scoring###12 11 2006 new variable
+assessment#:#manscoring_select_user#:#Please select a participant to set the score manually###12 11 2006 new variable
+assessment#:#not_yet_accessed#:#Not yet accessed###12 11 2006 new variable
+assessment#:#participants_data#:#Participants Data###12 11 2006 new variable
+assessment#:#participants_invitation#:#Fixed Participants###12 11 2006 new variable
+assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.###12 11 2006 new variable
+assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.###12 11 2006 new variable
+assessment#:#remove_as_participant#:#Remove as Fixed Participant###12 11 2006 new variable
+assessment#:#search_results#:#Search Results###12 11 2006 new variable
+assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test###12 11 2006 new variable
+assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!###12 11 2006 new variable
+assessment#:#tst_change_points_for_question#:#Change the Points for the Answer###12 11 2006 new variable
+assessment#:#tst_count_correct_solutions_description#:#Choose this mode to score only correct question solutions of participants. Incorrect or partial solutions will be scored with 0 points###12 11 2006 new variable
+assessment#:#tst_count_partial_solutions_description#:#Choose this mode to score question solutions dependend to the answers of the participants. This is the standard behaviour. Even partial solutions will be scored###12 11 2006 new variable
+assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers###12 11 2006 new variable
+assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! ###12 11 2006 new variable
+assessment#:#tst_fixed_participants_disable#:#Confirm Status Change###12 11 2006 new variable
+assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? ###12 11 2006 new variable
+assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question###12 11 2006 new variable
+assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback###12 11 2006 new variable
+assessment#:#tst_instant_feedback_answer_specific_desc#:#If you check this option, answer-specific feedback will be shown after a participant answered a question###12 11 2006 new variable
+assessment#:#tst_instant_feedback_results#:#Show Results (only points)###12 11 2006 new variable
+assessment#:#tst_instant_feedback_results_desc#:#If you check this option, the reached points will be shown after a participant answered a question###12 11 2006 new variable
+assessment#:#tst_instant_feedback_solution#:#Show Solutions###12 11 2006 new variable
+assessment#:#tst_instant_feedback_solution_desc#:#If you check this option, the correct solution will be shown after a participant answered a question###12 11 2006 new variable
+assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants###12 11 2006 new variable
+assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants###12 11 2006 new variable
+assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants###12 11 2006 new variable
+assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants###12 11 2006 new variable
+assessment#:#tst_list_of_answers#:#List of Answers###12 11 2006 new variable
+assessment#:#tst_list_of_questions_yes#:#Yes, and additional###12 11 2006 new variable
+assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question###12 11 2006 new variable
+assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test###12 11 2006 new variable
+assessment#:#tst_participants_no#:#Nobody has started the test right now!###12 11 2006 new variable
+assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!###12 11 2006 new variable
+assessment#:#tst_pass_best_pass_description#:#Choose this mode to score the best test pass of a participant. This only works if more than one test pass is allowed.###12 11 2006 new variable
+assessment#:#tst_pass_last_pass_description#:#Choose this mode to score the last test pass of a participant. This only works if more than one test pass is allowed.###12 11 2006 new variable
+assessment#:#tst_passes#:#Test Passes###12 11 2006 new variable
+assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s###12 11 2006 new variable
+assessment#:#tst_results_access#:#Access to Test Results###12 11 2006 new variable
+assessment#:#tst_results_access_finished#:#After Test is Finished###12 11 2006 new variable
+assessment#:#tst_results_access_finished_descr#:#Choose this mode to offer test participants access to their test results when they have finished the test ###12 11 2006 new variable
+assessment#:#tst_results_access_date#:#Date###12 11 2006 new variable
+assessment#:#tst_results_access_date_descr#:#Choose this mode to offer test participants access to their test results when the specified date and time has been reached###12 11 2006 new variable
+assessment#:#tst_results_access_always#:#Always###12 11 2006 new variable
+assessment#:#tst_results_access_always_descr#:#Choose this mode to offer test participants always an access to their test results###12 11 2006 new variable
+assessment#:#tst_results_overview#:#Pass Overview of the Test Results ###12 11 2006 new variable
+assessment#:#tst_results_presentation#:#Test Results Presentation###12 11 2006 new variable
+assessment#:#tst_score_cut_question_description#:#Choose this mode to set the results for each question to zero points that a participant answers with a result of less than zero points ###12 11 2006 new variable
+assessment#:#tst_score_cut_test_description#:#Choose this mode to set the test results to zero points, if the sum of all question results is less than zero points###12 11 2006 new variable
+assessment#:#tst_score_mcmr_use_scoring_system_description#:#Choose this mode to give the defined score for multiple choice questions with multiple response, even if a participant did not check one of the answers###12 11 2006 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_description#:#Choose this mode to score 0 points for multiple choice questions with multiple response when no answer was checked by a participant###12 11 2006 new variable
+assessment#:#tst_list_of_answers_show#:#Show List of Answers###12 11 2006 new variable
+assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes###12 11 2006 new variable
+assessment#:#tst_start_new_test_pass#:#Start New Test Pass###12 11 2006 new variable
+common#:#proceed#:#Proceed###12 11 2006 new variable
+survey#:#evaluation_access_off#:#Off###12 11 2006 new variable
+chat#:#chat_server_ssl_settings#:#SSL Settings###12 11 2006 new variable
+chat#:#chat_server_ssl_port#:#Server SSL Port###12 11 2006 new variable
+chat#:#chat_server_ssl_active#:#SSL active###12 11 2006 new variable
+chat#:#chat_add_ssl_port#:#Please add the server SSL port###12 11 2006 new variable
