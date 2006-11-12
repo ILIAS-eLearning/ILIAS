@@ -1,53 +1,53 @@
 <form name="frm_properties" action="{FORM_ACTION}" method="post">
 <table class="std">
 <tr>
-  <td class="option"><label for="title">{TEXT_TITLE}</label><span class="asterisk">*</span>:</td>
+  <td class="option"><label for="title">{TEXT_TITLE}</label><span class="asterisk">*</span></td>
   <td class="option_value"><input name="title" id="title" type="text" value="{VALUE_TITLE}" size="50" /></td>
 </tr>
 <tr>
-  <td class="option"><label for="author">{TEXT_AUTHOR}</label><span class="asterisk">*</span>:</td>
+  <td class="option"><label for="author">{TEXT_AUTHOR}</label><span class="asterisk">*</span></td>
   <td class="option_value"><input name="author" id="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td>
 </tr>
 <tr>
-  <td class="option"><label for="description">{TEXT_DESCRIPTION}:</label></td>
+  <td class="option"><label for="description">{TEXT_DESCRIPTION}</label></td>
   <td class="option_value"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" /></td>
 </tr>
 <tr>
-  <td class="option"><label for="introduction">{TEXT_INTRODUCTION}:</label></td>
+  <td class="option"><label for="introduction">{TEXT_INTRODUCTION}</label></td>
   <td class="option_value">
 		<textarea name="introduction" id="introduction" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_INTRODUCTION}</textarea>
 	</td>
 </tr>
 <tr>
-  <td class="option"><label for="status">{TEXT_STATUS}:</label></td>
-  <td class="option_value"><select name="status" id="status"><option value="0"{SELECTED_OFFLINE}>{VALUE_OFFLINE}</option><option value="1"{SELECTED_ONLINE}>{VALUE_ONLINE}</option></select></td>
-</tr>
-<tr>
-  <td class="option"><label for="checked_start_date">{TEXT_START_DATE}:</label></td>
-  <td class="option_value"><input type="checkbox" name="checked_start_date" id="checked_start_date" value="1"{CHECKED_START_DATE} /> <label for="checked_start_date">{TEXT_ENABLED}</label><br>{VALUE_START_DATE} <input type="image" alt="{TXT_START_DATE_CALENDAR}" title="{TXT_START_DATE_CALENDAR}" src="{IMG_START_DATE_CALENDAR}" id="btn_cal_start_date" /></td>
-</tr>
-<tr>
-  <td class="option"><label for="checked_end_date">{TEXT_END_DATE}:</label></td>
-  <td class="option_value"><input type="checkbox" name="checked_end_date" id="checked_end_date" value="1"{CHECKED_END_DATE} /> <label for="checked_end_date">{TEXT_ENABLED}</label><br>{VALUE_END_DATE} <input type="image" alt="{TXT_END_DATE_CALENDAR}" title="{TXT_END_DATE_CALENDAR}" src="{IMG_END_DATE_CALENDAR}" id="btn_cal_end_date" /></td>
-</tr>
-<tr>
-  <td class="option"><label for="evaluation_access">{TEXT_EVALUATION_ACCESS}:</label></td>
+  <td class="option"><label for="status">{TEXT_STATUS}</label></td>
   <td class="option_value">
-		<select name="evaluation_access" id="evaluation_access">
-			<option value="0"{SELECTED_OFF}>{VALUE_OFF}</option>
-			<option value="2"{SELECTED_PARTICIPANTS}>{VALUE_PARTICIPANTS}</option>
-			<option value="1"{SELECTED_ALL}>{VALUE_ALL}</option>
-		</select>
+		<input type="checkbox" name="status" id="status" value="1"{CHECKED_STATUS} /> <label for="status">{VALUE_ONLINE}</label>
 	</td>
 </tr>
 <tr>
-  <td class="option"><label for="anonymize">{TEXT_ANONYMIZATION}:</label></td>
+  <td class="option"><label for="checked_start_date">{TEXT_START_DATE}</label></td>
+  <td class="option_value"><input type="checkbox" name="checked_start_date" id="checked_start_date" value="1"{CHECKED_START_DATE} /> <label for="checked_start_date">{TEXT_ENABLED}</label><br>{VALUE_START_DATE} <input type="image" alt="{TXT_START_DATE_CALENDAR}" title="{TXT_START_DATE_CALENDAR}" src="{IMG_START_DATE_CALENDAR}" id="btn_cal_start_date" /></td>
+</tr>
+<tr>
+  <td class="option"><label for="checked_end_date">{TEXT_END_DATE}</label></td>
+  <td class="option_value"><input type="checkbox" name="checked_end_date" id="checked_end_date" value="1"{CHECKED_END_DATE} /> <label for="checked_end_date">{TEXT_ENABLED}</label><br>{VALUE_END_DATE} <input type="image" alt="{TXT_END_DATE_CALENDAR}" title="{TXT_END_DATE_CALENDAR}" src="{IMG_END_DATE_CALENDAR}" id="btn_cal_end_date" /></td>
+</tr>
+<tr>
+  <td class="option">
+		<label for="evaluation_access_off">{TEXT_EVALUATION_ACCESS}</label>
+	</td>
   <td class="option_value">
-		<select name="anonymize" id="anonymize">
-			<option value="0"{ANON_SELECTED_OFF}>{ANON_VALUE_OFF}</option>
-			<option value="1"{ANON_SELECTED_ON}>{ANON_VALUE_ON}</option>
-			<option value="2"{ANON_SELECTED_FREEACCESS}>{ANON_VALUE_FREEACCESS}</option>
-		</select>
+		<input type="radio" name="evaluation_access" id="evaluation_access_off" value="0"{CHECKED_OFF} /> <label for="evaluation_access_off">{VALUE_OFF}</label><br />
+		<input type="radio" name="evaluation_access" id="evaluation_access_participants" value="2"{CHECKED_PARTICIPANTS} /> <label for="evaluation_access_participants">{VALUE_PARTICIPANTS}</label><br />
+		<input type="radio" name="evaluation_access" id="evaluation_access_all" value="1"{CHECKED_ALL} /> <label for="evaluation_access_all">{VALUE_ALL}</label>
+	</td>
+</tr>
+<tr>
+  <td class="option"><label for="anonymize_off">{TEXT_ANONYMIZATION}</label></td>
+  <td class="option_value">
+		<input type="radio" name="anonymize" id="anonymize_off" value="0"{ANON_CHECKED_OFF} /> <label for="anonymize_off">{ANON_VALUE_OFF}</label><br />
+		<input type="radio" name="anonymize" id="anonymize_on" value="1"{ANON_CHECKED_ON} /> <label for="anonymize_on">{ANON_VALUE_ON}</label><br />
+		<input type="radio" name="anonymize" id="anonymize_freeaccess" value="2"{ANON_CHECKED_FREEACCESS} /> <label for="anonymize_freeaccess">{ANON_VALUE_FREEACCESS}</label>
 	</td>
 </tr>
 <tr>
@@ -55,7 +55,7 @@
   <td class="option_value"><input type="checkbox" id="showQuestionTitles" name="showQuestionTitles" value="1"{QUESTIONTITLES_CHECKED} /> <label for="showQuestionTitles">{TEXT_SHOW_QUESTIONTITLES}</label></td>
 </tr>
 <tr>
-  <td class="option"><label for="outro">{TEXT_OUTRO}:</label></td>
+  <td class="option"><label for="outro">{TEXT_OUTRO}</label></td>
   <td class="option_value">
 	<textarea id="outro" name="outro" cols="80" rows="10">{VALUE_OUTRO}</textarea>
 	</td>

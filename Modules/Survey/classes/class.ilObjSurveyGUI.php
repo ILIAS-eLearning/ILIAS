@@ -173,7 +173,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$result = $this->object->setStatus($_POST["status"]);
+		$status = STATUS_OFFLINE;
+		if ($_POST["status"] == 1)
+		{
+			$status = STATUS_ONLINE;
+		}
+		$result = $this->object->setStatus($status);
 		if ($result)
 		{
 			sendInfo($result, true);
@@ -323,10 +328,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("IMG_END_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
 		$this->tpl->setVariable("TXT_END_DATE_CALENDAR", $this->lng->txt("open_calendar"));
 		$this->tpl->setVariable("TEXT_EVALUATION_ACCESS", $this->lng->txt("evaluation_access"));
-		$this->tpl->setVariable("VALUE_OFFLINE", $this->lng->txt("offline"));
 		$this->tpl->setVariable("VALUE_ONLINE", $this->lng->txt("online"));
 		$this->tpl->setVariable("TEXT_ENABLED", $this->lng->txt("enabled"));
-		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
+		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("evaluation_access_off"));
 		$this->tpl->setVariable("VALUE_ALL", $this->lng->txt("evaluation_access_all"));
 		$this->tpl->setVariable("VALUE_PARTICIPANTS", $this->lng->txt("evaluation_access_participants"));
 		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymize_survey"));
@@ -337,13 +341,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch ($this->object->getAnonymize())
 		{
 			case ANONYMIZE_OFF:
-				$this->tpl->setVariable("ANON_SELECTED_OFF", " selected=\"selected\"");
+				$this->tpl->setVariable("ANON_CHECKED_OFF", " checked=\"checked\"");
 				break;
 			case ANONYMIZE_ON:
-				$this->tpl->setVariable("ANON_SELECTED_ON", " selected=\"selected\"");
+				$this->tpl->setVariable("ANON_CHECKED_ON", " checked=\"checked\"");
 				break;
 			case ANONYMIZE_FREEACCESS:
-				$this->tpl->setVariable("ANON_SELECTED_FREEACCESS", " selected=\"selected\"");
+				$this->tpl->setVariable("ANON_CHECKED_FREEACCESS", " checked=\"checked\"");
 				break;
 		}
 		
@@ -358,22 +362,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch ($this->object->getEvaluationAccess())
 		{
 			case EVALUATION_ACCESS_OFF:
-				$this->tpl->setVariable("SELECTED_OFF", " selected=\"selected\"");
+				$this->tpl->setVariable("CHECKED_OFF", " checked=\"checked\"");
 				break;
 			case EVALUATION_ACCESS_ALL:
-				$this->tpl->setVariable("SELECTED_ALL", " selected=\"selected\"");
+				$this->tpl->setVariable("CHECKED_ALL", " checked=\"checked\"");
 				break;
 			case EVALUATION_ACCESS_PARTICIPANTS:
-				$this->tpl->setVariable("SELECTED_PARTICIPANTS", " selected=\"selected\"");
+				$this->tpl->setVariable("CHECKED_PARTICIPANTS", " checked=\"checked\"");
 				break;
 		}
 		if ($this->object->getStatus() == STATUS_ONLINE)
 		{
-			$this->tpl->setVariable("SELECTED_ONLINE", " selected=\"selected\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("SELECTED_OFFLINE", " selected=\"selected\"");
+			$this->tpl->setVariable("CHECKED_STATUS", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
     if ($rbacsystem->checkAccess("write", $this->ref_id)) {
@@ -3938,25 +3938,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 		}
 		
-		// properties
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			$force_active = ($this->ctrl->getCmd() == "")
-				? true
-				: false;
-			$tabs_gui->addTarget("properties",
-				 $this->ctrl->getLinkTarget($this,'properties'),
-				 array("properties", "save", "cancel"), "",
-				 "", $force_active);
-		}
-
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
-		{
-			$tabs_gui->addTarget("info",
-				 $this->ctrl->getLinkTarget($this,'infoScreen'),
-				 array("infoScreen", "showSummary"));
-		}
-			
 		// questions
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
@@ -3976,7 +3957,30 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 "addHeading", "saveHeading", "cancelHeading", "editHeading",
 				 "confirmRemoveHeading", "cancelRemoveHeading"),
 				 "", "", $force_active);
-				 
+		}
+		
+		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$tabs_gui->addTarget("info",
+				 $this->ctrl->getLinkTarget($this,'infoScreen'),
+				 array("infoScreen", "showSummary"));
+		}
+			
+		// properties
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			$force_active = ($this->ctrl->getCmd() == "")
+				? true
+				: false;
+			$tabs_gui->addTarget("properties",
+				 $this->ctrl->getLinkTarget($this,'properties'),
+				 array("properties", "save", "cancel"), "",
+				 "", $force_active);
+		}
+
+		// questions
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
 			// meta data
 			$tabs_gui->addTarget("meta_data",
 				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
