@@ -78,7 +78,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		{
 			if (strlen($_GET["active_id"]))	$active_id = $_GET["active_id"];
 		}
-		$pass = 0;
+		$pass = $this->object->_getResultPass($active_id);
 		if (array_key_exists("pass", $_GET))
 		{
 			if (strlen($_GET["pass"]))
