@@ -546,6 +546,25 @@ class ilTestServiceGUI
 	}
 
 /**
+* Returns HTML code for a signature field
+*
+* Returns HTML code for a signature field
+*
+* @return string HTML code of the date and signature field for the test results
+* @access public
+*/
+	function getResultsSignature()
+	{
+		// output of time/date and signature
+		$template = new ilTemplate("tpl.il_as_tst_results_userdata_signature.html", TRUE, TRUE, "Modules/Test");
+		$template->setVariable("TXT_DATE", $this->lng->txt("date"));
+		$template->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", time()));
+		$template->setVariable("TXT_SIGNATURE", $this->lng->txt("tst_signature"));
+		$template->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.gif"));
+		return $template->get();
+	}
+	
+/**
 * Returns the user data for a test results output
 *
 * Returns the user data for a test results output
@@ -564,7 +583,7 @@ class ilTestServiceGUI
 		$t = $active->submittimestamp;
 		if (!$t)
 		{
-			$this->object->_getLastAccess($active->active_Id);
+			$t = $this->object->_getLastAccess($active->active_id);
 		}
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 
@@ -581,6 +600,19 @@ class ilTestServiceGUI
 			$title_matric = " - " . $this->lng->txt("matriculation") . ": " . $user->getMatriculation();
 		}
 
+		$invited_user = array_pop($this->object->getInvitedUsers($user_id));
+		if (strlen($invited_user->clientip))
+		{
+			$this->tpl->setCurrentBlock("user_clientip");
+			$this->tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("matriculation"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("user_clientip_value");
+			$this->tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("user_clientip_separator");
+			$title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user->clientip;
+		}
+
 		$template->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
 		$template->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
 		$template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
@@ -592,7 +624,7 @@ class ilTestServiceGUI
 		$template->setVariable("VALUE_PRINT_DATE", strftime("%Y-%m-%d %H:%M:%S",$print_date));
 		
 		// change the pagetitle
-		$pagetitle = ": " . $this->object->getTitle() . $title_matric;
+		$pagetitle = ": " . $this->object->getTitle() . $title_matric . $title_client;
 		$this->tpl->setHeaderPageTitle($pagetitle);
 		
 		return $template->get();
