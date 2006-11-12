@@ -1386,9 +1386,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 /**
-* Output of the results of the active learner
+* Shows the list of answers for the current user
 *
-* Output of the results of the active learner
+* Shows the list of answers for the current user
 *
 * @access public
 */
@@ -1717,57 +1717,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if (strlen($ilUser->getMatriculation()))
-		{
-			$this->tpl->setCurrentBlock("user_matric");
-			$this->tpl->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("user_matric_value");
-			$this->tpl->setVariable("VALUE_USR_MATRIC", $ilUser->getMatriculation());
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("user_matric_separator");
-		}
-
-		$invited_users = array_pop($this->object->getInvitedUsers($ilUser->getId()));
-		if (strlen($invited_users->clientip))
-		{
-			$this->tpl->setCurrentBlock("user_clientip");
-			$this->tpl->setVariable("TXT_CLIENT_IP", $this->lng->txt("matriculation"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("user_clientip_value");
-			$this->tpl->setVariable("VALUE_CLIENT_IP", $invited_users->clientip);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("user_clientip_separator");
-		}
-
-		// output of time/date and signature
-		$this->tpl->setCurrentBlock("freefield_bottom");
-		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
-		$this->tpl->setVariable("VALUE_DATE", strftime("%Y-%m-%d %H:%M:%S", time()));
-
-		$freefieldtypes = array(
-			"freefield_bottom" => array(
-				array(
-					"title" => $this->lng->txt("tst_signature"), 
-					"length" => 300
-				)
-			)
-		);
-
-		foreach ($freefieldtypes as $type => $freefields) 
-		{
-			$counter = 0;
-			while ($counter < count($freefields)) 
-			{
-				$freefield = $freefields[$counter];
-				$this->tpl->setVariable("TXT_FREE_FIELD", $freefield["title"]);
-				$this->tpl->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.gif"));
-				$counter ++;
-			}
-		}
-		$this->tpl->parseCurrentBlock();
-
-		
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 
 		$counter = 1;
@@ -1792,9 +1741,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
+		$user_data = $this->getResultsUserdata($ilUser->getId(), TRUE);
+		$signature = $this->getResultsSignature();
+		$this->tpl->setVariable("USER_DETAILS", $user_data);
+		$this->tpl->setVariable("SIGNATURE", $signature);
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
-		$this->tpl->setVariable("VALUE_USR_NAME", $ilUser->getFullname());
 		$this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
