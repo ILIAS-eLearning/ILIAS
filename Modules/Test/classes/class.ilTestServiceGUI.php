@@ -101,11 +101,18 @@ class ilTestServiceGUI
 * @return string HTML code of the pass overview
 * @access public
 */
-	function getPassOverview($active_id, $targetclass = "", $targetcommand = "")
+	function getPassOverview($active_id, $targetclass = "", $targetcommand = "", $short = FALSE)
 	{
 		global $ilUser;
 
-		$template = new ilTemplate("tpl.il_as_tst_pass_overview.html", TRUE, TRUE, "Modules/Test");
+		if ($short)
+		{
+			$template = new ilTemplate("tpl.il_as_tst_pass_overview_short.html", TRUE, TRUE, "Modules/Test");
+		}
+		else
+		{
+			$template = new ilTemplate("tpl.il_as_tst_pass_overview.html", TRUE, TRUE, "Modules/Test");
+		}
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 
@@ -121,18 +128,20 @@ class ilTestServiceGUI
 			$finishdate = $this->object->getPassFinishDate($active_id, $pass);
 			if ($finishdate > 0)
 			{
-				$result_array =& $this->object->getTestResult($active_id, $pass);
-				if (!$result_array["test"]["total_max_points"])
+				if (!$short)
 				{
-					$percentage = 0;
+					$result_array =& $this->object->getTestResult($active_id, $pass);
+					if (!$result_array["test"]["total_max_points"])
+					{
+						$percentage = 0;
+					}
+					else
+					{
+						$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+					}
+					$total_max = $result_array["test"]["total_max_points"];
+					$total_reached = $result_array["test"]["total_reached_points"];
 				}
-				else
-				{
-					$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
-				}
-				$total_max = $result_array["test"]["total_max_points"];
-				$total_reached = $result_array["test"]["total_reached_points"];
-
 				if (strlen($targetclass) && strlen($targetcommand))
 				{
 					$this->ctrl->setParameterByClass($targetclass, "active_id", $active_id);
@@ -140,7 +149,7 @@ class ilTestServiceGUI
 					$template->setCurrentBlock("pass_details");
 					$template->setVariable("HREF_PASS_DETAILS", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommand));
 					$template->setVariable("TEXT_PASS_DETAILS", $this->lng->txt("tst_pass_details"));
-					if ($pass == $counted_pass)
+					if (($pass == $counted_pass) && (!$short))
 					{
 						$template->setVariable("COLOR_CLASS", "tblrowmarked");
 					}
@@ -152,7 +161,8 @@ class ilTestServiceGUI
 				}
 
 				$template->setCurrentBlock("result_row");
-				if ($pass == $counted_pass)
+
+				if (($pass == $counted_pass) && (!$short))
 				{
 					$template->setVariable("COLOR_CLASS", "tblrowmarked");
 					$template->setVariable("VALUE_SCORED", "&otimes;");
@@ -166,19 +176,25 @@ class ilTestServiceGUI
 				}
 				$template->setVariable("VALUE_PASS", $pass + 1);
 				$template->setVariable("VALUE_DATE", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($finishdate), "date"));
-				$template->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
-				$template->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
-				$template->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
+				if (!$short)
+				{
+					$template->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
+					$template->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
+					$template->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
+				}
 				$template->parseCurrentBlock();
 			}
 		}
 
-		$template->setVariable("PASS_SCORED", $this->lng->txt("scored_pass"));
 		$template->setVariable("PASS_COUNTER", $this->lng->txt("pass"));
 		$template->setVariable("DATE", $this->lng->txt("date"));
-		$template->setVariable("ANSWERED_QUESTIONS", $this->lng->txt("tst_answered_questions"));
-		$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
-		$template->setVariable("PERCENTAGE_CORRECT", $this->lng->txt("tst_percent_solved"));
+		if (!$short)
+		{
+			$template->setVariable("PASS_SCORED", $this->lng->txt("scored_pass"));
+			$template->setVariable("ANSWERED_QUESTIONS", $this->lng->txt("tst_answered_questions"));
+			$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+			$template->setVariable("PERCENTAGE_CORRECT", $this->lng->txt("tst_percent_solved"));
+		}
 		$template->parseCurrentBlock();
 		
 		return $template->get();
@@ -189,6 +205,7 @@ class ilTestServiceGUI
 *
 * Returns the final statement for a user
 *
+* @param array An array containing the information on reached points, max points etc. ("test" key of ilObjTest::getTestResult)
 * @return string HTML code of the final statement
 * @access public
 */
@@ -236,6 +253,9 @@ class ilTestServiceGUI
 * Returns the list of answers of a users test pass
 *
 * @param array $result_array An array containing the results of the users test pass (generated by ilObjTest::getTestResult)
+* @param integer $active_id Active ID of the active user
+* @param integer $pass Test pass
+* @param boolean $show_solutions TRUE, if the solution output should be shown in the answers, FALSE otherwise
 * @return string HTML code of the list of answers
 * @access public
 */
@@ -276,6 +296,9 @@ class ilTestServiceGUI
 * Returns the list of answers of a users test pass and offers a scoring option
 *
 * @param array $result_array An array containing the results of the users test pass (generated by ilObjTest::getTestResult)
+* @param integer $active_id Active ID of the active user
+* @param integer $pass Test pass
+* @param boolean $show_solutions TRUE, if the solution output should be shown in the answers, FALSE otherwise
 * @return string HTML code of the list of answers
 * @access public
 */
@@ -334,6 +357,12 @@ class ilTestServiceGUI
 *
 * Returns the pass details overview for a given active ID and pass
 *
+* @param array $result_array An array containing the results of the users test pass (generated by ilObjTest::getTestResult)
+* @param integer $active_id Active ID of the active user
+* @param integer $pass Test pass
+* @param string $targetclass The name of the ILIAS class for the "pass details" URL (optional)
+* @param string $targetcommand The name of the ILIAS command for the "pass details" URL (optional)
+* @param string $targetcommanddetails The name of the ILIAS command which should be called for the details of an answer (optional)
 * @return string HTML code of the pass details overview
 * @access public
 */
@@ -636,6 +665,8 @@ class ilTestServiceGUI
 	* Returns an output of the solution to an answer compared to the correct solution
 	*
 	* @param integer $question_id Database ID of the question
+	* @param integer $active_id Active ID of the active user
+	* @param integer $pass Test pass
 	* @return string HTML code of the correct solution comparison
 	* @access public
 	*/

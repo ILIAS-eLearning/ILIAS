@@ -1385,32 +1385,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->ctrl->redirectByClass("iltestcertificategui", "certificateOutput");
 	}
 	
-/**
-* Shows the list of answers for the current user
-*
-* Shows the list of answers for the current user
-*
-* @access public
-*/
-	function showAnswersOfUser()
-	{
-		global $ilUser;
-		$active = $this->object->getActiveTestUser();
-		
-		$template = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, "Modules/Test");
-
-		$template->setCurrentBlock("button_print");
-		$template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-		$template->parseCurrentBlock();
-		
-		$template->setCurrentBlock("button_back");
-		$template->setVariable("BUTTON_BACK", $this->lng->txt("back"));
-		$template->setVariable("URL_BACK", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
-		$template->parseCurrentBlock();
-		
-		$this->showListOfAnswers($active->active_id, NULL, $template->get());
-	}
-
 	/**
 	 * handle endingTimeReached
 	 * @private
@@ -1685,7 +1659,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 
 	/**
-	* Creates an output of the list of answers for test participant
+	* Creates an output of the list of answers for a test participant during the test
+	* (only the actual pass will be shown)
 	*
 	* @param integer $active_id Active id of the participant
 	* @param integer $pass Test pass of the participant
@@ -1758,6 +1733,69 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("PAGETITLE", $pagetitle);
 	}
  
+/**
+* Output of the pass overview for a user when he/she wants to see his/her list of answers
+*
+* Output of the pass overview for a user when he/she wants to see his/her list of answers
+*
+* @access public
+*/
+	function outUserListOfAnswerPasses()
+	{
+		global $ilUser;
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_info_list_of_answers.html", "Modules/Test");
+
+		$pass = null;
+		if (array_key_exists("pass", $_GET))
+		{
+			if (strlen($_GET["pass"])) $pass = $_GET["pass"];
+		}
+		$user_id = $ilUser->getId();
+		$active = $this->object->getActiveTestUser($user_id);
+		$active_id = $active->active_id;
+		$overview = "";
+		if ($this->object->getNrOfTries() == 1)
+		{
+			$this->ctrl->setParameter($this, "pass", "0");
+			$this->ctrl->redirect($this, "outUserListOfAnswerPasses");
+		}
+		else
+		{
+			$overview = $this->getPassOverview($active_id, "iltestoutputgui", "outUserListOfAnswerPasses", TRUE);
+			$this->tpl->setVariable("PASS_OVERVIEW", $overview);
+		}
+
+		$signature = "";
+		if (strlen($pass))
+		{
+			$signature = $this->getResultsSignature();
+			$result_array =& $this->object->getTestResult($active_id, $pass);
+			$answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE);
+			$this->tpl->setVariable("PASS_DETAILS", $answers);
+		}
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
+		$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
+		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
+		
+		$user_data = $this->getResultsUserdata($user_id, TRUE);
+		$this->tpl->setVariable("USER_DATA", $user_data);
+		$this->tpl->setVariable("TEXT_LIST_OF_ANSWERS", $this->lng->txt("tst_list_of_answers"));
+		if (strlen($signature))
+		{
+			$this->tpl->setVariable("SIGNATURE", $signature);
+		}
+		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+	}
+
 /**
 * Output of the pass overview for a test called by a test participant
 *

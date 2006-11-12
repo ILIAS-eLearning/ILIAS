@@ -4567,7 +4567,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					$info->addFormButton("showAnswersOfUser", $this->lng->txt("tst_show_answer_print_sheet"));
+					$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
 				}
 
 				if ($this->canShowCertificate($ilUser->getId(), $active->active_id))
@@ -5025,7 +5025,8 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$tabs_gui->addTarget("info",
 					 $this->ctrl->getLinkTarget($this,'infoScreen'),
-					 array("infoScreen", "outIntroductionPage", "showSummary", "setAnonymousId"));
+					 array("infoScreen", "outIntroductionPage", "showSummary", 
+					 "setAnonymousId", "outUserListOfAnswerPasses"));
 			}
 			
 			// settings tab
