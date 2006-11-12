@@ -755,7 +755,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			if ($graphicalOutput)
 			{
 				// output of ok/not ok icons for user entered solutions
-				$reached_points = $this->object->getReachedPoints($active_id);
+				$reached_points = $this->object->getReachedPoints($active_id, $pass);
 				if ($reached_points == $this->object->getMaximumPoints())
 				{
 					$template->setCurrentBlock("icon_ok");

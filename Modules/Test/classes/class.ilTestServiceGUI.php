@@ -630,7 +630,7 @@ class ilTestServiceGUI
 		}
 		$template->setVariable("SOLUTION_OUTPUT", $result_output);
 		$template->setVariable("BEST_OUTPUT", $best_output);
-		$template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($active->active_id), $maxpoints));
+		$template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($active->active_id, $pass), $maxpoints));
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$template->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
 		return $template->get();

@@ -347,7 +347,7 @@ class assNumericGUI extends assQuestionGUI
 					if ($graphicalOutput)
 					{
 						// output of ok/not ok icons for user entered solutions
-						if ($this->object->getReachedPoints($active_id) == $this->object->getMaximumPoints())
+						if ($this->object->getReachedPoints($active_id, $pass) == $this->object->getMaximumPoints())
 						{
 							$template->setCurrentBlock("icon_ok");
 							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
