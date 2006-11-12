@@ -5033,6 +5033,29 @@ class ilObjTest extends ilObject
 		{
 			switch ($metadata["label"])
 			{
+				case "test_type":
+					// for old tests with a test type
+					$type = $metadata["entry"];
+					switch ($type)
+					{
+						case 1:
+							// assessment
+							$this->setAnonymity(1);
+							break;
+						case 2:
+							// self assessment
+							break;
+						case 4:
+							// online exam
+							$this->setFixedParticipants(1);
+							$this->setListOfQuestionsSettings(7);
+							$this->setShowSolutionPrintview(1);
+							break;
+						case 5:
+							// varying random test
+							break;
+					}
+					break;
 				case "sequence_settings":
 					$this->setSequenceSettings($metadata["entry"]);
 					break;
