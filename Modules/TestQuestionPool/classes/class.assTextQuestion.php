@@ -718,50 +718,6 @@ class assTextQuestion extends assQuestion
 	}
 
 	/**
-	* Sets the points, a learner has reached answering the question
-	* Additionally objective results are updated
-	*
-	* Sets the points, a learner has reached answering the question
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @param integer $points The points the user has reached answering the question
-	* @return boolean true on success, otherwise false
-	* @access public
-	*/
-	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass = NULL)
-	{
-		global $ilDB;
-		
-		if ($points <= $maxpoints)
-		{
-			if (is_null($pass))
-			{
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-				$pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
-			}
-			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($points . ""),
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
-			);
-			$result = $ilDB->query($query);
-
-			// finally update objective result
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			include_once './course/classes/class.ilCourseObjectiveResult.php';
-			ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id),$question_id,$points);
-
-			return true;
-		}
-			else
-		{
-			return false;
-		}
-	}
-	
-	/**
 	* Checks if one of the keywords matches the answertext
 	*
 	* Checks if one of the keywords matches the answertext

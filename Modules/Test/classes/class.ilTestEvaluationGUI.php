@@ -290,8 +290,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				if (preg_match("/(\d+)_(\d+)_(\d+)/", $key, $matches))
 				{
-					include_once "./Modules/TestQuestionPool/classes/class.assTextQuestion.php";
-					assTextQuestion::_setReachedPoints($matches[1], $matches[2], $value, $matches[3]);
+					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+					assQuestion::_setReachedPoints($matches[1], $matches[2], $value, $matches[3]);
 				}
 			}
 			sendInfo($this->lng->txt("text_answers_saved"));
