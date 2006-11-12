@@ -52,32 +52,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		parent::ilTestServiceGUI($a_object);
 	}
 	
-	/**
-	* Creates the output of a users text answer
-	*
-	* Creates the output of a users text answer
-	*
-	* @access	public
-	*/
-	function evaluationDetail()
-	{
-		include_once "./classes/class.ilObjUser.php";
-		$active_id = $_GET["userdetail"];
-		$answertext = $this->object->getTextAnswer($active_id, $_GET["answer"]);
-		$questiontext = $this->object->getQuestiontext($_GET["answer"]);
-		include_once "./classes/class.ilTemplate.php";
-		$this->tpl = new ilTemplate("./Modules/Test/templates/default/tpl.il_as_tst_eval_user_answer.html", true, true);
-		$this->tpl->setVariable("TITLE_USER_ANSWER", $this->lng->txt("tst_eval_user_answer"));
-		$this->tpl->setVariable("TEXT_USER", $this->lng->txt("user"));
-		include_once "./classes/class.ilObjUser.php";
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		$this->tpl->setVariable("TEXT_USERNAME", $this->object->userLookupFullName($user_id));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_QUESTIONTEXT", $questiontext);
-		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-		$this->tpl->setVariable("TEXT_USER_ANSWER", str_replace("\n", "<br />", ilUtil::prepareFormOutput($answertext)));
-	}
-	
 	function eval_stat()
 	{
 		$this->ctrl->setCmdClass(get_class($this));
@@ -200,7 +174,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$savetextanswers = 0;
-		$textanswers = 0;
 		$export = 0;
 		$filter = 0;
 		$filtertext = "";
@@ -281,20 +254,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			$this->ctrl->redirectByClass("iltestcertificategui", "exportCertificate");
 			return;
-		}
-		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("save_text_answer_points")) == 0)
-		{
-
-			$savetextanswers = 1;
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/(\d+)_(\d+)_(\d+)/", $key, $matches))
-				{
-					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-					assQuestion::_setReachedPoints($matches[1], $matches[2], $value, $matches[3]);
-				}
-			}
-			sendInfo($this->lng->txt("text_answers_saved"));
 		}
 		$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
 		$eval_statistical_settings = array(
@@ -679,22 +638,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					}
 				}
 
-				$htmloutput = "";
-				if ($stat_eval[$i-1]["type"] == "assTextQuestion")
-				{
-					// Text question
-					$name = $key."_".$stat_eval[$i-1]["qid"]."_".$stat_eval[$i-1]["max"];
-					$htmloutput = $qshort . "<input type=\"text\" name=\"".$name."\" size=\"3\" value=\"".$stat_eval[$i-1]["reached"]."\" />".strtolower($this->lng->txt("of"))." ". $stat_eval[$i-1]["max"];
-					// Solution
-					$htmloutput .= " [<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "evaluationDetail") . "&userdetail=$key&answer=".$stat_eval[$i-1]["qid"]."\" target=\"popup\" onclick=\"";
-					$htmloutput .= "window.open('', 'popup', 'width=600, height=200, scrollbars=no, toolbar=no, status=no, resizable=yes, menubar=no, location=no, directories=no')";
-					$htmloutput .= "\">".$this->lng->txt("tst_eval_show_answer")."</a>]";
-					$textanswers++;
-				}
-					else
-				{
-					$htmloutput = $qshort . $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"];
-				}
+				$htmloutput = $qshort . $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"];
 
 				array_push($evalrow, array(
 					"html" => $htmloutput,
@@ -952,14 +896,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$counter++;
 		}
 
-		if ($textanswers)
-		{
-			$this->tpl->setCurrentBlock("questions_output_button");
-			$this->tpl->setVariable("BUTTON_SAVE", $this->lng->txt("save_text_answer_points"));
-			$this->tpl->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		$this->tpl->setCurrentBlock("questions_output");
 		$this->tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("assQuestions"));
 		$this->tpl->setVariable("FORM_ACTION_RESULTS", $this->ctrl->getFormAction($this));
