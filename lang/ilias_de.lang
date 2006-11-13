@@ -6594,61 +6594,61 @@ chat#:#chat_server_ssl_settings#:#SSL Einstellungen
 chat#:#chat_server_ssl_port#:#Server SSL Port
 chat#:#chat_server_ssl_active#:#SSL aktivieren
 chat#:#chat_add_ssl_port#:#Bitte geben Sie den Server-SSL-Port ein.
-assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte von %d auf %d Punkte durch den Test-Autor
+assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte von %d auf %d Punkte durch den Testautor
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_select_user#:#Bitte wählen Sie einen Teilnehmer aus, den Sie bewerten wollen
 assessment#:#not_yet_accessed#:#Noch kein Zugriff erfolgt
 assessment#:#participants_data#:#Teilnehmerdaten
 assessment#:#participants_invitation#:#Feste Teilnehmer
-assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.###12 11 2006 new variable
-assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.###12 11 2006 new variable
+assessment#:#participants_invitation_description#:#Sie können diesen Test nur für eine ausgewählte Gruppe von festen Teilnehmenden zugreifbar machen. Aktivieren Sie bitte das obige Kontrollkästchen und Speichern Sie ihre Eingabe, um diese Funktionalität für den Test hinzuzufügen.
+assessment#:#participants_invitation_search_introduction#:#Um feste Teilnehmende zu disem Test einzuladen, geben Sie bitte die gewünschten Namen in das untere Suchfeld ein und wählen Sie dann aus den Ergebnissen die festen Teilnehmenden aus, die Sie einladen wollen. Alle festen Teilnehmenden werden in die benachbarte Rubrik &quot;Daten der Teilnehmenden&quot; hinzugefügt
 assessment#:#remove_as_participant#:#Als festen Teilnehmer entfernen
 assessment#:#search_results#:#Suchergebnisse
 assessment#:#tst_allow_fixed_participants#:#Diesen Test nur für feste Teilnehmer verfügbar machen
 assessment#:#tst_change_points_done#:#Die Punkte für eine Antwort wurden erfolgreich geändert!
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort ändern
-assessment#:#tst_count_correct_solutions_description#:#Choose this mode to score only correct question solutions of participants. Incorrect or partial solutions will be scored with 0 points###12 11 2006 new variable
-assessment#:#tst_count_partial_solutions_description#:#Choose this mode to score question solutions dependend to the answers of the participants. This is the standard behaviour. Even partial solutions will be scored###12 11 2006 new variable
-assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers###12 11 2006 new variable
-assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! ###12 11 2006 new variable
-assessment#:#tst_fixed_participants_disable#:#Confirm Status Change###12 11 2006 new variable
-assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? ###12 11 2006 new variable
-assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question###12 11 2006 new variable
-assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback###12 11 2006 new variable
-assessment#:#tst_instant_feedback_answer_specific_desc#:#If you check this option, answer-specific feedback will be shown after a participant answered a question###12 11 2006 new variable
-assessment#:#tst_instant_feedback_results#:#Show Results (only points)###12 11 2006 new variable
-assessment#:#tst_instant_feedback_results_desc#:#If you check this option, the reached points will be shown after a participant answered a question###12 11 2006 new variable
-assessment#:#tst_instant_feedback_solution#:#Show Solutions###12 11 2006 new variable
-assessment#:#tst_instant_feedback_solution_desc#:#If you check this option, the correct solution will be shown after a participant answered a question###12 11 2006 new variable
-assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_list_of_answers#:#List of Answers###12 11 2006 new variable
-assessment#:#tst_list_of_questions_yes#:#Yes, and additional###12 11 2006 new variable
-assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question###12 11 2006 new variable
-assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test###12 11 2006 new variable
-assessment#:#tst_participants_no#:#Nobody has started the test right now!###12 11 2006 new variable
-assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!###12 11 2006 new variable
-assessment#:#tst_pass_best_pass_description#:#Choose this mode to score the best test pass of a participant. This only works if more than one test pass is allowed.###12 11 2006 new variable
-assessment#:#tst_pass_last_pass_description#:#Choose this mode to score the last test pass of a participant. This only works if more than one test pass is allowed.###12 11 2006 new variable
-assessment#:#tst_passes#:#Test Passes###12 11 2006 new variable
-assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s###12 11 2006 new variable
-assessment#:#tst_results_access#:#Access to Test Results###12 11 2006 new variable
-assessment#:#tst_results_access_finished#:#After Test is Finished###12 11 2006 new variable
-assessment#:#tst_results_access_finished_descr#:#Choose this mode to offer test participants access to their test results when they have finished the test ###12 11 2006 new variable
-assessment#:#tst_results_access_date#:#Date###12 11 2006 new variable
-assessment#:#tst_results_access_date_descr#:#Choose this mode to offer test participants access to their test results when the specified date and time has been reached###12 11 2006 new variable
-assessment#:#tst_results_access_always#:#Always###12 11 2006 new variable
-assessment#:#tst_results_access_always_descr#:#Choose this mode to offer test participants always an access to their test results###12 11 2006 new variable
-assessment#:#tst_results_overview#:#Pass Overview of the Test Results ###12 11 2006 new variable
-assessment#:#tst_results_presentation#:#Test Results Presentation###12 11 2006 new variable
-assessment#:#tst_score_cut_question_description#:#Choose this mode to set the results for each question to zero points that a participant answers with a result of less than zero points ###12 11 2006 new variable
-assessment#:#tst_score_cut_test_description#:#Choose this mode to set the test results to zero points, if the sum of all question results is less than zero points###12 11 2006 new variable
-assessment#:#tst_score_mcmr_use_scoring_system_description#:#Choose this mode to give the defined score for multiple choice questions with multiple response, even if a participant did not check one of the answers###12 11 2006 new variable
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_description#:#Choose this mode to score 0 points for multiple choice questions with multiple response when no answer was checked by a participant###12 11 2006 new variable
-assessment#:#tst_list_of_answers_show#:#Show List of Answers###12 11 2006 new variable
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes###12 11 2006 new variable
-assessment#:#tst_start_new_test_pass#:#Start New Test Pass###12 11 2006 new variable
-common#:#proceed#:#Proceed###12 11 2006 new variable
-survey#:#evaluation_access_off#:#Off###12 11 2006 new variable
+assessment#:#tst_count_correct_solutions_description#:#Wählen Sie diese Einstellung, um nur die Fragen zu bewerten, die vollständig richtig beantwortet wurden. Fehlerhafte Bearbeitung oder Teillösungen werden mit 0 Punkten bewertet
+assessment#:#tst_count_partial_solutions_description#:#Wählen Sie diese Einstellung, um die Fragen gemäß Ihrer Punkteverteilung zu bewerten. Auch Teillösungen werden bewertet (Standardverhalten)
+assessment#:#tst_finish_confirm_list_of_answers_button#:#Nein, zurück zur Liste der Antworten
+assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmende, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmend nicht verändern!
+assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
+assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmende zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmende in diesem Test. Wenn Sie diese Teilnehmenden entfernen, werden die Testergebnisse der Teilnehmenden nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?
+assessment#:#tst_instant_feedback#:#Sofortige Rückmeldung - Diese Informationen werden nach der Beantwortung einer Frage angezeigt
+assessment#:#tst_instant_feedback_answer_specific#:#Antwortspezifische Rückmeldungen anzeigen
+assessment#:#tst_instant_feedback_answer_specific_desc#:#Wählen Sie diese Einstellung, um antwortspezifische Rückmeldungen anzuzeigen, nachdem die Teilnehmenden eine Frage beantwortet haben
+assessment#:#tst_instant_feedback_results#:#Ergebnisse anzeigen (nur die erreichten Punkte)
+assessment#:#tst_instant_feedback_results_desc#:#Wählen Sie diese Einstellung, um die erreichten Punkte anzuzeigen, nachdem die Teilnehmenden eine Frage beatwortet haben
+assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
+assessment#:#tst_instant_feedback_solution_desc#:#Wählen Sie diese Einstellung, um das korrekte Ergebnis einer Frage anzuzeigen, nachdem Sie von den Teilnehmenden beantwortet wurde
+assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmende hinzugefügt
+assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als feste Teilnehmende hinzugefügt
+assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmende hinzugefügt
+assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmende hinzugefügt
+assessment#:#tst_list_of_answers#:#Liste der Antworten
+assessment#:#tst_list_of_questions_yes#:#Ja, und zusätzlich
+assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmende die erste Frage bearbeiten
+assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Teilnehmende den Test beenden
+assessment#:#tst_participants_no#:#Der Test wurde von Niemandem gestaret!
+assessment#:#tst_participants_no_fixed#:#Es wurden keine festen Teilnehmenden zu diesem Test hinzugefügt
+assessment#:#tst_pass_best_pass_description#:#Wählen Sie diese Einstellung, um den besten Testdurchlauf der Teilnehmenden zu bewrten. Diese Einstellung ist nur dann auswählbar, wenn mehr als ein Testdurchlauf erlaubt ist.
+assessment#:#tst_pass_last_pass_description#:#Wählen Sie diese Einstellung, um den letzten Testdurchlauf der Teilnehmenden zu bewerten. Diese Einstellung ist nur dann auswählbar, wenn mehr als ein Testdurchlauf erlaubt ist.
+assessment#:#tst_passes#:#Testdurchläufe
+assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
+assessment#:#tst_results_access#:#Zugang zu den Testergebnissen
+assessment#:#tst_results_access_finished#:#Nach Beendigung eines Testdurchlaufs
+assessment#:#tst_results_access_finished_descr#:#Wählen Sie diese Einstellung, um Teilnehmenden einen Zugang zu ihren Testergebnissen zu gewähren, sobald diese einen Testdurchlauf beendet haben
+assessment#:#tst_results_access_date#:#Datum
+assessment#:#tst_results_access_date_descr#:#Wählen Sie diese Einstellung, um Teilnehmenden einen Zugang zu ihren Testergebnissen zu gewähren, sobald ein vorgegebener Zeitpunkt erreicht wurde
+assessment#:#tst_results_access_always#:#Immer
+assessment#:#tst_results_access_always_descr#:#Wählen Sie diese Einstellung, um Teilnehmenden zu jeder Zeit einen Zugang zu ihren Testergebnissen zu gewähren
+assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
+assessment#:#tst_results_presentation#:#Präsentation der Testergebnisse
+assessment#:#tst_score_cut_question_description#:#Wählen Sie diese Einstelllung, um das Ergebnis einer Frage auf 0 Punkte zu setzen, wenn bei der Beantwortung der Frage weniger als 0 Punkte erzielt wurden
+assessment#:#tst_score_cut_test_description#:#Wählen Sie diese Einstellung, um das Testergebnis auf 0 Punkte zu setzen, wenn die Summer der Ergebnisse aller Antworten kleiner als 0 Punkte ist
+assessment#:#tst_score_mcmr_use_scoring_system_description#:#Wählen Sie diese Einstellung, um die vorgegebene Bewertung für Multiple Choice Fragen mit Mehrfachantwort zu vergeben, selbst wenn keine der angebotenen Antworten ausgewählt wurde
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_description#:#Wählen Sie diese Einstellung, um 0 Punkte für Multiple Choice Fragen mit Mehrfachantwort zu vergeben, wenn keine der angebotenen Antworten ausgewählt wurde
+assessment#:#tst_list_of_answers_show#:#Liste der Antworten anzeigen
+assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
+assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
+common#:#proceed#:#Fortfahren
+survey#:#evaluation_access_off#:#Nicht verfügbar

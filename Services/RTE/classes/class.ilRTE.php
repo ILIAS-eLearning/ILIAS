@@ -123,6 +123,19 @@ class ilRTE
 	{
 		// must be overwritten in parent classes
 	}
+
+	/**
+	* Adds custom support for an RTE in an ILIAS form
+	*
+	* Adds custom support for an RTE in an ILIAS form
+	*
+	* @access public
+	*/
+	function addCustomRTESupport($obj_id, $obj_type, $tags)
+	{
+		// must be overwritten in parent classes
+	}
+	
 	
 	function _getRTEClassname()
 	{
