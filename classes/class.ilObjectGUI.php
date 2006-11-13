@@ -819,7 +819,7 @@ class ilObjectGUI
 		if (count($no_create))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
-									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+									 implode(',',$no_create),$this->ilias->error_obj->MESSAGE);
 		}
 		foreach ($_POST["trash_id"] as $id)
 		{
