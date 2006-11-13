@@ -7,13 +7,13 @@
 </thead>
 <tr>
   <td class="option"><label for="anonymity">{TEXT_ANONYMITY}</label></td>
-  <td class="option_value"><input type="checkbox" name="anonymity" id="anonymity" value="1"{CHECKED_ANONYMITY} /><br /><label for="anonymity"><em>{DESCRIPTION_ANONYMITY}</em></label></td>
+  <td class="option_value"><input type="checkbox" name="anonymity" id="anonymity" value="1"{CHECKED_ANONYMITY} /><br /><label for="anonymity"><div class="il_Description_no_margin">{DESCRIPTION_ANONYMITY}</div></label></td>
 </tr>
 <tr>
   <td class="option"><label for="chb_random">{TEXT_RANDOM_TEST}</label></td>
   <td class="option_value">
 		<input type="checkbox" name="chb_random" id="chb_random" value="1"{CHECKED_RANDOM_TEST}{ENABLED_RANDOM_TEST} />
-		<br /><label for="chb_random"><em>{TEXT_RANDOM_TEST_DESCRIPTION}</em></label>
+		<br /><label for="chb_random"><div class="il_Description_no_margin">{TEXT_RANDOM_TEST_DESCRIPTION}</div></label>
 	</td>
 </tr>
 <tr>
@@ -28,7 +28,7 @@
   <td class="option_value">
 		<input type="checkbox" name="chb_postpone" id="chb_postpone" value="1"{CHECKED_POSTPONE} />
 		<br />
-		<label for="chb_postpone"><em>{TEXT_POSTPONE_DESCRIPTION}</em></label>
+		<label for="chb_postpone"><div class="il_Description_no_margin">{TEXT_POSTPONE_DESCRIPTION}</div></label>
 	</td>
 </tr>
 <tr>
@@ -36,7 +36,7 @@
   <td class="option_value">
 		<input type="checkbox" name="chb_shuffle_questions" id="chb_shuffle_questions" value="1"{CHECKED_SHUFFLE_QUESTIONS} {DISABLE_SHUFFLE_QUESTIONS} />
 		<br />
-		<label for="chb_shuffle_questions"><em>{TEXT_SHUFFLE_QUESTIONS_DESCRIPTION}</em></label>
+		<label for="chb_shuffle_questions"><div class="il_Description_no_margin">{TEXT_SHUFFLE_QUESTIONS_DESCRIPTION}</div></label>
 	</td>
 </tr>
 <tr>
@@ -49,7 +49,7 @@
 		<span style="padding-left:2em"><input type="checkbox" name="chb_list_of_questions_start" id="chb_list_of_questions_start" value="1"{CHECKED_LIST_OF_QUESTIONS_START}{DISABLED_LIST_OF_QUESTIONS_START} /> <label for="chb_list_of_questions_start">{TEXT_LIST_OF_QUESTIONS_START}</label></span>
 		<br />
 		<span style="padding-left:2em"><input type="checkbox" name="chb_list_of_questions_end" id="chb_list_of_questions_end" value="1"{CHECKED_LIST_OF_QUESTIONS_END}{DISABLED_LIST_OF_QUESTIONS_END} /> <label for="chb_list_of_questions_end">{TEXT_LIST_OF_QUESTIONS_END}</label></span>
-		<p><em>{TEXT_SHOW_SUMMARY_DESCRIPTION}</em></p>
+		<p><div class="il_Description_no_margin">{TEXT_SHOW_SUMMARY_DESCRIPTION}</div></p>
 	</td>
 </tr>
 <tr>
@@ -57,7 +57,7 @@
   <td class="option_value">
 		<input type="checkbox" name="chb_show_cancel" id="chb_show_cancel" value="1"{CHECKED_SHOW_CANCEL} {DISABLE_SHOW_CANCEL} />
 		<br />
-		<label for="chb_show_cancel"><em>{TEXT_SHOW_CANCEL_DESCRIPTION}</em></label>
+		<label for="chb_show_cancel"><div class="il_Description_no_margin">{TEXT_SHOW_CANCEL_DESCRIPTION}</div></label>
 	</td>
 </tr>
 <tr class="tblheader">
@@ -66,22 +66,6 @@
 <tr>
   <td class="option">{TEXT_NR_OF_TRIES}</td>
   <td class="option_value"><input type="text" name="nr_of_tries" value="{VALUE_NR_OF_TRIES}" size="8" {DISABLE_NR_OF_TRIES} />{COMMENT_NR_OF_TRIES}</td>
-</tr>
-<tr>
-  <td class="option"><label for="chb_use_previous_answers">{TEXT_USE_PREVIOUS_ANSWERS}</label></td> 
-  <td class="option_value">
-		<input type="checkbox" name="chb_use_previous_answers" id="chb_use_previous_answers" value="1"{CHECKED_USE_PREVIOUS_ANSWERS} {DISABLE_USE_PREVIOUS_ANSWERS} />
-		<br />
-		<label for="chb_use_previous_answers"><em>{TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION}</em></label>
-	</td>
-</tr>
-<tr>
-  <td class="option"><label for="chb_hide_title_points">{TEXT_HIDE_TITLE_POINTS}</label></td>
-  <td class="option_value">
-		<input type="checkbox" name="chb_hide_title_points" id="chb_hide_title_points" value="1"{CHECKED_HIDE_TITLE_POINTS} />
-		<br />
-		<label for="chb_hide_title_points"><em>{TEXT_HIDE_TITLE_POINTS_DESCRIPTION}</em></label>
-	</td>
 </tr>
 <tr>
   <td class="option">{TEXT_PROCESSING_TIME}</td>
@@ -101,16 +85,32 @@
 </tr>
 <!-- END ending_time -->
 <tr>
+  <td class="option"><label for="chb_use_previous_answers">{TEXT_USE_PREVIOUS_ANSWERS}</label></td> 
+  <td class="option_value">
+		<input type="checkbox" name="chb_use_previous_answers" id="chb_use_previous_answers" value="1"{CHECKED_USE_PREVIOUS_ANSWERS} {DISABLE_USE_PREVIOUS_ANSWERS} />
+		<br />
+		<label for="chb_use_previous_answers"><div class="il_Description_no_margin">{TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION}</div></label>
+	</td>
+</tr>
+<tr>
+  <td class="option"><label for="chb_hide_title_points">{TEXT_HIDE_TITLE_POINTS}</label></td>
+  <td class="option_value">
+		<input type="checkbox" name="chb_hide_title_points" id="chb_hide_title_points" value="1"{CHECKED_HIDE_TITLE_POINTS} />
+		<br />
+		<label for="chb_hide_title_points"><div class="il_Description_no_margin">{TEXT_HIDE_TITLE_POINTS_DESCRIPTION}</div></label>
+	</td>
+</tr>
+<tr>
+  <td class="option">{TEXT_PASSWORD}</td>
+  <td class="option_value"><input type="text" name="password" size="20"{VALUE_PASSWORD} /><br /><div class="il_Description_no_margin">{TEXT_PASSWORD_DETAILS}</div></td>
+</tr>
+<tr>
   <td class="option">{TEXT_MAX_ALLOWED_USERS}</td>
   <td class="option_value">
 		{TEXT_ALLOWED_USERS} <input type="text" name="allowedUsers" size="3"{VALUE_ALLOWED_USERS} />
 		<br />
 		{TEXT_ALLOWED_USERS_TIME_GAP} <input type="text" name="allowedUsersTimeGap" size="4"{VALUE_ALLOWED_USERS_TIME_GAP} /> {SECONDS}
 	</td>
-</tr>
-<tr>
-  <td class="option">{TEXT_PASSWORD}</td>
-  <td class="option_value"><input type="text" name="password" size="20"{VALUE_PASSWORD} /><br /><em>{TEXT_PASSWORD_DETAILS}</em></td>
 </tr>
 <tr><td colspan="2" class="submit">
 <!-- BEGIN command_buttons -->

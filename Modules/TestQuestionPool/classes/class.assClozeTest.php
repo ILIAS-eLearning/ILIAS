@@ -709,7 +709,7 @@ class assClozeTest extends assQuestion
 		foreach ($gaptext as $idx => $val)
 		{
 			$clozetext = str_replace("<<" . $idx . ">>", $val, $clozetext);
-		}
+		}echo $clozetext;exit;
 		$this->cloze_text = $clozetext;
 		$this->saveToDb();
 		// handle the import of media objects in XHTML code

@@ -427,7 +427,7 @@ assessment#:#output#:#Output
 assessment#:#output_mode#:#Output Mode
 assessment#:#participants#:#Participants
 assessment#:#participants_data#:#Participants Data
-assessment#:#participants_invitation#:#Fixed Participants
+assessment#:#participants_invitation#:#Invite Fixed Participants
 assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.
 assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.
 assessment#:#pass#:#Pass
