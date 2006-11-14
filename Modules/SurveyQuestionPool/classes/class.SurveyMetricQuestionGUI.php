@@ -221,63 +221,66 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 *
 * @access public
 */
-	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
+	function getWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
+		$template = new ilTemplate("tpl.il_svy_out_metric.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if (count($this->object->material))
 		{
-			$this->tpl->setCurrentBlock("material_metric");
+			$template->setCurrentBlock("material_metric");
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
-			$this->tpl->parseCurrentBlock();
+			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
+			$template->parseCurrentBlock();
 		}
 
 		if (strlen($this->object->getMinimum()))
 		{
-			$this->tpl->setCurrentBlock("minimum");
-			$this->tpl->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
-			$this->tpl->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
-			$this->tpl->parseCurrentBlock();
+			$template->setCurrentBlock("minimum");
+			$template->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
+			$template->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
+			$template->parseCurrentBlock();
 		}
 		if (strlen($this->object->getMaximum()))
 		{
-			$this->tpl->setCurrentBlock("maximum");
-			$this->tpl->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
-			$this->tpl->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
-			$this->tpl->parseCurrentBlock();
+			$template->setCurrentBlock("maximum");
+			$template->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
+			$template->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
+			$template->parseCurrentBlock();
 		}
 
-		$this->tpl->setCurrentBlock("question_data_metric");
+		$template->setCurrentBlock("question_data_metric");
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if (! $this->object->getObligatory())
 		{
-			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
 		}
 		if ($question_title)
 		{
-			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		}
-		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+		$template->setVariable("QUESTION_ID", $this->object->getId());
 		if (is_array($working_data))
 		{
-			$this->tpl->setVariable("VALUE_METRIC", $working_data[0]["value"]);
+			$template->setVariable("VALUE_METRIC", $working_data[0]["value"]);
 		}
 
-		if (strlen($this->object->getMaximum())>1) {
+		if (strlen($this->object->getMaximum())>1) 
+		{
 			$len = strlen($this->object->getMaximum()) + 2;
-			$this->tpl->setVariable("INPUT_SIZE", $len);
+			$template->setVariable("INPUT_SIZE", $len);
 		}
 		else {
-			$this->tpl->setVariable("INPUT_SIZE", 10);
+			$template->setVariable("INPUT_SIZE", 10);
 		}
 
 		if (strcmp($error_message, "") != 0)
 		{
-			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
+			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
-		$this->tpl->parseCurrentBlock();
+		$template->parseCurrentBlock();
+		return $template->get();
 	}
 
 /**
@@ -290,8 +293,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	function preview()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
-		$this->tpl->addBlockFile("METRIC", "metric", "tpl.il_svy_out_metric.html", "Modules/SurveyQuestionPool");
-		$this->outWorkingForm();
+		$question_output = $this->getWorkingForm();
+		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 		$this->tpl->parseCurrentBlock();
 	}
 
