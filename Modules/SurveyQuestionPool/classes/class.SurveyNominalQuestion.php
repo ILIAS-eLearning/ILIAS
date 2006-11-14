@@ -902,5 +902,48 @@ class SurveyNominalQuestion extends SurveyQuestion
 			}
 		}
 	}
+
+	/**
+	* Returns an array containing all answers to this question in a given survey
+	*
+	* Returns an array containing all answers to this question in a given survey
+	*
+	* @param integer $survey_id The database ID of the survey
+	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
+	* @access public
+	*/
+	function &getUserAnswers($survey_id)
+	{
+		global $ilDB;
+		
+		$answers = array();
+
+		$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s",
+			$ilDB->quote($survey_id),
+			$ilDB->quote($this->getId())
+		);
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$category = $this->categories->getCategory($row["value"]);
+			if (strlen($row["anonymous_id"]) > 0)
+			{
+				if (!is_array($answers[$row["anonymous_id"]]))
+				{
+					$answers[$row["anonymous_id"]] = array();
+				}
+				array_push($answers[$row["anonymous_id"]], $row["value"] + 1 . " - " . $category);
+			}
+			else
+			{
+				if (!is_array($answers[$row["user_fi"]]))
+				{
+					$answers[$row["user_fi"]] = array();
+				}
+				array_push($answers[$row["user_fi"]], $row["value"] + 1 . " - " . $category);
+			}
+		}
+		return $answers;
+	}
 }
 ?>
