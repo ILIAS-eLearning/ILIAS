@@ -557,7 +557,7 @@ class ilSurveyEvaluationGUI
 			return $this->exportUserSpecificResults($_POST["export_format"]);
 		}
 
-		$eval =& $this->object->getEvaluationForAllUsers();
+		$userResults =& $this->object->getUserSpecificResults();
 		$this->setEvalTabs();
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
@@ -575,6 +575,8 @@ class ilSurveyEvaluationGUI
 		}
 		$char = "A";
 		$cellcounter = 1;
+		$participants =& $this->object->getSurveyParticipants();
+		
 		foreach ($questions as $question_id => $question_data)
 		{
 			$this->tpl->setCurrentBlock("headercell");
@@ -586,63 +588,42 @@ class ilSurveyEvaluationGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		foreach ($eval as $user_id => $resultset)
+		foreach ($participants as $data)
 		{
 			$this->tpl->setCurrentBlock("bodycell");
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-			$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["name"]);
+			$this->tpl->setVariable("TEXT_BODY_CELL", $data["name"]);
 			$this->tpl->parseCurrentBlock();
 			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 			{
 				$this->tpl->setCurrentBlock("bodycell");
 				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["gender"]);
+				$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("gender_" . ilObjUser::_lookupGender($data["user_id"])));
 				$this->tpl->parseCurrentBlock();
 			}
 			foreach ($questions as $question_id => $question_data)
 			{
-				// html output
-				if (count($resultset["answers"][$question_id]))
+				if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 				{
-					$answervalues = array();
-					include_once "./classes/class.ilUtil.php";
-					foreach ($resultset["answers"][$question_id] as $key => $answer)
-					{
-						switch ($question_data["questiontype_fi"])
-						{
-							case 1:
-								// nominal question
-								if (strcmp($answer["value"], "") != 0)
-								{
-									array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
-								}
-								break;
-							case 2:
-								// ordinal question
-								array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
-								break;
-							case 3:
-								// metric question
-								array_push($answervalues, $answer["value"]);
-								break;
-							case 4:
-								// text question
-								array_push($answervalues, $answer["textanswer"]);
-								break;
-						}
-					}
-					$this->tpl->setCurrentBlock("bodycell");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("TEXT_BODY_CELL", join($answervalues, "<br />"));
-					$this->tpl->parseCurrentBlock();
+					$found = $userResults[$question_id][$data["user_id"]];
 				}
 				else
 				{
-					$this->tpl->setCurrentBlock("bodycell");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("skipped"));
-					$this->tpl->parseCurrentBlock();
+					$found = $userResults[$question_id][$data["anonymous_id"]];
 				}
+				$text = $this->lng->txt("skipped");
+				if (is_array($found))
+				{
+					$text = implode("<br />", $found);
+				}
+				else
+				{
+					$text = $found;
+				}
+				$this->tpl->setCurrentBlock("bodycell");
+				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+				$this->tpl->setVariable("TEXT_BODY_CELL", $text);
+				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->parse("row");

@@ -472,7 +472,7 @@ class ilObjSurvey extends ilObject
 			{
 				if (strlen($row["anonymous_id"]))
 				{
-					$participants[$row["finished_id"]] = array("name" => $this->lng->txt("anonymous"));
+					$participants[$row["finished_id"]] = array("name" => $this->lng->txt("anonymous"), "user_id" => $row["user_fi"], "anonymous_id" => $row["anonymous_id"]);
 				}
 				else
 				{
@@ -480,11 +480,11 @@ class ilObjSurvey extends ilObject
 					if (strlen($uname["user_id"]))
 					{
 						$login = ilObjUser::_lookupLogin($row["user_fi"]);
-						$participants[$row["finished_id"]] = array("name" => $uname["lastname"] . ", " . $uname["firstname"], "login" => $login);
+						$participants[$row["finished_id"]] = array("name" => $uname["lastname"] . ", " . $uname["firstname"], "login" => $login, "user_id" => $row["user_fi"], "anonymous_id" => $row["anonymous_id"]);
 					}
 					else
 					{
-						$participants[$row["finished_id"]] = array("name" => $this->lng->txt("deleted_user"));
+						$participants[$row["finished_id"]] = array("name" => $this->lng->txt("deleted_user"), "user_id" => $row["user_fi"], "anonymous_id" => $row["anonymous_id"]);
 					}
 				}
 			}
@@ -3456,6 +3456,45 @@ class ilObjSurvey extends ilObject
 			{
 				$evaluation[$row["anonymous_id"]] = $this->getEvaluationByUser($questions, $row["user_fi"], $row["anonymous_id"]);
 			}
+		}
+		return $evaluation;
+	}
+	
+/**
+* Calculates the evaluation data for the user specific results
+*
+* Calculates the evaluation data for the user specific results
+*
+* @return array An array containing the user specific results
+* @access public
+*/
+	function &getUserSpecificResults()
+	{
+		global $ilDB;
+		
+		$users = array();
+		$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s",
+			$ilDB->quote($this->getSurveyId() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($users, $row);
+			}
+		}
+		$evaluation = array();
+		$questions =& $this->getSurveyQuestions();
+		foreach ($questions as $question_id => $question_data)
+		{
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			$question_type = SurveyQuestion::_getQuestionType($question_id);
+			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+			$question = new $question_type();
+			$question->loadFromDb($question_id);
+			$data =& $question->getUserAnswers($this->getSurveyId());
+			$evaluation[$question_id] = $data;
 		}
 		return $evaluation;
 	}

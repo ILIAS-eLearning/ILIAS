@@ -1869,5 +1869,20 @@ class SurveyQuestion
 	{
 		// overwrite in inherited classes
 	}
+
+	/**
+	* Returns an array containing all answers to this question in a given survey
+	*
+	* Returns an array containing all answers to this question in a given survey
+	*
+	* @param integer $survey_id The database ID of the survey
+	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
+	* @access public
+	*/
+	function &getUserAnswers($survey_id)
+	{
+		// overwrite in inherited classes
+		return array();
+	}
 }
 ?>
