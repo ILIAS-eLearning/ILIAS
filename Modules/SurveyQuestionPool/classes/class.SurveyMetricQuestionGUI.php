@@ -60,19 +60,6 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Returns the question type string
-*
-* Returns the question type string
-*
-* @result string The question type string
-* @access public
-*/
-	function getQuestionType()
-	{
-		return "SurveyMetricQuestion";
-	}
-
-/**
 * Creates an output of the edit form for the question
 *
 * Creates an output of the edit form for the question

@@ -170,9 +170,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function savePropertiesObject()
 	{
 		include_once "./classes/class.ilUtil.php";
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$status = STATUS_OFFLINE;
 		if ($_POST["status"] == 1)
 		{
@@ -308,17 +305,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_properties.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("VALUE_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("VALUE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($this->object->getDescription()));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("introduction"));
 		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		$this->tpl->setVariable("TEXT_OUTRO", $this->lng->txt("outro"));
 		$this->tpl->setVariable("VALUE_OUTRO", $this->object->prepareTextareaOutput($this->object->getOutro()));
 		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
+		$this->tpl->setVariable("ONLINE_DESCRIPTION", $this->lng->txt("online_description"));
 		$this->tpl->setVariable("TEXT_START_DATE", $this->lng->txt("start_date"));
 		$this->tpl->setVariable("VALUE_START_DATE", ilUtil::makeDateSelect("start_date", $this->object->getStartYear(), $this->object->getStartMonth(), $this->object->getStartDay()));
 		$this->tpl->setVariable("IMG_START_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
@@ -328,12 +320,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("IMG_END_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
 		$this->tpl->setVariable("TXT_END_DATE_CALENDAR", $this->lng->txt("open_calendar"));
 		$this->tpl->setVariable("TEXT_EVALUATION_ACCESS", $this->lng->txt("evaluation_access"));
+		$this->tpl->setVariable("DESCRIPTION_EVALUATION_ACCESS", $this->lng->txt("evaluation_access_description"));
 		$this->tpl->setVariable("VALUE_ONLINE", $this->lng->txt("online"));
 		$this->tpl->setVariable("TEXT_ENABLED", $this->lng->txt("enabled"));
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("evaluation_access_off"));
 		$this->tpl->setVariable("VALUE_ALL", $this->lng->txt("evaluation_access_all"));
 		$this->tpl->setVariable("VALUE_PARTICIPANTS", $this->lng->txt("evaluation_access_participants"));
 		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymize_survey"));
+		$this->tpl->setVariable("DESCRIPTION_ANONYMIZATION", $this->lng->txt("anonymize_survey_description"));
 		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("anonymize_personalized"));
 		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("anonymize_with_code"));
 		$this->tpl->setVariable("ANON_VALUE_FREEACCESS", $this->lng->txt("anonymize_without_code"));
@@ -375,8 +369,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHECKED_STATUS", " checked=\"checked\"");
 		}
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-    if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+    if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		{
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}

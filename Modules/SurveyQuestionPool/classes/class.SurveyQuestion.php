@@ -1651,6 +1651,32 @@ class SurveyQuestion
 	}
 
 	/**
+	* Returns the question type ID of the question
+	*
+	* Returns the question type ID of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionTypeID()
+	{
+		global $ilDB;
+		$query = sprintf("SELECT questiontype_id FROM survey_questiontype WHERE type_tag = %s",
+			$ilDB->quote($this->getQuestionType())
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["questiontype_id"];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	/**
 	* Returns the question type of the question
 	*
 	* Returns the question type of the question
@@ -1660,7 +1686,7 @@ class SurveyQuestion
 	*/
 	function getQuestionType()
 	{
-		return 0;
+		return "";
 	}
 	
 /**

@@ -314,7 +314,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
       $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getQuestionType()),
+				$ilDB->quote($this->getQuestionTypeID()),
 				$ilDB->quote($this->obj_id),
 				$ilDB->quote($this->owner),
 				$ilDB->quote($this->title),
@@ -722,7 +722,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	*/
 	function getQuestionType()
 	{
-		return 2;
+		return "SurveyOrdinalQuestion";
 	}
 
 	/**

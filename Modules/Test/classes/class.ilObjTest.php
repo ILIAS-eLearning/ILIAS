@@ -1090,10 +1090,12 @@ class ilObjTest extends ilObject
     global $ilDB;
 		
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete()) 
+		{
 			$complete = 1;
 		}
-    if ($this->test_id > 0) {
+    if ($this->test_id > 0) 
+		{
       $query = sprintf("UPDATE tst_tests SET complete = %s WHERE test_id = %s",
 				$ilDB->quote("$complete"),
         $ilDB->quote($this->test_id)
@@ -1115,7 +1117,8 @@ class ilObjTest extends ilObject
     global $ilDB;
 		
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete()) 
+		{
 			$complete = 1;
 		}
 		$ects_fx = "NULL";
@@ -5917,7 +5920,6 @@ class ilObjTest extends ilObject
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->author = $original->getAuthor();
 		$newObj->introduction = $original->getIntroduction();
 		$newObj->mark_schema = $original->mark_schema;
 		$newObj->sequence_settings = $original->getSequenceSettings();
