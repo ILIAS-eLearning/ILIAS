@@ -461,7 +461,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s ORDER BY user_fi",
+		$query = sprintf("SELECT * FROM survey_finished LEFT JOIN usr_data ON survey_finished.user_fi = usr_data.usr_id WHERE survey_finished.survey_fi = %s ORDER BY usr_data.lastname, usr_data.firstname, user_fi",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);

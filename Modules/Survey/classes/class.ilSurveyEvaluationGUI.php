@@ -611,7 +611,7 @@ class ilSurveyEvaluationGUI
 				{
 					$found = $userResults[$question_id][$data["anonymous_id"]];
 				}
-				$text = $this->lng->txt("skipped");
+				$text = "";
 				if (is_array($found))
 				{
 					$text = implode("<br />", $found);
@@ -620,6 +620,7 @@ class ilSurveyEvaluationGUI
 				{
 					$text = $found;
 				}
+				if (strlen($text) == 0) $text = $this->lng->txt("skipped");
 				$this->tpl->setCurrentBlock("bodycell");
 				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 				$this->tpl->setVariable("TEXT_BODY_CELL", $text);

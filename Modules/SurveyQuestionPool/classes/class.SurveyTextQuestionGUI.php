@@ -149,42 +149,44 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 *
 * @access public
 */
-	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
+	function getWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
+		$template = new ilTemplate("tpl.il_svy_out_text.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if (count($this->object->material))
 		{
-			$this->tpl->setCurrentBlock("material_text");
+			$template->setCurrentBlock("material_text");
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
-			$this->tpl->parseCurrentBlock();
+			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
+			$template->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("question_data_text");
+		$template->setCurrentBlock("question_data_text");
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if (! $this->object->getObligatory())
 		{
-			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
 		}
 		if ($question_title)
 		{
-			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		}
-		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+		$template->setVariable("QUESTION_ID", $this->object->getId());
 		if (is_array($working_data))
 		{
-			$this->tpl->setVariable("VALUE_ANSWER", $working_data[0]["textanswer"]);
+			$template->setVariable("VALUE_ANSWER", $working_data[0]["textanswer"]);
 		}
 		if (strcmp($error_message, "") != 0)
 		{
-			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
+			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
 		if ($this->object->getMaxChars())
 		{
-			$this->tpl->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));
+			$template->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));
 		}
-		$this->tpl->parseCurrentBlock();
+		$template->parseCurrentBlock();
+		return $template->get();
 	}
 
 /**
@@ -197,8 +199,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 	function preview()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
-		$this->tpl->addBlockFile("TEXT", "text", "tpl.il_svy_out_text.html", "Modules/SurveyQuestionPool");
-		$this->outWorkingForm();
+		$question_output = $this->getWorkingForm();
+		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 		$this->tpl->parseCurrentBlock();
 	}
 

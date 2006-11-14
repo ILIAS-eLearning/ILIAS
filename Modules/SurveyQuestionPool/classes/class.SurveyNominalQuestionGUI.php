@@ -173,15 +173,16 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 *
 * @access public
 */
-	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
+	function getWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
+		$template = new ilTemplate("tpl.il_svy_out_nominal.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if (count($this->object->material))
 		{
-			$this->tpl->setCurrentBlock("material_nominal");
+			$template->setCurrentBlock("material_nominal");
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
-			$this->tpl->parseCurrentBlock();
+			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
+			$template->parseCurrentBlock();
 		}
 		switch ($this->object->getOrientation())
 		{
@@ -191,10 +192,10 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 					$category = $this->object->categories->getCategory($i);
 					if ($this->object->getSubtype() == SUBTYPE_MCSR)
 					{
-						$this->tpl->setCurrentBlock("nominal_row_sr");
-						$this->tpl->setVariable("TEXT_NOMINAL", $category);
-						$this->tpl->setVariable("VALUE_NOMINAL", $i);
-						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						$template->setCurrentBlock("nominal_row_sr");
+						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("VALUE_NOMINAL", $i);
+						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
 							foreach ($working_data as $value)
@@ -203,19 +204,19 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 								{
 									if ($value["value"] == $i)
 									{
-										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+										$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
 									}
 								}
 							}
 						}
-						$this->tpl->parseCurrentBlock();
+						$template->parseCurrentBlock();
 					}
 					else
 					{
-						$this->tpl->setCurrentBlock("nominal_row_mr");
-						$this->tpl->setVariable("TEXT_NOMINAL", $category);
-						$this->tpl->setVariable("VALUE_NOMINAL", $i);
-						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						$template->setCurrentBlock("nominal_row_mr");
+						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("VALUE_NOMINAL", $i);
+						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
 							foreach ($working_data as $value)
@@ -224,12 +225,12 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 								{
 									if ($value["value"] == $i)
 									{
-										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+										$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
 									}
 								}
 							}
 						}
-						$this->tpl->parseCurrentBlock();
+						$template->parseCurrentBlock();
 					}
 				}
 				break;
@@ -240,9 +241,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 					{
 						$category = $this->object->categories->getCategory($i);
-						$this->tpl->setCurrentBlock("radio_col_nominal");
-						$this->tpl->setVariable("VALUE_NOMINAL", $i);
-						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						$template->setCurrentBlock("radio_col_nominal");
+						$template->setVariable("VALUE_NOMINAL", $i);
+						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
 							foreach ($working_data as $value)
@@ -251,21 +252,21 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 								{
 									if ($value["value"] == $i)
 									{
-										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+										$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
 									}
 								}
 							}
 						}
-						$this->tpl->parseCurrentBlock();
+						$template->parseCurrentBlock();
 					}
 					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 					{
 						$category = $this->object->categories->getCategory($i);
-						$this->tpl->setCurrentBlock("text_col_nominal");
-						$this->tpl->setVariable("VALUE_NOMINAL", $i);
-						$this->tpl->setVariable("TEXT_NOMINAL", $category);
-						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-						$this->tpl->parseCurrentBlock();
+						$template->setCurrentBlock("text_col_nominal");
+						$template->setVariable("VALUE_NOMINAL", $i);
+						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("QUESTION_ID", $this->object->getId());
+						$template->parseCurrentBlock();
 					}
 				}
 				else
@@ -273,9 +274,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 					{
 						$category = $this->object->categories->getCategory($i);
-						$this->tpl->setCurrentBlock("checkbox_col_nominal");
-						$this->tpl->setVariable("VALUE_NOMINAL", $i);
-						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+						$template->setCurrentBlock("checkbox_col_nominal");
+						$template->setVariable("VALUE_NOMINAL", $i);
+						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
 							foreach ($working_data as $value)
@@ -284,21 +285,21 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 								{
 									if ($value["value"] == $i)
 									{
-										$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+										$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
 									}
 								}
 							}
 						}
-						$this->tpl->parseCurrentBlock();
+						$template->parseCurrentBlock();
 					}
 					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 					{
 						$category = $this->object->categories->getCategory($i);
-						$this->tpl->setCurrentBlock("text_col_nominal_mr");
-						$this->tpl->setVariable("VALUE_NOMINAL", $i);
-						$this->tpl->setVariable("TEXT_NOMINAL", $category);
-						$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-						$this->tpl->parseCurrentBlock();
+						$template->setCurrentBlock("text_col_nominal_mr");
+						$template->setVariable("VALUE_NOMINAL", $i);
+						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("QUESTION_ID", $this->object->getId());
+						$template->parseCurrentBlock();
 					}
 				}
 				break;
@@ -307,9 +308,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$this->tpl->setCurrentBlock("comborow_nominal");
-					$this->tpl->setVariable("TEXT_NOMINAL", $category);
-					$this->tpl->setVariable("VALUE_NOMINAL", $i);
+					$template->setCurrentBlock("comborow_nominal");
+					$template->setVariable("TEXT_NOMINAL", $category);
+					$template->setVariable("VALUE_NOMINAL", $i);
 					if (is_array($working_data))
 					{
 						foreach ($working_data as $value)
@@ -318,37 +319,38 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 							{
 								if ($value["value"] == $i)
 								{
-									$this->tpl->setVariable("SELECTED_NOMINAL", " selected=\"selected\"");
+									$template->setVariable("SELECTED_NOMINAL", " selected=\"selected\"");
 								}
 							}
 						}
 					}
-					$this->tpl->parseCurrentBlock();
+					$template->parseCurrentBlock();
 				}
-				$this->tpl->setCurrentBlock("combooutput_nominal");
-				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-				$this->tpl->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
-				$this->tpl->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
-				$this->tpl->parseCurrentBlock();
+				$template->setCurrentBlock("combooutput_nominal");
+				$template->setVariable("QUESTION_ID", $this->object->getId());
+				$template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
+				$template->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
+				$template->parseCurrentBlock();
 				break;
 		}
 		
-		$this->tpl->setCurrentBlock("question_data_nominal");
+		$template->setCurrentBlock("question_data_nominal");
 		if (strcmp($error_message, "") != 0)
 		{
-			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
+			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if (! $this->object->getObligatory())
 		{
-			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
 		}
 		if ($question_title)
 		{
-			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		}
-		$this->tpl->parseCurrentBlock();
+		$template->parseCurrentBlock();
+		return $template->get();
 	}
 	
 /**
@@ -361,8 +363,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 	function preview()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
-		$this->tpl->addBlockFile("NOMINAL", "nominal", "tpl.il_svy_out_nominal.html", "Modules/SurveyQuestionPool");
-		$this->outWorkingForm();
+		$question_output = $this->getWorkingForm();
+		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 		$this->tpl->parseCurrentBlock();
 	}
 

@@ -260,10 +260,6 @@ class ilSurveyExecutionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->outNavigationButtons("top", $page);
-			$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", "Modules/SurveyQuestionPool");
-			$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", "Modules/SurveyQuestionPool");
-			$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", "Modules/SurveyQuestionPool");
-			$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", "Modules/SurveyQuestionPool");
 			$this->tpl->setCurrentBlock("percentage");
 			$percentage = (int)(($page[0]["position"])*100);
 			$this->tpl->setVariable("PERCENT_BAR_START", ilUtil::getImagePath("bar_start.gif"));
@@ -295,7 +291,8 @@ class ilSurveyExecutionGUI
 				{
 					$error_messages = $_SESSION["svy_errors"];
 				}
-				$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
+				$question_output = $question_gui->getWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
+				$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 				$qid = "&qid=" . $data["question_id"];
 				$this->tpl->parse("survey_content");
 			}
