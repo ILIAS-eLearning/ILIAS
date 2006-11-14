@@ -111,20 +111,24 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
 		$this->tpl->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
 		$this->tpl->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
+		$this->tpl->setVariable("TEXT_SUBTYPE", $this->lng->txt("subtype"));
+		$this->tpl->setVariable("DESCRIPTION_NONRATIO", $this->lng->txt("metric_subtype_description_interval"));
 		$this->tpl->setVariable("TEXT_NONRATIO", $this->lng->txt("non_ratio"));
+		$this->tpl->setVariable("DESCRIPTION_RATIONONABSOLUTE", $this->lng->txt("metric_subtype_description_rationonabsolute"));
 		$this->tpl->setVariable("TEXT_RATIONONABSOLUTE", $this->lng->txt("ratio_non_absolute"));
+		$this->tpl->setVariable("DESCRIPTION_RATIOABSOLUTE", $this->lng->txt("metric_subtype_description_ratioabsolute"));
 		$this->tpl->setVariable("TEXT_RATIOABSOLUTE", $this->lng->txt("ratio_absolute"));
 		if ($this->object->getSubtype() == SUBTYPE_NON_RATIO)
 		{
-			$this->tpl->setVariable("SELECTED_NONRATIO", " selected=\"selected\"");
+			$this->tpl->setVariable("CHECKED_NONRATIO", " checked=\"checked\"");
 		}
 		else if ($this->object->getSubtype() == SUBTYPE_RATIO_NON_ABSOLUTE)
 		{
-			$this->tpl->setVariable("SELECTED_RATIONONABSOLUTE", " selected=\"selected\"");
+			$this->tpl->setVariable("CHECKED_RATIONONABSOLUTE", " checked=\"checked\"");
 		}
 		else if ($this->object->getSubtype() == SUBTYPE_RATIO_ABSOLUTE)
 		{
-			$this->tpl->setVariable("SELECTED_RATIOABSOLUTE", " selected=\"selected\"");
+			$this->tpl->setVariable("CHECKED_RATIOABSOLUTE", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));

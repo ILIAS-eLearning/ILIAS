@@ -130,13 +130,15 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_QUESTION", $this->object->prepareTextareaOutput($questiontext));
 		$this->tpl->setVariable("TXT_SR", $this->lng->txt("multiple_choice_single_response"));
 		$this->tpl->setVariable("TXT_MR", $this->lng->txt("multiple_choice_multiple_response"));
+		$this->tpl->setVariable("TEXT_SUBTYPE", $this->lng->txt("subtype"));
+		$this->tpl->setVariable("DESCRIPTION_QUESTION_TYPE", $this->lng->txt("multiple_choice_subtype_description"));
 		if ($this->object->getSubtype() == SUBTYPE_MCSR)
 		{
-			$this->tpl->setVariable("SELECTED_SR", " selected=\"selected\"");
+			$this->tpl->setVariable("CHECKED_SR", " checked=\"checked\"");
 		}
 		else
 		{
-			$this->tpl->setVariable("SELECTED_MR", " selected=\"selected\"");
+			$this->tpl->setVariable("CHECKED_MR", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));

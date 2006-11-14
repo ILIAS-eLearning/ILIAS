@@ -321,7 +321,14 @@ class SurveyQuestion
 */
   function setOrientation($orientation = 0) 
 	{
-    $this->orientation = $orientation;
+		if (strlen($orientation) == 0)
+		{
+			$this->orientation = 0;
+		}
+		else
+    {
+			$this->orientation = $orientation;
+		}
   }
 
 /**
