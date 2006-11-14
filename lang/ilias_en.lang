@@ -6028,6 +6028,7 @@ survey#:#anonymize_personalized#:#No Anonymization
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize Survey Data
+survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
 survey#:#anonymize_without_code#:#Anonymization with free access to the survey
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
@@ -6158,6 +6159,7 @@ survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the co
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation Access
 survey#:#evaluation_access_all#:#Evaluation Access for All Users
+survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)
 survey#:#evaluation_access_info#:#You have access to the survey evaluation
 survey#:#evaluation_access_off#:#Off
 survey#:#evaluation_access_participants#:#Evaluation Access for Survey Participants
@@ -6251,6 +6253,7 @@ survey#:#off#:#off
 survey#:#offline#:#offline
 survey#:#on#:#on
 survey#:#online#:#online
+survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online
 survey#:#or#:#or
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation

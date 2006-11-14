@@ -1876,10 +1876,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			 "properties", "",
 			 "");
 
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-			 "", "ilmdeditorgui");
+		global $rbacsystem;
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
+		}
 
 		// print view
 		$tabs_gui->addTarget("print_view",

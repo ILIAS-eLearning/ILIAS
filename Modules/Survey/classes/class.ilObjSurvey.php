@@ -207,6 +207,19 @@ class ilObjSurvey extends ilObject
 		$this->createMetaData();
 	}
 
+/**
+* Create meta data entry
+* 
+* Create meta data entry
+*
+* @access public
+*/
+	function createMetaData()
+	{
+		parent::createMetaData();
+		$this->saveAuthorToMetadata();
+	}
+
 	/**
 	* update object data
 	*
@@ -555,7 +568,7 @@ class ilObjSurvey extends ilObject
 */
 	function isComplete()
 	{
-		if (($this->getTitle()) and ($this->author) and (count($this->questions)))
+		if (($this->getTitle()) and ($this->getAuthor()) and (count($this->questions)))
 		{
 			return true;
 		} 
@@ -577,7 +590,7 @@ class ilObjSurvey extends ilObject
 	{
 		$survey = new ilObjSurvey($obj_id, false);
 		$survey->loadFromDb();
-		if (($survey->getTitle()) and ($survey->author) and (count($survey->questions)))
+		if (($survey->getTitle()) and ($survey->getAuthor()) and (count($survey->questions)))
 		{
 			return true;
 		} 
@@ -997,7 +1010,11 @@ class ilObjSurvey extends ilObject
 			{
 				$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->survey_id = $data->survey_id;
-				$this->author = $data->author;
+				if (strlen($this->getAuthor()) == 0)
+				{
+					$this->saveAuthorToMetadata($data->author);
+				}
+				$this->author = $this->getAuthor();
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
 				if (strcmp($data->outro, "survey_finished") == 0)
@@ -1141,20 +1158,85 @@ class ilObjSurvey extends ilObject
 
 /**
 * Sets the authors name
+* 
+* Sets the authors name of the ilObjTest object
 *
-* Sets the authors name of the SurveyQuestion object
-*
-* @param string $author A string containing the name of the questions author
+* @param string $author A string containing the name of the test author
 * @access public
 * @see $author
 */
-	function setAuthor($author = "") 
+  function setAuthor($author = "") 
 	{
-    if (!$author) 
-		{
-      $author = $this->ilias->account->fullname;
-    }
     $this->author = $author;
+  }
+
+/**
+* Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
+* 
+* Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
+* This will only be called for conversion of "old" tests where the author hasn't been
+* stored in the lifecycle metadata
+*
+* @param string $a_author A string containing the name of the test author
+* @access private
+* @see $author
+*/
+	function saveAuthorToMetadata($a_author = "")
+	{
+		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md_life =& $md->getLifecycle();
+		if (!$md_life)
+		{
+			if (strlen($a_author) == 0)
+			{
+				global $ilUser;
+				$a_author = $ilUser->getFullname();
+			}
+			
+			$md_life =& $md->addLifecycle();
+			$md_life->save();
+			$con =& $md_life->addContribute();
+			$con->setRole("Author");
+			$con->save();
+			$ent =& $con->addEntity();
+			$ent->setEntity($a_author);
+			$ent->save();
+		}
+	}
+	
+/**
+* Gets the authors name
+* 
+* Gets the authors name of the ilObjTest object
+*
+* @return string The string containing the name of the test author
+* @access public
+* @see $author
+*/
+  function getAuthor() 
+	{
+		$author = array();
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md_life =& $md->getLifecycle();
+		if ($md_life)
+		{
+			$ids =& $md_life->getContributeIds();
+			foreach ($ids as $id)
+			{
+				$md_cont =& $md_life->getContribute($id);
+				if (strcmp($md_cont->getRole(), "Author") == 0)
+				{
+					$entids =& $md_cont->getEntityIds();
+					foreach ($entids as $entid)
+					{
+						$md_ent =& $md_cont->getEntity($entid);
+						array_push($author, $md_ent->getEntity());
+					}
+				}
+			}
+		}
+		return join($author, ",");
   }
 
 /**
@@ -1354,20 +1436,6 @@ class ilObjSurvey extends ilObject
   function setOutro($outro = "") 
 	{
     $this->outro = $outro;
-  }
-
-/**
-* Gets the authors name
-*
-* Gets the authors name of the SurveyQuestion object
-*
-* @return string The string containing the name of the questions author
-* @access public
-* @see $author
-*/
-  function getAuthor() 
-	{
-    return $this->author;
   }
 
 /**
@@ -4070,27 +4138,27 @@ class ilObjSurvey extends ilObject
 					$question = "";
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyOrdinalQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php";
-						switch ($questiontype[1])
+						$type = $questiontype[1];
+						// conversion of old question type identifiers
+						switch ($type)
 						{
+							case METRIC_QUESTION_IDENTIFIER:
+								$type = "SurveyMetricQuestion";
+								break;
 							case NOMINAL_QUESTION_IDENTIFIER:
-								$question = new SurveyNominalQuestion();
+								$type = "SurveyNominalQuestion";
 								break;
 							case ORDINAL_QUESTION_IDENTIFIER:
-								$question = new SurveyOrdinalQuestion();
-								break;
-							case METRIC_QUESTION_IDENTIFIER:
-								$question = new SurveyMetricQuestion();
+								$type = "SurveyOrdinalQuestion";
 								break;
 							case TEXT_QUESTION_IDENTIFIER:
-								$question = new SurveyTextQuestion();
+								$type = "SurveyTextQuestion";
 								break;
 						}
-						if ($question)
+						if (file_exists("./Modules/SurveyQuestionPool/classes/class.$type.php"))
 						{
+							include_once "./Modules/SurveyQuestionPool/classes/class.$type.php";
+							$question = new $type();
 							$question->from_xml("<questestinterop>$item</questestinterop>");
 							if ($import_results !== false)
 							{

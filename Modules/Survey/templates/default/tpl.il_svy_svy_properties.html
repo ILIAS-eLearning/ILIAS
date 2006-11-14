@@ -1,18 +1,6 @@
 <form name="frm_properties" action="{FORM_ACTION}" method="post">
 <table class="std">
 <tr>
-  <td class="option"><label for="title">{TEXT_TITLE}</label><span class="asterisk">*</span></td>
-  <td class="option_value"><input name="title" id="title" type="text" value="{VALUE_TITLE}" size="50" /></td>
-</tr>
-<tr>
-  <td class="option"><label for="author">{TEXT_AUTHOR}</label><span class="asterisk">*</span></td>
-  <td class="option_value"><input name="author" id="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td>
-</tr>
-<tr>
-  <td class="option"><label for="description">{TEXT_DESCRIPTION}</label></td>
-  <td class="option_value"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" /></td>
-</tr>
-<tr>
   <td class="option"><label for="introduction">{TEXT_INTRODUCTION}</label></td>
   <td class="option_value">
 		<textarea name="introduction" id="introduction" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_INTRODUCTION}</textarea>
@@ -22,6 +10,8 @@
   <td class="option"><label for="status">{TEXT_STATUS}</label></td>
   <td class="option_value">
 		<input type="checkbox" name="status" id="status" value="1"{CHECKED_STATUS} /> <label for="status">{VALUE_ONLINE}</label>
+		<br />
+		<div class="il_Description_no_margin">{ONLINE_DESCRIPTION}</div>
 	</td>
 </tr>
 <tr>
@@ -40,6 +30,8 @@
 		<input type="radio" name="evaluation_access" id="evaluation_access_off" value="0"{CHECKED_OFF} /> <label for="evaluation_access_off">{VALUE_OFF}</label><br />
 		<input type="radio" name="evaluation_access" id="evaluation_access_participants" value="2"{CHECKED_PARTICIPANTS} /> <label for="evaluation_access_participants">{VALUE_PARTICIPANTS}</label><br />
 		<input type="radio" name="evaluation_access" id="evaluation_access_all" value="1"{CHECKED_ALL} /> <label for="evaluation_access_all">{VALUE_ALL}</label>
+		<br />
+		<div class="il_Description_no_margin">{DESCRIPTION_EVALUATION_ACCESS}</div>
 	</td>
 </tr>
 <tr>
@@ -48,6 +40,8 @@
 		<input type="radio" name="anonymize" id="anonymize_off" value="0"{ANON_CHECKED_OFF} /> <label for="anonymize_off">{ANON_VALUE_OFF}</label><br />
 		<input type="radio" name="anonymize" id="anonymize_on" value="1"{ANON_CHECKED_ON} /> <label for="anonymize_on">{ANON_VALUE_ON}</label><br />
 		<input type="radio" name="anonymize" id="anonymize_freeaccess" value="2"{ANON_CHECKED_FREEACCESS} /> <label for="anonymize_freeaccess">{ANON_VALUE_FREEACCESS}</label>
+		<br />
+		<div class="il_Description_no_margin">{DESCRIPTION_ANONYMIZATION}</div>
 	</td>
 </tr>
 <tr>
@@ -61,7 +55,6 @@
 	</td>
 </tr>
 <tr><td colspan="2" class="submit">
-<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <!-- BEGIN command_buttons -->
 <div align="right">
 <input name="cmd[saveProperties]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancelProperties]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
