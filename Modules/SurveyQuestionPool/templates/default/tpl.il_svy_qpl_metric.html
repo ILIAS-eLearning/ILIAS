@@ -5,28 +5,40 @@
 	<th colspan="2">{TEXT_QUESTION_TYPE}</th>
 </tr>
 <tr>
-  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span></td>
   <td class="option_value"><input name="title" type="text" value="{VALUE_TITLE}" size="50" /></td></tr>
 <tr>
-  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span></td>
   <td class="option_value"><input name="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td></tr>
 <tr>
-  <td class="option">{TEXT_DESCRIPTION}:</td>
+  <td class="option">{TEXT_DESCRIPTION}</td>
   <td class="option_value"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" /></td></tr>
 <tr>
-  <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span></td>
   <td class="option_value"><textarea name="question" id="question" rows="10" cols="50" wrap="virtual" style="width:95%;">{VALUE_QUESTION}</textarea></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_QUESTION_TYPE}:</td>
-  <td class="option_value"><select name="type" size="1"><option value="3"{SELECTED_NONRATIO}>{TEXT_NONRATIO}</option><option value="4"{SELECTED_RATIONONABSOLUTE}>{TEXT_RATIONONABSOLUTE}</option><option value="5"{SELECTED_RATIOABSOLUTE}>{TEXT_RATIOABSOLUTE}</option></select></td>
+  <td class="option">{TEXT_SUBTYPE}</td>
+  <td class="option_value">
+		<input type="radio" name="type" id="nonratio" value="3"{CHECKED_NONRATIO} /> <label for="nonratio">{TEXT_NONRATIO}</label>
+		<br />
+		<div class="il_Description_no_margin">{DESCRIPTION_NONRATIO}</div>
+		<br />
+		<input type="radio" name="type" id="rationonabsolute" value="4"{CHECKED_RATIONONABSOLUTE} /> <label for="rationonabsolute">{TEXT_RATIONONABSOLUTE}</label>
+		<br />
+		<div class="il_Description_no_margin">{DESCRIPTION_RATIONONABSOLUTE}</div>
+		<br />
+		<input type="radio" name="type" id="ratioabsolute" value="5"{CHECKED_RATIOABSOLUTE} /> <label for="ratioabsolute">{TEXT_RATIOABSOLUTE}</label>
+		<br />
+		<div class="il_Description_no_margin">{DESCRIPTION_RATIOABSOLUTE}</div>
+	</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_MINIMUM}:</td>
+  <td class="option">{TEXT_MINIMUM}</td>
   <td class="option_value"><input name="minimum" type="text" value="{VALUE_MINIMUM}" id="minimum" size="6" /></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_MAXIMUM}:</td>
+  <td class="option">{TEXT_MAXIMUM}</td>
   <td class="option_value"><input name="maximum" type="text" value="{VALUE_MAXIMUM}" id="maximum" size="6" /></td>
 </tr>
 <tr>
@@ -34,7 +46,7 @@
   <td class="option_value"><input type="checkbox" name="obligatory" value="1" id="obligatory"{CHECKED_OBLIGATORY} /> <label for="obligatory">{TEXT_OBLIGATORY}</label></td>
 </tr>
 <tr>
-	<td class="option">{TEXT_MATERIAL}:</td>
+	<td class="option">{TEXT_MATERIAL}</td>
 	<td class="option_value">
 		<input type="hidden" name="material" value="{VALUE_MATERIAL}" />
 		{TEXT_VALUE_MATERIAL}

@@ -6185,7 +6185,7 @@ survey#:#given_answers#:#Given Answers
 survey#:#glossary_term#:#Glossary Term
 survey#:#harmonic_mean#:#Harmonic Mean
 survey#:#heading#:#Heading
-survey#:#horizontal#:#horizontal
+survey#:#horizontal#:#Horizontal
 survey#:#import_error_closing_file#:#Error closing the import file!
 survey#:#import_error_opening_file#:#Error opening the import file!
 survey#:#import_error_survey_no_proper_values#:#The survey properties do not contain proper values!
@@ -6223,6 +6223,9 @@ survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%
 survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!
 survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
+survey#:#metric_subtype_description_interval#:#Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.
+survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.
+survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.
 survey#:#minimum#:#Minimum Value
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!
 survey#:#mode#:#Most Selected Value
@@ -6230,6 +6233,7 @@ survey#:#mode_nr_of_selections#:#Nr of Selections
 survey#:#mode_text#:#Most Selected Value (Text)
 survey#:#multiple_choice_multiple_response#:#Multiple Choice (Multiple Response)
 survey#:#multiple_choice_single_response#:#Multiple Choice (Single Response)
+survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.
 survey#:#new_survey_codes#:#new survey access code(s)
 survey#:#next_question_rows#:#Questions %d - %d of %d >>
 survey#:#no_available_constraints#:#There are no preconditions defined!
@@ -6406,7 +6410,7 @@ survey#:#users_answered#:#Users Answered
 survey#:#users_skipped#:#Users Skipped
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
-survey#:#vertical#:#vertical
+survey#:#vertical#:#Vertical
 survey#:#view_constraints_introduction#:#You are viewing the preconditions of the following question/question block:
 survey#:#view_phrase#:#View Phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.

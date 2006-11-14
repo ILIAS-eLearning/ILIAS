@@ -106,13 +106,13 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		switch ($this->object->getOrientation())
 		{
 			case 0:
-				$this->tpl->setVariable("SELECTED_VERTICAL", " selected=\"selected\"");
+				$this->tpl->setVariable("CHECKED_VERTICAL", " checked=\"checked\"");
 				break;
 			case 1:
-				$this->tpl->setVariable("SELECTED_HORIZONTAL", " selected=\"selected\"");
+				$this->tpl->setVariable("CHECKED_HORIZONTAL", " checked=\"checked\"");
 				break;
 			case 2:
-				$this->tpl->setVariable("SELECTED_COMBOBOX", " selected=\"selected\"");
+				$this->tpl->setVariable("CHECKED_COMBOBOX", " checked=\"checked\"");
 				break;
 		}
 		$this->tpl->setVariable("TXT_VERTICAL", $this->lng->txt("vertical"));

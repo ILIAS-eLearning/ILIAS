@@ -8,16 +8,16 @@
 	<th colspan="5">{TEXT_QUESTION_TYPE}</th>
 </tr>
 <tr>
-  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span></td>
   <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_TITLE}" size="50" /></td></tr>
 <tr>
-  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span></td>
   <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_AUTHOR}" size="50" /></td></tr>
 <tr>
-  <td class="option">{TEXT_DESCRIPTION}:</td>
+  <td class="option">{TEXT_DESCRIPTION}</td>
   <td class="option_value" colspan="4"><input name="description" type="text" value="{VALUE_DESCRIPTION}" id="description" size="50" /></td></tr>
 <tr>
-  <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span></td>
   <td class="option_value" colspan="4"><textarea name="question" id="question" rows="10" cols="50" wrap="virtual" style="width:95%;">{VALUE_QUESTION}</textarea></td>
 </tr>
 <tr>
@@ -26,17 +26,18 @@
 </tr>
 <!-- BEGIN orientation -->
 <tr>
-  <td class="option">{TEXT_ORIENTATION}:</td>
+  <td class="option">{TEXT_ORIENTATION}</td>
   <td class="option_value" colspan="4">
-	<select name="orientation" size="1">
-		<option value="0"{SELECTED_VERTICAL}>{TXT_VERTICAL}</option>
-		<option value="1"{SELECTED_HORIZONTAL}>{TXT_HORIZONTAL}</option>
-		<option value="2"{SELECTED_COMBOBOX}>{TXT_COMBOBOX}</option>
-	</select></td>
+		<input type="radio" name="orientation" value="0" id="vertical"{CHECKED_VERTICAL} /> <label for="vertical">{TXT_VERTICAL}</label>
+		<br />
+		<input type="radio" name="orientation" value="1" id="horizontal"{CHECKED_HORIZONTAL} /> <label for="horizontal">{TXT_HORIZONTAL}</label>
+		<br />
+		<input type="radio" name="orientation" value="2" id="combobox"{CHECKED_COMBOBOX} /> <label for="combobox">{TXT_COMBOBOX}</label>
+	</td>
 </tr>
 <!-- END orientation -->
 <tr>
-	<td class="option">{TEXT_MATERIAL}:</td>
+	<td class="option">{TEXT_MATERIAL}</td>
 	<td class="option_value" colspan="4">
 		<input type="hidden" name="material" value="{VALUE_MATERIAL}" />
 		{TEXT_VALUE_MATERIAL}
