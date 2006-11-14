@@ -1864,7 +1864,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("read", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
 				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id))
@@ -2764,7 +2764,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("read", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
 				if (ilObjSurveyQuestionPool::_lookupOnline($row->obj_id) || $could_be_offline)
@@ -3647,7 +3647,7 @@ class ilObjSurvey extends ilObject
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
 			include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
-			if (!$rbacsystem->checkAccess("write", $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)) || (!ilObjSurveyQuestionPool::_lookupOnline($row->obj_id)))
+			if (!$rbacsystem->checkAccess("read", $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)) || (!ilObjSurveyQuestionPool::_lookupOnline($row->obj_id)))
 			{
 				array_push($forbidden_pools, $row->obj_id);
 			}
