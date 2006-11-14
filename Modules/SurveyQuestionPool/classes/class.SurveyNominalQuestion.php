@@ -460,7 +460,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		// add question description
 		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
 		$a_xml_writer->xmlElement("qticomment", NULL, "ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$a_xml_writer->xmlElement("qticomment", NULL, "Questiontype=".NOMINAL_QUESTION_IDENTIFIER);
+		$a_xml_writer->xmlElement("qticomment", NULL, "Questiontype=".$this->getQuestionType());
 		$a_xml_writer->xmlElement("qticomment", NULL, "Author=".$this->getAuthor());
 		// add ILIAS specific metadata
 		$a_xml_writer->xmlStartTag("itemmetadata");
