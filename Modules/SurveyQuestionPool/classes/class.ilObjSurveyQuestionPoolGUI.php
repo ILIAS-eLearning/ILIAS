@@ -79,51 +79,25 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
-			case "surveynominalquestiongui":
-				$this->ctrl->setParameterByClass("surveynominalquestiongui", "sel_question_types", $q_type);
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$q_gui->setQuestionTabs();
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-
-			case "surveyordinalquestiongui":
-				$this->ctrl->setParameterByClass("surveyordinalquestiongui", "sel_question_types", $q_type);
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$q_gui->setQuestionTabs();
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-
-			case "surveymetricquestiongui":
-				$this->ctrl->setParameterByClass("surveymetricquestiongui", "sel_question_types", $q_type);
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$q_gui->setQuestionTabs();
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-
-			case "surveytextquestiongui":
-				$this->ctrl->setParameterByClass("surveytextquestiongui", "sel_question_types", $q_type);
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$q_gui->setQuestionTabs();
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-				
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
-			default:
+			case "":
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
+				break;
+				
+			default:
+				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+				$question_type_gui = SurveyQuestion::_getQuestionType($_GET["q_id"]) . "GUI";
+				include_once "./Modules/SurveyQuestionPool/classes/class.$question_type_gui" . ".php";
+				$q_gui = new $question_type_gui($_GET["q_id"]);
+				$q_gui->object->setObjId($this->object->getId());
+				$q_gui->setQuestionTabs();
+				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 		}
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&

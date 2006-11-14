@@ -850,27 +850,27 @@ class ilObjSurveyQuestionPool extends ilObject
 					$question = "";
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyOrdinalQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php";
-						switch ($questiontype[1])
+						$type = $questiontype[1];
+						// conversion of old question type identifiers
+						switch ($type)
 						{
+							case METRIC_QUESTION_IDENTIFIER:
+								$type = "SurveyMetricQuestion";
+								break;
 							case NOMINAL_QUESTION_IDENTIFIER:
-								$question = new SurveyNominalQuestion();
+								$type = "SurveyNominalQuestion";
 								break;
 							case ORDINAL_QUESTION_IDENTIFIER:
-								$question = new SurveyOrdinalQuestion();
-								break;
-							case METRIC_QUESTION_IDENTIFIER:
-								$question = new SurveyMetricQuestion();
+								$type = "SurveyOrdinalQuestion";
 								break;
 							case TEXT_QUESTION_IDENTIFIER:
-								$question = new SurveyTextQuestion();
+								$type = "SurveyTextQuestion";
 								break;
 						}
-						if ($question)
+						if (file_exists("./Modules/SurveyQuestionPool/classes/class.$type.php"))
 						{
+							include_once "./Modules/SurveyQuestionPool/classes/class.$type.php";
+							$question = new $type();
 							$question->setObjId($this->getId());
 							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
 							{
