@@ -155,6 +155,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
+		global $rbacsystem;
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_properties.html", "Modules/SurveyQuestionPool");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -165,8 +167,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("PROPERTY_ONLINE_CHECKED", " checked=\"checked\"");
 		}
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		if ($rbacsystem->checkAccess('write', $this->ref_id)) 
+		{
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		}
+		else
+		{
+			$this->tpl->setVariable("PROPERTY_ONLINE_DISABLED", " disabled=\"disabled\"");
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -770,10 +778,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questions.html", "Modules/SurveyQuestionPool");
-	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+	  if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		{
   	  $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_svy_qpl_create_new_question.html", "Modules/SurveyQuestionPool");
-	    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_qpl_action_buttons.html", "Modules/SurveyQuestionPool");
 		}
+    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_qpl_action_buttons.html", "Modules/SurveyQuestionPool");
     $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_qpl_filter_questions.html", "Modules/SurveyQuestionPool");
 
     // create filter form
@@ -929,35 +938,35 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     }
 		else
 		{
+			$this->tpl->setCurrentBlock("selectall");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$counter++;
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+
+			include_once "./classes/class.ilUtil.php";
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
+			$this->tpl->setCurrentBlock("copy");
+			$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("exportquestions");
+			$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
+			$this->tpl->parseCurrentBlock();
+
 			// create edit buttons & table footer
-			if ($rbacsystem->checkAccess('write', $this->ref_id)) 
+			if ($rbacsystem->checkAccess("write", $this->ref_id))
 			{
-					$this->tpl->setCurrentBlock("selectall");
-					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-					$counter++;
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("standard");
-					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-					$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
-					$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
-					$this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
-					$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
-					if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
-					{
-						$this->tpl->setVariable("PASTE_DISABLED", " disabled=\"disabled\"");
-					}
-					$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
-					$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("Footer");
-					include_once "./classes/class.ilUtil.php";
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-					$this->tpl->parseCurrentBlock();
-			}    
+				$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+				$this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
+				$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
+				if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
+				{
+					$this->tpl->setVariable("PASTE_DISABLED", " disabled=\"disabled\"");
+				}
+			}
 		}
     
-	  if ($rbacsystem->checkAccess('write', $this->ref_id)) 
+	  if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
 			// "create question" form
 			$this->tpl->setCurrentBlock("QTypes");
@@ -988,10 +997,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       "created" => $_GET["sort"]["created"],
       "updated" => $_GET["sort"]["updated"]
     );
-    foreach ($sortcolumns as $key => $value) {
-      if (strcmp($value, "ASC") == 0) {
+    foreach ($sortcolumns as $key => $value) 
+		{
+      if (strcmp($value, "ASC") == 0) 
+			{
         $sortcolumns[$key] = "DESC";
-      } else {
+      } 
+			else 
+			{
         $sortcolumns[$key] = "ASC";
       }
     }
@@ -1012,7 +1025,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
   }
 
 
-	function updateObject() {
+	function updateObject() 
+	{
 		$this->update = $this->object->update();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
@@ -1530,17 +1544,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 ),
 			 "", "", $force_active);
 
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-			 "", "ilmdeditorgui");
+		global $rbacsystem;
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		{
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
 
-		// manage phrases
-		$tabs_gui->addTarget("manage_phrases",
-			 $this->ctrl->getLinkTarget($this,'phrases'),
-			 array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase"),
-			 "", "");
-			
+			// manage phrases
+			$tabs_gui->addTarget("manage_phrases",
+				 $this->ctrl->getLinkTarget($this,'phrases'),
+				 array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase"),
+				 "", "");
+		}
+
 		// export
 		$tabs_gui->addTarget("export",
 			 $this->ctrl->getLinkTarget($this,'export'),
