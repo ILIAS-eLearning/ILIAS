@@ -2507,8 +2507,10 @@ class ilObjSurvey extends ilObject
 					$ilDB->quote($question_id . "")
 				);
 				$result = $ilDB->query($query);
-				if (strcmp(strtolower(get_class($result)), db_result) == 0) {
-					while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+				if (strcmp(strtolower(get_class($result)), db_result) == 0) 
+				{
+					while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+					{
 						array_push($answers, $data->title);
 					}
 				}

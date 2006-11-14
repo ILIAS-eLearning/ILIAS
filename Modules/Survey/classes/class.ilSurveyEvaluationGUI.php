@@ -252,33 +252,32 @@ class ilSurveyEvaluationGUI
 			$question->loadFromDb($data["question_id"]);
 
 			$eval = $this->object->getCumulatedResults($question);
-			$row =& $question->outEvaluationCumulatedResults($eval);
 			switch ($_POST["export_format"])
 			{
 				case TYPE_XLS:
 					include_once ("./classes/class.ilExcelUtils.php");
-					$mainworksheet->writeString($counter+1, 0, ilExcelUtils::_convert_text($row["QUESTION_TITLE"], $_POST["export_format"]));
-					$mainworksheet->writeString($counter+1, 1, ilExcelUtils::_convert_text($row["QUESTION_TEXT"], $_POST["export_format"]));
-					$mainworksheet->writeString($counter+1, 2, ilExcelUtils::_convert_text($row["QUESTION_TYPE"], $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 3, $row["USERS_ANSWERED"]);
-					$mainworksheet->write($counter+1, 4, $row["USERS_SKIPPED"]);
-					$mainworksheet->write($counter+1, 5, ilExcelUtils::_convert_text($row["MODE_VALUE"], $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 6, ilExcelUtils::_convert_text($row["MODE"], $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 7, $row["MODE_NR_OF_SELECTIONS"]);
-					$mainworksheet->write($counter+1, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $row["MEDIAN"]), $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 9, $row["ARITHMETIC_MEAN"]);
+					$mainworksheet->writeString($counter+1, 0, ilExcelUtils::_convert_text($question->getTitle(), $_POST["export_format"]));
+					$mainworksheet->writeString($counter+1, 1, ilExcelUtils::_convert_text($question->getQuestiontext(), $_POST["export_format"]));
+					$mainworksheet->writeString($counter+1, 2, ilExcelUtils::_convert_text($this->lng->txt($eval["QUESTION_TYPE"]), $_POST["export_format"]));
+					$mainworksheet->write($counter+1, 3, $eval["USERS_ANSWERED"]);
+					$mainworksheet->write($counter+1, 4, $eval["USERS_SKIPPED"]);
+					$mainworksheet->write($counter+1, 5, ilExcelUtils::_convert_text($eval["MODE_VALUE"], $_POST["export_format"]));
+					$mainworksheet->write($counter+1, 6, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
+					$mainworksheet->write($counter+1, 7, $eval["MODE_NR_OF_SELECTIONS"]);
+					$mainworksheet->write($counter+1, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval["MEDIAN"]), $_POST["export_format"]));
+					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
 					break;
 				case (TYPE_SPSS):
 					$csvrow = array();
-					array_push($csvrow, $row["QUESTION_TITLE"]);
-					array_push($csvrow, $row["QUESTION_TEXT"]);
-					array_push($csvrow, $row["QUESTION_TYPE"]);
-					array_push($csvrow, $row["USERS_ANSWERED"]);
-					array_push($csvrow, $row["USERS_SKIPPED"]);
-					array_push($csvrow, $row["MODE"]);
-					array_push($csvrow, $row["MODE_NR_OF_SELECTIONS"]);
-					array_push($csvrow, $row["MEDIAN"]);
-					array_push($csvrow, $row["ARITHMETIC_MEAN"]);
+					array_push($csvrow, $question->getTitle());
+					array_push($csvrow, $question->getQuestiontext());
+					array_push($csvrow, $this->lng->txt($eval["QUESTION_TYPE"]));
+					array_push($csvrow, $eval["USERS_ANSWERED"]);
+					array_push($csvrow, $eval["USERS_SKIPPED"]);
+					array_push($csvrow, $eval["MODE"]);
+					array_push($csvrow, $eval["MODE_NR_OF_SELECTIONS"]);
+					array_push($csvrow, $eval["MEDIAN"]);
+					array_push($csvrow, $eval["ARITHMETIC_MEAN"]);
 					array_push($csvfile, $csvrow);
 					break;
 			}
@@ -287,157 +286,7 @@ class ilSurveyEvaluationGUI
 				switch ($_POST["export_format"])
 				{
 					case TYPE_XLS:
-						include_once ("./classes/class.ilExcelUtils.php");
-						$worksheet =& $workbook->addWorksheet();
-						$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
-						$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($row["QUESTION_TITLE"], $_POST["export_format"]));
-						$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
-						$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($row["QUESTION_TEXT"], $_POST["export_format"]));
-						$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
-						$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($row["QUESTION_TYPE"], $_POST["export_format"]));
-						$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered"), $_POST["export_format"]), $format_bold);
-						$worksheet->write(3, 1, $row["USERS_ANSWERED"]);
-						$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped"), $_POST["export_format"]), $format_bold);
-						$worksheet->write(4, 1, $row["USERS_SKIPPED"]);
-						$rowcounter = 5;
-						break;
-				}
-				switch ($eval["QUESTION_TYPE"])
-				{
-					case "SurveyOrdinalQuestion":
-						switch ($_POST["export_format"])
-						{
-							case TYPE_XLS:
-								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[1], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[2], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE_NR_OF_SELECTIONS"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval["MEDIAN"]), $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections"), $_POST["export_format"]), $format_title);
-								break;
-						}
-						foreach ($eval["variables"] as $key => $value)
-						{
-								switch ($_POST["export_format"])
-								{
-									case TYPE_XLS:
-										$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"], $_POST["export_format"]));
-										$worksheet->write($rowcounter, 2, $key+1);
-										$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"], $_POST["export_format"]));
-										$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"], $_POST["export_format"]), $format_percent);
-										break;
-								}
-						}
-						break;
-					case "SurveyNominalQuestion":
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
-						switch ($_POST["export_format"])
-						{
-							case TYPE_XLS:
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE_VALUE"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE_NR_OF_SELECTIONS"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections"), $_POST["export_format"]), $format_title);
-								break;
-						}
-						foreach ($eval["variables"] as $key => $value)
-						{
-							switch ($_POST["export_format"])
-							{
-								case TYPE_XLS:
-									$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"], $_POST["export_format"]));
-									$worksheet->write($rowcounter, 2, $key+1);
-									$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"], $_POST["export_format"]));
-									$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"], $_POST["export_format"]), $format_percent);
-									break;
-							}
-						}
-						break;
-					case "SurveyMetricQuestion":
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
-						switch ($_POST["export_format"])
-						{
-							case TYPE_XLS:
-								$worksheet->write($rowcounter, 0, $this->lng->txt("subtype"), $format_bold);
-								switch ($data["subtype"])
-								{
-									case SUBTYPE_NON_RATIO:
-										$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("non_ratio"), $_POST["export_format"]), $format_bold);
-										break;
-									case SUBTYPE_RATIO_NON_ABSOLUTE:
-										$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("ratio_non_absolute"), $_POST["export_format"]), $format_bold);
-										break;
-									case SUBTYPE_RATIO_ABSOLUTE:
-										$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("ratio_absolute"), $_POST["export_format"]), $format_bold);
-										break;
-								}
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MODE_NR_OF_SELECTIONS"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["MEDIAN"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval["ARITHMETIC_MEAN"], $_POST["export_format"]));
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("values"), $_POST["export_format"]), $format_bold);
-								$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("value"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected"), $_POST["export_format"]), $format_title);
-								$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections"), $_POST["export_format"]), $format_title);
-								break;
-						}
-						$values = "";
-						if (is_array($eval["values"]))
-						{
-							foreach ($eval["values"] as $key => $value)
-							{
-								switch ($_POST["export_format"])
-								{
-									case TYPE_XLS:
-										$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["value"], $_POST["export_format"]));
-										$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($value["selected"], $_POST["export_format"]));
-										$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($value["percentage"], $_POST["export_format"]), $format_percent);
-										break;
-								}
-							}
-						}
-						break;
-					case "SurveyTextQuestion":
-						switch ($_POST["export_format"])
-						{
-							case TYPE_XLS:
-								$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("given_answers"), $_POST["export_format"]), $format_bold);
-								break;
-						}
-						$textvalues = "";
-						if (is_array($eval["textvalues"]))
-						{
-							foreach ($eval["textvalues"] as $textvalue)
-							{
-								switch ($_POST["export_format"])
-								{
-									case TYPE_XLS:
-										$worksheet->write($rowcounter++, 1, $textvalue);
-										break;
-								}
-							}
-						}
+						$question->setExportDetailsXLS($workbook, $format_title, $format_bold, $eval);
 						break;
 				}
 			}
@@ -498,28 +347,27 @@ class ilSurveyEvaluationGUI
 			//$question->loadFromDb($data["question_id"]);
 
 			$eval = $this->object->getCumulatedResults($question);
-			$row =& $question->outEvaluationCumulatedResults($eval);
 			
 			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("QUESTION_TITLE", ($counter+1) . ". ".$row["QUESTION_TITLE"]);
+			$this->tpl->setVariable("QUESTION_TITLE", ($counter+1) . ". ".$question->getTitle());
 			$maxlen = 37;
 			$questiontext = "";
-			if (strlen($row["QUESTION_TEXT"]) > $maxlen + 3)
+			if (strlen($question->getQuestiontext()) > $maxlen + 3)
 			{
-				$questiontext = substr($row["QUESTION_TEXT"], 0, $maxlen) . "...";
+				$questiontext = substr($question->getQuestiontext(), 0, $maxlen) . "...";
 			}
 			else
 			{
-				$questiontext = $row["QUESTION_TEXT"];
+				$questiontext = $question->getQuestiontext();
 			}
 			$this->tpl->setVariable("QUESTION_TEXT", $questiontext);
-			$this->tpl->setVariable("USERS_ANSWERED", $row["USERS_ANSWERED"]);
-			$this->tpl->setVariable("USERS_SKIPPED", $row["USERS_SKIPPED"]);
-			$this->tpl->setVariable("QUESTION_TYPE", $row["QUESTION_TYPE"]);
-			$this->tpl->setVariable("MODE", $row["MODE"]);
-			$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $row["MODE_NR_OF_SELECTIONS"]);
-			$this->tpl->setVariable("MEDIAN", $row["MEDIAN"]);
-			$this->tpl->setVariable("ARITHMETIC_MEAN", $row["ARITHMETIC_MEAN"]);
+			$this->tpl->setVariable("USERS_ANSWERED", $eval["USERS_ANSWERED"]);
+			$this->tpl->setVariable("USERS_SKIPPED", $eval["USERS_SKIPPED"]);
+			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($eval["QUESTION_TYPE"]));
+			$this->tpl->setVariable("MODE", $eval["MODE"]);
+			$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
+			$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
+			$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 			if ($details)
@@ -563,269 +411,61 @@ class ilSurveyEvaluationGUI
 	}
 	
 	/**
-	* Print the survey evaluation for a selected user
+	* Export the user specific results for the survey
 	*
-	* Print the survey evaluation for a selected user
+	* Export the user specific results for the survey
 	*
 	* @access private
 	*/
-	function evaluationuser()
+	function exportUserSpecificResults($export_format)
 	{
-		if (!is_array($_POST))
-		{
-			$_POST = array();
-		}
 		$result = @include_once 'Spreadsheet/Excel/Writer.php';
 		if (!$result)
 		{
 			include_once './classes/Spreadsheet/Excel/Writer.php';
 		}
-		$format_bold = "";
-		$format_percent = "";
-		$format_datetime = "";
-		$format_title = "";
-		$format_title_plain = "";
+		
 		$object_title = preg_replace("/[^a-zA-Z0-9\s]/", "", $this->object->getTitle());
 		$surveyname = preg_replace("/\s/", "_", $object_title);
 
-		$eval =& $this->object->getEvaluationForAllUsers();
-		$this->setEvalTabs();
-		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
-		$counter = 0;
-		$classes = array("tblrow1top", "tblrow2top");
+		$csvfile = array();
 		$csvrow = array();
+		$questions = array();
+		$eval =& $this->object->getEvaluationForAllUsers();
 		$questions =& $this->object->getSurveyQuestions(true);
-		$this->tpl->setCurrentBlock("headercell");
-		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
-		$this->tpl->parseCurrentBlock();
+		array_push($csvrow, $this->lng->txt("username"));
 		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 		{
-			$this->tpl->setCurrentBlock("headercell");
-			$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("gender"));
-			$this->tpl->parseCurrentBlock();
+			array_push($csvrow, $this->lng->txt("gender"));
 		}
-		if (array_key_exists("export_format", $_POST))
-		{
-			array_push($csvrow, $this->lng->txt("username"));
-			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-			{
-				array_push($csvrow, $this->lng->txt("gender"));
-			}
-		}
-		$char = "A";
 		$cellcounter = 1;
 		foreach ($questions as $question_id => $question_data)
 		{
-			$this->tpl->setCurrentBlock("headercell");
-			$this->tpl->setVariable("TEXT_HEADER_CELL", $char);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("legendrow");
-			$this->tpl->setVariable("TEXT_KEY", $char++);
-			$this->tpl->setVariable("TEXT_VALUE", $question_data["title"]);
-			if (array_key_exists("export_format", $_POST))
-			{
-				array_push($csvrow, $question_data["title"]);
-				switch ($question_data["questiontype_fi"])
-				{
-					case 1:
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
-						if ($question_data["subtype"] == SUBTYPE_MCMR)
-						{
-							foreach ($question_data["answers"] as $cat => $cattext)
-							{
-								array_push($csvrow, ($cat+1) . " - $cattext");
-							}
-						}
-						break;
-					case 2:
-					case 3:
-					case 4:
-						break;
-				}
-			}
-			$this->tpl->parseCurrentBlock();
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			$question_type = SurveyQuestion::_getQuestionType($question_data["question_id"]);
+			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+			$question = new $question_type();
+			$question->loadFromDb($question_data["question_id"]);
+			$question->addUserSpecificResultsExportTitles($csvrow);
+			$questions[$question_data["question_id"]] = $question;
 		}
-		$csvfile = array();
 		array_push($csvfile, $csvrow);
 
 		foreach ($eval as $user_id => $resultset)
 		{
 			$csvrow = array();
-			$this->tpl->setCurrentBlock("bodycell");
-			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-			$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["name"]);
 			array_push($csvrow, $resultset["name"]);
-			$this->tpl->parseCurrentBlock();
 			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 			{
-				$this->tpl->setCurrentBlock("bodycell");
-				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["gender"]);
 				array_push($csvrow, $resultset["gender"]);
-				$this->tpl->parseCurrentBlock();
 			}
-			foreach ($questions as $question_id => $question_data)
+			foreach ($questions as $question_id => $question)
 			{
-				// csv output
-				if (array_key_exists("export_format", $_POST))
-				{
-					switch ($question_data["questiontype_fi"])
-					{
-						case 1:
-							// nominal question
-							include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
-							if (count($resultset["answers"][$question_id]))
-							{
-								if ($question_data["subtype"] == SUBTYPE_MCMR)
-								{
-									array_push($csvrow, "");
-									foreach ($question_data["answers"] as $cat => $cattext)
-									{
-										$found = 0;
-										foreach ($resultset["answers"][$question_id] as $answerdata)
-										{
-											if (strcmp($cat, $answerdata["value"]) == 0)
-											{
-												$found = 1;
-											}
-										}
-										if ($found)
-										{
-											array_push($csvrow, "1");
-										}
-										else
-										{
-											array_push($csvrow, "0");
-										}
-									}
-								}
-								else
-								{
-									array_push($csvrow, $resultset["answers"][$question_id][0]["value"]+1);
-								}
-							}
-							else
-							{
-								array_push($csvrow, $this->lng->txt("skipped"));
-								if ($question_data["subtype"] == SUBTYPE_MCMR)
-								{
-									foreach ($question_data["answers"] as $cat => $cattext)
-									{
-										array_push($csvrow, "");
-									}
-								}
-							}
-							break;
-						case 2:
-							// ordinal question
-							if (count($resultset["answers"][$question_id]))
-							{
-								foreach ($resultset["answers"][$question_id] as $key => $answer)
-								{
-									array_push($csvrow, $answer["value"]+1);
-								}
-							}
-							else
-							{
-								array_push($csvrow, $this->lng->txt("skipped"));
-							}
-							break;
-						case 3:
-							// metric question
-							if (count($resultset["answers"][$question_id]))
-							{
-								foreach ($resultset["answers"][$question_id] as $key => $answer)
-								{
-									array_push($csvrow, $answer["value"]);
-								}
-							}
-							else
-							{
-								array_push($csvrow, $this->lng->txt("skipped"));
-							}
-							break;
-						case 4:
-							// text question
-							if (count($resultset["answers"][$question_id]))
-							{
-								foreach ($resultset["answers"][$question_id] as $key => $answer)
-								{
-									array_push($csvrow, $answer["textanswer"]);
-								}
-							}
-							else
-							{
-								array_push($csvrow, $this->lng->txt("skipped"));
-							}
-							break;
-					}
-				}
-				// html output
-				if (count($resultset["answers"][$question_id]))
-				{
-					$answervalues = array();
-					include_once "./classes/class.ilUtil.php";
-					foreach ($resultset["answers"][$question_id] as $key => $answer)
-					{
-						switch ($question_data["questiontype_fi"])
-						{
-							case 1:
-								// nominal question
-								if (strcmp($answer["value"], "") != 0)
-								{
-									array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
-								}
-								break;
-							case 2:
-								// ordinal question
-								array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
-								break;
-							case 3:
-								// metric question
-								array_push($answervalues, $answer["value"]);
-								break;
-							case 4:
-								// text question
-								array_push($answervalues, $answer["textanswer"]);
-								break;
-						}
-					}
-					$this->tpl->setCurrentBlock("bodycell");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("TEXT_BODY_CELL", join($answervalues, "<br />"));
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("bodycell");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("skipped"));
-					$this->tpl->parseCurrentBlock();
-				}
+				$question->addUserSpecificResultsData($csvrow, $resultset);
 			}
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->parse("row");
-			$counter++;
 			array_push($csvfile, $csvrow);
 		}
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./survey/templates/default/evaluation_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
-		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_LEGEND", $this->lng->txt("legend"));
-		$this->tpl->setVariable("TEXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
-		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
-		$this->tpl->parseCurrentBlock();
-		switch ($_POST["export_format"])
+		switch ($export_format)
 		{
 			case TYPE_XLS:
 				// Let's send the file
@@ -897,6 +537,133 @@ class ilSurveyEvaluationGUI
 				exit();
 				break;
 		}
+	}
+	
+	/**
+	* Print the survey evaluation for a selected user
+	*
+	* Print the survey evaluation for a selected user
+	*
+	* @access private
+	*/
+	function evaluationuser()
+	{
+		if (!is_array($_POST))
+		{
+			$_POST = array();
+		}
+		if (array_key_exists("export_format", $_POST))
+		{
+			return $this->exportUserSpecificResults($_POST["export_format"]);
+		}
+
+		$eval =& $this->object->getEvaluationForAllUsers();
+		$this->setEvalTabs();
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
+		$counter = 0;
+		$classes = array("tblrow1top", "tblrow2top");
+		$questions =& $this->object->getSurveyQuestions(true);
+		$this->tpl->setCurrentBlock("headercell");
+		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
+		$this->tpl->parseCurrentBlock();
+		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+		{
+			$this->tpl->setCurrentBlock("headercell");
+			$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("gender"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$char = "A";
+		$cellcounter = 1;
+		foreach ($questions as $question_id => $question_data)
+		{
+			$this->tpl->setCurrentBlock("headercell");
+			$this->tpl->setVariable("TEXT_HEADER_CELL", $char);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("legendrow");
+			$this->tpl->setVariable("TEXT_KEY", $char++);
+			$this->tpl->setVariable("TEXT_VALUE", $question_data["title"]);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		foreach ($eval as $user_id => $resultset)
+		{
+			$this->tpl->setCurrentBlock("bodycell");
+			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+			$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["name"]);
+			$this->tpl->parseCurrentBlock();
+			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+			{
+				$this->tpl->setCurrentBlock("bodycell");
+				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+				$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["gender"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			foreach ($questions as $question_id => $question_data)
+			{
+				// html output
+				if (count($resultset["answers"][$question_id]))
+				{
+					$answervalues = array();
+					include_once "./classes/class.ilUtil.php";
+					foreach ($resultset["answers"][$question_id] as $key => $answer)
+					{
+						switch ($question_data["questiontype_fi"])
+						{
+							case 1:
+								// nominal question
+								if (strcmp($answer["value"], "") != 0)
+								{
+									array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
+								}
+								break;
+							case 2:
+								// ordinal question
+								array_push($answervalues, ($answer["value"]+1) . " - " . ilUtil::prepareFormOutput($questions[$question_id]["answers"][$answer["value"]]));
+								break;
+							case 3:
+								// metric question
+								array_push($answervalues, $answer["value"]);
+								break;
+							case 4:
+								// text question
+								array_push($answervalues, $answer["textanswer"]);
+								break;
+						}
+					}
+					$this->tpl->setCurrentBlock("bodycell");
+					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+					$this->tpl->setVariable("TEXT_BODY_CELL", join($answervalues, "<br />"));
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("bodycell");
+					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+					$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("skipped"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->parse("row");
+			$counter++;
+		}
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./survey/templates/default/evaluation_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
+		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
+		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TEXT_LEGEND", $this->lng->txt("legend"));
+		$this->tpl->setVariable("TEXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
+		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	/**
