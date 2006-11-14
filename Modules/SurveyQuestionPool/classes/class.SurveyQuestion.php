@@ -663,7 +663,8 @@ class SurveyQuestion
 * @access public
 * @see $questiontext
 */
-  function getQuestiontext() {
+  function getQuestiontext() 
+	{
     return $this->questiontext;
   }
 
@@ -1707,22 +1708,6 @@ class SurveyQuestion
 		return $question;
   }
 	
-	function &outEvaluationCumulatedResults(&$cumulated_results)
-	{
-		$result_array = array();
-		$result_array["QUESTION_TITLE"] = $this->getTitle();
-		$result_array["QUESTION_TEXT"] = $this->getQuestiontext();
-		$result_array["USERS_ANSWERED"] = $cumulated_results["USERS_ANSWERED"];
-		$result_array["USERS_SKIPPED"] = $cumulated_results["USERS_SKIPPED"];
-		$result_array["QUESTION_TYPE"] = $this->lng->txt($cumulated_results["QUESTION_TYPE"]);
-		$result_array["MODE"] = $cumulated_results["MODE"];
-		$result_array["MODE_VALUE"] = $cumulated_results["MODE_VALUE"];
-		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated_results["MODE_NR_OF_SELECTIONS"];
-		$result_array["MEDIAN"] = $cumulated_results["MEDIAN"];
-		$result_array["ARITHMETIC_MEAN"] = $cumulated_results["ARITHMETIC_MEAN"];
-		return $result_array;
-	}
-	
 	/**
 	* Checks if a given string contains HTML or not
 	*
@@ -1855,6 +1840,34 @@ class SurveyQuestion
 	function _getQuestionDataArray($id)
 	{
 		return array();
+	}
+
+	
+	/**
+	* Adds the entries for the title row of the user specific results
+	*
+	* Adds the entries for the title row of the user specific results
+	*
+	* @param array $a_array An array which is used to append the title row entries
+	* @access public
+	*/
+	function addUserSpecificResultsExportTitles(&$a_array)
+	{
+		array_push($a_array, $this->getTitle());
+	}
+
+	/**
+	* Adds the values for the user specific results export for a given user
+	*
+	* Adds the values for the user specific results export for a given user
+	*
+	* @param array $a_array An array which is used to append the values
+	* @param array $resultset The evaluation data for a given user
+	* @access public
+	*/
+	function addUserSpecificResultsData(&$a_array, &$resultset)
+	{
+		// overwrite in inherited classes
 	}
 }
 ?>

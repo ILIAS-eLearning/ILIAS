@@ -615,5 +615,66 @@ class SurveyTextQuestion extends SurveyQuestion
 		return $result_array;
 	}
 	
+	/**
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* @param object $workbook Reference to the parent excel workbook
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @access public
+	*/
+	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
+	{
+		include_once ("./classes/class.ilExcelUtils.php");
+		$worksheet =& $workbook->addWorksheet();
+		$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+		$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+		$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
+		$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
+		$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
+		$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
+		$worksheet->write(3, 1, $eval_data["USERS_ANSWERED"]);
+		$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
+		$worksheet->write(4, 1, $eval_data["USERS_SKIPPED"]);
+		$rowcounter = 5;
+
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("given_answers")), $format_bold);
+		$textvalues = "";
+		if (is_array($eval_data["textvalues"]))
+		{
+			foreach ($eval_data["textvalues"] as $textvalue)
+			{
+				$worksheet->write($rowcounter++, 1, $textvalue);
+			}
+		}
+	}
+
+	/**
+	* Adds the values for the user specific results export for a given user
+	*
+	* Adds the values for the user specific results export for a given user
+	*
+	* @param array $a_array An array which is used to append the values
+	* @param array $resultset The evaluation data for a given user
+	* @access public
+	*/
+	function addUserSpecificResultsData(&$a_array, &$resultset)
+	{
+		if (count($resultset["answers"][$this->getId()]))
+		{
+			foreach ($resultset["answers"][$this->getId()] as $key => $answer)
+			{
+				array_push($a_array, $answer["textanswer"]);
+			}
+		}
+		else
+		{
+			array_push($a_array, $this->lng->txt("skipped"));
+		}
+	}
 }
 ?>

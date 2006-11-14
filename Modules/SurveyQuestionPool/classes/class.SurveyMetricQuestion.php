@@ -915,5 +915,94 @@ class SurveyMetricQuestion extends SurveyQuestion
 		return $result_array;
 	}
 	
+	/**
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* @param object $workbook Reference to the parent excel workbook
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @access public
+	*/
+	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
+	{
+		include_once ("./classes/class.ilExcelUtils.php");
+		$worksheet =& $workbook->addWorksheet();
+		$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+		$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+		$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
+		$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
+		$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
+		$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
+		$worksheet->write(3, 1, $eval_data["USERS_ANSWERED"]);
+		$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
+		$worksheet->write(4, 1, $eval_data["USERS_SKIPPED"]);
+		$rowcounter = 5;
+
+		$worksheet->write($rowcounter, 0, $this->lng->txt("subtype"), $format_bold);
+		switch ($this->getSubtype())
+		{
+			case SUBTYPE_NON_RATIO:
+				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("non_ratio")), $format_bold);
+				break;
+			case SUBTYPE_RATIO_NON_ABSOLUTE:
+				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("ratio_non_absolute")), $format_bold);
+				break;
+			case SUBTYPE_RATIO_ABSOLUTE:
+				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($this->lng->txt("ratio_absolute")), $format_bold);
+				break;
+		}
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode")), $format_bold);
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE"]));
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text")), $format_bold);
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE"]));
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections")), $format_bold);
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE_NR_OF_SELECTIONS"]));
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median")), $format_bold);
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MEDIAN"]));
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean")), $format_bold);
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["ARITHMETIC_MEAN"]));
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("values")), $format_bold);
+		$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("value")), $format_title);
+		$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected")), $format_title);
+		$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections")), $format_title);
+		$values = "";
+		if (is_array($eval_data["values"]))
+		{
+			foreach ($eval_data["values"] as $key => $value)
+			{
+				$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["value"]));
+				$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($value["selected"]));
+				$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
+			}
+		}
+	}
+
+	/**
+	* Adds the values for the user specific results export for a given user
+	*
+	* Adds the values for the user specific results export for a given user
+	*
+	* @param array $a_array An array which is used to append the values
+	* @param array $resultset The evaluation data for a given user
+	* @access public
+	*/
+	function addUserSpecificResultsData(&$a_array, &$resultset)
+	{
+		if (count($resultset["answers"][$this->getId()]))
+		{
+			foreach ($resultset["answers"][$this->getId()] as $key => $answer)
+			{
+				array_push($a_array, $answer["value"]);
+			}
+		}
+		else
+		{
+			array_push($a_array, $this->lng->txt("skipped"));
+		}
+	}
 }
 ?>

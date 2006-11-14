@@ -779,5 +779,128 @@ class SurveyNominalQuestion extends SurveyQuestion
 		}
 		return $result_array;
 	}
+
+	/**
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* @param object $workbook Reference to the parent excel workbook
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @access public
+	*/
+	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
+	{
+		include_once ("./classes/class.ilExcelUtils.php");
+		$worksheet =& $workbook->addWorksheet();
+		$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+		$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+		$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
+		$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
+		$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
+		$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
+		$worksheet->write(3, 1, $eval_data["USERS_ANSWERED"]);
+		$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
+		$worksheet->write(4, 1, $eval_data["USERS_SKIPPED"]);
+		$rowcounter = 5;
+
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode")), $format_bold);
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE_VALUE"]));
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text")), $format_bold);
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE"]));
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections")), $format_bold);
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE_NR_OF_SELECTIONS"]));
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories")), $format_bold);
+		$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_title);
+		$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value")), $format_title);
+		$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected")), $format_title);
+		$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections")), $format_title);
+		foreach ($eval_data["variables"] as $key => $value)
+		{
+			$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"]));
+			$worksheet->write($rowcounter, 2, $key+1);
+			$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
+			$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
+		}
+	}
+
+	/**
+	* Adds the entries for the title row of the user specific results
+	*
+	* Adds the entries for the title row of the user specific results
+	*
+	* @param array $a_array An array which is used to append the title row entries
+	* @access public
+	*/
+	function addUserSpecificResultsExportTitles(&$a_array)
+	{
+		parent::addUserSpecificResultsExportTitles($a_array);
+		if ($this->getSubtype() == SUBTYPE_MCMR)
+		{
+			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
+			{
+				$category = $this->categories->getCategory($index);
+				array_push($a_array, ($index+1) . " - $category");
+			}
+		}
+	}
+	
+	/**
+	* Adds the values for the user specific results export for a given user
+	*
+	* Adds the values for the user specific results export for a given user
+	*
+	* @param array $a_array An array which is used to append the values
+	* @param array $resultset The evaluation data for a given user
+	* @access public
+	*/
+	function addUserSpecificResultsData(&$a_array, &$resultset)
+	{
+		if (count($resultset["answers"][$this->getId()]))
+		{
+			if ($this->getSubtype() == SUBTYPE_MCMR)
+			{
+				array_push($a_array, "");
+				for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
+				{
+					$category = $this->categories->getCategory($index);
+					$found = 0;
+					foreach ($resultset["answers"][$this->getId()] as $answerdata)
+					{
+						if (strcmp($index, $answerdata["value"]) == 0)
+						{
+							$found = 1;
+						}
+					}
+					if ($found)
+					{
+						array_push($a_array, "1");
+					}
+					else
+					{
+						array_push($a_array, "0");
+					}
+				}
+			}
+			else
+			{
+				array_push($a_array, $resultset["answers"][$question_id][0]["value"]+1);
+			}
+		}
+		else
+		{
+			array_push($a_array, $this->lng->txt("skipped"));
+			if ($question_data["subtype"] == SUBTYPE_MCMR)
+			{
+				for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
+				{
+					array_push($a_array, "");
+				}
+			}
+		}
+	}
 }
 ?>
