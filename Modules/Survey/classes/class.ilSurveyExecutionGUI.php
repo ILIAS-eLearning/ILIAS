@@ -174,6 +174,11 @@ class ilSurveyExecutionGUI
 			$activepage = $this->object->getLastActivePage($ilUser->id);
 			$direction = 0;
 		}
+		// explicitly set the survey started!
+		if ($this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]) === FALSE)
+		{
+			$this->object->startSurvey($ilUser->getId(), $_SESSION["anonymous_id"]);
+		}
 		$this->outSurveyPage($activepage, $direction);
 	}
 
@@ -212,6 +217,20 @@ class ilSurveyExecutionGUI
 	{
 		global $ilUser;
 		
+		// security check if someone tries to go into a survey using an URL to one of the questions
+		$canStart = $this->object->canStartSurvey();
+		if (!$canStart["result"])
+		{
+			sendInfo(implode("<br />", $canStart["messages"]), TRUE);
+			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+		}
+		$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]);
+		if ($survey_started === FALSE)
+		{
+			sendInfo($this->lng->txt("survey_use_start_button"), TRUE);
+			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+		}
+
 		$page = $this->object->getNextPage($activepage, $direction);
 		$constraint_true = 0;
 

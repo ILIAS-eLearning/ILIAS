@@ -1566,37 +1566,65 @@ class ilObjSurvey extends ilObject
 * 
 * Checks if the survey can be started
 *
-* @return integer 
+* @return array An array containing the following keys: result (boolean) and messages (array)
 * @access public
 */
 	function canStartSurvey()
 	{
-		$result = 0;
+		global $ilAccess;
+		
+		$result = TRUE;
+		$messages = array();
+		// check start date
 		if ($this->getStartDateEnabled())
 		{
 			$epoch_time = mktime(0, 0, 0, $this->getStartMonth(), $this->getStartDay(), $this->getStartYear());
 			$now = mktime();
 			if ($now < $epoch_time) 
 			{
-				$result = SURVEY_START_START_DATE_NOT_REACHED;
+				array_push($messages, $this->lng->txt("start_date_not_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->getStartYear().$this->getStartMonth().$this->getStartDay()."000000"), "date") . ")");
+				$result = FALSE;
 			}
 		}
+		// check end date
 		if ($this->getEndDateEnabled())
 		{
 			$epoch_time = mktime(0, 0, 0, $this->getEndMonth(), $this->getEndDay(), $this->getEndYear());
 			$now = mktime();
 			if ($now > $epoch_time) 
 			{
-				$result = SURVEY_START_END_DATE_REACHED;
+				array_push($messages, $this->lng->txt("end_date_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->getEndYear().$this->getEndMonth().$this->getEndDay()."000000"), "date") . ")");
+				$result = FALSE;
 			}
 		}
+		// check online status
 		if ($this->getStatus() == STATUS_OFFLINE)
 		{
-			$result = SURVEY_START_OFFLINE;
+			array_push($messages, $this->lng->txt("survey_is_offline"));
+			$result = FALSE;
 		}
-		return $result;
+		// check rbac permissions
+		if ((!$ilAccess->checkAccess("read", "", $this->ref_id)) || (!$ilAccess->checkAccess("participate", "", $this->ref_id)))
+		{
+			array_push($messages, $this->lng->txt("cannot_participate_survey"));
+			$result = FALSE;
+		}
+		// 2. check previous access
+		if (!$result["error"])
+		{
+			global $ilUser;
+			$survey_started = $this->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]);
+			if ($survey_started === 1)
+			{
+				array_push($messages, $this->lng->txt("already_completed_survey"));
+				$result = FALSE;
+			}
+		}
+		return array(
+			"result" => $result,
+			"messages" => $messages
+		);
 	}
-
 
 /**
 * Sets the start date of the survey

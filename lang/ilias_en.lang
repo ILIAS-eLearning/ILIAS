@@ -6368,6 +6368,7 @@ survey#:#survey_skip_next#:#Skip >>
 survey#:#survey_skip_previous#:#<< Skip
 survey#:#survey_skip_start#:#Skip and Go To Start Page
 survey#:#survey_start#:#Go To Start Page
+survey#:#survey_use_start_button#:#You must enter the survey using the start button!
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed

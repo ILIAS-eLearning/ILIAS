@@ -3718,22 +3718,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$info->setFormAction($this->ctrl->getFormAction($output_gui));
 		$info->enablePrivateNotes();
 		$canStart = $this->object->canStartSurvey();
-		$showButtons = TRUE;
-		switch ($canStart)
-		{
-			case SURVEY_START_START_DATE_NOT_REACHED:
-				sendInfo($this->lng->txt("start_date_not_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getStartYear().$this->object->getStartMonth().$this->object->getStartDay()."000000"), "date") . ")");
-				$showButtons = FALSE;
-				break;
-			case SURVEY_START_END_DATE_REACHED:
-				sendInfo($this->lng->txt("end_date_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->object->getEndYear().$this->object->getEndMonth().$this->object->getEndDay()."000000"), "date") . ")");
-				$showButtons = FALSE;
-				break;
-			case SURVEY_START_OFFLINE:
-				sendInfo($this->lng->txt("survey_is_offline"));
-				$showButtons = FALSE;
-				break;
-		}
+		$showButtons = $canStart["result"];
+		if (!$showButtons) sendInfo(implode("<br />", $canStart["messages"]));
 
 		if ($showButtons)
 		{
