@@ -4114,19 +4114,26 @@ class ilObjTest extends ilObject
 		$persons_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (strlen($row["firstname"].$row["lastname"].$row["title"]) == 0)
+			if ($this->getAnonymity())
 			{
-				$persons_array[$row["active_id"]] = $this->lng->txt("deleted_user");
+				$persons_array[$row["active_id"]] = $this->lng->txt("unknown");
 			}
 			else
 			{
-				if ($row["user_fi"] == ANONYMOUS_USER_ID)
+				if (strlen($row["firstname"].$row["lastname"].$row["title"]) == 0)
 				{
-					$persons_array[$row["active_id"]] = $row["lastname"];
+					$persons_array[$row["active_id"]] = $this->lng->txt("deleted_user");
 				}
 				else
 				{
-					$persons_array[$row["active_id"]] = trim($row["lastname"] . ", " . $row["firstname"] . " " .  $row["title"]);
+					if ($row["user_fi"] == ANONYMOUS_USER_ID)
+					{
+						$persons_array[$row["active_id"]] = $row["lastname"];
+					}
+					else
+					{
+						$persons_array[$row["active_id"]] = trim($row["lastname"] . ", " . $row["firstname"] . " " .  $row["title"]);
+					}
 				}
 			}
 		}
@@ -4151,19 +4158,26 @@ class ilObjTest extends ilObject
 		$persons_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (strlen($row["firstname"].$row["lastname"].$row["title"]) == 0)
+			if ($this->getAnonymity())
 			{
-				$persons_array[$row["active_id"]] = array("name" => $this->lng->txt("deleted_user"));
+				$persons_array[$row["active_id"]] = array("name" => $this->lng->txt("unknown"));
 			}
 			else
 			{
-				if ($row["user_fi"] == ANONYMOUS_USER_ID)
+				if (strlen($row["firstname"].$row["lastname"].$row["title"]) == 0)
 				{
-					$persons_array[$row["active_id"]] = array("name" => $row["lastname"]);
+					$persons_array[$row["active_id"]] = array("name" => $this->lng->txt("deleted_user"));
 				}
 				else
 				{
-					$persons_array[$row["active_id"]] = array("name" => trim($row["lastname"] . ", " . $row["firstname"] . " " .  $row["title"]), "login" => $row["login"]);
+					if ($row["user_fi"] == ANONYMOUS_USER_ID)
+					{
+						$persons_array[$row["active_id"]] = array("name" => $row["lastname"]);
+					}
+					else
+					{
+						$persons_array[$row["active_id"]] = array("name" => trim($row["lastname"] . ", " . $row["firstname"] . " " .  $row["title"]), "login" => $row["login"]);
+					}
 				}
 			}
 		}
@@ -6286,51 +6300,64 @@ class ilObjTest extends ilObject
 		
 		$result_array = array();
 
-		if (is_numeric($user_id))
+		if ($this->getAnonymity())
 		{
-			$query = sprintf("SELECT tst_active.active_id, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
-				"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-				"FROM usr_data, tst_invited_user " . 
-				"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
-				"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
-				"ORDER BY %s",
-				$ilDB->quote($this->test_id),
-				$user_id,
-				$order
-			);
-/*		CREATED NEW VERSION FOR MYSQL 5 COMPATIBILITY (Helmut Schottmüller, 2006-09-18)
-				$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation, IF(test.active_id IS NULL,0,1) as test_started " .
-							 "FROM tst_invited_user t, usr_data ".
-							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
-							 "WHERE t.test_fi = %s and t.user_fi=usr_id AND usr_id=%s ".
-							 "ORDER BY %s",
-				$ilDB->quote($this->test_id),
-				$user_id,
-				$order
-			);*/
+			if (is_numeric($user_id))
+			{
+				$query = sprintf("SELECT tst_active.active_id, usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_invited_user.clientip, " .
+					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
+					"FROM usr_data, tst_invited_user " . 
+					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
+					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
+					"ORDER BY %s",
+					$ilDB->quote($this->lng->txt("unknown")),
+					$ilDB->quote($this->test_id),
+					$user_id,
+					$order
+				);
+			}
+			else 
+			{
+				$query = sprintf("SELECT tst_active.active_id, usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_invited_user.clientip, " .
+					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
+					"FROM usr_data, tst_invited_user " . 
+					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
+					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
+					"ORDER BY %s",
+					$ilDB->quote($this->lng->txt("unknown")),
+					$ilDB->quote($this->test_id),
+					$order
+				);
+			}
 		}
-		else 
+		else
 		{
-			$query = sprintf("SELECT tst_active.active_id, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
-				"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-				"FROM usr_data, tst_invited_user " . 
-				"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
-				"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
-				"ORDER BY %s",
-				$ilDB->quote($this->test_id),
-				$order
-			);
-/*		CREATED NEW VERSION FOR MYSQL 5 COMPATIBILITY (Helmut Schottmüller, 2006-09-18)
-				$query = sprintf("SELECT usr_id, login, lastname, firstname, t.clientip, test.submitted as test_finished, matriculation, IF(test.active_id IS NULL,0,1) as test_started " .							 				
-							 "FROM tst_invited_user t, usr_data ".
-							 "LEFT JOIN tst_active test ON test.user_fi=usr_id AND test.test_fi=t.test_fi ".
-							 "WHERE t.test_fi = %s and t.user_fi=usr_id ".
-							 "ORDER BY %s",
-				$ilDB->quote($this->test_id),
-				$order
-			);*/
+			if (is_numeric($user_id))
+			{
+				$query = sprintf("SELECT tst_active.active_id, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
+					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
+					"FROM usr_data, tst_invited_user " . 
+					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
+					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
+					"ORDER BY %s",
+					$ilDB->quote($this->test_id),
+					$user_id,
+					$order
+				);
+			}
+			else 
+			{
+				$query = sprintf("SELECT tst_active.active_id, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
+					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
+					"FROM usr_data, tst_invited_user " . 
+					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
+					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
+					"ORDER BY %s",
+					$ilDB->quote($this->test_id),
+					$order
+				);
+			}
 		}
-		
 		return $this->getArrayData($query, "usr_id");
 	}
 	
@@ -6346,10 +6373,21 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 		
-		$q = sprintf("SELECT tst_active.active_id, tst_active.user_fi AS usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
-			"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
-			$ilDB->quote($this->getTestId())
-		);
+		if ($this->getAnonymity())
+		{
+			$q = sprintf("SELECT tst_active.active_id, tst_active.user_fi AS usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+				$ilDB->quote($this->lng->txt("unknown")),
+				$ilDB->quote($this->getTestId())
+			);
+		}
+		else
+		{
+			$q = sprintf("SELECT tst_active.active_id, tst_active.user_fi AS usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+				$ilDB->quote($this->getTestId())
+			);
+		}
 		return $this->getArrayData($q, "usr_id");
 	}
 	
@@ -6369,9 +6407,19 @@ class ilObjTest extends ilObject
 			
 		$result_array = array();
 			
-		$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",			
-			join ($ids,",")
-		);
+		if ($this->getAnonymity())
+		{
+			$query = sprintf("SELECT usr_id, '' AS login, %s AS lastname, '' AS firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",			
+				$ilDB->quote($this->lng->txt("unknown")),
+				join ($ids,",")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",			
+				join ($ids,",")
+			);
+		}
 				
 		return $this->getArrayData ($query, "usr_id");		
 	}
@@ -6670,6 +6718,11 @@ class ilObjTest extends ilObject
 			{
 				$mark = $mark_obj->getOfficialName();
 				$ects_mark = $this->getECTSGrade($reached_points, $max_points);
+			}
+			if ($this->getAnonymity())
+			{
+				$user_rec->firstname = "";
+				$user_rec->lastname = $this->lng->txt("unknown");
 			}
 
 			$row = array(

@@ -3314,16 +3314,25 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("USER_ICON", ilUtil::getImagePath("icon_usr.gif"));
 			$this->tpl->setVariable("USER_ALT", $this->lng->txt("usr"));
 			$this->tpl->setVariable("USER_TITLE", $this->lng->txt("usr"));
-			$this->tpl->setVariable("TXT_FIRSTNAME", $user["firstname"]);
-			if (strlen($user["lastname"]))
+			if ($this->object->getAnonymity())
 			{
-				$this->tpl->setVariable("TXT_LASTNAME", $user["lastname"]);
+				$this->tpl->setVariable("TXT_FIRSTNAME", "");
+				$this->tpl->setVariable("TXT_LASTNAME", $this->lng-txt("unknown"));
+				$this->tpl->setVariable("TXT_LOGIN", "");
 			}
 			else
 			{
-				$this->tpl->setVariable("TXT_LASTNAME", $this->lng->txt("deleted_user"));
+				$this->tpl->setVariable("TXT_FIRSTNAME", $user["firstname"]);
+				if (strlen($user["lastname"]))
+				{
+					$this->tpl->setVariable("TXT_LASTNAME", $user["lastname"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("TXT_LASTNAME", $this->lng->txt("deleted_user"));
+				}
+				$this->tpl->setVariable("TXT_LOGIN", ilObjUser::_lookupLogin($user_id));
 			}
-			$this->tpl->setVariable("TXT_LOGIN", ilObjUser::_lookupLogin($user_id));
 			$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 			$counter++;
@@ -3366,8 +3375,8 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("changelog_row");
 					$this->tpl->setVariable("ROW_CLASS", $tblrow[$counter % 2]);
-					$user = ilObjUser::_lookupName($entry["user_fi"]);
-					$this->tpl->setVariable("TXT_USER", trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"]));
+					$username = $this->object->userLookupFullName($entry["user_fi"]);
+					$this->tpl->setVariable("TXT_USER", $username);
 					$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($entry["TIMESTAMP14"]), "datetime"));
 					if (strlen($entry["ref_id"]) && strlen($entry["href"]))
 					{
