@@ -6680,3 +6680,11 @@ chat#:#chat_server_ssl_settings#:#SSL Settings###12 11 2006 new variable
 chat#:#chat_server_ssl_port#:#Server SSL Port###12 11 2006 new variable
 chat#:#chat_server_ssl_active#:#SSL active###12 11 2006 new variable
 chat#:#chat_add_ssl_port#:#Please add the server SSL port###12 11 2006 new variable
+survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.###15 11 2006 new variable
+survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)###15 11 2006 new variable
+survey#:#metric_subtype_description_interval#:#Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.###15 11 2006 new variable
+survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.###15 11 2006 new variable
+survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.###15 11 2006 new variable
+survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###15 11 2006 new variable
+survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###15 11 2006 new variable
+survey#:#survey_use_start_button#:#You must enter the survey using the start button!###15 11 2006 new variable
