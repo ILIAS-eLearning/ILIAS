@@ -11706,4 +11706,4 @@ $ilCtrlStructureReader->getStructure();
 <#841>
 UPDATE tst_tests SET show_summary = '7' WHERE test_type_fi = '4';
 <#842>
-UPDATE tst_tests SET solution_printview = '1' WHERE test_type_fi = '4';
+UPDATE tst_tests SET show_solution_printview = '1' WHERE test_type_fi = '4';
