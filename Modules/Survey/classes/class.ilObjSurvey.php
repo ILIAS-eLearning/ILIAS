@@ -470,21 +470,24 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (strlen($row["anonymous_id"]))
-				{
-					$participants[$row["finished_id"]] = array("name" => $this->lng->txt("anonymous"), "user_id" => $row["user_fi"], "anonymous_id" => $row["anonymous_id"]);
-				}
-				else
+				if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID))
 				{
 					$uname = ilObjUser::_lookupName($row["user_fi"]);
 					if (strlen($uname["user_id"]))
 					{
 						$login = ilObjUser::_lookupLogin($row["user_fi"]);
-						$participants[$row["finished_id"]] = array("name" => $uname["lastname"] . ", " . $uname["firstname"], "login" => $login, "user_id" => $row["user_fi"], "anonymous_id" => $row["anonymous_id"]);
+						$participants[$row["finished_id"]] = array("name" => $uname["lastname"] . ", " . $uname["firstname"], "login" => $login);
 					}
 					else
 					{
-						$participants[$row["finished_id"]] = array("name" => $this->lng->txt("deleted_user"), "user_id" => $row["user_fi"], "anonymous_id" => $row["anonymous_id"]);
+						$participants[$row["finished_id"]] = array("name" => $this->lng->txt("deleted_user"));
+					}
+				}
+				else
+				{
+					if (strlen($row["anonymous_id"]) > 0)
+					{
+						$participants[$row["finished_id"]] = array("name" => $this->lng->txt("anonymous"));
 					}
 				}
 			}
