@@ -341,6 +341,7 @@ assessment#:#filter_all_questionpools#:#All Question Pools
 assessment#:#filter_show_question_types#:#Show Question Types
 assessment#:#filter_show_questionpools#:#Show Question Pools
 assessment#:#filter_users#:#Filter Users
+assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the %s subtab.
 assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap Definition
 assessment#:#gap_selection#:#Gap Selection
@@ -387,7 +388,10 @@ assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Manual Scoring
+assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a question type. You are not allowed to use this tab.
 assessment#:#manscoring_select_user#:#Please select a participant to set the score manually
+assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.
+assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s
 assessment#:#mark_schema#:#Mark Schema
 assessment#:#match_terms_and_definitions#:#Match Terms and Definitions
 assessment#:#match_terms_and_pictures#:#Match Terms and Pictures
@@ -584,6 +588,7 @@ assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_questions#:#Browse for Questions
 assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!
+assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.
 assessment#:#tst_change_points_for_question#:#Change the Points for the Answer
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
@@ -599,7 +604,7 @@ assessment#:#tst_delete_results#:#Reset Test
 assessment#:#tst_ending_time#:#Ending Time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
-assessment#:#tst_eval_results_by_pass#:#Detailed Question Results for Pass %s
+assessment#:#tst_eval_results_by_pass#:#List of Answers for Pass %s
 assessment#:#tst_eval_show_answer#:#Show Answer
 assessment#:#tst_eval_total_finished#:#Total Finished Tests (users who submitted the test with the finish test button)
 assessment#:#tst_eval_total_finished_average_time#:#Average Test Processing Time
@@ -678,6 +683,7 @@ assessment#:#tst_no_tries#:#none
 assessment#:#tst_nr_of_tries#:#Max. Number of Passes
 assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_participating_users#:#Participating Users
+assessment#:#tst_fixed_participating_users#:#Fixed Participants in this Test
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_description#:#Choose this mode to score the best test pass of a participant. This only works if more than one test pass is allowed.
 assessment#:#tst_pass_details#:#Pass Details
@@ -744,6 +750,7 @@ assessment#:#tst_results_back_evaluation#:#Back to Evaluation Overview
 assessment#:#tst_results_back_introduction#:#Back to Introduction
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results 
+assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_presentation#:#Test Results Presentation
 assessment#:#tst_resume_test#:#Resume the Test
 assessment#:#tst_score_cut_question#:#Cut off Negative Question Points
@@ -1212,6 +1219,10 @@ common#:#arrow_downright#:#Arrow from top to down right
 common#:#articels_unread#:#Unread articels
 common#:#as_of#:#as of
 common#:#ascending_order#:#Ascending order
+common#:#assessment_log_logging#:#Logging
+common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for
+common#:#assessment_log_manual_scoring#:#Manual Scoring
+common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period
 common#:#assessment_log_datetime#:#Date/Time
 common#:#assessment_log_for_test#:#For test
@@ -1223,7 +1234,7 @@ common#:#assessment_log_select_test#:#--- Please select a test ---
 common#:#assessment_log_text#:#Log message
 common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
-common#:#assessment_settings#:#Test&Assessment Administration Settings
+common#:#assessment_settings#:#Global Test & Assessment settings
 common#:#assessment_settings_reporting_language#:#Reporting language
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment Administration
@@ -2749,7 +2760,7 @@ common#:#obj_adve#:#Advanced Editing
 common#:#obj_adve_desc#:#Administration settings for advanced editing like JavaScript based Rich Text Editors, LaTeX support etc..
 common#:#obj_alm#:#Learning Module AICC
 common#:#obj_assf#:#Test and Assessment
-common#:#obj_assf_desc#:#Test&Assessment log settings.
+common#:#obj_assf_desc#:#Platform settings for the Test & Assessment tool
 common#:#obj_auth#:#Authentication and Registration
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...) and new account registration settings here.
 common#:#obj_cat#:#Category

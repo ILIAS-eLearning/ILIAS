@@ -74,20 +74,6 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 		return $cmd;
 	}
 
-
-	/**
-	* Returns the question type string stored in the qpl_question_type database table
-	*
-	* Returns the question type string stored in the qpl_question_type database table
-	*
-	* @result string The question type string
-	* @access public
-	*/
-	function getQuestionType()
-	{
-		return "assQuestionTypeTemplate";
-	}
-
 	/**
 	* Creates an output of the edit form for the question
 	*

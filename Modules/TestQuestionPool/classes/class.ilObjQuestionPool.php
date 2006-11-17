@@ -1545,12 +1545,29 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM qpl_question_type ORDER BY question_type_id";
+		$query = "SELECT * FROM qpl_question_type";
 		$result = $ilDB->query($query);
 		$types = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$types[$this->lng->txt($row["type_tag"])] = $row;
+		}
+		ksort($types);
+		return $types;
+	}
+
+	function &_getQuestionTypes()
+	{
+		global $ilDB;
+		global $lng;
+		
+		$lng->loadLanguageModule("assessment");
+		$query = "SELECT * FROM qpl_question_type";
+		$result = $ilDB->query($query);
+		$types = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$types[$lng->txt($row["type_tag"])] = $row;
 		}
 		ksort($types);
 		return $types;

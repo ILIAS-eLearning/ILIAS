@@ -448,18 +448,5 @@ class assNumericGUI extends assQuestionGUI
 		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}
-
-	/**
-	* Returns the question type string
-	*
-	* Returns the question type string
-	*
-	* @result string The question type string
-	* @access public
-	*/
-	function getQuestionType()
-	{
-		return "assNumeric";
-	}
 }
 ?>

@@ -104,20 +104,6 @@ class assQuestionGUI
 		return $cmd;
 	}
 
-
-	/**
-	* Returns the question type string
-	*
-	* Returns the question type string
-	*
-	* @result string The question type string
-	* @access public
-	*/
-	function getQuestionType()
-	{
-		return "";
-	}
-
 	/**
 	* needed for page editor compliance
 	*/
@@ -779,5 +765,19 @@ class assQuestionGUI
 	function outAdditionalOutput()
 	{
 	}
+
+	/**
+	* Returns the question type string
+	*
+	* Returns the question type string
+	*
+	* @result string The question type string
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return $this->object->getQuestionType();
+	}
+
 }
 ?>

@@ -308,47 +308,57 @@ class ilTestServiceGUI
 		
 		$maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", TRUE, TRUE, "Modules/Test");
 
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		$scoring = ilObjAssessmentFolder::_getManualScoring();
+		
 		$counter = 1;
 		// output of questions with solutions
 		foreach ($result_array as $question_data)
 		{
-			$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/TestQuestionPool");
-			$scoretemplate = new ilTemplate("tpl.il_as_tst_manual_scoring_points.html", TRUE, TRUE, "Modules/Test");
 			$question = $question_data["qid"];
 			if (is_numeric($question))
 			{
-				$this->tpl->setCurrentBlock("printview_question");
 				$question_gui = $this->object->createQuestionGUI("", $question);
-	
-				$template->setVariable("COUNTER_QUESTION", $counter.". ");
-				$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
-				$points = $question_gui->object->getMaximumPoints();
-				if ($points == 1)
+				if (in_array($question_gui->object->getQuestionTypeID(), $scoring))
 				{
-					$template->setVariable("QUESTION_POINTS", $points . " " . $this->lng->txt("point"));
+					$template = new ilTemplate("tpl.il_as_qpl_question_printview.html", TRUE, TRUE, "Modules/TestQuestionPool");
+					$scoretemplate = new ilTemplate("tpl.il_as_tst_manual_scoring_points.html", TRUE, TRUE, "Modules/Test");
+					$this->tpl->setCurrentBlock("printview_question");
+					$template->setVariable("COUNTER_QUESTION", $counter.". ");
+					$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+					$points = $question_gui->object->getMaximumPoints();
+					if ($points == 1)
+					{
+						$template->setVariable("QUESTION_POINTS", $points . " " . $this->lng->txt("point"));
+					}
+					else
+					{
+						$template->setVariable("QUESTION_POINTS", $points . " " . $this->lng->txt("points"));
+					}
+					
+					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions);
+		
+					$scoretemplate->setVariable("NAME_INPUT", $question);
+					$scoretemplate->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+					$scoretemplate->setVariable("LABEL_INPUT", $this->lng->txt("tst_change_points_for_question"));
+					$scoretemplate->setVariable("BUTTON_POINTS", $this->lng->txt("change"));
+					$scoretemplate->setVariable("VALUE_INPUT", " value=\"" . assQuestion::_getReachedPoints($active_id, $question_data["qid"], $pass) . "\"");
+					
+					$template->setVariable("SOLUTION_OUTPUT", $result_output);
+					$maintemplate->setCurrentBlock("printview_question");
+					$maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
+					$maintemplate->setVariable("QUESTION_SCORING", $scoretemplate->get());
+					$maintemplate->parseCurrentBlock();
+					$counter ++;
 				}
-				else
-				{
-					$template->setVariable("QUESTION_POINTS", $points . " " . $this->lng->txt("points"));
-				}
-				
-				$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions);
-
-				$scoretemplate->setVariable("NAME_INPUT", $question);
-				$scoretemplate->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-				$scoretemplate->setVariable("LABEL_INPUT", $this->lng->txt("tst_change_points_for_question"));
-				$scoretemplate->setVariable("BUTTON_POINTS", $this->lng->txt("change"));
-				$scoretemplate->setVariable("VALUE_INPUT", " value=\"" . assQuestion::_getReachedPoints($active_id, $question_data["qid"], $pass) . "\"");
-				
-				$template->setVariable("SOLUTION_OUTPUT", $result_output);
-				$maintemplate->setCurrentBlock("printview_question");
-				$maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
-				$maintemplate->setVariable("QUESTION_SCORING", $scoretemplate->get());
-				$maintemplate->parseCurrentBlock();
-				$counter ++;
 			}
 		}
-		$maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_eval_results_by_pass"), $pass+1));
+		if ($counter == 1)
+		{
+			// no scorable questions found
+			$maintemplate->setVariable("NO_QUESTIONS_FOUND", $this->lng->txt("manscoring_questions_not_found"));
+		}
+		$maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("manscoring_results_pass"), $pass+1));
 		return $maintemplate->get();
 	}
 	

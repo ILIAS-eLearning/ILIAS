@@ -74,6 +74,16 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			sendInfo($this->lng->txt("cannot_edit_test"));
 			return;
 		}
+
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		$scoring = ilObjAssessmentFolder::_getManualScoring();
+		if (count($scoring) == 0)
+		{
+			// allow only if question types are marked for manual scoring
+			sendInfo($this->lng->txt("manscoring_not_allowed"));
+			return;
+		}
+		
 		if ((!($active_id > 0)) && (array_key_exists("active_id", $_GET)))
 		{
 			if (strlen($_GET["active_id"]))	$active_id = $_GET["active_id"];
@@ -153,7 +163,14 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$maxpoints = assQuestion::_getMaximumPoints($question_id); 
 			$result = assQuestion::_setReachedPoints($_GET["active_id"], $question_id, $points, $maxpoints, $_GET["pass"]);
-			if ($result) sendInfo($this->lng->txt("tst_change_points_done"));
+			if ($result) 
+			{
+				sendInfo($this->lng->txt("tst_change_points_done"));
+			}
+			else
+			{
+				sendInfo($this->lng->txt("tst_change_points_not_done"));
+			}
 		}
 		$this->manscoring();
 	}

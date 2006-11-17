@@ -874,6 +874,10 @@ class ilObjTestGUI extends ilObjectGUI
 			$randomtest_switch = true;
 		}
 		$data["anonymity"] = $_POST["anonymity"];
+		if ($total)
+		{
+			$data["anonymity"] = $this->object->getAnonymity();
+		}
 		$data["show_cancel"] = $_POST["show_cancel"];
 		$data["password"] = $_POST["password"];
 		$data["allowedUsers"] = $_POST["allowedUsers"];
@@ -1468,6 +1472,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->backToRepositoryObject();
 		}
 		
+		$total = $this->object->evalTotalPersons();
 		$data["anonymity"] = $this->object->getAnonymity();
 		$data["show_cancel"] = $this->object->getShowCancel();
 		$data["introduction"] = $this->object->getIntroduction();
@@ -1550,6 +1555,10 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($data["anonymity"])
 		{
 			$this->tpl->setVariable("CHECKED_ANONYMITY", " checked=\"checked\"");
+		}
+		if ($total)
+		{
+			$this->tpl->setVariable("DISABLED_ANONYMITY", " disabled=\"disabled\"");
 		}
 		$this->tpl->setVariable("TEXT_SHOW_CANCEL", $this->lng->txt("tst_show_cancel"));
 		$this->tpl->setVariable("TEXT_SHOW_CANCEL_DESCRIPTION", $this->lng->txt("tst_show_cancel_description"));
@@ -3886,7 +3895,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$buttons = array("save","delete_user_data", "remove_as_participant");
 			if (count($invited_users))
 			{
-				$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
+				$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_fixed_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
 			}
 		}
 		else
@@ -3900,6 +3909,13 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
+		if ($this->object->getFixedParticipants())
+		{
+			$this->tpl->setCurrentBlock("fixed_participants_hint");
+			$this->tpl->setVariable("FIXED_PARTICIPANTS_HINT", sprintf($this->lng->txt("fixed_participants_hint"), $this->lng->txt("participants_invitation")));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
@@ -3907,7 +3923,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
-    	if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		{
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
@@ -5082,11 +5099,16 @@ class ilObjTestGUI extends ilObjectGUI
 					 "print"),
 					 "");
 
-				// scoring tab
-				$tabs_gui->addTarget("manscoring",
-					 $this->ctrl->getLinkTargetByClass("iltestscoringgui", "manscoring"),
-					 array("manscoring", "selectParticipant", "setPointsManual"),
-					 "");
+				include_once "./classes/class.ilObjAssessmentFolder.php";
+				$scoring = ilObjAssessmentFolder::_getManualScoring();
+				if (count($scoring))
+				{
+					// scoring tab
+					$tabs_gui->addTarget("manscoring",
+						 $this->ctrl->getLinkTargetByClass("iltestscoringgui", "manscoring"),
+						 array("manscoring", "selectParticipant", "setPointsManual"),
+						 "");
+				}
 
 				// statistics tab
 				$tabs_gui->addTarget("statistics",

@@ -2327,6 +2327,44 @@ class assQuestion
 		}
 	}
 	
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		// must be overwritten in every parent class
+		return "";
+	}
+	
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionTypeID()
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT question_type_id FROM qpl_question_type WHERE type_tag = %s",
+			$ilDB->quote($this->getQuestionType() . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["question_type_id"];
+		}
+		return 0;
+	}
+	
 }
 
 ?>

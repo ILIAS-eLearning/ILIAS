@@ -62,20 +62,6 @@ class assTextSubsetGUI extends assQuestionGUI
 		return $cmd;
 	}
 
-
-	/**
-	* Returns the question type string
-	*
-	* Returns the question type string
-	*
-	* @result string The question type string
-	* @access public
-	*/
-	function getQuestionType()
-	{
-		return "assTextSubset";
-	}
-
 	/**
 	* Creates an output of the edit form for the question
 	*
