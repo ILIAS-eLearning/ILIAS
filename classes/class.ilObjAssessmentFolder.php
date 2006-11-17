@@ -263,6 +263,35 @@ class ilObjAssessmentFolder extends ilObject
 	}
 
 	/**
+	* Retrieve the manual scoring settings
+	*/
+	function _getManualScoring()
+	{
+		$setting = new ilSetting("assessment");
+
+		$types = $setting->get("assessment_manual_scoring");
+		return explode(",", $types);
+	}
+
+	/**
+	* Set the manual scoring settings
+	*
+	* @param array $type_ids An array containing the database ids of the question types which could be scored manually
+	*/
+	function _setManualScoring($type_ids)
+	{
+		$setting = new ilSetting("assessment");
+		if ((!is_array($type_ids)) || (count($type_ids) == 0))
+		{
+			$setting->delete("assessment_manual_scoring");
+		}
+		else
+		{
+			$setting->set("assessment_manual_scoring", implode($type_ids, ","));
+		}
+	}
+
+	/**
 	* Add an assessment log entry
 	*
 	* Add an assessment log entry

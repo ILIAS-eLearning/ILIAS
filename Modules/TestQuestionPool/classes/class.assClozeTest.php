@@ -291,7 +291,7 @@ class assClozeTest extends assQuestion
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, points, author, owner, question_text, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getQuestionType()),
+				$ilDB->quote($this->getQuestionTypeID()),
 				$ilDB->quote($this->obj_id),
 				$ilDB->quote($this->title),
 				$ilDB->quote($this->comment),
@@ -1893,7 +1893,7 @@ class assClozeTest extends assQuestion
 	*/
 	function getQuestionType()
 	{
-		return 3;
+		return "assClozeTest";
 	}
 	
 	/**

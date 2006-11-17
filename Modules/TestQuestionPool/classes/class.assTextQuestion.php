@@ -414,7 +414,7 @@ class assTextQuestion extends assQuestion
 		{
 			// Neuen Datensatz schreiben
 			$now = getdate();
-			$question_type = $this->getQuestionType();
+			$question_type = $this->getQuestionTypeID();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, points, question_text, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($question_type),
@@ -948,7 +948,7 @@ class assTextQuestion extends assQuestion
 	*/
 	function getQuestionType()
 	{
-		return 8;
+		return "assTextQuestion";
 	}
 	
 	/**

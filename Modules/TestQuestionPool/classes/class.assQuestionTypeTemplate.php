@@ -578,8 +578,7 @@ class assQuestionTypeTemplate extends assQuestion
 	*/
 	function getQuestionType()
 	{
-		$question_type = 13;
-		return $question_type;
+		return "assQuestionTypeTemplate";
 	}
 	
 	/**

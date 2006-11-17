@@ -339,8 +339,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$_SESSION["user_folder_offset"] = $_GET["offset"];
 		}
 		$_GET["offset"] = $_SESSION["user_folder_offset"]; 
-		$_GET["sort_order"] = $_SESSION["user_folder_order"];
-		$_GET["sort_by"] = $_SESSION["user_folder_sort_by"];
+		$_GET["sort_order"] = $_SESSION["user_folder_order"] ? $_SESSION["user_folder_order"] : "asc";
+		$_GET["sort_by"] = $_SESSION["user_folder_sort_by"] ? $_SESSION["user_folder_sort_by"] : "login";
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{

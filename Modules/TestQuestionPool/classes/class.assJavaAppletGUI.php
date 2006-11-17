@@ -57,19 +57,6 @@ class assJavaAppletGUI extends assQuestionGUI
 		}
 	}
 
-	/**
-	* Returns the question type string
-	*
-	* Returns the question type string
-	*
-	* @result string The question type string
-	* @access public
-	*/
-	function getQuestionType()
-	{
-		return "assJavaApplet";
-	}
-
 	function getCommand($cmd)
 	{
 		if (substr($cmd, 0, 6) == "delete")
