@@ -406,7 +406,7 @@ class ShibAuth
 	*/
 	function setAuth($username)
 	{
-		$session = &Auth::_importGlobalVariable('session');
+		$session = &$this->_importGlobalVariable('session');
 		
 		if (!isset($session[$this->_sessionName]) && !isset($_SESSION)) {
 			session_register($this->_sessionName);
