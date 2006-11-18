@@ -106,12 +106,12 @@ assessment#:#add_answer_tf#:#Lisa õige/vale vastus
 assessment#:#add_answer_yn#:#Lisa jah/ei vastus
 assessment#:#add_applet_parameter#:#Add applet parameter
 assessment#:#add_area#:#Lisa ala
-assessment#:#add_gap#:#Add Gap Text
+assessment#:#add_gap#:#Add  Gap Text
 assessment#:#add_imagemap#:#Import image map
 assessment#:#add_matching_pair#:#Lisa sobiv paar
 assessment#:#add_questionpool#:#Lisa küsimuste bassein
 assessment#:#add_solution#:#Lisa soovitatav lahendus
-assessment#:#all_available_question_pools#:#Kõik saadaolevad küsimuste basseinid
+assessment#:#all_available_question_pools#:#Kõik saadaolevad küsimustebasseinid
 assessment#:#answer#:#Vastus
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
 assessment#:#answer_is_right#:#Lahendus õige
@@ -123,16 +123,16 @@ assessment#:#applet_new_parameter#:#Uus parameeter
 assessment#:#applet_parameter#:#Parameeter
 assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Tarvita
-assessment#:#assClozeTest#:#Cloze Question
-assessment#:#assImagemapQuestion#:#Image Map Question
+assessment#:#assClozeTest#:#Lünktekst-küsimus
+assessment#:#assImagemapQuestion#:#Kaardiküsimus
 assessment#:#assJavaApplet#:#Java Applet Question
-assessment#:#assMatchingQuestion#:#Matching Question
-assessment#:#assMultipleChoice#:#Multiple Choice Question (multiple response)
-assessment#:#assNumeric#:#Numeric question
-assessment#:#assOrderingQuestion#:#Ordering Question
-assessment#:#assQuestions#:#Questions
-assessment#:#assSingleChoice#:#Multiple Choice Question (single response)
-assessment#:#assTextQuestion#:#Essay Question
+assessment#:#assMatchingQuestion#:#Kokkusobitamisküsimus
+assessment#:#assMultipleChoice#:#Valikvastustega küsimus (mitu õiget vastust)
+assessment#:#assNumeric#:#Nummerdamisküsimus
+assessment#:#assOrderingQuestion#:#Järjestamisküsimus
+assessment#:#assQuestions#:#Küsimused
+assessment#:#assSingleChoice#:#Valikvastustega küsimus (üks õige vastus)
+assessment#:#assTextQuestion#:#Esseeküsimus
 assessment#:#assTextSubset#:#Text subset question
 assessment#:#ass_create_export_file#:#Tekita eksportfail
 assessment#:#ass_create_export_test_results#:#Ekspordi testitulemused
@@ -300,12 +300,12 @@ assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or ne
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
+assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Kasutaja ei saa testi siseneda, kuna samaaegsete kasutajate maksimumarv on täis.
 assessment#:#log_create_new_test#:#Created new test
 assessment#:#log_mark_added#:#Hinne on lisatud
 assessment#:#log_mark_changed#:#Hinne on muudetud
 assessment#:#log_mark_removed#:#Hinne on eemaldatud
-assessment#:#log_modified_test#:#The test was modified
+assessment#:#log_modified_test#:#Testi muudeti
 assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Küsimuse asukoht muudetud
@@ -318,19 +318,19 @@ assessment#:#log_user_answered_question#:#Kasutaja vastas küsimusele ja sai %s 
 assessment#:#log_user_data_removed#:#Removed all user data
 assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
-assessment#:#maintenance#:#Maintenance
-assessment#:#mark_schema#:#Mark schema
-assessment#:#match_terms_and_definitions#:#Match terms and definitions
-assessment#:#match_terms_and_pictures#:#Match terms and pictures
+assessment#:#maintenance#:#Hooldus
+assessment#:#mark_schema#:#Hindeskeem
+assessment#:#match_terms_and_definitions#:#Sobita mõisted ja definitsioonid
+assessment#:#match_terms_and_pictures#:#Sobita mõisted ja pildid
 assessment#:#matches#:#matches
-assessment#:#matching_pair#:#Matching pair
+assessment#:#matching_pair#:#Sobiv paar
 assessment#:#matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
 assessment#:#material#:#Material
 assessment#:#material_download#:#Materjal allalaadimiseks
 assessment#:#material_file#:#Material file
 assessment#:#maxchars#:#Maximum number of characters
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
-assessment#:#maximum_points#:#Maxium available points
+assessment#:#maximum_points#:#Maximum available points
 assessment#:#meaning#:#Meaning
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.
 assessment#:#multiline_answers_hide#:#Use single-line answers
@@ -362,12 +362,12 @@ assessment#:#percentage_solved#:#Oled lahendanud %.2f protsenti sellest küsimus
 assessment#:#percentile#:#Percentile
 assessment#:#picture#:#Pilt
 assessment#:#please_select#:#-- palun vali --
-assessment#:#point#:#Point
+assessment#:#point#:#punkt
 assessment#:#points#:#punkti
 assessment#:#points_checked#:#Points when checked
-assessment#:#points_short#:#Pt.
+assessment#:#points_short#:#p.
 assessment#:#points_unchecked#:#Points when unchecked
-assessment#:#polygon#:#Maaala
+assessment#:#polygon#:#Maa-ala
 assessment#:#polygon_click_next_or_save#:#Palun klikka maaala järgmisele punktile või salvesta (alguspunktil uuesti klikata pole vaja)!
 assessment#:#polygon_click_next_point#:#Palun klikka maaala järgmisele punktile!
 assessment#:#polygon_click_starting_point#:#Palun klikka maa-ala alguspunktile!
@@ -445,15 +445,15 @@ assessment#:#report_date_not_reached#:#You have not reached the reporting date. 
 assessment#:#reset_definitions#:#Reset definition positions
 assessment#:#reset_filter#:#Reset filter
 assessment#:#reset_pictures#:#Reset picture positions
-assessment#:#result#:#Result
+assessment#:#result#:#Tulemus
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a Java applet!
 assessment#:#save_edit#:#Save and edit content
 assessment#:#save_finish#:#Finish the test
 assessment#:#save_introduction#:#Go to introduction
-assessment#:#save_next#:#Next
-assessment#:#save_previous#:#Previous
-assessment#:#save_text_answer_points#:#Save essay points
+assessment#:#save_next#:#Järgmine küsimus
+assessment#:#save_previous#:#Eelmine küsimus
+assessment#:#save_text_answer_points#:#Salvesta essee punktid
 assessment#:#scored_pass#:#Scored pass
 assessment#:#search_found_groups#:#Found groups
 assessment#:#search_found_users#:#Found users
@@ -464,12 +464,12 @@ assessment#:#search_users#:#Search Users
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Palun vali vastus ---
 assessment#:#select_gap#:#Select gap
-assessment#:#select_max_one_item#:#Please select one item only
-assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test
-assessment#:#select_one_user#:#Please select at least one user
-assessment#:#select_qpl_option#:#--- Please select a question pool ---
+assessment#:#select_max_one_item#:#Palun vali ainult üks element.
+assessment#:#select_one_submitted_test#:#Palun vali vähemalt üks testi lõpetanud kasutaja.
+assessment#:#select_one_user#:#Palun vali vähemalt üks kasutaja.
+assessment#:#select_qpl_option#:#--- Palun vali küsimustebassein ---
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
-assessment#:#select_tst_option#:#--- Please select a test ---
+assessment#:#select_tst_option#:#--- Palun vali test ---
 assessment#:#selected_image#:#Selected image
 assessment#:#set_edit_mode#:#Set edit mode
 assessment#:#set_filter#:#Set filter
@@ -483,12 +483,12 @@ assessment#:#solution_may_contain_keywords#:#The solution may contain one of the
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time
-assessment#:#statistical_data#:#Statistical data
+assessment#:#statistical_data#:#Statistilised andmed
 assessment#:#statistics#:#Statistika
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
 assessment#:#symbol#:#Symbol
 assessment#:#term#:#Term
-assessment#:#test_cancelled#:#The test was cancelled
+assessment#:#test_cancelled#:#Test tühistati
 assessment#:#test_reference#:#Test reference
 assessment#:#text_answers_saved#:#Essay points modified!
 assessment#:#text_gap#:#Text gap
@@ -516,22 +516,22 @@ assessment#:#tst_count_partial_solutions#:#Count partial solutions
 assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_delete_results#:#Reset test
-assessment#:#tst_ending_time#:#Ending time
+assessment#:#tst_ending_time#:#Lõpetamisaeg
 assessment#:#tst_enter_questionpool#:#Palun sisesta küsimuste basseini nimi, kuhu uus küsimus salvestatakse
-assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
+assessment#:#tst_eval_no_anonymous_aggregation#:#Testi pole veel keegi sisenenud. Anonüümseid koondandmeid pole.
 assessment#:#tst_eval_results_by_pass#:#Detailne tagasiside
 assessment#:#tst_eval_show_answer#:#Näita vastust
 assessment#:#tst_eval_total_finished#:#Lahendatud teste kokku
-assessment#:#tst_eval_total_finished_average_time#:#Keskmine lahendatud testi läbimise aeg
+assessment#:#tst_eval_total_finished_average_time#:#Lõpetatud testide keskmine tööaeg
 assessment#:#tst_eval_total_passed#:#Positiivse tulemuse saanud teste kokku
-assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
-assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
-assessment#:#tst_eval_total_persons#:#Total number of persons entered the test
+assessment#:#tst_eval_total_passed_average_points#:#Läbitud testide keskmine punktiarv
+assessment#:#tst_eval_total_passed_average_time#:#Läbitud testide keskmine tööaeg
+assessment#:#tst_eval_total_persons#:#Testi sisenenud isikute arv
 assessment#:#tst_eval_user_answer#:#User answer
-assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
-assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous answer
+assessment#:#tst_finish_confirm_button#:#Jah, ma tahan testi lõpetada.
+assessment#:#tst_finish_confirm_cancel_button#:#Ei, mine tagasi eelmise vastuse juurde.
 assessment#:#tst_finish_confirmation_question#:#Kui sa praegu testi lahendamise lõpetad, siis ei saa sa seda testi uuesti läbida ega tulemusi korrigeerida, sest maksimaalne lubatud testi läbimiste arv on saavutatud. Kas oled kindel, et soovid testi lahendamise lõpetada?
-assessment#:#tst_finished#:#Finished
+assessment#:#tst_finished#:#Lõpetatud
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
@@ -622,9 +622,9 @@ assessment#:#tst_report_after_question#:#Report the score after every question i
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.
-assessment#:#tst_result_user_name#:#Test results for %s
-assessment#:#tst_results#:#Test results
-assessment#:#tst_results_aggregated#:#Aggregated test results
+assessment#:#tst_result_user_name#:#Testitulemused: %s
+assessment#:#tst_results#:#Testitulemused
+assessment#:#tst_results_aggregated#:#Testi koondandmed
 assessment#:#tst_results_back_evaluation#:#Back to evaluation overview
 assessment#:#tst_results_back_introduction#:#Back to introduction
 assessment#:#tst_results_back_overview#:#Back to results overview
@@ -632,7 +632,7 @@ assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_cut_question#:#Cut negative points for every question
 assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results
 assessment#:#tst_score_cutting#:#Cut negative points
-assessment#:#tst_score_mcmr_questions#:#Multiple choice questions
+assessment#:#tst_score_mcmr_questions#:#Valikvastustega küsimused
 assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 points when no answer was checked
 assessment#:#tst_score_reporting#:#Score reporting
@@ -652,47 +652,47 @@ assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
 assessment#:#tst_show_answer_print_sheet#:#Vastuste trükivaade
 assessment#:#tst_show_answer_sheet#:#Show answers
-assessment#:#tst_show_results#:#Show test results
+assessment#:#tst_show_results#:#Näita testitulemusi
 assessment#:#tst_show_solution_details#:#Score details
 assessment#:#tst_show_solution_details_description#:#Learners may see all solution details of their answered questions
 assessment#:#tst_show_solution_printview#:#Solution printview
 assessment#:#tst_show_solution_printview_description#:#Learners may see their complete test results for printing
 assessment#:#tst_show_summary#:#Show question summary
 assessment#:#tst_show_summary_description#:#Offers a summary page with all test questions available for the test participants during the test
-assessment#:#tst_shuffle_questions#:#Shuffle questions
-assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
+assessment#:#tst_shuffle_questions#:#Sega küsimusi
+assessment#:#tst_shuffle_questions_description#:#Sega küsimuste järjekorda iga kord, kui testi alustatakse.
 assessment#:#tst_signature#:#Signatuur
 assessment#:#tst_start_test#:#Alusta testi
 assessment#:#tst_started#:#Test on alustatud
 assessment#:#tst_starting_time#:#Alustamisaeg
 assessment#:#tst_stat_all_users#:#Kõik kasutajad
 assessment#:#tst_stat_choose_users#:#(vali listist üks või mitu kasutajat)
-assessment#:#tst_stat_result_atimeofwork#:#Average time of work
+assessment#:#tst_stat_result_atimeofwork#:#Keskmine töötamisaeg
 assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean
-assessment#:#tst_stat_result_distancemedian#:#Distance to median
+assessment#:#tst_stat_result_distancemedian#:#Suhe keskmisega
 assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile
 assessment#:#tst_stat_result_firstvisit#:#Esimene külastus
 assessment#:#tst_stat_result_lastvisit#:#Viimane külastus
 assessment#:#tst_stat_result_mark_median#:#Keskmine hinne
 assessment#:#tst_stat_result_median#:#Testi keskmine punkstisumma.
-assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through
-assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through
-assessment#:#tst_stat_result_rank_median#:#Rank of median
-assessment#:#tst_stat_result_rank_participant#:#Rank of participant
+assessment#:#tst_stat_result_pworkedthrough#:#Kogu tööhulga läbimisprotsent
+assessment#:#tst_stat_result_qworkedthrough#:#Juba läbitud küsimused
+assessment#:#tst_stat_result_rank_median#:#Keskmiste järjestus
+assessment#:#tst_stat_result_rank_participant#:#Osalejate järjestus
 assessment#:#tst_stat_result_resultsmarks#:#Testitulemused hinnetena
 assessment#:#tst_stat_result_resultspoints#:#Testitulemused punktides
-assessment#:#tst_stat_result_specification#:#Specification of evaluation data
+assessment#:#tst_stat_result_specification#:#Hindamisandmete esituse määramine
 assessment#:#tst_stat_result_timeofwork#:#Tööaeg
-assessment#:#tst_stat_result_total_participants#:#Total number of participants
+assessment#:#tst_stat_result_total_participants#:#Osalejate koguarv
 assessment#:#tst_stat_selected_users#:#Valitud osalejad
-assessment#:#tst_stat_users_intro#:#Näita statistilisi andmeid for
+assessment#:#tst_stat_users_intro#:#Näita statistilisi andmeid:
 assessment#:#tst_status_completed#:#lõpetatud
 assessment#:#tst_status_completed_more_tries_possible#:#Lõpetatud
 assessment#:#tst_status_missing#:#Selles testis puuduvad nõutud elemendid!
 assessment#:#tst_status_missing_elements#:#Puuduvad järgmised elemendid:
 assessment#:#tst_status_not_entered#:#Pole alustatud
 assessment#:#tst_status_ok#:#Testi staatus on OK. Puuduvaid elemente pole.
-assessment#:#tst_status_progress#:#Pooleli (in progress)
+assessment#:#tst_status_progress#:#Pooleli
 assessment#:#tst_submit_answers#:#Jah, ma soovin oma vastused kinnitada.
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
@@ -700,7 +700,7 @@ assessment#:#tst_test_output#:#Test output
 assessment#:#tst_text_count_system#:#Scoring system
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s. You have %s left.
 assessment#:#tst_time_already_spent_left#:#You have %s left.
-assessment#:#tst_total_questions#:#Total amount of questions
+assessment#:#tst_total_questions#:#Küsimuste koguhulk
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool!
 assessment#:#tst_tst_date#:#Date of Test
 assessment#:#tst_type#:#Testi liik
@@ -709,7 +709,7 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_types#:#Testi liigid
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_your_answer_was#:#Your answer was
-assessment#:#tst_your_answers#:#These are your answers given to the following questions.
+assessment#:#tst_your_answers#:#Siin on sinu vastused järgmistele küsimustele.
 assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is
 assessment#:#tst_your_mark_is#:#Sinu hinne on
 assessment#:#tt_assessment#:#Hindeline test
@@ -732,11 +732,11 @@ assessment#:#width#:#Width
 assessment#:#with_order#:#with order
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Tööaeg
-assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
-barometer#:#add#:#Add new Feedback
-barometer#:#anonymous#:#Anonymous
-barometer#:#barometer_title#:#Feedback
-barometer#:#best#:#Best
+assessment#:#you_received_a_of_b_points#:#Sa saavutasid %d  %d võimalikust punktist
+barometer#:#add#:#Add new Tagasiside
+barometer#:#anonymous#:#Anonüümne
+barometer#:#barometer_title#:#Tagasiside
+barometer#:#best#:#Parim
 barometer#:#change_course#:#Change Course
 barometer#:#chart_type#:#Chart type
 barometer#:#chart_users#:#Chart user
@@ -751,14 +751,14 @@ barometer#:#edit_barometer#:#Edit feedback
 barometer#:#every#:#every
 barometer#:#feedb_edit_feedback#:#Edit Feedback
 barometer#:#feedb_feedback_list#:#Feedback List
-barometer#:#feedb_feedback_settings#:#Feedback Settings
-barometer#:#feedb_time#:#Time
+barometer#:#feedb_feedback_settings#:#Tagasiside seaded
+barometer#:#feedb_time#:#Aeg
 barometer#:#first_vote#:#1. Vote is the
 barometer#:#from#:#From
 barometer#:#hours#:#Hours
 barometer#:#lines#:#Lines
 barometer#:#login#:#Login
-barometer#:#missing_fields#:#Please fill in all required information
+barometer#:#missing_fields#:#Palun täida kõik nõutud väljad
 barometer#:#month#:#Month
 barometer#:#months#:#Months
 barometer#:#new_vote#:#New vote
@@ -786,7 +786,7 @@ barometer#:#votes#:#Votes
 barometer#:#weeks#:#Weeks
 barometer#:#worst#:#Worst
 barometer#:#year#:#Year
-bibitem#:#bibitem_add#:#Add
+bibitem#:#bibitem_add#:#Lisa
 bibitem#:#bibitem_author#:#Author
 bibitem#:#bibitem_av#:#AV
 bibitem#:#bibitem_bibitem#:#Bibliographical information
@@ -814,9 +814,9 @@ bibitem#:#bibitem_journal#:#Journal
 bibitem#:#bibitem_journal_article#:#Journal article
 bibitem#:#bibitem_keyword#:#Keyword
 bibitem#:#bibitem_label#:#Label
-bibitem#:#bibitem_language#:#Language
+bibitem#:#bibitem_language#:#Keel
 bibitem#:#bibitem_last_name#:#Perenimi
-bibitem#:#bibitem_manual#:#Manual
+bibitem#:#bibitem_manual#:#manuaalne
 bibitem#:#bibitem_master_thesis#:#Master thesis
 bibitem#:#bibitem_middle_name#:#Middle name
 bibitem#:#bibitem_month#:#Month
@@ -844,7 +844,7 @@ bibitem#:#bibitem_unpublished#:#Unpublished
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Where published
 bibitem#:#bibitem_year#:#Year
-chat#:#cancel_talk#:#Cancel address
+chat#:#cancel_talk#:#Tühista aadress
 chat#:#cancel_whisper#:#Cancel whisper
 chat#:#chat_access_blocked#:#You are excluded from these chatrooms
 chat#:#chat_active#:#Active
@@ -891,7 +891,7 @@ chat#:#chat_invite_user#:#Invite user
 chat#:#chat_invited_by#:#Invited by
 chat#:#chat_italic#:#Italic
 chat#:#chat_kick_user_session#:#Kick user
-chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.
+chat#:#chat_kicked_from_room#:#Sa oled jututoast eemaldatud ega saa enam sõnumeid kirjutada.
 chat#:#chat_level_all#:#All
 chat#:#chat_level_debug#:#Debug
 chat#:#chat_level_error#:#Error
@@ -911,7 +911,7 @@ chat#:#chat_no_recordings_available#:#No recordings are available at the moment.
 chat#:#chat_no_refresh_public#:#The public chat room cannot be refreshed.
 chat#:#chat_no_rename_public#:#The public room cannot be renamed
 chat#:#chat_no_users_selected#:#You have to select one user.
-chat#:#chat_no_write_perm#:#No permission to write
+chat#:#chat_no_write_perm#:#Puudub luba kirjutada.
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#Further users (online)
 chat#:#chat_private_message#:#Private Message
@@ -932,7 +932,7 @@ chat#:#chat_recordings_delete_sure#:#Deleting records - are you sure?
 chat#:#chat_recordings_deleted#:#Recordings were deleted.
 chat#:#chat_recordings_select_one#:#Please choose recordings you would like to delete.
 chat#:#chat_red#:#red
-chat#:#chat_refresh#:#Refresh
+chat#:#chat_refresh#:#Värskenda
 chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.
 chat#:#chat_room_added#:#Added new chat room
 chat#:#chat_room_name#:#Name of chat room
@@ -950,13 +950,13 @@ chat#:#chat_server_loglevel#:#Log level
 chat#:#chat_server_not_active#:#The chat server is not active
 chat#:#chat_server_port#:#Server Port
 chat#:#chat_server_settings#:#Chat server settings
-chat#:#chat_settings_saved#:#Settings saved
-chat#:#chat_show_details#:#Show details
+chat#:#chat_settings_saved#:#Seaded on salvestatud
+chat#:#chat_show_details#:#Näida detaile
 chat#:#chat_silver#:#silver
 chat#:#chat_start_recording#:#Start recording
 chat#:#chat_status#:#Staatus
 chat#:#chat_status_saved#:#Staatust on muudetud
-chat#:#chat_stop_recording#:#Stop recording
+chat#:#chat_stop_recording#:#Lõpeta salvestamine
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
 chat#:#chat_times#:#Times
@@ -993,7 +993,7 @@ common#:#activate_tracking#:#Activation
 common#:#activation#:#Aktiveerimine
 common#:#active#:#aktiivne
 common#:#active_roles#:#Active Roles
-common#:#add#:#Add
+common#:#add#:#Lisa
 common#:#add_author#:#Add Author
 common#:#add_comments#:#Edit comments
 common#:#add_condition#:#Create new association
@@ -1065,12 +1065,12 @@ common#:#alm_leave#:#Unsubscribe from AICC Learning Module
 common#:#alm_read#:#Read access to AICC Learning Module
 common#:#alm_visible#:#AICC Learning Module is visible
 common#:#alm_write#:#Edit AICC Learning Module
-common#:#already_delivered_files#:#Already delivered files
-common#:#and#:#and
+common#:#already_delivered_files#:#Juba saadetud failid
+common#:#and#:#ja
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#anonymous#:#Anonymous
-common#:#answers#:#Answers
+common#:#answers#:#vastust
 common#:#any_language#:#Any language
 common#:#append_search#:#Append search results
 common#:#application_completed#:#Application is complete
@@ -1083,9 +1083,9 @@ common#:#appointment_list#:#Appointment List
 common#:#approve_date#:#Approved on
 common#:#approve_recipient#:#Login ID of approver
 common#:#archive#:#Archive
-common#:#are_you_sure#:#Are you sure?
+common#:#are_you_sure#:#Oled kindel?
 common#:#arrow_downright#:#Arrow from top to down right
-common#:#articels_unread#:#Unread articels
+common#:#articels_unread#:#Lugemata artiklid
 common#:#as_of#:#as of
 common#:#ascending_order#:#Ascending order
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period
@@ -1133,7 +1133,7 @@ common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is h
 common#:#auth_cas_user_default_role_desc#:#This role is assigned to automatically created CAS users.
 common#:#auth_configure#:#configure...
 common#:#auth_create_users#:#Create non-existing users automatically
-common#:#auth_default#:#Default setting
+common#:#auth_default#:#Vaikimisi seadmine
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_edit_permission#:#Change permission settings
 common#:#auth_ldap#:#LDAP
@@ -1184,23 +1184,23 @@ common#:#auth_soap_use_dotnet#:#Use .NET SOAP Style
 common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
-common#:#auth_user_default_role#:#Default Role
+common#:#auth_user_default_role#:#Roll vaikimisi
 common#:#auth_visible#:#Authentication settings are visible
 common#:#auth_write#:#Edit authentication settings
 common#:#authentication_settings#:#Authentication
-common#:#author#:#Author
-common#:#authors#:#Authors
+common#:#author#:#Autor
+common#:#authors#:#Autorid
 common#:#auto_registration#:#Automatically approve registration
 common#:#available#:#Available
 common#:#available_languages#:#Available Languages
-common#:#average_time#:#Average time
+common#:#average_time#:#Keskmine aeg
 common#:#back#:#Back
 common#:#back_to_crs_content#:#Tagasi kursuse sisu juurde
 common#:#back_to_fold_content#:#Back to Folder Content
 common#:#back_to_grp_content#:#Back to Group Content
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
-common#:#basic_settings#:#Basic Settings
+common#:#basic_settings#:#Põhiseaded
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Settings
 common#:#benchmarks#:#Benchmarks
@@ -1222,15 +1222,15 @@ common#:#bottom_frame#:#Main Content
 common#:#btn_add#:#Lisa
 common#:#btn_new_value#:#New value
 common#:#btn_next#:#Jätka
-common#:#btn_previous#:#Back
-common#:#btn_remove_system#:#Remove from System
-common#:#btn_undelete#:#Undelete
+common#:#btn_previous#:#Tagasi
+common#:#btn_remove_system#:#Eemalda süsteemist
+common#:#btn_undelete#:#Taasta
 common#:#by#:#By
 common#:#by_location#:#Järjesta objektid asukoha alusel
 common#:#by_type#:#Järjesta objektid tüübi alusel
 common#:#bytes#:#Bytes
 common#:#calendar#:# Kalender
-common#:#cancel#:#Cancel
+common#:#cancel#:#Tühista
 common#:#cannot_find_xml#:#Cannot find any XML-file.
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
@@ -1247,9 +1247,9 @@ common#:#cat_create_alm#:#Create AICC Learning Module
 common#:#cat_create_cat#:#Create Category
 common#:#cat_create_chat#:#Create Chat
 common#:#cat_create_crs#:#Create Course
-common#:#cat_create_dbk#:#Create Digilib Book
+common#:#cat_create_dbk#:#Loo Digilib-raamat
 common#:#cat_create_exc#:#Create Exercise
-common#:#cat_create_file#:#Upload File
+common#:#cat_create_file#:#Lae fail üles
 common#:#cat_create_frm#:#Create Forum
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
@@ -1288,14 +1288,14 @@ common#:#cen_delete#:#Delete Centra Event
 common#:#cen_edit#:#Edit Centra Event
 common#:#cen_new#:#New Centra Event
 common#:#cen_save#:#Save Centra Event
-common#:#censorship#:#Censorship
+common#:#censorship#:#Tsenseerimine
 common#:#centra_account#:#Centra Admin Account
 common#:#centra_rooms#:#Centra Rooms
 common#:#centra_server#:#Centra Server
 common#:#chac_edit_permission#:#Change permission settings
 common#:#chac_read#:#Read access to chat settings
 common#:#chac_visible#:#Chat settings are visible
-common#:#chac_write#:#Edit chat settings
+common#:#chac_write#:#Muuda jututoa seadeid
 common#:#change#:#Change
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Muuda määratud ülesannet
@@ -1303,7 +1303,7 @@ common#:#change_existing_objects#:#Change existing Objects
 common#:#change_header_title#:#Edit Header Title
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
-common#:#change_owner#:#Change owner
+common#:#change_owner#:#Muuda omanikku
 common#:#change_sort_direction#:#Change sort direction
 common#:#changeable#:#Changeable
 common#:#changed_to#:#changed to
@@ -1325,7 +1325,7 @@ common#:#chat_visible#:#Chat is visible
 common#:#chat_write#:#Edit chat
 common#:#check#:#Check
 common#:#check_all#:#Check all
-common#:#check_langfile#:#Please check your language file
+common#:#check_langfile#:#Palun kontrolli oma keelefaili
 common#:#check_languages#:#Check Languages
 common#:#check_link#:#Link check
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
@@ -1334,8 +1334,8 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by email.
 common#:#check_web_resources#:#Check Web Resources
 common#:#check_web_resources_desc#:#If enabled all Web Resources will be checked if they are active.
-common#:#checked_files#:#Importable files
-common#:#chg_language#:#Change Language
+common#:#checked_files#:#Imporditavad failid
+common#:#chg_language#:#Muuda keel
 common#:#chg_password#:# Muuda parool
 common#:#choose_language#:#Vali keel
 common#:#choose_location#:#Choose Location
@@ -1352,11 +1352,11 @@ common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
 common#:#close#:#Sule
 common#:#close_window#:#Sule aken
-common#:#cnt_new#:#(%s New)
+common#:#cnt_new#:#(%s )
 common#:#collapse#:#Collapse
-common#:#comma_separated#:#Comma Separated
+common#:#comma_separated#:#Eralda komaga
 common#:#comment#:#comment
-common#:#compose#:#Compose
+common#:#compose#:#Uus kiri
 common#:#condition#:#Condition
 common#:#condition_already_assigned#:#Object already assigned.
 common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.
@@ -1365,12 +1365,12 @@ common#:#condition_finished#:#Finished
 common#:#condition_not_finished#:#Not finished
 common#:#condition_passed#:#Passed
 common#:#condition_precondition#:#Eeltingimused:
-common#:#condition_select_object#:#Please select one object.
+common#:#condition_select_object#:#Palun vali üks objekt.
 common#:#condition_select_one#:#-Please select one condition-
 common#:#condition_update#:#Salvesta
 common#:#conditions_updated#:#Conditions saved
-common#:#confirm#:#Confirm
-common#:#confirmation#:#Confirmation
+common#:#confirm#:#Kinnita
+common#:#confirmation#:#Kinnitus
 common#:#conflict_handling#:#Conflict handling
 common#:#cont_object#:#Object
 common#:#contact_data#:#Kontaktandmed
@@ -1412,55 +1412,55 @@ common#:#crs_a#:#a Course
 common#:#crs_activation_start_invalid#:#The start and the end time is not valid.
 common#:#crs_add#:#Lisa kursus
 common#:#crs_added#:#Kursus on lisatud
-common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.
-common#:#crs_archives#:#Arhiiv (Archives)
-common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
-common#:#crs_available#:#Available Courses
+common#:#crs_all_questions_answered_successfully#:#Sa vastasid edukalst kõikidele küsimustele.
+common#:#crs_archives#:#Arhiiv
+common#:#crs_at_least_one_admin#:#Kursusel peab olema vähemalt üks administraator..
+common#:#crs_available#:#Olemasolevad kursused
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
-common#:#crs_create#:#Create Course
-common#:#crs_create_alm#:#Create AICC Learning Module
-common#:#crs_create_chat#:#Create Chat
-common#:#crs_create_dbk#:#Create Digilib Book
-common#:#crs_create_exc#:#Create Exercise
-common#:#crs_create_file#:#Upload File
+common#:#crs_create#:#Loo kursus
+common#:#crs_create_alm#:#Loo AICC õppemoodul
+common#:#crs_create_chat#:#Loo jututuba
+common#:#crs_create_dbk#:#Loo Digilib-raamat
+common#:#crs_create_exc#:#Loo harjutus
+common#:#crs_create_file#:#Lae fail alla
 common#:#crs_create_fold#:#Loo kaust
 common#:#crs_create_frm#:#Loo foorum
 common#:#crs_create_glo#:#Loo sõnastik
-common#:#crs_create_grp#:#Loo Grupp
-common#:#crs_create_hlm#:#Create HACP Learning Module
+common#:#crs_create_grp#:#Loo grupp
+common#:#crs_create_hlm#:#Loo HACP õppemoodul
 common#:#crs_create_htlm#:#Loo HTML õpiobjekt
-common#:#crs_create_icrs#:#Create LearnLinc Seminar
-common#:#crs_create_lm#:#Loo ILIAS õpiobjekt
-common#:#crs_create_mep#:#Create Media Pool
-common#:#crs_create_qpl#:#Create Question Pool for Test
-common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#crs_create_spl#:#Create Question Pool for Survey
-common#:#crs_create_svy#:#Create Survey
-common#:#crs_create_tst#:#Create Test
-common#:#crs_create_webr#:#Create Web Resource
-common#:#crs_delete#:#Delete Course
-common#:#crs_edit#:#Edit Course
-common#:#crs_edit_learning_progress#:#Muuda õpitulemusi
-common#:#crs_edit_permission#:#Change permission settings
+common#:#crs_create_icrs#:#Loo LearnLinc seminar
+common#:#crs_create_lm#:#Loo ILIASe õpiobjekt
+common#:#crs_create_mep#:#Loo meediabassein
+common#:#crs_create_qpl#:#Loo küsimustebassein testi jaoks
+common#:#crs_create_sahs#:#Loo SCORM/AICC õppemoodul
+common#:#crs_create_spl#:#Loo küsimustebassein küsitluse jaoks
+common#:#crs_create_svy#:#Loo küsitlus
+common#:#crs_create_tst#:#Loo test
+common#:#crs_create_webr#:#Loo veebiallikas
+common#:#crs_delete#:#Kustuta kursus
+common#:#crs_edit#:#Muuda kursust
+common#:#crs_edit_learning_progress#:#Õpitulemuste muutmine
+common#:#crs_edit_permission#:#Muuda õiguste seadeid
 common#:#crs_info#:#Info
-common#:#crs_join#:#Join Course
-common#:#crs_leave#:#Leave Course
+common#:#crs_join#:#Kursusega liit(u)mine
+common#:#crs_leave#:#Kurseselt eemaldamine
 common#:#crs_management_system#:#Course Management System
-common#:#crs_member_not_passed#:#Not passed
-common#:#crs_member_passed#:#Passed
-common#:#crs_members_gallery#:#Course Members Gallery
-common#:#crs_new#:#New Course
+common#:#crs_member_not_passed#:#Läbimata
+common#:#crs_member_passed#:#Läbitud
+common#:#crs_members_gallery#:#Kursuse liikmete galerii
+common#:#crs_new#:#Uus kursus
 common#:#crs_no_content#:#Without content
 common#:#crs_read#:#Read access to Course
 common#:#crs_status_blocked#:#[Access refused]
 common#:#crs_status_pending#:#[Waiting for registration]
 common#:#crs_subscribers_assigned#:#Assigned new user(s)
 common#:#crs_visible#:#Course is visible
-common#:#crs_write#:#Edit Course
+common#:#crs_write#:#Muuda kursust
 common#:#cumulative_time#:#Cumulative time
 common#:#cur_number_rec#:#Current number of records
 common#:#current_ip#:#Current IP:
-common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
+common#:#current_ip_alert#:#Märkus: Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
 common#:#current_password#:# Kehtiv parool
 common#:#custom_icon_size_big#:#Custom icon size (big)
 common#:#custom_icon_size_small#:#Custom icon size (small)
@@ -1474,7 +1474,7 @@ common#:#dataset#:#Item
 common#:#date#:#Date
 common#:#dateplaner#:#Kalender
 common#:#day#:#Day
-common#:#days#:#Days
+common#:#days#:#päeva
 common#:#days_of_period#:#Days of period
 common#:#db_host#:#Database Host
 common#:#db_name#:#Database Name
@@ -1483,31 +1483,31 @@ common#:#db_pass#:#Database Password
 common#:#db_type#:#Database Type
 common#:#db_user#:#Database User
 common#:#db_version#:#Database Version
-common#:#dbk#:#Digilib Book
+common#:#dbk#:#Digilib-raamat
 common#:#dbk_a#:#a Digilib Book
-common#:#dbk_add#:#Add Digilib Book
-common#:#dbk_added#:#Digilib Book added
-common#:#dbk_create#:#Create Digilib Book
-common#:#dbk_delete#:#Delete Digilib Book
+common#:#dbk_add#:#Lisa Digilib-raamat
+common#:#dbk_added#:#Digilib-raamat on lisatud
+common#:#dbk_create#:#Loo Digilib-raamat
+common#:#dbk_delete#:#Kustuta Digilib-raamat
 common#:#dbk_edit_learning_progress#:#Muuda õpitulemusi
-common#:#dbk_edit_permission#:#Change permission settings
-common#:#dbk_new#:#New Digilib Book
+common#:#dbk_edit_permission#:#Muuda õiguste seadeid
+common#:#dbk_new#:#Uus Digilib-raamat
 common#:#dbk_read#:#Read access to Digilib Book
-common#:#dbk_visible#:#Digilib Book is visible
-common#:#dbk_write#:#Edit Digilib Book
-common#:#def_repository_view#:#Default repository view
-common#:#default#:#Default
-common#:#default_language#:#Default Language
+common#:#dbk_visible#:#Digilib-raamat on nähtav
+common#:#dbk_write#:#Muuda Digilib-raamatut
+common#:#def_repository_view#:#Vaikimisi varamu vaade
+common#:#default#:#Vaikimisi
+common#:#default_language#:#Keel vaikimisi
 common#:#default_perm_settings#:#Vaikimisi antud õigused
 common#:#default_role#:#Kasutaja tüüp
 common#:#default_roles#:#Kasutajarollid
 common#:#default_skin#:#Taust
-common#:#default_skin_style#:#Taust / Stiil
-common#:#default_style#:#Default Style
-common#:#default_value#:#Default Value
+common#:#default_skin_style#:#Taust
+common#:#default_style#:#Vaikimisi stiil
+common#:#default_value#:#Vaikimisi väärtus
 common#:#delete#:#Kustuta
 common#:#delete_all#:#Kustuta kõik
-common#:#delete_all_rec#:#Delete all records
+common#:#delete_all_rec#:#Kustuta kõik andmed
 common#:#delete_object#:#Kustuta objekt(id)
 common#:#delete_selected#:#Kustuta valitud
 common#:#delete_selected_items#:#Kustuta valitud objektid
@@ -1581,7 +1581,7 @@ common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please chec
 common#:#err_ldap_search_failed#:#Connection to LDAP server failed! PLease check BaseDN and Search base
 common#:#err_ldap_user_not_found#:#User not found on LDAP server! Please check attribute for login name and Objectclass
 common#:#err_no_cookies#:#Please enable session cookies in your browser!
-common#:#err_no_langfile_found#:#No language file found!
+common#:#err_no_langfile_found#:#Keelefaili ei leitud!
 common#:#err_no_param#:#No parameter!
 common#:#err_over_3_param#:#More than 3 parameters!
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location
@@ -1611,7 +1611,7 @@ common#:#exc_edit_exercise#:#Muuda ülesannet
 common#:#exc_edit_learning_progress#:#Muuda õpitulemusi
 common#:#exc_edit_permission#:#Muuda õiguste seadeid
 common#:#exc_edit_until#:#Tähtaeg
-common#:#exc_exercise_sent#:#Harjutus on saadetud
+common#:#exc_exercise_sent#:#Saatmisaeg
 common#:#exc_feedback_sent#:#Tagasiside on saadetud
 common#:#exc_files#:#Failid
 common#:#exc_files_returned#:#Saadetud failid
@@ -1636,7 +1636,7 @@ common#:#exc_search_for#:#Otsi
 common#:#exc_select_one_file#:#Palun märgista vaid üks fail.
 common#:#exc_send_exercise#:#Saada ülesanne
 common#:#exc_sent#:#Ülesanne on saadetud valitud kasutajatele
-common#:#exc_sent_at#:#Sent at <br />%s
+common#:#exc_sent_at#:#Saadetud: <br />%s
 common#:#exc_status#:#Staatus
 common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_returned#:#Vastanud
@@ -1647,7 +1647,7 @@ common#:#exc_status_submitted#:#Submitted
 common#:#exc_submission#:#Submission
 common#:#exc_time_over_short#:#Aeg on läbi
 common#:#exc_time_to_send#:#Aega saatmiseni
-common#:#exc_upload_error#:#Error uploading file
+common#:#exc_upload_error#:#Faili üleslaadimise viga
 common#:#exc_users#:#Kasutajad
 common#:#exc_visible#:#Ülesanne on nähtav
 common#:#exc_write#:#Muuda ülesannet
@@ -1688,8 +1688,8 @@ common#:#extt_visible#:#Third party software settings are visible
 common#:#extt_write#:#Configure third party software
 common#:#faq_exercise#:#FAQ Exercise
 common#:#fax#:#Faks
-common#:#feedback#:#Feedback
-common#:#feedback_recipient#:#Feedback Recipient
+common#:#feedback#:#Tagasiside
+common#:#feedback_recipient#:#Tagasiside saaja
 common#:#field_name#:#Field Name
 common#:#field_type#:#Field Type
 common#:#file#:#File
@@ -1697,23 +1697,23 @@ common#:#file_a#:#a File
 common#:#file_add#:#Upload File
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_added#:#File uploaded
-common#:#file_delete#:#Delete File
-common#:#file_edit#:#Edit File
+common#:#file_delete#:#Kustuta fail
+common#:#file_edit#:#Muuda faili
 common#:#file_edit_permission#:#Change Permission settings
 common#:#file_icon#:#File icon
-common#:#file_info#:#File Information
-common#:#file_is_infected#:#The file is infected by a virus.
-common#:#file_new#:#New File
-common#:#file_not_found#:#File Not Found
-common#:#file_not_valid#:#File not valid!
+common#:#file_info#:#Faili informatsioon
+common#:#file_is_infected#:#Fail sisaldab viirust.
+common#:#file_new#:#Uus fail
+common#:#file_not_found#:#Faili ei leitud
+common#:#file_not_valid#:#File ei ole kehtiv!
 common#:#file_notice#:#Palun arvestage faili maksimumsuurust
 common#:#file_read#:#Lae fail alla
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
 common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
-common#:#file_visible#:#File is visible
-common#:#file_write#:#Edit File
+common#:#file_visible#:#Fail on nähtav
+common#:#file_write#:#Muuda faili
 common#:#filename#:#Filename
 common#:#files#:#Failid
 common#:#files_location#:#Failide asukoht
@@ -1727,7 +1727,7 @@ common#:#fold_add#:#Lisa kaust
 common#:#fold_added#:#Kaust lisatud
 common#:#fold_create_alm#:#Create AICC Learning Module
 common#:#fold_create_chat#:#Create Chat
-common#:#fold_create_dbk#:#Create Digilib Book
+common#:#fold_create_dbk#:#Loo Digilib-raamat
 common#:#fold_create_exc#:#Create Exercise
 common#:#fold_create_file#:#Upload File
 common#:#fold_create_fold#:#Loo kaust
@@ -1745,7 +1745,7 @@ common#:#fold_create_svy#:#Create Survey
 common#:#fold_create_tst#:#Create Test
 common#:#fold_create_webr#:#Create Web Resource
 common#:#fold_delete#:#Kustuta kaust
-common#:#fold_edit#:#Edit Folder
+common#:#fold_edit#:#Muuda kausta
 common#:#fold_edit_learning_progress#:#Muuda õpitulemusi
 common#:#fold_edit_permission#:#Change Permission settings
 common#:#fold_new#:#Uus kaust
@@ -1759,42 +1759,42 @@ common#:#forename#:#Forename
 common#:#forgot_password#:#Unustasid parooli?
 common#:#forgot_username#:#Unustasid kasutajanime?
 common#:#form_empty_fields#:#Please complete these fields:
-common#:#forum#:#Forum
+common#:#forum#:#Foorum
 common#:#forum_direct_notification#:#Dir. Notification
 common#:#forum_general_notification#:#Gen. Notification
 common#:#forum_import#:#Forum import
 common#:#forum_import_file#:#Import file
 common#:#forum_notification#:#Märguanne
-common#:#forum_notify_me#:#Notify me when a reply is posted
+common#:#forum_notify_me#:#Anna märku, kui vastus on postitatud
 common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.
 common#:#forum_notify_me_generally#:#Please inform me about any new contributions to my topic.
 common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forums#:#Forums
 common#:#forums_articles#:#Articles
-common#:#forums_last_post#:#Last Article
+common#:#forums_last_post#:#Viimane postitus
 common#:#forums_moderators#:#Moderators
-common#:#forums_new_articles#:#New articles
+common#:#forums_new_articles#:#Uued
 common#:#forums_overview#:#Forums Overview
 common#:#forums_threads#:#Topics
-common#:#frm#:#Forum
+common#:#frm#:#Foorum
 common#:#frm_a#:#a Forum
 common#:#frm_add#:#Lisa foorum
 common#:#frm_added#:#Foorum on lisatud
 common#:#frm_article#:#article
-common#:#frm_create#:#Create Forum
-common#:#frm_delete#:#Delete Forum
+common#:#frm_create#:#Loo foorum
+common#:#frm_delete#:#Kustuta foorum
 common#:#frm_delete_post#:#Delete a post, censorship
-common#:#frm_edit#:#Edit Forum
+common#:#frm_edit#:#Muuda foorumit
 common#:#frm_edit_permission#:#Change permission settings
 common#:#frm_edit_post#:#Add new thread, posting
-common#:#frm_new#:#New Forum
+common#:#frm_new#:#Uus foorum
 common#:#frm_read#:#Read access to Forum
 common#:#frm_statistics_ranking#:#Ranking
 common#:#frm_status_new#:#Staatus 'Uus'
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
-common#:#frm_visible#:#Forum is visible
-common#:#frm_write#:#Edit forum
-common#:#from#:#From
+common#:#frm_visible#:#Foorum on nähtav
+common#:#frm_write#:#Muuda foorumit
+common#:#from#:#From (kelle poolt)
 common#:#fullname#:#Full name
 common#:#functions#:#Functions
 common#:#gdf_add#:#Add Definition
@@ -1802,43 +1802,43 @@ common#:#gdf_new#:#New Definition
 common#:#gender#:#Sugu
 common#:#gender_f#:#Naine
 common#:#gender_m#:#Mees
-common#:#general_settings#:#General settings
+common#:#general_settings#:#Üldised seaded
 common#:#generate#:#Generate
-common#:#glo#:#Glossary
+common#:#glo#:#Sõnastik
 common#:#glo_a#:#a Glossary
-common#:#glo_add#:#Add Glossary
-common#:#glo_added#:#Glossary added
-common#:#glo_create#:#Create Glossary
-common#:#glo_delete#:#Delete Glossary
-common#:#glo_edit_permission#:#Change permission settings
+common#:#glo_add#:#Lisa sõnastik
+common#:#glo_added#:#Sõnastik on lisatud
+common#:#glo_create#:#Loo sõnastik
+common#:#glo_delete#:#Kustuta sõnastik
+common#:#glo_edit_permission#:#Muuda õiguste seadeid
 common#:#glo_join#:#Subscribe to Glossary
 common#:#glo_leave#:#Unsubscribe from Glossary
-common#:#glo_mode#:#Mode
+common#:#glo_mode#:#Olek
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
 common#:#glo_mode_level#:#virtual (this level only)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtual (entire subtree)
-common#:#glo_new#:#New Glossary
+common#:#glo_new#:#Uus sõnastik
 common#:#glo_read#:#Read access to Glossary
-common#:#glo_upload_file#:#File
-common#:#glo_visible#:#Glossary is visible
-common#:#glo_write#:#Edit Glossary
+common#:#glo_upload_file#:#Fail
+common#:#glo_visible#:#Sõnaraamat on nähtav
+common#:#glo_write#:#Muuda sõnaraamatut
 common#:#global#:#Üldine
 common#:#global_default#:#Üldine vaikimisi
 common#:#global_fixed#:#Global Fixed
 common#:#global_settings#:#Üldised seaded
 common#:#global_user#:#Üldised kasutajad
-common#:#glossaries#:#Sõnaraamatud
-common#:#glossary#:#Sõnaraamat
-common#:#glossary_added#:#Sõnaraamat on lisatud
+common#:#glossaries#:#Sõnastikud
+common#:#glossary#:#Sõnastik
+common#:#glossary_added#:#Sõnastik on lisatud
 common#:#group_access_denied#:#Juurdepääs on keelatud
 common#:#group_any_objects#:#No subobjects available
 common#:#group_create_chat#:#Create chat
-common#:#group_desc#:#Group Description
-common#:#group_details#:#Group Details
-common#:#group_filesharing#:#Group File Sharing
-common#:#group_import#:#Group import
-common#:#group_import_file#:#Import file
+common#:#group_desc#:#Grupi kirjeldus
+common#:#group_details#:#Grupi üksikasjad
+common#:#group_filesharing#:#Grupi failivahetus
+common#:#group_import#:#Grupi importimine
+common#:#group_import_file#:#Impordi fail
 common#:#group_info_reg#:#Admission procedure
 common#:#group_members#:#Grupi liikmed
 common#:#group_memstat#:#Liikme staatus
@@ -1849,9 +1849,9 @@ common#:#group_new_registrations#:#Join requests
 common#:#group_no_registration#:#Liitu grupiga
 common#:#group_no_registration_msg#:#Sa saad liituda selle grupiga kohe.
 common#:#group_not_available#:#Ühtegi gruppi pole saadaval
-common#:#group_objects#:#Group Objects
+common#:#group_objects#:#Grupi objektid
 common#:#group_password_registration_msg#:#Kui sul on parool olemas, saad liituda grupiga. Parooli saamiseks pöördu grupi administraatori või õppejõu poole.
-common#:#group_registration#:#Registration
+common#:#group_registration#:#Registreerumine
 common#:#group_registration_expiration_date#:#Expiration Date
 common#:#group_registration_expiration_time#:#Expiration Time
 common#:#group_registration_expired#:#The time period for joining this group has expired
@@ -1884,7 +1884,7 @@ common#:#grp_count_members#:#Liikmete arv
 common#:#grp_create#:#Loo grupp
 common#:#grp_create_alm#:#Loo AICC õpiobjekt
 common#:#grp_create_chat#:#Loo jutukas
-common#:#grp_create_dbk#:#Loo Digilib Book
+common#:#grp_create_dbk#:#Loo Digilib-raamat
 common#:#grp_create_exc#:#Loo ülesanne
 common#:#grp_create_file#:#Lae fail üles
 common#:#grp_create_fold#:#Loo kaust
@@ -1912,7 +1912,7 @@ common#:#grp_edit_permission#:#Change permission settings
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
 common#:#grp_err_error#:#An error occurred
-common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.
+common#:#grp_err_last_member#:#Viimast liiget ei saa kustutada, palun kustuta selle asemel grupp.
 common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.
 common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid joining period !
@@ -1937,7 +1937,7 @@ common#:#grp_new#:#Uus grupp
 common#:#grp_new_search#:#Uus otsing
 common#:#grp_no_groups_selected#:#Palun vali grupp
 common#:#grp_no_results_found#:#No results found
-common#:#grp_no_roles_selected#:#Please select a role
+common#:#grp_no_roles_selected#:#Palun vali roll
 common#:#grp_options#:#Valikud
 common#:#grp_read#:#Read access to Group
 common#:#grp_register#:#Liitu
@@ -1959,36 +1959,36 @@ common#:#hide_details#:#Peida detailid
 common#:#hide_private_notes#:#Peida privaatsed märkmed
 common#:#hide_public_notes#:#Peida avalikud märkmed
 common#:#hide_structure#:#Disable Structured-View
-common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.
+common#:#hist_dbk_delete_pg#:#Leht "%1" [%2] on kustutatud.
 common#:#hist_dbk_delete_st#:#Chapter "%1" [%2] has been deleted.
-common#:#hist_dbk_pg_create#:#Page created.
+common#:#hist_dbk_pg_create#:#Leht on loodud.
 common#:#hist_dbk_pg_cut#:#Page cut out of chapter "%1" [%2].
 common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].
-common#:#hist_dbk_pg_update#:#Page changed.
+common#:#hist_dbk_pg_update#:#Leht on muudetud.
 common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.
-common#:#hist_file_create#:#File created, file name is "%1".
-common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2.
-common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
+common#:#hist_file_create#:#Fail nimega "%1" on loodud.
+common#:#hist_file_replace#:#File replace, new file name is "%1", new version is %2.
+common#:#hist_lm_delete_pg#:#Leht "%1" [%2] on kustutatud.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
-common#:#hist_lm_pg_create#:#Page created.
+common#:#hist_lm_pg_create#:#Leht on loodud.
 common#:#hist_lm_pg_cut#:#Page cut out of chapter "%1" [%2].
 common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].
-common#:#hist_lm_pg_update#:#Page changed.
+common#:#hist_lm_pg_update#:#Leht on muudetud.
 common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_no_entries#:#No entries in history.
-common#:#hist_webr_add#:#Added new Web Resource with title: "%1"
-common#:#hist_webr_delete#:#Deleted Web Resource. Title: "%1"
+common#:#hist_webr_add#:#On loodud uus veebiallikas nimega: "%1"
+common#:#hist_webr_delete#:#Kustutatud veebiallikas. Nimetus: "%1"
 common#:#hist_webr_update#:#Update Web Resource. Title: "%1"
-common#:#history#:#History
+common#:#history#:#Ajalugu
 common#:#hits_per_page#:#Hits/Page
-common#:#hlm#:#Learning Module HACP
-common#:#hlm_added#:#HACP Learning Module added
-common#:#hlm_create#:#Create HACP Learning Module
-common#:#hlm_delete#:#Delete HACP Learning Module
-common#:#hlm_edit_permission#:#Change permission settings
+common#:#hlm#:#HACP õppemoodul
+common#:#hlm_added#:#HACP õppemoodul on lisatud
+common#:#hlm_create#:#Loo HACP õppemoodul
+common#:#hlm_delete#:#Kustuta HACP õppemoodul
+common#:#hlm_edit_permission#:#Muuda õiguste seadeid
 common#:#hlm_join#:#Subscribe to HACP Learning Module
 common#:#hlm_leave#:#Unsubscribe from HACP Learning Module
 common#:#hlm_read#:#Read access to HACP Learning Module
@@ -1997,19 +1997,19 @@ common#:#hlm_write#:#Edit HACP Learning Module
 common#:#hobby#:#Huvialad/hobid
 common#:#home#:#Public Area
 common#:#host#:#Host
-common#:#hour#:#Hour
-common#:#hours#:#hour(s)
+common#:#hour#:#tund
+common#:#hours#:#tund(i)
 common#:#hours_of_day#:#Hours of day
-common#:#htlm#:#Learning Module HTML
-common#:#htlm_add#:#Add HTML Learning Module
-common#:#htlm_delete#:#Delete HTML Learning Module
+common#:#htlm#:#HTML õppemoodul
+common#:#htlm_add#:#Lisa HTML õppemoodul
+common#:#htlm_delete#:#Kustuta HTML õppemoodul
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
 common#:#htlm_edit_learning_progress#:#Muuda õpitulemusi
-common#:#htlm_edit_permission#:#Change permission settings
-common#:#htlm_new#:#New HTML Learning Module
+common#:#htlm_edit_permission#:#Muuda õiguste seadeid
+common#:#htlm_new#:#Uus HTML õppemoodul
 common#:#htlm_read#:#Read HTML Learning Module
-common#:#htlm_visible#:#HTML Learning Module is visible
-common#:#htlm_write#:#Edit HTML Learning Module
+common#:#htlm_visible#:#HTML õppemoodul on nähtav
+common#:#htlm_write#:#Muuda HTML õppemoodulit
 common#:#http#:#HTTP
 common#:#http_not_possible#:#This server is not supporting http requests.
 common#:#http_path#:#Http Path
@@ -2038,7 +2038,7 @@ common#:#icrs_members_gallery#:#Seminar members gallery
 common#:#icrs_new#:#New LearnLinc Seminar
 common#:#icrs_read#:#Read access to LearnLinc Seminar
 common#:#icrs_visible#:#LearnLinc Seminar is visible
-common#:#icrs_write#:#Edit LearnLinc Seminar
+common#:#icrs_write#:#Muuda LearnLinc seminari
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to display the file name
@@ -2080,9 +2080,9 @@ common#:#ilinc_mail_body_subscription_cancelled#:#sinu liikmelisus on tühistatu
 common#:#ilinc_mail_subj_new_subscription#:#New subscription
 common#:#ilinc_mail_subj_subscription_cancelled#:#Subscription cancelled
 common#:#ilinc_manage_course_documents#:#Materials
-common#:#ilinc_mem_change_status#:#Change user's status
-common#:#ilinc_mem_leave#:#Dismiss user from LearnLinc Seminar
-common#:#ilinc_mem_send_mail#:#Send user a message
+common#:#ilinc_mem_change_status#:#Muuda kasutaja staatust
+common#:#ilinc_mem_leave#:#Vabasta kasutaja LearnLinci seminarilt.
+common#:#ilinc_mem_send_mail#:#Saada kasutajale teade
 common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
 common#:#ilinc_msg_member_assigned#:#User(s) assigned
 common#:#ilinc_msg_membership_annulled#:#Subscription cancelled
@@ -2101,19 +2101,19 @@ common#:#import_alm#:#Import AICC Package
 common#:#import_cat_localrol#:#Create local role for every new category
 common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set
 common#:#import_categories#:#Import Categories
-common#:#import_dbk#:#Import Digilib Book
+common#:#import_dbk#:#Impordi Digilib-raamat
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#Import File
 common#:#import_file_not_valid#:#The import file is not valid.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_forum_finished#:#The forum has been imported.
-common#:#import_glossary#:#Import Glossary
+common#:#import_glossary#:#Impordi sõnastik
 common#:#import_grp#:#Import group
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import ILIAS Learning module
-common#:#import_qpl#:#Import Question pool Test
-common#:#import_questions_into_qpl#:#Import question(s) into question pool
+common#:#import_qpl#:#Impordi küsimustebassein
+common#:#import_questions_into_qpl#:#Impordi küsimus(ed) küsimustebasseini
 common#:#import_root_user#:#Import Root User
 common#:#import_sahs#:#Import SCORM/AICC Package
 common#:#import_spl#:#Import Question pool Survey
@@ -2135,31 +2135,31 @@ common#:#info_assign_sure#:#Are you sure you want to assign the following user(s
 common#:#info_assigned#:#assigned
 common#:#info_available_roles#:#Available roles
 common#:#info_change_user_view#:#Change User
-common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
+common#:#info_delete_sure#:#Oled kindel, et tahad järgmise(d) objekti(d) kustutada?
 common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
-common#:#info_deleted#:#Object(s) Deleted
+common#:#info_deleted#:#Objekt(id) kustutatud
 common#:#info_enter_login_or_id#:#<i>(Enter login name or user ID)</i>
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
 common#:#info_from_role#:#Granted by role/ownership
 common#:#info_is_member#:#User is member
 common#:#info_is_not_member#:#User is not a member
 common#:#info_not_assigned#:#not assigned
-common#:#info_owner_of_object#:#Owner of object
+common#:#info_owner_of_object#:#Objekti omanik
 common#:#info_permission_origin#:#Original position
 common#:#info_permission_source#:#effective from*
-common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.
+common#:#info_remark_interrupted#:#Role is interrupted at this position. The role's default permission settings in effect are located in that position.Are you sure that you want to delete the following item(s)?
 common#:#info_short#:#Info
 common#:#info_status_info#:#Kasutaja õigused
-common#:#info_trash#:#Deleted Objects
-common#:#info_view_of_user#:#User
-common#:#inform_user_mail#:#Send email to inform user about changes
+common#:#info_trash#:#Kustutatud objektid
+common#:#info_view_of_user#:#Kasutaja
+common#:#inform_user_mail#:#Saada kasutajale kiri teavitusega muudatustest
 common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#All LE
 common#:#ingmedia_back_to_le#:#Back to LE
-common#:#ingmedia_good_afternoon#:#Good afternoon
-common#:#ingmedia_good_evening#:#Good evening
-common#:#ingmedia_good_morning#:#Good morning
-common#:#ingmedia_good_night#:#Good night
+common#:#ingmedia_good_afternoon#:#Tere päevast
+common#:#ingmedia_good_evening#:#Tere õhtust
+common#:#ingmedia_good_morning#:#Tere hommikust
+common#:#ingmedia_good_night#:#Head ööd
 common#:#ingmedia_hello#:#Hello
 common#:#ingmedia_info_about_work1#:#On
 common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:
@@ -2198,7 +2198,7 @@ common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML 
 common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Setup informations
-common#:#join#:#Join
+common#:#join#:#Liitu
 common#:#kb#:#KByte
 common#:#keywords#:#Võtmesõnad
 common#:#lang_cs#:#Czech
@@ -2234,15 +2234,15 @@ common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamese
 common#:#lang_xx#:#Custom
 common#:#lang_zh#:#Simplified Chinese
-common#:#langfile_found#:#Language file found
+common#:#langfile_found#:#Keelefail leitud
 common#:#language#:#Keel
-common#:#language_not_installed#:#is not installed. Please install that language first
-common#:#languages#:#Languages
-common#:#languages_already_installed#:#Selected language(s) are already installed
+common#:#language_not_installed#:#pole installeeritud. Palun installeeri kõigepealt see keel.
+common#:#languages#:#Keeled
+common#:#languages_already_installed#:#Valitud keel(ed) on juba installeeritud.
 common#:#languages_already_uninstalled#:#Selected language(s) are already uninstalled
 common#:#languages_updated#:#All installed languages have been updated
 common#:#last_access#:#Last access:
-common#:#last_change#:#Last Change
+common#:#last_change#:#Viimati muudetud
 common#:#last_edited_on#:#Last edited on
 common#:#last_login#:#Viimane külastus
 common#:#last_update#:#Last Update
@@ -2265,7 +2265,7 @@ common#:#ldap_v2#:#LDAPv2
 common#:#ldap_v3#:#LDAPv3
 common#:#ldap_version#:#LDAP protokoll version
 common#:#ldap_visible#:#LDAP settings are visible
-common#:#ldap_write#:#Edit LDAP settings
+common#:#ldap_write#:#Muuda LDAP seadeid
 common#:#learning module#:#Õpimoodul
 common#:#learning_objects#:#Õpiobjektid
 common#:#learning_progress#:# Edasijõudmine
@@ -2280,7 +2280,7 @@ common#:#link_check_message_b#:#If enabled, you will be informed about invalid l
 common#:#link_check_message_disabled#:#Messages diabled
 common#:#link_check_message_enabled#:#Messages enabled
 common#:#link_check_subject#:#[ILIAS 3] Link check
-common#:#link_checker_refreshed#:#Refreshed view
+common#:#link_checker_refreshed#:#Värskendatud vaade
 common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.
 common#:#link_selected_items#:#Lingi valitud üksused
 common#:#linked_object#:#The object has been linked
@@ -2301,10 +2301,10 @@ common#:#links_user_id#:#ILIAS user id
 common#:#links_user_name#:#ILIAS username
 common#:#links_value#:#Parameter value
 common#:#list_of_pages#:#Pages List
-common#:#list_of_questions#:#Question List
+common#:#list_of_questions#:#Küsimuste loend
 common#:#literature#:#Literature
 common#:#literature_bookmarks#:#Literature Bookmarks
-common#:#lm#:#Learning Module ILIAS
+common#:#lm#:#ILIASe õppemoodul
 common#:#lm_a#:#an ILIAS Learning Module
 common#:#lm_add#:#Lisa ILIAS õpiobjekt
 common#:#lm_added#:#ILIAS õpiobjekt lisatud
@@ -2391,8 +2391,8 @@ common#:#mail_sent#:#Kiri saadetud!
 common#:#mail_smtp_mail#:#User may send mail via SMTP
 common#:#mail_system#:#Süsteemisisene sõnum
 common#:#mail_system_message#:#Kasutaja võib saata süsteemisiseseid sõnumeid
-common#:#mail_visible#:#Mail settings are visible
-common#:#mail_write#:#Edit Mail settings
+common#:#mail_visible#:#E-posti seaded on nähtavad
+common#:#mail_write#:#Muuda e-posti seadeid
 common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mail
 common#:#main_menu_frame#:#Top Level Menu
@@ -2424,8 +2424,8 @@ common#:#message_to#:#Message to:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
-common#:#minute#:#Minute
-common#:#minutes#:#Minutes
+common#:#minute#:#minut
+common#:#minutes#:#minutit
 common#:#missing#:#Missing
 common#:#mob#:#Media Object
 common#:#module#:#module
@@ -2469,9 +2469,9 @@ common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
 common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy)
 common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut)
-common#:#msg_cut_copied#:#Selected object(s) moved.
-common#:#msg_deleted_role#:#Role deleted
-common#:#msg_deleted_roles#:#Roles deleted
+common#:#msg_cut_copied#:#Valitud objekt(id) on ümber tõstetud.
+common#:#msg_deleted_role#:#Roll on kustutatud
+common#:#msg_deleted_roles#:#Rollid on kustutatud
 common#:#msg_deleted_roles_rolts#:#Roles & Role Templates deleted
 common#:#msg_deleted_rolt#:#Role Template deleted
 common#:#msg_deleted_rolts#:#Role Template deleted
@@ -2487,8 +2487,8 @@ common#:#msg_min_one_active_role#:#Each user must have at least one active globa
 common#:#msg_min_one_role#:#Each user must have at least one global role!
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
-common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
-common#:#msg_no_file#:#You didn't choose a file
+common#:#msg_no_delete_yourself#:#Sa ei saa kustutada oma kasutajanime.
+common#:#msg_no_file#:#sa ei valinud faili
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
 common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment
@@ -2513,8 +2513,8 @@ common#:#msg_no_perm_read#:#You have no permission to access this item.
 common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
-common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
-common#:#msg_no_perm_write#:#You have no permission to write
+common#:#msg_no_perm_undelete#:#Sul puuduvad õigused nende objektide taastamiseks:
+common#:#msg_no_perm_write#:#Sul puudub õigus kirjutada
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
 common#:#msg_no_scan_log#:#Scan log not implemented yet
@@ -2530,7 +2530,7 @@ common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Object created.
 common#:#msg_obj_exists#:#This object already exists in this folder
-common#:#msg_obj_modified#:#Modifications saved.
+common#:#msg_obj_modified#:#Muudatused on salvestatud
 common#:#msg_obj_no_link#:#are not allowed to be linked
 common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
@@ -2546,7 +2546,7 @@ common#:#msg_roleassignment_changed#:#Role assignment changed
 common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
 common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.
 common#:#msg_trash_empty#:#There are no deleted objects
-common#:#msg_undeleted#:#Object(s) undeleted.
+common#:#msg_undeleted#:#Objekt(id) on taastatud.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#User assignment changed
@@ -2562,12 +2562,12 @@ common#:#new#:#Uus
 common#:#new_appointment#:#New Appointment
 common#:#new_folder#:#Uus kaust
 common#:#new_group#:#New Group
-common#:#new_language#:#New Language
+common#:#new_language#:#Uus keel
 common#:#new_list_password#:#New suggestions
 common#:#new_lowercase#:#new
 common#:#new_mail#:#New mail!
 common#:#news#:#News
-common#:#next#:#next
+common#:#next#:#edasi (next)
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_access_item#:#You have no permission to access this item.
@@ -2580,7 +2580,7 @@ common#:#no_condition_selected#:#Please select one precondition.
 common#:#no_conditions_found#:#No preconditions created.
 common#:#no_datasets#:#The table is empty
 common#:#no_date#:#No date
-common#:#no_description#:#No description
+common#:#no_description#:#Kirjeldust pole
 common#:#no_frm_in_personal_list#:#No forums in personal list.
 common#:#no_global_role_left#:#Every user has to be assigned to one role.
 common#:#no_grp_in_personal_list#:#No groups in personal list.
@@ -2593,14 +2593,14 @@ common#:#no_local_users#:#There are no local user
 common#:#no_objects#:#No objects
 common#:#no_parent_access#:#No access to a superordinated object!
 common#:#no_permission#:#You do not have the necessary permission.
-common#:#no_permission_to_join#:#You are not allowed to join this group!
+common#:#no_permission_to_join#:#Sul puudub luba selle grupiga liitumiseks!
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.
 common#:#no_submission_made#:#---
 common#:#no_title#:#Pole pealkirja
 common#:#no_tst_in_personal_list#:#No tests in personal list.
 common#:#no_user_defined_fields_defined#:#No user-defined fields available.
-common#:#no_users_applied#:#Please select a user.
-common#:#no_users_selected#:#Please select one user.
+common#:#no_users_applied#:#Palun vali kasutaja.
+common#:#no_users_selected#:#Palun vali üks kasutaja.
 common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:
 common#:#no_zip_file#:#No zip file found.
 common#:#non_internal_local_roles_only#:#Local roles (only userdefined)
@@ -2612,10 +2612,10 @@ common#:#not_available#:#Pole saadaval
 common#:#not_implemented_yet#:#Not implemented yet
 common#:#not_installed#:#Not Installed
 common#:#not_logged_in#:#Sa ei ole sisse loginud
-common#:#note#:#Note
-common#:#note_all_pub_notes#:#All notes
-common#:#note_my_pub_notes#:#My notes only
-common#:#notes#:#Notes
+common#:#note#:#Märkus
+common#:#note_all_pub_notes#:#Kõik märkused
+common#:#note_my_pub_notes#:#Ainult minu märkused
+common#:#notes#:#Märkused
 common#:#num_users#:#Kasutajate arv
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
@@ -2635,7 +2635,7 @@ common#:#obj_chac#:#Chat settings
 common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
-common#:#obj_dbk#:#Digilib Book
+common#:#obj_dbk#:#Digilib-raamat
 common#:#obj_exc#:#Exercise
 common#:#obj_extt#:#Third party software
 common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
@@ -2645,16 +2645,16 @@ common#:#obj_frm#:#Foorum
 common#:#obj_glo#:#Sõnastik
 common#:#obj_grp#:#Grupp
 common#:#obj_hlm#:#Learning Module HACP
-common#:#obj_htlm#:#Learning Module HTML
+common#:#obj_htlm#:#HTML õppemoodul
 common#:#obj_icla#:#LearnLinc Classroom
 common#:#obj_icrs#:#LearnLinc Seminar
 common#:#obj_ldap#:#LDAP Settings
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
-common#:#obj_lm#:#Learning Module ILIAS
+common#:#obj_lm#:#ILIASe õppemoodul
 common#:#obj_lng#:#Keel
 common#:#obj_lngf#:#Keeled
-common#:#obj_lngf_desc#:#Manage your system languages here.
-common#:#obj_lo#:#LearningObject
+common#:#obj_lngf_desc#:#Halda oma süsteemi keeli siin.
+common#:#obj_lo#:#Õpiobjekt
 common#:#obj_mail#:#E-posti seaded
 common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_mep#:#Meediabassein
@@ -2668,7 +2668,7 @@ common#:#obj_owner#:#This Object is owned by
 common#:#obj_pays#:#Payment settings
 common#:#obj_pays_desc#:#Configure payment settings and vendors
 common#:#obj_pg#:#Page
-common#:#obj_qpl#:#Question Pool Test
+common#:#obj_qpl#:#Testi küsimustebassein
 common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_role#:#Role
@@ -2678,7 +2678,7 @@ common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
-common#:#obj_sahs#:#Learning Module SCORM/AICC
+common#:#obj_sahs#:#SCORM/AICC õppemoodul
 common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_spl#:#Question Pool Survey
@@ -2699,12 +2699,12 @@ common#:#obj_uset#:#Kasutaja
 common#:#obj_usr#:#Kasutaja
 common#:#obj_usrf#:#Kasutajad
 common#:#obj_usrf_desc#:#Halda kasutajakontosid siin.
-common#:#obj_webr#:#Web Resource
-common#:#object#:#Object
-common#:#object_added#:#Object added
-common#:#object_duplicated#:#Object duplicated
-common#:#object_imported#:#Object imported
-common#:#objects#:#Objects
+common#:#obj_webr#:#veebiallikas
+common#:#object#:#Objekt
+common#:#object_added#:#Objekt on lisatud
+common#:#object_duplicated#:#Objekt on duplitseeritud
+common#:#object_imported#:#Objekt on imporditud
+common#:#objects#:#Objektid
 common#:#objf#:#Object definitions
 common#:#objf_edit_permission#:#Change permission settings
 common#:#objf_read#:#Read access to Object definitions
@@ -2713,10 +2713,10 @@ common#:#objf_write#:#Edit Object definitions
 common#:#objs_alm#:#AICC Learning Modules
 common#:#objs_cat#:#Liigitus
 common#:#objs_chat#:#Chats
-common#:#objs_confirm#:#Confirm Action
+common#:#objs_confirm#:#Kinnita
 common#:#objs_crs#:#Kursused
-common#:#objs_dbk#:#Digilib Books
-common#:#objs_delete#:#Delete objects
+common#:#objs_dbk#:#Digilib-raamatud
+common#:#objs_delete#:#Kustuta objektid
 common#:#objs_exc#:#Ülesanded
 common#:#objs_file#:#Failid
 common#:#objs_fold#:#Kaustad
@@ -2728,7 +2728,7 @@ common#:#objs_htlm#:#HTML Learning Modules
 common#:#objs_icla#:#LearnLinc Classrooms
 common#:#objs_icrs#:#LearnLinc Seminars
 common#:#objs_lm#:#ILIAS Learning Modules
-common#:#objs_lng#:#Languages
+common#:#objs_lng#:#Keeled
 common#:#objs_lo#:#Õpiobjektid
 common#:#objs_mep#:#Meediabasseinid
 common#:#objs_mob#:#Meediaobjektid
@@ -2761,12 +2761,12 @@ common#:#optimize#:#Optimize
 common#:#options#:#Valikud
 common#:#options_for_subobjects#:#Options for subobjects
 common#:#order_by#:#Order by
-common#:#order_by_answers#:#Order by Answers
-common#:#order_by_date#:#Order by Date
+common#:#order_by_answers#:#Järjesta küsimuste järgi
+common#:#order_by_date#:#Järjesta aja järgi
 common#:#other#:#Other
 common#:#overview#:#Ülevaade
 common#:#overwrite#:#Overwrite
-common#:#owner#:#Owner
+common#:#owner#:#Omanik
 common#:#owner_updated#:#Owner updated.
 common#:#page#:#Page
 common#:#page_edit#:#Edit Page
@@ -2817,18 +2817,18 @@ common#:#perma_link#:#Püsilink
 common#:#permission#:#Õigus
 common#:#permission_denied#:#Ligipääs keelatud
 common#:#permission_settings#:#Õiguste seaded
-common#:#permission_settings_info#:#This form determines which role is allowed to do what with the current object '%s'.
+common#:#permission_settings_info#:#See tabel näitab, millised õigused millisel rollil on kursusel '%s'.
 common#:#person_title#:#Auaste
 common#:#personal_data#:#Minu informatsioon
 common#:#personal_desktop#:#Minu töölaud
 common#:#personal_picture#:#Minu pilt
 common#:#personal_profile#:#Minu andmed
-common#:#persons#:#Persons
+common#:#persons#:#Isikud
 common#:#pg_a#:#a page
-common#:#pg_add#:#Add page
-common#:#pg_added#:#Page added
-common#:#pg_edit#:#Edit page
-common#:#pg_new#:#New page
+common#:#pg_add#:#Lisa leht
+common#:#pg_added#:#Leht on lisatud
+common#:#pg_edit#:#Muuda lehte
+common#:#pg_new#:#Uus leht
 common#:#phone#:#Telefon
 common#:#phone_home#:#Telefon kodus
 common#:#phone_mobile#:#Mobiiltelefon
@@ -2837,7 +2837,7 @@ common#:#phrase#:#Phrase
 common#:#please_choose#:#-- Select --
 common#:#please_enter_target#:#Please enter a target
 common#:#please_enter_title#:#Sisesta pealkiri
-common#:#please_select#:#-- Please Select --
+common#:#please_select#:#-- Vali --
 common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!
 common#:#please_select_a_delivered_file_to_download#:#Vähemalt üks fail peab olema valitud, et saaks alla laadida!
 common#:#please_wait#:#Palun oota...
@@ -2867,15 +2867,15 @@ common#:#publication_date#:#Publication Date
 common#:#published#:#Published
 common#:#publishing_organisation#:#Publishing Organization
 common#:#purpose#:#Purpose
-common#:#qpl#:#Question Pool Test
-common#:#qpl_add#:#Add question pool for test
-common#:#qpl_delete#:#Delete Question Pool for Test
+common#:#qpl#:#Testi küsimustebassein
+common#:#qpl_add#:#Lisa küsimustebassein testi jaoks
+common#:#qpl_delete#:#Kustuta testi küsimustebassein
 common#:#qpl_edit_permission#:#Change permission settings
 common#:#qpl_new#:#New question pool for test
 common#:#qpl_read#:#Read access to Question Pool for Test
 common#:#qpl_upload_file#:#Upload file
 common#:#qpl_visible#:#Question Pool for Test is visible
-common#:#qpl_write#:#Edit Question Pool for Test
+common#:#qpl_write#:#Muuda testi küsimustebasseini
 common#:#quarterly#:#quarterly
 common#:#query_data#:#Query data
 common#:#question#:#Question
@@ -2886,8 +2886,8 @@ common#:#read#:#Read
 common#:#recf_edit#:#Edit RecoveryFolder
 common#:#recipient#:#Recipient
 common#:#referral_comment#:#Miks soovite hakata EKJ e-õppe portaali kasutajaks?
-common#:#refresh#:#Refresh
-common#:#refresh_languages#:#Refresh Languages
+common#:#refresh#:#Värskenda
+common#:#refresh_languages#:#Värskenda keeli
 common#:#refresh_list#:#Refresh List
 common#:#refuse#:#Refuse
 common#:#reg_mail_body_salutation#:#Hello
@@ -2899,7 +2899,7 @@ common#:#reg_passwd_via_mail#:#Your password will be sent to your email address 
 common#:#register#:#Register
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asterisk are required information).
 common#:#registered_since#:#Registered since
-common#:#registered_user#:#registered User
+common#:#registered_user#:#registreeritud kasutaja
 common#:#registered_users#:#registreeritud kasutajat
 common#:#registration#:#Registreeru kasutajaks
 common#:#registration_disabled#:#Only available when using local authentication
@@ -2914,7 +2914,7 @@ common#:#repeat_scan#:#Repeating virus scan...
 common#:#repeat_scan_failed#:#Repeat scan failed.
 common#:#repeat_scan_succeded#:#Repeat scan succeded.
 common#:#replace_file#:#Asenda fail
-common#:#reply#:#Reply
+common#:#reply#:#Vasta
 common#:#repository#:#Varamu
 common#:#repository_admin#:#Repository, Trash and Permissions
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash
@@ -2959,34 +2959,34 @@ common#:#role_assigned_desktop_item#:#Created new assignment.
 common#:#role_assignment#:#Role Assignment
 common#:#role_assignment_updated#:#Role assignment has been updated.
 common#:#role_count_users#:#Kasutajate arv
-common#:#role_deleted#:#Role deleted
+common#:#role_deleted#:#Roll on kustutatud
 common#:#role_deleted_desktop_items#:#Deleted assignment.
 common#:#role_desk_add#:#Assign desktop item
 common#:#role_desk_none_created#:#No desktop items assigned to this role.
-common#:#role_edit#:#Edit Role
+common#:#role_edit#:#Muuda rolli
 common#:#role_header_edit_users#:#Change User Assignment
 common#:#role_list_users#:#List users
 common#:#role_mailto#:#Mail to all assigned Users
-common#:#role_new#:#New Role
-common#:#role_new_search#:#New search
-common#:#role_no_groups_selected#:#Please select a group
-common#:#role_no_results_found#:#No results found
-common#:#role_no_roles_selected#:#Please select a role
+common#:#role_new#:#Uus roll
+common#:#role_new_search#:#Uus otsing
+common#:#role_no_groups_selected#:#Palun vali grupp
+common#:#role_no_results_found#:#Tulemusi ei leitud
+common#:#role_no_roles_selected#:#Palun vali roll
 common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.
 common#:#role_protect_permissions#:#Kaitse õiguseid
 common#:#role_search_enter_search_string#:#Please enter a search string
-common#:#role_search_users#:#User search
+common#:#role_search_users#:#Kasutaja otsing
 common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.
-common#:#role_select_one_item#:#Please select one object.
+common#:#role_select_one_item#:#Palun vali üks objekt.
 common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?
 common#:#role_templates_only#:#Role templates only
 common#:#role_user_deassign#:#Deassign user from role
 common#:#role_user_edit#:#Edit account data
-common#:#role_user_send_mail#:#Send user a message
-common#:#roles#:#Roles
+common#:#role_user_send_mail#:#Saada kasutajale sõnum
+common#:#roles#:#Rollid
 common#:#roles_of_import_global#:#Global roles of import file
 common#:#roles_of_import_local#:#Local roles of import file
-common#:#rolf#:#Roles
+common#:#rolf#:#Rollid
 common#:#rolf_added#:#Role Folder added
 common#:#rolf_create_role#:#Create new Role definition
 common#:#rolf_create_rolt#:#Create new Role definition template
@@ -3006,68 +3006,68 @@ common#:#root_create_cat#:#User may create Categories
 common#:#root_edit#:#Edit system root node
 common#:#root_edit_permission#:#Change permission settings
 common#:#root_read#:#Read access to ILIAS system
-common#:#root_visible#:#ILIAS system is visible
+common#:#root_visible#:#ILIASe süsteem on nähtav
 common#:#root_write#:#Edit metadata of system root node
-common#:#sahs#:#Learning Module SCORM/AICC
-common#:#sahs_added#:#SCORM/AICC Learning Module added
-common#:#sahs_create#:#Create SCORM/AICC Learning Module
-common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
+common#:#sahs#:#SCORM/AICC õppemoodul
+common#:#sahs_added#:#SCORM/AICC õppemoodul on lisatud
+common#:#sahs_create#:#Loo SCORM/AICC õppemoodul
+common#:#sahs_delete#:#Kustuta  SCORM/AICC õppemoodul
 common#:#sahs_edit_learning_progress#:#Muuda õpitulemusi
 common#:#sahs_edit_permission#:#Change permission settings
 common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
 common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
 common#:#sahs_read#:#Read access to SCORM/AICC Learning Module
-common#:#sahs_visible#:#SCORM/AICC Learning Module is visible
-common#:#sahs_write#:#Edit SCORM/AICC Learning Module
-common#:#salutation#:#Salutation
+common#:#sahs_visible#:#SCORM/AICC õppemoodul on nähtav
+common#:#sahs_write#:#Muuda SCORM/AICC õppemoodulit
+common#:#salutation#:#Tervitus
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
 common#:#save#:#Salvesta
-common#:#save_and_back#:#Save And Back
-common#:#save_message#:#Save Message
-common#:#save_refresh#:#Save and Refresh
+common#:#save_and_back#:#Salvesta ja tagasi
+common#:#save_message#:#Salvesta sõnum
+common#:#save_refresh#:#Salvesta ja värskenda
 common#:#save_return#:#Save and Return
-common#:#save_settings#:#Save Settings
+common#:#save_settings#:#Salvesta seaded
 common#:#save_user_related_data#:#Save user related access data
-common#:#saved#:#Saved
+common#:#saved#:#Salvestatud
 common#:#saved_successfully#:#Salvestatud!
 common#:#search#:#Otsing
-common#:#search_active#:#Include active users
+common#:#search_active#:#K.a aktiivsed kasutajad
 common#:#search_for#:#Otsi
-common#:#search_in#:#Search in
-common#:#search_inactive#:#Include inactive users
-common#:#search_minimum_characters#:#The minimum word length is:
-common#:#search_new#:#New Search
+common#:#search_in#:#Otsi (siit:)
+common#:#search_inactive#:#K.a mitteaktiivsed kasutajad
+common#:#search_minimum_characters#:#Minimaalne sõnapikkus on:
+common#:#search_new#:#Uus otsing
 common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.
 common#:#search_recipient#:#Search Recipient
-common#:#search_result#:#Search result
+common#:#search_result#:#Otsingu tulemused
 common#:#search_to_short#:#Your query is to short.
-common#:#search_user#:#Search User
-common#:#seas_edit_permission#:#Change permission settings
+common#:#search_user#:#Otsi kasutajat
+common#:#seas_edit_permission#:#Muuda õiguste seadeid
 common#:#seas_max_hits#:#Max hits
-common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
+common#:#seas_max_hits_info#:#Palun sisesta otsivastuste maksimumnumber.
 common#:#seas_read#:#Read search settings
-common#:#seas_search#:#Allow to use the search
-common#:#seas_settings#:#Search settings
-common#:#seas_visible#:#Search settings are visible
-common#:#seas_write#:#Edit search settings
-common#:#second#:#Second
-common#:#seconds#:#Seconds
+common#:#seas_search#:#Luba kasutada otsingut
+common#:#seas_settings#:#Otsingu seaded
+common#:#seas_visible#:#Otsingu seaded on nähtavad
+common#:#seas_write#:#Muuda otsingu seadeid
+common#:#second#:#sekund
+common#:#seconds#:#sekundit
 common#:#sections#:#Sections
 common#:#select#:# Vali
 common#:#select_all#:# Vali kõik
 common#:#select_file#:# Vali fail
 common#:#select_max_one_item#:# Vali ainult üks artikkel
-common#:#select_mode#:#Select mode
-common#:#select_object_to_copy#:#Please select the object you want to copy
-common#:#select_object_to_link#:#Please select the object which you want to link
+common#:#select_mode#:#Vali olek
+common#:#select_object_to_copy#:#Palun vali objekt, mida soovid kopeerida
+common#:#select_object_to_link#:#Palun vali objekt, mida soovid linkida
 common#:#select_password#:# Vali uus parool
-common#:#select_questionpool#:#Question pool for Test
-common#:#select_questionpool_option#:#--- Please select a question pool ---
-common#:#selected#:#Selected
+common#:#select_questionpool#:#Testi küsimustebassein
+common#:#select_questionpool_option#:#--- Vali küsimustebassein ---
+common#:#selected#:#Valitud
 common#:#selected_items#:#Minu asjad
-common#:#send#:#Send
-common#:#send_mail_admins#:#Mail to administrators
+common#:#send#:#Saada
+common#:#send_mail_admins#:#Kiri administraatoritele
 common#:#send_mail_members#:#Kiri liikmetele
 common#:#send_mail_tutors#:#Kiri õpetajatele
 common#:#sender#:#Saatja
@@ -3125,19 +3125,19 @@ common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
 common#:#shib_visible#:#Shibboleth settings are visible
 common#:#shib_write#:#Edit Shibboleth settings
 common#:#shib_zipcode#:#Attribute for zipcode
-common#:#show#:#Show
+common#:#show#:#Näita
 common#:#show_details#:#Näita detaile
-common#:#show_list#:#Show List
+common#:#show_list#:#Näita nimekirja
 common#:#show_members#:#Näita kasutajaid
 common#:#show_notes_on_pd#:#Näita minu märkmeid minu töölaual
-common#:#show_owner#:#Show Owner
+common#:#show_owner#:#Näita omanikku
 common#:#show_private_notes#:#Näita privaatseid märkmeid
 common#:#show_public_notes#:#Näita avalikke märkmeid
-common#:#show_structure#:#Enable Structured-View
+common#:#show_structure#:#Võimalda struktureeritud vaadet
 common#:#show_users_online#:#Näita aktiivseid kasutajaid
-common#:#signature#:#Signature
-common#:#size#:#Size
-common#:#skin_style#:#Default Skin / Style
+common#:#signature#:#Allkiri
+common#:#size#:#Suurus
+common#:#skin_style#:#Vaikimisi taust / stiil
 common#:#small_icon#:#Small Icon
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#External user administration (SOAP)
@@ -3161,7 +3161,7 @@ common#:#st_edit#:#Edit chapter
 common#:#st_new#:#New chapter
 common#:#standard_fields#:#Standard Fields
 common#:#startpage#:#Start page
-common#:#statistic#:#Statistic
+common#:#statistic#:#Statistika
 common#:#status#:#Staatus
 common#:#step#:#Step
 common#:#stop_inheritance#:#Stop inheritance
@@ -3175,31 +3175,31 @@ common#:#stys_visible#:#Style settings are visible
 common#:#stys_write#:#Edit style settings
 common#:#subcat_name#:#Subcategory Name
 common#:#subchapter_new#:#New Subchapter
-common#:#subject#:#Subject
+common#:#subject#:#Pealkiri
 common#:#subject_module#:#Subject Module
 common#:#submit#:#Valmis
 common#:#subobjects#:#Subobjects
 common#:#subscription#:#Subscription
-common#:#summary#:#Summary
+common#:#summary#:#Kokkuvõte
 common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)
-common#:#svy#:#Survey
-common#:#svy_add#:#Add survey
-common#:#svy_delete#:#Delete survey
-common#:#svy_edit_permission#:#Change permission settings
+common#:#svy#:#Küsitlus
+common#:#svy_add#:#Lisa küsitlus
+common#:#svy_delete#:#Kustuta küsitlus
+common#:#svy_edit_permission#:#Muuda õiguste seadeid
 common#:#svy_evaluation#:#Evaluation
 common#:#svy_finished#:#finished
-common#:#svy_invite#:#Invite users to a survey
-common#:#svy_new#:#New survey
-common#:#svy_no_content#:#No surveys available
-common#:#svy_not_finished#:#not finished
-common#:#svy_not_started#:#not started
-common#:#svy_participate#:#Participate in a survey
+common#:#svy_invite#:#Kutsu kasutajad küsitlusse
+common#:#svy_new#:#Uus küsitlus
+common#:#svy_no_content#:#Küsitlusi pole saadaval
+common#:#svy_not_finished#:#pole lõpetatud
+common#:#svy_not_started#:#pole alustatud
+common#:#svy_participate#:#Osale küsitluses
 common#:#svy_read#:#Read access to survey
 common#:#svy_run#:#Run
-common#:#svy_upload_file#:#Upload file
-common#:#svy_visible#:#Survey is visible
-common#:#svy_warning_survey_not_complete#:#The survey is not finished!
-common#:#svy_write#:#Edit survey
+common#:#svy_upload_file#:#Lae fail alla
+common#:#svy_visible#:#Küsitlus on nähtav!
+common#:#svy_warning_survey_not_complete#:#Küsitlus pole lõpetatud!
+common#:#svy_write#:#Muuda küsitlust
 common#:#system#:#System
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
@@ -3207,7 +3207,7 @@ common#:#system_groups#:#System Groups
 common#:#system_grp#:#System Group
 common#:#system_information#:#System Information
 common#:#system_language#:#System Language
-common#:#system_message#:#System Message
+common#:#system_message#:#Süsteemisisene sõnum
 common#:#system_style_settings#:#System Style Settings
 common#:#system_styles#:#System Styles
 common#:#table_mail_import#:#Mail import
@@ -3232,7 +3232,7 @@ common#:#test_module#:#Test Module
 common#:#tests#:#Tests
 common#:#thread#:#Thread
 common#:#thumbnail#:#Thumbnail
-common#:#time#:#Time
+common#:#time#:#kell (Time)
 common#:#time_d#:#Day
 common#:#time_h#:#Hour
 common#:#time_limit#:#Access
@@ -3240,7 +3240,7 @@ common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for
 common#:#time_limit_applied_users#:#Applied users
 common#:#time_limit_from#:#Alates (time limit)
 common#:#time_limit_message#:#Message (time limit)
-common#:#time_limit_no_users_selected#:#Please select a user.
+common#:#time_limit_no_users_selected#:#Palun vali kasutaja.
 common#:#time_limit_not_valid#:#The period is not valid.
 common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.
 common#:#time_limit_owner#:#Owner (time limit)
@@ -3250,7 +3250,7 @@ common#:#time_limit_until#:#Until (time limit)
 common#:#time_limit_users_updated#:#User data updated
 common#:#time_limits#:#Access
 common#:#time_segment#:#Period of time
-common#:#title#:#Pealkiri
+common#:#title#:#tiitel
 common#:#to#:#To
 common#:#to_client_list#:#To Client selection
 common#:#to_desktop#:#Vii minu töölauale
@@ -3274,7 +3274,7 @@ common#:#trash#:#Trash
 common#:#tree_frame#:#Tree Frame
 common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.
 common#:#tree_left#:#Left
-common#:#tree_right#:#RightYou will not be able to log in until your account is activated.
+common#:#tree_right#:#Right
 common#:#treeview#:#Puu vaade
 common#:#tst#:#Test
 common#:#tst_add#:#Lisa test
@@ -3314,7 +3314,7 @@ common#:#udf_type_text#:#Text Field (optional values)
 common#:#udf_update_select_field#:#Edit Select Box
 common#:#udf_update_success#:#Saved modifications.
 common#:#udf_update_text_field#:#Edit Text Field
-common#:#udf_value#:#Value
+common#:#udf_value#:#Väärtus
 common#:#udf_value_deleted#:#The value has been deleted.
 common#:#uid#:#UID
 common#:#ums_create_new_account#:#Create New Account
@@ -3357,7 +3357,7 @@ common#:#url_not_found#:#File Not Found
 common#:#url_read#:#Open URL
 common#:#url_to_latex#:#URL to LaTeX CGI script
 common#:#url_visible#:#URL is visible
-common#:#url_write#:#Edit URL
+common#:#url_write#:#Muuda URL
 common#:#user#:#User
 common#:#user_access#:#Access per user
 common#:#user_added#:#User added
@@ -3382,7 +3382,7 @@ common#:#user_profile_other#:#Täiendav informatsioon
 common#:#user_send_new_account_mail#:#Send new account mail
 common#:#user_statistics#:#Statistilised andmed
 common#:#userdata#:#Kasutaja andmed
-common#:#userfolder_export_csv#:#Comma Separated Values
+common#:#userfolder_export_csv#:#Eralda väärtused komaga
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#File
 common#:#userfolder_export_file_size#:#File size
@@ -3403,7 +3403,7 @@ common#:#usr_add#:#Lisa kasutaja
 common#:#usr_added#:#Kasutaja on lisatud
 common#:#usr_agreement#:#Kasutustingimused
 common#:#usr_agreement_empty#:#The agreement contains no text
-common#:#usr_edit#:#Edit User
+common#:#usr_edit#:#Muuda kasutajat
 common#:#usr_hits_per_page#:#Leheküljel kuvatavate märgete arv
 common#:#usr_inactive_only#:#Näita mitteaktiivseid kasutajaid
 common#:#usr_new#:#Uus kasutaja
@@ -3414,7 +3414,7 @@ common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Taust
 common#:#usr_style#:#User Style
 common#:#usrf#:#Kasutajad
-common#:#usrf_create_user#:#Create new user account
+common#:#usrf_create_user#:#Loo uus kasutajanimi
 common#:#usrf_delete#:#Kustuta kasutajad
 common#:#usrf_edit_permission#:#Change access to user accounts
 common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
@@ -3442,7 +3442,7 @@ common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be spec
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.
 common#:#valid#:#Valid
 common#:#validate#:#Validate
-common#:#value#:#Value
+common#:#value#:#Väärtus
 common#:#vcard#:#Visiitkaart
 common#:#vcard_download#:#Lae visiitkaart alla
 common#:#vendors#:#Vendors
@@ -3482,9 +3482,9 @@ common#:#webr_never_checked#:#Never checked
 common#:#webr_new#:#Add new Web Resource
 common#:#webr_no_items_created#:#No Web Resources created
 common#:#webr_read#:#Read access to Web Resource
-common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?
-common#:#webr_visible#:#Web Resource is visible
-common#:#webr_write#:#Edit Web Resource
+common#:#webr_sure_delete_items#:#Kas soovid kindlasti kustutada järgmise(d) veebiallika(d)?
+common#:#webr_visible#:#Veebiallikas on nähtaval
+common#:#webr_write#:#Muuda veebiallikat
 common#:#webservices#:#Webservices
 common#:#week#:#Nädal
 common#:#weekly#:#iganädalane
@@ -3493,7 +3493,7 @@ common#:#welcome#:#Tere tulemast
 common#:#who_is_online#:#Kes on onlain?
 common#:#width_x_height#:#Width x Height
 common#:#with#:#with
-common#:#write#:#Write
+common#:#write#:#Kirjuta
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>Please contact the system administrator.
 common#:#year#:#Year
 common#:#years#:#Years
@@ -3579,7 +3579,7 @@ content#:#cont_chapters_and_pages#:#Chapters and Pages
 content#:#cont_chapters_only#:#Chapters only
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_choose_cont_obj#:#Choose Content Object
-content#:#cont_choose_glossary#:#Choose Glossary
+content#:#cont_choose_glossary#:#Vali sõnastik
 content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_citation_err_one#:#You must select exactly one edition
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
@@ -3591,7 +3591,7 @@ content#:#cont_click_next_or_save#:#Please click on the next point of the polygo
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
-content#:#cont_confirm_delete#:#really delete ?
+content#:#cont_confirm_delete#:#kustutada?
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
@@ -3621,7 +3621,7 @@ content#:#cont_def_organization#:#default
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitions
 content#:#cont_del_assignment#:#Delete assignment
-content#:#cont_delete_selected#:#Delete
+content#:#cont_delete_selected#:#Kustuta
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_derive_from_obj#:#Derive from Object
 content#:#cont_details#:#Details
@@ -3641,7 +3641,7 @@ content#:#cont_ed_class#:#Style
 content#:#cont_ed_col_left#:#move column left
 content#:#cont_ed_col_right#:#move column right
 content#:#cont_ed_copy_clip#:#copy to clipboard
-content#:#cont_ed_delete#:#delete
+content#:#cont_ed_delete#:#Kustuta
 content#:#cont_ed_delete_col#:#delete column
 content#:#cont_ed_delete_item#:#delete item
 content#:#cont_ed_delete_row#:#delete row
@@ -3797,11 +3797,11 @@ content#:#cont_order#:#Order Type
 content#:#cont_organization#:#Organization
 content#:#cont_organizations#:#Organizations
 content#:#cont_orig_size#:#Originaalsuurus
-content#:#cont_page_deactivated#:#Page is deactivated.
-content#:#cont_page_deactivated_elements#:#Page contains deactivated elements.
-content#:#cont_page_header#:#Page Header
+content#:#cont_page_deactivated#:#Leht ei ole aktiivne
+content#:#cont_page_deactivated_elements#:#Leht sisaldab mitteaktiivseid elemente.
+content#:#cont_page_header#:#Lehe heeder
 content#:#cont_page_link#:#Lehekülje link
-content#:#cont_page_select_target_now#:#Page marked for moving. Select target now.
+content#:#cont_page_select_target_now#:#Leht on ümbertõstmiseks valmis. Vali nüüd sihtkoht.
 content#:#cont_pages#:#Lehed
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parameters
@@ -3823,8 +3823,8 @@ content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Referenced Images
 content#:#cont_reference#:#Reference
 content#:#cont_remove_fullscreen#:#Remove Full Screen
-content#:#cont_removeiln#:#really remove internal link ?
-content#:#cont_repository_item#:#Repository Item
+content#:#cont_removeiln#:#kindlasti eemaldada süsteemisisene link?
+content#:#cont_repository_item#:#Varamu element
 content#:#cont_repository_item_links#:#Repository Item Links
 content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.
 content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.
@@ -3832,7 +3832,7 @@ content#:#cont_resize_image#:#Muuda pildisuurust
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
-content#:#cont_rvalue#:#Value
+content#:#cont_rvalue#:#Väärtus
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO
@@ -3842,7 +3842,7 @@ content#:#cont_sc_stat_browsed#:#Browsed
 content#:#cont_sc_stat_completed#:#Lõpetatud
 content#:#cont_sc_stat_failed#:#Ebaõnnestunud
 content#:#cont_sc_stat_incomplete#:#Incomplete
-content#:#cont_sc_stat_not_attempted#:#Pole liitunud
+content#:#cont_sc_stat_not_attempted#:#Andmed puuduvad
 content#:#cont_sc_stat_passed#:#Läbitud
 content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_title#:#pealkiri
@@ -3850,7 +3850,7 @@ content#:#cont_school#:#School
 content#:#cont_score#:#Score
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Select at least one item.
-content#:#cont_select_max_one_item#:#Please select one item only
+content#:#cont_select_max_one_item#:#Palun vali ainult üks element.
 content#:#cont_select_max_one_term#:#Select one term only
 content#:#cont_select_one_edition#:#Please select at least one edition.
 content#:#cont_select_one_translation#:#Please select one translation
@@ -3863,7 +3863,7 @@ content#:#cont_series_title#:#Series title
 content#:#cont_series_volume#:#Series volume
 content#:#cont_set_after#:#insert after
 content#:#cont_set_before#:#insert before
-content#:#cont_set_cancel#:#cancel
+content#:#cont_set_cancel#:#tühista
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_edit_mode#:#Set Edit Mode
 content#:#cont_set_into#:#insert into
@@ -3963,7 +3963,7 @@ content#:#public_section#:#Public Area
 content#:#read offline#:#Read Offline
 content#:#selectFooter#:#Select As Footer
 content#:#selectHeader#:#Select As Header
-content#:#select_a_file#:#Please select a file.
+content#:#select_a_file#:#Palun vali fail.
 content#:#selected_pages_only#:#only that pages selected below 
 content#:#set_public_mode#:#Set public access mode
 content#:#st#:#Chapter
@@ -3975,7 +3975,7 @@ crs#:#contact_email_not_valid#:#the contact email is not valid.
 crs#:#crs_accept_subscriber#:#Admission to course "%s"
 crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s".
 crs#:#crs_access_password#:#Parool
-crs#:#crs_archives#:#Arhiiv (Archives)
+crs#:#crs_archives#:#Arhiiv 
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Loo HTML fail
 crs#:#crs_add_archive_xml#:#Loo XML fail
@@ -3985,7 +3985,7 @@ crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_member#:#Lisa kasutaja(d)
 crs#:#crs_add_objective#:#Lisa eesmärk
 crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop
-crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.
+crs#:#crs_add_remove_from_desktop_info#:#Luba liikmetel lisada kursuse üksusi personaalsele töölauale.
 crs#:#crs_add_starter#:#Add start object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
@@ -3998,10 +3998,10 @@ crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are as
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administraator (märguandeta)
 crs#:#crs_admin_notify#:#Administraator (märguandega)
-crs#:#crs_administrators#:#Administrators
+crs#:#crs_administrators#:#Administraatorid
 crs#:#crs_allow_abo#:#Allow subscription of course items
 crs#:#crs_already_assigned_to_list#:#You are already assigned to the waiting list.
-crs#:#crs_archive#:#Arhiiv (Archives)
+crs#:#crs_archive#:#Arhiiv 
 crs#:#crs_archive_disabled#:#Deactivated
 crs#:#crs_archive_download#:#Lae alla
 crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.
@@ -4012,9 +4012,9 @@ crs#:#crs_archive_type#:#Archive type
 crs#:#crs_archive_type_disabled#:#Not available
 crs#:#crs_archives_deleted#:#The archive(s) have been deleted
 crs#:#crs_auto_fill#:#Auto fill
-crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below).
+crs#:#crs_availability_limitless_info#:#Tee see valik, kui soovid kursust õppuritele nähtavaks ja ligipääsetavaks muuta (olenevalt allpool olevatest registreerumise seadetest).
 crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).
-crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.
+crs#:#crs_availability_unvisible_info#:#Kasuta kursuse ettevalmistamiseks. Kursust näevad ja saavad muuta ainult administraatorid ja õpetajad.
 crs#:#crs_blocked#:#Access refused
 crs#:#crs_blocked_member#:#Liikmelisus kursusel on "%s"
 crs#:#crs_blocked_member_body#:#Sinu liikmelisus kursusel "%s" on blokeeritud.
@@ -4022,12 +4022,12 @@ crs#:#crs_cancel_subscription#:#Resigned from course "%s"
 crs#:#crs_cancel_subscription_body#:#A member has resigned from course "%s".
 crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.
-crs#:#crs_contact#:#Contact
-crs#:#crs_contact_consultation#:#Consultation
+crs#:#crs_contact#:#Kontakt
+crs#:#crs_contact_consultation#:#Konsultatsioon
 crs#:#crs_contact_email#:#E-post
 crs#:#crs_contact_name#:#Nimi
 crs#:#crs_contact_phone#:#Telefon
-crs#:#crs_contact_responsibility#:#Responsibility
+crs#:#crs_contact_responsibility#:#Vastutus
 crs#:#crs_content#:#Kursuse sisu
 crs#:#crs_copy_cat_not_allowed#:#It is not possible to copy categories
 crs#:#crs_count_members#:#Liikmete arv
@@ -4036,7 +4036,7 @@ crs#:#crs_create_date#:#Määra kuupäev
 crs#:#crs_crs_structure#:#Kursuse ülesehitus
 crs#:#crs_dates#:#Kuupäevad
 crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?
-crs#:#crs_delete_file#:#Delete File?
+crs#:#crs_delete_file#:#Kustutan faili?
 crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?
 crs#:#crs_delete_from_waiting_list#:#Remove from waiting list
 crs#:#crs_delete_member#:#Deassign member(s)
@@ -4050,7 +4050,7 @@ crs#:#crs_dismiss_member_body#:#sinu liikmelisus kursusel "%s" on lõpetatud
 crs#:#crs_edit_archive#:#Muuda arhiivi (Edit Archives)
 crs#:#crs_edit_content#:#Edit items
 crs#:#crs_edit_start_objects#:#Edit Start Objects
-crs#:#crs_edit_timings#:#Edit Timings
+crs#:#crs_edit_timings#:#Muuda ajastust
 crs#:#crs_end#:#End
 crs#:#crs_existing_files#:#Existing Files:
 crs#:#crs_export#:#Course export
@@ -4062,8 +4062,8 @@ crs#:#crs_filename#:#Filename
 crs#:#crs_free_places#:#Available places
 crs#:#crs_from#:#From:
 crs#:#crs_further_settings#:#Further Settings
-crs#:#crs_general_info#:#General Informations
-crs#:#crs_general_informations#:#General Informations
+crs#:#crs_general_info#:#Üldinfo
+crs#:#crs_general_informations#:#Üldinfo
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_assign#:#Change assignment
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
@@ -4083,7 +4083,7 @@ crs#:#crs_grp_enter_title#:#Palun sisesta pealkiri
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
 crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.
 crs#:#crs_grp_modified_grouping#:#Saved modifications.
-crs#:#crs_grp_no_course_selected#:#Please select one course.
+crs#:#crs_grp_no_course_selected#:#Palun vali üks kursus.
 crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses
 crs#:#crs_header_archives#:#Kursuse failid (archives)
@@ -4099,18 +4099,18 @@ crs#:#crs_hide_link_tst#:#Hide tests
 crs#:#crs_html#:#HTML
 crs#:#crs_important_info#:#Important Informations
 crs#:#crs_info_download#:#Files for Download
-crs#:#crs_info_reg#:#Admittance
-crs#:#crs_info_reg_confirmation#:#Sa võid taodelda selle kursuse liikmeks saamist. Sulle saadetakse teade kursuse administraatori poolt, kui sinu liikmelisuse taotlus on aktsepteeritud või mitte.
-crs#:#crs_info_reg_deactivated#:#Course admittance is closed.
-crs#:#crs_info_reg_direct#:#You can join this course directly.
-crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course. 
+crs#:#crs_info_reg#:#Sissepääsuõigus:
+crs#:#crs_info_reg_confirmation#:#Sa võid taotleda selle kursuse liikmeks saamist. Sulle saadetakse teade kursuse administraatori poolt, kui sinu liikmelisuse taotlus on aktsepteeritud või mitte.
+crs#:#crs_info_reg_deactivated#:#Sissepääs kursusele suletud..
+crs#:#crs_info_reg_direct#:#sa võid liituda kursusega kohe
+crs#:#crs_info_reg_password#:#Kui kursuse administraator on andnud sulle salasõna, saad kursusega liituda. 
 crs#:#crs_info_settings#:#Course Informations
 crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.
-crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.
+crs#:#crs_item_availability_info#:#Tee see valik, kui soovid õpiobjekti muuta kättesaadavaks kindla ajaperioodi vältel. Kui `nähtavus` on märgistatud, on objekt küll nähtav, kuid pole õppijatele ligipääsetav.
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
 crs#:#crs_learning_materials#:#Learning materials
 crs#:#crs_list_users#:#List users
-crs#:#crs_lm_assignment#:#Learning material assignment
+crs#:#crs_lm_assignment#:#Learning material assignmentIf a course administrator has given you the course password, you can join this course. 
 crs#:#crs_lm_assignment_deleted#:#Deleted assignment.
 crs#:#crs_lm_deassign#:#Delete assignment.
 crs#:#crs_lm_no_assignments_selected#:#Please select one assignment.
@@ -4120,7 +4120,7 @@ crs#:#crs_max_members_reached#:#Maksimaalne võimalik liikmete arv on saavutatud
 crs#:#crs_mem_change_status#:#Muuda staatust
 crs#:#crs_mem_send_mail#:#Saada kiri
 crs#:#crs_member#:#Liige
-crs#:#crs_member_administration#:#Edit Participants
+crs#:#crs_member_administration#:#Muuda liikmeid
 crs#:#crs_member_blocked#:#Liige (blokeeritud)
 crs#:#crs_member_of#:#Kursuse liige:
 crs#:#crs_member_unblocked#:#Liige (blokeeringust vabastatud)
@@ -4148,41 +4148,41 @@ crs#:#crs_no_chapter_selected#:#Palun vali peatükk!
 crs#:#crs_no_groupings_assigned#:#No groupings assigned to this course.
 crs#:#crs_no_groups_selected#:#Palun vali grupp!
 crs#:#crs_no_items_found#:#Pole ühtegi objekti
-crs#:#crs_no_language#:#No language
-crs#:#crs_no_lm_selected#:#Please select one learning material.
+crs#:#crs_no_language#:#Keeli pole
+crs#:#crs_no_lm_selected#:#Vali üks õppematerjal.
 crs#:#crs_no_lms_assigned#:#There are no learning materials assigned.
-crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.
+crs#:#crs_no_lms_inside_course#:#Sellelt kursuselt ei leitud õppematerjale.
 crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which can be assigned to this learning objective.
 crs#:#crs_no_member_selected#:#Palun vali üks kursusel osaleja!
 crs#:#crs_no_members_assigned#:#Sellele kursusele ei ole määratud ühtegi osalejat
-crs#:#crs_no_notify#:#No notify for new registrations
+crs#:#crs_no_notify#:#Uutest registreerumistest teateid pole
 crs#:#crs_no_objective_selected#:#Please select one objective.
-crs#:#crs_no_objectives_created#:#There are no objectives assigned.
+crs#:#crs_no_objectives_created#:#Ühtegi objekti pole määratud.
 crs#:#crs_no_question_selected#:#Palun vali üks küsimus!
-crs#:#crs_no_questions_assigned#:#There are no questions assigned.
+crs#:#crs_no_questions_assigned#:#Ühtegi küsimust pole määratud.
 crs#:#crs_no_results_found#:#Tulemusi ei leitud!
-crs#:#crs_no_roles_selected#:#Please select a role
+crs#:#crs_no_roles_selected#:#Palun vali roll.
 crs#:#crs_no_starter_created#:#No start objects assigned to this course.
 crs#:#crs_no_subscribers_selected#:#Palun vali kasutaja
 crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.
 crs#:#crs_no_users_added#:#Ühtegi osalejat pole lisatud
-crs#:#crs_no_users_selected#:#Sa ei valikud ühtegi kasutajat
+crs#:#crs_no_users_selected#:#Sa ei valinud ühtegi kasutajat
 crs#:#crs_no_valid_member_id_given#:#No valid member Id
 crs#:#crs_not_available#:#-Pole saadaval-
 crs#:#crs_notification#:#Märguanne
 crs#:#crs_notify#:#Anna teada uutest registreerimistest
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Kursusele määratud kasutajate arv:
-crs#:#crs_objective_accomplished#:#Accomplished
-crs#:#crs_objective_assign_chapter#:#Assign chapters
-crs#:#crs_objective_assign_lm#:#Assign learning material
-crs#:#crs_objective_assign_question#:#Assign question
+crs#:#crs_objective_accomplished#:#Teostatud
+crs#:#crs_objective_assign_chapter#:#Määra alapeatükid
+crs#:#crs_objective_assign_lm#:#Määra õppematerjal
+crs#:#crs_objective_assign_question#:#Määra küsimus
 crs#:#crs_objective_deassign_question#:#Delete assignment
 crs#:#crs_objective_delete_lm_assignment#:#Delete assignment
 crs#:#crs_objective_insert_percent#:#Palun sisesta number, mis jääb 0 ja 100 vahele.
 crs#:#crs_objective_modified#:#Updated learning objective.
 crs#:#crs_objective_no_title_given#:#Palun sisesta pealkiri!
-crs#:#crs_objective_not_accomplished#:#Not accomplished
+crs#:#crs_objective_not_accomplished#:#Ei teaostatud
 crs#:#crs_objective_overview_objectives#:#Overview objectives
 crs#:#crs_objective_overview_question_assignment#:#Overview question assignment
 crs#:#crs_objective_pretest#:#Self assessment
@@ -4191,13 +4191,13 @@ crs#:#crs_objective_result#:#After test
 crs#:#crs_objective_updated_test#:#Updated modifications.
 crs#:#crs_objective_view#:#Objective oriented view
 crs#:#crs_objectives#:#Õpieesmärgid
-crs#:#crs_objectives_assign_chapter#:#Assign chapter
+crs#:#crs_objectives_assign_chapter#:#Määra alapeatükk
 crs#:#crs_objectives_assigned_lm#:#The selected learning materials have been assigned.
 crs#:#crs_objectives_assigned_lms#:#Assigned learning materials
 crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.
 crs#:#crs_objectives_assigned_questions#:#Assigned questions
 crs#:#crs_objectives_chapter_assignment#:#Chapter assignment
-crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?
+crs#:#crs_objectives_deassign_question_sure#:#Kas oled kindel, et tahad järgmised küsimused kustutada?
 crs#:#crs_objectives_deleted#:#Kustuta õpieesmärgid
 crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment
 crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related lerning materials. <br />After you have reviewed all red marked objectives, you can take the exam again.
@@ -4206,9 +4206,9 @@ crs#:#crs_objectives_info_none#:#The following is a list of the course objective
 crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related learning material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.
 crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.
 crs#:#crs_objectives_lm_assignment#:#Learning material assignment
-crs#:#crs_objectives_max_points#:#Maximum points
-crs#:#crs_objectives_no_question_selected#:#Please select one question.
-crs#:#crs_objectives_nr_questions#:#Number of questions
+crs#:#crs_objectives_max_points#:#Maksimumpunktid
+crs#:#crs_objectives_no_question_selected#:#Palun vali üks küsimus.
+crs#:#crs_objectives_nr_questions#:#Küsimuste arv
 crs#:#crs_objectives_qst_deassigned#:#The question assignment has been deleted.
 crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course. <br />All test results will be deleted.
 crs#:#crs_objectives_reseted#:#Reseted results.
@@ -4227,17 +4227,17 @@ crs#:#crs_reg#:#Registreerumine
 crs#:#crs_reg_deactivated#:#Pole aktiveeritud
 crs#:#crs_reg_lim_info#:#Registreerumine on võimalik kindla ajavahemiku jooksul.
 crs#:#crs_reg_max_info#:#Määra maksimaalne kursuse liikmete arv. '0' tähendab piiramatut hulka liikmeid.
-crs#:#crs_reg_notify_info#:#Kui see on aktiveeritud, siis kõik kursuse administraatorid ja õpetajad staatusega ?märguanne”, saavad uute registreerumiste kohta märguande e-maili teel.
+crs#:#crs_reg_notify_info#:#Kui see on aktiveeritud, siis kõik kursuse administraatorid ja õpetajad staatusega “märguanne” saavad uute registreerumiste kohta märguande e-maili teel.
 crs#:#crs_reg_subscription_deactivated#:#Registreerumine ei ole aktiveeritud
 crs#:#crs_reg_subscription_end_earlier#:#Registreerumise periood on möödas
 crs#:#crs_reg_subscription_max_members_reached#:#Maksimaalne võimalik liikmete arv on ületatud.
 crs#:#crs_reg_subscription_start_later#:#Registreerumise periood algab hiljem
 crs#:#crs_reg_unlim_info#:#Kui see on aktiveeritud, siis pole registreerumisel mingeid ajapiiranguid. Palun vali üks alljärgnevatest registreerumise viisidest!
-crs#:#crs_reg_until#:#Registreerumise periood
-crs#:#crs_reg_user_already_assigned#:#sind on juba määratud sellele kursusele
-crs#:#crs_reg_user_already_subscribed#:#Sa oled juba taodelnud selle kursuse liikmeks saamist
+crs#:#crs_reg_until#:#Registreerumise periood:
+crs#:#crs_reg_user_already_assigned#:#Sa oled juba selle kursuse liige
+crs#:#crs_reg_user_already_subscribed#:#Sa oled juba taotlenud selle kursuse liikmeks saamist
 crs#:#crs_reg_user_blocked#:#Sinu ligipääs sellele kursusele on blokeeritud
-crs#:#crs_registration#:#Course registration
+crs#:#crs_registration#:#Kursusele registreerumine
 crs#:#crs_registration_deactivated#:#Registreerimist ei toimu. Ükski kasutaja ei saa kursusele registreeruda ega kursusega liituda.
 crs#:#crs_registration_limited#:#Piiratud registreerimise periood
 crs#:#crs_registration_type#:#Registreerimise protseduur
@@ -4266,8 +4266,8 @@ crs#:#crs_show_link_lms#:#Näita õppematerjale
 crs#:#crs_show_link_objectives#:#Show objectives
 crs#:#crs_show_link_or#:#Show other resources
 crs#:#crs_show_link_tst#:#Näita teste
-crs#:#crs_show_members#:#Show Members
-crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send mail to members feature.
+crs#:#crs_show_members#:#Näita liikmeid
+crs#:#crs_show_members_info#:#Aktiveerimise korral pääsevad kursuse liikmed liikmete galeriisse ja saavad seal e-kirja saata.
 crs#:#crs_show_objectives_view#:#Objective view
 crs#:#crs_size#:#Faili suurus
 crs#:#crs_sort_activation#:#Sort by activation
@@ -4278,7 +4278,7 @@ crs#:#crs_sort_title#:#Sorteeri pealkirja järgi
 crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.
 crs#:#crs_sortorder#:#Sort
 crs#:#crs_sortorder_abo#:#Sortorder/Subscription
-crs#:#crs_start#:#Start
+crs#:#crs_start#:#Algus
 crs#:#crs_start_objects#:#Start objects
 crs#:#crs_starter_deleted#:#Removed assignment.
 crs#:#crs_starters_already_assigned#:#This object was already assigned.
@@ -4301,21 +4301,21 @@ crs#:#crs_subscription_type#:#Subscription type
 crs#:#crs_suggest_lm#:#Suggest learning materials if:
 crs#:#crs_suggestion_end#:#Suggested End
 crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives
-crs#:#crs_syllabus#:#Syllabus
+crs#:#crs_syllabus#:#Lühikokkuvõte
 crs#:#crs_table_start_objects#:#Start objects
 crs#:#crs_test_status_complete#:#Läbitud
 crs#:#crs_test_status_not_complete#:#Ei ole läbitud
 crs#:#crs_test_status_random#:#Random test
 crs#:#crs_time#:#Subscription time
-crs#:#crs_timings_availability_enabled#:#Temporarily Available
-crs#:#crs_timings_availability_tbl#:#Availability
+crs#:#crs_timings_availability_enabled#:#Ajutiselt kättesaadav
+crs#:#crs_timings_availability_tbl#:#Kättesaadavus
 crs#:#crs_timings_changeable#:#Time Target Changeable
 crs#:#crs_timings_changed#:#Timings Modified
-crs#:#crs_timings_disabled#:#Timings Disabled
-crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.
-crs#:#crs_timings_duration#:#Duration
-crs#:#crs_timings_early_begin#:#Earliest Start
-crs#:#crs_timings_end#:#Ending Time
+crs#:#crs_timings_disabled#:#Ajapiirangud on deaktiveeritud
+crs#:#crs_timings_disabled_info#:#Tee see valik, kui ajapiiranguid ei soovi
+crs#:#crs_timings_duration#:#Kestus
+crs#:#crs_timings_early_begin#:#Varaseim algus
+crs#:#crs_timings_end#:#Lõpetamisaeg
 crs#:#crs_timings_from_until#:#(From/Until)
 crs#:#crs_timings_in_days#:#(In Days)
 crs#:#crs_timings_info_active#:#(Active)
@@ -4329,14 +4329,14 @@ crs#:#crs_timings_short_active#:#Enabled
 crs#:#crs_timings_short_changeable#:#Muudetav
 crs#:#crs_timings_short_limit_start_end#:#Muudetav
 crs#:#crs_timings_short_start_end#:#Suggestion
-crs#:#crs_timings_start#:#Starting Time
+crs#:#crs_timings_start#:#Alustamisaeg
 crs#:#crs_timings_start_end_info#:#(Start/End)
 crs#:#crs_timings_sug_begin#:#Suggested Start
 crs#:#crs_timings_sug_end#:#Suggested End
 crs#:#crs_timings_suggested_info#:#Suggested Editing Time
 crs#:#crs_timings_time_frame#:#Time Frame
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:
-crs#:#crs_timings_visibility#:#Visibility
+crs#:#crs_timings_visibility#:#Nähtavus
 crs#:#crs_to#:#Kuni:
 crs#:#crs_tutor#:#Õpetaja
 crs#:#crs_tutor_no_notify#:#Õpetaja (märguandeta)
@@ -4345,7 +4345,7 @@ crs#:#crs_tutors#:#Tutors
 crs#:#crs_unblocked#:#Vaba ligipääs
 crs#:#crs_unblocked_member#:#Staatus kursusel "%s"
 crs#:#crs_unblocked_member_body#:#Sinu liikmelisus kursusel "%s" on taastatud
-crs#:#crs_unlimited#:#Piiramatu
+crs#:#crs_unlimited#:#piiramatu
 crs#:#crs_unsubscribe#:#Unsubscribe
 crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
 crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course
@@ -4362,7 +4362,7 @@ crs#:#crs_view_objective#:#Objective Oriented View
 crs#:#crs_view_standard#:#Standard View
 crs#:#crs_view_timing#:#Timings View
 crs#:#crs_visibility#:#Avatus
-crs#:#crs_visibility_limitless#:#Piiratud
+crs#:#crs_visibility_limitless#:#Piiramatu
 crs#:#crs_visibility_until#:#Ajutiselt avatud
 crs#:#crs_visibility_unvisible#:#Pole avatud
 crs#:#crs_wait_info#:#Kui see on märgitud, siis kõik maksimaalse arvu ületanud registreerimised saadetakse kursusel osaleda soovijate nimekirja.
@@ -4379,24 +4379,24 @@ crs#:#event_assign_materials_table#:#Assignment of Course Materials
 crs#:#event_btn_add#:#Add Session
 crs#:#event_date#:#Date of Session:
 crs#:#event_date_time#:#Date & Time
-crs#:#event_delete_file#:#Delete File?
+crs#:#event_delete_file#:#Kustutan faili?
 crs#:#event_delete_sure#:#Do really want to delete this session?
-crs#:#event_desc#:#Description
+crs#:#event_desc#:#Kirjeldus
 crs#:#event_details_workflow#:#Details/Workflow
-crs#:#event_edit_members#:#Edit Participants
+crs#:#event_edit_members#:#Muuda liikmeid
 crs#:#event_end_date#:#End
-crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
+crs#:#event_etime_smaller_stime#:#Lõpetamisaeg on varasem kui alustamisaeg. Palun sisesta sobivam aeg.
 crs#:#event_existing_files#:#Existing Files:
-crs#:#event_file#:#File
-crs#:#event_file_download#:#Files for Download
+crs#:#event_file#:#Fail
+crs#:#event_file_download#:#Failid allalaadimiseks
 crs#:#event_file_name#:#Filename
 crs#:#event_file_size_info#:#Filesize
 crs#:#event_full_time_info#:#full-time
 crs#:#event_fullday#:#Full-Time
 crs#:#event_fulltime_info#:#No Time Specified
 crs#:#event_further_informations#:#Further Informations
-crs#:#event_general_infos#:#General Informations
-crs#:#event_general_properties#:#General Informations
+crs#:#event_general_infos#:#Üldinfo
+crs#:#event_general_properties#:#Üldinfo
 crs#:#event_lecturer#:#Name
 crs#:#event_location#:#Location
 crs#:#event_participation#:#Participation
@@ -4406,7 +4406,7 @@ crs#:#event_registration#:#Registration
 crs#:#event_registration_info#:#Allow users to register to the session.
 crs#:#event_registration_participance#:#Registration
 crs#:#event_save_participants#:#Save Participance
-crs#:#event_start_date#:#Start
+crs#:#event_start_date#:#Algus
 crs#:#event_table_create#:#New Session
 crs#:#event_table_update#:#Edit Session
 crs#:#event_tbl_participants#:#List of Participants
@@ -4484,7 +4484,7 @@ dateplaner#:#add_data#:#Lisaandmed
 dateplaner#:#app_#:#Grupi sündmused (Inbox)
 dateplaner#:#app_date#:#Loo sündmus
 dateplaner#:#app_day#:#Vaata päeva
-dateplaner#:#app_freetime#:#teiste grupi liikmete vaba aeg
+dateplaner#:#app_freetime#:#Teiste grupiliikmete vaba aeg
 dateplaner#:#app_inbox#:#Grupi sündmuste kirjakast
 dateplaner#:#app_list#:#Sündmuste nimekiri
 dateplaner#:#app_month#:#Kuu vaade
@@ -4552,12 +4552,12 @@ dateplaner#:#help_endtime#:#End time - syntax[hh/mm] 24-hour format
 dateplaner#:#help_endtime_l#:#Contains the end time of the appointment using 24-hour format.
 dateplaner#:#help_filename#:#dp_help_en.html
 dateplaner#:#help_fullday#:#Whole day event - syntax[on/off]
-dateplaner#:#help_fullday_l#:#If the event stretches over a whole day, please choose this option.<br />This will hide the start time, end time, and end date.
+dateplaner#:#help_fullday_l#:#Kui sündmus kestab terve päeva, vali see punkt.<br />See peidab alguse- ja lõpudaatumid.
 dateplaner#:#help_further#:#<br /><b>click here for further information.</b>
 dateplaner#:#help_group#:#Group events selection
 dateplaner#:#help_group_l#:#Contains the groups for which the logged-in user has administrator rights and for which a date can be created.<br />After choosing this it is possible to view the unscheduled time of the group.
 dateplaner#:#help_inbox#:#Calendar Inbox
-dateplaner#:#help_inbox_l#:#Here all new, changed, and deleted group events are displayed.
+dateplaner#:#help_inbox_l#:#siin on nähtavad kõik uued, muudetud ja kustutatud grupisündmused.
 dateplaner#:#help_keyword#:#Võtmesõna valimine
 dateplaner#:#help_keywordUse#:#Keyword selection
 dateplaner#:#help_keywordUse_l#:#Choose one or more keywords from the dialog box.<br />TIP: use the CTRL key for selecting several entries.
@@ -4568,7 +4568,7 @@ dateplaner#:#help_month#:# Kuu ülevaade
 dateplaner#:#help_month_l#:#In the month view all events of a given month are displayed.
 dateplaner#:#help_properties_alt#:#Changes the keyword
 dateplaner#:#help_properties_alt_l#:#Choose a keyword from the dialog box.<br />Change the keyword in the text field. Important: max. 20 characters.
-dateplaner#:#help_properties_del#:#Deletes the keyword
+dateplaner#:#help_properties_del#:#Kustutab võtmesõna
 dateplaner#:#help_properties_del_l#:#Choose a keyword from the dialog box. Click the button to delete the keyword.
 dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
 dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Events. These events will be imported into the calendar.
@@ -4671,12 +4671,12 @@ exercise#:#exc_feedback_from_tutor#:#Tagasiside õppejõult
 exercise#:#exc_grading#:#Hindamine
 exercise#:#exc_mark#:#Hinne
 exercise#:#exc_notgraded#:#Pole hinnatud
-exercise#:#exc_passed#:#sooritatud
+exercise#:#exc_passed#:#Sooritatud
 exercise#:#exc_send_mail#:#Saada kiri
 exercise#:#exc_your_submission#:#Ülesande vastus
 forum#:#forum_anonymize#:#Kirjuta anonüümselt
 forum#:#forum_anonymize_desc#:#Kirjuta sõnum anonüümselt (sinu ILIASe kasutajanime ei kuvata).
-forum#:#forums#:#Forums
+forum#:#forums#:#Foorumid
 forum#:#forums_all_threads_marked_read#:#Kõik kommentaarid on märgitud loetuks
 forum#:#forums_attachments#:#Manused
 forum#:#forums_attachments_add#:#Lisa manus
@@ -4685,10 +4685,10 @@ forum#:#forums_available#:#Kasutatavad foorumid
 forum#:#forums_censor_comment#:#Tsensori kommentaar (Comment of Censor)
 forum#:#forums_count#:#Foorumite arv
 forum#:#forums_count_art#:#Kirjutiste arv
-forum#:#forums_count_thr#:#Number of Threads
-forum#:#forums_created_by#:#Foorumi on loonud
+forum#:#forums_count_thr#:#Jutulõimede arv
+forum#:#forums_created_by#:#Algatanud
 forum#:#forums_delete_file#:#Kustuta manus
-forum#:#forums_disable_notification#:#Ära luba märguannet
+forum#:#forums_disable_notification#:#Ei soovi märguannet
 forum#:#forums_download_attachment#:#Lae fail alla
 forum#:#forums_edit_post#:#Muuda kirjutist
 forum#:#forums_enable_notification#:#Võimalda märguanne
@@ -4712,7 +4712,7 @@ forum#:#forums_post_modified#:#Kirjutis on muudetud
 forum#:#forums_post_new_entry#:#Uus kirjutis on loodud (New article has been created)
 forum#:#forums_posts#:#Kõik kirjutised (All articles)
 forum#:#forums_posts_not_available#:#Kirjutisi pole
-forum#:#forums_print_thread#:#Print Thread
+forum#:#forums_print_thread#:#Prindi jutulõim
 forum#:#forums_print_view#:#Prindi eelvaade
 forum#:#forums_quote#:#Tsitaat
 forum#:#forums_respond#:#Postita vastus
@@ -4811,7 +4811,7 @@ jscalendar#:#today#:# Täna
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:# nd
 mail#:#also_as_email#:#Ka e-kirjana
-mail#:#bc#:#BCC
+mail#:#bc#:#Pimekoopia
 mail#:#forward#:#Saada edasi
 mail#:#linebreak#:#Reavahe
 mail#:#mail_account_mail#:#Account Mail
@@ -4823,11 +4823,11 @@ mail#:#mail_add_to_addressbook#:#Lisa aadressiraamatusse
 mail#:#mail_add_type#:#Palun lisa e-posti tüüp
 mail#:#mail_addr_entries#:#Entries
 mail#:#mail_attachments#:#Manus
-mail#:#mail_bc_not_valid#:#BCC adressaat on kehtetu
-mail#:#mail_bc_search#:#BCC otsing
+mail#:#mail_bc_not_valid#:#Pimekoopia adressaat on kehtetu
+mail#:#mail_bc_search#:#Pimekoopia adressaadi otsing
 mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#CC adressaat on kehtetu
-mail#:#mail_cc_search#:#CC otsing
+mail#:#mail_cc_not_valid#:#Koopia adressaat on kehtetu
+mail#:#mail_cc_search#:#Koopia adressaadi otsing
 mail#:#mail_change_to_folder#:#Vaheta kausta:
 mail#:#mail_check_your_email_addr#:#Sinu e-posti aadress on kehtetu
 mail#:#mail_compose#:#Kirjuta sõnum
@@ -4839,7 +4839,7 @@ mail#:#mail_enter_valid_email_addr#:#Palun sisesta kehtiv e-posti aadress.
 mail#:#mail_enter_valid_login#:#Palun sisesta kehtiv kasutajanimi.
 mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
-mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.
+mail#:#mail_entry_exists#:#See kasutajanimi või e-posti aadress on juba hõivatud..
 mail#:#mail_file_name#:#Faili nimi
 mail#:#mail_file_size#:#Faili suurus
 mail#:#mail_files_deleted#:#Fail(id) on kustutatud
@@ -4901,13 +4901,13 @@ mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entrie
 mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
 mail#:#mail_to#:#Kellele
-mail#:#mail_to_search#:#Otsi (To search)
+mail#:#mail_to_search#:#Otsi 
 mail#:#mail_user_addr_n_valid#:#Järgnevatel kasutajatel ei ole kehtivat meiliaadressi.
-mail#:#search_bc_recipient#:#Otsi BCC adressaati
-mail#:#search_cc_recipient#:#Otsi CC adressaati
-meta#:#md_days#:#Days:
-meta#:#md_months#:#Month:
-meta#:#md_time#:#Time:
+mail#:#search_bc_recipient#:#Otsi pimekoopia adressaati
+mail#:#search_cc_recipient#:#Otsi koopia adressaati
+meta#:#md_days#:#päevi:
+meta#:#md_months#:#kuid:
+meta#:#md_time#:#aega:
 meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
 meta#:#meta_active#:#Active
 meta#:#meta_add#:#Lisa
@@ -5155,7 +5155,7 @@ meta#:#meta_c_ZW#:#Zimbabwe
 meta#:#meta_c_ZZ#:#Other Country
 meta#:#meta_catalog#:#Catalog
 meta#:#meta_choose_element#:#Please choose an element you want to add!
-meta#:#meta_choose_language#:#Please choose a language
+meta#:#meta_choose_language#:#Palun vali keel
 meta#:#meta_choose_section#:#Please choose a section
 meta#:#meta_classification#:#Classification
 meta#:#meta_collection#:#Collection
@@ -5163,15 +5163,15 @@ meta#:#meta_competency#:#Competency
 meta#:#meta_contentprovider#:#Content provider
 meta#:#meta_context#:#Kontekst
 meta#:#meta_contribute#:#Contribute
-meta#:#meta_copyright#:#Copyright
+meta#:#meta_copyright#:#Autoriõigus
 meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
 meta#:#meta_cost#:#Cost
 meta#:#meta_coverage#:#Tegevuspiirkond (Coverage)
 meta#:#meta_creator#:#Creator
 meta#:#meta_current_value#:#Current value
 meta#:#meta_date#:#Date
-meta#:#meta_delete#:#Delete
-meta#:#meta_description#:#Description
+meta#:#meta_delete#:#Kustuta
+meta#:#meta_description#:#Kirjeldus
 meta#:#meta_diagramm#:#Diagram
 meta#:#meta_difficult#:#Difficult
 meta#:#meta_difficulty#:#Difficulty
@@ -5362,7 +5362,7 @@ meta#:#meta_l_yo#:#Yoruba
 meta#:#meta_l_za#:#Zhuang
 meta#:#meta_l_zh#:#Chinese
 meta#:#meta_l_zu#:#Zulu
-meta#:#meta_language#:#Language
+meta#:#meta_language#:#Keel
 meta#:#meta_learner#:#Learner
 meta#:#meta_learning_resource_type#:#Learning Resource Type
 meta#:#meta_lecture#:#Lecture
@@ -5400,7 +5400,7 @@ meta#:#meta_or_composite#:#Or Composite
 meta#:#meta_other#:#Other
 meta#:#meta_other_plattform_requirements#:#Other Platform Requirements
 meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Please select
+meta#:#meta_please_select#:#Palun vali
 meta#:#meta_prerequisite#:#Prerequisite
 meta#:#meta_problem_statement#:#Problem Statement
 meta#:#meta_publisher#:#Publisher
@@ -5446,7 +5446,7 @@ meta#:#meta_unavailable#:#Unavailable
 meta#:#meta_unix#:#Unix
 meta#:#meta_unknown#:#Unknown
 meta#:#meta_validator#:#Validator
-meta#:#meta_value#:#Value
+meta#:#meta_value#:#Väärtus
 meta#:#meta_version#:#Version
 meta#:#meta_very_difficult#:#Very Difficult
 meta#:#meta_very_easy#:#Very Easy
@@ -5495,7 +5495,7 @@ payment#:#pay_bmf_please_select#:#Please select
 payment#:#pay_bmf_po_box#:#PO Box
 payment#:#pay_bmf_server_error_code#:#Payment server returns error code
 payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.
-payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.
+payment#:#pay_bmf_server_error_sysadmin#:#Palun kontakteeru lisainformatsiooni saamiseks süsteemi administraatoriga.
 payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.
 payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.
 payment#:#pay_bmf_terms_conditions#:#General terms and conditions
@@ -5710,13 +5710,13 @@ rbac#:#info_user_view_changed#:#User view changed
 rbac#:#leave#:#Leave
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
 rbac#:#perm_administrate#:#Administrate
-rbac#:#perm_class_create#:#Create new objects
+rbac#:#perm_class_create#:#Uute objektide loomine
 rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
-rbac#:#perm_class_general#:#General operations
+rbac#:#perm_class_general#:#Üldised toimingud
 rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.
-rbac#:#perm_class_object#:#Special operations
+rbac#:#perm_class_object#:#Eritoimingud
 rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.
-rbac#:#perm_class_rbac#:#Permission settings
+rbac#:#perm_class_rbac#:#Õiguste seaded
 rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.
 rbac#:#perm_local_role#:#Locale role
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy
@@ -5725,38 +5725,38 @@ rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define
 registration#:#reg_add_assignment#:#New Assignment
 registration#:#reg_added_assignment#:#Added new assignment.
 registration#:#reg_approve#:#Registration with Approvement
-registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.
 registration#:#reg_available_roles#:#Available Roles:
 registration#:#reg_default#:#Default
+registration#:#reg_approve_info#:#Kui on märgistatud, siis peab iga uue registreerumise kinnitama administraator.
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).
 registration#:#reg_direct#:#Direct Registration
-registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.
+registration#:#reg_direct_info#:#Kui on märgistatud, kinnitatakse iga avaldus automaatselt.
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_role_assignment#:#Role Assignment By Domain
 registration#:#reg_fixed#:#Selection From Specified List
 registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.
-registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.
-registration#:#reg_mail_body_profile#:#Profile data:
-registration#:#reg_mail_body_profile_changed#:#your profile has changed !
-registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.
-registration#:#reg_mail_new_user_body#:#A new user has been registered.
-registration#:#reg_missing_domain#:#Please fill out all fields.
+registration#:#reg_mail_body_approve#:#Sa oled Iliases juba registreerunud ja saanud e-kirja oma kasutajaandmetega. Sinu kasutajanimi on aktiveeritud.
+registration#:#reg_mail_body_profile#:#Profiili andmed:
+registration#:#reg_mail_body_profile_changed#:#sinu profiili on muudetud!
+registration#:#reg_mail_body_pwd_generation#:#Sinu avaldus vaadatakse üle administraatori poolt ja kasutajanimi aktiveeritakse tõenäoliselt 48 tunni jooksul. Kinnitus tuleb sinu e-posti aadressile.
+registration#:#reg_mail_new_user_body#:#Uus kasutaja on registreerunud.
+registration#:#reg_missing_domain#:#Palun täida kõik väljad.
 registration#:#reg_missing_role#:#Palun täida kõik väljad.
 registration#:#reg_notification#:#Notifications
 registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email.
 registration#:#reg_role_assignment#:#Rolli määramine
 registration#:#reg_role_info#:#Määratud rollid
 registration#:#reg_select_one#:#Please select one entry.
-registration#:#reg_selectable_roles#:#Selectable Roles
+registration#:#reg_selectable_roles#:#Valitavad rollid
 registration#:#reg_settings_header#:#New Registration Settings
 registration#:#reg_type#:#Registration Type
 registration#:#reg_unknown_recipients#:#The following logins are not valid:
 registration#:#registration_settings#:#New Registrations
-search#:#add_members_header#:#Add members
+search#:#add_members_header#:#Lisa liikmed
 search#:#append_results#:#Append results
-search#:#search_active#:#Include active users
+search#:#search_active#:#k.a aktiivsed kasutajad
 search#:#search_added_new_folder#:#Uus kaust on lisatud.
 search#:#search_advanced#:#Täpsem otsing
 search#:#search_all_results#:#Kõik tulemused
@@ -5786,9 +5786,9 @@ search#:#search_grp_title#:#Group name
 search#:#search_hits#:#Found in:
 search#:#search_in_magazin#:#Varamus
 search#:#search_in_result#:#Search within results
-search#:#search_inactive#:#Kaasaarvatud mitteaktiivsed kasutajad
+search#:#search_inactive#:#k.a mitteaktiivsed kasutajad
 search#:#search_index#:#Indexed search
-search#:#search_like_info#:#Choose this option to get best results.
+search#:#search_like_info#:#Vali see Choose this option to get best results.
 search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
 search#:#search_lm_content#:#Learning materials (content)
 search#:#search_lm_meta#:#Learning materials (metadata)
@@ -5808,9 +5808,9 @@ search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
 search#:#search_no_match#:#Your search did not match any results
 search#:#search_no_results_saved#:#No results saved.
 search#:#search_no_search_term#:#Sa ei ole valinud otsingusõna
-search#:#search_no_selection#:#You made no selection.
-search#:#search_object_renamed#:#Object renamed.
-search#:#search_objects_deleted#:#Object(s) deleted.
+search#:#search_no_selection#:#Sa ei teinud valikut.
+search#:#search_object_renamed#:#Objekt on ümbernimetatud.
+search#:#search_objects_deleted#:#Objekt(id) on kustutatud.
 search#:#search_objects_moved#:#Objects moved.
 search#:#search_one_action#:#.Vali üks tegevus.
 search#:#search_or#:#or
@@ -5831,7 +5831,7 @@ search#:#search_select_one_folder_select#:#-- Vali üks kaust--
 search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Vali üks kaust--
 search#:#search_show_result#:#Näita
-search#:#search_tst_svy#:#Tests/Surveys
+search#:#search_tst_svy#:#Testid/küsitlused
 search#:#search_type#:#Otsingu tüüp
 search#:#search_user#:# Kasutajad
 search#:#until#:#up to
@@ -5894,12 +5894,12 @@ style#:#sty_word_spacing#:#Word Spacing
 survey#:#SurveyMetricQuestion#:#Metric question
 survey#:#SurveyNominalQuestion#:#Nominal question
 survey#:#SurveyOrdinalQuestion#:#Ordinal question
-survey#:#SurveyTextQuestion#:#Essay
-survey#:#add_category#:#Add answer
+survey#:#SurveyTextQuestion#:#Essee
+survey#:#add_category#:#Lisa vastus
 survey#:#add_heading#:#Add heading
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as answers.
 survey#:#add_phrase#:#Add phrase
-survey#:#add_phrase_introduction#:#Please select a phrase:
+survey#:#add_phrase_introduction#:#Palun vali fraas:
 survey#:#add_standard_numbers#:#Add standard numbers
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
@@ -5917,8 +5917,8 @@ survey#:#answer#:#Answer
 survey#:#apply#:#Apply
 survey#:#arithmetic_mean#:#Arithmetic mean
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following question block(s) to the survey?
-survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
-survey#:#back#:#<< Back
+survey#:#ask_insert_questions#:#Oled kindel, et tahad järgmise(d) küsimuse(d) küsitlusse sisestada?
+survey#:#back#:#<< Tagasi
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Browse for questions
 survey#:#cancel_survey#:#Suspend the survey
@@ -5934,9 +5934,9 @@ survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read 
 survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the survey!
 survey#:#categories#:#Vastused
-survey#:#category#:#Vastus
-survey#:#category_delete_confirm#:#Kas oled kindel, et tahad järgmisi vastuseid kustutada?
-survey#:#category_delete_select_none#:#Please check at least one answer to delete it!
+survey#:#category#:#vastus
+survey#:#category_delete_confirm#:#Kas oled kindel, et tahad järgmise(d) vastuse(d) kustutada?
+survey#:#category_delete_select_none#:#palun märgista kustutamiseks vähemalt üks vastus!
 survey#:#category_nr_selected#:#Selle vastuse valinud kasutajate arv
 survey#:#chart#:#Chart
 survey#:#check_category_to_save_phrase#:#You must select a least one answer to save a phrase!
@@ -5953,12 +5953,12 @@ survey#:#constraints_first_question_description#:#The first entity could not hav
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey. Since the first entity has no previous questions or questionblocks there is no possibility to define preconditions for it.
 survey#:#constraints_list_of_entities#:#Available survey entities for preconditions
 survey#:#constraints_no_nonessay_available#:#There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)
-survey#:#constraints_no_questions_or_questionblocks_selected#:#Please select at least one question or questionblock!
+survey#:#constraints_no_questions_or_questionblocks_selected#:#Palun vali vähemalt üks vastus või vastusteblokk!
 survey#:#contains#:#Contains
 survey#:#continue#:#Jätka >>
 survey#:#create_date#:#Created
 survey#:#create_new#:#Create new
-survey#:#create_questionpool_before_add_question#:#You must create at least one question pool to store your questions!
+survey#:#create_questionpool_before_add_question#:#Sa pead looma vähemalt ühe küsimustebasseini oma küsimuste paigutamiseks!
 survey#:#dc_agree#:#agree
 survey#:#dc_always#:#always
 survey#:#dc_definitelyfalse#:#definitely false
@@ -6058,7 +6058,7 @@ survey#:#filter_all_questionpools#:#All question pools
 survey#:#filter_show_question_types#:#Näita küsimustetüüpe
 survey#:#filter_show_questionpools#:#Show question pools
 survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.
-survey#:#found_questions#:#Found questions
+survey#:#found_questions#:#Leitud küsimused
 survey#:#geometric_mean#:#Geometric mean
 survey#:#given_answers#:#Antud vastused
 survey#:#glossary_term#:#Glossary term
@@ -6074,8 +6074,8 @@ survey#:#import_question#:#Import question(s)
 survey#:#import_wrong_file_type#:#Vale failitüüp!
 survey#:#insert_after#:#Insert after
 survey#:#insert_before#:#Insert before
-survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!
-survey#:#insert_missing_questionblock#:#Please select at least one question block to insert it into the survey!
+survey#:#insert_missing_question#:#Palun vali vähemalt üks küsimus küsitlusse sisetamiseks!
+survey#:#insert_missing_questionblock#:#Palun vali vähemalt üks küsimusteblokk küsitlusse sisestamiseks!
 survey#:#introduction#:#Introduction
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
 survey#:#invitation#:#Invitation
@@ -6118,7 +6118,7 @@ survey#:#no_constraints_checked#:#Please select a least one question or question
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
 survey#:#no_questionblocks_available#:#There are no question blocks available
-survey#:#no_questions_available#:#There are no questions available!
+survey#:#no_questions_available#:#Küsimusi pole!
 survey#:#no_search_results#:#Otsingul ei ole ühtegi tulemust!
 survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
@@ -6145,20 +6145,20 @@ survey#:#predefined_users#:#Predefined user set
 survey#:#preview#:#Preview
 survey#:#previous_question_rows#:#<< Questions %d - %d of %d
 survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?
-survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
-survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!
+survey#:#qpl_confirm_delete_questions#:#Kas oled kindel, et tahad järgmise(d) küsimuse(d) kustutada?
+survey#:#qpl_copy_select_none#:#Palun märgi kopeerimiseks vähemalt üks küsimus!
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
 survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it
-survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!
-survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
-survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!
-survey#:#qpl_export_select_none#:#Please check at least one question to export it
-survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?
-survey#:#qpl_phrases_deleted#:#Phrase(s) deleted.
-survey#:#qpl_questions_deleted#:#Question(s) deleted.
-survey#:#qpl_questions_pasted#:#Question(s) pasted.
-survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
-survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
+survey#:#qpl_delete_rbac_error#:#Sul pole küsimus(t)e kustutamiseks õigusi!
+survey#:#qpl_delete_select_none#:#Palun märgista kustutamiseks vähemalt üks küsimus!
+survey#:#qpl_duplicate_select_none#:#Palun märgista duplitseerimiseks vähemalt üks küsimus!
+survey#:#qpl_export_select_none#:#Palun märgista eksportimiseks vähemalt üks küsimus!
+survey#:#qpl_past_questions_confirmation#:#Kas oled kindel, et tahad järgmise(d) küsimuse(d) küsimustebasseini salvestada?
+survey#:#qpl_phrases_deleted#:#Lause(d) on kustutatud
+survey#:#qpl_questions_deleted#:#Küsimus(ed) on kustutatud
+survey#:#qpl_questions_pasted#:#Küsimus(ed) on salvestatud.
+survey#:#qpl_savephrase_empty#:#Palun sisesta lause nimetus!
+survey#:#qpl_savephrase_exists#:#See lause nimetus on juba olemas! Sisesta uus.
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
 survey#:#qt_metric#:#Metric question
 survey#:#qt_nominal#:#Nominal question
@@ -6175,7 +6175,7 @@ survey#:#questionblock_has_constraints#:#Preconditions
 survey#:#questionblock_icon#:#Questionblock icon
 survey#:#questionblocks#:#Question blocks
 survey#:#questions#:#Küsimused
-survey#:#questions_inserted#:#Question(s) inserted!
+survey#:#questions_inserted#:#Küsimus(ed) on sisestatud!
 survey#:#questions_removed#:#Question(s) and/or question block(s) removed!
 survey#:#questiontype#:#Küsimuse liik
 survey#:#ratio_absolute#:#Ratio-Absolute
@@ -6202,10 +6202,10 @@ survey#:#search_users#:#Leitud kasutajad
 survey#:#select_option#:#--- Please select an option ---
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
 survey#:#select_prior_question#:#Select a prior question
-survey#:#select_questionpool#:#Please select a question pool to store the created question
+survey#:#select_questionpool#:#Palun vali loodud küsimuse salvestamiseks küsimustebassein.
 survey#:#select_questionpool_short#:#Ankeetküsitluse küsimuste bassein
 survey#:#select_relation#:#Select a relation
-survey#:#select_svy_option#:#--- Please select a survey ---
+survey#:#select_svy_option#:#--- Palun vali küsitlus ---
 survey#:#select_target_position_for_move#:#Please select a target position to move the answers and press one of the insert buttons!
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 survey#:#select_value#:#Select a value
@@ -6227,7 +6227,7 @@ survey#:#survey_code_no_codes#:#You have not created any survey access codes yet
 survey#:#survey_code_url#:#URL for direct access
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
-survey#:#survey_codes_lang#:#Language of the survey
+survey#:#survey_codes_lang#:#Küsitluse keel
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#finish survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
@@ -6265,11 +6265,11 @@ survey#:#svy_missing_title#:#You have not entered a survey title! Please go to t
 survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!
 survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!
 survey#:#svy_select_file_for_import#:#You must select a file for import!
-survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions
+survey#:#svy_select_questionpools#:#Palun vali imporditud küsimuste hoidmiseks küsimustebassein.
 survey#:#svy_select_surveys#:#Please select a survey for duplication
 survey#:#svy_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
 survey#:#svy_show_questiontitles#:#Show question titles in survey
-survey#:#svy_size#:#Suurus
+survey#:#svy_size#:#Size
 survey#:#svy_statistical_evaluation#:#Statistical evaluation
 survey#:#svy_status_missing#:#There are required elements missing in this survey!
 survey#:#svy_status_missing_elements#:#The following elements are missing:
@@ -6287,7 +6287,7 @@ survey#:#used#:#used
 survey#:#users_answered#:#Vastanud kasutajad
 survey#:#users_skipped#:#Vahele jätnud kasutajad
 survey#:#value_nr_entered#:#Selle väärtuse valinud kasutajate arv
-survey#:#values#:#Values
+survey#:#values#:#Väärtused
 survey#:#vertical#:#vertical
 survey#:#view_constraints_introduction#:#You are viewing the preconditions of the following question/question block:
 survey#:#view_phrase#:#View phrase
@@ -6302,16 +6302,16 @@ trac#:#info_found_objects#:#The user tracking refers to the following objects of
 trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
 trac#:#last_login#:#Viimane külastus
 trac#:#meta_typical_learning_time#:#Keskmine õppimisaeg
-trac#:#newUT_settings#:#Learning Module Statistics
-trac#:#obj_types#:#Object types:
-trac#:#search_area_info#:#Please choose one object.
+trac#:#newUT_settings#:#Õppemooduli statistika
+trac#:#obj_types#:#Objektide tüübid:
+trac#:#search_area_info#:#Palun vali üks objekt.
 trac#:#search_terms#:#Search term(s)
-trac#:#select_one#:#Please select one object
-trac#:#stats_access#:#Access
-trac#:#stats_accesses#:#Accesses
+trac#:#select_one#:#Palun vali üks objekt
+trac#:#stats_access#:#Ligipääs
+trac#:#stats_accesses#:#Sisenemised (Accesses)
 trac#:#stats_all#:#All
 trac#:#stats_chapter#:#Chapter
-trac#:#stats_chapter_average_page_number#:#Average Number of Pages per Chapter
+trac#:#stats_chapter_average_page_number#:#Alapeatükkide keskmine lehekülgede arv
 trac#:#stats_chapter_depth_coverage#:#Degree of Coverage with Depth
 trac#:#stats_chapter_fewest_access#:#Fewest Access
 trac#:#stats_chapter_listing#:#Chapter Listing
@@ -6330,10 +6330,10 @@ trac#:#stats_duration#:#Duration
 trac#:#stats_equivalent#:#is equivalent to
 trac#:#stats_hits#:#Hits
 trac#:#stats_hour#:#h
-trac#:#stats_interval#:#Intervall
+trac#:#stats_interval#:#Interval
 trac#:#stats_interval_dwell_time#:#Interval of Dwell Time
 trac#:#stats_interval_page_access#:#Interval of Access to Pages
-trac#:#stats_last#:#Viimane
+trac#:#stats_last#:#Last
 trac#:#stats_legend#:#Legend
 trac#:#stats_measurable_hits#:#Measurable Hits (Hits within a Session)
 trac#:#stats_minute#:#m
@@ -6372,7 +6372,7 @@ trac#:#stats_page_variance_access#:#Variance of Access to Pages
 trac#:#stats_page_variance_dwell_time#:#Variance of Dwell Time to Pages
 trac#:#stats_pages#:#Pages
 trac#:#stats_pages_statisics#:#Page Statistics
-trac#:#stats_sec#:#sek
+trac#:#stats_sec#:#sec
 trac#:#stats_sel_lng#:#English
 trac#:#stats_session#:#Session
 trac#:#stats_session_average_length#:#Average Session Length
@@ -6390,21 +6390,21 @@ trac#:#stats_session_total_duration#:#Total Duration of all Sessions
 trac#:#stats_session_total_statistic#:#Total-Session-Statistic
 trac#:#stats_sessions#:#Sessions
 trac#:#stats_sessions_statisics#:#Session Statistics
-trac#:#stats_start#:#Start
+trac#:#stats_start#:#Algus
 trac#:#stats_summation#:#Summation
 trac#:#stats_tracked_user#:#Selected Users
 trac#:#stats_until#:#until
-trac#:#stats_user#:#Kasutaja(d)
+trac#:#stats_user#:#User(s)
 trac#:#stats_user_selected#:#User selected
 trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time
-trac#:#trac_activated#:#Tracking activated
+trac#:#trac_activated#:#Aktiivne
 trac#:#trac_active_both#:#User Tracking and Learning progress activated
 trac#:#trac_active_lp_only#:#Õpitulemused aktiveeritud
 trac#:#trac_active_ut_only#:#User Tracking activated
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.
-trac#:#trac_anonymized#:#Anonymized
-trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.
+trac#:#trac_anonymized#:#Anonüümne
+trac#:#trac_anonymized_info#:#Valiku korral kuvatakse kogu info anonüümsena:
 trac#:#trac_assigned#:#Assigned
 trac#:#trac_assignments#:#Assignments
 trac#:#trac_below#:#Below:
@@ -6422,7 +6422,7 @@ trac#:#trac_crs_relevant_items#:#Kursuse materjalid
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
 trac#:#trac_edit_progress#:#Muuda õpitulemusi
 trac#:#trac_edit_time#:#Õppimisaeg
-trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.
+trac#:#trac_edit_visits#:#Palun määra külastuste arv, mis on vältimatu selle õpiobjekti läbimiseks.
 trac#:#trac_edited_scos#:#Processed content
 trac#:#trac_editing_time_passed#:#Editing time Passed
 trac#:#trac_failed#:#Ebaõnnestunud
@@ -6439,21 +6439,21 @@ trac#:#trac_hide#:#Peida
 trac#:#trac_in_progress#:#Pooleli
 trac#:#trac_inactive_both#:#User Tracking and Learning Progress deactivated
 trac#:#trac_info_edited#:#Set the status to 'Completed' if you think you have processed all content.
-trac#:#trac_last_access#:#Last access
+trac#:#trac_last_access#:#Viimane külastus
 trac#:#trac_learning_progress#:#Edasijõudmine
 trac#:#trac_learning_progress_tbl_header#:#Õpitulemused:
-trac#:#trac_lm_statistics#:#Access Statistics
+trac#:#trac_lm_statistics#:#Liitumiste statistika
 trac#:#trac_lp_determination#:#Learning Progress Status Determination
 trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status.
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.
-trac#:#trac_lp_filter#:#Filter
-trac#:#trac_mark#:#Hinne (Mark)
+trac#:#trac_lp_filter#:#Filtreeri
+trac#:#trac_mark#:#Hinne
 trac#:#trac_marks#:#Hinded
 trac#:#trac_mode#:#Olek
 trac#:#trac_mode_collection#:#õpiobjektide kogu
-trac#:#trac_mode_deactivated#:#Deactivated
+trac#:#trac_mode_deactivated#:#ei ole aktiveeritud
 trac#:#trac_mode_exercise_returned#:#Ülesanne on lahendatud 
-trac#:#trac_mode_manual#:#Manual
+trac#:#trac_mode_manual#:#manuaalne
 trac#:#trac_mode_objectives#:#Õpieesmärgid
 trac#:#trac_mode_scorm#:#SCORM/AICC
 trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
@@ -6461,14 +6461,14 @@ trac#:#trac_mode_test_finished#:#Test on lõpetatud
 trac#:#trac_mode_test_passed#:#Test on lõpetatud
 trac#:#trac_mode_tlt#:#Keskmine õppimisaeg
 trac#:#trac_mode_visits#:#Külastuste arv
-trac#:#trac_modifications_saved#:#Saved settings
-trac#:#trac_modus#:#Mode
-trac#:#trac_no_attempted#:#Not attempted
+trac#:#trac_modifications_saved#:#Seaded on salvestatud
+trac#:#trac_modus#:#Olek
+trac#:#trac_no_attempted#:#Andmed puuduvad
 trac#:#trac_no_content#:#Info õpitulemuste kohta pole saadaval.
 trac#:#trac_no_sahs_items_found#:#Ühtegi objekti ei leitud.
 trac#:#trac_not_accessed#:#Pole sisenenud
 trac#:#trac_not_assigned#:#Pole määratud
-trac#:#trac_not_attempted#:#Pole liitunud
+trac#:#trac_not_attempted#:#Andmed puuduvad
 trac#:#trac_not_completed#:#Pole lõpetatud
 trac#:#trac_not_participated#:#Pole osalenud
 trac#:#trac_not_registered#:#Pole registreerutud
@@ -6482,16 +6482,16 @@ trac#:#trac_query#:#Title/description:
 trac#:#trac_reached_objectives#:#Saavutatud õpieesmärgid
 trac#:#trac_reached_points#:#Achieved score
 trac#:#trac_reached_visits#:# Nõutud külastused.
-trac#:#trac_refresh#:#Refresh
+trac#:#trac_refresh#:#Värskenda
 trac#:#trac_registered#:#Registered
 trac#:#trac_required_visits#:#Nõutav külastuste arv
 trac#:#trac_sahs_relevant_items#:#SCO's
 trac#:#trac_select_one#:#Sa ei teinud valikut
-trac#:#trac_settings#:#Settings
-trac#:#trac_settings_saved#:#Saved settings.
+trac#:#trac_settings#:#Seaded
+trac#:#trac_settings_saved#:#Seaded salvestatud.
 trac#:#trac_show#:#Näita edasijõudmist
 trac#:#trac_show_hidden#:#Näita
-trac#:#trac_spent_time#:#Spent time
+trac#:#trac_spent_time#:#Kulutatud aeg
 trac#:#trac_status#:#Staatus
 trac#:#trac_time_passed#:#Editing Time Exceeded
 trac#:#trac_total_online#:#Kasutamisaeg kokku
@@ -6499,192 +6499,46 @@ trac#:#trac_update_edit_user#:#Saved settings
 trac#:#trac_updated_status#:#Salvestatud edasijõudmine.
 trac#:#trac_user_data#:#Kasutaja andmed
 trac#:#trac_usr_list#:#Kasutajad
-trac#:#trac_valid_request#:#Max. time between requests
+trac#:#trac_valid_request#:#Maksimumaeg päringute vahel
 trac#:#trac_view_crs#:#Tagasi kursuse juurde
-trac#:#trac_view_list#:#Back to list
+trac#:#trac_view_list#:#Tagasi nimekirja juurde
 trac#:#trac_visits#:#Külastuste arv
 trac#:#trac_visits_info#:#Lehekülje iga külastust arvestatakse kui ühte külastust.
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
 trac#:#view_mode#:#Vaata olekut
-trac#:#vm_access_of_users#:#Access of users
+trac#:#vm_access_of_users#:#Kasutajate ligipääs
 trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
-crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###05 10 2006 new variable
-assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###05 10 2006 new variable
-assessment#:#question_summary#:#Question Summary###05 10 2006 new variable
-assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 10 2006 new variable
-assessment#:#tst_instant_verification#:#Instant verification###05 10 2006 new variable
-content#:#cont_text_tex#:#LaTeX Code:###05 10 2006 new variable
-survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###05 10 2006 new variable
-crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:###05 10 2006 new variable
-grp#:#crs_add_grouping#:#Add Membership Limitation###05 10 2006 new variable
-grp#:#crs_grp_enter_title#:#Please fill out all required fields.###05 10 2006 new variable
-grp#:#crs_grp_added_grouping#:#Added new membership limitation.###05 10 2006 new variable
-grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###05 10 2006 new variable
-grp#:#crs_grouping_deleted#:#Deleted membership limitation.###05 10 2006 new variable
-crs#:#crs_grp_added_grouping#:#Added new membership limitation.###05 10 2006 new variable
-common#:#edit_grouping#:#Edit Membership Limitation###05 10 2006 new variable
-crs#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
-common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.###05 10 2006 new variable
-grp#:#crs_grp_table_assigned_courses#:#Assigned Groups###05 10 2006 new variable
-grp#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
-grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
-grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
-grp#:#crs_grouping_select_one#:#Please select one membership limitation.###05 10 2006 new variable
-grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###05 10 2006 new variable
-assessment#:#certificate#:#Certificate###10 10 2006 new variable
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)###10 10 2006 new variable
-assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###10 10 2006 new variable
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)###10 10 2006 new variable
-assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###10 10 2006 new variable
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###10 10 2006 new variable
-assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###10 10 2006 new variable
-assessment#:#certificate_custom#:#Custom...###10 10 2006 new variable
-assessment#:#certificate_edit#:#Create/edit a certificate template###10 10 2006 new variable
-assessment#:#certificate_page_format#:#Page Format###10 10 2006 new variable
-assessment#:#certificate_background_image#:#Background Image###10 10 2006 new variable
-assessment#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
-assessment#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
-assessment#:#certificate_show#:#Show Certificate###10 10 2006 new variable
-assessment#:#certificate_status#:#Status###10 10 2006 new variable
-assessment#:#certificate_status_complete#:#The certificate is complete and could be used###10 10 2006 new variable
-assessment#:#certificate_status_incomplete#:#The certificate is incomplete###10 10 2006 new variable
-assessment#:#certificate_delete#:#Delete Certificate Data###10 10 2006 new variable
-assessment#:#certificate_preview#:#Show Certificate Preview###10 10 2006 new variable
-assessment#:#certificate_text#:#Certificate Text###10 10 2006 new variable
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe###10 10 2006 new variable
-assessment#:#certificate_var_user_firstname#:#Jane###10 10 2006 new variable
-assessment#:#certificate_var_user_lastname#:#Doe###10 10 2006 new variable
-assessment#:#certificate_var_result_passed#:#passed###10 10 2006 new variable
-assessment#:#certificate_var_result_points#:#38###10 10 2006 new variable
-assessment#:#certificate_var_result_percent#:#83%###10 10 2006 new variable
-assessment#:#certificate_var_max_points#:#46###10 10 2006 new variable
-assessment#:#certificate_var_result_mark_short#:#B###10 10 2006 new variable
-assessment#:#certificate_var_result_mark_long#:#Good###10 10 2006 new variable
-assessment#:#certificate_passed#:#passed###10 10 2006 new variable
-assessment#:#certificate_failed#:#failed###10 10 2006 new variable
-assessment#:#certificate_pageheight#:#Page Height###10 10 2006 new variable
-assessment#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
-assessment#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
-assessment#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
-assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
-assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###10 10 2006 new variable
-assessment#:#exp_type_certificate#:#Certificate (PDF)###10 10 2006 new variable
-assessment#:#certificate_ph_introduction#:#The following placeholders may be used###11 10 2006 new variable
-assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###11 10 2006 new variable
-assessment#:#certificate_ph_firstname#:#First name of the user###11 10 2006 new variable
-assessment#:#certificate_ph_lastname#:#Last name of the user###11 10 2006 new variable
-assessment#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###11 10 2006 new variable
-assessment#:#certificate_ph_resultpoints#:#Reached points of the user###11 10 2006 new variable
-assessment#:#certificate_ph_resultpercent#:#Reached percentage of the user###11 10 2006 new variable
-assessment#:#certificate_ph_maxpoints#:#Maximum available points###11 10 2006 new variable
-assessment#:#certificate_ph_markshort#:#Users mark (short version)###11 10 2006 new variable
-assessment#:#certificate_ph_marklong#:#Users mark (official version)###11 10 2006 new variable
-assessment#:#certificate_ph_testtitle#:#Title of the test###11 10 2006 new variable
-assessment#:#certificate_ph_date#:#Actual date###11 10 2006 new variable
-assessment#:#certificate_ph_datetime#:#Actual date and time###11 10 2006 new variable
-assessment#:#certificate_visibility#:#Visibility###11 10 2006 new variable
-assessment#:#certificate_visibility_introduction#:#The button to offer users this certificate is###11 10 2006 new variable
-assessment#:#certificate_visibility_always#:#Always visible###11 10 2006 new variable
-assessment#:#certificate_visibility_never#:#Not visible###11 10 2006 new variable
-assessment#:#certificate_visibility_passed#:#Only visible is a user passed the test###11 10 2006 new variable
-assessment#:#certificate_top#:#Top###13 10 2006 new variable
-assessment#:#certificate_right#:#Right###13 10 2006 new variable
-assessment#:#certificate_bottom#:#Bottom###13 10 2006 new variable
-assessment#:#certificate_left#:#Left###13 10 2006 new variable
-assessment#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable
-assessment#:#passed_only#:#Passed tests only###13 10 2006 new variable
-assessment#:#certificate_export#:#Export Certificate###19 10 2006 new variable
-assessment#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
-assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###19 10 2006 new variable
-assessment#:#general#:#General###25 10 2006 new variable
-assessment#:#output#:#Output###25 10 2006 new variable
-assessment#:#scoring#:#Scoring###25 10 2006 new variable
-content#:#cont_disable_html#:#HTML inactive###25 10 2006 new variable
-content#:#cont_enable_html#:#HTML active###25 10 2006 new variable
-trac#:#trac_anonymized_info_short#:#(Anonymized)###25 10 2006 new variable
-barometer#:#barometer_add#:#Add new Feedbac###25 10 2006 new variable
-assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
-assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable
-assessment#:#tst_postpone#:#Postpone Questions###26 10 2006 new variable
-assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test###26 10 2006 new variable
-assessment#:#tst_random_selection#:#Random Selection of Questions###26 10 2006 new variable
-assessment#:#tst_show_cancel#:#Show Suspend Test Option###26 10 2006 new variable
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution###26 10 2006 new variable
-assessment#:#tst_use_previous_answers#:#Use Previous Answers###26 10 2006 new variable
-assessment#:#tst_use_previous_answers_description#:#If checked, the previous answers of a participant will be used as default values in future test passes###26 10 2006 new variable
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes###26 10 2006 new variable
-common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###26 10 2006 new variable
-common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
-pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###26 10 2006 new variable
-assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by the test author###12 11 2006 new variable
-assessment#:#manscoring#:#Manual Scoring###12 11 2006 new variable
-assessment#:#manscoring_select_user#:#Please select a participant to set the score manually###12 11 2006 new variable
-assessment#:#not_yet_accessed#:#Not yet accessed###12 11 2006 new variable
-assessment#:#participants_data#:#Participants Data###12 11 2006 new variable
-assessment#:#participants_invitation#:#Fixed Participants###12 11 2006 new variable
-assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.###12 11 2006 new variable
-assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.###12 11 2006 new variable
-assessment#:#remove_as_participant#:#Remove as Fixed Participant###12 11 2006 new variable
-assessment#:#search_results#:#Search Results###12 11 2006 new variable
-assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test###12 11 2006 new variable
-assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!###12 11 2006 new variable
-assessment#:#tst_change_points_for_question#:#Change the Points for the Answer###12 11 2006 new variable
-assessment#:#tst_count_correct_solutions_description#:#Choose this mode to score only correct question solutions of participants. Incorrect or partial solutions will be scored with 0 points###12 11 2006 new variable
-assessment#:#tst_count_partial_solutions_description#:#Choose this mode to score question solutions dependend to the answers of the participants. This is the standard behaviour. Even partial solutions will be scored###12 11 2006 new variable
-assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers###12 11 2006 new variable
-assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! ###12 11 2006 new variable
-assessment#:#tst_fixed_participants_disable#:#Confirm Status Change###12 11 2006 new variable
-assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? ###12 11 2006 new variable
-assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question###12 11 2006 new variable
-assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback###12 11 2006 new variable
-assessment#:#tst_instant_feedback_answer_specific_desc#:#If you check this option, answer-specific feedback will be shown after a participant answered a question###12 11 2006 new variable
-assessment#:#tst_instant_feedback_results#:#Show Results (only points)###12 11 2006 new variable
-assessment#:#tst_instant_feedback_results_desc#:#If you check this option, the reached points will be shown after a participant answered a question###12 11 2006 new variable
-assessment#:#tst_instant_feedback_solution#:#Show Solutions###12 11 2006 new variable
-assessment#:#tst_instant_feedback_solution_desc#:#If you check this option, the correct solution will be shown after a participant answered a question###12 11 2006 new variable
-assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_list_of_answers#:#List of Answers###12 11 2006 new variable
-assessment#:#tst_list_of_questions_yes#:#Yes, and additional###12 11 2006 new variable
-assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question###12 11 2006 new variable
-assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test###12 11 2006 new variable
-assessment#:#tst_participants_no#:#Nobody has started the test right now!###12 11 2006 new variable
-assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!###12 11 2006 new variable
-assessment#:#tst_pass_best_pass_description#:#Choose this mode to score the best test pass of a participant. This only works if more than one test pass is allowed.###12 11 2006 new variable
-assessment#:#tst_pass_last_pass_description#:#Choose this mode to score the last test pass of a participant. This only works if more than one test pass is allowed.###12 11 2006 new variable
-assessment#:#tst_passes#:#Test Passes###12 11 2006 new variable
-assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s###12 11 2006 new variable
-assessment#:#tst_results_access#:#Access to Test Results###12 11 2006 new variable
-assessment#:#tst_results_access_finished#:#After Test is Finished###12 11 2006 new variable
-assessment#:#tst_results_access_finished_descr#:#Choose this mode to offer test participants access to their test results when they have finished the test ###12 11 2006 new variable
-assessment#:#tst_results_access_date#:#Date###12 11 2006 new variable
-assessment#:#tst_results_access_date_descr#:#Choose this mode to offer test participants access to their test results when the specified date and time has been reached###12 11 2006 new variable
-assessment#:#tst_results_access_always#:#Always###12 11 2006 new variable
-assessment#:#tst_results_access_always_descr#:#Choose this mode to offer test participants always an access to their test results###12 11 2006 new variable
-assessment#:#tst_results_overview#:#Pass Overview of the Test Results ###12 11 2006 new variable
-assessment#:#tst_results_presentation#:#Test Results Presentation###12 11 2006 new variable
-assessment#:#tst_score_cut_question_description#:#Choose this mode to set the results for each question to zero points that a participant answers with a result of less than zero points ###12 11 2006 new variable
-assessment#:#tst_score_cut_test_description#:#Choose this mode to set the test results to zero points, if the sum of all question results is less than zero points###12 11 2006 new variable
-assessment#:#tst_score_mcmr_use_scoring_system_description#:#Choose this mode to give the defined score for multiple choice questions with multiple response, even if a participant did not check one of the answers###12 11 2006 new variable
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_description#:#Choose this mode to score 0 points for multiple choice questions with multiple response when no answer was checked by a participant###12 11 2006 new variable
-assessment#:#tst_list_of_answers_show#:#Show List of Answers###12 11 2006 new variable
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes###12 11 2006 new variable
-assessment#:#tst_start_new_test_pass#:#Start New Test Pass###12 11 2006 new variable
-common#:#proceed#:#Proceed###12 11 2006 new variable
-survey#:#evaluation_access_off#:#Off###12 11 2006 new variable
-chat#:#chat_server_ssl_settings#:#SSL Settings###12 11 2006 new variable
-chat#:#chat_server_ssl_port#:#Server SSL Port###12 11 2006 new variable
-chat#:#chat_server_ssl_active#:#SSL active###12 11 2006 new variable
-chat#:#chat_add_ssl_port#:#Please add the server SSL port###12 11 2006 new variable
-survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.###15 11 2006 new variable
-survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)###15 11 2006 new variable
-survey#:#metric_subtype_description_interval#:#Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.###15 11 2006 new variable
-survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.###15 11 2006 new variable
-survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.###15 11 2006 new variable
-survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###15 11 2006 new variable
-survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###15 11 2006 new variable
-survey#:#survey_use_start_button#:#You must enter the survey using the start button!###15 11 2006 new variable
+crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.
+assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###18 11 2006 new variable
+assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###18 11 2006 new variable
+assessment#:#passed_only#:#Passed tests only###18 11 2006 new variable
+assessment#:#question_summary#:#Question Summary###18 11 2006 new variable
+assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###18 11 2006 new variable
+assessment#:#tst_instant_verification#:#Instant verification###18 11 2006 new variable
+common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###18 11 2006 new variable
+common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###18 11 2006 new variable
+content#:#cont_disable_html#:#HTML inactive###18 11 2006 new variable
+content#:#cont_enable_html#:#HTML active###18 11 2006 new variable
+content#:#cont_text_tex#:#LaTeX Code:###18 11 2006 new variable
+pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###18 11 2006 new variable
+survey#:#survey_use_start_button#:#You must enter the survey using the start button!###18 11 2006 new variable
+survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###18 11 2006 new variable
+crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:###18 11 2006 new variable
+grp#:#crs_add_grouping#:#Add Membership Limitation###18 11 2006 new variable
+grp#:#crs_grp_enter_title#:#Please fill out all required fields.###18 11 2006 new variable
+grp#:#crs_grp_added_grouping#:#Added new membership limitation.###18 11 2006 new variable
+grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###18 11 2006 new variable
+grp#:#crs_grouping_deleted#:#Deleted membership limitation.###18 11 2006 new variable
+crs#:#crs_grp_added_grouping#:#Added new membership limitation.###18 11 2006 new variable
+common#:#edit_grouping#:#Edit Membership Limitation###18 11 2006 new variable
+crs#:#grouping_change_assignment#:#Change Assignment###18 11 2006 new variable
+common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.###18 11 2006 new variable
+grp#:#crs_grp_table_assigned_courses#:#Assigned Groups###18 11 2006 new variable
+grp#:#grouping_change_assignment#:#Change Assignment###18 11 2006 new variable
+grp#:#crs_grp_assign_crs#:#Assignment of Groups###18 11 2006 new variable
+grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###18 11 2006 new variable
+grp#:#crs_grouping_select_one#:#Please select one membership limitation.###18 11 2006 new variable
+grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###18 11 2006 new variable
+trac#:#trac_anonymized_info_short#:#(Anonymized)###18 11 2006 new variable
+barometer#:#barometer_add#:#Add new Feedback###18 11 2006 new variable
