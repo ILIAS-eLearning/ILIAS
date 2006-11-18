@@ -161,6 +161,11 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));
 		}
+		else if (!ilObjFileBasedLMAccess::_determineStartUrl($this->obj_id))
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("no_start_file"));
+		}
 
 		if ($rbacsystem->checkAccess($this->ref_id, "write"))
 		{

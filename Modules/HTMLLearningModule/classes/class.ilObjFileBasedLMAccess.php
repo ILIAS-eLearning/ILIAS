@@ -59,8 +59,9 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		{
 			case "view":
 
-				if(!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+				if ((!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id)
+					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id)) ||
+					ilObjFileBasedLMAccess::_determineStartUrl($a_obj_id) == "")
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
@@ -124,6 +125,36 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return ilUtil::yn2tf($rec["online"]);
+	}
+
+	/**
+	* check wether learning module is online
+	*/
+	function _determineStartUrl($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_based_lm WHERE id = '".$a_id."'";
+		$set = $ilDB->query($q);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$start_file = $rec["startfile"];
+		$dir = ilUtil::getWebspaceDir()."/lm_data/lm_".$a_id;
+		
+		if (($start_file != "") &&
+			(@is_file($dir."/".$start_file)))
+		{
+			return "./".$dir."/".$start_file;
+		}
+		else if (@is_file($dir."/index.html"))
+		{
+			return "./".$dir."/index.html";
+		}
+		else if (@is_file($dir."/index.htm"))
+		{
+			return "./".$dir."/index.htm";
+		}
+
+		return "";
 	}
 
 	/**
