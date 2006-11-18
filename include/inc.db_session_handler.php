@@ -89,7 +89,7 @@ function db_session_write($session_id, $data)
 		 "VALUES('".ilUtil::prepareDBString($session_id)."','".$expires."','".ilUtil::prepareDBString($data).
 		 "','".time()."','".$_SESSION["AccountId"]."')";
 	$ilDB->query($q);	 
-		 
+
 	return true;
 }
 

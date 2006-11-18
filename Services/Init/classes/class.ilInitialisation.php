@@ -410,6 +410,10 @@ class ilInitialisation
 		{
 			die("Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini");
 		}
+		
+		// this needs to be done to use objects ($ilDB) in db_session_write handler
+		// otherwise objects will be destroyed befort session_write (since PHP 5.0.5)
+		register_shutdown_function("session_write_close");
 	}
 	
 	/**
