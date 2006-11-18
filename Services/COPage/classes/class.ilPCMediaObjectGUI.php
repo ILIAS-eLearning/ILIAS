@@ -73,7 +73,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html",
+			"./Services/MediaObjects");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 

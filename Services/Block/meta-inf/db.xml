@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<db app_item="Block">
+<step entity="Block">CREATE table `il_block`
+(
+	`id` int not null auto_increment primary key,
+	`type` varchar(20),
+	`title` varchar(200)
+);</step><step entity="Column">CREATE table `il_column`
+(
+	`id` int not null auto_increment primary key
+);</step><step entity="Column">CREATE table `il_column`
+(
+	`id` int not null auto_increment primary key
+);</step></db>
