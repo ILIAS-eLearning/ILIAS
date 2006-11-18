@@ -215,6 +215,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 /**
+* Checks for write access and returns to the parent object
+*
+* Checks for write access and returns to the parent object
+*
+* @access public
+*/
+  function handleWriteAccess()
+	{
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
+			// allow only write access
+			sendInfo($this->lng->txt("cannot_edit_survey"), TRUE);
+			$this->ctrl->redirect($this, "infoScreen");
+		}
+	}
+	
+/**
 * Creates the properties form for the survey object
 *
 * Creates the properties form for the survey object
@@ -223,8 +241,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
   function propertiesObject()
   {
-		global $rbacsystem;
-
+		$this->handleWriteAccess();
 		include_once "./classes/class.ilUtil.php";
 		$this->lng->loadLanguageModule("jscalendar");
 		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
@@ -293,15 +310,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Modules/Survey/js/calendar/calendar.css");
 		$this->tpl->parseCurrentBlock();
 
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
-		{
-			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_survey"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
-		}
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_properties.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -369,11 +377,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHECKED_STATUS", " checked=\"checked\"");
 		}
-    if ($rbacsystem->checkAccess("write", $this->ref_id)) 
-		{
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		}
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TEXT_SHOW_QUESTIONTITLES", $this->lng->txt("svy_show_questiontitles"));
 		if ($this->object->getShowQuestionTitles())
 		{
@@ -1674,6 +1679,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function questionsObject() 
 	{
+		$this->handleWriteAccess();
+
 		global $rbacsystem;
 
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
@@ -2267,6 +2274,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 
+		$concat = ($_POST["concatenation"]) ? $_POST["concatenation"] : "or";
+		$searchfor = ($_POST["search_for"]) ? $_POST["search_for"] : array("usr");
+		
 		if (strcmp($this->ctrl->getCmd(), "searchInvitation") == 0)
 		{
 			if (is_array($_POST["search_for"]))
@@ -2276,8 +2286,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					include_once "./classes/class.ilSearch.php";
 					$search =& new ilSearch($ilUser->id);
 					$search->setSearchString($_POST["search_term"]);
-					$search->setCombination($_POST["concatenation"]);
-					$search->setSearchFor($_POST["search_for"]);
+					$search->setCombination($concat);
+					$search->setSearchFor($searchfor);
 					$search->setSearchType("new");
 					if($search->validate($message))
 					{
@@ -2348,26 +2358,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
 				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
 				$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
-				if (is_array($_POST["search_for"]))
+				if (is_array($searchfor))
 				{
-					if (in_array("usr", $_POST["search_for"]))
+					if (in_array("usr", $searchfor))
 					{
 						$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
 					}
-					if (in_array("grp", $_POST["search_for"]))
+					if (in_array("grp", $searchfor))
 					{
 						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
 					}
-					if (in_array("role", $_POST["search_for"]))
+					if (in_array("role", $searchfor))
 					{
 						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
 					}
 				}
-				if (strcmp($_POST["concatenation"], "and") == 0)
+				if (strcmp($concat, "and") == 0)
 				{
 					$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
 				}
-				else if (strcmp($_POST["concatenation"], "or") == 0)
+				else if (strcmp($concat, "or") == 0)
 				{
 					$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
 				}
@@ -2528,17 +2538,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	function maintenanceObject()
 	{
-		global $rbacsystem;
+		$this->handleWriteAccess();
 
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
-		{
-			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_survey"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			include_once "./classes/class.ilUtil.php";
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
-		}
+		global $rbacsystem;
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
@@ -2604,6 +2606,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function statusObject()
 	{
+		$this->handleWriteAccess();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_status.html", "Modules/Survey");
 		if (!$this->object->isComplete())
 		{
@@ -2648,20 +2651,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function exportObject()
 	{
+		$this->handleWriteAccess();
+
 		global $tree;
 		global $rbacsystem;
-
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
-		{
-			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_survey"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			include_once "./classes/class.ilUtil.php";
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			return;
-		}
-
-		//$this->setTabs();
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -3138,20 +3131,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function codesObject()
 	{
+		$this->handleWriteAccess();
+
 		global $rbacsystem;
 		global $ilUser;
 		
 		$default_lang = $ilUser->getPref("survey_code_language");
-		
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
-		{
-			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_survey"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			include_once "./classes/class.ilUtil.php";
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			return;
-		}
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", true);
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
@@ -3531,6 +3516,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function constraintsObject()
 	{
+		$this->handleWriteAccess();
+
 		global $rbacsystem;
 		
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
@@ -3972,7 +3959,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 array("constraints", "constraintStep1", "constraintStep2",
 				 "constraintStep3", "constraintsAdd", "createConstraints"),
 				 "");
-				 
+		}
+		if (($ilAccess->checkAccess("write", "", $this->ref_id)) || ($ilAccess->checkAccess("invite", "", $this->ref_id)))
+		{
 			// invite
 			$tabs_gui->addTarget("invite_participants",
 				 $this->ctrl->getLinkTarget($this, "invite"),
@@ -3980,7 +3969,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 "cancelInvitationStatus", "searchInvitation", "inviteUserGroup",
 				 "disinviteUserGroup"),
 				 "");
-	
+		}
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
 			// export
 			$tabs_gui->addTarget("export",
 				 $this->ctrl->getLinkTarget($this,'export'),
