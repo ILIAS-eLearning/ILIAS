@@ -49,6 +49,10 @@ class ilContainer extends ilObject
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
 	
+	/**
+	* Create directory for the container.
+	* It is <webspace_dir>/container_data.
+	*/
 	function createContainerDirectory()
 	{
 		$webspace_dir = ilUtil::getWebspaceDir();
@@ -64,26 +68,54 @@ class ilContainer extends ilObject
 		}
 	}
 	
+	/**
+	* Get the container directory.
+	*
+	* @return	string	container directory
+	*/
 	function getContainerDirectory()
 	{
 		return $this->_getContainerDirectory($this->getId());
 	}
 	
+	/**
+	* Get the container directory.
+	*
+	* @return	string	container directory
+	*/
 	function _getContainerDirectory($a_id)
 	{
 		return ilUtil::getWebspaceDir()."/container_data/obj_".$a_id;
 	}
 	
+	/**
+	* Get path for big icon.
+	*
+	* @return	string	icon path
+	*/
 	function getBigIconPath()
 	{
 		return ilContainer::_lookupIconPath($this->getId(), "big");
 	}
 
+	/**
+	* Get path for small icon
+	*
+	* @return	string	icon path
+	*/
 	function getSmallIconPath()
 	{
 		return ilContainer::_lookupIconPath($this->getId(), "small");
 	}
 	
+	/**
+	* Lookup a container setting.
+	*
+	* @param	int			container id
+	* @param	string		setting keyword 
+	*
+	* @return	string		setting value
+	*/
 	function _lookupContainerSetting($a_id, $a_keyword)
 	{
 		global $ilDB;
@@ -210,6 +242,24 @@ class ilContainer extends ilObject
 		@unlink($small_file_name);
 		ilContainer::_writeContainerSetting($this->getId(), "icon_small", 0);
 	}
+	
+	/**
+	* Get right column
+	*
+	* @return	object		column object
+	*/ 
+	function getFirstColumn()
+	{
+		$col_id = ilContainer::_lookupContainerSetting($this->getId(), "first_column");
+		if ($col_id > 0)
+		{
+			include_once("./Services/Blocks/class.ilBlockColumn.php");
+			$block_column = new ilBlockColumn($col_id);
+			return $block_column;
+		}
+		return false;
+	}
+	
 	
 } // END class.ilObjCategory
 ?>
