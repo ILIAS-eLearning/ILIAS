@@ -219,12 +219,18 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		// view link
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",
-			"ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-		$this->tpl->parseCurrentBlock();
+		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
+		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
+
+		if ($startfile != "")
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",
+				"ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// lm properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.fblm_properties.html",
@@ -243,7 +249,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		// start file
 		$this->tpl->setVariable("TXT_START_FILE", $this->lng->txt("cont_startfile"));
-		$this->tpl->setVariable("VAL_START_FILE", $this->object->getStartFile());
+		if ($startfile != "")
+		{
+			$this->tpl->setVariable("VAL_START_FILE", basename($startfile));
+		}
+		else
+		{
+			$this->tpl->setVariable("VAL_START_FILE", $this->lng->txt("no_start_file"));
+		}
 		$this->tpl->setVariable("TXT_SET_START_FILE", $this->lng->txt("cont_set_start_file"));
 		$this->tpl->setVariable("LINK_SET_START_FILE",
 			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
@@ -682,20 +695,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		// Track access
 		include_once "Services/Tracking/classes/class.ilTracking.php";
 		ilTracking::_trackAccess($this->object->getId(),'htlm');
-
-		$dir = $this->object->getDataDirectory();
-		if (($this->object->getStartFile() != "") &&
-			(@is_file($dir."/".$this->object->getStartFile())))
+		
+		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
+		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
+		if ($startfile != "")
 		{
-			ilUtil::redirect("./".$dir."/".$this->object->getStartFile());
-		}
-		else if (@is_file($dir."/index.html"))
-		{
-			ilUtil::redirect("./".$dir."/index.html");
-		}
-		else if (@is_file($dir."/index.htm"))
-		{
-			ilUtil::redirect("./".$dir."/index.htm");
+			ilUtil::redirect($startfile);
 		}
 	}
 
