@@ -106,6 +106,7 @@ class ilDBx extends PEAR
 		if ($this->isMysql4_1OrHigher())
 		{
 			$this->query("SET NAMES utf8");
+			$this->query("SET SESSION SQL_MODE = ''");
 		}
 
 		return true;
