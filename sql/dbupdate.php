@@ -11709,3 +11709,9 @@ UPDATE tst_tests SET show_summary = '7' WHERE test_type_fi = '4';
 UPDATE tst_tests SET show_solution_printview = '1' WHERE test_type_fi = '4';
 <#843>
 INSERT INTO settings (module, keyword, value) VALUES ('assessment', 'assessment_manual_scoring', '8');
+<#844>
+ALTER TABLE `tst_tests` ADD `title_output` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0' AFTER `hide_title_points`;
+<#845>
+UPDATE tst_tests SET title_output = '1' WHERE hide_title_points = '1';
+<#846>
+ALTER TABLE `tst_tests` DROP `hide_title_points`;

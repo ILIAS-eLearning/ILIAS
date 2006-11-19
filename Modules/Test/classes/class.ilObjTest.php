@@ -179,13 +179,16 @@ class ilObjTest extends ilObject
 	var $use_previous_answers;
 
 /**
-* Tells ILIAS to hide the maximum points of a question in the question title
+* Tells ILIAS how to deal with the test titles
 * 
-* Tells ILIAS to hide the maximum points of a question in the question title
+* Tells ILIAS how to deal with the test titles. The test title will be shown with
+* the full title and the points when title_output is 0. When title_output is 1,
+* the available points will be hidden and when title_output is 2, the full title
+* will be hidden.
 *
 * @var integer
 */
-  var $hide_title_points;
+  var $title_output;
 
 /**
 * The maximum processing time as hh:mm:ss string
@@ -401,7 +404,7 @@ class ilObjTest extends ilObject
 		$this->reporting_date = "";
 		$this->nr_of_tries = 0;
 		$this->use_previous_answers = 1;
-		$this->hide_title_points = 0;
+		$this->title_output = 0;
 		$this->starting_time = "";
 		$this->ending_time = "";
 		$this->processing_time = "00:00:00";
@@ -1168,7 +1171,7 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, score_reporting, instant_verification, anonymity, show_cancel, fixed_participants, nr_of_tries, use_previous_answers, hide_title_points, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, score_reporting, instant_verification, anonymity, show_cancel, fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
@@ -1180,7 +1183,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getFixedParticipants() . ""),
 				$ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
-				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
+				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
 				$ilDB->quote($this->processing_time . ""),
 				$ilDB->quote("$this->enable_processing_time"),
 				$ilDB->quote($this->reporting_date . ""),
@@ -1235,7 +1238,7 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, hide_title_points = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->getAuthor() . ""), 
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
         $ilDB->quote($this->sequence_settings . ""), 
@@ -1246,7 +1249,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getFixedParticipants() . ""),
         $ilDB->quote(sprintf("%d", $this->nr_of_tries) . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
-				$ilDB->quote(sprintf("%d", $this->getHideTitlePoints() . "")),
+				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
         $ilDB->quote($this->processing_time . ""),
 				$ilDB->quote("$this->enable_processing_time"),
         $ilDB->quote($this->reporting_date . ""), 
@@ -1719,7 +1722,7 @@ class ilObjTest extends ilObject
 				$this->fixed_participants = $data->fixed_participants;
 				$this->nr_of_tries = $data->nr_of_tries;
 				$this->setUsePreviousAnswers($data->use_previous_answers);
-				$this->setHideTitlePoints($data->hide_title_points);
+				$this->setTitleOutput($data->title_output);
 				$this->processing_time = $data->processing_time;
 				$this->enable_processing_time = $data->enable_processing_time;
 				$this->reporting_date = $data->reporting_date;
@@ -2220,41 +2223,41 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Returns true if the maximum points of a question should be hidden in the question title
+* Returns the value of the title_output status
 * 
-* Returns true if the maximum points of a question should be hidden in the question title
+* Returns the value of the title_output status
 *
-* @return integer 1 if the maximum points in the question title should be hidden
+* @return integer 0 for full title, 1 for title without points, 2 for no title
 * @access public
-* @see $hide_title_points
+* @see $title_output
 */
-  function getHideTitlePoints() 
+  function getTitleOutput() 
 	{
-    return $this->hide_title_points;
+    return $this->title_output;
   }
 
 /**
-* Returns true if the maximum points of a question should be hidden in the question title
+* Returns the value of the title_output status
 * 
-* Returns true if the maximum points of a question should be hidden in the question title
+* Returns the value of the title_output status
 *
-* @param integer The test id
-* @return integer 1 if the maximum points in the question title should be hidden
+* @param integer $active_id The active id of a user
+* @return integer 0 for full title, 1 for title without points, 2 for no title
 * @access public
-* @see $hide_title_points
+* @see $title_output
 */
-  function _getHideTitlePoints($active_id) 
+  function _getTitleOutput($active_id) 
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT tst_tests.hide_title_points FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+		$query = sprintf("SELECT tst_tests.title_output FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
 			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			return $row["hide_title_points"];
+			return $row["title_output"];
 		}
 		return 0;
   }
@@ -2414,23 +2417,27 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Sets the status of the visibility of the maximum points in the question title
+* Sets the status of the title output
 * 
-* Sets the status of the visibility of the maximum points in the question title
+* Sets the status of the title output
 **
-* @param integer $hide_title_points 1 if the maximum points should be hidden in the question title
+* @param integer $title_output 0 for full title, 1 for title without points, 2 for no title
 * @access public
-* @see $hide_title_points
+* @see $title_output
 */
-  function setHideTitlePoints($hide_title_points = 0) 
+  function setTitleOutput($title_output = 0) 
 	{
-		if ($hide_title_points)
+		switch ($title_output)
 		{
-			$this->hide_title_points = 1;
-		}
-		else
-		{
-			$this->hide_title_points = 0;
+			case 1:
+				$this->title_output = 1;
+				break;
+			case 2:
+				$this->title_output = 2;
+				break;
+			default:
+				$this->title_output = 0;
+				break;
 		}
   }
 
@@ -5096,7 +5103,10 @@ class ilObjTest extends ilObject
 					$this->setUsePreviousAnswers($metadata["entry"]);
 					break;
 				case "hide_title_points":
-					$this->setHideTitlePoints($metadata["entry"]);
+					$this->setTitleOutput($metadata["entry"]);
+					break;
+				case "title_output":
+					$this->setTitleOutput($metadata["entry"]);
 					break;
 				case "random_test":
 					$this->setRandomTest($metadata["entry"]);
@@ -5329,8 +5339,8 @@ class ilObjTest extends ilObject
 
 		// hide title points
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "hide_title_points");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getHideTitlePoints()));
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "title_output");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getTitleOutput()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// random test
@@ -5926,7 +5936,7 @@ class ilObjTest extends ilObject
       $counter++;
     }
 		$newObj->setAuthor($original->getAuthor());
-		$newObj->setHideTitlePoints($original->getHideTitlePoints());
+		$newObj->setTitleOutput($original->getTitleOutput());
 		$newObj->setPassScoring($original->getPassScoring());
 		$newObj->setTitle($original->getTitle() . " ($counter)");
 		$newObj->setDescription($original->getDescription());
