@@ -49,7 +49,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 */
   function ilTestEvaluationGUI($a_object)
   {
+		global $ilAccess;
+		
 		parent::ilTestServiceGUI($a_object);
+		if ($ilAccess->checkAccess("tst_statistics", "", $this->ref_id))
+		{
+			sendInfo($this->lng->txt("cannot_edit_test"), TRUE);
+			$this->ctrl->redirectByClass("ilobjtest", "infoScreen");
+		}
 	}
 	
 	function eval_stat()
@@ -164,8 +171,640 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template->setVariable("CHECKED_DISTANCEMEDIAN", $user_settings["distancemedian"]);
 		return $template->get();
 	}
+
+	function &getHeaderNames(&$eval_statistical_settings)
+	{
+		$headernames = array();
+		if ($this->object->getAnonymity())
+		{
+			array_push($headernames, $this->lng->txt("counter"));
+		}
+		else
+		{
+			array_push($headernames, $this->lng->txt("name"));
+			array_push($headernames, $this->lng->txt("login"));
+		}
+		if ($eval_statistical_settings["resultspoints"]) 
+		{
+			array_push($headernames, $this->lng->txt("tst_reached_points"));
+		}
+		if ($eval_statistical_settings["resultsmarks"]) 
+		{
+			array_push($headernames, $this->lng->txt("tst_mark"));
+			if ($this->object->ects_output)
+			{
+				array_push($headernames, $this->lng->txt("ects_grade"));
+			}
+		}
+		if ($eval_statistical_settings["qworkedthrough"]) 
+		{
+			array_push($headernames, $this->lng->txt("tst_answered_questions"));
+		}
+/*		if ($eval_statistical_settings["pworkedthrough"]) 
+		{
+			array_push($headernames, $this->lng->txt("percentage"));
+		}*/
+		if ($eval_statistical_settings["timeofwork"]) 
+		{
+			array_push($headernames, $this->lng->txt("working_time"));
+		}
+		array_push($headernames, $this->lng->txt("detailed_evaluation"));
+		/*if ($eval_statistical_settings["atimeofwork"]) 
+		{
+			array_push($headernames, $this->lng->txt("working_time_avg"));
+		}
+		if ($eval_statistical_settings["firstvisit"]) 
+		{
+			array_push($headernames, $this->lng->txt("tst_stat_result_firstvisit"));
+		}
+		if ($eval_statistical_settings["lastvisit"]) 
+		{
+			array_push($headernames, $this->lng->txt("tst_stat_result_lastvisit"));
+		}
+		if ($eval_statistical_settings["distancemedian"]) 
+		{
+			array_push($headernames, $this->lng->txt("tst_stat_result_mark_median"));
+			array_push($headernames, $this->lng->txt("tst_stat_result_rank_participant"));
+			array_push($headernames, $this->lng->txt("tst_stat_result_rank_median"));
+			array_push($headernames, $this->lng->txt("tst_stat_result_total_participants"));
+			array_push($headernames, $this->lng->txt("tst_stat_result_median"));
+		}*/
+		return $headernames;
+	}
 	
-	function evalSelectedUsers($all_users = 0)
+	function &getHeaderVars(&$eval_statistical_settings)
+	{
+		$headervars = array();
+		if ($this->object->getAnonymity())
+		{
+			array_push($headervars, "counter");
+		}
+		else
+		{
+			array_push($headervars, "name");
+			array_push($headervars, "login");
+		}
+		if ($eval_statistical_settings["resultspoints"]) 
+		{
+			array_push($headervars, "resultspoints");
+		}
+		if ($eval_statistical_settings["resultsmarks"]) 
+		{
+		array_push($headervars, "resultsmarks");
+			if ($this->object->ects_output)
+			{
+				array_push($headervars, "ects_grade");
+			}
+		}
+		if ($eval_statistical_settings["qworkedthrough"]) 
+		{
+			array_push($headervars, "qworkedthrough");
+		}
+		/*if ($eval_statistical_settings["pworkedthrough"]) 
+		{
+			array_push($headervars, "pworkedthrough");
+		}*/
+		if ($eval_statistical_settings["timeofwork"]) 
+		{
+			array_push($headervars, "timeofwork");
+		}
+		array_push($headervars, "");
+		/*if ($eval_statistical_settings["atimeofwork"]) 
+		{
+			array_push($headervars, "atimeofwork");
+		}
+		if ($eval_statistical_settings["firstvisit"]) 
+		{
+			array_push($headervars, "firstvisit");
+		}
+		if ($eval_statistical_settings["lastvisit"]) 
+		{
+			array_push($headervars, "lastvisit");
+		}
+		if ($eval_statistical_settings["distancemedian"]) 
+		{
+			array_push($headervars, "markmedian");
+			array_push($headervars, "rankparticipant");
+			array_push($headervars, "rankmedian");
+			array_push($headervars, "totalparticipants");
+			array_push($headervars, "resultmedian");
+		}*/
+		return $headervars;
+	}
+	
+	function &getEvaluationRow($active_id, &$eval_statistical_settings, &$eval_data, $user_data, $counter, $total_participants, $rank_participant, $rank_median, $median)
+	{
+		$evaluationrow = array();
+		if ($this->object->getAnonymity())
+		{
+			array_push($evaluationrow, $counter);
+		}
+		else
+		{
+			array_push($evaluationrow, $user_data["name"]);
+			array_push($evaluationrow, "[" . $user_data["login"] . "]");
+		}
+		if ($eval_statistical_settings["resultspoints"]) 
+		{
+			array_push($evaluationrow, $eval_data["resultspoints"] . " " . strtolower($this->lng->txt("of")) . " " . $eval_data["maxpoints"]);
+		}
+		if ($eval_statistical_settings["resultsmarks"]) 
+		{
+			array_push($evaluationrow, $eval_data["resultsmarks"]);
+			if ($this->object->ects_output)
+			{
+				$mark_ects = $this->object->getECTSGrade($eval_data["resultspoints"],$eval_data["maxpoints"]);
+				array_push($evaluationrow, $mark_ects);
+			}
+		}
+		if ($eval_statistical_settings["qworkedthrough"]) 
+		{
+			array_push($evaluationrow, $eval_data["qworkedthrough"] . " " . strtolower($this->lng->txt("of")) . " " . $eval_data["qmax"] . " (" . sprintf("%2.2f", $eval_data["pworkedthrough"] * 100.0) . " %" . ")");
+		}
+		/*if ($eval_statistical_settings["pworkedthrough"]) 
+		{
+			array_push($evaluationrow, sprintf("%2.2f", $eval_data["pworkedthrough"] * 100.0) . " %");
+		}*/
+		if ($eval_statistical_settings["timeofwork"]) 
+		{
+			$time = $eval_data["timeofwork"];
+			$time_seconds = $time;
+			$time_hours    = floor($time_seconds/3600);
+			$time_seconds -= $time_hours   * 3600;
+			$time_minutes  = floor($time_seconds/60);
+			$time_seconds -= $time_minutes * 60;
+			array_push($evaluationrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+		}
+		$this->ctrl->setParameter($this, "active_id", $active_id);
+		$href = $this->ctrl->getLinkTarget($this, "detailedEvaluation");
+		$detailed_evaluation = $this->lng->txt("detailed_evaluation_show");
+		array_push($evaluationrow, "<a class=\"il_ContainerItemCommand\" href=\"$href\">$detailed_evaluation</a>");
+		/*if ($eval_statistical_settings["atimeofwork"]) 
+		{
+			$time = $eval_data["atimeofwork"];
+			$time_seconds = $time;
+			$time_hours    = floor($time_seconds/3600);
+			$time_seconds -= $time_hours   * 3600;
+			$time_minutes  = floor($time_seconds/60);
+			$time_seconds -= $time_minutes * 60;
+			array_push($evaluationrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+		}
+		if ($eval_statistical_settings["firstvisit"]) 
+		{
+			$time = date(
+				$this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], 
+				mktime(
+					$eval_data["firstvisit"]["hours"], 
+					$eval_data["firstvisit"]["minutes"], 
+					$eval_data["firstvisit"]["seconds"], 
+					$eval_data["firstvisit"]["mon"], 
+					$eval_data["firstvisit"]["mday"], 
+					$eval_data["firstvisit"]["year"]
+				)
+			);
+			array_push($evaluationrow, $time);
+		}
+		if ($eval_statistical_settings["lastvisit"]) 
+		{
+			$time = date(
+				$this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], 
+				mktime(
+					$eval_data["lastvisit"]["hours"], 
+					$eval_data["lastvisit"]["minutes"], 
+					$eval_data["lastvisit"]["seconds"], 
+					$eval_data["lastvisit"]["mon"], 
+					$eval_data["lastvisit"]["mday"], 
+					$eval_data["lastvisit"]["year"]
+				)
+			);
+			array_push($evaluationrow, $time);
+		}
+		if ($eval_statistical_settings["distancemedian"]) 
+		{
+			if ($eval_data["maxpoints"] == 0)
+			{
+				$pct = 0;
+			}
+			else
+			{
+				$pct = ($median / $eval_data["maxpoints"]) * 100.0;
+			}
+			$mark = $this->object->mark_schema->getMatchingMark($pct);
+			$mark_short_name = "";
+			if ($mark)
+			{
+				$mark_short_name = $mark->getShortName();
+			}
+			array_push($evaluationrow, $mark_short_name);
+			array_push($evaluationrow, $rank_participant);
+			array_push($evaluationrow, $rank_median);
+			array_push($evaluationrow, $total_participants);
+			array_push($evaluationrow, $median);
+		}*/
+		return $evaluationrow;
+	}
+	
+	/**
+	* Creates the evaluation output for the test
+	*
+	* Creates HTML output with the list of the results of all test participants.
+	*
+	* @access public
+	*/
+	function outEvaluation()
+	{
+		global $ilUser;
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
+
+		$filter = 0;
+		$filtertext = "";
+		$passedonly = FALSE;
+		// set filter was pressed
+		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("set_filter")) == 0)
+		{
+			$filter = 1;
+			$filtertext = $_POST["userfilter"];
+			if ($_POST["passedonly"] == 1)
+			{
+				$passedonly = TRUE;
+			}
+			// save the filter for later usage
+			$ilUser->writePref("tst_stat_filter_passed_" . $this->object->getTestId(), ($passedonly) ? 1 : 0);
+			$ilUser->writePref("tst_stat_filter_text_" . $this->object->getTestId(), $filtertext);
+		}
+		else
+		{
+			if (array_key_exists("g_userfilter", $_GET))
+			{
+				$filtertext = $_GET["g_userfilter"];
+			}
+			else
+			{
+				// try to read the filter from the users preferences
+				$pref = $ilUser->getPref("tst_stat_filter_text_" . $this->object->getTestId());
+				if ($pref !== FALSE)
+				{
+					$filtertext = $pref;
+				}
+			}
+			if (array_key_exists("g_passedonly", $_GET))
+			{
+				if ($_GET["g_passedonly"] == 1)
+				{
+					$passedonly = TRUE;
+				}
+			}
+			else
+			{
+				// try to read the filter from the users preferences
+				$pref = $ilUser->getPref("tst_stat_filter_passed_" . $this->object->getTestId());
+				if ($pref !== FALSE)
+				{
+					$passedonly = ($pref) ? TRUE : FALSE;
+				}
+			}
+		}
+		// reset filter was pressed
+		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("reset_filter")) == 0)
+		{
+			$filter = 1;
+			$filtertext = "";
+			$passedonly = FALSE;
+			$ilUser->deletePref("tst_stat_filter_passed_" . $this->object->getTestId());
+			$ilUser->deletePref("tst_stat_filter_text_" . $this->object->getTestId());
+		}
+		if (strlen($filtertext))
+		{
+			$this->ctrl->setParameter($this, "g_userfilter", $filtertext);
+		}
+		if ($passedonly)
+		{
+			$this->ctrl->setParameter($this, "g_passedonly", "1");
+		}
+
+		$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
+		$eval_statistical_settings = array(
+			"resultspoints" => $user_settings["resultspoints"],
+			"resultsmarks" => $user_settings["resultsmarks"],
+			"qworkedthrough" => $user_settings["qworkedthrough"],
+			"pworkedthrough" => $user_settings["pworkedthrough"],
+			"timeofwork" => $user_settings["timeofwork"],
+			"atimeofwork" => $user_settings["atimeofwork"],
+			"firstvisit" => $user_settings["firstvisit"],
+			"lastvisit" => $user_settings["lastvisit"],
+			"distancemedian" => $user_settings["distancemedian"]
+		);
+		$total_users =& $this->object->getParticipants();
+
+		$question_stat = array();
+		$evaluation_array = array();
+		foreach ($total_users as $key => $value) 
+		{
+			// receive array with statistical information on the test for a specific user
+			$stat_eval =& $this->object->evalStatistical($key);
+			foreach ($stat_eval as $sindex => $sarray)
+			{
+				if (preg_match("/\d+/", $sindex))
+				{
+					$qt = $sarray["title"];
+					$qt = preg_replace("/<.*?>/", "", $qt);
+					if (!array_key_exists($sarray["qid"], $question_stat))
+					{
+						$question_stat[$sarray["qid"]] = array("max" => 0, "reached" => 0, "title" => $qt);
+					}
+					$question_stat[$sarray["qid"]]["single_max"] = $sarray["max"];
+					$question_stat[$sarray["qid"]]["max"] += $sarray["max"];
+					$question_stat[$sarray["qid"]]["reached"] += $sarray["reached"];
+				}
+			}
+			$evaluation_array[$key] = $stat_eval;
+		}
+		include_once "./classes/class.ilStatistics.php";
+		// calculate the median
+		$median_array = array();
+		foreach ($evaluation_array as $key => $value)
+		{
+			array_push($median_array, $value["resultspoints"]);
+		}
+		include_once "./classes/class.ilStatistics.php";
+		$statistics = new ilStatistics();
+		$statistics->setData($median_array);
+		$median = $statistics->median();
+		
+		$offset = ($_GET["offset"]) ? $_GET["offset"] : 0;
+		$orderdirection = ($_GET["sort_order"]) ? $_GET["sort_order"] : "asc";
+		$defaultOrderColumn = "name";
+		if ($this->object->getAnonymity()) $defaultOrderColumn = "counter";
+		$ordercolumn = ($_GET["sort_by"]) ? $_GET["sort_by"] : $defaultOrderColumn;
+		
+		$maxentries = $ilUser->getPref("hits_per_page");
+		if ($maxentries < 1)
+		{
+			$maxentries = 9999;
+		}
+		
+		include_once("./classes/class.ilTableGUI.php");
+		$table = new ilTableGUI(0, FALSE);
+		$table->setTitle($this->lng->txt("participants_evaluation"));
+		$table->setHeaderNames($this->getHeaderNames($eval_statistical_settings));
+
+		$table->enable("auto_sort");
+		$table->enable("sort");
+		//$table->disable("sort");
+		//$table->disable("auto_sort");
+		// $table->disable("title");
+		$table->setLimit($maxentries);
+
+		$header_params = $this->ctrl->getParameterArray($this, "outEvaluation");
+		$header_vars = $this->getHeaderVars($eval_statistical_settings);
+		$table->setHeaderVars($header_vars, $header_params);
+		$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
+
+		$table->setOffset($offset);
+		$table->setMaxCount(count($total_users));
+		$table->setOrderColumn($ordercolumn);
+		$table->setOrderDirection($orderdirection);
+
+		$survey_codes = array();
+		$counter = 1;
+		foreach ($total_users as $key => $value) 
+		{
+			$remove = FALSE;
+			if (strlen($filtertext))
+			{
+				$username = $value["name"];
+				if (!@preg_match("/$filtertext/i", $username))
+				{
+					$remove = TRUE;
+				}
+			}
+			if ($passedonly)
+			{
+				if ($evaluation_array[$key]["passed"] == 0)
+				{
+					$remove = TRUE;
+				}
+			}
+			if (!$remove)
+			{
+				$stat_eval =& $this->object->evalStatistical($key);
+				$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
+				$rank_median = $statistics->rank_median();
+				$tablerow =& $this->getEvaluationRow($key, $eval_statistical_settings, $stat_eval, $value, $counter, count($evaluation_array), $rank_participant, $rank_median, $median);
+				array_push($survey_codes, $tablerow);
+				$counter++;
+			}
+		}
+		$table->setData($survey_codes);
+		$tableoutput = $table->render();
+		$this->tpl->setVariable("EVALUATION_DATA", $tableoutput);
+
+		$template = new ilTemplate("tpl.il_as_tst_evaluation_filter.html", TRUE, TRUE, "Modules/Test");
+		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("TEXT_FILTER_USERS", $this->lng->txt("filter_users"));
+		$template->setVariable("TEXT_FILTER", $this->lng->txt("set_filter"));
+		$template->setVariable("TEXT_RESET_FILTER", $this->lng->txt("reset_filter"));
+		$template->setVariable("TEXT_PASSEDONLY", $this->lng->txt("passed_only"));
+		if ($passedonly)
+		{
+			$template->setVariable("CHECKED_PASSEDONLY", " checked=\"checked\"");
+		}
+		if (strlen($filtertext) > 0)
+		{
+			$template->setVariable("VALUE_FILTER_USERS", " value=\"" . $filtertext . "\"");
+		}
+		$filteroutput = $template->get();
+		$this->tpl->setVariable("EVALUATION_FILTER", $filteroutput);
+		
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Creates the detailed evaluation output for a selected participant
+	*
+	* Creates the detailed evaluation output for a selected participant
+	*
+	* @access public
+	*/
+	function detailedEvaluation()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation_details.html", "Modules/Test");
+
+		$active_id = $_GET["active_id"];
+		if (strlen($active_id) == 0)
+		{
+			sendInfo($this->lng->txt("detailed_evaluation_missing_active_id"), TRUE);
+			$this->ctrl->redirect($this, "outEvaluation");
+		}
+		
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+
+		$total_users =& $this->object->getParticipants();
+
+		$question_stat = array();
+		$evaluation_array = array();
+		foreach ($total_users as $key => $value) 
+		{
+			// receive array with statistical information on the test for a specific user
+			$stat_eval =& $this->object->evalStatistical($key);
+			foreach ($stat_eval as $sindex => $sarray)
+			{
+				if (preg_match("/\d+/", $sindex))
+				{
+					$qt = $sarray["title"];
+					$qt = preg_replace("/<.*?>/", "", $qt);
+					if (!array_key_exists($sarray["qid"], $question_stat))
+					{
+						$question_stat[$sarray["qid"]] = array("max" => 0, "reached" => 0, "title" => $qt);
+					}
+					$question_stat[$sarray["qid"]]["single_max"] = $sarray["max"];
+					$question_stat[$sarray["qid"]]["max"] += $sarray["max"];
+					$question_stat[$sarray["qid"]]["reached"] += $sarray["reached"];
+				}
+			}
+			$evaluation_array[$key] = $stat_eval;
+		}
+		include_once "./classes/class.ilStatistics.php";
+		// calculate the median
+		$median_array = array();
+		foreach ($evaluation_array as $key => $value)
+		{
+			array_push($median_array, $value["resultspoints"]);
+		}
+		include_once "./classes/class.ilStatistics.php";
+		$statistics = new ilStatistics();
+		$statistics->setData($median_array);
+		$median = $statistics->median();
+		
+		$stat_eval =& $this->object->evalStatistical($active_id);
+		$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
+		$rank_median = $statistics->rank_median();
+		
+		$this->tpl->setVariable("HEADING_DETAILED_EVALUATION", sprintf($this->lng->txt("detailed_evaluation_for"), $total_users[$active_id]["fullname"]));
+		$this->tpl->setVariable("STATISTICAL_DATA", $this->lng->txt("statistical_data"));
+		$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
+		$this->tpl->setVariable("TXT_TIMEOFWORK", $this->lng->txt("tst_stat_result_timeofwork"));
+		$this->tpl->setVariable("TXT_ATIMEOFWORK", $this->lng->txt("tst_stat_result_atimeofwork"));
+		$this->tpl->setVariable("TXT_FIRSTVISIT", $this->lng->txt("tst_stat_result_firstvisit"));
+		$this->tpl->setVariable("TXT_LASTVISIT", $this->lng->txt("tst_stat_result_lastvisit"));
+		$this->tpl->setVariable("TXT_RESULTSPOINTS", $this->lng->txt("tst_stat_result_resultspoints"));
+		$this->tpl->setVariable("TXT_RESULTSMARKS", $this->lng->txt("tst_stat_result_resultsmarks"));
+		$this->tpl->setVariable("TXT_MARK_MEDIAN", $this->lng->txt("tst_stat_result_mark_median"));
+		$this->tpl->setVariable("TXT_RANK_PARTICIPANT", $this->lng->txt("tst_stat_result_rank_participant"));
+		$this->tpl->setVariable("TXT_RANK_MEDIAN", $this->lng->txt("tst_stat_result_rank_median"));
+		$this->tpl->setVariable("TXT_TOTAL_PARTICIPANTS", $this->lng->txt("tst_stat_result_total_participants"));
+		$this->tpl->setVariable("TXT_RESULT_MEDIAN", $this->lng->txt("tst_stat_result_median"));
+		$this->tpl->setVariable("VALUE_QWORKEDTHROUGH", $stat_eval["qworkedthrough"] . " " . strtolower($this->lng->txt("of")) . " " . $stat_eval["qmax"] . " (" . sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0) . " %" . ")");
+		$time = $stat_eval["timeofwork"];
+		$time_seconds = $time;
+		$time_hours    = floor($time_seconds/3600);
+		$time_seconds -= $time_hours   * 3600;
+		$time_minutes  = floor($time_seconds/60);
+		$time_seconds -= $time_minutes * 60;
+		$this->tpl->setVariable("VALUE_TIMEOFWORK", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+		$time = $stat_eval["atimeofwork"];
+		$time_seconds = $time;
+		$time_hours    = floor($time_seconds/3600);
+		$time_seconds -= $time_hours   * 3600;
+		$time_minutes  = floor($time_seconds/60);
+		$time_seconds -= $time_minutes * 60;
+		$this->tpl->setVariable("VALUE_ATIMEOFWORK", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+		$this->tpl->setVariable("VALUE_FIRSTVISIT", 
+			date(
+				$this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], 
+				mktime(
+					$stat_eval["firstvisit"]["hours"], 
+					$stat_eval["firstvisit"]["minutes"], 
+					$stat_eval["firstvisit"]["seconds"], 
+					$stat_eval["firstvisit"]["mon"], 
+					$stat_eval["firstvisit"]["mday"], 
+					$stat_eval["firstvisit"]["year"]
+				)
+			)
+		);
+		$this->tpl->setVariable("VALUE_LASTVISIT",
+			date(
+				$this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], 
+				mktime(
+					$stat_eval["lastvisit"]["hours"], 
+					$stat_eval["lastvisit"]["minutes"], 
+					$stat_eval["lastvisit"]["seconds"], 
+					$stat_eval["lastvisit"]["mon"], 
+					$stat_eval["lastvisit"]["mday"], 
+					$stat_eval["lastvisit"]["year"]
+				)
+			)
+		);
+		
+		if (($stat_eval["maxpoints"]) > 0)
+		{
+			$reachedpercent = $stat_eval["resultspoints"] / $stat_eval["maxpoints"];
+		}
+		else
+		{
+			$reachedpercent = 0;
+		}
+		$this->tpl->setVariable("VALUE_RESULTSPOINTS", $stat_eval["resultspoints"] . " " . strtolower($this->lng->txt("of")) . " " . $stat_eval["maxpoints"] . " (" . sprintf("%2.2f", $reachedpercent * 100.0) . " %" . ")");
+		$this->tpl->setVariable("VALUE_RESULTSMARKS", $stat_eval["resultsmarks"]);
+		if ($this->object->ects_output)
+		{
+			$this->tpl->setVariable("TXT_ECTS", $this->lng->txt("ects_grade"));
+			$this->tpl->setVariable("VALUE_ECTS", $this->object->getECTSGrade($stat_eval["resultspoints"],$stat_eval["maxpoints"]));
+		}
+		if ($stat_eval["maxpoints"] == 0)
+		{
+			$pct = 0;
+		}
+		else
+		{
+			$pct = ($median / $stat_eval["maxpoints"]) * 100.0;
+		}
+		$mark = $this->object->mark_schema->getMatchingMark($pct);
+		$mark_short_name = "";
+		if ($mark)
+		{
+			$mark_short_name = $mark->getShortName();
+		}
+		$this->tpl->setVariable("VALUE_MARK_MEDIAN", $mark_short_name);
+		$this->tpl->setVariable("VALUE_RANK_PARTICIPANT", $statistics->rank($stat_eval["resultspoints"]));
+		$this->tpl->setVariable("VALUE_RANK_MEDIAN", $statistics->rank_median());
+		$this->tpl->setVariable("VALUE_TOTAL_PARTICIPANTS", count($median_array));
+		$this->tpl->setVariable("VALUE_RESULT_MEDIAN", $median);
+		$this->tpl->setVariable("TEXT_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "outEvaluation"));
+		$reached_pass = $this->object->_getPass($active_id);
+		for ($pass = 0; $pass <= $reached_pass; $pass++)
+		{
+			$finishdate = $this->object->getPassFinishDate($active_id, $pass);
+			if ($finishdate > 0)
+			{
+				$this->tpl->setCurrentBlock("question_header");
+				$this->tpl->setVariable("TXT_QUESTION_DATA", sprintf($this->lng->txt("tst_eval_question_points"), $pass+1));
+				$this->tpl->parseCurrentBlock();
+				$result_array =& $this->object->getTestResult($active_id, $pass);
+				foreach ($result_array as $index => $question_data)
+				{
+					if (is_numeric($index))
+					{
+						$this->tpl->setCurrentBlock("question_row");
+						$this->tpl->setVariable("QUESTION_TITLE", $question_data["title"]);
+						$this->tpl->setVariable("QUESTION_POINTS", $question_data["reached"] . " " . strtolower($this->lng->txt("of")) . " " . $question_data["max"] . "(" . $question_data["percent"] . ")");
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				$this->tpl->touchBlock("question_stats");
+			}
+		}
+	}
+	
+	function evalAllUsers()
 	{
 		global $ilUser;
 
@@ -929,11 +1568,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("SPECS", $this->getStatisticalSettingsOutput());
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("PAGETITLE", $this->object->getTitle());
-	}
-	
-	function evalAllUsers()
-	{
-		$this->evalSelectedUsers(1);
 	}
 	
 	function eval_a()

@@ -1050,7 +1050,10 @@ class ilCtrl
 
 		foreach ($params as $par => $value)
 		{
-			$a_str = ilUtil::appendUrlParameterString($a_str, $par."=".$value);
+			if (strlen($value))
+			{
+				$a_str = ilUtil::appendUrlParameterString($a_str, $par."=".$value);
+			}
 		}
 
 		return $a_str;
