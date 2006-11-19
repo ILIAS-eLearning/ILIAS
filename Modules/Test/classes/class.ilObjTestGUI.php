@@ -154,28 +154,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "infoScreen");
 	}
 	
-	function eval_aObject()
+	function outEvaluationObject()
 	{
-		include_once "./Modules/Test/classes/class.ilTestEvaluationGUI.php";
-
-		$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-		$this->ctrl->redirect($evaluation_gui, "eval_a");
-	}
-
-	function evalAllUsersObject()
-	{
-		include_once "./Modules/Test/classes/class.ilTestEvaluationGUI.php";
-
-		$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-		$evaluation_gui->evalAllUsers();
-	}
-
-	function evalStatSelectedObject()
-	{
-		include_once "./Modules/Test/classes/class.ilTestEvaluationGUI.php";
-
-		$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-		$this->ctrl->redirect($evaluation_gui, "evalStatSelected");
+		$this->ctrl->redirectByClass("iltestevaluationgui", "outEvaluation");
 	}
 
 	/**
@@ -4857,14 +4838,14 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		// user results subtab
 		$ilTabs->addSubTabTarget("eval_all_users",
-			 $this->ctrl->getLinkTarget($this, "evalAllUsers"),
-			 array("evalAllUsers", "evalUserDetail", "passDetails",
+			 $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
+			 array("outEvaluation", "detailedEvaluation", "evalUserDetail", "passDetails",
 			 	"outStatisticsResultsOverview", "statisticsPassDetails")
 			 , "");
 	
 		// aggregated results subtab
 		$ilTabs->addSubTabTarget("tst_results_aggregated",
-			$this->ctrl->getLinkTarget($this, "eval_a"),
+			$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "eval_a"),
 			array("eval_a"),
 			"", "");
 	
@@ -5015,7 +4996,8 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 			case "statistics":
 			case "eval_a":
-			case "evalAllUsers":
+			case "detailedEvaluation":
+			case "outEvaluation":
 			case "evalUserDetail":
 			case "passDetails":
 			case "outStatisticsResultsOverview":
@@ -5115,14 +5097,20 @@ class ilObjTestGUI extends ilObjectGUI
 						 array("manscoring", "selectParticipant", "setPointsManual"),
 						 "");
 				}
+			}
 
+			if ($ilAccess->checkAccess("tst_statistics", "", $this->ref_id))
+			{
 				// statistics tab
 				$tabs_gui->addTarget("statistics",
-					 $this->ctrl->getLinkTarget($this, "evalAllUsers"),
-					 array("statistics", "evalAllUsers", "eval_a", "evalUserDetail",
+					 $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
+					 array("statistics", "outEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
 					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails")
 					 , "");
-
+			}
+			
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))
+			{
 				// learning progress
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 				if(ilObjUserTracking::_enabledLearningProgress() and $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id))

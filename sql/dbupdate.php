@@ -11715,3 +11715,40 @@ ALTER TABLE `tst_tests` ADD `title_output` ENUM( '0', '1', '2' ) NOT NULL DEFAUL
 UPDATE tst_tests SET title_output = '1' WHERE hide_title_points = '1';
 <#846>
 ALTER TABLE `tst_tests` DROP `hide_title_points`;
+<#847>
+# add operation 'tst_statistics' for tests
+INSERT INTO rbac_operations (ops_id,operation,class,description) VALUES ('56', 'tst_statistics', 'object','view the statistics of a test');
+<#848>
+<?php
+// retrieve test object data
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='tst'";
+$result = $ilDB->query($query);
+$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+$typ_id = $row->obj_id;
+
+// append operation assignment to test object definition
+// 56: tst_statistics
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','56')";
+$ilDB->query($query);
+?>
+<#849>
+<?php
+	$query = "SELECT rbac_pa.* FROM rbac_pa, object_data, object_reference WHERE object_data.type = 'tst' AND object_reference.obj_id = object_data.obj_id AND rbac_pa.ref_id = object_reference.ref_id";
+	$result = $ilDB->query($query);
+	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$ops = unserialize(stripslashes($row["ops_id"]));
+		if (in_array(4, $ops))
+		{
+			array_push($ops, 56);
+			$ops_id = addslashes(serialize($ops));
+			$query = sprintf("REPLACE INTO rbac_pa (rol_id,ops_id,ref_id) VALUES (%s, %s, %s)",
+				$ilDB->quote($row["rol_id"] . ""),
+				$ilDB->quote($ops_id . ""),
+				$ilDB->quote($row["ref_id"] . "")
+			);
+			$ilDB->query($query);
+		}
+	}
+?>
+

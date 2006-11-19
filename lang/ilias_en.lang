@@ -254,6 +254,10 @@ assessment#:#description_maxchars#:#If nothing entered the maximum number of cha
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
+assessment#:#detailed_evaluation#:#Detailed Evaluation
+assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s
+assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!
+assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation
 assessment#:#detailed_output#:#Detailed Output
 assessment#:#detailed_output_printview#:#Detailed Output with Question Printviews
 assessment#:#detailed_output_solutions#:#Detailed Output with Question Solutions
@@ -431,6 +435,7 @@ assessment#:#output#:#Output
 assessment#:#output_mode#:#Output Mode
 assessment#:#participants#:#Participants
 assessment#:#participants_data#:#Participants Data
+assessment#:#participants_evaluation#:#Evaluation for all Test Participants
 assessment#:#participants_invitation#:#Invite Fixed Participants
 assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.
 assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.
@@ -438,6 +443,7 @@ assessment#:#pass#:#Pass
 assessment#:#passed_official#:#passed
 assessment#:#passed_only#:#Passed Tests Only
 assessment#:#passed_short#:#passed
+assessment#:#percentage#:#Percentage
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
 assessment#:#percentile#:#Percentile
 assessment#:#picture#:#Picture
@@ -604,6 +610,7 @@ assessment#:#tst_delete_results#:#Reset Test
 assessment#:#tst_ending_time#:#Ending Time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
+assessment#:#tst_eval_question_points#:#Question Results for Pass %s
 assessment#:#tst_eval_results_by_pass#:#List of Answers for Pass %s
 assessment#:#tst_eval_show_answer#:#Show Answer
 assessment#:#tst_eval_total_finished#:#Total Finished Tests (users who submitted the test with the finish test button)
@@ -869,6 +876,7 @@ assessment#:#width#:#Width
 assessment#:#with_order#:#with order
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Working Time
+assessment#:#working_time_avg#:#Avg. Working Time
 assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
 barometer#:#anonymous#:#Anonymous
 barometer#:#barometer_title#:#Feedback
@@ -3422,6 +3430,7 @@ common#:#tst_new#:#New test
 common#:#tst_no_content#:#No tests available
 common#:#tst_read#:#Read access to Test
 common#:#tst_run#:#Run
+common#:#tst_tst_statistics#:#Access to Test Statistics
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#You are not supposed to take this test.

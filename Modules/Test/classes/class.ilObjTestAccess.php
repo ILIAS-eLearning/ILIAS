@@ -149,7 +149,7 @@ class ilObjTestAccess extends ilObjectAccess
 			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "tst_run",
 				"default" => true),
 			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
-			array("permission" => "write", "cmd" => "evalAllUsers", "lang_var" => "tst_statistical_evaluation")
+			array("permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation")
 		);
 		
 		return $commands;

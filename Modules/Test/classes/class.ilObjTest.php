@@ -4108,6 +4108,58 @@ class ilObjTest extends ilObject
 * 
 * Returns all persons who started the test
 *
+* @return arrary The active ids, names and logins of the persons who started the test
+* @access public
+*/
+	function &getParticipants()
+	{
+		global $ilDB;
+		$q = sprintf("SELECT tst_active.active_id, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname ASC",
+			$ilDB->quote($this->getTestId())
+		);
+		$result = $ilDB->query($q);
+		$persons_array = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$name = $this->lng->txt("unknown");
+			$login = "";
+			if (!$this->getAnonymity())
+			{
+				if (strlen($row["firstname"].$row["lastname"].$row["title"]) == 0)
+				{
+					$name = $this->lng->txt("deleted_user");
+					$fullname = $this->lng->txt("deleted_user");
+					$login = $this->lng->txt("unknown");
+				}
+				else
+				{
+					$login = $row["login"];
+					if ($row["user_fi"] == ANONYMOUS_USER_ID)
+					{
+						$name = $this->lng->txt("unknown");
+						$fullname = $this->lng->txt("unknown");
+					}
+					else
+					{
+						$name = trim($row["lastname"] . ", " . $row["firstname"] . " " .  $row["title"]);
+						$fullname = trim($row["title"] . " " . $row["firstname"] . " " .  $row["lastname"]);
+					}
+				}
+			}
+			$persons_array[$row["active_id"]] = array(
+				"name" => $name,
+				"fullname" => $fullname,
+				"login" => $login
+			);
+		}
+		return $persons_array;
+	}
+	
+/**
+* Returns all persons who started the test
+* 
+* Returns all persons who started the test
+*
 * @return arrary The user id's and names of the persons who started the test
 * @access public
 */
