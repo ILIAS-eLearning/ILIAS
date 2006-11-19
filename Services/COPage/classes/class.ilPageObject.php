@@ -648,7 +648,10 @@ class ilPageObject
 					(substr($target, 0, 4) == "il__"))
 				{
 					$mob_id = $id_arr[count($id_arr) - 1];
-					$mob_ids[$mob_id] = $mob_id;
+					if (ilObject::_exists($mob_id))
+					{
+						$mob_ids[$mob_id] = $mob_id;
+					}
 				}
 			}
 		}
