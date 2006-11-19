@@ -93,11 +93,12 @@
 	</td>
 </tr>
 <tr>
-  <td class="option"><label for="chb_hide_title_points">{TEXT_HIDE_TITLE_POINTS}</label></td>
+  <td class="option"><label for="chb_hide_title_points">{TEXT_TITLE_OUTPUT}</label></td>
   <td class="option_value">
-		<input type="checkbox" name="chb_hide_title_points" id="chb_hide_title_points" value="1"{CHECKED_HIDE_TITLE_POINTS} />
-		<br />
-		<label for="chb_hide_title_points"><div class="il_Description_no_margin">{TEXT_HIDE_TITLE_POINTS_DESCRIPTION}</div></label>
+		<input type="radio" name="title_output" id="title_output_0" value="0"{CHECKED_TITLE_OUTPUT_FULL} /> <label for="title_output_0">{TEXT_TITLE_OUTPUT_FULL}</label><br />
+		<input type="radio" name="title_output" id="title_output_1" value="1"{CHECKED_TITLE_OUTPUT_HIDE_POINTS} /> <label for="title_output_1">{TEXT_TITLE_OUTPUT_HIDE_POINTS}</label><br />
+		<input type="radio" name="title_output" id="title_output_2" value="2"{CHECKED_TITLE_OUTPUT_NO_TITLE} /> <label for="title_output_2">{TEXT_TITLE_OUTPUT_NO_TITLE}</label><br />
+		<div class="il_Description_no_margin">{TEXT_TITLE_OUTPUT_DESCRIPTION}</div>
 	</td>
 </tr>
 <tr>

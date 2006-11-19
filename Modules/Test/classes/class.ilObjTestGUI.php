@@ -963,14 +963,8 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$data["use_previous_answers"] = "0";
 		}
-		if ($_POST["chb_hide_title_points"])
-		{
-			$data["hide_title_points"] = "1";
-		}
-		else
-		{
-			$data["hide_title_points"] = "0";
-		}
+
+		$data["title_output"] = $_POST["title_output"];
 
 		if ($data["enable_processing_time"])
 		{
@@ -1008,7 +1002,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
 		$this->object->setUsePreviousAnswers($data["use_previous_answers"]);
-		$this->object->setHideTitlePoints($data["hide_title_points"]);
+		$this->object->setTitleOutput($data["title_output"]);
 		$this->object->setShowCancel($data["show_cancel"]);
 		
 		if ($this->object->isRandomTest())
@@ -1479,7 +1473,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["sequence_settings"] = $this->object->getSequenceSettings();
 		$data["nr_of_tries"] = $this->object->getNrOfTries();
 		$data["use_previous_answers"] = $this->object->getUsePreviousAnswers();
-		$data["hide_title_points"] = $this->object->getHideTitlePoints();
+		$data["title_output"] = $this->object->getTitleOutput();
 		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
 		$data["processing_time"] = $this->object->getProcessingTime();
 		$data["random_test"] = $this->object->isRandomTest();
@@ -1615,11 +1609,23 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS", $this->lng->txt("tst_use_previous_answers"));
 		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION", $this->lng->txt("tst_use_previous_answers_description"));
-		$this->tpl->setVariable("TEXT_HIDE_TITLE_POINTS", $this->lng->txt("tst_hide_title_points"));
-		$this->tpl->setVariable("TEXT_HIDE_TITLE_POINTS_DESCRIPTION", $this->lng->txt("tst_hide_title_points_description"));
-		if ($data["hide_title_points"] == 1)
+		$this->tpl->setVariable("TEXT_TITLE_OUTPUT", $this->lng->txt("tst_title_output"));
+		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_FULL", $this->lng->txt("tst_title_output_full"));
+		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_HIDE_POINTS", $this->lng->txt("tst_title_output_hide_points"));
+		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_NO_TITLE", $this->lng->txt("tst_title_output_no_title"));
+		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_DESCRIPTION", $this->lng->txt("tst_title_output_description"));
+		switch ($data["title_output"])
 		{
-			$this->tpl->setVariable("CHECKED_HIDE_TITLE_POINTS", " checked=\"checked\"");
+			case 1:
+				$this->tpl->setVariable("CHECKED_TITLE_OUTPUT_HIDE_POINTS", " checked=\"checked\"");
+				break;
+			case 2:
+				$this->tpl->setVariable("CHECKED_TITLE_OUTPUT_NO_TITLE", " checked=\"checked\"");
+				break;
+			case 0:
+			default:
+				$this->tpl->setVariable("CHECKED_TITLE_OUTPUT_FULL", " checked=\"checked\"");
+				break;
 		}
 		if ($data["random_test"])
 		{

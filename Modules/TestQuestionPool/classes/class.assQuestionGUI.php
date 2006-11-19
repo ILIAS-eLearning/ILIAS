@@ -296,22 +296,30 @@ class assQuestionGUI
 			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
 
-		$maxpoints = "";
-		if (!ilObjTest::_getHideTitlePoints($active_id))
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		$title_output = ilObjTest::_getTitleOutput($active_id);
+		switch ($title_output)
 		{
-			$maxpoints = $this->object->getMaximumPoints();
-			if ($maxpoints == 1)
-			{
-				$maxpoints = " (".$maxpoints." ".$this->lng->txt("point").")";
-			}
-			else
-			{
-				$maxpoints = " (".$maxpoints." ".$this->lng->txt("points").")";
-			}
+			case 1:
+				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed);
+				break;
+			case 2:
+				break;
+			case 0:
+			default:
+				$maxpoints = $this->object->getMaximumPoints();
+				if ($maxpoints == 1)
+				{
+					$maxpoints = " (".$maxpoints." ".$this->lng->txt("point").")";
+				}
+				else
+				{
+					$maxpoints = " (".$maxpoints." ".$this->lng->txt("points").")";
+				}
+				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints);
+				break;
 		}
-		$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints);
 		$presentation = $page_gui->presentation();
 		if (strlen($maxpoints)) $presentation = str_replace($maxpoints, "<em>$maxpoints</em>", $presentation);
 		return $presentation;

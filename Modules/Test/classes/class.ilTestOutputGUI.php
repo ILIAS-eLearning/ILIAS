@@ -1559,7 +1559,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				{
 					$this->tpl->setVariable("VALUE_POSTPONED", $this->lng->txt("postponed"));
 				}
-				if (!$this->object->getHideTitlePoints())
+				if (!$this->object->getTitleOutput())
 				{
 					$this->tpl->setVariable("VALUE_QUESTION_POINTS", $value["points"]."&nbsp;".$this->lng->txt("points_short"));
 				}
@@ -1571,7 +1571,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("QUESTION_ACTION","actions");
 		$this->tpl->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_qst_order"));
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-		if (!$this->object->getHideTitlePoints())
+		if (!$this->object->getTitleOutput())
 		{
 			$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
 		}
