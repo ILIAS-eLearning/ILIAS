@@ -197,18 +197,29 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			default:
+			
+				// check visible permission
 				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp'))
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
-				
+
+				// check read permission
 				if ((!$this->getCreationMode()
 					&& !$rbacsystem->checkAccess('read',$this->object->getRefId()) && $cmd != 'infoScreen')
 					|| $cmd == 'join')
 				{
-					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+					// no join permission -> redirect to info screen
+					if (!$rbacsystem->checkAccess('join',$this->object->getRefId()))
+					{
+						$this->ctrl->redirect($this, "infoScreen");
+					}
+					else	// no read -> show registration
+					{
+						$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+					}
 				}
-				
+
 				if(!$cmd)
 				{
 					$cmd = 'view';
