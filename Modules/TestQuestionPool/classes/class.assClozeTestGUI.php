@@ -154,6 +154,55 @@ class assClozeTestGUI extends assQuestionGUI
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
 				$this->tpl->parseCurrentBlock();
 			}
+			if ($gap[0]->getClozeType() == CLOZE_NUMERIC)
+			{
+				$this->tpl->setCurrentBlock("numericgap_value");
+				foreach ($gap as $key => $value)
+				{
+					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
+					$this->tpl->setVariable("VALUE_TEXT_GAP", ilUtil::prepareFormOutput($value->getAnswertext()));
+					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
+					$this->tpl->setVariable("VALUE_GAP", $i);
+					$this->tpl->setVariable("VALUE_INDEX", $key);
+					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
+					$this->tpl->setVariable("VALUE_GAP", $i);
+					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+					$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", $value->getPoints());
+					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+					$this->tpl->parseCurrentBlock();
+				}
+
+				foreach ($internallinks as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("numericgap_internallink");
+					$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
+					$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("numericgap_suggested_solution");
+				$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+				if (array_key_exists($i, $this->object->suggested_solutions))
+				{
+					$solution_array = $this->object->getSuggestedSolution($i);
+					$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
+					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
+					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
+					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
+				}
+				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("numericgap");
+				$this->tpl->setVariable("ADD_TEXT_GAP", $this->lng->txt("add_gap"));
+				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
+				$this->tpl->parseCurrentBlock();
+			}
 			elseif ($gap[0]->getClozeType() == CLOZE_SELECT)
 			{
 				$this->tpl->setCurrentBlock("selectgap_value");
@@ -222,16 +271,21 @@ class assClozeTestGUI extends assQuestionGUI
 			}
 			$this->tpl->setVariable("TEXT_GAP_NAME", $name);
 			$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
-			if ($gap[0]->getClozeType() == CLOZE_SELECT)
+			switch ($gap[0]->getClozeType())
 			{
-				$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
-			}
-			else
-			{
-				$this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
+				case CLOZE_TEXT:
+					$this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
+					break;
+				case CLOZE_SELECT:
+					$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
+					break;
+				case CLOZE_NUMERIC:
+					$this->tpl->setVariable("SELECTED_NUMERIC_GAP", " selected=\"selected\"");
+					break;
 			}
 			$this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
 			$this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
+			$this->tpl->setVariable("TEXT_NUMERIC_GAP", $this->lng->txt("numeric_gap"));
 			$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
 			$this->tpl->parseCurrentBlock();
 		}

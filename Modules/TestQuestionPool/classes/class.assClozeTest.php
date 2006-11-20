@@ -1122,17 +1122,21 @@ class assClozeTest extends assQuestion
 				{
 					$type = CLOZE_SELECT;
 				}
-					else
+				else if (strcmp(strtolower($value["params"]["type"]), "numeric") == 0)
 				{
-					$type = CLOZE_TEXT;
-				}
-				if ($type == CLOZE_TEXT)
-				{
-					$default_state = 1;
+					$type = CLOZE_NUMERIC;
 				}
 				else
 				{
+					$type = CLOZE_TEXT;
+				}
+				if ($type == CLOZE_SELECT)
+				{
 					$default_state = 0;
+				}
+				else
+				{
+					$default_state = 1;
 				}
 				$name = $value["params"]["name"];
 				if (strcmp(strtolower($value["params"]["shuffle"]), "no") == 0)
@@ -1458,7 +1462,15 @@ class assClozeTest extends assQuestion
 					unset($close["gaps"][$i]["params"]["shuffle"]);
 				}
 			}
-				else
+			else if ($this->gaps[$i][0]->getClozeType() == CLOZE_NUMERIC)
+			{
+				$close["gaps"][$i]["params"]["type"] = "numeric";
+				if (array_key_exists("shuffle", $close["gaps"][$i]["params"]))
+				{
+					unset($close["gaps"][$i]["params"]["shuffle"]);
+				}
+			}
+			else
 			{
 				$close["gaps"][$i]["params"]["type"] = "select";
 				if ($this->gaps[$i][0]->getShuffle() == 0)
@@ -1639,6 +1651,24 @@ class assClozeTest extends assQuestion
 	}
 	
 	/**
+	* Returns the points for a text gap
+	*
+	* Returns the points for a text gap and compares the given solution with
+	* the entered solution using the text gap rating options.
+	*
+	* @param string $a_original The original (correct) text
+	* @param string $a_entered The text entered by the user
+	* @param integer $max_points The maximum number of points for the solution
+	* @access public
+	*/
+	function getNumericgapPoints($a_original, $a_entered, $max_points)
+	{
+		$result = 0;
+		if (doubleval($a_original) == doubleval($a_entered)) $result = $max_points;
+		return $result;
+	}
+	
+	/**
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
@@ -1686,6 +1716,16 @@ class assClozeTest extends assQuestion
 				foreach ($this->gaps[$gap_id] as $k => $v) 
 				{
 					$gotpoints = $this->getTextgapPoints($v->getAnswertext(), $value["value"], $v->getPoints());
+					if ($gotpoints > $gappoints) $gappoints = $gotpoints;
+				}
+				$points += $gappoints;
+			} 
+			else if ($this->gaps[$gap_id][0]->getClozeType() == CLOZE_NUMERIC) 
+			{
+				$gappoints = 0;
+				foreach ($this->gaps[$gap_id] as $k => $v) 
+				{
+					$gotpoints = $this->getNumericgapPoints($v->getAnswertext(), $value["value"], $v->getPoints());
 					if ($gotpoints > $gappoints) $gappoints = $gotpoints;
 				}
 				$points += $gappoints;
@@ -1907,13 +1947,18 @@ class assClozeTest extends assQuestion
 	function getColumnSize($gap)
 	{
 		$size = 0;
+		$add = 0;
+		if ($gap[0]->getClozeType() == CLOZE_NUMERIC)
+		{
+			$add = 2;
+		}
 		foreach ($gap as $answer)
 		{
 			include_once "./classes/class.ilStr.php";
 			$answertextsize = ilStr::strLen($answer->getAnswertext());
 			if ($answertextsize > $size) $size = $answertextsize;
 		}
-		return $size;
+		return $size+$add;
 	}
 	
 	/**
@@ -2010,6 +2055,30 @@ class assClozeTest extends assQuestion
 				$positive = TRUE;
 			}
 			if ($max_points == $gap[$value]->getPoints())
+			{
+				return array("best" => TRUE, "positive" => $positive);
+			}
+			else
+			{
+				return array("best" => FALSE, "positive" => $positive);
+			}
+		}
+		else if ($gap[0]->getClozeType() == CLOZE_NUMERIC)
+		{
+			$gappoints = 0;
+			$max_points = 0;
+			foreach ($gap as $k => $v) 
+			{
+				$gotpoints = $this->getNumericgapPoints($v->getAnswertext(), $value, $v->getPoints());
+				if ($gotpoints > $gappoints) $gappoints = $gotpoints;
+				if ($v->getPoints() > $max_points) $max_points = $v->getPoints();
+			}
+			$positive = FALSE;
+			if ($gappoints > 0)
+			{
+				$positive = TRUE;
+			}
+			if ($gappoints == $max_points)
 			{
 				return array("best" => TRUE, "positive" => $positive);
 			}
