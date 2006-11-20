@@ -94,7 +94,7 @@ switch($target_type)
 
 	// new implementation: ok
 	case "htlm":
-		require_once("./content/classes/class.ilObjFileBasedLMGUI.php");
+		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php");
 		ilObjFileBasedLMGUI::_goto($target_id);
 		break;
 		

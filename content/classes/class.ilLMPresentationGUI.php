@@ -2650,6 +2650,31 @@ class ilLMPresentationGUI
 				}
 			}
 			
+			// get header and footer
+			if ($this->lm->getFooterPage() > 0)
+			{
+				$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getFooterPage());
+				$page_object_gui =& new ilPageObjectGUI($page_object);
+
+				// determine target frames for internal links
+				$page_object_gui->setLinkFrame($_GET["frame"]);
+				$page_object_gui->setOutputMode("print");
+				$page_object_gui->setPresentationTitle("");
+				$footer_page = $page_object_gui->showPage();
+			}
+			if ($this->lm->getHeaderPage() > 0)
+			{
+				$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getHeaderPage());
+				$page_object_gui =& new ilPageObjectGUI($page_object);
+
+				// determine target frames for internal links
+				$page_object_gui->setLinkFrame($_GET["frame"]);
+				$page_object_gui->setOutputMode("print");
+				$page_object_gui->setPresentationTitle("");
+				$header_page = $page_object_gui->showPage();
+			}
+
+			
 			if ($activated &&
 				ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $node["obj_id"]))
 			{
@@ -2695,20 +2720,21 @@ class ilLMPresentationGUI
 					}
 
 					$this->tpl->setCurrentBlock("print_item");
+					
+					// get page
 					$page_id = $node["obj_id"];
-
 					$page_object =& new ilPageObject($this->lm->getType(), $page_id);
-					//$page_object->buildDom();
 					$page_object_gui =& new ilPageObjectGUI($page_object);
 
+					// get lm page
 					$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 					$lm_pg_obj->setLMId($this->lm->getId());
 
 					// determine target frames for internal links
 					$page_object_gui->setLinkFrame($_GET["frame"]);
 					$page_object_gui->setOutputMode("print");
-
 					$page_object_gui->setPresentationTitle("");
+					
 					if ($this->lm->getPageHeader() == IL_PAGE_TITLE)
 					{
 						$page_title = ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
