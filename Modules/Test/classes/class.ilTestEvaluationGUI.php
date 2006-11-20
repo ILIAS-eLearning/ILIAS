@@ -647,7 +647,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$this->tpl->setCurrentBlock("question_header");
 				$this->tpl->setVariable("TXT_QUESTION_DATA", sprintf($this->lng->txt("tst_eval_question_points"), $pass+1));
 				$this->tpl->parseCurrentBlock();
-				$result_array =& $this->object->getTestResult($active_id, $pass);
+				$result_array =& $this->object->getTestResult($active_id, $pass, TRUE);
 				foreach ($result_array as $index => $question_data)
 				{
 					if (is_numeric($index))
@@ -900,7 +900,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$median = $statistics->median();
 		
 		$counter = 1;
-		$row++;
 		foreach ($total_users as $key => $value) 
 		{
 			$remove = FALSE;
@@ -921,6 +920,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			if (!$remove)
 			{
+				$row++;
+				if ($this->object->isRandomTest())
+				{
+					$row++;
+				}
 				$col = 0;
 				$stat_eval =& $this->object->evalStatistical($key);
 				$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
@@ -1020,17 +1024,35 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					$finishdate = $this->object->getPassFinishDate($key, $pass);
 					if ($finishdate > 0)
 					{
-						$worksheet->write($row+$pass, $col++, ilExcelUtils::_convert_text($pass+1));
-						$result_array =& $this->object->getTestResult($key, $pass);
+						if ($pass > 0)
+						{
+							$row++;
+							if ($this->object->isRandomTest())
+							{
+								$row++;
+							}
+						}
+						$worksheet->write($row, $col++, ilExcelUtils::_convert_text($pass+1));
+						$result_array =& $this->object->getTestResult($key, $pass, TRUE);
 						foreach ($result_array as $index => $question_data)
 						{
 							if (is_numeric($index))
 							{
 								$worksheet->write($row, $col, ilExcelUtils::_convert_text($question_data["reached"]));
-								$worksheet->write(0, $col++, ilExcelUtils::_convert_text($question_data["title"]), $format_title);
+								if ($this->object->isRandomTest())
+								{
+									$worksheet->write($row-1, $col, ilExcelUtils::_convert_text($question_data["title"]), $format_title);
+								}
+								else
+								{
+									if ($pass == 0)
+									{
+										$worksheet->write(0, $col, ilExcelUtils::_convert_text($question_data["title"]), $format_title);
+									}
+								}
+								$col++;
 							}
 						}
-						$row++;
 					}
 				}
 				$counter++;

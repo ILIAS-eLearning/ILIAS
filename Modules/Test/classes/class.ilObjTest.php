@@ -3624,7 +3624,7 @@ class ilObjTest extends ilObject
 	* @return array An array containing the test results for the given user
 	* @access public
 	*/
-	function &getTestResult($active_id, $pass = NULL)
+	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE)
 	{
 		//		global $ilBench;
 		if ($this->isRandomTest())
@@ -3640,6 +3640,10 @@ class ilObjTest extends ilObject
 		$workedthrough = 0;
 		$active_object = $this->getActiveTestUserFromActiveId($active_id);
 		$user_sequence = split(",", $active_object->sequence);
+		if ($ordered_sequence)
+		{
+			sort($user_sequence, SORT_NUMERIC);
+		}
 		foreach ($user_sequence as $questionindex)
 		{
 			$value = $this->questions[$questionindex];
