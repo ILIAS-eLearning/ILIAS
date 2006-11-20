@@ -160,6 +160,32 @@ class ilClient
 	}
 
 	/**
+	* get mysql version
+	*/
+	function getMySQLVersion()
+	{
+		return mysql_get_server_info();
+	}
+
+	/**
+	* check wether current MySQL server is version 4.1.x or higher
+	* NOTE:
+	* Please also see modules/dateplaner/classes/class.ilCalInterface.php->setNames
+	* if you make any changes here.
+	*/
+	function isMysql4_1OrHigher()
+	{
+		$version = explode(".", $this->getMysqlVersion());
+		if ((int)$version[0] >= 5 ||
+			((int)$version[0] == 4 && (int)$version[1] >= 1))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
 	* connect to client database
 	* @return	boolean	true on success
 	*/
@@ -175,11 +201,17 @@ class ilClient
 		$this->setDSN();
 
 		$this->db = DB::connect($this->dsn,true);
-		
+
 		if (DB::isError($this->db))
 		{
 			$this->error = $this->db->getMessage()."! not_connected_to_db";
 			return false;
+		}
+		
+		if ($this->isMysql4_1OrHigher())
+		{
+			$this->db->query("SET NAMES utf8");
+			$this->db->query("SET SESSION SQL_MODE = ''");
 		}
 		
 		$this->db_exists = true;
