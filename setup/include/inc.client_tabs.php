@@ -59,15 +59,6 @@ $this->tpl->setVariable("TAB_TYPE",$tab == "lang" ? "tabactive" : "tabinactive")
 $this->tpl->setVariable("TAB_LINK","setup.php?cmd=lang");
 $this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("languages")));
 $this->tpl->parseCurrentBlock();
-if (DEVMODE)
-{
-	// 3rd party add-ons
-	$this->tpl->setCurrentBlock("tab");
-	$this->tpl->setVariable("TAB_TYPE",$tab == "3rdparty" ? "tabactive" : "tabinactive");
-	$this->tpl->setVariable("TAB_LINK","setup.php?cmd=3rdparty");
-	$this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("3rdparty")));
-	$this->tpl->parseCurrentBlock();
-}
 // contact data
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE",$tab == "contact" ? "tabactive" : "tabinactive");
