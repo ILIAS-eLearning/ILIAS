@@ -4122,6 +4122,7 @@ class ilObjTest extends ilObject
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$name = $this->lng->txt("unknown");
+			$fullname = $this->lng->txt("unknown");
 			$login = "";
 			if (!$this->getAnonymity())
 			{
