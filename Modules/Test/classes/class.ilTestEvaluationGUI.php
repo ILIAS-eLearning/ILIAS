@@ -172,7 +172,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		return $template->get();
 	}
 
-	function &getHeaderNames(&$eval_statistical_settings)
+	function &getHeaderNames()
 	{
 		$headernames = array();
 		if ($this->object->getAnonymity())
@@ -184,55 +184,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			array_push($headernames, $this->lng->txt("name"));
 			array_push($headernames, $this->lng->txt("login"));
 		}
-		if ($eval_statistical_settings["resultspoints"]) 
+		array_push($headernames, $this->lng->txt("tst_reached_points"));
+		array_push($headernames, $this->lng->txt("tst_mark"));
+		if ($this->object->ects_output)
 		{
-			array_push($headernames, $this->lng->txt("tst_reached_points"));
+			array_push($headernames, $this->lng->txt("ects_grade"));
 		}
-		if ($eval_statistical_settings["resultsmarks"]) 
-		{
-			array_push($headernames, $this->lng->txt("tst_mark"));
-			if ($this->object->ects_output)
-			{
-				array_push($headernames, $this->lng->txt("ects_grade"));
-			}
-		}
-		if ($eval_statistical_settings["qworkedthrough"]) 
-		{
-			array_push($headernames, $this->lng->txt("tst_answered_questions"));
-		}
-/*		if ($eval_statistical_settings["pworkedthrough"]) 
-		{
-			array_push($headernames, $this->lng->txt("percentage"));
-		}*/
-		if ($eval_statistical_settings["timeofwork"]) 
-		{
-			array_push($headernames, $this->lng->txt("working_time"));
-		}
+		array_push($headernames, $this->lng->txt("tst_answered_questions"));
+		array_push($headernames, $this->lng->txt("working_time"));
 		array_push($headernames, $this->lng->txt("detailed_evaluation"));
-		/*if ($eval_statistical_settings["atimeofwork"]) 
-		{
-			array_push($headernames, $this->lng->txt("working_time_avg"));
-		}
-		if ($eval_statistical_settings["firstvisit"]) 
-		{
-			array_push($headernames, $this->lng->txt("tst_stat_result_firstvisit"));
-		}
-		if ($eval_statistical_settings["lastvisit"]) 
-		{
-			array_push($headernames, $this->lng->txt("tst_stat_result_lastvisit"));
-		}
-		if ($eval_statistical_settings["distancemedian"]) 
-		{
-			array_push($headernames, $this->lng->txt("tst_stat_result_mark_median"));
-			array_push($headernames, $this->lng->txt("tst_stat_result_rank_participant"));
-			array_push($headernames, $this->lng->txt("tst_stat_result_rank_median"));
-			array_push($headernames, $this->lng->txt("tst_stat_result_total_participants"));
-			array_push($headernames, $this->lng->txt("tst_stat_result_median"));
-		}*/
 		return $headernames;
 	}
 	
-	function &getHeaderVars(&$eval_statistical_settings)
+	function &getHeaderVars()
 	{
 		$headervars = array();
 		if ($this->object->getAnonymity())
@@ -244,55 +208,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			array_push($headervars, "name");
 			array_push($headervars, "login");
 		}
-		if ($eval_statistical_settings["resultspoints"]) 
-		{
-			array_push($headervars, "resultspoints");
-		}
-		if ($eval_statistical_settings["resultsmarks"]) 
-		{
+		array_push($headervars, "resultspoints");
 		array_push($headervars, "resultsmarks");
-			if ($this->object->ects_output)
-			{
-				array_push($headervars, "ects_grade");
-			}
-		}
-		if ($eval_statistical_settings["qworkedthrough"]) 
+		if ($this->object->ects_output)
 		{
-			array_push($headervars, "qworkedthrough");
+			array_push($headervars, "ects_grade");
 		}
-		/*if ($eval_statistical_settings["pworkedthrough"]) 
-		{
-			array_push($headervars, "pworkedthrough");
-		}*/
-		if ($eval_statistical_settings["timeofwork"]) 
-		{
-			array_push($headervars, "timeofwork");
-		}
+		array_push($headervars, "qworkedthrough");
+		array_push($headervars, "timeofwork");
 		array_push($headervars, "");
-		/*if ($eval_statistical_settings["atimeofwork"]) 
-		{
-			array_push($headervars, "atimeofwork");
-		}
-		if ($eval_statistical_settings["firstvisit"]) 
-		{
-			array_push($headervars, "firstvisit");
-		}
-		if ($eval_statistical_settings["lastvisit"]) 
-		{
-			array_push($headervars, "lastvisit");
-		}
-		if ($eval_statistical_settings["distancemedian"]) 
-		{
-			array_push($headervars, "markmedian");
-			array_push($headervars, "rankparticipant");
-			array_push($headervars, "rankmedian");
-			array_push($headervars, "totalparticipants");
-			array_push($headervars, "resultmedian");
-		}*/
 		return $headervars;
 	}
 	
-	function &getEvaluationRow($active_id, &$eval_statistical_settings, &$eval_data, $user_data, $counter, $total_participants, $rank_participant, $rank_median, $median)
+	function &getEvaluationRow($active_id, &$eval_data, $user_data, $counter, $total_participants, $rank_participant, $rank_median, $median)
 	{
 		$evaluationrow = array();
 		if ($this->object->getAnonymity())
@@ -304,103 +232,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			array_push($evaluationrow, $user_data["name"]);
 			array_push($evaluationrow, "[" . $user_data["login"] . "]");
 		}
-		if ($eval_statistical_settings["resultspoints"]) 
+		array_push($evaluationrow, $eval_data["resultspoints"] . " " . strtolower($this->lng->txt("of")) . " " . $eval_data["maxpoints"]);
+		array_push($evaluationrow, $eval_data["resultsmarks"]);
+		if ($this->object->ects_output)
 		{
-			array_push($evaluationrow, $eval_data["resultspoints"] . " " . strtolower($this->lng->txt("of")) . " " . $eval_data["maxpoints"]);
+			$mark_ects = $this->object->getECTSGrade($eval_data["resultspoints"],$eval_data["maxpoints"]);
+			array_push($evaluationrow, $mark_ects);
 		}
-		if ($eval_statistical_settings["resultsmarks"]) 
-		{
-			array_push($evaluationrow, $eval_data["resultsmarks"]);
-			if ($this->object->ects_output)
-			{
-				$mark_ects = $this->object->getECTSGrade($eval_data["resultspoints"],$eval_data["maxpoints"]);
-				array_push($evaluationrow, $mark_ects);
-			}
-		}
-		if ($eval_statistical_settings["qworkedthrough"]) 
-		{
-			array_push($evaluationrow, $eval_data["qworkedthrough"] . " " . strtolower($this->lng->txt("of")) . " " . $eval_data["qmax"] . " (" . sprintf("%2.2f", $eval_data["pworkedthrough"] * 100.0) . " %" . ")");
-		}
-		/*if ($eval_statistical_settings["pworkedthrough"]) 
-		{
-			array_push($evaluationrow, sprintf("%2.2f", $eval_data["pworkedthrough"] * 100.0) . " %");
-		}*/
-		if ($eval_statistical_settings["timeofwork"]) 
-		{
-			$time = $eval_data["timeofwork"];
-			$time_seconds = $time;
-			$time_hours    = floor($time_seconds/3600);
-			$time_seconds -= $time_hours   * 3600;
-			$time_minutes  = floor($time_seconds/60);
-			$time_seconds -= $time_minutes * 60;
-			array_push($evaluationrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-		}
+		array_push($evaluationrow, $eval_data["qworkedthrough"] . " " . strtolower($this->lng->txt("of")) . " " . $eval_data["qmax"] . " (" . sprintf("%2.2f", $eval_data["pworkedthrough"] * 100.0) . " %" . ")");
+		$time = $eval_data["timeofwork"];
+		$time_seconds = $time;
+		$time_hours    = floor($time_seconds/3600);
+		$time_seconds -= $time_hours   * 3600;
+		$time_minutes  = floor($time_seconds/60);
+		$time_seconds -= $time_minutes * 60;
+		array_push($evaluationrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
 		$this->ctrl->setParameter($this, "active_id", $active_id);
 		$href = $this->ctrl->getLinkTarget($this, "detailedEvaluation");
 		$detailed_evaluation = $this->lng->txt("detailed_evaluation_show");
 		array_push($evaluationrow, "<a class=\"il_ContainerItemCommand\" href=\"$href\">$detailed_evaluation</a>");
-		/*if ($eval_statistical_settings["atimeofwork"]) 
-		{
-			$time = $eval_data["atimeofwork"];
-			$time_seconds = $time;
-			$time_hours    = floor($time_seconds/3600);
-			$time_seconds -= $time_hours   * 3600;
-			$time_minutes  = floor($time_seconds/60);
-			$time_seconds -= $time_minutes * 60;
-			array_push($evaluationrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-		}
-		if ($eval_statistical_settings["firstvisit"]) 
-		{
-			$time = date(
-				$this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], 
-				mktime(
-					$eval_data["firstvisit"]["hours"], 
-					$eval_data["firstvisit"]["minutes"], 
-					$eval_data["firstvisit"]["seconds"], 
-					$eval_data["firstvisit"]["mon"], 
-					$eval_data["firstvisit"]["mday"], 
-					$eval_data["firstvisit"]["year"]
-				)
-			);
-			array_push($evaluationrow, $time);
-		}
-		if ($eval_statistical_settings["lastvisit"]) 
-		{
-			$time = date(
-				$this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], 
-				mktime(
-					$eval_data["lastvisit"]["hours"], 
-					$eval_data["lastvisit"]["minutes"], 
-					$eval_data["lastvisit"]["seconds"], 
-					$eval_data["lastvisit"]["mon"], 
-					$eval_data["lastvisit"]["mday"], 
-					$eval_data["lastvisit"]["year"]
-				)
-			);
-			array_push($evaluationrow, $time);
-		}
-		if ($eval_statistical_settings["distancemedian"]) 
-		{
-			if ($eval_data["maxpoints"] == 0)
-			{
-				$pct = 0;
-			}
-			else
-			{
-				$pct = ($median / $eval_data["maxpoints"]) * 100.0;
-			}
-			$mark = $this->object->mark_schema->getMatchingMark($pct);
-			$mark_short_name = "";
-			if ($mark)
-			{
-				$mark_short_name = $mark->getShortName();
-			}
-			array_push($evaluationrow, $mark_short_name);
-			array_push($evaluationrow, $rank_participant);
-			array_push($evaluationrow, $rank_median);
-			array_push($evaluationrow, $total_participants);
-			array_push($evaluationrow, $median);
-		}*/
 		return $evaluationrow;
 	}
 	
@@ -417,6 +267,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
 
+		$total_users =& $this->object->getParticipants();
+		if (count($total_users) == 0)
+		{
+			$this->tpl->setVariable("EVALUATION_DATA", $this->lng->txt("tst_no_evaluation_data"));
+			return;
+		}
 		$filter = 0;
 		$filtertext = "";
 		$passedonly = FALSE;
@@ -483,20 +339,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->setParameter($this, "g_passedonly", "1");
 		}
 
-		$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
-		$eval_statistical_settings = array(
-			"resultspoints" => $user_settings["resultspoints"],
-			"resultsmarks" => $user_settings["resultsmarks"],
-			"qworkedthrough" => $user_settings["qworkedthrough"],
-			"pworkedthrough" => $user_settings["pworkedthrough"],
-			"timeofwork" => $user_settings["timeofwork"],
-			"atimeofwork" => $user_settings["atimeofwork"],
-			"firstvisit" => $user_settings["firstvisit"],
-			"lastvisit" => $user_settings["lastvisit"],
-			"distancemedian" => $user_settings["distancemedian"]
-		);
-		$total_users =& $this->object->getParticipants();
-
 		$question_stat = array();
 		$evaluation_array = array();
 		foreach ($total_users as $key => $value) 
@@ -547,7 +389,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		include_once("./classes/class.ilTableGUI.php");
 		$table = new ilTableGUI(0, FALSE);
 		$table->setTitle($this->lng->txt("participants_evaluation"));
-		$table->setHeaderNames($this->getHeaderNames($eval_statistical_settings));
+		$table->setHeaderNames($this->getHeaderNames());
 
 		$table->enable("auto_sort");
 		$table->enable("sort");
@@ -557,7 +399,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$table->setLimit($maxentries);
 
 		$header_params = $this->ctrl->getParameterArray($this, "outEvaluation");
-		$header_vars = $this->getHeaderVars($eval_statistical_settings);
+		$header_vars = $this->getHeaderVars();
 		$table->setHeaderVars($header_vars, $header_params);
 		$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
 
@@ -566,7 +408,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$table->setOrderColumn($ordercolumn);
 		$table->setOrderDirection($orderdirection);
 
-		$survey_codes = array();
+		$evaluation_rows = array();
 		$counter = 1;
 		foreach ($total_users as $key => $value) 
 		{
@@ -591,12 +433,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$stat_eval =& $this->object->evalStatistical($key);
 				$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
 				$rank_median = $statistics->rank_median();
-				$tablerow =& $this->getEvaluationRow($key, $eval_statistical_settings, $stat_eval, $value, $counter, count($evaluation_array), $rank_participant, $rank_median, $median);
-				array_push($survey_codes, $tablerow);
+				$tablerow =& $this->getEvaluationRow($key, $stat_eval, $value, $counter, count($evaluation_array), $rank_participant, $rank_median, $median);
+				array_push($evaluation_rows, $tablerow);
 				$counter++;
 			}
 		}
-		$table->setData($survey_codes);
+		$table->setData($evaluation_rows);
 		$tableoutput = $table->render();
 		$this->tpl->setVariable("EVALUATION_DATA", $tableoutput);
 
@@ -615,7 +457,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$template->setVariable("VALUE_FILTER_USERS", " value=\"" . $filtertext . "\"");
 		}
 		$filteroutput = $template->get();
+		
+		$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
+		$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
+		include_once "./Modules/Test/classes/class.ilTestCertificate.php";
+		if (ilTestCertificate::_isComplete($this->object->getId()))
+		{
+			$template->setVariable("TEXT_CERTIFICATE", $this->lng->txt("exp_type_certificate"));
+		}
+		$template->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+		$template->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
+		$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+		$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
+		$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
+		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$exportoutput = $template->get();
+
 		$this->tpl->setVariable("EVALUATION_FILTER", $filteroutput);
+		$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
 		
 		$this->tpl->setCurrentBlock("generic_css");
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
@@ -795,13 +654,403 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					{
 						$this->tpl->setCurrentBlock("question_row");
 						$this->tpl->setVariable("QUESTION_TITLE", $question_data["title"]);
-						$this->tpl->setVariable("QUESTION_POINTS", $question_data["reached"] . " " . strtolower($this->lng->txt("of")) . " " . $question_data["max"] . "(" . $question_data["percent"] . ")");
+						$this->tpl->setVariable("QUESTION_POINTS", $question_data["reached"] . " " . strtolower($this->lng->txt("of")) . " " . $question_data["max"] . " (" . $question_data["percent"] . ")");
 						$this->tpl->parseCurrentBlock();
 					}
 				}
 				$this->tpl->touchBlock("question_stats");
 			}
 		}
+	}
+	
+/**
+* Output of anonymous aggregated results for the test
+*
+* Output of anonymous aggregated results for the test
+*
+* @access public
+*/
+	function eval_a()
+	{
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", "Modules/Test");
+		$total_persons = $this->object->evalTotalPersons();
+		if ($total_persons) {
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_persons"));
+			$this->tpl->setVariable("TXT_VALUE", $total_persons);
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_finished"));
+			$total_finished = $this->object->evalTotalFinished();
+			$this->tpl->setVariable("TXT_VALUE", $total_finished);
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("row");
+			$average_time = $this->object->evalTotalStartedAverageTime();
+			$diff_seconds = $average_time;
+			$diff_hours    = floor($diff_seconds/3600);
+			$diff_seconds -= $diff_hours   * 3600;
+			$diff_minutes  = floor($diff_seconds/60);
+			$diff_seconds -= $diff_minutes * 60;
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_finished_average_time"));
+			$this->tpl->setVariable("TXT_VALUE", sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds));
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$passed_tests = $this->object->evalTotalFinishedPassed();
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed"));
+			$this->tpl->setVariable("TXT_VALUE", $passed_tests["total_passed"]);
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed_average_points"));
+			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", $passed_tests["average_points"]) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $passed_tests["maximum_points"]));
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed_average_time"));
+			$average_time = $this->object->evalTotalPassedAverageTime();
+			$diff_seconds = $average_time;
+			$diff_hours    = floor($diff_seconds/3600);
+			$diff_seconds -= $diff_hours   * 3600;
+			$diff_minutes  = floor($diff_seconds/60);
+			$diff_seconds -= $diff_minutes * 60;
+			$this->tpl->setVariable("TXT_VALUE", sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds));
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+		} else {
+			$this->tpl->setCurrentBlock("emptyrow");
+			$this->tpl->setVariable("TXT_NO_ANONYMOUS_AGGREGATION", $this->lng->txt("tst_eval_no_anonymous_aggregation"));
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
+		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
+		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
+* Exports the evaluation data to a selected file format
+*
+* Exports the evaluation data to a selected file format
+*
+* @access public
+*/
+	function exportEvaluation()
+	{
+		$filtertext = "";
+		if (array_key_exists("g_userfilter", $_GET))
+		{
+			$filtertext = $_GET["g_userfilter"];
+		}
+		$passedonly = FALSE;
+		if (array_key_exists("g_passedonly", $_GET))
+		{
+			if ($_GET["g_passedonly"] == 1)
+			{
+				$passedonly = TRUE;
+			}
+		}
+		switch ($_POST["export_type"])
+		{
+			case "excel":
+				$this->exportToExcel($filtertext, $passedonly);
+				break;
+			case "csv":
+				$this->exportToCSV($filtertext, $passedonly);
+				break;
+			case "certificate":
+				if ($passedonly)
+				{
+					$this->ctrl->setParameterByClass("iltestcertificategui", "g_passedonly", "1");
+				}
+				if (strlen($filtertext))
+				{
+					$this->ctrl->setParameterByClass("iltestcertificategui", "g_userfilter", $filtertext);
+				}
+				$this->ctrl->redirectByClass("iltestcertificategui", "exportCertificate");
+				break;
+		}
+	}
+	
+/**
+* Exports the evaluation data to the Microsoft Excel file format
+*
+* Exports the evaluation data to the Microsoft Excel file format
+*
+* @param string $filtertext Filter text for the user data
+* @param boolean $passedonly TRUE if only passed user datasets should be exported, FALSE otherwise
+* @access public
+*/
+	function exportToExcel($filtertext, $passedonly)
+	{
+		// Creating a workbook
+		$result = @include_once 'Spreadsheet/Excel/Writer.php';
+		if (!$result)
+		{
+			include_once './classes/Spreadsheet/Excel/Writer.php';
+		}
+		$workbook = new Spreadsheet_Excel_Writer();
+		// sending HTTP headers
+		$workbook->send(ilUtil::getASCIIFilename($this->object->getTitle() . ".xls"));
+		// Creating a worksheet
+		$format_bold =& $workbook->addFormat();
+		$format_bold->setBold();
+		$format_percent =& $workbook->addFormat();
+		$format_percent->setNumFormat("0.00%");
+		$format_datetime =& $workbook->addFormat();
+		$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
+		$format_title =& $workbook->addFormat();
+		$format_title->setBold();
+		$format_title->setColor('black');
+		$format_title->setPattern(1);
+		$format_title->setFgColor('silver');
+		$worksheet =& $workbook->addWorksheet();
+		$row = 0;
+		$col = 0;
+		include_once "./classes/class.ilExcelUtils.php";
+
+		if ($this->object->getAnonymity())
+		{
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("counter")), $format_title);
+		}
+		else
+		{
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("name")), $format_title);
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("login")), $format_title);
+		}
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_resultspoints")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("maximum_points")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_resultsmarks")), $format_title);
+		if ($this->object->ects_output)
+		{
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("ects_grade")), $format_title);
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->object->getECTSGrade($stat_eval["resultspoints"],$stat_eval["maxpoints"])));
+		}
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_qworkedthrough")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_qmax")), $format_title);
+		if ($stat_eval["qmax"] > 0)
+		{
+			$workload = $stat_eval["qworkedthrough"] / $stat_eval["qmax"];
+		}
+		else
+		{
+			$workload = 0;
+		}
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_pworkedthrough")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_timeofwork")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_atimeofwork")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_firstvisit")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_lastvisit")), $format_title);
+		
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_mark_median")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_rank_participant")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_rank_median")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_total_participants")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_median")), $format_title);
+
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("pass")), $format_title);
+
+		include_once "./classes/class.ilExcelUtils.php";
+		$total_users =& $this->object->getParticipants();
+		$question_stat = array();
+		$evaluation_array = array();
+		foreach ($total_users as $key => $value) 
+		{
+			// receive array with statistical information on the test for a specific user
+			$stat_eval =& $this->object->evalStatistical($key);
+			foreach ($stat_eval as $sindex => $sarray)
+			{
+				if (preg_match("/\d+/", $sindex))
+				{
+					$qt = $sarray["title"];
+					$qt = preg_replace("/<.*?>/", "", $qt);
+					if (!array_key_exists($sarray["qid"], $question_stat))
+					{
+						$question_stat[$sarray["qid"]] = array("max" => 0, "reached" => 0, "title" => $qt);
+					}
+					$question_stat[$sarray["qid"]]["single_max"] = $sarray["max"];
+					$question_stat[$sarray["qid"]]["max"] += $sarray["max"];
+					$question_stat[$sarray["qid"]]["reached"] += $sarray["reached"];
+				}
+			}
+			$evaluation_array[$key] = $stat_eval;
+		}
+		include_once "./classes/class.ilStatistics.php";
+		// calculate the median
+		$median_array = array();
+		foreach ($evaluation_array as $key => $value)
+		{
+			array_push($median_array, $value["resultspoints"]);
+		}
+		include_once "./classes/class.ilStatistics.php";
+		$statistics = new ilStatistics();
+		$statistics->setData($median_array);
+		$median = $statistics->median();
+		
+		$counter = 1;
+		$row++;
+		foreach ($total_users as $key => $value) 
+		{
+			$remove = FALSE;
+			if (strlen($filtertext))
+			{
+				$username = $value["name"];
+				if (!@preg_match("/$filtertext/i", $username))
+				{
+					$remove = TRUE;
+				}
+			}
+			if ($passedonly)
+			{
+				if ($evaluation_array[$key]["passed"] == 0)
+				{
+					$remove = TRUE;
+				}
+			}
+			if (!$remove)
+			{
+				$col = 0;
+				$stat_eval =& $this->object->evalStatistical($key);
+				$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
+				$rank_median = $statistics->rank_median();
+				if ($this->object->getAnonymity())
+				{
+					$worksheet->write($row, $col++, ilExcelUtils::_convert_text($counter));
+				}
+				else
+				{
+					$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value["name"]));
+					$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value["login"]));
+				}
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($stat_eval["resultspoints"]));
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($stat_eval["maxpoints"]));
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($stat_eval["resultsmarks"]));
+				if ($this->object->ects_output)
+				{
+					$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->object->getECTSGrade($stat_eval["resultspoints"],$stat_eval["maxpoints"])));
+				}
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($stat_eval["qworkedthrough"]));
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($stat_eval["qmax"]));
+				if ($stat_eval["qmax"] > 0)
+				{
+					$workload = $stat_eval["qworkedthrough"] / $stat_eval["qmax"];
+				}
+				else
+				{
+					$workload = 0;
+				}
+				$worksheet->write($row, $col++, $workload, $format_percent);
+				$time = $stat_eval["timeofwork"];
+				$time_seconds = $time;
+				$time_hours    = floor($time_seconds/3600);
+				$time_seconds -= $time_hours   * 3600;
+				$time_minutes  = floor($time_seconds/60);
+				$time_seconds -= $time_minutes * 60;
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text(sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds)));
+				$time = $stat_eval["atimeofwork"];
+				$time_seconds = $time;
+				$time_hours    = floor($time_seconds/3600);
+				$time_seconds -= $time_hours   * 3600;
+				$time_minutes  = floor($time_seconds/60);
+				$time_seconds -= $time_minutes * 60;
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text(sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds)));
+				$firstvisit = ilUtil::excelTime(
+					$stat_eval["firstvisit"]["year"],
+					$stat_eval["firstvisit"]["mon"],
+					$stat_eval["firstvisit"]["mday"],
+					$stat_eval["firstvisit"]["hours"],
+					$stat_eval["firstvisit"]["minutes"],
+					$stat_eval["firstvisit"]["seconds"]
+				);
+				$worksheet->write($row, $col++, $firstvisit, $format_datetime);				
+				$lastvisit = ilUtil::excelTime(
+					$stat_eval["lastvisit"]["year"],
+					$stat_eval["lastvisit"]["mon"],
+					$stat_eval["lastvisit"]["mday"],
+					$stat_eval["lastvisit"]["hours"],
+					$stat_eval["lastvisit"]["minutes"],
+					$stat_eval["lastvisit"]["seconds"]
+				);
+				$worksheet->write($row, $col++, $lastvisit, $format_datetime);				
+				
+				if (($stat_eval["maxpoints"]) > 0)
+				{
+					$reachedpercent = $stat_eval["resultspoints"] / $stat_eval["maxpoints"];
+				}
+				else
+				{
+					$reachedpercent = 0;
+				}
+				if ($stat_eval["maxpoints"] == 0)
+				{
+					$pct = 0;
+				}
+				else
+				{
+					$pct = ($median / $stat_eval["maxpoints"]) * 100.0;
+				}
+				$mark = $this->object->mark_schema->getMatchingMark($pct);
+				$mark_short_name = "";
+				if ($mark)
+				{
+					$mark_short_name = $mark->getShortName();
+				}
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($mark_short_name));
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($statistics->rank($stat_eval["resultspoints"])));
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($statistics->rank_median()));
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text(count($median_array)));
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($median));
+				$reached_pass = $this->object->_getPass($key);
+				$startcol = $col;
+				for ($pass = 0; $pass <= $reached_pass; $pass++)
+				{
+					$col = $startcol;
+					$finishdate = $this->object->getPassFinishDate($key, $pass);
+					if ($finishdate > 0)
+					{
+						$worksheet->write($row+$pass, $col++, ilExcelUtils::_convert_text($pass+1));
+						$result_array =& $this->object->getTestResult($key, $pass);
+						foreach ($result_array as $index => $question_data)
+						{
+							if (is_numeric($index))
+							{
+								$worksheet->write($row, $col, ilExcelUtils::_convert_text($question_data["reached"]));
+								$worksheet->write(0, $col++, ilExcelUtils::_convert_text($question_data["title"]), $format_title);
+							}
+						}
+						$row++;
+					}
+				}
+				$counter++;
+			}
+		}
+		$workbook->close();
+		exit;
+	}
+	
+/**
+* Exports the evaluation data to the CSV file format
+*
+* Exports the evaluation data to the CSV file format
+*
+* @param string $filtertext Filter text for the user data
+* @param boolean $passedonly TRUE if only passed user datasets should be exported, FALSE otherwise
+* @access public
+*/
+	function exportToCSV($filtertext, $passedonly)
+	{
 	}
 	
 	function evalAllUsers()
@@ -1570,76 +1819,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("PAGETITLE", $this->object->getTitle());
 	}
 	
-	function eval_a()
-	{
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", "Modules/Test");
-		$total_persons = $this->object->evalTotalPersons();
-		if ($total_persons) {
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_persons"));
-			$this->tpl->setVariable("TXT_VALUE", $total_persons);
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_finished"));
-			$total_finished = $this->object->evalTotalFinished();
-			$this->tpl->setVariable("TXT_VALUE", $total_finished);
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$average_time = $this->object->evalTotalStartedAverageTime();
-			$diff_seconds = $average_time;
-			$diff_hours    = floor($diff_seconds/3600);
-			$diff_seconds -= $diff_hours   * 3600;
-			$diff_minutes  = floor($diff_seconds/60);
-			$diff_seconds -= $diff_minutes * 60;
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_finished_average_time"));
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$passed_tests = $this->object->evalTotalFinishedPassed();
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed"));
-			$this->tpl->setVariable("TXT_VALUE", $passed_tests["total_passed"]);
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed_average_points"));
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", $passed_tests["average_points"]) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $passed_tests["maximum_points"]));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed_average_time"));
-			$average_time = $this->object->evalTotalPassedAverageTime();
-			$diff_seconds = $average_time;
-			$diff_hours    = floor($diff_seconds/3600);
-			$diff_seconds -= $diff_hours   * 3600;
-			$diff_minutes  = floor($diff_seconds/60);
-			$diff_seconds -= $diff_minutes * 60;
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-		} else {
-			$this->tpl->setCurrentBlock("emptyrow");
-			$this->tpl->setVariable("TXT_NO_ANONYMOUS_AGGREGATION", $this->lng->txt("tst_eval_no_anonymous_aggregation"));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
-		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
-		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
-		$this->tpl->parseCurrentBlock();
-	}
-
 /**
 * Output of the pass overview for a test called from the statistics
 *

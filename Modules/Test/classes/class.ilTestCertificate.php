@@ -779,6 +779,28 @@ class ilTestCertificate
 	}
 	
 	/**
+	* Checks the status of the certificate
+	*
+	* Checks the status of the certificate
+	*
+	* @return boolean Returns TRUE if the certificate is complete, FALSE otherwise
+	* @access private
+	*/
+	function _isComplete($obj_id)
+	{
+		$certificatepath = CLIENT_WEB_DIR . "/assessment/certificates/" . $obj_id . "/";
+		if (file_exists($certificatepath))
+		{
+			$xslpath = CLIENT_WEB_DIR . "/assessment/certificates/" . $obj_id . "/" . ilTestCertificate::getXSLName();
+			if (file_exists($xslpath) && (filesize($xslpath) > 0))
+			{
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+	
+	/**
 	* Retrieves predefined page formats
 	*
 	* Retrieves predefined page formats

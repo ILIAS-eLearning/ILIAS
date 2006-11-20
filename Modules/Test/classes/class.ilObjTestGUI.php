@@ -3313,7 +3313,7 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($this->object->getAnonymity())
 			{
 				$this->tpl->setVariable("TXT_FIRSTNAME", "");
-				$this->tpl->setVariable("TXT_LASTNAME", $this->lng-txt("unknown"));
+				$this->tpl->setVariable("TXT_LASTNAME", $this->lng->txt("unknown"));
 				$this->tpl->setVariable("TXT_LOGIN", "");
 			}
 			else
@@ -4839,7 +4839,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// user results subtab
 		$ilTabs->addSubTabTarget("eval_all_users",
 			 $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
-			 array("outEvaluation", "detailedEvaluation", "evalUserDetail", "passDetails",
+			 array("outEvaluation", "detailedEvaluation", "exportEvaluation", "evalUserDetail", "passDetails",
 			 	"outStatisticsResultsOverview", "statisticsPassDetails")
 			 , "");
 	
@@ -4998,6 +4998,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "eval_a":
 			case "detailedEvaluation":
 			case "outEvaluation":
+			case "exportEvaluation":
 			case "evalUserDetail":
 			case "passDetails":
 			case "outStatisticsResultsOverview":
@@ -5104,7 +5105,7 @@ class ilObjTestGUI extends ilObjectGUI
 				// statistics tab
 				$tabs_gui->addTarget("statistics",
 					 $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
-					 array("statistics", "outEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
+					 array("statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
 					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails")
 					 , "");
 			}
