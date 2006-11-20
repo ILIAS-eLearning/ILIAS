@@ -198,7 +198,6 @@ class ilRegistrationGUI
 			}
 		}
 
-
 		if (!$this->registration_settings->passwordGenerationEnabled())
 		{
 			// text label for passwd2 is nonstandard
@@ -665,36 +664,57 @@ class ilRegistrationGUI
 			}
 		}
 		// Send mail to new user
-
-		include_once "classes/class.ilMimeMail.php";
-
-		$mmail = new ilMimeMail();
-		$mmail->autoCheck(false);
-		$mmail->From($settings["admin_email"]);
-		$mmail->To($this->userObj->getEmail());
-
-		// mail subject
-		$subject = $this->lng->txt("reg_mail_subject");
-
-		// mail body
-		$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
-			$this->lng->txt("reg_mail_body_text1")."\n\n".
-			$this->lng->txt("reg_mail_body_text2")."\n".
-			ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n".
-			$this->lng->txt("login").": ".$this->userObj->getLogin()."\n".
-			$this->lng->txt("passwd").": ".$_POST["user"]["passwd"]."\n\n";
-
-		// Info about necessary approvement
-		if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+		
+		// try individual account mail in user administration
+		include_once("classes/class.ilAccountMail.php");
+		include_once 'classes/class.ilObjUserFolder.php';
+		$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
+		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{
-			$body .= ($this->lng->txt('reg_mail_body_pwd_generation')."\n\n");
+			$acc_mail = new ilAccountMail();		
+			$acc_mail->setUser($this->userObj);
+			if ($this->registration_settings->passwordGenerationEnabled())
+			{
+				$acc_mail->setUserPassword($_POST["user"]["passwd"]);
+			}
+			$acc_mail->send();
 		}
-		$body .= ($this->lng->txt("reg_mail_body_text3")."\n\r");
-		$body .= $this->userObj->getProfileAsString($this->lng);
+		else	// do default mail
+		{
+			include_once "classes/class.ilMimeMail.php";
 
-		$mmail->Subject($subject);
-		$mmail->Body($body);
-		$mmail->Send();
+			$mmail = new ilMimeMail();
+			$mmail->autoCheck(false);
+			$mmail->From($settings["admin_email"]);
+			$mmail->To($this->userObj->getEmail());
+
+			// mail subject
+			$subject = $this->lng->txt("reg_mail_subject");
+	
+			// mail body
+			$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
+				$this->lng->txt("reg_mail_body_text1")."\n\n".
+				$this->lng->txt("reg_mail_body_text2")."\n".
+				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n".
+				$this->lng->txt("login").": ".$this->userObj->getLogin()."\n";
+				
+			if ($this->registration_settings->passwordGenerationEnabled())
+			{
+				$body.= $this->lng->txt("passwd").": ".$_POST["user"]["passwd"]."\n";
+			}
+			$body.= "\n";
+
+			// Info about necessary approvement
+			if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+			{
+				$body .= ($this->lng->txt('reg_mail_body_pwd_generation')."\n\n");
+			}
+			$body .= ($this->lng->txt("reg_mail_body_text3")."\n\r");
+			$body .= $this->userObj->getProfileAsString($this->lng);
+			$mmail->Subject($subject);
+			$mmail->Body($body);
+			$mmail->Send();
+		}
 	}
 }
 ?>
