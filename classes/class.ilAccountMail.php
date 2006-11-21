@@ -220,6 +220,11 @@ return true;*/
 			: ($a_user->getGender() == "m")
 				? $a_amail["sal_m"]
 				: $a_amail["sal_g"];
+				
+		if (trim($gender_salut) == "")
+		{
+			$gender_salut = $a_amail["sal_g"];
+		}
 
 		$a_string = str_ireplace("[MAIL_SALUTATION]", $gender_salut, $a_string);
 		$a_string = str_ireplace("[LOGIN]", $a_user->getLogin(), $a_string);

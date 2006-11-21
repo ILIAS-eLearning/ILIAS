@@ -691,6 +691,11 @@ class ilCalInterface
 
 	/**
 	* check wether current MySQL server is version 4.1.x or higher
+	*
+	* NOTE: Three sourcecodes use this or a similar handling:
+	* - classes/class.ilDBx.php
+	* - calendar/classes/class.ilCalInterface.php->setNames
+	* - setup/classes/class.ilClient.php
 	*/
 	function setNames()
 	{
@@ -700,6 +705,7 @@ class ilCalInterface
 			((int)$version[0] == 4 && (int)$version[1] >= 1))
 		{
 			mysql_query("SET NAMES utf8");
+			mysql_query("SET SESSION SQL_MODE = ''");
 		}
 	}
 
