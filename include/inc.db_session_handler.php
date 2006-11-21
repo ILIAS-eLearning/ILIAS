@@ -147,4 +147,9 @@ function db_set_save_handler()
 	
 	return false;
 }
+
+// needs to be done to assure that $ilDB exists,
+// when db_session_write is called
+register_shutdown_function("session_write_close");
+
 ?>

@@ -101,8 +101,10 @@ class ilDBx extends PEAR
 		// SET 'max_allowed_packet' (only possible for mysql version 4)
 		$this->setMaxAllowedPacket();
 		
-		// set names
-		// please also see modules/dateplaner/classes/class.ilCalInterface.php->setNames
+		// NOTE: Three sourcecodes use this or a similar handling:
+		// - classes/class.ilDBx.php
+		// - calendar/classes/class.ilCalInterface.php->setNames
+		// - setup/classes/class.ilClient.php
 		if ($this->isMysql4_1OrHigher())
 		{
 			$this->query("SET NAMES utf8");
@@ -115,7 +117,7 @@ class ilDBx extends PEAR
 	/**
 	* destructor
 	*/
-	function _ilDBx() {
+	function _ilDBx(){
 		//$this->db->disconnect();
 	} //end destructor
 
@@ -413,9 +415,11 @@ class ilDBx extends PEAR
 
 	/**
 	* check wether current MySQL server is version 4.1.x or higher
-	* NOTE:
-	* Please also see modules/dateplaner/classes/class.ilCalInterface.php->setNames
-	* if you make any changes here.
+	*
+	* NOTE: Three sourcecodes use this or a similar handling:
+	* - classes/class.ilDBx.php
+	* - calendar/classes/class.ilCalInterface.php->setNames
+	* - setup/classes/class.ilClient.php
 	*/
 	function isMysql4_1OrHigher()
 	{
