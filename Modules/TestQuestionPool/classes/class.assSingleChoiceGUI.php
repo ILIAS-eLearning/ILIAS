@@ -689,46 +689,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
-	/**
-	* Returns the answer specific feedback depending on the results of the question
-	*
-	* Returns the answer specific feedback depending on the results of the question
-	*
-	* @param integer $active_id Active ID of the user
-	* @result string HTML Code with the answer specific feedback
-	* @access public
-	*/
-	function getAnswerFeedbackOutput($active_id)
-	{
-		$output = "";
-		$correct_feedback = $this->object->getFeedbackGeneric(1);
-		$incorrect_feedback = $this->object->getFeedbackGeneric(0);
-		if (strlen($correct_feedback.$incorrect_feedback))
-		{
-			$reached_points = $this->object->calculateReachedPoints($active_id);
-			$max_points = $this->object->getMaximumPoints();
-			if ($reached_points == $max_points)
-			{
-				$output = $correct_feedback;
-			}
-			else
-			{
-				$output = $incorrect_feedback;
-			}
-		}
-		$solutions =& $this->object->getSolutionValues($active_id);
-		foreach ($solutions as $idx => $solution_value)
-		{
-			$feedback = $this->object->getFeedbackSingleAnswer($solution_value["value1"]);
-			if (strlen($feedback))
-			{
-				if (strlen($output)) $output .= "<br />";
-				$output .= $feedback;
-			}
-		}
-		return $output;
-	}
-
 	function getPreview()
 	{
 		// shuffle output

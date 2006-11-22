@@ -345,7 +345,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			unset($_SESSION["previouspost"]);
 		}
 		$active = $this->object->getActiveTestUser($ilUser->getId());
-		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solution);
+		$answer_feedback = FALSE;
+		if (($directfeedback) && ($this->object->getAnswerFeedback()))
+		{
+			$answer_feedback = TRUE;
+		}
+		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solution, $answer_feedback);
 		if ($directfeedback)
 		{
 			if ($this->object->getInstantFeedbackSolution())
