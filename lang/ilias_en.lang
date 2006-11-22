@@ -331,6 +331,9 @@ assessment#:#export#:#Export
 assessment#:#failed_official#:#failed
 assessment#:#failed_short#:#failed
 assessment#:#false#:#False
+assessment#:#feedback_answers#:#Feedback for every answer of the question
+assessment#:#feedback_complete_solution#:#Correct solution
+assessment#:#feedback_incomplete_solution#:#At least one answer is not correct
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
 assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!

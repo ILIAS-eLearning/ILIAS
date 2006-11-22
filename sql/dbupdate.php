@@ -11751,4 +11751,27 @@ $ilDB->query($query);
 		}
 	}
 ?>
-
+<#850>
+CREATE TABLE `qpl_feedback_singlechoice` (
+  `feedback_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL,
+  `answer` int(11) NOT NULL,
+  `feedback` text NOT NULL,
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`feedback_id`),
+  KEY `question_fi` (`question_fi`)
+);
+<#851>
+CREATE TABLE `qpl_feedback_generic` (
+  `feedback_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL,
+  `correctness` enum('0','1') NOT NULL default '0',
+  `feedback` text NOT NULL,
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`feedback_id`),
+  KEY `question_fi` (`question_fi`)
+);
+<#852>
+ALTER TABLE `tst_tests` ADD `answer_feedback` ENUM( '0', '1') NOT NULL DEFAULT '0' AFTER `instant_verification`;
+<#853>
+ALTER TABLE `tst_tests` ADD `answer_feedback_points` ENUM( '0', '1') NOT NULL DEFAULT '0' AFTER `answer_feedback`;

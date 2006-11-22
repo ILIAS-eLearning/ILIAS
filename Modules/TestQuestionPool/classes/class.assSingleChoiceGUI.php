@@ -689,6 +689,46 @@ class assSingleChoiceGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 	
+	/**
+	* Returns the answer specific feedback depending on the results of the question
+	*
+	* Returns the answer specific feedback depending on the results of the question
+	*
+	* @param integer $active_id Active ID of the user
+	* @result string HTML Code with the answer specific feedback
+	* @access public
+	*/
+	function getAnswerFeedbackOutput($active_id)
+	{
+		$output = "";
+		$correct_feedback = $this->object->getFeedbackGeneric(1);
+		$incorrect_feedback = $this->object->getFeedbackGeneric(0);
+		if (strlen($correct_feedback.$incorrect_feedback))
+		{
+			$reached_points = $this->object->calculateReachedPoints($active_id);
+			$max_points = $this->object->getMaximumPoints();
+			if ($reached_points == $max_points)
+			{
+				$output = $correct_feedback;
+			}
+			else
+			{
+				$output = $incorrect_feedback;
+			}
+		}
+		$solutions =& $this->object->getSolutionValues($active_id);
+		foreach ($solutions as $idx => $solution_value)
+		{
+			$feedback = $this->object->getFeedbackSingleAnswer($solution_value["value1"]);
+			if (strlen($feedback))
+			{
+				if (strlen($output)) $output .= "<br />";
+				$output .= $feedback;
+			}
+		}
+		return $output;
+	}
+
 	function getPreview()
 	{
 		// shuffle output
@@ -867,5 +907,52 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->editQuestion();
 	}
 
+	/**
+	* Saves the feedback for a single choice question
+	*
+	* Saves the feedback for a single choice question
+	*
+	* @access public
+	*/
+	function saveFeedback()
+	{
+		global $ilDB;
+		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
+		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
+		foreach ($this->object->answers as $index => $answer)
+		{
+			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
+		}
+		$this->feedback();
+	}
+
+	/**
+	* Creates the output of the feedback page for a single choice question
+	*
+	* Creates the output of the feedback page for a single choice question
+	*
+	* @access public
+	*/
+	function feedback()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_mc_sr_feedback.html", "Modules/TestQuestionPool");
+		foreach ($this->object->answers as $index => $answer)
+		{
+			$this->tpl->setCurrentBlock("feedback_answer");
+			$this->tpl->setVariable("FEEDBACK_TEXT_ANSWER", $this->lng->txt("feedback"));
+			$this->tpl->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$this->tpl->setVariable("ANSWER_ID", $index);
+			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", $this->object->getFeedbackSingleAnswer($index));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
+		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->getFeedbackGeneric(1)));
+		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->getFeedbackGeneric(0)));
+		$this->tpl->setVariable("FEEDBACK_ANSWERS", $this->lng->txt("feedback_answers"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+	}
 }
 ?>

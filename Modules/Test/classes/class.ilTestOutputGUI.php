@@ -348,19 +348,24 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solution);
 		if ($directfeedback)
 		{
-			if ($this->object->getShowSolutionDetails())
+			if ($this->object->getInstantFeedbackSolution())
 			{
 				$solutionoutput = $question_gui->getSolutionOutput("", NULL);
 				$this->tpl->setCurrentBlock("solution_output");
 				$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("correct_solution_is"));
 				$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
-				$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($active->active_id, NULL), $question_gui->object->getMaximumPoints()));
 				$this->tpl->parseCurrentBlock();
 			}
-			else
+			if ($this->object->getAnswerFeedbackPoints())
 			{
 				$this->tpl->setCurrentBlock("solution_output");
 				$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($active->active_id, NULL), $question_gui->object->getMaximumPoints()));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($this->object->getAnswerFeedback())
+			{
+				$this->tpl->setCurrentBlock("answer_feedback");
+				$this->tpl->setVariable("ANSWER_FEEDBACK", $question_gui->getAnswerFeedbackOutput($active->active_id));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -1142,10 +1147,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			return;
 		}
 			
-		if ($this->object->getInstantFeedbackSolution() == 1)
+		if (($this->object->getInstantFeedbackSolution() == 1) || ($this->object->getAnswerFeedback() == 1))
 		{
 			$this->tpl->setCurrentBlock("direct_feedback");
-			$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
+			$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("check"));
 			$this->tpl->parseCurrentBlock();
 		}
 		

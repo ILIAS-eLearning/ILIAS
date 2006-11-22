@@ -138,6 +138,15 @@ class ilObjTest extends ilObject
 	var $instant_verification;
 
 /**
+* Defines wheather or not the reached points are shown as answer feedback
+* 
+* Defines wheather or not the reached points are shown as answer feedback
+*
+* @var integer
+*/
+	var $answer_feedback_points;
+
+/**
 * A time/date value to set the earliest reporting time for the test score
 * 
 * A time/date value to set the earliest reporting time for the test score.
@@ -382,6 +391,13 @@ class ilObjTest extends ilObject
 */
 	var $fixed_participants;
 	
+/**
+* determines wheather an answer specific feedback is shown or not
+*
+* @var int
+*/
+	var $answer_feedback;
+
 	/**
 	* Constructor
 	* @access	public
@@ -401,6 +417,7 @@ class ilObjTest extends ilObject
 		$this->sequence_settings = TEST_FIXED_SEQUENCE;
 		$this->score_reporting = REPORT_AFTER_TEST;
 		$this->instant_verification = 0;
+		$this->answer_feedback_points = 0;
 		$this->reporting_date = "";
 		$this->nr_of_tries = 0;
 		$this->use_previous_answers = 1;
@@ -421,6 +438,7 @@ class ilObjTest extends ilObject
 		$this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
 		$this->score_cutting = SCORE_CUT_QUESTION;
 		$this->pass_scoring = SCORE_LAST_PASS;
+		$this->answer_feedback = 0;
 		$this->password = "";
 		$this->certificate_visibility = 0;
 		$this->allowedUsers = "";
@@ -1171,13 +1189,15 @@ class ilObjTest extends ilObject
       // Create new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, score_reporting, instant_verification, anonymity, show_cancel, fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, shuffle_questions, show_solution_details, show_summary, show_solution_printview, password, allowedUsers, allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
-				$ilDB->quote($this->instant_verification . ""),
+				$ilDB->quote($this->getInstantFeedbackSolution() . ""),
+				$ilDB->quote($this->getAnswerFeedbackPoints() . ""),
+				$ilDB->quote($this->getAnswerFeedback() . ""),
 				$ilDB->quote($this->getAnonymity() . ""),
 				$ilDB->quote($this->getShowCancel() . ""),
 				$ilDB->quote($this->getFixedParticipants() . ""),
@@ -1238,12 +1258,14 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				}
 			}
-      $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
         $ilDB->quote($this->getAuthor() . ""), 
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
         $ilDB->quote($this->sequence_settings . ""), 
         $ilDB->quote($this->score_reporting . ""), 
-        $ilDB->quote($this->instant_verification . ""), 
+        $ilDB->quote($this->getInstantFeedbackSolution() . ""),
+				$ilDB->quote($this->getAnswerFeedbackPoints() . ""),
+				$ilDB->quote($this->getAnswerFeedback() . ""),
 				$ilDB->quote($this->getAnonymity() . ""),
 				$ilDB->quote($this->getShowCancel() . ""),
 				$ilDB->quote($this->getFixedParticipants() . ""),
@@ -1717,6 +1739,8 @@ class ilObjTest extends ilObject
 				$this->sequence_settings = $data->sequence_settings;
 				$this->score_reporting = $data->score_reporting;
 				$this->instant_verification = $data->instant_verification;
+				$this->answer_feedback_points = $data->answer_feedback_points;
+				$this->answer_feedback = $data->answer_feedback;
 				$this->anonymity = $data->anonymity;
 				$this->show_cancel = $data->show_cancel;
 				$this->fixed_participants = $data->fixed_participants;
@@ -1923,6 +1947,50 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Sets the answer specific feedback for the test
+* 
+* Sets the answer specific feedback for the test
+*
+* @param integer $answer_feedback If 1, answer specific feedback will be shown after answering a question
+* @access public
+* @see $answer_feedback
+*/
+  function setAnswerFeedback($answer_feedback = 0) 
+	{
+		switch ($answer_feedback)
+		{
+			case 1:
+				$this->answer_feedback = 1;
+				break;
+			default:
+				$this->answer_feedback = 0;
+				break;
+		}
+  }
+
+/**
+* Sets the answer specific feedback of reached points for the test
+* 
+* Sets the answer specific feedback of reached points for the test
+*
+* @param integer $answer_feedback_points If 1, answer specific feedback will show the reached points after answering a question
+* @access public
+* @see $answer_feedback_points
+*/
+  function setAnswerFeedbackPoints($answer_feedback_points = 0) 
+	{
+		switch ($answer_feedback_points)
+		{
+			case 1:
+				$this->answer_feedback_points = 1;
+				break;
+			default:
+				$this->answer_feedback_points = 0;
+				break;
+		}
+  }
+
+/**
 * Sets the random test indicator
 * 
 * Sets the random test indicator
@@ -2012,6 +2080,34 @@ class ilObjTest extends ilObject
   function getInstantFeedbackSolution() 
 	{
     return $this->instant_verification;
+  }
+
+/**
+* Returns 1 if answer specific feedback is activated
+* 
+* Returns 1 if answer specific feedback is activated
+*
+* @return integer The status of the answer specific feedback
+* @access public
+* @see $answer_feedback
+*/
+  function getAnswerFeedback() 
+	{
+    return $this->answer_feedback;
+  }
+
+/**
+* Returns 1 if answer specific feedback as reached points is activated
+* 
+* Returns 1 if answer specific feedback as reached points is activated
+*
+* @return integer The status of the answer specific feedback as reached points
+* @access public
+* @see $answer_feedback_points
+*/
+  function getAnswerFeedbackPoints() 
+	{
+    return $this->answer_feedback_points;
   }
 
 /**
@@ -5062,6 +5158,9 @@ class ilObjTest extends ilObject
 				case "use_previous_answers":
 					$this->setUsePreviousAnswers($metadata["entry"]);
 					break;
+				case "answer_feedback":
+					$this->setAnswerFeedback($metadata["entry"]);
+					break;
 				case "hide_title_points":
 					$this->setTitleOutput($metadata["entry"]);
 					break;
@@ -5082,6 +5181,9 @@ class ilObjTest extends ilObject
 					break;
 				case "instant_verification":
 					$this->setInstantVerification($metadata["entry"]);
+					break;
+				case "answer_feedback_points":
+					$this->setAnswerFeedbackPoints($metadata["entry"]);
 					break;
 				case "anonymity":
 					$this->setAnonymity($metadata["entry"]);
@@ -5337,6 +5439,18 @@ class ilObjTest extends ilObject
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "instant_verification");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getInstantFeedbackSolution()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// answer specific feedback
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "answer_feedback");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnswerFeedback()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// answer specific feedback of reached points
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "answer_feedback_points");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnswerFeedbackPoints()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// anonymity
@@ -5909,6 +6023,8 @@ class ilObjTest extends ilObject
 		$newObj->sequence_settings = $original->getSequenceSettings();
 		$newObj->score_reporting = $original->getScoreReporting();
 		$newObj->instant_verification = $original->getInstantFeedbackSolution();
+		$newObj->answer_feedback = $original->getAnswerFeedback();
+		$newObj->answer_feedback_points = $original->getAnswerFeedbackPoints();
 		$newObj->setAnonymity($original->getAnonymity());
 		$newObj->setShowCancel($original->getShowCancel());
 		$newObj->reporting_date = $original->getReportingDate();

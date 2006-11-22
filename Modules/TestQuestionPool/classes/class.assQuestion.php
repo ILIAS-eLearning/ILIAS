@@ -2365,6 +2365,106 @@ class assQuestion
 		return 0;
 	}
 	
+	/**
+	* Saves generic feedback to the database
+	*
+	* Saves generic feedback to the database. Generic feedback is either
+	* feedback for either the complete solution of the question or at least one
+	* incorrect answer.
+	*
+	* @param integer $correctness 0 for at least one incorrect answer, 1 for the correct solution
+	* @param string $feedback Feedback text
+	* @access public
+	*/
+	function saveFeedbackGeneric($correctness, $feedback)
+	{
+		global $ilDB;
+		
+		switch ($correctness)
+		{
+			case 0:
+				$correctness = 0;
+				break;
+			case 1:
+			default:
+				$correctness = 1;
+				break;
+		}
+		$query = sprintf("DELETE FROM qpl_feedback_generic WHERE question_fi = %s AND correctness = %s",
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($correctness . "")
+		);
+		$result = $ilDB->query($query);
+		if (strlen($feedback))
+		{
+			$query = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($correctness . ""),
+				$ilDB->quote($feedback)
+			);
+			$result = $ilDB->query($query);
+		}
+	}
+	
+	/**
+	* Returns the generic feedback for a given question state
+	*
+	* Returns the generic feedback for a given question state. The
+	* state is either the complete solution of the question or at least one
+	* incorrect answer
+	*
+	* @param integer $correctness 0 for at least one incorrect answer, 1 for the correct solution
+	* @return string Feedback text
+	* @access public
+	*/
+	function getFeedbackGeneric($correctness)
+	{
+		global $ilDB;
+		
+		$feedback = "";
+		$query = sprintf("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s AND correctness = %s",
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($correctness . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$feedback = $row["feedback"];
+		}
+		return $feedback;
+	}
+
+	/**
+	* Duplicates the generic feedback of a question
+	*
+	* Duplicates the generic feedback of a question
+	*
+	* @param integer $original_id The database ID of the original question
+	* @access public
+	*/
+	function duplicateFeedbackGeneric($original_id)
+	{
+		global $ilDB;
+		
+		$feedback = "";
+		$query = sprintf("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s",
+			$ilDB->quote($original_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$duplicatequery = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
+					$ilDB->quote($this->getId() . ""),
+					$ilDB->quote($row["correctness"] . ""),
+					$ilDB->quote($row["feedback"] . "")
+				);
+				$duplicateresult = $ilDB->query($duplicatequery);
+			}
+		}
+	}
 }
 
 ?>

@@ -1788,6 +1788,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 											 $classname, "", $force_active);
 		}
 
+		if ($_GET["q_id"])
+		{
+			$tabs_gui->addTarget("feedback",
+											 $this->ctrl->getLinkTargetByClass($classname, "feedback"),
+											 array("feedback", "saveFeedback"),
+											 $classname, "");
+		}
+		
 		// Assessment of questions sub menu entry
 		if ($_GET["q_id"])
 		{
