@@ -787,5 +787,19 @@ class assQuestionGUI
 		return $this->object->getQuestionType();
 	}
 
+	/**
+	* Returns the answer specific feedback depending on the results of the question
+	*
+	* Returns the answer specific feedback depending on the results of the question
+	*
+	* @param integer $active_id Active ID of the user
+	* @result string HTML Code with the answer specific feedback
+	* @access public
+	*/
+	function getAnswerFeedbackOutput($active_id)
+	{
+		// overwrite in parent classes
+		return "";
+	}
 }
 ?>

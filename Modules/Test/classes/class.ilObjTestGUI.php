@@ -1051,6 +1051,8 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$data["instant_feedback_solution"] = $_POST["chb_instant_feedback_solution"];
+		$data["answer_feedback"] = ($_POST["chb_instant_feedback_answer"]) ? 1 : 0;
+		$data["answer_feedback_points"] = ($_POST["chb_instant_feedback_results"]) ? 1 : 0;
 
 		$data["show_solution_printview"] = 0;
 		if ($_POST["chb_show_solution_printview"] == 1)
@@ -1065,6 +1067,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setScoreCutting($data["score_cutting"]);
 		$this->object->setPassScoring($data["pass_scoring"]);
 		$this->object->setInstantFeedbackSolution($data["instant_feedback_solution"]);
+		$this->object->setAnswerFeedback($data["answer_feedback"]);
+		$this->object->setAnswerFeedbackPoints($data["answer_feedback_points"]);
 		$this->object->setShowSolutionDetails($data["show_solution_details"]);
 		$this->object->setScoreReporting($data["results_access"]);
 		$this->object->setShowSolutionPrintview($data["show_solution_printview"]);
@@ -1112,6 +1116,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["score_cutting"] = $this->object->getScoreCutting();
 		$data["pass_scoring"] = $this->object->getPassScoring();
 		$data["instant_feedback_solution"] = $this->object->getInstantFeedbackSolution();
+		$data["answer_feedback"] = $this->object->getAnswerFeedback();
+		$data["answer_feedback_points"] = $this->object->getAnswerFeedbackPoints();
 		$data["show_solution_printview"] = $this->object->getShowSolutionPrintview();
 		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
 		$data["results_access"] = $this->object->getScoreReporting();
@@ -1279,13 +1285,20 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_ANSWER_SPECIFIC_FEEDBACK_DESCRIPTION", $this->lng->txt("tst_instant_feedback_answer_specific_desc"));
 		$this->tpl->setVariable("TEXT_SHOW_RESULTS", $this->lng->txt("tst_instant_feedback_results"));
 		$this->tpl->setVariable("TEXT_SHOW_RESULTS_DESCRIPTION", $this->lng->txt("tst_instant_feedback_results_desc"));
+		if ($data["answer_feedback_points"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_RESULTS", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION", $this->lng->txt("tst_instant_feedback_solution"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DESCRIPTION", $this->lng->txt("tst_instant_feedback_solution_desc"));
 		if ($data["instant_feedback_solution"])
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION", " checked=\"checked\"");
 		}
-		
+		if ($data["answer_feedback"])
+		{
+			$this->tpl->setVariable("CHECKED_ANSWER_SPECIFIC_FEEDBACK", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("TEXT_RESULTS_PRESENTATION", $this->lng->txt("tst_results_presentation"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS", $this->lng->txt("tst_show_solution_details"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS_DESCRIPTION", $this->lng->txt("tst_show_solution_details_description"));
