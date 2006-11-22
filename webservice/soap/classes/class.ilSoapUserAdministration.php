@@ -278,9 +278,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$new_user =& new ilObjUser();
 
-		$user_data['passwd_type'] =  IL_PASSWD_PLAIN;
-		$this->__setUserData($new_user,$user_data);
-
+		if(strlen($user_data['passwd']) != 32)
+		{
+			$user_data['passwd_type'] = IL_PASSWD_PLAIN;
+		}
+		else
+		{
+			$user_data['passwd_type'] = IL_PASSWD_MD5;
+		}
+        $this->__setUserData($new_user,$user_data);
 
 		$ilLog->write('SOAP: addUser()');
 
