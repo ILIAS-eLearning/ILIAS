@@ -121,6 +121,12 @@ class ilSoapAuthentication extends ilBaseAuthentication
 			$this->__setMessage('Error building dsn');
 			return false;
 		}
+		if(!$this->__checkClientEnabled())
+		{
+			$this->__setMessage('Client disabled.');
+			return false;
+		}
+		
 		if(!$this->__setSessionSaveHandler())
 		{
 			return false;
@@ -160,6 +166,15 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		$res = $db->query($query);
 
 		return $res->numRows() ? true : false;
+	}
+	
+	function __checkClientEnabled()
+	{
+		if(is_object($this->ini) and $this->ini->readVariable('client','access'))
+		{
+			return true;
+		}
+		return false;
 	}
 }
 ?>

@@ -292,8 +292,6 @@ class ilBaseAuthentication
 
 	function __buildAuth()
 	{
-
-
 		$this->auth_params = array(
 			'dsn'		  => $this->dsn,
 			'table'       => $this->ini->readVariable("auth", "table"),
