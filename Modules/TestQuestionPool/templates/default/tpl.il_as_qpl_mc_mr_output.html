@@ -3,7 +3,7 @@
 	<table class="nobackground">
 <!-- BEGIN answer_row -->	
 		<tr>
-			<td class="middle" width="15">
+			<td class="top" width="15">
 				<input type="checkbox" name="multiple_choice_result_{ANSWER_ID}" value="{ANSWER_ID}" id="{ANSWER_ID}"{CHECKED_ANSWER} />
 			</td>
 			<td class="middle" width="left">
@@ -13,6 +13,10 @@
 <!-- END answer_image -->
 					{ANSWER_TEXT}
 				</label>
+<!-- BEGIN feedback -->
+				<br />
+				<span class="feedback">{FEEDBACK}</span>
+<!-- END feedback -->
 			</td>
 		</tr>
 <!-- END answer_row -->	

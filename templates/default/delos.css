@@ -1847,6 +1847,14 @@ div.ilc_TableOfContents
 
 /* --- Test & Assessment styles --- */
 
+.feedback
+{
+/*	border:  1px solid gray;*/
+	padding: 4px;
+	display: block;
+	background: #EEEEEE;
+}
+
 div.ilc_Question
 {
 	padding-left: 20px;
@@ -1888,6 +1896,15 @@ td.middle {
 	border: none;
 	padding: 3px;
 	vertical-align: middle;
+}
+
+td.top {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	border: none;
+	padding: 3px;
+	vertical-align: top;
 }
 
 /* --- Test tool javascript styles --- */

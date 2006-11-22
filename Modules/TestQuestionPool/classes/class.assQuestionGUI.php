@@ -798,8 +798,35 @@ class assQuestionGUI
 	*/
 	function getAnswerFeedbackOutput($active_id)
 	{
+		$output = "";
+		$correct_feedback = $this->object->getFeedbackGeneric(1);
+		$incorrect_feedback = $this->object->getFeedbackGeneric(0);
+		if (strlen($correct_feedback.$incorrect_feedback))
+		{
+			$reached_points = $this->object->calculateReachedPoints($active_id);
+			$max_points = $this->object->getMaximumPoints();
+			if ($reached_points == $max_points)
+			{
+				$output = $correct_feedback;
+			}
+			else
+			{
+				$output = $incorrect_feedback;
+			}
+		}
+		return $output;
+	}
+
+	/**
+	* Creates the output of the feedback page for a question
+	*
+	* Creates the output of the feedback page for a question
+	*
+	* @access public
+	*/
+	function feedback()
+	{
 		// overwrite in parent classes
-		return "";
 	}
 }
 ?>
