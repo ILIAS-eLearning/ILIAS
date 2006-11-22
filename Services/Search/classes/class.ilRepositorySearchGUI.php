@@ -51,6 +51,7 @@ class ilRepositorySearchGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('search');
+		$this->lng->loadLanguageModule('crs');
 
 		$this->__setSearchType();
 		$this->__loadQueries();
@@ -287,7 +288,9 @@ class ilRepositorySearchGUI
 			sendInfo($query_parser,true);
 			return false;
 		}
-		$object_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($query_parser);
 		$object_search->setFilter(array('grp'));
 		$this->__storeEntries($object_search->performSearch());
 
@@ -304,7 +307,10 @@ class ilRepositorySearchGUI
 			sendInfo($query_parser,true);
 			return false;
 		}
-		$object_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+		
+		// Perform like search
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($query_parser);
 		$object_search->setFilter(array('role'));
 		$this->__storeEntries($object_search->performSearch());
 
@@ -718,7 +724,7 @@ class ilRepositorySearchGUI
 
 		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_role.gif",$this->lng->txt("crs_header_edit_members"));
 		$tbl->setHeaderNames(array("",
-								   $this->lng->txt("obj_grp"),
+								   $this->lng->txt("objs_role"),
 								   $this->lng->txt("crs_count_members")));
 		$tbl->setHeaderVars(array("",
 								  "title",

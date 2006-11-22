@@ -5724,7 +5724,7 @@ registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der eLearning-
 registration#:#reg_mail_body_profile#:#Profildaten:
 registration#:#reg_mail_body_profile_changed#:#Ihre Profildaten wurden geändert.
 registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr Zugang noch von dem/der AdministratorIn freigeschaltet werden. Wenn dies erfolgt ist, erhalten Sie noch eine Bestätigungsmail.
-registration#:#reg_mail_new_user_body#:#Ein neuer Benutzer hat sich angemldet.
+registration#:#reg_mail_new_user_body#:#Ein neuer Benutzer hat sich angemeldet.
 registration#:#reg_missing_domain#:#Bitte füllen Sie alle notwendigen Felder aus.
 registration#:#reg_missing_role#:#Bitte füllen Sie alle notwendigen Felder aus.
 registration#:#reg_notification#:#Benachrichtigungen
@@ -6660,3 +6660,4 @@ survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interv
 survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.###15 11 2006 new variable
 survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###15 11 2006 new variable
 survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###15 11 2006 new variable
+crs#:#crs_reg_type_info#:#Diese Einstellung ist nur wirksam, wenn die Anmeldung nicht deaktiviert ist.
