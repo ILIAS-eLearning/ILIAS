@@ -98,6 +98,8 @@ class ilLearningProgress
 		global $ilDB;
 
 		$spent = $data['spent_time'];
+		
+		include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
 		if((time() - $data['access_time']) <= ilObjUserTracking::_getValidTimeSpan())
 		{
 			$spent = $data['spent_time'] + time() - $data['access_time'];
