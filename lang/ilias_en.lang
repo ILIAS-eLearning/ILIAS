@@ -6686,3 +6686,4 @@ chat#:#chat_server_ssl_settings#:#SSL Settings
 chat#:#chat_server_ssl_port#:#Server SSL Port
 chat#:#chat_server_ssl_active#:#SSL active
 chat#:#chat_add_ssl_port#:#Please add the server SSL port.
+crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'.

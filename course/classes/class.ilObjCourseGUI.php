@@ -881,6 +881,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("REG_MAX_INFO",$this->lng->txt('crs_reg_max_info'));
 		$this->tpl->setVariable("REG_NOTY_INFO",$this->lng->txt('crs_reg_notify_info'));
 		$this->tpl->setVariable("REG_WAIT_INFO",$this->lng->txt('crs_wait_info'));
+		$this->tpl->setVariable('REG_TYPE_INFO',$this->lng->txt('crs_reg_type_info'));
 		
 
 		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_reg"));
