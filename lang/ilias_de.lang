@@ -3368,7 +3368,7 @@ common#:#user_new_account_mail#:#Benachrichtigung über Neuanmeldung
 common#:#user_new_account_mail_desc#:#Diese Nachricht kann versandt werden, wenn ein Benutzer automatisch und nicht von der Person selbst angelegt wurde .
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
 common#:#user_not_known#:#Bitte geben Sie einen gültigen Benutzernamen ein.
-common#:#user_profile_other#:#Weitere Informationen Benachrichtigung über Neuanmeldung
+common#:#user_profile_other#:#Weitere Informationen
 common#:#user_send_new_account_mail#:#Sende
 common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
