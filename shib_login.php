@@ -28,7 +28,6 @@
 * $Id$
 * @author Lukas Haemmerle <haemmerle@switch.ch>
 * @package ilias-layout
-
 */
 
 // Load all the IILIAS stuff
