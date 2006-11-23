@@ -567,9 +567,9 @@ class assSingleChoiceGUI extends assQuestionGUI
 		return $result;
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
@@ -736,7 +736,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -784,6 +784,19 @@ class assSingleChoiceGUI extends assQuestionGUI
 				$template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
 				$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
 				$template->parseCurrentBlock();
+			}
+			if ($show_feedback)
+			{
+				if (strcmp($user_solution, $answer_id) == 0)
+				{
+					$feedback = $this->object->getFeedbackSingleAnswer($answer_id);
+					if (strlen($feedback))
+					{
+						$template->setCurrentBlock("feedback");
+						$template->setVariable("FEEDBACK", $feedback);
+						$template->parseCurrentBlock();
+					}
+				}
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
@@ -883,11 +896,11 @@ class assSingleChoiceGUI extends assQuestionGUI
 	function saveFeedback()
 	{
 		global $ilDB;
-		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
+		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"]));
+		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"]));
 		foreach ($this->object->answers as $index => $answer)
 		{
-			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
+			$this->object->saveFeedbackSingleAnswer($index, ilUtil::stripSlashes($_POST["feedback_answer_$index"]));
 		}
 		$this->feedback();
 	}
@@ -906,9 +919,9 @@ class assSingleChoiceGUI extends assQuestionGUI
 		{
 			$this->tpl->setCurrentBlock("feedback_answer");
 			$this->tpl->setVariable("FEEDBACK_TEXT_ANSWER", $this->lng->txt("feedback"));
-			$this->tpl->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$this->tpl->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			$this->tpl->setVariable("ANSWER_ID", $index);
-			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", $this->object->getFeedbackSingleAnswer($index));
+			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", ilUtil::prepareFormOutput($this->object->getFeedbackSingleAnswer($index)));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
