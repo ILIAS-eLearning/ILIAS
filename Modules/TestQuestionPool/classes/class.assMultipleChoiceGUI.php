@@ -917,11 +917,11 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	function saveFeedback()
 	{
 		global $ilDB;
-		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
-		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
+		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"]));
+		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"]));
 		foreach ($this->object->answers as $index => $answer)
 		{
-			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
+			$this->object->saveFeedbackSingleAnswer($index, ilUtil::stripSlashes($_POST["feedback_answer_$index"]));
 		}
 		$this->feedback();
 	}
@@ -940,9 +940,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		{
 			$this->tpl->setCurrentBlock("feedback_answer");
 			$this->tpl->setVariable("FEEDBACK_TEXT_ANSWER", $this->lng->txt("feedback"));
-			$this->tpl->setVariable("ANSWER_TEXT", $answer->getAnswertext());
+			$this->tpl->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext()));
 			$this->tpl->setVariable("ANSWER_ID", $index);
-			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", $this->object->getFeedbackSingleAnswer($index));
+			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", ilUtil::prepareFormOutput($this->object->getFeedbackSingleAnswer($index)));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
