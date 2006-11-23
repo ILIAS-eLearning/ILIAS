@@ -2112,6 +2112,51 @@ class assClozeTest extends assQuestion
 			}
 		}
 	}
+
+/**
+* Returns the maximum points for a gap
+*
+* Returns the maximum points for a gap
+*
+* @param integer $gap_id The ID of the gap
+* @return double The maximum points for the gap
+* @access public
+* @see $points
+*/
+  function getMaximumGapPoints($gap_id) 
+	{
+    $points = 0;
+    foreach ($this->gaps as $key => $value) 
+		{
+			if ($key == $gap_id)
+			{
+				if ($value[0]->getClozeType() == CLOZE_TEXT) 
+				{
+					$gap_max_points = 0;
+					foreach ($value as $key2 => $value2) 
+					{
+						if ($value2->getPoints() > $gap_max_points)
+						{
+							$gap_max_points = $value2->getPoints();
+						}
+					}
+					$points += $gap_max_points;
+				} else 
+				{
+					$srpoints = 0;
+					foreach ($value as $key2 => $value2) 
+					{
+						if ($value2->getPoints() > $srpoints)
+						{
+							$srpoints = $value2->getPoints();
+						}
+					}
+					$points += $srpoints;
+				}
+			}
+    }
+    return $points;
+  }
 }
 
 ?>

@@ -255,7 +255,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->outAdditionalOutput();
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);

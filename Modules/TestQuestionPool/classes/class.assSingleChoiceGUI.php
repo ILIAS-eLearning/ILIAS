@@ -574,7 +574,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -678,6 +678,12 @@ class assSingleChoiceGUI extends assQuestionGUI
 			{
 				$template->setVariable("SOLUTION_IMAGE", ilUtil::getImagePath("radiobutton_unchecked.gif"));
 				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+			}
+			if ($result_output)
+			{
+				$points = $this->object->answers[$answer_id]->getPoints();
+				$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
 			}
 			$template->parseCurrentBlock();
 		}

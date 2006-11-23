@@ -316,7 +316,7 @@ class assNumericGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);

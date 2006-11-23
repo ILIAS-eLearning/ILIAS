@@ -611,7 +611,7 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -724,6 +724,12 @@ class assClozeTestGUI extends assQuestionGUI
 					else
 					{
 						$template->setVariable("SOLUTION", $solution["value2"]);
+					}
+					if ($result_output)
+					{
+						$points = $this->object->getMaximumGapPoints($solution["value1"]);
+						$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+						$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
 					}
 				}
 			}
