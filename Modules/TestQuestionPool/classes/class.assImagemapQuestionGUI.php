@@ -176,7 +176,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 				else
 				{
-					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
+					$imagepath = "./Modules/TestQuestionPool/displaytempimage.php?gfx=" . $pfile;
 				}
 			}
 			else
@@ -362,7 +362,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					}
 					else
 					{
-						$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
+						$imagepath = "./Modules/TestQuestionPool/displaytempimage.php?gfx=" . $pfile;
 					}
 					$map = $preview->getImagemap("imagemap_" . $this->object->getId());
 				}
@@ -672,7 +672,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -724,7 +724,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 				else
 				{
-					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
+					$imagepath = "./Modules/TestQuestionPool/displaytempimage.php?gfx=" . $pfile;
 				}
 			}
 		}
@@ -853,7 +853,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 				else
 				{
-					$imagepath = "./assessment/displaytempimage.php?gfx=" . $pfile;
+					$imagepath = "./Modules/TestQuestionPool/displaytempimage.php?gfx=" . $pfile;
 				}
 			}
 		}

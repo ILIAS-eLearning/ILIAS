@@ -440,7 +440,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -468,7 +468,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			krsort($rank, SORT_NUMERIC);
 			foreach ($rank as $index => $bestsolutions)
 			{
-				array_push($solutions, array("value1" => join(",", $bestsolutions) . " ($index " . $this->lng->txt("points") . ")"));
+				array_push($solutions, array("value1" => join(",", $bestsolutions), "points" => $index));
 			}
 		}
 		
@@ -514,6 +514,12 @@ class assTextSubsetGUI extends assQuestionGUI
 				$template->setCurrentBlock("textsubset_row");
 				$template->setVariable("SOLUTION", $solutions[$i]["value1"]);
 				$template->setVariable("COUNTER", $i+1);
+				if ($result_output)
+				{
+					$points = $solutions[$i]["points"];
+					$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+					$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
+				}
 				$template->parseCurrentBlock();
 			}
 		}

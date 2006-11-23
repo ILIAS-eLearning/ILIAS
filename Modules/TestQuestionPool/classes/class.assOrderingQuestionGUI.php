@@ -515,7 +515,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
@@ -604,6 +604,13 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("ordering_row_standard");
+			if ($result_output)
+			{
+				$answer = $this->object->answers[$idx];
+				$points = $answer->getPoints();
+				$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
+			}
 			foreach ($solutions as $solution)
 			{
 				if (strcmp($solution["value1"], $idx) == 0)

@@ -5145,6 +5145,23 @@ class ilObjSurvey extends ilObject
 			// if the string does not contain HTML code, replace the newlines with HTML line breaks
 			$result = preg_replace("/[\n]/", "<br />", $result);
 		}
+		else
+		{
+			// patch for problems with the <pre> tags in tinyMCE
+			if (preg_match_all("/(\<pre>.*?\<\/pre>)/ims", $result, $matches))
+			{
+				foreach ($matches[0] as $found)
+				{
+					$replacement = "";
+					if (strpos("\n", $found) === FALSE)
+					{
+						$replacement = "\n";
+					}
+					$removed = preg_replace("/\<br\s*?\/>/ims", $replacement, $found);
+					$result = str_replace($found, $removed, $result);
+				}
+			}
+		}
 		$result = str_replace("{", "&#123;", $result);
 		$result = str_replace("}", "&#125;", $result);
 		$result = str_replace("\\", "&#92;", $result);

@@ -1,6 +1,6 @@
 <?php
 	if (!$_GET["gfx"]) exit();
-	chdir("..");
+	chdir("../..");
 	require_once "./include/inc.header.php";
 	include_once "./classes/class.ilUtil.php";
 	// calculate directory of temporary file

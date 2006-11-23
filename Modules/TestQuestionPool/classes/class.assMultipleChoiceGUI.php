@@ -570,7 +570,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
@@ -677,6 +677,14 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			$checked = FALSE;
+			if ($result_output)
+			{
+				$pointschecked = $this->object->answers[$answer_id]->getPointsChecked();
+				$pointsunchecked = $this->object->answers[$answer_id]->getPointsUnchecked();
+				$resulttextchecked = ($pointschecked == 1) || ($pointschecked == -1) ? "%d " . $this->lng->txt("point") : "%d " . $this->lng->txt("points");
+				$resulttextunchecked = ($pointsunchecked == 1) || ($pointsunchecked == -1) ? "%d " . $this->lng->txt("point") : "%d " . $this->lng->txt("points"); 
+				$template->setVariable("RESULT_OUTPUT", sprintf("(" . $this->lng->txt("checkbox_checked") . " = $resulttextchecked, " . $this->lng->txt("checkbox_unchecked") . " = $resulttextunchecked)", $pointschecked, $pointsunchecked));
+			}
 			foreach ($user_solution as $mc_solution)
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)

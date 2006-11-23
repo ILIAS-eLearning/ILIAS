@@ -138,10 +138,11 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 	* @param integer $active_id The active id of the current user from the tst_active database table
 	* @param integer $pass The test pass of the current user
 	* @param boolean $graphicalOutput If TRUE, additional graphics (checkmark, cross) are shown to indicate wrong or right answers
+	* @param boolean $result_output If TRUE, the resulting points are shown for every answer
 	* @return string HTML code which contains the solution output of the question
 	* @access public
 	*/
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// Please have a look at the existing question types how to create a solution output for a question
 		// you should use your own template for the output

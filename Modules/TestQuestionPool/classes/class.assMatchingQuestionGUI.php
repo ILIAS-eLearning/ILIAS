@@ -510,7 +510,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -591,6 +591,12 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 			$template->setCurrentBlock("standard_matching_row");
 			$template->setVariable("MATCHES", $this->lng->txt("matches"));
+			if ($result_output)
+			{
+				$points = $answer->getPoints();
+				$resulttext = ($points == 1) ? "(%d " . $this->lng->txt("point") . ")" : "(%d " . $this->lng->txt("points") . ")"; 
+				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
+			}
 			foreach ($solutions as $solution)
 			{
 				if ($answer->getDefinitionId() == $solution["value2"])

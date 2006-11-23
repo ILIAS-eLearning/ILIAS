@@ -4005,7 +4005,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
 			}
-			$result_output = $question_gui->getSolutionOutput("");
+			$result_output = $question_gui->getSolutionOutput("", NULL, FALSE, TRUE);
 			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
 			$this->tpl->parseCurrentBlock("question");
 			$counter ++;					
