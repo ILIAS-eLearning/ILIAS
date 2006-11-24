@@ -234,16 +234,13 @@ class ilObjTestGUI extends ilObjectGUI
 	function exportObject()
 	{
 		global $tree;
-		global $rbacsystem;
-
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
-			// allow only read and write access
+			// allow only write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
+			$this->ctrl->redirect($this, "infoScreen");
 		}
-
-		//$this->setTabs();
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -356,9 +353,9 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function createExportFileObject()
 	{
-		global $rbacsystem;
+		global $ilAccess;
 		
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			include_once("./Modules/Test/classes/class.ilTestExport.php");
 			$test_exp = new ilTestExport($this->object, $_GET["mode"]);
@@ -1103,12 +1100,12 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function scoringObject()
 	{
-		global $rbacsystem;
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
-			// allow only read and write access
+			// allow only write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
+			$this->ctrl->redirect($this, "infoScreen");
 		}
 
 		$data["count_system"] = $this->object->getCountSystem();
@@ -1349,7 +1346,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_RESULTS_ALWAYS_DESCRIPTION", $this->lng->txt("tst_results_access_always_descr"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		}
@@ -1366,6 +1363,14 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
+			// allow only write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirect($this, "infoScreen");
+		}
+
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
@@ -1374,7 +1379,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-		global $rbacsystem;
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", "Modules/Test");
 		$total = $this->object->evalTotalPersons();
 		if ($total == 0)
@@ -1453,12 +1458,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
 		$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
 		$this->tpl->parseCurrentBlock();
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
-		{
-			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
-		}
 		
 		$total = $this->object->evalTotalPersons();
 		$data["anonymity"] = $this->object->getAnonymity();
@@ -1534,7 +1533,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_PROPERTIES", $this->ctrl->getFormAction($this));
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
 			$this->tpl->setVariable("SUBMIT_TYPE", $this->lng->txt("change"));
 		}
 		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("tst_general_properties"));
@@ -1666,7 +1666,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("VALUE_PASSWORD", " value=\"". ilUtil::prepareFormOutput($data["password"])."\"");
 		}
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		}
@@ -1798,7 +1798,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function questionBrowser()
 	{
-		global $rbacsystem;
+		global $ilAccess;
 
 		$this->ctrl->setParameterByClass(get_class($this), "browse", "1");
 
@@ -2762,13 +2762,12 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function questionsObject()
 	{
-		global $rbacsystem;
-
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
-			// allow only read and write access
+			// allow only write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
+			$this->ctrl->redirect($this, "infoScreen");
 		}
 
 		if ($this->object->isRandomTest())
@@ -2857,7 +2856,8 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("QTab");
 				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
+				if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
+				{
 					$q_id = $data["question_id"];
 					$qpl_ref_id = $this->object->_getRefIdFromObjId($data["obj_fi"]);
 					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
@@ -2866,7 +2866,8 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
 
-				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
+				if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
+				{
 					if ($data["question_id"] != $this->object->questions[1])
 					{
 						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
@@ -2893,7 +2894,7 @@ class ilObjTestGUI extends ilObjectGUI
 		} 
 		else 
 		{
-			if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) 
+			if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
 			{
 				$this->tpl->setCurrentBlock("selectall");
 				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
@@ -2908,7 +2909,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) 
+		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
 		{
 			global $ilUser;
 			$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
@@ -2934,7 +2935,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
 
-		if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
+		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
+		{
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("tst_browse_for_questions"));
 			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
 			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
@@ -3103,13 +3105,12 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function marksObject() 
 	{
-		global $rbacsystem;
-
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
-			// allow only read and write access
+			// allow only write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
+			$this->ctrl->redirect($this, "infoScreen");
 		}
 
 		if (!$this->object->canEditMarks())
@@ -3146,7 +3147,7 @@ class ilObjTestGUI extends ilObjectGUI
 		} 
 		else 
 		{
-			if ($rbacsystem->checkAccess("write", $this->ref_id) && $this->object->canEditMarks()) 
+			if ($ilAccess->checkAccess("write", "", $this->ref_id) && $this->object->canEditMarks()) 
 			{
 				$this->tpl->setCurrentBlock("selectall");
 				$counter++;
@@ -3199,7 +3200,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER_OFFICIAL", $this->lng->txt("tst_mark_official_form"));
 		$this->tpl->setVariable("HEADER_PERCENTAGE", $this->lng->txt("tst_mark_minimum_level"));
 		$this->tpl->setVariable("HEADER_PASSED", $this->lng->txt("tst_mark_passed"));
-		if ($rbacsystem->checkAccess("write", $this->ref_id) && $this->object->canEditMarks()) 
+		if ($ilAccess->checkAccess("write", "", $this->ref_id) && $this->object->canEditMarks()) 
 		{
 			$this->tpl->setVariable("BUTTON_NEW", $this->lng->txt("tst_mark_create_new_mark_step"));
 			$this->tpl->setVariable("BUTTON_NEW_SIMPLE", $this->lng->txt("tst_mark_create_simple_mark_schema"));
@@ -3368,10 +3369,16 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function historyObject()
 	{
-		global $rbacsystem;
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
+			// allow only write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirect($this, "infoScreen");
+		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_status.html", "Modules/Test");
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			include_once "./classes/class.ilObjAssessmentFolder.php";
 			$log =& ilObjAssessmentFolder::_getLog("19700101000000", strftime("%Y%m%d%H%M%S"), $this->object->getId(), TRUE);
@@ -3618,15 +3625,14 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function inviteParticipantsObject()
 	{
-		global $rbacsystem;
-
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
-			// allow only read and write access
+			// allow only write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
+			$this->ctrl->redirect($this, "infoScreen");
 		}
-		
+
 		$total = $this->object->evalTotalPersons();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_fixed_users.html", "Modules/Test");
 
@@ -3736,7 +3742,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if ($this->object->getFixedParticipants())
 		{
-			if ($rbacsystem->checkAccess('write', $this->ref_id))
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
 				$this->tpl->setCurrentBlock("invitation");
 				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
@@ -3802,7 +3808,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("DISABLED_FIXED_PARTICIPANTS", " disabled=\"disabled\"");
 		}
 
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
@@ -3819,15 +3825,14 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function participantsObject()
 	{
-		global $rbacsystem;
-
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
-			// allow only read and write access
+			// allow only write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
+			$this->ctrl->redirect($this, "infoScreen");
 		}
-		
+
 		if ($this->object->getFixedParticipants())
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_invite.html", "Modules/Test");
@@ -3847,7 +3852,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->saveToDb();
 		}
 		
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$this->tpl->setCurrentBlock("invitation");
 			$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
@@ -3923,7 +3928,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
@@ -3972,14 +3977,14 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function printobject() 
 	{
-		global $rbacsystem, $ilUser;
-		
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
-			// allow only read and write access
+			// allow only write access
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->backToRepositoryObject();
+			$this->ctrl->redirect($this, "infoScreen");
 		}
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", "Modules/Test");
 		$this->tpl->setCurrentBlock("generic_css");
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Test/templates/default/test_print.css");
@@ -4036,7 +4041,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $title_text, $title_label, $buttons)
 	{
-		global $rbacsystem;
+		global $ilAccess;
 		$rowclass = array("tblrow1", "tblrow2");
 		
 		switch($a_type)
@@ -4097,7 +4102,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
 				$this->tpl->setVariable("TEXT_IV_LAST_ACCESS", $this->lng->txt("last_access"));
 					
-				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
 					{
@@ -4161,7 +4166,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
 				$this->tpl->setVariable("TEXT_IV_LAST_ACCESS", $this->lng->txt("last_access"));
 					
-				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
 					{
@@ -4201,7 +4206,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
 				$this->tpl->setVariable("TEXT_CLIENT_IP", $this->lng->txt("clientip"));
 					
-				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
 					{
@@ -4237,7 +4242,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" align=\"middle\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-				if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 				{
 					foreach ($buttons as $cat)
 					{
@@ -4782,8 +4787,8 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function getBrowseForQuestionsTab(&$tabs_gui)
 	{
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		global $ilAccess;
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			// edit page
 			$tabs_gui->setBackTarget($this->lng->txt("backtocallingtest"), $this->ctrl->getLinkTarget($this, "questions"));
@@ -4797,8 +4802,8 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function getRandomQuestionsTab(&$tabs_gui)
 	{
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		global $ilAccess;
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			// edit page
 			$tabs_gui->setBackTarget($this->lng->txt("backtocallingtest"), $this->ctrl->getLinkTarget($this, "questions"));
@@ -4935,7 +4940,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
 		global $ilAccess;
 
 		switch ($this->ctrl->getCmd())
@@ -5127,7 +5131,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				// learning progress
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-				if(ilObjUserTracking::_enabledLearningProgress() and $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id))
+				if(ilObjUserTracking::_enabledLearningProgress() and $ilAccess->checkAccess("edit_learning_progress", "", $this->ref_id))
 				{
 					$tabs_gui->addTarget('learning_progress',
 						$this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),

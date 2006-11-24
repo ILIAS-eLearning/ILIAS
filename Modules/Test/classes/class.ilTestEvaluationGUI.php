@@ -150,6 +150,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outEvaluation()
 	{
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) 
+		{
+			// allow only evaluation access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
 		global $ilUser;
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
@@ -559,6 +567,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 */
 	function eval_a()
 	{
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) 
+		{
+			// allow only evaluation access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", "Modules/Test");
