@@ -66,13 +66,12 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	*/
 	function manscoring($active_id = 0)
 	{
-		global $rbacsystem;
-
-		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
-			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_test"));
-			return;
+			// allow only write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
 		include_once "./classes/class.ilObjAssessmentFolder.php";

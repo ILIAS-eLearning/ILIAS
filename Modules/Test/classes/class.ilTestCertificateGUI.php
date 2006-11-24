@@ -303,6 +303,14 @@ class ilTestCertificateGUI
 */
 	function certificateEditor()
 	{
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
+			// allow only write access
+			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
 		$form_fields = array();
 		if (is_array($_POST))
 		{
