@@ -645,9 +645,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		return $result;
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 
 		$this->ctrl->setParameterByClass("ilTestOutputGUI", "formtimestamp", time());
@@ -801,7 +801,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -872,6 +872,19 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
 			$template->parseCurrentBlock();
+			if ($show_feedback)
+			{
+				if (strlen($user_solution) && $user_solution == $answer_id)
+				{
+					$feedback = $this->object->getFeedbackSingleAnswer($user_solution);
+					if (strlen($feedback))
+					{
+						$template->setCurrentBlock("feedback");
+						$template->setVariable("FEEDBACK", $feedback);
+						$template->parseCurrentBlock();
+					}
+				}
+			}
 		}
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
@@ -918,6 +931,59 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
+	}
+
+	/**
+	* Saves the feedback for a single choice question
+	*
+	* Saves the feedback for a single choice question
+	*
+	* @access public
+	*/
+	function saveFeedback()
+	{
+		global $ilDB;
+		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"]));
+		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"]));
+		foreach ($this->object->answers as $index => $answer)
+		{
+			$this->object->saveFeedbackSingleAnswer($index, ilUtil::stripSlashes($_POST["feedback_answer_$index"]));
+		}
+		$this->feedback();
+	}
+
+	/**
+	* Creates the output of the feedback page for a single choice question
+	*
+	* Creates the output of the feedback page for a single choice question
+	*
+	* @access public
+	*/
+	function feedback()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_imagemap_feedback.html", "Modules/TestQuestionPool");
+		foreach ($this->object->answers as $index => $answer)
+		{
+			$this->tpl->setCurrentBlock("feedback_answer");
+			$this->tpl->setVariable("FEEDBACK_TEXT_ANSWER", $this->lng->txt("feedback"));
+			$text = strtoupper($answer->getArea() . " (" . $answer->getCoords() . ")");
+			if (strlen($answer->getAnswertext()))
+			{
+				$text = $answer->getAnswertext() . ": " . $text;
+			}
+			$this->tpl->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($text, TRUE));
+			$this->tpl->setVariable("ANSWER_ID", $index);
+			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", ilUtil::prepareFormOutput($this->object->getFeedbackSingleAnswer($index)));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
+		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->getFeedbackGeneric(1)));
+		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->getFeedbackGeneric(0)));
+		$this->tpl->setVariable("FEEDBACK_ANSWERS", $this->lng->txt("feedback_answers"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	}
 }
 ?>

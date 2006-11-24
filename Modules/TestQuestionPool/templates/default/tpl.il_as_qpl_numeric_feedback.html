@@ -1,0 +1,25 @@
+<form name="feedback" action="{FORMACTION}" method="post" enctype="multipart/form-data">
+<table class="std">
+<tr class="tblheader">
+	<th colspan="2">{FEEDBACK_COMPLETE}</th>
+</tr>
+<tr>
+  <td class="option">{FEEDBACK_TEXT}</td>
+  <td class="option_value"><textarea name="feedback_complete" id="feedback_complete" rows="5" cols="80" wrap="virtual" style="width:95%;">{VALUE_FEEDBACK_COMPLETE}</textarea></td>
+</tr>
+<tr class="tblheader">
+	<th colspan="2">{FEEDBACK_INCOMPLETE}</th>
+</tr>
+<tr>
+  <td class="option">{FEEDBACK_TEXT}</td>
+  <td class="option_value"><textarea name="feedback_incomplete" id="feedback_incomplete" rows="5" cols="80" wrap="virtual" style="width:95%;">{VALUE_FEEDBACK_INCOMPLETE}</textarea></td>
+</tr>
+<tr>
+	<td colspan="2" class="submit">
+		<div align="right">
+			<input name="cmd[saveFeedback]" type="submit" class="submit" id="saveFeedback" value="{SAVE}" />
+		</div>
+	</td>
+</tr>
+</table>
+</form>

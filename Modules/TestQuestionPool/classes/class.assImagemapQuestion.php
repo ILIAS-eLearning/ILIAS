@@ -300,6 +300,10 @@ class assImagemapQuestion extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		// duplicate the generic feedback
+		$clone->duplicateFeedbackGeneric($original_id);
+		// duplicate the answer specific feedback
+		$clone->duplicateFeedbackAnswer($original_id);
 
 		// duplicate the image
 		$clone->duplicateImage($original_id);
@@ -337,6 +341,10 @@ class assImagemapQuestion extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		// duplicate the generic feedback
+		$clone->duplicateFeedbackGeneric($original_id);
+		// duplicate the answer specific feedback
+		$clone->duplicateFeedbackAnswer($original_id);
 
 		// duplicate the image
 		$clone->copyImage($original_id, $source_questionpool);
@@ -1306,6 +1314,94 @@ class assImagemapQuestion extends assQuestion
 	{
 		return "qpl_answer_imagemap";
 	}
+
+	/**
+	* Saves feedback for a single selected answer to the database
+	*
+	* Saves feedback for a single selected answer to the database
+	*
+	* @param integer $answer_index The index of the answer
+	* @param string $feedback Feedback text
+	* @access public
+	*/
+	function saveFeedbackSingleAnswer($answer_index, $feedback)
+	{
+		global $ilDB;
+		
+		$query = sprintf("DELETE FROM qpl_feedback_imagemap WHERE question_fi = %s AND answer = %s",
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($answer_index . "")
+		);
+		$result = $ilDB->query($query);
+		if (strlen($feedback))
+		{
+			$query = sprintf("INSERT INTO qpl_feedback_imagemap VALUES (NULL, %s, %s, %s, NULL)",
+				$ilDB->quote($this->getId() . ""),
+				$ilDB->quote($answer_index . ""),
+				$ilDB->quote($feedback)
+			);
+			$result = $ilDB->query($query);
+		}
+	}
+
+	/**
+	* Returns the feedback for a single selected answer
+	*
+	* Returns the feedback for a single selected answer
+	*
+	* @param integer $answer_index The index of the answer
+	* @return string Feedback text
+	* @access public
+	*/
+	function getFeedbackSingleAnswer($answer_index)
+	{
+		global $ilDB;
+		
+		$feedback = "";
+		$query = sprintf("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s AND answer = %s",
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($answer_index . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$feedback = $row["feedback"];
+		}
+		return $feedback;
+	}
+
+	/**
+	* Duplicates the answer specific feedback
+	*
+	* Duplicates the answer specific feedback
+	*
+	* @param integer $original_id The database ID of the original question
+	* @access public
+	*/
+	function duplicateFeedbackAnswer($original_id)
+	{
+		global $ilDB;
+		
+		$feedback = "";
+		$query = sprintf("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s",
+			$ilDB->quote($original_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$duplicatequery = sprintf("INSERT INTO qpl_feedback_imagemap VALUES (NULL, %s, %s, %s, NULL)",
+					$ilDB->quote($this->getId() . ""),
+					$ilDB->quote($row["answer"] . ""),
+					$ilDB->quote($row["feedback"] . "")
+				);
+				$duplicateresult = $ilDB->query($duplicatequery);
+			}
+		}
+	}
+
 }
 
 ?>

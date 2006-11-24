@@ -11785,3 +11785,13 @@ CREATE TABLE `qpl_feedback_multiplechoice` (
   PRIMARY KEY  (`feedback_id`),
   KEY `question_fi` (`question_fi`)
 );
+<#855>
+CREATE TABLE `qpl_feedback_imagemap` (
+  `feedback_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL,
+  `answer` int(11) NOT NULL,
+  `feedback` text NOT NULL,
+  `lastchange` timestamp NOT NULL,
+  PRIMARY KEY  (`feedback_id`),
+  KEY `question_fi` (`question_fi`)
+);

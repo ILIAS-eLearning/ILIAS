@@ -863,6 +863,8 @@ class assMatchingQuestion extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		// duplicate the generic feedback
+		$clone->duplicateFeedbackGeneric($original_id);
 
 		// duplicate the image
 		$clone->duplicateImages($original_id);
@@ -900,6 +902,8 @@ class assMatchingQuestion extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		// duplicate the generic feedback
+		$clone->duplicateFeedbackGeneric($original_id);
 
 		// duplicate the image
 		$clone->copyImages($original_id, $source_questionpool);

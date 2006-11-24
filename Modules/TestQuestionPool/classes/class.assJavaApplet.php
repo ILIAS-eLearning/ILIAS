@@ -765,6 +765,8 @@ class assJavaApplet extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		// duplicate the generic feedback
+		$clone->duplicateFeedbackGeneric($original_id);
 
 		// duplicate the image
 		$clone->duplicateApplet($original_id);
@@ -802,6 +804,8 @@ class assJavaApplet extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		// duplicate the generic feedback
+		$clone->duplicateFeedbackGeneric($original_id);
 
 		// duplicate the image
 		$clone->copyApplet($original_id, $source_questionpool);
