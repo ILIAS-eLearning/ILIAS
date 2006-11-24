@@ -216,5 +216,55 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 		$this->getQuestionTemplate();
 		parent::addSuggestedSolution();
 	}
+
+	/**
+	* Saves the feedback for a question type
+	*
+	* Saves the feedback for a question type
+	*
+	* @access public
+	*/
+	function saveFeedback()
+	{
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$this->object->cleanupMediaObjectUsage();
+
+		// additional feedback processing
+		$this->feedback();
+	}
+
+	/**
+	* Creates the output of the feedback page for a single choice question
+	*
+	* Creates the output of the feedback page for a single choice question
+	*
+	* @access public
+	*/
+	function feedback()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_mytype_feedback.html", "Modules/TestQuestionPool");
+		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
+		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE);
+		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE);
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		
+		// additional feedback if needed
+
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->addPlugin("latex");
+		$rte->addButton("latex");
+		include_once "./classes/class.ilObject.php";
+		$obj_id = $_GET["q_id"];
+		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
+		$rte->addRTESupport($obj_id, $obj_type, "assessment");
+	}
 }
 ?>

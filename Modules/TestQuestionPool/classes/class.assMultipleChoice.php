@@ -35,15 +35,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assMultipleChoice extends assQuestion
 {
 	/**
-	* Question string
-	*
-	* The question string of the multiple choice question
-	*
-	* @var string
-	*/
-	var $question;
-
-	/**
 	* The given answers of the multiple choice question
 	*
 	* $answers is an array of the given answers of the multiple choice question
@@ -85,8 +76,7 @@ class assMultipleChoice extends assQuestion
 		$output_type = OUTPUT_ORDER
 	  )
 	{
-		$this->assQuestion($title, $comment, $author, $owner);
-		$this->question = $question;
+		$this->assQuestion($title, $comment, $author, $owner, $question);
 		$this->output_type = $output_type;
 		$this->answers = array();
 	}
@@ -597,8 +587,6 @@ class assMultipleChoice extends assQuestion
 			$original_id = "NULL";
 		}
 		
-		$combinedtext = "";
-
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 
 		if ($this->id == -1)
@@ -664,8 +652,6 @@ class assMultipleChoice extends assQuestion
 			$result = $ilDB->query($query);
 		}
 		
-		$combinedtext = $this->question;
-		
 		if ($result == DB_OK)
 		{
 			// Antworten schreiben
@@ -688,14 +674,9 @@ class assMultipleChoice extends assQuestion
 					$ilDB->quote($answer_obj->getOrder() . ""),
 					$ilDB->quote($answer_obj->getImage() . "")
 				);
-				$combinedtext .= $answer_obj->getAnswertext();
 				$answer_result = $ilDB->query($query);
 			}
 		}
-
-		// cleanup RTE images which are not inserted into the question text
-		ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html",
-			$this->getId());
 
 		parent::saveToDb($original_id);
 	}
@@ -871,34 +852,6 @@ class assMultipleChoice extends assQuestion
 		$clone->duplicateFeedbackAnswer($original_id);
 
 		return $clone->id;
-	}
-	
-	/**
-	* Gets the multiple choice question
-	*
-	* Gets the question string of the assMultipleChoice object
-	*
-	* @return string The question string of the assMultipleChoice object
-	* @access public
-	* @see $question
-	*/
-	function getQuestion()
-	{
-		return $this->question;
-	}
-
-	/**
-	* Sets the multiple choice question
-	*
-	* Sets the question string of the assMultipleChoice object
-	*
-	* @param string $question A string containing the multiple choice question
-	* @access public
-	* @see $question
-	*/
-	function setQuestion($question = "")
-	{
-		$this->question = $question;
 	}
 
 	/**
@@ -1456,10 +1409,11 @@ class assMultipleChoice extends assQuestion
 		$result = $ilDB->query($query);
 		if (strlen($feedback))
 		{
+			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$query = sprintf("INSERT INTO qpl_feedback_multiplechoice VALUES (NULL, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($answer_index . ""),
-				$ilDB->quote($feedback)
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($feedback, 0))
 			);
 			$result = $ilDB->query($query);
 		}
@@ -1487,7 +1441,8 @@ class assMultipleChoice extends assQuestion
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			$feedback = $row["feedback"];
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
 		return $feedback;
 	}
@@ -1521,6 +1476,22 @@ class assMultipleChoice extends assQuestion
 				$duplicateresult = $ilDB->query($duplicatequery);
 			}
 		}
+	}
+
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		$text = parent::getRTETextWithMediaObjects();
+		foreach ($this->answers as $index => $answer)
+		{
+			$text .= $this->getFeedbackSingleAnswer($index);
+			$answer_obj = $this->answers[$index];
+			$text .= $answer_obj->getAnswertext();
+		}
+		return $text;
 	}
 }
 

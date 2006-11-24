@@ -814,7 +814,7 @@ class assQuestionGUI
 				$output = $incorrect_feedback;
 			}
 		}
-		return $output;
+		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 
 	/**

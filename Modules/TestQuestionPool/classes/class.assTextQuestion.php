@@ -35,15 +35,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assTextQuestion extends assQuestion
 {
 	/**
-	* Question string
-	*
-	* The question string of the text question
-	*
-	* @var string
-	*/
-	var $question;
-
-	/**
 	* Maximum number of characters of the answertext
 	*
 	* Maximum number of characters of the answertext
@@ -92,8 +83,7 @@ class assTextQuestion extends assQuestion
 		$question = ""
 	  )
 	{
-		$this->assQuestion($title, $comment, $author, $owner);
-		$this->question = $question;
+		$this->assQuestion($title, $comment, $author, $owner, $question);
 		$this->maxNumOfChars = 0;
 		$this->points = 0;
 		$this->keywords = "";
@@ -407,9 +397,6 @@ class assTextQuestion extends assQuestion
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->question, "qpl:html",
-			$this->getId());
-
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -607,34 +594,6 @@ class assTextQuestion extends assQuestion
 		$clone->duplicateFeedbackGeneric($original_id);
 
 		return $clone->id;
-	}
-	
-	/**
-	* Gets the text question
-	*
-	* Gets the question string of the assTextQuestion object
-	*
-	* @return string The question string of the assTextQuestion object
-	* @access public
-	* @see $question
-	*/
-	function getQuestion()
-	{
-		return $this->question;
-	}
-
-	/**
-	* Sets the text question
-	*
-	* Sets the question string of the assTextQuestion object
-	*
-	* @param string $question A string containing the text question
-	* @access public
-	* @see $question
-	*/
-	function setQuestion($question = "")
-	{
-		$this->question = $question;
 	}
 
 	/**
@@ -1057,6 +1016,14 @@ class assTextQuestion extends assQuestion
 		return "qpl_question_essay";
 	}
 
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		return parent::getRTETextWithMediaObjects();
+	}
 }
 
 ?>

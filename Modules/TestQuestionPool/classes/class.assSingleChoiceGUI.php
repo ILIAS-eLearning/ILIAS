@@ -793,7 +793,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 					if (strlen($feedback))
 					{
 						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $feedback);
+						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, TRUE));
 						$template->parseCurrentBlock();
 					}
 				}
@@ -895,13 +895,14 @@ class assSingleChoiceGUI extends assQuestionGUI
 	*/
 	function saveFeedback()
 	{
-		global $ilDB;
-		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"]));
-		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"]));
+		include_once "./classes/class.ilObjAdvancedEditing.php";
+		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		foreach ($this->object->answers as $index => $answer)
 		{
-			$this->object->saveFeedbackSingleAnswer($index, ilUtil::stripSlashes($_POST["feedback_answer_$index"]));
+			$this->object->saveFeedbackSingleAnswer($index, ilUtil::stripSlashes($_POST["feedback_answer_$index"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		}
+		$this->object->cleanupMediaObjectUsage();
 		$this->feedback();
 	}
 
@@ -921,17 +922,28 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$this->tpl->setVariable("FEEDBACK_TEXT_ANSWER", $this->lng->txt("feedback"));
 			$this->tpl->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			$this->tpl->setVariable("ANSWER_ID", $index);
-			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", ilUtil::prepareFormOutput($this->object->getFeedbackSingleAnswer($index)));
+			$this->tpl->setVariable("VALUE_FEEDBACK_ANSWER", $this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)), FALSE);
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
 		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->getFeedbackGeneric(1)));
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE);
 		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->getFeedbackGeneric(0)));
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", $this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE);
 		$this->tpl->setVariable("FEEDBACK_ANSWERS", $this->lng->txt("feedback_answers"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->addPlugin("latex");
+		$rte->addButton("latex");
+		include_once "./classes/class.ilObject.php";
+		$obj_id = $_GET["q_id"];
+		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
+		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 	}
 }
 ?>

@@ -35,15 +35,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assJavaApplet extends assQuestion
 {
 	/**
-	* Question string
-	*
-	* The question string of the multiple choice question
-	*
-	* @var string
-	*/
-	var $question;
-
-	/**
 	* Java applet file name
 	*
 	* The file name of the java applet
@@ -130,8 +121,7 @@ class assJavaApplet extends assQuestion
 		$javaapplet_filename = ""
 	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner);
-		$this->question = $question;
+		$this->assQuestion($title, $comment, $author, $owner, $question);
 		$this->javaapplet_filename = $javaapplet_filename;
 		$this->parameters = array();
 	}
@@ -610,9 +600,6 @@ class assJavaApplet extends assQuestion
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->question, "qpl:html",
-			$this->getId());
-
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -839,34 +826,6 @@ class assJavaApplet extends assQuestion
 		if (!copy($javapath_original . $filename, $javapath . $filename)) {
 			print "java applet could not be copied!!!! ";
 		}
-	}
-
-	/**
-	* Gets the multiple choice question
-	*
-	* Gets the question string of the assJavaApplet object
-	*
-	* @return string The question string of the assJavaApplet object
-	* @access public
-	* @see $question
-	*/
-	function getQuestion()
-	{
-		return $this->question;
-	}
-
-	/**
-	* Sets the question text
-	*
-	* Sets the question string of the assJavaApplet object
-	*
-	* @param string $question A string containing the question text
-	* @access public
-	* @see $question
-	*/
-	function setQuestion($question = "")
-	{
-		$this->question = $question;
 	}
 
 	/**
@@ -1356,6 +1315,15 @@ class assJavaApplet extends assQuestion
 	function getAdditionalTableName()
 	{
 		return "qpl_question_javaapplet";
+	}
+
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		return parent::getRTETextWithMediaObjects();
 	}
 }
 

@@ -36,16 +36,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assClozeTest extends assQuestion
 {
 	/**
-	* The cloze text containing variables defininig the clozes
-	*
-	* The cloze text containing variables defininig the clozes. The syntax for the cloze variables is *[varname],
-	* where varname has to be an unique identifier.
-	*
-	* @var string
-	*/
-	var $cloze_text;
-
-	/**
 	* The gaps of the cloze question
 	*
 	* $gaps is an array of the predefined gaps of the cloze question
@@ -121,7 +111,7 @@ class assClozeTest extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->cloze_text) and (count($this->gaps)) and ($this->getMaximumPoints() > 0))
+		if (($this->title) and ($this->author) and ($this->getClozeText()) and (count($this->gaps)) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -143,11 +133,11 @@ class assClozeTest extends assQuestion
 	{
 		$result = array();
 		$search_pattern = "|\[gap([^\]]*?)\](.*?)\[/gap\]|i";
-		preg_match_all($search_pattern, $this->cloze_text, $gaps);
+		preg_match_all($search_pattern, $this->getClozeText(), $gaps);
 		if (count($gaps[0]))
 		{
 			// found at least one gap
-			$delimiters = preg_split($search_pattern, $this->cloze_text, -1, PREG_SPLIT_OFFSET_CAPTURE);
+			$delimiters = preg_split($search_pattern, $this->getClozeText(), -1, PREG_SPLIT_OFFSET_CAPTURE);
 			$result["gaps"] = array();
 			foreach ($gaps[0] as $index => $gap)
 			{
@@ -198,7 +188,7 @@ class assClozeTest extends assQuestion
 			$result["gaps"] = array();
 			$result["delimiters"] = 
 				array(
-					array(0 => $this->cloze_text, 1 => "0")
+					array(0 => $this->getClozeText(), 1 => "0")
 				);
 		}
 		return $result;		
@@ -214,7 +204,7 @@ class assClozeTest extends assQuestion
 	*/
 	function createCloseTextFromArray($assoc_array)
 	{
-		$this->cloze_text = "";
+		$this->setQuestion("");
 		if (count($assoc_array))
 		{
 			$gap = 0;
@@ -238,7 +228,7 @@ class assClozeTest extends assQuestion
 							array_push($textarray, $textvalue);
 						}
 					}
-					$this->cloze_text .= sprintf("[gap name=\"%s\" type=\"%s\"%s]%s[/gap]",
+					$this->question .= sprintf("[gap name=\"%s\" type=\"%s\"%s]%s[/gap]",
 						$assoc_array["gaps"][$gap]["params"]["name"],
 						$assoc_array["gaps"][$gap]["params"]["type"],
 						$shuffle,
@@ -246,7 +236,7 @@ class assClozeTest extends assQuestion
 					);
 					$gap++;
 				}
-				$this->cloze_text .= $value[0];
+				$this->question .= $value[0];
 			}
 		}
 	}
@@ -282,9 +272,6 @@ class assClozeTest extends assQuestion
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->cloze_text, "qpl:html",
-			$this->getId());
-		
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -298,7 +285,7 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($this->author),
 				$ilDB->quote($this->owner),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->cloze_text, 0)),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0)),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
 				$ilDB->quote($created),
@@ -333,7 +320,7 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->comment),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->cloze_text, 0)),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0)),
 				$ilDB->quote($estw_time),
 				$ilDB->quote("$complete"),
 				$ilDB->quote($this->id)
@@ -408,12 +395,12 @@ class assClozeTest extends assQuestion
         $this->author = $data->author;
 				$this->points = $data->points;
         $this->owner = $data->owner;
-        $this->cloze_text = $data->question_text;
+        $this->question = $data->question_text;
 				// replacement of old syntax with new syntax
-				$this->cloze_text = preg_replace("/\<gap([^>]*?)\>/", "[gap" . "\\1" . "]", $this->cloze_text);
-				$this->cloze_text = str_replace("</gap>", "[/gap]", $this->cloze_text);
+				$this->question = preg_replace("/\<gap([^>]*?)\>/", "[gap" . "\\1" . "]", $this->question);
+				$this->question = str_replace("</gap>", "[/gap]", $this->question);
 				include_once("./Services/RTE/classes/class.ilRTE.php");
-				$this->cloze_text = ilRTE::_replaceMediaObjectImageSrc($this->cloze_text, 1);
+				$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
 				$this->setTextgapRating($data->textgap_rating);
         $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
@@ -714,7 +701,7 @@ class assClozeTest extends assQuestion
 		{
 			$clozetext = str_replace("<<" . $idx . ">>", $val, $clozetext);
 		}
-		$this->cloze_text = $clozetext;
+		$this->question = $clozetext;
 		$this->saveToDb();
 		// handle the import of media objects in XHTML code
 		if (is_array($_SESSION["import_mob_xhtml"]))
@@ -735,7 +722,7 @@ class assClozeTest extends assQuestion
 				}
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 //				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->getId());
-				$this->cloze_text = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->cloze_text), 1);
+				$this->question = ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->question), 1);
 			}
 			$this->saveToDb();
 		}
@@ -1116,7 +1103,7 @@ class assClozeTest extends assQuestion
 	function setClozeText($cloze_text = "")
 	{
 		$this->gaps = array();
-		$this->cloze_text =& $cloze_text;
+		$this->question =& $cloze_text;
 		$close = $this->createCloseTextArray();
 		if (count($close))
 		{
@@ -1175,8 +1162,9 @@ class assClozeTest extends assQuestion
 * @access public
 * @see $cloze_text
 */
-  function getClozeText() {
-    return $this->cloze_text;
+  function getClozeText() 
+	{
+    return $this->question;
   }
 
 /**
@@ -1883,7 +1871,7 @@ class assClozeTest extends assQuestion
 				$ilDB->quote($this->comment . ""),
 				$ilDB->quote($this->getMaximumPoints() . ""),
 				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->cloze_text . ""),
+				$ilDB->quote($this->getQuestion() . ""),
 				$ilDB->quote($estw_time . ""),
 				$ilDB->quote($complete . ""),
 				$ilDB->quote($this->original_id . "")
@@ -2161,6 +2149,15 @@ class assClozeTest extends assQuestion
     }
     return $points;
   }
+
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		return parent::getRTETextWithMediaObjects();
+	}
 
 }
 ?>
