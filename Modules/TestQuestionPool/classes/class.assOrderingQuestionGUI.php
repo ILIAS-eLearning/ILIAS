@@ -877,5 +877,39 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->writePostData();
 		$this->editQuestion();
 	}
+
+	/**
+	* Saves the feedback for a single choice question
+	*
+	* Saves the feedback for a single choice question
+	*
+	* @access public
+	*/
+	function saveFeedback()
+	{
+		global $ilDB;
+		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"]));
+		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"]));
+		$this->feedback();
+	}
+
+	/**
+	* Creates the output of the feedback page for a single choice question
+	*
+	* Creates the output of the feedback page for a single choice question
+	*
+	* @access public
+	*/
+	function feedback()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_ordering_feedback.html", "Modules/TestQuestionPool");
+		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
+		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
+		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->getFeedbackGeneric(1)));
+		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
+		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->getFeedbackGeneric(0)));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+	}
 }
 ?>

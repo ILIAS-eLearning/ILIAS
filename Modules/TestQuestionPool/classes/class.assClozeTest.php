@@ -507,6 +507,8 @@ class assClozeTest extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		// duplicate the generic feedback
+		$clone->duplicateFeedbackGeneric($original_id);
 
 		return $clone->id;
 	}
@@ -542,6 +544,8 @@ class assClozeTest extends assQuestion
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+		// duplicate the generic feedback
+		$clone->duplicateFeedbackGeneric($original_id);
 
 		return $clone->id;
 	}
@@ -2157,6 +2161,6 @@ class assClozeTest extends assQuestion
     }
     return $points;
   }
-}
 
+}
 ?>
