@@ -36,15 +36,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assMatchingQuestion extends assQuestion
 {
 	/**
-	* The question text
-	*
-	* The question text of the matching question.
-	*
-	* @var string
-	*/
-	var $question;
-
-	/**
 	* The possible matching pairs of the matching question
 	*
 	* $matchingpairs is an array of the predefined matching pairs of the matching question
@@ -84,9 +75,8 @@ class assMatchingQuestion extends assQuestion
 		$matching_type = MT_TERMS_DEFINITIONS
 	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner, $question);
 		$this->matchingpairs = array();
-		$this->question = $question;
 		$this->matching_type = $matching_type;
 	}
 
@@ -656,9 +646,6 @@ class assMatchingQuestion extends assQuestion
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->question, "qpl:html",
-			$this->getId());
-
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -962,20 +949,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Sets the matching question text
-	*
-	* Sets the matching question text
-	*
-	* @param string $question The question text
-	* @access public
-	* @see $question
-	*/
-	function setQuestion($question = "")
-	{
-		$this->question = $question;
-	}
-
-	/**
 	* Sets the matching question type
 	*
 	* Sets the matching question type
@@ -987,20 +960,6 @@ class assMatchingQuestion extends assQuestion
 	function setMatchingType($matching_type = MT_TERMS_DEFINITIONS)
 	{
 		$this->matching_type = $matching_type;
-	}
-
-	/**
-	* Returns the question text
-	*
-	* Returns the question text
-	*
-	* @return string The question text string
-	* @access public
-	* @see $question
-	*/
-	function getQuestion()
-	{
-		return $this->question;
 	}
 
 	/**
@@ -1497,6 +1456,15 @@ class assMatchingQuestion extends assQuestion
 	function getAnswerTableName()
 	{
 		return "qpl_answer_matching";
+	}
+
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		return parent::getRTETextWithMediaObjects();
 	}
 }
 

@@ -33,15 +33,6 @@
 class assQuestionTypeTemplate extends assQuestion
 {
 	/**
-	* Question string
-	*
-	* The question string of the new question type
-	*
-	* @var string
-	*/
-	var $question;
-
-	/**
 	* assQuestionTypeTemplate constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the assQuestionTypeTemplate object.
@@ -62,10 +53,9 @@ class assQuestionTypeTemplate extends assQuestion
 		$question = ""
 	  )
 	{
-		$this->assQuestion($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner, $question);
 
 		// do your own initialization stuff here
-		$this->question = $question;
 	}
 
 	/**
@@ -368,38 +358,6 @@ class assQuestionTypeTemplate extends assQuestion
 	}
 	
 	/**
-	* Returns the value of the question attribute
-	*
-	* Returns the value of the question attribute
-	*
-	* @return string The value of the question attribute
-	* @access public
-	* @see $question
-	*/
-	function getQuestion()
-	{
-		// this has to be done for every attribute
-		// you have to defined a getter and setter method for every attribute.
-		return $this->question;
-	}
-
-	/**
-	* Sets the value of the question attribute
-	*
-	* Sets the value of the question attribute
-	*
-	* @param string $question A string containing the value of the question attribute
-	* @access public
-	* @see $question
-	*/
-	function setQuestion($question = "")
-	{
-		// this has to be done for every attribute
-		// you have to defined a getter and setter method for every attribute.
-		$this->question = $question;
-	}
-
-	/**
 	* Returns the maximum points, a learner can reach answering the question
 	*
 	* Returns the maximum points, a learner can reach answering the question
@@ -607,6 +565,16 @@ class assQuestionTypeTemplate extends assQuestion
 		return "qpl_answer_mytype";
 	}
 	
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		// here additional RTE capable text of the question type
+		// must be collected
+		return parent::getRTETextWithMediaObjects();
+	}
 }
 
 ?>

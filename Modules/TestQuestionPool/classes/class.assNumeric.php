@@ -37,15 +37,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assNumeric extends assQuestion
 {
 	/**
-	* Question string
-	*
-	* The question string of the numeric question
-	*
-	* @var string
-	*/
-	var $question;
-
-	/**
 	* The defined ranges with the associated points for entering a value in the correct range
 	*
 	* $ranges is an array of the defined ranges of the numeric question
@@ -84,8 +75,7 @@ class assNumeric extends assQuestion
 		$question = ""
 	  )
 	{
-		$this->assQuestion($title, $comment, $author, $owner);
-		$this->question = $question;
+		$this->assQuestion($title, $comment, $author, $owner, $question);
 		$this->ranges = array();
 		$this->maxchars = 6;
 	}
@@ -416,9 +406,6 @@ class assNumeric extends assQuestion
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->question, "qpl:html",
-			$this->getId());
-
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -561,21 +548,6 @@ class assNumeric extends assQuestion
 		parent::loadFromDb($question_id);
 	}
 
-
-	/**
-	* Sets the numeric question
-	*
-	* Sets the question string of the assNumeric object
-	*
-	* @param string $question A string containing the numeric question
-	* @access public
-	* @see $question
-	*/
-	function setQuestion($question = "")
-	{
-		$this->question = $question;
-	}
-
 	/**
 	* Adds a range to the numeric question
 	*
@@ -714,20 +686,6 @@ class assNumeric extends assQuestion
 		return $clone->id;
 	}
 	
-	/**
-	* Gets the numeric question text
-	*
-	* Gets the question string of the assNumeric object
-	*
-	* @return string The question string of the assNumeric object
-	* @access public
-	* @see $question
-	*/
-	function getQuestion()
-	{
-		return $this->question;
-	}
-
 	/**
 	* Returns the number of ranges
 	*
@@ -1084,6 +1042,15 @@ class assNumeric extends assQuestion
 	function getAdditionalTableName()
 	{
 		return "qpl_question_numeric";
+	}
+
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		return parent::getRTETextWithMediaObjects();
 	}
 }
 

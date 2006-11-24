@@ -83,6 +83,15 @@ class assQuestion
 	var $author;
 
 	/**
+	* The question text
+	*
+	* The question text
+	*
+	* @var string
+	*/
+  var $question;
+
+	/**
 	* The maximum available points for the question
 	*
 	* Contains the calculated maximum available points for the
@@ -190,7 +199,8 @@ class assQuestion
 		$title = "",
 		$comment = "",
 		$author = "",
-		$owner = -1
+		$owner = -1,
+		$question = ""
 	)
 	{
 		global $ilias;
@@ -204,6 +214,7 @@ class assQuestion
 		$this->title = $title;
 		$this->comment = $comment;
 		$this->author = $author;
+		$this->setQuestion($question);
 		if (!$this->author)
 		{
 			$this->author = $this->ilias->account->fullname;
@@ -1512,6 +1523,8 @@ class assQuestion
 				ilInternalLink::_saveLink("qst", $this->getId(), $matches[2], $matches[3], $matches[1]);
 			}
 		}
+		// remove unused media objects from ILIAS
+		$this->cleanupMediaObjectUsage();
 	}
 	
 /**
@@ -2344,6 +2357,34 @@ class assQuestion
 		}
 	}
 	
+/**
+* Gets the question text
+*
+* Gets the question string of the question object
+*
+* @return string The question string of the question object
+* @access public
+* @see $question
+*/
+  function getQuestion() 
+	{
+    return $this->question;
+  }
+
+/**
+* Sets the question text
+*
+* Sets the question string of the question object
+*
+* @param string $question A string containing the question text
+* @access public
+* @see $question
+*/
+  function setQuestion($question = "") 
+	{
+    $this->question = $question;
+  }
+
 	/**
 	* Returns the question type of the question
 	*
@@ -2414,10 +2455,11 @@ class assQuestion
 		$result = $ilDB->query($query);
 		if (strlen($feedback))
 		{
+			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$query = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($correctness . ""),
-				$ilDB->quote($feedback)
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($feedback, 0))
 			);
 			$result = $ilDB->query($query);
 		}
@@ -2447,7 +2489,8 @@ class assQuestion
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			$feedback = $row["feedback"];
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
 		return $feedback;
 	}
@@ -2482,6 +2525,32 @@ class assQuestion
 			}
 		}
 	}
+	
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		// must be called in parent classes. add additional RTE text in the parent
+		// classes and call this method to add the standard RTE text
+		$collected = $this->getQuestion();
+		$collected .= $this->getFeedbackGeneric(0);
+		$collected .= $this->getFeedbackGeneric(1);
+		return $collected;
+	}
+
+	/**
+	* synchronises appearances of media objects in the question with media
+	* object usage table
+	*/
+	function cleanupMediaObjectUsage()
+	{
+		$combinedtext = $this->getRTETextWithMediaObjects();
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html", $this->getId());
+	}
+	
 }
 
 ?>

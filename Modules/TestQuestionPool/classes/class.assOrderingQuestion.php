@@ -36,15 +36,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assOrderingQuestion extends assQuestion
 {
 	/**
-	* The question text
-	*
-	* The question text of the ordering question.
-	*
-	* @var string
-	*/
-	var $question;
-
-	/**
 	* The possible answers of the ordering question
 	*
 	* $answers is an array of the predefined answers of the ordering question
@@ -84,9 +75,8 @@ class assOrderingQuestion extends assQuestion
 		$ordering_type = OQ_TERMS
 	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner);
+		$this->assQuestion($title, $comment, $author, $owner, $question);
 		$this->answers = array();
-		$this->question = $question;
 		$this->ordering_type = $ordering_type;
 	}
 
@@ -605,7 +595,6 @@ class assOrderingQuestion extends assQuestion
 		}
 
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$combinedtext = $this->question;
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -686,14 +675,9 @@ class assOrderingQuestion extends assQuestion
 					$ilDB->quote($answer_obj->getOrder() . ""),
 					$ilDB->quote($answer_obj->getSolutionOrder() . "")
 				);
-				$combinedtext .= $answer_obj->getAnswertext();
 				$answer_result = $ilDB->query($query);
 			}
 		}
-		// cleanup RTE images which are not inserted into the question text
-		ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html",
-			$this->getId());
-
 		parent::saveToDb($original_id);
 	}
 
@@ -890,20 +874,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Sets the ordering question text
-	*
-	* Sets the ordering question text
-	*
-	* @param string $question The question text
-	* @access public
-	* @see $question
-	*/
-	function setQuestion($question = "")
-	{
-		$this->question = $question;
-	}
-
-	/**
 	* Sets the ordering question type
 	*
 	* Sets the ordering question type
@@ -916,21 +886,7 @@ class assOrderingQuestion extends assQuestion
 	{
 		$this->ordering_type = $ordering_type;
 	}
-
-	/**
-	* Returns the question text
-	*
-	* Returns the question text
-	*
-	* @return string The question text string
-	* @access public
-	* @see $question
-	*/
-	function getQuestion()
-	{
-		return $this->question;
-	}
-
+	
 	/**
 	* Returns the ordering question type
 	*
@@ -1477,6 +1433,21 @@ class assOrderingQuestion extends assQuestion
 	function getAnswerTableName()
 	{
 		return "qpl_answer_ordering";
+	}
+
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		$text = parent::getRTETextWithMediaObjects();
+		foreach ($this->answers as $index => $answer)
+		{
+			$answer_obj = $this->answers[$index];
+			$text .= $answer_obj->getAnswertext();
+		}
+		return $text;
 	}
 }
 

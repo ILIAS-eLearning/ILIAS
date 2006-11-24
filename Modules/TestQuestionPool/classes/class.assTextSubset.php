@@ -37,15 +37,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assTextSubset extends assQuestion
 {
 	/**
-	* Question string
-	*
-	* The question string of the TextSubset question
-	*
-	* @var string
-	*/
-	var $question;
-
-	/**
 	* The text which defines the correct set of answers 
 	*
 	* The text which defines the correct set of answers 
@@ -93,8 +84,7 @@ class assTextSubset extends assQuestion
 		$question = ""
 	  )
 	{
-		$this->assQuestion($title, $comment, $author, $owner);
-		$this->question = $question;
+		$this->assQuestion($title, $comment, $author, $owner, $question);
 		$this->answers = array();
 		$this->correctanswers = 0;
 	}
@@ -475,9 +465,6 @@ class assTextSubset extends assQuestion
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->question, "qpl:html",
-			$this->getId());
-
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
@@ -623,21 +610,6 @@ class assTextSubset extends assQuestion
 		parent::loadFromDb($question_id);
 	}
 
-
-	/**
-	* Sets the TextSubset question
-	*
-	* Sets the question string of the assTextSubset object
-	*
-	* @param string $question A string containing the TextSubset question
-	* @access public
-	* @see $question
-	*/
-	function setQuestion($question = "")
-	{
-		$this->question = $question;
-	}
-
 	/**
 	* Adds an answer to the question
 	*
@@ -740,20 +712,6 @@ class assTextSubset extends assQuestion
 		return $clone->id;
 	}
 	
-	/**
-	* Gets the TextSubset question text
-	*
-	* Gets the question string of the assTextSubset object
-	*
-	* @return string The question string of the assTextSubset object
-	* @access public
-	* @see $question
-	*/
-	function getQuestion()
-	{
-		return $this->question;
-	}
-
 	/**
 	* Returns the number of answers
 	*
@@ -1233,6 +1191,15 @@ class assTextSubset extends assQuestion
 	function getAnswerTableName()
 	{
 		return "qpl_answer_textsubset";
+	}
+
+	/**
+	* Collects all text in the question which could contain media objects
+	* which were created with the Rich Text Editor
+	*/
+	function getRTETextWithMediaObjects()
+	{
+		return parent::getRTETextWithMediaObjects();
 	}
 }
 
