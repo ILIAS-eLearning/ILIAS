@@ -19,19 +19,19 @@ function helpline(help)
 	</tr>
 </thead>
 <tr>
-  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span></td>
   <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_CLOZE_TITLE}" size="50" /></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span></td>
   <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_CLOZE_AUTHOR}" size="50" /></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_COMMENT}:</td>
+  <td class="option">{TEXT_COMMENT}</td>
   <td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_CLOZE_COMMENT}" id="comment" size="50" /></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_CLOZE_TEXT}<span class="asterisk">*</span>:</td>
+  <td class="option">{TEXT_CLOZE_TEXT}<span class="asterisk">*</span></td>
   <td class="option_value" colspan="4">
 		<textarea name="clozetext" id="clozetext" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_CLOZE_TEXT}</textarea>
 		<br />
@@ -39,11 +39,11 @@ function helpline(help)
 	</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
+  <td class="option">{TEXT_WORKING_TIME}<br />({TIME_FORMAT})</td>
   <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
 </tr>
 <tr>
-	<td class="option"><label for="textgap_rating">{TEXTGAP_RATING}:</label></td>
+	<td class="option"><label for="textgap_rating">{TEXTGAP_RATING}</label></td>
 	<td class="option_value" colspan="4">
 		<select name="textgap_rating" id="textgap_rating">
 <!-- BEGIN textgap_rating -->
@@ -58,7 +58,7 @@ function helpline(help)
 <!-- BEGIN answer_row -->
 <tr class="tblheader"><td colspan="5">{TEXT_GAP_NAME}</td></tr>
 <tr>
-  <td class="option">{TEXT_TYPE}:</td>
+  <td class="option">{TEXT_TYPE}</td>
   <td class="option_value" colspan="4"><select name="clozetype_{VALUE_GAP_COUNTER}" id="clozetype">
     <option value="0"{SELECTED_TEXT_GAP}>{TEXT_TEXT_GAP}</option>
     <option value="1"{SELECTED_SELECT_GAP}>{TEXT_SELECT_GAP}</option>
@@ -68,9 +68,9 @@ function helpline(help)
 <!-- BEGIN textgap -->
 <!-- BEGIN textgap_value -->
 <tr>
-  <td class="option">{TEXT_VALUE}: </td>
+  <td class="option">{TEXT_VALUE} </td>
   <td class="option_value" width="50%"><input class="fullwidth" name="textgap_{VALUE_GAP_COUNTER}" type="text" id="textgap_{VALUE_GAP_COUNTER}" size="30" value="{VALUE_TEXT_GAP}" /></td>
-  <td class="option_value">{TEXT_POINTS}: <input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_TEXT_GAP_POINTS}" /></td>
+  <td class="option_value">{TEXT_POINTS} <input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_TEXT_GAP_POINTS}" /></td>
   <td class="option_value" colspan="2"><div align="right"><input type="submit" class="submit" name="cmd[delete_{VALUE_GAP_COUNTER}]" value="{DELETE}" /></div></td>
 </tr>
 <!-- END textgap_value -->
@@ -79,7 +79,7 @@ function helpline(help)
 </tr>
 <!-- BEGIN textgap_suggested_solution -->
 <tr>
-	<td class="option">{TEXT_SOLUTION_HINT}:</td>
+	<td class="option">{TEXT_SOLUTION_HINT}</td>
 	<td class="option_value" colspan="4">
 		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
 		{TEXT_VALUE_SOLUTION_HINT}
@@ -99,9 +99,9 @@ function helpline(help)
 <!-- BEGIN selectgap -->
 <!-- BEGIN selectgap_value -->
 <tr>
-  <td class="option">{TEXT_VALUE}: </td>
+  <td class="option">{TEXT_VALUE} </td>
   <td class="option_value" width="50%"><input class="fullwidth" name="selectgap_{VALUE_GAP_COUNTER}" type="text" id="selectgap_{VALUE_GAP_COUNTER}" size="30" value="{VALUE_SELECT_GAP}" /></td>
-  <td class="option_value">{TEXT_POINTS}: <input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_SELECT_GAP_POINTS}" /></td>
+  <td class="option_value">{TEXT_POINTS} <input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_SELECT_GAP_POINTS}" /></td>
   <td class="option_value" colspan="2"><div align="right"><input type="submit" class="submit" name="cmd[delete_{VALUE_GAP_COUNTER}]" value="{DELETE}" /></div></td>
 </tr>
 
@@ -111,7 +111,7 @@ function helpline(help)
 </tr>
 <!-- BEGIN selectgap_suggested_solution -->
 <tr>
-	<td class="option">{TEXT_SOLUTION_HINT}:</td>
+	<td class="option">{TEXT_SOLUTION_HINT}</td>
 	<td class="option_value" colspan="4">
 		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
 		{TEXT_VALUE_SOLUTION_HINT}
@@ -128,16 +128,16 @@ function helpline(help)
 </tr>
 <!-- END selectgap_suggested_solution -->
 <tr>
-  <td class="option">{TEXT_SHUFFLE_ANSWERS}:</td>
+  <td class="option">{TEXT_SHUFFLE_ANSWERS}</td>
   <td class="option_value" colspan="4"><select name="shuffle_{VALUE_GAP_COUNTER}" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
 </tr>
 <!-- END selectgap -->
 <!-- BEGIN numericgap -->
 <!-- BEGIN numericgap_value -->
 <tr>
-  <td class="option">{TEXT_VALUE}: </td>
+  <td class="option">{TEXT_VALUE} </td>
   <td class="option_value" width="50%"><input class="fullwidth" name="textgap_{VALUE_GAP_COUNTER}" type="text" id="textgap_{VALUE_GAP_COUNTER}" size="30" value="{VALUE_TEXT_GAP}" /></td>
-  <td class="option_value">{TEXT_POINTS}: <input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_TEXT_GAP_POINTS}" /></td>
+  <td class="option_value">{TEXT_POINTS} <input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_TEXT_GAP_POINTS}" /></td>
   <td class="option_value" colspan="2"><div align="right"><input type="submit" class="submit" name="cmd[delete_{VALUE_GAP_COUNTER}]" value="{DELETE}" /></div></td>
 </tr>
 <!-- END numericgap_value -->
@@ -146,7 +146,7 @@ function helpline(help)
 </tr>
 <!-- BEGIN numericgap_suggested_solution -->
 <tr>
-	<td class="option">{TEXT_SOLUTION_HINT}:</td>
+	<td class="option">{TEXT_SOLUTION_HINT}</td>
 	<td class="option_value" colspan="4">
 		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
 		{TEXT_VALUE_SOLUTION_HINT}
