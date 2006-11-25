@@ -623,7 +623,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_nominal SET orientation = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_ordinal SET orientation = %s WHERE question_fi = %s",
 				$ilDB->quote($this->getOrientation() . ""),
 				$ilDB->quote($this->original_id . "")
 			);
