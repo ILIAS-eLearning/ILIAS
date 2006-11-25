@@ -31,6 +31,7 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 * @version  $Id$
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyNominalQuestionGUI, SurveyMetricQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyOrdinalQuestionGUI, SurveyTextQuestionGUI
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMatrixQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI, ilPermissionGUI
 *
 * @extends ilObjectGUI
@@ -66,9 +67,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
-		$q_type = ($_POST["sel_question_types"] != "")
-			? $_POST["sel_question_types"]
-			: $_GET["sel_question_types"];
+		if ($_GET["q_id"] < 1)
+		{
+			$q_type = ($_POST["sel_question_types"] != "")
+				? $_POST["sel_question_types"]
+				: $_GET["sel_question_types"];
+		}
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
@@ -91,8 +95,15 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 				
 			default:
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-				$question_type_gui = SurveyQuestion::_getQuestionType($_GET["q_id"]) . "GUI";
+				if (strlen($q_type))
+				{
+					$question_type_gui = $q_type . "GUI";
+				}
+				else
+				{
+					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+					$question_type_gui = SurveyQuestion::_getQuestionType($_GET["q_id"]) . "GUI";
+				}
 				include_once "./Modules/SurveyQuestionPool/classes/class.$question_type_gui" . ".php";
 				$q_gui = new $question_type_gui($_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());

@@ -11795,3 +11795,81 @@ CREATE TABLE `qpl_feedback_imagemap` (
   PRIMARY KEY  (`feedback_id`),
   KEY `question_fi` (`question_fi`)
 );
+<#856>
+<?php
+// add matrix row field to survey_answer but only if it not exists
+$row_visibility = FALSE;
+$query = "SHOW COLUMNS FROM survey_answer";
+$res = $ilDB->query($query);
+if ($res->numRows())
+{
+	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		if (strcmp($data["Field"], "row") == 0)
+		{
+			$row_visibility = TRUE;
+		}
+	}
+}
+if ($row_visibility == FALSE)
+{
+	$query = "ALTER TABLE `survey_answer` ADD `row` INT NOT NULL DEFAULT '0' AFTER `textanswer`";
+	$res = $ilDB->query($query);
+}
+?>
+<#857>
+CREATE TABLE IF NOT EXISTS `survey_question_matrix` (
+`question_fi` INT NOT NULL ,
+`subtype` INT NOT NULL DEFAULT '0',
+`column_separators` ENUM( '0', '1' ) NOT NULL DEFAULT '0',
+`row_separators` ENUM( '0', '1' ) NOT NULL DEFAULT '0',
+`neutral_column_separator` ENUM( '0', '1' ) NOT NULL DEFAULT '1',
+`column_placeholders` INT NOT NULL DEFAULT '0',
+`legend` ENUM( '0', '1' ) NOT NULL DEFAULT '0',
+`singleline_row_caption` ENUM( '0', '1' ) NOT NULL DEFAULT '0',
+`repeat_column_header` ENUM( '0', '1' ) NOT NULL DEFAULT '0',
+`column_header_position` ENUM( '0', '1', '2', '3' ) NOT NULL DEFAULT '0',
+`random_rows` ENUM( '0', '1' ) NOT NULL DEFAULT '0',
+`column_order` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0',
+`column_images` ENUM( '0', '1' ) NOT NULL DEFAULT '0',
+`row_images` ENUM( '0', '1' ) NOT NULL ,
+`lastchange` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `question_fi` )
+);
+<#858>
+<?php
+// add neutral field to survey_category but only if it not exists
+$neutral_visibility = FALSE;
+$query = "SHOW COLUMNS FROM survey_category";
+$res = $ilDB->query($query);
+if ($res->numRows())
+{
+	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		if (strcmp($data["Field"], "neutral") == 0)
+		{
+			$neutral_visibility = TRUE;
+		}
+	}
+}
+if ($neutral_visibility == FALSE)
+{
+	$query = "ALTER TABLE `survey_category` ADD `neutral` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `owner_fi`";
+	$res = $ilDB->query($query);
+}
+?>
+<#859>
+<?php
+// add matrix question as question type if it does not exist
+$query = "SELECT questiontype_id FROM survey_questiontype WHERE type_tag = 'SurveyMatrixQuestion'";
+$result = $ilDB->query($query);
+if ($result->numRows() == 0)
+{
+	$query = "INSERT INTO `survey_questiontype` ( `questiontype_id` , `type_tag` , `TIMESTAMP` ) VALUES ( '5', 'SurveyMatrixQuestion', NOW( ) )";
+	$result = $ilDB->query($query);
+}
+?>
+<#860>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
