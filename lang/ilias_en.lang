@@ -3160,6 +3160,8 @@ common#:#root_edit_permission#:#Change permission settings
 common#:#root_read#:#Read access to ILIAS system
 common#:#root_visible#:#ILIAS system is visible
 common#:#root_write#:#Edit metadata of system root node
+common#:#rte_editor_enabled#:#Rich Text Editor enabled
+common#:#rte_editor_disabled#:#Rich Text Editor disabled
 common#:#sahs#:#Learning Module SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Learning Module added
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
@@ -3230,6 +3232,7 @@ common#:#server#:#Server
 common#:#server_data#:#Server data
 common#:#server_software#:#Server Software
 common#:#set#:#Set
+common#:#set_edit_mode#:#Set Edit Mode
 common#:#setSystemLanguage#:#Set System Language
 common#:#setUserLanguage#:#Set User Language
 common#:#set_offline#:#Set Offline

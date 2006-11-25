@@ -112,33 +112,58 @@ class ilTinyMCE extends ilRTE
 	*/
 	function addRTESupport($obj_id, $obj_type, $a_module = "")
 	{
-		include_once "./classes/class.ilTemplate.php";
-		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
 		include_once "./classes/class.ilObjAdvancedEditing.php";
-		$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
-		$tpl->setCurrentBlock("tinymce");
-		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
-		include_once "./classes/class.ilObject.php";
-		$tpl->setVariable("OBJ_ID", $obj_id);
-		$tpl->setVariable("OBJ_TYPE", $obj_type);
-		$tpl->setVariable("CLIENT_ID", CLIENT_ID);
-		$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
-		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
-		$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
-		$more_buttons = "";
-		if (count($this->buttons) > 0)
+		if (array_key_exists("show_rte", $_POST))
 		{
-			$more_buttons = ",separator," . join(",", $this->buttons);
+			ilObjAdvancedEditing::_setRichTextEditorUserState($_POST["show_rte"]);
 		}
-		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
-		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
-		$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
-		include_once "./classes/class.ilUtil.php";
-		//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
-		$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
-		$tpl->setVariable("LANG", $this->_getEditorLanguage());
-		$tpl->parseCurrentBlock();
-		$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
+
+		include_once "./classes/class.ilTemplate.php";
+		if ((ilObjAdvancedEditing::_getRichTextEditorUserState() != 0) && (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0))
+		{
+			$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
+			$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
+			$tpl->setCurrentBlock("tinymce");
+			$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
+			include_once "./classes/class.ilObject.php";
+			$tpl->setVariable("OBJ_ID", $obj_id);
+			$tpl->setVariable("OBJ_TYPE", $obj_type);
+			$tpl->setVariable("CLIENT_ID", CLIENT_ID);
+			$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
+			$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
+			$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
+			$more_buttons = "";
+			if (count($this->buttons) > 0)
+			{
+				$more_buttons = ",separator," . join(",", $this->buttons);
+			}
+			$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
+			$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
+			$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
+			include_once "./classes/class.ilUtil.php";
+			//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
+			$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
+			$tpl->setVariable("LANG", $this->_getEditorLanguage());
+			$tpl->parseCurrentBlock();
+			
+			$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
+		}
+
+		if (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0)
+		{
+			$tpl = new ilTemplate("tpl.rte.switch.html", true, true, "Services/RTE");
+			$tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass($this->ctrl->getCmdClass()));
+			$tpl->setVariable("TEXT_SET_MODE", $this->lng->txt("set_edit_mode"));
+			$tpl->setVariable("TEXT_ENABLED", $this->lng->txt("rte_editor_enabled"));
+			$tpl->setVariable("TEXT_DISABLED", $this->lng->txt("rte_editor_disabled"));
+			if (ilObjAdvancedEditing::_getRichTextEditorUserState() != 0)
+			{
+				$tpl->setVariable("SELECTED_ENABLED", " selected=\"selected\"");
+			}
+			$tpl->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
+	
+			$this->tpl->setVariable("RTE_SWITCH", $tpl->get());
+		}
 	}
 
 	/**

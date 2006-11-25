@@ -43,11 +43,15 @@ class ilRTE
 	var $plugins;
 	var $buttons;
 	var $tpl;
+	var $ctrl;
+	var $lng;
 	
 	function ilRTE()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl, $lng;
 		$this->tpl =& $tpl;
+		$this->ctrl =& $ilCtrl;
+		$this->lng =& $lng;
 		$this->plugins = array();
 		$this->buttons = array();
 	}
@@ -226,7 +230,6 @@ class ilRTE
 		}
 		return $a_text;
 	}
-
 }
 
 ?>
