@@ -6043,6 +6043,7 @@ style#:#sty_top#:#Top
 style#:#sty_vertical_align#:#Vertical Alignment
 style#:#sty_white_space#:#White Space
 style#:#sty_word_spacing#:#Word Spacing
+survey#:#SurveyMatrixQuestion#:#Matrix Question
 survey#:#SurveyMetricQuestion#:#Metric Question
 survey#:#SurveyNominalQuestion#:#Nominal Question
 survey#:#SurveyOrdinalQuestion#:#Ordinal Question
@@ -6246,6 +6247,14 @@ survey#:#manage_phrases#:#Manage Phrases
 survey#:#material#:#Material
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material_file#:#Material File
+survey#:#matrix_subtype_sr#:#Option Buttons (Single Response)
+survey#:#matrix_subtype_mr#:#Check Boxes (Multiple Response)
+survey#:#matrix_subtype_text#:#Text
+survey#:#matrix_subtype_integer#:#Integer
+survey#:#matrix_subtype_double#:#Floating Point
+survey#:#matrix_subtype_date#:#Date
+survey#:#matrix_subtype_time#:#Time
+survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.
 survey#:#maxchars#:#Maximum Number of Characters
 survey#:#maximum#:#Maximum Value
 survey#:#median#:#Median
