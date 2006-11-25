@@ -378,7 +378,35 @@ class ilObjAdvancedEditing extends ilObject
 		return $tags;
 	}
 	
-	
+	/**
+	* Sets the state of the rich text editor visibility for the current user
+	*
+	* Sets the state of the rich text editor visibility for the current user
+	*
+	* @param integer $a_state 0 if the RTE should be disabled, 1 otherwise
+	*/
+	function _setRichTextEditorUserState($a_state)
+	{
+		global $ilUser;
+		$ilUser->writePref("show_rte", $a_state);
+	}
+
+	/**
+	* Gets the state of the rich text editor visibility for the current user
+	*
+	* Gets the state of the rich text editor visibility for the current user
+	*
+	* @return integer 0 if the RTE should be disabled, 1 otherwise
+	*/
+	function _getRichTextEditorUserState()
+	{
+		global $ilUser;
+		if (strlen($ilUser->getPref("show_rte")) > 0)
+		{
+			return $ilUser->getPref("show_rte");
+		}
+		return 1;
+	}
 	
 } // END class.ilObjAdvancedEditing
 ?>
