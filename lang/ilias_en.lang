@@ -3160,6 +3160,8 @@ common#:#root_edit_permission#:#Change permission settings
 common#:#root_read#:#Read access to ILIAS system
 common#:#root_visible#:#ILIAS system is visible
 common#:#root_write#:#Edit metadata of system root node
+common#:#row#:#Row
+common#:#rows#:#Rows
 common#:#rte_editor_enabled#:#Rich Text Editor enabled
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
 common#:#sahs#:#Learning Module SCORM/AICC
@@ -6253,6 +6255,10 @@ survey#:#matrix_subtype_text#:#Text
 survey#:#matrix_subtype_integer#:#Integer
 survey#:#matrix_subtype_double#:#Floating Point
 survey#:#matrix_subtype_date#:#Date
+survey#:#matrix_neutral_answer#:#Text for a Neutral Column ("Not Specified", "I don't know" etc.)
+survey#:#matrix_standard_answers#:#Column Text
+survey#:#matrix_rows#:#Matrix Rows
+survey#:#matrix_columns#:#Matrix Columns
 survey#:#matrix_subtype_time#:#Time
 survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.
 survey#:#maxchars#:#Maximum Number of Characters

@@ -47,6 +47,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
   var $categories;
 
 /**
+* Rows contained in this question
+*
+* Rows contained in this question
+*
+* @var array
+*/
+  var $rows;
+
+/**
 * Matrix question subtype
 *
 * Matrix question subtype:
@@ -86,6 +95,50 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->subtype = 0;
 		$this->categories = new SurveyCategories();
+		$this->rows = array();
+	}
+	
+/**
+* Returns the number of rows in the question
+*
+* Returns the number of rows in the question
+*
+* @result integer The number of rows
+* @access public
+*/
+	function getRowCount()
+	{
+		return count($this->rows);
+	}
+
+/**
+* Adds a row to the question
+*
+* Adds a row to the question
+*
+* @param string $a_text The text of the row
+* @access public
+*/
+	function addRow($a_text)
+	{
+		array_push($this->rows, $a_text);
+	}
+	
+/**
+* Returns a specific row
+*
+* Returns a specific row
+*
+* @param integer $a_index The index position of the row
+* @access public
+*/
+	function getRow($a_index)
+	{
+		if (array_key_exists($a_index, $this->rows))
+		{
+			return $this->rows[$a_index];
+		}
+		return "";
 	}
 	
 /**
