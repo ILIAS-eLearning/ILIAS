@@ -360,21 +360,11 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_matrix_answers.html", "Modules/SurveyQuestionPool");
-    // output of existing single response answers
-		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+		// create an empty category if nothing is defined
+		if ($this->object->categories->getCategoryCount() == 0)
 		{
-			$this->tpl->setCurrentBlock("cat_selector");
-			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("categories");
-			$category = $this->object->categories->getCategory($i);
-			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
-			$this->tpl->setVariable("VALUE_CATEGORY", $category);
-			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-			$this->tpl->parseCurrentBlock();
+			$this->object->categories->addCategory("");
 		}
-		
 		if ($add)
 		{
 			$nrOfCategories = $_POST["nrOfCategories"];
@@ -382,13 +372,49 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			// Create template for a new category
 			for ($i = 1; $i <= $nrOfCategories; $i++)
 			{
-				$this->tpl->setCurrentBlock("categories");
-				$this->tpl->setVariable("CATEGORY_ORDER", $this->object->categories->getCategoryCount() + $i - 1);
-				$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-				$this->tpl->parseCurrentBlock();
+				$this->object->categories->addCategory("");
 			}
 		}
+    // output of existing single response answers
+		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+		{
+			$this->tpl->setCurrentBlock("categories");
+			$this->tpl->setVariable("CATEGORY_ORDER", $i);
+			$category = $this->object->categories->getCategory($i);
+			$this->tpl->setVariable("CATEGORY_ORDER", $i);
+			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
+			$this->tpl->setVariable("VALUE_CATEGORY", $category);
+			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
+			$this->tpl->parseCurrentBlock();
+		}
 
+		if ($this->object->getRowCount() == 0)
+		{
+			$this->object->addRow("");
+		}
+		if ($addrows)
+		{
+			$nrOfRows = $_POST["nrOfRows"];
+			if ($nrOfRows < 1) $nrOfRows = 1;
+			// Create template for a new category
+			for ($i = 1; $i <= $nrOfRows; $i++)
+			{
+				$this->object->addRow("");
+			}
+		}
+    // output of existing rows
+		for ($i = 0; $i < $this->object->getRowCount(); $i++) 
+		{
+			$this->tpl->setCurrentBlock("rows");
+			$this->tpl->setVariable("ROW_ORDER", $i);
+			$row = $this->object->getRow($i);
+			$this->tpl->setVariable("ROW_ORDER", $i);
+			$this->tpl->setVariable("ROW_NUMBER", $i+1);
+			$this->tpl->setVariable("VALUE_ROW", $row);
+			$this->tpl->setVariable("TEXT_ROW", $this->lng->txt("row"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		if (is_array($_SESSION["spl_move"]))
 		{
 			if (count($_SESSION["spl_move"]))
@@ -401,16 +427,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		
 		include_once "./classes/class.ilUtil.php";
-		if ($this->object->categories->getCategoryCount() == 0)
-		{
-			if (!$add)
-			{
-				$this->tpl->setCurrentBlock("nocategories");
-				$this->tpl->setVariable("NO_CATEGORIES", $this->lng->txt("question_contains_no_categories"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
+		if ($this->object->categories->getCategoryCount() > 0)
 		{
 			$this->tpl->setCurrentBlock("selectall");
 			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
@@ -436,13 +453,33 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("categories"));
 			}
 			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("rownumbers");
+			$this->tpl->setVariable("VALUE_NUMBER", $i);
+			if ($i == 1)
+			{
+				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("row"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("rows"));
+			}
+			$this->tpl->parseCurrentBlock();
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TEXT_ANSWERS", $this->lng->txt("matrix_columns"));
 		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add"));
 		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("TEXT_STANDARD_ANSWERS", $this->lng->txt("matrix_standard_answers"));
+		$this->tpl->setVariable("TEXT_NEUTRAL_ANSWER", $this->lng->txt("matrix_neutral_answer"));
+		$this->tpl->setVariable("CATEGORY_NEUTRAL", $this->object->categories->getCategoryCount() + 1);
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("TEXT_ROWS", $this->lng->txt("matrix_rows"));
+		$this->tpl->setVariable("SAVEROWS", $this->lng->txt("save"));
+		$this->tpl->setVariable("VALUE_ADD_ROW", $this->lng->txt("add"));
+		
 		if ($_SESSION["spl_modified"])
 		{
 			$this->tpl->setVariable("FORM_DATA_MODIFIED_PRESS_SAVE", $this->lng->txt("form_data_modified_press_save"));
@@ -454,7 +491,68 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	
 	function setQuestionTabs()
 	{
-		$this->setQuestionTabsForClass("SurveyMatrixquestiongui");
+		global $rbacsystem,$ilTabs;
+		$this->ctrl->setParameterByClass("$guiclass", "sel_question_types", $this->getQuestionType());
+		$this->ctrl->setParameterByClass("$guiclass", "q_id", $_GET["q_id"]);
+
+		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
+		{
+			$ref_id = $_GET["calling_survey"];
+			if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
+			$addurl = "";
+			if (strlen($_GET["new_for_survey"]))
+			{
+				$addurl = "&new_id=" . $_GET["q_id"];
+			}
+			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions" . $addurl);
+		}
+		else
+		{
+			$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
+		}
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("preview",
+				$this->ctrl->getLinkTarget($this, "preview"), 
+				array("preview"),
+				"",
+				"");
+		}
+		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) 
+		{
+			$ilTabs->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, "editQuestion"), 
+				array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
+					"addPG", "editQuestion", "addMaterial", "removeMaterial", 
+					"save", "cancel"),
+				"",
+				"");
+		}
+
+		if ($this->object->getId() > 0) 
+		{
+			$ilTabs->addTarget("categories",
+				$this->ctrl->getLinkTarget($this, "categories"), 
+					array("categories", "addCategory", "insertBeforeCategory",
+						"insertAfterCategory", "moveCategory", "deleteCategory",
+						"saveCategories", "savePhrase", "addPhrase",
+						"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
+						"cancelSavePhrase", "confirmDeleteCategory", "cancelDeleteCategory"),
+				"",
+				""
+			);
+		}
+		
+		if ($this->object->getId() > 0) 
+		{
+			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
+		} 
+		else 
+		{
+			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
+		}
+
+		$this->tpl->setVariable("HEADER", $title);
 	}
 
 /**
@@ -761,5 +859,56 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
 		$this->tpl->parseCurrentBlock();
 	}
+
+/**
+* Adds a category to the question
+*
+* Adds a category to the question
+*
+* @access private
+*/
+	function addCategory()
+	{
+		$result = $this->writeCategoryData();
+		if ($result == false)
+		{
+			sendInfo($this->lng->txt("fill_out_all_category_fields"));
+		}
+		$_SESSION["spl_modified"] = true;
+		$this->categories($result);
+	}
+
+/**
+* Recreates the categories from the POST data
+*
+* Recreates the categories from the POST data and
+* saves it (optionally) to the database.
+*
+* @param boolean $save If set to true the POST data will be saved to the database
+* @access private
+*/
+	function writeCategoryData($save = false)
+	{
+    // Delete all existing categories and create new categories from the form data
+    $this->object->categories->flushCategories();
+		$complete = true;
+		$array1 = array();
+    // Add all categories from the form into the object
+		include_once "./classes/class.ilUtil.php";
+		foreach ($_POST as $key => $value) 
+		{
+			if (preg_match("/^category_(\d+)/", $key, $matches)) 
+			{
+				$array1[$matches[1]] = ilUtil::stripSlashes($value);
+			}
+		}
+		$this->object->categories->addCategoryArray($array1);
+		if ($save)
+		{	
+			$this->object->saveCategoriesToDb();
+		}
+		return $complete;
+	}
+	
 }
 ?>
