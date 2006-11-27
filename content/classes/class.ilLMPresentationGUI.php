@@ -2438,6 +2438,11 @@ class ilLMPresentationGUI
 	function showPrintViewSelection()
 	{
 		global $ilBench,$ilUser;
+		
+		if (!$this->lm->isActivePrintView())
+		{
+			return;
+		}
 
 		include_once("content/classes/class.ilStructureObject.php");
 
@@ -2577,6 +2582,11 @@ class ilLMPresentationGUI
 	function showPrintView()
 	{
 		global $ilBench,$ilUser;
+
+		if (!$this->lm->isActivePrintView())
+		{
+			return;
+		}
 
 		$ilBench->start("ContentPresentation", "PrintView");
 
