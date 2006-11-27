@@ -288,10 +288,10 @@ class ilAuthUtils
 		{
 			$db =& $a_db_handler;
 		}
-		
 		$q = "SELECT auth_mode FROM usr_data WHERE ".
-			 "login = ".$ilDB->quote($a_username)." AND ".
-			 "passwd = ".$ilDB->quote(md5($a_password))."";
+			 "login = ".$ilDB->quote($a_username);
+			 // deleting this line should fix login problems of radius user with changed passwords
+			 #"passwd = ".$ilDB->quote(md5($a_password))."";
 		$r = $db->query($q);
 		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
