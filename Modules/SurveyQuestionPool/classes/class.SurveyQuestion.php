@@ -1036,13 +1036,14 @@ class SurveyQuestion
 * @access public
 * @see $categories
 */
-	function saveCategoryToDb($categorytext)
+	function saveCategoryToDb($categorytext, $neutral = 0)
 	{
 		global $ilUser;
 		
-		$query = sprintf("SELECT title, category_id FROM survey_category WHERE title = %s AND owner_fi = %s",
-			$this->ilias->db->quote($categorytext),
-			$this->ilias->db->quote($ilUser->id)
+		$query = sprintf("SELECT title, category_id FROM survey_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
+			$this->ilias->db->quote($categorytext . ""),
+			$this->ilias->db->quote($neutral . ""),
+			$this->ilias->db->quote($ilUser->getId() . "")
 		);
     $result = $this->ilias->db->query($query);
 		$insert = FALSE;
@@ -1065,9 +1066,10 @@ class SurveyQuestion
 		}
 		if ($insert)
 		{
-			$query = sprintf("INSERT INTO survey_category (category_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
-				$this->ilias->db->quote($categorytext),
-				$this->ilias->db->quote($ilUser->id)
+			$query = sprintf("INSERT INTO survey_category (category_id, title, neutral, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($categorytext . ""),
+				$this->ilias->db->quote($neutral . ""),
+				$this->ilias->db->quote($ilUser->getId() . "")
 			);
 			$result = $this->ilias->db->query($query);
 			$returnvalue = $this->ilias->db->getLastInsertId();
@@ -1596,30 +1598,6 @@ class SurveyQuestion
 			}
 		}
 		return $href;
-	}
-	
-	function saveCategoriesToDb()
-	{
-		// save categories
-		
-		// delete existing category relations
-		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-			$this->ilias->db->quote($this->id)
-		);
-		$result = $this->ilias->db->query($query);
-		// create new category relations
-		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
-		{
-			$category_id = $this->saveCategoryToDb($this->categories->getCategory($i));
-			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($category_id . ""),
-				$this->ilias->db->quote($this->id . ""),
-				$this->ilias->db->quote(($i + 1) . ""),
-				$this->ilias->db->quote($i . "")
-			);
-			$answer_result = $this->ilias->db->query($query);
-		}
-		$this->saveCompletionStatus();
 	}
 	
 /**

@@ -6261,6 +6261,7 @@ survey#:#matrix_rows#:#Matrix Rows
 survey#:#matrix_columns#:#Matrix Columns
 survey#:#matrix_subtype_time#:#Time
 survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.
+survey#:#matrix_columns_rows#:#Column/Row Editor
 survey#:#maxchars#:#Maximum Number of Characters
 survey#:#maximum#:#Maximum Value
 survey#:#median#:#Median

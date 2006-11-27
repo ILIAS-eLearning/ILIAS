@@ -599,5 +599,203 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
 		$this->tpl->parseCurrentBlock();
 	}
+
+/**
+* Saves the categories
+*
+* Saves the categories
+*
+* @access private
+*/
+	function saveCategories()
+	{
+		global $ilUser;
+		
+		$this->writeCategoryData(true);
+		$_SESSION["spl_modified"] = false;
+		sendInfo($this->lng->txt("saved_successfully"), true);
+		$originalexists = $this->object->_questionExists($this->object->original_id);
+		$_GET["q_id"] = $this->object->getId();
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+		{
+			$this->originalSyncForm();
+			return;
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "categories");
+		}
+	}
+
+/**
+* Adds a category to the question
+*
+* Adds a category to the question
+*
+* @access private
+*/
+	function addCategory()
+	{
+		$result = $this->writeCategoryData();
+		if ($result == false)
+		{
+			sendInfo($this->lng->txt("fill_out_all_category_fields"));
+		}
+		$_SESSION["spl_modified"] = true;
+		$this->categories($result);
+	}
+	
+/**
+* Recreates the categories from the POST data
+*
+* Recreates the categories from the POST data and
+* saves it (optionally) to the database.
+*
+* @param boolean $save If set to true the POST data will be saved to the database
+* @access private
+*/
+	function writeCategoryData($save = false)
+	{
+    // Delete all existing categories and create new categories from the form data
+    $this->object->categories->flushCategories();
+		$complete = true;
+		$array1 = array();
+    // Add all categories from the form into the object
+		include_once "./classes/class.ilUtil.php";
+		foreach ($_POST as $key => $value) 
+		{
+			if (preg_match("/^category_(\d+)/", $key, $matches)) 
+			{
+				$array1[$matches[1]] = ilUtil::stripSlashes($value);
+				if (strlen($array1[$matches[1]]) == 0) $complete = false;
+			}
+		}
+		$this->object->categories->addCategoryArray($array1);
+		if ($save)
+		{	
+			$this->object->saveCategoriesToDb();
+		}
+		return $complete;
+	}
+	
+/**
+* Removes one or more categories
+*
+* Removes one or more categories
+*
+* @access private
+*/
+	function deleteCategory()
+	{
+		$this->writeCategoryData();
+		$nothing_selected = true;
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]))
+			{
+				$nothing_selected = false;
+				$this->object->categories->removeCategories($_POST["chb_category"]);
+			}
+		}
+		if ($nothing_selected) sendInfo($this->lng->txt("category_delete_select_none"));
+		$_SESSION["spl_modified"] = true;
+		$this->categories();
+	}
+	
+/**
+* Selects one or more categories for moving
+*
+* Selects one or more categories for moving
+*
+* @access private
+*/
+	function moveCategory()
+	{
+		$this->writeCategoryData();
+		$nothing_selected = true;
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]))
+			{
+				$nothing_selected = false;
+				sendInfo($this->lng->txt("select_target_position_for_move"));
+				$_SESSION["spl_move"] = $_POST["chb_category"];
+			}
+		}
+		if ($nothing_selected) sendInfo($this->lng->txt("no_category_selected_for_move"));
+		$this->categories();
+	}
+	
+/**
+* Inserts categories which are selected for moving before the selected category
+*
+* Inserts categories which are selected for moving before the selected category
+*
+* @access private
+*/
+	function insertBeforeCategory()
+	{
+		$result = $this->writeCategoryData();
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]) == 1)
+			{
+				// one entry is selected, moving is allowed
+				$this->object->categories->removeCategories($_SESSION["spl_move"]);
+				$newinsertindex = $this->object->categories->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
+				if ($newinsertindex === false) $newinsertindex = 0;
+				$move_categories = $_SESSION["spl_move"];
+				natsort($move_categories);
+				foreach (array_reverse($move_categories) as $index)
+				{
+					$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex);
+				}
+				$_SESSION["spl_modified"] = true;
+				unset($_SESSION["spl_move"]);
+			}
+			else
+			{
+				sendInfo("wrong_categories_selected_for_insert");
+			}
+		}
+		$this->categories();
+	}
+	
+/**
+* Inserts categories which are selected for moving before the selected category
+*
+* Inserts categories which are selected for moving before the selected category
+*
+* @access private
+*/
+	function insertAfterCategory()
+	{
+		$result = $this->writeCategoryData();
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]) == 1)
+			{
+				// one entry is selected, moving is allowed
+				$this->object->categories->removeCategories($_SESSION["spl_move"]);
+				$newinsertindex = $this->object->categories->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
+				if ($newinsertindex === false) $newinsertindex = 0;
+				$move_categories = $_SESSION["spl_move"];
+				natsort($move_categories);
+				foreach (array_reverse($move_categories) as $index)
+				{
+					$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex+1);
+				}
+				$_SESSION["spl_modified"] = true;
+				unset($_SESSION["spl_move"]);
+			}
+			else
+			{
+				sendInfo("wrong_categories_selected_for_insert");
+			}
+		}
+		$this->categories();
+	}
+
 }
 ?>
