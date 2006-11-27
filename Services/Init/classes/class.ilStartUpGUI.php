@@ -42,7 +42,7 @@ class ilStartUpGUI
 
 		$this->ctrl =& $ilCtrl;
 
-		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target"));
+		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
 	}
 
 	/**

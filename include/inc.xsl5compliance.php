@@ -37,7 +37,8 @@ class php4XSLTProcessor
 	}
 }
 
-function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params)
+function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params,
+	$a_no_warnings = false)
 {
 	$xslt = $proc->myProc;
 //echo htmlentities($args[substr($xslt_var, 4)]);
@@ -49,7 +50,15 @@ function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params)
 			$xslt->setParameter("", $key, $value);
 		}
 	}
-	$result = $xslt->transformToXML(DomDocument::loadXML($args[substr($xml_var, 4)]));
+
+	if ($a_no_warnings)
+	{
+		$result = @$xslt->transformToXML(DomDocument::loadXML($args[substr($xml_var, 4)]));
+	}
+	else
+	{
+		$result = $xslt->transformToXML(DomDocument::loadXML($args[substr($xml_var, 4)]));
+	}
 
 //echo "<br><br><b>xslt_process</b>".htmlentities($result);
 	return $result;

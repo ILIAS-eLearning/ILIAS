@@ -799,6 +799,10 @@ class ilCtrl
 		if($cmd == "post")
 		{
 			$cmd = @key($_POST["cmd"]);
+			if($cmd == "")
+			{
+				$cmd = $_GET["fallbackCmd"];
+			}
 		}
 		if($cmd == "")
 		{
@@ -854,9 +858,10 @@ class ilCtrl
 	*
 	* @param	object		$a_gui_obj		gui object
 	*/
-	function getFormAction(&$a_gui_obj)
+	function getFormAction(&$a_gui_obj, $a_fallback_cmd = "")
 	{
-		$script =  $this->getFormActionByClass(strtolower(get_class($a_gui_obj)));
+		$script =  $this->getFormActionByClass(strtolower(get_class($a_gui_obj)),
+			$a_fallback_cmd);
 		return $script;
 	}
 
@@ -865,11 +870,15 @@ class ilCtrl
 	*
 	* @param	string		$a_class		gui class name
 	*/
-	function getFormActionByClass($a_class)
+	function getFormActionByClass($a_class, $a_fallback_cmd = "")
 	{
 		$a_class = strtolower($a_class);
 
 		$script = $this->getLinkTargetByClass($a_class, "post");
+		if ($a_fallback_cmd != "")
+		{
+			$script = ilUtil::appendUrlParameterString($script, "fallbackCmd=".$a_fallback_cmd);
+		}
 		return $script;
 	}
 
