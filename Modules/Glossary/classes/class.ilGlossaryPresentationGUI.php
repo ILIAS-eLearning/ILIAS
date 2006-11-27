@@ -559,7 +559,8 @@ class ilGlossaryPresentationGUI
 	*/
 	function fullscreen()
 	{
-		$this->media("fullscreen");
+		$html = $this->media("fullscreen");
+		return $html;
 	}
 
 	/**
@@ -596,13 +597,24 @@ class ilGlossaryPresentationGUI
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
-		$wb_path = ilUtil::getWebspaceDir("output");
+		if (!$this->offlineMode())
+		{
+			$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output");
+			$wb_path = ilUtil::getWebspaceDir("output");
+		}
+		else
+		{
+			$enlarge_path = "images/enlarge.gif";
+			$wb_path = ".";
+		}
 
 		$mode = $a_mode;
-		$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output");
+
 		$this->ctrl->setParameter($this, "obj_type", "MediaObject");
-		$fullscreen_link = $this->ctrl->getLinkTarget($this, "fullscreen");
+		$fullscreen_link =
+			$this->getLink($_GET["ref_id"], "fullscreen");
 		$this->ctrl->clearParameters($this);
+
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => $fullscreen_link,
 			'ref_id' => $_GET["ref_id"], 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
@@ -614,13 +626,10 @@ class ilGlossaryPresentationGUI
 		$this->tpl->setVariable("MEDIA_CONTENT", $output);
 
 		$this->tpl->parseCurrentBlock();
-		if (!$this->offlineMode())
+		if ($this->offlineMode())
 		{
-			$this->tpl->show();
-		}
-		else
-		{
-			return $this->tpl->get();
+			$html = $this->tpl->get();
+			return $html;
 		}
 
 	}
@@ -815,6 +824,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function getLinkXML($a_int_links)
 	{
+
 		if ($a_layoutframes == "")
 		{
 			$a_layoutframes = array();
@@ -841,6 +851,7 @@ class ilGlossaryPresentationGUI
 				{
 					$ltarget = "";
 				}
+
 				switch($type)
 				{
 					case "PageObject":
@@ -861,9 +872,16 @@ class ilGlossaryPresentationGUI
 					case "GlossaryItem":
 						if (ilGlossaryTerm::_lookGlossaryID($target_id) == $this->glossary->getId())
 						{
-							$this->ctrl->setParameter($this, "term_id", $target_id);
-							$href = $this->ctrl->getLinkTarget($this, "listDefinitions");
-							$href = str_replace("&", "&amp;", $href);
+							if ($this->offlineMode())
+							{
+								$href = "term_".$target_id.".html";
+							}
+							else
+							{
+								$this->ctrl->setParameter($this, "term_id", $target_id);
+								$href = $this->ctrl->getLinkTarget($this, "listDefinitions");
+								$href = str_replace("&", "&amp;", $href);
+							}
 						}
 						else
 						{
@@ -872,10 +890,17 @@ class ilGlossaryPresentationGUI
 						break;
 
 					case "MediaObject":
-						$this->ctrl->setParameter($this, "obj_type", $type);
-						$this->ctrl->setParameter($this, "mob_id", $target_id);
-						$href = $this->ctrl->getLinkTarget($this, "media");
-						$href = str_replace("&", "&amp;", $href);
+						if ($this->offlineMode())
+						{
+							$href = "media_".$target_id.".html";
+						}
+						else
+						{
+							$this->ctrl->setParameter($this, "obj_type", $type);
+							$this->ctrl->setParameter($this, "mob_id", $target_id);
+							$href = $this->ctrl->getLinkTarget($this, "media");
+							$href = str_replace("&", "&amp;", $href);
+						}
 						break;
 
 					case "RepositoryItem":
@@ -966,7 +991,7 @@ class ilGlossaryPresentationGUI
 					break;
 					
 				case "glossary":
-				$link = "term_".$a_obj_id.".html";
+					$link = "term_".$a_obj_id.".html";
 					break;
 				
 				case "media":

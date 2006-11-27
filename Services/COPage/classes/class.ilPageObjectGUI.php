@@ -841,7 +841,7 @@ class ilPageObjectGUI
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
 
-		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params, true);
 //echo xslt_error($xh);
 		xslt_free($xh);
 

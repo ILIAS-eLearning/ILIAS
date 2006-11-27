@@ -710,7 +710,7 @@ class ilObjGlossary extends ilObject
 			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 			$_GET["mob_id"]  = $a_mob_id;
 			$_GET["cmd"] = "fullscreen";
-			$content =& $a_glo_gui->fullscreen();
+			$content = $a_glo_gui->fullscreen();
 			$file = $a_target_dir."/fullscreen_".$a_mob_id.".html";
 	
 			// open file
