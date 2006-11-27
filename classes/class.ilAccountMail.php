@@ -226,15 +226,15 @@ return true;*/
 			$gender_salut = $a_amail["sal_g"];
 		}
 
-		$a_string = str_ireplace("[MAIL_SALUTATION]", $gender_salut, $a_string);
-		$a_string = str_ireplace("[LOGIN]", $a_user->getLogin(), $a_string);
-		$a_string = str_ireplace("[FIRST_NAME]", $a_user->getFirstname(), $a_string);
-		$a_string = str_ireplace("[LAST_NAME]", $a_user->getLastname(), $a_string);
-		$a_string  = str_ireplace("[PASSWORD]", $this->getUserPassword(), $a_string);
-		$a_string  = str_ireplace("[ILIAS_URL]",
+		$a_string = str_replace("[MAIL_SALUTATION]", $gender_salut, $a_string);
+		$a_string = str_replace("[LOGIN]", $a_user->getLogin(), $a_string);
+		$a_string = str_replace("[FIRST_NAME]", $a_user->getFirstname(), $a_string);
+		$a_string = str_replace("[LAST_NAME]", $a_user->getLastname(), $a_string);
+		$a_string  = str_replace("[PASSWORD]", $this->getUserPassword(), $a_string);
+		$a_string  = str_replace("[ILIAS_URL]",
 			ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID, $a_string);
-		$a_string  = str_ireplace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
-		$a_string  = str_ireplace("[ADMIN_MAIL]", $ilSetting->get("admin_email"),
+		$a_string  = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
+		$a_string  = str_replace("[ADMIN_MAIL]", $ilSetting->get("admin_email"),
 			$a_string);
 			
 		// (no) password sections
@@ -264,16 +264,16 @@ return true;*/
 				$type = ilObject::_lookupType($obj_id);
 				if ($type == $tarr[0])
 				{
-					$a_string  = str_ireplace("[TARGET_TITLE]", ilObject::_lookupTitle($obj_id),
+					$a_string  = str_replace("[TARGET_TITLE]", ilObject::_lookupTitle($obj_id),
 						$a_string);
-					$a_string  = str_ireplace("[TARGET]",
+					$a_string  = str_replace("[TARGET]",
 						ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID."&target=".$_GET["target"],
 						$a_string);
 						
 					// this looks complicated, but we may have no initilised $lng object here
 					// if mail is send during user creation in authentication
 					include_once("./classes/class.ilLanguage.php");
-					$a_string  = str_ireplace("[TARGET_TYPE]",
+					$a_string  = str_replace("[TARGET_TYPE]",
 						ilLanguage::_lookupEntry($a_lang, "common", "obj_".$tarr[0]),
 						$a_string);
 						
