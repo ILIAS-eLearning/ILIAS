@@ -3269,6 +3269,31 @@ class ilUtil
 		}
 		return $ids ? $ids : array();
 	}
+	
+	/**
+	* Get MySQL timestamp in 4.1.x or higher format (yyyy-mm-dd hh:mm:ss)
+	* This function converts a timestamp, if MySQL 4.0 is used.
+	*
+	* @param	string		MySQL timestamp string
+	* @return	string		MySQL 4.1.x timestamp string
+	*/
+	function getMySQLTimestamp($a_ts)
+	{
+		global $ilDB;
+
+		if ($ilDB->isMysql4_1OrHigher())
+		{
+			return $a_ts;
+		}
+		else
+		{
+			$t = $a_ts;
+			$ts = substr($t, 0, 4)."-".substr($t, 4, 2)."-".substr($t, 6, 2).
+				" ".substr($t, 8, 2).":".substr($t, 10, 2).":".substr($t, 12, 2);
+			return $ts;
+		}
+	}
+
 } // END class.ilUtil
 
 

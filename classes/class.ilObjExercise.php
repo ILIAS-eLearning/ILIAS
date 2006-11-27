@@ -358,7 +358,7 @@ class ilObjExercise extends ilObject
   		}
 		else 
 		{
-			return $array["timestamp"];
+			return ilUtil::getMySQLTimestamp($array["timestamp"]);
   		}  
 	}
 
@@ -503,7 +503,7 @@ class ilObjExercise extends ilObject
   		$set = $ilDB->query($q);
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			return $rec["status_time"];
+			return ilUtil::getMySQLTimestamp($rec["status_time"]);
 		}
 	}
 
@@ -522,7 +522,7 @@ class ilObjExercise extends ilObject
   		$set = $ilDB->query($q);
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			return $rec["sent_time"];
+			return ilUtil::getMySQLTimestamp($rec["sent_time"]);
 		}
 	}
 
@@ -541,7 +541,7 @@ class ilObjExercise extends ilObject
   		$set = $ilDB->query($q);
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			return $rec["feedback_time"];
+			return ilUtil::getMySQLTimestamp($rec["feedback_time"]);
 		}
 	}
 
