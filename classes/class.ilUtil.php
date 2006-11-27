@@ -230,7 +230,7 @@ class ilUtil
 	}
 
 	/**
-	* Get p3p file path.
+	* Get p3p file path. (Not in use yet, see class.ilTemplate.php->show())
 	*
 	* @access	public
 	*/
@@ -244,17 +244,17 @@ class ilUtil
 			$base = '';
 			for($i = 0;$i < count(explode('/',ILIAS_MODULE));$i++)
 			{
-				$base .= "../";
+				$base .= "../Services/Privacy/";
 			}
 		}
 		else
 		{
-			$base = "./";
+			$base = "./Services/Privacy/";
 		}
 
 		if (is_file($base."w3c/p3p.xml"))
 		{
-			return ILIAS_HTTP_PATH."/w3c/p3p.xml";
+			return ILIAS_HTTP_PATH."w3c/p3p.xml";
 		}
 		else
 		{

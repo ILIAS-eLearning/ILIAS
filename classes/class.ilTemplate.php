@@ -212,10 +212,9 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilias;
 //echo "-".ilUtil::getP3PLocation()."-";
-		header('P3P: policyref="'.ilUtil::getP3PLocation().'", CP="CAO CURa ADMa DEVa TAIa OUR BUS IND UNI COM NAV INT"');
-		//header('P3P: policyref="'.ilUtil::getP3PLocation().'"');
-		//header('P3P: policyref="'.ilUtil::getP3PLocation().'", '.
-		//	'CP="ALL IND DSP COR ADM CONo CUR CUSo IVAo IVDo PSA PSD TAI TELo OUR SAMo CNT COM INT NAV ONL PHY PRE PUR UNI"');
+		//header('P3P: policyref="'.ilUtil::getP3PLocation().
+		//	'", CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
+		header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
 		header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
 
 		$this->addErrorMessage();
