@@ -185,11 +185,11 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			case 0:
 				// vertical orientation
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 				{
-					$category = $this->object->categories->getCategory($i);
+					$category = $this->object->getCategory($i);
 					$template->setCurrentBlock("matrix_row");
-					$template->setVariable("TEXT_MATRIX", $category);
+					$template->setVariable("TEXT_MATRIX", $category["title"]);
 					$template->setVariable("VALUE_MATRIX", $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
@@ -207,9 +207,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				break;
 			case 1:
 				// horizontal orientation
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 				{
-					$category = $this->object->categories->getCategory($i);
+					$category = $this->object->getCategory($i);
 					$template->setCurrentBlock("radio_col_matrix");
 					$template->setVariable("VALUE_MATRIX", $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
@@ -225,23 +225,23 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 					}
 					$template->parseCurrentBlock();
 				}
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 				{
-					$category = $this->object->categories->getCategory($i);
+					$category = $this->object->getCategory($i);
 					$template->setCurrentBlock("text_col_matrix");
 					$template->setVariable("VALUE_MATRIX", $i);
-					$template->setVariable("TEXT_MATRIX", $category);
+					$template->setVariable("TEXT_MATRIX", $category["title"]);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					$template->parseCurrentBlock();
 				}
 				break;
 			case 2:
 				// combobox output
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 				{
-					$category = $this->object->categories->getCategory($i);
+					$category = $this->object->getCategory($i);
 					$template->setCurrentBlock("comborow");
-					$template->setVariable("TEXT_MATRIX", $category);
+					$template->setVariable("TEXT_MATRIX", $category["title"]);
 					$template->setVariable("VALUE_MATRIX", $i);
 					if (is_array($working_data))
 					{
@@ -361,9 +361,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_matrix_answers.html", "Modules/SurveyQuestionPool");
 		// create an empty category if nothing is defined
-		if ($this->object->categories->getCategoryCount() == 0)
+		if ($this->object->getCategoryCount() == 0)
 		{
-			$this->object->categories->addCategory("");
+			$this->object->addCategory("");
 		}
 		if ($add)
 		{
@@ -372,21 +372,28 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			// Create template for a new category
 			for ($i = 1; $i <= $nrOfCategories; $i++)
 			{
-				$this->object->categories->addCategory("");
+				$this->object->addCategory("");
 			}
 		}
     // output of existing single response answers
-		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+		$hasneutralcolumn = FALSE;
+		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 		{
+			$category = $this->object->getCategory($i);
 			$this->tpl->setCurrentBlock("categories");
 			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$category = $this->object->categories->getCategory($i);
 			$this->tpl->setVariable("CATEGORY_ORDER", $i);
 			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
 			$this->tpl->setVariable("VALUE_CATEGORY", $category);
 			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if (strlen($this->object->getNeutralColumn()))
+		{
+			$this->tpl->setVariable("VALUE_NEUTRAL", " value=\"" . ilUtil::prepareFormOutput($this->object->getNeutralColumn()) . "\"");
+		}
+		$this->tpl->setVariable("CATEGORY_NEUTRAL", $this->object->getCategoryCount() + 1);
 
 		if ($this->object->getRowCount() == 0)
 		{
@@ -427,7 +434,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		
 		include_once "./classes/class.ilUtil.php";
-		if ($this->object->categories->getCategoryCount() > 0)
+		if ($this->object->getCategoryCount() > 0)
 		{
 			$this->tpl->setCurrentBlock("selectall");
 			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
@@ -473,7 +480,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
 		$this->tpl->setVariable("TEXT_STANDARD_ANSWERS", $this->lng->txt("matrix_standard_answers"));
 		$this->tpl->setVariable("TEXT_NEUTRAL_ANSWER", $this->lng->txt("matrix_neutral_answer"));
-		$this->tpl->setVariable("CATEGORY_NEUTRAL", $this->object->categories->getCategoryCount() + 1);
+		if (!$hasneutralcolumn)
+		{
+			$this->tpl->setVariable("CATEGORY_NEUTRAL", $this->object->getCategoryCount()+1);
+		}
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		
 		$this->tpl->setVariable("TEXT_ROWS", $this->lng->txt("matrix_rows"));
@@ -531,7 +541,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
 		if ($this->object->getId() > 0) 
 		{
-			$ilTabs->addTarget("categories",
+			$ilTabs->addTarget("matrix_columns_rows",
 				$this->ctrl->getLinkTarget($this, "categories"), 
 					array("categories", "addCategory", "insertBeforeCategory",
 						"insertAfterCategory", "moveCategory", "deleteCategory",
@@ -733,12 +743,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				foreach ($_POST["chb_category"] as $category)
 				{
 					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("TXT_TITLE", $this->object->categories->getCategory($category));
+					$this->tpl->setVariable("TXT_TITLE", $this->object->getCategory($category));
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("hidden");
 					$this->tpl->setVariable("HIDDEN_NAME", "chb_category[]");
-					$this->tpl->setVariable("HIDDEN_VALUE", $category);
+					$this->tpl->setVariable("HIDDEN_VALUE", $category["title"]);
 					$this->tpl->parseCurrentBlock();
 				}
 			
@@ -879,10 +889,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Recreates the categories from the POST data
+* Saves the columns and rows of the question
 *
-* Recreates the categories from the POST data and
-* saves it (optionally) to the database.
+* Saves the columns and rows of the question
 *
 * @param boolean $save If set to true the POST data will be saved to the database
 * @access private
@@ -890,25 +899,180 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	function writeCategoryData($save = false)
 	{
     // Delete all existing categories and create new categories from the form data
-    $this->object->categories->flushCategories();
+    $this->object->flushCategories();
 		$complete = true;
 		$array1 = array();
-    // Add all categories from the form into the object
+		
+    // Add standard columns and rows
 		include_once "./classes/class.ilUtil.php";
 		foreach ($_POST as $key => $value) 
 		{
 			if (preg_match("/^category_(\d+)/", $key, $matches)) 
 			{
-				$array1[$matches[1]] = ilUtil::stripSlashes($value);
+				$this->object->addCategory(ilUtil::stripSlashes($value));
+			}
+			if (preg_match("/^row_(\d+)/", $key, $matches)) 
+			{
+				$this->object->addRow(ilUtil::stripSlashes($value));
 			}
 		}
-		$this->object->categories->addCategoryArray($array1);
+    // Set neutral column
+		$this->object->setNeutralColumn(ilUtil::stripSlashes($_POST["neutral"]));
+			
 		if ($save)
 		{	
 			$this->object->saveCategoriesToDb();
+			$this->object->saveRowsToDb();
 		}
+
 		return $complete;
 	}
+
+/**
+* Saves the categories
+*
+* Saves the categories
+*
+* @access private
+*/
+	function saveCategories()
+	{
+		global $ilUser;
+		
+		$this->writeCategoryData(true);
+		$_SESSION["spl_modified"] = false;
+		sendInfo($this->lng->txt("saved_successfully"), true);
+		$originalexists = $this->object->_questionExists($this->object->original_id);
+		$_GET["q_id"] = $this->object->getId();
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+		{
+			$this->originalSyncForm();
+			return;
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "categories");
+		}
+	}
+
+/**
+* Removes one or more categories
+*
+* Removes one or more categories
+*
+* @access private
+*/
+	function deleteCategory()
+	{
+		$this->writeCategoryData();
+		$nothing_selected = true;
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]))
+			{
+				$nothing_selected = false;
+				$this->object->removeCategories($_POST["chb_category"]);
+			}
+		}
+		if ($nothing_selected) sendInfo($this->lng->txt("category_delete_select_none"));
+		$_SESSION["spl_modified"] = true;
+		$this->categories();
+	}
 	
+/**
+* Selects one or more categories for moving
+*
+* Selects one or more categories for moving
+*
+* @access private
+*/
+	function moveCategory()
+	{
+		$this->writeCategoryData();
+		$nothing_selected = true;
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]))
+			{
+				$nothing_selected = false;
+				sendInfo($this->lng->txt("select_target_position_for_move"));
+				$_SESSION["spl_move"] = $_POST["chb_category"];
+			}
+		}
+		if ($nothing_selected) sendInfo($this->lng->txt("no_category_selected_for_move"));
+		$this->categories();
+	}
+	
+/**
+* Inserts categories which are selected for moving before the selected category
+*
+* Inserts categories which are selected for moving before the selected category
+*
+* @access private
+*/
+	function insertBeforeCategory()
+	{
+		$result = $this->writeCategoryData();
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]) == 1)
+			{
+				// one entry is selected, moving is allowed
+				$this->object->removeCategories($_SESSION["spl_move"]);
+				$newinsertindex = $this->object->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
+				if ($newinsertindex === false) $newinsertindex = 0;
+				$move_categories = $_SESSION["spl_move"];
+				natsort($move_categories);
+				foreach (array_reverse($move_categories) as $index)
+				{
+					$this->object->addCategoryAtPosition($_POST["category_$index"], $newinsertindex);
+				}
+				$_SESSION["spl_modified"] = true;
+				unset($_SESSION["spl_move"]);
+			}
+			else
+			{
+				sendInfo("wrong_categories_selected_for_insert");
+			}
+		}
+		$this->categories();
+	}
+	
+/**
+* Inserts categories which are selected for moving before the selected category
+*
+* Inserts categories which are selected for moving before the selected category
+*
+* @access private
+*/
+	function insertAfterCategory()
+	{
+		$result = $this->writeCategoryData();
+		if (array_key_exists("chb_category", $_POST))
+		{
+			if (count($_POST["chb_category"]) == 1)
+			{
+				// one entry is selected, moving is allowed
+				$this->object->removeCategories($_SESSION["spl_move"]);
+				$newinsertindex = $this->object->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
+				if ($newinsertindex === false) $newinsertindex = 0;
+				$move_categories = $_SESSION["spl_move"];
+				natsort($move_categories);
+				foreach (array_reverse($move_categories) as $index)
+				{
+					$this->object->addCategoryAtPosition($_POST["category_$index"], $newinsertindex+1);
+				}
+				$_SESSION["spl_modified"] = true;
+				unset($_SESSION["spl_move"]);
+			}
+			else
+			{
+				sendInfo("wrong_categories_selected_for_insert");
+			}
+		}
+		$this->categories();
+	}
+
 }
 ?>

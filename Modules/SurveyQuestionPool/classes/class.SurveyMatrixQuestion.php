@@ -47,6 +47,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
   var $categories;
 
 /**
+* Neutral column
+*
+* Neutral column
+*
+* @var string
+*/
+	var $neutralColumn;
+	
+/**
 * Rows contained in this question
 *
 * Rows contained in this question
@@ -92,10 +101,215 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->subtype = 0;
-		$this->categories = new SurveyCategories();
+		$this->categories = array();
 		$this->rows = array();
+		$this->neutralColumn = "";
+	}
+	
+/**
+* Returns the text of the neutral column
+*
+* Returns the text of the neutral column
+*
+* @return string The text of the neutral column
+* @access public
+* @see $neutralColumn
+*/
+	function getNeutralColumn() 
+	{
+		return $this->neutralColumn;
+	}
+	
+/**
+* Sets the text of the neutral column
+*
+* Sets the text of the neutral column
+*
+* @param string $a_text The text of the neutral column
+* @access public
+* @see $neutralColumn
+*/
+	function setNeutralColumn($a_text) 
+	{
+		$this->neutralColumn = $a_text;
+	}
+
+/**
+* Returns the number of categories
+*
+* Returns the number of categories
+*
+* @return integer The number of contained categories
+* @access public
+* @see $categories
+*/
+	function getCategoryCount() 
+	{
+		return count($this->categories);
+	}
+
+/**
+* Adds a category at a given position
+*
+* Adds a category at a given position
+*
+* @param string $categoryname The name of the category
+* @param integer $position The position of the category (starting with index 0)
+* @access public
+* @see $categories
+*/
+	function addCategoryAtPosition($categoryname, $position) 
+	{
+		if (array_key_exists($position, $this->categories))
+		{
+			$head = array_slice($this->categories, 0, $position);
+			$tail = array_slice($this->categories, $position);
+			$this->categories = array_merge($head, array($categoryname), $tail);
+		}
+		else
+		{
+			array_push($this->categories, $categoryname);
+		}
+	}
+
+/**
+* Adds a category
+*
+* Adds a category
+*
+* @param integer $categoryname The name of the category
+* @param integer $neutral Indicates if the category is a neutral category
+* @access public
+* @see $categories
+*/
+	function addCategory($categoryname) 
+	{
+		array_push($this->categories, $categoryname);
+	}
+	
+/**
+* Adds a category array
+*
+* Adds a category array
+*
+* @param array $categories An array with categories
+* @access public
+* @see $categories
+*/
+	function addCategoryArray($categories) 
+	{
+		$this->categories = array_merge($this->categories, $categories);
+	}
+	
+/**
+* Removes a category from the list of categories
+*
+* Removes a category from the list of categories
+*
+* @param integer $index The index of the category to be removed
+* @access public
+* @see $categories
+*/
+	function removeCategory($index)
+	{
+		unset($this->categories[$index]);
+		$this->categories = array_values($this->categories);
+	}
+
+/**
+* Removes many categories from the list of categories
+*
+* Removes many categories from the list of categories
+*
+* @param array $array An array containing the index positions of the categories to be removed
+* @access public
+* @see $categories
+*/
+	function removeCategories($array)
+	{
+		foreach ($array as $index)
+		{
+			unset($this->categories[$index]);
+		}
+		$this->categories = array_values($this->categories);
+	}
+
+/**
+* Removes a category from the list of categories
+*
+* Removes a category from the list of categories
+*
+* @param string $name The name of the category to be removed
+* @access public
+* @see $categories
+*/
+	function removeCategoryWithName($name)
+	{
+		foreach ($this->categories as $index => $category)
+		{
+			if (strcmp($category, $name) == 0)
+			{
+				return $this->removeCategory($index);
+			}
+		}
+	}
+	
+/**
+* Returns the name of a category for a given index
+*
+* Returns the name of a category for a given index
+*
+* @param integer $index The index of the category
+* @result array Category
+* @access public
+* @see $categories
+*/
+	function getCategory($index)
+	{
+		if (array_key_exists($index, $this->categories))
+		{
+			return $this->categories[$index];
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+/**
+* Returns the index of a category with a given name.
+*
+* Returns the index of a category with a given name.
+*
+* @param string $name The name of the category
+* @access public
+* @see $categories
+*/
+	function getCategoryIndex($name)
+	{
+		foreach ($this->categories as $index => $category)
+		{
+			if (strcmp($category, $name) == 0)
+			{
+				return $this->removeCategory($index);
+			}
+		}
+		return -1;
+	}
+	
+	
+/**
+* Empties the categories list
+*
+* Empties the categories list
+*
+* @access public
+* @see $categories
+*/
+	function flushCategories() 
+	{
+		$this->categories = array();
 	}
 	
 /**
@@ -239,11 +453,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
-				$this->categories->addCategory($this->lng->txt($row->title));
+				$this->addCategory($this->lng->txt($row->title));
 			}
 			else
 			{
-				$this->categories->addCategory($row->title);
+				$this->addCategory($row->title);
 			}
 		}
 	}
@@ -311,9 +525,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
 
-			$this->categories->flushCategories();
+			$this->flushCategories();
 
-      $query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+      $query = sprintf("SELECT survey_variable.*, survey_category.title, survey_category.neutral FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
         $ilDB->quote($id)
       );
       $result = $ilDB->query($query);
@@ -321,9 +535,25 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			{
         while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
 				{
-					$this->categories->addCategory($data->title);
+					if ($data->neutral == 0)
+					{
+						$this->addCategory($data->title);
+					}
+					else
+					{
+						$this->setNeutralColumn($data->title);
+					}
         }
       }
+			
+			$query = sprintf("SELECT * FROM survey_question_matrix_rows WHERE question_fi = %s ORDER BY sequence",
+				$ilDB->quote($id . "")
+			);
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$this->addRow($row["title"]);
+			}
     }
 		parent::loadFromDb($id);
   }
@@ -338,7 +568,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function isComplete()
 	{
-		if ($this->title and $this->author and $this->questiontext and $this->categories->getCategoryCount())
+		if ($this->title and $this->author and $this->questiontext and $this->getCategoryCount())
 		{
 			return 1;
 		}
@@ -431,10 +661,70 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			if ($withanswers)
 			{
 				$this->saveCategoriesToDb();
+				$this->saveRowsToDb();
 			}
     }
 		parent::saveToDb($original_id);
   }
+
+	function saveCategoriesToDb()
+	{
+		// save categories
+		
+		// delete existing category relations
+		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
+			$this->ilias->db->quote($this->id)
+		);
+		$result = $this->ilias->db->query($query);
+		// create new category relations
+		for ($i = 0; $i < $this->getCategoryCount(); $i++)
+		{
+			$cat = $this->getCategory($i);
+			$category_id = $this->saveCategoryToDb($cat);
+			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($category_id . ""),
+				$this->ilias->db->quote($this->id . ""),
+				$this->ilias->db->quote(($i + 1) . ""),
+				$this->ilias->db->quote($i . "")
+			);
+			$answer_result = $this->ilias->db->query($query);
+		}
+		if (strlen($this->getNeutralColumn()))
+		{
+			$category_id = $this->saveCategoryToDb($this->getNeutralColumn(), 1);
+			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($category_id . ""),
+				$this->ilias->db->quote($this->id . ""),
+				$this->ilias->db->quote(($i + 1) . ""),
+				$this->ilias->db->quote($i . "")
+			);
+			$answer_result = $this->ilias->db->query($query);
+		}
+		$this->saveCompletionStatus();
+	}
+
+	function saveRowsToDb()
+	{
+		// save rows
+		
+		// delete existing rows
+		$query = sprintf("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
+			$this->ilias->db->quote($this->id)
+		);
+		$result = $this->ilias->db->query($query);
+		// create new rows
+		for ($i = 0; $i < $this->getRowCount(); $i++)
+		{
+			$row = $this->getRow($i);
+			$query = sprintf("INSERT INTO survey_question_matrix_rows (id_survey_question_matrix_rows, title, sequence, question_fi) VALUES (NULL, %s, %s, %s)",
+				$this->ilias->db->quote($row . ""),
+				$this->ilias->db->quote($i . ""),
+				$this->ilias->db->quote($this->getId() . "")
+			);
+			$answer_result = $this->ilias->db->query($query);
+		}
+		$this->saveCompletionStatus();
+	}
 
 	/**
 	* Imports a question from XML
@@ -529,7 +819,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 												$material = $response_label->first_child();
 												$mattext = $material->first_child();
 												$shuf = 0;
-												$this->categories->addCategoryAtPosition($mattext->get_content(), $response_label->get_attribute("ident"));
+												$this->addCategoryAtPosition($mattext->get_content(), $response_label->get_attribute("ident"));
 											}
 											break;
 										case "material":
@@ -644,9 +934,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$a_xml_writer->xmlStartTag("render_choice", $attrs);
 
 		// add categories
-		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
+		for ($index = 0; $index < $this->getCategoryCount(); $index++)
 		{
-			$category = $this->categories->getCategory($index);
+			$category = $this->getCategory($index);
 			$attrs = array(
 				"ident" => "$index"
 			);
@@ -705,9 +995,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				);
 				$result = $ilDB->query($query);
 				// create new category relations
-				for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+				for ($i = 0; $i < $this->getCategoryCount(); $i++)
 				{
-					$category_id = $this->saveCategoryToDb($this->categories->getCategory($i));
+					$category = $this->getCategory($i);
+					$category_id = $this->saveCategoryToDb($category);
 					$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 						$ilDB->quote($category_id . ""),
 						$ilDB->quote($this->original_id . ""),
@@ -734,7 +1025,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		for ($i = $lower_limit; $i <= $upper_limit; $i++)
 		{
-			$this->categories->addCategory($i);
+			$this->addCategory($i);
 		}
 	}
 
@@ -761,12 +1052,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$phrase_id = $ilDB->getLastInsertId();
 				
 		$counter = 1;
-	  foreach ($phrases as $category) 
+	  foreach ($phrases as $category_index) 
 		{
-			$query = sprintf("INSERT INTO survey_category (category_id, title, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$ilDB->quote($this->categories->getCategory($category) . ""),
+			$category = $this->getCategory($category_index);
+			$query = sprintf("INSERT INTO survey_category (category_id, title, neutral, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$ilDB->quote($category . ""),
+				$ilDB->quote("0"),
 				$ilDB->quote("1"),
-				$ilDB->quote($ilUser->id . "")
+				$ilDB->quote($ilUser->getId() . "")
 			);
 			$result = $ilDB->query($query);
 			$category_id = $ilDB->getLastInsertId();
@@ -865,17 +1158,19 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$prefix = (key($cumulated)+1) . " - ";
 		}
-		$result_array["MODE"] =  $prefix . $this->categories->getCategory(key($cumulated));
+		$cat = $this->getCategory(key($cumulated));
+		$result_array["MODE"] =  $prefix . $cat;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
+		for ($key = 0; $key < $this->getCategoryCount(); $key++)
 		{
 			$percentage = 0;
 			if ($numrows > 0)
 			{
 				$percentage = (float)((int)$cumulated[$key]/$numrows);
 			}
-			$result_array["variables"][$key] = array("title" => $this->categories->getCategory($key), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+			$cat = $this->getCategory($key);
+			$result_array["variables"][$key] = array("title" => $cat, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 		}
 		ksort($cumulated, SORT_NUMERIC);
 		$median = array();
@@ -895,7 +1190,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
 				if (round($median_value) != $median_value)
 				{
-					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $this->categories->getCategory((int)floor($median_value)-1) . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $this->categories->getCategory((int)ceil($median_value)-1) . ")";
+					$cat = $this->getCategory((int)floor($median_value)-1);
+					$cat2 = $this->getCategory((int)ceil($median_value)-1);
+					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2 . ")";
 				}
 			}
 			else
@@ -1010,7 +1307,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$category = $this->categories->getCategory($row["value"]);
+			$category = $this->getCategory($row["value"]);
 			if (strlen($row["anonymous_id"]) > 0)
 			{
 				$answers[$row["anonymous_id"]] = $row["value"] + 1 . " - " . $category;
