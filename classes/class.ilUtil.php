@@ -252,13 +252,13 @@ class ilUtil
 			$base = "./";
 		}
 
-		if (is_file($base."p3p.xml"))
+		if (is_file($base."w3c/p3p.xml"))
 		{
-			return ILIAS_HTTP_PATH."/p3p.xml";
+			return ILIAS_HTTP_PATH."/w3c/p3p.xml";
 		}
 		else
 		{
-			return ILIAS_HTTP_PATH."/p3p_template.xml";
+			return ILIAS_HTTP_PATH."/w3c/p3p_template.xml";
 		}
 	}
 

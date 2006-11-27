@@ -1811,7 +1811,10 @@ class ilObjContentObject extends ilObject
 		$ilBench->start("ExportHTML", "exportHTMLMediaObjects");
 		foreach ($this->offline_mobs as $mob)
 		{
-			$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_new");
+			if (ilObject::_exists($mob))
+			{
+				$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_new");
+			}
 		}
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["obj_id"]  = $a_mob_id;
@@ -1883,15 +1886,17 @@ class ilObjContentObject extends ilObject
 
 		// zip everything
 		$ilBench->start("ExportHTML", "zip");
-		if ($a_zip_file)
+		if (true)
 		{
-			// zip it all
-			$date = time();
-			$zip_file = $this->getExportDirectory("html")."/".$date."__".IL_INST_ID."__".
-				$this->getType()."_".$this->getId().".zip";
-//echo "zip-".$a_target_dir."-to-".$zip_file;
-			ilUtil::zip($a_target_dir, $zip_file);
-			ilUtil::delDir($a_target_dir);
+			if ($a_zip_file)
+			{
+				// zip it all
+				$date = time();
+				$zip_file = $this->getExportDirectory("html")."/".$date."__".IL_INST_ID."__".
+					$this->getType()."_".$this->getId().".zip";
+				ilUtil::zip($a_target_dir, $zip_file);
+				ilUtil::delDir($a_target_dir);
+			}
 		}
 		$ilBench->stop("ExportHTML", "zip");
 
