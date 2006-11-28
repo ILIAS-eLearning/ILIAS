@@ -32,15 +32,6 @@
   <td class="option_value"><input type="checkbox" name="obligatory" value="1" id="obligatory"{CHECKED_OBLIGATORY} /> <label for="obligatory">{TEXT_OBLIGATORY}</label></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_APPEARANCE}</td>
-	<td class="option_value">
-		<input type="checkbox" name="column_separators" id="column_separators" value="1"{CHECKED_COLUMN_SEPARATORS} /> <label for="column_separators">{TEXT_COLUMN_SEPARATORS}</label>
-		<br />
-		<input type="checkbox" name="row_separators" id="row_separators" value="1"{CHECKED_ROW_SEPARATORS} /> <label for="row_separators">{TEXT_ROW_SEPARATORS}</label>
-		<br />
-		<div class="il_Description_no_margin">{DESCRIPTION_SEPARATORS}</div>
-	</td>
-<tr>
 	<td class="option">{TEXT_MATERIAL}</td>
 	<td class="option_value">
 		<input type="hidden" name="material" value="{VALUE_MATERIAL}" />
@@ -59,6 +50,33 @@
 		{TEXT_TITLE}: <input type="text" name="material_title" value="{VALUE_MATERIAL_TITLE}" size="40" />
 		</p>
 <!-- END material_title -->
+	</td>
+</tr>
+<tr class="tblheader">
+	<td colspan="2">{TEXT_APPEARANCE}</td>
+</tr>
+<tr>
+  <td class="option"><label for="column_separators">{TEXT_COLUMN_SEPARATORS}</label></td>
+	<td class="option_value">
+		<input type="checkbox" name="column_separators" id="column_separators" value="1"{CHECKED_COLUMN_SEPARATORS} />
+		<br />
+		<div class="il_Description_no_margin">{DESCRIPTION_COLUMN_SEPARATORS}</div>
+	</td>
+</tr>
+<tr>
+  <td class="option"><label for="row_separators">{TEXT_ROW_SEPARATORS}</label></td>
+	<td class="option_value">
+		<input type="checkbox" name="row_separators" id="row_separators" value="1"{CHECKED_ROW_SEPARATORS} />
+		<br />
+		<div class="il_Description_no_margin">{DESCRIPTION_ROW_SEPARATORS}</div>
+	</td>
+</tr>
+<tr>
+  <td class="option"><label for="neutral_column_separator">{TEXT_NEUTRAL_COLUMN_SEPARATOR}</label></td>
+	<td class="option_value">
+		<input type="checkbox" name="neutral_column_separator" id="neutral_column_separator" value="1"{CHECKED_NEUTRAL_COLUMN_SEPARATOR} />
+		<br />
+		<div class="il_Description_no_margin">{DESCRIPTION_NEUTRAL_COLUMN_SEPARATOR}</div>
 	</td>
 </tr>
 <tr><td colspan="2" class="submit">

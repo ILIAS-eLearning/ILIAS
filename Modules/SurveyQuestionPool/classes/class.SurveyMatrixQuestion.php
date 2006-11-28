@@ -99,6 +99,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 * @var integer
 */
 	var $rowSeparators;
+
+/**
+* Enable state of a separator for the neutral column
+*
+* 1 if a separator is enabled for the neutral column, 0 otherwise
+*
+* @var integer
+*/
+	var $neutralColumnSeparator;
+	
 	
 /**
 * Matrix question subtype
@@ -145,6 +155,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$this->bipolar_adjective2 = "";
 		$this->rowSeparators = 0;
 		$this->columnSeparators = 0;
+		$this->neutralColumnSeparator = 1;
 	}
 	
 /**
@@ -642,6 +653,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->setBipolarAdjective(0, $data->bipolar_adjective1);
 				$this->setBipolarAdjective(1, $data->bipolar_adjective2);
 				$this->setRowSeparators($data->row_separators);
+				$this->setNeutralColumnSeparator($data->neutral_column_separator);
 				$this->setColumnSeparators($data->column_separators);
       }
       // loads materials uris from database
@@ -750,11 +762,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
       if ($result == DB_OK) 
 			{
         $this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO survey_question_matrix (question_fi, subtype, row_separators, column_separators, bipolar_adjective1, bipolar_adjective2) VALUES (%s, %s, %s, %s, %s, %s)",
+				$query = sprintf("INSERT INTO survey_question_matrix (question_fi, subtype, row_separators, column_separators, neutral_column_separator, bipolar_adjective1, bipolar_adjective2) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id . ""),
 					$ilDB->quote(sprintf("%d", $this->getSubtype())),
 					$ilDB->quote($this->getRowSeparators() . ""),
 					$ilDB->quote($this->getColumnSeparators() . ""),
+					$ilDB->quote($this->getNeutralColumnSeparator() . ""),
 					$ilDB->quote($this->getBipolarAdjective(0) . ""),
 					$ilDB->quote($this->getBipolarAdjective(1) . "")
 				);
@@ -774,10 +787,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote($this->id)
       );
       $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_matrix SET subtype = %s, row_separators = %s, column_separators = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_matrix SET subtype = %s, row_separators = %s, column_separators = %s, neutral_column_separator = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
 				$ilDB->quote(sprintf("%d", $this->getSubtype())),
 				$ilDB->quote($this->getRowSeparators() . ""),
 				$ilDB->quote($this->getColumnSeparators() . ""),
+				$ilDB->quote($this->getNeutralColumnSeparator() . ""),
 				$ilDB->quote($this->getBipolarAdjective(0) . ""),
 				$ilDB->quote($this->getBipolarAdjective(1) . ""),
 				$ilDB->quote($this->id . "")
@@ -1124,10 +1138,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_matrix SET orientation = %s, row_separators = %s, column_separators = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_matrix SET orientation = %s, row_separators = %s, column_separators = %s, neutral_column_separator = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
 				$ilDB->quote($this->getOrientation() . ""),
 				$ilDB->quote($this->getRowSeparators() . ""),
 				$ilDB->quote($this->getColumnSeparators() . ""),
+				$ilDB->quote($this->getNeutralColumnSeparator() . ""),
 				$ilDB->quote($this->getBipolarAdjective(0) . ""),
 				$ilDB->quote($this->getBipolarAdjective(1) . ""),
 				$ilDB->quote($this->original_id . "")
@@ -1715,6 +1730,41 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	function getRowSeparators()
 	{
 		return $this->rowSeparators;
+	}
+
+	/**
+	* Enables/Disables a separator for the neutral column
+	*
+	* Enables/Disables a separator for the neutral column
+	*
+	* @param integer $enable 1 if the separator should be enabled, 0 otherwise
+	* @access public
+	*/
+	function setNeutralColumnSeparator($enable = 0)
+	{
+		switch ($enable)
+		{
+			case 1:
+				$this->neutralColumnSeparator = 1;
+				break;
+			case 0:
+			default:
+				$this->neutralColumnSeparator = 0;
+				break;
+		}
+	}
+	
+	/**
+	* Gets the separator enable state for the neutral column
+	*
+	* Gets the separator enable state for the neutral column
+	*
+	* @return integer 1 if the separator is enabled, 0 otherwise
+	* @access public
+	*/
+	function getNeutralColumnSeparator()
+	{
+		return $this->neutralColumnSeparator;
 	}
 }
 ?>

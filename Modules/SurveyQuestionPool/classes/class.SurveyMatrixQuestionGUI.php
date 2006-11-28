@@ -146,7 +146,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("TEXT_APPEARANCE", $this->lng->txt("matrix_appearance"));
 		$this->tpl->setVariable("TEXT_COLUMN_SEPARATORS", $this->lng->txt("matrix_column_separators"));
 		$this->tpl->setVariable("TEXT_ROW_SEPARATORS", $this->lng->txt("matrix_row_separators"));
-		$this->tpl->setVariable("DESCRIPTION_SEPARATORS", $this->lng->txt("matrix_separators_description"));
+		$this->tpl->setVariable("TEXT_NEUTRAL_COLUMN_SEPARATOR", $this->lng->txt("matrix_neutral_column_separator"));
+		$this->tpl->setVariable("DESCRIPTION_NEUTRAL_COLUMN_SEPARATOR", $this->lng->txt("matrix_neutral_column_separator_description"));
+		$this->tpl->setVariable("DESCRIPTION_ROW_SEPARATORS", $this->lng->txt("matrix_row_separators_description"));
+		$this->tpl->setVariable("DESCRIPTION_COLUMN_SEPARATORS", $this->lng->txt("matrix_column_separators_description"));
 		if ($this->object->getRowSeparators())
 		{
 			$this->tpl->setVariable("CHECKED_ROW_SEPARATORS", " checked=\"checked\"");
@@ -154,6 +157,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		if ($this->object->getColumnSeparators())
 		{
 			$this->tpl->setVariable("CHECKED_COLUMN_SEPARATORS", " checked=\"checked\"");
+		}
+		if ($this->object->getNeutralColumnSeparator())
+		{
+			$this->tpl->setVariable("CHECKED_NEUTRAL_COLUMN_SEPARATOR", " checked=\"checked\"");
 		}
 		
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
@@ -186,6 +193,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 */
 	function getWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
+		$neutralstyle = "3px solid #808080";
+		$bordercolor = "#808080";
 		$template = new ilTemplate("tpl.il_svy_out_matrix.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if (count($this->object->material))
 		{
@@ -201,18 +210,25 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 			{
-				$tplheaders->setCurrentBlock("bipolar_start");
-				$tplheaders->setVariable("CLASS", "center");
-				$tplheaders->parseCurrentBlock();
+				$tplheaders->touchBlock("bipolar_start");
 			}
 		}
 		// column headers
 		$headers = $this->object->getCategoryCount();
 		for ($i = 0; $i < $this->object->getCategoryCount(); $i++)
 		{
+			$style = array();
+			if ($this->object->getColumnSeparators() == 1)
+			{
+				if (($i < $this->object->getCategoryCount() - 1) || (!$this->object->getNeutralColumnSeparator()))
+				{
+					array_push($style, "border-right: 1px solid $bordercolor!important");
+				}
+			}
 			$tplheaders->setCurrentBlock("column_header");
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getCategory($i)));
 			$tplheaders->setVariable("CLASS", "center");
+			$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			$tplheaders->parseCurrentBlock();
 		}
 		if (strlen($this->object->getNeutralColumn()))
@@ -220,6 +236,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$tplheaders->setCurrentBlock("neutral_column_header");
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getNeutralColumn()));
 			$tplheaders->setVariable("CLASS", "rsep");
+			if ($this->object->getNeutralColumnSeparator())
+			{
+				$tplheaders->setVariable("STYLE", " style=\"border-left: $neutralstyle!important;\"");
+			}
 			$tplheaders->parseCurrentBlock();
 			$headers++;
 		}
@@ -227,9 +247,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 			{
-				$tplheaders->setCurrentBlock("bipolar_end");
-				$tplheaders->setVariable("CLASS", "center");
-				$tplheaders->parseCurrentBlock();
+				$tplheaders->touchBlock("bipolar_end");
 			}
 		}		
 		$template->setCurrentBlock("matrix_row");
@@ -301,47 +319,45 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						break;
 				}
 				$tplrow->setCurrentBlock("answer");
-				$last = "";
-				$noborder = "noborder";
-				if (($this->object->getColumnSeparators() == 1) && ($this->object->getRowSeparators() == 1))
+				$style = array();
+				if ((strlen($this->object->getNeutralColumn())) && ($j == $headers-1))
 				{
-					$noborder = "";
-				}
-				else if ($this->object->getColumnSeparators() == 1)
-				{
-					$noborder = "blr";
-				}
-				else if ($this->object->getRowSeparators() == 1)
-				{
-					$noborder = "btb";
-				}
-				if ($i == $this->object->getRowCount() - 1)
-				{
-					$last = "last";
-				}
-				if (strlen($this->object->getNeutralColumn()))
-				{
-					if ($j == $headers-1)
+					if ($this->object->getNeutralColumnSeparator())
 					{
-						$tplrow->setVariable("CLASS", "rsep$noborder$last");
-					}
-					else
-					{
-						$tplrow->setVariable("CLASS", "center$noborder$last");
+						array_push($style, "border-left: $neutralstyle!important");
 					}
 				}
-				else
+				
+				if ($this->object->getColumnSeparators() == 1)
 				{
-					$tplrow->setVariable("CLASS", "center$noborder$last");
+					if ($j < $headers - 1)
+					{
+						array_push($style, "border-right: 1px solid $bordercolor!important");
+					}
 				}
-				if ($j == $headers-1)
+
+				if ($this->object->getRowSeparators() == 1)
 				{
-					$tplrow->setVariable("STYLE", " style=\"border-right: 1px solid black!important;\"");
+					if ($i < $this->object->getRowCount() - 1)
+					{
+						array_push($style, "border-bottom: 1px solid $bordercolor!important");
+					}
+				}
+				if (count($style))
+				{
+					$tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 				}
 				$tplrow->parseCurrentBlock();
 			}
 			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($this->object->getRow($i)));
 			$tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
+			if ($this->object->getRowSeparators() == 1)
+			{
+				if ($i < $this->object->getRowCount() - 1)
+				{
+					$tplrow->setVariable("STYLE", " style=\"border-bottom: 1px solid $bordercolor!important\"");
+				}
+			}
 			$template->setCurrentBlock("matrix_row");
 			$template->setVariable("ROW", $tplrow->get());
 			$template->parseCurrentBlock();
@@ -421,8 +437,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->object->setSubtype($_POST["subtype"]);
 		$this->object->setRowSeparators(($_POST["row_separators"]) ? 1 : 0);
 		$this->object->setColumnSeparators(($_POST["column_separators"]) ? 1 : 0);
+		$this->object->setNeutralColumnSeparator(($_POST["neutral_column_separator"]) ? 1 : 0);
 
-		if ($saved) {
+		if ($saved) 
+		{
 			// If the question was saved automatically before an upload, we have to make
 			// sure, that the state after the upload is saved. Otherwise the user could be
 			// irritated, if he presses cancel, because he only has the question state before

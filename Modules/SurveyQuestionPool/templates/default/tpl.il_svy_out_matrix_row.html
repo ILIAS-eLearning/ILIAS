@@ -1,10 +1,10 @@
 <tr class="{ROWCLASS}">
-	<td id="matrix" class="rowtext">{TEXT_ROW}</td>
+	<td id="matrix"{STYLE}>{TEXT_ROW}</td>
 <!-- BEGIN bipolar_start -->
-	<td id="matrix" class="bipolar" rowspan="{ROWSPAN}">{TEXT_BIPOLAR_START}</td>
+	<td id="matrix" class="bipolar" rowspan="{ROWSPAN}"{STYLE}>{TEXT_BIPOLAR_START}</td>
 <!-- END bipolar_start -->
 <!-- BEGIN answer -->
-	<td id="matrix" class="{CLASS}"{STYLE}>
+	<td id="matrix" class="center"{STYLE}>
 <!-- BEGIN radiobutton -->
 		<input type="radio" name="matrix_{QUESTION_ID}_{ROW}" value="{VALUE}"{CHECKED_RADIOBUTTON} />
 <!-- END radiobutton -->
@@ -14,7 +14,7 @@
 	</td>
 <!-- END answer -->
 <!-- BEGIN bipolar_end -->
-	<td id="matrix" class="bipolar" rowspan="{ROWSPAN}">{TEXT_BIPOLAR_END}</td>
+	<td id="matrix" class="bipolar" rowspan="{ROWSPAN}"{STYLE}>{TEXT_BIPOLAR_END}</td>
 <!-- END bipolar_end -->
 </tr>
 
