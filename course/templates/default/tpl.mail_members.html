@@ -1,8 +1,16 @@
-	<form action="{MAILACTION}" method="post">
+	<form action="{SELECT_ACTION}" method="post">
 	  <table>
 		<tr>
 		  <td>{TXT_COMPOSE_MESSAGE}</td>
 		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+		  <td><input class="submit" type="submit" name="mailselected" value="{MAIL_SELECTED}" />
+		</tr>
+		</table>
+	</form>
+	<form action="{MAILACTION}" method="post">
+	<table>
 		<tr>
 		  <td>{CHECK_MEMBER}&nbsp;{MAIL_MEMBERS}</td>
 		</tr>

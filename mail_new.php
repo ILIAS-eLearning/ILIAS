@@ -140,6 +140,61 @@ if(isset($_POST["cmd"]["rcp_bc"]))
 	sendInfo($lng->txt("mail_insert_query"));
 }
 
+
+// SEARCH RECIPIENTS UNDER COURSES
+if (isset($_POST["cmd"]["courses_to"]))
+{
+	$_SESSION["mail_search"] = 'to';
+	sendInfo($lng->txt("mail_search_courses"));
+	
+	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
+						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
+						 $_POST["m_email"],
+						 ilUtil::stripSlashes($_POST["m_subject"]),
+						 ilUtil::stripSlashes($_POST["m_message"]));
+	
+	$get .= "&courses_to=1";
+	
+	// parameter course_id allow showing only the data for that course
+	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&course_id=".urlencode($_POST["course_id"]).$get);
+	exit();
+}
+
+// if we are coming from a specific course "mail to members" function
+if (isset($_GET["course_id"]) && isset($_GET["courses_to"])) 
+{
+	$_SESSION["mail_search"] = 'to';
+	
+	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
+						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
+						 $_POST["m_email"],
+						 ilUtil::stripSlashes($_POST["m_subject"]),
+						 ilUtil::stripSlashes($_POST["m_message"]));
+
+	// parameter course_id allow showing only the data for that course
+	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&course_id=".urlencode($_GET["course_id"])."&courses_to=1");
+	exit();	
+}
+
+
+// SEARCH RECIPIENTS UNDER GROUPS
+if (isset($_POST["cmd"]["groups_to"]))
+{
+	$_SESSION["mail_search"] = 'to';
+	sendInfo($lng->txt("mail_search_groups"));
+
+	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
+						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
+						 $_POST["m_email"],
+						 ilUtil::stripSlashes($_POST["m_subject"]),
+						 ilUtil::stripSlashes($_POST["m_message"]));
+	
+	$get .= "&groups_to=1";
+	// parameter group_id allow showing only the data for that group
+	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&group_id=".urlencode($_POST["group_id"]).$get);
+	exit();
+}
+
 // EDIT ATTACHMENTS
 if(isset($_POST["cmd"]["edit"]))
 {
@@ -287,10 +342,21 @@ if(isset($_POST["cmd"]["rcp_to"]) or
 	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
 }
 
+else if(isset($_POST["cmd"]["courses_to"]) or
+		isset($_POST["cmd"]["groups_to"]))
+{
+	$tpl->setCurrentBlock("search_individuals");
+	
+}
+
 // RECIPIENT
 $tpl->setVariable("TXT_RECIPIENT", $lng->txt("mail_to"));
 $tpl->setVariable("TXT_SEARCH_RECIPIENT", $lng->txt("search_recipient"));
+$lng->loadLanguageModule("crs");
+$tpl->setVariable("COURSES_TO",$lng->txt("crs_members_title"));
+//$tpl->setVariable("GROUPS_TO",$lng->txt("groups_members"));
 $tpl->setVariable("BUTTON_TO",$lng->txt("mail_to_search"));
+
 // CC
 $tpl->setVariable("TXT_CC", $lng->txt("cc"));
 $tpl->setVariable("TXT_SEARCH_CC_RECIPIENT", $lng->txt("search_cc_recipient"));
