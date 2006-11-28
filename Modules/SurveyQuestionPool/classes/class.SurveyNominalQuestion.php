@@ -657,6 +657,35 @@ class SurveyNominalQuestion extends SurveyQuestion
 		return "survey_question_nominal";
 	}
 
+	/**
+	* Creates the user data of the survey_answer table from the POST data
+	*
+	* Creates the user data of the survey_answer table from the POST data
+	*
+	* @return array User data according to the survey_answer table
+	* @access public
+	*/
+	function &getWorkingDataFromUserInput($post_data)
+	{
+		$entered_value = $post_data[$this->getId() . "_value"];
+		$data = array();
+		if ($this->getSubType() == SUBTYPE_MCMR)
+		{
+			if (is_array($entered_value))
+			{
+				foreach ($entered_value as $value)
+				{
+					array_push($data, array("value" => $value));
+				}
+			}
+		}
+		else
+		{
+			array_push($data, array("value" => $entered_value));
+		}
+		return $data;
+	}
+
 	function checkUserInput($post_data)
 	{
 		// multiple response questions are always non-obligatory

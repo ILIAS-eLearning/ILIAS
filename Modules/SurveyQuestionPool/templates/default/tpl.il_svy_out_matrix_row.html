@@ -6,8 +6,11 @@
 <!-- BEGIN answer -->
 	<td id="matrix" class="{CLASS}">
 <!-- BEGIN radiobutton -->
-		<input type="radio" name="matrix_{ROW}" value="{VALUE}" />
+		<input type="radio" name="matrix_{QUESTION_ID}_{ROW}" value="{VALUE}"{CHECKED_RADIOBUTTON} />
 <!-- END radiobutton -->
+<!-- BEGIN checkbox -->
+		<input type="checkbox" name="matrix_{QUESTION_ID}_{ROW}[]" value="{VALUE}"{CHECKED_CHECKBOX} />
+<!-- END checkbox -->
 	</td>
 <!-- END answer -->
 <!-- BEGIN bipolar_end -->

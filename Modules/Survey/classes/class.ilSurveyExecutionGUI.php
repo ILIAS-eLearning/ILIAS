@@ -303,7 +303,14 @@ class ilSurveyExecutionGUI
 					$this->tpl->setVariable("QUESTION_HEADING", $data["heading"]);
 				}
 				$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
-				$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
+				if (is_array($_SESSION["svy_errors"]))
+				{
+					$working_data =& $question_gui->object->getWorkingDataFromUserInput($_POST);
+				}
+				else
+				{
+					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
+				}
 				$question_gui->object->setObligatory($data["obligatory"]);
 				$error_messages = array();
 				if (is_array($_SESSION["svy_errors"]))

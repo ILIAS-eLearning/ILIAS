@@ -705,14 +705,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once "./classes/class.ilFormat.php";
 			foreach ($table["rows"] as $data)
 			{
-				if ($rbacsystem->checkAccess("write", $data["ref_id"])) {
-					$this->tpl->setCurrentBlock("QTab");
-					if ($data["complete"]) {
+				if ($rbacsystem->checkAccess("write", $data["ref_id"])) 
+				{
+					if ($data["complete"]) 
+					{
 						// make only complete questions selectable
+						$this->tpl->setCurrentBlock("checkable");
 						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+						$this->tpl->setVariable("COUNTER", $data["question_id"]);
+						$this->tpl->parseCurrentBlock();
 					}
+					$this->tpl->setCurrentBlock("QTab");
 					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $data["ref_id"] . "&cmd=preview&preview=" . $data["question_id"] . " \" target=\"_blank\">" . $this->lng->txt("preview") . "</a>]");
+					$this->tpl->setVariable("TEXT_PREVIEW", $this->lng->txt("preview"));
+					$this->tpl->setVariable("URL_PREVIEW", "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $data["ref_id"] . "&cmd=preview&preview=" . $data["question_id"]);
+					$this->tpl->setVariable("COUNTER", $data["question_id"]);
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);

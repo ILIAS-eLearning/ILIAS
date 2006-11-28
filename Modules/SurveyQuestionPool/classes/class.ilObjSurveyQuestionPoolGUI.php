@@ -1496,10 +1496,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		if ($_GET["q_id"] > 0)
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-			$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
-			$q_gui->object->setObjId($this->object->getId());
-			$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass(get_class($q_gui), "editQuestion"));
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			$q_type = SurveyQuestion::_getQuestionType($_GET["q_id"]) . "GUI";
+			$this->ctrl->setParameterByClass($q_type, "q_id", $_GET["q_id"]);
+			$ilLocator->addItem(SurveyQuestion::_getTitle($_GET["q_id"]), $this->ctrl->getLinkTargetByClass($q_type, "editQuestion"));
 		}
 	}
 	

@@ -44,11 +44,11 @@
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}" width="20">
 <!-- BEGIN checkable -->
-<input type="checkbox" name="cb_{QUESTION_ID}" value="1" />
+<input type="checkbox" name="cb_{QUESTION_ID}" id="label_{COUNTER}" value="1" />
 <!-- END checkable -->
 </td>
-<td class="{COLOR_CLASS}">{QUESTION_TITLE}</td>
-<td class="{COLOR_CLASS}">{PREVIEW}</td>
+<td class="{COLOR_CLASS}"><label for="label_{COUNTER}">{QUESTION_TITLE}</label></td>
+<td class="{COLOR_CLASS}"><a class="il_ContainerItemCommand" href="{URL_PREVIEW}">{TEXT_PREVIEW}</a></td>
 <td class="{COLOR_CLASS}">{QUESTION_COMMENT}</td>
 <td class="{COLOR_CLASS}">{QUESTION_TYPE}</td>
 <td class="{COLOR_CLASS}">{QUESTION_AUTHOR}</td>
