@@ -99,7 +99,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->setTabs();
 
 		// new file list form
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -145,7 +145,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->setTabs();
 
 		// new file list form
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 

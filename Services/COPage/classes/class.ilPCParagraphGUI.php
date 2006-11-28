@@ -79,7 +79,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		// set tabs
 		$this->setTabs();
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "Services/COPage");
 		//$content = $this->pg_obj->getContent();
 		//$cnt = 1;
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
@@ -251,7 +251,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->setTabs();
 
 		// add paragraph edit template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);

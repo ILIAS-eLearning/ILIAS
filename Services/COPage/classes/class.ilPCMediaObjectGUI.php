@@ -329,7 +329,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$std_item =& $this->content_obj->getMediaItem("Standard");
 //echo htmlentities($this->dom->dump_node($std_alias_item->item_node));
 		// edit media alias template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_alias_properties.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_alias_properties.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_alias_prop"));
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_DERIVE", $this->lng->txt("cont_derive_from_obj"));

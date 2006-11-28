@@ -77,7 +77,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->setTabs();
 
 		// new file list form
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_new.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_new.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_list"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -165,7 +165,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->setTabs();
 
 		// add paragraph edit template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_edit.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_edit.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_file_list_properties"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
