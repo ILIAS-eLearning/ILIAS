@@ -77,7 +77,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->setTabs();
 
 		// add paragraph edit template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_properties.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_properties.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_tab_properties"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -300,7 +300,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->setTabs();
 
 		// new table form (input of rows and columns)
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", "content");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_table"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 

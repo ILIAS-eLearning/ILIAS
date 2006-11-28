@@ -73,7 +73,7 @@ class ilWysiwygUtil
 		//vd($source_obj->getType());
 		//vd($target_obj->getType());
 		
-		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_movecopyquestion.html",false,true,true);
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_movecopyquestion.html",false,true,"Services/COPage");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
 		
 		if ($source_obj->getType() == "st" && $target_obj->getType() == "pg") {
@@ -99,7 +99,7 @@ class ilWysiwygUtil
 	
 	function showXtl() 
 	{
-		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_xtl.html",false,false,true);
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_xtl.html",false,false,"Services/COPage");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
 		
 		
@@ -117,7 +117,7 @@ class ilWysiwygUtil
 	
 	function showItl() 
 	{
-		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_itl.html",false,false,true);
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_itl.html",false,false,"Services/COPage");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
 	}
 	
@@ -125,7 +125,7 @@ class ilWysiwygUtil
 	{
 		global $ilCtrl;
 		
-		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_footnote.html",false,false,true);
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_footnote.html",false,false,"Services/COPage");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA", ILIAS_HTTP_PATH."/content/content.css" );
 		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);

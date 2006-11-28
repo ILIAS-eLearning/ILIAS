@@ -474,7 +474,7 @@ class ilPageObjectGUI
 			if($this->getOutputMode() == "edit")
 			{
 //echo ":".$this->getTemplateTargetVar().":";
-				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "content");
+				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "Services/COPage");
 				
 				// to do: status dependent class
 				$this->tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
@@ -580,18 +580,18 @@ class ilPageObjectGUI
 			{
 				if($this->getOutputSubmode() == 'translation')
 				{
-					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_translation_content.html", "content");
+					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_translation_content.html", "Services/COPage");
 				}
 				else
 				{
 					// presentation
 					if($this->getOutputMode() != 'preview')
 					{
-						$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", "content");
+						$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", "Services/COPage");
 					}
 					else	// preview
 					{
-						$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_preview.html", "content");
+						$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_preview.html", "Services/COPage");
 					}
 				}
 			}
@@ -940,7 +940,7 @@ class ilPageObjectGUI
 	*/
 	function showMediaFullscreen($a_style_id = 0)
 	{
-		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "content");
+		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", 0);
 		$this->tpl->parseCurrentBlock();
