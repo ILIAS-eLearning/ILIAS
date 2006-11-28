@@ -2026,7 +2026,7 @@ common#:#icrs_edit#:#LearnLinc Seminar bearbeiten
 common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
 common#:#icrs_join#:#Benutzer kann LearnLinc Seminar beitreten
 common#:#icrs_leave#:#Benutzer kann LearnLinc Seminar verlassen
-common#:#icrs_members_gallery#:#Mitgliedergallerie
+common#:#icrs_members_gallery#:#Mitglieder-Gallerie
 common#:#icrs_new#:#Neues LearnLinc Seminar
 common#:#icrs_read#:#Lesezugriff auf LearnLinc Seminar
 common#:#icrs_visible#:#LearnLinc Seminar ist sichtbar
@@ -4722,6 +4722,7 @@ forum#:#is_read#:#gelesen
 forum#:#new_post#:#Neue Nachricht
 forum#:#thread#:#Thema
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
+ilinc#:#ilinc_member_administration#:#Teilnehmerverwaltung
 ilinc#:#akclassvalue1#:#Kostenstelle 1
 ilinc#:#akclassvalue2#:#Kostenstelle 2
 ilinc#:#akclassvalues#:#Kostenstellen
