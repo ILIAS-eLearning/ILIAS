@@ -765,7 +765,6 @@ class SurveyNominalQuestion extends SurveyQuestion
 		);
 		$result = $ilDB->query($query);
 		$numrows = $result->numRows();
-		if ($numrows == 0) return $result_array;
 		
 		// count the answers for every answer value
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
