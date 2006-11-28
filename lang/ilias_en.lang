@@ -2609,6 +2609,8 @@ common#:#month_12_short#:#Dec
 common#:#monthly#:#monthly
 common#:#months#:#Months
 common#:#move#:#Move
+common#:#move_up#:#Move Up
+common#:#move_down#:#Move Down
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
 common#:#move_selected_items#:#Move selected items
@@ -6251,6 +6253,8 @@ survey#:#material#:#Material
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material_file#:#Material File
 survey#:#matrix_appearance#:#Appearance
+survey#:#matrix_question_radio_button_not_checked#:#Please select an option button for every row!
+survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!
 survey#:#matrix_row_separators#:#Row Separators
 survey#:#matrix_column_separators#:#Column Separators
 survey#:#matrix_separators_description#:#Check the above options if you want to have separators (thin black lines) between the columns and/or the rows in the output of the Matrix Question

@@ -748,6 +748,25 @@ class SurveyMetricQuestion extends SurveyQuestion
 		return "survey_question_metric";
 	}
 	
+	/**
+	* Creates the user data of the survey_answer table from the POST data
+	*
+	* Creates the user data of the survey_answer table from the POST data
+	*
+	* @return array User data according to the survey_answer table
+	* @access public
+	*/
+	function &getWorkingDataFromUserInput($post_data)
+	{
+		$entered_value = $post_data[$this->getId() . "_metric_question"];
+		$data = array();
+		if (strlen($entered_value))
+		{
+			array_push($data, array("value" => $entered_value));
+		}
+		return $data;
+	}
+	
 	function checkUserInput($post_data)
 	{
 		$entered_value = $post_data[$this->getId() . "_metric_question"];

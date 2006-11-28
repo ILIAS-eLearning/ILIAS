@@ -50,7 +50,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$id = -1
   )
 
-  { global $ilLog; $ilLog->write("Matrix Question Init");
+  {
 		$this->SurveyQuestionGUI();
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMatrixQuestion.php";
 		$this->object = new SurveyMatrixQuestion();
@@ -197,11 +197,14 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		
 		$tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+		if ($this->object->getSubtype() == 0)
 		{
-			$tplheaders->setCurrentBlock("bipolar_start");
-			$tplheaders->setVariable("CLASS", "center");
-			$tplheaders->parseCurrentBlock();
+			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+			{
+				$tplheaders->setCurrentBlock("bipolar_start");
+				$tplheaders->setVariable("CLASS", "center");
+				$tplheaders->parseCurrentBlock();
+			}
 		}
 		// column headers
 		$headers = $this->object->getCategoryCount();
@@ -220,13 +223,15 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$tplheaders->parseCurrentBlock();
 			$headers++;
 		}
-		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+		if ($this->object->getSubtype() == 0)
 		{
-			$tplheaders->setCurrentBlock("bipolar_end");
-			$tplheaders->setVariable("CLASS", "center");
-			$tplheaders->parseCurrentBlock();
-		}
-		
+			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+			{
+				$tplheaders->setCurrentBlock("bipolar_end");
+				$tplheaders->setVariable("CLASS", "center");
+				$tplheaders->parseCurrentBlock();
+			}
+		}		
 		$template->setCurrentBlock("matrix_row");
 		$template->setVariable("ROW", $tplheaders->get());
 		$template->parseCurrentBlock();
@@ -262,46 +267,74 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 							}
 						}
 						$tplrow->setCurrentBlock("radiobutton");
+						$tplrow->setVariable("QUESTION_ID", $this->object->getId());
 						$tplrow->setVariable("ROW", $i);
 						$tplrow->setVariable("VALUE", $j);
+						if (is_array($working_data))
+						{
+							foreach ($working_data as $data)
+							{
+								if (($data["value"] == $j) && ($data["row"] == $i))
+								{
+									$tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
+								}
+							}
+						}
 						$tplrow->parseCurrentBlock();
-						$tplrow->setCurrentBlock("answer");
-						$last = "";
-						$noborder = "noborder";
-						if (($this->object->getColumnSeparators() == 1) && ($this->object->getRowSeparators() == 1))
+						break;
+					case 1:
+						$tplrow->setCurrentBlock("checkbox");
+						$tplrow->setVariable("QUESTION_ID", $this->object->getId());
+						$tplrow->setVariable("ROW", $i);
+						$tplrow->setVariable("VALUE", $j);
+						if (is_array($working_data))
 						{
-							$noborder = "";
-						}
-						else if ($this->object->getColumnSeparators() == 1)
-						{
-							$noborder = "blr";
-						}
-						else if ($this->object->getRowSeparators() == 1)
-						{
-							$noborder = "btb";
-						}
-						if ($i == $this->object->getRowCount() - 1)
-						{
-							$last = "last";
-						}
-						if (strlen($this->object->getNeutralColumn()))
-						{
-							if ($j == $headers-1)
+							foreach ($working_data as $data)
 							{
-								$tplrow->setVariable("CLASS", "rsep$noborder$last");
+								if (($data["value"] == $j) && ($data["row"] == $i))
+								{
+									$tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
+								}
 							}
-							else
-							{
-								$tplrow->setVariable("CLASS", "center$noborder$last");
-							}
-						}
-						else
-						{
-							$tplrow->setVariable("CLASS", "center$noborder$last");
 						}
 						$tplrow->parseCurrentBlock();
 						break;
 				}
+				$tplrow->setCurrentBlock("answer");
+				$last = "";
+				$noborder = "noborder";
+				if (($this->object->getColumnSeparators() == 1) && ($this->object->getRowSeparators() == 1))
+				{
+					$noborder = "";
+				}
+				else if ($this->object->getColumnSeparators() == 1)
+				{
+					$noborder = "blr";
+				}
+				else if ($this->object->getRowSeparators() == 1)
+				{
+					$noborder = "btb";
+				}
+				if ($i == $this->object->getRowCount() - 1)
+				{
+					$last = "last";
+				}
+				if (strlen($this->object->getNeutralColumn()))
+				{
+					if ($j == $headers-1)
+					{
+						$tplrow->setVariable("CLASS", "rsep$noborder$last");
+					}
+					else
+					{
+						$tplrow->setVariable("CLASS", "center$noborder$last");
+					}
+				}
+				else
+				{
+					$tplrow->setVariable("CLASS", "center$noborder$last");
+				}
+				$tplrow->parseCurrentBlock();
 			}
 			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($this->object->getRow($i)));
 			$tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
@@ -381,6 +414,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->object->setObligatory(0);
 		}
+		$this->object->setSubtype($_POST["subtype"]);
 		$this->object->setRowSeparators(($_POST["row_separators"]) ? 1 : 0);
 		$this->object->setColumnSeparators(($_POST["column_separators"]) ? 1 : 0);
 
@@ -452,6 +486,42 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
 			$this->tpl->setVariable("VALUE_CATEGORY", $category);
 			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
+			if ($this->object->getCategoryCount() > 1)
+			{
+				if ($i == 0)
+				{
+					$this->ctrl->setParameter($this, "down", $i);
+					$this->tpl->setVariable("HREF_DOWN", $this->ctrl->getLinkTarget($this, "moveColumn"));
+					$this->tpl->setVariable("IMAGE_DOWN", ilUtil::getImagePath("a_down.gif"));
+					$this->tpl->setVariable("ALT_DOWN", $this->lng->txt("move_down"));
+					$this->tpl->setVariable("TITLE_DOWN", $this->lng->txt("move_down"));
+					$this->ctrl->clearParameters($this);
+				}
+				else if ($i == $this->object->getCategoryCount() - 1)
+				{
+					$this->ctrl->setParameter($this, "up", $i);
+					$this->tpl->setVariable("HREF_UP", $this->ctrl->getLinkTarget($this, "moveColumn"));
+					$this->tpl->setVariable("IMAGE_UP", ilUtil::getImagePath("a_up.gif"));
+					$this->tpl->setVariable("ALT_UP", $this->lng->txt("move_up"));
+					$this->tpl->setVariable("TITLE_UP", $this->lng->txt("move_up"));
+					$this->ctrl->clearParameters($this);
+				}
+				else
+				{
+					$this->ctrl->setParameter($this, "down", $i);
+					$this->tpl->setVariable("HREF_DOWN", $this->ctrl->getLinkTarget($this, "moveColumn"));
+					$this->tpl->setVariable("IMAGE_DOWN", ilUtil::getImagePath("a_down.gif"));
+					$this->tpl->setVariable("ALT_DOWN", $this->lng->txt("move_down"));
+					$this->tpl->setVariable("TITLE_DOWN", $this->lng->txt("move_down"));
+					$this->ctrl->clearParameters($this);
+					$this->ctrl->setParameter($this, "up", $i);
+					$this->tpl->setVariable("HREF_UP", $this->ctrl->getLinkTarget($this, "moveColumn"));
+					$this->tpl->setVariable("IMAGE_UP", ilUtil::getImagePath("a_up.gif"));
+					$this->tpl->setVariable("ALT_UP", $this->lng->txt("move_up"));
+					$this->tpl->setVariable("TITLE_UP", $this->lng->txt("move_up"));
+					$this->ctrl->clearParameters($this);
+				}
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -488,17 +558,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if (is_array($_SESSION["spl_move"]))
-		{
-			if (count($_SESSION["spl_move"]))
-			{
-				$this->tpl->setCurrentBlock("move_buttons");
-				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		
 		include_once "./classes/class.ilUtil.php";
 		if ($this->object->getCategoryCount() > 0)
 		{
@@ -507,7 +566,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("existingcategories");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 			$this->tpl->setVariable("VALUE_SAVE_PHRASE", $this->lng->txt("save_phrase"));
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->parseCurrentBlock();
@@ -609,9 +667,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$ilTabs->addTarget("matrix_columns_rows",
 				$this->ctrl->getLinkTarget($this, "categories"), 
-					array("categories", "addCategory", "insertBeforeCategory",
-						"insertAfterCategory", "moveCategory", "deleteCategory",
-						"saveCategories", "savePhrase", "addPhrase",
+					array("categories", "addCategory", "moveColumn",
+						"deleteCategory", "saveCategories", "savePhrase", "addPhrase",
 						"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
 						"cancelSavePhrase", "confirmDeleteCategory", "cancelDeleteCategory"),
 				"",
@@ -706,6 +763,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
 			{
+				$this->object->flushCategories();
 				$this->object->addPhrase($_POST["phrases"]);
 				$this->object->saveCategoriesToDb();
 			}
@@ -781,6 +839,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		else
 		{
+			$this->object->flushCategories();
 			$this->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
 			$this->object->saveCategoriesToDb();
 			$this->ctrl->redirect($this, "categories");
@@ -1013,6 +1072,35 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
+* Moves a column up or down
+*
+* Moves a column up or down
+*
+* @access public
+*/
+	function moveColumn()
+	{
+		if (strlen($_GET["down"]))
+		{
+			// move a column down
+			$column = $this->object->getCategory($_GET["down"]);
+			$this->object->removeCategory($_GET["down"]);
+			$this->object->addCategoryAtPosition($column, $_GET["down"] + 1);
+		}
+		
+		if (strlen($_GET["up"]))
+		{
+			// move a column up
+			$column = $this->object->getCategory($_GET["up"]);
+			$this->object->removeCategory($_GET["up"]);
+			$this->object->addCategoryAtPosition($column, $_GET["up"] - 1);
+		}
+		
+		$this->object->saveCategoriesToDb();
+		$this->categories();
+	}
+	
+/**
 * Saves the categories
 *
 * Saves the categories
@@ -1063,100 +1151,5 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$_SESSION["spl_modified"] = true;
 		$this->categories();
 	}
-	
-/**
-* Selects one or more categories for moving
-*
-* Selects one or more categories for moving
-*
-* @access private
-*/
-	function moveCategory()
-	{
-		$this->writeCategoryData();
-		$nothing_selected = true;
-		if (array_key_exists("chb_category", $_POST))
-		{
-			if (count($_POST["chb_category"]))
-			{
-				$nothing_selected = false;
-				sendInfo($this->lng->txt("select_target_position_for_move"));
-				$_SESSION["spl_move"] = $_POST["chb_category"];
-			}
-		}
-		if ($nothing_selected) sendInfo($this->lng->txt("no_category_selected_for_move"));
-		$this->categories();
-	}
-	
-/**
-* Inserts categories which are selected for moving before the selected category
-*
-* Inserts categories which are selected for moving before the selected category
-*
-* @access private
-*/
-	function insertBeforeCategory()
-	{
-		$result = $this->writeCategoryData();
-		if (array_key_exists("chb_category", $_POST))
-		{
-			if (count($_POST["chb_category"]) == 1)
-			{
-				// one entry is selected, moving is allowed
-				$this->object->removeCategories($_SESSION["spl_move"]);
-				$newinsertindex = $this->object->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
-				if ($newinsertindex === false) $newinsertindex = 0;
-				$move_categories = $_SESSION["spl_move"];
-				natsort($move_categories);
-				foreach (array_reverse($move_categories) as $index)
-				{
-					$this->object->addCategoryAtPosition($_POST["category_$index"], $newinsertindex);
-				}
-				$_SESSION["spl_modified"] = true;
-				unset($_SESSION["spl_move"]);
-			}
-			else
-			{
-				sendInfo("wrong_categories_selected_for_insert");
-			}
-		}
-		$this->categories();
-	}
-	
-/**
-* Inserts categories which are selected for moving before the selected category
-*
-* Inserts categories which are selected for moving before the selected category
-*
-* @access private
-*/
-	function insertAfterCategory()
-	{
-		$result = $this->writeCategoryData();
-		if (array_key_exists("chb_category", $_POST))
-		{
-			if (count($_POST["chb_category"]) == 1)
-			{
-				// one entry is selected, moving is allowed
-				$this->object->removeCategories($_SESSION["spl_move"]);
-				$newinsertindex = $this->object->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
-				if ($newinsertindex === false) $newinsertindex = 0;
-				$move_categories = $_SESSION["spl_move"];
-				natsort($move_categories);
-				foreach (array_reverse($move_categories) as $index)
-				{
-					$this->object->addCategoryAtPosition($_POST["category_$index"], $newinsertindex+1);
-				}
-				$_SESSION["spl_modified"] = true;
-				unset($_SESSION["spl_move"]);
-			}
-			else
-			{
-				sendInfo("wrong_categories_selected_for_insert");
-			}
-		}
-		$this->categories();
-	}
-
 }
 ?>

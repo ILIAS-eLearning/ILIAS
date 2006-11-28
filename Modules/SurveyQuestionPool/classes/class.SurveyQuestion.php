@@ -1252,6 +1252,36 @@ class SurveyQuestion
   }
 
 /**
+* Returns the question title of a question with a given id
+* 
+* Returns the question title of a question with a given id
+*
+* @param integer $question_id The database id of the question
+* @result string The question title
+* @access private
+*/
+  function _getTitle($question_id) 
+	{
+		global $ilDB;
+
+    if ($question_id < 1) return "";
+
+    $query = sprintf("SELECT title FROM survey_question WHERE survey_question.question_id = %s",
+      $ilDB->quote($question_id)
+    );
+    $result = $ilDB->query($query);
+    if ($result->numRows() == 1) 
+		{
+      $data = $result->fetchRow(DB_FETCHMODE_ASSOC);
+      return $data["title"];
+    } 
+		else 
+		{
+      return "";
+    }
+  }
+
+/**
 * Returns the original id of a question
 *
 * Returns the original id of a question

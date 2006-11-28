@@ -620,6 +620,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->obligatory = $data->obligatory;
 				$this->complete = $data->complete;
 				$this->original_id = $data->original_id;
+				$this->setSubtype($data->subtype);
 				$this->setBipolarAdjective(0, $data->bipolar_adjective1);
 				$this->setBipolarAdjective(1, $data->bipolar_adjective2);
 				$this->setRowSeparators($data->row_separators);
@@ -1228,14 +1229,67 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		return "survey_question_matrix";
 	}
 	
+	/**
+	* Creates the user data of the survey_answer table from the POST data
+	*
+	* Creates the user data of the survey_answer table from the POST data
+	*
+	* @return array User data according to the survey_answer table
+	* @access public
+	*/
+	function &getWorkingDataFromUserInput($post_data)
+	{
+		$data = array();
+		foreach ($post_data as $key => $value)
+		{
+			switch ($this->getSubtype())
+			{
+				case 0:
+					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
+					{
+						array_push($data, array("value" => $value, "row" => $matches[1]));
+					}
+					break;
+				case 1:
+					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
+					{
+						array_push($data, array("value" => $value, "row" => $matches[1]));
+					}
+					break;
+			}
+		}
+		return $data;
+	}
+	
 	function checkUserInput($post_data)
 	{
-		$entered_value = $post_data[$this->getId() . "_value"];
-		
-		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
-		
-		if (strlen($entered_value) == 0) return $this->lng->txt("matrix_question_not_checked");
-
+		if (!$this->getObligatory()) return "";
+		switch ($this->getSubtype())
+		{
+			case 0:
+				$counter = 0;
+				foreach ($post_data as $key => $value)
+				{
+					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
+					{
+						$counter++;
+					}
+				}
+				if ($counter != $this->getRowCount()) return $this->lng->txt("matrix_question_radio_button_not_checked");
+				break;
+			case 1:
+				foreach ($post_data as $key => $value)
+				{
+					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
+					{
+						if ((!is_array($value)) || (count($value) < 1))
+						{
+							return $this->lng->txt("matrix_question_checkbox_not_checked");
+						}
+					}
+				}
+				break;
+		}
 		return "";
 	}
 
@@ -1243,18 +1297,51 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 
-		$entered_value = $post_data[$this->getId() . "_value"];
-		if (strlen($entered_value) == 0) return;
-		$entered_value = $ilDB->quote($entered_value . "");
-		$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($survey_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($anonymous_id . ""),
-			$entered_value,
-			"NULL"
-		);
-		$result = $ilDB->query($query);
+		switch ($this->getSubtype())
+		{
+			case 0:
+				foreach ($post_data as $key => $value)
+				{
+					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
+					{
+						$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, row, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
+							$ilDB->quote($survey_id . ""),
+							$ilDB->quote($this->getId() . ""),
+							$ilDB->quote($user_id . ""),
+							$ilDB->quote($anonymous_id . ""),
+							$ilDB->quote($value . ""),
+							"NULL",
+							$ilDB->quote($matches[1] . "")
+						);
+						$result = $ilDB->query($query);
+					}
+				}
+				break;
+			case 1:
+				foreach ($post_data as $key => $value)
+				{
+					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
+					{
+						foreach ($value as $checked)
+						{
+							if (strlen($checked))
+							{
+								$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, row, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
+									$ilDB->quote($survey_id . ""),
+									$ilDB->quote($this->getId() . ""),
+									$ilDB->quote($user_id . ""),
+									$ilDB->quote($anonymous_id . ""),
+									$ilDB->quote($checked . ""),
+									"NULL",
+									$ilDB->quote($matches[1] . "")
+								);
+								$result = $ilDB->query($query);
+							}
+						}
+					}
+				}
+				break;
+		}
 	}
 	
 	function &getCumulatedResults($survey_id, $nr_of_users)

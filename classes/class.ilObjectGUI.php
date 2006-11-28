@@ -268,7 +268,6 @@ class ilObjectGUI
 		}
 		// set locator
 		$this->setLocator();
-
 		// catch feedback message
 		sendInfo();
 		infoPanel();
