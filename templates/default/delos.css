@@ -1990,6 +1990,140 @@ div.textbox
 	background:#f8f8f8;
 }
 
+table.matrix
+{
+	border: none;
+	border-collapse:collapse;
+/*	font-family:arial,sans-serif;
+	font-size:80%;
+*/
+}
+
+td#matrix, th#matrix 
+{
+	border:1px solid #000;
+	border-collapse:collapse;
+	padding:0.5em;
+}
+
+td.center {
+	text-align: center;
+}
+
+td.centerlast {
+	text-align: center;
+}
+
+td.centernoborder {
+	text-align: center;
+	border:  none!important;
+}
+
+td.centernoborderlast {
+	text-align: center;
+	border-top:  none!important;
+	border-left:  none!important;
+	border-bottom:  1px solid black;
+	border-right:  none!important;
+}
+
+td.centerblr {
+	text-align: center;
+	border-top:  none!important;
+	border-bottom:  none!important;
+}
+
+td.centerblrlast {
+	text-align: center;
+	border-top:  none!important;
+	border-bottom:  1px solid black;
+}
+
+td.centerbtb {
+	text-align: center;
+	border-left:  none!important;
+	border-right:  none!important;
+}
+
+td.centerbtblast {
+	text-align: center;
+	border-left:  none!important;
+	border-right:  none!important;
+}
+
+td.rsep {
+	text-align: center;
+	border-left: 3px solid black!important;
+}
+
+td.rseplast {
+	text-align: center;
+	border-left: 3px solid black!important;
+	border-bottom:  1px solid black;
+}
+
+td.rsepnoborder {
+	text-align: center;
+	border-left: 3px solid black!important;
+	border-top:  none!important;
+	border-bottom:  none!important;
+	border-right:  none!important;
+}
+
+td.rsepnoborderlast {
+	text-align: center;
+	border-left: 3px solid black!important;
+	border-top:  none!important;
+	border-bottom:  1px solid black;
+	border-right:  none!important;
+}
+
+td.rsepblr {
+	text-align: center;
+	border-top:  none!important;
+	border-bottom:  none!important;
+	border-left: 3px solid black!important;
+}
+
+td.rsepblrlast {
+	text-align: center;
+	border-top:  none!important;
+	border-bottom:  1px solid black;
+	border-left: 3px solid black!important;
+}
+
+td.rsepbtb {
+	text-align: center;
+	border-right:  none!important;
+	border-left: 3px solid black!important;
+}
+
+td.rsepbtblast {
+	text-align: center;
+	border-right:  none!important;
+	border-bottom:  1px solid black;
+	border-left: 3px solid black!important;
+}
+
+td.matrixtl {
+	text-align: center;
+	border-top:  none!important;
+	border-left:  none!important;
+}
+
+td.matrixtr {
+	text-align: center;
+	border-top:  none!important;
+	border-right:  none!important;
+}
+
+td.bipolar {
+	text-align: center;
+	vertical-align: middle;
+	background: #EEEEEE;
+	width:  10em;
+}
+
 .questionblockTitle {
 	font-size: 140%;
 	font-weight: bold;

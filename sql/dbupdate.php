@@ -11881,3 +11881,25 @@ CREATE TABLE IF NOT EXISTS `survey_question_matrix_rows` (
 `question_fi` INT NOT NULL ,
 INDEX ( `question_fi` )
 );
+<#862>
+<?php
+// add bipolar adjectives fields to survey_question_matrix but only if it not exists
+$bipolar_visibility = FALSE;
+$query = "SHOW COLUMNS FROM survey_question_matrix";
+$res = $ilDB->query($query);
+if ($res->numRows())
+{
+	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		if (strcmp($data["Field"], "bipolar_adjective1") == 0)
+		{
+			$bipolar_visibility = TRUE;
+		}
+	}
+}
+if ($bipolar_visibility == FALSE)
+{
+	$query = "ALTER TABLE `survey_question_matrix` ADD `bipolar_adjective1` VARCHAR( 255 ) NULL AFTER `row_images` , ADD `bipolar_adjective2` VARCHAR( 255 ) NULL AFTER `bipolar_adjective1`";
+	$res = $ilDB->query($query);
+}
+?>

@@ -66,6 +66,7 @@ class SurveyQuestionGUI
     $this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "q_id");
+		$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
 	}
 
 	/**
