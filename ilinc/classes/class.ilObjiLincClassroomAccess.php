@@ -70,8 +70,8 @@ class ilObjiLincClassroomAccess extends ilObjectAccess
 		switch ($a_permission)
 		{
 			case 'join':
-				// closed rooms cannot joined 
-				if ($class_arr['alwaysopen'] == "Falsch")
+				// Cannot join closed classrooms 
+				if (!$class_arr['alwaysopen'])
 				{
 					return false;
 				}
