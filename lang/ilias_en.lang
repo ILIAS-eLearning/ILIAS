@@ -6367,6 +6367,7 @@ survey#:#ratio_scale_ge_zero#:#The minimum value for a ratio scale must be great
 survey#:#remove_question#:#Remove
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the survey?
 survey#:#reset_filter#:#Reset Filter
+survey#:#results#:#Results
 survey#:#resume_survey#:#Resume the Survey
 survey#:#save_back_to_survey#:#Save and go back to the survey
 survey#:#save_obligatory_state#:#Save Obligatory States
