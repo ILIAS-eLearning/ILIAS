@@ -2185,7 +2185,7 @@ common#:#icrs_edit#:#Edit LearnLinc Seminar
 common#:#icrs_edit_permission#:#Edit permission settings
 common#:#icrs_join#:#User may join LearnLinc Seminar
 common#:#icrs_leave#:#User may leave LearnLinc Seminar
-common#:#icrs_members_gallery#:#Seminar members gallery
+common#:#icrs_members_gallery#:#Seminar Members Gallery
 common#:#icrs_new#:#New LearnLinc Seminar
 common#:#icrs_read#:#Read access to LearnLinc Seminar
 common#:#icrs_visible#:#LearnLinc Seminar is visible
@@ -4893,6 +4893,7 @@ forum#:#is_read#:#mark read
 forum#:#new_post#:#New post
 forum#:#thread#:#Topic
 grp#:#grp_registration_unlimited#:#Unlimited registration period
+ilinc#:#ilinc_member_administration#:#Edit Participants
 ilinc#:#akclassvalue1#:#Cost center 1
 ilinc#:#akclassvalue2#:#Cost center 2
 ilinc#:#akclassvalues#:#Cost centers

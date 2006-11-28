@@ -259,7 +259,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilAccess;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
@@ -279,10 +279,26 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
 			}
 	
-			if ($rbacsystem->checkAccess('read',$this->ref_id))
+		/*	if ($rbacsystem->checkAccess('read',$this->ref_id))
 			{
 				$tabs_gui->addTarget("ilinc_involved_users",
-					$this->ctrl->getLinkTarget($this, "membersGallery"), array("members","mailMembers","membersGallery","showProfile"), get_class($this));
+					$this->ctrl->getLinkTarget($this, "members"), array("members","mailMembers","membersGallery","showProfile"), get_class($this));
+			}*/
+			
+			// member list
+			if($ilAccess->checkAccess('write','',$this->ref_id))
+			{
+				$tabs_gui->addTarget("ilinc_involved_users",
+									 $this->ctrl->getLinkTarget($this, "members"), 
+									 array("members","mailMembers","membersGallery","showProfile"),
+									 get_class($this));
+			}			
+			elseif ($ilAccess->checkAccess('read','',$this->ref_id))
+			{
+				$tabs_gui->addTarget("ilinc_involved_users",
+									 $this->ctrl->getLinkTarget($this, "membersGallery"), 
+									 array("members","mailMembers","membersGallery","showProfile"),
+									 get_class($this));
 			}
 
 			if ($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->isDocent($this->ilias->account))
@@ -1921,17 +1937,18 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		switch ($a_tab)
 		{
 			case 'members':
+				//$this->tabs_gui->addSubTabTarget("ilinc_member_administration",
 				$this->tabs_gui->addSubTabTarget("members",
 				$this->ctrl->getLinkTarget($this,'members'),
 				"members", get_class($this));
 				
-				$this->tabs_gui->addSubTabTarget("mail_members",
-				$this->ctrl->getLinkTarget($this,'mailMembers'),
-				"mailMembers", get_class($this));
-
 				$this->tabs_gui->addSubTabTarget("icrs_members_gallery",
 				$this->ctrl->getLinkTarget($this,'membersGallery'),
 				"membersGallery", get_class($this));
+				
+				$this->tabs_gui->addSubTabTarget("mail_members",
+				$this->ctrl->getLinkTarget($this,'mailMembers'),
+				"mailMembers", get_class($this));
 				break;
 		}
 	}
@@ -1981,57 +1998,74 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		// fetch docent or student assignment form all coursemembers from iLinc server
 		$admin_ids = $this->object->getiLincMemberIds(true);
-		
+
 	    // MEMBERS
 	    if (count($members))
 	    {
 			foreach ($members as $member)
 			{
-			    // SET LINK TARGET FOR USER PROFILE
-			    $profile_target = $this->ctrl->getLinkTarget($this,"showProfile")."&"."user=".$member["id"];
-	
-			    // GET USER IMAGE
-			    unset($webspace_dir);
-			    
-			    $webspace_dir=ilUtil::getWebspaceDir();
-			    $image_file = ILIAS_ABSOLUTE_PATH."/".$webspace_dir."/usr_images"."/usr_".$member["id"]."_"."xsmall".".jpg";
-			    
-			    if (!file_exists($image_file))
-			    {
-					$thumb_file = ILIAS_HTTP_PATH."/templates/default/images/no_photo_xsmall.jpg";				
-			    }
-			    else
-			    {
-					$image_url = ILIAS_HTTP_PATH."/".$webspace_dir."/usr_images";
-					$thumb_file = $image_url."/usr_".$member["id"]."_"."xsmall".".jpg";
-			    }
-			    
-			    $file = $thumb_file."?t=".rand(1, 99999);
-			    
-			    // GET USER OBJ
-			    if ($tmp_obj = ilObjectFactory::getInstanceByObjId($member["id"],false))
+				// get user object
+				if(!($usr_obj = ilObjectFactory::getInstanceByObjId($member["id"],false)))
 				{
-					switch(in_array($member["ilinc_id"],$admin_ids))
-					{
-						case 1:
-					    //admins
-					    $this->tpl->setCurrentBlock("tutors_row");
-					    $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
-					    $this->tpl->setVariable("FIRSTNAME",$member["firstname"]);
-					    $this->tpl->setVariable("LASTNAME",$member["lastname"]);
-					    $this->tpl->parseCurrentBlock();
-					    break;
-				    
-					  case 0:
-					    //students
-					    $this->tpl->setCurrentBlock("members_row");
-					    $this->tpl->setVariable("USR_IMAGE","<a href=\"".$profile_target."\">"."<img style=\"padding:2px;border: solid 1px black;\" src=\"".$file."\"></a>");
-					    $this->tpl->setVariable("FIRSTNAME",$member["firstname"]);
-					    $this->tpl->setVariable("LASTNAME",$member["lastname"]);
-					    $this->tpl->parseCurrentBlock();
-					    break;
-					}
+					continue;
 				}
+				
+				$public_profile = $usr_obj->getPref("public_profile");
+
+				// SET LINK TARGET FOR USER PROFILE
+				$this->ctrl->setParameterByClass("ilobjusergui", "user", $member["id"]);
+				$profile_target = $this->ctrl->getLinkTargetByClass("ilobjusergui", "getPublicProfile");
+			
+				// GET USER IMAGE
+				$file = $usr_obj->getPersonalPicturePath("xsmall");
+			    
+				switch(in_array($member["ilinc_id"],$admin_ids))
+				{
+					//admins
+					case 1:
+						if ($public_profile == "y")
+						{
+							$this->tpl->setCurrentBlock("tutor_linked");
+							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$this->tpl->setCurrentBlock("tutor_not_linked");
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						$this->tpl->setCurrentBlock("tutor");
+						break;
+				
+					case 0:
+						if ($public_profile == "y")
+						{
+							$this->tpl->setCurrentBlock("member_linked");
+							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						else
+						{
+							$this->tpl->setCurrentBlock("member_not_linked");
+							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
+							$this->tpl->parseCurrentBlock();
+						}
+						$this->tpl->setCurrentBlock("member");
+						break;
+				}
+				
+				// do not show name, if public profile is not activated
+				if ($public_profile == "y")
+				{
+					$this->tpl->setVariable("FIRSTNAME", $member["firstname"]);
+					$this->tpl->setVariable("LASTNAME", $member["lastname"]);
+				}
+				
+				$this->tpl->setVariable("LOGIN", $usr_obj->getLogin());
+				$this->tpl->parseCurrentBlock();
 			}
 			
 			$this->tpl->setCurrentBlock("members");	
