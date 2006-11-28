@@ -368,6 +368,30 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		parent::saveToDb($original_id);
   }
 
+	function saveCategoriesToDb()
+	{
+		// save categories
+		
+		// delete existing category relations
+		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
+			$this->ilias->db->quote($this->id)
+		);
+		$result = $this->ilias->db->query($query);
+		// create new category relations
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+		{
+			$category_id = $this->saveCategoryToDb($this->categories->getCategory($i));
+			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($category_id . ""),
+				$this->ilias->db->quote($this->id . ""),
+				$this->ilias->db->quote(($i + 1) . ""),
+				$this->ilias->db->quote($i . "")
+			);
+			$answer_result = $this->ilias->db->query($query);
+		}
+		$this->saveCompletionStatus();
+	}
+	
 	/**
 	* Imports a question from XML
 	*

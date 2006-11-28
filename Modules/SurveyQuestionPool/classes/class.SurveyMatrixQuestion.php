@@ -83,6 +83,24 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	var $bipolar_adjective2;
 	
 /**
+* Enable state of separators for matrix columns
+*
+* 1 if separators are enabled for matrix columns, 0 otherwise
+*
+* @var integer
+*/
+	var $columnSeparators;
+	
+/**
+* Enable state of separators for matrix rows
+*
+* 1 if separators are enabled for matrix rows, 0 otherwise
+*
+* @var integer
+*/
+	var $rowSeparators;
+	
+/**
 * Matrix question subtype
 *
 * Matrix question subtype:
@@ -125,6 +143,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$this->neutralColumn = "";
 		$this->bipolar_adjective1 = "";
 		$this->bipolar_adjective2 = "";
+		$this->rowSeparators = 0;
+		$this->columnSeparators = 0;
 	}
 	
 /**
@@ -602,6 +622,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->original_id = $data->original_id;
 				$this->setBipolarAdjective(0, $data->bipolar_adjective1);
 				$this->setBipolarAdjective(1, $data->bipolar_adjective2);
+				$this->setRowSeparators($data->row_separators);
+				$this->setColumnSeparators($data->column_separators);
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
@@ -709,9 +731,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
       if ($result == DB_OK) 
 			{
         $this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO survey_question_matrix (question_fi, subtype) VALUES (%s, %s)",
+				$query = sprintf("INSERT INTO survey_question_matrix (question_fi, subtype, row_separators, column_separators, bipolar_adjective1, bipolar_adjective2) VALUES (%s, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id . ""),
-					$ilDB->quote(sprintf("%d", $this->getSubtype()))
+					$ilDB->quote(sprintf("%d", $this->getSubtype())),
+					$ilDB->quote($this->getRowSeparators() . ""),
+					$ilDB->quote($this->getColumnSeparators() . ""),
+					$ilDB->quote($this->getBipolarAdjective(0) . ""),
+					$ilDB->quote($this->getBipolarAdjective(1) . "")
 				);
 				$ilDB->query($query);
       }
@@ -729,8 +755,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote($this->id)
       );
       $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_matrix SET subtype = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_matrix SET subtype = %s, row_separators = %s, column_separators = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
 				$ilDB->quote(sprintf("%d", $this->getSubtype())),
+				$ilDB->quote($this->getRowSeparators() . ""),
+				$ilDB->quote($this->getColumnSeparators() . ""),
+				$ilDB->quote($this->getBipolarAdjective(0) . ""),
+				$ilDB->quote($this->getBipolarAdjective(1) . ""),
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
@@ -1061,7 +1091,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		if ($this->original_id)
 		{
 			$complete = 0;
-			if ($this->isComplete()) {
+			if ($this->isComplete()) 
+			{
 				$complete = 1;
 			}
 			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
@@ -1074,12 +1105,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_matrix SET orientation = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE survey_question_matrix SET orientation = %s, row_separators = %s, column_separators = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
 				$ilDB->quote($this->getOrientation() . ""),
+				$ilDB->quote($this->getRowSeparators() . ""),
+				$ilDB->quote($this->getColumnSeparators() . ""),
+				$ilDB->quote($this->getBipolarAdjective(0) . ""),
+				$ilDB->quote($this->getBipolarAdjective(1) . ""),
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			if ($result == DB_OK) {
+			if ($result == DB_OK) 
+			{
 				// save categories
 				
 				// delete existing category relations
@@ -1453,14 +1489,74 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 	}
 	
-	function getColumnSeparators()
+	/**
+	* Enables/Disables separators for the matrix columns
+	*
+	* Enables/Disables separators for the matrix columns
+	*
+	* @param integer $enable 1 if the separators should be enabled, 0 otherwise
+	* @access public
+	*/
+	function setColumnSeparators($enable = 0)
 	{
-		return 0;
+		switch ($enable)
+		{
+			case 1:
+				$this->columnSeparators = 1;
+				break;
+			case 0:
+			default:
+				$this->columnSeparators = 0;
+				break;
+		}
 	}
 	
+	/**
+	* Gets the separators enable state for the matrix columns
+	*
+	* Gets the separators enable state for the matrix columns
+	*
+	* @return integer 1 if the separators are enabled, 0 otherwise
+	* @access public
+	*/
+	function getColumnSeparators()
+	{
+		return $this->columnSeparators;
+	}
+	
+	/**
+	* Enables/Disables separators for the matrix rows
+	*
+	* Enables/Disables separators for the matrix rows
+	*
+	* @param integer $enable 1 if the separators should be enabled, 0 otherwise
+	* @access public
+	*/
+	function setRowSeparators($enable = 0)
+	{
+		switch ($enable)
+		{
+			case 1:
+				$this->rowSeparators = 1;
+				break;
+			case 0:
+			default:
+				$this->rowSeparators = 0;
+				break;
+		}
+	}
+	
+	/**
+	* Gets the separators enable state for the matrix rows
+	*
+	* Gets the separators enable state for the matrix rows
+	*
+	* @return integer 1 if the separators are enabled, 0 otherwise
+	* @access public
+	*/
 	function getRowSeparators()
 	{
-		return 0;
+		return $this->rowSeparators;
 	}
 }
 ?>

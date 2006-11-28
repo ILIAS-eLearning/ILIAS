@@ -142,6 +142,20 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
 		}
+		
+		$this->tpl->setVariable("TEXT_APPEARANCE", $this->lng->txt("matrix_appearance"));
+		$this->tpl->setVariable("TEXT_COLUMN_SEPARATORS", $this->lng->txt("matrix_column_separators"));
+		$this->tpl->setVariable("TEXT_ROW_SEPARATORS", $this->lng->txt("matrix_row_separators"));
+		$this->tpl->setVariable("DESCRIPTION_SEPARATORS", $this->lng->txt("matrix_separators_description"));
+		if ($this->object->getRowSeparators())
+		{
+			$this->tpl->setVariable("CHECKED_ROW_SEPARATORS", " checked=\"checked\"");
+		}
+		if ($this->object->getColumnSeparators())
+		{
+			$this->tpl->setVariable("CHECKED_COLUMN_SEPARATORS", " checked=\"checked\"");
+		}
+		
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -195,10 +209,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$tplheaders->setCurrentBlock("column_header");
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getCategory($i)));
-			if (strlen($this->object->getNeutralColumn()))
-			{
-				$tplheaders->setVariable("CLASS", "center");
-			}
+			$tplheaders->setVariable("CLASS", "center");
 			$tplheaders->parseCurrentBlock();
 		}
 		if (strlen($this->object->getNeutralColumn()))
@@ -370,6 +381,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->object->setObligatory(0);
 		}
+		$this->object->setRowSeparators(($_POST["row_separators"]) ? 1 : 0);
+		$this->object->setColumnSeparators(($_POST["column_separators"]) ? 1 : 0);
 
 		if ($saved) {
 			// If the question was saved automatically before an upload, we have to make
@@ -409,6 +422,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("TEXT_ADJECTIVE_2", $this->lng->txt("matrix_adjective") . " 2");
 			$this->tpl->setVariable("VALUE_BIPOLAR1", " value=\"" . ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)) . "\"");
 			$this->tpl->setVariable("VALUE_BIPOLAR2", " value=\"" . ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)) . "\"");
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->parseCurrentBlock();
 		}
 		
