@@ -50,7 +50,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$id = -1
   )
 
-  {
+  { global $ilLog; $ilLog->write("Matrix Question Init");
 		$this->SurveyQuestionGUI();
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMatrixQuestion.php";
 		$this->object = new SurveyMatrixQuestion();
