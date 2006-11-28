@@ -351,14 +351,10 @@ class ilSurveyEvaluationGUI
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("QUESTION_TITLE", ($counter+1) . ". ".$question->getTitle());
 			$maxlen = 37;
-			$questiontext = "";
-			if (strlen($question->getQuestiontext()) > $maxlen + 3)
+			$questiontext = preg_replace("/\<[^>]+?>/ims", "", $row["QUESTION_TEXT"]);
+			if (strlen($questiontext) > $maxlen + 3)
 			{
-				$questiontext = substr($question->getQuestiontext(), 0, $maxlen) . "...";
-			}
-			else
-			{
-				$questiontext = $question->getQuestiontext();
+				$questiontext = substr($questiontext, 0, $maxlen) . "...";
 			}
 			$this->tpl->setVariable("QUESTION_TEXT", $questiontext);
 			$this->tpl->setVariable("USERS_ANSWERED", $eval["USERS_ANSWERED"]);
@@ -607,9 +603,12 @@ class ilSurveyEvaluationGUI
 				}
 				else
 				{
-					$this->tpl->setCurrentBlock("bodycell");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
+					if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+					{
+						$this->tpl->setCurrentBlock("bodycell");
+						$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+						$this->tpl->parseCurrentBlock();
+					}
 					$this->tpl->setCurrentBlock("bodycell");
 					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 					$this->tpl->parseCurrentBlock();

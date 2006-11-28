@@ -576,11 +576,14 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setCurrentBlock("detail_row");
 		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
 		$categories = "";
-		foreach ($cumulated_results["variables"] as $key => $value)
+		if (is_array($cumulated_results["variables"]))
 		{
-			$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
-				$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-				$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+			foreach ($cumulated_results["variables"] as $key => $value)
+			{
+				$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+					$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
+					$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+			}
 		}
 		$categories = "<ol>$categories</ol>";
 		$this->tpl->setVariable("TEXT_OPTION_VALUE", $categories);

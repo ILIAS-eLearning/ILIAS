@@ -470,7 +470,7 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID))
+				if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && (!strlen($row["anonymous_id"])))
 				{
 					$uname = ilObjUser::_lookupName($row["user_fi"]);
 					if (strlen($uname["user_id"]))
