@@ -409,6 +409,24 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
+* Removes rows from the question
+*
+* Removes rows from the question
+*
+* @param array $array An array containing the index positions of the rows to be removed
+* @access public
+* @see $rows
+*/
+	function removeRows($array)
+	{
+		foreach ($array as $index)
+		{
+			unset($this->rows[$index]);
+		}
+		$this->rows = array_values($this->rows);
+	}
+
+/**
 * Returns one of the bipolar adjectives
 *
 * Returns one of the bipolar adjectives

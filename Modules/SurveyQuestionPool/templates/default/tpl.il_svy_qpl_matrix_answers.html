@@ -1,6 +1,6 @@
 <p><em>{FORM_DATA_MODIFIED_PRESS_SAVE}</em></p>
 <p>{QUESTION_TEXT}</p>
-<form name="frm_ordinal" action="{FORMACTION}" method="post" enctype="multipart/form-data">
+<form name="formMatrixAnswers" action="{FORMACTION}" method="post" enctype="multipart/form-data">
 <table class="std">
 <thead>
 	<tr class="tblheader">
@@ -62,7 +62,7 @@
 </tr>
 <!-- BEGIN selectall -->
 <tr class="tblrow2">
-	<td><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('frm_ordinal', 'chb_category', document.frm_ordinal.chb_check_all.checked);" /></td>
+	<td><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('formMatrixAnswers', 'chb_category', document.formMatrixAnswers.chb_check_all.checked);" /></td>
   <td colspan="4"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
 </tr>
 <!-- END selectall -->
@@ -142,6 +142,18 @@
   <td><input name="row_{ROW_ORDER}" type="text" id="row_{ROW_ORDER}" size="50" value="{VALUE_ROW}" /></td>
 </tr>
 <!-- END rows -->
+<!-- BEGIN selectall_rows -->
+<tr class="tblrow2">
+	<td><input type="checkbox" id="chb_check_all_rows" name="chb_check_all_rows" value="1" onclick="setChecked('formMatrixAnswers', 'chb_row', document.formMatrixAnswers.chb_check_all_rows.checked);" /></td>
+  <td colspan="4"><label for="chb_check_all_rows"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall_rows -->
+<tr>
+	<td class="submit" width="20">{ARROW}</td>
+	<td class="submit" colspan="4">
+		<input type="submit" class="submit" name="cmd[deleteRow]" value="{DELETE}" />
+	</td>
+</tr>
 <tr>
 	<td colspan="2" class="submit">
 		<div align="right">
