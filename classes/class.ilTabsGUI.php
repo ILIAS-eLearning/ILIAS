@@ -265,25 +265,26 @@ class ilTabsGUI
 		{
 			$tpl = new ilTemplate("tpl.tabs.html", true, true);
 			$pre = $pre2 = "";
-		}
-		// back 2 tab
-		if ($this->back_2_title != "")
-		{
-			$tpl->setCurrentBlock("back_2_tab");
-			$tpl->setVariable("BACK_2_TAB_LINK", $this->back_2_target);
-			$tpl->setVariable("BACK_2_TAB_TEXT", $this->back_2_title);
-			$tpl->setVariable("BACK_2_TAB_TARGET", $this->back_2_frame);
-			$tpl->parseCurrentBlock();
-		}
-		
-		// back tab
-		if ($this->back_title != "")
-		{
-			$tpl->setCurrentBlock("back_tab");
-			$tpl->setVariable("BACK_TAB_LINK", $this->back_target);
-			$tpl->setVariable("BACK_TAB_TEXT", $this->back_title);
-			$tpl->setVariable("BACK_TAB_TARGET", $this->back_frame);
-			$tpl->parseCurrentBlock();
+			
+			// back 2 tab
+			if ($this->back_2_title != "")
+			{
+				$tpl->setCurrentBlock("back_2_tab");
+				$tpl->setVariable("BACK_2_TAB_LINK", $this->back_2_target);
+				$tpl->setVariable("BACK_2_TAB_TEXT", $this->back_2_title);
+				$tpl->setVariable("BACK_2_TAB_TARGET", $this->back_2_frame);
+				$tpl->parseCurrentBlock();
+			}
+			
+			// back tab
+			if ($this->back_title != "")
+			{
+				$tpl->setCurrentBlock("back_tab");
+				$tpl->setVariable("BACK_TAB_LINK", $this->back_target);
+				$tpl->setVariable("BACK_TAB_TEXT", $this->back_title);
+				$tpl->setVariable("BACK_TAB_TARGET", $this->back_frame);
+				$tpl->parseCurrentBlock();
+			}
 		}
 		
 		$targets = $a_get_sub_tabs ? $this->sub_target : $this->target;
