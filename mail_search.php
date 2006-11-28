@@ -106,6 +106,129 @@ if ($_GET["addressbook"])
 	$tpl->parseCurrentBlock();
 }
 
+if ($_GET["courses_to"])
+{
+	include_once 'classes/class.ilObjUser.php';
+	include_once 'course/classes/class.ilObjCourse.php';
+	include_once 'course/classes/class.ilCourseMembers.php';
+	
+	$user = new ilObjUser($_SESSION["AccountId"]);
+
+	if ($_GET["course_id"] &&
+		$_GET["course_id"]!="") 
+	{
+		// receive the crs_ref_id as a GET parameter
+		$course_obj = new ilObjCourse($_GET["course_id"],true); 
+		$crs_ids = array(0=>$course_obj->id);
+	}
+	// when no crs_id is given, process all user courses
+	else 
+	{
+		$user = new ilObjUser($_SESSION["AccountId"]);
+		$crs_ids = $user->getCourseMemberships();
+		//var_dump($crs_ids);
+	}	
+	if(!count($crs_ids))
+	{
+		$tpl->setCurrentBlock("no_content");
+		$tpl->setVariable("TXT_PERSON_NO",$lng->txt("mail_search_no"));
+		$tpl->parseCurrentBlock();
+	}
+	else 
+	{
+		$counter = 0;
+		
+		$tpl->setCurrentBlock("system");
+		$tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
+		$tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
+		$tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
+		$tpl->setVariable("TXT_COURSE",$lng->txt("course"));
+		$tpl->setVariable("TXT_ROLE",$lng->txt("role"));
+		$tpl->parseCurrentBlock();
+		
+		$lng->loadLanguageModule('crs');
+
+
+		foreach($crs_ids as $crs_id) 
+		{
+			$course_obj = new ilObjCourse($crs_id,false); 
+			$crs_members = new ilCourseMembers($course_obj);
+			
+			$course_admins[$crs_id] = $crs_members->getAdmins();
+			$course_tutors[$crs_id] = $crs_members->getTutors();
+			$course_members[$crs_id] = $crs_members->getMembers();
+		
+			$tpl->setCurrentBlock("system");
+			//$tpl->setVariable("TXT_PERSONS",$lng->txt("members"));
+			$tpl->parseCurrentBlock();
+			
+
+			foreach ($course_admins[$crs_id] as $admin)
+			{				
+				$name = ilObjUser::_lookupName($admin);
+				$login = ilObjUser::_lookupLogin($admin);
+
+				$tpl->setCurrentBlock("person_search");
+				$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+				$tpl->setVariable("PERSON_LOGIN",$login);
+				$tpl->setVariable("LOGIN",$login);
+				$tpl->setVariable("FIRSTNAME",$name["firstname"]);
+				$tpl->setVariable("LASTNAME",$name["lastname"]);
+				$tpl->setVariable("COURSE_NAME",$course_obj->getTitle());
+				$tpl->setVariable("COURSE_ROLE",$lng->txt("crs_admin"));
+				$tpl->parseCurrentBlock();
+			}
+			
+			foreach ($course_tutors[$crs_id] as $tutor)
+			{
+				$name = ilObjUser::_lookupName($tutor);
+				$login = ilObjUser::_lookupLogin($tutor);
+
+				$tpl->setCurrentBlock("person_search");
+				$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+				$tpl->setVariable("PERSON_LOGIN",$login);
+				$tpl->setVariable("LOGIN",$login);
+				$tpl->setVariable("FIRSTNAME",$name["firstname"]);
+				$tpl->setVariable("LASTNAME",$name["lastname"]);
+				$tpl->setVariable("COURSE_NAME",$course_obj->getTitle());
+				$tpl->setVariable("COURSE_ROLE",$lng->txt("crs_tutor"));
+
+				$tpl->parseCurrentBlock();
+			}
+			
+			foreach ($course_members[$crs_id] as $member)
+			{
+				$name = ilObjUser::_lookupName($member);
+				$login = ilObjUser::_lookupLogin($member);
+
+				$tpl->setCurrentBlock("person_search");
+				$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+				$tpl->setVariable("PERSON_LOGIN",$login);
+				$tpl->setVariable("LOGIN",$login);
+				$tpl->setVariable("FIRSTNAME",$name["firstname"]);
+				$tpl->setVariable("LASTNAME",$name["lastname"]);
+				$tpl->setVariable("COURSE_NAME",$course_obj->getTitle());
+				$tpl->setVariable("COURSE_ROLE",$lng->txt("crs_member"));
+
+				$tpl->parseCurrentBlock();
+			}	
+	
+		}
+	}
+		
+	
+	
+	$tpl->setCurrentBlock("system");
+	$tpl->setVariable("BUTTON_ADOPT",$lng->txt("adopt"));
+	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
+	$tpl->parseCurrentBlock();
+}
+
+if ($_GET["groups_to"])
+{
+	  
+}
+
 if ($_GET["system"])
 {
 	include_once 'Services/Search/classes/class.ilQueryParser.php';
@@ -154,6 +277,7 @@ if ($_GET["system"])
 			$tpl->setVariable("NO_EMAIL",'');
 			$tpl->parseCurrentBlock();
 		}
+		
 		$name = ilObjUser::_lookupName($result['obj_id']);
 		$login = ilObjUser::_lookupLogin($result['obj_id']);
 

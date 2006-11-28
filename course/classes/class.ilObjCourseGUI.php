@@ -4022,6 +4022,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->setSubTabs('members');
 
 		$this->tpl->setVariable("MAILACTION",'mail_new.php?type=role');
+		$this->tpl->setVariable("SELECT_ACTION",'mail_new.php?courses_to=1&course_id='.$this->object->getRefId());
+		$this->tpl->setVariable("MAIL_SELECTED",$this->lng->txt('send_mail_selected'));
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
 		$this->tpl->setVariable("MAIL_TUTOR",$this->lng->txt('send_mail_tutors'));
 		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
