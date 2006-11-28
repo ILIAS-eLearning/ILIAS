@@ -181,87 +181,124 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
 			$template->parseCurrentBlock();
 		}
-		switch ($this->object->orientation)
+		
+		$tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 		{
-			case 0:
-				// vertical orientation
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-				{
-					$category = $this->object->getCategory($i);
-					$template->setCurrentBlock("matrix_row");
-					$template->setVariable("TEXT_MATRIX", $category["title"]);
-					$template->setVariable("VALUE_MATRIX", $i);
-					$template->setVariable("QUESTION_ID", $this->object->getId());
-					if (is_array($working_data))
-					{
-						if (strcmp($working_data[0]["value"], "") != 0)
-						{
-							if ($working_data[0]["value"] == $i)
-							{
-								$template->setVariable("CHECKED_MATRIX", " checked=\"checked\"");
-							}
-						}
-					}
-					$template->parseCurrentBlock();
-				}
-				break;
-			case 1:
-				// horizontal orientation
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-				{
-					$category = $this->object->getCategory($i);
-					$template->setCurrentBlock("radio_col_matrix");
-					$template->setVariable("VALUE_MATRIX", $i);
-					$template->setVariable("QUESTION_ID", $this->object->getId());
-					if (is_array($working_data))
-					{
-						if (strcmp($working_data[0]["value"], "") != 0)
-						{
-							if ($working_data[0]["value"] == $i)
-							{
-								$template->setVariable("CHECKED_MATRIX", " checked=\"checked\"");
-							}
-						}
-					}
-					$template->parseCurrentBlock();
-				}
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-				{
-					$category = $this->object->getCategory($i);
-					$template->setCurrentBlock("text_col_matrix");
-					$template->setVariable("VALUE_MATRIX", $i);
-					$template->setVariable("TEXT_MATRIX", $category["title"]);
-					$template->setVariable("QUESTION_ID", $this->object->getId());
-					$template->parseCurrentBlock();
-				}
-				break;
-			case 2:
-				// combobox output
-				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
-				{
-					$category = $this->object->getCategory($i);
-					$template->setCurrentBlock("comborow");
-					$template->setVariable("TEXT_MATRIX", $category["title"]);
-					$template->setVariable("VALUE_MATRIX", $i);
-					if (is_array($working_data))
-					{
-						if (strcmp($working_data[0]["value"], "") != 0)
-						{
-							if ($working_data[0]["value"] == $i)
-							{
-								$template->setVariable("SELECTED_MATRIX", " selected=\"selected\"");
-							}
-						}
-					}
-					$template->parseCurrentBlock();
-				}
-				$template->setCurrentBlock("combooutput");
-				$template->setVariable("QUESTION_ID", $this->object->getId());
-				$template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
-				$template->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
-				$template->parseCurrentBlock();
-				break;
+			$tplheaders->setCurrentBlock("bipolar_start");
+			$tplheaders->setVariable("CLASS", "center");
+			$tplheaders->parseCurrentBlock();
 		}
+		// column headers
+		$headers = $this->object->getCategoryCount();
+		for ($i = 0; $i < $this->object->getCategoryCount(); $i++)
+		{
+			$tplheaders->setCurrentBlock("column_header");
+			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getCategory($i)));
+			if (strlen($this->object->getNeutralColumn()))
+			{
+				$tplheaders->setVariable("CLASS", "center");
+			}
+			$tplheaders->parseCurrentBlock();
+		}
+		if (strlen($this->object->getNeutralColumn()))
+		{
+			$tplheaders->setCurrentBlock("neutral_column_header");
+			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getNeutralColumn()));
+			$tplheaders->setVariable("CLASS", "rsep");
+			$tplheaders->parseCurrentBlock();
+			$headers++;
+		}
+		if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+		{
+			$tplheaders->setCurrentBlock("bipolar_end");
+			$tplheaders->setVariable("CLASS", "center");
+			$tplheaders->parseCurrentBlock();
+		}
+		
+		$template->setCurrentBlock("matrix_row");
+		$template->setVariable("ROW", $tplheaders->get());
+		$template->parseCurrentBlock();
+
+		$rowclass = array("tblrow1", "tblrow2");
+		
+		for ($i = 0; $i < $this->object->getRowCount(); $i++)
+		{
+			$tplrow = new ilTemplate("tpl.il_svy_out_matrix_row.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+			for ($j = 0; $j < $headers; $j++)
+			{
+				switch ($this->object->getSubtype())
+				{
+					case 0:
+						if (($i == 0) && ($j == 0))
+						{
+							if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+							{
+								$tplrow->setCurrentBlock("bipolar_start");
+								$tplrow->setVariable("TEXT_BIPOLAR_START", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)));
+								$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
+								$tplrow->parseCurrentBlock();
+							}
+						}
+						if (($i == 0) && ($j == $headers-1))
+						{
+							if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
+							{
+								$tplrow->setCurrentBlock("bipolar_end");
+								$tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
+								$tplrow->setVariable("ROWSPAN", $this->object->getRowCount());
+								$tplrow->parseCurrentBlock();
+							}
+						}
+						$tplrow->setCurrentBlock("radiobutton");
+						$tplrow->setVariable("ROW", $i);
+						$tplrow->setVariable("VALUE", $j);
+						$tplrow->parseCurrentBlock();
+						$tplrow->setCurrentBlock("answer");
+						$last = "";
+						$noborder = "noborder";
+						if (($this->object->getColumnSeparators() == 1) && ($this->object->getRowSeparators() == 1))
+						{
+							$noborder = "";
+						}
+						else if ($this->object->getColumnSeparators() == 1)
+						{
+							$noborder = "blr";
+						}
+						else if ($this->object->getRowSeparators() == 1)
+						{
+							$noborder = "btb";
+						}
+						if ($i == $this->object->getRowCount() - 1)
+						{
+							$last = "last";
+						}
+						if (strlen($this->object->getNeutralColumn()))
+						{
+							if ($j == $headers-1)
+							{
+								$tplrow->setVariable("CLASS", "rsep$noborder$last");
+							}
+							else
+							{
+								$tplrow->setVariable("CLASS", "center$noborder$last");
+							}
+						}
+						else
+						{
+							$tplrow->setVariable("CLASS", "center$noborder$last");
+						}
+						$tplrow->parseCurrentBlock();
+						break;
+				}
+			}
+			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($this->object->getRow($i)));
+			$tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
+			$template->setCurrentBlock("matrix_row");
+			$template->setVariable("ROW", $tplrow->get());
+			$template->parseCurrentBlock();
+		}
+		
 		if ($question_title)
 		{
 			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
@@ -351,7 +388,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 *
 * @access private
 */
-	function categories($add = false)
+	function categories()
 	{
 		if ($this->object->getId() < 1) 
 		{
@@ -360,12 +397,27 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_matrix_answers.html", "Modules/SurveyQuestionPool");
+		
+		// check for ordinal categories
+		if ($this->object->getSubtype() == 0)
+		{
+			$this->tpl->setCurrentBlock("ordinal");
+			$this->tpl->setVariable("TEXT_COLUMN_SETTINGS", $this->lng->txt("matrix_column_settings"));
+			$this->tpl->setVariable("TEXT_BIPOLAR_ADJECTIVES", $this->lng->txt("matrix_bipolar_adjectives"));
+			$this->tpl->setVariable("TEXT_BIPOLAR_ADJECTIVES_DESCRIPTION", $this->lng->txt("matrix_bipolar_adjectives_description"));
+			$this->tpl->setVariable("TEXT_ADJECTIVE_1", $this->lng->txt("matrix_adjective") . " 1");
+			$this->tpl->setVariable("TEXT_ADJECTIVE_2", $this->lng->txt("matrix_adjective") . " 2");
+			$this->tpl->setVariable("VALUE_BIPOLAR1", " value=\"" . ilUtil::prepareFormOutput($this->object->getBipolarAdjective(0)) . "\"");
+			$this->tpl->setVariable("VALUE_BIPOLAR2", " value=\"" . ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)) . "\"");
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		// create an empty category if nothing is defined
 		if ($this->object->getCategoryCount() == 0)
 		{
 			$this->object->addCategory("");
 		}
-		if ($add)
+		if (strcmp($this->ctrl->getCmd(), "addCategory") == 0)
 		{
 			$nrOfCategories = $_POST["nrOfCategories"];
 			if ($nrOfCategories < 1) $nrOfCategories = 1;
@@ -399,7 +451,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->object->addRow("");
 		}
-		if ($addrows)
+		if (strcmp($this->ctrl->getCmd(), "addRow") == 0)
 		{
 			$nrOfRows = $_POST["nrOfRows"];
 			if ($nrOfRows < 1) $nrOfRows = 1;
@@ -885,7 +937,20 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			sendInfo($this->lng->txt("fill_out_all_category_fields"));
 		}
 		$_SESSION["spl_modified"] = true;
-		$this->categories($result);
+		$this->categories();
+	}
+
+
+/**
+* Adds a row to the question
+*
+* Adds a row to the question
+*
+* @access private
+*/
+	function addRow()
+	{
+		$this->addCategory();
 	}
 
 /**
@@ -900,6 +965,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	{
     // Delete all existing categories and create new categories from the form data
     $this->object->flushCategories();
+    $this->object->flushRows();
 		$complete = true;
 		$array1 = array();
 		
@@ -923,6 +989,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{	
 			$this->object->saveCategoriesToDb();
 			$this->object->saveRowsToDb();
+			if (array_key_exists("bipolar1", $_POST))
+			{
+				$this->object->saveBipolarAdjectives($_POST["bipolar1"], $_POST["bipolar2"]);
+			}
 		}
 
 		return $complete;

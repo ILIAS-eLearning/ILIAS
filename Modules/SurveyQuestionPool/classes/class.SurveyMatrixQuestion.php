@@ -65,6 +65,24 @@ class SurveyMatrixQuestion extends SurveyQuestion
   var $rows;
 
 /**
+* First bipolar adjective for ordinal matrix questions
+*
+* First bipolar adjective for ordinal matrix questions
+*
+* @var string
+*/
+	var $bipolar_adjective1;
+	
+/**
+* Second bipolar adjective for ordinal matrix questions
+*
+* Second bipolar adjective for ordinal matrix questions
+*
+* @var string
+*/
+	var $bipolar_adjective2;
+	
+/**
 * Matrix question subtype
 *
 * Matrix question subtype:
@@ -105,6 +123,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$this->categories = array();
 		$this->rows = array();
 		$this->neutralColumn = "";
+		$this->bipolar_adjective1 = "";
+		$this->bipolar_adjective2 = "";
 	}
 	
 /**
@@ -339,6 +359,19 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
+* Empties the row list
+*
+* Empties the row list
+*
+* @access public
+* @see $rows
+*/
+	function flushRows() 
+	{
+		$this->rows = array();
+	}
+	
+/**
 * Returns a specific row
 *
 * Returns a specific row
@@ -353,6 +386,52 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			return $this->rows[$a_index];
 		}
 		return "";
+	}
+	
+/**
+* Returns one of the bipolar adjectives
+*
+* Returns one of the bipolar adjectives
+*
+* @param integer $a_index The number of the bipoloar adjective (0 for the first and 1 for the second adjective)
+* @result string The text of the bipolar adjective
+* @access public
+*/
+	function getBipolarAdjective($a_index)
+	{
+		switch ($a_index)
+		{
+			case 1:
+				return $this->bipolar_adjective2;
+				break;
+			case 0:
+			default:
+				return $this->bipolar_adjective1;
+				break;
+		}
+	}
+
+/**
+* Sets one of the bipolar adjectives
+*
+* Sets one of the bipolar adjectives
+*
+* @param integer $a_index The number of the bipoloar adjective (0 for the first and 1 for the second adjective)
+* @param string $a_value The text of the bipolar adjective
+* @access public
+*/
+	function setBipolarAdjective($a_index, $a_value)
+	{
+		switch ($a_index)
+		{
+			case 1:
+				$this->bipolar_adjective2 = $a_value;
+				break;
+			case 0:
+			default:
+				$this->bipolar_adjective1 = $a_value;
+				break;
+		}
 	}
 	
 /**
@@ -521,6 +600,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->obligatory = $data->obligatory;
 				$this->complete = $data->complete;
 				$this->original_id = $data->original_id;
+				$this->setBipolarAdjective(0, $data->bipolar_adjective1);
+				$this->setBipolarAdjective(1, $data->bipolar_adjective2);
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
@@ -666,6 +747,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
     }
 		parent::saveToDb($original_id);
   }
+	
+	function saveBipolarAdjectives($adjective1, $adjective2)
+	{
+		global $ilDB;
+		
+		$query = sprintf("UPDATE survey_question_matrix SET bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
+			$ilDB->quote($adjective1 . ""),
+			$ilDB->quote($adjective2 . ""),
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+	}
 
 	function saveCategoriesToDb()
 	{
@@ -1358,6 +1451,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->subtype = 0;
 				break;
 		}
+	}
+	
+	function getColumnSeparators()
+	{
+		return 0;
+	}
+	
+	function getRowSeparators()
+	{
+		return 0;
 	}
 }
 ?>

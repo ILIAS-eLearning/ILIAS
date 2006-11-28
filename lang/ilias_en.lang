@@ -6250,6 +6250,9 @@ survey#:#manage_phrases#:#Manage Phrases
 survey#:#material#:#Material
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material_file#:#Material File
+survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives
+survey#:#matrix_bipolar_adjectives_description#:#Use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts
+survey#:#matrix_column_settings#:#Matrix Column Settings
 survey#:#matrix_subtype_sr#:#Option Buttons (Single Response)
 survey#:#matrix_subtype_mr#:#Check Boxes (Multiple Response)
 survey#:#matrix_subtype_text#:#Text
