@@ -1343,6 +1343,46 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				break;
 		}
 	}
+
+	/**
+	* Deletes datasets from the additional question table in the database
+	*
+	* Deletes datasets from the additional question table in the database
+	*
+	* @param integer $question_id The question id which should be deleted in the additional question table
+	* @access public
+	*/
+	function deleteAdditionalTableData($question_id)
+	{
+		parent::deleteAdditionalTableData($question_id);
+		
+		global $ilDB;
+		$query = sprintf("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+	}
+
+	/**
+	* Returns the number of users that answered the question for a given survey
+	*
+	* Returns the number of users that answered the question for a given survey
+	*
+	* @param integer $survey_id The database ID of the survey
+	* @return integer The number of users
+	* @access public
+	*/
+	function getNrOfUsersAnswered($survey_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT DISTINCT(CONCAT(user_fi,anonymous_id,question_fi,survey_fi)) AS participants FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+			$ilDB->quote($this->getId() . ""),
+			$ilDB->quote($survey_id . "")
+		);
+		$result = $ilDB->query($query);
+		return $result->numRows();
+	}
 	
 	function &getCumulatedResults($survey_id, $nr_of_users)
 	{
@@ -1359,15 +1399,21 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		);
 		$result = $ilDB->query($query);
 		
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		switch ($this->getSubtype())
 		{
-			$cumulated["$row->value"]++;
+			case 0:
+			case 1:
+				while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$cumulated[$row->value]++;
+				}
+				asort($cumulated, SORT_NUMERIC);
+				end($cumulated);
+				break;
 		}
-		asort($cumulated, SORT_NUMERIC);
-		end($cumulated);
 		$numrows = $result->numRows();
-		$result_array["USERS_ANSWERED"] = $result->numRows();
-		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
+		$result_array["USERS_ANSWERED"] = $this->getNrOfUsersAnswered($survey_id);
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $this->getNrOfUsersAnswered($survey_id);
 
 		$prefix = "";
 		if (strcmp(key($cumulated), "") != 0)

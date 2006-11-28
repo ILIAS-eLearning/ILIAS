@@ -1916,5 +1916,20 @@ class SurveyQuestion
 		// overwrite in inherited classes
 		return array();
 	}
+
+	/**
+	* Creates the user data of the survey_answer table from the POST data
+	*
+	* Creates the user data of the survey_answer table from the POST data
+	*
+	* @return array User data according to the survey_answer table
+	* @access public
+	*/
+	function &getWorkingDataFromUserInput($post_data)
+	{
+		// overwrite in inherited classes
+		$data = array();
+		return $data;
+	}
 }
 ?>

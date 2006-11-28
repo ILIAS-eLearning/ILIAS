@@ -476,7 +476,7 @@ class ilObjSurvey extends ilObject
 					if (strlen($uname["user_id"]))
 					{
 						$login = ilObjUser::_lookupLogin($row["user_fi"]);
-						$participants[$row["finished_id"]] = array("name" => $uname["lastname"] . ", " . $uname["firstname"], "login" => $login);
+						$participants[$row["finished_id"]] = array("name" => $uname["lastname"] . ", " . $uname["firstname"], "login" => $login, "user_id" => $row["user_fi"]);
 					}
 					else
 					{
@@ -487,7 +487,7 @@ class ilObjSurvey extends ilObject
 				{
 					if (strlen($row["anonymous_id"]) > 0)
 					{
-						$participants[$row["finished_id"]] = array("name" => $this->lng->txt("anonymous"));
+						$participants[$row["finished_id"]] = array("name" => $this->lng->txt("anonymous"), "anonymous_id" => $row["anonymous_id"]);
 					}
 				}
 			}
