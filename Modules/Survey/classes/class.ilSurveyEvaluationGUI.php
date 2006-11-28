@@ -573,6 +573,129 @@ class ilSurveyEvaluationGUI
 			$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("gender"));
 			$this->tpl->parseCurrentBlock();
 		}
+		$this->tpl->setCurrentBlock("headercell");
+		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("question"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("headercell");
+		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("results"));
+		$this->tpl->parseCurrentBlock();
+
+		$cellcounter = 1;
+		$participants =& $this->object->getSurveyParticipants();
+		
+		foreach ($participants as $data)
+		{
+			$this->tpl->setCurrentBlock("bodycell");
+			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+			$this->tpl->setVariable("TEXT_BODY_CELL", $data["name"]);
+			$this->tpl->parseCurrentBlock();
+			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+			{
+				$this->tpl->setCurrentBlock("bodycell");
+				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+				$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("gender_" . ilObjUser::_lookupGender($data["user_id"])));
+				$this->tpl->parseCurrentBlock();
+			}
+			$intro = TRUE;
+			$questioncounter = 1;
+			foreach ($questions as $question_id => $question_data)
+			{
+				if ($intro)
+				{
+					$intro = FALSE;
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("bodycell");
+					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("bodycell");
+					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("bodycell");
+				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+				$this->tpl->setVariable("TEXT_BODY_CELL", $questioncounter++ . ". " . $question_data["title"]);
+				$this->tpl->parseCurrentBlock();
+				
+				if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+				{
+					$found = $userResults[$question_id][$data["user_id"]];
+				}
+				else
+				{
+					$found = $userResults[$question_id][$data["anonymous_id"]];
+				}
+				$text = "";
+				if (is_array($found))
+				{
+					$text = implode("<br />", $found);
+				}
+				else
+				{
+					$text = $found;
+				}
+				if (strlen($text) == 0) $text = $this->lng->txt("skipped");
+				$this->tpl->setCurrentBlock("bodycell");
+				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+				$this->tpl->setVariable("TEXT_BODY_CELL", $text);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("row");
+				$this->tpl->parse("row");
+			}
+			$counter++;
+		}
+		$this->tpl->setCurrentBlock("generic_css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./survey/templates/default/evaluation_print.css");
+		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
+		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
+		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Print the survey evaluation for a selected user
+	*
+	* Print the survey evaluation for a selected user
+	*
+	* @access private
+	*/
+	function evaluationuser_old()
+	{
+		if (!is_array($_POST))
+		{
+			$_POST = array();
+		}
+		if (array_key_exists("export_format", $_POST))
+		{
+			return $this->exportUserSpecificResults($_POST["export_format"]);
+		}
+
+		$userResults =& $this->object->getUserSpecificResults();
+		$this->setEvalTabs();
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
+		$counter = 0;
+		$classes = array("tblrow1top", "tblrow2top");
+		$questions =& $this->object->getSurveyQuestions(true);
+		$this->tpl->setCurrentBlock("headercell");
+		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
+		$this->tpl->parseCurrentBlock();
+		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
+		{
+			$this->tpl->setCurrentBlock("headercell");
+			$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("gender"));
+			$this->tpl->parseCurrentBlock();
+		}
 		$char = "A";
 		$cellcounter = 1;
 		$participants =& $this->object->getSurveyParticipants();

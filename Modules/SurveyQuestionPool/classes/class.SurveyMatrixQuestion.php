@@ -1562,22 +1562,29 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s",
+		$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s ORDER BY row, value",
 			$ilDB->quote($survey_id),
 			$ilDB->quote($this->getId())
 		);
 		$result = $ilDB->query($query);
+		$results = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$category = $this->getCategory($row["value"]);
 			if (strlen($row["anonymous_id"]) > 0)
 			{
-				$answers[$row["anonymous_id"]] = $row["value"] + 1 . " - " . $category;
+				if (!is_array($answers[$row["anonymous_id"]])) $answers[$row["anonymous_id"]] = array();
+				array_push($answers[$row["anonymous_id"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $category);
 			}
 			else
 			{
-				$answers[$row["user_fi"]] = $row["value"] + 1 . " - " . $category;
+				if (!is_array($answers[$row["user_fi"]])) $answers[$row["user_fi"]] = array();
+				array_push($answers[$row["user_fi"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $category);
 			}
+		}
+		foreach ($answers as $key => $value)
+		{
+			$answers[$key] = implode("<br />", $value);
 		}
 		return $answers;
 	}
