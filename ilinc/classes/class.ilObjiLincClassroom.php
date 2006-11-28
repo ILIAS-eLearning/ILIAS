@@ -105,7 +105,9 @@ class ilObjiLincClassroom extends ilObject
 			
 			return false;
 		}
+		
 		//var_dump($response->data['classes']);
+		
 		$this->setTitle($response->data['classes'][$this->id]['name']);
 		$this->setDescription($response->data['classes'][$this->id]['description']);
 		$this->setDocentId($response->data['classes'][$this->id]['instructoruserid']);
@@ -297,7 +299,7 @@ class ilObjiLincClassroom extends ilObject
 	
 	function setStatus($a_status)
 	{
-		if ($a_status == "Wahr")
+		if ($a_status == "Wahr" or $a_status == "1" or $a_status == true)
 		{
 			$this->status = "1";
 		}
