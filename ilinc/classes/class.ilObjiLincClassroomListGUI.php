@@ -348,7 +348,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		}
 
 		// display offline/online status
-		if ($a_item['alwaysopen'] == 'Wahr')
+		if ($a_item['alwaysopen'])
 		{
 			$props[] = array("alert" => false, "property" => $this->lng->txt("status"),
 				"value" => $this->lng->txt("ilinc_classroom_always_open"));
