@@ -334,6 +334,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				{
 					$tplrow->setVariable("CLASS", "center$noborder$last");
 				}
+				if ($j == $headers-1)
+				{
+					$tplrow->setVariable("STYLE", " style=\"border-right: 1px solid black!important;\"");
+				}
 				$tplrow->parseCurrentBlock();
 			}
 			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($this->object->getRow($i)));
@@ -570,7 +574,14 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
+		if ($this->object->getRowCount() > 0)
+		{
+			$this->tpl->setCurrentBlock("selectall_rows");
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		for ($i = 1; $i < 10; $i++)
 		{
 			$this->tpl->setCurrentBlock("numbers");
@@ -613,6 +624,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("TEXT_ROWS", $this->lng->txt("matrix_rows"));
 		$this->tpl->setVariable("SAVEROWS", $this->lng->txt("save"));
 		$this->tpl->setVariable("VALUE_ADD_ROW", $this->lng->txt("add"));
+		$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+		$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 		
 		if ($_SESSION["spl_modified"])
 		{
@@ -1147,8 +1160,44 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$this->object->removeCategories($_POST["chb_category"]);
 			}
 		}
-		if ($nothing_selected) sendInfo($this->lng->txt("category_delete_select_none"));
-		$_SESSION["spl_modified"] = true;
+		if ($nothing_selected) 
+		{
+			sendInfo($this->lng->txt("matrix_column_delete_select_none"));
+		}
+		else
+		{
+			$_SESSION["spl_modified"] = true;
+		}
+		$this->categories();
+	}
+
+/**
+* Removes one or more rows
+*
+* Removes one or more rows
+*
+* @access private
+*/
+	function deleteRow()
+	{
+		$this->writeCategoryData();
+		$nothing_selected = true;
+		if (array_key_exists("chb_row", $_POST))
+		{
+			if (count($_POST["chb_row"]))
+			{
+				$nothing_selected = false;
+				$this->object->removeRows($_POST["chb_row"]);
+			}
+		}
+		if ($nothing_selected) 
+		{
+			sendInfo($this->lng->txt("matrix_row_delete_select_none"));
+		}
+		else
+		{
+			$_SESSION["spl_modified"] = true;
+		}
 		$this->categories();
 	}
 }
