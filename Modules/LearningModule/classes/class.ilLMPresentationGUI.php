@@ -2201,9 +2201,6 @@ class ilLMPresentationGUI
 					}
 					$a_content .= $this->buildTag("", "frame", $attributes);
 					$this->frames[$attributes["name"]] = $attributes["name"];
-//echo "<br>processNodes:add2 ".$attributes["name"];
-					//$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-					//	"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"]."\" />\n";
 				}
 			}
 		}

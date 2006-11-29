@@ -2609,8 +2609,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 				$tpl_menu->setVariable("BTN_LINK",
 					$ilCtrl->getLinkTargetByClass("illmpresentationgui", "showTableOfContents"));
-				//ILIAS_HTTP_PATH."/content/lm_presentation.php?cmd=showTableOfContents&ref_id="
-				//.$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			}
 			else
 			{

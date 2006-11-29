@@ -1738,7 +1738,7 @@ class assQuestion
 					$href = "./goto.php?target=" . $type . "_" . $target_id;
 					break;
 				case "MediaObject":
-					$href = "./content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
+					$href = "./ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
 					break;
 			}
 		}

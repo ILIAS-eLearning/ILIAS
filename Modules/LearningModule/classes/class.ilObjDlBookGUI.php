@@ -90,8 +90,6 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 			$this->ctrl->setParameterByClass('illmpresentationgui','frame','maincontent');
 			$this->ctrl->setParameterByClass('illmpresentationgui','obj_id',(int) $_GET['obj_id']);
 			$this->ctrl->redirectByClass('illmpresentationgui','layout');
-			#header("location: lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]");
-			#exit;
 		}
 		$tmp_tpl = new ilTemplate("tpl.citation.xsl",true,true,"content");
 		$tmp_tpl->setVariable("CITATIONS",$this->lng->txt("cont_citations"));
@@ -182,9 +180,10 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 		if($show_full)
 		{
-
+			$this->ctrl->setParameterByClass("illmpresentationgui", "frame", "maincontent");
+			$action = $this->ctrl->getLinkTargetByClass("illmpresentationgui", "layout");
 			$params = array ('mode'			=> "view_full",
-							 'action'		=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]",
+							 'action'		=> $action,
 							 'target_id'    => "$a_target_id");
 
 			$tmp_tpl->setVariable("BOOKTITLE",$this->lng->txt("cont_booktitle"));
@@ -212,8 +211,6 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		{
 			$this->ctrl->setParameterByClass("illmpresentationgui", "frame", "maincontent");
 			$action = $this->ctrl->getLinkTargetByClass("illmpresentationgui", "layout");
-			//$params = array ('mode'				=> "view_simple",
-			//				 'action'			=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]");
 			$params = array ('mode'				=> "view_simple",
 							 'action'			=> $action);
 			$this->ctrl->clearParametersByClass("illmpresentationgui");
