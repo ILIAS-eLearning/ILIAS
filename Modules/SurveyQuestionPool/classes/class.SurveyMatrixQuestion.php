@@ -701,7 +701,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function isComplete()
 	{
-		if ($this->title and $this->author and $this->questiontext and $this->getCategoryCount())
+		if (
+			strlen($this->getTitle()) && 
+			strlen($this->getAuthor()) && 
+			strlen($this->getQuestiontext()) && 
+			$this->getCategoryCount() &&
+			$this->getRowCount()
+		)
 		{
 			return 1;
 		}

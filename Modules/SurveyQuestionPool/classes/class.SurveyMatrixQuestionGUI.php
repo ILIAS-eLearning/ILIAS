@@ -699,7 +699,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$ilTabs->addTarget("matrix_columns_rows",
 				$this->ctrl->getLinkTarget($this, "categories"), 
 					array("categories", "addCategory", "moveColumn",
-						"deleteCategory", "saveCategories", "savePhrase", "addPhrase",
+						"deleteCategory", "saveRowColEditor", "savePhrase", "addPhrase",
 						"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
 						"cancelSavePhrase", "confirmDeleteCategory", "cancelDeleteCategory"),
 				"",
@@ -1005,31 +1005,47 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 * @param boolean $save If set to true the POST data will be saved to the database
 * @access private
 */
-	function writeCategoryData($save = false)
+	function writeCategoryData($save = FALSE)
 	{
     // Delete all existing categories and create new categories from the form data
     $this->object->flushCategories();
     $this->object->flushRows();
-		$complete = true;
-		$array1 = array();
+		$complete = TRUE;
+		$messages = array();
 		
     // Add standard columns and rows
 		include_once "./classes/class.ilUtil.php";
+		$cats = "";
+		$rows = "";
 		foreach ($_POST as $key => $value) 
 		{
 			if (preg_match("/^category_(\d+)/", $key, $matches)) 
 			{
 				$this->object->addCategory(ilUtil::stripSlashes($value));
+				$cats .= $value;
 			}
 			if (preg_match("/^row_(\d+)/", $key, $matches)) 
 			{
 				$this->object->addRow(ilUtil::stripSlashes($value));
+				$rows .= $value;
 			}
 		}
+
+		if (strlen($cats) == 0) 
+		{
+			$complete = FALSE;
+			array_push($messages, $this->lng->txt("matrix_error_no_columns"));
+		}
+		if (strlen($rows) == 0) 
+		{
+			$complete = FALSE;
+			array_push($messages, $this->lng->txt("matrix_error_no_rows"));
+		}
+
     // Set neutral column
 		$this->object->setNeutralColumn(ilUtil::stripSlashes($_POST["neutral"]));
 			
-		if ($save)
+		if (($save) && ($complete))
 		{	
 			$this->object->saveCategoriesToDb();
 			$this->object->saveRowsToDb();
@@ -1039,6 +1055,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			}
 		}
 
+		if (count($messages))
+		{
+			$this->errormessage = implode("<br />", $messages);
+		}
 		return $complete;
 	}
 
@@ -1078,24 +1098,33 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 *
 * @access private
 */
-	function saveCategories()
+	function saveRowColEditor()
 	{
 		global $ilUser;
 		
-		$this->writeCategoryData(true);
-		$_SESSION["spl_modified"] = false;
-		sendInfo($this->lng->txt("saved_successfully"), true);
-		$originalexists = $this->object->_questionExists($this->object->original_id);
-		$_GET["q_id"] = $this->object->getId();
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+		$complete = $this->writeCategoryData(true);
+		if (!$complete)
 		{
-			$this->originalSyncForm();
-			return;
+			$_SESSION["spl_modified"] = TRUE;
+			sendInfo($this->errormessage);
+			$this->categories();
 		}
 		else
 		{
-			$this->ctrl->redirect($this, "categories");
+			$_SESSION["spl_modified"] = FALSE;
+			sendInfo($this->lng->txt("saved_successfully"), true);
+			$originalexists = $this->object->_questionExists($this->object->original_id);
+			$_GET["q_id"] = $this->object->getId();
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+			{
+				$this->originalSyncForm();
+				return;
+			}
+			else
+			{
+				$this->ctrl->redirect($this, "categories");
+			}
 		}
 	}
 
