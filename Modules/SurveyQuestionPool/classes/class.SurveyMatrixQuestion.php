@@ -38,13 +38,13 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 class SurveyMatrixQuestion extends SurveyQuestion 
 {
 /**
-* Categories contained in this question
+* Columns contained in this question
 *
-* Categories contained in this question
+* Columns contained in this question
 *
 * @var array
 */
-  var $categories;
+  var $columns;
 
 /**
 * Neutral column
@@ -148,7 +148,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->subtype = 0;
-		$this->categories = array();
+		$this->columns = array();
 		$this->rows = array();
 		$this->neutralColumn = "";
 		$this->bipolar_adjective1 = "";
@@ -187,140 +187,140 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 /**
-* Returns the number of categories
+* Returns the number of columns
 *
-* Returns the number of categories
+* Returns the number of columns
 *
-* @return integer The number of contained categories
+* @return integer The number of contained columns
 * @access public
-* @see $categories
+* @see $columns
 */
-	function getCategoryCount() 
+	function getColumnCount() 
 	{
-		return count($this->categories);
+		return count($this->columns);
 	}
 
 /**
-* Adds a category at a given position
+* Adds a column at a given position
 *
-* Adds a category at a given position
+* Adds a column at a given position
 *
-* @param string $categoryname The name of the category
-* @param integer $position The position of the category (starting with index 0)
+* @param string $columnname The name of the column
+* @param integer $position The position of the column (starting with index 0)
 * @access public
-* @see $categories
+* @see $columns
 */
-	function addCategoryAtPosition($categoryname, $position) 
+	function addColumnAtPosition($columnname, $position) 
 	{
-		if (array_key_exists($position, $this->categories))
+		if (array_key_exists($position, $this->columns))
 		{
-			$head = array_slice($this->categories, 0, $position);
-			$tail = array_slice($this->categories, $position);
-			$this->categories = array_merge($head, array($categoryname), $tail);
+			$head = array_slice($this->columns, 0, $position);
+			$tail = array_slice($this->columns, $position);
+			$this->columns = array_merge($head, array($columnname), $tail);
 		}
 		else
 		{
-			array_push($this->categories, $categoryname);
+			array_push($this->columns, $columnname);
 		}
 	}
 
 /**
-* Adds a category
+* Adds a column
 *
-* Adds a category
+* Adds a column
 *
-* @param integer $categoryname The name of the category
-* @param integer $neutral Indicates if the category is a neutral category
+* @param integer $columnname The name of the column
+* @param integer $neutral Indicates if the column is a neutral column
 * @access public
-* @see $categories
+* @see $columns
 */
-	function addCategory($categoryname) 
+	function addColumn($columnname) 
 	{
-		array_push($this->categories, $categoryname);
+		array_push($this->columns, $columnname);
 	}
 	
 /**
-* Adds a category array
+* Adds a column array
 *
-* Adds a category array
+* Adds a column array
 *
-* @param array $categories An array with categories
+* @param array $columns An array with columns
 * @access public
-* @see $categories
+* @see $columns
 */
-	function addCategoryArray($categories) 
+	function addColumnArray($columns) 
 	{
-		$this->categories = array_merge($this->categories, $categories);
+		$this->columns = array_merge($this->columns, $columns);
 	}
 	
 /**
-* Removes a category from the list of categories
+* Removes a column from the list of columns
 *
-* Removes a category from the list of categories
+* Removes a column from the list of columns
 *
-* @param integer $index The index of the category to be removed
+* @param integer $index The index of the column to be removed
 * @access public
-* @see $categories
+* @see $columns
 */
-	function removeCategory($index)
+	function removeColumn($index)
 	{
-		unset($this->categories[$index]);
-		$this->categories = array_values($this->categories);
+		unset($this->columns[$index]);
+		$this->columns = array_values($this->columns);
 	}
 
 /**
-* Removes many categories from the list of categories
+* Removes many columns from the list of columns
 *
-* Removes many categories from the list of categories
+* Removes many columns from the list of columns
 *
-* @param array $array An array containing the index positions of the categories to be removed
+* @param array $array An array containing the index positions of the columns to be removed
 * @access public
-* @see $categories
+* @see $columns
 */
-	function removeCategories($array)
+	function removeColumns($array)
 	{
 		foreach ($array as $index)
 		{
-			unset($this->categories[$index]);
+			unset($this->columns[$index]);
 		}
-		$this->categories = array_values($this->categories);
+		$this->columns = array_values($this->columns);
 	}
 
 /**
-* Removes a category from the list of categories
+* Removes a column from the list of columns
 *
-* Removes a category from the list of categories
+* Removes a column from the list of columns
 *
-* @param string $name The name of the category to be removed
+* @param string $name The name of the column to be removed
 * @access public
-* @see $categories
+* @see $columns
 */
-	function removeCategoryWithName($name)
+	function removeColumnWithName($name)
 	{
-		foreach ($this->categories as $index => $category)
+		foreach ($this->columns as $index => $column)
 		{
-			if (strcmp($category, $name) == 0)
+			if (strcmp($column, $name) == 0)
 			{
-				return $this->removeCategory($index);
+				return $this->removeColumn($index);
 			}
 		}
 	}
 	
 /**
-* Returns the name of a category for a given index
+* Returns the name of a column for a given index
 *
-* Returns the name of a category for a given index
+* Returns the name of a column for a given index
 *
-* @param integer $index The index of the category
-* @result array Category
+* @param integer $index The index of the column
+* @result array column
 * @access public
-* @see $categories
+* @see $columns
 */
-	function getCategory($index)
+	function getColumn($index)
 	{
-		if (array_key_exists($index, $this->categories))
+		if (array_key_exists($index, $this->columns))
 		{
-			return $this->categories[$index];
+			return $this->columns[$index];
 		}
 		else
 		{
@@ -329,21 +329,21 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 /**
-* Returns the index of a category with a given name.
+* Returns the index of a column with a given name.
 *
-* Returns the index of a category with a given name.
+* Returns the index of a column with a given name.
 *
-* @param string $name The name of the category
+* @param string $name The name of the column
 * @access public
-* @see $categories
+* @see $columns
 */
-	function getCategoryIndex($name)
+	function getColumnIndex($name)
 	{
-		foreach ($this->categories as $index => $category)
+		foreach ($this->columns as $index => $column)
 		{
-			if (strcmp($category, $name) == 0)
+			if (strcmp($column, $name) == 0)
 			{
-				return $this->removeCategory($index);
+				return $this->removeColumn($index);
 			}
 		}
 		return -1;
@@ -351,16 +351,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	
 	
 /**
-* Empties the categories list
+* Empties the columns list
 *
-* Empties the categories list
+* Empties the columns list
 *
 * @access public
-* @see $categories
+* @see $columns
 */
-	function flushCategories() 
+	function flushColumns() 
 	{
-		$this->categories = array();
+		$this->columns = array();
 	}
 	
 /**
@@ -529,18 +529,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Gets the available categories for a given phrase
+* Gets the available columns for a given phrase
 *
-* Gets the available categories for a given phrase
+* Gets the available columns for a given phrase
 *
 * @param integer $phrase_id The database id of the given phrase
-* @result array All available categories
+* @result array All available columns
 * @access public
 */
-	function &getCategoriesForPhrase($phrase_id)
+	function &getColumnsForPhrase($phrase_id)
 	{
 		global $ilDB;
-		$categories = array();
+		$columns = array();
     $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
       $ilDB->quote($phrase_id)
     );
@@ -549,14 +549,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
-				$categories[$row->category_id] = $this->lng->txt($row->title);
+				$columns[$row->category_id] = $this->lng->txt($row->title);
 			}
 			else
 			{
-				$categories[$row->category_id] = $row->title;
+				$columns[$row->category_id] = $row->title;
 			}
 		}
-		return $categories;
+		return $columns;
 	}
 	
 /**
@@ -581,11 +581,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
-				$this->addCategory($this->lng->txt($row->title));
+				$this->addColumn($this->lng->txt($row->title));
 			}
 			else
 			{
-				$this->addCategory($row->title);
+				$this->addColumn($row->title);
 			}
 		}
 	}
@@ -658,7 +658,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
 
-			$this->flushCategories();
+			$this->flushColumns();
 
       $query = sprintf("SELECT survey_variable.*, survey_category.title, survey_category.neutral FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
         $ilDB->quote($id)
@@ -670,7 +670,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if ($data->neutral == 0)
 					{
-						$this->addCategory($data->title);
+						$this->addColumn($data->title);
 					}
 					else
 					{
@@ -705,7 +705,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			strlen($this->getTitle()) && 
 			strlen($this->getAuthor()) && 
 			strlen($this->getQuestiontext()) && 
-			$this->getCategoryCount() &&
+			$this->getColumnCount() &&
 			$this->getRowCount()
 		)
 		{
@@ -810,7 +810,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
       $this->saveMaterialsToDb();
 			if ($withanswers)
 			{
-				$this->saveCategoriesToDb();
+				$this->saveColumnsToDb();
 				$this->saveRowsToDb();
 			}
     }
@@ -829,29 +829,29 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result = $ilDB->query($query);
 	}
 
-	function saveCategoriesToDb($original_id = "")
+	function saveColumnsToDb($original_id = "")
 	{
 		global $ilDB;
 		
-		// save categories
+		// save columns
 		$question_id = $this->getId();
 		if (strlen($original_id))
 		{
 			$question_id = $original_id;
 		}
 		
-		// delete existing category relations
+		// delete existing column relations
 		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
 			$ilDB->quote($question_id)
 		);
 		$result = $ilDB->query($query);
-		// create new category relations
-		for ($i = 0; $i < $this->getCategoryCount(); $i++)
+		// create new column relations
+		for ($i = 0; $i < $this->getColumnCount(); $i++)
 		{
-			$cat = $this->getCategory($i);
-			$category_id = $this->saveCategoryToDb($cat);
+			$cat = $this->getColumn($i);
+			$column_id = $this->saveColumnToDb($cat);
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($category_id . ""),
+				$ilDB->quote($column_id . ""),
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote(($i + 1) . ""),
 				$ilDB->quote($i . "")
@@ -860,9 +860,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		if (strlen($this->getNeutralColumn()))
 		{
-			$category_id = $this->saveCategoryToDb($this->getNeutralColumn(), 1);
+			$column_id = $this->saveColumnToDb($this->getNeutralColumn(), 1);
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($category_id . ""),
+				$ilDB->quote($column_id . ""),
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote(($i + 1) . ""),
 				$ilDB->quote($i . "")
@@ -992,7 +992,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 												$material = $response_label->first_child();
 												$mattext = $material->first_child();
 												$shuf = 0;
-												$this->addCategoryAtPosition($mattext->get_content(), $response_label->get_attribute("ident"));
+												$this->addColumnAtPosition($mattext->get_content(), $response_label->get_attribute("ident"));
 											}
 											break;
 										case "material":
@@ -1102,16 +1102,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		);
 		$a_xml_writer->xmlStartTag("render_choice", $attrs);
 
-		// add categories
-		for ($index = 0; $index < $this->getCategoryCount(); $index++)
+		// add columns
+		for ($index = 0; $index < $this->getColumnCount(); $index++)
 		{
-			$category = $this->getCategory($index);
+			$column = $this->getColumn($index);
 			$attrs = array(
 				"ident" => "$index"
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext", NULL, $category);
+			$a_xml_writer->xmlElement("mattext", NULL, $column);
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
@@ -1163,7 +1163,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			if ($result == DB_OK) 
 			{
 				// sync columns
-				$this->saveCategoriesToDb($this->original_id);
+				$this->saveColumnsToDb($this->original_id);
 				// sync rows
 				$this->saveRowsToDb($this->original_id);
 			}
@@ -1172,9 +1172,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 /**
-* Adds standard numbers as categories
+* Adds standard numbers as columns
 *
-* Adds standard numbers as categories
+* Adds standard numbers as columns
 *
 * @param integer $lower_limit The lower limit
 * @param integer $upper_limit The upper limit
@@ -1184,14 +1184,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		for ($i = $lower_limit; $i <= $upper_limit; $i++)
 		{
-			$this->addCategory($i);
+			$this->addColumn($i);
 		}
 	}
 
 /**
-* Saves a set of categories to a default phrase
+* Saves a set of columns to a default phrase
 *
-* Saves a set of categories to a default phrase
+* Saves a set of columns to a default phrase
 *
 * @param array $phrases The database ids of the seleted phrases
 * @param string $title The title of the default phrase
@@ -1211,20 +1211,20 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$phrase_id = $ilDB->getLastInsertId();
 				
 		$counter = 1;
-	  foreach ($phrases as $category_index) 
+	  foreach ($phrases as $column_index) 
 		{
-			$category = $this->getCategory($category_index);
+			$column = $this->getColumn($column_index);
 			$query = sprintf("INSERT INTO survey_category (category_id, title, neutral, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($category . ""),
+				$ilDB->quote($column . ""),
 				$ilDB->quote("0"),
 				$ilDB->quote("1"),
 				$ilDB->quote($ilUser->getId() . "")
 			);
 			$result = $ilDB->query($query);
-			$category_id = $ilDB->getLastInsertId();
+			$column_id = $ilDB->getLastInsertId();
 			$query = sprintf("INSERT INTO survey_phrase_category (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (NULL, %s, %s, %s)",
 				$ilDB->quote($phrase_id . ""),
-				$ilDB->quote($category_id . ""),
+				$ilDB->quote($column_id . ""),
 				$ilDB->quote($counter . "")
 			);
 			$result = $ilDB->query($query);
@@ -1460,18 +1460,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$prefix = (key($cumulated)+1) . " - ";
 		}
-		$cat = $this->getCategory(key($cumulated));
+		$cat = $this->getColumn(key($cumulated));
 		$result_array["MODE"] =  $prefix . $cat;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-		for ($key = 0; $key < $this->getCategoryCount(); $key++)
+		for ($key = 0; $key < $this->getColumnCount(); $key++)
 		{
 			$percentage = 0;
 			if ($numrows > 0)
 			{
 				$percentage = (float)((int)$cumulated[$key]/$numrows);
 			}
-			$cat = $this->getCategory($key);
+			$cat = $this->getColumn($key);
 			$result_array["variables"][$key] = array("title" => $cat, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 		}
 		ksort($cumulated, SORT_NUMERIC);
@@ -1492,8 +1492,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
 				if (round($median_value) != $median_value)
 				{
-					$cat = $this->getCategory((int)floor($median_value)-1);
-					$cat2 = $this->getCategory((int)ceil($median_value)-1);
+					$cat = $this->getColumn((int)floor($median_value)-1);
+					$cat2 = $this->getColumn((int)ceil($median_value)-1);
 					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2 . ")";
 				}
 			}
@@ -1558,18 +1558,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$prefix = (key($cumulated)+1) . " - ";
 		}
-		$cat = $this->getCategory(key($cumulated));
+		$cat = $this->getColumn(key($cumulated));
 		$result_array["MODE"] =  $prefix . $cat;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-		for ($key = 0; $key < $this->getCategoryCount(); $key++)
+		for ($key = 0; $key < $this->getColumnCount(); $key++)
 		{
 			$percentage = 0;
 			if ($numrows > 0)
 			{
 				$percentage = (float)((int)$cumulated[$key]/$numrows);
 			}
-			$cat = $this->getCategory($key);
+			$cat = $this->getColumn($key);
 			$result_array["variables"][$key] = array("title" => $cat, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 		}
 		ksort($cumulated, SORT_NUMERIC);
@@ -1590,8 +1590,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
 				if (round($median_value) != $median_value)
 				{
-					$cat = $this->getCategory((int)floor($median_value)-1);
-					$cat2 = $this->getCategory((int)ceil($median_value)-1);
+					$cat = $this->getColumn((int)floor($median_value)-1);
+					$cat2 = $this->getColumn((int)ceil($median_value)-1);
 					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2 . ")";
 				}
 			}
@@ -1716,16 +1716,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$results = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$category = $this->getCategory($row["value"]);
+			$column = $this->getColumn($row["value"]);
 			if (strlen($row["anonymous_id"]) > 0)
 			{
 				if (!is_array($answers[$row["anonymous_id"]])) $answers[$row["anonymous_id"]] = array();
-				array_push($answers[$row["anonymous_id"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $category);
+				array_push($answers[$row["anonymous_id"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $column);
 			}
 			else
 			{
 				if (!is_array($answers[$row["user_fi"]])) $answers[$row["user_fi"]] = array();
-				array_push($answers[$row["user_fi"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $category);
+				array_push($answers[$row["user_fi"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $column);
 			}
 		}
 		foreach ($answers as $key => $value)

@@ -60,6 +60,24 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 	}
 
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
+
+		$cmd = $this->getCommand($cmd);
+		switch($next_class)
+		{
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+		return $ret;
+	}
+
 /**
 * Creates an output of the edit form for the question
 *
@@ -165,7 +183,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "editQuestion"));
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($this->getQuestionType()));
 		$this->tpl->setVariable("TEXT_SUBTYPE", $this->lng->txt("subtype"));
 		$this->tpl->setVariable("DESCRIPTION_SUBTYPE", $this->lng->txt("matrix_subtype_description"));
@@ -214,19 +232,19 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			}
 		}
 		// column headers
-		$headers = $this->object->getCategoryCount();
-		for ($i = 0; $i < $this->object->getCategoryCount(); $i++)
+		$headers = $this->object->getColumnCount();
+		for ($i = 0; $i < $this->object->getColumnCount(); $i++)
 		{
 			$style = array();
 			if ($this->object->getColumnSeparators() == 1)
 			{
-				if (($i < $this->object->getCategoryCount() - 1) || (!$this->object->getNeutralColumnSeparator()))
+				if (($i < $this->object->getColumnCount() - 1) || (!$this->object->getNeutralColumnSeparator()))
 				{
 					array_push($style, "border-right: 1px solid $bordercolor!important");
 				}
 			}
 			$tplheaders->setCurrentBlock("column_header");
-			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getCategory($i)));
+			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getColumn($i)));
 			$tplheaders->setVariable("CLASS", "center");
 			$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			$tplheaders->parseCurrentBlock();
@@ -451,23 +469,69 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
   }
 
 /**
-* Creates the form to edit the question categories
+* Moves a column up
 *
-* Creates the form to edit the question categories
+* Moves a column up
+*
+* @access public
+*/
+	function moveColumnUp($column)
+	{
+		$complete = $this->writeRowColData();
+		$columntext = $this->object->getColumn($column);
+		$this->object->removeColumn($column);
+		$this->object->addColumnAtPosition($columntext, $column - 1);
+		$_SESSION["spl_modified"] = TRUE;
+	}
+
+/**
+* Moves a column down
+*
+* Moves a column down
+*
+* @access public
+*/
+	function moveColumnDown($column)
+	{
+		$complete = $this->writeRowColData();
+		$columntext = $this->object->getColumn($column);
+		$this->object->removeColumn($column);
+		$this->object->addColumnAtPosition($columntext, $column + 1);
+		$_SESSION["spl_modified"] = TRUE;
+	}
+	
+/**
+* Creates the form to edit the question columns
+*
+* Creates the form to edit the question columns
 *
 * @access private
 */
 	function categories()
 	{
+		if (count($_POST) == 0) $_SESSION["spl_modified"] = FALSE;
+		if (is_array($_POST))
+		{
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/moveUp_(\d+)_x/", $key, $matches))
+				{
+					$this->moveColumnUp($matches[1]);
+				}
+				if (preg_match("/moveDown_(\d+)_x/", $key, $matches))
+				{
+					$this->moveColumnDown($matches[1]);
+				}
+			}
+		}
 		if ($this->object->getId() < 1) 
 		{
 			sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"), true);
 			$this->ctrl->redirect($this, "editQuestion");
 		}
-		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_matrix_answers.html", "Modules/SurveyQuestionPool");
 		
-		// check for ordinal categories
+		// check for ordinal columns
 		if ($this->object->getSubtype() == 0)
 		{
 			$this->tpl->setCurrentBlock("ordinal");
@@ -482,68 +546,68 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// create an empty category if nothing is defined
-		if ($this->object->getCategoryCount() == 0)
+		// create an empty column if nothing is defined
+		if ($this->object->getColumnCount() == 0)
 		{
-			$this->object->addCategory("");
+			$this->object->addColumn("");
 		}
-		if (strcmp($this->ctrl->getCmd(), "addCategory") == 0)
+		if (strcmp($this->ctrl->getCmd(), "addColumn") == 0)
 		{
 			$nrOfCategories = $_POST["nrOfCategories"];
 			if ($nrOfCategories < 1) $nrOfCategories = 1;
-			// Create template for a new category
+			// Create template for a new column
 			for ($i = 1; $i <= $nrOfCategories; $i++)
 			{
-				$this->object->addCategory("");
+				$this->object->addColumn("");
 			}
 		}
     // output of existing single response answers
 		$hasneutralcolumn = FALSE;
-		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+		for ($i = 0; $i < $this->object->getColumnCount(); $i++) 
 		{
-			$category = $this->object->getCategory($i);
+			$column = $this->object->getColumn($i);
+			if ($this->object->getColumnCount() > 1)
+			{
+				if ($i == 0)
+				{
+					$this->tpl->setCurrentBlock("move_down");
+					$this->tpl->setVariable("IMAGE_DOWN", ilUtil::getImagePath("a_down.gif"));
+					$this->tpl->setVariable("ALT_DOWN", $this->lng->txt("move_down"));
+					$this->tpl->setVariable("TITLE_DOWN", $this->lng->txt("move_down"));
+					$this->tpl->setVariable("COLUMN", $i);
+					$this->tpl->parseCurrentBlock();
+				}
+				else if ($i == $this->object->getColumnCount() - 1)
+				{
+					$this->tpl->setCurrentBlock("move_up");
+					$this->tpl->setVariable("IMAGE_UP", ilUtil::getImagePath("a_up.gif"));
+					$this->tpl->setVariable("ALT_UP", $this->lng->txt("move_up"));
+					$this->tpl->setVariable("TITLE_UP", $this->lng->txt("move_up"));
+					$this->tpl->setVariable("COLUMN", $i);
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("move_down");
+					$this->tpl->setVariable("IMAGE_DOWN", ilUtil::getImagePath("a_down.gif"));
+					$this->tpl->setVariable("ALT_DOWN", $this->lng->txt("move_down"));
+					$this->tpl->setVariable("TITLE_DOWN", $this->lng->txt("move_down"));
+					$this->tpl->setVariable("COLUMN", $i);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("move_up");
+					$this->tpl->setVariable("IMAGE_UP", ilUtil::getImagePath("a_up.gif"));
+					$this->tpl->setVariable("ALT_UP", $this->lng->txt("move_up"));
+					$this->tpl->setVariable("TITLE_UP", $this->lng->txt("move_up"));
+					$this->tpl->setVariable("COLUMN", $i);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
 			$this->tpl->setCurrentBlock("categories");
 			$this->tpl->setVariable("CATEGORY_ORDER", $i);
 			$this->tpl->setVariable("CATEGORY_ORDER", $i);
 			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
-			$this->tpl->setVariable("VALUE_CATEGORY", $category);
+			$this->tpl->setVariable("VALUE_CATEGORY", $column);
 			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-			if ($this->object->getCategoryCount() > 1)
-			{
-				if ($i == 0)
-				{
-					$this->ctrl->setParameter($this, "down", $i);
-					$this->tpl->setVariable("HREF_DOWN", $this->ctrl->getLinkTarget($this, "moveColumn"));
-					$this->tpl->setVariable("IMAGE_DOWN", ilUtil::getImagePath("a_down.gif"));
-					$this->tpl->setVariable("ALT_DOWN", $this->lng->txt("move_down"));
-					$this->tpl->setVariable("TITLE_DOWN", $this->lng->txt("move_down"));
-					$this->ctrl->clearParameters($this);
-				}
-				else if ($i == $this->object->getCategoryCount() - 1)
-				{
-					$this->ctrl->setParameter($this, "up", $i);
-					$this->tpl->setVariable("HREF_UP", $this->ctrl->getLinkTarget($this, "moveColumn"));
-					$this->tpl->setVariable("IMAGE_UP", ilUtil::getImagePath("a_up.gif"));
-					$this->tpl->setVariable("ALT_UP", $this->lng->txt("move_up"));
-					$this->tpl->setVariable("TITLE_UP", $this->lng->txt("move_up"));
-					$this->ctrl->clearParameters($this);
-				}
-				else
-				{
-					$this->ctrl->setParameter($this, "down", $i);
-					$this->tpl->setVariable("HREF_DOWN", $this->ctrl->getLinkTarget($this, "moveColumn"));
-					$this->tpl->setVariable("IMAGE_DOWN", ilUtil::getImagePath("a_down.gif"));
-					$this->tpl->setVariable("ALT_DOWN", $this->lng->txt("move_down"));
-					$this->tpl->setVariable("TITLE_DOWN", $this->lng->txt("move_down"));
-					$this->ctrl->clearParameters($this);
-					$this->ctrl->setParameter($this, "up", $i);
-					$this->tpl->setVariable("HREF_UP", $this->ctrl->getLinkTarget($this, "moveColumn"));
-					$this->tpl->setVariable("IMAGE_UP", ilUtil::getImagePath("a_up.gif"));
-					$this->tpl->setVariable("ALT_UP", $this->lng->txt("move_up"));
-					$this->tpl->setVariable("TITLE_UP", $this->lng->txt("move_up"));
-					$this->ctrl->clearParameters($this);
-				}
-			}
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -551,7 +615,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->tpl->setVariable("VALUE_NEUTRAL", " value=\"" . ilUtil::prepareFormOutput($this->object->getNeutralColumn()) . "\"");
 		}
-		$this->tpl->setVariable("CATEGORY_NEUTRAL", $this->object->getCategoryCount() + 1);
+		$this->tpl->setVariable("CATEGORY_NEUTRAL", $this->object->getColumnCount() + 1);
 
 		if ($this->object->getRowCount() == 0)
 		{
@@ -561,7 +625,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$nrOfRows = $_POST["nrOfRows"];
 			if ($nrOfRows < 1) $nrOfRows = 1;
-			// Create template for a new category
+			// Create template for a new column
 			for ($i = 1; $i <= $nrOfRows; $i++)
 			{
 				$this->object->addRow("");
@@ -581,7 +645,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		
 		include_once "./classes/class.ilUtil.php";
-		if ($this->object->getCategoryCount() > 0)
+		if ($this->object->getColumnCount() > 0)
 		{
 			$this->tpl->setCurrentBlock("selectall");
 			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
@@ -627,7 +691,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "categories"));
 		$this->tpl->setVariable("TEXT_ANSWERS", $this->lng->txt("matrix_columns"));
 		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add"));
 		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
@@ -635,7 +699,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("TEXT_NEUTRAL_ANSWER", $this->lng->txt("matrix_neutral_answer"));
 		if (!$hasneutralcolumn)
 		{
-			$this->tpl->setVariable("CATEGORY_NEUTRAL", $this->object->getCategoryCount()+1);
+			$this->tpl->setVariable("CATEGORY_NEUTRAL", $this->object->getColumnCount()+1);
 		}
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		
@@ -698,10 +762,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$ilTabs->addTarget("matrix_columns_rows",
 				$this->ctrl->getLinkTarget($this, "categories"), 
-					array("categories", "addCategory", "moveColumn",
-						"deleteCategory", "saveRowColEditor", "savePhrase", "addPhrase",
+					array("categories", "addColumn", "moveColumn",
+						"deleteColumn", "saveRowColEditor", "savePhrase", "addPhrase",
 						"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
-						"cancelSavePhrase", "confirmDeleteCategory", "cancelDeleteCategory"),
+						"cancelSavePhrase", "confirmdeleteColumn", "canceldeleteColumn"),
 				"",
 				""
 			);
@@ -728,7 +792,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 */
   function addPhrase() 
 	{
-		$this->writeCategoryData(true);
+		$this->writeRowColData(true);
 		$this->ctrl->setParameterByClass(get_class($this), "q_id", $this->object->getId());
 		$this->ctrl->setParameterByClass("ilobjsurveyquestionpoolgui", "q_id", $this->object->getId());
 
@@ -749,8 +813,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
 			$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
 			$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
-			$categories =& $this->object->getCategoriesForPhrase($phrase_id);
-			$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
+			$columns =& $this->object->getColumnsForPhrase($phrase_id);
+			$this->tpl->setVariable("PHRASE_CONTENT", join($columns, ","));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -760,7 +824,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
 		$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
 		$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "addPhrase"));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -794,9 +858,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
 			{
-				$this->object->flushCategories();
+				$this->object->flushColumns();
 				$this->object->addPhrase($_POST["phrases"]);
-				$this->object->saveCategoriesToDb();
+				$this->object->saveColumnsToDb();
 			}
 			else
 			{
@@ -833,7 +897,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
 		$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
 		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "addStandardNumbers"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -870,9 +934,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		else
 		{
-			$this->object->flushCategories();
+			$this->object->flushColumns();
 			$this->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
-			$this->object->saveCategoriesToDb();
+			$this->object->saveColumnsToDb();
 			$this->ctrl->redirect($this, "categories");
 		}
 	}
@@ -886,7 +950,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 */
   function savePhrase() 
 	{
-		$this->writeCategoryData(true);
+		$this->writeRowColData(true);
 		$nothing_selected = true;
 		if (array_key_exists("chb_category", $_POST))
 		{
@@ -896,15 +960,15 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", "Modules/SurveyQuestionPool");
 				$rowclass = array("tblrow1", "tblrow2");
 				$counter = 0;
-				foreach ($_POST["chb_category"] as $category)
+				foreach ($_POST["chb_category"] as $column)
 				{
 					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("TXT_TITLE", $this->object->getCategory($category));
+					$this->tpl->setVariable("TXT_TITLE", $this->object->getColumn($column));
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("hidden");
 					$this->tpl->setVariable("HIDDEN_NAME", "chb_category[]");
-					$this->tpl->setVariable("HIDDEN_VALUE", $category["title"]);
+					$this->tpl->setVariable("HIDDEN_VALUE", $column["title"]);
 					$this->tpl->parseCurrentBlock();
 				}
 			
@@ -915,7 +979,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$this->tpl->setVariable("VALUE_PHRASE_TITLE", $_POST["phrase_title"]);
 				$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
 				$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
-				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "savePhrase"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -967,15 +1031,15 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Adds a category to the question
+* Adds a column to the question
 *
-* Adds a category to the question
+* Adds a column to the question
 *
 * @access private
 */
-	function addCategory()
+	function addColumn()
 	{
-		$result = $this->writeCategoryData();
+		$result = $this->writeRowColData();
 		if ($result == false)
 		{
 			sendInfo($this->lng->txt("fill_out_all_category_fields"));
@@ -994,7 +1058,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 */
 	function addRow()
 	{
-		$this->addCategory();
+		$this->addColumn();
 	}
 
 /**
@@ -1005,10 +1069,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 * @param boolean $save If set to true the POST data will be saved to the database
 * @access private
 */
-	function writeCategoryData($save = FALSE)
+	function writeRowColData($save = FALSE)
 	{
-    // Delete all existing categories and create new categories from the form data
-    $this->object->flushCategories();
+    // Delete all existing columns and create new columns from the form data
+    $this->object->flushColumns();
     $this->object->flushRows();
 		$complete = TRUE;
 		$messages = array();
@@ -1021,7 +1085,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			if (preg_match("/^category_(\d+)/", $key, $matches)) 
 			{
-				$this->object->addCategory(ilUtil::stripSlashes($value));
+				$this->object->addColumn(ilUtil::stripSlashes($value));
 				$cats .= $value;
 			}
 			if (preg_match("/^row_(\d+)/", $key, $matches)) 
@@ -1047,7 +1111,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			
 		if (($save) && ($complete))
 		{	
-			$this->object->saveCategoriesToDb();
+			$this->object->saveColumnsToDb();
 			$this->object->saveRowsToDb();
 			if (array_key_exists("bipolar1", $_POST))
 			{
@@ -1063,38 +1127,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Moves a column up or down
+* Saves the rows and columns
 *
-* Moves a column up or down
-*
-* @access public
-*/
-	function moveColumn()
-	{
-		if (strlen($_GET["down"]))
-		{
-			// move a column down
-			$column = $this->object->getCategory($_GET["down"]);
-			$this->object->removeCategory($_GET["down"]);
-			$this->object->addCategoryAtPosition($column, $_GET["down"] + 1);
-		}
-		
-		if (strlen($_GET["up"]))
-		{
-			// move a column up
-			$column = $this->object->getCategory($_GET["up"]);
-			$this->object->removeCategory($_GET["up"]);
-			$this->object->addCategoryAtPosition($column, $_GET["up"] - 1);
-		}
-		
-		$this->object->saveCategoriesToDb();
-		$this->categories();
-	}
-	
-/**
-* Saves the categories
-*
-* Saves the categories
+* Saves the rows and columns
 *
 * @access private
 */
@@ -1102,7 +1137,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	{
 		global $ilUser;
 		
-		$complete = $this->writeCategoryData(true);
+		$complete = $this->writeRowColData(true);
 		if (!$complete)
 		{
 			$_SESSION["spl_modified"] = TRUE;
@@ -1129,22 +1164,22 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Removes one or more categories
+* Removes one or more columns
 *
-* Removes one or more categories
+* Removes one or more columns
 *
 * @access private
 */
-	function deleteCategory()
+	function deleteColumn()
 	{
-		$this->writeCategoryData();
+		$this->writeRowColData();
 		$nothing_selected = true;
 		if (array_key_exists("chb_category", $_POST))
 		{
 			if (count($_POST["chb_category"]))
 			{
 				$nothing_selected = false;
-				$this->object->removeCategories($_POST["chb_category"]);
+				$this->object->removeColumns($_POST["chb_category"]);
 			}
 		}
 		if ($nothing_selected) 
@@ -1167,7 +1202,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 */
 	function deleteRow()
 	{
-		$this->writeCategoryData();
+		$this->writeRowColData();
 		$nothing_selected = true;
 		if (array_key_exists("chb_row", $_POST))
 		{
@@ -1300,15 +1335,15 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
-		$categories = "";
+		$columns = "";
 		foreach ($this->cumulated["TOTAL"]["variables"] as $key => $value)
 		{
-			$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+			$columns .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
 				$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
 				$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
 		}
-		$categories = "<ol>$categories</ol>";
-		$template->setVariable("TEXT_OPTION_VALUE", $categories);
+		$columns = "<ol>$columns</ol>";
+		$template->setVariable("TEXT_OPTION_VALUE", $columns);
 		$template->parseCurrentBlock();
 		
 		foreach ($this->cumulated as $key => $value)
@@ -1344,15 +1379,15 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				
 				$template->setCurrentBlock("detail_row");
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
-				$categories = "";
+				$columns = "";
 				foreach ($value["variables"] as $key => $value)
 				{
-					$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+					$columns .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
 						$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
 						$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
 				}
-				$categories = "<ol>$categories</ol>";
-				$template->setVariable("TEXT_OPTION_VALUE", $categories);
+				$columns = "<ol>$columns</ol>";
+				$template->setVariable("TEXT_OPTION_VALUE", $columns);
 				$template->parseCurrentBlock();
 			}
 		}
