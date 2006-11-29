@@ -2299,6 +2299,56 @@ class ilObjUser extends ilObject
 		return $grp_memberships;
 	}
 
+/*
+* get the memberships(course_ids) of courses that are subscribed to the current user object
+* @param	integer optional user_id
+* @access	public
+*/
+function getCourseMemberships($a_user_id = "")
+	{
+		global $rbacreview, $tree;
+
+		if (strlen($a_user_id) > 0)
+		{
+			$user_id = $a_user_id;
+		}
+		else
+		{
+			$user_id = $this->getId();
+		}
+
+		$crs_memberships = array();
+		
+		// get all roles which the user is assigned to
+		$roles = $rbacreview->assignedRoles($user_id);
+
+		foreach ($roles as $role)
+		{
+			$ass_rolefolders = $rbacreview->getFoldersAssignedToRole($role);	//rolef_refids
+
+			foreach ($ass_rolefolders as $role_folder)
+			{
+				$node = $tree->getParentNodeData($role_folder);
+
+				if ($node["type"] == "crs")
+				{
+					$course =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+					include_once 'course/classes/class.ilCourseMembers.php';
+					
+					$crsmem = new ilCourseMembers($course);
+
+					if ($crsmem->isAssigned($user_id) && !in_array($course->getId(), $crs_memberships))
+					{
+						array_push($crs_memberships, $course->getId());
+					}
+				}
+
+				unset($course);
+			}
+		}
+
+		return $crs_memberships;
+	}
 
 	/**
 	* STATIC METHOD
