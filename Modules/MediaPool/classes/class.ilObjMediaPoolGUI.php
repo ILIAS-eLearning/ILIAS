@@ -58,7 +58,16 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 //echo "<br>ilobjmediapoolgui-constructor-id-$a_id";
 
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
+		
+		if ($this->ctrl->getCmd() == "explorer")
+		{
+			$this->ctrl->saveParameter($this, array("ref_id"));
+		}
+		else
+		{
+			$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
+		}
+		
 		$this->type = "mep";
 		$lng->loadLanguageModule("content");
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -77,15 +86,28 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->explorer();
 			return;
 		}
-//echo "-".$cmd."-";
 
-		if (!$this->creation_mode)
-		{
-			$tree =& $this->object->getTree();
-		}
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		
+
+		$new_type = $_POST["new_type"]
+			? $_POST["new_type"]
+			: $_GET["new_type"];
+
+		if ($new_type != "")
+		{
+			$this->setCreationMode(true);
+		}
+
+		if (!$this->getCreationMode())
+		{
+			$tree =& $this->object->getTree();
+			if ($_GET["obj_id"] == "")
+			{
+				$_GET["obj_id"] = $tree->getRootId();
+			}
+		}
+
 		if ($cmd == "create")
 		{
 			switch($_POST["new_type"])
@@ -290,18 +312,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		/*
-		if (!defined("ILIAS_MODULE"))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
-				"content/mep_edit.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"".
-				ilFrameTargetInfo::_getFrame("MainContent")."\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();
-		}*/
-
 		parent::editObject();
 	}
 
@@ -310,9 +320,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function edit()
 	{
-		//$this->prepareOutput();
-		//$this->setFormAction("update", "mep_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
-		//	"&obj_id=".$_GET["obj_id"]);
 		$this->editObject();
 		$this->tpl->show();
 	}
@@ -322,9 +329,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function cancel()
 	{
-		//$this->setReturnLocation("cancel","mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"].
-		//	"&obj_id=".$_GET["obj_id"]);
-		//$this->cancelObject();
 		$this->ctrl->redirect($this, "listMedia");
 	}
 	
@@ -631,9 +635,15 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	{
 		global $tpl;
 		
+		if ($this->ctrl->getCmd() == "explorer")
+		{
+			return;
+		}
+		
 		parent::showUpperIcon();
 		
-		if ($_GET["obj_id"] != "")
+		$mep_tree =& $this->object->getTree();
+		if ($_GET["obj_id"] != "" && $_GET["obj_id"] != $mep_tree->getRootId())
 		{
 			$this->ctrl->setParameter($this, "obj_id",
 				$this->getParentFolderId());
@@ -668,6 +678,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function explorer()
 	{
+		$_GET["obj_id"] = "";
+		
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
@@ -676,9 +688,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
 		require_once ("./Modules/MediaPool/classes/class.ilMediaPoolExplorer.php");
+//echo "-".$this->ctrl->getLinkTarget($this, "listMedia")."-";
 		$exp = new ilMediaPoolExplorer($this->ctrl->getLinkTarget($this, "listMedia"), $this->object);
 		$exp->setTargetGet("obj_id");
-		//$exp->setExpandTarget("mep_edit.php?cmd=explorer&ref_id=".$this->object->getRefId());
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, "explorer"));
 
 		$exp->addFilter("root");
@@ -976,7 +988,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	{
 		global $ilLocator;
 		
-		if (!$this->getCreationMode())
+		if (!$this->getCreationMode() && $this->ctrl->getCmd() != "explorer")
 		{
 			$tree =& $this->object->getTree();
 			$obj_id = ($_GET["obj_id"] == "")
@@ -1016,13 +1028,10 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		}
 
 		$folder_gui =& new ilObjFolderGUI("", 0, false, false);
-		//$folder_gui->setFormAction("save",
-		//	"mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $_GET["obj_id"]);
 		$folder_gui->setFormAction("save",
 			$this->ctrl->getFormActionByClass("ilobjfoldergui"));
 		$folder_gui->createObject();
-		//$this->tpl->show();
 	}
 
 
