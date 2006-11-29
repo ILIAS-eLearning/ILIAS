@@ -1282,18 +1282,73 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION_VALUE", $categories);
 		$template->parseCurrentBlock();
 		
-		// display chart for matrix question for array $eval["variables"]
-		$template->setVariable("TEXT_CHART", $this->lng->txt("chart"));
-		$template->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-		$template->setVariable("CHART","./Modules/SurveyQuestionPool/displaychart.php?grName=" . urlencode($this->object->getTitle()) . 
-			"&type=bars" . 
-			"&x=" . urlencode($this->lng->txt("answers")) . 
-			"&y=" . urlencode($this->lng->txt("users_answered")) . 
-			"&arr=".base64_encode(serialize($this->cumulated["TOTAL"]["variables"])));
+		foreach ($this->cumulated as $key => $value)
+		{
+			if (is_numeric($key))
+			{
+				$template->setCurrentBlock("detail_row");
+				$template->setVariable("TEXT_OPTION", $this->lng->txt("row"));
+				$questiontext = $value["ROW"];
+				$template->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("detail_row");
+				$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
+				$template->setVariable("TEXT_OPTION_VALUE", $value["USERS_ANSWERED"]);
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("detail_row");
+				$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
+				$template->setVariable("TEXT_OPTION_VALUE", $value["USERS_SKIPPED"]);
+				$template->parseCurrentBlock();
+				
+				$template->setCurrentBlock("detail_row");
+				$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
+				$template->setVariable("TEXT_OPTION_VALUE", $value["MODE"]);
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("detail_row");
+				$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
+				$template->setVariable("TEXT_OPTION_VALUE", $value["MODE_NR_OF_SELECTIONS"]);
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("detail_row");
+				$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
+				$template->setVariable("TEXT_OPTION_VALUE", $value["MEDIAN"]);
+				$template->parseCurrentBlock();
+				
+				$template->setCurrentBlock("detail_row");
+				$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
+				$categories = "";
+				foreach ($value["variables"] as $key => $value)
+				{
+					$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+						$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
+						$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+				}
+				$categories = "<ol>$categories</ol>";
+				$template->setVariable("TEXT_OPTION_VALUE", $categories);
+				$template->parseCurrentBlock();
+			}
+		}
 		
-		$template->setCurrentBlock("detail");
-		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
+		// display chart for matrix question for array $eval["variables"]
+		foreach ($this->cumulated as $key => $value)
+		{
+			if (is_numeric($key))
+			{
+				$template->setCurrentBlock("chartimage");
+				$template->setVariable("ALT_CHART", $this->lng->txt("chart"));
+				$title = preg_replace("/\<[^>]+?>/ims", "", $this->object->getRow($key));
+				$template->setVariable("CHART","./Modules/SurveyQuestionPool/displaychart.php?grName=" . urlencode($title) . 
+					"&type=bars" . 
+					"&x=" . urlencode($this->lng->txt("answers")) . 
+					"&y=" . urlencode($this->lng->txt("users_answered")) . 
+					"&arr=".base64_encode(serialize($value["variables"])));
+				$template->parseCurrentBlock();
+			}
+		}
+		$template->setCurrentBlock("chart");
+		$template->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 		$template->parseCurrentBlock();
+
+		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
 		$output = $template->get();
 		return $output;
 	}

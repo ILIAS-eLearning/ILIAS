@@ -350,9 +350,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION_VALUE", $textvalues);
 		$template->parseCurrentBlock();
 
-		$template->setCurrentBlock("detail");
 		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
-		$template->parseCurrentBlock();
 		return $template->get();
 	}
 }
