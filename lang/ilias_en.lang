@@ -6252,6 +6252,8 @@ survey#:#manage_phrases#:#Manage Phrases
 survey#:#material#:#Material
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material_file#:#Material File
+survey#:#matrix_error_no_columns#:#Please fill in at least one column text!
+survey#:#matrix_error_no_rows#:#Please fill in at least one row text!
 survey#:#matrix_appearance#:#Appearance
 survey#:#matrix_row_delete_select_none#:#Please check at least one row to delete it!
 survey#:#matrix_column_delete_select_none#:#Please check at least one column to delete it!
