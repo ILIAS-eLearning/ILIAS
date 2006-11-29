@@ -656,6 +656,15 @@ form.il_Form
 	border: 0px;
 }
 
+/* Navigation History */
+form.ilNavHistoryForm
+{
+	padding: 0px;
+	margin: 0px 15px 0px 10px ;
+	border: 0px;
+	float: right;
+}
+
 /* MainMenu Tabs */
 div.il_MainMenu
 {
@@ -1022,6 +1031,7 @@ div.il_PermDescription
 
 div.il_HeaderOuter
 {
+	clear: both;
 }
 
 div.il_Header

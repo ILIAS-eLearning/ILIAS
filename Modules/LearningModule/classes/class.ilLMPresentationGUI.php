@@ -133,7 +133,8 @@ class ilLMPresentationGUI
 	*/
 	function &executeCommand()
 	{
-
+		global $ilNavigationHistory;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("layout");
 
@@ -143,6 +144,11 @@ class ilLMPresentationGUI
 
 		// ### AA 03.09.01 added page access logger ###
 		$this->lmAccess($this->ilias->account->getId(),$_GET["ref_id"],$_GET["obj_id"]);
+		
+		$obj_id = $_GET["obj_id"];
+		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this));
+		$this->ctrl->setParameter($this, "obj_id", $obj_id);
 
 		switch($next_class)
 		{
@@ -836,11 +842,6 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "ilMainMenu");
 
-		/*
-		$menu = new ilMainMenuGUI(ilFrameTargetInfo::_getFrame("MainContent"));
-		$menu->setTemplate($this->tpl);
-		$menu->addMenuBlock("MAINMENU", "mainmenu");
-		$menu->setTemplateVars();*/
 		if ($this->lm->getLayout() == "2window" || 
 			$this->lm->getLayout() == "3window")
 		{
@@ -852,6 +853,10 @@ class ilLMPresentationGUI
 		}
 		
 		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+		
+		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
+		$nav_hist = new ilNavigationHistoryGUI();
+		$this->tpl->setVariable("NAVIGATION_HISTORY", $nav_hist->getHTML());
 		
 		$ilBench->stop("ContentPresentation", "ilMainMenu");
 	}

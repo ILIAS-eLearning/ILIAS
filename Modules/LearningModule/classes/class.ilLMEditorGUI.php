@@ -63,7 +63,7 @@ class ilLMEditorGUI
 	function ilLMEditorGUI()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
-			$rbacsystem;
+			$rbacsystem, $ilNavigationHistory;
 		
 		// init module (could be done in ilctrl)
 		//define("ILIAS_MODULE", "content");
@@ -93,6 +93,9 @@ class ilLMEditorGUI
 		$this->tree = new ilTree($this->lm_obj->getId());
 		$this->tree->setTableNames('lm_tree','lm_data');
 		$this->tree->setTreeTablePK("lm_id");
+		
+		$ilNavigationHistory->addItem($_GET["ref_id"],
+			"ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"]);
 
 	}
 
