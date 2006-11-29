@@ -59,6 +59,7 @@ class ilObjMediaPool extends ilObject
 	function read()
 	{
 		parent::read();
+
 		$this->tree =& new ilTree($this->getId());
 		$this->tree->setTreeTablePK("mep_id");
 		$this->tree->setTableNames('mep_tree','object_data');
