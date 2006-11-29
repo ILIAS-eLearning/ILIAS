@@ -804,7 +804,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilBench;
 
-		include_once "./content/classes/class.ilLMPageObject.php";
+		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
 
 		foreach ($questions as $question_id)
 		{

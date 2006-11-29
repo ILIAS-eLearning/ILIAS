@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,30 +21,45 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+include_once("./Modules/LearningModule/classes/class.ilObjContentObjectAccess.php");
 
 /**
-* BlockGUI class for block NewsForContext
+* Class ilObjLearningModuleAccess
+*
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ingroup ModulesIliasLearningModule
 */
-class ilNewsForContextBlockGUI extends ilBlockGUI
+class ilObjLearningModuleAccess extends ilObjContentObjectAccess
 {
-	
+
 	/**
-	* Constructor
-	*/
-	function ilNewsForContextBlockGUI()
+	 * get commands
+	 * 
+	 * this method returns an array of all possible commands/permission combinations
+	 * 
+	 * example:	
+	 * $commands = array
+	 *	(
+	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+	 *	);
+	 */
+	function _getCommands()
 	{
-		global $ilCtrl, $lng;
+		$commands = array
+		(
+			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
+				"default" => true),
+			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue_work"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+		);
 		
-		parent::ilBlockGUI();
-		
-		$this->addBlockCommand(
-			$ilCtrl->getLinkTargetByClass("", "showNewsTable"),
-			$lng->txt("edit"));
+		return $commands;
 	}
+	
 }
 
 ?>

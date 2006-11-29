@@ -360,7 +360,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once ("content/classes/class.ilContObjParser.php");
+		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
 		$contParser->startParsing();
 		ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,30 +21,29 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 
 /**
-* BlockGUI class for block NewsForContext
+* Class ilObjLearningModule
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ingroup ModulesIliasLearningModule
 */
-class ilNewsForContextBlockGUI extends ilBlockGUI
+class ilObjLearningModule extends ilObjContentObject
 {
-	
+
 	/**
 	* Constructor
+	* @access	public
 	*/
-	function ilNewsForContextBlockGUI()
+	function ilObjLearningModule($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilCtrl, $lng;
-		
-		parent::ilBlockGUI();
-		
-		$this->addBlockCommand(
-			$ilCtrl->getLinkTargetByClass("", "showNewsTable"),
-			$lng->txt("edit"));
+		$this->type = "lm";
+		parent::ilObjContentObject($a_id, $a_call_by_reference);
 	}
-}
+
+} // END class.ilObjLearningModule
 
 ?>

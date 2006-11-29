@@ -69,7 +69,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="dbk" class_name="DlBook" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+<object name="dbk" class_name="DlBook" location="Modules/LearningModule/classes" module="Modules/LearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="chapters" module="1">cont_chapters</property>
@@ -176,7 +176,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="lm" class_name="LearningModule" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+<object name="lm" class_name="LearningModule" location="Modules/LearningModule/classes" module="Modules/LearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="chapters" module="1">cont_chapters</property>

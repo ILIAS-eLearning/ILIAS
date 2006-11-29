@@ -1625,7 +1625,7 @@ class assQuestion
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
 			include_once "./Services/COPage/classes/class.ilInternalLink.php";
-			include_once "./content/classes/class.ilLMObject.php";
+			include_once "./Modules/LearningModule/classes/class.ilLMObject.php";
 			include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
 			{

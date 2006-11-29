@@ -23,7 +23,7 @@
 
 include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
 include_once("./Services/COPage/classes/class.ilPageObject.php");
-include_once("./content/classes/class.ilEditClipboardGUI.php");
+include_once("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
 include_once("./Services/COPage/classes/class.ilParagraphPlugins.php");
 include_once("./Services/COPage/classes/class.ilParagraphPlugin.php");
 include_once("./classes/class.ilDOMUtil.php");
@@ -841,7 +841,15 @@ class ilPageObjectGUI
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
 
-		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params, true);
+		if (version_compare(PHP_VERSION,'5','>='))
+		{
+			$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params, true);
+		}
+		else
+		{
+			$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		}
+
 //echo xslt_error($xh);
 		xslt_free($xh);
 
@@ -949,7 +957,7 @@ class ilPageObjectGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilMedia");
 
-		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{

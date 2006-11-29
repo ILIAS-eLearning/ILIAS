@@ -705,7 +705,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		
 		// import page data
-		include_once ("content/classes/class.ilContObjParser.php");
+		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $_SESSION["tst_import_xml_file"], $_SESSION["tst_import_subdir"]);
 		$contParser->setQuestionMapping($qtiParser->getImportMapping());
 		$contParser->startParsing();

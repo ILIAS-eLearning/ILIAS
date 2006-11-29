@@ -62,33 +62,33 @@ switch($target_type)
 {
 	// learning module pages
 	case "pg":
-		require_once("content/classes/class.ilLMPageObjectGUI.php");
+		require_once("./Modules/LearningModule/classes/class.ilLMPageObjectGUI.php");
 		ilLMPageObjectGUI::_goto($target_id, $target_ref_id);
 		break;
 
 	// learning module chapters
 	case "st":
-		require_once("content/classes/class.ilStructureObjectGUI.php");
+		require_once("./Modules/LearningModule/classes/class.ilStructureObjectGUI.php");
 		ilStructureObjectGUI::_goto($target_id, $target_ref_id);
 		break;
 
 	// new implementation: ok
 	case "git":
-		require_once("content/classes/class.ilGlossaryTermGUI.php");
+		require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 		$target_ref_id = $target_arr[2];
 		ilGlossaryTermGUI::_goto($target_id, $target_ref_id);
 		break;
 
 	// new implementation: ok
 	case "glo":
-		require_once("content/classes/class.ilObjGlossaryGUI.php");
+		require_once("./Modules/Glossary/classes/class.ilObjGlossaryGUI.php");
 		ilObjGlossaryGUI::_goto($target_id);
 		break;
 				
 	// new implementation: ok
 	case "lm":
 	case "dbk":
-		require_once("./content/classes/class.ilObjContentObjectGUI.php");
+		require_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 		ilObjContentObjectGUI::_goto($target_id);
 		break;
 
