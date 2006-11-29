@@ -127,7 +127,7 @@ class ilWysiwygUtil
 		
 		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_footnote.html",false,false,"Services/COPage");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA", ILIAS_HTTP_PATH."/content/content.css" );
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA", ILIAS_HTTP_PATH."/Services/COPage/css/content.css" );
 		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 		$ilCtrl->setParameterByClass("ilpcparagraphgui", "ptype", "footnote");
 		$this->tpl->setVariable("FOOTNOTE_TARGET",

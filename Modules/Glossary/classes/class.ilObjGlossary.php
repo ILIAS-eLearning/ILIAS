@@ -505,21 +505,11 @@ class ilObjGlossary extends ilObject
 		copy($location_stylesheet, $a_target_dir."/".$style_name);
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		
-		// export content style sheet
-		/*
-		if ($this->getStyleSheetId() < 1)
-		{*/
-			$cont_stylesheet = "content/content.css";
-			copy($cont_stylesheet, $a_target_dir."/content.css");
-		/*}
-		else
-		{
-			$style = new ilObjStyleSheet($this->getStyleSheetId());
-			$style->writeCSSFile($a_target_dir."/content.css");
-		}*/
+		$cont_stylesheet = "Services/COPage/css/content.css";
+		copy($cont_stylesheet, $a_target_dir."/content.css");
 		
 		// export syntax highlighting style
-		$syn_stylesheet = "content/syntaxhighlight.css";
+		$syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
 		copy($syn_stylesheet, $a_target_dir."/syntaxhighlight.css");
 
 		// get glossary presentation gui class
