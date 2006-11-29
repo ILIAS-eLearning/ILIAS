@@ -46,6 +46,16 @@ class SurveyQuestionGUI
 	var $tpl;
 	var $lng;
 	var $errormessage;
+
+	/**
+	* An array containing the cumulated results of the question for a given survey
+	*
+	* An array containing the cumulated results of the question for a given survey
+	*
+	* @var array
+	*/
+	var $cumulated;
+	
 /**
 * SurveyQuestion constructor
 *
@@ -67,6 +77,7 @@ class SurveyQuestionGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "q_id");
 		$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+		$this->cumulated = array();
 	}
 
 	/**
@@ -525,5 +536,18 @@ class SurveyQuestionGUI
 		return $this->object->getQuestionType();
 	}
 
+/**
+* Creates a the cumulated results row for the question
+*
+* Creates a the cumulated results row for the question
+*
+* @return string HTML text with the cumulated results
+* @access private
+*/
+	function getCumulatedResultRow($counter, $css_class, $survey_id)
+	{
+		// overwrite in parent classes
+		return "";
+	}
 }
 ?>

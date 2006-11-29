@@ -345,30 +345,18 @@ class ilSurveyEvaluationGUI
 			$question_gui = new $question_type_gui($data["question_id"]);
 			$question = $question_gui->object;
 			//$question->loadFromDb($data["question_id"]);
-
-			$eval = $this->object->getCumulatedResults($question);
+			$row = $question_gui->getCumulatedResultRow($counter, $classes[$counter % 2], $this->object->getSurveyId());
+			//$eval = $this->object->getCumulatedResults($question);
 			
 			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("QUESTION_TITLE", ($counter+1) . ". ".$question->getTitle());
-			$maxlen = 37;
-			$questiontext = preg_replace("/\<[^>]+?>/ims", "", $row["QUESTION_TEXT"]);
-			if (strlen($questiontext) > $maxlen + 3)
-			{
-				$questiontext = substr($questiontext, 0, $maxlen) . "...";
-			}
-			$this->tpl->setVariable("QUESTION_TEXT", $questiontext);
-			$this->tpl->setVariable("USERS_ANSWERED", $eval["USERS_ANSWERED"]);
-			$this->tpl->setVariable("USERS_SKIPPED", $eval["USERS_SKIPPED"]);
-			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($eval["QUESTION_TYPE"]));
-			$this->tpl->setVariable("MODE", $eval["MODE"]);
-			$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
-			$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
-			$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
-			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+			$this->tpl->setVariable("ROW", $row);
 			$this->tpl->parseCurrentBlock();
 			if ($details)
 			{
-				$question_gui->outCumulatedResultsDetails($eval, $counter+1);
+				$detail = $question_gui->getCumulatedResultsDetails($this->object->getSurveyId(), $counter+1);
+				$this->tpl->setCurrentBlock("detail");
+				$this->tpl->setVariable("DETAIL", $detail);
+				$this->tpl->parseCurrentBlock();
 			}
 			$counter++;
 		}

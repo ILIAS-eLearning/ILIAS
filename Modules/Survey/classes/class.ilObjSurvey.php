@@ -3634,6 +3634,26 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 
+/**
+* Returns the number of participants for a survey
+*
+* Returns the number of participants for a survey
+*
+* @param integer $survey_id The database ID of the survey
+* @return integer The number of participants
+* @access public
+*/
+	function _getNrOfParticipants($survey_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
+			$ilDB->quote($survey_id . "")
+		);
+		$result = $ilDB->query($query);
+		return $result->numRows();
+	}
+
 	function &getQuestions($question_ids)
 	{
 		$result_array = array();

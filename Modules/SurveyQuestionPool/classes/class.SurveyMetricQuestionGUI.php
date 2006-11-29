@@ -307,65 +307,123 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$this->setQuestionTabsForClass("surveymetricquestiongui");
 	}
 
-	function outCumulatedResultsDetails(&$cumulated_results, $counter)
+/**
+* Creates a the cumulated results row for the question
+*
+* Creates a the cumulated results row for the question
+*
+* @return string HTML text with the cumulated results
+* @access private
+*/
+	function getCumulatedResultRow($counter, $css_class, $survey_id)
 	{
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question"));
+		include_once "./classes/class.ilTemplate.php";
+		if (count($this->cumulated) == 0)
+		{
+			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
+			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
+			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users);
+		}
+		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_row.html", TRUE, TRUE, "Modules/Survey");
+		$template->setVariable("QUESTION_TITLE", ($counter+1) . ". ".$this->object->getTitle());
+		$maxlen = 37;
+		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->object->getQuestiontext());
+		if (strlen($questiontext) > $maxlen + 3)
+		{
+			$questiontext = substr($questiontext, 0, $maxlen) . "...";
+		}
+		$template->setVariable("QUESTION_TEXT", $questiontext);
+		$template->setVariable("USERS_ANSWERED", $this->cumulated["USERS_ANSWERED"]);
+		$template->setVariable("USERS_SKIPPED", $this->cumulated["USERS_SKIPPED"]);
+		$template->setVariable("QUESTION_TYPE", $this->lng->txt($this->cumulated["QUESTION_TYPE"]));
+		$template->setVariable("MODE", $this->cumulated["MODE"]);
+		$template->setVariable("MODE_NR_OF_SELECTIONS", $this->cumulated["MODE_NR_OF_SELECTIONS"]);
+		$template->setVariable("MEDIAN", $this->cumulated["MEDIAN"]);
+		$template->setVariable("ARITHMETIC_MEAN", $this->cumulated["ARITHMETIC_MEAN"]);
+		$template->setVariable("COLOR_CLASS", $css_class);
+		return $template->get();
+	}
+
+/**
+* Creates the detailed output of the cumulated results for the question
+*
+* Creates the detailed output of the cumulated results for the question
+*
+* @param integer $survey_id The database ID of the survey
+* @param integer $counter The counter of the question position in the survey
+* @return string HTML text with the cumulated results
+* @access private
+*/
+	function getCumulatedResultsDetails($survey_id, $counter)
+	{
+		if (count($this->cumulated) == 0)
+		{
+			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
+			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
+			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users);
+		}
+		
+		$output = "";
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
+		
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("question"));
 		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_ANSWERED"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_SKIPPED"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("subtype"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_ANSWERED"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_SKIPPED"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("subtype"));
 		switch ($this->object->getSubType())
 		{
 			case SUBTYPE_NON_RATIO:
-				$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("non_ratio"));
+				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("non_ratio"));
 				break;
 			case SUBTYPE_RATIO_NON_ABSOLUTE:
-				$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_non_absolute"));
+				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_non_absolute"));
 				break;
 			case SUBTYPE_RATIO_ABSOLUTE:
-				$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_absolute"));
+				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_absolute"));
 				break;
 		}
-		$this->tpl->parseCurrentBlock();
+		$template->parseCurrentBlock();
 		
 
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MODE"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MODE_NR_OF_SELECTIONS"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("median"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["MEDIAN"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("arithmetic_mean"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["ARITHMETIC_MEAN"]);
-		$this->tpl->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE_NR_OF_SELECTIONS"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MEDIAN"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("arithmetic_mean"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["ARITHMETIC_MEAN"]);
+		$template->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("values"));
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("values"));
 		$values = "";
-		if (is_array($cumulated_results["values"]))
+		if (is_array($this->cumulated["values"]))
 		{
-			foreach ($cumulated_results["values"] as $key => $value)
+			foreach ($this->cumulated["values"] as $key => $value)
 			{
 				$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" .
 					$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
@@ -373,21 +431,23 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			}
 		}
 		$values = "<ol>$values</ol>";
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $values);
-		$this->tpl->parseCurrentBlock();
+		$template->setVariable("TEXT_OPTION_VALUE", $values);
+		$template->parseCurrentBlock();
 		
 		// display chart for metric question for array $eval["values"]
-		$this->tpl->setVariable("TEXT_CHART", $this->lng->txt("chart"));
-		$this->tpl->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-		$this->tpl->setVariable("CHART","./Modules/SurveyQuestionPool/displaychart.php?grName=" . urlencode($this->object->getTitle()) . 
+		$template->setVariable("TEXT_CHART", $this->lng->txt("chart"));
+		$template->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
+		$template->setVariable("CHART","./Modules/SurveyQuestionPool/displaychart.php?grName=" . urlencode($this->object->getTitle()) . 
 			"&type=bars" . 
 			"&x=" . urlencode($this->lng->txt("answers")) . 
 			"&y=" . urlencode($this->lng->txt("users_answered")) . 
-			"&arr=".base64_encode(serialize($cumulated_results["values"])));
+			"&arr=".base64_encode(serialize($this->cumulated["values"])));
 		
-		$this->tpl->setCurrentBlock("detail");
-		$this->tpl->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
-		$this->tpl->parseCurrentBlock();
+		$template->setCurrentBlock("detail");
+		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
+		$template->parseCurrentBlock();
+		return $template->get();
 	}
+
 }
 ?>

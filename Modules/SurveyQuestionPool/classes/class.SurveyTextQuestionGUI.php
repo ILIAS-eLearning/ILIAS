@@ -258,43 +258,102 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$this->setQuestionTabsForClass("surveytextquestiongui");
 	}
 
-	function outCumulatedResultsDetails(&$cumulated_results, $counter)
+/**
+* Creates a the cumulated results row for the question
+*
+* Creates a the cumulated results row for the question
+*
+* @return string HTML text with the cumulated results
+* @access private
+*/
+	function getCumulatedResultRow($counter, $css_class, $survey_id)
 	{
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question"));
-		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_ANSWERED"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $cumulated_results["USERS_SKIPPED"]);
-		$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->setCurrentBlock("detail_row");
-		$this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("given_answers"));
-		$textvalues = "";
-		if (is_array($cumulated_results["textvalues"]))
+		include_once "./classes/class.ilTemplate.php";
+		if (count($this->cumulated) == 0)
 		{
-			foreach ($cumulated_results["textvalues"] as $textvalue)
+			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
+			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
+			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users);
+		}
+		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_row.html", TRUE, TRUE, "Modules/Survey");
+		$template->setVariable("QUESTION_TITLE", ($counter+1) . ". ".$this->object->getTitle());
+		$maxlen = 37;
+		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->object->getQuestiontext());
+		if (strlen($questiontext) > $maxlen + 3)
+		{
+			$questiontext = substr($questiontext, 0, $maxlen) . "...";
+		}
+		$template->setVariable("QUESTION_TEXT", $questiontext);
+		$template->setVariable("USERS_ANSWERED", $this->cumulated["USERS_ANSWERED"]);
+		$template->setVariable("USERS_SKIPPED", $this->cumulated["USERS_SKIPPED"]);
+		$template->setVariable("QUESTION_TYPE", $this->lng->txt($this->cumulated["QUESTION_TYPE"]));
+		$template->setVariable("MODE", $this->cumulated["MODE"]);
+		$template->setVariable("MODE_NR_OF_SELECTIONS", $this->cumulated["MODE_NR_OF_SELECTIONS"]);
+		$template->setVariable("MEDIAN", $this->cumulated["MEDIAN"]);
+		$template->setVariable("ARITHMETIC_MEAN", $this->cumulated["ARITHMETIC_MEAN"]);
+		$template->setVariable("COLOR_CLASS", $css_class);
+		return $template->get();
+	}
+
+/**
+* Creates the detailed output of the cumulated results for the question
+*
+* Creates the detailed output of the cumulated results for the question
+*
+* @param integer $survey_id The database ID of the survey
+* @param integer $counter The counter of the question position in the survey
+* @return string HTML text with the cumulated results
+* @access private
+*/
+	function getCumulatedResultsDetails($survey_id, $counter)
+	{
+		if (count($this->cumulated) == 0)
+		{
+			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
+			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
+			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users);
+		}
+		
+		$output = "";
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
+
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("question"));
+		$questiontext = $this->object->getQuestiontext();
+		$template->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_ANSWERED"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_SKIPPED"]);
+		$template->parseCurrentBlock();
+		
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("given_answers"));
+		$textvalues = "";
+		if (is_array($this->cumulated["textvalues"]))
+		{
+			foreach ($this->cumulated["textvalues"] as $textvalue)
 			{
 				$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
 			}
 		}
 		$textvalues = "<ul>$textvalues</ul>";
-		$this->tpl->setVariable("TEXT_OPTION_VALUE", $textvalues);
-		$this->tpl->parseCurrentBlock();
+		$template->setVariable("TEXT_OPTION_VALUE", $textvalues);
+		$template->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("detail");
-		$this->tpl->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
-		$this->tpl->parseCurrentBlock();
+		$template->setCurrentBlock("detail");
+		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
+		$template->parseCurrentBlock();
+		return $template->get();
 	}
 }
 ?>
