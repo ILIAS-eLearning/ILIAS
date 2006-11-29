@@ -1720,10 +1720,10 @@ class ilObjContentObject extends ilObject
 		$man_builder->dump($a_target_dir);
 		
 		// copy scorm 1.2 schema definitions
-		copy("content/scorm_xsd/adlcp_rootv1p2.xsd", $a_target_dir."/adlcp_rootv1p2.xsd");
-		copy("content/scorm_xsd/imscp_rootv1p1p2.xsd", $a_target_dir."/imscp_rootv1p1p2.xsd");
-		copy("content/scorm_xsd/imsmd_rootv1p2p1.xsd", $a_target_dir."/imsmd_rootv1p2p1.xsd");
-		copy("content/scorm_xsd/ims_xml.xsd", $a_target_dir."/ims_xml.xsd");
+		copy("Modules/LearningModule/scorm_xsd/adlcp_rootv1p2.xsd", $a_target_dir."/adlcp_rootv1p2.xsd");
+		copy("Modules/LearningModule/scorm_xsd/imscp_rootv1p1p2.xsd", $a_target_dir."/imscp_rootv1p1p2.xsd");
+		copy("Modules/LearningModule/scorm_xsd/imsmd_rootv1p2p1.xsd", $a_target_dir."/imsmd_rootv1p2p1.xsd");
+		copy("Modules/LearningModule/scorm_xsd/ims_xml.xsd", $a_target_dir."/ims_xml.xsd");
 
 		// zip it all
 		$date = time();
