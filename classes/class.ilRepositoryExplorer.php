@@ -169,7 +169,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "lm":
 			case "dbk":
-				return "content/lm_edit.php?ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=".$a_node_id;
 
 			case "htlm":
 				return "content/fblm_edit.php?ref_id=".$a_node_id;

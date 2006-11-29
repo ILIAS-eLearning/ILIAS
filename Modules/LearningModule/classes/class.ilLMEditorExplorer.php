@@ -47,7 +47,6 @@ class ilLMEditorExplorer extends ilLMExplorer
 		$this->gui_class = $a_gui_class;
 
 		parent::ilLMExplorer($a_target, $a_lm_obj);
-		//$this->setExpandTarget("lm_edit.php?cmd=explorer&ref_id=".$this->lm_obj->getRefId());
 	}
 
 	/**

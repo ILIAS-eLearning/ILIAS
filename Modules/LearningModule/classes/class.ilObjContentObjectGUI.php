@@ -633,7 +633,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->ctrl->setParameter($this, "lmexpand", $_GET["lmexpand"]);
-		//$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&ref_id=".$this->ref_id."&lmexpand=".$_GET["lmexpand"]);
 		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "explorer"));
 		$this->tpl->parseCurrentBlock();
 		//$this->tpl->show(false);
