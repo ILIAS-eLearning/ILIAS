@@ -845,6 +845,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$template->parseCurrentBlock();
 		
 		// display chart for nominal question for array $eval["variables"]
+		$template->setCurrentBlock("chart");
 		$template->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 		$template->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
 		$template->setVariable("CHART","./Modules/SurveyQuestionPool/displaychart.php?grName=" . urlencode($this->object->getTitle()) .
@@ -852,10 +853,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			"&x=" . urlencode($this->lng->txt("answers")) . 
 			"&y=" . urlencode($this->lng->txt("users_answered")) . 
 			"&arr=".base64_encode(serialize($this->cumulated["variables"])));
-		
-		$template->setCurrentBlock("detail");
-		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
 		$template->parseCurrentBlock();
+		
+		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
 		return $template->get();
 	}
 
