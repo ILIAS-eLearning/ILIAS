@@ -493,7 +493,7 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));
 				$this->tpl->setVariable("TXT_INSERT_CANCEL", $this->lng->txt("cont_set_cancel"));
 				$this->tpl->setVariable("TXT_CONFIRM_DELETE", $this->lng->txt("cont_confirm_delete"));
-				$this->tpl->setVariable("JS_DRAGDROP", ILIAS_HTTP_PATH."/content/js/wz_dragdrop.js");
+				$this->tpl->setVariable("JS_DRAGDROP", ILIAS_HTTP_PATH."/Services/COPage/js/wz_dragdrop.js");
 				$this->tpl->setVariable("IMG_DRAGDROP",
 					ilUtil::getImagePath("icon_drag.gif"));
 				
