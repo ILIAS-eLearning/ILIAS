@@ -1416,7 +1416,116 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result = $ilDB->query($query);
 		return $result->numRows();
 	}
-	
+
+	/**
+	* Returns the cumulated results for a given row
+	*
+	* Returns the cumulated results for a given row
+	*
+	* @param integer $row The index of the row
+	* @param integer $survey_id The database ID of the survey
+	* @return integer The number of users who took part in the survey
+	* @access public
+	*/
+	function &getCumulatedResultsForRow($rowindex, $survey_id, $nr_of_users)
+	{
+		global $ilDB;
+		
+		$question_id = $this->getId();
+		
+		$result_array = array();
+		$cumulated = array();
+
+		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s AND row = %s",
+			$ilDB->quote($question_id . ""),
+			$ilDB->quote($survey_id . ""),
+			$ilDB->quote($rowindex . "")
+		);
+		$result = $ilDB->query($query);
+		
+		switch ($this->getSubtype())
+		{
+			case 0:
+			case 1:
+				while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$cumulated[$row->value]++;
+				}
+				asort($cumulated, SORT_NUMERIC);
+				end($cumulated);
+				break;
+		}
+		$numrows = $result->numRows();
+		$result_array["USERS_ANSWERED"] = $this->getNrOfUsersAnswered($survey_id);
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $this->getNrOfUsersAnswered($survey_id);
+
+		$prefix = "";
+		if (strcmp(key($cumulated), "") != 0)
+		{
+			$prefix = (key($cumulated)+1) . " - ";
+		}
+		$cat = $this->getCategory(key($cumulated));
+		$result_array["MODE"] =  $prefix . $cat;
+		$result_array["MODE_VALUE"] =  key($cumulated)+1;
+		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+		for ($key = 0; $key < $this->getCategoryCount(); $key++)
+		{
+			$percentage = 0;
+			if ($numrows > 0)
+			{
+				$percentage = (float)((int)$cumulated[$key]/$numrows);
+			}
+			$cat = $this->getCategory($key);
+			$result_array["variables"][$key] = array("title" => $cat, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+		}
+		ksort($cumulated, SORT_NUMERIC);
+		$median = array();
+		$total = 0;
+		foreach ($cumulated as $value => $key)
+		{
+			$total += $key;
+			for ($i = 0; $i < $key; $i++)
+			{
+				array_push($median, $value+1);
+			}
+		}
+		if ($total > 0)
+		{
+			if (($total % 2) == 0)
+			{
+				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+				if (round($median_value) != $median_value)
+				{
+					$cat = $this->getCategory((int)floor($median_value)-1);
+					$cat2 = $this->getCategory((int)ceil($median_value)-1);
+					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2 . ")";
+				}
+			}
+			else
+			{
+				$median_value = $median[(($total+1)/2)-1];
+			}
+		}
+		else
+		{
+			$median_value = "";
+		}
+		$result_array["ARITHMETIC_MEAN"] = "";
+		$result_array["MEDIAN"] = $median_value;
+		$result_array["QUESTION_TYPE"] = "SurveyMatrixQuestion";
+		$result_array["ROW"] = $this->getRow($rowindex);
+		return $result_array;
+	}
+
+	/**
+	* Returns the cumulated results for the question
+	*
+	* Returns the cumulated results for the question
+	*
+	* @param integer $survey_id The database ID of the survey
+	* @return integer The number of users who took part in the survey
+	* @access public
+	*/
 	function &getCumulatedResults($survey_id, $nr_of_users)
 	{
 		global $ilDB;
@@ -1502,7 +1611,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array["ARITHMETIC_MEAN"] = "";
 		$result_array["MEDIAN"] = $median_value;
 		$result_array["QUESTION_TYPE"] = "SurveyMatrixQuestion";
-		return $result_array;
+		
+		$cumulated_results = array();
+		$cumulated_results["TOTAL"] = $result_array;
+		for ($i = 0; $i < $this->getRowCount(); $i++)
+		{
+			$rowresult =& $this->getCumulatedResultsForRow($i, $survey_id, $nr_of_users);
+			$cumulated_results[$i] = $rowresult;
+		}
+		return $cumulated_results;
 	}
 	
 	/**
