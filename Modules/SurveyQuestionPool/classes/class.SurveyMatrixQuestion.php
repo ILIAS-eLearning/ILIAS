@@ -641,7 +641,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->title = $data->title;
 				$this->description = $data->description;
 				$this->obj_id = $data->obj_fi;
-				$this->orientation = $data->orientation;
 				$this->author = $data->author;
 				$this->owner = $data->owner_fi;
 				include_once("./Services/RTE/classes/class.ilRTE.php");
@@ -723,7 +722,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
   {
 		global $ilDB;
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete()) 
+		{
 			$complete = 1;
 		}
 		if ($original_id)
@@ -823,63 +823,77 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result = $ilDB->query($query);
 	}
 
-	function saveCategoriesToDb()
+	function saveCategoriesToDb($original_id = "")
 	{
+		global $ilDB;
+		
 		// save categories
+		$question_id = $this->getId();
+		if (strlen($original_id))
+		{
+			$question_id = $original_id;
+		}
 		
 		// delete existing category relations
 		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-			$this->ilias->db->quote($this->id)
+			$ilDB->quote($question_id)
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		// create new category relations
 		for ($i = 0; $i < $this->getCategoryCount(); $i++)
 		{
 			$cat = $this->getCategory($i);
 			$category_id = $this->saveCategoryToDb($cat);
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($category_id . ""),
-				$this->ilias->db->quote($this->id . ""),
-				$this->ilias->db->quote(($i + 1) . ""),
-				$this->ilias->db->quote($i . "")
+				$ilDB->quote($category_id . ""),
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote(($i + 1) . ""),
+				$ilDB->quote($i . "")
 			);
-			$answer_result = $this->ilias->db->query($query);
+			$answer_result = $ilDB->query($query);
 		}
 		if (strlen($this->getNeutralColumn()))
 		{
 			$category_id = $this->saveCategoryToDb($this->getNeutralColumn(), 1);
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($category_id . ""),
-				$this->ilias->db->quote($this->id . ""),
-				$this->ilias->db->quote(($i + 1) . ""),
-				$this->ilias->db->quote($i . "")
+				$ilDB->quote($category_id . ""),
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote(($i + 1) . ""),
+				$ilDB->quote($i . "")
 			);
-			$answer_result = $this->ilias->db->query($query);
+			$answer_result = $ilDB->query($query);
 		}
-		$this->saveCompletionStatus();
+		$this->saveCompletionStatus($original_id);
 	}
 
-	function saveRowsToDb()
+	function saveRowsToDb($original_id = "")
 	{
+		global $ilDB;
+		
 		// save rows
+		$question_id = $this->getId();
+		if (strlen($original_id))
+		{
+			$question_id = $original_id;
+		}
 		
 		// delete existing rows
 		$query = sprintf("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
-			$this->ilias->db->quote($this->id)
+			$ilDB->quote($question_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $ilDB->query($query);
 		// create new rows
 		for ($i = 0; $i < $this->getRowCount(); $i++)
 		{
 			$row = $this->getRow($i);
 			$query = sprintf("INSERT INTO survey_question_matrix_rows (id_survey_question_matrix_rows, title, sequence, question_fi) VALUES (NULL, %s, %s, %s)",
-				$this->ilias->db->quote($row . ""),
-				$this->ilias->db->quote($i . ""),
-				$this->ilias->db->quote($this->getId() . "")
+				$ilDB->quote($row . ""),
+				$ilDB->quote($i . ""),
+				$ilDB->quote($question_id . "")
 			);
-			$answer_result = $this->ilias->db->query($query);
+			$answer_result = $ilDB->query($query);
 		}
-		$this->saveCompletionStatus();
+		$this->saveCompletionStatus($original_id);
 	}
 
 	/**
@@ -940,9 +954,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 							{
 								case "obligatory":
 									$this->setObligatory($fieldentry->get_content());
-									break;
-								case "orientation":
-									$this->setOrientation($fieldentry->get_content());
 									break;
 							}
 						}
@@ -1043,10 +1054,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getObligatory()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "orientation");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getOrientation()));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 
@@ -1138,8 +1145,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_matrix SET orientation = %s, row_separators = %s, column_separators = %s, neutral_column_separator = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getOrientation() . ""),
+			$query = sprintf("UPDATE survey_question_matrix SET row_separators = %s, column_separators = %s, neutral_column_separator = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
 				$ilDB->quote($this->getRowSeparators() . ""),
 				$ilDB->quote($this->getColumnSeparators() . ""),
 				$ilDB->quote($this->getNeutralColumnSeparator() . ""),
@@ -1150,26 +1156,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$result = $ilDB->query($query);
 			if ($result == DB_OK) 
 			{
-				// save categories
-				
-				// delete existing category relations
-				$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-					$ilDB->quote($this->original_id . "")
-				);
-				$result = $ilDB->query($query);
-				// create new category relations
-				for ($i = 0; $i < $this->getCategoryCount(); $i++)
-				{
-					$category = $this->getCategory($i);
-					$category_id = $this->saveCategoryToDb($category);
-					$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-						$ilDB->quote($category_id . ""),
-						$ilDB->quote($this->original_id . ""),
-						$ilDB->quote(($i + 1) . ""),
-						$ilDB->quote($i . "")
-					);
-					$answer_result = $ilDB->query($query);
-				}
+				// sync columns
+				$this->saveCategoriesToDb($this->original_id);
+				// sync rows
+				$this->saveRowsToDb($this->original_id);
 			}
 		}
 		parent::syncWithOriginal();
