@@ -133,6 +133,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
+			$this->fillNavigationHistory();
 		}
 
 		if ($add_ilias_footer)
@@ -232,6 +233,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
+			$this->fillNavigationHistory();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
@@ -267,11 +269,16 @@ class ilTemplate extends ilTemplateX
 	{
 		global $tpl, $ilMainMenu;
 		
-		//$ilMainMenu->setTemplate($tpl);
-		//$ilMainMenu->addMenuBlock("MAINMENU", "navigation");
-		//$ilMainMenu->setTemplateVars();
-//echo "-".htmlentities($ilMainMenu->getHTML())."-";
 		$tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+	}
+	
+	function fillNavigationHistory()
+	{
+		global $tpl, $ilMainMenu;
+
+		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
+		$nav_hist = new ilNavigationHistoryGUI();
+		$tpl->setVariable("NAVIGATION_HISTORY", $nav_hist->getHTML());
 	}
 	
 	function fillHeaderIcon()

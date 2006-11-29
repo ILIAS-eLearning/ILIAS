@@ -45,7 +45,12 @@ if (isset($_GET["client_id"]))
 }
 //echo "1";
 require_once "./include/inc.header.php";
-//echo "2";
+
+// special handling for direct navigation request
+require_once "./Services/Navigation/classes/class.ilNavigationHistoryGUI.php";
+$nav_hist = new ilNavigationHistoryGUI();
+$nav_hist->handleNavigationRequest();
+
 $target_arr = explode("_", $_GET["target"]);
 $target_type = $target_arr[0];
 $target_id = $target_arr[1];

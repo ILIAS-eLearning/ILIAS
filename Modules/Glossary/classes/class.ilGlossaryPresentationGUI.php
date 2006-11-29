@@ -182,6 +182,11 @@ class ilGlossaryPresentationGUI
 
 	function listTerms()
 	{
+		global $ilNavigationHistory;
+		
+		$ilNavigationHistory->addItem($_GET["ref_id"],
+			$this->ctrl->getLinkTarget($this, "listTerms"));
+		
 		$term_list = $this->glossary->getTermList();		
 		
 		return $this->listTermByGiven($term_list);

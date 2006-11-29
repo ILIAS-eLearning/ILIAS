@@ -2507,6 +2507,7 @@ common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
 common#:#logs#:#Log data
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
+common#:#last_visited#:#Last Visited
 common#:#lres#:#Learning Resources
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
@@ -2903,6 +2904,7 @@ common#:#of#:#Of
 common#:#offline#:#offline
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
+common#:#go#:#Go
 common#:#old#:#Old
 common#:#online#:#Online
 common#:#online_chapter#:#Online Chapter

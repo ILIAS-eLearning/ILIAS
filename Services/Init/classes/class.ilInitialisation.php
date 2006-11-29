@@ -46,7 +46,7 @@ class ilInitialisation
 	function requireCommonIncludes()
 	{
 		global $ilBench;
-		
+
 		// get pear
 		require_once("include/inc.get_pear.php");
 		require_once("include/inc.check_pear.php");
@@ -102,6 +102,7 @@ class ilInitialisation
 		require_once "classes/class.ilConditionHandler.php";
 		require_once "classes/class.ilBrowser.php";
 		require_once "classes/class.ilFrameTargetInfo.php";
+		require_once "Services/Navigation/classes/class.ilNavigationHistory.php";
 		require_once "Services/Help/classes/class.ilHelp.php";
 		require_once "include/inc.ilias_version.php";
 		
@@ -735,7 +736,7 @@ class ilInitialisation
 		global $ilDB, $ilUser, $ilLog, $ilErr, $ilClientIniFile, $ilIliasIniFile,
 			$ilSetting, $ilias, $https, $ilObjDataCache,
 			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
-			$ilTabs, $ilMainMenu, $rbacsystem;
+			$ilTabs, $ilMainMenu, $rbacsystem, $ilNavigationHistory;
 		
 		// include common code files
 		$this->requireCommonIncludes();
@@ -818,7 +819,6 @@ class ilInitialisation
 		// $ilObjDataCache initialisation
 		$ilObjDataCache = new ilObjectDataCache();
 		$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
-		
 		
 		// workaround: load old post variables if error handler 'message' was called
 		if ($_SESSION["message"])
@@ -1060,9 +1060,9 @@ class ilInitialisation
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 		
-		// get P3P file location
-		//$location_p3p_file = ilUtil::getP3PLocation();
-		//$tpl->setVariable("LOCATION_P3PFILE", $location_p3p_file);
+		// Init Navigation History
+		$ilNavigationHistory = new ilNavigationHistory();
+		$GLOBALS['ilNavigationHistory'] =& $ilNavigationHistory;
 		
 		// init infopanel
 				
