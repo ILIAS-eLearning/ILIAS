@@ -853,8 +853,14 @@ class SurveyQuestion
 *
 * @access public
 */
-	function saveCompletionStatus()
+	function saveCompletionStatus($original_id = "")
 	{
+		$question_id = $this->getId();
+		if (strlen($original_id))
+		{
+			$question_id = $original_id;
+		}
+
 		$complete = 0;
 		if ($this->isComplete()) 
 		{
@@ -865,7 +871,7 @@ class SurveyQuestion
       // update existing dataset
       $query = sprintf("UPDATE survey_question SET complete = %s WHERE question_id = %s",
 				$this->ilias->db->quote("$complete"),
-				$this->ilias->db->quote($this->id)
+				$this->ilias->db->quote($question_id . "")
       );
       $result = $this->ilias->db->query($query);
     }

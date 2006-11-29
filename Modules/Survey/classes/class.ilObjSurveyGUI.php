@@ -192,7 +192,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$outro = ilUtil::stripSlashes($_POST["outro"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 		$this->object->setOutro($outro);
 
-		$this->object->setAnonymize($_POST["anonymize"]);
+		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+		if (!$hasDatasets)
+		{
+			$this->object->setAnonymize($_POST["anonymize"]);
+		}
 		if ($_POST["showQuestionTitles"])
 		{
 			$this->object->showQuestionTitles();
@@ -335,6 +339,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_ALL", $this->lng->txt("evaluation_access_all"));
 		$this->tpl->setVariable("VALUE_PARTICIPANTS", $this->lng->txt("evaluation_access_participants"));
 		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymize_survey"));
+
+		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+		if ($hasDatasets)
+		{
+			$this->tpl->setVariable("DISABLED_ANONYMIZATION", " disabled=\"disabled\"");
+		}
+		
 		$this->tpl->setVariable("DESCRIPTION_ANONYMIZATION", $this->lng->txt("anonymize_survey_description"));
 		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("anonymize_personalized"));
 		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("anonymize_with_code"));
