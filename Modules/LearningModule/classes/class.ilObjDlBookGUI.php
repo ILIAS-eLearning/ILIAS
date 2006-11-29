@@ -91,7 +91,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 			$this->ctrl->setParameterByClass('illmpresentationgui','obj_id',(int) $_GET['obj_id']);
 			$this->ctrl->redirectByClass('illmpresentationgui','layout');
 		}
-		$tmp_tpl = new ilTemplate("tpl.citation.xsl",true,true,"content");
+		$tmp_tpl = new ilTemplate("tpl.citation.xsl",true,true,"Modules/LearningModule");
 		$tmp_tpl->setVariable("CITATIONS",$this->lng->txt("cont_citations"));
 
 		foreach($parsed_post as $key => $data)
