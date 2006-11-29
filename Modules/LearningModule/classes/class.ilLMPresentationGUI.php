@@ -3145,7 +3145,7 @@ class ilLMPresentationGUI
 		$this->tpl->getStandardTemplate();
 		$this->ilLocator();
 		$this->tpl->stopTitleFloating();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_download_list.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_download_list.html", "Modules/LearningModule");
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());

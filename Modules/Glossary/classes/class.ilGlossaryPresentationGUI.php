@@ -209,7 +209,7 @@ class ilGlossaryPresentationGUI
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_presentation.html", true);
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_presentation.html", "Modules/Glossary");
 		
 		// search form
 		if (!$this->offlineMode())
@@ -230,7 +230,7 @@ class ilGlossaryPresentationGUI
 		// load template for table
 		$this->tpl->addBlockfile("TERM_TABLE", "term_table", "tpl.table.html");
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_tbl_pres_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_tbl_pres_row.html", "Modules/Glossary");
 
 		$num = 2;
 
@@ -462,7 +462,7 @@ class ilGlossaryPresentationGUI
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
 
 		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
+		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", "Modules/Glossary");
 		//$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
@@ -573,7 +573,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function media($a_mode = "media")
 	{
-		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "content");
+		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "Services/MediaObject");
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -646,7 +646,7 @@ class ilGlossaryPresentationGUI
 	{
 		global $ilBench;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glo_download_list.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glo_download_list.html", "Modules/Glossary");
 
 		$this->setTabs();
 		
@@ -663,7 +663,7 @@ class ilGlossaryPresentationGUI
 		$this->tpl->addBlockfile("DOWNLOAD_TABLE", "download_table", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.download_file_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.download_file_row.html", "Modules/Glossary");
 
 		$export_files = array();
 		$types = array("xml", "html");
