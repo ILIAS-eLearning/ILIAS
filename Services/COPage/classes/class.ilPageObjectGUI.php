@@ -736,7 +736,7 @@ class ilPageObjectGUI
 		//$content = str_replace("&nbsp;", "", $content);
 
 		// run xslt
-		$xsl = file_get_contents("./content/page.xsl");
+		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
@@ -982,7 +982,7 @@ class ilPageObjectGUI
 
 //echo htmlentities($xml); exit;
 
-		$xsl = file_get_contents("./content/page.xsl");
+		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 

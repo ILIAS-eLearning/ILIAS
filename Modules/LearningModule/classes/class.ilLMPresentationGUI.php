@@ -1867,7 +1867,7 @@ class ilLMPresentationGUI
 		// todo: utf-header should be set globally
 		//header('Content-type: text/html; charset=UTF-8');
 
-		$xsl = file_get_contents("./content/page.xsl");
+		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
