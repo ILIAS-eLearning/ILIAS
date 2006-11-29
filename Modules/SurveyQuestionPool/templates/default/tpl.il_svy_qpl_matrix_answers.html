@@ -33,13 +33,13 @@
 		<input type="checkbox" name="chb_category[]" value="{CATEGORY_ORDER}" />
 	</td>
 	<td width="20">
-<!-- BEGIN move_up -->	
-		<a href="{HREF_UP}"><img src="{IMAGE_UP}" alt="{ALT_UP}" title="{TITLE_UP}" /></a>
+<!-- BEGIN move_up -->
+		<input type="image" name="moveUp_{COLUMN}" alt="{ALT_UP}" title="{TITLE_UP}" src="{IMAGE_UP}" />
 <!-- END move_up -->	
 	</td>
 	<td width="20">
 <!-- BEGIN move_down -->	
-		<a href="{HREF_DOWN}"><img src="{IMAGE_DOWN}" alt="{ALT_DOWN}" title="{TITLE_DOWN}" /></a>
+		<input type="image" name="moveDown_{COLUMN}" alt="{ALT_DOWN}" title="{TITLE_DOWN}" src="{IMAGE_DOWN}" />
 <!-- END move_down -->	
 	</td>
   <td><input name="category_{CATEGORY_ORDER}" type="text" id="category_{CATEGORY_ORDER}" size="50" value="{VALUE_CATEGORY}" /></td>
@@ -75,7 +75,7 @@
 <tr>
 	<td class="submit" width="20">{ARROW}</td>
 	<td class="submit" colspan="4">
-		<input type="submit" class="submit" name="cmd[deleteCategory]" value="{DELETE}" />
+		<input type="submit" class="submit" name="cmd[deleteColumn]" value="{DELETE}" />
 		<input type="submit" class="submit" name="cmd[savePhrase]" id="save_phrase" value="{VALUE_SAVE_PHRASE}" />
 	</td>
 </tr>
