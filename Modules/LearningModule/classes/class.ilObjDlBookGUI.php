@@ -173,7 +173,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilPage");
 
-		$tmp_tpl = new ilTemplate("tpl.bibliography.xsl",true,true,"content");
+		$tmp_tpl = new ilTemplate("tpl.bibliography.xsl",true,true,"Modules/LearningModule");
 		$tmp_tpl->setVariable("TITLE",$this->lng->txt("title"));
 		$tmp_tpl->setVariable("EDITION",$this->lng->txt("cont_edition"));
 		$tmp_tpl->setVariable("AUTHORS",$this->lng->txt("authors"));
