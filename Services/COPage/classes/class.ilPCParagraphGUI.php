@@ -86,9 +86,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 		
-		$this->tpl->setVariable("EDITOR_URL", ILIAS_HTTP_PATH."/content/htmlarea/");
-		$this->tpl->setVariable("JS_HTMLAREA", ILIAS_HTTP_PATH."/content/htmlarea/htmlarea.js");
-		$this->tpl->setVariable("JS_HANDLETAGS", ILIAS_HTTP_PATH."/content/js/handletags.js");
+		$this->tpl->setVariable("EDITOR_URL", ILIAS_HTTP_PATH."/Services/COPage/htmlarea/");
+		$this->tpl->setVariable("JS_HTMLAREA", ILIAS_HTTP_PATH."/Services/COPage/htmlarea/htmlarea.js");
+		$this->tpl->setVariable("JS_HANDLETAGS", ILIAS_HTTP_PATH."/Services/COPage/js/handletags.js");
 		$this->ctrl->setParameter($this, "ptype", "footnote");
 		$this->tpl->setVariable("POPUP_TARGET_FOOTNOTE",
 			$this->ctrl->getLinkTarget($this, "popup"));	
@@ -256,9 +256,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 
-		$this->tpl->setVariable("EDITOR_URL", ILIAS_HTTP_PATH."/content/htmlarea/");
-		$this->tpl->setVariable("JS_HTMLAREA", ILIAS_HTTP_PATH."/content/htmlarea/htmlarea.js");
-		$this->tpl->setVariable("JS_HANDLETAGS", ILIAS_HTTP_PATH."/content/js/handletags.js");
+		$this->tpl->setVariable("EDITOR_URL", ILIAS_HTTP_PATH."/Services/COPage/htmlarea/");
+		$this->tpl->setVariable("JS_HTMLAREA", ILIAS_HTTP_PATH."/Services/COPage/htmlarea/htmlarea.js");
+		$this->tpl->setVariable("JS_HANDLETAGS", ILIAS_HTTP_PATH."/Services/COPage/js/handletags.js");
 		$this->ctrl->setParameter($this, "ptype", "footnote");
 		$this->tpl->setVariable("POPUP_TARGET_FOOTNOTE",
 			$this->ctrl->getLinkTarget($this, "popup"));	
