@@ -533,7 +533,7 @@ class ilCourseContentInterface
 			if(isset($continue_data[$tmp_obj->getRefId()]))
 			{
 				$this->tpl->setCurrentBlock("start_continuelink");
-				$this->tpl->setVariable("CONTINUE_LINK_START",'./content/lm_presentation.php?ref_id='.$tmp_obj->getRefId().'&obj_id='.
+				$this->tpl->setVariable("CONTINUE_LINK_START",'./ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$tmp_obj->getRefId().'&obj_id='.
 										$continue_data[$tmp_obj->getRefId()]['lm_page_id']);
 
 				//$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 

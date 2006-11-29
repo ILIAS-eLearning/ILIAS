@@ -1202,40 +1202,12 @@ class ilObjContentObject extends ilObject
 				{
 					$result[$counter]["id"]		= $row->ref_id;
 					$result[$counter]["page_id"] = $row->page_id;
-					/*
-					$result[$counter]["link"]	= "content/lm_presentation.php?ref_id=".$row->ref_id;
-					$result[$counter]["target"]	= "_top";
-					*/
 					++$counter;
 				}
 				break;
 		}
 		return $result ? $result : array();
 	}
-
-	/**
-	 * STATIC METHOD
-	 * create a link to the object
-	 * @param	int ref_id of content object
-	 * @param	string type of search ('content' or 'meta')
-	 * @param	int id of page (optional only used if it has been searched for 'content')
-	 * @return array array('link','target')
-	 * @static
-	 * @access	public
-	 */
-/* not needed anymore
-	function _getLinkToObject($a_ref_id,$a_type,$a_obj_id = 0)
-	{
-		switch($a_type)
-		{
-			case "content":
-				return array("content/lm_presentation.php?ref_id=".$a_ref_id."&obj_id=".$a_obj_id,"_blank");
-
-			case "meta":
-				return array("content/lm_presentation.php?ref_id=".$a_ref_id,"_blank");
-		}
-	}
-*/
 	
 	/**
 	* checks if page has a successor page

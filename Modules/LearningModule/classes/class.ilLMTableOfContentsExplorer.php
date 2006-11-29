@@ -53,7 +53,6 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 	function ilTableOfContentsExplorer($a_target,&$a_lm_obj, $a_export_format = "")
 	{
 		parent::ilLMExplorer($a_target, $a_lm_obj);
-		$this->setExpandTarget("lm_presentation.php?cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId());
 		$this->setSessionExpandVariable("lmtocexpand");
 		$this->export_format = $a_export_format;
 		$this->lm_obj =& $a_lm_obj;

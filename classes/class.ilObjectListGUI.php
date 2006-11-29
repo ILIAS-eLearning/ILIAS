@@ -407,7 +407,7 @@ class ilObjectListGUI
 	* Get command link url.
 	*
 	* Overwrite this method, if link target is not build by ctrl class
-	* (e.g. "lm_presentation.php", "forum.php"). This is the case
+	* (e.g. "forum.php"). This is the case
 	* for all links now, but bringing everything to ilCtrl should
 	* be realised in the future.
 	*
