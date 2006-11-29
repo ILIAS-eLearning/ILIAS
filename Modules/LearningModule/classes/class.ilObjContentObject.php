@@ -1747,7 +1747,7 @@ class ilObjContentObject extends ilObject
 		$ilBench->start("ExportHTML", "exportContentStyle");
 		if ($this->getStyleSheetId() < 1)
 		{
-			$cont_stylesheet = "content/content.css";
+			$cont_stylesheet = "./Services/COPage/css/content.css";
 			copy($cont_stylesheet, $a_target_dir."/content.css");
 		}
 		else
@@ -1758,7 +1758,7 @@ class ilObjContentObject extends ilObject
 		$ilBench->stop("ExportHTML", "exportContentStyle");
 		
 		// export syntax highlighting style
-		$syn_stylesheet = "content/syntaxhighlight.css";
+		$syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
 		copy($syn_stylesheet, $a_target_dir."/syntaxhighlight.css");
 
 		// get learning module presentation gui class

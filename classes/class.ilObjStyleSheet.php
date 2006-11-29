@@ -690,14 +690,7 @@ class ilObjStyleSheet extends ilObject
 		}
 		else		// todo: work this out
 		{
-			if (defined("ILIAS_MODULE"))
-			{
-				return "../content/content.css";
-			}
-			else
-			{
-				return "./content/content.css";
-			}
+			return "./Services/COPage/css/content.css";
 		}
 	}
 
@@ -708,14 +701,7 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function getContentPrintStyle()
 	{
-		if (defined("ILIAS_MODULE"))
-		{
-			return "../content/print_content.css";
-		}
-		else
-		{
-			return "./content/print_content.css";
-		}
+		return "./Services/COPage/css/print_content.css";
 	}
 
 	/**
@@ -725,14 +711,7 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function getSyntaxStylePath()
 	{
-		if (defined("ILIAS_MODULE"))
-		{
-			return "../content/syntaxhighlight.css";
-		}
-		else
-		{
-			return "./content/syntaxhighlight.css";
-		}
+		return "./Services/COPage/css/syntaxhighlight.css";
 	}
 
 	function update()
