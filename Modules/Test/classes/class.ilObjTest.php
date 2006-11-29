@@ -5644,7 +5644,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilBench;
 
-		include_once "./content/classes/class.ilLMPageObject.php";
+		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
 
 		foreach ($this->questions as $question_id)
 		{

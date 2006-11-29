@@ -1466,30 +1466,30 @@ class SurveyQuestion
 					switch ($type)
 					{
 						case "lm":
-							include_once("./content/classes/class.ilObjContentObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 							$cont_obj =& new ilObjContentObject($target_id, true);
 							$material_title .= $cont_obj->getTitle();
 							break;
 						case "pg":
-							include_once("./content/classes/class.ilLMPageObject.php");
-							include_once("./content/classes/class.ilLMObject.php");
-							include_once("./content/classes/class.ilObjContentObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							$cont_obj =& new ilObjContentObject($lm_id, false);
 							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
 						case "st":
-							include_once("content/classes/class.ilStructureObject.php");
-							include_once("./content/classes/class.ilLMObject.php");
-							include_once("./content/classes/class.ilObjContentObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							$cont_obj =& new ilObjContentObject($lm_id, false);
 							$st_obj =& new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
 						case "git":
-							include_once "./content/classes/class.ilGlossaryTerm.php";
+							include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 							$material_title = $this->lng->txt("glossary_term") . ": " . ilGlossaryTerm::_lookGlossaryTerm($target_id);
 							break;
 						case "mob":
@@ -1510,7 +1510,7 @@ class SurveyQuestion
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
 			include_once "./Services/COPage/classes/Pages/class.ilInternalLink.php";
-			include_once "./content/classes/class.ilLMObject.php";
+			include_once "./Modules/LearningModule/classes/class.ilLMObject.php";
 			include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
 			{

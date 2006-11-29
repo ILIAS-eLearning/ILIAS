@@ -11903,3 +11903,8 @@ if ($bipolar_visibility == FALSE)
 	$res = $ilDB->query($query);
 }
 ?>
+<#863>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

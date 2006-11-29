@@ -22,7 +22,7 @@
 */
 
 require_once ("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-require_once ("content/classes/class.ilInternalLinkGUI.php");
+require_once ("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 require_once ("classes/class.ilObjectGUI.php");
 
 /**
@@ -100,7 +100,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				break;
 
 			case "ilinternallinkgui":
-				require_once("content/classes/class.ilInternalLinkGUI.php");
+				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
 				$link_gui->setMode("link");
 				$link_gui->setSetLinkTargetScript(
@@ -817,9 +817,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 
-		//require_once("./content/classes/class.ilObjMediaObject.php");
-		//$cont_obj =& new ilObjContentObject($content_obj, true);
-
 		$entries = ilUtil::getDir($cur_dir);
 
 		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
@@ -1205,9 +1202,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 
-		//require_once("./content/classes/class.ilObjMediaObject.php");
-		//$cont_obj =& new ilObjContentObject($content_obj, true);
-
 		//$entries = ilUtil::getDir($cur_dir);
 		$usages = $this->object->getUsages();
 
@@ -1253,8 +1247,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 						{
 							case "lm":
 							case "dbk":
-								require_once("content/classes/class.ilObjContentObject.php");
-								require_once("content/classes/class.ilLMObject.php");
+								require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+								require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 								$lm_obj =& new ilObjContentObject($page_obj->getParentId(), false);
 								$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("obj_".$cont_type).
 									": ".$lm_obj->getTitle().", ".$this->lng->txt("page").": ".
@@ -1870,14 +1864,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		switch($a_type)
 		{
 			case "StructureObject":
-				require_once("content/classes/class.ilLMObject.php");
+				require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 				$title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
 				$link_str = $this->lng->txt("chapter").
 					": ".$title." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
 				break;
 
 			case "PageObject":
-				require_once("content/classes/class.ilLMObject.php");
+				require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 				$title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
 				$link_str = $this->lng->txt("page").
 					": ".$title." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
@@ -1898,7 +1892,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				break;
 				
 			case "RepositoryItem":
-				//require_once("content/classes/class.ilLMObject.php");
 				$title = ilObject::_lookupTitle(
 					ilObject::_lookupObjId($t_arr[count($t_arr) - 1]));
 				$link_str = $this->lng->txt("obj_".$t_arr[count($t_arr) - 2]).

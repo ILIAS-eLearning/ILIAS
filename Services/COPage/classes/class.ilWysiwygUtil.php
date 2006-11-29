@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilLMObjectFactory.php");
+require_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
 
 class ilWysiwygUtil
 {

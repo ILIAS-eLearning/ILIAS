@@ -351,8 +351,8 @@ class SurveyQuestionGUI
 		switch ($_SESSION["search_link_type"])
 		{
 			case "pg":
-				include_once "./content/classes/class.ilLMPageObject.php";
-				include_once("./content/classes/class.ilObjContentObject.php");
+				include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
+				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());
 				$_GET["q_id"] = $this->object->getId();
@@ -382,7 +382,7 @@ class SurveyQuestionGUI
 				$_GET["q_id"] = $this->object->getId();
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
-				include_once("./content/classes/class.ilObjContentObject.php");
+				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();

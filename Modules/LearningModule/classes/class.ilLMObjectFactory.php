@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,30 +21,47 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+require_once ("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+require_once ("./Modules/LearningModule/classes/class.ilStructureObject.php");
 
 /**
-* BlockGUI class for block NewsForContext
+* Class ilLMObjectFactory
+*
+* Creates StructureObject or PageObject by ID (see table lm_data)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ingroup ModulesIliasLearningModule
 */
-class ilNewsForContextBlockGUI extends ilBlockGUI
+class ilLMObjectFactory
 {
-	
-	/**
-	* Constructor
-	*/
-	function ilNewsForContextBlockGUI()
+	function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
-		global $ilCtrl, $lng;
-		
-		parent::ilBlockGUI();
-		
-		$this->addBlockCommand(
-			$ilCtrl->getLinkTargetByClass("", "showNewsTable"),
-			$lng->txt("edit"));
-	}
-}
+		global $ilias;
 
+		$query = "SELECT * FROM lm_data WHERE obj_id = '$a_id'";
+		$obj_set = $ilias->db->query($query);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		switch($obj_rec["type"])
+		{
+			case "st":
+				$obj =& new ilStructureObject($a_content_obj);
+				$obj->setId($obj_rec["obj_id"]);
+				$obj->setDataRecord($obj_rec);
+				$obj->read();
+				break;
+
+			case "pg":
+				$obj =& new ilLMPageObject($a_content_obj, 0, $a_halt);
+				$obj->setId($obj_rec["obj_id"]);
+				$obj->setDataRecord($obj_rec);
+				$obj->read();
+				break;
+		}
+		return $obj;
+	}
+
+}
 ?>
