@@ -93,21 +93,24 @@ class ilSAHSEditGUI
 				break;
 		}
 
-		switch($type)
+		if ($next_class == "")
 		{
-			case "scorm":
-				$this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
-				break;
-
-			case "aicc":
-				$this->ctrl->setCmdClass("ilobjaicclearningmodulegui");
-				break;
-				
-			case "hacp":
-				$this->ctrl->setCmdClass("ilobjhacplearningmodulegui");
-				break;
+			switch($type)
+			{
+				case "scorm":
+					$this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
+					break;
+	
+				case "aicc":
+					$this->ctrl->setCmdClass("ilobjaicclearningmodulegui");
+					break;
+					
+				case "hacp":
+					$this->ctrl->setCmdClass("ilobjhacplearningmodulegui");
+					break;
+			}
+			$next_class = $this->ctrl->getNextClass($this);
 		}
-		$next_class = $this->ctrl->getNextClass($this);
 
 		switch($next_class)
 		{
@@ -126,6 +129,8 @@ class ilSAHSEditGUI
 			default:
 				die ("ilSAHSEdit: Class $next_class not found.");;
 		}
+		
+		$this->tpl->show();
 	}
 }
 ?>
