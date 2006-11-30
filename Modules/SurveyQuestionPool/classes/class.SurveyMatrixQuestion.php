@@ -849,7 +849,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		for ($i = 0; $i < $this->getColumnCount(); $i++)
 		{
 			$cat = $this->getColumn($i);
-			$column_id = $this->saveColumnToDb($cat);
+			$column_id = $this->saveColumnsToDb($cat);
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($column_id . ""),
 				$ilDB->quote($question_id . ""),
@@ -860,7 +860,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		if (strlen($this->getNeutralColumn()))
 		{
-			$column_id = $this->saveColumnToDb($this->getNeutralColumn(), 1);
+			$column_id = $this->saveColumnsToDb($this->getNeutralColumn(), 1);
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($column_id . ""),
 				$ilDB->quote($question_id . ""),
