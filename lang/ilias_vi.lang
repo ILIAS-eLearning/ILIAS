@@ -6667,3 +6667,75 @@ survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measureme
 survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###15 11 2006 new variable
 survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###15 11 2006 new variable
 survey#:#survey_use_start_button#:#You must enter the survey using the start button!###15 11 2006 new variable
+assessment#:#detailed_evaluation#:#Detailed Evaluation###29 11 2006 new variable
+assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s###29 11 2006 new variable
+assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!###29 11 2006 new variable
+assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation###29 11 2006 new variable
+assessment#:#feedback_answers#:#Feedback for every answer of the question###29 11 2006 new variable
+assessment#:#feedback_complete_solution#:#Correct solution###29 11 2006 new variable
+assessment#:#feedback_incomplete_solution#:#At least one answer is not correct###29 11 2006 new variable
+assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the %s subtab.###29 11 2006 new variable
+assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a question type. You are not allowed to use this tab.###29 11 2006 new variable
+assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.###29 11 2006 new variable
+assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s###29 11 2006 new variable
+assessment#:#participants_evaluation#:#Evaluation for all Test Participants###29 11 2006 new variable
+assessment#:#percentage#:#Percentage###29 11 2006 new variable
+assessment#:#numeric_gap#:#Numeric Gap###29 11 2006 new variable
+assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.###29 11 2006 new variable
+assessment#:#tst_eval_question_points#:#Question Results for Pass %s###29 11 2006 new variable
+assessment#:#tst_no_evaluation_data#:#No one has started the test right now. There is no evaluation data available.###29 11 2006 new variable
+assessment#:#tst_fixed_participating_users#:#Fixed Participants in this Test###29 11 2006 new variable
+assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s###29 11 2006 new variable
+assessment#:#tst_title_output#:#Test Title Output###29 11 2006 new variable
+assessment#:#tst_title_output_full#:#Show Test Title and Available Points###29 11 2006 new variable
+assessment#:#tst_title_output_hide_points#:#Show only Test Title###29 11 2006 new variable
+assessment#:#tst_title_output_no_title#:#Don't show the Test Title and the Available Points###29 11 2006 new variable
+assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the Test Title and the Available Points during the Test###29 11 2006 new variable
+assessment#:#tst_stat_result_qmax#:#Total number of Questions###29 11 2006 new variable
+assessment#:#working_time_avg#:#Avg. Working Time###29 11 2006 new variable
+common#:#assessment_log_logging#:#Logging###29 11 2006 new variable
+common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
+common#:#assessment_log_manual_scoring#:#Manual Scoring###29 11 2006 new variable
+common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
+common#:#move_up#:#Move Up###29 11 2006 new variable
+common#:#move_down#:#Move Down###29 11 2006 new variable
+common#:#row#:#Row###29 11 2006 new variable
+common#:#rows#:#Rows###29 11 2006 new variable
+common#:#rte_editor_enabled#:#Rich Text Editor enabled###29 11 2006 new variable
+common#:#rte_editor_disabled#:#Rich Text Editor disabled###29 11 2006 new variable
+common#:#set_edit_mode#:#Set Edit Mode###29 11 2006 new variable
+common#:#tst_tst_statistics#:#Access to Test Statistics###29 11 2006 new variable
+common#:#no_start_file#:#No Start File.###29 11 2006 new variable
+ilinc#:#ilinc_member_administration#:#Edit Participants###29 11 2006 new variable
+survey#:#SurveyMatrixQuestion#:#Matrix Question###29 11 2006 new variable
+survey#:#matrix_error_no_columns#:#Please fill in at least one column text!###29 11 2006 new variable
+survey#:#matrix_error_no_rows#:#Please fill in at least one row text!###29 11 2006 new variable
+survey#:#matrix_appearance#:#Appearance###29 11 2006 new variable
+survey#:#matrix_row_delete_select_none#:#Please check at least one row to delete it!###29 11 2006 new variable
+survey#:#matrix_column_delete_select_none#:#Please check at least one column to delete it!###29 11 2006 new variable
+survey#:#matrix_question_radio_button_not_checked#:#Please select an option button for every row!###29 11 2006 new variable
+survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!###29 11 2006 new variable
+survey#:#matrix_row_separators#:#Row Separators###29 11 2006 new variable
+survey#:#matrix_column_separators#:#Column Separators###29 11 2006 new variable
+survey#:#matrix_neutral_column_separator#:#Neutral Column Separator###29 11 2006 new variable
+survey#:#matrix_neutral_column_separator_description#:#Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question###29 11 2006 new variable
+survey#:#matrix_row_separators_description#:#Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question###29 11 2006 new variable
+survey#:#matrix_column_separators_description#:#Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question###29 11 2006 new variable
+survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives###29 11 2006 new variable
+survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts###29 11 2006 new variable
+survey#:#matrix_column_settings#:#Matrix Column Settings###29 11 2006 new variable
+survey#:#matrix_subtype_sr#:#Option Buttons (Single Response)###29 11 2006 new variable
+survey#:#matrix_subtype_mr#:#Check Boxes (Multiple Response)###29 11 2006 new variable
+survey#:#matrix_subtype_text#:#Text###29 11 2006 new variable
+survey#:#matrix_subtype_integer#:#Integer###29 11 2006 new variable
+survey#:#matrix_subtype_double#:#Floating Point###29 11 2006 new variable
+survey#:#matrix_subtype_date#:#Date###29 11 2006 new variable
+survey#:#matrix_neutral_answer#:#Text for a Neutral Column ("Not Specified", "I don't know" etc.)###29 11 2006 new variable
+survey#:#matrix_standard_answers#:#Column Text###29 11 2006 new variable
+survey#:#matrix_rows#:#Matrix Rows###29 11 2006 new variable
+survey#:#matrix_columns#:#Matrix Columns###29 11 2006 new variable
+survey#:#matrix_subtype_time#:#Time###29 11 2006 new variable
+survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.###29 11 2006 new variable
+survey#:#matrix_columns_rows#:#Column/Row Editor###29 11 2006 new variable
+survey#:#results#:#Results###29 11 2006 new variable
+crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable

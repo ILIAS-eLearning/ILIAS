@@ -1063,7 +1063,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 
-		// PART I: qti presentation
 		$attrs = array(
 			"label" => $this->getTitle()
 		);
@@ -1072,10 +1071,22 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$a_xml_writer->xmlStartTag("flow");
 		// add material with question text to presentation
 		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
-		// add answers to presentation
+		$ident = "";
+		$cardinality = "";
+		switch ($this->getSubtype())
+		{
+			case 0:
+				$ident = "MCSR";
+				$cardinality = "Single";
+				break;
+			case 1:
+				$ident = "MCMR";
+				$cardinality = "Multiple";
+				break;
+		}
 		$attrs = array(
-			"ident" => "MCSR",
-			"rcardinality" => "Single"
+			"ident" => "$ident",
+			"rcardinality" => "$cardinality"
 		);
 		$a_xml_writer->xmlStartTag("response_lid", $attrs);
 		
