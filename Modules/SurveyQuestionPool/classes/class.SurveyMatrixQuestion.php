@@ -829,6 +829,58 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result = $ilDB->query($query);
 	}
 
+/**
+* Saves a column to the database
+*
+* Saves a column to the database
+*
+* @param string $columntext The text of the column
+* @result integer The database ID of the column
+* @access public
+* @see $columns
+*/
+	function saveColumnToDb($columntext, $neutral = 0)
+	{
+		global $ilUser, $ilDB;
+		
+		$query = sprintf("SELECT title, category_id FROM survey_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
+			$ilDB->quote($columntext . ""),
+			$ilDB->quote($neutral . ""),
+			$ilDB->quote($ilUser->getId() . "")
+		);
+    $result = $ilDB->query($query);
+		$insert = FALSE;
+		$returnvalue = "";
+		if ($result->numRows()) 
+		{
+			$insert = TRUE;
+			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (strcmp($row->title, $columntext) == 0)
+				{
+					$returnvalue = $row->category_id;
+					$insert = FALSE;
+				}
+			}
+		}
+		else
+		{
+			$insert = TRUE;
+		}
+		if ($insert)
+		{
+			$query = sprintf("INSERT INTO survey_category (category_id, title, neutral, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$ilDB->quote($columntext . ""),
+				$ilDB->quote($neutral . ""),
+				$ilDB->quote($ilUser->getId() . "")
+			);
+			$result = $ilDB->query($query);
+			$returnvalue = $ilDB->getLastInsertId();
+		}
+		return $returnvalue;
+	}
+
+	
 	function saveColumnsToDb($original_id = "")
 	{
 		global $ilDB;
@@ -849,7 +901,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		for ($i = 0; $i < $this->getColumnCount(); $i++)
 		{
 			$cat = $this->getColumn($i);
-			$column_id = $this->saveColumnsToDb($cat);
+			$column_id = $this->saveColumnToDb($cat);
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($column_id . ""),
 				$ilDB->quote($question_id . ""),
@@ -860,7 +912,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		if (strlen($this->getNeutralColumn()))
 		{
-			$column_id = $this->saveColumnsToDb($this->getNeutralColumn(), 1);
+			$column_id = $this->saveColumnToDb($this->getNeutralColumn(), 1);
 			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($column_id . ""),
 				$ilDB->quote($question_id . ""),
