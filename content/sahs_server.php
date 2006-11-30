@@ -31,11 +31,11 @@
 */
 
 chdir("..");
-require_once "./content/classes/class.ilObjSAHSLearningModule.php";
+require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
 // debug
 /*
-$fp=fopen("./content/scorm.log", "a+");
+$fp=fopen("./Modules/ScormAicc/log/scorm.log", "a+");
 foreach ($HTTP_POST_VARS as $key=>$value)
 	fputs($fp, "HTTP_POST_VARS[$key] = $value \n");
 foreach ($HTTP_GET_VARS as $key=>$value)
@@ -88,25 +88,25 @@ switch ($type)
 {
 	case "scorm":
 				//SCORM
-				require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
+				require_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php";
 				$track = new ilObjSCORMTracking();
 				$track->$cmd();
 				break;
 	case "aicc":
 				//AICC
-				require_once "./content/classes/AICC/class.ilObjAICCTracking.php";
+				require_once "./Modules/ScormAicc/classes/AICC/class.ilObjAICCTracking.php";
 				$track = new ilObjAICCTracking();
 				$track->$cmd();
 				break;
 	case "hacp":
 				//HACP
-				require_once "./content/classes/HACP/class.ilObjHACPTracking.php";
+				require_once "./Modules/ScormAicc/classes/HACP/class.ilObjHACPTracking.php";
 				$track = new ilObjHACPTracking($ref_id, $obj_id);
 				//$track->$cmd();
 				break;
 	default:
 				//unknown type
-				$fp=fopen("./content/scorm.log", "a+");
+				$fp=fopen("./Modules/ScormAicc/log/scorm.log", "a+");
 				fputs($fp, "unknown type >$type< in sahs_server\n");
 				foreach ($HTTP_POST_VARS as $k=>$v)
 					fputs($fp, "HTTP_POST_VARS[$k]=$v \n");

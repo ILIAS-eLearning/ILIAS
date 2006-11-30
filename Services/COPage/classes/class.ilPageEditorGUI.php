@@ -37,7 +37,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
 *
-* @package content
+* @ingroup ServicesCOPage
 */
 class ilPageEditorGUI
 {

@@ -31,7 +31,7 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ServicesCOPage
 */
 class ilPCTableData extends ilPageContent
 {

@@ -33,7 +33,7 @@ require_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ServicesCOPage
 */
 // Todo: extend ilObjMediaObjectGUI !?
 class ilPCMediaObjectGUI extends ilPageContentGUI

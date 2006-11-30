@@ -185,7 +185,7 @@
 	<property name="linkChecker" module="1">link_check</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="sahs" class_name="SAHSLearningModule" location="content/classes" module="content" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+<object name="sahs" class_name="SAHSLearningModule" location="Modules/ScormAicc/classes" module="Modules/ScormAicc" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 </object>

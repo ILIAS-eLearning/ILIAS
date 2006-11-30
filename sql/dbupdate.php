@@ -11907,4 +11907,8 @@ if ($bipolar_visibility == FALSE)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#864>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

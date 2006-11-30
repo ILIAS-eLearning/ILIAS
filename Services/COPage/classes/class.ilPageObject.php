@@ -36,6 +36,9 @@ define ("IL_CHAPTER_TITLE", "st_title");
 define ("IL_PAGE_TITLE", "pg_title");
 define ("IL_NO_HEADER", "none");
 
+/** @defgroup ServicesCOPage Services/COPage
+ */
+
 /**
 * Class ilPageObject
 *
@@ -45,7 +48,7 @@ define ("IL_NO_HEADER", "none");
 *
 * @version $Id$
 *
-* @package content
+* @ingroup ServicesCOPage
 */
 class ilPageObject
 {
