@@ -330,7 +330,6 @@ class ilSurveyEvaluationGUI
 			return;
 		}
 
-		$this->setEvalTabs();
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
 		$counter = 0;
@@ -542,7 +541,6 @@ class ilSurveyEvaluationGUI
 		}
 
 		$userResults =& $this->object->getUserSpecificResults();
-		$this->setEvalTabs();
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
 		$counter = 0;
@@ -668,7 +666,6 @@ class ilSurveyEvaluationGUI
 		}
 
 		$userResults =& $this->object->getUserSpecificResults();
-		$this->setEvalTabs();
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
 		$counter = 0;
@@ -757,44 +754,5 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
 		$this->tpl->parseCurrentBlock();
 	}
-	
-	/**
-	* Set the tabs for the evaluation output
-	*
-	* Set the tabs for the evaluation output
-	*
-	* @access private
-	*/
-	function setEvalTabs()
-	{
-		global $rbacsystem,$ilTabs;
-
-		include_once "./classes/class.ilTabsGUI.php";
-		$tabs_gui =& new ilTabsGUI();
-		
-		$tabs_gui->addTarget(
-			"svy_eval_cumulated", 
-			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluation"), 
-			array("evaluation", "checkEvaluationAccess"),	
-			""
-		);
-
-		$tabs_gui->addTarget(
-			"svy_eval_detail", 
-			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluationdetails"), 
-			array("evaluationdetails"),	
-			""
-		);
-		
-		$tabs_gui->addTarget(
-			"svy_eval_user", 
-			$this->ctrl->getLinkTargetByClass(get_class($this), "evaluationuser"), 
-			array("evaluationuser"),	
-			""
-		);
-		$ilTabs = $tabs_gui;
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
-	
 }
 ?>
