@@ -1108,14 +1108,18 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
     // Set neutral column
 		$this->object->setNeutralColumn(ilUtil::stripSlashes($_POST["neutral"]));
-			
+
+		// Set bipolar adjectives
+		$this->object->setBipolarAdjective(0, ilUtil::stripSlashes($_POST["bipolar1"]));
+		$this->object->setBipolarAdjective(1, ilUtil::stripSlashes($_POST["bipolar2"]));
+
 		if (($save) && ($complete))
 		{	
 			$this->object->saveColumnsToDb();
 			$this->object->saveRowsToDb();
 			if (array_key_exists("bipolar1", $_POST))
 			{
-				$this->object->saveBipolarAdjectives($_POST["bipolar1"], $_POST["bipolar2"]);
+				$this->object->saveBipolarAdjectives(ilUtil::stripSlashes($_POST["bipolar1"]), ilUtil::stripSlashes($_POST["bipolar2"]));
 			}
 		}
 
