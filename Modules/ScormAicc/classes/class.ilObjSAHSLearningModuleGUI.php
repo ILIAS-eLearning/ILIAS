@@ -128,7 +128,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 		else
 		{
-	
+			/*
 			//add template for view button
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 	
@@ -141,11 +141,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	
 			// view button
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","content/sahs_edit.php?ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_LINK","ilias.php?ref_id=".$this->object->getRefID());
 			$this->tpl->setVariable("BTN_TARGET"," target=\"".
 				ilFrameTargetInfo::_getFrame("MainContent")."\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
 		}
 	}
 
@@ -322,7 +322,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 		
 		sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
-		ilUtil::redirect("content/sahs_edit.php?ref_id=".$newObj->getRefId());
+		ilUtil::redirect("ilias.php?baseClass=ilSAHSEdit&ref_id=".$newObj->getRefId());
 	}
 
 	function upload()
@@ -343,6 +343,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	/**
 	* permission form
 	*/
+/*
 	function perm()
 	{
 		$this->setFormAction("permSave", "sahs_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
@@ -350,7 +351,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->setFormAction("addRole", "sahs_edit.php?ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]."&cmd=addRole");
 		$this->permObject();
-	}
+	}*/
 
 	/**
 	* permission form
@@ -363,22 +364,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	/**
 	* save permissions
 	*/
+/*
 	function permSave()
 	{
 		$this->setReturnLocation("permSave",
 			"sahs_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		$this->permSaveObject();
-	}
+	}*/
 
 	/**
 	* add role
 	*/
+/*
 	function addRole()
 	{
 		$this->setReturnLocation("addRole",
 			"sahs_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		$this->addRoleObject();
-	}
+	}*/
 
 	/**
 	* show owner of learning module
@@ -410,7 +413,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	function frameset()
 	{
 		$this->tpl = new ilTemplate("tpl.sahs_edit_frameset.html", false, false, "Modules/ScormAicc");
-		$this->tpl->setVariable("REF_ID",$this->ref_id);
+		$this->tpl->setVariable("SRC",
+			$this->ctrl->getLinkTarget($this, "properties"));
 		$this->tpl->show("DEFAULT", false);
 		exit;
 	}
@@ -469,7 +473,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				}
 				if($row["type"] == "sahs")
 				{
-					$this->tpl->setVariable("LINK_ITEM", "sahs_edit.php?ref_id=".$row["child"]."&type=".$row["type"]);
+					$this->tpl->setVariable("LINK_ITEM", "ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$row["child"]."&type=".$row["type"]);
 				}
 				else
 				{
