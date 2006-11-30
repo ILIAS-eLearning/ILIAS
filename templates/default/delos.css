@@ -2020,6 +2020,11 @@ td.center {
 	text-align: center;
 }
 
+td.column {
+	text-align: center;
+	font-weight: bold!important;
+}
+
 td.bipolar {
 	text-align: center;
 	vertical-align: middle;
