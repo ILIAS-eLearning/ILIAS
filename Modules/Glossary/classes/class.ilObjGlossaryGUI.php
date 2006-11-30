@@ -1251,7 +1251,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		$_SESSION["ilExportFiles"] = $_POST["file"];
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Glossary");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
