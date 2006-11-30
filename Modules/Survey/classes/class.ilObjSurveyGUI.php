@@ -316,7 +316,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_properties.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "properties"));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("introduction"));
 		$this->tpl->setVariable("VALUE_INTRODUCTION", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		$this->tpl->setVariable("TEXT_OUTRO", $this->lng->txt("outro"));
@@ -920,7 +920,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
     $this->tpl->setCurrentBlock("adm_content");
     // create table header
-    $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . $add_parameter);
+    $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "browseForQuestions") . $add_parameter);
     $this->tpl->parseCurrentBlock();
 	}
 	
@@ -1052,7 +1052,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("SEARCH_FIELD_QUESTIONTEXT", $this->lng->txt("question"));
 		$this->tpl->setVariable("SEARCH_TYPE_ALL", $this->lng->txt("search_type_all"));
 		$this->tpl->setVariable("BTN_SEARCH", $this->lng->txt("search"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . "&search_question=1&browsetype=1&insert_question=1");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "searchQuestions") . "&search_question=1&browsetype=1&insert_question=1");
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1107,7 +1107,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "confirmRemoveQuestions"));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1155,7 +1155,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "saveDefineQuestionblock"));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1183,7 +1183,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "executeCreateQuestion"));
 		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("select_questionpool"));
 		if (count($questionpools))
 		{
@@ -1263,7 +1263,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "saveHeading"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($question_id)
 		{
@@ -1400,7 +1400,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CONFIRM_REMOVE", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL_REMOVE", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("REMOVE_HEADING", $_GET["removeheading"]);
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "confirmRemoveHeading"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -1998,7 +1998,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "questions"));
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_OBLIGATORY", $this->lng->txt("obligatory"));
@@ -2429,7 +2429,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "invite"));
 		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
 		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
@@ -2465,7 +2465,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CANCEL_DELETE_ALL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "deleteAllUserData"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -2550,7 +2550,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "deleteSingleUserResults"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -2599,7 +2599,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("adm_content");
 				$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("svy_delete_all_user_data"));
 	//			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
-				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "deleteSingleUserResults"));
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -2649,7 +2649,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "export"));
 
 		$tbl->setTitle($this->lng->txt("svy_export_files"));
 
@@ -2769,8 +2769,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
 		$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-//		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "import"));
 		$this->tpl->setVariable("BTN_NAME", "upload");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
@@ -2891,9 +2890,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 
 			$this->ctrl->setParameter($this, "new_type", $this->type);
-//			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-//																	   $_GET["ref_id"]."&new_type=".$new_type));
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "create"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_short"));
 			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
@@ -3014,7 +3011,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "deleteExportFile"));
 
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
@@ -3173,7 +3170,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			
 			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "codes"));
 			$this->tpl->setVariable("TEXT_CREATE", $this->lng->txt("create"));
 			$this->tpl->setVariable("TEXT_SURVEY_CODES", $this->lng->txt("new_survey_codes"));
 			$this->tpl->setVariable("TEXT_SURVEY_CODES_LANG", $this->lng->txt("survey_codes_lang"));
@@ -3632,7 +3629,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("CONSTRAINTS_INTRODUCTION", $this->lng->txt("constraints_introduction"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "constraints"));
 		$this->tpl->setVariable("CONSTRAINTS_HEADER", $this->lng->txt("constraints_list_of_entities"));
 		$this->tpl->parseCurrentBlock();
 		$_SESSION["constraintstructure"] = $structure;
@@ -3671,7 +3668,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$info = new ilInfoScreenGUI($this);
 		include_once "./Modules/Survey/classes/class.ilSurveyExecutionGUI.php";
 		$output_gui =& new ilSurveyExecutionGUI($this->object);
-		$info->setFormAction($this->ctrl->getFormAction($output_gui));
+		$info->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 		$info->enablePrivateNotes();
 		$canStart = $this->object->canStartSurvey();
 		$showButtons = $canStart["result"];
@@ -3709,7 +3706,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_POST["anonymous_id"]) == 0) && (strlen($_SESSION["accesscode"]) == 0))
 				{
-					$info->setFormAction($this->ctrl->getFormAction($this));
+					$info->setFormAction($this->ctrl->getFormAction($this, "infoScreen"));
 					$info->addSection($this->lng->txt("anonymization"));
 					$info->addProperty("", $this->lng->txt("anonymize_anonymous_introduction"));
 					$info->addPropertyTextinput($this->lng->txt("enter_anonymous_id"), "anonymous_id", "", 8, "infoScreen", $this->lng->txt("submit"));
