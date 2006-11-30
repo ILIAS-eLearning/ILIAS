@@ -2615,56 +2615,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}	
 
-	/**
-	* Creates the status output for a test
-	*
-	* Creates the status output for a test
-	*
-	* @access	public
-	*/
-	function statusObject()
-	{
-		$this->handleWriteAccess();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_status.html", "Modules/Survey");
-		if (!$this->object->isComplete())
-		{
-			if (count($this->object->questions) == 0)
-			{
-				$this->tpl->setCurrentBlock("list_element");
-				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("svy_missing_questions"));
-				$this->tpl->parseCurrentBlock();
-			}
-			if (strcmp($this->object->author, "") == 0)
-			{
-				$this->tpl->setCurrentBlock("list_element");
-				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("svy_missing_author"));
-				$this->tpl->parseCurrentBlock();
-			}
-			if (strcmp($this->object->title, "") == 0)
-			{
-				$this->tpl->setCurrentBlock("list_element");
-				$this->tpl->setVariable("TEXT_ELEMENT", $this->lng->txt("svy_missing_author"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("status_list");
-			$this->tpl->setVariable("TEXT_MISSING_ELEMENTS", $this->lng->txt("svy_status_missing_elements"));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		if ($this->object->isComplete())
-		{
-			$this->tpl->setVariable("TEXT_STATUS_MESSAGE", $this->lng->txt("svy_status_ok"));
-			$this->tpl->setVariable("STATUS_CLASS", "bold");
-		}
-		else
-		{
-			$this->tpl->setVariable("TEXT_STATUS_MESSAGE", $this->lng->txt("svy_status_missing"));
-			$this->tpl->setVariable("STATUS_CLASS", "warning");
-		}
-		$this->tpl->parseCurrentBlock();
-	}	
-
-	/*
+  /*
 	* list all export files
 	*/
 	function exportObject()
@@ -3900,13 +3851,46 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Set the tabs for the evaluation output
+	*
+	* Set the tabs for the evaluation output
+	*
+	* @access private
+	*/
+	function setEvalSubtabs()
+	{
+		global $ilTabs;
+
+		$ilTabs->addSubTabTarget(
+			"svy_eval_cumulated", 
+			$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"), 
+			array("evaluation", "checkEvaluationAccess"),	
+			""
+		);
+
+		$ilTabs->addSubTabTarget(
+			"svy_eval_detail", 
+			$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluationdetails"), 
+			array("evaluationdetails"),	
+			""
+		);
+		
+		$ilTabs->addSubTabTarget(
+			"svy_eval_user", 
+			$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluationuser"), 
+			array("evaluationuser"),	
+			""
+		);
+	}
+
+	/**
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser;
 		
 		switch ($this->ctrl->getCmd())
 		{
@@ -3914,12 +3898,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "resume":
 			case "next":
 			case "previous":
-
+				return;
+				break;
 			case "evaluation":
 			case "checkEvaluationAccess":
 			case "evaluationdetails":
 			case "evaluationuser":
-				return;
+				$this->setEvalSubtabs();
 				break;
 		}
 		
@@ -4004,18 +3989,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 array("maintenance", "deleteAllUserData"),
 				 "");
 	
-			// status
-			$tabs_gui->addTarget("status",
-				 $this->ctrl->getLinkTarget($this,'status'),
-				 array("status"),
-				 "");
-				
 			// code
 			$tabs_gui->addTarget("codes",
 				 $this->ctrl->getLinkTarget($this,'codes'),
 				 array("codes", "createSurveyCodes", "setCodeLanguage"),
 				 "");
+		}
+
+		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
+		if ($ilAccess->checkAccess("write", "", $this->ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
+		{
+			// evaluation
+			$tabs_gui->addTarget("svy_evaluation",
+				 $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"),
+				 array("evaluation", "checkEvaluationAccess", "evaluationdetails",
+				 	"evaluationuser"),
+				 "");
+		}
 				 
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
 			// permissions
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
