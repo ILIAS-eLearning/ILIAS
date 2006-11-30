@@ -32,7 +32,7 @@ require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 * @version $Id$
 * @ilCtrl_Calls ilEditClipboardGUI: ilObjMediaObjectGUI
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 class ilEditClipboardGUI
 {

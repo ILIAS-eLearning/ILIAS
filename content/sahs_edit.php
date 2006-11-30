@@ -34,7 +34,7 @@ define("ILIAS_MODULE", "content");
 chdir("..");
 
 require_once "./include/inc.header.php";
-require_once "./content/classes/class.ilObjSAHSLearningModule.php";
+require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
 $lng->loadLanguageModule("content");
 
@@ -52,7 +52,7 @@ switch ($type)
 {
 	case "scorm":
 		//SCORM
-		require_once "./content/classes/class.ilObjSCORMLearningModuleGUI.php";
+		require_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php";
 		$ilCtrl->setTargetScript("sahs_edit.php");
 
 		$ilCtrl->getCallStructure("ilobjscormlearningmodulegui");
@@ -63,7 +63,7 @@ switch ($type)
 
 	case "aicc":
 		//AICC
-		require_once "./content/classes/class.ilObjAICCLearningModuleGUI.php";
+		require_once "./Modules/ScormAicc/classes/class.ilObjAICCLearningModuleGUI.php";
 		$ilCtrl->setTargetScript("sahs_edit.php");
 
 		$ilCtrl->getCallStructure("ilobjaicclearningmodulegui");
@@ -74,7 +74,7 @@ switch ($type)
 
 	case "hacp":
 		//HACP
-		require_once "./content/classes/class.ilObjHACPLearningModuleGUI.php";
+		require_once "./Modules/ScormAicc/classes/class.ilObjHACPLearningModuleGUI.php";
 		$ilCtrl->setTargetScript("sahs_edit.php");
 
 		$ilCtrl->getCallStructure("ilobjhacplearningmodulegui");

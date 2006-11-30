@@ -27,7 +27,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesIliasLearningModule
 */
 
 include_once("classes/class.ilExplorer.php");

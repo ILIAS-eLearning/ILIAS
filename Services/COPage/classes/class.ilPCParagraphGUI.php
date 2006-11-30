@@ -33,7 +33,7 @@ require_once("./Services/COPage/classes/class.ilWysiwygUtil.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ServicesCOPage
 */
 class ilPCParagraphGUI extends ilPageContentGUI
 {

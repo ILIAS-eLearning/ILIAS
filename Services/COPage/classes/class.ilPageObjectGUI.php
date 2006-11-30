@@ -40,7 +40,7 @@ include_once("./classes/class.ilDOMUtil.php");
 *
 * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
 *
-* @package content
+* @ingroup ServicesCOPage
 */
 class ilPageObjectGUI
 {

@@ -23,6 +23,13 @@
 
 require_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
 
+/**
+* Utility class for wysiwyg editing mode
+*
+* @version $Id$
+*
+* @ingroup ServicesCOPage
+*/
 class ilWysiwygUtil
 {
     

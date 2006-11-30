@@ -31,7 +31,7 @@ include_once "./Services/COPage/classes/class.ilPageContentGUI.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ServicesCOPage
 */
 class ilPCQuestionGUI extends ilPageContentGUI
 {
