@@ -1040,9 +1040,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	function addColumn()
 	{
 		$result = $this->writeRowColData();
-		if ($result == false)
+		if ($result == FALSE)
 		{
-			sendInfo($this->lng->txt("fill_out_all_category_fields"));
+			sendInfo($this->errormessage);
 		}
 		$_SESSION["spl_modified"] = true;
 		$this->categories();
