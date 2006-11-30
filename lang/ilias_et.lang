@@ -6542,3 +6542,221 @@ grp#:#crs_grouping_select_one#:#Please select one membership limitation.###18 11
 grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###18 11 2006 new variable
 trac#:#trac_anonymized_info_short#:#(Anonymized)###18 11 2006 new variable
 barometer#:#barometer_add#:#Add new Feedback###18 11 2006 new variable
+assessment#:#certificate#:#Certificate###29 11 2006 new variable
+assessment#:#certificate_top#:#Top###29 11 2006 new variable
+assessment#:#certificate_right#:#Right###29 11 2006 new variable
+assessment#:#certificate_bottom#:#Bottom###29 11 2006 new variable
+assessment#:#certificate_left#:#Left###29 11 2006 new variable
+assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)###29 11 2006 new variable
+assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###29 11 2006 new variable
+assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)###29 11 2006 new variable
+assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###29 11 2006 new variable
+assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###29 11 2006 new variable
+assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###29 11 2006 new variable
+assessment#:#certificate_custom#:#Custom...###29 11 2006 new variable
+assessment#:#certificate_edit#:#Create/Edit a Certificate Template###29 11 2006 new variable
+assessment#:#certificate_export#:#Export Certificate###29 11 2006 new variable
+assessment#:#certificate_page_format#:#Page Format###29 11 2006 new variable
+assessment#:#certificate_background_image#:#Background Image###29 11 2006 new variable
+assessment#:#certificate_padding_top#:#Top Padding###29 11 2006 new variable
+assessment#:#certificate_margin_body#:#Body Margin###29 11 2006 new variable
+assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###29 11 2006 new variable
+assessment#:#certificate_show#:#Show Certificate###29 11 2006 new variable
+assessment#:#certificate_status#:#Status###29 11 2006 new variable
+assessment#:#certificate_status_complete#:#The certificate is complete and could be used###29 11 2006 new variable
+assessment#:#certificate_status_incomplete#:#The certificate is incomplete###29 11 2006 new variable
+assessment#:#certificate_delete#:#Delete Certificate Data###29 11 2006 new variable
+assessment#:#certificate_preview#:#Show Certificate Preview###29 11 2006 new variable
+assessment#:#certificate_text#:#Certificate Text###29 11 2006 new variable
+assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe###29 11 2006 new variable
+assessment#:#certificate_var_user_firstname#:#Jane###29 11 2006 new variable
+assessment#:#certificate_var_user_lastname#:#Doe###29 11 2006 new variable
+assessment#:#certificate_var_result_passed#:#passed###29 11 2006 new variable
+assessment#:#certificate_var_result_points#:#38###29 11 2006 new variable
+assessment#:#certificate_var_result_percent#:#83%###29 11 2006 new variable
+assessment#:#certificate_var_max_points#:#46###29 11 2006 new variable
+assessment#:#certificate_var_result_mark_short#:#B###29 11 2006 new variable
+assessment#:#certificate_var_result_mark_long#:#Good###29 11 2006 new variable
+assessment#:#certificate_passed#:#passed###29 11 2006 new variable
+assessment#:#certificate_failed#:#failed###29 11 2006 new variable
+assessment#:#certificate_pageheight#:#Page Height###29 11 2006 new variable
+assessment#:#certificate_pagewidth#:#Page Width###29 11 2006 new variable
+assessment#:#certificate_wrong_unit#:#You have entered a wrong unit###29 11 2006 new variable
+assessment#:#certificate_wrong_units#:#You have entered a wrong set of units###29 11 2006 new variable
+assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###29 11 2006 new variable
+assessment#:#certificate_ph_introduction#:#The following placeholders may be used###29 11 2006 new variable
+assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###29 11 2006 new variable
+assessment#:#certificate_ph_firstname#:#First name of the user###29 11 2006 new variable
+assessment#:#certificate_ph_lastname#:#Last name of the user###29 11 2006 new variable
+assessment#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###29 11 2006 new variable
+assessment#:#certificate_ph_resultpoints#:#Reached points of the user###29 11 2006 new variable
+assessment#:#certificate_ph_resultpercent#:#Reached percentage of the user###29 11 2006 new variable
+assessment#:#certificate_ph_maxpoints#:#Maximum available points###29 11 2006 new variable
+assessment#:#certificate_ph_markshort#:#Users mark (short version)###29 11 2006 new variable
+assessment#:#certificate_ph_marklong#:#Users mark (official version)###29 11 2006 new variable
+assessment#:#certificate_ph_testtitle#:#Title of the test###29 11 2006 new variable
+assessment#:#certificate_ph_date#:#Actual date###29 11 2006 new variable
+assessment#:#certificate_ph_datetime#:#Actual date and time###29 11 2006 new variable
+assessment#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###29 11 2006 new variable
+assessment#:#certificate_visibility#:#Visibility###29 11 2006 new variable
+assessment#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is###29 11 2006 new variable
+assessment#:#certificate_visibility_always#:#Always Visible###29 11 2006 new variable
+assessment#:#certificate_visibility_never#:#Not Visible###29 11 2006 new variable
+assessment#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test###29 11 2006 new variable
+assessment#:#certificate_error_import#:#An error occured during the import of a certificate!###29 11 2006 new variable
+assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###29 11 2006 new variable
+assessment#:#detailed_evaluation#:#Detailed Evaluation###29 11 2006 new variable
+assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s###29 11 2006 new variable
+assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!###29 11 2006 new variable
+assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation###29 11 2006 new variable
+assessment#:#exp_type_certificate#:#Certificate (PDF)###29 11 2006 new variable
+assessment#:#feedback_answers#:#Feedback for every answer of the question###29 11 2006 new variable
+assessment#:#feedback_complete_solution#:#Correct solution###29 11 2006 new variable
+assessment#:#feedback_incomplete_solution#:#At least one answer is not correct###29 11 2006 new variable
+assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the %s subtab.###29 11 2006 new variable
+assessment#:#general#:#General###29 11 2006 new variable
+assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by the test author###29 11 2006 new variable
+assessment#:#manscoring#:#Manual Scoring###29 11 2006 new variable
+assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a question type. You are not allowed to use this tab.###29 11 2006 new variable
+assessment#:#manscoring_select_user#:#Please select a participant to set the score manually###29 11 2006 new variable
+assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.###29 11 2006 new variable
+assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s###29 11 2006 new variable
+assessment#:#not_yet_accessed#:#Not yet accessed###29 11 2006 new variable
+assessment#:#output#:#Output###29 11 2006 new variable
+assessment#:#participants_data#:#Participants Data###29 11 2006 new variable
+assessment#:#participants_evaluation#:#Evaluation for all Test Participants###29 11 2006 new variable
+assessment#:#participants_invitation#:#Invite Fixed Participants###29 11 2006 new variable
+assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.###29 11 2006 new variable
+assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.###29 11 2006 new variable
+assessment#:#percentage#:#Percentage###29 11 2006 new variable
+assessment#:#remove_as_participant#:#Remove as Fixed Participant###29 11 2006 new variable
+assessment#:#scoring#:#Scoring and Results###29 11 2006 new variable
+assessment#:#search_results#:#Search Results###29 11 2006 new variable
+assessment#:#numeric_gap#:#Numeric Gap###29 11 2006 new variable
+assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test###29 11 2006 new variable
+assessment#:#tst_anonymity#:#Anonymity###29 11 2006 new variable
+assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###29 11 2006 new variable
+assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!###29 11 2006 new variable
+assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.###29 11 2006 new variable
+assessment#:#tst_change_points_for_question#:#Change the Points for the Answer###29 11 2006 new variable
+assessment#:#tst_count_correct_solutions_description#:#Choose this mode to score only correct question solutions of participants. Incorrect or partial solutions will be scored with 0 points###29 11 2006 new variable
+assessment#:#tst_count_partial_solutions_description#:#Choose this mode to score question solutions dependend to the answers of the participants. This is the standard behaviour. Even partial solutions will be scored###29 11 2006 new variable
+assessment#:#tst_eval_question_points#:#Question Results for Pass %s###29 11 2006 new variable
+assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers###29 11 2006 new variable
+assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! ###29 11 2006 new variable
+assessment#:#tst_fixed_participants_disable#:#Confirm Status Change###29 11 2006 new variable
+assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? ###29 11 2006 new variable
+assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question###29 11 2006 new variable
+assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback###29 11 2006 new variable
+assessment#:#tst_instant_feedback_answer_specific_desc#:#If you check this option, answer-specific feedback will be shown after a participant answered a question###29 11 2006 new variable
+assessment#:#tst_instant_feedback_results#:#Show Results (only points)###29 11 2006 new variable
+assessment#:#tst_instant_feedback_results_desc#:#If you check this option, the reached points will be shown after a participant answered a question###29 11 2006 new variable
+assessment#:#tst_instant_feedback_solution#:#Show Solutions###29 11 2006 new variable
+assessment#:#tst_instant_feedback_solution_desc#:#If you check this option, the correct solution will be shown after a participant answered a question###29 11 2006 new variable
+assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants###29 11 2006 new variable
+assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants###29 11 2006 new variable
+assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants###29 11 2006 new variable
+assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants###29 11 2006 new variable
+assessment#:#tst_list_of_answers#:#List of Answers###29 11 2006 new variable
+assessment#:#tst_list_of_questions_yes#:#Yes, and additional###29 11 2006 new variable
+assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question###29 11 2006 new variable
+assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test###29 11 2006 new variable
+assessment#:#tst_participants_no#:#Nobody has started the test right now!###29 11 2006 new variable
+assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!###29 11 2006 new variable
+assessment#:#tst_no_evaluation_data#:#No one has started the test right now. There is no evaluation data available.###29 11 2006 new variable
+assessment#:#tst_fixed_participating_users#:#Fixed Participants in this Test###29 11 2006 new variable
+assessment#:#tst_pass_best_pass_description#:#Choose this mode to score the best test pass of a participant. This only works if more than one test pass is allowed.###29 11 2006 new variable
+assessment#:#tst_pass_last_pass_description#:#Choose this mode to score the last test pass of a participant. This only works if more than one test pass is allowed.###29 11 2006 new variable
+assessment#:#tst_passes#:#Test Passes###29 11 2006 new variable
+assessment#:#tst_postpone#:#Postpone Questions###29 11 2006 new variable
+assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test###29 11 2006 new variable
+assessment#:#tst_random_selection#:#Random Selection of Questions###29 11 2006 new variable
+assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s###29 11 2006 new variable
+assessment#:#tst_results_access#:#Access to Test Results###29 11 2006 new variable
+assessment#:#tst_results_access_finished#:#After Test is Finished###29 11 2006 new variable
+assessment#:#tst_results_access_finished_descr#:#Choose this mode to offer test participants access to their test results when they have finished the test ###29 11 2006 new variable
+assessment#:#tst_results_access_date#:#Date###29 11 2006 new variable
+assessment#:#tst_results_access_date_descr#:#Choose this mode to offer test participants access to their test results when the specified date and time has been reached###29 11 2006 new variable
+assessment#:#tst_results_access_always#:#Always###29 11 2006 new variable
+assessment#:#tst_results_access_always_descr#:#Choose this mode to offer test participants always an access to their test results###29 11 2006 new variable
+assessment#:#tst_results_overview#:#Pass Overview of the Test Results ###29 11 2006 new variable
+assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s###29 11 2006 new variable
+assessment#:#tst_results_presentation#:#Test Results Presentation###29 11 2006 new variable
+assessment#:#tst_score_cut_question_description#:#Choose this mode to set the results for each question to zero points that a participant answers with a result of less than zero points ###29 11 2006 new variable
+assessment#:#tst_score_cut_test_description#:#Choose this mode to set the test results to zero points, if the sum of all question results is less than zero points###29 11 2006 new variable
+assessment#:#tst_score_mcmr_use_scoring_system_description#:#Choose this mode to give the defined score for multiple choice questions with multiple response, even if a participant did not check one of the answers###29 11 2006 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_description#:#Choose this mode to score 0 points for multiple choice questions with multiple response when no answer was checked by a participant###29 11 2006 new variable
+assessment#:#tst_list_of_answers_show#:#Show List of Answers###29 11 2006 new variable
+assessment#:#tst_show_cancel#:#Show Suspend Test Option###29 11 2006 new variable
+assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution###29 11 2006 new variable
+assessment#:#tst_title_output#:#Test Title Output###29 11 2006 new variable
+assessment#:#tst_title_output_full#:#Show Test Title and Available Points###29 11 2006 new variable
+assessment#:#tst_title_output_hide_points#:#Show only Test Title###29 11 2006 new variable
+assessment#:#tst_title_output_no_title#:#Don't show the Test Title and the Available Points###29 11 2006 new variable
+assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the Test Title and the Available Points during the Test###29 11 2006 new variable
+assessment#:#tst_use_previous_answers#:#Use Previous Answers###29 11 2006 new variable
+assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes###29 11 2006 new variable
+assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes###29 11 2006 new variable
+assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes###29 11 2006 new variable
+assessment#:#tst_start_new_test_pass#:#Start New Test Pass###29 11 2006 new variable
+assessment#:#tst_stat_result_qmax#:#Total number of Questions###29 11 2006 new variable
+assessment#:#working_time_avg#:#Avg. Working Time###29 11 2006 new variable
+common#:#assessment_log_logging#:#Logging###29 11 2006 new variable
+common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
+common#:#assessment_log_manual_scoring#:#Manual Scoring###29 11 2006 new variable
+common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
+common#:#move_up#:#Move Up###29 11 2006 new variable
+common#:#move_down#:#Move Down###29 11 2006 new variable
+common#:#proceed#:#Proceed###29 11 2006 new variable
+common#:#row#:#Row###29 11 2006 new variable
+common#:#rows#:#Rows###29 11 2006 new variable
+common#:#rte_editor_enabled#:#Rich Text Editor enabled###29 11 2006 new variable
+common#:#rte_editor_disabled#:#Rich Text Editor disabled###29 11 2006 new variable
+common#:#set_edit_mode#:#Set Edit Mode###29 11 2006 new variable
+common#:#tst_tst_statistics#:#Access to Test Statistics###29 11 2006 new variable
+common#:#no_start_file#:#No Start File.###29 11 2006 new variable
+ilinc#:#ilinc_member_administration#:#Edit Participants###29 11 2006 new variable
+survey#:#SurveyMatrixQuestion#:#Matrix Question###29 11 2006 new variable
+survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.###29 11 2006 new variable
+survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)###29 11 2006 new variable
+survey#:#evaluation_access_off#:#Off###29 11 2006 new variable
+survey#:#matrix_error_no_columns#:#Please fill in at least one column text!###29 11 2006 new variable
+survey#:#matrix_error_no_rows#:#Please fill in at least one row text!###29 11 2006 new variable
+survey#:#matrix_appearance#:#Appearance###29 11 2006 new variable
+survey#:#matrix_row_delete_select_none#:#Please check at least one row to delete it!###29 11 2006 new variable
+survey#:#matrix_column_delete_select_none#:#Please check at least one column to delete it!###29 11 2006 new variable
+survey#:#matrix_question_radio_button_not_checked#:#Please select an option button for every row!###29 11 2006 new variable
+survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!###29 11 2006 new variable
+survey#:#matrix_row_separators#:#Row Separators###29 11 2006 new variable
+survey#:#matrix_column_separators#:#Column Separators###29 11 2006 new variable
+survey#:#matrix_neutral_column_separator#:#Neutral Column Separator###29 11 2006 new variable
+survey#:#matrix_neutral_column_separator_description#:#Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question###29 11 2006 new variable
+survey#:#matrix_row_separators_description#:#Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question###29 11 2006 new variable
+survey#:#matrix_column_separators_description#:#Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question###29 11 2006 new variable
+survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives###29 11 2006 new variable
+survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts###29 11 2006 new variable
+survey#:#matrix_column_settings#:#Matrix Column Settings###29 11 2006 new variable
+survey#:#matrix_subtype_sr#:#Option Buttons (Single Response)###29 11 2006 new variable
+survey#:#matrix_subtype_mr#:#Check Boxes (Multiple Response)###29 11 2006 new variable
+survey#:#matrix_subtype_text#:#Text###29 11 2006 new variable
+survey#:#matrix_subtype_integer#:#Integer###29 11 2006 new variable
+survey#:#matrix_subtype_double#:#Floating Point###29 11 2006 new variable
+survey#:#matrix_subtype_date#:#Date###29 11 2006 new variable
+survey#:#matrix_neutral_answer#:#Text for a Neutral Column ("Not Specified", "I don't know" etc.)###29 11 2006 new variable
+survey#:#matrix_standard_answers#:#Column Text###29 11 2006 new variable
+survey#:#matrix_rows#:#Matrix Rows###29 11 2006 new variable
+survey#:#matrix_columns#:#Matrix Columns###29 11 2006 new variable
+survey#:#matrix_subtype_time#:#Time###29 11 2006 new variable
+survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.###29 11 2006 new variable
+survey#:#matrix_columns_rows#:#Column/Row Editor###29 11 2006 new variable
+survey#:#metric_subtype_description_interval#:#Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.###29 11 2006 new variable
+survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.###29 11 2006 new variable
+survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.###29 11 2006 new variable
+survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###29 11 2006 new variable
+survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###29 11 2006 new variable
+survey#:#results#:#Results###29 11 2006 new variable
+chat#:#chat_server_ssl_settings#:#SSL Settings###29 11 2006 new variable
+chat#:#chat_server_ssl_port#:#Server SSL Port###29 11 2006 new variable
+chat#:#chat_server_ssl_active#:#SSL active###29 11 2006 new variable
+chat#:#chat_add_ssl_port#:#Please add the server SSL port.###29 11 2006 new variable
+crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable

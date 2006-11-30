@@ -6662,3 +6662,73 @@ survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measureme
 survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###15 11 2006 new variable
 survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###15 11 2006 new variable
 crs#:#crs_reg_type_info#:#Diese Einstellung ist nur wirksam, wenn die Anmeldung nicht deaktiviert ist.
+assessment#:#detailed_evaluation#:#Detaillierte Statistik
+assessment#:#detailed_evaluation_for#:#Detaillierte Statistik für %s
+assessment#:#detailed_evaluation_missing_active_id#:#Sie müssen die detaillierte Statistik für einen bestimmten Teilnehmer aufrufen!
+assessment#:#detailed_evaluation_show#:#Detaillierte Statistik anzeigen
+assessment#:#feedback_answers#:#Rückmeldung für jede Antwort
+assessment#:#feedback_complete_solution#:#Richtige Lösung
+assessment#:#feedback_incomplete_solution#:#Mindestens eine Antwort ist nicht richtig
+assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer des %s Karteireiters entfernen.
+assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragentyp aktiviert. Sie haben keine Berechtigung, diese Funktion zu verwenden!
+assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet keine Fragentypen, die manuell bewertet werden können.
+assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
+assessment#:#participants_evaluation#:#Statistik für alle Teilnehmer
+assessment#:#percentage#:#Prozentsatz
+assessment#:#numeric_gap#:#Numerische Lücke
+assessment#:#tst_change_points_not_done#:#Die Punkte der Antwort konnten nicht geändert werden! Bitte überprüfen Sie den verfügbaren Wertebereich der erreichbaren Punkte.
+assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
+assessment#:#tst_no_evaluation_data#:#Der Test bislang noch von niemandem gestartet. Es ist keine Statistik verfügbar.
+assessment#:#tst_fixed_participating_users#:#Feste Teilnehmer in diesem Test
+assessment#:#tst_results_overview_pass#:#Ergebnisübersicht für Testdurchlauf %s
+assessment#:#tst_title_output#:#Ausgabe des Fragentitels
+assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punktezahl anzeigen
+assessment#:#tst_title_output_hide_points#:#Nur Fragentitel anzeigen
+assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punktezahl anzeigen
+assessment#:#tst_title_output_description#:#Wählen Sie eine der oberen Optionen für die Darstellung des Fragentitels und der erreichbaren Punkte während eines Testdurchlaufs aus
+assessment#:#tst_stat_result_qmax#:#Gesamtzahl der Fragen
+assessment#:#working_time_avg#:#Durchschnittliche Bearbeitungszeit
+common#:#assessment_log_logging#:#Protokollierung
+common#:#assessment_log_manual_scoring_activate#:#Aktivieren der manuellen Bewertung für
+common#:#assessment_log_manual_scoring#:#Manuelle Bewertung
+common#:#assessment_log_manual_scoring_desc#:#Wenn die manuelle Bewertung für einen Fragentyp aktiviert ist, können alle Fragen dieses Fragentyps vom Testautor manuell bewertet werden. Seien Sie bitte vorsichtig mit diesen Einstellungen, da das nachträgliche Ändern von Fragenergebnissen eventuell zu rechtlichen Problemen führen kann!
+common#:#move_up#:#Nach oben
+common#:#move_down#:#Nach unten
+common#:#row#:#Zeile
+common#:#rows#:#Zeilen
+common#:#rte_editor_enabled#:#Rich-Text-Editor aktiviert
+common#:#rte_editor_disabled#:#Rich-Text-Editor deaktiviert
+common#:#set_edit_mode#:#Bearbeitungsmodus setzen
+common#:#tst_tst_statistics#:#Zugriff auf Teststatistiken
+common#:#no_start_file#:#No Start File.###29 11 2006 new variable
+survey#:#SurveyMatrixQuestion#:#Matrixfrage
+survey#:#matrix_error_no_columns#:#Bitte füllen Sie mindestens eine Spalte mit Text!
+survey#:#matrix_error_no_rows#:#Bitte füllen Sie mindestens eine Zeile mit Text!
+survey#:#matrix_appearance#:#Darstellung
+survey#:#matrix_row_delete_select_none#:#Bitte wählen Sie mindestens eine Zeile zum Löschen aus!
+survey#:#matrix_column_delete_select_none#:#Bitte wählen Sie mindestens eine Spalte zum Löschen aus!
+survey#:#matrix_question_radio_button_not_checked#:#Bitte wählen Sie in jeder Zeile eine Optionsschaltfläche aus!
+survey#:#matrix_question_checkbox_not_checked#:#Bitte wählen Sie in jeder Zeile mindestens ein Kontrollkästchen aus!
+survey#:#matrix_row_separators#:#Zeilentrenner
+survey#:#matrix_column_separators#:#Spaltentrenner
+survey#:#matrix_neutral_column_separator#:#Trenner für die neutrale Spalte
+survey#:#matrix_neutral_column_separator_description#:#Wählen Sie das Kontrollkästchen aus, wenn Sie in der Ausgabe der Matrixfrage einen Trenner (breite Linie) zwischen der neutralen Spalte und den restlichen Spalten anzeigen wollen
+survey#:#matrix_row_separators_description#:#Wählen Sie das Kontrollkästchen aus, wenn Sie in der Ausgabe der Matrixfrage Trenner (schmale Linien) zwischen den Zeilen anzeigen wollen
+survey#:#matrix_column_separators_description#:#Wählen Sie das Kontrollkächsten aus, wenn Sie in der Ausgabe der Matrixfrage Trenner (schmale Lnien) zwischen den Spalten anzeigen wollen
+survey#:#matrix_bipolar_adjectives#:#Pol und Gegenpol
+survey#:#matrix_bipolar_adjectives_description#:#Sie können ein Wertepaar mit einem Pol und einem Gegenpol verwenden, um die Spaltenskala genauer zu beschreiben
+survey#:#matrix_column_settings#:#Spalteneigenschaften
+survey#:#matrix_subtype_sr#:#Optionsschaltflächen (Einfachauswahl)
+survey#:#matrix_subtype_mr#:#Kontrollkästchen (Mehrfachauswahl)
+survey#:#matrix_subtype_text#:#Text
+survey#:#matrix_subtype_integer#:#Ganzzahl
+survey#:#matrix_subtype_double#:#Fließkommazahl
+survey#:#matrix_subtype_date#:#Datum
+survey#:#matrix_neutral_answer#:#Text für eine neutrale Spalte ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
+survey#:#matrix_standard_answers#:#Spaltentext
+survey#:#matrix_rows#:#Matrixzeilen
+survey#:#matrix_columns#:#Matrixspalten
+survey#:#matrix_subtype_time#:#Zeit
+survey#:#matrix_subtype_description#:#Bitte wählen Sie einen der aufgeführten Untertypen aus, um das Verhalten der Antwortfelder zu bestimmen.
+survey#:#matrix_columns_rows#:#Spalten/Zeilen bearbeiten
+survey#:#results#:#Ergebnisse
