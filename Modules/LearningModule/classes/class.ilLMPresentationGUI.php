@@ -338,7 +338,7 @@ class ilLMPresentationGUI
 					}
 				}
 
-				$printTpl = new ilTemplate("tpl.print.html", true, true, true);
+				$printTpl = new ilTemplate("tpl.print.html", true, true, "Modules/LearningModule");
 
 				if($_POST["type"] == "print")
 				{
@@ -490,7 +490,7 @@ class ilLMPresentationGUI
 
 		if ($_GET["print"]==1)
 		{
-			$printTpl = new ilTemplate("tpl.print.html", true, true, true);
+			$printTpl = new ilTemplate("tpl.print.html", true, true, "Modules/LearningModule");
 			$printTpl->touchBlock("printreq");
 			$css1 = ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId());
 			$css2 = ilUtil::getStyleSheetLocation();
@@ -597,7 +597,7 @@ class ilLMPresentationGUI
 			//$this->frames = array();
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
-			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, true);
+			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
 			$this->tpl->setVariable("PAGETITLE", "- ".$this->lm->getTitle());
 			$this->tpl->setVariable("FS_CONTENT", $content);
 			$ilBench->stop("ContentPresentation", "layout_processFrameset");
