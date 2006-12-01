@@ -604,7 +604,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function membersObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $tree;
 
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 	
@@ -621,7 +621,35 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("add_member"));
 		$this->tpl->parseCurrentBlock();
-	
+		
+		// add course members button, in case the exercise is inside a course
+		$parent_id = $tree->getParentId($_GET["ref_id"]);
+		$obj = new ilObject($parent_id, true);
+		$type = $obj->getType();
+
+		// search for a parent course
+		while ($parent_id != 1 && $type != "crs")
+		{
+			$parent_id = $tree->getParentId($parent_id);
+			$obj = new ilObject($parent_id, true);
+			$type = $obj->getType();
+		}
+
+		if ($type == "crs") 
+		{
+			$search_for_role = "il_crs_member_" . $parent_id;
+			$this->tpl->setCurrentBlock("btn_cell");
+		
+			$_SESSION['rep_query']['role']['title'] = $search_for_role;
+			$_SESSION['rep_search_type'] = 'role';
+			
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','performSearch'));
+			$this->lng->loadLanguageModule("exercise");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("exc_crs_add_members"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		
 		$this->getTemplateFile("members","exc");
 	
 		if(!count($this->object->members_obj->getMembers()))
