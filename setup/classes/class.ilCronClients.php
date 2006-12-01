@@ -206,9 +206,9 @@ class ilCronClients extends PEAR
 		$this->db_version = 99999;
 
 		// GET FILE VERSION
-		if(!$content = file('../sql/dbupdate.php'))
+		if(!$content = file('../setup/sql/dbupdate_02.php'))
 		{
-			echo 'Cannot open ../sql/dbupdate.php';
+			echo 'Cannot open ../setup/sql/dbupdate_02.php';
 			return false;
 		}
 		foreach($content as $row)

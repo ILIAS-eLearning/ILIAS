@@ -29,8 +29,7 @@ require_once ("classes/class.ilTree.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSCORMTree
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSCORMTree extends ilTree
 {

@@ -25,6 +25,9 @@ require_once("./Modules/ScormAicc/classes/AICC/class.ilObjAICCTracking.php");
 require_once("./Modules/ScormAicc/classes/HACP/class.ilHACPResponse.php");
 
 
+/**
+* @ingroup ModulesScormAicc
+*/
 class ilObjHACPTracking extends ilObjAICCTracking {
 
 	/**

@@ -29,8 +29,7 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSCORMObject
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSCORMResources extends ilSCORMObject
 {

@@ -26,6 +26,7 @@
 *
 * @author Alex Killing <alex.killing@gmx.de>
 *
+* @ingroup ModulesScormAicc
 */
 class ilObjSCORMTracking
 {

@@ -35,8 +35,7 @@ require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 *
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
 *
-* @extends ilObjectGUI
-* @package ilias-core
+* @ingroup ModulesScormAicc
 */
 class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 {

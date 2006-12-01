@@ -29,11 +29,9 @@ class ilAICCCourse extends ilAICCObject
 /**
 * AICC Item
 *
-* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilAICCObject
-* @package content
+* @ingroup ModulesScormAicc
 */
 
 	var $course_creator;

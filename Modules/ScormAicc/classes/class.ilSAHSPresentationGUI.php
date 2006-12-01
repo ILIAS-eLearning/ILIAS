@@ -33,7 +33,7 @@
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI
 *
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSAHSPresentationGUI
 {

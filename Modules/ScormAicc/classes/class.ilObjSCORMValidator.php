@@ -28,8 +28,8 @@
 * @author Romeo Kienzler contact@kienzler.biz
 * @company 21 LearnLine AG info@21ll.com
 *
+* @ingroup ModulesScormAicc
 */
-
 class ilObjSCORMValidator {
 		var $dir,$flag,$summary;
 

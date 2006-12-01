@@ -32,7 +32,7 @@
 *
 * @ilCtrl_Calls ilSAHSEditGUI: ilObjSCORMLearningModuleGUI, ilObjAICCLearningModuleGUI, ilObjHACPLearningModuleGUI
 *
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSAHSEditGUI
 {

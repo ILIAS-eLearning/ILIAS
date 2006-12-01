@@ -23,19 +23,16 @@
 
 require_once("./Modules/ScormAicc/classes/AICC/class.ilAICCObject.php");
 
-class ilAICCBlock extends ilAICCObject
-{
-
 /**
 * AICC Block
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilAICCObject
-* @package content
+* @ingroup ModulesScormAicc
 */
-
+class ilAICCBlock extends ilAICCObject
+{
 	/**
 	* Constructor
 	*

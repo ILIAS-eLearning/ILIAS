@@ -34,7 +34,7 @@ require_once("./Modules/ScormAicc/classes/AICC/class.ilAICCPresentationGUI.php")
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilHACPPresentationGUI extends ilAICCPresentationGUI
 {

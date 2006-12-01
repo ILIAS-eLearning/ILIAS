@@ -31,8 +31,7 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceDependency.
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSCORMObject
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSCORMResource extends ilSCORMObject
 {

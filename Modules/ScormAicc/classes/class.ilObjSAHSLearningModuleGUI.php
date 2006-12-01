@@ -33,8 +33,7 @@ require_once("classes/class.ilTabsGUI.php");
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI
 *
-* @extends ilObjectGUI
-* @package ilias-core
+* @ingroup ModulesScormAicc
 */
 class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 {

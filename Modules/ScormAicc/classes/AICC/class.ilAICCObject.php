@@ -25,11 +25,9 @@
 /**
 * Parent object for all AICC objects, that are stored in table aicc_object
 *
-* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilAICCObject
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilAICCObject
 {

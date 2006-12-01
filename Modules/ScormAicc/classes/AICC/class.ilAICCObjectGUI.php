@@ -29,11 +29,9 @@ include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCBlockGUI.php");
 /**
 * Parent object for AICC GUI objects
 *
-* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilAICCObjectGUI
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilAICCObjectGUI
 {
