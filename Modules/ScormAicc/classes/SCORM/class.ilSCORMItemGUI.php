@@ -122,7 +122,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 		$this->tpl->setVariable("SESSION_ID",session_id());
 				
-		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/sahs_presentation.php")));	
+		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/ilias.php")));	
 		
 		$this->tpl->show();
 		exit;

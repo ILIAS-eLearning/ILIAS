@@ -185,10 +185,9 @@ class ilSAHSPresentationGUI
 		$ilBench->start("SAHSExplorer", "initExplorer");
 		
 		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
-		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 		
 		require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMExplorer.php");
-		$exp = new ilSCORMExplorer("sahs_presentation.php?cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
+		$exp = new ilSCORMExplorer("ilias.php?baseClass=ilSAHSPresentationGUI&cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
 		
@@ -225,7 +224,7 @@ class ilSAHSPresentationGUI
 		//$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "sahs_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
+		$this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
 			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
@@ -258,7 +257,7 @@ class ilSAHSPresentationGUI
 		$this->tpl->setVariable("REF_ID",$_GET["ref_id"]);
 		$this->tpl->setVariable("SESSION_ID",session_id());
 
-		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/sahs_presentation.php")));
+		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/ilias.php")));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->show(false);
