@@ -94,7 +94,7 @@ public	class IliasApiAdapterApplet
 			say ("SAHS "+IliasSahsId +" will be unloaded.");
 			IliasNextObjId = sahs_id;
 			IliasLaunchContent (
-				 "../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=unloadSahs"
+				 "../../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=unloadSahs"
 				  +"&sahs_id="  + IliasSahsId
 				  +"&ref_id="  + IliasRefId
 			);
@@ -104,7 +104,7 @@ public	class IliasApiAdapterApplet
 			IliasNextObjId = null;
 			IliasSahsId     = sahs_id;
 			IliasLaunchContent (
-				 "../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=launchSahs"
+				 "../../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=launchSahs"
 				  +"&ref_id="  + IliasRefId
 				  +"&sahs_id="  + IliasSahsId
 			);
@@ -140,7 +140,7 @@ public	class IliasApiAdapterApplet
 		if (commit) IliasCommit(); // Stupid "implicit commit"
 		isLaunched = false;
 		IliasLaunchContent (
-			"../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=finishSahs"
+			"../../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=finishSahs"
 			  +"&sahs_id="  + IliasSahsId
 			  +"&ref_id="  + IliasRefId
 			  +"&status="  + core.sysGet("cmi.core.lesson_status")
@@ -156,7 +156,7 @@ public	class IliasApiAdapterApplet
 			say ("SAHS "+IliasSahsId +" will be unloaded.");
 			IliasNextObjId = id;
 			IliasLaunchContent (
-				 "../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=unloadSahs"
+				 "../../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=unloadSahs"
 				  +"&sahs_id="  + IliasSahsId
 			);
 		} else {
@@ -164,7 +164,7 @@ public	class IliasApiAdapterApplet
 			IliasNextObjId = null;
 			IliasSahsId     = null;
 			IliasLaunchContent (
-				 "../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=launchAsset"
+				 "../../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=launchAsset"
 				  +"&ref_id="  + IliasRefId
 				  +"&asset_id="  + id
 			);
