@@ -25,7 +25,7 @@
 /**
 * redirect script for studip-users
 *
-* @author Arne Schröder <schroeder@data-quest.de>
+* @author Arne Schrï¿½der <schroeder@data-quest.de>
 *
 * @package studip-interface
 */
@@ -55,8 +55,8 @@ switch($_GET['target'])
 				$jump_to = 'ilias.php';
 			break;
 			case 'htlm':
-				$jump_to = 'content/fblm_presentation.php?ref_id='.$_GET['ref_id'];
-				$redirect = true;
+				$_GET['baseClass'] = 'ilHTLMPresentationGUI'; 
+				$jump_to = 'ilias.php';
 				break;
 			default:
 				unset($jump_to);
@@ -81,12 +81,12 @@ switch($_GET['target'])
 					$jump_to = 'ilias.php';
 				break;
 				case 'sahs':
-					$jump_to = 'content/sahs_edit.php?ref_id='.$_GET['ref_id'];
-					$redirect = true;
+					$_GET['baseClass'] = 'ilSAHSEditGUI'; 
+					$jump_to = 'ilias.php';
 				break;
 				case 'htlm':
-					$jump_to = 'content/fblm_edit.php?ref_id='.$_GET['ref_id'];
-					$redirect = true;
+					$_GET['baseClass'] = 'ilHTLMEditorGUI'; 
+					$jump_to = 'ilias.php';
 				break;
 				default:
 					unset($jump_to);

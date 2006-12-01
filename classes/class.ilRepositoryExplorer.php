@@ -175,7 +175,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "content/fblm_edit.php?ref_id=".$a_node_id;
 
 			case "sahs":
-				return "content/sahs_edit.php?ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$a_node_id;
 
 			case "mep":
 				return "ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$a_node_id;
