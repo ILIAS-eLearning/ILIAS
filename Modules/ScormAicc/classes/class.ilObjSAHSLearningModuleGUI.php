@@ -304,7 +304,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 		
 		sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
-		ilUtil::redirect("ilias.php?baseClass=ilSAHSEdit&ref_id=".$newObj->getRefId());
+		ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$newObj->getRefId());
 	}
 
 	function upload()
