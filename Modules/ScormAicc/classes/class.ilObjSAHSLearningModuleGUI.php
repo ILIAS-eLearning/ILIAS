@@ -340,18 +340,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->uploadObject();
 	}
 
-	/**
-	* permission form
-	*/
-/*
-	function perm()
-	{
-		$this->setFormAction("permSave", "sahs_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]);
-		$this->setFormAction("addRole", "sahs_edit.php?ref_id=".$_GET["ref_id"].
-			"&obj_id=".$_GET["obj_id"]."&cmd=addRole");
-		$this->permObject();
-	}*/
 
 	/**
 	* permission form
@@ -360,28 +348,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		$this->infoObject();
 	}
-
-	/**
-	* save permissions
-	*/
-/*
-	function permSave()
-	{
-		$this->setReturnLocation("permSave",
-			"sahs_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
-		$this->permSaveObject();
-	}*/
-
-	/**
-	* add role
-	*/
-/*
-	function addRole()
-	{
-		$this->setReturnLocation("addRole",
-			"sahs_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
-		$this->addRoleObject();
-	}*/
 
 	/**
 	* show owner of learning module
