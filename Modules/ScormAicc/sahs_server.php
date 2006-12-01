@@ -30,7 +30,7 @@
 * @package content
 */
 
-chdir("..");
+chdir("../..");
 require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
 // debug
