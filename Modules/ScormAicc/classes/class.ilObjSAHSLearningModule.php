@@ -26,14 +26,16 @@ require_once "classes/class.ilObject.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMValidator.php";
 //require_once "classes/class.ilMetaData.php";
 
+/** @defgroup ModulesScormAicc Modules/ScormAicc
+ */
+
 /**
 * Class ilObjSCORMLearningModule
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @extends ilObject
-* @package ilias-core
+* @ingroup ModulesScormAicc
 */
 class ilObjSAHSLearningModule extends ilObject
 {

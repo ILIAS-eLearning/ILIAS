@@ -29,8 +29,7 @@ require_once ("./Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganization.php")
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSCORMObjectGUI
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSCORMOrganizationGUI extends ilSCORMObjectGUI
 {

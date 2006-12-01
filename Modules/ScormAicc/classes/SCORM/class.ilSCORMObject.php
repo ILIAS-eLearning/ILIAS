@@ -28,8 +28,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSCORMObject
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSCORMObject
 {

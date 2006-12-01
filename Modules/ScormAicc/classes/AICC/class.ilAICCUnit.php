@@ -29,11 +29,9 @@ class ilAICCUnit extends ilAICCObject
 /**
 * AICC Item
 *
-* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilAICCObject
-* @package content
+* @ingroup ModulesScormAicc
 */
 	var $au_type;
 	var $command_line;

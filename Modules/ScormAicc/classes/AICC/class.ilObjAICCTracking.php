@@ -24,7 +24,13 @@
 require_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
 
 
-
+/**
+* AICC Tracking
+*
+* @version $Id$
+*
+* @ingroup ModulesScormAicc
+*/
 class ilObjAICCTracking extends ilObjSCORMTracking {
 
 	/**

@@ -34,7 +34,7 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSCORMPresentationGUI
 {

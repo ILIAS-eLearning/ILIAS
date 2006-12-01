@@ -26,6 +26,9 @@ require_once("classes/class.ilExplorer.php");
 require_once("./Modules/ScormAicc/classes/AICC/class.ilAICCTree.php");
 require_once("./Modules/ScormAicc/classes/AICC/class.ilAICCExplorer.php");
 
+/**
+* @ingroup ModulesScormAicc
+*/
 class ilHACPExplorer extends ilAICCExplorer
 {
 

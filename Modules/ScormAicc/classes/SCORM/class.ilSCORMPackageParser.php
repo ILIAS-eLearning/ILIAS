@@ -37,8 +37,7 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
 * @author
 * @version $Id$
 *
-* @extends ilSaxParser
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilSCORMPackageParser extends ilSaxParser
 {

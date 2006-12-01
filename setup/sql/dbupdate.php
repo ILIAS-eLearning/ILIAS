@@ -11910,5 +11910,15 @@ $ilCtrlStructureReader->getStructure();
 <#864>
 <?php
 $ilCtrlStructureReader->getStructure();
-?>
 
+
+
+
+				// FILE ENDS HERE, DO NOT ADD ANY ADDITIONAL STEPS
+				//
+				//         USE dbupdate_02.php INSTEAD
+
+
+
+
+?>

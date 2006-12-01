@@ -55,7 +55,7 @@ class ilDBUpdate
 	* constructor
 	*/
 	function ilDBUpdate($a_db_handler = 0,$tmp_flag = false)
-	{
+	{		
 		// workaround to allow setup migration
 		if ($a_db_handler)
 		{
@@ -63,23 +63,54 @@ class ilDBUpdate
 			
 			if ($tmp_flag)
 			{
-				$this->DB_UPDATE_FILE = "./sql/dbupdate.php";			
+				$this->PATH = "./";
 			}
 			else
 			{
-				$this->DB_UPDATE_FILE = "../sql/dbupdate.php";
+				$this->PATH = "../";
 			}
 		}
 		else
 		{
 			global $mySetup;
-			$this->db = $mySetup->db;	
-			$this->DB_UPDATE_FILE = "./sql/dbupdate.php";
+			$this->db = $mySetup->db;
+			$this->PATH = "./";
 		}
+		
+		$this->getCurrentVersion();
+		
+		// get update file for current version
+		$updatefile = $this->getFileForStep($this->currentVersion + 1);
+
+		$this->current_file = $updatefile;
+		$this->DB_UPDATE_FILE = $this->PATH."setup/sql/".$updatefile;
+
+		//
+		// NOTE: IF YOU SET THIS TO THE NEWEST FILE, CHANGE ALSO getFileForStep()
+		//
+		$this->LAST_UPDATE_FILE = $this->PATH."setup/sql/dbupdate_02.php";
    
 		$this->readDBUpdateFile();
+		$this->readLastUpdateFile();
 		$this->getFileVersion();
-		$this->getCurrentVersion();
+	}
+	
+	/**
+	* Get db update file name for db step
+	*/
+	function getFileForStep($a_version)
+	{
+		//
+		// NOTE: IF YOU ADD A NEW FILE HERE, CHANGE ALSO THE CONSTRUCTOR
+		//
+		if ((int)$a_version > 864)		// last number in previous file
+		{
+			return "dbupdate_02.php";
+		}
+		else
+		{
+			return "dbupdate.php";
+		}
 	}
 	
     /**
@@ -102,6 +133,19 @@ class ilDBUpdate
 		}
 		
 		$this->filecontent = @file($this->DB_UPDATE_FILE);
+		return true;
+	}
+
+	function readLastUpdateFile()
+	{
+		if (!file_exists($this->LAST_UPDATE_FILE))
+		{
+			$this->error = "no_last_update_file";
+			$this->filecontent = array();
+			return false;
+		}
+		
+		$this->lastfilecontent = @file($this->LAST_UPDATE_FILE);
 		return true;
 	}
 
@@ -135,9 +179,9 @@ class ilDBUpdate
 	function getFileVersion()
 	{
 		//go through filecontent and search for last occurence of <#x>
-		reset($this->filecontent);
+		reset($this->lastfilecontent);
 		$regs = array();
-		foreach ($this->filecontent as $row)
+		foreach ($this->lastfilecontent as $row)
 		{
 			if (ereg("^<#([0-9]+)>", $row, $regs))
 			{
@@ -199,6 +243,13 @@ class ilDBUpdate
 			$msg = array();
 			for ($i=($c+1); $i<=$f; $i++)
 			{
+				// check wether next update file must be loaded
+				if ($this->current_file != $this->getFileForStep($i))
+				{
+					$this->DB_UPDATE_FILE = $this->PATH."setup/sql/".$this->getFileForStep($i);
+					$this->readDBUpdateFile();
+				}
+				
 				if ($this->applyUpdateNr($i) == false)
 				{
 					$msg[] = array(

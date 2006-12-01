@@ -33,8 +33,7 @@ require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @extends ilObject
-* @package ilias-core
+* @ingroup ModulesScormAicc
 */
 class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 {

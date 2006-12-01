@@ -23,6 +23,9 @@
 
 require_once "./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php";
 
+/**
+* @ingroup ModulesScormAicc
+*/
 class ilHACPResponse {
 
 	var $unit;

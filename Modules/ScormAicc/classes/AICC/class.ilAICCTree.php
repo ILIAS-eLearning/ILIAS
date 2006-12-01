@@ -26,11 +26,9 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
 /**
 * AICC Object Tree
 *
-* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilTree
-* @package content
+* @ingroup ModulesScormAicc
 */
 class ilAICCTree extends ilSCORMTree
 {

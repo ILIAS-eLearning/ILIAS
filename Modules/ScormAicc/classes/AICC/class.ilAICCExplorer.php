@@ -24,10 +24,9 @@
 /*
 * Explorer View for AICC Learning Modules
 *
-* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
+* @ingroup ModulesScormAicc
 */
 
 require_once("classes/class.ilExplorer.php");
