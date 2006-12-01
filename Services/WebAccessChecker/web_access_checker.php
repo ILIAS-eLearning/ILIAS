@@ -40,9 +40,9 @@
 */
 
 define("ILIAS_MODULE", "content");
-chdir("..");
+chdir("../..");
 
-require_once "./content/classes/class.ilWebAccessChecker.php";
+require_once "./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php";
 
 $checker = new ilWebAccessChecker();
 
