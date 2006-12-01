@@ -128,24 +128,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 		else
 		{
-			/*
-			//add template for view button
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-	
-			// view button
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","content/sahs_presentation.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-			$this->tpl->parseCurrentBlock();
-	
-			// view button
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","ilias.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"".
-				ilFrameTargetInfo::_getFrame("MainContent")."\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();*/
 		}
 	}
 

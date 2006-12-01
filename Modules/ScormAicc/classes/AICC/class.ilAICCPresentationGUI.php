@@ -99,7 +99,6 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	function explorer($a_target = "sahs_content")
 	{
 		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
-		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 
 		require_once("././Modules/ScormAicc/classes/AICC/class.ilAICCExplorer.php");
 		$exp = new ilAICCExplorer(
