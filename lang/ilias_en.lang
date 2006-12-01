@@ -3227,9 +3227,9 @@ common#:#select_questionpool_option#:#--- Please select a question pool ---
 common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
 common#:#send#:#Send
-common#:#send_mail_admins#:#Mail to administrators
-common#:#send_mail_members#:#Mail to members
-common#:#send_mail_tutors#:#Mail to tutors
+common#:#send_mail_admins#:#Mail to all administrators
+common#:#send_mail_members#:#Mail to all members
+common#:#send_mail_tutors#:#Mail to all tutors
 common#:#sender#:#Sender
 common#:#sent#:#Sent
 common#:#sequence#:#Sequence
@@ -6728,3 +6728,4 @@ chat#:#chat_server_ssl_port#:#Server SSL Port
 chat#:#chat_server_ssl_active#:#SSL active
 chat#:#chat_add_ssl_port#:#Please add the server SSL port.
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'.
+exercise#:#exc_crs_add_members#:#Add students of this course
