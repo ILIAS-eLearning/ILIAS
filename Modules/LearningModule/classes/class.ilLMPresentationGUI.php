@@ -561,12 +561,10 @@ class ilLMPresentationGUI
 			$layout = $this->lm->getLayout();
 		}
 
-		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
-
 		// xmldocfile is deprecated! Use domxml_open_file instead.
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
-		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
+		$xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/".$layout."/".$a_xml);
 
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
 		$this->layout_doc =& $doc;

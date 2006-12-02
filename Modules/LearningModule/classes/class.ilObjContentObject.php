@@ -898,16 +898,16 @@ class ilObjContentObject extends ilObject
 	function getAvailableLayouts()
 	{
 		// read sdir, copy files and copy directories recursively
-		$dir = opendir("./layouts/lm");
+		$dir = opendir("./Modules/LearningModule/layouts/lm");
 
 		$layouts = array();
 
 		while($file = readdir($dir))
 		{
-			if ($file != "." && $file != ".." && $file != "CVS")
+			if ($file != "." && $file != ".." && $file != "CVS" && $file != ".svn")
 			{
 				// directories
-				if (@is_dir("./layouts/lm/".$file))
+				if (@is_dir("./Modules/LearningModule/layouts/lm/".$file))
 				{
 					$layouts[$file] = $file;
 				}
