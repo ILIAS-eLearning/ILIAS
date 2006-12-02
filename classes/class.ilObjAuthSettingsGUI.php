@@ -645,7 +645,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		// Set some default values
 		
 		if (!isset($settings["shib_login_button"]) || $settings["shib_login_button"] == ''){
-			$this->tpl->setVariable("SHIB_LOGIN_BUTTON", "images/shib_login_button.gif");
+			$this->tpl->setVariable("SHIB_LOGIN_BUTTON", "templates/default/images/shib_login_button.gif");
 		}
 		
 		if (isset($settings["shib_active"]) && $settings["shib_active"])
