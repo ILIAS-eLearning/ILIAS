@@ -42,6 +42,7 @@ class ilTestServiceGUI
 	var $ctrl;
 	var $ilias;
 	var $tree;
+	var $ref_id;
 	
 /**
 * ilTestScoringGUI constructor
@@ -61,6 +62,7 @@ class ilTestServiceGUI
 		$this->ilias =& $ilias;
 		$this->object =& $a_object;
 		$this->tree =& $tree;
+		$this->ref_id = $a_object->ref_id;
 	}
 	
 	/**

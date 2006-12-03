@@ -740,51 +740,47 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		$xml = "";
 
+		include_once("./classes/class.ilXmlWriter.php");
+		$a_xml_writer = new ilXmlWriter;
+		// set xml header
+		$a_xml_writer->xmlHeader();
+		$a_xml_writer->xmlStartTag("surveyobject");
+		$attrs = array(
+			"id" => "qpl_" . $this->getId(),
+			"label" => $this->getTitle()
+		);
+		$a_xml_writer->xmlStartTag("surveyquestions", $attrs);
+		$a_xml_writer->xmlElement("dummy", NULL, "dummy");
+		// add ILIAS specific metadata
+		$a_xml_writer->xmlStartTag("metadata");
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "SCORM");
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$md = new ilMD($this->getId(),0, $this->getType());
+		$writer = new ilXmlWriter();
+		$md->toXml($writer);
+		$metadata = $writer->xmlDumpMem();
+		$a_xml_writer->xmlElement("fieldentry", NULL, $metadata);
+		$a_xml_writer->xmlEndTag("metadatafield");
+		$a_xml_writer->xmlEndTag("metadata");
+
+		$a_xml_writer->xmlEndTag("surveyquestions");
+		$a_xml_writer->xmlEndTag("surveyobject");
+
+		$xml = $a_xml_writer->xmlDumpMem(FALSE);
+
+		$questionxml = "";
 		foreach ($questions as $key => $value)
 		{
 			$questiontype = $this->getQuestiontype($value);
 			include_once "./Modules/SurveyQuestionPool/classes/class.$questiontype.php";
 			$question = new $questiontype();
 			$question->loadFromDb($value);
-			$xml .= $question->to_xml(false);
+			$questionxml .= $question->to_xml(false);
 		}
-		if (count($questions) > 1)
-		{
-			$xml = preg_replace("/<\/questestinterop>\s*<questestinterop>/", "", $xml);
-		}
-		$xml = str_replace("<questestinterop>", "", $xml);
-		$xml = str_replace("</questestinterop>", "", $xml);
 		
-		include_once("./classes/class.ilXmlWriter.php");
-		$a_xml_writer = new ilXmlWriter;
-		// set xml header
-		$a_xml_writer->xmlHeader();
-		$a_xml_writer->xmlStartTag("questestinterop");
-		$attrs = array(
-			"ident" => "qpl_" . $this->getId(),
-			"title" => $this->getTitle()
-		);
-		$a_xml_writer->xmlStartTag("section", $attrs);
-		// add ILIAS specific metadata
-		$a_xml_writer->xmlStartTag("qtimetadata");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "SCORM");
-
-		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md = new ilMD($this->getId(),0, $this->getType());
-		$writer = new ilXmlWriter();
-		$md->toXml($writer);
-		$metadata = $writer->xmlDumpMem();
-
-		$a_xml_writer->xmlElement("fieldentry", NULL, $metadata);
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlEndTag("qtimetadata");
-		$a_xml_writer->xmlEndTag("section");
-		$a_xml_writer->xmlEndTag("questestinterop");
-
-		$qtixml = $a_xml_writer->xmlDumpMem(FALSE);
-		$qtixml = str_replace("</section>", $xml . "\n</section>", $qtixml);
-		return $qtixml;
+		$xml = str_replace("<dummy>dummy</dummy>", $questionxml, $xml);
+		return $xml;
 	}
 
 	function &getQuestions()

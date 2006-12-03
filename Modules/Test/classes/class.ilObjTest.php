@@ -1457,15 +1457,6 @@ class ilObjTest extends ilObject
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-/*		
-		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($active->active_id . ""),
-			$ilDB->quote($question_id . ""),
-			$ilDB->quote(($result->numRows()+1) . ""),
-			$ilDB->quote($pass . "")
-		);
-		$result = $ilDB->query($query);
-*/
 	}
 	
 /**
@@ -1531,24 +1522,30 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 		$active = $this->getActiveTestUser($ilUser->getId());
-		$this->loadQuestions($active->active_id, $pass);
-		if (count($this->questions) > 0)
+		if (is_object($active))
 		{
-			// Something went wrong. Maybe the user pressed the start button twice
-			// Questions already exist so there is no need to create new questions
-			return;
-		}
-		if ($pass > 0)
-		{
-			if ($this->getNrOfResultsForPass($active->active_id, $pass - 1) == 0)
+			$this->loadQuestions($active->active_id, $pass);
+			if (count($this->questions) > 0)
 			{
-				// This means that someone maybe reloaded the test submission page
-				// If there are no existing results for the previous test, it makes
-				// no sense to create a new set of random questions
+				// Something went wrong. Maybe the user pressed the start button twice
+				// Questions already exist so there is no need to create new questions
 				return;
 			}
+			if ($pass > 0)
+			{
+				if ($this->getNrOfResultsForPass($active->active_id, $pass - 1) == 0)
+				{
+					// This means that someone maybe reloaded the test submission page
+					// If there are no existing results for the previous test, it makes
+					// no sense to create a new set of random questions
+					return;
+				}
+			}
 		}
-		if (!is_object($active)) $this->setActiveTestUser();
+		else
+		{
+			$this->setActiveTestUser();
+		}
 		if ($this->getRandomQuestionCount() > 0)
 		{
 			$qpls =& $this->getRandomQuestionpools();

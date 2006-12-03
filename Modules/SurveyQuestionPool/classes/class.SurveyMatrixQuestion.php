@@ -1088,60 +1088,105 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
-		// set xml header
-		$a_xml_writer->xmlHeader();
-		$a_xml_writer->xmlStartTag("questestinterop");
-		$attrs = array(
-			"ident" => $this->getId(),
-			"title" => $this->getTitle()
-		);
-		$a_xml_writer->xmlStartTag("item", $attrs);
-		// add question description
-		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
-		$a_xml_writer->xmlElement("qticomment", NULL, "ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$a_xml_writer->xmlElement("qticomment", NULL, "Questiontype=".$this->getQuestionType());
-		$a_xml_writer->xmlElement("qticomment", NULL, "Author=".$this->getAuthor());
-		// add ILIAS specific metadata
-		$a_xml_writer->xmlStartTag("itemmetadata");
-		$a_xml_writer->xmlStartTag("qtimetadata");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "obligatory");
-		if (strcmp($obligatory_state, "") != 0)
-		{
-			$this->setObligatory($obligatory_state);
-		}
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getObligatory()));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlEndTag("qtimetadata");
-		$a_xml_writer->xmlEndTag("itemmetadata");
 
+		$a_xml_writer->xmlHeader();
 		$attrs = array(
-			"label" => $this->getTitle()
+			"id" => $this->getId(),
+			"title" => $this->getTitle(),
+			"type" => $this->getQuestiontype(),
+			"subtype" => $this->getSubtype(),
+			"obligatory" => $this->getObligatory()
 		);
-		$a_xml_writer->xmlStartTag("presentation", $attrs);
-		// add flow to presentation
-		$a_xml_writer->xmlStartTag("flow");
-		// add material with question text to presentation
-		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
-		$ident = "";
-		$cardinality = "";
-		switch ($this->getSubtype())
-		{
-			case 0:
-				$ident = "MCSR";
-				$cardinality = "Single";
-				break;
-			case 1:
-				$ident = "MCMR";
-				$cardinality = "Multiple";
-				break;
-		}
-		$attrs = array(
-			"ident" => "$ident",
-			"rcardinality" => "$cardinality"
-		);
-		$a_xml_writer->xmlStartTag("response_lid", $attrs);
+		$a_xml_writer->xmlStartTag("question", $attrs);
 		
+		$a_xml_writer->xmlElement("description", NULL, $this->getDescription());
+		$a_xml_writer->xmlElement("author", NULL, $this->getAuthor());
+		$a_xml_writer->xmlStartTag("questiontext");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
+		$a_xml_writer->xmlEndTag("questiontext");
+
+		$a_xml_writer->xmlStartTag("matrix");
+		$a_xml_writer->xmlStartTag("matrixrows");
+		for ($i = 0; $i < $this->getRowCount(); $i++)
+		{
+			$attrs = array(
+				"id" => $i
+			);
+			$a_xml_writer->xmlStartTag("matrixrow", $attrs);
+			$this->addQTIMaterial($a_xml_writer, $this->getRow($i));
+			$a_xml_writer->xmlEndTag("matrixrow");
+		}
+		$a_xml_writer->xmlEndTag("matrixrows");
+		
+		$a_xml_writer->xmlStartTag("responses");
+		if (strlen($this->getBipolarAdjective(0)) && (strlen($this->getBipolarAdjective(1))))
+		{
+			$a_xml_writer->xmlStartTag("bipolar_adjectives");
+			$attribs = array(
+				"label" => "0"
+			);
+			$a_xml_writer->xmlElement("adjective", $attribs, $this->getBipolarAdjective(0));
+			$attribs = array(
+				"label" => "1"
+			);
+			$a_xml_writer->xmlElement("adjective", $attribs, $this->getBipolarAdjective(1));
+			$a_xml_writer->xmlEndTag("bipolar_adjectives");
+		}
+		for ($i = 0; $i < $this->getColumnCount(); $i++)
+		{
+			$attrs = array(
+				"id" => $i
+			);
+			switch ($this->getSubtype())
+			{
+				case 0:
+					$a_xml_writer->xmlStartTag("response_single", $attrs);
+					break;
+				case 1:
+					$a_xml_writer->xmlStartTag("response_multiple", $attrs);
+					break;
+			}
+			$this->addQTIMaterial($a_xml_writer, $this->getColumn($i));
+			switch ($this->getSubtype())
+			{
+				case 0:
+					$a_xml_writer->xmlEndTag("response_single");
+					break;
+				case 1:
+					$a_xml_writer->xmlEndTag("response_multiple");
+					break;
+			}
+		}
+		if (strlen($this->getNeutralColumn()))
+		{
+			$attrs = array(
+				"id" => $this->getColumnCount(),
+				"label" => "neutral"
+			);
+			switch ($this->getSubtype())
+			{
+				case 0:
+					$a_xml_writer->xmlStartTag("response_single", $attrs);
+					break;
+				case 1:
+					$a_xml_writer->xmlStartTag("response_multiple", $attrs);
+					break;
+			}
+			$this->addQTIMaterial($a_xml_writer, $this->getNeutralColumn());
+			switch ($this->getSubtype())
+			{
+				case 0:
+					$a_xml_writer->xmlEndTag("response_single");
+					break;
+				case 1:
+					$a_xml_writer->xmlEndTag("response_multiple");
+					break;
+			}
+		}
+
+		$a_xml_writer->xmlEndTag("responses");
+		$a_xml_writer->xmlEndTag("matrix");
+
 		if (count($this->material))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
@@ -1159,31 +1204,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$a_xml_writer->xmlEndTag("material");
 			}
 		}
-
-		$attrs = array(
-			"shuffle" => "no"
-		);
-		$a_xml_writer->xmlStartTag("render_choice", $attrs);
-
-		// add columns
-		for ($index = 0; $index < $this->getColumnCount(); $index++)
-		{
-			$column = $this->getColumn($index);
-			$attrs = array(
-				"ident" => "$index"
-			);
-			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext", NULL, $column);
-			$a_xml_writer->xmlEndTag("material");
-			$a_xml_writer->xmlEndTag("response_label");
-		}
-		$a_xml_writer->xmlEndTag("render_choice");
-		$a_xml_writer->xmlEndTag("response_lid");
-		$a_xml_writer->xmlEndTag("flow");
-		$a_xml_writer->xmlEndTag("presentation");
-		$a_xml_writer->xmlEndTag("item");
-		$a_xml_writer->xmlEndTag("questestinterop");
+		
+		$a_xml_writer->xmlEndTag("question");
 
 		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 		if (!$a_include_header)
