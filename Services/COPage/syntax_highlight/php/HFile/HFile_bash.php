@@ -1,5 +1,5 @@
 <?php
-$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
+$BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
   class HFile_bash extends HFile{
@@ -30,7 +30,7 @@ $this->unindent          	= array("})");
 // String characters and delimiters
 
 $this->stringchars       	= array("'");
-$this->delimiters        	= array("~", "!", "@", "$", "%", "^", "*", "(", ")", "+", "=", "/", "\\", "[", "]", "{", "}", ":", ";", "\"", "<", ">", "'", "´", "`", " ", ",", "	", ".", "?");
+$this->delimiters        	= array("~", "!", "@", "$", "%", "^", "*", "(", ")", "+", "=", "/", "\\", "[", "]", "{", "}", ":", ";", "\"", "<", ">", "'", "ï¿½", "`", " ", ",", "	", ".", "?");
 $this->escchar           	= "";
 
 // Comment settings

@@ -1,5 +1,5 @@
 <?php
-$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
+$BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
   class HFile_jhtml extends HFile{

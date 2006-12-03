@@ -3,7 +3,7 @@
 
 ini_set('max_execution_time', 300000);
 
-$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
+$BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require "$BEAUT_PATH/Beautifier/HFile.php";
 

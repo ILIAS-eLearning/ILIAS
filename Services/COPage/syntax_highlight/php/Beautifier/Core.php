@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
 
-$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
+$BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 
 include_once($BEAUT_PATH."/Beautifier/HFile.php");
 include_once($BEAUT_PATH."/Beautifier/Context.php");

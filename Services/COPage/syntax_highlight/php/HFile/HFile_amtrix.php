@@ -1,5 +1,5 @@
 <?php
-$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
+$BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
   class HFile_amtrix extends HFile{
@@ -212,7 +212,7 @@ $this->keywords          	= array(
 			"WHERE" => "1", 
 			"WORK" => "1", 
 			"WRITETAG" => "1", 
-			"SE_HÄR" => "2", 
+			"SE_Hï¿½R" => "2", 
 			"$error" => "3", 
 			"$exec" => "3", 
 			"$PGM_exception" => "3");
