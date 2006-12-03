@@ -1,5 +1,5 @@
 <?php
-$BEAUT_PATH = realpath(".")."/syntax_highlight/php";
+$BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
   class HFile_foxpro extends HFile{
@@ -448,7 +448,7 @@ $this->keywords          	= array(
 			"PROGRAM" => "2", 
 			"PROPER" => "2", 
 			"PROW" => "2", 
-			"PRTINFO PUTFILE" => "2", 
+			"PRTINFOï¿½PUTFILE" => "2", 
 			"PV" => "2", 
 			"QUIT" => "2", 
 			"RAND" => "2", 
