@@ -24,8 +24,8 @@
 //require_once("content/classes/class.ilLMObject.php");
 require_once("./Services/COPage/classes/class.ilPageContent.php");
 require_once("./Services/COPage/classes/class.ilPCParagraph.php");
-require_once("./syntax_highlight/php/Beautifier/Init.php");
-require_once("./syntax_highlight/php/Output/Output_css.php");
+require_once("./Services/COPage/syntax_highlight/php/Beautifier/Init.php");
+require_once("./Services/COPage/syntax_highlight/php/Output/Output_css.php");
 
 
 define("IL_INSERT_BEFORE", 0);
@@ -1859,7 +1859,7 @@ class ilPageObject
 			$proglang="plain";
 		}
 		
-		require_once("./syntax_highlight/php/HFile/HFile_".$proglang.".php");
+		require_once("./Services/COPage/syntax_highlight/php/HFile/HFile_".$proglang.".php");
 		$classname =  "HFile_$proglang";
 		$h_instance = new $classname();
 		if ($autoindent == "n") {
@@ -1875,7 +1875,7 @@ class ilPageObject
 	}
 
 	function hasHighlighter ($hfile_ext) {
-		return file_exists ("syntax_highlight/php/HFile/HFile_".$hfile_ext.".php");
+		return file_exists ("Services/COPage/syntax_highlight/php/HFile/HFile_".$hfile_ext.".php");
 	}
 
 	/**
