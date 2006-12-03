@@ -529,53 +529,36 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
-		// set xml header
-		$a_xml_writer->xmlHeader();
-		$a_xml_writer->xmlStartTag("questestinterop");
-		$attrs = array(
-			"ident" => $this->getId(),
-			"title" => $this->getTitle()
-		);
-		$a_xml_writer->xmlStartTag("item", $attrs);
-		// add question description
-		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
-		$a_xml_writer->xmlElement("qticomment", NULL, "ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$a_xml_writer->xmlElement("qticomment", NULL, "Questiontype=".$this->getQuestionType());
-		$a_xml_writer->xmlElement("qticomment", NULL, "Author=".$this->getAuthor());
-		// add ILIAS specific metadata
-		$a_xml_writer->xmlStartTag("itemmetadata");
-		$a_xml_writer->xmlStartTag("qtimetadata");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "obligatory");
-		if (strcmp($obligatory_state, "") != 0)
-		{
-			$this->setObligatory($obligatory_state);
-		}
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getObligatory()));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "orientation");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getOrientation()));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlEndTag("qtimetadata");
-		$a_xml_writer->xmlEndTag("itemmetadata");
 
-		// PART I: qti presentation
+		$a_xml_writer->xmlHeader();
 		$attrs = array(
-			"label" => $this->getTitle()
+			"id" => $this->getId(),
+			"title" => $this->getTitle(),
+			"type" => $this->getQuestiontype(),
+			"obligatory" => $this->getObligatory()
 		);
-		$a_xml_writer->xmlStartTag("presentation", $attrs);
-		// add flow to presentation
-		$a_xml_writer->xmlStartTag("flow");
-		// add material with question text to presentation
-		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
-		// add answers to presentation
-		$attrs = array(
-			"ident" => "MCSR",
-			"rcardinality" => "Single"
-		);
-		$a_xml_writer->xmlStartTag("response_lid", $attrs);
+		$a_xml_writer->xmlStartTag("question", $attrs);
 		
+		$a_xml_writer->xmlElement("description", NULL, $this->getDescription());
+		$a_xml_writer->xmlElement("author", NULL, $this->getAuthor());
+		$a_xml_writer->xmlStartTag("questiontext");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
+		$a_xml_writer->xmlEndTag("questiontext");
+
+		$a_xml_writer->xmlStartTag("responses");
+
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+		{
+			$attrs = array(
+				"id" => $i
+			);
+			$a_xml_writer->xmlStartTag("response_single", $attrs);
+			$this->addQTIMaterial($a_xml_writer, $this->categories->getCategory($i));
+			$a_xml_writer->xmlEndTag("response_single");
+		}
+
+		$a_xml_writer->xmlEndTag("responses");
+
 		if (count($this->material))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
@@ -594,30 +577,14 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			}
 		}
 
-		$attrs = array(
-			"shuffle" => "no"
-		);
-		$a_xml_writer->xmlStartTag("render_choice", $attrs);
+		$a_xml_writer->xmlStartTag("metadata");
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "orientation");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getOrientation());
+		$a_xml_writer->xmlEndTag("metadatafield");
+		$a_xml_writer->xmlEndTag("metadata");
 
-		// add categories
-		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
-		{
-			$category = $this->categories->getCategory($index);
-			$attrs = array(
-				"ident" => "$index"
-			);
-			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext", NULL, $category);
-			$a_xml_writer->xmlEndTag("material");
-			$a_xml_writer->xmlEndTag("response_label");
-		}
-		$a_xml_writer->xmlEndTag("render_choice");
-		$a_xml_writer->xmlEndTag("response_lid");
-		$a_xml_writer->xmlEndTag("flow");
-		$a_xml_writer->xmlEndTag("presentation");
-		$a_xml_writer->xmlEndTag("item");
-		$a_xml_writer->xmlEndTag("questestinterop");
+		$a_xml_writer->xmlEndTag("question");
 
 		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 		if (!$a_include_header)

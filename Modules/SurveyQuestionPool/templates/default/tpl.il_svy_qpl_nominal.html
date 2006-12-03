@@ -37,14 +37,13 @@
 <!-- BEGIN orientation -->
 <tr>
   <td class="option">{TEXT_ORIENTATION}</td>
-  <td class="option_value">
-	<select name="orientation" size="1">
-		<option value="0"{SELECTED_VERTICAL}>{TXT_VERTICAL}</option>
-		<option value="1"{SELECTED_HORIZONTAL}>{TXT_HORIZONTAL}</option>
-<!-- BEGIN comboboxselection -->
-		<option value="2"{SELECTED_COMBOBOX}>{TXT_COMBOBOX}</option>
-<!-- END comboboxselection -->
-	</select></td>
+  <td class="option_value" colspan="4">
+		<input type="radio" name="orientation" value="0" id="vertical"{CHECKED_VERTICAL} /> <label for="vertical">{TXT_VERTICAL}</label>
+		<br />
+		<input type="radio" name="orientation" value="1" id="horizontal"{CHECKED_HORIZONTAL} /> <label for="horizontal">{TXT_HORIZONTAL}</label>
+		<br />
+		<input type="radio" name="orientation" value="2" id="combobox"{CHECKED_COMBOBOX} /> <label for="combobox">{TXT_COMBOBOX}</label>
+	</td>
 </tr>
 <!-- END orientation -->
 <tr>

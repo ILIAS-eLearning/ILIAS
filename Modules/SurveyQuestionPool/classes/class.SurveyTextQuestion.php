@@ -384,60 +384,33 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
-		// set xml header
-		$a_xml_writer->xmlHeader();
-		$a_xml_writer->xmlStartTag("questestinterop");
-		$attrs = array(
-			"ident" => $this->getId(),
-			"title" => $this->getTitle()
-		);
-		$a_xml_writer->xmlStartTag("item", $attrs);
-		// add question description
-		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
-		$a_xml_writer->xmlElement("qticomment", NULL, "ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$a_xml_writer->xmlElement("qticomment", NULL, "Questiontype=".$this->getQuestionType());
-		$a_xml_writer->xmlElement("qticomment", NULL, "Author=".$this->getAuthor());
-		// add ILIAS specific metadata
-		$a_xml_writer->xmlStartTag("itemmetadata");
-		$a_xml_writer->xmlStartTag("qtimetadata");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "obligatory");
-		if (strcmp($obligatory_state, "") != 0)
-		{
-			$this->setObligatory($obligatory_state);
-		}
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getObligatory()));
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "maxchars");
-		if (!$this->getMaxChars())
-		{
-			$a_xml_writer->xmlElement("fieldentry", NULL, "");
-		}
-		else
-		{
-			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getMaxChars()));
-		}
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlEndTag("qtimetadata");
-		$a_xml_writer->xmlEndTag("itemmetadata");
 
-		// PART I: qti presentation
+		$a_xml_writer->xmlHeader();
 		$attrs = array(
-			"label" => $this->getTitle()
+			"id" => $this->getId(),
+			"title" => $this->getTitle(),
+			"type" => $this->getQuestiontype(),
+			"obligatory" => $this->getObligatory()
 		);
-		$a_xml_writer->xmlStartTag("presentation", $attrs);
-		// add flow to presentation
-		$a_xml_writer->xmlStartTag("flow");
-		// add material with question text to presentation
-		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
-		// add answers to presentation
-		$attrs = array(
-			"ident" => "TEXT",
-			"rcardinality" => "Single"
-		);
-		$a_xml_writer->xmlStartTag("response_str", $attrs);
+		$a_xml_writer->xmlStartTag("question", $attrs);
 		
+		$a_xml_writer->xmlElement("description", NULL, $this->getDescription());
+		$a_xml_writer->xmlElement("author", NULL, $this->getAuthor());
+		$a_xml_writer->xmlStartTag("questiontext");
+		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
+		$a_xml_writer->xmlEndTag("questiontext");
+
+		$a_xml_writer->xmlStartTag("responses");
+		$attrs = array(
+			"id" => "0"
+		);
+		if ($this->getMaxChars() > 0)
+		{
+			$attrs["maxlength"] = $this->getMaxChars();
+		}
+		$a_xml_writer->xmlElement("response_text", $attrs);
+		$a_xml_writer->xmlEndTag("responses");
+
 		if (count($this->material))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
@@ -455,12 +428,8 @@ class SurveyTextQuestion extends SurveyQuestion
 				$a_xml_writer->xmlEndTag("material");
 			}
 		}
-
-		$a_xml_writer->xmlEndTag("response_str");
-		$a_xml_writer->xmlEndTag("flow");
-		$a_xml_writer->xmlEndTag("presentation");
-		$a_xml_writer->xmlEndTag("item");
-		$a_xml_writer->xmlEndTag("questestinterop");
+		
+		$a_xml_writer->xmlEndTag("question");
 
 		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 		if (!$a_include_header)

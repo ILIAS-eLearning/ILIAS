@@ -1795,11 +1795,11 @@ class SurveyQuestion
 
 		$a_xml_writer->xmlStartTag("material");
 		$attrs = array(
-			"texttype" => "text/plain"
+			"type" => "text/plain"
 		);
 		if ($this->isHTML($a_material))
 		{
-			$attrs["texttype"] = "text/xhtml";
+			$attrs["type"] = "text/xhtml";
 		}
 		$a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
 
