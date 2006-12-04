@@ -2051,13 +2051,13 @@ td.bipolar {
 /* -- Members Gallery Styles -- */
 div.il_MembersGallery
 {
-	margin: 0px auto;
+	margin: 0 auto;
 	text-align:center;
 	width:95%;
 	padding: 8px;
 	line-height: 1.33;
-	text-align:center;
 	display:block;
+	float:left;
 }
 
 div.il_Member
@@ -2067,19 +2067,25 @@ div.il_Member
 	background-color: #EEEEEE;
 	padding: 10px 15px;
 	font-size: 75%;
-	display:block;
+	height:14em;
+	width:10em;
 	float:left;
-	white-space: nowrap;
+	text-align:center;
+	white-space: -moz-normal;
+	overflow: hidden;
 }
 
 div.il_Tutor
 {
 	page-break-before: auto;
 	margin: 0px 5px 20px 5px;
-	background-color: #BBBBBB;
 	padding: 10px 15px;
+	background-color: #BBBBBB;
 	font-size: 75%;
-	display:block;
+	height:14em;
+	width:10em;
 	float:left;
-	white-space: nowrap;
+	text-align:center;
+	white-space: -moz-normal;
+	overflow: hidden;
 }
