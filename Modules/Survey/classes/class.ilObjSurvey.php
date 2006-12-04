@@ -4219,6 +4219,12 @@ class ilObjSurvey extends ilObject
 			}
 			else
 			{
+				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
+				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+				$spl = new ilObjSurveyQuestionPool($survey_questionpool_id, FALSE);
+				$import = new SurveyImportParser($spl, "", TRUE);
+				$import->setXMLContent($xml);
+				$import->startParsing();
 			}
 			// delete import directory
 			ilUtil::delDir($this->getImportDirectory());
