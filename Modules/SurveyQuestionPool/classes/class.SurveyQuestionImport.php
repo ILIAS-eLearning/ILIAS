@@ -57,6 +57,7 @@ class SurveyQuestionImport extends ilSaxParser
 	var $matrix;
 	var $is_matrix;
 	var $adjectives;
+	var $spl_exists;
 	
 	/**
 	* Constructor
@@ -65,7 +66,7 @@ class SurveyQuestionImport extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function SurveyQuestionImport(&$a_spl, $a_xml_file = '')
+	function SurveyQuestionImport(&$a_spl, $a_xml_file = '', $spl_exists = FALSE)
 	{
 		parent::ilSaxParser($a_xml_file);
 		$this->spl =& $a_spl;
@@ -81,6 +82,7 @@ class SurveyQuestionImport extends ilSaxParser
 		$this->matrix = array();
 		$this->is_matrix = FALSE;
 		$this->adjectives = array();
+		$this->spl_exists = $spl_exists;
 	}
 
 	/**
@@ -195,9 +197,12 @@ class SurveyQuestionImport extends ilSaxParser
 				}
 				break;
 			case "material":
-				if (strcmp($this->getParent($a_xml_parser), "question") == 0)
+				switch ($this->getParent($a_xml_parser))
 				{
-					$this->material = array();
+					case "question":
+					case "questiontext":
+						$this->material = array();
+						break;
 				}
 				array_push($this->material, array("text" => "", "image" => "", "label" => $a_attribs["label"]));
 				break;
@@ -329,25 +334,28 @@ class SurveyQuestionImport extends ilSaxParser
 						$this->activequestion->importAdditionalMetadata($this->metadata);
 					}
 				}
-				if (strcmp($this->getParent($a_xml_parser), "surveyquestions") == 0)
+				if (!$this->spl_exists)
 				{
-					foreach ($this->metadata as $key => $value)
+					if (strcmp($this->getParent($a_xml_parser), "surveyquestions") == 0)
 					{
-						if (strcmp($value["label"], "SCORM") == 0)
+						foreach ($this->metadata as $key => $value)
 						{
-							if (strlen($value["entry"]))
+							if (strcmp($value["label"], "SCORM") == 0)
 							{
-								include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
-								include_once "./Services/MetaData/classes/class.ilMD.php";
-								$md_sax_parser = new ilMDSaxParser();
-								$md_sax_parser->setXMLContent($value["entry"]);
-								$md_sax_parser->setMDObject($tmp = new ilMD($this->spl->getId(),0, "spl"));
-								$md_sax_parser->enableMDParsing(true);
-								$md_sax_parser->startParsing();
-					
-								// Finally update title description
-								// Update title description
-								$this->spl->MDUpdateListener("General");
+								if (strlen($value["entry"]))
+								{
+									include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
+									include_once "./Services/MetaData/classes/class.ilMD.php";
+									$md_sax_parser = new ilMDSaxParser();
+									$md_sax_parser->setXMLContent($value["entry"]);
+									$md_sax_parser->setMDObject($tmp = new ilMD($this->spl->getId(),0, "spl"));
+									$md_sax_parser->enableMDParsing(true);
+									$md_sax_parser->startParsing();
+						
+									// Finally update title description
+									// Update title description
+									$this->spl->MDUpdateListener("General");
+								}
 							}
 						}
 					}
@@ -368,7 +376,13 @@ class SurveyQuestionImport extends ilSaxParser
 				$this->responses[$this->response_id]["material"] = $this->material;
 				break;
 			case "adjective":
-				$this->adjectives[count($this->adjectives)]["text"] = $this->characterbuffer;
+				$this->adjectives[count($this->adjectives)-1]["text"] = $this->characterbuffer;
+				break;
+			case "bipolar_adjectives":
+				if (is_object($this->activequestion))
+				{
+					$this->activequestion->importAdjectives($this->adjectives);
+				}
 				break;
 			case "matrixrow":
 				$row = "";
