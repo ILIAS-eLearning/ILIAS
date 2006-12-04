@@ -470,7 +470,7 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && (!strlen($row["anonymous_id"])))
+				if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && (!strlen($row["anonymous_id"])) && ($this->getAnonymize() == 0))
 				{
 					$uname = ilObjUser::_lookupName($row["user_fi"]);
 					if (strlen($uname["user_id"]))
@@ -3479,7 +3479,7 @@ class ilObjSurvey extends ilObject
 		$questions =& $this->getSurveyQuestions();
 		foreach ($users as $row)
 		{
-			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID))
+			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && ($this->getAnonymize() == 0))
 			{
 				$evaluation[$row["user_fi"]] = $this->getEvaluationByUser($questions, $row["user_fi"], $row["anonymous_id"]);
 			}
@@ -3574,7 +3574,7 @@ class ilObjSurvey extends ilObject
 		}
 		$username = $this->lng->txt("anonymous");
 		$gender = "";
-		if (($user_id > 0) && ($user_id != ANONYMOUS_USER_ID))
+		if (($user_id > 0) && ($user_id != ANONYMOUS_USER_ID) && ($this->getAnonymize() == 0))
 		{
 			include_once "./classes/class.ilObjUser.php";
 			if (strlen(ilObjUser::_lookupLogin($user_id)) == 0)
