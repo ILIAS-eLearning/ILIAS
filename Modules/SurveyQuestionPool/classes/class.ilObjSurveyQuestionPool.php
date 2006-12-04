@@ -818,15 +818,16 @@ class ilObjSurveyQuestionPool extends ilObject
 			if (strpos($xml, "questestinterop") > 0)
 			{
 				// survey questions for ILIAS < 3.8
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionImportOld.php";
-				$oldimport = new SurveyQuestionImportOld($this, $spl_exists);
+				include_once "./Services/Survey/classes/class.SurveyOldImportParser.php";
+				$survey = NULL;
+				$oldimport = new SurveyOldImportParser($this, $survey, $spl_exists);
 				$oldimport->importXML($xml);
 			}
 			else
 			{
 				// survey questions for ILIAS >= 3.8
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionImport.php";
-				$import = new SurveyQuestionImport($this, "", $spl_exists);
+				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
+				$import = new SurveyImportParser($this, "", $spl_exists);
 				$import->setXMLContent($xml);
 				$import->startParsing();
 			}

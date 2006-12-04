@@ -3994,7 +3994,7 @@ class ilObjSurvey extends ilObject
 	* @return string The QTI xml representation of the survey
 	* @access public
 	*/
-	function to_xml()
+	function toXML()
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
@@ -4042,12 +4042,12 @@ class ilObjSurvey extends ilObject
 		if ($this->getStartDateEnabled())
 		{
 			$attrs = array("type" => "date");
-			$a_xml_writer->xmlElement("startingtime", $attrs, sprintf("%dY-%dM-%dDT00:00:00", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay()));
+			$a_xml_writer->xmlElement("startingtime", $attrs, sprintf("%04d-%02d-%02dT00:00:00", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay()));
 		}
 		if ($this->getEndDateEnabled())
 		{
 			$attrs = array("type" => "date");
-			$a_xml_writer->xmlElement("endingtime", $attrs, sprintf("%dY-%dM-%dDT00:00:00", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay()));
+			$a_xml_writer->xmlElement("endingtime", $attrs, sprintf("%04d-%02d-%02dT00:00:00", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay()));
 		}
 		$a_xml_writer->xmlEndTag("restrictions");
 		
@@ -4078,6 +4078,7 @@ class ilObjSurvey extends ilObject
 						foreach ($question["constraints"] as $constraint)
 						{
 							$attribs = array(
+								"sourceref" => $question["question_id"],
 								"destref" => $constraint["question"],
 								"relation" => $constraint["short"],
 								"value" => $constraint["value"]
@@ -4208,258 +4209,29 @@ class ilObjSurvey extends ilObject
 			$xml = fread($fh, filesize($importfile));
 			$result = fclose($fh);
 
+			if (strpos($xml, "questestinterop"))
+			{
+				include_once "./Services/Survey/classes/class.SurveyOldImportParser.php";
+				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+				$spl = new ilObjSurveyQuestionPool($survey_questionpool_id, FALSE);
+				$oldimport = new SurveyOldImportParser($spl, $this, $spl_exists);
+				$oldimport->fromXMLSurvey($xml);
+			}
+			else
+			{
+			}
 			// delete import directory
 			ilUtil::delDir($this->getImportDirectory());
-	
 			if (!$result)
 			{
 				$this->ilias->raiseError($this->lng->txt("import_error_closing_file"),$this->ilias->error_obj->MESSAGE);
 				$error = 1;
 				return $error;
 			}
-			if (preg_match("/(<survey[^>]*>.*?<\/survey>)/si", $xml, $matches))
-			{
-				// read survey properties
-				$import_results = $this->from_xml($matches[1]);
-				if ($import_results === false)
-				{
-					$this->ilias->raiseError($this->lng->txt("import_error_survey_no_proper_values"),$this->ilias->error_obj->MESSAGE);
-					$error = 1;
-					return $error;
-				}
-			}
-			else
-			{
-				$this->ilias->raiseError($this->lng->txt("import_error_survey_no_properties"),$this->ilias->error_obj->MESSAGE);
-				$error = 1;
-				return $error;
-			}
-			$question_counter = 0;
-			$new_question_ids = array();
-			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
-			{
-				foreach ($matches[1] as $index => $item)
-				{
-					$question = "";
-					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
-					{
-						$type = $questiontype[1];
-						// conversion of old question type identifiers
-						switch ($type)
-						{
-							case METRIC_QUESTION_IDENTIFIER:
-								$type = "SurveyMetricQuestion";
-								break;
-							case NOMINAL_QUESTION_IDENTIFIER:
-								$type = "SurveyNominalQuestion";
-								break;
-							case ORDINAL_QUESTION_IDENTIFIER:
-								$type = "SurveyOrdinalQuestion";
-								break;
-							case TEXT_QUESTION_IDENTIFIER:
-								$type = "SurveyTextQuestion";
-								break;
-						}
-						if (file_exists("./Modules/SurveyQuestionPool/classes/class.$type.php"))
-						{
-							include_once "./Modules/SurveyQuestionPool/classes/class.$type.php";
-							$question = new $type();
-							$question->from_xml("<questestinterop>$item</questestinterop>");
-							if ($import_results !== false)
-							{
-								$question->setObjId($survey_questionpool_id);
-								$question->saveToDb();
-								$question_id = $question->duplicate(true);
-								$this->questions[$question_counter++] = $question_id;
-								if (preg_match("/<item\s+ident\=\"(\d+)\"/", $item, $matches))
-								{
-									$original_question_id = $matches[1];
-									$new_question_ids[$original_question_id] = $question_id;
-								}
-							}
-							else
-							{
-								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
-							}
-						}
-					}
-				}
-			}
 
 			$this->saveToDb();
-			// add question blocks
-			foreach ($import_results["questionblocks"] as $questionblock)
-			{
-				foreach ($questionblock["questions"] as $key => $value)
-				{
-					$questionblock["questions"][$key] = $new_question_ids[$value];
-				}
-				$this->createQuestionblock($questionblock["title"], $questionblock["questions"]);
-			}
-			// add constraints
-			$relations = $this->getAllRelations(true);
-			foreach ($import_results["constraints"] as $constraint)
-			{
-				$this->addConstraint($new_question_ids[$constraint["for"]], $new_question_ids[$constraint["question"]], $relations[$constraint["relation"]]["id"], $constraint["value"]);
-			}
-			foreach ($import_results["headings"] as $qid => $heading)
-			{
-				$this->saveHeading($heading, $new_question_ids[$qid]);
-			}
 		}
 		return $error;
-	}
-
-	/**
-	* Imports the survey properties from XML into the survey object
-	*
-	* Imports the survey properties from XML into the survey object
-	*
-	* @return mixed An array containing the constraints and questionblocks, false otherwise
-	* @access public
-	*/
-	function from_xml($xml_text)
-	{
-		$result = false;
-		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
-		$domxml = domxml_open_mem($xml_text);
-		$constraints = array();
-		$headings = array();
-		$questionblocks = array();
-		if (!empty($domxml))
-		{
-			$root = $domxml->document_element();
-			$this->setTitle($root->get_attribute("title"));
-			$item = $root;
-			$itemnodes = $item->child_nodes();
-			foreach ($itemnodes as $index => $node)
-			{
-				switch ($node->node_name())
-				{
-					case "qticomment":
-						$comment = $node->get_content();
-						if (strpos($comment, "ILIAS Version=") !== false)
-						{
-						}
-						elseif (strpos($comment, "Questiontype=") !== false)
-						{
-						}
-						elseif (strpos($comment, "Author=") !== false)
-						{
-							$comment = str_replace("Author=", "", $comment);
-							$this->setAuthor($comment);
-						}
-						else
-						{
-							$this->setDescription($comment);
-						}
-						break;
-					case "objectives":
-						$materials = $node->child_nodes();
-						foreach ($materials as $material)
-						{
-							if (strcmp($material->get_attribute("label"), "introduction") == 0)
-							{
-								$mattext = $material->first_child();
-								$this->setIntroduction($mattext->get_content());
-							}
-							else if (strcmp($material->get_attribute("label"), "outro") == 0)
-							{
-								$mattext = $material->first_child();
-								$this->setOutro($mattext->get_content());
-							}
-						}
-						break;
-					case "qtimetadata":
-						$metadata_fields = $node->child_nodes();
-						foreach ($metadata_fields as $index => $metadata_field)
-						{
-							$fieldlabel = $metadata_field->first_child();
-							$fieldentry = $fieldlabel->next_sibling();
-							switch ($fieldlabel->get_content())
-							{
-								case "evaluation_access":
-									$this->setEvaluationAccess($fieldentry->get_content());
-									break;
-								case "author":
-									$this->setAuthor($fieldentry->get_content());
-									break;
-								case "description":
-									$this->setDescription($fieldentry->get_content());
-									break;
-								case "anonymize":
-									$this->setAnonymize($fieldentry->get_content());
-									break;
-								case "startdate":
-									$iso8601period = $fieldentry->get_content();
-									if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-									{
-										$this->setStartDateEnabled(true);
-										$this->setStartDate(sprintf("%04d-%02d-%02d", $matches[1], $matches[2], $matches[3]));
-									}
-									break;
-								case "enddate":
-									$iso8601period = $fieldentry->get_content();
-									if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-									{
-										$this->setEndDateEnabled(true);
-										$this->setEndDate(sprintf("%04d-%02d-%02d", $matches[1], $matches[2], $matches[3]));
-									}
-									break;
-								case "status":
-									$this->setStatus($fieldentry->get_content());
-									break;
-								case "display_question_titles":
-									if ($fieldentry->get_content() == QUESTIONTITLES_HIDDEN)
-									{
-										$this->hideQuestionTitles();
-									}
-									else
-									{
-										$this->showQuestionTitles();
-									}
-							}
-							if (preg_match("/questionblock_\d+/", $fieldlabel->get_content()))
-							{
-								$qb = $fieldentry->get_content();
-								preg_match("/<title>(.*?)<\/title>/", $qb, $matches);
-								$qb_title = $matches[1];
-								preg_match("/<questions>(.*?)<\/questions>/", $qb, $matches);
-								$qb_questions = $matches[1];
-								$qb_questions_array = explode(",", $qb_questions);
-								array_push($questionblocks, array(
-									"title" => $qb_title,
-									"questions" => $qb_questions_array
-								));
-							}
-							if (preg_match("/constraint_(\d+)/", $fieldlabel->get_content(), $matches))
-							{
-								$constraint = $fieldentry->get_content();
-								$constraint_array = explode(",", $constraint);
-								if (count($constraint_array) == 3)
-								{
-									array_push($constraints, array(
-										"for"      => $matches[1], 
-										"question" => $constraint_array[0],
-										"relation" => $constraint_array[1],
-										"value"    => $constraint_array[2]
-									));
-								}
-							}
-							if (preg_match("/heading_(\d+)/", $fieldlabel->get_content(), $matches))
-							{
-								$heading = $fieldentry->get_content();
-								$headings[$matches[1]] = $heading;
-							}
-						}
-						break;
-				}
-			}
-			$result["questionblocks"] = $questionblocks;
-			$result["constraints"] = $constraints;
-			$result["headings"] = $headings;
-		}
-		return $result;
 	}
 
 /**

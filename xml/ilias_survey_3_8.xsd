@@ -299,12 +299,13 @@
   <xs:element name="constraints">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="constraint"/>
+        <xs:element ref="constraint" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="constraint">
     <xs:complexType>
+      <xs:attribute name="sourceref" use="required" type="xs:string"/>
       <xs:attribute name="destref" use="required" type="xs:string"/>
       <xs:attribute name="relation" use="required" type="xs:string"/>
       <xs:attribute name="value" use="required" type="xs:string"/>

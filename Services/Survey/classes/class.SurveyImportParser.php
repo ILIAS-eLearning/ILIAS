@@ -30,9 +30,9 @@ require_once("./classes/class.ilSaxParser.php");
 * @version $Id$
 *
 * @extends ilSaxParser
-* @ingroup ModulesSurveyQuestionPool
+* @ingroup ServicesSurvey
 */
-class SurveyQuestionImport extends ilSaxParser
+class SurveyImportParser extends ilSaxParser
 {
 	var $path;
 	var $depth;
@@ -66,7 +66,7 @@ class SurveyQuestionImport extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function SurveyQuestionImport(&$a_spl, $a_xml_file = '', $spl_exists = FALSE)
+	function SurveyImportParser(&$a_spl, $a_xml_file = '', $spl_exists = FALSE)
 	{
 		parent::ilSaxParser($a_xml_file);
 		$this->spl =& $a_spl;
