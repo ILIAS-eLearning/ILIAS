@@ -112,7 +112,7 @@ class ilSurveyQuestionpoolExport
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
 		// write qti file
 		$qti_file = fopen($expDir . "/" . $this->filename, "w");
-		fwrite($qti_file, $this->spl_obj->to_xml($questions));
+		fwrite($qti_file, $this->spl_obj->toXML($questions));
 		fclose($qti_file);
 
 		// destroy writer object

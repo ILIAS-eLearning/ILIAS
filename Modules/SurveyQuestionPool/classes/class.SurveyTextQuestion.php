@@ -261,126 +261,14 @@ class SurveyTextQuestion extends SurveyQuestion
   }
 
 	/**
-	* Imports a question from XML
+	* Returns an xml representation of the question
 	*
-	* Sets the attributes of the question from the XML text passed
-	* as argument
+	* Returns an xml representation of the question
 	*
-	* @return boolean True, if the import succeeds, false otherwise
+	* @return string The xml representation of the question
 	* @access public
 	*/
-	function from_xml($xml_text)
-	{
-		$result = false;
-		if (!empty($this->domxml))
-		{
-			$this->domxml->free();
-		}
-		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
-		$this->domxml = domxml_open_mem($xml_text);
-		if (!empty($this->domxml))
-		{
-			$root = $this->domxml->document_element();
-			$item = $root->first_child();
-			$this->setTitle($item->get_attribute("title"));
-			$this->gaps = array();
-			$itemnodes = $item->child_nodes();
-			foreach ($itemnodes as $index => $node)
-			{
-				switch ($node->node_name())
-				{
-					case "qticomment":
-						$comment = $node->get_content();
-						if (strpos($comment, "ILIAS Version=") !== false)
-						{
-						}
-						elseif (strpos($comment, "Questiontype=") !== false)
-						{
-						}
-						elseif (strpos($comment, "Author=") !== false)
-						{
-							$comment = str_replace("Author=", "", $comment);
-							$this->setAuthor($comment);
-						}
-						else
-						{
-							$this->setDescription($comment);
-						}
-						break;
-					case "itemmetadata":
-						$qtimetadata = $node->first_child();
-						$metadata_fields = $qtimetadata->child_nodes();
-						foreach ($metadata_fields as $index => $metadata_field)
-						{
-							$fieldlabel = $metadata_field->first_child();
-							$fieldentry = $fieldlabel->next_sibling();
-							switch ($fieldlabel->get_content())
-							{
-								case "obligatory":
-									$this->setObligatory($fieldentry->get_content());
-									break;
-								case "maxchars":
-									$this->setMaxChars($fieldentry->get_content());
-									break;
-							}
-						}
-						break;
-					case "presentation":
-						$flow = $node->first_child();
-						$flownodes = $flow->child_nodes();
-						foreach ($flownodes as $idx => $flownode)
-						{
-							if (strcmp($flownode->node_name(), "material") == 0)
-							{
-								$mattext = $flownode->first_child();
-								$this->setQuestiontext($mattext->get_content());
-							}
-							elseif (strcmp($flownode->node_name(), "response_str") == 0)
-							{
-								$ident = $flownode->get_attribute("ident");
-								$response_lid_nodes = $flownode->child_nodes();
-								foreach ($response_lid_nodes as $resp_lid_id => $resp_lid_node)
-								{
-									switch ($resp_lid_node->node_name())
-									{
-										case "material":
-											$matlabel = $resp_lid_node->get_attribute("label");
-											$mattype = $resp_lid_node->first_child();
-											if (strcmp($mattype->node_name(), "mattext") == 0)
-											{
-												$material = $mattype->get_content();
-												if ($material)
-												{
-													if ($this->getId() < 1)
-													{
-														$this->saveToDb();
-													}
-													$this->setMaterial($material, true, $matlabel);
-												}
-											}
-											break;
-									}
-								}
-							}
-						}
-						break;
-				}
-			}
-			$result = true;
-		}
-		return $result;
-	}
-
-	/**
-	* Returns a QTI xml representation of the question
-	*
-	* Returns a QTI xml representation of the question and sets the internal
-	* domxml variable with the DOM XML representation of the QTI xml representation
-	*
-	* @return string The QTI xml representation of the question
-	* @access public
-	*/
-	function to_xml($a_include_header = true, $obligatory_state = "")
+	function toXML($a_include_header = true, $obligatory_state = "")
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
@@ -397,7 +285,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		$a_xml_writer->xmlElement("description", NULL, $this->getDescription());
 		$a_xml_writer->xmlElement("author", NULL, $this->getAuthor());
 		$a_xml_writer->xmlStartTag("questiontext");
-		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
+		$this->addMaterialTag($a_xml_writer, $this->getQuestiontext());
 		$a_xml_writer->xmlEndTag("questiontext");
 
 		$a_xml_writer->xmlStartTag("responses");
@@ -696,6 +584,25 @@ class SurveyTextQuestion extends SurveyQuestion
 			}
 		}
 		return $answers;
+	}
+
+	/**
+	* Import response data from the question import file
+	*
+	* Import response data from the question import file
+	*
+	* @return array $a_data Array containing the response data
+	* @access public
+	*/
+	function importResponses($a_data)
+	{
+		foreach ($a_data as $id => $data)
+		{
+			if ($data["maxlength"] > 0)
+			{
+				$this->setMaxChars($data["maxlength"]);
+			}
+		}
 	}
 }
 ?>

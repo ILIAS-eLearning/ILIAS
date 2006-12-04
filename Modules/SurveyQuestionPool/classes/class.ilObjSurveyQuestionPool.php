@@ -728,7 +728,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	/**
 	* export questions to xml
 	*/
-	function to_xml($questions)
+	function toXML($questions)
 	{
 		if (!is_array($questions))
 		{
@@ -776,7 +776,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			include_once "./Modules/SurveyQuestionPool/classes/class.$questiontype.php";
 			$question = new $questiontype();
 			$question->loadFromDb($value);
-			$questionxml .= $question->to_xml(false);
+			$questionxml .= $question->toXML(false);
 		}
 		
 		$xml = str_replace("<dummy>dummy</dummy>", $questionxml, $xml);
@@ -800,105 +800,39 @@ class ilObjSurveyQuestionPool extends ilObject
 		return $questions;
 	}
 
-	function importObject($source)
+	/**
+	* Imports survey questions into ILIAS
+	*
+	* Imports survey questions into ILIAS
+	*
+	* @param string $source The filename of an XML import file
+	* @access public
+	*/
+	function importObject($source, $spl_exists = FALSE)
 	{
-		$metadata = "";
 		if (is_file($source))
 		{
 			$fh = fopen($source, "r") or die("");
 			$xml = fread($fh, filesize($source));
 			fclose($fh) or die("");
-
-			// read questionpool metadata from xml file
-			$xml = preg_replace("/>\s*?</", "><", $xml);
-			$domxml = domxml_open_mem($xml);
-			if (!empty($domxml))
+			if (strpos($xml, "questestinterop") > 0)
 			{
-				$nodeList = $domxml->get_elements_by_tagname("fieldlabel");
-				foreach ($nodeList as $node)
-				{
-					switch ($node->get_content())
-					{
-						case "SCORM":
-							$metanode = $node->next_sibling();
-							if (strcmp($metanode->node_name(), "fieldentry") == 0)
-							{
-								$metadata = $metanode->get_content();
-							}
-					}
-				}
-				$domxml->free();
+				// survey questions for ILIAS < 3.8
+				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionImportOld.php";
+				$oldimport = new SurveyQuestionImportOld($this);
+				$oldimport->importXML($xml);
 			}
-
-			// import file into questionpool
-			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
+			else
 			{
-				foreach ($matches[1] as $index => $item)
-				{
-					// get identifier
-					if (preg_match("/(<item[^>]*>)/is", $item, $start_tag))
-					{
-						if (preg_match("/(ident=\"([^\"]*)\")/is", $start_tag[1], $ident))
-						{
-							$ident = $ident[2];
-						}
-					}
-					$question = "";
-					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
-					{
-						$type = $questiontype[1];
-						// conversion of old question type identifiers
-						switch ($type)
-						{
-							case METRIC_QUESTION_IDENTIFIER:
-								$type = "SurveyMetricQuestion";
-								break;
-							case NOMINAL_QUESTION_IDENTIFIER:
-								$type = "SurveyNominalQuestion";
-								break;
-							case ORDINAL_QUESTION_IDENTIFIER:
-								$type = "SurveyOrdinalQuestion";
-								break;
-							case TEXT_QUESTION_IDENTIFIER:
-								$type = "SurveyTextQuestion";
-								break;
-						}
-						if (file_exists("./Modules/SurveyQuestionPool/classes/class.$type.php"))
-						{
-							include_once "./Modules/SurveyQuestionPool/classes/class.$type.php";
-							$question = new $type();
-							$question->setObjId($this->getId());
-							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
-							{
-								$question->saveToDb();
-							}
-							else
-							{
-								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
-							}
-						}
-					}
-				}
+				// survey questions for ILIAS >= 3.8
+				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionImport.php";
+				$import = new SurveyQuestionImport($this);
+				$import->setXMLContent($xml);
+				$import->startParsing();
 			}
-			
-			if ($metadata)
-			{
-				include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
-				include_once "./Services/MetaData/classes/class.ilMD.php";
-				$md_sax_parser = new ilMDSaxParser();
-				$md_sax_parser->setXMLContent($metadata);
-				$md_sax_parser->setMDObject($tmp = new ilMD($this->getId(),0,'spl'));
-				$md_sax_parser->enableMDParsing(true);
-				$md_sax_parser->startParsing();
-
-				// Finally update title description
-				// Update title description
-				$this->MDUpdateListener('General');
-			}
-
 		}
 	}
-
+	
 	/**
 	* Sets the questionpool online status
 	*

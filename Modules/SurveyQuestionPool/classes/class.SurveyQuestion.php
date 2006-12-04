@@ -153,15 +153,6 @@ class SurveyQuestion
   var $lng;
 
 	/**
-	* The domxml representation of the question in qti
-	*
-	* The domxml representation of the question in qti
-	*
-	* @var object
-	*/
-	var $domxml;
-
-	/**
 	* The orientation of the question output
 	*
 	* The orientation of the question output (0 = vertical, 1 = horizontal)
@@ -222,10 +213,6 @@ class SurveyQuestion
 
 	function _SurveyQuestion()
 	{
-		if (!empty($this->domxml))
-		{
-			$this->domxml->free();
-		}
 	}
 
 	
@@ -1781,14 +1768,14 @@ class SurveyQuestion
 	}
 	
 	/**
-	* Creates a QTI material tag from a plain text or xhtml text
+	* Creates an XML material tag from a plain text or xhtml text
 	*
 	* @param object $a_xml_writer Reference to the ILIAS XML writer
 	* @param string $a_material plain text or html text containing the material
-	* @return string QTI material tag
+	* @return string XML material tag
 	* @access public
 	*/
-	function addQTIMaterial(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE)
+	function addMaterialTag(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE)
 	{
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -1936,6 +1923,60 @@ class SurveyQuestion
 		// overwrite in inherited classes
 		$data = array();
 		return $data;
+	}
+	
+	/**
+	* Import additional meta data from the question import file
+	*
+	* Import additional meta data from the question import file. Usually
+	* the meta data section is used to store question elements which are not
+	* part of the standard XML schema.
+	*
+	* @return array $a_meta Array containing the additional meta data
+	* @access public
+	*/
+	function importAdditionalMetadata($a_meta)
+	{
+		// overwrite in inherited classes
+	}
+	
+	/**
+	* Import response data from the question import file
+	*
+	* Import response data from the question import file
+	*
+	* @return array $a_data Array containing the response data
+	* @access public
+	*/
+	function importResponses($a_data)
+	{
+		// overwrite in inherited classes
+	}
+
+	/**
+	* Import bipolar adjectives from the question import file
+	*
+	* Import bipolar adjectives from the question import file
+	*
+	* @return array $a_data Array containing the adjectives
+	* @access public
+	*/
+	function importAdjectives($a_data)
+	{
+		// overwrite in inherited classes
+	}
+
+	/**
+	* Import matrix rows from the question import file
+	*
+	* Import matrix rows from the question import file
+	*
+	* @return array $a_data Array containing the matrix rows
+	* @access public
+	*/
+	function importMatrix($a_data)
+	{
+		// overwrite in inherited classes
 	}
 }
 ?>

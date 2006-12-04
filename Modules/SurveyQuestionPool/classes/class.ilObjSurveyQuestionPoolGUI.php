@@ -699,47 +699,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$xml = fread($fh, filesize($source));
 			fclose($fh) or die("");
 			unlink($source);
-			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
-			{
-				foreach ($matches[1] as $index => $item)
-				{
-					$question = "";
-					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
-					{
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyOrdinalQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestion.php";
-						include_once "./Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php";
-						switch ($questiontype[1])
-						{
-							case NOMINAL_QUESTION_IDENTIFIER:
-								$question = new SurveyNominalQuestion();
-								break;
-							case ORDINAL_QUESTION_IDENTIFIER:
-								$question = new SurveyOrdinalQuestion();
-								break;
-							case METRIC_QUESTION_IDENTIFIER:
-								$question = new SurveyMetricQuestion();
-								break;
-							case TEXT_QUESTION_IDENTIFIER:
-								$question = new SurveyTextQuestion();
-								break;
-						}
-						if ($question)
-						{
-							$question->setObjId($this->object->getId());
-							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
-							{
-								$question->saveToDb();
-							}
-							else
-							{
-								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
-							}
-						}
-					}
-				}
-			}
+			$this->object->importObject($xml, TRUE);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
