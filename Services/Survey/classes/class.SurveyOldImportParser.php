@@ -127,12 +127,15 @@ class SurveyOldImportParser
 						$method = "fromXML" . $type;
 						$this->$method($question, "<questestinterop>$item</questestinterop>");
 
-						$duplicate_id = $question->duplicate(TRUE);
-						array_push($this->survey->questions, $duplicate_id);
-						if (preg_match("/<item\s+ident\=\"(\d+)\"/", $xml, $matches))
+						if (is_object($this->survey))
 						{
-							$original_question_id = $matches[1];
-							$this->new_question_ids[$original_question_id] = $duplicate_id;
+							$duplicate_id = $question->duplicate(TRUE);
+							array_push($this->survey->questions, $duplicate_id);
+							if (preg_match("/<item\s+ident\=\"(\d+)\"/", $xml, $matches))
+							{
+								$original_question_id = $matches[1];
+								$this->new_question_ids[$original_question_id] = $duplicate_id;
+							}
 						}
 					}
 				}
