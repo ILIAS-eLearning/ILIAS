@@ -694,12 +694,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$_FILES["qtidoc"]["name"], $full_path);
 			//move_uploaded_file($_FILES["qtidoc"]["tmp_name"], $full_path);
 			$source = $full_path;
-
-			$fh = fopen($source, "r") or die("");
-			$xml = fread($fh, filesize($source));
-			fclose($fh) or die("");
+			$this->object->importObject($source, TRUE);
 			unlink($source);
-			$this->object->importObject($xml, TRUE);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}

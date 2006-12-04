@@ -1088,16 +1088,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "column_separators");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getColumnSeparators());
 		$a_xml_writer->xmlEndTag("metadatafield");
-		$a_xml_writer->xmlEndTag("metadata");
-		
-		$a_xml_writer->xmlStartTag("metadata");
+
 		$a_xml_writer->xmlStartTag("metadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "row_separators");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getRowSeparators());
 		$a_xml_writer->xmlEndTag("metadatafield");
-		$a_xml_writer->xmlEndTag("metadata");
-		
-		$a_xml_writer->xmlStartTag("metadata");
+
 		$a_xml_writer->xmlStartTag("metadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "neutral_column_separator");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getNeutralColumnSeparator());
@@ -1878,16 +1874,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		foreach ($a_meta as $key => $value)
 		{
-			switch ($key)
+			switch ($value["label"])
 			{
 				case "column_separators":
-					$this->setColumnSeparators($value);
+					$this->setColumnSeparators($value["entry"]);
 					break;
 				case "row_separators":
-					$this->setRowSeparators($value);
+					$this->setRowSeparators($value["entry"]);
 					break;
 				case "neutral_column_separator":
-					$this->setNeutralColumnSeparator($value);
+					$this->setNeutralColumnSeparator($value["entry"]);
 					break;
 			}
 		}

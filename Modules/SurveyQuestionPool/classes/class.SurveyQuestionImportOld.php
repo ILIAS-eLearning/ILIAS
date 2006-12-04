@@ -36,6 +36,7 @@ class SurveyQuestionImportOld
 	var $object;
 	var $lng;
 	var $ilias;
+	var $spl_exists;
 	
 	/**
 	* Constructor
@@ -44,13 +45,14 @@ class SurveyQuestionImportOld
 	*
 	* @access	public
 	*/
-	function SurveyQuestionImportOld(&$qpl_object)
+	function SurveyQuestionImportOld(&$spl_object, $spl_exists = FALSE)
 	{
 		global $lng, $ilias;
 		
-		$this->object =& $qpl_object;
+		$this->object =& $spl_object;
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
+		$this->spl_exists = $spl_exists;
 	}
 
 	function importXML($xml)
@@ -125,7 +127,7 @@ class SurveyQuestionImportOld
 			}
 		}
 
-		if ($metadata)
+		if (($metadata) && (!$this->spl_exists))
 		{
 			include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
 			include_once "./Services/MetaData/classes/class.ilMD.php";
