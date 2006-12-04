@@ -21,14 +21,14 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="description"/>
+        <xs:element ref="description" minOccurs="0"/>
         <xs:element ref="author"/>
-        <xs:element ref="comment"/>
-        <xs:element ref="objectives"/>
-        <xs:element ref="anonymisation"/>
-        <xs:element ref="restrictions"/>
+        <xs:element ref="comment" minOccurs="0"/>
+        <xs:element ref="objectives" minOccurs="0"/>
+        <xs:element ref="anonymisation" minOccurs="0"/>
+        <xs:element ref="restrictions" minOccurs="0"/>
         <xs:element minOccurs="0" ref="constraints"/>
-        <xs:element ref="metadata"/>
+        <xs:element ref="metadata" minOccurs="0"/>
       </xs:sequence>
       <xs:attribute name="id" use="required" type="xs:string">
         <xs:annotation>
@@ -84,8 +84,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="access"/>
-        <xs:element ref="startingtime"/>
-        <xs:element ref="endingtime"/>
+        <xs:element ref="startingtime" minOccurs="0"/>
+        <xs:element ref="endingtime" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -139,10 +139,11 @@
     <xs:complexType>
       <xs:sequence>
         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+          <xs:element ref="textblock" minOccurs="0" maxOccurs="1"/>
           <xs:element ref="question" minOccurs="0" maxOccurs="1"/>
           <xs:element ref="questionblock" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
-        <xs:element ref="metadata"/>
+        <xs:element ref="metadata" minOccurs="0"/>
       </xs:sequence>
       <xs:attribute name="id" use="required" type="xs:string"/>
       <xs:attribute name="label" type="xs:string"/>
@@ -152,12 +153,26 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="questionblocktitle"/>
-        <xs:element maxOccurs="unbounded" ref="question"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="textblock" minOccurs="0" maxOccurs="1"/>
+          <xs:element ref="question"/>
+        </xs:sequence>
       </xs:sequence>
       <xs:attribute name="id" use="required" type="xs:string"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="questionblocktitle">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" type="xs:string" default="text/plain"/>
+          <xs:attribute name="label" type="xs:string"/>
+          <xs:attribute name="charset" type="xs:string" default="utf-8"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="textblock">
     <xs:complexType>
       <xs:simpleContent>
         <xs:extension base="xs:string">
@@ -197,6 +212,7 @@
         <xs:element minOccurs="0" ref="mattext"/>
         <xs:element minOccurs="0" ref="matimage"/>
       </xs:sequence>
+      <xs:attribute name="label" type="xs:string"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="mattext">
@@ -291,7 +307,7 @@
     <xs:complexType>
       <xs:attribute name="destref" use="required" type="xs:string"/>
       <xs:attribute name="relation" use="required" type="xs:string"/>
-      <xs:attribute name="sourceref" use="required" type="xs:string"/>
+      <xs:attribute name="value" use="required" type="xs:string"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="questiontext">

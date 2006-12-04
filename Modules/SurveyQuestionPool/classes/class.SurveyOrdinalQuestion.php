@@ -400,12 +400,33 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	* @return string The xml representation of the question
 	* @access public
 	*/
-	function toXML($a_include_header = true, $obligatory_state = "")
+	function toXML($a_include_header = TRUE, $obligatory_state = "")
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
-
 		$a_xml_writer->xmlHeader();
+		$this->insertXML($a_xml_writer, $a_include_header, $obligatory_state);
+		$xml = $a_xml_writer->xmlDumpMem(FALSE);
+		if (!$a_include_header)
+		{
+			$pos = strpos($xml, "?>");
+			$xml = substr($xml, $pos + 2);
+		}
+		return $xml;
+	}
+	
+	/**
+	* Adds the question XML to a given XMLWriter object
+	*
+	* Adds the question XML to a given XMLWriter object
+	*
+	* @param object $a_xml_writer The XMLWriter object
+	* @param boolean $a_include_header Determines wheather or not the XML should be used
+	* @param string $obligatory_state The value of the obligatory state
+	* @access public
+	*/
+	function insertXML(&$a_xml_writer, $a_include_header = TRUE, $obligatory_state = "")
+	{
 		$attrs = array(
 			"id" => $this->getId(),
 			"title" => $this->getTitle(),
@@ -460,14 +481,6 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		$a_xml_writer->xmlEndTag("metadata");
 
 		$a_xml_writer->xmlEndTag("question");
-
-		$xml = $a_xml_writer->xmlDumpMem(FALSE);
-		if (!$a_include_header)
-		{
-			$pos = strpos($xml, "?>");
-			$xml = substr($xml, $pos + 2);
-		}
-		return $xml;
 	}
 
 	function syncWithOriginal()

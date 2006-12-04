@@ -4000,137 +4000,150 @@ class ilObjSurvey extends ilObject
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
 		$a_xml_writer->xmlHeader();
-		$a_xml_writer->xmlStartTag("questestinterop");
+		$a_xml_writer->xmlStartTag("surveyobject");
 		$attrs = array(
-			"ident" => $this->getSurveyId(),
+			"id" => $this->getSurveyId(),
 			"title" => $this->getTitle()
 		);
 		$a_xml_writer->xmlStartTag("survey", $attrs);
 		
-		$a_xml_writer->xmlElement("qticomment", NULL, $this->getDescription());
-		$a_xml_writer->xmlElement("qticomment", NULL, "ILIAS Version=".$this->ilias->getSetting("ilias_version"));
-		$a_xml_writer->xmlElement("qticomment", NULL, "Author=".$this->getAuthor());
-		// add ILIAS specific metadata
+		$a_xml_writer->xmlElement("description", NULL, $this->getDescription());
+		$a_xml_writer->xmlElement("author", NULL, $this->getAuthor());
 		$a_xml_writer->xmlStartTag("objectives");
 		$attrs = array(
 			"label" => "introduction"
 		);
-		$a_xml_writer->xmlStartTag("material", $attrs);
-		$a_xml_writer->xmlElement("mattext", NULL, $this->getIntroduction());
-		$a_xml_writer->xmlEndTag("material");
+		$this->addMaterialTag($a_xml_writer, $this->getIntroduction(), TRUE, TRUE, $attrs);
 		$attrs = array(
 			"label" => "outro"
 		);
-		$a_xml_writer->xmlStartTag("material", $attrs);
-		$a_xml_writer->xmlElement("mattext", NULL, $this->getOutro());
-		$a_xml_writer->xmlEndTag("material");
+		$this->addMaterialTag($a_xml_writer, $this->getOutro(), TRUE, TRUE, $attrs);
 		$a_xml_writer->xmlEndTag("objectives");
 
-		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
-		$a_xml_writer->xmlStartTag("qtimetadata");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "author");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAuthor());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "description");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getDescription());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "evaluation_access");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getEvaluationAccess());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "anonymize");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getAnonymize());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "status");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getStatus());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		if ($this->getAnonymize())
+		{
+			$attribs = array("enabled" => "1");
+		}
+		else
+		{
+			$attribs = array("enabled" => "0");
+		}
+		$a_xml_writer->xmlElement("anonymisation", $attribs);
+		$a_xml_writer->xmlStartTag("restrictions");
+		if ($this->getAnonymize() == 2)
+		{
+			$attribs = array("type" => "free");
+		}
+		else
+		{
+			$attribs = array("type" => "restricted");
+		}
+		$a_xml_writer->xmlElement("access", $attribs);
 		if ($this->getStartDateEnabled())
 		{
-			$a_xml_writer->xmlStartTag("qtimetadatafield");
-			$a_xml_writer->xmlElement("fieldlabel", NULL, "startdate");
-			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT0H0M0S", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay()));
-			$a_xml_writer->xmlEndTag("qtimetadatafield");
+			$attrs = array("type" => "date");
+			$a_xml_writer->xmlElement("startingtime", $attrs, sprintf("%dY-%dM-%dDT00:00:00", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay()));
 		}
 		if ($this->getEndDateEnabled())
 		{
-			$a_xml_writer->xmlStartTag("qtimetadatafield");
-			$a_xml_writer->xmlElement("fieldlabel", NULL, "enddate");
-			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT0H0M0S", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay()));
-			$a_xml_writer->xmlEndTag("qtimetadatafield");
+			$attrs = array("type" => "date");
+			$a_xml_writer->xmlElement("endingtime", $attrs, sprintf("%dY-%dM-%dDT00:00:00", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay()));
 		}
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "display_question_titles");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShowQuestionTitles());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
-		// add questionblock descriptions
+		$a_xml_writer->xmlEndTag("restrictions");
+		
+		// constraints
 		$pages =& $this->getSurveyPages();
-		foreach ($pages as $question_array)
-		{
-			if (count($question_array) > 1)
-			{
-				$question_ids = array();
-				// found a questionblock
-				foreach ($question_array as $question)
-				{
-					array_push($question_ids, $question["question_id"]);
-				}
-				$a_xml_writer->xmlStartTag("qtimetadatafield");
-				$a_xml_writer->xmlElement("fieldlabel", NULL, "questionblock_" . $question_array[0]["questionblock_id"]);
-				$a_xml_writer->xmlElement("fieldentry", NULL, "<title>" . $question["questionblock_title"]. "</title><questions>" . join($question_ids, ",") . "</questions>");
-				$a_xml_writer->xmlEndTag("qtimetadatafield");
-			}
-		}
-		// add constraints
+		$hasconstraints = FALSE;
 		foreach ($pages as $question_array)
 		{
 			foreach ($question_array as $question)
 			{
 				if (count($question["constraints"]))
 				{
-					// found constraints
-					foreach ($question["constraints"] as $constraint)
+					$hasconstraints = TRUE;
+				}
+			}
+		}
+		
+		if ($hasconstraints)
+		{
+			$a_xml_writer->xmlStartTag("constraints");
+			foreach ($pages as $question_array)
+			{
+				foreach ($question_array as $question)
+				{
+					if (count($question["constraints"]))
 					{
-						$a_xml_writer->xmlStartTag("qtimetadatafield");
-						$a_xml_writer->xmlElement("fieldlabel", NULL, "constraint_" . $question["question_id"]);
-						$a_xml_writer->xmlElement("fieldentry", NULL, $constraint["question"] . "," . $constraint["short"] . "," . $constraint["value"]);
-						$a_xml_writer->xmlEndTag("qtimetadatafield");
+						// found constraints
+						foreach ($question["constraints"] as $constraint)
+						{
+							$attribs = array(
+								"destref" => $constraint["question"],
+								"relation" => $constraint["short"],
+								"value" => $constraint["value"]
+							);
+							$a_xml_writer->xmlElement("constraint", $attribs);
+						}
 					}
 				}
 			}
+			$a_xml_writer->xmlEndTag("constraints");
 		}
-		// add headings
+		
+		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
+		$a_xml_writer->xmlStartTag("metadata");
+
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "evaluation_access");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getEvaluationAccess());
+		$a_xml_writer->xmlEndTag("metadatafield");
+
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "status");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getStatus());
+		$a_xml_writer->xmlEndTag("metadatafield");
+
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "display_question_titles");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShowQuestionTitles());
+		$a_xml_writer->xmlEndTag("metadatafield");
+
+		$a_xml_writer->xmlEndTag("metadata");
+		$a_xml_writer->xmlEndTag("survey");
+
+		$attribs = array("id" => $this->getId());
+		$a_xml_writer->xmlStartTag("surveyquestions", $attribs);
+		// add questionblock descriptions
+		$obligatory_states =& $this->getObligatoryStates();
 		foreach ($pages as $question_array)
 		{
-			foreach ($question_array as $question)
+			if (count($question_array) > 1)
 			{
-				if ($question["heading"])
+				$attribs = array("id" => $question_array[0]["question_id"]);
+				$a_xml_writer->xmlStartTag("questionblock", $attribs);
+				if (strlen($question_array[0]["questionblock_title"]))
 				{
-					$a_xml_writer->xmlStartTag("qtimetadatafield");
-					$a_xml_writer->xmlElement("fieldlabel", NULL, "heading_" . $question["question_id"]);
-					$a_xml_writer->xmlElement("fieldentry", NULL, $question["heading"]);
-					$a_xml_writer->xmlEndTag("qtimetadatafield");
+					$a_xml_writer->xmlElement("questionblocktitle", NULL, $question_array[0]["questionblock_title"]);
 				}
 			}
+			foreach ($question_array as $question)
+			{
+				if (strlen($question["heading"]))
+				{
+					$a_xml_writer->xmlElement("textblock", NULL, $question["heading"]);
+				}
+				$questionObject =& $this->_instanciateQuestion($question["question_id"]);
+				$questionObject->insertXML($a_xml_writer, FALSE, $obligatory_states[$question["question_id"]]);
+			}
+			if (count($question_array) > 1)
+			{
+				$a_xml_writer->xmlEndTag("questionblock");
+			}
 		}
-		$a_xml_writer->xmlEndTag("qtimetadata");
-		$a_xml_writer->xmlEndTag("survey");
-		$a_xml_writer->xmlEndTag("questestinterop");
-		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 
-		$obligatory_states =& $this->getObligatoryStates();
-		foreach ($this->questions as $question_id) 
-		{
-			$question =& $this->_instanciateQuestion($question_id);
-			$qti_question = $question->to_xml(false, $obligatory_states[$question_id]);
-			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
-			$qti_question = preg_replace("/<\/questestinterop>/", "", $qti_question);
-			$xml = str_replace("</questestinterop>", "$qti_question</questestinterop>", $xml);
-		}
+		$a_xml_writer->xmlEndTag("surveyquestions");
+		$a_xml_writer->xmlEndTag("surveyobject");
+		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 		return $xml;
 	}
 	
@@ -5206,6 +5219,45 @@ class ilObjSurvey extends ilObject
 		{
 			return FALSE; 
 		}
+	}
+
+	/**
+	* Creates an XML material tag from a plain text or xhtml text
+	*
+	* @param object $a_xml_writer Reference to the ILIAS XML writer
+	* @param string $a_material plain text or html text containing the material
+	* @return string XML material tag
+	* @access public
+	*/
+	function addMaterialTag(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE, $attribs = NULL)
+	{
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+
+		$a_xml_writer->xmlStartTag("material", $attribs);
+		$attrs = array(
+			"type" => "text/plain"
+		);
+		if ($this->isHTML($a_material))
+		{
+			$attrs["type"] = "text/xhtml";
+		}
+		$a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+
+		if ($add_mobs)
+		{
+			$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->getId());
+			foreach ($mobs as $mob)
+			{
+				$mob_obj =& new ilObjMediaObject($mob);
+				$imgattrs = array(
+					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
+					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+				);
+				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+			}
+		}		
+		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
 	}
 
 } // END class.ilObjSurvey
