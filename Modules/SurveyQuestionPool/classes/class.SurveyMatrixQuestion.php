@@ -955,136 +955,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Imports a question from XML
+	* Returns an xml representation of the question
 	*
-	* Sets the attributes of the question from the XML text passed
-	* as argument
+	* Returns an xml representation of the question
 	*
-	* @return boolean True, if the import succeeds, false otherwise
+	* @return string The xml representation of the question
 	* @access public
 	*/
-	function from_xml($xml_text)
-	{
-		$result = false;
-		if (!empty($this->domxml))
-		{
-			$this->domxml->free();
-		}
-		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
-		$this->domxml = domxml_open_mem($xml_text);
-		if (!empty($this->domxml))
-		{
-			$root = $this->domxml->document_element();
-			$item = $root->first_child();
-			$this->setTitle($item->get_attribute("title"));
-			$this->gaps = array();
-			$itemnodes = $item->child_nodes();
-			foreach ($itemnodes as $index => $node)
-			{
-				switch ($node->node_name())
-				{
-					case "qticomment":
-						$comment = $node->get_content();
-						if (strpos($comment, "ILIAS Version=") !== false)
-						{
-						}
-						elseif (strpos($comment, "Questiontype=") !== false)
-						{
-						}
-						elseif (strpos($comment, "Author=") !== false)
-						{
-							$comment = str_replace("Author=", "", $comment);
-							$this->setAuthor($comment);
-						}
-						else
-						{
-							$this->setDescription($comment);
-						}
-						break;
-					case "itemmetadata":
-						$qtimetadata = $node->first_child();
-						$metadata_fields = $qtimetadata->child_nodes();
-						foreach ($metadata_fields as $index => $metadata_field)
-						{
-							$fieldlabel = $metadata_field->first_child();
-							$fieldentry = $fieldlabel->next_sibling();
-							switch ($fieldlabel->get_content())
-							{
-								case "obligatory":
-									$this->setObligatory($fieldentry->get_content());
-									break;
-							}
-						}
-						break;
-					case "presentation":
-						$flow = $node->first_child();
-						$flownodes = $flow->child_nodes();
-						foreach ($flownodes as $idx => $flownode)
-						{
-							if (strcmp($flownode->node_name(), "material") == 0)
-							{
-								$mattext = $flownode->first_child();
-								$this->setQuestiontext($mattext->get_content());
-							}
-							elseif (strcmp($flownode->node_name(), "response_lid") == 0)
-							{
-								$ident = $flownode->get_attribute("ident");
-								$shuffle = "";
-
-								$response_lid_nodes = $flownode->child_nodes();
-								foreach ($response_lid_nodes as $resp_lid_id => $resp_lid_node)
-								{
-									switch ($resp_lid_node->node_name())
-									{
-										case "render_choice":
-											$render_choice = $resp_lid_node;
-											$labels = $render_choice->child_nodes();
-											foreach ($labels as $lidx => $response_label)
-											{
-												$material = $response_label->first_child();
-												$mattext = $material->first_child();
-												$shuf = 0;
-												$this->addColumnAtPosition($mattext->get_content(), $response_label->get_attribute("ident"));
-											}
-											break;
-										case "material":
-											$matlabel = $resp_lid_node->get_attribute("label");
-											$mattype = $resp_lid_node->first_child();
-											if (strcmp($mattype->node_name(), "mattext") == 0)
-											{
-												$material = $mattype->get_content();
-												if ($material)
-												{
-													if ($this->getId() < 1)
-													{
-														$this->saveToDb();
-													}
-													$this->setMaterial($material, true, $matlabel);
-												}
-											}
-											break;
-									}
-								}
-							}
-						}
-						break;
-				}
-			}
-			$result = true;
-		}
-		return $result;
-	}
-
-	/**
-	* Returns a QTI xml representation of the question
-	*
-	* Returns a QTI xml representation of the question and sets the internal
-	* domxml variable with the DOM XML representation of the QTI xml representation
-	*
-	* @return string The QTI xml representation of the question
-	* @access public
-	*/
-	function to_xml($a_include_header = true, $obligatory_state = "")
+	function toXML($a_include_header = true, $obligatory_state = "")
 	{
 		include_once("./classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
@@ -1102,7 +980,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$a_xml_writer->xmlElement("description", NULL, $this->getDescription());
 		$a_xml_writer->xmlElement("author", NULL, $this->getAuthor());
 		$a_xml_writer->xmlStartTag("questiontext");
-		$this->addQTIMaterial($a_xml_writer, $this->getQuestiontext());
+		$this->addMaterialTag($a_xml_writer, $this->getQuestiontext());
 		$a_xml_writer->xmlEndTag("questiontext");
 
 		$a_xml_writer->xmlStartTag("matrix");
@@ -1113,7 +991,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				"id" => $i
 			);
 			$a_xml_writer->xmlStartTag("matrixrow", $attrs);
-			$this->addQTIMaterial($a_xml_writer, $this->getRow($i));
+			$this->addMaterialTag($a_xml_writer, $this->getRow($i));
 			$a_xml_writer->xmlEndTag("matrixrow");
 		}
 		$a_xml_writer->xmlEndTag("matrixrows");
@@ -1146,7 +1024,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					$a_xml_writer->xmlStartTag("response_multiple", $attrs);
 					break;
 			}
-			$this->addQTIMaterial($a_xml_writer, $this->getColumn($i));
+			$this->addMaterialTag($a_xml_writer, $this->getColumn($i));
 			switch ($this->getSubtype())
 			{
 				case 0:
@@ -1172,7 +1050,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					$a_xml_writer->xmlStartTag("response_multiple", $attrs);
 					break;
 			}
-			$this->addQTIMaterial($a_xml_writer, $this->getNeutralColumn());
+			$this->addMaterialTag($a_xml_writer, $this->getNeutralColumn());
 			switch ($this->getSubtype())
 			{
 				case 0:
@@ -1204,6 +1082,27 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$a_xml_writer->xmlEndTag("material");
 			}
 		}
+
+		$a_xml_writer->xmlStartTag("metadata");
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "column_separators");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getColumnSeparators());
+		$a_xml_writer->xmlEndTag("metadatafield");
+		$a_xml_writer->xmlEndTag("metadata");
+		
+		$a_xml_writer->xmlStartTag("metadata");
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "row_separators");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getRowSeparators());
+		$a_xml_writer->xmlEndTag("metadatafield");
+		$a_xml_writer->xmlEndTag("metadata");
+		
+		$a_xml_writer->xmlStartTag("metadata");
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "neutral_column_separator");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getNeutralColumnSeparator());
+		$a_xml_writer->xmlEndTag("metadatafield");
+		$a_xml_writer->xmlEndTag("metadata");
 		
 		$a_xml_writer->xmlEndTag("question");
 
@@ -1963,6 +1862,104 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	function getNeutralColumnSeparator()
 	{
 		return $this->neutralColumnSeparator;
+	}
+
+	/**
+	* Import additional meta data from the question import file
+	*
+	* Import additional meta data from the question import file. Usually
+	* the meta data section is used to store question elements which are not
+	* part of the standard XML schema.
+	*
+	* @return array $a_meta Array containing the additional meta data
+	* @access public
+	*/
+	function importAdditionalMetadata($a_meta)
+	{
+		foreach ($a_meta as $key => $value)
+		{
+			switch ($key)
+			{
+				case "column_separators":
+					$this->setColumnSeparators($value);
+					break;
+				case "row_separators":
+					$this->setRowSeparators($value);
+					break;
+				case "neutral_column_separator":
+					$this->setNeutralColumnSeparator($value);
+					break;
+			}
+		}
+	}
+
+	/**
+	* Import bipolar adjectives from the question import file
+	*
+	* Import bipolar adjectives from the question import file
+	*
+	* @return array $a_data Array containing the adjectives
+	* @access public
+	*/
+	function importAdjectives($a_data)
+	{
+		$i = 0;
+		foreach ($a_data as $adjective)
+		{
+			if (is_numeric($adjective["label"]))
+			{
+				$this->setBipolarAdjective($adjective["label"], $adjective["text"]);
+			}
+			else
+			{
+				$this->setBipolarAdjective($i, $adjective["text"]);
+			}
+			$i++;
+		}
+	}
+
+	/**
+	* Import matrix rows from the question import file
+	*
+	* Import matrix rows from the question import file
+	*
+	* @return array $a_data Array containing the matrix rows
+	* @access public
+	*/
+	function importMatrix($a_data)
+	{
+		foreach ($a_data as $row)
+		{
+			$this->addRow($row);
+		}
+	}
+	
+	/**
+	* Import response data from the question import file
+	*
+	* Import response data from the question import file
+	*
+	* @return array $a_data Array containing the response data
+	* @access public
+	*/
+	function importResponses($a_data)
+	{
+		foreach ($a_data as $id => $data)
+		{
+			$column = "";
+			foreach ($data["material"] as $material)
+			{
+				$column .= $material["text"];
+			}
+			if (strcmp($data["label"], "neutral") == 0)
+			{
+				$this->setNeutralColumn($column);
+			}
+			else
+			{
+				$this->addColumn($column);
+			}
+		}
 	}
 }
 ?>
