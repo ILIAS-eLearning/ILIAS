@@ -58,7 +58,20 @@ class SurveyImportParser extends ilSaxParser
 	var $is_matrix;
 	var $adjectives;
 	var $spl_exists;
-	
+	var $in_survey;
+	var $survey;
+	var $anonymisation;
+	var $surveyaccess;
+	var $questions;
+	var $original_question_id;
+	var $constraints;
+	var $textblock;
+	var $textblocks;
+	var $in_questionblock;
+	var $questionblock;
+	var $questionblocks;
+	var $questionblocktitle;
+
 	/**
 	* Constructor
 	*
@@ -83,6 +96,28 @@ class SurveyImportParser extends ilSaxParser
 		$this->is_matrix = FALSE;
 		$this->adjectives = array();
 		$this->spl_exists = $spl_exists;
+		$this->survey = NULL;
+		$this->in_survey = FALSE;
+		$this->anonymisation = 0;
+		$this->surveyaccess = "restricted";
+		$this->questions = array();
+		$this->original_question_id = "";
+		$this->constraints = array();
+		$this->textblock = "";
+		$this->textblocks = array();
+		$this->in_questionblock = FALSE;
+		$this->questionblocks = array();
+		$this->questionblock = array();
+		$this->questionblocktitle = "";
+	}
+	
+	/**
+	* Sets a reference to a survey object
+	* @access	public
+	*/
+	function setSurveyObject(&$a_svy)
+	{
+		$this->survey =& $a_svy;
 	}
 
 	/**
@@ -164,6 +199,58 @@ class SurveyImportParser extends ilSaxParser
     $this->attributes+=count($a_attribs);
 		switch ($a_name)
 		{
+			case "questionblock":
+				$this->in_questionblock = TRUE;
+				$this->questionblock = array();
+				$this->questionblocktitle = "";
+				break;
+			case "survey":
+				$this->in_survey = TRUE;
+				foreach ($a_attribs as $attrib => $value)
+				{
+					switch ($attrib)
+					{
+						case "title":
+							if (is_object($this->survey))
+							{
+								$this->survey->setTitle($value);
+							}
+							break;
+					}
+				}
+				break;
+			case "anonymisation":
+				foreach ($a_attribs as $attrib => $value)
+				{
+					switch ($attrib)
+					{
+						case "enabled":
+							$this->anonymisation = $value;
+							break;
+					}
+				}
+				break;
+			case "access":
+				foreach ($a_attribs as $attrib => $value)
+				{
+					switch ($attrib)
+					{
+						case "type":
+							$this->surveyaccess = $value;
+							break;
+					}
+				}
+				break;
+			case "constraint":
+				array_push($this->constraints, 
+					array(
+						"sourceref" => $a_attribs["sourceref"],
+						"destref" => $a_attribs["destref"],
+						"relation" => $a_attribs["relation"],
+						"value" => $a_attribs["value"]
+					)
+				);
+				break;
 			case "question":
 				// start with a new survey question
 				$type = $a_attribs["type"];
@@ -176,6 +263,11 @@ class SurveyImportParser extends ilSaxParser
 				else
 				{
 					$this->activequestion = NULL;
+				}
+				$this->original_question_id = $a_attribs["id"];
+				if ($this->in_questionblock)
+				{
+					array_push($this->questionblock, $this->original_question_id);
 				}
 				if (is_object($this->activequestion))
 				{
@@ -276,24 +368,136 @@ class SurveyImportParser extends ilSaxParser
 	{
 		switch ($a_name)
 		{
-			case "description":
-				if (is_object($this->activequestion))
+			case "surveyobject":
+				if (is_object($this->survey))
 				{
-					$this->activequestion->setDescription($this->characterbuffer);
+					// write constraints
+					if (count($this->constraints))
+					{
+						$relations = $this->survey->getAllRelations(TRUE);
+						foreach ($this->constraints as $constraint)
+						{
+							$this->survey->addConstraint($this->questions[$constraint["sourceref"]], $this->questions[$constraint["destref"]], $relations[$constraint["relation"]]["id"], $constraint["value"]);
+						}
+					}
+					// write question blocks
+					if (count($this->questionblocks))
+					{
+						foreach ($this->questionblocks as $data)
+						{
+							$questionblock = $data["questions"];
+							$title = $data["title"];
+							$qblock = array();
+							foreach ($questionblock as $question_id)
+							{
+								array_push($qblock, $this->questions[$question_id]);
+							}
+							$this->survey->createQuestionblock($title, $qblock);
+						}
+					}					
+					$this->survey->saveToDb();
+
+					// write textblocks
+					if (count($this->textblocks))
+					{
+						foreach ($this->textblocks as $original_id => $textblock)
+						{
+							$this->survey->saveHeading($textblock, $this->questions[$original_id]);
+						}
+					}
+				}
+				break;
+			case "survey":
+				$this->in_survey = FALSE;
+				if (is_object($this->survey))
+				{
+					if (strcmp($this->surveyaccess, "free") == 0)
+					{
+						$this->survey->setAnonymize(2);
+					}
+					else
+					{
+						if ($this->anonymisation == 0)
+						{
+							$this->survey->setAnonymize(0);
+						}
+						else
+						{
+							$this->survey->setAnonymize(1);
+						}
+					}
+				}
+				break;
+			case "startingtime":
+				if (preg_match("/(\d{4}-\d{2}-\d{2})T\d{2}-\d{2}-\d{2}.*/", $this->characterbuffer, $matches))
+				{
+					if (is_object($this->survey))
+					{
+						$this->survey->setStartDate($matches[1]);
+						$this->survey->setStartDateEnabled(1);
+					}					
+				}
+				break;
+			case "endingtime":
+				if (preg_match("/(\d{4}-\d{2}-\d{2})T\d{2}-\d{2}-\d{2}.*/", $this->characterbuffer, $matches))
+				{
+					if (is_object($this->survey))
+					{
+						$this->survey->setEndDate($matches[1]);
+						$this->survey->setEndDateEnabled(1);
+					}					
+				}
+				break;
+			case "description":
+				if ($this->in_survey)
+				{
+					if (is_object($this->survey))
+					{
+						$this->survey->setDescription($this->characterbuffer);
+					}
+				}
+				else
+				{
+					if (is_object($this->activequestion))
+					{
+						$this->activequestion->setDescription($this->characterbuffer);
+					}
 				}
 				break;
 			case "question":
 				if (is_object($this->activequestion))
 				{
 					global $ilLog;
+					if (strlen($this->textblock))
+					{
+						$this->textblocks[$this->original_question_id] = $this->textblock;
+					}
 					$this->activequestion->saveToDb();
+					if (is_object($this->survey))
+					{
+						// duplicate the question for the survey
+						$question_id = $this->activequestion->duplicate(TRUE);
+						$this->survey->addQuestion($question_id);
+						$this->questions[$this->original_question_id] = $question_id;
+					}
 					$this->activequestion = NULL;
 				}
+				$this->textblock = "";
 				break;
 			case "author":
-				if (is_object($this->activequestion))
+				if ($this->in_survey)
 				{
-					$this->activequestion->setAuthor($this->characterbuffer);
+					if (is_object($this->survey))
+					{
+						$this->survey->setAuthor($this->characterbuffer);
+					}
+				}
+				else
+				{
+					if (is_object($this->activequestion))
+					{
+						$this->activequestion->setAuthor($this->characterbuffer);
+					}
 				}
 				break;
 			case "mattext":
@@ -303,9 +507,33 @@ class SurveyImportParser extends ilSaxParser
 				$this->material[count($this->material)-1]["image"] = $this->characterbuffer;
 				break;
 			case "material":
-				if (strcmp($this->getParent($a_xml_parser), "question") == 0)
+				if ($this->in_survey)
 				{
-					$this->activequestion->setMaterial($this->material[0]["text"], TRUE, $this->material[0]["label"]);
+					if (strcmp($this->getParent($a_xml_parser), "objectives") == 0)
+					{
+						if (strcmp($this->material[0]["label"], "introduction") == 0)
+						{
+							if (is_object($this->survey))
+							{
+								$this->survey->setIntroduction($this->material[0]["text"]);
+							}
+						}
+						if (strcmp($this->material[0]["label"], "outro") == 0)
+						{
+							if (is_object($this->survey))
+							{
+								$this->survey->setOutro($this->material[0]["text"]);
+							}
+						}
+						$this->material = array();
+					}
+				}
+				else
+				{
+					if (strcmp($this->getParent($a_xml_parser), "question") == 0)
+					{
+						$this->activequestion->setMaterial($this->material[0]["text"], TRUE, $this->material[0]["label"]);
+					}
 				}
 				break;
 			case "questiontext":
@@ -334,6 +562,29 @@ class SurveyImportParser extends ilSaxParser
 						$this->activequestion->importAdditionalMetadata($this->metadata);
 					}
 				}
+				if (strcmp($this->getParent($a_xml_parser), "survey") == 0)
+				{
+					foreach ($this->metadata as $key => $value)
+					{
+						if (strcmp($value["label"], "SCORM") == 0)
+						{
+							if (strlen($value["entry"]))
+							{
+								if (is_object($this->survey))
+								{
+									include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
+									include_once "./Services/MetaData/classes/class.ilMD.php";
+									$md_sax_parser = new ilMDSaxParser();
+									$md_sax_parser->setXMLContent($value["entry"]);
+									$md_sax_parser->setMDObject($tmp = new ilMD($this->survey->getId(),0, "svy"));
+									$md_sax_parser->enableMDParsing(true);
+									$md_sax_parser->startParsing();
+									$this->survey->MDUpdateListener("General");
+								}
+							}
+						}
+					}
+				}
 				if (!$this->spl_exists)
 				{
 					if (strcmp($this->getParent($a_xml_parser), "surveyquestions") == 0)
@@ -351,9 +602,6 @@ class SurveyImportParser extends ilSaxParser
 									$md_sax_parser->setMDObject($tmp = new ilMD($this->spl->getId(),0, "spl"));
 									$md_sax_parser->enableMDParsing(true);
 									$md_sax_parser->startParsing();
-						
-									// Finally update title description
-									// Update title description
 									$this->spl->MDUpdateListener("General");
 								}
 							}
@@ -397,6 +645,16 @@ class SurveyImportParser extends ilSaxParser
 				{
 					$this->activequestion->importMatrix($this->matrix);
 				}
+				break;
+			case "textblock":
+				$this->textblock = $this->characterbuffer;
+				break;
+			case "questionblocktitle":
+				$this->questionblocktitle = $this->characterbuffer;
+				break;
+			case "questionblock":
+				$this->in_questionblock = FALSE;
+				array_push($this->questionblocks, array("title" => $this->questionblocktitle, "questions" => $this->questionblock));
 				break;
 		}
 		$this->depth[$a_xml_parser]--;
