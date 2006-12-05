@@ -257,6 +257,17 @@ class ilObjSurvey extends ilObject
 		parent::read($a_force_db);
 		$this->loadFromDb();
 	}
+	
+	/**
+	* Adds a question to the survey
+	*
+	* @param	integer	$question_id The question id of the question
+	* @access	public
+	*/
+	function addQuestion($question_id)
+	{
+		array_push($this->questions, $question_id);
+	}
 
 	/**
 	* copy all entries of your object.
@@ -4227,6 +4238,7 @@ class ilObjSurvey extends ilObject
 				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 				$spl = new ilObjSurveyQuestionPool($survey_questionpool_id, FALSE);
 				$import = new SurveyImportParser($spl, "", TRUE);
+				$import->setSurveyObject($this);
 				$import->setXMLContent($xml);
 				$import->startParsing();
 			}
