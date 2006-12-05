@@ -4000,7 +4000,11 @@ class ilObjSurvey extends ilObject
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
 		$a_xml_writer->xmlHeader();
-		$a_xml_writer->xmlStartTag("surveyobject");
+		$attrs = array(
+			"xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+			"xsi:noNamespaceSchemaLocation" => "http://www.ilias.de/download/xsd/ilias_survey_3_8.xsd"
+		);
+		$a_xml_writer->xmlStartTag("surveyobject", $attrs);
 		$attrs = array(
 			"id" => $this->getSurveyId(),
 			"title" => $this->getTitle()
