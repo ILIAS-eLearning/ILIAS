@@ -389,30 +389,39 @@ class assJavaAppletGUI extends assQuestionGUI
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$template->setCurrentBlock("appletparam");
-		$template->setVariable("PARAM_NAME", "test_type");
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		if (ilObjTest::_lookupAnonymity(ilObjTest::_getObjectIDFromTestID($userdata["test_id"])))
+		if (strlen($userdata["test_id"]))
 		{
-			$template->setVariable("PARAM_VALUE", "0");
+			$template->setCurrentBlock("appletparam");
+			$template->setVariable("PARAM_NAME", "test_type");
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			if (ilObjTest::_lookupAnonymity(ilObjTest::_getObjectIDFromTestID($userdata["test_id"])))
+			{
+				$template->setVariable("PARAM_VALUE", "0");
+			}
+			else
+			{
+				$template->setVariable("PARAM_VALUE", "1");
+			}
+			$template->parseCurrentBlock();
 		}
-		else
+		if (strlen($userdata["test_id"]))
 		{
-			$template->setVariable("PARAM_VALUE", "1");
+			$template->setCurrentBlock("appletparam");
+			$template->setVariable("PARAM_NAME", "test_id");
+			$template->setVariable("PARAM_VALUE", $userdata["test_id"]);
+			$template->parseCurrentBlock();
 		}
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("appletparam");
-		$template->setVariable("PARAM_NAME", "test_id");
-		$template->setVariable("PARAM_VALUE", $userdata["test_id"]);
-		$template->parseCurrentBlock();
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "question_id");
 		$template->setVariable("PARAM_VALUE", $this->object->getId());
 		$template->parseCurrentBlock();
-		$template->setCurrentBlock("appletparam");
-		$template->setVariable("PARAM_NAME", "user_id");
-		$template->setVariable("PARAM_VALUE", $userdata["user_id"]);
-		$template->parseCurrentBlock();
+		if (strlen($userdata["user_id"]))
+		{
+			$template->setCurrentBlock("appletparam");
+			$template->setVariable("PARAM_NAME", "user_id");
+			$template->setVariable("PARAM_VALUE", $userdata["user_id"]);
+			$template->parseCurrentBlock();
+		}
 		$template->setCurrentBlock("appletparam");
 		$template->setVariable("PARAM_NAME", "points_max");
 		$template->setVariable("PARAM_VALUE", $this->object->getPoints());

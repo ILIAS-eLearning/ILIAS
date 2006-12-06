@@ -92,7 +92,6 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 			case "iltestevaluationgui":
 				include_once "./Modules/Test/classes/class.ilTestEvaluationGUI.php";
-
 				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
@@ -3391,12 +3390,12 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("changelog_row");
 					$this->tpl->setVariable("ROW_CLASS", $tblrow[$counter % 2]);
-					$username = $this->object->userLookupFullName($entry["user_fi"]);
+					$username = $this->object->userLookupFullName($entry["user_fi"], TRUE);
 					$this->tpl->setVariable("TXT_USER", $username);
 					$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($entry["TIMESTAMP14"]), "datetime"));
 					if (strlen($entry["ref_id"]) && strlen($entry["href"]))
 					{
-						$this->tpl->setVariable("TXT_TEST_REFERENCE", $entry["ref_id"]);
+						$this->tpl->setVariable("TXT_TEST_REFERENCE", $this->lng->txt("perma_link"));
 						$this->tpl->setVariable("HREF_REFERENCE", $entry["href"]);
 					}
 					$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($entry["logtext"])));
@@ -3407,7 +3406,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("HEADER_DATETIME", $this->lng->txt("assessment_log_datetime"));
 				$this->tpl->setVariable("HEADER_USER", $this->lng->txt("user"));
 				$this->tpl->setVariable("HEADER_LOGTEXT", $this->lng->txt("assessment_log_text"));
-				$this->tpl->setVariable("HEADER_TEST_REFERENCE", $this->lng->txt("test_reference"));
+				$this->tpl->setVariable("HEADER_TEST_REFERENCE", $this->lng->txt("location"));
 				$this->tpl->setVariable("HEADING_CHANGELOG", $this->lng->txt("changelog_heading"));
 				$this->tpl->setVariable("DESCRIPTION_CHANGELOG", $this->lng->txt("changelog_description"));
 				$this->tpl->parseCurrentBlock();
@@ -5001,6 +5000,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "certificateImport":
 			case "certificateUpload":
 			case "certificateEditor":
+			case "certificateSave":
 			case "":
 				if (($ilAccess->checkAccess("write", "", $this->ref_id)) && ((strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0) || (strcmp($this->ctrl->getCmdClass(), "iltestcertificategui") == 0) || (strlen($this->ctrl->getCmdClass()) == 0)))
 				{

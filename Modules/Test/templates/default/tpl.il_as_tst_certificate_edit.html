@@ -33,7 +33,7 @@
 <tr>
   <td class="option"><label for="pageformat">{TEXT_PAGE_FORMAT}</label><span class="asterisk">*</span></td>
   <td class="option_value">
-		<select id="pageformat" name="pageformat">
+		<select id="pageformat" name="pageformat" onchange="javascript:document.formCertificate.submit()">
 <!-- BEGIN page_format_row -->
 			<option value="{VALUE_PAGE_FORMAT}"{SELECTED_PAGE_FORMAT}>{NAME_PAGE_FORMAT}</option>
 <!-- END page_format_row -->

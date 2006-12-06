@@ -1,7 +1,7 @@
 <form name="formManualScoring" action="{FORMACTION}" method="post">
 <p>
 {TEXT_SELECT_USER}: 
-	<select name="participants" id="participants">
+	<select name="participants" id="participants" onchange="javascript:document.formManualScoring.submit();">
 		<option value="0">{PLEASE_SELECT}</option>
 <!-- BEGIN participants -->
 		<option value="{ID_PARTICIPANT}"{SELECTED_PARTICIPANT}>{TEXT_PARTICIPANT}</option>

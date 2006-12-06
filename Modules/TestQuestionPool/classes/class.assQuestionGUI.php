@@ -175,8 +175,38 @@ class assQuestionGUI
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$instances =& $this->object->getInstances();
+		$counter = 0;
+		foreach ($instances as $instance)
+		{
+			if (is_array($instance["refs"]))
+			{
+				foreach ($instance["refs"] as $ref_id)
+				{
+					$this->tpl->setCurrentBlock("references");
+					$this->tpl->setVariable("GOTO", "./goto.php?target=tst_" . $ref_id);
+					$this->tpl->setVariable("TEXT_GOTO", $this->lng->txt("perma_link"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			$this->tpl->setCurrentBlock("instance_row");
+			$this->tpl->setVariable("TEST_TITLE", $instance["title"]);
+			$this->tpl->setVariable("TEST_AUTHOR", $instance["author"]);
+			$this->tpl->setVariable("QUESTION_ID", $instance["question_id"]);
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$counter++;
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("instances");
+		$this->tpl->setVariable("TEXT_TEST_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TEXT_TEST_AUTHOR", $this->lng->txt("author"));
+		$this->tpl->setVariable("TEXT_TEST_LOCATION", $this->lng->txt("location"));
+		$this->tpl->setVariable("INSTANCES_TITLE", $this->lng->txt("question_instances_title"));
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_QUESTION_TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("TXT_QUESTION_TITLE", $this->lng->txt("question_cumulated_statistics"));
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
 		$this->tpl->parseCurrentBlock();

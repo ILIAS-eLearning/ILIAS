@@ -502,6 +502,8 @@ assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists 
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
+assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
+assessment#:#question_instances_title#:#This question is used in the following tests
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
 assessment#:#question_summary#:#List of Questions
@@ -2490,6 +2492,7 @@ common#:#local_language_file#:#local language file
 common#:#local_language_files#:#local language files
 common#:#local_languages_already_installed#:#Selected local language file(s) are already installed
 common#:#locator#:#Location:
+common#:#location#:#Location
 common#:#log_in#:#Login
 common#:#logic_and#:#and
 common#:#logic_or#:#or

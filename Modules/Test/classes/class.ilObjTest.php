@@ -5920,6 +5920,41 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Gets the authors name
+* 
+* Gets the authors name of the ilObjTest object
+*
+* @return string The string containing the name of the test author
+* @access public
+* @see $author
+*/
+  function _lookupAuthor($obj_id) 
+	{
+		$author = array();
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$md =& new ilMD($obj_id, 0, "tst");
+		$md_life =& $md->getLifecycle();
+		if ($md_life)
+		{
+			$ids =& $md_life->getContributeIds();
+			foreach ($ids as $id)
+			{
+				$md_cont =& $md_life->getContribute($id);
+				if (strcmp($md_cont->getRole(), "Author") == 0)
+				{
+					$entids =& $md_cont->getEntityIds();
+					foreach ($entids as $entid)
+					{
+						$md_ent =& $md_cont->getEntity($entid);
+						array_push($author, $md_ent->getEntity());
+					}
+				}
+			}
+		}
+		return join($author, ",");
+  }
+
+/**
 * Returns the available tests for the active user
 *
 * Returns the available tests for the active user
@@ -6225,7 +6260,7 @@ class ilObjTest extends ilObject
 			$original_id = assQuestion::_getOriginalId($question_id);
 		}
 		include_once "./classes/class.ilObjAssessmentFolder.php";
-		ilObjAssessmentFolder::_addLog($ilUser->id, $this->getId(), $logtext, $question_id, $original_id, TRUE, $this->getRefId());
+		ilObjAssessmentFolder::_addLog($ilUser->getId(), $this->getId(), $logtext, $question_id, $original_id, TRUE, $this->getRefId());
 	}
 	
 /**

@@ -146,7 +146,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 				$this->tpl->setVariable("SCORING_DATA", $scoring);
 			}
 		}
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "selectParticipant"));
 	}
 	
 	/**

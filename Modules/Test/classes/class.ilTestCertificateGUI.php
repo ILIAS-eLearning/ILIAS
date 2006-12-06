@@ -83,6 +83,7 @@ class ilTestCertificateGUI
 	* @var object
 	*/
 	var $lng;
+	var $ref_id;
 
 	/**
 	* ilTestCertificateGUI constructor
@@ -104,6 +105,7 @@ class ilTestCertificateGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ilias =& $ilias;
 		$this->tree =& $tree;
+		$this->ref_id = $_GET["ref_id"];
 	}
 
 	/**
@@ -310,7 +312,6 @@ class ilTestCertificateGUI
 			sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
-
 		$form_fields = array();
 		if (is_array($_POST))
 		{
@@ -470,7 +471,7 @@ class ilTestCertificateGUI
 		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TEXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "certificateSave"));
 		
 		$this->tpl->setVariable("PH_INTRODUCTION", $this->lng->txt("certificate_ph_introduction"));
 		$this->tpl->setVariable("PH_USER_FULLNAME", $this->lng->txt("certificate_ph_fullname"));

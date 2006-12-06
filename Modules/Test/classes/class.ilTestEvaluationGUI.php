@@ -52,10 +52,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		global $ilAccess;
 		
 		parent::ilTestServiceGUI($a_object);
-		if ($ilAccess->checkAccess("tst_statistics", "", $this->ref_id))
+		if (!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id))
 		{
 			sendInfo($this->lng->txt("cannot_edit_test"), TRUE);
-			$this->ctrl->redirectByClass("ilobjtest", "infoScreen");
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 	}
 
@@ -365,7 +365,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
-		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "exportEvaluation"));
 		$exportoutput = $template->get();
 
 		$this->tpl->setVariable("EVALUATION_FILTER", $filteroutput);
