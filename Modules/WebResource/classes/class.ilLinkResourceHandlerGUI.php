@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -23,23 +23,53 @@
 
 
 /**
-* repository
+* Handles user interface for link resources.
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package ilias-core
+* @ilCtrl_Calls ilLinkResourceHandlerGUI: ilObjLinkResourceGUI
+*
 */
-chdir("..");
-define(ILIAS_MODULE,'link');
-require_once "include/inc.header.php";
-include_once "./link/classes/class.ilObjLinkResourceGUI.php";
+class ilLinkResourceHandlerGUI
+{
+	function ilLinkResourceHandlerGUI()
+	{
+		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 
-$ilCtrl->setTargetScript("link_resources.php");
-$ilCtrl->getCallStructure("ilobjlinkresourcegui");
+		// initialisation stuff
+		$this->ctrl =&  $ilCtrl;
+		
+		//$ilNavigationHistory->addItem($_GET["ref_id"],
+		//	"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"]);
 
-$lr_gui =& new ilObjLinkResourceGUI('',(int) $_GET['ref_id'],true,false);
+	}
+	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $lng, $ilAccess, $tpl;
+		
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
+		if ($next_class == "")
+		{
+			$this->ctrl->setCmdClass("ilobjlinkresourcegui");
+			$next_class = $this->ctrl->getNextClass($this);
+		}
 
-$ilCtrl->forwardCommand($lr_gui);
-$tpl->show();
-?>
+		switch ($next_class)
+		{
+			case 'ilobjlinkresourcegui':
+				require_once "./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
+				$link_gui =& new ilObjLinkResourceGUI("", (int) $_GET["ref_id"], true, false);
+				$this->ctrl->forwardCommand($link_gui);
+				break;
+		}
+
+		$tpl->show();
+	}
+
+}

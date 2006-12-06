@@ -147,7 +147,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?ref_id=".$a_node_id;
 
 			case 'webr':
-				return "./link/link_resources.php?ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$a_node_id;
 				
 			case "icrs":
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjilinccoursegui";
@@ -228,7 +228,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 
 			case 'webr':
-				return "./link/link_resources.php?cmd=editItems&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=editItems&ref_id=".$a_node_id;
 		}
 	}		
 

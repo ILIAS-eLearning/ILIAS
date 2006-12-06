@@ -238,17 +238,20 @@ class ilObjGlossary extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+		
 		$this->updateMetaData();
 
 		$q = "UPDATE glossary SET ".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
 			" virtual = '".$this->getVirtualMode()."',".
-			" public_xml_file = '".$this->getPublicExportFile("xml")."',".
+			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml")).",".
 			" public_html_file = '".$this->getPublicExportFile("html")."',".
 			" glo_menu_active = '".ilUtil::tf2yn($this->isActiveGlossaryMenu())."',".
 			" downloads_active = '".ilUtil::tf2yn($this->isActiveDownloads())."'".
 			" WHERE id = '".$this->getId()."'";
-		$this->ilias->db->query($q);
+			
+		$ilDB->query($q);
 		
 		parent::update();
 	}
@@ -957,6 +960,8 @@ class ilObjGlossary extends ilObject
 	*/
 	function delete()
 	{
+		global $ilDB;
+		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -973,7 +978,7 @@ class ilObjGlossary extends ilObject
 		
 		// delete glossary data entry
 		$q = "DELETE FROM glossary WHERE id = ".$this->getId();
-		$this->ilias->db->query($q);
+		$ilDB->query($q);
 
 		// delete meta data
 		$this->deleteMetaData();
