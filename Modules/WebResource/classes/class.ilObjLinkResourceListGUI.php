@@ -179,12 +179,12 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 				}
 				else
 				{
-					$cmd_link = "link/link_resources.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+					$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
 				}
 				break;
 
 			default:
-				$cmd_link = "link/link_resources.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
 		}
 		return $cmd_link;
 	}
@@ -201,7 +201,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		{
 			return $this->single_link;
 		}
-		include_once './link/classes/class.ilLinkResourceItems.php';
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 		
 		return $this->single_link = ilLinkResourceItems::_isSingular($this->obj_id);
 	}
@@ -213,8 +213,8 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function __readLink()
 	{
-		include_once './link/classes/class.ilLinkResourceItems.php';
-		include_once './link/classes/class.ilParameterAppender.php';
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
 		if(ilParameterAppender::_isEnabled())
 		{

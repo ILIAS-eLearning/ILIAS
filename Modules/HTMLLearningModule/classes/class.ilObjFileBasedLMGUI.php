@@ -103,7 +103,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 			case "ilfilesystemgui":
 				$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
-				//$fs_gui->getTabs($this->tabs_gui);
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				if ($this->object->getStartFile() != "")
 				{
@@ -111,7 +110,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 						$this->lng->txt("cont_startfile"));
 				}
 				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
-				//$ret =& $fs_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($fs_gui);
 				break;
 

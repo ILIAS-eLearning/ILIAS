@@ -60,7 +60,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if($this->ctrl->getTargetScript() == 'link_resources.php')
+		//if($this->ctrl->getTargetScript() == 'link_resources.php')
+		if($_GET["baseClass"] == 'ilLinkResourceHandlerGUI')
 		{
 			$this->__prepareOutput();
 		}
@@ -130,7 +131,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		include_once './classes/class.ilTableGUI.php';
-		include_once './link/classes/class.ilParameterAppender.php';
+		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
@@ -146,12 +147,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			return true;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_view_items.html","link");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_view_items.html","Modules/WebResource");
 		
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		#$items_sliced = array_slice($items, $_GET["offset"], $_GET["limit"]);
 
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lnkr_view_items_row.html",'link');
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lnkr_view_items_row.html",'Modules/WebResource');
 
 		$items = ilUtil::sortArray($items,
 								   'title',
@@ -208,7 +209,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		include_once './classes/class.ilTableGUI.php';
-		include_once 'link/classes/class.ilParameterAppender.php';
+		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 		
 
 		// MINIMUM ACCESS LEVEL = 'read'
@@ -217,7 +218,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_edit_items.html","link");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_edit_items.html","Modules/WebResource");
 		$this->__showButton('showAddItem',$this->lng->txt('webr_add_item'));
 
 		$this->object->initLinkResourceItemsObject();
@@ -252,7 +253,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		
 
 
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lnkr_edit_items_row.html",'link');
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lnkr_edit_items_row.html",'Modules/WebResource');
 
 		$items = ilUtil::sortArray($items,
 								   $_GET['sort_by'] ? $_GET['sort_by'] : 'title',
@@ -440,7 +441,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt('webr_sure_delete_items'));
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lnkr_ask_delete.html','link');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lnkr_ask_delete.html','Modules/WebResource');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_webr.gif'));
@@ -547,7 +548,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$item = $this->object->items_obj->getItem($_GET['item_id'] ? $_GET['item_id'] : $_SESSION['webr_item_id']);
 
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lnkr_edit_item.html','link');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lnkr_edit_item.html','Modules/WebResource');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_webr.gif'));
@@ -572,7 +573,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LAST_CHECK",$this->lng->txt('webr_last_check'));
 
 		// add dynamic params
-		include_once('link/classes/class.ilParameterAppender.php');
+		include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
 
 		if(ilParameterAppender::_isEnabled())
 		{
@@ -657,7 +658,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			return false;
 		}
 
-		include_once 'link/classes/class.ilParameterAppender.php';
+		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
 		$appender = new ilParameterAppender($this->object->getId());
 		$appender->delete((int) $_GET['param_id']);
@@ -671,7 +672,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 	function updateItemObject()
 	{
-		include_once 'link/classes/class.ilParameterAppender.php';
+		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
 		global $rbacsystem;
 
@@ -755,7 +756,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$target = $_POST['target'] ? ilUtil::prepareFormOutput($_POST['target'],true) : 'http://';
 
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_add_item.html","link");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_add_item.html","Modules/WebResource");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('webr_add_item'));
@@ -772,7 +773,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_CANCEL",'editItems');
 
 		// Params
-		include_once('link/classes/class.ilParameterAppender.php');
+		include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
 
 		if(ilParameterAppender::_isEnabled())
 		{
@@ -798,7 +799,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 	function addItemObject()
 	{
-		include_once('link/classes/class.ilParameterAppender.php');
+		include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
 
 		global $rbacsystem;
 
@@ -935,7 +936,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		// always send a message
 		//sendInfo($this->lng->txt("object_added"),true);
-		ilUtil::redirect("link/link_resources.php?ref_id=".$newObj->getRefId().
+		ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$newObj->getRefId().
 			"&cmd=showAddItem");
 		
 		//ilUtil::redirect($this->getReturnLocation("save",'adm_object.php?ref_id='.$newObj->getRefId()));
@@ -952,7 +953,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$invalid_links = $this->link_checker_obj->getInvalidLinksFromDB();
 
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.link_check.html",'link');
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.link_check.html",'Modules/WebResource');
 
 		if($last_access = $this->link_checker_obj->getLastCheckTimestamp())
 		{
@@ -1126,6 +1127,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			// not via ilrepositorygui, then next_class == ilinfoscreengui
 			// could be checked
 			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
+				|| $_GET["cmd"] == "infoScreen"
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;
@@ -1243,12 +1245,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			elseif ($row["child"] != $tree->getRootId())
 			{
 				$this->tpl->setVariable("ITEM", $row["title"]);
-				$this->tpl->setVariable("LINK_ITEM","../repository.php?ref_id=".$row["child"]);
+				$this->tpl->setVariable("LINK_ITEM","./repository.php?ref_id=".$row["child"]);
 			}
 			else
 			{
 				$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
-				$this->tpl->setVariable("LINK_ITEM","../repository.php?ref_id=".$row["child"]);
+				$this->tpl->setVariable("LINK_ITEM","./repository.php?ref_id=".$row["child"]);
 			}
 
 			$this->tpl->parseCurrentBlock();
@@ -1265,14 +1267,14 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// Will be replaced in future releases by ilAccess::checkAccess()
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			ilUtil::redirect("link/link_resources.php?ref_id=$a_target");
+			ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=$a_target");
 		}
 		else
 		{
 			// to do: force flat view
 			if ($ilAccess->checkAccess("visible", "", $a_target))
 			{
-				ilUtil::redirect("link/link_resources.php?ref_id=".$a_target."&cmd=infoScreen");
+				ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$a_target."&cmd=infoScreen");
 			}
 			else
 			{

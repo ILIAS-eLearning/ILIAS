@@ -110,7 +110,7 @@ class ilObjLinkResource extends ilObject
 		}
 
 		// delete items
-		include_once './link/classes/class.ilLinkResourceItems.php';
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 		ilLinkResourceItems::_deleteAll($this->getId());
 
 
@@ -126,7 +126,7 @@ class ilObjLinkResource extends ilObject
 
 	function initLinkResourceItemsObject()
 	{
-		include_once './link/classes/class.ilLinkResourceItems.php';
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 
 		$this->items_obj =& new ilLinkResourceItems($this->getId());
 
