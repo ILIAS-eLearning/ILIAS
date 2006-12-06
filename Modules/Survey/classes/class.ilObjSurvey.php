@@ -3819,6 +3819,9 @@ class ilObjSurvey extends ilObject
 		}
 	  $query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND ISNULL(survey_question.original_id) " . " $where$order$limit";
     $query_result = $ilDB->query($query);
+		$limit = " LIMIT $startrow, $maxentries";
+	  $query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+    $query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -3828,9 +3831,6 @@ class ilObjSurvey extends ilObject
 		{
 			$startrow = 0;
 		}
-		$limit = " LIMIT $startrow, $maxentries";
-	  $query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
-    $query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
