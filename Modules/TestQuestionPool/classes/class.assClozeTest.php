@@ -204,7 +204,7 @@ class assClozeTest extends assQuestion
 	*/
 	function createCloseTextFromArray($assoc_array)
 	{
-		$this->setQuestion("");
+		$this->cloze_text = "";
 		if (count($assoc_array))
 		{
 			$gap = 0;
@@ -221,22 +221,28 @@ class assClozeTest extends assQuestion
 						$shuffle = " shuffle=\"" . $assoc_array["gaps"][$gap]["params"]["shuffle"] . "\"";
 					}
 					$textarray = array();
-					foreach ($assoc_array["gaps"][$gap]["text"] as $textindex => $textvalue)
+					if (is_array($assoc_array["gaps"][$gap]["text"]))
 					{
-						if (preg_match("/\d+/", $textindex))
+						foreach ($assoc_array["gaps"][$gap]["text"] as $textindex => $textvalue)
 						{
-							array_push($textarray, $textvalue);
+							if (preg_match("/\d+/", $textindex))
+							{
+								array_push($textarray, $textvalue);
+							}
 						}
 					}
-					$this->question .= sprintf("[gap name=\"%s\" type=\"%s\"%s]%s[/gap]",
-						$assoc_array["gaps"][$gap]["params"]["name"],
-						$assoc_array["gaps"][$gap]["params"]["type"],
-						$shuffle,
-						join(",", $textarray)
-					);
+					if (count($textarray))
+					{
+						$this->cloze_text .= sprintf("[gap name=\"%s\" type=\"%s\"%s]%s[/gap]",
+							$assoc_array["gaps"][$gap]["params"]["name"],
+							$assoc_array["gaps"][$gap]["params"]["type"],
+							$shuffle,
+							join(",", $textarray)
+						);
+					}
 					$gap++;
 				}
-				$this->question .= $value[0];
+				$this->cloze_text .= $value[0];
 			}
 		}
 	}
