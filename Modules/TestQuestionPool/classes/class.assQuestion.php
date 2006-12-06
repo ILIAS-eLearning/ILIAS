@@ -2551,6 +2551,59 @@ class assQuestion
 		ilRTE::_cleanupMediaObjectUsage($combinedtext, "qpl:html", $this->getId());
 	}
 	
+	/**
+	* Gets all instances of the question
+	*
+	* @result array All instances of question and its copies
+	*/
+	function &getInstances()
+	{
+		global $ilDB;
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
+			$ilDB->quote($this->getId())
+		);
+		$result = $ilDB->query($query);
+		$instances = array();
+		$ids = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($ids, $row["question_id"]);
+		}
+		foreach ($ids as $question_id)
+		{
+			$query = sprintf("SELECT DISTINCT object_data.obj_id, object_data.title FROM tst_test_question, object_data, tst_tests WHERE question_fi = %s AND tst_tests.test_id = tst_test_question.test_fi AND object_data.obj_id = tst_tests.obj_fi",
+				$ilDB->quote($question_id . "")
+			);
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$instances[$row["obj_id"]] = $row["title"];
+			}
+			$query = sprintf("SELECT DISTINCT object_data.obj_id, object_data.title FROM tst_test_random_question, tst_active, object_data, tst_tests WHERE tst_test_random_question.active_fi = tst_active.active_id AND tst_test_random_question.question_fi = %s AND tst_tests.test_id = tst_active.test_fi AND object_data.obj_id = tst_tests.obj_fi",
+				$ilDB->quote($question_id . "")
+			);
+			$result = $ilDB->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$instances[$row["obj_id"]] = $row["title"];
+			}
+		}
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		foreach ($instances as $key => $value)
+		{
+			$query = sprintf("SELECT object_reference.ref_id FROM object_reference WHERE obj_id = %s",
+				$ilDB->quote($key . "")
+			);
+			$result = $ilDB->query($query);
+			$refs = array();
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($refs, $row["ref_id"]);
+			}
+			$instances[$key] = array("obj_id" => $key, "title" => $value, "author" => ilObjTest::_lookupAuthor($key), "refs" => $refs);
+		}
+		return $instances;
+	}
 }
 
 ?>
