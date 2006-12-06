@@ -4124,6 +4124,16 @@ class ilObjSurvey extends ilObject
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShowQuestionTitles());
 		$a_xml_writer->xmlEndTag("metadatafield");
 
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "SCORM");
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$md = new ilMD($this->getId(),0, $this->getType());
+		$writer = new ilXmlWriter();
+		$md->toXml($writer);
+		$metadata = $writer->xmlDumpMem();
+		$a_xml_writer->xmlElement("fieldentry", NULL, $metadata);
+		$a_xml_writer->xmlEndTag("metadatafield");
+
 		$a_xml_writer->xmlEndTag("metadata");
 		$a_xml_writer->xmlEndTag("survey");
 
@@ -4226,11 +4236,13 @@ class ilObjSurvey extends ilObject
 
 			if (strpos($xml, "questestinterop"))
 			{
-				include_once "./Services/Survey/classes/class.SurveyOldImportParser.php";
+				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
 				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 				$spl = new ilObjSurveyQuestionPool($survey_questionpool_id, FALSE);
-				$oldimport = new SurveyOldImportParser($spl, $this, $spl_exists);
-				$oldimport->fromXMLSurvey($xml);
+				$import = new SurveyImportParserPre38($spl, "", TRUE);
+				$import->setSurveyObject($this);
+				$import->setXMLContent($xml);
+				$import->startParsing();
 			}
 			else
 			{

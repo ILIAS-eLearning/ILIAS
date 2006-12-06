@@ -467,7 +467,6 @@ class SurveyImportParser extends ilSaxParser
 			case "question":
 				if (is_object($this->activequestion))
 				{
-					global $ilLog;
 					if (strlen($this->textblock))
 					{
 						$this->textblocks[$this->original_question_id] = $this->textblock;
@@ -566,22 +565,36 @@ class SurveyImportParser extends ilSaxParser
 				{
 					foreach ($this->metadata as $key => $value)
 					{
-						if (strcmp($value["label"], "SCORM") == 0)
+						switch ($value["label"])
 						{
-							if (strlen($value["entry"]))
-							{
-								if (is_object($this->survey))
+							case "SCORM":
+								if (strlen($value["entry"]))
 								{
-									include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
-									include_once "./Services/MetaData/classes/class.ilMD.php";
-									$md_sax_parser = new ilMDSaxParser();
-									$md_sax_parser->setXMLContent($value["entry"]);
-									$md_sax_parser->setMDObject($tmp = new ilMD($this->survey->getId(),0, "svy"));
-									$md_sax_parser->enableMDParsing(true);
-									$md_sax_parser->startParsing();
-									$this->survey->MDUpdateListener("General");
+									if (is_object($this->survey))
+									{
+										include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
+										include_once "./Services/MetaData/classes/class.ilMD.php";
+										$md_sax_parser = new ilMDSaxParser();
+										$md_sax_parser->setXMLContent($value["entry"]);
+										$md_sax_parser->setMDObject($tmp = new ilMD($this->survey->getId(),0, "svy"));
+										$md_sax_parser->enableMDParsing(true);
+										$md_sax_parser->startParsing();
+										$this->survey->MDUpdateListener("General");
+									}
 								}
-							}
+								break;
+							case "display_question_titles":
+								if ($value["entry"] == 1)
+								{
+									$this->survey->showQuestionTitles();
+								}
+								break;
+							case "status":
+								$this->survey->setStatus($value["entry"]);
+								break;
+							case "evaluation_access":
+								$this->survey->setEvaluationAccess($value["entry"]);
+								break;
 						}
 					}
 				}
