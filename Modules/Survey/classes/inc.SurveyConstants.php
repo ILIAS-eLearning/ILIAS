@@ -31,14 +31,6 @@
 */
 
 /**
-* Survey question import/export identifiers
-*/
-define("METRIC_QUESTION_IDENTIFIER", "Metric Question");
-define("NOMINAL_QUESTION_IDENTIFIER", "Nominal Question");
-define("ORDINAL_QUESTION_IDENTIFIER", "Ordinal Question");
-define("TEXT_QUESTION_IDENTIFIER", "Text Question");
-
-/**
 * Survey object constants
 */
 define("STATUS_OFFLINE", 0);
