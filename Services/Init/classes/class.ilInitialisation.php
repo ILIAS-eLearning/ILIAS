@@ -107,10 +107,10 @@ class ilInitialisation
 		require_once "include/inc.ilias_version.php";
 		
 		//include role based access control system
-		require_once "Services/AccessControl/classes/class.ilAccessHandler.php";
-		require_once "classes/class.ilRbacAdmin.php";
-		require_once "classes/class.ilRbacSystem.php";
-		require_once "classes/class.ilRbacReview.php";
+		require_once "./Services/AccessControl/classes/class.ilAccessHandler.php";
+		require_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
+		require_once "./Services/AccessControl/classes/class.ilRbacSystem.php";
+		require_once "./Services/AccessControl/classes/class.ilRbacReview.php";
 		
 		// include object_data cache
 		require_once "classes/class.ilObjectDataCache.php";

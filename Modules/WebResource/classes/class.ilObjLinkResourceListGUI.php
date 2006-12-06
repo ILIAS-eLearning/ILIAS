@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "classes/class.ilObjectListGUI.php";
 
 /**
 * Class ilObjLinkResourceListGUI
@@ -28,12 +29,8 @@
 * @author 		Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @extends ilObjectListGUI
+* @ingroup ModulesWebResource
 */
-
-
-include_once "classes/class.ilObjectListGUI.php";
-
 class ilObjLinkResourceListGUI extends ilObjectListGUI
 {
 	var $single_link = null;

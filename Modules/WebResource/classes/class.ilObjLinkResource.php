@@ -21,18 +21,19 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./classes/class.ilObject.php";
+
+/** @defgroup ModulesWebResource Modules/WebResource
+ */
+
 /**
 * Class ilObjLinkResource
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 *
-* @extends ilObject
-* @package ilias-core
+* @ingroup ModulesWebResource
 */
-
-include_once "./classes/class.ilObject.php";
-
 class ilObjLinkResource extends ilObject
 {
 	/**
