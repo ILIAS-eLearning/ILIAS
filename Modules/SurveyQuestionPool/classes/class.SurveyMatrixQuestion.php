@@ -1300,16 +1300,19 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				if ($counter != $this->getRowCount()) return $this->lng->txt("matrix_question_radio_button_not_checked");
 				break;
 			case 1:
+				$counter = 0;
 				foreach ($post_data as $key => $value)
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
+						$counter++;
 						if ((!is_array($value)) || (count($value) < 1))
 						{
 							return $this->lng->txt("matrix_question_checkbox_not_checked");
 						}
 					}
 				}
+				if ($counter != $this->getRowCount()) return $this->lng->txt("matrix_question_checkbox_not_checked");
 				break;
 		}
 		return "";
