@@ -24,6 +24,14 @@
 require_once("./classes/class.ilSaxParser.php");
 
 /**
+* Old survey question import/export identifiers
+*/
+define("METRIC_QUESTION_IDENTIFIER", "Metric Question");
+define("NOMINAL_QUESTION_IDENTIFIER", "Nominal Question");
+define("ORDINAL_QUESTION_IDENTIFIER", "Ordinal Question");
+define("TEXT_QUESTION_IDENTIFIER", "Text Question");
+
+/**
 * Survey Question Import Parser
 *
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
