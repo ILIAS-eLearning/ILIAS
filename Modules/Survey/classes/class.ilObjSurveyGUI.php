@@ -3651,6 +3651,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->infoScreen();
 	}
 	
+	function setNewTemplate()
+	{
+		global $tpl;
+		$tpl = new ilTemplate("tpl.il_svy_svy_main.html", TRUE, TRUE, "Modules/Survey");
+		// load style sheet depending on user's settings
+		$location_stylesheet = ilUtil::getStyleSheetLocation();
+		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
+		$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
+	}
+	
 	/**
 	* show information screen
 	*/
@@ -3659,6 +3669,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilAccess;
 		global $ilUser;
 
+		//$this->setNewTemplate();
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
