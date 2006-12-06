@@ -482,7 +482,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
 
-		$opts 	= ilUtil::formSelect(1,"group_status",$stati,false,true);
+		$opts 	= ilUtil::formSelect(0,"group_status",$stati,false,true);
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",$this->ctrl->getFormAction($this)."&new_type=".$new_type));
 
