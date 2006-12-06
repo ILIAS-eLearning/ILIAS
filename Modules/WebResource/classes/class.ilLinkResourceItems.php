@@ -21,18 +21,16 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./classes/class.ilObjectGUI.php";
+
 /**
 * Class ilObjLinkResourceGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends ilObjectGUI
-* @package ilias-core
+* @ingroup ModulesWebResource
 */
-
-include_once "./classes/class.ilObjectGUI.php";
-
 class ilLinkResourceItems
 {
 	/**

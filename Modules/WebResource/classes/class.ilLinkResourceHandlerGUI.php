@@ -30,6 +30,7 @@
 *
 * @ilCtrl_Calls ilLinkResourceHandlerGUI: ilObjLinkResourceGUI
 *
+* @ingroup ModulesWebResource
 */
 class ilLinkResourceHandlerGUI
 {

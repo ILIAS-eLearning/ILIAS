@@ -21,15 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/**
-* Class ilParameterAppender
-*
-* @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$
-* 
-* @package ilias-core
-*/
-
 define("LINKS_USER_ID",1);
 define("LINKS_SESSION_ID",2);
 define("LINKS_LOGIN",3);
@@ -39,6 +30,14 @@ define("LINKS_ERR_NO_NAME",1);
 define("LINKS_ERR_NO_VALUE",2);
 define("LINKS_ERR_NO_NAME_VALUE",3);
 
+/**
+* Class ilParameterAppender
+*
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$
+* 
+* @ingroup ModulesWebResource
+*/
 class ilParameterAppender
 {
 	var $webr_id = null;

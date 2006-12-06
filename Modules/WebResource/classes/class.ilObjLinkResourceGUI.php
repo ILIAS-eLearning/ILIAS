@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./classes/class.ilObjectGUI.php";
+
 /**
 * Class ilObjLinkResourceGUI
 *
@@ -30,12 +32,8 @@
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI
 * 
 *
-* @extends ilObjectGUI
-* @package ilias-core
+* @ingroup ModulesWebResource
 */
-
-include_once "./classes/class.ilObjectGUI.php";
-
 class ilObjLinkResourceGUI extends ilObjectGUI
 {
 	/**

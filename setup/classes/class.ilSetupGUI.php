@@ -1755,9 +1755,9 @@ class ilSetupGUI extends ilSetup
 			else
 			{
 				include_once "../classes/class.ilDBUpdate.php";
-				include_once "../classes/class.ilRbacAdmin.php";
-				include_once "../classes/class.ilRbacReview.php";
-				include_once "../classes/class.ilRbacSystem.php";
+				include_once "../Services/AccessControl/classes/class.ilRbacAdmin.php";
+				include_once "../Services/AccessControl/classes/class.ilRbacReview.php";
+				include_once "../Services/AccessControl/classes/class.ilRbacSystem.php";
 				include_once "../classes/class.ilTree.php";
 				include_once "../classes/class.ilSaxParser.php";
 				include_once "../classes/class.ilObjectDefinition.php";
