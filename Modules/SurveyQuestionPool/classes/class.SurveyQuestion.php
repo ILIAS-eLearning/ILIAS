@@ -2009,6 +2009,36 @@ class SurveyQuestion
 	}
 	
 	/**
+	* Creates the CSV output for the cumulated results of this question
+	*
+	* Creates the CSV output for the cumulated results of this question
+	*
+	* @param object $worksheet Reference to the excel worksheet
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @param integer $row Actual row in the worksheet
+	* @return integer The next row which should be used for the export
+	* @access public
+	*/
+	function &setExportCumulatedCVS(&$eval_data)
+	{
+		$csvrow = array();
+		array_push($csvrow, $this->getTitle());
+		array_push($csvrow, $this->getQuestiontext());
+		array_push($csvrow, $this->lng->txt($eval_data["QUESTION_TYPE"]));
+		array_push($csvrow, $eval_data["USERS_ANSWERED"]);
+		array_push($csvrow, $eval_data["USERS_SKIPPED"]);
+		array_push($csvrow, $eval_data["MODE"]);
+		array_push($csvrow, $eval_data["MODE_NR_OF_SELECTIONS"]);
+		array_push($csvrow, $eval_data["MEDIAN"]);
+		array_push($csvrow, $eval_data["ARITHMETIC_MEAN"]);
+		$result = array();
+		array_push($result, $csvrow);
+		return $result;
+	}
+	
+	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
 	* Creates an Excel worksheet for the detailed cumulated results of this question

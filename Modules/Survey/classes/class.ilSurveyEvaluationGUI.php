@@ -259,17 +259,11 @@ class ilSurveyEvaluationGUI
 					$counter = $question->setExportCumulatedXLS($mainworksheet, $format_title, $format_bold, $eval, $counter);
 					break;
 				case (TYPE_SPSS):
-					$csvrow = array();
-					array_push($csvrow, $question->getTitle());
-					array_push($csvrow, $question->getQuestiontext());
-					array_push($csvrow, $this->lng->txt($eval["QUESTION_TYPE"]));
-					array_push($csvrow, $eval["USERS_ANSWERED"]);
-					array_push($csvrow, $eval["USERS_SKIPPED"]);
-					array_push($csvrow, $eval["MODE"]);
-					array_push($csvrow, $eval["MODE_NR_OF_SELECTIONS"]);
-					array_push($csvrow, $eval["MEDIAN"]);
-					array_push($csvrow, $eval["ARITHMETIC_MEAN"]);
-					array_push($csvfile, $csvrow);
+					$csvrows =& $question->setExportCumulatedCVS($eval);
+					foreach ($csvrows as $csvrow)
+					{
+						array_push($csvfile, $csvrow);
+					}
 					break;
 			}
 			if ($details)
