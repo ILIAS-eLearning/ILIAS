@@ -520,12 +520,10 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		// shuffle output
 		$keys = array_keys($this->object->answers);
 
-		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$solutions = array();
@@ -623,10 +621,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
-		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
-		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
+		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
-		return $questionoutput;
+		return $solutiontemplate->get();
 	}
 	
 	function getPreview()

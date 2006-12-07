@@ -674,9 +674,6 @@ class assImagemapQuestionGUI extends assQuestionGUI
 
 	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
 	{
-		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-
 		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 		$solutions = array();
 		if ($active_id)
@@ -732,6 +729,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$template->setVariable("IMG_SRC", "$imagepath");
@@ -769,9 +767,10 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		}
 			
 		$questionoutput = $template->get();
-		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
-		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
-		return $questionoutput;
+		$questionoutput = $template->get();
+		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
+
+		return $solutiontemplate->get();
 	}
 	
 	function getPreview()
