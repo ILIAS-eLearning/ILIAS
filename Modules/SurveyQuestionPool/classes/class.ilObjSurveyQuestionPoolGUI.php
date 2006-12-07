@@ -936,17 +936,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	  if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
 			// "create question" form
+			$questiontypes =& $this->object->_getQuestiontypes();
 			$this->tpl->setCurrentBlock("QTypes");
-			$query = "SELECT * FROM survey_questiontype ORDER BY questiontype_id";
-			$query_result = $this->ilias->db->query($query);
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			foreach ($questiontypes as $questiontype)
 			{
-				if ($lastquestiontype == $data->questiontype_id)
+				if (strcmp($lastquestiontype, $questiontype) == 0)
 				{
 					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
 				}
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+				$this->tpl->setVariable("QUESTION_TYPE_ID", $questiontype);
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($questiontype));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("CreateQuestion");
@@ -1394,6 +1393,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionObject()
 	{
+		global $ilUser;
+		$ilUser->writePref("svy_lastquestiontype", $_POST["sel_question_types"]);
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());

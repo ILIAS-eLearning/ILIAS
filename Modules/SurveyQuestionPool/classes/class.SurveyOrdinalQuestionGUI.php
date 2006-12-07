@@ -160,7 +160,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 *
 * @access public
 */
-	function getWorkingForm($working_data = "", $question_title = 1, $error_message = "")
+	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "")
 	{
 		$template = new ilTemplate("tpl.il_svy_out_ordinal.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if (count($this->object->material))
@@ -261,8 +261,11 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		{
 			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
-		$questiontext = $this->object->getQuestiontext();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		if ($show_questiontext)
+		{
+			$questiontext = $this->object->getQuestiontext();
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		if (! $this->object->getObligatory())
 		{
 			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));

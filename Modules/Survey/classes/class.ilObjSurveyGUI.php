@@ -1146,13 +1146,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		if ($questionblock_id)
 		{
 			$this->tpl->setVariable("VALUE_TITLE", $questionblock["title"]);
 		}
+		$this->tpl->setVariable("TXT_QUESTIONTEXT_DESCRIPTION", $this->lng->txt("show_questiontext_description"));
+		$this->tpl->setVariable("TXT_QUESTIONTEXT", $this->lng->txt("show_questiontext"));
+		if ($questionblock["show_questiontext"])
+		{
+			$this->tpl->setVariable("CHECKED_QUESTIONTEXT", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("HEADING_QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "saveDefineQuestionblock"));
@@ -1280,6 +1286,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		$rte->removePlugin("ibrowser");
+		include_once "./classes/class.ilObject.php";
+		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
+		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
+		$rte->addRTESupport($obj_id, $obj_type, "survey");
 	}
 
 /**
@@ -1337,7 +1352,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$insertbefore = $_POST["insertbefore_original"];
 			}
-			$this->object->saveHeading($_POST["heading"], $insertbefore);
+			$this->object->saveHeading(ilUtil::stripSlashes($_POST["heading"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), $insertbefore);
 			$this->ctrl->redirect($this, "questions");
 		}
 		else
@@ -1484,10 +1499,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if ($_POST["title"])
 		{
+			$show_questiontext = ($_POST["show_questiontext"]) ? 1 : 0;
 			if ($_POST["questionblock_id"])
 			{
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]));
+				$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]), $show_questiontext);
 			}
 			else
 			{
@@ -1500,7 +1516,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 				}
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $questionblock);
+				$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $show_questiontext, $questionblock);
 			}
 			$this->ctrl->redirect($this, "questions");
 		}

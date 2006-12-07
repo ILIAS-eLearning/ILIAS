@@ -2378,7 +2378,7 @@ class ilObjSurvey extends ilObject
 * @param array $questions An array with the database id's of the question block questions
 * @access public
 */
-	function createQuestionblock($title, $questions)
+	function createQuestionblock($title, $show_questiontext, $questions)
 	{
 		global $ilDB;
 		// if the selected questions are not in a continous selection, move all questions of the
@@ -2387,9 +2387,10 @@ class ilObjSurvey extends ilObject
 		
 		// now save the question block
 		global $ilUser;
-		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, show_questiontext, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 			$ilDB->quote($title),
-			$ilDB->quote($ilUser->id)
+			$ilDB->quote($show_questiontext . ""),
+			$ilDB->quote($ilUser->getId())
 		);
 		$result = $ilDB->query($query);
 		if ($result == DB_OK) {
@@ -2416,11 +2417,12 @@ class ilObjSurvey extends ilObject
 * @param string $title The title of the question block
 * @access public
 */
-	function modifyQuestionblock($questionblock_id, $title)
+	function modifyQuestionblock($questionblock_id, $title, $show_questiontext)
 	{
 		global $ilDB;
-		$query = sprintf("UPDATE survey_questionblock SET title = %s WHERE questionblock_id = %s",
+		$query = sprintf("UPDATE survey_questionblock SET title = %s, show_questiontext = %s WHERE questionblock_id = %s",
 			$ilDB->quote($title),
+			$ilDB->quote($show_questiontext . ""),
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
@@ -2707,6 +2709,7 @@ class ilObjSurvey extends ilObject
 				}
 				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
 				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
+				$all_questions[$question_id]["questionblock_show_questiontext"] = $questionblocks[$question_id]->show_questiontext;
 				$currentblock = $questionblocks[$question_id]->questionblock_id;
 				$constraints = $this->getConstraints($question_id);
 				$all_questions[$question_id]["constraints"] = $constraints;
@@ -2716,6 +2719,7 @@ class ilObjSurvey extends ilObject
 				$pageindex++;
 				$all_questions[$question_id]["questionblock_title"] = "";
 				$all_questions[$question_id]["questionblock_id"] = "";
+				$all_questions[$question_id]["questionblock_show_questiontext"] = 1;
 				$currentblock = "";
 				$constraints = $this->getConstraints($question_id);
 				$all_questions[$question_id]["constraints"] = $constraints;
