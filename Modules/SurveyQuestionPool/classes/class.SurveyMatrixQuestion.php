@@ -1615,6 +1615,51 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
+	* Creates the Excel output for the cumulated results of this question
+	*
+	* Creates the Excel output for the cumulated results of this question
+	*
+	* @param object $worksheet Reference to the excel worksheet
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @param integer $row Actual row in the worksheet
+	* @return integer The next row which should be used for the export
+	* @access public
+	*/
+	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row)
+	{
+		include_once ("./classes/class.ilExcelUtils.php");
+		$worksheet->writeString($row, 0, ilExcelUtils::_convert_text($this->getTitle()));
+		$worksheet->writeString($row, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$worksheet->writeString($row, 2, ilExcelUtils::_convert_text($this->lng->txt($eval_data["TOTAL"]["QUESTION_TYPE"])));
+		$worksheet->write($row, 3, $eval_data["TOTAL"]["USERS_ANSWERED"]);
+		$worksheet->write($row, 4, $eval_data["TOTAL"]["USERS_SKIPPED"]);
+		$worksheet->write($row, 5, ilExcelUtils::_convert_text($eval_data["TOTAL"]["MODE_VALUE"]));
+		$worksheet->write($row, 6, ilExcelUtils::_convert_text($eval_data["TOTAL"]["MODE"]));
+		$worksheet->write($row, 7, $eval_data["TOTAL"]["MODE_NR_OF_SELECTIONS"]);
+		$worksheet->write($row, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["TOTAL"]["MEDIAN"])));
+		$worksheet->write($row, 9, $eval_data["TOTAL"]["ARITHMETIC_MEAN"]);
+		$row++;
+		foreach ($eval_data as $evalkey => $evalvalue)
+		{
+			if (is_numeric($evalkey))
+			{
+				$worksheet->writeString($row, 1, ilExcelUtils::_convert_text($evalvalue["ROW"]));
+				$worksheet->write($row, 3, $evalvalue["USERS_ANSWERED"]);
+				$worksheet->write($row, 4, $evalvalue["USERS_SKIPPED"]);
+				$worksheet->write($row, 5, ilExcelUtils::_convert_text($evalvalue["MODE_VALUE"]));
+				$worksheet->write($row, 6, ilExcelUtils::_convert_text($evalvalue["MODE"]));
+				$worksheet->write($row, 7, $evalvalue["MODE_NR_OF_SELECTIONS"]);
+				$worksheet->write($row, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $evalvalue["MEDIAN"])));
+				$worksheet->write($row, 9, $evalvalue["ARITHMETIC_MEAN"]);
+				$row++;
+			}
+		}
+		return $row;
+	}
+	
+	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
 	* Creates an Excel worksheet for the detailed cumulated results of this question
@@ -1636,32 +1681,69 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
 		$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
 		$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
-		$worksheet->write(3, 1, $eval_data["USERS_ANSWERED"]);
+		$worksheet->write(3, 1, $eval_data["TOTAL"]["USERS_ANSWERED"]);
 		$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
-		$worksheet->write(4, 1, $eval_data["USERS_SKIPPED"]);
+		$worksheet->write(4, 1, $eval_data["TOTAL"]["USERS_SKIPPED"]);
 		$rowcounter = 5;
 
-		preg_match("/(.*?)\s+-\s+(.*)/", $eval_data["MODE"], $matches);
+		preg_match("/(.*?)\s+-\s+(.*)/", $eval_data["TOTAL"]["MODE"], $matches);
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode")), $format_bold);
 		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[1]));
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text")), $format_bold);
 		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[2]));
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections")), $format_bold);
-		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE_NR_OF_SELECTIONS"]));
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["TOTAL"]["MODE_NR_OF_SELECTIONS"]));
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median")), $format_bold);
-		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["MEDIAN"])));
+		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["TOTAL"]["MEDIAN"])));
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories")), $format_bold);
 		$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_title);
 		$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value")), $format_title);
 		$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected")), $format_title);
 		$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections")), $format_title);
 
-		foreach ($eval_data["variables"] as $key => $value)
+		foreach ($eval_data["TOTAL"]["variables"] as $key => $value)
 		{
 			$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"]));
 			$worksheet->write($rowcounter, 2, $key+1);
 			$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
 			$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
+		}
+		
+		foreach ($eval_data as $evalkey => $evalvalue)
+		{
+			if (is_numeric($evalkey))
+			{
+				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("row")), $format_bold);
+				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($evalvalue["ROW"]));
+				$worksheet->writeString($rowcounter + 1, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
+				$worksheet->write($rowcounter + 1, 1, $evalvalue["USERS_ANSWERED"]);
+				$worksheet->writeString($rowcounter + 2, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
+				$worksheet->write($rowcounter + 2, 1, $evalvalue["USERS_SKIPPED"]);
+				$rowcounter = $rowcounter + 3;
+		
+				preg_match("/(.*?)\s+-\s+(.*)/", $evalvalue["MODE"], $matches);
+				$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode")), $format_bold);
+				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[1]));
+				$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text")), $format_bold);
+				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[2]));
+				$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections")), $format_bold);
+				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($evalvalue["MODE_NR_OF_SELECTIONS"]));
+				$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median")), $format_bold);
+				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text(str_replace("<br />", " ", $evalvalue["MEDIAN"])));
+				$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories")), $format_bold);
+				$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_title);
+				$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value")), $format_title);
+				$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected")), $format_title);
+				$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections")), $format_title);
+		
+				foreach ($evalvalue["variables"] as $key => $value)
+				{
+					$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"]));
+					$worksheet->write($rowcounter, 2, $key+1);
+					$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
+					$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
+				}
+			}
 		}
 	}
 
