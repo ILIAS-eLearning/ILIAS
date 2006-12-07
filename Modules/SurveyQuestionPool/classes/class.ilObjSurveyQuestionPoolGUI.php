@@ -605,7 +605,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$phrases =& $ordinal->getAvailablePhrases(1);
 			if (count($phrases))
 			{
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$colors = array("tblrow1", "tblrow2");
 				$counter = 0;
 				foreach ($phrases as $phrase_id => $phrase_array)
@@ -689,7 +689,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// copy uploaded file to import directory
 			$full_path = $this->object->getImportDirectory()."/".$_FILES["qtidoc"]["name"];
 
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($_FILES["qtidoc"]["tmp_name"], 
 				$_FILES["qtidoc"]["name"], $full_path);
 			//move_uploaded_file($_FILES["qtidoc"]["tmp_name"], $full_path);
@@ -815,7 +815,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			if ($data["complete"] == 0)
 			{
 				$this->tpl->setCurrentBlock("qpl_warning");
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.gif"));
 				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
@@ -911,7 +911,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->setCurrentBlock("copy");
 			$this->tpl->setVariable("COPY", $this->lng->txt("copy"));
@@ -1049,7 +1049,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);		// ???
 
 		// delete button
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -1145,7 +1145,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 
 		$export_dir = $this->object->getExportDirectory();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
 			$_POST["file"][0]);
 	}
@@ -1179,7 +1179,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		// BEGIN TABLE DATA
 		$counter = 0;
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		foreach($_POST["file"] as $file)
 		{
 				$this->tpl->setCurrentBlock("table_row");
@@ -1232,7 +1232,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 			if (@is_dir($exp_dir))
 			{
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::delDir($exp_dir);
 			}
 		}
@@ -1297,7 +1297,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], 
 			$_FILES["xmldoc"]["name"], $full_path);
 		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
@@ -1333,7 +1333,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 

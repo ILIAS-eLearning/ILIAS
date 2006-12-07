@@ -234,7 +234,7 @@ class assJavaApplet extends assQuestion
 		$javapath = $this->getJavaPath();
 		if (!file_exists($javapath))
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::makeDirParents($javapath);
 		}
 		$javapath .=  $this->javaapplet_filename;

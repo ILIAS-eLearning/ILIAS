@@ -60,7 +60,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	function backToRepositoryObject()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$path = $this->tree->getPathFull($this->object->getRefID());
 		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 	}
@@ -169,7 +169,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$status = STATUS_OFFLINE;
 		if ($_POST["status"] == 1)
 		{
@@ -246,7 +246,7 @@ class ilObjSurveyGUI extends ilObjectGUI
   function propertiesObject()
   {
 		$this->handleWriteAccess();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$this->lng->loadLanguageModule("jscalendar");
 		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
 		$this->tpl->setCurrentBlock("calendar_javascript");
@@ -875,7 +875,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("Footer");
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->parseCurrentBlock();
 		}
@@ -934,7 +934,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function searchQuestionsExecuteObject()
 	{
 		include_once "./Modules/Survey/classes/class.SurveySearch.php";
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$search = new SurveySearch(ilUtil::stripSlashes($_POST["search_term"]), $_POST["concat"], $_POST["search_field"], $_POST["search_type"]);
 		$search->search();
 		$results =& $search->search_results;
@@ -985,7 +985,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 			$this->tpl->setCurrentBlock("search_results");
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$this->tpl->setVariable("RESULT_IMAGE", ilUtil::getImagePath("icon_spl_b.gif"));
 			$this->tpl->setVariable("ALT_IMAGE", $this->lng->txt("found_questions"));
 			$this->tpl->setVariable("TEXT_QUESTION_TITLE", $this->lng->txt("title"));
@@ -1218,7 +1218,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function executeCreateQuestionObject()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_POST["sel_question_types"]);
 	}
 	
@@ -1248,7 +1248,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$option = preg_replace("/^(.{40}).*(.{40})$/", "\\1 [...] \\2", $option);
 			}
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$this->tpl->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($option));
 			if ($key == $_POST["insertbefore"])
 			{
@@ -1486,7 +1486,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if ($_POST["questionblock_id"])
 			{
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]));
 			}
 			else
@@ -1499,7 +1499,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						array_push($questionblock, $value);
 					}
 				}
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $questionblock);
 			}
 			$this->ctrl->redirect($this, "questions");
@@ -1702,7 +1702,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
@@ -2075,7 +2075,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr.gif") . "\" alt=\"".$this->lng->txt("obj_usr")."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
 				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
@@ -2113,7 +2113,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp.gif") . "\" alt=\"".$this->lng->txt("obj_grp")."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
@@ -2150,7 +2150,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock($block_result);
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->tpl->setVariable("TEXT_ROLE_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_role.gif") . "\" alt=\"".$this->lng->txt("obj_role")."\" /> " . $title_text);
 				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
@@ -2278,7 +2278,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
@@ -2816,7 +2816,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$newObj->saveToDb();
 		if ($redirect)
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("upload",$this->ctrl->getTargetScript()."?".$this->link_params));
 		}
 		return $newObj->getRefId();
@@ -2874,7 +2874,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
@@ -2931,7 +2931,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 		include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$ref_id = ilObjSurvey::_clone($_POST["svy"]);
 		// always send a message
 		sendInfo($this->lng->txt("object_duplicated"),true);
@@ -2986,7 +2986,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 
 		$export_dir = $this->object->getExportDirectory();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
 			$_POST["file"][0]);
 	}
@@ -3020,7 +3020,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// BEGIN TABLE DATA
 		$counter = 0;
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		foreach($_POST["file"] as $file)
 		{
 				$this->tpl->setCurrentBlock("table_row");
@@ -3071,7 +3071,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			if (@is_dir($exp_dir))
 			{
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::delDir($exp_dir);
 			}
 		}
@@ -3574,7 +3574,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							$this->tpl->setCurrentBlock("delete_button");
 							$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
-							include_once "./classes/class.ilUtil.php";
+							include_once "./Services/Utilities/classes/class.ilUtil.php";
 							$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 							$this->tpl->parseCurrentBlock();
 						}
@@ -3606,7 +3606,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$icontype = "questionblock.gif";
 					$this->tpl->setVariable("TYPE", "$type: ");
 				}
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->tpl->setVariable("ICON_HREF", ilUtil::getImagePath($icontype, true));
 				$this->tpl->setVariable("ICON_ALT", $type);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
@@ -4033,7 +4033,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilAccess, $ilErr, $lng;
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			if (strlen($a_access_code))
 			{
 				$_SESSION["accesscode"] = $a_access_code;

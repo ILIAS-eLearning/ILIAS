@@ -2,7 +2,7 @@
 	if (!$_GET["gfx"]) exit();
 	chdir("../..");
 	require_once "./include/inc.header.php";
-	include_once "./classes/class.ilUtil.php";
+	include_once "./Services/Utilities/classes/class.ilUtil.php";
 	// calculate directory of temporary file
 	$dirname = dirname(ilUtil::ilTempnam());
 	// remove special path symbols from the file name to prevent security hacks

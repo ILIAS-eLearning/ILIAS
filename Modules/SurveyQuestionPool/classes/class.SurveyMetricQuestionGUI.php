@@ -176,7 +176,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
     if ($_POST["id"] > 0)
       $this->object->setId($_POST["id"]);
 
-		include_once "./classes/class.ilUtil.php";	
+		include_once "./Services/Utilities/classes/class.ilUtil.php";	
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));

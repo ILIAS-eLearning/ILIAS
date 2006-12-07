@@ -239,7 +239,7 @@ class assSingleChoice extends assQuestion
 			{
 				$image =& base64_decode($answer["imagefile"]["content"]);
 				$imagepath = $this->getImagePath();
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				if (!file_exists($imagepath))
 				{
 					ilUtil::makeDirParents($imagepath);

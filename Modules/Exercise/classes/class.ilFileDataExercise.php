@@ -129,7 +129,7 @@ class ilFileDataExercise extends ilFileData
 		$delivered_file_path = $this->getExercisePath() . "/" . $this->obj_id . "/";
 		if (is_dir($delivered_file_path))
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($delivered_file_path);
 		}
 		
@@ -202,7 +202,7 @@ class ilFileDataExercise extends ilFileData
 			// CHECK IF FILE PATH EXISTS
 			if (!is_dir($savepath))
 			{
-				require_once "./classes/class.ilUtil.php";
+				require_once "./Services/Utilities/classes/class.ilUtil.php";
 				#ilUtil::makeDirParents($savepath);
 				ilUtil::makeDir($savepath);
 			}
@@ -229,7 +229,7 @@ class ilFileDataExercise extends ilFileData
 	*/
 	function downloadAllDeliveredFiles($members)
 	{
-		require_once "./classes/class.ilUtil.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		global $lng;
 		
 		ksort($members);

@@ -140,7 +140,7 @@ class ilTinyMCE extends ilRTE
 			$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
 			$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
 			$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 			$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
 			$tpl->setVariable("LANG", $this->_getEditorLanguage());
@@ -194,7 +194,7 @@ class ilTinyMCE extends ilRTE
 		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags, array("charmap")) . $more_buttons);
 		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
 		$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 		$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
 		$tpl->setVariable("LANG", $this->_getEditorLanguage());

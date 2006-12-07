@@ -417,7 +417,7 @@ class ilTestCertificateGUI
 		if ($this->object->isComplete())
 		{
 			$this->tpl->setVariable("VALUE_STATUS", $this->lng->txt("certificate_status_complete"));
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$this->tpl->setVariable("HREF_STATUS_IMAGE", ilUtil::getImagePath("icon_ok.gif"));
 			$this->tpl->setVariable("ALT_STATUS_IMAGE", $this->lng->txt("certificate_status_complete"));
 			$this->tpl->setVariable("PREVIEW_BUTTON_CERTIFICATE", $this->lng->txt("certificate_preview"));

@@ -128,7 +128,7 @@ class ilTestExport
 
 		// make_directories
 		$this->test_obj->createExportDirectory();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir);
 
 		//get data
@@ -171,7 +171,7 @@ class ilTestExport
 
 		// create directories
 		$this->test_obj->createExportDirectory();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 

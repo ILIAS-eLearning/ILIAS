@@ -52,7 +52,7 @@ class ilInitialisation
 		require_once("include/inc.check_pear.php");
 		
 		//include class.util first to start StopWatch
-		require_once "classes/class.ilUtil.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		require_once "classes/class.ilBenchmark.php";
 		$ilBench =& new ilBenchmark();
 		$GLOBALS['ilBench'] =& $ilBench;

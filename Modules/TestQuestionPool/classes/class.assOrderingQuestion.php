@@ -246,7 +246,7 @@ class assOrderingQuestion extends assQuestion
 		{
 			if ($type == 0)
 			{
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$image =& base64_decode($answer["answerimage"]["content"]);
 				$imagepath = $this->getImagePath();
 				if (!file_exists($imagepath))

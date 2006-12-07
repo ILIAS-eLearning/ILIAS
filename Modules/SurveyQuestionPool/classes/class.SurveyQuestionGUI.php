@@ -167,7 +167,7 @@ class SurveyQuestionGUI
 		$this->ctrl->redirect($this, "editQuestion");
 		
 		/*$_GET["ref_id"] = $_GET["calling_survey"];
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");*/
 	}
 
@@ -175,7 +175,7 @@ class SurveyQuestionGUI
 	{
 		$this->ctrl->redirect($this, "editQuestion");
 		/*$_GET["ref_id"] = $_GET["calling_survey"];
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");*/
 	}
 		
@@ -205,7 +205,7 @@ class SurveyQuestionGUI
 			elseif ($_GET["calling_survey"])
 			{
 				$_GET["ref_id"] = $_GET["calling_survey"];
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
 				return;
 			}
@@ -238,13 +238,13 @@ class SurveyQuestionGUI
 		if ($_GET["calling_survey"])
 		{
 			$_GET["ref_id"] = $_GET["calling_survey"];
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=".$_GET["calling_survey"]);
 		}
 		elseif ($_GET["new_for_survey"])
 		{
 			$_GET["ref_id"] = $_GET["new_for_survey"];
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&cmd=questions&ref_id=".$_GET["new_for_survey"]);
 		}
 		else

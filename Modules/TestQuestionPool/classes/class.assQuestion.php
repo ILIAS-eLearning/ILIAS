@@ -957,7 +957,7 @@ class assQuestion
 	*/
 	function getJavaPathWeb()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -972,7 +972,7 @@ class assQuestion
 	*/
 	function getImagePathWeb()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -1240,7 +1240,7 @@ class assQuestion
 		$directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
 		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
 
@@ -1724,7 +1724,7 @@ class assQuestion
 		{
 			$type = $matches[1];
 			$target_id = $matches[2];
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			switch($linktypes[$matches[1]])
 			{
 				case "LearningModule":
