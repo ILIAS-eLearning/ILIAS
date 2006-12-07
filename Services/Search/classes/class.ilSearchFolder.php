@@ -29,7 +29,7 @@
 * 
 * @package ilias-search
 */
-include_once "./classes/class.ilTree.php";
+include_once "./Services/Tree/classes/class.ilTree.php";
 
 
 class ilSearchFolder

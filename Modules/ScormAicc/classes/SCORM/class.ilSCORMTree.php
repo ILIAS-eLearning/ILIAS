@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("classes/class.ilTree.php");
+require_once ("./Services/Tree/classes/class.ilTree.php");
 
 /**
 * SCORM Object Tree

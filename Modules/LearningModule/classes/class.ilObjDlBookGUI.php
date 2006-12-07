@@ -564,7 +564,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	{
 		$path = "";
 
-		include_once("./classes/class.ilTree.php");
+		include_once("./Services/Tree/classes/class.ilTree.php");
 		
 		$tree = new ilTree(1);
 
