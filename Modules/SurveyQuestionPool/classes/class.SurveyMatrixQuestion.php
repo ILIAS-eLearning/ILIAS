@@ -1790,6 +1790,39 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 	/**
+	* Adds the entries for the title row of the user specific results
+	*
+	* Adds the entries for the title row of the user specific results
+	*
+	* @param array $a_array An array which is used to append the title row entries
+	* @access public
+	*/
+	function addUserSpecificResultsExportTitles(&$a_array)
+	{
+		parent::addUserSpecificResultsExportTitles($a_array);
+		for ($i = 0; $i < $this->getRowCount(); $i++)
+		{
+			array_push($a_array, $this->getRow($i));
+			switch ($this->getSubtype())
+			{
+				case 0:
+					break;
+				case 1:
+					for ($index = 0; $index < $this->getColumnCount(); $index++)
+					{
+						$col = $this->getColumn($index);
+						array_push($a_array, ($index+1) . " - $col");
+					}
+					if (strlen($this->getNeutralColumn()))
+					{
+						array_push($a_array, ($this->getColumnCount()+1) . " - " . $this->getNeutralColumn());
+					}
+					break;
+			}
+		}
+	}
+
+	/**
 	* Adds the values for the user specific results export for a given user
 	*
 	* Adds the values for the user specific results export for a given user
@@ -1802,14 +1835,92 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		if (count($resultset["answers"][$this->getId()]))
 		{
-			foreach ($resultset["answers"][$this->getId()] as $key => $answer)
+			array_push($a_array, "");
+			switch ($this->getSubtype())
 			{
-				array_push($a_array, $answer["value"]+1);
+				case 0:
+					for ($i = 0; $i < $this->getRowCount(); $i++)
+					{
+						$checked = FALSE;
+						foreach ($resultset["answers"][$this->getId()] as $result)
+						{
+							if ($result["row"] == $i)
+							{
+								$checked = TRUE;
+								array_push($a_array, $result["value"] + 1);
+							}
+						}
+						if (!$checked)
+						{
+							array_push($a_array, $this->lng->txt("skipped"));
+						}
+					}
+					break;
+				case 1:
+					for ($i = 0; $i < $this->getRowCount(); $i++)
+					{
+						$checked = FALSE;
+						$checked_values = array();
+						foreach ($resultset["answers"][$this->getId()] as $result)
+						{
+							if ($result["row"] == $i)
+							{
+								$checked = TRUE;
+								array_push($checked_values, $result["value"] + 1);
+							}
+						}
+						if (!$checked)
+						{
+							array_push($a_array, $this->lng->txt("skipped"));
+						}
+						else
+						{
+							array_push($a_array, "");
+						}
+						for ($index = 0; $index < $this->getColumnCount(); $index++)
+						{
+							if (!$checked)
+							{
+								array_push($a_array, "");
+							}
+							else
+							{
+								if (in_array($index+1, $checked_values))
+								{
+									array_push($a_array, 1);
+								}
+								else
+								{
+									array_push($a_array, 0);
+								}
+							}
+						}
+					}
+					break;
 			}
 		}
 		else
 		{
 			array_push($a_array, $this->lng->txt("skipped"));
+			for ($i = 0; $i < $this->getRowCount(); $i++)
+			{
+				array_push($a_array, "");
+				switch ($this->getSubtype())
+				{
+					case 0:
+						break;
+					case 1:
+						for ($index = 0; $index < $this->getColumnCount(); $index++)
+						{
+							array_push($a_array, "");
+						}
+						if (strlen($this->getNeutralColumn()))
+						{
+							array_push($a_array, "");
+						}
+						break;
+				}
+			}
 		}
 	}
 
