@@ -977,7 +977,7 @@ class ilPurchaseBMFGUI
 	function __sendBill($customer, $paymentType, $bookingList, $result)
 	{
 		include_once './classes/class.ilTemplate.php';
-		include_once './classes/class.ilUtil.php';
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once './payment/classes/class.ilGeneralSettings.php';
 		include_once './payment/classes/class.ilPaymentShoppingCart.php';
 		include_once './classes/class.ilMimeMail.php';
@@ -1177,7 +1177,7 @@ class ilPurchaseBMFGUI
 	}
 
 	/**
-	* shows select box für countries
+	* shows select box fï¿½r countries
 	*/
 	function __showCountries(&$tpl, $value = "")
 	{
@@ -1729,7 +1729,7 @@ class Buchung
 		}
 	}
 
-	/* Die BelegNr wird vom BMF zurück geliefert */
+	/* Die BelegNr wird vom BMF zurï¿½ck geliefert */
 	function setVoucherNumber($voucherNumber)
 	{
 		if ($voucherNumber != NULL)
@@ -1786,7 +1786,7 @@ class BuchungsListe
 		return $this->EShopTransaktionsNr;
 	}
 
-	/* Das Kassenzeichen wird vom BMF zurück geliefert */
+	/* Das Kassenzeichen wird vom BMF zurï¿½ck geliefert */
 	function setKassenzeichen($kassenzeichen)
 	{
 		if ($kassenzeichen != NULL)

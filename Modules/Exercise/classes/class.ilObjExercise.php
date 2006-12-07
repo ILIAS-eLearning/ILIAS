@@ -219,7 +219,7 @@ class ilObjExercise extends ilObject
 	*/
 	function deliverReturnedFiles($user_id)
 	{
-		require_once "./classes/class.ilUtil.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";
 	}
 
 	/**

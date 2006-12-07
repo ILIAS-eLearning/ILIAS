@@ -556,14 +556,14 @@ class ilExerciseMembers
 	
 	function downloadSingleFile($filename, $filetitle)
 	{
-		require_once "./classes/class.ilUtil.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverFile($filename, $filetitle);
 	}
 	
 	function downloadMultipleFiles($array_filenames, $pathname)
 	{
 		global $lng;
-		require_once "./classes/class.ilUtil.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		$cdir = getcwd();
 		chdir($pathname);
 		$zip = PATH_TO_ZIP;

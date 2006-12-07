@@ -167,7 +167,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function deliverObject()
 	{
 		global $ilUser;
-		require_once "./classes/class.ilUtil.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		
 		$this->tabs_gui->setTabActive("exc_your_submission");
 		
@@ -1228,7 +1228,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function __showMembersSelect($a_result)
 	{
 		include_once "./classes/class.ilObjectFactory.php";
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
   
 		$ids = array();
   		foreach($a_result as $user)

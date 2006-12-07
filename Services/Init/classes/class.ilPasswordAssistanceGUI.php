@@ -243,7 +243,7 @@ class ilPasswordAssistanceGUI
 		global $tpl, $ilias, $lng, $rbacadmin, $rbacreview;
 
 		require_once "classes/class.ilObjUser.php";
-		require_once "classes/class.ilUtil.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";
 
 		// Retrieve form data
 		$username = $_POST["username"];
@@ -332,7 +332,7 @@ class ilPasswordAssistanceGUI
 		global $tpl, $ilias, $lng, $rbacadmin, $rbacreview;
 
 		require_once "classes/class.ilObjUser.php";
-		require_once "classes/class.ilUtil.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";
 
 		// Retrieve form data
 		$email = $_POST["email"];

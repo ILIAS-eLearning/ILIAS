@@ -301,7 +301,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		if ((strcmp($this->ctrl->getCmd(), "showLog") == 0) ||
 			(strcmp($this->ctrl->getCmd(), "exportLog") == 0))
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$separator = ";";
 			$csv = array();
 			if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)

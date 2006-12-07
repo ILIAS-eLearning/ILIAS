@@ -22,7 +22,7 @@
 */
 
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilUtil.php";
+require_once "./Services/Utilities/classes/class.ilUtil.php";
 require_once "./classes/class.ilObject.php";
 require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 

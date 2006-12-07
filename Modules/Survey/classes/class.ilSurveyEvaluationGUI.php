@@ -155,7 +155,7 @@ class ilSurveyEvaluationGUI
 	*/
 	function cancelEvaluationAccess()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		global $tree;
 		$path = $tree->getPathFull($this->object->getRefID());
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]);
@@ -308,7 +308,7 @@ class ilSurveyEvaluationGUI
 					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, $separator) . "\n";
 				}
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::deliverData($csv, "$surveyname.csv");
 				exit();
 				break;
@@ -515,7 +515,7 @@ class ilSurveyEvaluationGUI
 					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, $separator) . "\n";
 				}
-				include_once "./classes/class.ilUtil.php";
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::deliverData($csv, "$surveyname.csv");
 				exit();
 				break;

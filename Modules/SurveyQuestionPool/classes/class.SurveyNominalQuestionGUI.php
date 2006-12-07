@@ -387,7 +387,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
     // Set the question id from a hidden form parameter
     if ($_POST["id"] > 0)
       $this->object->setId($_POST["id"]);
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
@@ -476,7 +476,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			}
 		}
 		
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		if ($this->object->categories->getCategoryCount() == 0)
 		{
 			if (!$add)
@@ -593,7 +593,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$complete = true;
 		$array1 = array();
     // Add all categories from the form into the object
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		foreach ($_POST as $key => $value) 
 		{
 			if (preg_match("/^category_(\d+)/", $key, $matches)) 

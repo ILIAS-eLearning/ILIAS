@@ -132,7 +132,7 @@ class ilQuestionpoolExport
 
 		// create directories
 		$this->qpl_obj->createExportDirectory();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 

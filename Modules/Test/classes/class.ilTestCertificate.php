@@ -206,7 +206,7 @@ class ilTestCertificate
 	*/
 	function getBackgroundImagePathWeb()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/certificates/" . $this->object->getId() . "/" . $this->getBackgroundImageName();
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -253,7 +253,7 @@ class ilTestCertificate
 		global $ilLog;
 		if (file_exists($this->getCertificatePath()))
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($this->getCertificatePath());
 		}
 	}
@@ -537,7 +537,7 @@ class ilTestCertificate
 	function createArchiveDirectory()
 	{
 		$dir = $this->getCertificatePath() . time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificate/";
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDirParents($dir);
 		return $dir;
 	}
@@ -560,7 +560,7 @@ class ilTestCertificate
 	{
 		global $ilUser;
 		
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$archive_dir = $this->createArchiveDirectory();
 		$total_users = array();
 		$total_users =& $this->object->evalTotalPersonsArray();
@@ -642,7 +642,7 @@ class ilTestCertificate
 		$result = $fo2pdf->send();
 		if ($deliver)
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::deliverData($result, "certificate.pdf", "application/pdf");
 		}
 		else
@@ -665,7 +665,7 @@ class ilTestCertificate
 		$fo2pdf = new ilFO2PDF();
 		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo));
 		$result = $fo2pdf->send();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverData($result, "certificate.pdf", "application/pdf");
 	}
 	
@@ -865,7 +865,7 @@ class ilTestCertificate
 	*/
 	function deliverExportFileXML()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$exportpath = $this->createArchiveDirectory();
 		ilUtil::makeDir($exportpath);
 		$xsl = file_get_contents($this->getXSLPath());
@@ -893,7 +893,7 @@ class ilTestCertificate
 	*/
 	function importCertificate($zipfile, $filename)
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$importpath = $this->createArchiveDirectory();
 		if (!ilUtil::moveUploadedFile($zipfile, $filename, $importpath . $filename))
 		{

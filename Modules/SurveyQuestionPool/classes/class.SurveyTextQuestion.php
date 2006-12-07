@@ -452,7 +452,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$entered_value = ilUtil::stripSlashes($post_data[$this->getId() . "_text_question"]);
 		$maxchars = $this->getMaxChars();
 		if ($maxchars > 0)

@@ -309,7 +309,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = ilObjQuestionPool::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
 		if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0)
 		{
@@ -525,7 +525,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		
 		// delete import directory
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
 
 		if ($_POST["questions_only"] == 1)
@@ -642,7 +642,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 /*		if (strlen($this->ctrl->getModuleDir()) == 0)
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$_GET["ref_id"]));
 		}
 		else
@@ -730,7 +730,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		if (count($deleteable_questions) > 0)
 		{
 			foreach ($deleteable_questions as $question)
@@ -837,7 +837,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$export_file = $qpl_exp->buildExportFile();
 			$filename = $export_file;
 			$filename = preg_replace("/.*\//", "", $filename);
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::deliverFile($export_file, $filename);
 			exit();
 		}
@@ -929,7 +929,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setCurrentBlock("Footer");
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 		$this->tpl->parseCurrentBlock();
 		
@@ -956,7 +956,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
 		$colors = array("tblrow1", "tblrow2");
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$counter = 0;
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
 		foreach ($table["rows"] as $data)
@@ -995,7 +995,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 			$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
 			$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", true));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 			include_once "./classes/class.ilFormat.php";
@@ -1358,7 +1358,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
 
 		$tbl->render();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		if(count($export_files) > 0)
 		{
 			$this->tpl->setVariable("COLUMN_COUNTS", 4);
@@ -1449,7 +1449,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 
 		$export_dir = $this->object->getExportDirectory();
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
 			$_POST["file"][0]);
 		$this->ctrl->redirect($this, "export");
@@ -1482,7 +1482,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// BEGIN TABLE DATA
 		$counter = 0;
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		foreach($_POST["file"] as $file)
 		{
 				$this->tpl->setCurrentBlock("table_row");
@@ -1521,7 +1521,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function deleteExportFileObject()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export_dir = $this->object->getExportDirectory();
 		foreach($_SESSION["ilExportFiles"] as $file)
 		{
@@ -1584,7 +1584,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 

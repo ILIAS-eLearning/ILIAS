@@ -216,14 +216,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function backToRepositoryObject()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$path = $this->tree->getPathFull($this->object->getRefID());
 		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 	}
 	
 	function backToCourseObject()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=".(int) $_GET['crs_show_result']));
 	}
 	
@@ -5167,7 +5167,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
-			//include_once "./classes/class.ilUtil.php";
+			//include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$_GET["baseClass"] = "ilObjTestGUI";
 			$_GET["cmd"] = "infoScreen";
 			$_GET["ref_id"] = $a_target;

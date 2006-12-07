@@ -364,12 +364,12 @@ class ilObjSurvey extends ilObject
 		$this->deleteAllUserData();
 
 		// delete export files
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		$directory = $svy_data_dir."/svy_".$this->getId();
 		if (is_dir($directory))
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
 
@@ -3759,7 +3759,7 @@ class ilObjSurvey extends ilObject
 		$images = array();
     if (count($sortoptions)) 
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
       foreach ($sortoptions as $key => $value) 
 			{
         switch($key) 
@@ -3885,7 +3885,7 @@ class ilObjSurvey extends ilObject
 		$images = array();
     if (count($sortoptions)) 
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
       foreach ($sortoptions as $key => $value) 
 			{
         switch($key) 
@@ -4222,7 +4222,7 @@ class ilObjSurvey extends ilObject
 			$import_dir = $this->getImportDirectory();
 			$importfile = tempnam($import_dir, "survey_import");
 			//move_uploaded_file($source, $importfile);
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($source, "survey_import", $importfile);
 			$fh = fopen($importfile, "r");
 			if (!$fh)
@@ -4426,7 +4426,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function createExportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		ilUtil::makeDir($svy_data_dir);
 		if(!is_writable($svy_data_dir))
@@ -4456,7 +4456,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function getExportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/svy_data"."/svy_".$this->getId()."/export";
 
 		return $export_dir;
@@ -4508,7 +4508,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function createImportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		ilUtil::makeDir($svy_data_dir);
 		
@@ -4540,7 +4540,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function getImportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/svy_data".
 			"/svy_".$this->getId()."/import";
 		if (!is_dir($import_dir))

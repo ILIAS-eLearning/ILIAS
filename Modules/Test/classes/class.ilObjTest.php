@@ -644,12 +644,12 @@ class ilObjTest extends ilObject
 		$result = $ilDB->query($query);
 
 		// delete export files
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		$directory = $tst_data_dir."/tst_".$this->getId();
 		if (is_dir($directory))
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -765,7 +765,7 @@ class ilObjTest extends ilObject
 	*/
 	function createExportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
 		if(!is_writable($tst_data_dir))
@@ -799,7 +799,7 @@ class ilObjTest extends ilObject
 */
 	function getExportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/tst_data"."/tst_".$this->getId()."/export";
 		return $export_dir;
 	}
@@ -859,7 +859,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilias;
 		
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
 		
@@ -888,7 +888,7 @@ class ilObjTest extends ilObject
 */
 	function _getImportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
 		if(@is_dir($import_dir))
 		{
@@ -907,7 +907,7 @@ class ilObjTest extends ilObject
 	*/
 	function createImportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
 		
@@ -936,7 +936,7 @@ class ilObjTest extends ilObject
 */
 	function getImportDirectory()
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
 		if(@is_dir($import_dir))
 		{
@@ -3775,7 +3775,7 @@ class ilObjTest extends ilObject
 				$href = "";
 			}
 			$info =& assQuestion::_getQuestionInfo($value);
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$row = array(
 				"nr" => "$key",
 				"title" => ilUtil::prepareFormOutput($info["title"]),
@@ -4731,7 +4731,7 @@ class ilObjTest extends ilObject
 */
 	function getImagePathWeb() 
 	{
-		include_once "./classes/class.ilUtil.php";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/" . $this->getId() . "/images/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -4931,7 +4931,7 @@ class ilObjTest extends ilObject
 		$images = array();
     if (count($sortoptions)) 
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
       foreach ($sortoptions as $key => $value) 
 			{
         switch($key) {
@@ -5623,7 +5623,7 @@ class ilObjTest extends ilObject
 	{
 		if ($a_tag == "Identifier" && $a_param == "Entry")
 		{
-			include_once "./classes/class.ilUtil.php";
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$a_value = ilUtil::insertInstIntoID($a_value);
 		}
 
