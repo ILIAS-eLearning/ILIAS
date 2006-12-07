@@ -6059,7 +6059,7 @@ survey#:#SurveyNominalQuestion#:#Nominal Question
 survey#:#SurveyOrdinalQuestion#:#Ordinal Question
 survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_category#:#Add Answer
-survey#:#add_heading#:#Add Heading
+survey#:#add_heading#:#Add Text Block
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as answers.
 survey#:#add_phrase#:#Add Phrase
 survey#:#add_phrase_introduction#:#Please select a Phrase:
@@ -6108,7 +6108,7 @@ survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
 survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?
-survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the text block?
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 survey#:#constraint_add#:#Add Precondition
 survey#:#constraints#:#Preconditions
@@ -6188,7 +6188,7 @@ survey#:#duplicate#:#Duplicate
 survey#:#duplicate_svy#:#Duplicate Survey
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the preconditions
-survey#:#edit_heading#:#Edit Heading
+survey#:#edit_heading#:#Edit Text Block
 survey#:#end_date#:#End Date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_anonymous_id#:#Survey Access Code
@@ -6196,7 +6196,7 @@ survey#:#enter_phrase_title#:#Please enter a Phrase Title
 survey#:#enter_questionblock_title#:#Please enter a Questionblock Title!
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#enter_value#:#Enter a Value
-survey#:#error_add_heading#:#Please add a heading!
+survey#:#error_add_heading#:#Please add a text block!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
@@ -6228,7 +6228,7 @@ survey#:#geometric_mean#:#Geometric Mean
 survey#:#given_answers#:#Given Answers
 survey#:#glossary_term#:#Glossary Term
 survey#:#harmonic_mean#:#Harmonic Mean
-survey#:#heading#:#Heading
+survey#:#heading#:#Text Block
 survey#:#horizontal#:#Horizontal
 survey#:#import_error_closing_file#:#Error closing the import file!
 survey#:#import_error_opening_file#:#Error opening the import file!
@@ -6407,6 +6407,8 @@ survey#:#select_target_position_for_move_question#:#Please select a target posit
 survey#:#select_value#:#Select a Value
 survey#:#selection#:#Selection
 survey#:#set_filter#:#Set Filter
+survey#:#show_questiontext#:#Display the Question Text
+survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. 
 survey#:#skipped#:#skipped
 survey#:#spl_general_properties#:#General Properties
 survey#:#spl_online_property#:#Online

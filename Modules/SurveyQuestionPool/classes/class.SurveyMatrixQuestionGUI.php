@@ -209,7 +209,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 *
 * @access public
 */
-	function getWorkingForm($working_data = "", $question_title = 1, $error_message = "")
+	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "")
 	{
 		$neutralstyle = "3px solid #808080";
 		$bordercolor = "#808080";
@@ -390,8 +390,11 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
-		$questiontext = $this->object->getQuestiontext();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		if ($show_questiontext)
+		{
+			$questiontext = $this->object->getQuestiontext();
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		if (! $this->object->getObligatory())
 		{
 			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
@@ -762,7 +765,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$ilTabs->addTarget("matrix_columns_rows",
 				$this->ctrl->getLinkTarget($this, "categories"), 
-					array("categories", "addColumn", "moveColumn",
+					array("categories", "addColumn", "addRow", "deleteRow", "moveColumn",
 						"deleteColumn", "saveRowColEditor", "savePhrase", "addPhrase",
 						"savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
 						"cancelSavePhrase", "confirmdeleteColumn", "canceldeleteColumn"),

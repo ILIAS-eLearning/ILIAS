@@ -912,5 +912,28 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		return false;
 	}
+
+	/**
+	* Creates a list of all available question types
+	*
+	* Creates a list of all available question types
+	*
+	* @return array An array containing the available questiontypes
+	* @access public
+	*/
+	function &_getQuestiontypes()
+	{
+		global $ilDB;
+		
+		$questiontypes = array();
+		$query = "SELECT * FROM survey_questiontype ORDER BY type_tag";
+		$query_result = $ilDB->query($query);
+		while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questiontypes, $row["type_tag"]);
+		}
+		return $questiontypes;
+	}
+		
 } // END class.ilSurveyObjQuestionPool
 ?>
