@@ -1660,6 +1660,48 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
+	* Creates the CSV output for the cumulated results of this question
+	*
+	* Creates the CSV output for the cumulated results of this question
+	*
+	* @param object $worksheet Reference to the excel worksheet
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @param integer $row Actual row in the worksheet
+	* @return integer The next row which should be used for the export
+	* @access public
+	*/
+	function &setExportCumulatedCVS(&$eval_data)
+	{
+		$result = array();
+		foreach ($eval_data as $evalkey => $evalvalue)
+		{
+			$csvrow = array();
+			if (is_numeric($evalkey))
+			{
+				array_push($csvrow, "");
+				array_push($csvrow, $evalvalue["ROW"]);
+				array_push($csvrow, "");
+			}
+			else
+			{
+				array_push($csvrow, $this->getTitle());
+				array_push($csvrow, $this->getQuestiontext());
+				array_push($csvrow, $this->lng->txt($evalvalue["QUESTION_TYPE"]));
+			}
+			array_push($csvrow, $evalvalue["USERS_ANSWERED"]);
+			array_push($csvrow, $evalvalue["USERS_SKIPPED"]);
+			array_push($csvrow, $evalvalue["MODE"]);
+			array_push($csvrow, $evalvalue["MODE_NR_OF_SELECTIONS"]);
+			array_push($csvrow, $evalvalue["MEDIAN"]);
+			array_push($csvrow, $evalvalue["ARITHMETIC_MEAN"]);
+			array_push($result, $csvrow);
+		}
+		return $result;
+	}
+	
+	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
 	* Creates an Excel worksheet for the detailed cumulated results of this question
