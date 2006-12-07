@@ -31,8 +31,8 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.ilObjForum.php";
-require_once "./classes/class.ilFileDataForum.php";
+require_once "./Modules/Forum/classes/class.ilObjForum.php";
+require_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 
 $lng->loadLanguageModule("forum");
 
@@ -72,7 +72,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 	// ********************************************************************************
 	// build location-links
-	include_once("classes/class.ilForumLocatorGUI.php");
+	include_once("./Modules/Forum/classes/class.ilForumLocatorGUI.php");
 	$frm_loc =& new ilForumLocatorGUI();
 	$frm_loc->setRefId($_GET["ref_id"]);
 	$frm_loc->setForum($frm);

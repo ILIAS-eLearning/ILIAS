@@ -603,7 +603,7 @@ class ilForum
 	*/
 	function deletePost($post)
 	{
-		include_once "./classes/class.ilObjForum.php";
+		include_once "./Modules/Forum/classes/class.ilObjForum.php";
 		
 		// delete tree and get id's of all posts to delete
 		$p_node = $this->getPostNode($post);	
@@ -625,7 +625,7 @@ class ilForum
 		if ($p_node["parent"] == 0)
 		{
 			// delete thread access data
-			include_once './classes/class.ilObjForum.php';
+			include_once './Modules/Forum/classes/class.ilObjForum.php';
 
 			ilObjForum::_deleteAccessEntries($p_node['tree']);
 
@@ -1458,7 +1458,7 @@ class ilForum
 		{
 			return false;
 		}
-		include_once "classes/class.ilFileDataForum.php";
+		include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 		
 		$tmp_file_obj =& new ilFileDataForum($this->getForumId());
 		foreach($a_ids as $pos_id)

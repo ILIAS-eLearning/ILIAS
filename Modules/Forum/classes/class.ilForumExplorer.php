@@ -32,7 +32,7 @@
 * @package ilias-forum
 */
 require_once("./classes/class.ilExplorer.php");
-require_once("./classes/class.ilForum.php");
+require_once("./Modules/Forum/classes/class.ilForum.php");
 
 class ilForumExplorer extends ilExplorer
 {

@@ -92,3 +92,8 @@ CREATE TABLE IF NOT EXISTS `ldap_server_settings` (
   PRIMARY KEY  (`server_id`)
 ) TYPE=MyISAM;
 
+<#872>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

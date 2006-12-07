@@ -31,7 +31,7 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.ilForum.php";
+require_once "./Modules/Forum/classes/class.ilForum.php";
 
 $lng->loadLanguageModule("forum");
 
@@ -54,7 +54,7 @@ $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 // locator
-require_once("classes/class.ilForumLocatorGUI.php");
+require_once("./Modules/Forum/classes/class.ilForumLocatorGUI.php");
 $frm_loc =& new ilForumLocatorGUI();
 $frm_loc->setRefId($_GET["ref_id"]);
 if ($ref_obj->getType() == "frm")

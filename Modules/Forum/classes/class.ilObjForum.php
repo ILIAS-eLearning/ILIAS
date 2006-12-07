@@ -32,9 +32,9 @@
 * @package ilias-core
 */
 
-require_once "class.ilForum.php";
+require_once "./Modules/Forum/classes/class.ilForum.php";
 require_once "./classes/class.ilObject.php";
-require_once "./classes/class.ilFileDataForum.php";
+require_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 
 class ilObjForum extends ilObject
 {

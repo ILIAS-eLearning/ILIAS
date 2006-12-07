@@ -34,7 +34,7 @@
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "./classes/class.ilObjectGUI.php";
 
 class ilObjForumGUI extends ilObjectGUI
 {
@@ -743,7 +743,7 @@ class ilObjForumGUI extends ilObjectGUI
 	// PRIVATE
 	function __initFileObject()
 	{
-		include_once "classes/class.ilFileDataImportForum.php";
+		include_once "./Modules/Forum/classes/class.ilFileDataImportForum.php";
 
 		$this->file_obj =& new ilFileDataImportForum();
 
@@ -752,7 +752,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 	function __initParserObject($a_xml_file)
 	{
-		include_once "classes/class.ilForumImportParser.php";
+		include_once "./Modules/Forum/classes/class.ilForumImportParser.php";
 
 		$this->parser_obj =& new ilForumImportParser($a_xml_file,$this->ref_id);
 

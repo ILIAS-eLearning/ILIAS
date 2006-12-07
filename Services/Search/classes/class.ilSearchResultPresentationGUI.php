@@ -247,7 +247,7 @@ class ilSearchResultPresentationGUI
 				break;
 
 			case 'frm':
-				include_once 'classes/class.ilObjForum.php';
+				include_once './Modules/Forum/classes/class.ilObjForum.php';
 				
 				foreach($item['child'] as $child)
 				{

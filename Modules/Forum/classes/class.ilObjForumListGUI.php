@@ -69,7 +69,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjforumgui";
 		
 		// general commands array
-		include_once('class.ilObjForumAccess.php');
+		include_once('./Modules/Forum/classes/class.ilObjForumAccess.php');
 		$this->commands = ilObjForumAccess::_getCommands();
 	}
 
@@ -114,8 +114,8 @@ class ilObjForumListGUI extends ilObjectListGUI
 			return array();
 		}
 
-		include_once("classes/class.ilForum.php");
-		include_once("classes/class.ilObjForum.php");
+		include_once("./Modules/Forum/classes/class.ilForum.php");
+		include_once("./Modules/Forum/classes/class.ilObjForum.php");
 		$frm_data = ilForum::_lookupForumData($this->obj_id);
 
 		include_once("classes/class.ilObjUser.php");

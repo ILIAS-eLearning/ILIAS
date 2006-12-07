@@ -105,7 +105,7 @@ switch($target_type)
 		
 	// new implementation: ok
 	case "frm":
-		require_once("./classes/class.ilObjForumGUI.php");
+		require_once("./Modules/Forum/classes/class.ilObjForumGUI.php");
 		$target_thread = $target_arr[2];
 		ilObjForumGUI::_goto($target_id, $target_thread);
 		break;

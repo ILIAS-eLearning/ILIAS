@@ -23,7 +23,7 @@
 
 
 require_once "include/inc.header.php";
-require_once "classes/class.ilForumExplorer.php";
+require_once "./Modules/Forum/classes/class.ilForumExplorer.php";
 
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");

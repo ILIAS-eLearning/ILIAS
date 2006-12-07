@@ -31,7 +31,7 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.ilObjForum.php";
+require_once "./Modules/Forum/classes/class.ilObjForum.php";
 
 
 // MOVED TO class.ilObjForumGUI.php
@@ -46,13 +46,13 @@ function prepOutput($frm)
 	$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 	$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	sendInfo();
-	require_once("classes/class.ilForumTabsGUI.php");
+	require_once("./Modules/Forum/classes/class.ilForumTabsGUI.php");
 	$frm_tab =& new ilForumTabsGUI();
 	$frm_tab->setRefId($_GET["ref_id"]);
 	$frm_tab->setForum($frm);
 	$frm_tab->setTabs();
 
-	require_once("classes/class.ilForumLocatorGUI.php");
+	require_once("./Modules/Forum/classes/class.ilForumLocatorGUI.php");
 	$frm_loc =& new ilForumLocatorGUI();
 	$frm_loc->setRefId($_GET["ref_id"]);
 	$frm_loc->setForum($frm);
@@ -104,7 +104,7 @@ switch ($cmd)
 		$tpl->setVariable("HEADER", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
 
 		//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		include_once("classes/class.ilObjForumGUI.php");
+		include_once("./Modules/Forum/classes/class.ilObjForumGUI.php");
 		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
 		$forum_gui->properties();
 		$tpl->show();
@@ -117,7 +117,7 @@ switch ($cmd)
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once("classes/class.ilObjForumGUI.php");
+		include_once("./Modules/Forum/classes/class.ilObjForumGUI.php");
 		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
 		$forum_gui->saveProperties();
 		break;
@@ -125,7 +125,7 @@ switch ($cmd)
 	case "permissions":
 		prepOutput($frm);
 		$tpl->setVariable("HEADER", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
-		include_once("classes/class.ilObjForumGUI.php");
+		include_once("./Modules/Forum/classes/class.ilObjForumGUI.php");
 		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
 		$forum_gui->setFormAction("permSave","forums_threads_liste.php?ref_id=".$_GET["ref_id"].
 			"&cmd=permSave");
@@ -135,7 +135,7 @@ switch ($cmd)
 		break;
 
 	case "permSave":
-		include_once("classes/class.ilObjForumGUI.php");
+		include_once("./Modules/Forum/classes/class.ilObjForumGUI.php");
 		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
 		$forum_gui->setReturnLocation("permSave","forums_threads_liste.php?ref_id=".$_GET["ref_id"]);
 		$forum_gui->permSaveObject();
@@ -143,7 +143,7 @@ switch ($cmd)
 		break;
 
 	case "addRole":
-		include_once("classes/class.ilObjForumGUI.php");
+		include_once("./Modules/Forum/classes/class.ilObjForumGUI.php");
 		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
 		$forum_gui->setReturnLocation("addRole","forums_threads_liste.php?ref_id=".$_GET["ref_id"]."&cmd=permissions");
 		$forum_gui->addRoleObject();
@@ -199,13 +199,13 @@ if (isset($_POST["cmd"]["submit"]))
 // ********************************************************************************
 // build location-links
 
-require_once("classes/class.ilForumLocatorGUI.php");
+require_once("./Modules/Forum/classes/class.ilForumLocatorGUI.php");
 $frm_loc =& new ilForumLocatorGUI();
 $frm_loc->setRefId($_GET["ref_id"]);
 $frm_loc->setForum($frm);
 $frm_loc->display();
 
-require_once("classes/class.ilForumTabsGUI.php");
+require_once("./Modules/Forum/classes/class.ilForumTabsGUI.php");
 $frm_tab =& new ilForumTabsGUI();
 $frm_tab->setRefId($_GET["ref_id"]);
 $frm_tab->setForum($frm);

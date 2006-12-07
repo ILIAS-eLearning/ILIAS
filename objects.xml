@@ -136,7 +136,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="frm" class_name="Forum" location="classes" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+<object name="frm" class_name="Forum" location="Modules/Forum/classes" module="Modules/Forum" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit" module="1">edit_properties</property>
