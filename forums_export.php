@@ -31,7 +31,7 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.ilForumExport.php";
+require_once "./Modules/Forum/classes/class.ilForumExport.php";
 
 $frmEx = new ilForumExport();
 

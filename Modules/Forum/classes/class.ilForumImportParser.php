@@ -262,7 +262,7 @@ class ilForumImportParser extends ilSaxParser
 	// PRIVATE
 	function __createNew($a_id)
 	{
-		include_once "classes/class.ilObjForum.php";
+		include_once "./Modules/Forum/classes/class.ilObjForum.php";
 
 		$this->forum =& new ilObjForum();
 		$this->forum->setImportId($a_id);
@@ -327,7 +327,7 @@ class ilForumImportParser extends ilSaxParser
 
 	function __initForumObject()
 	{
-		include_once "classes/class.ilForum.php";
+		include_once "./Modules/Forum/classes/class.ilForum.php";
 
 		$this->forum_obj =& new ilForum();
 		$this->forum_obj->setForumRefId($this->ref_id);

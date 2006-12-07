@@ -31,7 +31,7 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.ilObjForum.php";
+require_once "./Modules/Forum/classes/class.ilObjForum.php";
 
 $lng->loadLanguageModule("forum");
 
@@ -62,7 +62,7 @@ if (!$rbacsystem->checkAccess("edit_post",$forumObj->getRefId()))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
-require_once("classes/class.ilForumLocatorGUI.php");
+require_once("./Modules/Forum/classes/class.ilForumLocatorGUI.php");
 $frm_loc =& new ilForumLocatorGUI();
 $frm_loc->setRefId($_GET["ref_id"]);
 $frm_loc->setForum($frm);

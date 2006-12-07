@@ -32,8 +32,8 @@
  * @version $Id$
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilForum.php";
-require_once "./classes/class.ilObjForum.php";
+require_once "./Modules/Forum/classes/class.ilForum.php";
+require_once "./Modules/Forum/classes/class.ilObjForum.php";
 
 $lng->loadLanguageModule("forum");
 

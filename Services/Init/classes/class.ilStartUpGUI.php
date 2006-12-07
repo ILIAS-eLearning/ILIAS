@@ -188,7 +188,7 @@ class ilStartUpGUI
 			}
 
 			// update last forum visit
-			include_once './classes/class.ilObjForum.php';
+			include_once './Modules/Forum/classes/class.ilObjForum.php';
 			ilObjForum::_updateOldAccess($ilUser->getId());
 
 			if ($_GET["rep_ref_id"] != "")
