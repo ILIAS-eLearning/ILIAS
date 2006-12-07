@@ -309,6 +309,16 @@ class ilStartUpGUI
 			$tpl->parseCurrentBlock();
 		}
 
+		// Show selection of auth modes
+		if(ilAuthUtils::_hasMultipleAuthenticationMethods())
+		{
+			$tpl->setCurrentBlock('auth_selection');
+			$tpl->setVariable('TXT_AUTH_MODE',$lng->txt('auth_selection'));
+			$tpl->setVariable('SELECT_AUTH_MODE',ilAuthUtils::_getMultipleAuthSelect($lng));
+			$tpl->parseCurrentBlock();
+		}
+		
+		
 		// login via ILIAS (this also includes radius and ldap)
 		if ($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH &&
 			$ilSetting->get("auth_mode") != AUTH_CAS)
@@ -344,6 +354,7 @@ class ilStartUpGUI
 
 		// TODO: Move this to header.inc since an expired session could not detected in login script
 		$status = $ilAuth->getStatus();
+		
 		if ($status == "")
 		{
 			$status = $_GET["auth_stat"];
@@ -355,7 +366,7 @@ class ilStartUpGUI
 			switch ($status)
 			{
 				case AUTH_EXPIRED:
-					$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
+					$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $lng->txt("err_session_expired"));
 					break;
 				case AUTH_IDLED:
 					// lang variable err_idled not existing
@@ -363,15 +374,20 @@ class ilStartUpGUI
 					break;
 
 				case AUTH_CAS_NO_ILIAS_USER:
-					$tpl->setVariable(TXT_MSG_LOGIN_FAILED,
+					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
 						$lng->txt("err_auth_cas_no_ilias_user"));
 					break;
 
 				case AUTH_SOAP_NO_ILIAS_USER:
-					$tpl->setVariable(TXT_MSG_LOGIN_FAILED,
-						$lng->txt("err_auth_soap_no_ilias_user"));
+					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
+					$lng->txt("err_auth_soap_no_ilias_user"));
 					break;
 
+				case AUTH_LDAP_NO_ILIAS_USER:
+					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
+						$lng->txt('err_auth_ldap_no_ilias_user'));
+					break;	
+					
 				case AUTH_WRONG_LOGIN:
 				default:
 					$add = "";
