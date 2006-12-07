@@ -1978,5 +1978,50 @@ class SurveyQuestion
 	{
 		// overwrite in inherited classes
 	}
+
+	/**
+	* Creates the Excel output for the cumulated results of this question
+	*
+	* Creates the Excel output for the cumulated results of this question
+	*
+	* @param object $worksheet Reference to the excel worksheet
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @param integer $row Actual row in the worksheet
+	* @return integer The next row which should be used for the export
+	* @access public
+	*/
+	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row)
+	{
+		include_once ("./classes/class.ilExcelUtils.php");
+		$worksheet->writeString($row, 0, ilExcelUtils::_convert_text($this->getTitle()));
+		$worksheet->writeString($row, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$worksheet->writeString($row, 2, ilExcelUtils::_convert_text($this->lng->txt($eval_data["QUESTION_TYPE"])));
+		$worksheet->write($row, 3, $eval_data["USERS_ANSWERED"]);
+		$worksheet->write($row, 4, $eval_data["USERS_SKIPPED"]);
+		$worksheet->write($row, 5, ilExcelUtils::_convert_text($eval_data["MODE_VALUE"]));
+		$worksheet->write($row, 6, ilExcelUtils::_convert_text($eval_data["MODE"]));
+		$worksheet->write($row, 7, $eval_data["MODE_NR_OF_SELECTIONS"]);
+		$worksheet->write($row, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["MEDIAN"])));
+		$worksheet->write($row, 9, $eval_data["ARITHMETIC_MEAN"]);
+		return $row + 1;
+	}
+	
+	/**
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* @param object $workbook Reference to the parent excel workbook
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @access public
+	*/
+	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
+	{
+		// overwrite in inherited classes
+	}
 }
 ?>

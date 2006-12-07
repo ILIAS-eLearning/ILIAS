@@ -243,6 +243,7 @@ class ilSurveyEvaluationGUI
 				break;
 		}
 		$questions =& $this->object->getSurveyQuestions();
+		$counter++;
 		foreach ($questions as $data)
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
@@ -255,17 +256,7 @@ class ilSurveyEvaluationGUI
 			switch ($_POST["export_format"])
 			{
 				case TYPE_XLS:
-					include_once ("./classes/class.ilExcelUtils.php");
-					$mainworksheet->writeString($counter+1, 0, ilExcelUtils::_convert_text($question->getTitle(), $_POST["export_format"]));
-					$mainworksheet->writeString($counter+1, 1, ilExcelUtils::_convert_text($question->getQuestiontext(), $_POST["export_format"]));
-					$mainworksheet->writeString($counter+1, 2, ilExcelUtils::_convert_text($this->lng->txt($eval["QUESTION_TYPE"]), $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 3, $eval["USERS_ANSWERED"]);
-					$mainworksheet->write($counter+1, 4, $eval["USERS_SKIPPED"]);
-					$mainworksheet->write($counter+1, 5, ilExcelUtils::_convert_text($eval["MODE_VALUE"], $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 6, ilExcelUtils::_convert_text($eval["MODE"], $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 7, $eval["MODE_NR_OF_SELECTIONS"]);
-					$mainworksheet->write($counter+1, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval["MEDIAN"]), $_POST["export_format"]));
-					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
+					$counter = $question->setExportCumulatedXLS($mainworksheet, $format_title, $format_bold, $eval, $counter);
 					break;
 				case (TYPE_SPSS):
 					$csvrow = array();
@@ -290,7 +281,6 @@ class ilSurveyEvaluationGUI
 						break;
 				}
 			}
-			$counter++;
 		}
 
 		switch ($_POST["export_format"])
@@ -361,7 +351,7 @@ class ilSurveyEvaluationGUI
 		}
 
 		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./survey/templates/default/evaluation_print.css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
@@ -632,7 +622,7 @@ class ilSurveyEvaluationGUI
 			$counter++;
 		}
 		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./survey/templates/default/evaluation_print.css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
@@ -738,7 +728,7 @@ class ilSurveyEvaluationGUI
 			$counter++;
 		}
 		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./survey/templates/default/evaluation_print.css");
+		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
