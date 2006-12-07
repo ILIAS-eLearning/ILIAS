@@ -2393,7 +2393,7 @@ class ilLMPresentationGUI
 		
 		$this->lng->loadLanguageModule("meta");
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 
 		$info = new ilInfoScreenGUI($this->lm_gui);
 		$info->enablePrivateNotes();
@@ -3102,7 +3102,7 @@ class ilLMPresentationGUI
 	function downloadFile()
 	{
 		$file = explode("_", $_GET["file_id"]);
-		require_once("classes/class.ilObjFile.php");
+		require_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;

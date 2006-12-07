@@ -120,7 +120,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "ilias.php?baseClass=ilGlossaryPresentationGUI&ref_id=".$a_node_id;
 
 			case "exc":
-				return "exercise.php?cmd=view&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=view&ref_id=".$a_node_id;
 
 			case "chat":
 				return "chat.php?cmd=view&ref_id=".$a_node_id;
@@ -195,7 +195,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$a_node_id;
 
 			case "exc":
-				return "exercise.php?cmd=view&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=view&ref_id=".$a_node_id;
 
 			case "chat":
 				return "chat.php?cmd=view&ref_id=".$a_node_id;

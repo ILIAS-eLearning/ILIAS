@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "classes/class.ilObjectListGUI.php";
 
 /**
 * Class ilObjMediaPoolListGUI
@@ -30,10 +31,6 @@
 *
 * @ingroup ModulesMediaPool
 */
-
-
-include_once "classes/class.ilObjectListGUI.php";
-
 class ilObjMediaPoolListGUI extends ilObjectListGUI
 {
 	/**

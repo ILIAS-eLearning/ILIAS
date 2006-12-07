@@ -1682,7 +1682,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function downloadFileObject()
 	{
 		$file = explode("_", $_GET["file_id"]);
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
@@ -4526,7 +4526,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
 		$active = $this->object->getActiveTestUser();

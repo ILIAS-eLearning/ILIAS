@@ -72,7 +72,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function newFileItem()
 	{
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
 		$fileObj->setType("file");
 		$fileObj->setTitle($_FILES["Fobject"]["name"]["file"]);

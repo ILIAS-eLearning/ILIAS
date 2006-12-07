@@ -48,7 +48,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 	function _getNotAttempted($a_obj_id)
 	{
 		// All members
-		include_once './classes/class.ilExerciseMembers.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 
 		$members = ilExerciseMembers::_getMembers($a_obj_id);
 
@@ -64,7 +64,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 	{
 		global $ilDB;
 
-		include_once './classes/class.ilExerciseMembers.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		$users = ilExerciseMembers::_getReturned($a_obj_id);
 		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
 		$users = array_diff($users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
@@ -77,13 +77,13 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 	{
 		global $ilDB;
 
-		include_once './classes/class.ilExerciseMembers.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		return ($ret = ilExerciseMembers::_getPassedUsers($a_obj_id)) ? $ret : array();
 	}
 
 	function _getFailed($a_obj_id)
 	{
-		include_once './classes/class.ilExerciseMembers.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		$failed = ilExerciseMembers::_getFailedUsers($a_obj_id);
 		return $failed ? $failed : array();
 	}

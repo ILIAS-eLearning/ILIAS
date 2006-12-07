@@ -22,6 +22,10 @@
 */
 
 
+require_once "classes/class.ilObject.php";
+require_once "classes/class.ilMetaData.php";
+require_once("classes/class.ilObjFolder.php");
+
 /** @defgroup ModulesMediaPool Modules/MediaPool
  */
 
@@ -34,11 +38,6 @@
 *
 * @ingroup ModulesMediaPool
 */
-
-require_once "classes/class.ilObject.php";
-require_once "classes/class.ilMetaData.php";
-require_once("classes/class.ilObjFolder.php");
-
 class ilObjMediaPool extends ilObject
 {
 	var $tree;

@@ -22,6 +22,15 @@
 */
 
 
+include_once("classes/class.ilObjectGUI.php");
+include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
+include_once("classes/class.ilTableGUI.php");
+include_once("classes/class.ilObjFolderGUI.php");
+include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+include_once ("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
+
+
 /**
 * User Interface class for media pool objects
 *
@@ -33,15 +42,6 @@
 *
 * @ingroup ModulesMediaPool
 */
-
-include_once("classes/class.ilObjectGUI.php");
-include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-include_once("classes/class.ilTableGUI.php");
-include_once("classes/class.ilObjFolderGUI.php");
-include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-include_once ("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
-
 class ilObjMediaPoolGUI extends ilObjectGUI
 {
 	var $output_prepared;

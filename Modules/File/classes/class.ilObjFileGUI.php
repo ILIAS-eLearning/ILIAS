@@ -23,8 +23,8 @@
 */
 
 
-require_once "class.ilObjectGUI.php";
-require_once "./classes/class.ilObjFile.php"; // temp. fix
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./Modules/File/classes/class.ilObjFile.php";
 
 /**
 * GUI class for file objects.
@@ -184,7 +184,7 @@ class ilObjFileGUI extends ilObjectGUI
 		}
 
 		// create and insert file in grp_tree
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
 		$fileObj->setType($this->type);
 		$fileObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
@@ -375,7 +375,7 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
 		if ($ilAccess->checkAccess("read", "sendfile", $this->ref_id))

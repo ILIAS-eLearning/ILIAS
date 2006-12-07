@@ -36,7 +36,7 @@ require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 require_once("./Services/COPage/classes/class.ilInternalLink.php");
-require_once("classes/class.ilObjFile.php");
+require_once("./Modules/File/classes/class.ilObjFile.php");
 
 include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
 include_once("Services/MetaData/classes/class.ilMD.php");

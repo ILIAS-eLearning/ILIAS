@@ -526,7 +526,7 @@ class ilConditionHandler
 				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case 'exc':
-				include_once './classes/class.ilObjExercise.php';
+				include_once './Modules/Exercise/classes/class.ilObjExercise.php';
 				return ilObjExercise::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case 'crsg':

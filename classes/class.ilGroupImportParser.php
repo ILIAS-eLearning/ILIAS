@@ -404,7 +404,7 @@ class ilGroupImportParser extends ilSaxParser
 
 	function __initFileObject()
 	{
-		include_once "classes/class.ilObjFile.php";
+		include_once "./Modules/File/classes/class.ilObjFile.php";
 		
 		$this->file_obj =& new ilObjFile();
 		

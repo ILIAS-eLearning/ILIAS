@@ -39,6 +39,9 @@
 	<module name="WebResource" dir="Modules/WebResource">
 		<baseclass name="ilLinkResourceHandlerGUI" dir="classes" />
 	</module>
+	<module name="Exercise" dir="Modules/Exercise">
+		<baseclass name="ilExerciseHandlerGUI" dir="classes" />
+	</module>
 	<module name="Course" dir="course">
 		<!-- more to come ... -->
 	</module>

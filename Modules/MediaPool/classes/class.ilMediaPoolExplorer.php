@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("classes/class.ilExplorer.php");
+
 /*
 * Explorer for Media Pools
 *
@@ -29,9 +31,6 @@
 *
 * @ingroup ModulesMediaPool
 */
-
-require_once("classes/class.ilExplorer.php");
-
 class ilMediaPoolExplorer extends ilExplorer
 {
 

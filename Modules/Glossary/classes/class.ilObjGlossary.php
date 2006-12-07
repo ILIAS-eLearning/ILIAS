@@ -652,7 +652,7 @@ class ilObjGlossary extends ilObject
 				}
 				
 				// get all files of page
-				include_once("classes/class.ilObjFile.php");
+				include_once("./Modules/File/classes/class.ilObjFile.php");
 				$def_files = ilObjFile::_getFilesOfObject("gdf:pg", $def["id"]);
 				$this->offline_files = array_merge($this->offline_files, $def_files);
 
@@ -725,7 +725,7 @@ class ilObjGlossary extends ilObject
 	{
 		$file_dir = $a_target_dir."/files/file_".$a_file_id;
 		ilUtil::makeDir($file_dir);
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$file_obj = new ilObjFile($a_file_id, false);
 		$source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
 		if (!is_file($source_file))
@@ -900,7 +900,7 @@ class ilObjGlossary extends ilObject
 	*/
 	function exportFileItems($a_target_dir, &$expLog)
 	{
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 
 		foreach ($this->file_ids as $file_id)
 		{

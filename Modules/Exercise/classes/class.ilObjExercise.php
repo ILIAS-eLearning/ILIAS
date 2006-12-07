@@ -21,6 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "classes/class.ilObject.php";
+require_once "./Modules/Exercise/classes/class.ilFileDataExercise.php";
+require_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
+
 /** @defgroup ModulesExercise Modules/Exercise
  */
 
@@ -32,11 +36,6 @@
 *
 * @ingroup ModulesExercise
 */
-require_once "class.ilObject.php";
-require_once "./classes/class.ilFileDataExercise.php";
-require_once "./classes/class.ilExerciseMembers.php";
-
-
 class ilObjExercise extends ilObject
 {
 	var $file_obj;

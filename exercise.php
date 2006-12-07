@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+die("exercise.php is deprecated");
+
 require_once "./include/inc.header.php";
 global $ilCtrl, $tpl;
 

@@ -879,7 +879,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
 		$info->enablePrivateNotes();
