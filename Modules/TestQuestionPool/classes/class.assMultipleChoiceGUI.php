@@ -575,9 +575,6 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		// shuffle output
 		$keys = array_keys($this->object->answers);
 
-		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
 		if ($active_id)
@@ -608,6 +605,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_mc_mr_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		foreach ($keys as $answer_id)
 		{
 			$answer = $this->object->answers[$answer_id];
@@ -704,9 +702,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
-		$questionoutput = str_replace("<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\"></div>", $questionoutput, $pageoutput);
-		$questionoutput = preg_replace("/<div class\=\"ilc_PageTitle\"\>.*?\<\/div\>/", "", $questionoutput);
-		return $questionoutput;
+		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
+
+		return $solutiontemplate->get();
 	}
 	
 	function getPreview()
