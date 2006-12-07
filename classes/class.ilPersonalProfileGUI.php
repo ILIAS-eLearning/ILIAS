@@ -236,7 +236,24 @@ class ilPersonalProfileGUI
 	function changeUserPassword()
 	{
 		global $ilUser, $ilSetting;
-
+		
+		/*
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		if($ilUser->getAuthMode(true) == AUTH_LDAP and ($server_ids = ilLDAPServer::_getPasswordServers()))
+		{
+			include_once('Services/LDAP/classes/class.ilLDAPPasswordSynchronization.php');
+			$pwd_sync = new ilLDAPPasswordSynchronization($server_ids[0]);
+			$pwd_sync->setOldPassword($_POST["current_password"]);
+			$pwd_sync->setNewPassword($_POST["desired_password"]);
+			$pwd_sync->setRetypePassword($_POST["retype_password"]);
+			if(!$pwd_sync->synchronize())
+			{
+				$this->password_error = $pwd_sync->getError();
+			}
+			$this->saveProfile();
+			return false;
+		}
+		*/
 		// do nothing if auth mode is not local database
 		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
 			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&

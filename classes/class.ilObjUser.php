@@ -1011,7 +1011,12 @@ class ilObjUser extends ilObject
 	function delete()
 	{
 		global $rbacadmin;
-
+		
+		// deassign from ldap groups
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+		$mapping = ilLDAPRoleGroupMapping::_getInstance();
+		$mapping->deleteUser($this->getId()); 
+		
 		// remove mailbox / update sent mails
 		include_once ("classes/class.ilMailbox.php");
 		$mailbox = new ilMailbox($this->getId());
@@ -2832,6 +2837,20 @@ function getCourseMemberships($a_user_id = "")
 		$this->ext_account = $a_str;
 	}
 	
+	public function _updateExternalAccounts($a_auth_mode)
+	{
+		global $ilDB;
+
+		include_once('classes/class.ilAuthUtils.php');
+		$a_auth_name = ilAuthUtils::_getAuthModeName($a_auth_mode);
+	
+		$query = "UPDATE usr_data SET ext_account = login ".
+			"WHERE ext_account = ''".
+			"AND auth_mode = ".$ilDB->quote($a_auth_name);
+		$ilDB->query($query);
+		return true;
+	}
+	
 	/**
     * get external account
 	*
@@ -2843,6 +2862,65 @@ function getCourseMemberships($a_user_id = "")
 	{
 		return $this->ext_account;
 	}
+	
+	/**
+	 * Get list of external account by authentication method
+	 *
+	 * @access public
+	 * @param string auth_mode
+	 * @param bool also get users with authentication method 'default'
+	 * @return array of external account names
+	 * 
+	 */
+	public static function _getExternalAccountsByAuthMode($a_auth_mode,$a_read_auth_default = false)
+	{
+	 	global $ilDB,$ilSetting;
+	 	
+	 	include_once('classes/class.ilAuthUtils.php');
+	 	if($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode',AUTH_LOCAL)) == $a_auth_mode)
+	 	{
+	 		$or = "OR auth_mode = 'default' ";
+	 	}
+		else
+		{
+			$or = " ";
+		}	 	
+	 	$query = "SELECT usr_id,ext_account FROM usr_data ".
+	 		"WHERE auth_mode = ".$ilDB->quote($a_auth_mode)." ".
+	 		$or;
+	 	
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$accounts[$row->usr_id] = $row->ext_account;
+		}
+		return $accounts ? $accounts : array();
+	}
+	
+	/**
+	 * Toggle active status of users
+	 *
+	 * @access public
+	 * @param 
+	 * 
+	 */
+	public static function _toggleActiveStatusOfUsers($a_usr_ids,$a_status)
+	{
+	 	global $ilDB;
+	 	
+	 	if(!is_array($a_usr_ids))
+	 	{
+	 		return false;
+	 	}
+		$where = ("WHERE usr_id IN('".implode("','",$a_usr_ids)."') ");
+	 	$query = "UPDATE usr_data SET active = ".$ilDB->quote($a_status ? 1 : 0)." ".
+	 	$where;
+		$ilDB->query($query);
+
+		return true;
+	}
+	
+	
 	
 	/**
 	* check whether external account and authentication method

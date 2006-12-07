@@ -251,10 +251,10 @@ class ilUserImportParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function ilUserImportParser($a_xml_file, $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
+	function ilUserImportParser($a_xml_file = '', $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
 	{
-		global $lng, $tree, $ilias;
-
+		global $lng, $tree, $ilias,$ilUser;
+		
 		$this->roles = array();
 		$this->mode = $a_mode;
 		$this->conflict_rule = $a_conflict_rule;
@@ -403,7 +403,8 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function importBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
-		global $ilias;
+		global $ilias,$lng;
+		
 		switch($a_name)
 		{
 			case "Role":
@@ -495,7 +496,7 @@ class ilUserImportParser extends ilSaxParser
 									  sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
 				}
 				break;
-
+				
 			case 'UserDefinedField':
 				$this->tmp_udf_id = $a_attribs['Id'];
 				$this->tmp_udf_name = $a_attribs['Name'];
@@ -899,7 +900,7 @@ class ilUserImportParser extends ilSaxParser
 						break;
 						
 					case "Update" :
-						if ($elogin != "" && $elogin != $ilObjUser->getLogin())
+						if ($elogin != "" && $elogin != $this->userObj->getLogin())
 						{
 							$this->logWarning($this->userObj->getLogin(),
 								$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->userObj->getExternalAccount().")");
@@ -959,14 +960,22 @@ class ilUserImportParser extends ilSaxParser
 							}
 
 
-							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive), $ilUser->getId());
-
+							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive),6);
+							
+							// Finally before saving new user.
+							// Check if profile is incomplete
+							$this->userObj->setProfileIncomplete($this->checkProfileIncomplete($this->userObj));
 							$this->userObj->create();
 
 							//insert user data in table user_data
 							$this->userObj->saveAsNew(false);
 
+							
+							// Set default prefs
+							$this->userObj->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
+							$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
 							// save user preferences (skin and style)
+							
 							$this->userObj->writePrefs();
 
 							if (is_array($this->personalPicture))
@@ -1067,7 +1076,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getComment())) $updateUser->setComment($this->userObj->getComment());
 							if (! is_null($this->userObj->getDepartment())) $updateUser->setDepartment($this->userObj->getDepartment());
 							if (! is_null($this->userObj->getMatriculation())) $updateUser->setMatriculation($this->userObj->getMatriculation());
-							if (! is_null($this->currActive)) $updateUser->setActive($this->currActive == "true", $ilUser->getId());
+							if (! is_null($this->currActive)) $updateUser->setActive($this->currActive == "true", is_object($ilUser) ? $ilUser->getId() : 0);
 							if (! is_null($this->userObj->getClientIP())) $updateUser->setClientIP($this->userObj->getClientIP());
 							if (! is_null($this->userObj->getTimeLimitOwner())) $updateUser->setTimeLimitOwner($this->userObj->getTimeLimitOwner());
 							if (! is_null($this->userObj->getTimeLimitUnlimited())) $updateUser->setTimeLimitUnlimited($this->userObj->getTimeLimitUnlimited());
@@ -1084,6 +1093,8 @@ class ilUserImportParser extends ilSaxParser
 							$updateUser->setPref("style", $this->userObj->getPref("style"));
 							$updateUser->writePrefs();
 							
+							$updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
+					
 							$updateUser->update();
 
 							if ($this->ilincdata["id"]) {
@@ -1318,7 +1329,7 @@ class ilUserImportParser extends ilSaxParser
 					}
 				}
 				break;
-				
+
 			case 'UserDefinedField':
 				include_once 'classes/class.ilUserDefinedFields.php';
 				$udf = ilUserDefinedFields::_getInstance();
@@ -1575,7 +1586,7 @@ class ilUserImportParser extends ilSaxParser
 						break;
 						
 					case "Update" :
-						if ($elogin != "" && $elogin != $ilObjUser->getLogin())
+						if ($elogin != "" && $elogin != $this->userObj->getLogin())
 						{
 							$this->logWarning($this->userObj->getLogin(),
 								$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->cdata.")");
@@ -1888,6 +1899,156 @@ class ilUserImportParser extends ilSaxParser
 	function getUserMappingMode()
 	{
 	    return $this->mapping_mode;
+	}
+	
+	/**
+	 * read required fields
+	 *
+	 * @access private
+	 * 
+	 */
+	private function readRequiredFields()
+	{
+		global $ilSetting;
+		
+	 	if(is_array($this->required_fields))
+	 	{
+	 		return $this->required_fields;
+	 	}
+	 	foreach($ilSetting->getAll() as $field => $value)
+	 	{
+	 		if(substr($field,0,8) == 'require_' and $value == 1)
+	 		{
+	 			$this->required_fields[] = substr($field,8);
+	 		}
+	 	}
+	 	return $this->required_fields ? $this->required_fields : array();
+	}
+	
+	/**
+	 * Check if profile is incomplete
+	 * Will set the usr_data field profile_incomplete if any required field is missing 
+	 *
+	 *
+	 * @access private
+	 * 
+	 */
+	private function checkProfileIncomplete($user_obj)
+	{
+	 	$this->readRequiredFields();
+	 	
+	 	foreach($this->required_fields as $field)
+	 	{
+			
+	 		switch($field)
+	 		{
+	 			case 'login':
+	 				if(!strlen($user_obj->getLogin()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'gender':
+	 				if(!strlen($user_obj->getGender()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'firstname':
+	 				if(!strlen($user_obj->getFirstname()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'lastname':
+	 				if(!strlen($user_obj->getLastname()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'email':
+	 				if(!strlen($user_obj->getEmail()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'title':
+	 				if(!strlen($user_obj->getUTitle()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'institution':
+	 				if(!strlen($user_obj->getInstitution()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'department':
+	 				if(!strlen($user_obj->getDepartment()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'street':
+	 				if(!strlen($user_obj->getStreet))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'zipcode':
+	 				if(!strlen($user_obj->getZipcode()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'city':
+	 				if(!strlen($user_obj->getCity))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'country':
+	 				if(!strlen($user_obj->getCountry))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'phone_office':
+	 				if(!strlen($user_obj->getPhoneOffice()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'phone_mobile':
+	 				if(!strlen($user_obj->getPhoneMobile()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'phone_home':
+	 				if(!strlen($user_obj->getPhoneHome()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'fax':
+	 				if(!strlen($user_obj->getFax()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			case 'hobby':
+	 				if(!strlen($user_obj->getHobby()))
+	 				{
+	 					return true;
+	 				}
+	 				break;
+	 			default:
+	 				continue;
+	 		}
+	 	}
+	 	return false;
 	}
 
 }

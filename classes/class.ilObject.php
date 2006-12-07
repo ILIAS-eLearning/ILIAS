@@ -566,7 +566,8 @@ class ilObject
 		}
 		else
 		{
-			$owner = $ilUser->getId();
+			#$owner = $ilUser->getId();
+			$owner = 0;
 		}
 
 		$q = "INSERT INTO object_data ".

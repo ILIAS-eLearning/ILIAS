@@ -49,7 +49,7 @@ class ilUserDefinedFields
 	 * it caches this object in a singleton.
 	 *	
 	 */
-	function ilUserDefinedFields()
+	private function __construct()
 	{
 		global $ilDB;
 
@@ -58,7 +58,7 @@ class ilUserDefinedFields
 		$this->__read();
 	}
 
-	function &_getInstance()
+	function _getInstance()
 	{
 		static $udf = null;
 		
