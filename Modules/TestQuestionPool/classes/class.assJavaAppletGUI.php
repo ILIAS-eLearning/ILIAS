@@ -570,7 +570,7 @@ class assJavaAppletGUI extends assQuestionGUI
 			}
 		}
 		$questionoutput = $template->get();
-		$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
+		$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
 		return $questionoutput;
 	}
 	
