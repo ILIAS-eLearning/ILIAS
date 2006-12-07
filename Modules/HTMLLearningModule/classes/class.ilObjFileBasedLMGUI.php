@@ -734,7 +734,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('info_short');
 		
 		$this->lng->loadLanguageModule("meta");
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();

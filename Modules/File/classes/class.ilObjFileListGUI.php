@@ -57,7 +57,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjfilegui";
 
 		// general commands array
-		include_once('class.ilObjFileAccess.php');
+		include_once('./Modules/File/classes/class.ilObjFileAccess.php');
 		$this->commands = ilObjFileAccess::_getCommands();
 	}
 
@@ -114,7 +114,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 		$props = array();
 
 		// to do: implement extra smaller file info object
-		include_once("classes/class.ilObjFileAccess.php");
+		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
 		$props[] = array("alert" => false, "property" => $lng->txt("type"),
 			"value" => ilObjFileAccess::_lookupSuffix($this->obj_id));

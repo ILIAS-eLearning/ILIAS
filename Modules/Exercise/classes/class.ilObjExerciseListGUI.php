@@ -56,7 +56,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjexercisegui";
 		
 		// general commands array
-		include_once('class.ilObjExerciseAccess.php');
+		include_once('./Modules/Exercise/classes/class.ilObjExerciseAccess.php');
 		$this->commands = ilObjExerciseAccess::_getCommands();
 	}
 
@@ -128,7 +128,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 	function getCommandLink($a_cmd)
 	{
 		// separate method for this line
-		$cmd_link = "exercise.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+		$cmd_link = "ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
 
 		return $cmd_link;
 	}

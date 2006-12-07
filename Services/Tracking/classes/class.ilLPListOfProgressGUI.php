@@ -149,7 +149,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_lm_details.html','Services/Tracking');
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
 		$this->__appendUserInfo($info);
@@ -166,7 +166,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_progress_container.html','Services/Tracking');
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
 		$this->__appendUserInfo($info);
@@ -361,7 +361,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->__showFilter();
 
 		// User info
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$this->__appendUserInfo($info);
 		$this->tpl->setVariable("USER_INFO",$info->getHTML());

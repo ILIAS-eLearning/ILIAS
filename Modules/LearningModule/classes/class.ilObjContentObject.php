@@ -1474,7 +1474,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportFileItems($a_target_dir, &$expLog)
 	{
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 
 		foreach ($this->file_ids as $file_id)
 		{
@@ -1881,7 +1881,7 @@ class ilObjContentObject extends ilObject
 	{
 		$file_dir = $a_target_dir."/files/file_".$a_file_id;
 		ilUtil::makeDir($file_dir);
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$file_obj = new ilObjFile($a_file_id, false);
 		$source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
 		if (!is_file($source_file))
@@ -2042,7 +2042,7 @@ class ilObjContentObject extends ilObject
 			$int_links = array_merge($int_links, $pg_links);
 			
 			// get all files of page
-			include_once("classes/class.ilObjFile.php");
+			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"]);
 			$this->offline_files = array_merge($this->offline_files, $pg_files);
 			

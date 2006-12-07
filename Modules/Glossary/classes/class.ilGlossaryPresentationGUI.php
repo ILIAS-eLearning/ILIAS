@@ -803,7 +803,7 @@ class ilGlossaryPresentationGUI
 	function downloadFile()
 	{
 		$file = explode("_", $_GET["file_id"]);
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
@@ -1152,7 +1152,7 @@ class ilGlossaryPresentationGUI
 		$this->setTabs();
 		$this->lng->loadLanguageModule("meta");
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 
 		$info = new ilInfoScreenGUI($this->glossary_gui);
 		$info->enablePrivateNotes();

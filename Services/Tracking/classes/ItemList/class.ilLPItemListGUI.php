@@ -566,7 +566,7 @@ class ilLPItemListGUI
 
 	function &renderObjectInfo($enable_details = false)
 	{
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
 		$info->addSection($this->lng->txt('details'));

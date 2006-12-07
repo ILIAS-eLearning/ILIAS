@@ -112,7 +112,7 @@ switch($target_type)
 		
 	// new implementation: ok
 	case "exc":
-		require_once("./classes/class.ilObjExerciseGUI.php");
+		require_once("./Modules/Exercise/classes/class.ilObjExerciseGUI.php");
 		ilObjExerciseGUI::_goto($target_id);
 		break;
 		
@@ -179,7 +179,7 @@ switch($target_type)
 	
 	// new implementation: ok
 	case "file":
-		require_once("classes/class.ilObjFileGUI.php");
+		require_once("./Modules/File/classes/class.ilObjFileGUI.php");
 		ilObjFileGUI::_goto($target_id);
 		break;
 		

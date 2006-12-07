@@ -310,7 +310,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->tabs_gui->setTabActive('info_short');
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		include_once 'course/classes/class.ilCourseFile.php';
 
 		$files =& ilCourseFile::_readFilesByCourse($this->object->getId());

@@ -242,7 +242,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function downloadFileObject()
 	{
 		$file = explode("_", $_GET["file_id"]);
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;

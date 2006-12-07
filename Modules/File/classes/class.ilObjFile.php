@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "class.ilObject.php";
+require_once "./classes/class.ilObject.php";
 
 /** @defgroup ModulesFile Modules/File
  */
@@ -374,7 +374,7 @@ class ilObjFile extends ilObject
 
 	function _lookupFileSize($a_id, $a_as_string = false)
 	{
-		include_once("classes/class.ilObjFileAccess.php");
+		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 		return ilObjFileAccess::_lookupFileSize($a_id, $a_as_string);
 	}
 	
@@ -383,7 +383,7 @@ class ilObjFile extends ilObject
 	*/
 	function _lookupVersion($a_id)
 	{
-		include_once("classes/class.ilObjFileAccess.php");
+		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 		return ilObjFileAccess::_lookupVersion($a_id);
 	}
 

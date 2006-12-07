@@ -5720,7 +5720,7 @@ class ilObjTest extends ilObject
 	*/
 	function exportFileItems($a_target_dir, &$expLog)
 	{
-		include_once "./classes/class.ilObjFile.php";
+		include_once "./Modules/File/classes/class.ilObjFile.php";
 
 		foreach ($this->file_ids as $file_id)
 		{

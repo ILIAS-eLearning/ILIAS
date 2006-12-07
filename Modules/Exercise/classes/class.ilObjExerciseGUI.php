@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+require_once "classes/class.ilObjectGUI.php";
+
 /**
 * Class ilObjExerciseGUI
 *
@@ -31,9 +34,6 @@
 * 
 * @ingroup ModulesExercise
 */
-
-require_once "class.ilObjectGUI.php";
-
 class ilObjExerciseGUI extends ilObjectGUI
 {
 	/**
@@ -237,14 +237,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			$this->tpl->setCurrentBlock("delivered_files");
 			$this->tpl->setVariable("DELIVER_FORMACTION", 
-				$this->getFormAction("deliver", "exercise.php?cmd=deliver&ref_id=".$this->ref_id));
+				$this->ctrl->getLinkTarget($this, "deliver"));
 			$this->tpl->setVariable("TEXT_DATE", $this->lng->txt("date"));
 			$this->tpl->setVariable("TEXT_DELIVERED_FILENAME", $this->lng->txt("filename"));
 			$this->tpl->setVariable("TEXT_HEADING_DELIVERED_FILES", $this->lng->txt("already_delivered_files"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("FORMACTION", 
-				$this->getFormAction("deliverFile", "exercise.php?cmd=deliverFile&ref_id=".$this->ref_id));
+				$this->ctrl->getLinkTarget($this, "deliverFile"));
 			$this->tpl->setVariable("BUTTON_DELIVER", $this->lng->txt("upload"));
 			$this->tpl->setVariable("TEXT_FILENAME", $this->lng->txt("enter_filename_deliver"));
 			$this->tpl->setVariable("TXT_UPLOAD_FILE", $this->lng->txt("file_add"));
@@ -315,7 +315,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $rbacadmin;
 	
 		// CHECK INPUT
-		include_once("./classes/class.ilObjExercise.php");
+		include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
 		$tmp_obj =& new ilObjExercise();
 	
 		$tmp_obj->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
@@ -341,7 +341,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 		// always send a message
 		sendInfo($this->lng->txt("exc_added"),true);
-		ilUtil::redirect("exercise.php?ref_id=".$newObj->getRefId()."&cmd=edit");
+		ilUtil::redirect("ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
 	}
   
 	function editObject()
@@ -659,13 +659,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 		else	
 		{
 			// if we come from edit_comments action button
+			/*
 			if (!empty($_GET["comment_id"])) 
 			{
 				//$tmp_obj = ilObjectFactory::getInstanceByObjId($_GET["comment_id"],false);
 				$tmp_obj = new ilObjUser($_GET["comment_id"]);
 				$this->tpl->setCurrentBlock("comments");
-				$this->tpl->setVariable("COMMENTS_FORMACTION", 
-				$this->getFormAction("saveComments", 
+				$this->tpl->setVariable("COMMENTS_FORMACTION",
+				$this->ctrl->setParameter();
+				$this->getFormAction("saveComments",
+					$this->ctrl->getLinkTarget($this, "saveComments")
 					"exercise.php?ref_id=".$_GET["ref_id"]."&member_id=".$_GET["comment_id"]."&cmd=saveComments&cmdClass=ilobjexercisegui&cmdNode=1&baseClass="));
 				$this->tpl->setVariable("NOTICE_VALUE", $this->getComments($_GET["comment_id"]));
 				$this->tpl->setVariable("MEMBER_PICTURE", $tmp_obj->getPersonalPicturePath("xsmall"));
@@ -675,7 +678,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setVariable("MEMBER_LOGIN", $tmp_obj->getLastName().", ".$tmp_obj->getFirstName());
 
 				$this->tpl->parseCurrentBlock();
-			}
+			}*/
 
 			$counter = 0;
 			$members = $this->object->getMemberListData();
@@ -683,7 +686,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			include_once("classes/class.ilTableGUI.php");
 			$tbl = new ilTableGUI();
 			$this->tpl->addBlockfile("MEMBER_TABLE", "term_table", "tpl.table.html");
-			$this->tpl->addBlockfile("TBL_CONTENT", "member_row", "tpl.exc_members_row.html");
+			$this->tpl->addBlockfile("TBL_CONTENT", "member_row", "tpl.exc_members_row.html", "Modules/Exercise");
 			
 			$sent_col = $this->object->_lookupAnyExerciseSent($this->object->getId());
 			
@@ -970,11 +973,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 			if(count($this->object->members_obj->getAllDeliveredFiles()))
 			{
-				$this->tpl->addBlockFile("SPECIAL_BUTTONS", "special_buttons", "tpl.exc_download_all.html");
+				$this->tpl->addBlockFile("SPECIAL_BUTTONS", "special_buttons", "tpl.exc_download_all.html",
+					"Modules/Exercise");
 				$this->tpl->setCurrentBlock("download_all");
 				$this->tpl->setVariable("BUTTON_DOWNLOAD_ALL", $this->lng->txt("download_all_returned_files"));
 				$this->tpl->setVariable("FORMACTION", 
-				$this->getFormAction("downloadAll", "exercise.php?cmd=downloadAll&ref_id=".$this->ref_id));
+					$this->ctrl->getLinkTarget($this, "downloadAll"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -1343,93 +1347,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		return true;
 	}
 
-/*
-	function __showMembersTable($a_data,$a_member_ids)
-	{
-  		global $ilUser;
-  
- 		 $actions = array("save_status" => $this->lng->txt("exc_save_changes"),
-		 "send_member" => $this->lng->txt("exc_send_exercise"),
-		 "send_mails" => $this->lng->txt("exc_mail_users"),
-		 "delete_member" => $this->lng->txt("exc_deassign_members"));
-  
-  		$this->tpl->setVariable("RESUBMITTED_ICON", ilUtil::getImagePath("warning.gif"));
-  		$this->tpl->setVariable("RESUBMITTED_ADVICE_TXT", $this->lng->txt("exc_resubmitted_advice"));
-
-		$this->tpl->addBlockFile("MEMBER_TABLE","member_table","tpl.table.html");
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.exc_members_row.html");
-  
-		// SET FORMAACTION
-		$this->tpl->setCurrentBlock("tbl_form_header");
-  
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "updateMembers"));
-  
-  		//$this->tpl->setVariable("FORMACTION",
-  		//$this->getFormAction("updateMembers","adm_object.php?ref_id=$_GET[ref_id]&cmd=updateMembers"));
-  		$this->tpl->parseCurrentBlock();
-  
-  		// SET FOOTER BUTTONS
-  		$this->tpl->setCurrentBlock("tbl_action_row");
-  
-  		// show select all
-  		if (count($a_member_ids))
-		{
-			// set checkbox toggles
-			$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-			$this->tpl->setVariable("JS_VARNAME","member");			
-			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_member_ids));
-			$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setVariable("COLUMN_COUNTS",11);
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-  
-		$this->tpl->setCurrentBlock("tbl_action_select");
-		$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
-		$this->tpl->setVariable("BTN_NAME","execute");
-		$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
-		$this->tpl->parseCurrentBlock();
-  
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("COLUMN_COUNTS",11);
-		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$this->tpl->parseCurrentBlock();
-
-		include_once "./classes/class.ilTableGUI.php";
-  
-		$tbl = new ilTableGUI();
-  
-		$tbl->setTitle($this->lng->txt("exc_header_members"),"icon_usr.gif",$this->lng->txt("exc_header_members"));
-		$tbl->setHeaderNames(array('',$this->lng->txt("login"),
-		$this->lng->txt("firstname"),
-		$this->lng->txt("lastname"),
-		$this->lng->txt("exc_files_returned"),
-		$this->lng->txt("exc_last_submission"),
-		$this->lng->txt("exc_status_submitted"),
-		$this->lng->txt("exc_status_solved"),
-		$this->lng->txt("exc_status_sent"),
-		$this->lng->txt("exc_notices"),
-		$this->lng->txt("actions")));
-		$tbl->setHeaderVars(array("","login","firstname","lastname","","exc_last_submission","","","",""),
-			array("ref_id" => $this->object->getRefId(),
-			"cmd" => "members"));
-		$tbl->setColumnWidth(array("1%","10%","10%","10%","10%","20%","3%","3%","3%","15%","15%"));
-		$tbl->disable('content');
-  
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($ilUser->getPref('hits_per_page'));
-		$tbl->setMaxCount(count($a_data));
-		$tbl->setOffset($_GET["offset"] ? $_GET["offset"] : 0);
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		$tbl->setData($a_data);
-		$tbl->sortData();
-		$tbl->render();
-		
-		return $tbl->getData();
-	}
-*/
 	function __getDateSelect($a_type,$a_selected)
 	{
   		switch($a_type)
@@ -1639,7 +1556,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once("classes/class.ilInfoScreenGUI.php");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
 		$info->enablePrivateNotes();
@@ -1769,9 +1686,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$_GET["ref_id"] = $a_target;
 			$_GET["cmd"] = "infoScreen";
-			include("exercise.php");
+			$_GET["baseClass"] = "ilExerciseHandlerGUI";
+			include("ilias.php");
 			exit;
-			//ilUtil::redirect("exercise.php?ref_id=$a_target");
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{

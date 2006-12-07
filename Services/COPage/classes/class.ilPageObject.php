@@ -1007,7 +1007,7 @@ class ilPageObject
 						$entry = $childs[$j]->get_attribute("Entry");
 						$entry_arr = explode("_", $entry);
 						$id = $entry_arr[count($entry_arr) - 1];
-						require_once("classes/class.ilObjFile.php");
+						require_once("./Modules/File/classes/class.ilObjFile.php");
 						$size = ilObjFile::_lookupFileSize($id);
 					}
 				}
@@ -1179,7 +1179,7 @@ class ilPageObject
 			}
 			
 			// handle file usages
-			include_once("classes/class.ilObjFile.php");
+			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$file_ids = ilObjFile::_getFilesOfObject(
 				$this->getParentType().":pg", $this->getId());
 			$this->saveFileUsage();
@@ -1231,7 +1231,7 @@ class ilPageObject
 		$this->saveInternalLinks("<dummy></dummy>");
 
 		// delete all file usages
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 
 		// delete page_object entry
@@ -1246,7 +1246,7 @@ class ilPageObject
 			$mob_obj->delete();
 		}
 
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		foreach ($files as $file_id)
 		{
 			$file_obj =& new ilObjFile($file_id, false);
@@ -1327,7 +1327,7 @@ class ilPageObject
 	{
 //echo "<br>PageObject::saveFileUsage[".$this->getId()."]";
 		$file_ids = $this->collectFileItems();
-		include_once("classes/class.ilObjFile.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
 		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 		foreach($file_ids as $file_id)
 		{
