@@ -52,7 +52,7 @@ class ilSetup extends PEAR
 	* @var		string
 	* @access	private
 	*/
-	var $SQL_FILE = "../sql/ilias3.sql";
+	var $SQL_FILE = "../setup/sql/ilias3.sql";
 
 	/**
 	*  database connector

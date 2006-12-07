@@ -26,7 +26,7 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 include_once("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
 include_once("./Services/COPage/classes/class.ilParagraphPlugins.php");
 include_once("./Services/COPage/classes/class.ilParagraphPlugin.php");
-include_once("./classes/class.ilDOMUtil.php");
+include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 
 
 /**

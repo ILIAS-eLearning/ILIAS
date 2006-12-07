@@ -27,7 +27,8 @@
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @package ilias-core
+*
+* @ingroup	ServicesUtilities
 */
 class ilDOMUtil
 {
