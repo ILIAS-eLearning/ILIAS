@@ -5880,7 +5880,7 @@ survey#:#SurveyNominalQuestion#:#Nominale Frage
 survey#:#SurveyOrdinalQuestion#:#Ordinale Frage
 survey#:#SurveyTextQuestion#:#Textfrage
 survey#:#add_category#:#Antwort hinzufügen
-survey#:#add_heading#:#Überschrift hinzufügen
+survey#:#add_heading#:#Textblock hinzufügen
 survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
@@ -5928,7 +5928,7 @@ survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten der Umfrage löschen wollen?
 survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Umfragedaten für die ausgewählten Teilnehmerinnen und Teilnehmer löschen wollen?
-survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
+survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie den Textblock entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraint_add#:#Vorbedingung hinzufügen
 survey#:#constraints#:#Vorbedingungen
@@ -6008,7 +6008,7 @@ survey#:#duplicate#:#Duplizieren
 survey#:#duplicate_svy#:#Umfrage duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Vorbedingungen zu bearbeiten
-survey#:#edit_heading#:#Überschrift bearbeiten
+survey#:#edit_heading#:#Textblock bearbeiten
 survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
@@ -6016,7 +6016,7 @@ survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_questionblock_title#:#Bitte geben Sie einen Titel für den Fragenblock an!
 survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangscodes zu generieren!
 survey#:#enter_value#:#Geben Sie einen Wert an
-survey#:#error_add_heading#:#Bitte geben Sie eine Überschrift ein!
+survey#:#error_add_heading#:#Bitte geben Sie einen Textblock ein!
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!
 survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
@@ -6046,7 +6046,7 @@ survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
 survey#:#glossary_term#:#Glossarbegriff
 survey#:#harmonic_mean#:#Harmonisches Mittel
-survey#:#heading#:#Überschrift
+survey#:#heading#:#Textblock
 survey#:#horizontal#:#horizontal
 survey#:#import_error_closing_file#:#Fehler beim Schließen der Importdatei!
 survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
