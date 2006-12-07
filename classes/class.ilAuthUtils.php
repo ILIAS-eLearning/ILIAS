@@ -31,6 +31,8 @@ define ("AUTH_CAS",6);
 define ("AUTH_SOAP",7);
 
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
+define('AUTH_LDAP_NO_ILIAS_USER',-200);
+
 
 // an external user cannot be found in ilias, but his email address
 // matches one or more ILIAS users
@@ -94,7 +96,7 @@ class ilAuthUtils
 			{
 				//include_once(ILIAS_ABSOLUTE_PATH.'/classes/class.ilAuthUtils.php');
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
-
+				
 				if ($user_auth_mode == AUTH_CAS && $ilSetting->get("cas_allow_local"))
 				{
 					$user_auth_mode = AUTH_LOCAL;
@@ -208,8 +210,11 @@ class ilAuthUtils
 				break;
 			
 			case AUTH_LDAP:
-				$settings = $ilSetting->getAll();
 
+				include_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
+				$ilAuth = new ilAuthLDAP();
+				/*
+				$settings = $ilSetting->getAll();
 				// build option string for PEAR::Auth
 				$auth_params = array(
 											'host'		=> $settings["ldap_server"],
@@ -220,6 +225,7 @@ class ilAuthUtils
 											'userattr'	=> $settings["ldap_login_key"]
 											);
 				$ilAuth = new Auth("LDAP", $auth_params,"",false);
+				*/
 				break;
 				
 			case AUTH_RADIUS:
@@ -281,6 +287,12 @@ class ilAuthUtils
 	function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
 	{
 		global $ilDB;
+		
+		if(isset($_POST['auth_mode']))
+		{
+			return (int) $_POST['auth_mode'];
+		}		
+
 
 		$db =& $ilDB;
 		
@@ -288,12 +300,15 @@ class ilAuthUtils
 		{
 			$db =& $a_db_handler;
 		}
+		
+		// Is it really necessary to check the auth mode with password ?
+		// Changed: smeyer
 		$q = "SELECT auth_mode FROM usr_data WHERE ".
 			 "login = ".$ilDB->quote($a_username);
-			 // deleting this line should fix login problems of radius user with changed passwords
-			 #"passwd = ".$ilDB->quote(md5($a_password))."";
+			 //"passwd = ".$ilDB->quote(md5($a_password))."";
+							 
+			 
 		$r = $db->query($q);
-		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 //echo "+".$row->auth_mode."+";
 		return ilAuthUtils::_getAuthMode($row->auth_mode,$db);
@@ -339,6 +354,7 @@ class ilAuthUtils
 			case "soap":
 				return AUTH_SOAP;
 				break;
+
 
 			default:
 				$q = "SELECT value FROM settings WHERE ".
@@ -398,8 +414,11 @@ class ilAuthUtils
 						'default'	=> $ilias->getSetting("auth_mode"),
 						'local'		=> AUTH_LOCAL
 						);
-		
-		if ($ilias->getSetting("ldap_active")) $modes['ldap'] = AUTH_LDAP;
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		if(count(ilLDAPServer::_getActiveServerList()))
+		{
+			$modes['ldap'] = AUTH_LDAP;			
+		}			
 		if ($ilias->getSetting("radius_active")) $modes['radius'] = AUTH_RADIUS;
 		if ($ilias->getSetting("shib_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
 		if ($ilias->getSetting("script_active")) $modes['script'] = AUTH_SCRIPT;
@@ -447,6 +466,41 @@ class ilAuthUtils
 		}
 		
 		return $c_login;
+	}
+	
+	public static function _hasMultipleAuthenticationMethods()
+	{
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		return count(ilLDAPServer::_getActiveServerList()) ? true : false;
+	}
+	
+	public static function _getMultipleAuthSelect($lng)
+	{
+		global $ilSetting;
+		
+		// in the moment only ldap is activated as additional authentication method
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		
+		$ldap_id = ilLDAPServer::_getFirstActiveServer();
+		$ldap_server = new ilLDAPServer($ldap_id);
+		
+		if($ilSetting->get('auth_mode',AUTH_LOCAL) == AUTH_LDAP)
+		{
+			$default = AUTH_LDAP;
+		}
+		else
+		{
+			$default = AUTH_LOCAL;
+		}	
+		$options = array(AUTH_LOCAL => $lng->txt('authenticate_ilias'));
+		$options[AUTH_LDAP] = sprintf('%s %s',$lng->txt('authenticate_with'),
+										$ldap_server->getName());
+		
+		return ilUtil::formSelect((int) $_REQUEST['auth_mode'] ? (int) $_REQUEST['auth_mode'] : $default,
+			'auth_mode',
+			$options,
+			false,
+			true);
 	}
 
 }

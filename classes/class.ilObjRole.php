@@ -337,6 +337,10 @@ class ilObjRole extends ilObject
 			}
 			else
 			{
+				// Delete ldap role group mappings
+				include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php');
+				ilLDAPRoleGroupMappingSettings::_deleteByRole($this->getId());
+
 				// IT'S A BASE ROLE
 				$rbacadmin->deleteRole($this->getId(),$this->getParent());
 
@@ -348,7 +352,6 @@ class ilObjRole extends ilObject
 				$this->ilias->db->query($q);
 
 				include_once './classes/class.ilRoleDesktopItem.php';
-				
 				$role_desk_item_obj =& new ilRoleDesktopItem($this->getId());
 				$role_desk_item_obj->deleteAll();
 

@@ -43,6 +43,10 @@ class ilCronCheck
 	function start()
 	{
 		global $ilias;
+		
+		include_once('Services/LDAP/classes/class.ilLDAPCronSynchronization.php');
+		$ldap_sync = new ilLDAPCronSynchronization();
+		$ldap_sync->start();
 
 		// Check user accounts if enabled in settings
 		if($ilias->getSetting('cron_user_check'))

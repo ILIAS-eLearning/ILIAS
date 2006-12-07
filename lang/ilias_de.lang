@@ -2251,11 +2251,11 @@ common#:#ldap_passwd#:#Ihr aktuelles Passwort
 common#:#ldap_port#:#LDAP Port
 common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
 common#:#ldap_search_base#:#LDAP Search base
-common#:#ldap_server#:#LDAP Server URL
-common#:#ldap_tls#:#Benutze LDAP TLS
+common#:#ldap_server#:#Server URL
+common#:#ldap_tls#:#Benutze TLS
 common#:#ldap_v2#:#LDAPv2
 common#:#ldap_v3#:#LDAPv3
-common#:#ldap_version#:#LDAP Protokollversion
+common#:#ldap_version#:#Protokollversion
 common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
 common#:#learning module#:#Lernmodul
@@ -6732,3 +6732,74 @@ survey#:#matrix_subtype_time#:#Zeit
 survey#:#matrix_subtype_description#:#Bitte wählen Sie einen der aufgeführten Untertypen aus, um das Verhalten der Antwortfelder zu bestimmen.
 survey#:#matrix_columns_rows#:#Spalten/Zeilen bearbeiten
 survey#:#results#:#Ergebnisse
+ldap#:#ldap_server_name#:#Name der LDAP-Konfiguration
+ldap#:#ldap_referrals#:#Weiterleitungen
+ldap#:#ldap_server_security_settings#:#Sicherheitseinstellungen
+ldap#:#ldap_server_binding#:#Verbindungsart
+ldap#:#ldap_bind_anonymous#:#Anonym verbinden
+ldap#:#ldap_bind_user#:#Als Benutzer verbinden:
+ldap#:#ldap_server_bind_dn#:#DN des Benutzers
+ldap#:#ldap_server_bind_pass#:#Passwort
+ldap#:#ldap_authentication_settings#:#Einstellungen zur Authentifizierung
+ldap#:#ldap_user_dn#:#DN der Benutzer
+ldap#:#ldap_user_scope#:#Suchbereich
+ldap#:#ldap_user_attribute#:#Attributname der Benutzerzugänge
+ldap#:#ldap_search_filter#:#LDAP Filter
+ldap#:#ldap_group_restrictions#:#Gruppenbeschränkungen
+ldap#:#ldap_group_dn#:#DN der Gruppe
+ldap#:#ldap_group_scope#:#Suchbereich
+ldap#:#ldap_group_filter#:#LDAP Filter
+ldap#:#ldap_group_name#:#Gruppenname
+ldap#:#ldap_group_attribute#:#Attributname der Gruppe
+ldap#:#ldap_memberisdn#:#Attributwert ist DN
+ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
+ldap#:#ldap_moment_sync#:#Synchronisierungsart
+ldap#:#ldap_sync_login#:#Bei Anmeldung der Benutzer
+ldap#:#ldap_sync_cron#:#Per Cron-Job
+ldap#:#ldap_global_role_assignment#:#Rollenzuordnung
+ldap#:#ldap_group_member#:#Attributname der Gruppenmitglieder
+ldap#:#ldap_scope_one#:#One
+ldap#:#ldap_scope_sub#:#Sub
+ldap#:#ldap_scope_base#:#Base
+ldap#:#ldap_server_name_info#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration
+ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldap.ilias.de:389"
+ldap#:#ldap_server_version_info#:#Protokollversion des LDAP-Server (in den meisten Fällen "LDAPv3").
+ldap#:#ldap_referrals_info#:#Legt fest, ob Weiterleitungen des LDAP-Servers automatisch gefolgt wird oder nicht.
+ldap#:#ldap_search_base_info#:#DN der Benutzer. Wird der "BaseDN" vorangestellt. Z.B.: ou=People
+ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zweifelsfall "Sub".
+ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)(userfilter))
+ldap#:#ldap_group_dn_info#:#DN der Gruppe. Wird der "BaseDN" vorangestellt. Z.B.: ou=Groups
+ldap#:#ldap_group_filter_info#:#Filter, der dem Suchfilter folgendermassen hinzugefügt wird: (&(groupattr=group)(memberattr=username)(groupfilter))
+ldap#:#ldap_group_member_info#:#Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden.
+ldap#:#ldap_group_name_info#:#Name der Gruppe
+ldap#:#ldap_group_attribute_info#:#Geben Sie hier den Attributnamen der Gruppe ein.
+ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
+ldap#:#ldap_global_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS Benutzer.
+ldap#:#ldap_group_scope_info#:#Bereich für die Gruppensuche. Wählen Sie im Zweifelsfall "Sub".
+ldap#:#ldap_settings#:#Server-Einstellungen
+ldap#:#ldap_user_mapping#:#Zuordnung der Profildaten
+ldap#:#ldap_role_mapping#:#LDAP-Gruppen -> Rollen Zuordnung
+ldap#:#ldap_mapping_table#:#Zuordnung von LDAP-Attributen zu ILIAS Benutzerdaten
+ldap#:#ldap_mapping_template#:#Vorlage benutzen für Objektklasse:
+ldap#:#ldap_update_field_info#:#Automatisch aktualisieren
+ldap#:#ldap_role_settings#:#Einstellungen zur LDAP-Gruppen Aktualisierung
+ldap#:#ldap_role_active#:#Gruppenaktualisierung eingeschaltet
+ldap#:#ldap_role_bind_user#:#Benutzername
+ldap#:#ldap_role_bind_pass#:#Passwort
+ldap#:#ldap_role_bind_user_info#:#Bitte geben einen LDAP-Benutzernamen ein. Dieser Benutzer muß Schreibzugriff auf die zu aktualisierenden Gruppen besitzen.
+ldap#:#ldap_role_bind_pass_info#:#Passwort des LDAP-Benutzers.
+ldap#:#ldap_new_role_assignment#:#Neue Zuordnung anlegen
+ldap#:#ldap_ilias_role#:#ILIAS Rollenname
+ldap#:#ldap_role_info#:#Bitte geben Sie den Namen der ILIAS-Rolle ein, die die LDAP-Gruppenzugehörigkeit steuern soll.
+ldap#:#ldap_dn_info#:#Wählen Sie hier den kompletten DN der LDAP-Gruppe.
+ldap#:#ldap_member_info#:#Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden.
+common#:#auth_selection#:#Anmelden bei
+common#:#authenticate_ilias#:#Direkt bei ILIAS anmelden
+common#:#authenticate_with#:#Anmelden bei:
+ldap#:#ldap_missing_bind_user#:#Sie haben als Verbindungsart 'Als Benutzer verbinden ausgewählt': Bitte tragen Sie einen Benutzernamen und das Passwort ein.
+ldap#:#ldap_missing_role_assignment#:#Bitte wählen Sie eine globale Rolle aus, der neu anzulegende Benutzer zugeordnet werden sollen.
+ldap#:#ldap_tls_conflict#:#LDAP-TLS kann nicht in Kombination mit Protokollversion 2 genutzt werden.
+ldap#:#ldap_role_group_assignments#:#Vorhandene Zuordnungen
+common#:#select_one#:#Bitte treffen Sie eine Auswahl
+ldap#:#ldap_deleted_role_mapping#:#Die Zuordnung wurde entfernt
+ldap#:#ldap_role_not_exists#:#Eine ILIAS Rolle mit dem folgenden Namen existiert nicht:

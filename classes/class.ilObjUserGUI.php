@@ -1654,6 +1654,10 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->object->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
 			}
 		}
+		else
+		{
+			$_POST['Fobject']['ext_account'] = $this->object->getExternalAccount();
+		}
 		// The password type is not passed with the post data.  Therefore we
 		// append it here manually.
 		include_once ('classes/class.ilObjUser.php');

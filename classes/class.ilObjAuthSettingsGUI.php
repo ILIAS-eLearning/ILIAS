@@ -27,11 +27,12 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI
+* @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
 */
+
 
 require_once "class.ilObjectGUI.php";
 
@@ -59,9 +60,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		include_once './Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 		
 		// Enable tabs
-		$this->__initSubTabs('');
-		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->setSubTabActive('registration_settings');
+		$this->tabs_gui->setTabActive('registration_settings');
 		
 		$registration_gui =& new ilRegistrationSettingsGUI();
 		$this->ctrl->setCmdClass('ilregistrationsettingsgui');
@@ -82,8 +81,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		
-		$this->__initSubTabs("authSettings");
+
+		$this->tabs_gui->setTabActive('authentication_settings');
 		
 		$this->getTemplateFile("general");
 		
@@ -139,7 +138,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
 
 		$this->tpl->setVariable("AUTH_LOCAL_ACTIVE", $icon_ok);
-		$this->tpl->setVariable("AUTH_LDAP_ACTIVE", $this->ilias->getSetting('ldap_active') ? $icon_ok : $icon_not_ok);
+		
+		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+		$this->tpl->setVariable('AUTH_LDAP_ACTIVE',count(ilLDAPServer::_getActiveServerList()) ? $icon_ok : $icon_not_ok);
+		#$this->tpl->setVariable("AUTH_LDAP_ACTIVE", $this->ilias->getSetting('ldap_active') ? $icon_ok : $icon_not_ok);
 		$this->tpl->setVariable("AUTH_RADIUS_ACTIVE", $this->ilias->getSetting('radius_active') ? $icon_ok : $icon_not_ok);
 		$this->tpl->setVariable("AUTH_SHIB_ACTIVE", $this->ilias->getSetting('shib_active') ? $icon_ok : $icon_not_ok);
 		$this->tpl->setVariable("AUTH_SCRIPT_ACTIVE", $this->ilias->getSetting('script_active') ? $icon_ok : $icon_not_ok);
@@ -197,7 +199,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				// even not default, because it can easily be set to
 				// a non-working auth mode
 				if ($auth_name == "default" || $auth_name == "cas"
-					|| $auth_name == "shibboleth")
+					|| $auth_name == "shibboleth" || $auth_name == 'ldap')
 				{
 					continue;
 				}
@@ -238,38 +240,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "authSettings");
 	}
 
-	function getAdminTabs(&$tabs_gui)
-	{
-		$this->getTabs($tabs_gui);
-	}
-	
-	/**
-	* get tabs
-	* @access	public
-	* @param	object	tabs gui object
-	*/
-	function getTabs(&$tabs_gui)
-	{
-		global $rbacsystem;
-
-		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
-
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("authSettings","editRADIUS","editLDAP","editSHIB","editCAS","editSOAP",""), "", "");
-		}
-
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-		}
-	}
-	
 	function setAuthModeObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilSetting;
 
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -290,11 +263,16 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		switch ($_POST["auth_mode"])
 		{
 			case AUTH_LDAP:
+				// First update all users external accounts
+				ilObjUser::_updateExternalAccounts('default');
+				
+				/*
 				if ($this->object->checkAuthLDAP() !== true)
 				{
 					sendInfo($this->lng->txt("auth_ldap_not_configured"),true);
 					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editLDAP")));
 				}
+				*/
 				break;
 				
 				case AUTH_SHIB:
@@ -342,8 +320,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->__initSubTabs("editLDAP");
-		
+		$this->tabs_gui->setTabActive('auth_ldap');
+
 		if ($_SESSION["error_post_vars"])
 		{
 			if ($_SESSION["error_post_vars"]["ldap"]["active"] == "1")
@@ -584,10 +562,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		$this->tabs_gui->setTabActive('auth_shib');
 		
-		$this->__initSubTabs("editSHIB");
-		
-			// set already saved data or default value for port
+		// set already saved data or default value for port
 		$settings = $this->ilias->getAllSettings();
 		
 		// Compose role list
@@ -803,8 +781,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		
-		$this->__initSubTabs("editCAS");
+
+		$this->tabs_gui->setTabActive('auth_cas');
 		
 		// get template
 		$this->getTemplateFile("cas");
@@ -945,8 +923,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		
-		$this->__initSubTabs("editSOAP");
+
+		$this->tabs_gui->setTabActive('auth_soap');
 		
 		// get template
 		$this->getTemplateFile("soap");
@@ -1131,6 +1109,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$this->tpl->setVariable("AUTH_SCRIPT_NAME", $settings["auth_script_name"]);
 		}
 
+		$this->tabs_gui->setTabActive('auth_script');
+
 		$this->getTemplateFile("script");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -1188,8 +1168,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		
-		$this->__initSubTabs("editRADIUS");
+
+		$this->tabs_gui->setTabActive('auth_radius');
 		
 		if ($_SESSION["error_post_vars"])
 		{
@@ -1336,11 +1316,18 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 	function &executeCommand()
 	{
+		global $ilAccess,$ilErr;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 
 
+		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
+		}
+			
 		switch($next_class)
 		{
 			case 'ilregistrationsettingsgui':
@@ -1348,18 +1335,29 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				include_once './Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 
 				// Enable tabs
-				$this->__initSubTabs('');
-				$this->tabs_gui->setTabActive('settings');
-				$this->tabs_gui->setSubTabActive('registration_settings');
-
+				$this->tabs_gui->setTabActive('registration_settings');
 				$registration_gui =& new ilRegistrationSettingsGUI();
 				$this->ctrl->forwardCommand($registration_gui);
 				break;
 
 			case 'ilpermissiongui':
+			
+				// Enable tabs
+				$this->tabs_gui->setTabActive('perm_settings');
+			
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+				
+			case 'illdapsettingsgui':
+			
+				// Enable Tabs
+				$this->tabs_gui->setTabActive('auth_ldap');
+				
+				include_once './Services/LDAP/classes/class.ilLDAPSettingsGUI.php';
+				$ldap_settings_gui = new ilLDAPSettingsGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($ldap_settings_gui);
 				break;
 
 			default:
@@ -1375,33 +1373,57 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		return true;
 	}
 	
-	// init sub tabs
-	function __initSubTabs($a_cmd)
+	function getAdminTabs(&$tabs_gui)
 	{
-		$shib = ($a_cmd == 'editSHIB') ? true : false;
-		$ldap = ($a_cmd == 'editLDAP') ? true : false;
-		$radius = ($a_cmd == 'editRADIUS') ? true : false;
-		$cas = ($a_cmd == 'editCAS') ? true : false;
-		$soap = ($a_cmd == 'editSOAP') ? true : false;
-		$overview = ($a_cmd == 'authSettings' or $a_cmd == '') ? true : false;
+		$this->getTabs($tabs_gui);
+	}
 
-		include_once('classes/class.ilTabsGUI.php');
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
 
-		$this->tabs_gui->addSubTabTarget('registration_settings',
-										 $this->ctrl->getLinkTargetByClass('ilregistrationsettingsgui','view'));
+		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
-		$this->tabs_gui->addSubTabTarget("authentication_settings", $this->ctrl->getLinkTarget($this, "authSettings"),
-										 "", "", "", $overview);
-		$this->tabs_gui->addSubTabTarget("auth_ldap", $this->ctrl->getLinkTarget($this, "editLDAP"),
-								   "", "", "", $ldap);
-		$this->tabs_gui->addSubTabTarget("auth_shib", $this->ctrl->getLinkTarget($this, "editSHIB"),
-								   "", "", "", $shib);
-		$this->tabs_gui->addSubTabTarget("auth_cas", $this->ctrl->getLinkTarget($this, "editCAS"),
-								   "", "", "", $cas);
-		$this->tabs_gui->addSubTabTarget("auth_radius", $this->ctrl->getLinkTarget($this, "editRADIUS"),
-								   "", "", "", $radius);
-		$this->tabs_gui->addSubTabTarget("auth_soap", $this->ctrl->getLinkTarget($this, "editSOAP"),
-								   "", "", "", $soap);
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+
+			$tabs_gui->addTarget('registration_settings',
+									   $this->ctrl->getLinkTargetByClass('ilregistrationsettingsgui','view'));
+
+			$tabs_gui->addTarget("authentication_settings", $this->ctrl->getLinkTarget($this, "authSettings"),
+										 "", "", "");
+										 
+			$tabs_gui->addTarget("auth_ldap", $this->ctrl->getLinkTargetByClass('illdapsettingsgui','serverList'),
+								   "", "", "");
+
+										 
+			#$tabs_gui->addTarget("auth_ldap", $this->ctrl->getLinkTarget($this, "editLDAP"),
+			#					   "", "", "");
+			
+			$tabs_gui->addTarget("auth_shib", $this->ctrl->getLinkTarget($this, "editSHIB"),
+								 "", "", "");
+
+			$tabs_gui->addTarget("auth_cas", $this->ctrl->getLinkTarget($this, "editCAS"),
+								   "", "", "");
+			$tabs_gui->addTarget("auth_radius", $this->ctrl->getLinkTarget($this, "editRADIUS"),
+									   "", "", "");
+
+			$tabs_gui->addTarget("auth_soap", $this->ctrl->getLinkTarget($this, "editSOAP"),
+								 "", "", "");
+			
+		}
+
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
+								 array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
 } // END class.ilObjAuthSettingsGUI
 ?>
