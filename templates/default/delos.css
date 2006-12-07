@@ -2016,6 +2016,11 @@ td#matrix, th#matrix
 	padding:0.5em;
 }
 
+td#matrixrowtext
+{
+	width: 40em;
+}
+
 td.center {
 	text-align: center;
 }
