@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+die("forums_threads_liste is deprecated. Use ilObjForumGUI");
 
 /**
 * forums_threads_liste

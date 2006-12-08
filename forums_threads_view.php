@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+die("forums_threads_view.php is deprecated. Use ilObjForumGUI->viewThread() instead");
 
 /**
 * forums_threads_view

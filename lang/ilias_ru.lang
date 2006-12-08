@@ -530,8 +530,6 @@ assessment#:#tst_heading_scoring#:#Scoring ### 2006-8-11 --- Add new translation
 assessment#:#tst_hide_previous_results#:#Hide previous results ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass ### 2006-8-11 --- Add new translation here.
-assessment#:#tst_hide_title_points#:#Question title points ### 2006-8-11 --- Add new translation here.
-assessment#:#tst_hide_title_points_description#:#Hide the output of the maximum points in the question title ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions! ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test. ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_in_use_edit_questions_disabled#:#Те�?т и�?пользует�?�? %d пользовател�?ми(ем). Вы не можете редактировать или перемещать вопро�?ы в те�?те!
@@ -539,7 +537,6 @@ assessment#:#tst_insert_missing_question#:#Пожалуй�?та, выбери�
 assessment#:#tst_insert_questions#:#Вы уверены, что хотите в�?тавить �?ледующие вопро�?ы в те�?т?
 assessment#:#tst_insert_questions_and_results#:#Этот те�?т уже выполнен %s пользовател�?ми(ем). Добавление вопро�?ов в �?тот те�?т переме�?тит в�?е результаты �?тих пользователей. Вы уверены, что хотите добавить �?ледующие вопро�?ы в те�?т?
 assessment#:#tst_introduction#:#В�?тупление
-assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data.. ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_mark#:#Отметка
 assessment#:#tst_mark_create_new_mark_step#:#Создать новый пункт отметки
 assessment#:#tst_mark_create_simple_mark_schema#:#Создать про�?тую �?хему отметки
@@ -637,10 +634,8 @@ assessment#:#tst_select_tsts#:#Пожалуй�?та, выберите те�?
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_sequence#:#По�?ледовательно�?ть
 assessment#:#tst_sequence_fixed#:#По�?ледовательно�?ть вопро�?ов зафик�?ирована
-assessment#:#tst_sequence_postpone#:#Ученик может отложить вопро�? в конец те�?та
 assessment#:#tst_sequence_properties#:#�?вой�?тва по�?ледовательно�?ти
 assessment#:#tst_session_settings#:#�?а�?тройки �?е�?�?ии
-assessment#:#tst_show_answer_print_sheet#:#Answers Printview ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_show_answer_sheet#:#Show answers ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_show_results#:#Про�?мотреть результаты те�?та
 assessment#:#tst_show_solution_details#:#Score details###10 Jul 2006 new variable
@@ -722,7 +717,6 @@ assessment#:#with_order#:#в пор�?дке
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Врем�? работы
 assessment#:#you_received_a_of_b_points#:#Вы набрали %d из %d баллов
-barometer#:#add#:#Add new Feedback ### 2006-8-11 --- Add new translation here.
 barometer#:#anonymous#:#Anonymous ### 2006-8-11 --- Add new translation here.
 barometer#:#barometer_title#:#Feedback ### 2006-8-11 --- Add new translation here.
 barometer#:#best#:#Best ### 2006-8-11 --- Add new translation here.
@@ -730,7 +724,6 @@ barometer#:#change_course#:#Change Course ### 2006-8-11 --- Add new translation 
 barometer#:#chart_type#:#Chart type ### 2006-8-11 --- Add new translation here.
 barometer#:#chart_users#:#Chart user ### 2006-8-11 --- Add new translation here.
 barometer#:#chart_votes#:#Chart votes ### 2006-8-11 --- Add new translation here.
-barometer#:#create#:#Create New Feedback ### 2006-8-11 --- Add new translation here.
 barometer#:#day#:#Day ### 2006-8-11 --- Add new translation here.
 barometer#:#days#:#Days ### 2006-8-11 --- Add new translation here.
 barometer#:#delete#:#Delete ### 2006-8-11 --- Add new translation here.
@@ -6732,3 +6725,83 @@ survey#:#matrix_subtype_description#:#Please select one of the above subtypes to
 survey#:#matrix_columns_rows#:#Column/Row Editor###29 11 2006 new variable
 survey#:#results#:#Results###29 11 2006 new variable
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable
+assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics###08 12 2006 new variable
+assessment#:#question_instances_title#:#This question is used in the following tests###08 12 2006 new variable
+barometer#:#bar_create#:#Create New Feedback###08 12 2006 new variable
+common#:#location#:#Location###08 12 2006 new variable
+common#:#last_visited#:#Last Visited###08 12 2006 new variable
+common#:#go#:#Go###08 12 2006 new variable
+survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
+survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
+exercise#:#exc_crs_add_members#:#Add students of this course###08 12 2006 new variable
+ldap#:#ldap_server_name#:#Name of LDAP Configuration###08 12 2006 new variable
+ldap#:#ldap_referrals#:#Referrals###08 12 2006 new variable
+ldap#:#ldap_server_security_settings#:#Security Settings###08 12 2006 new variable
+ldap#:#ldap_server_binding#:#Binding###08 12 2006 new variable
+ldap#:#ldap_bind_anonymous#:#Bind Anonymously###08 12 2006 new variable
+ldap#:#ldap_bind_user#:#Bind as User:###08 12 2006 new variable
+ldap#:#ldap_server_bind_dn#:#User DN###08 12 2006 new variable
+ldap#:#ldap_server_bind_pass#:#Password###08 12 2006 new variable
+ldap#:#ldap_authentication_settings#:#Authentication Settings###08 12 2006 new variable
+ldap#:#ldap_user_dn#:#User DN###08 12 2006 new variable
+ldap#:#ldap_user_scope#:#Search Scope###08 12 2006 new variable
+ldap#:#ldap_user_attribute#:#Attribute for Login Name###08 12 2006 new variable
+ldap#:#ldap_search_filter#:#LDAP Filter###08 12 2006 new variable
+ldap#:#ldap_group_restrictions#:#Group Restrictions###08 12 2006 new variable
+ldap#:#ldap_group_dn#:#Group DN###08 12 2006 new variable
+ldap#:#ldap_group_scope#:#Search Scope###08 12 2006 new variable
+ldap#:#ldap_group_filter#:#LDAP Filter###08 12 2006 new variable
+ldap#:#ldap_group_name#:#Group Name###08 12 2006 new variable
+ldap#:#ldap_group_attribute#:#Attribute for Group###08 12 2006 new variable
+ldap#:#ldap_memberisdn#:#Attribute Value is DN###08 12 2006 new variable
+ldap#:#ldap_user_sync#:#User Synchronization Settings###08 12 2006 new variable
+ldap#:#ldap_moment_sync#:#Type of Sychronization###08 12 2006 new variable
+ldap#:#ldap_sync_login#:#On Login###08 12 2006 new variable
+ldap#:#ldap_sync_cron#:#Per Cron-Job###08 12 2006 new variable
+ldap#:#ldap_global_role_assignment#:#ILIAS-Role Assignment###08 12 2006 new variable
+ldap#:#ldap_group_member#:#Group Member Attribute###08 12 2006 new variable
+ldap#:#ldap_scope_one#:#One###08 12 2006 new variable
+ldap#:#ldap_scope_sub#:#Sub###08 12 2006 new variable
+ldap#:#ldap_scope_base#:#Base###08 12 2006 new variable
+ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.###08 12 2006 new variable
+ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"###08 12 2006 new variable
+ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.###08 12 2006 new variable
+ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not.###08 12 2006 new variable
+ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.###08 12 2006 new variable
+ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".###08 12 2006 new variable
+ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)(userfilter)).###08 12 2006 new variable
+ldap#:#ldap_group_dn_info#:#Gets prepended to basedn when searching for groups.###08 12 2006 new variable
+ldap#:#ldap_group_filter_info#:#Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)(groupfilter)).###08 12 2006 new variable
+ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose "Attribute Value is DN" if the member attribute is the distinguished name of the users.###08 12 2006 new variable
+ldap#:#ldap_group_name_info#:#The name of the group users have to be a member of to authenticate successfully.###08 12 2006 new variable
+ldap#:#ldap_group_attribute_info#:#The group attribute to search for.###08 12 2006 new variable
+ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.###08 12 2006 new variable
+ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be assigned to.###08 12 2006 new variable
+ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose "Sub"###08 12 2006 new variable
+ldap#:#ldap_settings#:#Server Settings###08 12 2006 new variable
+ldap#:#ldap_user_mapping#:#User Profile Mapping###08 12 2006 new variable
+ldap#:#ldap_role_mapping#:#LDAP-Group -> Role Mapping###08 12 2006 new variable
+ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile###08 12 2006 new variable
+ldap#:#ldap_mapping_template#:#Template for objectClass:###08 12 2006 new variable
+ldap#:#ldap_update_field_info#:#Update automatically###08 12 2006 new variable
+ldap#:#ldap_role_settings#:#LDAP Group Synchronization Settings###08 12 2006 new variable
+ldap#:#ldap_role_active#:#Enable Group Synchronization###08 12 2006 new variable
+ldap#:#ldap_role_bind_user#:#Usern DN###08 12 2006 new variable
+ldap#:#ldap_role_bind_pass#:#Password###08 12 2006 new variable
+ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.###08 12 2006 new variable
+ldap#:#ldap_role_bind_pass_info#:#Password###08 12 2006 new variable
+ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment###08 12 2006 new variable
+ldap#:#ldap_ilias_role#:#ILIAS Role###08 12 2006 new variable
+ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.###08 12 2006 new variable
+ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.###08 12 2006 new variable
+ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.###08 12 2006 new variable
+common#:#auth_selection#:#Login to###08 12 2006 new variable
+common#:#authenticate_ilias#:#Login to ILIAS###08 12 2006 new variable
+common#:#authenticate_with#:#Login to:###08 12 2006 new variable
+ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.###08 12 2006 new variable
+ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.###08 12 2006 new variable
+ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version "3" or disable TLS support.###08 12 2006 new variable
+ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments###08 12 2006 new variable
+common#:#select_one#:#Please select one.###08 12 2006 new variable
+ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.###08 12 2006 new variable
+ldap#:#ldap_role_not_exists#:#A role with that name does not exist###08 12 2006 new variable

@@ -534,8 +534,6 @@ assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_title_points#:#Punkte im Fragentitel nicht anzeigen
-assessment#:#tst_hide_title_points_description#:#Ausgabe der maximalen Punktezahl im Fragentitel verhindern
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -544,7 +542,6 @@ assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fr
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
 assessment#:#tst_introduction#:#Startseite
-assessment#:#tst_maintenance_information_no_results#:#Für den Test liegen keine Datensätze von Teilnehmerinnen und Teilnehmern vor. Die Wartungsfunktionen können erst mit mindestens einem vorliegenden Datensatz ausgeführt werden.###17 Aug 2006 content changed
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
 assessment#:#tst_mark_create_simple_mark_schema#:#Einfaches Notenschema erzeugen
@@ -643,10 +640,8 @@ assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
-assessment#:#tst_sequence_postpone#:#Die Lernenden können einzelne Fragen zurückstellen
 assessment#:#tst_sequence_properties#:#Reihenfolge-Einstellungen
 assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
-assessment#:#tst_show_answer_print_sheet#:#Druckansicht der Antworten
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_solution_details#:#Bewertungsdetails
@@ -736,7 +731,6 @@ barometer#:#change_course#:#Kurswechsel
 barometer#:#chart_type#:#Auswertungsart
 barometer#:#chart_users#:#Diagramm Benutzer
 barometer#:#chart_votes#:#Diagramm Wertungen
-barometer#:#create#:#Neues Barometer erstellen
 barometer#:#day#:#Tag
 barometer#:#days#:#Tage
 barometer#:#delete#:#Löschen
@@ -6497,7 +6491,6 @@ grp#:#crs_grp_enter_title#:#Bitte füllen Sie alle notwendigen Felder aus.
 grp#:#crs_grp_added_grouping#:#Eine neue Mitgliedsschaft-Beschränkung wurde angelegt.
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedsschaft-Beschränkung entfernt werden soll ?
 grp#:#crs_grouping_deleted#:#Die Mitgliedsschaft-Beschränkung wurde gelöscht.
-grp#:#edit_grouping#:#Mitgliedsschaft-Beschränkung bearbeiten.
 grp#:#crs_grp_no_courses_assigned#:#Es sind keine Gruppen zugeordnet.
 grp#:#grouping_change_assignment#:#Zuordnung ändern
 grp#:#crs_grp_assign_crs#:#Gruppen-Zuordnung
@@ -6803,3 +6796,12 @@ ldap#:#ldap_role_group_assignments#:#Vorhandene Zuordnungen
 common#:#select_one#:#Bitte treffen Sie eine Auswahl
 ldap#:#ldap_deleted_role_mapping#:#Die Zuordnung wurde entfernt
 ldap#:#ldap_role_not_exists#:#Eine ILIAS Rolle mit dem folgenden Namen existiert nicht:
+assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics###08 12 2006 new variable
+assessment#:#question_instances_title#:#This question is used in the following tests###08 12 2006 new variable
+barometer#:#bar_create#:#Neues Barometer
+common#:#location#:#Location###08 12 2006 new variable
+common#:#last_visited#:#Last Visited###08 12 2006 new variable
+common#:#go#:#Go###08 12 2006 new variable
+survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
+survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
+exercise#:#exc_crs_add_members#:#Add students of this course###08 12 2006 new variable
