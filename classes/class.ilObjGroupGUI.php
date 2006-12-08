@@ -34,7 +34,6 @@
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 include_once "class.ilContainerGUI.php";

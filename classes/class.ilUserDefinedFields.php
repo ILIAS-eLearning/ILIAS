@@ -28,7 +28,6 @@
 *
 * @version $Id$
 *
-* @package common
 *
 */
 define('UDF_TYPE_TEXT',1);

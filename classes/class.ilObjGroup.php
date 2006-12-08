@@ -30,7 +30,6 @@
 * @version $Id$
 * 
 * @extends ilObject
-* @package ilias-core
 */
 
 //TODO: function getRoleId($groupRole) returns the object-id of grouprole

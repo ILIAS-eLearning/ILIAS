@@ -29,7 +29,6 @@
 * @version $Id$
 *
 * @extends ilVirusScanner
-* @package ilias-core
 */
 
 require_once "class.ilVirusScanner.php";

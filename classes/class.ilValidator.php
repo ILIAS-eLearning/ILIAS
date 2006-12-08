@@ -27,7 +27,6 @@
 * @author	Sascha Hofmann <shofmann@databay.de> 
 * @version	$Id$
 *
-* @package	ilias-tools
 */
 class ilValidator extends PEAR
 {

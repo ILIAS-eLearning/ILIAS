@@ -31,7 +31,6 @@ require_once("./classes/class.ilMailbox.php");
 * @version $Id$Id: class.ilMailImportParser.php,v 1.2 2004/04/08 09:59:55 smeyer Exp $
 *
 * @extends ilSaxParser
-* @package core
 */
 class ilMailImportParser extends ilSaxParser
 {

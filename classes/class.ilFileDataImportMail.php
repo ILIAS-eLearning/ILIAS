@@ -28,7 +28,6 @@
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$Id: class.ilFileDataImportMail.php,v 1.1 2004/03/31 13:42:19 smeyer Exp $
 * 
-* @package	ilias-mail
 */
 require_once("./classes/class.ilFileDataImport.php");
 				

@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("./classes/class.ilFileDataImport.php");
 
 /**
 * This class handles all operations on files for the exercise object
@@ -28,10 +29,8 @@
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package	ilias-mail
+* @ingroup ModulesForum
 */
-require_once("./classes/class.ilFileDataImport.php");
-				
 class ilFileDataImportForum extends ilFileDataImport
 {
 	/**

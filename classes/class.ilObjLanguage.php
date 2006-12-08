@@ -30,7 +30,6 @@ require_once "class.ilObject.php";
  * @version $Id$
  *
  * @extends ilObject
- * @package ilias-core
  */
 class ilObjLanguage extends ilObject
 {

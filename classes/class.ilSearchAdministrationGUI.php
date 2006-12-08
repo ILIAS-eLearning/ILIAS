@@ -32,7 +32,6 @@ require_once "./classes/class.ilSearchFolder.php";
 * @author Stefan Meyer <smeyer@databay.de>
 * @version Id: $Id$
 * 
-* @package application
 */
 class ilSearchAdministrationGUI
 {

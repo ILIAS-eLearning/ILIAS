@@ -29,7 +29,6 @@
 * @version $Id$
 *
 * @extends ilSaxParser
-* @package ilias-core
 */
 require_once("classes/class.ilSaxParser.php");
 

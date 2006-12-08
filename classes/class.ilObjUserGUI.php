@@ -32,7 +32,6 @@
 * @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjiLincUserGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilObjectGUI.php";

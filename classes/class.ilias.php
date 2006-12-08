@@ -30,7 +30,6 @@
 * @author Sascha Hofmann <shofmann@databay.de>
 * @version $Id$
 *
-* @package ilias-core
 * @todo review the concept how the object type definition is loaded. We need a concept to
 * edit the definitions via webfrontend in the admin console.
 */

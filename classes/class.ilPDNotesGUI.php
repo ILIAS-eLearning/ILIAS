@@ -30,7 +30,6 @@
 *
 * @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI, ilFeedbackGUI
 *
-* @package application
 */
 
 

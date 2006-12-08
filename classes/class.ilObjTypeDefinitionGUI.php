@@ -31,7 +31,6 @@
 * $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.14 2005/11/21 17:12:08 shofmann Exp $
 *
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilObjectGUI.php";

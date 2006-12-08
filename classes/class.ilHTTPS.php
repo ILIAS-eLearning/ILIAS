@@ -28,7 +28,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package application
 */
 
 class ilHTTPS

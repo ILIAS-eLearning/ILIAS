@@ -31,7 +31,7 @@
  * @ilCtrl_Calls ilObjLanguageFolderGUI: ilPermissionGUI
  *
  * @extends	ilObject
- * @package	ilias-core
+
  */
 
 require_once "classes/class.ilObjLanguage.php";

@@ -35,7 +35,6 @@ include_once "classes/class.ilPersonalDesktopGUI.php";
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI, ilPaymentGUI, ilPaymentAdminGUI
 *
-* @package content
 */
 class ilPersonalDesktopGUI
 {

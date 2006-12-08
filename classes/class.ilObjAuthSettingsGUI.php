@@ -30,7 +30,6 @@
 * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 

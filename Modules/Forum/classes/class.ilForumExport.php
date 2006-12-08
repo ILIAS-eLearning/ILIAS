@@ -29,7 +29,7 @@
 * @author Wolfgang Merkens <wmerkens@databay.de>
 * @version $Id$
 *
-* @package ilias-forum
+* @ingroup ModulesForum
 */
 class ilForumExport
 {

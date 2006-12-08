@@ -39,7 +39,6 @@
 /**
 * Browser check
 *
-* @package ilias-core
 * @version $Id$
 */
 class ilBrowser

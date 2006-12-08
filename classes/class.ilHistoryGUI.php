@@ -28,7 +28,6 @@ require_once("classes/class.ilHistory.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @package ilias-core
 */
 class ilHistoryGUI
 {

@@ -28,7 +28,6 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @package ilias
 */
 
 include_once 'Auth/Auth.php';

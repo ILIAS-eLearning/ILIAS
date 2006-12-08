@@ -30,7 +30,6 @@ include_once("classes/class.ilObjectAccess.php");
 * @author 	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package ilias-core
 */
 class ilObjFolderAccess extends ilObjectAccess
 {

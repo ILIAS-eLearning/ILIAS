@@ -21,17 +21,16 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("classes/class.ilFileData.php");
 
 /**
-* This class handles all operations on files for the exercise object
+* This class handles all operations on files for the forum object.
 *  
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package	ilias-mail
+* @ingroup ModulesForum
 */
-require_once("classes/class.ilFileData.php");
-				
 class ilFileDataForum extends ilFileData
 {
 	/**

@@ -28,7 +28,6 @@
 * @author Manfred Thaler <manfred.thaler@endo7.com>
 * @version $Id$
 *
-* @package ilias-core
 */
 
 require_once("classes/class.ilExplorer.php");

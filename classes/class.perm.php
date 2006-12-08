@@ -30,7 +30,6 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version	$Id$
-* @package	ilias-core
 */
 
 /**

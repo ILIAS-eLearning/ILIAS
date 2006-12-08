@@ -27,7 +27,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version Id: $Id$
 * 
-* @package application
 */
 require_once "./Services/Tree/classes/class.ilTree.php";
 

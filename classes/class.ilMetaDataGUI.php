@@ -31,7 +31,6 @@ require_once("./classes/class.ilMetaData.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package content
 */
 class ilMetaDataGUI
 {

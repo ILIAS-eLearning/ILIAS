@@ -29,7 +29,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package ilias-mail
 */
 require_once("./classes/class.ilMail.php");
 

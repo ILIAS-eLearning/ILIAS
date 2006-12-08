@@ -31,7 +31,6 @@
 *
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 

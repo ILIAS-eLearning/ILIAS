@@ -22,6 +22,8 @@
 */
 
 
+include_once "./classes/class.ilObjectListGUI.php";
+
 /**
 * Class ilObjForumListGUI
 *
@@ -29,11 +31,8 @@
 * $Id$
 *
 * @extends ilObjectListGUI
+* @ingroup ModulesForum
 */
-
-
-include_once "./classes/class.ilObjectListGUI.php";
-
 class ilObjForumListGUI extends ilObjectListGUI
 {
 	/**

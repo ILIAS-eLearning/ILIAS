@@ -29,7 +29,6 @@
 * $Id$
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 class ilObjectGUIAdapter

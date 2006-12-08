@@ -27,7 +27,6 @@
 *
 * @author Alex Killing
 * @version $Id$
-* @package ilias-core
 */
 class ilMainMenuGUI
 {

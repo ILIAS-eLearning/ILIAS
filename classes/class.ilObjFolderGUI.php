@@ -33,7 +33,6 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilContainerGUI.php";

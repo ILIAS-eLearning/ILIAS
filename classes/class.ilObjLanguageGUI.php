@@ -29,7 +29,6 @@
 * $Id$Id: class.ilObjLanguageGUI.php,v 1.3 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilObjectGUI.php";

@@ -31,7 +31,6 @@
 * @version	$Id$
 *
 * @extends	ilObject
-* @package	ilias-core
 */
 
 require_once "class.ilObject.php";

@@ -32,7 +32,7 @@ require_once("classes/class.ilObjUser.php");
  * @version $Id$
  *
  * @extends ilSaxParser
- * @package core
+
  */
 class ilGroupImportParser extends ilSaxParser
 {

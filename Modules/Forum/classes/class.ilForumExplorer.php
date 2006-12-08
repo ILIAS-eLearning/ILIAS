@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("./classes/class.ilExplorer.php");
+require_once("./Modules/Forum/classes/class.ilForum.php");
 
 /**
 * Class ilForumExplorer 
@@ -29,11 +31,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package ilias-forum
+* @ingroup ModulesForum
 */
-require_once("./classes/class.ilExplorer.php");
-require_once("./Modules/Forum/classes/class.ilForum.php");
-
 class ilForumExplorer extends ilExplorer
 {
 	/**

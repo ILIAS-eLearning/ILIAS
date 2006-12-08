@@ -32,7 +32,6 @@
 * @ilCtrl_Calls ilObjMailGUI: ilPermissionGUI
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilObjectGUI.php";

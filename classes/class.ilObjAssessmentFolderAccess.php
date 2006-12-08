@@ -30,7 +30,6 @@ include_once("classes/class.ilObjectAccess.php");
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
-* @package AccessControl
 */
 class ilObjAssessmentFolderAccess extends ilObjectAccess
 {

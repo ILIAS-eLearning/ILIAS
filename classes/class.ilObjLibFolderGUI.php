@@ -30,7 +30,6 @@
 * @author Aresch Yavari <ay@databay.de>
 * @version $Id$
 * @extends ilObjectGUI
-* @package digilib
 */
 
 require_once "class.ilObjectGUI.php";

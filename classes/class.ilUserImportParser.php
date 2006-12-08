@@ -45,7 +45,6 @@ require_once("classes/class.ilSaxParser.php");
 * @version $Id$
 *
 * @extends ilSaxParser
-* @package core
 */
 class ilUserImportParser extends ilSaxParser
 {

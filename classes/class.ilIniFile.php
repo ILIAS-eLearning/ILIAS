@@ -50,7 +50,6 @@
 * @author Peter Gabriel <peter@gabriel-online.net>
 * @version $Id$
 *
-* @package application
 */
 class ilIniFile
 {

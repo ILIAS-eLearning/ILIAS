@@ -28,7 +28,6 @@
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package	ilias-group
 */
 require_once("classes/class.ilFileData.php");
 				
