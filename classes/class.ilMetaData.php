@@ -35,7 +35,6 @@ require_once ("classes/class.ilNestedSetXML.php");
 * @author Databay AG <jc@databay.de>
 * @version $Id$
 *
-* @package application
 */
 class ilMetaData
 {

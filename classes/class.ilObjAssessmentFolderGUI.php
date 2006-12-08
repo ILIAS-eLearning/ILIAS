@@ -30,7 +30,6 @@
 * @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 include_once "class.ilObjectGUI.php";

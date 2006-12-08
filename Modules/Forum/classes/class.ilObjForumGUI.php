@@ -31,6 +31,7 @@ require_once "./classes/class.ilObjectGUI.php";
 *
 * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI
 *
+* @ingroup ModulesForum
 */
 class ilObjForumGUI extends ilObjectGUI
 {
@@ -349,7 +350,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.frm_create.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.frm_create.html",
+			"Modules/Forum");
 
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_frm.gif'));
 		$this->tpl->setVariable("ALT_IMG", $this->lng->txt('edit_properties'));
@@ -485,7 +487,8 @@ class ilObjForumGUI extends ilObjectGUI
 
 		
 			
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html",
+			"Modules/Forum");
 
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_frm.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('edit_properties'));
@@ -706,7 +709,8 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		
 		$tbl = new ilTableGUI();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forums_statistics_view.html");		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forums_statistics_view.html",
+			"Modules/Forum");		
     	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.table.html");		
 		
 		
@@ -1144,7 +1148,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
 					
 			// menu template (contains linkbar, new topic and print thread button)
-			$menutpl =& new ilTemplate("tpl.forums_threads_menu.html", true, true);
+			$menutpl =& new ilTemplate("tpl.forums_threads_menu.html", true, true,
+				"Modules/Forum");
 		
 			if($forumObj->getCountUnread($ilUser->getId(),(int) $_GET['thr_pk']))
 			{
@@ -1915,7 +1920,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$frm =& new ilForum();
 		}
 		
-		$tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html",
+			"Modules/Forum");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");

@@ -29,7 +29,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package ilias
 */
 
 define('IL_INTERNAL_LINK_SCRIPT','goto.php');

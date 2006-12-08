@@ -28,7 +28,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
-* @package ilias-core
 */
 class ilStr
 {

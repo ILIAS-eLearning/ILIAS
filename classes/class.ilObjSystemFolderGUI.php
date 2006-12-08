@@ -31,7 +31,6 @@
 * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilObjectGUI.php";

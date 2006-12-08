@@ -30,7 +30,6 @@
 * @ilCtrl_Calls ilObjRecoveryFolderGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilContainerGUI.php";

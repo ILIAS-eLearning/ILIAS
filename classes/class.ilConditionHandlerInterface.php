@@ -31,7 +31,6 @@
 * Since it is something like an interface, all varirables, methods have there own name space (names start with cci) to avoid collisions
 * 
 * @extends Object
-* @package ilias-core
 */
 
 class ilConditionHandlerInterface

@@ -31,7 +31,6 @@
 *
 * @ilCtrl_Calls ilContainerLinkListGUI:
 * 
-* @package ilias-core
 */
 class ilContainerLinkListGUI
 {

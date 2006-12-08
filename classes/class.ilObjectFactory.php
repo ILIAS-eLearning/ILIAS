@@ -36,7 +36,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package ilias-core
 */
 class ilObjectFactory
 {

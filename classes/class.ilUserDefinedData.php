@@ -28,7 +28,6 @@
 *
 * @version $Id$
 *
-* @package common
 *
 */
 

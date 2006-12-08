@@ -21,6 +21,12 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./Modules/Forum/classes/class.ilForum.php";
+require_once "./classes/class.ilObject.php";
+require_once "./Modules/Forum/classes/class.ilFileDataForum.php";
+
+/** @defgroup ModulesForum Modules/Forum
+ */
 
 /**
 * Class ilObjForum
@@ -28,14 +34,8 @@
 * @author Wolfgang Merkens <wmerkens@databay.de> 
 * @version $Id$
 *
-* @extends Object
-* @package ilias-core
+* @ingroup ModulesForum
 */
-
-require_once "./Modules/Forum/classes/class.ilForum.php";
-require_once "./classes/class.ilObject.php";
-require_once "./Modules/Forum/classes/class.ilFileDataForum.php";
-
 class ilObjForum extends ilObject
 {
 	/**

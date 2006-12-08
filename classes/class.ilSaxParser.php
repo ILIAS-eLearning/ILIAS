@@ -31,7 +31,6 @@
 * @version $Id$
 *
 * @extends PEAR
-* @package ilias-core
 */
 class ilSaxParser
 {

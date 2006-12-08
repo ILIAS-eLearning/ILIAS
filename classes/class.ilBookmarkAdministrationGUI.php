@@ -31,7 +31,6 @@
 * @author Manfred Thaler <manfred.thaler@endo7.com>
 * @version $Id$
 *
-* @package application
 */
 
 require_once ("classes/class.ilBookmarkExplorer.php");

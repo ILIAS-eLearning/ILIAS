@@ -30,7 +30,6 @@
 * @version $Id$
 *
 * @extends PEAR
-* @package ilias-core
 */
 class ilObjectDefinition extends ilSaxParser
 {

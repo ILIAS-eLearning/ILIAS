@@ -43,7 +43,6 @@
  * @version $Id$
  * 
  *
- * 	@package ilias-mail
  */
 class ilMimeMail
 {
@@ -180,7 +179,7 @@ class ilMimeMail
 	function To( $to )
 	{
 
-		// TODO : test validité sur to
+		// TODO : test validitï¿½ sur to
 		if( is_array( $to ) )
 			$this->sendto= $to;
 		else 
@@ -237,7 +236,7 @@ class ilMimeMail
 	 * set the body (message) of the mail
 	 * define the charset if the message contains extended characters (accents)
 	 * default to us-ascii
-	 * $mail->Body( "mél en français avec des accents", "iso-8859-1" );
+	 * $mail->Body( "mï¿½l en franï¿½ais avec des accents", "iso-8859-1" );
 	 * @param string body
 	 * @param string charset (optional)
 	 */

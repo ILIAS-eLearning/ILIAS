@@ -29,7 +29,6 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 *
-* @package	ilias-core
 */
 
 class ilTableGUI

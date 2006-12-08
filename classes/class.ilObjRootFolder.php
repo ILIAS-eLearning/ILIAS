@@ -29,7 +29,6 @@
 * @version $Id$Id: class.ilObjRootFolder.php,v 1.12 2003/11/20 17:04:19 shofmann Exp $
 * 
 * @extends ilObject
-* @package ilias-core
 */
 
 require_once "class.ilObject.php";

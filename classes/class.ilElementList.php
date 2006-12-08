@@ -8,7 +8,6 @@ require_once dirname(__FILE__) . "/class.ilElement.php";
 * get lists of elements, e.g. datasets from a database
 *
 * @author   Databay AG <info@databay.de>
-* @package  ilias-core
 * @access   public
 * @version  $Id$
 */

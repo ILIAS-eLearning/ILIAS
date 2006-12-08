@@ -28,7 +28,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * @see /webservice/soap/class.ilSoapAuthentication.php or /cron/classes/class.ilCronAuthentication.php
-* @package ilias
 *
 * Base class for external authentication. Used for soap and cron
 */

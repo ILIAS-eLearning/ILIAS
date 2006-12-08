@@ -32,7 +32,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package AccessControl
 */
 class ilObjectAccess
 {

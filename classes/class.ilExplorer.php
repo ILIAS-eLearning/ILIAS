@@ -31,7 +31,6 @@ define("IL_FM_NEGATIVE", 2);
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package ilias-core
 */
 
 class ilExplorer

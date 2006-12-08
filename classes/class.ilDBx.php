@@ -35,7 +35,6 @@ require_once ("DB.php");
 * @author Peter Gabriel <peter@gabriel-online.net>
 *
 * @version $Id$
-* @package application
 * @access public
 */
 

@@ -32,7 +32,6 @@
 *
 * @author	Peter Gabriel <pgabriel@databay.de>
 * @version	$Id$
-* @package	application
 */
 
 class ilLog

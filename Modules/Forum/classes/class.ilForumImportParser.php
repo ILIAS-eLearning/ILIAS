@@ -29,8 +29,7 @@ require_once("classes/class.ilSaxParser.php");
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$Id: class.ilForumImportParser.php,v 1.6 2006/05/19 15:39:16 akill Exp $
 *
-* @extends ilSaxParser
-* @package core
+* @ingroup ModulesForum
 */
 class ilForumImportParser extends ilSaxParser
 {

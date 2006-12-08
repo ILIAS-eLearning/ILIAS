@@ -29,7 +29,6 @@
 *
 * This class caches some properties of the object_data table. Like title description owner obj_id
 *
-* @package common
 */
 class ilObjectDataCache
 {

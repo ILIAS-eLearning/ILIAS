@@ -46,7 +46,6 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI
 *
-* @package core
 */
 class ilAdministrationGUI
 {

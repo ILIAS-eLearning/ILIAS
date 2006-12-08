@@ -38,7 +38,6 @@
  * @author Peter Gabriel <pgabriel@databay.de>
  * @version $Id$
  * 
- * @package application
  * 
  * @todo Das Datefeld wird bei Aenderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
  *  Die Formatfunktionen gehoeren nicht in class.Language. Die sind auch woanders einsetzbar!!!

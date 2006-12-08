@@ -32,7 +32,6 @@
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilContainerGUI.php";

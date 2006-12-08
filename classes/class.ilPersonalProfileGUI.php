@@ -30,7 +30,6 @@
 *
 * @ilCtrl_Calls ilPersonalProfileGUI:
 *
-* @package content
 */
 class ilPersonalProfileGUI
 {

@@ -27,7 +27,6 @@
 * @author Helmut Schottmüller <hschottm@tzi.de>
 * @version $Id$
 *
-* @package core
 */
 
 /**

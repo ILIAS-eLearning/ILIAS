@@ -27,7 +27,6 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @package ilias-core
 */
 class ilRegisterGUI
 {

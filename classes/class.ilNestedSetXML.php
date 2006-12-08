@@ -31,7 +31,6 @@ require_once "./classes/class.ilXML2DOM.php";
 * @author Jens Conze <jc@databay.de>
 * @version $Id: class.ilNestedSetXML.php
 *
-* @package ilias-core
 * @access   public
 */
 class ilNestedSetXML

@@ -27,7 +27,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package core
 */
 
 require_once("classes/class.ilExplorer.php");

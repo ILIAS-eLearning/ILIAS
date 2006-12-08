@@ -31,7 +31,6 @@
 * @author Arjan Ammerlaan <a.l.ammerlaan@web.de>
 * @version $Id$
 * 
-* @package locator
 */
 class ilLocatorGUI
 {

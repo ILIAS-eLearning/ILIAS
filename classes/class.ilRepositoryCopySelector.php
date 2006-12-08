@@ -27,7 +27,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package core
 */
 
 require_once("classes/class.ilExplorer.php");

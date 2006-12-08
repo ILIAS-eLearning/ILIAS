@@ -30,7 +30,6 @@
 * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "class.ilObjectGUI.php";

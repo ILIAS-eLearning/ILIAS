@@ -27,7 +27,6 @@
 * @author Helmut Schottmüller <hschottm@gmx.de>
 * @version $Id$
 *
-* @package ilias-core
 */
 
 define ("CHARSET_LATIN1", "latin1");
