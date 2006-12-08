@@ -238,9 +238,6 @@ class ilConditionHandlerInterface
 		$counter = 0;
 		foreach($conditions as $condition)
 		{
-			
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
-
 			$this->tpl->setCurrentBlock("table_content");
 			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($counter++,"tblrow1","tblrow2"));
 			$this->tpl->setVariable("CHECKBOX",ilUtil::formCheckbox(0,"conditions[]",$condition['id']));
