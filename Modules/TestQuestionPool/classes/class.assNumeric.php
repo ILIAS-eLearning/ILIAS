@@ -884,7 +884,7 @@ class assNumeric extends assQuestion
 			if (strlen($numeric_result))
 			{
 				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
-					$ilDB->quote($numeric_result),
+					$ilDB->quote(trim($numeric_result)),
 					$ilDB->quote($update)
 				);
 				$result = $ilDB->query($query);
@@ -905,7 +905,7 @@ class assNumeric extends assQuestion
 				$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
 					$ilDB->quote($active_id),
 					$ilDB->quote($this->getId()),
-					$ilDB->quote($numeric_result),
+					$ilDB->quote(trim($numeric_result)),
 					$ilDB->quote($pass . "")
 				);
 				$result = $ilDB->query($query);

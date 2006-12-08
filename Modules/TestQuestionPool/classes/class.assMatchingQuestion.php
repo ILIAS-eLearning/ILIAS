@@ -1290,8 +1290,8 @@ class assMatchingQuestion extends assQuestion
 							$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 								$ilDB->quote($active_id),
 								$ilDB->quote($this->getId()),
-								$ilDB->quote($value),
-								$ilDB->quote($matches[1]),
+								$ilDB->quote(trim($value)),
+								$ilDB->quote(trim($matches[1])),
 								$ilDB->quote($pass . "")
 							);
 							$result = $ilDB->query($query);
