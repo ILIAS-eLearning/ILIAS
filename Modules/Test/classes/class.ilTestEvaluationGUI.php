@@ -288,9 +288,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$table->enable("auto_sort");
 		$table->enable("sort");
-		//$table->disable("sort");
-		//$table->disable("auto_sort");
-		// $table->disable("title");
 		$table->setLimit($maxentries);
 
 		$header_params = $this->ctrl->getParameterArray($this, "outEvaluation");

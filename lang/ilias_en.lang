@@ -399,6 +399,7 @@ assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a 
 assessment#:#manscoring_select_user#:#Please select a participant to set the score manually
 assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.
 assessment#:#manscoring_results_pass#:#Manual scoreable Questions for Pass %s
+assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To guarantee a valid presentation of the test results for the participants it is strongly recommended to restrict the access to the test results using a specified date and time.
 assessment#:#mark_schema#:#Mark Schema
 assessment#:#match_terms_and_definitions#:#Match Terms and Definitions
 assessment#:#match_terms_and_pictures#:#Match Terms and Pictures
@@ -1238,6 +1239,7 @@ common#:#arrow_downright#:#Arrow from top to down right
 common#:#articels_unread#:#Unread articels
 common#:#as_of#:#as of
 common#:#ascending_order#:#Ascending order
+common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
 common#:#assessment_log_logging#:#Logging
 common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for
 common#:#assessment_log_manual_scoring#:#Manual Scoring
@@ -1255,6 +1257,14 @@ common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_settings#:#Global Test & Assessment settings
 common#:#assessment_settings_reporting_language#:#Reporting language
+common#:#ass_log_output#:#Log Data Output
+common#:#ass_log_admin#:#Log Data Administration
+common#:#ass_log_count_datasets#:#Log Entries
+common#:#ass_log_path#:#Test Location
+common#:#ass_log_available_tests#:#Available Tests
+common#:#ass_log_delete_entries#:#Delete Log Entries
+common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
+common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment Administration
 common#:#assf_visible#:#Test&Assessment administration is visible

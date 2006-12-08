@@ -2509,6 +2509,8 @@ class ilObjSurvey extends ilObject
 				$questionrow[$key] = $value;
 			}
 			$all_questions[$row["question_id"]] = $questionrow;
+			$all_questions[$row["question_id"]]["usableForPrecondition"] = $question->usableForPrecondition();
+			$all_questions[$row["question_id"]]["availableRelations"] = $question->getAvailableRelations();
 			if (array_key_exists($row["question_id"], $obligatory_states))
 			{
 				$all_questions[$row["question_id"]]["obligatory"] = $obligatory_states[$row["question_id"]];
@@ -2847,8 +2849,14 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
-			array_push($result_array, array("id" => $row->constraint_id, "question" => $row->question_fi, "short" => $row->shortname, "long" => $row->longname, "value" => $row->value));
+		{	
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			$question_type = SurveyQuestion::_getQuestionType($row->question_fi);
+			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+			$question = new $question_type();
+			$question->loadFromDb($row->question_fi);
+			$valueoutput = $question->getPreconditionValueOutput($row->value);
+			array_push($result_array, array("id" => $row->constraint_id, "question" => $row->question_fi, "short" => $row->shortname, "long" => $row->longname, "value" => $row->value, "valueoutput" => $valueoutput));
 		}
 		return $result_array;
 	}

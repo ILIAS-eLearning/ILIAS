@@ -96,4 +96,7 @@ CREATE TABLE IF NOT EXISTS `ldap_server_settings` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#873>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

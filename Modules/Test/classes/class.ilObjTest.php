@@ -3312,6 +3312,44 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Returns the the question ids of the test
+* 
+* Returns the the question ids of the test. This could be done for the active
+* user as well as for the test object itself. It is also possible to sort the
+* questions in the sequence the user worked through the test
+*
+* @param integer $active_id The active id of the user
+* @param integer $pass The pass that should be examined
+* @param boolean $userorder TRUE if the question ids should be returned in the sequence the user worked through the questions during the test
+* @access public
+* @see $questions
+*/
+	function &getQuestions($active_id = "", $pass = NULL, $userorder = FALSE)
+	{
+		if ($active_id > 0)
+		{
+			if ($this->isRandomTest())
+			{
+				$this->loadQuestions($active_id, $pass);
+			}
+			if ($userorder)
+			{
+				$result_array = array();
+				$active =& $this->getActiveTestUserFromActiveId($active_id);
+				$sequence_array = split(",", $active->sequence);
+				$index = 1;
+				foreach ($sequence_array as $sequence)
+				{
+					$result_array[$index] = $this->questions[$sequence];
+					$index++;
+				}
+				return $result_array;
+			}
+		}
+		return $this->questions;
+	}
+
+/**
 * Returns all questions of a test in users order
 * 
 * Returns all questions of a test in users order

@@ -474,6 +474,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
 		$tbl->setColumnWidth(array("","25%","25$%","25%","25%"));
 		
+		$tbl->enable("select_all");
+		$tbl->setFormName("cmd");
+		$tbl->setSelectAllCheckbox("id");
 
 		// control
         //$tbl->enable("hits");
@@ -601,25 +604,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if ((count($operations) > 0) or $subobjs === true)
 		{
-
-			if (!empty($this->ids))
-			{
-				$this->tpl->setCurrentBlock("tbl_select_all");
-				$this->tpl->setVariable("COLUMN_COUNTS",
-					count($this->data["cols"]));
-				$this->tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-				$this->tpl->parseCurrentBlock();
-
-				// set checkbox toggles
-				/*
-				$this->tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-				$this->tpl->setVariable("JS_VARNAME","id");			
-				$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($this->ids));
-				$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-				$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-				$this->tpl->parseCurrentBlock();*/
-			}
-		
 			$this->tpl->setCurrentBlock("tbl_action_row");
 			$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 			$this->tpl->parseCurrentBlock();

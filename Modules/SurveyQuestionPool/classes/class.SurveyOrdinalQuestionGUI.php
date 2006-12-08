@@ -471,7 +471,8 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
 		$this->tpl->parseCurrentBlock();
 
-		$phrases =& $this->object->getAvailablePhrases();
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
+		$phrases =& ilSurveyPhrases::_getAvailablePhrases();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		foreach ($phrases as $phrase_id => $phrase_array)
@@ -480,7 +481,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
 			$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
 			$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
-			$categories =& $this->object->getCategoriesForPhrase($phrase_id);
+			$categories =& ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
 			$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
 			$this->tpl->parseCurrentBlock();
 		}

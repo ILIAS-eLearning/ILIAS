@@ -562,9 +562,31 @@ class SurveyQuestion
 * @see $obligatory
 */
   
-	function getObligatory() 
+	function getObligatory($survey_id = "") 
 	{
-    return $this->obligatory;
+		if ($survey_id > 0)
+		{
+			global $ilDB;
+			
+			$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s AND question_fi = %s",
+				$ilDB->quote($survey_id . ""),
+				$ilDB->quote($this->getId() . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				return $row["obligatory"];
+			}
+			else
+			{
+				return $this->obligatory;
+			}
+		}
+		else
+		{
+			return $this->obligatory;
+		}
   }
 
 /**
@@ -1163,7 +1185,7 @@ class SurveyQuestion
 		);
 		$result = $this->ilias->db->query($query);
 
-		$query = sprintf("DELETE FROM survey_question_obligatory WHERE question_fi = %s",
+		$query = sprintf("DELETE FROM WHERE question_fi = %s",
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
@@ -2052,6 +2074,62 @@ class SurveyQuestion
 	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
 	{
 		// overwrite in inherited classes
+	}
+	
+	/**
+	* Returns if the question is usable for preconditions
+	*
+	* Returns if the question is usable for preconditions
+	*
+	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
+	* @access public
+	*/
+	function usableForPrecondition()
+	{
+		// overwrite in inherited classes
+		return FALSE;
+	}
+
+	/**
+	* Returns the available relations for the question
+	*
+	* Returns the available relations for the question
+	*
+	* @return array An array containing the available relations
+	* @access public
+	*/
+	function getAvailableRelations()
+	{
+		// overwrite in inherited classes
+		return array();
+	}
+
+	/**
+	* Creates a value selection for preconditions
+	*
+	* Creates a value selection for preconditions
+	*
+	* @return The HTML code for the precondition value selection
+	* @access public
+	*/
+	function getPreconditionSelectValue()
+	{
+		// overwrite in inherited classes
+	}
+	
+	/**
+	* Returns the output for a precondition value
+	*
+	* Returns the output for a precondition value
+	*
+	* @param string $value The precondition value
+	* @return string The output of the precondition value
+	* @access public
+	*/
+	function getPreconditionValueOutput($value)
+	{
+		// overwrite in inherited classes
+		return "";
 	}
 }
 ?>

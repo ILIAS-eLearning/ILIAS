@@ -437,11 +437,23 @@ class SurveyTextQuestion extends SurveyQuestion
 		return $data;
 	}
 	
-	function checkUserInput($post_data)
+	/**
+	* Checks the input of the active user for obligatory status
+	* and entered values
+	*
+	* Checks the input of the active user for obligatory status
+	* and entered values
+	*
+	* @param array $post_data The contents of the $_POST array
+	* @param integer $survey_id The database ID of the active survey
+	* @return string Empty string if the input is ok, an error message otherwise
+	* @access public
+	*/
+	function checkUserInput($post_data, $survey_id)
 	{
 		$entered_value = $post_data[$this->getId() . "_text_question"];
 		
-		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
+		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
 		if (strlen($entered_value) == 0) return $this->lng->txt("text_question_not_filled_out");
 
@@ -616,6 +628,19 @@ class SurveyTextQuestion extends SurveyQuestion
 				$this->setMaxChars($data["maxlength"]);
 			}
 		}
+	}
+
+	/**
+	* Returns if the question is usable for preconditions
+	*
+	* Returns if the question is usable for preconditions
+	*
+	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
+	* @access public
+	*/
+	function usableForPrecondition()
+	{
+		return FALSE;
 	}
 }
 ?>

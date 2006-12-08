@@ -2604,6 +2604,21 @@ class assQuestion
 		}
 		return $instances;
 	}
+
+	function _needsManualScoring($question_id)
+	{
+		include_once "./classes/class.ilObjAssessmentFolder.php";
+		$scoring = ilObjAssessmentFolder::_getManualScoringTypes();
+		$questiontype = assQuestion::_getQuestionType($question_id);
+		if (in_array($questiontype, $scoring))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 }
 
 ?>

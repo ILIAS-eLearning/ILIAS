@@ -57,6 +57,11 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN tbl_footer -->
   <tr class="tblfooter">
     <td colspan="{COLUMN_COUNT}" class="tblfooter">
+<!-- BEGIN select_all_checkbox -->
+		<input type="checkbox" name="chb_select_all" id="chb_select_all" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.chb_select_all.checked);" />
+		<label for="chb_select_all"><strong>{SELECT_ALL_TXT_SELECT_ALL}</strong></label>
+		<br />
+<!-- END select_all_checkbox -->
 	<div style="float:left;">
 		<!-- BEGIN tbl_footer_numinfo -->
 		{NUMINFO}
@@ -74,18 +79,9 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   </tr>
 <!-- END tbl_footer -->
 <!-- BEGIN tbl_action_row -->
-<!-- BEGIN tbl_select_all -->
-<tr>
-	<td class="submit" colspan="{COLUMN_COUNTS}">
-	<input type="checkbox" name="all" value="check_all" onClick="CheckAll();" />
-	{TXT_SELECT_ALL}
-	</td>
-</tr>
-<!-- END tbl_select_all -->
   <tr>
 	<td class="submit" colspan="{COLUMN_COUNTS}" align="left">
 		<div style="float:left;">
-		  <!-- <img src="{TPLPATH}/images/arrow_downright.gif" border="0" />-->
 		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
 <!-- BEGIN tbl_action_select -->
 				  {SELECT_ACTION}&nbsp;
