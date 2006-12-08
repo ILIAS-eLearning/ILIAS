@@ -54,6 +54,12 @@ class ilVirusScannerFactory
 				$vs = new ilVirusScannerAntiVir(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
 				return $vs;
 				break;
+
+			case "ClamAV":
+				require_once("classes/class.ilVirusScannerClamAV.php");
+				$vs = new ilVirusScannerClamAV(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
+				return $vs;
+				break;
 				
 			default:
 				return null;
