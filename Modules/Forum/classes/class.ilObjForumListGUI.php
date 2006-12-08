@@ -130,7 +130,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			}
 			$moderators .= "<a class=\"il_ItemProperty\" target=\"".
 				ilFrameTargetInfo::_getFrame("MainContent").
-				"\" href=\"forums_user_view.php?ref_id=".$this->ref_id."&user=".
+				"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
 				$MODS[$i]."&offset=".$Start."\">".ilObjUser::_lookupLogin($MODS[$i])."</a>";
 		}
 
@@ -174,7 +174,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 
 			$lpCont = "<a class=\"il_ItemProperty\" target=\"".
 				ilFrameTargetInfo::_getFrame("MainContent").
-				"\" href=\"forums_frameset.php?target=true&pos_pk=".
+				"\" href=\"repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&target=true&pos_pk=".
 				$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".
 				$this->ref_id."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a> ".
 				strtolower($lng->txt("from"))."&nbsp;";
@@ -183,7 +183,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			{
 				$lpCont .= "<a class=\"il_ItemProperty\" target=\"".
 				ilFrameTargetInfo::_getFrame("MainContent").
-				"\" href=\"forums_user_view.php?ref_id=".$this->ref_id."&user=".
+				"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
 					$last_user["usr_id"]."&offset=".$Start."\">".$last_user["login"]."</a>, ";
 				$lpCont .= $lastPost["pos_date"];
 			}
@@ -220,12 +220,12 @@ class ilObjForumListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case 'thread':
-				return "forums_frameset.php?ref_id=".$this->ref_id.
+				return "repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&ref_id=".$this->ref_id.
 					"&thr_pk=".$this->getChildId();
 
 			case 'posting':
 				$thread_post = $this->getChildId();
-				return "forums_frameset.php?target=1&ref_id=".$this->ref_id.
+				return "repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&target=1&ref_id=".$this->ref_id.
 					"&thr_pk=".$thread_post[0].
 					"&pos_pk=".$thread_post[1]."#".$thread_post[1];
 

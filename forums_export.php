@@ -22,6 +22,8 @@
 */
 
 
+die ("forums_export.php is deprecated");
+
 /**
 * forums
 *
@@ -225,8 +227,6 @@ class ilForumExportGUI
 		
 	} // elseif ($_GET["print_post"] > 0)
 	
-	$tplEx->show();
-	
 
 	/**
 	* Print Posting.
@@ -236,7 +236,7 @@ class ilForumExportGUI
 	function exportHTML()
 	{
 		$tplEx = new ilTemplate("tpl.forums_export_html.html",true,true);
-	
+$startTbl = "frm_threads";
 		for ($j = 0; $j < count($_POST["forum_id"]); $j++)
 		{
 			

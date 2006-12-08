@@ -163,7 +163,7 @@ class ilForumLocatorGUI
 			}
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $this->thread_subject);
-			$this->tpl->setVariable("LINK_ITEM", "forums_threads_view.php?thr_pk=".
+			$this->tpl->setVariable("LINK_ITEM", "repository.php?cmd=viewThread&cmdClass=ilobjforumgui&thr_pk=".
 				$this->thread_id."&ref_id=".$this->ref_id);
 			$this->tpl->parseCurrentBlock();
 		}
