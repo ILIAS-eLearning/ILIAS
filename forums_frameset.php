@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+die("forums_frameset is deprecated. Use ilObjForumGUI->showThreadFrameset()");
+
 
 /**
  * mail mainpage

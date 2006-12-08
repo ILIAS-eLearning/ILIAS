@@ -882,7 +882,7 @@ class ilCtrl
 		return $script;
 	}
 
-	function redirect(&$a_gui_obj, $a_cmd = "")
+	function redirect(&$a_gui_obj, $a_cmd = "", $a_anchor = "")
 	{
 		global $ilBench;
 		
@@ -891,6 +891,10 @@ class ilCtrl
 		if  (is_object($ilBench))
 		{
 			$ilBench->save();
+		}
+		if ($a_anchor != "")
+		{
+			$script = $script."#".$a_anchor;
 		}
 		ilUtil::redirect($script);
 	}
@@ -922,10 +926,10 @@ class ilCtrl
 	*
 	* @return	string		target link
 	*/
-	function getLinkTarget(&$a_gui_obj, $a_cmd = "")
+	function getLinkTarget(&$a_gui_obj, $a_cmd = "", $a_anchor = "")
 	{
 //echo "<br>getLinkTarget";
-		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd);
+		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd, $a_anchor);
 		return $script;
 	}
 
@@ -939,16 +943,19 @@ class ilCtrl
 	*
 	* @return	string		target link
 	*/
-	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_transits = "", $a_prepend_transits = false)
+	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_anchor = "")
 	{
 		// note: $a_class may be an array
 		//$a_class = strtolower($a_class);
 
 //echo "<br>getLinkTargetByClass";
 		$script = $this->getTargetScript();
-		$script = $this->getUrlParameters($a_class, $script, $a_cmd, $transits);
+		$script = $this->getUrlParameters($a_class, $script, $a_cmd);
 
-		//$script = str_replace("&", "&amp;", $script);
+		if ($a_anchor != "")
+		{
+			$script = $script."#".$a_anchor;
+		}
 
 		return $script;
 	}

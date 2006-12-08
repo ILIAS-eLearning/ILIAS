@@ -533,8 +533,6 @@ assessment#:#tst_hide_previous_results#:#Ocultar resultados previos
 assessment#:#tst_hide_previous_results_description#:#Si se marca, los resultados previos de un estudiante no serán usados por defecto en futuras ejecuciones del test
 assessment#:#tst_hide_previous_results_hide#:#Si marca esta casilla, sus resultados de una ejecución previa del test no se mostrarán###10 Jul 2006 content changed
 assessment#:#tst_hide_previous_results_introduction#:#Si procesa más de una ejecución de este test, sus resultados previos introducidos no serán usados como valores por defecto###10 Jul 2006 content changed
-assessment#:#tst_hide_title_points#:#Puntuación en título de la pregunta
-assessment#:#tst_hide_title_points_description#:#Ocultar la puntuación máxima en el título de la pregunta
 assessment#:#tst_import_no_items#:#Error: ¡El fichero de importación no contiene preguntas!
 assessment#:#tst_import_verify_found_questions#:#ILIAS encontró las siguientes preguntas el el fichero de importación de test. Por favor seleccione las preguntas que quiere importar en este test.
 assessment#:#tst_in_use_edit_questions_disabled#:#El test está en uso por %d usuario(s). No tiene permiso para editar o mover las preguntas en este test!
@@ -542,7 +540,6 @@ assessment#:#tst_insert_missing_question#:#Por favor seleccione al menos una pre
 assessment#:#tst_insert_questions#:#Está seguro de que quiere insertar  la(s) siguiente(s) pregunta(s) en el test?
 assessment#:#tst_insert_questions_and_results#:#Este test ya fue ejecutado por %s usuario(s). Insertar preguntas a este test borrará todos los resultados de estos usuarios. Esta seguro de que quiere insertar la(s) siguiente(s) pregunta(s) en el test?
 assessment#:#tst_introduction#:#Introducción
-assessment#:#tst_maintenance_information_no_results#:#No hay datos existentes de usuario para el test. Necesita al menos un conjunto de datos de usuarios para mantener los datos...###10 Jul 2006 content changed
 assessment#:#tst_mark#:#Nota
 assessment#:#tst_mark_create_new_mark_step#:#Crear nuevo rango de calificación
 assessment#:#tst_mark_create_simple_mark_schema#:#Crear un esquema simple de calificación
@@ -641,10 +638,8 @@ assessment#:#tst_select_tsts#:#Por favor seleccione un test para duplicar
 assessment#:#tst_selected_user_data_deleted#:#Los datos de test del usuario seleccionado fueron eliminados con éxito
 assessment#:#tst_sequence#:#Secuencia
 assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada
-assessment#:#tst_sequence_postpone#:#El estudiante puede posponer una pregunta para el final del test
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia
 assessment#:#tst_session_settings#:#Configuración de Sesión
-assessment#:#tst_show_answer_print_sheet#:#Vista de impresión de respuestas
 assessment#:#tst_show_answer_sheet#:#mostrar respuestas
 assessment#:#tst_show_results#:#Mostrar resultados del test
 assessment#:#tst_show_solution_details#:#Detalles de puntuación
@@ -727,7 +722,6 @@ assessment#:#with_order#:#con orden
 assessment#:#worked_through#:#Contestada
 assessment#:#working_time#:#Tiempo de Trabajo
 assessment#:#you_received_a_of_b_points#:#Recibió %d de %d puntos posibles
-barometer#:#add#:#Añadir nuevo feedback
 barometer#:#anonymous#:#Anónimo
 barometer#:#barometer_title#:#Feedback
 barometer#:#best#:#Mejor
@@ -735,7 +729,6 @@ barometer#:#change_course#:#Cambiar curso
 barometer#:#chart_type#:#Tipo de cuadro
 barometer#:#chart_users#:#Cuadro de usuarios
 barometer#:#chart_votes#:#Cuadro de votos
-barometer#:#create#:#Crear nuevo feedback
 barometer#:#day#:#Día
 barometer#:#days#:#Días
 barometer#:#delete#:#Eliminar
@@ -6756,3 +6749,83 @@ survey#:#matrix_subtype_description#:#Please select one of the above subtypes to
 survey#:#matrix_columns_rows#:#Column/Row Editor###29 11 2006 new variable
 survey#:#results#:#Results###29 11 2006 new variable
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable
+assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics###08 12 2006 new variable
+assessment#:#question_instances_title#:#This question is used in the following tests###08 12 2006 new variable
+barometer#:#bar_create#:#Create New Feedback###08 12 2006 new variable
+common#:#location#:#Location###08 12 2006 new variable
+common#:#last_visited#:#Last Visited###08 12 2006 new variable
+common#:#go#:#Go###08 12 2006 new variable
+survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
+survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
+exercise#:#exc_crs_add_members#:#Add students of this course###08 12 2006 new variable
+ldap#:#ldap_server_name#:#Name of LDAP Configuration###08 12 2006 new variable
+ldap#:#ldap_referrals#:#Referrals###08 12 2006 new variable
+ldap#:#ldap_server_security_settings#:#Security Settings###08 12 2006 new variable
+ldap#:#ldap_server_binding#:#Binding###08 12 2006 new variable
+ldap#:#ldap_bind_anonymous#:#Bind Anonymously###08 12 2006 new variable
+ldap#:#ldap_bind_user#:#Bind as User:###08 12 2006 new variable
+ldap#:#ldap_server_bind_dn#:#User DN###08 12 2006 new variable
+ldap#:#ldap_server_bind_pass#:#Password###08 12 2006 new variable
+ldap#:#ldap_authentication_settings#:#Authentication Settings###08 12 2006 new variable
+ldap#:#ldap_user_dn#:#User DN###08 12 2006 new variable
+ldap#:#ldap_user_scope#:#Search Scope###08 12 2006 new variable
+ldap#:#ldap_user_attribute#:#Attribute for Login Name###08 12 2006 new variable
+ldap#:#ldap_search_filter#:#LDAP Filter###08 12 2006 new variable
+ldap#:#ldap_group_restrictions#:#Group Restrictions###08 12 2006 new variable
+ldap#:#ldap_group_dn#:#Group DN###08 12 2006 new variable
+ldap#:#ldap_group_scope#:#Search Scope###08 12 2006 new variable
+ldap#:#ldap_group_filter#:#LDAP Filter###08 12 2006 new variable
+ldap#:#ldap_group_name#:#Group Name###08 12 2006 new variable
+ldap#:#ldap_group_attribute#:#Attribute for Group###08 12 2006 new variable
+ldap#:#ldap_memberisdn#:#Attribute Value is DN###08 12 2006 new variable
+ldap#:#ldap_user_sync#:#User Synchronization Settings###08 12 2006 new variable
+ldap#:#ldap_moment_sync#:#Type of Sychronization###08 12 2006 new variable
+ldap#:#ldap_sync_login#:#On Login###08 12 2006 new variable
+ldap#:#ldap_sync_cron#:#Per Cron-Job###08 12 2006 new variable
+ldap#:#ldap_global_role_assignment#:#ILIAS-Role Assignment###08 12 2006 new variable
+ldap#:#ldap_group_member#:#Group Member Attribute###08 12 2006 new variable
+ldap#:#ldap_scope_one#:#One###08 12 2006 new variable
+ldap#:#ldap_scope_sub#:#Sub###08 12 2006 new variable
+ldap#:#ldap_scope_base#:#Base###08 12 2006 new variable
+ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.###08 12 2006 new variable
+ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"###08 12 2006 new variable
+ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.###08 12 2006 new variable
+ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not.###08 12 2006 new variable
+ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.###08 12 2006 new variable
+ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".###08 12 2006 new variable
+ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)(userfilter)).###08 12 2006 new variable
+ldap#:#ldap_group_dn_info#:#Gets prepended to basedn when searching for groups.###08 12 2006 new variable
+ldap#:#ldap_group_filter_info#:#Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)(groupfilter)).###08 12 2006 new variable
+ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose "Attribute Value is DN" if the member attribute is the distinguished name of the users.###08 12 2006 new variable
+ldap#:#ldap_group_name_info#:#The name of the group users have to be a member of to authenticate successfully.###08 12 2006 new variable
+ldap#:#ldap_group_attribute_info#:#The group attribute to search for.###08 12 2006 new variable
+ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.###08 12 2006 new variable
+ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be assigned to.###08 12 2006 new variable
+ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose "Sub"###08 12 2006 new variable
+ldap#:#ldap_settings#:#Server Settings###08 12 2006 new variable
+ldap#:#ldap_user_mapping#:#User Profile Mapping###08 12 2006 new variable
+ldap#:#ldap_role_mapping#:#LDAP-Group -> Role Mapping###08 12 2006 new variable
+ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile###08 12 2006 new variable
+ldap#:#ldap_mapping_template#:#Template for objectClass:###08 12 2006 new variable
+ldap#:#ldap_update_field_info#:#Update automatically###08 12 2006 new variable
+ldap#:#ldap_role_settings#:#LDAP Group Synchronization Settings###08 12 2006 new variable
+ldap#:#ldap_role_active#:#Enable Group Synchronization###08 12 2006 new variable
+ldap#:#ldap_role_bind_user#:#Usern DN###08 12 2006 new variable
+ldap#:#ldap_role_bind_pass#:#Password###08 12 2006 new variable
+ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.###08 12 2006 new variable
+ldap#:#ldap_role_bind_pass_info#:#Password###08 12 2006 new variable
+ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment###08 12 2006 new variable
+ldap#:#ldap_ilias_role#:#ILIAS Role###08 12 2006 new variable
+ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.###08 12 2006 new variable
+ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.###08 12 2006 new variable
+ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.###08 12 2006 new variable
+common#:#auth_selection#:#Login to###08 12 2006 new variable
+common#:#authenticate_ilias#:#Login to ILIAS###08 12 2006 new variable
+common#:#authenticate_with#:#Login to:###08 12 2006 new variable
+ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.###08 12 2006 new variable
+ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.###08 12 2006 new variable
+ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version "3" or disable TLS support.###08 12 2006 new variable
+ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments###08 12 2006 new variable
+common#:#select_one#:#Please select one.###08 12 2006 new variable
+ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.###08 12 2006 new variable
+ldap#:#ldap_role_not_exists#:#A role with that name does not exist###08 12 2006 new variable

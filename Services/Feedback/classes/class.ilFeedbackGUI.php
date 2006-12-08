@@ -476,9 +476,9 @@ class ilFeedbackGUI
 	function addBarometer(){
 		$tpl = new ilTemplate("tpl.feedback_edit.html", true, true, "Services/Feedback");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->setVariable("TXT_HEADER", $this->lng->txt("create"));
+		$tpl->setVariable("TXT_HEADER", $this->lng->txt("bar_create"));
 		$tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("icon_feedb.gif"));
-		$tpl->setVariable("ALT_FEEDB", $this->lng->txt("create"));
+		$tpl->setVariable("ALT_FEEDB", $this->lng->txt("bar_create"));
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$tpl->setVariable("TXT_TIME", $this->lng->txt("feedb_time"));
 		$tpl->setVariable("VALUE_TITLE",$this->get_last("title"));

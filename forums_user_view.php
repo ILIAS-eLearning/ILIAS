@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+die ("forums_user_view.php is deprecated. Use ObjForumGUI.");
 
 /**
 * forums_user_view

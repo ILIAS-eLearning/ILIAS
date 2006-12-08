@@ -139,7 +139,6 @@ assessment#:#ass_create_export_test_results#:#Ekspordi testitulemused
 assessment#:#ass_export_files#:#Ekspordi failid
 assessment#:#ass_file#:#Fail
 assessment#:#ass_question#:#Küsimus
-assessment#:#ass_questions#:#Küsimused
 assessment#:#ass_size#:#Suurus
 assessment#:#available_points#:#Available points
 assessment#:#average_reached_points#:#Saavutatud punkte keskmiselt
@@ -412,15 +411,7 @@ assessment#:#qpl_paste_success#:#The question(s) have been pasted into the quest
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Küsimus(ed) on kustutatud.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
-assessment#:#qt_cloze#:#Lünkade täitmise küsimus
-assessment#:#qt_imagemap#:#Pildi/kaardi küsimus
-assessment#:#qt_javaapplet#:#Java Applet küsimus
-assessment#:#qt_matching#:#Vastavusse viimise küsimus
 assessment#:#qt_multiple_choice#:#Valikvastustega küsimus
-assessment#:#qt_multiple_choice_mr#:#Valikvastustega küsimus (mitu õiget vastust)
-assessment#:#qt_multiple_choice_sr#:#Valikvastustega küsimus (üks õige vastus)
-assessment#:#qt_ordering#:#Järjestamise küsimus
-assessment#:#qt_text#:#Essee küsimus
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#K
 assessment#:#question_title#:#Küsimuse pealkiri
@@ -539,8 +530,6 @@ assessment#:#tst_hide_previous_results#:#Hide previous results
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
 assessment#:#tst_hide_previous_results_hide#:#If you check the checkbox, your results from the previous test pass will be hidden
 assessment#:#tst_hide_previous_results_introduction#:#If you're processing more than one pass of this test, your previous entered results will not be used as default values
-assessment#:#tst_hide_title_points#:#Question title points
-assessment#:#tst_hide_title_points_description#:#Peida maksimaalselt saavutatav punktide arv küsimuse pealkirjas
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -548,7 +537,6 @@ assessment#:#tst_insert_missing_question#:#Please select at least one question t
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_introduction#:#Introduction
-assessment#:#tst_maintenance_information_no_results#:#There are no existing user datasets for the test. You need at least one user dataset to maintain the data..  
 assessment#:#tst_mark#:#Hinne
 assessment#:#tst_mark_create_new_mark_step#:#Loo uus hinne
 assessment#:#tst_mark_create_simple_mark_schema#:#Loo lihtne hindesüsteem
@@ -647,10 +635,8 @@ assessment#:#tst_select_tsts#:#Please select a test for duplication
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
-assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
 assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
-assessment#:#tst_show_answer_print_sheet#:#Vastuste trükivaade
 assessment#:#tst_show_answer_sheet#:#Show answers
 assessment#:#tst_show_results#:#Näita testitulemusi
 assessment#:#tst_show_solution_details#:#Score details
@@ -733,7 +719,6 @@ assessment#:#with_order#:#with order
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Tööaeg
 assessment#:#you_received_a_of_b_points#:#Sa saavutasid %d  %d võimalikust punktist
-barometer#:#add#:#Add new Tagasiside
 barometer#:#anonymous#:#Anonüümne
 barometer#:#barometer_title#:#Tagasiside
 barometer#:#best#:#Parim
@@ -741,7 +726,6 @@ barometer#:#change_course#:#Change Course
 barometer#:#chart_type#:#Chart type
 barometer#:#chart_users#:#Chart user
 barometer#:#chart_votes#:#Chart votes
-barometer#:#create#:#Create New Feedback
 barometer#:#day#:#Day
 barometer#:#days#:#Days
 barometer#:#delete#:#Delete
@@ -978,7 +962,6 @@ chat#:#my_chats#:#My Chats
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH#:#HH:MM
-common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Nõustu kasutajatingimustega
 common#:#access#:#Access
@@ -1639,7 +1622,6 @@ common#:#exc_sent#:#Ülesanne on saadetud valitud kasutajatele
 common#:#exc_sent_at#:#Saadetud: <br />%s
 common#:#exc_status#:#Staatus
 common#:#exc_status_resubmitted#:#Resubmitted
-common#:#exc_status_returned#:#Vastanud
 common#:#exc_status_saved#:#Ülesanne värskendatud
 common#:#exc_status_sent#:#Saadetud
 common#:#exc_status_solved#:#Lahendatud
@@ -3109,7 +3091,6 @@ common#:#shib_login#:#Unique Shibboleth attribute
 common#:#shib_login_button#:#Path to Shibboleth login button
 common#:#shib_login_external_wayf#:#Use external WAYF service
 common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service
-common#:#shib_login_instructions#:#Instructions shown in login field
 common#:#shib_login_type#:#Organization selection
 common#:#shib_member_of#:#I'm a member of ...
 common#:#shib_phone_home#:#Attribute for home phone number
@@ -3258,7 +3239,6 @@ common#:#today#:#Today
 common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#total#:#Total
-common#:#total_online#:#Kasutamisaeg (PP:TT:MM:SS)
 common#:#tpl_path#:#Template Path
 common#:#trac_delete#:#Delete Tracking Data
 common#:#trac_edit_permission#:#Change permission settings
@@ -3516,29 +3496,21 @@ content#:#citate_page#:#Citate this Page
 content#:#citate_to#:#Citate To ...
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
-content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
 content#:#cont_Code#:#Code
 content#:#cont_Example#:#Example
-content#:#cont_example#:#e.g.
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
 content#:#cont_LocalFile#:#Local File
-content#:#cont_matches#:#matches
-content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
-content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
-content#:#cont_reset_definitions#:#Reset definition positions
-content#:#cont_reset_pictures#:#Reset picture positions
-content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
@@ -3975,7 +3947,6 @@ crs#:#contact_email_not_valid#:#the contact email is not valid.
 crs#:#crs_accept_subscriber#:#Admission to course "%s"
 crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s".
 crs#:#crs_access_password#:#Parool
-crs#:#crs_archives#:#Arhiiv 
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Loo HTML fail
 crs#:#crs_add_archive_xml#:#Loo XML fail
@@ -5483,7 +5454,6 @@ payment#:#pay_bmf_description_debit_entry#:#Please check out whether all article
 payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
 payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
 payment#:#pay_bmf_house_number#:#House number
-payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#or
 payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.
@@ -5909,7 +5879,6 @@ survey#:#anonymize_personalized#:#No anonymization
 survey#:#anonymize_registered_user#:#Anonymized survey access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
-survey#:#anonymize_survey_explanation#:#Kui see võimalus on aktiveeritud, on kõik kasutajate poolt saadetud andmed anonüümsed ning nende järgi ei saa vastajat tuvastada.
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
 survey#:#anonymize_without_code#:#Anonymization with free access to the survey
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
@@ -6160,10 +6129,6 @@ survey#:#qpl_questions_pasted#:#Küsimus(ed) on salvestatud.
 survey#:#qpl_savephrase_empty#:#Palun sisesta lause nimetus!
 survey#:#qpl_savephrase_exists#:#See lause nimetus on juba olemas! Sisesta uus.
 survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
-survey#:#qt_metric#:#Metric question
-survey#:#qt_nominal#:#Nominal question
-survey#:#qt_ordinal#:#Ordinal question
-survey#:#qt_text#:#Essee
 survey#:#question_contains_no_categories#:#There are no answers defined for this question
 survey#:#question_has_constraints#:#Preconditions
 survey#:#question_icon#:#Question icon
@@ -6760,3 +6725,83 @@ chat#:#chat_server_ssl_port#:#Server SSL Port###29 11 2006 new variable
 chat#:#chat_server_ssl_active#:#SSL active###29 11 2006 new variable
 chat#:#chat_add_ssl_port#:#Please add the server SSL port.###29 11 2006 new variable
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable
+assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics###08 12 2006 new variable
+assessment#:#question_instances_title#:#This question is used in the following tests###08 12 2006 new variable
+barometer#:#bar_create#:#Create New Feedback###08 12 2006 new variable
+common#:#location#:#Location###08 12 2006 new variable
+common#:#last_visited#:#Last Visited###08 12 2006 new variable
+common#:#go#:#Go###08 12 2006 new variable
+survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
+survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
+exercise#:#exc_crs_add_members#:#Add students of this course###08 12 2006 new variable
+ldap#:#ldap_server_name#:#Name of LDAP Configuration###08 12 2006 new variable
+ldap#:#ldap_referrals#:#Referrals###08 12 2006 new variable
+ldap#:#ldap_server_security_settings#:#Security Settings###08 12 2006 new variable
+ldap#:#ldap_server_binding#:#Binding###08 12 2006 new variable
+ldap#:#ldap_bind_anonymous#:#Bind Anonymously###08 12 2006 new variable
+ldap#:#ldap_bind_user#:#Bind as User:###08 12 2006 new variable
+ldap#:#ldap_server_bind_dn#:#User DN###08 12 2006 new variable
+ldap#:#ldap_server_bind_pass#:#Password###08 12 2006 new variable
+ldap#:#ldap_authentication_settings#:#Authentication Settings###08 12 2006 new variable
+ldap#:#ldap_user_dn#:#User DN###08 12 2006 new variable
+ldap#:#ldap_user_scope#:#Search Scope###08 12 2006 new variable
+ldap#:#ldap_user_attribute#:#Attribute for Login Name###08 12 2006 new variable
+ldap#:#ldap_search_filter#:#LDAP Filter###08 12 2006 new variable
+ldap#:#ldap_group_restrictions#:#Group Restrictions###08 12 2006 new variable
+ldap#:#ldap_group_dn#:#Group DN###08 12 2006 new variable
+ldap#:#ldap_group_scope#:#Search Scope###08 12 2006 new variable
+ldap#:#ldap_group_filter#:#LDAP Filter###08 12 2006 new variable
+ldap#:#ldap_group_name#:#Group Name###08 12 2006 new variable
+ldap#:#ldap_group_attribute#:#Attribute for Group###08 12 2006 new variable
+ldap#:#ldap_memberisdn#:#Attribute Value is DN###08 12 2006 new variable
+ldap#:#ldap_user_sync#:#User Synchronization Settings###08 12 2006 new variable
+ldap#:#ldap_moment_sync#:#Type of Sychronization###08 12 2006 new variable
+ldap#:#ldap_sync_login#:#On Login###08 12 2006 new variable
+ldap#:#ldap_sync_cron#:#Per Cron-Job###08 12 2006 new variable
+ldap#:#ldap_global_role_assignment#:#ILIAS-Role Assignment###08 12 2006 new variable
+ldap#:#ldap_group_member#:#Group Member Attribute###08 12 2006 new variable
+ldap#:#ldap_scope_one#:#One###08 12 2006 new variable
+ldap#:#ldap_scope_sub#:#Sub###08 12 2006 new variable
+ldap#:#ldap_scope_base#:#Base###08 12 2006 new variable
+ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.###08 12 2006 new variable
+ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"###08 12 2006 new variable
+ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.###08 12 2006 new variable
+ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not.###08 12 2006 new variable
+ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.###08 12 2006 new variable
+ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".###08 12 2006 new variable
+ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)(userfilter)).###08 12 2006 new variable
+ldap#:#ldap_group_dn_info#:#Gets prepended to basedn when searching for groups.###08 12 2006 new variable
+ldap#:#ldap_group_filter_info#:#Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)(groupfilter)).###08 12 2006 new variable
+ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose "Attribute Value is DN" if the member attribute is the distinguished name of the users.###08 12 2006 new variable
+ldap#:#ldap_group_name_info#:#The name of the group users have to be a member of to authenticate successfully.###08 12 2006 new variable
+ldap#:#ldap_group_attribute_info#:#The group attribute to search for.###08 12 2006 new variable
+ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.###08 12 2006 new variable
+ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be assigned to.###08 12 2006 new variable
+ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose "Sub"###08 12 2006 new variable
+ldap#:#ldap_settings#:#Server Settings###08 12 2006 new variable
+ldap#:#ldap_user_mapping#:#User Profile Mapping###08 12 2006 new variable
+ldap#:#ldap_role_mapping#:#LDAP-Group -> Role Mapping###08 12 2006 new variable
+ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile###08 12 2006 new variable
+ldap#:#ldap_mapping_template#:#Template for objectClass:###08 12 2006 new variable
+ldap#:#ldap_update_field_info#:#Update automatically###08 12 2006 new variable
+ldap#:#ldap_role_settings#:#LDAP Group Synchronization Settings###08 12 2006 new variable
+ldap#:#ldap_role_active#:#Enable Group Synchronization###08 12 2006 new variable
+ldap#:#ldap_role_bind_user#:#Usern DN###08 12 2006 new variable
+ldap#:#ldap_role_bind_pass#:#Password###08 12 2006 new variable
+ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.###08 12 2006 new variable
+ldap#:#ldap_role_bind_pass_info#:#Password###08 12 2006 new variable
+ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment###08 12 2006 new variable
+ldap#:#ldap_ilias_role#:#ILIAS Role###08 12 2006 new variable
+ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.###08 12 2006 new variable
+ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.###08 12 2006 new variable
+ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.###08 12 2006 new variable
+common#:#auth_selection#:#Login to###08 12 2006 new variable
+common#:#authenticate_ilias#:#Login to ILIAS###08 12 2006 new variable
+common#:#authenticate_with#:#Login to:###08 12 2006 new variable
+ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.###08 12 2006 new variable
+ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.###08 12 2006 new variable
+ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version "3" or disable TLS support.###08 12 2006 new variable
+ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments###08 12 2006 new variable
+common#:#select_one#:#Please select one.###08 12 2006 new variable
+ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.###08 12 2006 new variable
+ldap#:#ldap_role_not_exists#:#A role with that name does not exist###08 12 2006 new variable

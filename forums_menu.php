@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+die ("forums_menu.php is deprecated. Use ilObjForumGUI->showExplorer");
 
 require_once "include/inc.header.php";
 require_once "./Modules/Forum/classes/class.ilForumExplorer.php";
