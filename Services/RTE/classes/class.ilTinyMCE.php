@@ -152,7 +152,7 @@ class ilTinyMCE extends ilRTE
 		if (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0)
 		{
 			$tpl = new ilTemplate("tpl.rte.switch.html", true, true, "Services/RTE");
-			$tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass($this->ctrl->getCmdClass()));
+			$tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass($this->ctrl->getCmdClass()), $this->ctrl->getCmd());
 			$tpl->setVariable("TEXT_SET_MODE", $this->lng->txt("set_edit_mode"));
 			$tpl->setVariable("TEXT_ENABLED", $this->lng->txt("rte_editor_enabled"));
 			$tpl->setVariable("TEXT_DISABLED", $this->lng->txt("rte_editor_disabled"));

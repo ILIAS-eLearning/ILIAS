@@ -484,82 +484,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Gets the available phrases from the database
-*
-* Gets the available phrases from the database
-*
-* @param boolean $useronly Returns only the user defined phrases if set to true. The default is false.
-* @result array All available phrases as key/value pairs
-* @access public
-*/
-	function &getAvailablePhrases($useronly = 0)
-	{
-		global $ilUser;
-		global $ilDB;
-		
-		$phrases = array();
-    $query = sprintf("SELECT * FROM survey_phrase WHERE defaultvalue = '1' OR owner_fi = %s ORDER BY title",
-      $ilDB->quote($ilUser->id)
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
-			{
-				if (!$useronly)
-				{
-					$phrases[$row->phrase_id] = array(
-						"title" => $this->lng->txt($row->title),
-						"owner" => $row->owner_fi
-					);
-				}
-			}
-			else
-			{
-				if ($ilUser->getId() == $row->owner_fi)
-				{
-					$phrases[$row->phrase_id] = array(
-						"title" => $row->title,
-						"owner" => $row->owner_fi
-					);
-				}
-			}
-		}
-		return $phrases;
-	}
-	
-/**
-* Gets the available columns for a given phrase
-*
-* Gets the available columns for a given phrase
-*
-* @param integer $phrase_id The database id of the given phrase
-* @result array All available columns
-* @access public
-*/
-	function &getColumnsForPhrase($phrase_id)
-	{
-		global $ilDB;
-		$columns = array();
-    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
-      $ilDB->quote($phrase_id)
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
-			{
-				$columns[$row->category_id] = $this->lng->txt($row->title);
-			}
-			else
-			{
-				$columns[$row->category_id] = $row->title;
-			}
-		}
-		return $columns;
-	}
-	
-/**
 * Adds a phrase to the question
 *
 * Adds a phrase to the question
@@ -1283,9 +1207,21 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		return $data;
 	}
 	
-	function checkUserInput($post_data)
+	/**
+	* Checks the input of the active user for obligatory status
+	* and entered values
+	*
+	* Checks the input of the active user for obligatory status
+	* and entered values
+	*
+	* @param array $post_data The contents of the $_POST array
+	* @param integer $survey_id The database ID of the active survey
+	* @return string Empty string if the input is ok, an error message otherwise
+	* @access public
+	*/
+	function checkUserInput($post_data, $survey_id)
 	{
-		if (!$this->getObligatory()) return "";
+		if (!$this->getObligatory($survey_id)) return "";
 		switch ($this->getSubtype())
 		{
 			case 0:
@@ -2207,6 +2143,33 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->addColumn($column);
 			}
 		}
+	}
+
+	/**
+	* Returns if the question is usable for preconditions
+	*
+	* Returns if the question is usable for preconditions
+	*
+	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
+	* @access public
+	*/
+	function usableForPrecondition()
+	{
+		return FALSE;
+	}
+
+	/**
+	* Returns the output for a precondition value
+	*
+	* Returns the output for a precondition value
+	*
+	* @param string $value The precondition value
+	* @return string The output of the precondition value
+	* @access public
+	*/
+	function getPreconditionValueOutput($value)
+	{
+		return $value;
 	}
 }
 ?>

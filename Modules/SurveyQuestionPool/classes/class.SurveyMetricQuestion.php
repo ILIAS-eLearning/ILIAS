@@ -670,13 +670,25 @@ class SurveyMetricQuestion extends SurveyQuestion
 		return $data;
 	}
 	
-	function checkUserInput($post_data)
+	/**
+	* Checks the input of the active user for obligatory status
+	* and entered values
+	*
+	* Checks the input of the active user for obligatory status
+	* and entered values
+	*
+	* @param array $post_data The contents of the $_POST array
+	* @param integer $survey_id The database ID of the active survey
+	* @return string Empty string if the input is ok, an error message otherwise
+	* @access public
+	*/
+	function checkUserInput($post_data, $survey_id)
 	{
 		$entered_value = $post_data[$this->getId() . "_metric_question"];
 		// replace german notation with international notation
 		$entered_value = str_replace(",", ".", $entered_value);
 		
-		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
+		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
 		if (strlen($entered_value) == 0) return $this->lng->txt("survey_question_obligatory");
 		
@@ -976,6 +988,68 @@ class SurveyMetricQuestion extends SurveyQuestion
 			$this->setMinimum($data["min"]);
 			$this->setMaximum($data["max"]);
 		}
+	}
+
+	/**
+	* Returns if the question is usable for preconditions
+	*
+	* Returns if the question is usable for preconditions
+	*
+	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
+	* @access public
+	*/
+	function usableForPrecondition()
+	{
+		return TRUE;
+	}
+
+	/**
+	* Returns the available relations for the question
+	*
+	* Returns the available relations for the question
+	*
+	* @return array An array containing the available relations
+	* @access public
+	*/
+	function getAvailableRelations()
+	{
+		return array("<", "<=", "=", "<>", ">=", ">");
+	}
+
+	/**
+	* Creates a value selection for preconditions
+	*
+	* Creates a value selection for preconditions
+	*
+	* @param object $template The template for the value selection (usually tpl.svy_svy_add_constraint.html)
+	* @access public
+	*/
+	function outPreconditionSelectValue(&$template)
+	{
+		$template->setCurrentBlock("textfield");
+		$template->setVariable("TEXTFIELD_VALUE", "");
+		$template->parseCurrentBlock();
+	}
+	
+	/**
+	* Creates a value selection for preconditions
+	*
+	* Creates a value selection for preconditions
+	*
+	* @return The HTML code for the precondition value selection
+	* @access public
+	*/
+	function getPreconditionSelectValue()
+	{
+		global $lng;
+		
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_svy_svy_precondition_select_value_textfield.html", TRUE, TRUE, "Modules/Survey");
+		$template->setCurrentBlock("textfield");
+		$template->setVariable("TEXTFIELD_VALUE", "");
+		$template->parseCurrentBlock();
+		$template->setVariable("SELECT_VALUE", $lng->txt("step") . " 3: " . $lng->txt("enter_value"));
+		return $template->get();
 	}
 }
 ?>

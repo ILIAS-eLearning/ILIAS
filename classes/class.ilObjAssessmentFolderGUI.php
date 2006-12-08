@@ -459,11 +459,128 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* Deletes the log entries for one or more tests
+	*
+	* @access public
+	*/
+	function deleteLogObject()
+	{
+		if (is_array($_POST["chb_test"]) && (count($_POST["chb_test"])))
+		{
+			$this->object->deleteLogEntries($_POST["chb_test"]);
+			sendInfo($this->lng->txt("ass_log_deleted"));
+		}
+		else
+		{
+			sendInfo($this->lng->txt("ass_log_delete_no_selection"));
+		}
+		$this->logAdminObject();
+	}
+	
+	/**
+	* Administration output for assessment log files
+	*
+	* @access public
+	*/
+	function logAdminObject()
+	{
+		global $ilUser;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.assessment_log_admin.html");
+		
+		// get test titles with ref_id
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		$available_tests =& ilObjTest::_getAvailableTests(FALSE);
+		$count = count($available_tests);
+		if ($count)
+		{
+			$data = array();
+			$i=0;
+			foreach ($available_tests as $ref_id => $title)
+			{
+				$path = $this->object->getFullPath($ref_id);
+				$obj_id = $this->object->_lookupObjectId($ref_id);
+				$nr = $this->object->getNrOfLogEntries($obj_id);
+				array_push($data, array("<input type=\"checkbox\" name=\"chb_test[]\" value=\"$obj_id\" />", $title, $nr, $path));
+			}
+
+			$offset = ($_GET["offset"]) ? $_GET["offset"] : 0;
+			$orderdirection = ($_GET["sort_order"]) ? $_GET["sort_order"] : "asc";
+			$ordercolumn = ($_GET["sort_by"]) ? $_GET["sort_by"] : "title";
+			
+			$maxentries = $ilUser->getPref("hits_per_page");
+			if ($maxentries < 1)
+			{
+				$maxentries = 9999;
+			}
+			
+			include_once("./classes/class.ilTableGUI.php");
+			$table = new ilTableGUI(0, FALSE);
+			$table->setTitle($this->lng->txt("ass_log_available_tests"));
+
+			$header_names = array(
+				"",
+				$this->lng->txt("title"),
+				$this->lng->txt("ass_log_count_datasets"),
+				$this->lng->txt("ass_log_path")
+			);
+			$table->setHeaderNames($header_names);
+	
+			$table->enable("auto_sort");
+			$table->enable("sort");
+			$table->enable("select_all");
+			$table->enable("action");
+			$table->setLimit($maxentries);
+	
+			$table->addActionButton("deleteLog", $this->lng->txt("ass_log_delete_entries"));
+			
+			$table->setFormName("formLogAdmin");
+			$table->setSelectAllCheckbox("chb_test");
+			$header_params = $this->ctrl->getParameterArray($this, "logAdmin");
+			$header_vars = array("", "title", "count", "path");
+			$table->setHeaderVars($header_vars, $header_params);
+			$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
+	
+			$table->setOffset($offset);
+			$table->setMaxCount(count($available_tests));
+			$table->setOrderColumn($ordercolumn);
+			$table->setOrderDirection($orderdirection);
+			$table->setData($data);
+
+			// footer
+			$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
+
+			// render table
+			$tableoutput = $table->render();
+			$this->tpl->setVariable("TABLE_DATA", $tableoutput);
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "deleteLog"));
+		}
+	}
+
 	function getAdminTabs(&$tabs_gui)
 	{
 		$this->getTabs($tabs_gui);
 	}
+
+	function getLogdataSubtabs()
+	{
+		global $ilTabs;
+		
+		// log output
+		$ilTabs->addSubTabTarget("ass_log_output",
+			 $this->ctrl->getLinkTarget($this, "logs"),
+			 array("logs", "showLog", "exportLog")
+			 , "");
 	
+		// log administration
+		$ilTabs->addSubTabTarget("ass_log_admin",
+			$this->ctrl->getLinkTarget($this, "logAdmin"),
+			array("logAdmin", "deleteLog"),
+			"", "");
+
+	}
+
 	/**
 	* get tabs
 	* @access	public
@@ -473,13 +590,26 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		switch ($this->ctrl->getCmd())
+		{
+			case "logs":
+			case "showLog":
+			case "exportLog":
+			case "logAdmin":
+			case "deleteLog":
+				$this->getLogdataSubtabs();
+				break;
+		}
+		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
 
 			$tabs_gui->addTarget("logs",
-				$this->ctrl->getLinkTarget($this, "logs"), array("logs","showLog", "exportLog"), "", "");
+				$this->ctrl->getLinkTarget($this, "logs"), 
+					array("logs","showLog", "exportLog", "logAdmin", "deleteLog"), 
+					"", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

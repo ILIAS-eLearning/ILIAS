@@ -1153,7 +1153,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TXT_QUESTIONTEXT_DESCRIPTION", $this->lng->txt("show_questiontext_description"));
 		$this->tpl->setVariable("TXT_QUESTIONTEXT", $this->lng->txt("show_questiontext"));
-		if ($questionblock["show_questiontext"])
+		if (($questionblock["show_questiontext"]) || (strlen($questionblock_id) == 0))
 		{
 			$this->tpl->setVariable("CHECKED_QUESTIONTEXT", " checked=\"checked\"");
 		}
@@ -3248,38 +3248,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($step > 1)
 		{
 			$relations = $this->object->getAllRelations();
-			switch ($survey_questions[$_POST["q"]]["type_tag"])
+			foreach ($relations as $rel_id => $relation)
 			{
-				case "SurveyNominalQuestion":
-					foreach ($relations as $rel_id => $relation)
+				if (in_array($relation["short"], $survey_questions[$_POST["q"]]["availableRelations"]))
+				{
+					$this->tpl->setCurrentBlock("option_r");
+					$this->tpl->setVariable("OPTION_VALUE", $rel_id);
+					$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
+					if ($rel_id == $_POST["r"])
 					{
-						if ((strcmp($relation["short"], "=") == 0) or (strcmp($relation["short"], "<>") == 0))
-						{
-							$this->tpl->setCurrentBlock("option_r");
-							$this->tpl->setVariable("OPTION_VALUE", $rel_id);
-							$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
-							if ($rel_id == $_POST["r"])
-							{
-								$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-							}
-							$this->tpl->parseCurrentBlock();
-						}
+						$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
 					}
-					break;
-				case "SurveyOrdinalQuestion":
-				case "SurveyMetricQuestion":
-					foreach ($relations as $rel_id => $relation)
-					{
-						$this->tpl->setCurrentBlock("option_r");
-						$this->tpl->setVariable("OPTION_VALUE", $rel_id);
-						$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
-						if ($rel_id == $_POST["r"])
-						{
-							$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-						}
-						$this->tpl->parseCurrentBlock();
-					}
-					break;
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			$this->tpl->setCurrentBlock("select_relation");
 			$this->tpl->setVariable("SELECT_RELATION", $this->lng->txt("step") . " 2: " . $this->lng->txt("select_relation"));
@@ -3289,33 +3270,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($step > 2)
 		{
 			$variables =& $this->object->getVariables($_POST["q"]);
-			switch ($survey_questions[$_POST["q"]]["type_tag"])
-			{
-				case "SurveyNominalQuestion":
-				case "SurveyOrdinalQuestion":
-					foreach ($variables as $sequence => $row)
-					{
-						$this->tpl->setCurrentBlock("option_v");
-						$this->tpl->setVariable("OPTION_VALUE", $sequence);
-						$this->tpl->setVariable("OPTION_TEXT", ($sequence+1) . " - " . $row->title);
-						$this->tpl->parseCurrentBlock();
-					}
-					break;
-				case "SurveyMetricQuestion":
-						$this->tpl->setCurrentBlock("textfield");
-						$this->tpl->setVariable("TEXTFIELD_VALUE", "");
-						$this->tpl->parseCurrentBlock();
-					break;
-			}
+			$question_type = $survey_questions[$_POST["q"]]["type_tag"];
+			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+			$question = new $question_type();
+			$question->loadFromDb($_POST["q"]);
+			$select_value = $question->getPreconditionSelectValue();
 			$this->tpl->setCurrentBlock("select_value");
-			if (strcmp($survey_questions[$_POST["q"]]["type_tag"], "SurveyMetricQuestion") == 0)
-			{
-				$this->tpl->setVariable("SELECT_VALUE", $this->lng->txt("step") . " 3: " . $this->lng->txt("enter_value"));
-			}
-			else
-			{
-				$this->tpl->setVariable("SELECT_VALUE", $this->lng->txt("step") . " 3: " . $this->lng->txt("select_value"));
-			}
+			$this->tpl->setVariable("SELECT_VALUE", $select_value);
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -3430,7 +3391,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				foreach ($structure[$i] as $key => $question_id)
 				{
-					if (strcmp($survey_questions[$question_id]["type_tag"], "SurveyTextQuestion") != 0)
+					if ($survey_questions[$question_id]["usableForPrecondition"])
 					{
 						array_push($option_questions, array("question_id" => $survey_questions[$question_id]["question_id"], "title" => $survey_questions[$question_id]["title"], "type_tag" => $survey_questions[$question_id]["type_tag"]));
 					}
@@ -3566,20 +3527,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						foreach ($constraints as $constraint)
 						{
-							$value = "";
-							$variables =& $this->object->getVariables($constraint["question"]);
-							switch ($survey_questions[$constraint["question"]]["type_tag"])
-							{
-								case "SurveyMetricQuestion":
-									$value = $constraint["value"];
-									break;
-								case "SurveyNominalQuestion":
-								case "SurveyOrdinalQuestion":
-									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[$constraint["value"]]->title;
-									break;
-							}
 							$this->tpl->setCurrentBlock("constraint");
-							$this->tpl->setVariable("CONSTRAINT_TEXT", $survey_questions[$constraint["question"]]["title"] . " " . $constraint["short"] . " $value");
+							$this->tpl->setVariable("CONSTRAINT_TEXT", $survey_questions[$constraint["question"]]["title"] . " " . $constraint["short"] . " " . $constraint["valueoutput"]);
 							$this->tpl->setVariable("SEQUENCE_ID", $counter);
 							$this->tpl->setVariable("CONSTRAINT_ID", $constraint["id"]);
 							$this->tpl->setVariable("COLOR_CLASS", $colors[$rowcount % 2]);

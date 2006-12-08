@@ -401,7 +401,7 @@ class ilSurveyExecutionGUI
 		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question =& SurveyQuestion::_instanciateQuestion($data["question_id"]);
-		$error = $question->checkUserInput($_POST);
+		$error = $question->checkUserInput($_POST, $this->object->getSurveyId());
 		if (strlen($error) == 0)
 		{
 			$user_id = $ilUser->getId();

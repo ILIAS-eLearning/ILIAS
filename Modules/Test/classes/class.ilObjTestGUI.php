@@ -1776,13 +1776,25 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			$manscoring = FALSE;
 			foreach ($selected_array as $key => $value) 
 			{
 				$this->object->insertQuestion($value);
+				if (!$manscoring)
+				{
+					$manscoring = $manscoring | assQuestion::_needsManualScoring($value);
+				}
 			}
 			$this->object->saveCompleteStatus();
-			sendInfo($this->lng->txt("tst_questions_inserted"), true);
+			if ($manscoring)
+			{
+				sendInfo($this->lng->txt("manscoring_hint"), TRUE);
+			}
+			else
+			{
+				sendInfo($this->lng->txt("tst_questions_inserted"), TRUE);
+			}
 			$this->ctrl->redirect($this, "questions");
 			return;
 		}

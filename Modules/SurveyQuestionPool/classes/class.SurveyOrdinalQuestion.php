@@ -74,51 +74,6 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	}
 	
 /**
-* Gets the available phrases from the database
-*
-* Gets the available phrases from the database
-*
-* @param boolean $useronly Returns only the user defined phrases if set to true. The default is false.
-* @result array All available phrases as key/value pairs
-* @access public
-*/
-	function &getAvailablePhrases($useronly = 0)
-	{
-		global $ilUser;
-		global $ilDB;
-		
-		$phrases = array();
-    $query = sprintf("SELECT * FROM survey_phrase WHERE defaultvalue = '1' OR owner_fi = %s ORDER BY title",
-      $ilDB->quote($ilUser->id)
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
-			{
-				if (!$useronly)
-				{
-					$phrases[$row->phrase_id] = array(
-						"title" => $this->lng->txt($row->title),
-						"owner" => $row->owner_fi
-					);
-				}
-			}
-			else
-			{
-				if ($ilUser->getId() == $row->owner_fi)
-				{
-					$phrases[$row->phrase_id] = array(
-						"title" => $row->title,
-						"owner" => $row->owner_fi
-					);
-				}
-			}
-		}
-		return $phrases;
-	}
-	
-/**
 * Gets the available categories for a given phrase
 *
 * Gets the available categories for a given phrase
@@ -636,11 +591,23 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		return $data;
 	}
 
-	function checkUserInput($post_data)
+	/**
+	* Checks the input of the active user for obligatory status
+	* and entered values
+	*
+	* Checks the input of the active user for obligatory status
+	* and entered values
+	*
+	* @param array $post_data The contents of the $_POST array
+	* @param integer $survey_id The database ID of the active survey
+	* @return string Empty string if the input is ok, an error message otherwise
+	* @access public
+	*/
+	function checkUserInput($post_data, $survey_id)
 	{
 		$entered_value = $post_data[$this->getId() . "_value"];
 		
-		if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) return "";
+		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
 		if (strlen($entered_value) == 0) return $this->lng->txt("ordinal_question_not_checked");
 
@@ -872,6 +839,71 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			}
 			$this->categories->addCategory($categorytext);
 		}
+	}
+
+	/**
+	* Returns if the question is usable for preconditions
+	*
+	* Returns if the question is usable for preconditions
+	*
+	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
+	* @access public
+	*/
+	function usableForPrecondition()
+	{
+		return TRUE;
+	}
+	
+	/**
+	* Returns the available relations for the question
+	*
+	* Returns the available relations for the question
+	*
+	* @return array An array containing the available relations
+	* @access public
+	*/
+	function getAvailableRelations()
+	{
+		return array("<", "<=", "=", "<>", ">=", ">");
+	}
+
+	/**
+	* Creates a value selection for preconditions
+	*
+	* Creates a value selection for preconditions
+	*
+	* @return The HTML code for the precondition value selection
+	* @access public
+	*/
+	function getPreconditionSelectValue()
+	{
+		global $lng;
+		
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_svy_svy_precondition_select_value_combobox.html", TRUE, TRUE, "Modules/Survey");
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+		{
+			$template->setCurrentBlock("option_v");
+			$template->setVariable("OPTION_VALUE", $i);
+			$template->setVariable("OPTION_TEXT", ($i+1) . " - " . $this->categories->getCategory($i));
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("SELECT_VALUE", $lng->txt("step") . " 3: " . $lng->txt("select_value"));
+		return $template->get();
+	}
+
+	/**
+	* Returns the output for a precondition value
+	*
+	* Returns the output for a precondition value
+	*
+	* @param string $value The precondition value
+	* @return string The output of the precondition value
+	* @access public
+	*/
+	function getPreconditionValueOutput($value)
+	{
+		return ($value + 1) . " - " . $this->categories->getCategory($value);
 	}
 }
 ?>

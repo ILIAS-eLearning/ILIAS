@@ -64,6 +64,9 @@ class ilTableGUI
 	
 	var $lang_support = true;	// if a lang object is included
 	var $global_tpl;			// uses global tpl (true) or a local one (false)
+	var $form_name;			// the name of the parent form of the table
+	var $select_all_checkbox;  // the name (or the first characters if unique) of a checkbox the should be toggled with a select all button
+	var $action_buttons;  // action buttons in the table footer
 	
 	var $prefix;				// prefix for sort and offset fields if you have two or more tables on a page that you want to sort separately
 	
@@ -80,7 +83,8 @@ class ilTableGUI
 							"numinfo"		=>	true,
 							"sort"			=>  true,
 							"hits"          =>  false,
-							"auto_sort"  	=>  true
+							"auto_sort"  	=>  true,
+							"select_all" => false
 						);
 
 	// tpl styles (only one so far)
@@ -104,6 +108,7 @@ class ilTableGUI
 		$this->header_vars = array();
 		$this->header_params = array();
 		$this->enabled["form"] = true;
+		$this->action_buttons = array();
 		if ($this->global_tpl)
 		{
 			$this->tpl =& $tpl;
@@ -112,8 +117,6 @@ class ilTableGUI
 		{
 			$this->tpl = new ilTemplate("tpl.table.html",true,true);
 		}
-
-		//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 		$this->lng =& $lng;
 
@@ -213,6 +216,16 @@ class ilTableGUI
 	{
 		$this->header_names = $a_header_names;
 		$this->column_count = count($this->header_names);
+	}
+	
+	/**
+	* Returns the column count based on the number of the header row columns
+	* @access	public
+	* @return	int	Number of columns
+	*/
+	function getColumnCount()
+	{
+		return $this->column_count;
 	}
 
 	/**
@@ -563,6 +576,21 @@ class ilTableGUI
 				$count++;
 			}
 		}
+		// select all checkbox
+		if ($this->enabled["select_all"])
+		{
+			if ((strlen($this->getFormName())) && (strlen($this->getSelectAllCheckbox())))
+			{
+				$this->tpl->setVariable("SELECT_ALL_TXT_SELECT_ALL", $this->lng->txt("select_all"));
+				$this->tpl->setVariable("SELECT_ALL_CHECKBOX_NAME", $this->getSelectAllCheckbox());
+				$this->tpl->setVariable("SELECT_ALL_FORM_NAME", $this->getFormName());
+				if (!($this->enabled["numinfo"] && $this->enabled["footer"]))
+				{
+					$this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());
+				}
+			}
+		}
+		
 		// table footer numinfo
 		if ($this->enabled["numinfo"] && $this->enabled["footer"])
 		{
@@ -619,11 +647,28 @@ class ilTableGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		// action buttons
+		if ($this->enabled["action"])
+		{
+			foreach ($this->action_buttons as $button)
+			{
+				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("BTN_NAME", $button["name"]);
+				$this->tpl->setVariable("BTN_VALUE", $button["value"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("arrow_downright.gif"));
+			$this->tpl->setVariable("COLUMN_COUNTS", $this->getColumnCount());
+			$this->tpl->parseCurrentBlock();
+		}
+
 		if ($this->enabled["form"])
 		{
 			$this->tpl->touchBlock("tbl_form_footer");
 		}
-
+		
 		if($this->enabled['table'])
 		{
 			$this->tpl->touchBlock("tbl_table_end");
@@ -654,6 +699,73 @@ class ilTableGUI
 	function getStyle($a_element)
 	{
 		return $this->styles[$a_element];
+	}
+
+	/*
+	* get the name of the parent form
+	* @access	public
+	* @return	string	name of the parent form
+	*/
+	function getFormName()
+	{
+		return $this->form_name;
+	}
+	
+	/*
+	* set the name of the parent form
+	* @access	public
+	* @param	string	$a_name name of the parent form
+	*/
+	function setFormName($a_name = "cmd")
+	{
+		$this->form_name = $a_name;
+	}
+
+	/*
+	* get the name of the checkbox that should be toggled with a select all button
+	* @access	public
+	* @return	string	name of the checkbox
+	*/
+	function getSelectAllCheckbox()
+	{
+		return $this->select_all_checkbox;
+	}
+	
+	/*
+	* set the name of the checkbox that should be toggled with a select all button
+	* @access	public
+	* @param	string	$a_select_all_checkbox name of the checkbox
+	*/
+	function setSelectAllCheckbox($a_select_all_checkbox)
+	{
+		$this->select_all_checkbox = $a_select_all_checkbox;
+	}
+	
+	/*
+	* Removes all action buttons from the table
+	*
+	* @access	public
+	*/
+	function clearActionButtons()
+	{
+		$this->action_buttons = array();
+	}
+	
+	/*
+	* Adds an action button to the table
+	*
+	* @param string $btn_name Name of the action button
+	* @param string $btn_value Value of the action button
+	* @access	public
+	*/
+	function addActionButton($btn_name, $btn_value)
+	{
+		array_push($this->action_buttons, 
+			array(
+				"name" => $btn_name, 
+				"value" => $btn_value
+			)
+		);
 	}
 }
 ?>

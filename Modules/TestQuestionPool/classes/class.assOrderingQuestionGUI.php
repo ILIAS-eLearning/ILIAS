@@ -493,25 +493,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $user_post_solution); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
-		{
-			// BEGIN: add javascript code for javascript enabled ordering questions
-			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_execute_ordering_javascript.html", "Modules/TestQuestionPool");
-			$this->tpl->setCurrentBlock("head_content");
-			$this->tpl->setVariable("JS_LOCATION", "./assessment/js/toolman/");
-			$this->tpl->parseCurrentBlock();
-			// END: add javascript code for javascript enabled ordering questions
-			
-			// BEGIN: add additional stylesheet for javascript enabled ordering questions
-			$this->tpl->setCurrentBlock("AdditionalStyle");
-			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "./assessment/templates/default/test_javascript.css");
-			$this->tpl->parseCurrentBlock();
-			// END: add additional stylesheet for javascript enabled ordering questions
-			
-			// BEGIN: onsubmit form action for javascript enabled ordering questions
-			$this->tpl->setVariable("ON_SUBMIT", "return saveOrder('orderlist');");
-			// END: onsubmit form action for javascript enabled ordering questions
-		}
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
@@ -686,7 +667,27 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
+
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			// BEGIN: add javascript code for javascript enabled ordering questions
+			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_qpl_ordering_output_javascript.html", "Modules/TestQuestionPool");
+			$this->tpl->setCurrentBlock("head_content");
+			$this->tpl->setVariable("JS_LOCATION", "./Modules/TestQuestionPool/js/toolman/");
+			$this->tpl->parseCurrentBlock();
+			// END: add javascript code for javascript enabled ordering questions
+			
+			// BEGIN: add additional stylesheet for javascript enabled ordering questions
+			$this->tpl->setCurrentBlock("AdditionalStyle");
+			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", "./Modules/TestQuestionPool/templates/default/test_javascript.css");
+			$this->tpl->parseCurrentBlock();
+			// END: add additional stylesheet for javascript enabled ordering questions
+			
+			// BEGIN: onsubmit form action for javascript enabled ordering questions
+			$this->tpl->setVariable("ON_SUBMIT", "return saveOrder('orderlist');");
+			// END: onsubmit form action for javascript enabled ordering questions
+		}
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		if ($active_id)

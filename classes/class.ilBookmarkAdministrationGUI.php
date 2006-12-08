@@ -363,6 +363,10 @@ class ilBookmarkAdministrationGUI
 		$tbl->setOffset($offset);
 		$tbl->setMaxCount($maxcount);
 
+		$tbl->enable("select_all");
+		$tbl->setFormName("cmd");
+		$tbl->setSelectAllCheckbox("id");
+		
 		// footer
 		$tbl->setFooter("tblfooter", $this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("content");
@@ -371,15 +375,6 @@ class ilBookmarkAdministrationGUI
 
 		// render table
 		$tbl->render();
-
-		// SHOW toggle checkboxes
-		if (!empty($a_ids))
-		{
-			$this->tpl->setCurrentBlock("tbl_select_all");
-			$this->tpl->setVariable("COLUMN_COUNTS",4);
-			$this->tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-			$this->tpl->parseCurrentBlock();
-		}
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));

@@ -274,6 +274,30 @@ class ilObjAssessmentFolder extends ilObject
 	}
 
 	/**
+	* Retrieve the manual scoring settings as type strings
+	*/
+	function _getManualScoringTypes()
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM qpl_question_type";
+		$result = $ilDB->query($query);
+		$dbtypes = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$dbtypes[$row["question_type_id"]] = $row["type_tag"];
+		}
+		$setting = new ilSetting("assessment");
+		$types = $setting->get("assessment_manual_scoring");
+		$ids = explode(",", $types);
+		foreach ($ids as $key => $value)
+		{
+			$ids[$key] = $dbtypes[$value];
+		}
+		return $ids;
+	}
+
+	/**
 	* Set the manual scoring settings
 	*
 	* @param array $type_ids An array containing the database ids of the question types which could be scored manually
@@ -497,6 +521,56 @@ class ilObjAssessmentFolder extends ilObject
 		else
 		{
 			return 0;
+		}
+	}
+	
+	/**
+	* Returns the full path output of an object
+	*
+	* Returns the full path output of an object
+	*
+	* @param integer $ref_id The reference id of the object
+	* @return string The full path with hyperlinks to the path elements
+	*/
+	function getFullPath($ref_id)
+	{
+		global $tree;
+		$path = $tree->getPathFull($ref_id);
+		$pathelements = array();
+		foreach ($path as $id => $data)
+		{
+			if ($id == 0)
+			{
+				array_push($pathelements, ilUtil::prepareFormOutput($this->lng->txt("repository")));
+			}
+			else
+			{
+				array_push($pathelements, "<a href=\"./goto.php?target=" . $data["type"] . "_" . $data["ref_id"] . "&amp;client=" . CLIENT_ID . "\">" .
+					ilUtil::prepareFormOutput($data["title"]) . "</a>");
+			}
+		}
+		return implode("&nbsp;&gt;&nbsp;", $pathelements);
+	}
+	
+	/**
+	* Deletes the log entries for a given array of test object IDs
+	*
+	* Deletes the log entries for a given array of test object IDs
+	*
+	* @param array $a_array An array containing the object IDs of the tests
+	*/
+	function deleteLogEntries($a_array)
+	{
+		global $ilDB;
+		global $ilUser;
+		
+		foreach ($a_array as $object_id)
+		{
+			$query = sprintf("DELETE FROM ass_log WHERE obj_fi = %s",
+				$ilDB->quote($object_id . "")
+			);
+			$ilDB->query($query);
+			$this->_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
 		}
 	}
 } // END class.ilObjAssessmentFolder

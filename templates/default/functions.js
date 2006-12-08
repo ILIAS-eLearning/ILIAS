@@ -12,7 +12,8 @@ function popup_window(url, x1, x2, y1, y2)
 	return false;
 }
 
-function CheckAll(){
+function CheckAll()
+{
 	if(document.cmd.all)
 	{
 		var c = document.cmd.all.checked;
