@@ -34,7 +34,7 @@
 */
 
 require_once "class.ilContainerGUI.php";
-require_once "class.ilObjCategoryGUI.php";
+require_once "./Modules/Category/classes/class.ilObjCategoryGUI.php";
 
 class ilObjRootFolderGUI extends ilContainerGUI
 {

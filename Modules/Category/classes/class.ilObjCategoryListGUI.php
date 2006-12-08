@@ -32,7 +32,7 @@
 */
 
 
-include_once "class.ilObjectListGUI.php";
+include_once "./classes/class.ilObjectListGUI.php";
 
 class ilObjCategoryListGUI extends ilObjectListGUI
 {
@@ -59,7 +59,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjcategorygui";
 
 		// general commands array
-		include_once('class.ilObjCategoryAccess.php');
+		include_once('./Modules/Category/classes/class.ilObjCategoryAccess.php');
 		$this->commands = ilObjCategoryAccess::_getCommands();
 	}
 

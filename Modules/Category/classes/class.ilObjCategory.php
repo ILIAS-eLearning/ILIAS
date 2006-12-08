@@ -31,7 +31,7 @@
 * @extends ilObject
 */
 
-require_once "class.ilContainer.php";
+require_once "./classes/class.ilContainer.php";
 
 class ilObjCategory extends ilContainer
 {

@@ -115,7 +115,7 @@ class ilCategoryImportParser extends ilSaxParser
 		{
 			case "Category":
 				$cur_parent = $this->parent[$this->parent_cnt - 1];
-				require_once("classes/class.ilObjCategory.php");
+				require_once("./Modules/Category/classes/class.ilObjCategory.php");
 				$this->category = new ilObjCategory;
 				$this->category->setImportId($a_attribs["Id"]." (#".$cur_parent.")");
 				$this->default_language = $a_attribs["DefaultLanguage"];

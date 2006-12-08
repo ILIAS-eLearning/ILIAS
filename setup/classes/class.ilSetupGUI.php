@@ -28,7 +28,7 @@
  *
  * @author   Sascha Hofmann <shofmann@databay.de>
  * @version  $Id$
- * @package  ilias-setup
+
  */
 
 require_once "class.ilSetup.php";

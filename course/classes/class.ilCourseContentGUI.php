@@ -28,7 +28,6 @@
 * @version $Id$
 *
 * @extends ilObjectGUI
-* @package ilias-core
 *
 * @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI, ilCourseObjectivePresentationGUI, ilCourseItemAdministrationGUI
 * @ilCtrl_Calls ilCourseContentGUI: ilEventAdministrationGUI

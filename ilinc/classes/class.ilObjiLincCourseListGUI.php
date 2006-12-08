@@ -29,7 +29,6 @@
 * @version		$Id$
 *
 * @extends ilObjectListGUI
-* @package iLinc
 */
 
 

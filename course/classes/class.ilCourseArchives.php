@@ -29,7 +29,6 @@
 * @version $Id$
 * 
 * @extends Object
-* @package ilias-core
 */
 
 class ilCourseArchives
@@ -203,7 +202,7 @@ class ilCourseArchives
 		// Step three create course html
 		$this->__addCourseHTML();
 
-		// Step three ² create copy in web dir
+		// Step three ï¿½ create copy in web dir
 		$this->course_files_obj->createOnlineVersion($this->getName());
 
 		// Step four zip

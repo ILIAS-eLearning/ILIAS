@@ -117,7 +117,6 @@ class ilBMFValue
  *
  * @access public
  * @version $Id$
- * @package ilBMF::Header
  * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
  * @author Dietrich Ayala <dietrich@ganx4.com> Original Author
  */
@@ -151,7 +150,6 @@ class ilBMFHeader extends ilBMFValue
  *
  *
  * @access public
- * @package ilBMF::Attachment
  * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
  */
 class ilBMFAttachment extends ilBMFValue

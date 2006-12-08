@@ -28,7 +28,6 @@
 *
 * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
-* @package	ilias-setup
 */
 	
 class ilHttpRequest

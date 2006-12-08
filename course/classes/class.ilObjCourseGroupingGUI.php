@@ -27,8 +27,6 @@
 * @author your name <your email> 
 * @version $Id$
 * 
-* @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "./classes/class.ilObjectGUI.php";

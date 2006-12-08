@@ -28,7 +28,6 @@
 * @version $Id$
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 *
 */
 

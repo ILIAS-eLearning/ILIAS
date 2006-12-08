@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilContainerGUI.php";
 
 /**
 * Class ilObjCategoryGUI
@@ -33,9 +34,6 @@
 * 
 * @extends ilObjectGUI
 */
-
-require_once "class.ilContainerGUI.php";
-
 class ilObjCategoryGUI extends ilContainerGUI
 {
 	var $ctrl;
@@ -823,7 +821,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		global $lng;
 
-		require_once("classes/class.ilCategoryImportParser.php");
+		require_once("./Modules/Category/classes/class.ilCategoryImportParser.php");
 
 		$import_dir = ilObjCategoryGUI::_getImportDir();
 

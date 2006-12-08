@@ -28,8 +28,6 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends Object
-* @package ilias-core
 */
 include_once 'course/classes/class.ilCourseItems.php';
 include_once 'course/classes/Timings/class.ilTimingPlaned.php';

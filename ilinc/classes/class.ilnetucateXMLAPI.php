@@ -11,7 +11,6 @@ require_once "./classes/class.ilXmlWriter.php";
 *
 * @version	$Id$
 * 
-* @package	iLinc
 */
 class ilnetucateXMLAPI extends ilXmlWriter
 {

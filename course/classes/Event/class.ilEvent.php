@@ -29,7 +29,6 @@
 * @version $Id$
 * 
 * @extends Object
-* @package ilias-core
 */
 
 include_once 'course/classes/Event/class.ilEventAppointment.php';

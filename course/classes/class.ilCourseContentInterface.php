@@ -32,7 +32,6 @@
 * @ilCtrl_Calls ilCourseContentInterface: ilConditionHandlerInterface, ilCourseItemAdministrationGUI
 
 * @extends Object
-* @package ilias-core
 */
 
 class ilCourseContentInterface
