@@ -918,6 +918,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_NONE", $this->lng->txt("none"));
 		$this->tpl->setVariable("TXT_SOPHOS", $this->lng->txt("sophos"));
 		$this->tpl->setVariable("TXT_ANTIVIR", $this->lng->txt("antivir"));
+		$this->tpl->setVariable("TXT_CLAMAV", $this->lng->txt("clamav"));
 		$this->tpl->setVariable("TXT_SCAN_COMMAND", $this->lng->txt("scan_command"));
 		$this->tpl->setVariable("TXT_CLEAN_COMMAND", $this->lng->txt("clean_command"));
 
@@ -1309,6 +1310,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_NONE", $this->lng->txt("none"));
 		$this->tpl->setVariable("TXT_SOPHOS", $this->lng->txt("sophos"));
 		$this->tpl->setVariable("TXT_ANTIVIR", $this->lng->txt("antivir"));
+		$this->tpl->setVariable("TXT_CLAMAV", $this->lng->txt("clamav"));
 		$this->tpl->setVariable("TXT_SCAN_COMMAND", $this->lng->txt("scan_command"));
 		$this->tpl->setVariable("TXT_CLEAN_COMMAND", $this->lng->txt("clean_command"));
 

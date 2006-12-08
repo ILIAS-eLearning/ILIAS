@@ -1,10 +1,10 @@
 ﻿/**
 * ILIAS language file
 *
-* @module		language file german
-* @modulegroup	language
-* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de> 
-* @version		$Id$
+* @module                language file german
+* @modulegroup        language
+* @author                 Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @version                $Id$
 */
 
     +-----------------------------------------------------------------------------+
@@ -56,9 +56,10 @@ check_failed_latex#:#LaTeX CGI-Skript Test fehlgeschlagen
 check_failed_unzip#:#Unzip-Test fehlgeschlagen
 check_failed_zip#:#Zip-Test fehlgeschlagen
 choose_language#:#Bitte wählen Sie Ihre Sprache
-choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. 
+choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder.
 choose_password#:#Bitte geben Sie das gewünschte Passwort ein
 city#:#Ort
+clamav#:#ClamAV
 clean_command#:#Clean-Kommando
 client#:#Mandant
 client_access_mode_changed#:#Zugangsstatus des Mandanten geändert
@@ -84,7 +85,7 @@ ctrl_missing_desc#:#Kontrollstruktur fehlt. Bitte drücken Sie 'Neu Laden'.
 ctrl_structure#:#Kontrollstruktur
 ctrl_structure_desc#:#Bitte führen Sie diese Funktion nicht aus, wenn es nicht ausdrücklich in Update-Anweisungen gefordert wird.
 ctrl_structure_reloaded#:#Kontrollstruktur wurde neu geladen.
-data_path#:#Daten-Pfad 
+data_path#:#Daten-Pfad
 database#:#Datenbank
 database_create#:#Datenbank erzeugen
 database_exists#:#Datenbank existiert bereits
@@ -118,7 +119,7 @@ delete#:#löschen
 delete_confirm#:#Mandant löschen bestätigen
 delete_info#:#Sind Sie sicher?
 details#:#Details
-dir_exists_create#:#Das angegebene Verzeichnis existiert bereits. Deaktivieren Sie die Option 'Anlegen', um dieses Verzeichnis als Datenverzeichnis zu wählen 
+dir_exists_create#:#Das angegebene Verzeichnis existiert bereits. Deaktivieren Sie die Option 'Anlegen', um dieses Verzeichnis als Datenverzeichnis zu wählen
 disable#:#ausschalten
 disable_check#:#nicht prüfen
 disable_logging#:#deaktivieren
@@ -230,7 +231,7 @@ lang_min_one_language#:#Sie müssen mindestens eine Sprache installieren
 lang_nl#:#Niederländisch
 lang_no#:#Norwegisch
 lang_none_installed#:#Keine Sprache installiert
-lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert! 
+lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert!
 lang_pl#:#Polnisch
 lang_pt#:#Portugiesisch
 lang_ro#:#Romänisch
@@ -279,7 +280,7 @@ nic_registration#:#NIC Registrierung
 no_changes#:#Keine Änderungen
 no_client_id#:#Keine Mandanten ID angegeben
 no_client_name#:#KEIN NAME
-no_clients_available#:#Keine Mandanten verfügbar 
+no_clients_available#:#Keine Mandanten verfügbar
 no_database#:#Keine Datenbank
 no_db_connect_consult_admin#:#Es konnte keine Verbindung zur Datenbank hergestellt werden. Bitte kontaktieren Sie den Systemadministrator
 no_db_update_file#:#dbupdate.php nicht gefunden!
@@ -376,7 +377,7 @@ setup_inifile#:#ini-Datei erzeugen
 setup_inifile_desc#:#Erzeugung der ini-Datei für Ihre Installation
 setup_languages#:#Sprachen installieren
 setup_languages_desc#:#Installation zusätzlicher Sprachen
-setup_login#:#Anmeldung Setup 
+setup_login#:#Anmeldung Setup
 setup_mainmenu#:#Setup Hauptmenü
 setup_menu#:#Setup menü
 setup_nic_desc#:#Registrierung Ihrer Installation beim ILIAS-NIC-Server
@@ -385,7 +386,7 @@ setup_pass#:#Passwort
 setup_pass2#:#Passwort wiederholen
 setup_pass_title#:#Passwort für Administratorzugriff
 setup_password#:#Setup-Passwort erstellen
-setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
+setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen)
 setup_process_status#:#Status des Installationsverlaufes
 setup_process_step_3rdparty#:#Fremdanbietererweiterungen
 setup_process_step_contact#:#Kontaktinformationen ausfüllen
@@ -408,7 +409,7 @@ submit#:#Abschicken
 tiny_dir_does_not_exist#:#Das Verzeichnis, das den Editor beinhaltet existiert nicht. Sie müssen die ZIP-Datei, die den Editor beinhaltet in das vorgehene Verzeichnis auspacken
 tiny_nothing_to_do#:#Der Editor ist installiert, es gibt nichts zu tun
 tiny_zip_changed#:#Die ZIP-Datei, die den Editor beinhaltet, wurde seit der letzten Installation verändert. Bitte packen Sie die ZIP-Datei aus, um die vorhandene Editor-Installation zu aktualisieren.
-tiny_zip_does_not_exist#:#Die ZIP-Datei, die den TinyMCE Editor beinhaltet existiert nicht in dem dafür vorgesehenen Verzeichnis Services/RTE 
+tiny_zip_does_not_exist#:#Die ZIP-Datei, die den TinyMCE Editor beinhaltet existiert nicht in dem dafür vorgesehenen Verzeichnis Services/RTE
 tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG Editor
 title#:#Titel
 tools#:#Werkzeuge
