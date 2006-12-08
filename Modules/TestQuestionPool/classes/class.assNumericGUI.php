@@ -316,7 +316,7 @@ class assNumericGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$solutions = array();
@@ -370,7 +370,15 @@ class assNumericGUI extends assQuestionGUI
 		$questionoutput = $template->get();
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
-		return $solutiontemplate->get();
+		$solutionoutput = $solutiontemplate->get(); 
+		if (!$show_question_only)
+		{
+			// get page object output
+			$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
+			$pageoutput = preg_replace("/\<div class\=\"ilc_PageTitle\">.*?\<\/div>/ims", "", $pageoutput);
+			$solutionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $solutionoutput, $pageoutput);
+		}
+		return $solutionoutput;
 	}
 	
 	function getPreview()
