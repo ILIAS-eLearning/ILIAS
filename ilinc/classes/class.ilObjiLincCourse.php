@@ -29,7 +29,6 @@
 * @version $Id$
 *
 * @extends ilObject
-* @package iLinc
 */
 
 require_once ('./classes/class.ilObject.php');

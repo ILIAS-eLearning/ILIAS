@@ -35,7 +35,6 @@
 *
 * 
 * @extends ilContainerGUI
-* @package ilias-core
 */
 
 require_once "./classes/class.ilContainerGUI.php";

@@ -29,7 +29,6 @@
 * @author	Peter Gabriel <pgabriel@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de> 
 * @version	$Id$
-* @package	ilias-setup
 */
 
 class ilSetup extends PEAR

@@ -34,7 +34,7 @@
 	<property name="check">system_check</property>
 	<property name="benchmark">benchmarks</property>
 </object>
-<object name="cat" class_name="Category" location="classes" checkbox="1" inherit="1" translate="db" rbac="1">
+<object name="cat" class_name="Category" location="Modules/Category/classes" module="Modules/Category" checkbox="1" inherit="1" translate="db" rbac="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="grp">grp</subobj>

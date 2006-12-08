@@ -30,7 +30,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package Core
 */
 
 require_once "./include/inc.header.php";

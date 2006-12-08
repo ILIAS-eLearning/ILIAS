@@ -28,7 +28,6 @@
 * @version $Id$
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 include_once 'course/classes/class.ilCourseObjectiveResult.php';

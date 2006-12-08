@@ -33,7 +33,6 @@ include_once('classes/class.ilObjUser.php');
 * @version $Id$
 *
 * @extends ilMDSaxParser
-* @package course
 */
 
 include_once 'course/classes/class.ilCourseMembers.php';

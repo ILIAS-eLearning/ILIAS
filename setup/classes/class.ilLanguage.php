@@ -36,7 +36,6 @@
  * @author Peter Gabriel <pgabriel@databay.de>
  * @version $Id$
  * 
- * @package application
  * 
  * @todo The DATE field is not set correctly on changes of a language (update, install, your stable).
  *  The format functions do not belong in class.Language. Those are also applicable elsewhere.

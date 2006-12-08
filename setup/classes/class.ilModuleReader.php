@@ -29,7 +29,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package core
 */
 class ilModuleReader extends ilSaxParser
 {

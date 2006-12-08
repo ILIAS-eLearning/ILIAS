@@ -28,7 +28,6 @@
 * @version $Id$
 *
 * @extends ilObject
-* @package ilias-core
 */
 
 class ilCourseStart

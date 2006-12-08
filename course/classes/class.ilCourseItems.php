@@ -29,7 +29,6 @@
 * @version $Id$
 * 
 * @extends Object
-* @package ilias-core
 */
 
 define('IL_CRS_TIMINGS_ACTIVATION',0);

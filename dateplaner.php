@@ -30,9 +30,6 @@
 * @author		Frank Gruemmert <gruemmert@feuerwelt.de>
 * @organisation University of Applied Sciences Bremen
 * @version		$Id$
-* @module       dateplaner.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-frontend
 */ 
 
 /** ------------------------------------------------------------------------------+

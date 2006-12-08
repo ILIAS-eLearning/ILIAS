@@ -27,8 +27,6 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 *
-* @extends ilObject
-* @package ilias-core
 */
 
 require_once "./classes/class.ilObject.php";

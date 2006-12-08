@@ -155,7 +155,7 @@ switch($target_type)
 
 	// new implementation: ok
 	case "cat":
-		require_once("classes/class.ilObjCategoryGUI.php");
+		require_once("./Modules/Category/classes/class.ilObjCategoryGUI.php");
 		ilObjCategoryGUI::_goto($target_id);
 		break;
 

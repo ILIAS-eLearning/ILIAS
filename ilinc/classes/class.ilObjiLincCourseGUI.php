@@ -32,7 +32,6 @@
 * 
 * @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI, ilInfoScreenGUI, ilRepositorySearchGUI, ilObjUserGUI
 *
-* @package iLinc
 */
 
 include_once "./classes/class.ilContainerGUI.php";

@@ -29,7 +29,6 @@
 * @version $Id$
 * 
 * @extends Object
-* @package ilias-core
 */
 
 class ilCourseWaitingList

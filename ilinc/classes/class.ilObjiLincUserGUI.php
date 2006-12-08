@@ -30,7 +30,6 @@
 *
 * @version $Id$
 *
-* @package iLinc
 */
 
 require_once ('class.ilnetucateXMLAPI.php');

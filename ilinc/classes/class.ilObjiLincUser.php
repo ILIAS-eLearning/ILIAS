@@ -30,7 +30,6 @@
 *
 * @version $Id$
 *
-* @package iLinc
 */
 
 class ilObjiLincUser

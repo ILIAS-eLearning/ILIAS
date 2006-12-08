@@ -30,7 +30,6 @@
 * @ilCtrl_Calls ilObjiLincClassroomGUI:
 *
 * @extends ilObjectGUI
-* @package iLinc
 */
 
 include_once "./classes/class.ilObjectGUI.php";
