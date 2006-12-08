@@ -27,7 +27,6 @@
 *
 * @author Arne Schr�der <schroeder@data-quest.de>
 *
-* @package studip-interface
 */
 
 /* ILIAS Version 3.7.0stable */

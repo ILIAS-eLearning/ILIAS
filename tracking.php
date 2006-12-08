@@ -28,7 +28,6 @@
 * @author Arlon_yin <arlon.yin@hartung.com.cn>
 * @version $Id$
 *
-* @package user tracking
 */
 require_once "./include/inc.header.php";
 require_once "./tracking/classes/class.ilUserTracking.php";

@@ -25,9 +25,6 @@
 * @author		Stefan Stahlkopf <mail@stefan-stahlkopf.de> 
 * @author		Frank Gruemmert <gruemmert@feuerwelt.de>
 * @version		$Id$
-* @module       inbox.php                            
-* @modulegroup  dateplaner                   
-* @package		dateplaner-frontend
 */ 
 
 // include DP inbox functions

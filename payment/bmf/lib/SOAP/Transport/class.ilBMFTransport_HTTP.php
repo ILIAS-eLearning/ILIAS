@@ -26,7 +26,6 @@ require_once 'Net/DIME.php';
 *
 * @access public
 * @version $Id$
-* @package ilBMF::Transport::HTTP
 * @author Shane Caraveo <shane@php.net>
 */
 class ilBMFTransport_HTTP extends ilBMFBase

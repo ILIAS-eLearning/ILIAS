@@ -46,12 +46,9 @@
 *	0.1	- creation of first code, getDayList() and getDateList()
 *		  	
 *
-* @author		Jan Hübbers		<jan@huebbers.de>
+* @author		Jan Hï¿½bbers		<jan@huebbers.de>
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version      $Id$                                    
-* @module       inc.sortdates.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-functions
 */
 
 

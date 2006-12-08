@@ -28,7 +28,6 @@
 *
 * @version $Id$
 *
-* @package common
 *
 */
 define('FIELD_TYPE_UDF_SELECT',1);

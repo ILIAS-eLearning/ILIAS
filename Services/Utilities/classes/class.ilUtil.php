@@ -3132,7 +3132,6 @@ class ilUtil
 	/**
 	* Return a string of time periods.
 	*
-	* @package	Duration
 	* @param	  mixed $duration An array of named segments
 	* @return	 string
 	*/

@@ -40,7 +40,6 @@ DEFINE("WSDL_CACHE_USE",0); // set to zero to turn off caching
 *
 * @access public
 * @version $Id$
-* @package ilBMF::Client
 * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author Dietrich Ayala <dietrich@ganx4.com> Original Author
 */

@@ -25,7 +25,6 @@ require_once('PEAR.php');
  * ilBMFFault
  * PEAR::Error wrapper used to match SOAP Faults to PEAR Errors
  *
- * @package  SOAP
  * @access   public
  * @author   Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author

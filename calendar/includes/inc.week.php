@@ -31,9 +31,6 @@
 *
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version		$Id$ 
-* @module       inc.week.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-functions
 */
 
 /**
@@ -237,7 +234,7 @@ function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
 		$Gui = new Gui();
 
 		$datesperhalfhourmax	= 4 ; // maximale Termine pro Tag
-		$shorttextmax			= 12; // maximale Länge des shorttextes
+		$shorttextmax			= 12; // maximale Lï¿½nge des shorttextes
 
 		$today_style			= $DP_CSS[tblrow1];
 

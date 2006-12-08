@@ -31,7 +31,6 @@
 * @ilCtrl_Calls ilObjChatGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
-* @package chat
 */
 
 require_once "classes/class.ilObjectGUI.php";

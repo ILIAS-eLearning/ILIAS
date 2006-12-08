@@ -29,7 +29,6 @@ require_once dirname(__FILE__).'/class.ilBMFBase.php';
 *
 * @access public
 * @version $Id$
-* @package ilBMF::ilBMFClient
 * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author Dietrich Ayala <dietrich@ganx4.com> Original Author
 */

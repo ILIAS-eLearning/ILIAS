@@ -30,9 +30,6 @@
 * @author		Bartosz Tyrakowski <tyra@freenet.de> 
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version		$Id$ 
-* @module       inc.date.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-functions
 */
 
 /**
@@ -709,7 +706,7 @@ function setDeleteAction($DateValues, $DB) {
 	}else {
 			$msg = $DP_language[ERROR_DB]."";
 	}	
-		//$msg = $msg.' Damit der Timo debuggen kann :<br>Rückgabewert : '.$return.' <br> ';
+		//$msg = $msg.' Damit der Timo debuggen kann :<br>Rï¿½ckgabewert : '.$return.' <br> ';
 
 	return $msg;
 }// end func

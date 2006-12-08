@@ -24,9 +24,6 @@
 /**
 * @author		Frank Gruemmert <gruemmert@feuerwelt.de>
 * @version		$Id$
-* @module       list.php                            
-* @modulegroup  dateplaner                   
-* @package		dateplaner-frontend
 */ 
 
 // include DP list functions

@@ -25,9 +25,6 @@
 * @author		Stefan Stahlkopf <mail@stefan-stahlkopf.de> 
 * @author		Frank Gruemmert <gruemmert@feuerwelt.de>
 * @version		$Id$
-* @module       properties.php                            
-* @modulegroup  dateplaner                   
-* @package		dateplaner-frontend
 */ 
 
 // include som properties functions

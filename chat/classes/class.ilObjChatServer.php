@@ -28,7 +28,6 @@
 * @version $Id$
 *
 * @extends ilObject
-* @package chat
 */
 
 require_once "classes/class.ilObjectGUI.php";

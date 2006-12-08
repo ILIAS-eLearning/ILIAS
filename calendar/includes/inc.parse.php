@@ -29,12 +29,9 @@
 *	These Functions are to convert CSV files to integrate it into the dateplaner
 *
 *
-* @author		Jan Hübbers <jan@huebbers.de> 
+* @author		Jan Hï¿½bbers <jan@huebbers.de> 
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version		$Id$ 
-* @module       inc.parse.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-functions
 */
 
 /**

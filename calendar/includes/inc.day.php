@@ -60,12 +60,9 @@
 *	0.1	- Creation of first code with padding and a basic table, debug 
 *		  code for evaluation
 *
-* @author		Jan Hübbers <jan@huebbers.de> 
+* @author		Jan Hï¿½bbers <jan@huebbers.de> 
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version		$Id$ 
-* @module       inc.day.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-functions
 */
 
 

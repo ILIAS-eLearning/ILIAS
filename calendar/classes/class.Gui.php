@@ -26,15 +26,12 @@
 * Gui Class
 *
 * this class should manage the Gui function
-* Die Klasse ermöglicht es Code und Statisches HTML mittels Templates auszugeben. 
-* Da die Ausgabe letztlich eine Ausgabe erzeugen soll wird eine ausführende Funktion benötigt. 
-* Als Ausführende Datei nutzt darum diese Klasse die Funktion "inc.output.php" im Includes Ordner.   
+* Die Klasse ermï¿½glicht es Code und Statisches HTML mittels Templates auszugeben. 
+* Da die Ausgabe letztlich eine Ausgabe erzeugen soll wird eine ausfï¿½hrende Funktion benï¿½tigt. 
+* Als Ausfï¿½hrende Datei nutzt darum diese Klasse die Funktion "inc.output.php" im Includes Ordner.   
 *
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version      $Id$                                    
-* @module       class.Gui.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-gui
 */
 include('.'.DATEPLANER_ROOT_DIR.'/config/conf.gui.php');
 

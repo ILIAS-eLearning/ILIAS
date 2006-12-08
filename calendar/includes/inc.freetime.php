@@ -30,9 +30,6 @@
 * @author		Matthias Pohl <m.pohl@gmx.net> 
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version		$Id$ 
-* @module       inc.freetime.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-functions
 */
 
 /**

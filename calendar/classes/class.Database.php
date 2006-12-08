@@ -30,9 +30,6 @@
 * @author		Timo Richter <mail@timo-richter.de>
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version      $Id$                                    
-* @module       class.Database.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-db
 */
 
 class Database

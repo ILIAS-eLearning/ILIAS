@@ -115,7 +115,6 @@ if (!function_exists('is_a'))
 *
 * @access   public
 * @version  $Id$
-* @package  ilBMF::Client
 * @author   Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 */
 class ilBMFBase extends PEAR
