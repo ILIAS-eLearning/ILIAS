@@ -38,7 +38,6 @@ require_once dirname(__FILE__).'/class.ilBMFParser.php';
 *
 * @access   public
 * @version  $Id$
-* @package  ilBMF::Client
 * @author   Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author   Stig Bakken <ssb@fast.no> Conversion to PEAR
 * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author

@@ -25,9 +25,6 @@
 * @author		Bartosz Tyrakowski <tyra@freenet.de> 
 * @author		Frank Gruemmert <gruemmert@feuerwelt.de>
 * @version		$Id$
-* @module       date.php                            
-* @modulegroup  dateplaner                   
-* @package		dateplaner-frontend
 */ 
 
 // include DP date functions

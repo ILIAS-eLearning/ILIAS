@@ -39,7 +39,6 @@ require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id$
 *
-* @package content
 */
 class ilWebAccessChecker
 {

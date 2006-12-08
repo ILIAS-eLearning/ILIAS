@@ -27,7 +27,6 @@
 * @author Jens Conze 
 * @version $Id$
 *
-* @package chat
 */
 
 class ilChatRecording

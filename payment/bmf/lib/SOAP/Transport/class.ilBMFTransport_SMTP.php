@@ -40,7 +40,6 @@ require_once 'Mail/smtp.php';
 *
 * @access public
 * @version $Id$
-* @package ilBMF::Transport::SMTP
 * @author Shane Caraveo <shane@php.net>
 */
 class ilBMFTransport_SMTP extends ilBMFBase

@@ -29,7 +29,6 @@
 * @version $Id$
 *
 * @extends ilSaxParser
-* @package common
 */
 
 include_once 'classes/class.ilSaxParser.php';

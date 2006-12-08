@@ -31,7 +31,6 @@ require_once dirname(__FILE__).'/class.ilBMFValue.php';
 *
 * @access public
 * @version $Id$
-* @package ilBMF::Parser
 * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author Dietrich Ayala <dietrich@ganx4.com> Original Author
 */

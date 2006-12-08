@@ -27,7 +27,6 @@
 * @author Stefan Meyer 
 * @version $Id$
 *
-* @package chat
 */
 
 require_once "chat/classes/class.ilObjChatGUI.php";

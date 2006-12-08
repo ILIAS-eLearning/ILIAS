@@ -22,12 +22,9 @@
 	+-----------------------------------------------------------------------------+
 */
 /**
-* @author		Jan Hübbers <jan@huebbers.de> 
+* @author		Jan Hï¿½bbers <jan@huebbers.de> 
 * @author		Frank Gruemmert <gruemmert@feuerwelt.de>
 * @version		$Id$
-* @module       day.php                            
-* @modulegroup  dateplaner                   
-* @package		dateplaner-frontend
 */ 
 
 // include DP day functions

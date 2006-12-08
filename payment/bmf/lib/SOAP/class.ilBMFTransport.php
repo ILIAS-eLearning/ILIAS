@@ -31,7 +31,6 @@ require_once dirname(__FILE__).'/class.ilBMFBase.php';
 *
 * @access   public
 * @version  $Id$
-* @package  ilBMF::Transport
 * @author   Shane Caraveo <shane@php.net>
 */
 class ilBMFTransport extends ilBMFBase

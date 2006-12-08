@@ -26,13 +26,10 @@
 * Timestamp to Date Class
 *
 * this class should manage the timestamp functions. eg. formating
-* Diese Klassse ermöglicht das formatierten eines timestamps.   
+* Diese Klassse ermï¿½glicht das formatierten eines timestamps.   
 *
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version      $Id$                                    
-* @module       class.TimestampToDate.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-backend
 */
 
 class TimestampToDate {

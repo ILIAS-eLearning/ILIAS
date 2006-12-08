@@ -30,9 +30,6 @@
 * @author		Timo Weichler 
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version      $Id$                                    
-* @module       inc.minicalendar.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-functions
 */
 //require('./classes/class.ilMiniCal.php');
 
@@ -235,7 +232,7 @@ function showMinicalendar($month,$year, $im, $DP_Lang)
 					$jahr1 = $year + 1;
 				}
 				$lastday = strftime("%d.", mktime (0,0,0,$monat1+1,0,$jahr1));
-				//Prüfung, ob Schaltjahr
+				//Prï¿½fung, ob Schaltjahr
 				if($lastday == 29 && !date(L, mktime (0,0,0,$monat1+1,0,$jahr1))) $lastday = 28;
 			}
 			if($c0 == 5 && $startday == $tag)

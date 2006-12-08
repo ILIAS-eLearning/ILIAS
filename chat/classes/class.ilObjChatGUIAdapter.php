@@ -30,7 +30,6 @@
 * $Id$Id: class.ilObjChatGUIAdapter.php,v 1.2 2005/07/29 13:03:16 smeyer Exp $
 * 
 * @extends ilObjectGUI
-* @package ilias-core
 */
 
 require_once "./classes/class.ilObjectGUIAdapter.php";

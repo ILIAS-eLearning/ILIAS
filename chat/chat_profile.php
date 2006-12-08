@@ -28,7 +28,6 @@
 * @author	Jens Conze <jc@databay.de>
 * @version	$Id$
 *
-* @package ilias
 */
 
 chdir("..");

@@ -29,9 +29,6 @@
 *
 * @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
 * @version      $Id$                                    
-* @module       inc.session.php                            
-* @modulegroup  dateplaner                    
-* @package		dateplaner-functions
 */
 
 

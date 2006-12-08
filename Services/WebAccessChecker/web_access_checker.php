@@ -34,9 +34,8 @@
 *
 *
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
-* @version $Id $
+* @version $Id$
 *
-* @package content
 */
 
 define("ILIAS_MODULE", "content");
