@@ -834,7 +834,7 @@ class assTextQuestion extends assQuestion
 			$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
 				$ilDB->quote($active_id . ""),
 				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($text . ""),
+				$ilDB->quote(trim($text) . ""),
 				$ilDB->quote($pass . "")
 			);
 			$result = $ilDB->query($query);
