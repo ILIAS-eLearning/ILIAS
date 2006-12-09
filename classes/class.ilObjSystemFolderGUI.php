@@ -769,6 +769,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("INST_INFO",$this->ilias->ini->readVariable("client","description"));
 		$this->tpl->setVariable("FEEDBACK_RECIPIENT",$settings["feedback_recipient"]);
 		$this->tpl->setVariable("ERROR_RECIPIENT",$settings["error_recipient"]);
+		
+		$this->tpl->setVariable("PHP_INFO_LINK",
+			$this->ctrl->getLinkTarget($this, "showPHPInfo"));
 
 		// get all templates
 		/*
@@ -1556,5 +1559,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
+	
+	/**
+	* Show PHP Information
+	*/
+	function showPHPInfoObject()
+	{
+		phpinfo();
+		exit;
+	}
+
 } // END class.ilObjSystemFolderGUI
 ?>

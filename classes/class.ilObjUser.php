@@ -995,14 +995,6 @@ class ilObjUser extends ilObject
 		return $r->numRows();
 	}
 
-// Adding new function by
-// ratanatyrupp@yahoo.com
-// purpose: for unsing in usr_profile.php
-
-
-// End of testing purpose
-//
-//
 	/**
 	* deletes a user
 	* @access	public
@@ -2234,10 +2226,6 @@ class ilObjUser extends ilObject
 		{
 			$result_data[$counter++]["id"]				=  $row->usr_id;
 
-			// LINKS AND TARGETS AREN'T SAVED ANYMORE, SEARCHGUI HAS TO CALL ilObjUser::_getSearchLink
-			// TO GET THE LINK OF SPECIFIC OBJECT
-			#$result_data[$counter]["link"]				=  "profile.php?user=".$row->usr_id;
-			#$result_data[$counter++]["target"]			=  "";
 		}
 		return $result_data ? $result_data : array();
 	}

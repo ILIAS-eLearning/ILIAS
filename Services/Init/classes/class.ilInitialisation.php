@@ -86,7 +86,7 @@ class ilInitialisation
 		//include classes and function libraries
 		require_once "include/inc.db_session_handler.php";
 		require_once "classes/class.ilDBx.php";
-		require_once "classes/class.ilShibboleth.php";
+		require_once "./Services/AuthShibboleth/classes/class.ilShibboleth.php";
 		require_once "classes/class.ilias.php";
 		require_once "classes/class.ilObjUser.php";
 		require_once "classes/class.ilFormat.php";

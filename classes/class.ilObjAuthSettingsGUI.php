@@ -658,7 +658,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("COLSPAN", 3);
-		$this->tpl->setVariable("TXT_SHIB_INSTRUCTIONS", $this->lng->txt("shib_instructions"));
+		$this->tpl->setVariable("TXT_SHIB_INSTRUCTIONS",
+			$this->lng->txt("auth_shib_instructions"));
+		$this->tpl->setVariable("LINK_SHIB_INSTRUCTIONS",
+			"./Services/AuthShibboleth/README.SHIBBOLETH.txt");
 		$this->tpl->setVariable("TXT_SHIB", $this->lng->txt("shib"));
 		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
 		$this->tpl->setVariable("TXT_SHIB_UPDATE", $this->lng->txt("shib_update"));

@@ -144,7 +144,7 @@ class ilStartUpGUI
 
 		if ($ilSetting->get("shib_active") && $ilSetting->get("shib_hos_type"))
 		{
-			require_once "classes/class.ilShibbolethWAYF.php";
+			require_once "./Services/AuthShibboleth/classes/class.ilShibbolethWAYF.php";
 			// Check if we user selects Home Organization
 			$WAYF = new ShibWAYF();
 		}
