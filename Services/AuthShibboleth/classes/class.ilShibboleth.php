@@ -26,13 +26,16 @@ define('AUTH_IDLED',       -1);
 define('AUTH_EXPIRED',     -2);
 define('AUTH_WRONG_LOGIN', -3);
 
+/** @defgroup ServicesAuthShibboleth Services/AuthShibboleth
+ */
+
 /**
 * Class Shibboleth
 *
 * This class provides basic functionality for Shibboleth authentication
 *
+* @ingroup ServicesAuthShibboleth
 */
-
 class ShibAuth
 {
 	/**

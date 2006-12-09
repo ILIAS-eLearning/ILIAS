@@ -27,8 +27,8 @@
 * This class handles the Home Organization selection (also called Where Are You
 * From service) process for Shibboleth users.
 *
+* @ingroup ServicesAuthShibboleth
 */
-
 class ShibWAYF
 {
 	
