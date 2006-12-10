@@ -181,7 +181,7 @@ class ilCtrl
 	}
 
 	/**
-	* Gets an HTML output block from another GUI class and
+	* Gets an HTML output from another GUI class and
 	* returns the flow of control to the calling class.
 	*
 	* @param	object		$a_gui_object		gui object that returns the HTML block
@@ -189,7 +189,7 @@ class ilCtrl
 	*
 	* @return	string		HTML
 	*/
-	function &getBlock(&$a_gui_object)
+	function &getHTML(&$a_gui_object)
 	{
 		$class = strtolower(get_class($a_gui_object));
 
@@ -202,7 +202,7 @@ class ilCtrl
 			$this->current_node = $nr;
 			
 			// get block
-			$html = $a_gui_object->getBlock();
+			$html = $a_gui_object->getHTML();
 			
 			// reset current node
 			$this->current_node = $current_node;
@@ -210,7 +210,7 @@ class ilCtrl
 			// return block
 			return $html;
 		}
-		echo "ERROR: Can't getBlock from class $class."; exit;
+		echo "ERROR: Can't getHTML from class $class."; exit;
 	}
 	
 	/**

@@ -491,7 +491,7 @@ class ilCourseContentGUI
 		}
 
 		// create table
-		include_once './classes/class.ilTableGUI.php';
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
 		$tbl->setStyle('table','il_ContainerBlock');
 
@@ -601,7 +601,7 @@ class ilCourseContentGUI
 		}
 
 		// create table
-		include_once './classes/class.ilTableGUI.php';
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
 		$tbl->setStyle('table','il_ContainerBlock');
 

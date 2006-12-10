@@ -577,7 +577,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			'tst' => $lng->txt("test")
 		);
 
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		if(!in_array($_POST["stat"], array("d", "h", "o", "u")))
 		{

@@ -106,6 +106,13 @@ class ilInfoScreenGUI
 				$tpl->setContent($html);
 				break;
 
+			case "ilnewsitemgui":
+				include_once("Services/News/classes/class.ilNewsItemGUI.php");
+				$news_gui = new ilNewsItemGUI();
+				$html = $this->ctrl->forwardCommand($news_gui);
+				$tpl->setContent($html);
+				break;
+
 			default:
 				return $this->$cmd();
 				break;
@@ -395,7 +402,7 @@ class ilInfoScreenGUI
 		{
 			include_once("Services/News/classes/class.ilNewsItemGUI.php");
 			$news_gui = new ilNewsItemGUI();
-			$html = $this->ctrl->getBlock($news_gui);
+			$html = $this->ctrl->getHTML($news_gui);
 			$tpl->setRightContent($html);
 		}
 	}

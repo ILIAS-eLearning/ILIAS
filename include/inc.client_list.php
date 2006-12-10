@@ -54,7 +54,7 @@ else
 require_once "classes/class.ilTemplate.php";
 
 require_once "./classes/class.ilIniFile.php";
-require_once "./classes/class.ilTableGUI.php";
+require_once "./Services/Table/classes/class.ilTableGUI.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
 require_once "./setup/classes/class.ilClient.php";
 require_once "./setup/classes/class.ilClientList.php";

@@ -29,7 +29,7 @@ require_once("classes/class.ilSaxParser.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSaxParser
+* @ingroup ModulesCategory
 */
 class ilCategoryImportParser extends ilSaxParser
 {

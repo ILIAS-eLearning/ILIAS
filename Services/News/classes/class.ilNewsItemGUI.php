@@ -32,8 +32,12 @@ include_once ("Services/News/classes/class.ilNewsItemGUIGen.php");
 class ilNewsItemGUI extends ilNewsItemGUIGen
 {
 
-	function &getBlock()
+	function &getHTML()
 	{
+		global $lng;
+		
+		$lng->LoadLanguageModule("news");
+		
 		return $this->getNewsForContextBlock();
 	}
 	
@@ -42,5 +46,22 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		$a_news_item->setContextObjId($this->ctrl->getContextObjId());
 		$a_news_item->setContextObjType($this->ctrl->getContextObjType());
 	}
+	
+	function editNews()
+	{
+		$news_item = new ilNewsItem();
+		$news_item->setContextObjId($this->ctrl->getContextObjId());
+		$news_item->setContextObjType($this->ctrl->getContextObjType());
+		$news = $news_item->queryNewsForContext();
+	}
 
+	function addNews()
+	{
+		return $this->create();
+	}
+
+	function cancelUpdate()
+	{
+		$this->editNews();
+	}
 }

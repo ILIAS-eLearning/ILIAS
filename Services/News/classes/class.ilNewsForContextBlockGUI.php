@@ -42,8 +42,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		parent::ilBlockGUI();
 		
 		$this->addBlockCommand(
-			$ilCtrl->getLinkTargetByClass("", "showNewsTable"),
+			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
 			$lng->txt("edit"));
+
+		$this->addBlockCommand(
+			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "addNews"),
+			$lng->txt("add"));
 	}
 }
 

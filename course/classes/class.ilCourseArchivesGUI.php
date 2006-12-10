@@ -93,7 +93,7 @@ class ilCourseArchivesGUI
 			$this->course_obj->archives_obj->getArchives() :
 			$this->course_obj->archives_obj->getPublicArchives();
 
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		$this->__showArchivesMenu();

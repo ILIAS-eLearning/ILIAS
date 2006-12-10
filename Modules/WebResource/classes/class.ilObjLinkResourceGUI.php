@@ -128,7 +128,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		include_once './classes/class.ilTableGUI.php';
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
 		// MINIMUM ACCESS LEVEL = 'read'
@@ -206,7 +206,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		include_once './classes/class.ilTableGUI.php';
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 		
 

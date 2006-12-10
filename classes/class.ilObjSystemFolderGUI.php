@@ -186,7 +186,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");

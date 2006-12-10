@@ -1409,7 +1409,7 @@ class ilLMStatistics {
             else {
                 //SCHREIBE die SEITEN,SESSION oder KAPITELSTATS in Tabelle
 
-                include_once "./classes/class.ilTableGUI.php";
+                include_once "./Services/Table/classes/class.ilTableGUI.php";
                 //				$tbl = new ilTableGUI();
                 $tpl->addBlockfile("ADM_CONTENT", "adm_content", MODULE_PATH."/templates/default/tpl.lm_statistics_result.html");
                 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -1596,7 +1596,7 @@ class ilLMStatistics {
         $tpl->setVariable("Seitenname2", "<param name='Seitenname2' value= '".$this->Seitenname2."'>");
         $tpl->setVariable("Kapitelname2", "<param name='Kapitelname2' value= '".$this->Kapitelname2."'>");
 
-        include_once "./classes/class.ilTableGUI.php";
+        include_once "./Services/Table/classes/class.ilTableGUI.php";
         $tpl->addBlockFile("ADM_CONTENT", "adm_content", MODULE_PATH."/templates/default/tpl.lm_statistics_result_applet.html");
         $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
         $tpl->setVariable("TXT_TRACKED_OBJECTS2", "Beobachtungsmodell");

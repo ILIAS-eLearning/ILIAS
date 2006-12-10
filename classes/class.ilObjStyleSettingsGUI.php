@@ -197,7 +197,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		// load template content style settings
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.styf_content_styles.html");

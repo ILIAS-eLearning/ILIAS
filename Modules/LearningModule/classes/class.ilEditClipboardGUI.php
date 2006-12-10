@@ -157,7 +157,7 @@ class ilEditClipboardGUI
 		}
 
 
-		include_once "./classes/class.ilTableGUI.php";		
+		include_once "./Services/Table/classes/class.ilTableGUI.php";		
 		
 //echo ":".$_GET["returnCommand"].":";
 		// load template for table

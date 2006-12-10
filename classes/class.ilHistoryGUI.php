@@ -62,7 +62,7 @@ class ilHistoryGUI
 	{
 		$ref_id = $a_header_params["ref_id"];
 		
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI(0, false);
 		
 		// table header
@@ -211,7 +211,7 @@ class ilHistoryGUI
 	{
 		$ref_id = $a_header_params["ref_id"];
 		
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI(0, false);
 		
 		// table header

@@ -516,7 +516,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_REFR", "quickList");
 		$this->tpl->setVariable("TXT_REFR", $this->lng->txt("refresh"));
 		
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		// glossary term list template
 
@@ -627,7 +627,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//$this->setTabs();
 		//$this->setLocator();
 		$this->lng->loadLanguageModule("meta");
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 
 		// view button
@@ -1038,7 +1038,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles();
 		
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates

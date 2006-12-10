@@ -1315,7 +1315,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function membersObject()
 	{
-		include_once './classes/class.ilTableGUI.php';
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		include_once './course/classes/class.ilCourseItems.php';
 		
@@ -3317,7 +3317,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function &__initTableGUI()
 	{
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		return new ilTableGUI(0,false);
 	}

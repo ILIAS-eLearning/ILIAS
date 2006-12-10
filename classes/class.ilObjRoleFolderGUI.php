@@ -605,7 +605,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 	function &__initTableGUI()
 	{
-		include_once "class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		return new ilTableGUI(0,false);
 	}
