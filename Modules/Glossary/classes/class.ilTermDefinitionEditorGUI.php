@@ -132,9 +132,8 @@ class ilTermDefinitionEditorGUI
 				$page =& $this->definition->getPageObject();
 				$page->addUpdateListener($this, "saveShortText");
 				$page_gui =& new ilPageObjectGUI($page);
-				$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
-				$page_gui->setFullscreenLink("glossary_presentation.php?cmd=fullscreen".
-					"&amp;ref_id=".$_GET["ref_id"]);
+				$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
+				$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				$page_gui->setLocator($gloss_loc);
@@ -143,8 +142,7 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setPageBackTitle($this->lng->txt("cont_definition"));
 				$page_gui->setLinkParams("ref_id=".$_GET["ref_id"]);
 				$page_gui->setHeader($this->term->getTerm());
-				$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
-					"&amp;ref_id=".$_GET["ref_id"]);
+				$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
 				/*
 				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
 						array("edit", "view"),

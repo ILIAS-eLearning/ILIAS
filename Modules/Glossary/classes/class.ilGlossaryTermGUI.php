@@ -216,17 +216,16 @@ class ilGlossaryTermGUI
 			$def = $defs[$j];
 			$page =& new ilPageObject("gdf", $def["id"]);
 			$page_gui =& new ilPageObjectGUI($page);
-			$page_gui->setSourcecodeDownloadScript($dir."glossary_presentation.php?ref_id=".$_GET["ref_id"]);
+			$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 			if (!$a_offline)
 			{
-				$page_gui->setFullscreenLink($dir."glossary_presentation.php?cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
+				$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
 			}
 			else
 			{
 				$page_gui->setFullscreenLink("fullscreen.html");	// id is set by xslt
 			}
-			$page_gui->setFileDownloadLink($dir."glossary_presentation.php?cmd=downloadFile".
-				"&amp;ref_id=".$_GET["ref_id"]);
+			$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
 
 			if (!$a_offline)
 			{
@@ -332,9 +331,7 @@ class ilGlossaryTermGUI
 			$def = $defs[$j];
 			$page =& new ilPageObject("gdf", $def["id"]);
 			$page_gui =& new ilPageObjectGUI($page);
-			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
-			//$page_gui->setOutputMode("edit");
-			//$page_gui->setPresentationTitle($this->term->getTerm());
+			$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 			$page_gui->setTemplateOutput(false);
 			$output = $page_gui->preview();
 
@@ -420,7 +417,7 @@ class ilGlossaryTermGUI
 		$page =& new ilPageObject("gdf", $definition->getId());
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->setTemplateOutput(false);
-		$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
+		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$output = $page_gui->preview();
 
 		$this->tpl->setCurrentBlock("definition");
