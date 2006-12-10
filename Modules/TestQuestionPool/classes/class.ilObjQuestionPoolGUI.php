@@ -1324,7 +1324,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
-		include_once("classes/class.ilTableGUI.php");
+		include_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates

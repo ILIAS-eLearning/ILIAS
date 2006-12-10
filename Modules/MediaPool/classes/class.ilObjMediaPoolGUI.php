@@ -24,7 +24,7 @@
 
 include_once("classes/class.ilObjectGUI.php");
 include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-include_once("classes/class.ilTableGUI.php");
+include_once("./Services/Table/classes/class.ilTableGUI.php");
 include_once("classes/class.ilObjFolderGUI.php");
 include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -385,7 +385,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			: $_GET["obj_id"];
 
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates

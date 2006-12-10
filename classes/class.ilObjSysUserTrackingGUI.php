@@ -529,7 +529,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 				$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
 		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.tracking_result.html");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -732,7 +732,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 
 			$tbl->setTitle($lng->txt("search_result"),0,0);
 			
-			include_once "./classes/class.ilTableGUI.php";
+			include_once "./Services/Table/classes/class.ilTableGUI.php";
 			$tbl = new ilTableGUI();
 			$tbl->setTitle($lng->txt("obj_trac"),0,0);
 			foreach ($title_new as $val)
@@ -796,7 +796,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		{
 			$title_new = array("time", "count", "");
 
-			include_once "./classes/class.ilTableGUI.php";
+			include_once "./Services/Table/classes/class.ilTableGUI.php";
 			$tbl = new ilTableGUI();
 			$tbl->setTitle($lng->txt("obj_trac"),0,0);
 			foreach ($title_new as $val)

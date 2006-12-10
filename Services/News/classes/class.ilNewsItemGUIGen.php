@@ -247,26 +247,26 @@ class ilNewsItemGUIGen
 		{
 			$tpl->setCurrentBlock("cmd");
 			$tpl->setVariable("CMD", "save");
-			$tpl->setVariable("CMD_TXT", $lng->txt["save"]);
+			$tpl->setVariable("CMD_TXT", $lng->txt("save"));
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("cmd");
 			$tpl->setVariable("CMD", "cancelUpdate");
-			$tpl->setVariable("CMD_TXT", $lng->txt["cancel"]);
+			$tpl->setVariable("CMD_TXT", $lng->txt("cancel"));
 			$tpl->parseCurrentBlock();
 		}
 		else
 		{
 			$tpl->setCurrentBlock("cmd");
 			$tpl->setVariable("CMD", "update");
-			$tpl->setVariable("CMD_TXT", $lng->txt["save"]);
+			$tpl->setVariable("CMD_TXT", $lng->txt("save"));
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("cmd");
 			$tpl->setVariable("CMD", "cancelUpdate");
-			$tpl->setVariable("CMD_TXT", $lng->txt["cancel"]);
+			$tpl->setVariable("CMD_TXT", $lng->txt("cancel"));
 			$tpl->parseCurrentBlock();
 		}
 		
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction());
+		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		return $tpl->get();
 
 	}
@@ -278,7 +278,7 @@ class ilNewsItemGUIGen
 	public function edit()
 	{
 		$this->setFormEditMode(IL_FORM_EDIT);
-		$this->outputForm();
+		return $this->outputForm();
 
 	}
 
@@ -289,7 +289,7 @@ class ilNewsItemGUIGen
 	public function create()
 	{
 		$this->setFormEditMode(IL_FORM_CREATE);
-		$this->outputForm();
+		return $this->outputForm();
 
 	}
 
@@ -309,7 +309,7 @@ class ilNewsItemGUIGen
 		else
 		{
 			$this->setFormEditMode(IL_FORM_RE_CREATE);
-			$this->outputForm();
+			return $this->outputForm();
 		}
 
 	}
@@ -330,7 +330,7 @@ class ilNewsItemGUIGen
 		else
 		{
 			$this->setFormEditMode(IL_FORM_RE_EDIT);
-			$this->outputForm();
+			return $this->outputForm();
 		}
 
 	}
@@ -406,5 +406,46 @@ class ilNewsItemGUIGen
 
 	}
 
+	/**
+	* TABLE NewsForContext: Get table HTML.
+	*
+	*/
+	public function getNewsForContextTable()
+	{
+		global $lng;
+		
+		
+		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
+		$table_gui = new ilNewsForContextTableGUI();
+		
+		$news_item = new ilNewsItem();
+		$this->prepareTableQueryNewsForContext($news_item);
+		$data = $news_item->queryNewsForContext();
+		
+		$table_gui->setTitle($lng->txt("news_table_news_for_context"));
+		$table_gui->setRowTemplateName("tpl.table_row_news_for_context.html");
+		$table_gui->setRowTemplateDir("Services/News");
+		$table_gui->setData($data);
+		
+		return $table_gui->getHTML();
+
+	}
+
+	/**
+	* TABLE NewsForContext: Prepare query for getting data for list table.
+	*
+	* @param	object	$a_news_item	NewsItem entity.
+	*/
+	public function prepareTableQueryNewsForContext(&$a_news_item)
+	{
+		
+		$a_news_item->setContextObjId($this->getContextObjId());
+		$a_news_item->setContextObjType($this->getContextObjType());
+		$a_news_item->setContextSubObjId($this->getContextSubObjId());
+		$a_news_item->setContextSubObjType($this->getContextSubObjType());
+
+	}
+
 
 }
+?>

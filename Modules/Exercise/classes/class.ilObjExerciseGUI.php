@@ -683,7 +683,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$counter = 0;
 			$members = $this->object->getMemberListData();
 
-			include_once("classes/class.ilTableGUI.php");
+			include_once("./Services/Table/classes/class.ilTableGUI.php");
 			$tbl = new ilTableGUI();
 			$this->tpl->addBlockfile("MEMBER_TABLE", "term_table", "tpl.table.html");
 			$this->tpl->addBlockfile("TBL_CONTENT", "member_row", "tpl.exc_members_row.html", "Modules/Exercise");

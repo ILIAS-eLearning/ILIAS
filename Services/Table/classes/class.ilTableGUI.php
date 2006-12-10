@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesTable Services/Table
+ */
+
 /**
 * Class ilTableGUI
 *
@@ -29,8 +32,8 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 *
+* @ingroup ServicesTable
 */
-
 class ilTableGUI
 {
 	var $title;					// table title name

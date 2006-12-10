@@ -32,7 +32,7 @@ require_once "./classes/class.ilContainerGUI.php";
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * 
-* @extends ilObjectGUI
+* @ingroup ModulesCategory
 */
 class ilObjCategoryGUI extends ilContainerGUI
 {
@@ -726,7 +726,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		global $lng, $rbacreview;
 
-		$a_tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html");
+		$a_tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html",
+			"Modules/Category");
 
 		$a_tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -903,7 +904,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$_POST['filter'] : 
 			$_SESSION['filtered_users'][$this->object->getRefId()];
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_admin_users.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_admin_users.html',
+			"Modules/Category");
 		$parent = ilLocalUser::_getFolderIds();
 		if(count($parent) > 1)
 		{
@@ -1071,7 +1073,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			#return true;
 		}
 		
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_role_assignment.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_role_assignment.html',
+			"Modules/Category");
 		$this->__showButton('listUsers',$this->lng->txt('back'));
 
 		$ass_roles = $rbacreview->assignedRoles($_GET['obj_id']);
@@ -1389,7 +1392,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function &__initTableGUI()
 	{
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		return new ilTableGUI(0,false);
 	}

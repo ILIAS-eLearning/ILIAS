@@ -302,7 +302,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		include_once './payment/classes/class.ilPaymentPrices.php';
 		include_once './payment/classes/class.ilPaymentCurrency.php';
-		include_once './classes/class.ilTableGUI.php';
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		include_once './payment/classes/class.ilGeneralSettings.php';
 
 		$genSet = new ilGeneralSettings();

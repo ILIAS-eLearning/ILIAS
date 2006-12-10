@@ -200,7 +200,7 @@ class ilGlossaryPresentationGUI
 		global $ilCtrl;
 		
 		$this->lng->loadLanguageModule("meta");
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		$this->setTabs();
 		
@@ -656,7 +656,7 @@ class ilGlossaryPresentationGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.gif"));
 
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates

@@ -22,17 +22,20 @@
 */
 
 
+require_once "./classes/class.ilContainer.php";
+
+
+/** @defgroup ModulesCategory Modules/Category
+ */
+
 /**
 * Class ilObjCategory
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 *
-* @extends ilObject
+* @ingroup ModulesCategory
 */
-
-require_once "./classes/class.ilContainer.php";
-
 class ilObjCategory extends ilContainer
 {
 	/**

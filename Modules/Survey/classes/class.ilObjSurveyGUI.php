@@ -2654,7 +2654,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$export_files = $this->object->getExportFiles($export_dir);
 
 		// create table
-		include_once("./classes/class.ilTableGUI.php");
+		include_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates
@@ -3135,7 +3135,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$survey_codes =& $this->object->getSurveyCodesTableData($default_lang, $_GET["offset"], $maxentries, $_GET["sort_by"], $_GET["sort_order"]);
 				$headervars = array("", "counter", "date", "used", "url");
 	
-				include_once "./classes/class.ilTableGUI.php";
+				include_once "./Services/Table/classes/class.ilTableGUI.php";
 				$tbl = new ilTableGUI(0, FALSE);
 				$tbl->setTitle($this->lng->txt("survey_code"));
 				$header_names = array(

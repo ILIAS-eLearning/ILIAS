@@ -226,7 +226,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// Show Table
 
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$this->tpl->addBlockfile("USR_TABLE", "user_table", "tpl.table.html");
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.usr_tbl_row.html");
 
@@ -440,7 +440,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
  	*/
 	function displayList()
 	{
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		// load template for table
 		$this->tpl->addBlockfile("USR_TABLE", "user_table", "tpl.table.html");
@@ -963,7 +963,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ctrl->getFormAction($this));
 
 		// create table
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
 
 		// title & header columns
@@ -1801,7 +1801,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function &__initTableGUI()
 	{
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		return new ilTableGUI(0,false);
 	}
@@ -2729,7 +2729,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		);
 
 		// create table
-		include_once("./classes/class.ilTableGUI.php");
+		include_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// load files templates

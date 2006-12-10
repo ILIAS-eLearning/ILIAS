@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./classes/class.ilObjectListGUI.php";
 
 /**
 * Class ilObjCategoryListGUI
@@ -28,12 +29,8 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @extends ilObjectListGUI
+* @ingroup ModulesCategory
 */
-
-
-include_once "./classes/class.ilObjectListGUI.php";
-
 class ilObjCategoryListGUI extends ilObjectListGUI
 {
 	/**

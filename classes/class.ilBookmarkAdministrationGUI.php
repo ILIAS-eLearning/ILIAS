@@ -36,7 +36,7 @@
 require_once ("classes/class.ilBookmarkExplorer.php");
 require_once ("classes/class.ilBookmarkFolder.php");
 require_once ("classes/class.ilBookmark.php");
-require_once ("classes/class.ilTableGUI.php");
+require_once ("./Services/Table/classes/class.ilTableGUI.php");
 
 class ilBookmarkAdministrationGUI
 {

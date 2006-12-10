@@ -580,7 +580,7 @@ class ilStartUpGUI
 		// load table content data
 		require_once("setup/classes/class.ilClientList.php");
 		require_once("setup/classes/class.ilClient.php");
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$clientlist = new ilClientList();
 		$list = $clientlist->getClients();
 

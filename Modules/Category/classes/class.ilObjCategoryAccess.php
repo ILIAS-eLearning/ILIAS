@@ -30,6 +30,7 @@ include_once("classes/class.ilObjectAccess.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ingroup ModulesCategory
 */
 class ilObjCategoryAccess extends ilObjectAccess
 {

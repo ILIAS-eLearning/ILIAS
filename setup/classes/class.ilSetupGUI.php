@@ -28,7 +28,6 @@
  *
  * @author   Sascha Hofmann <shofmann@databay.de>
  * @version  $Id$
-
  */
 
 require_once "class.ilSetup.php";
@@ -1125,7 +1124,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway");
 
 		// build table
-		include_once "../classes/class.ilTableGUI.php";
+		include_once "../Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
 
 		$num = 0;

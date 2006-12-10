@@ -156,7 +156,7 @@ class ilFileSystemGUI
 	function listFiles()
 	{
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// determine directory

@@ -246,7 +246,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->__initFileObject();
 		$export_files = $this->object->file_obj->getExportFiles();
 		
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -1157,7 +1157,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 		
 		// create table
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		$tbl = new ilTableGUI($output);
 
@@ -1478,7 +1478,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 		// create table
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI($output);
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("group_new_registrations"),"icon_usr_b.gif",$this->lng->txt("group_applicants"));
@@ -2245,7 +2245,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function &__initTableGUI()
 	{
-		include_once "class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		return new ilTableGUI(0,false);
 	}

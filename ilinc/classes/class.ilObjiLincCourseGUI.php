@@ -638,7 +638,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 	function &__initTableGUI()
 	{
-		include_once "classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		return new ilTableGUI(0,false);
 	}
@@ -1683,7 +1683,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 		
 		// create table
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		$tbl = new ilTableGUI($output);
 

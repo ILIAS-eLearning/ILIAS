@@ -716,7 +716,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		// determine directory
@@ -1166,7 +1166,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function showUsagesObject()
 	{
 		// create table
-		require_once("classes/class.ilTableGUI.php");
+		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");

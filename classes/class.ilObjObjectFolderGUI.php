@@ -117,7 +117,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
  	*/
 	function displayList()
 	{
-		include_once "./classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		return;
 
 		// load template for table

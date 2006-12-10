@@ -22,7 +22,7 @@
 */
 
 require_once "./classes/class.ilSearch.php";
-require_once "./classes/class.ilTableGUI.php";
+require_once "./Services/Table/classes/class.ilTableGUI.php";
 require_once "./classes/class.ilSearchGUIExplorer.php";
 require_once "./classes/class.ilSearchFolder.php";
 

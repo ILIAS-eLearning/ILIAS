@@ -172,7 +172,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	{
 		global $tree, $rbacsystem;
 
-		require_once "./classes/class.ilTableGUI.php";
+		require_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");

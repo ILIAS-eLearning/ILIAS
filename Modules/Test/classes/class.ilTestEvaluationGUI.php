@@ -281,7 +281,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$maxentries = 9999;
 		}
 		
-		include_once("./classes/class.ilTableGUI.php");
+		include_once("./Services/Table/classes/class.ilTableGUI.php");
 		$table = new ilTableGUI(0, FALSE);
 		$table->setTitle($this->lng->txt("participants_evaluation"));
 		$table->setHeaderNames($this->getHeaderNames());
