@@ -578,6 +578,8 @@ class ilPersonalProfileGUI
 	{
 		global $ilUser, $styleDefinition, $rbacreview, $ilias, $lng, $ilSetting;
 		
+		$this->__initSubTabs("showProfile");
+
 		$settings = $ilias->getAllSettings();
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile.html");
@@ -1116,6 +1118,88 @@ class ilPersonalProfileGUI
 		
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
+	}
+
+	function saveMailOptions()
+	{
+		global $ilUser;
+
+		require_once "./classes/class.ilMailOptions.php";
+		$mailOptions = new ilMailOptions($ilUser->getId());
+
+		$this->lng->loadLanguageModule("mail");
+
+		$mailOptions->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"]);
+		sendInfo($this->lng->txt("mail_options_saved"),true);
+
+		$this->showMailOptions();
+	}
+
+	function showMailOptions()
+	{
+		global $ilUser;
+
+		$this->__initSubTabs("showMailOptions");
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile_mail.html");
+
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+
+		require_once "./classes/class.ilMailOptions.php";
+		$mailOptions = new ilMailOptions($ilUser->getId());
+
+		$this->lng->loadLanguageModule("mail");
+
+		// BEGIN INCOMING
+		$this->tpl->setCurrentBlock("option_inc_line");
+	
+		$inc = array($this->lng->txt("mail_incoming_local"),$this->lng->txt("mail_incoming_smtp"),$this->lng->txt("mail_incoming_both"));
+		foreach($inc as $key => $option)
+		{
+			$this->tpl->setVariable("OPTION_INC_VALUE",$key);
+			$this->tpl->setVariable("OPTION_INC_NAME",$option);
+			$this->tpl->setVariable("OPTION_INC_SELECTED",$mailOptions->getIncomingType() == $key ? "selected=\"selected\"" : "");
+			$this->tpl->parseCurrentBlock();
+		}
+	
+		// BEGIN LINEBREAK_OPTIONS
+		$this->tpl->setCurrentBlock("option_line");
+		$linebreak = $mailOptions->getLinebreak();
+		
+		for($i = 50; $i <= 80;$i++)
+		{
+			$this->tpl->setVariable("OPTION_VALUE",$i);
+			$this->tpl->setVariable("OPTION_NAME",$i);
+			if( $i == $linebreak)
+			{
+				$this->tpl->setVariable("OPTION_SELECTED","selected");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("GLOBAL_OPTIONS",$this->lng->txt("mail_global_options"));
+		$this->tpl->setVariable("TXT_INCOMING", $this->lng->txt("mail_incoming"));
+		$this->tpl->setVariable("TXT_LINEBREAK", $this->lng->txt("linebreak"));
+		$this->tpl->setVariable("TXT_SIGNATURE", $this->lng->txt("signature"));
+		$this->tpl->setVariable("CONTENT",$mailOptions->getSignature());
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+		$this->tpl->show();
+	}
+	
+	// init sub tabs
+	function __initSubTabs($a_cmd)
+	{
+		global $ilTabs;
+
+		$showProfile = ($a_cmd == 'showProfile') ? true : false;
+		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
+
+		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile"),
+								 "", "", "", $showProfile);
+		$ilTabs->addSubTabTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"),
+								 "", "", "", $showMailOptions);
 	}
 
 
