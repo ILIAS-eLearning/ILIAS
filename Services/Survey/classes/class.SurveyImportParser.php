@@ -394,7 +394,7 @@ class SurveyImportParser extends ilSaxParser
 							}
 							$this->survey->createQuestionblock($title, TRUE, $qblock);
 						}
-					}					
+					}
 					$this->survey->saveToDb();
 
 					// write textblocks
