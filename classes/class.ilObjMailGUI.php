@@ -91,6 +91,8 @@ class ilObjMailGUI extends ilObjectGUI
 				$this->ilias->setSetting("mail_port",$_POST["mail_port"]);
 
 				// internal mail
+				$this->ilias->setSetting("mail_incoming_mail",$_POST["mail_incoming_mail"]);
+
 #				$this->ilias->setSetting("mail_intern_enable",$_POST["mail_intern_enable"]);
 				$this->ilias->setSetting("mail_maxsize_mail",$_POST["mail_maxsize_mail"]);
 				$this->ilias->setSetting("mail_maxsize_attach",$_POST["mail_maxsize_attach"]);
@@ -118,7 +120,37 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MAIL_PORT", $this->lng->txt("port"));
 
 		// internal mail
-		$this->tpl->setVariable("TXT_MAIL_INTERN", $this->lng->txt("mail")." (".$this->lng->txt("internal_system").")");
+		include_once "class.ilMailOptions.php";
+		$this->tpl->setVariable("TXT_GENERAL_SETTINGS", $this->lng->txt("general_settings"));
+		$this->tpl->setVariable("TXT_MAIL_INCOMING", $this->lng->txt("mail_incoming"));
+		$types = array(
+			array(
+				"name" => $this->lng->txt("mail_incoming_local"),
+				"value" => IL_MAIL_LOCAL
+			),
+			array(
+				"name" => $this->lng->txt("mail_incoming_smtp"),
+				"value" => IL_MAIL_EMAIL
+			),
+			array(
+				"name" => $this->lng->txt("mail_incoming_both"),
+				"value" => IL_MAIL_BOTH
+			)
+		);
+		for ($i = 0; $i < count($types); $i++)
+		{
+			$this->tpl->setCurrentBlock("loop_incoming_mail");
+			$this->tpl->setVariable("LOOP_INCOMING_MAIL_VALUE", $types[$i]["value"]);
+			$this->tpl->setVariable("LOOP_INCOMING_MAIL_NAME", $types[$i]["name"]);
+			if ($settings["mail_incoming_mail"] == $types[$i]["value"])
+			{
+				$this->tpl->setVariable("LOOP_INCOMING_MAIL_SELECTED", "selected");
+			}
+			$this->tpl->parseCurrentBlock("loop_incoming_mail");
+		}
+
+#		$this->tpl->setVariable("TXT_MAIL_INTERN", $this->lng->txt("mail")." (".$this->lng->txt("internal_system").")");
+		$this->tpl->setVariable("TXT_MAIL_INTERN", $this->lng->txt("internal_system"));
 #		$this->tpl->setVariable("TXT_MAIL_INTERN_ENABLE", $this->lng->txt("mail_intern_enable"));
 		$this->tpl->setVariable("TXT_MAIL_MAXSIZE_MAIL", $this->lng->txt("mail_maxsize_mail"));
 		$this->tpl->setVariable("TXT_MAIL_MAXSIZE_ATTACH", $this->lng->txt("mail_maxsize_attach"));

@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define("IL_MAIL_LOCAL", 0);
+define("IL_MAIL_EMAIL", 1);
+define("IL_MAIL_BOTH", 2);
 
 /**
 * Class UserMail
@@ -82,8 +85,15 @@ class ilMailOptions
 	*/
     function createMailOptionsEntry()
     {
+		/* Get setting for incoming mails */
+		if (!($incomingMail = $this->ilias->getSetting("mail_incoming_mail")))
+		{
+			/* No setting found -> set it to "local and forwarding" [2] */
+			$incomingMail = IL_MAIL_BOTH;
+		}
+
         $query = "INSERT INTO $this->table_mail_options " .
-                "VALUES('" . $this->user_id . "','" . DEFAULT_LINEBREAK . "','',2)";
+                "VALUES('" . $this->user_id . "','" . DEFAULT_LINEBREAK . "','','".$incomingMail."')";
 
         $res = $this->ilias->db->query($query);
         return true;
@@ -155,6 +165,6 @@ class ilMailOptions
 	{
 		return $this->incoming_type;
 	}
-
+	
 } // END class.ilFormatMail
 ?>
