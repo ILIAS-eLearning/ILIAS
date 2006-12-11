@@ -322,7 +322,7 @@ class SurveyImportParserPre38 extends ilSaxParser
 							{
 								array_push($qblock, $this->questions[$question_id]);
 							}
-							$this->survey->createQuestionblock($title, $qblock);
+							$this->survey->createQuestionblock($title, TRUE, $qblock);
 						}
 					}					
 					$this->survey->saveToDb();
