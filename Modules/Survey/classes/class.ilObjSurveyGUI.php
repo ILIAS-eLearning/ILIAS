@@ -2814,6 +2814,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
+		
 		include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
 		$newObj = new ilObjSurvey();
 		$newObj->setType($_GET["new_type"]);
@@ -2828,8 +2829,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$newObj->importObject($_FILES["xmldoc"], $_POST["spl"]);
 
-		$newObj->update();
-		$newObj->saveToDb();
 		if ($redirect)
 		{
 			include_once "./Services/Utilities/classes/class.ilUtil.php";

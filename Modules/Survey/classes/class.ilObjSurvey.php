@@ -204,7 +204,10 @@ class ilObjSurvey extends ilObject
 	function create($a_upload = false)
 	{
 		parent::create();
-		$this->createMetaData();
+		if(!$a_upload)
+		{
+			$this->createMetaData();
+		}
 	}
 
 /**
@@ -4275,7 +4278,7 @@ class ilObjSurvey extends ilObject
 				return $error;
 			}
 
-			$this->saveToDb();
+			//$this->saveToDb();
 		}
 		return $error;
 	}
