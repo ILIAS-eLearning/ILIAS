@@ -427,7 +427,8 @@ $tpl->setVariable("RCP_BCC",ilUtil::stripSlashes($mail_data["rcp_bcc"]));
 
 $tpl->setVariable("M_SUBJECT",ilUtil::stripSlashes($mail_data["m_subject"]));
 
-if(count($mail_data["attachments"]))
+if (is_array($mail_data["attachments"]) &&
+	count($mail_data["attachments"]))
 {
 	$tpl->setCurrentBlock("files");
 	$tpl->setCurrentBlock("hidden");
