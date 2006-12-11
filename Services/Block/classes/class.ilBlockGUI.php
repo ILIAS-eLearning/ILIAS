@@ -87,9 +87,10 @@ class ilBlockGUI
 	*
 	* @param	string	$a_rowtemplatename	Row Template Name
 	*/
-	function setRowTemplateName($a_rowtemplatename)
+	function setRowTemplate($a_rowtemplatename, $a_rowtemplatedir = "")
 	{
 		$this->rowtemplatename = $a_rowtemplatename;
+		$this->rowtemplatedir = $a_rowtemplatedir;
 	}
 
 	/**
@@ -100,16 +101,6 @@ class ilBlockGUI
 	function getRowTemplateName()
 	{
 		return $this->rowtemplatename;
-	}
-
-	/**
-	* Set Row Template Directory.
-	*
-	* @param	string	$a_rowtemplatedir	Row Template Directory
-	*/
-	function setRowTemplateDir($a_rowtemplatedir)
-	{
-		$this->rowtemplatedir = $a_rowtemplatedir;
 	}
 
 	/**

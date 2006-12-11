@@ -117,7 +117,7 @@ class ilTableGUI
 		}
 		else
 		{
-			$this->tpl = new ilTemplate("tpl.table.html",true,true);
+			$this->tpl = new ilTemplate("tpl.table.html", true, true, "Services/Table");
 		}
 
 		$this->lng =& $lng;
@@ -308,6 +308,15 @@ class ilTableGUI
 			$this->max_limit = true;
 		}
 	}
+	
+	/**
+	* Get limit.
+	*/
+	function getLimit()
+	{
+		return $this->limit;
+	}
+
 
 	/**
 	* set prefix for sort and offset fields (if you have two or more tables on a page that you want to sort separately)
@@ -327,6 +336,14 @@ class ilTableGUI
 	function setOffset($a_offset)
 	{
 		$this->offset = ($a_offset) ? $a_offset : 0;
+	}
+	
+	/**
+	* Get offset.
+	*/
+	function getOffset()
+	{
+		return $this->offset;
 	}
 	
 	/**
@@ -360,6 +377,14 @@ class ilTableGUI
 			// if not found, set default sort column to first column
 			$this->order_column = 0;
 		}
+	}
+	
+	/**
+	* Get order column.
+	*/
+	function getOrderColumn()
+	{
+		return $this->order_column;
 	}
 
 	/**
@@ -531,7 +556,7 @@ class ilTableGUI
 					$this->tpl->setVariable("TBL_ORDER_ALT",$lng_change_sort);
 				}
 			
-				$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params.$this->prefix."sort_by=".$this->header_vars[$key]."&".$this->prefix."sort_order=".$order_dir."&".$this->prefix."offset=".$this->offset);
+				$this->setOrderLink($key, $order_dir);
 				$this->tpl->parseCurrentBlock();
 			}
 			
@@ -680,6 +705,11 @@ class ilTableGUI
 		{
 			return $this->tpl->get();
 		}
+	}
+	
+	function setOrderLink($key, $order_dir)
+	{
+		$this->tpl->setVariable("TBL_ORDER_LINK",basename($_SERVER["PHP_SELF"])."?".$this->link_params.$this->prefix."sort_by=".$this->header_vars[$key]."&".$this->prefix."sort_order=".$order_dir."&".$this->prefix."offset=".$this->offset);
 	}
 	
 	/*

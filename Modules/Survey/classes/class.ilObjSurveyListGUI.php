@@ -22,6 +22,9 @@
 */
 
 
+include_once "classes/class.ilObjectListGUI.php";
+include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
+
 /**
 * Class ilObjSurveyListGUI
 *
@@ -32,11 +35,6 @@
 * @extends ilObjectListGUI
 * @ingroup ModulesSurvey
 */
-
-
-include_once "classes/class.ilObjectListGUI.php";
-include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
-
 class ilObjSurveyListGUI extends ilObjectListGUI
 {
 	/**
