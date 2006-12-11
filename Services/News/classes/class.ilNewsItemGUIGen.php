@@ -374,7 +374,6 @@ class ilNewsItemGUIGen
 	{
 		global $lng;
 		
-		
 		include_once("Services/News/classes/class.ilNewsForContextBlockGUI.php");
 		$block_gui = new ilNewsForContextBlockGUI();
 		
@@ -383,8 +382,7 @@ class ilNewsItemGUIGen
 		$data = $news_item->queryNewsForContext();
 		
 		$block_gui->setTitle($lng->txt("news_block_news_for_context"));
-		$block_gui->setRowTemplateName("tpl.block_row_news_for_context.html");
-		$block_gui->setRowTemplateDir("Services/News");
+		$block_gui->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$block_gui->setData($data);
 		
 		return $block_gui->getHTML();
@@ -414,7 +412,6 @@ class ilNewsItemGUIGen
 	{
 		global $lng;
 		
-		
 		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
 		$table_gui = new ilNewsForContextTableGUI();
 		
@@ -423,8 +420,7 @@ class ilNewsItemGUIGen
 		$data = $news_item->queryNewsForContext();
 		
 		$table_gui->setTitle($lng->txt("news_table_news_for_context"));
-		$table_gui->setRowTemplateName("tpl.table_row_news_for_context.html");
-		$table_gui->setRowTemplateDir("Services/News");
+		$table_gui->setRowTemplate("tpl.table_row_news_for_context.html", "Services/News");
 		$table_gui->setData($data);
 		
 		return $table_gui->getHTML();

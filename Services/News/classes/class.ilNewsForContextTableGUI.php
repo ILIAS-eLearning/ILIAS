@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Table/classes/class.ilTableGUI.php");
+include_once("Services/Table/classes/class.ilTable2GUI.php");
 
 /**
 * TableGUI class for table NewsForContext
@@ -29,10 +29,15 @@ include_once("Services/Table/classes/class.ilTableGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */
-class ilNewsForContextTableGUI extends ilTableGUI
+class ilNewsForContextTableGUI extends ilTable2GUI
 {
 
-
-
+	function ilNewsForContextTableGUI($a_parent_obj, $a_parent_cmd = "")
+	{
+		parent::ilTable2GUI($a_parent_obj, $a_parent_cmd);
+		
+		$this->setHeaderNames(array("Test"));
+		$this->setHeaderVars(array("Test"));
+	}
 }
 ?>
