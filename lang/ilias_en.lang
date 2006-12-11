@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file English
@@ -6745,6 +6745,12 @@ chat#:#chat_server_ssl_active#:#SSL active
 chat#:#chat_add_ssl_port#:#Please add the server SSL port.
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'.
 exercise#:#exc_crs_add_members#:#Add students of this course
+common#:#mail_settings#:#Mail Settings
+common#:#my_courses#:#My Courses
+mail#:#mail_list_members#:#List members
+mail#:#mail_members_added_addressbook#:#Members added to addressbook
+mail#:#mail_in_addressbook#:#Already in addressbook
+exercise#:#exc_crs_add_members#:#Add students of this course
 ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_referrals#:#Referrals
 ldap#:#ldap_server_security_settings#:#Security Settings
@@ -6815,4 +6821,4 @@ ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. 
 ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments
 common#:#select_one#:#Please select one.
 ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.
-ldap#:#ldap_role_not_exists#:#A role with that name does not exist:
+ldap#:#ldap_role_not_exists#:#A role with that name does not exist
