@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -6725,6 +6725,11 @@ survey#:#matrix_subtype_time#:#Zeit
 survey#:#matrix_subtype_description#:#Bitte wählen Sie einen der aufgeführten Untertypen aus, um das Verhalten der Antwortfelder zu bestimmen.
 survey#:#matrix_columns_rows#:#Spalten/Zeilen bearbeiten
 survey#:#results#:#Ergebnisse
+common#:#mail_settings#:#Mail Einstellungen
+common#:#my_courses#:#Meine Kurse
+mail#:#mail_list_members#:#Mitglieder auflisten
+mail#:#mail_members_added_addressbook#:#Mitglieder zum Adressbuch hinzugefügt
+mail#:#mail_in_addressbook#:#Bereits im Adressbuch
 ldap#:#ldap_server_name#:#Name der LDAP-Konfiguration
 ldap#:#ldap_referrals#:#Weiterleitungen
 ldap#:#ldap_server_security_settings#:#Sicherheitseinstellungen
