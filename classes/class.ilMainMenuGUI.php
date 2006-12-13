@@ -134,8 +134,7 @@ class ilMainMenuGUI
 		if($rbacsystem->checkAccess('search',ilSearchSettings::_getSearchSettingRefId()))
 		{
 			$this->tpl->setCurrentBlock("searchbutton");
-			$this->tpl->setVariable("SCRIPT_SEARCH",$this->getScriptTarget('search.php'));
-			#$this->tpl->setVariable("SCRIPT_SEARCH",$this->getScriptTarget('search_new.php'));
+			$this->tpl->setVariable("SCRIPT_SEARCH",$this->getScriptTarget('ilias.php?baseClass=ilSearchController'));
 			$this->tpl->setVariable("TARGET_SEARCH",$this->target);
 			$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 			if ($this->active == "search")
