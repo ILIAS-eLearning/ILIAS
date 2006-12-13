@@ -45,11 +45,12 @@ class ilSearchController
 	*/
 	function ilSearchController()
 	{
-		global $ilCtrl,$ilias,$lng;
+		global $ilCtrl,$ilias,$lng,$tpl;
 
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
 	}
 
 	function getLastClass()
@@ -73,6 +74,7 @@ class ilSearchController
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		$forward_class = $this->ctrl->getNextClass($this) ? $this->ctrl->getNextClass($this) : $this->getLastClass();
+		
 		switch($forward_class)
 		{
 			case 'ilsearchresultgui':
@@ -104,6 +106,8 @@ class ilSearchController
 				$this->ctrl->forwardCommand($search_gui);
 				break;
 		}
+		$this->tpl->show();
+		
 		return true;
 	}
 }

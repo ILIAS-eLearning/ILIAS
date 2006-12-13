@@ -139,7 +139,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 				{
 					$cmd = "showSavedResults";
 				}
-
 				$this->prepareOutput();
 				$this->$cmd();
 				break;
