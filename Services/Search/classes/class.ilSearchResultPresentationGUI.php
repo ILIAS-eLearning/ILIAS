@@ -21,7 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('classes/class.ilLink.php');
+
 /**
+* @ingroup ServicesSearch
 * Class ilSearchResultPresaentationGUI
 *
 * class for presentastion of search results. Called from class.ilSearchGUI or class.ilAdvancedSearchGUI
@@ -29,10 +32,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @extends ilObjectGUI
 * @package ilias-core
 */
-
 class ilSearchResultPresentationGUI
 {
 	var $tpl;
@@ -223,7 +224,7 @@ class ilSearchResultPresentationGUI
 		switch($item['type'])
 		{
 			case 'lm':
-				include_once 'content/classes/class.ilLMObject.php';
+				include_once 'Modules/LearningModule/classes/class.ilLMObject.php';
 				foreach($item['child'] as $child)
 				{
 					$tpl->setCurrentBlock("link_row");
@@ -263,7 +264,21 @@ class ilSearchResultPresentationGUI
 					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($thread_post[0]));
 					$tpl->parseCurrentBlock();
 				}
-	
+				break;
+				
+			case 'glo':
+				include_once './Modules/Glossary/classes/class.ilGlossaryTerm.php';
+
+				$this->lng->loadLanguageModule('content');
+				foreach($item['child'] as $child)
+				{
+					$tpl->setCurrentBlock("link_row");
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('cont_term'));
+					$tpl->setVariable("SEPERATOR",': ');
+					$tpl->setVariable("LINK",ilLink::_getLink($item['ref_id'],'git',array('target' => 'git_'.$child.'_'.$item['ref_id'])));
+					$tpl->setVariable("TITLE",ilGlossaryTerm::_lookGlossaryTerm($child));
+					$tpl->parseCurrentBlock();
+				}
 				break;
 
 			default:

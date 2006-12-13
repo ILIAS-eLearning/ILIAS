@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define('IL_INTERNAL_LINK_SCRIPT','goto.php');
 
 /**
 * Class for creating internal links on e.g repostory items.
@@ -30,9 +31,6 @@
 * @version $Id$
 *
 */
-
-define('IL_INTERNAL_LINK_SCRIPT','goto.php');
-
 class ilLink
 {
 	function _getLink($a_ref_id,$a_type = '',$a_params = array())
@@ -58,6 +56,9 @@ class ilLink
 
 		switch($a_type)
 		{
+			case 'git':
+				return './'.IL_INTERNAL_LINK_SCRIPT.'?'.$param_string;
+			
 			default:
 				return './'.IL_INTERNAL_LINK_SCRIPT.'?target='.$a_type.'_'.$a_ref_id.$param_string;
 		}
