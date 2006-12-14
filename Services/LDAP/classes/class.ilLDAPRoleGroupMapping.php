@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+
 /** 
 * 
 * @author Stefan Meyer <smeyer@databay.de>
@@ -29,15 +31,12 @@
 * 
 * @ingroup ServicesLDAP 
 */
-
-include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-
 class ilLDAPRoleGroupMapping
 {
 	private $log = null;
 	private static $instance = null;
 	private $servers = null;
-	private $mappings = null;
+	private $mappings = array();
 	private $mapping_members = array();
 	private $query = array();
 	private $active_servers = false;
@@ -233,7 +232,7 @@ class ilLDAPRoleGroupMapping
 				else
 				{
 					// Add user
-			 		$query_obj = $this->getLDAPQueryInstance($data['server_id']);
+			 		$query_obj = $this->getLDAPQueryInstance($data['server_id'],$data['url']);
 					$query_obj->modAdd($data['dn'],array($data['member'] => $external_account));
 					$this->log->write('LDAP assign: Assigned '.$external_account.' to group '.$data['dn']);		
 				}	 			
@@ -283,7 +282,7 @@ class ilLDAPRoleGroupMapping
 		 		}
 	
 				// Deassign user
-		 		$query_obj = $this->getLDAPQueryInstance($data['server_id']);
+		 		$query_obj = $this->getLDAPQueryInstance($data['server_id'],$data['url']);
 				$query_obj->modDelete($data['dn'],array($data['member'] => $external_account));
 				$this->log->write('LDAP deassign: Deassigned '.$external_account.' from group '.$data['dn']);
 	 		}
@@ -309,7 +308,8 @@ class ilLDAPRoleGroupMapping
 			// Read members
 			try
 			{
-		 		$query_obj = $this->getLDAPQueryInstance($data['server_id']);
+				$server = $this->servers["$data[server_id]"];
+		 		$query_obj = $this->getLDAPQueryInstance($data['server_id'],$server->getUrl());
 
 				// query for members
 		 		$res = $query_obj->query($data['dn'],
@@ -423,7 +423,7 @@ class ilLDAPRoleGroupMapping
 	 	try
 	 	{
 		 	$server = $this->servers[$a_server_id];
-		 	$query_obj = $this->getLDAPQueryInstance($a_server_id);
+		 	$query_obj = $this->getLDAPQueryInstance($a_server_id,$server->getUrl());
 				 		
 			if($search_base = $server->getSearchBase())
 			{
@@ -465,17 +465,17 @@ class ilLDAPRoleGroupMapping
 	 * @param
 	 * @throws ilLDAPQueryException
 	 */
-	private function getLDAPQueryInstance($a_server_id)
+	private function getLDAPQueryInstance($a_server_id,$a_url)
 	{
 		include_once 'Services/LDAP/classes/class.ilLDAPQuery.php';
 		
-	 	if(array_key_exists($a_server_id,$this->query) and is_object($this->query[$a_server_id]))
+	 	if(array_key_exists($a_server_id,$this->query) and array_key_exists($a_url,$this->query[$a_server_id]) and is_object($this->query[$a_server_id]))
 	 	{
-	 		return $this->query[$a_server_id];
+	 		return $this->query[$a_server_id][$a_url];
 	 	}
 	 	try
 	 	{
-		 	$tmp_query = new ilLDAPQuery($this->servers[$a_server_id]);
+		 	$tmp_query = new ilLDAPQuery($this->servers[$a_server_id],$a_url);
 		 	$tmp_query->bind(IL_LDAP_BIND_ADMIN);
 	 	}
 	 	catch(ilLDAPQueryException $exc)

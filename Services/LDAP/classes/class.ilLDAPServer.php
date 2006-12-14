@@ -22,6 +22,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define('IL_LDAP_BIND_ANONYMOUS',0);
+define('IL_LDAP_BIND_USER',1);
+
+define('IL_LDAP_SCOPE_SUB',0);
+define('IL_LDAP_SCOPE_ONE',1);
+define('IL_LDAP_SCOPE_BASE',2);
+
+
 /** 
 * 
 * @author Stefan Meyer <smeyer@databay.de>
@@ -31,15 +39,6 @@
 * @ilCtrl_Calls 
 * @ingroup ServicesLDAP
 */
-
-define('IL_LDAP_BIND_ANONYMOUS',0);
-define('IL_LDAP_BIND_USER',1);
-
-define('IL_LDAP_SCOPE_SUB',0);
-define('IL_LDAP_SCOPE_ONE',1);
-define('IL_LDAP_SCOPE_BASE',2);
-
-
 class ilLDAPServer
 {
 	const DEBUG = false;
@@ -296,7 +295,7 @@ class ilLDAPServer
 	}
 	public function getFilter()
 	{
-		return $this->filter;
+		return $this->prepareFilter($this->filter);
 	}
 	public function setFilter($a_filter)
 	{
@@ -312,7 +311,7 @@ class ilLDAPServer
 	}
 	public function getGroupFilter()
 	{
-		return $this->group_filter;
+		return $this->prepareFilter($this->group_filter);
 	}
 	public function setGroupFilter($a_value)
 	{
@@ -334,6 +333,29 @@ class ilLDAPServer
 	{
 		$this->group_name = $a_value;
 	}
+	/**
+	 * Get group names as array
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getGroupNames()
+	{
+	 	$names = explode(',',$this->getGroupName());
+		 	
+		if(!is_array($names))
+		{
+			return array();
+		}
+		foreach($names as $name)
+		{
+			$new_names[] = trim($name);
+		}
+		return $new_names;
+	}
+	
+	
 	public function getGroupAttribute()
 	{
 		return $this->group_attribute;
@@ -477,7 +499,7 @@ class ilLDAPServer
 			"sync_per_cron = ".$this->db->quote($this->enabledSyncPerCron() ? 1 : 0).", ".
 			"role_sync_active = ".$this->db->quote($this->enabledRoleSynchronization()).", ".
 			"role_bind_dn = ".$this->db->quote($this->getRoleBindDN()).", ".
-			"role_bind_pass = ".$this->db->quote($this->getRoleBindPass())." ";
+			"role_bind_pass = ".$this->db->quote($this->getRoleBindPassword())." ";
 			
 			
 			
@@ -580,9 +602,28 @@ class ilLDAPServer
 		return $options;
 	}
 	
+	/**
+	 * Create brackets for filters if they do not exist
+	 *
+	 * @access private
+	 * @param string filter
+	 * 
+	 */
+	private function prepareFilter($a_filter)
+	{
+		$filter = trim($a_filter);
+		
+		if(strpos($filter,'(') !== 0)
+		{
+			$filter = ('('.$filter);
+		}
+	 	if(substr($filter,-1) != ')')
+	 	{
+	 		$filter = ($filter.')');
+	 	}
+	 	return $filter;
+	}
 	
-	
-	// Private
 	/**
 	 * Get attribute array for pear auth data
 	 *

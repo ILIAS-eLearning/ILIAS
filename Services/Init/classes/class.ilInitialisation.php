@@ -792,11 +792,18 @@ class ilInitialisation
 		
 		// $ilSetting initialisation
 		$this->initSettings();
-
+		
+		// $ilLog initialisation
+		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
+		$GLOBALS['log'] =& $log;
+		$ilLog =& $log;
+		$GLOBALS['ilLog'] =& $ilLog;
+		
 		// $ilAuth initialisation
 		require_once("classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
 		global $ilAuth;
+		
 //var_dump($_SESSION);
 		// $ilias initialisation
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
@@ -836,12 +843,6 @@ class ilInitialisation
 		// put debugging functions here
 		require_once "include/inc.debug.php";
 		
-		
-		// $ilLog initialisation
-		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
-		$GLOBALS['log'] =& $log;
-		$ilLog =& $log;
-		$GLOBALS['ilLog'] =& $ilLog;
 		
 		// $objDefinition initialisation
 		$ilBench->start("Core", "HeaderInclude_getObjectDefinitions");

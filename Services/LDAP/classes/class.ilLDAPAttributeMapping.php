@@ -149,9 +149,14 @@ class ilLDAPAttributeMapping
 	{
 		foreach($this->rules_for_update as $field => $rule)
 		{
+			if(!strlen($rule['value']))
+			{
+				continue;
+			}
 			if(strpos($rule['value'],',') === false)
 			{
 				$fields[] = strtolower($rule['value']);
+				continue;
 			}
 		 	$tmp_fields = explode(',',$rule['value']);
 			$value = '';
@@ -174,9 +179,14 @@ class ilLDAPAttributeMapping
 	{
 	 	foreach($this->mapping_rules as $field => $rule)
 	 	{
+			if(!strlen($rule['value']))
+			{
+				continue;
+			}
 			if(strpos($rule['value'],',') === false)
 			{
 				$fields[] = strtolower($rule['value']);
+				continue;
 			}
 		 	$tmp_fields = explode(',',$rule['value']);
 			$value = '';

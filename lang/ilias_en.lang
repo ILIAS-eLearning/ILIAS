@@ -6757,15 +6757,15 @@ ldap#:#ldap_server_security_settings#:#Security Settings
 ldap#:#ldap_server_binding#:#Binding
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously
 ldap#:#ldap_bind_user#:#Bind as User:
-ldap#:#ldap_server_bind_dn#:#User DN
+ldap#:#ldap_server_bind_dn#:#User Search Base 
 ldap#:#ldap_server_bind_pass#:#Password
 ldap#:#ldap_authentication_settings#:#Authentication Settings
-ldap#:#ldap_user_dn#:#User DN
+ldap#:#ldap_user_dn#:#User Search Base
 ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_attribute#:#Attribute for Login Name
 ldap#:#ldap_search_filter#:#LDAP Filter
 ldap#:#ldap_group_restrictions#:#Group Restrictions
-ldap#:#ldap_group_dn#:#Group DN
+ldap#:#ldap_group_dn#:#Group Search Base 
 ldap#:#ldap_group_scope#:#Search Scope
 ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_name#:#Group Name
@@ -6783,12 +6783,12 @@ ldap#:#ldap_scope_base#:#Base
 ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.
 ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"
 ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.
-ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not.
+ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server. 
 ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.
 ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".
-ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)(userfilter)).
-ldap#:#ldap_group_dn_info#:#Gets prepended to basedn when searching for groups.
-ldap#:#ldap_group_filter_info#:#Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)(groupfilter)).
+ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)<strong>(userfilter)</strong>).
+ldap#:#ldap_group_dn_info#:#Gets prepended to "BaseDN" when searching for groups.
+ldap#:#ldap_group_filter_info#:#Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>).
 ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose "Attribute Value is DN" if the member attribute is the distinguished name of the users.
 ldap#:#ldap_group_name_info#:#The name of the group users have to be a member of to authenticate successfully.
 ldap#:#ldap_group_attribute_info#:#The group attribute to search for.

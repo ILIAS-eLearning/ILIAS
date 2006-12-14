@@ -29,6 +29,13 @@
 			</td>
 		  </tr>
 		  <tr class="std">
+			<td class="option" align="top" colspan="1">{TXT_URL}</td>
+			<td class="option_value">
+			  <input type="text" name="mapping[0][url]" value="{URL}" size="64" maxlength="255" />
+			  <div class="il_Description_no_margin">{TXT_URL_INFO}</div>
+			</td>
+		  </tr>
+		  <tr class="std">
 			<td class="option" align="top" colspan="1">{TXT_DN}</td>
 			<td class="option_value">
 			  <input type="text" name="mapping[0][dn]" value="{DN}" size="64" maxlength="255" />
@@ -66,10 +73,15 @@
 			  {TXT_PARSED_NAME}
 			</td>
 			<td class="option_value">
-			  <input type="text" name="mapping[{ROW_ID}][dn]" value="{ROW_DN}" size="64" maxlength="255" /><br />
+			{ASS_GROUP_URL}:<br />
+			  <input type="text" name="mapping[{ROW_ID}][url]" value="{ROW_URL}" size="64" maxlength="255" /><br /><br />
+			{ASS_GROUP_DN}:<br />
+			  <input type="text" name="mapping[{ROW_ID}][dn]" value="{ROW_DN}" size="64" maxlength="255" /><br /><br />
+			{ASS_MEMBER_ATTR}:<br />
 			  <input type="text" name="mapping[{ROW_ID}][member]" value="{ROW_MEMBER}" size="32" maxlength="64" /><br />
-			  {ROW_CHECK_MEMBERISDN}&nbsp;{TXT_ROW_MEMBERISDN}<br />
-			  <input type="text" name="mapping[{ROW_ID}][role]" value="{ROW_ROLE}" size="32" maxlength="255" />
+			  {ROW_CHECK_MEMBERISDN}&nbsp;{TXT_ROW_MEMBERISDN}<br /><br />
+			{ASS_ROLE}:<br />
+			  <input type="text" name="mapping[{ROW_ID}][role]" value="{ROW_ROLE}" size="32" maxlength="255" /><br />
 			</td>
 		  </tr>
 		  <!-- END assignments -->
