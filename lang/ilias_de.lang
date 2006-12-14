@@ -6739,12 +6739,12 @@ ldap#:#ldap_bind_user#:#Als Benutzer verbinden:
 ldap#:#ldap_server_bind_dn#:#DN des Benutzers
 ldap#:#ldap_server_bind_pass#:#Passwort
 ldap#:#ldap_authentication_settings#:#Einstellungen zur Authentifizierung
-ldap#:#ldap_user_dn#:#DN der Benutzer
+ldap#:#ldap_user_dn#:#Suchbasis
 ldap#:#ldap_user_scope#:#Suchbereich
 ldap#:#ldap_user_attribute#:#Attributname der Benutzerzugänge
 ldap#:#ldap_search_filter#:#LDAP Filter
 ldap#:#ldap_group_restrictions#:#Gruppenbeschränkungen
-ldap#:#ldap_group_dn#:#DN der Gruppe
+ldap#:#ldap_group_dn#:#Suchbasis
 ldap#:#ldap_group_scope#:#Suchbereich
 ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_name#:#Gruppenname
@@ -6763,11 +6763,11 @@ ldap#:#ldap_server_name_info#:#Bitte wählen Sie einen Namen für diese Server-K
 ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldap.ilias.de:389"
 ldap#:#ldap_server_version_info#:#Protokollversion des LDAP-Server (in den meisten Fällen "LDAPv3").
 ldap#:#ldap_referrals_info#:#Legt fest, ob Weiterleitungen des LDAP-Servers automatisch gefolgt wird oder nicht.
-ldap#:#ldap_search_base_info#:#DN der Benutzer. Wird der "BaseDN" vorangestellt. Z.B.: ou=People
+ldap#:#ldap_search_base_info#:#Suchbasis für die Benutzersuche. Wird der "BaseDN" vorangestellt. Z.B.: ou=People
 ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zweifelsfall "Sub".
-ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)(userfilter))
-ldap#:#ldap_group_dn_info#:#DN der Gruppe. Wird der "BaseDN" vorangestellt. Z.B.: ou=Groups
-ldap#:#ldap_group_filter_info#:#Filter, der dem Suchfilter folgendermassen hinzugefügt wird: (&(groupattr=group)(memberattr=username)(groupfilter))
+ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)<strong>(userfilter)</strong>)
+ldap#:#ldap_group_dn_info#:#Suchbasis für die Gruppensuche. Wird der "BaseDN" vorangestellt. Z.B.: ou=Groups
+ldap#:#ldap_group_filter_info#:#Filter, der dem Suchfilter folgendermassen hinzugefügt wird: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)
 ldap#:#ldap_group_member_info#:#Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden.
 ldap#:#ldap_group_name_info#:#Name der Gruppe
 ldap#:#ldap_group_attribute_info#:#Geben Sie hier den Attributnamen der Gruppe ein.

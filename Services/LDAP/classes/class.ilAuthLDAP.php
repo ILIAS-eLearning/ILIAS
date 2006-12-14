@@ -36,6 +36,7 @@ include_once('Auth.php');
 class ilAuthLDAP extends Auth
 {
 	private $ldap_server = null;
+	private $ldap_container = null;
 	private $ldap_attr_to_user = null;
 	private $log = null;
 	private $logCache = '';
@@ -48,7 +49,8 @@ class ilAuthLDAP extends Auth
 		
 		// Read setting of LDAP server
 		$this->initServer();
-		parent::Auth('LDAP',$this->ldap_server->toPearAuthArray(),'',false);
+		$this->initContainer();
+		parent::Auth($this->ldap_container,$this->ldap_server->toPearAuthArray(),'',false);
 		
 		// Set callbacks
 		$this->setCallbacks();
@@ -128,6 +130,19 @@ class ilAuthLDAP extends Auth
 	{
 		include_once 'Services/LDAP/classes/class.ilLDAPServer.php';
 		$this->ldap_server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
+	}
+	
+	/**
+	 * Init overwritten 
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function initContainer()
+	{
+	 	include_once('Services/LDAP/classes/class.ilAuthContainerLDAP.php');
+	 	$this->ldap_container = new ilAuthContainerLDAP($this->ldap_server,$this->ldap_server->toPearAuthArray());
 	}
 	
 	/** 

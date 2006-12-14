@@ -104,6 +104,8 @@ class ilLDAPSettingsGUI
 		
 		// Section new assignment
 		$this->tpl->setVariable('TXT_NEW_ASSIGNMENT',$this->lng->txt('ldap_new_role_assignment'));
+		$this->tpl->setVariable('TXT_URL',$this->lng->txt('ldap_server'));
+		$this->tpl->setVariable('TXT_URL_INFO',$this->lng->txt('ldap_role_url_info'));
 		$this->tpl->setVariable('TXT_DN',$this->lng->txt('ldap_group_dn'));
 		$this->tpl->setVariable('TXT_MEMBER',$this->lng->txt('ldap_group_member'));
 		$this->tpl->setVariable('TXT_MEMBER_ISDN',$this->lng->txt('ldap_memberisdn'));
@@ -121,6 +123,7 @@ class ilLDAPSettingsGUI
 			1));
 			
 		// Section new assignment
+		$this->tpl->setVariable('URL',$mapping_data[0]['dn'] ? $mapping_data[0]['dn'] : $this->server->getUrl());
 		$this->tpl->setVariable('DN',$mapping_data[0]['dn']);
 		$this->tpl->setVariable('ROLE',$mapping_data[0]['role_name']);
 		$this->tpl->setVariable('MEMBER',$mapping_data[0]['member_attribute']);
@@ -148,7 +151,12 @@ class ilLDAPSettingsGUI
 			$this->tpl->setVariable('ROW_CHECK',ilUtil::formCheckbox(0,
 				'mappings[]',$mapping_id));
 			$this->tpl->setVariable('TXT_PARSED_NAME',$this->role_mapping->getMappingInfoString($mapping_id));
+			$this->tpl->setVariable('ASS_GROUP_URL',$this->lng->txt('ldap_server'));
+			$this->tpl->setVariable('ASS_GROUP_DN',$this->lng->txt('ldap_group_dn'));
+			$this->tpl->setVariable('ASS_MEMBER_ATTR',$this->lng->txt('ldap_group_member'));
+			$this->tpl->setVariable('ASS_ROLE',$this->lng->txt('ldap_ilias_role'));
 			$this->tpl->setVariable('ROW_ID',$mapping_id);
+			$this->tpl->setVariable('ROW_URL',$data['url']);
 			$this->tpl->setVariable('ROW_ROLE',$data['role_name'] ? $data['role_name'] : $data['role']);
 			$this->tpl->setVariable('ROW_DN',$data['dn']);
 			$this->tpl->setVariable('ROW_MEMBER',$data['member_attribute']);
@@ -184,6 +192,12 @@ class ilLDAPSettingsGUI
 		return true;
 	}
 	
+	public function reset()
+	{
+	 	unset($_POST['mapping_template']);
+	 	$this->userMapping();
+	}
+	
 	public function saveRoleMapping()
 	{
 		global $ilErr;
@@ -215,9 +229,8 @@ class ilLDAPSettingsGUI
 		sendInfo($this->lng->txt('settings_saved'));
 		$this->roleMapping();
 		return true;
-	}	
-
-
+	}
+	
 	public function userMapping($a_show_defaults = false)
 	{
 		$this->initAttributeMapping();
@@ -230,6 +243,13 @@ class ilLDAPSettingsGUI
 		
 		$this->tpl->setVariable('TXT_LDAP_MAPPING',$this->lng->txt('ldap_mapping_table'));
 		$this->tpl->setVariable('SELECT_MAPPING',$this->prepareMappingSelect());
+		
+		if($_POST['mapping_template'])
+		{
+			$this->tpl->setCurrentBlock('reset');
+			$this->tpl->setVariable('TXT_RESET',$this->lng->txt('reset'));
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		foreach($this->getMappingFields() as $mapping => $translation)
 		{
@@ -578,7 +598,8 @@ class ilLDAPSettingsGUI
 		return ilUtil::formSelect($_POST['mapping_template'],'mapping_template',array(0 => $this->lng->txt('ldap_mapping_template'),
 													"inetOrgPerson" => 'inetOrgPerson',
 													"organizationalPerson" => 'organizationalPerson',
-													"person" => 'person'),false,true);
+													"person" => 'person',
+													"ad_2003" => 'Active Directory (Win 2003)'),false,true);
 	}
 }
 ?>

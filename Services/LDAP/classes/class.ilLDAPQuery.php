@@ -21,6 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define('IL_LDAP_BIND_DEFAULT',0);
+define('IL_LDAP_BIND_ADMIN',1);
+define('IL_LDAP_BIND_TEST',2);
+
+include_once('Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
+include_once('Services/LDAP/classes/class.ilLDAPResult.php');
+include_once('Services/LDAP/classes/class.ilLDAPQueryException.php');
+
 /** 
 * @defgroup 
 * 
@@ -31,17 +39,9 @@
 * @ilCtrl_Calls 
 * @ingroup 
 */
-
-define('IL_LDAP_BIND_DEFAULT',0);
-define('IL_LDAP_BIND_ADMIN',1);
-define('IL_LDAP_BIND_TEST',2);
-
-include_once('Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
-include_once('Services/LDAP/classes/class.ilLDAPResult.php');
-include_once('Services/LDAP/classes/class.ilLDAPQueryException.php');
-
 class ilLDAPQuery
 {
+	private $ldap_server_url = null;
 	private $settings = null;
 	private $log = null;
 	
@@ -53,11 +53,21 @@ class ilLDAPQuery
 	 * @throws ilLDAPQueryException
 	 * 
 	 */
-	public function __construct(ilLDAPServer $a_server)
+	public function __construct(ilLDAPServer $a_server,$a_url = '')
 	{
 		global $ilLog;
 		
 		$this->settings = $a_server;
+		
+		if(strlen($a_url))
+		{
+			$this->ldap_server_url = $a_url;
+		}
+		else
+		{
+			$this->ldap_server_url = $this->settings->getUrl();
+		}
+		
 		$this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->settings->getServerId());
 		$this->log = $ilLog;
 		
@@ -79,8 +89,24 @@ class ilLDAPQuery
 		if(strlen($this->settings->getGroupName()))
 		{
 			$this->log->write('LDAP: Searching for group members.');
-			$this->fetchGroupMembers();
+
+			$groups = $this->settings->getGroupNames();
+			if(count($groups) <= 1)
+			{
+				$this->fetchGroupMembers();
+			}			
+			else
+			{
+				foreach($groups as $group)
+				{
+					$this->fetchGroupMembers($group);
+				}
+			}			
 			
+		}
+		else
+		{
+			throw new ilLDAPQueryException('LDAP: Called import of users without specifying group restrictions. NOT IMPLEMENTED YET!');
 		}
 		return $this->users ? $this->users : array();
 	}
@@ -146,13 +172,16 @@ class ilLDAPQuery
 	 * @access public
 	 * 
 	 */
-	private function fetchGroupMembers()
+	private function fetchGroupMembers($a_name = '')
 	{
+		$group_name = strlen($a_name) ? $a_name : $this->settings->getGroup();
+		
 		// Build filter
 		$filter = sprintf('(&(%s=%s)%s)',
 			$this->settings->getGroupAttribute(),
-			$this->settings->getGroupName(),
+			$group_name,
 			$this->settings->getGroupFilter());
+		
 		
 		// Build search base
 		if(($gdn = $this->settings->getGroupDN()) && substr($gdn,-1) != ',')
@@ -178,26 +207,22 @@ class ilLDAPQuery
 		
 		$attribute_name = strtolower($this->settings->getGroupMember());
 		$this->user_fields = array_merge(array($this->settings->getUserAttribute()),$this->mapping->getFields());
+		
 		$this->log->write('LDAP: found '.count($group_data[$attribute_name]).' group members.');
-		foreach($group_data[$attribute_name] as $name)
+		
+		if(is_array($group_data[$attribute_name]))
 		{
-			$this->readUserData($name);
+			foreach($group_data[$attribute_name] as $name)
+			{
+				$this->readUserData($name);
+			}
+		}
+		else
+		{
+			$this->readUserData($group_data[$attribute_name]);
 		}
 		unset($tmp_result);
 		return;
-	}
-	
-	
-	/**
-	 * Fetch group members by mapping id
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function fetchGroupMembersByMappingId($a_mapping_id)
-	{
-	 	
 	}
 	
 	/**
@@ -211,7 +236,7 @@ class ilLDAPQuery
 		{
 			$filter = '(objectclass=*)';
 			$dn = $a_name;
-			$res = $this->queryByScope(IL_LDAP_SCOPE_SUB,$dn,$filter,$this->user_fields);
+			$res = $this->queryByScope(IL_LDAP_SCOPE_BASE,$dn,$filter,$this->user_fields);
 		}
 		else
 		{
@@ -291,7 +316,7 @@ class ilLDAPQuery
 	 */
 	private function connect()
 	{
-		$this->lh = @ldap_connect($this->settings->getUrl());
+		$this->lh = @ldap_connect($this->ldap_server_url);
 		
 		// LDAP Connect
 		if(!$this->lh)
@@ -310,6 +335,7 @@ class ilLDAPQuery
 			{
 				throw new ilLDAPQueryException("LDAP: Cannot switch on LDAP referrals");
 			}
+			@ldap_set_rebind_proc($this->lh,'referralRebind');
 		}
 		// Start TLS
 		if($this->settings->isActiveTLS())
@@ -339,6 +365,9 @@ class ilLDAPQuery
 				{
 					$user = $this->settings->getBindUser();
 					$pass = $this->settings->getBindPassword();
+
+					define('IL_LDAP_REBIND_USER',$user);
+					define('IL_LDAP_REBIND_PASS',$pass);
 				}
 				else
 				{
@@ -349,6 +378,9 @@ class ilLDAPQuery
 			case IL_LDAP_BIND_ADMIN:
 				$user = $this->settings->getRoleBindDN();
 				$pass = $this->settings->getRoleBindPassword();
+
+				define('IL_LDAP_REBIND_USER',$user);
+				define('IL_LDAP_REBIND_PASS',$pass);
 				break;
 				
 			case IL_LDAP_BIND_TEST:
@@ -361,6 +393,7 @@ class ilLDAPQuery
 			default:
 				throw new ilLDAPQueryException('LDAP: unknown binding type in: '.__METHOD__);
 		}
+		
 		if(!@ldap_bind($this->lh,$user,$pass))
 		{
 			throw new ilLDAPQueryException('LDAP: Cannot bind as '.$user);
@@ -368,6 +401,20 @@ class ilLDAPQuery
 	}
 	
 	
+	/**
+	 * Unbind
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function unbind()
+	{
+	 	if($this->lh)
+	 	{
+	 		@ldap_unbind($this->lh);
+	 	}
+	}
 	
 	
 	/**
@@ -384,6 +431,20 @@ class ilLDAPQuery
 	 		@ldap_unbind($this->lh);
 	 	}
 	}
+}
+
+function referralRebind($a_ds,$a_url)
+{
+	global $ilLog;
+	
+	$ilLog->write('LDAP: Called referralRebind. If someone will see this line please report it to smeyer@databay.de');
+	
+	ldap_set_option($a_ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+	
+	if (!ldap_bind($a_ds,IL_LDAP_REBIND_USER,IL_LDAP_REBIND_PASS))
+	{
+		$ilLog->write('LDAP: Rebind failed');
+  	}
 }
 
 ?>

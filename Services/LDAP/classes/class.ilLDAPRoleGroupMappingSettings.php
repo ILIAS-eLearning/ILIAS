@@ -104,6 +104,7 @@ class ilLDAPRoleGroupMappingSettings
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data['server_id']		= $row->server_id;
+			$data['url']			= $row->url;
 			$data['mapping_id']		= $row->mapping_id;
 			$data['dn']				= $row->dn;
 			$data['member']			= $row->member_attribute;
@@ -149,6 +150,7 @@ class ilLDAPRoleGroupMappingSettings
 				}
 			}
 			$this->mappings[$mapping_id]['dn'] = ilUtil::stripSlashes($data['dn']);
+			$this->mappings[$mapping_id]['url'] = ilUtil::stripSlashes($data['url']);
 			$this->mappings[$mapping_id]['member_attribute'] = ilUtil::stripSlashes($data['member']);
 			$this->mappings[$mapping_id]['member_isdn'] = ilUtil::stripSlashes($data['memberisdn']);
 			$this->mappings[$mapping_id]['role_name'] = ilUtil::stripSlashes($data['role']);
@@ -203,7 +205,8 @@ class ilLDAPRoleGroupMappingSettings
 	 		{
 			 	$query = "INSERT INTO ldap_role_group_mapping ".
 		 			"SET server_id = ".$this->db->quote($this->getServerId()).", ".
-	 				"dn =".$this->db->quote($data['dn']).", ".
+		 			"url = ".$this->db->quote($data['url']).", ".
+	 				"dn = ".$this->db->quote($data['dn']).", ".
 	 				"member_attribute = ".$this->db->quote($data['member_attribute']).", ".
 	 				"member_isdn = ".$this->db->quote($data['member_isdn']).", ".
 	 				"role = ".$this->db->quote($data['role']);
@@ -214,6 +217,7 @@ class ilLDAPRoleGroupMappingSettings
 	 		{
 			 	$query = "UPDATE ldap_role_group_mapping ".
 		 			"SET server_id = ".$this->db->quote($this->getServerId()).", ".
+		 			"url = ".$this->db->quote($data['url']).", ".
 	 				"dn =".$this->db->quote($data['dn']).", ".
 	 				"member_attribute = ".$this->db->quote($data['member_attribute']).", ".
 	 				"member_isdn = ".$this->db->quote($data['member_isdn']).", ".
@@ -280,6 +284,7 @@ class ilLDAPRoleGroupMappingSettings
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->mappings[$row->mapping_id]['dn'] 					= $row->dn;
+			$this->mappings[$row->mapping_id]['url']					= $row->url;
 			$this->mappings[$row->mapping_id]['member_attribute'] 		= $row->member_attribute;
 			$this->mappings[$row->mapping_id]['member_isdn'] 			= $row->member_isdn;
 			$this->mappings[$row->mapping_id]['role']					= $row->role;

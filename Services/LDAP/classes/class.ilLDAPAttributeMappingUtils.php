@@ -29,7 +29,6 @@
 * 
 * @ingroup ServicesLDAP
 */
-
 class ilLDAPAttributeMappingUtils
 {
 	/**
@@ -67,6 +66,22 @@ class ilLDAPAttributeMappingUtils
 			case 'person':
 				$mapping_rule['lastname'] = 'sn';
 				$mapping_rule['phone_office'] = 'telephoneNumber';
+				break;
+				
+			case 'ad_2003':
+				$mapping_rule['firstname'] = 'givenName';
+				$mapping_rule['lastname'] = 'sn';
+				$mapping_rule['title'] = 'title';
+				$mapping_rule['institution'] = 'company';
+				$mapping_rule['department'] = 'department';
+				$mapping_rule['phone_home'] = 'telephoneNumber';
+				$mapping_rule['phone_mobile'] = 'mobile';
+				$mapping_rule['email'] = 'mail';
+				$mapping_rule['street'] = 'streetAddress';
+				$mapping_rule['city'] = 'l,st';
+				$mapping_rule['country'] = 'co';
+				$mapping_rule['zipcode'] = 'postalCode';
+				$mapping_rule['fax'] = 'facsimileTelephoneNumber';
 				break;
 		}
 		return $mapping_rule ? $mapping_rule : array();
