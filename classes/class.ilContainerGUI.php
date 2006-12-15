@@ -345,7 +345,7 @@ class ilContainerGUI extends ilObjectGUI
 		// move to this class
 		if($this->type != 'icrs' and $tree->checkForParentType($this->ref_id,'crs'))
 		{
-			include_once './course/classes/class.ilCourseContentGUI.php';
+			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 			$course_content_obj = new ilCourseContentGUI($this);
 			
 			$this->ctrl->setCmd('view');

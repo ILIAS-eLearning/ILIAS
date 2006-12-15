@@ -522,7 +522,7 @@ class ilConditionHandler
 				return ilObjTestAccess::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case "crs":
-				include_once './course/classes/class.ilObjCourse.php';
+				include_once './Modules/Course/classes/class.ilObjCourse.php';
 				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case 'exc':
@@ -530,7 +530,7 @@ class ilConditionHandler
 				return ilObjExercise::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case 'crsg':
-				include_once './course/classes/class.ilObjCourseGrouping.php';
+				include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 				return ilObjCourseGrouping::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case 'sahs':
