@@ -33,7 +33,7 @@
 
 
 require_once "include/inc.header.php";
-include_once "chat/classes/class.ilObjChatGUI.php";
+include_once "Modules/Chat/classes/class.ilObjChatGUI.php";
 
 global $ilCtrl, $tpl;
 

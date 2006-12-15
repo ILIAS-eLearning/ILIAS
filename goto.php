@@ -143,7 +143,7 @@ switch($target_type)
 
 	// new implementation: ok
 	case "chat":
-		require_once("./chat/classes/class.ilObjChatGUI.php");
+		require_once("./Modules/Chat/classes/class.ilObjChatGUI.php");
 		ilObjChatGUI::_goto($target_id);
 		break;
 

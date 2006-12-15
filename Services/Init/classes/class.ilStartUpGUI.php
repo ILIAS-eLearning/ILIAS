@@ -180,8 +180,8 @@ class ilStartUpGUI
 			// handle chat kicking
 			if ($ilSetting->get("chat_active"))
 			{
-				include_once "./chat/classes/class.ilChatServerCommunicator.php";
-				include_once "./chat/classes/class.ilChatRoom.php";
+				include_once "./Modules/Chat/classes/class.ilChatServerCommunicator.php";
+				include_once "./Modules/Chat/classes/class.ilChatRoom.php";
 
 				ilChatServerCommunicator::_login();
 				ilChatRoom::_unkick($ilUser->getId());
@@ -439,7 +439,7 @@ class ilStartUpGUI
 		// LOGOUT CHAT USER
 		if($ilSetting->get("chat_active"))
 		{
-			include_once "./chat/classes/class.ilChatServerCommunicator.php";
+			include_once "./Modules/Chat/classes/class.ilChatServerCommunicator.php";
 			ilChatServerCommunicator::_logout();
 		}
 
