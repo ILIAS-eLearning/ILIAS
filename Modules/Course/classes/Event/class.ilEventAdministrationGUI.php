@@ -147,7 +147,7 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 
 
-		$tpl = new ilTemplate('tpl.event_members_print.html',true,true,'course');
+		$tpl = new ilTemplate('tpl.event_members_print.html',true,true,'Modules/Course');
 
 		$tpl->setVariable("EVENT",$this->lng->txt('event'));
 		$tpl->setVariable("EVENT_NAME",$event_obj->getTitle());
@@ -196,7 +196,7 @@ class ilEventAdministrationGUI
 
 	function editMembers()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_members.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_members.html','Modules/Course');
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		// display button
@@ -224,7 +224,7 @@ class ilEventAdministrationGUI
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
 
 		$this->tpl->addBlockfile("PARTICIPANTS_TABLE","participants_table", "tpl.table.html");
-		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.event_members_row.html','course');
+		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.event_members_row.html','Modules/Course');
 
 		// Table 
 		$tbl = new ilTableGUI();
@@ -388,7 +388,7 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.event_edit_user.html','course');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.event_edit_user.html','Modules/Course');
 
 		$this->ctrl->setParameter($this,'user_id',(int) $_GET['user_id']);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -439,7 +439,7 @@ class ilEventAdministrationGUI
 		$this->event_items = new ilEventItems($this->event_id);
 		$items = $this->event_items->getItems();
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_materials.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_materials.html','Modules/Course');
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		// display button
@@ -507,7 +507,7 @@ class ilEventAdministrationGUI
 
 	function info()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_info.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_info.html','Modules/Course');
 
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -577,7 +577,7 @@ class ilEventAdministrationGUI
 
 			if(count($files))
 			{
-				$tpl = new ilTemplate('tpl.event_info_file.html',true,true,'course');
+				$tpl = new ilTemplate('tpl.event_info_file.html',true,true,'Modules/Course');
 
 				foreach($files as $file)
 				{
@@ -609,7 +609,7 @@ class ilEventAdministrationGUI
 
 	function addEvent()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_create.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_create.html','Modules/Course');
 
 		// display back button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -693,7 +693,7 @@ class ilEventAdministrationGUI
 
 	function edit()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_edit.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_edit.html','Modules/Course');
 
 		// display back button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -870,7 +870,7 @@ class ilEventAdministrationGUI
 	{
 		include_once './Modules/Course/classes/Event/class.ilEvent.php';
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_delete.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_delete.html','Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_EVENT_NAME",$this->lng->txt('title'));
 		$this->tpl->setVariable("DELETE",$this->lng->txt('delete'));

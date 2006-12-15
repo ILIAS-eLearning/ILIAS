@@ -118,7 +118,7 @@ class ilCourseContentInterface
 	
 	function cci_objectives_ask_reset()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_ask_reset.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_ask_reset.html",'Modules/Course');
 		$this->tabs_gui->setTabActive('content');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this->cci_client_obj));
@@ -177,7 +177,7 @@ class ilCourseContentInterface
 			return true;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_view.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_view.html",'Modules/Course');
 
 		if($this->cci_client_obj->object->getType()=='crs'){
 			include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
@@ -228,7 +228,7 @@ class ilCourseContentInterface
 		// no limit
 		$cont_arr = $items;
 
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html",'Modules/Course');
 		$cont_num = count($cont_arr);
 		
 		$this->container->clearAdminCommandsDetermination();
@@ -464,7 +464,7 @@ class ilCourseContentInterface
 
 		global $rbacsystem,$ilias,$ilUser;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html",'Modules/Course');
 		#$this->__showButton('view',$this->lng->txt('refresh'));
 		
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_info_start'));
@@ -605,7 +605,7 @@ class ilCourseContentInterface
 		}
 		$ilBench->stop('Objectives','Objectives_start_objects');
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objective_view.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objective_view.html",'Modules/Course');
 		$this->__showButton('cciObjectivesAskReset',$this->lng->txt('crs_reset_results'));
 
 		$ilBench->start('Objectives','Objectives_read');
@@ -741,7 +741,7 @@ class ilCourseContentInterface
 			return true;
 		}
 
-		$this->tpl->addBlockfile('INFO_BLOCK','info_block','tpl.crs_objectives_view_info_table.html','course');
+		$this->tpl->addBlockfile('INFO_BLOCK','info_block','tpl.crs_objectives_view_info_table.html','Modules/Course');
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_info_'.$this->objective_status));
 		
 		return true;
@@ -757,7 +757,7 @@ class ilCourseContentInterface
 			return false;
 		}
 
-		$this->tpl->addBlockfile('RESOURCES_BLOCK','resources_block','tpl.crs_objectives_view_or_table.html','course');
+		$this->tpl->addBlockfile('RESOURCES_BLOCK','resources_block','tpl.crs_objectives_view_or_table.html','Modules/Course');
 		$this->tpl->setVariable("TBL_TITLE_OR",$this->lng->txt('crs_other_resources'));
 
 
@@ -862,7 +862,7 @@ class ilCourseContentInterface
 		$lm_continue =& new ilCourseLMHistory($this->cci_ref_id,$ilUser->getId());
 		$continue_data = $lm_continue->getLMHistory();
 
-		$this->tpl->addBlockfile('LM_BLOCK','lm_block','tpl.crs_objectives_view_lm_table.html','course');
+		$this->tpl->addBlockfile('LM_BLOCK','lm_block','tpl.crs_objectives_view_lm_table.html','Modules/Course');
 		$this->tpl->setVariable("TBL_TITLE_LMS",$this->lng->txt('crs_learning_materials'));
 
 
@@ -1026,7 +1026,7 @@ class ilCourseContentInterface
 			return false;
 		}
 
-		$this->tpl->addBlockfile('TEST_BLOCK','test_block','tpl.crs_objectives_view_tst_table.html','course');
+		$this->tpl->addBlockfile('TEST_BLOCK','test_block','tpl.crs_objectives_view_tst_table.html','Modules/Course');
 		$this->tpl->setVariable("TBL_TITLE_TST",$this->lng->txt('tests'));
 
 
@@ -1148,7 +1148,7 @@ class ilCourseContentInterface
 		}
 
 		// show table
-		$this->tpl->addBlockfile('OBJECTIVE_BLOCK','objective_block','tpl.crs_objectives_view_table.html','course');
+		$this->tpl->addBlockfile('OBJECTIVE_BLOCK','objective_block','tpl.crs_objectives_view_table.html','Modules/Course');
 
 		$this->tpl->setVariable("TBL_TITLE_OBJECTIVES",$this->lng->txt('crs_objectives'));
 

@@ -81,7 +81,7 @@ class ilCourseObjectivePresentationGUI
 
 		$ilBench->start('Objectives','Objectives_view');
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objective_view.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objective_view.html",'Modules/Course');
 		$this->__showButton('askReset',$this->lng->txt('crs_reset_results'));
 
 		$this->__readObjectivesStatus();
@@ -121,7 +121,7 @@ class ilCourseObjectivePresentationGUI
 
 	function askReset()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_ask_reset.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_ask_reset.html",'Modules/Course');
 		
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_reset_sure'));
@@ -181,7 +181,7 @@ class ilCourseObjectivePresentationGUI
 			return true;
 		}
 
-		$this->tpl->addBlockfile('INFO_BLOCK','info_block','tpl.crs_objectives_view_info_table.html','course');
+		$this->tpl->addBlockfile('INFO_BLOCK','info_block','tpl.crs_objectives_view_info_table.html','Modules/Course');
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_info_'.$this->status));
 		
 		return true;
@@ -219,7 +219,7 @@ class ilCourseObjectivePresentationGUI
 		}
 
 		// show table
-		$this->tpl->addBlockfile('OBJECTIVE_BLOCK','objective_block','tpl.crs_objectives_view_table.html','course');
+		$this->tpl->addBlockfile('OBJECTIVE_BLOCK','objective_block','tpl.crs_objectives_view_table.html','Modules/Course');
 
 		$this->tpl->setVariable("TBL_TITLE_OBJECTIVES",$this->lng->txt('crs_objectives'));
 
@@ -349,7 +349,7 @@ class ilCourseObjectivePresentationGUI
 		$lm_continue =& new ilCourseLMHistory($this->course_obj->getRefId(),$ilUser->getId());
 		$continue_data = $lm_continue->getLMHistory();
 
-		$this->tpl->addBlockfile('LM_BLOCK','lm_block','tpl.crs_objectives_view_lm_table.html','course');
+		$this->tpl->addBlockfile('LM_BLOCK','lm_block','tpl.crs_objectives_view_lm_table.html','Modules/Course');
 		$this->tpl->setVariable("TBL_TITLE_LMS",$this->lng->txt('crs_learning_materials'));
 
 
@@ -512,7 +512,7 @@ class ilCourseObjectivePresentationGUI
 			return false;
 		}
 
-		$this->tpl->addBlockfile('TEST_BLOCK','test_block','tpl.crs_objectives_view_tst_table.html','course');
+		$this->tpl->addBlockfile('TEST_BLOCK','test_block','tpl.crs_objectives_view_tst_table.html','Modules/Course');
 		$this->tpl->setVariable("TBL_TITLE_TST",$this->lng->txt('tests'));
 
 
@@ -596,7 +596,7 @@ class ilCourseObjectivePresentationGUI
 			return false;
 		}
 
-		$this->tpl->addBlockfile('RESOURCES_BLOCK','resources_block','tpl.crs_objectives_view_or_table.html','course');
+		$this->tpl->addBlockfile('RESOURCES_BLOCK','resources_block','tpl.crs_objectives_view_or_table.html','Modules/Course');
 		$this->tpl->setVariable("TBL_TITLE_OR",$this->lng->txt('crs_other_resources'));
 
 

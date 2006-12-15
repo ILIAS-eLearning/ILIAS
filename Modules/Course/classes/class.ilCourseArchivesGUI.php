@@ -98,7 +98,7 @@ class ilCourseArchivesGUI
 
 		$this->__showArchivesMenu();
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-		$this->tpl->addBlockfile("TBL_CONTENT","tbl_content","tpl.crs_archives_row.html",'course');
+		$this->tpl->addBlockfile("TBL_CONTENT","tbl_content","tpl.crs_archives_row.html",'Modules/Course');
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		
@@ -263,7 +263,7 @@ class ilCourseArchivesGUI
 		$_SESSION["crs_archives"] = $_POST["archives"];
 		sendInfo($this->lng->txt("crs_sure_delete_selected_archives"));
 		
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_confirm_delete_archives.html','course');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_confirm_delete_archives.html','Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ARCHIVE_NAME",$this->lng->txt('crs_file_name'));
 
@@ -354,7 +354,7 @@ class ilCourseArchivesGUI
 			}
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_selectLanguage.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_selectLanguage.html",'Modules/Course');
 
 		$this->tpl->setVariable("LANGUAGE_SELECTION",$this->lng->txt('crs_archive_language_selection'));
 		$this->tpl->setVariable("LANGUAGE",$this->lng->txt('obj_lng'));

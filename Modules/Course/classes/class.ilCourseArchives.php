@@ -341,7 +341,7 @@ class ilCourseArchives
 			$lng =& $this->lng;
 		}
 
-		$tmp_tpl =& new ilTemplate("tpl.crs_export.html",true,true,"course");
+		$tmp_tpl =& new ilTemplate("tpl.crs_export.html",true,true,'Modules/Course');
 
 		#$this->course_files_obj->copy($tpl->tplPath.'/default.css',$this->getName().'/default.css');
 		#

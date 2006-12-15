@@ -139,7 +139,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_create.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_create.html",'Modules/Course');
 		$this->tpl->setVariable("FORMACTION",'repository.php?ref_id='.$_GET["ref_id"].'&cmd=post&new_type=crs');
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("crs_new"));
 		$this->tpl->setVariable("TYPE_IMG",
@@ -338,7 +338,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// files
 		if(count($files))
 		{
-			$tpl = new ilTemplate('tpl.event_info_file.html',true,true,'course');
+			$tpl = new ilTemplate('tpl.event_info_file.html',true,true,'Modules/Course');
 			
 			foreach($files as $file)
 			{
@@ -377,7 +377,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($this->object->getContactEmail())
 		{
-			$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , "course");
+			$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
 			$etpl->setVariable("EMAIL_LINK","mail_new.php?type=new&rcp_to=".$this->object->getContactEmail());
 			$etpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
 			$info->addProperty($this->lng->txt("crs_contact_email"),
@@ -487,7 +487,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_list_starter.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_list_starter.html",'Modules/Course');
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		if(!count($starter = $crs_start->getStartObjects()))
@@ -571,7 +571,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_add_starter.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_add_starter.html",'Modules/Course');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs.gif'));
@@ -661,7 +661,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_info_settings');
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.edit_info.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.edit_info.html','Modules/Course');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_GENERAL_INFO",$this->lng->txt('crs_general_info'));
@@ -822,7 +822,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->setSubTabs('properties');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_settings');
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_settings.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_settings.html','Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
 		// Visibility
@@ -1070,7 +1070,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->setSubTabs("properties");
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_icons.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_icons.html",'Modules/Course');
 		$this->showCustomIconsEditing();
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -1357,7 +1357,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// print
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.edit_members.html','course');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.edit_members.html','Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('crs_members_table'));
@@ -1469,7 +1469,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 
 		$admin_tpl = new ilTemplate('tpl.table.html',true,true);
-		$admin_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_admin_row.html','course');
+		$admin_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_admin_row.html','Modules/Course');
 
 
 		$all_admins_data = $this->__readMemberData($admins = $this->object->members_obj->getAdmins());
@@ -1595,7 +1595,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->clearParameters($this);
 
 		$tutor_tpl = new ilTemplate('tpl.table.html',true,true);
-		$tutor_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_tutor_row.html','course');
+		$tutor_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_tutor_row.html','Modules/Course');
 
 
 		$sorted_tutors = ilUtil::sortArray($all_tutors_data,$_GET["tutor_sort_by"],$_GET["tutor_sort_order"]);
@@ -1720,7 +1720,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
 		$member_tpl = new ilTemplate('tpl.table.html',true,true);
-		$member_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_member_row.html','course');
+		$member_tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.member_member_row.html','Modules/Course');
 
 		$sorted_members = ilUtil::sortArray($all_members_data,$_GET["sort_by"],$_GET["sort_order"]);
 		$sliced_members = array_slice($sorted_members,$_GET['offset'],$_GET['limit']); 
@@ -1918,7 +1918,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$member_data = $this->object->members_obj->getUserData((int) $_GET["member_id"]);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",'Modules/Course');
 
 
 		$f_result = array();
@@ -2322,7 +2322,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		sendInfo($this->lng->txt("crs_delete_subscribers_sure"));
 
 		// SHOW DELETE SCREEN
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",'Modules/Course');
 		$this->object->initCourseMemberObject();
 
 		// SAVE IDS IN SESSION
@@ -2372,7 +2372,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		sendInfo($this->lng->txt("crs_delete_from_list_sure"));
 
 		// SHOW DELETE SCREEN
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",'Modules/Course');
 		$this->object->initCourseMemberObject();
 		$this->object->initWaitingList();
 
@@ -2415,7 +2415,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		#$this->setSubTabs('members');
 
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",'Modules/Course');
 		sendInfo($this->lng->txt('crs_unsubscribe_sure'));
 		
 		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
@@ -2478,7 +2478,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// SHOW DELETE SCREEN
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",'Modules/Course');
 
 		
 
@@ -2625,7 +2625,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members_search.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members_search.html",'Modules/Course');
 		
 		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("crs_search_members"));
@@ -2718,7 +2718,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html",'Modules/Course');
 		#$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		
 		$counter = 0;
@@ -2828,7 +2828,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html",'Modules/Course');
 		#$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		$this->object->initCourseMemberObject();
 
@@ -2897,7 +2897,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html",'Modules/Course');
 		#$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		$this->object->initCourseMemberObject();
 
@@ -3063,7 +3063,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 
-		$tpl =& new ilTemplate('tpl.crs_members_print.html',true,true,'course');
+		$tpl =& new ilTemplate('tpl.crs_members_print.html',true,true,'Modules/Course');
 
 		$this->object->initCourseMemberObject();
 
@@ -3212,7 +3212,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tabs_gui->setTabActive('members');
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
 		
 		$this->setSubTabs('members');
 
@@ -4016,7 +4016,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tabs_gui->setTabActive('members');
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Modules/Course');
 
 		$this->setSubTabs('members');
 

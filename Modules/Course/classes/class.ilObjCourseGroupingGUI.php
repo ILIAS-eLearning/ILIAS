@@ -74,7 +74,7 @@ class ilObjCourseGroupingGUI
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.groupings.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.groupings.html",'Modules/Course');
 		
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
@@ -174,7 +174,7 @@ class ilObjCourseGroupingGUI
 		}
 
 		sendInfo($this->lng->txt('crs_grouping_delete_sure'));
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_ask_delete_goupings.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_ask_delete_goupings.html",'Modules/Course');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
@@ -240,7 +240,7 @@ class ilObjCourseGroupingGUI
 		$desc  = ilUtil::stripSlashes($_POST["description"]);
 		$unique = $_POST['unique'] ? $_POST['unique'] : 'login';
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_grp_add.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_grp_add.html",'Modules/Course');
 
 		$this->tpl->setVariable("TITLE",$title);
 		$this->tpl->setVariable("DESC",$desc);
@@ -325,7 +325,7 @@ class ilObjCourseGroupingGUI
 		$description  = isset($_POST["description"]) ? ilUtil::stripSlashes($_POST['description']) : $tmp_grouping->getDescription();
 		$unique = $_POST['unique'] ? $_POST['unique'] : $tmp_grouping->getUniqueField();
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_grp_edit.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_grp_edit.html",'Modules/Course');
 
 		$this->ctrl->setParameter($this,'obj_id',$grouping_id);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -417,7 +417,7 @@ class ilObjCourseGroupingGUI
 
 		$tmp_grouping = new ilObjCourseGrouping((int) $_GET['obj_id']);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_grp_select_crs.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_grp_select_crs.html",'Modules/Course');
 		
 		$this->ctrl->setParameter($this,'obj_id',(int) $_GET['obj_id']);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
