@@ -1,0 +1,97 @@
+	<form action="{FORMACTION}" method="post">
+	  <table class="fullwidth" border="0">
+		<tr class="tbltitle">
+		  <th class="std" colspan="7">
+			<div style="float:left">
+			  <img style="vertical-align: middle;" border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			  &nbsp;{BLOCK_HEADER_CONTENT}
+			</div>
+			<div style="float:right;">
+			  <a class="il_ContainerItemCommand" href="{SHOW_HIDE_LINK}">{SHOW_HIDE_TEXT}</a>
+			</div>
+		  </th>
+		</tr>
+		<tr class="tblheader">
+		  <th class="std" valign="top"><div style="margin-left:26px">{TXT_TITLE}</div></th>
+		  <th class="std">{TXT_START_END}<div class="subtitle">{TXT_INFO_START_END}</div></th>
+		  <th class="std" valign="top"><div style="valign:top">{TXT_LIMIT}</div></th>
+		  <th class="std">{TXT_DURATION}<div class="subtitle">{TXT_INFO_DURATION}</div></th>
+		  <th class="std">{TXT_OWN_PRESETTING}<div class="subtitle">{TXT_INFO_OWN_PRESETTING}</div></th>
+		</tr>
+		<!-- BEGIN container_standard_row -->
+		<tr class="{ROWCLASS}">
+		  <td>
+			<!-- BEGIN start_indent --><div style="padding-left:26px"><!-- END start_indent -->
+			  <div style="float:left;">
+				<img src="{TYPE_IMG}" alt="{TYPE_ALT_IMG}" title="{TYPE_ALT_IMG}" border="0" vspace="0" align="absmiddle" />
+			  </div>
+			  <div style="float:left;padding-left:5px">
+				<!-- BEGIN title_as_link -->
+				<a class="il_ContainerItemTitle" href="{TITLE_LINK}">{TITLE_NAME}</a>
+				<!-- END title_as_link -->
+				<!-- BEGIN title_plain -->
+				<b>{TITLE}</b>
+				<!-- END title_plain -->
+				<!-- BEGIN item_description -->
+				<div class="il_Description" >{DESC}</div>
+				<!-- END item_description -->
+				<!-- BEGIN tlt -->
+				<div class="il_ItemProperties">
+				  <div class="il_ItemProperty">{TXT_TLT}: {TLT_VAL}</div>
+				</div>
+				<!-- END tlt -->
+			  </div>
+			  <!-- BEGIN end_indent --></div><!-- END end_indent -->
+		  </td>
+		  <td nowrap="nowrap">
+			{SUG_START}<br />
+			{SUG_END}
+		  </td>
+		  <td nowrap="nowrap">
+			{LIM_END}
+		  </td>
+		  <td>
+			<!-- BEGIN input_duration -->
+			<input type="text" name="{NAME_DURATION}" value="{VAL_DURATION}" size="2" maxlength="3" />
+			<!-- END input_duration -->
+		  </td>
+		  <td nowrap="nowrap">
+			{OWN_START}<br />
+			{OWN_END}
+		  </td>
+		</tr>
+		<!-- END container_standard_row -->
+		<tr class="tblfooter">
+		  <td class="std" colspan="6">
+			<div align="right">
+			  <input class="submit" type="submit" name="cmd[updateUserTimings]" value="{TXT_BTN_UPDATE}" />
+			  <input class="submit" type="submit" name="cmd[editUserTimings]" value="{TXT_CANCEL}" />
+			</div>
+		  </td>
+		</tr>
+	  </table>
+	  <br />
+	  <table class="std" width="30%">
+		<tr class="tblheader">
+		  <th>{TIMING_ACCEPT}</th>
+		</tr>
+		<tr class="std">
+		  <td class="option_value">
+			<input type="checkbox" name="accepted" value="1" {ACCEPT_CHECKED} /> {TXT_ACCEPT}<br />
+			<div style="padding-top:5px;">
+			  {TXT_REMARK}:
+			</div>
+			<textarea rows="3" cols="50" name="remark">{REMARK}</textarea>
+			<div style="padding-top:5px;">
+			  <input type="checkbox" name="tutor" value="1" {TUTOR_CHECKED} /> {TXT_TUTOR}<br />
+			</div>
+		</tr>
+		<tr class="tblfooter">
+		  <td class="std" colspan="2">
+			<div align="right">
+			  <input class="submit" type="submit" name="cmd[saveAcceptance]" value="{TXT_BTN_UPDATE}" />
+			</div>
+		  </td>
+		</tr>
+	  </table>
+	</form>
