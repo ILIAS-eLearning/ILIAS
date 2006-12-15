@@ -339,7 +339,7 @@ class ilRepositoryExplorer extends ilExplorer
 		switch ($a_type)
 		{
 			case "crs":
-				include_once './course/classes/class.ilObjCourse.php';
+				include_once './Modules/Course/classes/class.ilObjCourse.php';
 
 				// Has to be replaced by ilAccess calls
 				if(!ilObjCourse::_isActivated($a_obj_id) and !$rbacsystem->checkAccess('write',$a_ref_id))
@@ -347,7 +347,7 @@ class ilRepositoryExplorer extends ilExplorer
 					return false;
 				}
 				
-				include_once './course/classes/class.ilCourseMembers.php';
+				include_once './Modules/Course/classes/class.ilCourseMembers.php';
 
 				if(ilCourseMembers::_isBlocked($a_obj_id,$ilUser->getId()))
 				{
@@ -510,7 +510,7 @@ class ilRepositoryExplorer extends ilExplorer
 					return false;
 				}
 				// Show only activated course items
-				include_once "./course/classes/class.ilCourseItems.php";
+				include_once "./Modules/Course/classes/class.ilCourseItems.php";
 
 				if(($crs_id != $a_ref_id) and (!ilCourseItems::_isActivated($a_ref_id)))
 				{

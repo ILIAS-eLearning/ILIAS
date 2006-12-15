@@ -1044,14 +1044,14 @@ class ilObjUser extends ilObject
 		ilLinkCheckNotify::_deleteUser($this->getId());
 
 		// Delete crs entries
-		include_once './course/classes/class.ilObjCourse.php';
+		include_once './Modules/Course/classes/class.ilObjCourse.php';
 		ilObjCourse::_deleteUser($this->getId());
 
 		// Delete user tracking
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		ilObjUserTracking::_deleteUser($this->getId());
 
-		include_once 'course/classes/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		ilEventParticipants::_deleteByUser($this->getId());
 
 		// Delete group registrations
@@ -2326,7 +2326,7 @@ function getCourseMemberships($a_user_id = "")
 				if ($node["type"] == "crs")
 				{
 					$course =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-					include_once 'course/classes/class.ilCourseMembers.php';
+					include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 					
 					$crsmem = new ilCourseMembers($course);
 

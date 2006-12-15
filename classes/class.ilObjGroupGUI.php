@@ -72,7 +72,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		else
 		{
-			include_once './course/classes/class.ilCourseContentGUI.php';
+			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 			$course_content_obj = new ilCourseContentGUI($this);
 			
 			$this->ctrl->setCmdClass(get_class($course_content_obj));
@@ -154,7 +154,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilobjcoursegroupinggui':
-				include_once './course/classes/class.ilObjCourseGroupingGUI.php';
+				include_once './Modules/Course/classes/class.ilObjCourseGroupingGUI.php';
 
 				$this->ctrl->setReturn($this,'edit');
 				$this->__setSubTabs('properties');
@@ -166,14 +166,14 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilcoursecontentgui':
 
-				include_once './course/classes/class.ilCourseContentGUI.php';
+				include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
 				break;
 
 			case 'ilcourseitemadministrationgui':
 
-				include_once 'course/classes/class.ilCourseItemAdministrationGUI.php';
+				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
 
 				$this->ctrl->setReturn($this,'');
 				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_GET['item_id']);
@@ -1909,17 +1909,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		sendInfo($this->lng->txt("import_file_not_valid"));
 		$this->createObject();
 	}	
-	// METHODS FOR COURSE CONTENT INTERFACE
-	function initCourseContentInterface()
-	{
-		global $ilCtrl;
-
-		include_once "./course/classes/class.ilCourseContentInterface.php";
-		
-		$this->object->ctrl =& $ilCtrl;
-		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
-	}
-
 
 	function __unsetSessionVariables()
 	{

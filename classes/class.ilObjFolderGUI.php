@@ -68,7 +68,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 		else
 		{
-			include_once './course/classes/class.ilCourseContentGUI.php';
+			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 			$course_content_obj = new ilCourseContentGUI($this);
 			
 			$this->ctrl->setCmdClass(get_class($course_content_obj));
@@ -117,7 +117,7 @@ class ilObjFolderGUI extends ilContainerGUI
 
 			case 'ilcoursecontentgui':
 
-				include_once './course/classes/class.ilCourseContentGUI.php';
+				include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
 				break;
@@ -305,18 +305,6 @@ class ilObjFolderGUI extends ilContainerGUI
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
 		}
 
-	}
-
-	// METHODS FOR COURSE CONTENT INTERFACE
-	function initCourseContentInterface()
-	{
-		include_once "./course/classes/class.ilCourseContentInterface.php";
-			
-		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
-
-
-		#aggregate($this,"ilCourseContentInterface");
-		#$this->cci_init($this,$this->object->getRefId());
 	}
 
 	// Methods for ConditionHandlerInterface

@@ -88,7 +88,7 @@ class ilRegisterGUI
 	
 	function showRegistrationForm()
 	{
-		include_once 'course/classes/class.ilObjCourseGrouping.php';
+		include_once 'Modules/Course/classes/class.ilObjCourseGrouping.php';
 
 		global $rbacsystem, $ilias, $lng;
 		

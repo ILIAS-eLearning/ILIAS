@@ -745,7 +745,7 @@ class ilRepositoryGUI
 			}
 			//$this->showList();
 		}
-//		include_once("./course/classes/class.ilObjCourseGUI.php");
+//		include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
 //var_dump($_GET["item_ref_id"],$this->cur_ref_id);exit;
 //		$this->gui_obj =& new ilObjCourseGUI("",$tmp_obj->getRefId(),true,false);
 

@@ -685,8 +685,8 @@ class ilUserImportParser extends ilSaxParser
 	function assignToRole($a_user_obj, $a_role_id)
 	{
 		require_once "classes/class.ilObjRole.php";
-		require_once "course/classes/class.ilObjCourse.php";
-		require_once "course/classes/class.ilCourseMembers.php";
+		require_once "Modules/Course/classes/class.ilObjCourse.php";
+		require_once "Modules/Course/classes/class.ilCourseMembers.php";
 
 		global $rbacreview, $rbacadmin, $tree;
 
@@ -735,8 +735,8 @@ class ilUserImportParser extends ilSaxParser
 	function detachFromRole($a_user_obj, $a_role_id)
 	{
 		require_once "classes/class.ilObjRole.php";
-		require_once "course/classes/class.ilObjCourse.php";
-		require_once "course/classes/class.ilCourseMembers.php";
+		require_once "Modules/Course/classes/class.ilObjCourse.php";
+		require_once "Modules/Course/classes/class.ilCourseMembers.php";
 
 		global $rbacreview, $rbacadmin, $tree;
 

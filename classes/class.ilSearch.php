@@ -576,7 +576,7 @@ class ilSearch
 	function _checkParentConditions($a_ref_id)
 	{
 		include_once './payment/classes/class.ilPaymentObject.php';
-		include_once './course/classes/class.ilObjCourse.php';
+		include_once './Modules/Course/classes/class.ilObjCourse.php';
 
 		global $tree,$ilias;
 
