@@ -31,7 +31,7 @@
 *
 */
 
-include_once './Modules/Course/Event/class.ilEventFile.php';
+include_once './Modules/Course/classes/Event/class.ilEventFile.php';
 
 class ilEventAdministrationGUI
 {
@@ -103,7 +103,7 @@ class ilEventAdministrationGUI
 	{
 		global $ilUser;
 
-		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		ilEventParticipants::_register($ilUser->getId(),(int) $_GET['event_id']);
 
 		sendInfo($this->lng->txt('event_registered'),true);
@@ -114,7 +114,7 @@ class ilEventAdministrationGUI
 	{
 		global $ilUser;
 
-		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		ilEventParticipants::_unregister($ilUser->getId(),(int) $_GET['event_id']);
 
 		sendInfo($this->lng->txt('event_unregistered'),true);
@@ -123,9 +123,9 @@ class ilEventAdministrationGUI
 
 	function printViewMembers()
 	{
-		include_once 'Modules/Course/class.ilCourseMembers.php';
-		include_once 'Modules/Course/Event/class.ilEvent.php';
-		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 
 
 		global $ilErr,$ilAccess;
@@ -212,9 +212,9 @@ class ilEventAdministrationGUI
 		$this->tpl->setVariable("BTN_TARGET",'target="_blank"');
 		$this->tpl->parseCurrentBlock();
 
-		include_once 'Modules/Course/class.ilCourseMembers.php';
-		include_once 'Modules/Course/Event/class.ilEvent.php';
-		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 
 		$members_obj = new ilCourseMembers($this->course_obj);
 		$event_obj = new ilEvent((int) $_GET['event_id']);
@@ -342,9 +342,9 @@ class ilEventAdministrationGUI
 
 	function updateMembers()
 	{
-		include_once 'Modules/Course/class.ilCourseMembers.php';
-		include_once 'Modules/Course/Event/class.ilEvent.php';
-		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 
 		$_POST['participants'] = is_array($_POST['participants']) ? $_POST['participants'] : array();
 
@@ -373,8 +373,8 @@ class ilEventAdministrationGUI
 	{
 		global $ilObjDataCache;
 
-		include_once 'Modules/Course/Event/class.ilEvent.php';
-		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 
 		$event_obj = new ilEvent((int) $_GET['event_id']);
 		$part_obj = new ilEventParticipants((int) $_GET['event_id']);
@@ -416,7 +416,7 @@ class ilEventAdministrationGUI
 
 	function updateUser()
 	{
-		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		$part_obj = new ilEventParticipants((int) $_GET['event_id']);
 		
 		$part_obj->setUserId((int) $_GET['user_id']);
@@ -435,7 +435,7 @@ class ilEventAdministrationGUI
 	{
 		global $tree;
 
-		include_once 'Modules/Course/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 		$this->event_items = new ilEventItems($this->event_id);
 		$items = $this->event_items->getItems();
 
@@ -493,7 +493,7 @@ class ilEventAdministrationGUI
 
 	function saveMaterials()
 	{
-		include_once 'Modules/Course/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 		
 		$this->event_items = new ilEventItems($this->event_id);
 		$this->event_items->setItems(is_array($_POST['items']) ? $_POST['items'] : array());
@@ -868,7 +868,7 @@ class ilEventAdministrationGUI
 
 	function confirmDelete()
 	{
-		include_once './Modules/Course/Event/class.ilEvent.php';
+		include_once './Modules/Course/classes/Event/class.ilEvent.php';
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.event_delete.html','course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -900,7 +900,7 @@ class ilEventAdministrationGUI
 
 	function delete()
 	{
-		include_once './Modules/Course/Event/class.ilEvent.php';
+		include_once './Modules/Course/classes/Event/class.ilEvent.php';
 
 		if(!is_array($_SESSION['event_del']))
 		{
@@ -972,7 +972,7 @@ class ilEventAdministrationGUI
 	{
 		if(!is_object($this->event_obj))
 		{
-			include_once 'Modules/Course/Event/class.ilEvent.php';
+			include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 
 			$this->event_obj = new ilEvent($this->event_id);
 			$this->event_obj->setObjId($this->container_obj->getId());

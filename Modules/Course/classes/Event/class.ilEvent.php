@@ -31,8 +31,8 @@
 * @extends Object
 */
 
-include_once 'Modules/Course/Event/class.ilEventAppointment.php';
-include_once 'Modules/Course/Event/class.ilEventFile.php';
+include_once 'Modules/Course/classes/Event/class.ilEventAppointment.php';
+include_once 'Modules/Course/classes/Event/class.ilEventFile.php';
 
 class ilEvent
 {
@@ -294,10 +294,10 @@ class ilEvent
 		ilEventAppointment::_deleteByEvent($a_event_id);
 		ilEventFile::_deleteByEvent($a_event_id);
 		
-		include_once 'Modules/Course/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 		ilEventItems::_delete($a_event_id);
 
-		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		ilEventParticipants::_deleteByEvent($a_event_id);
 
 		return true;

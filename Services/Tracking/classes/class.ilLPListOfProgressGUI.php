@@ -186,7 +186,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
 
 		// Show timings header
-		include_once 'Modules/Course/class.ilCourseItems.php';
+		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		if($this->has_timings = ilCourseItems::_hasCollectionTimings($this->details_id))
 		{
 			$this->tpl->setVariable('HEAD_TIMING',$this->lng->txt('trac_head_timing'));
@@ -227,7 +227,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		global $ilObjDataCache,$ilUser;
 
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
-		include_once 'Modules/Course/Timings/class.ilTimingCache.php';
+		include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
 
 		$item_list =& ilLPItemListFactory::_getInstanceByRefId($parent_id,$item_id,$type);
 		if($this->has_timings)

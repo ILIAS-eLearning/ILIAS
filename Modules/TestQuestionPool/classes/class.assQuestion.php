@@ -868,7 +868,7 @@ class assQuestion
 		}
 
 		// Update objective status
-		include_once 'Modules/Course/class.ilCourseObjectiveResult.php';
+		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
 
 		ilCourseObjectiveResult::_updateObjectiveResult($ilUser->getId(),$active_id,$this->getId());
 		
@@ -2339,7 +2339,7 @@ class assQuestion
 			}
 			// finally update objective result
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			include_once './Modules/Course/class.ilCourseObjectiveResult.php';
+			include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 			ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id),$question_id,$points);
 
 			include_once ("./classes/class.ilObjAssessmentFolder.php");

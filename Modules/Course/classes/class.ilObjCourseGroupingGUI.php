@@ -532,7 +532,7 @@ class ilObjCourseGroupingGUI
 	// PRIVATE
 	function __initGroupingObject()
 	{
-		include_once './Modules/Course/class.ilObjCourseGrouping.php';
+		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 
 		$this->grp_obj =& new ilObjCourseGrouping($this->id);
 	}

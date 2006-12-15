@@ -216,7 +216,7 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function getFilteredItems($a_container_id)
 	{
-		include_once 'Modules/Course/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 
 		$event_items = ilEventItems::_getItemsOfContainer($a_container_id);
 
@@ -232,7 +232,7 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function getItemsByEvent($a_event_id)
 	{
-		include_once 'Modules/Course/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 
 		$event_items_obj = new ilEventItems($a_event_id);
 		$event_items = $event_items_obj->getItems();
@@ -483,7 +483,7 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 			$a_item['visible']				= $row->visible;
 			$a_item["position"]				= $row->position;
 
-			include_once 'Modules/Course/Timings/class.ilTimingPlaned.php';
+			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 			$data = ilTimingPlaned::_getPlanedTimings($this->getUserId(),$a_item['child']);
 
 			// Check for user entry
@@ -646,7 +646,7 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 
 	function __isMovable($a_ref_id)
 	{
-		include_once 'Modules/Course/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 
 		global $ilObjDataCache;
 
@@ -731,7 +731,7 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 	// STATIC
 	function _getItem($a_item_id)
 	{
-		include_once 'Modules/Course/class.ilObjCourse.php';
+		include_once 'Modules/Course/classes/class.ilObjCourse.php';
 
 		global $ilDB,$ilUser;
 
@@ -758,7 +758,7 @@ function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
 			$data['position'] = $row->position;
 
 
-			include_once 'Modules/Course/Timings/class.ilTimingPlaned.php';
+			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 			$user_data = ilTimingPlaned::_getPlanedTimings($ilUser->getId(),$a_item['child']);
 
 			// Check for user entry
