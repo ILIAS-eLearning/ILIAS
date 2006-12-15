@@ -207,7 +207,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		global $ilObjDataCache,$tree;
 
 		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-		include_once 'content/classes/SCORM/class.ilSCORMItem.php';
+		include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
 
 
 		if(!$items = ilLPCollections::_getPossibleSAHSItems($this->getObjId()))

@@ -41,6 +41,9 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		return $this->getNewsForContextBlock();
 	}
 	
+	/**
+	* Prepare block query for news block.
+	*/
 	function prepareBlockQueryNewsForContext(&$a_news_item)
 	{
 		$a_news_item->setContextObjId($this->ctrl->getContextObjId());
@@ -57,13 +60,19 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		return $this->getNewsForContextTable();
 	}
 
-	function addNews()
-	{
-		return $this->create();
-	}
-
 	function cancelUpdate()
 	{
 		$this->editNews();
+	}
+	
+	/**
+	* Prepare the new table
+	*/
+	function prepareTableNewsForContext(&$a_table_gui)
+	{
+		global $ilCtrl, $lng;
+		
+		$a_table_gui->setTitle("Test");
+		$a_table_gui->addCommandButton("createNewsItem", $lng->txt("add"));
 	}
 }
