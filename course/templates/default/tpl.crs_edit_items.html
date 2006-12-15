@@ -1,0 +1,75 @@
+	<form name="items" action="{FORMACTION}" method="post">
+	  <table class="fullwidth" border="0">
+		<tr class="tbltitle">
+		  <th class="std" colspan="7">
+			<img style="vertical-align: middle;" border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			&nbsp;{BLOCK_HEADER_CONTENT}
+		  </th>
+		</tr>
+		<tr class="tblheader">
+		  <th class="std" valign="top">{TXT_TITLE}</th>
+		  <th class="std">{TXT_ACTIVE}<div class="subtitle">{TXT_INFO_ACTIVE}</div></th>
+		  <th class="std">{TXT_DURATION}<div class="subtitle">{TXT_INFO_DURATION}</div></th>
+		  <th class="std">{TXT_START_END}<div class="subtitle">{TXT_INFO_START_END}</div></th>
+		  <th class="std" valign="top">{TXT_CHANGEABLE}</th>
+		  <th class="std" valign="top">{TXT_LIMIT}</th>
+		</tr>
+		<!-- BEGIN container_standard_row -->
+		<tr class="{ROWCLASS}">
+		  <td>
+			<!-- BEGIN title_plain -->
+			<b>{TITLE}</b>
+			<!-- END title_plain -->
+			<!-- BEGIN title_link -->
+			<a href="{TITLE_LINK}" target="{TITLE_FRAME}">{TITLE_LINK_NAME}</a>
+			<!-- END title_link -->
+			<!-- BEGIN item_description -->
+			<div class="il_Description" >{DESC}</div>
+			<!-- END item_description -->
+			<!-- BEGIN tlt -->
+			<div class="il_ItemProperties">
+			  <div class="il_ItemProperty">{TXT_TLT}: {TLT_VAL}</div>
+			</div>
+			<!-- END tlt -->
+		  </td>
+		  <td align="left">
+			<input type="checkbox" name="{NAME_ACTIVE}" value="1" {CHECKED_ACTIVE} />
+		  </td>
+		  <td align="center">
+			<input type="text" name="{NAME_DURATION_A}" value="{VAL_DURATION_A}" size="2" maxlength="3" />
+		  </td>
+		  <td nowrap="nowrap">
+			{SUG_START}<br />
+			{SUG_END}
+		  </td>
+		  <td align="left">
+			<input type="checkbox" name="{NAME_CHANGE}" value="1" {CHECKED_CHANGE} />
+		  </td>
+		  <td nowrap="nowrap">
+			{LIM_END}
+		  </td>
+		</tr>
+		<!-- END container_standard_row -->
+		<tr class="{CHECKCLASS}">
+		  <td colspan="1">&nbsp;</td>
+		  <td align="left" colspan="2">
+			<input type="checkbox" name="chb_check_all" value="1" 
+			  id="active_all" onclick="setChecked('items', 'item_active', document.items.active_all.checked);" />
+			{SELECT_ALL}
+		  </td>
+		  <td colspan="1">&nbsp;</td>
+		  <td align="left" colspan="2">
+			<input type="checkbox" name="chb_check_all" value="1" 
+			  id="change_all" onclick="setChecked('items', 'item_change', document.items.change_all.checked);" />
+			{SELECT_ALL}
+		  </td>
+		</tr>
+		<tr class="tblfooter">
+		  <td class="std" valign="center" align="left" colspan="7">
+			<div style="float:right">
+			  <input class="submit" type="SUBMIT" name="cmd[updateTimings]" value="{BTN_SAVE}"/>
+			</div>
+		  </td>
+		</tr>
+	  </table>
+	</form>
