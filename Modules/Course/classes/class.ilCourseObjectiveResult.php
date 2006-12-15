@@ -65,7 +65,7 @@ class ilCourseObjectiveResult
 	{
 		global $ilDB;
 
-		include_once 'course/classes/class.ilCourseObjective.php';
+		include_once 'Modules/Course/class.ilCourseObjective.php';
 		$objectives = ilCourseObjective::_getObjectiveIds($a_crs_id);
 
 		if(!is_array($objectives))
@@ -131,8 +131,8 @@ class ilCourseObjectiveResult
 
 	function reset($a_course_id)
 	{
-		include_once './course/classes/class.ilCourseObjective.php';
-		include_once './course/classes/class.ilCourseObjectiveQuestion.php';
+		include_once './Modules/Course/class.ilCourseObjective.php';
+		include_once './Modules/Course/class.ilCourseObjectiveQuestion.php';
 
 
 		foreach($objectives = ilCourseObjective::_getObjectiveIds($a_course_id) as $objective_id)
@@ -170,7 +170,7 @@ class ilCourseObjectiveResult
 	function getStatus($a_course_id)
 	{
 		include_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-		include_once 'course/classes/class.ilCourseObjective.php';
+		include_once 'Modules/Course/class.ilCourseObjective.php';
 		$objective_ids = ilCourseObjective::_getObjectiveIds($a_course_id);
 		$objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);
 		$accomplished = $this->getAccomplished($a_course_id);
@@ -229,7 +229,7 @@ class ilCourseObjectiveResult
 
 	function readStatus($a_crs_id)
 	{
-		include_once './course/classes/class.ilCourseObjective.php';
+		include_once './Modules/Course/class.ilCourseObjective.php';
 
 		$objective_ids = ilCourseObjective::_getObjectiveIds($a_crs_id);
 		$objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);

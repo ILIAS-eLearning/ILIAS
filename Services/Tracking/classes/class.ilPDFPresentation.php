@@ -211,7 +211,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		$this->writer->xmlElement('HeaderTitle',null,$this->lng->txt('trac_objects'));
 		
 		// Show timings header
-		include_once 'course/classes/class.ilCourseItems.php';
+		include_once 'Modules/Course/class.ilCourseItems.php';
 		if($this->has_timings = ilCourseItems::_hasCollectionTimings($this->getRefId()))
 		{
 			$this->writer->xmlElement('HeaderInfo',null,$this->lng->txt('trac_head_timing'));

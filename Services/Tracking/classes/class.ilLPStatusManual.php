@@ -54,7 +54,7 @@ class ilLPStatusManual extends ilLPStatus
 		{
 			case 'crs':
 
-				include_once 'course/classes/class.ilCourseMembers.php';
+				include_once 'Modules/Course/class.ilCourseMembers.php';
 				
 				$members = ilCourseMembers::_getMembers($a_obj_id);
 			
@@ -160,7 +160,7 @@ class ilLPStatusManual extends ilLPStatus
 
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
 		
-		include_once 'course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/class.ilCourseMembers.php';
 		$members = ilCourseMembers::_getMembers($a_obj_id);
 
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".

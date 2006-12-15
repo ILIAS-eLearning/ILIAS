@@ -38,7 +38,7 @@
 */
 
 require_once "./classes/class.ilContainerGUI.php";
-require_once "./course/classes/class.ilCourseRegisterGUI.php";
+require_once "./Modules/Course/class.ilCourseRegisterGUI.php";
 
 
 class ilObjCourseGUI extends ilContainerGUI
@@ -192,7 +192,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// Create new object
-		include_once("course/classes/class.ilObjCourse.php");
+		include_once("Modules/Course/class.ilObjCourse.php");
 
 		$newObj = new ilObjCourse();
 		$newObj->setType('crs');
@@ -205,7 +205,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$newObj->initDefaultRoles();
 
 		// Copy xml file
-		include_once 'course/classes/class.ilFileDataCourse.php';
+		include_once 'Modules/Course/class.ilFileDataCourse.php';
 
 		$course_files = new ilFileDataCourse($newObj);
 
@@ -213,7 +213,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$course_files->unpackImportFile();
 		$course_files->validateImportFile();
 
-		include_once 'course/classes/class.ilCourseXMLParser.php';
+		include_once 'Modules/Course/class.ilCourseXMLParser.php';
 
 		$xml_parser = new ilCourseXMLParser($newObj,$course_files->getImportFile());
 
@@ -254,7 +254,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'crs');
 
-		include_once './course/classes/class.ilCourseContentGUI.php';
+		include_once './Modules/Course/class.ilCourseContentGUI.php';
 		$course_content_obj = new ilCourseContentGUI($this);
 
 		$this->ctrl->setCmdClass(get_class($course_content_obj));
@@ -310,7 +310,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('info_short');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
-		include_once 'course/classes/class.ilCourseFile.php';
+		include_once 'Modules/Course/class.ilCourseFile.php';
 
 		$files =& ilCourseFile::_readFilesByCourse($this->object->getId());
 
@@ -471,7 +471,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function listStructureObject()
 	{
-		include_once './course/classes/class.ilCourseStart.php';
+		include_once './Modules/Course/class.ilCourseStart.php';
 
 		global $rbacsystem;
 
@@ -535,7 +535,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function deleteStarterObject()
 	{
-		include_once './course/classes/class.ilCourseStart.php';
+		include_once './Modules/Course/class.ilCourseStart.php';
 
 		global $rbacsystem;
 
@@ -556,7 +556,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function selectStarterObject()
 	{
-		include_once './course/classes/class.ilCourseStart.php';
+		include_once './Modules/Course/class.ilCourseStart.php';
 
 		$this->setSubTabs("properties");
 		$this->tabs_gui->setTabActive('settings');
@@ -605,7 +605,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function addStarterObject()
 	{
-		include_once './course/classes/class.ilCourseStart.php';
+		include_once './Modules/Course/class.ilCourseStart.php';
 
 		global $rbacsystem;
 
@@ -649,7 +649,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function editInfoObject()
 	{
-		include_once 'course/classes/class.ilCourseFile.php';
+		include_once 'Modules/Course/class.ilCourseFile.php';
 
 		global $ilErr,$ilAccess;
 
@@ -721,7 +721,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
 		
-		include_once 'course/classes/class.ilCourseFile.php';
+		include_once 'Modules/Course/class.ilCourseFile.php';
 		$file_obj = new ilCourseFile();
 		$file_obj->setCourseId($this->object->getId());
 		$file_obj->setFileName(strlen($_POST['file_name']) ?
@@ -1082,7 +1082,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function sendFileObject()
 	{
-		include_once 'course/classes/class.ilCourseFile.php';
+		include_once 'Modules/Course/class.ilCourseFile.php';
 		$file = new ilCourseFile((int) $_GET['file_id']);
 		
 		ilUtil::deliverFile($file->getAbsolutePath(),$file->getFileName(),$file->getFileType());
@@ -1317,7 +1317,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
-		include_once './course/classes/class.ilCourseItems.php';
+		include_once './Modules/Course/class.ilCourseItems.php';
 		
 		$this->lng->loadLanguageModule('trac');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
@@ -1823,7 +1823,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function __showWaitingList()
 	{
-		include_once './course/classes/class.ilObjCourseGrouping.php';
+		include_once './Modules/Course/class.ilObjCourseGrouping.php';
 
 		$this->object->initWaitingList();
 		if($this->object->waiting_list_obj->getCountUsers())
@@ -4091,7 +4091,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilcourseobjectivesgui":
-				include_once './course/classes/class.ilCourseObjectivesGUI.php';
+				include_once './Modules/Course/class.ilCourseObjectivesGUI.php';
 
 				$this->ctrl->setReturn($this,"");
 				$reg_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
@@ -4099,7 +4099,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilobjcoursegroupinggui':
-				include_once './course/classes/class.ilObjCourseGroupingGUI.php';
+				include_once './Modules/Course/class.ilObjCourseGroupingGUI.php';
 
 				$this->ctrl->setReturn($this,'edit');
 				$this->setSubTabs('properties');
@@ -4174,7 +4174,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			case 'ilcoursecontentgui':
 				$this->ctrl->setReturn($this,'members');
-				include_once './course/classes/class.ilCourseContentGUI.php';
+				include_once './Modules/Course/class.ilCourseContentGUI.php';
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
 				break;
@@ -4208,7 +4208,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				elseif($cmd == 'listObjectives')
 				{
-					include_once './course/classes/class.ilCourseObjectivesGUI.php';
+					include_once './Modules/Course/class.ilCourseObjectivesGUI.php';
 
 					$this->ctrl->setReturn($this,"");
 					$obj_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
@@ -4246,7 +4246,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilCtrl;
 
-		include_once "./course/classes/class.ilCourseContentInterface.php";
+		include_once "./Modules/Course/class.ilCourseContentInterface.php";
 		
 		$this->object->ctrl =& $ilCtrl;
 		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
@@ -4288,7 +4288,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		global $ilUser;
 
-		include_once './course/classes/class.ilCourseObjectiveResult.php';
+		include_once './Modules/Course/class.ilCourseObjectiveResult.php';
 
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 		$tmp_obj_res->reset($this->object->getId());

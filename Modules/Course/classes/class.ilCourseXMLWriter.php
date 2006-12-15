@@ -196,7 +196,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 	function __buildWaitingList()
 	{
-		include_once 'course/classes/class.ilCourseWaitingList.php';
+		include_once 'Modules/Course/class.ilCourseWaitingList.php';
 
 		$waiting_list = new ilCourseWaitingList($this->course_obj->getId());
 		

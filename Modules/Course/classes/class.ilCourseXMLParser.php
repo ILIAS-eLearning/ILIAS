@@ -35,8 +35,8 @@ include_once('classes/class.ilObjUser.php');
 * @extends ilMDSaxParser
 */
 
-include_once 'course/classes/class.ilCourseMembers.php';
-include_once 'course/classes/class.ilCourseWaitingList.php';
+include_once 'Modules/Course/class.ilCourseMembers.php';
+include_once 'Modules/Course/class.ilCourseWaitingList.php';
 
 class ilCourseXMLParser extends ilMDSaxParser
 {

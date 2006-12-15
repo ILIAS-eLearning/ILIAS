@@ -676,7 +676,7 @@ class ilFeedbackGUI
 	function _isRequiredFeedbackOnLogin(){
 		global $ilUser;
 		include_once('Services/Feedback/classes/class.ilFeedback.php');
-		include_once('course/classes/class.ilCourseMembers.php');
+		include_once('Modules/Course/class.ilCourseMembers.php');
 
 		$feedback = new ilFeedback();
 		$feedback->getFeedback();

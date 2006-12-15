@@ -328,7 +328,7 @@ class ilCourseItemAdministrationGUI
 	{
 		global $ilObjDataCache,$tree;
 
-		include_once "./course/classes/class.ilCourseItems.php";
+		include_once "./Modules/Course/class.ilCourseItems.php";
 		
 		if(!is_object($this->items_obj))
 		{

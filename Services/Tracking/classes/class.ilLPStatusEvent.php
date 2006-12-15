@@ -51,7 +51,7 @@ class ilLPStatusEvent extends ilLPStatus
 		$status_info = ilLPStatusWrapper::_getStatusInfoByType($a_obj_id,'event');
 		var_dump("<pre>","STATUS_INFO",$status_info,"<pre>");
 
-		include_once 'course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/class.ilCourseMembers.php';
 		$members = ilCourseMembers::_getMembers($status_info['crs_id']);
 		
 		// diff in progress and completed (use stored result in LPStatusWrapper)
@@ -88,8 +88,8 @@ class ilLPStatusEvent extends ilLPStatus
 
 	function _getStatusInfo($a_obj_id)
 	{
-		include_once 'course/classes/Event/class.ilEvent.php';
-		include_once 'course/classes/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/Event/class.ilEvent.php';
+		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
 
 		$event = new ilEvent($a_obj_id);
 		

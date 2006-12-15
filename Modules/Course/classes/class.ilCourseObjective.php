@@ -107,12 +107,12 @@ class ilCourseObjective
 	
 	function delete()
 	{
-		include_once './course/classes/class.ilCourseObjectiveQuestion.php';
+		include_once './Modules/Course/class.ilCourseObjectiveQuestion.php';
 
 		$tmp_obj_qst =& new ilCourseObjectiveQuestion($this->getObjectiveId());
 		$tmp_obj_qst->deleteAll();
 
-		include_once './course/classes/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/class.ilCourseObjectiveLM.php';
 
 		$tmp_obj_lm =& new ilCourseObjectiveLM($this->getObjectiveId());
 		$tmp_obj_lm->deleteAll();

@@ -138,7 +138,7 @@ class ilCourseRegisterGUI
 			}
 
 
-			include_once 'course/classes/class.ilCourseWaitingList.php';
+			include_once 'Modules/Course/class.ilCourseWaitingList.php';
 
 			if(!$this->waiting_list->isOnList($this->user_id))
 			{
@@ -375,7 +375,7 @@ class ilCourseRegisterGUI
 
 	function __initWaitingList()
 	{
-		include_once 'course/classes/class.ilCourseWaitingList.php';
+		include_once 'Modules/Course/class.ilCourseWaitingList.php';
 
 		$this->waiting_list =& new ilCourseWaitingList($this->course_obj->getId());
 
@@ -384,7 +384,7 @@ class ilCourseRegisterGUI
 
 	function __validateStatus()
 	{
-		include_once 'course/classes/class.ilObjCourseGrouping.php';
+		include_once 'Modules/Course/class.ilObjCourseGrouping.php';
 
 		$allow_subscription = true;
 

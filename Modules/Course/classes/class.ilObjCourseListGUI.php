@@ -111,7 +111,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$props = array();
 
 		// offline
-		include_once 'course/classes/class.ilObjCourse.php';
+		include_once 'Modules/Course/class.ilObjCourse.php';
 		if(!ilObjCourse::_isActivated($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
@@ -119,7 +119,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 
 		// blocked
-		include_once 'course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/class.ilCourseMembers.php';
 		if(ilCourseMembers::_isBlocked($this->obj_id,$ilUser->getId()))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),

@@ -50,7 +50,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		global $ilBench;
 		$ilBench->start('LearningProgress','9171_LPStatusObjectives_notAttempted');
 
-		include_once 'course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/class.ilCourseMembers.php';
 		$members = ilCourseMembers::_getMembers($a_obj_id);
 			
 		// diff in progress and completed (use stored result in LPStatusWrapper)
@@ -67,7 +67,7 @@ class ilLPStatusObjectives extends ilLPStatus
 
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
 		
-		include_once 'course/classes/class.ilCourseMembers.php';
+		include_once 'Modules/Course/class.ilCourseMembers.php';
 		$members = ilCourseMembers::_getMembers($a_obj_id);
 
 		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
@@ -106,7 +106,7 @@ class ilLPStatusObjectives extends ilLPStatus
 
 	function _getStatusInfo($a_obj_id)
 	{
-		include_once 'course/classes/class.ilCourseObjective.php';
+		include_once 'Modules/Course/class.ilCourseObjective.php';
 
 		global $ilDB;
 

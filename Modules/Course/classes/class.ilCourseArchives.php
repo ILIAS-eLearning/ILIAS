@@ -256,7 +256,7 @@ class ilCourseArchives
 	{
 		if(!is_object($this->course_files_obj))
 		{
-			include_once "./course/classes/class.ilFileDataCourse.php";
+			include_once "./Modules/Course/class.ilFileDataCourse.php";
 
 			$this->course_files_obj =& new ilFileDataCourse($this->course_obj);
 		}
@@ -267,7 +267,7 @@ class ilCourseArchives
 	{
 		if(!is_object($this->course_xml_writer))
 		{
-			include_once "./course/classes/class.ilCourseXMLWriter.php";
+			include_once "./Modules/Course/class.ilCourseXMLWriter.php";
 
 			$this->course_xml_writer =& new ilCourseXMLWriter($this->course_obj);
 		}

@@ -44,7 +44,7 @@ class ilCourseObjectivesGUI
 	
 	function ilCourseObjectivesGUI($a_course_id)
 	{
-		include_once './course/classes/class.ilCourseObjective.php';
+		include_once './Modules/Course/class.ilCourseObjective.php';
 
 		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilTabs;
 
@@ -1884,7 +1884,7 @@ class ilCourseObjectivesGUI
 		
 		foreach($_POST['test'] as $test_obj_id => $data)
 		{
-			include_once './course/classes/class.ilCourseObjectiveQuestion.php';
+			include_once './Modules/Course/class.ilCourseObjectiveQuestion.php';
 
 			$test_data = ilCourseObjectiveQuestion::_getTest($test_obj_id);
 
@@ -1921,7 +1921,7 @@ class ilCourseObjectivesGUI
 
 	function __initLMObject($a_objective_id = 0)
 	{
-		include_once './course/classes/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/class.ilCourseObjectiveLM.php';
 
 		$this->objectives_lm_obj =& new ilCourseObjectiveLM($a_objective_id);
 
@@ -1930,7 +1930,7 @@ class ilCourseObjectivesGUI
 
 	function __initQuestionObject($a_objective_id = 0)
 	{
-		include_once './course/classes/class.ilCourseObjectiveQuestion.php';
+		include_once './Modules/Course/class.ilCourseObjectiveQuestion.php';
 
 		$this->objectives_qst_obj =& new ilCourseObjectiveQuestion($a_objective_id);
 

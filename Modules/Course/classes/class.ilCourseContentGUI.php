@@ -34,7 +34,7 @@
 *
 */
 
-include_once './course/classes/Event/class.ilEvent.php';
+include_once './Modules/Course/Event/class.ilEvent.php';
 
 class ilCourseContentGUI
 {
@@ -84,7 +84,7 @@ class ilCourseContentGUI
 		switch($this->ctrl->getNextClass($this))
 		{
 			case 'ilcourseitemadministrationgui':
-				include_once 'course/classes/class.ilCourseItemAdministrationGUI.php';
+				include_once 'Modules/Course/class.ilCourseItemAdministrationGUI.php';
 
 				$this->ctrl->setReturn($this,'');
 				$item_adm_gui = new ilCourseItemAdministrationGUI($this->container_obj,(int) $_GET['item_id']);
@@ -100,7 +100,7 @@ class ilCourseContentGUI
 				break;
 
 			case 'ileventadministrationgui':
-				include_once 'course/classes/Event/class.ilEventAdministrationGUI.php';
+				include_once 'Modules/Course/Event/class.ilEventAdministrationGUI.php';
 
 				$this->ctrl->setReturn($this,'');
 				$event_gui = new ilEventAdministrationGUI($this->container_gui,(int) $_GET['event_id']);
@@ -163,7 +163,7 @@ class ilCourseContentGUI
 
 	function __forwardToObjectivePresentation()
 	{
-		include_once 'course/classes/class.ilCourseObjectivePresentationGUI.php';
+		include_once 'Modules/Course/class.ilCourseObjectivePresentationGUI.php';
 
 		$this->ctrl->setReturn($this,'');
 		$objectives_gui = new ilCourseObjectivePresentationGUI($this->container_gui);
@@ -177,7 +177,7 @@ class ilCourseContentGUI
 
 	function __forwardToArchivesGUI()
 	{
-		include_once 'course/classes/class.ilCourseArchivesGUI.php';
+		include_once 'Modules/Course/class.ilCourseArchivesGUI.php';
 
 		$this->ctrl->setReturn($this,'');
 		$archives_gui = new ilCourseArchivesGUI($this->container_gui);
@@ -191,7 +191,7 @@ class ilCourseContentGUI
 
 	function __checkStartObjects()
 	{
-		include_once './course/classes/class.ilCourseStart.php';
+		include_once './Modules/Course/class.ilCourseStart.php';
 
 		global $ilAccess,$ilUser;
 
@@ -209,7 +209,7 @@ class ilCourseContentGUI
 
 	function showStartObjects()
 	{
-		include_once './course/classes/class.ilCourseLMHistory.php';
+		include_once './Modules/Course/class.ilCourseLMHistory.php';
 		include_once './classes/class.ilRepositoryExplorer.php';
 		include_once './classes/class.ilLink.php';
 
@@ -342,7 +342,7 @@ class ilCourseContentGUI
 		global $rbacsystem;
 
 		include_once './classes/class.ilObjectListGUIFactory.php';
-		include_once './course/classes/Event/class.ilEvent.php';
+		include_once './Modules/Course/Event/class.ilEvent.php';
 
 		$this->tabs_gui->setSubTabActive('crs_content');
 
@@ -365,8 +365,8 @@ class ilCourseContentGUI
 	{
 		global $ilUser;
 
-		include_once 'course/classes/Event/class.ilEventItems.php';
-		include_once 'course/classes/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Course/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/Event/class.ilEventParticipants.php';
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 
@@ -536,7 +536,7 @@ class ilCourseContentGUI
 
 	function __showMaterials()
 	{
-		include_once 'course/classes/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/Event/class.ilEventItems.php';
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getId());
@@ -810,7 +810,7 @@ class ilCourseContentGUI
 	{
 		global $ilUser;
 
-		include_once 'course/classes/Timings/class.ilTimingAccepted.php';
+		include_once 'Modules/Course/Timings/class.ilTimingAccepted.php';
 		$accept_obj = new ilTimingAccepted($this->course_obj->getId(),$ilUser->getId());
 
 		$this->tpl->setVariable("REMARK",$accept_obj->getRemark());
@@ -827,7 +827,7 @@ class ilCourseContentGUI
 	{
 		global $ilUser;
 
-		include_once 'course/classes/Timings/class.ilTimingAccepted.php';
+		include_once 'Modules/Course/Timings/class.ilTimingAccepted.php';
 		$accept_obj = new ilTimingAccepted($this->course_obj->getId(),$ilUser->getId());
 
 		$accept_obj->setRemark(ilUtil::stripSlashes($_POST['remark']));
@@ -854,7 +854,7 @@ class ilCourseContentGUI
 
 		$_SESSION['crs_timings_user_hidden'] = isset($_GET['show_details']) ? $_GET['show_details'] : $_SESSION['crs_timings_user_hidden'];
 
-		include_once 'course/classes/class.ilCourseItems.php';
+		include_once 'Modules/Course/class.ilCourseItems.php';
 		if(ilCourseItems::_hasChangeableTimings($this->course_obj->getRefId()))
 		{
 			$this->__editAdvancedUserTimings();
@@ -892,7 +892,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
 
-		include_once 'course/classes/Timings/class.ilTimingAccepted.php';
+		include_once 'Modules/Course/Timings/class.ilTimingAccepted.php';
 		$usr_accepted = new ilTimingAccepted($this->course_obj->getId(),(int) $_GET['member_id']);
 
 		if($usr_accepted->isAccepted())
@@ -948,7 +948,7 @@ class ilCourseContentGUI
 	{
 		global $ilUser,$ilAccess;
 
-		include_once 'course/classes/Timings/class.ilTimingPlaned.php';
+		include_once 'Modules/Course/Timings/class.ilTimingPlaned.php';
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
 
 		$this->lng->loadLanguageModule('meta');
@@ -1042,7 +1042,7 @@ class ilCourseContentGUI
 
 	function __editAdvancedUserTimings()
 	{
-		include_once 'course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Course/Event/class.ilEvent.php';
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','course');
 		$this->__showTimingsPanel();
@@ -1224,7 +1224,7 @@ class ilCourseContentGUI
 	{
 		global $ilUser,$ilAccess;
 
-		include_once 'course/classes/Timings/class.ilTimingPlaned.php';
+		include_once 'Modules/Course/Timings/class.ilTimingPlaned.php';
 		include_once './classes/class.ilLink.php';
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
 
@@ -1400,7 +1400,7 @@ class ilCourseContentGUI
 	function updateUserTimings()
 	{
 		global $ilUser,$ilObjDataCache;
-		include_once 'course/classes/Timings/class.ilTimingPlaned.php';
+		include_once 'Modules/Course/Timings/class.ilTimingPlaned.php';
 
 		// Validate
 		$this->invalid = array();
@@ -1466,7 +1466,7 @@ class ilCourseContentGUI
 
 	function updateTimings()
 	{
-		include_once 'course/classes/class.ilCourseItems.php';
+		include_once 'Modules/Course/class.ilCourseItems.php';
 
 		global $ilAccess,$ilErr;
 
@@ -1835,7 +1835,7 @@ class ilCourseContentGUI
 			$this->tabs_gui->addSubTabTarget('crs_content',
 											 $this->ctrl->getLinkTarget($this,'view'));
 		}
-		include_once 'course/classes/class.ilCourseItems.php';
+		include_once 'Modules/Course/class.ilCourseItems.php';
 		if(!$this->course_obj->enabledObjectiveView() and $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->tabs_gui->addSubTabTarget('timings_timings',

@@ -348,7 +348,7 @@ class ilCourseMembers
 		$query = "DELETE FROM crs_subscribers WHERE usr_id = '".$a_usr_id."'";
 		$ilDB->query($query);
 
-		include_once './course/classes/class.ilCourseWaitingList.php';
+		include_once './Modules/Course/class.ilCourseWaitingList.php';
 		ilCourseWaitingList::_deleteUser($a_usr_id);
 	}
 		

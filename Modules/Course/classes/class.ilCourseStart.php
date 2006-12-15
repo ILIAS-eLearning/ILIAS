@@ -158,7 +158,7 @@ class ilCourseStart
 	{
 		global $ilObjDataCache;
 
-		include_once './course/classes/class.ilCourseLMHistory.php';
+		include_once './Modules/Course/class.ilCourseLMHistory.php';
 		$lm_continue =& new ilCourseLMHistory($this->getRefId(),$user_id);
 		$continue_data = $lm_continue->getLMHistory();
 
