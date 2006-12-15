@@ -100,7 +100,7 @@ class ilCourseObjectivesGUI
 		}
 
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_list_lm.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_list_lm.html",'Modules/Course');
 
 		if(!count($this->__getAllLMs()))
 		{
@@ -121,7 +121,7 @@ class ilCourseObjectivesGUI
 		}
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_lm_list_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_lm_list_row.html",'Modules/Course');
 
 		#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 
@@ -238,13 +238,13 @@ class ilCourseObjectivesGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_delete_lm.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_delete_lm.html",'Modules/Course');
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
 
 		sendInfo($this->lng->txt('crs_deassign_lm_sure'));
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_lm_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_lm_row.html",'Modules/Course');
 
 		$this->__initLMObject((int) $_GET['objective_id']);
 
@@ -393,12 +393,12 @@ class ilCourseObjectivesGUI
 			return false;
 		}
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_lm_select.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_lm_select.html",'Modules/Course');
 		$this->__showButton('listAssignedLM',$this->lng->txt('back'));
 
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_lm_select_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_lm_select_row.html",'Modules/Course');
 
 		$counter = 0;
 		foreach($all_lms as $item)
@@ -504,9 +504,9 @@ class ilCourseObjectivesGUI
 		}
 		$lm_id = (int) $_POST['lm'][0];
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_chapter_select.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_chapter_select.html",'Modules/Course');
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_chapter_select_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_chapter_select_row.html",'Modules/Course');
 
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
 		$this->ctrl->setParameter($this,'lm_id',(int) $lm_id);
@@ -707,7 +707,7 @@ class ilCourseObjectivesGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives.html",'Modules/Course');
 		if(!count($objectives = ilCourseObjective::_getObjectiveIds($this->course_obj->getId())))
 		{
 			$this->__showButton('addObjective',$this->lng->txt('crs_add_objective'));
@@ -721,7 +721,7 @@ class ilCourseObjectivesGUI
 		#}
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_row.html",'Modules/Course');
 
 		$counter = 0;
 		foreach($objectives as $objective)
@@ -909,7 +909,7 @@ class ilCourseObjectivesGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_add_objective.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_add_objective.html",'Modules/Course');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('crs_add_objective'));
@@ -940,7 +940,7 @@ class ilCourseObjectivesGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_add_objective.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_add_objective.html",'Modules/Course');
 
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -1017,12 +1017,12 @@ class ilCourseObjectivesGUI
 			return true;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives.html",'Modules/Course');
 
 		sendInfo($this->lng->txt('crs_delete_objectve_sure'));
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html",'Modules/Course');
 
 		$counter = 0;
 		foreach($_POST['objective'] as $objective_id)
@@ -1168,7 +1168,7 @@ class ilCourseObjectivesGUI
 		}
 
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_list_qst.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_list_qst.html",'Modules/Course');
 
 		if(!count($this->__getAllTests()))
 		{
@@ -1189,7 +1189,7 @@ class ilCourseObjectivesGUI
 		}
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_list_qst_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_list_qst_row.html",'Modules/Course');
 
 		#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 
@@ -1293,13 +1293,13 @@ class ilCourseObjectivesGUI
 		}
 
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_deassign_qst.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_deassign_qst.html",'Modules/Course');
 
 
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_deassign_qst_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_deassign_qst_row.html",'Modules/Course');
 
 		// Send info
 		sendInfo($this->lng->txt('crs_objectives_deassign_question_sure'));
@@ -1443,12 +1443,12 @@ class ilCourseObjectivesGUI
 			return false;
 		}
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_tst_select.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_tst_select.html",'Modules/Course');
 		$this->__showButton('listAssignedQuestions',$this->lng->txt('back'));
 
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_tst_select_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_tst_select_row.html",'Modules/Course');
 
 		$counter = 0;
 		foreach($all_tests as $item)
@@ -1565,12 +1565,12 @@ class ilCourseObjectivesGUI
 		
 		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
 		$this->ctrl->setParameter($this,'test_id',(int) $_POST['test_id']);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_question_select.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_question_select.html",'Modules/Course');
 		$this->__showButton('assignTestSelect',$this->lng->txt('back'));
 
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_question_select_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_question_select_row.html",'Modules/Course');
 
 		if(!$tmp_tst =& ilObjectFactory::getInstanceByRefId((int) $_POST['test_id'],false))
 		{
@@ -1762,7 +1762,7 @@ class ilCourseObjectivesGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
 		}
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_objectives_edit_question_assignments.html','course');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_objectives_edit_question_assignments.html','Modules/Course');
 
 		#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 

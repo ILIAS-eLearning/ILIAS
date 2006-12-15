@@ -122,7 +122,7 @@ class ilCourseItemAdministrationGUI
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_item.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_item.html",'Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$item_data = $this->items_obj->getItem($this->getItemId());
 		$title = $ilObjDataCache->lookupTitle($item_data['obj_id']);

@@ -217,7 +217,7 @@ class ilCourseContentGUI
 
 		$this->tabs_gui->setSubTabActive('crs_content');
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html","course");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html",'Modules/Course');
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_info_start'));
 		$this->tpl->setVariable("TBL_TITLE_START",$this->lng->txt('crs_table_start_objects'));
 		$this->tpl->setVariable("HEADER_NR",$this->lng->txt('crs_nr'));
@@ -376,7 +376,7 @@ class ilCourseContentGUI
 		}
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.event_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.event_row.html",'Modules/Course');
 
 		$counter = 0;
 		foreach($event_objs as $event_obj)
@@ -554,7 +554,7 @@ class ilCourseContentGUI
 
 		// show course materials
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html","course");
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html",'Modules/Course');
 		$cont_num = count($this->cont_arr);
 
 		$this->container_gui->clearAdminCommandsDetermination();
@@ -669,7 +669,7 @@ class ilCourseContentGUI
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getAllItems($this->container_obj->getId());
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_edit_items.html','course');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_edit_items.html','Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.gif'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('crs_materials'));
@@ -874,7 +874,7 @@ class ilCourseContentGUI
 	{
 		global $ilObjDataCache;
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_user_timings.html','course');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_user_timings.html','Modules/Course');
 		$this->tabs_gui->clearSubTabs();
 		$this->tabs_gui->setTabActive('members');
 
@@ -1044,7 +1044,7 @@ class ilCourseContentGUI
 	{
 		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','course');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','Modules/Course');
 		$this->__showTimingsPanel();
 		$this->__showUserAcceptanceTable();
 
@@ -1107,7 +1107,7 @@ class ilCourseContentGUI
 
 	function __editUserTimings()
 	{
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings.html','course');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings.html','Modules/Course');
 
 		$this->__showTimingsPanel();
 		$this->__showUserAcceptanceTable();
