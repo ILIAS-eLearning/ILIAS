@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+	<title>{TITLE}</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	  <link rel="stylesheet" type="text/css" href="./default.css" />
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		  <script type="text/javascript" src="{JS_PATH}/functions.js"></script>
+  </head>
+  <body>
+	<table class="std">
+	  <tr class="tbltitle">
+		<td colspan="3">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td class="tbltitle" align="left">&nbsp;{DETAILS_TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_SYLLABUS}</td>
+		<td class="sub_option" >&nbsp;</td>
+		<td class="option_value">{SYLLABUS}</td>
+	  </tr>
+	  <tr>
+		<td class="option" align="top" rowspan="5">{TXT_CONTACT}</td>
+		<td class="sub_option">{TXT_CONTACT_NAME}</td>
+		<td class="option_value">{CONTACT_NAME}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CONTACT_RESPONSIBILITY}</td>
+		<td class="option_value">{CONTACT_RESPONSIBILITY}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CONTACT_PHONE}</td>
+		<td class="option_value">{CONTACT_PHONE}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CONTACT_EMAIL}</td>
+		<!-- BEGIN email_link -->
+		<td class="option_value">{CONTACT_EMAIL}</td>
+		<!-- END email_link -->
+		<!-- BEGIN no_mail -->
+		<td class="option_value">{NO_CONTACT_EMAIL}</td>
+		<!-- END no_mail -->
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CONTACT_CONSULTATION}</td>
+		<td class="option_value">{CONTACT_CONSULTATION}</td>
+	  </tr>
+	  <tr>
+		<td class="option" align="top" rowspan="3">{TXT_DATES}</td>
+		<td class="sub_option">{TXT_ACTIVATION}</td>
+		<td class="option_value">{ACTIVATION}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_SUBSCRIPTION}</td>
+		<td class="option_value">{SUBSCRIPTION}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_ARCHIVE}</td>
+		<td class="option_value">{ARCHIVE}</td>
+	  </tr>
+	</table>
+	<h2>{CRS_STRUCTURE}</h2>
+	{STRUCTURE}
+  </body>
+</html>

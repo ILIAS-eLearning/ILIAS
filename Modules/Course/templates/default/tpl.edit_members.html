@@ -1,0 +1,58 @@
+{SUBSCRIBER_TABLE}
+	<form name="members" action="{FORMACTION}" method="post">
+	  <table class="fullwidth" border="0">
+		  <tr class="tbltitle">
+			<th class="std" colspan="8">
+			  <img style="vertical-align: middle;" border="0" src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+			  &nbsp;{MEMBER_TABLE_TITLE}
+			</th>
+		  <tr class="tblheader">
+			<td class="std"  colspan="8">
+			  <div style="float:left;">
+				{TXT_ADMINISTRATORS}
+			  </div>
+			  <div style="float:right;">
+				<a class="il_ContainerItemCommand" href="{ADMIN_HIDE}">{ADMIN_HIDE_TEXT}</a>
+			  </div>
+			</td>
+		  </tr>
+	  {ADMINISTRATORS}
+	  <!-- BEGIN tutor_row -->
+	  <tr class="tblheader">
+		<td class="std"  colspan="8">
+		  <div style="float:left;">
+			{TXT_TUTORS}
+		  </div>
+		  <div style="float:right;">
+			<a class="il_ContainerItemCommand" href="{TUTOR_HIDE}">{TUTOR_HIDE_TEXT}</a>
+		  </div>
+		</td>
+	  </tr>
+	  {TUTORS}
+	  <!-- END tutor_row -->
+	  <!-- BEGIN member_row -->
+	  <tr class="tblheader">
+		<td class="std"  colspan="8">
+		  <div style="float:left;">
+			{TXT_MEMBERS}
+		  </div>
+		  <div style="float:right;">
+			<a class="il_ContainerItemCommand" href="{MEMBER_HIDE}">{MEMBER_HIDE_TEXT}</a>
+		  </div>
+		</td>
+	  </tr>
+	  {MEMBERS}
+	  <!-- END member_row -->
+	  <tr class="tblfooter">
+		<td class="std" colspan="8">
+		  <div style="float:left">
+			<img src="{ARROW_DOWNRIGHT}" alt="" style="vertical-align: middle;" border="0">
+			{SELECT_ACTION}
+			<input class="submit" type="submit" name="cmd[gateway]" value="{TXT_BTN_EXECUTE}" />
+		  </div>
+		  <div style="float:right">
+			<input class="submit" type="submit" name="cmd[updateMembers]" value="{TXT_BTN_UPDATE}" />
+		  </div>
+		</td>
+	  </tr>
+	</table>
