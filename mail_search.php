@@ -109,8 +109,8 @@ if ($_GET["addressbook"])
 if ($_GET["courses_to"])
 {
 	include_once 'classes/class.ilObjUser.php';
-	include_once 'course/classes/class.ilObjCourse.php';
-	include_once 'course/classes/class.ilCourseMembers.php';
+	include_once 'Modules/Course/class.ilObjCourse.php';
+	include_once 'Modules/Course/class.ilCourseMembers.php';
 	
 	$user = new ilObjUser($_SESSION["AccountId"]);
 

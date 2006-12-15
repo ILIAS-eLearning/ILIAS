@@ -202,7 +202,7 @@ class ilLPCollections
 		$mode = ilLPObjSettings::_lookupMode($a_obj_id);
 		if($mode == LP_MODE_OBJECTIVES)
 		{
-			include_once 'course/classes/class.ilCourseObjective.php';
+			include_once 'Modules/Course/class.ilCourseObjective.php';
 			return ilCourseObjective::_getObjectiveIds($a_obj_id);
 		}
 		if($mode != LP_MODE_SCORM and $mode != LP_MODE_COLLECTION)

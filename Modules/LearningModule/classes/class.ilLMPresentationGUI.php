@@ -1278,7 +1278,7 @@ class ilLMPresentationGUI
 		$this->ilias->account->setDesktopItemParameters($_SESSION["tr_id"], $this->lm->getType(),$page_id);
 
 		// Update course items
-		include_once './course/classes/class.ilCourseLMHistory.php';
+		include_once './Modules/Course/class.ilCourseLMHistory.php';
 
 		ilCourseLMHistory::_updateLastAccess($ilUser->getId(),$this->lm->getRefId(),$page_id);
 
@@ -1394,7 +1394,7 @@ class ilLMPresentationGUI
 		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
 
 		// Update course items
-		include_once './course/classes/class.ilCourseLMHistory.php';
+		include_once './Modules/Course/class.ilCourseLMHistory.php';
 
 		ilCourseLMHistory::_updateLastAccess($ilUser->getId(),$this->lm->getRefId(),$page_id);
 

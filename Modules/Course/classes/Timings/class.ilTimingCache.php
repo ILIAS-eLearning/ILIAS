@@ -29,8 +29,8 @@
 * @version $Id$
 * 
 */
-include_once 'course/classes/class.ilCourseItems.php';
-include_once 'course/classes/Timings/class.ilTimingPlaned.php';
+include_once 'Modules/Course/class.ilCourseItems.php';
+include_once 'Modules/Course/Timings/class.ilTimingPlaned.php';
 
 class ilTimingCache
 {

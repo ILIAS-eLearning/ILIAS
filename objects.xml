@@ -76,7 +76,7 @@
 	<property name="pages" module="1">cont_all_pages</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="crs" class_name="Course" location="course/classes" module="course" checkbox="1" inherit="1" translate="0" rbac="1">
+<object name="crs" class_name="Course" location="Modules/Course/classes" module="Modules/Course" checkbox="1" inherit="1" translate="0" rbac="1">
 	<subobj name="fold">fold</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="chat">chat</subobj>

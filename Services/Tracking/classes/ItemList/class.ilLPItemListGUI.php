@@ -233,7 +233,7 @@ class ilLPItemListGUI
 	{
 		if($this->getRefId())
 		{
-			include_once 'course/classes/Timings/class.ilTimingCache.php';
+			include_once 'Modules/Course/Timings/class.ilTimingCache.php';
 			$this->timings =& ilTimingCache::_getTimings($this->getRefId());
 		}
 	}
