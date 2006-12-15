@@ -1212,7 +1212,7 @@ class ilPersonalDesktopGUI
 					$r = $this->ilias->db->query($q);
 					
 					
-					include_once './chat/classes/class.ilChatServerConfig.php';
+					include_once './Modules/Chat/classes/class.ilChatServerConfig.php';
 					if(ilChatServerConfig::_isActive())
 					{
 						if(!$this->__showActiveChatsOfUser($user_id))
@@ -1487,7 +1487,7 @@ class ilPersonalDesktopGUI
 		global $rbacsystem;
 		
 		// show chat info
-		include_once './chat/classes/class.ilChatRoom.php';
+		include_once './Modules/Chat/classes/class.ilChatRoom.php';
 		
 		$chat_id = ilChatRoom::_isActive($a_usr_id);
 		foreach(ilObject::_getAllReferences($chat_id) as $ref_id)
@@ -1496,7 +1496,7 @@ class ilPersonalDesktopGUI
 			{
 				$this->tpl->setCurrentBlock("chat_info");
 				$this->tpl->setVariable("CHAT_ACTIVE_IN",$this->lng->txt('chat_active_in'));
-				$this->tpl->setVariable("CHAT_LINK","chat/chat.php?ref_id=".$ref_id."&room_id=0");
+				$this->tpl->setVariable("CHAT_LINK","Modules/chat/chat.php?ref_id=".$ref_id."&room_id=0");
 				$this->tpl->setVariable("CHAT_TITLE",ilObject::_lookupTitle($chat_id));
 				$this->tpl->parseCurrentBlock();
 				
@@ -1510,7 +1510,7 @@ class ilPersonalDesktopGUI
 	{
 		global $rbacsystem,$ilUser;
 		
-		include_once './chat/classes/class.ilObjChat.php';
+		include_once './Modules/Chat/classes/class.ilObjChat.php';
 		
 		if($a_usr_id == $ilUser->getId())
 		{
@@ -1522,7 +1522,7 @@ class ilPersonalDesktopGUI
 		{
 			$this->tpl->setCurrentBlock("chat_link");
 			$this->tpl->setVariable("TXT_CHAT_INVITE",$this->lng->txt('chat_invite'));
-			$this->tpl->setVariable("CHAT_LINK",'chat/chat.php?ref_id='.ilObjChat::_getPublicChatRefId().
+			$this->tpl->setVariable("CHAT_LINK",'Modules/Chat/chat.php?ref_id='.ilObjChat::_getPublicChatRefId().
 			'&usr_id='.$a_usr_id.'&cmd=invitePD');
 			$this->tpl->parseCurrentBlock();
 			
