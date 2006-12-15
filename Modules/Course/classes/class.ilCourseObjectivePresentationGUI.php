@@ -30,7 +30,7 @@
 * @extends ilObjectGUI
 */
 
-include_once 'Modules/Course/class.ilCourseObjectiveResult.php';
+include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
 
 class ilCourseObjectivePresentationGUI
 {
@@ -135,7 +135,7 @@ class ilCourseObjectivePresentationGUI
 	{
 		global $ilUser;
 
-		include_once './Modules/Course/class.ilCourseObjectiveResult.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 		
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 		$tmp_obj_res->reset($this->course_obj->getId());
@@ -174,7 +174,7 @@ class ilCourseObjectivePresentationGUI
 
 	function __showInfo()
 	{
-		include_once './Modules/Course/class.ilCourseObjective.php';
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
 		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->course_obj->getId())))
 		{
@@ -189,7 +189,7 @@ class ilCourseObjectivePresentationGUI
 
 	function __showObjectives()
 	{
-		include_once './Modules/Course/class.ilCourseObjective.php';
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
 		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->course_obj->getId())))
 		{
@@ -333,9 +333,9 @@ class ilCourseObjectivePresentationGUI
 	{
 		global $rbacsystem,$ilias,$ilUser,$ilObjDataCache;
 
-		include_once './Modules/Course/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveLM.php';
 		include_once './classes/class.ilRepositoryExplorer.php';
-		include_once './Modules/Course/class.ilCourseLMHistory.php';
+		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 
 		if(!count($lms = $this->__getAllLearningMaterials()))
 		{
@@ -505,7 +505,7 @@ class ilCourseObjectivePresentationGUI
 	{
 		global $ilias,$rbacsystem,$ilObjDataCache,$ilUser;
 
-		include_once './Modules/Course/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveLM.php';
 
 		if(!count($tests = $this->__getAllTests()))
 		{

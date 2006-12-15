@@ -85,12 +85,12 @@ class ilLPEventListGUI extends ilLPObjectItemListGUI
 
 	function __readMark()
 	{
-		include_once './Modules/Course/Event/class.ilEventParticipants.php';
+		include_once './Modules/Course/classes/Event/class.ilEventParticipants.php';
 		$this->mark = ilEventParticipants::_lookupMark($this->getId(),$this->getCurrentUser());
 	}
 	function __readComment()
 	{
-		include_once './Modules/Course/Event/class.ilEventParticipants.php';
+		include_once './Modules/Course/classes/Event/class.ilEventParticipants.php';
 		$this->comment = ilEventParticipants::_lookupComment($this->getId(),$this->getCurrentUser());
 	}
 

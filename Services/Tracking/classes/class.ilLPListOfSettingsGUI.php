@@ -269,7 +269,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
 		include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
-		include_once 'Modules/Course/Event/class.ilEvent.php';
+		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
 		include_once 'classes/class.ilLink.php';
 		include_once 'classes/class.ilFrameTargetInfo.php';
 

@@ -625,16 +625,16 @@ class ilObjCourse extends ilContainer
 		$this->initCourseArchiveObject();
 		$this->archives_obj->deleteAll();
 
-		include_once './Modules/Course/class.ilCourseObjective.php';
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		ilCourseObjective::_deleteAll($this->getId());
 
-		include_once './Modules/Course/class.ilObjCourseGrouping.php';
+		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 		ilObjCourseGrouping::_deleteAll($this->getId());
 
-		include_once './Modules/Course/Event/class.ilEvent.php';
+		include_once './Modules/Course/classes/Event/class.ilEvent.php';
 		ilEvent::_deleteAll($this->getId());
 
-		include_once './Modules/Course/class.ilCourseFile.php';
+		include_once './Modules/Course/classes/class.ilCourseFile.php';
 		ilCourseFile::_deleteByCourse($this->getId());
 		
 		return true;
@@ -783,7 +783,7 @@ class ilObjCourse extends ilContainer
 
 	function initWaitingList()
 	{
-		include_once "./Modules/Course/class.ilCourseWaitingList.php";
+		include_once "./Modules/Course/classes/class.ilCourseWaitingList.php";
 
 		if(!is_object($this->waiting_list_obj))
 		{
@@ -795,7 +795,7 @@ class ilObjCourse extends ilContainer
 		
 	function initCourseMemberObject()
 	{
-		include_once "./Modules/Course/class.ilCourseMembers.php";
+		include_once "./Modules/Course/classes/class.ilCourseMembers.php";
 
 		if(!is_object($this->members_obj))
 		{
@@ -806,7 +806,7 @@ class ilObjCourse extends ilContainer
 
 	function initCourseItemObject($a_child_id = 0)
 	{
-		include_once "./Modules/Course/class.ilCourseItems.php";
+		include_once "./Modules/Course/classes/class.ilCourseItems.php";
 		
 		if(!is_object($this->items_obj))
 		{
@@ -817,7 +817,7 @@ class ilObjCourse extends ilContainer
 
 	function initCourseArchiveObject()
 	{
-		include_once "./Modules/Course/class.ilCourseArchives.php";
+		include_once "./Modules/Course/classes/class.ilCourseArchives.php";
 
 		if(!is_object($this->archives_obj))
 		{
@@ -1130,7 +1130,7 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilias;
 
-		include_once "./Modules/Course/class.ilCourseMembers.php";
+		include_once "./Modules/Course/classes/class.ilCourseMembers.php";
 		
 		switch($a_operator)
 		{
@@ -1146,14 +1146,14 @@ class ilObjCourse extends ilContainer
 	{
 		// Delete all user related data
 		// delete lm_history
-		include_once './Modules/Course/class.ilCourseLMHistory.php';
+		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 		ilCourseLMHistory::_deleteUser($a_usr_id);
 
-		include_once './Modules/Course/class.ilCourseMembers.php';
+		include_once './Modules/Course/classes/class.ilCourseMembers.php';
 		ilCourseMembers::_deleteUser($a_usr_id);
 
 		// Course objectives
-		include_once './Modules/Course/class.ilCourseObjectiveResult.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 		ilCourseObjectiveResult::_deleteUser($a_usr_id);
 	}
 

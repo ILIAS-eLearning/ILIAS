@@ -64,7 +64,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		}
 
 		// Start import
-		include_once("Modules/Course/class.ilObjCourse.php");
+		include_once("Modules/Course/classes/class.ilObjCourse.php");
 
 		$newObj = new ilObjCourse();
 		$newObj->setType('crs');
@@ -76,7 +76,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		$newObj->setPermissions($target_id);
 		$newObj->initDefaultRoles();
 
-		include_once 'Modules/Course/class.ilCourseXMLParser.php';
+		include_once 'Modules/Course/classes/class.ilCourseXMLParser.php';
 
 		$xml_parser = new ilCourseXMLParser($newObj);
 		$xml_parser->setXMLContent($crs_xml);
@@ -200,7 +200,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Cannot create user instance!','Server');
 		}
 
-		include_once 'Modules/Course/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 		
 		$course_members = new ilCourseMembers($tmp_course);
 
@@ -262,7 +262,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to write to course','Server');
 		}
 
-		include_once 'Modules/Course/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 		
 		$course_members = new ilCourseMembers($tmp_course);
 
@@ -316,7 +316,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to write to course','Server');
 		}
 
-		include_once './Modules/Course/class.ilCourseMembers.php';
+		include_once './Modules/Course/classes/class.ilCourseMembers.php';
 
 		$crs_members = new ilCourseMembers($tmp_course);
 		
@@ -373,7 +373,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to read course','Server');
 		}
 
-		include_once 'Modules/Course/class.ilCourseXMLWriter.php';
+		include_once 'Modules/Course/classes/class.ilCourseXMLWriter.php';
 
 		$xml_writer = new ilCourseXMLWriter($tmp_course);
 		$xml_writer->start();
@@ -424,16 +424,16 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		$md = new ilMD($tmp_course->getId(),0,'crs');
 		$md->deleteAll();
 
-		include_once 'Modules/Course/class.ilCourseMembers.php';
+		include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 
 		$crs_members = new ilCourseMembers($tmp_course);
 		$crs_members->deleteAllEntries();
 
-		include_once 'Modules/Course/class.ilCourseWaitingList.php';
+		include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
 
 		ilCourseWaitingList::_deleteAll($tmp_course->getId());
 
-		include_once 'Modules/Course/class.ilCourseXMLParser.php';
+		include_once 'Modules/Course/classes/class.ilCourseXMLParser.php';
 
 		$xml_parser = new ilCourseXMLParser($tmp_course);
 		$xml_parser->setXMLContent($xml);

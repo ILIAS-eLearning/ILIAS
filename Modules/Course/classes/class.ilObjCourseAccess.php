@@ -57,7 +57,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_cmd)
 		{
 			case "view":
-				include_once 'Modules/Course/class.ilCourseMembers.php';
+				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 				if(ilCourseMembers::_isBlocked($a_obj_id,$a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
@@ -67,7 +67,7 @@ class ilObjCourseAccess extends ilObjectAccess
 
 			case "info":
 				// Used for permission query ?!
-				include_once 'Modules/Course/class.ilCourseMembers.php';
+				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
 				{
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
@@ -79,7 +79,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				break;
 
 			case 'join':
-				include_once 'Modules/Course/class.ilCourseMembers.php';
+				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 
 				if(ilCourseMembers::_isMember($a_user_id,$a_obj_id))
 				{
@@ -91,7 +91,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_permission)
 		{
 			case "visible":
-				include_once 'Modules/Course/class.ilObjCourse.php';
+				include_once './Modules/Course/classes/class.ilObjCourse.php';
 				$active = ilObjCourse::_isActivated($a_obj_id);
 				$registration = ilObjCourse::_registrationEnabled($a_obj_id);
 				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
@@ -107,7 +107,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				break;
 
 			case 'read':
-				include_once 'Modules/Course/class.ilObjCourse.php';
+				include_once 'Modules/Course/classes/class.ilObjCourse.php';
 				$active = ilObjCourse::_isActivated($a_obj_id);
 				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
 

@@ -398,7 +398,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->obj_tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
 
 		// Show timings header
-		include_once 'Modules/Course/class.ilCourseItems.php';
+		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		if($this->has_timings = ilCourseItems::_hasCollectionTimings($this->details_id))
 		{
 			$this->obj_tpl->setVariable('HEAD_TIMING',$this->lng->txt('trac_head_timing'));

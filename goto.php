@@ -161,7 +161,7 @@ switch($target_type)
 
 	// new implementation: ok
 	case "crs":
-		require_once("Modules/Course/class.ilObjCourseGUI.php");
+		require_once("Modules/Course/classes/class.ilObjCourseGUI.php");
 		ilObjCourseGUI::_goto($target_id);
 		break;
 

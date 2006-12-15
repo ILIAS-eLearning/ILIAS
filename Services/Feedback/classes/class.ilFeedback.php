@@ -352,7 +352,7 @@ class ilFeedback {
 	*/
 	function canVote($a_user_id,$a_fb_id){
 		global $ilDB, $ilUser;
-		include_once('Modules/Course/class.ilCourseMembers.php');
+		include_once('Modules/Course/classes/class.ilCourseMembers.php');
 		
 		$q = "SELECT * FROM feedback_results WHERE ".
 			"fb_id=".$ilDB->quote($a_fb_id)." AND ".

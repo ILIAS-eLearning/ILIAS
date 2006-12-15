@@ -51,7 +51,7 @@ class ilLPStatusCollection extends ilLPStatus
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
-				include_once 'Modules/Course/class.ilCourseMembers.php';
+				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 				$members = ilCourseMembers::_getMembers($a_obj_id);
 				
 				// diff in progress and completed (use stored result in LPStatusWrapper)
@@ -111,7 +111,7 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case 'crs':
 				// Exclude all non members
-				include_once 'Modules/Course/class.ilCourseMembers.php';
+				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
 				break;
 		}
@@ -164,7 +164,7 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case 'crs':
 				// Exclude all non members
-				include_once 'Modules/Course/class.ilCourseMembers.php';
+				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
 				break;
 		}

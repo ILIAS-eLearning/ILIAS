@@ -158,8 +158,8 @@ if ($_GET["mycourses"])
 	$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html");
 
 	include_once 'classes/class.ilObjUser.php';
-	include_once 'Modules/Course/class.ilObjCourse.php';
-	include_once 'Modules/Course/class.ilCourseMembers.php';
+	include_once 'Modules/Course/classes/class.ilObjCourse.php';
+	include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 	
 	$lng->loadLanguageModule('crs');
 

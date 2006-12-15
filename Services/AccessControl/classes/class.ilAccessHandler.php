@@ -431,7 +431,7 @@ class ilAccessHandler
 			return true;
 		}
 
-		include_once 'Modules/Course/class.ilCourseItems.php';
+		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		$item_data = ilCourseItems::_getItem($a_ref_id);
 
 		// if activation isn't enabled

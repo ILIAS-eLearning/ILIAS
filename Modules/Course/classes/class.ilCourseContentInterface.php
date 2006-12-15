@@ -145,7 +145,7 @@ class ilCourseContentInterface
 
 		include_once "./classes/class.ilRepositoryExplorer.php";
 		include_once "./payment/classes/class.ilPaymentObject.php";
-		include_once './Modules/Course/class.ilCourseStart.php';
+		include_once './Modules/Course/classes/class.ilCourseStart.php';
 		include_once './classes/class.ilObjectListGUIFactory.php';
 
 		global $rbacsystem;
@@ -459,7 +459,7 @@ class ilCourseContentInterface
 	
 	function cci_start_objects()
 	{
-		include_once './Modules/Course/class.ilCourseLMHistory.php';
+		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 		include_once './classes/class.ilRepositoryExplorer.php';
 
 		global $rbacsystem,$ilias,$ilUser;
@@ -583,7 +583,7 @@ class ilCourseContentInterface
 
 	function cci_objectives()
 	{
-		include_once "./Modules/Course/class.ilCourseStart.php";
+		include_once "./Modules/Course/classes/class.ilCourseStart.php";
 
 		global $rbacsystem,$ilUser,$ilBench;
 
@@ -734,7 +734,7 @@ class ilCourseContentInterface
 
 	function __showInfo()
 	{
-		include_once './Modules/Course/class.ilCourseObjective.php';
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
 		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->cci_course_obj->getId())))
 		{
@@ -846,9 +846,9 @@ class ilCourseContentInterface
 	{
 		global $rbacsystem,$ilias,$ilUser,$ilObjDataCache;
 
-		include_once './Modules/Course/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveLM.php';
 		include_once './classes/class.ilRepositoryExplorer.php';
-		include_once './Modules/Course/class.ilCourseLMHistory.php';
+		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 
 		if(!count($lms = $this->__getAllLearningMaterials()))
 		{
@@ -1019,7 +1019,7 @@ class ilCourseContentInterface
 	{
 		global $ilias,$rbacsystem,$ilObjDataCache;
 
-		include_once './Modules/Course/class.ilCourseObjectiveLM.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveLM.php';
 
 		if(!count($tests = $this->__getAllTests()))
 		{
@@ -1118,7 +1118,7 @@ class ilCourseContentInterface
 
 	function __showObjectives()
 	{
-		include_once './Modules/Course/class.ilCourseObjective.php';
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
 		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->cci_course_obj->getId())))
 		{
@@ -1264,8 +1264,8 @@ class ilCourseContentInterface
 		}
 
 
-		include_once './Modules/Course/class.ilCourseObjectiveResult.php';
-		include_once './Modules/Course/class.ilCourseObjective.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 		
@@ -1296,7 +1296,7 @@ class ilCourseContentInterface
 			return $this->suggested = $_SESSION['objectives_suggested'][$this->cci_course_obj->getId()];
 		}
 
-		include_once './Modules/Course/class.ilCourseObjectiveResult.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 
@@ -1337,7 +1337,7 @@ class ilCourseContentInterface
 		if($all_success)
 		{
 			// set status passed
-			include_once 'Modules/Course/class.ilCourseMembers.php';
+			include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 
 			ilCourseMembers::_setPassed($this->cci_course_obj->getId(),$ilUser->getId());
 
@@ -1346,8 +1346,8 @@ class ilCourseContentInterface
 
 			return true;
 		}
-		include_once './Modules/Course/class.ilCourseObjectiveResult.php';
-		include_once './Modules/Course/class.ilCourseObjective.php';
+		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 
