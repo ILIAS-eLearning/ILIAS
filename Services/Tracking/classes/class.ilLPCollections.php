@@ -147,13 +147,13 @@ class ilLPCollections
 
 	function _getPossibleSAHSItems($target_id)
 	{
-		include_once './content/classes/class.ilObjSAHSLearningModule.php';
+		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
 
 		switch(ilObjSAHSLearningModule::_lookupSubType($target_id))
 		{
 			case 'hacp':
 			case 'aicc':
-				include_once './content/classes/class.ilObjAICCLearningModule.php';
+				include_once './Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php';
 
 				foreach(ilObjAICCLearningModule::_getTrackingItems($target_id) as $item)
 				{
@@ -163,8 +163,8 @@ class ilLPCollections
 				return $items ? $items : array();
 
 			case 'scorm':
-				include_once './content/classes/class.ilObjSCORMLearningModule.php';
-				include_once './content/classes/SCORM/class.ilSCORMItem.php';
+				include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
+				include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
 
 				foreach(ilObjSCORMLearningModule::_getTrackingItems($target_id) as $item)
 				{

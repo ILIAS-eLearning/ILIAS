@@ -217,15 +217,15 @@ class ilNewsItemGUIGen
 	}
 
 	/**
-	* Output NewsItem form.
+	* FORM NewsItem: Output form.
 	*
 	*/
-	public function outputForm()
+	public function outputFormNewsItem()
 	{
 		global $lng;
 		
 		$tpl = new ilTemplate("tpl.property_form.html", true, true);
-		$values = $this->getValues();
+		$values = $this->getValuesNewsItem();
 		
 		$tpl->setCurrentBlock("prop_Varchar");
 		$tpl->setVariable("POST_VAR", "news_title");
@@ -246,7 +246,7 @@ class ilNewsItemGUIGen
 		if (in_array($this->getFormEditMode(), array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
 		{
 			$tpl->setCurrentBlock("cmd");
-			$tpl->setVariable("CMD", "save");
+			$tpl->setVariable("CMD", "saveNewsItem");
 			$tpl->setVariable("CMD_TXT", $lng->txt("save"));
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("cmd");
@@ -257,7 +257,7 @@ class ilNewsItemGUIGen
 		else
 		{
 			$tpl->setCurrentBlock("cmd");
-			$tpl->setVariable("CMD", "update");
+			$tpl->setVariable("CMD", "updateNewsItem");
 			$tpl->setVariable("CMD_TXT", $lng->txt("save"));
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("cmd");
@@ -272,74 +272,74 @@ class ilNewsItemGUIGen
 	}
 
 	/**
-	* Edit NewsItem.
+	* FORM NewsItem: Edit form.
 	*
 	*/
-	public function edit()
+	public function editNewsItem()
 	{
 		$this->setFormEditMode(IL_FORM_EDIT);
-		return $this->outputForm();
+		return $this->outputFormNewsItem();
 
 	}
 
 	/**
-	* Create NewsItem.
+	* FORM NewsItem: Create NewsItem.
 	*
 	*/
-	public function create()
+	public function createNewsItem()
 	{
 		$this->setFormEditMode(IL_FORM_CREATE);
-		return $this->outputForm();
+		return $this->outputFormNewsItem();
 
 	}
 
 	/**
-	* Save NewsItem.
+	* FORM NewsItem: Save NewsItem.
 	*
 	*/
-	public function save()
+	public function saveNewsItem()
 	{
-		if ($this->checkInput())
+		if ($this->checkInputNewsItem())
 		{
 			
 			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
 			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
-			$this->news_item->create();
+			$this->news_item->createNewsItem();
 		}
 		else
 		{
 			$this->setFormEditMode(IL_FORM_RE_CREATE);
-			return $this->outputForm();
+			return $this->outputFormNewsItem();
 		}
 
 	}
 
 	/**
-	* Update NewsItem.
+	* FORM NewsItem: Update NewsItem.
 	*
 	*/
-	public function update()
+	public function updateNewsItem()
 	{
 		if ($this->checkInput())
 		{
 			
 			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
 			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
-			$this->news_item->update();
+			$this->news_item->updateNewsItem();
 		}
 		else
 		{
 			$this->setFormEditMode(IL_FORM_RE_EDIT);
-			return $this->outputForm();
+			return $this->outputFormNewsItem();
 		}
 
 	}
 
 	/**
-	* Get current values for NewsItem form.
+	* FORM NewsItem: Get current values for NewsItem form.
 	*
 	*/
-	public function getValues()
+	public function getValuesNewsItem()
 	{
 		$values = array();
 		
@@ -413,7 +413,7 @@ class ilNewsItemGUIGen
 		global $lng;
 		
 		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
-		$table_gui = new ilNewsForContextTableGUI();
+		$table_gui = new ilNewsForContextTableGUI($this, getNewsForContextTable);
 		
 		$news_item = new ilNewsItem();
 		$this->prepareTableQueryNewsForContext($news_item);
@@ -422,6 +422,7 @@ class ilNewsItemGUIGen
 		$table_gui->setTitle($lng->txt("news_table_news_for_context"));
 		$table_gui->setRowTemplate("tpl.table_row_news_for_context.html", "Services/News");
 		$table_gui->setData($data);
+		$this->prepareTableNewsForContext($table_gui);
 		
 		return $table_gui->getHTML();
 
@@ -439,6 +440,16 @@ class ilNewsItemGUIGen
 		$a_news_item->setContextObjType($this->getContextObjType());
 		$a_news_item->setContextSubObjId($this->getContextSubObjId());
 		$a_news_item->setContextSubObjType($this->getContextSubObjType());
+
+	}
+
+	/**
+	* TABLE NewsForContext: Prepare table before it is rendered. Please overwrite this in derived classes.
+	*
+	* @param	object	$a_table_gui	Table GUI object.
+	*/
+	public function prepareTableNewsForContext(&$a_table_gui)
+	{
 
 	}
 

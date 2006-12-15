@@ -34,10 +34,13 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 
 	function ilNewsForContextTableGUI($a_parent_obj, $a_parent_cmd = "")
 	{
-		parent::ilTable2GUI($a_parent_obj, $a_parent_cmd);
+		global $ilCtrl;
+		
+		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setHeaderNames(array("Test"));
 		$this->setHeaderVars(array("Test"));
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 	}
 }
 ?>

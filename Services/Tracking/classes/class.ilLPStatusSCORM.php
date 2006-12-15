@@ -47,7 +47,7 @@ class ilLPStatusSCORM extends ilLPStatus
 	function _getInProgress($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
 
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = array();
@@ -66,7 +66,7 @@ class ilLPStatusSCORM extends ilLPStatus
 	{
 		global $ilDB;
 
-		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
 
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$items = $status_info['scos'];
@@ -113,19 +113,19 @@ class ilLPStatusSCORM extends ilLPStatus
 		$status_info['scos'] = ilLPCollectionCache::_getItems($a_obj_id);
 		$status_info['num_scos'] = count($status_info['scos']);
 		
-		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
 		$status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'],$a_obj_id);
 
 
 		// Get subtype
-		include_once './content/classes/class.ilObjSAHSLearningModule.php';
+		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
 		$status_info['subtype'] = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
 
 		switch($status_info['subtype'])
 		{
 			case 'hacp':
 			case 'aicc':
-				include_once './content/classes/class.ilObjAICCLearningModule.php';
+				include_once './Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php';
 				foreach(ilObjAICCLearningModule::_getTrackingItems($a_obj_id) as $item)
 				{
 					if(in_array($item['obj_id'],$status_info['scos']))
@@ -136,14 +136,14 @@ class ilLPStatusSCORM extends ilLPStatus
 				break;
 			case 'scorm':
 
-				include_once './content/classes/SCORM/class.ilSCORMItem.php';
+				include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
 				foreach($status_info['scos'] as $sco_id)
 				{
 					$status_info['scos_title'][$sco_id] = ilSCORMItem::_lookupTitle($sco_id);
 				}
 		}
 
-		include_once './content/classes/SCORM/class.ilObjSCORMTracking.php';
+		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
 		$info = ilObjSCORMTracking::_getProgressInfo($status_info['scos'],$a_obj_id);
 
 
