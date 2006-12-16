@@ -642,5 +642,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		return FALSE;
 	}
+
 }
 ?>

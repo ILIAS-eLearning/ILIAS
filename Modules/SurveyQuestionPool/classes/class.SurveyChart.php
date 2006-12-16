@@ -34,10 +34,11 @@ class SurveyChart
 {
 	var $graph;
 	var $graphData;
+	
 	function SurveyChart($GraphTyp,$XSize,$YSize,$Titel,$XLabel,$YLabel,$DataArray)
 	{
 		$this->graphData = array();
-		include_once ("phplot/phplot.php");
+		include_once ("./Modules/SurveyQuestionPool/phplot/phplot.php");
 		$this->graph = new PHPlot($XSize,$YSize);
 		switch ($GraphTyp)
 		{

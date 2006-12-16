@@ -2131,5 +2131,21 @@ class SurveyQuestion
 		// overwrite in inherited classes
 		return "";
 	}
+
+/**
+* Creates an image visualising the results of the question
+*
+* Creates an image visualising the results of the question
+*
+* @param integer $survey_id The database ID of the survey
+* @param string $type An additional parameter to allow to draw more than one chart per question. Must be interpreted by the question. Default is an empty string
+* @return binary Image with the visualisation
+* @access private
+*/
+	function outChart($survey_id, $type = "")
+	{
+		// overwrite in inherited classes
+	}
+	
 }
 ?>

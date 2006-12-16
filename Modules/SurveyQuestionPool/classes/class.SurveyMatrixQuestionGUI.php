@@ -1407,12 +1407,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			{
 				$template->setCurrentBlock("chartimage");
 				$template->setVariable("ALT_CHART", $this->lng->txt("chart"));
-				$title = preg_replace("/\<[^>]+?>/ims", "", $this->object->getRow($key));
-				$template->setVariable("CHART","./Modules/SurveyQuestionPool/displaychart.php?grName=" . urlencode($title) . 
-					"&type=bars" . 
-					"&x=" . urlencode($this->lng->txt("answers")) . 
-					"&y=" . urlencode($this->lng->txt("users_answered")) . 
-					"&arr=".base64_encode(serialize($value["variables"])));
+				$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "type", $key);
+				$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "survey", $survey_id);
+				$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "question", $this->object->getId());
+				$template->setVariable("CHART", $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "outChart"));
 				$template->parseCurrentBlock();
 			}
 		}
