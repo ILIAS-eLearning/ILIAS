@@ -738,5 +738,21 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
 		$this->tpl->parseCurrentBlock();
 	}
+
+/**
+* Creates an image visualising the results of a question
+*
+* Creates an image visualising the results of a question
+*
+* @access public
+*/
+	function outChart()
+	{
+		$survey_id = $_GET["survey"];
+		$question_id = $_GET["question"];
+		$type = ($_GET["type"]) ? $_GET["type"] : "";
+		$question =& $this->object->_instanciateQuestion($question_id);
+		$question->outChart($survey_id, $type);
+	}
 }
 ?>
