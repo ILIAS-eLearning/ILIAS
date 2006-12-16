@@ -1070,7 +1070,7 @@ class ilUtil
 	*/
 	function shortenText ($a_str, $a_len, $a_dots = false, $a_next_blank = false)
 	{
-		include_once("./classes/class.ilStr.php");
+		include_once("./Services/Utilities/classes/class.ilStr.php");
 		if (ilStr::strLen($a_str) > $a_len)
 		{
 			if ($a_next_blank)

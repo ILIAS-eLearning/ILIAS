@@ -226,21 +226,24 @@ class ilNewsItemGUIGen
 		
 		$tpl = new ilTemplate("tpl.property_form.html", true, true);
 		$values = $this->getValuesNewsItem();
-		
+		<!-- BEGIN prop_Datetime -->
+		<!-- END prop_DatetimHalle -->
 		$tpl->setCurrentBlock("prop_Varchar");
 		$tpl->setVariable("POST_VAR", "news_title");
 		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_title"));
 		$tpl->setVariable("PROPERTY_VALUE",
 			ilUtil::prepareFormOutput($values["Title"]));
 		$tpl->parseCurrentBlock();
-		
+		<!-- BEGIN prop_Datetime -->
+		<!-- END prop_DatetimHalle -->
 		$tpl->setCurrentBlock("prop_Text");
 		$tpl->setVariable("POST_VAR", "news_content");
 		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_content"));
 		$tpl->setVariable("PROPERTY_VALUE",
 			ilUtil::prepareFormOutput($values["Content"]));
 		$tpl->parseCurrentBlock();
-		
+		<!-- BEGIN prop_Datetime -->
+		<!-- END prop_DatetimHalle -->
 		
 		// save and cancel commands
 		if (in_array($this->getFormEditMode(), array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
@@ -363,6 +366,32 @@ class ilNewsItemGUIGen
 		}
 		
 		return $values;
+
+	}
+
+	/**
+	* FORM NewsItem: Check input.
+	*
+	*/
+	public function checkInputNewsItem()
+	{
+		
+		include_once("./Services/Utilities/class.ilTypeCheck.php");
+		$ilTypeCheck = new ilTypeCheck();
+		
+		$this->form_check[""]["Title"] =
+			$ilTypeCheck::check("varchar", $_POST["news_title"], true);
+		$this->form_check[""]["Content"] =
+			$ilTypeCheck::check("text", $_POST["news_content"], false);
+		
+		foreach($this->form_check["NewsItem"] as $prop_check)
+		{
+			if (!$prop_check["ok"])
+			{
+				return false;
+			}
+		}
+		return true;
 
 	}
 

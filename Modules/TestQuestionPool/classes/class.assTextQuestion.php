@@ -694,7 +694,7 @@ class assTextQuestion extends assQuestion
 	{
 		$result = FALSE;
 		$textrating = $this->getTextRating();
-		include_once "./classes/class.ilStr.php";
+		include_once "./Services/Utilities/classes/class.ilStr.php";
 		switch ($textrating)
 		{
 			case TEXTGAP_RATING_CASEINSENSITIVE:
@@ -825,7 +825,7 @@ class assTextQuestion extends assQuestion
 		$text = ilUtil::stripSlashes($_POST["TEXT"]);
 		if ($this->getMaxNumOfChars())
 		{
-			include_once "./classes/class.ilStr.php";
+			include_once "./Services/Utilities/classes/class.ilStr.php";
 			$text = ilStr::subStr($text, 0, $this->getMaxNumOfChars()); 
 		}
 		$entered_values = 0;
