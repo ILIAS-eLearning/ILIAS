@@ -893,11 +893,9 @@ copy various files and directories to your ILIAS web directory:
 
     cd /tmp/ilias3
     cp -p * /opt/ilias/www/htdocs/ilias/
-    cp -rp assessment chat classes course /opt/ilias/www/htdocs/ilias/
-    cp -rp docs include lang layouts cron /opt/ilias/www/htdocs/ilias/
-    cp -rp calendar payment setup survey /opt/ilias/www/htdocs/ilias/
-    cp -rp syntax_highlight templates tracking xml /opt/ilias/www/htdocs/ilias/
-    cp -rp webservice ilinc link Services /opt/ilias/www/htdocs/ilias/
+    cp -rp classes docs include lang cron calendar /opt/ilias/www/htdocs/ilias/
+    cp -rp payment templates tracking xml /opt/ilias/www/htdocs/ilias/
+    cp -rp webservice ilinc setup Modules Services /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied
 you may remove /tmp/ilias/.

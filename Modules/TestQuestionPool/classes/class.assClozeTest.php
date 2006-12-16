@@ -1952,7 +1952,7 @@ class assClozeTest extends assQuestion
 		}
 		foreach ($gap as $answer)
 		{
-			include_once "./classes/class.ilStr.php";
+			include_once "./Services/Utilities/classes/class.ilStr.php";
 			$answertextsize = ilStr::strLen($answer->getAnswertext());
 			if ($answertextsize > $size) $size = $answertextsize;
 		}
