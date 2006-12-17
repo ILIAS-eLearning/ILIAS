@@ -1192,11 +1192,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setVariable("HEADING_SCORING_AND_RESULTS", $this->lng->txt("scoring"));
+		$this->tpl->setVariable("DEFAULT", "(" . $this->lng->txt("default") . ")");
 		$this->tpl->setVariable("TEXT_COUNT_SYSTEM", $this->lng->txt("tst_text_count_system"));
 		$this->tpl->setVariable("COUNT_PARTIAL_SOLUTIONS", $this->lng->txt("tst_count_partial_solutions"));
-		$this->tpl->setVariable("COUNT_PARTIAL_SOLUTIONS_DESCRIPTION", $this->lng->txt("tst_count_partial_solutions_description"));
 		$this->tpl->setVariable("COUNT_CORRECT_SOLUTIONS", $this->lng->txt("tst_count_correct_solutions"));
-		$this->tpl->setVariable("COUNT_CORRECT_SOLUTIONS_DESCRIPTION", $this->lng->txt("tst_count_correct_solutions_description"));
+		$this->tpl->setVariable("COUNT_SYSTEM_DESCRIPTION", $this->lng->txt("tst_count_system_description"));
 		switch ($data["count_system"])
 		{
 			case COUNT_CORRECT_SOLUTIONS:
@@ -1215,9 +1216,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TEXT_SCORE_MCMR", $this->lng->txt("tst_score_mcmr_questions"));
 		$this->tpl->setVariable("ZERO_POINTS_WHEN_UNANSWERED", $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"));
-		$this->tpl->setVariable("ZERO_POINTS_WHEN_UNANSWERED_DESCRIPTION", $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered_description"));
 		$this->tpl->setVariable("USE_SCORING_SYSTEM", $this->lng->txt("tst_score_mcmr_use_scoring_system"));
-		$this->tpl->setVariable("USE_SCORING_SYSTEM_DESCRIPTION", $this->lng->txt("tst_score_mcmr_use_scoring_system_description"));
+		$this->tpl->setVariable("TEXT_SCORE_MCMR_DESCRIPTION", $this->lng->txt("tst_score_mcmr_questions_description"));
 		switch ($data["mc_scoring"])
 		{
 			case SCORE_ZERO_POINTS_WHEN_UNANSWERED:
@@ -1236,9 +1236,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TEXT_SCORE_CUTTING", $this->lng->txt("tst_score_cutting"));
 		$this->tpl->setVariable("TEXT_CUT_QUESTION", $this->lng->txt("tst_score_cut_question"));
-		$this->tpl->setVariable("TEXT_CUT_QUESTION_DESCRIPTION", $this->lng->txt("tst_score_cut_question_description"));
 		$this->tpl->setVariable("TEXT_CUT_TEST", $this->lng->txt("tst_score_cut_test"));
-		$this->tpl->setVariable("TEXT_CUT_TEST_DESCRIPTION", $this->lng->txt("tst_score_cut_test_description"));
+		$this->tpl->setVariable("TEXT_SCORE_CUTTING_DESCRIPTION", $this->lng->txt("tst_score_cutting_description"));
 		switch ($data["score_cutting"])
 		{
 			case SCORE_CUT_QUESTION:
@@ -1257,9 +1256,8 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("TEXT_PASS_SCORING", $this->lng->txt("tst_pass_scoring"));
 		$this->tpl->setVariable("TEXT_LASTPASS", $this->lng->txt("tst_pass_last_pass"));
-		$this->tpl->setVariable("TEXT_LASTPASS_DESCRIPTION", $this->lng->txt("tst_pass_last_pass_description"));
 		$this->tpl->setVariable("TEXT_BESTPASS", $this->lng->txt("tst_pass_best_pass"));
-		$this->tpl->setVariable("TEXT_BESTPASS_DESCRIPTION", $this->lng->txt("tst_pass_best_pass_description"));
+		$this->tpl->setVariable("TEXT_PASS_SCORING_DESCRIPTION", $this->lng->txt("tst_pass_scoring_description"));
 		switch ($data["pass_scoring"])
 		{
 			case SCORE_BEST_PASS:
@@ -1278,15 +1276,13 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TEXT_INSTANT_FEEDBACK", $this->lng->txt("tst_instant_feedback"));
 		$this->tpl->setVariable("TEXT_ANSWER_SPECIFIC_FEEDBACK", $this->lng->txt("tst_instant_feedback_answer_specific"));
-		$this->tpl->setVariable("TEXT_ANSWER_SPECIFIC_FEEDBACK_DESCRIPTION", $this->lng->txt("tst_instant_feedback_answer_specific_desc"));
 		$this->tpl->setVariable("TEXT_SHOW_RESULTS", $this->lng->txt("tst_instant_feedback_results"));
-		$this->tpl->setVariable("TEXT_SHOW_RESULTS_DESCRIPTION", $this->lng->txt("tst_instant_feedback_results_desc"));
 		if ($data["answer_feedback_points"])
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_RESULTS", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION", $this->lng->txt("tst_instant_feedback_solution"));
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DESCRIPTION", $this->lng->txt("tst_instant_feedback_solution_desc"));
+		$this->tpl->setVariable("TEXT_INSTANT_FEEDBACK_DESCRIPTION", $this->lng->txt("tst_instant_feedback_description"));
 		if ($data["instant_feedback_solution"])
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION", " checked=\"checked\"");
@@ -1297,14 +1293,13 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TEXT_RESULTS_PRESENTATION", $this->lng->txt("tst_results_presentation"));
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS", $this->lng->txt("tst_show_solution_details"));
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS_DESCRIPTION", $this->lng->txt("tst_show_solution_details_description"));
 		if ($data["show_solution_details"])
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_DETAILS", " checked=\"checked\"");
 		}
 
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW", $this->lng->txt("tst_show_solution_printview"));
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW_DESCRIPTION", $this->lng->txt("tst_show_solution_printview_description"));
+		$this->tpl->setVariable("TEXT_RESULTS_PRESENTATION_DESCRIPTION", $this->lng->txt("tst_results_presentation_description"));
 		if ($data["show_solution_printview"])
 		{
 			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_PRINTVIEW", " checked=\"checked\"");
@@ -1312,9 +1307,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TEXT_RESULTS_ACCESS", $this->lng->txt("tst_results_access"));
 		$this->tpl->setVariable("TEXT_RESULTS_FINISHED", $this->lng->txt("tst_results_access_finished"));
-		$this->tpl->setVariable("TEXT_RESULTS_FINISHED_DESCRIPTION", $this->lng->txt("tst_results_access_finished_descr"));
 		$this->tpl->setVariable("TEXT_RESULTS_DATE", $this->lng->txt("tst_results_access_date"));
-		$this->tpl->setVariable("TEXT_RESULTS_DATE_DESCRIPTION", $this->lng->txt("tst_results_access_date_descr"));
 		if ($data["results_access"] != REPORT_AFTER_DATE)
 		{
 			$report = getdate(time()+60*60*24*7);
@@ -1342,7 +1335,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("IMG_REPORTING_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
 		$this->tpl->setVariable("TXT_REPORTING_DATE_CALENDAR", $this->lng->txt("open_calendar"));
 		$this->tpl->setVariable("TEXT_RESULTS_ALWAYS", $this->lng->txt("tst_results_access_always"));
-		$this->tpl->setVariable("TEXT_RESULTS_ALWAYS_DESCRIPTION", $this->lng->txt("tst_results_access_always_descr"));
+		$this->tpl->setVariable("TEXT_RESULTS_ACCESS_DESCRIPTION", $this->lng->txt("tst_results_access_description"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
