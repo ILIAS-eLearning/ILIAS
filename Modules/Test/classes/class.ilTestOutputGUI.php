@@ -350,6 +350,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$answer_feedback = TRUE;
 		}
+		global $ilNavigationHistory;
+		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resume"));
 		$question_gui->outQuestionForTest($formaction, $active->active_id, NULL, $is_postponed, $user_post_solution, $answer_feedback);
 		if ($directfeedback)
 		{
@@ -702,7 +704,16 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function redirectQuestion()
 	{
 		global $ilUser;
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		
+		// check the test restrictions to access the test in case one
+		// of the test navigation commands was called by an external script
+		// e.g. $ilNavigationHistory
+		$executable = $this->object->isExecutable($ilUser->getId());
+		if (!$executable["executable"])
+		{
+			sendInfo($executable["errormessage"], TRUE);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
 		switch ($_GET["activecommand"])
 		{
 			case "next":

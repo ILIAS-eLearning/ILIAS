@@ -6207,7 +6207,7 @@ survey#:#enter_phrase_title#:#Please enter a Phrase Title
 survey#:#enter_questionblock_title#:#Please enter a Questionblock Title!
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#enter_value#:#Enter a Value
-survey#:#error_add_heading#:#Please add a text block!
+survey#:#error_add_heading#:#Please enter a text for the text block!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
