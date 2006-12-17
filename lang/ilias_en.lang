@@ -6750,7 +6750,6 @@ common#:#my_courses#:#My Courses
 mail#:#mail_list_members#:#List members
 mail#:#mail_members_added_addressbook#:#Members added to addressbook
 mail#:#mail_in_addressbook#:#Already in addressbook
-exercise#:#exc_crs_add_members#:#Add students of this course
 ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_referrals#:#Referrals
 ldap#:#ldap_server_security_settings#:#Security Settings
