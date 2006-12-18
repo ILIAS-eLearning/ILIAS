@@ -187,7 +187,7 @@ class ilContainerGUI extends ilObjectGUI
 		// set tile icon
 		$icon = ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif");
 		if ($ilias->getSetting("custom_icons") &&
-			in_array($this->object->getType(), array("cat","grp","crs")))
+			in_array($this->object->getType(), array("cat","grp","crs", "root")))
 		{
 			require_once("classes/class.ilContainer.php");
 			if (($path = ilContainer::_lookupIconPath($this->object->getId(), "big")) != "")
