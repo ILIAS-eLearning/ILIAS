@@ -34,13 +34,35 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 
 	function ilNewsForContextTableGUI($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		$this->setHeaderNames(array("Test"));
-		$this->setHeaderVars(array("Test"));
+		$this->addColumn("", "f", "1");
+		$this->addColumn($lng->txt("date"), "creation_date", "1");
+		$this->addColumn($lng->txt("text"), "");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+		$this->setRowTemplate("tpl.table_row_news_for_context.html",
+			"Services/News");
 	}
+	
+	/**
+	* Standard Version of Fill Row. Most likely to
+	* be overwritten by derived class.
+	*/
+	protected function fillRow($a_set)
+	{
+		if ($a_set["creation_date"] != $a_set["update_date"])
+		{
+			$this->tpl->setCurrentBlock("ni_update");
+			$this->tpl->setVariable("VAL_LAST_UPDATE", $a_set["update_date"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("VAL_CREATION_DATE", $a_set["creation_date"]);
+		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
+		$this->tpl->setVariable("VAL_CONTENT", $a_set["content"]);
+		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+	}
+
 }
 ?>

@@ -224,26 +224,83 @@ class ilNewsItemGUIGen
 	{
 		global $lng;
 		
+		$lng->loadLanguageModule("news");
+		
 		$tpl = new ilTemplate("tpl.property_form.html", true, true);
 		$values = $this->getValuesNewsItem();
-		<!-- BEGIN prop_Datetime -->
-		<!-- END prop_DatetimHalle -->
+		
+		// Property Title
 		$tpl->setCurrentBlock("prop_Varchar");
 		$tpl->setVariable("POST_VAR", "news_title");
-		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_title"));
 		$tpl->setVariable("PROPERTY_VALUE",
 			ilUtil::prepareFormOutput($values["Title"]));
 		$tpl->parseCurrentBlock();
-		<!-- BEGIN prop_Datetime -->
-		<!-- END prop_DatetimHalle -->
+		if ($this->form_check["NewsItem"]["Title"]["error"] != "")
+		{
+			$tpl->setCurrentBlock("alert");
+			$tpl->setVariable("IMG_ALERT",
+				ilUtil::getImagePath("icon_alert_s.gif"));
+			$tpl->setVariable("TXT_ALERT",
+				$this->form_check["NewsItem"]["Title"]["error"]);
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setCurrentBlock("prop");
+		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_title"));
+		$tpl->parseCurrentBlock();
+		
+		// Property Content
 		$tpl->setCurrentBlock("prop_Text");
 		$tpl->setVariable("POST_VAR", "news_content");
-		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_content"));
 		$tpl->setVariable("PROPERTY_VALUE",
 			ilUtil::prepareFormOutput($values["Content"]));
 		$tpl->parseCurrentBlock();
-		<!-- BEGIN prop_Datetime -->
-		<!-- END prop_DatetimHalle -->
+		if ($this->form_check["NewsItem"]["Content"]["error"] != "")
+		{
+			$tpl->setCurrentBlock("alert");
+			$tpl->setVariable("IMG_ALERT",
+				ilUtil::getImagePath("icon_alert_s.gif"));
+			$tpl->setVariable("TXT_ALERT",
+				$this->form_check["NewsItem"]["Content"]["error"]);
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setCurrentBlock("prop");
+		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_content"));
+		$tpl->parseCurrentBlock();
+		
+		// Property Visibility
+		$tpl->setCurrentBlock("prop_Enum_Option");
+		$tpl->setVariable("TXT_ENUM_OPTION", $lng->txt("news_visibility_users"));
+		$tpl->setVariable("VAL_ENUM_OPTION", "users");
+		$checked = ($values["Visibility"] == "users")
+			? ' checked="checked" '
+			: "";
+		$tpl->setVariable("CHK_ENUM_OPTION", $checked);
+		$tpl->setVariable("POST_VAR", "news_visibility");
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("prop_Enum_Option");
+		$tpl->setVariable("TXT_ENUM_OPTION", $lng->txt("news_visibility_public"));
+		$tpl->setVariable("VAL_ENUM_OPTION", "public");
+		$checked = ($values["Visibility"] == "public")
+			? ' checked="checked" '
+			: "";
+		$tpl->setVariable("CHK_ENUM_OPTION", $checked);
+		$tpl->setVariable("POST_VAR", "news_visibility");
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("prop_Enum");
+		$tpl->parseCurrentBlock();
+		if ($this->form_check["NewsItem"]["Visibility"]["error"] != "")
+		{
+			$tpl->setCurrentBlock("alert");
+			$tpl->setVariable("IMG_ALERT",
+				ilUtil::getImagePath("icon_alert_s.gif"));
+			$tpl->setVariable("TXT_ALERT",
+				$this->form_check["NewsItem"]["Visibility"]["error"]);
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setCurrentBlock("prop");
+		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_visibility"));
+		$tpl->parseCurrentBlock();
+		
 		
 		// save and cancel commands
 		if (in_array($this->getFormEditMode(), array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
@@ -270,6 +327,8 @@ class ilNewsItemGUIGen
 		}
 		
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("TXT_TITLE",
+			$lng->txt("news_news_item_head"));
 		return $tpl->get();
 
 	}
@@ -304,10 +363,12 @@ class ilNewsItemGUIGen
 	{
 		if ($this->checkInputNewsItem())
 		{
-			
+			$this->news_item = new ilNewsItem();
 			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
 			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
-			$this->news_item->createNewsItem();
+			$this->news_item->setVisibility(ilUtil::stripSlashes($_POST["news_visibility"]));
+			$this->prepareSaveNewsItem($this->news_item);
+			$this->news_item->create();
 		}
 		else
 		{
@@ -328,6 +389,7 @@ class ilNewsItemGUIGen
 			
 			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
 			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
+			$this->news_item->setVisibility(ilUtil::stripSlashes($_POST["news_visibility"]));
 			$this->news_item->updateNewsItem();
 		}
 		else
@@ -351,17 +413,20 @@ class ilNewsItemGUIGen
 			case IL_FORM_CREATE:
 				$values["Title"] = "";
 				$values["Content"] = "";
+				$values["Visibility"] = "users";
 				break;
 				
 			case IL_FORM_EDIT:
 				$values["Title"] = $this->news_item->getTitle();
 				$values["Content"] = $this->news_item->getContent();
+				$values["Visibility"] = $this->news_item->getVisibility();
 				break;
 				
 			case IL_FORM_RE_EDIT:
 			case IL_FORM_RE_CREATE:
 				$values["Title"] = ilUtil::stripSlashes($_POST["news_title"]);
 				$values["Content"] = ilUtil::stripSlashes($_POST["news_content"]);
+				$values["Visibility"] = ilUtil::stripSlashes($_POST["news_visibility"]);
 				break;
 		}
 		
@@ -376,13 +441,16 @@ class ilNewsItemGUIGen
 	public function checkInputNewsItem()
 	{
 		
-		include_once("./Services/Utilities/class.ilTypeCheck.php");
+		include_once("./Services/Utilities/classes/class.ilTypeCheck.php");
 		$ilTypeCheck = new ilTypeCheck();
 		
-		$this->form_check[""]["Title"] =
-			$ilTypeCheck::check("varchar", $_POST["news_title"], true);
-		$this->form_check[""]["Content"] =
-			$ilTypeCheck::check("text", $_POST["news_content"], false);
+		$this->form_check["NewsItem"] = array();
+		$this->form_check["NewsItem"]["Title"] =
+			ilTypeCheck::check("varchar", $_POST["news_title"], true);
+		$this->form_check["NewsItem"]["Content"] =
+			ilTypeCheck::check("text", $_POST["news_content"], false);
+		$this->form_check["NewsItem"]["Visibility"] =
+			ilTypeCheck::check("enum", $_POST["news_visibility"], false);
 		
 		foreach($this->form_check["NewsItem"] as $prop_check)
 		{
@@ -392,6 +460,16 @@ class ilNewsItemGUIGen
 			}
 		}
 		return true;
+
+	}
+
+	/**
+	* FORM NewsItem: Prepare Saving of NewsItem.
+	*
+	* @param	object	$a_news_item	NewsItem object.
+	*/
+	public function prepareSaveNewsItem(&$a_news_item)
+	{
 
 	}
 

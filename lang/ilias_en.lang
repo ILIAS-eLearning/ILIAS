@@ -2680,6 +2680,7 @@ common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Only a System Administrator may assign users to the System Administrator Role
 common#:#msg_no_title#:#Please enter a title.
+common#:#msg_input_is_required#:#This input is required. Please enter a value.
 common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.
 common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.
 common#:#msg_no_url#:#You didn't enter a URL
@@ -2726,6 +2727,12 @@ common#:#new_lowercase#:#new
 common#:#new_mail#:#New mail!
 common#:#news#:#News
 news#:#news_block_news_for_context#:#News
+news#:#news_news_item_head#:#News Item
+news#:#news_title#:#Headline
+news#:#news_content#:#Text
+news#:#news_visibility_users#:#Logged in Users
+news#:#news_visibility_public#:#Public
+news#:#news_visibility#:#Access
 common#:#next#:#next
 common#:#nickname#:#Nickname
 common#:#no#:#No

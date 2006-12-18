@@ -46,8 +46,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$lng->txt("edit"));
 
 		$this->addBlockCommand(
-			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "addNews"),
+			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
 			$lng->txt("add"));
+			
+		$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
 	}
 }
 

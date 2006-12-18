@@ -42,7 +42,7 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 	}
 	
 	/**
-	* Prepare block query for news block.
+	* BLOCK NewsForContext: Prepare block query for news block.
 	*/
 	function prepareBlockQueryNewsForContext(&$a_news_item)
 	{
@@ -50,6 +50,15 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		$a_news_item->setContextObjType($this->ctrl->getContextObjType());
 	}
 	
+	/**
+	* FORM NewsItem: Prepare saving.
+	*/
+	function prepareSaveNewsItem(&$a_news_item)
+	{
+		$a_news_item->setContextObjId($this->ctrl->getContextObjId());
+		$a_news_item->setContextObjType($this->ctrl->getContextObjType());
+	}
+
 	function editNews()
 	{
 		//$news_item = new ilNewsItem();
@@ -62,17 +71,17 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 
 	function cancelUpdate()
 	{
-		$this->editNews();
+		return $this->editNews();
 	}
 	
 	/**
-	* Prepare the new table
+	* TABLE MewsForContext: Prepare the new table
 	*/
 	function prepareTableNewsForContext(&$a_table_gui)
 	{
 		global $ilCtrl, $lng;
 		
-		$a_table_gui->setTitle("Test");
 		$a_table_gui->addCommandButton("createNewsItem", $lng->txt("add"));
+		$a_table_gui->setTitle($lng->txt("news"), "icon_news.gif", $lng->txt("news"));
 	}
 }

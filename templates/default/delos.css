@@ -1259,6 +1259,13 @@ div.Access {
 	font-weight:bold;
 }
 
+/* ----------------- alternative text styles ------------- */
+.il_BlockInfo {
+	font-style: italic;
+	font-size: 90%;
+	color: #A0A0A0;
+}
+
 /* ----------------- normal links ------------- */
 
 a:link, a:visited {
