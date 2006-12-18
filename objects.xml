@@ -29,6 +29,7 @@
 	<subobj name="stys" max="1">stys</subobj>
 	<subobj name="seas" max="1">seas</subobj>
 	<subobj name="extt" max="1">extt</subobj>
+	<subobj name="ps" max="1">ps</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="check">system_check</property>
@@ -451,6 +452,10 @@
 </object>
 <object name="extt" class_name="ExternalToolsSettings" location="classes" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0">
 	<property name="view">settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="ps" class_name="PrivacySecurity" location="Services/PrivacySecurity" module="Services/PrivacySecurity" checkbox="0" inherit="0" translate="sys" rbac="1">
+	<property name="privacy">privacy</property>
 	<property name="perm">perm_settings</property>
 </object>
 </objects>

@@ -6819,3 +6819,11 @@ ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments
 common#:#select_one#:#Please select one.
 ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.
 ldap#:#ldap_role_not_exists#:#A role with that name does not exist
+common#:#obj_ps#:#Privacy and Security
+common#:#obj_ps_desc#:#Configure global privacy and security settings here.
+ps#:#show_privacy#:#Privacy
+common#:#ps_edit_permission#:#Change Permission Settings
+common#:#ps_visible#:#Privacy/Security Settings are Visible
+common#:#ps_read#:#Read Access to Privacy/Security Settings
+common#:#ps_write#:#Edit Privacy/Security
+common#:#ps_export_member_data#:#User may Export Member Data
