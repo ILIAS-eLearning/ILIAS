@@ -98,6 +98,12 @@ class ilTable2GUI extends ilTableGUI
 		$this->row_template_dir = $a_template_dir;
 	}
 	
+	/**
+	* Add Command button
+	*
+	* @param	string	Command
+	* @param	string	Text
+	*/
 	function addCommandButton($a_cmd, $a_text)
 	{
 		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text);
