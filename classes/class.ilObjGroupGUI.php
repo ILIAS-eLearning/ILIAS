@@ -1283,7 +1283,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
 		
 		$this->__setSubTabs('members');
 		
