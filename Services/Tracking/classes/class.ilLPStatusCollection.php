@@ -114,6 +114,12 @@ class ilLPStatusCollection extends ilLPStatus
 				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
 				break;
+				
+			case 'grp':
+				include_once 'classes/class.ilObjGroup.php';
+				$members = ilObjGroup::_getMembers($a_obj_id);
+				$users = array_intersect($members,(array) $users);
+				break;
 		}
 
 		$ilBench->stop('LearningProgress','9172_LPStatusCollection_inProgress');
@@ -158,14 +164,18 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 		}
 
-		
-
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
 				// Exclude all non members
 				include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+				break;
+
+			case 'grp':
+				include_once 'classes/class.ilObjGroup.php';
+				$members = ilObjGroup::_getMembers($a_obj_id);
+				$users = array_intersect($members,(array) $users);
 				break;
 		}
 		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
@@ -186,6 +196,22 @@ class ilLPStatusCollection extends ilLPStatus
 			$tmp_users = ilLPStatusWrapper::_getFailed($item_id);
 			$users = array_merge($users,$tmp_users);
 		}
+		
+		switch($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case 'crs':
+				// Exclude all non members
+				include_once 'course/classes/class.ilCourseMembers.php';
+				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
+				break;
+				
+			case 'grp':
+				include_once 'classes/class.ilObjGroup.php';
+				$members = ilObjGroup::_getMembers($a_obj_id);
+				$users = array_intersect($members,(array) $users);
+				break;
+		}
+		
 		return array_unique($users);
 	}
 		
