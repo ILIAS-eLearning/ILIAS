@@ -6810,3 +6810,11 @@ common#:#go#:#Go###08 12 2006 new variable
 survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
 survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
 exercise#:#exc_crs_add_members#:#Add students of this course###08 12 2006 new variable
+common#:#obj_ps#:#Datenschutz und Server-Sicherheit
+common#:#obj_ps_desc#:#Globale Einstellungen zum Datenschutz.
+ps#:#show_privacy#:#Datenschutz
+common#:#ps_edit_permission#:#Rechteeinstellungen ändern
+common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
+common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
+common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
+common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten 
