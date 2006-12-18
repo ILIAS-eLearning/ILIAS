@@ -98,6 +98,16 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				array("", "view", "render"));
 		}
 		
+		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$force_active = ($_GET["cmd"] == "edit")
+				? true
+				: false;
+			$tabs_gui->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
+				, "", $force_active);
+		}
+
 		// parent tabs (all container: edit_permission, clipboard, trash
 		parent::getTabs($tabs_gui);
 
@@ -157,7 +167,157 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		return true;
 	}
 	
-	
+	/**
+	* edit category
+	*
+	* @access	public
+	*/
+	function editObject()
+	{
+		global $rbacsystem, $lng;
+
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->ctrl->setParameter($this,"mode","edit");
+
+		// for lang selection include metadata class
+		include_once "./classes/class.ilMetaData.php";
+
+		$this->getTemplateFile("edit",$new_type);
+		$array_push = true;
+
+		if ($_SESSION["error_post_vars"])
+		{
+			$_SESSION["translation_post"] = $_SESSION["error_post_vars"];
+			$_GET["mode"] = "session";
+			$array_push = false;
+		}
+
+		// load from db if edit category is called the first time
+		if (($_GET["mode"] != "session"))
+		{
+			$data = $this->object->getTranslations();
+			$_SESSION["translation_post"] = $data;
+			$array_push = false;
+		}	// remove a translation from session
+		elseif ($_GET["entry"] != 0)
+		{
+			array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array());
+
+			if ($_GET["entry"] == $_SESSION["translation_post"]["default_language"])
+			{
+				$_SESSION["translation_post"]["default_language"] = "";
+			}
+		}
+
+		$data = $_SESSION["translation_post"];
+
+		// add additional translation form
+		if (!$_GET["entry"] and $array_push)
+		{
+			$count = array_push($data["Fobject"],array("title" => "","desc" => ""));
+		}
+		else
+		{
+			$count = count($data["Fobject"]);
+		}
+
+		// stripslashes in form?
+		$strip = isset($_SESSION["translation_post"]) ? true : false;
+		
+		// add empty entry, if nothing exists
+		if (count($data["Fobject"]) == 0)
+		{
+			$data["Fobject"][0] =
+				array("title"	=> "",
+					"desc"	=> "",
+					"lang"	=> $lng->getDefaultLanguage()
+				);
+		}
+
+		foreach ($data["Fobject"] as $key => $val)
+		{
+			// add translation button
+			if ($key == $count -1)
+			{
+				$this->tpl->setCurrentBlock("addTranslation");
+				$this->tpl->setVariable("TXT_ADD_TRANSLATION",$this->lng->txt("add_translation")." >>");
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// remove translation button
+			if ($key != 0)
+			{
+				$this->tpl->setCurrentBlock("removeTranslation");
+				$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
+				$this->ctrl->setParameter($this, "entry", $key);
+				$this->ctrl->setParameter($this, "mode", "edit");
+				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", $this->ctrl->getLinkTarget($this, "removeTranslation"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// lang selection
+			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
+			$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
+
+			$languages = ilMetaData::getLanguages();
+
+			foreach ($languages as $code => $language)
+			{
+				$this->tpl->setCurrentBlock("lg_option");
+				$this->tpl->setVariable("VAL_LG", $code);
+				$this->tpl->setVariable("TXT_LG", $language);
+
+				if ($code == $val["lang"])
+				{
+					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
+				}
+
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// object data
+			$this->tpl->setCurrentBlock("obj_form");
+
+			if ($key == 0)
+			{
+				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("repository"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("translation")." ".$key);
+			}
+
+			if ($key == $data["default_language"])
+			{
+				$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
+			}
+
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+			$this->tpl->setVariable("TXT_DESC", $this->lng->txt("title_long"));
+			$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
+			$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+			$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"],$strip));
+			$this->tpl->setVariable("DESC", ilUtil::stripSlashes($val["desc"]));
+			$this->tpl->setVariable("NUM", $key);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->showCustomIconsEditing();
+
+		// global
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "update");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+	}
+
 	/**
 	* called by prepare output 
 	*/
@@ -165,8 +325,175 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	{
 		global $lng;
 
-		$this->tpl->setTitle($lng->txt("repository"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+		parent::setTitleAndDescription();
+		$this->tpl->setDescription("");
+		if ($this->object->getTitle() == "ILIAS")
+		{
+			$this->tpl->setTitle($lng->txt("repository"));
+		}
+		else
+		{
+			if ($this->object->getDescription() != "")
+			{
+				$this->tpl->setTitle($this->object->getDescription());
+			}
+		}
+	}
+
+	/**
+	* updates object entry in object_data
+	*
+	* @access	public
+	*/
+	function updateObject()
+	{
+		global $rbacsystem;
+		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			$data = $_POST;
+
+			// default language set?
+			if (!isset($data["default_language"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_default_language"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			// prepare array fro further checks
+			foreach ($data["Fobject"] as $key => $val)
+			{
+				$langs[$key] = $val["lang"];
+			}
+
+			$langs = array_count_values($langs);
+
+			// all languages set?
+			if (array_key_exists("",$langs))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_language_selected"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			// no single language is selected more than once?
+			if (array_sum($langs) > count($langs))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_multi_language_selected"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			// copy default translation to variable for object data entry
+			$_POST["Fobject"]["title"] = $_POST["Fobject"][$_POST["default_language"]]["title"];
+			$_POST["Fobject"]["desc"] = $_POST["Fobject"][$_POST["default_language"]]["desc"];
+
+			// first delete all translation entries...
+			$this->object->removeTranslations();
+
+			// ...and write new translations to object_translation
+			foreach ($data["Fobject"] as $key => $val)
+			{
+				if ($key == $data["default_language"])
+				{
+					$default = 1;
+				}
+				else
+				{
+					$default = 0;
+				}
+
+				if (trim($val["title"]) != "")
+				{
+					$this->object->addTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
+				}
+			}
+
+			// bring back old translation, if no individual translation is given
+			if (trim($_POST["Fobject"]["title"]) == "")
+			{
+				$_POST["Fobject"]["title"] = "ILIAS";
+			}
+			
+			// update object data entry with default translation
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+			$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+			
+			//save custom icons
+			if ($this->ilias->getSetting("custom_icons"))
+			{
+				$this->object->saveIcons($_FILES["cont_big_icon"],
+					$_FILES["cont_small_icon"]);
+			}
+			
+			$this->update = $this->object->update();
+		}
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
+	}
+
+	/**
+	* adds a translation form & save post vars to session
+	*
+	* @access	public
+	*/
+	function addTranslationObject()
+	{
+		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
+		{
+			$message = get_class($this)."::addTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		$_SESSION["translation_post"] = $_POST;
+		$this->ctrl->setParameter($this, "entry", 0);
+		$this->ctrl->setParameter($this, "mode", "session");
+		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+	}
+
+	/**
+	* removes a translation form & save post vars to session
+	*
+	* @access	public
+	*/
+	function removeTranslationObject()
+	{
+		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
+		{
+			$message = get_class($this)."::removeTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		$this->ctrl->setParameter($this, "entry", $_GET["entry"]);
+		$this->ctrl->setParameter($this, "mode", "session");
+		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+
+	}
+
+	/**
+	* remove big icon
+	*
+	* @access	public
+	*/
+	function removeBigIconObject()
+	{
+		$_SESSION["translation_post"] = $_POST;
+		$this->object->removeBigIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+	}
+	
+	/**
+	* remove small icon
+	*
+	* @access	public
+	*/
+	function removeSmallIconObject()
+	{
+
+		$_SESSION["translation_post"] = $_POST;
+		$this->object->removeSmallIcon();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
 	}
 
 }

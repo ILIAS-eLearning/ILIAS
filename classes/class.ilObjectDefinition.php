@@ -134,6 +134,28 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getTranslationType($a_obj_name)
 	{
+		global $ilDB;
+		
+		if ($a_obj_name == "root")
+		{
+			if (!isset($this->root_trans_type))
+			{
+				$q = "SELECT count(*) as cnt FROM object_translation WHERE obj_id = ".
+					$ilDB->quote(ROOT_FOLDER_ID);
+				$set = $ilDB->query($q);
+				$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+				if($rec["cnt"] > 0)
+				{
+					$this->root_trans_type = "db";
+				}
+				else
+				{
+					$this->root_trans_type = $this->obj_data[$a_obj_name]["translate"];
+				}
+			}
+			return $this->root_trans_type;
+		}
+		
 		return $this->obj_data[$a_obj_name]["translate"];
 	}
 

@@ -33,7 +33,7 @@
 
 require_once "class.ilObject.php";
 
-class ilObjRootFolder extends ilObject
+class ilObjRootFolder extends ilContainer
 {
 	/**
 	* Constructor
@@ -147,5 +147,59 @@ class ilObjRootFolder extends ilObject
 		
 		return true;
 	}
+	
+	/**
+	* get all translations from this category
+	* 
+	* @access	public
+	* @return	array 
+	*/
+	function getTranslations()
+	{
+		$q = "SELECT * FROM object_translation WHERE obj_id = ".$this->getId()." ORDER BY lang_default DESC";
+		$r = $this->ilias->db->query($q);
+		
+		$num = 0;
+
+		$data["Fobject"] = array();
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data["Fobject"][$num]= array("title"	=> $row->title,
+										  "desc"	=> $row->description,
+										  "lang"	=> $row->lang_code
+										  );
+			$num++;
+		}
+
+		// first entry is always the default language
+		$data["default_language"] = 0;
+
+		return $data ? $data : array();	
+	}
+
+	// remove all Translations of current category
+	function removeTranslations()
+	{
+		$q = "DELETE FROM object_translation WHERE obj_id= ".$this->getId();
+		$this->ilias->db->query($q);
+	}
+	
+	// add a new translation to current category
+	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
+	{
+		if (empty($a_title))
+		{
+			$a_title = "NO TITLE";
+		}
+
+		$q = "INSERT INTO object_translation ".
+			 "(obj_id,title,description,lang_code,lang_default) ".
+			 "VALUES ".
+			 "(".$this->getId().",'".ilUtil::prepareDBString($a_title)."','".ilUtil::prepareDBString($a_desc)."','".$a_lang."',".$a_lang_default.")";
+		$this->ilias->db->query($q);
+
+		return true;
+	}
+
 } // END class.ObjRootFolder
 ?>

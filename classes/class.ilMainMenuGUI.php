@@ -218,7 +218,9 @@ class ilMainMenuGUI
 		$this->tpl->setCurrentBlock("rep_button");
 		$this->tpl->setVariable("SCRIPT_CATALOG",
 			$this->getScriptTarget("repository.php?cmd=frameset&getlast=true"));
-		$this->tpl->setVariable("TXT_CATALOG", $lng->txt("repository"));
+		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+		$this->tpl->setVariable("TXT_CATALOG",
+			$nd["title"]);
 		if ($this->active == "repository" || $this->active == "")
 		{
 			$this->tpl->setVariable("MM_CLASS", "MMActive");
