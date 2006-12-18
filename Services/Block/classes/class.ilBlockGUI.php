@@ -83,6 +83,26 @@ class ilBlockGUI
 	}
 
 	/**
+	* Set Image.
+	*
+	* @param	string	$a_image	Image
+	*/
+	function setImage($a_image)
+	{
+		$this->image = $a_image;
+	}
+
+	/**
+	* Get Image.
+	*
+	* @return	string	Image
+	*/
+	function getImage()
+	{
+		return $this->image;
+	}
+
+	/**
 	* Set Row Template Name.
 	*
 	* @param	string	$a_rowtemplatename	Row Template Name
@@ -141,19 +161,18 @@ class ilBlockGUI
 	*/
 	function getHTML()
 	{
-		$tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
+		$this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
 		
 		// data
-		$tpl->addBlockFile("BLOCK_ROW", "block_row", $this->getRowTemplateName(),
+		$this->tpl->addBlockFile("BLOCK_ROW", "block_row", $this->getRowTemplateName(),
 			$this->getRowTemplateDir());
 		foreach($this->getData() as $record)
 		{
-			$tpl->setCurrentBlock("block_row");
-			foreach ($record as $key => $value)
-			{
-				$tpl->setVariable("VAL_".strupper($key), $value);
-			}
-			$tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("block_row");
+			$this->fillRowColor();
+			$this->fillRow($record);
+			$this->tpl->setCurrentBlock("block_row");
+			$this->tpl->parseCurrentBlock();
 		}
 		
 		// commands
@@ -161,18 +180,44 @@ class ilBlockGUI
 		{
 			foreach($this->getBlockCommands() as $command)
 			{
-				$tpl->setCurrentBlock("block_command");
-				$tpl->setVariable("CMD_HREF", $command["href"]);
-				$tpl->setVariable("CMD_TEXT", $command["text"]);
-				$tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("block_command");
+				$this->tpl->setVariable("CMD_HREF", $command["href"]);
+				$this->tpl->setVariable("CMD_TEXT", $command["text"]);
+				$this->tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("block_commands");
-			$tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("block_commands");
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// image
+		if ($this->getImage() != "")
+		{
+			$this->tpl->setCurrentBlock("block_img");
+			$this->tpl->setVariable("IMG_BLOCK", $this->getImage());
+			$this->tpl->parseCurrentBlock();
 		}
 		
 		// title
-		$tpl->setVariable("BLOCK_TITLE",
+		$this->tpl->setVariable("BLOCK_TITLE",
 			$this->getTitle());
-		return $tpl->get();
+		return $this->tpl->get();
 	}
+	
+	
+	function fillRow($a_set)
+	{
+		foreach ($a_set as $key => $value)
+		{
+			$this->tpl->setVariable("VAL_".strtoupper($key), $value);
+		}
+	}
+	
+	final protected function fillRowColor($a_placeholder = "CSS_ROW")
+	{
+		$this->css_row = ($this->css_row != "tblrow1")
+			? "tblrow1"
+			: "tblrow2";
+		$this->tpl->setVariable($a_placeholder, $this->css_row);
+	}
+
 }

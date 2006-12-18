@@ -188,6 +188,7 @@ class ilTableGUI
 		{
 			$this->icon_alt = $this->icon;
 		}
+		$this->enabled["icon"] = true;
 	}
 	
 	/**
@@ -407,6 +408,14 @@ class ilTableGUI
 	}
 
 	/**
+	* Get order direction
+	*/
+	function getOrderDirection()
+	{
+		return $this->order_direction;
+	}
+
+	/**
 	* set order direction
 	* @access	public
 	* @param	string	css format for links
@@ -511,57 +520,7 @@ class ilTableGUI
 		// table header
 		if ($this->enabled["header"])
 		{
-			foreach ($this->header_names as $key => $tbl_header_cell)
-			{
-				if (!$this->enabled["sort"])
-				{
-					$this->tpl->setCurrentBlock("tbl_header_no_link");
-					if ($this->column_width[$key])
-					{
-						$this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK"," width=\"".$this->column_width[$key]."\"");
-					}
-					$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",$tbl_header_cell);
-					$this->tpl->parseCurrentBlock();
-					continue;
-				}
-				if (($key == $this->order_column) && ($this->order_direction != ""))
-				{
-					if (strcmp($this->header_vars[$key], "") != 0)
-					{
-						$this->tpl->setCurrentBlock("tbl_order_image");
-						$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.gif"));
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-	
-				$this->tpl->setCurrentBlock("tbl_header_cell");
-				$this->tpl->setVariable("TBL_HEADER_CELL",$tbl_header_cell);
-				
-				// only set width if a value is given for that column
-				if ($this->column_width[$key])
-				{
-					$this->tpl->setVariable("TBL_COLUMN_WIDTH"," width=\"".$this->column_width[$key]."\"");
-				}
-	
-				$lng_sort_column = ($this->lang_support) ? $this->lng->txt("sort_by_this_column") : "Sort by this column";
-				$this->tpl->setVariable("TBL_ORDER_ALT",$lng_sort_column);
-			
-				$order_dir = "asc";
-
-				if ($key == $this->order_column)
-				{ 
-					$order_dir = $this->sort_order;
-	
-					$lng_change_sort = ($this->lang_support) ? $this->lng->txt("change_sort_direction") : "Change sort direction";
-					$this->tpl->setVariable("TBL_ORDER_ALT",$lng_change_sort);
-				}
-			
-				$this->setOrderLink($key, $order_dir);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("tbl_header");
-			$this->tpl->parseCurrentBlock();
+			$this->renderHeader();
 		}
 
 		// table data
@@ -705,6 +664,61 @@ class ilTableGUI
 		{
 			return $this->tpl->get();
 		}
+	}
+	
+	function renderHeader()
+	{
+		foreach ($this->header_names as $key => $tbl_header_cell)
+		{
+			if (!$this->enabled["sort"])
+			{
+				$this->tpl->setCurrentBlock("tbl_header_no_link");
+				if ($this->column_width[$key])
+				{
+					$this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK"," width=\"".$this->column_width[$key]."\"");
+				}
+				$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",$tbl_header_cell);
+				$this->tpl->parseCurrentBlock();
+				continue;
+			}
+			if (($key == $this->order_column) && ($this->order_direction != ""))
+			{
+				if (strcmp($this->header_vars[$key], "") != 0)
+				{
+					$this->tpl->setCurrentBlock("tbl_order_image");
+					$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.gif"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setCurrentBlock("tbl_header_cell");
+			$this->tpl->setVariable("TBL_HEADER_CELL",$tbl_header_cell);
+			
+			// only set width if a value is given for that column
+			if ($this->column_width[$key])
+			{
+				$this->tpl->setVariable("TBL_COLUMN_WIDTH"," width=\"".$this->column_width[$key]."\"");
+			}
+
+			$lng_sort_column = ($this->lang_support) ? $this->lng->txt("sort_by_this_column") : "Sort by this column";
+			$this->tpl->setVariable("TBL_ORDER_ALT",$lng_sort_column);
+		
+			$order_dir = "asc";
+
+			if ($key == $this->order_column)
+			{ 
+				$order_dir = $this->sort_order;
+
+				$lng_change_sort = ($this->lang_support) ? $this->lng->txt("change_sort_direction") : "Change sort direction";
+				$this->tpl->setVariable("TBL_ORDER_ALT",$lng_change_sort);
+			}
+		
+			$this->setOrderLink($key, $order_dir);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("tbl_header");
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	function setOrderLink($key, $order_dir)
