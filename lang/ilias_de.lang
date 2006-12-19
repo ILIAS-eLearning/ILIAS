@@ -230,7 +230,7 @@ assessment#:#edit_properties#:#Eigenschaften bearbeiten
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
 assessment#:#enlarge#:#vergrößern
-assessment#:#enter_anonymous_code#:#Zugangscode für anonymen Zugang
+assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
 assessment#:#error_image_upload_copy_file#:#Beim Verschieben einer hochgeladenen Grafik in ihren Zielordner ist ein Fehler aufgetreten!
 assessment#:#error_image_upload_wrong_format#:#Bitte laden Sie eine gültige Bilddatei hoch. Unterstützte Formate sind GIF, JPEG und PNG.
@@ -491,7 +491,7 @@ assessment#:#text_rating#:#Methode für Textvergleiche
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter hinzufügen!
 assessment#:#true#:#Wahr
-assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangscode erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
+assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
 assessment#:#tst_all_user_data_deleted#:#Die Testdaten aller Nutzerinnen wurden gelöscht!
 assessment#:#tst_allow_instant_verification#:#Direkte Überprüfung der Antworten anbieten
 assessment#:#tst_allowed_users#:#Maximale Anzahl gleichzeitiger Teilnehmer und Teilnehmerinnen
@@ -5881,7 +5881,7 @@ survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#add_standard_numbers#:#Standardzahlen hinzufügen
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
-survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
+survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das untere Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_personalized#:#Keine Anonymisierung
 survey#:#anonymize_registered_user#:#Anonymisierter Zugang
@@ -5899,7 +5899,7 @@ survey#:#back#:#<< Zurück
 survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#cancel_survey#:#Umfrage unterbrechen
-survey#:#cannot_create_survey_codes#:#Sie besitzen nicht die passenden Zugriffsrechte, um Zugangscodes für die Umfrage zu erzeugen!
+survey#:#cannot_create_survey_codes#:#Sie besitzen nicht die passenden Zugriffsrechte, um Zugangsschlüssel für die Umfrage zu erzeugen!
 survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten!
 survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrechte, um den Fragenpool zu exportieren!
 survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu exportieren!
@@ -5917,7 +5917,7 @@ survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Antwort
 survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Antwort ausgewählt haben
 survey#:#chart#:#Diagramm
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort auswählen, um eine Phrase speichern zu können!
-survey#:#codes#:#Zugangscodes
+survey#:#codes#:#Zugangsschlüssel
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten der Umfrage löschen wollen?
@@ -6008,11 +6008,11 @@ survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letz
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_questionblock_title#:#Bitte geben Sie einen Titel für den Fragenblock an!
-survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangscodes zu generieren!
+survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangsschlüssel zu generieren!
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_add_heading#:#Bitte geben Sie einen Textblock ein!
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
-survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!
+survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
@@ -6060,7 +6060,7 @@ survey#:#invitation_mode#:#Einladungsmodus
 survey#:#invite_participants#:#Teilnehmerinnen einladen
 survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene Nutzerinnen
-survey#:#label_resume_survey#:#Bitte geben Sie den aus 5 Zeichen bestehenden Umfragecode ein
+survey#:#label_resume_survey#:#Bitte geben Sie den aus 5 Zeichen bestehenden Zugangsschlüssel ein
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
@@ -6075,7 +6075,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
-survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 5 Zeichen bestehenden - Umfragecode:<br /><br /><strong>%s</strong><br /><br />Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
+survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 5 Zeichen bestehenden - Zugangsschlüssel:<br /><br /><strong>%s</strong><br /><br />Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragentyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
@@ -6086,7 +6086,7 @@ survey#:#mode_nr_of_selections#:#Anzahl der Auswahlen
 survey#:#mode_text#:#Häufigste Auswahl (Text)
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
-survey#:#new_survey_codes#:#neue Zugangscode(s) für die Umfrage
+survey#:#new_survey_codes#:#neue Zugangsschlüssel für die Umfrage
 survey#:#next_question_rows#:#Fragen %d - %d von %d >>
 survey#:#no_available_constraints#:#Es sind keine Vorbedingungen definiert!
 survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!
@@ -6192,14 +6192,14 @@ survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import aus
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
-survey#:#subject_mail_survey_id#:#Ihr Umfragecode für "%s"
+survey#:#subject_mail_survey_id#:#Ihr Zugangsschlüssel für "%s"
 survey#:#subtype#:#Untertyp
-survey#:#survey_code#:#Zugangscode für die Umfrage
-survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
-survey#:#survey_code_no_codes#:#Sie haben bis jetzt noch keine Zugangscodes für die Umfrage erstellt.
+survey#:#survey_code#:#Zugangsschlüssel für die Umfrage
+survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Zugangsschlüssel gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
+survey#:#survey_code_no_codes#:#Sie haben bis jetzt noch keine Zugangsschlüssel für die Umfrage erstellt.
 survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die URL zu kopieren)
-survey#:#survey_code_used#:#Der Zugangscode wurde verwendet
+survey#:#survey_code_used#:#Der Zugangsschlüssel wurde verwendet
 survey#:#survey_codes_lang#:#Sprache der Umfrage
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
 survey#:#survey_finish#:#Umfrage beenden >>
@@ -6220,9 +6220,9 @@ survey#:#survey_skip_previous#:#<< Überspringen und zurück
 survey#:#survey_skip_start#:#<< Überspringen und zur Startseite
 survey#:#survey_start#:#<< Zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
-survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmende der Umfrage verfügbar ist, müssen Sie Ihren Zugangscode für die Umfrage angeben, um die Auswertung zu öffnen.
+survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmende der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
-survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangscode für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
+survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
 survey#:#svy_eval_cumulated#:#Kumulierte Ergebnisse
@@ -6249,8 +6249,8 @@ survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
 survey#:#svy_status_ok#:#Der Status der Umfrage ist in Ordnung! Es gibt keine fehlenden Elemente.
 survey#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle Zeichen, die darüber hinaus gehen, werden automatisch gelöscht.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
-survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 5 Zeichen bestehenden Umfragecode ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Umfragecode auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
-survey#:#title_resume_survey#:#Forsetzen der Umfrage - Bitte den Umfragecode eingeben
+survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 5 Zeichen bestehenden Zugangsschlüssel ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Zugangsschlüssel auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
+survey#:#title_resume_survey#:#Forsetzen der Umfrage - Bitte den Zugangsschlüssel eingeben
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
 survey#:#uploaded_material#:#Hochgeladene Materialien
@@ -6267,7 +6267,7 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#wrong_categories_selected_for_insert#:#ILIAS konnte die geplante Aktion nicht durchführen. Bitte stellen Sie sicher, dass nur genau eine Antwort als Zielposition ausgewählt wurde!
-survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Sie versucht haben, einen ungültigen Zugangscode zu verwenden.
+survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Sie versucht haben, einen ungültigen Zugangsschlüssel zu verwenden.
 trac#:#found_objects#:#Gefundene Objekte
 trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefunden. Bitte verfeinern Sie daher Ihre Suchanfrage.
 trac#:#info_all_objects#:#Die nachfolgende Zugriffsstatistik bezieht sich auf alle Objekte des Typs '%s'.
@@ -6647,7 +6647,7 @@ assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
 common#:#proceed#:#Fortfahren
 survey#:#evaluation_access_off#:#Nicht verfügbar
 survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
-survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Umfragecode ist eine fünfstellige Kennung, die benötigt wird, an einer anoymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, da der Umfragecode automatisch generiert wird.
+survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, an einer anoymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, da der Zugangsschlüssel automatisch generiert wird.
 survey#:#evaluation_access_description#:#Normalerweise ist der Zugang zur Umfragestatistik nur ILIAS-Benutzern mit Schreibrechten für die Umfrage gestattet (Evaluationszugang = aus)
 survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temparatur der Celsius-Skala.
 survey#:#metric_subtype_description_rationonabsolute#:#Ein quantitatives Merkmal heißt verhältnisskaliert, wenn die zur Messung verwendeten Skalen einen gemeinsamen natürlichen Nullpunkt aufweisen. Verhältnissen (Quotienten) von Merkmalsausprägungen eines verhältnisskalierten Merkmals kann eine sinnvolle Bedeutung zugewiesen werden. Der natürliche Nullpunkt garantiert nämlich, dass Verhältnisse von einander entsprechenden Ausprägungen, die auf unterschiedlichen Skalen (d.h. in anderen Maßeinheiten) gemessen wurden, immer gleich sind. Die meisten physikalischen Mengenangaben (Geschwindigkeit in m/s oder km/h sind verhältnisskaliert).
