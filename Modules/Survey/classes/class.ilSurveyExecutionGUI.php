@@ -260,6 +260,8 @@ class ilSurveyExecutionGUI
 		else if ($page === 1)
 		{
 			$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"]);
+			if (array_key_exists("anonymous_id", $_SESSION)) unset($_SESSION["anonymous_id"]);
+			if (array_key_exists("accesscode", $_SESSION)) unset($_SESSION["accesscode"]);
 			$this->runShowFinishedPage();
 			return;
 		}
