@@ -532,15 +532,32 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		global $lng, $ilias, $tree;
+
+		// custom icons
+		if ($this->ilias->getSetting("custom_icons"))
+		{
+			require_once("classes/class.ilContainer.php");
+			if (($path = ilContainer::_lookupIconPath($a_obj_id, "small")) == "")
+			{
+				$path = ilUtil::getImagePath("icon_root.gif");
+			}
+		}
 
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_root.gif"));
-		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
+		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+		$title = $nd["title"];
+		if ($title == "ILIAS")
+		{
+			$title = $lng->txt("repository");
+		}
+
+		$tpl->setVariable("ICON_IMAGE", $path);
+		$tpl->setVariable("TXT_ALT_IMG", $title);
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("link");
-		$tpl->setVariable("TITLE", $lng->txt("repository"));
+		$tpl->setVariable("TITLE", $title);
 		$tpl->setVariable("LINK_TARGET", "repository.php?ref_id=1");
 		$tpl->setVariable("TARGET", " target=\"rep_content\"");
 		$tpl->parseCurrentBlock();

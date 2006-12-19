@@ -800,7 +800,7 @@ class ilPersonalDesktopGUI
 		
 		// custom icon
 		if ($this->ilias->getSetting("custom_icons") &&
-		in_array($type, array("cat","grp","crs")))
+		in_array($type, array("cat","grp","crs", "root")))
 		{
 			require_once("classes/class.ilContainer.php");
 			if (($path = ilContainer::_lookupIconPath($par_id, "small")) != "")
@@ -815,7 +815,12 @@ class ilPersonalDesktopGUI
 		}
 		else
 		{
-			$title = $this->lng->txt("repository");
+			$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+			$title = $nd["title"];
+			if ($title == "ILIAS")
+			{
+				$title = $this->lng->txt("repository");
+			}
 		}
 		
 		$item_list_gui =& $this->getItemListGUI($type);
