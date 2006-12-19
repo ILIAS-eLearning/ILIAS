@@ -541,7 +541,7 @@ assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Fra
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
-assessment#:#tst_introduction#:#Startseite
+assessment#:#tst_introduction#:#Einleitender Text
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
 assessment#:#tst_mark_create_simple_mark_schema#:#Einfaches Notenschema erzeugen
@@ -606,7 +606,7 @@ assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von 
 assessment#:#tst_random_selection_question_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen in einem Fragenpool. Der Wert wurde korrigiert.
 assessment#:#tst_random_selection_question_total_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen aller ausgewählen Fragenpools. Der Wert wurde korrigiert.
 assessment#:#tst_random_test#:#Zufallstest
-assessment#:#tst_random_test_description#:#Wenn ausgewählt, werden die Fragen des Tests mit einem Zufallsgenerator zusammengestellt
+assessment#:#tst_random_test_description#:#Wählen Sie dieses Kontrollkästchen aus, um die Fragen des Tests für jeden Teilnehmer mit einem Zufallsgenerator zusammenstellen zu lassen. Bei der Auswahl der Fragen müssen Sie lediglich einen oder mehrere Fragenpools angeben.
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
@@ -6151,8 +6151,8 @@ survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) angefügt
 survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragentyp
-survey#:#ratio_absolute#:#Absolutskala
-survey#:#ratio_non_absolute#:#Ratioskala
+survey#:#ratio_absolute#:#Absolutskaliert
+survey#:#ratio_non_absolute#:#Verhältnisskaliert
 survey#:#ratio_scale_ge_zero#:#Der Minimalwert für eine ratioskalierte Frage muss größer oder gleich Null sein
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?#
@@ -6266,7 +6266,7 @@ survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folge
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
-survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desired action. Please check exactly one answer as target position!###17 Aug 2006 new variable
+survey#:#wrong_categories_selected_for_insert#:#ILIAS konnte die geplante Aktion nicht durchführen. Bitte stellen Sie sicher, dass nur genau eine Antwort als Zielposition ausgewählt wurde!
 survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Sie versucht haben, einen ungültigen Zugangscode zu verwenden.
 trac#:#found_objects#:#Gefundene Objekte
 trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefunden. Bitte verfeinern Sie daher Ihre Suchanfrage.
@@ -6569,19 +6569,19 @@ assessment#:#certificate_export#:#Zertifikat exportieren
 assessment#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
 assessment#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
 barometer#:#barometer_add#:#neues Barometer
-assessment#:#general#:#General###25 10 2006 new variable
-assessment#:#output#:#Output###25 10 2006 new variable
-assessment#:#scoring#:#Scoring###25 10 2006 new variable
-assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
-assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable
-assessment#:#tst_postpone#:#Postpone Questions###26 10 2006 new variable
-assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test###26 10 2006 new variable
-assessment#:#tst_random_selection#:#Random Selection of Questions###26 10 2006 new variable
-assessment#:#tst_show_cancel#:#Show Suspend Test Option###26 10 2006 new variable
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution###26 10 2006 new variable
-assessment#:#tst_use_previous_answers#:#Use Previous Answers###26 10 2006 new variable
-assessment#:#tst_use_previous_answers_description#:#If checked, the previous answers of a participant will be used as default values in future test passes###26 10 2006 new variable
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes###26 10 2006 new variable
+assessment#:#general#:#Allgemeine Einstellungen
+assessment#:#output#:#Ausgabe
+assessment#:#scoring#:#Auswertung
+assessment#:#tst_anonymity#:#Anonymität
+assessment#:#tst_anonymity_description#:#Wenn Anonymität aktiviert ist, werden die Namen der Testteilnehmer für die Testautoren unkenntlich gemacht.
+assessment#:#tst_postpone#:#Fragen zurückstellen
+assessment#:#tst_postpone_description#:#Wenn diese Option ausgewählt ist, können Teilnehmer einzelne Fragen für die Bearbeitung an das Ende des Tests zurückstellen.
+assessment#:#tst_random_selection#:#Zufällige Auswahl von Fragen
+assessment#:#tst_show_cancel#:#"Test abbrechen" Option anzeigen
+assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche zum Abbrechen des Tests an
+assessment#:#tst_use_previous_answers#:#Vorherige Lösungen verwenden
+assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästchen auf der Startseite des Tests, um die Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte in zukünftigen Testdurchläufen zu verwenden
+assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###26 10 2006 new variable
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
 chat#:#chat_server_ssl_settings#:#SSL Einstellungen
@@ -6647,13 +6647,13 @@ assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
 common#:#proceed#:#Fortfahren
 survey#:#evaluation_access_off#:#Nicht verfügbar
 survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
-survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.###15 11 2006 new variable
-survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)###15 11 2006 new variable
-survey#:#metric_subtype_description_interval#:#Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.###15 11 2006 new variable
-survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.###15 11 2006 new variable
-survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.###15 11 2006 new variable
-survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###15 11 2006 new variable
-survey#:#online_description#:#A survey could only be started by ILIAS users, if it is online###15 11 2006 new variable
+survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Umfragecode ist eine fünfstellige Kennung, die benötigt wird, an einer anoymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, da der Umfragecode automatisch generiert wird.
+survey#:#evaluation_access_description#:#Normalerweise ist der Zugang zur Umfragestatistik nur ILIAS-Benutzern mit Schreibrechten für die Umfrage gestattet (Evaluationszugang = aus)
+survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temparatur der Celsius-Skala.
+survey#:#metric_subtype_description_rationonabsolute#:#Ein quantitatives Merkmal heißt verhältnisskaliert, wenn die zur Messung verwendeten Skalen einen gemeinsamen natürlichen Nullpunkt aufweisen. Verhältnissen (Quotienten) von Merkmalsausprägungen eines verhältnisskalierten Merkmals kann eine sinnvolle Bedeutung zugewiesen werden. Der natürliche Nullpunkt garantiert nämlich, dass Verhältnisse von einander entsprechenden Ausprägungen, die auf unterschiedlichen Skalen (d.h. in anderen Maßeinheiten) gemessen wurden, immer gleich sind. Die meisten physikalischen Mengenangaben (Geschwindigkeit in m/s oder km/h sind verhältnisskaliert).
+survey#:#metric_subtype_description_ratioabsolute#:#Ein quantitatives Merkmal heißt absolutskaliert, wenn nur eine einzige sinnvolle Skala zu dessen Messung verwendet werden kann. Dies ist gleichbedeutend mit der Tatsache, dass nur eine sinnvolle Einheit für das Merkmal in Frage kommt, wie z.B. die Anzahl der Kinder einer Familie. Auch Merkmale, deren Ausprägungen in Prozent gemessen werden, sind absolutskaliert (z.B. Wahrscheinlichkeiten).
+survey#:#multiple_choice_subtype_description#:#Wählen Sie Einfachauswahl, wenn Sie wünschen, dass die Teilnehmer nur genau eine Antwort auswählen und Mehrfachauswahl, wenn die Teilnehmer mehr als eine Antwort auswählen dürfen.
+survey#:#online_description#:#Eine Umfrage kann nur durchgeführt werden, wenn Sie aktiviert (online) ist
 crs#:#crs_reg_type_info#:#Diese Einstellung ist nur wirksam, wenn die Anmeldung nicht deaktiviert ist.
 assessment#:#detailed_evaluation#:#Detaillierte Statistik
 assessment#:#detailed_evaluation_for#:#Detaillierte Statistik für %s
@@ -6801,15 +6801,41 @@ ldap#:#ldap_role_group_assignments#:#Vorhandene Zuordnungen
 common#:#select_one#:#Bitte treffen Sie eine Auswahl
 ldap#:#ldap_deleted_role_mapping#:#Die Zuordnung wurde entfernt
 ldap#:#ldap_role_not_exists#:#Eine ILIAS Rolle mit dem folgenden Namen existiert nicht:
-assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics###08 12 2006 new variable
-assessment#:#question_instances_title#:#This question is used in the following tests###08 12 2006 new variable
+assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
+assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
 barometer#:#bar_create#:#Neues Barometer
 common#:#location#:#Location###08 12 2006 new variable
 common#:#last_visited#:#Last Visited###08 12 2006 new variable
 common#:#go#:#Go###08 12 2006 new variable
-survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
-survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
+survey#:#show_questiontext#:#Fragentext anzeigen
+survey#:#show_questiontext_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird für jede Frage innerhalb des Fragenblocks der Fragentext angezeigt (Standard). Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentext nicht angezeigt und nur die Antworten angeboten. Dies kann sinnvoll sein, wenn Sie mehrere Fragen mit idéntischen Fragentexten in einem Fragenblock anbieten.
 exercise#:#exc_crs_add_members#:#Add students of this course###08 12 2006 new variable
+assessment#:#manscoring_hint#:#Sie haben mindestens eine Frage hinzugefügt, die eine manuelle Bewertung erfordert. Um eine aussagekräftige Ausgabe der Testergebnisse zu garantieren, wird Ihnen dringend empfohlen, den Zugang zu den Testergebnissen bis zu einer abgeschlossenen Bewertung zu unterbinden, indem Sie ein Datum und eine Uhrzeit für den Zugang festlegen.
+assessment#:#tst_count_system_description#:#Wenn Teillösungen bewertet werden, werden die definierten Punkte abhängig von den Antworten der Teilnehmer aufsummiert. Wenn nur vollständige Lösungen bewertet werden, müssen Teilnehmer die maximale Punktezahl für eine Frage erzielen, anderenfalls wird die Frage mit 0 Punkten bewertet.
+assessment#:#tst_instant_feedback_description#:#Wenn eine dieser Optionen ausgewählt ist, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt. Wenn antwortspezifische Rückmeldung ausgewählt wurde, wird eine Rückmeldung abhängig von der Beantwortung der Frage angezeigt. Wenn das Ergebnis ausgewählt ist, werden die erzielten Punkte angezeigt. Wenn Lösungen ausgewählt ist, wird die korrekte Lösung einer Frage angezeigt.
+assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte Testdurchlauf eines Teilnehmers bewertet. Falls der beste Testdurchlauf bewertet wird, wird der Testdurchlauf verwendet, bei dem der Teilnehme die höchste Punktezahl erreicht hat. Diese Einstellungen machen natürlich nur dann Sinn, wenn bei einem Test mehr als ein Testdurchlauf zugelassen wird.
+assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, denn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben.
+assessment#:#tst_score_cutting_description#:#Negative Punkte können für einzelne Fragen oder aber für die Summe aller Fragenergebnisse auf 0 zurückgesetzt werden. Bei der Summe aller Fragenergebnisse fallen negative Punkte stärker ins Gewicht.
+assessment#:#tst_score_mcmr_questions_description#:#Abhängig von der Punktevergabe bei Multiple Choice Fragen kann es passieren, dass für Fragen, bei denen keine Antwort ausgewählt wurde, Punkte vergeben werden. Dies wird durch die Standardeinstellung verhindert, indem in diesem Fall die Frage als nicht beantwortet gewertet wird und die Punkte automatisch auf Null gesetzt werden.
+assessment#:#tst_results_presentation_description#:#Wenn die Lösungen in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten.
+common#:#assessment_log_deleted#:#Alle protokollierten Daten für den Test wurden über die Administrationsoberfläche gelöscht.
+common#:#ass_log_output#:#Ausgabe der Testprotokollierung
+common#:#ass_log_admin#:#Administration der Testprotokollierung
+common#:#ass_log_count_datasets#:#Protokolleinträge
+common#:#ass_log_path#:#Position des Tests
+common#:#ass_log_available_tests#:#Verfügbare Tests
+common#:#ass_log_delete_entries#:#Protokolleinträge löschen
+common#:#ass_log_deleted#:#Die Protokolleinträge für die ausgewählten Tests wurden gelöscht!
+common#:#ass_log_delete_no_selection#:#Bitte wählen Sie mindestens einen Test aus, dessen Protokolleinträge Sie löschen wollen
+common#:#msg_input_is_required#:#This input is required. Please enter a value.###18 12 2006 new variable
+news#:#news_block_news_for_context#:#News###18 12 2006 new variable
+news#:#news_news_item_head#:#News Item###18 12 2006 new variable
+news#:#news_title#:#Headline###18 12 2006 new variable
+news#:#news_content#:#Text###18 12 2006 new variable
+news#:#news_visibility_users#:#Logged in Users###18 12 2006 new variable
+news#:#news_visibility_public#:#Public###18 12 2006 new variable
+news#:#news_visibility#:#Access###18 12 2006 new variable
+common#:#auth_shib_instructions#:#Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS.###18 12 2006 new variable
 common#:#obj_ps#:#Datenschutz und Server-Sicherheit
 common#:#obj_ps_desc#:#Globale Einstellungen zum Datenschutz.
 ps#:#show_privacy#:#Datenschutz
@@ -6817,4 +6843,4 @@ common#:#ps_edit_permission#:#Rechteeinstellungen ändern
 common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
 common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
-common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten 
+common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten

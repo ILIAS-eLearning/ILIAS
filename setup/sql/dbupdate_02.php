@@ -167,7 +167,7 @@ $this->db->query($query);
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
 $this->db->query($query);
 
-$query = "INSERT INTO rvba_ta (typ_id,ops_id) VALUES ('".$typ_id."','".$new_ops_id."')";
+$query = "INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('".$typ_id."','".$new_ops_id."')";
 $this->db->query($query);
 ?>
 <#878>

@@ -6804,3 +6804,34 @@ ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments###08 12 
 common#:#select_one#:#Please select one.###08 12 2006 new variable
 ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.###08 12 2006 new variable
 ldap#:#ldap_role_not_exists#:#A role with that name does not exist###08 12 2006 new variable
+assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To guarantee a valid presentation of the test results for the participants it is strongly recommended to restrict the access to the test results using a specified date and time.###18 12 2006 new variable
+assessment#:#tst_count_system_description#:#If partial solutions are counted, the points for a question are given dependent on the answers of a participant. If only complete solutions are counted, a participant must reach the maximum available points for a question, otherwise the resulting points are set to zero.###18 12 2006 new variable
+assessment#:#tst_instant_feedback_description#:#If one of the options is selected, the instant feedback information will be shown directly after a participant answered a question. If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant. If results (in points) are selected, the reached points will be shown. If solutions are selected, the correct solution will be shown too.###18 12 2006 new variable
+assessment#:#tst_pass_scoring_description#:#If the last pass is scored, the last test pass of a participant will be used to calculate the test results. If the best pass is scored, the test pass with the highest number of reached points will be chosen a test result. This setting only has effect, if more than one test pass is allowed for a test.###18 12 2006 new variable
+assessment#:#tst_results_access_description#:#This setting handles the access of the participants to their test results. If results can be accessed after the test is finished, the participants can access their test results after they finished a test pass for the first time. Even if a test has more than one allowed test pass, the participants can access their test results after finishing the first pass. If you choose a date access restriction, the participants will not be able to access their test results until the specified date and time is reached. You must choose this option if you want to use the ECTS scoring system of if you have to score questions manually. If "Always" is selected, the participants can access their test results at any time even if the did not finish the test yet.###18 12 2006 new variable
+assessment#:#tst_score_cutting_description#:#If Negative Question Points are cut off, the results for each question that a participant answers with a result of less than zero points will be set to zero points. If Negative Test Points are cut off, the results for the test will be set to zero points, if the sum of all question results is less than zero points.###18 12 2006 new variable
+assessment#:#tst_score_mcmr_questions_description#:#If "Score 0 Points for Unchecked Answers" is selected, multiple choice questions without a selected check box will scored with zero points, otherwise every check box will be scored dependent to the predefined points.###18 12 2006 new variable
+assessment#:#tst_results_presentation_description#:#If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission###18 12 2006 new variable
+common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###18 12 2006 new variable
+common#:#ass_log_output#:#Log Data Output###18 12 2006 new variable
+common#:#ass_log_admin#:#Log Data Administration###18 12 2006 new variable
+common#:#ass_log_count_datasets#:#Log Entries###18 12 2006 new variable
+common#:#ass_log_path#:#Test Location###18 12 2006 new variable
+common#:#ass_log_available_tests#:#Available Tests###18 12 2006 new variable
+common#:#ass_log_delete_entries#:#Delete Log Entries###18 12 2006 new variable
+common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted###18 12 2006 new variable
+common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data###18 12 2006 new variable
+common#:#msg_input_is_required#:#This input is required. Please enter a value.###18 12 2006 new variable
+news#:#news_block_news_for_context#:#News###18 12 2006 new variable
+news#:#news_news_item_head#:#News Item###18 12 2006 new variable
+news#:#news_title#:#Headline###18 12 2006 new variable
+news#:#news_content#:#Text###18 12 2006 new variable
+news#:#news_visibility_users#:#Logged in Users###18 12 2006 new variable
+news#:#news_visibility_public#:#Public###18 12 2006 new variable
+news#:#news_visibility#:#Access###18 12 2006 new variable
+common#:#auth_shib_instructions#:#Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS.###18 12 2006 new variable
+common#:#mail_settings#:#Mail Settings###18 12 2006 new variable
+common#:#my_courses#:#My Courses###18 12 2006 new variable
+mail#:#mail_list_members#:#List members###18 12 2006 new variable
+mail#:#mail_members_added_addressbook#:#Members added to addressbook###18 12 2006 new variable
+mail#:#mail_in_addressbook#:#Already in addressbook###18 12 2006 new variable
