@@ -219,8 +219,12 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("SCRIPT_CATALOG",
 			$this->getScriptTarget("repository.php?cmd=frameset&getlast=true"));
 		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
-		$this->tpl->setVariable("TXT_CATALOG",
-			$nd["title"]);
+		$title = $nd["title"];
+		if ($title == "ILIAS")
+		{
+			$title = $lng->txt("repository");
+		}
+		$this->tpl->setVariable("TXT_CATALOG", $title);
 		if ($this->active == "repository" || $this->active == "")
 		{
 			$this->tpl->setVariable("MM_CLASS", "MMActive");
