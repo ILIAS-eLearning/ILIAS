@@ -327,9 +327,15 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						{
 							foreach ($working_data as $data)
 							{
-								if (($data["value"] == $j) && ($data["row"] == $i))
+								if (is_array($data["value"]))
 								{
-									$tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
+									foreach ($data["value"] as $idx)
+									{
+										if (($idx == $j) && ($data["row"] == $i))
+										{
+											$tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
+										}
+									}
 								}
 							}
 						}
