@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("./Services/Form/classes/class.ilFormGUI.php");
+
 /**
 * This class represents a property form user interface
 *
@@ -153,7 +155,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			"postvar" => $a_post_var,
 			"options" => $a_options,
 			"value" => $a_value,
-			"info" => $a_info
+			"info" => $a_info,
 			"alert" => $a_alert,
 			"required" => $a_required);
 	}
@@ -192,6 +194,8 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function getContent()
 	{
+		global $lng, $tpl;
+		
 		$this->tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
 
 		// title icon
@@ -203,14 +207,16 @@ class ilPropertyFormGUI extends ilFormGUI
 		}
 		
 		// properties
-		foreach($this->$properties as $property)
+		$required_text = false;
+		foreach($this->properties as $property)
 		{
 			switch($property["type"])
 			{
 				case "text":
 					$this->tpl->setCurrentBlock("prop_text");
 					$this->tpl->setVariable("POST_VAR", $property["postvar"]);
-					$this->tpl->setVariable("PROPERTY_VALUE", $property["value"]);
+					$this->tpl->setVariable("PROPERTY_VALUE",
+						ilUtil::prepareFormOutput($property["value"]));
 					$this->tpl->setVariable("SIZE", $property["size"]);
 					$this->tpl->setVariable("MAXLENGTH", $property["maxlength"]);
 					$this->tpl->parseCurrentBlock();
@@ -218,7 +224,8 @@ class ilPropertyFormGUI extends ilFormGUI
 					
 				case "textarea":
 					$this->tpl->setCurrentBlock("prop_textarea");
-					$this->tpl->setVariable("POST_VAR", $property["postvar"]);
+					$this->tpl->setVariable("POST_VAR",
+						ilUtil::prepareFormOutput($property["postvar"]));
 					$this->tpl->setVariable("PROPERTY_VALUE", $property["value"]);
 					$this->tpl->setVariable("COLS", $property["cols"]);
 					$this->tpl->setVariable("ROWS", $property["rows"]);
@@ -226,6 +233,7 @@ class ilPropertyFormGUI extends ilFormGUI
 					break;
 					
 				case "radio":
+					$br = "";
 					foreach($property["options"] as $option)
 					{
 						$this->tpl->setCurrentBlock("prop_radio_option");
@@ -236,8 +244,10 @@ class ilPropertyFormGUI extends ilFormGUI
 							$this->tpl->setVariable("CHK_RADIO_OPTION",
 								'checked="checked"');
 						}
-						$this->tpl->setVariable("TEXT_RADIO_OPTION", $option["text"]);
+						$this->tpl->setVariable("TXT_RADIO_OPTION", $option["text"]);
+						$this->tpl->setVariable("BR", $br);
 						$this->tpl->parseCurrentBlock();
+						$br = "<br />";
 					}
 					$this->tpl->setCurrentBlock("prop_radio");
 					$this->tpl->parseCurrentBlock();
@@ -253,10 +263,22 @@ class ilPropertyFormGUI extends ilFormGUI
 			// info text
 			if ($property["info"] != "")
 			{
+				$tpl->addJavaScript("Services/Form/js/ServiceForm.js");
 				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("IMG_INFO",
+					ilUtil::getImagePath("icon_info_s.gif"));
+				$this->tpl->setVariable("ALT_INFO",
+					$lng->txt("info_short"));
 				$this->tpl->setVariable("PROPERTY_DESCRIPTION",
 					$property["info"]);
 				$this->tpl->parseCurrentBlock();
+			}
+
+			// required
+			if ($property["required"])
+			{
+				$this->tpl->touchBlock("required");
+				$required_text = true;
 			}
 			
 			// alert
@@ -265,13 +287,24 @@ class ilPropertyFormGUI extends ilFormGUI
 				$this->tpl->setCurrentBlock("alert");
 				$this->tpl->setVariable("IMG_ALERT",
 					ilUtil::getImagePath("icon_alert_s.gif"));
+				$this->tpl->setVariable("ALT_ALERT",
+					$lng->txt("alert"));
 				$this->tpl->setVariable("TXT_ALERT",
 					$property["alert"]);
 				$this->tpl->parseCurrentBlock();
 			}
 			
 			$this->tpl->setCurrentBlock("prop");
+			$this->tpl->setVariable("PROPERTY_TITLE", $property["title"]);
 			$this->tpl->parseCurrentBlock();
+		}
+
+		// command buttons
+		if ($required_text)
+		{
+			$this->tpl->setCurrentBlock("required_text");
+			$this->tpl->setVariable("TXT_REQUIRED", $lng->txt("required"));
+			$this->tpl->parseCurrentBlock();			
 		}
 		
 		// command buttons
@@ -279,7 +312,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		{
 			$this->tpl->setCurrentBlock("cmd");
 			$this->tpl->setVariable("CMD", $button["cmd"]);
-			$this->tpl->setVariable("CMD_TEXT", $button["text"]);
+			$this->tpl->setVariable("CMD_TXT", $button["text"]);
 			$this->tpl->parseCurrentBlock();
 		}
 

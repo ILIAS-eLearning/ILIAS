@@ -226,110 +226,61 @@ class ilNewsItemGUIGen
 		
 		$lng->loadLanguageModule("news");
 		
-		$tpl = new ilTemplate("tpl.property_form.html", true, true);
+		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		
+		$form_gui = new ilPropertyFormGUI();
+		
 		$values = $this->getValuesNewsItem();
 		
 		// Property Title
-		$tpl->setCurrentBlock("prop_Varchar");
-		$tpl->setVariable("POST_VAR", "news_title");
-		$tpl->setVariable("PROPERTY_VALUE",
-			ilUtil::prepareFormOutput($values["Title"]));
-		$tpl->parseCurrentBlock();
-		if ($this->form_check["NewsItem"]["Title"]["error"] != "")
-		{
-			$tpl->setCurrentBlock("alert");
-			$tpl->setVariable("IMG_ALERT",
-				ilUtil::getImagePath("icon_alert_s.gif"));
-			$tpl->setVariable("TXT_ALERT",
-				$this->form_check["NewsItem"]["Title"]["error"]);
-			$tpl->parseCurrentBlock();
-		}
-		$tpl->setCurrentBlock("prop");
-		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_title"));
-		$tpl->parseCurrentBlock();
+		$alert = ($this->form_check["NewsItem"]["Title"]["error"] != "")
+			? $this->form_check["NewsItem"]["Title"]["error"]
+			: "";
+		$form_gui->addTextProperty($lng->txt("news_title"),
+			"news_title",
+			$values["Title"],
+			"", $alert, true
+			, "200");
 		
 		// Property Content
-		$tpl->setCurrentBlock("prop_Text");
-		$tpl->setVariable("POST_VAR", "news_content");
-		$tpl->setVariable("PROPERTY_VALUE",
-			ilUtil::prepareFormOutput($values["Content"]));
-		$tpl->parseCurrentBlock();
-		if ($this->form_check["NewsItem"]["Content"]["error"] != "")
-		{
-			$tpl->setCurrentBlock("alert");
-			$tpl->setVariable("IMG_ALERT",
-				ilUtil::getImagePath("icon_alert_s.gif"));
-			$tpl->setVariable("TXT_ALERT",
-				$this->form_check["NewsItem"]["Content"]["error"]);
-			$tpl->parseCurrentBlock();
-		}
-		$tpl->setCurrentBlock("prop");
-		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_content"));
-		$tpl->parseCurrentBlock();
+		$alert = ($this->form_check["NewsItem"]["Content"]["error"] != "")
+			? $this->form_check["NewsItem"]["Content"]["error"]
+			: "";
+		$form_gui->addTextAreaProperty($lng->txt("news_content"),
+			"news_content",
+			$values["Content"],
+			"", $alert, false);
 		
 		// Property Visibility
-		$tpl->setCurrentBlock("prop_Enum_Option");
-		$tpl->setVariable("TXT_ENUM_OPTION", $lng->txt("news_visibility_users"));
-		$tpl->setVariable("VAL_ENUM_OPTION", "users");
-		$checked = ($values["Visibility"] == "users")
-			? ' checked="checked" '
+		$alert = ($this->form_check["NewsItem"]["Visibility"]["error"] != "")
+			? $this->form_check["NewsItem"]["Visibility"]["error"]
 			: "";
-		$tpl->setVariable("CHK_ENUM_OPTION", $checked);
-		$tpl->setVariable("POST_VAR", "news_visibility");
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("prop_Enum_Option");
-		$tpl->setVariable("TXT_ENUM_OPTION", $lng->txt("news_visibility_public"));
-		$tpl->setVariable("VAL_ENUM_OPTION", "public");
-		$checked = ($values["Visibility"] == "public")
-			? ' checked="checked" '
-			: "";
-		$tpl->setVariable("CHK_ENUM_OPTION", $checked);
-		$tpl->setVariable("POST_VAR", "news_visibility");
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("prop_Enum");
-		$tpl->parseCurrentBlock();
-		if ($this->form_check["NewsItem"]["Visibility"]["error"] != "")
-		{
-			$tpl->setCurrentBlock("alert");
-			$tpl->setVariable("IMG_ALERT",
-				ilUtil::getImagePath("icon_alert_s.gif"));
-			$tpl->setVariable("TXT_ALERT",
-				$this->form_check["NewsItem"]["Visibility"]["error"]);
-			$tpl->parseCurrentBlock();
-		}
-		$tpl->setCurrentBlock("prop");
-		$tpl->setVariable("PROPERTY_TITLE", $lng->txt("news_visibility"));
-		$tpl->parseCurrentBlock();
-		
+		$form_gui->addRadioProperty($lng->txt("news_visibility"),
+			"news_visibility",array(
+				array("value" => "users", "text" => $lng->txt("news_visibility_users")), 
+				array("value" => "public", "text" => $lng->txt("news_visibility_public"))),
+			$values["Visibility"],
+			$lng->txt("news_visibility_info"), $alert, false);
 		
 		// save and cancel commands
 		if (in_array($this->getFormEditMode(), array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
 		{
-			$tpl->setCurrentBlock("cmd");
-			$tpl->setVariable("CMD", "saveNewsItem");
-			$tpl->setVariable("CMD_TXT", $lng->txt("save"));
-			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("cmd");
-			$tpl->setVariable("CMD", "cancelUpdate");
-			$tpl->setVariable("CMD_TXT", $lng->txt("cancel"));
-			$tpl->parseCurrentBlock();
+			$form_gui->addCommandButton("saveNewsItem", $lng->txt("save"));
+			$form_gui->addCommandButton("cancelSaveNewsItem", $lng->txt("cancel"));
 		}
 		else
 		{
-			$tpl->setCurrentBlock("cmd");
-			$tpl->setVariable("CMD", "updateNewsItem");
-			$tpl->setVariable("CMD_TXT", $lng->txt("save"));
-			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("cmd");
-			$tpl->setVariable("CMD", "cancelUpdate");
-			$tpl->setVariable("CMD_TXT", $lng->txt("cancel"));
-			$tpl->parseCurrentBlock();
+			$form_gui->addCommandButton("updateNewsItem", $lng->txt("save"));
+			$form_gui->addCommandButton("cancelUpdateNewsItem", $lng->txt("cancel"));
 		}
 		
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$tpl->setVariable("TXT_TITLE",
-			$lng->txt("news_news_item_head"));
-		return $tpl->get();
+		$form_gui->setTitle($lng->txt("news_news_item_head"));
+		$form_gui->setFormAction($this->ctrl->getFormAction($this));
+		
+		// individual preparation of form
+		$this->prepareFormNewsItem($form_gui);
+		
+		return $form_gui->getHTML();
 
 	}
 
@@ -469,6 +420,16 @@ class ilNewsItemGUIGen
 	* @param	object	$a_news_item	NewsItem object.
 	*/
 	public function prepareSaveNewsItem(&$a_news_item)
+	{
+
+	}
+
+	/**
+	* FORM NewsItem: Prepare form. (Can be overwritten in derived classes)
+	*
+	* @param	object	$a_form_gui	ilPropertyFormGUI instance.
+	*/
+	public function prepareFormNewsItem(&$a_form_gui)
 	{
 
 	}
