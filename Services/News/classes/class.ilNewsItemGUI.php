@@ -58,6 +58,16 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		$a_news_item->setContextObjId($this->ctrl->getContextObjId());
 		$a_news_item->setContextObjType($this->ctrl->getContextObjType());
 	}
+	
+	/**
+	* FORM NewsItem: Prepare form.
+	*
+	* @param	object	$a_form_gui	ilPropertyFormGUI instance.
+	*/
+	public function prepareFormNewsItem(&$a_form_gui)
+	{
+		$a_form_gui->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
+	}
 
 	function editNews()
 	{

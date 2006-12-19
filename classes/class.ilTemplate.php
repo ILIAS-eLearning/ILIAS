@@ -50,6 +50,8 @@ class ilTemplate extends ilTemplateX
 	* @var	string
 	*/
 	var $activeBlock;
+	
+	var $js_files = array();		// list of JS files that should be included
 
 	/**
 	* constructor
@@ -133,6 +135,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillTabs();
 			$this->fillHeaderIcon();
 			$this->fillNavigationHistory();
+			$this->fillJavaScriptFiles();
 		}
 
 		if ($add_ilias_footer)
@@ -233,6 +236,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillTabs();
 			$this->fillHeaderIcon();
 			$this->fillNavigationHistory();
+			$this->fillJavaScriptFiles();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
@@ -256,6 +260,21 @@ class ilTemplate extends ilTemplateX
 		$this->setVariable("SUB_TABS",$ilTabs->getSubTabHTML());
 	}
 	
+	function fillJavaScriptFiles()
+	{
+		global $ilias,$ilTabs;
+		
+		foreach($this->js_files as $file)
+		{
+			if (is_file($file))
+			{
+				$this->setCurrentBlock("js_file");
+				$this->setVariable("JS_FILE", $file);
+				$this->parseCurrentBlock();
+			}
+		}
+	}
+
 	function setContentStyle()
 	{
 		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET_TAG",
@@ -912,6 +931,12 @@ class ilTemplate extends ilTemplateX
 		$this->parseCurrentBlock();
 	}
 
-
+	/**
+	* Add a javascript file that should be included in the header.
+	*/
+	function addJavaScript($a_js_file)
+	{
+		$this->js_files[] = $a_js_file;
+	}
 }
 ?>
