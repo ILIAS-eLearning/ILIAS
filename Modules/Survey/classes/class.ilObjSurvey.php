@@ -3327,7 +3327,7 @@ class ilObjSurvey extends ilObject
 		
 		if ($this->getAnonymize())
 		{
-			if ($user_id != ANONYMOUS_USER_ID)
+			if (($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0))
 			{
 				$query = sprintf("SELECT state FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
 					$ilDB->quote($this->getSurveyId()),
@@ -4676,7 +4676,9 @@ class ilObjSurvey extends ilObject
 		// check for the correct survey code
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
-			$user_key = "";
+			return TRUE;
+			/* This is no longer needed because we allow multiple survey participations if a user posesses more than one survey access code
+			user_key = "";
 			$query = sprintf("SELECT survey_key FROM survey_anonymous WHERE survey_fi = %s AND user_key = %s",
 				$ilDB->quote($this->getSurveyId() . ""),
 				$ilDB->quote(md5($ilUser->getId()))
@@ -4695,6 +4697,7 @@ class ilObjSurvey extends ilObject
 			{
 				return false;
 			}
+			*/
 		}
 		else
 		{
@@ -4717,30 +4720,6 @@ class ilObjSurvey extends ilObject
 		return false;
 	}
 
-	function &getSurveyCodes($generated_only = FALSE)
-	{
-		global $ilDB;
-		$codes = array();
-		$user_key = "";
-		if ($generated_only)
-		{
-			$user_key = " AND user_key IS NULL";
-		}
-		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s$user_key ORDER BY TIMESTAMP14, survey_finished.anonymous_id",
-			$ilDB->quote($this->getSurveyId() . "")
-		);
-		$result = $ilDB->query($query);
-		
-		if ($result->numRows() > 0)
-		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				array_push($codes, $row);
-			}
-		}
-		return $codes;
-	}
-	
 	/**
 	* Returns the number of generated survey codes for the survey
 	*
@@ -4753,7 +4732,9 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT anonymous_id FROM survey_anonymous";
+		$query = sprintf("SELECT anonymous_id FROM survey_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
+			$ilDB->quote($this->getSurveyId() . "")
+		);
 		$result = $ilDB->query($query);
 		return $result->numRows();
 	}
@@ -4778,9 +4759,9 @@ class ilObjSurvey extends ilObject
 		if (strlen($offset) == 0) $offset = 0;
 		if (strlen($limit) == 0) $limit = 10;
 		
-		$order = "ORDER BY TIMESTAMP14, survey_finished.anonymous_id ASC";
+		$order = "ORDER BY survey_finished.anonymous_id ASC";
 		$codes = array();
-		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s $order LIMIT $offset,$limit",
+		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key) $order LIMIT $offset,$limit",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
