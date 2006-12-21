@@ -218,7 +218,7 @@ class ilSurveyExecutionGUI
 		global $ilUser;
 		
 		// security check if someone tries to go into a survey using an URL to one of the questions
-		$canStart = $this->object->canStartSurvey();
+		$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"]);
 		if (!$canStart["result"])
 		{
 			sendInfo(implode("<br />", $canStart["messages"]), TRUE);
@@ -261,7 +261,6 @@ class ilSurveyExecutionGUI
 		{
 			$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"]);
 			if (array_key_exists("anonymous_id", $_SESSION)) unset($_SESSION["anonymous_id"]);
-			if (array_key_exists("accesscode", $_SESSION)) unset($_SESSION["accesscode"]);
 			$this->runShowFinishedPage();
 			return;
 		}
