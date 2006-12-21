@@ -3114,7 +3114,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->handleWriteAccess();
 
-		if ($this->object->getAnonymize() == 0)
+		if ($this->object->getAnonymize() != 1)
 		{
 			return sendInfo($this->lng->txt("survey_codes_no_anonymization"));
 		}
@@ -3649,7 +3649,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$info->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 		$info->enablePrivateNotes();
 		$anonymize_key = NULL;
-		if ($this->object->getAnonymize() != 0)
+		if ($this->object->getAnonymize() == 1)
 		{
 			if ($_SESSION["anonymous_id"])
 			{
@@ -3976,7 +3976,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 array("maintenance", "deleteAllUserData"),
 				 "");
 
-			if ($this->object->getAnonymize() != 0)
+			if ($this->object->getAnonymize() == 1)
 			{
 				// code
 				$tabs_gui->addTarget("codes",

@@ -6437,7 +6437,7 @@ survey#:#survey_code_url#:#URL for Direct Access
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
 survey#:#survey_codes_lang#:#Language of the Survey
-survey#:#survey_codes_no_anonymization#:#You cannot use survey access codes in a personalized survey!
+survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#Finish Survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
