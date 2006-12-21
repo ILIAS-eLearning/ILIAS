@@ -1586,7 +1586,7 @@ class ilObjSurvey extends ilObject
 * @return array An array containing the following keys: result (boolean) and messages (array)
 * @access public
 */
-	function canStartSurvey()
+	function canStartSurvey($anonymous_id = NULL)
 	{
 		global $ilAccess;
 		
@@ -1630,7 +1630,7 @@ class ilObjSurvey extends ilObject
 		if (!$result["error"])
 		{
 			global $ilUser;
-			$survey_started = $this->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]);
+			$survey_started = $this->isSurveyStarted($ilUser->getId(), $anonymous_id);
 			if ($survey_started === 1)
 			{
 				array_push($messages, $this->lng->txt("already_completed_survey"));
@@ -3324,7 +3324,7 @@ class ilObjSurvey extends ilObject
 	function isSurveyStarted($user_id, $anonymize_id)
 	{
 		global $ilDB;
-		
+
 		if ($this->getAnonymize())
 		{
 			if (($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0))

@@ -3633,7 +3633,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilAccess;
 		global $ilUser;
 
-		//$this->setNewTemplate();
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
@@ -3645,7 +3644,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$output_gui =& new ilSurveyExecutionGUI($this->object);
 		$info->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 		$info->enablePrivateNotes();
-		$canStart = $this->object->canStartSurvey();
+		$anonymize_key = NULL;
+		if ($_SESSION["anonymous_id"])
+		{
+			$anonymize_key = $_SESSION["anonymous_id"];
+		}
+		else if ($_POST["anonymous_id"])
+		{
+			$anonymize_key = $_POST["anonymous_id"];
+		}
+		$canStart = $this->object->canStartSurvey($anonymize_key);
 		$showButtons = $canStart["result"];
 		if (!$showButtons) sendInfo(implode("<br />", $canStart["messages"]));
 
@@ -3679,7 +3687,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// output of start/resume buttons for anonymized surveys
 			else if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
 			{
-				if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_POST["anonymous_id"]) == 0) && (strlen($_SESSION["accesscode"]) == 0))
+				if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_POST["anonymous_id"]) == 0) && (strlen($_SESSION["anonymous_id"]) == 0))
 				{
 					$info->setFormAction($this->ctrl->getFormAction($this, "infoScreen"));
 					$info->addSection($this->lng->txt("anonymization"));
@@ -3697,15 +3705,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						$anonymize_key = $_POST["anonymous_id"];
 					}
-					else if (strlen($_SESSION["accesscode"]) > 0)
+					else if (strlen($_SESSION["anonymous_id"]) > 0)
 					{
-						if (!$this->object->checkSurveyCode($_SESSION["accesscode"]))
+						if (!$this->object->checkSurveyCode($_SESSION["anonymous_id"]))
 						{
 							sendInfo("wrong_survey_code_used", TRUE);
-							unset($_SESSION["accesscode"]);
+							unset($_SESSION["anonymous_id"]);
 							$this->ctrl->redirect($this, "infoScreen");
 						}
-						$anonymize_key = $_SESSION["accesscode"];
+						$anonymize_key = $_SESSION["anonymous_id"];
 					}
 					else
 					{
@@ -4000,7 +4008,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			if (strlen($a_access_code))
 			{
-				$_SESSION["accesscode"] = $a_access_code;
+				$_SESSION["anonymous_id"] = $a_access_code;
 				$_GET["baseClass"] = "ilObjSurveyGUI";
 				$_GET["cmd"] = "infoScreen";
 				$_GET["ref_id"] = $a_target;
