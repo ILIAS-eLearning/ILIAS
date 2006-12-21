@@ -3114,6 +3114,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->handleWriteAccess();
 
+		if ($this->object->getAnonymize() == 0)
+		{
+			return sendInfo($this->lng->txt("survey_codes_no_anonymization"));
+		}
 		global $rbacsystem;
 		global $ilUser;
 		
@@ -3645,13 +3649,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$info->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 		$info->enablePrivateNotes();
 		$anonymize_key = NULL;
-		if ($_SESSION["anonymous_id"])
+		if ($this->object->getAnonymize() != 0)
 		{
-			$anonymize_key = $_SESSION["anonymous_id"];
-		}
-		else if ($_POST["anonymous_id"])
-		{
-			$anonymize_key = $_POST["anonymous_id"];
+			if ($_SESSION["anonymous_id"])
+			{
+				$anonymize_key = $_SESSION["anonymous_id"];
+			}
+			else if ($_POST["anonymous_id"])
+			{
+				$anonymize_key = $_POST["anonymous_id"];
+			}
 		}
 		$canStart = $this->object->canStartSurvey($anonymize_key);
 		$showButtons = $canStart["result"];
@@ -3968,12 +3975,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 $this->ctrl->getLinkTarget($this,'maintenance'),
 				 array("maintenance", "deleteAllUserData"),
 				 "");
-	
-			// code
-			$tabs_gui->addTarget("codes",
-				 $this->ctrl->getLinkTarget($this,'codes'),
-				 array("codes", "createSurveyCodes", "setCodeLanguage"),
-				 "");
+
+			if ($this->object->getAnonymize() != 0)
+			{
+				// code
+				$tabs_gui->addTarget("codes",
+					 $this->ctrl->getLinkTarget($this,'codes'),
+					 array("codes", "createSurveyCodes", "setCodeLanguage"),
+					 "");
+			}
 		}
 
 		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
