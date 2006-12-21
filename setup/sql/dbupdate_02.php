@@ -174,3 +174,25 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#879>
+<?php
+// add layout attribute for matrix questions
+$attribute_visibility = FALSE;
+$query = "SHOW COLUMNS FROM survey_question_matrix";
+$res = $ilDB->query($query);
+if ($res->numRows())
+{
+	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		if (strcmp($data["Field"], "layout") == 0)
+		{
+			$attribute_visibility = TRUE;
+		}
+	}
+}
+if ($attribute_visibility == FALSE)
+{
+	$query = "ALTER TABLE `survey_question_matrix` ADD `layout` TEXT DEFAULT NULL AFTER `bipolar_adjective2`";
+	$res = $ilDB->query($query);
+}
+?>
