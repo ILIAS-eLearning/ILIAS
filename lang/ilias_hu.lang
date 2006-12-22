@@ -6835,3 +6835,15 @@ common#:#my_courses#:#My Courses###18 12 2006 new variable
 mail#:#mail_list_members#:#List members###18 12 2006 new variable
 mail#:#mail_members_added_addressbook#:#Members added to addressbook###18 12 2006 new variable
 mail#:#mail_in_addressbook#:#Already in addressbook###18 12 2006 new variable
+news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###22 12 2006 new variable
+common#:#title_long#:#Long Title###22 12 2006 new variable
+survey#:#layout#:#Layout###22 12 2006 new variable
+survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!###22 12 2006 new variable
+common#:#obj_ps#:#Privacy and Security###22 12 2006 new variable
+common#:#obj_ps_desc#:#Configure global privacy and security settings here.###22 12 2006 new variable
+ps#:#show_privacy#:#Privacy###22 12 2006 new variable
+common#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
+common#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
+common#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
+common#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
+common#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable

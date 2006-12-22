@@ -37,7 +37,8 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 */
 class SurveyMatrixQuestionGUI extends SurveyQuestionGUI 
 {
-
+	var $show_layout_row;
+	
 /**
 * SurveyMatrixQuestionGUI constructor
 *
@@ -54,6 +55,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->SurveyQuestionGUI();
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMatrixQuestion.php";
 		$this->object = new SurveyMatrixQuestion();
+		$this->show_layout_row = FALSE;
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -211,6 +213,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 */
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "")
 	{
+		$layout = $this->object->getLayout();
 		$neutralstyle = "3px solid #808080";
 		$bordercolor = "#808080";
 		$template = new ilTemplate("tpl.il_svy_out_matrix.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
@@ -223,16 +226,33 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		
+		if ($this->show_layout_row)
+		{
+			$layout_row = $this->getLayoutRow();
+			$template->setCurrentBlock("matrix_row");
+			$template->setVariable("ROW", $layout_row);
+			$template->parseCurrentBlock();
+		}
+		
 		$tplheaders = new ilTemplate("tpl.il_svy_out_matrix_columnheaders.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if ($this->object->getSubtype() == 0)
 		{
 			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 			{
-				$tplheaders->touchBlock("bipolar_start");
+				$tplheaders->setCurrentBlock("bipolar_start");
+				$style = array();
+				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%"));
+				if (count($style) > 0)
+				{
+					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+				}
+				$tplheaders->parseCurrentBlock();
 			}
 		}
 		// column headers
 		$headers = $this->object->getColumnCount();
+		$columncount = $headers;
+		if (strlen($this->object->getNeutralColumn())) $columncount++;
 		for ($i = 0; $i < $this->object->getColumnCount(); $i++)
 		{
 			$style = array();
@@ -243,10 +263,14 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 					array_push($style, "border-right: 1px solid $bordercolor!important");
 				}
 			}
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $columncount, "%"));
 			$tplheaders->setCurrentBlock("column_header");
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getColumn($i)));
 			$tplheaders->setVariable("CLASS", "center");
-			$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+			if (count($style) > 0)
+			{
+				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+			}
 			$tplheaders->parseCurrentBlock();
 		}
 		if (strlen($this->object->getNeutralColumn()))
@@ -254,9 +278,15 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$tplheaders->setCurrentBlock("neutral_column_header");
 			$tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($this->object->getNeutralColumn()));
 			$tplheaders->setVariable("CLASS", "rsep");
+			$style = array();
+			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $columncount, "%"));
 			if ($this->object->getNeutralColumnSeparator())
 			{
-				$tplheaders->setVariable("STYLE", " style=\"border-left: $neutralstyle!important;\"");
+				array_push($style, "border-left: $neutralstyle!important;\"");
+			}
+			if (count($style) > 0)
+			{
+				$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
 			}
 			$tplheaders->parseCurrentBlock();
 			$headers++;
@@ -265,9 +295,24 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1))))
 			{
-				$tplheaders->touchBlock("bipolar_end");
+				$tplheaders->setCurrentBlock("bipolar_end");
+				$style = array();
+				array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%"));
+				if (count($style) > 0)
+				{
+					$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+				}
+				$tplheaders->parseCurrentBlock();
 			}
 		}		
+
+		$style = array();
+		array_push($style, sprintf("width: %.2f%s!important", $layout["percent_row"], "%"));
+		if (count($style) > 0)
+		{
+			$tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+		}
+		
 		$template->setCurrentBlock("matrix_row");
 		$template->setVariable("ROW", $tplheaders->get());
 		$template->parseCurrentBlock();
@@ -422,6 +467,76 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$question_output = $this->getWorkingForm();
 		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
+* Creates a layout view of the question
+*
+* Creates a layout view of the question
+*
+* @access public
+*/
+	function layout()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_layout.html", "Modules/SurveyQuestionPool");
+		$this->show_layout_row = TRUE;
+		$question_output = $this->getWorkingForm();
+		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "saveLayout"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
+ * Saves the layout for the matrix question
+ *
+ * Saves the layout for the matrix question
+ *
+ * @return void
+ **/
+	function saveLayout()
+	{
+		$this->object->saveLayout($_POST["percent_row"], $_POST['percent_columns'], $_POST['percent_bipolar_adjective1'], $_POST['percent_bipolar_adjective2']);
+		$percent_values = array(
+			"percent_row" => $_POST["percent_row"],
+			"percent_columns" => $_POST["percent_columns"],
+			"percent_bipolar_adjective1" => $_POST['percent_bipolar_adjective1'],
+			"percent_bipolar_adjective2" => $_POST['percent_bipolar_adjective2']
+		);
+		$this->object->setLayout($percent_values);
+		$this->layout();
+	}
+
+/**
+* Creates a row to define the matrix question layout with percentage values
+* 
+* Creates a row to define the matrix question layout with percentage values
+*
+* @access public
+*/
+	function getLayoutRow()
+	{
+		$percent_values = $this->object->getLayout();
+		$template = new ilTemplate("tpl.il_svy_out_matrix_layout.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		if (strlen($this->object->getBipolarAdjective(0)) && strlen($this->object->getBipolarAdjective(1)))
+		{
+			$template->setCurrentBlock("bipolar_start");
+			$template->setVariable("VALUE_PERCENT_BIPOLAR_ADJECTIVE1", " value=\"" . $percent_values["percent_bipolar_adjective1"] . "\"");
+			$template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective1"] . "%\"");
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("bipolar_end");
+			$template->setVariable("VALUE_PERCENT_BIPOLAR_ADJECTIVE2", " value=\"" . $percent_values["percent_bipolar_adjective2"] . "\"");
+			$template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective2"] . "%\"");
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("VALUE_PERCENT_ROW", " value=\"" . $percent_values["percent_row"] . "\"");
+		$template->setVariable("STYLE_ROW", " style=\"width:" . $percent_values["percent_row"] . "%\"");
+		$counter = $this->object->getColumnCount();
+		if (strlen($this->object->getNeutralColumn())) $counter++;
+		$template->setVariable("COLSPAN_COLUMNS", $counter);
+		$template->setVariable("VALUE_PERCENT_COLUMNS", " value=\"" . $percent_values["percent_columns"] . "\"");
+		$template->setVariable("STYLE_COLUMNS", " style=\"width:" . $percent_values["percent_columns"] . "%\"");
+		return $template->get();
 	}
 	
 /**
@@ -753,6 +868,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$ilTabs->addTarget("preview",
 				$this->ctrl->getLinkTarget($this, "preview"), 
 				array("preview"),
+				"",
+				"");
+				
+			$ilTabs->addTarget("layout",
+				$this->ctrl->getLinkTarget($this, "layout"), 
+				array("layout", "saveLayout"),
 				"",
 				"");
 		}

@@ -208,6 +208,7 @@ class ilSurveyEvaluationGUI
 				$format_title->setColor('black');
 				$format_title->setPattern(1);
 				$format_title->setFgColor('silver');
+				$format_title->setAlign('center');
 				// Creating a worksheet
 				include_once ("./classes/class.ilExcelUtils.php");
 				$mainworksheet =& $workbook->addWorksheet();

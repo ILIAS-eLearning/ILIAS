@@ -109,6 +109,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	var $neutralColumnSeparator;
 	
+	var $layout;
+	
 	
 /**
 * Matrix question subtype
@@ -156,6 +158,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$this->rowSeparators = 0;
 		$this->columnSeparators = 0;
 		$this->neutralColumnSeparator = 1;
+		$this->layout = array(
+			"percent_row" => 30,
+			"percent_columns" => 50,
+			"percent_bipolar_adjective1" => 10,
+			"percent_bipolar_adjective2" => 10
+		);
 	}
 	
 /**
@@ -442,7 +450,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 *
 * Returns one of the bipolar adjectives
 *
-* @param integer $a_index The number of the bipoloar adjective (0 for the first and 1 for the second adjective)
+* @param integer $a_index The number of the bipolar adjective (0 for the first and 1 for the second adjective)
 * @result string The text of the bipolar adjective
 * @access public
 */
@@ -465,7 +473,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 *
 * Sets one of the bipolar adjectives
 *
-* @param integer $a_index The number of the bipoloar adjective (0 for the first and 1 for the second adjective)
+* @param integer $a_index The number of the bipolar adjective (0 for the first and 1 for the second adjective)
 * @param string $a_value The text of the bipolar adjective
 * @access public
 */
@@ -578,6 +586,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->setRowSeparators($data->row_separators);
 				$this->setNeutralColumnSeparator($data->neutral_column_separator);
 				$this->setColumnSeparators($data->column_separators);
+				$this->setLayout($data->layout);
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
@@ -1043,6 +1052,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "neutral_column_separator");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getNeutralColumnSeparator());
 		$a_xml_writer->xmlEndTag("metadatafield");
+
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "layout");
+		$a_xml_writer->xmlElement("fieldentry", NULL, serialize($this->getLayout()));
+		$a_xml_writer->xmlEndTag("metadatafield");
+
 		$a_xml_writer->xmlEndTag("metadata");
 		
 		$a_xml_writer->xmlEndTag("question");
@@ -1723,6 +1738,37 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				}
 			}
 		}
+		// out compressed 2D-Matrix
+		$format_center =& $workbook->addFormat();
+		$format_center->setColor('black');
+		$format_center->setAlign('center');
+		
+		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("overview")), $format_bold);
+		// title row with variables
+		$rowcounter++;
+		$counter = 0;
+		$worksheet->write($rowcounter, $counter, "", $format_title);
+		foreach ($eval_data["TOTAL"]["variables"] as $variable)
+		{
+			$worksheet->write($rowcounter, 1+$counter, ilExcelUtils::_convert_text($variable["title"]), $format_title);
+			$counter++;
+		}
+		$rowcounter++;
+		// rows with variable values
+		foreach ($eval_data as $index => $data)
+		{
+			if (is_numeric($index))
+			{
+				$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($data["ROW"]), $format_title);
+				$counter = 1;
+				foreach ($data["variables"] as $vardata)
+				{
+					$worksheet->write($rowcounter, $counter, $vardata["selected"], $format_center);
+					$counter++;
+				}
+				$rowcounter++;
+			}
+		}
 	}
 
 	/**
@@ -2069,6 +2115,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				case "row_separators":
 					$this->setRowSeparators($value["entry"]);
 					break;
+				case "layout":
+					$this->setLayout($value["entry"]);
+					break;
 				case "neutral_column_separator":
 					$this->setNeutralColumnSeparator($value["entry"]);
 					break;
@@ -2203,6 +2252,60 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$title = preg_replace("/\<[^>]+?>/ims", "", $this->getRow($type));
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyChart.php";
 			$b1 = new SurveyChart("bars", 400, 250, utf8_decode($title),utf8_decode($this->lng->txt("answers")), utf8_decode($this->lng->txt("users_answered")), $this->cumulated[$type]["variables"]);
+		}
+	}
+	
+/**
+ * Saves the layout of a matrix question
+ *
+ * Saves the layout of a matrix question
+ *
+ * @param double $percent_row The width in percent for the matrix rows
+ * @param double $percent_columns The width in percent for the matrix columns
+ * @param double $percent_bipolar_adjective1 The width in percent for the first bipolar adjective
+ * @param double $percent_bipolar_adjective2 The width in percent for the second bipolar adjective
+ * @return void
+ **/
+	function saveLayout($percent_row, $percent_columns, $percent_bipolar_adjective1 = "", $percent_bipolar_adjective2 = "")
+	{
+		global $ilDB;
+		
+		$layout = array(
+			"percent_row" => $percent_row,
+			"percent_columns" => $percent_columns,
+			"percent_bipolar_adjective1" => $percent_bipolar_adjective1,
+			"percent_bipolar_adjective2" => $percent_bipolar_adjective2
+		);
+		$query = sprintf("UPDATE survey_question_matrix SET layout = %s WHERE question_fi = %s",
+			$ilDB->quote(serialize($layout) . ""),
+			$ilDB->quote($this->getId() . "")
+		);
+		$ilDB->query($query);
+	}
+	
+	function getLayout()
+	{
+		return $this->layout;
+	}
+	
+	function setLayout($layout)
+	{
+		if (is_array($layout))
+		{
+			$this->layout = $layout;
+		}
+		else
+		{
+			$this->layout = unserialize($layout);
+			if (!is_array($this->layout))
+			{
+				$this->layout = array(
+					"percent_row" => 30,
+					"percent_columns" => 50,
+					"percent_bipolar_adjective1" => 10,
+					"percent_bipolar_adjective2" => 10
+				);
+			}
 		}
 	}
 }
