@@ -6062,6 +6062,7 @@ survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene Nutzerinnen
 survey#:#label_resume_survey#:#Bitte geben Sie den aus 5 Zeichen bestehenden Zugangsschlüssel ein
 survey#:#last_update#:#Letzte Aktualisierung
+survey#:#layout#:#Layout
 survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
 survey#:#maintenance#:#Wartung
@@ -6844,4 +6845,5 @@ common#:#ps_edit_permission#:#Rechteeinstellungen ändern
 common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
 common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
-common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten
+common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdatennews#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###22 12 2006 new variable
+common#:#title_long#:#Long Title###22 12 2006 new variable
