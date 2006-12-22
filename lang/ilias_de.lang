@@ -6845,5 +6845,6 @@ common#:#ps_edit_permission#:#Rechteeinstellungen ändern
 common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
 common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
-common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdatennews#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###22 12 2006 new variable
+common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten
+news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###22 12 2006 new variable
 common#:#title_long#:#Long Title###22 12 2006 new variable
