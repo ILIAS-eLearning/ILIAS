@@ -727,7 +727,8 @@ class ilObjUserFolder extends ilObject
 			"language",
 			"skin_style",
 			"hits_per_page",
-			"show_users_online"
+			"show_users_online",
+			"instant_messengers"
 		);
 		return $profile_fields;
 	}

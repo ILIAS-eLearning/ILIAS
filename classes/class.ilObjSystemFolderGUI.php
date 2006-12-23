@@ -475,6 +475,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			// data privacy
 			$settings["enable_fora_statistics"] = $_POST["enable_fora_statistics"];
+			$settings["show_user_activity"] = $_POST["show_user_activity"];
+			$settings["user_activity_time"] = $_POST["show_user_activity"] ? $_POST["user_activity_time"] : $settings["user_activity_time"];
 
 			$settings["suffix_repl_additional"] = $_POST["suffix_repl_additional"];
 			
@@ -558,6 +560,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			// data privacy
 			$this->ilias->setSetting("enable_fora_statistics",$_POST["enable_fora_statistics"]);
+			$this->ilias->setSetting("show_user_activity",$_POST["show_user_activity"]);
+			$this->ilias->setSetting("user_activity_time",$_POST["show_user_activity"] ? (int) $_POST["user_activity_time"] : $settings["user_activity_time"]);
 
 			// forums
 			$this->ilias->setSetting('frm_store_new',$_POST['frm_store_new']);
@@ -720,6 +724,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DATA_PRIVACY",$this->lng->txt('data_privacy'));
 		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS",$this->lng->txt('enable_fora_statistics'));
 		$this->tpl->setVariable("TXT_ENABLE_FORA_STATISTICS_DESC",$this->lng->txt('enable_fora_statistics_desc'));
+		
+		// online status
+		$this->tpl->setVariable("TXT_SHOW_USER_ACTIVITY",$this->lng->txt('show_user_activity'));
+		$this->tpl->setVariable("TXT_DISPLAY_NOT_ACTIVE_STATUS_AFTER",$this->lng->txt('display_not_active_status_after'));
+		$this->tpl->setVariable("TXT_MINUTES",$this->lng->txt('minutes'));
+		$this->tpl->setVariable("TXT_SHOW_USER_ACTIVITY_DESC",$this->lng->txt('show_user_activity_desc'));
 		
 		// forums
 		$this->tpl->setVariable("TXT_FORUMS",$this->lng->txt('obj_frm'));
@@ -1020,6 +1030,21 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         {
             $this->tpl->setVariable("ENABLE_FORA_STATISTICS_CHECK","checked=\"checked\"");
         }
+        
+        // user activity
+        if ($settings["show_user_activity"])
+        {
+            $this->tpl->setVariable("SHOW_USER_ACTIVITY_CHECK","checked=\"checked\"");
+            $this->tpl->setVariable("CSS_DISPLAY_ACTIVITY_TIME","inline");
+        }
+        else
+        {
+        	//$this->tpl->setVariable("USER_ACTIVITY_TIME_DISABLED","disabled=\"disabled\"");
+        	$this->tpl->setVariable("CSS_DISPLAY_ACTIVITY_TIME","none");
+        }
+        
+        $this->tpl->setVariable("USER_ACTIVITY_TIME",$settings["user_activity_time"]);
+        	
 
 		// paths to tools
 		$not_set = $this->lng->txt("path_not_set");

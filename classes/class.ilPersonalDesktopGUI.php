@@ -1078,13 +1078,25 @@ class ilPersonalDesktopGUI
 	*/
 	function displayUsersOnline()
 	{
-		global $ilias, $ilUser,$rbacsystem;
+		global $ilias, $ilUser, $rbacsystem, $ilSetting;
 		
 		$users_online_pref = $ilias->account->getPref("show_users_online");
+		
 		if ($users_online_pref != "y" && $users_online_pref != "associated")
 		{
-			
 			return;
+		}
+		// check for show user activity option
+		if ($ilSetting->get("show_user_activity"))
+		{
+			$check_activity = true;
+			$atime = $ilSetting->get("user_activity_time") * 60; // in seconds
+			$ctime = time();
+			$txt_status_not_active = "(".$this->lng->txt("status_not_active").")";	
+		}
+		else
+		{
+			$check_activity = false;
 		}
 		
 		$this->tpl->setVariable("TXT_USERS_ONLINE",$this->lng->txt("users_online"));
@@ -1095,6 +1107,7 @@ class ilPersonalDesktopGUI
 		} else {
 			$users = ilUtil::getUsersOnline();
 		}
+		
 		$num = 0;
 		
 		$users[$ilUser->getId()] =
@@ -1216,7 +1229,6 @@ class ilPersonalDesktopGUI
 					$q = "SELECT value FROM usr_pref WHERE usr_id='".$user_id."' AND keyword='public_profile' AND value='y'";
 					$r = $this->ilias->db->query($q);
 					
-					
 					include_once './Modules/Chat/classes/class.ilChatServerConfig.php';
 					if(ilChatServerConfig::_isActive())
 					{
@@ -1225,6 +1237,27 @@ class ilPersonalDesktopGUI
 							// Show invite to chat
 							$this->__showChatInvitation($user_id);
 						}
+					}
+					
+					// check show user activity option
+					if ($check_activity)
+					{
+						if ($user["ctime"] + $atime > $ctime)
+						{
+							$user_active = true;
+						}
+						elseif ($user_id == $_SESSION["AccountId"])
+						{
+							$user_active = true; // current user sees himself always as active
+						}
+						else
+						{
+							$user_active = false;
+						}
+					}
+					else
+					{
+						$user_active = true;
 					}
 					
 					if ($r->numRows())
@@ -1246,8 +1279,89 @@ class ilPersonalDesktopGUI
 					$this->tpl->setVariable("USR_ALT", $this->lng->txt("personal_picture"));
 					$this->tpl->parseCurrentBlock();
 					
+					// instant messengers
+					// 1 indicates to use online status check
+					$im_arr = array("icq" => 1,
+									"yahoo" => 1,
+									"msn" => 0,
+									"aim" => 0,
+									"skype" => 1);
+									
+					// use onlinestatus.org
+					// when enabled all instant messengers are checked online and ignores settings above
+					$osi_enable = true;
+					$osi_server = "http://imstatus.msitgroup.co.uk:81";
+					
+					// alternative server with other icon set (smaller)
+					// but doesn't seem to work for icq & msn
+					//$osi_server = "http://www.the-server.net:8002";
+					
+			
+					foreach ($im_arr as $im_name => $im_check)
+					{
+						if ($im_id = $user_obj->getInstantMessengerId($im_name))
+						{
+							switch ($im_name)
+							{
+								case "icq":
+									//$im_url = "http://people.icq.com/people/webmsg.php?to=".$im_id;
+									$im_url = "http://people.icq.com/people/about_me.php?uin=".$im_id;
+									$im_img = "http://status.icq.com/online.gif?icq=".$im_id."&img=5";
+									break;
+								
+								case "yahoo":
+									$im_url = "http://edit.yahoo.com/config/send_webmesg?.target=".$im_id."&.src=pg";
+									$im_img = "http://opi.yahoo.com/online?u=".$im_id."&m=g&t=5";
+									break;
+									
+								case "msn":
+									$im_url = "http://messenger.live.com";
+									$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
+
+									break;
+
+								case "aim":
+									//$im_url = "aim:GoIM?screenname=".$im_id;
+									$im_url = "http://aimexpress.aim.com";
+									//$im_img = "http://api.oscar.aol.com/SOA/key=<put_your_key_here>/presence/".$im_id; // doesn't work. you need a key
+									$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
+									break;
+
+								case "skype":
+									$im_url = "skype:".$im_id."?call";
+									/* the link above needs this piece of js to work
+									<script type="text/javascript" 
+									src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js">
+									</script>
+									*/
+									//$im_url = "http://www.skype.com/go/download";
+									$im_img = "http://mystatus.skype.com/smallicon/".$im_id;
+									break;
+							}
+
+							$this->tpl->setCurrentBlock("instant_messengers");
+							
+							if ($osi_enable)
+							{
+								$this->tpl->setVariable("URL_IM",$osi_server."/message/".$im_name."/".$im_id);
+								$this->tpl->setVariable("IMG_IM_ICON",$osi_server."/".$im_name."/".$im_id);
+							}
+							else
+							{
+								$this->tpl->setVariable("URL_IM",$im_url);
+								$this->tpl->setVariable("IMG_IM_ICON", $im_check ? $im_img : ilUtil::getImagePath($im_name.'offline.gif'));
+							}
+							
+							$this->tpl->setVariable("TXT_IM_ICON", $this->lng->txt("im_".$im_name));
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+					
+					// username
 					$this->tpl->setCurrentBlock("tbl_users_row");
 					$this->tpl->setVariable("ROWCOL",$rowCol);
+					$this->tpl->setVariable("FONT_STYLE", $user_active ? "normal" : "italic");
+					$this->tpl->setVariable("TXT_STATUS_NOT_ACTIVE", $user_active ? "" : $txt_status_not_active);
 					$this->tpl->setVariable("USR_LOGIN",$user["login"]);
 					$this->tpl->setVariable("USR_FULLNAME",ilObjUser::setFullname($user["title"],$user["firstname"],$user["lastname"]));
 					//$this->tpl->setVariable("USR_LOGIN_TIME",$login_time);

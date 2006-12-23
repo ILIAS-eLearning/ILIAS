@@ -196,3 +196,14 @@ if ($attribute_visibility == FALSE)
 	$res = $ilDB->query($query);
 }
 ?>
+<#880>
+ALTER TABLE `usr_data` ADD `im_icq` VARCHAR( 40 ) NULL ,
+ADD `im_yahoo` VARCHAR( 40 ) NULL ,
+ADD `im_msn` VARCHAR( 40 ) NULL ,
+ADD `im_aim` VARCHAR( 40 ) NULL ,
+ADD `im_skype` VARCHAR( 40 ) NULL ;
+
+INSERT INTO `settings` ( `module` , `keyword` , `value` )
+VALUES ('common', 'show_user_activity', '1');
+INSERT INTO `settings` ( `module` , `keyword` , `value` )
+VALUES ('common', 'user_activity_time', '5');

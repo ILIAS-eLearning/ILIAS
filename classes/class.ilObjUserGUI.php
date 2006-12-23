@@ -290,6 +290,11 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = "";
 		$data["fields"]["email"] = "";
 		$data["fields"]["hobby"] = "";
+		$data["fields"]["im_icq"] = "";
+		$data["fields"]["im_yahoo"] = "";
+		$data["fields"]["im_msn"] = "";
+		$data["fields"]["im_aim"] = "";
+		$data["fields"]["im_skype"] = "";
 		$data["fields"]["matriculation"] = "";
 		$data["fields"]["client_ip"] = "";
 		$data["fields"]["referral_comment"] = "";
@@ -374,7 +379,13 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
-		
+		$this->tpl->setVariable("TXT_INSTANT_MESSENGERS",$this->lng->txt("user_profile_instant_messengers"));
+		$this->tpl->setVariable("TXT_IM_ICQ",$this->lng->txt("im_icq"));
+		$this->tpl->setVariable("TXT_IM_YAHOO",$this->lng->txt("im_yahoo"));
+		$this->tpl->setVariable("TXT_IM_MSN",$this->lng->txt("im_msn"));
+		$this->tpl->setVariable("TXT_IM_AIM",$this->lng->txt("im_aim"));
+		$this->tpl->setVariable("TXT_IM_SKYPE",$this->lng->txt("im_skype"));
+
 		if ($ilSetting->get("cas_active") || $ilSetting->get("soap_auth_active"))
 		{
 			$this->tpl->setCurrentBlock("ext_account");
@@ -880,6 +891,11 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = $this->object->getFax();
 		$data["fields"]["email"] = $this->object->getEmail();
 		$data["fields"]["hobby"] = $this->object->getHobby();
+		$data["fields"]["im_icq"] = $this->object->getInstantMessengerId('icq');
+		$data["fields"]["im_yahoo"] = $this->object->getInstantMessengerId('yahoo');
+		$data["fields"]["im_msn"] = $this->object->getInstantMessengerId('msn');
+		$data["fields"]["im_aim"] = $this->object->getInstantMessengerId('aim');
+		$data["fields"]["im_skype"] = $this->object->getInstantMessengerId('skype');
 		$data["fields"]["matriculation"] = $this->object->getMatriculation();
 		$data["fields"]["client_ip"] = $this->object->getClientIP();
 		$data["fields"]["referral_comment"] = $this->object->getComment();
@@ -1107,6 +1123,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SHOW_USERS_ONLINE",$this->lng->txt("show_users_online"));
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
+		$this->tpl->setVariable("TXT_INSTANT_MESSENGERS",$this->lng->txt("user_profile_instant_messengers"));
 		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
 		if ($this->object->getId() == $ilUser->getId())
 		{
@@ -2037,6 +2054,7 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 
 	// stupid....
+	// I agree. yes, really stupid....
 	function getPublicProfileObject($a_additional = "", $no_ilctrl = false)
 	{
 		return $this->getPublicProfile($a_additional, $no_ilctrl);
@@ -2051,6 +2069,8 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function getPublicProfile($a_additional = "", $no_ilctrl = false)
 	{
+		global $ilSetting;
+		
 		$tpl = new ilTemplate("tpl.usr_public_profile.html", true, true);
 
 		$tpl->setVariable("USR_PROFILE", $this->lng->txt("profile_of")." ".$this->object->getLogin());
@@ -2106,7 +2126,7 @@ class ilObjUserGUI extends ilObjectGUI
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
 			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
 			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip");
-
+			
 		foreach ($val_arr as $key => $value)
 		{
 			// if value "y" show information
@@ -2118,7 +2138,26 @@ class ilObjUserGUI extends ilObjectGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-
+		
+		// display available IM contacts
+		if ($ilSetting->get("usr_settings_hide_instant_messengers") != 1)
+		{
+			$im_arr = array("icq","yahoo","msn","aim","skype");
+			
+			foreach ($im_arr as $im_name)
+			{
+				if ($im_id = $this->object->getInstantMessengerId($im_name))
+				{
+					$tpl->setCurrentBlock("profile_data");
+					$tpl->setVariable("TXT_DATA", $this->lng->txt('im_'.$im_name));
+					$tpl->setVariable("IMG_ICON", ilUtil::getImagePath($im_name.'online.gif'));
+					$tpl->setVariable("TXT_ICON", $this->lng->txt("im_".$im_name."_icon"));
+					$tpl->setVariable("DATA", $im_id);
+					$tpl->parseCurrentBlock();
+				}
+			}
+		}
+		
 		if (is_array($a_additional))
 		{
 			foreach($a_additional as $key => $val)

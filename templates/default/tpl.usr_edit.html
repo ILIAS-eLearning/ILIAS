@@ -137,13 +137,60 @@
             <textarea name="Fobject[referral_comment]" rows="3" cols="40">{REFERRAL_COMMENT}</textarea>
         </td>
     </tr>
-		<tr class="tblheader">
-			<td class="std" colspan="4">{TXT_OTHER}</td>
-		</tr>
-		<tr>
-			<td class="option">{TXT_MATRICULATION}</td>
-			<td class="option_value"><input type="text" name="Fobject[matriculation]" maxlength="40" size="40" value="{MATRICULATION}" /></td>
-		</tr>
+
+<!-- BEGIN instant_messengers -->
+<tr class="tblheader">
+	<th class="std" colspan="4">{TXT_INSTANT_MESSENGERS}</th>
+</tr>
+<!-- BEGIN im_icq -->
+<tr>
+	<td class="option">{TXT_IM_ICQ}</td>
+	<td class="option_value" colspan="3">
+		<input type="text" name="Fobject[im_icq]" maxlength="15" size="40" value="{IM_ICQ}" />
+	</td>
+</tr>
+<!-- END im_icq -->
+<!-- BEGIN im_yahoo -->
+<tr>
+	<td class="option">{TXT_IM_YAHOO}</td>
+	<td class="option_value" colspan="3">
+		<input type="text" name="Fobject[im_yahoo]" maxlength="40" size="40" value="{IM_YAHOO}" />
+	</td>
+</tr>
+<!-- END im_yahoo -->
+<!-- BEGIN im_msn -->
+<tr>
+	<td class="option">{TXT_IM_MSN}</td>
+	<td class="option_value" colspan="3">
+		<input type="text" name="Fobject[im_msn]" maxlength="40" size="40" value="{IM_MSN}" />
+	</td>
+</tr>
+<!-- END im_msn -->
+<!-- BEGIN im_aim -->
+<tr>
+	<td class="option">{TXT_IM_AIM}</td>
+	<td class="option_value" colspan="3">
+		<input type="text" name="Fobject[im_aim]" maxlength="40" size="40" value="{IM_AIM}" />
+	</td>
+</tr>
+<!-- END im_aim -->
+<!-- BEGIN im_skype -->
+<tr>
+	<td class="option">{TXT_IM_SKYPE}</td>
+	<td class="option_value" colspan="3">
+		<input type="text" name="Fobject[im_skype]" maxlength="40" size="40" value="{IM_SKYPE}" />
+	</td>
+</tr>
+<!-- END im_skype -->
+<!-- END instant_messengers -->
+
+	<tr class="tblheader">
+		<td class="std" colspan="4">{TXT_OTHER}</td>
+	</tr>
+	<tr>
+		<td class="option">{TXT_MATRICULATION}</td>
+		<td class="option_value"><input type="text" name="Fobject[matriculation]" maxlength="40" size="40" value="{MATRICULATION}" /></td>
+	</tr>
 	<tr>
 			<td class="option">{TXT_CLIENT_IP}</td>
 			<td class="option_value"><input type="text" name="Fobject[client_ip]" maxlength="40" size="40" value="{CLIENT_IP}" />&nbsp;{TXT_CURRENT_IP}<br><small class="warning">{TXT_CURRENT_IP_ALERT}</small></td>
