@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file English
@@ -234,6 +234,24 @@ assessment#:#cloze_textgap_case_sensitive#:#Case Sensitive
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Distance of %s
 assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
+common#:#user_profile_instant_messengers#:#Contacts to Instant Messengers
+common#:#instant_messengers#:#Instant Messengers
+common#:#im_icq#:#ICQ
+common#:#im_yahoo#:#Yahoo
+common#:#im_msn#:#MSN
+common#:#im_aim#:#AIM
+common#:#im_skype#:#Skype
+common#:#im_icq_icon#:#ICQ Logo
+common#:#im_yahoo_icon#:#Yahoo Logo
+common#:#im_msn_icon#:#MSN Logo
+common#:#im_aim_icon#:#AIM Logo
+common#:#im_skype_icon#:#Skype Logo
+common#:#show_user_activity#:#Show User Activity
+common#:#display_not_active_status_after#:#Display Status 'Not active' after 
+common#:#show_user_activity_desc#:#If enabled, this option displays 'Not active' next to a user's name in the Users online list on the Personal Desktop when no input occured within the time intervall defined above.
+common#:#status_not_active#:#Not active
+common#:#not_enabled_or_configured#:#Not configured or enabled
+common#:#fold_create_grp#:#Add new Group
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?

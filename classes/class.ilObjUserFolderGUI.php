@@ -2387,7 +2387,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"language" => 0,
 			"skin_style" => 0,
 			"hits_per_page" => 0,
-			"show_users_online" => 0
+			"show_users_online" => 0,
+			"instant_messengers" => 0
 		);
 		$no_export_fields = array(
 			"hits_per_page",

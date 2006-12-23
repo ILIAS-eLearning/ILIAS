@@ -472,6 +472,17 @@ class ilPersonalProfileGUI
 		{
 			$ilUser->setMatriculation(ilUtil::stripSlashes($_POST["usr_matriculation"]));
 		}
+
+		// set instant messengers
+		if ($this->workWithUserSetting("instant_messengers"))
+		{
+			$ilUser->setInstantMessengerId('icq',ilUtil::stripSlashes($_POST["usr_im_icq"]));
+			$ilUser->setInstantMessengerId('yahoo',ilUtil::stripSlashes($_POST["usr_im_yahoo"]));
+			$ilUser->setInstantMessengerId('msn',ilUtil::stripSlashes($_POST["usr_im_msn"]));
+			$ilUser->setInstantMessengerId('aim',ilUtil::stripSlashes($_POST["usr_im_aim"]));
+			$ilUser->setInstantMessengerId('skype',ilUtil::stripSlashes($_POST["usr_im_skype"]));
+		}
+
 		// Set user defined data
 		$ilUser->setUserDefinedData($_POST['udf']);
 
@@ -934,6 +945,7 @@ class ilPersonalProfileGUI
 		{
 			$this->tpl->setVariable("TXT_OTHER", $this->lng->txt("user_profile_other"));
 		}
+		
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
 		
 		//values
@@ -1026,6 +1038,26 @@ class ilPersonalProfileGUI
 		if ($this->userSettingVisible("matriculation"))
 		{
 			$this->tpl->setVariable("MATRICULATION", ilUtil::prepareFormOutput($ilUser->getMatriculation()));
+		}
+		
+		// instant messengers
+		if ($this->userSettingVisible("instant_messengers"))
+		{
+			$this->tpl->setVariable("TXT_INSTANT_MESSENGERS", $this->lng->txt("user_profile_instant_messengers"));
+
+			$im_arr = array("icq","yahoo","msn","aim","skype");
+			
+			foreach ($im_arr as $im_name)
+			{
+				$im_id = $ilUser->getInstantMessengerId($im_name);
+				$this->tpl->setCurrentBlock("im_row");
+				$this->tpl->setVariable("TXT_IM_NAME",$this->lng->txt("im_".$im_name));
+				$this->tpl->setVariable("USR_IM_NAME","usr_im_".$im_name);
+				$this->tpl->setVariable("IM_ID",$im_id);
+				$this->tpl->setVariable("IMG_IM_ICON", ilUtil::getImagePath($im_name.'online.gif'));
+				$this->tpl->setVariable("TXT_IM_ICON", $this->lng->txt("im_".$im_name."_icon"));
+				$this->tpl->parseCurrentBlock();	
+			}
 		}
 		
 		// show user defined visible fields
@@ -1269,6 +1301,5 @@ class ilPersonalProfileGUI
 		}
 		return true;
 	}
-		
 }
 ?>

@@ -91,6 +91,12 @@ class ilObjUser extends ilObject
 	//var $ilinc_id; // unique Id for netucate ilinc service
 	var $client_ip; // client ip to check before login
 	var $auth_mode; // authentication mode
+	
+	var $im_icq;
+	var $im_yahoo;
+	var $im_msn;
+	var $im_aim;
+	var $im_skype;
 
 	var $user_defined_data = array();
 
@@ -293,7 +299,14 @@ class ilObjUser extends ilObject
 		$this->setEmail($a_data["email"]);
 		$this->setHobby($a_data["hobby"]);
 		$this->setClientIP($a_data["client_ip"]);
-
+		
+		// instant messenger data
+		$this->setInstantMessengerId('icq',$a_data["im_icq"]);
+		$this->setInstantMessengerId('yahoo',$a_data["im_yahoo"]);	
+		$this->setInstantMessengerId('msn',$a_data["im_msn"]);
+		$this->setInstantMessengerId('aim',$a_data["im_aim"]);
+		$this->setInstantMessengerId('skype',$a_data["im_skype"]);		
+		
 		// system data
 		$this->setLastLogin($a_data["last_login"]);
 		$this->setLastUpdate($a_data["last_update"]);
@@ -361,7 +374,8 @@ class ilObjUser extends ilObject
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
-                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete) "
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
+                . "im_icq,im_yahoo,im_msn,im_aim,im_skype) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
                 . "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', "
@@ -379,7 +393,11 @@ class ilObjUser extends ilObject
 				$this->getTimeLimitOwner()."', "
                 . "'".$this->getAuthMode()."', "
 				. "'".$this->getExternalAccount()."', "
-				. "'".$this->getProfileIncomplete()."')";
+				. "'".$this->getProfileIncomplete()."', "
+				. "'".ilUtil::addSlashes($this->im_icq)."','".ilUtil::addSlashes($this->im_yahoo)."', "
+				. "'".ilUtil::addSlashes($this->im_msn)."','".ilUtil::addSlashes($this->im_aim)."', "
+				. "'".ilUtil::addSlashes($this->im_skype)."'"
+				. ")";
 		}
 		else
 		{
@@ -388,7 +406,8 @@ class ilObjUser extends ilObject
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,active,"
-                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete) "
+                . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
+                . "im_icq,im_yahoo,im_msn,im_aim,im_skype) "
                 . "VALUES "
                 . "('".$this->id."','".$this->login."','".$pw_value."', "
                 . "'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', "
@@ -406,8 +425,11 @@ class ilObjUser extends ilObject
 				$this->getTimeLimitOwner()."',"
 				."'".$this->getAuthMode()."', "
 				."'".$this->getExternalAccount()."', "
-				."'".$this->getProfileIncomplete()."'"
-                . ")";
+				. "'".$this->getProfileIncomplete()."', "
+				. "'".ilUtil::prepareDBString($this->im_icq)."','".ilUtil::prepareDBString($this->im_yahoo)."', "
+				. "'".ilUtil::prepareDBString($this->im_msn)."','".ilUtil::prepareDBString($this->im_aim)."', "
+				. "'".ilUtil::prepareDBString($this->im_skype)."'"
+				. ")";
 		}
 
 		$this->ilias->db->query($q);
@@ -495,6 +517,11 @@ class ilObjUser extends ilObject
             "auth_mode='".ilUtil::prepareDBString($this->getAuthMode())."', ".
 			"ext_account='".ilUtil::prepareDBString($this->getExternalAccount())."', ".
 			$pw_update.", ".
+			"im_icq='".ilUtil::prepareDBString($this->getInstantMessengerId('icq'))."', ".
+			"im_yahoo='".ilUtil::prepareDBString($this->getInstantMessengerId('yahoo'))."', ".
+			"im_msn='".ilUtil::prepareDBString($this->getInstantMessengerId('msn'))."', ".
+			"im_aim='".ilUtil::prepareDBString($this->getInstantMessengerId('aim'))."', ".
+			"im_skype='".ilUtil::prepareDBString($this->getInstantMessengerId('skype'))."', ".
             "last_update=now() ".
 		//	"ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."', ".
 		//	"ilinc_login='".ilUtil::prepareDBString($this->ilinc_login)."', ".
@@ -3268,5 +3295,18 @@ function getCourseMemberships($a_user_id = "")
 		}
 		return $body;
 	}
+	
+	function setInstantMessengerId($a_im_type, $a_im_id)
+	{
+		$var = "im_".$a_im_type;
+		$this->$var = $a_im_id;
+	}
+	
+	function getInstantMessengerId($a_im_type)
+	{
+		$var = "im_".$a_im_type;
+		return $this->$var;
+	}
+	
 } // END class ilObjUser
 ?>

@@ -1,4 +1,23 @@
-  <form action="{FORMACTION_BASICDATA}" method="post">
+<script type="text/javascript">
+<!--
+function toggleUserActivityTime(form)
+{
+	if (form.show_user_activity.checked)
+	{
+		document.getElementById("display_activity_time").style.display = "inline";
+		//form.user_activity_time.disabled = false;
+	}
+	else
+	{
+		document.getElementById("display_activity_time").style.display = "none";
+		//form.user_activity_time.disabled = true;
+	}
+}
+//-->
+</script>
+
+
+  <form action="{FORMACTION_BASICDATA}" name="BasicData" method="post">
   <table class="std">
     <tr class="tblheader">
       <td class="std" colspan="2">{TXT_BASIC_DATA}</td>
@@ -228,6 +247,16 @@
       <td class="option">{TXT_ENABLE_FORA_STATISTICS}</td>
       <td class="option_value"><input type="checkbox" name="enable_fora_statistics"  value="1" {ENABLE_FORA_STATISTICS_CHECK} />
 			<br /><span class="subtitle">{TXT_ENABLE_FORA_STATISTICS_DESC}</span></td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_SHOW_USER_ACTIVITY}</td>
+      <td class="option_value">
+      	<input type="checkbox" name="show_user_activity"  value="1" id="show_user_activity" onclick="toggleUserActivityTime(document.BasicData)"{SHOW_USER_ACTIVITY_CHECK} />
+      	<div id="display_activity_time" style="display:{CSS_DISPLAY_ACTIVITY_TIME}">
+      	{TXT_DISPLAY_NOT_ACTIVE_STATUS_AFTER} <input type="text" name="user_activity_time" value="{USER_ACTIVITY_TIME}" id="user_activity_time" size="2" maxlength="3" {USER_ACTIVITY_TIME_DISABLED} /> {TXT_MINUTES}
+      	</div>
+      	<br />
+      	<span class="subtitle">{TXT_SHOW_USER_ACTIVITY_DESC}</span></td>
     </tr>
 
 	<tr class="tblheader">

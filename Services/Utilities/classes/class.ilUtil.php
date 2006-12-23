@@ -1231,16 +1231,16 @@ class ilUtil
 
 		if ($a_user_id == 0)
 		{
-			$where = "WHERE user_id != 0";
+			$where = "WHERE user_id != 0 ";
 		}
 		else
 		{
-			$where = "WHERE user_id = '".$a_user_id."'";
+			$where = "WHERE user_id = '".$a_user_id."' ";
 		}
 
-		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login FROM usr_session ".
+		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login,ctime FROM usr_session ".
 		"LEFT JOIN usr_data ON user_id=usr_id ".$where.
-		" AND expires>UNIX_TIMESTAMP() ".
+		"AND expires>UNIX_TIMESTAMP() ".
 		"GROUP BY user_id ".
 		"ORDER BY lastname, firstname";
 		$r = $ilias->db->query($q);
@@ -1324,7 +1324,7 @@ class ilUtil
 
 		return $users ? $users : array();
 	}
-
+	
 	/**
 	* Create a temporary file in an ILIAS writable directory
 	*

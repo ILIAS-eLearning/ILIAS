@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -1256,6 +1256,24 @@ common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie
+common#:#user_profile_instant_messengers#:#Kontakt über Instant Messengers
+common#:#instant_messengers#:#Instant Messengers
+common#:#im_icq#:#ICQ
+common#:#im_yahoo#:#Yahoo
+common#:#im_msn#:#MSN
+common#:#im_aim#:#AIM
+common#:#im_skype#:#Skype
+common#:#im_icq_icon#:#ICQ-Logo
+common#:#im_yahoo_icon#:#Yahoo-Logo
+common#:#im_msn_icon#:#MSN-Logo
+common#:#im_aim_icon#:#AIM-Logo
+common#:#im_skype_icon#:#Skype-Logo
+common#:#show_user_activity#:#Benutzeraktivität anzeigen
+common#:#display_not_active_status_after#:#Status 'Nicht aktiv' anzeigen nach
+common#:#show_user_activity_desc#:#Wenn aktiviert, erscheint in der Liste der aktiven Benutzer auf Ihrem persönlichen Schreibtisch hinter jedem Benutzer die Meldung 'Nicht aktiv', sobald nach Ablauf der oben eingestellten Zeit keine Eingabe mehr erfolgte.
+common#:#status_not_active#:#Nicht aktiv
+common#:#not_enabled_or_configured#:#Nicht aktiviert oder eingerichtet
+common#:#fold_create_grp#:#Neue Gruppe anlegen
 common#:#cat_pages#:#Kategorien-Seiten
 common#:#cat_pages_clear#:#Kategorie-Seite geleert
 common#:#cat_pages_not_created#:#Kategorie-Seite wurde noch nicht erzeugt.
