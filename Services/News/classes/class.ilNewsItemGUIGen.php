@@ -249,7 +249,8 @@ class ilNewsItemGUIGen
 		$form_gui->addTextAreaProperty($lng->txt("news_content"),
 			"news_content",
 			$values["Content"],
-			"", $alert, false);
+			"", $alert, false
+			, "40", "8", true);
 		
 		// Property Visibility
 		$alert = ($this->form_check["NewsItem"]["Visibility"]["error"] != "")
@@ -261,6 +262,16 @@ class ilNewsItemGUIGen
 				array("value" => "public", "text" => $lng->txt("news_visibility_public"))),
 			$values["Visibility"],
 			$lng->txt("news_visibility_info"), $alert, false);
+		
+		// Property ContentLong
+		$alert = ($this->form_check["NewsItem"]["ContentLong"]["error"] != "")
+			? $this->form_check["NewsItem"]["ContentLong"]["error"]
+			: "";
+		$form_gui->addTextAreaProperty($lng->txt("news_content_long"),
+			"news_content_long",
+			$values["ContentLong"],
+			$lng->txt("news_content_long_info"), $alert, false
+			, "40", "8", true);
 		
 		// save and cancel commands
 		if (in_array($this->getFormEditMode(), array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
@@ -312,12 +323,16 @@ class ilNewsItemGUIGen
 	*/
 	public function saveNewsItem()
 	{
+		include_once("./classes/class.ilObjAdvancedEditing.php");
 		if ($this->checkInputNewsItem())
 		{
 			$this->news_item = new ilNewsItem();
 			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
-			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
+			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]
+				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
 			$this->news_item->setVisibility(ilUtil::stripSlashes($_POST["news_visibility"]));
+			$this->news_item->setContentLong(ilUtil::stripSlashes($_POST["news_content_long"]
+				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
 			$this->prepareSaveNewsItem($this->news_item);
 			$this->news_item->create();
 		}
@@ -335,13 +350,17 @@ class ilNewsItemGUIGen
 	*/
 	public function updateNewsItem()
 	{
-		if ($this->checkInput())
+		include_once("./classes/class.ilObjAdvancedEditing.php");
+		if ($this->checkInputNewsItem())
 		{
 			
 			$this->news_item->setTitle(ilUtil::stripSlashes($_POST["news_title"]));
-			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]));
+			$this->news_item->setContent(ilUtil::stripSlashes($_POST["news_content"]
+				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
 			$this->news_item->setVisibility(ilUtil::stripSlashes($_POST["news_visibility"]));
-			$this->news_item->updateNewsItem();
+			$this->news_item->setContentLong(ilUtil::stripSlashes($_POST["news_content_long"]
+				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString()));
+			$this->news_item->update();
 		}
 		else
 		{
@@ -365,19 +384,24 @@ class ilNewsItemGUIGen
 				$values["Title"] = "";
 				$values["Content"] = "";
 				$values["Visibility"] = "users";
+				$values["ContentLong"] = "";
 				break;
 				
 			case IL_FORM_EDIT:
 				$values["Title"] = $this->news_item->getTitle();
 				$values["Content"] = $this->news_item->getContent();
 				$values["Visibility"] = $this->news_item->getVisibility();
+				$values["ContentLong"] = $this->news_item->getContentLong();
 				break;
 				
 			case IL_FORM_RE_EDIT:
 			case IL_FORM_RE_CREATE:
 				$values["Title"] = ilUtil::stripSlashes($_POST["news_title"]);
-				$values["Content"] = ilUtil::stripSlashes($_POST["news_content"]);
+				$values["Content"] = ilUtil::stripSlashes($_POST["news_content"]
+				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
 				$values["Visibility"] = ilUtil::stripSlashes($_POST["news_visibility"]);
+				$values["ContentLong"] = ilUtil::stripSlashes($_POST["news_content_long"]
+				,true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString());
 				break;
 		}
 		
@@ -402,6 +426,8 @@ class ilNewsItemGUIGen
 			ilTypeCheck::check("text", $_POST["news_content"], false);
 		$this->form_check["NewsItem"]["Visibility"] =
 			ilTypeCheck::check("enum", $_POST["news_visibility"], false);
+		$this->form_check["NewsItem"]["ContentLong"] =
+			ilTypeCheck::check("text", $_POST["news_content_long"], false);
 		
 		foreach($this->form_check["NewsItem"] as $prop_check)
 		{
@@ -443,7 +469,8 @@ class ilNewsItemGUIGen
 		global $lng;
 		
 		include_once("Services/News/classes/class.ilNewsForContextBlockGUI.php");
-		$block_gui = new ilNewsForContextBlockGUI();
+		$block_gui = new ilNewsForContextBlockGUI(get_class($this));
+		$this->prepareBlockNewsForContext($block_gui);
 		
 		$news_item = new ilNewsItem();
 		$this->prepareBlockQueryNewsForContext($news_item);
@@ -454,6 +481,16 @@ class ilNewsItemGUIGen
 		$block_gui->setData($data);
 		
 		return $block_gui->getHTML();
+
+	}
+
+	/**
+	* BLOCK NewsForContext: Prepare block. (Can be overwritten in derived classes)
+	*
+	* @param	object	$a_block_gui	ilBlockGUI instance.
+	*/
+	public function prepareBlockNewsForContext(&$a_block_gui)
+	{
 
 	}
 
@@ -481,7 +518,7 @@ class ilNewsItemGUIGen
 		global $lng;
 		
 		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
-		$table_gui = new ilNewsForContextTableGUI($this, getNewsForContextTable);
+		$table_gui = new ilNewsForContextTableGUI($this, "getNewsForContextTable");
 		
 		$news_item = new ilNewsItem();
 		$this->prepareTableQueryNewsForContext($news_item);

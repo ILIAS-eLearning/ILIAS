@@ -38,10 +38,56 @@ class ilBlockGUI
 	*
 	* @param
 	*/
-	function ilBlockGUI()
+	function ilBlockGUI($a_parent_class, $a_parent_cmd = "")
 	{
+		global $ilUser;
+
+		$this->setParentClass($a_parent_class);
+		$this->setParentCmd($a_parent_cmd);
+
+		$this->setLimit($ilUser->getPref("hits_per_page"));
 	}
-	
+
+	/**
+	* Set Parent class name.
+	*
+	* @param	string	$a_parentclass	Parent class name
+	*/
+	function setParentClass($a_parentclass)
+	{
+		$this->parentclass = $a_parentclass;
+	}
+
+	/**
+	* Get Parent class name.
+	*
+	* @return	string	Parent class name
+	*/
+	function getParentClass()
+	{
+		return $this->parentclass;
+	}
+
+	/**
+	* Set Parent command.
+	*
+	* @param	string	$a_parentcmd	Parent command
+	*/
+	function setParentCmd($a_parentcmd)
+	{
+		$this->parentcmd = $a_parentcmd;
+	}
+
+	/**
+	* Get Parent command.
+	*
+	* @return	string	Parent command
+	*/
+	function getParentCmd()
+	{
+		return $this->parentcmd;
+	}
+
 	/**
 	* Set Data.
 	*
@@ -103,6 +149,66 @@ class ilBlockGUI
 	}
 
 	/**
+	* Set Offset.
+	*
+	* @param	int	$a_offset	Offset
+	*/
+	function setOffset($a_offset)
+	{
+		$this->offset = $a_offset;
+	}
+
+	/**
+	* Get Offset.
+	*
+	* @return	int	Offset
+	*/
+	function getOffset()
+	{
+		return $this->offset;
+	}
+
+	/**
+	* Set Limit.
+	*
+	* @param	int	$a_limit	Limit
+	*/
+	function setLimit($a_limit)
+	{
+		$this->limit = $a_limit;
+	}
+
+	/**
+	* Get Limit.
+	*
+	* @return	int	Limit
+	*/
+	function getLimit()
+	{
+		return $this->limit;
+	}
+
+	/**
+	* Set Prefix.
+	*
+	* @param	string	$a_prefix	Prefix
+	*/
+	function setPrefix($a_prefix)
+	{
+		$this->prefix = $a_prefix;
+	}
+
+	/**
+	* Get Prefix.
+	*
+	* @return	string	Prefix
+	*/
+	function getPrefix()
+	{
+		return $this->prefix;
+	}
+
+	/**
 	* Set Row Template Name.
 	*
 	* @param	string	$a_rowtemplatename	Row Template Name
@@ -111,6 +217,11 @@ class ilBlockGUI
 	{
 		$this->rowtemplatename = $a_rowtemplatename;
 		$this->rowtemplatedir = $a_rowtemplatedir;
+	}
+
+	final public function getNavParameter()
+	{
+		return $this->prefix."_block_nav";
 	}
 
 	/**
@@ -163,10 +274,21 @@ class ilBlockGUI
 	{
 		$this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
 		
+		$this->nav_value = ($_POST[$this->getNavParameter()] != "")
+			? $_POST[$this->getNavParameter()]
+			: $_GET[$this->getNavParameter()];
+		$nav = explode(":", $this->nav_value);
+		$this->setOffset($nav[2]);
+		
 		// data
 		$this->tpl->addBlockFile("BLOCK_ROW", "block_row", $this->getRowTemplateName(),
 			$this->getRowTemplateDir());
-		foreach($this->getData() as $record)
+			
+		$data = $this->getData();
+		$this->max_count = count($data);
+		$data = array_slice($data, $this->getOffset(), $this->getLimit());
+		
+		foreach($data as $record)
 		{
 			$this->tpl->setCurrentBlock("block_row");
 			$this->fillRowColor();
@@ -197,6 +319,9 @@ class ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		// fill footer row
+		$this->fillFooter();
+		
 		// title
 		$this->tpl->setVariable("BLOCK_TITLE",
 			$this->getTitle());
@@ -218,6 +343,101 @@ class ilBlockGUI
 			? "tblrow1"
 			: "tblrow2";
 		$this->tpl->setVariable($a_placeholder, $this->css_row);
+	}
+
+	/**
+	* Fill footer row
+	*/
+	function fillFooter()
+	{
+		global $lng, $ilCtrl;
+
+		$footer = false;
+				
+		// table footer numinfo
+		$start = $this->getOffset() + 1;				// compute num info
+		$end = $this->getOffset() + $this->getLimit();
+			
+		if ($end > $this->max_count or $this->getLimit() == 0)
+		{
+			$end = $this->max_count;
+		}
+			
+		$numinfo = "(".$start."-".$end." ".strtolower($lng->txt("of"))." ".$this->max_count.")";
+
+		if ($this->max_count > 0)
+		{
+			$this->tpl->setVariable("NUMINFO", $numinfo);
+		}
+		$footer = true;
+
+		// table footer linkbar
+		if ($this->getLimit()  != 0
+			 && $this->max_count > 0)
+		{
+			$linkbar = $this->getLinkbar();
+			$this->tpl->setVariable("LINKBAR", $linkbar);
+			$footer = true;
+		}
+
+		if ($footer)
+		{
+			$this->tpl->setCurrentBlock("block_footer");
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	* Get previous/next linkbar.
+	*
+	* @author Sascha Hofmann <shofmann@databay.de>
+	*
+	* @return	array	linkbar or false on error
+	*/
+	function getLinkbar()
+	{
+		global $ilCtrl, $lng;
+		
+		$link = $ilCtrl->getLinkTargetByClass($this->getParentClass(), $this->getParentCmd()).
+			"&".$this->getNavParameter()."=".
+			"::";
+		
+		$LinkBar = "";
+		$layout_prev = $lng->txt("previous");
+		$layout_next = $lng->txt("next");
+		
+		// if more entries then entries per page -> show link bar
+		if ($this->max_count > $this->getLimit())
+		{
+			// previous link
+			if ($this->getOffset() >= 1)
+			{
+				$prevoffset = $this->getOffset() - $this->getLimit();
+				$LinkBar .= "<a class=\"small\" href=\"".$link.$prevoffset."\">".$layout_prev."</a>";
+			}
+
+			// calculate number of pages
+			$pages = intval($this->max_count / $this->getLimit());
+
+			// add a page if a rest remains
+			if (($this->max_count % $this->getLimit()))
+				$pages++;
+
+			// show next link (if not last page)
+			if (! ( ($this->getOffset() / $this->getLimit())==($pages-1) ) && ($pages!=1) )
+			{
+				if ($LinkBar != "")
+					$LinkBar .= "<span class=\"small\" > | </span>"; 
+				$newoffset = $this->getOffset() + $this->getLimit();
+				$LinkBar .= "<a class=\"small\" href=\"".$link.$newoffset."\">".$layout_next."</a>";
+			}
+	
+			return $LinkBar;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }

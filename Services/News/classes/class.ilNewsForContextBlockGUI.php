@@ -35,22 +35,57 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilNewsForContextBlockGUI()
+	function ilNewsForContextBlockGUI($a_parent_class, $a_parent_cmd = "")
 	{
 		global $ilCtrl, $lng;
 		
-		parent::ilBlockGUI();
+		parent::ilBlockGUI($a_parent_obj, $a_parent_cmd);
 		
-		$this->addBlockCommand(
-			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
-			$lng->txt("edit"));
-
-		$this->addBlockCommand(
-			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
-			$lng->txt("add"));
-			
 		$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
 	}
+	
+	/**
+	* Set EnableEdit.
+	*
+	* @param	boolean	$a_enable_edit	Edit mode on/off
+	*/
+	public function setEnableEdit($a_enable_edit = 0)
+	{
+		$this->enable_edit = $a_enable_edit;
+	}
+
+	/**
+	* Get EnableEdit.
+	*
+	* @return	boolean	Edit mode on/off
+	*/
+	public function getEnableEdit()
+	{
+		return $this->enable_edit;
+	}
+
+	/**
+	* Get bloch HTML code.
+	*/
+	function getHTML()
+	{
+		global $ilCtrl, $lng;
+		
+		// add edit commands
+		if ($this->getEnableEdit())
+		{
+			$this->addBlockCommand(
+				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
+				$lng->txt("edit"));
+
+			$this->addBlockCommand(
+				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
+				$lng->txt("add"));
+		}
+
+		return parent::getHTML();
+	}
+
 }
 
 ?>

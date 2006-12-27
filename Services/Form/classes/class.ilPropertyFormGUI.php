@@ -121,9 +121,11 @@ class ilPropertyFormGUI extends ilFormGUI
 	* @param	boolean		Required field. (Default false)
 	* @param	int			Number of columns. (Default 40)
 	* @param	int			Number of rows. (Default 4)
+	* @param	boolean		Use rich text editing (default false)
 	*/
 	function addTextAreaProperty($a_title, $a_post_var, $a_value = "", $a_info = "",
-		$a_alert = "", $a_required = false, $a_cols = "40", $a_rows = "4")
+		$a_alert = "", $a_required = false, $a_cols = "40", $a_rows = "4",
+		$a_use_rt = false)
 	{
 		$this->properties[] = array ("type" => "textarea",
 			"title" => $a_title,
@@ -133,7 +135,8 @@ class ilPropertyFormGUI extends ilFormGUI
 			"alert" => $a_alert,
 			"required" => $a_required,
 			"cols" => $a_cols,
-			"rows" => $a_rows);
+			"rows" => $a_rows,
+			"use_rt" => $a_use_rt);
 	}
 
 	/**
@@ -223,12 +226,33 @@ class ilPropertyFormGUI extends ilFormGUI
 					break;
 					
 				case "textarea":
-					$this->tpl->setCurrentBlock("prop_textarea");
+					
+					if ($property["use_rt"])
+					{
+						include_once "./Services/RTE/classes/class.ilRTE.php";
+						$rtestring = ilRTE::_getRTEClassname();
+						include_once "./Services/RTE/classes/class.$rtestring.php";
+						$rte = new $rtestring();
+						
+						// @todo: Check this.
+						$rte->addRTESupport(0, "");
+						
+						$this->tpl->touchBlock("prop_ta_w");
+						$this->tpl->setCurrentBlock("prop_textarea");
+						$this->tpl->setVariable("ROWS", $property["rows"]);
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock("prop_ta_c");
+						$this->tpl->setVariable("COLS", $property["cols"]);
+						$this->tpl->parseCurrentBlock();
+						
+						$this->tpl->setCurrentBlock("prop_textarea");
+						$this->tpl->setVariable("ROWS", $property["rows"]);
+					}
 					$this->tpl->setVariable("POST_VAR",
 						ilUtil::prepareFormOutput($property["postvar"]));
 					$this->tpl->setVariable("PROPERTY_VALUE", $property["value"]);
-					$this->tpl->setVariable("COLS", $property["cols"]);
-					$this->tpl->setVariable("ROWS", $property["rows"]);
 					$this->tpl->parseCurrentBlock();
 					break;
 					

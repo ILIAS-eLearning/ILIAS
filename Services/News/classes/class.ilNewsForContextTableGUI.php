@@ -52,6 +52,8 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
+		global $lng, $ilCtrl;
+		
 		if ($a_set["creation_date"] != $a_set["update_date"])
 		{
 			$this->tpl->setCurrentBlock("ni_update");
@@ -62,6 +64,10 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("VAL_CONTENT", $a_set["content"]);
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+		$ilCtrl->setParameterByClass("ilnewsitemgui", "news_item_id", $a_set["id"]);
+		$this->tpl->setVariable("CMD_EDIT",
+			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNewsItem"));
 	}
 
 }

@@ -207,3 +207,23 @@ INSERT INTO `settings` ( `module` , `keyword` , `value` )
 VALUES ('common', 'show_user_activity', '1');
 INSERT INTO `settings` ( `module` , `keyword` , `value` )
 VALUES ('common', 'user_activity_time', '5');
+<#881>
+DROP TABLE IF EXISTS il_news_item;
+CREATE table `il_news_item`
+(
+	`id` int not null auto_increment primary key,
+	`priority` enum('0','1','2') default 1,
+	`title` varchar(200),
+	`content` text,
+	`context_obj_id` int,
+	`context_obj_type` char(10),
+	`context_sub_obj_id` int,
+	`context_sub_obj_type` char(10),
+	`content_type` enum('text','html') default 'text',
+	`creation_date` datetime,
+	`update_date` datetime,
+	`user_id` int,
+	`visibility` enum('users','public') default 'users',
+	`content_long` text
+);
+
