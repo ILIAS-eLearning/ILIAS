@@ -415,7 +415,7 @@ class ilObjFileGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
+			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;

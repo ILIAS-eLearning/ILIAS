@@ -80,7 +80,7 @@ class ilInfoScreenGUI
 	{
 		global $rbacsystem;
 		global $tpl;
-		global $lng;
+		global $lng, $ilAccess;
 
 		// load additional language modules
 		$lng->loadLanguageModule("barometer");
@@ -109,6 +109,10 @@ class ilInfoScreenGUI
 			case "ilnewsitemgui":
 				include_once("Services/News/classes/class.ilNewsItemGUI.php");
 				$news_gui = new ilNewsItemGUI();
+				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+				{
+					$news_gui->setEnableEdit(true);
+				}
 				$html = $this->ctrl->forwardCommand($news_gui);
 				$tpl->setContent($html);
 				break;
@@ -402,6 +406,10 @@ class ilInfoScreenGUI
 		{
 			include_once("Services/News/classes/class.ilNewsItemGUI.php");
 			$news_gui = new ilNewsItemGUI();
+			if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+			{
+				$news_gui->setEnableEdit(true);
+			}
 			$html = $this->ctrl->getHTML($news_gui);
 			$tpl->setRightContent($html);
 		}

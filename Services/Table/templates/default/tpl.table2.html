@@ -1,19 +1,5 @@
-<script type="text/javascript">
-<!--
-function setCheckboxes(a_form, a_varname, a_elements, a_check)
-{
-	for(i=0;i<a_elements.length;i++) {
-		if (typeof(document.forms[a_form].elements[a_varname + a_elements[i]]) != 'undefined') {
-    		document.forms[a_form].elements[a_varname + a_elements[i]].checked = a_check;
-    	}
-    }
-
-    return true;
-}
-//-->
-</script>
 <!-- BEGIN tbl_form_header -->
-<form action="{FORMACTION}" name="cmd" method="post" target="{ACTIONTARGET}">
+<form action="{FORMACTION}" name="{FORMNAME}" method="post" target="{ACTIONTARGET}">
 <!-- END tbl_form_header -->
 <!-- BEGIN tbl_table_start -->
 <table class="{CSS_TABLE}" {WIDTH}>
@@ -61,7 +47,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
     <td colspan="{COLUMN_COUNT}" class="tblfooter">
 <!-- BEGIN select_all_checkbox -->
 		<input type="checkbox" name="chb_select_all" id="chb_select_all" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.chb_select_all.checked);" />
-		<label for="chb_select_all"><strong>{SELECT_ALL_TXT_SELECT_ALL}</strong></label>
+		<label for="chb_select_all">{SELECT_ALL_TXT_SELECT_ALL}</label>
 		<br />
 <!-- END select_all_checkbox -->
 	<div style="float:left;">
@@ -87,28 +73,15 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN tbl_action_img_arrow -->
 		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
 <!-- BEGIN tbl_action_img_arrow -->
-<!-- BEGIN tbl_action_select -->
-				  {SELECT_ACTION}&nbsp;
-				  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
-<!-- END tbl_action_select -->
-<!-- BEGIN tbl_action_btn -->
-		  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
-<!-- END tbl_action_btn -->
-<!-- BEGIN tbl_action_plain_select -->
-				  {SELECT_ACTION}&nbsp;
-<!-- END tbl_action_plain_select -->
-<!-- BEGIN tbl_action_toggle_checkboxes -->
-    [<a href="" onclick="setCheckboxes('cmd','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>]
-    [<a href="" onclick="setCheckboxes('cmd','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>]
-<!-- END tbl_action_toggle_checkboxes -->
+<!-- BEGIN tbl_cmd_select -->
+		  {SELECT_CMDS}
+		  <input class="submit" type="submit" name="select_cmd" value="{TXT_EXECUTE}" />
+<!-- END tbl_cmd_select -->
 		</div>
 <!-- BEGIN add_object -->
 	<div style="text-align:right;">
 		{SELECT_OBJTYPE}
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
-<!-- BEGIN import_object -->
-		<input class="submit" type="submit" name="cmd[{BTN_IMP}]" value="{TXT_IMP}" />
-<!-- END import_object -->
 	</div>
 <!-- END add_object -->
 <!-- BEGIN plain_buttons -->

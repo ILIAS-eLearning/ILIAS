@@ -936,7 +936,10 @@ class ilTemplate extends ilTemplateX
 	*/
 	function addJavaScript($a_js_file)
 	{
-		$this->js_files[] = $a_js_file;
+		if (!in_array($a_js_file, $this->js_files))
+		{
+			$this->js_files[] = $a_js_file;
+		}
 	}
 }
 ?>

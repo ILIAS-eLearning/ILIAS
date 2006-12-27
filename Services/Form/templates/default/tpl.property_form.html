@@ -14,7 +14,7 @@
 		<input type="text" size="{SIZE}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" />
 		<!-- END prop_text -->
 		<!-- BEGIN prop_textarea -->
-		<textarea name="{POST_VAR}" wrap="virtual" cols="{COLS}" rows="{ROWS}">{PROPERTY_VALUE}</textarea>
+		<textarea name="{POST_VAR}" wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w -->>{PROPERTY_VALUE}</textarea>
 		<!-- END prop_textarea -->
 		<!-- BEGIN prop_custom -->
 		{CUSTOM_CONTENT}

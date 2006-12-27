@@ -798,6 +798,10 @@ class ilCtrl
 		if($cmd == "post")
 		{
 			$cmd = @key($_POST["cmd"]);
+			if($cmd == "" && isset($_POST["select_cmd"]))		// selected command in multi-list (table2)
+			{
+				$cmd = $_POST["selected_cmd"];
+			}
 			if($cmd == "")
 			{
 				$cmd = $_GET["fallbackCmd"];

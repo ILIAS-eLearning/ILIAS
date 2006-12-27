@@ -37,10 +37,21 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		global $lng;
 		
 		$lng->LoadLanguageModule("news");
-		
 		return $this->getNewsForContextBlock();
 	}
 	
+	/**
+	* BLOCK NewsForContext: Prepare block. (Can be overwritten in derived classes)
+	*
+	* @param	object	$a_block_gui	ilBlockGUI instance.
+	*/
+	public function prepareBlockNewsForContext(&$a_block_gui)
+	{
+		$a_block_gui->setParentClass("ilinfoscreengui");
+		$a_block_gui->setParentCmd("showSummary");
+		$a_block_gui->setEnableEdit($this->getEnableEdit());
+	}
+
 	/**
 	* BLOCK NewsForContext: Prepare block query for news block.
 	*/
@@ -68,17 +79,69 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 	{
 		$a_form_gui->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
 	}
+	
+	/**
+	* FORM NewsItem: Save NewsItem.
+	*
+	*/
+	function saveNewsItem()
+	{
+		if (!$this->getEnableEdit())
+		{
+			return;
+		}
+		parent::saveNewsItem();
+		if ($this->checkInputNewsItem())
+		{
+			return $this->editNews();
+		}
+	}
+
+	/**
+	* FORM NewsItem: Save NewsItem.
+	*
+	*/
+	function updateNewsItem()
+	{
+		if (!$this->getEnableEdit())
+		{
+			return;
+		}
+		parent::updateNewsItem();
+		if ($this->checkInputNewsItem())
+		{
+			return $this->editNews();
+		}
+	}
+
+	/**
+	* FORM NewsItem: Save NewsItem.
+	*
+	*/
+	function cancelUpdateNewsItem()
+	{
+		return $this->editNews();
+	}
+
+	/**
+	* FORM NewsItem: Save NewsItem.
+	*
+	*/
+	function cancelSaveNewsItem()
+	{
+		return $this->editNews();
+	}
 
 	function editNews()
 	{
-		//$news_item = new ilNewsItem();
-		//$news_item->setContextObjId($this->ctrl->getContextObjId());
-		//$news_item->setContextObjType($this->ctrl->getContextObjType());
-		//$news = $news_item->queryNewsForContext();
-		
+		if (!$this->getEnableEdit())
+		{
+			return;
+		}
 		return $this->getNewsForContextTable();
 	}
 
+	
 	function cancelUpdate()
 	{
 		return $this->editNews();
@@ -91,7 +154,62 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 	{
 		global $ilCtrl, $lng;
 		
+		$a_table_gui->setDefaultOrderField("creation_date");
+		$a_table_gui->setDefaultOrderDirection("desc");
 		$a_table_gui->addCommandButton("createNewsItem", $lng->txt("add"));
+		$a_table_gui->addMultiCommand("confirmDeletionNewsItems", $lng->txt("delete"));
 		$a_table_gui->setTitle($lng->txt("news"), "icon_news.gif", $lng->txt("news"));
+		$a_table_gui->setSelectAllCheckbox("news_id");
+	}
+
+	/**
+	* Confirmation Screen.
+	*/
+	function confirmDeletionNewsItems()
+	{
+		global $ilCtrl, $lng;
+
+		if (!$this->getEnableEdit())
+		{
+			return;
+		}
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($ilCtrl->getFormAction($this, "deleteNewsItems"));
+		$c_gui->setHeaderText($lng->txt("info_delete_sure"));
+		$c_gui->setCancel($lng->txt("cancel"), "editNews");
+		$c_gui->setConfirm($lng->txt("confirm"), "deleteNewsItems");
+
+		// add items to delete
+		foreach($_POST["news_id"] as $news_id)
+		{
+			$news = new ilNewsItem($news_id);
+			$c_gui->addItem("news_id[]", $news_id, $news->getTitle(),
+				ilUtil::getImagePath("icon_news.gif"));
+		}
+		
+		return $c_gui->getHTML();
+	}
+
+	/**
+	* Delete news items.
+	*/
+	function deleteNewsItems()
+	{
+		if (!$this->getEnableEdit())
+		{
+			return;
+		}
+		// delete all selected news items
+		foreach($_POST["news_id"] as $news_id)
+		{
+			$news = new ilNewsItem($news_id);
+			$news->delete();
+		}
+		
+		return $this->editNews();
 	}
 }

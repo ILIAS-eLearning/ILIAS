@@ -2748,11 +2748,14 @@ news#:#news_block_news_for_context#:#News
 news#:#news_news_item_head#:#News Item
 news#:#news_title#:#Headline
 news#:#news_content#:#Text
+news#:#news_content_long#:#Long Text
+news#:#news_content_long_info#:#This text will not be published via RSS.
 news#:#news_visibility_users#:#Logged in Users
 news#:#news_visibility_public#:#Public
 news#:#news_visibility#:#Access
 news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
-common#:#next#:#next
+common#:#next#:#Next
+common#:#select_page#:#Select Page
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_access_item#:#You have no permission to access this item.
@@ -3033,7 +3036,7 @@ common#:#precondition_not_accessible#:#You do not have sufficient permission to 
 common#:#preconditions#:#Preconditions
 common#:#predefined_template#:#Predefined role template
 common#:#presentation_options#:#Presentation Options
-common#:#previous#:#previous
+common#:#previous#:#Previous
 common#:#print#:#Print
 common#:#print_view#:#Print View
 common#:#private_notes#:#Private Notes

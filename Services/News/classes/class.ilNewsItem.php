@@ -53,6 +53,7 @@ class ilNewsItem
 	private $update_date;
 	private $user_id;
 	private $visibility = "users";
+	private $content_long;
 
 	/**
 	* Constructor.
@@ -292,7 +293,7 @@ class ilNewsItem
 	/**
 	* Set UserId.
 	*
-	* @param	int	$a_user_id	
+	* @param	int	$a_user_id	User Id of last update.
 	*/
 	public function setUserId($a_user_id)
 	{
@@ -302,7 +303,7 @@ class ilNewsItem
 	/**
 	* Get UserId.
 	*
-	* @return	int	
+	* @return	int	User Id of last update.
 	*/
 	public function getUserId()
 	{
@@ -312,7 +313,7 @@ class ilNewsItem
 	/**
 	* Set Visibility.
 	*
-	* @param	string	$a_visibility	
+	* @param	string	$a_visibility	Access level of news.
 	*/
 	public function setVisibility($a_visibility = "users")
 	{
@@ -322,11 +323,31 @@ class ilNewsItem
 	/**
 	* Get Visibility.
 	*
-	* @return	string	
+	* @return	string	Access level of news.
 	*/
 	public function getVisibility()
 	{
 		return $this->visibility;
+	}
+
+	/**
+	* Set ContentLong.
+	*
+	* @param	string	$a_content_long	Long content of news
+	*/
+	public function setContentLong($a_content_long)
+	{
+		$this->content_long = $a_content_long;
+	}
+
+	/**
+	* Get ContentLong.
+	*
+	* @return	string	Long content of news
+	*/
+	public function getContentLong()
+	{
+		return $this->content_long;
 	}
 
 	/**
@@ -350,6 +371,7 @@ class ilNewsItem
 			", update_date".
 			", user_id".
 			", visibility".
+			", content_long".
 			" ) VALUES (".
 			$ilDB->quote($this->getPriority())
 			.",".$ilDB->quote($this->getTitle())
@@ -362,7 +384,8 @@ class ilNewsItem
 			.","."now()"
 			.","."now()"
 			.",".$ilDB->quote($this->getUserId())
-			.",".$ilDB->quote($this->getVisibility()).")";
+			.",".$ilDB->quote($this->getVisibility())
+			.",".$ilDB->quote($this->getContentLong()).")";
 		$ilDB->query($query);
 
 	}
@@ -392,6 +415,7 @@ class ilNewsItem
 		$this->setUpdateDate($rec["update_date"]);
 		$this->setUserId($rec["user_id"]);
 		$this->setVisibility($rec["visibility"]);
+		$this->setContentLong($rec["content_long"]);
 
 	}
 
@@ -416,6 +440,7 @@ class ilNewsItem
 			", update_date = now()".
 			", user_id = ".$ilDB->quote($this->getUserId()).
 			", visibility = ".$ilDB->quote($this->getVisibility()).
+			", content_long = ".$ilDB->quote($this->getContentLong()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		
 		$ilDB->query($query);
@@ -445,7 +470,7 @@ class ilNewsItem
 	{
 		global $ilDB;
 		
-		$query = "SELECT priority, title, content, content_type, creation_date, update_date, user_id, visibility ".
+		$query = "SELECT id, priority, title, content, content_type, creation_date, update_date, user_id, visibility ".
 			"FROM il_news_item ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
