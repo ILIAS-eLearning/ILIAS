@@ -58,6 +58,7 @@ class ilPersonalDesktopGUI
 		$this->ctrl =& $ilCtrl;
 		
 		$ilMainMenu->setActive("desktop");
+		$this->lng->loadLanguageModule("pdesk");
 		
 		// catch hack attempts
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
@@ -106,7 +107,7 @@ class ilPersonalDesktopGUI
 				break;
 				// bookmarks
 			case "ilbookmarkadministrationgui":
-				include_once("classes/class.ilBookmarkAdministrationGUI.php");
+				include_once("./Services/PersonalDesktop/classes/class.ilBookmarkAdministrationGUI.php");
 				$bookmark_gui = new ilBookmarkAdministrationGUI();
 				if ($bookmark_gui->getMode() == 'tree') {
 					$this->getTreeModeTemplates();
@@ -1066,11 +1067,15 @@ class ilPersonalDesktopGUI
 			return;
 		}
 		//$users_notes = $ilias->account->getPref("show_notes");
-		include_once("Services/Notes/classes/class.ilNoteGUI.php");
-		$note_gui = new ilNoteGUI(0,0,"");
-		$note_gui->enableTargets();
-		$html = $note_gui->getPDOverviewNoteListHTML();
-		$this->tpl->setVariable("NOTES", $html);
+		include_once("Services/Notes/classes/class.ilPDNotesBlockGUI.php");
+		$notes_block = new ilPDNotesBlockGUI("ilpersonaldesktopgui", "show");
+		
+		$this->tpl->setVariable("NOTES", $notes_block->getHTML());
+		
+		//$note_gui = new ilNoteGUI(0,0,"");
+		//$note_gui->enableTargets();
+		//$html = $note_gui->getPDOverviewNoteListHTML();
+		//$this->tpl->setVariable("NOTES", $html);
 	}
 	
 	/**
@@ -1080,12 +1085,11 @@ class ilPersonalDesktopGUI
 	{
 		global $ilias, $ilUser, $rbacsystem, $ilSetting;
 		
-		$users_online_pref = $ilias->account->getPref("show_users_online");
+		include_once("./Services/PersonalDesktop/classes/class.ilUsersOnlineBlockGUI.php");
+		$users_block = new ilUsersOnlineBlockGUI("ilpersonaldesktopgui", "show");
+		$this->tpl->setVariable("USERS_ONLINE", $users_block->getHTML());
+		return;
 		
-		if ($users_online_pref != "y" && $users_online_pref != "associated")
-		{
-			return;
-		}
 		// check for show user activity option
 		if ($ilSetting->get("show_user_activity"))
 		{
@@ -1101,33 +1105,6 @@ class ilPersonalDesktopGUI
 		
 		$this->tpl->setVariable("TXT_USERS_ONLINE",$this->lng->txt("users_online"));
 		
-		if ($users_online_pref == "associated")
-		{
-			$users = ilUtil::getAssociatedUsersOnline($ilias->account->getId());
-		} else {
-			$users = ilUtil::getUsersOnline();
-		}
-		
-		$num = 0;
-		
-		$users[$ilUser->getId()] =
-			array("user_id" => $ilUser->getId(),
-				"firstname" => $ilUser->getFirstname(),
-				"lastname" => $ilUser->getLastname(),
-				"title" => $ilUser->getUTitle(),
-				"login" => $ilUser->getLogin());
-
-		foreach ($users as $user_id => $user)
-		{
-			if ($user_id != ANONYMOUS_USER_ID)
-			{
-				$num++;
-			}
-			else
-			{
-				$visitors = $user["num"];
-			}
-		}
 		
 		// parse visitors text
 		if (empty($visitors) || $users_online_pref == "associated")
@@ -1372,15 +1349,6 @@ class ilPersonalDesktopGUI
 				}
 			}
 			
-/*
-			if ($z > 0)
-			{
-				$this->tpl->setCurrentBlock("tbl_users_header");
-				$this->tpl->setVariable("TXT_USR",ucfirst($this->lng->txt("user")));
-				$this->tpl->setVariable("TXT_USR_LOGIN_TIME",ucfirst($this->lng->txt("login_time")));
-				$this->tpl->parseCurrentBlock();
-			}
-*/
 		}
 		
 		$this->ctrl->clearParameters($this);
@@ -1392,11 +1360,14 @@ class ilPersonalDesktopGUI
 	*/
 	function displayBookmarks()
 	{
-		include_once("classes/class.ilBookmarkAdministrationGUI.php");
+		global $ilCtrl;
+		
+		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkAdministrationGUI.php");
 		$bookmark_gui = new ilBookmarkAdministrationGUI();
-		$html = $bookmark_gui->getPDBookmarkListHTML();
+		$html = $ilCtrl->getHTML($bookmark_gui);
 		$this->tpl->setVariable("BOOKMARKS", $html);
 	}
+	
 	/**
 	* Display Links for Feedback
 	*/

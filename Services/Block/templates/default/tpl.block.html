@@ -1,21 +1,42 @@
 <table class="il_Block">
-<tr><th class="il_BlockHeader">
+<tr><th class="il_BlockHeader" colspan="{COLSPAN}">
 <!-- BEGIN block_img --><img border="0" src="{IMG_BLOCK}" /><!-- END block_img -->
 {BLOCK_TITLE}
 </th></tr>
+<!-- BEGIN detail_setting -->
+<tr class="tblfooter">
+	<td class="tblfooter" colspan="{DCOLSPAN}">
+	<div style="float:right;" class="small">{TXT_DETAILS}:
+	<!-- BEGIN det_item -->
+	<!-- BEGIN det_delim --> | <!-- END det_delim -->
+	<!-- BEGIN det_text -->{DTEXT}<!-- END det_text -->
+	<!-- BEGIN det_link --><a href="{DHREF}">{DLINK}</a><!-- END det_link -->
+	<!-- END det_item -->
+	</div>
+	<span class="small">{NUMINFO}</span>
+	</td>
+</tr>
+<!-- END detail_setting -->
 {BLOCK_ROW}
+<!-- BEGIN data_section -->
+<tr class="tblrow1"><td class="std">{DATA}</td></tr>
+<!-- END data_section -->
 <!-- BEGIN block_footer -->
 <tr class="tblfooter">
-	<td class="tblfooter">
-	<div style="float:right;">
-	{LINKBAR}
+	<td class="tblfooter" colspan="{FCOLSPAN}">
+	<div style="float:right;" class="small">
+	<!-- BEGIN foot_item -->
+	<!-- BEGIN foot_delim --> | <!-- END foot_delim -->
+	<!-- BEGIN foot_text -->{FTEXT}<!-- END foot_text -->
+	<!-- BEGIN foot_link --><a href="{FHREF}">{FLINK}</a><!-- END foot_link -->
+	<!-- END foot_item -->
 	</div>
 	<span class="small">{NUMINFO}</span>
 	</td>
 </tr>
 <!-- END block_footer -->
 <!-- BEGIN block_commands -->
-<tr><td class="submit">
+<tr><td class="submit" colspan="{CCOLSPAN}">
 <!-- BEGIN block_command -->
 <a class="il_ContainerItemCommand" href="{CMD_HREF}">{CMD_TEXT}</a>
 <!-- END block_command -->

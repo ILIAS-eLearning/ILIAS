@@ -449,7 +449,7 @@ class ilObjUser extends ilObject
 		$mail_options->createMailOptionsEntry();
 
 		// create personal bookmark folder tree
-		include_once "classes/class.ilBookmarkFolder.php";
+		include_once "./Services/PersonalDesktop/classes/class.ilBookmarkFolder.php";
 		$bmf = new ilBookmarkFolder(0, $this->id);
 		$bmf->createNewBookmarkTree();
 

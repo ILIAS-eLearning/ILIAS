@@ -235,6 +235,24 @@ class ilBookmarkFolder
 		}
 		return $objects;
 	}
+	
+	/**
+	* Get number of folders and bookmarks for current user.
+	*/
+	function _getNumberOfObjects()
+	{
+		$a_tree_id = $_SESSION["AccountId"];
+		$tree = new ilTree($a_tree_id);
+		$tree->setTableNames('bookmark_tree','bookmark_data');
+
+		$root_node = $tree->getNodeData($tree->getRootId());
+		$bmf = $tree->getSubTree($root_node, false, "bmf");
+		$bm = $tree->getSubTree($root_node, false, "bm");
+		
+		return array("folders" => (int) count($bmf) - 1, "bookmarks" => (int) count($bm));
+	}
+
+	
 	/**
 	* static
 	*/

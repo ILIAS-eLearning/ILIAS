@@ -69,6 +69,27 @@ class ilBookmarkExplorer extends ilExplorer
 		$this->root_id = $this->tree->readRootId();
 		$this->user_id = $a_user_id;
 		$this->allowed_types= array ('bmf','dum');
+		$this->enablesmallmode = false;
+	}
+
+		/**
+	* Set Enable Small Mode.
+	*
+	* @param	boolean	$a_enablesmallmode	Enable Small Mode
+	*/
+	function setEnableSmallMode($a_enablesmallmode)
+	{
+		$this->enablesmallmode = $a_enablesmallmode;
+	}
+
+	/**
+	* Get Enable Small Mode.
+	*
+	* @return	boolean	Enable Small Mode
+	*/
+	function getEnableSmallMode()
+	{
+		return $this->enablesmallmode;
 	}
 
 	/**
@@ -287,8 +308,11 @@ class ilBookmarkExplorer extends ilExplorer
 
 		if ($this->output_icons)
 		{
+			$small = ($this->getEnableSmallMode())
+				? "_s"
+				: "";
 			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".gif", $a_option["type"], $a_obj_id));
+			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].$small.".gif", $a_option["type"], $a_obj_id));
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 			$this->iconList[] = "iconid_".$a_node_id;
 			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["type"]));
@@ -334,6 +358,10 @@ class ilBookmarkExplorer extends ilExplorer
 		}
 
 		$tpl->setCurrentBlock("list_item");
+		if ($this->getEnableSmallMode())
+		{
+			$tpl->setVariable("DIVCLASS", ' class="small" ');
+		}
 		$tpl->parseCurrentBlock();
 		$tpl->touchBlock("element");
 	}

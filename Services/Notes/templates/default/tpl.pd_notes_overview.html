@@ -1,36 +1,21 @@
-<table class="il_PDBlock">
-<tr>
-	<th class="il_PDBlockHeader">
-		<div style="float:left;">{TXT_NOTES}</div>
-		<div class="il_ContainerItemCommands" style="float:right;">
-		<!-- BEGIN show_details -->
-		<a class="il_ContainerItemCommand" href="{LINK_SHOW_DETAILS}">{TXT_SHOW_DETAILS}</a>
-		<!-- END show_details -->
-		<!-- BEGIN hide_details -->
-		<a class="il_ContainerItemCommand" href="{LINK_HIDE_DETAILS}">{TXT_HIDE_DETAILS}</a>
-		<!-- END hide_details -->
-		<!-- BEGIN add_note_btn -->
-		<a class="il_ContainerItemCommand" href="{LINK_ADD_NOTE}">{TXT_ADD_NOTE}</a>
-		<!-- END add_note_btn -->
-		</div>
-	</th>
-</tr>
-<!-- BEGIN note_row -->
 <!-- BEGIN note -->
-<tr class="{ROWCLASS}">
+<tr class="{CSS_ROW}">
 	<td class="std">
 	<div class="il_ContainerItemCommands" style="float:right;">
 	<!-- BEGIN edit_note -->
 	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
 	<!-- END edit_note -->
 	</div>
-	<img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}" border="0" />
-	<b>{VAL_SUBJECT}
-	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->  
-		</b>
+	<div class="small">
+	<img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}" border="0"
+		style="vertical-align: text-top;"/>
+	{VAL_SUBJECT}
+	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->
+	</div>
 	<!-- BEGIN details -->
-	<br /><div class="il_Description">{NOTE_TEXT}</div>
-	<div class="il_Description"  style="float:right;">{VAL_DATE}</div>
+	<div class="il_Description">{NOTE_TEXT}
+	</div>
+	<div class="il_Description" style="float:right;">{VAL_DATE}</div>
 	<!-- END details -->
 	<!-- BEGIN target_objects -->
 		<div class="il_Description">
@@ -42,5 +27,3 @@
 	</td>
 </tr>
 <!-- END note -->
-<!-- END note_row -->
-</table>

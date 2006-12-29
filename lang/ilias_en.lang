@@ -2728,7 +2728,7 @@ common#:#msg_user_last_role1#:#The following users are assigned to this role onl
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#User assignment changed
 common#:#multimedia#:#Multimedia
-common#:#my_bms#:#My Bookmarks
+common#:#my_bms#:#Bookmarks
 common#:#my_frms#:#My Forums
 common#:#my_grps#:#My Groups
 common#:#my_los#:#My Learning Objects
@@ -2754,6 +2754,8 @@ news#:#news_visibility_users#:#Logged in Users
 news#:#news_visibility_public#:#Public
 news#:#news_visibility#:#Access
 news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
+pdesk#:#bm_num_bookmarks#:#Bookmark(s)
+pdesk#:#bm_num_bookmark_folders#:#Folder(s)
 common#:#next#:#Next
 common#:#select_page#:#Select Page
 common#:#nickname#:#Nickname
@@ -3586,7 +3588,7 @@ common#:#userfolder_export_xml#:#XML
 common#:#username#:#User name
 common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
-common#:#users_online#:#Active users
+common#:#users_online#:#Active Users
 common#:#users_online_show_associated#:#Show members of my courses and groups only
 common#:#users_online_show_n#:#Don't show active users
 common#:#users_online_show_y#:#Show all active users

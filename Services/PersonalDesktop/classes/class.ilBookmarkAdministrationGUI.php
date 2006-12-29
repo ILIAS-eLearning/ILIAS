@@ -33,9 +33,9 @@
 *
 */
 
-require_once ("classes/class.ilBookmarkExplorer.php");
-require_once ("classes/class.ilBookmarkFolder.php");
-require_once ("classes/class.ilBookmark.php");
+require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkExplorer.php");
+require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkFolder.php");
+require_once ("./Services/PersonalDesktop/classes/class.ilBookmark.php");
 require_once ("./Services/Table/classes/class.ilTableGUI.php");
 
 class ilBookmarkAdministrationGUI
@@ -715,7 +715,7 @@ return;
 			list($type, $obj_id) = explode(":", $id);
 			$export_ids[]=$obj_id;
 		}
-		require_once ("classes/class.ilBookmarkImportExport.php");
+		require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkImportExport.php");
 		$html_content=ilBookmarkImportExport::_exportBookmark ($export_ids,true,
 			$this->lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname());
 		if ($deliver)
@@ -1016,238 +1016,14 @@ return;
 	}
 
 	/**
-	* get bookmark list for personal desktop
+	* Get Bookmark list for personal desktop.
 	*/
-	function getPDBookmarkListHTML()
+	function &getHTML()
 	{
-		if ($this->ilias->account->getPref("il_pd_bkm_mode") == 'tree')
-		{
-			return $this->getPDBookmarkListHTMLTree();
-		}
-		else
-		{
-			return $this->getPDBookmarkListHTMLFlat();
-		}
-	}
-
-	/**
-	* get tree bookmark list for personal desktop
-	*/
-	function getPDBookmarkListHTMLTree()
-	{
-		$showdetails = $this->ilias->account->getPref('show_bookmark_details') == 'y';
-		$tpl = new ilTemplate("tpl.bookmark_pd_tree.html", true, true);
-		//$this->ctrl->setParameter($this, "bmf_id", NULL);
-		$exp = new ilBookmarkExplorer($this->ctrl->getParentReturn($this),$_SESSION["AccountId"]);
-		//$exp = new ilBookmarkExplorer($this->ctrl->getParentReturn($this),$_SESSION["AccountId"]);
-		//$exp->setClickable('bmf', '');
-		//$exp->setClickable('dum', '');
-		$exp->setAllowedTypes(array('dum','bmf','bm'));
-		$exp->setTargetGet("bmf_id");
-		$exp->setSessionExpandVariable('mexpand');
-		$this->ctrl->setParameter($this, "bmf_id", $this->id);
-		$exp->setExpandTarget($this->ctrl->getParentReturn($this));
-		if ($_GET["mexpand"] == "")
-		{
-			$expanded = $this->id;
-		}
-		else
-		{
-			$expanded = $_GET["mexpand"];
-		}
-		$exp->setExpand($expanded);
-		$exp->setShowDetails($showdetails);
-
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-		$tpl->setCurrentBlock();
-		if (empty($output))
-		{
-			$tpl->setCurrentBlock("tbl_no_bm");
-			$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$tpl->setVariable("TXT_NO_BM", $this->lng->txt("no_bm_in_personal_list"));
-			$tpl->parseCurrentBlock();
-		}
-
-
-
-		$tpl->setVariable("EXPLORER",$output);
-		$tpl->setVariable("TXT_BM_HEADER", $this->lng->txt("my_bms"));
-
-		// add details link
-		if ($showdetails)
-		{
-			$text = $this->lng->txt("hide_details");
-			$cmd = "hideBookmarkDetails";
-		}
-		else
-		{
-			$text = $this->lng->txt("show_details");
-			$cmd = "showBookmarkDetails";
-		}
-
-		$tpl->setVariable("LINK_BKM_DETAILS",
-			$this->ctrl->getLinkTarget($this,$cmd));
-		$tpl->setVariable("TXT_BKM_DETAILS", $text);
-
-		//$tpl->setVariable("CLASS_BKM_TREE","");
-		//$tpl->setVariable("LINK_BKM_MODE",
-		//		$this->ctrl->getLinkTarget($this,'setPdFlatMode'));
-		//$tpl->setVariable("IMG_BKM_TREE",ilUtil::getImagePath("ic_flatview.gif"));
-		$this->insertBlockFooter($tpl);
-
-		$tpl->parseCurrentBlock();
-		return $tpl->get();
-	}
-
-	/**
-	* block footer
-	*/
-	function insertBlockFooter(&$tpl)
-	{
-		// flat
-		$tpl->setCurrentBlock("footer_link");
-		$tpl->setVariable("HREF_FOOT_LINK", $this->ctrl->getLinkTarget($this,'setPdFlatMode'));
-		$tpl->setVariable("TXT_FOOT_LINK", $this->lng->txt("flatview"));
-		$tpl->parseCurrentBlock();
-		$tpl->touchBlock("footer_item");
+		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkBlockGUI.php");
+		$bookmark_block_gui = new ilBookmarkBlockGUI("ilpersonaldesktopgui", "show");
 		
-		$tpl->touchBlock("footer_separator");
-		$tpl->touchBlock("footer_item");
-
-		// as tree
-		$tpl->setCurrentBlock("footer_link");
-		$tpl->setVariable("HREF_FOOT_LINK", $this->ctrl->getLinkTarget($this,'setPdTreeMode'));
-		$tpl->setVariable("TXT_FOOT_LINK", $this->lng->txt("treeview"));
-		$tpl->parseCurrentBlock();
-		$tpl->touchBlock("footer_item");
-
-		$tpl->setCurrentBlock("block_footer");
-		$tpl->parseCurrentBlock();
-	}
-	
-	/**
-	* get flat bookmark list for personal desktop
-	*/
-	function getPDBookmarkListHTMLFlat()
-	{
-		$showdetails = $this->ilias->account->getPref('show_bookmark_details') == 'y';
-		$tpl = new ilTemplate("tpl.bookmark_pd_list.html", true, true);
-		include_once("classes/class.ilBookmarkFolder.php");
-
-		$bm_items = ilBookmarkFolder::getObjects($_SESSION["ilCurBMFolder"]);
-
-		if(ilBookmarkFolder::isRootFolder($_SESSION['ilCurBMFolder']) or !$_SESSION['ilCurBMFolder'])
-		{
-			$colspan = 2;
-		}
-
-		$i = 0;
-		$title_append = "";
-		if (!ilBookmarkFolder::isRootFolder($_SESSION["ilCurBMFolder"])
-			&& !empty($_SESSION["ilCurBMFolder"]))
-		{
-			$i++;
-			$tpl->setCurrentBlock("tbl_bm_row");
-			$rowcol = ($rowcol == "tblrow1")
-				? "tblrow2"
-				: "tblrow1";
-			$tpl->setVariable("ROWCOL", $rowcol);
-			$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
-			$tpl->setVariable("IMG_ALT", $this->lng->txt("bmf"));
-			$tpl->setVariable("BM_TITLE", "..");
-			$this->ctrl->setParameter($this, "curBMFolder",
-				ilBookmarkFolder::_getParentId($_SESSION["ilCurBMFolder"]));
-			$tpl->setVariable("BM_LINK",
-				$this->ctrl->getLinkTarget($this, "setCurrentBookmarkFolder"));
-
-			$tpl->setVariable("BM_DESCRIPTION", "");
-			$tpl->setVariable("BM_TARGET", "");
-			$tpl->parseCurrentBlock();
-
-			$title_append = ": ".ilBookmarkFolder::_lookupTitle($_SESSION["ilCurBMFolder"]);
-		}
-
-		foreach ($bm_items as $bm_item)
-		{
-			$i++;
-
-			$tpl->setCurrentBlock("tbl_bm_row");
-			$rowcol = ($rowcol == "tblrow1")
-				? "tblrow2"
-				: "tblrow1";
-			$tpl->setVariable("ROWCOL", $rowcol);
-
-			switch ($bm_item["type"])
-			{
-				case "bmf":
-					$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_cat.gif"));
-					$tpl->setVariable("IMG_ALT", $this->lng->txt("bmf"));
-					$tpl->setVariable("BM_TITLE", ilUtil::prepareFormOutput($bm_item["title"]));
-					$this->ctrl->setParameter($this, "curBMFolder", $bm_item["obj_id"]);
-					$tpl->setVariable("BM_LINK",
-					$this->ctrl->getLinkTarget($this, "setCurrentBookmarkFolder"));
-					$tpl->setVariable("BM_TARGET", "");
-					break;
-
-				case "bm":
-					$tpl->setVariable("IMG_BM", ilUtil::getImagePath("icon_bm.gif"));
-					$tpl->setVariable("IMG_ALT", $this->lng->txt("bm"));
-					$tpl->setVariable("BM_TITLE", ilUtil::prepareFormOutput($bm_item["title"]));
-					$tpl->setVariable("BM_LINK", ilUtil::prepareFormOutput($bm_item["target"]));
-					$tpl->setVariable("BM_TARGET", "_blank");
-					break;
-			}
-			if (!empty($bm_item["desc"]))
-			{
-				if ($showdetails)
-				{
-					$tpl->setVariable("BM_DESCRIPTION", ilUtil::prepareFormOutput($bm_item["desc"]));
-				}
-				else
-				{
-					$tpl->setVariable("BM_TOOLTIP", ilUtil::prepareFormOutput($bm_item["desc"]));
-				}
-			}
-
-			$tpl->parseCurrentBlock();
-		}
-
-		if ($i == 0)
-		{
-			$tpl->setCurrentBlock("tbl_no_bm");
-			$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$tpl->setVariable("TXT_NO_BM", $this->lng->txt("no_bm_in_personal_list"));
-			$tpl->parseCurrentBlock();
-		}
-
-		$tpl->setCurrentBlock();
-		$tpl->setVariable("TXT_BM_HEADER", $this->lng->txt("my_bms").$title_append);
-		// add details link
-		if ($showdetails)
-		{
-			$text = $this->lng->txt("hide_details");
-			$cmd = "hideBookmarkDetails";
-		}
-		else
-		{
-			$text = $this->lng->txt("show_details");
-			$cmd = "showBookmarkDetails";
-		}
-		$tpl->setVariable("LINK_BKM_DETAILS",
-			$this->ctrl->getLinkTarget($this,$cmd));
-		$tpl->setVariable("TXT_BKM_DETAILS", $text);
-
-		//$tpl->setVariable("CLASS_BKM_TREE","");
-		//$tpl->setVariable("LINK_BKM_MODE",
-		//		$this->ctrl->getLinkTarget($this,'setPdTreeMode'));
-		//$tpl->setVariable("IMG_BKM_TREE",ilUtil::getImagePath("ic_treeview.gif"));
-		
-		$this->insertBlockFooter($tpl);
-		$tpl->parseCurrentBlock();
-
-		return $tpl->get();
+		return $bookmark_block_gui->getHTML();
 	}
 
 	/**
@@ -1273,7 +1049,7 @@ return;
 			$this->newFormBookmark();
 			return;
 		}
-		require_once ("classes/class.ilBookmarkImportExport.php");
+		require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkImportExport.php");
 		$objects=ilBookmarkImportExport::_parseFile ($_FILES["bkmfile"]['tmp_name']);
 		if ($objects===false)
 		{

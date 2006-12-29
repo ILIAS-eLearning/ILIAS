@@ -413,7 +413,7 @@ class ilNote
 		$q = "SELECT * FROM note WHERE ".
 			" type = ".$ilDB->quote(IL_NOTE_PRIVATE).
 			" AND author = ".$ilDB->quote($ilUser->getId()).
-			" ORDER BY creation_date DESC LIMIT 10";
+			" ORDER BY creation_date DESC";
 
 		$ilDB->quote($q);
 		$set = $ilDB->query($q);
