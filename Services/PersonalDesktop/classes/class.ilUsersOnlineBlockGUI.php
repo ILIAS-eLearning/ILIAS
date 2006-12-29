@@ -1,0 +1,409 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+include_once("Services/Block/classes/class.ilBlockGUI.php");
+
+/**
+* BlockGUI class for Personal Desktop Users Online block
+*
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
+*/
+class ilUsersOnlineBlockGUI extends ilBlockGUI
+{
+	
+	/**
+	* Constructor
+	*/
+	function ilUsersOnlineBlockGUI($a_parent_class, $a_parent_cmd = "")
+	{
+		global $ilCtrl, $lng, $ilUser;
+		
+		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
+		
+		$this->setLimit(10);
+		$this->setImage(ilUtil::getImagePath("icon_grp_s.gif"));
+		$this->setTitle($lng->txt("users_online"));
+		$this->setBlockIdentification("pdusers", $ilUser->getId());
+		$this->setPrefix("pdusers");
+		$this->setAvailableDetailLevels(3);
+	}
+	
+	function getHTML()
+	{
+		global $ilUser;
+		
+		$this->users_online_pref = $ilUser->getPref("show_users_online");
+		
+		if ($this->users_online_pref != "y" && $this->users_online_pref != "associated")
+		{
+			return "";
+		}
+		
+		$this->getUsers();
+		
+		if ($this->getCurrentDetailLevel() == 0)
+		{
+			return "";
+		}
+		else
+		{
+			return parent::getHTML();
+		}
+	}
+	
+	/**
+	* Get online users
+	*/
+	function getUsers()
+	{
+		global $ilUser;
+		
+		if ($this->users_online_pref == "associated")
+		{
+			$this->users = ilUtil::getAssociatedUsersOnline($ilUser->getId());
+		}
+		else
+		{
+			$this->users = ilUtil::getUsersOnline();
+		}
+		
+		$this->num_users = 0;
+		
+		$this->users[$ilUser->getId()] =
+			array("user_id" => $ilUser->getId(),
+				"firstname" => $ilUser->getFirstname(),
+				"lastname" => $ilUser->getLastname(),
+				"title" => $ilUser->getUTitle(),
+				"login" => $ilUser->getLogin());
+
+		foreach ($this->users as $user_id => $user)
+		{
+			if ($user_id != ANONYMOUS_USER_ID)
+			{
+				$this->num_users++;
+			}
+			else
+			{
+				$this->visitors = $user["num"];
+			}
+		}
+	}
+	
+	/**
+	* Fill data section
+	*/
+	function fillDataSection()
+	{
+		global $ilUser, $ilSetting, $ilCtrl;
+		
+		include_once("Services/Notes/classes/class.ilNote.php");
+		
+		// check for show user activity option
+		if ($ilSetting->get("show_user_activity"))
+		{
+			$this->check_activity = true;
+			$this->atime = $ilSetting->get("user_activity_time") * 60; // in seconds
+			$this->ctime = time();
+//			$txt_status_not_active = "(".$this->lng->txt("status_not_active").")";	
+		}
+		else
+		{
+			$this->check_activity = false;
+		}
+
+
+		if ($this->getCurrentDetailLevel() > 1 && $this->num_users > 0)
+		{
+			$this->setRowTemplate("tpl.users_online_row.html", "Services/PersonalDesktop");
+			$this->getListRowData();
+			$this->setColSpan(3);
+			parent::fillDataSection();
+		}
+		else
+		{
+			$this->setDataSection($this->getOverview());
+		}
+		$ilCtrl->clearParametersByClass($this->getParentClass());
+	}
+	
+
+	/**
+	* Get list data.
+	*/
+	function getListRowData()
+	{
+		global $ilUser, $lng, $ilCtrl, $ilDB, $rbacsystem;
+
+		$data = array();
+		
+		$mail = new ilMail($ilUser->getId());
+		$mail_settings_id = $mail->getMailObjectReferenceId();
+		
+		foreach ($this->users as $user_id => $user)
+		{
+			if ($user_id != ANONYMOUS_USER_ID)
+			{
+				// hide mail-to icon for anonymous users
+				$mail_to = "";
+				if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID and $_SESSION["AccountId"] != $user_id)
+				{
+					// No mail for users that do have permissions to use the mail system
+					if($rbacsystem->checkAccess('mail_visible',$mail_settings_id) and
+					   $rbacsystem->checkAccessOfUser($user_id,'mail_visible',$mail_settings_id))
+					{
+						$mail_to = $user["login"];
+					}
+				}
+				
+				// check for profile
+				// todo: use user class!
+				$q = "SELECT value FROM usr_pref WHERE usr_id='".$user_id."' AND keyword='public_profile' AND value='y'";
+				$r = $ilDB->query($q);
+				$profile = false;
+				if ($r->numRows())
+				{
+					$profile = true;
+				}
+								
+				// check show user activity option
+				if ($this->check_activity)
+				{
+					if ($user["ctime"] + $this->atime > $this->ctime)
+					{
+						$user_active = true;
+					}
+					elseif ($user_id == $_SESSION["AccountId"])
+					{
+						$user_active = true; // current user sees himself always as active
+					}
+					else
+					{
+						$user_active = false;
+					}
+				}
+				else
+				{
+					$user_active = true;
+				}
+			
+				$data[] = array(
+					"mail_to" => $mail_to,
+					"id" => $user_id,
+					"active" => $user_active,
+					"profile" => $profile,
+					"login" => $user["login"]
+					);
+			}
+		}
+		
+		$this->setData($data);
+	}
+	
+	/**
+	* get flat bookmark list for personal desktop
+	*/
+	function fillRow($a_set)
+	{
+		global $ilUser, $ilCtrl, $lng, $ilSetting;
+		
+		$user_obj = new ilObjUser($a_set["id"]);
+		
+		if ($a_set["mail_to"] != "")
+		{
+			$this->tpl->setCurrentBlock("mailto_link");
+			$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
+			$this->tpl->setVariable("MAIL_USR_LOGIN", $a_set["login"]);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		include_once './Modules/Chat/classes/class.ilChatServerConfig.php';
+		if(ilChatServerConfig::_isActive())
+		{
+			if(!$this->__showActiveChatsOfUser($a_set["id"]))
+			{
+				// Show invite to chat
+				$this->__showChatInvitation($a_set["id"]);
+			}
+		}
+		
+		// profile link
+		if ($a_set["profile"])
+		{
+			$this->tpl->setCurrentBlock("profile_link");
+			$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
+			$ilCtrl->setParameterByClass("ilpersonaldesktopgui", "user", $a_set["id"]);
+			$this->tpl->setVariable("LINK_PROFILE",
+			$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "showUserProfile"));
+			$this->tpl->setVariable("USR_ID", $a_set["id"]);
+			$this->tpl->parseCurrentBlock();
+		}
+					
+		// user image
+		$this->tpl->setCurrentBlock("usr_image");
+		$this->tpl->setVariable("USR_IMAGE",
+			$user_obj->getPersonalPicturePath("xxsmall"));
+		$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
+		$this->tpl->parseCurrentBlock();
+					
+		// instant messengers
+		// 1 indicates to use online status check
+		$im_arr = array("icq" => 1,
+						"yahoo" => 1,
+						"msn" => 0,
+						"aim" => 0,
+						"skype" => 1);
+									
+		// use onlinestatus.org
+		// when enabled all instant messengers are checked online and ignores settings above
+		$osi_enable = true;
+		$osi_server = "http://imstatus.msitgroup.co.uk:81";
+					
+		// alternative server with other icon set (smaller)
+		// but doesn't seem to work for icq & msn
+		//$osi_server = "http://www.the-server.net:8002";
+
+		foreach ($im_arr as $im_name => $im_check)
+		{
+			if ($im_id = $user_obj->getInstantMessengerId($im_name))
+			{
+				switch ($im_name)
+				{
+					case "icq":
+						//$im_url = "http://people.icq.com/people/webmsg.php?to=".$im_id;
+						$im_url = "http://people.icq.com/people/about_me.php?uin=".$im_id;
+						$im_img = "http://status.icq.com/online.gif?icq=".$im_id."&img=5";
+						break;
+					
+					case "yahoo":
+						$im_url = "http://edit.yahoo.com/config/send_webmesg?.target=".$im_id."&.src=pg";
+						$im_img = "http://opi.yahoo.com/online?u=".$im_id."&m=g&t=5";
+						break;
+						
+					case "msn":
+						$im_url = "http://messenger.live.com";
+						$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
+
+						break;
+
+					case "aim":
+						//$im_url = "aim:GoIM?screenname=".$im_id;
+						$im_url = "http://aimexpress.aim.com";
+						//$im_img = "http://api.oscar.aol.com/SOA/key=<put_your_key_here>/presence/".$im_id; // doesn't work. you need a key
+						$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
+						break;
+
+					case "skype":
+						$im_url = "skype:".$im_id."?call";
+						/* the link above needs this piece of js to work
+						<script type="text/javascript" 
+						src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js">
+						</script>
+						*/
+						//$im_url = "http://www.skype.com/go/download";
+						$im_img = "http://mystatus.skype.com/smallicon/".$im_id;
+						break;
+				}
+
+				$this->tpl->setCurrentBlock("instant_messengers");
+				
+				if ($osi_enable)
+				{
+					$this->tpl->setVariable("URL_IM",$osi_server."/message/".$im_name."/".$im_id);
+					$this->tpl->setVariable("IMG_IM_ICON",$osi_server."/".$im_name."/".$im_id);
+				}
+				else
+				{
+					$this->tpl->setVariable("URL_IM",$im_url);
+					$this->tpl->setVariable("IMG_IM_ICON", $im_check ? $im_img : ilUtil::getImagePath($im_name.'offline.gif'));
+				}
+				
+				$this->tpl->setVariable("TXT_IM_ICON", $lng->txt("im_".$im_name));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+					
+		// username
+		$this->tpl->setVariable("FONT_STYLE", $a_set["active"] ? "normal" : "italic");
+		$this->tpl->setVariable("TXT_STATUS_NOT_ACTIVE",
+			($a_set["active"] || !$ilSetting->get("show_user_activity"))
+			? ""
+			: "(".$lng->txt("status_not_active").")");
+		$this->tpl->setVariable("USR_LOGIN", $a_set["login"]);
+		$this->tpl->setVariable("USR_FULLNAME", $user_obj->getFullname());
+			//ilObjUser::setFullname($user_obj->getTitle(),$user_obj->getFirstname(),$user_obj->getLastname()));
+	}
+
+	/**
+	* Get overview.
+	*/
+	function getOverview()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		// parse visitors text
+		if (empty($this->visitors) || $this->users_online_pref == "associated")
+		{
+			$visitor_text = "";
+		}
+		elseif ($this->visitors == "1")
+		{
+			$visitor_text = "1 ".$lng->txt("visitor");
+		}
+		else
+		{
+			$visitor_text = $visitors." ".$lng->txt("visitors");
+		}
+		
+		// parse registered users text
+		if ($this->num_users > 0)
+		{
+			$user_kind = ($this->users_online_pref == "associated") ? "associated_user" : "registered_user";
+			if ($this->num_users == 1)
+			{
+				$user_list = $this->num_users." ".$lng->txt($user_kind);
+			}
+			
+			else
+			{
+				$user_list = $this->num_users." ".$lng->txt($user_kind."s");
+			}
+						
+			if (!empty($visitor_text))
+			{
+				$user_list .= " ".$this->lng->txt("and")." ".$visitor_text;
+			}
+			
+			//$user_list .= $user_details_link;
+		}
+		else
+		{
+			$user_list = $visitor_text;
+		}
+		
+		return '<div class="small">'.$user_list."</div>";
+	}
+
+}
+
+?>
