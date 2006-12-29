@@ -45,8 +45,8 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		$this->setTitle($lng->txt("my_bms"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setBlockIdentification("bm", $ilUser->getId());
-		$this->setPrefix("pdbm");
+		$this->setBlockIdentification("pdbookm", $ilUser->getId());
+		$this->setPrefix("pdbookm");
 		$this->setAvailableDetailLevels(3);
 		
 		$this->id = (empty($_GET["bmf_id"]))

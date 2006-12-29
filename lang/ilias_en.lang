@@ -2569,6 +2569,7 @@ common#:#mail_visible#:#Mail settings are visible
 common#:#mail_write#:#Edit Mail settings
 common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mail
+common#:#mails_pl#:#Mail(s)
 common#:#main_menu_frame#:#Top Level Menu
 common#:#manage_tracking_data#:#Manage Tracking Data
 common#:#mark_all_read#:#Mark All as Read
@@ -2756,6 +2757,9 @@ news#:#news_visibility#:#Access
 news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)
+pdesk#:#pdesk_activate_block#:#Activate
+pdesk#:#pdesk_feedback_request#:#Feedback Request
+pdesk#:#pdesk_feedbacks#:#Feedback Request(s)
 common#:#next#:#Next
 common#:#select_page#:#Select Page
 common#:#nickname#:#Nickname
@@ -3403,7 +3407,7 @@ common#:#system_groups#:#System Groups
 common#:#system_grp#:#System Group
 common#:#system_information#:#System Information
 common#:#system_language#:#System Language
-common#:#system_message#:#System Message
+common#:#system_message#:#System Messages
 common#:#system_style_settings#:#System Style Settings
 common#:#system_styles#:#System Styles
 common#:#table_mail_import#:#Mail import

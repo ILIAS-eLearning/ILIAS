@@ -124,14 +124,12 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		{
 			$this->check_activity = true;
 			$this->atime = $ilSetting->get("user_activity_time") * 60; // in seconds
-			$this->ctime = time();
-//			$txt_status_not_active = "(".$this->lng->txt("status_not_active").")";	
+			$this->ctime = time();	
 		}
 		else
 		{
 			$this->check_activity = false;
 		}
-
 
 		if ($this->getCurrentDetailLevel() > 1 && $this->num_users > 0)
 		{
@@ -142,8 +140,10 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		}
 		else
 		{
+			$this->setEnableNumInfo(false);
 			$this->setDataSection($this->getOverview());
 		}
+		
 		$ilCtrl->clearParametersByClass($this->getParentClass());
 	}
 	
@@ -229,117 +229,121 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		
 		$user_obj = new ilObjUser($a_set["id"]);
 		
-		if ($a_set["mail_to"] != "")
-		{
-			$this->tpl->setCurrentBlock("mailto_link");
-			$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
-			$this->tpl->setVariable("MAIL_USR_LOGIN", $a_set["login"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		include_once './Modules/Chat/classes/class.ilChatServerConfig.php';
-		if(ilChatServerConfig::_isActive())
-		{
-			if(!$this->__showActiveChatsOfUser($a_set["id"]))
-			{
-				// Show invite to chat
-				$this->__showChatInvitation($a_set["id"]);
-			}
-		}
-		
-		// profile link
-		if ($a_set["profile"])
-		{
-			$this->tpl->setCurrentBlock("profile_link");
-			$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
-			$ilCtrl->setParameterByClass("ilpersonaldesktopgui", "user", $a_set["id"]);
-			$this->tpl->setVariable("LINK_PROFILE",
-			$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "showUserProfile"));
-			$this->tpl->setVariable("USR_ID", $a_set["id"]);
-			$this->tpl->parseCurrentBlock();
-		}
-					
 		// user image
-		$this->tpl->setCurrentBlock("usr_image");
-		$this->tpl->setVariable("USR_IMAGE",
-			$user_obj->getPersonalPicturePath("xxsmall"));
-		$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
-		$this->tpl->parseCurrentBlock();
-					
-		// instant messengers
-		// 1 indicates to use online status check
-		$im_arr = array("icq" => 1,
-						"yahoo" => 1,
-						"msn" => 0,
-						"aim" => 0,
-						"skype" => 1);
-									
-		// use onlinestatus.org
-		// when enabled all instant messengers are checked online and ignores settings above
-		$osi_enable = true;
-		$osi_server = "http://imstatus.msitgroup.co.uk:81";
-					
-		// alternative server with other icon set (smaller)
-		// but doesn't seem to work for icq & msn
-		//$osi_server = "http://www.the-server.net:8002";
-
-		foreach ($im_arr as $im_name => $im_check)
+		if ($this->getCurrentDetailLevel() > 2)
 		{
-			if ($im_id = $user_obj->getInstantMessengerId($im_name))
+			if ($a_set["mail_to"] != "")
 			{
-				switch ($im_name)
-				{
-					case "icq":
-						//$im_url = "http://people.icq.com/people/webmsg.php?to=".$im_id;
-						$im_url = "http://people.icq.com/people/about_me.php?uin=".$im_id;
-						$im_img = "http://status.icq.com/online.gif?icq=".$im_id."&img=5";
-						break;
-					
-					case "yahoo":
-						$im_url = "http://edit.yahoo.com/config/send_webmesg?.target=".$im_id."&.src=pg";
-						$im_img = "http://opi.yahoo.com/online?u=".$im_id."&m=g&t=5";
-						break;
-						
-					case "msn":
-						$im_url = "http://messenger.live.com";
-						$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
-
-						break;
-
-					case "aim":
-						//$im_url = "aim:GoIM?screenname=".$im_id;
-						$im_url = "http://aimexpress.aim.com";
-						//$im_img = "http://api.oscar.aol.com/SOA/key=<put_your_key_here>/presence/".$im_id; // doesn't work. you need a key
-						$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
-						break;
-
-					case "skype":
-						$im_url = "skype:".$im_id."?call";
-						/* the link above needs this piece of js to work
-						<script type="text/javascript" 
-						src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js">
-						</script>
-						*/
-						//$im_url = "http://www.skype.com/go/download";
-						$im_img = "http://mystatus.skype.com/smallicon/".$im_id;
-						break;
-				}
-
-				$this->tpl->setCurrentBlock("instant_messengers");
-				
-				if ($osi_enable)
-				{
-					$this->tpl->setVariable("URL_IM",$osi_server."/message/".$im_name."/".$im_id);
-					$this->tpl->setVariable("IMG_IM_ICON",$osi_server."/".$im_name."/".$im_id);
-				}
-				else
-				{
-					$this->tpl->setVariable("URL_IM",$im_url);
-					$this->tpl->setVariable("IMG_IM_ICON", $im_check ? $im_img : ilUtil::getImagePath($im_name.'offline.gif'));
-				}
-				
-				$this->tpl->setVariable("TXT_IM_ICON", $lng->txt("im_".$im_name));
+				$this->tpl->setCurrentBlock("mailto_link");
+				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
+				$this->tpl->setVariable("MAIL_USR_LOGIN", $a_set["login"]);
 				$this->tpl->parseCurrentBlock();
+			}
+	
+			include_once './Modules/Chat/classes/class.ilChatServerConfig.php';
+			if(ilChatServerConfig::_isActive())
+			{
+				if(!$this->__showActiveChatsOfUser($a_set["id"]))
+				{
+					// Show invite to chat
+					$this->__showChatInvitation($a_set["id"]);
+				}
+			}
+			
+			// profile link
+			if ($a_set["profile"])
+			{
+				$this->tpl->setCurrentBlock("profile_link");
+				$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
+				$ilCtrl->setParameterByClass("ilpersonaldesktopgui", "user", $a_set["id"]);
+				$this->tpl->setVariable("LINK_PROFILE",
+				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "showUserProfile"));
+				$this->tpl->setVariable("USR_ID", $a_set["id"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// user image
+			$this->tpl->setCurrentBlock("usr_image");
+			$this->tpl->setVariable("USR_IMAGE",
+				$user_obj->getPersonalPicturePath("xxsmall"));
+			$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
+			$this->tpl->parseCurrentBlock();
+		
+			// instant messengers
+			// 1 indicates to use online status check
+			$im_arr = array("icq" => 1,
+							"yahoo" => 1,
+							"msn" => 0,
+							"aim" => 0,
+							"skype" => 1);
+										
+			// use onlinestatus.org
+			// when enabled all instant messengers are checked online and ignores settings above
+			$osi_enable = true;
+			$osi_server = "http://imstatus.msitgroup.co.uk:81";
+						
+			// alternative server with other icon set (smaller)
+			// but doesn't seem to work for icq & msn
+			//$osi_server = "http://www.the-server.net:8002";
+	
+			foreach ($im_arr as $im_name => $im_check)
+			{
+				if ($im_id = $user_obj->getInstantMessengerId($im_name))
+				{
+					switch ($im_name)
+					{
+						case "icq":
+							//$im_url = "http://people.icq.com/people/webmsg.php?to=".$im_id;
+							$im_url = "http://people.icq.com/people/about_me.php?uin=".$im_id;
+							$im_img = "http://status.icq.com/online.gif?icq=".$im_id."&img=5";
+							break;
+						
+						case "yahoo":
+							$im_url = "http://edit.yahoo.com/config/send_webmesg?.target=".$im_id."&.src=pg";
+							$im_img = "http://opi.yahoo.com/online?u=".$im_id."&m=g&t=5";
+							break;
+							
+						case "msn":
+							$im_url = "http://messenger.live.com";
+							$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
+	
+							break;
+	
+						case "aim":
+							//$im_url = "aim:GoIM?screenname=".$im_id;
+							$im_url = "http://aimexpress.aim.com";
+							//$im_img = "http://api.oscar.aol.com/SOA/key=<put_your_key_here>/presence/".$im_id; // doesn't work. you need a key
+							$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
+							break;
+	
+						case "skype":
+							$im_url = "skype:".$im_id."?call";
+							/* the link above needs this piece of js to work
+							<script type="text/javascript" 
+							src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js">
+							</script>
+							*/
+							//$im_url = "http://www.skype.com/go/download";
+							$im_img = "http://mystatus.skype.com/smallicon/".$im_id;
+							break;
+					}
+	
+					$this->tpl->setCurrentBlock("instant_messengers");
+					
+					if ($osi_enable)
+					{
+						$this->tpl->setVariable("URL_IM",$osi_server."/message/".$im_name."/".$im_id);
+						$this->tpl->setVariable("IMG_IM_ICON",$osi_server."/".$im_name."/".$im_id);
+					}
+					else
+					{
+						$this->tpl->setVariable("URL_IM",$im_url);
+						$this->tpl->setVariable("IMG_IM_ICON", $im_check ? $im_img : ilUtil::getImagePath($im_name.'offline.gif'));
+					}
+					
+					$this->tpl->setVariable("TXT_IM_ICON", $lng->txt("im_".$im_name));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		}
 					
@@ -349,7 +353,14 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			($a_set["active"] || !$ilSetting->get("show_user_activity"))
 			? ""
 			: "(".$lng->txt("status_not_active").")");
-		$this->tpl->setVariable("USR_LOGIN", $a_set["login"]);
+		if ($this->getCurrentDetailLevel() > 2)
+		{
+			$this->tpl->setVariable("USR_LOGIN", "<br />".$a_set["login"]);
+		}
+		else
+		{
+			$this->tpl->setVariable("USR_LOGIN", " [".$a_set["login"]."]");
+		}
 		$this->tpl->setVariable("USR_FULLNAME", $user_obj->getFullname());
 			//ilObjUser::setFullname($user_obj->getTitle(),$user_obj->getFirstname(),$user_obj->getLastname()));
 	}
@@ -391,10 +402,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 						
 			if (!empty($visitor_text))
 			{
-				$user_list .= " ".$this->lng->txt("and")." ".$visitor_text;
+				$user_list .= " ".$lng->txt("and")." ".$visitor_text;
 			}
-			
-			//$user_list .= $user_details_link;
 		}
 		else
 		{
@@ -402,6 +411,55 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		}
 		
 		return '<div class="small">'.$user_list."</div>";
+	}
+
+	function __showActiveChatsOfUser($a_usr_id)
+	{
+		global $rbacsystem, $lng;
+		
+		// show chat info
+		include_once './Modules/Chat/classes/class.ilChatRoom.php';
+		
+		$chat_id = ilChatRoom::_isActive($a_usr_id);
+		foreach(ilObject::_getAllReferences($chat_id) as $ref_id)
+		{
+			if($rbacsystem->checkAccess('read',$ref_id))
+			{
+				$this->tpl->setCurrentBlock("chat_info");
+				$this->tpl->setVariable("CHAT_ACTIVE_IN",$lng->txt('chat_active_in'));
+				$this->tpl->setVariable("CHAT_LINK","Modules/chat/chat.php?ref_id=".$ref_id."&room_id=0");
+				$this->tpl->setVariable("CHAT_TITLE",ilObject::_lookupTitle($chat_id));
+				$this->tpl->parseCurrentBlock();
+				
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	function __showChatInvitation($a_usr_id)
+	{
+		global $rbacsystem,$ilUser,$lng;
+		
+		include_once './Modules/Chat/classes/class.ilObjChat.php';
+		
+		if($a_usr_id == $ilUser->getId())
+		{
+			return false;
+		}
+		
+		if($rbacsystem->checkAccess('read',ilObjChat::_getPublicChatRefId())
+		and $rbacsystem->checkAccessOfUser($a_usr_id,'read',ilObjChat::_getPublicChatRefId()))
+		{
+			$this->tpl->setCurrentBlock("chat_link");
+			$this->tpl->setVariable("TXT_CHAT_INVITE",$lng->txt('chat_invite'));
+			$this->tpl->setVariable("CHAT_LINK",'Modules/Chat/chat.php?ref_id='.ilObjChat::_getPublicChatRefId().
+			'&usr_id='.$a_usr_id.'&cmd=invitePD');
+			$this->tpl->parseCurrentBlock();
+			
+			return true;
+		}
+		return false;
 	}
 
 }

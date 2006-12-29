@@ -810,9 +810,12 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setRightContent($a_html)
 	{
-		$this->setCurrentBlock("right_column");
-		$this->setVariable("RIGHT_CONTENT", $a_html);
-		$this->parseCurrentBlock();
+		if (trim($a_html) != "")
+		{
+			$this->setCurrentBlock("right_column");
+			$this->setVariable("RIGHT_CONTENT", $a_html);
+			$this->parseCurrentBlock();
+		}
 	}
 	
 	/**
@@ -820,9 +823,12 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setLeftContent($a_html)
 	{
-		$this->setCurrentBlock("left_column");
-		$this->setVariable("LEFT_CONTENT", $a_html);
-		$this->parseCurrentBlock();
+		if (trim($a_html) != "")
+		{
+			$this->setCurrentBlock("left_column");
+			$this->setVariable("LEFT_CONTENT", $a_html);
+			$this->parseCurrentBlock();
+		}
 	}
 
 	/**
