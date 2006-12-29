@@ -213,24 +213,31 @@ class ilPersonalDesktopGUI
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 	}
 	
+	
+	/**
+	* Activate hidden block
+	*/
+	function activateBlock()
+	{
+		global $ilUser;
+		
+		if ($_POST["block"] != "")
+		{
+			include_once("Services/Block/classes/class.ilBlockSetting.php");
+			ilBlockSetting::_writeDetailLevel($_POST["block"], 1, $ilUser->getId());
+		}
+
+		$this->show();
+	}
+	
 	/**
 	* show desktop
 	*/
 	function show()
 	{
 		// add template for content
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
-		
-		// set locator
-		/*
-		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
-		$this->tpl->touchBlock("locator_separator");
-		$this->tpl->touchBlock("locator_item");
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("overview"));
-		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
-		$this->tpl->parseCurrentBlock();
-		*/
+		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true);
+		$this->tpl->getStandardTemplate();
 		
 		// catch feedback message
 		sendInfo();
@@ -239,23 +246,78 @@ class ilPersonalDesktopGUI
 		infoPanel();
 		
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-		$this->lng->txt("personal_desktop"));
+			$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
-		
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 		
 		// output
 		$this->displaySelectedItems();
-		$this->displaySystemMessages();
-		$this->displayMails();
-		$this->displayNotes();
-		$this->displayUsersOnline();
-		$this->displayBookmarks();
-		$this->displayFeedback();
+		$this->tpl->setContent($this->pd_tpl->get());
+		$this->tpl->setRightContent($this->getRightColumnHTML());
+		$this->tpl->setLeftContent($this->getLeftColumnHTML());
 		$this->tpl->show();
 	}
 	
-	
+	/**
+	* Display right column
+	*/
+	function getRightColumnHTML()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		// add template for content
+		$tpl = new ilTemplate("tpl.usr_pd_right_column.html", true, true,
+			"Services/PersonalDesktop");
+		
+		$tpl->setVariable("MAILS", $this->displayMails());
+		$tpl->setVariable("NOTES", $this->displayNotes());
+		$tpl->setVariable("USERS_ONLINE", $this->displayUsersOnline());
+		$tpl->setVariable("BOOKMARKS", $this->displayBookmarks());
+
+		// show selector for hidden blocks
+		include_once("Services/Block/classes/class.ilBlockSetting.php");
+		$hidden_blocks = array();
+		$blocks = array("pdmail" => $lng->txt("mail"),
+			"pdnote" => $lng->txt("notes"),
+			"pdusers" => $lng->txt("users_online"),
+			"pdbookm" => $lng->txt("my_bms"));
+
+		foreach($blocks as $block => $txt)
+		{
+			if (ilBlockSetting::_lookupDetailLevel($block, $ilUser->getId()) == 0)
+			{
+				$hidden_blocks[$block] = $txt;
+			}
+		}
+		if (count($hidden_blocks) > 0)
+		{
+			$tpl->setCurrentBlock("hidden_block_selector");
+			$tpl->setVariable("HB_ACTION", $ilCtrl->getFormAction($this));
+			$tpl->setVariable("BLOCK_SEL", ilUtil::formSelect("", "block", $hidden_blocks,
+				false, true, 0, "ilEditSelect"));
+			$tpl->setVariable("TXT_ACTIVATE", $lng->txt("pdesk_activate_block"));
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl->get();
+	}
+
+	/**
+	* Display left column
+	*/
+	function getLeftColumnHTML()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		// add template for content
+		$tpl = new ilTemplate("tpl.usr_pd_left_column.html", true, true,
+			"Services/PersonalDesktop");
+		
+		$tpl->setVariable("SYS_MESSAGES", $this->displaySystemMessages());
+		$tpl->setVariable("FEEDBACK", $this->displayFeedback());
+		
+		return $tpl->get();
+	}
+
 	/**
 	* show profile of other user
 	*/
@@ -418,9 +480,9 @@ class ilPersonalDesktopGUI
 		
 		if ($html != "")
 		{
-			$this->tpl->setCurrentBlock("selected_items");
-			$this->tpl->setVariable("SELECTED_ITEMS", $html);
-			$this->tpl->parseCurrentBlock();
+			$this->pd_tpl->setCurrentBlock("selected_items");
+			$this->pd_tpl->setVariable("SELECTED_ITEMS", $html);
+			$this->pd_tpl->parseCurrentBlock();
 		}
 		$this->ctrl->clearParameters($this);
 	}
@@ -931,127 +993,24 @@ class ilPersonalDesktopGUI
 		return $tpl;
 	}
 	
-	
+	/**
+	* Display system messages.
+	*/
 	function displaySystemMessages()
 	{
-		// SYSTEM MAILS
-		$umail = new ilMail($_SESSION["AccountId"]);
-		$smails = $umail->getMailsOfFolder(0);
-		
-		if(count($smails))
-		{
-			// output mails
-			$counter = 1;
-			foreach ($smails as $mail)
-			{
-				// GET INBOX FOLDER FOR LINK_READ
-				require_once "classes/class.ilMailbox.php";
-				
-				$mbox = new ilMailbox($_SESSION["AccountId"]);
-				$inbox = $mbox->getInboxFolder();
-				
-				$this->tpl->setCurrentBlock("tbl_system_msg_row");
-				$this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow2' : 'tblrow1');
-				
-				// GET SENDER NAME
-				$user = new ilObjUser($mail["sender_id"]);
-				
-				if(!($fullname = $user->getFullname()))
-				{
-					$fullname = $this->lng->txt("unknown");
-				}
-				
-				//new mail or read mail?
-				$this->tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
-				$this->tpl->setVariable("MAIL_FROM", $fullname);
-				$this->tpl->setVariable("MAIL_SUBJ", $mail["m_subject"]);
-				$this->tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
-				$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
-				$this->tpl->setVariable("MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("tbl_system_msg");
-			//headline
-			$this->tpl->setVariable("SYSTEM_MAILS",$this->lng->txt("mail_system"));
-			//columns headlines
-			$this->tpl->setVariable("TXT_SENDER", $this->lng->txt("sender"));
-			$this->tpl->setVariable("TXT_SUBJECT", $this->lng->txt("subject"));
-			$this->tpl->setVariable("TXT_DATETIME",$this->lng->txt("date")."/".$this->lng->txt("time"));
-			$this->tpl->parseCurrentBlock();
-		}
+		include_once("Services/Mail/classes/class.ilPDSysMessageBlockGUI.php");
+		$sys_block = new ilPDSysMessageBlockGUI("ilpersonaldesktopgui", "show");
+		return $sys_block->getHTML();
 	}
-	
-	
 	
 	/**
 	* display New Mails
 	*/
-	
-	
 	function displayMails()
 	{
-		
-		// MAILS
-		// GET INBOX FOLDER FOR LINK_READ
-		include_once "./include/inc.header.php";
-		include_once "./include/inc.mail.php";
-		include_once "classes/class.ilObjUser.php";
-		include_once "classes/class.ilMailbox.php";
-		include_once "classes/class.ilMail.php";
-		
-		
-		// BEGIN MAILS
-		$umail = new ilMail($_SESSION["AccountId"]);
-		$mbox = new ilMailBox($_SESSION["AccountId"]);
-		$inbox = $mbox->getInboxFolder();
-		
-		//SHOW MAILS FOR EVERY USER
-		$mail_data = $umail->getMailsOfFolder($inbox);
-		$mail_counter = $umail->getMailCounterData();
-		$unreadmails = 0;
-		
-		
-		foreach ($mail_data as $mail)
-		{
-			//ONLY NEW MAILS WOULD BE ON THE PERONAL DESKTOP
-			if($mail["m_status"]== 'unread')
-			{
-				//echo $mail["m_status"];
-				
-				$this->tpl->setCurrentBlock("tbl_mails");
-				$this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable("NEW_MAIL",$this->lng->txt("email"));
-				
-				// GET SENDER NAME
-				$user = new ilObjUser($mail["sender_id"]);
-				
-				if(!($fullname = $user->getFullname()))
-				{
-					$fullname = $this->lng->txt("unknown");
-				}
-				
-				
-				$this->tpl->setCurrentBlock("tbl_mails");
-				//columns headlines
-				$this->tpl->setVariable("NEW_TXT_SENDER", $this->lng->txt("sender"));
-				$this->tpl->setVariable("NEW_TXT_SUBJECT", $this->lng->txt("subject"));
-				$this->tpl->setVariable("NEW_TXT_DATE",$this->lng->txt("date")."/".$this->lng->txt("time"));
-				
-				
-				$this->tpl->setCurrentBlock("tbl_mails_row");
-				$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
-				$this->tpl->setVariable("NEW_MAIL_FROM_LOGIN", $user->getLogin());
-				//$this->tpl->setVariable("NEW_MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
-				$this->tpl->setVariable("NEW_MAIL_SUBJ", $mail["m_subject"]);
-				$this->tpl->setVariable("NEW_MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
-				$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
-				$this->tpl->setVariable("NEW_MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
-				$this->tpl->setVariable("IMG_SENDER", $user->getPersonalPicturePath("xxsmall"));
-				$this->tpl->setVariable("ALT_SENDER", $user->getLogin());
-				$this->tpl->parseCurrentBlock();
-				
-			}
-		}
+		include_once("Services/Mail/classes/class.ilPDMailBlockGUI.php");
+		$mail_block = new ilPDMailBlockGUI("ilpersonaldesktopgui", "show");
+		return $mail_block->getHTML();
 	}
 	
 	
@@ -1066,16 +1025,11 @@ class ilPersonalDesktopGUI
 		{
 			return;
 		}
-		//$users_notes = $ilias->account->getPref("show_notes");
+
 		include_once("Services/Notes/classes/class.ilPDNotesBlockGUI.php");
 		$notes_block = new ilPDNotesBlockGUI("ilpersonaldesktopgui", "show");
 		
-		$this->tpl->setVariable("NOTES", $notes_block->getHTML());
-		
-		//$note_gui = new ilNoteGUI(0,0,"");
-		//$note_gui->enableTargets();
-		//$html = $note_gui->getPDOverviewNoteListHTML();
-		//$this->tpl->setVariable("NOTES", $html);
+		return $notes_block->getHTML();
 	}
 	
 	/**
@@ -1087,271 +1041,7 @@ class ilPersonalDesktopGUI
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilUsersOnlineBlockGUI.php");
 		$users_block = new ilUsersOnlineBlockGUI("ilpersonaldesktopgui", "show");
-		$this->tpl->setVariable("USERS_ONLINE", $users_block->getHTML());
-		return;
-		
-		// check for show user activity option
-		if ($ilSetting->get("show_user_activity"))
-		{
-			$check_activity = true;
-			$atime = $ilSetting->get("user_activity_time") * 60; // in seconds
-			$ctime = time();
-			$txt_status_not_active = "(".$this->lng->txt("status_not_active").")";	
-		}
-		else
-		{
-			$check_activity = false;
-		}
-		
-		$this->tpl->setVariable("TXT_USERS_ONLINE",$this->lng->txt("users_online"));
-		
-		
-		// parse visitors text
-		if (empty($visitors) || $users_online_pref == "associated")
-		{
-			$visitor_text = "";
-		}
-		elseif ($visitors == "1")
-		{
-			$visitor_text = "1 ".$this->lng->txt("visitor");
-		}
-		else
-		{
-			$visitor_text = $visitors." ".$this->lng->txt("visitors");
-		}
-		
-		// determine whether the user want's to see details of the active users
-		// and remember user preferences, in case the user has changed them.
-		$showdetails = $ilias->account->getPref('show_users_online_details') == 'y';
-		
-		// parse registered users text
-		if ($num > 0)
-		{
-			$user_kind = ($users_online_pref == "associated") ? "associated_user" : "registered_user";
-			if ($num == 1)
-			{
-				$user_list = $num." ".$this->lng->txt($user_kind);
-			}
-			
-			else
-			{
-				$user_list = $num." ".$this->lng->txt($user_kind."s");
-			}
-			
-			// add details link
-			if ($showdetails)
-			{
-				$text = $this->lng->txt("hide_details");
-				$cmd = "hideUsersOnlineDetails";
-			}
-			else
-			{
-				$text = $this->lng->txt("show_details");
-				$cmd = "showUsersOnlineDetails";
-			}
-			
-			//$user_details_link = "&nbsp;&nbsp;<span style=\"font-weight:lighter\">[</span><a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\">".$text."</a><span style=\"font-weight:lighter\">]</span>";
-			
-			if (!empty($visitor_text))
-			{
-				$user_list .= " ".$this->lng->txt("and")." ".$visitor_text;
-			}
-			
-			//$user_list .= $user_details_link;
-		}
-		else
-		{
-			$user_list = $visitor_text;
-		}
-		
-		$this->tpl->setVariable("USER_LIST",$user_list);
-		$this->tpl->setVariable("LINK_USER_DETAILS",
-		$this->ctrl->getLinkTarget($this, $cmd));
-		$this->tpl->setVariable("TXT_USER_DETAILS", $text);
-
-		// get mail settings id
-		include_once 'classes/class.ilMail.php';
-		$mail = new ilMail($ilUser->getId());
-		$mail_settings_id = $mail->getMailObjectReferenceId();
-		
-		// display details of users online
-		if ($showdetails)
-		{
-			$z = 0;
-			
-			foreach ($users as $user_id => $user)
-			{
-				if ($user_id != ANONYMOUS_USER_ID)
-				{
-					$rowCol = ilUtil::switchColor($z,"tblrow1","tblrow2");
-					//$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
-					
-					// hide mail-to icon for anonymous users
-					if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID and $_SESSION["AccountId"] != $user_id)
-					{
-						// No mail for users that do have permissions to use the mail system
-						if($rbacsystem->checkAccess('mail_visible',$mail_settings_id) and
-						   $rbacsystem->checkAccessOfUser($user_id,'mail_visible',$mail_settings_id))
-						{
-							$this->tpl->setCurrentBlock("mailto_link");
-							$this->tpl->setVariable("TXT_MAIL",$this->lng->txt("mail"));
-							$this->tpl->setVariable("MAIL_USR_LOGIN",$user["login"]);
-							$this->tpl->parseCurrentBlock();
-						}
-					}
-					
-					// check for profile
-					// todo: use user class!
-					$user_obj = new ilObjUser($user_id);
-					$q = "SELECT value FROM usr_pref WHERE usr_id='".$user_id."' AND keyword='public_profile' AND value='y'";
-					$r = $this->ilias->db->query($q);
-					
-					include_once './Modules/Chat/classes/class.ilChatServerConfig.php';
-					if(ilChatServerConfig::_isActive())
-					{
-						if(!$this->__showActiveChatsOfUser($user_id))
-						{
-							// Show invite to chat
-							$this->__showChatInvitation($user_id);
-						}
-					}
-					
-					// check show user activity option
-					if ($check_activity)
-					{
-						if ($user["ctime"] + $atime > $ctime)
-						{
-							$user_active = true;
-						}
-						elseif ($user_id == $_SESSION["AccountId"])
-						{
-							$user_active = true; // current user sees himself always as active
-						}
-						else
-						{
-							$user_active = false;
-						}
-					}
-					else
-					{
-						$user_active = true;
-					}
-					
-					if ($r->numRows())
-					{
-						$this->tpl->setCurrentBlock("profile_link");
-						//$this->tpl->setVariable("IMG_VIEW", ilUtil::getImagePath("enlarge.gif", false));
-						$this->tpl->setVariable("TXT_VIEW",$this->lng->txt("profile"));
-						$this->ctrl->setParameter($this, "user", $user_id);
-						$this->tpl->setVariable("LINK_PROFILE",
-						$this->ctrl->getLinkTarget($this, "showUserProfile"));
-						$this->tpl->setVariable("USR_ID",$user_id);
-						$this->tpl->parseCurrentBlock();
-					}
-					
-					// user image
-					$this->tpl->setCurrentBlock("usr_image");
-					$this->tpl->setVariable("USR_IMAGE",
-					$user_obj->getPersonalPicturePath("xxsmall"));
-					$this->tpl->setVariable("USR_ALT", $this->lng->txt("personal_picture"));
-					$this->tpl->parseCurrentBlock();
-					
-					// instant messengers
-					// 1 indicates to use online status check
-					$im_arr = array("icq" => 1,
-									"yahoo" => 1,
-									"msn" => 0,
-									"aim" => 0,
-									"skype" => 1);
-									
-					// use onlinestatus.org
-					// when enabled all instant messengers are checked online and ignores settings above
-					$osi_enable = true;
-					$osi_server = "http://imstatus.msitgroup.co.uk:81";
-					
-					// alternative server with other icon set (smaller)
-					// but doesn't seem to work for icq & msn
-					//$osi_server = "http://www.the-server.net:8002";
-					
-			
-					foreach ($im_arr as $im_name => $im_check)
-					{
-						if ($im_id = $user_obj->getInstantMessengerId($im_name))
-						{
-							switch ($im_name)
-							{
-								case "icq":
-									//$im_url = "http://people.icq.com/people/webmsg.php?to=".$im_id;
-									$im_url = "http://people.icq.com/people/about_me.php?uin=".$im_id;
-									$im_img = "http://status.icq.com/online.gif?icq=".$im_id."&img=5";
-									break;
-								
-								case "yahoo":
-									$im_url = "http://edit.yahoo.com/config/send_webmesg?.target=".$im_id."&.src=pg";
-									$im_img = "http://opi.yahoo.com/online?u=".$im_id."&m=g&t=5";
-									break;
-									
-								case "msn":
-									$im_url = "http://messenger.live.com";
-									$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
-
-									break;
-
-								case "aim":
-									//$im_url = "aim:GoIM?screenname=".$im_id;
-									$im_url = "http://aimexpress.aim.com";
-									//$im_img = "http://api.oscar.aol.com/SOA/key=<put_your_key_here>/presence/".$im_id; // doesn't work. you need a key
-									$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
-									break;
-
-								case "skype":
-									$im_url = "skype:".$im_id."?call";
-									/* the link above needs this piece of js to work
-									<script type="text/javascript" 
-									src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js">
-									</script>
-									*/
-									//$im_url = "http://www.skype.com/go/download";
-									$im_img = "http://mystatus.skype.com/smallicon/".$im_id;
-									break;
-							}
-
-							$this->tpl->setCurrentBlock("instant_messengers");
-							
-							if ($osi_enable)
-							{
-								$this->tpl->setVariable("URL_IM",$osi_server."/message/".$im_name."/".$im_id);
-								$this->tpl->setVariable("IMG_IM_ICON",$osi_server."/".$im_name."/".$im_id);
-							}
-							else
-							{
-								$this->tpl->setVariable("URL_IM",$im_url);
-								$this->tpl->setVariable("IMG_IM_ICON", $im_check ? $im_img : ilUtil::getImagePath($im_name.'offline.gif'));
-							}
-							
-							$this->tpl->setVariable("TXT_IM_ICON", $this->lng->txt("im_".$im_name));
-							$this->tpl->parseCurrentBlock();
-						}
-					}
-					
-					// username
-					$this->tpl->setCurrentBlock("tbl_users_row");
-					$this->tpl->setVariable("ROWCOL",$rowCol);
-					$this->tpl->setVariable("FONT_STYLE", $user_active ? "normal" : "italic");
-					$this->tpl->setVariable("TXT_STATUS_NOT_ACTIVE", $user_active ? "" : $txt_status_not_active);
-					$this->tpl->setVariable("USR_LOGIN",$user["login"]);
-					$this->tpl->setVariable("USR_FULLNAME",ilObjUser::setFullname($user["title"],$user["firstname"],$user["lastname"]));
-					//$this->tpl->setVariable("USR_LOGIN_TIME",$login_time);
-					
-					$this->tpl->parseCurrentBlock();
-					
-					$z++;
-				}
-			}
-			
-		}
-		
-		$this->ctrl->clearParameters($this);
+		return $users_block->getHTML();
 	}
 	
 	
@@ -1364,18 +1054,21 @@ class ilPersonalDesktopGUI
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkAdministrationGUI.php");
 		$bookmark_gui = new ilBookmarkAdministrationGUI();
-		$html = $ilCtrl->getHTML($bookmark_gui);
-		$this->tpl->setVariable("BOOKMARKS", $html);
+		return $ilCtrl->getHTML($bookmark_gui);
 	}
 	
 	/**
 	* Display Links for Feedback
 	*/
-	function displayFeedback(){
+	function displayFeedback()
+	{
+		include_once("./Services/Feedback/classes/class.ilPDFeedbackBlockGUI.php");
+		$fb_block = new ilPDFeedbackBlockGUI("ilpersonaldesktopgui", "show");
+		return $fb_block->getHTML();
+
 		include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
 		$feedback_gui = new ilFeedbackGUI();
-		$html = $feedback_gui->getPDFeedbackListHTML();
-		$this->tpl->setVariable('FEEDBACK', $html);
+		return $feedback_gui->getPDFeedbackListHTML();
 	}
 	
 	/**
@@ -1569,56 +1262,6 @@ class ilPersonalDesktopGUI
 	function jumpToLP()
 	{
 		$this->ctrl->redirectByClass("illearningprogressgui");
-	}
-	
-	
-	function __showActiveChatsOfUser($a_usr_id)
-	{
-		global $rbacsystem;
-		
-		// show chat info
-		include_once './Modules/Chat/classes/class.ilChatRoom.php';
-		
-		$chat_id = ilChatRoom::_isActive($a_usr_id);
-		foreach(ilObject::_getAllReferences($chat_id) as $ref_id)
-		{
-			if($rbacsystem->checkAccess('read',$ref_id))
-			{
-				$this->tpl->setCurrentBlock("chat_info");
-				$this->tpl->setVariable("CHAT_ACTIVE_IN",$this->lng->txt('chat_active_in'));
-				$this->tpl->setVariable("CHAT_LINK","Modules/chat/chat.php?ref_id=".$ref_id."&room_id=0");
-				$this->tpl->setVariable("CHAT_TITLE",ilObject::_lookupTitle($chat_id));
-				$this->tpl->parseCurrentBlock();
-				
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	function __showChatInvitation($a_usr_id)
-	{
-		global $rbacsystem,$ilUser;
-		
-		include_once './Modules/Chat/classes/class.ilObjChat.php';
-		
-		if($a_usr_id == $ilUser->getId())
-		{
-			return false;
-		}
-		
-		if($rbacsystem->checkAccess('read',ilObjChat::_getPublicChatRefId())
-		and $rbacsystem->checkAccessOfUser($a_usr_id,'read',ilObjChat::_getPublicChatRefId()))
-		{
-			$this->tpl->setCurrentBlock("chat_link");
-			$this->tpl->setVariable("TXT_CHAT_INVITE",$this->lng->txt('chat_invite'));
-			$this->tpl->setVariable("CHAT_LINK",'Modules/Chat/chat.php?ref_id='.ilObjChat::_getPublicChatRefId().
-			'&usr_id='.$a_usr_id.'&cmd=invitePD');
-			$this->tpl->parseCurrentBlock();
-			
-			return true;
-		}
-		return false;
 	}
 
 	function __loadNextClass()

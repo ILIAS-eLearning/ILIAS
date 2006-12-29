@@ -44,7 +44,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath("icon_note_s.gif"));
 		$this->setTitle($lng->txt("notes"));
-		$this->setBlockIdentification("note", $ilUser->getId());
+		$this->setBlockIdentification("pdnote", $ilUser->getId());
 		$this->setPrefix("pdnotes");
 		$this->setAvailableDetailLevels(3);
 	}
@@ -80,6 +80,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		}
 		else
 		{
+			$this->setEnableNumInfo(false);
 			$this->setDataSection($this->getOverview());
 		}
 	}

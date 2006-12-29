@@ -1,22 +1,11 @@
 <tr class="{CSS_ROW}">
-	<td class="std" valign="middle" align="center" width="1">{NO_IMAGE}
-		<!-- BEGIN usr_image -->
-		<img border="0" src="{USR_IMAGE}" title="{USR_ALT}" alt="{USR_ALT}" style="vertical-align:text-bottom" />
-		<!-- END usr_image -->
+	<!-- BEGIN usr_image -->
+	<td class="std" valign="top" align="center" width="1">
+		<img border="0" src="{USR_IMAGE}" title="{USR_ALT}" alt="{USR_ALT}" style="margin: 2px 0px;" />
 	</td>
+	<!-- END usr_image -->
 	<td class="std" valign="top">
-		<div class="small">
-		<span style="font-style:{FONT_STYLE}" id="username">{USR_FULLNAME} {TXT_STATUS_NOT_ACTIVE}
-		<br />{USR_LOGIN}</span>
-		</div>
-		<!--  BEGIN chat_info -->
-		<div class="il_Description_no_margin">
-		{CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="_blank">{CHAT_TITLE}</a>
-		</div>
-		<!--  END chat_info -->
-	</td>
-	<td class="std" valign="top" nowrap="1" style="text-align:right;">
-		<div class="il_ContainerItemCommand">
+		<div style="float:right;" class="il_ContainerItemCommand">
 		<!-- BEGIN profile_link -->
 		<a class="il_ContainerItemCommand" href="{LINK_PROFILE}">{TXT_VIEW}</a>
 		<!-- END profile_link -->
@@ -27,7 +16,16 @@
 		<a class="il_ContainerItemCommand" href="{CHAT_LINK}" target="_blank">{TXT_CHAT_INVITE}</a>
 		<!-- END chat_link -->
 		</div>
-
+	
+		<div class="small">
+		<span style="font-style:{FONT_STYLE}" id="username">{USR_FULLNAME} {TXT_STATUS_NOT_ACTIVE}
+		{USR_LOGIN}</span>
+		</div>
+		<!--  BEGIN chat_info -->
+		<div class="il_Description_no_margin">
+		{CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="_blank">{CHAT_TITLE}</a>
+		</div>
+		<!--  END chat_info -->
 		<!-- BEGIN instant_messengers -->
 		<a href="{URL_IM}" target="_blank">
 		<img src="{IMG_IM_ICON}" alt="{TXT_IM_ICON}" title="{TXT_IM_ICON}" border="0"/>
