@@ -226,4 +226,13 @@ CREATE table `il_news_item`
 	`visibility` enum('users','public') default 'users',
 	`content_long` text
 );
+<#882>
+CREATE TABLE `il_block_setting` (
+  `type` varchar(20) NOT NULL default '',
+  `user` int  NOT NULL default '0',
+  `block_id` int  NOT NULL default '0',
+  `setting` varchar(40) NOT NULL default '',
+  `value` varchar(200)   NOT NULL default '',
+  PRIMARY KEY  (`type`,`user`,`block_id`,`setting`)
+) TYPE=MyISAM;
 

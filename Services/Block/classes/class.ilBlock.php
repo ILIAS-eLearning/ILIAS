@@ -33,47 +33,22 @@ class ilBlock
 
 	private $id;
 	private $type;
-	private $title;
+	private $user;
+	private $setting;
 
 	/**
 	* Constructor.
 	*
 	* @param	int	$a_id	
 	*/
-	public function __construct($a_id = 0)
+	public function __construct()
 	{
-		if ($a_id > 0)
-		{
-			$this->setId($a_id);
-			$this->read();
-		}
-
-	}
-
-	/**
-	* Set Id.
-	*
-	* @param	int	$a_id	
-	*/
-	public function setId($a_id)
-	{
-		$this->id = $a_id;
-	}
-
-	/**
-	* Get Id.
-	*
-	* @return	int	
-	*/
-	public function getId()
-	{
-		return $this->id;
 	}
 
 	/**
 	* Set Type.
 	*
-	* @param	string	$a_type	Type of block.
+	* @param	string	$a_type	
 	*/
 	public function setType($a_type)
 	{
@@ -83,7 +58,7 @@ class ilBlock
 	/**
 	* Get Type.
 	*
-	* @return	string	Type of block.
+	* @return	string	
 	*/
 	public function getType()
 	{
@@ -91,23 +66,43 @@ class ilBlock
 	}
 
 	/**
-	* Set Title.
+	* Set User.
 	*
-	* @param	string	$a_title	Title of the block.
+	* @param	int	$a_user	
 	*/
-	public function setTitle($a_title)
+	public function setUser($a_user)
 	{
-		$this->title = $a_title;
+		$this->user = $a_user;
 	}
 
 	/**
-	* Get Title.
+	* Get User.
 	*
-	* @return	string	Title of the block.
+	* @return	int	
 	*/
-	public function getTitle()
+	public function getUser()
 	{
-		return $this->title;
+		return $this->user;
+	}
+
+	/**
+	* Set Setting.
+	*
+	* @param	string	$a_setting	
+	*/
+	public function setSetting($a_setting)
+	{
+		$this->setting = $a_setting;
+	}
+
+	/**
+	* Get Setting.
+	*
+	* @return	string	
+	*/
+	public function getSetting()
+	{
+		return $this->setting;
 	}
 
 	/**
@@ -117,13 +112,17 @@ class ilBlock
 	public function create()
 	{
 		global $ilDB;
-
-		$query = "INSERT INTO il_block". 
-			"(type,".
-			"title) VALUES (".
-			$ilDB->quote($this->getType()).",".
-			$ilDB->quote($this->getTitle()).")";
+		
+		$query = "INSERT INTO il_block (".
+			" type".
+			", user".
+			", setting".
+			" ) VALUES (".
+			$ilDB->quote($this->getType())
+			.",".$ilDB->quote($this->getUser())
+			.",".$ilDB->quote($this->getSetting()).")";
 		$ilDB->query($query);
+
 	}
 
 	/**
@@ -140,7 +139,8 @@ class ilBlock
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setType($rec["type"]);
-		$this->setTitle($rec["title"]);
+		$this->setUser($rec["user"]);
+		$this->setSetting($rec["setting"]);
 
 	}
 
@@ -153,8 +153,9 @@ class ilBlock
 		global $ilDB;
 		
 		$query = "UPDATE il_block SET ".
-			" type = ".$ilDB->quote($this->getType().
-			", title = ".$ilDB->quote($this->getTitle().
+			" type = ".$ilDB->quote($this->getType()).
+			", user = ".$ilDB->quote($this->getUser()).
+			", setting = ".$ilDB->quote($this->getSetting()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		
 		$ilDB->query($query);

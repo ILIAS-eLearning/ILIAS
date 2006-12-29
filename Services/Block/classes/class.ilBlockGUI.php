@@ -30,8 +30,11 @@
 */
 class ilBlockGUI
 {
-	var $ctrl;
-	var $data = array();
+	protected $data = array();
+	protected $colspan = 1;
+	protected $enablenuminfo = true;
+	protected $detail_min = 0;
+	protected $detail_max = 0;
 
 	/**
 	* Constructor
@@ -106,6 +109,56 @@ class ilBlockGUI
 	function getData()
 	{
 		return $this->data;
+	}
+
+	/**
+	* Set Block Identification. This is used, to read settings of the block
+	* user_id = 0 means a user independent setting. Block ID = 0 means it
+	* is a standard block (e.g. type "bm" for the bookmark block on the personal
+	* desktop)
+	*
+	* @param	string		$a_type			Block type
+	* @param	int			$a_user			User ID
+	* @param	int			$a_block_id		Block ID
+	*/
+	function setBlockIdentification($a_type, $a_user = 0, $a_block_id = 0)
+	{
+		$this->block_type = $a_type;
+		$this->block_user = $a_user;
+		$this->block_id = $a_block_id;
+	}
+
+	/**
+	* Set Available Detail Levels
+	*
+	* @param	int		$a_max	Max Level
+	* @param	int		$a_min	Min Level (Default 0)
+	*/
+	function setAvailableDetailLevels($a_max, $a_min = 0)
+	{
+		$this->detail_min = $a_min;
+		$this->detail_max = $a_max;
+		$this->handleDetailLevel();
+	}
+
+	/**
+	* Set Current Detail Level.
+	*
+	* @param	int	$a_currentdetaillevel	Current Detail Level
+	*/
+	function setCurrentDetailLevel($a_currentdetaillevel)
+	{
+		$this->currentdetaillevel = $a_currentdetaillevel;
+	}
+
+	/**
+	* Get Current Detail Level.
+	*
+	* @return	int	Current Detail Level
+	*/
+	function getCurrentDetailLevel()
+	{
+		return $this->currentdetaillevel;
 	}
 
 	/**
@@ -209,6 +262,46 @@ class ilBlockGUI
 	}
 
 	/**
+	* Set Columns Span.
+	*
+	* @param	int	$a_colspan	Columns Span
+	*/
+	function setColSpan($a_colspan)
+	{
+		$this->colspan = $a_colspan;
+	}
+
+	/**
+	* Get Columns Span.
+	*
+	* @return	int	Columns Span
+	*/
+	function getColSpan()
+	{
+		return $this->colspan;
+	}
+
+	/**
+	* Set Enable Item Number Info.
+	*
+	* @param	boolean	$a_enablenuminfo	Enable Item Number Info
+	*/
+	function setEnableNumInfo($a_enablenuminfo)
+	{
+		$this->enablenuminfo = $a_enablenuminfo;
+	}
+
+	/**
+	* Get Enable Item Number Info.
+	*
+	* @return	boolean	Enable Item Number Info
+	*/
+	function getEnableNumInfo()
+	{
+		return $this->enablenuminfo;
+	}
+
+	/**
 	* Set Row Template Name.
 	*
 	* @param	string	$a_rowtemplatename	Row Template Name
@@ -222,6 +315,11 @@ class ilBlockGUI
 	final public function getNavParameter()
 	{
 		return $this->prefix."_block_nav";
+	}
+
+	final public function getDetailParameter()
+	{
+		return $this->prefix."_block_detail";
 	}
 
 	/**
@@ -268,12 +366,90 @@ class ilBlockGUI
 	}
 
 	/**
+	* Handle read/write current detail level.
+	*/
+	function handleDetailLevel()
+	{
+		// set/get detail level
+		if ($this->detail_max > $this->detail_min)
+		{
+			include_once("Services/Block/classes/class.ilBlockSetting.php");
+			if (isset($_GET[$this->getDetailParameter()]))
+			{
+				ilBlockSetting::_writeDetailLevel($this->block_type, $_GET[$this->getDetailParameter()],
+					$this->block_user, $this->block_id);
+				$this->setCurrentDetailLevel($_GET[$this->getDetailParameter()]);
+			}
+			else
+			{
+				$this->setCurrentDetailLevel(ilBlockSetting::_lookupDetailLevel($this->block_type,
+					$this->block_user, $this->block_id));
+			}
+		}
+	}
+
+	/**
 	* Get HTML.
 	*/
 	function getHTML()
 	{
 		$this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
+				
+		$this->fillDataSection();
 		
+		// commands
+		if (count($this->getBlockCommands()) > 0)
+		{
+			foreach($this->getBlockCommands() as $command)
+			{
+				$this->tpl->setCurrentBlock("block_command");
+				$this->tpl->setVariable("CMD_HREF", $command["href"]);
+				$this->tpl->setVariable("CMD_TEXT", $command["text"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("block_commands");
+			$this->tpl->setVariable("CCOLSPAN", $this->getColSpan());
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// image
+		if ($this->getImage() != "")
+		{
+			$this->tpl->setCurrentBlock("block_img");
+			$this->tpl->setVariable("IMG_BLOCK", $this->getImage());
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// fill footer row
+		$this->fillFooter();
+		
+		// fill row for setting details
+		$this->fillDetailRow();
+		
+		// title
+		$this->tpl->setVariable("BLOCK_TITLE",
+			$this->getTitle());
+		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
+			
+		return $this->tpl->get();
+	}
+	
+	/**
+	* Call this from overwritten fillDataSection(), if standard row based data is not used.
+	*/
+	function setDataSection($a_content)
+	{
+		$this->tpl->setCurrentBlock("data_section");
+		$this->tpl->setVariable("DATA", $a_content);
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Standard implementation for row based data.
+	* Overwrite this and call setContent for other data.
+	*/
+	function fillDataSection()
+	{
 		$this->nav_value = ($_POST[$this->getNavParameter()] != "")
 			? $_POST[$this->getNavParameter()]
 			: $_GET[$this->getNavParameter()];
@@ -296,38 +472,7 @@ class ilBlockGUI
 			$this->tpl->setCurrentBlock("block_row");
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		// commands
-		if (count($this->getBlockCommands()) > 0)
-		{
-			foreach($this->getBlockCommands() as $command)
-			{
-				$this->tpl->setCurrentBlock("block_command");
-				$this->tpl->setVariable("CMD_HREF", $command["href"]);
-				$this->tpl->setVariable("CMD_TEXT", $command["text"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("block_commands");
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// image
-		if ($this->getImage() != "")
-		{
-			$this->tpl->setCurrentBlock("block_img");
-			$this->tpl->setVariable("IMG_BLOCK", $this->getImage());
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// fill footer row
-		$this->fillFooter();
-		
-		// title
-		$this->tpl->setVariable("BLOCK_TITLE",
-			$this->getTitle());
-		return $this->tpl->get();
 	}
-	
 	
 	function fillRow($a_set)
 	{
@@ -355,33 +500,36 @@ class ilBlockGUI
 		$footer = false;
 				
 		// table footer numinfo
-		$start = $this->getOffset() + 1;				// compute num info
-		$end = $this->getOffset() + $this->getLimit();
-			
-		if ($end > $this->max_count or $this->getLimit() == 0)
+		if ($this->getEnableNumInfo())
 		{
-			$end = $this->max_count;
+			$start = $this->getOffset() + 1;				// compute num info
+			$end = $this->getOffset() + $this->getLimit();
+				
+			if ($end > $this->max_count or $this->getLimit() == 0)
+			{
+				$end = $this->max_count;
+			}
+				
+			$numinfo = "(".$start."-".$end." ".strtolower($lng->txt("of"))." ".$this->max_count.")";
+	
+			if ($this->max_count > 0)
+			{
+				$this->tpl->setVariable("NUMINFO", $numinfo);
+			}
+			$footer = true;
 		}
-			
-		$numinfo = "(".$start."-".$end." ".strtolower($lng->txt("of"))." ".$this->max_count.")";
-
-		if ($this->max_count > 0)
-		{
-			$this->tpl->setVariable("NUMINFO", $numinfo);
-		}
-		$footer = true;
 
 		// table footer linkbar
 		if ($this->getLimit()  != 0
 			 && $this->max_count > 0)
 		{
-			$linkbar = $this->getLinkbar();
-			$this->tpl->setVariable("LINKBAR", $linkbar);
+			$this->fillLinkbar();
 			$footer = true;
 		}
 
 		if ($footer)
 		{
+			$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
 			$this->tpl->setCurrentBlock("block_footer");
 			$this->tpl->parseCurrentBlock();
 		}
@@ -394,7 +542,7 @@ class ilBlockGUI
 	*
 	* @return	array	linkbar or false on error
 	*/
-	function getLinkbar()
+	function fillLinkbar()
 	{
 		global $ilCtrl, $lng;
 		
@@ -402,18 +550,22 @@ class ilBlockGUI
 			"&".$this->getNavParameter()."=".
 			"::";
 		
-		$LinkBar = "";
-		$layout_prev = $lng->txt("previous");
 		$layout_next = $lng->txt("next");
 		
 		// if more entries then entries per page -> show link bar
 		if ($this->max_count > $this->getLimit())
 		{
+			$prev = false;
 			// previous link
 			if ($this->getOffset() >= 1)
 			{
 				$prevoffset = $this->getOffset() - $this->getLimit();
-				$LinkBar .= "<a class=\"small\" href=\"".$link.$prevoffset."\">".$layout_prev."</a>";
+				$this->tpl->setCurrentBlock("foot_link");
+				$this->tpl->setVariable("FHREF", $link.$prevoffset);
+				$this->tpl->setVariable("FLINK", $lng->txt("previous"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->touchBlock("foot_item");
+				$prev = true;
 			}
 
 			// calculate number of pages
@@ -426,13 +578,20 @@ class ilBlockGUI
 			// show next link (if not last page)
 			if (! ( ($this->getOffset() / $this->getLimit())==($pages-1) ) && ($pages!=1) )
 			{
-				if ($LinkBar != "")
-					$LinkBar .= "<span class=\"small\" > | </span>"; 
+				if ($prev)
+				{
+					$this->tpl->touchBlock("foot_delim");
+					$this->tpl->touchBlock("foot_item");
+				}
 				$newoffset = $this->getOffset() + $this->getLimit();
-				$LinkBar .= "<a class=\"small\" href=\"".$link.$newoffset."\">".$layout_next."</a>";
+
+				$this->tpl->setCurrentBlock("foot_link");
+				$this->tpl->setVariable("FHREF", $link.$newoffset);
+				$this->tpl->setVariable("FLINK", $lng->txt("next"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->touchBlock("foot_item");
 			}
-	
-			return $LinkBar;
+			return true;
 		}
 		else
 		{
@@ -440,4 +599,47 @@ class ilBlockGUI
 		}
 	}
 
+	/**
+	* Fill Detail Setting Row.
+	*/
+	function fillDetailRow()
+	{
+		global $ilCtrl, $lng;
+		
+		if ($this->detail_max > $this->detail_min)
+		{
+			for ($i = $this->detail_min; $i <= $this->detail_max; $i++)
+			{
+				if ($i > $this->detail_min)
+				{
+					$this->tpl->touchBlock("det_delim");
+					$this->tpl->touchBlock("det_item");
+				}
+				if ($i != $this->getCurrentDetailLevel())
+				{
+					$this->tpl->setCurrentBlock("det_link");
+					$this->tpl->setVariable("DLINK", $i);
+					$ilCtrl->setParameterByClass($this->getParentClass(),
+						$this->getDetailParameter(), $i);
+					$this->tpl->setVariable("DHREF",
+						$ilCtrl->getLinkTargetByClass($this->getParentClass(),
+						$this->getParentCmd()));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->touchBlock("det_item");
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("det_text");
+					$this->tpl->setVariable("DTEXT", $i);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->touchBlock("det_item");
+				}
+			}
+			$this->tpl->setCurrentBlock("detail_setting");
+			$this->tpl->setVariable("TXT_DETAILS", $lng->txt("details"));
+			$this->tpl->setVariable("DCOLSPAN", $this->getColSpan());
+			$this->tpl->parseCurrentBlock();
+		}
+		$ilCtrl->clearParametersByClass($this->getParentClass());
+	}
 }
