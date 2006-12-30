@@ -251,7 +251,11 @@ class ilPersonalDesktopGUI
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 		
 		// output
-		$this->displaySelectedItems();
+		$this->pd_tpl->setCurrentBlock("selected_items");
+		$this->pd_tpl->setVariable("SELECTED_ITEMS",
+			$this->displaySelectedItems());
+		$this->pd_tpl->parseCurrentBlock();
+
 		$this->tpl->setContent($this->pd_tpl->get());
 		$this->tpl->setRightContent($this->getRightColumnHTML());
 		$this->tpl->setLeftContent($this->getLeftColumnHTML());
@@ -480,11 +484,13 @@ class ilPersonalDesktopGUI
 		
 		if ($html != "")
 		{
-			$this->pd_tpl->setCurrentBlock("selected_items");
-			$this->pd_tpl->setVariable("SELECTED_ITEMS", $html);
-			$this->pd_tpl->parseCurrentBlock();
+			include_once("./Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php");
+			$pd_block = new ilPDSelectedItemsBlockGUI("ilpersonaldesktopgui", "show");
+			$pd_block->setContent($html);
+			$this->ctrl->clearParameters($this);
+			
+			return $pd_block->getHTML();
 		}
-		$this->ctrl->clearParameters($this);
 	}
 	
 	
@@ -508,7 +514,7 @@ class ilPersonalDesktopGUI
 			break;
 		}
 		
-		
+		/*
 		if ($ok)
 		{
 			$tpl->setCurrentBlock("pd_header_row");
@@ -545,7 +551,7 @@ class ilPersonalDesktopGUI
 			
 			$tpl->setCurrentBlock("block_footer");
 			$tpl->parseCurrentBlock();
-		}
+		}*/
 		
 		return $tpl->get();
 	}
@@ -1069,6 +1075,58 @@ class ilPersonalDesktopGUI
 		include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
 		$feedback_gui = new ilFeedbackGUI();
 		return $feedback_gui->getPDFeedbackListHTML();
+	}
+	
+	
+	/**
+	* Update Block (asynchronous)
+	*/
+	function updateBlock()
+	{
+		switch($_GET["block_id"])
+		{
+			// bookmarks
+			case "block_pdbookm_0":
+				echo $this->displayBookmarks();
+				break;
+				
+			// users
+			case "block_pdusers_0":
+				echo $this->displayUsersOnline();
+				break;
+
+			// notes
+			case "block_pdnote_0":
+				echo $this->displayNotes();
+				break;
+			
+			// mails
+			case "block_pdmail_0":
+				echo $this->displayMails();
+				break;
+				
+			// system messages
+			case "block_pdsysmess_0":
+				echo $this->displaySystemMessages();
+				break;
+				
+			// personal desktop items
+			case "block_pditems_0":
+				echo $this->displaySelectedItems();
+				break;
+
+			// personal desktop items
+			case "block_pdfeedb_0":
+				echo $this->displayFeedback();
+				break;
+				
+			default:
+				echo "Error: ilPersonalDesktopGUI::updateBlock: Block '".
+					$_GET["block_id"]."' unknown.";
+				break;
+		}
+		
+		exit;
 	}
 	
 	/**

@@ -135,7 +135,10 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		{
 			$this->setRowTemplate("tpl.users_online_row.html", "Services/PersonalDesktop");
 			$this->getListRowData();
-			$this->setColSpan(3);
+			if ($this->getCurrentDetailLevel() > 2)
+			{
+				$this->setColSpan(2);
+			}
 			parent::fillDataSection();
 		}
 		else

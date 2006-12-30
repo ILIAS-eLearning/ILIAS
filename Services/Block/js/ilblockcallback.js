@@ -1,4 +1,3 @@
-<?php
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -21,80 +20,60 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Mail/classes/class.ilPDMailBlockGUI.php");
-
-/**
-* BlockGUI class for System Messages block on personal desktop
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*/
-class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
+// Success Handler
+var ilBlockSuccessHandler = function(o)
 {
-	
-	/**
-	* Constructor
-	*/
-	function ilPDSysMessageBlockGUI($a_parent_class, $a_parent_cmd = "")
+	// parse headers function
+	function parseHeaders()
 	{
-		global $ilCtrl, $lng, $ilUser;
-		parent::ilPDMailBlockGUI($a_parent_class, $a_parent_cmd);
-		$this->setImage(ilUtil::getImagePath("icon_sysmess_s.gif"));
-		$this->setTitle($lng->txt("system_message"));
-		$this->setBlockIdentification("pdsysmess", $ilUser->getId());
-		$this->setPrefix("pdsysmess");
-		$this->setAvailableDetailLevels(3, 1);
-	}
-	
-	function getHTML()
-	{
-		if ($this->getCurrentDetailLevel() < 1)
+		var allHeaders = headerStr.split("\n");
+		var headers;
+		for(var i=0; i < headers.length; i++)
 		{
-			$this->setCurrentDetailLevel(1);
+			var delimitPos = header[i].indexOf(':');
+			if(delimitPos != -1)
+			{
+				headers[i] = "<p>" +
+				headers[i].substring(0,delimitPos) + ":"+
+				headers[i].substring(delimitPos+1) + "</p>";
+			}
+		return headers;
 		}
+	}
 
-		$html = parent::getHTML();
+	// perform block modification
+	if(o.responseText !== undefined)
+	{
+		//alert(o.argument.block_id);
+		var block_div = document.getElementById(o.argument.block_id);
+		block_div.innerHTML = o.responseText;
 		
-		if (count($this->mails) == 0)
-		{
-			return "";
-		}
-		else
-		{
-			return $html;
-		}
+		//div.innerHTML = "Transaction id: " + o.tId;
+		//div.innerHTML += "HTTP status: " + o.status;
+		//div.innerHTML += "Status code message: " + o.statusText;
+		//div.innerHTML += "HTTP headers: " + parseHeaders();
+		//div.innerHTML += "Server response: " + o.responseText;
+		//div.innerHTML += "Argument object: property foo = " + o.argument.foo +
+		//				 "and property bar = " + o.argument.bar;
 	}
-	
-	/**
-	* Get Mails
-	*/
-	function getMails()
-	{
-		global $ilUser;
-
-		$umail = new ilMail($_SESSION["AccountId"]);
-		$mail_data = $umail->getMailsOfFolder(0);
-
-		$this->mails = array();
-		foreach ($mail_data as $mail)
-		{
-			$mbox = new ilMailBox($_SESSION["AccountId"]);
-			$inbox = $mbox->getInboxFolder();
-
-			$this->mails[] = $mail;
-		}
-	}
-
-	/**
-	* Get overview.
-	*/
-	function getOverview()
-	{
-		global $ilUser, $lng, $ilCtrl;
-				
-		return '<div class="small">'.((int) count($this->mails))." ".$lng->txt("system_message")."</div>";
-	}
-
 }
 
-?>
+// Success Handler
+var ilBlockFailureHandler = function(o)
+{
+	alert('FailureHandler');
+}
+
+function ilBlockJSHandler(block_id, sUrl)
+{
+	var ilBlockCallback =
+	{
+		success: ilBlockSuccessHandler,
+		failure: ilBlockFailureHandler,
+		argument: { block_id: block_id}
+	};
+
+	var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, ilBlockCallback);
+	
+	return false;
+}

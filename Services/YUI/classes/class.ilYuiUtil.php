@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,80 +21,25 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Mail/classes/class.ilPDMailBlockGUI.php");
 
 /**
-* BlockGUI class for System Messages block on personal desktop
+* Yahoo YUI Library Utility functions
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */
-class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
+class ilYuiUtil
 {
-	
 	/**
-	* Constructor
+	* Init YUI Connection module
 	*/
-	function ilPDSysMessageBlockGUI($a_parent_class, $a_parent_cmd = "")
+	static function initConnection()
 	{
-		global $ilCtrl, $lng, $ilUser;
-		parent::ilPDMailBlockGUI($a_parent_class, $a_parent_cmd);
-		$this->setImage(ilUtil::getImagePath("icon_sysmess_s.gif"));
-		$this->setTitle($lng->txt("system_message"));
-		$this->setBlockIdentification("pdsysmess", $ilUser->getId());
-		$this->setPrefix("pdsysmess");
-		$this->setAvailableDetailLevels(3, 1);
-	}
-	
-	function getHTML()
-	{
-		if ($this->getCurrentDetailLevel() < 1)
-		{
-			$this->setCurrentDetailLevel(1);
-		}
-
-		$html = parent::getHTML();
+		global $tpl;
 		
-		if (count($this->mails) == 0)
-		{
-			return "";
-		}
-		else
-		{
-			return $html;
-		}
+		$tpl->addJavaScript("./Services/YUI/js/0_12_1/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/0_12_1/connection/connection-min.js");
 	}
 	
-	/**
-	* Get Mails
-	*/
-	function getMails()
-	{
-		global $ilUser;
-
-		$umail = new ilMail($_SESSION["AccountId"]);
-		$mail_data = $umail->getMailsOfFolder(0);
-
-		$this->mails = array();
-		foreach ($mail_data as $mail)
-		{
-			$mbox = new ilMailBox($_SESSION["AccountId"]);
-			$inbox = $mbox->getInboxFolder();
-
-			$this->mails[] = $mail;
-		}
-	}
-
-	/**
-	* Get overview.
-	*/
-	function getOverview()
-	{
-		global $ilUser, $lng, $ilCtrl;
-				
-		return '<div class="small">'.((int) count($this->mails))." ".$lng->txt("system_message")."</div>";
-	}
-
-}
-
+} // END class.ilUtil
 ?>

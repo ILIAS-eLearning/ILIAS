@@ -919,6 +919,18 @@ class ilCtrl
 //echo "<br>script:$script:";
 		ilUtil::redirect($script);
 	}
+	
+	function isAsynch()
+	{
+		if ($_GET["cmdMode"] == "asynch")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 
 	/**
@@ -929,10 +941,10 @@ class ilCtrl
 	*
 	* @return	string		target link
 	*/
-	function getLinkTarget(&$a_gui_obj, $a_cmd = "", $a_anchor = "")
+	function getLinkTarget(&$a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false)
 	{
 //echo "<br>getLinkTarget";
-		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd, $a_anchor);
+		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd, $a_anchor, $a_asynch);
 		return $script;
 	}
 
@@ -946,7 +958,7 @@ class ilCtrl
 	*
 	* @return	string		target link
 	*/
-	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_anchor = "")
+	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_anchor = "", $a_asynch = false)
 	{
 		// note: $a_class may be an array
 		//$a_class = strtolower($a_class);
@@ -955,6 +967,11 @@ class ilCtrl
 		$script = $this->getTargetScript();
 		$script = $this->getUrlParameters($a_class, $script, $a_cmd);
 
+		if ($a_asynch)
+		{
+			$script.= "&cmdMode=asynch";
+		}
+		
 		if ($a_anchor != "")
 		{
 			$script = $script."#".$a_anchor;

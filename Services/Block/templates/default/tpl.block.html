@@ -1,8 +1,8 @@
 <table class="il_Block">
-<tr><th class="il_BlockHeader" colspan="{COLSPAN}">
-<!-- BEGIN block_img --><img border="0" src="{IMG_BLOCK}" /><!-- END block_img -->
+<tr><th class="il_BlockHeader" colspan="{COLSPAN}"><!-- BEGIN block_img --><img border="0" src="{IMG_BLOCK}" /><!-- END block_img -->
 {BLOCK_TITLE}
-</th></tr>
+</th>
+</tr>
 <!-- BEGIN detail_setting -->
 <tr class="tblfooter">
 	<td class="tblfooter" colspan="{DCOLSPAN}">
@@ -10,7 +10,7 @@
 	<!-- BEGIN det_item -->
 	<!-- BEGIN det_delim --> | <!-- END det_delim -->
 	<!-- BEGIN det_text -->{DTEXT}<!-- END det_text -->
-	<!-- BEGIN det_link --><a href="{DHREF}">{DLINK}</a><!-- END det_link -->
+	<!-- BEGIN det_link --><a href="{DHREF}" <!-- BEGIN onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END onclick -->>{DLINK}</a><!-- END det_link -->
 	<!-- END det_item -->
 	</div>
 	<span class="small">{NUMINFO}</span>
