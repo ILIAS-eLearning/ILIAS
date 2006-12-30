@@ -1155,6 +1155,16 @@ class ilObjectListGUI
 		$this->insertCommands();
 		$ilBench->stop("ilObjectListGUI", "4000_insert_commands");
 
+		// payment
+		$ilBench->start("ilObjectListGUI", "5000_insert_pay");
+		$this->insertPayment();
+		$ilBench->stop("ilObjectListGUI", "5000_insert_pay");
+		
+		if ($this->getCommandsStatus() || $this->payment_enabled)
+		{
+			$this->tpl->touchBlock("command_block");
+		}
+
 		// insert title and describtion
 		$ilBench->start("ilObjectListGUI", "3000_insert_title_desc");
 		$this->insertTitle();
@@ -1166,11 +1176,6 @@ class ilObjectListGUI
 			}
 		}
 		$ilBench->stop("ilObjectListGUI", "3000_insert_title_desc");
-
-		// payment
-		$ilBench->start("ilObjectListGUI", "5000_insert_pay");
-		$this->insertPayment();
-		$ilBench->stop("ilObjectListGUI", "5000_insert_pay");
 
 		// properties
 		$ilBench->start("ilObjectListGUI", "6000_insert_properties$type");

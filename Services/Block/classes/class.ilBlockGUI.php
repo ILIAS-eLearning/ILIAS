@@ -43,8 +43,12 @@ class ilBlockGUI
 	*/
 	function ilBlockGUI($a_parent_class, $a_parent_cmd = "")
 	{
-		global $ilUser;
+		global $ilUser, $tpl;
 
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initConnection();
+		$tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
+		
 		$this->setParentClass($a_parent_class);
 		$this->setParentCmd($a_parent_cmd);
 
@@ -393,6 +397,8 @@ class ilBlockGUI
 	*/
 	function getHTML()
 	{
+		global $ilCtrl;
+		
 		$this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
 				
 		$this->fillDataSection();
@@ -430,8 +436,18 @@ class ilBlockGUI
 		$this->tpl->setVariable("BLOCK_TITLE",
 			$this->getTitle());
 		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
-			
-		return $this->tpl->get();
+
+		if ($ilCtrl->isAsynch())
+		{
+			// return without div wrapper
+			echo $this->tpl->get();
+		}
+		else
+		{
+			// return incl. wrapping div with id
+			return '<div id="'."block_".$this->block_type."_".$this->block_id.'">'.
+				$this->tpl->get().'</div>';
+		}
 	}
 	
 	/**
@@ -617,10 +633,28 @@ class ilBlockGUI
 				}
 				if ($i != $this->getCurrentDetailLevel())
 				{
-					$this->tpl->setCurrentBlock("det_link");
-					$this->tpl->setVariable("DLINK", $i);
 					$ilCtrl->setParameterByClass($this->getParentClass(),
 						$this->getDetailParameter(), $i);
+
+					// ajax link
+					if ($i > 0)
+					{
+						$ilCtrl->setParameterByClass($this->getParentClass(),
+							"block_id", "block_".$this->block_type."_".$this->block_id);
+						$this->tpl->setCurrentBlock("onclick");
+						$this->tpl->setVariable("OC_BLOCK_ID",
+							"block_".$this->block_type."_".$this->block_id);
+						$this->tpl->setVariable("OC_HREF",
+							$ilCtrl->getLinkTargetByClass($this->getParentClass(),
+							"updateBlock", "", true));
+						$this->tpl->parseCurrentBlock();
+						$ilCtrl->setParameterByClass($this->getParentClass(),
+							"block_id", "");
+					}
+					
+					// normal link
+					$this->tpl->setCurrentBlock("det_link");
+					$this->tpl->setVariable("DLINK", $i);
 					$this->tpl->setVariable("DHREF",
 						$ilCtrl->getLinkTargetByClass($this->getParentClass(),
 						$this->getParentCmd()));
