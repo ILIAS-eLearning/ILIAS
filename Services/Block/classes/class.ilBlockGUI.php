@@ -35,6 +35,8 @@ class ilBlockGUI
 	protected $enablenuminfo = true;
 	protected $detail_min = 0;
 	protected $detail_max = 0;
+	protected $bigmode = false;
+	protected $footer_links = array();
 
 	/**
 	* Constructor
@@ -113,6 +115,26 @@ class ilBlockGUI
 	function getData()
 	{
 		return $this->data;
+	}
+
+	/**
+	* Set Big Mode.
+	*
+	* @param	boolean	$a_bigmode	Big Mode
+	*/
+	function setBigMode($a_bigmode)
+	{
+		$this->bigmode = $a_bigmode;
+	}
+
+	/**
+	* Get Big Mode.
+	*
+	* @return	boolean	Big Mode
+	*/
+	function getBigMode()
+	{
+		return $this->bigmode;
 	}
 
 	/**
@@ -368,7 +390,50 @@ class ilBlockGUI
 	{
 		return $this->block_commands;
 	}
+	
+	/**
+	* Add Header Block Command.
+	*
+	* @param	string	$a_href		command link target
+	* @param	string	$a_text		text
+	*/
+	function addHeaderCommand($a_href, $a_text)
+	{
+		return $this->header_commands[] = 
+			array("href" => $a_href,
+				"text" => $a_text);
+	}
 
+	/**
+	* Get Header Block commands.
+	*
+	* @return	array	header block commands
+	*/
+	function getHeaderCommands()
+	{
+		return $this->header_commands;
+	}
+	
+	/**
+	* Add a footer text/link
+	*/
+	function addFooterLink($a_text, $a_href = "", $a_onclick = "", $a_block_id = "")
+	{
+		$this->footer_links[] = array(
+			"text" => $a_text,
+			"href" => $a_href,
+			"onclick" => $a_onclick,
+			"block_id" => $a_block_id);
+	}
+
+	/**
+	* Get footer links.
+	*/
+	function getFooterLinks()
+	{
+		return $this->footer_links;
+	}
+	
 	/**
 	* Handle read/write current detail level.
 	*/
@@ -432,10 +497,32 @@ class ilBlockGUI
 		// fill row for setting details
 		$this->fillDetailRow();
 		
+		// header commands
+		if (count($this->getHeaderCommands()) > 0)
+		{
+			foreach($this->getHeaderCommands() as $command)
+			{
+				$this->tpl->setCurrentBlock("header_command");
+				$this->tpl->setVariable("HREF_HCOMM", $command["href"]);
+				$this->tpl->setVariable("TXT_HCOMM", $command["text"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("header_commands");
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		// title
 		$this->tpl->setVariable("BLOCK_TITLE",
 			$this->getTitle());
 		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
+		if ($this->getBigMode())
+		{
+			$this->tpl->touchBlock("hclassb");
+		}
+		else
+		{
+			$this->tpl->touchBlock("hclass");
+		}
 
 		if ($ilCtrl->isAsynch())
 		{
@@ -469,6 +556,12 @@ class ilBlockGUI
 		$this->nav_value = ($_POST[$this->getNavParameter()] != "")
 			? $_POST[$this->getNavParameter()]
 			: $_GET[$this->getNavParameter()];
+		$this->nav_value = ($this->nav_value == "")
+			? $_SESSION[$this->getNavParameter()]
+			: $this->nav_value;
+			
+		$_SESSION[$this->getNavParameter()] = $this->nav_value;
+			
 		$nav = explode(":", $this->nav_value);
 		$this->setOffset($nav[2]);
 		
@@ -539,7 +632,8 @@ class ilBlockGUI
 		if ($this->getLimit()  != 0
 			 && $this->max_count > 0)
 		{
-			$this->fillLinkbar();
+			$this->setFooterLinks();
+			$this->fillFooterLinks();
 			$footer = true;
 		}
 
@@ -558,30 +652,35 @@ class ilBlockGUI
 	*
 	* @return	array	linkbar or false on error
 	*/
-	function fillLinkbar()
+	function setFooterLinks()
 	{
 		global $ilCtrl, $lng;
-		
-		$link = $ilCtrl->getLinkTargetByClass($this->getParentClass(), $this->getParentCmd()).
-			"&".$this->getNavParameter()."=".
-			"::";
-		
-		$layout_next = $lng->txt("next");
 		
 		// if more entries then entries per page -> show link bar
 		if ($this->max_count > $this->getLimit())
 		{
-			$prev = false;
 			// previous link
 			if ($this->getOffset() >= 1)
 			{
 				$prevoffset = $this->getOffset() - $this->getLimit();
-				$this->tpl->setCurrentBlock("foot_link");
-				$this->tpl->setVariable("FHREF", $link.$prevoffset);
-				$this->tpl->setVariable("FLINK", $lng->txt("previous"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->touchBlock("foot_item");
-				$prev = true;
+				
+				$ilCtrl->setParameterByClass($this->getParentClass(),
+					$this->getNavParameter(), "::".$prevoffset);
+				
+				// ajax link
+				$ilCtrl->setParameterByClass($this->getParentClass(),
+					"block_id", "block_".$this->block_type."_".$this->block_id);
+				$block_id = "block_".$this->block_type."_".$this->block_id;
+				$onclick = $ilCtrl->getLinkTargetByClass($this->getParentClass(),
+					"updateBlock", "", true);
+				$ilCtrl->setParameterByClass($this->getParentClass(),
+					"block_id", "");
+					
+				// normal link
+				$href = $ilCtrl->getLinkTargetByClass($this->getParentClass(), $this->getParentCmd());
+				$text = $lng->txt("previous");
+				
+				$this->addFooterLink($text, $href, $onclick, $block_id);
 			}
 
 			// calculate number of pages
@@ -594,24 +693,96 @@ class ilBlockGUI
 			// show next link (if not last page)
 			if (! ( ($this->getOffset() / $this->getLimit())==($pages-1) ) && ($pages!=1) )
 			{
-				if ($prev)
-				{
-					$this->tpl->touchBlock("foot_delim");
-					$this->tpl->touchBlock("foot_item");
-				}
 				$newoffset = $this->getOffset() + $this->getLimit();
 
-				$this->tpl->setCurrentBlock("foot_link");
-				$this->tpl->setVariable("FHREF", $link.$newoffset);
-				$this->tpl->setVariable("FLINK", $lng->txt("next"));
+				$ilCtrl->setParameterByClass($this->getParentClass(),
+					$this->getNavParameter(), "::".$newoffset);
+
+				// ajax link
+				$ilCtrl->setParameterByClass($this->getParentClass(),
+					"block_id", "block_".$this->block_type."_".$this->block_id);
+				$this->tpl->setCurrentBlock("fonclick");
+				$block_id = "block_".$this->block_type."_".$this->block_id;
+				$onclick = $ilCtrl->getLinkTargetByClass($this->getParentClass(),
+					"updateBlock", "", true);
 				$this->tpl->parseCurrentBlock();
-				$this->tpl->touchBlock("foot_item");
+				$ilCtrl->setParameterByClass($this->getParentClass(),
+					"block_id", "");
+
+				// normal link
+				$href = $ilCtrl->getLinkTargetByClass($this->getParentClass(), $this->getParentCmd());
+				$text = $lng->txt("next");
+
+				$this->addFooterLink($text, $href, $onclick, $block_id);
 			}
+			$ilCtrl->clearParametersByClass($this->getParentClass());
 			return true;
 		}
 		else
 		{
 			return false;
+		}
+	}
+
+	/**
+	* Fill footer links
+	*
+	* @return	array	linkbar or false on error
+	*/
+	function fillFooterLinks()
+	{
+		global $ilCtrl, $lng;
+		
+		$first = true;
+		$flinks = $this->getFooterLinks();
+
+		foreach($flinks as $flink)
+		{
+			if (!$first)
+			{
+				$this->tpl->touchBlock("foot_delim");
+				$this->tpl->touchBlock("foot_item");
+			}
+
+			// ajax link
+			if ($flink["onclick"] != "")
+			{
+				$this->tpl->setCurrentBlock("fonclick");
+				$this->tpl->setVariable("OC_BLOCK_ID",
+					$flink["block_id"]);
+				$this->tpl->setVariable("OC_HREF",
+					$flink["onclick"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			// normal link
+			if ($flink["href"] != "")
+			{
+				// normal link
+				$this->tpl->setCurrentBlock("foot_link");
+				$this->tpl->setVariable("FHREF",
+					$flink["href"]);
+				$this->tpl->setVariable("FLINK", $flink["text"]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->touchBlock("foot_item");
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("foot_text");
+				$this->tpl->setVariable("FTEXT", $flink["text"]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->touchBlock("foot_item");
+			}
+			$first = false;
+		}
+		
+		if ($first)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 

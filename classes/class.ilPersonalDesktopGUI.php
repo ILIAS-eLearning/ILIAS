@@ -322,22 +322,11 @@ class ilPersonalDesktopGUI
 		return $tpl->get();
 	}
 
-	/**
-	* show profile of other user
-	*/
-	function showUserProfile()
+	function prepareContentView()
 	{
 		// add template for content
-		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_personaldesktop.html");
-		
-		// set locator
-		/*
-		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-		$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTarget($this));
-		$this->tpl->parseCurrentBlock();
-		*/
+		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true);
+		$this->tpl->getStandardTemplate();
 		
 		// catch feedback message
 		sendInfo();
@@ -345,16 +334,66 @@ class ilPersonalDesktopGUI
 		// display infopanel if something happened
 		infoPanel();
 		
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+			$this->lng->txt("personal_desktop"));
+		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+	}
+	
+	/**
+	* show profile of other user
+	*/
+	function showUserProfile()
+	{
+		global $lng, $ilCtrl;
+		
+		$this->prepareContentView();
 		
 		include_once("classes/class.ilObjUserGUI.php");
 		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-		$this->tpl->setVariable("ADM_CONTENT", $user_gui->getPublicProfile());
 		
+		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+		$content_block = new ilPDContentBlockGUI("ilpersonaldesktopgui", "show");
+		$content_block->setContent($user_gui->getPublicProfile("", false, true));
+		$content_block->setTitle($lng->txt("profile_of")." ".
+			$user_gui->object->getLogin());
+		$content_block->setColSpan(2);
+		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
+		$content_block->addHeaderCommand($ilCtrl->getLinkTarget($this, "show"),
+			$lng->txt("close"));
+		
+		$this->tpl->setContent($content_block->getHTML());
+		$this->tpl->setRightContent($this->getRightColumnHTML());
+		$this->tpl->setLeftContent($this->getLeftColumnHTML());
+
+		$this->tpl->show();
+	}
+
+	/**
+	* show single note
+	*/
+	function showNote()
+	{
+		global $lng, $ilCtrl;
+		
+		$this->prepareContentView();
+		
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		$note_gui = new ilNoteGUI();
+		$note_gui->enableTargets();
+		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+		$content_block = new ilPDContentBlockGUI("ilpersonaldesktopgui", "show");
+		$content_block->setContent($note_gui->getPDNoteHTML($_GET["note_id"]));
+		$content_block->setTitle($lng->txt("note"));
+		$content_block->setColSpan(2);
+		$content_block->setImage(ilUtil::getImagePath("icon_note.gif"));
+		$content_block->addHeaderCommand($ilCtrl->getLinkTarget($this, "show"),
+			$lng->txt("close"));
+		
+		$this->tpl->setContent($content_block->getHTML());
+		$this->tpl->setRightContent($this->getRightColumnHTML());
+		$this->tpl->setLeftContent($this->getLeftColumnHTML());
+
 		$this->tpl->show();
 	}
 	
@@ -380,84 +419,27 @@ class ilPersonalDesktopGUI
 			$this->ilias->raiseError($this->lng->txt($err_msg),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->show();
-	}
+	}	
 	
-	/**
-	* show details for selected items
-	*/
-	function showSelectedItemsDetails()
-	{
-		global $ilUser;
-		
-		$ilUser->writePref("pd_selected_items_details", "y");
-		$this->show();
-	}
-	
-	/**
-	* hide details for selected items
-	*/
-	function hideSelectedItemsDetails()
-	{
-		global $ilUser;
-		
-		$ilUser->writePref("pd_selected_items_details", "n");
-		$this->show();
-	}
-	
-	
-	/**
-	* show details for users online
-	*/
-	function showUsersOnlineDetails()
-	{
-		global $ilUser;
-		
-		$ilUser->writePref('show_users_online_details','y');
-		$this->show();
-	}
-	
-	/**
-	* hide details for users online
-	*/
-	function hideUsersOnlineDetails()
-	{
-		global $ilUser;
-		
-		$ilUser->writePref('show_users_online_details','n');
-		$this->show();
-	}
-	
-	/**
-	* show details for personal notes
-	*/
-	function showPDNotesDetails()
-	{
-		global $ilUser;
-		
-		$ilUser->writePref('show_pd_notes_details','y');
-		$this->show();
-	}
-	
-	/**
-	* hide details for personal notes
-	*/
-	function hidePDNotesDetails()
-	{
-		global $ilUser;
-		
-		$ilUser->writePref('show_pd_notes_details','n');
-		$this->show();
-	}
 	
 	/**
 	* order desktop items by location
 	*/
 	function orderPDItemsByLocation()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 		
 		$ilUser->writePref("pd_order_items", "location");
-		$this->show();
+		
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->displaySelectedItems();
+			exit;
+		}
+		else
+		{
+			$this->show();
+		}
 	}
 	
 	/**
@@ -465,10 +447,18 @@ class ilPersonalDesktopGUI
 	*/
 	function orderPDItemsByType()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 		
 		$ilUser->writePref("pd_order_items", "type");
-		$this->show();
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->displaySelectedItems();
+			exit;
+		}
+		else
+		{
+			$this->show();
+		}
 	}
 	
 	
@@ -477,7 +467,12 @@ class ilPersonalDesktopGUI
 	*/
 	function displaySelectedItems()
 	{
+		global $ilUser;
 		
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		$this->detail_level = (isset($_GET["pditems_block_detail"]))
+			? $_GET["pditems_block_detail"]
+			: ilBlockSetting::_lookupDetailLevel("pditems", $ilUser->getId());
 		$html = "";
 		
 		$html.= $this->getSelectedItemsBlockHTML();
@@ -593,7 +588,7 @@ class ilPersonalDesktopGUI
 			$items = $this->ilias->account->getDesktopItems($type);
 			$item_html = array();
 			
-			if ($ilUser->getPref("pd_selected_items_details") != "n")
+			if ($this->detail_level == 3)
 			{
 				$rel_header = (is_array($type))
 				? "th_lres"
@@ -635,11 +630,15 @@ class ilPersonalDesktopGUI
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(false);
-						if ($ilUser->getPref("pd_selected_items_details") != "y")
+						if ($this->detail_level < 3)
 						{
 							$item_list_gui->enableDescription(false);
 							$item_list_gui->enableProperties(false);
 							$item_list_gui->enablePreconditions(false);
+						}
+						if ($this->detail_level < 2)
+						{
+							$item_list_gui->enableCommands(true, true);
 						}
 					}
 					// render item row
@@ -659,7 +658,7 @@ class ilPersonalDesktopGUI
 				if (count($item_html) > 0)
 				{
 					// add a header for each resource type
-					if ($ilUser->getPref("pd_selected_items_details") == "y")
+					if ($this->detail_level == 3)
 					{
 						if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 						{
@@ -675,7 +674,7 @@ class ilPersonalDesktopGUI
 					// content row
 					foreach($item_html as $item)
 					{
-						if ($ilUser->getPref("pd_selected_items_details") != "y" ||
+						if ($this->detail_level < 3 ||
 						$this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 						{
 							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], $type, $rel_header);
@@ -720,12 +719,16 @@ class ilPersonalDesktopGUI
 					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableInfoScreen(false);
-					if ($ilUser->getPref("pd_selected_items_details") != "y")
+					if ($this->detail_level < 3)
 					{
 						//echo "3";
 						$item_list_gui->enableDescription(false);
 						$item_list_gui->enableProperties(false);
 						$item_list_gui->enablePreconditions(false);
+					}
+					if ($this->detail_level < 2)
+					{
+						$item_list_gui->enableCommands(true, true);
 					}
 				}
 				// render item row
@@ -1049,8 +1052,7 @@ class ilPersonalDesktopGUI
 		$users_block = new ilUsersOnlineBlockGUI("ilpersonaldesktopgui", "show");
 		return $users_block->getHTML();
 	}
-	
-	
+
 	/**
 	* display bookmarks
 	*/

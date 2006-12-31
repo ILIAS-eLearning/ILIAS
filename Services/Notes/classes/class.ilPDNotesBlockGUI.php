@@ -157,16 +157,24 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 			$this->note_gui->enableTargets();
 		}
 
-		if ($this->getCurrentDetailLevel() > 2)
-		{
-			$this->tpl->setVariable("VAL_SUBJECT", "<b>".$a_set["subject"]."</b>");
-		}
-		else
-		{
+		//if ($this->getCurrentDetailLevel() > 2)
+		//{
+		//	$this->tpl->setVariable("VAL_SUBJECT", "<b>".$a_set["subject"]."</b>");
+		//}
+		//else
+		//{
 			$this->tpl->setVariable("VAL_SUBJECT", $a_set["subject"]);
-		}
+		//}
+		
+		// link subject to show note function
+		$ilCtrl->setParameterByClass($this->getParentClass(), "rel_obj", $a_set["rep_obj_id"]);
+		$ilCtrl->setParameterByClass($this->getParentClass(), "note_id", $a_set["id"]);
+		$ilCtrl->setParameterByClass($this->getParentClass(), "note_type", IL_NOTE_PRIVATE);
+		$this->tpl->setVariable("HREF_SHOW_NOTE",
+			$ilCtrl->getLinkTargetByClass($this->getParentClass(), "showNote"));
 		$this->tpl->setVariable("IMG_NOTE", $a_set["img"]);
 		$this->tpl->setVariable("ALT_NOTE", $a_set["alt"]);
+		$ilCtrl->clearParametersByClass($this->getParentClass());
 		
 		// details
 		if ($this->getCurrentDetailLevel() > 2)
@@ -179,18 +187,19 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 			// target objects
 			$this->note_gui->showTargets($this->tpl, $a_set["rep_obj_id"], $a_set["id"],
 				$a_set["obj_type"], $a_set["obj_id"]);
-		}
 
-		// edit button
-		$this->tpl->setCurrentBlock("edit_note");
-		$this->tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
-		$ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $a_set["rep_obj_id"]);
-		$ilCtrl->setParameterByClass("ilnotegui", "note_id", $a_set["id"]);
-		$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
-		$this->tpl->setVariable("LINK_EDIT_NOTE",
-			$ilCtrl->getLinkTargetByClass(array("ilpdnotesgui", "ilnotegui"), "editNoteForm")
-			."#note_edit");
-		$this->tpl->parseCurrentBlock();
+			// edit button
+			$this->tpl->setCurrentBlock("edit_note");
+			$this->tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
+			$ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $a_set["rep_obj_id"]);
+			$ilCtrl->setParameterByClass("ilnotegui", "note_id", $a_set["id"]);
+			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
+			$this->tpl->setVariable("LINK_EDIT_NOTE",
+				$ilCtrl->getLinkTargetByClass(array("ilpdnotesgui", "ilnotegui"), "editNoteForm")
+				."#note_edit");
+			$this->tpl->parseCurrentBlock();
+		}
+		$ilCtrl->clearParametersByClass("ilnotegui");
 	}
 
 	/**

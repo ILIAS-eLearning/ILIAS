@@ -2067,13 +2067,20 @@ class ilObjUserGUI extends ilObjectGUI
 	* @param	boolean	$no_ctrl			workaround for old insert public profile
 	*										implementation
 	*/
-	function getPublicProfile($a_additional = "", $no_ilctrl = false)
+	function getPublicProfile($a_additional = "", $no_ilctrl = false,
+		$a_raw_rows = false)
 	{
 		global $ilSetting;
 		
 		$tpl = new ilTemplate("tpl.usr_public_profile.html", true, true);
-
-		$tpl->setVariable("USR_PROFILE", $this->lng->txt("profile_of")." ".$this->object->getLogin());
+		
+		if (!$a_raw_rows)
+		{
+			$tpl->touchBlock("table_end");
+			$tpl->setCurrentBlock("table_start");
+			$tpl->setVariable("USR_PROFILE", $this->lng->txt("profile_of")." ".$this->object->getLogin());
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setVariable("ROWCOL1", "tblrow1");
 		$tpl->setVariable("ROWCOL2", "tblrow2");

@@ -1,5 +1,13 @@
 <table class="il_Block">
-<tr><th class="il_BlockHeader" colspan="{COLSPAN}"><!-- BEGIN block_img --><img border="0" src="{IMG_BLOCK}" /><!-- END block_img -->
+<tr><th <!-- BEGIN hclass -->class="il_BlockHeader"<!-- END hclass --><!-- BEGIN hclassb -->class="il_BlockHeaderBig"<!-- END hclassb --> colspan="{COLSPAN}">
+<!-- BEGIN header_commands -->
+<div class="il_ContainerItemCommands" style="float:right;">
+<!-- BEGIN header_command -->
+<a class="il_ContainerItemCommand" href="{HREF_HCOMM}">{TXT_HCOMM}</a>
+<!-- END header_command -->
+</div>
+<!-- END header_commands -->
+<!-- BEGIN block_img --><img border="0" src="{IMG_BLOCK}" /><!-- END block_img -->
 {BLOCK_TITLE}
 </th>
 </tr>
@@ -24,14 +32,14 @@
 <!-- BEGIN block_footer -->
 <tr class="tblfooter">
 	<td class="tblfooter" colspan="{FCOLSPAN}">
-	<div style="float:right;" class="small">
+	<div style="float:right;" class="il_BlockInfo">
 	<!-- BEGIN foot_item -->
 	<!-- BEGIN foot_delim --> | <!-- END foot_delim -->
 	<!-- BEGIN foot_text -->{FTEXT}<!-- END foot_text -->
-	<!-- BEGIN foot_link --><a href="{FHREF}">{FLINK}</a><!-- END foot_link -->
+	<!-- BEGIN foot_link --><a href="{FHREF}" <!-- BEGIN fonclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END fonclick -->>{FLINK}</a><!-- END foot_link -->
 	<!-- END foot_item -->
 	</div>
-	<span class="small">{NUMINFO}</span>
+	<div class="il_BlockInfo">{NUMINFO}</div>
 	</td>
 </tr>
 <!-- END block_footer -->
