@@ -37,7 +37,6 @@ class ilNoteGUI
 {
 	var $public_deletion_enabled = false;
 	
-	
 	/**
 	* constructor, specifies notes set
 	*
@@ -46,7 +45,7 @@ class ilNoteGUI
 	* @param	$a_obj_type		string	"pd" for personal desktop
 	* @param	$a_include_subobjects	string		include all subobjects of rep object (e.g. pages)
 	*/
-	function ilNoteGUI($a_rep_obj_id, $a_obj_id, $a_obj_type, $a_include_subobjects = false)
+	function ilNoteGUI($a_rep_obj_id = "", $a_obj_id = "", $a_obj_type = "", $a_include_subobjects = false)
 	{
 		global $ilCtrl, $lng;
 
@@ -67,6 +66,24 @@ class ilNoteGUI
 		$this->multi_selection = false;
 		$this->export_html = false;
 		$this->print = false;
+		
+		$this->note_img = array(
+			IL_NOTE_UNLABELED => array(
+				"img" => ilUtil::getImagePath("note_unlabeled.gif"),
+				"alt" => $lng->txt("note")),
+			IL_NOTE_IMPORTANT => array(
+				"img" => ilUtil::getImagePath("note_important.gif"),
+				"alt" => $lng->txt("note").", ".$lng->txt("important")),
+			IL_NOTE_QUESTION => array(
+				"img" => ilUtil::getImagePath("note_question.gif"),
+				"alt" => $lng->txt("note").", ".$lng->txt("question")),
+			IL_NOTE_PRO => array(
+				"img" => ilUtil::getImagePath("note_pro.gif"),
+				"alt" => $lng->txt("note").", ".$lng->txt("pro")),
+			IL_NOTE_CONTRA => array(
+				"img" => ilUtil::getImagePath("note_contra.gif"),
+				"alt" => $lng->txt("note").", ".$lng->txt("contra"))
+			);
 	}
 	
 	/**
@@ -443,33 +460,8 @@ class ilNoteGUI
 					if (!$this->export_html && !$this->print)
 					{
 						$tpl->setCurrentBlock("note_img");
-						switch ($note->getLabel())
-						{
-							case IL_NOTE_UNLABELED:
-								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_unlabeled.gif"));
-								$tpl->setVariable("ALT_NOTE", $lng->txt("note"));
-								break;
-								
-							case IL_NOTE_IMPORTANT:
-								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_important.gif"));
-								$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("important"));
-								break;
-								
-							case IL_NOTE_QUESTION:
-								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_question.gif"));
-								$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("question"));
-								break;
-								
-							case IL_NOTE_PRO:
-								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_pro.gif"));
-								$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("pro"));
-								break;
-								
-							case IL_NOTE_CONTRA:
-								$tpl->setVariable("IMG_NOTE", ilUtil::getImagePath("note_contra.gif"));
-								$tpl->setVariable("ALT_NOTE", $lng->txt("note").", ".$lng->txt("contra"));
-								break;
-						}
+						$tpl->setVariable("IMG_NOTE", $this->note_img[$note->getLabel()]["img"]);
+						$tpl->setVariable("ALT_NOTE", $this->note_img[$note->getLabel()]["alt"]);
 						$tpl->parseCurrentBlock();
 					}
 					else
@@ -552,6 +544,52 @@ class ilNoteGUI
 		{
 			return $tpl->get();
 		}
+	}
+	
+	/**
+	* Note display for personal desktop
+	*/
+	function getPDNoteHTML($note_id)
+	{
+		global $lng, $ilCtrl;
+		
+		$tpl = new ilTemplate("tpl.pd_note.html", true, true, "Services/Notes");
+		$note = new ilNote($note_id);
+		$target = $note->getObject();
+		$img = ilUtil::getImagePath("note_".$note->getLabel().".gif");
+		$alt = $lng->txt("note");
+		
+		$tpl->setCurrentBlock("edit_note");
+		$ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $target["rep_obj_id"]);
+		$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note_id);
+		$ilCtrl->setParameterByClass("ilnotegui", "note_type", $note->getType());
+		$tpl->setVariable("LINK_EDIT_NOTE",
+			$ilCtrl->getLinkTargetByClass(array("ilpdnotesgui", "ilnotegui"),
+			"editNoteForm"));
+		$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
+		$tpl->parseCurrentBlock();
+		$ilCtrl->clearParametersByClass("ilnotegui");
+		
+		$tpl->setCurrentBlock("note_img");
+		$tpl->setVariable("IMG_NOTE", $this->note_img[$note->getLabel()]["img"]);
+		$tpl->setVariable("ALT_NOTE", $this->note_img[$note->getLabel()]["alt"]);
+		$tpl->parseCurrentBlock();
+		
+		// last edited
+		if ($note->getUpdateDate() != "0000-00-00 00:00:00")
+		{
+			$tpl->setCurrentBlock("last_edit");
+			$tpl->setVariable("TXT_LAST_EDIT", $lng->txt("last_edited_on"));
+			$tpl->setVariable("DATE_LAST_EDIT", $note->getUpdateDate());
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
+		$tpl->setVariable("VAL_DATE", $note->getCreationDate());
+		$tpl->setVariable("VAL_SUBJECT", $note->getSubject());
+		$tpl->setVariable("NOTE_TEXT", nl2br($note->getText()));
+		$this->showTargets($tpl, $target["rep_obj_id"], $note_id, $target["obj_type"], $target["obj_id"]);
+		return $tpl->get();
 	}
 	
 	/**

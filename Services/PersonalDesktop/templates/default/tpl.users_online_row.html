@@ -6,9 +6,6 @@
 	<!-- END usr_image -->
 	<td class="std" valign="top">
 		<div style="float:right;" class="il_ContainerItemCommand">
-		<!-- BEGIN profile_link -->
-		<a class="il_ContainerItemCommand" href="{LINK_PROFILE}">{TXT_VIEW}</a>
-		<!-- END profile_link -->
 		<!-- BEGIN mailto_link -->
 		<a class="il_ContainerItemCommand" href="mail_new.php?type=new&rcp_to={MAIL_USR_LOGIN}">{TXT_MAIL}</a>
 		<!-- END mailto_link -->
@@ -18,7 +15,10 @@
 		</div>
 	
 		<div class="small">
-		<span style="font-style:{FONT_STYLE}" id="username">{USR_FULLNAME} {TXT_STATUS_NOT_ACTIVE}
+		<span style="font-style:{FONT_STYLE}" id="username">
+		<!-- BEGIN profile_link --><a href="{LINK_PROFILE}">{LINK_FULLNAME}</a><!-- END profile_link -->
+		{USR_FULLNAME}
+		{TXT_STATUS_NOT_ACTIVE}
 		{USR_LOGIN}</span>
 		</div>
 		<!--  BEGIN chat_info -->

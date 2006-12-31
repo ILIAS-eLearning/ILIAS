@@ -84,7 +84,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 			if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
 			{
 				$this->setDataSection($this->getPDBookmarkListHTMLTree());
-				$this->fillBlockFooter();
 			}
 			else
 			{
@@ -92,7 +91,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 				$this->getListRowData();
 				$this->setColSpan(2);
 				parent::fillDataSection();
-				$this->fillBlockFooter();
 			}
 		}
 		else
@@ -139,48 +137,53 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	/**
 	* block footer
 	*/
-	function fillBlockFooter()
+	function fillFooter()
 	{
 		global $ilCtrl, $lng, $ilUser;
+
+		$this->setFooterLinks();
+		$this->fillFooterLinks();
+		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
+		$this->tpl->setCurrentBlock("block_footer");
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Set footer links.
+	*/
+	function setFooterLinks()
+	{
+		global $ilUser, $ilCtrl, $lng;
 		
 		// flat
 		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
 		{
-			$this->tpl->setCurrentBlock("foot_link");
-			$this->tpl->setVariable("FHREF", $ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui",
-				"setPdFlatMode"));
-			$this->tpl->setVariable("FLINK", $lng->txt("flatview"));
+			$this->addFooterLink( $lng->txt("flatview"),
+				$ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "setPdFlatMode"),
+				$ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "setPdFlatMode",
+				"", true),
+				"block_".$this->block_type."_".$this->block_id);
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("foot_text");
-			$this->tpl->setVariable("FTEXT", $lng->txt("flatview"));
+			$this->addFooterLink($lng->txt("flatview"));
 		}
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->touchBlock("foot_item");
-		
-		$this->tpl->touchBlock("foot_delim");
-		$this->tpl->touchBlock("foot_item");
 
 		// as tree
 		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
 		{
-			$this->tpl->setCurrentBlock("foot_text");
-			$this->tpl->setVariable("FTEXT", $lng->txt("treeview"));
+			$this->addFooterLink($lng->txt("treeview"));
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("foot_link");
-			$this->tpl->setVariable("FHREF", $ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui",
-				"setPdTreeMode"));
-			$this->tpl->setVariable("FLINK", $lng->txt("treeview"));
+			$this->addFooterLink($lng->txt("treeview"),
+				$ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui",
+					"setPdTreeMode"),
+				$ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui",
+					"setPdTreeMode", "", true),
+				"block_".$this->block_type."_".$this->block_id
+				);
 		}
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->touchBlock("foot_item");
-
-		$this->tpl->setCurrentBlock("block_footer");
-		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**

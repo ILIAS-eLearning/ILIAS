@@ -253,18 +253,6 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				}
 			}
 			
-			// profile link
-			if ($a_set["profile"])
-			{
-				$this->tpl->setCurrentBlock("profile_link");
-				$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
-				$ilCtrl->setParameterByClass("ilpersonaldesktopgui", "user", $a_set["id"]);
-				$this->tpl->setVariable("LINK_PROFILE",
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "showUserProfile"));
-				$this->tpl->setVariable("USR_ID", $a_set["id"]);
-				$this->tpl->parseCurrentBlock();
-			}
-
 			// user image
 			$this->tpl->setCurrentBlock("usr_image");
 			$this->tpl->setVariable("USR_IMAGE",
@@ -364,8 +352,23 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setVariable("USR_LOGIN", " [".$a_set["login"]."]");
 		}
-		$this->tpl->setVariable("USR_FULLNAME", $user_obj->getFullname());
-			//ilObjUser::setFullname($user_obj->getTitle(),$user_obj->getFirstname(),$user_obj->getLastname()));
+		
+		// profile link
+		if ($a_set["profile"])
+		{
+			$this->tpl->setCurrentBlock("profile_link");
+			$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
+			$ilCtrl->setParameterByClass("ilpersonaldesktopgui", "user", $a_set["id"]);
+			$this->tpl->setVariable("LINK_PROFILE",
+			$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "showUserProfile"));
+			$this->tpl->setVariable("USR_ID", $a_set["id"]);
+			$this->tpl->setVariable("LINK_FULLNAME", $user_obj->getFullname());
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setVariable("USR_FULLNAME", $user_obj->getFullname());
+		}
 	}
 
 	/**

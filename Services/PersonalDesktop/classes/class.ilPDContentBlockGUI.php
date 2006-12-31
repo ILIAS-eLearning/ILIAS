@@ -24,31 +24,27 @@
 include_once("Services/Block/classes/class.ilBlockGUI.php");
 
 /**
-* BlockGUI class for Selected Items on Personal Desktop
+* BlockGUI class for (centered) Content on Personal Desktop
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */
-class ilPDSelectedItemsBlockGUI extends ilBlockGUI
+class ilPDContentBlockGUI extends ilBlockGUI
 {
 	
 	/**
 	* Constructor
 	*/
-	function ilPDSelectedItemsBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilPDContentBlockGUI($a_parent_class, $a_parent_cmd = "")
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
 		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
 		
-		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));
-		$this->setTitle($lng->txt("selected_items"));
+		//$this->setTitle($lng->txt("selected_items"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setColSpan(2);
-		$this->setBlockIdentification("pditems", $ilUser->getId());
-		$this->setPrefix("pditems");
-		$this->setAvailableDetailLevels(3, 1);
+		//$this->setColSpan(2);
 		$this->setBigMode(true);
 		
 	}
@@ -77,74 +73,13 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		
 		$this->tpl->setVariable("BLOCK_ROW", $this->getContent());
 	}
-	
 
 	/**
 	* block footer
 	*/
 	function fillFooter()
 	{
-		global $ilCtrl, $lng, $ilUser;
-
-		$this->setFooterLinks();
-		$this->fillFooterLinks();
-		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
-		$this->tpl->setCurrentBlock("block_footer");
-		$this->tpl->parseCurrentBlock();
 	}
-
-	/**
-	* Set footer links.
-	*/
-	function setFooterLinks()
-	{
-		global $ilUser, $ilCtrl, $lng;
-		
-		// by type
-		if ($ilUser->getPref("pd_order_items") == 'location')
-		{
-			$this->addFooterLink( $lng->txt("by_type"),
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
-				"orderPDItemsByType"),
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
-				"orderPDItemsByType", "", true),
-				"block_".$this->block_type."_".$this->block_id
-				);
-		}
-		else
-		{
-			$this->addFooterLink($lng->txt("by_type"));
-		}
-
-		// by location
-		if ($ilUser->getPref("pd_order_items") == 'location')
-		{
-			$this->addFooterLink($lng->txt("by_location"));
-		}
-		else
-		{
-			$this->addFooterLink( $lng->txt("by_location"),
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
-				"orderPDItemsByLocation"),
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
-				"orderPDItemsByLocation", "", true),
-				"block_".$this->block_type."_".$this->block_id
-				);
-		}
-	}
-
-
-	/**
-	* Get overview.
-	*/
-	function getOverview()
-	{
-		global $ilUser, $lng, $ilCtrl;
-				
-		return '<div class="small">'.$this->num_bookmarks." ".$lng->txt("bm_num_bookmarks").", ".
-			$this->num_folders." ".$lng->txt("bm_num_bookmark_folders")."</div>";
-	}
-
 }
 
 ?>

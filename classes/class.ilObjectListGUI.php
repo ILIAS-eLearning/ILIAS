@@ -52,6 +52,7 @@ class ilObjectListGUI
 	var $cust_commands = array();
 	var $info_screen_enabled = false;
 	var $condition_depth = 0;
+	var $std_cmd_only = false;
 
 
 	/**
@@ -307,11 +308,10 @@ class ilObjectListGUI
 	* @param bool
 	* @return void
 	*/
-	function enableCommands($a_status)
+	function enableCommands($a_status, $a_std_only = false)
 	{
 		$this->commands_enabled = $a_status;
-
-		return;
+		$this->std_cmd_only = $a_std_only;
 	}
 	/**
 	*
@@ -852,6 +852,10 @@ class ilObjectListGUI
 	*/
 	function insertDeleteCommand()
 	{
+		if ($this->std_cmd_only)
+		{
+			return;
+		}
 		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
@@ -872,6 +876,10 @@ class ilObjectListGUI
 	*/
 	function insertLinkCommand()
 	{
+		if ($this->std_cmd_only)
+		{
+			return;
+		}
 		// if the permission is changed here, it  has
 		// also to be changed in ilContainerGUI, admin command check
 		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
@@ -894,6 +902,10 @@ class ilObjectListGUI
 	*/
 	function insertCutCommand()
 	{
+		if ($this->std_cmd_only)
+		{
+			return;
+		}
 		// if the permission is changed here, it  has
 		// also to be changed in ilContainerGUI, admin command check
 		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
@@ -916,6 +928,10 @@ class ilObjectListGUI
 	*/
 	function insertSubscribeCommand()
 	{
+		if ($this->std_cmd_only)
+		{
+			return;
+		}
 		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
 		{
 			if (!$this->ilias->account->isDesktopItem($this->ref_id, $this->type))
@@ -962,6 +978,10 @@ class ilObjectListGUI
 	*/
 	function insertInfoScreenCommand()
 	{
+		if ($this->std_cmd_only)
+		{
+			return;
+		}
 		$cmd_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame);
@@ -992,13 +1012,16 @@ class ilObjectListGUI
 			{
 				if (!$command["default"] === true)
 				{
-					// workaround for repository frameset
-					$command["link"] = 
-						$this->appendRepositoryFrameParameter($command["link"]);
-					
-					$cmd_link = $command["link"];
-					$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
-						$command["frame"]);
+					if (!$this->std_cmd_only)
+					{
+						// workaround for repository frameset
+						$command["link"] = 
+							$this->appendRepositoryFrameParameter($command["link"]);
+						
+						$cmd_link = $command["link"];
+						$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
+							$command["frame"]);
+					}
 				}
 				else
 				{

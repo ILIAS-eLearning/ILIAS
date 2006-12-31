@@ -1128,21 +1128,43 @@ return;
 		$this->ilias->account->writePref('show_bookmark_details','n');
 		$this->ctrl->returnToParent($this);
 	}
+
 	/**
 	* set current desktop view mode to flat
 	*/
 	function setPdFlatMode()
 	{
+		global $ilCtrl;
+
 		$this->ilias->account->writePref("il_pd_bkm_mode", 'flat');
-		$this->ctrl->returnToParent($this);
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->returnToParent($this);
+		}
 	}
+
 	/**
 	* set current desktop view mode to tree
 	*/
 	function setPdTreeMode()
 	{
+		global $ilCtrl;
+		
 		$this->ilias->account->writePref("il_pd_bkm_mode", 'tree');
-		$this->ctrl->returnToParent($this);
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->returnToParent($this);
+		}
 	}
 }
 ?>
