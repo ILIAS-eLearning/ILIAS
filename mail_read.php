@@ -61,22 +61,26 @@ $tpl->setVariable("HEADER",$lng->txt("mail_mails_of"));
 setLocator($_GET["mobj_id"],'mail.php',$_SESSION["AccountId"],"");
 
 // DOWNLOAD FILE
-if($_POST["cmd"])
+if($_POST["cmd"] || $_GET["cmd"] == "download")
 {
-	if($_POST["filename"])
+	if($_POST["filename"] || $_GET["filename"])
 	{
-		if(isset($_POST["cmd"]["download"]))
+		if(isset($_POST["cmd"]["download"]) || $_GET["cmd"] == "download")
 		{
+			$filename = ($_POST["filename"])
+				? $_POST["filename"]
+				: $_GET["filename"];
+			
 			require_once "classes/class.ilFileDataMail.php";
 			
 			$mfile = new ilFileDataMail($_SESSION["AccountId"]);
-			if(!$path = $mfile->getAttachmentPath($_POST["filename"],$_GET["mail_id"]))
+			if(!$path = $mfile->getAttachmentPath($filename, $_GET["mail_id"]))
 			{
 				sendInfo("Error reading file!");
 			}
 			else
 			{
-				ilUtil::deliverFile($path,$_POST["filename"]);
+				ilUtil::deliverFile($path, $filename);
 			}
 		}
 	}

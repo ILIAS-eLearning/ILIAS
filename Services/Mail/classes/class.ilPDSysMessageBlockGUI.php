@@ -28,24 +28,36 @@ include_once("Services/Mail/classes/class.ilPDMailBlockGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ilCtrl_IsCalledBy ilPDSysMessageBlockGUI: ilColumnGUI
 */
 class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 {
+	static $block_type = "pdsysmess";
 	
 	/**
 	* Constructor
 	*/
-	function ilPDSysMessageBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilPDSysMessageBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser;
-		parent::ilPDMailBlockGUI($a_parent_class, $a_parent_cmd);
+		parent::ilPDMailBlockGUI();
 		$this->setImage(ilUtil::getImagePath("icon_sysmess_s.gif"));
 		$this->setTitle($lng->txt("system_message"));
-		$this->setBlockIdentification("pdsysmess", $ilUser->getId());
-		$this->setPrefix("pdsysmess");
 		$this->setAvailableDetailLevels(3, 1);
+		$this->mail_mode = "system";
 	}
 	
+	/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	function getBlockType()
+	{
+		return self::$block_type;
+	}
+
 	function getHTML()
 	{
 		if ($this->getCurrentDetailLevel() < 1)

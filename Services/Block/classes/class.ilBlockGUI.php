@@ -37,64 +37,22 @@ class ilBlockGUI
 	protected $detail_max = 0;
 	protected $bigmode = false;
 	protected $footer_links = array();
+	protected $block_id = 0;
 
 	/**
 	* Constructor
 	*
 	* @param
 	*/
-	function ilBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilBlockGUI()
 	{
-		global $ilUser, $tpl;
+		global $ilUser, $tpl, $ilCtrl;
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initConnection();
 		$tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
-		
-		$this->setParentClass($a_parent_class);
-		$this->setParentCmd($a_parent_cmd);
 
 		$this->setLimit($ilUser->getPref("hits_per_page"));
-	}
-
-	/**
-	* Set Parent class name.
-	*
-	* @param	string	$a_parentclass	Parent class name
-	*/
-	function setParentClass($a_parentclass)
-	{
-		$this->parentclass = $a_parentclass;
-	}
-
-	/**
-	* Get Parent class name.
-	*
-	* @return	string	Parent class name
-	*/
-	function getParentClass()
-	{
-		return $this->parentclass;
-	}
-
-	/**
-	* Set Parent command.
-	*
-	* @param	string	$a_parentcmd	Parent command
-	*/
-	function setParentCmd($a_parentcmd)
-	{
-		$this->parentcmd = $a_parentcmd;
-	}
-
-	/**
-	* Get Parent command.
-	*
-	* @return	string	Parent command
-	*/
-	function getParentCmd()
-	{
-		return $this->parentcmd;
 	}
 
 	/**
@@ -138,20 +96,23 @@ class ilBlockGUI
 	}
 
 	/**
-	* Set Block Identification. This is used, to read settings of the block
-	* user_id = 0 means a user independent setting. Block ID = 0 means it
-	* is a standard block (e.g. type "bm" for the bookmark block on the personal
-	* desktop)
+	* Set Block Id
 	*
-	* @param	string		$a_type			Block type
-	* @param	int			$a_user			User ID
 	* @param	int			$a_block_id		Block ID
 	*/
-	function setBlockIdentification($a_type, $a_user = 0, $a_block_id = 0)
+	function setBlockId($a_block_id = 0)
 	{
-		$this->block_type = $a_type;
-		$this->block_user = $a_user;
 		$this->block_id = $a_block_id;
+	}
+
+	/**
+	* Get Block Id
+	*
+	* @return	int			Block Id
+	*/
+	function getBlockId()
+	{
+		return $this->block_id;
 	}
 
 	/**
@@ -268,26 +229,6 @@ class ilBlockGUI
 	}
 
 	/**
-	* Set Prefix.
-	*
-	* @param	string	$a_prefix	Prefix
-	*/
-	function setPrefix($a_prefix)
-	{
-		$this->prefix = $a_prefix;
-	}
-
-	/**
-	* Get Prefix.
-	*
-	* @return	string	Prefix
-	*/
-	function getPrefix()
-	{
-		return $this->prefix;
-	}
-
-	/**
 	* Set Columns Span.
 	*
 	* @param	int	$a_colspan	Columns Span
@@ -340,12 +281,12 @@ class ilBlockGUI
 
 	final public function getNavParameter()
 	{
-		return $this->prefix."_block_nav";
+		return $this->getBlockType()."_".$this->getBlockId()."_blnav";
 	}
 
 	final public function getDetailParameter()
 	{
-		return $this->prefix."_block_detail";
+		return $this->getBlockType()."_".$this->getBlockId()."_bldet";
 	}
 
 	/**
@@ -435,24 +376,34 @@ class ilBlockGUI
 	}
 	
 	/**
+	* Get Screen Mode for current command.
+	*/
+	static function getScreenMode()
+	{
+		return IL_SCREEN_SIDE;
+	}
+	
+	/**
 	* Handle read/write current detail level.
 	*/
 	function handleDetailLevel()
 	{
+		global $ilUser;
+
 		// set/get detail level
 		if ($this->detail_max > $this->detail_min)
 		{
 			include_once("Services/Block/classes/class.ilBlockSetting.php");
 			if (isset($_GET[$this->getDetailParameter()]))
 			{
-				ilBlockSetting::_writeDetailLevel($this->block_type, $_GET[$this->getDetailParameter()],
-					$this->block_user, $this->block_id);
+				ilBlockSetting::_writeDetailLevel($this->getBlockType(), $_GET[$this->getDetailParameter()],
+					$ilUser->getId(), $this->block_id);
 				$this->setCurrentDetailLevel($_GET[$this->getDetailParameter()]);
 			}
 			else
 			{
-				$this->setCurrentDetailLevel(ilBlockSetting::_lookupDetailLevel($this->block_type,
-					$this->block_user, $this->block_id));
+				$this->setCurrentDetailLevel(ilBlockSetting::_lookupDetailLevel($this->getBlockType(),
+					$ilUser->getId(), $this->block_id));
 			}
 		}
 	}
@@ -532,7 +483,7 @@ class ilBlockGUI
 		else
 		{
 			// return incl. wrapping div with id
-			return '<div id="'."block_".$this->block_type."_".$this->block_id.'">'.
+			return '<div id="'."block_".$this->getBlockType()."_".$this->block_id.'">'.
 				$this->tpl->get().'</div>';
 		}
 	}
@@ -664,20 +615,20 @@ class ilBlockGUI
 			{
 				$prevoffset = $this->getOffset() - $this->getLimit();
 				
-				$ilCtrl->setParameterByClass($this->getParentClass(),
+				$ilCtrl->setParameterByClass("ilcolumngui",
 					$this->getNavParameter(), "::".$prevoffset);
 				
 				// ajax link
-				$ilCtrl->setParameterByClass($this->getParentClass(),
-					"block_id", "block_".$this->block_type."_".$this->block_id);
-				$block_id = "block_".$this->block_type."_".$this->block_id;
-				$onclick = $ilCtrl->getLinkTargetByClass($this->getParentClass(),
+				$ilCtrl->setParameterByClass("ilcolumngui",
+					"block_id", "block_".$this->getBlockType()."_".$this->block_id);
+				$block_id = "block_".$this->getBlockType()."_".$this->block_id;
+				$onclick = $ilCtrl->getLinkTargetByClass("ilcolumngui",
 					"updateBlock", "", true);
-				$ilCtrl->setParameterByClass($this->getParentClass(),
+				$ilCtrl->setParameterByClass("ilcolumngui",
 					"block_id", "");
 					
 				// normal link
-				$href = $ilCtrl->getLinkTargetByClass($this->getParentClass(), $this->getParentCmd());
+				$href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");
 				$text = $lng->txt("previous");
 				
 				$this->addFooterLink($text, $href, $onclick, $block_id);
@@ -695,27 +646,28 @@ class ilBlockGUI
 			{
 				$newoffset = $this->getOffset() + $this->getLimit();
 
-				$ilCtrl->setParameterByClass($this->getParentClass(),
+				$ilCtrl->setParameterByClass("ilcolumngui",
 					$this->getNavParameter(), "::".$newoffset);
 
 				// ajax link
-				$ilCtrl->setParameterByClass($this->getParentClass(),
-					"block_id", "block_".$this->block_type."_".$this->block_id);
+				$ilCtrl->setParameterByClass("ilcolumngui",
+					"block_id", "block_".$this->getBlockType()."_".$this->block_id);
 				$this->tpl->setCurrentBlock("fonclick");
-				$block_id = "block_".$this->block_type."_".$this->block_id;
-				$onclick = $ilCtrl->getLinkTargetByClass($this->getParentClass(),
+				$block_id = "block_".$this->getBlockType()."_".$this->block_id;
+				$onclick = $ilCtrl->getLinkTargetByClass("ilcolumngui",
 					"updateBlock", "", true);
 				$this->tpl->parseCurrentBlock();
-				$ilCtrl->setParameterByClass($this->getParentClass(),
+				$ilCtrl->setParameterByClass("ilcolumngui",
 					"block_id", "");
 
 				// normal link
-				$href = $ilCtrl->getLinkTargetByClass($this->getParentClass(), $this->getParentCmd());
+				$href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");
 				$text = $lng->txt("next");
 
 				$this->addFooterLink($text, $href, $onclick, $block_id);
 			}
-			$ilCtrl->clearParametersByClass($this->getParentClass());
+			$ilCtrl->setParameterByClass("ilcolumngui",
+				$this->getNavParameter(), "");
 			return true;
 		}
 		else
@@ -804,22 +756,22 @@ class ilBlockGUI
 				}
 				if ($i != $this->getCurrentDetailLevel())
 				{
-					$ilCtrl->setParameterByClass($this->getParentClass(),
+					$ilCtrl->setParameterByClass("ilcolumngui",
 						$this->getDetailParameter(), $i);
 
 					// ajax link
 					if ($i > 0)
 					{
-						$ilCtrl->setParameterByClass($this->getParentClass(),
-							"block_id", "block_".$this->block_type."_".$this->block_id);
+						$ilCtrl->setParameterByClass("ilcolumngui",
+							"block_id", "block_".$this->getBlockType()."_".$this->block_id);
 						$this->tpl->setCurrentBlock("onclick");
 						$this->tpl->setVariable("OC_BLOCK_ID",
-							"block_".$this->block_type."_".$this->block_id);
+							"block_".$this->getBlockType()."_".$this->block_id);
 						$this->tpl->setVariable("OC_HREF",
-							$ilCtrl->getLinkTargetByClass($this->getParentClass(),
+							$ilCtrl->getLinkTargetByClass("ilcolumngui",
 							"updateBlock", "", true));
 						$this->tpl->parseCurrentBlock();
-						$ilCtrl->setParameterByClass($this->getParentClass(),
+						$ilCtrl->setParameterByClass("ilcolumngui",
 							"block_id", "");
 					}
 					
@@ -827,8 +779,8 @@ class ilBlockGUI
 					$this->tpl->setCurrentBlock("det_link");
 					$this->tpl->setVariable("DLINK", $i);
 					$this->tpl->setVariable("DHREF",
-						$ilCtrl->getLinkTargetByClass($this->getParentClass(),
-						$this->getParentCmd()));
+						$ilCtrl->getLinkTargetByClass("ilcolumngui",
+						""));
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->touchBlock("det_item");
 				}
@@ -845,6 +797,7 @@ class ilBlockGUI
 			$this->tpl->setVariable("DCOLSPAN", $this->getColSpan());
 			$this->tpl->parseCurrentBlock();
 		}
-		$ilCtrl->clearParametersByClass($this->getParentClass());
+		$ilCtrl->setParameterByClass("ilcolumngui",
+			$this->getDetailParameter(), "");
 	}
 }

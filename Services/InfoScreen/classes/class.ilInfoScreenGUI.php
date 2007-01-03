@@ -30,7 +30,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilNewsItemGUI
+* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI
 *
 * @ingroup ServicesInfoScreen
 */
@@ -106,15 +106,10 @@ class ilInfoScreenGUI
 				$tpl->setContent($html);
 				break;
 
-			case "ilnewsitemgui":
-				include_once("Services/News/classes/class.ilNewsItemGUI.php");
-				$news_gui = new ilNewsItemGUI();
-				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-				{
-					$news_gui->setEnableEdit(true);
-				}
-				$html = $this->ctrl->forwardCommand($news_gui);
-				$tpl->setContent($html);
+			case "ilcolumngui":
+				include_once("./Services/Block/classes/class.ilColumnGUI.php");
+				$column_gui = new ilColumnGUI("pd");
+				$this->showSummary();
 				break;
 
 			default:
@@ -399,22 +394,73 @@ class ilInfoScreenGUI
 	{
 		global $tpl, $ilAccess;
 
-		$tpl->setContent($this->getHTML());
-		
-		// show news
-		if ($this->news_enabled)
-		{
-			include_once("Services/News/classes/class.ilNewsItemGUI.php");
-			$news_gui = new ilNewsItemGUI();
-			if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-			{
-				$news_gui->setEnableEdit(true);
-			}
-			$html = $this->ctrl->getHTML($news_gui);
-			$tpl->setRightContent($html);
-		}
+		$tpl->setContent($this->getCenterColumnHTML());
+		$tpl->setRightContent($this->getRightColumnHTML());
 	}
 
+
+	/**
+	* Display center column
+	*/
+	function getCenterColumnHTML()
+	{
+		global $ilCtrl;
+		
+		include_once("Services/Block/classes/class.ilColumnGUI.php");
+		$column_gui = new ilColumnGUI("info", IL_COL_CENTER);
+
+		if (!$ilCtrl->isAsynch())
+		{
+			if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
+			{
+				// right column wants center
+				if ($column_gui->getCmdSide() == IL_COL_RIGHT)
+				{
+					$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
+					$html = $ilCtrl->forwardCommand($column_gui);
+				}
+				// left column wants center
+				if ($column_gui->getCmdSide() == IL_COL_LEFT)
+				{
+					$column_gui = new ilColumnGUI("info", IL_COL_LEFT);
+					$html = $ilCtrl->forwardCommand($column_gui);
+				}
+			}
+			else
+			{
+				$html = $this->getHTML();
+			}
+		}
+		
+		return $html;
+	}
+
+	/**
+	* Display right column
+	*/
+	function getRightColumnHTML()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		include_once("Services/Block/classes/class.ilColumnGUI.php");
+		$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
+
+		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
+			$column_gui->getCmdSide() == IL_COL_RIGHT &&
+			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
+		{
+			$html = $ilCtrl->forwardCommand($column_gui);
+		}
+		else
+		{
+			if (!$ilCtrl->isAsynch())
+			{
+				$html = $ilCtrl->getHTML($column_gui);
+			}
+		}
+
+		return $html;
+	}
 
 	/**
 	* get html

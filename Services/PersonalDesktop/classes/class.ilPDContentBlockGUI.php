@@ -31,11 +31,12 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 */
 class ilPDContentBlockGUI extends ilBlockGUI
 {
+	static $block_type = "pdcontent";
 	
 	/**
 	* Constructor
 	*/
-	function ilPDContentBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilPDContentBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
@@ -49,6 +50,16 @@ class ilPDContentBlockGUI extends ilBlockGUI
 		
 	}
 	
+	/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	function getBlockType()
+	{
+		return self::$block_type;
+	}
+
 	function getHTML()
 	{
 		return parent::getHTML();

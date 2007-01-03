@@ -28,27 +28,68 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ilCtrl_IsCalledBy ilPDNotesBlockGUI: ilColumnGUI
 */
 class ilPDNotesBlockGUI extends ilBlockGUI
 {
+	static $block_type = "pdnotes";
 	
 	/**
 	* Constructor
 	*/
-	function ilPDNotesBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilPDNotesBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
+		parent::ilBlockGUI();
 		
 		$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath("icon_note_s.gif"));
 		$this->setTitle($lng->txt("notes"));
-		$this->setBlockIdentification("pdnote", $ilUser->getId());
-		$this->setPrefix("pdnotes");
 		$this->setAvailableDetailLevels(3);
 	}
 	
+	/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	function getBlockType()
+	{
+		return self::$block_type;
+	}
+	
+	/**
+	* Get Screen Mode for current command.
+	*/
+	static function getScreenMode()
+	{
+		switch($_GET["cmd"])
+		{
+			case "showNote":
+				return IL_SCREEN_CENTER;
+				break;
+				
+			default:
+				return IL_SCREEN_SIDE;
+				break;
+		}
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd("getHTML");
+
+		return $this->$cmd();
+	}
+
 	function getHTML()
 	{
 		if ($this->getCurrentDetailLevel() == 0)
@@ -167,14 +208,14 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		//}
 		
 		// link subject to show note function
-		$ilCtrl->setParameterByClass($this->getParentClass(), "rel_obj", $a_set["rep_obj_id"]);
-		$ilCtrl->setParameterByClass($this->getParentClass(), "note_id", $a_set["id"]);
-		$ilCtrl->setParameterByClass($this->getParentClass(), "note_type", IL_NOTE_PRIVATE);
+		$ilCtrl->setParameter($this, "rel_obj", $a_set["rep_obj_id"]);
+		$ilCtrl->setParameter($this, "note_id", $a_set["id"]);
+		$ilCtrl->setParameter($this, "note_type", IL_NOTE_PRIVATE);
 		$this->tpl->setVariable("HREF_SHOW_NOTE",
-			$ilCtrl->getLinkTargetByClass($this->getParentClass(), "showNote"));
+			$ilCtrl->getLinkTarget($this, "showNote"));
 		$this->tpl->setVariable("IMG_NOTE", $a_set["img"]);
 		$this->tpl->setVariable("ALT_NOTE", $a_set["alt"]);
-		$ilCtrl->clearParametersByClass($this->getParentClass());
+		$ilCtrl->clearParameters($this);
 		
 		// details
 		if ($this->getCurrentDetailLevel() > 2)
@@ -195,7 +236,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 			$ilCtrl->setParameterByClass("ilnotegui", "note_id", $a_set["id"]);
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
 			$this->tpl->setVariable("LINK_EDIT_NOTE",
-				$ilCtrl->getLinkTargetByClass(array("ilpdnotesgui", "ilnotegui"), "editNoteForm")
+				$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpdnotesgui", "ilnotegui"), "editNoteForm")
 				."#note_edit");
 			$this->tpl->parseCurrentBlock();
 		}
@@ -210,6 +251,28 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		global $ilUser, $lng, $ilCtrl;
 				
 		return '<div class="small">'.((int) count($this->notes))." ".$lng->txt("notes")."</div>";
+	}
+
+	/**
+	* show single note
+	*/
+	function showNote()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		$note_gui = new ilNoteGUI();
+		$note_gui->enableTargets();
+		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+		$content_block = new ilPDContentBlockGUI();
+		$content_block->setContent($note_gui->getPDNoteHTML($_GET["note_id"]));
+		$content_block->setTitle($lng->txt("note"));
+		$content_block->setColSpan(2);
+		$content_block->setImage(ilUtil::getImagePath("icon_note.gif"));
+		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
+			$lng->txt("close"));
+		
+		return $content_block->getHTML();
 	}
 
 }

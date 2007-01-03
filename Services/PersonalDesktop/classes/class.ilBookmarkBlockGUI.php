@@ -28,25 +28,26 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ilCtrl_IsCalledBy ilBookmarkBlockGUI: ilColumnGUI
 */
 class ilBookmarkBlockGUI extends ilBlockGUI
 {
+	static $block_type = "pdbookm";
 	
 	/**
 	* Constructor
 	*/
-	function ilBookmarkBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilBookmarkBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
+		parent::ilBlockGUI();
 		
 		$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));
 		$this->setTitle($lng->txt("my_bms"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setBlockIdentification("pdbookm", $ilUser->getId());
-		$this->setPrefix("pdbookm");
 		$this->setAvailableDetailLevels(3);
 		
 		$this->id = (empty($_GET["bmf_id"]))
@@ -54,6 +55,42 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 			: $_GET["bmf_id"];
 	}
 	
+	/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	function getBlockType()
+	{
+		return self::$block_type;
+	}
+	
+	/**
+	* Get Screen Mode for current command.
+	*/
+	static function getScreenMode()
+	{
+		switch($_GET["cmd"])
+		{
+			default:
+				return IL_SCREEN_SIDE;
+				break;
+		}
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd("getHTML");
+
+		return $this->$cmd();
+	}
+
 	function getHTML()
 	{
 		if ($this->getCurrentDetailLevel() == 0)
@@ -106,18 +143,20 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $ilUser;
 		
+		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkExplorer.php");
+		
 		$showdetails = ($this->getCurrentDetailLevel() > 2);
 		$tpl = new ilTemplate("tpl.bookmark_pd_tree.html", true, true,
 			"Services/PersonalDesktop");
 
-		$exp = new ilBookmarkExplorer($ilCtrl->getParentReturnByClass("ilbookmarkadministrationgui"),
+		$exp = new ilBookmarkExplorer($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
 			$_SESSION["AccountId"]);
 		$exp->setAllowedTypes(array('dum','bmf','bm'));
 		$exp->setEnableSmallMode(true);
 		$exp->setTargetGet("bmf_id");
 		$exp->setSessionExpandVariable('mexpand');
-		$ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "bmf_id", $this->id);
-		$exp->setExpandTarget($ilCtrl->getParentReturnByClass("ilbookmarkadministrationgui"));
+		$ilCtrl->setParameter($this, "bmf_id", $this->id);
+		$exp->setExpandTarget($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"));
 		if ($_GET["mexpand"] == "")
 		{
 			$expanded = $this->id;
@@ -159,10 +198,10 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
 		{
 			$this->addFooterLink( $lng->txt("flatview"),
-				$ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "setPdFlatMode"),
-				$ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "setPdFlatMode",
+				$ilCtrl->getLinkTarget($this, "setPdFlatMode"),
+				$ilCtrl->getLinkTarget($this, "setPdFlatMode",
 				"", true),
-				"block_".$this->block_type."_".$this->block_id);
+				"block_".$this->getBlockType()."_".$this->block_id);
 		}
 		else
 		{
@@ -177,11 +216,11 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		else
 		{
 			$this->addFooterLink($lng->txt("treeview"),
-				$ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui",
+				$ilCtrl->getLinkTarget($this,
 					"setPdTreeMode"),
-				$ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui",
+				$ilCtrl->getLinkTarget($this,
 					"setPdTreeMode", "", true),
-				"block_".$this->block_type."_".$this->block_id
+				"block_".$this->getBlockType()."_".$this->block_id
 				);
 		}
 	}
@@ -202,14 +241,14 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		if (!ilBookmarkFolder::isRootFolder($_SESSION["ilCurBMFolder"])
 			&& !empty($_SESSION["ilCurBMFolder"]))
 		{			
-			$ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "curBMFolder",
+			$ilCtrl->setParameter($this, "curBMFolder",
 				ilBookmarkFolder::_getParentId($_SESSION["ilCurBMFolder"]));
 
 			$data[] = array(
 				"img" => ilUtil::getImagePath("icon_cat_s.gif"),
 				"alt" => $lng->txt("bmf"),
 				"title" => "..",
-				"link" => $ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "setCurrentBookmarkFolder"));
+				"link" => $ilCtrl->getLinkTarget($this, "setCurrentBookmarkFolder"));
 
 			$this->setTitle($this->getTitle().": ".ilBookmarkFolder::_lookupTitle($_SESSION["ilCurBMFolder"]));
 		}
@@ -219,13 +258,13 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 			switch ($bm_item["type"])
 			{
 				case "bmf":
-					$ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "curBMFolder", $bm_item["obj_id"]);
+					$ilCtrl->setParameter($this, "curBMFolder", $bm_item["obj_id"]);
 					$data[] = array(
 						"img" => ilUtil::getImagePath("icon_cat_s.gif"),
 						"alt" => $lng->txt("bmf"),
 						"title" => ilUtil::prepareFormOutput($bm_item["title"]),
 						"desc" => ilUtil::prepareFormOutput($bm_item["desc"]),
-						"link" => $ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui",
+						"link" => $ilCtrl->getLinkTarget($this,
 							"setCurrentBookmarkFolder"),
 						"target" => "");
 					break;
@@ -277,6 +316,55 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 				
 		return '<div class="small">'.$this->num_bookmarks." ".$lng->txt("bm_num_bookmarks").", ".
 			$this->num_folders." ".$lng->txt("bm_num_bookmark_folders")."</div>";
+	}
+
+	/**
+	* set current desktop view mode to flat
+	*/
+	function setPdFlatMode()
+	{
+		global $ilCtrl, $ilUser;
+
+		$ilUser->writePref("il_pd_bkm_mode", 'flat');
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		}
+	}
+
+	/**
+	* set current desktop view mode to tree
+	*/
+	function setPdTreeMode()
+	{
+		global $ilCtrl, $ilUser;
+		
+		$ilUser->writePref("il_pd_bkm_mode", 'tree');
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		}
+	}
+
+	/**
+	* set current bookmarkfolder on personal desktop
+	*/
+	function setCurrentBookmarkFolder()
+	{
+		global $ilCtrl;
+		
+		$_SESSION["ilCurBMFolder"] = $_GET["curBMFolder"];
+		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}
 
 }

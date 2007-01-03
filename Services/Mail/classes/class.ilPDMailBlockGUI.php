@@ -28,14 +28,17 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
 */
 class ilPDMailBlockGUI extends ilBlockGUI
 {
+	static $block_type = "pdmail";
 	
 	/**
 	* Constructor
 	*/
-	function ilPDMailBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilPDMailBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
@@ -45,16 +48,54 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		include_once "classes/class.ilMail.php";
 
 		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
+		parent::ilBlockGUI();
 		
 		$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath("icon_mail_s.gif"));
 		$this->setTitle($lng->txt("mail"));
-		$this->setBlockIdentification("pdmail", $ilUser->getId());
-		$this->setPrefix("pdmail");
 		$this->setAvailableDetailLevels(3);
 	}
 	
+	/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	function getBlockType()
+	{
+		return self::$block_type;
+	}
+	
+	/**
+	* Get Screen Mode for current command.
+	*/
+	static function getScreenMode()
+	{
+		switch($_GET["cmd"])
+		{
+			case "showMail":
+				return IL_SCREEN_CENTER;
+				break;
+				
+			default:
+				return IL_SCREEN_SIDE;
+				break;
+		}
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd("getHTML");
+
+		return $this->$cmd();
+	}
+
 	function getHTML()
 	{
 		if ($this->getCurrentDetailLevel() == 0)
@@ -63,7 +104,8 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			return parent::getHTML();
+			$html = parent::getHTML();
+			return $html;
 		}
 	}
 	
@@ -125,7 +167,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	function fillRow($mail)
 	{
 		global $ilUser, $ilCtrl, $lng;
-		
+
 		// GET SENDER NAME
 		$user = new ilObjUser($mail["sender_id"]);
 		
@@ -155,9 +197,12 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		}
 		
 		$this->tpl->setVariable("NEW_MAIL_SUBJ", $mail["m_subject"]);
-		$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
-		$this->tpl->setVariable("NEW_MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
-		
+		$ilCtrl->setParameter($this, "mobj_id", $inbox);
+		$ilCtrl->setParameter($this, "mail_id", $mail["mail_id"]);
+		$ilCtrl->setParameter($this, "mail_mode", $this->mail_mode);
+		$this->tpl->setVariable("NEW_MAIL_LINK_READ",
+			$ilCtrl->getLinkTarget($this, "showMail"));
+		$ilCtrl->clearParameters($this);
 	}
 
 	/**
@@ -168,6 +213,78 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		global $ilUser, $lng, $ilCtrl;
 				
 		return '<div class="small">'.((int) count($this->mails))." ".$lng->txt("mails_pl")."</div>";
+	}
+
+	/**
+	* show mail
+	*/
+	function showMail()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("./Services/Mail/classes/class.ilMailGUI.php");
+		$mail_gui = new ilMailGUI();
+
+		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+		$content_block = new ilPDContentBlockGUI();
+		$content_block->setContent($mail_gui->getPDMailHTML($_GET["mail_id"],
+			$_GET["mobj_id"]));
+		$content_block->setTitle($lng->txt("message"));
+		$content_block->setColSpan(2);
+		$content_block->setImage(ilUtil::getImagePath("icon_mail.gif"));
+		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
+			$lng->txt("close"));
+			
+		if ($_GET["mail_mode"] != "system")
+		{
+			$content_block->addBlockCommand("mail_new.php?mail_id=".
+				$_GET["mail_id"]."&mobj_id".$_GET["mobj_id"]."&type=reply",
+				$lng->txt("reply"));
+			$content_block->addBlockCommand("mail_read.php?mail_id=".
+				$_GET["mail_id"]."&mobj_id".$_GET["mobj_id"],
+				$lng->txt("inbox"));
+		}
+		else
+		{
+			$ilCtrl->setParameter($this, "mail_id", $_GET["mail_id"]);
+			$ilCtrl->setParameter($this, "mobj_id", $_GET["mobj_id"]);
+			$content_block->addBlockCommand(
+				$ilCtrl->getLinkTarget($this, "deleteMail"),
+				$lng->txt("delete"));
+			$ilCtrl->clearParameters($this);
+		}
+		
+		return $content_block->getHTML();
+	}
+
+	/**
+	* delete mail
+	*/
+	function deleteMail()
+	{
+		global $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("mail");
+		
+		$umail = new ilMail($_SESSION["AccountId"]);
+		$mbox = new ilMailBox($_SESSION["AccountId"]);
+
+		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
+		if(!$_GET["mobj_id"])
+		{
+			$_GET["mobj_id"] = $mbox->getInboxFolder();
+		}
+
+		if ($umail->moveMailsToFolder(array($_GET["mail_id"]),
+			$mbox->getTrashFolder()))
+		{
+			sendInfo($lng->txt("mail_moved_to_trash"), true);
+		}
+		else
+		{
+			sendInfo($lng->txt("mail_move_error"), true);
+		}
+		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}
 
 }
