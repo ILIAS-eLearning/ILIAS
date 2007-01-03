@@ -28,14 +28,17 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ilCtrl_IsCalledBy ilUsersOnlineBlockGUI: ilColumnGUI
 */
 class ilUsersOnlineBlockGUI extends ilBlockGUI
 {
+	static $block_type = "pdusers";
 	
 	/**
 	* Constructor
 	*/
-	function ilUsersOnlineBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilUsersOnlineBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
@@ -44,11 +47,49 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		$this->setLimit(10);
 		$this->setImage(ilUtil::getImagePath("icon_grp_s.gif"));
 		$this->setTitle($lng->txt("users_online"));
-		$this->setBlockIdentification("pdusers", $ilUser->getId());
-		$this->setPrefix("pdusers");
 		$this->setAvailableDetailLevels(3);
 	}
 	
+		/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	function getBlockType()
+	{
+		return self::$block_type;
+	}
+	
+	/**
+	* Get Screen Mode for current command.
+	*/
+	static function getScreenMode()
+	{
+		switch($_GET["cmd"])
+		{
+			case "showUserProfile":
+				return IL_SCREEN_CENTER;
+				break;
+				
+			default:
+				return IL_SCREEN_SIDE;
+				break;
+		}
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd("getHTML");
+
+		return $this->$cmd();
+	}
+
 	function getHTML()
 	{
 		global $ilUser;
@@ -146,8 +187,6 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			$this->setEnableNumInfo(false);
 			$this->setDataSection($this->getOverview());
 		}
-		
-		$ilCtrl->clearParametersByClass($this->getParentClass());
 	}
 	
 
@@ -467,7 +506,6 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		}
 		return false;
 	}
-
 }
 
 ?>

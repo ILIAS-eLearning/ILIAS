@@ -28,22 +28,100 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ilCtrl_IsCalledBy ilNewsForContextBlockGUI: ilColumnGUI
+* @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI
 */
 class ilNewsForContextBlockGUI extends ilBlockGUI
 {
+	static $block_type = "news";
 	
 	/**
 	* Constructor
 	*/
-	function ilNewsForContextBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilNewsForContextBlockGUI()
 	{
 		global $ilCtrl, $lng;
 		
-		parent::ilBlockGUI($a_parent_obj, $a_parent_cmd);
+		parent::ilBlockGUI();
 		
 		$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
+$this->setEnableEdit(true);
+
+		$lng->loadLanguageModule("news");
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_item = new ilNewsItem();
+		$news_item->setContextObjId($ilCtrl->getContextObjId());
+		$news_item->setContextObjType($ilCtrl->getContextObjType());
+
+		$this->setBlockId($ilCtrl->getContextObjId());
+		$this->setLimit(5);
+		$this->setAvailableDetailLevels(3);
+		
+		$data = $news_item->queryNewsForContext();
+		$this->setTitle($lng->txt("news_block_news_for_context"));
+		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
+		$this->setData($data);
 	}
 	
+	/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	function getBlockType()
+	{
+		return self::$block_type;
+	}
+	
+	/**
+	* Get Screen Mode for current command.
+	*/
+	static function getScreenMode()
+	{
+		global $ilCtrl;
+		
+		if ($ilCtrl->getCmdClass() == "ilnewsitemgui")
+		{
+			return IL_SCREEN_CENTER;
+		}
+		
+		switch($_GET["cmd"])
+		{
+			case "showNews":
+				return IL_SCREEN_CENTER;
+				break;
+			
+			default:
+				return IL_SCREEN_SIDE;
+				break;
+		}
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd("getHTML");
+
+		switch ($next_class)
+		{
+			case "ilnewsitemgui":
+				include_once("./Services/News/classes/class.ilNewsItemGUI.php");
+				$news_item_gui = new ilNewsItemGUI();
+				$news_item_gui->setEnableEdit($this->getEnableEdit());
+				$html = $ilCtrl->forwardCommand($news_item_gui);
+				return $html;
+				
+			default:
+				return $this->$cmd();
+		}
+	}
+
 	/**
 	* Set EnableEdit.
 	*
@@ -65,6 +143,21 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	}
 
 	/**
+	* Fill data section
+	*/
+	function fillDataSection()
+	{
+		if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		{
+			parent::fillDataSection();
+		}
+		else
+		{
+			$this->setDataSection($this->getOverview());
+		}
+	}
+
+	/**
 	* Get bloch HTML code.
 	*/
 	function getHTML()
@@ -82,8 +175,91 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
 				$lng->txt("add"));
 		}
+		
+		if ($this->getCurrentDetailLevel() == 0)
+		{
+			return "";
+		}
 
 		return parent::getHTML();
+	}
+
+	/**
+	* get flat bookmark list for personal desktop
+	*/
+	function fillRow($news)
+	{
+		global $ilUser, $ilCtrl, $lng;
+
+		if ($this->getCurrentDetailLevel() > 2)
+		{
+			$this->tpl->setCurrentBlock("long");
+			$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
+			$this->tpl->setVariable("VAL_CREATION_DATE", $news["creation_date"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("VAL_TITLE", $news["title"]);
+		
+		$ilCtrl->setParameter($this, "news_id", $news["id"]);
+		$this->tpl->setVariable("HREF_SHOW",
+			$ilCtrl->getLinkTarget($this, "showNews"));
+		$ilCtrl->clearParameters($this);
+	}
+
+	/**
+	* Get overview.
+	*/
+	function getOverview()
+	{
+		global $ilUser, $lng, $ilCtrl;
+				
+		return '<div class="small">'.((int) count($this->getData()))." ".$lng->txt("news_news_items")."</div>";
+	}
+
+	/**
+	* show news
+	*/
+	function showNews()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news = new ilNewsItem($_GET["news_id"]);
+		
+		$tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
+		if (trim($news->getContent()) != "")		// content
+		{
+			$tpl->setCurrentBlock("content");
+			$tpl->setVariable("VAL_CONTENT", $news->getContent());
+			$tpl->parseCurrentBlock();
+		}
+		if (trim($news->getContentLong()) != "")	// long content
+		{
+			$tpl->setCurrentBlock("long");
+			$tpl->setVariable("VAL_LONG_CONTENT", $news->getContentLong());
+			$tpl->parseCurrentBlock();
+		}
+		if ($news->getUpdateDate() != $news->getCreationDate())		// update date
+		{
+			$tpl->setCurrentBlock("ni_update");
+			$tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
+			$tpl->setVariable("VAL_LAST_UPDATE", $news->getUpdateDate());
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setVariable("VAL_TITLE", $news->getTitle());			// title
+		$tpl->setVariable("VAL_CREATION_DATE", $news->getCreationDate());	// creation date
+		
+		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+		$content_block = new ilPDContentBlockGUI();
+		$content_block->setContent($tpl->get());
+		$content_block->setTitle($lng->txt("news"));
+		//$content_block->setColSpan(2);
+		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
+		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
+			$lng->txt("close"));
+
+		return $content_block->getHTML();
 	}
 
 }

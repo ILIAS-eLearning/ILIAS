@@ -235,4 +235,8 @@ CREATE TABLE `il_block_setting` (
   `value` varchar(200)   NOT NULL default '',
   PRIMARY KEY  (`type`,`user`,`block_id`,`setting`)
 ) TYPE=MyISAM;
+<#883>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

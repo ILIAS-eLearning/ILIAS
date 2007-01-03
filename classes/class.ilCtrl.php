@@ -173,8 +173,17 @@ class ilCtrl
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
 		if ($nr > 0)
 		{
+			$current_node = $this->current_node;
+			
 			$this->current_node = $nr;
-			return $a_gui_object->executeCommand();
+			
+			$html = $a_gui_object->executeCommand();
+			
+			// reset current node
+			$this->current_node = $current_node;
+			
+			return $html;
+
 		}
 		echo "ERROR: Can't forward to class $class."; exit;
 //echo "end forward<br>";

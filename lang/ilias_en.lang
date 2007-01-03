@@ -2754,10 +2754,11 @@ news#:#news_content_long_info#:#This text will not be published via RSS.
 news#:#news_visibility_users#:#Logged in Users
 news#:#news_visibility_public#:#Public
 news#:#news_visibility#:#Access
+news#:#news_news_items#:#News Item(s)
 news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)
-pdesk#:#pdesk_activate_block#:#Activate
+common#:#activate_block#:#Activate
 pdesk#:#pdesk_feedback_request#:#Feedback Request
 pdesk#:#pdesk_feedbacks#:#Feedback Request(s)
 common#:#next#:#Next

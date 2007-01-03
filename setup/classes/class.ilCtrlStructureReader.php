@@ -121,6 +121,8 @@ class ilCtrlStructureReader
 //echo "<br>".$a_cdir."/".$file;
 						while (!feof($handle)) {
 							$line = fgets($handle, 4096);
+							
+							// handle @ilctrl_calls
 							$pos = strpos(strtolower($line), "@ilctrl_calls");
 							if (is_int($pos))
 							{
@@ -156,6 +158,29 @@ class ilCtrlStructureReader
 									foreach($childs as $child)
 									{
 										$child = trim(strtolower($child));
+										if (!is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent]))
+										{
+											$this->class_childs[$parent][] = $child;
+										}
+									}
+								}
+							}
+							
+							// handle isCalledBy comments
+							$pos = strpos(strtolower($line), "@ilctrl_iscalledby");
+							if (is_int($pos))
+							{
+								$com = substr($line, $pos + 19);
+								$pos2 = strpos($com, ":");
+								if (is_int($pos2))
+								{
+									$com_arr = explode(":", $com);
+									$child = strtolower(trim($com_arr[0]));
+
+									$parents = explode(",", $com_arr[1]);
+									foreach($parents as $parent)
+									{
+										$parent = trim(strtolower($parent));
 										if (!is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent]))
 										{
 											$this->class_childs[$parent][] = $child;

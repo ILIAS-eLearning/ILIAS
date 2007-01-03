@@ -564,7 +564,7 @@ class ilNoteGUI
 		$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note_id);
 		$ilCtrl->setParameterByClass("ilnotegui", "note_type", $note->getType());
 		$tpl->setVariable("LINK_EDIT_NOTE",
-			$ilCtrl->getLinkTargetByClass(array("ilpdnotesgui", "ilnotegui"),
+			$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpdnotesgui", "ilnotegui"),
 			"editNoteForm"));
 		$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
 		$tpl->parseCurrentBlock();

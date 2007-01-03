@@ -28,27 +28,63 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+** @ilCtrl_IsCalledBy ilPDFeedbackBlockGUI: ilColumnGUI
 */
 class ilPDFeedbackBlockGUI extends ilBlockGUI
 {
-	
+	static $block_type = "pdfeedb";
 	/**
 	* Constructor
 	*/
-	function ilPDFeedbackBlockGUI($a_parent_class, $a_parent_cmd = "")
+	function ilPDFeedbackBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
+		parent::ilBlockGUI();
 		
 		$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath("icon_feedb_s.gif"));
 		$this->setTitle($lng->txt("pdesk_feedback_request"));
-		$this->setBlockIdentification("pdfeedb", $ilUser->getId());
-		$this->setPrefix("pdfeedb");
 		$this->setAvailableDetailLevels(2, 1);
 	}
 	
+	/**
+	* Get block type
+	*
+	* @return	string	Block type.
+	*/
+	function getBlockType()
+	{
+		return self::$block_type;
+	}
+	
+	/**
+	* Get Screen Mode for current command.
+	*/
+	static function getScreenMode()
+	{
+		switch($_GET["cmd"])
+		{
+			default:
+				return IL_SCREEN_SIDE;
+				break;
+		}
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd("getHTML");
+
+		return $this->$cmd();
+	}
+
 	function getHTML()
 	{
 		$html = parent::getHTML();
@@ -109,7 +145,7 @@ class ilPDFeedbackBlockGUI extends ilBlockGUI
 
 		$ilCtrl->setParameterByClass("ilfeedbackgui","barometer_id",$a_set["id"]);
 		$this->tpl->setVariable('LINK_FEEDBACK',
-			$ilCtrl->getLinkTargetByClass('ilfeedbackgui','voteform'));
+			$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", 'ilfeedbackgui'),'voteform'));
 		$this->tpl->setVariable('TXT_FEEDBACK', $a_set["title"]);
 	}
 

@@ -1027,14 +1027,6 @@ return;
 	}
 
 	/**
-	* set current bookmarkfolder on personal desktop
-	*/
-	function setCurrentBookmarkFolder()
-	{
-		$_SESSION["ilCurBMFolder"] = $_GET["curBMFolder"];
-		$this->ctrl->returnToParent($this);
-	}
-	/**
 	* imports a bookmark file into database
 	* display status information or report errors messages
 	* in case of error
@@ -1111,60 +1103,6 @@ return;
 			}
 		}
 	}
-	/**
-	* show details for Bookmark
-	*/
-	function showBookmarkDetails()
-	{
-		$this->ilias->account->writePref('show_bookmark_details','y');
-		$this->ctrl->returnToParent($this);
-	}
 
-	/**
-	* hide details for Bookmark
-	*/
-	function hideBookmarkDetails()
-	{
-		$this->ilias->account->writePref('show_bookmark_details','n');
-		$this->ctrl->returnToParent($this);
-	}
-
-	/**
-	* set current desktop view mode to flat
-	*/
-	function setPdFlatMode()
-	{
-		global $ilCtrl;
-
-		$this->ilias->account->writePref("il_pd_bkm_mode", 'flat');
-		if ($ilCtrl->isAsynch())
-		{
-			echo $this->getHTML();
-			exit;
-		}
-		else
-		{
-			$ilCtrl->returnToParent($this);
-		}
-	}
-
-	/**
-	* set current desktop view mode to tree
-	*/
-	function setPdTreeMode()
-	{
-		global $ilCtrl;
-		
-		$this->ilias->account->writePref("il_pd_bkm_mode", 'tree');
-		if ($ilCtrl->isAsynch())
-		{
-			echo $this->getHTML();
-			exit;
-		}
-		else
-		{
-			$ilCtrl->returnToParent($this);
-		}
-	}
 }
 ?>
