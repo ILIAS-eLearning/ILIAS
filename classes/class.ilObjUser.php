@@ -3308,5 +3308,38 @@ function getCourseMemberships($a_user_id = "")
 		return $this->$var;
 	}
 	
+	/**
+	* Lookup news feed hash for user. If hash does not exist, create one.
+	*/
+	function _lookupFeedHash($a_user_id, $a_create = false)
+	{
+		global $ilDB;
+
+		if ($a_user_id > 0)
+		{
+			$query = "SELECT feed_hash from usr_data WHERE usr_id = ".
+				$ilDB->quote($a_user_id);
+			$set = $ilDB->query($query);
+			if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if (strlen($rec["feed_hash"]) == 32)
+				{
+					return $rec["feed_hash"];
+				}
+				else if($a_create)
+				{
+					$hash = md5(rand(1,9999999) + str_replace(" ", "", (string) microtime()));
+					$query = "UPDATE usr_data SET feed_hash = ".
+						$ilDB->quote($hash).
+						" WHERE usr_id = ".$ilDB->quote($a_user_id);
+					$ilDB->query($query);
+					return $hash;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 } // END class ilObjUser
 ?>

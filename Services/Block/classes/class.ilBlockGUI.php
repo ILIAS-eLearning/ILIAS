@@ -38,6 +38,7 @@ class ilBlockGUI
 	protected $bigmode = false;
 	protected $footer_links = array();
 	protected $block_id = 0;
+	protected $header_commands = array();
 
 	/**
 	* Constructor
@@ -338,11 +339,18 @@ class ilBlockGUI
 	* @param	string	$a_href		command link target
 	* @param	string	$a_text		text
 	*/
-	function addHeaderCommand($a_href, $a_text)
+	function addHeaderCommand($a_href, $a_text, $a_as_close = false)
 	{
-		return $this->header_commands[] = 
-			array("href" => $a_href,
-				"text" => $a_text);
+		if ($a_as_close)
+		{
+			$this->close_command = $a_href;
+		}
+		else
+		{
+			$this->header_commands[] = 
+				array("href" => $a_href,
+					"text" => $a_text);
+		}
 	}
 
 	/**
@@ -413,7 +421,7 @@ class ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
 				
@@ -449,7 +457,9 @@ class ilBlockGUI
 		$this->fillDetailRow();
 		
 		// header commands
-		if (count($this->getHeaderCommands()) > 0)
+		if (count($this->getHeaderCommands()) > 0 ||
+			($this->detail_max > $this->detail_min && $this->detail_min == 0) ||
+			$this->close_command != "")
 		{
 			foreach($this->getHeaderCommands() as $command)
 			{
@@ -458,6 +468,39 @@ class ilBlockGUI
 				$this->tpl->setVariable("TXT_HCOMM", $command["text"]);
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			// close button
+			if (($this->detail_max > $this->detail_min && $this->detail_min == 0) ||
+				$this->close_command != "")
+			{
+				$this->tpl->setCurrentBlock("header_close");
+				$this->tpl->setVariable("ALT_CLOSE", $lng->txt("close"));
+				if ($this->getBigMode())
+				{
+					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close.gif"));
+				}
+				else
+				{
+					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close_s.gif"));
+				}
+				if ($this->close_command != "")
+				{
+					$this->tpl->setVariable("HREF_CLOSE",
+						$this->close_command);
+				}
+				else
+				{
+					$ilCtrl->setParameterByClass("ilcolumngui",
+						$this->getDetailParameter(), "0");
+					$this->tpl->setVariable("HREF_CLOSE",
+							$ilCtrl->getLinkTargetByClass("ilcolumngui",
+							""));
+					$ilCtrl->setParameterByClass("ilcolumngui",
+						$this->getDetailParameter(), "");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setCurrentBlock("header_commands");
 			$this->tpl->parseCurrentBlock();
 		}
@@ -749,7 +792,11 @@ class ilBlockGUI
 		{
 			for ($i = $this->detail_min; $i <= $this->detail_max; $i++)
 			{
-				if ($i > $this->detail_min)
+				if ($i == 0)
+				{
+					continue;
+				}
+				if ($i > $this->detail_min && $i > 1)
 				{
 					$this->tpl->touchBlock("det_delim");
 					$this->tpl->touchBlock("det_item");

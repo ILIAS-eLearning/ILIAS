@@ -142,6 +142,7 @@ class ilFeedWriter
 		include_once("classes/class.ilTemplate.php");
 		$this->tpl = new ilTemplate("tpl.rss_1_0.xml", true, true, "Services/Feeds");
 		
+		$this->tpl->setVariable("XML", "xml");
 		$this->tpl->setVariable("CONTENT_ENCODING", $this->getEncoding());
 		$this->tpl->setVariable("CHANNEL_ABOUT", $this->getChannelAbout());
 		$this->tpl->setVariable("CHANNEL_TITLE", $this->getChannelTitle());

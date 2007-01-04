@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="{CONTENT_ENCODING}" ?>
+<?{XML} version="1.0" encoding="{CONTENT_ENCODING}" ?>
 <rdf:RDF
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns="http://purl.org/rss/1.0/"
@@ -29,7 +29,7 @@
 	<description>{ITEM_DESCRIPTION}</description>
 	<!-- BEGIN authdate -->
 	<author>{ITEM_AUTHOR}</author>
-	<pubDate>{ITEM_DATE}</pubDate>-->
+	<pubDate>{ITEM_DATE}</pubDate>
 	<!-- END authdate -->
 </item>
 <!-- END item -->

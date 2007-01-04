@@ -470,7 +470,7 @@ class ilNewsItem
 	{
 		global $ilDB;
 		
-		$query = "SELECT id, priority, title, content, content_type, creation_date, update_date, user_id, visibility ".
+		$query = "SELECT id, priority, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility ".
 			"FROM il_news_item ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
@@ -491,6 +491,32 @@ class ilNewsItem
 
 	}
 
+	/**
+	* Get all news items for a user.
+	*/
+	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false)
+	{
+		$news_item = new ilNewsItem();
+		
+		include_once("./Services/News/classes/class.ilNewsSubscription.php");
+		$ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($a_user_id);
+		$data = array();
 
+		foreach($ref_ids as $ref_id)
+		{
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			$obj_type = ilObject::_lookupType($obj_id);
+			$news_item->setContextObjId($obj_id);
+			$news_item->setContextObjType($obj_type);
+			$news = $news_item->queryNewsForContext();
+			foreach ($news as $k => $v)
+			{
+				$news[$k]["ref_id"] = $ref_id;
+			}
+			$data = array_merge($data, $news);
+		}
+		$data = ilUtil::sortArray($data, "creation_date", "desc");
+		return $data;
+	}
 }
 ?>
