@@ -1098,5 +1098,57 @@ class ilInitialisation
 		$ilBench->save();
 
 	}
+	
+	/**
+	* Initialisation for feed.php
+	*/
+	function initFeed()
+	{
+		global $ilDB, $ilUser, $ilLog, $ilErr, $ilClientIniFile, $ilIliasIniFile,
+			$ilSetting, $ilias, $https, $ilObjDataCache,
+			$ilLog, $objDefinition, $lng, $ilCtrl, $ilBrowser, $ilHelp,
+			$ilTabs, $ilMainMenu, $rbacsystem, $ilNavigationHistory;
+		
+		// include common code files
+		$this->requireCommonIncludes();
+		global $ilBench;
+		
+		// set error handler (to do: check preconditions for error handler to work)
+		$ilBench->start("Core", "HeaderInclude_GetErrorHandler");
+		$ilErr = new ilErrorHandling();
+		$GLOBALS['ilErr'] =& $ilErr;
+		$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
+		$ilBench->stop("Core", "HeaderInclude_GetErrorHandler");
+		
+		// prepare file access to work with safe mode (has been done in class ilias before)
+		umask(0117);
+		
+		// $ilIliasIniFile initialisation
+		$this->initIliasIniFile();
+		
+		// CLIENT_ID determination
+		$this->determineClient();
+		
+		// $ilClientIniFile initialisation
+		if (!$this->initClientIniFile())
+		{
+			$c = $_COOKIE["ilClientId"];
+			setcookie("ilClientId", $ilIliasIniFile->readVariable("clients","default"));
+			$_COOKIE["ilClientId"] = $ilIliasIniFile->readVariable("clients","default");
+			echo ("Client $c does not exist. Please reload this page to return to the default client.");
+			exit;
+		}
+		
+		// maintenance mode
+		$this->handleMaintenanceMode();
+		
+		// $ilDB initialisation
+		$this->initDatabase();
+		
+		// $ilObjDataCache initialisation
+		$ilObjDataCache = new ilObjectDataCache();
+		$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
+
+	}
 }
 ?>

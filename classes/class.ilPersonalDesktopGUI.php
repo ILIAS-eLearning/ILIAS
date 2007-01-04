@@ -696,7 +696,7 @@ class ilPersonalDesktopGUI
 		$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getLinkTarget($this, "show"),
-			$lng->txt("close"));
+			$lng->txt("close"), true);
 		
 		$this->tpl->setContent($content_block->getHTML());
 		$this->tpl->setRightContent($this->getRightColumnHTML());

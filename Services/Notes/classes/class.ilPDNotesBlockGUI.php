@@ -270,7 +270,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_note.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
-			$lng->txt("close"));
+			$lng->txt("close"), true);
 		
 		return $content_block->getHTML();
 	}

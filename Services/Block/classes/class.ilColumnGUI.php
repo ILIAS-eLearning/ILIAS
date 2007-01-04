@@ -57,6 +57,7 @@ class ilColumnGUI
 		"ilPDSysMessageBlockGUI" => "Services/Mail/",
 		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/",
 		"ilBookmarkBlockGUI" => "Services/PersonalDesktop/",
+		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/");
 	
 	protected $blocks = array(
@@ -65,7 +66,8 @@ class ilColumnGUI
 			IL_COL_CENTER => array(),
 			IL_COL_RIGHT => array("ilNewsForContextBlockGUI")),
 		"pd" => array(
-			IL_COL_LEFT => array("ilPDSysMessageBlockGUI", "ilPDFeedbackBlockGUI"),
+			IL_COL_LEFT => array("ilPDSysMessageBlockGUI", "ilPDFeedbackBlockGUI",
+				"ilPDNewsBlockGUI"),
 			IL_COL_CENTER => array("ilPDSelectedItemsBlockGUI"),
 			IL_COL_RIGHT => array("ilPDMailBlockGUI", "ilPDNotesBlockGUI",
 				"ilUsersOnlineBlockGUI", "ilBookmarkBlockGUI"))
@@ -257,6 +259,7 @@ class ilColumnGUI
 		$blocks = array("pdmail" => $lng->txt("mail"),
 			"pdnotes" => $lng->txt("notes"),
 			"pdusers" => $lng->txt("users_online"),
+			"pdnews" => $lng->txt("news"),
 			"pdbookm" => $lng->txt("my_bms"),
 			"news" => $lng->txt("news"));
 
@@ -269,7 +272,7 @@ class ilColumnGUI
 			{
 				$hidden_blocks[$block_type] = $blocks[$block_type];
 			}
-			if (ilBlockSetting::_lookupDetailLevel($block_type, $ilUser->getId(),
+			else if (ilBlockSetting::_lookupDetailLevel($block_type, $ilUser->getId(),
 				$ilCtrl->getContextObjId()) == 0)
 			{
 				$hidden_blocks[$block_type."_".$ilCtrl->getContextObjId()] = $blocks[$block_type];

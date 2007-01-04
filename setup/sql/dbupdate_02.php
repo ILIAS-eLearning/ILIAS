@@ -239,4 +239,15 @@ CREATE TABLE `il_block_setting` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#884>
+CREATE TABLE `il_news_subscription` (
+  `user_id` int  NOT NULL default '0',
+  `ref_id` int  NOT NULL default '0',
+  PRIMARY KEY  (`user_id`,`ref_id`)
+) TYPE=MyISAM;
+<#885>
+ALTER TABLE usr_data ADD COLUMN feed_hash char(32);
+<#886>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

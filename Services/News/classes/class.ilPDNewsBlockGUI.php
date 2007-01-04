@@ -21,44 +21,39 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+include_once("Services/News/classes/class.ilNewsForContextBlockGUI.php");
 
 /**
 * BlockGUI class for block NewsForContext
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
+* @version $Id: class.ilNewsForContextBlockGUI.php 12920 2007-01-03 19:13:46Z akill $
 *
-* @ilCtrl_IsCalledBy ilNewsForContextBlockGUI: ilColumnGUI
-* @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI
+* @ilCtrl_IsCalledBy ilPDNewsBlockGUI: ilColumnGUI
 */
-class ilNewsForContextBlockGUI extends ilBlockGUI
+class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 {
-	static $block_type = "news";
+	static $block_type = "pdnews";
 	
 	/**
 	* Constructor
 	*/
-	function ilNewsForContextBlockGUI()
+	function ilPDNewsBlockGUI()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 		
 		parent::ilBlockGUI();
 		
 		$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
-$this->setEnableEdit(true);
 
 		$lng->loadLanguageModule("news");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$news_item = new ilNewsItem();
-		$news_item->setContextObjId($ilCtrl->getContextObjId());
-		$news_item->setContextObjType($ilCtrl->getContextObjType());
+		
+		$data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId());
 
-		$this->setBlockId($ilCtrl->getContextObjId());
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
 		
-		$data = $news_item->queryNewsForContext();
 		$this->setTitle($lng->txt("news_block_news_for_context"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
@@ -81,14 +76,10 @@ $this->setEnableEdit(true);
 	{
 		global $ilCtrl;
 		
-		if ($ilCtrl->getCmdClass() == "ilnewsitemgui")
-		{
-			return IL_SCREEN_CENTER;
-		}
-		
 		switch($_GET["cmd"])
 		{
 			case "showNews":
+			case "showFeedUrl":
 				return IL_SCREEN_CENTER;
 				break;
 			
@@ -110,36 +101,9 @@ $this->setEnableEdit(true);
 
 		switch ($next_class)
 		{
-			case "ilnewsitemgui":
-				include_once("./Services/News/classes/class.ilNewsItemGUI.php");
-				$news_item_gui = new ilNewsItemGUI();
-				$news_item_gui->setEnableEdit($this->getEnableEdit());
-				$html = $ilCtrl->forwardCommand($news_item_gui);
-				return $html;
-				
 			default:
 				return $this->$cmd();
 		}
-	}
-
-	/**
-	* Set EnableEdit.
-	*
-	* @param	boolean	$a_enable_edit	Edit mode on/off
-	*/
-	public function setEnableEdit($a_enable_edit = 0)
-	{
-		$this->enable_edit = $a_enable_edit;
-	}
-
-	/**
-	* Get EnableEdit.
-	*
-	* @return	boolean	Edit mode on/off
-	*/
-	public function getEnableEdit()
-	{
-		return $this->enable_edit;
 	}
 
 	/**
@@ -153,6 +117,7 @@ $this->setEnableEdit(true);
 		}
 		else
 		{
+			$this->setEnableNumInfo(false);
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -166,39 +131,20 @@ $this->setEnableEdit(true);
 		
 		// subscribe/unsibscribe link
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
-		if (ilNewsSubscription::_hasSubscribed($_GET["ref_id"], $ilUser->getId()))
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "unsubscribeNews"),
-				$lng->txt("news_unsubscribe"));
-		}
-		else
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "subscribeNews"),
-				$lng->txt("news_subscribe"));
-		}
 		
-		// add edit commands
-		if ($this->getEnableEdit())
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
-				$lng->txt("edit"));
+		// show feed url
+		$this->addBlockCommand(
+			$ilCtrl->getLinkTarget($this, "showFeedUrl"),
+			$lng->txt("news_get_feed_url"));
 
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
-				$lng->txt("add"));
-		}
-		
 		if ($this->getCurrentDetailLevel() == 0)
 		{
 			return "";
 		}
 
-		return parent::getHTML();
+		return ilBlockGUI::getHTML();
 	}
-
+	
 	/**
 	* get flat bookmark list for personal desktop
 	*/
@@ -210,9 +156,14 @@ $this->setEnableEdit(true);
 		{
 			$this->tpl->setCurrentBlock("long");
 			$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
-			$this->tpl->setVariable("VAL_CREATION_DATE", $news["creation_date"]);
 			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("VAL_CREATION_DATE", $news["creation_date"]);
 		}
+		
+		$this->tpl->setCurrentBlock("news_context");
+		$this->tpl->setVariable("TYPE", $lng->txt("obj_".$news["context_obj_type"]));
+		$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($news["context_obj_id"]));
+		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setVariable("VAL_TITLE", $news["title"]);
 		
@@ -223,53 +174,26 @@ $this->setEnableEdit(true);
 	}
 
 	/**
-	* Get overview.
+	* Show feed URL.
 	*/
-	function getOverview()
+	function showFeedUrl()
 	{
-		global $ilUser, $lng, $ilCtrl;
-				
-		return '<div class="small">'.((int) count($this->getData()))." ".$lng->txt("news_news_items")."</div>";
-	}
-
-	/**
-	* show news
-	*/
-	function showNews()
-	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
 		
 		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$news = new ilNewsItem($_GET["news_id"]);
 		
-		$tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
-		if (trim($news->getContent()) != "")		// content
-		{
-			$tpl->setCurrentBlock("content");
-			$tpl->setVariable("VAL_CONTENT", $news->getContent());
-			$tpl->parseCurrentBlock();
-		}
-		if (trim($news->getContentLong()) != "")	// long content
-		{
-			$tpl->setCurrentBlock("long");
-			$tpl->setVariable("VAL_LONG_CONTENT", $news->getContentLong());
-			$tpl->parseCurrentBlock();
-		}
-		if ($news->getUpdateDate() != $news->getCreationDate())		// update date
-		{
-			$tpl->setCurrentBlock("ni_update");
-			$tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
-			$tpl->setVariable("VAL_LAST_UPDATE", $news->getUpdateDate());
-			$tpl->parseCurrentBlock();
-		}
-		$tpl->setVariable("VAL_TITLE", $news->getTitle());			// title
-		$tpl->setVariable("VAL_CREATION_DATE", $news->getCreationDate());	// creation date
+		$tpl = new ilTemplate("tpl.show_feed_url.html", true, true, "Services/News");
+		$tpl->setVariable("TXT_TITLE", $lng->txt("news_get_feed_title"));
+		$tpl->setVariable("TXT_INFO", $lng->txt("news_get_feed_info"));
+		$tpl->setVariable("TXT_FEED_URL", $lng->txt("news_feed_url"));
+		$tpl->setVariable("VAL_FEED_URL",
+			ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&user_id=".$ilUser->getId().
+				"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news"));
-		//$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);
@@ -277,29 +201,6 @@ $this->setEnableEdit(true);
 		return $content_block->getHTML();
 	}
 
-	/**
-	* Unsubscribe current user from news
-	*/
-	function unsubscribeNews()
-	{
-		global $ilUser, $ilCtrl;
-		
-		include_once("./Services/News/classes/class.ilNewsSubscription.php");
-		ilNewsSubscription::_unsubscribe($_GET["ref_id"], $ilUser->getId());
-		$ilCtrl->returnToParent($this);
-	}
-
-	/**
-	* Subscribe current user from news
-	*/
-	function subscribeNews()
-	{
-		global $ilUser, $ilCtrl;
-
-		include_once("./Services/News/classes/class.ilNewsSubscription.php");
-		ilNewsSubscription::_subscribe($_GET["ref_id"], $ilUser->getId());
-		$ilCtrl->returnToParent($this);
-	}
 }
 
 ?>
