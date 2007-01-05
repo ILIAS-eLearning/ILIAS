@@ -48,6 +48,8 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false)
 	{
+		global $ilAccess;
+		
 		$news_item = new ilNewsItem();
 		
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
@@ -56,6 +58,11 @@ class ilNewsItem extends ilNewsItemGen
 
 		foreach($ref_ids as $ref_id)
 		{
+			if (!$ilAccess->checkAccess("visible", "", $ref_id))
+			{
+				continue;
+			}
+
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$obj_type = ilObject::_lookupType($obj_id);
 			$news_item->setContextObjId($obj_id);
@@ -78,5 +85,49 @@ class ilNewsItem extends ilNewsItemGen
 		$data = ilUtil::sortArray($data, "creation_date", "desc");
 		return $data;
 	}
+	
+	/**
+	* Get news aggregation (e.g. for courses)
+	*/
+	function getAggregatedNewsData($a_ref_id)
+	{
+		global $tree, $ilAccess;
+		
+		// get news of parent object
+		$data = $this->queryNewsForContext();
+		foreach ($data as $k => $v)
+		{
+			$data[$k]["ref_id"] = $a_ref_id;
+		}
+		
+		// get subtree
+		$cur_node = $tree->getNodeData($a_ref_id);
+		$nodes = $tree->getSubTree($cur_node, true);
+		
+		// get news for all subtree nodes
+		foreach($nodes as $node)
+		{
+			if (!$ilAccess->checkAccess("visible", "", $node["child"]))
+			{
+				continue;
+			}
+
+			$news_item = new ilNewsItem();
+			$news_item->setContextObjId($node["obj_id"]);
+			$news_item->setContextObjType($node["type"]);
+			$news = $news_item->queryNewsForContext();
+
+			foreach ($news as $k => $v)
+			{
+				$news[$k]["ref_id"] = $ref_id;
+			}
+			$data = array_merge($data, $news);
+		}
+		
+		// sort and return
+		$data = ilUtil::sortArray($data, "creation_date", "desc");
+		return $data;
+	}
+
 }
 ?>

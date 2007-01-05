@@ -154,6 +154,13 @@ class ilObjectGUI
 
 		// get the object
 		$this->assignObject();
+		
+		// set context
+		if (is_object($this->object))
+		{
+			$this->ctrl->setContext($this->object->getId(), 
+				$this->object->getType());
+		}
 
 		// use global $lng instead, when creating new objects object is not available
 		//$this->lng =& $this->object->lng;

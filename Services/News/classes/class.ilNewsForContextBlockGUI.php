@@ -53,17 +53,22 @@ $this->setEnableEdit(true);
 		$news_item = new ilNewsItem();
 		$news_item->setContextObjId($ilCtrl->getContextObjId());
 		$news_item->setContextObjType($ilCtrl->getContextObjType());
-
 		$this->setBlockId($ilCtrl->getContextObjId());
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
-		
-		$data = $news_item->queryNewsForContext();
+		if ($ilCtrl->getContextObjType() ==  "crs")
+		{
+			$data = $news_item->getAggregatedNewsData($_GET["ref_id"]);
+		}
+		else
+		{
+			$data = $news_item->queryNewsForContext();
+		}
 		$this->setTitle($lng->txt("news_block_news_for_context"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
 	}
-	
+		
 	/**
 	* Get block type
 	*

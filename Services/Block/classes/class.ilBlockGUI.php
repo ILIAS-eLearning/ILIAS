@@ -455,12 +455,13 @@ class ilBlockGUI
 		
 		// fill row for setting details
 		$this->fillDetailRow();
-		
+
 		// header commands
 		if (count($this->getHeaderCommands()) > 0 ||
 			($this->detail_max > $this->detail_min && $this->detail_min == 0) ||
 			$this->close_command != "")
 		{
+
 			foreach($this->getHeaderCommands() as $command)
 			{
 				$this->tpl->setCurrentBlock("header_command");
