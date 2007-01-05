@@ -134,6 +134,14 @@ class ilFeedWriter
 		return $this->items;
 	}
 
+	function prepareStr($a_str)
+	{
+		$a_str = str_replace("&", "&amp;", $a_str);
+		$a_str = str_replace("<", "&lt;", $a_str);
+		$a_str = str_replace(">", "&gt;", $a_str);
+		return $a_str;
+	}
+
 	/**
 	* get feed xml
 	*/
@@ -165,6 +173,11 @@ class ilFeedWriter
 		
 		$this->tpl->parseCurrentBlock();
 		return $this->tpl->get();
+	}
+	
+	function showFeed()
+	{
+		echo $this->getFeed();
 	}
 }
 ?>

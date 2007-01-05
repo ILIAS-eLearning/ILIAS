@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,29 +21,47 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("./Services/News/classes/class.ilNewsItem.php");
+include_once("./Services/Feeds/classes/class.ilFeedItem.php");
+include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
+
+/** @defgroup ServicesFeeds Services/Feeds
+ */
+
 /**
-* News feed script.
+* Feed writer for personal user feeds.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+* @ingroup ServicesFeeds
 */
-
-
-// this should bring us all session data of the desired
-// client
-if (isset($_GET["client_id"]))
+class ilUserFeedWriter extends ilFeedWriter
 {
-	setcookie("ilClientId",$_GET["client_id"]);
-	$_COOKIE["ilClientId"] = $_GET["client_id"];
+	function ilUserFeedWriter($a_user_id, $a_hash)
+	{
+		parent::ilFeedWriter();
+		
+		$hash = ilObjUser::_lookupFeedHash($a_user_id);
+		if ($a_hash == $hash)
+		{
+			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id);
+			$this->setChannelTitle("ILIAS Channel Title");
+			$this->setChannelAbout(ILIAS_HTTP_PATH);
+			$this->setChannelLink(ILIAS_HTTP_PATH);
+			$this->setChannelDescription("ILIAS Channel Description");
+			$i = 0;
+			foreach($items as $item)
+			{
+				$i++;
+				$feed_item = new ilFeedItem();
+				$feed_item->setTitle($this->prepareStr($item["title"]));
+				$feed_item->setDescription($this->prepareStr($item["content"]));
+				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
+					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
+				$feed_item->setAbout(ILIAS_HTTP_PATH."/feed".$item["id"]);
+				$this->addItem($feed_item);
+			}
+		}
+	}
 }
-
-require_once("Services/Init/classes/class.ilInitialisation.php");
-$ilInit = new ilInitialisation();
-$GLOBALS['ilInit'] =& $ilInit;
-$ilInit->initFeed();
-
-
-include_once("./Services/Feeds/classes/class.ilUserFeedWriter.php");
-$writer = new ilUserFeedWriter($_GET["user_id"], $_GET["hash"]);
-$writer->showFeed();
 ?>
