@@ -1,0 +1,102 @@
+<xs:schema targetNamespace="http://ltsc.ieee.org/xsd/LOM"
+           xmlns="http://ltsc.ieee.org/xsd/LOM"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           version="IEEE LTSC LOM XML 1.0">
+
+   <xs:annotation>
+      <xs:documentation>
+         This work is licensed under the Creative Commons Attribution-ShareAlike
+         License.  To view a copy of this license, see the file license.txt,
+         visit http://creativecommons.org/licenses/by-sa/1.0 or send a letter to
+         Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.
+      </xs:documentation>
+      <xs:documentation>
+         This file represents a composite schema for validating
+         LOM V1.0 instances.  This file is built by default to represent a 
+         composite schema for validation of the following:          
+
+         1) The use of LOM Base Schema vocabulary source/value pairs only
+         2) Uniqueness constraints defined by 1484.12.1-2002
+         3) No existenace of any defined extensions
+
+         Alternative composite schemas can be assembled by selecting
+         from the various alternative component schema listed below.
+      </xs:documentation>
+      <xs:documentation>
+        *****************************************************************************
+        **                           CHANGE HISTORY                                **
+        *****************************************************************************
+        ** 11/14/2003:  1)Updated comment describing vocab/strict.xsd.  Indicated  **
+        **                that the strict.xsd is used to validate vocabularies     **
+        **                defined in the LOM V1.0 Base Schema.                     **
+        **              2)Moved included schema elementNames.xsd just before       **
+        **                elementTypes.xsd.                                        **
+        **              3)Moved the element declaration for the top-level lom      **
+        **                metadata element to a separate file (rootElement.xsd)    **
+        **                and included this file just after elementTypes.xsd.      **
+        **              4)Moved the XML Schema import statements before the XML    **
+        **                Schema include statements.                               **
+        **              5)Moved the element group declaration named                **
+        **                lom:customElements to a separate file (anyElement.xsd)   **
+        **                and included this new file just before the XML Schema    **
+        **                import statments.                                        **
+        **                                                                         **
+        ** 03/15/2004:  1)Switched which vocabulary vaidation approach is the      **
+        **                default to be used by this template from vocab/loose.xsd **
+        **                to vocab/strict.xsd.  Base on ballot resolution comment  **
+        **                addressed on 03/15/2004                                  **
+        **              2)Switched the extension validation approach to use        **
+        **                extend/strict.xsd.  The XSD now is reprsentative of      **
+        **                a schema that can be used to validate strictly           **
+        **                conforming LOM XML Instances.                            **
+        *****************************************************************************
+      </xs:documentation>
+   </xs:annotation>
+
+   <!-- Learning Object Metadata -->
+
+   <xs:include schemaLocation="common/anyElement.xsd"/>
+
+   <!-- Element uniqueness:  use one of the following                   -->
+   <!-- Use unique/loose.xsd to relax element uniqueness constraints    -->
+   <!-- Use unique/strict.xsd to enforce element uniqueness constraints -->
+
+   <!-- <xs:import namespace="http://ltsc.ieee.org/xsd/LOM/unique"
+              schemaLocation="unique/loose.xsd"/> -->
+
+   <xs:import namespace="http://ltsc.ieee.org/xsd/LOM/unique"
+              schemaLocation="unique/strict.xsd"/>
+
+   <!-- Vocabulary checking:  use one of the following                             -->
+   <!-- Use vocab/loose.xsd to relax vocabulary enumeration constraints            -->
+   <!-- Use vocab/strict.xsd to enforce the LOM V1.0 Base Schema vocabulary values -->
+   <!-- Use vocab/custom.xsd to enforce custom vocabulary values                   -->
+
+   <!--<xs:import namespace="http://ltsc.ieee.org/xsd/LOM/vocab"
+              schemaLocation="vocab/loose.xsd"/> -->
+
+   <xs:import namespace="http://ltsc.ieee.org/xsd/LOM/vocab"
+              schemaLocation="vocab/strict.xsd"/> 
+
+   <!-- <xs:import namespace="http://ltsc.ieee.org/xsd/LOM/vocab"
+              schemaLocation="vocab/custom.xsd"/> -->
+
+   <!-- Custom elements:  use one of the following                     -->
+   <!-- Use extend/strict.xsd to enforce strictly conforming elements  -->
+   <!-- Use extend/custom.xsd to allow custom metadata elements        -->
+
+   <xs:import namespace="http://ltsc.ieee.org/xsd/LOM/extend"
+             schemaLocation="extend/strict.xsd"/>  
+
+   <!--<xs:import namespace="http://ltsc.ieee.org/xsd/LOM/extend"
+              schemaLocation="extend/custom.xsd"/> -->
+
+   <xs:include schemaLocation="common/dataTypes.xsd"/>
+   <xs:include schemaLocation="common/elementNames.xsd"/>
+   <xs:include schemaLocation="common/elementTypes.xsd"/>
+   <xs:include schemaLocation="common/rootElement.xsd"/>
+   <xs:include schemaLocation="common/vocabValues.xsd"/>
+   <xs:include schemaLocation="common/vocabTypes.xsd"/>
+
+</xs:schema>

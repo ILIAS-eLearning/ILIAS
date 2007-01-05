@@ -1,0 +1,98 @@
+/**
+ * ILIAS Open Source
+ * --------------------------------
+ * Implementation of ADL SCORM 2004
+ * 
+ * Copyright (c) 2005-2007 Alfred Kohnert.
+ * 
+ * This program is free software. The use and distribution terms for this software
+ * are covered by the GNU General Public License Version 2
+ * 	<http://opensource.org/licenses/gpl-license.php>.
+ * By using this software in any fashion, you are agreeing to be bound by the terms 
+ * of this license.
+ * 
+ * You must not remove this notice, or any other, from this software.
+ */
+
+/**
+ * PRELIMINARY EDITION 
+ * This is work in progress and therefore incomplete and buggy ...
+ * 
+ * Content-Type: text/css; charset=ISO-8859-1
+ */
+
+body {
+	overflow: hidden;
+}
+
+#frmResource {
+	height: 100%;
+	width: 100%;
+	border: 1px inset #808080;
+	overflow: scroll;
+}
+
+a {
+	text-decoration: none;
+	background-color: rgb(85,107,47);
+	color: white;
+	border: 1px outset;
+}
+
+a:hover {
+	background-color: rgb(107,142,35);
+}
+#tdControls {
+	text-align: center;
+}
+iframe {
+	border-width: 0px;
+}
+
+
+/* ----------- */ 
+
+
+#treeView a {
+	display: block;
+}
+
+#treeView div {
+	padding: 8px;
+}
+
+#treeView div div {
+	padding: 0px 0px 0px 16px;
+}
+
+#treeView a.nde {
+	margin-bottom: 2px;
+	padding: 1px 3px 1px 3px;
+}
+/* ----------- */ 
+
+
+#reportView a {
+	display: block;
+}
+
+
+/* ----------- */ 
+
+
+#listView select {
+	width: 100%;
+}
+
+/* ----------- */ 
+
+
+#stripView a {
+	display: block;
+	width: 120px; 
+	min-width: 120px; 
+	height: 50px;
+	overflow: hidden;
+}
+
+/* ----------- */ 
