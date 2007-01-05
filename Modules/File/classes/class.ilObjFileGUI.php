@@ -59,12 +59,6 @@ class ilObjFileGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 		
-		// set context
-		if (is_object($this->object))
-		{
-			$this->ctrl->setContext($this->object->getId(), "file");
-		}
-		
 //echo "-$cmd-";
 		switch ($next_class)
 		{

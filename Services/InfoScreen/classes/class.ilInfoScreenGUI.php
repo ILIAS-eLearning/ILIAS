@@ -88,7 +88,8 @@ class ilInfoScreenGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->ctrl->getCmd("showSummary");
-
+		$this->ctrl->setReturn($this, "showSummary");
+		
 		$this->setTabs();
 
 		switch($next_class)
@@ -107,8 +108,6 @@ class ilInfoScreenGUI
 				break;
 
 			case "ilcolumngui":
-				include_once("./Services/Block/classes/class.ilColumnGUI.php");
-				$column_gui = new ilColumnGUI("pd");
 				$this->showSummary();
 				break;
 
