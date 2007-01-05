@@ -54,7 +54,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(3);
 		
-		$this->setTitle($lng->txt("news_block_news_for_context"));
+		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
 	}
@@ -164,6 +164,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->tpl->setVariable("TYPE", $lng->txt("obj_".$news["context_obj_type"]));
 		$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($news["context_obj_id"]));
 		$this->tpl->parseCurrentBlock();
+		$ilCtrl->setParameter($this, "news_context", $news["ref_id"]);
 		
 		$this->tpl->setVariable("VAL_TITLE", $news["title"]);
 		
@@ -193,7 +194,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
-		$content_block->setTitle($lng->txt("news"));
+		$content_block->setTitle($lng->txt("news_internal_news"));
 		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);

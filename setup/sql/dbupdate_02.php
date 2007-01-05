@@ -251,3 +251,7 @@ ALTER TABLE usr_data ADD COLUMN feed_hash char(32);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#887>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

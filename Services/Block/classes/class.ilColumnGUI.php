@@ -58,6 +58,7 @@ class ilColumnGUI
 		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/",
 		"ilBookmarkBlockGUI" => "Services/PersonalDesktop/",
 		"ilPDNewsBlockGUI" => "Services/News/",
+		"ilExternalFeedBlockGUI" => "Services/Feeds/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/");
 	
 	protected $blocks = array(
@@ -67,7 +68,7 @@ class ilColumnGUI
 			IL_COL_RIGHT => array("ilNewsForContextBlockGUI")),
 		"pd" => array(
 			IL_COL_LEFT => array("ilPDSysMessageBlockGUI", "ilPDFeedbackBlockGUI",
-				"ilPDNewsBlockGUI"),
+				"ilPDNewsBlockGUI", "ilExternalFeedBlockGUI"),
 			IL_COL_CENTER => array("ilPDSelectedItemsBlockGUI"),
 			IL_COL_RIGHT => array("ilPDMailBlockGUI", "ilPDNotesBlockGUI",
 				"ilUsersOnlineBlockGUI", "ilBookmarkBlockGUI"))
@@ -261,7 +262,8 @@ class ilColumnGUI
 			"pdusers" => $lng->txt("users_online"),
 			"pdnews" => $lng->txt("news"),
 			"pdbookm" => $lng->txt("my_bms"),
-			"news" => $lng->txt("news"));
+			"news" => $lng->txt("news"),
+			"feed" => $lng->txt("feed"));
 
 		foreach($this->blocks[$this->getColType()][$this->getSide()] as $block_class)
 		{
@@ -284,7 +286,7 @@ class ilColumnGUI
 			$this->tpl->setVariable("HB_ACTION", $ilCtrl->getFormAction($this));
 			$this->tpl->setVariable("BLOCK_SEL", ilUtil::formSelect("", "block", $hidden_blocks,
 				false, true, 0, "ilEditSelect"));
-			$this->tpl->setVariable("TXT_ACTIVATE", $lng->txt("activate_block"));
+			$this->tpl->setVariable("TXT_ACTIVATE", $lng->txt("show"));
 			$this->tpl->parseCurrentBlock();
 		}
 		//return $tpl->get();
@@ -328,7 +330,7 @@ class ilColumnGUI
 		{
 			$block = explode("_", $_POST["block"]);
 			include_once("Services/Block/classes/class.ilBlockSetting.php");
-			ilBlockSetting::_writeDetailLevel($block[0], 1, $ilUser->getId(), $block[1]);
+			ilBlockSetting::_writeDetailLevel($block[0], 2, $ilUser->getId(), $block[1]);
 		}
 
 		$ilCtrl->returnToParent($this);

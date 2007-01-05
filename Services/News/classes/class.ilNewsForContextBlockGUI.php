@@ -64,7 +64,7 @@ $this->setEnableEdit(true);
 		{
 			$data = $news_item->queryNewsForContext();
 		}
-		$this->setTitle($lng->txt("news_block_news_for_context"));
+		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
 	}
@@ -219,6 +219,19 @@ $this->setEnableEdit(true);
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		if ($news["ref_id"] > 0 && $news["ref_id"] != $_GET["ref_id"])
+		{
+			$type = in_array($news["context_obj_type"], array("sahs", "lm", "dbk", "htlm"))
+				? "lres"
+				: "obj_".$news["context_obj_type"];
+
+			$this->tpl->setCurrentBlock("news_context");
+			$this->tpl->setVariable("TYPE", $lng->txt($type));
+			$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($news["context_obj_id"]));
+			$this->tpl->parseCurrentBlock();
+			$ilCtrl->setParameter($this, "news_context", $news["ref_id"]);
+		}
+
 		$this->tpl->setVariable("VAL_TITLE", $news["title"]);
 		
 		$ilCtrl->setParameter($this, "news_id", $news["id"]);
@@ -267,13 +280,26 @@ $this->setEnableEdit(true);
 			$tpl->setVariable("VAL_LAST_UPDATE", $news->getUpdateDate());
 			$tpl->parseCurrentBlock();
 		}
+		if ($_GET["news_context"] != "")		// link
+		{
+			$obj_id = ilObject::_lookupObjId($_GET["news_context"]);
+			$obj_type = ilObject::_lookupType($obj_id);
+			$tpl->setCurrentBlock("link");
+			$tpl->setVariable("HREF_LINK",
+				"./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".$obj_type."_".$_GET["news_context"]);
+			$txt = in_array($obj_type, array("sahs", "lm", "dbk", "htlm"))
+				? "lres"
+				: "obj_".$obj_type;
+			$tpl->setVariable("TXT_LINK", $lng->txt($txt).": ".ilObject::_lookupTitle($obj_id));
+			$tpl->parseCurrentBlock();
+		}
 		$tpl->setVariable("VAL_TITLE", $news->getTitle());			// title
 		$tpl->setVariable("VAL_CREATION_DATE", $news->getCreationDate());	// creation date
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
-		$content_block->setTitle($lng->txt("news"));
+		$content_block->setTitle($lng->txt("news_internal_news"));
 		//$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),

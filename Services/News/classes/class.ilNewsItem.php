@@ -94,11 +94,14 @@ class ilNewsItem extends ilNewsItemGen
 		global $tree, $ilAccess;
 		
 		// get news of parent object
+		/*
 		$data = $this->queryNewsForContext();
 		foreach ($data as $k => $v)
 		{
 			$data[$k]["ref_id"] = $a_ref_id;
-		}
+		}*/
+		
+		$data = array();
 		
 		// get subtree
 		$cur_node = $tree->getNodeData($a_ref_id);
@@ -119,7 +122,7 @@ class ilNewsItem extends ilNewsItemGen
 
 			foreach ($news as $k => $v)
 			{
-				$news[$k]["ref_id"] = $ref_id;
+				$news[$k]["ref_id"] = $node["child"];
 			}
 			$data = array_merge($data, $news);
 		}
