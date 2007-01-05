@@ -2759,11 +2759,14 @@ news#:#news_visibility#:#Access
 news#:#news_news_items#:#News Item(s)
 news#:#news_subscribe#:#Subscribe
 news#:#news_unsubscribe#:#Unsubscribe
+news#:#news_internal_news#:#Internal News
 news#:#news_get_feed_url#:#Get Feed URL
 news#:#news_get_feed_title#:#Personal Feed URL
 news#:#news_get_feed_info#:#This is your personal news feed URL. The feed includes only news that are declared as public. The feed is not protected by any authentication procedure. Please do not share this URL with other people.
 news#:#news_feed_url#:#Feed URL
 news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
+feed#:#feed_feed_items#:#Feed Item(s)
+feed#:#feed_open_source_page#:#Go to Source of External News
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)
 common#:#activate_block#:#Activate
