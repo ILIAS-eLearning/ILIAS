@@ -44,7 +44,7 @@ class ilUserFeedWriter extends ilFeedWriter
 		$hash = ilObjUser::_lookupFeedHash($a_user_id);
 		if ($a_hash == $hash)
 		{
-			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id);
+			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true);
 			$this->setChannelTitle("ILIAS Channel Title");
 			$this->setChannelAbout(ILIAS_HTTP_PATH);
 			$this->setChannelLink(ILIAS_HTTP_PATH);
