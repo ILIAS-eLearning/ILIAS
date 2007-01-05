@@ -113,6 +113,7 @@ class ilObjiLincUser
 	/**
 	 * creates login and password for ilinc
 	 * login format is: <first 3 letter of ilias login> _ <user_id> _ <inst_id> _ <timestamp>
+	 * some characters are not allowed in login in ilinc. These chars will be converted to <underscore>
 	 * passwd format is a random md5 hash
 	 * 
 	 */
@@ -122,8 +123,23 @@ class ilObjiLincUser
 		{
 			$a_inst_id = "0";
 		}
+		
+		$chars = str_split(substr($a_user_login,0,3));
+	
+		// convert non-allowed chars in login to <underscore>
+		foreach ($chars as $char)
+		{
+			if (!preg_match("/^[A-Za-z0-9_\-]+$/", $char))
+			{
+				$result .= "_";
+			}
+			else
+			{
+				$result .= $char;
+			}
+		}
 
-		$data["login"] = substr($a_user_login,0,3)."_".$a_user_id."_".$a_inst_id."_".time();
+		$data["login"] = $result."_".$a_user_id."_".$a_inst_id."_".time();
 		$data["passwd"] = md5(microtime().$a_user_login.rand(10000, 32000));
 
 		$this->id = '';
