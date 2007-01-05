@@ -2246,6 +2246,8 @@ common#:#ilinc_err_no_permission#:#You do not possess the permissions for this o
 common#:#ilinc_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !
 common#:#ilinc_header_edit_users#:#Edit list of involved users
 common#:#ilinc_id#:#iLinc ID
+common#:#ilinc_login#:#iLinc Login
+common#:#ilinc_passwd#:#iLinc Password
 common#:#ilinc_involved_users#:#Involved Users
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.
 common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.
