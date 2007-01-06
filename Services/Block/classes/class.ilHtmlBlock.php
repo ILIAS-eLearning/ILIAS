@@ -21,88 +21,52 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("./Services/Block/classes/class.ilCustomBlock.php");
 
 /**
-* Superclass for all blocks.
+* A HTML block allows to present simple HTML within a block.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */
-class ilBlock 
+class ilHtmlBlock extends ilCustomBlock
 {
 
-	private $id;
-	private $type;
-	private $user;
-	private $setting;
+	protected $content;
 
 	/**
 	* Constructor.
 	*
 	* @param	int	$a_id	
 	*/
-	public function __construct()
+	public function __construct($a_id = 0)
 	{
+		if ($a_id > 0)
+		{
+			$this->setId($a_id);
+			$this->read();
+		}
+
 	}
 
 	/**
-	* Set Type.
+	* Set Content.
 	*
-	* @param	string	$a_type	
+	* @param	string	$a_content	HTML content of the block.
 	*/
-	public function setType($a_type)
+	public function setContent($a_content)
 	{
-		$this->type = $a_type;
+		$this->content = $a_content;
 	}
 
 	/**
-	* Get Type.
+	* Get Content.
 	*
-	* @return	string	
+	* @return	string	HTML content of the block.
 	*/
-	public function getType()
+	public function getContent()
 	{
-		return $this->type;
-	}
-
-	/**
-	* Set User.
-	*
-	* @param	int	$a_user	
-	*/
-	public function setUser($a_user)
-	{
-		$this->user = $a_user;
-	}
-
-	/**
-	* Get User.
-	*
-	* @return	int	
-	*/
-	public function getUser()
-	{
-		return $this->user;
-	}
-
-	/**
-	* Set Setting.
-	*
-	* @param	string	$a_setting	
-	*/
-	public function setSetting($a_setting)
-	{
-		$this->setting = $a_setting;
-	}
-
-	/**
-	* Get Setting.
-	*
-	* @return	string	
-	*/
-	public function getSetting()
-	{
-		return $this->setting;
+		return $this->content;
 	}
 
 	/**
@@ -113,15 +77,16 @@ class ilBlock
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO il_block (".
-			" type".
-			", user".
-			", setting".
+		parent::create();
+		
+		$query = "INSERT INTO il_html_block (".
+			" id".
+			", content".
 			" ) VALUES (".
-			$ilDB->quote($this->getType())
-			.",".$ilDB->quote($this->getUser())
-			.",".$ilDB->quote($this->getSetting()).")";
+			$ilDB->quote($this->getId())
+			.",".$ilDB->quote($this->getContent()).")";
 		$ilDB->query($query);
+		
 
 	}
 
@@ -133,29 +98,29 @@ class ilBlock
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM il_block WHERE id = ".
+		parent::read();
+		
+		$query = "SELECT * FROM il_html_block WHERE id = ".
 			$ilDB->quote($this->getId());
 		$set = $ilDB->query($query);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		$this->setType($rec["type"]);
-		$this->setUser($rec["user"]);
-		$this->setSetting($rec["setting"]);
+		$this->setContent($rec["content"]);
 
 	}
 
 	/**
-	* Update item from database.
+	* Update item in database.
 	*
 	*/
 	public function update()
 	{
 		global $ilDB;
 		
-		$query = "UPDATE il_block SET ".
-			" type = ".$ilDB->quote($this->getType()).
-			", user = ".$ilDB->quote($this->getUser()).
-			", setting = ".$ilDB->quote($this->getSetting()).
+		parent::update();
+		
+		$query = "UPDATE il_html_block SET ".
+			" content = ".$ilDB->quote($this->getContent()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		
 		$ilDB->query($query);
@@ -170,7 +135,9 @@ class ilBlock
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM il_block".
+		parent::delete();
+		
+		$query = "DELETE FROM il_html_block".
 			" WHERE id = ".$ilDB->quote($this->getId());
 		
 		$ilDB->query($query);

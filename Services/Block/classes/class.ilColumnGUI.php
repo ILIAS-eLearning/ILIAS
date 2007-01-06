@@ -59,6 +59,7 @@ class ilColumnGUI
 		"ilBookmarkBlockGUI" => "Services/PersonalDesktop/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Services/Feeds/",
+		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/");
 	
 	protected $blocks = array(
@@ -72,6 +73,17 @@ class ilColumnGUI
 			IL_COL_CENTER => array("ilPDSelectedItemsBlockGUI"),
 			IL_COL_RIGHT => array("ilPDMailBlockGUI", "ilPDNotesBlockGUI",
 				"ilUsersOnlineBlockGUI", "ilBookmarkBlockGUI"))
+		);
+
+	protected $custom_blocks = array(
+		"info" => array(
+			IL_COL_LEFT => array(),
+			IL_COL_CENTER => array(),
+			IL_COL_RIGHT => array()),
+		"pd" => array(
+			IL_COL_LEFT => array("ilHtmlBlockGUI"),
+			IL_COL_CENTER => array(),
+			IL_COL_RIGHT => array())
 		);
 
 	/**
@@ -263,7 +275,9 @@ class ilColumnGUI
 			"pdnews" => $lng->txt("news"),
 			"pdbookm" => $lng->txt("my_bms"),
 			"news" => $lng->txt("news"),
-			"feed" => $lng->txt("feed"));
+			"feed" => $lng->txt("feed"),
+			"html" => $lng->txt("html_block"),
+			);
 
 		foreach($this->blocks[$this->getColType()][$this->getSide()] as $block_class)
 		{
@@ -289,6 +303,26 @@ class ilColumnGUI
 			$this->tpl->setVariable("TXT_ACTIVATE", $lng->txt("show"));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		// add block
+		$add_blocks = array();
+		foreach($this->custom_blocks[$this->getColType()][$this->getSide()] as $block_class)
+		{
+			include_once("./".$this->locations[$block_class]."classes/".
+				"class.".$block_class.".php");
+			$block_type = call_user_func(array($block_class, 'getBlockType'));
+			$add_blocks[$block_type] = $blocks[$block_type];
+		}
+		if (count($add_blocks) > 0)
+		{
+			$this->tpl->setCurrentBlock("add_block_selector");
+			$this->tpl->setVariable("AB_ACTION", $ilCtrl->getFormAction($this));
+			$this->tpl->setVariable("ADD_BLOCK_SEL", ilUtil::formSelect("", "block_type", $add_blocks,
+				false, true, 0, "ilEditSelect"));
+			$this->tpl->setVariable("TXT_ADD", $lng->txt("create"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		//return $tpl->get();
 
 	}
