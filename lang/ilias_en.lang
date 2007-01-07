@@ -2348,7 +2348,7 @@ common#:#ingmedia_use_title#:#Change user data.
 common#:#ingmedia_user_agree#:#Agreement
 common#:#ingmedia_vis_le#:#Visited LE
 common#:#ingmedia_visited_le#:#All LE you have visited so far.
-common#:#ingmedia_welcome#:#, welcome to your personal desktop!!
+common#:#ingmedia_welcome#:#, welcome to your personal desktop!
 common#:#inifile#:#Ini-File
 common#:#input_error#:#Input error
 common#:#insert#:#Insert
@@ -2772,11 +2772,25 @@ news#:#news_feed_url#:#Feed URL
 news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 feed#:#feed_feed_items#:#Feed Item(s)
 feed#:#feed_open_source_page#:#Go to Source of External News
+feed#:#block_feed_block_head#:#External News Feed
+feed#:#block_feed_block_title#:#Title
+feed#:#block_feed_block_feed_url#:#Feed URL
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)
+pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!
+pdesk#:#pdesk_intro2#:#This is your personal space for organising your working and learning. You can put resources from other areas on your personal desktop. Doing so takes two steps:
+pdesk#:#pdesk_intro3#:#Click on '%s' and browse the existing working and learning resources.
+pdesk#:#pdesk_intro4#:#If you found something of interest, add it to your desktop by clicking the <i>Add to Desktop</i> button.
 common#:#activate_block#:#Activate
 pdesk#:#pdesk_feedback_request#:#Feedback Request
 pdesk#:#pdesk_feedbacks#:#Feedback Request(s)
+rep#:#rep_intro#:#Welcome to the Repository!
+rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchie of disciplines, or classes of a school.
+rep#:#rep_intro2#:#Three steps are needed to build an initial structure:
+rep#:#rep_intro3#:#Click on the <i>%s</i> button besides the selection list on the top right.
+rep#:#rep_intro4#:#In the following form, enter a title and a description, and click on <i>%s</i>.
+rep#:#rep_intro5#:#By clicking on the title of the category you enter your category.
+rep#:#rep_intro6#:#After that procedure you may add any learning or working resource to your category.
 common#:#next#:#Next
 common#:#select_page#:#Select Page
 common#:#nickname#:#Nickname
@@ -3471,7 +3485,7 @@ common#:#title#:#Title
 common#:#title_long#:#Long Title
 common#:#to#:#To
 common#:#to_client_list#:#Client Selection
-common#:#to_desktop#:#Add to desktop
+common#:#to_desktop#:#Add to Desktop
 common#:#today#:#Today
 common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed

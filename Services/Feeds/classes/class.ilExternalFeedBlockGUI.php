@@ -22,6 +22,7 @@
 */
 
 include_once("./Services/Block/classes/class.ilBlockGUI.php");
+include_once("./Services/Block/classes/class.ilExternalFeedBlockGUIGen.php");
 include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
 
 /**
@@ -33,7 +34,7 @@ include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
 * @ilCtrl_IsCalledBy ilExternalFeedBlockGUI: ilColumnGUI
 * @ingroup ServicesFeeds
 */
-class ilExternalFeedBlockGUI extends ilBlockGUI
+class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 {
 	static $block_type = "feed";
 	
@@ -44,13 +45,12 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng;
 		
+		parent::__construct();
 		parent::ilBlockGUI();
 		
 		$this->setImage(ilUtil::getImagePath("icon_feed_s.gif"));
 
 		$lng->loadLanguageModule("feed");
-		include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
-		$this->feed = new ilExternalFeed();
 		
 		// Tagesschau: RSS 2.0
 		//$this->feed->setUrl("http://www.tagesschau.de/xml/rss2");
@@ -59,7 +59,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 		//$this->feed->setUrl("http://planet.eduforge.org/rss20.xml");
 
 		// ILIAS open source forum
-		$this->feed->setUrl("http://www.ilias.de/iosbb/rss.php");
+//		$this->feed->setUrl("http://www.ilias.de/iosbb/rss.php");
 		
 		// Spiegel: RSS 0.91
 		//$this->feed->setUrl("http://www.spiegel.de/schlagzeilen/rss/index.xml");
@@ -67,13 +67,13 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 		// Heise: Atom
 		//$this->feed->setUrl("http://www.heise.de/newsticker/heise-atom.xml");
 
-		$this->feed->fetch();
+//		$this->feed->fetch();
 		
 		$this->setLimit(5);
 		$this->setAvailableDetailLevels(2);
-		$this->setTitle($this->feed->getChannelTitle());
+//		$this->setTitle($this->feed->getChannelTitle());
 		$this->setRowTemplate("tpl.block_external_feed_row.html", "Services/Feeds");
-		$this->setData($this->feed->getItems());
+//		$this->setData($this->feed->getItems());
 	}
 		
 	/**
@@ -95,6 +95,11 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 		
 		switch($_GET["cmd"])
 		{
+			case "create":
+			case "edit":
+			case "saveFeedBlock":
+			case "updateFeedBlock":
+			case "editFeedBlock":
 			case "showFeedItem":
 				return IL_SCREEN_CENTER;
 				break;
@@ -103,6 +108,13 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 				return IL_SCREEN_SIDE;
 				break;
 		}
+	}
+
+	function setBlock($a_block)
+	{
+		$this->feed_block = $a_block;
+		$this->setTitle($this->html_block->getTitle());
+		$this->setBlockId($this->html_block->getId());
 	}
 
 	/**
@@ -144,34 +156,12 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		// subscribe/unsibscribe link
-/*
-		include_once("./Services/News/classes/class.ilNewsSubscription.php");
-		if (ilNewsSubscription::_hasSubscribed($_GET["ref_id"], $ilUser->getId()))
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "unsubscribeNews"),
-				$lng->txt("news_unsubscribe"));
-		}
-		else
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "subscribeNews"),
-				$lng->txt("news_subscribe"));
-		}
-		
-		// add edit commands
-		if ($this->getEnableEdit())
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
-				$lng->txt("edit"));
-
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
-				$lng->txt("add"));
-		}
-*/
+		include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
+		$this->feed = new ilExternalFeed();
+		$this->feed->setUrl($this->feed_block->getFeedUrl());
+		$this->feed->fetch();
+		$this->setTitle($this->feed->getChannelTitle());
+		$this->setData($this->feed->getItems());
 		
 		if ($this->getCurrentDetailLevel() == 0)
 		{
@@ -264,6 +254,58 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 
 		return $content_block->getHTML();
 	}
+	
+	/**
+	* Create Form for Block.
+	*/
+	function create()
+	{
+		return $this->createFeedBlock();
+	}
+
+	/**
+	* FORM FeedBlock: Prepare Saving of FeedBlock.
+	*
+	* @param	object	$a_feed_block	FeedBlock object.
+	*/
+	public function prepareSaveFeedBlock(&$a_feed_block)
+	{
+		global $ilCtrl;
+		
+		$a_feed_block->setType($this->getBlockType());
+		$a_feed_block->setContextObjId($ilCtrl->getContextObjId());
+		$a_feed_block->setContextObjType($ilCtrl->getContextObjType());
+	}
+	
+	/**
+	* FORM FeedBlock: Save FeedBlock.
+	*
+	*/
+	public function saveFeedBlock()
+	{
+		global $ilCtrl;
+
+		if ($this->checkInputFeedBlock())
+		{
+			parent::saveFeedBlock();
+			$ilCtrl->returnToParent($this);
+		}
+		else
+		{
+			return parent::saveFeedBlock();
+		}
+	}
+	
+	/**
+	* Cancel Saving
+	*/
+	function cancelSaveFeedBlock()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
+	}
+
 }
 
 ?>

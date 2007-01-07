@@ -274,3 +274,10 @@ CREATE table `il_html_block`
 	`id` int not null primary key,
 	`content` text
 );
+<#890>
+DROP TABLE IF EXISTS il_external_feed_block;
+CREATE table `il_external_feed_block`
+(
+	`id` int not null auto_increment primary key,
+	`feed_url` varchar(250)
+);
