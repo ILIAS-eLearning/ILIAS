@@ -280,6 +280,60 @@ class ilCustomBlock
 
 	}
 
+	/**
+	* Query getBlocksForContext
+	*
+	*/
+	public function querygetBlocksForContext()
+	{
+		global $ilDB;
+		
+		$query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title ".
+			"FROM il_custom_block ".
+			"WHERE ".
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
+				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType())."";
+				
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$result[] = $rec;
+		}
+		
+		return $result;
+
+	}
+
+	/**
+	* Query BlocksForContext
+	*
+	*/
+	public function queryBlocksForContext()
+	{
+		global $ilDB;
+		
+		$query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title ".
+			"FROM il_custom_block ".
+			"WHERE ".
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
+				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType())."";
+				
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$result[] = $rec;
+		}
+		
+		return $result;
+
+	}
+
 
 }
 ?>

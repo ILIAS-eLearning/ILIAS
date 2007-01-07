@@ -95,5 +95,45 @@ class ilBlockSetting
 		ilBlockSetting::_write($a_type, "detail", $a_value, $a_user, $a_block_id);
 	}
 
+	/**
+	* Lookup number.
+	*
+	*/
+	public static function _lookupNr($a_type, $a_user = 0, $a_block_id = 0)
+	{
+		$nr = ilBlockSetting::_lookup($a_type, "nr", $a_user, $a_block_id);
+
+		return $nr;
+	}
+
+	/**
+	* Write number to database.
+	*
+	*/
+	public static function _writeNumber($a_type, $a_value, $a_user = 0, $a_block_id = 0)
+	{
+		ilBlockSetting::_write($a_type, "nr", $a_value, $a_user, $a_block_id);
+	}
+
+	/**
+	* Lookup side.
+	*
+	*/
+	public static function _lookupSide($a_type, $a_user = 0, $a_block_id = 0)
+	{
+		$side = ilBlockSetting::_lookup($a_type, "side", $a_user, $a_block_id);
+
+		return $side;
+	}
+
+	/**
+	* Write side to database.
+	*
+	*/
+	public static function _writeSide($a_type, $a_value, $a_user = 0, $a_block_id = 0)
+	{
+		ilBlockSetting::_write($a_type, "side", $a_value, $a_user, $a_block_id);
+	}
+
 }
 ?>

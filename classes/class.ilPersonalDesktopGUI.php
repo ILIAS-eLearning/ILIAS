@@ -50,7 +50,7 @@ class ilPersonalDesktopGUI
 	*/
 	function ilPersonalDesktopGUI()
 	{
-		global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl, $ilMainMenu;
+		global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl, $ilMainMenu, $ilUser;
 		
 		
 		$this->tpl =& $tpl;
@@ -58,6 +58,9 @@ class ilPersonalDesktopGUI
 		$this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
 		
+		$ilCtrl->setContext($ilUser->getId(),
+				"user");
+
 		$ilMainMenu->setActive("desktop");
 		$this->lng->loadLanguageModule("pdesk");
 		
@@ -325,7 +328,7 @@ class ilPersonalDesktopGUI
 	function getLeftColumnHTML()
 	{
 		global $ilUser, $lng, $ilCtrl;
-		
+
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
 		
@@ -386,50 +389,7 @@ class ilPersonalDesktopGUI
 			$this->ilias->raiseError($this->lng->txt($err_msg),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->show();
-	}	
-	
-	
-	/**
-	* order desktop items by location
-	*/
-	function orderPDItemsByLocation()
-	{
-		global $ilUser, $ilCtrl;
-		
-		$ilUser->writePref("pd_order_items", "location");
-		
-		if ($ilCtrl->isAsynch())
-		{
-			echo $this->displaySelectedItems();
-			exit;
-		}
-		else
-		{
-			$this->show();
-		}
 	}
-	
-	/**
-	* order desktop items by Type
-	*/
-	function orderPDItemsByType()
-	{
-		global $ilUser, $ilCtrl;
-		
-		$ilUser->writePref("pd_order_items", "type");
-		if ($ilCtrl->isAsynch())
-		{
-			echo $this->displaySelectedItems();
-			exit;
-		}
-		else
-		{
-			$this->show();
-		}
-	}
-	
-	
-
 	
 	/**
 	* Display system messages.

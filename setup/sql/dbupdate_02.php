@@ -255,3 +255,22 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#888>
+DROP TABLE IF EXISTS il_custom_block;
+CREATE table `il_custom_block`
+(
+	`id` int not null auto_increment primary key,
+	`context_obj_id` int,
+	`context_obj_type` char(10),
+	`context_sub_obj_id` int,
+	`context_sub_obj_type` char(10),
+	`type` varchar(20),
+	`title` varchar(200)
+);
+<#889>
+DROP TABLE IF EXISTS il_html_block;
+CREATE table `il_html_block`
+(
+	`id` int not null primary key,
+	`content` text
+);

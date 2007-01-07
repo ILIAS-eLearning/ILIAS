@@ -327,7 +327,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		if ($required_text)
 		{
 			$this->tpl->setCurrentBlock("required_text");
-			$this->tpl->setVariable("TXT_REQUIRED", $lng->txt("required"));
+			$this->tpl->setVariable("TXT_REQUIRED", $lng->txt("required_field"));
 			$this->tpl->parseCurrentBlock();			
 		}
 		
