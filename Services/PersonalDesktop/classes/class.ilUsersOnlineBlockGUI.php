@@ -30,6 +30,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilUsersOnlineBlockGUI: ilColumnGUI
+* @ilCtrl_Calls ilUsersOnlineBlockGUI: ilObjUserGUI,
 */
 class ilUsersOnlineBlockGUI extends ilBlockGUI
 {
@@ -50,7 +51,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		$this->setAvailableDetailLevels(3);
 	}
 	
-		/**
+	/**
 	* Get block type
 	*
 	* @return	string	Block type.
@@ -65,7 +66,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	static function getScreenMode()
 	{
-		switch($_GET["cmd"])
+		global $ilCtrl;
+
+		switch($ilCtrl->getCmd())
 		{
 			case "showUserProfile":
 				return IL_SCREEN_CENTER;
@@ -86,8 +89,19 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
-		return $this->$cmd();
+		
+		switch($next_class)
+		{
+			// profile
+			case "ilobjusergui":
+				include_once("classes/class.ilObjUserGUI.php");
+				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+				$return = $this->ctrl->forwardCommand($user_gui);
+				break;
+				
+			default:
+				return $this->$cmd();
+		}
 	}
 
 	function getHTML()
@@ -397,9 +411,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setCurrentBlock("profile_link");
 			$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
-			$ilCtrl->setParameterByClass("ilpersonaldesktopgui", "user", $a_set["id"]);
+			$ilCtrl->setParameter($this, "user", $a_set["id"]);
 			$this->tpl->setVariable("LINK_PROFILE",
-			$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "showUserProfile"));
+			$ilCtrl->getLinkTarget($this, "showUserProfile"));
 			$this->tpl->setVariable("USR_ID", $a_set["id"]);
 			$this->tpl->setVariable("LINK_FULLNAME", $user_obj->getFullname());
 			$this->tpl->parseCurrentBlock();
@@ -506,6 +520,29 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		}
 		return false;
 	}
+	
+	/**
+	* show profile of other user
+	*/
+	function showUserProfile()
+	{
+		global $lng, $ilCtrl;
+		include_once("classes/class.ilObjUserGUI.php");
+		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+		
+		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+		$content_block = new ilPDContentBlockGUI("ilpersonaldesktopgui", "show");
+		$content_block->setContent($user_gui->getPublicProfile("", false, true));
+		$content_block->setTitle($lng->txt("profile_of")." ".
+			$user_gui->object->getLogin());
+		$content_block->setColSpan(2);
+		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
+		$content_block->addHeaderCommand($ilCtrl->getLinkTarget($this, "show"),
+			$lng->txt("close"), true);
+		
+		return $content_block->getHTML();
+	}
+
 }
 
 ?>

@@ -92,7 +92,7 @@ class ilColumnGUI
 		);
 
 	protected $custom_blocks = array(
-		"info" => array(""),
+		"info" => array(),
 		"pd" => array("ilExternalFeedBlockGUI")
 		);
 
@@ -214,12 +214,21 @@ class ilColumnGUI
 		if ($next_class != "")
 		{
 			// forward to block
-			if ($class = array_search($cur_block_type, $this->block_types))
+			if ($gui_class = array_search($cur_block_type, $this->block_types))
 			{
-				include_once("./".$this->locations[$class]."classes/".
-					"class.".$class.".php");
+				include_once("./".$this->locations[$gui_class]."classes/".
+					"class.".$gui_class.".php");
 				$ilCtrl->setParameter($this, "block_type", $cur_block_type);
-				$block_gui = new $class();
+				$block_gui = new $gui_class();
+
+				if (in_array($gui_class, $this->custom_blocks[$this->getColType()]))
+				{
+					$block_class = substr($gui_class, 0, strlen($gui_class)-3);
+					include_once("./".$this->locations[$gui_class]."classes/".
+						"class.".$block_class.".php");
+					$app_block = new $block_class($_GET["block_id"]);
+					$block_gui->setBlock($app_block);
+				}
 				$html = $ilCtrl->forwardCommand($block_gui);
 				$ilCtrl->setParameter($this, "block_type", "");
 				
@@ -247,7 +256,7 @@ class ilColumnGUI
 		$this->showBlocks();
 		
 		$this->addHiddenBlockSelector();
-		
+
 		return $this->tpl->get();
 	}
 	
@@ -261,6 +270,7 @@ class ilColumnGUI
 		$blocks = array();
 		
 		$i = 1;
+		$sum_moveable = count($this->blocks[$this->getSide()]);
 		foreach($this->blocks[$this->getSide()] as $block)
 		{
 			$gui_class = $block["class"];
@@ -282,7 +292,7 @@ class ilColumnGUI
 			{
 				$block_gui->setAllowMove("up");
 			}
-			if ($i < count($this->blocks[$this->getSide()]))
+			if ($i < $sum_moveable)
 			{
 				$block_gui->setAllowMove("down");
 			}
@@ -308,6 +318,10 @@ class ilColumnGUI
 			if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb")
 			{
 				$i++;
+			}
+			else
+			{
+				$sum_moveable--;
 			}
 		}
 	}
@@ -351,7 +365,7 @@ class ilColumnGUI
 					if (ilBlockSetting::_lookupDetailLevel($block["type"], $ilUser->getId(),
 						$ilCtrl->getContextObjId()) == 0)
 					{
-						$hidden_blocks[$block_type."_".$ilCtrl->getContextObjId()] = $blocks[$block_type];
+						$hidden_blocks[$block["type"]."_".$ilCtrl->getContextObjId()] = $blocks[$block["type"]];
 					}
 				}
 			}
@@ -360,7 +374,10 @@ class ilColumnGUI
 				if (ilBlockSetting::_lookupDetailLevel($block["type"], $ilUser->getId(),
 					$block["id"]) == 0)
 				{
-					$hidden_blocks[$block_type."_".$block["id"]] = $blocks[$block["type"]];
+					include_once("./Services/Block/classes/class.ilCustomBlock.php");
+					$cblock = new ilCustomBlock($block["id"]);
+					$hidden_blocks[$block["type"]."_".$block["id"]] =
+						$cblock->getTitle();
 				}
 			}
 		}
@@ -409,12 +426,20 @@ class ilColumnGUI
 		
 		$this->determineBlocks();
 		$i = 1;
+		$sum_moveable = count($this->blocks[$this->getSide()]);
 		foreach ($this->blocks[$this->getSide()] as $block)
 		{
 			include_once("./".$this->locations[$block["class"]]."classes/".
 				"class.".$block["class"].".php");
-
-			if (is_int(strpos($_GET["block_id"], "block_".$block["type"]."_")))
+				
+			// set block id to context obj id,
+			// if block is not a custom block and context is not personal desktop
+			if (!$block["custom"] && $ilCtrl->getContextObjType() != "" && $ilCtrl->getContextObjType() != "user")
+			{
+				$block["id"] = $ilCtrl->getContextObjId();
+			}
+				
+			if (is_int(strpos($_GET["block_id"], "block_".$block["type"]."_".$block["id"])))
 			{
 				$gui_class = $block["class"];
 				$block_class = substr($block["class"], 0, strlen($block["class"])-3);
@@ -432,7 +457,7 @@ class ilColumnGUI
 				{
 					$block_gui->setAllowMove("up");
 				}
-				if ($i < count($this->blocks[$this->getSide()]))
+				if ($i < $sum_moveable)
 				{
 					$block_gui->setAllowMove("down");
 				}
@@ -455,6 +480,10 @@ class ilColumnGUI
 			if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb")
 			{
 				$i++;
+			}
+			else
+			{
+				$sum_moveable--;
 			}
 		}
 		echo "Error: ilColumnGUI::updateBlock: Block '".
@@ -501,7 +530,7 @@ class ilColumnGUI
 	function determineBlocks()
 	{
 		global $ilUser, $ilCtrl;
-		
+
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		$this->blocks[IL_COL_LEFT] = array();
 		$this->blocks[IL_COL_RIGHT] = array();
@@ -547,6 +576,7 @@ class ilColumnGUI
 		$costum_block->setContextObjId($ilCtrl->getContextObjId());
 		$costum_block->setContextObjType($ilCtrl->getContextObjType());
 		$c_blocks = $costum_block->queryBlocksForContext();
+
 		foreach($c_blocks as $c_block)
 		{
 			$type = $c_block["type"];
@@ -568,7 +598,7 @@ class ilColumnGUI
 				"id" => $c_block["id"],
 				"custom" => true);
 		}
-		
+
 		$this->blocks[IL_COL_LEFT] =
 			ilUtil::sortArray($this->blocks[IL_COL_LEFT], "nr", "asc", true);
 		$this->blocks[IL_COL_RIGHT] =

@@ -67,6 +67,7 @@ $this->setEnableEdit(true);
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
+		$this->allow_moving = false;
 	}
 		
 	/**
