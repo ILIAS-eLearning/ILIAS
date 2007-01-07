@@ -367,10 +367,19 @@ class ilContainerGUI extends ilObjectGUI
 		$this->getSubItems();
 		$ilBench->stop("ilContainerGUI", "0100_getSubItems");
 
-		$ilBench->start("ilContainerGUI", "0200_renderItemList");
-		$html = $this->renderItemList();
-		$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
-		$ilBench->stop("ilContainerGUI", "0200_renderItemList");
+		// Show introduction, if repository is empty
+		if (count($this->items) == 1 && is_array($this->items["adm"]) && $this->object->getRefId() == ROOT_FOLDER_ID)
+		{
+			$html = $this->getIntroduction();
+			$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
+		}
+		else	// show item list otherwise
+		{
+			$ilBench->start("ilContainerGUI", "0200_renderItemList");
+			$html = $this->renderItemList();
+			$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
+			$ilBench->stop("ilContainerGUI", "0200_renderItemList");
+		}
 		
 		$this->showAdministrationPanel($tpl);
 		$this->showPermanentLink($tpl);
@@ -1763,6 +1772,28 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 	function isActiveAdministrationPanel()
 	{
 		return $_SESSION["il_cont_admin_panel"];
+	}
+
+	/**
+	* Get introduction.
+	*/
+	function getIntroduction()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("rep");
+		
+		$tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
+		$tpl->setVariable("IMG_REP_LARGE", ilUtil::getImagePath("icon_root_xxl.gif"));
+		$tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
+		$tpl->setVariable("TXT_INTRO_1", $lng->txt("rep_intro1"));
+		$tpl->setVariable("TXT_INTRO_2", $lng->txt("rep_intro2"));
+		$tpl->setVariable("TXT_INTRO_3", sprintf($lng->txt("rep_intro3"), $lng->txt("add")));
+		$tpl->setVariable("TXT_INTRO_4", sprintf($lng->txt("rep_intro4"), $lng->txt("cat_add")));
+		$tpl->setVariable("TXT_INTRO_5", $lng->txt("rep_intro5"));
+		$tpl->setVariable("TXT_INTRO_6", $lng->txt("rep_intro6"));
+		
+		return $tpl->get();
 	}
 
 }

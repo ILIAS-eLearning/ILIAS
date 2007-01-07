@@ -70,6 +70,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		global $ilCtrl;
 		
 		$this->setContent($this->getSelectedItemsBlockHTML());
+		if ($this->getContent() == "")
+		{
+			$this->setEnableDetailRow(false);
+		}
 		$ilCtrl->clearParametersByClass("ilpersonaldesktopgui");
 		$ilCtrl->clearParameters($this);
 		return parent::getHTML();
@@ -105,7 +109,14 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	{
 		global $ilUser;
 		
-		$this->tpl->setVariable("BLOCK_ROW", $this->getContent());
+		if ($this->getContent() != "")
+		{
+			$this->tpl->setVariable("BLOCK_ROW", $this->getContent());
+		}
+		else
+		{
+			$this->setDataSection($this->getIntroduction());
+		}
 	}
 	
 
@@ -129,6 +140,12 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	function setFooterLinks()
 	{
 		global $ilUser, $ilCtrl, $lng;
+		
+		if ($this->getContent() == "")
+		{
+			$this->setEnableNumInfo(false);
+			return "";
+		}
 		
 		// by type
 		if ($ilUser->getPref("pd_order_items") == 'location')
@@ -642,12 +659,27 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	/**
 	* Get overview.
 	*/
-	function getOverview()
+	function getIntroduction()
 	{
-		global $ilUser, $lng, $ilCtrl;
-				
-		return '<div class="small">'.$this->num_bookmarks." ".$lng->txt("bm_num_bookmarks").", ".
-			$this->num_folders." ".$lng->txt("bm_num_bookmark_folders")."</div>";
+		global $ilUser, $lng, $ilCtrl, $tree;
+		
+		// get repository link
+		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+		$title = $nd["title"];
+		if ($title == "ILIAS")
+		{
+			$title = $lng->txt("repository");
+		}
+		
+		$tpl = new ilTemplate("tpl.pd_intro.html", true, true, "Services/Personaldesktop");
+		$tpl->setVariable("IMG_PD_LARGE", ilUtil::getImagePath("icon_pd_xxl.gif"));
+		$tpl->setVariable("TXT_WELCOME", $lng->txt("pdesk_intro"));
+		$tpl->setVariable("TXT_INTRO_1", sprintf($lng->txt("pdesk_intro2"), $lng->txt("to_desktop")));
+		$tpl->setVariable("TXT_INTRO_2", sprintf($lng->txt("pdesk_intro3"),
+			'<a href="repository.php?cmd=frameset&getlast=true">'.$title.'</a>'));
+		$tpl->setVariable("TXT_INTRO_3", $lng->txt("pdesk_intro4"));
+		
+		return $tpl->get();
 	}
 
 	/**

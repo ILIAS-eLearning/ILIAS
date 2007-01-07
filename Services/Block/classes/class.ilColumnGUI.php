@@ -60,7 +60,7 @@ class ilColumnGUI
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Services/Feeds/",
 		"ilHtmlBlockGUI" => "Services/Block/",
-		"ilPDFeedbackBlockGUI" => "Services/Feedback/");
+		"ilPDFeedbackBlockGUI" => "Services/Block/");
 	
 	protected $block_types = array(
 			"ilPDMailBlockGUI" => "pdmail",
@@ -84,7 +84,6 @@ class ilColumnGUI
 			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
 			"ilPDFeedbackBlockGUI" => IL_COL_LEFT,
 			"ilPDNewsBlockGUI" => IL_COL_LEFT,
-			"ilExternalFeedBlockGUI" => IL_COL_LEFT,
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
 			"ilPDMailBlockGUI" => IL_COL_RIGHT,
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
@@ -94,7 +93,7 @@ class ilColumnGUI
 
 	protected $custom_blocks = array(
 		"info" => array(""),
-		"pd" => array("ilHtmlBlockGUI")
+		"pd" => array("ilExternalFeedBlockGUI")
 		);
 
 	/**

@@ -41,6 +41,7 @@ class ilBlockGUI
 	protected $header_commands = array();
 	protected $allow_moving = true;
 	protected $move = array("left" => false, "right" => false, "up" => false, "down" => false);
+	protected $enabledetailrow = true;
 
 	/**
 	* Constructor
@@ -250,6 +251,27 @@ class ilBlockGUI
 	{
 		return $this->colspan;
 	}
+	
+	/**
+	* Set EnableDetailRow.
+	*
+	* @param	boolean	$a_enabledetailrow	EnableDetailRow
+	*/
+	function setEnableDetailRow($a_enabledetailrow)
+	{
+		$this->enabledetailrow = $a_enabledetailrow;
+	}
+
+	/**
+	* Get EnableDetailRow.
+	*
+	* @return	boolean	EnableDetailRow
+	*/
+	function getEnableDetailRow()
+	{
+		return $this->enabledetailrow;
+	}
+
 
 	/**
 	* Set Enable Item Number Info.
@@ -859,6 +881,11 @@ class ilBlockGUI
 	function fillDetailRow()
 	{
 		global $ilCtrl, $lng;
+		
+		if ($this->enabledetailrow == false)
+		{
+			return;
+		}
 		
 		$start = ($this->detail_min < 1)
 			? $start = 1

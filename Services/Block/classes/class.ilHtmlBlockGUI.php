@@ -113,7 +113,7 @@ class ilHtmlBlockGUI extends ilHtmlBlockGUIGen
 	}
 
 	/**
-	* Get bloch HTML code.
+	* Get block HTML code.
 	*/
 	function getHTML()
 	{
@@ -135,6 +135,9 @@ class ilHtmlBlockGUI extends ilHtmlBlockGUIGen
 		$this->setDataSection($this->html_block->getContent());
 	}
 	
+	/**
+	* Create Form for Block.
+	*/
 	function create()
 	{
 		return $this->createHtmlBlock();
