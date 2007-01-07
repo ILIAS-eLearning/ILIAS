@@ -113,8 +113,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	function setBlock($a_block)
 	{
 		$this->feed_block = $a_block;
-		$this->setTitle($this->html_block->getTitle());
-		$this->setBlockId($this->html_block->getId());
+		$this->setTitle($this->feed_block->getTitle());
+		$this->setBlockId($this->feed_block->getId());
 	}
 
 	/**
