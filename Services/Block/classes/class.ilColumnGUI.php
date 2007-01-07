@@ -58,9 +58,9 @@ class ilColumnGUI
 		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/",
 		"ilBookmarkBlockGUI" => "Services/PersonalDesktop/",
 		"ilPDNewsBlockGUI" => "Services/News/",
-		"ilExternalFeedBlockGUI" => "Services/Feeds/",
+		"ilExternalFeedBlockGUI" => "Services/Block/",
 		"ilHtmlBlockGUI" => "Services/Block/",
-		"ilPDFeedbackBlockGUI" => "Services/Block/");
+		"ilPDFeedbackBlockGUI" => "Services/Feedback/");
 	
 	protected $block_types = array(
 			"ilPDMailBlockGUI" => "pdmail",
