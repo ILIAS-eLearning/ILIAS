@@ -47,7 +47,7 @@ class ilPDContentBlockGUI extends ilBlockGUI
 		$this->setLimit(99999);
 		//$this->setColSpan(2);
 		$this->setBigMode(true);
-		
+		$this->allow_moving = false;
 	}
 	
 	/**

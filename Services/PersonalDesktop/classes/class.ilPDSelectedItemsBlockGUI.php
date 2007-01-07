@@ -52,7 +52,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		$this->setAvailableDetailLevels(3, 1);
 		$this->setBigMode(true);
 		$this->lng = $lng;
-		
+		$this->allow_moving = false;
 	}
 	
 	/**
@@ -75,6 +75,19 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		return parent::getHTML();
 	}
 	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd("getHTML");
+
+		return $this->$cmd();
+	}
+
 	function getContent()
 	{
 		return $this->content;
@@ -121,9 +134,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		if ($ilUser->getPref("pd_order_items") == 'location')
 		{
 			$this->addFooterLink( $lng->txt("by_type"),
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
+				$ilCtrl->getLinkTarget($this,
 				"orderPDItemsByType"),
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
+				$ilCtrl->getLinkTarget($this,
 				"orderPDItemsByType", "", true),
 				"block_".$this->getBlockType()."_".$this->block_id
 				);
@@ -141,9 +154,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		else
 		{
 			$this->addFooterLink( $lng->txt("by_location"),
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
+				$ilCtrl->getLinkTarget($this,
 				"orderPDItemsByLocation"),
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui",
+				$ilCtrl->getLinkTarget($this,
 				"orderPDItemsByLocation", "", true),
 				"block_".$this->getBlockType()."_".$this->block_id
 				);
@@ -635,6 +648,46 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 				
 		return '<div class="small">'.$this->num_bookmarks." ".$lng->txt("bm_num_bookmarks").", ".
 			$this->num_folders." ".$lng->txt("bm_num_bookmark_folders")."</div>";
+	}
+
+	/**
+	* order desktop items by location
+	*/
+	function orderPDItemsByLocation()
+	{
+		global $ilUser, $ilCtrl;
+		
+		$ilUser->writePref("pd_order_items", "location");
+		
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		}
+	}
+	
+	/**
+	* order desktop items by Type
+	*/
+	function orderPDItemsByType()
+	{
+		global $ilUser, $ilCtrl;
+		
+		$ilUser->writePref("pd_order_items", "type");
+		
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		}
 	}
 
 }

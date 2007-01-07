@@ -29,7 +29,7 @@ include_once("./Services/Block/classes/class.ilHtmlBlockGUIGen.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_IsCalledBy ilExternalFeedBlockGUI: ilColumnGUI
+* @ilCtrl_IsCalledBy ilHtmlBlockGUI: ilColumnGUI
 * @ingroup ServicesFeeds
 */
 class ilHtmlBlockGUI extends ilHtmlBlockGUIGen
@@ -48,11 +48,11 @@ class ilHtmlBlockGUI extends ilHtmlBlockGUIGen
 		
 		//$this->setImage(ilUtil::getImagePath("icon_feed_s.gif"));
 
-		$lng->loadLanguageModule("htmlbl");
+		$lng->loadLanguageModule("block_html");
 
 		$this->setLimit(99999);
-		//$this->setAvailableDetailLevels(1);
-		$this->setTitle($this->html_block->getTitle());
+		$this->setAvailableDetailLevels(1, 0);
+		$this->setEnableNumInfo(false);
 	}
 		
 	/**
@@ -72,14 +72,29 @@ class ilHtmlBlockGUI extends ilHtmlBlockGUIGen
 	{
 		global $ilCtrl;
 		
-		switch($_GET["cmd"])
-		{				
+		switch($ilCtrl->getCmd())
+		{
+			case "create":
+			case "edit":
+			case "saveHtmlBlock":
+			case "updateHtmlBlock":
+			case "editHtmlBlock":
+				return IL_SCREEN_CENTER;
+				break;
+
 			default:
 				return IL_SCREEN_SIDE;
 				break;
 		}
 	}
 
+	function setBlock($a_block)
+	{
+		$this->html_block = $a_block;
+		$this->setTitle($this->html_block->getTitle());
+		$this->setBlockId($this->html_block->getId());
+	}
+	
 	/**
 	* execute command
 	*/
@@ -103,7 +118,7 @@ class ilHtmlBlockGUI extends ilHtmlBlockGUIGen
 	function getHTML()
 	{
 		global $ilCtrl, $lng, $ilUser;
-		
+
 		if ($this->getCurrentDetailLevel() == 0)
 		{
 			return "";
@@ -119,7 +134,54 @@ class ilHtmlBlockGUI extends ilHtmlBlockGUIGen
 	{
 		$this->setDataSection($this->html_block->getContent());
 	}
+	
+	function create()
+	{
+		return $this->createHtmlBlock();
+	}
 
+	/**
+	* FORM HtmlBlock: Prepare Saving of HtmlBlock.
+	*
+	* @param	object	$a_html_block	HtmlBlock object.
+	*/
+	public function prepareSaveHtmlBlock(&$a_html_block)
+	{
+		global $ilCtrl;
+		
+		$a_html_block->setType($this->getBlockType());
+		$a_html_block->setContextObjId($ilCtrl->getContextObjId());
+		$a_html_block->setContextObjType($ilCtrl->getContextObjType());
+	}
+	
+	/**
+	* FORM HtmlBlock: Save HtmlBlock.
+	*
+	*/
+	public function saveHtmlBlock()
+	{
+		global $ilCtrl;
+
+		if ($this->checkInputHtmlBlock())
+		{
+			parent::saveHtmlBlock();
+			$ilCtrl->returnToParent($this);
+		}
+		else
+		{
+			return parent::saveHtmlBlock();
+		}
+	}
+	
+	/**
+	* Cancel Saving
+	*/
+	function cancelSaveHtmlBlock()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->returnToParent($this);
+	}
 }
 
 ?>

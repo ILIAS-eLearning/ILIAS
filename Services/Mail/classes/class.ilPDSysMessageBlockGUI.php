@@ -46,6 +46,7 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 		$this->setTitle($lng->txt("system_message"));
 		$this->setAvailableDetailLevels(3, 1);
 		$this->mail_mode = "system";
+		$this->allow_moving = false;
 	}
 	
 	/**

@@ -123,17 +123,17 @@ class ilHtmlBlockGUIGen extends ilBlockGUI
 		$alert = ($this->form_check["HtmlBlock"]["Title"]["error"] != "")
 			? $this->form_check["HtmlBlock"]["Title"]["error"]
 			: "";
-		$form_gui->addTextProperty($lng->txt("block_title"),
+		$form_gui->addTextProperty($lng->txt("block_html_block_title"),
 			"block_title",
 			$values["Title"],
-			"", $alert, false
+			"", $alert, true
 			, "200");
 		
 		// Property Content
 		$alert = ($this->form_check["HtmlBlock"]["Content"]["error"] != "")
 			? $this->form_check["HtmlBlock"]["Content"]["error"]
 			: "";
-		$form_gui->addTextAreaProperty($lng->txt("block_content"),
+		$form_gui->addTextAreaProperty($lng->txt("block_html_block_content"),
 			"block_content",
 			$values["Content"],
 			"", $alert, false
@@ -274,7 +274,7 @@ class ilHtmlBlockGUIGen extends ilBlockGUI
 		
 		$this->form_check["HtmlBlock"] = array();
 		$this->form_check["HtmlBlock"]["Title"] =
-			ilTypeCheck::check("varchar", $_POST["block_title"], false);
+			ilTypeCheck::check("varchar", $_POST["block_title"], true);
 		$this->form_check["HtmlBlock"]["Content"] =
 			ilTypeCheck::check("text", $_POST["block_content"], false);
 		

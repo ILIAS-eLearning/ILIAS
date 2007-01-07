@@ -2747,6 +2747,11 @@ common#:#new_list_password#:#New suggestions
 common#:#new_lowercase#:#new
 common#:#new_mail#:#New mail!
 common#:#news#:#News
+common#:#html_block#:#HTML Block
+common#:#feed#:#News Feed
+block_html#:#block_html_block_head#:#HTML Block
+block_html#:#block_html_block_title#:#Title
+block_html#:#block_html_block_content#:#Content
 news#:#news_block_news_for_context#:#News
 news#:#news_news_item_head#:#News Item
 news#:#news_title#:#Headline
@@ -2762,7 +2767,7 @@ news#:#news_unsubscribe#:#Unsubscribe
 news#:#news_internal_news#:#Internal News
 news#:#news_get_feed_url#:#Get Feed URL
 news#:#news_get_feed_title#:#Personal Feed URL
-news#:#news_get_feed_info#:#This is your personal news feed URL. The feed includes only news that are declared as public. The feed is not protected by any authentication procedure. Please do not share this URL with other people.
+news#:#news_get_feed_info#:#This is your personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.
 news#:#news_feed_url#:#Feed URL
 news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 feed#:#feed_feed_items#:#Feed Item(s)

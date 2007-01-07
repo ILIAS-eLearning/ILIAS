@@ -39,6 +39,8 @@ class ilBlockGUI
 	protected $footer_links = array();
 	protected $block_id = 0;
 	protected $header_commands = array();
+	protected $allow_moving = true;
+	protected $move = array("left" => false, "right" => false, "up" => false, "down" => false);
 
 	/**
 	* Constructor
@@ -290,6 +292,16 @@ class ilBlockGUI
 		return $this->getBlockType()."_".$this->getBlockId()."_bldet";
 	}
 
+	final public function getConfigParameter()
+	{
+		return $this->getBlockType()."_".$this->getBlockId()."_blconf";
+	}
+
+	final public function getMoveParameter()
+	{
+		return $this->getBlockType()."_".$this->getBlockId()."_blmove";
+	}
+
 	/**
 	* Get Row Template Name.
 	*
@@ -415,6 +427,30 @@ class ilBlockGUI
 			}
 		}
 	}
+	
+	/**
+	* Handle config status.
+	*/
+	function handleConfigStatus()
+	{
+		$this->config_mode = false;
+
+		if ($_GET[$this->getConfigParameter()] == "toggle")
+		{
+			if ($_SESSION[$this->getConfigParameter()] == "on")
+			{
+				$_SESSION[$this->getConfigParameter()] = "off";
+			}
+			else
+			{
+				$_SESSION[$this->getConfigParameter()] = "on";
+			}
+		}
+		if ($_SESSION[$this->getConfigParameter()] == "on")
+		{
+			$this->config_mode = true;
+		}
+	}
 
 	/**
 	* Get HTML.
@@ -424,7 +460,9 @@ class ilBlockGUI
 		global $ilCtrl, $lng;
 		
 		$this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
-				
+		
+		$this->handleConfigStatus();
+		
 		$this->fillDataSection();
 		
 		// commands
@@ -456,10 +494,13 @@ class ilBlockGUI
 		// fill row for setting details
 		$this->fillDetailRow();
 
+		// fill row for setting details
+		$this->fillMoveRow();
+
 		// header commands
 		if (count($this->getHeaderCommands()) > 0 ||
 			($this->detail_max > $this->detail_min && $this->detail_min == 0) ||
-			$this->close_command != "")
+			$this->close_command != "" || $this->allow_moving)
 		{
 
 			foreach($this->getHeaderCommands() as $command)
@@ -500,6 +541,36 @@ class ilBlockGUI
 						$this->getDetailParameter(), "");
 				}
 				$this->tpl->parseCurrentBlock();
+			}
+			
+			// move button
+			if ($this->allow_moving)
+			{
+				$ilCtrl->setParameterByClass("ilcolumngui",
+					$this->getConfigParameter(), "toggle");
+
+					// ajax link
+				$ilCtrl->setParameterByClass("ilcolumngui",
+					"block_id", "block_".$this->getBlockType()."_".$this->block_id);
+				$this->tpl->setCurrentBlock("oncclick");
+				$this->tpl->setVariable("OC_BLOCK_ID",
+					"block_".$this->getBlockType()."_".$this->block_id);
+				$this->tpl->setVariable("OC_HREF",
+					$ilCtrl->getLinkTargetByClass("ilcolumngui",
+					"updateBlock", "", true));
+				$this->tpl->parseCurrentBlock();
+				$ilCtrl->setParameterByClass("ilcolumngui",
+					"block_id", "");
+
+				// normal link
+				$this->tpl->setCurrentBlock("header_config");
+				$this->tpl->setVariable("IMG_CONFIG", ilUtil::getImagePath("icon_config_s.gif"));
+				$this->tpl->setVariable("ALT_CONFIG", $lng->txt("move"));
+				$this->tpl->setVariable("HREF_CONFIG",
+					$ilCtrl->getLinkTargetByClass("ilcolumngui", ""));
+				$this->tpl->parseCurrentBlock();
+				$ilCtrl->setParameterByClass("ilcolumngui",
+					$this->getConfigParameter(), "");
 			}
 
 			$this->tpl->setCurrentBlock("header_commands");
@@ -789,15 +860,25 @@ class ilBlockGUI
 	{
 		global $ilCtrl, $lng;
 		
-		if ($this->detail_max > $this->detail_min)
+		$start = ($this->detail_min < 1)
+			? $start = 1
+			: $this->detail_min;
+		
+		$end = ($this->detail_max < $this->detail_min)
+			? $this->detail_min
+			: $this->detail_max;
+		
+		$settings = array();
+		for ($i = $start; $i <= $end; $i++)
 		{
-			for ($i = $this->detail_min; $i <= $this->detail_max; $i++)
+			$settings[] = $i;
+		}
+		
+		if ($end > $start)
+		{
+			foreach ($settings as $i)
 			{
-				if ($i == 0)
-				{
-					continue;
-				}
-				if ($i > $this->detail_min && $i > 1)
+				if (($i > $start && $i > 1))
 				{
 					$this->tpl->touchBlock("det_delim");
 					$this->tpl->touchBlock("det_item");
@@ -806,7 +887,7 @@ class ilBlockGUI
 				{
 					$ilCtrl->setParameterByClass("ilcolumngui",
 						$this->getDetailParameter(), $i);
-
+	
 					// ajax link
 					if ($i > 0)
 					{
@@ -844,8 +925,69 @@ class ilBlockGUI
 			$this->tpl->setVariable("TXT_DETAILS", $lng->txt("details"));
 			$this->tpl->setVariable("DCOLSPAN", $this->getColSpan());
 			$this->tpl->parseCurrentBlock();
+	
+			$ilCtrl->setParameterByClass("ilcolumngui",
+				$this->getDetailParameter(), "");
 		}
-		$ilCtrl->setParameterByClass("ilcolumngui",
-			$this->getDetailParameter(), "");
+	}
+	
+	/**
+	* Fill row for Moving
+	*/
+	function fillMoveRow()
+	{
+		global $ilCtrl, $lng;
+		
+		if ($this->config_mode)
+		{
+			if ($this->getAllowMove("left"))
+			{
+				$this->fillMoveLink("left", "icon_left_s.gif", $lng->txt("move_left"));
+			}
+			if ($this->getAllowMove("up"))
+			{
+				$this->fillMoveLink("up", "icon_up_s.gif", $lng->txt("move_up"));
+			}
+			if ($this->getAllowMove("down"))
+			{
+				$this->fillMoveLink("down", "icon_down_s.gif", $lng->txt("move_down"));
+			}
+			if ($this->getAllowMove("right"))
+			{
+				$this->fillMoveLink("right", "icon_right_s.gif", $lng->txt("move_right"));
+			}
+			$ilCtrl->setParameter($this, $this->getMoveParameter(), "");
+			
+			$this->tpl->setCurrentBlock("move");
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	function getAllowMove($a_direction)
+	{
+		return $this->move[$a_direction];
+	}
+
+	function setAllowMove($a_direction, $a_allow = true)
+	{
+		$this->move[$a_direction] = $a_allow;
+//var_dump($this->move);
+	}
+	
+	function fillMoveLink($a_value, $a_img, $a_txt)
+	{
+		global $ilCtrl, $lng;
+
+		$ilCtrl->setParameterByClass("ilcolumngui", "block_id", 
+			$this->getBlockType()."_".$this->getBlockId());
+		$ilCtrl->setParameterByClass("ilcolumngui", "move_dir", 
+			$a_value);
+		$this->tpl->setCurrentBlock("move_link");
+		$this->tpl->setVariable("IMG_MOVE", ilUtil::getImagePath($a_img));
+		$this->tpl->setVariable("ALT_MOVE", $a_txt);
+		$this->tpl->setVariable("HREF_MOVE",
+			$ilCtrl->getLinkTargetByClass("ilcolumngui",
+			"moveBlock"));
+		$this->tpl->parseCurrentBlock();
 	}
 }
