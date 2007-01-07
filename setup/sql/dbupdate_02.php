@@ -281,3 +281,8 @@ CREATE table `il_external_feed_block`
 	`id` int not null auto_increment primary key,
 	`feed_url` varchar(250)
 );
+<#891>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

@@ -70,7 +70,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 //		$this->feed->fetch();
 		
 		$this->setLimit(5);
-		$this->setAvailableDetailLevels(2);
 //		$this->setTitle($this->feed->getChannelTitle());
 		$this->setRowTemplate("tpl.block_external_feed_row.html", "Services/Feeds");
 //		$this->setData($this->feed->getItems());
@@ -110,11 +109,27 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		}
 	}
 
+	/**
+	* Do most of the initialisation.
+	*/
 	function setBlock($a_block)
 	{
+		global $ilCtrl;
+
+		// init block
 		$this->feed_block = $a_block;
 		$this->setTitle($this->feed_block->getTitle());
 		$this->setBlockId($this->feed_block->getId());
+		
+		// get feet object
+		include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
+		$this->feed = new ilExternalFeed();
+		$this->feed->setUrl($this->feed_block->getFeedUrl());
+		
+		// init details
+		$this->setAvailableDetailLevels(2);
+		
+		$ilCtrl->setParameter($this, "block_id", $this->feed_block->getId());
 	}
 
 	/**
@@ -150,19 +165,16 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	}
 
 	/**
-	* Get bloch HTML code.
+	* Get block HTML code.
 	*/
 	function getHTML()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
-		$this->feed = new ilExternalFeed();
-		$this->feed->setUrl($this->feed_block->getFeedUrl());
 		$this->feed->fetch();
 		$this->setTitle($this->feed->getChannelTitle());
 		$this->setData($this->feed->getItems());
-		
+
 		if ($this->getCurrentDetailLevel() == 0)
 		{
 			return "";
@@ -205,6 +217,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		
+		$this->feed->fetch();
 		foreach($this->feed->getItems() as $item)
 		{
 			if ($item->getId() == $_GET["feed_item_id"])

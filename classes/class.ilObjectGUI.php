@@ -158,8 +158,11 @@ class ilObjectGUI
 		// set context
 		if (is_object($this->object))
 		{
-			$this->ctrl->setContext($this->object->getId(), 
-				$this->object->getType());
+			if ($this->call_by_reference && $this->ref_id = $_GET["ref_id"])
+			{
+				$this->ctrl->setContext($this->object->getId(), 
+					$this->object->getType());
+			}
 		}
 
 		// use global $lng instead, when creating new objects object is not available
