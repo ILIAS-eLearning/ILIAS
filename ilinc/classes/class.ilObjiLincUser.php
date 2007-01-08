@@ -124,7 +124,8 @@ class ilObjiLincUser
 			$a_inst_id = "0";
 		}
 		
-		$chars = str_split(substr($a_user_login,0,3));
+		$chars = preg_split('//', substr($a_user_login,0,3), -1, PREG_SPLIT_NO_EMPTY);
+		//$chars = str_split(substr($a_user_login,0,3)); // PHP5 only
 	
 		// convert non-allowed chars in login to <underscore>
 		foreach ($chars as $char)
