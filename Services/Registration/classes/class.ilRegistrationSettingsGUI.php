@@ -342,6 +342,12 @@ class ilRegistrationSettingsGUI
 		}
 
 		$this->__initRoleAssignments();
+		
+		if (!is_array($_POST['domain']))
+		{
+			$_POST['domain'] = array();
+		}
+
 		foreach($_POST['domain'] as $id => $data)
 		{
 			$this->assignments_obj->setDomain($id,ilUtil::stripSlashes($_POST['domain'][$id]['domain']));
