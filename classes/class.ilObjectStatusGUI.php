@@ -62,7 +62,7 @@ class ilObjectStatusGUI
 		}
 		else
 		{
-			if (is_numeric($_POST['Fuserid']))
+			if ($_POST['Fselect_type'] == "id")
 			{
 				$this->user = $ilias->obj_factory->getInstanceByObjId($_POST['Fuserid'],false);
 			}
@@ -380,9 +380,14 @@ class ilObjectStatusGUI
 		$infos = array();
 		
 		$input_field = "<input class=\"std\" type=\"input\" name=\"Fuserid\" value=\"".$this->user->getLogin()."\"/>";
+		$input_radio_login = "<input class=\"std\" id=\"select_type_login\" type=\"radio\" name=\"Fselect_type\" value=\"login\" checked=\"checked\" />";
+		$input_radio_id = "<input class=\"std\" id=\"select_type_id\" type=\"radio\" name=\"Fselect_type\" value=\"id\" />";
 
-		$result_set[0][] = "<b>".$lng->txt("info_view_of_user")."</b>";
-		$result_set[0][] = $input_field."&nbsp;(".$this->user->getFullname().") (#".$this->user->getId().")";
+		$result_set[0][] = "&nbsp;";
+		$result_set[0][] = $input_field."&nbsp;".$input_radio_login."<label for=\"select_type_login\">".$lng->txt('login')."</label>".$input_radio_id."<label for=\"select_type_id\">".$lng->txt('id')."</label>";
+		
+		$result_set[1][] = "<b>".$lng->txt("info_view_of_user")."</b>";
+		$result_set[1][] = $this->user->getFullname()." (#".$this->user->getId().")";
 
 		$assigned_valid_roles = array();
 
@@ -393,16 +398,9 @@ class ilObjectStatusGUI
 		
 		$roles_str = implode(", ",$assigned_valid_roles);
 			
-		$result_set[1][] = "<b>".$lng->txt("roles")."</b>";
-		$result_set[1][] = $roles_str;
+		$result_set[2][] = "<b>".$lng->txt("roles")."</b>";
+		$result_set[2][] = $roles_str;
 		
-		/*
-		$result_set[2][] = "<b>".$lng->txt("object")."</b>";
-		$result_set[2][] = $this->object->getTitle()." (#".$this->object->getId().") (ref#".$this->object->getRefId().")";
-
-		$result_set[3][] = "<b>".$lng->txt("type")."</b>";
-		$result_set[3][] = $lng->txt("obj_".$this->object->getType());
-		*/
 		$result_set[4][] = "<b>".$lng->txt("status")."</b>";
 
 		$ilAccess->clear();
