@@ -283,7 +283,6 @@ class ilCourseRegisterGUI
 				$this->tpl->setVariable("POSITION",$this->waiting_list->getCountUsers());
 				$this->tpl->parseCurrentBlock();
 			}
-
 		}
 		if($courses = ilObjCourseGrouping::_getGroupingItemsAsString($this->course_obj))
 		{
