@@ -298,3 +298,14 @@ CREATE TABLE `member_export_user_settings` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#894>
+DROP TABLE IF EXISTS `member_agreement`;
+CREATE TABLE `member_agreement` (
+  `usr_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `accepted` tinyint(1) NOT NULL default '0',
+  `acceptance_time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`usr_id`,`obj_id`)
+) Type=MyISAM;
+
