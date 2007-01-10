@@ -4288,7 +4288,7 @@ crs#:#crs_file_download#:#Files for Download
 crs#:#crs_file_name#:#File name
 crs#:#crs_file_size_info#:#Filesize
 crs#:#crs_filename#:#Filename
-crs#:#crs_free_places#:#Available places
+crs#:#crs_free_places#:#Available Places
 crs#:#crs_from#:#From:
 crs#:#crs_further_settings#:#Further Settings
 crs#:#crs_general_info#:#General Informations
@@ -4450,7 +4450,7 @@ crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Your password is not valid
 crs#:#crs_password_required#:#This registration procedure requires a password.
 crs#:#crs_pdf#:#PDF
-crs#:#crs_persons_on_waiting_list#:#Persons on the waiting list
+crs#:#crs_persons_on_waiting_list#:#Persons on the Waiting List
 crs#:#crs_print_list#:#Print list
 crs#:#crs_question_assignment#:#Question assignment
 crs#:#crs_reg#:#Registration
@@ -4463,11 +4463,11 @@ crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
 crs#:#crs_reg_subscription_start_later#:#The registration time starts later
 crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration procedures below.
-crs#:#crs_reg_until#:#Registration period
+crs#:#crs_reg_until#:#Registration Period
 crs#:#crs_reg_user_already_assigned#:#You are already assigned to this course
 crs#:#crs_reg_user_already_subscribed#:#You have already requested membership for this course
 crs#:#crs_reg_user_blocked#:#You are blocked from this course
-crs#:#crs_registration#:#Course registration
+crs#:#crs_registration#:#Course Registration
 crs#:#crs_registration_deactivated#:#Choose this option for disabling course registration. No user can join this course.
 crs#:#crs_registration_limited#:#Limited Registration Period
 crs#:#crs_registration_type#:#Registration Procedure
@@ -4598,7 +4598,7 @@ crs#:#crs_visibility_unvisible#:#Not Available
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_xml#:#XML
-crs#:#crs_youre_position#:#Your position on the waiting list
+crs#:#crs_youre_position#:#Your Position on the Waiting List
 crs#:#edit_content#:#Edit Content
 crs#:#edit_timings_list#:#Edit Timings
 crs#:#event#:#Session
@@ -6796,7 +6796,7 @@ grp#:#grouping_change_assignment#:#Change Assignment
 grp#:#crs_grp_assign_crs#:#Assignment of Groups
 grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned
 grp#:#crs_grouping_select_one#:#Please select one membership limitation.
-grp#:#crs_grp_info_reg#:#You can only register to one of this groups:
+grp#:#crs_grp_info_reg#:#You can only register to one of these groups:
 trac#:#trac_anonymized_info_short#:#(Anonymized)
 barometer#:#barometer_add#:#Add new Feedback
 chat#:#chat_server_ssl_settings#:#SSL Settings
