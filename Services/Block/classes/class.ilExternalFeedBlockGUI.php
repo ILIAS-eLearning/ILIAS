@@ -171,14 +171,14 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		$this->feed->fetch();
-		$this->setTitle($this->feed->getChannelTitle());
-		$this->setData($this->feed->getItems());
-
 		if ($this->getCurrentDetailLevel() == 0)
 		{
 			return "";
 		}
+
+		$this->feed->fetch();
+		$this->setTitle($this->feed->getChannelTitle());
+		$this->setData($this->feed->getItems());
 
 		return parent::getHTML();
 	}
@@ -231,6 +231,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		if (is_object($c_item))
 		{
 //var_dump($c_item->getMagpieItem());
+//echo $c_item->getLink();
 			if (trim($c_item->getSummary()) != "")		// summary
 			{
 				$tpl->setCurrentBlock("content");
@@ -239,7 +240,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			}
 			if (trim($c_item->getDate()) != "" || trim($c_item->getAuthor()) != "")		// date
 			{
-				$tpl->setCurrentBlock("date");
+				$tpl->setCurrentBlock("date_author");
 				if (trim($c_item->getAuthor()) != "")
 				{
 					$tpl->setVariable("VAL_AUTHOR", $c_item->getAuthor()." - ");
@@ -247,9 +248,10 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 				$tpl->setVariable("VAL_DATE", $c_item->getDate());
 				$tpl->parseCurrentBlock();
 			}
+
 			if (trim($c_item->getLink()) != "")		// link
 			{
-				$tpl->setCurrentBlock("link");
+				$tpl->setCurrentBlock("plink");
 				$tpl->setVariable("HREF_LINK", $c_item->getLink());
 				$tpl->setVariable("TXT_LINK", $lng->txt("feed_open_source_page"));
 				$tpl->parseCurrentBlock();

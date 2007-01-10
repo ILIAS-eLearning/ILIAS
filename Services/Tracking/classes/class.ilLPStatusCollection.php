@@ -201,7 +201,7 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			case 'crs':
 				// Exclude all non members
-				include_once 'course/classes/class.ilCourseMembers.php';
+				include_once './Modules/Course/classes/class.ilCourseMembers.php';
 				$users = array_intersect(ilCourseMembers::_getMembers($a_obj_id),(array) $users);
 				break;
 				

@@ -47,6 +47,8 @@ class ilExternalFeedItem
 	function setMagpieItem($a_item)
 	{
 		$this->magpie_item = $a_item;
+
+//var_dump($a_item);
 		
 		// title
 		$this->setTitle($a_item["title"]);
