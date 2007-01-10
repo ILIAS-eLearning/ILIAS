@@ -466,6 +466,8 @@ class ilInfoScreenGUI
 	*/
 	function getHTML()
 	{
+		global $lng;
+		
 		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true);
 
 		// add top buttons
@@ -573,16 +575,28 @@ class ilInfoScreenGUI
 				$this->lng->txt("additional_info"));
 			$tpl->parseCurrentBlock();
 			$tpl->touchBlock("row");
-
+			
 			// permanent link
 			$type = $this->gui_object->object->getType();
 			$ref_id = $this->gui_object->object->getRefId();
 			$href = ILIAS_HTTP_PATH.
 				"/goto.php?target=".$type."_".$ref_id."&client_id=".CLIENT_ID;
+				
+			// delicous link
+			$d_set = new ilSetting("delicious");
+			if ($d_set->get("add_info_links") == "1")
+			{
+				$lng->loadLanguageModule("delic");
+				$del_link = '<br/><a class="small" href="http://del.icio.us/post?desc=nn&url='.
+					urlencode($href).'"><img border="0" src="'.ilUtil::getImagePath("icon_delicious_s.gif").
+					'" /> '.$lng->txt("delic_add_to_delicious").
+					'</a>';
+			}
+				
 			$tpl->setCurrentBlock("property_row");
 			$tpl->setVariable("TXT_PROPERTY", $this->lng->txt("perma_link"));
 			$tpl->setVariable("TXT_PROPERTY_VALUE",
-				'<a class="small" href="'.$href.'" target="_top">'.$href.'</a>');
+				'<a class="small" href="'.$href.'" target="_top">'.$href.'</a>'.$del_link);
 			$tpl->parseCurrentBlock();
 			$tpl->touchBlock("row");
 		}

@@ -42,12 +42,16 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	*/
 	function ilObjExternalToolsSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
+		global $lng;
+		
 		$this->type = "extt";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		
 		define ("ILINC_DEFAULT_HTTP_PORT",80);
 		define ("ILINC_DEFAULT_SSL_PORT",443);
 		define ("ILINC_DEFAULT_TIMEOUT",30);
+		
+		$lng->loadLanguageModule("delic");
 	}
 	
 	/**
@@ -116,7 +120,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("view","editiLinc",""), "", "");
+				$this->ctrl->getLinkTarget($this, "view"), array("view","editiLinc","editDelicious", ""), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -303,20 +307,78 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->ctrl->redirect($this,'editiLinc');
 	}
 	
+	/**
+	* Configure delicious settings
+	* 
+	* @access	public
+	*/
+	function editDeliciousObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
+		
+		$d_set = new ilSetting("delicious");
+		
+		$this->getTemplateFile("delicious");
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initSubTabs("editDelicious");
+
+		if ($d_set->get("add_info_links") == "1")
+		{
+			$this->tpl->setVariable("CHK_ADD_LINKS_ACTIVE", "checked=\"checked\"");
+		}
+		
+		if ($d_set->get("user_profile") == "1")
+		{
+			$this->tpl->setVariable("CHK_ADD_PROFILE_ACTIVE", "checked=\"checked\"");
+		}
+		
+		$this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_DELICIOUS_SETTINGS", $lng->txt("delic_settings"));
+		$this->tpl->setVariable("TXT_ADD_DELICIOUS_LINK", $lng->txt("delic_add_info_links"));
+		$this->tpl->setVariable("TXT_ALLOW_PROFILE", $lng->txt("delic_user_profile"));
+		$this->tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "saveDelicious");
+	}
+
+	/**
+	* Save Delicious Setttings
+	*/
+	function saveDeliciousObject()
+	{
+		global $ilCtrl;
+
+		$d_set = new ilSetting("delicious");
+		
+		$d_set->set("add_info_links", $_POST["add_info_links"]);
+		$d_set->set("user_profile", $_POST["user_profile"]);
+		$ilCtrl->redirect($this, "editDelicious");
+	}
+	
+	
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
 		$ilinc = ($a_cmd == 'editiLinc') ? true : false;
 		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
+		$delicious = ($a_cmd == 'editDelicious') ? true : false;
 
 		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
 										 "", "", "", $overview);
+		$this->tabs_gui->addSubTabTarget("delic_extt_delicious", $this->ctrl->getLinkTarget($this, "editDelicious"),
+										 "", "", "", $delicious);
 		$this->tabs_gui->addSubTabTarget("extt_ilinc", $this->ctrl->getLinkTarget($this, "editiLinc"),
 										 "", "", "", $ilinc);
 	}
 	
 	function &executeCommand()
 	{
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();

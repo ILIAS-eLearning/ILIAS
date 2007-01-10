@@ -2070,7 +2070,7 @@ class ilObjUserGUI extends ilObjectGUI
 	function getPublicProfile($a_additional = "", $no_ilctrl = false,
 		$a_raw_rows = false)
 	{
-		global $ilSetting;
+		global $ilSetting, $lng;
 		
 		$tpl = new ilTemplate("tpl.usr_public_profile.html", true, true);
 		
@@ -2144,6 +2144,18 @@ class ilObjUserGUI extends ilObjectGUI
 				$tpl->setVariable("DATA", $this->object->$key());
 				$tpl->parseCurrentBlock();
 			}
+		}
+		
+		// delicious row
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile") == "1" && $this->object->getPref("public_delicious") == "y")
+		{
+			$tpl->setCurrentBlock("delicious_row");
+			$tpl->setVariable("TXT_DELICIOUS", $lng->txt("delicious"));
+			$tpl->setVariable("TXT_DEL_ICON", $lng->txt("delicious"));
+			$tpl->setVariable("SRC_DEL_ICON", ilUtil::getImagePath("icon_delicious.gif"));
+			$tpl->setVariable("DEL_ACCOUNT", $this->object->getDelicious());
+			$tpl->parseCurrentBlock();
 		}
 		
 		// display available IM contacts
