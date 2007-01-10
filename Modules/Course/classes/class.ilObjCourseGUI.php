@@ -31,7 +31,7 @@
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilCourseContentInterface, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI, ilMemberExportGUI
 *
 * 
 * @extends ilContainerGUI
@@ -207,7 +207,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Copy xml file
 		include_once 'Modules/Course/classes/class.ilFileDataCourse.php';
 
-		$course_files = new ilFileDataCourse($newObj);
+		$course_files = new ilFileDataCourse($newObj->getId());
 
 		$course_files->createImportFile($_FILES["xmldoc"]["tmp_name"],$_FILES['xmldoc']['name']);
 		$course_files->unpackImportFile();
@@ -1180,6 +1180,15 @@ class ilObjCourseGUI extends ilContainerGUI
 													 $this->ctrl->getLinkTarget($this,'mailMembers'),
 													 "mailMembers", get_class($this));
 				}
+				
+				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+				$privacy = ilPrivacySettings::_getInstance();
+				if($privacy->enabledExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
+				{
+					$this->tabs_gui->addSubTabTarget('export_members',
+													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'));
+				}
+				
 				break;
 
 				
@@ -4178,7 +4187,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
 				break;
-				
+
 			case 'ilobjusergui':
 				require_once "./classes/class.ilObjUserGUI.php";
 				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
@@ -4188,6 +4197,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
 				$this->tpl->setVariable("ADM_CONTENT", $html);
 				break;
+
+			case 'ilmemberexportgui':
+				include_once('./Modules/Course/classes/Export/class.ilMemberExportGUI.php');
+				
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->tabs_gui->setSubTabActive('export_members');
+				$export = new ilMemberExportGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($export);
+				break;			
 
 			default:
 				if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))

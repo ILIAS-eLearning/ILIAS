@@ -70,7 +70,6 @@ class ilSetting
 	*/
 	function get($a_keyword, $a_default_value = false)
 	{
-
 		if ($a_keyword == "ilias_version")
 		{
 			return ILIAS_VERSION;

@@ -2427,6 +2427,28 @@ function getCourseMemberships($a_user_id = "")
 	
 	/**
      * STATIC METHOD
+     * get user data of selected users
+     * @param	array desired user ids
+     * @return	array of user data
+     * @static
+     * @access	public
+     */
+	public static function _readUsersProfileData($a_user_ids)
+	{
+		global $ilDB;
+		
+		$where = ("WHERE usr_id IN('".implode("','",$a_user_ids)."') ");
+		$query = "SELECT * FROM usr_data ".$where;
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$user_data["$row[usr_id]"] = $row;
+		}
+		return $user_data ? $user_data : array();
+	}
+	
+	/**
+     * STATIC METHOD
      * get all user data
      * @param	array desired columns
      * @static

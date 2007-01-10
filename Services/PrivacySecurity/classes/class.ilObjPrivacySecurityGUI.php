@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 include_once("./classes/class.ilObjectGUI.php");
+include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 
 /** 
 * @defgroup ServicesPrivacySecurity Services/PrivacySecurity
@@ -56,12 +57,17 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilErr,$ilAccess;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
 		$this->prepareOutput();
+		
+		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+		}
 
 		switch($next_class)
 		{
@@ -115,8 +121,46 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function showPrivacy()
 	{
+		$privacy = ilPrivacySettings::_getInstance();
+		
 		$this->tabs_gui->setTabActive('show_privacy');
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_privacy.html','Services/PrivacySecurity');
+	 	
+	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+	 	$this->tpl->setVariable('TXT_PRIVACY_PROTECTION',$this->lng->txt('ps_privacy_protection'));
+	 	$this->tpl->setVariable('TXT_PROFILE_EXPORT',$this->lng->txt('ps_profile_export'));
+	 	$this->tpl->setVariable('TXT_EXPORT_COURSE',$this->lng->txt('ps_export_course'));
+	 	$this->tpl->setVariable('TXT_EXPORT_CONFIRM',$this->lng->txt('ps_export_confirm'));
+	 	
+	 	// Check export
+	 	$this->tpl->setVariable('CHECK_EXPORT_COURSE',ilUtil::formCheckbox($privacy->enabledExport() ? 1 : 0,'export_course',1));
+	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM',ilUtil::formCheckbox($privacy->confirmationRequired() ? 1 : 0,'export_confirm',1));
+	 	
+	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
+	}
+	
+	/**
+	 * Save privacy settings
+	 *
+	 * @access public
+	 * 
+	 */
+	public function save()
+	{
+		global $ilErr,$ilAccess;
+		
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+		}
+		
+		$privacy = ilPrivacySettings::_getInstance();
+		$privacy->enableExport((int) $_POST['export_course']);
+		$privacy->setConfirmationRequired((int) $_POST['export_confirm']);
+		$privacy->save();
+		
+		sendInfo($this->lng->txt('settings_saved'));
+		$this->showPrivacy();
 	}
 }
 ?>

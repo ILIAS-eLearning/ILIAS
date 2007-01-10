@@ -31,7 +31,7 @@
 * @ingroup ServicesLDAP 
 */
 
-include_once('Auth.php');
+include_once('Auth/Auth.php');
 
 class ilAuthLDAP extends Auth
 {
