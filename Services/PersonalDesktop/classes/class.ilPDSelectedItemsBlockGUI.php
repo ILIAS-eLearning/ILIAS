@@ -671,7 +671,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 			$title = $lng->txt("repository");
 		}
 		
-		$tpl = new ilTemplate("tpl.pd_intro.html", true, true, "Services/Personaldesktop");
+		$tpl = new ilTemplate("tpl.pd_intro.html", true, true, "Services/PersonalDesktop");
 		$tpl->setVariable("IMG_PD_LARGE", ilUtil::getImagePath("icon_pd_xxl.gif"));
 		$tpl->setVariable("TXT_WELCOME", $lng->txt("pdesk_intro"));
 		$tpl->setVariable("TXT_INTRO_1", sprintf($lng->txt("pdesk_intro2"), $lng->txt("to_desktop")));
