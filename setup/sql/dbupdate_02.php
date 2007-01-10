@@ -285,7 +285,6 @@ CREATE table `il_external_feed_block`
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
 <#892>
 DROP TABLE IF EXISTS `member_export_user_settings`;
 CREATE TABLE `member_export_user_settings` (
@@ -308,4 +307,8 @@ CREATE TABLE `member_agreement` (
   `acceptance_time` int(11) NOT NULL default '0',
   PRIMARY KEY  (`usr_id`,`obj_id`)
 ) Type=MyISAM;
+
+<#895>
+ALTER TABLE `usr_data` ADD `delicious` VARCHAR(40);
+
 

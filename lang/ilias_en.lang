@@ -2791,7 +2791,13 @@ rep#:#rep_intro3#:#Click on the <i>%s</i> button besides the selection list on t
 rep#:#rep_intro4#:#In the following form, enter a title and a description, and click on <i>%s</i>.
 rep#:#rep_intro5#:#By clicking on the title of the category you enter your category.
 rep#:#rep_intro6#:#After that procedure you may add any learning or working resource to your category.
+delic#:#delic_settings#:#del.icio.us Settings
+delic#:#delic_add_to_delicious#:#Add to del.icio.us
+delic#:#delic_extt_delicious#:#del.icio.us
+delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens
+delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile
 common#:#next#:#Next
+common#:#delicious#:#del.icio.us Account
 common#:#select_page#:#Select Page
 common#:#nickname#:#Nickname
 common#:#no#:#No

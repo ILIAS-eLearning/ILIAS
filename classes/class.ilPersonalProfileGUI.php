@@ -351,6 +351,20 @@ class ilPersonalProfileGUI
 				$ilUser->setPref("public_".$value,"n");
 			}
 		}
+		
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile"))
+		{
+			if (($_POST["chk_delicious"]) == "on")
+			{
+				$ilUser->setPref("public_delicious","y");
+			}
+			else
+			{
+				$ilUser->setPref("public_delicous","n");
+			}
+		}
+
 
 		// check dynamically required fields
 		foreach($this->settings as $key => $val)
@@ -471,6 +485,13 @@ class ilPersonalProfileGUI
 		if ($this->workWithUserSetting("matriculation"))
 		{
 			$ilUser->setMatriculation(ilUtil::stripSlashes($_POST["usr_matriculation"]));
+		}
+		
+		// delicious
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile"))
+		{
+			$ilUser->setDelicious(ilUtil::stripSlashes($_POST["usr_delicious"]));
 		}
 
 		// set instant messengers
@@ -856,6 +877,11 @@ class ilPersonalProfileGUI
 			$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 		}
 		
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile"))
+		{
+			$this->tpl->setVariable("TXT_DELICIOUS", $lng->txt("delicious"));
+		}
 		
 		if ($this->userSettingVisible("upload"))
 		{
@@ -1060,6 +1086,12 @@ class ilPersonalProfileGUI
 			}
 		}
 		
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile") == "1")
+		{
+			$this->tpl->setVariable("DELICIOUS", ilUtil::prepareFormOutput($ilUser->getDelicious()));
+		}
+
 		// show user defined visible fields
 		$this->__showUserDefinedFields();
 
@@ -1108,6 +1140,17 @@ class ilPersonalProfileGUI
 				}
 			}
 		}
+		
+		$d_set = new ilSetting("delicious");
+		if ($d_set->get("user_profile") == "1")
+		{
+			if ($ilUser->prefs["public_delicious"] == "y")
+			{
+				$this->tpl->setVariable("CHK_DELICIOUS", "checked");
+			}
+		}
+
+		
 		// End of showing
 		// Testing by ratana ty
 		
@@ -1237,7 +1280,9 @@ class ilPersonalProfileGUI
 
 	function __showOtherInformations()
 	{
-		if($this->userSettingVisible("matriculation") or count($this->user_defined_fields->getVisibleDefinitions()))
+		$d_set = new ilSetting("delicous");
+		if($this->userSettingVisible("matriculation") or count($this->user_defined_fields->getVisibleDefinitions())
+			or $d_set->get("user_profile") == "1")
 		{
 			return true;
 		}
