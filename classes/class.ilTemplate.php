@@ -112,6 +112,17 @@ class ilTemplate extends ilTemplateX
 		return true;
 	}
 
+	
+	/**
+	* Use this for final get before sending asynchronous output (ajax)
+	* per echo to output.
+	*/
+	function getAsynch()
+	{
+		header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
+		return $this->get();
+	}
+	
 	/**
 	* ???
 	* @access	public
