@@ -258,7 +258,7 @@ class ilCourseArchives
 		{
 			include_once "./Modules/Course/classes/class.ilFileDataCourse.php";
 
-			$this->course_files_obj =& new ilFileDataCourse($this->course_obj);
+			$this->course_files_obj =& new ilFileDataCourse($this->course_obj->getId());
 		}
 		return true;
 	}

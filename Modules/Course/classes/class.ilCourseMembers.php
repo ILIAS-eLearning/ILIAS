@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define("IL_CRS_ADMIN",1);
+define("IL_CRS_TUTOR",3);
+define("IL_CRS_MEMBER",2);
 
 /**
 * class ilobjcourse
@@ -61,9 +64,9 @@ class ilCourseMembers
 		$this->NOTIFY_SUBSCRIPTION_REQUEST = 9;
 
 
-		$this->ROLE_ADMIN = 1;
-		$this->ROLE_MEMBER = 2;
-		$this->ROLE_TUTOR = 3;
+		$this->ROLE_ADMIN = IL_CRS_ADMIN;
+		$this->ROLE_MEMBER = IL_CRS_MEMBER;
+		$this->ROLE_TUTOR = IL_CRS_TUTOR;
 
 		$this->ilErr =& $ilErr;
 		$this->ilDB =& $ilDB;
@@ -910,9 +913,9 @@ class ilCourseMembers
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// DELETE SUBSCRIPTION IF USER HAS BEEN DELETED
-			if(!ilObjectFactory::getInstanceByObjId($a_usr_id,false))
+			if(!ilObjectFactory::getInstanceByObjId($row->usr_id,false))
 			{
-				$this->deleteSubscriber($a_usr_id);
+				$this->deleteSubscriber($row->usr_id);
 			}
 			$this->subscribers[] = $row->usr_id;
 		}

@@ -1,1 +1,20 @@
-Hallo
+	<form class="il_Form" name="cmd" method="post" action="{FORMACTION}">
+	  <table class="fullwidth">
+		<tr class="tblheader">
+		  <th class="std" colspan="2">
+			<div style="float:left;">{TXT_PRIVACY_PROTECTION}</div>
+		  </th>
+		</tr>
+		<tr class="std">
+		  <td class="option" align="top">{TXT_PROFILE_EXPORT}</td>
+		  <td class="option_value">
+			{CHECK_EXPORT_COURSE}&nbsp;{TXT_EXPORT_COURSE}<br />
+			{CHECK_EXPORT_CONFIRM}&nbsp;{TXT_EXPORT_CONFIRM}<br />
+		  </td>
+		</tr>
+		<tr>
+		  <td class="submit" colspan="2" align="right">
+			<input type="submit" class="submit" name="cmd[save]" value="{TXT_SAVE}" />
+		  </td>
+		</tr>			
+	  </table>

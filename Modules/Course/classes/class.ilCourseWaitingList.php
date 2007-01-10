@@ -33,8 +33,9 @@
 
 class ilCourseWaitingList
 {
-	var $db = null;
-	var $course_id = 0;
+	private $db = null;
+	private $course_id = 0;
+	private $user_ids = array();
 	
 
 
@@ -118,6 +119,16 @@ class ilCourseWaitingList
 	{
 		return isset($this->users[$a_usr_id]) ? $this->users[$a_usr_id] : false;
 	}
+	
+	/**
+	 * Get all user ids of users on waiting list
+	 *
+	 * 
+	 */
+	public function getUserIds()
+	{
+	 	return $this->user_ids ? $this->user_ids : array();
+	}
 
 
 	// PRIVATE
@@ -136,7 +147,8 @@ class ilCourseWaitingList
 			$this->users[$row->usr_id]['position']	= $counter;
 			$this->users[$row->usr_id]['time']		= $row->sub_time;
 			$this->users[$row->usr_id]['usr_id']	= $row->usr_id;
-
+			
+			$this->user_ids[] = $row->usr_id;
 		}
 		return true;
 	}

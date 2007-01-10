@@ -40,7 +40,7 @@ class ilFileDataCourse extends ilFileData
 	*/
 	var $course_path;
 
-	var $course_obj = null;
+	private $course_id;
 
 	/**
 	* Constructor
@@ -49,13 +49,13 @@ class ilFileDataCourse extends ilFileData
 	* @param integereger obj_id
 	* @access	public
 	*/
-	function ilFileDataCourse(&$course_obj)
+	function ilFileDataCourse($a_course_id)
 	{
 		define('COURSE_PATH','course');
 		parent::ilFileData();
 		$this->course_path = parent::getPath()."/".COURSE_PATH;
-		$this->course_obj =& $course_obj;
-
+		$this->course_id = $a_course_id;
+	
 		// IF DIRECTORY ISN'T CREATED CREATE IT
 		if(!$this->__checkPath())
 		{
@@ -77,7 +77,58 @@ class ilFileDataCourse extends ilFileData
 		}
 		return false;
 	}
+	
+	/**
+	 * Get all member export files
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getMemberExportFiles()
+	{
+		$files = array();
+		$dp = opendir($this->course_path);
 
+		while($file = readdir($dp))
+		{
+			if(is_dir($file))
+			{
+				continue;
+			}
+			
+			if(preg_match("/^([0-9]{10})_member_export_([a-z]+)_([0-9]+)\.[a-z]+$/",$file,$matches) and $matches[3] == $this->course_id)
+			{
+				$timest = $matches[1];
+				$file_info['name'] = $matches[0];
+				$file_info['timest'] = $matches[1];
+				$file_info['type'] = $matches[2];
+				$file_info['id'] = $matches[3];
+				$file_info['size'] = filesize($this->course_path.'/'.$file);
+				
+				$files[$timest] = $file_info;
+			}
+		}
+		closedir($dp);
+		return $files ? $files : array();
+	}
+	
+	public function deleteMemberExportFile($a_name)
+	{
+		$file_name = $this->course_path.'/'.$a_name;
+		if(@file_exists($file_name))
+		{
+			@unlink($file_name);
+		}
+	}
+
+	public function getMemberExportFile($a_name)
+	{
+		$file_name = $this->course_path.'/'.$a_name;
+		if(@file_exists($file_name))
+		{
+			return file_get_contents($file_name);
+		}
+	}
 
 
 	function deleteArchive($a_rel_name)
@@ -193,28 +244,28 @@ class ilFileDataCourse extends ilFileData
 	// METHODS FOR XML IMPORT OF COURSE
 	function createImportFile($a_tmp_name,$a_name)
 	{
-		ilUtil::makeDir($this->getCoursePath().'/import/crs_'.$this->course_obj->getId());
+		ilUtil::makeDir($this->getCoursePath().'/import/crs_'.$this->course_id);
 
 		ilUtil::moveUploadedFile($a_tmp_name,
 								 $a_name, 
-								 $this->getCoursePath().'/import/crs_'.$this->course_obj->getId().'/'.$a_name);
-		$this->import_file_info = pathinfo($this->getCoursePath().'/import/crs_'.$this->course_obj->getId().'/'.$a_name);
+								 $this->getCoursePath().'/import/crs_'.$this->course_id.'/'.$a_name);
+		$this->import_file_info = pathinfo($this->getCoursePath().'/import/crs_'.$this->course_id.'/'.$a_name);
 
 	}
 
 	function unpackImportFile()
 	{
-		return ilUtil::unzip($this->getCoursePath().'/import/crs_'.$this->course_obj->getId().'/'.$this->import_file_info['basename']);
+		return ilUtil::unzip($this->getCoursePath().'/import/crs_'.$this->course_id.'/'.$this->import_file_info['basename']);
 	}
 
 	function validateImportFile()
 	{
-		if(!is_dir($this->getCoursePath().'/import/crs_'.$this->course_obj->getId()).'/'.
+		if(!is_dir($this->getCoursePath().'/import/crs_'.$this->course_id).'/'.
 		   basename($this->import_file_info['basename'],'.zip'))
 		{
 			return false;
 		}
-		if(!file_exists($this->getCoursePath().'/import/crs_'.$this->course_obj->getId()
+		if(!file_exists($this->getCoursePath().'/import/crs_'.$this->course_id
 						.'/'.basename($this->import_file_info['basename'],'.zip')
 						.'/'.basename($this->import_file_info['basename'],'.zip').'.xml'))
 		{
@@ -224,7 +275,7 @@ class ilFileDataCourse extends ilFileData
 
 	function getImportFile()
 	{
-		return $this->getCoursePath().'/import/crs_'.$this->course_obj->getId()
+		return $this->getCoursePath().'/import/crs_'.$this->course_id
 			.'/'.basename($this->import_file_info['basename'],'.zip')
 			.'/'.basename($this->import_file_info['basename'],'.zip').'.xml';
 	}

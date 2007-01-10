@@ -6889,3 +6889,4 @@ common#:#ps_visible#:#Privacy/Security Settings are Visible
 common#:#ps_read#:#Read Access to Privacy/Security Settings
 common#:#ps_write#:#Edit Privacy/Security
 common#:#ps_export_member_data#:#User may Export Member Data
+crs#:#crs_subscriber#:#Subscriber
