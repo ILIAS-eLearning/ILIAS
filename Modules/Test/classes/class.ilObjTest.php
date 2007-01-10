@@ -3823,6 +3823,7 @@ class ilObjTest extends ilObject
 				"solution" => $href,
 				"type" => $info["type_tag"],
 				"qid" => $value,
+				"original_id" => $info["original_id"],
 				"workedthrough" => $workedthrough
 			);
 			array_push($result_array, $row);
@@ -4065,10 +4066,15 @@ class ilObjTest extends ilObject
 				$passed = 0;
 			}
 		}
+		$percent_worked_through = 0;
+		if (count($this->questions))
+		{
+			$percent_worked_through = $qworkedthrough / count($this->questions);
+		}
 		$result_array = array(
 			"qworkedthrough" => $qworkedthrough,
 			"qmax" => count($this->questions),
-			"pworkedthrough" => $qworkedthrough / count($this->questions),
+			"pworkedthrough" => $percent_worked_through,
 			"timeofwork" => $max_time,
 			"atimeofwork" => $atimeofwork,
 			"firstvisit" => $first_date,

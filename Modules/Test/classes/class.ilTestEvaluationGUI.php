@@ -246,13 +246,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				{
 					$qt = $sarray["title"];
 					$qt = preg_replace("/<.*?>/", "", $qt);
-					if (!array_key_exists($sarray["qid"], $question_stat))
+					if (!array_key_exists($this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"]), $question_stat))
 					{
-						$question_stat[$sarray["qid"]] = array("max" => 0, "reached" => 0, "title" => $qt);
+						$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])] = array("max" => 0, "reached" => 0, "title" => $qt);
 					}
-					$question_stat[$sarray["qid"]]["single_max"] = $sarray["max"];
-					$question_stat[$sarray["qid"]]["max"] += $sarray["max"];
-					$question_stat[$sarray["qid"]]["reached"] += $sarray["reached"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["single_max"] = $sarray["max"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["max"] += $sarray["max"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["reached"] += $sarray["reached"];
 				}
 			}
 			$evaluation_array[$key] = $stat_eval;
@@ -411,13 +411,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				{
 					$qt = $sarray["title"];
 					$qt = preg_replace("/<.*?>/", "", $qt);
-					if (!array_key_exists($sarray["qid"], $question_stat))
+					if (!array_key_exists($this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"]), $question_stat))
 					{
-						$question_stat[$sarray["qid"]] = array("max" => 0, "reached" => 0, "title" => $qt);
+						$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])] = array("max" => 0, "reached" => 0, "title" => $qt);
 					}
-					$question_stat[$sarray["qid"]]["single_max"] = $sarray["max"];
-					$question_stat[$sarray["qid"]]["max"] += $sarray["max"];
-					$question_stat[$sarray["qid"]]["reached"] += $sarray["reached"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["single_max"] = $sarray["max"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["max"] += $sarray["max"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["reached"] += $sarray["reached"];
 				}
 			}
 			$evaluation_array[$key] = $stat_eval;
@@ -775,13 +775,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				{
 					$qt = $sarray["title"];
 					$qt = preg_replace("/<.*?>/", "", $qt);
-					if (!array_key_exists($sarray["qid"], $question_stat))
+					if (!array_key_exists($this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"]), $question_stat))
 					{
-						$question_stat[$sarray["qid"]] = array("max" => 0, "reached" => 0, "title" => $qt);
+						$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])] = array("max" => 0, "reached" => 0, "title" => $qt);
 					}
-					$question_stat[$sarray["qid"]]["single_max"] = $sarray["max"];
-					$question_stat[$sarray["qid"]]["max"] += $sarray["max"];
-					$question_stat[$sarray["qid"]]["reached"] += $sarray["reached"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["single_max"] = $sarray["max"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["max"] += $sarray["max"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["reached"] += $sarray["reached"];
 				}
 			}
 			$evaluation_array[$key] = $stat_eval;
@@ -1027,13 +1027,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				{
 					$qt = $sarray["title"];
 					$qt = preg_replace("/<.*?>/", "", $qt);
-					if (!array_key_exists($sarray["qid"], $question_stat))
+					if (!array_key_exists($this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"]), $question_stat))
 					{
-						$question_stat[$sarray["qid"]] = array("max" => 0, "reached" => 0, "title" => $qt);
+						$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])] = array("max" => 0, "reached" => 0, "title" => $qt);
 					}
-					$question_stat[$sarray["qid"]]["single_max"] = $sarray["max"];
-					$question_stat[$sarray["qid"]]["max"] += $sarray["max"];
-					$question_stat[$sarray["qid"]]["reached"] += $sarray["reached"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["single_max"] = $sarray["max"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["max"] += $sarray["max"];
+					$question_stat[$this->getEvaluationQuestionId($sarray["qid"], $sarray["original_id"])]["reached"] += $sarray["reached"];
 				}
 			}
 			$evaluation_array[$key] = $stat_eval;
@@ -1204,6 +1204,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->object->getTitle() . " .csv"));
 		break;
+	}
+
+	/**
+	 * Returns the ID of a question for evaluation purposes. If a question id and the id of the
+	 * original question are given, this function returns the original id, otherwise the  question id
+	 *
+	 * @return int question or original id
+	 **/
+	function getEvaluationQuestionId($question_id, $original_id = "")
+	{
+		if ($original_id > 0)
+		{
+			return $original_id;
+		}
+		else
+		{
+			return $question_id;
+		}
 	}
 }
 ?>
