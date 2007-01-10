@@ -436,7 +436,7 @@
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
 </object>
-<object name="webr" class_name="LinkResource" location="Modules/Webresource/classes" module="Modules/Webresource" checkbox="1" inherit="0" allow_link="1" translate="0" rbac="1" devmode="0">
+<object name="webr" class_name="LinkResource" location="Modules/WebResource/classes" module="Modules/WebResource" checkbox="1" inherit="0" allow_link="1" translate="0" rbac="1" devmode="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
 	<action name="cut">cut</action>
@@ -454,7 +454,7 @@
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="ps" class_name="PrivacySecurity" location="Services/PrivacySecurity" module="Services/PrivacySecurity" checkbox="0" inherit="0" translate="sys" rbac="1">
+<object name="ps" class_name="PrivacySecurity" location="Services/PrivacySecurity/classes" module="Services/PrivacySecurity" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="privacy">privacy</property>
 	<property name="perm">perm_settings</property>
 </object>
