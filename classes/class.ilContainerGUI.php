@@ -64,6 +64,7 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd("render");
+
 		switch($next_class)
 		{
 			// page editing
@@ -75,7 +76,6 @@ class ilContainerGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$cmd .= "Object";
 				$this->$cmd();
-
 				break;
 		}
 		return true;
@@ -340,7 +340,7 @@ class ilContainerGUI extends ilObjectGUI
 	function renderObject()
 	{
 		global $ilBench, $tree;
-		
+
 		// course content interface methods could probably
 		// move to this class
 		if($this->type != 'icrs' and $tree->checkForParentType($this->ref_id,'crs'))

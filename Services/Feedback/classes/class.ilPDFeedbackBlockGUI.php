@@ -47,6 +47,7 @@ class ilPDFeedbackBlockGUI extends ilBlockGUI
 		$this->setImage(ilUtil::getImagePath("icon_feedb_s.gif"));
 		$this->setTitle($lng->txt("pdesk_feedback_request"));
 		$this->setAvailableDetailLevels(2, 1);
+		$this->allow_moving = false;
 	}
 	
 	/**

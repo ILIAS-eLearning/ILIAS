@@ -128,7 +128,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 				{
 					$cmd = "render";
 				}
-
 				$cmd .= "Object";
 				$this->$cmd();
 
