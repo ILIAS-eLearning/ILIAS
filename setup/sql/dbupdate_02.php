@@ -286,3 +286,15 @@ CREATE table `il_external_feed_block`
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#892>
+DROP TABLE IF EXISTS `member_export_user_settings`;
+CREATE TABLE `member_export_user_settings` (
+  `user_id` int(11) NOT NULL default '0',
+  `settings` text NOT NULL,
+  PRIMARY KEY  (`user_id`)
+) Type=MyISAM;
+
+<#893>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
