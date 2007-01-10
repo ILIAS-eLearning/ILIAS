@@ -79,8 +79,8 @@ class ilExternalFeed
 			ilUtil::makeDir(ilUtil::getWebspaceDir()."/magpie_cache");
 		}
 		
-echo "<br/>./".ILIAS_WEB_DIR."/".CLIENT_ID."/magpie_cache";
-echo "<br>".ilUtil::getWebspaceDir()."/magpie_cache";
+//echo "<br/>./".ILIAS_WEB_DIR."/".CLIENT_ID."/magpie_cache";
+//echo "<br>".ilUtil::getWebspaceDir()."/magpie_cache";
 
 	}
 	
