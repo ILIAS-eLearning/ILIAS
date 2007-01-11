@@ -47,7 +47,7 @@ class ilCourseRegisterGUI
 
 	var $validation = true;
 	
-	function ilCourseRegisterGUI($a_course_id)
+	function __construct($a_course_id)
 	{
 		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree;
 
@@ -64,6 +64,7 @@ class ilCourseRegisterGUI
 		$this->course_id = $a_course_id;
 		$this->__initCourseObject();
 		$this->__initWaitingList();
+		$this->initAgreement();
 	}
 
 	/**
@@ -105,6 +106,14 @@ class ilCourseRegisterGUI
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
+		
+		if(!$this->checkAgreement())
+		{
+			$this->course_obj->appendMessage($this->lng->txt('crs_agreement_required'));
+			$this->validation = false;
+			$this->showRegistrationForm();
+			return false;
+		}
 
 		if($this->course_obj->getSubscriptionMaxMembers())
 		{
@@ -129,14 +138,13 @@ class ilCourseRegisterGUI
 			{
 				if($this->course_obj->getSubscriptionPassword() != $_POST["password"])
 				{
-					sendInfo($this->lng->txt("crs_password_not_valid"));
+					$this->course_obj->appendMessage($this->lng->txt("crs_password_not_valid"));
 					$this->validation = false;
 					$this->showRegistrationForm();
 
 					return false;
 				}
 			}
-
 
 			include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
 
@@ -284,6 +292,7 @@ class ilCourseRegisterGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+		include_once('Modules/Course/classes/class.ilObjCourseGrouping.php');
 		if($courses = ilObjCourseGrouping::_getGroupingItemsAsString($this->course_obj))
 		{
 			$this->tpl->setVariable("INFO_REG_PRE",$this->lng->txt('crs_grp_info_reg').$courses.'<br>');
@@ -341,6 +350,8 @@ class ilCourseRegisterGUI
 
 		if($really_submit)
 		{
+			$this->showAgreement();
+			
 			$this->tpl->setCurrentBlock("go");
 			$this->tpl->setVariable("CMD_SUBMIT","subscribe");
 			if ($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_CONFIRMATION)
@@ -360,6 +371,61 @@ class ilCourseRegisterGUI
 
 
 	// PRIVATE
+	/**
+	 * Show Agreement
+	 *
+	 * @access private
+	 * 
+	 */
+	private function showAgreement()
+	{
+		global $ilUser;
+		
+		if(!$this->agreement->agreementRequired())
+		{
+			return false;
+		}
+		
+		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
+		$fields_info = ilExportFieldsInfo::_getInstance();
+		
+		foreach($fields_info->getExportableFields() as $field)
+		{
+			$this->tpl->setCurrentBlock('field');
+			$this->tpl->setVariable('FIELD_NAME',$this->lng->txt($field));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock('agreement');
+		$this->tpl->setVariable('AGREEMENT_HEADER',$this->lng->txt('crs_agreement_header'));
+		$this->tpl->setVariable('TXT_AGREEMENT',$this->lng->txt('crs_user_agreement'));
+		$this->tpl->setVariable('TXT_INFO_AGREEMENT',$this->lng->txt('crs_info_agreement'));
+		$this->tpl->setVariable('CHECK_AGREE',ilUtil::formCheckbox(0,'agreed',1));
+		$this->tpl->setVariable('INFO_AGREE',$this->lng->txt('crs_info_agree'));
+		$this->tpl->setVariable('TXT_AGREE',$this->lng->txt('crs_agree'));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * Check Agreement
+	 *
+	 * @access private
+	 * 
+	 */
+	private function checkAgreement()
+	{
+	 	if($_POST['agreed'])
+	 	{
+	 		return true;
+	 	}
+		if(!$this->agreement->agreementRequired())
+		{
+			return true;
+		}
+	 	return false;
+	}
+	
+	
 	function __initCourseObject()
 	{
 		if(!$this->course_obj =& ilObjectFactory::getInstanceByRefId($this->course_id,false))
@@ -380,6 +446,21 @@ class ilCourseRegisterGUI
 
 		return true;
 	}
+	
+	/**
+	 * INIt Agreement object
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function initAgreement()
+	{
+		global $ilUser;
+		
+		include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+		$this->agreement = new ilCourseAgreement($ilUser->getId(),$this->course_id);
+	}
 
 	function __validateStatus()
 	{
@@ -387,7 +468,7 @@ class ilCourseRegisterGUI
 
 		$allow_subscription = true;
 
-		$this->course_obj->setMessage('');
+		#$this->course_obj->setMessage('');
 
 		if($this->course_obj->members_obj->isAssigned($this->user_id))
 		{

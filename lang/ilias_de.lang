@@ -4343,9 +4343,9 @@ crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unblocked_member#:#Status in Kurs "%s"
 crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet
 crs#:#crs_unlimited#:#Unbegrenzt
-crs#:#crs_unsubscribe#:#Austreten
-crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie aus diesem Kurs austreten möchten?
-crs#:#crs_unsubscribed_from_crs#:#Sie sind aus dem Kurs ausgetreten.
+crs#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
+crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Kurs beenden möchten?
+crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
@@ -6869,3 +6869,28 @@ common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten
 news#:#news_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###22 12 2006 new variable
 common#:#title_long#:#Long Title###22 12 2006 new variable
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
+ps#:#ps_export_files#:#Exportdateien
+ps#:#ps_size#:#Dateigröße
+ps#:#ps_select_one#:#Bitte wählen Sie eine Datei aus
+ps#:#ps_delete_export_files#:#Exportdateien löschen
+ps#:#ps_export_settings#:#Einstellungen zum Export
+ps#:#ps_user_selection#:#Benutzerauswahl
+ps#:#ps_export_admin#:#Administratoren
+ps#:#ps_export_tutor#:#Tutoren
+ps#:#ps_export_member#:#Teilnehmer
+ps#:#ps_export_sub#:#Noch nicht freigeschaltete Benutzer
+ps#:#ps_export_wait#:#Benutzer auf der Warteliste
+ps#:#ps_export_user_data#:#Benutzerdaten
+ps#:#ps_export_data#:#Daten des Persönlichen Profils
+ps#:#ps_perform_export#:#CSV-Export starten
+crs#:#export_members#:#Teilnehmerexport
+crs#:#crs_agreement_header#:#Nutzungsvereinbarung
+crs#:#crs_user_agreement#:#Freigebene Daten
+crs#:#crs_info_agreement#:#Die folgenden Daten können von Kursadministratoren eingesehen werden:
+crs#:#crs_agree#:#Zustimmung
+crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Kursadministratoren eingesehen werden können.
+crs#:#crs_agreement_required#:#Sie können diesem Kurs nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
+ps#:#ps_privacy_protection#:#Einstellungen zum Datenschutz
+ps#:#ps_profile_export#:#Schutz der Daten des Persönlichen Profils
+ps#:#ps_export_course#:#Erlaube den Export von Persönlichen Daten in Kursen
+ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
