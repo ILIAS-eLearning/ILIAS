@@ -1030,15 +1030,16 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 
 	/**
-	*
+	*	get users for a category or from system folder
+	* @param	$ref_id		ref id of object
+	* @param 	$active		can be -1 (ignore), 1 = active, 0 = not active user
 	*/
 	function __getUserFolderUsers ($ref_id, $active) {
 		global $ilDB;
 		$data = array();
-		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref
-		          WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'";
+		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id and usr_pref.keyword = 'language' WHERE 1 ";
 
-		if ($active > -1)
+		if (is_numeric($active) && $active > -1)
 			$query .= " AND usr_data.active = '$active'";
 
 		if ($ref_id != USER_FOLDER_ID)
@@ -1064,13 +1065,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		global $rbacadmin, $rbacreview, $ilDB;
 
 		$query = "SELECT usr_data.*, usr_pref.value AS language
-		          FROM usr_data, usr_pref
-		          WHERE usr_pref.usr_id = usr_data.usr_id
-		           AND usr_pref.keyword = 'language'
-		           AND usr_data.usr_id IN (".implode(',',$a_mem_ids).")";
+		          FROM usr_data
+		          LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
+		          WHERE usr_data.usr_id IN (".implode(',',$a_mem_ids).")";
 
   	    if (is_numeric($active) && $active > -1)
-  			$query .= "AND active = '$active'";
+  			$query .= " AND active = '$active'";
 
   		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
