@@ -108,14 +108,148 @@ if ($_GET["addressbook"])
 
 if ($_GET["courses_to"])
 {
+	
+	$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html");
+
+	include_once 'classes/class.ilObjUser.php';
+	include_once 'Modules/Course/classes/class.ilObjCourse.php';
+	include_once 'Modules/Course/classes/class.ilCourseMembers.php';
+	
+	$lng->loadLanguageModule('crs');
+
+	$user = new ilObjUser($_SESSION["AccountId"]);
+	$crs_ids = $user->getCourseMemberships();
+	
+	if ($_GET["course_id"] != "")
+	{
+		$_POST["course_id"] = explode(",", $_GET["course_id"]);
+	}
+	if (is_array($_POST["course_id"]) && count($_POST["course_id"]) > 0)
+	{
+		$tpl->setCurrentBlock("members_course");
+		$tpl->setVariable("MEMBERS_TXT_COURSE",$lng->txt("course"));
+		$tpl->parseCurrentBlock();
+		$tpl->setVariable("MEMBERS_TXT_LOGIN",$lng->txt("login"));
+		$tpl->setVariable("MEMBERS_TXT_NAME",$lng->txt("name"));
+		$tpl->setVariable("MEMBERS_TXT_IN_ADDRESSBOOK",$lng->txt("mail_in_addressbook"));
+
+		$counter = 0;
+
+		foreach($_POST["course_id"] as $crs_id) 
+		{
+			$course_obj = new ilObjCourse($crs_id,false); 
+			$crs_members = new ilCourseMembers($course_obj);
+			
+			$course_admins[$crs_id] = $crs_members->getAdmins();
+			$course_tutors[$crs_id] = $crs_members->getTutors();
+			$course_members[$crs_id] = $crs_members->getMembers();
+
+			foreach ($course_admins[$crs_id] as $admin)
+			{
+				$name = ilObjUser::_lookupName($admin);
+				$login = ilObjUser::_lookupLogin($admin);
+
+				$tpl->setCurrentBlock("loop_members");
+				$tpl->setVariable("LOOP_MEMBERS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+				$tpl->setVariable("LOOP_MEMBERS_ID",$admin);
+				$tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
+				$tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
+				$tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$course_obj->getTitle());
+				$tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $abook->checkEntry($login) ? $lng->txt("yes") : $lng->txt("no"));
+				$tpl->parseCurrentBlock();
+			}
+			foreach ($course_tutors[$crs_id] as $tutor)
+			{
+				$name = ilObjUser::_lookupName($tutor);
+				$login = ilObjUser::_lookupLogin($tutor);
+
+				$tpl->setCurrentBlock("loop_members");
+				$tpl->setVariable("LOOP_MEMBERS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+				$tpl->setVariable("LOOP_MEMBERS_ID",$tutor);
+				$tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
+				$tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
+				$tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$course_obj->getTitle());
+				$tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $abook->checkEntry($login) ? $lng->txt("yes") : $lng->txt("no"));
+				$tpl->parseCurrentBlock();
+			}
+			foreach ($course_members[$crs_id] as $member)
+			{
+				$name = ilObjUser::_lookupName($member);
+				$login = ilObjUser::_lookupLogin($member);
+
+				$tpl->setCurrentBlock("loop_members");
+				$tpl->setVariable("LOOP_MEMBERS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+				$tpl->setVariable("LOOP_MEMBERS_ID",$member);
+				$tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
+				$tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
+				$tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$course_obj->getTitle());
+				$tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $abook->checkEntry($login) ? $lng->txt("yes") : $lng->txt("no"));
+				$tpl->parseCurrentBlock();
+			}
+		}
+		
+		if ($counter == 0)
+		{
+			$tpl->setCurrentBlock("members_not_found");
+			$tpl->setVariable("TXT_MEMBERS_NOT_FOUND",$lng->txt("mail_search_members_not_found"));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setVariable("BUTTON_MAIL",$lng->txt("grp_mem_send_mail"));
+		$tpl->setVariable("BUTTON_ADOPT",$lng->txt("adopt"));
+	}
+
+	else if (is_array($crs_ids = $user->getCourseMemberships()) && count($crs_ids) > 0)
+	{
+		$counter = 0;
+			
+		$tpl->setCurrentBlock("crs_grp_courses");
+		$tpl->setVariable("CRS_GRP_TXT_COURSES",$lng->txt("courses"));
+		$tpl->parseCurrentBlock();
+		$tpl->setVariable("CRS_GRP_TXT_NO_MEMBERS",$lng->txt("crs_count_members"));
+	
+		foreach($crs_ids as $crs_id) 
+		{
+			$course_obj = new ilObjCourse($crs_id,false); 
+			$crs_members = new ilCourseMembers($course_obj);
+
+			$tpl->setCurrentBlock("loop_crs_grp");
+			$tpl->setVariable("LOOP_CRS_GRP_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
+			$tpl->setVariable("LOOP_CRS_GRP_ID",$course_obj->getId());
+			$tpl->setVariable("LOOP_CRS_GRP_NAME",$course_obj->getTitle());
+			$tpl->setVariable("LOOP_CRS_GRP_NO_MEMBERS",$crs_members->getCountMembers());
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($counter == 0)
+		{
+			$tpl->setCurrentBlock("crs_grp_not_found");
+			$tpl->setVariable("TXT_CRS_GRP_NOT_FOUND",$lng->txt("mail_search_courses_not_found"));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setVariable("BUTTON_MAIL",$lng->txt("mail_members"));
+		$tpl->setVariable("BUTTON_LIST",$lng->txt("mail_list_members"));
+	}
+
+	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
+}
+
+else
+{
+	$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html");
+}
+
+
+
+/*	
 	include_once 'classes/class.ilObjUser.php';
 	include_once 'Modules/Course/classes/class.ilObjCourse.php';
 	include_once 'Modules/Course/classes/class.ilCourseMembers.php';
 	
 	$user = new ilObjUser($_SESSION["AccountId"]);
 
-	if ($_GET["course_id"] &&
-		$_GET["course_id"]!="") 
+	if ($_GET["course_id"] && $_GET["course_id"]!="") 
 	{
 		// receive the crs_ref_id as a GET parameter
 		$course_obj = new ilObjCourse($_GET["course_id"],true); 
@@ -126,6 +260,8 @@ if ($_GET["courses_to"])
 	{
 		$user = new ilObjUser($_SESSION["AccountId"]);
 		$crs_ids = $user->getCourseMemberships();
+		
+		
 		//var_dump($crs_ids);
 	}	
 	if(!count($crs_ids))
@@ -222,7 +358,9 @@ if ($_GET["courses_to"])
 	$tpl->setVariable("BUTTON_ADOPT",$lng->txt("adopt"));
 	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
 	$tpl->parseCurrentBlock();
-}
+*/
+
+
 
 if ($_GET["groups_to"])
 {
