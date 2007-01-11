@@ -61,10 +61,6 @@ class ilMemberExportFile
 		$query = "SELECT * FROM member_export_files ".
 			"WHERE obj_id = ".$this->db->quote($this->obj_id)." ";
 		$res = $this->db->query($query);
-		
-			
-			
-		
 	}
 	
 }

@@ -1,14 +1,10 @@
-	<form action="{FORMACTION}" {TARGET} method="post">
-	  <table class="std">
-		<tr class="tbltitle">
-		  <td colspan="3">
-			<table class="fullwidth_invisible" cellspacing="0">
-			  <tr class="tbltitle">
-				<td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
-				<td class="tbltitle" align="left">&nbsp;{TITLE}</td>
-			  </tr>
-			</table>
-		  </td>
+	<form action="{FORMACTION}" method="post">
+	  <table class="fullwidth" >
+		<tr class="tblheader">
+		  <th class="std" colspan="3">
+			<!-- <img src="{TYPE_IMG}" style="vertical-align:middle" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" /> -->
+			{TITLE}
+		  </th>
 		</tr>
 		<!-- BEGIN syllabus -->
 		<tr>
@@ -45,6 +41,31 @@
 		  <td class="option_value"><input type="password" name="password" size="12" maxlength="12" /></td>
 		</tr>
 		<!-- END pass -->
+
+		<!-- BEGIN agreement -->
+		<tr class="tblheader">
+		  <td colspan="3">
+			{AGREEMENT_HEADER}
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" align="top">{TXT_AGREEMENT}</td>
+		  <td class="option_value">
+			{TXT_INFO_AGREEMENT}<br />
+			<ul class="il_listItem">
+			  <!-- BEGIN field -->
+			  <li>{FIELD_NAME}</li>
+			  <!-- END field -->
+			</ul>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" align="top">{TXT_AGREE}</td>
+		  <td class="option_value">
+			{CHECK_AGREE} {INFO_AGREE}
+		  </td>
+		</tr>
+		<!-- END agreement -->
 		<tr>
 		  <td class="submit" colspan="3">
 			<div align="right">

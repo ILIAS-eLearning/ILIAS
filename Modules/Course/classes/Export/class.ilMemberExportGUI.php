@@ -59,6 +59,7 @@ class ilMemberExportGUI
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
+		$this->lng->loadLanguageModule('ps');
 	 	$this->ref_id = $a_ref_id;
 	 	$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
 	 	

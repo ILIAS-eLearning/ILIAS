@@ -6896,3 +6896,28 @@ common#:#ps_read#:#Read Access to Privacy/Security Settings
 common#:#ps_write#:#Edit Privacy/Security
 common#:#ps_export_member_data#:#User may Export Member Data
 crs#:#crs_subscriber#:#Subscriber
+ps#:#ps_export_files#:#Export Files
+ps#:#ps_size#:#Files Size
+ps#:#ps_select_one#:#Please select one export file
+ps#:#ps_delete_export_files#:#Deleted export files
+ps#:#ps_export_settings#:#Member Export Settings
+ps#:#ps_user_selection#:#Participants Selection
+ps#:#ps_export_admin#:#Administrators
+ps#:#ps_export_tutor#:#Tutors
+ps#:#ps_export_member#:#Members
+ps#:#ps_export_sub#:#Subscribers
+ps#:#ps_export_wait#:#Users on the Waiting List
+ps#:#ps_export_user_data#:#Data Types
+ps#:#ps_export_data#:#Data Types of the Personal Profile
+ps#:#ps_perform_export#:#Start CSV-Export
+crs#:#export_members#:#Export Participants
+crs#:#crs_agreement_header#:#User Agreement
+crs#:#crs_user_agreement#:#Released Data Types
+crs#:#crs_info_agreement#:#The following data tyes are visible for course administrators:
+crs#:#crs_agree#:#Acceptance
+crs#:#crs_info_agree#:#I accept, that the above data types are visible for course administrators.
+crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.
+ps#:#ps_privacy_protection#:#Privacy Settings
+ps#:#ps_profile_export#:#Protection of User Profile Data
+ps#:#ps_export_course#:#Advanced Export of User Profile Data in Courses
+ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
