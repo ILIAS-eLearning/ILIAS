@@ -383,11 +383,11 @@ class ilFormat
 	{
 		if (strlen($a_unix_timestamp) == 0)
 		{
-			return strftime("%Y-%m-%m %H:%M:%S");
+			return strftime("%Y-%m-%d %H:%M:%S");
 		}
 		else
 		{
-			return strftime("%Y-%m-%m %H:%M:%S", $a_unix_timestamp);
+			return strftime("%Y-%m-%d %H:%M:%S", $a_unix_timestamp);
 		}
 	}
 	
