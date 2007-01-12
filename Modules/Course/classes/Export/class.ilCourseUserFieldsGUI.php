@@ -61,8 +61,6 @@ class ilCourseUserFieldsGUI
 		$this->tabs_gui = $ilTabs;
 		
 		$this->obj_id = $a_obj_id;
-		
-		$this->cdf = new ilCourseDefinedFieldDefinition($this->obj_id);
 	}
 	
 	/**
@@ -122,8 +120,8 @@ class ilCourseUserFieldsGUI
 			$this->tpl->setVariable('CHECKBOX',ilUtil::formCheckbox(0,'field_id[]',1));
 			$this->tpl->setVariable('NAME',$field_obj->getName());
 			$this->tpl->setVariable('TYPE',$field_obj->getType() == IL_CDF_TYPE_SELECT ?
-											$this->lng->txt('ps_cdf_select') :
-											$this->lng->txt('ps_cdf_text'));
+											$this->lng->txt('ps_type_select') :
+											$this->lng->txt('ps_type_text'));
 			$this->tpl->setVariable('',ilUtil::formCheckbox(0,'field_id['.$field_obj->getId().']',1));
 			
 			if($field_obj->getType() == IL_CDF_TYPE_SELECT)
@@ -137,6 +135,7 @@ class ilCourseUserFieldsGUI
 				$this->tpl->setVariable('EDIT',$this->lng->txt('edit'));
 				$this->tpl->parseCurrentBlock();
 			}
+			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable('BTN_DELETE',$this->lng->txt('delete'));
@@ -147,6 +146,113 @@ class ilCourseUserFieldsGUI
 			$this->tpl->setVariable('BTN_SAVE',$this->lng->txt('save'));
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+	
+	/**
+	 * Save
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function save()
+	{
+	 	$this->show();
+	 	return true;
+	}
+	
+	/**
+	 * Field selection
+	 *
+	 * @access public
+	 * 
+	 */
+	public function fieldSelection()
+	{
+		// number of values defaults to 3
+		$_SESSION['il_crs_num_values'] = 3;
+		
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_selection.html','Modules/Course');
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('TXT_SELECT_TYPE',$this->lng->txt('ps_cdf_add_field'));
+		$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('ps_field_type'));
+		$this->tpl->setVariable('TXT_TEXT',$this->lng->txt('ps_type_txt_long'));
+		$this->tpl->setVariable('TXT_SELECT',$this->lng->txt('ps_type_select_long'));
+		$this->tpl->setVariable('BTN_MORE',$this->lng->txt('btn_next'));
+		$this->tpl->setVariable('BTN_CANCEL',$this->lng->txt('cancel'));
+		
+		$this->tpl->setVariable("TYPE_TEXT",ilUtil::formRadioButton(1,'field_type',IL_CDF_TYPE_TEXT));
+		$this->tpl->setVariable("TYPE_SELECT",ilUtil::formRadioButton(0,'field_type',IL_CDF_TYPE_SELECT));
+		 	
+	}
+	
+	/**
+	 * Choose Definitions
+	 *
+	 * @access public
+	 * 
+	 */
+	public function chooseDefinitions()
+	{
+		switch($field_type = (int) $_REQUEST['field_type'])
+		{
+			case IL_CDF_TYPE_TEXT:
+				$this->addTextField();
+				break;
+
+			case IL_CDF_TYPE_SELECT:
+				$this->showSelectTable();
+				break;
+		}
+	}
+
+	/**
+	 * 
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function addTextField()
+	{
+		$this->ctrl->setParameter($this,'field_type',(int) $_REQUEST['field_type']);
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_add_text.html','Modules/Course');
+		$this->tpl->setVariable('TXT_SELECT_TYPE',$this->lng->txt('ps_new_text_field'));
+		$this->tpl->setVariable('TXT_FIELD_NAME',$this->lng->txt('ps_name_field'));
+		$this->tpl->setVariable('TXT_REQUIRED',$this->lng->txt('required_field'));
+		$this->tpl->setVariable('BTN_ADD',$this->lng->txt('btn_add'));
+		$this->tpl->setVariable('BTN_PREVIOUS',$this->lng->txt('btn_previous'));
+	}
+
+	/**
+	 * Save New Field
+	 *
+	 * @access public
+	 */
+	public function saveField()
+	{
+	 	$cdf = new ilCourseDefinedFieldDefinition($this->obj_id);
+	
+		if(!strlen($_POST['field_name']))
+		{
+			sendInfo($this->lng->txt('ps_cdf_no_name_given'));
+			$this->chooseDefinitions();
+			return false;
+		}
+		if($_REQUEST['field_type'] == IL_CDF_TYPE_TEXT)
+		{
+			$cdf->setFieldType(IL_CDF_TYPE_TEXT);
+		}
+		
+		$cdf->setName(ilUtil::stripSlashes($_POST['field_name']));
+		$cdf->enableRequired(1);
+		$cdf->save();
+		
+		sendInfo($this->lng->txt('ps_cdf_added_field'));
+		$this->show();
+		return true;
 	}
 }
 

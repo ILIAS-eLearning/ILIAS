@@ -6896,8 +6896,15 @@ ps#:#ps_export_course#:#Erlaube den Export von Persönlichen Daten in Kursen
 ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
 crs#:#user_fields#:#Benutzerdaten
 ps#:#ps_crs_user_fields#:#Kursspezifische Benutzerdaten
-ps#:#ps_cdf_add_field#:#Neue Datenfeld anlegen
+ps#:#ps_cdf_add_field#:#Neues Datenfeld anlegen
 ps#:#ps_cdf_name#:#Name
 ps#:#ps_cdf_type#:#Typ
 ps#:#ps_cdf_required#:#Pflichtfeld
 ps#:#ps_cdf_no_fields#:#Dieser Kurs enthält keine Datenfelder
+ps#:#ps_field_type#:#Datenfeldauswahl
+ps#:#ps_type_txt_long#:#Textfeld (beliebige Werte)
+ps#:#ps_type_select_long#:#Auswahlliste (feste Werte)
+ps#:#ps_new_text_field#:#Neues Textfeld anlegen
+ps#:#ps_name_field#:#Name des Datenfeldes
+ps#:#ps_type_text#:#Textfeld
+ps#:#ps_type_select#:#Auswahlliste

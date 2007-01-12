@@ -6928,3 +6928,10 @@ ps#:#ps_cdf_name#:#Name
 ps#:#ps_cdf_type#:#Type
 ps#:#ps_cdf_required#:#Required Field
 ps#:#ps_cdf_no_fields#:#No User Fields Defined
+ps#:#ps_field_type#:#
+ps#:#ps_type_txt_long#:#Text Field (Optional Values)
+ps#:#ps_type_select_long#:#Select Field (Fixed Values)
+ps#:#ps_new_text_field#:#Add new Text Field
+ps#:#ps_name_field#:#Name
+ps#:#ps_type_text#:#Text Field
+ps#:#ps_type_select#:#Select Field
