@@ -311,4 +311,21 @@ CREATE TABLE `member_agreement` (
 <#895>
 ALTER TABLE `usr_data` ADD `delicious` VARCHAR(40);
 
+<#896>
+CREATE TABLE `crs_defined_field_definitions` (
+`field_id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+`obj_id` INT( 11 ) NOT NULL ,
+`field_name` VARCHAR( 255 ) NOT NULL ,
+`field_type` TINYINT( 1 ) NOT NULL ,
+`field_values` TEXT NOT NULL ,
+`field_required` TINYINT( 1 ) NOT NULL ,
+PRIMARY KEY ( `field_id` )
+) TYPE = MYISAM ;
 
+<#897>
+CREATE TABLE `crs_user_data` (
+`usr_id` INT( 11 ) NOT NULL ,
+`field_id` INT( 11 ) NOT NULL ,
+`value` TEXT NOT NULL ,
+PRIMARY KEY ( `usr_id` , `field_id` )
+) TYPE = MYISAM ;
