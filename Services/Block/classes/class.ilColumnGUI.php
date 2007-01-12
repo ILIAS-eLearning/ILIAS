@@ -446,12 +446,15 @@ class ilColumnGUI
 			$add_blocks = array();
 			if ($this->getSide() == IL_COL_RIGHT)
 			{
-				foreach($this->custom_blocks[$this->getColType()] as $block_class)
+				if (is_array($this->custom_blocks[$this->getColType()]))
 				{
-					include_once("./".self::$locations[$block_class]."classes/".
-						"class.".$block_class.".php");
-					$block_type = call_user_func(array($block_class, 'getBlockType'));
-					$add_blocks[$block_type] = $blocks[$block_type];
+					foreach($this->custom_blocks[$this->getColType()] as $block_class)
+					{
+						include_once("./".self::$locations[$block_class]."classes/".
+							"class.".$block_class.".php");
+						$block_type = call_user_func(array($block_class, 'getBlockType'));
+						$add_blocks[$block_type] = $blocks[$block_type];
+					}
 				}
 			}
 			if (count($add_blocks) > 0)
@@ -596,34 +599,37 @@ class ilColumnGUI
 			: 0;
 
 		$def_nr = 1000;
-		foreach($this->default_blocks[$this->getColType()] as $class => $def_side)
+		if (is_array($this->default_blocks[$this->getColType()]))
 		{
-			$type = self::$block_types[$class];
-			$nr = ilBlockSetting::_lookupNr($type, $user_id);
-			if ($nr === false)
+			foreach($this->default_blocks[$this->getColType()] as $class => $def_side)
 			{
-				$nr = $def_nr++;
+				$type = self::$block_types[$class];
+				$nr = ilBlockSetting::_lookupNr($type, $user_id);
+				if ($nr === false)
+				{
+					$nr = $def_nr++;
+				}
+				// extra handling for system messages and feedback block
+				if ($type == "pdsysmess")		// always show sys mess first
+				{
+					$nr = -15;
+				}
+				if ($type == "pdfeedb")		// always show feedback request second
+				{
+					$nr = -10;
+				}
+				$side = ilBlockSetting::_lookupSide($type, $user_id);
+				if ($side === false)
+				{
+					$side = $def_side;
+				}
+				$this->blocks[$side][] = array(
+					"nr" => $nr,
+					"class" => $class,
+					"type" => $type,
+					"id" => 0,
+					"custom" => false);
 			}
-			// extra handling for system messages and feedback block
-			if ($type == "pdsysmess")		// always show sys mess first
-			{
-				$nr = -15;
-			}
-			if ($type == "pdfeedb")		// always show feedback request second
-			{
-				$nr = -10;
-			}
-			$side = ilBlockSetting::_lookupSide($type, $user_id);
-			if ($side === false)
-			{
-				$side = $def_side;
-			}
-			$this->blocks[$side][] = array(
-				"nr" => $nr,
-				"class" => $class,
-				"type" => $type,
-				"id" => 0,
-				"custom" => false);
 		}
 		
 		include_once("./Services/Block/classes/class.ilCustomBlock.php");
