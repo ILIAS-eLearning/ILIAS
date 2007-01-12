@@ -59,6 +59,32 @@
 			</td>
 			<!-- END headers -->
 			<!-- BEGIN courses_to -->
+				<td class="std" width="4%">
+			  	&nbsp;
+				</td>
+				<!-- BEGIN crs_grp_courses -->
+				<td class="std" >
+				  <b>{CRS_GRP_TXT_COURSES}</b>
+				</td>
+				<!-- END crs_grp_courses -->
+				<!-- BEGIN crs_grp_groups -->
+				<td class="std" >
+				  <b>{CRS_GRP_TXT_GROUPS}</b>
+				</td>
+				<!-- END crs_grp_groups -->
+				<td class="std" >
+				  <b>{CRS_GRP_TXT_NO_MEMBERS}</b>
+				</td>
+				</tr>
+				<!-- BEGIN loop_crs_grp -->
+		  			<tr class="{LOOP_CRS_GRP_CSSROW}">
+					<td class="std" align="center">	
+			  			<input type="checkbox" name="course_id[]" value="{LOOP_CRS_GRP_ID}"/>
+					</td>
+					<td class="std"  valign="top">{LOOP_CRS_GRP_NAME}</td>
+					<td class="std"  valign="top">{LOOP_CRS_GRP_NO_MEMBERS}</td>
+					</tr>
+				<!-- END loop_crs_grp -->
 			<td class="std" >
 			  <b>{TXT_COURSE}</b>
 			</td>
@@ -145,7 +171,12 @@
 			<img src="templates/default/images/arrow_downright.gif" />
 			</td>
 			<td class="submit" colspan="5">
+			<!-- BEGIN list -->
+			<input class="submit" type="submit" name="cmd[list]" value="{BUTTON_LIST}"/>
+			<!-- END list -->	
+			<!-- BEGIN adopt -->
 			<input class="submit" type="submit" name="cmd[adopt]" value="{BUTTON_ADOPT}"/>
+			<!-- END adopt -->
 			<input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}"/>
 			</td>
 		</tr>
