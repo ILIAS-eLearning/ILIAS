@@ -958,6 +958,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$counter = 0;
+		$sumPoints = 0;
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
 		foreach ($table["rows"] as $data)
 		{
@@ -973,7 +974,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
+				$points = 0;
+			} else
+			{
+			    $points = assQuestion::_getMaximumPoints($data["question_id"]);
 			}
+			$sumPoints += $points;
+
 			$this->tpl->setCurrentBlock("checkable");
 			$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 			$this->tpl->parseCurrentBlock();
@@ -1002,6 +1009,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 			$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->setVariable("QUESTION_POINTS", $points);
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
@@ -1065,6 +1073,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("selectall");
 			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->setVariable("SUM_POINTS", $sumPoints);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1121,6 +1130,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
 		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
 		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("points"));
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
