@@ -109,8 +109,6 @@ if ($_GET["addressbook"])
 if ($_GET["courses_to"])
 {
 	
-	$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html");
-
 	include_once 'classes/class.ilObjUser.php';
 	include_once 'Modules/Course/classes/class.ilObjCourse.php';
 	include_once 'Modules/Course/classes/class.ilCourseMembers.php';
@@ -122,7 +120,10 @@ if ($_GET["courses_to"])
 	
 	if ($_GET["course_id"] != "")
 	{
+		echo $_GET["course_id"];
 		$_POST["course_id"] = explode(",", $_GET["course_id"]);
+		
+		
 	}
 	if (is_array($_POST["course_id"]) && count($_POST["course_id"]) > 0)
 	{
@@ -234,12 +235,6 @@ if ($_GET["courses_to"])
 
 	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
 }
-
-else
-{
-	$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html");
-}
-
 
 
 /*	
