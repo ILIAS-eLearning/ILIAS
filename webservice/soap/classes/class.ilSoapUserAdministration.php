@@ -1197,9 +1197,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
     	$query = $this->__buildSearchQuery ($a_keyfields, $query_operator, $a_keyvalues);
 
 		$query = "SELECT usr_data.*, usr_pref.value AS language
-		          FROM usr_data, usr_pref
-		          WHERE usr_pref.usr_id = usr_data.usr_id
-		          AND usr_pref.keyword = 'language' ".$query;
+		          FROM usr_data
+		          LEFT JOIN usr_pref
+		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language' 
+		          WHERE 1 ".$query;
 
   	     if (is_numeric($active) && $active > -1)
   			$query .= " AND active = '$active'";
