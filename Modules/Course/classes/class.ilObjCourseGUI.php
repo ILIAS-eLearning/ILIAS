@@ -1534,7 +1534,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$admin_tpl->setVariable("VAL_PROGRESS",$admin['progress']);
 			}
 
-			$admin_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+			$admin_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$admin_tpl->setVariable("USER_ID",$admin['usr_id']);
 			$admin_tpl->setVariable("LASTNAME",$admin['lastname']);
 			$admin_tpl->setVariable("FIRSTNAME",$admin['firstname']);
@@ -1542,7 +1542,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$admin_tpl->parseCurrentBlock();
 		}
 		$admin_tpl->setCurrentBlock("select_row");
-		$admin_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+		$admin_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 		$admin_tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
 		$admin_tpl->parseCurrentBlock();
 
@@ -1658,7 +1658,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$tutor_tpl->setVariable("VAL_PROGRESS",$tutor['progress']);
 			}
 
-			$tutor_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+			$tutor_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$tutor_tpl->setVariable("USER_ID",$tutor['usr_id']);
 			$tutor_tpl->setVariable("LASTNAME",$tutor['lastname']);
 			$tutor_tpl->setVariable("FIRSTNAME",$tutor['firstname']);
@@ -1667,7 +1667,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$tutor_tpl->setCurrentBlock("select_row");
-		$tutor_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+		$tutor_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 		$tutor_tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
 		$tutor_tpl->parseCurrentBlock();
 
@@ -1782,7 +1782,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$member_tpl->setVariable("VAL_PROGRESS",$member['progress']);
 			}
 
-			$member_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+			$member_tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 			$member_tpl->setVariable("USER_ID",$member['usr_id']);
 			$member_tpl->setVariable("LASTNAME",$member['lastname']);
 			$member_tpl->setVariable("FIRSTNAME",$member['firstname']);
@@ -1791,7 +1791,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$member_tpl->setCurrentBlock("select_row");
-		$member_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$couter,'tblrow1','tblrow2'));
+		$member_tpl->setVariable("ROWCLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 		$member_tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
 		$member_tpl->parseCurrentBlock();
 		
