@@ -93,6 +93,17 @@ class ilCourseDefinedFieldDefinition
 	}
 	
 	/**
+	 * Check if there are any define fields
+	 *
+	 * @access public
+	 * @param int container_id 
+	 */
+	public static function _hasFields($a_container_id)
+	{
+		return count(ilCourseDefinedFieldDefinition::_getFields($a_container_id));
+	}
+	
+	/**
 	 * Get all fields of a container
 	 *
 	 * @access public
