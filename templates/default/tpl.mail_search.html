@@ -79,28 +79,50 @@
 				<!-- BEGIN loop_crs_grp -->
 		  			<tr class="{LOOP_CRS_GRP_CSSROW}">
 					<td class="std" align="center">	
-			  			<input type="checkbox" name="course_id[]" value="{LOOP_CRS_GRP_ID}"/>
+			  			<input type="checkbox" name="course_ids[]" value="{LOOP_CRS_GRP_ID}"/>
 					</td>
 					<td class="std"  valign="top">{LOOP_CRS_GRP_NAME}</td>
 					<td class="std"  valign="top">{LOOP_CRS_GRP_NO_MEMBERS}</td>
 					</tr>
 				<!-- END loop_crs_grp -->
-			<td class="std" >
-			  <b>{TXT_COURSE}</b>
-			</td>
-			<td class="std" >
-			  <b>{TXT_ROLE}</b>
-			</td>
+					<tr class="tblheader" valign="top">
+			
+				<!-- BEGIN list_members -->	
+				<td class="std" width="4%">
+			  	&nbsp;
+				</td>
+				<td class="std" >
+				  <b>{MEMBERS_TXT_LOGIN}</b>
+				</td>
+				<td class="std" >
+				  <b>{MEMBERS_TXT_NAME}</b>
+				</td>
+				<!-- BEGIN members_course -->
+				<td class="std" >
+				  <b>{MEMBERS_TXT_COURSE}</b>
+				</td>
+				<!-- END members_course -->
+				</tr>
+					<!-- BEGIN loop_members -->
+					<tr class="{LOOP_MEMBERS_CSSROW}">
+					<td class="std" align="center">	
+					  <input type="checkbox" name="search_members[]" value="{LOOP_MEMBERS_ID}"/>
+					</td>
+					<td class="std"  valign="top">{LOOP_MEMBERS_LOGIN}</td>
+					<td class="std"  valign="top">{LOOP_MEMBERS_NAME}</td>
+					<td class="std"  valign="top">{LOOP_MEMBERS_CRS_GRP}</td>
+				</tr>
+				<!-- END loop_members -->
+				<!-- BEGIN members_not_found -->
+			<tr class="tblrow1">
+				<td class="std" colspan="5" align="center">{TXT_MEMBERS_NOT_FOUND}</td>
+			</tr>
+			<!-- END members_not_found -->
+			<!-- END list_members -->	
+			
+				
 			<!-- END courses_to -->
 			
-			<!-- BEGIN groups_to -->
-			<td class="std" >
-			  <b>{TXT_COURSE}</b>
-			</td>
-			<td class="std" >
-			  <b>{TXT_ROLE}</b>
-			</td>
-			<!-- END groups_to -->
 			
 			<!-- BEGIN smtp -->
 			<td class="std" width="4%">
@@ -123,13 +145,7 @@
 			</td>
 			<td class="std"  valign="top">{LOGIN}</td>
 			<td class="std"  valign="top">{FIRSTNAME}</td>
-			<td class="std"  valign="top">{LASTNAME}</td>
-			
-			<!-- BEGIN course_to -->
-			<td class="std" valign="top">{COURSE_NAME}</td>
-			<td class="std"  valign="top">{COURSE_ROLE}</td>
-			<!-- END course_to -->
-			
+			<td class="std"  valign="top">{LASTNAME}</td>		
 			<!-- BEGIN group_to -->
 			<td class="std"  valign="top">{GROUP_NAME}</td>
 			<td class="std"  valign="top">{GROUP_ROLE}</td>
