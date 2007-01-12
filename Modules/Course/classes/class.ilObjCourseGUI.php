@@ -1156,7 +1156,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$privacy = ilPrivacySettings::_getInstance();
 				if($rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()) and
 					(($privacy->enabledExport() and $privacy->confirmationRequired()) or
-						ilCourseDefinedFieldDefinition::_hasFields($this->object->getObjId())))
+						ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())))
 				{
 					$this->tabs_gui->addSubTabTarget('user_fields',
 													$this->ctrl->getLinkTargetByClass('ilcourseuserfieldsgui'),
