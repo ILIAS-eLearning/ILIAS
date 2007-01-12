@@ -6921,3 +6921,10 @@ ps#:#ps_privacy_protection#:#Privacy Settings
 ps#:#ps_profile_export#:#Protection of User Profile Data
 ps#:#ps_export_course#:#Advanced Export of User Profile Data in Courses
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
+crs#:#user_fields#:#User Fields
+ps#:#ps_crs_user_fields#:#Course-Specific User Fields
+ps#:#ps_cdf_add_field#:#Add User Field 
+ps#:#ps_cdf_name#:#Name
+ps#:#ps_cdf_type#:#Type
+ps#:#ps_cdf_required#:#Required Field
+ps#:#ps_cdf_no_fields#:#No User Fields Defined

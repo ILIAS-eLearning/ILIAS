@@ -32,6 +32,7 @@
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilCourseContentInterface, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI, ilMemberExportGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI
 *
 * 
 * @extends ilContainerGUI
@@ -1148,6 +1149,19 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->tabs_gui->addSubTabTarget("icon_settings",
 													 $this->ctrl->getLinkTarget($this,'editCourseIcons'),
 													 "editCourseIcons", get_class($this));
+				}
+				
+				include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+				include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+				$privacy = ilPrivacySettings::_getInstance();
+				if($rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()) and
+					(($privacy->enabledExport() and $privacy->confirmationRequired()) or
+						ilCourseDefinedFieldDefinition::_hasFields($this->object->getObjId())))
+				{
+					$this->tabs_gui->addSubTabTarget('user_fields',
+													$this->ctrl->getLinkTargetByClass('ilcourseuserfieldsgui'),
+													'',
+													'ilcourseuserfieldsgui');
 				}
 				break;
 				
@@ -4097,6 +4111,15 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->setReturn($this,"");
 				$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
+				break;
+				
+			case 'ilcourseuserfieldsgui':
+				include_once 'Modules/Course/classes/Export/class.ilCourseUserFieldsGUI.php';
+				
+				$cdf_gui = new ilCourseUserFieldsGUI($this->object->getId());
+				$this->setSubTabs('properties');
+				$this->tabs_gui->setTabActive('settings');
+				$this->ctrl->forwardCommand($cdf_gui);
 				break;
 
 			case "ilcourseobjectivesgui":

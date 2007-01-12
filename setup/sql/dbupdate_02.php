@@ -329,3 +329,8 @@ CREATE TABLE `crs_user_data` (
 `value` TEXT NOT NULL ,
 PRIMARY KEY ( `usr_id` , `field_id` )
 ) TYPE = MYISAM ;
+
+<#898>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
