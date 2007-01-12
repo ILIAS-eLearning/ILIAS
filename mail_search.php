@@ -115,28 +115,38 @@ if ($_GET["courses_to"])
 	
 	$lng->loadLanguageModule('crs');
 
+	if (isset($_POST["course_ids"]))
+	{
+		$tpl->setVariable("ACTION","mail_new.php?mobj_id=$_GET[mobj_id]&type=search_res");
+	}
+	else 
+	{
+		$tpl->setVariable("ACTION",
+		"mail_search.php?mobj_id=$_GET[mobj_id]&offset=$_GET[offset]".
+		($_GET["courses_to"] ? "&courses_to=1" : "").
+		((is_array($_POST["course_ids"]) && ($_POST["course_ids"]!=NULL)) ? "&course_ids=".implode(",", $_POST["course_ids"]) : ""));
+	}
+	
+	
 	$user = new ilObjUser($_SESSION["AccountId"]);
 	$crs_ids = $user->getCourseMemberships();
 	
-	if ($_GET["course_id"] != "")
+	if ($_GET["course_ids"] != "")
 	{
-		echo $_GET["course_id"];
-		$_POST["course_id"] = explode(",", $_GET["course_id"]);
-		
-		
+		$_POST["course_ids"] = explode(",", $_GET["course_ids"]);		
 	}
-	if (is_array($_POST["course_id"]) && count($_POST["course_id"]) > 0)
+	if (is_array($_POST["course_ids"]) && count($_POST["course_ids"]) > 0)
 	{
-		$tpl->setCurrentBlock("members_course");
+		$tpl->setCurrentBlock("course_to");
 		$tpl->setVariable("MEMBERS_TXT_COURSE",$lng->txt("course"));
 		$tpl->parseCurrentBlock();
 		$tpl->setVariable("MEMBERS_TXT_LOGIN",$lng->txt("login"));
 		$tpl->setVariable("MEMBERS_TXT_NAME",$lng->txt("name"));
-		$tpl->setVariable("MEMBERS_TXT_IN_ADDRESSBOOK",$lng->txt("mail_in_addressbook"));
+		//$tpl->setVariable("MEMBERS_TXT_IN_ADDRESSBOOK",$lng->txt("mail_in_addressbook"));
 
 		$counter = 0;
-
-		foreach($_POST["course_id"] as $crs_id) 
+		
+		foreach($_POST["course_ids"] as $crs_id) 
 		{
 			$course_obj = new ilObjCourse($crs_id,false); 
 			$crs_members = new ilCourseMembers($course_obj);
@@ -156,7 +166,6 @@ if ($_GET["courses_to"])
 				$tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
 				$tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
 				$tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$course_obj->getTitle());
-				$tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $abook->checkEntry($login) ? $lng->txt("yes") : $lng->txt("no"));
 				$tpl->parseCurrentBlock();
 			}
 			foreach ($course_tutors[$crs_id] as $tutor)
@@ -170,7 +179,6 @@ if ($_GET["courses_to"])
 				$tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
 				$tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
 				$tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$course_obj->getTitle());
-				$tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $abook->checkEntry($login) ? $lng->txt("yes") : $lng->txt("no"));
 				$tpl->parseCurrentBlock();
 			}
 			foreach ($course_members[$crs_id] as $member)
@@ -184,7 +192,6 @@ if ($_GET["courses_to"])
 				$tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
 				$tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
 				$tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$course_obj->getTitle());
-				$tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $abook->checkEntry($login) ? $lng->txt("yes") : $lng->txt("no"));
 				$tpl->parseCurrentBlock();
 			}
 		}
@@ -234,6 +241,34 @@ if ($_GET["courses_to"])
 	}
 
 	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
+}
+
+
+if ($_POST["cmd"]["adopt"])
+{
+	
+	$members = array();
+
+	if (is_array($_POST["search_members"]))
+	{
+		foreach ($_POST["search_members"] as $member)
+		{
+			$login = ilObjUser::_lookupLogin($member);
+
+			if (!$abook->checkEntry($login))
+			{
+				$name = ilObjUser::_lookupName($member);
+				$email = ilObjUser::_lookupEmail($member);
+				$abook->addEntry(
+					$login,
+					$name["firstname"],
+					$name["lastname"],
+					$email
+				);
+			}
+		}
+		sendInfo($lng->txt("mail_members_added_addressbook"));
+	}
 }
 
 

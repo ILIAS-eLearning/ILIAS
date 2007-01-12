@@ -156,7 +156,7 @@ if (isset($_POST["cmd"]["courses_to"]))
 	$get .= "&courses_to=1";
 	
 	// parameter course_id allow showing only the data for that course
-	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&course_id=".urlencode($_POST["course_id"]).$get);
+	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&course_ids=".urlencode($_POST["course_ids"]).$get);
 	exit();
 }
 
@@ -164,6 +164,7 @@ if (isset($_POST["cmd"]["courses_to"]))
 if (isset($_GET["course_id"]) && isset($_GET["courses_to"])) 
 {
 	$_SESSION["mail_search"] = 'to';
+	$_POST["course_ids"] = $_GET["course_id"];
 	
 	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
 						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
@@ -172,7 +173,7 @@ if (isset($_GET["course_id"]) && isset($_GET["courses_to"]))
 						 ilUtil::stripSlashes($_POST["m_message"]));
 
 	// parameter course_id allow showing only the data for that course
-	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&course_id=".urlencode($_GET["course_id"])."&courses_to=1");
+	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&course_ids=".urlencode($_GET["course_id"])."&courses_to=1");
 	exit();	
 }
 
