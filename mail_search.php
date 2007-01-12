@@ -244,34 +244,6 @@ if ($_GET["courses_to"])
 }
 
 
-if ($_POST["cmd"]["adopt"])
-{
-	
-	$members = array();
-
-	if (is_array($_POST["search_members"]))
-	{
-		foreach ($_POST["search_members"] as $member)
-		{
-			$login = ilObjUser::_lookupLogin($member);
-
-			if (!$abook->checkEntry($login))
-			{
-				$name = ilObjUser::_lookupName($member);
-				$email = ilObjUser::_lookupEmail($member);
-				$abook->addEntry(
-					$login,
-					$name["firstname"],
-					$name["lastname"],
-					$email
-				);
-			}
-		}
-		sendInfo($lng->txt("mail_members_added_addressbook"));
-	}
-}
-
-
 /*	
 	include_once 'classes/class.ilObjUser.php';
 	include_once 'Modules/Course/classes/class.ilObjCourse.php';

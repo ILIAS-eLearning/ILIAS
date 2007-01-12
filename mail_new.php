@@ -178,6 +178,7 @@ if (isset($_GET["course_id"]) && isset($_GET["courses_to"]))
 }
 
 
+
 // SEARCH RECIPIENTS UNDER GROUPS
 if (isset($_POST["cmd"]["groups_to"]))
 {
@@ -266,10 +267,23 @@ switch($_GET["type"])
 		break;
 
 	case 'search_res':
+		
 		$mail_data = $umail->getSavedData();
 		if($_POST["search_name"])
 		{
 			$mail_data = $umail->appendSearchResult($_POST["search_name"],$_SESSION["mail_search"]);
+		}		
+		
+		if ($_POST["search_members"])
+		{
+			$members = array();
+			foreach ($_POST["search_members"] as $member)
+			{
+				$login = ilObjUser::_lookupLogin($member);
+				array_push($members, $login);
+			}
+			
+			$mail_data = $umail->appendSearchResult($members,$_SESSION["mail_search"]);
 		}
 		unset($_SESSION["mail_search"]);
 		break;
