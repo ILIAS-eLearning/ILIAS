@@ -246,6 +246,8 @@ class ilLMPresentationGUI
 	*/
 	function lmAccess($usr_id,$lm_id,$obj_id)
 	{
+		global $ilDB;
+		
 		// first check if an entry for this user and this lm already exist, when so, delete
 		$q = "DELETE FROM lo_access ".
 			"WHERE usr_id='".$usr_id."' ".
@@ -257,7 +259,7 @@ class ilLMPresentationGUI
 		$q = "INSERT INTO lo_access ".
 			"(timestamp,usr_id,lm_id,obj_id,lm_title) ".
 			"VALUES ".
-			"(now(),'".$usr_id."','".$lm_id."','".$obj_id."','".ilUtil::prepareDBString($title)."')";
+			"(now(),'".$usr_id."','".$lm_id."',".$ilDB->quote($obj_id).",'".ilUtil::prepareDBString($title)."')";
 		$this->ilias->db->query($q);
 	}
 

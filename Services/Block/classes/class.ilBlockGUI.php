@@ -232,6 +232,46 @@ class ilBlockGUI
 		return $this->limit;
 	}
 
+		/**
+	* Set EnableEdit.
+	*
+	* @param	boolean	$a_enableedit	EnableEdit
+	*/
+	function setEnableEdit($a_enableedit)
+	{
+		$this->enableedit = $a_enableedit;
+	}
+
+	/**
+	* Get EnableEdit.
+	*
+	* @return	boolean	EnableEdit
+	*/
+	function getEnableEdit()
+	{
+		return $this->enableedit;
+	}
+
+	/**
+	* Set RepositoryMode.
+	*
+	* @param	boolean	$a_repositorymode	RepositoryMode
+	*/
+	function setRepositoryMode($a_repositorymode)
+	{
+		$this->repositorymode = $a_repositorymode;
+	}
+
+	/**
+	* Get RepositoryMode.
+	*
+	* @return	boolean	RepositoryMode
+	*/
+	function getRepositoryMode()
+	{
+		return $this->repositorymode;
+	}
+
 	/**
 	* Set Columns Span.
 	*
@@ -534,7 +574,9 @@ class ilBlockGUI
 			}
 			
 			// close button
-			if (($this->detail_max > $this->detail_min && $this->detail_min == 0) ||
+			if (($this->detail_max > $this->detail_min && $this->detail_min == 0 &&
+				!$this->getRepositoryMode())
+				||
 				$this->close_command != "")
 			{
 				$this->tpl->setCurrentBlock("header_close");

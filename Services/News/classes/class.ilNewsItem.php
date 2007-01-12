@@ -58,7 +58,7 @@ class ilNewsItem extends ilNewsItemGen
 
 		foreach($ref_ids as $ref_id)
 		{
-			if (!$ilAccess->checkAccess("visible", "", $ref_id))
+			if (!$a_only_public && !$ilAccess->checkAccess("visible", "", $ref_id))
 			{
 				continue;
 			}
