@@ -352,8 +352,8 @@ class ilTree
 	//666
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
-			 "WHERE parent = '".$a_node_id."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
+			 "WHERE parent = ".$this->ilDB->quote($a_node_id)." ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = ".$this->ilDB->quote($this->tree_id)." ".
 			 $order_clause;
 
 		//$ilBench->start("Tree", "getChilds_Query");
@@ -998,7 +998,7 @@ class ilTree
 		// Determine the depth of the endnode, and fetch its parent field also.
 		$q = 'SELECT t.depth,t.parent '.
 			'FROM '.$this->table_tree.' AS t '.
-			'WHERE child='.$a_endnode_id.' '.
+			'WHERE child='.$this->ilDB->quote($a_endnode_id).' '.
 			'AND '.$this->tree_pk.' = '.$this->tree_id.' '.
 			'LIMIT 1';
 			//$this->writelog('getIdsUsingAdjacencyMap q='.$q);
@@ -1276,7 +1276,7 @@ class ilTree
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
-			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
+			 "WHERE ".$this->table_tree.".child = ".$this->ilDB->quote($a_node_id)." ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1366,7 +1366,7 @@ class ilTree
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
+			 "WHERE ".$this->table_tree.".child = ".$this->ilDB->quote($a_node_id)." ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
 		$r = $this->ilDB->query($q);
 

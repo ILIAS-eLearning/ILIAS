@@ -42,6 +42,8 @@ class ilColumnGUI
 {
 	protected $side = IL_COL_RIGHT;
 	protected $type;
+	protected $enableedit = false;
+	protected $repositorymode = false;
 	
 	
 	//
@@ -49,7 +51,7 @@ class ilColumnGUI
 	// xml or other magic in the future...
 	//
 	
-	protected $locations = array(
+	static protected $locations = array(
 		"ilNewsForContextBlockGUI" => "Services/News/",
 		"ilPDNotesBlockGUI" => "Services/Notes/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
@@ -62,7 +64,7 @@ class ilColumnGUI
 		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/");
 	
-	protected $block_types = array(
+	static protected $block_types = array(
 			"ilPDMailBlockGUI" => "pdmail",
 			"ilPDNotesBlockGUI" => "pdnotes",
 			"ilUsersOnlineBlockGUI" => "pdusers",
@@ -78,6 +80,8 @@ class ilColumnGUI
 
 		
 	protected $default_blocks = array(
+		"cat" => array(),
+		"root" => array(),
 		"info" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"pd" => array(
@@ -92,6 +96,8 @@ class ilColumnGUI
 		);
 
 	protected $custom_blocks = array(
+		"cat" => array("ilExternalFeedBlockGUI"),
+		"root" => array("ilExternalFeedBlockGUI"),
 		"info" => array(),
 		"pd" => array("ilExternalFeedBlockGUI")
 		);
@@ -119,7 +125,7 @@ class ilColumnGUI
 	*
 	* @return	string	Column Side
 	*/
-	function getCmdSide()
+	static function getCmdSide()
 	{
 		return $_GET["col_side"];
 	}
@@ -165,9 +171,49 @@ class ilColumnGUI
 	}
 
 	/**
+	* Set EnableEdit.
+	*
+	* @param	boolean	$a_enableedit	EnableEdit
+	*/
+	function setEnableEdit($a_enableedit)
+	{
+		$this->enableedit = $a_enableedit;
+	}
+
+	/**
+	* Get EnableEdit.
+	*
+	* @return	boolean	EnableEdit
+	*/
+	function getEnableEdit()
+	{
+		return $this->enableedit;
+	}
+
+	/**
+	* Set RepositoryMode.
+	*
+	* @param	boolean	$a_repositorymode	RepositoryMode
+	*/
+	function setRepositoryMode($a_repositorymode)
+	{
+		$this->repositorymode = $a_repositorymode;
+	}
+
+	/**
+	* Get RepositoryMode.
+	*
+	* @return	boolean	RepositoryMode
+	*/
+	function getRepositoryMode()
+	{
+		return $this->repositorymode;
+	}
+
+	/**
 	* Get Screen Mode for current command.
 	*/
-	function getScreenMode()
+	static function getScreenMode()
 	{
 		global $ilCtrl;
 
@@ -184,9 +230,9 @@ class ilColumnGUI
 			? $_GET["block_type"]
 			: $_POST["block_type"];
 
-		if ($class = array_search($cur_block_type, $this->block_types))
+		if ($class = array_search($cur_block_type, self::$block_types))
 		{
-			include_once("./".$this->locations[$class]."classes/".
+			include_once("./".self::$locations[$class]."classes/".
 				"class.".$class.".php");
 			return call_user_func(array($class, 'getScreenMode'));
 		}
@@ -214,17 +260,18 @@ class ilColumnGUI
 		if ($next_class != "")
 		{
 			// forward to block
-			if ($gui_class = array_search($cur_block_type, $this->block_types))
+			if ($gui_class = array_search($cur_block_type, self::$block_types))
 			{
-				include_once("./".$this->locations[$gui_class]."classes/".
+				include_once("./".self::$locations[$gui_class]."classes/".
 					"class.".$gui_class.".php");
 				$ilCtrl->setParameter($this, "block_type", $cur_block_type);
 				$block_gui = new $gui_class();
+				$block_gui->setRepositoryMode($this->getRepositoryMode());
 
 				if (in_array($gui_class, $this->custom_blocks[$this->getColType()]))
 				{
 					$block_class = substr($gui_class, 0, strlen($gui_class)-3);
-					include_once("./".$this->locations[$gui_class]."classes/".
+					include_once("./".self::$locations[$gui_class]."classes/".
 						"class.".$block_class.".php");
 					$app_block = new $block_class($_GET["block_id"]);
 					$block_gui->setBlock($app_block);
@@ -271,15 +318,17 @@ class ilColumnGUI
 		
 		$i = 1;
 		$sum_moveable = count($this->blocks[$this->getSide()]);
+
 		foreach($this->blocks[$this->getSide()] as $block)
 		{
 			$gui_class = $block["class"];
 			$block_class = substr($block["class"], 0, strlen($block["class"])-3);
 			
 			// get block gui class
-			include_once("./".$this->locations[$gui_class]."classes/".
+			include_once("./".self::$locations[$gui_class]."classes/".
 				"class.".$gui_class.".php");
 			$block_gui = new $gui_class();
+			$block_gui->setRepositoryMode($this->getRepositoryMode());
 			if ($this->getSide() == IL_COL_LEFT)
 			{
 				$block_gui->setAllowMove("right");
@@ -300,7 +349,7 @@ class ilColumnGUI
 			// get block for custom blocks
 			if ($block["custom"])
 			{
-				include_once("./".$this->locations[$gui_class]."classes/".
+				include_once("./".self::$locations[$gui_class]."classes/".
 					"class.".$block_class.".php");
 				$app_block = new $block_class($block["id"]);
 				$block_gui->setBlock($app_block);
@@ -348,7 +397,7 @@ class ilColumnGUI
 
 		foreach($this->blocks[$this->getSide()] as $block)
 		{
-			include_once("./".$this->locations[$block["class"]]."classes/".
+			include_once("./".self::$locations[$block["class"]]."classes/".
 				"class.".$block["class"].".php");
 				
 			if ($block["custom"] == false)
@@ -392,25 +441,28 @@ class ilColumnGUI
 		}
 		
 		// create block selection list
-		$add_blocks = array();
-		if ($this->getSide() == IL_COL_RIGHT)
+		if (!$this->getRepositoryMode() || $this->getEnableEdit())
 		{
-			foreach($this->custom_blocks[$this->getColType()] as $block_class)
+			$add_blocks = array();
+			if ($this->getSide() == IL_COL_RIGHT)
 			{
-				include_once("./".$this->locations[$block_class]."classes/".
-					"class.".$block_class.".php");
-				$block_type = call_user_func(array($block_class, 'getBlockType'));
-				$add_blocks[$block_type] = $blocks[$block_type];
+				foreach($this->custom_blocks[$this->getColType()] as $block_class)
+				{
+					include_once("./".self::$locations[$block_class]."classes/".
+						"class.".$block_class.".php");
+					$block_type = call_user_func(array($block_class, 'getBlockType'));
+					$add_blocks[$block_type] = $blocks[$block_type];
+				}
 			}
-		}
-		if (count($add_blocks) > 0)
-		{
-			$this->tpl->setCurrentBlock("add_block_selector");
-			$this->tpl->setVariable("AB_ACTION", $ilCtrl->getFormAction($this));
-			$this->tpl->setVariable("ADD_BLOCK_SEL", ilUtil::formSelect("", "block_type", $add_blocks,
-				false, true, 0, "ilEditSelect"));
-			$this->tpl->setVariable("TXT_ADD", $lng->txt("create"));
-			$this->tpl->parseCurrentBlock();
+			if (count($add_blocks) > 0)
+			{
+				$this->tpl->setCurrentBlock("add_block_selector");
+				$this->tpl->setVariable("AB_ACTION", $ilCtrl->getFormAction($this));
+				$this->tpl->setVariable("ADD_BLOCK_SEL", ilUtil::formSelect("", "block_type", $add_blocks,
+					false, true, 0, "ilEditSelect"));
+				$this->tpl->setVariable("TXT_ADD", $lng->txt("create"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		
 		//return $tpl->get();
@@ -429,7 +481,7 @@ class ilColumnGUI
 		$sum_moveable = count($this->blocks[$this->getSide()]);
 		foreach ($this->blocks[$this->getSide()] as $block)
 		{
-			include_once("./".$this->locations[$block["class"]]."classes/".
+			include_once("./".self::$locations[$block["class"]]."classes/".
 				"class.".$block["class"].".php");
 				
 			// set block id to context obj id,
@@ -445,6 +497,7 @@ class ilColumnGUI
 				$block_class = substr($block["class"], 0, strlen($block["class"])-3);
 				
 				$block_gui = new $gui_class();
+				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				if ($this->getSide() == IL_COL_LEFT)
 				{
 					$block_gui->setAllowMove("right");
@@ -465,7 +518,7 @@ class ilColumnGUI
 				// get block for custom blocks
 				if ($block["custom"])
 				{
-					include_once("./".$this->locations[$gui_class]."classes/".
+					include_once("./".self::$locations[$gui_class]."classes/".
 						"class.".$block_class.".php");
 					$app_block = new $block_class($block["id"]);
 					$block_gui->setBlock($app_block);
@@ -515,11 +568,13 @@ class ilColumnGUI
 	{
 		global $ilCtrl;
 		
-		$class = array_search($_POST["block_type"], $this->block_types);
+		$class = array_search($_POST["block_type"], self::$block_types);
+
 		$ilCtrl->setCmdClass($class);
 		$ilCtrl->setCmd("create");
-		include_once("./".$this->locations[$class]."classes/class.".$class.".php");
+		include_once("./".self::$locations[$class]."classes/class.".$class.".php");
 		$block_gui = new $class();
+		$block_gui->setRepositoryMode($this->getRepositoryMode());
 		
 		$ilCtrl->setParameter($this, "block_type", $_POST["block_type"]);
 		$html = $ilCtrl->forwardCommand($block_gui);
@@ -539,11 +594,11 @@ class ilColumnGUI
 		$user_id = ($this->getColType() == "pd")
 			? $ilUser->getId()
 			: 0;
-		
+
 		$def_nr = 1000;
 		foreach($this->default_blocks[$this->getColType()] as $class => $def_side)
 		{
-			$type = $this->block_types[$class];
+			$type = self::$block_types[$class];
 			$nr = ilBlockSetting::_lookupNr($type, $user_id);
 			if ($nr === false)
 			{
@@ -580,7 +635,7 @@ class ilColumnGUI
 		foreach($c_blocks as $c_block)
 		{
 			$type = $c_block["type"];
-			$class = array_search($type, $this->block_types);
+			$class = array_search($type, self::$block_types);
 			$nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
 			if ($nr === false)
 			{
@@ -589,8 +644,9 @@ class ilColumnGUI
 			$side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
 			if ($side === false)
 			{
-				$side = $def_side;
+				$side = IL_COL_RIGHT;
 			}
+
 			$this->blocks[$side][] = array(
 				"nr" => $nr,
 				"class" => $class,
@@ -598,7 +654,7 @@ class ilColumnGUI
 				"id" => $c_block["id"],
 				"custom" => true);
 		}
-
+		
 		$this->blocks[IL_COL_LEFT] =
 			ilUtil::sortArray($this->blocks[IL_COL_LEFT], "nr", "asc", true);
 		$this->blocks[IL_COL_RIGHT] =

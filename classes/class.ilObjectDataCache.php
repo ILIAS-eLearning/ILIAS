@@ -161,7 +161,9 @@ class ilObjectDataCache
 	*/
 	function __storeReference($a_ref_id)
 	{
-		$query = "SELECT obj_id FROM object_reference WHERE ref_id = '".$a_ref_id."'";
+		global $ilDB;
+		
+		$query = "SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($a_ref_id);
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{

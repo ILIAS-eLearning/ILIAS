@@ -2113,9 +2113,10 @@ class ilObjUser extends ilObject
 	 */
 	function _getUserIdsByEmail($a_email)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
+		
 		$query = "SELECT login FROM usr_data ".
-			"WHERE email = '".$a_email."' and active=1";
+			"WHERE email = ".$ilDB->quote($a_email)." and active=1";
 
  		$res = $ilias->db->query($query);
  		$ids = array ();
