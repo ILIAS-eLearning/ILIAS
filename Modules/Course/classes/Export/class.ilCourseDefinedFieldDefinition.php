@@ -182,13 +182,13 @@ class ilCourseDefinedFieldDefinition
 	public function save()
 	{
 	 	$query = "INSERT INTO crs_defined_field_definitions ".
-	 		"SET course_id = ".$this->db->quote($this->getObjId()).", ".
+	 		"SET obj_id = ".$this->db->quote($this->getObjId()).", ".
 	 		"field_name = ".$this->db->quote($this->getName()).", ".
-	 		"field_type = ".$this->db->quote($this->getType())." ".
-	 		"field_values = ".addslashes(serialize($this->getValues())).", ".
-	 		"field_required = '".(int) $this->enableRequired()."'";
+	 		"field_type = ".$this->db->quote($this->getType()).", ".
+	 		"field_values = '".addslashes(serialize($this->getValues()))."', ".
+	 		"field_required = '".(int) $this->isRequired()."'";
 	 	$res = $this->db->query($query);
-	 	$this->setId($this->db->getLastInsertId());
+	 	$this->id = $this->db->getLastInsertId();
 			
 		return true;			
 	}
@@ -202,8 +202,8 @@ class ilCourseDefinedFieldDefinition
 	{
 	 	$query = "UPDATE crs_defined_field_definitions ".
 	 		"SET field_name = ".$this->db->quote($this->getName()).", ".
-	 		"field_type = ".$this->db->quote($this->getType())." ".
-	 		"field_values = ".addslashes(serialize($this->getValues())).", ".
+	 		"field_type = ".$this->db->quote($this->getType()).", ".
+	 		"field_values = '".addslashes(serialize($this->getValues()))."', ".
 	 		"field_required = '".(int) $this->enableRequired()."' ".
 	 		"WHERE field_id = ".$this->db->quote($this->getId())." ".
 	 		"AND obj_id = ".$this->db->quote($this->getObjId());
@@ -238,8 +238,8 @@ class ilCourseDefinedFieldDefinition
 	private function read()
 	{
 	 	$query = "SELECT * FROM crs_defined_field_definitions ".
-	 		"WHERE field_id ".$this->db->quote($this->getId())." ".
-	 		"AND obj_id ".$this->db->quote($this->getObjId())." ";
+	 		"WHERE field_id = ".$this->db->quote($this->getId())." ".
+	 		"AND obj_id = ".$this->db->quote($this->getObjId())." ";
 	 	
 	 	$res = $this->db->query($query);
 	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
