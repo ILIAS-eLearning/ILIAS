@@ -102,7 +102,7 @@ class ilCourseDefinedFieldDefinition
 	 */
 	public static function _getFields($a_container_id,$a_sort = IL_CDF_SORT_ID)
 	{
-		foreach(ilCourseDefinedFieldDefinition::_getFielIds($a_container_id,$a_sort) as $field_id)
+		foreach(ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id,$a_sort) as $field_id)
 	 	{
 	 		$fields[] = new ilCourseDefinedFieldDefinition($a_container_id,$field_id);
 	 	}
@@ -122,8 +122,8 @@ class ilCourseDefinedFieldDefinition
 		global $ilDB;
 		
 	 	$query = "SELECT field_id FROM crs_defined_field_definitions ".
-	 		"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
-	 		"ORDER_BY ".$a_sort;
+	 		"WHERE obj_id = ".$ilDB->quote($a_container_id)." ".
+	 		"ORDER BY ".$a_sort;
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
