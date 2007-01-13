@@ -957,9 +957,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 
 	/**
-	* return list of users of a specific role, following dtd users_3_7
+	* @return list of users of a specific role, following dtd users_3_7
 	*/
-	function getUserForRole($sid, $role_id, $attachRoles)
+	function getUserForRole($sid, $role_id, $attachRoles, $active)
 	{
 
 		if(!$this->__checkSession($sid))
@@ -1003,6 +1003,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		           usr_pref.usr_id = usr_data.usr_id AND
 		           usr_pref.keyword = 'language' AND
 		           rbac_ua.rol_id='".$role_id."'";
+
+		 if (is_numeric($active) && $active > -1)
+			$query .= " AND usr_data.active = '$active'";
 
 		 $query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
