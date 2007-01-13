@@ -166,7 +166,7 @@ class ilObject
 	*/
 	function read($a_force_db = false)
 	{
-		global $objDefinition, $ilBench;
+		global $objDefinition, $ilBench, $ilDB;
 
 		$ilBench->start("Core", "ilObject_read");
 
@@ -189,8 +189,9 @@ class ilObject
 			$q = "SELECT * FROM object_data ".
 				 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
 				 "WHERE object_reference.ref_id='".$this->ref_id."'"; */
+
 			$q = "SELECT * FROM object_data, object_reference WHERE object_data.obj_id=object_reference.obj_id ".
-				 "AND object_reference.ref_id='".$this->ref_id."'";
+				 "AND object_reference.ref_id= ".$ilDB->quote($this->ref_id);
 			$object_set = $this->ilias->db->query($q);
 			$ilBench->stop("Core", "ilObject_read_readData");
 
@@ -214,7 +215,7 @@ class ilObject
 
 			// read object data
 			$q = "SELECT * FROM object_data ".
-				 "WHERE obj_id = '".$this->id."'";
+				 "WHERE obj_id = ".$ilDB->quote($this->id);
 			$object_set = $this->ilias->db->query($q);
 
 			// check number of records
@@ -239,7 +240,7 @@ class ilObject
 		if($objDefinition->isRBACObject($this->getType()))
 		{
 			// Read long description
-			$query = "SELECT * FROM object_description WHERE obj_id = '".$this->id."'";
+			$query = "SELECT * FROM object_description WHERE obj_id = ".$ilDB->quote($this->id);
 			$res = $this->ilias->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -259,8 +260,8 @@ class ilObject
 		elseif ($translation_type == "db")
 		{
 			$q = "SELECT title,description FROM object_translation ".
-				 "WHERE obj_id = ".$this->id." ".
-				 "AND lang_code = '".$this->ilias->account->getCurrentLanguage()."' ".
+				 "WHERE obj_id = ".$ilDB->quote($this->id)." ".
+				 "AND lang_code = ".$ilDB->quote($this->ilias->account->getCurrentLanguage())." ".
 				 "AND NOT lang_default = 1";
 			$r = $this->ilias->db->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -622,7 +623,7 @@ class ilObject
 	*/
 	function update()
 	{
-		global $objDefinition;
+		global $objDefinition, $ilDB;
 
 		$q = "UPDATE object_data ".
 			"SET ".
@@ -637,7 +638,7 @@ class ilObject
 		// that is not saved at this time, gets lost, so we query for the dates alone
 		//$this->read();
 		$q = "SELECT last_update FROM object_data".
-			 " WHERE obj_id = '".$this->getId()."'";
+			 " WHERE obj_id = ".$ilDB->quote($this->getId());
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->last_update = $obj_rec["last_update"];
@@ -799,7 +800,7 @@ class ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM object_data WHERE import_id = '".$a_import_id."'".
+		$q = "SELECT * FROM object_data WHERE import_id = ".$ilDB->quote($a_import_id).
 			" ORDER BY create_date DESC LIMIT 1";
 		$obj_set = $ilDB->query($q);
 
@@ -822,7 +823,8 @@ class ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM object_reference WHERE obj_id = '".$a_id."'";
+		$q = "SELECT * FROM object_reference WHERE obj_id = ".
+			$ilDB->quote($a_id);
 		$obj_set = $ilDB->query($q);
 		$ref = array();
 
@@ -1010,7 +1012,7 @@ class ilObject
 		if ($a_reference === true)
 		{
 			$q = "SELECT type FROM object_reference as obr, object_data as obd ".
-				"WHERE obr.ref_id = '".$a_id."' ".
+				"WHERE obr.ref_id = ".$ilDB->quote($a_id)." ".
 				"AND obr.obj_id = obd.obj_id ";
 			
 			#$q = "SELECT type FROM object_data as obj ".
@@ -1019,7 +1021,7 @@ class ilObject
 		}
 		else
 		{
-			$q = "SELECT type FROM object_data WHERE obj_id = '".$a_id."'";
+			$q = "SELECT type FROM object_data WHERE obj_id = ".$ilDB->quote($a_id);
 		}
 
 		$obj_set = $ilDB->query($q);
