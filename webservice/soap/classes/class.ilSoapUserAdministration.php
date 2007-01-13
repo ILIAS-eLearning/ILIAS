@@ -1246,7 +1246,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	function __buildSearchQuery ($a_keyfields, $queryOperator, $a_keyvalues) {
 	    $query = array();
 
-	    $allowed_fields = array ("firstname","lastname","email","login","matriculation","institut","department");
+	    $allowed_fields = array ("firstname","lastname","email","login","matriculation","institut","department","title");
 
 	    foreach ($a_keyfields as $keyfield)
 	    {
