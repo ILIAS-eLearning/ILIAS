@@ -296,7 +296,6 @@ class ilObjTestAccess extends ilObjectAccess
 	function &_getTestResult($active_id, $pass = NULL) 
 	{
 		global $ilDB;
-		
 		$test_result = array();
 		$query = sprintf("SELECT tst_mark.*, tst_tests.* FROM tst_mark, tst_tests, tst_active WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s ORDER BY tst_mark.minimum_level",
 			$ilDB->quote($active_id . "")
