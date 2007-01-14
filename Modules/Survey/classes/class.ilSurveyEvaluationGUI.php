@@ -402,6 +402,10 @@ class ilSurveyEvaluationGUI
 		$eval =& $this->object->getEvaluationForAllUsers();
 		$questions =& $this->object->getSurveyQuestions(true);
 		array_push($csvrow, $this->lng->txt("username"));
+		if ($this->object->canExportSurveyCode())
+		{
+			array_push($csvrow, $this->lng->txt("codes"));
+		}
 		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 		{
 			array_push($csvrow, $this->lng->txt("gender"));
@@ -423,6 +427,10 @@ class ilSurveyEvaluationGUI
 		{
 			$csvrow = array();
 			array_push($csvrow, $resultset["name"]);
+			if ($this->object->canExportSurveyCode())
+			{
+				array_push($csvrow, $user_id);
+			}
 			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 			{
 				array_push($csvrow, $resultset["gender"]);

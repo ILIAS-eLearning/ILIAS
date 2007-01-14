@@ -172,6 +172,13 @@ class ilObjSurvey extends ilObject
 	var $display_question_titles;
 
 	/**
+	 * Indicates if a survey code may be exported with the survey statistics
+	 *
+	 * @var boolean
+	 **/
+	var $surveyCodeSecurity;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -196,6 +203,7 @@ class ilObjSurvey extends ilObject
 		$this->invitation_mode = MODE_PREDEFINED_USERS;
 		$this->anonymize = ANONYMIZE_OFF;
 		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
+		$this->surveyCodeSecurity = TRUE;
 	}
 
 	/**
@@ -5060,6 +5068,26 @@ class ilObjSurvey extends ilObject
 			}
 		}		
 		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
+	}
+
+	/**
+	 * Checks if the survey code can be exported with the survey evaluation. In some cases this may be
+	 * necessary but usually you should prevent it because people who sent the survey codes could connect
+	 * real people with the survey code in the evaluation and undermine the anonymity
+	 *
+	 * @return boolean TRUE if the survey is anonymized and the survey code may be shown in the export file
+	 * @author Helmut Schottmüller
+	 **/
+	function canExportSurveyCode()
+	{
+		if ($this->getAnonymize() != ANONYMIZE_OFF)
+		{
+			if ($this->surveyCodeSecurity == FALSE)
+			{
+				return TRUE;
+			}
+		}
+		return FALSE;
 	}
 
 } // END class.ilObjSurvey
