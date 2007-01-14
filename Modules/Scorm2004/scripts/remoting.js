@@ -3,8 +3,6 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * Copyright (c) 2005-2007 Alfred Kohnert.
- * 
  * This program is free software. The use and distribution terms for this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
@@ -13,22 +11,18 @@
  * 
  * You must not remove this notice, or any other, from this software.
  * 
- * Note: This code derives from other work by the original author that has been
- * published under Common Public License (CPL 1.0). Please send mail for more
- * information to <alfred.kohnert@bigfoot.com>.
+ * PRELIMINARY EDITION
+ * This is work in progress and therefore incomplete and buggy ...
  * 
- * Derived from OpenPALMS Humbaba
- * An ECMAScript/JSON Implementation of the ADL-RTE Version API.
+ * Content-Type: application/x-javascript; charset=ISO-8859-1
+ * Modul: Player Client To Server Communication Methods
+ * Description: Transport javascript objects in serialized form to and from a 
+ * server. Keep code base clean and small.
+ *  
+ * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @version $Id$
+ * @copyright: (c) 2007 Alfred Kohnert
  */ 
-
-/// PRELIMINARY EDITION 
-/// This is work in progress and therefore incomplete and buggy ... 
-
-/// Content-Type: application/x-javascript; charset=ISO-8859-1		
-/// Modul: Player Client To Server Communication Methods
-/// 
-/// Description: Transport javascript objects in serialized form to and from a
-/// server. Keep code base clean and small.
 
 var Remoting = new function () {
 

@@ -4,8 +4,6 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * Copyright (c) 2005-2007 Alfred Kohnert.
- * 
  * This program is free software. The use and distribution terms for this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
@@ -18,6 +16,10 @@
 /**
  * PRELIMINARY EDITION 
  * This is work in progress and therefore incomplete and buggy ... 
+ *  
+ * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @version $Id$
+ * @copyright: (c) 2007 Alfred Kohnert
  *  
  */ 
 
@@ -78,9 +80,11 @@ if (isset($msg))
 	{
 		if (f.packagedata.value) {
 			f.enctype = "multipart/form-data";
-			f.submit();
+			f.onsubmit = null;
+			return true;
 		} else {
 			alert("No file selected");
+			return false;
 		}
 	}
 </script>
@@ -139,7 +143,7 @@ Add New Package</td>
 </tr>
 <tr>
 <td>ID</td>
-<td><input class="text" name="id" type="text" value="100" disabled="disabled" /></td>
+<td><input class="text" name="id" type="text" value="<?print(IL_OP_PACKAGE_ID)?>" disabled="disabled" /></td>
 </tr>
 <tr>
 <td>File</td>
@@ -151,7 +155,7 @@ Add New Package</td>
 <tr>
 <td></td>
 <td>
-	<input class="button" name="submit[uploadAndImport]" type="button" value="Upload &amp; Import"
+	<input class="button" name="submit[uploadAndImport]" type="submit" value="Upload &amp; Import"
 		onclick="return uploadAndImport_click(this.form)"
 		/>
 </td>
@@ -159,6 +163,32 @@ Add New Package</td>
 
 </table>
 </form>
+
+<div style="max-height: inherit; white-space: pre" class="msg">
+ILIAS SCORM 2004
+
+PRELIMINARY EDITION 
+This is work in progress and therefore incomplete and buggy ... 
+
+Contact: <a style="color: darkred;" href="mailto:alfred.kohnert@bigfoot.com">alfred.kohnert@bigfoot.com</a>.
+
+Prequisites
+- PHP 5.1
+- Extensions php_pdo, php_pdo_sqlite, php_json, php_xsl must be activated in PHP.  
+- You need write access for web user to this module directory.
+- The zip/unzip executables must be accessable in environmental path 
+  (or modify settings in common.php).
+
+Ilias Integration
+Currently SCORM 2004 is not integrated in anyway. It does not use any ILIAS
+modules, classes, data or settings. The server side processes you see are only
+mockups for getting the client side player into development.  
+
+Restrictions
+- Currently we support only one package (with fixed package id of "100").
+- Currently we support only one scorm user (with fixed user id of "50").
+
+ </div>
 
 </body>
 </html>

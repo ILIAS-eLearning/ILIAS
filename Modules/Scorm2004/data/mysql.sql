@@ -3,8 +3,6 @@
 --- --------------------------------
 --- Implementation of ADL SCORM 2004
 --- 
---- Copyright (c) 2005-2007 Alfred Kohnert.
---- 
 --- This program is free software. The use and distribution terms for this software
 --- are covered by the GNU General Public License Version 2
 --- 	<http://opensource.org/licenses/gpl-license.php>.
@@ -15,8 +13,11 @@
 
 --- PRELIMINARY EDITION 
 --- This is work in progress and therefore incomplete and buggy ... 
- 
 
+--- @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+--- @version $Id$
+--- @copyright: (c) 2007 Alfred Kohnert
+ 
 DROP TABLE IF EXISTS `cmi_comment`;
 DROP TABLE IF EXISTS `cmi_correct_response`;
 DROP TABLE IF EXISTS `cmi_interaction`;

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ILIAS Open Source
---------------------------------
+================================
 Implementation of ADL SCORM 2004
-
-Copyright (c) 2005-2007 Alfred Kohnert.
 
 This program is free software. The use and distribution terms for this software
 are covered by the GNU General Public License Version 2
@@ -17,48 +15,29 @@ You must not remove this notice, or any other, from this software.
 PRELIMINARY EDITION 
 This is work in progress and therefore incomplete and buggy ... 
 
+@author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+@version $Id$
+@copyright: (c) 2007 Alfred Kohnert
 -->
-<xsl:stylesheet xmlns="http://www.openpalms.net/scorm/scorm13"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns="http://www.openpalms.net/scorm/scorm13" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:output method="xml" indent="yes" encoding="UTF-8" media-type="text/xml"/>
 	<xsl:key name="id" match="//*[@identifier]" use="@identifier"/>
 	<xsl:template match="/">
 		<xsl:apply-templates select="*[local-name()='manifest']"/>
 	</xsl:template>
 	<xsl:template match="*[local-name()='manifest']">
-		<manifest id="{@identifier}" 
-			uri="{*[local-name()='metadata']/*[local-name()='lom']/*[local-name()='general']/*[local-name()='identifier']/*[local-name()='entry']}"
-			version="{@version}">
+		<manifest id="{@identifier}" uri="{*[local-name()='metadata']/*[local-name()='lom']/*[local-name()='general']/*[local-name()='identifier']/*[local-name()='entry']}" version="{@version}">
 			<xsl:if test="@xml:base or  *[local-name()='resources']/@xml:base">
-				<xsl:attribute name="base">
-					<xsl:choose>
-						<xsl:when test="contains(*[local-name()='resources']/@xml:base, ':')">
-							<xsl:value-of select="*[local-name()='resources']/@xml:base"/>
-						</xsl:when>
-						<xsl:when test="*[local-name()='resources']/@xml:base">
-							<xsl:value-of select="@xml:base"/>
-							<xsl:value-of select="*[local-name()='resources']/@xml:base"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="@xml:base"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
+				<xsl:attribute name="base"><xsl:choose><xsl:when test="contains(*[local-name()='resources']/@xml:base, ':')"><xsl:value-of select="*[local-name()='resources']/@xml:base"/></xsl:when><xsl:when test="*[local-name()='resources']/@xml:base"><xsl:value-of select="@xml:base"/><xsl:value-of select="*[local-name()='resources']/@xml:base"/></xsl:when><xsl:otherwise><xsl:value-of select="@xml:base"/></xsl:otherwise></xsl:choose></xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='organizations']"/>
 			<xsl:apply-templates select="*[local-name()='resources']"/>
-			<xsl:apply-templates
-				select="*[local-name()='sequencingCollection']/*[local-name()='sequencing']"
-				mode="data"/>
-			<xsl:apply-templates
-				select="*[local-name()='organizations']//*[local-name()='sequencing' and not(@IDRef)]"
-				mode="data"/>
+			<xsl:apply-templates select="*[local-name()='sequencingCollection']/*[local-name()='sequencing']" mode="data"/>
+			<xsl:apply-templates select="*[local-name()='organizations']//*[local-name()='sequencing' and not(@IDRef)]" mode="data"/>
 		</manifest>
 	</xsl:template>
 	<xsl:template match="*[local-name()='organizations']">
-		<xsl:attribute name="defaultOrganization">
-			<xsl:value-of select="@default"/>
-		</xsl:attribute>
+		<xsl:attribute name="defaultOrganization"><xsl:value-of select="@default"/></xsl:attribute>
 		<xsl:apply-templates select="*[local-name()='organization']">
 			<xsl:sort select="@identifier=../@default"/>
 		</xsl:apply-templates>
@@ -66,9 +45,7 @@ This is work in progress and therefore incomplete and buggy ...
 	<xsl:template match="*[local-name()='organization']">
 		<organization id="{@identifier}" title="{*[local-name()='title']/text()}">
 			<xsl:if test="@structure and not(@structure='hierarchical')">
-				<xsl:attribute name="structure">
-					<xsl:value-of select="@structure"/>
-				</xsl:attribute>
+				<xsl:attribute name="structure"><xsl:value-of select="@structure"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@objectivesGlobalToSystem and not(@objectivesGlobalToSystem='true')">
 				<xsl:attribute name="objectivesGlobalToSystem">false</xsl:attribute>
@@ -80,32 +57,22 @@ This is work in progress and therefore incomplete and buggy ...
 	<xsl:template match="*[local-name()='item']">
 		<item id="{@identifier}" title="{*[local-name()='title']/text()}">
 			<xsl:if test="@identifierref">
-				<xsl:attribute name="resourceId">
-					<xsl:value-of select="@identifierref"/>
-				</xsl:attribute>
+				<xsl:attribute name="resourceId"><xsl:value-of select="@identifierref"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@isvisible and not(@isvisible='true')">
 				<xsl:attribute name="isvisible">false</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@*[local-name()='parameters']">
-				<xsl:attribute name="parameters">
-					<xsl:value-of select="@*[local-name()='parameters']"/>
-				</xsl:attribute>
+				<xsl:attribute name="parameters"><xsl:value-of select="@*[local-name()='parameters']"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="*[local-name()='timeLimitAction']">
-				<xsl:attribute name="timeLimitAction">
-					<xsl:value-of select="*[local-name()='timeLimitAction']"/>
-				</xsl:attribute>
+				<xsl:attribute name="timeLimitAction"><xsl:value-of select="*[local-name()='timeLimitAction']"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="*[local-name()='dataFromLMS']">
-				<xsl:attribute name="dataFromLMS">
-					<xsl:value-of select="*[local-name()='dataFromLMS']"/>
-				</xsl:attribute>
+				<xsl:attribute name="dataFromLMS"><xsl:value-of select="*[local-name()='dataFromLMS']"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@*[local-name()='completionThreshold']">
-				<xsl:attribute name="completionThreshold">
-					<xsl:value-of select="*[local-name()='completionThreshold']"/>
-				</xsl:attribute>
+				<xsl:attribute name="completionThreshold"><xsl:value-of select="*[local-name()='completionThreshold']"/></xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='sequencing']" mode="reference"/>
 			<xsl:apply-templates select="*[local-name()='item']"/>
@@ -128,9 +95,7 @@ This is work in progress and therefore incomplete and buggy ...
 		<resource id="{@identifier}" scormType="{@*[local-name()='scormType']}" type="{@type}">
 			<xsl:call-template name="base"/>
 			<xsl:if test="@href">
-				<xsl:attribute name="href">
-					<xsl:value-of select="@href"/>
-				</xsl:attribute>
+				<xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='file']"/>
 			<xsl:apply-templates select="*[local-name()='dependency']"/>
@@ -144,35 +109,15 @@ This is work in progress and therefore incomplete and buggy ...
 	</xsl:template>
 	<xsl:template name="base">
 		<xsl:if test="@xml:base">
-			<xsl:attribute name="base">
-				<xsl:value-of select="@xml:base"/>
-			</xsl:attribute>
+			<xsl:attribute name="base"><xsl:value-of select="@xml:base"/></xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="*[local-name()='sequencing']" mode="reference">
-		<xsl:attribute name="sequencingId">
-			<xsl:choose>
-				<xsl:when test="@IDRef">
-					<xsl:value-of select="@IDRef"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="generate-id()"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:attribute>
+		<xsl:attribute name="sequencingId"><xsl:choose><xsl:when test="@IDRef"><xsl:value-of select="@IDRef"/></xsl:when><xsl:otherwise><xsl:value-of select="generate-id()"/></xsl:otherwise></xsl:choose></xsl:attribute>
 	</xsl:template>
 	<xsl:template match="*[local-name()='sequencing']" mode="data">
 		<sequencing>
-			<xsl:attribute name="id">
-				<xsl:choose>
-					<xsl:when test="@ID">
-						<xsl:value-of select="@ID"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="generate-id()"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
+			<xsl:attribute name="id"><xsl:choose><xsl:when test="@ID"><xsl:value-of select="@ID"/></xsl:when><xsl:otherwise><xsl:value-of select="generate-id()"/></xsl:otherwise></xsl:choose></xsl:attribute>
 			<!-- attributes -->
 			<xsl:apply-templates select="*[local-name()='controlMode']"/>
 			<xsl:apply-templates select="*[local-name()='limitConditions']"/>
@@ -218,24 +163,16 @@ This is work in progress and therefore incomplete and buggy ...
 	</xsl:template>
 	<xsl:template match="*[local-name()='rollupConsiderations']">
 		<xsl:if test="@requiredForSatisfied and not(@requiredForSatisfied='always')">
-			<xsl:attribute name="requiredForSatisfied">
-				<xsl:value-of select="@requiredForSatisfied"/>
-			</xsl:attribute>
+			<xsl:attribute name="requiredForSatisfied"><xsl:value-of select="@requiredForSatisfied"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@requiredForNotSatisfied and not(@requiredForNotSatisfied='always')">
-			<xsl:attribute name="requiredForNotSatisfied">
-				<xsl:value-of select="@requiredForNotSatisfied"/>
-			</xsl:attribute>
+			<xsl:attribute name="requiredForNotSatisfied"><xsl:value-of select="@requiredForNotSatisfied"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@requiredForCompleted and not(@requiredForCompleted='always')">
-			<xsl:attribute name="requiredForCompleted">
-				<xsl:value-of select="@requiredForCompleted"/>
-			</xsl:attribute>
+			<xsl:attribute name="requiredForCompleted"><xsl:value-of select="@requiredForCompleted"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@requiredForIncomplete and not(@requiredForIncomplete='always')">
-			<xsl:attribute name="requiredForIncomplete">
-				<xsl:value-of select="@requiredForIncomplete"/>
-			</xsl:attribute>
+			<xsl:attribute name="requiredForIncomplete"><xsl:value-of select="@requiredForIncomplete"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@measureSatisfactionIfActive and not(@measureSatisfactionIfActive='true')">
 			<xsl:attribute name="measureSatisfactionIfActive">false</xsl:attribute>
@@ -243,59 +180,39 @@ This is work in progress and therefore incomplete and buggy ...
 	</xsl:template>
 	<xsl:template match="*[local-name()='limitConditions']">
 		<xsl:if test="@attemptLimit">
-			<xsl:attribute name="attemptLimit">
-				<xsl:value-of select="@attemptLimit"/>
-			</xsl:attribute>
+			<xsl:attribute name="attemptLimit"><xsl:value-of select="@attemptLimit"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@attemptAbsoluteDurationLimit">
-			<xsl:attribute name="attemptAbsoluteDurationLimit">
-				<xsl:value-of select="@attemptAbsoluteDurationLimit"/>
-			</xsl:attribute>
+			<xsl:attribute name="attemptAbsoluteDurationLimit"><xsl:value-of select="@attemptAbsoluteDurationLimit"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@attemptExperiencedDurationLimit">
-			<xsl:attribute name="attemptExperiencedDurationLimit">
-				<xsl:value-of select="@attemptExperiencedDurationLimit"/>
-			</xsl:attribute>
+			<xsl:attribute name="attemptExperiencedDurationLimit"><xsl:value-of select="@attemptExperiencedDurationLimit"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@activityAbsoluteDurationLimit">
-			<xsl:attribute name="activityAbsoluteDurationLimit">
-				<xsl:value-of select="@activityAbsoluteDurationLimit"/>
-			</xsl:attribute>
+			<xsl:attribute name="activityAbsoluteDurationLimit"><xsl:value-of select="@activityAbsoluteDurationLimit"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@activityExperiencedDurationLimit">
-			<xsl:attribute name="activityExperiencedDurationLimit">
-				<xsl:value-of select="@activityExperiencedDurationLimit"/>
-			</xsl:attribute>
+			<xsl:attribute name="activityExperiencedDurationLimit"><xsl:value-of select="@activityExperiencedDurationLimit"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@beginTimeLimit">
-			<xsl:attribute name="beginTimeLimit">
-				<xsl:value-of select="@beginTimeLimit"/>
-			</xsl:attribute>
+			<xsl:attribute name="beginTimeLimit"><xsl:value-of select="@beginTimeLimit"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@endTimeLimit">
-			<xsl:attribute name="endTimeLimit">
-				<xsl:value-of select="@endTimeLimit"/>
-			</xsl:attribute>
+			<xsl:attribute name="endTimeLimit"><xsl:value-of select="@endTimeLimit"/></xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="*[local-name()='randomizationControls']">
 		<xsl:if test="@randomizationTiming and not(@randomizationTiming='never')">
-			<xsl:attribute name="randomizationTiming">
-				<xsl:value-of select="@randomizationTiming"/>
-			</xsl:attribute>
+			<xsl:attribute name="randomizationTiming"><xsl:value-of select="@randomizationTiming"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@selectCount">
-			<xsl:attribute name="selectCount">
-				<xsl:value-of select="@selectCount"/>
-			</xsl:attribute>
+			<xsl:attribute name="selectCount"><xsl:value-of select="@selectCount"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@reorderChildren and not(@reorderChildren='false')">
 			<xsl:attribute name="reorderChildren">true</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@selectionTiming and not(@selectionTiming='never')">
-			<xsl:attribute name="selectionTiming">
-				<xsl:value-of select="@selectionTiming"/>
-			</xsl:attribute>
+			<xsl:attribute name="selectionTiming"><xsl:value-of select="@selectionTiming"/></xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="*[local-name()='deliveryControls']">
@@ -337,15 +254,11 @@ This is work in progress and therefore incomplete and buggy ...
 		</rule>
 	</xsl:template>
 	<xsl:template match="*[local-name()='ruleAction']">
-		<xsl:attribute name="action">
-			<xsl:value-of select="@action"/>
-		</xsl:attribute>
+		<xsl:attribute name="action"><xsl:value-of select="@action"/></xsl:attribute>
 	</xsl:template>
 	<xsl:template match="*[local-name()='ruleConditions']" mode="attributes">
 		<xsl:if test="@conditionCombination and not(@conditionCombination='all')">
-			<xsl:attribute name="conditionCombination">
-				<xsl:value-of select="@conditionCombination"/>
-			</xsl:attribute>
+			<xsl:attribute name="conditionCombination"><xsl:value-of select="@conditionCombination"/></xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="*[local-name()='ruleConditions']" mode="elements">
@@ -354,23 +267,15 @@ This is work in progress and therefore incomplete and buggy ...
 	<xsl:template match="*[local-name()='ruleCondition']">
 		<condition>
 			<xsl:if test="@referencedObjective">
-				<xsl:attribute name="referencedObjective">
-					<xsl:value-of select="@referencedObjective"/>
-				</xsl:attribute>
+				<xsl:attribute name="referencedObjective"><xsl:value-of select="@referencedObjective"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@measureThreshold">
-				<xsl:attribute name="measureThreshold">
-					<xsl:value-of select="@measureThreshold"/>
-				</xsl:attribute>
+				<xsl:attribute name="measureThreshold"><xsl:value-of select="@measureThreshold"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@operator and not(@operator='noOp')">
-				<xsl:attribute name="operator">
-					<xsl:value-of select="@operator"/>
-				</xsl:attribute>
+				<xsl:attribute name="operator"><xsl:value-of select="@operator"/></xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="condition">
-				<xsl:value-of select="@condition"/>
-			</xsl:attribute>
+			<xsl:attribute name="condition"><xsl:value-of select="@condition"/></xsl:attribute>
 		</condition>
 	</xsl:template>
 	<xsl:template match="*[local-name()='rollupRules']" mode="attributes">
@@ -381,9 +286,7 @@ This is work in progress and therefore incomplete and buggy ...
 			<xsl:attribute name="rollupProgressCompletion">false</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@objectiveMeasureWeight and not(number(@objectiveMeasureWeight)=1.0)">
-			<xsl:attribute name="objectiveMeasureWeight">
-				<xsl:value-of select="@objectiveMeasureWeight"/>
-			</xsl:attribute>
+			<xsl:attribute name="objectiveMeasureWeight"><xsl:value-of select="@objectiveMeasureWeight"/></xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="*[local-name()='rollupRules']" mode="elements">
@@ -392,19 +295,13 @@ This is work in progress and therefore incomplete and buggy ...
 	<xsl:template match="*[local-name()='rollupRule']">
 		<rule type="rollup">
 			<xsl:if test="@childActivitySet and not(@childActivitySet='all')">
-				<xsl:attribute name="childActivitySet">
-					<xsl:value-of select="@childActivitySet"/>
-				</xsl:attribute>
+				<xsl:attribute name="childActivitySet"><xsl:value-of select="@childActivitySet"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@minimumCount and not(number(@minimumCount)=0)">
-				<xsl:attribute name="minimumCount">
-					<xsl:value-of select="@minimumCount"/>
-				</xsl:attribute>
+				<xsl:attribute name="minimumCount"><xsl:value-of select="@minimumCount"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@minimumPercent and not(number(@minimumPercent)=0)">
-				<xsl:attribute name="minimumPercent">
-					<xsl:value-of select="@minimumPercent"/>
-				</xsl:attribute>
+				<xsl:attribute name="minimumPercent"><xsl:value-of select="@minimumPercent"/></xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="*[local-name()='rollupAction']"/>
 			<xsl:apply-templates select="*[local-name()='rollupConditions']" mode="attributes"/>
@@ -413,25 +310,19 @@ This is work in progress and therefore incomplete and buggy ...
 	</xsl:template>
 	<xsl:template match="*[local-name()='rollupConditions']" mode="attributes">
 		<xsl:if test="@conditionCombination and not(@conditionCombination='any')">
-			<xsl:attribute name="conditionCombination">
-				<xsl:value-of select="@conditionCombination"/>
-			</xsl:attribute>
+			<xsl:attribute name="conditionCombination"><xsl:value-of select="@conditionCombination"/></xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="*[local-name()='rollupConditions']" mode="elements">
 		<xsl:apply-templates select="*[local-name()='rollupCondition']"/>
 	</xsl:template>
 	<xsl:template match="*[local-name()='rollupAction']">
-		<xsl:attribute name="action">
-			<xsl:value-of select="@action"/>
-		</xsl:attribute>
+		<xsl:attribute name="action"><xsl:value-of select="@action"/></xsl:attribute>
 	</xsl:template>
 	<xsl:template match="*[local-name()='rollupCondition']">
 		<condition condition="{@condition}">
 			<xsl:if test="@operator and not(@operator='noOp')">
-				<xsl:attribute name="operator">
-					<xsl:value-of select="@operator"/>
-				</xsl:attribute>
+				<xsl:attribute name="operator"><xsl:value-of select="@operator"/></xsl:attribute>
 			</xsl:if>
 		</condition>
 	</xsl:template>
@@ -440,12 +331,8 @@ This is work in progress and therefore incomplete and buggy ...
 	</xsl:template>
 	<xsl:template match="*[local-name()='auxiliaryResource']">
 		<auxiliaryResource>
-			<xsl:attribute name="auxiliaryResourceID">
-				<xsl:value-of select="@auxiliaryResourceID"/>
-			</xsl:attribute>
-			<xsl:attribute name="purpose">
-				<xsl:value-of select="@purpose"/>
-			</xsl:attribute>
+			<xsl:attribute name="auxiliaryResourceID"><xsl:value-of select="@auxiliaryResourceID"/></xsl:attribute>
+			<xsl:attribute name="purpose"><xsl:value-of select="@purpose"/></xsl:attribute>
 		</auxiliaryResource>
 	</xsl:template>
 	<xsl:template match="*[local-name()='objectives']">
@@ -474,16 +361,12 @@ This is work in progress and therefore incomplete and buggy ...
 	</xsl:template>
 	<xsl:template match="*[local-name()='minNormalizedMeasure']" mode="attributes">
 		<xsl:if test="text()">
-			<xsl:attribute name="minNormalizedMeasure">
-				<xsl:value-of select="text()"/>
-			</xsl:attribute>
+			<xsl:attribute name="minNormalizedMeasure"><xsl:value-of select="text()"/></xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="*[local-name()='mapInfo']">
 		<mapInfo>
-			<xsl:attribute name="targetObjectiveID">
-				<xsl:value-of select="@targetObjectiveID"/>
-			</xsl:attribute>
+			<xsl:attribute name="targetObjectiveID"><xsl:value-of select="@targetObjectiveID"/></xsl:attribute>
 			<xsl:if test="@readSatisfiedStatus and not(@readSatisfiedStatus='true')">
 				<xsl:attribute name="readSatisfiedStatus">false</xsl:attribute>
 			</xsl:if>

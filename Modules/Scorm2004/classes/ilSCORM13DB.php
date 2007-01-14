@@ -4,8 +4,6 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * Copyright (c) 2005-2007 Alfred Kohnert.
- * 
  * This program is free software. The use and distribution terms for this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
@@ -32,7 +30,7 @@
  * Instance use starts width $db = new ilSCORM13DB(PDODSN);
  * 
  * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
- * @version $Id: $
+ * @version $Id$
  * @copyright: (c) 2005-2007 Alfred Kohnert
  *  
  */ 

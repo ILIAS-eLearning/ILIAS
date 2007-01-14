@@ -4,8 +4,6 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * Copyright (c) 2005-2007 Alfred Kohnert.
- * 
  * This program is free software. The use and distribution terms for this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
@@ -19,33 +17,18 @@
  * PRELIMINARY EDITION 
  * This is work in progress and therefore incomplete and buggy ... 
  *  
+ * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @version $Id$
+ * @copyright: (c) 2007 Alfred Kohnert
+ *  
  * Business class for demonstration of current state of ILIAS SCORM 2004 
  * 
- * For security reasons this is not connected to ILIAS database
- * but uses a small fake database in slite2 format.
- * Waits on finishing other sub tasks before being connected to ILIAS.
- * 
- * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
- * @version $Id: $
- * @copyright: (c) 2005-2007 Alfred Kohnert
- *
- * Frontend for demonstration of current state of ILIAS SCORM 2004 
- *  
  */ 
  
 
-require_once('classes/phpext.php');
-require_once('classes/ilSCORM13DB.php');
+	// common constants classes, initalization, php core extension, etc. 
+require_once('common.php');
 
-define('USR_ID', 50);
-define('ilSCORM13_FOLDER', dirname(__FILE__) . '/packages');
-define('PACKGAGE_BASE', 'sco.php/packages/' . $_REQUEST['packageId'] . '/');
-
-
-ilSCORM13DB::init(
-	'sqlite2:data/slite2.db',
-	'sqlite'
-);	
 
 function get_player()
 {
@@ -62,13 +45,14 @@ function get_lang()
 function get_cp()
 {
 	header('Content-Type: text/javascript; charset=UTF-8');
+	$packageId = intval($_REQUEST['packageId']);
 	$packageData = ilSCORM13DB::getRecord(
 		'cp_package', 
 		'obj_id', 
-		$_REQUEST['packageId']
+		$packageId
 	);
 	print('var Package = ' . $packageData['jsdata'] . ';'); 
-	print('Package.base = "' . PACKGAGE_BASE . '";'); 
+	print('Package.base = "' . str_replace('{packageId}', $packageId, IL_OP_PACKAGE_BASE) . '";'); 
 }
 
 function get_cmi()
