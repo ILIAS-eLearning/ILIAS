@@ -273,9 +273,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./assessment/js/calendar/calendar.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./assessment/js/calendar/calendar-setup.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./assessment/js/calendar/calendar.css");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Modules/Test/js/calendar/calendar.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Modules/Test/js/calendar/calendar-setup.js");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Modules/Test/js/calendar/calendar.css");
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("javascript_call_calendar");
 		$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
