@@ -4,17 +4,11 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * Copyright (c) 2005-2007 Alfred Kohnert.
- * 
  * This program is free software. The use and distribution terms for this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
  * By using this software in any fashion, you are agreeing to be bound by the terms 
  * of this license.
- * 
- * Note: This code derives from other work by the original author that has been
- * published under Common Public License (CPL 1.0). Please send mail for more
- * information to <alfred.kohnert@bigfoot.com>.
  * 
  * You must not remove this notice, or any other, from this software.
  */
@@ -23,52 +17,23 @@
  * PRELIMINARY EDITION 
  * This is work in progress and therefore incomplete and buggy ... 
  *  
+ * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @version $Id$
+ * @copyright: (c) 2007 Alfred Kohnert
+ *  
  * Business class for demonstration of current state of ILIAS SCORM 2004 
  * 
- * For security reasons this is not connected to ILIAS database
- * but uses a small fake database in slite2 format.
- * Waits on finishing other sub tasks before being connected to ILIAS.
- * 
- * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
- * @version $Id: $
- * @copyright: (c) 2005-2007 Alfred Kohnert
- *
- * Frontend for demonstration of current state of ILIAS SCORM 2004 
- *  
  */ 
  
+	// common constants classes, initalization, php core extension, etc. 
+require_once('common.php');
+
+
 /**
  * We force to UTF-8 and do not care about doctype at the moment.
  */ 
 header('Content-Type: text/html; charset=UTF-8');
 header("Pragma: no-cache");
-
-/**
- * some config constants
- * that will later be mapped to ILIAS ini strings 
- */
-define('ilSCORM13_FOLDER', dirname(__FILE__) . '/packages');
-
-
-/**
- * We will include some global functions extending poor PHP (this time a module 
- * and not a class). 
- * We also load a special database module running for sqlite. Will later be
- * mapped to ilDB (even if it is more rdbs independent and injection secure the
- * ILIAS default database code). 
- */
-require_once('classes/phpext.php');
-require_once('classes/ilSCORM13DB.php');
-
-/**
- * Special database module is normally used in static mode. 
- * So there ist only one database and is accessable from everywhere. 
- * You could also use instances of ilSCORM13DB for binding to additional databases.  
- */
-ilSCORM13DB::init(
-	'sqlite2:data/slite2.db',
-	'sqlite'
-);	
 
 
 /**

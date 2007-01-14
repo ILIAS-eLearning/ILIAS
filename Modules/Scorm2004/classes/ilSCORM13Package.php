@@ -4,8 +4,6 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * Copyright (c) 2005-2007 Alfred Kohnert.
- * 
  * This program is free software. The use and distribution terms for this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
@@ -30,7 +28,7 @@
  * Waits on finishing other sub tasks before being connected to ILIAS.
  * 
  * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
- * @version $Id: $
+ * @version $Id$
  * @copyright: (c) 2005-2007 Alfred Kohnert
  *  
  */ 
@@ -38,9 +36,9 @@
 class ilSCORM13Package
 {
 
-	const DB_ENCODE_XSL = 'templates/xsl/op-scorm13.xsl';
-	const DB_DECODE_XSL = 'templates/xsl/op-scorm13-revert.xsl';
-	const VALIDATE_XSD = 'templates/xsl/op-scorm13.xsd';
+	const DB_ENCODE_XSL = 'templates/xsl/op/op-scorm13.xsl';
+	const DB_DECODE_XSL = 'templates/xsl/op/op-scorm13-revert.xsl';
+	const VALIDATE_XSD = 'templates/xsd/op/op-scorm13.xsd';
 	
 	private $packageFile;
 	private $packageFolder;
@@ -85,7 +83,7 @@ class ilSCORM13Package
 	
 	public function __construct($packageId = null)
 	{
-		$this->packagesFolder = ilSCORM13_FOLDER;
+		$this->packagesFolder = IL_OP_PACKAGES_FOLDER;
 		$this->load($packageId);
 	}
 	
@@ -223,7 +221,7 @@ class ilSCORM13Package
 		}
 		
 		// STEP 3
-		$this->setProgress(0.4, 'Step 3: normalize imsmanifest.xml into ' . self::DB_ENCODE_XSL);
+		$this->setProgress(0.4, 'Step 3: normalize imsmanifest.xml using ' . self::DB_ENCODE_XSL);
 		$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
 		if (!$this->manifest)
 		{
@@ -292,11 +290,17 @@ class ilSCORM13Package
 		// STEP 7
 		$this->setProgress(0.8, 'Step 7: Wrapping up');
 		$tf = $this->packagesFolder . '/' . $this->packageId . '.zip';
-		if (is_file($tf)) unlink($tf);
-		rename($this->packageFile, $tf);
+		if (is_file($tf)) 
+		{
+			unlink($tf);
+		}
+		@rename($this->packageFile, $tf);
 		$tf = $this->packagesFolder . '/' . $this->packageId;
-		if (is_dir($tf)) dir_delete($tf);
-		rename($this->packageFolder, $tf);
+		if (is_dir($tf)) 
+		{
+			dir_delete($tf);
+		}
+		@rename($this->packageFolder, $tf);
 		
 		// FINISH
 		$this->setProgress(1.0, 'Done. Everything ok.');
@@ -391,7 +395,7 @@ class ilSCORM13Package
 	 */	
 	private function dbAddNew()
 	{
-		$this->packageId = 100;
+		$this->packageId = IL_OP_PACKAGE_ID;
 		return true;
 	}
 	
@@ -428,8 +432,8 @@ class ilSCORM13Package
 		$xsl->async = false;
 		if (!@$xsl->load($xslfile)) 
 		{
-			return false;
-		}
+			die('ERROR: load StyleSheet ' . $xslfile);
+		}		
 		$prc = new XSLTProcessor;
 		$r = @$prc->importStyleSheet($xsl);
 		if (false===@$prc->importStyleSheet($xsl)) 
@@ -453,8 +457,8 @@ class ilSCORM13Package
 		if (!$return) 
 		{
 			$levels = array(
-				LIBXML_ERR_ERROR=>'Error', 
-				LIBXML_ERR_FATAL=>'Fatal Error'
+				LIBXML_ERR_ERROR => 'Error', 
+				LIBXML_ERR_FATAL => 'Fatal Error'
 			);
 			foreach (libxml_get_errors() as $error) 
 			{

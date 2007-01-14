@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ILIAS Open Source
---------------------------------
+================================
 Implementation of ADL SCORM 2004
-
-Copyright (c) 2005-2007 Alfred Kohnert.
 
 This program is free software. The use and distribution terms for this software
 are covered by the GNU General Public License Version 2
@@ -17,6 +15,9 @@ You must not remove this notice, or any other, from this software.
 PRELIMINARY EDITION 
 This is work in progress and therefore incomplete and buggy ... 
 
+@author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+@version $Id$
+@copyright: (c) 2007 Alfred Kohnert
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3" xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3" xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3">
 	<xsl:output method="xml" indent="yes" encoding="UTF-8" media-type="text/xml"/>
@@ -86,12 +87,12 @@ This is work in progress and therefore incomplete and buggy ...
 			<xsl:if test="@isvisible and not(@isvisible='true')">
 				<xsl:attribute name="isvisible">false</xsl:attribute>
 			</xsl:if>
-			<title>
-				<xsl:value-of select="@title"/>
-			</title>
 			<xsl:if test="@parameters">
 				<xsl:attribute name="parameters"><xsl:value-of select="@parameters"/></xsl:attribute>
 			</xsl:if>
+			<title>
+				<xsl:value-of select="@title"/>
+			</title>
 			<xsl:if test="@timeLimitAction">
 				<xsl:element name="timeLimitAction">
 					<xsl:value-of select="@timeLimitAction"/>

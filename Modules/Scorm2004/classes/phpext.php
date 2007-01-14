@@ -4,8 +4,6 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * Copyright (c) 2005-2007 Alfred Kohnert.
- * 
  * This program is free software. The use and distribution terms for this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
@@ -27,7 +25,7 @@
  * for it is missing some basic functionality 
  * 
  * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
- * @version $Id: $
+ * @version $Id$
  * @copyright: (c) 2005-2007 Alfred Kohnert
  *  
  */ 
@@ -40,15 +38,28 @@ define('NEWLINE', "\n");
 	// but not for boolean (poor unsystematic PHP)
 function boolval($mixed) 
 {
-	if (is_numeric($mixed)) return (bool) $mixed;
-	elseif (is_string($mixed) && preg_match('/^true|yes|on|ok|correct/i', $mixed)) return true;
-	else return false;
+	if (is_numeric($mixed)) 
+	{
+		return (bool) $mixed;
+	}
+	elseif (is_string($mixed) && preg_match('/^true|yes|on|ok|correct/i', $mixed))
+	{
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
 }
 
 	// there is not copy folder method in PHP core (poor PHP) 
 	// so we to do it ourselves (does not retain all file attributes!)
 function dir_copy($source, $dest, $overwrite = false)
 {
+	if (!is_dir($source)) 
+	{
+		return false;
+	} 
 	if (!is_dir($dest)) 
 	{
 		if (!@mkdir($dest)) 
@@ -84,7 +95,11 @@ function dir_copy($source, $dest, $overwrite = false)
 	// so we to do it ourselves
 function dir_delete($d)
 {
-	foreach (@scandir($d) as $n)
+	if (!is_dir($d)) 
+	{
+		return false;
+	} 
+	foreach (scandir($d) as $n)
 	{
 		if($n!=='.' && $n!=='..') 
 		{
@@ -126,85 +141,57 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
 		}
 	}
 
-		// expects XStandard ActiveX component registered on your box
-		// see http://www.xstandard.com/ (not GNU but FREEWARE)
-	function unzip($sArchive, $sFolderPath) 
-	{
-		try {
-			$com = new COM('XStandard.Zip');
-			$com->UnPack($sArchive, $sFolderPath);
-			$return = $com->ErrorCode ?  $com->ErrorDescription : 0;
-			unset($com);
-		} catch (Exception $e) {
-			$return = $e->getMessage();
-		};
-		return $return;
-	}
-	
-	
-		// expects XStandard ActiveX component registered on your box
-		// see http://www.xstandard.com/ (not GNU but FREEWARE)
-	function zip($sArchive, $sFilespec) 
-	{
-		try {
-			$com = new COM('XStandard.Zip');
-			$com->Pack($sFilespec, $sArchive);
-			$return = $com->ErrorCode ? $com->ErrorDescription : 0;
-			unset($com);
-		} catch (Exception $e) {
-			$return = $e->getMessage();
-		};
-		return $return;
-	}
-
 }
 
-
-	// Non Windows related stuff
-	// expecting standard linux system
-	// -------------------------------
-
-if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
+/**
+ * expects unzip installed in you box and being in your environment path
+ * see http://www.info-zip.org/	 	
+ * @return {variant} integer 0 on success, msg string on failure
+ */
+function unzip($sArchive, $sFolderPath) 
 {
-
-	/**
-	 * expects unzip installed in you box and being in your environment path
-	 * see http://www.info-zip.org/	 	
-	 * @return {variant} integer 0 on success, msg string on failure
-	 */
-	function unzip($sArchive, $sFolderPath) 
+	$cmd = IL_OP_UNZIP_EXE . ' -o "' . $sArchive . '" -d "' . $sFolderPath . '"';
+	try 
 	{
-		$unzippath = 'unzip'; 
-		try {
-			$cmd = $unzippath . ' -o "' . $sArchive . '" -d "' . $sFolderPath . '"';
-			exec($cmd, $output, $return);
-			$return = $return ? (string) $return : 0;  
-		} catch (Exception $e) {
-			$return = $e->getMessage();
-		};
-		return $return;
+		@exec($cmd, $output, $return);
+		$return = $return ? (string) $return : 0;  
+	} 
+	catch (Exception $e) 
+	{
+		$return = $e->getMessage();
 	}
-	
-	/**
-	 * expects zip installed in you box and being in your environment path
-	 * see http://www.info-zip.org/	 	
-	 * @return {variant} integer 0 on success, msg string on failure
-	 */
-	function zip($sArchive, $sFilespec) 
+	return $return;
+}
+
+/**
+ * expects zip installed in you box and being in your environment path
+ * see http://www.info-zip.org/	 	
+ * @return {variant} integer 0 on success, msg string on failure
+ */
+function zip($sArchive, $sFilespec) 
+{
+	$curpath = getcwd();
+	$cmd = IL_OP_ZIP_EXE . ' -ur "' . $sArchive . '" "' . basename($sFilespec) . '"';
+	@chdir(dirname($sFilespec));
+	try 
 	{
-		$zippath = 'zip'; 
-		$curpath = getcwd();
-		chdir(dirname($sFilespec));
-		try {
-			$cmd = $zippath . ' -ur "' . $sArchive . '" "' . basename($sFilespec) . '"';
-			exec($cmd, $output, $return);
-			$return = $return ? (string) $return : 0;  
-		} catch (Exception $e) {
-			$return = $e->getMessage();
-		};
-		chdir($curpath);
-		return $return;
-	}	
+		@exec($cmd, $output, $return);
+		$return = $return ? (string) $return : 0;  
+	} 
+	catch (Exception $e) 
+	{
+		$return = $e->getMessage();
+	}
+	@chdir($curpath);
+	return $return;
+}
+
+/**
+ * Checking some prerequisites 
+ */ 
+if (!is_callable('json_encode')) 
+{
+	$msg .= 'Neccessary JSON module is missing in your PHP installation.';
 }
 
 ?>

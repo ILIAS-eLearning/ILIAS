@@ -3,8 +3,6 @@
  * --------------------------------
  * Implementation of ADL SCORM 2004
  * 
- * Copyright (c) 2005-2007 Alfred Kohnert.
- * 
  * This program is free software. The use and distribution terms for this software
  * are covered by the GNU General Public License Version 2
  * 	<http://opensource.org/licenses/gpl-license.php>.
@@ -16,16 +14,16 @@
  * for more information to <alfred.kohnert@bigfoot.com>.
  * 
  * You must not remove this notice, or any other, from this software.
- */
-
-/**
+ * 
  * PRELIMINARY EDITION 
- * This is work in progress and therefore incomplete and buggy ... 
- *  
- */ 
+ * This is work in progress and therefore incomplete and buggy ...
+ *   
+ * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @version $Id$
+ * @copyright: (c) 2007 Alfred Kohnert
  
+
 WHAT TO DO NEXT
-- All: Add copyright info
 - Admin: Remove CMI Data on "Remove"
 - Admin: Adding Player controlling settings like 
 	- which gui components to show

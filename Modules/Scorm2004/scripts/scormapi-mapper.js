@@ -1,4 +1,28 @@
-{
+/**
+ * ILIAS Open Source
+ * --------------------------------
+ * Implementation of ADL SCORM 2004
+ * 
+ * This program is free software. The use and distribution terms for this software
+ * are covered by the GNU General Public License Version 2
+ * 	<http://opensource.org/licenses/gpl-license.php>.
+ * By using this software in any fashion, you are agreeing to be bound by the terms 
+ * of this license.
+ * 
+ * You must not remove this notice, or any other, from this software.
+ * 
+ * PRELIMINARY EDITION
+ * This is work in progress and therefore incomplete and buggy ...
+ * 
+ * Content-Type: application/x-javascript; charset=ISO-8859-1
+ * Modul: this data will be needed for SCORM 1.2 compatibility later
+ *  
+ * @author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @version $Id$
+ * @copyright: (c) 2007 Alfred Kohnert
+ */ 
+ 
+ {
 	'cmi.core._children' : 'No replacement',
 	'cmi.core.student_id' : 'cmi.learner_id',
 	'cmi.core.student_name' : 'cmi.learner_name',
