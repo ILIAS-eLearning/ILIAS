@@ -1587,9 +1587,9 @@ class ilPageObject
 		$parent_node =& $a_target_page->getContentNode("pg");
 		$target_dom =& $a_target_page->getDom();
 		$parent_childs =& $parent_node->child_nodes();
-		$first_child =& $parent_childs[0];
 		$cnt_parent_childs = count($parent_childs);
-
+//echo "-$cnt_parent_childs-";
+		$first_child =& $parent_childs[0];
 		foreach($copy_ids as $copy_id)
 		{
 			$source_node =& $a_source_page->getContentNode($copy_id);
@@ -1610,7 +1610,7 @@ class ilPageObject
 			}
 			$parent_childs =& $parent_node->child_nodes();
 
-			$cnt_parent_childs++;
+			//$cnt_parent_childs++;
 		}
 
 		$a_target_page->update();

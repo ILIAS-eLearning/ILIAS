@@ -2473,7 +2473,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("PROFILE_OPTION_DEFAULT_VALUE", "default_" . $field);
 				$options = array('y','associated','n');
 				$selected_option = $ilias->getSetting("show_users_online");
-				if ($selected_option == null) $selected_option = 10;
+				if ($selected_option == "") $selected_option = "y";
 				$this->tpl->setCurrentBlock("default_value_option");
 				foreach ($options as $option)
 				{

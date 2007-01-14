@@ -515,8 +515,18 @@ class ilRegistrationGUI
 
 		// setup user preferences
 		$this->userObj->setLanguage($_POST["user"]["language"]);
+		$hits_per_page = $ilias->getSetting("hits_per_page");
+		if ($hits_per_page < 10)
+		{
+			$hits_per_page = 10;
+		}
 		$this->userObj->setPref("hits_per_page", $ilias->getSetting("hits_per_page"));
-		$this->userObj->setPref("show_users_online", $ilias->getSetting("show_users_online"));
+		$show_online = $ilias->getSetting("show_users_online");
+		if ($show_online == "")
+		{
+			$show_online = "y";
+		}
+		$this->userObj->setPref("show_users_online", $show_online);
 		$this->userObj->writePrefs();
 
 		// Assign role (depends on settings in administration)
