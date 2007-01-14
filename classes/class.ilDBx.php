@@ -190,8 +190,14 @@ class ilDBx extends PEAR
 			}
 		}
 
-		// maybe quoteSmart should be used in the future
-		return $this->db->quote($a_query);
+		if (method_exists($this->db, "quoteSmart"))
+		{
+			return $this->db->quoteSmart($a_query);
+		}
+		else
+		{
+			return $this->db->quote($a_query);
+		}
 	}
 
 
