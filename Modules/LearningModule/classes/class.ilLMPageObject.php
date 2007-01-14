@@ -237,15 +237,15 @@ class ilLMPageObject extends ilLMObject
 			$tree->insertNode($lm_page->getId(), $parent_node["child"], $source_lm_page->getId());
 		}
 		
+		// remove all nodes < hierarchical id from new page (incl. update)
+		$page->addHierIds();
+		$page->deleteContentBeforeHierId($a_hier_id);
+
 		// remove all nodes >= hierarchical id from source page
 		$source_page->buildDom();
 		$source_page->addHierIds();
 		$source_page->deleteContentFromHierId($a_hier_id);
-		
-		// remove all nodes < hierarchical id from new page (incl. update)
-		$page->addHierIds();
-		$page->deleteContentBeforeHierId($a_hier_id);
-		
+				
 		return $lm_page;
 		
 	}
