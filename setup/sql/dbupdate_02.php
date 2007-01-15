@@ -334,3 +334,8 @@ PRIMARY KEY ( `usr_id` , `field_id` )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#899>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

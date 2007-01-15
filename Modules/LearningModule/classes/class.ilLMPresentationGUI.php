@@ -1209,9 +1209,10 @@ class ilLMPresentationGUI
 		{
 			$succ_node = true;
 			$active = false;
+			$page_id = $obj_id;
 			while($succ_node && !$active)
 			{
-				$succ_node = $this->lm_tree->fetchSuccessorNode($obj_id, "pg");
+				$succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
 				$page_id = $succ_node["obj_id"];
 				$active = ilLMPageObject::_lookupActive($page_id);
 			}
