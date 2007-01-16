@@ -1126,6 +1126,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserRoleAssignmentObject ()
 	{
+		// Blind out tabs for local user import
+		if($this->ctrl->getTargetScript() == 'repository.php')
+		{
+			$this->tabs_gui->clearTargets();
+		}
+
 		include_once './classes/class.ilObjRole.php';
 		include_once './classes/class.ilUserImportParser.php';
 		
@@ -1447,6 +1453,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUsersObject()
 	{
+		// Blind out tabs for local user import
+		if($this->ctrl->getTargetScript() == 'repository.php')
+		{
+			$this->tabs_gui->clearTargets();
+		}
+		
 		include_once './classes/class.ilObjRole.php';
 		include_once './classes/class.ilUserImportParser.php';
 
