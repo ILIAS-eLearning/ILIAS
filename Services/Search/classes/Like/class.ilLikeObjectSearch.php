@@ -53,7 +53,7 @@ class ilLikeObjectSearch extends ilObjectSearch
 		$concat .= 'title,description';
 		$concat .= ") ";
 
-		$where = "WHERE ";
+		$where = "WHERE (";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -62,8 +62,9 @@ class ilLikeObjectSearch extends ilObjectSearch
 				$where .= "OR";
 			}
 			$where .= $concat;
-			$where .= ("LIKE ('%".$word."%')");
+			$where .= ("LIKE ('%".$word."%') ");
 		}
+		$where .= ') ';
 		return $where;
 	}
 
