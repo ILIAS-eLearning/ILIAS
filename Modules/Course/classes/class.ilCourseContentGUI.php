@@ -537,6 +537,9 @@ class ilCourseContentGUI
 	function __showMaterials()
 	{
 		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
+		global $ilAccess;
+
+		include_once 'course/classes/Event/class.ilEventItems.php';
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getId());
@@ -556,7 +559,7 @@ class ilCourseContentGUI
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html",'Modules/Course');
 		$cont_num = count($this->cont_arr);
-
+		
 		$this->container_gui->clearAdminCommandsDetermination();
 
 		// render table content data
@@ -565,7 +568,12 @@ class ilCourseContentGUI
 		$num = 0;
 		foreach ($this->cont_arr as $cont_data)
 		{
-			if(strlen($html = $this->__getItemHTML($cont_data)))
+			if(!$ilAccess->checkAccess('visible','',$cont_data['ref_id']))
+			{
+				continue;
+			}
+			
+			if($html = $this->__getItemHTML($cont_data))
 			{
 				foreach($this->__getOptions($cont_data,$num) as $key => $image)
 				{
@@ -1543,7 +1551,6 @@ class ilCourseContentGUI
 			$activation = ilFormat::formatUnixTime($cont_data['start'],$long).' - '.
 				ilFormat::formatUnixTime($cont_data['end'],$long);
 		}
-
 		// get item list gui object
 		if (!is_object ($this->list_gui[$cont_data["type"]]))
 		{
@@ -1598,7 +1605,7 @@ class ilCourseContentGUI
 
 		$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
 												$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
-
+	
 		$this->container_gui->determineAdminCommands($cont_data['ref_id'],
 													 $item_list_gui->adminCommandsIncluded());
 
