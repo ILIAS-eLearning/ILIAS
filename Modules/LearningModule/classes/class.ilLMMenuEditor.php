@@ -117,6 +117,8 @@ class ilLMMenuEditor
 	
 	function getMenuEntries($a_only_active = false)
 	{
+		global $ilDB;
+		
 		$entries = array();
 		
 		if ($a_only_active === true)
@@ -125,7 +127,7 @@ class ilLMMenuEditor
 		}
 		
 		$q = "SELECT * FROM lm_menu ".
-			 "WHERE lm_id = ".$this->lm_id.
+			 "WHERE lm_id = ".$ilDB->quote($this->lm_id).
 			 $and;
 			 
 		$r = $this->db->query($q);
@@ -167,11 +169,13 @@ class ilLMMenuEditor
 	 */
 	function update()
 	{
+		global $ilDB;
+		
 		$q = "UPDATE lm_menu SET ".
-			" link_type = '".$this->getLinkType()."',".
-			" title = '".$this->getTitle()."',".
-			" target = '".$this->getTarget()."',".
-			" link_ref_id = '".$this->getLinkRefId()."'".
+			" link_type = ".$ilDB->quote($this->getLinkType()).",".
+			" title = ".$ilDB->quote($this->getTitle()).",".
+			" target = ".$ilDB->quote($this->getTarget()).",".
+			" link_ref_id = ".$ilDB->quote($this->getLinkRefId()).
 			" WHERE id = '".$this->getEntryId()."'";
 		$r = $this->db->query($q);
 		
