@@ -1983,15 +1983,37 @@ class ilUtil
 			$a_str = stripslashes($a_str);
 		}
 
-		// set default allowed tags
-		if ($a_allow == "")
+		// default behaviour: allow only fundamental tags 1:1
+		if ($a_allow == "" && $a_strip_html)
 		{
-			$a_allow = "<b><i><strong><em><code><cite><gap><sub><sup><pre><strike>";
+			//$a_allow = "<b><i><strong><em><code><cite><gap><sub><sup><pre><strike>";
+			
+			$tags = array("b", "i", "strong", "em", "code", "cite", "gap", "sub", "sup", "pre", "strike");
+			
+			foreach ($tags as $t)		// mask allowed tags
+			{
+				$a_str = str_replace(array("<$t>", "<".strtoupper($t).">"),
+					"&lt;".$t."&gt;", $a_str);
+				$a_str = str_replace(array("</$t>", "</".strtoupper($t).">"),
+					"&lt;/".$t."&gt;", $a_str);
+			}
+			
+			$a_str = strip_tags($a_str);		// strip all other tags
+			
+			foreach ($tags as $t)		// mask allowed tags
+			{
+				$a_str = str_replace("&lt;".$t."&gt;", "<".$t.">", $a_str);
+				$a_str = str_replace("&lt;/".$t."&gt;", "</".$t.">", $a_str);
+			}
+			
 		}
-
-		if ($a_strip_html)
+		else
 		{
-			$a_str = ilUtil::stripScriptHTML($a_str, $a_allow);
+			// only for scripts, that need to allow more/other tags and parameters
+			if ($a_strip_html)
+			{
+				$a_str = ilUtil::stripScriptHTML($a_str, $a_allow);
+			}
 		}
 
 		return $a_str;
