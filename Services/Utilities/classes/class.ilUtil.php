@@ -315,9 +315,11 @@ class ilUtil
 	*							they are handled as language variable keys and the corresponding
 	*							language variable is displayed
 	* @param	int				size
+	* @param	string			style class
+	* @param	array			additional attributes (key = attribute name, value = attribute value)
 	*/
 	function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0",
-		$style_class = "")
+		$style_class = "", $attribs = "")
 	{
 		global $lng;
 
@@ -339,8 +341,16 @@ class ilUtil
 		{
 			$class = "";
 		}
+		
+		if (is_array($attribs))
+		{
+			foreach ($attribs as $key => $val)
+			{
+				$attributes .= " ".$key."=\"".$val."\"";
+			}
+		}
 
-		$str = "<select name=\"".$varname ."\"".$multiple." $class size=\"".$size."\">\n";
+		$str = "<select name=\"".$varname ."\"".$multiple." $class size=\"".$size."\" $attributes>\n";
 
 		foreach ($options as $key => $val)
 		{
