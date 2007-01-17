@@ -400,7 +400,7 @@ class ilObjUser extends ilObject
 				. "'".$this->getProfileIncomplete()."', "
 				. "'".ilUtil::addSlashes($this->im_icq)."','".ilUtil::addSlashes($this->im_yahoo)."', "
 				. "'".ilUtil::addSlashes($this->im_msn)."','".ilUtil::addSlashes($this->im_aim)."', "
-				. "'".ilUtil::addSlashes($this->im_skype)."', ".ilUtil::addSlashes($this->delicious)."'"
+				. "'".ilUtil::addSlashes($this->im_skype)."','".ilUtil::addSlashes($this->delicious)."'"
 				. ")";
 		}
 		else
