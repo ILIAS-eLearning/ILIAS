@@ -2093,10 +2093,10 @@ class ilObjUser extends ilObject
 	 */
 	function getUserIdByLogin($a_login)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		$query = "SELECT usr_id FROM usr_data ".
-			"WHERE login = '".$a_login."'";
+			"WHERE login = ".$ilDB->quote($a_login);
 
 		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
