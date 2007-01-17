@@ -155,6 +155,7 @@ class ilPersonalProfileGUI
 					
 				// move uploaded file
 				$uploaded_file = $image_dir."/upload_".$ilUser->getId();
+
 				if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
 					$uploaded_file, false))
 				{
@@ -174,7 +175,7 @@ class ilPersonalProfileGUI
 				$thumb_file = ilUtil::escapeShellArg($thumb_file);
 				$xthumb_file = ilUtil::escapeShellArg($xthumb_file);
 				$xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
-				
+//echo "-".ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file"."-";
 				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
 				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
 				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
