@@ -2023,19 +2023,24 @@ class ilUtil
 			"title,tr,tt,u,ul,var";
 		$a_allow = strtolower ($a_allow);
 		$negatives = split (",",$negativestr);
-		foreach ($negatives as $item)
+		$outer_old_str = "";
+		while($outer_old_str != $a_str)
 		{
-			$pos = strpos($a_allow, "<$item>");
-
-			// remove complete tag, if not allowed
-			if ($pos === false)
+			$outer_old_str = $a_str;
+			foreach ($negatives as $item)
 			{
-				$old_str = "";
-				while($old_str != $a_str)
+				$pos = strpos($a_allow, "<$item>");
+	
+				// remove complete tag, if not allowed
+				if ($pos === false)
 				{
-					$old_str = $a_str;
-					$a_str = preg_replace("/<\/?\s*$item(\/?)\s*>/i", "", $a_str);
-					$a_str = preg_replace("/<\/?\s*$item(\/?)\s+([^>]*)>/i", "", $a_str);
+					$old_str = "";
+					while($old_str != $a_str)
+					{
+						$old_str = $a_str;
+						$a_str = preg_replace("/<\/?\s*$item(\/?)\s*>/i", "", $a_str);
+						$a_str = preg_replace("/<\/?\s*$item(\/?)\s+([^>]*)>/i", "", $a_str);
+					}
 				}
 			}
 		}
