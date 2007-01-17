@@ -3043,9 +3043,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
 
 		if(ilObjUserTracking::_enabledLearningProgress() and
-		   ($ilAccess->checkAccess('read','',$this->ref_id) and 
-			(ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED)) or
-		   ($ilAccess->checkAccess('write','',$this->ref_id)))
+		   (($ilAccess->checkAccess('read','',$this->ref_id) and (ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED)) or
+		   ($ilAccess->checkAccess('write','',$this->ref_id))))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
