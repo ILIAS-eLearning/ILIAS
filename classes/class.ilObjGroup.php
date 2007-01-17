@@ -533,17 +533,19 @@ class ilObjGroup extends ilContainer
 	*/
 	function setPassword($a_password="")
 	{
+		global $ilDB;
+		
 		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res = $this->ilias->db->query($q);
 
 		if ($res->numRows() == 0)
 		{
-			$q = "INSERT INTO grp_data (grp_id, password) VALUES(".$this->getId().",'".$a_password."')";
+			$q = "INSERT INTO grp_data (grp_id, password) VALUES(".$this->getId().",".$ilDB->quote($a_password).")";
 			$res = $this->ilias->db->query($q);
 		}
 		else
 		{
-			$q = "UPDATE grp_data SET password='".$a_password."' WHERE grp_id=".$this->getId()."";
+			$q = "UPDATE grp_data SET password=".$ilDB->quote($a_password)." WHERE grp_id=".$this->getId()."";
 			$res = $this->ilias->db->query($q);
 		}
 	}
