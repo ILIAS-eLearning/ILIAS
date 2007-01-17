@@ -545,31 +545,19 @@ class ilSearch
 
 	function __checkAccess($a_results,$a_type)
 	{
-		include_once './classes/class.ilRepositoryExplorer.php';
-
+		global $ilAccess;
+		
 		if (is_array($a_results))
 		{
-			
 			foreach ($a_results as $result)
 			{
-				$obj_id = ilObject::_lookupObjId($result['id']);
-				
-				if(!$this->_checkParentConditions($result['id']))
-				{
-					continue;
-				}
-
-				if(ilRepositoryExplorer::isClickable($a_type,$result['id'],$obj_id) and 
-				   ilRepositoryExplorer::isVisible($result['id'],$a_type))
+				if($ilAccess->checkAccess('read','',$result['id']))
 				{
 					$checked_result[] = $result;
-				}
+				}			
 			}
-
-			return $checked_result ? $checked_result : array();
 		}
-
-		return false;
+		return $checked_result ? $checked_result : array();
 	}
 
 	// STATIC
