@@ -536,10 +536,9 @@ class ilCourseContentGUI
 
 	function __showMaterials()
 	{
-		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 		global $ilAccess;
 
-		include_once 'course/classes/Event/class.ilEventItems.php';
+		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
 
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
 		$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getId());
