@@ -154,7 +154,7 @@ class ilPersonalProfileGUI
 				$ilUser->update();
 					
 				// move uploaded file
-				$uploaded_file = $image_dir."/upload_".$ilUser->getId();
+				$uploaded_file = $image_dir."/upload_".$ilUser->getId()."pic";
 
 				if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
 					$uploaded_file, false))
