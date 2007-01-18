@@ -291,6 +291,13 @@ class ilPageObject
 //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
 						$id_arr = explode("_", $mal_node->get_attribute("OriginId"));
 						$mob_id = $id_arr[count($id_arr) - 1];
+						
+						// allow deletion of non-existing media objects
+						if (!ilObject::_exists($mob_id) && in_array("delete", $_POST))
+						{
+							$mob_id = 0;
+						}
+
 						$mob =& new ilObjMediaObject($mob_id);
 						$mob->setDom($this->dom);
 						$mob->setNode($cont_node);
