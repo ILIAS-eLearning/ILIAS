@@ -60,6 +60,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference = false,$a_prepare_output = true)
 	{
+		global $tree;
+		
 		//TODO: move this to class.ilias.php
 		define("USER_FOLDER_ID",7);
 
@@ -72,6 +74,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->rolf_ref_id = $_GET['ref_id'];
 		}
+		
+		// Add ref_id of object that contains this role folder
+		$this->obj_ref_id = $tree->getParentId($this->rolf_ref_id);
 
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
@@ -165,7 +170,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$rbacreview,$tree;
 
-		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		#if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -179,15 +185,15 @@ class ilObjRoleGUI extends ilObjectGUI
 
 
 		include_once './classes/class.ilRoleDesktopItem.php';
-
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 
-
-		$this->__showButton('selectDesktopItem',$this->lng->txt('role_desk_add'));
+		if($rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
+		{
+			$this->__showButton('selectDesktopItem',$this->lng->txt('role_desk_add'));
+		}
 		if(!count($items = $role_desk_item_obj->getAll()))
 		{
 			sendInfo($this->lng->txt('role_desk_none_created'));
-
 			return true;
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_list.html");
@@ -227,7 +233,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		
+		#if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -286,7 +294,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		if (!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		#if (!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -330,7 +339,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			#$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			sendInfo($this->lng->txt('permission_denied'));
+			$this->listDesktopItemsObject();
+			return false;
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_selector.html");
@@ -357,14 +369,13 @@ class ilObjRoleGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-
 			return false;
 		}
 	
-		if (!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		#if (!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-
 			return false;
 		}
 
@@ -499,6 +510,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacadmin, $rbacreview, $rbacsystem, $objDefinition, $tree;
 
 		// for role administration check visible,write of global role folder
+		/*
 		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
 		{
 			$access = $rbacsystem->checkAccess('visible,write',$this->rolf_ref_id);
@@ -507,6 +519,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
 		}
+		*/		
+		$access = $this->checkAccess('visible,write','edit_permission');
 			
 		if (!$access)
 		{
@@ -831,6 +845,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacsystem, $rbacadmin, $rbacreview, $objDefinition, $tree;
 
 		// for role administration check write of global role folder
+		/*
 		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
 		{
 			$access = $rbacsystem->checkAccess('write',$this->rolf_ref_id);
@@ -839,6 +854,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
 		}
+		*/
+		$access = $this->checkAccess('visible,write','edit_permission');
 			
 		if (!$access)
 		{
@@ -978,6 +995,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacadmin, $rbacsystem, $rbacreview, $tree;
 
 		// for role administration check write of global role folder
+		/*
 		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
 		{
 			$access = $rbacsystem->checkAccess('write',$this->rolf_ref_id);
@@ -986,7 +1004,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
 		}
-			
+		*/	
+	
+		$access = $this->checkAccess('visible,write','edit_permission');
 		if (!$access)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
@@ -1034,7 +1054,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
     	global $rbacsystem, $rbacadmin, $rbacreview;
 
-		if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		#if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1099,16 +1120,18 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
     	global $rbacsystem, $rbacadmin, $rbacreview;
 
-		if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		#if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		/*
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+		*/
     	$selected_users = ($_POST["user_id"]) ? $_POST["user_id"] : array($_GET["user_id"]);
 
 		if ($selected_users[0]=== NULL)
@@ -1174,6 +1197,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree;
 
 		// for role administration check write of global role folder
+		/*
 		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
 		{
 			$access = $rbacsystem->checkAccess('write',$this->rolf_ref_id);
@@ -1182,7 +1206,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
 		}
-			
+		*/
+		$access = $this->checkAccess('write','edit_permission');	
 		if (!$access)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_role"),$this->ilias->error_obj->MESSAGE);
@@ -1246,7 +1271,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview;
 
-		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
+		#if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
+		if(!$this->checkAccess('write','edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1338,11 +1364,11 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacreview, $rbacsystem;
 		
-		if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		//if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
-
 		$assigned_users = $rbacreview->assignedUsers($this->object->getId(),array("login","firstname","lastname","usr_id"));
 
 		//if current user is admin he is able to add new members to group
@@ -1521,7 +1547,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		//if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1585,7 +1612,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $tree;
 
-		if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		#if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
+		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -2229,13 +2257,15 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->back_target["text"],$this->back_target["link"]);
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
+		#if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
+		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","update"), get_class($this));
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
+		#if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
+		if($this->checkAccess('write','edit_permission'))
 		{
 			$force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
 				? true
@@ -2246,7 +2276,8 @@ class ilObjRoleGUI extends ilObjectGUI
 				"", $force_active);
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
+		#if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
+		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("user_assignment",
 				$this->ctrl->getLinkTarget($this, "userassignment"),
@@ -2254,7 +2285,8 @@ class ilObjRoleGUI extends ilObjectGUI
 				get_class($this));
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
+		#if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
+		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("desktop_items",
 				$this->ctrl->getLinkTarget($this, "listDesktopItems"),
@@ -2269,5 +2301,22 @@ class ilObjRoleGUI extends ilObjectGUI
 		$script = 'mail_new.php?type=role';
 		ilUtil::redirect($script);
 	}
+	
+	function checkAccess($a_perm_global,$a_perm_obj = '')
+	{
+		global $rbacsystem,$ilAccess;
+		
+		$a_perm_obj = $a_perm_obj ? $a_perm_obj : $a_perm_global;
+		
+		if($this->rolf_ref_id == ROLE_FOLDER_ID)
+		{
+			return $rbacsystem->checkAccess($a_perm_global,$this->rolf_ref_id);
+		}
+		else
+		{
+			return $ilAccess->checkAccess($a_perm_obj,'',$this->obj_ref_id);
+		}
+	}
+	
 } // END class.ilObjRoleGUI
 ?>
