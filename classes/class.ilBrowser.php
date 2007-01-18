@@ -73,7 +73,7 @@ class ilBrowser
 			$this->BROWSER_VER   = $log_version[1];
 			$this->BROWSER_AGENT = 'Safari';
 		}
-		elseif(ereg('Firefox ([0-9/.]*))',$HTTP_USER_AGENT,$log_version) ||
+		elseif(ereg('Firefox ([0-9/.]*)',$HTTP_USER_AGENT,$log_version) ||
 			ereg('Firefox/([0-9/.]*)',$HTTP_USER_AGENT,$log_version))
 		{
 			$this->BROWSER_VER   = $log_version[1];
