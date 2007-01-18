@@ -112,11 +112,11 @@ class ilGroupImportParser extends ilSaxParser
 		{
 			// GROUP DATA
 			case "group":
-				if($a_attribs["exportVersion"] < EXPORT_VERSION)
-				{
-					$ilErr->raiseError("!!! This export Version isn't supported, update your ILIAS 2 installation"
-									   ,$ilErr->WARNING);
-				}
+				#if($a_attribs["exportVersion"] < EXPORT_VERSION)
+				#{
+				#	$ilErr->raiseError("!!! This export Version isn't supported, update your ILIAS 2 installation"
+				#					   ,$ilErr->WARNING);
+				#}
 				// DEFAULT
 				$this->group_data["admin"] = array();
 				$this->group_data["member"] = array();
