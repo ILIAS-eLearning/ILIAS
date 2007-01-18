@@ -51,14 +51,15 @@ function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params,
 		}
 	}
 
-	if ($a_no_warnings)
-	{
+	// supress warnings all the time. (some lib xslt bring warnings due to & in links)
+	//if ($a_no_warnings)
+	//{
 		$result = @$xslt->transformToXML(DomDocument::loadXML($args[substr($xml_var, 4)]));
-	}
-	else
-	{
-		$result = $xslt->transformToXML(DomDocument::loadXML($args[substr($xml_var, 4)]));
-	}
+	//}
+	//else
+	//{
+	//	$result = $xslt->transformToXML(DomDocument::loadXML($args[substr($xml_var, 4)]));
+	//}
 
 //echo "<br><br><b>xslt_process</b>".htmlentities($result);
 	return $result;
