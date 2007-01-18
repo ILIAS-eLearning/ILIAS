@@ -582,6 +582,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["devmode"] = $a_attribs["devmode"];
 				$this->obj_data["$a_attribs[name]"]["allow_link"] = $a_attribs["allow_link"];
 				$this->obj_data["$a_attribs[name]"]["rbac"] = $a_attribs["rbac"];
+				$this->obj_data["$a_attribs[name]"]["system"] = $a_attribs["system"];
 				break;
 			case 'subobj':
 				$this->current_tag = "subobj";
@@ -676,6 +677,24 @@ class ilObjectDefinition extends ilSaxParser
 					// DO NOTHING
 			}
 		}
+	}
+	
+	/**
+	* checks if object type is a system object
+	* 
+	* system objects are those object types that are only used for
+	* internal purposes and to keep the object type model consistent.
+	* Typically they are used in the administation, exist only once
+	* and may contain only specific object types.
+	* To mark an object type as a system object type, use 'system=1'
+	* in the object definition in objects.xml
+	*
+	* @param	string	object type
+	* @access	public
+	*/
+	function isSystemObject($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["system"];
 	}
 }
 ?>
