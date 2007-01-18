@@ -841,14 +841,14 @@ class ilPageObjectGUI
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
 
-		if (version_compare(PHP_VERSION,'5','>='))
-		{
-			$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params, true);
-		}
-		else
-		{
+		//if (version_compare(PHP_VERSION,'5','>='))
+		//{
+		//	$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params, true);
+		//}
+		//else
+		//{
 			$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
-		}
+		//}
 
 //echo xslt_error($xh);
 		xslt_free($xh);
