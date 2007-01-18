@@ -185,7 +185,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -233,7 +233,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -269,7 +269,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -297,7 +297,7 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -321,7 +321,7 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1451,7 +1451,7 @@ class ilObjChatGUI extends ilObjectGUI
 				$user_obj->setId($user);
 				$user_obj->read();
 
-				if($rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()) and !$_REQUEST['room_id'])
+				if($rbacsystem->checkAccess('moderate',$this->object->getRefId()) and !$_REQUEST['room_id'])
 				{
 					$this->tpl->setCurrentBlock("moderate");
 					if($this->object->chat_room->isKicked($user_obj->getId()))
@@ -1494,7 +1494,7 @@ class ilObjChatGUI extends ilObjectGUI
 					$this->tpl->setVariable("ACTIVE_ROW_PROFILE_ID",$user_obj->getId());
 				}
 				/*
-				if(!$_REQUEST['room_id'] and $rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+				if(!$_REQUEST['room_id'] and $rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 				{
 					$this->tpl->setCurrentBlock("kick_user");
 					$this->tpl->setVariable("KICK_LINK","chat.php?cmd=kickUser&ref_id=".$this->ref_id."&kick_id=".$user);
@@ -1911,12 +1911,12 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
 				"", $force_active);
 		}
-		if($rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		if($rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("chat_recordings",
 								 $this->ctrl->getLinkTarget($this, "recordings"), "recordings", get_class($this));
 		}
-		if($rbacsystem->checkAccess('chat_moderate',$this->object->getRefId()))
+		if($rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("chat_blocked_users",
 				$this->ctrl->getLinkTarget($this, "blockedUsers"),
