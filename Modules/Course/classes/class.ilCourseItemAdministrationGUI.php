@@ -117,7 +117,7 @@ class ilCourseItemAdministrationGUI
 	{
 		global $ilErr,$ilAccess,$ilObjDataCache;
 
-		if(!$ilAccess->checkAccess('write','',$this->getItemId()))
+		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
@@ -245,7 +245,7 @@ class ilCourseItemAdministrationGUI
 	{
 		global $ilErr,$ilAccess,$ilObjDataCache;
 
-		if(!$ilAccess->checkAccess('write','',$this->getItemId()))
+		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
@@ -279,7 +279,7 @@ class ilCourseItemAdministrationGUI
 	{
 		global $ilErr,$ilAccess,$ilObjDataCache;
 
-		if(!$ilAccess->checkAccess('write','',$this->getItemId()))
+		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
@@ -295,7 +295,7 @@ class ilCourseItemAdministrationGUI
 	{
 		global $ilErr,$ilAccess,$ilObjDataCache;
 
-		if(!$ilAccess->checkAccess('write','',$this->getItemId()))
+		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
