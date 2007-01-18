@@ -133,6 +133,11 @@ class ilObjMediaObject extends ilObject
 	*/
 	function delete()
 	{
+		if (!($this->getId() > 0))
+		{
+			return;
+		}
+
 		$usages = $this->getUsages();
 
 		if (count($usages) == 0)
