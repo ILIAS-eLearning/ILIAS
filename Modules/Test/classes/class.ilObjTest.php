@@ -4822,6 +4822,11 @@ class ilObjTest extends ilObject
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$question_type = assQuestion::_getQuestionType($question_id);
 
+			if(!strlen($question_type))
+			{
+				return false;
+			}
+
 			include_once "./Modules/TestQuestionPool/classes/class.".$question_type.".php";
 			$question = new $question_type();
 
