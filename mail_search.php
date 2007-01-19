@@ -218,8 +218,8 @@ if ($_GET["courses_to"])
 			
 		$tpl->setCurrentBlock("crs_grp_courses");
 		$tpl->setVariable("CRS_GRP_TXT_COURSES",$lng->txt("courses"));
-		$tpl->parseCurrentBlock();
 		$tpl->setVariable("CRS_GRP_TXT_NO_MEMBERS",$lng->txt("crs_count_members"));
+		$tpl->parseCurrentBlock();
 	
 		foreach($crs_ids as $crs_id) 
 		{
@@ -355,6 +355,7 @@ if ($_GET["system"])
 	}
 		
 	$tpl->setCurrentBlock("system");
+	$tpl->setVariable("TXT_SYSTEM",$lng->txt("system"));
 	$tpl->setVariable("TXT_PERSONS",$lng->txt("persons"));
 	$tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
 	$tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
