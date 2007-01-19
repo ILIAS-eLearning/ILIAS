@@ -6933,3 +6933,13 @@ ps#:#ps_new_text_field#:#Neues Textfeld anlegen
 ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_type_text#:#Textfeld
 ps#:#ps_type_select#:#Auswahlliste
+ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
+ps#:#ps_cdf_value#:#Wert
+ps#:#ps_btn_add_value#:#Neuer Wert
+ps#:#ps_cdf_no_name_given#:#Bitte geben Sie einen Namen ein.
+ps#:#ps_cdf_added_field#:#Eine neue Auswahlliste wurde angelegt.
+ps#:#ps_cdf_select_one#:#Bitte treffen Sie eine Auswahl.
+ps#:#ps_cdf_delete_sure#:#Sind Sie sicher, dass Sie dieses Datenfeld löschen möchten ?
+ps#:#ps_cdf_deleted#:#Die Datenfelder wurden gelöscht.
+ps#:#ps_edit_select_field#:#Auswahlliste bearbeiten
+ps#:#ps_cdf_deleted_field#:#Der Wert wurde gelöscht.
