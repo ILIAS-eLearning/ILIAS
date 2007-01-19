@@ -41,7 +41,10 @@ administration#:#analyzing_tree_structure#:#Analyzing tree structure...
 administration#:#check_tree#:#Check tree structure
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#clean#:#Clean up
+common#:#access_expired#:#expired
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
+common#:#access_unlimited#:#unlimited
+common#:#usr_limited_access_only#:#Users with limited access only
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#disabled#:#Disabled
@@ -1472,7 +1475,15 @@ common#:#chac_write#:#Edit chat settings
 common#:#change#:#Change
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Change assignment
+common#:#perm_special_options#:#Special Options
 common#:#change_existing_objects#:#Change existing Objects
+common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
+common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.
+common#:#change_existing_prefix#:#Change existing
+common#:#change_existing_suffix#:#&nbsp;
+common#:#change_existing_prefix_single#:#Change
+common#:#change_existing_suffix_single#:#&nbsp;
+common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
 common#:#change_header_title#:#Edit Header Title
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
@@ -2928,6 +2939,7 @@ common#:#obj_type#:#Object Type
 common#:#obj_url#:#URL
 common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
+common#:#obj_user#:#User
 common#:#obj_usrf#:#User Accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#obj_webr#:#Web Resource
@@ -5991,6 +6003,18 @@ registration#:#reg_settings_header#:#New Registration Settings
 registration#:#reg_type#:#Registration Type
 registration#:#reg_unknown_recipients#:#The following logins are not valid:
 registration#:#registration_settings#:#New Registrations
+registration#:#reg_access_limitations#:#Access Limitation
+registration#:#reg_enable_access_limitations#:#Enable Access Limitation
+registration#:#reg_access_limitation_limited_until#:#Access is limited until
+registration#:#reg_access_limitation_limited_time#:#After registration access for
+registration#:#reg_access_limitation_none#:#Unlimited access
+registration#:#reg_access_limitation_missing_mode#:#Please choose for all roles an Access Limitation Mode
+registration#:#reg_access_limitation_out_of_date#:#One or more Roles have an outdated access limitation or the access limitation would expire today!
+registration#:#reg_role_access_limitations#:#Define access limitations of Roles for new registered Users
+registration#:#reg_access_limitation_mode#:#Access Limitation Mode
+registration#:#reg_access_limitation_mode_unlimited#:#No access limitation
+registration#:#reg_access_limitation_mode_absolute#:#Access is limited by a fixed date 
+registration#:#reg_access_limitation_mode_relative#:#Limited access for a fixed time period after registration
 search#:#add_members_header#:#Add members
 search#:#append_results#:#Append results
 search#:#search_active#:#Include active users
@@ -6672,6 +6696,7 @@ trac#:#stats_summation#:#Summation
 trac#:#stats_tracked_user#:#Selected Users
 trac#:#stats_until#:#until
 trac#:#stats_user#:#User(s)
+common#:#access_until#:#Access until
 trac#:#stats_user_selected#:#User selected
 trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time

@@ -2495,9 +2495,12 @@ function getCourseMemberships($a_user_id = "")
 				$q .= "LEFT JOIN ut_online ON usr_data.usr_id = ut_online.usr_id ";
 			}
 
-	        
-	        if (is_numeric($active) && $active > -1)
+	        // get only active or inactive users
+	        if (is_numeric($active) && ($active == 0 or $active == 1))
 	        	$q .= "WHERE active='$active'";
+
+	        if (is_numeric($active) && $active == 2)
+	        	$q .= "WHERE time_limit_unlimited='0'";
 	        	
             $r = $ilDB->query($q);
 

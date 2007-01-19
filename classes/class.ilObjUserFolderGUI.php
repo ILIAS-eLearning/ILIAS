@@ -351,23 +351,41 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 
-		$this->data["cols"] = array("", "login", "firstname", "lastname", "email");
+		$this->data["cols"] = array("", "login", "firstname", "lastname", "email", "access_until");
 		
-		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email"), $_SESSION["user_filter"]);
+		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email","time_limit_until","time_limit_unlimited"), $_SESSION["user_filter"]);
 
+		// fetch current time outside loop
+		$current_time = time();
+		
 		foreach ($usr_data as $val)
 		{
 			if ($val["usr_id"] == ANONYMOUS_USER_ID)
 			{
                 continue;
             }
-
+            
+            // determine txt_access
+			if ($val["time_limit_unlimited"])
+			{
+            	$txt_access = $this->lng->txt("access_unlimited");
+			}
+            elseif ($val["time_limit_until"] < $current_time)
+            {
+            	$txt_access = $this->lng->txt("access_expired");
+            }
+            else
+            {
+            	$txt_access = ilFormat::formatUnixTime($val["time_limit_until"]);
+            }
+            
 			//visible data part
 			$this->data["data"][] = array(
 							"login"			=> $val["login"],
 							"firstname"		=> $val["firstname"],
 							"lastname"		=> $val["lastname"],
 							"email"			=> $val["email"],
+							"access"		=> $txt_access,
 							"obj_id"		=> $val["usr_id"]
 						);
 		}
@@ -471,7 +489,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		//$header_params = array("ref_id" => $this->ref_id);
 		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		$tbl->setColumnWidth(array("","25%","25$%","25%","25%"));
+		$tbl->setColumnWidth(array("","20%","20%","20%","20%","20%"));
 		
 		$tbl->enable("select_all");
 		$tbl->setFormName("cmd");
@@ -487,8 +505,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		#$tbl->disable("footer");
-
+		
 		// render table
 		$tbl->render();
 		
@@ -505,7 +522,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 				$this->tpl->setCurrentBlock("checkbox");
 				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
-				//$this->tpl->setVariable("CHECKED", $checked);
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 
@@ -529,6 +545,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						$this->tpl->setVariable("LINK_TARGET", $link);
 						$this->tpl->parseCurrentBlock();
 						$this->tpl->touchBlock("end_link");
+					}
+					
+					if ($key == "access")
+					{
+						if ($val == $this->lng->txt("access_unlimited"))
+						{
+							$val = "<span class=\"smallgreen\">".$val."</span>";
+						}
+						elseif ($val == $this->lng->txt("access_expired"))
+						{
+							$val = "<span class=\"smallred\">".$val."</span>";
+						}
+						else
+						{
+							$val = "<span class=\"small\">".$val."</span>";
+						}
 					}
 
 					$this->tpl->setCurrentBlock("text");
@@ -2608,6 +2640,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$action[-1] = $this->lng->txt('all_users');
 		$action[1] = $this->lng->txt('usr_active_only');
 		$action[0] = $this->lng->txt('usr_inactive_only');
+		$action[2] = $this->lng->txt('usr_limited_access_only');
 
 		return  ilUtil::formSelect($_SESSION['user_filter'],"user_filter",$action,false,true);
 	}

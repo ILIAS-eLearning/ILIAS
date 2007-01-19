@@ -1,4 +1,23 @@
-<form action="{FORMACTION}" name="objectItems" method="post">
+<script type="text/javascript">
+<!--
+function setCheckboxes(a_form, a_varname, a_elements)
+{
+	if (document.forms[a_form].elements[a_varname].checked == false)
+		check = false;
+	else
+		check = true;
+
+	for(i=0;i<a_elements.length;i++) {
+		if (typeof(document.forms[a_form].elements[a_varname + a_elements[i]]) != 'undefined') {
+    		document.forms[a_form].elements[a_varname + a_elements[i]].checked = check;
+    	}
+    }
+
+    return true;
+}
+//-->
+</script>
+<form action="{FORMACTION}" name="ObjectItems" method="post">
 <table class="il_InfoScreen">
 <tr class="tbltitle">
 	<th class="std" colspan="{COLSPAN}">
@@ -37,6 +56,11 @@
 <!-- BEGIN perm_table -->
   <td>
     <table>
+<!-- BEGIN chk_toggle_create -->
+      <tr>
+        <td><input type="checkbox" name="perm_{ROLE_ID}_" value="{ROLE_ID}" id="perm_{ROLE_ID}_" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK}); return true;" /></td>
+        <td style="font-size:80%"><label for="perm_{ROLE_ID}_" title="{PERM_TOOLTIP}">{PERM_NAME}</label></td>
+<!-- END chk_toggle_create -->
 <!-- BEGIN perm_item -->
       <tr>
         <td>{PERM_CHECKBOX}</td>

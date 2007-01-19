@@ -33,6 +33,8 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   <td class="std" colspan="4">
 <!-- BEGIN obj_action_toggle_checkboxes -->
 	<div class="il_ContainerItemCommands" style="float:right;">
+		<input type="checkbox" name="recursive_list[]" value="{OBJ_TYPE}" id="change_{OBJ_TYPE}" />
+		<label for="change_{OBJ_TYPE}" title="{CHANGE_PERM_OBJ_TYPE_DESC}">{CHANGE_PERM_OBJ_TYPE}</label>
 		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
 		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
 	</div>
@@ -58,16 +60,25 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	</td>
   </tr>
 <!-- END tblfooter_sysrole -->
+<!-- BEGIN tblfooter_special_options -->
+  <tr class="tblheader">
+  <td class="std" colspan="4">
+	{TXT_PERM_SPECIAL_OPTIONS}
+	</td>
+  </tr>
+<!-- END tblfooter_special_options -->
 <!-- BEGIN tblfooter_recursive -->
   <tr class="tblfooter">
-	<td class="std" align="left" colspan="{COL_ANZ}">{CHECK_BOTTOM}</td>
-	<td class="std"><font color="red"><label for="recursive">{MESSAGE_TABLE}</label></font></td>
+	<td class="std" align="left" colspan="2">{CHECK_RECURSIVE}</td>
+	<td class="std" nowrap="nowrap"><span class="alert"><label for="recursive">{TXT_RECURSIVE}</label></span></td>
+	<td><span class="small">{TXT_RECURSIVE_DESC}</span></td>
   </tr>
 <!-- END tblfooter_recursive -->
 <!-- BEGIN tblfooter_protected -->
   <tr class="tblfooter">
-	<td class="std" align="left" colspan="{COL_ANZ}">{CHECK_BOTTOM}</td>
-	<td class="std"><font color="red"><label for="protected">{MESSAGE_TABLE}</label></font></td>
+	<td class="std" align="left" colspan="2">{CHECK_PROTECTED}</td>
+	<td class="std" nowrap="nowrap"><span class="alert"><label for="protected">{TXT_PROTECTED}</label></span></td>
+	<td><span class="small">{TXT_PROTECTED_DESC}</span></td>
   </tr>
 <!-- END tblfooter_protected -->
 <!-- BEGIN tblfooter_standard -->

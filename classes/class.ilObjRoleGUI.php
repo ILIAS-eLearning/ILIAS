@@ -602,8 +602,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$output["col_anz"] = count($rbac_objects);
 		$output["txt_save"] = $this->lng->txt("save");
-		$output["check_bottom"] = ilUtil::formCheckBox(0,"recursive",1);
-		$output["message_table"] = $this->lng->txt("change_existing_objects");
+		$output["check_recursive"] = ilUtil::formCheckBox(0,"recursive",1);
+		$output["text_recursive"] = $this->lng->txt("change_existing_objects");
+		$output["text_recursive_desc"] = $this->lng->txt("change_existing_objects_desc");
 		
 		$protected_disabled = true;
 		
@@ -618,6 +619,7 @@ class ilObjRoleGUI extends ilObjectGUI
 															$protected_disabled);
 		
 		$output["text_protected"] = $this->lng->txt("role_protect_permissions");
+		$output["text_protected_desc"] = $this->lng->txt("role_protect_permissions_desc");
 
 
 /************************************/
@@ -709,7 +711,22 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_enabled_or_configured").")");
 			}
-			
+
+			// option: change permissions of exisiting objects of that type
+			$this->tpl->setVariable("OBJ_TYPE",$obj_data["type"]);
+			$this->tpl->setVariable("CHANGE_PERM_OBJ_TYPE_DESC",$this->lng->txt("change_existing_object_type_desc"));
+
+			// use different Text for system objects		
+			if ($objDefinition->isSystemObject($obj_data["type"]))
+			{
+				$this->tpl->setVariable("CHANGE_PERM_OBJ_TYPE",$this->lng->txt("change_existing_prefix_single")." ".$this->lng->txt("obj_".$obj_data["type"])." ".$this->lng->txt("change_existing_suffix_single"));
+
+			}
+			else
+			{
+				$this->tpl->setVariable("CHANGE_PERM_OBJ_TYPE",$this->lng->txt("change_existing_prefix")." ".$this->lng->txt("objs_".$obj_data["type"])." ".$this->lng->txt("change_existing_suffix"));
+			}
+
 			// js checkbox toggles
 			$this->tpl->setVariable("JS_VARNAME","template_perm_".$obj_data["type"]);
 			$this->tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($ops_ids));
@@ -741,17 +758,23 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("ADOPT",$this->lng->txt('copy'));
 			$this->tpl->parseCurrentBlock();
 			// END ADOPT PERMISSIONS
+			
+			$this->tpl->setCurrentBlock("tblfooter_special_options");
+			$this->tpl->setVariable("TXT_PERM_SPECIAL_OPTIONS",$this->lng->txt("perm_special_options"));
+			$this->tpl->parseCurrentBlock();
 		
 			$this->tpl->setCurrentBlock("tblfooter_recursive");
 			$this->tpl->setVariable("COL_ANZ",3);
-			$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
-			$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
+			$this->tpl->setVariable("CHECK_RECURSIVE",$this->data["check_recursive"]);
+			$this->tpl->setVariable("TXT_RECURSIVE",$this->data["text_recursive"]);
+			$this->tpl->setVariable("TXT_RECURSIVE_DESC",$this->data["text_recursive_desc"]);
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setCurrentBlock("tblfooter_protected");
 			$this->tpl->setVariable("COL_ANZ",3);
-			$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_protected"]);
-			$this->tpl->setVariable("MESSAGE_TABLE",$this->data["text_protected"]);
+			$this->tpl->setVariable("CHECK_PROTECTED",$this->data["check_protected"]);
+			$this->tpl->setVariable("TXT_PROTECTED",$this->data["text_protected"]);
+			$this->tpl->setVariable("TXT_PROTECTED_DESC",$this->data["text_protected_desc"]);
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("tblfooter_standard");
@@ -878,10 +901,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		// update object data entry (to update last modification date)
 		$this->object->update();
-
+		
 		// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
 		// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
-		if ($_POST["recursive"])
+		if ($_POST["recursive"] or is_array($_POST["recursive_list"]))
 		{
 			// IF ROLE IS A GLOBAL ROLE START AT ROOT
 			if ($this->rolf_ref_id == ROLE_FOLDER_ID)
@@ -951,15 +974,29 @@ class ilObjRoleGUI extends ilObjectGUI
 				}
 			}
 
-			// prepare arrays for permission settings below
+			// Prepare arrays for permission settings below	
 			foreach ($valid_nodes as $key => $node)
+			{
+				// To change only selected object types filter selected object types
+				if (is_array($_POST["recursive_list"]) and !in_array($node["type"],$_POST["recursive_list"]))
+				{
+					unset($valid_nodes[$key]);
+					continue;
+				}
+
+				$node_ids[] = $node["child"];
+				$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
+			}
+			
+			// prepare arrays for permission settings below
+			/*foreach ($valid_nodes as $key => $node)
 			{
 				#if(!in_array($node["type"],$to_filter))
 				{
 					$node_ids[] = $node["child"];
 					$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
 				}
-			}
+			}*/
 			
 			// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
 			$rbacadmin->revokePermissionList($node_ids,$this->object->getId());
@@ -1403,14 +1440,15 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
                 //build function
                 $member_functions = "<a href=\"".$link_contact."\">".$val_contact."</a>";
-				if($_GET["baseClass"] == 'iladministrationgui' && $_GET["admin_mode"] == "settings")
+
+				if (strtolower($_GET["baseClass"]) == 'iladministrationgui' && $_GET["admin_mode"] == "settings")
 				{
 					$member_functions .= "<a href=\"".$link_change."\">".$val_change."</a>";
 				}
 
                 if ($this->object->getId() != SYSTEM_ROLE_ID or $user["usr_id"] != SYSTEM_USER_ID)
                 {
-                    $member_functions .="<a href=\"".$link_leave."\">".$val_leave."</a>";
+                    $member_functions .= "<a href=\"".$link_leave."\">".$val_leave."</a>";
                 }
             }
 

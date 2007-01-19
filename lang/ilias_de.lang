@@ -41,6 +41,8 @@ administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
 administration#:#check_tree#:#Überprüfe Baumstruktur
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!
 administration#:#clean#:#Räume auf
+common#:#access_unlimited#:#unbefristet
+common#:#access_expired#:#abgelaufen
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
 administration#:#cleaning_final#:#Endgültig bereinigen...
@@ -1304,7 +1306,15 @@ common#:#chac_write#:#Chateinstellungen bearbeiten
 common#:#change#:#Ändern
 common#:#change_active_assignment#:#Aktive Zuweisung ändern
 common#:#change_assignment#:#Zuweisung ändern
+common#:#perm_special_options#:#Spezielle Optionen
 common#:#change_existing_objects#:#Vorhandene Objekte ändern
+common#:#change_existing_objects_desc#:#Die Rechteeinstellungen von dieser Rolle werden auf ALLE vorhandenen Objekte übertragen. Um die Rechte einzelner Objekttypen anzupassen, klicken Sie bitte die jeweiligen Checkboxen auf der rechten Seite an.
+common#:#role_protect_permissions_desc#:#Die eingestellten Objektrechte für diese Rolle werden durch Systemoperationen nicht mehr verändert. Ausserdem können nur höherstehende Administratoren die Rechte anpassen.
+common#:#change_existing_prefix#:#Vorhandene
+common#:#change_existing_suffix#:#ändern
+common#:#change_existing_prefix_single#:#&nbsp;
+common#:#change_existing_suffix_single#:#anpassen
+common#:#change_existing_object_type_desc#:#Ändere auch die Rechte von bereits vorhandenen Objekten dieses Typs
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
@@ -2703,6 +2713,7 @@ common#:#obj_type#:#Objekttyp
 common#:#obj_url#:#URL
 common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
+common#:#obj_user#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#obj_webr#:#Web-Links
@@ -2814,16 +2825,16 @@ common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
 common#:#pays_write#:#Paymenteinstellungen bearbeiten
 common#:#pdf_export#:#PDF-Export
 common#:#per_object#:#Zugriff per Objekt
-common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.###10 Jul 2006 new variable
-common#:#perm_role_info_2#:#If you want to change the permissions of role '%s' for all already existing objects underneath '%s' you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
-common#:#perm_role_info_glob_1#:#This form determines the permissions of role '%s' for newly created objects in the repository.###10 Jul 2006 new variable
-common#:#perm_role_info_glob_2#:#If you want to change the permissions of role '%s' for all existing objects in the repository you must check the option 'Change Existing Objects' at the bottom of the screen.###10 Jul 2006 new variable
+common#:#perm_role_info_1#:#In diesem Formular werden die Rechtevorgaben von der Rolle '%s' für neuangelegten Objekte im Magazin eingestellt.
+common#:#perm_role_info_2#:#Wenn Sie alle Rechtevorgaben auf bereits vorhandene Objekte übertragen möchten, wählen Sie bitte die Option 'Bestehende Objekte ändern' an ganz unten in diesem Formular
+common#:#perm_role_info_glob_1#:#In diesem Formular werden die Rechtevorgaben von der Rolle '%s' für neuangelegten Objekte im Magazin eingestellt.
+common#:#perm_role_info_glob_2#:#Wenn Sie alle Rechtevorgaben auf bereits vorhandene Objekte übertragen möchten, wählen Sie bitte die Option 'Bestehende Objekte ändern' an. Sie finden Sie am ende dieses Formulars.
 common#:#perm_settings#:#Rechte
 common#:#perma_link#:#Link zu dieser Seite
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#permission_settings#:#Rechteeinstellungen
-common#:#permission_settings_info#:#This form determines which role is allowed to do what with the current object '%s'.###10 Jul 2006 new variable
+common#:#permission_settings_info#:#In diesem Formular stellen Sie die Zugriffsrechte für jede Rolle auf das aktuelle Objekt '%s' ein.
 common#:#person_title#:#Titel
 common#:#personal_data#:#Daten zur Person
 common#:#personal_desktop#:#Persönlicher Schreibtisch
@@ -3257,6 +3268,7 @@ common#:#time_limits#:#Zugang
 common#:#time_segment#:#Zeitraum
 common#:#title#:#Titel
 common#:#to#:#Bis
+common#:#access_until#:#Zugang bis
 common#:#to_client_list#:#Zur Mandantenauswahl
 common#:#to_desktop#:#Auf den Schreibtisch
 common#:#today#:#Heute
@@ -3409,7 +3421,8 @@ common#:#usr_agreement#:#Nutzungsvereinbarung
 common#:#usr_agreement_empty#:#Die Nutzungsvereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
-common#:#usr_inactive_only#:#Nur nicht-aktive Nutzer
+common#:#usr_inactive_only#:#Nur nicht-aktive Benutzer
+common#:#usr_limited_access_only#:#Nur Benutzer mit Zugangsbefristung
 common#:#usr_new#:#Neuer Benutzer
 common#:#usr_settings_explanation_profile#:#Wird 'Sichtbar' aktiviert, erscheint ein Datenfeld im Registrierformular und im persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das persönliche Profil und bewirkt, dass der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Registrierung als auch im persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können alle Daten in der Benutzeradministration geändert werden.
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
@@ -5752,6 +5765,18 @@ registration#:#reg_settings_header#:#Einstellungen für die Neuanmeldung
 registration#:#reg_type#:#Registrierungsart
 registration#:#reg_unknown_recipients#:#Die folgenden Benutzer sind nicht gültig:
 registration#:#registration_settings#:#Neuanmeldungen
+registration#:#reg_access_limitations#:#Zugangsbefristung
+registration#:#reg_enable_access_limitations#:#Befristeten Zugang aktivieren
+registration#:#reg_access_limitation_limited_until#:#Zugang ist befristet bis zum
+registration#:#reg_access_limitation_limited_time#:#Zugang ab Anmeldedatum für
+registration#:#reg_access_limitation_none#:#unbefristeter Zugang
+registration#:#reg_access_limitation_missing_mode#:#Bitte für alle Rollen die Art der Zugangsbefristung auswählen
+registration#:#reg_access_limitation_out_of_date#:#Für eine oder mehrere Rollen ist die Zugangsfrist bereits abgelaufen oder endet heute!
+registration#:#reg_role_access_limitations#:#Zugangfristen für Rollen festlegen
+registration#:#reg_access_limitation_mode#:#Art der Zugangsbefristung
+registration#:#reg_access_limitation_mode_unlimited#:#Ohne Zugangbefristung
+registration#:#reg_access_limitation_mode_absolute#:#Befristeter Zugang mit festem Ablaufdatum
+registration#:#reg_access_limitation_mode_relative#:#Befristete Zugriffsdauer ab Anmeldedatum
 search#:#add_members_header#:#Benutzer hinzufügen
 search#:#append_results#:#Ergebnisse anhängen
 search#:#search_active#:#Aktive Benutzer

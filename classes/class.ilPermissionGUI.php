@@ -873,9 +873,35 @@ class ilPermissionGUI
 			$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_create_desc'));
 			$this->tpl->setVariable("COLSPAN", $this->num_roles);
 			$this->tpl->parseCurrentBlock();
+			
+			// add a checkbox 'select all' for create permissions of the following object types
+			$container_arr = array('cat','grp','crs','fold');
+			
+			if (in_array($this->gui_obj->object->getType(),$container_arr))
+			{
+				$chk_toggle_create = true;
+			}
 	
 			foreach ($this->roles as $role)
 			{
+				$ops_ids = array();
+				
+				foreach ($role['permissions']['create'] as $perm)
+				{
+					$ops_ids[] = $perm['ops_id'];
+				}
+				
+				if ($chk_toggle_create)
+				{
+					$this->tpl->setCurrentBlock('chk_toggle_create');
+					$this->tpl->setVariable('PERM_NAME',$this->lng->txt('check_all')."/".$this->lng->txt('uncheck_all'));
+					$this->tpl->setVariable('PERM_TOOLTIP',$this->lng->txt('check_all'));
+					$this->tpl->setVariable('ROLE_ID',$role['obj_id']);
+					$this->tpl->setVariable('JS_VARNAME','perm_'.$role['obj_id']);
+					$this->tpl->setVariable('JS_ONCLICK',ilUtil::array_php2js($ops_ids));
+					$this->tpl->parseCurrentBlock();
+				}				
+				
 				foreach ($role['permissions']['create'] as $perm)
 				{
 					if ($perm["name"] == "create_icrs" and !$this->ilias->getSetting("ilinc_active"))
