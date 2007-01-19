@@ -129,7 +129,7 @@ class ilObjiLincUser
 	
 		// convert non-allowed chars in login to <underscore>
 		// not allowed: ~!@#$%^&*()`-=+[]{};:'\|/?<>,
-		$result = preg_replace('@[^a-zA-Z0-9_]@','_',$_POST["input"]);
+		$result = preg_replace('@[^a-zA-Z0-9_]@','_',$chars);
 
 		$data["login"] = $result."_".$a_user_id."_".$a_inst_id."_".time();
 		$data["passwd"] = md5(microtime().$a_user_login.rand(10000, 32000));
