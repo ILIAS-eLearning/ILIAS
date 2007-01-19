@@ -414,7 +414,7 @@ $log->write("ilRBACadmin::revokePermission(), 2");
 	{
 		if (!isset($a_ref_ids) or !is_array($a_ref_ids))
 		{
-			$message = get_class($this)."::revokePermissionList(): Missing parameter or parameter is not an array! object_list: ".$a_obj_ids;
+			$message = get_class($this)."::revokePermissionList(): Missing parameter or parameter is not an array! reference_list: ".var_dump($a_ref_ids);
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
