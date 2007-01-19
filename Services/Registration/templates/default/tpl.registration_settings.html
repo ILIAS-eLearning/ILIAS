@@ -1,3 +1,18 @@
+<script type="text/javascript">
+<!--
+function toggleAccessLimitations(form)
+{
+	if (form.reg_access_limitation.checked)
+	{
+		document.getElementById("display_access_limitation").style.display = "block";
+	}
+	else
+	{
+		document.getElementById("display_access_limitation").style.display = "none";
+	}
+}
+//-->
+</script>
 	<form class="il_Form" name="cmd" method="post" action="{FORMACTION}">
 	  <table class="fullwidth">
 		<tr class="tblheader">
@@ -54,6 +69,25 @@
 			<!-- END auto -->
 		  </td>
 		</tr>
+		
+		<tr class="std">
+		  <td class="option" align="top">{TXT_REG_ACCESS_LIMITATIONS}</td>
+		  <td class="option_value">
+		    <input type="checkbox" name="reg_access_limitation"  value="1" id="reg_access_limitation" onclick="toggleAccessLimitations(document.cmd)"{REG_ACCESS_LIMITATION_CHECK} />
+		    <label for="reg_access_limitation">{TXT_ENABLE_ACCESS_LIMITATIONS}</label>
+			<div id="display_access_limitation" style="display:{CSS_DISPLAY_ACCESS_LIMITATION}">
+			{TXT_AVAILABLE}&nbsp;{NONE}&nbsp;<a class="il_ContainerItemCommand" href="{LINK_EDIT_ACCESS_LIMITATIONS}">{EDIT}</a>
+			<!-- BEGIN access_limitation -->
+			<ul>
+			  <!-- BEGIN access_limitation_item -->
+			  <li>{ACCESS_LIMITATION_ITEM_TITLE}&nbsp;({ACCESS_LIMITATION_VALUE})&nbsp;</li>
+			  <!-- END access_limitation_item -->
+			</ul>	
+			<!-- END access_limitation -->
+			</div>
+		  </td>
+		</tr>		
+
 		<tr>
 		  <td class="submit" colspan="3" align="right">
 			<input type="submit" class="submit" name="cmd[save]" value="{TXT_SAVE}" />

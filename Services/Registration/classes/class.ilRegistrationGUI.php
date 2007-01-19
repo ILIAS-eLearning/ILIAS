@@ -488,10 +488,45 @@ class ilRegistrationGUI
 		$this->userObj->setDescription($this->userObj->getEmail());
 
 		// Time limit
-		$this->userObj->setTimeLimitOwner(USER_FOLDER_ID);
-		$this->userObj->setTimeLimitUnlimited(1);
+		$this->userObj->setTimeLimitOwner(7);
+		
+		if ($this->registration_settings->getAccessLimitation())
+		{
+			include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
+
+			$access_limitations_obj = new ilRegistrationRoleAccessLimitations();
+			
+			$access_limit_mode = $access_limitations_obj->getMode($_POST['user']['default_role']);
+			
+			if ($access_limit_mode == 'absolute')
+			{
+				$access_limit = $access_limitations_obj->getAbsolute($_POST['user']['default_role']);
+				$this->userObj->setTimeLimitUnlimited(0);
+				$this->userObj->setTimeLimitUntil($access_limit);
+			}
+			elseif ($access_limit_mode == 'relative')
+			{
+				$rel_d = (int) $access_limitations_obj->getRelative($_POST['user']['default_role'],'d');
+				$rel_m = (int) $access_limitations_obj->getRelative($_POST['user']['default_role'],'m');
+				$rel_y = (int) $access_limitations_obj->getRelative($_POST['user']['default_role'],'y');
+				
+				$access_limit = $rel_d * 86400 + $rel_m * 2592000 + $rel_y * 31536000 + time();
+				$this->userObj->setTimeLimitUnlimited(0);
+				$this->userObj->setTimeLimitUntil($access_limit);
+			}
+			else
+			{
+				$this->userObj->setTimeLimitUnlimited(1);
+				$this->userObj->setTimeLimitUntil(time());
+			}			
+		}
+		else
+		{
+			$this->userObj->setTimeLimitUnlimited(1);
+			$this->userObj->setTimeLimitUntil(time());
+		}
+
 		$this->userObj->setTimeLimitFrom(time());
-		$this->userObj->setTimeLimitUntil(time());
 
 		$this->userObj->setUserDefinedData($_POST['udf']);
 		$this->userObj->create();

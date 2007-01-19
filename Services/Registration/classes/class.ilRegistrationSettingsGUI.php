@@ -98,16 +98,19 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setVariable("TXT_APPROVE_REC",$this->lng->txt('approve_recipient'));
 		$this->tpl->setVariable("TXT_REG_NOTIFICATION",$this->lng->txt('reg_notification'));
 		$this->tpl->setVariable("REG_NOTIFICATION_DESC",$this->lng->txt('reg_notification_info'));
-
 		$this->tpl->setVariable("TXT_REG_EMAIL",$this->lng->txt('reg_email'));
-		
+
+		$this->tpl->setVariable("TXT_REG_ACCESS_LIMITATIONS",$this->lng->txt('reg_access_limitations'));
+		$this->tpl->setVariable("TXT_ENABLE_ACCESS_LIMITATIONS",$this->lng->txt('reg_enable_access_limitations'));
 
 		$this->tpl->setVariable("EDIT",$this->lng->txt('edit'));
 		$this->tpl->setVariable("LINK_EDIT_FIXED",$this->ctrl->getLinkTarget($this,'editRoles'));
 		$this->tpl->setVariable("LINK_EDIT_EMAIL",$this->ctrl->getLinkTarget($this,'editEmailAssignments'));
+		$this->tpl->setVariable("LINK_EDIT_ACCESS_LIMITATIONS",$this->ctrl->getLinkTarget($this,'editRoleAccessLimitations'));
 
 		$this->__prepareRoleList();
 		$this->__prepareAutomaticRoleList();
+		$this->__prepareAccessLimitationRoleList();
 
 		// pwd forwarding
 		$this->tpl->setVariable("TXT_REG_PWD_FORWARD",$this->lng->txt('passwd_generation'));
@@ -139,6 +142,17 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setVariable("RADIO_EMAIL",ilUtil::formRadioButton($this->registration_settings->automaticRoleAssignmentEnabled(),
 																	   'reg_role_type',
 																	   IL_REG_ROLES_EMAIL));
+        // access limitation
+        if ($this->registration_settings->getAccessLimitation())
+        {
+            $this->tpl->setVariable("REG_ACCESS_LIMITATION_CHECK","checked=\"checked\"");
+            $this->tpl->setVariable("CSS_DISPLAY_ACCESS_LIMITATION","block");
+        }
+        else
+        {
+        	$this->tpl->setVariable("CSS_DISPLAY_ACCESS_LIMITATION","none");
+        }
+
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
 	}
 
@@ -155,6 +169,7 @@ class ilRegistrationSettingsGUI
 		$this->registration_settings->setPasswordGenerationStatus((int) $_POST['reg_pwd']);
 		$this->registration_settings->setApproveRecipientLogins(ilUtil::stripSlashes($_POST['reg_approver']));
 		$this->registration_settings->setRoleType((int) $_POST['reg_role_type']);
+		$this->registration_settings->setAccessLimitation((int) $_POST['reg_access_limitation']);
 
 		if($error_code = $this->registration_settings->validate())
 		{
@@ -281,8 +296,56 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setVariable("DEF_CSSROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow1'));
 		$this->tpl->setVariable("TXT_DEFAULT",$this->lng->txt('default'));
 		$this->tpl->setVariable("DEF_ROLE",$this->__buildRoleSelection(-1));
-
+	}
+	
+	function editRoleAccessLimitations()
+	{
+		global $lng,$ilAccess,$ilErr,$rbacreview;
 		
+		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
+		}
+
+		$this->__initRoleAccessLimitations();
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.reg_role_access_limitations.html','Services/Registration');
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_REG_ROLE_ACCESS_LIMITATIONS",$lng->txt('reg_role_access_limitations'));
+		$this->tpl->setVariable("TXT_ROLE",$lng->txt('obj_role'));
+		$this->tpl->setVariable("TXT_ACCESS_LIMITATION_MODE",$lng->txt('reg_access_limitation_mode'));
+
+		$this->tpl->setVariable("BTN_SAVE",$lng->txt('save'));
+		$this->tpl->setVariable("BTN_CANCEL",$lng->txt('cancel'));
+
+		$counter = 0;
+		include_once './classes/class.ilObjRole.php';
+			
+		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
+		{
+			$this->tpl->setCurrentBlock("roles");
+			$this->tpl->setVariable("CSSROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow1'));
+			$this->tpl->setVariable("ROLE_ID",$role['id']);
+			$this->tpl->setVariable("ROLE_TITLE",$role['title']);
+			$this->tpl->setVariable("SEL_ACCESS_LIMITATION",$this->__buildAccessLimitationSelection($role['id']));
+			$this->tpl->setVariable("CSS_DISPLAY_ABSOLUTE",($this->access_limitations_obj->getMode($role['id']) == 'absolute') ? 'inline' : 'none');
+			$this->tpl->setVariable("CSS_DISPLAY_RELATIVE",($this->access_limitations_obj->getMode($role['id']) == 'relative') ? 'inline' : 'none');
+			$this->tpl->setVariable("CSS_DISPLAY_UNLIMITED",($this->access_limitations_obj->getMode($role['id']) == 'unlimited') ? 'inline' : 'none');
+			$this->tpl->setVariable("TXT_ACCESS_LIMITATION_UNLIMITED", $lng->txt('reg_access_limitation_none'));
+			
+			$date = $this->__prepareDateSelect($this->access_limitations_obj->getAbsolute($role['id']));
+			$this->tpl->setVariable("SEL_ACCESS_LIMITATION_ABSOLUTE",ilUtil::makeDateSelect('access_limitation_absolute_'.$role['id'],$date['y'],$date['m'],$date['d'],'2007'));
+			
+			$this->tpl->setVariable("TXT_DAYS",$lng->txt('days'));
+			$this->tpl->setVariable("TXT_MONTHS",$lng->txt('months'));
+			$this->tpl->setVariable("TXT_YEARS",$lng->txt('years'));
+			
+			$this->tpl->setVariable("DAYS",$this->access_limitations_obj->getRelative($role['id'],'d'));
+			$this->tpl->setVariable("MONTHS",$this->access_limitations_obj->getRelative($role['id'],'m'));
+			$this->tpl->setVariable("YEARS",$this->access_limitations_obj->getRelative($role['id'],'y'));
+			$this->tpl->parseCurrentBlock();			
+		}
 	}
 
 	function addAssignment()
@@ -377,6 +440,51 @@ class ilRegistrationSettingsGUI
 		$this->view();
 		return true;
 	}
+	
+	function saveRoleAccessLimitations()
+	{
+		global $ilAccess,$ilErr,$rbacreview;
+		
+		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
+		}
+
+		$this->__initRoleAccessLimitations();
+		
+		include_once './classes/class.ilObjRole.php';
+
+		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
+		{
+			$this->access_limitations_obj->setMode($_POST['access_limitation_mode_'.$role['id']],$role['id']);
+			$this->access_limitations_obj->setAbsolute($_POST['access_limitation_absolute_'.$role['id']],$role['id']);
+			$this->access_limitations_obj->setRelative($_POST['access_limitation_relative_'.$role['id']],$role['id']);
+		}
+		
+		//var_dump("<pre>",$_POST,$this->access_limitations_obj->getAbsolute(4),time(),"</pre>");exit;
+		
+		if($err = $this->access_limitations_obj->validate())
+		{
+			switch($err)
+			{
+				case IL_REG_ACCESS_LIMITATION_MISSING_MODE:
+					sendInfo($this->lng->txt('reg_access_limitation_missing_mode'));
+					break;
+					
+				case IL_REG_ACCESS_LIMITATION_OUT_OF_DATE:
+					sendInfo($this->lng->txt('reg_access_limitation_out_of_date'));
+					break;
+			}
+			$this->editRoleAccessLimitations();
+			return false;
+		}
+
+
+		$this->access_limitations_obj->save();
+		sendInfo($this->lng->txt('settings_saved'));
+		$this->view();
+		return true;
+	}
 
 
 	function __prepareRoleList()
@@ -406,6 +514,7 @@ class ilRegistrationSettingsGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+
 		if(strlen($this->assignments_obj->getDefaultRole()))
 		{
 			$this->tpl->setCurrentBlock("auto_item");
@@ -418,7 +527,84 @@ class ilRegistrationSettingsGUI
 		$this->tpl->parseCurrentBlock();
 
 	}
+	
+	function __prepareAccessLimitationRoleList()
+	{
+		global $lng;
+		
+		$this->__initRoleAccessLimitations();
+		
+		include_once './classes/class.ilObjRole.php';
 
+		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
+		{
+			$this->tpl->setCurrentBlock("access_limitation_item");
+			$this->tpl->setVariable("ACCESS_LIMITATION_ITEM_TITLE",$role['title']);
+			
+			switch ($this->access_limitations_obj->getMode($role['id']))
+			{
+				case 'absolute':
+					$txt_access_value = $lng->txt('reg_access_limitation_limited_until');
+					$txt_access_value .= " ".ilFormat::formatUnixTime($this->access_limitations_obj->getAbsolute($role['id']));
+					break;
+				
+				case 'relative':
+					$years = $this->access_limitations_obj->getRelative($role['id'],'y');
+					$months = $this->access_limitations_obj->getRelative($role['id'],'m');
+					$days = $this->access_limitations_obj->getRelative($role['id'],'d');
+					
+					$txt_access_value = $lng->txt('reg_access_limitation_limited_time')." ";
+					
+					if ($years)
+					{
+						$txt_access_value .= $years." ";
+						$txt_access_value .= ($years == 1) ? $lng->txt('year') : $lng->txt('years');
+						
+						if ($months)
+						{
+							if ($days)
+							{
+								$txt_access_value .= ", ";
+							}
+							else
+							{
+								$txt_access_value .= " ".$lng->txt('and')." ";
+							}
+						}
+						elseif ($days)
+						{
+							$txt_access_value .= " ".$lng->txt('and')." ";
+						}
+					}
+					
+					if ($months)
+					{
+						$txt_access_value .= $months." ";
+						$txt_access_value .= ($months == 1) ? $lng->txt('month') : $lng->txt('months');
+						
+						if ($days)
+						{
+							$txt_access_value .= " ".$lng->txt('and')." ";
+						}
+					}
+					
+					if ($days)
+					{
+						$txt_access_value .= $days." ";
+						$txt_access_value .= ($days == 1) ? $lng->txt('day') : $lng->txt('days');
+					}
+					break;
+					
+				default:
+					$txt_access_value = $lng->txt('reg_access_limitation_none');
+					break;
+			}
+			
+			$this->tpl->setVariable("ACCESS_LIMITATION_VALUE",$txt_access_value);
+			$this->tpl->setVariable("EDIT_ITEM",$lng->txt('edit'));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 
 	function __initRoleAssignments()
 	{
@@ -430,6 +616,18 @@ class ilRegistrationSettingsGUI
 		include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
 
 		$this->assignments_obj = new ilRegistrationRoleAssignments();
+	}
+	
+	function __initRoleAccessLimitations()
+	{
+		if(is_object($this->access_limitations_obj))
+		{
+			return true;
+		}
+
+		include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
+
+		$this->access_limitations_obj = new ilRegistrationRoleAccessLimitations();
 	}
 
 	function __buildRoleSelection($assignment_id)
@@ -470,6 +668,37 @@ class ilRegistrationSettingsGUI
 									  "default_role",
 									  $roles,false,true);
 		}			
+	}
+	
+	function __buildAccessLimitationSelection($a_role_id)
+	{
+		global $lng;
+
+		$options = array(
+						'null'		=> $lng->txt('please_choose'),
+						'unlimited' => $lng->txt('reg_access_limitation_mode_unlimited'),
+						'absolute'	=> $lng->txt('reg_access_limitation_mode_absolute'),
+						'relative'	=> $lng->txt('reg_access_limitation_mode_relative')
+						);
+		
+		$attribs = array('onchange' => 'displayAccessLimitationSelectionForm(document.cmd.access_limitation_mode_'.$a_role_id.','.$a_role_id.')');
+
+		$selected = $this->access_limitations_obj->getMode($a_role_id);
+
+		return ilUtil::formSelect($selected,'access_limitation_mode_'.$a_role_id,$options,false,true,0,"",$attribs);
+		
+	}
+	
+	function __prepareDateSelect($a_unix_time)
+	{
+		if (!$a_unix_time)
+		{
+			$a_unix_time = time();
+		}
+
+		return array('y' => date('Y',$a_unix_time),
+					 'm' => date('n',$a_unix_time),
+					 'd' => date('d',$a_unix_time));
 	}
 }
 ?>
