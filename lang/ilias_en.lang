@@ -6953,10 +6953,20 @@ ps#:#ps_cdf_name#:#Name
 ps#:#ps_cdf_type#:#Type
 ps#:#ps_cdf_required#:#Required Field
 ps#:#ps_cdf_no_fields#:#No User Fields Defined
-ps#:#ps_field_type#:#
+ps#:#ps_field_type#:#Field Type
 ps#:#ps_type_txt_long#:#Text Field (Optional Values)
-ps#:#ps_type_select_long#:#Select Field (Fixed Values)
+ps#:#ps_type_select_long#:#Selection Box (Fixed Values)
 ps#:#ps_new_text_field#:#Add new Text Field
 ps#:#ps_name_field#:#Name
 ps#:#ps_type_text#:#Text Field
-ps#:#ps_type_select#:#Select Field
+ps#:#ps_type_select#:#Selection Box
+ps#:#ps_new_select_field#:#New Selection Box
+ps#:#ps_cdf_value#:#Value
+ps#:#ps_btn_add_value#:#New Value
+ps#:#ps_cdf_no_name_given#:#Please enter a name.
+ps#:#ps_cdf_added_field#:#Added new selection box.
+ps#:#ps_cdf_select_one#:#Please select one.
+ps#:#ps_cdf_delete_sure#:#Do you really want to delete these user fields ?
+ps#:#ps_cdf_deleted#:#Deleted user fields
+ps#:#ps_edit_select_field#:#Edit Selection Box
+ps#:#ps_cdf_deleted_field#:#Deleted value.

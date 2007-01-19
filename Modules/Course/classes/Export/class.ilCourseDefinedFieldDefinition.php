@@ -111,7 +111,7 @@ class ilCourseDefinedFieldDefinition
 	 * @param int container obj_id
 	 * @return array array of ilCourseDefinedFieldDefinitions objects
 	 */
-	public static function _getFields($a_container_id,$a_sort = IL_CDF_SORT_ID)
+	public static function _getFields($a_container_id,$a_sort = IL_CDF_SORT_NAME)
 	{
 		foreach(ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id,$a_sort) as $field_id)
 	 	{
@@ -119,6 +119,7 @@ class ilCourseDefinedFieldDefinition
 	 	}
 		return $fields ? $fields : array();	
 	}
+	
 	
 	/**
 	 * Get all field ids of a container
@@ -185,6 +186,65 @@ class ilCourseDefinedFieldDefinition
 	}
 	
 	/**
+	 * Prepare values from POST
+	 *
+	 * @param array array of values
+	 * @access public
+	 */
+	public function prepareValues($a_values)
+	{
+		$tmp_values = array();
+		
+		if(!is_array($a_values))
+		{
+			return false;
+		}
+		foreach($a_values as $value)
+		{
+			$value = trim(ilUtil::stripSlashes($value));
+			if(strlen($value))
+			{
+				$tmp_values[] = $value;
+			}
+		}
+		sort($tmp_values);
+		return $tmp_values ? $tmp_values : array();
+	}
+	
+	/**
+	 * Append Values
+	 *
+	 * @access public
+	 */
+	public function appendValues($a_values)
+	{
+		if(!is_array($a_values))
+		{
+			return false;
+		}
+		$this->values = array_unique(array_merge($this->values,$a_values));
+		sort($this->values);
+		return true;
+	}
+	
+	/**
+	 * Delete value by id
+	 *
+	 * @access public
+	 */
+	public function deleteValue($a_id)
+	{
+		if(!isset($this->values[$a_id]))
+		{
+			return false;
+		}
+		unset($this->values[$a_id]);
+		array_merge($this->values);
+		$this->update();
+		return true;
+	}
+	
+	/**
 	 * Save
 	 *
 	 * @access public
@@ -215,7 +275,7 @@ class ilCourseDefinedFieldDefinition
 	 		"SET field_name = ".$this->db->quote($this->getName()).", ".
 	 		"field_type = ".$this->db->quote($this->getType()).", ".
 	 		"field_values = '".addslashes(serialize($this->getValues()))."', ".
-	 		"field_required = '".(int) $this->enableRequired()."' ".
+	 		"field_required = '".(int) $this->isRequired()."' ".
 	 		"WHERE field_id = ".$this->db->quote($this->getId())." ".
 	 		"AND obj_id = ".$this->db->quote($this->getObjId());
 	 	$this->db->query($query);
@@ -233,7 +293,6 @@ class ilCourseDefinedFieldDefinition
 	{
 	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
 	 	ilCourseUserData::_deleteByField($this->getId());
-		
 		
 	 	$query = "DELETE FROM crs_defined_field_definitions ".
 	 		"WHERE field_id = ".$this->db->quote($this->getId())." ";

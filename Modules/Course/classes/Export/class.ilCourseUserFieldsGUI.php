@@ -92,6 +92,10 @@ class ilCourseUserFieldsGUI
 	 */
 	public function show()
 	{
+		unset($_SESSION['il_cdf_delete']);
+		unset($_SESSION['il_cdf_select_num_values']);
+		
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_list.html','Modules/Course');
 		
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
@@ -115,15 +119,6 @@ class ilCourseUserFieldsGUI
 		$counter = 0;
 		foreach($fields as $field_obj)
 		{
-			$this->tpl->setCurrentBlock('table_content');
-			$this->tpl->setVariable('ROWCOL',ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			$this->tpl->setVariable('CHECKBOX',ilUtil::formCheckbox(0,'field_id[]',1));
-			$this->tpl->setVariable('NAME',$field_obj->getName());
-			$this->tpl->setVariable('TYPE',$field_obj->getType() == IL_CDF_TYPE_SELECT ?
-											$this->lng->txt('ps_type_select') :
-											$this->lng->txt('ps_type_text'));
-			$this->tpl->setVariable('',ilUtil::formCheckbox(0,'field_id['.$field_obj->getId().']',1));
-			
 			if($field_obj->getType() == IL_CDF_TYPE_SELECT)
 			{
 				$this->tpl->setCurrentBlock('show_edit');
@@ -135,6 +130,15 @@ class ilCourseUserFieldsGUI
 				$this->tpl->setVariable('EDIT',$this->lng->txt('edit'));
 				$this->tpl->parseCurrentBlock();
 			}
+
+			$this->tpl->setCurrentBlock('table_content');
+			$this->tpl->setVariable('ROWCOL',ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable('CHECKBOX',ilUtil::formCheckbox(0,'field_id[]',$field_obj->getId()));
+			$this->tpl->setVariable('NAME',$field_obj->getName());
+			$this->tpl->setVariable('TYPE',$field_obj->getType() == IL_CDF_TYPE_SELECT ?
+											$this->lng->txt('ps_type_select') :
+											$this->lng->txt('ps_type_text'));
+			$this->tpl->setVariable('REQUIRED',ilUtil::formCheckbox((int) $field_obj->isRequired(),'required[]',$field_obj->getId()));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
@@ -147,6 +151,203 @@ class ilCourseUserFieldsGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	/**
+	 * Edit field
+	 *
+	 * @access public
+	 */
+	public function editField()
+	{
+		$_SESSION['il_cdf_select_num_values'] = $_SESSION['il_cdf_select_num_values'] ? $_SESSION['il_cdf_select_num_values'] : 1; 
+		
+		if(!$_GET['field_id'])
+		{
+			sendInfo('No field given');
+			$this->show();
+			return false;
+		}
+		$cdf = new ilCourseDefinedFieldDefinition($this->obj_id,(int) $_GET['field_id']);
+		
+		$name = isset($_POST['cmd']) ? $_POST['field_name'] : $cdf->getName();
+		$required = isset($_POST['cmd']) ? $_POST['required'] : $cdf->isRequired();		
+
+		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_edit_select_field.html','Modules/Course');
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		
+		$this->tpl->setVariable('TXT_SELECT_TYPE',$this->lng->txt('ps_edit_select_field'));
+		$this->tpl->setVariable('TXT_FIELD_NAME',$this->lng->txt('ps_name_field'));
+		$this->tpl->setVariable('TXT_REQUIRED',$this->lng->txt('required_field'));
+		$this->tpl->setVariable('BTN_ADD',$this->lng->txt('save'));
+		$this->tpl->setVariable('BTN_PREVIOUS',$this->lng->txt('cancel'));
+		$this->tpl->setVariable('BTN_NEW_VALUE',$this->lng->txt('ps_btn_add_value'));
+		
+		$this->tpl->setVariable('REQUIRED',ilUtil::formCheckbox($required,'required',1));
+		$this->tpl->setVariable('FIELD_NAME_VALUE',$name);
+		
+		// Old values
+		$i = 1;
+		foreach($cdf->getValues() as $key => $value)
+		{
+			$this->ctrl->setParameter($this,'del_field',$i - 1);
+			
+			$this->tpl->setCurrentBlock('values');
+			
+			$this->ctrl->setParameter($this,'del_field',$i - 1);
+			$this->tpl->setVariable('DELETE',$this->lng->txt('delete'));
+			$this->tpl->setVariable('LINK_DELETE',$this->ctrl->getLinkTarget($this,'deleteField'));
+			$this->tpl->setVariable('FIELD_NAME',$value);
+			$this->tpl->setVariable("TXT_VALUES",$this->lng->txt('ps_cdf_value').' '.($i++));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// New values
+		for($j = 0; $j < $_SESSION['il_cdf_select_num_values'];$j++)
+		{
+			$this->tpl->setCurrentBlock('new_values');
+			$this->tpl->setVariable('COUNTER',$j);
+			$this->tpl->setVariable("TXT_NEW_VALUES",$this->lng->txt('ps_cdf_value').' '.($i + $j));
+			$this->tpl->setVariable("NEW_FIELD_NAME",$_POST['new_field_values'][$j]);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	/**
+	 * Delete field
+	 *
+	 * @access public
+	 */
+	public function deleteField()
+	{
+		if(!$_GET['field_id'])
+		{
+			sendInfo('No field given');
+			$this->show();
+			return false;
+		}
+		$cdf = new ilCourseDefinedFieldDefinition($this->obj_id,(int) $_GET['field_id']);
+		$cdf->deleteValue((int) $_GET['del_field']);
+		
+		sendInfo($this->lng->txt('ps_cdf_deleted_field'));
+		$this->editField();
+	}
+	
+
+	/**
+	 * Increment values
+	 *
+	 * @access public
+	 */
+	public function addNewValue()
+	{
+		$_SESSION['il_cdf_select_num_values'] += 1;
+		$this->editField();
+		return true;
+	}
+	
+	/**
+	 * Update Field
+	 *
+	 * @access public
+	 */
+	public function updateField()
+	{
+		if(!$_GET['field_id'])
+		{
+			sendInfo('No field given');
+			$this->show();
+			return false;
+		}
+		
+	 	$cdf = new ilCourseDefinedFieldDefinition($this->obj_id,$_GET['field_id']);
+	
+		if(!strlen($_POST['field_name']))
+		{
+			sendInfo($this->lng->txt('ps_cdf_no_name_given'));
+			$this->editField();
+			return false;
+		}
+
+		$values = $cdf->prepareValues($_POST['new_field_values']);
+		$cdf->appendValues($values);
+		$cdf->setName(ilUtil::stripSlashes($_POST['field_name']));
+		$cdf->enableRequired((int) $_POST['required']);
+		$cdf->update();
+		
+		sendInfo($this->lng->txt('settings_saved'));
+		$this->show();
+		return true;
+	}
+	
+	
+	
+	
+	/**
+	 * Confirm delete
+	 *
+	 * @access public
+	 */
+	public function confirmDelete()
+	{
+		if(!count($_POST['field_id']))
+		{
+			sendInfo($this->lng->txt('ps_cdf_select_one'));
+			$this->show();
+			return false;
+		}
+		
+		sendInfo($this->lng->txt('ps_cdf_delete_sure'));
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_confirm_delete.html','Modules/Course');
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('TXT_NAME',$this->lng->txt('ps_cdf_name'));
+		$this->tpl->setVariable('TXT_TYPE',$this->lng->txt('ps_cdf_type'));
+		$this->tpl->setVariable('DELETE',$this->lng->txt('delete'));
+		$this->tpl->setVariable('CANCEL',$this->lng->txt('cancel'));
+		
+		$counter = 0;
+		foreach($_POST['field_id'] as $field_id)
+		{
+			$tmp_field = new ilCourseDefinedFieldDefinition($this->obj_id,$field_id);
+			
+			$this->tpl->setCurrentBlock('del_row');
+			$this->tpl->setVariable('CSS_ROW',ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$this->tpl->setVariable('DEL_NAME',$tmp_field->getName());
+			$this->tpl->setVariable('DEL_TYPE',$tmp_field->getType() == IL_CDF_TYPE_SELECT ?
+											$this->lng->txt('ps_type_select') :
+											$this->lng->txt('ps_type_text'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$_SESSION['il_cdf_delete'] = $_POST['field_id'];
+	}
+	
+	/**
+	 * Delete course fields
+	 *
+	 * @access public
+	 */
+	public function delete()
+	{
+		if(!count($_SESSION['il_cdf_delete']))
+		{
+			sendInfo($this->lng->txt('ps_cdf_select_one'));
+			$this->show();
+			return false;
+		}
+		foreach($_SESSION['il_cdf_delete'] as $field_id)
+		{
+			$tmp_field = new ilCourseDefinedFieldDefinition($this->obj_id,$field_id);
+			$tmp_field->delete();
+		}
+		sendInfo($this->lng->txt('ps_cdf_deleted'));
+		unset($_SESSION['il_cdf_delete']);
+		
+		$this->show();
+		return true;
+	}
+	
+	
 	
 	/**
 	 * Save
@@ -170,7 +371,7 @@ class ilCourseUserFieldsGUI
 	public function fieldSelection()
 	{
 		// number of values defaults to 3
-		$_SESSION['il_crs_num_values'] = 3;
+		$_SESSION['il_cdf_select_num_values'] = 3;
 		
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_selection.html','Modules/Course');
@@ -202,28 +403,77 @@ class ilCourseUserFieldsGUI
 				break;
 
 			case IL_CDF_TYPE_SELECT:
-				$this->showSelectTable();
+				$this->addSelectField();
 				break;
 		}
 	}
+	
+	/*
+	 * @access public
+	 */
+	public function addSelectField()
+	{
+		$_SESSION['il_cdf_select_num_values'] = $_SESSION['il_cdf_select_num_values'] ? $_SESSION['il_cdf_select_num_values'] : 3; 
+		
+		$this->ctrl->setParameter($this,'field_type',(int) $_REQUEST['field_type']);
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_add_select.html','Modules/Course');
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('TXT_SELECT_TYPE',$this->lng->txt('ps_new_select_field'));
+		$this->tpl->setVariable('TXT_FIELD_NAME',$this->lng->txt('ps_name_field'));
+		$this->tpl->setVariable('TXT_REQUIRED',$this->lng->txt('required_field'));
+		$this->tpl->setVariable('BTN_ADD',$this->lng->txt('save'));
+		$this->tpl->setVariable('BTN_PREVIOUS',$this->lng->txt('btn_previous'));
+		$this->tpl->setVariable('BTN_NEW_VALUE',$this->lng->txt('ps_btn_add_value'));
+		
+		$this->tpl->setVariable('REQUIRED',ilUtil::formCheckbox($_POST['required'] ? 1 : 0,'required',1));
+		$this->tpl->setVariable('FIELD_NAME_VALUE',$_POST['field_name']);
+		
+		for($i = 0; $i < $_SESSION['il_cdf_select_num_values'];$i++)
+		{
+			$this->tpl->setCurrentBlock("values");
+			$this->tpl->setVariable('COUNTER',$i);
+			$this->tpl->setVariable("TXT_VALUES",$this->lng->txt('ps_cdf_value').' '.($i + 1));
+			$this->tpl->setVariable("FIELD_NAME",$_POST['field_values'][$i]);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+	}
+	
+	/**
+	 * Increment values
+	 *
+	 * @access public
+	 */
+	public function addValue()
+	{
+		$_SESSION['il_cdf_select_num_values'] += 1;
+		$this->addSelectField();
+		return true;
+	}
+	
+	
 
 	/**
 	 * 
 	 *
-	 * @access private
+	 * @access public
 	 * @param
 	 * 
 	 */
-	private function addTextField()
+	public function addTextField()
 	{
 		$this->ctrl->setParameter($this,'field_type',(int) $_REQUEST['field_type']);
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_add_text.html','Modules/Course');
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable('TXT_SELECT_TYPE',$this->lng->txt('ps_new_text_field'));
 		$this->tpl->setVariable('TXT_FIELD_NAME',$this->lng->txt('ps_name_field'));
 		$this->tpl->setVariable('TXT_REQUIRED',$this->lng->txt('required_field'));
 		$this->tpl->setVariable('BTN_ADD',$this->lng->txt('btn_add'));
 		$this->tpl->setVariable('BTN_PREVIOUS',$this->lng->txt('btn_previous'));
+		
+		$this->tpl->setVariable('REQUIRED',ilUtil::formCheckbox(0,'required',1));
 	}
 
 	/**
@@ -243,11 +493,17 @@ class ilCourseUserFieldsGUI
 		}
 		if($_REQUEST['field_type'] == IL_CDF_TYPE_TEXT)
 		{
-			$cdf->setFieldType(IL_CDF_TYPE_TEXT);
+			$cdf->setType(IL_CDF_TYPE_TEXT);
+		}
+		else
+		{
+			$cdf->setType(IL_CDF_TYPE_SELECT);
+			$values = $cdf->prepareValues($_POST['field_values']);
+			$cdf->setValues($values);
 		}
 		
 		$cdf->setName(ilUtil::stripSlashes($_POST['field_name']));
-		$cdf->enableRequired(1);
+		$cdf->enableRequired((int) $_POST['required']);
 		$cdf->save();
 		
 		sendInfo($this->lng->txt('ps_cdf_added_field'));
