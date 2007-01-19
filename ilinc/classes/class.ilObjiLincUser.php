@@ -128,17 +128,8 @@ class ilObjiLincUser
 		//$chars = str_split(substr($a_user_login,0,3)); // PHP5 only
 	
 		// convert non-allowed chars in login to <underscore>
-		foreach ($chars as $char)
-		{
-			if (!preg_match("/^[A-Za-z0-9_\-]+$/", $char))
-			{
-				$result .= "_";
-			}
-			else
-			{
-				$result .= $char;
-			}
-		}
+		// not allowed: ~!@#$%^&*()`-=+[]{};:'\|/?<>,
+		$result = preg_replace('@[^a-zA-Z0-9_]@','_',$_POST["input"]);
 
 		$data["login"] = $result."_".$a_user_id."_".$a_inst_id."_".time();
 		$data["passwd"] = md5(microtime().$a_user_login.rand(10000, 32000));
