@@ -1083,6 +1083,7 @@ class ilPersonalProfileGUI
 				$this->tpl->setVariable("IM_ID",$im_id);
 				$this->tpl->setVariable("IMG_IM_ICON", ilUtil::getImagePath($im_name.'online.gif'));
 				$this->tpl->setVariable("TXT_IM_ICON", $this->lng->txt("im_".$im_name."_icon"));
+				$this->tpl->setVariable("CHK_IM", "checked=\"checked\" disabled=\"disabled\"");
 				$this->tpl->parseCurrentBlock();	
 			}
 		}
