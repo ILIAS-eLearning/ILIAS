@@ -69,10 +69,10 @@ class ilObjFile extends ilObject
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 
 		$q = "INSERT INTO file_data (file_id,file_name,file_type,version,mode) "
-			."VALUES ('".$this->getId()."','"
-			.ilUtil::prepareDBString($this->getFileName())."','"
-			.$this->getFileType()."','"
-			."1"."',".$ilDB->quote($this->getMode()).")";
+			."VALUES (".$ilDB->quote($this->getId()).","
+			.$ilDB->quote($this->getFileName()).","
+			.$ilDB->quote($this->getFileType()).","
+			.$ilDB->quote("1").",".$ilDB->quote($this->getMode()).")";
 		$this->ilias->db->query($q);
 		
 		// no meta data handling for file list files
@@ -218,9 +218,11 @@ class ilObjFile extends ilObject
 	*/
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
-		$q = "SELECT * FROM file_data WHERE file_id = '".$this->getId()."'";
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($this->getId());
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -244,11 +246,11 @@ class ilObjFile extends ilObject
 		}
 		parent::update();
 		
-		$q = "UPDATE file_data SET file_name = '".ilUtil::prepareDBString($this->getFileName()).
-			"', file_type = '".$this->getFiletype()."' ".
-			", version = '".$this->getVersion()."' ".
+		$q = "UPDATE file_data SET file_name = ".$ilDB->quote($this->getFileName()).
+			", file_type = ".$ilDB->quote($this->getFiletype())." ".
+			", version = ".$ilDB->quote($this->getVersion())." ".
 			", mode = ".$ilDB->quote($this->getMode())." ".
-			"WHERE file_id = '".$this->getId()."'";
+			"WHERE file_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 		
 		return true;
@@ -364,7 +366,7 @@ class ilObjFile extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -456,11 +458,11 @@ class ilObjFile extends ilObject
 		ilUtil::rCopy($this->getDirectory(),$fileObj->getDirectory());
 		//copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$this->getFileName());
 
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,version,mode) VALUES ('"
-			.$fileObj->getId()."','"
-			.ilUtil::prepareDBString($this->getFileName())."','"
-			.$this->getFileType()."','".$this->getVersion()
-			."',".$ilDB->quote($this->getMode()).")";
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,version,mode) VALUES ("
+			.$ilDB->quote($fileObj->getId()).","
+			.$ilDB->quote($this->getFileName()).","
+			.$ilDB->quote($this->getFileType()).",".$ilDB->quote($this->getVersion())
+			.",".$ilDB->quote($this->getMode()).")";
 
 		$this->ilias->db->query($q);
 
@@ -483,6 +485,8 @@ class ilObjFile extends ilObject
 	*/
 	function delete()
 	{
+		global $ilDB;
+		
 		// check, if file is used somewhere
 		$usages = $this->getUsages();
 
@@ -495,7 +499,7 @@ class ilObjFile extends ilObject
 			}
 
 			// delete file data entry
-			$q = "DELETE FROM file_data WHERE file_id = '".$this->getId()."'";
+			$q = "DELETE FROM file_data WHERE file_id = ".$ilDB->quote($this->getId());
 			$this->ilias->db->query($q);
 			
 			// delete history entries
@@ -547,7 +551,9 @@ class ilObjFile extends ilObject
 	*/
 	function _deleteAllUsages($a_type, $a_id)
 	{
-		$q = "DELETE FROM file_usage WHERE usage_type='$a_type' AND usage_id='$a_id'";
+		global $ilDB;
+		
+		$q = "DELETE FROM file_usage WHERE usage_type=".$ilDB->quote($a_type)." AND usage_id=".$ilDB->quote($a_id);
 		$this->ilias->db->query($q);
 	}
 
@@ -556,8 +562,10 @@ class ilObjFile extends ilObject
 	*/
 	function _saveUsage($a_mob_id, $a_type, $a_id)
 	{
+		global $ilDB;
+		
 		$q = "REPLACE INTO file_usage (id, usage_type, usage_id) VALUES".
-			" ('$a_mob_id', '$a_type', '$a_id')";
+			" (".$ilDB->quote($a_mob_id).",".$ilDB->quote($a_type).",".$ilDB->quote($a_id).")";
 		$this->ilias->db->query($q);
 	}
 
@@ -569,7 +577,7 @@ class ilObjFile extends ilObject
 		global $ilDB;
 
 		// get usages in learning modules
-		$q = "SELECT * FROM file_usage WHERE id = '".$this->getId()."'";
+		$q = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($this->getId());
 		$us_set = $ilDB->query($q);
 		$ret = array();
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
