@@ -47,7 +47,6 @@ change#:#изменен
 change_basic_settings#:#Изменить Основные установки
 change_password#:#Изменить Пароль
 change_sort_direction#:#Изменить Каталог сортировки
-check_db_versions#:# --- New variable added --- November 30 2005
 check_failed_convert#:#Ошибка тестирования Конвертирования
 check_failed_htmldoc#:#Ошибка тестирования FOP
 check_failed_htmldoc#:#Ошибка тестирования HTMLdoc
@@ -79,9 +78,6 @@ create#:#создать
 create_datadir_failed#:#Ошибка создания Каталога данных
 create_new_client#:#Создать нового Клиента
 create_webdir_failed#:#Ошибка создания Веб-каталога
-ctrl_structure#:# --- New variable added --- November 30 2005
-ctrl_structure_desc#:# --- New variable added --- November 30 2005
-ctrl_structure_reloaded#:# --- New variable added --- November 30 2005
 data_path#:#Путь данных
 database#:#База данных
 database_create#:#Создать Базу данных
@@ -154,13 +150,11 @@ htmldoc_path#:#Путь к HTMLdoc
 htmldoc_path_comment#:#выбранные для генерации в HTMLdoc
 http_path#:#путь HTTP
 id#:#ID
-ilias_db_mode#:# --- New variable added --- November 30 2005
 ilias_homepage#:#Домашняя страница ILIAS
 ilias_nic#:#NIC Регистрация
 ilias_nic_id#:#NIC ID
 ilias_setup#:#Установка ILIAS 3
 ilias_version#:#Версия ILIAS
-include_local#:# --- New variable added --- November 30 2005
 info_text_contact#:#Здесь вы определите дополнительную информацию клиента и контактные данные администратора этого клиента. Поля, отмеченные звездочкой, обязательны для заполнения. Вся информация будет сохранена в вашей базе данных. На следующем этапе вы сможете зарегистрировать инсталляцию на ILIAS-NIC Сервере; программа регистрации передаст эти данные на ILIAS-NIC Сервер.
 info_text_db#:#База данных не существует или пустая. Щелкните на кнопке ниже для инсталляции Базы данных. Если Базы данных с выбранным именем не существует, пожалуйста, выберите опцию 'создать Базу данных'. Программа установки попытается создать Базу данных автоматически. В случае неудачного окончания (н.р. ограничены права доступа), пожалуйста, свяжитесь с системным администратором сервера базы данных и спросите его, как создать базу с выбранным именем для установки ILIAS.
 info_text_db_collation1#:#Если вы решите выбрать сопоставление, не поддерживаемое в UTF-8, вы должны создать базу данных вручную. В любом случае, пожалуйста, проверьте, что символ базы данных есть в utf8.
@@ -203,13 +197,11 @@ inst_name#:#имя установки
 install#:#установить
 installation#:#Установка
 installed#:#установлено
-installed_local#:# --- New variable added --- November 30 2005
 institution#:#Организация
 intro_install#:#Это главная страница установки ILIAS 3. Отсюда вы можете начать этап установки.
 ip_address#:#IP адрес
 java_path#:#Путь к Java
 java_path_comment#:#требуется для обучающего модуля SCORM
-lang_bg#:# --- New variable added --- November 30 2005
 lang_cs#:#Чешский
 lang_da#:#Датский
 lang_de#:#Немецкий
@@ -230,8 +222,6 @@ lang_pl#:#Польский
 lang_pt#:#Португальский
 lang_ro#:#Румынский
 lang_se#:#Шведский
-lang_sq#:# --- New variable added --- November 30 2005
-lang_sr#:# --- New variable added --- November 30 2005
 lang_uk#:#Украинский
 lang_xx#:#Пользовательский
 lang_zh#:#Китайский
@@ -253,8 +243,6 @@ login_to_ilias#:#войти в ILIAS
 logout#:#выйти из системы
 main_datadir_outside_webspace#:#Основной каталог данных не принадлежит веб-пространству
 missing_data#:#Отсутствуют данные
-mysql_4_0_x_or_lower_mode#.# --- New variable added --- November 30 2005
-mysql_4_1_x_or_higher_mode#:# --- New variable added --- November 30 2005
 name#:#Имя
 new#:#новый
 next#:#Следующий
@@ -338,7 +326,6 @@ pre_php_version_5#:#ILIAS 3 не тестировался на PHP 5. Испол
 pre_php_version_unknown#:#Установщику ILIAS не известна эта версия. Используйте на свой страх и риск!
 preliminaries#:#Вступление
 prev#:#Предыдущий
-reload#:# --- New variable added --- November 30 2005
 required_field#:#обязательные поля
 reset#:#Восстановить
 root_access#:#доступ root
@@ -394,7 +381,6 @@ step#:#Шаг
 street#:#Улица
 submit#:#Подтвердить
 title#:#Заголовок
-tools#:# --- New variable added --- November 30 2005
 unknown_client_id#:#Неизвестный Клиент
 unknown_command#:#Неизвестная команда
 unknown_display_mode#:#Неизвестная модель дисплея

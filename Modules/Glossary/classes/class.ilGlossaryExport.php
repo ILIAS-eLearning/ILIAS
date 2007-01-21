@@ -83,16 +83,19 @@ class ilGlossaryExport
 		return $this->inst_id;
 	}
 
+/*
     function exportRekursiv($depth, $left, $right)
 	{
+		global $ilDB;
+		
 		// Jetzt alle lm_data anhand der obj_id auslesen.
 		$query = "SELECT  *
 			FROM lm_tree, lm_data
-			WHERE lm_tree.lm_id = ".$this->glo_obj->getId()."
+			WHERE lm_tree.lm_id = ".$ilDB->quote($this->glo_obj->getId())."
 			AND   lm_tree.child = lm_data.obj_id
 			AND   ( lm_data.type =  'st' OR lm_data.type =  'pg' )
-			AND lm_tree.depth = $depth
-			AND lm_tree.lft>$left and lm_tree.rgt<$right
+			AND lm_tree.depth = ".$ilDB->quote($depth)."
+			AND lm_tree.lft>".$ilDB->quote($left)." and lm_tree.rgt<".$ilDB->quote($right)."
 			ORDER BY lm_tree.lft";
 
         $result = $this->db->query($query);
@@ -148,7 +151,8 @@ class ilGlossaryExport
 		}
 		return($xml);
 	}
-
+*/
+	
 	/**
 	*   build export file (complete zip file)
 	*
