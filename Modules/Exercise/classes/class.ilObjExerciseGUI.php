@@ -561,7 +561,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function downloadReturnedObject()
 	{
-		$this->object->members_obj->deliverReturnedFiles($_GET["member_id"]);
+		if (!$this->object->members_obj->deliverReturnedFiles($_GET["member_id"]))
+		{
+			$this->ctrl->redirect($this, "members");
+		}
 		exit;
 	}
 
@@ -570,7 +573,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function downloadNewReturnedObject()
 	{
-		$this->object->members_obj->deliverReturnedFiles($_GET["member_id"], true);
+		if (!$this->object->members_obj->deliverReturnedFiles($_GET["member_id"], true))
+		{
+			$this->ctrl->redirect($this, "members");
+		}
 		exit;
 	}
 
