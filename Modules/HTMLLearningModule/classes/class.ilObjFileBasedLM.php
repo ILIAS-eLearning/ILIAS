@@ -168,13 +168,15 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+		
 		$this->updateMetaData();
 		parent::update();
 
 		$q = "UPDATE file_based_lm SET ".
-			" online = '".ilUtil::tf2yn($this->getOnline())."',".
-			" startfile = '".ilUtil::prepareDBString($this->getStartFile())."'".
-			" WHERE id = '".$this->getId()."'";
+			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
+			" startfile = ".$ilDB->quote($this->getStartFile())." ".
+			" WHERE id = ".$ilDB->quote($this->getId())." ";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -185,10 +187,12 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 //		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 
-		$q = "SELECT * FROM file_based_lm WHERE id = '".$this->getId()."'";
+		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($this->getId());
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
@@ -275,7 +279,9 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function _lookupOnline($a_id)
 	{
-		$q = "SELECT * FROM file_based_lm WHERE id = '".$a_id."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
