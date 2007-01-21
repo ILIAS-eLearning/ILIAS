@@ -73,15 +73,23 @@ class ilExerciseMembers
 	{
 		$this->members = $a_members;
 	}
+	
+	/**
+	* Assign a user to the exercise
+	*
+	* @param	int		$a_usr_id		user id
+	*/
 	function assignMember($a_usr_id)
 	{
+		global $ilDB;
+		
 		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
 		$tmp_user->addDesktopItem($this->getRefId(),"exc");
 
 
 		$query = "REPLACE INTO exc_members ".
-			"SET obj_id = '".$this->getObjId()."', ".
-			"usr_id = '".$a_usr_id."', ".
+			"SET obj_id = ".$ilDB->quote($this->getObjId()).", ".
+			"usr_id = ".$ilDB->quote($a_usr_id).", ".
 			"status = 'notgraded', sent = '0', feedback='0'";
 
 		$res = $this->ilias->db->query($query);
@@ -120,14 +128,22 @@ class ilExerciseMembers
 			return true;
 		}
 	}
+	
+	/**
+	* Detaches a user from an exercise
+	*
+	* @param	int		$a_usr_id		user id
+	*/
 	function deassignMember($a_usr_id)
 	{
+		global $ilDB;
+		
 		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
 		$tmp_user->dropDesktopItem($this->getRefId(),"exc");
 
 		$query = "DELETE FROM exc_members ".
-			"WHERE obj_id = '".$this->getObjId()." '".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 
 		$this->ilias->db->query($query);
 		$this->read();
@@ -197,12 +213,14 @@ class ilExerciseMembers
 	*/
 	function setStatusForMember($a_member_id,$a_status)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE exc_members ".
-			"SET status = '".$a_status."', ".
-			"status_time= '".date("Y-m-d H:i:s")."'".
-			" WHERE obj_id = '".$this->getObjId()."' ".
-			"AND usr_id = '".$a_member_id."'".
-			" AND status <> '".$a_status."'";
+			"SET status = ".$ilDB->quote($a_status).", ".
+			"status_time= ".$ilDB->quote(date("Y-m-d H:i:s"))." ".
+			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND usr_id = ".$ilDB->quote($a_member_id)." ".
+			" AND status <> ".$ilDB->quote($a_status);
 	  
 		$this->ilias->db->query($query);
 		$this->read();
@@ -217,10 +235,12 @@ class ilExerciseMembers
 	*/
 	function updateStatusTimeForMember($a_member_id)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE exc_members ".
-			"SET status_time= '".date("Y-m-d H:i:s")."'".
-			" WHERE obj_id = '".$this->getObjId()."' ".
-			"AND usr_id = '".$a_member_id."'";
+			"SET status_time= ".$ilDB->quote(date("Y-m-d H:i:s"))." ".
+			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND usr_id = ".$ilDB->quote($a_member_id)." ";
 	  
 		$this->ilias->db->query($query);
 		$this->read();
@@ -251,11 +271,13 @@ class ilExerciseMembers
 	}
 	function setStatusSentForMember($a_member_id,$a_status)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE exc_members ".
-			"SET sent = '".($a_status ? 1 : 0)."', ".
-			"sent_time=".($a_status ? ("'".date("Y-m-d H:i:s")."'") : ("'0000-00-00 00:00:00'")).
-			" WHERE obj_id = '".$this->getObjId()."' ".
-			"AND usr_id = '".$a_member_id."'";
+			"SET sent = ".$ilDB->quote(($a_status ? 1 : 0))." , ".
+			"sent_time=".$ilDB->quote(($a_status ? (date("Y-m-d H:i:s")) : ("0000-00-00 00:00:00"))).
+			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND usr_id = ".$ilDB->quote($a_member_id)." ";
 
 		$this->ilias->db->query($query);
 		$this->read();
@@ -287,10 +309,12 @@ class ilExerciseMembers
 	}
 	function setStatusReturnedForMember($a_member_id,$a_status)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE exc_members ".
-			"SET returned = '".($a_status ? 1 : 0)."' ".
-			"WHERE obj_id = '".$this->getObjId()."' ".
-			"AND usr_id = '".$a_member_id."'";
+			"SET returned = ".$ilDB->quote(($a_status ? 1 : 0))." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND usr_id = ".$ilDB->quote($a_member_id)." ";
 
 		$this->ilias->db->query($query);
 		$this->read();
@@ -319,19 +343,21 @@ class ilExerciseMembers
 		}
 		return false;
 	}
+	
 	function setStatusFeedbackForMember($a_member_id,$a_status)
 	{
+		global $ilDB;
+		
+		$query = "UPDATE exc_members ".
+			"SET feedback = ".$ilDB->quote(($a_status ? 1 : 0)).", ".
+			"feedback_time=".$ilDB->quote(($a_status ? (date("Y-m-d H:i:s")) : ("0000-00-00 00:00:00"))).
+			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND usr_id = ".$ilDB->quote($a_member_id);
 
-	  $query = "UPDATE exc_members ".
-	    "SET feedback = '".($a_status ? 1 : 0)."', ".
-	    "feedback_time=".($a_status ? ("'".date("Y-m-d H:i:s")."'") : ("'0000-00-00 00:00:00'")).
-	    " WHERE obj_id = '".$this->getObjId()."' ".
-	    "AND usr_id = '".$a_member_id."'";
-//echo "<br/><br/>$query";
-	  $this->ilias->db->query($query);
-	  $this->read();
+		$this->ilias->db->query($query);
+		$this->read();
 	  
-	  return true;
+		return true;
 	}
 
 	function getNotice()
@@ -363,6 +389,8 @@ class ilExerciseMembers
 
 	function hasReturned($a_member_id)
 	{
+		global $ilDB;
+		
 		$query = sprintf("SELECT returned_id FROM exc_returned WHERE obj_id = %s AND user_id = %s",
 			$this->ilias->db->quote($this->getObjId() . ""),
 			$this->ilias->db->quote($a_member_id . "")
@@ -373,7 +401,10 @@ class ilExerciseMembers
 
 	function getAllDeliveredFiles()
 	{
-		$query = "SELECT * FROM exc_returned WHERE obj_id = '".$this->getObjId()."'";
+		global $ilDB;
+		
+		$query = "SELECT * FROM exc_returned WHERE obj_id = ".
+			$ilDB->quote($this->getObjId());
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -416,9 +447,12 @@ class ilExerciseMembers
 	*/
 	function deleteDeliveredFiles($file_id_array, $a_member_id)
 	{
+		global $ilDB;
+		
 		if (count($file_id_array))
 		{
-			$query = sprintf("SELECT * FROM exc_returned WHERE user_id = %s AND returned_id IN (" . join($file_id_array, ",") . ")",
+			$query = sprintf("SELECT * FROM exc_returned WHERE user_id = %s AND returned_id IN (".
+				implode(ilUtil::quoteArray($file_id_array) ,",").")",
 				$this->ilias->db->quote($a_member_id . "")
 			);
 			$result = $this->ilias->db->query($query);
@@ -430,7 +464,8 @@ class ilExerciseMembers
 					array_push($result_array, $row);
 				}
 				// delete the entries in the database
-				$query = sprintf("DELETE FROM exc_returned WHERE user_id = %s AND returned_id IN (" . join($file_id_array, ",") . ")",
+				$query = sprintf("DELETE FROM exc_returned WHERE user_id = %s AND returned_id IN ("
+					.implode(ilUtil::quoteArray($file_id_array) ,",").")",
 					$this->ilias->db->quote($a_member_id . "")
 				);
 				$result = $this->ilias->db->query($query);
@@ -484,7 +519,7 @@ class ilExerciseMembers
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->downloadSingleFile($row["filename"], $row["filetitle"]);
 		}
-		else
+		else if ($count > 0)
 		{
 			$array_files = array();
 			$filename = "";
@@ -500,6 +535,12 @@ class ilExerciseMembers
 			$dir = $pathinfo["dirname"];
 			$this->downloadMultipleFiles($array_files, $dir);
 		}
+		else
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -523,7 +564,8 @@ class ilExerciseMembers
 	{
 		if (count($array_file_id))
 		{
-			$query = "SELECT * FROM exc_returned WHERE returned_id IN (" . join($array_file_id, ",") . ")";
+			$query = "SELECT * FROM exc_returned WHERE returned_id IN (".
+				implode(ilUtil::quoteArray($array_file_id) ,",").")";
 			$result = $this->ilias->db->query($query);
 			if ($result->numRows())
 			{
@@ -583,11 +625,12 @@ class ilExerciseMembers
 	
 	function setNoticeForMember($a_member_id,$a_notice)
 	{
-
+		global $ilDB;
+		
 		$query = "UPDATE exc_members ".
-			"SET notice = '".addslashes($a_notice)."' ".
-			"WHERE obj_id = '".$this->getObjId()."' ".
-			"AND usr_id = '".$a_member_id."'";
+			"SET notice = ".$ilDB->quote($a_notice)." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND usr_id = ".$ilDB->quote($a_member_id);
 
 		$this->ilias->db->query($query);
 		$this->read();
@@ -644,6 +687,8 @@ class ilExerciseMembers
 */
 	function read()
 	{
+		global $ilDB;
+		
 		$tmp_arr_members = array();
 		$tmp_arr_status = array();
 		$tmp_arr_sent = array();
@@ -652,7 +697,7 @@ class ilExerciseMembers
 		$tmp_arr_feedback = array();
 
 		$query = "SELECT * FROM exc_members ".
-			"WHERE obj_id = '".$this->getObjId()."' ";
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId());
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -673,12 +718,16 @@ class ilExerciseMembers
 		
 		return true;
 	}
+	
+	
 	function ilClone($a_new_id)
 	{
+		global $ilDB;
+		
 		$data = array();
 
 		$query = "SELECT * FROM exc_members ".
-			"WHERE obj_id = '".$this->getObjId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId());
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -694,13 +743,13 @@ class ilExerciseMembers
 		foreach($data as $row)
 		{
 			$query = "INSERT INTO exc_members ".
-				"SET obj_id = '".$a_new_id."', ".
-				"usr_id = '".$row["usr_id"]."', ".
-				"notice = '".addslashes($row["notice"])."', ".
-				"returned = '".$row["returned"]."', ".
-				"status = '".$row["status"]."', ".
-				"feedback = '".$row["feedback"]."', ".
-				"sent = '".$row["sent"]."'";
+				"SET obj_id = ".$ilDB->quote($a_new_id).", ".
+				"usr_id = ".$ilDB->quote($row["usr_id"]).", ".
+				"notice = ".$ilDB->quote($row["notice"]).", ".
+				"returned = ".$ilDB->quote($row["returned"]).", ".
+				"status = ".$ilDB->quote($row["status"]).", ".
+				"feedback = ".$ilDB->quote($row["feedback"]).", ".
+				"sent = ".$ilDB->quote($row["sent"]);
 
 			$res = $this->ilias->db->query($query);
 		}
@@ -709,52 +758,20 @@ class ilExerciseMembers
 
 	function delete()
 	{
-		$query = "DELETE FROM exc_members WHERE obj_id = '".$this->getObjId()."'";
+		global $ilDB;
+		
+		$query = "DELETE FROM exc_members WHERE obj_id = ".$ilDB->quote($this->getObjId());
 		$this->ilias->db->query($query);
 
 		return true;
 	}
-
-	/*	deprecated; use _lookupStatus instead
-	function _hasSolved($a_exc_id,$a_usr_id)
-	{
-		global $ilDB;
-
-		// check if user is owner
-		$query = "SELECT owner FROM object_data ".
-			"WHERE obj_id = '".$a_exc_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if($row->owner == $a_usr_id)
-			{
-				return true;
-			}
-		}
-
-		// check if user has solved exercise
-		$query = "SELECT solved FROM exc_members ".
-			"WHERE obj_id = '".$a_exc_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if($row->solved == 1)
-			{
-				return true;
-			}
-		}
-		return false;
-	}*/
 
 	function _getMembers($a_obj_id)
 	{
 		global $ilDB;
 
 		$query = "SELECT DISTINCT(usr_id) as ud FROM exc_members ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -770,7 +787,7 @@ class ilExerciseMembers
 		global $ilDB;
 
 		$query = "SELECT DISTINCT(usr_id) as ud FROM exc_members ".
-			"WHERE obj_id = '".$a_obj_id."' ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND returned = 1";
 
 		$res = $ilDB->query($query);
@@ -791,7 +808,7 @@ class ilExerciseMembers
 		global $ilDB;
 
 		$query = "SELECT DISTINCT(usr_id) FROM exc_members ".
-			"WHERE obj_id = '".$a_obj_id."' ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND status = 'passed'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -806,7 +823,7 @@ class ilExerciseMembers
 		global $ilDB;
 
 		$query = "SELECT DISTINCT(usr_id) FROM exc_members ".
-			"WHERE obj_id = '".$a_obj_id."' ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND status = 'failed'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

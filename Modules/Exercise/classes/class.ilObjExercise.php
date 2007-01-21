@@ -141,12 +141,13 @@ class ilObjExercise extends ilObject
 
 	function saveData()
 	{
+		global $ilDB;
 		
 		// SAVE ONLY EXERCISE SPECIFIC DATA
 		$query = "INSERT INTO exc_data SET ".
-			"obj_id = '".$this->getId()."', ".
-			"instruction = '".addslashes($this->getInstruction())."', ".
-			"time_stamp = ".$this->getTimestamp();
+			"obj_id = ".$ilDB->quote($this->getId()).", ".
+			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
+			"time_stamp = ".$ilDB->quote($this->getTimestamp());
 		$this->ilias->db->query($query);
 		return true;
 	}
@@ -229,7 +230,9 @@ class ilObjExercise extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
+		global $ilDB;
+		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -237,7 +240,7 @@ class ilObjExercise extends ilObject
 		}	
 		// put here course specific stuff
 		$query = "DELETE FROM exc_data ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
 		
 		$this->ilias->db->query($query);
 
@@ -266,10 +269,12 @@ class ilObjExercise extends ilObject
 
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
 		$query = "SELECT * FROM exc_data ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -289,12 +294,14 @@ class ilObjExercise extends ilObject
 
 	function update()
 	{
+		global $ilDB;
+		
 		parent::update();
 
 		$query = "UPDATE exc_data SET ".
-			"instruction = '".addslashes($this->getInstruction())."', ".
-			"time_stamp = '".$this->getTimestamp()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
+			"time_stamp = ".$ilDB->quote($this->getTimestamp())." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$res = $this->ilias->db->query($query);
 
@@ -345,8 +352,9 @@ class ilObjExercise extends ilObject
 		global $ilDB, $lng;
 
 		$q="SELECT obj_id,user_id,timestamp FROM exc_returned ".
-		"WHERE obj_id =".$this->getId()." AND user_id=".$member_id.
-		" ORDER BY timestamp DESC";
+			"WHERE obj_id =".$ilDB->quote($this->getId())." AND user_id=".
+			$ilDB->quote($member_id).
+			" ORDER BY timestamp DESC";
 
 		$usr_set = $ilDB->query($q);
 
@@ -418,7 +426,8 @@ class ilObjExercise extends ilObject
 			"AND exc_members.status_time <> '0000-00-00 00:00:00' ".
 			"AND exc_returned.obj_id = exc_members.obj_id ".
 			"AND exc_returned.user_id = exc_members.usr_id ".
-			"AND exc_returned.obj_id='".$exc_id."' AND exc_returned.user_id='".$member_id."'";
+			"AND exc_returned.obj_id=".$ilDB->quote($exc_id)." AND exc_returned.user_id=".
+			$ilDB->quote($member_id);
 
   		$usr_set = $ilDB->query($q);
 
@@ -497,7 +506,7 @@ class ilObjExercise extends ilObject
 
   		$q = "SELECT * ".
 		"FROM exc_members ".
-		"WHERE obj_id='".$exc_id."' AND usr_id='".$member_id."'";
+		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
 
   		$set = $ilDB->query($q);
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -516,7 +525,7 @@ class ilObjExercise extends ilObject
 
   		$q = "SELECT * ".
 		"FROM exc_members ".
-		"WHERE obj_id='".$exc_id."' AND usr_id='".$member_id."'";
+		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
 
   		$set = $ilDB->query($q);
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -535,7 +544,7 @@ class ilObjExercise extends ilObject
 
   		$q = "SELECT * ".
 		"FROM exc_members ".
-		"WHERE obj_id='".$exc_id."' AND usr_id='".$member_id."'";
+		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
 
   		$set = $ilDB->query($q);
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))

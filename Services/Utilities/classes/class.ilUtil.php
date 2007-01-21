@@ -3329,6 +3329,24 @@ class ilUtil
 			return $ts;
 		}
 	}
+	
+	/**
+	* Quotes all members of an array for usage in DB query statement.
+	*/
+	function quoteArray($a_array)
+	{
+		global $ilDB;
+		
+		if (is_array($a_array))
+		{
+			foreach($a_array as $k => $item)
+			{
+				$a_array[$k] = $ilDB->quote($item);
+			}
+		}
+		
+		return $a_array;
+	}
 
 } // END class.ilUtil
 
