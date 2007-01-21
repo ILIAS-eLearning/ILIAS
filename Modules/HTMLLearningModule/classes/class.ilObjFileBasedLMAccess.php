@@ -120,7 +120,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_based_lm WHERE id = '".$a_id."'";
+		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
 		$set = $ilDB->query($q);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -134,7 +134,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_based_lm WHERE id = '".$a_id."'";
+		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
 		$set = $ilDB->query($q);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		$start_file = $rec["startfile"];
