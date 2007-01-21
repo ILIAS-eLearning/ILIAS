@@ -75,10 +75,12 @@ class ilObjGlossary extends ilObject
 	*/
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 #		echo "Glossary<br>\n";
 
-		$q = "SELECT * FROM glossary WHERE id = '".$this->getId()."'";
+		$q = "SELECT * FROM glossary WHERE id = ".$ilDB->quote($this->getId());
 		$gl_set = $this->ilias->db->query($q);
 		$gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($gl_rec["online"]));
@@ -181,7 +183,7 @@ class ilObjGlossary extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM glossary WHERE id = '".$a_id."'";
+		$q = "SELECT * FROM glossary WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -243,13 +245,13 @@ class ilObjGlossary extends ilObject
 		$this->updateMetaData();
 
 		$q = "UPDATE glossary SET ".
-			" online = '".ilUtil::tf2yn($this->getOnline())."',".
-			" virtual = '".$this->getVirtualMode()."',".
+			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
+			" virtual = ".$ilDB->quote($this->getVirtualMode()).",".
 			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml")).",".
-			" public_html_file = '".$this->getPublicExportFile("html")."',".
-			" glo_menu_active = '".ilUtil::tf2yn($this->isActiveGlossaryMenu())."',".
-			" downloads_active = '".ilUtil::tf2yn($this->isActiveDownloads())."'".
-			" WHERE id = '".$this->getId()."'";
+			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html")).",".
+			" glo_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu())).",".
+			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()))." ".
+			" WHERE id = ".$ilDB->quote($this->getId());
 			
 		$ilDB->query($q);
 		
@@ -977,7 +979,7 @@ class ilObjGlossary extends ilObject
 		}
 		
 		// delete glossary data entry
-		$q = "DELETE FROM glossary WHERE id = ".$this->getId();
+		$q = "DELETE FROM glossary WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($q);
 
 		// delete meta data

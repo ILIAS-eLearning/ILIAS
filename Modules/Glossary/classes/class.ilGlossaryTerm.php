@@ -68,7 +68,9 @@ class ilGlossaryTerm
 	*/
 	function read()
 	{
-		$q = "SELECT * FROM glossary_term WHERE id = '".$this->id."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($this->id);
 		$term_set = $this->ilias->db->query($q);
 		$term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -90,7 +92,7 @@ class ilGlossaryTerm
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM glossary_term WHERE import_id = '".$a_import_id."'".
+		$q = "SELECT * FROM glossary_term WHERE import_id = ".$ilDB->quote($a_import_id).
 			" ORDER BY create_date DESC LIMIT 1";
 		$term_set = $ilDB->query($q);
 		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -124,7 +126,7 @@ class ilGlossaryTerm
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
 		}
 
-		$q = "SELECT * FROM glossary_term WHERE id = '".$a_id."'";
+		$q = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($a_id);
 		$obj_set = $ilDB->query($q);
 		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -258,9 +260,12 @@ class ilGlossaryTerm
 	*/
 	function create()
 	{
+		global $ilDB;
+		
 		$q = "INSERT INTO glossary_term (glo_id, term, language, import_id, create_date, last_update)".
-			" VALUES ('".$this->getGlossaryId()."', '".ilUtil::prepareDBString($this->term).
-			"', '".$this->language."','".$this->getImportId()."',now(), now())";
+			" VALUES (".$ilDB->quote($this->getGlossaryId()).", ".
+			$ilDB->quote($this->term).
+			", ".$ilDB->quote($this->language).",".$ilDB->quote($this->getImportId()).",now(), now())";
 		$this->ilias->db->query($q);
 		$this->setId($this->ilias->db->getLastInsertId());
 	}
@@ -271,6 +276,8 @@ class ilGlossaryTerm
 	*/
 	function delete()
 	{
+		global $ilDB;
+		
 		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 		$defs = ilGlossaryDefinition::getDefinitionList($this->getId());
 		foreach($defs as $def)
@@ -279,7 +286,7 @@ class ilGlossaryTerm
 			$def_obj->delete();
 		}
 		$q = "DELETE FROM glossary_term ".
-			" WHERE id = '".$this->getId()."'";
+			" WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
@@ -289,13 +296,15 @@ class ilGlossaryTerm
 	*/
 	function update()
 	{
+		global $ilDB;
+		
 		$q = "UPDATE glossary_term SET ".
-			" glo_id = '".$this->getGlossaryId()."', ".
-			" term = '".ilUtil::prepareDBString($this->getTerm())."', ".
-			" import_id = '".$this->getImportId()."', ".
-			" language = '".$this->getLanguage()."', ".
+			" glo_id = ".$ilDB->quote($this->getGlossaryId()).", ".
+			" term = ".$ilDB->quote($this->getTerm()).", ".
+			" import_id = ".$ilDB->quote($this->getImportId()).", ".
+			" language = ".$ilDB->quote($this->getLanguage()).", ".
 			" last_update = now() ".
-			" WHERE id = '".$this->getId()."'";
+			" WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
@@ -306,7 +315,7 @@ class ilGlossaryTerm
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM glossary_term WHERE id = '".$term_id."'";
+		$query = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($term_id);
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -320,7 +329,7 @@ class ilGlossaryTerm
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM glossary_term WHERE id = '".$term_id."'";
+		$query = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($term_id);
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -334,7 +343,7 @@ class ilGlossaryTerm
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM glossary_term WHERE id = '".$term_id."'";
+		$query = "SELECT * FROM glossary_term WHERE id = ".$ilDB->quote($term_id);
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -355,7 +364,7 @@ class ilGlossaryTerm
 		$terms = array();
 		
 		$searchterm = (!empty ($searchterm))
-			? " AND term like '%".$searchterm."%'"
+			? " AND term like ".$ilDB->quote("%".$searchterm."%")." "
 			: "";
 		
 		// meta glossary
@@ -365,7 +374,7 @@ class ilGlossaryTerm
 		}
 		else
 		{
-			$where = "='".$a_glo_id."' ";
+			$where = "= ".$ilDB->quote($a_glo_id)." ";
 		}
 		
 		$q = "SELECT * FROM glossary_term WHERE glo_id ".$where.$searchterm." ORDER BY language, term";
