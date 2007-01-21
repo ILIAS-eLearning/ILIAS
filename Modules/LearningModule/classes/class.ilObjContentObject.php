@@ -498,7 +498,7 @@ class ilObjContentObject extends ilObject
 
 		$q = "UPDATE content_object SET ".
 			" stylesheet = ".$ilDB->quote($a_style_id).
-			" WHERE id = '".$this->getId()."'";
+			" WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($q);
 
 		$this->style_id = $a_style_id;
@@ -548,7 +548,7 @@ class ilObjContentObject extends ilObject
 		global $ilDB;
 
 		$q = "SELECT stylesheet FROM content_object ".
-			" WHERE id = '".$a_cont_obj_id."'";
+			" WHERE id = ".$ilDB->quote($a_cont_obj_id);
 		$res = $ilDB->query($q);
 		$sheet = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -634,7 +634,7 @@ class ilObjContentObject extends ilObject
 		
 		$q = "UPDATE content_object SET ".
 			" stylesheet = ".$ilDB->quote("0").
-			" WHERE stylesheet = ".$this->getId($a_style_id);
+			" WHERE stylesheet = ".$ilDB->quote($this->getId($a_style_id));
 
 		$ilDB->query($q);
 	}
@@ -813,7 +813,9 @@ class ilObjContentObject extends ilObject
 	*/
 	function readProperties()
 	{
-		$q = "SELECT * FROM content_object WHERE id = '".$this->getId()."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($this->getId());
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setLayout($lm_rec["default_layout"]);
@@ -842,27 +844,29 @@ class ilObjContentObject extends ilObject
 	*/
 	function updateProperties()
 	{
+		global $ilDB;
+		
 		$q = "UPDATE content_object SET ".
-			" default_layout = '".$this->getLayout()."', ".
-			" stylesheet = '".$this->getStyleSheetId()."',".
-			" page_header = '".$this->getPageHeader()."',".
-			" toc_mode = '".$this->getTOCMode()."',".
-			" online = '".ilUtil::tf2yn($this->getOnline())."',".
-			" toc_active = '".ilUtil::tf2yn($this->isActiveTOC())."',".
-			" numbering = '".ilUtil::tf2yn($this->isActiveNumbering())."',".
-			" print_view_active = '".ilUtil::tf2yn($this->isActivePrintView())."',".
-			" downloads_active = '".ilUtil::tf2yn($this->isActiveDownloads())."',".
-			" downloads_public_active = '".ilUtil::tf2yn($this->isActiveDownloadsPublic())."',".
-			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
-			" pub_notes = '".ilUtil::tf2yn($this->publicNotes())."',".
-			" hist_user_comments = '".ilUtil::tf2yn($this->isActiveHistoryUserComments())."',".
-			" public_access_mode = '".$this->getPublicAccessMode()."',".
-			" public_xml_file = '".$this->getPublicExportFile("xml")."',".
-			" public_html_file = '".$this->getPublicExportFile("html")."',".
-			" header_page = '".$this->getHeaderPage()."',".
-			" footer_page = '".$this->getFooterPage()."',".
-			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".
-			" WHERE id = '".$this->getId()."'";
+			" default_layout = ".$ilDB->quote($this->getLayout()).", ".
+			" stylesheet = ".$ilDB->quote($this->getStyleSheetId()).",".
+			" page_header = ".$ilDB->quote($this->getPageHeader()).",".
+			" toc_mode = ".$ilDB->quote($this->getTOCMode()).",".
+			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
+			" toc_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveTOC())).",".
+			" numbering = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveNumbering())).",".
+			" print_view_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePrintView())).",".
+			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads())).",".
+			" downloads_public_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic())).",".
+			" clean_frames = ".$ilDB->quote(ilUtil::tf2yn($this->cleanFrames())).",".
+			" pub_notes = ".$ilDB->quote(ilUtil::tf2yn($this->publicNotes())).",".
+			" hist_user_comments = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveHistoryUserComments())).",".
+			" public_access_mode = ".$ilDB->quote($this->getPublicAccessMode()).",".
+			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml")).",".
+			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html")).",".
+			" header_page = ".$ilDB->quote($this->getHeaderPage()).",".
+			" footer_page = ".$ilDB->quote($this->getFooterPage()).",".
+			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()))." ".
+			" WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
@@ -871,7 +875,9 @@ class ilObjContentObject extends ilObject
 	*/
 	function createProperties()
 	{
-		$q = "INSERT INTO content_object (id) VALUES ('".$this->getId()."')";
+		global $ilDB;
+		
+		$q = "INSERT INTO content_object (id) VALUES (".$ilDB->quote($this->getId()).")";
 		$this->ilias->db->query($q);
 		$this->readProperties();		// to get db default values
 	}
@@ -881,9 +887,11 @@ class ilObjContentObject extends ilObject
 	*/
 	function _lookupOnline($a_id)
 	{
+		global $ilDB;
+		
 //echo "class ilObjContentObject::_lookupOnline($a_id) called. Use Access class instead.";
 
-		$q = "SELECT * FROM content_object WHERE id = '".$a_id."'";
+		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -1200,7 +1208,7 @@ class ilObjContentObject extends ilObject
 				$counter = 0;
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
-					$result[$counter]["id"]		= $row->ref_id;
+					$result[$counter]["id"]	= $row->ref_id;
 					$result[$counter]["page_id"] = $row->page_id;
 					++$counter;
 				}

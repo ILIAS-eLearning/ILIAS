@@ -250,8 +250,8 @@ class ilLMPresentationGUI
 		
 		// first check if an entry for this user and this lm already exist, when so, delete
 		$q = "DELETE FROM lo_access ".
-			"WHERE usr_id='".$usr_id."' ".
-			"AND lm_id='".$lm_id."'";
+			"WHERE usr_id = ".$ilDB->quote($usr_id)." ".
+			"AND lm_id = ".$ilDB->quote($lm_id);
 		$this->ilias->db->query($q);
 		$title = (is_object($this->lm))?$this->lm->getTitle():"- no title -";
 		// insert new entry
@@ -259,7 +259,8 @@ class ilLMPresentationGUI
 		$q = "INSERT INTO lo_access ".
 			"(timestamp,usr_id,lm_id,obj_id,lm_title) ".
 			"VALUES ".
-			"(now(),'".$usr_id."','".$lm_id."',".$ilDB->quote($obj_id).",'".ilUtil::prepareDBString($title)."')";
+			"(now(),".$ilDB->quote($usr_id).",".$ilDB->quote($lm_id).",".
+			$ilDB->quote($obj_id).",".$ilDB->quote($title).")";
 		$this->ilias->db->query($q);
 	}
 
@@ -288,8 +289,10 @@ class ilLMPresentationGUI
     *   @access public
     *   @return
     */
-	function offlineexport() {
-
+	function offlineexport()
+	{
+		global $ilDB;
+		
 		if ($_POST["cmd"]["cancel"] != "")
 		{
 			$this->ctrl->setParameter($this, "frame", "maincontent");
@@ -302,13 +305,14 @@ class ilLMPresentationGUI
 				//$this->lm_gui->offlineexport();
 				$_GET["frame"] = "maincontent";
 
-				$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".
-					$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
+				$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id=".
+					$ilDB->quote($_GET["ref_id"])." AND object_reference.obj_id=object_data.obj_id ";
 				$result = $this->ilias->db->query($query);
 				$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				$_GET["obj_id"] = $objRow["obj_id"];
 
-				$query = "SELECT * FROM lm_data WHERE lm_id='".$objRow["obj_id"]."' AND type='pg' ";
+				$query = "SELECT * FROM lm_data WHERE lm_id = ".$ilDB->quote($objRow["obj_id"]).
+					" AND type='pg' ";
 				$result = $this->ilias->db->query($query);
 
 				$page = 0;
@@ -481,7 +485,10 @@ class ilLMPresentationGUI
     */
 	function exportbibinfo()
 	{
-		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
+		global $ilDB;
+		
+		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id= ".
+			$ilDB->quote($_GET["ref_id"])." AND object_reference.obj_id=object_data.obj_id ";
 		$result = $this->ilias->db->query($query);
 
 		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);

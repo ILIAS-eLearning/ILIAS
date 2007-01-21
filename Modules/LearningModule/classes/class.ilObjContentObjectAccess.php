@@ -132,7 +132,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM content_object WHERE id = '".$a_id."'";
+		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
