@@ -106,6 +106,7 @@ class ilContObjectExport
     *   @access public
     *   @return string  xml-structure
     */
+/*
     function exportRekursiv($depth, $left, $right)
 	{
 		// Jetzt alle lm_data anhand der obj_id auslesen.
@@ -171,7 +172,7 @@ class ilContObjectExport
 		}
 		return($xml);
 	}
-
+*/
 
 	/**
 	*   build export file (complete zip file)

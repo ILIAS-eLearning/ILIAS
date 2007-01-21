@@ -74,16 +74,18 @@ class ilObjDlBook extends ilObjContentObject
     *   @access public
     *   @return string  xml
     */
-    function exportRekursiv($obj_id, $depth, $left, $right) {
-
+    function exportRekursiv($obj_id, $depth, $left, $right)
+	{
+		global $ilDB;
+		
 		// Jetzt alle lm_data anhand der obj_id auslesen.
 		$query = "SELECT  *
                   FROM lm_tree, lm_data
-                  WHERE lm_tree.lm_id = $obj_id 
+                  WHERE lm_tree.lm_id = ".$ilDB->quote($obj_id)." 
                   AND   lm_tree.child = lm_data.obj_id 
                   AND   ( lm_data.type =  'st' OR lm_data.type =  'pg' )
-                  AND lm_tree.depth = $depth
-                  AND lm_tree.lft>$left and lm_tree.rgt<$right
+                  AND lm_tree.depth = ".$ilDB->quote($depth)."
+                  AND lm_tree.lft > ".$ilDB->quote($left)." and lm_tree.rgt < ".$ilDB->quote($right)."
                   ORDER BY lm_tree.lft";
         $result = $this->ilias->db->query($query);
         while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
@@ -104,7 +106,7 @@ class ilObjDlBook extends ilObjContentObject
             if ($row["type"] == "pg") 
             {
                 
-                $query = "SELECT * FROM page_object WHERE page_id='".$row["obj_id"]."' ";
+                $query = "SELECT * FROM page_object WHERE page_id= ".$ilDB->quote($row["obj_id"]);
 				$result2 = $this->ilias->db->query($query);
 		
 				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
@@ -145,12 +147,14 @@ class ilObjDlBook extends ilObjContentObject
 	*/
 	function export($a_deliver = true)
 	{
-
+		global $ilDB;
+		
 		include_once("./classes/class.ilNestedSetXML.php");
 		// ------------------------------------------------------
 		// anhand der ref_id die obj_id ermitteln.
 		// ------------------------------------------------------
-		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$this->getRefId()."' AND object_reference.obj_id=object_data.obj_id ";
+		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id= ".
+			$ilDB->quote($this->getRefId())." AND object_reference.obj_id=object_data.obj_id ";
         $result = $this->ilias->db->query($query);
 
 		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -176,7 +180,7 @@ class ilObjDlBook extends ilObjContentObject
 
 		$query = "SELECT  *
                   FROM lm_tree, lm_data
-                  WHERE lm_tree.lm_id = $obj_id
+                  WHERE lm_tree.lm_id = ".$ilDB->quote($obj_id)."
                   AND   lm_tree.child = lm_data.obj_id
                   AND   ( lm_data.type =  'du' )
                   AND lm_tree.depth = 1
@@ -204,7 +208,7 @@ class ilObjDlBook extends ilObjContentObject
 
                 $xml .= "<MediaObject>";
 
-                $query = "SELECT * FROM media_item WHERE mob_id='".$key."' ";
+                $query = "SELECT * FROM media_item WHERE mob_id= ".$ilDB->quote($key)." ";
                 //vd($query);
                 $first = true;
                 $result = $this->ilias->db->query($query);
@@ -343,14 +347,16 @@ class ilObjDlBook extends ilObjContentObject
 
 	function addTranslation($a_ref_id)
 	{
+		global $ilDB;
+		
 		$query = "REPLACE INTO dbk_translations ".
-			"SET id = '".$this->ref_id."', ".
-			"tr_id = '".$a_ref_id."'";
+			"SET id = ".$ilDB->quote($this->ref_id).", ".
+			"tr_id = ".$ilDB->quote($a_ref_id)." ";
 		$res = $this->ilias->db->query($query);
 
 		$query = "REPLACE INTO dbk_translations ".
-			"SET id = '".$a_ref_id."', ".
-			"tr_id = '".$this->ref_id."'";
+			"SET id = ".$ilDB->quote($a_ref_id).", ".
+			"tr_id = ".$ilDB->quote($this->ref_id)." ";
 		$res = $this->ilias->db->query($query);
 
 		// UPDATE MEMBER VARIABLE
@@ -373,20 +379,22 @@ class ilObjDlBook extends ilObjContentObject
 	}
 	function deleteTranslation($a_ref_id)
 	{
+		global $ilDB;
+		
 		if(!$a_ref_id)
 		{
 			return false;
 		}
 
 		$query = "DELETE FROM dbk_translations ".
-			"WHERE id = '".$this->ref_id."' ".
-			"AND tr_id = '".$a_ref_id."'";
+			"WHERE id = ".$ilDB->quote($this->ref_id)." ".
+			"AND tr_id = ".$ilDB->quote($a_ref_id)." ";
 
 		$res = $this->ilias->db->query($query);
 
 		$query = "DELETE FROM dbk_translations ".
-			"WHERE id = '".$a_ref_id."' ".
-			"AND tr_id = '".$this->ref_id."'";
+			"WHERE id = ".$ilDB->quote($a_ref_id)." ".
+			"AND tr_id = ".$ilDB->quote($this->ref_id)." ";
 
 		$res = $this->ilias->db->query($query);
 
@@ -550,8 +558,10 @@ class ilObjDlBook extends ilObjContentObject
 	// PRIVATE METHODS
 	function readAssignedTranslations()
 	{
+		global $ilDB;
+		
 		$query = "SELECT tr_id FROM dbk_translations ".
-			"WHERE id = '".$this->ref_id."'";
+			"WHERE id = ".$ilDB->quote($this->ref_id)." ";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

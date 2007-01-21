@@ -207,7 +207,7 @@ class ilStructureObject extends ilLMObject
 		global $ilDB;
 
 		// get chapter data
-		$query = "SELECT * FROM lm_data WHERE obj_id = '".$a_st_id."'";
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_st_id);
 		$st_set = $ilDB->query($query);
 		$st_rec = $st_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -232,8 +232,8 @@ class ilStructureObject extends ilLMObject
 				{
 					// get next parent tree node
 					$query = "SELECT * FROM lm_tree WHERE child = ".
-					$ilDB->quote($tree_node["parent"])." AND lm_id = ".
-					$ilDB->quote($st_rec["lm_id"]);
+						$ilDB->quote($tree_node["parent"])." AND lm_id = ".
+						$ilDB->quote($st_rec["lm_id"]);
 					$tree_set = $ilDB->query($query);
 					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
 					$seq = $tree->getChildSequenceNumber($tree_node, "st");

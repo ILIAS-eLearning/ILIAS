@@ -383,7 +383,7 @@ class ilLMPageObject extends ilLMObject
 		global $ilDB;
 
 		// select
-		$query = "SELECT * FROM lm_data WHERE obj_id = '".$a_pg_id."'";
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_pg_id);
 		$pg_set = $ilDB->query($query);
 		$pg_rec = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
 
