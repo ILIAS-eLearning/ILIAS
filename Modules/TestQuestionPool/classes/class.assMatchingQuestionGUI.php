@@ -517,9 +517,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		
-		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
-		$key2 = $keys;
 
 		$solutions = array();
 		if ($active_id)
@@ -696,7 +694,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		
 		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
-		$key2 = $keys;
+		$keys2 = $keys;
 		if ($this->object->getShuffle())
 		{
 			$keys = $this->object->pcArrayShuffle($keys);
