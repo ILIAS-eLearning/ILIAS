@@ -132,9 +132,11 @@ class ilSCORMResource extends ilSCORMObject
 
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
-		$q = "SELECT * FROM sc_resource WHERE obj_id = '".$this->getId()."'";
+		$q = "SELECT * FROM sc_resource WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -145,8 +147,8 @@ class ilSCORMResource extends ilSCORMObject
 		$this->setXmlBase($obj_rec["xml_base"]);
 
 		// read files
-		$q = "SELECT * FROM sc_resource_file WHERE res_id = '".$this->getId().
-			"' ORDER BY nr";
+		$q = "SELECT * FROM sc_resource_file WHERE res_id = ".$ilDB->quote($this->getId()).
+			" ORDER BY nr";
 		$file_set = $this->ilias->db->query($q);
 		while ($file_rec = $file_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -155,8 +157,8 @@ class ilSCORMResource extends ilSCORMObject
 			$this->addFile($res_file);
 		}
 		// read dependencies
-		$q = "SELECT * FROM sc_resource_dependency WHERE res_id = '".$this->getId().
-			"' ORDER BY nr";
+		$q = "SELECT * FROM sc_resource_dependency WHERE res_id = ".$ilDB->quote($this->getId()).
+			" ORDER BY nr";
 		$dep_set = $this->ilias->db->query($q);
 		while ($dep_rec = $dep_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -168,14 +170,14 @@ class ilSCORMResource extends ilSCORMObject
 
 	function readByIdRef($a_id_ref, $a_slm_id)
 	{
-		global $ilBench;
+		global $ilBench, $ilDB;
 		
 		$ilBench->start("SCORMResource", "readByIdRef_Query");
 		
 		$q = "SELECT ob.obj_id AS id FROM sc_resource AS res, scorm_object as ob ".
 		"WHERE ob.obj_id = res.obj_id ".
-		"AND res.import_id = '$a_id_ref'".
-		"AND ob.slm_id = '$a_slm_id'";
+		"AND res.import_id = ".$ilDB->quote($a_id_ref)." ".
+		"AND ob.slm_id = ".$ilDB->quote($a_slm_id);
 
 		$id_set = $this->ilias->db->query($q);
 		$ilBench->stop("SCORMResource", "readByIdRef_Query");
@@ -193,8 +195,8 @@ class ilSCORMResource extends ilSCORMObject
 		
 		$q = "SELECT ob.obj_id AS id FROM sc_resource AS res, scorm_object as ob ".
 		"WHERE ob.obj_id = res.obj_id ".
-		"AND res.import_id = '$a_id_ref'".
-		"AND ob.slm_id = '$a_slm_id'";
+		"AND res.import_id = ".$ilDB->quote($a_id_ref)." ".
+		"AND ob.slm_id = ".$ilDB->quote($a_slm_id);
 
 		$id_set = $ilDB->query($q);
 		if ($id_rec = $id_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -208,7 +210,7 @@ class ilSCORMResource extends ilSCORMObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT scormtype FROM sc_resource WHERE obj_id = '".$a_obj_id."'";
+		$q = "SELECT scormtype FROM sc_resource WHERE obj_id = ".$ilDB->quote($a_obj_id);
 		$st_set = $ilDB->query($q);
 		if ($st_rec = $st_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -219,20 +221,24 @@ class ilSCORMResource extends ilSCORMObject
 
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
 		$q = "INSERT INTO sc_resource (obj_id, import_id, resourcetype, scormtype, href, ".
 			"xml_base) VALUES ".
-			"('".$this->getId()."', '".$this->getImportId()."',".
-			"'".$this->getResourceType()."','".$this->getScormType()."','".$this->getHref()."'".
-			",'".$this->getXmlBase()."')";
+			"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->getImportId()).",".
+			$ilDB->quote($this->getResourceType()).",".$ilDB->quote($this->getScormType()).",".
+			$ilDB->quote($this->getHref()).
+			",".$ilDB->quote($this->getXmlBase()).")";
 		$this->ilias->db->query($q);
 
 		// save files
 		for($i=0; $i<count($this->files); $i++)
 		{
 			$q = "INSERT INTO sc_resource_file (res_id, href, nr) VALUES ".
-				"('".$this->getId()."', '".$this->files[$i]->getHref()."','".($i + 1)."')";
+				"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->files[$i]->getHref()).
+				",".$ilDB->quote(($i + 1)).")";
 			$this->ilias->db->query($q);
 		}
 
@@ -240,43 +246,47 @@ class ilSCORMResource extends ilSCORMObject
 		for($i=0; $i<count($this->dependencies); $i++)
 		{
 			$q = "INSERT INTO sc_resource_dependency (res_id, identifierref, nr) VALUES ".
-				"('".$this->getId()."', '".$this->dependencies[$i]->getIdentifierRef().
-				"','".($i + 1)."')";
+				"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->dependencies[$i]->getIdentifierRef()).
+				",".$ilDB->quote(($i + 1)).")";
 			$this->ilias->db->query($q);
 		}
 	}
 
 	function update()
 	{
+		global $ilDB;
+		
 		parent::update();
 
 		$q = "UPDATE sc_resource SET ".
-			"import_id = '".$this->getImportId()."', ".
-			"resourcetype = '".$this->getResourceType()."', ".
-			"scormtype = '".$this->getScormType()."', ".
-			"href = '".$this->getHRef()."', ".
-			"xml_base = '".$this->getXmlBase()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"import_id = ".$ilDB->quote($this->getImportId()).", ".
+			"resourcetype = ".$ilDB->quote($this->getResourceType()).", ".
+			"scormtype = ".$ilDB->quote($this->getScormType()).", ".
+			"href = ".$ilDB->quote($this->getHRef()).", ".
+			"xml_base = ".$ilDB->quote($this->getXmlBase())." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
 		// save files
-		$q = "DELETE FROM sc_resource_file WHERE res_id = '".$this->getId()."'";
+		$q = "DELETE FROM sc_resource_file WHERE res_id = ".
+			$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 		for($i=0; $i<count($this->files); $i++)
 		{
 			$q = "INSERT INTO sc_resource_file (res_id, href, nr) VALUES ".
-				"('".$this->getId()."', '".$this->files[$i]->getHref()."','".($i + 1)."')";
+				"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->files[$i]->getHref()).
+				",".$ilDB->quote(($i + 1)).")";
 			$this->ilias->db->query($q);
 		}
 
 		// save dependencies
-		$q = "DELETE FROM sc_resource_dependency WHERE res_id = '".$this->getId()."'";
+		$q = "DELETE FROM sc_resource_dependency WHERE res_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 		for($i=0; $i<count($this->dependencies); $i++)
 		{
 			$q = "INSERT INTO sc_resource_dependency (res_id, identifierref, nr) VALUES ".
-				"('".$this->getId()."', '".$this->dependencies[$i]->getIdentifierRef().
-				"','".($i + 1)."')";
+				"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->dependencies[$i]->getIdentifierRef()).
+				",".$ilDB->quote(($i + 1)).")";
 			$this->ilias->db->query($q);
 		}
 	}

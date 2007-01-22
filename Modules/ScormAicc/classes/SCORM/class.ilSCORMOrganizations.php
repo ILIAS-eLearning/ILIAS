@@ -65,9 +65,11 @@ class ilSCORMOrganizations extends ilSCORMObject
 
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
-		$q = "SELECT * FROM sc_organizations WHERE obj_id = '".$this->getId()."'";
+		$q = "SELECT * FROM sc_organizations WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -76,20 +78,24 @@ class ilSCORMOrganizations extends ilSCORMObject
 
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
 		$q = "INSERT INTO sc_organizations (obj_id, default_organization) VALUES ".
-			"('".$this->getId()."', '".$this->getDefaultOrganization()."')";
+			"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->getDefaultOrganization()).")";
 		$this->ilias->db->query($q);
 	}
 
 	function update()
 	{
+		global $ilDB;
+		
 		parent::update();
 
 		$q = "UPDATE sc_organizations SET ".
-			"default_organization = '".$this->getDefaultOrganization()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"default_organization = ".$ilDB->quote($this->getDefaultOrganization())." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 

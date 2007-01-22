@@ -57,6 +57,8 @@ class ilSCORMTree extends ilTree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
+		global $ilDB;
+		
 		if (!isset($a_node_id))
 		{
 			$message = get_class($this)."::getChilds(): No node_id given!";
@@ -85,8 +87,8 @@ class ilSCORMTree extends ilTree
 	//666
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
-			 "WHERE parent = '".$a_node_id."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".			 
+			 "WHERE parent = ".$ilDB->quote($a_node_id)." ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = ".$ilDB->quote($this->tree_id).			 
 			 $order_clause;
 	
 		$r = $this->ilDB->query($q);

@@ -98,7 +98,9 @@ class ilSCORMObject
 
 	function read()
 	{
-		$q = "SELECT * FROM scorm_object WHERE obj_id = '" . $this->getId() . "'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM scorm_object WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -139,7 +141,7 @@ class ilSCORMObject
 
         $q = "INSERT INTO scorm_object (title, type, slm_id) VALUES "
             . "(" . $ilDB->quote($this->getTitle()) . ", " . $ilDB->quote($this->getType()) . ","
-            . "'" . $this->getSLMId() . "')";
+            .$ilDB->quote($this->getSLMId()).")";
         $this->ilias->db->query($q);
         $this->setId($this->ilias->db->getLastInsertId());
     }
@@ -155,8 +157,8 @@ class ilSCORMObject
         $q = "UPDATE scorm_object SET " . 
             "title = " . $ilDB->quote($this->getTitle()) . ", "
             . "type = " . $ilDB->quote($this->getType()) . ", "
-            . "slm_id = '" . $this->getSLMId() . "' "
-            . "WHERE obj_id = '" . $this->getId() . "'";
+            . "slm_id = ".$ilDB->quote($this->getSLMId())." "
+            . "WHERE obj_id = ".$ilDB->quote($this->getId());
         $this->ilias->db->query($q);
     } 
 

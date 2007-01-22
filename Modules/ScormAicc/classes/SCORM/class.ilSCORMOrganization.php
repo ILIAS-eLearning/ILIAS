@@ -71,9 +71,11 @@ class ilSCORMOrganization extends ilSCORMObject
 
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
-		$q = "SELECT * FROM sc_organization WHERE obj_id = '".$this->getId()."'";
+		$q = "SELECT * FROM sc_organization WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -83,21 +85,26 @@ class ilSCORMOrganization extends ilSCORMObject
 
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
 		$q = "INSERT INTO sc_organization (obj_id, import_id, structure) VALUES ".
-			"('".$this->getId()."', '".$this->getImportId()."','".$this->getStructure()."')";
+			"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->getImportId()).
+			",".$ilDB->quote($this->getStructure()).")";
 		$this->ilias->db->query($q);
 	}
 
 	function update()
 	{
+		global $ilDB;
+		
 		parent::update();
 
 		$q = "UPDATE sc_organization SET ".
-			"import_id = '".$this->getImportId()."', ".
-			"structure = '".$this->getStructure()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"import_id = ".$ilDB->quote($this->getImportId()).", ".
+			"structure = ".$ilDB->quote($this->getStructure())." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 

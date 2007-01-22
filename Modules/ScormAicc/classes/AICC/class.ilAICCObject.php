@@ -137,7 +137,9 @@ class ilAICCObject
 
 	function read()
 	{
-		$q = "SELECT * FROM aicc_object WHERE obj_id = '".$this->getId()."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM aicc_object WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -151,27 +153,32 @@ class ilAICCObject
 
 	function create()
 	{
+		global $ilDB;
+		
 		$q = "INSERT INTO aicc_object (title, type, slm_id, description, developer_id, system_id) VALUES (";
-		$q.="'".$this->prepForStore($this->getTitle())."', ";
-		$q.="'".$this->prepForStore($this->getType())."', ";
-		$q.="'".$this->getALMId()."', ";
-		$q.="'".$this->prepForStore($this->getDescription())."', ";
-		$q.="'".$this->getDeveloperId()."', ";
-		$q.="'".$this->getSystemId()."') ";
+		$q.=$ilDB->quote($this->getTitle()).", ";
+		$q.=$ilDB->quote($this->getType()).", ";
+		$q.=$ilDB->quote($this->getALMId()).", ";
+		$q.=$ilDB->quote($this->getDescription()).", ";
+		$q.=$ilDB->quote($this->getDeveloperId()).", ";
+		$q.=$ilDB->quote($this->getSystemId()).") ";
 		$this->ilias->db->query($q);
 		$this->setId($this->ilias->db->getLastInsertId());
 	}
 
 	function update()
 	{
+		global $ilDB;
+		
 		$q = "UPDATE aicc_object SET ";
-		$q.="title = '".$this->prepForStore($this->getTitle())."', ";
-		$q.="type = '".$this->prepForStore($this->getType())."', ";
-		$q.="slm_id = '".$this->getALMId()."', ";
-		$q.="description = '".$this->prepForStore($this->getDescription())."', ";
-		$q.="developer_id = '".$this->getDeveloperId()."', ";
-		$q.="system_id = '".$this->getSystemId()."' ";
-		$q.="WHERE obj_id = '".$this->getId()."'";
+		$q.="title = ".$ilDB->quote($this->getTitle()).", ";
+		$q.="type = ".$ilDB->quote($this->getType()).", ";
+		$q.="slm_id = ".$ilDB->quote($this->getALMId()).", ";
+		$q.="description = ".$ilDB->quote($this->getDescription()).", ";
+		$q.="developer_id = ".$ilDB->quote($this->getDeveloperId()).", ";
+		$q.="system_id = ".$ilDB->quote($this->getSystemId())." ";
+		$q.="WHERE obj_id = ".$ilDB->quote($this->getId());
+		
 		$this->ilias->db->query($q);
 	}
 

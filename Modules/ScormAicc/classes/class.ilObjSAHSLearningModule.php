@@ -97,10 +97,12 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 //		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 
-		$q = "SELECT * FROM sahs_lm WHERE id = '".$this->getId()."'";
+		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($this->getId());
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
@@ -117,7 +119,9 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function _lookupOnline($a_id)
 	{
-		$q = "SELECT * FROM sahs_lm WHERE id = '".$a_id."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($a_id);
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -133,7 +137,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM sahs_lm WHERE id = '".$a_obj_id."'";
+		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($a_obj_id);
 		$obj_set = $ilDB->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
