@@ -2218,6 +2218,140 @@ class ilTree
 		}
 		return true;
 	}
+	
+	/**
+	* Move Tree Implementation
+	* 
+	* @access	public
+	* @param int source ref_id
+	* @param int target ref_id
+	* @param int location IL_LAST_NODE or IL_FIRST_NODE (IL_FIRST_NODE not implemented yet)
+	*
+	* DO NOT USE THIS FUNCTION YET. It is a proposal
+	*/
+	function moveTree($a_source_id,$a_target_id,$a_location = IL_LAST_NODE)
+    {
+            if($this->__isMainTree())
+            {
+                    ilDBx::_lockTables(array('tree' => 'WRITE'));
+            }
+            // Receive node infos for source and target
+            $query = "SELECT * FROM ".$this->table_tree." ".
+                    "WHERE (child = ".$this->ilDB->quote($a_source_id)." ".
+                    "OR child = ".$this->ilDB->quote($a_target_id).") ".
+                    "AND tree = ".$this->ilDB->quote($this->tree_id);
+            $res = $this->ilDB->query($query);
+            #var_dump("<pre>",$query,"<pre>");
+
+            // Check in tree
+            if($res->numRows() != 2)
+            {
+                    echo "Source or Target not in tree";
+                    exit();
+            }
+            while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+            {
+                    if($row->child == $a_source_id)
+                    {
+                            $source_lft = $row->lft;
+                            $source_rgt = $row->rgt;
+                            $source_depth = $row->depth;
+                    }
+                    else
+                    {
+                            $target_lft = $row->lft;
+                            $target_rgt = $row->rgt;
+                            $target_depth = $row->depth;
+                    }
+            }
+
+            #var_dump("<pre>",$source_lft,$source_rgt,$source_depth,$target_lft,$target_rgt,$target_depth,"<pre>");
+            // Check target not child of source
+            if($target_lft >= $source_lft and $target_rgt <= $source_rgt)
+            {
+                    echo "Target is child of source";
+                    exit;
+            }
+
+            // Now spread the tree at the target location. After this update the table should be still in a consistent state.
+            // implementation for IL_LAST_NODE
+            $spread_diff = $source_rgt - $source_lft + 1;
+            #var_dump("<pre>","SPREAD_DIFF: ",$spread_diff,"<pre>");
+
+            $query = "UPDATE ".$this->table_tree ." SET ".
+                    "lft = CASE ".
+                    "WHEN lft > '".$target_rgt."' ".
+                    "THEN lft + '".$spread_diff."' ".
+                    "ELSE lft ".
+                    "END, ".
+                    "rgt = CASE ".
+                    "WHEN rgt >= '".$target_rgt."' ".
+                    "THEN rgt + '".$spread_diff."' ".
+                    "ELSE rgt ".
+                    "END ".
+                    "WHERE tree = ".$this->tree_id;
+            #var_dump("<pre>",$query,"<pre>");
+            $res = $this->ilDB->query($query);
+
+            // Ok, maybe the source node has been updated, too.
+            // Check this:
+            if($source_lft > $target_rgt)
+            {
+                    $where_offset = $spread_diff;
+                    $move_diff = $target_rgt - $source_lft - $spread_diff;
+            }
+            else
+            {
+                    $where_offset = 0;
+                    $move_diff = $target_rgt - $source_lft;
+            }
+            $depth_diff = $target_depth - $source_depth + 1;
+
+            // Update source subtree:
+            $query = "UPDATE ".$this->table_tree ." ".
+                    "SET rgt = rgt + '".$move_diff."', ".
+                    "lft = lft + '".$move_diff."', ".
+                    "depth = depth + '".$depth_diff."' ".
+                    "WHERE lft >= '".($source_lft + $where_offset)."' ".
+                    "AND rgt <= '".($source_rgt + $where_offset)."' ".
+                    "AND tree = '".$this->tree_id."'";
+            #var_dump("<pre>",$query,"<pre>");
+            $res = $this->ilDB->query($query);
+
+
+			// done: close old gap
+            $query = "UPDATE ".$this->table_tree ." SET ".
+                    "lft = CASE ".
+                    "WHEN lft >= '".($source_lft + $where_offset)."' ".
+                    "THEN lft - '".$spread_diff."' ".
+                    "ELSE lft ".
+                    "END, ".
+                    "rgt = CASE ".
+                    "WHEN rgt >= '".($source_rgt + $where_offset)."' ".
+                    "THEN rgt - '".$spread_diff."' ".
+                    "ELSE rgt ".
+                    "END ".
+                    "WHERE tree = ".$this->tree_id;
+			#var_dump("<pre>",$query,"</pre>");
+			$res = $this->ilDB->query($query);
+
+            // If code execution stops here the tree is inconsistent
+            // But it should be easy to add a system check function that updates the parent information
+
+            // Finally update parent id of source
+            $query = "UPDATE ".$this->table_tree ." ".
+                    "SET parent = '".$a_target_id."' ".
+                    "WHERE child = '".$a_source_id."' ".
+                    "AND tree = '".$this->tree_id."'";
+            #var_dump("<pre>",$query,"<pre>");
+            $res = $this->ilDB->query($query);
+            if($this->__isMainTree())
+            {
+                    ilDBx::_unlockTables();
+            }
+            return true;
+    }
+
 
 } // END class.tree
 ?>

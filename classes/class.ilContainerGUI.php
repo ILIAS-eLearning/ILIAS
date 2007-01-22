@@ -1437,6 +1437,13 @@ class ilContainerGUI extends ilObjectGUI
 		// process CUT command
 		if ($_SESSION["clipboard"]["cmd"] == "cut")
 		{
+			
+			#foreach($ref_ids as $ref_id)
+			#{
+			#	$this->tree->moveTree($ref_id,$this->object->getRefId());
+			#}
+			
+			
 			// get subtrees
 			foreach($ref_ids as $ref_id)
 			{
@@ -1546,6 +1553,7 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 			$tmp_object = $this->ilias->obj_factory->getInstanceByRefId($_SESSION["clipboard"]["parent"]);
 			//$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$ref_ids);
 			unset($tmp_object);
+			
 		} // END CUT
 
 		// process LINK command
