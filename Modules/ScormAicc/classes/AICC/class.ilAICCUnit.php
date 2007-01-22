@@ -169,9 +169,11 @@ class ilAICCUnit extends ilAICCObject
 	
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
-		$q = "SELECT * FROM aicc_units WHERE obj_id = '".$this->getId()."'";
+		$q = "SELECT * FROM aicc_units WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -190,44 +192,48 @@ class ilAICCUnit extends ilAICCObject
 
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
 		$q = "INSERT INTO aicc_units (obj_id, type, command_line, max_time_allowed, time_limit_action,
 									max_score, core_vendor, system_vendor, file_name, mastery_score,
 									web_launch, au_password) VALUES (";
-		$q.="'".$this->getId()."', ";
-		$q.="'".$this->prepForStore($this->getAUType())."', ";
-		$q.="'".$this->prepForStore($this->getCommand_line())."', ";
-		$q.="'".$this->prepForStore($this->getMaxTimeAllowed())."', ";
-		$q.="'".$this->prepForStore($this->getTimeLimitAction())."', ";
-		$q.="'".$this->prepForStore($this->getMaxScore())."', ";
-		$q.="'".$this->prepForStore($this->getCoreVendor())."', ";
-		$q.="'".$this->prepForStore($this->getSystemVendor())."', ";
-		$q.="'".$this->prepForStore($this->getFilename())."', ";
-		$q.="'".$this->prepForStore($this->getMasteryScore())."', ";
-		$q.="'".$this->prepForStore($this->getWebLaunch())."', ";
-		$q.="'".$this->prepForStore($this->getAUPassword())."')";
+		$q.=$ilDB->quote($this->getId()).", ";
+		$q.=$ilDB->quote($this->getAUType()).", ";
+		$q.=$ilDB->quote($this->getCommand_line()).", ";
+		$q.=$ilDB->quote($this->getMaxTimeAllowed()).", ";
+		$q.=$ilDB->quote($this->getTimeLimitAction()).", ";
+		$q.=$ilDB->quote($this->getMaxScore()).", ";
+		$q.=$ilDB->quote($this->getCoreVendor()).", ";
+		$q.=$ilDB->quote($this->getSystemVendor()).", ";
+		$q.=$ilDB->quote($this->getFilename()).", ";
+		$q.=$ilDB->quote($this->getMasteryScore()).", ";
+		$q.=$ilDB->quote($this->getWebLaunch()).", ";
+		$q.=$ilDB->quote($this->getAUPassword()).")";
 
 		$this->ilias->db->query($q);
 	}
 
 	function update()
 	{
+		global $ilDB;
+		
 		parent::update();
 		
 		$q = "UPDATE aicc_units SET ";
-		$q.="type='".$this->prepForStore($this->getAUType())."', ";
-		$q.="command_line='".$this->prepForStore($this->getCommand_line())."', ";
-		$q.="max_time_allowed='".$this->prepForStore($this->getMaxTimeAllowed())."', ";
-		$q.="time_limit_action='".$this->prepForStore($this->getTimeLimitAction())."', ";
-		$q.="max_score='".$this->prepForStore($this->getMaxScore())."', ";
-		$q.="core_vendor='".$this->prepForStore($this->getCoreVendor())."', ";
-		$q.="system_vendor='".$this->prepForStore($this->getSystemVendor())."', ";
-		$q.="file_name='".$this->prepForStore($this->getFilename())."', ";
-		$q.="mastery_score='".$this->prepForStore($this->getMasteryScore())."', ";
-		$q.="web_launch='".$this->prepForStore($this->getWebLaunch())."', ";
-		$q.="au_password='".$this->prepForStore($this->getAUPassword())."' ";		
-		$q.="WHERE obj_id = '".$this->getId()."'";
+		$q.="type=".$ilDB->quote($this->getAUType()).", ";
+		$q.="command_line=".$ilDB->quote($this->getCommand_line()).", ";
+		$q.="max_time_allowed=".$ilDB->quote($this->getMaxTimeAllowed()).", ";
+		$q.="time_limit_action=".$ilDB->quote($this->getTimeLimitAction()).", ";
+		$q.="max_score=".$ilDB->quote($this->getMaxScore()).", ";
+		$q.="core_vendor=".$ilDB->quote($this->getCoreVendor()).", ";
+		$q.="system_vendor=".$ilDB->quote($this->getSystemVendor()).", ";
+		$q.="file_name=".$ilDB->quote($this->getFilename()).", ";
+		$q.="mastery_score=".$ilDB->quote($this->getMasteryScore()).", ";
+		$q.="web_launch=".$ilDB->quote($this->getWebLaunch()).", ";
+		$q.="au_password=".$ilDB->quote($this->getAUPassword())." ";		
+		$q.="WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
@@ -261,8 +267,8 @@ class ilAICCUnit extends ilAICCObject
 		}
 
 		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sco_id = '".$this->getId()."' AND ".
-			"user_id = '".$a_user_id."'";
+			"sco_id = ".$ilDB->quote($this->getId())." AND ".
+			"user_id = ".$ilDB->quote($a_user_id);
 
 		$track_set = $ilDB->query($q);
 		$trdata = array();

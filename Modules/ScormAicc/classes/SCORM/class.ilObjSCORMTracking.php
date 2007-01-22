@@ -173,16 +173,16 @@ class ilObjSCORMTracking
 
 		if(is_array($scorm_item_id))
 		{
-			$where = "WHERE sco_id IN('";
-			$where .= implode("','",$scorm_item_id);
-			$where .= "') ";
-			$where .= ("AND obj_id = '".$a_obj_id."' ");
+			$where = "WHERE sco_id IN(";
+			$where .= implode(",",ilUtil::quoteArray($scorm_item_id));
+			$where .= ") ";
+			$where .= ("AND obj_id = ".$ilDB->quote($a_obj_id)." ");
 			   
 		}
 		else
 		{
-			$where = "WHERE sco_id = '".$scorm_item_id."' ";
-			$where .= ("AND obj_id = '".$a_obj_id."' ");
+			$where = "WHERE sco_id = ".$ilDB->quote($scorm_item_id)." ";
+			$where .= ("AND obj_id = ".$ilDB->quote($a_obj_id)." ");
 		}
 				
 
@@ -205,16 +205,16 @@ class ilObjSCORMTracking
 
 		if(is_array($scorm_item_id))
 		{
-			$where = "WHERE sco_id IN('".implode("','",$scorm_item_id)."') ";
+			$where = "WHERE sco_id IN(".implode(",",ilUtil::quoteArray($scorm_item_id)).") ";
 		}
 		else
 		{
-			$where = "sco_id = '".$scorm_item_id."' ";
+			$where = "sco_id = ".$ilDB->quote($scorm_item_id)." ";
 		}
 
 		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
 			$where.
-			"AND obj_id = '".$a_obj_id."' ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND lvalue = 'cmi.core.lesson_status' ".
 			"AND ( rvalue = 'completed' ".
 			"OR rvalue = 'passed')";
@@ -256,10 +256,10 @@ class ilObjSCORMTracking
 	{
 		global $ilDB;
 
-		$where = "WHERE sco_id IN('";
-		$where .= implode("','",$a_scorm_item_ids);
-		$where .= "') ";
-		$where .= ("AND obj_id = '".$a_obj_id."'");
+		$where = "WHERE sco_id IN(";
+		$where .= implode(",",ilUtil::quoteArray($a_scorm_item_ids));
+		$where .= ") ";
+		$where .= ("AND obj_id = ".$ilDB->quote($a_obj_id));
 		
 
 		$query = "SELECT user_id, COUNT(user_id) as completed FROM scorm_tracking ".
@@ -283,8 +283,8 @@ class ilObjSCORMTracking
 		global $ilDB;
 
 		$query = "SELECT * FROM scorm_tracking ".
-			"WHERE sco_id IN('".implode("','",$sco_item_ids)."') ".
-			"AND obj_id = '".$a_obj_id."' ".
+			"WHERE sco_id IN(".implode(",",ilUtil::quoteArray($sco_item_ids)).") ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND lvalue = 'cmi.core.lesson_status'";
 
 		$res = $ilDB->query($query);

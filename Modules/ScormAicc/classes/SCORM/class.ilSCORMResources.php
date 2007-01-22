@@ -64,9 +64,11 @@ class ilSCORMResources extends ilSCORMObject
 
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
-		$q = "SELECT * FROM sc_resources WHERE obj_id = '".$this->getId()."'";
+		$q = "SELECT * FROM sc_resources WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -75,20 +77,24 @@ class ilSCORMResources extends ilSCORMObject
 
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
 		$q = "INSERT INTO sc_resources (obj_id, xml_base) VALUES ".
-			"('".$this->getId()."', '".$this->getXmlBase()."')";
+			"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->getXmlBase()).")";
 		$this->ilias->db->query($q);
 	}
 
 	function update()
 	{
+		global $ilDB;
+		
 		parent::update();
 
 		$q = "UPDATE sc_resources SET ".
-			"xml_base = '".$this->getXmlBase()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
+			"xml_base = ".$ilDB->quote($this->getXmlBase())." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 

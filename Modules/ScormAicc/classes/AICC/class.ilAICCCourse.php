@@ -203,9 +203,11 @@ class ilAICCCourse extends ilAICCObject
 
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
-		$q = "SELECT * FROM aicc_course WHERE obj_id = '".$this->getId()."'";
+		$q = "SELECT * FROM aicc_course WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -227,50 +229,54 @@ class ilAICCCourse extends ilAICCObject
 
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
 		$q = "INSERT INTO aicc_course (obj_id, course_creator, course_id, course_system, course_title,
 																	level, max_fields_cst, max_fields_ort, total_aus, total_blocks,
 																	total_complex_obj, total_objectives, version, max_normal,
 																	description) VALUES (";
-		$q.="'".$this->getId()."', ";
-		$q.="'".$this->prepForStore($this->getCourseCreator())."', ";
-		$q.="'".$this->prepForStore($this->getCourseId())."', ";
-		$q.="'".$this->prepForStore($this->getCourseSystem())."', ";
-		$q.="'".$this->prepForStore($this->getCourseTitle())."', ";
-		$q.="'".$this->prepForStore($this->getLevel())."', ";
-		$q.="'".$this->prepForStore($this->getMaxFieldsCst())."', ";
-		$q.="'".$this->prepForStore($this->getMaxFieldsOrt())."', ";
-		$q.="'".$this->prepForStore($this->getTotalAUs())."', ";
-		$q.="'".$this->prepForStore($this->getTotalBlocks())."', ";
-		$q.="'".$this->prepForStore($this->getTotalComplexObj())."', ";
-		$q.="'".$this->prepForStore($this->getTotalObjectives())."', ";
-		$q.="'".$this->prepForStore($this->getVersion())."', ";
-		$q.="'".$this->prepForStore($this->getMaxNormal())."', ";
-		$q.="'".$this->prepForStore($this->getDescription())."')";
+		$q.= $ilDB->quote($this->getId()).", ";
+		$q.= $ilDB->quote($this->getCourseCreator()).", ";
+		$q.= $ilDB->quote($this->getCourseId()).", ";
+		$q.= $ilDB->quote($this->getCourseSystem()).", ";
+		$q.= $ilDB->quote($this->getCourseTitle()).", ";
+		$q.= $ilDB->quote($this->getLevel()).", ";
+		$q.= $ilDB->quote($this->getMaxFieldsCst()).", ";
+		$q.= $ilDB->quote($this->getMaxFieldsOrt()).", ";
+		$q.= $ilDB->quote($this->getTotalAUs()).", ";
+		$q.= $ilDB->quote($this->getTotalBlocks()).", ";
+		$q.= $ilDB->quote($this->getTotalComplexObj()).", ";
+		$q.= $ilDB->quote($this->getTotalObjectives()).", ";
+		$q.= $ilDB->quote($this->getVersion()).", ";
+		$q.= $ilDB->quote($this->getMaxNormal()).", ";
+		$q.= $ilDB->quote($this->getDescription()).")";
 		$this->ilias->db->query($q);
 	}
 
 	function update()
 	{
+		global $ilDB;
+		
 		parent::update();
 		
 		$q = "UPDATE aicc_course SET ";
-		$q.="course_creator='".$this->prepForStore($this->getCourseCreator())."', ";
-		$q.="course_id='".$this->prepForStore($this->getCourseId())."', ";
-		$q.="course_system='".$this->prepForStore($this->getCourseSystem())."', ";
-		$q.="course_title='".$this->prepForStore($this->getCourseTitle())."', ";
-		$q.="level='".$this->prepForStore($this->getLevel())."', ";
-		$q.="max_fields_cst='".$this->prepForStore($this->getMaxFieldsCst())."', ";
-		$q.="max_fields_ort='".$this->prepForStore($this->getMaxFieldsOrt())."', ";
-		$q.="total_aus='".$this->prepForStore($this->getTotalAUs())."', ";
-		$q.="total_blocks='".$this->prepForStore($this->getTotalBlocks())."', ";
-		$q.="total_complex_obj='".$this->prepForStore($this->getTotalComplexObj())."', ";
-		$q.="total_objectives='".$this->prepForStore($this->getTotalObjectives())."', ";
-		$q.="version='".$this->prepForStore($this->getVersion())."', ";
-		$q.="max_normal='".$this->prepForStore($this->getMaxNormal())."', ";
-		$q.="description='".$this->prepForStore($this->getDescription())."' ";		
-		$q.="WHERE obj_id = '".$this->getId()."'";
+		$q.="course_creator=".$ilDB->quote($this->getCourseCreator()).", ";
+		$q.="course_id=".$ilDB->quote($this->getCourseId()).", ";
+		$q.="course_system=".$ilDB->quote($this->getCourseSystem()).", ";
+		$q.="course_title=".$ilDB->quote($this->getCourseTitle()).", ";
+		$q.="level=".$ilDB->quote($this->getLevel()).", ";
+		$q.="max_fields_cst=".$ilDB->quote($this->getMaxFieldsCst()).", ";
+		$q.="max_fields_ort=".$ilDB->quote($this->getMaxFieldsOrt()).", ";
+		$q.="total_aus=".$ilDB->quote($this->getTotalAUs()).", ";
+		$q.="total_blocks=".$ilDB->quote($this->getTotalBlocks()).", ";
+		$q.="total_complex_obj=".$ilDB->quote($this->getTotalComplexObj()).", ";
+		$q.="total_objectives=".$ilDB->quote($this->getTotalObjectives()).", ";
+		$q.="version=".$ilDB->quote($this->getVersion()).", ";
+		$q.="max_normal=".$ilDB->quote($this->getMaxNormal()).", ";
+		$q.="description=".$ilDB->quote($this->getDescription())." ";		
+		$q.="WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
@@ -304,8 +310,8 @@ class ilAICCCourse extends ilAICCObject
 		}
 
 		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sco_id = '".$this->getId()."' AND ".
-			"user_id = '".$a_user_id."'";
+			"sco_id = ".$ilDB->quote($this->getId())." AND ".
+			"user_id = ".$ilDB->quote($a_user_id);
 
 		$track_set = $ilDB->query($q);
 		$trdata = array();

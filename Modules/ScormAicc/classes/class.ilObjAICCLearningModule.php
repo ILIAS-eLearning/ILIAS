@@ -160,7 +160,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
 
 		$query = "SELECT obj_id,title FROM aicc_object ".
-			"WHERE slm_id = '".$a_obj_id."' ".
+			"WHERE slm_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND type = 'sau'";
 
 		$res = $ilDB->query($query);
