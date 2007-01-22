@@ -54,6 +54,12 @@ class ilExcelWriterAdapter
 		{
 			$this->workbook =& new Spreadsheet_Excel_Writer($a_filename);
 		}
+		
+		if(strlen($tmp = ini_get('upload_tmp_dir')))
+		{
+			$this->workbook->setTempDir($tmp);
+		}
+		
 		$this->__initFormatBold();
 		$this->__initFormatHeader();
 		$this->__initFormatTitle();
