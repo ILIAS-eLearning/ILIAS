@@ -104,12 +104,12 @@ class ilPageObject
 	*/
 	function read()
 	{
-		global $ilBench;
+		global $ilBench, $ilDB;
 
 		$ilBench->start("ContentPresentation", "ilPageObject_read");
 
-		$query = "SELECT * FROM page_object WHERE page_id = '".$this->id."' ".
-			"AND parent_type='".$this->getParentType()."'";
+		$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($this->id)." ".
+			"AND parent_type=".$ilDB->quote($this->getParentType());
 		$pg_set = $this->ilias->db->query($query);
 		if (!($this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC)))
 		{
@@ -606,13 +606,14 @@ class ilPageObject
 	*/
     function getBibliographyXML()
 	{
-        global $ilias;
+        global $ilias, $ilDB;
 
 		// todo: access to $_GET and $_POST variables is not
 		// allowed in non GUI classes!
 		//
 		// access to db table object_reference is not allowed here!
-        $r = $ilias->db->query("SELECT * FROM object_reference WHERE ref_id='".$_GET["ref_id"]."' ");
+        $r = $ilias->db->query("SELECT * FROM object_reference WHERE ref_id=".
+			$ilDB->quote($_GET["ref_id"]));
         $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
         include_once("./classes/class.ilNestedSetXML.php");
@@ -1080,7 +1081,7 @@ class ilPageObject
 	*/
 	function createFromXML()
 	{
-		global $lng;
+		global $lng, $ilDB;
 
 //echo "<br>PageObject::createFromXML[".$this->getId()."]";
 
@@ -1090,8 +1091,10 @@ class ilPageObject
 		}
 		// create object
 		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
-			"('".$this->getId()."', '".$this->getParentId()."','".ilUtil::prepareDBString($this->getXMLContent()).
-			"', '".$this->getParentType()."')";
+			"(".$ilDB->quote($this->getId()).",".
+			$ilDB->quote($this->getParentId()).",".
+			$ilDB->quote($this->getXMLContent()).
+			", ".$ilDB->quote($this->getParentType()).")";
 		if(!$this->ilias->db->checkQuerySize($query))
 		{
 			$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
@@ -1116,14 +1119,16 @@ class ilPageObject
 	*/
 	function updateFromXML()
 	{
-		global $lng;
+		global $lng, $ilDB;
 //echo "<br>PageObject::updateFromXML[".$this->getId()."]";
 //echo "update:".ilUtil::prepareDBString(($this->getXMLContent())).":<br>";
 //echo "update:".htmlentities(ilUtil::prepareDBString(($this->getXMLContent()))).":<br>";
+
 		$query = "UPDATE page_object ".
-			"SET content = '".ilUtil::prepareDBString(($this->getXMLContent()))."' ".
-			", parent_id='".$this->getParentId()."' ".
-			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
+			"SET content = ".$ilDB->quote($this->getXMLContent())." ".
+			", parent_id=".$ilDB->quote($this->getParentId())." ".
+			"WHERE page_id = ".$ilDB->quote($this->getId())." AND parent_type=".
+			$ilDB->quote($this->getParentType());
 
 		if(!$this->ilias->db->checkQuerySize($query))
 		{
@@ -1140,7 +1145,7 @@ class ilPageObject
 	*/
 	function update($a_validate = true)
 	{
-		global $lng;
+		global $lng, $ilDB;
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
 //echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
@@ -1152,13 +1157,13 @@ class ilPageObject
 		}
 		if(empty($errors))
 		{
-			$content = ilUtil::prepareDBString(($this->getXMLFromDom()));
+			$content = $this->getXMLFromDom();
 //echo "-$content-"; exit;
 			$query = "UPDATE page_object ".
-				"SET content = '".$content."' ".
-				", parent_id='".$this->getParentId()."' ".
-				" WHERE page_id = '".$this->getId().
-				"' AND parent_type='".$this->getParentType()."'";
+				"SET content = ".$ilDB->quote($content)." ".
+				", parent_id= ".$ilDB->quote($this->getParentId())." ".
+				" WHERE page_id = ".$ilDB->quote($this->getId()).
+				" AND parent_type= ".$ilDB->quote($this->getParentType());
 			if(!$this->ilias->db->checkQuerySize($query))
 			{
 				$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
@@ -1221,6 +1226,8 @@ class ilPageObject
 	*/
 	function delete()
 	{
+		global $ilDB;
+		
 		$mobs = array();
 		$files = array();
 		
@@ -1243,8 +1250,8 @@ class ilPageObject
 
 		// delete page_object entry
 		$query = "DELETE FROM page_object ".
-			"WHERE page_id = '".$this->getId().
-			"' AND parent_type='".$this->getParentType()."'";
+			"WHERE page_id = ".$ilDB->quote($this->getId()).
+			"' AND parent_type= ".$ilDB->quote($this->getParentType());
 		$this->ilias->db->query($query);
 
 		foreach ($mobs as $mob_id)

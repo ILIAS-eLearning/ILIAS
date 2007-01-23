@@ -41,9 +41,10 @@ class ilInternalLink
 	*/
 	function _deleteAllLinksOfSource($a_source_type, $a_source_id)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
-		$q = "DELETE FROM int_link WHERE source_type='$a_source_type' AND source_id='$a_source_id'";
+		$q = "DELETE FROM int_link WHERE source_type=".$ilDB->quote($a_source_type).
+			" AND source_id=".$ilDB->quote($a_source_id);
 		$ilias->db->query($q);
 	}
 
@@ -58,10 +59,14 @@ class ilInternalLink
 	*/
 	function _saveLink($a_source_type, $a_source_id, $a_target_type, $a_target_id, $a_target_inst = 0)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		$q = "REPLACE INTO int_link (source_type, source_id, target_type, target_id, target_inst) VALUES".
-			" ('$a_source_type', '$a_source_id', '$a_target_type', '$a_target_id', '$a_target_inst')";
+			" (".$ilDB->quote($a_source_type).
+			",".$ilDB->quote($a_source_id).
+			",".$ilDB->quote($a_target_type).
+			",".$ilDB->quote($a_target_id).
+			",".$ilDB->quote($a_target_inst).")";
 		$ilias->db->query($q);
 	}
 
@@ -76,12 +81,12 @@ class ilInternalLink
 	*/
 	function _getSourcesOfTarget($a_target_type, $a_target_id, $a_target_inst)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		$q = "SELECT * FROM int_link WHERE ".
-			"target_type = '$a_target_type' AND ".
-			"target_id = '$a_target_id' AND ".
-			"target_inst = '$a_target_inst'";
+			"target_type = ".$ilDB->quote($a_target_type)." AND ".
+			"target_id = ".$ilDB->quote($a_target_id)." AND ".
+			"target_inst = ".$ilDB->quote($a_target_inst);
 		$source_set = $ilias->db->query($q);
 		$sources = array();
 		while ($source_rec = $source_set->fetchRow(DB_FETCHMODE_ASSOC))
