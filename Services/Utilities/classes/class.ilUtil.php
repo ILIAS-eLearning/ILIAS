@@ -1237,7 +1237,7 @@ class ilUtil
 	*/
 	function getUsersOnline($a_user_id = 0)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		if ($a_user_id == 0)
 		{
@@ -1245,7 +1245,7 @@ class ilUtil
 		}
 		else
 		{
-			$where = "WHERE user_id = '".$a_user_id."' ";
+			$where = "WHERE user_id = ".$ilDB->quote($a_user_id)." ";
 		}
 
 		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login,ctime FROM usr_session ".
@@ -1273,7 +1273,7 @@ class ilUtil
 	*/
 	function getAssociatedUsersOnline($a_user_id)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		// The difference between active time and session time
 		$time_diff = 0;
@@ -1289,7 +1289,7 @@ class ilUtil
 		"JOIN tree ON tree.child = r1.ref_id ".
 		"JOIN object_reference AS r2 ON r2.ref_id = tree.parent ".
 		"JOIN object_data AS dat ON dat.obj_id = r2.obj_id ".
-		"WHERE ua.usr_id = ".$a_user_id." ".
+		"WHERE ua.usr_id = ".$ilDB->quote($a_user_id)." ".
 		"AND fa.assign = 'y' ".
 		"AND dat.type IN ('grp','crs')";
 		$r = $ilias->db->query($q);
@@ -1304,7 +1304,7 @@ class ilUtil
 			$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login ".
 			"FROM usr_session ".
 			"JOIN usr_data ON user_id=usr_id ".
-			"WHERE user_id = ".$a_user_id." ".
+			"WHERE user_id = ".$ilDB->quote($a_user_id)." ".
 			"AND expires > UNIX_TIMESTAMP() - ".$time_diff." ".
 			"GROUP BY user_id";
 		}
@@ -1321,7 +1321,7 @@ class ilUtil
 			"WHERE s.user_id != 0 ".
 			"AND s.expires > UNIX_TIMESTAMP() - ".$time_diff." ".
 			"AND fa.assign = 'y' ".
-			"AND od.obj_id IN (".implode(",",$groups_and_courses_of_user).") ".
+			"AND od.obj_id IN (".implode(",",ilUtil::quoteArray($groups_and_courses_of_user)).") ".
 			"GROUP BY s.user_id ".
 			"ORDER BY ud.lastname, ud.firstname";
 		}
@@ -1962,9 +1962,10 @@ class ilUtil
 	{
 		return false;
 
-		global $ilias;
+		global $ilias, $ilDB;
 
-		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
+		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child=".
+			$ilDB->quote($a_parent_ref);
 		$r = $ilias->db->query($q);
 		$row = $r->fetchRow();
 
@@ -2152,7 +2153,7 @@ class ilUtil
 	{
 		global $ilDB;
 
-		$q = "SELECT user_id FROM desktop_item WHERE item_id = '".$a_id."'";
+		$q = "SELECT user_id FROM desktop_item WHERE item_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
 
 		$users = array();
@@ -2164,7 +2165,8 @@ class ilUtil
 
 		if (count($users) > 0)
 		{
-			$q = "DELETE FROM desktop_item WHERE item_id = '".$a_id."'";
+			$q = "DELETE FROM desktop_item WHERE item_id = ".
+				$ilDB->quote($a_id);
 			$ilDB->query($q);
 		}
 
@@ -2490,10 +2492,10 @@ class ilUtil
 			$ilErr->raiseError($message,$ilErr->WARNING);
 		}
 
-		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
+		$clause = ($a_id) ? " AND obj_id != ".$ilDB->quote($a_id)." " : "";
 
 		$q = "SELECT obj_id FROM object_data ".
-		"WHERE title = '".addslashes($a_group_name)."' ".
+		"WHERE title = ".$ilDB->quote($a_group_name)." ".
 		"AND type = 'grp'".
 		$clause;
 
@@ -2521,8 +2523,8 @@ class ilUtil
 
 		$q = "SELECT * ".
 			"FROM object_data ,object_reference ".
-			"WHERE (object_data.title LIKE '%".$a_search_str."%' ".
-			"OR object_data.description LIKE '%".$a_search_str."%') ".
+			"WHERE (object_data.title LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
+			"OR object_data.description LIKE ".$ilDB->quote("%".$a_search_str."%").") ".
 			"AND object_data.type = 'grp' ".
 			"AND object_data.obj_id = object_reference.obj_id ".
 			"ORDER BY title ";
@@ -2986,15 +2988,14 @@ class ilUtil
 
 		if(!is_array($a_obj_type))
 		{
-			$where = "WHERE type = '".$a_obj_type."' ";
+			$where = "WHERE type = ".$ilDB->quote($a_obj_type)." ";
 		}
 		else
 		{
-			$where = "WHERE type IN('";
-			$where .= implode("','",$a_obj_type);
-			$where .= "') ";
+			$where = "WHERE type IN(";
+			$where .= implode(",",ilUtil::quoteArray($a_obj_type));
+			$where .= ") ";
 		}
-
 
 		// limit number of results default is search result limit
 		if(!$limit)
@@ -3039,7 +3040,7 @@ class ilUtil
 			"LEFT JOIN object_reference AS obr  ON obr.ref_id = rbac_pa.ref_id ".
 			"LEFT JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
 			$where.
-			"AND ops_id LIKE '%i:".$ops_id."%'";
+			"AND ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%");
 		$res = $ilDB->query($query);
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -3290,9 +3291,9 @@ class ilUtil
 		}
 
 		// use database to sort user array
-		$where = "WHERE ".$a_id_name." IN ('";
-		$where .= implode("','",$a_ids);
-		$where .= "') ";
+		$where = "WHERE ".$a_id_name." IN (";
+		$where .= implode(",", ilUtil::quoteArray($a_ids));
+		$where .= ") ";
 
 		$query = "SELECT ".$a_id_name." FROM ".$a_table." ".
 			$where.

@@ -69,7 +69,7 @@ class ilRegistrationRoleAccessLimitations
 	
 	function save()
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		foreach($this->access_limitations as $key => $data)
 		{
@@ -77,19 +77,19 @@ class ilRegistrationRoleAccessLimitations
 			
 			if ($data['mode'] == 'absolute')
 			{
-				$limit_value = ", limit_absolute = '".$data['absolute']."'";
+				$limit_value = ", limit_absolute = ".$ilDB->quote($data['absolute'])." ";
 			}
 			
 			if ($data['mode'] == 'relative')
 			{
-				$limit_value = ", limit_relative_d = '".$data['relative_d']."'".
-							   ", limit_relative_m = '".$data['relative_m']."'".
-							   ", limit_relative_y = '".$data['relative_y']."'";
+				$limit_value = ", limit_relative_d = ".$ilDB->quote($data['relative_d'])." ".
+							   ", limit_relative_m = ".$ilDB->quote($data['relative_m'])." ".
+							   ", limit_relative_y = ".$ilDB->quote($data['relative_y'])." ";
 			}
 			
 			$query = "REPLACE INTO reg_access_limitation ".
-					 "SET role_id = '".$key."', ".
-					 "limit_mode = '".$data['mode']."'".
+					 "SET role_id = ".$ilDB->quote($key).", ".
+					 "limit_mode = ".$ilDB->quote($data['mode'])." ".
 					 $limit_value;
 
 			$this->db->query($query);
