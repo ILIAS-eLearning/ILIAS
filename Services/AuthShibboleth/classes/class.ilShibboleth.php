@@ -550,7 +550,7 @@ class ShibAuth
 	*/
 	function generateLogin()
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 		
 		$shibID = $_SERVER[$ilias->getSetting('shib_login')];
 		$lastname = $this->getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]);
@@ -561,7 +561,7 @@ class ShibAuth
 		// For backwards compatibility with previous versions
 		// We use the passwd field as mapping attribute for Shibboleth users
 		// because they don't need a password
-		$ilias->db->query("UPDATE usr_data SET passwd='".md5(end(ilUtil::generatePasswords(1)))."', ext_account='".$shibID."' WHERE passwd='".$shibID."'");
+		$ilias->db->query("UPDATE usr_data SET passwd=".$ilDB->quote(md5(end(ilUtil::generatePasswords(1))))."', ext_account=".$ilDB->quote($shibID)." WHERE passwd=".$ilDB->quote($shibID));
 		//***********************************************//
 		
 		// Let's see if user already is registered
