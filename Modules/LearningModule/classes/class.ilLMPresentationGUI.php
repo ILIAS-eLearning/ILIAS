@@ -678,6 +678,8 @@ class ilLMPresentationGUI
 			}
 
 			$childs = $node->child_nodes();
+			
+			$ilBench->start("ContentPresentation", "layout_processContentNodes");
 			foreach($childs as $child)
 			{
 
@@ -686,7 +688,9 @@ class ilLMPresentationGUI
 				switch ($child->node_name())
 				{
 					case "ilMainMenu":
+						$ilBench->start("ContentPresentation", "layout_mainmenu");
 						$this->ilMainMenu();
+						$ilBench->stop("ContentPresentation", "layout_mainmenu");
 						break;
 
 					case "ilTOC":
@@ -735,7 +739,9 @@ class ilLMPresentationGUI
 							($_POST["action"] == "show" or $_POST["action"] == "show_citation")) or
 						   $this->lm->getType() == 'lm')
 						{
+							$ilBench->start("ContentPresentation", "layout_lmnavigation");
 							$this->ilLMNavigation();
+							$ilBench->stop("ContentPresentation", "layout_lmnavigation");
 						}
 						break;
 
@@ -744,22 +750,32 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLocator":
+						$ilBench->start("ContentPresentation", "layout_locator");
 						$this->ilLocator();
+						$ilBench->stop("ContentPresentation", "layout_locator");
 						break;
 
 					case "ilLMMenu":
+						$ilBench->start("ContentPresentation", "layout_lmmenu");	
 						$this->ilLMMenu();
+						$ilBench->stop("ContentPresentation", "layout_lmmenu");
 						break;
 
 					case "ilLMSubMenu":
+						$ilBench->start("ContentPresentation", "layout_lmsubmenu");
 						$this->ilLMSubMenu();
+						$ilBench->stop("ContentPresentation", "layout_lmsubmenu");
 						break;
 						
 					case "ilLMNotes":
+						$ilBench->start("ContentPresentation", "layout_lmnotes");
 						$this->ilLMNotes();
+						$ilBench->stop("ContentPresentation", "layout_lmnotes");
 						break;
 				}
 			}
+			$ilBench->stop("ContentPresentation", "layout_processContentNodes");
+			
 			$ilBench->stop("ContentPresentation", "layout_processContentTag");
 		}
 		$content =  $this->tpl->get();
@@ -1386,37 +1402,53 @@ class ilLMPresentationGUI
 		// page id is e.g. > 0 when footer or header page is processed
 		if ($a_page_id == 0)
 		{
+			$ilBench->start("ContentPresentation", "ilPage_getCurrentPageId");
 			$page_id = $this->getCurrentPageId();
+			$ilBench->stop("ContentPresentation", "ilPage_getCurrentPageId");
 		}
 		else
 		{
 			$page_id = $a_page_id;
 		}
 		
+		$ilBench->start("ContentPresentation", "ilPage_getPageObject");
 		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
 		$page_object->buildDom();
 		$page_object->registerOfflineHandler($this);
+		$ilBench->stop("ContentPresentation", "ilPage_getPageObject");
+		
+		$ilBench->start("ContentPresentation", "ilPage_getInternalLinks");
 		$int_links = $page_object->getInternalLinks();
+		$ilBench->stop("ContentPresentation", "ilPage_getInternalLinks");
+		
+		$ilBench->start("ContentPresentation", "ilPage_getPageObjectGUI");
 		$page_object_gui =& new ilPageObjectGUI($page_object);
 		$page_object_gui->setTemplateOutput(false);
+		$ilBench->stop("ContentPresentation", "ilPage_getPageObjectGUI");
 		
 		// Update personal desktop items
 		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
 
 		// Update course items
+		$ilBench->start("ContentPresentation", "ilPage_updateCourseItems");
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
-
 		ilCourseLMHistory::_updateLastAccess($ilUser->getId(),$this->lm->getRefId(),$page_id);
+		$ilBench->stop("ContentPresentation", "ilPage_updateCourseItems");
 
 		// read link targets
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 //echo "<br>+".htmlentities($link_xml)."+";
 		
+		// get lm page object
+		$ilBench->start("ContentPresentation", "ilPage_getLMPageObject");
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
 		//$pg_obj->setParentId($this->lm->getId());
 		$page_object_gui->setLinkXML($link_xml);
+		$ilBench->stop("ContentPresentation", "ilPage_getLMPageObject");
 
+		$ilBench->start("ContentPresentation", "ilPage_preparePage");
+		
 		// USED FOR DBK PAGE TURNS
 		$page_object_gui->setBibId($_SESSION["bib_id"]);
 		$page_object_gui->enableCitation((bool) $_SESSION["citation"]);
@@ -1482,15 +1514,21 @@ class ilLMPresentationGUI
 				"syntaxhighlight.css");
 		}
 		$this->tpl->parseCurrentBlock();
+		
+		$ilBench->stop("ContentPresentation", "ilPage_preparePage");
 
 		// track user access to page
+		$ilBench->start("ContentPresentation", "ilPage_trackUserAccess");
 		include_once "Services/Tracking/classes/class.ilTracking.php";
 		ilTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
 			$page_id, "pg", "read");
+		$ilBench->stop("ContentPresentation", "ilPage_trackUserAccess");
 
-		$ilBench->stop("ContentPresentation", "ilPage");
-		
+		$ilBench->start("ContentPresentation", "ilPage_getPageContent");
 		$ret = $page_object_gui->presentation($page_object_gui->getOutputMode());
+		$ilBench->stop("ContentPresentation", "ilPage_getPageContent");
+		
+		$ilBench->stop("ContentPresentation", "ilPage");
 		
 		// process header
 		if ($this->lm->getHeaderPage() > 0 && 
