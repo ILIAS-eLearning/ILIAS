@@ -1,6 +1,6 @@
 <?php
 
-
+exit;
 
 //
 // PART 3: Test it the normal way
