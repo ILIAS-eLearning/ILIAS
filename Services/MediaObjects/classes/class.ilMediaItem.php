@@ -210,18 +210,20 @@ class ilMediaItem
 	*/
 	function read()
 	{
+		global $ilDB;
+		
 		$item_id = $this->getId();
 		$mob_id = $this->getMobId();
 		$nr = $this->getNr();
 		$query = "";
 		if($item_id > 0)
 		{
-			$query = "SELECT * FROM media_item WHERE id = '".$this->getId()."'";
+			$query = "SELECT * FROM media_item WHERE id = ".$ilDB->quote($this->getId());
 		}
 		else if ($mob_id > 0 && $nr > 0)
 		{
-			$query = "SELECT * FROM media_item WHERE mob_id = '".$this->getMobId()."' ".
-				"AND nr='".$this->getNr()."'";
+			$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($this->getMobId())." ".
+				"AND nr=".$ilDB->quote($this->getNr());
 		}
 		if ($query != "")
 		{
@@ -242,8 +244,8 @@ class ilMediaItem
 			$this->setThumbTried($item_rec["tried_thumb"]);
 
 			// get item parameter
-			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
-				$this->getId()."'";
+			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
+				$ilDB->quote($this->getId());
 			$par_set = $this->ilias->db->query($query);
 			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
@@ -282,8 +284,10 @@ class ilMediaItem
 	*/
 	function _getMediaItemsOfMOb(&$a_mob)
 	{
+		global $ilDB;
+		
 		// read media_object record
-		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob->getId()."' ".
+		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob->getId())." ".
 			"ORDER BY nr";
 		$item_set = $this->ilias->db->query($query);
 		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -303,8 +307,8 @@ class ilMediaItem
 			$media_item->setThumbTried($item_rec["tried_thumb"]);
 
 			// get item parameter
-			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
-				$item_rec["id"]."'";
+			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
+				$ilDB->quote($item_rec["id"]);
 			$par_set = $this->ilias->db->query($query);
 			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
@@ -329,22 +333,28 @@ class ilMediaItem
 	*/
 	function deleteAllItemsOfMob($a_mob_id)
 	{
+		global $ilDB;
+		
 		// iterate all media items ob mob
-		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob_id."'";
+		$query = "SELECT * FROM media_item WHERE mob_id = ".
+			$ilDB->quote($a_mob_id);
 		$item_set = $this->ilias->db->query($query);
 		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			// delete all parameters of media item
-			$query = "DELETE FROM mob_parameter WHERE med_item_id = '".$item_rec["id"]."'";
+			$query = "DELETE FROM mob_parameter WHERE med_item_id = ".
+				$ilDB->quote($item_rec["id"]);
 			$this->ilias->db->query($query);
 
 			// delete all map areas of media item
-			$query = "DELETE FROM map_area WHERE item_id = '".$item_rec["id"]."'";
+			$query = "DELETE FROM map_area WHERE item_id = ".
+				$ilDB->quote($item_rec["id"]);
 			$this->ilias->db->query($query);
 		}
 
 		// delete media items
-		$query = "DELETE FROM media_item WHERE mob_id = '".$a_mob_id."'";
+		$query = "DELETE FROM media_item WHERE mob_id = ".
+			$ilDB->quote($a_mob_id);
 		$this->ilias->db->query($query);
 	}
 
@@ -901,9 +911,11 @@ class ilMediaItem
 	*/
 	function _resolveMapAreaLinks($a_mob_id)
 	{
+		global $ilDB;
+		
 //echo "mediaItems::resolve<br>";
 		// read media_object record
-		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob_id."' ".
+		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob_id)." ".
 			"ORDER BY nr";
 		$item_set = $this->ilias->db->query($query);
 		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -919,9 +931,12 @@ class ilMediaItem
 	*/
 	function _getMapAreasIntLinks($a_mob_id)
 	{
+		global $ilDB;
+		
 		// read media_items records
-		$query = "SELECT * FROM media_item WHERE mob_id = '".$a_mob_id."' ".
-			"ORDER BY nr";
+		$query = "SELECT * FROM media_item WHERE mob_id = ".
+			$ilDB->quote($a_mob_id)." ORDER BY nr";
+
 		$item_set = $this->ilias->db->query($query);
 		$links = array();
 		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))

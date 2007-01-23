@@ -379,7 +379,6 @@ class ilNote
 			$author_where.
 			" ORDER BY creation_date DESC";
 
-		$ilDB->quote($q);
 		$set = $ilDB->query($q);
 		$notes = array();
 		while($note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))

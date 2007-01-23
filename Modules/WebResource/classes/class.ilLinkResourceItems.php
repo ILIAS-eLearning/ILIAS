@@ -149,9 +149,11 @@ class ilLinkResourceItems
 
 	function delete($a_item_id,$a_update_history = true)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM webr_items ".
-			"WHERE webr_id = '".$this->getLinkResourceId()."' ".
-			"AND link_id = '".$a_item_id."'";
+			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
+			"AND link_id = ".$ilDB->quote($a_item_id);
 
 		$this->db->query($query);
 
@@ -167,6 +169,8 @@ class ilLinkResourceItems
 
 	function update($a_update_history = true)
 	{
+		global $ilDB;
+		
 		if(!$this->getLinkId())
 		{
 			return false;
@@ -174,16 +178,16 @@ class ilLinkResourceItems
 
 		$this->__setLastUpdateDate(time());
 		$query = "UPDATE webr_items ".
-			"SET title = '".ilUtil::prepareDBString($this->getTitle())."', ".
-			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
-			"target = '".ilUtil::prepareDBString($this->getTarget())."', ".
-			"active = '".$this->getActiveStatus()."', ".
-			"valid = '".$this->getValidStatus()."', ".
-			"disable_check = '".$this->getDisableCheckStatus()."', ".
-			"last_update = '".$this->getLastUpdateDate()."', ".
-			"last_check = '".$this->getLastCheckDate()."' ".
-			"WHERE link_id = '".$this->getLinkId()."' ".
-			"AND webr_id = '".$this->getLinkResourceId()."'";
+			"SET title = ".$ilDB->quote($this->getTitle()).", ".
+			"description = ".$ilDB->quote($this->getDescription()).", ".
+			"target = ".$ilDB->quote($this->getTarget()).", ".
+			"active = ".$ilDB->quote($this->getActiveStatus()).", ".
+			"valid = ".$ilDB->quote($this->getValidStatus()).", ".
+			"disable_check = ".$ilDB->quote($this->getDisableCheckStatus()).", ".
+			"last_update = ".$ilDB->quote($this->getLastUpdateDate()).", ".
+			"last_check = ".$ilDB->quote($this->getLastCheckDate())." ".
+			"WHERE link_id = ".$ilDB->quote($this->getLinkId())." ".
+			"AND webr_id = ".$ilDB->quote($this->getLinkResourceId());
 
 		$this->db->query($query);
 
@@ -199,9 +203,11 @@ class ilLinkResourceItems
 
 	function updateValid($a_status)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE webr_items ".
-			"SET valid = '".$a_status."' ".
-			"WHERE link_id = '".$this->getLinkId()."'";
+			"SET valid = ".$ilDB->quote($a_status)." ".
+			"WHERE link_id = ".$ilDB->quote($this->getLinkId());
 
 		$this->db->query($query);
 
@@ -210,9 +216,11 @@ class ilLinkResourceItems
 
 	function updateActive($a_status)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE webr_items ".
-			"SET active = '".$a_status."' ".
-			"WHERE link_id = '".$this->getLinkId()."'";
+			"SET active = ".$ilDB->quote($a_status)." ".
+			"WHERE link_id = ".$ilDB->quote($this->getLinkId());
 
 		$this->db->query($query);
 
@@ -220,9 +228,11 @@ class ilLinkResourceItems
 	}
 	function updateDisableCheck($a_status)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE webr_items ".
-			"SET disable_check = '".$a_status."' ".
-			"WHERE link_id = '".$this->getLinkId()."'";
+			"SET disable_check = ".$ilDB->quote($a_status)." ".
+			"WHERE link_id = ".$ilDB->quote($this->getLinkId());
 
 		$this->db->query($query);
 
@@ -231,6 +241,8 @@ class ilLinkResourceItems
 
 	function updateLastCheck($a_offset = 0)
 	{
+		global $ilDB;
+		
 		if($a_offset)
 		{
 			$period = $a_offset ? $a_offset : 0;
@@ -238,18 +250,18 @@ class ilLinkResourceItems
 			
 			
 			$query = "UPDATE webr_items ".
-				"SET last_check = '".time()."' ".
-				"WHERE webr_id = '".$this->getLinkResourceId()."' ".
+				"SET last_check = ".$ilDB->quote(time())." ".
+				"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
 				"AND disable_check = '0' ".
-				"AND last_check < '".$time."'";
+				"AND last_check < ".$ilDB->quote($time);
 			
 			$this->db->query($query);
 		}
 		else
 		{
 			$query = "UPDATE webr_items ".
-				"SET last_check = '".time()."' ".
-				"WHERE webr_id = '".$this->getLinkResourceId()."' ".
+				"SET last_check = ".$ilDB->quote(time())." ".
+				"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
 				"AND disable_check = '0' ";
 			
 			$this->db->query($query);
@@ -259,6 +271,8 @@ class ilLinkResourceItems
 
 	function updateValidByCheck($a_offset = 0)
 	{
+		global $ilDB;
+		
 		if($a_offset)
 		{
 			$period = $a_offset ? $a_offset : 0;
@@ -268,8 +282,8 @@ class ilLinkResourceItems
 			$query = "UPDATE webr_items ".
 				"SET valid = '1' ".
 				"WHERE disable_check = '0' ".
-				"AND webr_id = '".$this->getLinkResourceId()."' ".
-				"AND last_check < '".$time."'";
+				"AND webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
+				"AND last_check < ".$ilDB->quote($time);
 			
 			$this->db->query($query);
 		}
@@ -278,7 +292,7 @@ class ilLinkResourceItems
 			$query = "UPDATE webr_items ".
 				"SET valid = '1' ".
 				"WHERE disable_check = '0' ".
-				"AND webr_id = '".$this->getLinkResourceId()."'";
+				"AND webr_id = ".$ilDB->quote($this->getLinkResourceId());
 
 			$this->db->query($query);
 		}
@@ -288,18 +302,20 @@ class ilLinkResourceItems
 
 	function add($a_update_history = true)
 	{
+		global $ilDB;
+		
 		$this->__setLastUpdateDate(time());
 		$this->__setCreateDate(time());
 
 		$query = "INSERT INTO webr_items ".
-			"SET title = '".ilUtil::prepareDBString($this->getTitle())."', ".
-			"description = '".ilUtil::prepareDBString($this->getDescription())."', ".
-			"target = '".ilUtil::prepareDBString($this->getTarget())."', ".
-			"active = '".$this->getActiveStatus()."', ".
-			"disable_check = '".$this->getDisableCheckStatus()."', ".
-			"last_update = '".$this->getLastUpdateDate()."', ".
-			"create_date = '".$this->getCreateDate()."', ".
-			"webr_id = '".$this->getLinkResourceId()."'";
+			"SET title = ".$ilDB->quote($this->getTitle()).", ".
+			"description = ".$ilDB->quote($this->getDescription()).", ".
+			"target = ".$ilDB->quote($this->getTarget()).", ".
+			"active = ".$ilDB->quote($this->getActiveStatus()).", ".
+			"disable_check = ".$ilDB->quote($this->getDisableCheckStatus()).", ".
+			"last_update = ".$ilDB->quote($this->getLastUpdateDate()).", ".
+			"create_date = ".$ilDB->quote($this->getCreateDate()).", ".
+			"webr_id = ".$ilDB->quote($this->getLinkResourceId());
 
 		$this->db->query($query);
 
@@ -316,8 +332,10 @@ class ilLinkResourceItems
 	}
 	function readItem($a_link_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM webr_items ".
-			"WHERE link_id = '".$a_link_id."'";
+			"WHERE link_id = ".$ilDB->quote($a_link_id);
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -339,10 +357,11 @@ class ilLinkResourceItems
 
 	function getItem($a_link_id)
 	{
-
+		global $ilDB;
+		
 		$query = "SELECT * FROM webr_items ".
-			"WHERE webr_id = '".$this->getLinkResourceId()."' ".
-			"AND link_id = '".$a_link_id."'";
+			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
+			"AND link_id = ".$ilDB->quote($a_link_id);
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -364,8 +383,10 @@ class ilLinkResourceItems
 		
 	function getAllItems()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM webr_items ".
-			"WHERE webr_id = '".$this->getLinkResourceId()."'";
+			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId());
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -420,7 +441,7 @@ class ilLinkResourceItems
 	{
 		global $ilDB;
 		
-		$ilDB->query("DELETE FROM webr_items WHERE webr_id = '".$webr_id."'");
+		$ilDB->query("DELETE FROM webr_items WHERE webr_id = ".$ilDB->quote($webr_id));
 
 		return true;
 	}
@@ -437,7 +458,7 @@ class ilLinkResourceItems
 	{
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = '".$a_webr_id."' AND active = '1'");
+		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".$ilDB->quote($a_webr_id)." AND active = '1'");
 
 		return $res->numRows() == 1 ? true : false;
 	}
@@ -454,7 +475,8 @@ class ilLinkResourceItems
 	{
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = '".$a_webr_id."' AND active = '1'");
+		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".
+			$ilDB->quote($a_webr_id)." AND active = '1'");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;

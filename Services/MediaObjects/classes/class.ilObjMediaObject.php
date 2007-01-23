@@ -917,7 +917,8 @@ class ilObjMediaObject extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "DELETE FROM mob_usage WHERE usage_type='$a_type' AND usage_id='$a_id'";
+		$q = "DELETE FROM mob_usage WHERE usage_type = ".
+			$ilDB->quote($a_type)." AND usage_id= ".$ilDB->quote($a_id);
 		$ilDB->query($q);
 	}
 
@@ -945,7 +946,8 @@ class ilObjMediaObject extends ilObject
 		global $ilDB;
 		
 		$q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES".
-			" ('$a_mob_id', '$a_type', '$a_id')";
+			" (".$ilDB->quote($a_mob_id).",".
+			$ilDB->quote($a_type).",".$ilDB->quote($a_id).")";
 		$ilDB->query($q);
 	}
 
@@ -968,7 +970,8 @@ class ilObjMediaObject extends ilObject
 		global $ilDB;
 
 		// get usages in learning modules
-		$q = "SELECT * FROM mob_usage WHERE id = '".$this->getId()."'";
+		$q = "SELECT * FROM mob_usage WHERE id = ".
+			$ilDB->quote($this->getId());
 		$us_set = $ilDB->query($q);
 		$ret = array();
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -978,7 +981,8 @@ class ilObjMediaObject extends ilObject
 		}
 
 		// get usages in media pools
-		$q = "SELECT DISTINCT mep_id FROM mep_tree WHERE child = '".$this->getId()."'";
+		$q = "SELECT DISTINCT mep_id FROM mep_tree WHERE child = ".
+			$ilDB->quote($this->getId());
 		$us_set = $ilDB->query($q);
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -990,7 +994,7 @@ class ilObjMediaObject extends ilObject
 		$q = "SELECT DISTINCT mob_id FROM media_item as it, map_area as area ".
 			" WHERE area.item_id = it.id ".
 			" AND area.link_type='int' ".
-			" AND area.target = 'il__mob_".$this->getId()."'";
+			" AND area.target = ".$ilDB->quote("il__mob_".$this->getId());
 		$us_set = $ilDB->query($q);
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
