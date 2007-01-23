@@ -120,7 +120,10 @@ class ilMapArea
 	*/
 	function _getMaxNr($a_item_id)
 	{
-		$q = "SELECT max(nr) AS max_nr FROM map_area WHERE item_id='".$a_item_id."'";
+		global $ilDB;
+		
+		$q = "SELECT max(nr) AS max_nr FROM map_area WHERE item_id=".
+			$ilDB->quote($a_item_id);
 		$max_set = $this->ilias->db->query($q);
 		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -132,8 +135,11 @@ class ilMapArea
 	*/
 	function read()
 	{
-		$q = "SELECT * FROM map_area WHERE item_id='".$this->getItemId().
-			"' AND nr='".$this->getNr()."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM map_area WHERE item_id=".
+			$ilDB->quote($this->getItemId()).
+			" AND nr=".$ilDB->quote($this->getNr());
 		$area_set = $this->ilias->db->query($q);
 		$area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -178,7 +184,7 @@ class ilMapArea
 		global $ilDB;
 
 //echo "maparea::resolve<br>";
-		$q = "SELECT * FROM map_area WHERE item_id='".$a_item_id."'";
+		$q = "SELECT * FROM map_area WHERE item_id=".$ilDB->quote($a_item_id);
 		$area_set = $this->ilias->db->query($q);
 		while ($area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -207,7 +213,9 @@ class ilMapArea
 	*/
 	function _getIntLinks($a_item_id)
 	{
-		$q = "SELECT * FROM map_area WHERE item_id='".$a_item_id."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM map_area WHERE item_id=".$ilDB->quote($a_item_id);
 		$area_set = $this->ilias->db->query($q);
 
 		$links = array();

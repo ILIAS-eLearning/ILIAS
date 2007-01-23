@@ -234,7 +234,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				
 				// check for profile
 				// todo: use user class!
-				$q = "SELECT value FROM usr_pref WHERE usr_id='".$user_id."' AND keyword='public_profile' AND value='y'";
+				$q = "SELECT value FROM usr_pref WHERE usr_id = ".
+					$ilDB->quote($user_id)." AND keyword='public_profile' AND value='y'";
 				$r = $ilDB->query($q);
 				$profile = false;
 				if ($r->numRows())
