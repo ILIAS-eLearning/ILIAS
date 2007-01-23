@@ -59,12 +59,14 @@ class ilObjiLincCourse extends ilObject
 	*/
 	function read()
 	{
+		global $ilDB, $ilErr;
+
 		parent::read();
 		
 		// TODO: fetching default role should be done in rbacadmin
 		$q = "SELECT * FROM ilinc_data ".
-			 "WHERE obj_id='".$this->id."'";
-		$r = $this->ilias->db->query($q);
+			 "WHERE obj_id = ".$ilDB->quote($this->id);
+		$r = $ilDB->query($q);
 
 		if ($r->numRows() > 0)
 		{
@@ -77,7 +79,7 @@ class ilObjiLincCourse extends ilObject
 		}
 		else
 		{
-			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $this->ilias->FATAL);
+			 $ilErr->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 	}
 	
@@ -122,6 +124,8 @@ class ilObjiLincCourse extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+
 		$this->ilincAPI->editCourse($this->getiLincId(),$_POST["Fobject"]);
 		$response = $this->ilincAPI->sendRequest();
 		
@@ -133,7 +137,6 @@ class ilObjiLincCourse extends ilObject
 		
 		// TODO: alter akclassvalues of classes here
 
-
 		if (!parent::update())
 		{			
 			$this->error_msg = "database_error";
@@ -141,11 +144,11 @@ class ilObjiLincCourse extends ilObject
 		}
 		
 		$q = "UPDATE ilinc_data SET ".
-			 "activation_offline='".$this->activated."', ".
-			 "akclassvalue1='".$this->akclassvalue1."', ".
-			 "akclassvalue2='".$this->akclassvalue2."' ".
-			 "WHERE obj_id=".$this->getId()."";
-		$r = $this->ilias->db->query($q);
+			 "activation_offline = ".$ilDB->quote($this->activated).", ".
+			 "akclassvalue1 = ".$ilDB->quote($this->akclassvalue1).", ".
+			 "akclassvalue2 = ".$ilDB->quote($this->akclassvalue2)." ".
+			 "WHERE obj_id = ".$ilDB->quote($this->getId());
+		$r = $ilDB->query($q);
 		
 		return true;
 	}
@@ -210,6 +213,8 @@ class ilObjiLincCourse extends ilObject
 	*/
 	function delete()
 	{		
+		global $ilDB;
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -217,8 +222,8 @@ class ilObjiLincCourse extends ilObject
 		}
 		
 		//put here your module specific stuff
-		$q = "DELETE FROM ilinc_data WHERE course_id='".$this->getiLincId()."'";
-		$this->ilias->db->query($q);
+		$q = "DELETE FROM ilinc_data WHERE course_id = ".$ilDB->quote($this->getiLincId());
+		$ilDB->query($q);
 		
 		// TODO: delete data in ilinc_registration table
 		
@@ -232,8 +237,10 @@ class ilObjiLincCourse extends ilObject
 	// store iLinc Id in ILIAS and set variable
 	function storeiLincId($a_icrs_id)
 	{
-		$q = "INSERT INTO ilinc_data (obj_id,type,course_id,activation_offline) VALUES (".$this->id.",'icrs','".$a_icrs_id."','".$this->activated."')";
-		$this->ilias->db->query($q);
+		global $ilDB;
+
+		$q = "INSERT INTO ilinc_data (obj_id,type,course_id,activation_offline) VALUES (".$ilDB->quote($this->id).",'icrs',".$ilDB->quote($a_icrs_id).",".$ilDB->quote($this->activated).")";
+		$ilDB->query($q);
 		
 		$this->ilinc_id = $a_icrs_id;
 	}
@@ -241,18 +248,22 @@ class ilObjiLincCourse extends ilObject
 	// saveActivationStatus()
 	function saveActivationStatus($a_activated)
 	{
-		$q = "UPDATE ilinc_data SET activation_offline='".$a_activated."' WHERE obj_id=".$this->getId()."";
-		$r = $this->ilias->db->query($q);
+		global $ilDB;
+
+		$q = "UPDATE ilinc_data SET activation_offline = ".$ilDB->quote($a_activated)." WHERE obj_id = ".$ilDB->quote($this->getId());
+		$r = $ilDB->query($q);
 	}
 	
 	// saveAKClassValues
 	function saveAKClassValues($a_akclassvalue1,$a_akclassvalue2)
 	{
+		global $ilDB;
+
 		$q = "UPDATE ilinc_data SET ".
-			 "akclassvalue1='".$a_akclassvalue1."', ".
-			 "akclassvalue2='".$a_akclassvalue2."' ".
-			 "WHERE obj_id=".$this->getId();
-		$r = $this->ilias->db->query($q);
+			 "akclassvalue1= ".$ilDB->quote($a_akclassvalue1).", ".
+			 "akclassvalue2= ".$ilDB->quote($a_akclassvalue2)." ".
+			 "WHERE obj_id= ".$ilDB->quote($this->getId());
+		$r = $ilDB->query($q);
 	}
 	
 	/**
@@ -489,7 +500,7 @@ class ilObjiLincCourse extends ilObject
 			 "WHERE usr_id IN (".implode(',',$a_mem_ids).")";
 			 
   		if (is_numeric($active) && $active > -1)
-  			$q .= "AND active = '$active'";			 
+  			$q .= "AND active = ".$ilDB->quote($active);			 
 		
   		$r = $ilDB->query($q);
 		
@@ -727,34 +738,6 @@ class ilObjiLincCourse extends ilObject
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
 		return $ilinc_user->add();
-		
-		/*
-		// create login and passwd for iLinc account
-		$login_data = $this->__createLoginData($a_user_obj->getId(),$a_user_obj->getLogin(),$this->ilias->getSetting($inst_id));
-		
-		$this->ilincAPI->addUser($login_data,$a_user_obj);
-		$response = $this->ilincAPI->sendRequest();
-
-		if ($response->isError())
-		{
-			if (!$response->getErrorMsg())
-			{
-				$this->error_msg = "err_add_user";
-			}
-			else
-			{
-				$this->error_msg = $response->getErrorMsg();
-			}
-			
-			return false;
-		}
-		
-		$ilinc_user_id = $response->getFirstID();
-		$a_user_obj->setiLincData($ilinc_user_id,$login_data["login"],$login_data["passwd"]);
-		$a_user_obj->update();
-		
-		return true;
-		*/
 	}
 
 	function isMember($a_user_id = "")
@@ -783,8 +766,6 @@ class ilObjiLincCourse extends ilObject
 		
 		$docents = $this->getiLincMemberIds(true);
 		
-		//$ilinc_data = $a_user_obj->getiLincData();
-		
 		include_once ('class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
@@ -807,9 +788,6 @@ class ilObjiLincCourse extends ilObject
 			$a_instructor = "False";
 		}
 		
-
-		//$ilinc_data = $a_user_obj->getiLincData();
-		
 		include_once ('class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
@@ -817,8 +795,6 @@ class ilObjiLincCourse extends ilObject
 		$this->ilincAPI->registerUser($this->getiLincId(),$user);
 		$response = $this->ilincAPI->sendRequest("registerUser");
 		
-//var_dump($response->data);exit;
-
 		if ($response->isError())
 		{
 			if (!$response->getErrorMsg())
@@ -873,8 +849,6 @@ class ilObjiLincCourse extends ilObject
 	// unregister user from course on iLinc server
 	function unregisterUser($a_user_obj)
 	{
-		//$ilinc_data = $a_user_obj->getiLincData();
-
 		include_once ('class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
@@ -909,8 +883,6 @@ class ilObjiLincCourse extends ilObject
 		$this->ilincAPI->unregisterUser($this->getiLincId(),$a_ilinc_user_ids);
 		$response = $this->ilincAPI->sendRequest();
 		
-		//var_dump($response->data);exit;
-		
 		if ($response->isError())
 		{
 			if (!$response->getErrorMsg())
@@ -930,7 +902,6 @@ class ilObjiLincCourse extends ilObject
 	
 	function userLogin(&$a_user_obj)
 	{
-		
 		include_once ('class.ilObjiLincUser.php');
 		$ilinc_user = new ilObjiLincUser($a_user_obj);
 		
