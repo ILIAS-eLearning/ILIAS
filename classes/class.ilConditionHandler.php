@@ -303,11 +303,15 @@ class ilConditionHandler
 	*/
 	function storeCondition()
 	{
+		global $ilDB;
+		
 		// first insert, then validate: it's easier to check for circles if the new condition is in the db table
 		$query = 'INSERT INTO conditions '.
-			"VALUES('0','".$this->getTargetRefId()."','".$this->getTargetObjId()."','".$this->getTargetType()."','".
-			$this->getTriggerRefId()."','".$this->getTriggerObjId()."','".$this->getTriggerType()."','".
-			$this->getOperator()."','".$this->getValue()."')";
+			"VALUES('0',".$ilDB->quote($this->getTargetRefId()).",".
+			$ilDB->quote($this->getTargetObjId()).",".$ilDB->quote($this->getTargetType()).",".
+			$ilDB->quote($this->getTriggerRefId()).",".$ilDB->quote($this->getTriggerObjId()).",".
+			$ilDB->quote($this->getTriggerType()).",".
+			$ilDB->quote($this->getOperator()).",".$ilDB->quote($this->getValue()).")";
 
 		$res = $this->db->query($query);
 
@@ -328,12 +332,14 @@ class ilConditionHandler
 
 	function checkExists()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM conditions ".
-			"WHERE target_ref_id = '".$this->getTargetRefId()."' ".
-			"AND target_obj_id = '".$this->getTargetObjId()."' ".
-			"AND trigger_ref_id = '".$this->getTriggerRefId()."' ".
-			"AND trigger_obj_id = '".$this->getTriggerObjId()."' ".
-			"AND operator = '".$this->getOperator()."'";
+			"WHERE target_ref_id = ".$ilDB->quote($this->getTargetRefId())." ".
+			"AND target_obj_id = ".$ilDB->quote($this->getTargetObjId())." ".
+			"AND trigger_ref_id = ".$ilDB->quote($this->getTriggerRefId())." ".
+			"AND trigger_obj_id = ".$ilDB->quote($this->getTriggerObjId())." ".
+			"AND operator = ".$ilDB->quote($this->getOperator());
 
 		$res = $this->db->query($query);
 
@@ -344,10 +350,12 @@ class ilConditionHandler
 	*/
 	function updateCondition($a_id)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE conditions SET ".
-			"operator = '".$this->getOperator()."', ".
-			"value = '".$this->getValue()."' ".
-			"WHERE id = '".$a_id."'";
+			"operator = ".$ilDB->quote($this->getOperator()).", ".
+			"value = ".$ilDB->quote($this->getValue())." ".
+			"WHERE id = ".$ilDB->quote($a_id);
 
 		$res = $this->db->query($query);
 
@@ -361,9 +369,11 @@ class ilConditionHandler
 	*/
 	function delete($a_ref_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM conditions WHERE ".
-			"target_ref_id = '".$a_ref_id."' ".
-			"OR trigger_ref_id = '".$a_ref_id."'";
+			"target_ref_id = ".$ilDB->quote($a_ref_id)." ".
+			"OR trigger_ref_id = ".$ilDB->quote($a_ref_id);
 
 		$res = $this->db->query($query);
 
@@ -375,9 +385,11 @@ class ilConditionHandler
 	*/
 	function deleteByObjId($a_obj_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM conditions WHERE ".
-			"target_obj_id = '".$a_obj_id."' ".
-			"OR trigger_obj_id = '".$a_obj_id."'";
+			"target_obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"OR trigger_obj_id = ".$ilDB->quote($a_obj_id);
 
 		$res = $this->db->query($query);
 
@@ -392,7 +404,7 @@ class ilConditionHandler
 		global $ilDB;
 
 		$query = "DELETE FROM conditions ".
-			"WHERE id = '".$a_id."'";
+			"WHERE id = ".$ilDB->quote($a_id);
 
 		$res = $ilDB->query($query);
 
@@ -408,8 +420,8 @@ class ilConditionHandler
 		global $ilDB;
 
 		$query = "SELECT * FROM conditions ".
-			"WHERE trigger_obj_id = '".$a_trigger_id."'".
-			" AND trigger_type = '".$a_trigger_obj_type."'";
+			"WHERE trigger_obj_id = ".$ilDB->quote($a_trigger_id)." ".
+			" AND trigger_type = ".$ilDB->quote($a_trigger_obj_type)." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -453,8 +465,8 @@ class ilConditionHandler
 		}
 
 		$query = "SELECT * FROM conditions ".
-			"WHERE target_obj_id = '".$a_target_obj_id."'".
-			" AND target_type = '".$a_target_type."'";
+			"WHERE target_obj_id = ".$ilDB->quote($a_target_obj_id)." ".
+			" AND target_type = ".$ilDB->quote($a_target_type);
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -483,7 +495,7 @@ class ilConditionHandler
 		global $ilDB;
 
 		$query = "SELECT * FROM conditions ".
-			"WHERE id = '".$a_id."'";
+			"WHERE id = ".$ilDB->quote($a_id);
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -571,14 +583,16 @@ class ilConditionHandler
 	// PRIVATE
 	function validate()
 	{
+		global $ilDB;
+		
 		// check if obj_id is already assigned
 		$trigger_obj =& ilObjectFactory::getInstanceByRefId($this->getTriggerRefId());
 		$target_obj =& ilObjectFactory::getInstanceByRefId($this->getTargetRefId());
 
 
 		$query = "SELECT * FROM conditions WHERE ".
-			"trigger_obj_id = '".$trigger_obj->getId()."' ".
-			"AND target_obj_id = '".$target_obj->getId()."'";
+			"trigger_obj_id = ".$ilDB->quote($trigger_obj->getId())." ".
+			"AND target_obj_id = ".$ilDB->quote($target_obj->getId());
 
 		$res = $this->db->query($query);
 		if($res->numRows() > 1)
