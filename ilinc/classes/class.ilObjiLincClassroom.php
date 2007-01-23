@@ -75,7 +75,7 @@ class ilObjiLincClassroom extends ilObject
 
 		$q = "SELECT course_id FROM ilinc_data ".
 			 "LEFT JOIN object_reference ON object_reference.obj_id=ilinc_data.obj_id ".
-			 "WHERE object_reference.ref_id = '".$a_ref_id."'";
+			 "WHERE object_reference.ref_id = ".$ilDB->quote($a_ref_id);
 		$obj_set = $ilDB->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -245,7 +245,7 @@ class ilObjiLincClassroom extends ilObject
 		
 		$fullname = false;
 		
-		$q = "SELECT title,firstname,lastname FROM usr_data WHERE ilinc_id = '".$a_ilinc_user_id."' LIMIT 1";
+		$q = "SELECT title,firstname,lastname FROM usr_data WHERE ilinc_id = ".$ilDB->quote($a_ilinc_user_id)." LIMIT 1";
 		$r = $ilDB->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
