@@ -95,8 +95,10 @@ class ilRegistrationRoleAssignments
 
 	function delete($a_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM reg_email_role_assignments ".
-			"WHERE assignment_id = '".$a_id."'";
+			"WHERE assignment_id = ".$ilDB->quote($a_id);
 
 		$this->db->query($query);
 
@@ -118,7 +120,7 @@ class ilRegistrationRoleAssignments
 
 	function save()
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		// Save default role
 		$ilias->setSetting('reg_default_role',$this->getDefaultRole());
@@ -126,9 +128,9 @@ class ilRegistrationRoleAssignments
 		foreach($this->assignments as $assignment)
 		{
 			$query = "UPDATE reg_email_role_assignments ".
-				"SET domain = '".$assignment['domain']."', ".
-				"role = '".$assignment['role']."' ".
-				"WHERE assignment_id = '".$assignment['id']."'";
+				"SET domain = ".$ilDB->quote($assignment['domain']).", ".
+				"role = ".$ilDB->quote($assignment['role'])." ".
+				"WHERE assignment_id = ".$ilDB->quote($assignment['id']);
 
 			$this->db->query($query);
 		}
@@ -161,7 +163,7 @@ class ilRegistrationRoleAssignments
 	// Private
 	function __read()
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		$query = "SELECT * FROM reg_email_role_assignments ";
 		$res = $this->db->query($query);
