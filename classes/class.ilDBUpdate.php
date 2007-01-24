@@ -165,7 +165,7 @@ class ilDBUpdate
 	{
 		{
 			$q = "UPDATE settings SET ".
-				 "value = '".$a_version."' ".
+				 "value = ".$this->db->quote($a_version)." ".
 				 "WHERE keyword = 'db_version'";
 		}
 

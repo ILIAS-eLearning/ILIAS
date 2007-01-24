@@ -146,8 +146,11 @@ class ilObjGroup extends ilContainer
 	*/
 	function getNewRegistrations()
 	{
+		global $ilDB;
+		
 		$appList = array();
-		$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->getId();
+		$q = "SELECT * FROM grp_registration WHERE grp_id=".
+			$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -167,7 +170,10 @@ class ilObjGroup extends ilContainer
 	*/
 	function deleteApplicationListEntry($a_userId)
 	{
-		$q = "DELETE FROM grp_registration WHERE user_id=".$a_userId." AND grp_id=".$this->getId();
+		global $ilDB;
+		
+		$q = "DELETE FROM grp_registration WHERE user_id=".
+			$ilDB->quote($a_userId)." AND grp_id=".$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 	}
 
@@ -307,7 +313,7 @@ class ilObjGroup extends ilContainer
 		
 		$q = "SELECT login,firstname,lastname,title,usr_id,last_login ".
 			 "FROM usr_data ".
-			 "WHERE usr_id IN (".implode(',',$a_mem_ids).")";
+			 "WHERE usr_id IN (".implode(',',ilUtil::quoteArray($a_mem_ids)).")";
 			 
   		if (is_numeric($active) && $active > -1)
   			$q .= "AND active = '$active'";			 
@@ -478,7 +484,10 @@ class ilObjGroup extends ilContainer
 	*/
 	function setRegistrationFlag($a_regFlag="")
 	{
-		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+			$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 
 		if (!isset($a_regFlag))
@@ -488,12 +497,16 @@ class ilObjGroup extends ilContainer
 
 		if ($res->numRows() == 0)
 		{
-			$q = "INSERT INTO grp_data (grp_id, register) VALUES(".$this->getId().",".$a_regFlag.")";
+			$q = "INSERT INTO grp_data (grp_id, register) VALUES(".
+				$ilDB->quote($this->getId()).",".
+				$ilDB->quote($a_regFlag).")";
 			$res = $this->ilias->db->query($q);
 		}
 		else
 		{
-			$q = "UPDATE grp_data SET register=".$a_regFlag." WHERE grp_id=".$this->getId()."";
+			$q = "UPDATE grp_data SET register=".
+				$ilDB->quote($a_regFlag)." WHERE grp_id=".
+				$ilDB->quote($this->getId());
 			$res = $this->ilias->db->query($q);
 		}
 	}
@@ -505,7 +518,10 @@ class ilObjGroup extends ilContainer
 	*/
 	function getRegistrationFlag()
 	{
-		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+			$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -519,7 +535,10 @@ class ilObjGroup extends ilContainer
 	*/
 	function getPassword()
 	{
-		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+			$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -535,17 +554,21 @@ class ilObjGroup extends ilContainer
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+			$ilDB->quote($this->getId());
+			
 		$res = $this->ilias->db->query($q);
 
 		if ($res->numRows() == 0)
 		{
-			$q = "INSERT INTO grp_data (grp_id, password) VALUES(".$this->getId().",".$ilDB->quote($a_password).")";
+			$q = "INSERT INTO grp_data (grp_id, password) VALUES(".
+				$ilDB->quote($this->getId()).",".$ilDB->quote($a_password).")";
 			$res = $this->ilias->db->query($q);
 		}
 		else
 		{
-			$q = "UPDATE grp_data SET password=".$ilDB->quote($a_password)." WHERE grp_id=".$this->getId()."";
+			$q = "UPDATE grp_data SET password=".$ilDB->quote($a_password)." WHERE grp_id=".
+				$ilDB->quote($this->getId());
 			$res = $this->ilias->db->query($q);
 		}
 	}
@@ -557,18 +580,23 @@ class ilObjGroup extends ilContainer
 	*/
 	function setExpirationDateTime($a_date)
 	{
-		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+			$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 		$date = ilFormat::input2date($a_date);
 
 		if ($res->numRows() == 0)
 		{
-			$q = "INSERT INTO grp_data (grp_id, expiration) VALUES(".$this->getId().",'".$date."')";
+			$q = "INSERT INTO grp_data (grp_id, expiration) VALUES(".
+				$ilDB->quote($this->getId()).",".$ilDB->quote($date).")";
 			$res = $this->ilias->db->query($q);
 		}
 		else
 		{
-			$q = "UPDATE grp_data SET expiration='".$date."' WHERE grp_id=".$this->getId()."";
+			$q = "UPDATE grp_data SET expiration=".
+				$ilDB->quote($date)." WHERE grp_id=".$ilDB->quote($this->getId());
 			$res = $this->ilias->db->query($q);
 		}
 	}
@@ -580,7 +608,10 @@ class ilObjGroup extends ilContainer
 	*/
 	function getExpirationDateTime()
 	{
-		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM grp_data WHERE grp_id= ".
+			$ilDB->quote($this->getId());
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$datetime = $row["expiration"];
@@ -593,7 +624,10 @@ class ilObjGroup extends ilContainer
 
 	function getExpirationTimestamp()
 	{
-		$query = "SELECT * FROM grp_data WHERE grp_id = '".$this->getId()."'";
+		global $ilDB;
+		
+		$query = "SELECT * FROM grp_data WHERE grp_id = ".
+			$ilDB->quote($this->getId());
 
 		$res = $this->ilias->db->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -800,7 +834,7 @@ class ilObjGroup extends ilContainer
 			 "LEFT JOIN rbac_ua ON object_data.obj_id=rbac_ua.rol_id ".
 			 "WHERE object_data.type = 'role' ".
 			 "AND rbac_ua.usr_id = ".$ilDB->quote($a_user_id)." ".
-			 "AND rbac_ua.rol_id IN (".implode(',',$this->getLocalGroupRoles()).")";
+			 "AND rbac_ua.rol_id IN (".implode(',',ilUtil::quoteArray($this->getLocalGroupRoles())).")";
 
 		$r = $ilDB->query($q);
 
@@ -941,13 +975,16 @@ class ilObjGroup extends ilContainer
 	*/
 	function delete()
 	{
+		global $ilDB;
+		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
 		
-		$query = "DELETE FROM grp_data WHERE grp_id=".$this->getId();
+		$query = "DELETE FROM grp_data WHERE grp_id = ".
+			$ilDB->quote($this->getId());
 		$this->ilias->db->query($query);
 
 		return true;
@@ -1184,7 +1221,8 @@ class ilObjGroup extends ilContainer
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM object_data WHERE title = '".$a_title."' AND type = 'grp'";
+		$query = "SELECT * FROM object_data WHERE title = ".
+			$ilDB->quote($a_title)." AND type = 'grp'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -1247,7 +1285,7 @@ class ilObjGroup extends ilContainer
 				return false;
 			}
 			$query = "SELECT * FROM usr_data as ud ".
-				"WHERE usr_id IN ('".implode("','",$members)."') ".
+				"WHERE usr_id IN (".implode(",",ilUtil::quoteArray($members)).") ".
 				$and;
 			$res = $ilDB->query($query);
 			

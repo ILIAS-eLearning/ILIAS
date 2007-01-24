@@ -185,12 +185,12 @@ class ilObjUser extends ilObject
 	*/
 	function read()
 	{
-		global $ilErr;
+		global $ilErr, $ilDB;
 
 		// TODO: fetching default role should be done in rbacadmin
 		$q = "SELECT * FROM usr_data ".
 			 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
-			 "WHERE usr_data.usr_id='".$this->id."'";
+			 "WHERE usr_data.usr_id= ".$ilDB->quote($this->id);
 		$r = $this->ilias->db->query($q);
 
 		if ($r->numRows() > 0)
@@ -346,7 +346,7 @@ class ilObjUser extends ilObject
 	*/
 	function saveAsNew($a_from_formular = true)
 	{
-		global $ilErr;
+		global $ilErr, $ilDB;
 
 		switch ($this->passwd_type)
 		{
@@ -381,27 +381,44 @@ class ilObjUser extends ilObject
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
                 . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious) "
                 . "VALUES "
-                . "('".$this->id."','".$this->login."','".$pw_value."', "
-                . "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', "
-                . "'".ilUtil::addSlashes($this->utitle)."','".ilUtil::addSlashes($this->gender)."', "
-                . "'".ilUtil::addSlashes($this->email)."','".ilUtil::addSlashes($this->hobby)."', "
-                . "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."', "
-                . "'".ilUtil::addSlashes($this->street)."', "
-                . "'".ilUtil::addSlashes($this->city)."','".ilUtil::addSlashes($this->zipcode)."','".
-				ilUtil::addSlashes($this->country)."', "
-                . "'".ilUtil::addSlashes($this->phone_office)."','".ilUtil::addSlashes($this->phone_home)."', "
-                . "'".ilUtil::addSlashes($this->phone_mobile)."','".ilUtil::addSlashes($this->fax)."', 0, now(), now(), "
-                . "'".ilUtil::addSlashes($this->referral_comment)."', '". ilUtil::addSlashes($this->matriculation) . "', '".
-				ilUtil::addSlashes($this->client_ip) . "', '" .$this->approve_date."', '".$this->active."', "
-                . "'".$this->getTimeLimitUnlimited()."','" . $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".
-				$this->getTimeLimitOwner()."', "
-                . "'".$this->getAuthMode()."', "
-				. "'".$this->getExternalAccount()."', "
-				. "'".$this->getProfileIncomplete()."', "
-				. "'".ilUtil::addSlashes($this->im_icq)."','".ilUtil::addSlashes($this->im_yahoo)."', "
-				. "'".ilUtil::addSlashes($this->im_msn)."','".ilUtil::addSlashes($this->im_aim)."', "
-				. "'".ilUtil::addSlashes($this->im_skype)."','".ilUtil::addSlashes($this->delicious)."'"
-				. ")";
+                . "(".
+				$ilDB->quote($this->id).",".
+				$ilDB->quote($this->login).",".
+				$ilDB->quote($pw_value).",".
+                $ilDB->quote($this->firstname).",".
+				$ilDB->quote($this->lastname).",".
+                $ilDB->quote($this->utitle).",".
+				$ilDB->quote($this->gender).",".
+                $ilDB->quote($this->email).",".
+				$ilDB->quote($this->hobby).",".
+                $ilDB->quote($this->institution).",".
+				$ilDB->quote($this->department).",".
+                $ilDB->quote($this->street).",".
+                $ilDB->quote($this->city).",".
+				$ilDB->quote($this->zipcode).",".
+				$ilDB->quote($this->country).",".
+                $ilDB->quote($this->phone_office).",".
+				$ilDB->quote($this->phone_home).",".
+                $ilDB->quote($this->phone_mobile).",".
+				$ilDB->quote($this->fax).", 0, now(), now(),".
+                $ilDB->quote($this->referral_comment).",".
+				$ilDB->quote($this->matriculation).",".
+				$ilDB->quote($this->client_ip).",".
+				$ilDB->quote($this->approve_date).",".
+				$ilDB->quote($this->active).",".
+                $ilDB->quote($this->getTimeLimitUnlimited()).",".
+				$ilDB->quote($this->getTimeLimitUntil()).",".
+				$ilDB->quote($this->getTimeLimitFrom()).",".
+				$ilDB->quote($this->getTimeLimitOwner()).",".
+                $ilDB->quote($this->getAuthMode()).",".
+				$ilDB->quote($this->getExternalAccount()).",".
+				$ilDB->quote($this->getProfileIncomplete()).",".
+				$ilDB->quote($this->im_icq).",".
+				$ilDB->quote($this->im_yahoo).",".
+				$ilDB->quote($this->im_msn).",".
+				$ilDB->quote($this->im_aim).",".
+				$ilDB->quote($this->im_skype).",".
+				$ilDB->quote($this->delicious).")";
 		}
 		else
 		{
@@ -413,27 +430,44 @@ class ilObjUser extends ilObject
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
                 . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious) "
                 . "VALUES "
-                . "('".$this->id."','".$this->login."','".$pw_value."', "
-                . "'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', "
-                . "'".ilUtil::prepareDBString($this->utitle)."','".ilUtil::prepareDBString($this->gender)."', "
-                . "'".ilUtil::prepareDBString($this->email)."','".ilUtil::prepareDBString($this->hobby)."', "
-                . "'".ilUtil::prepareDBString($this->institution)."','".ilUtil::prepareDBString($this->department)."', "
-                . "'".ilUtil::prepareDBString($this->street)."', "
-                . "'".ilUtil::prepareDBString($this->city)."','".ilUtil::prepareDBString($this->zipcode)."','".
-				ilUtil::prepareDBString($this->country)."', "
-                . "'".ilUtil::prepareDBString($this->phone_office)."','".ilUtil::prepareDBString($this->phone_home)."', "
-                . "'".ilUtil::prepareDBString($this->phone_mobile)."','".ilUtil::prepareDBString($this->fax)."', 0, now(), now(), "
-                . "'".ilUtil::prepareDBString($this->referral_comment)."', '".ilUtil::prepareDBString($this->matriculation)."', '".
-				ilUtil::prepareDBString($this->client_ip)."', '".$this->approve_date."','".$this->active."', "
-                . "'".$this->getTimeLimitUnlimited()."','".$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".
-				$this->getTimeLimitOwner()."',"
-				."'".$this->getAuthMode()."', "
-				."'".$this->getExternalAccount()."', "
-				. "'".$this->getProfileIncomplete()."', "
-				. "'".ilUtil::prepareDBString($this->im_icq)."','".ilUtil::prepareDBString($this->im_yahoo)."', "
-				. "'".ilUtil::prepareDBString($this->im_msn)."','".ilUtil::prepareDBString($this->im_aim)."', "
-				. "'".ilUtil::prepareDBString($this->im_skype)."','".ilUtil::prepareDBString($this->delicious)."'"
-				. ")";
+                ."(".
+				$ilDB->quote($this->id).",".
+				$ilDB->quote($this->login).",".
+				$ilDB->quote($pw_value).",".
+                $ilDB->quote($this->firstname).",".
+				$ilDB->quote($this->lastname).",".
+                $ilDB->quote($this->utitle).",".
+				$ilDB->quote($this->gender).",".
+                $ilDB->quote($this->email).",".
+				$ilDB->quote($this->hobby).",".
+                $ilDB->quote($this->institution).",".
+				$ilDB->quote($this->department).",".
+                $ilDB->quote($this->street).",".
+                $ilDB->quote($this->city).",".
+				$ilDB->quote($this->zipcode).",".
+				$ilDB->quote($this->country).",".
+                $ilDB->quote($this->phone_office).",".
+				$ilDB->quote($this->phone_home).",".
+                $ilDB->quote($this->phone_mobile).",".
+				$ilDB->quote($this->fax).", 0, now(), now(),".
+                $ilDB->quote($this->referral_comment).",".
+				$ilDB->quote($this->matriculation).",".
+				$ilDB->quote($this->client_ip).",".
+				$ilDB->quote($this->approve_date).",".
+				$ilDB->quote($this->active).",".
+                $ilDB->quote($this->getTimeLimitUnlimited()).",".
+				$ilDB->quote($this->getTimeLimitUntil()).",".
+				$ilDB->quote($this->getTimeLimitFrom()).",".
+				$ilDB->quote($this->getTimeLimitOwner()).",".
+				$ilDB->quote($this->getAuthMode()).",".
+				$ilDB->quote($this->getExternalAccount()).",".
+				$ilDB->quote($this->getProfileIncomplete()).",".
+				$ilDB->quote($this->im_icq).",".
+				$ilDB->quote($this->im_yahoo).",".
+				$ilDB->quote($this->im_msn).",".
+				$ilDB->quote($this->im_aim).",".
+				$ilDB->quote($this->im_skype).",".
+				$ilDB->quote($this->delicious).")";
 		}
 
 		$this->ilias->db->query($q);
@@ -491,47 +525,47 @@ class ilObjUser extends ilObject
 								   get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 		$q = "UPDATE usr_data SET ".
-            "gender='".$this->gender."', ".
-            "title='".ilUtil::prepareDBString($this->utitle)."', ".
-            "firstname='".ilUtil::prepareDBString($this->firstname)."', ".
-            "lastname='".ilUtil::prepareDBString($this->lastname)."', ".
-            "email='".ilUtil::prepareDBString($this->email)."', ".
-            "hobby='".ilUtil::prepareDBString($this->hobby)."', ".
-            "institution='".ilUtil::prepareDBString($this->institution)."', ".
-            "department='".ilUtil::prepareDBString($this->department)."', ".
-            "street='".ilUtil::prepareDBString($this->street)."', ".
-            "city='".ilUtil::prepareDBString($this->city)."', ".
-            "zipcode='".ilUtil::prepareDBString($this->zipcode)."', ".
-            "country='".ilUtil::prepareDBString($this->country)."', ".
-            "phone_office='".ilUtil::prepareDBString($this->phone_office)."', ".
-            "phone_home='".ilUtil::prepareDBString($this->phone_home)."', ".
-            "phone_mobile='".ilUtil::prepareDBString($this->phone_mobile)."', ".
-            "fax='".ilUtil::prepareDBString($this->fax)."', ".
-            "referral_comment='".ilUtil::prepareDBString($this->referral_comment)."', ".
-            "matriculation='".ilUtil::prepareDBString($this->matriculation)."', ".
-            "client_ip='".ilUtil::prepareDBString($this->client_ip)."', ".
-            "approve_date='".ilUtil::prepareDBString($this->approve_date)."', ".
-            "active='".ilUtil::prepareDBString($this->active)."', ".
-            "time_limit_owner='".ilUtil::prepareDBString($this->getTimeLimitOwner())."', ".
-            "time_limit_unlimited='".ilUtil::prepareDBString($this->getTimeLimitUnlimited())."', ".
-            "time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
-            "time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."', ".
-            "time_limit_message='".$this->getTimeLimitMessage()."', ".
-			"profile_incomplete = ".$ilDB->quote($this->getProfileIncomplete()).", ".
-            "auth_mode='".ilUtil::prepareDBString($this->getAuthMode())."', ".
-			"ext_account='".ilUtil::prepareDBString($this->getExternalAccount())."', ".
+            "gender = ".$ilDB->quote($this->gender).",".
+            "title= ".$ilDB->quote($this->utitle).",".
+            "firstname= ".$ilDB->quote($this->firstname).",".
+            "lastname= ".$ilDB->quote($this->lastname).",".
+            "email= ".$ilDB->quote($this->email).",".
+            "hobby= ".$ilDB->quote($this->hobby).",".
+            "institution= ".$ilDB->quote($this->institution).",".
+            "department= ".$ilDB->quote($this->department).",".
+            "street= ".$ilDB->quote($this->street).",".
+            "city= ".$ilDB->quote($this->city).",".
+            "zipcode= ".$ilDB->quote($this->zipcode).",".
+            "country= ".$ilDB->quote($this->country).",".
+            "phone_office= ".$ilDB->quote($this->phone_office).",".
+            "phone_home= ".$ilDB->quote($this->phone_home).",".
+            "phone_mobile= ".$ilDB->quote($this->phone_mobile).",".
+            "fax= ".$ilDB->quote($this->fax).",".
+            "referral_comment= ".$ilDB->quote($this->referral_comment).",".
+            "matriculation= ".$ilDB->quote($this->matriculation).",".
+            "client_ip= ".$ilDB->quote($this->client_ip).",".
+            "approve_date= ".$ilDB->quote($this->approve_date).",".
+            "active= ".$ilDB->quote($this->active).",".
+            "time_limit_owner= ".$ilDB->quote($this->getTimeLimitOwner()).",".
+            "time_limit_unlimited= ".$ilDB->quote($this->getTimeLimitUnlimited()).",".
+            "time_limit_from= ".$ilDB->quote($this->getTimeLimitFrom()).",".
+            "time_limit_until= ".$ilDB->quote($this->getTimeLimitUntil()).",".
+            "time_limit_message= ".$ilDB->quote($this->getTimeLimitMessage()).",".
+			"profile_incomplete = ".$ilDB->quote($this->getProfileIncomplete()).",".
+            "auth_mode= ".$ilDB->quote($this->getAuthMode()).", ".
+			"ext_account= ".$ilDB->quote($this->getExternalAccount()).",".
 			$pw_update.", ".
-			"im_icq='".ilUtil::prepareDBString($this->getInstantMessengerId('icq'))."', ".
-			"im_yahoo='".ilUtil::prepareDBString($this->getInstantMessengerId('yahoo'))."', ".
-			"im_msn='".ilUtil::prepareDBString($this->getInstantMessengerId('msn'))."', ".
-			"im_aim='".ilUtil::prepareDBString($this->getInstantMessengerId('aim'))."', ".
-			"im_skype='".ilUtil::prepareDBString($this->getInstantMessengerId('skype'))."', ".
-			"delicious='".ilUtil::prepareDBString($this->getDelicious())."', ".
-            "last_update=now() ".
-		//	"ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."', ".
-		//	"ilinc_login='".ilUtil::prepareDBString($this->ilinc_login)."', ".
-		//	"ilinc_passwd='".ilUtil::prepareDBString($this->ilinc_passwd)."' ".
-            "WHERE usr_id='".$this->id."'";
+			"im_icq= ".$ilDB->quote($this->getInstantMessengerId('icq')).",".
+			"im_yahoo= ".$ilDB->quote($this->getInstantMessengerId('yahoo')).",".
+			"im_msn= ".$ilDB->quote($this->getInstantMessengerId('msn')).",".
+			"im_aim= ".$ilDB->quote($this->getInstantMessengerId('aim')).",".
+			"im_skype= ".$ilDB->quote($this->getInstantMessengerId('skype')).",".
+			"delicious= ".$ilDB->quote($this->getDelicious()).",".
+            "last_update=now()".
+		//	"ilinc_id= ".$ilDB->quote($this->ilinc_id).",".
+		//	"ilinc_login= ".$ilDB->quote($this->ilinc_login).",".
+		//	"ilinc_passwd= ".$ilDB->quote($this->ilinc_passwd)." ".
+            "WHERE usr_id= ".$ilDB->quote($this->id);
 
 		$this->ilias->db->query($q);
 		$this->writePrefs();
@@ -565,7 +599,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT email FROM usr_data WHERE usr_id = '".(int) $a_user_id."'";
+		$query = "SELECT email FROM usr_data WHERE usr_id = ".$ilDB->quote((int) $a_user_id);
 		$res = $ilDB->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -579,7 +613,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT gender FROM usr_data WHERE usr_id = '".(int) $a_user_id."'";
+		$query = "SELECT gender FROM usr_data WHERE usr_id = ".
+			$ilDB->quote((int) $a_user_id);
 		$res = $ilDB->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -593,7 +628,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT client_ip FROM usr_data WHERE usr_id = '".(int) $a_user_id."'";
+		$query = "SELECT client_ip FROM usr_data WHERE usr_id = ".
+			$ilDB->quote((int) $a_user_id);
 		$res = $ilDB->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -671,9 +707,11 @@ class ilObjUser extends ilObject
 	*/
 	function refreshLogin()
 	{
+		global $ilDB;
+		
 		$q = "UPDATE usr_data SET ".
 			 "last_login = now() ".
-			 "WHERE usr_id = '".$this->id."'";
+			 "WHERE usr_id = ".$ilDB->quote($this->id);
 
 		$this->ilias->db->query($q);
 	}
@@ -686,12 +724,14 @@ class ilObjUser extends ilObject
 	*/
 	function replacePassword($new_md5)
 	{
+		global $ilDB;
+		
 		$this->passwd_type = IL_PASSWD_MD5;
 		$this->passwd = $new_md5;
 
 		$q = "UPDATE usr_data SET ".
-			 "passwd='".$this->passwd."' ".
-			 "WHERE usr_id='".$this->id."'";
+			 "passwd= ".$ilDB->quote($this->passwd)." ".
+			 "WHERE usr_id= ".$ilDB->quote($this->id);
 
 		$this->ilias->db->query($q);
 
@@ -708,6 +748,8 @@ class ilObjUser extends ilObject
 	*/
 	function updatePassword($a_old, $a_new1, $a_new2)
 	{
+		global $ilDB;
+		
 		if (func_num_args() != 3)
 		{
 			return false;
@@ -759,8 +801,8 @@ class ilObjUser extends ilObject
 		$this->passwd_type = IL_PASSWD_MD5;
 
 		$q = "UPDATE usr_data SET ".
-			 "passwd='".$this->passwd."' ".
-			 "WHERE usr_id='".$this->id."'";
+			 "passwd= ".$ilDB->quote($this->passwd)." ".
+			 "WHERE usr_id= ".$ilDB->quote($this->id)." ";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -775,6 +817,8 @@ class ilObjUser extends ilObject
 	*/
 	function resetPassword($a_new1, $a_new2)
 	{
+		global $ilDB;
+		
 		if (func_num_args() != 2)
 		{
 			return false;
@@ -795,8 +839,8 @@ class ilObjUser extends ilObject
 		$this->passwd_type = IL_PASSWD_MD5;
 
 		$q = "UPDATE usr_data SET ".
-			 "passwd='".$this->passwd."' ".
-			 "WHERE usr_id='".$this->id."'";
+			 "passwd= ".$ilDB->quote($this->passwd)." ".
+			 "WHERE usr_id= ".$ilDB->quote($this->id);
 		$this->ilias->db->query($q);
 
 		return true;
@@ -834,18 +878,18 @@ class ilObjUser extends ilObject
 
 	function _switchToIlias3Password($a_user, $a_pw)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		$q = "SELECT i2passwd FROM usr_data ".
-			 "WHERE login = '".$a_user."'";
+			 "WHERE login = ".$ilDB->quote($a_user);
 		$user_set = $ilias->db->query($q);
 
 		if ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($user_rec["i2passwd"] == ilObjUser::_makeIlias2Password($a_pw))
 			{
-				$q = "UPDATE usr_data SET passwd='".md5($a_pw)."', i2passwd=''".
-					"WHERE login = '".$a_user."'";
+				$q = "UPDATE usr_data SET passwd= ".$ilDB->quote(md5($a_pw)).", i2passwd=''".
+					"WHERE login = ".$ilDB->quote($a_user);
 				$ilias->db->query($q);
 				return true;
 			}
@@ -862,6 +906,8 @@ class ilObjUser extends ilObject
 	*/
 	function updateLogin($a_login)
 	{
+		global $ilDB;
+		
 		if (func_num_args() != 1)
 		{
 			return false;
@@ -876,8 +922,8 @@ class ilObjUser extends ilObject
 		$this->login = $a_login;
 
 		$q = "UPDATE usr_data SET ".
-			 "login='".$this->login."' ".
-			 "WHERE usr_id='".$this->id."'";
+			 "login= ".$ilDB->quote($this->login)." ".
+			 "WHERE usr_id= ".$ilDB->quote($this->id);
 		$this->ilias->db->query($q);
 
 		return true;
@@ -918,8 +964,8 @@ class ilObjUser extends ilObject
 
 		//DELETE
 		$q = "DELETE FROM usr_pref ".
-			 "WHERE usr_id='".$a_usr_id."' ".
-			 "AND keyword='".$a_keyword."'";
+			 "WHERE usr_id= ".$ilDB->quote($a_usr_id)." ".
+			 "AND keyword= ".$ilDB->quote($a_keyword);
 		$ilDB->query($q);
 
 		//INSERT
@@ -928,7 +974,9 @@ class ilObjUser extends ilObject
 			$q = "INSERT INTO usr_pref ".
 				 "(usr_id, keyword, value) ".
 				 "VALUES ".
-				 "('".$a_usr_id."', '".$a_keyword."', '".$a_value."')";
+				 "(".$ilDB->quote($a_usr_id).",".
+				 $ilDB->quote($a_keyword).",".
+				 $ilDB->quote($a_value).")";
 			$ilDB->query($q);
 		}
 	}
@@ -939,9 +987,11 @@ class ilObjUser extends ilObject
 	*/
 	function writePrefs()
 	{
+		global $ilDB;
+		
 		//DELETE
 		$q = "DELETE FROM usr_pref ".
-			 "WHERE usr_id='".$this->id."'";
+			 "WHERE usr_id= ".$ilDB->quote($this->id);
 		$this->ilias->db->query($q);
 
 		foreach ($this->prefs as $keyword => $value)
@@ -950,7 +1000,8 @@ class ilObjUser extends ilObject
 			$q = "INSERT INTO usr_pref ".
 				 "(usr_id, keyword, value) ".
 				 "VALUES ".
-				 "('".$this->id."', '".$keyword."', '".$value."')";
+				 "(".$ilDB->quote($this->id).",".$ilDB->quote($keyword).",".
+				 $ilDB->quote($value).")";
 			$this->ilias->db->query($q);
 		}
 	}
@@ -990,8 +1041,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM usr_pref WHERE usr_id='".$a_usr_id."' ".
-			"AND keyword = '".$a_keyword."'";
+		$query = "SELECT * FROM usr_pref WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND keyword = ".$ilDB->quote($a_keyword);
 		$res = $ilDB->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1008,6 +1059,8 @@ class ilObjUser extends ilObject
 	*/
 	function readPrefs()
 	{
+		global $ilDB;
+		
 		if (is_array($this->prefs))
 		{
 			$this->oldPrefs = $this->prefs;
@@ -1015,8 +1068,8 @@ class ilObjUser extends ilObject
 
 		$this->prefs = array();
 
-		$q = "SELECT * FROM usr_pref WHERE usr_id='".$this->id."'";
-	//	$q = "SELECT * FROM usr_pref WHERE value='"y"'";
+		$q = "SELECT * FROM usr_pref WHERE usr_id = ".
+			$ilDB->quote($this->id);
 		$r = $this->ilias->db->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1034,7 +1087,7 @@ class ilObjUser extends ilObject
 	*/
 	function delete()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $ilDB;
 		
 		// deassign from ldap groups
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
@@ -1048,23 +1101,28 @@ class ilObjUser extends ilObject
 		$mailbox->updateMailsOfDeletedUser();
 
 		// delete user_account
-		$this->ilias->db->query("DELETE FROM usr_data WHERE usr_id='".$this->getId()."'");
+		$this->ilias->db->query("DELETE FROM usr_data WHERE usr_id = ".
+			$ilDB->quote($this->getId()));
 
 		// delete user_prefs
-		$this->ilias->db->query("DELETE FROM usr_pref WHERE usr_id='".$this->getId()."'");
+		$this->ilias->db->query("DELETE FROM usr_pref WHERE usr_id= ".
+			$ilDB->quote($this->getId()));
 		
 		// delete user_session
-		$this->ilias->db->query("DELETE FROM usr_session WHERE user_id='".$this->getId()."'");
+		$this->ilias->db->query("DELETE FROM usr_session WHERE user_id= ".
+			$ilDB->quote($this->getId()));
 
 		// remove user from rbac
 		$rbacadmin->removeUser($this->getId());
 
 		// remove bookmarks
 		// TODO: move this to class.ilBookmarkFolder
-		$q = "DELETE FROM bookmark_tree WHERE tree='".$this->getId()."'";
+		$q = "DELETE FROM bookmark_tree WHERE tree = ".
+			$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
-		$q = "DELETE FROM bookmark_data WHERE user_id='".$this->getId()."'";
+		$q = "DELETE FROM bookmark_data WHERE user_id= ".
+			$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
 		// DELETE FORUM ENTRIES (not complete in the moment)
@@ -1087,7 +1145,8 @@ class ilObjUser extends ilObject
 		ilEventParticipants::_deleteByUser($this->getId());
 
 		// Delete group registrations
-		$q = "DELETE FROM grp_registration WHERE user_id='".$this->getId()."'";
+		$q = "DELETE FROM grp_registration WHERE user_id= ".
+			$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
 		// Delete user defined field entries
@@ -1189,9 +1248,11 @@ class ilObjUser extends ilObject
 	*/
 	function getLastVisitedLessons()
 	{
+		global $ilDB;
+		
 		//query
 		$q = "SELECT * FROM lo_access ".
-			"WHERE usr_id='".$this->id."' ".
+			"WHERE usr_id= ".$ilDB->quote($this->id)." ".
 			"ORDER BY timestamp DESC";
 		$rst = $this->ilias->db->query($q);
 
@@ -1217,9 +1278,11 @@ class ilObjUser extends ilObject
 	*/
 	function getLessons()
 	{
+		global $ilDB;
+		
 		//query
 		$q = "SELECT * FROM lo_access ".
-			"WHERE usr_id='".$this->id."' ";
+			"WHERE usr_id= ".$ilDB->quote($this->id)." ";
 		$rst = $this->ilias->db->query($q);
 
 		// fill array
@@ -1234,55 +1297,6 @@ class ilObjUser extends ilObject
 			"lm_title"	=>	$record->lm_title);
 		}
 		return $result;
-	}
-
-
-	/**
-	* get courses the user has access to
-	* @access	public
-	* @return	array	lessons
-	* // TODO: query wird nicht abgeschickt!!!
-	*/
-	function getCourses()
-	{
-		global $lng;
-
-		//initialize array
-		$courses = array();
-		//query
-		$sql = "SELECT * FROM courses
-				WHERE user_fk='".$this->id."'
-				AND read=1";
-		$courses[] = array(
-			"id" => 1,
-			"title" => "Course 1",
-			"desc" => "description of course one",
-			"content" => "This is Course One",
-			"datetime" => date("Y-m-d")
-			);
-		return $courses;
-	}
-
-	/**
-	* get literature bookmarks
-	* @access	public
-	* @return	array	lessons
-	* // TODO: query wird nicht abgeschickt!!!
-	*/
-	function getLiterature()
-	{
-		//initialize array
-		$literature = array();
-		//query
-		$sql = "SELECT * FROM literature";
-
-		$literature[] = array(
-			"id" => 1,
-			"url" => "http://www.gutenberg.de",
-			"desc" => "project gutenberg",
-			);
-
-		return $literature;
 	}
 
 	/**
@@ -1720,7 +1734,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT value FROM usr_pref WHERE usr_id='".$a_usr_id."' AND keyword = 'language'";
+		$q = "SELECT value FROM usr_pref WHERE usr_id= ".
+			$ilDB->quote($a_usr_id)." AND keyword = 'language'";
 		$r = $ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1736,7 +1751,7 @@ class ilObjUser extends ilObject
 		global $ilDB;
 
 		$q = "SELECT passwd FROM usr_data ".
-			" WHERE usr_id=".$ilDB->quote($a_usr_id);
+			" WHERE usr_id = ".$ilDB->quote($a_usr_id);
 		$usr_set = $ilDB->query($q);
 
 		if($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1755,7 +1770,7 @@ class ilObjUser extends ilObject
 
 		$q = "UPDATE usr_data ".
 			" SET ext_account = ".$ilDB->quote($a_ext_id).
-			" WHERE usr_id=".$ilDB->quote($a_usr_id);
+			" WHERE usr_id = ".$ilDB->quote($a_usr_id);
 		$usr_set = $ilDB->query($q);
 	}
 
@@ -1765,7 +1780,7 @@ class ilObjUser extends ilObject
 
 		$q = "UPDATE usr_data ".
 			" SET auth_mode = ".$ilDB->quote($a_auth_mode).
-			" WHERE usr_id=".$ilDB->quote($a_usr_id);
+			" WHERE usr_id = ".$ilDB->quote($a_usr_id);
 		$usr_set = $ilDB->query($q);
 	}
 
@@ -1922,10 +1937,10 @@ class ilObjUser extends ilObject
     */
     function getStoredActive($a_id)
     {
-        global $ilias;
+        global $ilias, $ilDB;
 
         $query = "SELECT active FROM usr_data ".
-            "WHERE usr_id = '".$a_id."'";
+            "WHERE usr_id = ".$ilDB->quote($a_id);
 
         $row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -2029,8 +2044,10 @@ class ilObjUser extends ilObject
 
 	function __readAppliedUsers($a_parent_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT usr_id FROM usr_data ".
-			"WHERE time_limit_owner = '".$a_parent_id."'";
+			"WHERE time_limit_owner = ".$ilDB->quote($a_parent_id);
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -2049,7 +2066,10 @@ class ilObjUser extends ilObject
      */
 	function checkUserId()
 	{
-		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
+		global $ilDB;
+		
+		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
+			$ilDB->quote($this->ilias->auth->getUsername()));
 		//query has got a result
 		if ($r->numRows() > 0)
 		{
@@ -2069,7 +2089,10 @@ class ilObjUser extends ilObject
      */
     function isCurrentUserActive()
     {
-        $r = $this->ilias->db->query("SELECT active FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
+		global $ilDB;
+		
+        $r = $this->ilias->db->query("SELECT active FROM usr_data WHERE login= ".
+			$ilDB->quote($this->ilias->auth->getUsername()));
         //query has got a result
         if ($r->numRows() > 0)
         {
@@ -2140,8 +2163,10 @@ class ilObjUser extends ilObject
 	 */
 	function getUserIdByEmail($a_email)
 	{
+		global $ilDB;
+		
 		$query = "SELECT usr_id FROM usr_data ".
-			"WHERE email = '".$a_email."'";
+			"WHERE email = ".$ilDB->quote($a_email);
 
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		return $row->usr_id ? $row->usr_id : 0;
@@ -2157,10 +2182,10 @@ class ilObjUser extends ilObject
      */
     function getLoginByUserId($a_userid)
     {
-        global $ilias;
+        global $ilias, $ilDB;
 
         $query = "SELECT login FROM usr_data ".
-            "WHERE usr_id = '".$a_userid."'";
+            "WHERE usr_id = ".$ilDB->quote($a_userid);
 
         $row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -2177,7 +2202,7 @@ class ilObjUser extends ilObject
 	function searchUsers($a_search_str, $active = 1)
 	{
 		// NO CLASS VARIABLES IN STATIC METHODS
-		global $ilias;
+		global $ilias, $ilDB;
 
         // This is a temporary hack to search users by their role
         // See Mantis #338. This is a hack due to Mantis #337.
@@ -2185,23 +2210,24 @@ class ilObjUser extends ilObject
         { 
             $query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email ". 
                    "FROM object_data,rbac_ua,usr_data ". 
-             "WHERE object_data.title LIKE '%".substr($a_search_str,5)."%' and object_data.type = 'role' ". 
+             "WHERE object_data.title LIKE ".$ilDB->quote("%".substr($a_search_str,5)."%").
+			 " and object_data.type = 'role' ". 
              "and rbac_ua.rol_id = object_data.obj_id ". 
              "and usr_data.usr_id = rbac_ua.usr_id ". 
-             "AND rbac_ua.usr_id != '".ANONYMOUS_USER_ID."'"; 
+             "AND rbac_ua.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID); 
         } 
         else
         { 
             $query = "SELECT usr_id,login,firstname,lastname,email,active FROM usr_data ".
-                "WHERE (login LIKE '%".$a_search_str."%' ".
-                "OR firstname LIKE '%".$a_search_str."%' ".
-                "OR lastname LIKE '%".$a_search_str."%' ".
-                "OR email LIKE '%".$a_search_str."%') ".
-                "AND usr_id != '".ANONYMOUS_USER_ID."'";
+                "WHERE (login LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
+                "OR firstname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
+                "OR lastname LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
+                "OR email LIKE ".$ilDB->quote("%".$a_search_str."%").") ".
+                "AND usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID);
         }
         
         if (is_numeric($active) && $active > -1)
-        	$query .= "AND active = '$active'";
+        	$query .= "AND active = ".$ilDB->quote($active);
 
         $res = $ilias->db->query($query);
         while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -2227,7 +2253,7 @@ class ilObjUser extends ilObject
 	 */
 	function _search(&$a_search_obj, $active=1)
 	{
-		global $ilBench;
+		global $ilBench, $ilDB;
 
 		// NO CLASS VARIABLES IN STATIC METHODS
 
@@ -2247,7 +2273,7 @@ class ilObjUser extends ilObject
 #			"AND usr_pref.value = 'y'";
 		
   		if (is_numeric($active)  && $active > -1)
-        	$query .= "AND active = '$active'";
+        	$query .= "AND active = ".$ilDB->quote($active);
 
 		$ilBench->start("Search", "ilObjUser_search");
 		$res = $a_search_obj->ilias->db->query($query);
@@ -2404,7 +2430,8 @@ function getCourseMemberships($a_user_id = "")
 			$roles = "RoleId|".serialize($role_arr);
 			$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$a_user_id]["data"]);
 
-			$q = "UPDATE usr_session SET data='".ilUtil::prepareDBString($modified_data)."' WHERE user_id = '".$a_user_id."'";
+			$q = "UPDATE usr_session SET data= ".
+				$ilDB->quote($modified_data)." WHERE user_id = ".$ilDB->quote($a_user_id);
 			$ilDB->query($q);
 		}
 
@@ -2443,7 +2470,7 @@ function getCourseMemberships($a_user_id = "")
 	{
 		global $ilDB;
 		
-		$where = ("WHERE usr_id IN('".implode("','",$a_user_ids)."') ");
+		$where = ("WHERE usr_id IN(".implode(",",ilUtil::quoteArray($a_user_ids)).") ");
 		$query = "SELECT * FROM usr_data ".$where;
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2497,7 +2524,7 @@ function getCourseMemberships($a_user_id = "")
 
 	        // get only active or inactive users
 	        if (is_numeric($active) && ($active == 0 or $active == 1))
-	        	$q .= "WHERE active='$active'";
+	        	$q .= "WHERE active= ".$ilDB->quote($active);
 
 	        if (is_numeric($active) && $active == 2)
 	        	$q .= "WHERE time_limit_unlimited='0'";
@@ -2586,16 +2613,22 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function addDesktopItem($a_item_id, $a_type, $a_par = "")
 	{
+		global $ilDB;
+		
 		$q = "SELECT * FROM desktop_item WHERE ".
-			"item_id = '$a_item_id' AND type = '$a_type' AND user_id = '".
-			$this->getId()."'";
+			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".
+			$ilDB->quote($a_type)." AND user_id = ".
+			$ilDB->quote($this->getId());
 		$item_set = $this->ilias->db->query($q);
 
 		// only insert if item is not already on desktop
 		if (!$d = $item_set->fetchRow())
 		{
 			$q = "INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ".
-				" ('$a_item_id','$a_type','".$this->getId()."' , '$a_par')";
+				" (".$ilDB->quote($a_item_id).",".
+				$ilDB->quote($a_type).",".
+				$ilDB->quote($this->getId()).",".
+				$ilDB->quote($a_par).")";
 			$this->ilias->db->query($q);
 		}
 	}
@@ -2610,9 +2643,12 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function setDesktopItemParameters($a_item_id, $a_type, $a_par)
 	{
-		$q = "UPDATE desktop_item SET parameters = '$a_par' ".
-			" WHERE item_id = '$a_item_id' AND type = '$a_type' ".
-			" AND user_id = '".$this->getId()."' ";
+		global $ilDB;
+		
+		$q = "UPDATE desktop_item SET parameters = ".$ilDB->quote($a_par)." ".
+			" WHERE item_id = ".$ilDB->quote($a_item_id)." AND type = ".
+			$ilDB->quote($a_type)." ".
+			" AND user_id = ".$ilDB->quote($this->getId())." ";
 		$this->ilias->db->query($q);
 	}
 
@@ -2625,10 +2661,12 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function dropDesktopItem($a_item_id, $a_type)
 	{
+		global $ilDB;
+		
 		$q = "DELETE FROM desktop_item WHERE ".
-			" item_id = '$a_item_id' AND".
-			" type = '$a_type' AND".
-			" user_id = '".$this->getId()."'";
+			" item_id = ".$ilDB->quote($a_item_id)." AND ".
+			" type = ".$ilDB->quote($a_type)." AND ".
+			" user_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
@@ -2641,9 +2679,12 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function isDesktopItem($a_item_id, $a_type)
 	{
+		global $ilDB;
+		
 		$q = "SELECT * FROM desktop_item WHERE ".
-			"item_id = '$a_item_id' AND type = '$a_type' AND user_id = '".
-			$this->getId()."'";
+			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".
+			$ilDB->quote($a_type)." AND user_id = ".
+			$ilDB->quote($this->getId());
 		$item_set = $this->ilias->db->query($q);
 
 		if ($d = $item_set->fetchRow())
@@ -2664,7 +2705,7 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function getDesktopItems($a_types = "")
 	{
-		global $ilUser, $rbacsystem, $tree;
+		global $ilUser, $rbacsystem, $tree, $ilDB;
 
 		
 		if ($a_types == "")
@@ -2675,7 +2716,7 @@ function getCourseMemberships($a_user_id = "")
 				" WHERE ".
 				"it.item_id = oref.ref_id AND ".
 				"oref.obj_id = obj.obj_id AND ".
-				"it.user_id = '".$this->getId()."'";
+				"it.user_id = ".$ilDB->quote($this->getId());
 
 			$item_set = $this->ilias->db->query($q);
 			while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2710,8 +2751,8 @@ function getCourseMemberships($a_user_id = "")
 					", object_data AS obj WHERE ".
 					"it.item_id = oref.ref_id AND ".
 					"oref.obj_id = obj.obj_id AND ".
-					"it.type = '$a_type' AND ".
-					"it.user_id = '".$this->getId()."' ".
+					"it.type = ".$ilDB->quote($a_type)." AND ".
+					"it.user_id = ".$ilDB->quote($this->getId())." ".
 					"ORDER BY title";
 	
 				$item_set = $this->ilias->db->query($q);
@@ -2738,16 +2779,20 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function addObjectToClipboard($a_item_id, $a_type, $a_title)
 	{
+		global $ilDB;
+		
 		$q = "SELECT * FROM personal_clipboard WHERE ".
-			"item_id = '$a_item_id' AND type = '$a_type' AND user_id = '".
-			$this->getId()."'";
+			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".
+			$ilDB->quote($a_type)." AND user_id = ".
+			$ilDB->quote($this->getId());
 		$item_set = $this->ilias->db->query($q);
 
 		// only insert if item is not already on desktop
 		if (!$d = $item_set->fetchRow())
 		{
 			$q = "INSERT INTO personal_clipboard (item_id, type, user_id, title) VALUES ".
-				" ('$a_item_id','$a_type','".$this->getId()."', '".$a_title."')";
+				" (".$ilDB->quote($a_item_id).",".$ilDB->quote($a_type).",".
+				$ilDB->quote($this->getId()).",".$ilDB->quote($a_title).")";
 			$this->ilias->db->query($q);
 		}
 	}
@@ -2757,11 +2802,13 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function getClipboardObjects($a_type = "")
 	{
+		global $ilDB;
+		
 		$type_str = ($a_type != "")
-			? " AND type = '$a_type' "
+			? " AND type = ".$ilDB->quote($a_type)." "
 			: "";
 		$q = "SELECT * FROM personal_clipboard WHERE ".
-			"user_id = '".$this->getId()."' ".
+			"user_id = ".$ilDB->quote($this->getId())." ".
 			$type_str;
 		$objs = $this->ilias->db->query($q);
 		$objects = array();
@@ -2790,8 +2837,8 @@ function getCourseMemberships($a_user_id = "")
 		global $ilDB;
 
 		$q = "SELECT DISTINCT user_id FROM personal_clipboard WHERE ".
-			"item_id = '$a_id' AND ".
-			"type = '$a_type'";
+			"item_id = ".$ilDB->quote($a_id)." AND ".
+			"type = ".$ilDB->quote($a_type);
 		$user_set = $ilDB->query($q);
 		$users = array();
 		while ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2811,15 +2858,20 @@ function getCourseMemberships($a_user_id = "")
 	*/
 	function removeObjectFromClipboard($a_item_id, $a_type)
 	{
+		global $ilDB;
+		
 		$q = "DELETE FROM personal_clipboard WHERE ".
-			"item_id = '$a_item_id' AND type = '$a_type' ".
-			" AND user_id = '".$this->getId()."'";
+			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".$ilDB->quote($a_type)." ".
+			" AND user_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
 	function _getImportedUserId($i2_id)
 	{
-		$query = "SELECT obj_id FROM object_data WHERE import_id = '".$i2_id."'";
+		global $ilDB;
+		
+		$query = "SELECT obj_id FROM object_data WHERE import_id = ".
+			$ilDB->quote($i2_id);
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -2958,7 +3010,7 @@ function getCourseMemberships($a_user_id = "")
 	 	{
 	 		return false;
 	 	}
-		$where = ("WHERE usr_id IN('".implode("','",$a_usr_ids)."') ");
+		$where = ("WHERE usr_id IN(".implode(",",ilUtil::quoteArray($a_usr_ids)).") ");
 	 	$query = "UPDATE usr_data SET active = ".$ilDB->quote($a_status ? 1 : 0)." ".
 	 	$where;
 		$ilDB->query($query);
@@ -3096,7 +3148,7 @@ function getCourseMemberships($a_user_id = "")
 		$query = "SELECT * FROM usr_pref WHERE ".
 			"keyword = 'public_upload' ".
 			"AND value = 'y' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"AND usr_id = ".$ilDB->quote($a_usr_id);
 
 		$res = $ilDB->query($query);
 		$upload = $res->numRows() ? true : false;
@@ -3104,7 +3156,7 @@ function getCourseMemberships($a_user_id = "")
 		$query = "SELECT * FROM usr_pref WHERE ".
 			"keyword = 'public_profile' ".
 			"AND value = 'y' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"AND usr_id = ".$ilDB->quote($a_usr_id);
 
 		$res = $ilDB->query($query);
 		$profile = $res->numRows() ? true : false;
@@ -3153,19 +3205,21 @@ function getCourseMemberships($a_user_id = "")
 
 	function updateUserDefinedFields()
 	{
+		global $ilDB;
+		
 		$fields = '';
 
 		foreach($this->user_defined_data as $field => $value)
 		{
 			if($field != 'usr_id')
 			{
-				$fields .= ("`".$field."` = '".ilUtil::prepareDBString($value)."', ");
+				$fields .= ("`".$field."` = ".$ilDB->quote($value).", ");
 			}
 		} 
 
 		$query = "REPLACE INTO usr_defined_data ".
 			"SET ".$fields." ".
-			"usr_id = '".$this->getId()."'";
+			"usr_id = ".$ilDB->quote($this->getId());
 		
 		$this->db->query($query);
 		return true;
@@ -3173,8 +3227,10 @@ function getCourseMemberships($a_user_id = "")
 
 	function readUserDefinedFields()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM usr_defined_data ".
-			"WHERE usr_id = '".$this->getId()."'";
+			"WHERE usr_id = ".$ilDB->quote($this->getId());
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -3186,8 +3242,10 @@ function getCourseMemberships($a_user_id = "")
 
 	function addUserDefinedFieldEntry()
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO usr_defined_data ".
-			"SET usr_id = '".$this->getId()."'";
+			"SET usr_id = ".$ilDB->quote($this->getId());
 		$this->db->query($query);
 
 		return true;
@@ -3195,8 +3253,10 @@ function getCourseMemberships($a_user_id = "")
 
 	function deleteUserDefinedFieldEntries()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM usr_defined_data ".
-			"WHERE usr_id = '".$this->getId()."'";
+			"WHERE usr_id = ".$ilDB->quote($this->getId());
 		$this->db->query($query);
 
 		return true;

@@ -249,8 +249,8 @@ class ilObjSysUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT count(*) as cnt, date_add('$a_month-01', INTERVAL 1 MONTH) as d FROM ut_access WHERE acc_time < ".
-			"date_add('$a_month-01', INTERVAL 1 MONTH)";
+		$q = "SELECT count(*) as cnt, date_add(".$ilDB->quote("$a_month-01").", INTERVAL 1 MONTH) as d FROM ut_access WHERE acc_time < ".
+			"date_add(".$ilDB->quote("$a_month-01").", INTERVAL 1 MONTH)";
 
 		$cnt_set = $ilDB->query($q);
 		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -347,7 +347,7 @@ class ilObjSysUserTracking extends ilObject
 		global $ilDB;
 
 		$q = "DELETE FROM ut_access WHERE acc_time < ".
-			"date_add('$a_month-01', INTERVAL 1 MONTH)";
+			"date_add(".$ilDB->quote("$a_month-01").", INTERVAL 1 MONTH)";
 
 		$ilDB->query($q);
 	}
@@ -462,9 +462,11 @@ class ilObjSysUserTracking extends ilObject
 	*/
 	function getTestId($id)
 	{
+		global $ilDB;
+		
 		$q = "select obj_id from object_data "
 		." where type = 'tst' and "
-		." owner = ".$id;
+		." owner = ".$ilDB->quote($id);
 		$res = $this->ilias->db->query($q);
 		for ($i=0;$i<$res->numRows();$i++)
 		{
@@ -491,7 +493,8 @@ class ilObjSysUserTracking extends ilObject
 	*/
 	function getOwnerName($id)
 	{
-		$q =" select A.login from usr_data as A, object_data as B where A.usr_id=B.owner and B.obj_id = ".$id;
+		$q =" select A.login from usr_data as A, object_data as B where A.usr_id=B.owner and B.obj_id = ".
+			$ilDB->quote($id);
 		$res = $this->ilias->db->query($q);
 		$result = $res->fetchRow();
 		return $result[0];

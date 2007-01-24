@@ -258,6 +258,8 @@ class ilObjLanguageFolder extends ilObject
 	*/
 	function removeLanguages($a_languages)
 	{
+		global $ilDB;
+		
 		foreach ($a_languages as $lang_key => $lang_data)
 		{
 			if ($lang_data["desc"] == "not_installed" && $lang_data["info"] == "file_not_found")
@@ -268,7 +270,7 @@ class ilObjLanguageFolder extends ilObject
 				// update object_data table
 				$query = "DELETE FROM object_data ".
 						 "WHERE type = 'lng' ".
-						 "AND title = '".$lang_key."'";
+						 "AND title = ".$ilDB->quote($lang_key);
 				$this->ilias->db->query($query);
 			}
 		}

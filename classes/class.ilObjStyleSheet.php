@@ -428,8 +428,11 @@ class ilObjStyleSheet extends ilObject
 		foreach ($def as $sty)
 		{
 			$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
-				"('".$this->getId()."','".$sty["tag"]."','".$sty["class"].
-				"','".$sty["parameter"]."','".$sty["value"]."')";
+				"(".$ilDB->quote($this->getId()).",".
+				$ilDB->quote($sty["tag"]).",".
+				$ilDB->quote($sty["class"]).",".
+				$ilDB->quote($sty["parameter"]).",".
+				$ilDB->quote($sty["value"]).")";
 			$ilDB->query($q);
 		}
 		
@@ -471,12 +474,15 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function addParameter($a_tag, $a_par)
 	{
+		global $ilDB;
+		
 		$avail_params = $this->getAvailableParameters();
 		$tag = explode(".", $a_tag);
 		$value = $avail_params[$a_par][0];
 		$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
-			"('".$this->getId()."','".$tag[0]."','".$tag[1].
-			"','".$a_par."','".$value."')";
+			"(".$ilDB->quote($this->getId()).",".$ilDB->quote($tag[0]).",".
+			$ilDB->quote($tag[1]).
+			",".$ilDB->quote($a_par).",".$ilDB->quote($value).")";
 		$this->ilias->db->query($q);
 		$this->read();
 		$this->writeCSSFile();
@@ -489,7 +495,9 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function deleteParameter($a_id)
 	{
-		$q = "DELETE FROM style_parameter WHERE id = '".$a_id."'";
+		global $ilDB;
+		
+		$q = "DELETE FROM style_parameter WHERE id = ".$ilDB->quote($a_id);
 		$this->ilias->db->query($q);
 	}
 
@@ -565,7 +573,8 @@ class ilObjStyleSheet extends ilObject
 		
 		parent::read();
 
-		$q = "SELECT * FROM style_parameter WHERE style_id = '".$this->getId()."' ORDER BY tag, class ";
+		$q = "SELECT * FROM style_parameter WHERE style_id = ".
+			$ilDB->quote($this->getId())." ORDER BY tag, class ";
 		$style_set = $this->ilias->db->query($q);
 		$ctag = "";
 		$cclass = "";
@@ -735,7 +744,11 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function updateStyleParameter($a_id, $a_value)
 	{
-		$q = "UPDATE style_parameter SET VALUE='".$a_value."' WHERE id = '".$a_id."'";
+		global $ilDB;
+		
+		$q = "UPDATE style_parameter SET VALUE=".
+			$ilDB->quote($a_value)." WHERE id = ".
+			$ilDB->quote($a_id);
 		$style_set = $this->ilias->db->query($q);
 	}
 	
@@ -863,8 +876,11 @@ class ilObjStyleSheet extends ilObject
 			foreach($style as $tag)
 			{
 				$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
-					"('".$this->getId()."','".$tag["tag"]."','".$tag["class"].
-					"','".$tag["parameter"]."','".$tag["value"]."')";
+					"(".$ilDB->quote($this->getId()).",".
+					$ilDB->quote($tag["tag"]).",".
+					$ilDB->quote($tag["class"]).
+					",".$ilDB->quote($tag["parameter"]).",".
+					$ilDB->quote($tag["value"]).")";
 				$this->ilias->db->query($q);
 			}
 		}

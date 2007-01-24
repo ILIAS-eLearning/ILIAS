@@ -235,7 +235,10 @@ class ilObjLanguage extends ilObject
 	 */
 	function flush()
 	{
-		$query = "DELETE FROM lng_data WHERE lang_key='".$this->key."'";
+		global $ilDB;
+		
+		$query = "DELETE FROM lng_data WHERE lang_key=".
+			$ilDB->quote($this->key);
 		$this->ilias->db->query($query);
 	}
 
@@ -289,20 +292,23 @@ class ilObjLanguage extends ilObject
 						$query = "INSERT INTO lng_data " .
 								"(module, identifier, lang_key, value) " .
 								"VALUES " .
-								"('" . $separated[0] . "','" . $separated[1] . "','" . $this->key . "','" . addslashes($separated[2]) . "')";
+								"(".$ilDB->quote($separated[0]).",".
+								$ilDB->quote($separated[1]).",".
+								$ilDB->quote($this->key).",".
+								$ilDB->quote($separated[2]).")";
 						$lang_array[$separated[0]][$separated[1]] = $separated[2];
 					}
 					else if ($scope == 'local')
 					{
 						// UPDATE because the global values have already been INSERTed
 						$query = "UPDATE lng_data SET ".
-								 "module = '" . $separated[0] . "', " .
-								 "identifier = '" . $separated[1] . "', " . 
-								 "lang_key = '" . $this->key . "', " .
-								 "value = '" . addslashes($separated[2]) . "' " .
-								 "WHERE module = '" . $separated[0] . "' " .
-								 "AND identifier = '" . $separated[1] . "' " .
-								 "AND lang_key = '" . $this->key . "'";
+								 "module = ".$ilDB->quote($separated[0]).", " .
+								 "identifier = ".$ilDB->quote($separated[1]).", " . 
+								 "lang_key = ".$ilDB->quote($this->key).", " .
+								 "value = ".$ilDB->quote($separated[2])." " .
+								 "WHERE module = ".$ilDB->quote($separated[0])." " .
+								 "AND identifier = ".$ilDB->quote($separated[1])." " .
+								 "AND lang_key = ".$ilDB->quote($this->key);
 						$lang_array[$separated[0]][$separated[1]] = $separated[2];
 					}
 					$this->ilias->db->query($query);
@@ -313,7 +319,7 @@ class ilObjLanguage extends ilObject
 					$query = "UPDATE object_data SET " .
 							"description = 'installed', " .
 							"last_update = now() " .
-							"WHERE title = '".$this->key."' " .
+							"WHERE title = ".$ilDB->quote($this->key)." " .
 							"AND type = 'lng'";
 				}
 				else if ($scope == 'local')
@@ -321,7 +327,7 @@ class ilObjLanguage extends ilObject
 					$query = "UPDATE object_data SET " .
 							"description = 'installed_local', " .
 							"last_update = now() " .
-							"WHERE title = '".$this->key."' " .
+							"WHERE title = ".$ilDB->quote($this->key)." " .
 							"AND type = 'lng'";
 				}
 				$this->ilias->db->query($query);
@@ -365,10 +371,12 @@ class ilObjLanguage extends ilObject
 	 */
 	function resetUserLanguage($lang_key)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE usr_pref SET " .
-				"value = '" . $this->lang_default."' " .
+				"value = ".$ilDB->quote($this->lang_default)." " .
 				"WHERE keyword = 'language' " .
-				"AND value = '" . $lang_key . "'";
+				"AND value = ".$ilDB->quote($lang_key);
 		$this->ilias->db->query($query);
 	}
 

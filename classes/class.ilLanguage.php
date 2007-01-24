@@ -260,6 +260,8 @@ class ilLanguage
 	
 	function loadLanguageModule ($a_module)
 	{
+		global $ilDB;
+		
 		if (in_array($a_module, $this->loaded_modules))
 		{
 			return;
@@ -286,8 +288,8 @@ class ilLanguage
 */
 
 		$query = "SELECT * FROM lng_modules " .
-				"WHERE lang_key = '".$lang_key."' " .
-				"AND module = '$a_module'";
+				"WHERE lang_key = ".$ilDB->quote($lang_key)." " .
+				"AND module = ".$ilDB->quote($a_module);
 		$r = $this->ilias->db->query($query);
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		
