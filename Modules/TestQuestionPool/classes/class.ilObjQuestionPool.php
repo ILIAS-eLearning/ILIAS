@@ -1413,6 +1413,41 @@ class ilObjQuestionPool extends ilObject
 				{
 					array_push($result, $row);
 				}
+				else
+				{
+					// the question was used in a random test prior to ILIAS 3.7 so it was inserted
+					// as a reference to the original question pool object and not as a copy. To allow
+					// the deletion of the question pool object, a copy must be created and all database references
+					// of the original question must changed with the reference of the copy
+
+					// 1. Create a copy of the original question
+					$question =& $this->createQuestion("", $row["question_id"]);
+					$duplicate_id = $question->object->duplicate(true);
+
+					// 2. replace the question id in the solutions
+					$query = sprintf("UPDATE tst_solutions SET question_fi = %s WHERE question_fi = %s",
+						$ilDB->quote($duplicate_id),
+						$ilDB->quote($row["question_id"])
+					);
+					$ilDB->query($query);
+
+					// 3. replace the question id in the question list of random tests
+					$query = sprintf("UPDATE tst_test_random_question SET question_fi = %s WHERE question_fi = %s",
+						$ilDB->quote($duplicate_id),
+						$ilDB->quote($row["question_id"])
+					);
+					$ilDB->query($query);
+
+					// 4. replace the question id in the test results
+					$query = sprintf("UPDATE tst_test_result SET question_fi = %s WHERE question_fi = %s",
+						$ilDB->quote($duplicate_id),
+						$ilDB->quote($row["question_id"])
+					);
+					$ilDB->query($query);
+					
+					// 5. The original question can be deleted, so add it to the list of questions
+					array_push($result, $row);
+				}
 			}
 		}
 		return $result;
