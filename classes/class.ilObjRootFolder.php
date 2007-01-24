@@ -156,7 +156,10 @@ class ilObjRootFolder extends ilContainer
 	*/
 	function getTranslations()
 	{
-		$q = "SELECT * FROM object_translation WHERE obj_id = ".$this->getId()." ORDER BY lang_default DESC";
+		global $ilDB;
+		
+		$q = "SELECT * FROM object_translation WHERE obj_id = ".
+			$ilDB->quote($this->getId())." ORDER BY lang_default DESC";
 		$r = $this->ilias->db->query($q);
 		
 		$num = 0;
@@ -180,13 +183,18 @@ class ilObjRootFolder extends ilContainer
 	// remove all Translations of current category
 	function removeTranslations()
 	{
-		$q = "DELETE FROM object_translation WHERE obj_id= ".$this->getId();
+		global $ilDB;
+		
+		$q = "DELETE FROM object_translation WHERE obj_id= ".
+			$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 	
 	// add a new translation to current category
 	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
+		global $ilDB;
+		
 		if (empty($a_title))
 		{
 			$a_title = "NO TITLE";
@@ -195,7 +203,11 @@ class ilObjRootFolder extends ilContainer
 		$q = "INSERT INTO object_translation ".
 			 "(obj_id,title,description,lang_code,lang_default) ".
 			 "VALUES ".
-			 "(".$this->getId().",'".ilUtil::prepareDBString($a_title)."','".ilUtil::prepareDBString($a_desc)."','".$a_lang."',".$a_lang_default.")";
+			 "(".$ilDB->quote($this->getId()).",".
+			 $ilDB->quote($a_title).",".
+			 $ilDB->quote($a_desc).",".
+			 $ilDB->quote($a_lang).",".
+			 $ilDB->quote($a_lang_default).")";
 		$this->ilias->db->query($q);
 
 		return true;

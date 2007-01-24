@@ -100,7 +100,10 @@ class ilObjSystemFolder extends ilObject
 	*/
 	function getHeaderTitleTranslations()
 	{
-		$q = "SELECT * FROM object_translation WHERE obj_id = ".$this->getId()." ORDER BY lang_default DESC";
+		global $ilDB;
+		
+		$q = "SELECT * FROM object_translation WHERE obj_id = ".
+			$ilDB->quote($this->getId())." ORDER BY lang_default DESC";
 		$r = $this->ilias->db->query($q);
 
 		$num = 0;
@@ -123,17 +126,26 @@ class ilObjSystemFolder extends ilObject
 	// remove all Translations of current category
 	function removeHeaderTitleTranslations()
 	{
-		$q = "DELETE FROM object_translation WHERE obj_id= ".$this->getId();
+		global $ilDB;
+		
+		$q = "DELETE FROM object_translation WHERE obj_id= ".
+			$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
 
 	// add a new translation to current category
 	function addHeaderTitleTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
+		global $ilDB;
+		
 		$q = "INSERT INTO object_translation ".
 			 "(obj_id,title,description,lang_code,lang_default) ".
 			 "VALUES ".
-			 "(".$this->getId().",'".ilUtil::prepareDBString($a_title)."','".ilUtil::prepareDBString($a_desc)."','".$a_lang."',".$a_lang_default.")";
+			 "(".$ilDB->quote($this->getId()).",".
+			 $ilDB->quote($a_title).",".
+			 $ilDB->quote($a_desc).",".
+			 $ilDB->quote($a_lang).",".
+			 $ilDB->quote($a_lang_default).")";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -151,18 +163,21 @@ class ilObjSystemFolder extends ilObject
 
 	function _getHeaderTitle()
 	{
+		global $ilDB;
+		
 		$id = ilObjSystemFolder::_getId();
 
 		$q = "SELECT title,description FROM object_translation ".
-			"WHERE obj_id = ".$id." ".
+			"WHERE obj_id = ".$ilDB->quote($id)." ".
 			"AND lang_default = 1";
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 		$title = $row->title;
 
 		$q = "SELECT title,description FROM object_translation ".
-			"WHERE obj_id = ".$id." ".
-			"AND lang_code = '".$this->ilias->account->getPref("language")."' ".
+			"WHERE obj_id = ".$ilDB->quote($id)." ".
+			"AND lang_code = ".
+			$ilDB->quote($this->ilias->account->getPref("language"))." ".
 			"AND NOT lang_default = 1";
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -177,18 +192,21 @@ class ilObjSystemFolder extends ilObject
 
 	function _getHeaderTitleDescription()
 	{
+		global $ilDB;
+		
 		$id = ilObjSystemFolder::_getId();
 
 		$q = "SELECT title,description FROM object_translation ".
-			"WHERE obj_id = ".$id." ".
+			"WHERE obj_id = ".$ilDB->quote($id)." ".
 			"AND lang_default = 1";
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 		$description = $row->description;
 
 		$q = "SELECT title,description FROM object_translation ".
-			"WHERE obj_id = ".$id." ".
-			"AND lang_code = '".$this->ilias->account->getPref("language")."' ".
+			"WHERE obj_id = ".$ilDB->quote($id)." ".
+			"AND lang_code = ".
+			$ilDB->quote($this->ilias->account->getPref("language"))." ".
 			"AND NOT lang_default = 1";
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
