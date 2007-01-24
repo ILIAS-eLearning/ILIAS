@@ -49,13 +49,16 @@ class ilTracking {
 	var $sessionId;
 	var $acc_time;
 
+	var $db;
+	
 	function ilTracking()
 	{
-		global $ilias,$tpl,$lng;
+		global $ilias,$tpl,$lng,$ilDB;
 
 		$this->ilias	=& $ilias;
 		$this->tpl		=& $tpl;
 		$this->lng		=& $lng;
+		$this->db = $ilDB;
 
 	}
 
@@ -72,6 +75,21 @@ class ilTracking {
 		." order by acc_time desc limit 1 ";
 		$res = $ilDB->query($q);
 		return $res->fetchRow(DB_FETCHMODE_ASSOC);
+	}
+	
+	function _hasEntry($a_obj_id, $a_obj_type,$a_sub_id = 0, $a_sub_type = "")
+	{
+		global $ilDB;
+		
+		// We query for the session_id since it is more unique than the user_id. 
+		
+		$query = "SELECT COUNT(id) FROM ut_access ".
+			"WHERE session_id = ".$ilDB->quote(session_id())." ".
+			"AND acc_obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND acc_sub_id = ".$ilDB->quote($a_sub_id);
+		
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
 	}
 
 	/**
@@ -112,8 +130,32 @@ class ilTracking {
 		$language = $ilUser->getLanguage();
 		$session_id = session_id();
 
-		$last_access = ilTracking::_getLastAccess();
+		#$last_access = ilTracking::_getLastAccess();
 
+		if(ilTracking::_hasEntry($a_obj_id, $a_obj_type,$a_sub_id, $a_sub_type))
+		{
+			return true;
+		}
+		$q = "INSERT INTO ut_access ("
+			."user_id, action_type, php_script, client_ip,"
+			."acc_obj_type, acc_obj_id, acc_sub_type, acc_sub_id,"
+			."language, browser, session_id, acc_time"
+			.") VALUES ("
+			.$ilDB->quote($user_id).","
+			.$ilDB->quote($a_action_type).","
+			.$ilDB->quote($script).","
+			.$ilDB->quote($client_ip).","
+			.$ilDB->quote($a_obj_type).","
+			.$ilDB->quote($a_obj_id).","
+			.$ilDB->quote($a_sub_type).","
+			.$ilDB->quote($a_sub_id).","
+			.$ilDB->quote($language).","
+			.$ilDB->quote($_SERVER["HTTP_USER_AGENT"]).","
+			.$ilDB->quote($session_id).", now()"
+			.")";
+	   $ilDB->query($q);
+		
+		/*
 		if(($session_id == $last_access["session_id"]) &&
 			($a_obj_id == $last_access["acc_obj_id"]) &&
 			($a_obj_type == $last_access["acc_obj_type"]) &&
@@ -144,6 +186,7 @@ class ilTracking {
 				.")";
 		   $ilDB->query($q);
 		}
+		*/
 	}
 	function TestTitle($user_id)
 	{
