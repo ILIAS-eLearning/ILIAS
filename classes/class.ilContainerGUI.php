@@ -286,58 +286,114 @@ class ilContainerGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* render the object
+	*/
+	function renderObject()
+	{
+		if ($this->type == 'cat')
+		{
+			$this->tpl->setRightContent($this->getRightColumnHTML());
+		}
+		
+		$this->getCenterColumnHTML();
+	}
 
 	/**
-	* display tree view
+	* Get center column
 	*/
-/*	This is currently implemented in ilRepositoryGUI for all containers
-	and a conceptional issue whether it should be moved to this class.
-	function showTreeObject()
+	function getCenterColumnHTML()
 	{
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		global $ilCtrl, $ilAccess;
+		
+		include_once("Services/Block/classes/class.ilColumnGUI.php");
 
-		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		$obj_id = ilObject::_lookupObjId($this->object->getRefId());
+		$obj_type = ilObject::_lookupType($obj_id);
 
-		include_once ("classes/class.ilRepositoryExplorer.php");
-		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
-		$exp->setExpandTarget("repository.php?cmd=showTree&ref_id=".$this->object->getRefId());
-		$exp->setTargetGet("ref_id");
-
-		if ($_GET["repexpand"] == "")
+		if ($ilCtrl->getNextClass() != "ilcolumngui")
 		{
-			$expanded = $this->tree->readRootId();
+			// normal command processing	
+			return $this->getContent();
 		}
 		else
 		{
-			$expanded = $_GET["repexpand"];
+			if (!$ilCtrl->isAsynch())
+			{
+				//if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
+				if (ilColumnGUI::getScreenMode() != IL_SCREEN_SIDE)
+				{
+					// right column wants center
+					if (ilColumnGUI::getCmdSide() == IL_COL_RIGHT)
+					{
+						$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
+						$column_gui->setRepositoryMode(true);
+						$column_gui->setEnableEdit(false);
+						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+							$this->isActiveAdministrationPanel())
+						{
+							$column_gui->setEnableEdit(true);
+						}
+						$this->html = $ilCtrl->forwardCommand($column_gui);
+					}
+					// left column wants center
+					if (ilColumnGUI::getCmdSide() == IL_COL_LEFT)
+					{
+						$column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
+						$column_gui->setRepositoryMode(true);
+						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+						{
+							$column_gui->setEnableEdit(true);
+						}
+						$this->html = $ilCtrl->forwardCommand($column_gui);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	* Display right column
+	*/
+	function getRightColumnHTML()
+	{
+		global $ilUser, $lng, $ilCtrl, $ilAccess;
+		
+		$obj_id = ilObject::_lookupObjId($this->object->getRefId());
+		$obj_type = ilObject::_lookupType($obj_id);
+
+		include_once("Services/Block/classes/class.ilColumnGUI.php");
+		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
+		$column_gui->setRepositoryMode(true);
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+			$this->isActiveAdministrationPanel())
+		{
+			$column_gui->setEnableEdit(true);
+		}
+		
+		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
+			$column_gui->getCmdSide() == IL_COL_RIGHT &&
+			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
+		{
+			$html = $ilCtrl->forwardCommand($column_gui);
+		}
+		else
+		{
+			if (!$ilCtrl->isAsynch())
+			{
+				$html = $ilCtrl->getHTML($column_gui);
+			}
 		}
 
-		$exp->setExpand($expanded);
-
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("repository"));
-		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-		$this->tpl->setVariable("EXPLORER", $output);
-		//$this->tpl->setVariable("ACTION", "repository.php?repexpand=".$_GET["repexpand"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->show(false);
-		exit;
+		return $html;
 	}
-*/
-
+	
 	/**
-	* render container object
+	* get container content (list of subitems)
 	* (this should include multiple lists in the future that together
 	* build the blocks of a container page)
 	*/
-	function renderObject()
+	function getContent()
 	{
 		global $ilBench, $tree;
 

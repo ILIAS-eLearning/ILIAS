@@ -302,7 +302,10 @@ class ilColumnGUI
 		$this->determineBlocks();
 		$this->showBlocks();
 		
-		$this->addHiddenBlockSelector();
+		if ($this->getEnableEdit())
+		{
+			$this->addHiddenBlockSelector();
+		}
 
 		return $this->tpl->get();
 	}
