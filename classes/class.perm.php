@@ -153,48 +153,6 @@ function getOperationId($a_operation)
 
 
 /**
-* POSSIBLE DEPRECATED. IF NOT, FUNCTION BELONGS TO class.user
-* check if user is logged in
-* @access	public
-* @return	boolean	true if logged in
-*/
-function isUserLoggedIn ()
-{
-	global $ilias;
-
-	$user_id = $ilias->account->getId();
-
-	if (empty($user_id))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-/**
-* TODO: move to class.util
-* removes spaces and tabs within text strings
-* @access	public
-* @param	string	string to be trimmed
-* @return	string 	trimmed string
-*/
-function trimDeluxe ($a_text)
-{
-	str_replace("\t"," ",$a_text);
-
-	for ($i=0;$i<50;$i++)
-	{
-		str_replace("  "," ",$a_text);
-	}
-
-	$a_text = trim($a_text);
-
-	return $a_text;
-}
-
-
-/**
 * check if a login name already exists
 * You may exclude a user from the check by giving his user id as 2nd paramter
 * @access	public
