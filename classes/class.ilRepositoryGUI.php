@@ -39,7 +39,7 @@ include_once("payment/classes/class.ilPaymentObject.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjRoleGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjLinkResourceGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI, ilColumnGUI, ilObjMediaCastGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI, ilObjMediaCastGUI
 *
 */
 class ilRepositoryGUI
@@ -261,17 +261,6 @@ class ilRepositoryGUI
 //echo "<br>cmd:$cmd:nextclass:$next_class:";
 		switch ($next_class)
 		{
-			case "ilcolumngui":
-				$obj_id = ilObject::_lookupObjId($this->cur_ref_id);
-				$obj_type = ilObject::_lookupType($obj_id);
-				$class = "ilObj".$objDefinition->getClassName($obj_type)."GUI";
-				$class_path = $this->ctrl->lookupClassPath(strtolower($class));
-				// get gui class instance
-				include_once($class_path);
-				$this->gui_obj = new $class("", $this->cur_ref_id, true, false);
-				$this->gui_obj->prepareOutput();
-				$this->show();
-				break;
 			
 			default:
 				// forward all other classes to gui commands
@@ -354,8 +343,9 @@ class ilRepositoryGUI
 	
 	function show()
 	{
-		$this->tpl->setVariable("OBJECTS", $this->getCenterColumnHTML());
-		$this->tpl->setRightContent($this->getRightColumnHTML());
+		// normal command processing
+		$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+		$this->tpl->setVariable("OBJECTS", $this->gui_obj->getHTML());
 
 		$this->tpl->show();
 	}
@@ -438,99 +428,6 @@ class ilRepositoryGUI
 		//$this->tpl->show(true);
 		$this->tpl->show(false);
 	}
-
-
-	
-	/**
-	* Get center column
-	*/
-	function getCenterColumnHTML()
-	{
-		global $ilCtrl, $ilAccess;
-		
-		include_once("Services/Block/classes/class.ilColumnGUI.php");
-
-		$obj_id = ilObject::_lookupObjId($this->cur_ref_id);
-		$obj_type = ilObject::_lookupType($obj_id);
-
-		if ($ilCtrl->getNextClass() != "ilcolumngui")
-		{
-			// normal command processing
-			$ret =& $this->ctrl->forwardCommand($this->gui_obj);	
-			return $this->gui_obj->getHTML();
-		}
-		else
-		{
-			if (!$ilCtrl->isAsynch())
-			{
-				//if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
-				if (ilColumnGUI::getScreenMode() != IL_SCREEN_SIDE)
-				{
-					// right column wants center
-					if (ilColumnGUI::getCmdSide() == IL_COL_RIGHT)
-					{
-						$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
-						$column_gui->setRepositoryMode(true);
-						if ($ilAccess->checkAccess("write", "", $this->cur_ref_id))
-						{
-							$column_gui->setEnableEdit(true);
-						}
-						$html = $ilCtrl->forwardCommand($column_gui);
-						return $html;
-					}
-					// left column wants center
-					if (ilColumnGUI::getCmdSide() == IL_COL_LEFT)
-					{
-						$column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
-						$column_gui->setRepositoryMode(true);
-						if ($ilAccess->checkAccess("write", "", $this->cur_ref_id))
-						{
-							$column_gui->setEnableEdit(true);
-						}
-						$html = $ilCtrl->forwardCommand($column_gui);
-						return $html;
-					}
-				}
-			}
-		}
-	}
-	
-	/**
-	* Display right column
-	*/
-	function getRightColumnHTML()
-	{
-		global $ilUser, $lng, $ilCtrl, $ilAccess;
-		
-		$obj_id = ilObject::_lookupObjId($this->cur_ref_id);
-		$obj_type = ilObject::_lookupType($obj_id);
-
-		include_once("Services/Block/classes/class.ilColumnGUI.php");
-		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
-		$column_gui->setRepositoryMode(true);
-		if ($ilAccess->checkAccess("write", "", $this->cur_ref_id))
-		{
-			$column_gui->setEnableEdit(true);
-		}
-		
-		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
-			$column_gui->getCmdSide() == IL_COL_RIGHT &&
-			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
-		{
-			$html = $ilCtrl->forwardCommand($column_gui);
-		}
-		else
-		{
-			if (!$ilCtrl->isAsynch())
-			{
-				$html = $ilCtrl->getHTML($column_gui);
-			}
-		}
-
-		return $html;
-	}
-
-
 
 } // END class.ilRepository
 

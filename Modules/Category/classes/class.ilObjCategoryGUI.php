@@ -31,6 +31,7 @@ require_once "./classes/class.ilContainerGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -90,7 +91,24 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->gui_obj->setCreationMode($this->creation_mode);
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				break;
-
+				
+			case "ilcolumngui":
+				$this->prepareOutput();
+				include_once("classes/class.ilObjStyleSheet.php");
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$this->renderObject();
+				/*
+				$obj_id = ilObject::_lookupObjId($this->cur_ref_id);
+				$obj_type = ilObject::_lookupType($obj_id);
+				$class = "ilObj".$objDefinition->getClassName($obj_type)."GUI";
+				$class_path = $this->ctrl->lookupClassPath(strtolower($class));
+				// get gui class instance
+				include_once($class_path);
+				$this->gui_obj = new $class("", $this->cur_ref_id, true, false);
+				$this->gui_obj->prepareOutput();
+				$this->show();*/
+				break;
 
 			case 'ilpermissiongui':
 				$this->prepareOutput();
