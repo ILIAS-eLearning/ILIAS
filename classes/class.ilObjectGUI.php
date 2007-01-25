@@ -993,9 +993,12 @@ class ilObjectGUI
 	*/
 	function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects = true)
 	{
-		global $log;
+		global $log, $ilDB;
 		
-		$q = "SELECT tree FROM tree WHERE parent='".$a_node_id."' AND tree < 0";
+		// @todo: belongs to app
+		
+		$q = "SELECT tree FROM tree WHERE parent= ".
+			$ilDB->quote($a_node_id)." AND tree < 0";
 		
 		$r = $this->ilias->db->query($q);
 

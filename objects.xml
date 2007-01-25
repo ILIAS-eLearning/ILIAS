@@ -48,6 +48,7 @@
 	<subobj name="glo">glo</subobj>
 	<subobj name="webr">webr</subobj>
 	<subobj name="file" module="1">file</subobj>
+	<subobj name="mcst">mcst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="svy">svy</subobj>
@@ -89,6 +90,7 @@
 	<subobj name="glo">glo</subobj>
 	<subobj name="webr">webr</subobj>
 	<subobj name="file">file</subobj>
+	<subobj name="mcst">mcst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="svy">svy</subobj>
@@ -119,6 +121,7 @@
 	<subobj name="glo">glo</subobj>
 	<subobj name="webr">webr</subobj>
 	<subobj name="file">file</subobj>
+	<subobj name="mcst">mcst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="svy">svy</subobj>
@@ -155,6 +158,7 @@
 	<subobj name="glo">glo</subobj>
 	<subobj name="webr">webr</subobj>
 	<subobj name="file">file</subobj>
+	<subobj name="mcst">mcst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="svy">svy</subobj>
@@ -299,6 +303,10 @@
 	<action name="delete">delete</action>
 </object>
 <object name="exc" class_name="Exercise" location="Modules/Exercise/classes" module="Modules/Exercise" checkbox="1" inherit="1" allow_link="1" rbac="1">
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+</object>
+<object name="mcst" class_name="MediaCast" location="Modules/MediaCast/classes" module="Modules/MediaCast" checkbox="1" inherit="1" allow_link="1" rbac="1">
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
 </object>

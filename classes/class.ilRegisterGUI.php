@@ -232,12 +232,19 @@ class ilRegisterGUI
 	
 	function apply()
 	{
+		global $ilDB;
+		
+		// @todo: move queries to app
+		
 		switch ($this->object->getRegistrationFlag())
 		{
 			// registration
 			case 1:
-				$q = "INSERT INTO grp_registration VALUES (".$this->object->getId().",".
-					$this->ilias->account->getId().",'".$_POST["subject"]."','".date("Y-m-d H:i:s")."')";
+				$q = "INSERT INTO grp_registration VALUES (".
+					$ilDB->quote($this->object->getId()).",".
+					$ilDB->quote($this->ilias->account->getId()).",".
+					$ilDB->quote($_POST["subject"]).",".
+					$ilDB->quote(date("Y-m-d H:i:s")).")";
 				$this->ilias->db->query($q);
 
 				sendInfo($this->lng->txt("application_completed"),true);
@@ -283,7 +290,13 @@ class ilRegisterGUI
 	
 	function isUserAlreadyRegistered ()
 	{
-		$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->object->getId()." AND user_id=".$this->ilias->account->getId();
+		global $ilDB;
+		
+		// @todo: move query to app
+		
+		$q = "SELECT * FROM grp_registration WHERE grp_id=".
+			$ilDB->quote($this->object->getId())." AND user_id=".
+			$ilDB->quote($this->ilias->account->getId());
 		$res = $this->ilias->db->query($q);
 	
 		if ($res->numRows() > 0)

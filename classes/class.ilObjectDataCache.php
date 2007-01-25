@@ -181,7 +181,10 @@ class ilObjectDataCache
 	*/
 	function __storeObjectData($a_obj_id)
 	{
-		$query = "SELECT * FROM object_data WHERE obj_id = '".$a_obj_id."'";
+		global $ilDB;
+		
+		$query = "SELECT * FROM object_data WHERE obj_id = ".
+			$ilDB->quote($a_obj_id);
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

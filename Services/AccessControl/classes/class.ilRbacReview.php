@@ -211,11 +211,13 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 			 "AND rbac_fa.parent = '".$a_ref_id."'";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$role_list[] = fetchObjectData($row);
+			$row["desc"] = $row["description"];
+			$row["user_id"] = $row["owner"];
+			$role_list[] = $row;
 		}
-		
+
 		$role_list = $this->__setRoleType($role_list);
 		
 		return $role_list;
@@ -239,10 +241,11 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 			 "AND rbac_fa.assign = 'y'";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			//ifd $row->title
-			$role_list[] = fetchObjectData($row);
+			$row["desc"] = $row["description"];
+			$row["user_id"] = $row["owner"];
+			$role_list[] = $row;
 		}
 		
 		$role_list = $this->__setRoleType($role_list);
@@ -921,9 +924,9 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 			 "AND rbac_fa.assign = '".$assign."'";
 		$r = $this->ilDB->query($q);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-            $prefix = (substr($row->title,0,3) == "il_") ? true : false;
+            $prefix = (substr($row["title"],0,3) == "il_") ? true : false;
 
             // all (assignable) internal local roles only
             if ($a_filter == 4 and !$prefix)
@@ -937,7 +940,9 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
                 continue;
             }
             
-			$roles[] = fetchObjectData($row);
+			$row["desc"] = $row["description"];
+			$row["user_id"] = $row["owner"];
+			$roles[] = $row;
 		}
 
 		$roles = $this->__setRoleType($roles);

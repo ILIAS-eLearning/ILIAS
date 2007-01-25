@@ -146,7 +146,7 @@ class ilObjLanguageFolder extends ilObject
 		$lang_keys = array();
 
 		// now get languages from database
-		if ($lang_db = getObjectList("lng"))
+		if ($lang_db = ilObject::_getObjectsByType("lng"))
 		{
 			foreach ($lang_db as $lang)
 			{

@@ -72,27 +72,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 		$this->data["cols"] = array("type","title","last_change");
 
-		if ($list = getObjectList("typ",$_GET["order"], $_GET["direction"]))
-		{
-			foreach ($list as $key => $val)
-			{
-				//visible data part
-				$this->data["data"][] = array(
-						"type"			=> $val["type"],
-						"title" => $val["title"]."#separator#".$val["desc"],
-						//"description"	=> $val["desc"],
-						"last_change"	=> $val["last_update"],
-						"obj_id"		=> $val["obj_id"]
-					);
-
-			}
-		} //if roledata
-
 		$this->maxcount = count($this->data["data"]);
-
-		// sorting array
-		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
-		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 		// now compute control information
 		foreach ($this->data["data"] as $key => $val)
