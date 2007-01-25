@@ -302,7 +302,7 @@ class ilColumnGUI
 		$this->determineBlocks();
 		$this->showBlocks();
 		
-		if ($this->getEnableEdit())
+		if ($this->getEnableEdit() || !$this->getRepositoryMode())
 		{
 			$this->addHiddenBlockSelector();
 		}
