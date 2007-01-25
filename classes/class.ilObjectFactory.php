@@ -47,10 +47,10 @@ class ilObjectFactory
 	*/
 	function ObjectIdExists($a_obj_id)
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
 		$query = "SELECT * FROM object_data ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
 
 		$res = $ilias->db->query($query);
 		
@@ -65,7 +65,7 @@ class ilObjectFactory
 	*/
 	function getInstanceByObjId($a_obj_id,$stop_on_error = true)
 	{
-		global $ilias, $objDefinition;
+		global $ilias, $objDefinition, $ilDB;
 
 		// check object id
 		if (!isset($a_obj_id))
@@ -83,7 +83,7 @@ class ilObjectFactory
 
 		// read object data
 		$q = "SELECT * FROM object_data ".
-			 "WHERE obj_id = '".$a_obj_id."'";
+			 "WHERE obj_id = ".$ilDB->quote($a_obj_id);
 		$object_set = $ilias->db->query($q);
 		// check number of records
 		if ($object_set->numRows() == 0)
@@ -139,7 +139,7 @@ class ilObjectFactory
 	*/
 	function getInstanceByRefId($a_ref_id,$stop_on_error = true)
 	{
-		global $ilias, $objDefinition;
+		global $ilias, $objDefinition, $ilDB;
 
 		// check reference id
 		if (!isset($a_ref_id))
@@ -162,7 +162,7 @@ class ilObjectFactory
 		#	 "WHERE object_reference.ref_id='".$a_ref_id."'";
 		$q = "SELECT * FROM object_data,object_reference ".
 			"WHERE object_reference.obj_id = object_data.obj_id ".
-			"AND object_reference.ref_id = '".$a_ref_id."'";
+			"AND object_reference.ref_id = ".$ilDB->quote($a_ref_id);
 
 		$object_set = $ilias->db->query($q);
 
@@ -220,7 +220,7 @@ class ilObjectFactory
 	*/
 	function getTypeByRefId($a_ref_id,$stop_on_error = true)
 	{
-		global $ilias, $objDefinition;
+		global $ilias, $objDefinition, $ilDB;
 
 		// check reference id
 		if (!isset($a_ref_id))
@@ -238,7 +238,7 @@ class ilObjectFactory
 		// read object data
 		$q = "SELECT * FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
-			 "WHERE object_reference.ref_id='".$a_ref_id."'";
+			 "WHERE object_reference.ref_id=".$ilDB->quote($a_ref_id);
 		$object_set = $ilias->db->query($q);
 
 		if ($object_set->numRows() == 0)

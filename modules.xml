@@ -42,6 +42,9 @@
 	<module name="Exercise" dir="Modules/Exercise">
 		<baseclass name="ilExerciseHandlerGUI" dir="classes" />
 	</module>
+	<module name="MediaCast" dir="Modules/MediaCast">
+		<baseclass name="ilMediaCastHandlerGUI" dir="classes" />
+	</module>
 	<module name="Course" dir="course">
 		<!-- more to come ... -->
 	</module>

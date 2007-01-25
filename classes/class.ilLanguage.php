@@ -303,7 +303,7 @@ class ilLanguage
 	
 	function getInstalledLanguages()
 	{
-		$langlist = getObjectList("lng");
+		$langlist = ilObject::_getObjectsByType("lng");
 		
 		foreach ($langlist as $lang)
 		{
@@ -313,7 +313,7 @@ class ilLanguage
 			}
 		
 		}
-		
+
 		return $languages;
 	}
 	

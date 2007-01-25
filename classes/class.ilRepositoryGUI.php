@@ -39,7 +39,7 @@ include_once("payment/classes/class.ilPaymentObject.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjRoleGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjLinkResourceGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI, ilColumnGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI, ilColumnGUI, ilObjMediaCastGUI
 *
 */
 class ilRepositoryGUI

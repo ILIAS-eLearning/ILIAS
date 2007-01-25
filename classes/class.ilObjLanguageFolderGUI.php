@@ -444,7 +444,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function refreshObject()
 	{
-		$languages = getObjectList("lng");
+		$languages = ilObject::_getObjectsByType("lng");
 
 		foreach ($languages as $lang)
 		{

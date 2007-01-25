@@ -1797,7 +1797,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function activeRoleSaveObject()
 	{
-		global $rbacreview;
+		global $rbacreview, $ilDB;
 
 		$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
 
@@ -1822,8 +1822,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 				$roles = "RoleId|".serialize($_POST["id"]);
 				$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$this->object->getId()]["data"]);
-
-				$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$this->object->getId()."'";
+				
+				// to do: move to app class
+				$q = "UPDATE usr_session SET data=".$ilDB->quote($modified_data)." WHERE user_id = ".
+					$ilDB->quote($this->object->getId());
 				$this->ilias->db->query($q);
 			}
 			else

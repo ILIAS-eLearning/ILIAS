@@ -613,6 +613,8 @@ class ilValidator extends PEAR
 	*/
 	function findInvalidRolefolders()
 	{
+		global $ilDB;
+		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
 		{
@@ -651,7 +653,7 @@ class ilValidator extends PEAR
 		$q = "SELECT object_data.*, ref_id FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
 			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
-			 "WHERE object_reference.ref_id ='".RECOVERY_FOLDER_ID."' ".
+			 "WHERE object_reference.ref_id = ".$ilDB->quote(RECOVERY_FOLDER_ID)." ".
 			 "AND object_data.type='rolf'";
 		$r = $this->db->query($q);
 		
@@ -692,6 +694,8 @@ class ilValidator extends PEAR
 	*/
 	function findInvalidRBACEntries()
 	{
+		global $ilDB;
+		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
 		{
@@ -729,7 +733,7 @@ class ilValidator extends PEAR
 		$q = "SELECT object_data.*, ref_id FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
 			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
-			 "WHERE object_reference.ref_id ='".RECOVERY_FOLDER_ID."' ".
+			 "WHERE object_reference.ref_id =".$ilDB->quote(RECOVERY_FOLDER_ID)." ".
 			 "AND object_data.type='rolf'";
 		$r = $this->db->query($q);
 		

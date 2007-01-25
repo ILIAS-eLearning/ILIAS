@@ -1413,6 +1413,11 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat#:#Category
+common#:#mcst#:#MediaCast
+common#:#obj_mcst#:#MediaCast
+common#:#objs_mcst#:#MediaCasts
+common#:#mcst_new#:#New MediaCast
+common#:#mcst_add#:#Add MediaCast
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added

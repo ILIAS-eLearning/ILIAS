@@ -62,12 +62,14 @@ class ilRoleDesktopItem
 
 	function add($a_item_id,$a_item_type)
 	{
+		global $ilDB;
+		
 		if($a_item_type and $a_item_id)
 		{
 			$query = "INSERT INTO role_desktop_items ".
-				"SET role_id = '".$this->getRoleId()."', ".
-				"item_id = '".$a_item_id."', ".
-				"item_type = '".$a_item_type."'";
+				"SET role_id = ".$ilDB->quote($this->getRoleId()).", ".
+				"item_id = ".$ilDB->quote($a_item_id).", ".
+				"item_type = ".$ilDB->quote($a_item_type);
 
 			$this->db->query($query);
 
@@ -79,8 +81,10 @@ class ilRoleDesktopItem
 	}
 	function delete($a_role_item_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM role_desktop_items ".
-			"WHERE role_item_id = '".$a_role_item_id."'";
+			"WHERE role_item_id = ".$ilDB->quote($a_role_item_id);
 
 		$this->db->query($query);
 
@@ -89,8 +93,10 @@ class ilRoleDesktopItem
 
 	function deleteAll()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM role_desktop_items ".
-			"WHERE role_id = '".$this->getRoleId()."'";
+			"WHERE role_id = ".$ilDB->quote($this->getRoleId());
 
 		$this->db->query($query);
 
