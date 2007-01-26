@@ -6945,3 +6945,6 @@ ps#:#ps_cdf_delete_sure#:#Sind Sie sicher, dass Sie dieses Datenfeld löschen m�
 ps#:#ps_cdf_deleted#:#Die Datenfelder wurden gelöscht.
 ps#:#ps_edit_select_field#:#Auswahlliste bearbeiten
 ps#:#ps_cdf_deleted_field#:#Der Wert wurde gelöscht.
+common#:#users_online_show_short_associated#:#Nur Kurs- und Gruppenmitglieder
+common#:#users_online_show_short_n#:#Keine aktiven Benutzer
+common#:#users_online_show_short_y#:#Alle aktiven Benutzer

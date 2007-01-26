@@ -6977,3 +6977,6 @@ ps#:#ps_cdf_delete_sure#:#Do you really want to delete these user fields ?
 ps#:#ps_cdf_deleted#:#Deleted user fields
 ps#:#ps_edit_select_field#:#Edit Selection Box
 ps#:#ps_cdf_deleted_field#:#Deleted value
+common#:#users_online_show_short_associated#:#Only course and group members
+common#:#users_online_show_short_n#:#Don't show active users
+common#:#users_online_show_short_y#:#Show all active users
