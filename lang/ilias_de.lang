@@ -6933,6 +6933,8 @@ ps#:#ps_new_text_field#:#Neues Textfeld anlegen
 ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_type_text#:#Textfeld
 ps#:#ps_type_select#:#Auswahlliste
+administration#:#course_export#:#Kurs-Export
+administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Bitte bestätigen Sie Ihre Änderungen.
 ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
 ps#:#ps_cdf_value#:#Wert
 ps#:#ps_btn_add_value#:#Neuer Wert

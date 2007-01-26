@@ -6964,6 +6964,8 @@ ps#:#ps_type_select_long#:#Selection Box (Fixed Values)
 ps#:#ps_new_text_field#:#Add new Text Field
 ps#:#ps_name_field#:#Name
 ps#:#ps_type_text#:#Text Field
+administration#:#course_export#:#Course Export
+administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.
 ps#:#ps_type_select#:#Selection Box
 ps#:#ps_new_select_field#:#New Selection Box
 ps#:#ps_cdf_value#:#Value
@@ -6974,4 +6976,4 @@ ps#:#ps_cdf_select_one#:#Please select one.
 ps#:#ps_cdf_delete_sure#:#Do you really want to delete these user fields ?
 ps#:#ps_cdf_deleted#:#Deleted user fields
 ps#:#ps_edit_select_field#:#Edit Selection Box
-ps#:#ps_cdf_deleted_field#:#Deleted value.
+ps#:#ps_cdf_deleted_field#:#Deleted value

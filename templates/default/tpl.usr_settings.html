@@ -1,37 +1,50 @@
 <h2>{TXT_HEADER_PROFILE}</h2>
 <p>{TXT_EXPLANATION_PROFILE}</p>
 <form name="frm_global_user_settings" action="{FORMACTION}" method="post">
-<table class="std">
+<!-- BEGIN confirm_change -->
+<div class="message">{CONFIRM_MESSAGE}</div>
+<table class="fullwidth_invisible">
+<tr>
+	<td align="center">
+		<input class="submit" type="submit" name="cmd[confirmSaved]" value="{BUTTON_CONFIRM}" />
+		<input class="submit" type="submit" name="cmd[settings]" value="{BUTTON_CANCEL}" />
+	</td>
+</tr>
+</table>		
+<!-- END confirm_change -->
+<table class="fullwidth">
 <tr class="tblheader">
-	<td class="std">{HEADER_PROFILE_DATA}</td>
-	<td class="std">{HEADER_VISIBLE}</td>
-	<td class="std">{HEADER_ENABLED}</td>
-	<td class="std">{HEADER_SEARCH}</td>
-	<td class="std">{HEADER_REQUIRED}</td>
-	<td class="std">{HEADER_EXPORT}</td>
-	<td class="std">{HEADER_DEFAULT_VALUE}</td>
+	<th class="std" colspan="4">{HEADER_PROFILE_DATA}</th>	
 </tr>
 <!-- BEGIN profile_settings -->
 <tr>
-	<td class="option">{TXT_PROFILE_DATA}</td>
-	<td class="option_value"><div style="text-align:center"><input type="checkbox" name="chb[{PROFILE_OPTION_VISIBLE}]" value="1"{CHECKED_VISIBLE}{DISABLE_VISIBLE}/></div></td>
-	<td class="option_value"><div style="text-align:center"><input type="checkbox" name="chb[{PROFILE_OPTION_ENABLED}]" value="1"{CHECKED_ENABLED}{DISABLE_ENABLED}/></div></td>
-	<td class="option_value"><div style="text-align:center">{CHECK_SEARCH}</td>	  
-	<td class="option_value"><div style="text-align:center"><input type="checkbox" name="chb[{PROFILE_OPTION_REQUIRED}]" value="1"{CHECKED_REQUIRED}{DISABLE_REQUIRED}/></div></td>
-	<td class="option_value"><!-- BEGIN show_export_checkbox --><div style="text-align:center"><input type="checkbox" name="chb[{PROFILE_OPTION_EXPORT}]" value="1"{CHECKED_EXPORT}{DISABLE_EXPORT}/></div><!-- END show_export_checkbox --></td>
-	<td class="option_value">
-<!-- BEGIN default_value -->
-            <select name="select[{PROFILE_OPTION_DEFAULT_VALUE}]">
-<!-- BEGIN default_value_option -->
-                <option value="{OPTION_VALUE}" {OPTION_SELECTED}>{OPTION_TEXT}</option>
-<!-- END default_value_option -->
-            </select>
-<!-- END default_value -->	
-        </td>
+	<td class="option" nowrap>{TXT_PROFILE_DATA}</td>
+	<td class="option_value" nowrap>
+		<input type="checkbox" name="chb[{PROFILE_OPTION_VISIBLE}]" value="1" id="{PROFILE_OPTION_VISIBLE}"{CHECKED_VISIBLE}{DISABLE_VISIBLE} /><label for="{PROFILE_OPTION_VISIBLE}">{HEADER_VISIBLE}</label><br />
+		<input type="checkbox" name="chb[{PROFILE_OPTION_ENABLED}]" value="1" id="{PROFILE_OPTION_ENABLED}"{CHECKED_ENABLED}{DISABLE_ENABLED} /><label for="{PROFILE_OPTION_ENABLED}">{HEADER_ENABLED}</label><br />
+		{CHECK_SEARCH}<label for="">{HEADER_SEARCH}</label><br />
+		<input type="checkbox" name="chb[{PROFILE_OPTION_REQUIRED}]" value="1" id="{PROFILE_OPTION_REQUIRED}"{CHECKED_REQUIRED}{DISABLE_REQUIRED}/><label for="{PROFILE_OPTION_REQUIRED}">{HEADER_REQUIRED}</label>
+	</td>
+	<td class="option_value" nowrap>
+		<!-- BEGIN show_export_checkbox --><input type="checkbox" name="chb[{PROFILE_OPTION_EXPORT}]" value="1" id="{PROFILE_OPTION_EXPORT}"{CHECKED_EXPORT}{DISABLE_EXPORT} /><label for="{PROFILE_OPTION_EXPORT}">{HEADER_EXPORT}</label><!-- END show_export_checkbox --><br />
+		<!-- BEGIN show_course_export_checkbox --><input type="checkbox" name="chb[{PROFILE_OPTION_COURSE_EXPORT}]" value="1" id="{PROFILE_OPTION_COURSE_EXPORT}"{CHECKED_COURSE_EXPORT}{DISABLE_COURSE_EXPORT} /><label for="{PROFILE_OPTION_COURSE_EXPORT}">{HEADER_COURSE_EXPORT}</label><!-- END show_course_export_checkbox --><br />
+	</td>
+	<td class="option_value" nowrap>
+		<!-- BEGIN default_block -->
+		<!-- BEGIN default_value -->
+    	<select name="select[{PROFILE_OPTION_DEFAULT_VALUE}]" id="{PROFILE_OPTION_DEFAULT_VALUE}">
+			<!-- BEGIN default_value_option -->
+		    <option value="{OPTION_VALUE}" {OPTION_SELECTED}>{OPTION_TEXT}</option>
+			<!-- END default_value_option -->
+        </select>
+		<!-- END default_value -->
+		<label for="{PROFILE_OPTION_DEFAULT_VALUE}">{HEADER_DEFAULT_VALUE}</label><br />
+		<!-- END default_block -->
+	</td>
 </tr>
 <!-- END profile_settings -->
 <tr class="tblfooter">
-	<td colspan="7"><div align="right"><input class="submit" type="submit" name="cmd[saveGlobalUserSettings]" value="{TXT_SAVE}" /></div></td>
+	<td colspan="4"><div align="right"><input class="submit" type="submit" name="cmd[saveGlobalUserSettings]" value="{TXT_SAVE}" /></div></td>
 </tr>
 </table>
 </form>
