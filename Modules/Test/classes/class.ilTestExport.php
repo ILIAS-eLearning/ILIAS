@@ -121,7 +121,8 @@ class ilTestExport
 		global $log;
 
 		//get data
-	    $participants = $this->test_obj->getParticipants();
+	    $participants = $this->test_obj->getTestParticipants();
+
 	    if (!count($participants)) {
 	        return;
 	    }
@@ -136,7 +137,6 @@ class ilTestExport
 		$this->test_obj->createExportDirectory();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir);
-
 
 		$data =  $this->test_obj->getAllTestResults($participants);
 
