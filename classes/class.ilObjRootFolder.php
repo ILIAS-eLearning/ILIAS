@@ -25,13 +25,14 @@
 /**
 * Class ilObjRootFolder
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$Id: class.ilObjRootFolder.php,v 1.12 2003/11/20 17:04:19 shofmann Exp $
-* 
+*
 * @extends ilObject
 */
 
 require_once "class.ilObject.php";
+require_once "class.ilContainer.php";
 
 class ilObjRootFolder extends ilContainer
 {
@@ -55,7 +56,7 @@ class ilObjRootFolder extends ilContainer
 	* @return	integer	new ref id
 	*/
 	function ilClone($a_parent_ref)
-	{		
+	{
 		// DISABLED
 		return false;
 
@@ -63,7 +64,7 @@ class ilObjRootFolder extends ilContainer
 
 		// always call parent ilClone function first!!
 		$new_ref_id = parent::ilClone($a_parent_ref);
-		
+
 		// put here rootfolder specific stuff
 
 		// ... and finally always return new reference ID!!
@@ -71,25 +72,25 @@ class ilObjRootFolder extends ilContainer
 	}
 
 	/**
-	* delete rootfolder and all related data	
+	* delete rootfolder and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// delete is disabled
 
 		$message = get_class($this)."::delete(): Can't delete root folder!";
 		$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		return false;
-		
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
-		
+
 		// put here rootfolder specific stuff
 
 		return true;;
@@ -98,7 +99,7 @@ class ilObjRootFolder extends ilContainer
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
-	* 
+	*
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
@@ -108,60 +109,60 @@ class ilObjRootFolder extends ilContainer
 	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
 	{
 		global $tree;
-		
+
 		switch ($a_event)
 		{
 			case "link":
-				
+
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "RootFolder ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-			
+
 			case "cut":
-				
+
 				//echo "RootFolder ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-				
+
 			case "copy":
-			
+
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "RootFolder ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 
 			case "paste":
-				
+
 				//echo "RootFolder ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-			
+
 			case "new":
-				
+
 				//echo "RootFolder ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 		}
-		
-		
+
+
 		return true;
 	}
-	
+
 	/**
 	* get all translations from this category
-	* 
+	*
 	* @access	public
-	* @return	array 
+	* @return	array
 	*/
 	function getTranslations()
 	{
 		global $ilDB;
-		
+
 		$q = "SELECT * FROM object_translation WHERE obj_id = ".
 			$ilDB->quote($this->getId())." ORDER BY lang_default DESC";
 		$r = $this->ilias->db->query($q);
-		
+
 		$num = 0;
 
 		$data["Fobject"] = array();
@@ -177,24 +178,24 @@ class ilObjRootFolder extends ilContainer
 		// first entry is always the default language
 		$data["default_language"] = 0;
 
-		return $data ? $data : array();	
+		return $data ? $data : array();
 	}
 
 	// remove all Translations of current category
 	function removeTranslations()
 	{
 		global $ilDB;
-		
+
 		$q = "DELETE FROM object_translation WHERE obj_id= ".
 			$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 	}
-	
+
 	// add a new translation to current category
 	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
 		global $ilDB;
-		
+
 		if (empty($a_title))
 		{
 			$a_title = "NO TITLE";
