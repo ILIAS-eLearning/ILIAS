@@ -549,5 +549,11 @@ function hasNewMail($sid)
 	return $sua->hasNewMail($sid);
 }
 
+function getNIC($sid) {
+	include_once './webservice/soap/classes/class.ilSoapAdministration.php';
+	$soa = & new ilSoapAdministration();
+	return $soa->getNIC($sid);
+}
+
 
 ?>

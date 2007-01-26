@@ -71,7 +71,7 @@ class ilXMLResultSetWriter extends ilXmlWriter
 
 
 	// PRIVATE
-	function __appendRow(&$xmlResultSetRow)
+	function __appendRow(& $xmlResultSetRow)
 	{
 		$this->xmlStartTag('row',null);
 

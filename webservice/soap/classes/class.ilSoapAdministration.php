@@ -75,7 +75,7 @@ class ilSoapAdministration
 		if(!$this->sauth->validateSession())
 		{
 			return false;
-		}			
+		}
 		return true;
 	}
 
@@ -110,13 +110,13 @@ class ilSoapAdministration
 			case AUTH_CAS:
 				include_once './webservice/soap/classes/class.ilSoapAuthenticationCAS.php';
 				return $this->sauth = new ilSoapAuthenticationCAS();
-			
+
 			default:
 				include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
 				return $this->sauth = new ilSoapAuthentication();
 		}
 	}
-		
+
 
 	function __raiseError($a_message,$a_code)
 	{
@@ -128,6 +128,46 @@ class ilSoapAdministration
 		}
 	}
 
-	
+	/**
+	 * get client information from current as xml result set
+	 *
+	 * @param string $sid  current session id
+	 *
+	 * @return XMLResultSet containing columns installation_id, installation_version, installation_url, installation_description, installation_default_language
+	 */
+	function getNIC($sid) {
+	    if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin,$ilSetting, $ilClientIniFile;
+
+		if (!is_object($ilClientIniFile)) {
+		    return $this->__raiseError("Client ini is not initialized","Server");
+		}
+
+        // todo: get information from client id, read from ini file specificied
+        $client_details[] = array ("installation_id" => IL_INST_ID,
+                                   "installation_version" => ILIAS_VERSION,
+                                   "installation_url" => ILIAS_HTTP_PATH,
+                                   "installation_description" => $ilClientIniFile->readVariable("client","description"),
+                                   "installation_language_default" => $ilClientIniFile->readVariable("language","default"));
+
+        // store into xml result set
+		include_once './webservice/soap/classes/class.IlXmlResultSet.php';
+
+
+        $xmlResult = new ilXMLResultSet();
+        $xmlResult->addArray($client_details, true);
+
+        // create writer and return xml
+		include_once './webservice/soap/classes/class.IlXmlResultSetWriter.php';
+        $xmlResultWriter = new ilXMLResultSetWriter($xmlResult);
+        $xmlResultWriter->start();
+        return $xmlResultWriter->getXML();
+	}
 }
 ?>
