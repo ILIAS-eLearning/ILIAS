@@ -66,8 +66,8 @@ class ilTestExport
 			case "results":
 				$this->subdir = $date."__".$this->inst_id."__".
 					"test__results__".$this->test_obj->getId();
-				break;				
-			default:				
+				break;
+			default:
 				$this->subdir = $date."__".$this->inst_id."__".
 					"test"."__".$this->test_obj->getId();
 				$this->filename = $this->subdir.".xml";
@@ -77,10 +77,10 @@ class ilTestExport
 		}
 		$this->filename = $this->subdir.".".$this->getExtension();
 	}
-	
+
 	function getExtension () {
-		switch ($this->mode) {			
-			case "results": 
+		switch ($this->mode) {
+			case "results":
 				return "csv"; break;
 			default:
 			 	return "xml"; break;
@@ -103,15 +103,15 @@ class ilTestExport
 	{
 		switch ($this->mode)
 		{
-			case "results": 
+			case "results":
 				return $this->buildExportResultFile();
-				break;			
+				break;
 			default:
 				return $this->buildExportFileXML();
 				break;
 		}
 	}
-	
+
 	/**
 	* build xml export file
 	*/
@@ -119,6 +119,12 @@ class ilTestExport
 	{
 		global $ilBench;
 		global $log;
+
+		//get data
+	    $participants = $this->test_obj->getParticipants();
+	    if (!count($participants)) {
+	        return;
+	    }
 		//get Log File
 		$expDir = $this->test_obj->getExportDirectory();
 		$expLog = &$log;
@@ -131,21 +137,21 @@ class ilTestExport
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir);
 
-		//get data
-		$data =  $this->test_obj->getAllTestResults();
-	
+
+		$data =  $this->test_obj->getAllTestResults($participants);
+
 		$file = fopen($this->export_dir."/".$this->filename, "w");
 		foreach ($data as $row) {
 			fwrite($file, join (";",$row)."\n");
 		}
 		fclose($file);
-		
+
 		// end
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export of Results");
-	
-		return $this->export_dir."/".$this->filename;	
+
+		return $this->export_dir."/".$this->filename;
 	}
-	
+
 
 	/**
 	* build xml export file
@@ -182,7 +188,7 @@ class ilTestExport
 		$expLog->delete();
 		$expLog->setLogFormat("");
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
-		
+
 		// write qti file
 		$qti_file = fopen($this->export_dir."/".$this->subdir."/".$this->qti_filename, "w");
 		fwrite($qti_file, $this->test_obj->to_xml());
@@ -230,7 +236,7 @@ class ilTestExport
 	function exportXHTMLMediaObjects($a_export_dir)
 	{
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		
+
 		$mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->test_obj->getId());
 		foreach ($mobs as $mob)
 		{

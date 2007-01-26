@@ -104,7 +104,7 @@ class ilObjTest extends ilObject
 
 /**
 * Defines the sequence settings for the test user
-* 
+*
 * Defines the sequence settings for the test user. There are two values:
 * TEST_FIXED_SEQUENCE (=0) and TEST_POSTPONE (=1). The default value is
 * TEST_FIXED_SEQUENCE.
@@ -112,10 +112,10 @@ class ilObjTest extends ilObject
 * @var integer
 */
   var $sequence_settings;
-  
+
 /**
 * Defines the score reporting for the test
-* 
+*
 * Defines the score reporting for the test. There are two values:
 * REPORT_AFTER_TEST (=1), REPORT_ALWAYS (=2) AND REPORT_AFTER_DATE (=3). The default
 * value is REPORT_AFTER_TEST. If the score reporting is set to
@@ -125,10 +125,10 @@ class ilObjTest extends ilObject
 * @var integer
 */
   var $score_reporting;
-	
+
 /**
 * Defines the question verification type for the test
-* 
+*
 * Defines the question verification type for the test. When set to 1
 * a instant verification button will be offered during the test to verify
 * the question solution
@@ -139,7 +139,7 @@ class ilObjTest extends ilObject
 
 /**
 * Defines wheather or not the reached points are shown as answer feedback
-* 
+*
 * Defines wheather or not the reached points are shown as answer feedback
 *
 * @var integer
@@ -148,7 +148,7 @@ class ilObjTest extends ilObject
 
 /**
 * A time/date value to set the earliest reporting time for the test score
-* 
+*
 * A time/date value to set the earliest reporting time for the test score.
 * If you set this attribute, the sequence settings will be set to REPORT_AFTER_TEST
 * automatically. If $reporting_date is not set, the user will get a direct feedback.
@@ -160,7 +160,7 @@ class ilObjTest extends ilObject
 
 /**
 * Contains the evaluation data settings the tutor defines for the user
-* 
+*
 * Contains the evaluation data settings the tutor defines for the user
 *
 * @var object
@@ -169,7 +169,7 @@ class ilObjTest extends ilObject
 
 /**
 * Number of tries the user is allowed to do
-* 
+*
 * Number of tries the user is allowed to do. If set to 0, the user has
 * infinite tries.
 *
@@ -179,7 +179,7 @@ class ilObjTest extends ilObject
 
 /**
 * Tells ILIAS to use the previous answers of a learner in a later test pass
-* 
+*
 * Tells ILIAS to use the previous answers of a learner in a later test pass
 * The default is 1 which shows the previous answers in the next pass.
 *
@@ -189,7 +189,7 @@ class ilObjTest extends ilObject
 
 /**
 * Tells ILIAS how to deal with the test titles
-* 
+*
 * Tells ILIAS how to deal with the test titles. The test title will be shown with
 * the full title and the points when title_output is 0. When title_output is 1,
 * the available points will be hidden and when title_output is 2, the full title
@@ -201,16 +201,16 @@ class ilObjTest extends ilObject
 
 /**
 * The maximum processing time as hh:mm:ss string
-* 
+*
 * The maximum processing time as hh:mm:ss string the user is allowed to do.
 *
 * @var integer
 */
   var $processing_time;
-	
+
 /**
 * The state of the processing time
-* 
+*
 * Contains 0 if the processing time is disabled, 1 if the processing time is enabled
 *
 * @var integer
@@ -219,16 +219,16 @@ class ilObjTest extends ilObject
 
 /**
 * The starting time of the test
-* 
+*
 * The starting time in database timestamp format which defines the earliest starting time for the test
 *
 * @var string
 */
   var $starting_time;
-  
+
 /**
 * The ending time of the test
-* 
+*
 * The ending time in database timestamp format which defines the latest ending time for the test
 *
 * @var string
@@ -237,7 +237,7 @@ class ilObjTest extends ilObject
 
 /**
 * Indicates if ECTS grades will be used
-* 
+*
 * Indicates if ECTS grades will be used
 *
 * @var integer
@@ -246,7 +246,7 @@ class ilObjTest extends ilObject
 
 /**
 * Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
-* 
+*
 * Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
 *
 * @var float
@@ -255,7 +255,7 @@ class ilObjTest extends ilObject
 
 /**
 * The percentiles of the ECTS grades for this test
-* 
+*
 * The percentiles of the ECTS grades for this test
 *
 * @var array
@@ -289,7 +289,7 @@ class ilObjTest extends ilObject
 * @var integer
 */
 	var $count_system;
-	
+
 /**
 * Indicates if the points unchecked multiple choice questions are given or not
 *
@@ -376,21 +376,21 @@ class ilObjTest extends ilObject
 * @var int
 */
 	var $anonymity;
-	
+
 /**
 * determines wheather a cancel test button is shown or not
 *
 * @var int
 */
 	var $show_cancel;
-	
+
 /**
 * determines wheather a test may have fixed participants or not
 *
 * @var int
 */
 	var $fixed_participants;
-	
+
 /**
 * determines wheather an answer specific feedback is shown or not
 *
@@ -465,7 +465,7 @@ class ilObjTest extends ilObject
 	function create($a_upload = false)
 	{
 		parent::create();
-		
+
 		// meta data will be created by
 		// import parser
 		if (!$a_upload)
@@ -488,14 +488,14 @@ class ilObjTest extends ilObject
 		}
 
 		// put here object specific stuff
-		
+
 		return true;
 	}
-	
+
 /**
 * Creates a database reference id for the object
-* 
-* Creates a database reference id for the object (saves the object 
+*
+* Creates a database reference id for the object (saves the object
 * to the database and creates a reference id in the database)
 *
 * @access public
@@ -505,7 +505,7 @@ class ilObjTest extends ilObject
 		$this->saveToDb();
 		return $result;
 	}
-	
+
 /**
 	* read object data from db into object
 	* @param	boolean
@@ -525,12 +525,12 @@ class ilObjTest extends ilObject
 	* @return	integer	new ref id
 	*/
 	function ilClone($a_parent_ref)
-	{		
+	{
 		global $rbacadmin;
 
 		// always call parent ilClone function first!!
 		$new_ref_id = parent::ilClone($a_parent_ref);
-		
+
 		// get object instance of ilCloned object
 		//$newObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 
@@ -538,7 +538,7 @@ class ilObjTest extends ilObject
 		//$roles = $newObj->initDefaultRoles();
 
 		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");		
+		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 
 		// always destroy objects in ilClone method because ilClone() is recursive and creates instances for each object in subtree!
 		//unset($newObj);
@@ -580,7 +580,7 @@ class ilObjTest extends ilObject
 	function deleteTest()
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s",
 			$ilDB->quote($this->getTestId())
 		);
@@ -678,7 +678,7 @@ class ilObjTest extends ilObject
 	function initDefaultRoles()
 	{
 		global $rbacadmin;
-		
+
 		// create a local role folder
 		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
 
@@ -695,10 +695,10 @@ class ilObjTest extends ilObject
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
-	* 
+	*
 	* If you are not required to handle any events related to your module, just delete this method.
 	* (For an example how this method is used, look at ilObjGroup)
-	* 
+	*
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
@@ -708,24 +708,24 @@ class ilObjTest extends ilObject
 	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
 	{
 		global $tree;
-		
+
 		switch ($a_event)
 		{
 			case "link":
-				
+
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-			
+
 			case "cut":
-				
+
 				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-				
+
 			case "copy":
-			
+
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
 				//exit;
@@ -736,17 +736,17 @@ class ilObjTest extends ilObject
 				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-			
+
 			case "new":
-				
+
 				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 		}
-		
+
 		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
 		if ($a_node_id==$_GET["ref_id"])
-		{	
+		{
 			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
 			$parent_type = $parent_obj->getType();
 			if($parent_type == $this->getType())
@@ -754,10 +754,10 @@ class ilObjTest extends ilObject
 				$a_node_id = (int) $tree->getParentId($a_node_id);
 			}
 		}
-		
+
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
-	
+
 	/**
 	* creates data directory for export files
 	* (data_dir/tst_data/tst_<id>/export, depending on data
@@ -773,7 +773,7 @@ class ilObjTest extends ilObject
 			$this->ilias->raiseError("Test Data Directory (".$tst_data_dir
 				.") not writeable.",$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// create learning module directory (data_dir/lm_data/lm_<id>)
 		$tst_dir = $tst_data_dir."/tst_".$this->getId();
 		ilUtil::makeDir($tst_dir);
@@ -792,7 +792,7 @@ class ilObjTest extends ilObject
 
 /**
 * Get the location of the export directory for the test
-* 
+*
 * Get the location of the export directory for the test
 *
 * @access	public
@@ -803,10 +803,10 @@ class ilObjTest extends ilObject
 		$export_dir = ilUtil::getDataDir()."/tst_data"."/tst_".$this->getId()."/export";
 		return $export_dir;
 	}
-	
+
 /**
 * Get a list of the already exported files in the export directory
-* 
+*
 * Get a list of the already exported files in the export directory
 *
 * @return array A list of file names
@@ -849,7 +849,7 @@ class ilObjTest extends ilObject
 		return $file;
 	}
 
-	
+
 	/**
 	* creates data directory for import files
 	* (data_dir/tst_data/tst_<id>/import, depending on data
@@ -858,11 +858,11 @@ class ilObjTest extends ilObject
 	function _createImportDirectory()
 	{
 		global $ilias;
-		
+
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
-		
+
 		if(!is_writable($tst_data_dir))
 		{
 			$ilias->raiseError("Test data directory (".$tst_data_dir
@@ -880,7 +880,7 @@ class ilObjTest extends ilObject
 
 /**
 * Get the import directory location of the test
-* 
+*
 * Get the import directory location of the test
 *
 * @return string The location of the import directory or false if the directory doesn't exist
@@ -910,7 +910,7 @@ class ilObjTest extends ilObject
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
-		
+
 		if(!is_writable($tst_data_dir))
 		{
 			$this->ilias->raiseError("Test Data Directory (".$tst_data_dir
@@ -928,7 +928,7 @@ class ilObjTest extends ilObject
 
 /**
 * Get the import directory location of the test
-* 
+*
 * Get the import directory location of the test
 *
 * @return string The location of the import directory or false if the directory doesn't exist
@@ -948,20 +948,20 @@ class ilObjTest extends ilObject
 		}
 	}
 
-	
+
 /**
 * Returns TRUE if the test title exists in the database
-* 
+*
 * Returns TRUE if the test title exists in the database
 *
 * @param string $title The title of the test
 * @return boolean The result of the title check
 * @access public
 */
-  function testTitleExists($title) 
+  function testTitleExists($title)
 	{
 		global $ilDB;
-		
+
     $query = sprintf("SELECT * FROM object_data WHERE title = %s AND type = %s",
       $ilDB->quote($title),
 			$ilDB->quote("tst")
@@ -974,18 +974,18 @@ class ilObjTest extends ilObject
     }
     return FALSE;
   }
-  
+
 /**
 * Duplicates the ilObjTest object
-* 
+*
 * Duplicates the ilObjTest object
 *
 * @access public
 */
-  function duplicate() 
+  function duplicate()
 	{
 		global $ilDB;
-		
+
     $clone = $this;
     $clone->setId(-1);
     $counter = 2;
@@ -1010,7 +1010,7 @@ class ilObjTest extends ilObject
       $insert_result = $ilDB->query($query);
     }
   }
-  
+
 /**
 * Returns true, if a test is complete for use
 *
@@ -1024,8 +1024,8 @@ class ilObjTest extends ilObject
 		if ((count($this->mark_schema->mark_steps)) and (count($this->questions)))
 		{
 			return true;
-		} 
-			else 
+		}
+			else
 		{
 			if ($this->isRandomTest())
 			{
@@ -1065,12 +1065,12 @@ class ilObjTest extends ilObject
 
 /**
 * Saves the ECTS status (output of ECTS grades in a test) to the database
-* 
+*
 * Saves the ECTS status (output of ECTS grades in a test) to the database
 *
 * @access public
 */
-	function saveECTSStatus($ects_output = 0, $fx_support = "", $ects_a = 90, $ects_b = 65, $ects_c = 35, $ects_d = 10, $ects_e = 0) 
+	function saveECTSStatus($ects_output = 0, $fx_support = "", $ects_a = 90, $ects_b = 65, $ects_c = 35, $ects_d = 10, $ects_e = 0)
 	{
     global $ilDB;
     if ($this->test_id > 0) {
@@ -1101,21 +1101,21 @@ class ilObjTest extends ilObject
 
 /**
 * Checks if the test is complete and saves the status in the database
-* 
+*
 * Checks if the test is complete and saves the status in the database
 *
 * @access public
 */
-	function saveCompleteStatus() 
+	function saveCompleteStatus()
 	{
     global $ilDB;
-		
+
 		$complete = 0;
-		if ($this->isComplete()) 
+		if ($this->isComplete())
 		{
 			$complete = 1;
 		}
-    if ($this->test_id > 0) 
+    if ($this->test_id > 0)
 		{
       $query = sprintf("UPDATE tst_tests SET complete = %s WHERE test_id = %s",
 				$ilDB->quote("$complete"),
@@ -1127,7 +1127,7 @@ class ilObjTest extends ilObject
 
 /**
 * Saves a ilObjTest object to a database
-* 
+*
 * Saves a ilObjTest object to a database (experimental)
 *
 * @param object $db A pear DB object
@@ -1136,9 +1136,9 @@ class ilObjTest extends ilObject
   function saveToDb($properties_only = FALSE)
   {
     global $ilDB;
-		
+
 		$complete = 0;
-		if ($this->isComplete()) 
+		if ($this->isComplete())
 		{
 			$complete = 1;
 		}
@@ -1184,7 +1184,7 @@ class ilObjTest extends ilObject
 			$this->getId());
 
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
-    if ($this->test_id == -1) 
+    if ($this->test_id == -1)
 		{
       // Create new dataset
       $now = getdate();
@@ -1233,7 +1233,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote("0"),
 				$ilDB->quote($created)
       );
-      
+
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_create_new_test", ilObjAssessmentFolder::_getLogLanguage()));
@@ -1242,8 +1242,8 @@ class ilObjTest extends ilObject
       if ($result == DB_OK) {
         $this->test_id = $ilDB->getLastInsertId();
       }
-    } 
-		else 
+    }
+		else
 		{
       // Modify existing dataset
 			$oldrow = array();
@@ -1259,10 +1259,10 @@ class ilObjTest extends ilObject
 				}
 			}
       $query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, show_solution_details = %s, show_summary = %s, show_solution_printview = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
-        $ilDB->quote($this->getAuthor() . ""), 
+        $ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
-        $ilDB->quote($this->sequence_settings . ""), 
-        $ilDB->quote($this->score_reporting . ""), 
+        $ilDB->quote($this->sequence_settings . ""),
+        $ilDB->quote($this->score_reporting . ""),
         $ilDB->quote($this->getInstantFeedbackSolution() . ""),
 				$ilDB->quote($this->getAnswerFeedbackPoints() . ""),
 				$ilDB->quote($this->getAnswerFeedback() . ""),
@@ -1274,9 +1274,9 @@ class ilObjTest extends ilObject
 				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
         $ilDB->quote($this->processing_time . ""),
 				$ilDB->quote("$this->enable_processing_time"),
-        $ilDB->quote($this->reporting_date . ""), 
-        $ilDB->quote($this->starting_time . ""), 
-        $ilDB->quote($this->ending_time . ""), 
+        $ilDB->quote($this->reporting_date . ""),
+        $ilDB->quote($this->starting_time . ""),
+        $ilDB->quote($this->ending_time . ""),
 				$ilDB->quote($this->ects_output . ""),
 				$ilDB->quote($this->ects_grades["A"] . ""),
 				$ilDB->quote($this->ects_grades["B"] . ""),
@@ -1348,10 +1348,10 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function saveQuestionsToDb() 
+	function saveQuestionsToDb()
 	{
 		global $ilDB;
-		
+
 		$oldquestions = array();
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -1368,7 +1368,7 @@ class ilObjTest extends ilObject
 				}
 			}
 		}
-		
+
 		// delete existing category relations
     $query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
 			$ilDB->quote($this->getTestId())
@@ -1405,7 +1405,7 @@ class ilObjTest extends ilObject
 					$pos = array_search($question_id, $newquestions);
 					if ($pos === FALSE)
 					{
-						$this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);							
+						$this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
 					}
 					else
 					{
@@ -1431,11 +1431,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function saveRandomQuestion($question_id, $pass = NULL) 
+	function saveRandomQuestion($question_id, $pass = NULL)
 	{
 		global $ilUser;
 		global $ilDB;
-		
+
 		if (is_null($pass)) $pass = 0;
 		$active = $this->getActiveTestUser($ilUser->getId());
 		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE active_fi = %s AND pass = %s",
@@ -1444,7 +1444,7 @@ class ilObjTest extends ilObject
 		);
 		$result = $ilDB->query($query);
 
-		$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active->active_id); 
+		$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active->active_id);
 		if ($duplicate_id === FALSE)
 		{
 			$duplicate_id = $this->duplicateQuestionForTest($question_id);
@@ -1458,7 +1458,7 @@ class ilObjTest extends ilObject
 		);
 		$result = $ilDB->query($query);
 	}
-	
+
 /**
 * Returns the question id of the duplicate of a question which is already in use in a random test
 *
@@ -1473,7 +1473,7 @@ class ilObjTest extends ilObject
 	function getRandomQuestionDuplicate($question_id, $active_id)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT qpl_questions.question_id FROM qpl_questions, tst_test_random_question WHERE qpl_questions.original_id = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s",
 			$ilDB->quote($question_id . ""),
 			$ilDB->quote($active_id . "")
@@ -1490,7 +1490,7 @@ class ilObjTest extends ilObject
 			return FALSE;
 		}
 	}
-	
+
 /**
 * Calculates the number of user results for a specific test pass
 *
@@ -1501,7 +1501,7 @@ class ilObjTest extends ilObject
 	function getNrOfResultsForPass($active_id, $pass)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($pass . "")
@@ -1509,7 +1509,7 @@ class ilObjTest extends ilObject
 		$result = $ilDB->query($query);
 		return $result->numRows();
 	}
-	
+
 /**
 * Generates new random questions for the active user
 *
@@ -1603,7 +1603,7 @@ class ilObjTest extends ilObject
 	function saveRandomQuestionCount($total_questions = "NULL")
 	{
 		global $ilDB;
-		
+
 		if (strcmp($total_questions, "NULL") != 0)
 		{
 			$this->setRandomQuestionCount($total_questions);
@@ -1631,10 +1631,10 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function saveRandomQuestionpools($qpl_array) 
+	function saveRandomQuestionpools($qpl_array)
 	{
 		global $ilDB;
-		
+
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
 		// delete existing random questionpools
     $query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
@@ -1678,10 +1678,10 @@ class ilObjTest extends ilObject
 * @return array All saved random questionpools
 * @see $questions
 */
-	function &getRandomQuestionpools() 
+	function &getRandomQuestionpools()
 	{
 		global $ilDB;
-		
+
 		$qpls = array();
 		$counter = 0;
 		$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
@@ -1715,7 +1715,7 @@ class ilObjTest extends ilObject
 	function loadFromDb()
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT * FROM tst_tests WHERE obj_fi = %s",
 		$ilDB->quote($this->getId())
 			);
@@ -1780,18 +1780,18 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Load the test question id's from the database 
-* 
-* Load the test question id's from the database 
+* Load the test question id's from the database
+*
+* Load the test question id's from the database
 *
 * @param integer $user_id The user id of the test user (necessary for random tests)
 * @access	public
 */
-	function loadQuestions($active_id = "", $pass = NULL) 
+	function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilUser;
 		global $ilDB;
-		
+
 		$this->questions = array();
 		if (strcmp($active_id, "") == 0)
 		{
@@ -1817,7 +1817,7 @@ class ilObjTest extends ilObject
 		}
 		$result = $ilDB->query($query);
 		$index = 1;
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->questions[$index++] = $data->question_fi;
 		}
@@ -1825,70 +1825,70 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the introduction
-* 
+*
 * Sets the introduction text of the ilObjTest object
 *
 * @param string $introduction An introduction string for the test
 * @access public
 * @see $introduction
 */
-  function setIntroduction($introduction = "") 
+  function setIntroduction($introduction = "")
 	{
     $this->introduction = $introduction;
   }
 
 /**
 * Gets the status of the $random_test attribute
-* 
+*
 * Gets the status of the $random_test attribute
 *
 * @return integer The random test status. 0 = normal, 1 = questions are generated with random generator
 * @access public
 * @see $random_test
 */
-  function isRandomTest() 
+  function isRandomTest()
 	{
     return $this->random_test;
   }
 
 /**
 * Gets the number of random questions used for a random test
-* 
+*
 * Gets the number of random questions used for a random test
 *
 * @return integer The number of random questions
 * @access public
 * @see $random_question_count
 */
-  function getRandomQuestionCount() 
+  function getRandomQuestionCount()
 	{
     return $this->random_question_count;
   }
 
 /**
 * Gets the introduction
-* 
+*
 * Gets the introduction text of the ilObjTest object
 *
 * @return string The introduction text of the test
 * @access public
 * @see $introduction
 */
-  function getIntroduction() 
+  function getIntroduction()
 	{
     return $this->introduction;
   }
 
 /**
 * Gets the database id of the additional test data
-* 
+*
 * Gets the database id of the additional test data
 *
 * @return integer The database id of the additional test data
 * @access public
 * @see $test_id
 */
-  function getTestId() 
+  function getTestId()
 	{
     return $this->test_id;
   }
@@ -1902,35 +1902,35 @@ class ilObjTest extends ilObject
 * @access public
 * @see $sequence_settings
 */
-  function setSequenceSettings($sequence_settings = 0) 
+  function setSequenceSettings($sequence_settings = 0)
 	{
     $this->sequence_settings = $sequence_settings;
   }
 
 /**
 * Sets the score reporting
-* 
+*
 * Sets the score reporting of the ilObjTest object
 *
 * @param integer $score_reporting The score reporting
 * @access public
 * @see $score_reporting
 */
-  function setScoreReporting($score_reporting = 0) 
+  function setScoreReporting($score_reporting = 0)
 	{
     $this->score_reporting = $score_reporting;
   }
 
 /**
 * Sets the instant feedback for the solution
-* 
+*
 * Sets the instant feedback for the solution
 *
 * @param integer $instant_feedback If 1, the solution will be shown after answering a question
 * @access public
 * @see $instant_verification
 */
-  function setInstantFeedbackSolution($instant_feedback = 0) 
+  function setInstantFeedbackSolution($instant_feedback = 0)
 	{
 		switch ($instant_feedback)
 		{
@@ -1945,14 +1945,14 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the answer specific feedback for the test
-* 
+*
 * Sets the answer specific feedback for the test
 *
 * @param integer $answer_feedback If 1, answer specific feedback will be shown after answering a question
 * @access public
 * @see $answer_feedback
 */
-  function setAnswerFeedback($answer_feedback = 0) 
+  function setAnswerFeedback($answer_feedback = 0)
 	{
 		switch ($answer_feedback)
 		{
@@ -1967,14 +1967,14 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the answer specific feedback of reached points for the test
-* 
+*
 * Sets the answer specific feedback of reached points for the test
 *
 * @param integer $answer_feedback_points If 1, answer specific feedback will show the reached points after answering a question
 * @access public
 * @see $answer_feedback_points
 */
-  function setAnswerFeedbackPoints($answer_feedback_points = 0) 
+  function setAnswerFeedbackPoints($answer_feedback_points = 0)
 	{
 		switch ($answer_feedback_points)
 		{
@@ -1989,49 +1989,49 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the random test indicator
-* 
+*
 * Sets the random test indicator
 *
 * @param integer $a_random_test The random test indicator (0 = no random test, 1 = random test)
 * @access public
 * @see $random_test
 */
-  function setRandomTest($a_random_test = 0) 
+  function setRandomTest($a_random_test = 0)
 	{
     $this->random_test = $a_random_test;
   }
 
 /**
 * Sets the random question count
-* 
+*
 * Sets the random question count
 *
 * @param integer $a_random_question_count The random question count
 * @access public
 * @see $random_question_count
 */
-  function setRandomQuestionCount($a_random_question_count = "") 
+  function setRandomQuestionCount($a_random_question_count = "")
 	{
     $this->random_question_count = $a_random_question_count;
   }
 
 /**
 * Sets the reporting date
-* 
+*
 * Sets the reporting date of the ilObjTest object
 *
 * @param timestamp $reporting_date The date and time the score reporting is available
 * @access public
 * @see $reporting_date
 */
-  function setReportingDate($reporting_date) 
+  function setReportingDate($reporting_date)
   {
-		if (!$reporting_date) 
+		if (!$reporting_date)
 		{
 			$this->reporting_date = "";
 			$this->ects_output = 0;
 		}
-		else 
+		else
 		{
 			$this->reporting_date = $reporting_date;
 		}
@@ -2039,98 +2039,98 @@ class ilObjTest extends ilObject
 
 /**
 * Gets the sequence settings
-* 
+*
 * Gets the sequence settings of the ilObjTest object
 *
 * @return integer The sequence settings of the test
 * @access public
 * @see $sequence_settings
 */
-  function getSequenceSettings() 
+  function getSequenceSettings()
 	{
     return $this->sequence_settings;
   }
 
 /**
 * Gets the score reporting
-* 
+*
 * Gets the score reporting of the ilObjTest object
 *
 * @return integer The score reporting of the test
 * @access public
 * @see $score_reporting
 */
-  function getScoreReporting() 
+  function getScoreReporting()
 	{
     return $this->score_reporting;
   }
 
 /**
 * Returns 1 if the correct solution will be shown after answering a question
-* 
+*
 * Returns 1 if the correct solution will be shown after answering a question
 *
 * @return integer The status of the solution instant feedback
 * @access public
 * @see $instant_verification
 */
-  function getInstantFeedbackSolution() 
+  function getInstantFeedbackSolution()
 	{
     return $this->instant_verification;
   }
 
 /**
 * Returns 1 if answer specific feedback is activated
-* 
+*
 * Returns 1 if answer specific feedback is activated
 *
 * @return integer The status of the answer specific feedback
 * @access public
 * @see $answer_feedback
 */
-  function getAnswerFeedback() 
+  function getAnswerFeedback()
 	{
     return $this->answer_feedback;
   }
 
 /**
 * Returns 1 if answer specific feedback as reached points is activated
-* 
+*
 * Returns 1 if answer specific feedback as reached points is activated
 *
 * @return integer The status of the answer specific feedback as reached points
 * @access public
 * @see $answer_feedback_points
 */
-  function getAnswerFeedbackPoints() 
+  function getAnswerFeedbackPoints()
 	{
     return $this->answer_feedback_points;
   }
 
 /**
 * Gets the count system for the calculation of points
-* 
+*
 * Gets the count system for the calculation of points
 *
 * @return integer The count system for the calculation of points
 * @access public
 * @see $count_system
 */
-  function getCountSystem() 
+  function getCountSystem()
 	{
     return $this->count_system;
   }
 
 /**
 * Gets the count system for the calculation of points
-* 
+*
 * Gets the count system for the calculation of points
 *
 * @return integer The count system for the calculation of points
 * @access public
 * @see $count_system
 */
-  function _getCountSystem($active_id) 
+  function _getCountSystem($active_id)
 	{
 		global $ilDB;
 		$query = sprintf("SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
@@ -2144,73 +2144,73 @@ class ilObjTest extends ilObject
 		}
     return FALSE;
   }
-	
+
 /**
 * Gets the scoring type for multiple choice questions
-* 
+*
 * Gets the scoring type for multiple choice questions
 *
 * @return integer The scoring type for multiple choice questions
 * @access public
 * @see $mc_scoring
 */
-  function getMCScoring() 
+  function getMCScoring()
 	{
     return $this->mc_scoring;
   }
 
 /**
 * Determines if the score of a question should be cut at 0 points or the score of the whole test
-* 
+*
 * Determines if the score of a question should be cut at 0 points or the score of the whole test
 *
 * @return boolean The score cutting type. 0 for question cutting, 1 for test cutting
 * @access public
 * @see $score_cutting
 */
-  function getScoreCutting() 
+  function getScoreCutting()
 	{
     return $this->score_cutting;
   }
 
 /**
-* Returns the password for test access 
-* 
-* Returns the password for test access 
+* Returns the password for test access
+*
+* Returns the password for test access
 *
 * @return striong  Password for test access
 * @access public
 * @see $password
 */
-  function getPassword() 
+  function getPassword()
 	{
     return $this->password;
   }
 
 /**
 * Gets the pass scoring type
-* 
+*
 * Gets the pass scoring type
 *
 * @return integer The pass scoring type
 * @access public
 * @see $pass_scoring
 */
-  function getPassScoring() 
+  function getPassScoring()
 	{
     return $this->pass_scoring;
   }
 
 /**
 * Gets the pass scoring type
-* 
+*
 * Gets the pass scoring type
 *
 * @return integer The pass scoring type
 * @access public
 * @see $pass_scoring
 */
-  function _getPassScoring($active_id) 
+  function _getPassScoring($active_id)
 	{
 		global $ilDB;
 		$query = sprintf("SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
@@ -2227,14 +2227,14 @@ class ilObjTest extends ilObject
 
 /**
 * Gets the scoring type for multiple choice questions
-* 
+*
 * Gets the scoring type for multiple choice questions
 *
 * @return mixed The scoring type for multiple choice questions
 * @access public
 * @see $mc_scoring
 */
-  function _getMCScoring($active_id) 
+  function _getMCScoring($active_id)
 	{
 		global $ilDB;
 		$query = sprintf("SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
@@ -2251,14 +2251,14 @@ class ilObjTest extends ilObject
 
 /**
 * Determines if the score of a question should be cut at 0 points or the score of the whole test
-* 
+*
 * Determines if the score of a question should be cut at 0 points or the score of the whole test
 *
 * @return boolean The score cutting type. 0 for question cutting, 1 for test cutting
 * @access public
 * @see $score_cutting
 */
-  function _getScoreCutting($active_id) 
+  function _getScoreCutting($active_id)
 	{
 		global $ilDB;
 		$query = sprintf("SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -2275,63 +2275,63 @@ class ilObjTest extends ilObject
 
 /**
 * Gets the reporting date
-* 
+*
 * Gets the reporting date of the ilObjTest object
 *
 * @return string The reporting date of the test of an empty string (=FALSE) if no reporting date is set
 * @access public
 * @see $reporting_date
 */
-  function getReportingDate() 
+  function getReportingDate()
 	{
     return $this->reporting_date;
   }
 
 /**
 * Returns the nr of tries for the test
-* 
+*
 * Returns the nr of tries for the test
 *
 * @return integer The maximum number of tries
 * @access public
 * @see $nr_of_tries
 */
-  function getNrOfTries() 
+  function getNrOfTries()
 	{
     return $this->nr_of_tries;
   }
 
 /**
 * Returns if the previous answers should be shown for a learner
-* 
+*
 * Returns if the previous answers should be shown for a learner
 *
 * @return integer 1 if the previous answers should be shown, 0 otherwise
 * @access public
 * @see $use_previous_answers
 */
-  function getUsePreviousAnswers() 
+  function getUsePreviousAnswers()
 	{
     return $this->use_previous_answers;
   }
 
 /**
 * Returns the value of the title_output status
-* 
+*
 * Returns the value of the title_output status
 *
 * @return integer 0 for full title, 1 for title without points, 2 for no title
 * @access public
 * @see $title_output
 */
-  function getTitleOutput() 
+  function getTitleOutput()
 	{
     return $this->title_output;
   }
 
 /**
 * Returns the value of the title_output status
-* 
+*
 * Returns the value of the title_output status
 *
 * @param integer $active_id The active id of a user
@@ -2339,7 +2339,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $title_output
 */
-  function _getTitleOutput($active_id) 
+  function _getTitleOutput($active_id)
 	{
 		global $ilDB;
 
@@ -2357,7 +2357,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns if the previous results should be hidden for a learner
-* 
+*
 * Returns if the previous results should be hidden for a learner
 *
 * @param integer $test_id The test id
@@ -2366,11 +2366,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $use_previous_answers
 */
-  function _getUsePreviousAnswers($active_id, $user_active_user_setting = false) 
+  function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
 	{
 		global $ilDB;
 		global $ilUser;
-		
+
 		$use_previous_answers = 1;
 
 		$query = sprintf("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
@@ -2399,21 +2399,21 @@ class ilObjTest extends ilObject
 
 /**
 * Returns the processing time for the test
-* 
+*
 * Returns the processing time for the test
 *
 * @return integer The processing time for the test
 * @access public
 * @see $processing_time
 */
-  function getProcessingTime() 
+  function getProcessingTime()
 	{
     return $this->processing_time;
   }
-	
+
 /**
 * Returns the processing time for the test in seconds
-* 
+*
 * Returns the processing time for the test in seconds
 *
 * @return integer The processing time for the test in seconds
@@ -2434,70 +2434,70 @@ class ilObjTest extends ilObject
 
 /**
 * Returns the state of the processing time (enabled/disabled)
-* 
+*
 * Returns the state of the processing time (enabled/disabled)
 *
 * @return integer The processing time state (0 for disabled, 1 for enabled)
 * @access public
 * @see $processing_time
 */
-  function getEnableProcessingTime() 
+  function getEnableProcessingTime()
 	{
     return $this->enable_processing_time;
   }
 
 /**
 * Returns the starting time of the test
-* 
+*
 * Returns the starting time of the test
 *
 * @return string The starting time of the test
 * @access public
 * @see $starting_time
 */
-  function getStartingTime() 
+  function getStartingTime()
 	{
     return $this->starting_time;
   }
 
 /**
 * Returns the ending time of the test
-* 
+*
 * Returns the ending time of the test
 *
 * @return string The ending time of the test
 * @access public
 * @see $ending_time
 */
-  function getEndingTime() 
+  function getEndingTime()
 	{
     return $this->ending_time;
   }
 
 /**
 * Sets the nr of tries for the test
-* 
+*
 * Sets the nr of tries for the test
 *
 * @param integer $nr_of_tries The maximum number of tries for the test. 0 for infinite tries.
 * @access public
 * @see $nr_of_tries
 */
-  function setNrOfTries($nr_of_tries = 0) 
+  function setNrOfTries($nr_of_tries = 0)
 	{
     $this->nr_of_tries = $nr_of_tries;
   }
 
 /**
 * Sets the status of the visibility of previous learner answers
-* 
+*
 * Sets the status of the visibility of previous learner answers
 **
 * @param integer $use_previous_answers 1 if the previous answers should be shown
 * @access public
 * @see $use_previous_answers
 */
-  function setUsePreviousAnswers($use_previous_answers = 1) 
+  function setUsePreviousAnswers($use_previous_answers = 1)
 	{
 		if ($use_previous_answers)
 		{
@@ -2511,14 +2511,14 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the status of the title output
-* 
+*
 * Sets the status of the title output
 **
 * @param integer $title_output 0 for full title, 1 for title without points, 2 for no title
 * @access public
 * @see $title_output
 */
-  function setTitleOutput($title_output = 0) 
+  function setTitleOutput($title_output = 0)
 	{
 		switch ($title_output)
 		{
@@ -2536,28 +2536,28 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the processing time for the test
-* 
+*
 * Sets the processing time for the test
 *
 * @param string $processing_time The maximum processing time for the test given in hh:mm:ss
 * @access public
 * @see $processing_time
 */
-  function setProcessingTime($processing_time = "00:00:00") 
+  function setProcessingTime($processing_time = "00:00:00")
 	{
     $this->processing_time = $processing_time;
   }
-	
+
 /**
 * Sets the processing time enabled or disabled
-* 
+*
 * Sets the processing time enabled or disabled
 *
 * @param integer $enable 0 to disable the processing time, 1 to enable the processing time
 * @access public
 * @see $processing_time
 */
-	function setEnableProcessingTime($enable = 0) 
+	function setEnableProcessingTime($enable = 0)
 	{
 		if ($enable) {
 			$this->enable_processing_time = "1";
@@ -2568,14 +2568,14 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the starting time for the test
-* 
+*
 * Sets the starting time in database timestamp format for the test
 *
 * @param string $starting_time The starting time for the test. Empty string for no starting time.
 * @access public
 * @see $starting_time
 */
-  function setStartingTime($starting_time = "") 
+  function setStartingTime($starting_time = "")
 	{
     $this->starting_time = $starting_time;
   }
@@ -2589,11 +2589,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $ending_time
 */
-  function setEndingTime($ending_time = "") 
+  function setEndingTime($ending_time = "")
 	{
     $this->ending_time = $ending_time;
   }
-  
+
 /**
 * Sets the count system for the calculation of points
 *
@@ -2603,25 +2603,25 @@ class ilObjTest extends ilObject
 * @access public
 * @see $count_system
 */
-  function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS) 
+  function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS)
 	{
     $this->count_system = $a_count_system;
   }
-  
+
 /**
-* Sets the password for test access 
+* Sets the password for test access
 *
-* Sets the password for test access 
+* Sets the password for test access
 *
-* @param string $a_password The password for test access  
+* @param string $a_password The password for test access
 * @access public
 * @see $password
 */
-  function setPassword($a_password = "") 
+  function setPassword($a_password = "")
 	{
     $this->password = $a_password;
   }
-  
+
 /**
 * Sets the type of score cutting
 *
@@ -2631,11 +2631,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $score_cutting
 */
-  function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION) 
+  function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION)
 	{
     $this->score_cutting = $a_score_cutting;
   }
-  
+
 /**
 * Sets the multiple choice scoring
 *
@@ -2645,11 +2645,11 @@ class ilObjTest extends ilObject
 * @access public
 * @see $mc_scoring
 */
-  function setMCScoring($a_mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED) 
+  function setMCScoring($a_mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED)
 	{
     $this->mc_scoring = $a_mc_scoring;
   }
-  
+
 /**
 * Sets the pass scoring
 *
@@ -2659,8 +2659,8 @@ class ilObjTest extends ilObject
 * @access public
 * @see $pass_scoring
 */
-  function setPassScoring($a_pass_scoring = SCORE_LAST_PASS) 
-	{ 
+  function setPassScoring($a_pass_scoring = SCORE_LAST_PASS)
+	{
 		switch ($a_pass_scoring)
 		{
 			case SCORE_BEST_PASS:
@@ -2671,17 +2671,17 @@ class ilObjTest extends ilObject
 				break;
 		}
   }
-  
+
 /**
 * Removes a question from the test object
-* 
+*
 * Removes a question from the test object
 *
 * @param integer $question_id The database id of the question to be removed
 * @access public
 * @see $test_id
 */
-	function removeQuestion($question_id) 
+	function removeQuestion($question_id)
 	{
 		$question =& ilObjTest::_instanciateQuestion($question_id);
 		include_once ("./classes/class.ilObjAssessmentFolder.php");
@@ -2694,7 +2694,7 @@ class ilObjTest extends ilObject
 		$this->loadQuestions();
 		$this->saveQuestionsToDb();
 	}
-	
+
 /**
 * Removes all references to the question in executed tests in case the question has been changed
 *
@@ -2706,21 +2706,21 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function removeAllTestEditings($question_id = "") 
+	function removeAllTestEditings($question_id = "")
 	{
 		global $ilDB;
 		// remove test_active entries, because test has changed
 		$this->deleteActiveTests();
-		
+
 		// remove the question from tst_solutions
-		if ($question_id) 
+		if ($question_id)
 		{
 			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_solutions.question_fi = %s",
 				$ilDB->quote($this->getTestId()),
 				$ilDB->quote($question_id)
-			);			
+			);
 			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active_qst_sol_settings.question_fi = %s",
-				$ilDB->quote($this->getTestId()),				
+				$ilDB->quote($this->getTestId()),
 				$ilDB->quote($question_id)
 			);
 			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_test_result.question_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
@@ -2732,8 +2732,8 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getTestId())
 			);
 			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
-				$ilDB->quote($this->getTestId())							
-			);			
+				$ilDB->quote($this->getTestId())
+			);
 			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
 				$ilDB->quote($this->getTestId())
 			);
@@ -2755,7 +2755,7 @@ class ilObjTest extends ilObject
 			$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
 		}
 	}
-	
+
 /**
 * Removes all references to the question in executed tests in case the question has been changed
 *
@@ -2767,7 +2767,7 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function removeSelectedTestResults($active_ids) 
+	function removeSelectedTestResults($active_ids)
 	{
 		global $ilDB;
 
@@ -2779,14 +2779,14 @@ class ilObjTest extends ilObject
 			);
 			$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE active_fi = %s",
 				$ilDB->quote($active_id . "")
-			);			
+			);
 			$query3 = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s",
 				$ilDB->quote($active_id . "")
 			);
 			$result = $ilDB->query($query);
 			$result = $ilDB->query($query2);
 			$result = $ilDB->query($query3);
-	
+
 			if ($this->isRandomTest())
 			{
 				$query = sprintf("DELETE FROM tst_test_random_question WHERE active_fi = %s",
@@ -2813,7 +2813,7 @@ class ilObjTest extends ilObject
 			$result = $ilDB->query($query);
 		}
 	}
-	
+
 /**
 * Removes all references to the question in executed tests in case the question has been changed
 *
@@ -2825,10 +2825,10 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function removeTestResultsForUser($user_id) 
+	function removeTestResultsForUser($user_id)
 	{
 		global $ilDB;
-		
+
 		$active = $this->getActiveTestUser($user_id);
 		$active_id = $active->active_id;
 
@@ -2838,7 +2838,7 @@ class ilObjTest extends ilObject
 		);
 		$query2 = sprintf("DELETE FROM tst_active_qst_sol_settings WHERE active_fi = %s",
 			$ilDB->quote($active_id . "")
-		);			
+		);
 		$query3 = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s",
 			$ilDB->quote($active_id . "")
 		);
@@ -2868,7 +2868,7 @@ class ilObjTest extends ilObject
 		);
 		$result = $ilDB->query($query);
 	}
-	
+
 /**
 * Deletes all active references to this test
 *
@@ -2877,16 +2877,16 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function deleteActiveTests() 
+	function deleteActiveTests()
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($query);
 	}
-	
+
 /**
 * Removes all question solutions for a given user
 *
@@ -2897,11 +2897,11 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function deleteResults($user_id = "") 
+	function deleteResults($user_id = "")
 	{
 		global $ilDB;
-		
-		if ($user_id) 
+
+		if ($user_id)
 		{
 			$active = $this->getActiveTestUser($user_id);
 			$pass = $this->_getPass($active->active_id);
@@ -2925,7 +2925,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($user_id)
 			);
 			$result = $ilDB->query($query);
-			
+
 			$query = sprintf("DELETE FROM tst_active_qst_sol_settings USING tst_active_qst_sol_settings, tst_active where tst_active_qst_sol_settings.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_active.user_fi = %s",
 				$ilDB->quote($this->getTestId()),
 				$ilDB->quote($user_id)
@@ -2933,20 +2933,20 @@ class ilObjTest extends ilObject
 			$result = $ilDB->query($query);
 		}
 	}
-	
+
 /**
 * Moves a question up in order
-* 
+*
 * Moves a question up in order
 *
 * @param integer $question_id The database id of the question to be moved up
 * @access public
 * @see $test_id
 */
-	function questionMoveUp($question_id) 
+	function questionMoveUp($question_id)
 	{
 		global $ilDB;
-		
+
 		// Move a question up in sequence
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
 			$ilDB->quote($this->getTestId()),
@@ -2982,20 +2982,20 @@ class ilObjTest extends ilObject
 		}
 		$this->loadQuestions();
 	}
-	
+
 /**
 * Moves a question down in order
-* 
+*
 * Moves a question down in order
 *
 * @param integer $question_id The database id of the question to be moved down
 * @access public
 * @see $test_id
 */
-	function questionMoveDown($question_id) 
+	function questionMoveDown($question_id)
 	{
 		global $ilDB;
-		
+
 		// Move a question down in sequence
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
 			$ilDB->quote($this->getTestId()),
@@ -3008,7 +3008,7 @@ class ilObjTest extends ilObject
 			$ilDB->quote($data->sequence + 1)
 		);
 		$result = $ilDB->query($query);
-		if ($result->numRows() == 1) 
+		if ($result->numRows() == 1)
 		{
 			// OK, it's not the last question, so move it down
 			$data_next = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -3032,7 +3032,7 @@ class ilObjTest extends ilObject
 		}
 		$this->loadQuestions();
 	}
-	
+
 	/**
 	* Takes a question and creates a copy of the question for use in the test
 	*
@@ -3052,9 +3052,9 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Insert a question in the list of questions 
-* 
-* Insert a question in the list of questions 
+* Insert a question in the list of questions
+*
+* Insert a question in the list of questions
 *
 * @param integer $question_id The database id of the inserted question
 * @access	public
@@ -3062,7 +3062,7 @@ class ilObjTest extends ilObject
 	function insertQuestion($question_id)
 	{
 		global $ilDB;
-		
+
 		$duplicate_id = $this->duplicateQuestionForTest($question_id);
 
 		// get maximum sequence index in test
@@ -3114,7 +3114,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function &getQuestionTitles() 
+	function &getQuestionTitles()
 	{
 		$titles = array();
 		if (!$this->isRandomTest())
@@ -3131,10 +3131,10 @@ class ilObjTest extends ilObject
 		}
 		return $titles;
 	}
-	
+
 /**
 * Returns the dataset for a given question id
-* 
+*
 * Returns the dataset for a given question id
 *
 * @param integer $question_id The database id of the question
@@ -3142,10 +3142,10 @@ class ilObjTest extends ilObject
 * @access public
 * @see $questions
 */
-	function getQuestionDataset($question_id) 
+	function getQuestionDataset($question_id)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
 			$ilDB->quote("$question_id")
 		);
@@ -3153,26 +3153,26 @@ class ilObjTest extends ilObject
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row;
 	}
-	
+
 /**
 * Get the titles of all available questionpools for the current user
-* 
+*
 * Get the titles of all available questionpools for the current user
 *
 * @return array An array containing the questionpool titles as values and the questionpool id's as keys
 * @access	public
 */
-	function &get_qpl_titles() 
+	function &get_qpl_titles()
 	{
 		global $rbacsystem;
 		global $ilDB;
-		
+
 		$qpl_titles = array();
 		// get all available questionpools and remove the trashed questionspools
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
+		{
 			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
@@ -3184,20 +3184,20 @@ class ilObjTest extends ilObject
 		}
 		return $qpl_titles;
 	}
-	
+
 /**
 * Get the id's of the questions which are already part of the test
-* 
+*
 * Get the id's of the questions which are already part of the test
 *
 * @return array An array containing the already existing questions
 * @access	public
 */
-	function &getExistingQuestions($pass = NULL) 
+	function &getExistingQuestions($pass = NULL)
 	{
 		global $ilUser;
 		global $ilDB;
-		
+
 		$existing_questions = array();
 		$active = $this->getActiveTestUser($ilUser->getId());
 		if ($this->isRandomTest())
@@ -3220,20 +3220,20 @@ class ilObjTest extends ilObject
 		}
 		return $existing_questions;
 	}
-	
+
 /**
 * Returns the question type of a question with a given id
-* 
+*
 * Returns the question type of a question with a given id
 *
 * @param integer $question_id The database id of the question
 * @result string The question type string
 * @access private
 */
-  function getQuestionType($question_id) 
+  function getQuestionType($question_id)
 	{
 		global $ilDB;
-		
+
     if ($question_id < 1)
       return -1;
     $query = sprintf("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
@@ -3247,19 +3247,19 @@ class ilObjTest extends ilObject
       return "";
     }
   }
-	
+
 /**
 * Write the initial entry for the tests working time to the database
-* 
+*
 * Write the initial entry for the tests working time to the database
 *
 * @param integer $user_id The database id of the user working with the test
 * @access	public
 */
-	function startWorkingTime($user_id) 
+	function startWorkingTime($user_id)
 	{
 		global $ilDB;
-		
+
 		$result = "";
 		if (!($result = $this->getActiveTestUser($user_id))) {
 			$this->setActiveTestUser();
@@ -3273,10 +3273,10 @@ class ilObjTest extends ilObject
 		$result = $ilDB->query($q);
 		return $ilDB->getLastInsertId();
 	}
-	
+
 /**
 * Update the working time of a test when a question is answered
-* 
+*
 * Update the working time of a test when a question is answered
 *
 * @param integer $times_id The database id of a working time entry
@@ -3285,24 +3285,24 @@ class ilObjTest extends ilObject
 	function updateWorkingTime($times_id)
 	{
 		global $ilDB;
-		
+
 		$q = sprintf("UPDATE tst_times SET finished = %s WHERE times_id = %s",
 			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
 			$ilDB->quote($times_id)
 		);
 		$result = $ilDB->query($q);
 	}
-  
+
 /**
 * Calculate the question id from a test sequence number
-* 
+*
 * Calculate the question id from a test sequence number
 *
 * @param integer $sequence The sequence number of the question
 * @return integer The question id of the question with the given sequence number
 * @access	public
 */
-	function getQuestionIdFromActiveUserSequence($sequence) 
+	function getQuestionIdFromActiveUserSequence($sequence)
 	{
 		global $ilUser;
 
@@ -3310,10 +3310,10 @@ class ilObjTest extends ilObject
 		$sequence_array = explode(",", $active->sequence);
 		return $this->questions[$sequence_array[$sequence-1]];
 	}
-	
+
 /**
 * Returns the the question ids of the test
-* 
+*
 * Returns the the question ids of the test. This could be done for the active
 * user as well as for the test object itself. It is also possible to sort the
 * questions in the sequence the user worked through the test
@@ -3351,13 +3351,13 @@ class ilObjTest extends ilObject
 
 /**
 * Returns all questions of a test in users order
-* 
+*
 * Returns all questions of a test in users order
 *
 * @return array An array containing the id's and the titles of the questions
 * @access public
 */
-	function &getAllQuestionsForActiveUser() 
+	function &getAllQuestionsForActiveUser()
 	{
 		$result_array = array();
 		$active = $this->getActiveTestUser();
@@ -3404,10 +3404,10 @@ class ilObjTest extends ilObject
 		return 0;
 	}
 
-	
+
 /**
 * Gets the id's of all questions a user already worked through
-* 
+*
 * Gets the id's of all questions a user already worked through
 *
 * @return array The question id's of the questions already worked through
@@ -3417,7 +3417,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 		global $ilDB;
-		
+
 		if (is_null($pass))
 		{
 			$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = 0 GROUP BY question_fi",
@@ -3439,10 +3439,10 @@ class ilObjTest extends ilObject
 		}
 		return $result_array;
 	}
-	
+
 /**
 * Returns all questions of a test in test order
-* 
+*
 * Returns all questions of a test in test order
 *
 * @return array An array containing the id's as keys and the database row objects as values
@@ -3474,7 +3474,7 @@ class ilObjTest extends ilObject
 		}
 		return $result_array;
 	}
-	
+
 	function &getActiveTestUserFromActiveId($active_id)
 	{
 		global $ilDB;
@@ -3489,10 +3489,10 @@ class ilObjTest extends ilObject
 		}
 		return $row;
 	}
-	
+
 /**
 * Returns the sequence array for the active test user
-* 
+*
 * Returns the sequence array for the active test user
 *
 * @return array An array containing the sequence positions
@@ -3509,22 +3509,22 @@ class ilObjTest extends ilObject
 		}
 		return $sequence_array;
 	}
-	
+
 /**
 * Gets the database row of the tst_active table for the active user
-* 
+*
 * Gets the database row of the tst_active table for the active user
 *
 * @param integer $user_id The database id of the user
 * @return object The database row of the tst_active table
 * @access	public
 */
-	function getActiveTestUser($user_id = "", $anonymous_id = "") 
+	function getActiveTestUser($user_id = "", $anonymous_id = "")
 	{
 		global $ilDB;
 		global $ilUser;
 
-		if (!$user_id) 
+		if (!$user_id)
 		{
 			$user_id = $ilUser->getId();
 		}
@@ -3556,20 +3556,20 @@ class ilObjTest extends ilObject
 			);
 		}
 		$result = $ilDB->query($query);
-		if ($result->numRows()) 
+		if ($result->numRows())
 		{
 			$this->active = $result->fetchRow(DB_FETCHMODE_OBJECT);
-		} 
-		else 
+		}
+		else
 		{
 			$this->active = null;
 		}
 		return $this->active;
 	}
-	
+
 /**
 * Gets the database row of the tst_active table for the active user
-* 
+*
 * Gets the database row of the tst_active table for the active user
 *
 * @param integer $user_id The database id of the user
@@ -3580,7 +3580,7 @@ class ilObjTest extends ilObject
 	function _getActiveTestUser($user_id = "", $test_id = "") {
 		global $ilDB;
 		global $ilUser;
-		
+
 		if (!$user_id) {
 			$user_id = $ilUser->id;
 		}
@@ -3592,7 +3592,7 @@ class ilObjTest extends ilObject
 			$ilDB->quote($user_id),
 			$ilDB->quote($test_id)
 		);
-		
+
 		$result = $ilDB->query($query);
 		if ($result->numRows()) {
 			return $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -3600,10 +3600,10 @@ class ilObjTest extends ilObject
 			return "";
 		}
 	}
-	
+
 /**
 * Update the data of the tst_active table for the current user
-* 
+*
 * Update the data of the tst_active table for the current user
 * The table saves the state of the active user in the test (sequence position,
 * postponed questions etc.)
@@ -3613,19 +3613,19 @@ class ilObjTest extends ilObject
 * @param boolean $addTries Adds 1 to the number of test completions if set to true
 * @access	public
 */
-	function setActiveTestUser($lastindex = 1, $postpone = "", $addTries = false) 
+	function setActiveTestUser($lastindex = 1, $postpone = "", $addTries = false)
 	{
 		global $ilDB;
 		global $ilUser;
-		
+
 		if ($lastindex < 1) $lastindex = 1;
 
 		$old_active = $this->getActiveTestUser();
-		if ($old_active) 
+		if ($old_active)
 		{
 			$sequence = $old_active->sequence;
 			$postponed = $old_active->postponed;
-			if ($postpone) 
+			if ($postpone)
 			{
 				$sequence_array = split(",", $sequence);
 				$postpone_sequence = $sequence_array[$postpone-1];
@@ -3637,7 +3637,7 @@ class ilObjTest extends ilObject
 				$postponed = preg_replace("/^,/", "", $postponed);
 			}
 			$tries = $old_active->tries;
-			if ($addTries && ($this->getNrOfResultsForPass($old_active->active_id, $old_active->tries) > 0)) 
+			if ($addTries && ($this->getNrOfResultsForPass($old_active->active_id, $old_active->tries) > 0))
 			{
 				// only add the number of tries if there are ANY results for the current
 				// test pass. Otherwise something must be wrong (doubleclick, reload etc.)
@@ -3652,7 +3652,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->test_id)
 			);
 		}
-		else 
+		else
 		{
 			$sequence_arr = array_flip($this->questions);
 			if ($this->getShuffleQuestions())
@@ -3681,7 +3681,7 @@ class ilObjTest extends ilObject
 		}
 		$ilDB->query($query);
 	}
-	
+
 	/**
 	* Adds the sequence of questions for a random test to an existing active dataset
 	*
@@ -3700,7 +3700,7 @@ class ilObjTest extends ilObject
 		{
 			global $ilUser;
 			global $ilDB;
-			
+
 			$this->loadQuestions($active_id, 0);
 			$sequence_arr = array_flip($this->questions);
 			if ($this->getShuffleQuestions())
@@ -3716,7 +3716,7 @@ class ilObjTest extends ilObject
 			$ilDB->query($query);
 		}
 	}
-	
+
 	/**
 	* Shuffles the values of a given array
 	*
@@ -3745,10 +3745,10 @@ class ilObjTest extends ilObject
 		}
 		return $array;
 	}
-	
+
 	/**
 	* Calculates the results of a test for a given user
-	* 
+	*
 	* Calculates the results of a test for a given user
 	* and returns an array with all test results
 	*
@@ -3764,7 +3764,7 @@ class ilObjTest extends ilObject
 		}
 		$total_max_points = 0;
 		$total_reached_points = 0;
-		
+
 		$key = 1;
 		$result_array = array();
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -3867,7 +3867,7 @@ class ilObjTest extends ilObject
 
 	/**
 	* Calculates the overview of a test for a given user
-	* 
+	*
 	* and returns an array with all test questions
 	*
 	* @return array An array containing the test overview for the given user
@@ -3901,18 +3901,18 @@ class ilObjTest extends ilObject
 			{
 				$worked_through = $question->_isWorkedThrough($active_id, $question->getId(), $pass);
 				$solved  = 0;
-				if (array_key_exists($question->getId(),$solved_questions)) 
+				if (array_key_exists($question->getId(),$solved_questions))
 				{
-					$solved =  $solved_questions[$question->getId()]->solved; 
+					$solved =  $solved_questions[$question->getId()]->solved;
 				}
 				$is_postponed = FALSE;
 				if (in_array($question->getId(), $postponed))
 				{
 					$is_postponed = TRUE;
 				}
-				
+
 				$row = array(
-					"nr" => "$key",					
+					"nr" => "$key",
 					"title" => $question->getTitle(),
 					"qid" => $question->getId(),
 					"visited" => $worked_through,
@@ -3924,13 +3924,13 @@ class ilObjTest extends ilObject
 				);
 				array_push($result_array, $row);
 				$key++;
-			}			
+			}
 		}
-		
+
 		return $result_array;
 	}
 
-	
+
 /**
 * Returns the number of persons who started the test
 *
@@ -3942,7 +3942,7 @@ class ilObjTest extends ilObject
 	function evalTotalPersons()
 	{
 		global $ilDB;
-		
+
 		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s",
 			$ilDB->quote($this->getTestId())
 		);
@@ -3950,10 +3950,10 @@ class ilObjTest extends ilObject
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->total;
 	}
-	
+
 /**
 * Returns the complete working time in seconds a user worked on the test
-* 
+*
 * Returns the complete working time in seconds a user worked on the test
 *
 * @return integer The working time in seconds
@@ -3962,14 +3962,14 @@ class ilObjTest extends ilObject
 	function getCompleteWorkingTime($user_id)
 	{
 		global $ilDB;
-		
+
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
 			$ilDB->quote($this->getTestId()),
 			$ilDB->quote($user_id)
 		);
 		$result = $ilDB->query($q);
 		$time = 0;
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -3979,10 +3979,10 @@ class ilObjTest extends ilObject
 		}
 		return $time;
 	}
-	
+
 /**
 * Returns the statistical evaluation of the test for a specified user
-* 
+*
 * Returns the statistical evaluation of the test for a specified user
 *
 * @return arrary The statistical evaluation array of the test
@@ -4024,11 +4024,11 @@ class ilObjTest extends ilObject
 		foreach ($times as $key => $value) {
 			$max_time += $value;
 		}
-		if ((!$test_result["test"]["total_reached_points"]) or (!$test_result["test"]["total_max_points"])) 
+		if ((!$test_result["test"]["total_reached_points"]) or (!$test_result["test"]["total_max_points"]))
 		{
 			$percentage = 0.0;
-		} 
-		else 
+		}
+		else
 		{
 			$percentage = ($test_result["test"]["total_reached_points"] / $test_result["test"]["total_max_points"]) * 100.0;
 			if ($percentage < 0) $percentage = 0.0;
@@ -4097,7 +4097,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns an array with the total points of all users who participated the test
-* 
+*
 * Returns an array with the total points of all users who participated the test
 * This array could be used for statistics
 *
@@ -4115,10 +4115,10 @@ class ilObjTest extends ilObject
 		}
 		return $totalpoints_array;
 	}
-	
+
 /**
 * Returns an array with the total points of all users who passed the test
-* 
+*
 * Returns an array with the total points of all users who passed the test
 * This array could be used for statistics
 *
@@ -4149,7 +4149,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns all persons who started the test
-* 
+*
 * Returns all persons who started the test
 *
 * @return arrary The active ids, names and logins of the persons who started the test
@@ -4199,10 +4199,10 @@ class ilObjTest extends ilObject
 		}
 		return $persons_array;
 	}
-	
+
 /**
 * Returns all persons who started the test
-* 
+*
 * Returns all persons who started the test
 *
 * @return arrary The user id's and names of the persons who started the test
@@ -4243,10 +4243,10 @@ class ilObjTest extends ilObject
 		}
 		return $persons_array;
 	}
-	
+
 /**
 * Returns all participants who started the test
-* 
+*
 * Returns all participants who started the test
 *
 * @return arrary The active user id's and names of the persons who started the test
@@ -4287,10 +4287,10 @@ class ilObjTest extends ilObject
 		}
 		return $persons_array;
 	}
-	
+
 /**
 * Returns the number of total finished tests
-* 
+*
 * Returns the number of total finished tests
 *
 * @return integer The number of total finished tests
@@ -4299,7 +4299,7 @@ class ilObjTest extends ilObject
 	function evalTotalFinished()
 	{
 		global $ilDB;
-		
+
 		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s AND tries > 0",
 			$ilDB->quote($this->getTestId())
 		);
@@ -4307,20 +4307,20 @@ class ilObjTest extends ilObject
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->total;
 	}
-	
+
 /**
 * Returns the total passed tests and the average reached points
-* 
+*
 * Returns the total passed tests and the average reached points
 *
-* @return array The total passed tests and the avarage reached points. 
+* @return array The total passed tests and the avarage reached points.
 * array("total_passed" => VALUE, "total_failed" => VALUE, "average_points" => VALUE, "maximum_points" => VALUE)
 * @access public
 */
 	function evalTotalFinishedPassed()
 	{
 		global $ilDB;
-		
+
 		$q = sprintf("SELECT * FROM tst_active WHERE test_fi = %s",
 			$ilDB->quote($this->getTestId())
 		);
@@ -4329,15 +4329,15 @@ class ilObjTest extends ilObject
 		$passed_tests = 0;
 		$failed_tests = 0;
 		$maximum_points = 0;
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$pass = ilObjTest::_getResultPass($row->active_id);
 			$res =& $this->getTestResult($row->active_id, $pass);
-			if ((!$res["test"]["total_reached_points"]) or (!$res["test"]["total_max_points"])) 
+			if ((!$res["test"]["total_reached_points"]) or (!$res["test"]["total_max_points"]))
 			{
 				$percentage = 0.0;
-			} 
-				else 
+			}
+				else
 			{
 				$percentage = ($res["test"]["total_reached_points"] / $res["test"]["total_max_points"]) * 100.0;
 				if ($percentage < 0) $percentage = 0.0;
@@ -4349,8 +4349,8 @@ class ilObjTest extends ilObject
 				if ($mark_obj->getPassed()) {
 					$passed_tests++;
 					array_push($points, $res["test"]["total_reached_points"]);
-				} 
-					else 
+				}
+					else
 				{
 					$failed_tests++;
 				}
@@ -4358,16 +4358,16 @@ class ilObjTest extends ilObject
 		}
 		$reached_points = 0;
 		$counter = 0;
-		foreach ($points as $key => $value) 
+		foreach ($points as $key => $value)
 		{
 			$reached_points += $value;
 			$counter++;
 		}
-		if ($counter) 
+		if ($counter)
 		{
 			$average_points = ($reached_points / $counter);
-		} 
-			else 
+		}
+			else
 		{
 			$average_points = 0;
 		}
@@ -4378,10 +4378,10 @@ class ilObjTest extends ilObject
 			"maximum_points" => $maximum_points
 		);
 	}
-	
+
 /**
 * Returns the average processing time for total finished tests
-* 
+*
 * Returns the average processing time for total finished tests
 *
 * @return integer The average processing time for total finished tests
@@ -4390,13 +4390,13 @@ class ilObjTest extends ilObject
 	function evalTotalFinishedAverageTime()
 	{
 		global $ilDB;
-		
+
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.tries > 0 AND tst_active.active_id = tst_times.active_fi",
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($q);
 		$times = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -4406,25 +4406,25 @@ class ilObjTest extends ilObject
 		}
 		$max_time = 0;
 		$counter = 0;
-		foreach ($times as $key => $value) 
+		foreach ($times as $key => $value)
 		{
 			$max_time += $value;
 			$counter++;
 		}
-		if ($counter) 
+		if ($counter)
 		{
 			$average_time = round($max_time / $counter);
-		} 
-			else 
+		}
+			else
 		{
 			$average_time = 0;
 		}
 		return $average_time;
 	}
-	
+
 /**
 * Returns the average processing time for all started tests
-* 
+*
 * Returns the average processing time for all started tests
 *
 * @return integer The average processing time for all started tests
@@ -4433,13 +4433,13 @@ class ilObjTest extends ilObject
 	function evalTotalStartedAverageTime()
 	{
 		global $ilDB;
-		
+
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($q);
 		$times = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -4449,25 +4449,25 @@ class ilObjTest extends ilObject
 		}
 		$max_time = 0;
 		$counter = 0;
-		foreach ($times as $key => $value) 
+		foreach ($times as $key => $value)
 		{
 			$max_time += $value;
 			$counter++;
 		}
-		if ($counter) 
+		if ($counter)
 		{
 			$average_time = round($max_time / $counter);
-		} 
-			else 
+		}
+			else
 		{
 			$average_time = 0;
 		}
 		return $average_time;
 	}
-	
+
 /**
 * Returns the average processing time for all passed tests
-* 
+*
 * Returns the average processing time for all passed tests
 *
 * @return integer The average processing time for all passed tests
@@ -4476,7 +4476,7 @@ class ilObjTest extends ilObject
 	function evalTotalPassedAverageTime()
 	{
 		global $ilDB;
-		
+
 		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 		$passed_users =& ilObjTest::_getPassedUsers($this->getId());
 		$q = sprintf("SELECT tst_times.*, tst_active.active_id FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
@@ -4484,7 +4484,7 @@ class ilObjTest extends ilObject
 		);
 		$result = $ilDB->query($q);
 		$times = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) 
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if (in_array($row->active_id, $passed_users))
 			{
@@ -4497,25 +4497,25 @@ class ilObjTest extends ilObject
 		}
 		$max_time = 0;
 		$counter = 0;
-		foreach ($times as $key => $value) 
+		foreach ($times as $key => $value)
 		{
 			$max_time += $value;
 			$counter++;
 		}
-		if ($counter) 
+		if ($counter)
 		{
 			$average_time = round($max_time / $counter);
-		} 
-			else 
+		}
+			else
 		{
 			$average_time = 0;
 		}
 		return $average_time;
 	}
-	
+
 /**
 * Returns the object id's of the available question pools for the active user
-* 
+*
 * Returns the object id's of the available question pools for the active user
 *
 * @return array The available question pool id's
@@ -4525,12 +4525,12 @@ class ilObjTest extends ilObject
 	{
 		global $rbacsystem;
 		global $ilDB;
-		
+
 		$result_array = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl'";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
+		{
 			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
@@ -4545,7 +4545,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns the available question pools for the active user
-* 
+*
 * Returns the available question pools for the active user
 *
 * @return array The available question pools
@@ -4560,7 +4560,7 @@ class ilObjTest extends ilObject
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' ORDER BY object_data.title";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
+		{
 			if ($rbacsystem->checkAccess("read", $row->ref_id) && $rbacsystem->checkAccess("visible", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
@@ -4585,16 +4585,16 @@ class ilObjTest extends ilObject
 
 /**
 * Returns the estimated working time for the test calculated from the working time of the contained questions
-* 
+*
 * Returns the estimated working time for the test calculated from the working time of the contained questions
 *
 * @return array An associative array containing the working time. array["h"] = hours, array["m"] = minutes, array["s"] = seconds
 * @access public
 */
-	function getEstimatedWorkingTime() 
+	function getEstimatedWorkingTime()
 	{
 		$time_in_seconds = 0;
-		foreach ($this->questions as $question_id) 
+		foreach ($this->questions as $question_id)
 		{
 			$question =& ilObjTest::_instanciateQuestion($question_id);
 			$est_time = $question->getEstimatedWorkingTime();
@@ -4607,10 +4607,10 @@ class ilObjTest extends ilObject
 		$result = array("h" => $hours, "m" => $minutes, "s" => $time_in_seconds);
 		return $result;
 	}
-	
+
 /**
 * Returns a random selection of questions
-* 
+*
 * Returns a random selection of questions
 *
 * @param integer $nr_of_questions Number of questions to return
@@ -4638,7 +4638,7 @@ class ilObjTest extends ilObject
 				$questionpool = $row[0];
 			}
 		}
-		
+
 		// get all existing questions in the test
 		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
 			$ilDB->quote($this->getTestId() . "")
@@ -4657,7 +4657,7 @@ class ilObjTest extends ilObject
 		{
 			$original_clause = " AND ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
 		}
-		
+
 		// get a list of questionpools which are not allowed for the test (only for random selection of questions in test questions editor)
 		if (($questionpool == 0) && (!is_array($qpls)))
 		{
@@ -4673,7 +4673,7 @@ class ilObjTest extends ilObject
 				return array();
 			}
 		}
-		
+
 		$result_array = array();
 		if ($questionpool == 0)
 		{
@@ -4760,7 +4760,7 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function getImagePath() 
+	function getImagePath()
 	{
 		return CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/images/";
 	}
@@ -4773,7 +4773,7 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function getImagePathWeb() 
+	function getImagePathWeb()
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/" . $this->getId() . "/images/";
@@ -4782,7 +4782,7 @@ class ilObjTest extends ilObject
 
 /**
 * Creates a question GUI instance of a given question type
-* 
+*
 * Creates a question GUI instance of a given question type
 *
 * @param integer $question_type The question type of the question
@@ -4790,9 +4790,9 @@ class ilObjTest extends ilObject
 * @return object The question GUI instance
 * @access	public
 */
-  function &createQuestionGUI($question_type, $question_id = -1) 
+  function &createQuestionGUI($question_type, $question_id = -1)
 	{
-    if ((!$question_type) and ($question_id > 0)) 
+    if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = $this->getQuestionType($question_id);
     }
@@ -4815,7 +4815,7 @@ class ilObjTest extends ilObject
 * @return object The question instance
 * @access public
 */
-  function &_instanciateQuestion($question_id) 
+  function &_instanciateQuestion($question_id)
 	{
 		if (strcmp($question_id, "") != 0)
 		{
@@ -4883,7 +4883,7 @@ class ilObjTest extends ilObject
 		$this->saveQuestionsToDb();
 	}
 
-	
+
 /**
 * Returns true if the starting time of a test is reached
 *
@@ -4895,13 +4895,13 @@ class ilObjTest extends ilObject
 */
 	function startingTimeReached()
 	{
-		if ($this->getStartingTime()) 
+		if ($this->getStartingTime())
 		{
 			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches))
 			{
 				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 				$now = mktime();
-				if ($now < $epoch_time) 
+				if ($now < $epoch_time)
 				{
 					// starting time not reached
 					return false;
@@ -4909,8 +4909,8 @@ class ilObjTest extends ilObject
 			}
 		}
 		return true;
-	}		
-	
+	}
+
 /**
 * Returns true if the ending time of a test is reached
 *
@@ -4922,13 +4922,13 @@ class ilObjTest extends ilObject
 */
 	function endingTimeReached()
 	{
-		if ($this->getEndingTime()) 
+		if ($this->getEndingTime())
 		{
 			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
 			{
 				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				$now = mktime();				
-				if ($now > $epoch_time) 
+				$now = mktime();
+				if ($now > $epoch_time)
 				{
 					// ending time reached
 					return true;
@@ -4936,8 +4936,8 @@ class ilObjTest extends ilObject
 			}
 		}
 		return false;
-	}		
-	
+	}
+
 /**
 * Calculates the data for the output of the questionpool
 *
@@ -4949,7 +4949,7 @@ class ilObjTest extends ilObject
 	{
 		global $ilUser;
 		global $ilDB;
-		
+
 		$where = "";
 		if (strlen($filter_text) > 0) {
 			switch($sel_filter_type) {
@@ -4964,24 +4964,24 @@ class ilObjTest extends ilObject
 					break;
 			}
 		}
-		
+
 		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
 		{
 			$where .= " AND qpl_question_type.type_tag = " . $ilDB->quote($filter_question_type);
 		}
-		
+
 		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
 		{
 			$where .= " AND qpl_questions.obj_fi = $filter_questionpool";
 		}
-  
+
     // build sort order for sql query
 		$order = "";
 		$images = array();
-    if (count($sortoptions)) 
+    if (count($sortoptions))
 		{
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
-      foreach ($sortoptions as $key => $value) 
+      foreach ($sortoptions as $key => $value)
 			{
         switch($key) {
           case "title":
@@ -5096,7 +5096,7 @@ class ilObjTest extends ilObject
 			"rowcount" => $max
 		);
 	}
-	
+
 	/**
 	* Creates a list of all available question types
 	*
@@ -5108,7 +5108,7 @@ class ilObjTest extends ilObject
 	function &_getQuestiontypes()
 	{
 		global $ilDB;
-		
+
 		$questiontypes = array();
 		$query = "SELECT * FROM qpl_question_type ORDER BY type_tag";
 		$query_result = $ilDB->query($query);
@@ -5119,7 +5119,7 @@ class ilObjTest extends ilObject
 		ksort($questiontypes);
 		return $questiontypes;
 	}
-	
+
 	/**
 	* Creates a test from a QTI file
 	*
@@ -5131,7 +5131,7 @@ class ilObjTest extends ilObject
 	function fromXML(&$assessment)
 	{
 		unset($_SESSION["import_mob_xhtml"]);
-		
+
 		$this->setDescription($assessment->getComment());
 		$this->setTitle($assessment->getTitle());
 
@@ -5154,7 +5154,7 @@ class ilObjTest extends ilObject
 					break;
 			}
 		}
-		
+
 		foreach ($assessment->qtimetadata as $metadata)
 		{
 			switch ($metadata["label"])
@@ -5330,7 +5330,7 @@ class ilObjTest extends ilObject
 			$this->saveToDb();
 		}
 	}
-	
+
 	/**
 	* Returns a QTI xml representation of the test
 	*
@@ -5556,7 +5556,7 @@ class ilObjTest extends ilObject
 			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
 		$a_xml_writer->xmlEndTag("qtimetadata");
-		
+
 		// add qti objectives
 		$a_xml_writer->xmlStartTag("objectives");
 		$this->addQTIMaterial($a_xml_writer, $this->getIntroduction());
@@ -5584,7 +5584,7 @@ class ilObjTest extends ilObject
 
 		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 
-		foreach ($this->questions as $question_id) 
+		foreach ($this->questions as $question_id)
 		{
 			$question =& ilObjTest::_instanciateQuestion($question_id);
 			$qti_question = $question->to_xml(false);
@@ -5601,7 +5601,7 @@ class ilObjTest extends ilObject
 		}
 		return $xml;
 	}
-	
+
 	/**
 	* export pages of test to xml (see ilias_co.dtd)
 	*
@@ -5611,7 +5611,7 @@ class ilObjTest extends ilObject
 	function exportPagesXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
 		global $ilBench;
-		
+
 		$this->mob_ids = array();
 		$this->file_ids = array();
 
@@ -5700,7 +5700,7 @@ class ilObjTest extends ilObject
 			$attrs = array();
 			$a_xml_writer->xmlStartTag("PageObject", $attrs);
 
-			
+
 			// export xml to writer object
 			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
 			$page_object = new ilPageObject("qpl", $question_id);
@@ -5713,7 +5713,7 @@ class ilObjTest extends ilObject
 			$a_xml_writer->appendXML($xml);
 			$page_object->freeDom();
 			unset ($page_object);
-			
+
 			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 
 			// collect media objects
@@ -5733,12 +5733,12 @@ class ilObjTest extends ilObject
 				$this->file_ids[$file_id] = $file_id;
 			}
 			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
-			
+
 			$a_xml_writer->xmlEndTag("PageObject");
 			//unset($page_obj);
 
 			$ilBench->stop("ContentObjectExport", "exportPageObject");
-			
+
 
 		}
 	}
@@ -5795,10 +5795,10 @@ class ilObjTest extends ilObject
 			return $this->import_mapping;
 		}
 	}
-	
+
 /**
 * Returns the ECTS grade for a number of reached points
-* 
+*
 * Returns the ECTS grade for a number of reached points
 *
 * @param double $reached_points The points reached in the test
@@ -5866,7 +5866,7 @@ class ilObjTest extends ilObject
 				return "F";
 			}
 	}
-	
+
 	function checkMarks()
 	{
 		return $this->mark_schema->checkMarks();
@@ -5874,21 +5874,21 @@ class ilObjTest extends ilObject
 
 /**
 * Sets the authors name
-* 
+*
 * Sets the authors name of the ilObjTest object
 *
 * @param string $author A string containing the name of the test author
 * @access public
 * @see $author
 */
-  function setAuthor($author = "") 
+  function setAuthor($author = "")
 	{
     $this->author = $author;
   }
 
 /**
 * Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
-* 
+*
 * Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
 * This will only be called for conversion of "old" tests where the author hasn't been
 * stored in the lifecycle metadata
@@ -5908,7 +5908,7 @@ class ilObjTest extends ilObject
 				global $ilUser;
 				$a_author = $ilUser->getFullname();
 			}
-			
+
 			$md_life =& $md->addLifecycle();
 			$md_life->save();
 			$con =& $md_life->addContribute();
@@ -5919,10 +5919,10 @@ class ilObjTest extends ilObject
 			$ent->save();
 		}
 	}
-	
+
 /**
 * Create meta data entry
-* 
+*
 * Create meta data entry
 *
 * @access public
@@ -5935,14 +5935,14 @@ class ilObjTest extends ilObject
 
 /**
 * Gets the authors name
-* 
+*
 * Gets the authors name of the ilObjTest object
 *
 * @return string The string containing the name of the test author
 * @access public
 * @see $author
 */
-  function getAuthor() 
+  function getAuthor()
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
@@ -5970,14 +5970,14 @@ class ilObjTest extends ilObject
 
 /**
 * Gets the authors name
-* 
+*
 * Gets the authors name of the ilObjTest object
 *
 * @return string The string containing the name of the test author
 * @access public
 * @see $author
 */
-  function _lookupAuthor($obj_id) 
+  function _lookupAuthor($obj_id)
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
@@ -6015,13 +6015,13 @@ class ilObjTest extends ilObject
 	{
 		global $rbacsystem;
 		global $ilDB;
-		
+
 		$result_array = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'tst' ORDER BY object_data.title";
 		$result = $ilDB->query($query);
 		include_once "./classes/class.ilObject.php";
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{		
+		{
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
 			{
 				if ($use_object_id)
@@ -6039,7 +6039,7 @@ class ilObjTest extends ilObject
 
 /**
 * Duplicates the source random questionpools for another test
-* 
+*
 * Duplicates the source random questionpools for another test
 *
 * @param integer $new_id Test id of the new test which should take the random questionpools
@@ -6048,7 +6048,7 @@ class ilObjTest extends ilObject
 	function cloneRandomQuestions($new_id)
 	{
 		global $ilDB;
-		
+
 		if ($new_id > 0)
 		{
 			$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s",
@@ -6069,11 +6069,11 @@ class ilObjTest extends ilObject
 			}
 		}
 	}
-	
-	
+
+
 /**
 * Creates a 1:1 copy of the object and places the copy in a given repository
-* 
+*
 * Creates a 1:1 copy of the object and places the copy in a given repository
 *
 * @access public
@@ -6082,11 +6082,11 @@ class ilObjTest extends ilObject
 	{
 		$original = new ilObjTest($obj_id, false);
 		$original->loadFromDb();
-		
+
 		$newObj = new ilObjTest();
 		$newObj->setType("tst");
     $counter = 2;
-    while ($newObj->testTitleExists($newObj->getTitle() . " ($counter)")) 
+    while ($newObj->testTitleExists($newObj->getTitle() . " ($counter)"))
 		{
       $counter++;
     }
@@ -6122,7 +6122,7 @@ class ilObjTest extends ilObject
 		$newObj->random_question_count = $original->random_question_count;
 		$newObj->setCountSystem($original->getCountSystem());
 		$newObj->setMCScoring($original->getMCScoring());
-		$newObj->saveToDb();		
+		$newObj->saveToDb();
 		if ($original->isRandomTest())
 		{
 			$newObj->saveRandomQuestionCount($newObj->random_question_count);
@@ -6142,7 +6142,7 @@ class ilObjTest extends ilObject
 				$question->saveToDb($original_id);
 			}
 		}
-		
+
 		$newObj->saveToDb();
 
 		// clone meta data
@@ -6158,7 +6158,7 @@ class ilObjTest extends ilObject
 
 		$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id=%s",
 			$ilDB->quote($obj_id)
-			
+
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
@@ -6168,10 +6168,10 @@ class ilObjTest extends ilObject
 		}
 		return 0;
 	}
-	
+
 /**
 * Returns the number of questions in the test
-* 
+*
 * Returns the number of questions in the test
 *
 * @return integer The number of questions
@@ -6180,7 +6180,7 @@ class ilObjTest extends ilObject
 	function getQuestionCount()
 	{
 		$num = 0;
-		
+
 		if ($this->isRandomTest())
 		{
 			if ($this->getRandomQuestionCount())
@@ -6205,7 +6205,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns the number of questions in the test for a given user
-* 
+*
 * Returns the number of questions in the test for a given user
 *
 * @return integer The number of questions
@@ -6214,9 +6214,9 @@ class ilObjTest extends ilObject
 	function _getQuestionCount($test_id, $user_id)
 	{
 		global $ilDB;
-		
+
 		$num = 0;
-		
+
 		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
 			$ilDB->quote($test_id . "")
 		);
@@ -6226,7 +6226,7 @@ class ilObjTest extends ilObject
 			return 0;
 		}
 		$test = $result->fetchRow(DB_FETCHMODE_ASSOC);
-		
+
 		if ($test["random_test"] == 1)
 		{
 			$active = ilObjTest::_getActiveTestUser($user_id, $test_id);
@@ -6246,11 +6246,11 @@ class ilObjTest extends ilObject
 		}
 		return $num;
 	}
-	
+
 
 /**
 * Removes all test data of a non random test when a test was set to random test
-* 
+*
 * Removes all test data of a non random test when a test was set to random test
 *
 * @access	private
@@ -6258,7 +6258,7 @@ class ilObjTest extends ilObject
 	function removeNonRandomTestData()
 	{
 		global $ilDB;
-		
+
 		// delete eventually set questions of a previous non-random test
 		$this->removeAllTestEditings();
 		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
@@ -6268,10 +6268,10 @@ class ilObjTest extends ilObject
 		$this->questions = array();
 		$this->saveCompleteStatus();
 	}
-	
+
 /**
 * Removes all test data of a random test when a test was set to non random test
-* 
+*
 * Removes all test data of a random test when a test was set to non random test
 *
 * @access	private
@@ -6288,10 +6288,10 @@ class ilObjTest extends ilObject
 		$this->questions = array();
 		$this->saveCompleteStatus();
 	}
-	
+
 /**
 * Logs an action into the Test&Assessment log
-* 
+*
 * Logs an action into the Test&Assessment log
 *
 * @param string $logtext The log text
@@ -6311,10 +6311,10 @@ class ilObjTest extends ilObject
 		include_once "./classes/class.ilObjAssessmentFolder.php";
 		ilObjAssessmentFolder::_addLog($ilUser->getId(), $this->getId(), $logtext, $question_id, $original_id, TRUE, $this->getRefId());
 	}
-	
+
 /**
 * Returns the ILIAS test object id for a given test id
-* 
+*
 * Returns the ILIAS test object id for a given test id
 *
 * @param integer $test_id The test id
@@ -6339,7 +6339,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns the ILIAS test object id for a given active id
-* 
+*
 * Returns the ILIAS test object id for a given active id
 *
 * @param integer $active_id The active id
@@ -6364,7 +6364,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns the ILIAS test id for a given object id
-* 
+*
 * Returns the ILIAS test id for a given object id
 *
 * @param integer $object_id The object id
@@ -6389,7 +6389,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns the text answer of a given user for a given question
-* 
+*
 * Returns the text answer of a given user for a given question
 *
 * @param integer $user_id The user id
@@ -6400,7 +6400,7 @@ class ilObjTest extends ilObject
 	function getTextAnswer($active_id, $question_id, $pass = NULL)
 	{
 		global $ilDB;
-		
+
 		$res = "";
 		if (($active_id) && ($question_id))
 		{
@@ -6423,10 +6423,10 @@ class ilObjTest extends ilObject
 		}
 		return $res;
 	}
-	
+
 /**
 * Returns the question text for a given question
-* 
+*
 * Returns the question text for a given question
 *
 * @param integer $question_id The question id
@@ -6436,7 +6436,7 @@ class ilObjTest extends ilObject
 	function getQuestiontext($question_id)
 	{
 		global $ilDB;
-		
+
 		$res = "";
 		if ($question_id)
 		{
@@ -6450,21 +6450,21 @@ class ilObjTest extends ilObject
 				$res = $row["question_text"];
 			}
 		}
-		return $res;		
+		return $res;
 	}
-	
+
 /**
 * Returns a list of all invited users in a test
-* 
+*
 * Returns a list of all invited users in a test
 *
-* @return array The user id's of the invited users
+* @return array array of invited users
 * @access public
 */
 	function &getInvitedUsers($user_id="", $order="login, lastname, firstname")
 	{
 		global $ilDB;
-		
+
 		$result_array = array();
 
 		if ($this->getAnonymity())
@@ -6473,7 +6473,7 @@ class ilObjTest extends ilObject
 			{
 				$query = sprintf("SELECT tst_active.active_id, usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-					"FROM usr_data, tst_invited_user " . 
+					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
 					"ORDER BY %s",
@@ -6483,11 +6483,11 @@ class ilObjTest extends ilObject
 					$order
 				);
 			}
-			else 
+			else
 			{
 				$query = sprintf("SELECT tst_active.active_id, usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-					"FROM usr_data, tst_invited_user " . 
+					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
 					"ORDER BY %s",
@@ -6503,7 +6503,7 @@ class ilObjTest extends ilObject
 			{
 				$query = sprintf("SELECT tst_active.active_id, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-					"FROM usr_data, tst_invited_user " . 
+					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
 					"ORDER BY %s",
@@ -6512,11 +6512,11 @@ class ilObjTest extends ilObject
 					$order
 				);
 			}
-			else 
+			else
 			{
 				$query = sprintf("SELECT tst_active.active_id, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-					"FROM usr_data, tst_invited_user " . 
+					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
 					"ORDER BY %s",
@@ -6527,10 +6527,10 @@ class ilObjTest extends ilObject
 		}
 		return $this->getArrayData($query, "usr_id");
 	}
-	
+
 /**
 * Returns a list of all participants in a test
-* 
+*
 * Returns a list of all participants in a test
 *
 * @return array The user id's of the participants
@@ -6539,7 +6539,7 @@ class ilObjTest extends ilObject
 	function &getTestParticipants()
 	{
 		global $ilDB;
-		
+
 		if ($this->getAnonymity())
 		{
 			$q = sprintf("SELECT tst_active.active_id, tst_active.user_fi AS usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
@@ -6557,10 +6557,10 @@ class ilObjTest extends ilObject
 		}
 		return $this->getArrayData($q, "usr_id");
 	}
-	
+
 /**
 * Returns a data of all users specified by id list
-* 
+*
 * Returns a data of all users specified by id list
 *
 * @param $usr_ids kommaseparated list of ids
@@ -6571,43 +6571,43 @@ class ilObjTest extends ilObject
 	{
 		if (!is_array($ids) || count($ids) ==0)
 			return array();
-			
+
 		$result_array = array();
-			
+
 		if ($this->getAnonymity())
 		{
-			$query = sprintf("SELECT usr_id, '' AS login, %s AS lastname, '' AS firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",			
+			$query = sprintf("SELECT usr_id, '' AS login, %s AS lastname, '' AS firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",
 				$ilDB->quote($this->lng->txt("unknown")),
 				join ($ids,",")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",			
+			$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN (%s) ORDER BY login",
 				join ($ids,",")
 			);
 		}
-				
-		return $this->getArrayData ($query, "usr_id");		
+
+		return $this->getArrayData ($query, "usr_id");
 	}
-	
+
 /**
 * Returns a data as id key list
-* 
+*
 * Returns a data as id key list
 *
 * @param $query
-* @param $id_field index for array 
+* @param $id_field index for array
 * @return array with data with id as key
 * @access private
 */
 	function &getArrayData($query, $id_field)
-	{	
+	{
 		return ilObjTest::_getArrayData ($query, $id_field);
 	}
-	
+
 	function &_getArrayData($query, $id_field)
-	{	
+	{
 		global $ilDB;
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -6621,41 +6621,41 @@ class ilObjTest extends ilObject
 	{
 		if (!is_array($ids) || count($ids) ==0)
 			return array();
-			
+
 		$result_array = array();
-			
-		$query = sprintf("SELECT ref_id, title, description FROM `grp_data` g, object_data o, object_reference r WHERE o.obj_id=grp_id AND o.obj_id = r.obj_id AND ref_id IN (%s)",			
+
+		$query = sprintf("SELECT ref_id, title, description FROM `grp_data` g, object_data o, object_reference r WHERE o.obj_id=grp_id AND o.obj_id = r.obj_id AND ref_id IN (%s)",
 			join ($ids,",")
 		);
-		
-		return $this->getArrayData ($query, "ref_id");		
+
+		return $this->getArrayData ($query, "ref_id");
 	}
-	
+
 	function &getRoleData($ids)
 	{
 		if (!is_array($ids) || count($ids) ==0)
 			return array();
-			
+
 		$result_array = array();
-			
-		$query = sprintf("SELECT obj_id, description, title FROM role_data, object_data o WHERE o.obj_id=role_id AND role_id IN (%s)",			
+
+		$query = sprintf("SELECT obj_id, description, title FROM role_data, object_data o WHERE o.obj_id=role_id AND role_id IN (%s)",
 			join ($ids,",")
 		);
-		
-		return $this->getArrayData ($query, "obj_id");		
+
+		return $this->getArrayData ($query, "obj_id");
 	}
 
 
 /**
 * Invites all users of a group to a test
-* 
+*
 * Invites all users of a group to a test
 *
 * @param integer $group_id The database id of the invited group
 * @access public
 */
 	function inviteGroup($group_id)
-	{			
+	{
 		include_once "./classes/class.ilObjGroup.php";
 		$group = new ilObjGroup($group_id);
 		$members = $group->getGroupMemberIds();
@@ -6663,33 +6663,33 @@ class ilObjTest extends ilObject
 		foreach ($members as $user_id)
 		{
 			$this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
-		}		
+		}
 	}
-	
+
 /**
 * Invites all users of a role to a test
-* 
+*
 * Invites all users of a role to a test
 *
 * @param integer $group_id The database id of the invited group
 * @access public
 */
 	function inviteRole($role_id)
-	{			
+	{
 		global $rbacreview;
 		$members =  $rbacreview->assignedUsers($role_id,"usr_id");
 		include_once "./classes/class.ilObjUser.php";
 		foreach ($members as $user_id)
 		{
 			$this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
-		}		
+		}
 	}
-	
-	
-	
+
+
+
 /**
 * Disinvites a user from a test
-* 
+*
 * Disinvites a user from a test
 *
 * @param integer $user_id The database id of the disinvited user
@@ -6698,17 +6698,17 @@ class ilObjTest extends ilObject
 	function disinviteUser($user_id)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
 			$ilDB->quote($this->test_id),
 			$ilDB->quote($user_id)
 		);
-		$result = $ilDB->query($query);	
+		$result = $ilDB->query($query);
 	}
 
 /**
 * Invites a user to a test
-* 
+*
 * Invites a user to a test
 *
 * @param integer $user_id The database id of the invited user
@@ -6717,18 +6717,18 @@ class ilObjTest extends ilObject
 	function inviteUser($user_id, $client_ip="")
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("INSERT IGNORE INTO tst_invited_user (test_fi, user_fi, clientip) VALUES (%s, %s, %s)",
 			$ilDB->quote($this->test_id),
 			$ilDB->quote($user_id),
 			$ilDB->quote($client_ip)
 		);
-		
+
 		$result = $ilDB->query($query);
 	}
-	
-		
-	function setClientIP($user_id, $client_ip) 
+
+
+	function setClientIP($user_id, $client_ip)
 	{
 		global $ilDB;
 
@@ -6739,13 +6739,13 @@ class ilObjTest extends ilObject
 		);
 		$insertresult = $ilDB->query($query);
 	}
-	
+
 	/**
 	 * get solved questions
-	 * 
+	 *
 	 * @return array of int containing all question ids which have been set solved for the given user and test
 	 */
-	function _getSolvedQuestions($active_id, $question_fi = null) 
+	function _getSolvedQuestions($active_id, $question_fi = null)
 	{
 		global $ilDB;
 		if (is_numeric($question_fi))
@@ -6758,157 +6758,168 @@ class ilObjTest extends ilObject
 						 "WHERE active_fi = %s",
 			$ilDB->quote($active_id)
 		);
-		return ilObjTest::_getArrayData ($query, "question_fi");		
+		return ilObjTest::_getArrayData ($query, "question_fi");
 	}
-	
-	
+
+
 	/**
 	 * sets question solved state to value for given user_id
 	 */
-	function setQuestionSetSolved($value, $question_id, $user_id) 
+	function setQuestionSetSolved($value, $question_id, $user_id)
 	{
 		global $ilDB;
-		
+
 		$active = $this->getActiveTestUser($user_id);
 		$query = sprintf("REPLACE INTO tst_active_qst_sol_settings SET solved=%s, question_fi=%s, active_fi = %s",
 			$ilDB->quote($value),
 			$ilDB->quote($question_id),
 			$ilDB->quote($active->active_id)
 		);
-		
-		$ilDB->query($query);				
+
+		$ilDB->query($query);
 	}
-	
-	
+
+
 	/**
 	 * submits active test for user user_id
 	 */
-	function setActiveTestSubmitted($user_id) 
+	function setActiveTestSubmitted($user_id)
 	{
 		global $ilDB;
 
 		$query = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = NOW() WHERE test_fi = %s AND user_fi = %s",
 			$ilDB->quote($this->getTestId() . ""),
 			$ilDB->quote($user_id . "")
-		);		
+		);
 		$ilDB->query($query);
 	}
-	
+
 	/**
 	 * returns if the active for user_id has been submitted
 	 */
-	function isActiveTestSubmitted($user_id = null) 
+	function isActiveTestSubmitted($user_id = null)
 	{
 		global $ilUser;
 		global $ilDB;
-		
+
 		if (!is_numeric($user_id))
 			$user_id = $ilUser->getId();
-			
+
 		$query = sprintf("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=1",
 			$ilDB->quote($this->test_id),
 			$ilDB->quote($user_id)
-		);		
-		$result = $ilDB->query($query);		
-		
+		);
+		$result = $ilDB->query($query);
+
 		return 	$result->numRows() == 1;
-		
+
 	}
 	/**
 	 * returns if the numbers of tries have to be checked
 	 */
-	function hasNrOfTriesRestriction() 
+	function hasNrOfTriesRestriction()
 	{
 		return $this->getNrOfTries() != 0;
 	}
-	
-	
+
+
 	/**
 	 * returns if number of tries are reached
 	 */
-	
-	function isNrOfTriesReached($tries) 
+
+	function isNrOfTriesReached($tries)
 	{
 		return $tries >= (int) $this->getNrOfTries();
 	}
-	
-	
+
+
 	/**
 	 * returns all test results for all participants
+	 *
+	 * @param array $partipants array of user ids
+	 * @param boolean if true, the result will be prepared for csv output (see processCSVRow)
+	 *
+	 * @return array of fields, see code for column titles
 	 */
-	function getAllTestResults() 
+	function getAllTestResults($participants, $prepareForCSV = true)
 	{
-		$participants = $this->getInvitedUsers("matriculation");
-		$results = array();		
-		$row = array("matriculation" =>  $this->lng->txt("matriculation"),
-					"lastname" =>  $this->lng->txt("lastname"),
-					"firstname" => $this->lng->txt("firstname"),					
-					"reached_points" => $this->lng->txt("tst_reached_points"),
-					"max_points" => $this->lng->txt("tst_maximum_points"),
-					"percent_value" => $this->lng->txt("tst_percent_solved"),
-					"mark" => $this->lng->txt("tst_mark"),
-					"ects" => $this->lng->txt("ects_grade"));
-		
-		$results[] = $row;
-		foreach ($participants as $user_id => $user_rec) 
-		{
-			$row = array();		
-			$active = $this->getActiveTestUser($user_id);
-			$reached_points = 0;
-			$max_points = 0;					
-			
-			foreach ($this->questions as $value)
-			{
-			//$value = $this->questions[$seq];
-//				$ilBench->start("getTestResult","instanciate question"); 
-				$question =& ilObjTest::_instanciateQuestion($value);
-//				$ilBench->stop("getTestResult","instanciate question"); 
-				if (is_object($question))
-				{
-					$max_points += $question->getMaximumPoints();
-					$reached_points += $question->getReachedPoints($active->active_id); 
-				}
-			}
-			
-			if ($max_points > 0)
-			{
-				$percentvalue = $reached_points / $max_points;
-				if ($percentvalue < 0) $percentvalue = 0.0;
-			}
-			else
-			{
-				$percentvalue = 0;
-			}			
-			$mark_obj = $this->mark_schema->getMatchingMark($percentvalue * 100);
-			$passed = "";	
-			if ($mark_obj)
-			{
-				$mark = $mark_obj->getOfficialName();
-				$ects_mark = $this->getECTSGrade($reached_points, $max_points);
-			}
-			if ($this->getAnonymity())
-			{
-				$user_rec->firstname = "";
-				$user_rec->lastname = $this->lng->txt("unknown");
-			}
 
-			$row = array(
-					"matriculation" =>  $user_rec->matriculation,
-					"lastname" =>  $user_rec->lastname,
-					"firstname" => $user_rec->firstname,
-					"reached_points" => $reached_points,
-					"max_points" => $max_points,
-					"percent_value" => $percentvalue,
-					"mark" => $mark,
-					"ects" => $ects_mark);
-			$results[] = $this->processCSVRow ($row, true);
-		} 								
-		return $results;
+		$results = array();
+		$row = array("matriculation" =>  $this->lng->txt("matriculation"),
+					 "lastname" =>  $this->lng->txt("lastname"),
+					 "firstname" => $this->lng->txt("firstname"),
+					 "reached_points" => $this->lng->txt("tst_reached_points"),
+					 "max_points" => $this->lng->txt("tst_maximum_points"),
+					 "percent_value" => $this->lng->txt("tst_percent_solved"),
+					 "mark" => $this->lng->txt("tst_mark"),
+					 "ects" => $this->lng->txt("ects_grade"));
+
+		$results[] = $row;
+		if (count($participants))
+		{
+
+		    foreach ($participants as $user_id => $user_rec)
+    		{
+
+    		    $row = array();
+    			$active = $this->getActiveTestUser($user_id);
+    			$reached_points = 0;
+    			$max_points = 0;
+
+    			foreach ($this->questions as $value)
+    			{
+    			    //$value = $this->questions[$seq];
+    //				$ilBench->start("getTestResult","instanciate question");
+    				$question =& ilObjTest::_instanciateQuestion($value);
+    //				$ilBench->stop("getTestResult","instanciate question");
+    				if (is_object($question))
+    				{
+    					$max_points += $question->getMaximumPoints();
+    					$reached_points += $question->getReachedPoints($active->active_id);
+    				}
+    			}
+
+    			if ($max_points > 0)
+    			{
+    				$percentvalue = $reached_points / $max_points;
+    				if ($percentvalue < 0) $percentvalue = 0.0;
+    			}
+    			else
+    			{
+    				$percentvalue = 0;
+    			}
+    			$mark_obj = $this->mark_schema->getMatchingMark($percentvalue * 100);
+    			$passed = "";
+    			if ($mark_obj)
+    			{
+    				$mark = $mark_obj->getOfficialName();
+    				$ects_mark = $this->getECTSGrade($reached_points, $max_points);
+    			}
+    			if ($this->getAnonymity())
+    			{
+    				$user_rec->firstname = "";
+    				$user_rec->lastname = $this->lng->txt("unknown");
+    			}
+
+    			$row = array(
+    					"matriculation" =>  $user_rec->matriculation,
+    					"lastname" =>  $user_rec->lastname,
+    					"firstname" => $user_rec->firstname,
+    					"reached_points" => $reached_points,
+    					"max_points" => $max_points,
+    					"percent_value" => $percentvalue,
+    					"mark" => $mark,
+    					"ects" => $ects_mark);
+
+    			$results[] = $prepareForCSV ? $this->processCSVRow ($row, true) : $row;
+    		}
+		}
+    	return $results;
 	}
-	
+
 /**
 * Convertes an array for CSV usage
-* 
+*
 * Processes an array as a CSV row and converts the array values to correct CSV
 * values. The "converted" array is returned
 *
@@ -6941,7 +6952,7 @@ class ilObjTest extends ilObject
 			$entry = str_replace(chr(13).chr(10), chr(10), $entry);
 			if ($surround)
 			{
-				$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
+			    $resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
 			}
 			else
 			{
@@ -6950,10 +6961,10 @@ class ilObjTest extends ilObject
 		}
 		return $resultarray;
 	}
-	
+
 /**
 * Retrieves the actual pass of a given user for a given test
-* 
+*
 * Retrieves the actual pass of a given user for a given test
 *
 * @param integer $user_id The user id
@@ -6978,10 +6989,10 @@ class ilObjTest extends ilObject
 			return 0;
 		}
 	}
-	
+
 /**
 * Retrieves the best pass of a given user for a given test
-* 
+*
 * Retrieves the best pass of a given user for a given test
 *
 * @param integer $user_id The user id
@@ -7014,10 +7025,10 @@ class ilObjTest extends ilObject
 		}
 		return $bestpass;
 	}
-	
+
 /**
 * Retrieves the pass number that should be counted for a given user
-* 
+*
 * Retrieves the pass number that should be counted for a given user
 *
 * @param integer $user_id The user id
@@ -7054,10 +7065,10 @@ class ilObjTest extends ilObject
 		//}
 		return $counted_pass;
 	}
-	
+
 /**
 * Retrieves the number of answered questions for a given user in a given test
-* 
+*
 * Retrieves the number of answered questions for a given user in a given test
 *
 * @param integer $user_id The user id
@@ -7086,7 +7097,7 @@ class ilObjTest extends ilObject
 
 /**
 * Retrieves the number of answered questions for a given user in a given test
-* 
+*
 * Retrieves the number of answered questions for a given user in a given test
 *
 * @param integer $user_id The user id
@@ -7114,10 +7125,10 @@ class ilObjTest extends ilObject
 			return 0;
 		}
 	}
-	
+
 /**
 * Checks if the test is executable by the given user
-* 
+*
 * Checks if the test is executable by the given user
 *
 * @param integer $user_id The user id
@@ -7163,15 +7174,15 @@ class ilObjTest extends ilObject
 			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 			return $result;
 		}
-		
+
 		// TODO: max. processing time
-		
+
 		return $result;
 	}
 
 /**
 * Returns true, if the test results can be viewed
-* 
+*
 * Returns true, if the test results can be viewed
 *
 * @return boolean True, if the test results can be viewed, else false
@@ -7186,7 +7197,7 @@ class ilObjTest extends ilObject
 			{
 				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 				$now = mktime();
-				if ($now < $epoch_time) 
+				if ($now < $epoch_time)
 				{
 					$result = false;
 				}
@@ -7195,7 +7206,7 @@ class ilObjTest extends ilObject
 		return $result;
 	}
 
-	function canShowTestResults($user_id) 
+	function canShowTestResults($user_id)
 	{
 		$active = $this->getActiveTestUser($user_id);
 		$starting_time = $this->getStartingTimeOfUser($user_id);
@@ -7216,7 +7227,7 @@ class ilObjTest extends ilObject
 		$result = $result & $this->canViewResults();
 		return $result;
 	}
-	
+
 	function canEditMarks()
 	{
 		$total = $this->evalTotalPersons();
@@ -7228,7 +7239,7 @@ class ilObjTest extends ilObject
 				{
 					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 					$now = mktime();
-					if ($now < $epoch_time) 
+					if ($now < $epoch_time)
 					{
 						return true;
 					}
@@ -7241,10 +7252,10 @@ class ilObjTest extends ilObject
 			return true;
 		}
 	}
-	
+
 /**
 * Returns the unix timestamp of the time a user started a test
-* 
+*
 * Returns the unix timestamp of the time a user started a test
 *
 * @param integer $user_id The user id
@@ -7254,7 +7265,7 @@ class ilObjTest extends ilObject
 	function getStartingTimeOfUser($user_id)
 	{
 		global $ilDB;
-		
+
 		if ($user_id < 1) return FALSE;
 		$query = sprintf("SELECT tst_times.started FROM tst_times, tst_active WHERE tst_active.user_fi = %s AND tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi ORDER BY tst_times.started",
 			$ilDB->quote($user_id . ""),
@@ -7278,10 +7289,10 @@ class ilObjTest extends ilObject
 			return FALSE;
 		}
 	}
-	
+
 /**
 * Returns wheather the maximum processing time for a test is reached or not
-* 
+*
 * Returns wheather the maximum processing time for a test is reached or not
 *
 * @param long $starting_time The unix timestamp of the starting time of the test
@@ -7309,7 +7320,7 @@ class ilObjTest extends ilObject
 			return FALSE;
 		}
 	}
-	
+
 	function &getTestQuestions()
 	{
 		global $ilDB;
@@ -7324,10 +7335,10 @@ class ilObjTest extends ilObject
 		}
 		return $removableQuestions;
 	}
-	
+
 /**
 * Returns the status of the shuffle_questions variable
-* 
+*
 * Returns the status of the shuffle_questions variable
 *
 * @return boolean FALSE if the test questions are not shuffled, TRUE if the test questions are shuffled
@@ -7337,10 +7348,10 @@ class ilObjTest extends ilObject
 	{
 		return $this->shuffle_questions;
 	}
-	
+
 /**
 * Sets the status of the shuffle_questions variable
-* 
+*
 * Sets the status of the shuffle_questions variable
 *
 * @param boolean $a_shuffle FALSE if the test questions are not shuffled, TRUE if the test questions are shuffled
@@ -7360,7 +7371,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns if the solution details should be presented to the user or not
-* 
+*
 * Returns if the solution details should be presented to the user or not
 *
 * @return boolean TRUE if the solution details should be presented, FALSE otherwise
@@ -7370,10 +7381,10 @@ class ilObjTest extends ilObject
 	{
 		return $this->show_solution_details;
 	}
-	
+
 /**
 * Returns the settings for the list of questions options in the test properties
-* 
+*
 * Returns the settings for the list of questions options in the test properties
 * This could contain one of the following values:
 *   0 = No list of questions offered
@@ -7389,10 +7400,10 @@ class ilObjTest extends ilObject
 	{
 		return $this->show_summary;
 	}
-	
+
 /**
 * Sets the settings for the list of questions options in the test properties
-* 
+*
 * Sets the settings for the list of questions options in the test properties
 * This could contain one of the following values:
 *   0 = No list of questions offered
@@ -7408,10 +7419,10 @@ class ilObjTest extends ilObject
 	{
 		$this->show_summary = $a_value;
 	}
-	
+
 /**
 * Returns if the list of questions should be presented to the user or not
-* 
+*
 * Returns if the list of questions should be presented to the user or not
 *
 * @return boolean TRUE if the list of questions should be presented, FALSE otherwise
@@ -7431,7 +7442,7 @@ class ilObjTest extends ilObject
 
 /**
 * Sets if the the list of questions should be presented to the user or not
-* 
+*
 * Sets if the the list of questions should be presented to the user or not
 *
 * @param boolean $a_value TRUE if the list of questions should be presented, FALSE otherwise
@@ -7451,7 +7462,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns if the list of questions should be presented as the first page of the test
-* 
+*
 * Returns if the list of questions should be presented as the first page of the test
 *
 * @return boolean TRUE if the list of questions is shown as first page of the test, FALSE otherwise
@@ -7468,10 +7479,10 @@ class ilObjTest extends ilObject
 			return FALSE;
 		}
 	}
-	
+
 /**
 * Sets if the the list of questions as the start page of the test
-* 
+*
 * Sets if the the list of questions as the start page of the test
 *
 * @param boolean $a_value TRUE if the list of questions should be the start page, FALSE otherwise
@@ -7494,7 +7505,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns if the list of questions should be presented as the last page of the test
-* 
+*
 * Returns if the list of questions should be presented as the last page of the test
 *
 * @return boolean TRUE if the list of questions is shown as last page of the test, FALSE otherwise
@@ -7511,10 +7522,10 @@ class ilObjTest extends ilObject
 			return FALSE;
 		}
 	}
-	
+
 /**
 * Sets if the the list of questions as the end page of the test
-* 
+*
 * Sets if the the list of questions as the end page of the test
 *
 * @param boolean $a_value TRUE if the list of questions should be the end page, FALSE otherwise
@@ -7537,7 +7548,7 @@ class ilObjTest extends ilObject
 
 /**
 * Returns if the solution printview should be presented to the user or not
-* 
+*
 * Returns if the solution printview should be presented to the user or not
 *
 * @return boolean TRUE if the solution printview should be presented, FALSE otherwise
@@ -7547,10 +7558,10 @@ class ilObjTest extends ilObject
 	{
 		return $this->show_solution_printview;
 	}
-	
+
 /**
 * Sets if the the solution details should be presented to the user or not
-* 
+*
 * Sets if the the solution details should be presented to the user or not
 *
 * @param integer $a_details 1 if the solution details should be presented, 0 otherwise
@@ -7572,34 +7583,34 @@ class ilObjTest extends ilObject
 
 /**
 * Calculates if a user may see the solution printview of his/her test results
-* 
+*
 * Calculates if a user may see the solution printview of his/her test results
 *
 * @return boolean TRUE if the user may see the printview, FALSE otherwise
 * @access public
 */
-	function canShowSolutionPrintview($user_id = NULL) 
+	function canShowSolutionPrintview($user_id = NULL)
 	{
 		// until it is not discussed further, the list of answers will be shown
 		// if it is activated. Even if the participant has not finished the test
 		return $this->getShowSolutionPrintview();
-		
+
 		/*
 		global $ilDB;
-		
+
 		if (!is_numeric($user_id))
 		{
 			global $ilUser;
 			$user_id = $ilUser->getId();
 		}
-		
+
 		if ($this->isOnlineTest())
 		{
 			$query = sprintf("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=1",
 				$ilDB->quote($this->getTestId() . ""),
 				$ilDB->quote($user_id . "")
-			);		
-			$result = $ilDB->query($query);		
+			);
+			$result = $ilDB->query($query);
 			return $result->numRows() == 1;
 		}
 		else
@@ -7615,10 +7626,10 @@ class ilObjTest extends ilObject
 		}
 		return FALSE;*/
 	}
-	
+
 /**
 * Sets if the the solution printview should be presented to the user or not
-* 
+*
 * Sets if the the solution printview should be presented to the user or not
 *
 * @param boolean $a_details TRUE if the solution printview should be presented, FALSE otherwise
@@ -7637,7 +7648,7 @@ class ilObjTest extends ilObject
 				break;
 		}
 	}
-	
+
 /**
 * Returns an array containing the user ids of all users who passed the test
 *
@@ -7652,7 +7663,7 @@ class ilObjTest extends ilObject
 	function &_getPassedUsers($a_obj_id)
 	{
 		global $ilDB;
-		
+
 		$passed_users = array();
 		$query = sprintf("SELECT tst_active.* FROM tst_active, tst_tests ".
 						 "WHERE tst_tests.obj_fi = %s ".
@@ -7676,7 +7687,7 @@ class ilObjTest extends ilObject
 		}
 		return $passed_users;
 	}
-	
+
 	/**
 	* Returns a new, unused test access code
 	*
@@ -7700,11 +7711,11 @@ class ilObjTest extends ilObject
 		}
 		return $code;
 	}
-	
+
 	function isAccessCodeUsed($code)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s",
 			$ilDB->quote($this->getTestId() . ""),
 			$ilDB->quote($code . "")
@@ -7719,7 +7730,7 @@ class ilObjTest extends ilObject
 			return FALSE;
 		}
 	}
-	
+
 	function _getUserIdFromActiveId($active_id)
 	{
 		global $ilDB;
@@ -7737,7 +7748,7 @@ class ilObjTest extends ilObject
 			return -1;
 		}
 	}
-	
+
 	function getAccessCodeSession()
 	{
 		$id = $this->getTestId();
@@ -7750,7 +7761,7 @@ class ilObjTest extends ilObject
 			return $_SESSION["tst_access_code"]["$id"];
 		}
 	}
-	
+
 	function setAccessCodeSession($access_code)
 	{
 		$id = $this->getTestId();
@@ -7760,37 +7771,37 @@ class ilObjTest extends ilObject
 		}
 		$_SESSION["tst_access_code"]["$id"] = $access_code;
 	}
-	
+
 	function unsetAccessCodeSession()
 	{
 		$id = $this->getTestId();
 		unset($_SESSION["tst_access_code"]["$id"]);
 	}
-	
+
 	function getAllowedUsers()
 	{
 		return $this->allowedUsers;
 	}
-	
+
 	function setAllowedUsers($a_allowed_users)
 	{
 		$this->allowedUsers = $a_allowed_users;
 	}
-	
+
 	function getAllowedUsersTimeGap()
 	{
 		return $this->allowedUsersTimeGap;
 	}
-	
+
 	function setAllowedUsersTimeGap($a_allowed_users_time_gap)
 	{
 		$this->allowedUsersTimeGap = $a_allowed_users_time_gap;
 	}
-	
+
 	function checkMaximumAllowedUsers()
 	{
 		global $ilDB;
-		
+
 		$nr_of_users = $this->getAllowedUsers();
 		$time_gap = $this->getAllowedUsersTimeGap();
 		if (($nr_of_users > 0) && ($time_gap > 0))
@@ -7819,11 +7830,11 @@ class ilObjTest extends ilObject
 		}
 		return TRUE;
 	}
-	
+
 	function _getLastAccess($active_id)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("SELECT finished FROM tst_times WHERE active_fi = %s ORDER BY finished DESC",
 			$ilDB->quote($active_id . "")
 		);
@@ -7840,8 +7851,8 @@ class ilObjTest extends ilObject
 	* Checks if a given string contains HTML or not
 	*
 	* @param string $a_text Text which should be checked
-	
-	* @return boolean 
+
+	* @return boolean
 	* @access public
 	*/
 	function isHTML($a_text)
@@ -7852,10 +7863,10 @@ class ilObjTest extends ilObject
 		}
 		else
 		{
-			return FALSE; 
+			return FALSE;
 		}
 	}
-	
+
 	/**
 	* Reads an QTI material tag an creates a text string
 	*
@@ -7886,7 +7897,7 @@ class ilObjTest extends ilObject
 		}
 		return $result;
 	}
-	
+
 	/**
 	* Creates a QTI material tag from a plain text or xhtml text
 	*
@@ -7939,7 +7950,7 @@ class ilObjTest extends ilObject
 			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
 		}
-		
+
 		// removed: did not work with magic_quotes_gpc = On
 		//$result = ilUtil::stripSlashes($result, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		if (!$is_html)
@@ -7981,7 +7992,7 @@ class ilObjTest extends ilObject
 	function saveCertificateVisibility($a_value)
 	{
 		global $ilDB;
-		
+
 		$query = sprintf("UPDATE tst_tests SET certificate_visibility = %s WHERE test_id = %s",
 			$ilDB->quote($a_value),
 			$ilDB->quote($this->getTestId())
@@ -8001,7 +8012,7 @@ class ilObjTest extends ilObject
 	{
 		return $this->certificate_visibility;
 	}
-	
+
 	/**
 	* Sets the visibility settings of the certificate
 	*
@@ -8027,7 +8038,7 @@ class ilObjTest extends ilObject
 	{
 		return $this->anonymity;
 	}
-	
+
 	/**
 	* Sets the anonymity status of the test
 	*
@@ -8048,7 +8059,7 @@ class ilObjTest extends ilObject
 				break;
 		}
 	}
-	
+
 	/**
 	* Returns wheather the cancel test button is shown or not
 	*
@@ -8061,7 +8072,7 @@ class ilObjTest extends ilObject
 	{
 		return $this->show_cancel;
 	}
-	
+
 	/**
 	* Sets the cancel test button status
 	*
@@ -8082,7 +8093,7 @@ class ilObjTest extends ilObject
 				break;
 		}
 	}
-	
+
 	/**
 	* Returns the fixed participants status
 	*
@@ -8095,7 +8106,7 @@ class ilObjTest extends ilObject
 	{
 		return $this->fixed_participants;
 	}
-	
+
 	/**
 	* Sets the fixed participants status
 	*
@@ -8116,7 +8127,7 @@ class ilObjTest extends ilObject
 				break;
 		}
 	}
-	
+
 	/**
 	* Returns the anonymity status of a test with a given object id
 	*
@@ -8129,7 +8140,7 @@ class ilObjTest extends ilObject
 	function _lookupAnonymity($a_obj_id)
 	{
 	  global $ilDB;
-	  
+
 	  $query = "SELECT anonymity FROM tst_tests ".
 		  "WHERE obj_fi = '".$a_obj_id."'";
 	  $res = $ilDB->query($query);
@@ -8152,7 +8163,7 @@ class ilObjTest extends ilObject
 	function _lookupRandomTestFromActiveId($active_id)
 	{
 	  global $ilDB;
-	  
+
 	  $query = sprintf("SELECT tst_tests.random_test FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
 			$ilDB->quote($active_id . "")
 		);
@@ -8163,7 +8174,7 @@ class ilObjTest extends ilObject
 	  }
 	  return 0;
 	}
-	
+
 	/**
 	* Returns the full name of a test user according to the anonymity status
 	*
