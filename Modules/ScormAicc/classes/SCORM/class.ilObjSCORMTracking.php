@@ -214,7 +214,7 @@ class ilObjSCORMTracking
 
 		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
 			$where.
-			" AND obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
 			"AND lvalue = 'cmi.core.lesson_status' ".
 			"AND ( rvalue = 'completed' ".
 			"OR rvalue = 'passed')";
@@ -264,7 +264,7 @@ class ilObjSCORMTracking
 
 		$query = "SELECT user_id, COUNT(user_id) as completed FROM scorm_tracking ".
 			$where.
-			"AND lvalue = 'cmi.core.lesson_status' ".
+			" AND lvalue = 'cmi.core.lesson_status' ".
 			"AND (rvalue = 'completed' OR ".
 			"rvalue = 'passed') ".
 			"GROUP BY user_id";
