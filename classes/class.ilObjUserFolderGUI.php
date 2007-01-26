@@ -2590,7 +2590,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					}
 
 					$this->tpl->setVariable("OPTION_VALUE", $option);
-					$this->tpl->setVariable("OPTION_TEXT", $this->lng->txt("users_online_show_".$option));
+					$this->tpl->setVariable("OPTION_TEXT", $this->lng->txt("users_online_show_short_".$option));
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("profile_settings");
