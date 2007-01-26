@@ -69,7 +69,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
-
+		
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
@@ -84,6 +84,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					$cmd = "view";
 				}
 				$cmd .= "Object";
+				
 				$this->$cmd();
 
 				break;
@@ -2413,11 +2414,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 
-		global $ilias;
+		global $ilias;		
+		global $lng;	
+		
+		$lng->loadLanguageModule("administration");
 		
 		$this->getTemplateFile("settings","usr");
 		$this->setSubTabs('settings');
-
+		
 		$profile_fields =& $this->object->getProfileFields();
 		// For the following fields, the required state can not be changed.
 		// key = field, value = 1 (field is required), 0 (field is not required)
@@ -2438,30 +2442,60 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"hits_per_page",
 			"show_users_online"
 		);
+		// Settings for the course export state
+		// key = field, value = 2 (field is disabled but checked), value = 1 (field is changeable), 0 (checkbox is not shown)
+		$course_export_fields = array(
+			"gender" => 1, "firstname" => 2,
+			"lastname" => 2, "title" => 1,
+			"upload" => 0, "password" => 0,
+			"institution" => 1, "department" => 1,
+			"street" => 1, "zipcode" => 1,
+			"city" => 1, "country" => 1,
+			"phone_office" => 1, "phone_home" => 1,
+			"phone_mobile" => 1, "fax" => 1,
+			"email" => 1, "hobby" => 1,
+			"referral_comment" => 0, "matriculation" => 1,
+			"language" => 0, "skin_style" => 0,
+			"hits_per_page" => 0, "show_users_online" => 0,
+			"instant_messengers" => 0
+		);
 		foreach ($profile_fields as $field)
-		{
-			$this->tpl->setCurrentBlock("profile_settings");
+		{			
+			$this->tpl->setCurrentBlock("profile_settings");			
+			
 			$this->tpl->setVariable("TXT_PROFILE_DATA", $this->lng->txt($field));
 			$this->tpl->setVariable("PROFILE_OPTION_ENABLED", "enabled_" . $field);
 			$this->tpl->setVariable("PROFILE_OPTION_VISIBLE", "visible_" . $field);
 			$this->tpl->setVariable("PROFILE_OPTION_REQUIRED", "required_" . $field);
+			
+			// Headers which are always displayed in a row
+			$this->tpl->setVariable("HEADER_PROFILE_DATA", $this->lng->txt("usr_settings_header_profile_profile"));
+			$this->tpl->setVariable("HEADER_ENABLED", $this->lng->txt("changeable"));
+			$this->tpl->setVariable("HEADER_VISIBLE", $this->lng->txt("visible"));			
+			$this->tpl->setVariable("HEADER_REQUIRED", $this->lng->txt("required_field"));
+			$this->tpl->setVariable("HEADER_EXPORT", $this->lng->txt("export"));						
 
 			// Check searchable
 			if(ilUserSearchOptions::_isSearchable($field))
 			{
-				$this->tpl->setVariable("CHECK_SEARCH",ilUtil::formCheckbox(ilUserSearchOptions::_isEnabled($field),
+				$this->tpl->setVariable("HEADER_SEARCH",$this->lng->txt('header_searchable'));
+				$checked = ($_POST["cmd"]["saveGlobalUserSettings"] && $this->confirm_change == 1) ? 
+					$_POST["cbh"][$field]["searchable"] : ilUserSearchOptions::_isEnabled($field);				
+				$this->tpl->setVariable("CHECK_SEARCH",ilUtil::formCheckbox($checked,
 																			"cbh[$field][searchable]",
 																			1));
 			}
 
 			// BEGIN Enable field in Personal Profile
-			if ($ilias->getSetting("usr_settings_disable_".$field) != "1")
+			if ($ilias->getSetting("usr_settings_disable_".$field) != "1" || 
+			   ($this->confirm_change == 1 && ! $_POST["chb"]["enabled_" . $field]))
 			{
 				$this->tpl->setVariable("CHECKED_ENABLED", " checked=\"checked\"");
 			}
 			// END Enable field in Personal Profile
 			// BEGIN Show field in Personal Profile
-			if ($ilias->getSetting("usr_settings_hide_".$field) != "1")
+			if ($ilias->getSetting("usr_settings_hide_".$field) != "1" || 
+			   ($this->confirm_change == 1 && ! $_POST["chb"]["visible_" . $field]))
 			{
 				$this->tpl->setVariable("CHECKED_VISIBLE", " checked=\"checked\"");
 			}
@@ -2470,7 +2504,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("PROFILE_OPTION_EXPORT", "export_" . $field);
 				// BEGIN Export field of Personal Profile
-				if ($ilias->getSetting("usr_settings_export_".$field) == "1")
+				if ($ilias->getSetting("usr_settings_export_".$field) == "1" || 
+				   ($this->confirm_change == 1 && $_POST["chb"]["export_" . $field] == "1"))
 				{
 					$this->tpl->setVariable("CHECKED_EXPORT", " checked=\"checked\"");
 				}
@@ -2478,7 +2513,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			}
 			// BEGIN Require field in Personal Profile
 			$is_fixed = array_key_exists($field, $fixed_required_fields);
-			if ($is_fixed && $fixed_required_fields[$field] || ! $is_fixed && $ilias->getSetting("require_".$field) == "1")
+			if ($is_fixed && $fixed_required_fields[$field] || ! $is_fixed && 
+			   ($ilias->getSetting("require_".$field) == "1" || 
+			   ($this->confirm_change == 1 && $_POST["chb"]["required_" . $field] == "1")))
 			{
 				$this->tpl->setVariable("CHECKED_REQUIRED", " checked=\"checked\"");
 			}
@@ -2487,10 +2524,35 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("DISABLE_REQUIRED", " disabled=\"disabled\"");
 			}
 			// END Require field in Personal Profile
+			
+			// BEGIN Course Export field in Personal Profile
+			if (is_array($course_export_fields))
+			{
+				if (in_array($field, $course_export_fields) && $course_export_fields[$field] != 0)
+				{					
+					$this->tpl->setVariable("HEADER_COURSE_EXPORT", $lng->txt("course_export"));
+					$this->tpl->setVariable("PROFILE_OPTION_COURSE_EXPORT", "course_export_" . $field);
+					
+					if ($course_export_fields[$field] == 2)
+					{
+						$this->tpl->setVariable("CHECKED_COURSE_EXPORT", " checked=\"checked\"");
+						$this->tpl->setVariable("DISABLE_COURSE_EXPORT", " disabled=\"disabled\"");					
+					}
+					else
+					{						
+						if ($ilias->getSetting("usr_settings_course_export_".$field) == "1"  || 
+						   ($this->confirm_change == 1 && $_POST["chb"]["course_export_" . $field] == "1"))
+						{
+							$this->tpl->setVariable("CHECKED_COURSE_EXPORT", " checked=\"checked\"");
+						}				
+					}
+				}	
+			}
+			// END Course Export field in Personal Profile			
 
 			// BEGIN Default value for hits per pages field in Personal Profile
 			if ($field == "hits_per_page")
-			{
+			{								
 				$this->tpl->setVariable("PROFILE_OPTION_DEFAULT_VALUE", "default_" . $field);
 				$options = array(2,10,15,20,30,40,50,100,9999);
 				$selected_option = $ilias->getSetting("hits_per_page");
@@ -2508,6 +2570,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("profile_settings");
+				$this->tpl->setVariable("HEADER_DEFAULT_VALUE", $this->lng->txt("default_value"));
 			}
 			// END Default value for language field in Personal Profile
 
@@ -2531,28 +2594,34 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("profile_settings");
+				$this->tpl->setVariable("HEADER_DEFAULT_VALUE", $this->lng->txt("default_value"));
 			}
 			// END Show Users Online
 
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER_PROFILE", $this->lng->txt("usr_settings_header_profile"));
-		$this->tpl->setVariable("TXT_EXPLANATION_PROFILE", $this->lng->txt("usr_settings_explanation_profile"));
-		$this->tpl->setVariable("HEADER_PROFILE_DATA", $this->lng->txt("usr_settings_header_profile_profile"));
-		$this->tpl->setVariable("HEADER_ENABLED", $this->lng->txt("changeable"));
-		$this->tpl->setVariable("HEADER_VISIBLE", $this->lng->txt("visible"));
-		$this->tpl->setVariable("HEADER_SEARCH",$this->lng->txt('header_searchable'));
-		$this->tpl->setVariable("HEADER_REQUIRED", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("HEADER_EXPORT", $this->lng->txt("export"));
-		$this->tpl->setVariable("HEADER_DEFAULT_VALUE", $this->lng->txt("default_value"));
+		$this->tpl->setVariable("TXT_EXPLANATION_PROFILE", $this->lng->txt("usr_settings_explanation_profile"));	
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+		if ($this->confirm_change == 1)
+		{
+			$this->tpl->setVariable("CONFIRM_MESSAGE", $this->lng->txt("confirm_message_course_export"));
+			$this->tpl->setVariable("BUTTON_CONFIRM", $this->lng->txt("confirm"));	
+			$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));						
+		}		
 	}
 	
-	function saveGlobalUserSettingsObject()
+	function confirmSavedObject()
+	{
+		$this->saveGlobalUserSettingsObject("save");
+	}
+	
+	function saveGlobalUserSettingsObject($action = "")
 	{
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
+		include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
 
 		global $ilias;
 		
@@ -2570,6 +2639,23 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"hits_per_page" => 0,
 			"show_users_online" => 0
 		);
+		
+		// check if a course exam state of any field has been added
+		$privacy = ilPrivacySettings::_getInstance();
+		if ($privacy->enabledExport() == true && 
+			$privacy->confirmationRequired() == true && 
+			$action != "save")
+		{
+			foreach ($profile_fields as $field)
+			{			
+				if (! $ilias->getSetting("usr_settings_course_export_" . $field) && $_POST["chb"]["course_export_" . $field] == "1")
+				{
+					$this->confirm_change = 1;
+					$this->settingsObject();
+					return;
+				}			
+			}			
+		}		
 
 		foreach ($profile_fields as $field)
 		{
@@ -2604,6 +2690,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			else
 			{
 				$ilias->deleteSetting("usr_settings_export_".$field);
+			}
+			
+			if ($_POST["chb"]["course_export_" . $field])
+			{
+				$ilias->setSetting("usr_settings_course_export_".$field, "1");
+			}
+			else
+			{
+				$ilias->deleteSetting("usr_settings_course_export_".$field);
 			}
 
 			$is_fixed = array_key_exists($field, $fixed_required_fields);
