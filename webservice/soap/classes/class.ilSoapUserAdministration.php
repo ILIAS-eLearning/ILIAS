@@ -600,10 +600,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
     	// this takes time but is nescessary
    		$error = false;
-   		/*
+
 
 		// validate to prevent wrong XMLs
-		// does not work in php4 -> any ideas?
 		$this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
    		if ($error)
    		{
@@ -613,7 +612,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		    }
    		    return $this->__raiseError(join("\n",$msg), "Client");
    		}
-		*/
+
 
 		switch ($conflict_rule)
 		{
@@ -786,18 +785,33 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		// roles to be assigned, skip if one is not allowed!
 
 		$permitted_roles = array();
-
+#print_r($permitted_global_roles);
+#print_r($permitted_local_roles);
 		foreach ($roles as $role_id => $role)
 		{
 			$role_name = $role["name"];
 			if (!is_numeric ($role_id))
 			{
-				$role  = ilSoapUserAdministration::__getRoleForRolename ($role_id);
-				$role_name = $role->title;
-				$role_id = $role->role_id;
+				// check if internal id
+				$internalId = ilUtil::__extractId($role_id, IL_INST_ID);
+				if (is_numeric($internalId)) 
+				{
+					$role_id = $internalId;
+					$role_name = $role_id;
+				}
+				else // perhaps it is a rolename
+				{
+					$role  = ilSoapUserAdministration::__getRoleForRolename ($role_id);
+					$role_name = $role->title;
+					$role_id = $role->role_id;
+				}
 			}
+/*			if (array_search($role_name, $permitted_local_roles)
+			||  array_search($role_name, $permitted_global_roles))
+*/
+			if (array_key_exists($role_id, $permitted_local_roles)
+			||  array_key_exists($role_id, $permitted_global_roles))
 
-			if (array_search($role_name, $permitted_local_roles) || array_search($role_name, $permitted_global_roles))
 				$permitted_roles[$role_id] = $role_id;
 			else return $this->__raiseError("Could not find role ".$role_name.". Either you use an invalid/deleted role or you try to assign a local role into the non-standard user folder and this role is not in its subtree.",'Server');
 		}
@@ -1202,7 +1216,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
 		          LEFT JOIN usr_pref
-		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language' 
+		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
 		          WHERE 1 ".$query;
 
   	     if (is_numeric($active) && $active > -1)

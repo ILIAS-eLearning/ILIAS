@@ -44,6 +44,14 @@ class ilXMLResultSet
 		{
 		}
 
+		function getColumnName ($index) {
+		    if (is_numeric($index) && ($index < 0 || $index > count($this->colspecs)))
+		    {
+		      return null;
+		    }
+		    return $colspecs[$index] instanceof ilXMLResultSetColumn ? $colspecs[$index]->getName() : null;
+		}
+
 		/**
 		 * create a new column with columnname and attach it to column list
 		 *
@@ -80,6 +88,66 @@ class ilXMLResultSet
 		 */
 		function addRow (&$row) {
 			$this->rows [] = $row;
+		}
+
+
+    	/**
+		 * Clear table value and sets them based on array. Exspects a 2-dimension array. Column indeces of second dimensions in first row are column names.
+		 *
+		 * e.g. array (array("first" => "val1_1", "second" => "val1_2), array ("first" => "val2_1", "second" => "val2_2"))
+		 * results in Table   first       second
+		 *                    val1_1      va11_2
+		 *                    val2_1      val2_2
+		 *
+		 * @param array $array 2 dimensional array
+		 */
+		function setArray ($array)
+		{
+            $this->addArray($array, true);
+		}
+
+		/**
+		 * Add table values. Exspects a 2-dimension array. Column indeces of second dimensions in first row are column names.
+		 *
+		 * e.g. array (array("first" => "val1_1", "second" => "val1_2), array ("first" => "val2_1", "second" => "val2_2"))
+		 * results in Table   first       second
+		 *                    val1_1      va11_2
+		 *                    val2_1      val2_2
+		 *
+		 * @param array $array 2 dimensional array
+		 * @param boolean $overwrite if false, column names won't be changed, rows will be added,true: result set will be reset to null and data will be added.
+		 */
+		function addArray ($array, $overwrite = false) {
+		    if ($overwrite) {
+		      $this->clear();
+		    }
+		    foreach ($array as $row) {
+		        if ($overwrite)
+		        {
+		            // add column names from first row
+		            $columnNames = array_keys($row);
+		            foreach ($columnNames as $columnName)
+		            {
+		              $this->addColumn($columnName);
+		            }
+		            $overwrite = false;
+		        }
+		        $i = 0;
+                $xmlRow = & new ilXMLResultSetRow();
+		        foreach ($row as $value) {
+                    $xmlRow->setValue($i++, $value);
+		        }
+                $this->addRow($xmlRow);
+		    }
+		}
+
+		/**
+		 * Clear resultset (colspecs and row values)
+		 *
+		 */
+		function clear () {
+		    $this->rows = array();
+		    $this->colspecs = array();
 		}
 
 }

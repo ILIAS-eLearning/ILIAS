@@ -135,7 +135,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 		$this->xmlElement('Owner',null,$object->getOwner());
 		$this->xmlElement('CreateDate',null,$object->getCreateDate());
 		$this->xmlElement('LastUpdate',null,$object->getLastUpdateDate());
-		$this->xmlElement('ImportId',null, $object->getImportId());
+		$this->xmlElement('ImportId',null,$object->getImportId());
 
 		foreach(ilObject::_getAllReferences($object->getId()) as $ref_id)
 		{
@@ -156,15 +156,19 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 		if($this->enabledOperations())
 		{
-			foreach($rbacreview->getOperationsOnTypeString($a_type) as $ops_id)
-			{
-				$operation = $rbacreview->getOperation($ops_id);
+		    $ops = $rbacreview->getOperationsOnTypeString($a_type);
+		    if (is_array($ops))
+		    {
+    			foreach($ops as $ops_id)
+    			{
+    				$operation = $rbacreview->getOperation($ops_id);
 
-				if($ilAccess->checkAccessOfUser($this->getUserId(),$operation['operation'],'view',$a_ref_id))
-				{
-					$this->xmlElement('Operation',null,$operation['operation']);
-				}
-			}
+    				if($ilAccess->checkAccessOfUser($this->getUserId(),$operation['operation'],'view',$a_ref_id))
+    				{
+    					$this->xmlElement('Operation',null,$operation['operation']);
+    				}
+    			}
+		    }
 		}
 		return true;
 	}
@@ -177,7 +181,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 		$this->xmlHeader();
 
 		$attrs = array ("nic_id" => IL_INST_ID, "installation_url" => ILIAS_HTTP_PATH, "client_id" => CLIENT_ID);
-		
+
 		$this->xmlStartTag("Objects", $attrs);
 
 		return true;
@@ -205,7 +209,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 			return $info[0]['type'];
 		}
 	}
-	
+
 
 }
 

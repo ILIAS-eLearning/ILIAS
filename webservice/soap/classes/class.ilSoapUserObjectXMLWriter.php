@@ -122,7 +122,10 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 
 		if (strlen($row["language"]) == 0) $row["language"] = "en";
 
-		$attrs = array ('Id' => $row["usr_id"],'Language' => $row["language"], 'Action' => "Update");
+		$attrs = array (
+			'Id' => "il_".IL_INST_ID."_usr_".$row["usr_id"],
+			'Language' => $row["language"], 
+			'Action' => "Update");
 
 		$this->xmlStartTag("User", $attrs);
 
@@ -156,7 +159,8 @@ class ilSoapUserObjectXMLWriter extends ilXmlWriter
 					if (strlen($type))
 					{
 						$this->xmlElement("Role",
-							array ("Id" => $rbacrow["rol_id"], "Type" => $type),
+							array ("Id" => 
+								"il_".IL_INST_ID."_role_".$rbacrow["rol_id"], "Type" => $type),
 							$rbacrow["title"]);
 					}
 

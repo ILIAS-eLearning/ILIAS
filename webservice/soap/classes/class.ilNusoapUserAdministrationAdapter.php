@@ -840,7 +840,15 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS hasNewMail(): Checks whether the current authenticated user has a new mail.');
 
-		return true;
+		$this->server->register('getNIC',
+								array('sid' => 'xsd:string'),
+								array('xmlresultset' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getNIC',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getNIC(): return client information from current client as xml result set containing installation_id, installation_version, installation_url, installation_description, installation_language_default as columns');
+    	return true;
 	}
 
 }
