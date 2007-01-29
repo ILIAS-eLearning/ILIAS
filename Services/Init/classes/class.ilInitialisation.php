@@ -93,7 +93,6 @@ class ilInitialisation
 		require_once "classes/class.ilSaxParser.php";
 		require_once "classes/class.ilObjectDefinition.php";
 		require_once "classes/class.ilStyleDefinition.php";
-		require_once "classes/class.perm.php";
 		require_once "./Services/Tree/classes/class.ilTree.php";
 		require_once "classes/class.ilLanguage.php";
 		require_once "classes/class.ilLog.php";
