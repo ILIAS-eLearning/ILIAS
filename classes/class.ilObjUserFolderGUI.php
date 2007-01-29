@@ -2742,6 +2742,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$action[1] = $this->lng->txt('usr_active_only');
 		$action[0] = $this->lng->txt('usr_inactive_only');
 		$action[2] = $this->lng->txt('usr_limited_access_only');
+		$action[3] = $this->lng->txt('usr_without_courses');
 
 		return  ilUtil::formSelect($_SESSION['user_filter'],"user_filter",$action,false,true);
 	}

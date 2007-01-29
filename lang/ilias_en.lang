@@ -45,6 +45,7 @@ common#:#access_expired#:#expired
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
 common#:#access_unlimited#:#unlimited
 common#:#usr_limited_access_only#:#Users with limited access only
+common#:#usr_without_courses#:#Users without courses assigned
 administration#:#cleaning#:#Cleaning...
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#disabled#:#Disabled
