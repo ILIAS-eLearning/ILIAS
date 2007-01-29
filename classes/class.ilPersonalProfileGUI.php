@@ -647,7 +647,7 @@ class ilPersonalProfileGUI
 		
 		
 		// display infopanel if something happened
-		infoPanel();
+		ilUtil::infoPanel();
 
 		if ($this->userSettingVisible("language"))
 		{

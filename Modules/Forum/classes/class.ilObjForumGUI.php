@@ -1004,7 +1004,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$tpl->getStandardTemplate();
 		ilUtil::sendInfo();
-		infoPanel();
+		ilUtil::infoPanel();
 		
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_frm_b.gif"));
 
@@ -1953,7 +1953,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$user_gui->insertPublicProfile("USR_PROFILE","usr_profile", $add);
 		
 		// display infopanel if something happened
-		infoPanel();
+		ilUtil::infoPanel();
 		
 		//$tpl->setCurrentBlock("usertable");
 		if($_GET['backurl'])
@@ -2056,7 +2056,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setVariable("HEADER", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
 		
 		// display infopanel if something happened
-		infoPanel();
+		ilUtil::infoPanel();
 		
 		if (!$rbacsystem->checkAccess("edit_post",$forumObj->getRefId()))
 		{

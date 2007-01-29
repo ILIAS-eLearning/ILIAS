@@ -66,7 +66,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 // catch feedback message
 ilUtil::sendInfo();
 // display infopanel if something happened
-infoPanel();
+ilUtil::infoPanel();
 
 // display tabs
 include "./include/inc.personaldesktop_buttons.php";

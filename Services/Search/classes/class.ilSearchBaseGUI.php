@@ -64,7 +64,7 @@ class ilSearchBaseGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.search_base.html",'Services/Search');
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		infoPanel();
+		ilUtil::infoPanel();
 
 	}
 }
