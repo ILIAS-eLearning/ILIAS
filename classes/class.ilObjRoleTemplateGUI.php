@@ -394,6 +394,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("ADOPT_PERM_FORM");
 		$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
 		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
+		$this->tpl->setVariable("ADOPT",$this->lng->txt('copy'));
 		$this->tpl->parseCurrentBlock();
 		// END ADOPT PERMISSIONS
 		
