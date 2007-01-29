@@ -235,7 +235,7 @@ class ilObjectStatusGUI
 				if ($role["obj_id"] == SYSTEM_ROLE_ID)
 				{
 					// get all possible operation of current object
-					$ops_list = getOperationList($this->object->getType());
+					$ops_list = ilRbacReview::_getOperationList($this->object->getType());
 					
 					foreach ($ops_list as $ops_data)
 					{
@@ -266,7 +266,7 @@ class ilObjectStatusGUI
 		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$lng->txt("info_not_assigned")."\" title=\"".$lng->txt("info_not_assigned")."\" border=\"0\" vspace=\"0\"/>";
 		
 		// get all possible operation of current object
-		$ops_list = getOperationList($this->object->getType());
+		$ops_list = ilRbacReview::_getOperationList($this->object->getType());
 		
 		$counter = 0;
 

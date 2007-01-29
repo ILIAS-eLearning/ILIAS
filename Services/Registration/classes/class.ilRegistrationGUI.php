@@ -430,7 +430,7 @@ class ilRegistrationGUI
 		}
 
 		// check loginname
-		if (loginExists($_POST["user"]["login"]))
+		if (ilObjUser::_loginExists($_POST["user"]["login"]))
 		{
 			sendInfo($lng->txt("login_exists"),true);
 			$this->displayForm();

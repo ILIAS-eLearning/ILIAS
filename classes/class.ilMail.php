@@ -1325,7 +1325,7 @@ class ilMail
 			switch($direction)
 			{
 				case "substitute":
-					if(strpos($name,"@") and loginExists($name))
+					if(strpos($name,"@") and ilObjUser::_loginExists($name))
 					{
 						$new_name[] = preg_replace("/@/","�#�",$name);
 					}

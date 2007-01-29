@@ -407,7 +407,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					// check loginname
 					if($check_complete)
 					{
-						if (loginExists($value))
+						if (ilObjUser::_loginExists($value))
 						{
 							$this->__appendMessage('Login already exists.');
 						}

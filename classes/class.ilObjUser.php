@@ -3442,5 +3442,37 @@ function getCourseMemberships($a_user_id = "")
 		return false;
 	}
 	
+	/**
+	* check if a login name already exists
+	* You may exclude a user from the check by giving his user id as 2nd paramter
+	* @access	public
+	* @access	static
+	* @param	string	login name
+	* @param	integer	user id of user to exclude (optional)
+	* @return	boolean
+	*/
+	public static function _loginExists($a_login,$a_user_id = 0)
+	{
+		global $ilDB;
+	
+		if ($a_user_id == 0)
+		{
+			$clause = "";
+		}
+		else
+		{
+			$clause = "AND usr_id != ".$ilDB->quote($a_user_id)." ";
+		}
+	
+		$q = "SELECT DISTINCT login FROM usr_data ".
+			 "WHERE login = ".$ilDB->quote($a_login)." ".$clause;
+		$r = $ilDB->query($q);
+		
+		if ($r->numRows() == 1)
+		{
+			return true;
+		}
+		return false;
+	}
 } // END class ilObjUser
 ?>

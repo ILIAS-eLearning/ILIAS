@@ -150,11 +150,11 @@ class ilRbacSystem
 											 $this->ilErr->WARNING);
 				}
 				
-				$ops_id = getOperationId($operation."_".$a_type);
+				$ops_id = ilRbacReview::_getOperationIdByName($operation."_".$a_type);
 			}
 			else
 			{
-				$ops_id = getOperationId($operation);
+				$ops_id = ilRbacReview::_getOperationIdByName($operation);
 			}
 			
 			// Um nur eine Abfrage zu haben
