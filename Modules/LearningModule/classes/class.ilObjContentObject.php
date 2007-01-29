@@ -23,7 +23,7 @@
 
 
 require_once "classes/class.ilObject.php";
-require_once "classes/class.ilMetaData.php";
+require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 require_once("classes/class.ilNestedSetXML.php");
 
 /** @defgroup ModulesIliasLearningModule Modules/IliasLearningModule

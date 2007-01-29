@@ -105,9 +105,11 @@ class ilRoleDesktopItem
 
 	function isAssigned($a_item_ref_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM role_desktop_items ".
-			"WHERE role_id = '".$this->getRoleId()."' ".
-			"AND item_id = '".$a_item_ref_id."'";
+			"WHERE role_id = ".$ilDB->quote($this->getRoleId())." ".
+			"AND item_id = ".$ilDB->quote($a_item_ref_id)." ";
 
 		$res = $this->db->query($query);
 
@@ -116,9 +118,11 @@ class ilRoleDesktopItem
 
 	function getItem($a_role_item_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM role_desktop_items ".
-			"WHERE role_id = '".$this->getRoleId()."' ".
-			"AND role_item_id = '".$a_role_item_id."'";
+			"WHERE role_id = ".$ilDB->quote($this->getRoleId())." ".
+			"AND role_item_id = ".$ilDB->quote($a_role_item_id)." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -137,7 +141,7 @@ class ilRoleDesktopItem
 		global $tree;
 
 		$query = "SELECT * FROM role_desktop_items ".
-			"WHERE role_id = '".$this->getRoleId()."'";
+			"WHERE role_id = ".$this->db->quote($this->getRoleId())." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

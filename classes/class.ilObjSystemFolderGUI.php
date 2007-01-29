@@ -1216,9 +1216,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
 			$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
 
-			include_once("classes/class.ilMetaData.php");
+			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
 
-			$languages = ilMetaData::getLanguages();
+			$languages = ilMDLanguageItem::_getLanguages();
 
 			foreach ($languages as $code => $language)
 			{

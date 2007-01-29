@@ -22,7 +22,6 @@
 */
 
 require_once("classes/class.ilObjectGUI.php");
-require_once("classes/class.ilMetaDataGUI.php");
 require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");

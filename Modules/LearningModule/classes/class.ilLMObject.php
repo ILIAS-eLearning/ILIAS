@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilMetaData.php");
+require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 
 /**
 * Class ilLMObject
@@ -209,11 +209,6 @@ class ilLMObject
 		}
 
 		$this->type = $this->data_record["type"];
-/*
-		$ilBench->start("ContentPresentation", "ilLMObject_read_getMeta");
-		$this->meta_data =& new ilMetaData($this->type, $this->id);
-		$ilBench->stop("ContentPresentation", "ilLMObject_read_getMeta");
-*/
 		$this->setImportId($this->data_record["import_id"]);
 		$this->setTitle($this->data_record["title"]);
 		$this->setActive(ilUtil::yn2tf($this->data_record["active"]));

@@ -122,7 +122,7 @@ class ilGlossaryTermGUI
 		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
 		$this->tpl->setVariable("INPUT_TERM", "term");
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMetaData::getLanguages();
+		$lang = ilMDLanguageItem::_getLanguages();
 
 		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
 		{
@@ -177,7 +177,7 @@ class ilGlossaryTermGUI
 		$this->tpl->setVariable("INPUT_TERM", "term");
 		$this->tpl->setVariable("VALUE_TERM", htmlspecialchars($this->term->getTerm()));
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMetaData::getLanguages();
+		$lang = ilMDLanguageItem::_getLanguages();
 		$select_language = ilUtil::formSelect ($this->term->getLanguage(),"term_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
 		$this->tpl->setVariable("BTN_NAME", "updateTerm");
@@ -510,8 +510,6 @@ class ilGlossaryTermGUI
 	*/
 	function saveDefinition()
 	{
-		//$meta_gui =& new ilMetaDataGUI();
-		//$meta_data =& $meta_gui->create();
 		$def =& new ilGlossaryDefinition();
 		$def->setTermId($_GET["term_id"]);
 		$def->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));#"content object ".$newObj->getId());		// set by meta_gui->save

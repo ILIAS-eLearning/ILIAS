@@ -212,9 +212,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		else
 		{
-			// for lang selection include metadata class
-			include_once "./classes/class.ilMetaData.php";
-
 			//add template for buttons
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -301,7 +298,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
 				$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
 
-				$languages = ilMetaData::getLanguages();
+				include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
+				$languages = ilMDLanguageItem::_getLanguages();
 
 				foreach($languages as $code => $language)
 				{
@@ -450,7 +448,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->ctrl->setParameter($this,"mode","edit");
 
 		// for lang selection include metadata class
-		include_once "./classes/class.ilMetaData.php";
+		include_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
 
 		$this->getTemplateFile("edit",$new_type);
 		$array_push = true;
@@ -519,7 +517,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
 			$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
 
-			$languages = ilMetaData::getLanguages();
+			$languages = ilMDLanguageItem::_getLanguages();
 
 			foreach ($languages as $code => $language)
 			{

@@ -198,8 +198,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$media_item =& new ilMediaItem();
 		$this->object->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
-//		$meta =& $this->object->getMetaData();
-//		$meta_technical =& new ilMetaTechnical($meta);
 
 		if ($_POST["standard_type"] == "File")
 		{

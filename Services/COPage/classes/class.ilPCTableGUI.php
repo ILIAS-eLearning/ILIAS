@@ -123,7 +123,8 @@ class ilPCTableGUI extends ilPageContentGUI
 
 		// language
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMetaData::getLanguages();
+		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang = ilMDLanguageItem::_getLanguages();
 		$select_lang = ilUtil::formSelect ($this->content_obj->getLanguage(),"tab_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 
@@ -322,7 +323,8 @@ class ilPCTableGUI extends ilPageContentGUI
 
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMetaData::getLanguages();
+		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang = ilMDLanguageItem::_getLanguages();
 		$select_language = ilUtil::formSelect ($s_lang, "tab_language", $lang, false, true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
 		$this->tpl->setVariable("TXT_COLS", $this->lng->txt("cont_nr_cols"));

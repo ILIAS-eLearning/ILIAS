@@ -70,7 +70,7 @@ class ilObjRole extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT assign_users FROM role_data WHERE role_id = '".$a_role_id."'";
+		$query = "SELECT assign_users FROM role_data WHERE role_id = ".$ilDB->quote($a_role_id)." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -86,7 +86,9 @@ class ilObjRole extends ilObject
 	*/
 	function read ()
 	{
-		$q = "SELECT * FROM role_data WHERE role_id='".$this->id."'";
+		global $ilDB;
+		
+		$q = "SELECT * FROM role_data WHERE role_id= ".$ilDB->quote($this->id)." ";
 		$r = $this->ilias->db->query($q);
 
 		if ($r->numRows() > 0)
@@ -123,10 +125,12 @@ class ilObjRole extends ilObject
 	*/
 	function update ()
 	{
+		global $ilDB;
+		
 		$q = "UPDATE role_data SET ".
-			"allow_register='".$this->allow_register."', ".
-			"assign_users = '".$this->getAssignUsersStatus()."' ".
-			"WHERE role_id='".$this->id."'";
+			"allow_register= ".$ilDB->quote($this->allow_register).", ".
+			"assign_users = ".$ilDB->quote($this->getAssignUsersStatus())." ".
+			"WHERE role_id= ".$ilDB->quote($this->id)." ";
 
 		$this->ilias->db->query($q);
 
@@ -146,12 +150,14 @@ class ilObjRole extends ilObject
 	*/
 	function create()
 	{
+		global $ilDB;
+		
 		$this->id = parent::create();
 
 		$q = "INSERT INTO role_data ".
 			"(role_id,allow_register,assign_users) ".
 			"VALUES ".
-			"('".$this->id."','".$this->getAllowRegister()."','".$this->getAssignUsersStatus()."')";
+			"(".$ilDB->quote($this->id).",".$ilDB->quote($this->getAllowRegister()).",".$ilDB->quote($this->getAssignUsersStatus()).")";
 		$this->ilias->db->query($q);
 
 		return $this->id;
@@ -289,7 +295,7 @@ class ilObjRole extends ilObject
 	*/
 	function delete()
 	{		
-		global $rbacadmin, $rbacreview;
+		global $rbacadmin, $rbacreview,$ilDB;
 		
 		$role_folders = $rbacreview->getFoldersAssignedToRole($this->getId());
 		
@@ -341,14 +347,14 @@ class ilObjRole extends ilObject
 				include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php');
 				ilLDAPRoleGroupMappingSettings::_deleteByRole($this->getId());
 
-				// IT'S A BASE ROLE
+				// IT'S A BASE ROLE/class.ilObjRole.php on line 89
 				$rbacadmin->deleteRole($this->getId(),$this->getParent());
 
 				// delete object_data entry
 				parent::delete();
 					
 				// delete role_data entry
-				$q = "DELETE FROM role_data WHERE role_id = '".$this->getId()."'";
+				$q = "DELETE FROM role_data WHERE role_id = ".$ilDB->quote($this->getId())." ";
 				$this->ilias->db->query($q);
 
 				include_once './classes/class.ilRoleDesktopItem.php';
@@ -443,7 +449,7 @@ class ilObjRole extends ilObject
 				$roles = "RoleId|".serialize($role_arr);
 				$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$online_users_all[$user]["data"]);
 
-				$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$user."'";
+				$q = "UPDATE usr_session SET data= ".$ilDB->quote($modified_data)." WHERE user_id = ".$ilDB->quote($user)." ";
 				$ilDB->query($q);
 			}
 		}
@@ -476,8 +482,8 @@ class ilObjRole extends ilObject
 		foreach ($a_roles as $role_id => $auth_mode)
 		{
 			$q = "UPDATE role_data SET ".
-				 "auth_mode='".$auth_mode."' ".
-				 "WHERE role_id='".$role_id."'";
+				 "auth_mode= ".$ilDB->quote($auth_mode)." ".
+				 "WHERE role_id= ".$ilDB->quote($role_id)." ";
 			$ilDB->query($q);
 		}
 	}
@@ -487,7 +493,7 @@ class ilObjRole extends ilObject
 		global $ilDB;
 
 		$q = "SELECT auth_mode FROM role_data ".
-			 "WHERE role_id='".$a_role_id."'";
+			 "WHERE role_id= ".$ilDB->quote($a_role_id)." ";
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow();
 		

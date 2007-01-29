@@ -191,7 +191,7 @@ class ilObjRoleFolder extends ilObject
 	*/
 	function isDeleted()
 	{
-		$q = "SELECT tree FROM tree WHERE child='".$this->getRefId()."'";
+		$q = "SELECT tree FROM tree WHERE child= ".$this->ilias->db->quote($this->getRefId())." ";
 		$row = $this->ilias->db->getRow($q);
 		
 		if ($row->tree < 0)

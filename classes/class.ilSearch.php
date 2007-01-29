@@ -474,7 +474,7 @@ class ilSearch
 		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
 			$query = "REPLACE INTO usr_search ".
-				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."','0')";
+				"VALUES(".$this->ilias->db->quote($this->getUserId()).",'".addslashes(serialize($this->getResults()))."','0')";
 
 			$res = $this->ilias->db->query($query);
 
@@ -489,7 +489,7 @@ class ilSearch
 		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID and $this->read_db_result)
 		{
 			$query = "SELECT search_result FROM usr_search ".
-				"WHERE usr_id = '".$this->getUserId()."'";
+				"WHERE usr_id = ".$this->ilias->db->quote($this->getUserId())." ";
 
 			$res = $this->ilias->db->query($query);
 

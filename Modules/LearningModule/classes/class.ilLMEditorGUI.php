@@ -35,7 +35,7 @@ include_once ("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMEditorGUI: ilObjDlBookGUI, ilMetaDataGUI, ilObjLearningModuleGUI
+* @ilCtrl_Calls ilLMEditorGUI: ilObjDlBookGUI, ilObjLearningModuleGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
