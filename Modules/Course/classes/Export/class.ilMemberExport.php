@@ -21,7 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 include_once('Modules/Course/classes/Export/class.ilExportUserSettings.php');
+include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+include_once('Modules/Course/classes/class.ilCourseAgreement.php');
 include_once('Modules/Course/classes/class.ilCourseMembers.php');
+include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 
 define("IL_MEMBER_EXPORT_CSV_FIELD_SEPERATOR",',');
 define("IL_MEMBER_EXPORT_CSV_STRING_DELIMITER",'"');
@@ -48,7 +51,9 @@ class ilMemberExport
 	
 	private $user_ids = array();
 	private $user_course_data = array();
+	private $user_course_fields = array();
 	private $user_profile_data = array();
+	private $privacy;
 	
 	/**
 	 * Constructor
@@ -67,8 +72,9 @@ class ilMemberExport
 		 	
 		$this->course = ilObjectFactory::getInstanceByRefId($this->ref_id,false);
 		$this->members = new ilCourseMembers($this->course);
-		
-	 	$this->settings = new ilExportUserSettings($ilUser->getId());
+		$this->agreement = ilCourseAgreement::_readByObjId($this->obj_id);
+	 	$this->settings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
+	 	$this->privacy = ilPrivacySettings::_getInstance();
 	}
 	
 	/**
@@ -117,8 +123,19 @@ class ilMemberExport
 				case 'role':
 					$this->csv->addColumn($this->lng->txt('crs_role_status'));
 					break;
+				case 'agreement':
+					$this->csv->addColumn($this->lng->txt('ps_agreement_accepted'));
+					break;
 				default:
-					$this->csv->addColumn($this->lng->txt($field));
+					if(substr($field,0,4) == 'cdf_')
+					{
+						$field_id = explode('_',$field);
+						$this->csv->addColumn(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]));
+					}
+					else
+					{
+						$this->csv->addColumn($this->lng->txt($field));
+					}
 					break;
 			}
 		}
@@ -128,6 +145,12 @@ class ilMemberExport
 		{
 			foreach($all_fields as $field)
 			{
+				// Handle course defined fields
+				if($this->addCourseField($usr_id,$field))
+				{
+					continue;
+				}
+				
 				switch($field)
 				{
 					case 'role':
@@ -155,9 +178,42 @@ class ilMemberExport
 							
 						}
 						break;
+					
+					case 'agreement':
+						if(isset($this->agreement[$usr_id]))
+						{
+							if($this->agreement[$usr_id]['accepted'])
+							{
+								$this->csv->addColumn(ilFormat::formatUnixTime($this->agreement[$usr_id]['acceptance_time'],true));
+							}
+							else
+							{
+								$this->csv->addColumn($this->lng->txt('ps_not_accepted'));
+							}
+						}
+						else
+						{
+							$this->csv->addColumn($this->lng->txt('ps_not_accepted'));
+						}
+						break;
 						
-					default:
+					// These fields are always enabled
+					case 'login':
+					case 'firstname':
+					case 'lastname':
 						$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
+						break;
+											
+					default:
+						// Check aggreement
+						if(!$this->privacy->confirmationRequired() or $this->agreement[$usr_id]['accepted'])
+						{
+							$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
+						}
+						else
+						{
+							$this->csv->addColumn('');
+						}
 						break;
 						
 				}
@@ -174,6 +230,8 @@ class ilMemberExport
 	 */
 	private function fetchUsers()
 	{
+		$this->readCourseSpecificFieldsData();
+		
 		if($this->settings->enabled('admin'))
 		{
 			$this->user_ids = $tmp_ids = $this->members->getAdmins();
@@ -231,6 +289,46 @@ class ilMemberExport
 	 	}
 	}
 	
+	/**
+	 * Read course specific fields data
+	 *
+	 * @access private
+	 * @param
+	 * 
+	 */
+	private function readCourseSpecificFieldsData()
+	{
+		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
+	 	$this->user_course_fields = ilCourseUserData::_getValuesByObjId($this->obj_id);
+	}
+	
+	/**
+	 * fill course specific fields
+	 *
+	 * @access private
+	 * @param int usr_id
+	 * @param string field
+	 * @return bool
+	 * 
+	 */
+	private function addCourseField($a_usr_id,$a_field)
+	{
+	 	if(substr($a_field,0,4) != 'cdf_')
+	 	{
+	 		return false;
+	 	}
+	 	if(!$this->privacy->confirmationRequired() or $this->agreement[$a_usr_id]['accepted'])
+	 	{
+	 		$field_info = explode('_',$a_field);
+	 		$field_id = $field_info[1];
+	 		$value = $this->user_course_fields[$a_usr_id][$field_id];
+	 		$this->csv->addColumn($value);
+	 		return true;
+	 	}
+	 	$this->csv->addColumn('');
+	 	return true;
+	 	
+	}
 }
 
 

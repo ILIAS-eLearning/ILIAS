@@ -126,6 +126,14 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('show_privacy');
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_privacy.html','Services/PrivacySecurity');
 	 	
+	 	include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+	 	if(ilCourseAgreement::_hasAgreements())
+	 	{
+			$this->tpl->setCurrentBlock('warning_modify');
+			$this->tpl->setVariable('TXT_WARNING',$this->lng->txt('ps_warning_modify'));
+			$this->tpl->parseCurrentBlock();
+	 	}
+	 	
 	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 	 	$this->tpl->setVariable('TXT_PRIVACY_PROTECTION',$this->lng->txt('ps_privacy_protection'));
 	 	$this->tpl->setVariable('TXT_PROFILE_EXPORT',$this->lng->txt('ps_profile_export'));
@@ -158,6 +166,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->enableExport((int) $_POST['export_course']);
 		$privacy->setConfirmationRequired((int) $_POST['export_confirm']);
 		$privacy->save();
+		
+		include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+		ilCourseAgreement::_reset();
 		
 		sendInfo($this->lng->txt('settings_saved'));
 		$this->showPrivacy();

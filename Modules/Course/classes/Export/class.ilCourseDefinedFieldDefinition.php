@@ -120,6 +120,53 @@ class ilCourseDefinedFieldDefinition
 		return $fields ? $fields : array();	
 	}
 	
+	/**
+	 * Get required filed id's
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int container id
+	 */
+	public static function _getRequiredFieldIds($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM crs_defined_field_definitions ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND field_required = 1";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$req_fields[] = $row->field_id;
+		}
+		return $req_fields ? $req_fields : array();
+	}
+	
+	/**
+	 * Fields to info string
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int obj_id
+	 */
+	public static function _fieldsToInfoString($a_obj_id)
+	{
+		global $ilDB;
+		
+		
+		$query = "SELECT field_name FROM crs_defined_field_definitions ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		
+		$res = $ilDB->query($query);
+		$fields = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$fields[] = $row->field_name;
+		}
+		return implode('<br />',$fields);		
+	}
 	
 	/**
 	 * Get all field ids of a container
@@ -143,7 +190,28 @@ class ilCourseDefinedFieldDefinition
 	 	}
 		return $field_ids ? $field_ids : array();	
 	}
-
+		
+	/**
+	 * Lookup field name
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int field_id
+	 */
+	public static function _lookupName($a_field_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM crs_defined_field_definitions ".
+			"WHERE field_id = ".$ilDB->quote($a_field_id);
+		
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		return $row->field_name ? $row->field_name : '';
+	}
+	
 	public function getObjId()
 	{
 	 	return $this->obj_id;
@@ -176,6 +244,19 @@ class ilCourseDefinedFieldDefinition
 	{
 		$this->values = $a_values;
 	}
+	public function getValueById($a_id)
+	{
+	 	if(is_array($this->values) and array_key_exists($a_id,$this->values))
+	 	{
+	 		return $this->values[$a_id];
+	 	}
+	 	return '';
+	}
+	public function getIdByValue($a_value)
+	{
+		return ($pos = array_search($a_value,$this->values) === false) ? -1 : $pos;
+	}
+	
 	public function isRequired()
 	{
 		return (bool) $this->required;
@@ -183,6 +264,27 @@ class ilCourseDefinedFieldDefinition
 	public function enableRequired($a_status)
 	{
 		$this->required = $a_status;
+	}
+	
+	/**
+	 * Prepare an array of options for ilUtil::formSelect()
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function prepareSelectBox()
+	{
+		global $lng;
+		
+		$options = array();
+		$options[-1] = $lng->txt('select_one');
+		
+		foreach($this->values as $value)
+		{
+			$options[] = $value;
+		}
+		return $options;
 	}
 	
 	/**

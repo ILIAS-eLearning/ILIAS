@@ -32,7 +32,8 @@ class ilExportUserSettings
 {
 	private $db;
 	private $user_id;
-	public $settings = array();
+	private $obj_id;
+	private $settings = array();
 	
 	/**
 	 * Constructor
@@ -40,11 +41,12 @@ class ilExportUserSettings
 	 * @access public
 	 * 
 	 */
-	public function __construct($a_user_id)
+	public function __construct($a_user_id,$a_obj_id)
 	{
 	 	global $ilDB;
 	 	
 	 	$this->user_id = $a_user_id;
+	 	$this->obj_id = $a_obj_id;
 	 	$this->db = $ilDB;
 	 	
 	 	$this->read();
@@ -102,10 +104,20 @@ class ilExportUserSettings
 	 */
 	public function getOrderedExportableFields()
 	{
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+
 		$field_info = ilExportFieldsInfo::_getInstance();
-		
+
 	 	$fields[] = 'role';
+	 	// Append agreement info
+	 	$privacy = ilPrivacySettings::_getInstance();
+	 	if($privacy->confirmationRequired())
+	 	{
+	 		$fields[] = 'agreement';
+	 	}
+
 	 	foreach($field_info->getExportableFields() as $field)
 	 	{
 	 		if($this->enabled($field))
@@ -113,6 +125,14 @@ class ilExportUserSettings
 		 		$fields[] = $field; 
 	 		}
 	 	}
+	 	// Add course specific fields
+		foreach(ilCourseDefinedFieldDefinition::_getFields($this->obj_id) as $field_obj)
+		{
+			if($this->enabled('cdf_'.$field_obj->getId()))
+			{
+				$fields[] = 'cdf_'.$field_obj->getId();
+			}
+		}	 	
 	 	return $fields ? $fields : array();
 	}
 	

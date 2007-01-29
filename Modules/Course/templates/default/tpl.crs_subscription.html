@@ -57,6 +57,22 @@
 			  <li>{FIELD_NAME}</li>
 			  <!-- END field -->
 			</ul>
+			<!-- BEGIN cdf -->
+			{CDF_TXT}
+			<ul>
+			  <!-- BEGIN cdf_row -->
+			  <li style="padding-bottom: 5px">
+				{CDF_FIELD_NAME}<!-- BEGIN cdf_required --><font class="warning">*</font><!-- END cdf_required -->:<br />
+				<!-- BEGIN sel_row -->
+				{SEL_SELECT}
+				<!-- END sel_row -->
+				<!-- BEGIN txt_row -->
+				<input type="text" name="cdf[{TXT_ROW_NAME}]" value="{TXT_ROW_VALUE}" size="32" maxlength="64" />
+				<!-- END txt_row -->
+			  </li>
+			  <!-- END cdf_row -->
+			</ul>
+			<!-- END cdf -->
 		  </td>
 		</tr>
 		<tr>
@@ -68,6 +84,11 @@
 		<!-- END agreement -->
 		<tr>
 		  <td class="submit" colspan="3">
+			<!-- BEGIN info_required -->
+			<div style="float:left">
+			  <font class="warning">* </font>{TXT_REQUIRED}
+			</div>
+			<!-- END info_required -->
 			<div align="right">
 			  <!-- BEGIN go -->
 			  <input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />

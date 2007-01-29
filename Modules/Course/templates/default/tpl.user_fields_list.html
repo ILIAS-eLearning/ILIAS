@@ -1,14 +1,18 @@
 	<form action="{FORMACTION}" method="post">
 	  <table class="std" border="0">
 		<tr class="tbltitle">
-		  <th colspan="5" class="std">
+		  <th colspan="3" class="std" width="50%">
 			<div style="float:left">
 			  {TABLE_TITLE}
-			</div>
-			<div class="il_ContainerItemCommands" style="float:right;">
-			  <a class="il_ContainerItemCommand" href="{LINK_ADD}">{ADD}</a>
+			  <!-- BEGIN warning_modify -->
+			  <br />
+			  <div class="il_Description">
+				<font>{TXT_WARNING}</font>
+			  </div>
+			  <!-- END warning_modify -->
 			</div>
 		  </th>
+		  <th colspan="2"></th>
 		</tr>
 		<tr class="tblheader">
 		  <th class="std"></th>
@@ -55,11 +59,12 @@
 			&nbsp;<input class="submit" type="SUBMIT" name="cmd[confirmDelete]" value="{BTN_DELETE}"/>
 		  </td>
 		  <td class="std" valign="right" colspan="3">
-			<!-- BEGIN show_save -->
 			<div align="right">
+			  <!-- BEGIN show_save -->
 			  <input class="submit" type="SUBMIT" name="cmd[save]" value="{BTN_SAVE}"/>
+			  <!-- END show_save -->
+			  <input class="submit" type="SUBMIT" name="cmd[fieldSelection]" value="{ADD}"/>
 			</div>
-			<!-- END show_save -->
 		  </td>
 		</tr>
 	  </table>

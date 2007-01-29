@@ -45,6 +45,8 @@ class ilCourseAgreement
 	 * Constructor
 	 *
 	 * @access public
+	 * @param int usr_id
+	 * @param int obj_id
 	 */
 	public function __construct($a_usr_id,$a_obj_id)
 	{
@@ -61,6 +63,91 @@ class ilCourseAgreement
 		 	$this->read();
 	 	}
 	}
+	
+	/**
+	 * Read user data by object id
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int obj_id
+	 */
+	public static function _readByObjId($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM member_agreement ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+			
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_data[$row->usr_id]['accepted'] = $row->accepted;
+			$user_data[$row->usr_id]['acceptance_time'] = $row->acceptance_time;
+		}
+		return $user_data ? $user_data : array();					
+	}
+	
+	/**
+	 * Check if there is any user agreement
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int obj_id
+	 */
+	public static function _hasAgreementsByObjId($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM member_agreement ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND accepted = 1";
+		
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+	
+	/**
+	 * Check if there is any user agreement
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int obj_id
+	 */
+	public static function _hasAgreements()
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM member_agreement ".
+			"WHERE accepted = 1";
+		
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+
+	/**
+	 * Check if user has accepted agreement
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _hasAccepted($a_usr_id,$a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT accepted FROM member_agreement ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id);
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		return $row->accepted == 1 ? true : false;
+	}
+	
 	
 	/**
 	 * Delete all entries by user
@@ -145,7 +232,7 @@ class ilCourseAgreement
 	 */
 	public function setAccepted($a_status)
 	{
-	 	$this->accepted = true;
+	 	$this->accepted = $a_status;
 	}
 	
 	/**
@@ -198,6 +285,43 @@ class ilCourseAgreement
 	{
 	 	return $this->acceptance_time;
 	}
+	
+	/**
+	 * save Acceptance settings
+	 *
+	 * @access public
+	 * 
+	 */
+	public function save()
+	{
+		$this->delete();
+		
+	 	$query = "INSERT INTO member_agreement ".
+	 		"SET usr_id = ".$this->db->quote($this->user_id).", ".
+	 		"obj_id = ".$this->db->quote($this->obj_id).", ".
+	 		"accepted = ".$this->db->quote((int) $this->isAccepted()).", ".
+	 		"acceptance_time = ".$this->db->quote($this->getAcceptanceTime());
+	 		
+		$this->db->query($query);
+		return true;	
+	}
+	
+	/**
+	 * Delete entry
+	 *
+	 * @access public
+	 * 
+	 */
+	public function delete()
+	{
+	 	$query = "DELETE FROM member_agreement ".
+	 		"WHERE usr_id = ".$this->db->quote($this->user_id)." ".
+	 		"AND obj_id = ".$this->db->quote($this->obj_id);
+	 	
+	 	$this->db->query($query);
+		return true;			
+	}
+	
 	/**
 	 * Read user entries
 	 *

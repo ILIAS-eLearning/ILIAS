@@ -6934,7 +6934,7 @@ ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_type_text#:#Textfeld
 ps#:#ps_type_select#:#Auswahlliste
 administration#:#course_export#:#Kurs-Export
-administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Bitte bestätigen Sie Ihre Änderungen.
+administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Wenn Sie diese Änderung bestätigen werden alle Kurs-Nutzungsvereinbarungen zurückgesetzt.
 ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
 ps#:#ps_cdf_value#:#Wert
 ps#:#ps_btn_add_value#:#Neuer Wert
@@ -6948,3 +6948,12 @@ ps#:#ps_cdf_deleted_field#:#Der Wert wurde gelöscht.
 common#:#users_online_show_short_associated#:#Nur Kurs- und Gruppenmitglieder
 common#:#users_online_show_short_n#:#Keine aktiven Benutzer
 common#:#users_online_show_short_y#:#Alle aktiven Benutzer
+ps#:#ps_files_deleted#:#Die Exportdateien wurden gelöscht.
+ps#:#ps_agreement_accepted#:#Nutzungsvereinbarung akzeptiert
+ps#:#ps_not_accepted#:#Nicht zugestimmt
+ps#:#ps_cdf_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern von Datenfeldern bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt wird.
+ps#:#ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Kursinhalte zugreifen zu können.
+ps#:#ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
+crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
+ps#:#ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
+ps#:#ps_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern der Einstellungen bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt werden.

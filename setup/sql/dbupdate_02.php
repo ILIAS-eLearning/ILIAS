@@ -352,4 +352,8 @@ CREATE TABLE `reg_access_limitation` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#902>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

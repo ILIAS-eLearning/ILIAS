@@ -36,6 +36,7 @@ class ilExportFieldsInfo
 	
 	private $settings;
 	private $db;
+	private $lng;
 	
 	private $possible_fields = array();
 	
@@ -47,9 +48,10 @@ class ilExportFieldsInfo
 	 */
 	private function __construct()
 	{
-	 	global $ilDB,$ilSetting;
+	 	global $ilDB,$ilSetting,$lng;
 	 	
 	 	$this->db = $ilDB;
+	 	$this->lng = $lng;
 	 	$this->settings = $ilSetting;
 	 	
 	 	$this->read();
@@ -111,6 +113,21 @@ class ilExportFieldsInfo
 	 	return $fields ? $fields : array();
 	}
 	
+	/**
+	 * Get exportable fields as info string 
+	 *
+	 * @access public
+	 * @return string info page string
+	 */
+	public function exportableFieldsToInfoString()
+	{
+		$fields = array();
+		foreach($this->getExportableFields() as $field)
+		{
+			$fields[] = $this->lng->txt($field);
+		}
+		return implode('<br />',$fields);
+	}
 	
 	/**
 	 * Read info about exportable fields
@@ -122,9 +139,9 @@ class ilExportFieldsInfo
 	{
 		$this->possible_fields = array(
 			'login'		=> 1,
+			'gender' => 1,
 			'lastname' => 1,
 			'firstname' => 1, 
-			'gender' => 1,
 			'title' => 0,
 			'institution' => 0,
 			'department' => 0,
@@ -143,9 +160,9 @@ class ilExportFieldsInfo
 		
 		foreach($settings_all as $key => $value)
 		{
-			if(stristr($key,'usr_settings_export') and $value)
+			if(stristr($key,'usr_settings_course_export_') and $value)
 			{
-				$field = substr($key,20);
+				$field = substr($key,27);
 				if(in_array($field,$this->possible_fields))
 				{
 					$this->possible_fields[$field] = 1;
