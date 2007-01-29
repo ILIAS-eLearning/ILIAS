@@ -33,8 +33,10 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   <td class="std" colspan="4">
 <!-- BEGIN obj_action_toggle_checkboxes -->
 	<div class="il_ContainerItemCommands" style="float:right;">
+	<!-- BEGIN obj_action_change_existing_object_type -->
 		<input type="checkbox" name="recursive_list[]" value="{OBJ_TYPE}" id="change_{OBJ_TYPE}" />
 		<label for="change_{OBJ_TYPE}" title="{CHANGE_PERM_OBJ_TYPE_DESC}">{CHANGE_PERM_OBJ_TYPE}</label>
+	<!-- END obj_action_change_existing_object_type -->
 		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
 		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
 	</div>
