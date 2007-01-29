@@ -70,7 +70,7 @@ class ilUserDefinedData
 
 		foreach($udf_obj->getDefinitions() as $definition)
 		{
-			$sql .= ("`".$definition['field_id']."` = '".$this->get($definition['field_id'])."', ");
+			$sql .= ("`".(int) $definition['field_id']."` = ".$this->db->quote($this->get($definition['field_id'])).", ");
 		}
 
 		$query = "REPLACE INTO usr_defined_data ".
@@ -104,7 +104,7 @@ class ilUserDefinedData
 	{
 		$this->user_data = array();
 		$query = "SELECT * FROM usr_defined_data ".
-			"WHERE usr_id = '".$this->usr_id."'";
+			"WHERE usr_id = ".$this->db->quote($this->usr_id)."";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{

@@ -134,6 +134,7 @@ class ilValidator extends PEAR
 		$this->PEAR();
 		$this->db =& $ilDB;
 		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
+		
         $this->setErrorHandling(PEAR_ERROR_CALLBACK,array(&$this, 'handleErr'));
 		
 		if ($a_log === true)
@@ -1105,7 +1106,8 @@ removal starts here
 
 		foreach ($a_invalid_refs as $entry)
 		{
-			$q = "DELETE FROM object_reference WHERE ref_id='".$entry["ref_id"]."' AND obj_id='".$entry["obj_id"]."'";
+			$q = "DELETE FROM object_reference WHERE ref_id= ".$this->db->quote($entry["ref_id"]).
+				" AND obj_id = ".$this->db->quote($entry["obj_id"])." ";
 			$this->db->query($q);
 
 			$message = sprintf('%s::removeInvalidReferences(): Reference %s removed',
@@ -1355,13 +1357,13 @@ restore starts here
 			return false;
 		}
 		
-		$q = "INSERT INTO object_reference (ref_id,obj_id) VALUES ('0','".$a_obj_id."')";
+		$q = "INSERT INTO object_reference (ref_id,obj_id) VALUES ('0',".$this->db->quote($a_obj_id)." )";
 		$this->db->query($q);
 
 		$message = sprintf('%s::restoreReference(): new reference %s for obj_id %s created',
 						   get_class($this),
 						   $this->db->getLastInsertId(),
-						   $_obj_id);
+						   $a_obj_id);
 		$ilLog->write($message,$ilLog->WARNING);
 
 		return $this->db->getLastInsertId();
@@ -1957,6 +1959,7 @@ restore starts here
 		
 		return false;
 	}
+	
 	/**
 	* Dumps the Tree structure into the scan log
 	*
@@ -1968,8 +1971,6 @@ restore starts here
 		$this->writeScanLogLine("BEGIN dumpTree:");
 
 		// collect nodes with duplicate child Id's
-		// (We use this, to mark these nodes later in the output as being
-		// erroneous.).
 		$q = 'SELECT child FROM tree GROUP BY child HAVING COUNT(*) > 1';
 		$r = $this->db->query($q);
 		$duplicateNodes = array();
@@ -1979,47 +1980,73 @@ restore starts here
 		}		
 		
 		// dump tree
-		$q = "SELECT tree.*,ref.ref_id,ref.obj_id AS refobj_id,dat.*,login "
+		$q = "SELECT tree.*,ref.ref_id,ref.obj_id AS refobj_id,ref.deleted,dat.*,usr.login "
 			."FROM tree "
-			."LEFT OUTER JOIN object_reference AS ref ON tree.child = ref.ref_id "
-			."LEFT OUTER JOIN object_data AS dat ON ref.obj_id = dat.obj_id "
-			."LEFT OUTER JOIN usr_data AS usr ON dat.owner = usr.usr_id "
-		 	."ORDER BY tree, lft";
+			."RIGHT JOIN object_reference AS ref ON tree.child = ref.ref_id "
+			."RIGHT JOIN object_data AS dat ON ref.obj_id = dat.obj_id "
+			."LEFT JOIN usr_data AS usr ON usr.usr_id = dat.owner "
+		 	."ORDER BY tree, lft, type, title";
 		$r = $this->db->query($q);
 		
 		$this->writeScanLogLine(
 			'<table><tr>'
 			.'<td>tree, child, parent, lft, rgt, depth</td>'
-			.'<td>ref_id, ref.obj_id</td>'
+			.'<td>ref_id, ref.obj_id, deleted</td>'
 			.'<td>obj_id, type, title</td>'
 			.'</tr>'
 		);
 		
-		// We use a stack to represent the path to the current node.
-		// This allows us to do analyze the tree structure without having
-		// to implement a recursive algorithm.
 		$stack = array();
 		$error_count = 0;
 		$repository_tree_count = 0;
 		$trash_trees_count = 0;
 		$other_trees_count = 0;
 		$not_in_tree_count = 0;
-
-		// The previous number is used for gap checking
-		$previousNumber = 0; 
-
+		$previousNumber = 0; // This is used for gap checking
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// If there is no entry in table tree for the object, we display it here
 			if (is_null($row->child))
 			{
 				$not_in_tree_count++;
-				$error_count++;
-				$isRowOkay = false;
-				$isParentOkay = false;
-				$isLftOkay = false;
-				$isRgtOkay = false;
-				$isDepthOkay = false;
+				switch ($row->type) {
+					case 'crsg' :
+					case 'usr' :
+					case 'typ' :
+					case 'lng' :
+					case 'rolt' :
+					case 'role' :
+					case 'mob' :
+					case 'sty' :
+						// We are not interested in dumping these object types.
+						continue 2;
+						//break; NOT REACHED
+					case 'file' :
+						if (is_null($row->ref_id)) {
+							// File objects can be part of a learning module.
+							// In this case, they do not have a row in table object_reference.
+							// We are not interested in dumping these file objects.
+							continue 2;
+						} else {
+							// File objects which have a row in table object_reference, but
+							// none in table tree are an error.
+							$error_count++;
+							$isRowOkay = false;
+							$isParentOkay = false;
+							$isLftOkay = false;
+							$isRgtOkay = false;
+							$isDepthOkay = false;
+						}
+						break;
+					default : 
+						$error_count++;
+						$isRowOkay = false;
+						$isParentOkay = false;
+						$isLftOkay = false;
+						$isRgtOkay = false;
+						$isDepthOkay = false;
+						break;
+				}
 				
 				$this->writeScanLogLine(
 					'<tr>'
@@ -2053,13 +2080,14 @@ restore starts here
 					.$row->refobj_id
 					.(($isRefObjOkay) ? '' : '</b>')
 					.(($isRowOkay) ? '' : '<font color=#ff0000>')
+					.(($row->tree < 0) ? ', '.$row->deleted : '')
 					.'</td><td>'
 					.(($isRowOkay) ? '' : '<font color=#ff0000>')
 					.$indent
 					.$row->obj_id.', '
 					.$row->type.', '
-					.$row->title.', '
-					.$row->login
+					.$row->login.', '
+					.$row->title
 					.(($isRowOkay) ? '' : ' <b>*ERROR*</b><font color=#ff0000>')
 					.'</td>'
 					.'</tr>'
@@ -2075,11 +2103,12 @@ restore starts here
 				$indent .= ". ";
 			}
 			
-			// Initialize the stack and the previous number if we are in a new tree
+			// Initialize the stack and previous number if we are in a new tree
 			if (count($stack) == 0 || $stack[0]->tree != $row->tree) 
 			{
 				$stack = array();
 				$previousNumber = $row->lft - 1;
+				$this->writeScanLogLine('<tr><td>&nbsp;</td></tr>');
 			} 
 			// Pop old stack entries
 			while (count($stack) > 0 && $stack[count($stack) - 1]->rgt < $row->lft) 
@@ -2105,8 +2134,8 @@ restore starts here
 						.$poppedIndent
 						.$popped->obj_id.', '
 						.$popped->type.', '
-						.$popped->title.', '
-						.$popped->login
+						.$popped->login.', '
+						.$popped->title
 						.'</font>'
 						.'</td>'
 						.'</tr>'
@@ -2237,13 +2266,14 @@ restore starts here
 				.$row->refobj_id
 				.(($isRefObjOkay) ? '' : '</b>')
 				.(($isRowOkay) ? '' : '<font color=#ff0000>')
+				.(($row->tree < 0) ? ', '.$row->deleted : '')
 				.'</td><td>'
 				.(($isRowOkay) ? '' : '<font color=#ff0000>')
 				.$indent
 				.$row->obj_id.', '
 				.$row->type.', '
-				.$row->title.', '
-				.$row->login
+				.$row->login.', '
+				.$row->title
 				.(($isRowOkay) ? '' : ' <b>*ERROR*</b><font color=#ff0000>')
 				.'</td>'
 				.'</tr>'
@@ -2295,6 +2325,7 @@ restore starts here
 					.$poppedIndent
 					.$popped->obj_id.', '
 					.$popped->type.', '
+					.$popped->login.', '
 					.$popped->title
 					.'</font>'
 					.'</td>'
