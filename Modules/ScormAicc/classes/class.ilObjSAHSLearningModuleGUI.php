@@ -277,10 +277,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				break;
 		}
 
-		//$newObj->setType("slm");
-		//$dummy_meta =& new ilMetaData();
-		//$dummy_meta->setObject($newObj);
-		//$newObj->assignMetaData($dummy_meta);
 		$newObj->setTitle($name);
 		$newObj->setSubType($_POST["sub_type"]);
 		$newObj->setDescription("");

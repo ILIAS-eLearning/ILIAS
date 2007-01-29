@@ -22,7 +22,7 @@
 */
 
 require_once "classes/class.ilObject.php";
-//require_once "classes/class.ilMetaData.php";
+//require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
 
 /**
@@ -47,13 +47,6 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	{
 		$this->type = "sahs";
 		parent::ilObject($a_id,$a_call_by_reference);
-/*
-		if ($a_id == 0)
-		{
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
-		}
-*/
 	}
 
 	/**

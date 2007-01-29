@@ -22,7 +22,6 @@
 */
 
 require_once("classes/class.ilObjectGUI.php");
-//require_once("classes/class.ilMetaDataGUI.php");
 require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
@@ -647,7 +646,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
 		$this->tpl->setVariable("TXT_ADD2", $this->lng->txt("add"));
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMetaData::getLanguages();
+		$lang = ilMDLanguageItem::_getLanguages();
 
 		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
 		{
@@ -975,7 +974,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("INPUT_TERM", "term");
 		$this->tpl->setVariable("VALUE_TERM", htmlspecialchars($term->getTerm()));
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMetaData::getLanguages();
+		$lang = ilMDLanguageItem::_getLanguages();
 		$select_language = ilUtil::formSelect ($term->getLanguage(),"term_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
 		$this->tpl->setVariable("BTN_NAME", "updateTerm");

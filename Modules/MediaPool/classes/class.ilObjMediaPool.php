@@ -23,7 +23,7 @@
 
 
 require_once "classes/class.ilObject.php";
-require_once "classes/class.ilMetaData.php";
+require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 require_once("classes/class.ilObjFolder.php");
 
 /** @defgroup ModulesMediaPool Modules/MediaPool

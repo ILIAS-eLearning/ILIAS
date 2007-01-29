@@ -35,7 +35,7 @@
 */
 
 require_once "classes/class.ilObject.php";
-//require_once "classes/class.ilMetaData.php";
+//require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 
 class ilObjFileBasedLM extends ilObject
 {
@@ -52,15 +52,6 @@ class ilObjFileBasedLM extends ilObject
 		// this also calls read() method! (if $a_id is set)
 		$this->type = "htlm";
 		$this->ilObject($a_id,$a_call_by_reference);
-
-/*
-		if ($a_id == 0)
-		{
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
-		}
-*/
-
 	}
 
 	/**
@@ -190,7 +181,6 @@ class ilObjFileBasedLM extends ilObject
 		global $ilDB;
 		
 		parent::read();
-//		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 
 		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($this->getId());
 		$lm_set = $this->ilias->db->query($q);

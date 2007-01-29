@@ -181,8 +181,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$s_char = $this->content_obj->getCharacteristic();
 		}
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		require_once("classes/class.ilMetaData.php");
-		$lang = ilMetaData::getLanguages();
+		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang = ilMDLanguageItem::_getLanguages();
 		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 		$char = array("" => $this->lng->txt("none"),
@@ -340,8 +340,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 		// language and characteristic selection
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		require_once("classes/class.ilMetaData.php");
-		$lang = ilMetaData::getLanguages();
+		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang = ilMDLanguageItem::_getLanguages();
 
 		// get values from new object (repeated form display on error)
 		//if (is_object($this->content_obj))
@@ -380,8 +380,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			}
 		}
 
-		require_once("classes/class.ilMetaData.php");
-		$lang = ilMetaData::getLanguages();
+		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang = ilMDLanguageItem::_getLanguages();
 		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 		$char = array("" => $this->lng->txt("none"),

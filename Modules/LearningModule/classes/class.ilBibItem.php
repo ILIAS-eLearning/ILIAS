@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("classes/class.ilMetaData.php");
+require_once ("Services/MetaData/classes/class.ilMDLanguageItem.php");
 
 /**
 * Class ilBibItem

@@ -25,7 +25,7 @@
 require_once "classes/class.ilObject.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMValidator.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-//require_once "classes/class.ilMetaData.php";
+//require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 
 /**
 * Class ilObjSCORMLearningModule
@@ -50,14 +50,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	{
 		$this->type = "sahs";
 		parent::ilObject($a_id,$a_call_by_reference);
-/*
-		if ($a_id == 0)
-		{
-			$new_meta =& new ilMetaData();
-			$this->assignMetaData($new_meta);
-		}
-*/
-
 	}
 
 

@@ -164,8 +164,8 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 				
 		$this->tpl->setVariable ("FORMACTION", $this->ctrl->getFormAction($this));		
 		
-		require_once("classes/class.ilMetaData.php");
-		$lang = ilMetaData::getLanguages();
+		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang = ilMDLanguageItem::_getLanguages();
 		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
 		$this->tpl->setVariable ("SELECT_LANGUAGE", $select_lang);
 

@@ -26,7 +26,7 @@ require_once("./Modules/LearningModule/classes/class.ilBibItem.php");
 /**
 * Class ilBibItemGUI
 *
-* GUI class for ilMetaData
+* GUI class for BibItems
 *
 * @author Jens Conze <jc@databay.de>
 * @version $Id$
@@ -86,7 +86,7 @@ class ilBibItemGUI
 	function showLangSel($a_name, $a_value = "")
 	{
 		$tpl = new ilTemplate("tpl.lang_selection.html", true, true);
-		$languages = ilMetaData::getLanguages();
+		$languages = ilMDLanguageItem::_getLanguages();
 		foreach($languages as $code => $text)
 		{
 			$tpl->setCurrentBlock("lg_option");
@@ -506,24 +506,6 @@ class ilBibItemGUI
 		return (count($data) - 1);
 	}
 
-	function &create()
-	{
-		$this->meta_obj =& new ilMetaData();
-		/* editing meta data with editor */
-		if (is_array($_POST["meta"]))
-		{
-			$meta = $_POST["meta"];
-			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
-		}
-		/* creating a new object -> meta data: title and description */
-		else if (is_array($_POST["Fobject"]))
-		{
-			$meta = $_POST["Fobject"];
-			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["title"]));
-		}
-
-		return $this->meta_obj;
-	}
 
 	/**
 	* get target frame for command (command is method name without "Object", e.g. "perm")

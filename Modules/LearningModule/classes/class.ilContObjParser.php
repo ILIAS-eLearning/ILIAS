@@ -25,7 +25,7 @@ require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 require_once("./Services/COPage/classes/class.ilPageObject.php");
 require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-require_once("classes/class.ilMetaData.php");
+require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 require_once("./Services/COPage/classes/class.ilPCTable.php");
 require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
