@@ -108,8 +108,10 @@ class ilLinkChecker
 
 	function getInvalidLinksFromDB()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM link_check ".
-			"WHERE obj_id = '".$this->getObjId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -123,6 +125,8 @@ class ilLinkChecker
 
 	function getLastCheckTimestamp()
 	{
+		global $ilDB;		
+		
 		if($this->getValidateAll())
 		{
 			$query = "SELECT MAX(last_check) as last_check FROM link_check ";
@@ -130,7 +134,7 @@ class ilLinkChecker
 		else
 		{
 			$query = "SELECT MAX(last_check) as last_check FROM link_check ".
-				"WHERE obj_id = '".$this->getObjId()."'";
+				"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ";
 		}
 		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -165,6 +169,8 @@ class ilLinkChecker
 	
 	function checkLinks()
 	{
+		global $ilDB;
+		
 		$pages = array();
 
 		$this->__setType('lm');
@@ -181,7 +187,7 @@ class ilLinkChecker
 		elseif(!$this->getValidateAll() and $this->getObjId())
 		{
 			$query = "SELECT * FROM page_object ".
-				"WHERE parent_id = '".$this->getObjId()."' ".
+				"WHERE parent_id = ".$ilDB->quote($this->getObjId())." ".
 				"AND parent_type = 'lm'";
 
 			$res = $this->db->query($query);
@@ -240,10 +246,12 @@ class ilLinkChecker
 	// PRIVATE
 	function __txt($language,$key,$module = 'common')
 	{
+		global $ilDB;
+		
 		$query = "SELECT value FROM lng_data ".
-			"WHERE module = '".$module."' ".
-			"AND identifier = '".$key."' ".
-			"AND lang_key = '".$language."'";
+			"WHERE module = ".$ilDB->quote($module)." ".
+			"AND identifier = ".$ilDB->quote($key)." ".
+			"AND lang_key = ".$ilDB->quote($language)."";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -253,8 +261,8 @@ class ilLinkChecker
 		if(!$value)
 		{
 			$query = "SELECT value FROM lng_data ".
-				"WHERE module = '".$module."' ".
-				"AND identifier = '".$key."' ".
+				"WHERE module = ".$ilDB->quote($module)." ".
+				"AND identifier = ".$ilDB->quote($key)." ".
 				"AND lang_key = 'en'";
 			
 			$res = $this->db->query($query);
@@ -268,14 +276,16 @@ class ilLinkChecker
 
 	function __fetchUserData($a_usr_id)
 	{
-		$query = "SELECT email FROM usr_data WHERE usr_id = '".$a_usr_id."'";
+		global $ilDB;
+		
+		$query = "SELECT email FROM usr_data WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 
 		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		$data['email'] = $row->email;
 
 		$query = "SELECT * FROM usr_pref ".
-			"WHERE usr_id = '".$a_usr_id."' ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
 			"AND keyword = 'language'";
 
 		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
@@ -287,8 +297,10 @@ class ilLinkChecker
 
 	function __getTitle($a_lm_obj_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT title FROM object_data ".
-			"WHERE obj_id = '".$a_lm_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_lm_obj_id)." ";
 
 		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -524,6 +536,8 @@ class ilLinkChecker
 
 	function __saveInDB()
 	{
+		global $ilDB;
+		
 		if($this->getMailStatus())
 		{
 			$this->__checkNotify();
@@ -535,11 +549,11 @@ class ilLinkChecker
 		{
 
 			$query = "INSERT INTO link_check ".
-				"SET page_id = '".$link['page_id']."', ".
-				"obj_id = '".$link['obj_id']."', ".
-				"url = '".addslashes(substr($link['complete'],0,255))."', ".
-				"parent_type = '".addslashes($link['type'])."', ".
-				"http_status_code = '".addslashes($link['http_status_code'])."', ".
+				"SET page_id = ".$ilDB->quote($link['page_id']).", ".
+				"obj_id = ".$ilDB->quote($link['obj_id']).", ".
+				"url = ".$ilDB->quote((substr($link['complete'],0,255))).", ".
+				"parent_type = ".$ilDB->quote(($link['type'])).", ".
+				"http_status_code = ".$ilDB->quote(($link['http_status_code'])).", ".
 				"last_check = '".time()."'";
 
 
@@ -552,11 +566,13 @@ class ilLinkChecker
 
 	function __checkNotify()
 	{
+		global $ilDB;
+		
 		foreach($this->getInvalidLinks() as $link)
 		{
 			$query = "SELECT * FROM link_check ".
-				"WHERE page_id = '".$link['page_id']."' ".
-				"AND url = '".addslashes(substr($link['complete'],0,255))."'";
+				"WHERE page_id = ".$ilDB->quote($link['page_id'])." ".
+				"AND url = ".$ilDB->quote((substr($link['complete'],0,255)))." ";
 			$res = $this->db->query($query);
 			
 			if(!$res->numRows())
@@ -570,6 +586,8 @@ class ilLinkChecker
 
 	function __clearDBData()
 	{
+		global $ilDB;
+		
 		if($this->getValidateAll())
 		{
 			$query = "DELETE FROM link_check";
@@ -577,7 +595,7 @@ class ilLinkChecker
 		else
 		{
 			$query = "DELETE FROM link_check ".
-				"WHERE obj_id = '".$this->getObjId()."'";
+				"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ";
 		}
 
 		$this->db->query($query);

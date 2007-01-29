@@ -105,7 +105,7 @@ class ilLocalUser
 				{
 					$where = "WHERE time_limit_owner IN ";
 					$where .= '(';
-					$where .= implode(",",ilLocalUser::_getFolderIds());
+					$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
 					$where .= ')';
 
 				}
@@ -117,7 +117,7 @@ class ilLocalUser
 				break;
 
 			default:
-				$where = "WHERE time_limit_owner = '".$a_filter."'";
+				$where = "WHERE time_limit_owner = ".$ilDB->quote($a_filter)." ";
 
 				break;
 		}

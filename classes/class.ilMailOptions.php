@@ -85,6 +85,8 @@ class ilMailOptions
 	*/
     function createMailOptionsEntry()
     {
+    	global $ilDB;
+    		
 		/* Get setting for incoming mails */
 		if (!($incomingMail = $this->ilias->getSetting("mail_incoming_mail")))
 		{
@@ -93,7 +95,7 @@ class ilMailOptions
 		}
 
         $query = "INSERT INTO $this->table_mail_options " .
-                "VALUES('" . $this->user_id . "','" . DEFAULT_LINEBREAK . "','','".$incomingMail."')";
+                "VALUES(" . $ilDB->quote($this->user_id) . "," . $ilDB->quote(DEFAULT_LINEBREAK) . ",'',".$ilDB->quote($incomingMail).")";
 
         $res = $this->ilias->db->query($query);
         return true;
@@ -108,8 +110,10 @@ class ilMailOptions
 	*/
 	function getOptions()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM $this->table_mail_options ".
-			"WHERE user_id = '".$this->user_id."'";
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		
@@ -128,11 +132,13 @@ class ilMailOptions
 	*/
 	function updateOptions($a_signature, $a_linebreak,$a_incoming_type)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE $this->table_mail_options ".
-			"SET signature = '".addslashes($a_signature)."',".
-			"linebreak = '".addslashes($a_linebreak)."', ".
-			"incoming_type = '".$a_incoming_type."' ".
-			"WHERE user_id = '".$this->user_id."'";
+			"SET signature = ".$ilDB->quote($a_signature).",".
+			"linebreak = ".$ilDB->quote($a_linebreak).", ".
+			"incoming_type = ".$ilDB->quote($a_incoming_type)." ".
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
 		$res = $this->ilias->db->query($query);
 

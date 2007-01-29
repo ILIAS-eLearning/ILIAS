@@ -143,8 +143,10 @@ class ilMailbox
 	*/
 	function getInboxFolder()
 	{
-		$query = "SELECT * FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = '".$this->user_id."' ".
+		global $ilDB;
+		
+		$query = "SELECT * FROM ".$this->table_mail_obj_data." ".
+				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 				 "AND type = 'inbox'";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -157,8 +159,10 @@ class ilMailbox
 	*/
 	function getDraftsFolder()
 	{
-		$query = "SELECT * FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = '".$this->user_id."' ".
+		global $ilDB;
+
+		$query = "SELECT * FROM ".$this->table_mail_obj_data ." ".
+				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 				 "AND type = 'drafts'";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -171,8 +175,10 @@ class ilMailbox
 	*/
 	function getTrashFolder()
 	{
-		$query = "SELECT * FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = '".$this->user_id."' ".
+		global $ilDB;
+
+		$query = "SELECT * FROM ".$this->table_mail_obj_data ." ".
+				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 				 "AND type = 'trash'";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -185,8 +191,10 @@ class ilMailbox
 	*/
 	function getSentFolder()
 	{
+		global $ilDB;
+
 		$query = "SELECT * FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = '".$this->user_id."' ".
+				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			 	 "AND type = 'sent'";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -233,6 +241,7 @@ class ilMailbox
 	 */
 	function hasNewMail($a_user_id)
 	{
+		global $ilDB;
 		global $ilias;
 
 		if (!$a_user_id)
@@ -241,7 +250,7 @@ class ilMailbox
 		}
 
 		// CHECK FOR SYSTEM MAIL
-		$query = "SELECT mail_id FROM mail WHERE folder_id = 0 AND user_id = '".$a_user_id."' ".
+		$query = "SELECT mail_id FROM mail WHERE folder_id = 0 AND user_id = ".$ilDB->quote($a_user_id)." ".
 			"AND m_status = 'unread'";
 
 		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
@@ -255,7 +264,7 @@ class ilMailbox
 				 "WHERE m.user_id = mo.user_id ".
 				 "AND m.folder_id = mo.obj_id ".
 				 "AND mo.type = 'inbox' ".
-				 "AND m.user_id = '".$a_user_id."' ".
+				 "AND m.user_id = ".$ilDB->quote($a_user_id)." ".
 			 	 "AND m.m_status = 'unread'";
 		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -271,6 +280,7 @@ class ilMailbox
 	 */
 	function _countNewMails($a_user_id)
 	{
+		global $ilDB;
 		global $ilias;
 
 		if (!$a_user_id)
@@ -279,7 +289,7 @@ class ilMailbox
 		}
 
 		// CHECK FOR SYSTEM MAIL
-		$query = "SELECT count(*) as cnt FROM mail WHERE folder_id = 0 AND user_id = '".$a_user_id."' ".
+		$query = "SELECT count(*) as cnt FROM mail WHERE folder_id = 0 AND user_id = ".$ilDB->quote($a_user_id)." ".
 			"AND m_status = 'unread'";
 
 		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
@@ -288,7 +298,7 @@ class ilMailbox
 				 "WHERE m.user_id = mo.user_id ".
 				 "AND m.folder_id = mo.obj_id ".
 				 "AND mo.type = 'inbox' ".
-				 "AND m.user_id = '".$a_user_id."' ".
+				 "AND m.user_id = ".$ilDB->quote($a_user_id)." ".
 			 	 "AND m.m_status = 'unread'";
 		$row2 = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		
@@ -301,12 +311,14 @@ class ilMailbox
 	*/
 	function createDefaultFolder()
 	{
+		global $ilDB;
+
 		$root_id = $this->getLastInsertId();
 		++$root_id;
 
 		$query = "INSERT INTO $this->table_mail_obj_data ".
-				 "SET obj_id = '".$root_id."',".
-				 "user_id = '$this->user_id',".
+				 "SET obj_id = ".$ilDB->quote($root_id).",".
+				 "user_id = ".$ilDB->quote($this->user_id).", ".
 				 "title = 'a_root',".
 				 "type = 'root'";
 		$res = $this->ilias->db->query($query);
@@ -318,10 +330,10 @@ class ilMailbox
 			++$last_id;
 
 			$query = "INSERT INTO $this->table_mail_obj_data ".
-					 "SET obj_id = '".$last_id."',".
-					 "user_id = '$this->user_id',".
-					 "title = '$key',".
-					 "type = '$folder'";
+					 "SET obj_id = ".$ilDB->quote($last_id).", ".
+					 "user_id = ".$ilDB->quote($this->user_id).", ".
+					 "title = ".$ilDB->quote($key).", ".
+					 "type = ".$ilDB->quote($folder);
 			$res = $this->ilias->db->query($query);
 			$this->mtree->insertNode($last_id,$root_id);
 		}
@@ -335,14 +347,16 @@ class ilMailbox
 	*/
 	function addFolder($a_parent_id,$a_folder_name)
 	{
+		global $ilDB;
+
 		if ($this->folderNameExists($a_folder_name))
 		{
 			return 0;
 		}
 		// ENTRY IN mail_obj_data
 		$query = "INSERT INTO $this->table_mail_obj_data ".
-			 	 "SET user_id = '$this->user_id',".
-				 "title = '".addslashes($a_folder_name)."',".
+			 	 "SET user_id = ".$ilDB->quote($this->user_id).", ".
+				 "title = '".$ilDB->quote($a_folder_name)."',".
 			 	 "type = 'user_folder'";
 		$res = $this->ilias->db->query($query);
 
@@ -362,14 +376,16 @@ class ilMailbox
 	*/
 	function renameFolder($a_obj_id, $a_new_folder_name)
 	{
+		global $ilDB;
+
 		if ($this->folderNameExists($a_new_folder_name))
 		{
 			return false;
 		}
 
 		$query = "UPDATE $this->table_mail_obj_data ".
-				 "SET title = '".addslashes($a_new_folder_name)."' ".
-				 "WHERE obj_id = '".$a_obj_id."'";
+				 "SET title = ".$ilDB->quote($a_new_folder_name)."' ".
+				 "WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $this->ilias->db->query($query);
 		
 		return true;
@@ -383,9 +399,11 @@ class ilMailbox
 	*/
 	function folderNameExists($a_folder_name)
 	{
+		global $ilDB;
+
 		$query = "SELECT obj_id FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = '".$this->user_id."' ".
-				 "AND title = '".addslashes($a_folder_name)."'";
+				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
+				 "AND title = ".$ilDB->quote($a_folder_name)." ";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row->obj_id ? true : false;
@@ -398,6 +416,8 @@ class ilMailbox
 	*/
 	function deleteFolder($a_folder_id)
 	{
+		global $ilDB;
+
 		include_once("classes/class.ilMail.php");
 		$umail = new ilMail($this->user_id);
 
@@ -425,7 +445,7 @@ class ilMailbox
 
 			// DELETE mobj_data entries
 			$query = "DELETE FROM $this->table_mail_obj_data ".
-					 "WHERE obj_id = '".$node["obj_id"]."'";
+					 "WHERE obj_id = ".$ilDB->quote($node["obj_id"])." ";
 			$res = $this->ilias->db->query($query);
 		}
 
@@ -435,6 +455,8 @@ class ilMailbox
 	// TODO: can be substituted by ilUtil::getLastInsertId
 	function getLastInsertId()
 	{
+		global $ilDB;
+
 		$query = "SELECT MAX(obj_id) FROM $this->table_mail_obj_data ";
 		$res = $this->ilias->db->query($query);
 
@@ -451,9 +473,11 @@ class ilMailbox
 	*/
 	function getFolderData($a_obj_id)
 	{
+		global $ilDB;
+
 		$query = "SELECT * FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = '".$this->user_id."' ".
-				 "AND obj_id = '".$a_obj_id."'";
+				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
+				 "AND obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
@@ -469,8 +493,10 @@ class ilMailbox
 	*/
 	function getParentFolderId($a_obj_id)
 	{
+		global $ilDB;
+
 		$query = "SELECT * FROM $this->table_tree ".
-				 "WHERE child = '".$a_obj_id."'";
+				 "WHERE child = ".$ilDB->quote($a_obj_id)." ";
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 	
 		return $row->parent;
@@ -483,6 +509,8 @@ class ilMailbox
 	*/
 	function getSubFolders($a_folder = 0,$a_folder_parent = 0)
 	{
+		global $ilDB;
+
 		if (!$a_folder)
 		{
 			$a_folder = $this->getRootFolderId();
@@ -491,8 +519,8 @@ class ilMailbox
 		foreach ($this->default_folder as $key => $value)
 		{
 			$query = "SELECT obj_id,type FROM $this->table_mail_obj_data ".
-				"WHERE user_id = $this->user_id ".
-				"AND title = '".$key."'";
+				"WHERE user_id = ".$ilDB->quote($this->user_id). " ".
+				"AND title = ".$ilDB->quote($key)." ";
 			$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 			
 			$user_folder[] = array(
@@ -504,7 +532,7 @@ class ilMailbox
 		$query = "SELECT * FROM $this->table_tree, $this->table_mail_obj_data ".
 			"WHERE $this->table_mail_obj_data.obj_id = $this->table_tree.child ".
 			"AND $this->table_tree.depth > '2' ".
-			"AND $this->table_tree.tree = '".$this->user_id."' ".
+			"AND $this->table_tree.tree = ".$ilDB->quote($this->user_id)." ".
 			"ORDER BY $this->table_mail_obj_data.title";
 
 		$res = $this->ilias->db->query($query);
@@ -540,16 +568,18 @@ class ilMailbox
 	*/
 	function delete()
 	{
-		$q = "DELETE FROM mail_obj_data WHERE user_id='".$this->user_id."'";
+		global $ilDB;
+
+		$q = "DELETE FROM mail_obj_data WHERE user_id=".$ilDB->quote($this->user_id)." ";
 		$this->ilias->db->query($q);
 
-		$q = "DELETE FROM mail_options WHERE user_id='".$this->user_id."'";
+		$q = "DELETE FROM mail_options WHERE user_id= ".$ilDB->quote($this->user_id)." ";
 		$this->ilias->db->query($q);
 
-		$q = "DELETE FROM mail_saved WHERE user_id='".$this->user_id."'";
+		$q = "DELETE FROM mail_saved WHERE user_id= ".$ilDB->quote($this->user_id)." ";
 		$this->ilias->db->query($q);
 
-		$q = "DELETE FROM mail_tree WHERE tree='".$this->user_id."'";
+		$q = "DELETE FROM mail_tree WHERE tree=".$ilDB->quote($this->user_id)." ";
 		$this->ilias->db->query($q);
 		
 		return true;
@@ -564,10 +594,12 @@ class ilMailbox
 	 */
 	function updateMailsOfDeletedUser()
 	{
+		global $ilDB;
+
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($this->user_id,false);
 
-		$query = "UPDATE mail SET sender_id = '0',import_name = '".$tmp_user->getLogin()."' ".
-			"WHERE sender_id = '".$this->user_id."'";
+		$query = "UPDATE mail SET sender_id = '0',import_name = ".$ilDB->quote($tmp_user->getLogin())." ".
+			"WHERE sender_id = ".$ilDB->quote($this->user_id)." ";
 
 		$this->ilias->db->query($query);
 

@@ -57,11 +57,13 @@ class ilLinkCheckNotify
 
 	function addNotifier()
 	{
+		global $ilDB;
+		
 		$this->deleteNotifier();
 
 		$query = "INSERT INTO link_check_report ".
-			"SET obj_id = '".$this->getObjId()."', ".
-			"usr_id = '".$this->getUserId()."'";
+			"SET obj_id = ".$ilDB->quote($this->getObjId()).", ".
+			"usr_id = ".$ilDB->quote($this->getUserId())."";
 
 		$this->db->query($query);
 
@@ -70,9 +72,11 @@ class ilLinkCheckNotify
 
 	function deleteNotifier()
 	{
+		global $ilDB;
+
 		$query = "DELETE FROM link_check_report ".
-			"WHERE obj_id = '".$this->getObjId()."' ".
-			"AND usr_id = '".$this->getUserId()."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
+			"AND usr_id = ".$ilDB->quote($this->getUserId())." ";
 
 		$this->db->query($query);
 
@@ -85,8 +89,8 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "SELECT * FROM link_check_report ".
-			"WHERE obj_id = '".$a_obj_id."' ".
-			"AND usr_id = '".$a_usr_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
 
 		$res = $ilDB->query($query);
 
@@ -98,7 +102,7 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "DELETE FROM link_check_report ".
-			"WHERE usr_id = '".$a_usr_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
 
 		$ilDB->query($query);
 
@@ -110,7 +114,7 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "DELETE FROM link_check_report ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$ilDB->query($query);
 
@@ -122,7 +126,7 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "SELECT * FROM link_check_report ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -135,6 +139,7 @@ class ilLinkCheckNotify
 
 	function _getAllNotifiers(&$db)
 	{
+		global $ilDB;
 
 		$query = "SELECT * FROM link_check_report ";
 
