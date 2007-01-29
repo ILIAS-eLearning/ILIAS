@@ -250,7 +250,7 @@ class ilUserDefinedFields
 	function nameExists($a_field_name)
 	{
 		$query = "SELECT * FROM user_defined_field_definition ".
-			"WHERE field_name = '".$a_field_name."'";
+			"WHERE field_name = ".$this->db->quote($a_field_name)." ";
 
 		$res = $this->db->query($query);
 		
@@ -261,8 +261,8 @@ class ilUserDefinedFields
 	{
 		// Add definition entry
 		$query = "INSERT INTO user_defined_field_definition ".
-			"SET field_name = '".$this->getFieldName()."', ".
-			"field_type = '".$this->getFieldType()."', ".
+			"SET field_name = ".$this->db->quote($this->getFieldName()).", ".
+			"field_type = ".$this->db->quote($this->getFieldType()).", ".
 			"field_values = '".addslashes(serialize($this->getFieldValues()))."', ".
 			"visible = '".(int) $this->enabledVisible()."', ".
 			"changeable = '".(int) $this->enabledChangeable()."', ".
@@ -274,7 +274,7 @@ class ilUserDefinedFields
 		// add table field in usr_defined_data
 		$field_id = $this->db->getLastInsertId();
 
-		$query = "ALTER TABLE usr_defined_data ADD `".$field_id."` TEXT NOT NULL";
+		$query = "ALTER TABLE usr_defined_data ADD `".(int) $field_id."` TEXT NOT NULL";
 		$this->db->query($query);
 
 		$this->__read();
@@ -285,11 +285,11 @@ class ilUserDefinedFields
 	{
 		// Delete definitions
 		$query = "DELETE FROM user_defined_field_definition ".
-			"WHERE field_id = '".$a_id."'";
+			"WHERE field_id = ".$this->db->quote($a_id)." ";
 		$this->db->query($query);
 
 		// Delete usr_data entries
-		$query = "ALTER TABLE usr_defined_data DROP `".$a_id."`";
+		$query = "ALTER TABLE usr_defined_data DROP `".(int) $a_id."`";
 		$this->db->query($query);
 
 		$this->__read();
@@ -300,14 +300,14 @@ class ilUserDefinedFields
 	function update($a_id)
 	{
 		$query = "UPDATE user_defined_field_definition ".
-			"SET field_name = '".$this->getFieldName()."', ".
-			"field_type = '".$this->getFieldType()."', ".
+			"SET field_name = ".$this->db->quote($this->getFieldName()).", ".
+			"field_type = ".$this->db->quote($this->getFieldType()).", ".
 			"field_values = '".addslashes(serialize($this->getFieldValues()))."', ".
 			"visible = '".(int) $this->enabledVisible()."', ".
 			"changeable = '".(int) $this->enabledChangeable()."', ".
 			"required = '".(int) $this->enabledRequired()."', ".
 			"searchable = '".(int) $this->enabledSearchable()."' ".
-			"WHERE field_id = '".$a_id."'";
+			"WHERE field_id = ".$this->db->quote($a_id)." ";
 
 		$this->db->query($query);
 		$this->__read();
@@ -365,14 +365,14 @@ class ilUserDefinedFields
 		}
 		$query = "UPDATE user_defined_field_definition ".
 			"SET field_values = '".addslashes(serialize($new_values))."' ".
-			"WHERE field_id = '".$a_field_id."'";
+			"WHERE field_id = ".$this->db->quote($a_field_id)."";
 
 		$this->db->query($query);
 
 		// Update usr_data
 		$query = "UPDATE usr_defined_data ".
-			"SET `".$a_field_id."` = '' ".
-			"WHERE `".$a_field_id."` = '".$old_value."'";
+			"SET `".$this->db->quote($a_field_id)."` = '' ".
+			"WHERE `".$this->db->quote($a_field_id)."` = ".$this->db->quote($old_value)."";
 		$this->db->query($query);
 
 		// fianally read data
