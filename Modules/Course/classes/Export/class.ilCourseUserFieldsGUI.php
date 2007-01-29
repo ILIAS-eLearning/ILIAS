@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+include_once('Modules/Course/classes/class.ilCourseAgreement.php');
 
 /** 
 * 
@@ -116,6 +117,12 @@ class ilCourseUserFieldsGUI
 			$this->tpl->setVariable('EMPTY_TXT',$this->lng->txt('ps_cdf_no_fields'));
 			$this->tpl->parseCurrentBlock();
 		}
+		if(ilCourseAgreement::_hasAgreementsByObjId($this->obj_id))
+		{
+			$this->tpl->setCurrentBlock('warning_modify');
+			$this->tpl->setVariable('TXT_WARNING',$this->lng->txt('ps_cdf_warning_modify'));
+			$this->tpl->parseCurrentBlock();
+		}
 		$counter = 0;
 		foreach($fields as $field_obj)
 		{
@@ -138,7 +145,7 @@ class ilCourseUserFieldsGUI
 			$this->tpl->setVariable('TYPE',$field_obj->getType() == IL_CDF_TYPE_SELECT ?
 											$this->lng->txt('ps_type_select') :
 											$this->lng->txt('ps_type_text'));
-			$this->tpl->setVariable('REQUIRED',ilUtil::formCheckbox((int) $field_obj->isRequired(),'required[]',$field_obj->getId()));
+			$this->tpl->setVariable('REQUIRED',ilUtil::formCheckbox((int) $field_obj->isRequired(),'required['.$field_obj->getId().']',1));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
@@ -275,6 +282,10 @@ class ilCourseUserFieldsGUI
 		$cdf->enableRequired((int) $_POST['required']);
 		$cdf->update();
 		
+		// Finally reset member agreements
+		ilCourseAgreement::_deleteByObjId($this->obj_id);
+		
+		
 		sendInfo($this->lng->txt('settings_saved'));
 		$this->show();
 		return true;
@@ -340,6 +351,9 @@ class ilCourseUserFieldsGUI
 			$tmp_field = new ilCourseDefinedFieldDefinition($this->obj_id,$field_id);
 			$tmp_field->delete();
 		}
+		
+		ilCourseAgreement::_deleteByObjId($this->obj_id);
+		
 		sendInfo($this->lng->txt('ps_cdf_deleted'));
 		unset($_SESSION['il_cdf_delete']);
 		
@@ -358,6 +372,15 @@ class ilCourseUserFieldsGUI
 	 */
 	public function save()
 	{
+		$fields = ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
+		foreach($fields as $field_obj)
+		{
+			$field_obj->enableRequired((bool) isset($_POST['required'][$field_obj->getId()]));
+			$field_obj->update();
+		}
+		
+		ilCourseAgreement::_deleteByObjId($this->obj_id);
+		sendInfo($this->lng->txt('settings_saved'));
 	 	$this->show();
 	 	return true;
 	}

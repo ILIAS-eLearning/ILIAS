@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilCourseContentInterface, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI
 *
 * 
 * @extends ilContainerGUI
@@ -255,6 +255,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'crs');
 
+		if(!$this->checkAgreement())
+		{
+			include_once('Modules/Course/classes/class.ilCourseAgreementGUI.php');
+			$this->ctrl->setReturn($this,'view_content');
+			$agreement = new ilCourseAgreementGUI($this->object->getRefId());
+			$this->ctrl->setCmdClass(get_class($agreement));
+			$this->ctrl->forwardCommand($agreement);
+			return true;
+		}
+
+
 		include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 		$course_content_obj = new ilCourseContentGUI($this);
 
@@ -262,26 +273,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->forwardCommand($course_content_obj);
 
 		return true;
-		
-
-		// else disabled
-		{
-			if($rbacsystem->checkAccess("write", $this->ref_id) or
-			   ($this->object->isActivated() and !$this->object->isArchived()))
-			{
-				$this->initCourseContentInterface();
-				$this->cci_obj->cci_setContainer($this);
-				$this->cci_obj->cci_view();
-			}
-			elseif(ilObjCourse::_registrationEnabled($this->object->getId()))
-			{
-				$this->infoScreenObject();
-			}
-			else
-			{
-				$this->archiveObject();
-			}
-		}
 	}
 
 	/**
@@ -462,6 +453,27 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->addProperty($this->lng->txt("crs_archive"),
 							   ilFormat::formatUnixTime($this->object->getArchiveStart(),true)." - ".
 							   ilFormat::formatUnixTime($this->object->getArchiveEnd(),true));
+		}
+		
+		// Confirmation
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		
+		if($privacy->confirmationRequired() or $privacy->enabledExport())
+		{
+			include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
+			include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+			
+			$field_info = ilExportFieldsInfo::_getInstance();
+		
+			$this->lng->loadLanguageModule('ps');
+			$info->addSection($this->lng->txt('crs_user_agreement_info'));
+			$info->addProperty($this->lng->txt('ps_export_data'),$field_info->exportableFieldsToInfoString());
+			
+			if(count($fields = ilCourseDefinedFieldDefinition::_fieldsToInfoString($this->object->getId())))
+			{
+				$info->addProperty($this->lng->txt('ps_crs_user_fields'),$fields);
+			}
 		}
 		
 		$info->enableLearningProgress(true);
@@ -4228,7 +4240,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('export_members');
 				$export = new ilMemberExportGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($export);
-				break;			
+				break;
+				
+			case 'ilcourseagreementgui':
+				$this->forwardToAgreement();
+				break;
 
 			default:
 				if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
@@ -4247,7 +4263,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$ret =& $this->ctrl->forwardCommand($reg_gui);
 					break;
 				}
-				elseif($cmd == 'listObjectives')
+				
+				if($cmd == 'listObjectives')
 				{
 					include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
 
@@ -4274,6 +4291,53 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		return true;
+	}
+	
+	/**
+	 * Check agreement and redirect if it is not accepted
+	 *
+	 * @access private
+	 * 
+	 */
+	private function checkAgreement()
+	{
+		global $ilUser,$ilAccess;
+		
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			return true;
+		}
+		
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		
+		// Check agreement
+		if($privacy->confirmationRequired() and !ilCourseAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
+		{
+			return false;
+		}
+		// Check required fields
+		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
+		if(!ilCourseUserData::_checkRequired($ilUser->getId(),$this->object->getId()))
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Forward to CourseAgreementGUI
+	 *
+	 * @access private
+	 * 
+	 */
+	private function forwardToAgreement()
+	{
+		include_once('Modules/Course/classes/class.ilCourseAgreementGUI.php');
+		$this->ctrl->setReturn($this,'');
+		$agreement = new ilCourseAgreementGUI($this->object->getRefId());
+		$this->ctrl->forwardCommand($agreement);
 	}
 
 	// STATIC

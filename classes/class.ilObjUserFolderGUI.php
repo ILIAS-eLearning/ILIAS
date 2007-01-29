@@ -2655,7 +2655,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					return;
 				}			
 			}			
-		}		
+		}
+		// Reset user confirmation
+		if($action == 'save')
+		{
+			include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+			ilCourseAgreement::_reset();	
+		}
 
 		foreach ($profile_fields as $field)
 		{

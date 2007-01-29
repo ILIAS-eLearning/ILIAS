@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 
 /**
 * class ilobjcourse
@@ -44,27 +45,33 @@ class ilCourseRegisterGUI
 	var $course_id;
 	var $user_id;
 
-
-	var $validation = true;
+	private $course_obj_id;
+	private $validation = true;
+	private $agreement;
+	private $privacy;
 	
 	function __construct($a_course_id)
 	{
-		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree;
+		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilObjDataCache;
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id"));
 
 		$this->ilErr =& $ilErr;
 		$this->lng =& $lng;
+		$this->lng->loadLanguageModule('ps');
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
 
 		$this->user_id = $ilias->account->getId();
 
 		$this->course_id = $a_course_id;
+		$this->course_obj_id = $ilObjDataCache->lookupObjId($this->course_id);
 		$this->__initCourseObject();
 		$this->__initWaitingList();
+		
 		$this->initAgreement();
+		$this->privacy = ilPrivacySettings::_getInstance();
 	}
 
 	/**
@@ -105,6 +112,16 @@ class ilCourseRegisterGUI
 		if(!$ilAccess->checkAccess("join","",$this->course_obj->getRefId(),'crs'))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+		}
+		
+		$this->setAccepted(true);
+		
+		if(!$this->checkCourseDefinedFields())
+		{
+			$this->course_obj->appendMessage($this->lng->txt('fill_out_all_required_fields'));
+			$this->validation = false;
+			$this->showRegistrationForm();
+			return false;
 		}
 		
 		if(!$this->checkAgreement())
@@ -241,6 +258,10 @@ class ilCourseRegisterGUI
 		{
 			$really_submit = $this->__validateStatus();
 		}
+		else
+		{
+			$this->setAccepted(false);
+		}
 
 		if($this->course_obj->getMessage())
 		{
@@ -352,6 +373,13 @@ class ilCourseRegisterGUI
 		{
 			$this->showAgreement();
 			
+			if($this->show_required_info)
+			{
+				$this->tpl->setCurrentBlock('info_required');
+				$this->tpl->setVariable('TXT_REQUIRED',$this->lng->txt('required_field'));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("go");
 			$this->tpl->setVariable("CMD_SUBMIT","subscribe");
 			if ($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_CONFIRMATION)
@@ -381,10 +409,12 @@ class ilCourseRegisterGUI
 	{
 		global $ilUser;
 		
-		if(!$this->agreement->agreementRequired())
+		if(!$this->privacy->confirmationRequired())
 		{
 			return false;
 		}
+		
+		$this->showCourseDefinedFields();
 		
 		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 		$fields_info = ilExportFieldsInfo::_getInstance();
@@ -407,6 +437,97 @@ class ilCourseRegisterGUI
 	}
 	
 	/**
+	 * Show course defined fields
+	 *
+	 * @access private
+	 */
+	private function showCourseDefinedFields()
+	{
+		global $ilUser;
+		
+	 	include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
+
+		if(!count($cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->course_obj_id)))
+		{
+			return true;
+		}
+		
+		foreach($cdf_fields as $field_obj)
+		{
+			$course_user_data = new ilCourseUserData($ilUser->getId(),$field_obj->getId());
+			
+			switch($field_obj->getType())
+			{
+				case IL_CDF_TYPE_SELECT:
+					$this->tpl->setCurrentBlock('sel_row');
+					$this->tpl->setVariable('SEL_SELECT',ilUtil::formSelect($field_obj->getIdByValue($course_user_data->getValue()),
+																			'cdf['.$field_obj->getId().']',
+																			$field_obj->prepareSelectBox(),
+																			false,
+																			true));
+					break;
+				case IL_CDF_TYPE_TEXT:
+					$this->tpl->setCurrentBlock('txt_row');
+					$this->tpl->setVariable('TXT_ROW_NAME',$field_obj->getId());
+					$this->tpl->setVariable('TXT_ROW_VALUE',$course_user_data->getValue());
+					break;
+			}
+			if($field_obj->isRequired())
+			{
+				$this->show_required_info = true;
+				$this->tpl->touchBlock('cdf_required');
+			}
+			
+			$this->tpl->setCurrentBlock('cdf_row');
+			$this->tpl->setVariable('CDF_FIELD_NAME',$field_obj->getName());
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock('cdf');
+		$this->tpl->setVariable('CDF_TXT',$this->lng->txt('ps_cdf_info'));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * Check required course fields
+	 *
+	 * @access private
+	 * 
+	 */
+	private function checkCourseDefinedFields()
+	{
+		global $ilUser;
+		
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
+		
+		$all_required = true;
+		foreach(ilCourseDefinedFieldDefinition::_getFields($this->course_obj_id) as $field_obj)
+		{
+			switch($field_obj->getType())
+			{
+				case IL_CDF_TYPE_SELECT:
+					$value = $field_obj->getValueById($_POST['cdf'][$field_obj->getId()]);
+					break;
+				
+				case IL_CDF_TYPE_TEXT:
+					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);	
+					break;
+			}
+			$course_user_data = new ilCourseUserData($ilUser->getId(),$field_obj->getId());
+			$course_user_data->setValue($value);
+			$course_user_data->update();
+			
+			if($field_obj->isRequired() and !strlen($value))
+			{
+				$all_required = false;
+			}
+		}	
+		return $all_required;
+	}
+	
+	
+	/**
 	 * Check Agreement
 	 *
 	 * @access private
@@ -414,15 +535,34 @@ class ilCourseRegisterGUI
 	 */
 	private function checkAgreement()
 	{
+		global $ilUser;
+		
 	 	if($_POST['agreed'])
 	 	{
 	 		return true;
 	 	}
-		if(!$this->agreement->agreementRequired())
+		if(!$this->privacy->confirmationRequired())
 		{
 			return true;
 		}
 	 	return false;
+	}
+	
+	/**
+	 * Set Agreement accepted
+	 *
+	 * @access private
+	 * @param bool 
+	 */
+	private function setAccepted($a_status)
+	{
+		if(!$this->privacy->confirmationRequired())
+		{
+			return true;
+		}
+ 		$this->agreement->setAccepted($a_status);
+ 		$this->agreement->setAcceptanceTime(time());
+ 		$this->agreement->save();
 	}
 	
 	
@@ -448,7 +588,7 @@ class ilCourseRegisterGUI
 	}
 	
 	/**
-	 * INIt Agreement object
+	 * Init Agreement object
 	 *
 	 * @access private
 	 * @param
@@ -459,9 +599,9 @@ class ilCourseRegisterGUI
 		global $ilUser;
 		
 		include_once('Modules/Course/classes/class.ilCourseAgreement.php');
-		$this->agreement = new ilCourseAgreement($ilUser->getId(),$this->course_id);
+		$this->agreement = new ilCourseAgreement($ilUser->getId(),$this->course_obj_id);
 	}
-
+	
 	function __validateStatus()
 	{
 		include_once 'Modules/Course/classes/class.ilObjCourseGrouping.php';

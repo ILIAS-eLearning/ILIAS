@@ -25,6 +25,7 @@ include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 include_once('Modules/Course/classes/Export/class.ilExportUserSettings.php');
 include_once('Modules/Course/classes/Export/class.ilMemberExport.php');
 include_once('Modules/Course/classes/class.ilFileDataCourse.php');
+include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 
 /**  
 * 
@@ -112,7 +113,7 @@ class ilMemberExportGUI
 		$this->tpl->setVariable('TXT_EXPORT_SUB',$this->lng->txt('ps_export_sub'));
 		
 		// Check user selection
-	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId());
+	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
 		
 	 	$this->tpl->setVariable('CHECK_EXPORT_ADMIN',ilUtil::formCheckbox($this->exportSettings->enabled('admin'),'export_members[admin]',1));
 	 	$this->tpl->setVariable('CHECK_EXPORT_TUTOR',ilUtil::formCheckbox($this->exportSettings->enabled('tutor'),'export_members[tutor]',1));
@@ -137,6 +138,23 @@ class ilMemberExportGUI
 			$this->tpl->setCurrentBlock('user_data_row');
 			$this->tpl->setVariable('CHECK_EXPORT_USER_DATA',ilUtil::formCheckbox($this->exportSettings->enabled($field),'export_members['.$field.']',1));
 			$this->tpl->setVariable('TXT_EXPORT_USER_DATA',$this->lng->txt($field));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
+		foreach($cdf_fields as $field_obj)
+		{
+			$this->tpl->setCurrentBlock('cdf_row');
+			$this->tpl->setVariable('CHECK_CDF_DATA',ilUtil::formCheckbox($this->exportSettings->enabled('cdf_'.$field_obj->getId()),
+																		'export_members[cdf_'.$field_obj->getId().']',
+																		1));
+			$this->tpl->setVariable('TXT_CDF_NAME',$field_obj->getName());
+			$this->tpl->parseCurrentBlock();
+		}
+		if(count($cdf_fields))
+		{
+			$this->tpl->setCurrentBlock('cdf_fields');
+			$this->tpl->setVariable('TXT_CDF_SELECTION',$this->lng->txt('ps_crs_user_fields'));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -369,7 +387,7 @@ class ilMemberExportGUI
 			{
 				continue;
 			}
-			$this->file->deleteMemberExportFile($file['timest'].'_member_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+			$this->file->deleteMemberExportFile($file['timest'].'_participant_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
 		}
 		sendInfo($this->lng->txt('ps_files_deleted'));
 		$this->show();
@@ -389,7 +407,7 @@ class ilMemberExportGUI
 		global $ilUser;
 
 		// Save settings
-	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId());
+	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
 		$this->exportSettings->set($_POST['export_members']);
 		$this->exportSettings->store();
 		
@@ -398,7 +416,7 @@ class ilMemberExportGUI
 	 	
 	 	$this->file = new ilFileDataCourse($this->obj_id);
 
-	 	$filename = time().'_member_export_csv_'.$this->obj_id.'.csv';
+	 	$filename = time().'_participant_export_csv_'.$this->obj_id.'.csv';
 	 	$this->file->writeToFile($this->export->getCSVString(),$filename);
 
 		$_SESSION['member_export_filename'] = $filename;

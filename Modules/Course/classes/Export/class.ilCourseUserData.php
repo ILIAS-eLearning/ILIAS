@@ -31,7 +31,7 @@
 */
 class ilCourseUserData
 {
-	private $ilDB;
+	private $db;
 	private $user_id;
 	private $field_id;
 	private $value;
@@ -45,7 +45,7 @@ class ilCourseUserData
 	 * @param int field id
 	 * 
 	 */
-	public function __contruct($a_user_id,$a_field_id = 0)
+	public function __construct($a_user_id,$a_field_id = 0)
 	{
 	 	global $ilDB;
 	 	
@@ -57,6 +57,71 @@ class ilCourseUserData
 	 	{
 	 		$this->read();
 	 	}
+	}
+	
+	/**
+	 * Get values by obj_id (for all users)
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int obj_id
+	 */
+	public static function _getValuesByObjId($a_obj_id)
+	{
+		global $ilDB;
+		
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		$field_ids = ilCourseDefinedFieldDefinition::_getFieldIds($a_obj_id);
+		if(!count($field_ids))
+		{
+			return array();
+		}
+		$where = ("WHERE field_id IN ('".implode("','",$field_ids)."') ");
+		
+		$query = "SELECT * FROM crs_user_data ".
+			$where;
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_data[$row->usr_id][$row->field_id] = $row->value;
+		}
+		
+		return $user_data ? $user_data : array();
+	}
+	
+	/**
+	 * Check required fields 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int user id
+	 * @param int object id
+	 * 
+	 * @return bool all fields filled
+	 */
+	public static function _checkRequired($a_usr_id,$a_obj_id)
+	{
+		global $ilDB;
+
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		$required = ilCourseDefinedFieldDefinition::_getRequiredFieldIds($a_obj_id);
+		if(!count($required))
+		{
+			return true;
+		}
+		
+		$and = ("AND field_id IN ('".implode("','",$required)."')");
+		$query = "SELECT COUNT(*) as num_entries FROM crs_user_data ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND value != '' ".
+			$and;
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		return $row->num_entries == count($required);
 	}
 	
 	/**
@@ -138,7 +203,7 @@ class ilCourseUserData
 	{
 	 	$query = "INSERT INTO crs_user_data SET ".
 	 		"value = ".$this->db->quote($this->getValue()).", ".
-	 		"usr_id = ".$this->db->quote($this->user_id)." ".
+	 		"usr_id = ".$this->db->quote($this->user_id).", ".
 	 		"field_id = ".$this->db->quote($this->field_id)." ";
 	 	$this->db->query($query);
 	}

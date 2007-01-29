@@ -102,7 +102,7 @@ class ilCSVWriter
 		 	$this->csv .= $this->separator;
 		}
 		$this->csv .= $this->delimiter;
-		$this->csv .= $this->quote($a_col);	 	
+		$this->csv .= $this->quote($a_col);
 		$this->csv .= $this->delimiter;
 	 	$this->first_entry = false;
 	}

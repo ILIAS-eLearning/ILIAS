@@ -6980,3 +6980,12 @@ ps#:#ps_cdf_deleted_field#:#Deleted value
 common#:#users_online_show_short_associated#:#Only course and group members
 common#:#users_online_show_short_n#:#Don't show active users
 common#:#users_online_show_short_y#:#Show all active users
+ps#:#ps_files_deleted#:#Export Files Deleted
+ps#:#ps_agreement_accepted#:#User Agreement Accepted
+ps#:#ps_not_accepted#:#Not Accepted
+ps#:#ps_cdf_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these course specific fields will reset all user agreements.
+ps#:#ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.
+ps#:#ps_cdf_info#:#Further Course-Specific Data:
+crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators
+ps#:#ps_required_info#:#Further Course-Specific fields are required for accessing the course content.
+ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.
