@@ -257,11 +257,13 @@ class ilMail
 	*/
 	function readMailObjectReferenceId()
 	{
+		global $ilDB;
+		
 		// mail settings id is set by a constant in ilias.ini. Keep the select for some time until everyone has updated his ilias.ini
 		if (!MAIL_SETTINGS_ID)
 		{
 			$query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
-					"WHERE tree.parent = '".SYSTEM_FOLDER_ID."' ".
+					"WHERE tree.parent = ".$ilDB->quote(SYSTEM_FOLDER_ID)." ".
 					"AND object_data.type = 'mail' ".
 					"AND object_reference.ref_id = tree.child ".
 					"AND object_reference.obj_id = object_data.obj_id";
@@ -296,13 +298,15 @@ class ilMail
 	*/
 	function getMailsOfFolder($a_folder_id)
 	{
+		global $ilDB;
+		
 		$this->mail_counter = array();
 		$this->mail_counter["read"] = 0;
 		$this->mail_counter["unread"] = 0;
 
 		$query = "SELECT * FROM $this->table_mail ".
-			"WHERE user_id = $this->user_id ".
-			"AND folder_id = '".$a_folder_id."' ORDER BY send_time DESC";
+			"WHERE user_id = ".$ilDB->quote($this->user_id) ." ".
+			"AND folder_id = ".$ilDB->quote($a_folder_id)." ORDER BY send_time DESC";
 		
 		$res = $this->ilias->db->query($query);
 
@@ -354,9 +358,11 @@ class ilMail
 	*/
 	function getMail($a_mail_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM $this->table_mail ".
-			"WHERE user_id = $this->user_id ".
-			"AND mail_id = '".$a_mail_id."'";
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
+			"AND mail_id = ".$ilDB->quote($a_mail_id)." ";
 		
 		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT));
 		
@@ -371,12 +377,13 @@ class ilMail
 	*/
 	function markRead($a_mail_ids)
 	{
+		global $ilDB;
 		// CREATE IN STATEMENT
-		$in = "(". implode(",",$a_mail_ids) . ")";
+		$in = "(". implode(",",ilUtil::quoteArray($a_mail_ids)) . ")";
 		
 		$query = "UPDATE $this->table_mail ".
 			"SET m_status = 'read' ".
-			"WHERE user_id = '".$this->user_id."' ".
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			"AND mail_id IN $in";
 
 		$res = $this->ilias->db->query($query);
@@ -392,12 +399,13 @@ class ilMail
 	*/
 	function markUnread($a_mail_ids)
 	{
+		global $ilDB;
 		// CREATE IN STATEMENT
-		$in = "(". implode(",",$a_mail_ids) . ")";
+		$in = "(". implode(",",ilUtil::quoteArray($a_mail_ids)) . ")";
 		
 		$query = "UPDATE $this->table_mail ".
 			"SET m_status = 'unread' ".
-			"WHERE user_id = '".$this->user_id."' ".
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			"AND mail_id IN $in";
 
 		$res = $this->ilias->db->query($query);
@@ -414,12 +422,13 @@ class ilMail
 	*/
 	function moveMailsToFolder($a_mail_ids,$a_folder_id)
 	{
+		global $ilDB;
 		// CREATE IN STATEMENT
-		$in = "(". implode(",",$a_mail_ids) . ")";
+		$in = "(". implode(",",ilUtil::quoteArray($a_mail_ids)) . ")";
 
 		$query = "UPDATE $this->table_mail ".
-			"SET folder_id = '".$a_folder_id."' ".
-			"WHERE user_id = '".$this->user_id."' ".
+			"SET folder_id = ".$ilDB->quote($a_folder_id)." ".
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			"AND mail_id IN $in";
 
 		$res = $this->ilias->db->query($query);
@@ -435,12 +444,13 @@ class ilMail
 	*/
 	function deleteMails($a_mail_ids)
 	{
-
+		global $ilDB;
+		
 		foreach ($a_mail_ids as $id)
 		{
 			$query = "DELETE FROM $this->table_mail ".
-				"WHERE user_id = '".$this->user_id."' ".
-				"AND mail_id = '".$id."'";
+				"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
+				"AND mail_id = ".$ilDB->quote($id)." ";
 			$res = $this->ilias->db->query($query);
 			$this->mfile->deassignAttachmentFromDirectory($id);
 		}
@@ -485,19 +495,21 @@ class ilMail
 						 $a_m_message,
 						 $a_draft_id = 0)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE $this->table_mail ".
-			"SET folder_id = '".$a_folder_id."',".
+			"SET folder_id = ".$ilDB->quote($a_folder_id).",".
 			"attachments = '".addslashes(serialize($a_attachments))."',".
 			"send_time = now(),".
-			"rcp_to = '".addslashes($a_rcp_to)."',".
-			"rcp_cc = '".addslashes($a_rcp_cc)."',".
-			"rcp_bcc = '".addslashes($a_rcp_bcc)."',".
+			"rcp_to = ".$ilDB->quote($a_rcp_to).",".
+			"rcp_cc = ".$ilDB->quote($a_rcp_cc).",".
+			"rcp_bcc = ".$ilDB->quote($a_rcp_bcc).",".
 			"m_status = 'read',".
 			"m_type = '".addslashes(serialize($a_m_type))."',".
-			"m_email = '".$a_m_email."',".
-			"m_subject = '".addslashes($a_m_subject)."',".
-			"m_message = '".addslashes($a_m_message)."' ".
-			"WHERE mail_id = '".$a_draft_id."'";
+			"m_email = ".$ilDB->quote($a_m_email).",".
+			"m_subject = ".$ilDB->quote($a_m_subject).",".
+			"m_message = ".$ilDB->quote($a_m_message)." ".
+			"WHERE mail_id = ".$ilDB->quote($a_draft_id)."";
 			
 
 		$res = $this->ilias->db->query($query);
@@ -537,20 +549,22 @@ class ilMail
 	{
 		$a_user_id = $a_user_id ? $a_user_id : $this->user_id;
 
+		global $ilDB;
+
 		$query = "INSERT INTO $this->table_mail ".
-			"SET user_id = '".$a_user_id."',".
-			"folder_id = '".$a_folder_id."',".
-			"sender_id = '".$a_sender_id."',".
+			"SET user_id = ".$ilDB->quote($a_user_id).",".
+			"folder_id = ".$ilDB->quote($a_folder_id).",".
+			"sender_id = ".$ilDB->quote($a_sender_id).",".
 			"attachments = '".addslashes(serialize($a_attachments))."',".
 			"send_time = now(),".
-			"rcp_to = '".addslashes($a_rcp_to)."',".
-			"rcp_cc = '".addslashes($a_rcp_cc)."',".
-			"rcp_bcc = '".addslashes($a_rcp_bcc)."',".
-			"m_status = '".$a_status."',".
+			"rcp_to = ".$ilDB->quote($a_rcp_to).",".
+			"rcp_cc = ".$ilDB->quote($a_rcp_cc).",".
+			"rcp_bcc = ".$ilDB->quote($a_rcp_bcc).",".
+			"m_status = ".$ilDB->quote($a_status).",".
 			"m_type = '".addslashes(serialize($a_m_type))."',".
-			"m_email = '".$a_m_email."',".
-			"m_subject = '".addslashes($a_m_subject)."',".
-			"m_message = '".addslashes($a_m_message)."'";
+			"m_email = ".$ilDB->quote($a_m_email).",".
+			"m_subject = ".$ilDB->quote($a_m_subject).",".
+			"m_message = ".$ilDB->quote($a_m_message)." ";
 
 		$res = $this->ilias->db->query($query);
 		$query = "SELECT LAST_INSERT_ID() as id FROM $this->table_mail";
@@ -865,20 +879,22 @@ class ilMail
 						  $a_m_subject,
 						  $a_m_message)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM $this->table_mail_saved ".
-			"WHERE user_id = '".$this->user_id."'";
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 		$res = $this->ilias->db->query($query);
 
 		$query = "INSERT INTO $this->table_mail_saved ".
-			"SET user_id = '".$a_user_id."',".
+			"SET user_id = ".$ilDB->quote($a_user_id).",".
 			"attachments = '".addslashes(serialize($a_attachments))."',".
-			"rcp_to = '".addslashes($a_rcp_to)."',".
-			"rcp_cc = '".addslashes($a_rcp_cc)."',".
-			"rcp_bcc = '".addslashes($a_rcp_bcc)."',".
+			"rcp_to = ".$ilDB->quote($a_rcp_to).",".
+			"rcp_cc = ".$ilDB->quote($a_rcp_cc).",".
+			"rcp_bcc = ".$ilDB->quote($a_rcp_bcc).",".
 			"m_type = '".addslashes(serialize($a_m_type))."',".
 			"m_email = '',".
-			"m_subject = '".addslashes($a_m_subject)."',".
-			"m_message = '".addslashes($a_m_message)."'";
+			"m_subject = ".$ilDB->quote($a_m_subject).",".
+			"m_message = ".$ilDB->quote($a_m_message)."";
 
 		$res = $this->ilias->db->query($query);
 
@@ -892,8 +908,10 @@ class ilMail
 	*/
 	function getSavedData()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM $this->table_mail_saved ".
-			"WHERE user_id = '".$this->user_id."'";
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
 		$this->mail_data = $this->fetchMailData($this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT));
 
@@ -1192,9 +1210,11 @@ class ilMail
 	*/
 	function saveAttachments($a_attachments)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE $this->table_mail_saved ".
 			"SET attachments = '".addslashes(serialize($a_attachments))."' ".
-			"WHERE user_id = '".$this->user_id."'";
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
 		$res = $this->ilias->db->query($query);
 

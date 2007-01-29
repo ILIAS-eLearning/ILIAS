@@ -87,10 +87,10 @@ class ilAddressbook
 		if($a_query_str)
 		{
 			$query = "SELECT * FROM $this->table_addr ".
-				"WHERE (login LIKE '%".$a_query_str."%' ".
-				"OR firstname LIKE '%".$a_query_str."%' ".
-				"OR lastname LIKE '%".$a_query_str."%' ".
-				"OR email LIKE '%".$a_query_str."%') ".
+				"WHERE (login LIKE '%".addslashes($a_query_str)."%' ".
+				"OR firstname LIKE '%".addslashes($a_query_str)."%' ".
+				"OR lastname LIKE '%".addslashes($a_query_str)."%' ".
+				"OR email LIKE '%".addslashes($a_query_str)."%') ".
 				"AND user_id = '".$this->user_id."'";
 		}
 		else
@@ -102,10 +102,10 @@ class ilAddressbook
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$entries[] = array(
-				"login"      => stripslashes($row->login),
-				"firstname"  => stripslashes($row->firstname),
-				"lastname"   => stripslashes($row->lastname),
-				"email"      => stripslashes($row->email));
+				"login"      => ($row->login),
+				"firstname"  => ($row->firstname),
+				"lastname"   => ($row->lastname),
+				"email"      => ($row->email));
 		}
 		return $entries ? $entries : array();
 	}
@@ -120,12 +120,14 @@ class ilAddressbook
 	*/
 	function addEntry($a_login,$a_firstname,$a_lastname,$a_email)
 	{
+		global $ilDB;
+		
 		$query = "INSERT INTO $this->table_addr ".
-			"SET user_id = '".$this->user_id."',".
-			"login = '".addslashes($a_login)."',".
-			"firstname = '".addslashes($a_firstname)."',".
-			"lastname = '".addslashes($a_lastname)."',".
-			"email = '".addslashes($a_email)."'";
+			"SET user_id = ".$ilDB->quote($this->user_id).",".
+			"login = ".$ilDB->quote($a_login).",".
+			"firstname = ".$ilDB->quote($a_firstname).",".
+			"lastname = ".$ilDB->quote($a_lastname).",".
+			"email = ".$ilDB->quote($a_email)."";
 
 		$res = $this->ilias->db->query($query);
 
@@ -144,13 +146,15 @@ class ilAddressbook
 	*/
 	function updateEntry($a_addr_id,$a_login,$a_firstname,$a_lastname,$a_email)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE $this->table_addr ".
-			"SET login = '".addslashes($a_login)."',".
-			"firstname = '".addslashes($a_firstname)."',".
-			"lastname = '".addslashes($a_lastname)."',".
-			"email = '".addslashes($a_email)."' ".
-			"WHERE user_id = '".$this->user_id."' ".
-			"AND addr_id = '".$a_addr_id."'";
+			"SET login = ".$ilDB->quote($a_login).",".
+			"firstname = ".$ilDB->quote($a_firstname).",".
+			"lastname = ".$ilDB->quote($a_lastname).",".
+			"email = ".$ilDB->quote($a_email)." ".
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
+			"AND addr_id = ".$ilDB->quote($a_addr_id)."";
 
 		$res = $this->ilias->db->query($query);
 
@@ -164,8 +168,10 @@ class ilAddressbook
 	*/
 	function getEntries()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM $this->table_addr ".
-			"WHERE user_id = '".$this->user_id."' ".
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
 			"ORDER BY login,lastname";
 
 		$res = $this->ilias->db->query($query);
@@ -173,10 +179,10 @@ class ilAddressbook
 		{
 			$entries[] = array(
 				"addr_id"    => $row->addr_id,
-				"login"      => stripslashes($row->login),
-				"firstname"  => stripslashes($row->firstname),
-				"lastname"   => stripslashes($row->lastname),
-				"email"      => stripslashes($row->email));
+				"login"      => ($row->login),
+				"firstname"  => ($row->firstname),
+				"lastname"   => ($row->lastname),
+				"email"      => ($row->email));
 		}
 		return $entries ? $entries : array();
 	}
@@ -188,18 +194,20 @@ class ilAddressbook
 	*/
 	function getEntry($a_addr_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM $this->table_addr ".
-			"WHERE user_id = '".$this->user_id."' ".
-			"AND addr_id = '".$a_addr_id."'";
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
+			"AND addr_id = ".$ilDB->quote($a_addr_id)." ";
 
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return array(
 			"addr_id"    => $row->addr_id,
-			"login"      => stripslashes($row->login),
-			"firstname"  => stripslashes($row->firstname),
-			"lastname"   => stripslashes($row->lastname),
-			"email"      => stripslashes($row->email));
+			"login"      => ($row->login),
+			"firstname"  => ($row->firstname),
+			"lastname"   => ($row->lastname),
+			"email"      => ($row->email));
 	}
 
 	/**
@@ -227,9 +235,11 @@ class ilAddressbook
 	*/
 	function deleteEntry($a_addr_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM $this->table_addr ".
-			"WHERE user_id = '".$this->user_id."' ".
-			"AND addr_id = '".$a_addr_id."'";
+			"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
+			"AND addr_id = ".$ilDB->quote($a_addr_id)." ";
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -243,10 +253,12 @@ class ilAddressbook
 	*/
 	function checkEntry($a_login)
 	{
+		global $ilDB;
+		
 		if ($a_login != "")
 		{
 			$query = "SELECT addr_id FROM $this->table_addr ".
-				"WHERE login = '".ilUtil::addSlashes($a_login)."'";
+				"WHERE login = ".$ilDB->quote($a_login)." ";
 			return $this->ilias->db->getOne($query);
 		}
 		

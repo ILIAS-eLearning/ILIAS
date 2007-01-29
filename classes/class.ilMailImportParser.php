@@ -276,6 +276,8 @@ class ilMailImportParser extends ilSaxParser
 	}
 	function __buildSQLArray()
 	{
+		global $ilDB;
+		
 		$sql = array();
 
 		if(!count($this->mails))
@@ -286,17 +288,17 @@ class ilMailImportParser extends ilSaxParser
 		foreach($this->mails as $mail)
 		{
 			$sql[] =  (array('0',
-							 $mail["usr_id"],
-							 $mail["folder_id"],
-							 $mail["sender_id"],
+							 addslashes($mail["usr_id"]),
+							 addslashes($mail["folder_id"]),
+							 addslashes($mail["sender_id"]),
 							 addslashes(serialize(array())),
-							 $mail["send_time"],
+							 addslashes($mail["send_time"]),
 							 addslashes($mail["rcp_to"]),
 							 addslashes($mail["rcp_cc"]),
 							 addslashes($mail["rcp_bcc"]),
-							 $mail["read"],
+							 addslashes($mail["read"]),
 							 addslashes(serialize(array("normal"))),
-							 $mail["m_email"],
+							 addslashes($mail["m_email"]),
 							 addslashes($mail["m_subject"]),
 							 addslashes($mail["m_message"]),
 							 addslashes($mail["import_name"])));
