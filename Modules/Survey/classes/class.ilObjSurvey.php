@@ -409,26 +409,12 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
-			$ilDB->quote($this->getSurveyId())
-		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$this->disinviteUser($row["user_fi"]);
-		}
-
 		$query = sprintf("DELETE FROM survey_finished WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
 
 		$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s",
-			$ilDB->quote($this->getSurveyId())
-		);
-		$result = $ilDB->query($query);
-
-		$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -453,24 +439,12 @@ class ilObjSurvey extends ilObject
 			$result = $ilDB->query($query);
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
-			// disinvite the user if the user was invited
-			if ($row["user_fi"] > 0) $this->disinviteUser($row["user_fi"]);
-			
 			$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND user_fi = %s AND anonymous_id = %s",
 				$ilDB->quote($this->getSurveyId()),
 				$ilDB->quote($row["user_fi"] . ""),
 				$ilDB->quote($row["anonymous_id"] . "")
 			);
 			$result = $ilDB->query($query);
-
-			if (strlen($row["anonymous_id"]))
-			{
-				$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s AND survey_key = %s",
-					$ilDB->quote($this->getSurveyId()),
-					$ilDB->quote($row["anonymous_id"] . "")
-				);
-				$result = $ilDB->query($query);
-			}
 
 			$query = sprintf("DELETE FROM survey_finished WHERE finished_id = %s",
 				$ilDB->quote($finished_id . "")
@@ -4679,53 +4653,21 @@ class ilObjSurvey extends ilObject
 	
 	function checkSurveyCode($code)
 	{
-		global $ilUser;
-		global $ilDB;
-		// check for the correct survey code
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if ($this->isAnonymousKey($code))
 		{
-			return TRUE;
-			/* This is no longer needed because we allow multiple survey participations if a user posesses more than one survey access code
-			user_key = "";
-			$query = sprintf("SELECT survey_key FROM survey_anonymous WHERE survey_fi = %s AND user_key = %s",
-				$ilDB->quote($this->getSurveyId() . ""),
-				$ilDB->quote(md5($ilUser->getId()))
-			);
-			$result = $ilDB->query($query);
-			if ($result->numRows())
+			if ($this->isSurveyStarted("", $code) == 1)
 			{
-				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-				$user_key = $row["survey_key"];
+				return false;
 			}
-			if (strcmp($user_key, $code) == 0)
+			else
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
-			*/
 		}
 		else
 		{
-			if ($this->isAnonymousKey($code))
-			{
-				if ($this->isSurveyStarted("", $code) == 1)
-				{
-					return false;
-				}
-				else
-				{
-					return true;
-				}
-			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
-		return false;
 	}
 
 	/**

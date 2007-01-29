@@ -3707,20 +3707,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						if (!$this->object->checkSurveyCode($_POST["anonymous_id"]))
 						{
-							sendInfo("wrong_survey_code_used", TRUE);
-							$this->ctrl->redirect($this, "infoScreen");
+							sendInfo("wrong_survey_code_used");
 						}
-						$anonymize_key = $_POST["anonymous_id"];
+						else
+						{
+							$anonymize_key = $_POST["anonymous_id"];
+						}
 					}
 					else if (strlen($_SESSION["anonymous_id"]) > 0)
 					{
 						if (!$this->object->checkSurveyCode($_SESSION["anonymous_id"]))
 						{
-							sendInfo("wrong_survey_code_used", TRUE);
-							unset($_SESSION["anonymous_id"]);
-							$this->ctrl->redirect($this, "infoScreen");
+							sendInfo("wrong_survey_code_used");
 						}
-						$anonymize_key = $_SESSION["anonymous_id"];
+						else
+						{
+							$anonymize_key = $_SESSION["anonymous_id"];
+						}
 					}
 					else
 					{
