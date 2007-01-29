@@ -2490,30 +2490,30 @@ function getCourseMemberships($a_user_id = "")
      */
 	function _getAllUserData($a_fields = NULL, $active =-1)
 	{
-        global $ilDB;
+		global $ilDB;
 
-        $result_arr = array();
+		$result_arr = array();
 
-        if ($a_fields !== NULL and is_array($a_fields))
-        {
-            if (count($a_fields) == 0)
-            {
-                $select = "*";
-            }
-            else
-            {
-                if (($usr_id_field = array_search("usr_id",$a_fields)) !== false)
-                    unset($a_fields[$usr_id_field]);
+		if ($a_fields !== NULL and is_array($a_fields))
+		{
+			if (count($a_fields) == 0)
+			{
+				$select = "*";
+			}
+			else
+			{
+			if (($usr_id_field = array_search("usr_id",$a_fields)) !== false)
+				unset($a_fields[$usr_id_field]);
 
-                $select = implode(",",$a_fields).",usr_data.usr_id";
+				$select = implode(",",$a_fields).",usr_data.usr_id";
 				// online time
 				if(in_array('online_time',$a_fields))
 				{
 					$select .= ",ut_online.online_time ";
 				}
-            }
+			}
 
-	        $q = "SELECT ".$select." FROM usr_data ";
+			$q = "SELECT ".$select." FROM usr_data ";
 
 			// Add online_time if desired
 			// Need left join here to show users that never logged in
@@ -2522,22 +2522,26 @@ function getCourseMemberships($a_user_id = "")
 				$q .= "LEFT JOIN ut_online ON usr_data.usr_id = ut_online.usr_id ";
 			}
 
-	        // get only active or inactive users
-	        if (is_numeric($active) && ($active == 0 or $active == 1))
-	        	$q .= "WHERE active= ".$ilDB->quote($active);
+			// get only active or inactive users
+			if (is_numeric($active) && ($active == 0 or $active == 1))
+				$q .= "WHERE active= ".$ilDB->quote($active);
 
-	        if (is_numeric($active) && $active == 2)
-	        	$q .= "WHERE time_limit_unlimited='0'";
+			if (is_numeric($active) && $active == 2)
+				$q .= "WHERE time_limit_unlimited='0'";
+
+			if (is_numeric($active) && $active == 3)
+				$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id 
+						WHERE crs_members.usr_id IS NULL";
 	        	
-            $r = $ilDB->query($q);
+			$r = $ilDB->query($q);
 
-            while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-            {
-                $result_arr[] = $row;
-            }
-        }
+			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$result_arr[] = $row;
+			}
+		}
         
-   		return $result_arr;
+		return $result_arr;
 	}
 	
 	/**
