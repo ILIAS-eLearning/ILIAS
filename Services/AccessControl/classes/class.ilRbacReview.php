@@ -994,6 +994,31 @@ $log->write("ilRBACreview::getParentRoleIds(), 1");
 	}
 	
 	/**
+	* get operation id by name of operation
+	* @access	public
+	* @access	static
+	* @param	string	operation name
+	* @return	integer	operation id
+	*/
+	public static function _getOperationIdByName($a_operation)
+	{
+		global $ilDB,$ilErr;
+	
+		if (!isset($a_operation))
+		{
+			$message = "perm::getOperationId(): No operation given!";
+			$ilErr->raiseError($message,$ilErr->WARNING);	
+		}
+	
+		$q = "SELECT DISTINCT ops_id FROM rbac_operations ".
+			 "WHERE operation = ".$ilDB->quote($a_operation)." ";		    
+		$row = $ilDB->getRow($q);
+	
+		return $row->ops_id;
+	}
+	
+	
+	/**
 	* get all linked local roles of a role folder that are created due to stopped inheritance
 	* returns an array with role ids
 	* @access	public
@@ -1092,5 +1117,63 @@ $log->write("ilRBACreview::__setProtectedStatus(), 2");
 		return $a_parent_roles;
 	}
 	
+	/**
+	* get operation list by object type
+	* TODO: rename function to: getOperationByType
+	* @access	public
+	* @access 	static
+	* @param	string	object type you want to have the operation list
+	* @param	string	order column
+	* @param	string	order direction (possible values: ASC or DESC)
+	* @return	array	returns array of operations
+	*/
+	public static function _getOperationList($a_type = null)
+	 {
+		global $ilDB;
+	
+		$arr = array();
+	
+		if ($a_type)
+		{
+			$q = "SELECT * FROM rbac_operations ".
+				 "LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
+				 "LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
+				 "WHERE object_data.title= ".$ilDB->quote($a_type)." AND object_data.type='typ' ".
+				 "ORDER BY 'order' ASC"; 
+		}
+		else
+		{
+			$q = "SELECT * FROM rbac_operations ".
+				 "ORDER BY 'order' ASC";
+		}
+		
+		$r = $ilDB->query($q);
+	
+		while ($row = $r->fetchRow())
+		{
+			$arr[] = array(
+						"ops_id"	=> $row[0],
+						"operation"	=> $row[1],
+						"desc"		=> $row[2],
+						"class"		=> $row[3],
+						"order"		=> $row[4]
+						);
+		}
+	
+		return $arr;
+	}
+	
+	public static function _groupOperationsByClass($a_ops_arr)
+	{
+		$arr = array();
+	
+		foreach ($a_ops_arr as $ops)
+		{
+			$arr[$ops['class']][] = array ('ops_id'	=> $ops['ops_id'],
+										   'name'	=> $ops['operation']
+										 );
+		}
+		return $arr; 
+	}
 } // END class.ilRbacReview
 ?>

@@ -681,7 +681,7 @@ class ilPermissionGUI
 			}
 
 			// compute permission settings for each role
-			$grouped_ops = groupOperationsByClass(getOperationList($this->gui_obj->object->getType()));
+			$grouped_ops = ilRbacReview::_groupOperationsByClass(ilRbacReview::_getOperationList($this->gui_obj->object->getType()));
 
 			foreach ($grouped_ops as $ops_group => $ops_data)
 			{

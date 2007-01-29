@@ -1430,7 +1430,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// check loginname
-		if (loginExists($_POST["Fobject"]["login"]))
+		if (ilObjUser::_loginExists($_POST["Fobject"]["login"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1630,7 +1630,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 
 			// check loginname
-			if (loginExists($_POST["Fobject"]["login"],$this->id))
+			if (ilObjUser::_loginExists($_POST["Fobject"]["login"],$this->id))
 			{
 				$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
 			}

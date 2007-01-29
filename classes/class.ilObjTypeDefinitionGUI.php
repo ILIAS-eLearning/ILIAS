@@ -64,7 +64,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
 		$ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
 
-		if ($list = getOperationList("",$_GET["order"], $_GET["direction"]))
+		if ($list = ilRbacReview::_getOperationList("",$_GET["order"], $_GET["direction"]))
 		{
 			foreach ($list as $key => $val)
 			{
@@ -279,7 +279,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
 		$ops_valid = $rbacreview->getOperationsOnType($this->obj_id);
 
-		if ($ops_arr = getOperationList('', $a_order, $a_direction))
+		if ($ops_arr = ilRbacReview::_getOperationList('', $a_order, $a_direction))
 		{
 			$options = array("e" => "enabled","d" => "disabled");
 
