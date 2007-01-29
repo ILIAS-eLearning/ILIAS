@@ -58,7 +58,7 @@ $tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
 $tpl->parseCurrentBlock();
 
 $tpl->setVariable("HEADER", $lng->txt("mail"));
-infoPanel();
+ilUtil::infoPanel();
 
 
 // IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE

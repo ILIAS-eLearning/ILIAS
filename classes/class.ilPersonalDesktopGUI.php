@@ -238,7 +238,7 @@ class ilPersonalDesktopGUI
 		ilUtil::sendInfo();
 		
 		// display infopanel if something happened
-		infoPanel();
+		ilUtil::infoPanel();
 		
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
 			$this->lng->txt("personal_desktop"));
@@ -359,7 +359,7 @@ class ilPersonalDesktopGUI
 		ilUtil::sendInfo();
 		
 		// display infopanel if something happened
-		infoPanel();
+		ilUtil::infoPanel();
 		
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
 			$this->lng->txt("personal_desktop"));

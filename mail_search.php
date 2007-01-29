@@ -53,7 +53,7 @@ $tpl->setCurrentBlock("header_image");
 $tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
 $tpl->parseCurrentBlock();
 $tpl->setVariable("HEADER",$lng->txt("mail"));
-infoPanel();
+ilUtil::infoPanel();
 
 // LOCATOR
 setLocator($_GET["mobj_id"],"mail_search.php",$_SESSION["AccountId"],"");

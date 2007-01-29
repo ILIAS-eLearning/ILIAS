@@ -275,7 +275,7 @@ class ilLearningProgressBaseGUI
 			// catch feedback message
 			ilUtil::sendInfo();
 			// display infopanel if something happened
-			infoPanel();
+			ilUtil::infoPanel();
 		}
 
 	}

@@ -263,7 +263,7 @@ class ilObjectGUI
 			$tpl->setLocator();
 
 			ilUtil::sendInfo();
-			infoPanel();
+			ilUtil::infoPanel();
 
 			$this->setTitleAndDescription();
 
@@ -279,7 +279,7 @@ class ilObjectGUI
 		$this->setLocator();
 		// catch feedback message
 		ilUtil::sendInfo();
-		infoPanel();
+		ilUtil::infoPanel();
 
 		// in creation mode (parent) object and gui object
 		// do not fit

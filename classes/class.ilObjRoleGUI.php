@@ -2146,7 +2146,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		// display infopanel if something happened
-		infoPanel();
+		ilUtil::infoPanel();
 
 		// set header
 		$this->__setHeader();

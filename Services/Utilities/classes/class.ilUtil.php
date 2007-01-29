@@ -3379,6 +3379,46 @@ class ilUtil
 		}
 	}
 	
+	function infoPanel($a_keep = true)
+	{
+		global $tpl,$ilias,$lng;
+	
+		if (!empty($_SESSION["infopanel"]) and is_array($_SESSION["infopanel"]))
+		{
+			$tpl->addBlockFile("INFOPANEL", "infopanel", "tpl.infopanel.html");
+			$tpl->setCurrentBlock("infopanel");
+	
+			if (!empty($_SESSION["infopanel"]["text"]))
+			{
+				$link = "<a href=\"".$dir.$_SESSION["infopanel"]["link"]."\" target=\"".
+					ilFrameTargetInfo::_getFrame("MainContent").
+					"\">";
+				$link .= $lng->txt($_SESSION["infopanel"]["text"]);
+				$link .= "</a>";
+			}
+	
+			// deactivated
+			if (!empty($_SESSION["infopanel"]["img"]))
+			{
+				$link .= "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
+					ilFrameTargetInfo::_getFrame("MainContent").
+					"\">";
+				$link .= "<img src=\"".$ilias->tplPath.$ilias->account->prefs["skin"]."/images/".
+					$_SESSION["infopanel"]["img"]."\" border=\"0\" vspace=\"0\"/>";
+				$link .= "</a></td>";
+			}
+	
+			$tpl->setVariable("INFO_ICONS",$link);
+			$tpl->parseCurrentBlock();
+		}
+	
+		//if (!$a_keep)
+		//{
+				session_unregister("infopanel");
+		//}
+	}
+	
+	
 
 } // END class.ilUtil
 

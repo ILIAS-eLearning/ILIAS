@@ -694,7 +694,7 @@ class ilStartUpGUI
 
 		ilUtil::sendInfo();
 		// display infopanel if something happened
-		infoPanel();
+		ilUtil::infoPanel();
 
 		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 		$tpl->setVariable("TXT_OK", $lng->txt("ok"));

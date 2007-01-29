@@ -133,7 +133,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$this->tpl->getStandardTemplate();
 				$this->setLocator();
 				ilUtil::sendInfo();
-				infoPanel();
+				ilUtil::infoPanel();
 				//$this->prepareOutput(false);
 				$ret = $this->forwardToPageObject();
 				$this->setTitleAndDescription();

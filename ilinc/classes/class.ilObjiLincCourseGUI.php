@@ -1476,7 +1476,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
-		infoPanel();
+		ilUtil::infoPanel();
 
 		ilUtil::sendInfo($this->lng->txt($info));
 
@@ -1655,7 +1655,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		unset($member);
 		unset($ilinc_user);
 		
-		infoPanel();
+		ilUtil::infoPanel();
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "member_table", "tpl.table.html");
 

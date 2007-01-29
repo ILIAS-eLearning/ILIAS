@@ -55,7 +55,7 @@ $tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
 $tpl->parseCurrentBlock();
 
 $tpl->setVariable("HEADER",$lng->txt("mail"));
-infoPanel();
+ilUtil::infoPanel();
 
 setLocator($_GET["mobj_id"],'mail_options.php',$_SESSION["AccountId"],"");
 
