@@ -33,38 +33,6 @@
 */
 
 
-
-
-/**
-* sends a message to the recent page
-* if you call sendInfo without any parameter, function will display a stored message
-* in session and delete it afterwards
-* @access	public
-* @param	string	message
-* @param	boolean	if true message is kept in session
-*/
-function sendInfo($a_info = "",$a_keep = false)
-{
-	global $tpl;
-
-	if (!empty($a_info))
-	{
-		$_SESSION["info"] = $a_info;
-	}
-	if (!empty($_SESSION["info"]))
-	{
-		$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
-#		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("INFO",$_SESSION["info"]);
-#		$tpl->parseCurrentBlock();
-	}
-
-	if (!$a_keep)
-	{
-		session_unregister("info");
-	}
-}
-
 function infoPanel($a_keep = true)
 {
 	global $tpl,$ilias,$lng;

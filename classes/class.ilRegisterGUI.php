@@ -124,7 +124,7 @@ class ilRegisterGUI
 					$txt_submit = $this->lng->txt("grp_back");
 					$readonly = "readonly";
 					$stat = $this->lng->txt("group_registration_expired");
-					sendInfo($this->lng->txt("registration_expired"));
+					ilUtil::sendInfo($this->lng->txt("registration_expired"));
 				}
 				break;
 
@@ -147,7 +147,7 @@ class ilRegisterGUI
 					$txt_submit = $this->lng->txt("grp_back");
 					$readonly = "readonly";
 					$stat = $this->lng->txt("group_registration_expired");
-					sendInfo($this->lng->txt("registration_expired"));
+					ilUtil::sendInfo($this->lng->txt("registration_expired"));
 				}
 				break;
 		}
@@ -169,7 +169,7 @@ class ilRegisterGUI
 		$submit_btn = true;
 		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->object))
 		{
-			sendInfo($this->object->getMessage());
+			ilUtil::sendInfo($this->object->getMessage());
 			$submit_btn = false;
 		}
 
@@ -211,7 +211,7 @@ class ilRegisterGUI
 	
 	function cancel()
 	{
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		//$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->getReturnRefId());
 		//$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
 		ilUtil::redirect("repository.php?ref_id=".$this->getReturnRefId());
@@ -226,7 +226,7 @@ class ilRegisterGUI
 		
 		$this->ilias->account->addDesktopItem($this->object->getRefId(),"grp");
 		
-		sendInfo($this->lng->txt("grp_registration_completed"),true);		
+		ilUtil::sendInfo($this->lng->txt("grp_registration_completed"),true);		
 		$this->ctrl->returnToParent($this);
 	}
 	
@@ -247,7 +247,7 @@ class ilRegisterGUI
 					$ilDB->quote(date("Y-m-d H:i:s")).")";
 				$this->ilias->db->query($q);
 
-				sendInfo($this->lng->txt("application_completed"),true);
+				ilUtil::sendInfo($this->lng->txt("application_completed"),true);
 				ilUtil::redirect("repository.php?ref_id=".$this->getReturnRefId());
 				break;
 
@@ -259,12 +259,12 @@ class ilRegisterGUI
 
 					$this->ilias->account->addDesktopItem($this->object->getRefId(),"grp");
 		
-					sendInfo($this->lng->txt("grp_registration_completed"),true);
+					ilUtil::sendInfo($this->lng->txt("grp_registration_completed"),true);
 					$this->ctrl->returnToParent($this);
 				}
 				
 				//wrong passwd
-				sendInfo($this->lng->txt("err_wrong_password"),true);
+				ilUtil::sendInfo($this->lng->txt("err_wrong_password"),true);
 				$this->ctrl->returnToParent($this);
 
 				//$this->ilErr->raiseError($this->lng->txt("registration_not_possible"),$this->ilErr->MESSAGE);

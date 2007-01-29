@@ -66,7 +66,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 		// put here object specific stuff
 			
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		exit();
 	}
 
@@ -113,7 +113,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 			$this->tree->deleteTree($node_data);
 		}
 		
-		sendInfo($this->lng->txt("msg_removed"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_removed"),true);
 
 		$this->ctrl->redirect($this, "view");
 	}

@@ -151,7 +151,7 @@ class ilGlossaryTermGUI
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["term_language"];
 		$term->create();
 
-		sendinfo($this->lng->txt("cont_added_term"),true);
+		ilUtil::sendInfo($this->lng->txt("cont_added_term"),true);
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -193,7 +193,7 @@ class ilGlossaryTermGUI
 		$this->term->setTerm(ilUtil::stripSlashes($_POST["term"]));
 		$this->term->setLanguage($_POST["term_language"]);
 		$this->term->update();
-		sendinfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this, "editTerm");
 	}
 
@@ -307,7 +307,7 @@ class ilGlossaryTermGUI
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
 		//$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
-		//sendInfo();
+		//ilUtil::sendInfo();
 		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->setVariable("HEADER",
 			$this->lng->txt("cont_term").": ".$this->term->getTerm());
@@ -409,7 +409,7 @@ class ilGlossaryTermGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
@@ -501,7 +501,7 @@ class ilGlossaryTermGUI
 	*/
 	function cancel()
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "listDefinitions");
 	}
 
@@ -527,7 +527,7 @@ class ilGlossaryTermGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		sendInfo();
+		ilUtil::sendInfo();
 	}
 
 	/**
@@ -623,7 +623,7 @@ class ilGlossaryTermGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle($glo_id)), true);
 			include("repository.php");
 			exit;

@@ -95,7 +95,7 @@ class ilEventAdministrationGUI
 
 	function cancel()
 	{
-		#sendInfo($this->lng->txt('msg_cancel',true));
+		#ilUtil::sendInfo($this->lng->txt('msg_cancel',true));
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -106,7 +106,7 @@ class ilEventAdministrationGUI
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		ilEventParticipants::_register($ilUser->getId(),(int) $_GET['event_id']);
 
-		sendInfo($this->lng->txt('event_registered'),true);
+		ilUtil::sendInfo($this->lng->txt('event_registered'),true);
 		$this->ctrl->returnToParent($this);
 	}
 		
@@ -117,7 +117,7 @@ class ilEventAdministrationGUI
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		ilEventParticipants::_unregister($ilUser->getId(),(int) $_GET['event_id']);
 
-		sendInfo($this->lng->txt('event_unregistered'),true);
+		ilUtil::sendInfo($this->lng->txt('event_unregistered'),true);
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -365,7 +365,7 @@ class ilEventAdministrationGUI
 			$part->setRegistered(ilEventParticipants::_isRegistered($user,(int) $_GET['event_id']));
 			$part->updateUser();
 		}
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->editMembers();
 	}
 
@@ -426,7 +426,7 @@ class ilEventAdministrationGUI
 		$part_obj->setParticipated($_POST['participance']);
 		$part_obj->updateUser((int) $_GET['user_id']);
 
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->editMembers();
 	}
 
@@ -499,7 +499,7 @@ class ilEventAdministrationGUI
 		$this->event_items->setItems(is_array($_POST['items']) ? $_POST['items'] : array());
 		$this->event_items->update();
 
-		sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
 		$this->ctrl->returnToParent($this);
 	}
 		
@@ -800,7 +800,7 @@ class ilEventAdministrationGUI
 
 		if(strlen($ilErr->getMessage()))
 		{
-			sendInfo($ilErr->getMessage());
+			ilUtil::sendInfo($ilErr->getMessage());
 			$this->edit();
 			return false;
 		}
@@ -828,7 +828,7 @@ class ilEventAdministrationGUI
 		// Reread file objects
 		$this->event_obj->readFiles();
 
-		sendInfo($this->lng->txt('event_updated'));
+		ilUtil::sendInfo($this->lng->txt('event_updated'));
 		$this->edit();
 		return true;
 	}
@@ -846,7 +846,7 @@ class ilEventAdministrationGUI
 
 		if(strlen($ilErr->getMessage()))
 		{
-			sendInfo($ilErr->getMessage());
+			ilUtil::sendInfo($ilErr->getMessage());
 			$this->addEvent();
 			return false;
 		}
@@ -861,7 +861,7 @@ class ilEventAdministrationGUI
 		$this->file_obj->setEventId($event_id);
 		$this->file_obj->create();
 
-		sendInfo($this->lng->txt('event_add_new_event'),true);
+		ilUtil::sendInfo($this->lng->txt('event_add_new_event'),true);
 		$this->ctrl->returnToParent($this);
 		return true;
 	}
@@ -894,7 +894,7 @@ class ilEventAdministrationGUI
 			$this->tpl->setVariable("EVENT_NAME",$event_obj->getTitle());
 			$this->tpl->parseCurrentBlock();
 		}
-		sendInfo($this->lng->txt('event_delete_sure'));
+		ilUtil::sendInfo($this->lng->txt('event_delete_sure'));
 		return true;
 	}
 
@@ -904,7 +904,7 @@ class ilEventAdministrationGUI
 
 		if(!is_array($_SESSION['event_del']))
 		{
-			sendInfo($this->lng->txt('event_none_selected'));
+			ilUtil::sendInfo($this->lng->txt('event_none_selected'));
 			$this->ctrl->returnToParent($this);
 			return false;
 		}
@@ -913,7 +913,7 @@ class ilEventAdministrationGUI
 			ilEvent::_delete($event_id);
 		}
 
-		sendInfo($this->lng->txt('events_deleted'),true);
+		ilUtil::sendInfo($this->lng->txt('events_deleted'),true);
 		$this->ctrl->returnToParent($this);
 
 		return true;

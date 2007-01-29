@@ -141,7 +141,7 @@ class ilSurveyEvaluationGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("svy_check_evaluation_wrong_key", true));
+			ilUtil::sendInfo($this->lng->txt("svy_check_evaluation_wrong_key", true));
 			$this->cancelEvaluationAccess();
 		}
 	}
@@ -315,7 +315,7 @@ class ilSurveyEvaluationGUI
 			return;
 		}
 
-		sendInfo();
+		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
 		$counter = 0;
 		$classes = array("tblrow1", "tblrow2");
@@ -534,7 +534,7 @@ class ilSurveyEvaluationGUI
 		}
 
 		$userResults =& $this->object->getUserSpecificResults();
-		sendInfo();
+		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
 		$counter = 0;
 		$classes = array("tblrow1top", "tblrow2top");
@@ -659,7 +659,7 @@ class ilSurveyEvaluationGUI
 		}
 
 		$userResults =& $this->object->getUserSpecificResults();
-		sendInfo();
+		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
 		$counter = 0;
 		$classes = array("tblrow1top", "tblrow2top");

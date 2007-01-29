@@ -78,7 +78,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	
 	function cancelObject()
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "settings");
 	}
 
@@ -170,7 +170,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$rpc_settings =& new ilRPCServerSettings();
 		if($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer())
 		{
-			sendInfo($this->lng->txt('search_no_connection_lucene'),true);
+			ilUtil::sendInfo($this->lng->txt('search_no_connection_lucene'),true);
 			$this->ctrl->redirect($this,'settings');
 
 			return false;
@@ -178,7 +178,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		$this->object->settings_obj->update();
 
-		sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this,'settings');
 
 		return true;

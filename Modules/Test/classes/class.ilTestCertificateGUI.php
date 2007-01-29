@@ -309,7 +309,7 @@ class ilTestCertificateGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 		$form_fields = array();
@@ -325,7 +325,7 @@ class ilTestCertificateGUI
 					$result = $this->object->importCertificate($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
 					if ($result == FALSE)
 					{
-						sendInfo($this->lng->txt("certificate_error_import"));
+						ilUtil::sendInfo($this->lng->txt("certificate_error_import"));
 					}
 					else
 					{
@@ -339,7 +339,7 @@ class ilTestCertificateGUI
 					$result = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
 					if ($result == FALSE)
 					{
-						sendInfo($this->lng->txt("certificate_error_upload_bgimage"));
+						ilUtil::sendInfo($this->lng->txt("certificate_error_upload_bgimage"));
 					}
 				}
 				$form_fields = $this->getFormFieldsFromPOST();
@@ -357,7 +357,7 @@ class ilTestCertificateGUI
 			$result = $this->object->checkCertificateInput($form_fields);
 			if ($result !== TRUE)
 			{
-				sendInfo($result);
+				ilUtil::sendInfo($result);
 			}
 			else
 			{

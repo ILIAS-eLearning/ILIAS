@@ -312,7 +312,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			}
 		}
 		
-		sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
+		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
 		ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$newObj->getRefId());
 	}
 
@@ -566,7 +566,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$_GET["cmd"] = "frameset";
 				$_GET["target"] = "";
 				$_GET["ref_id"] = ROOT_FOLDER_ID;
-				sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 					ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 				include("repository.php");
 				exit;

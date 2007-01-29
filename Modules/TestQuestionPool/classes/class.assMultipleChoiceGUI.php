@@ -314,7 +314,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 
 		if (!$this->checkInput())
 		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 		}
 		else
 		{
@@ -442,7 +442,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		if (($result) and (($_POST["cmd"]["add"]) or ($_POST["cmd"]["add_tf"]) or ($_POST["cmd"]["add_yn"])))
 		{
 			// You cannot add answers before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 			$_POST["cmd"]["add"] = "";
 			$_POST["cmd"]["add_yn"] = "";
 			$_POST["cmd"]["add_tf"] = "";
@@ -460,7 +460,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 						$_POST["cmd"]["add"] = "";
 						$_POST["cmd"]["add_yn"] = "";
 						$_POST["cmd"]["add_tf"] = "";
-						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
+						ilUtil::sendInfo($this->lng->txt("fill_out_all_answer_fields"));
 					}
 			 	}
 			}
@@ -848,13 +848,13 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		{
 			if ($this->writePostData())
 			{
-				sendInfo($this->getErrorMessage());
+				ilUtil::sendInfo($this->getErrorMessage());
 				$this->editQuestion();
 				return;
 			}
 			if (!$this->checkInput())
 			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 				$this->editQuestion();
 				return;
 			}
@@ -879,7 +879,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	{
 		if ($this->writePostData())
 		{
-			sendInfo($this->getErrorMessage());
+			ilUtil::sendInfo($this->getErrorMessage());
 			$this->editQuestion();
 			return;
 		}

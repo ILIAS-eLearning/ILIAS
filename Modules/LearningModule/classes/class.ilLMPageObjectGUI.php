@@ -205,7 +205,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function cancel()
 	{
-		sendInfo($this->lng->txt("msg_cancel"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		if ($_GET["obj_id"] != 0)
 		{
 			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
@@ -435,7 +435,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle($lm_id)), true);
 			include("repository.php");
 			exit;

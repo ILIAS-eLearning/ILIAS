@@ -77,7 +77,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
@@ -142,7 +142,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			$this->object->enableUserRelatedData(false);
 		}
 
-		sendinfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this,'settings');
 	}
 */
@@ -212,7 +212,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 /*
 	function cancelDeleteDataObject()
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
 	}
@@ -232,7 +232,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 
 		$this->object->deleteTrackingDataBeforeMonth($_GET["month"]);
 
-		sendInfo($this->lng->txt("tracking_data_deleted"),true);
+		ilUtil::sendInfo($this->lng->txt("tracking_data_deleted"),true);
 		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
 	}
 */

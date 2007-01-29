@@ -103,7 +103,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 
 		$this->ctrl->redirect($this);
 	}
@@ -184,7 +184,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$this->object->_setLogLanguage($_POST["reporting_language"]);
 		$this->object->_setManualScoring($_POST["chb_manual_scoring"]);
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');
 	}
@@ -468,11 +468,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		if (is_array($_POST["chb_test"]) && (count($_POST["chb_test"])))
 		{
 			$this->object->deleteLogEntries($_POST["chb_test"]);
-			sendInfo($this->lng->txt("ass_log_deleted"));
+			ilUtil::sendInfo($this->lng->txt("ass_log_deleted"));
 		}
 		else
 		{
-			sendInfo($this->lng->txt("ass_log_delete_no_selection"));
+			ilUtil::sendInfo($this->lng->txt("ass_log_delete_no_selection"));
 		}
 		$this->logAdminObject();
 	}

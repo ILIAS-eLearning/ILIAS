@@ -71,13 +71,13 @@ if(isset($_POST["cmd"]["send"]))
 										 $_POST["rcp_bcc"],ilUtil::stripSlashes($_POST["m_subject"]),$f_message,
 										 $_POST["attachments"],$_POST["m_type"]))
 	{
-		sendInfo($error_message);
+		ilUtil::sendInfo($error_message);
 	}
 	else
 	{
 		$mbox = new ilMailbox($_SESSION["AccountId"]);
 
-		sendInfo($lng->txt("mail_message_send",true));
+		ilUtil::sendInfo($lng->txt("mail_message_send",true));
 		header("location: mail.php?sent=1&mobj_id=".$mbox->getInboxFolder());
 		exit;
 	}
@@ -100,7 +100,7 @@ if(isset($_POST["cmd"]["save_message"]))
 								  ilUtil::stripSlashes($_POST["m_subject"]),
 								  ilUtil::stripSlashes($_POST["m_message"]),$_SESSION["draft"]);
 		session_unregister("draft");
-		sendInfo($lng->txt("mail_saved"),true);
+		ilUtil::sendInfo($lng->txt("mail_saved"),true);
 		header("location: mail.php?mobj_id=".$mbox->getInboxFolder());
 		exit;
 	}
@@ -114,11 +114,11 @@ if(isset($_POST["cmd"]["save_message"]))
 									ilUtil::stripSlashes($_POST["m_subject"]),
 									ilUtil::stripSlashes($_POST["m_message"]),$_SESSION["AccountId"]))
 		{
-			sendInfo($lng->txt("mail_saved"));
+			ilUtil::sendInfo($lng->txt("mail_saved"));
 		}
 		else
 		{
-			sendInfo($lng->txt("mail_send_error"));
+			ilUtil::sendInfo($lng->txt("mail_send_error"));
 		}
 	}
 }
@@ -127,17 +127,17 @@ if(isset($_POST["cmd"]["save_message"]))
 if(isset($_POST["cmd"]["rcp_to"]))
 {
 	$_SESSION["mail_search"] = 'to';
-	sendInfo($lng->txt("mail_insert_query"));
+	ilUtil::sendInfo($lng->txt("mail_insert_query"));
 }
 if(isset($_POST["cmd"]["rcp_cc"]))
 {
 	$_SESSION["mail_search"] = 'cc';
-	sendInfo($lng->txt("mail_insert_query"));
+	ilUtil::sendInfo($lng->txt("mail_insert_query"));
 }
 if(isset($_POST["cmd"]["rcp_bc"]))
 {
 	$_SESSION["mail_search"] = 'bc';
-	sendInfo($lng->txt("mail_insert_query"));
+	ilUtil::sendInfo($lng->txt("mail_insert_query"));
 }
 
 
@@ -145,7 +145,7 @@ if(isset($_POST["cmd"]["rcp_bc"]))
 if (isset($_POST["cmd"]["courses_to"]))
 {
 	$_SESSION["mail_search"] = 'to';
-	sendInfo($lng->txt("mail_search_courses"));
+	ilUtil::sendInfo($lng->txt("mail_search_courses"));
 	
 	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
 						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
@@ -183,7 +183,7 @@ if (isset($_GET["course_id"]) && isset($_GET["courses_to"]))
 if (isset($_POST["cmd"]["groups_to"]))
 {
 	$_SESSION["mail_search"] = 'to';
-	sendInfo($lng->txt("mail_search_groups"));
+	ilUtil::sendInfo($lng->txt("mail_search_groups"));
 
 	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
 						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
@@ -233,7 +233,7 @@ if(isset($_POST["cmd"]["search"]))
 	if(strlen(trim($_POST['search'])) < 3)
 	{
 		$lng->loadLanguageModule('search');
-		sendInfo($lng->txt('search_minimum_three'));
+		ilUtil::sendInfo($lng->txt('search_minimum_three'));
 		unset($_POST['cmd']);
 		$_POST['cmd']['rcp_to'] = true;
 	}
@@ -306,7 +306,7 @@ switch($_GET["type"])
 		{
 			if($error = $mfile->adoptAttachments($mail_data["attachments"],$_GET["mail_id"]))
 			{
-				sendInfo($error);
+				ilUtil::sendInfo($error);
 			}
 		}
 		break;

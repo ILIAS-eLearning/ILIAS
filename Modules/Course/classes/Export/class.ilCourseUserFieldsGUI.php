@@ -170,7 +170,7 @@ class ilCourseUserFieldsGUI
 		
 		if(!$_GET['field_id'])
 		{
-			sendInfo('No field given');
+			ilUtil::sendInfo('No field given');
 			$this->show();
 			return false;
 		}
@@ -229,14 +229,14 @@ class ilCourseUserFieldsGUI
 	{
 		if(!$_GET['field_id'])
 		{
-			sendInfo('No field given');
+			ilUtil::sendInfo('No field given');
 			$this->show();
 			return false;
 		}
 		$cdf = new ilCourseDefinedFieldDefinition($this->obj_id,(int) $_GET['field_id']);
 		$cdf->deleteValue((int) $_GET['del_field']);
 		
-		sendInfo($this->lng->txt('ps_cdf_deleted_field'));
+		ilUtil::sendInfo($this->lng->txt('ps_cdf_deleted_field'));
 		$this->editField();
 	}
 	
@@ -262,7 +262,7 @@ class ilCourseUserFieldsGUI
 	{
 		if(!$_GET['field_id'])
 		{
-			sendInfo('No field given');
+			ilUtil::sendInfo('No field given');
 			$this->show();
 			return false;
 		}
@@ -271,7 +271,7 @@ class ilCourseUserFieldsGUI
 	
 		if(!strlen($_POST['field_name']))
 		{
-			sendInfo($this->lng->txt('ps_cdf_no_name_given'));
+			ilUtil::sendInfo($this->lng->txt('ps_cdf_no_name_given'));
 			$this->editField();
 			return false;
 		}
@@ -286,7 +286,7 @@ class ilCourseUserFieldsGUI
 		ilCourseAgreement::_deleteByObjId($this->obj_id);
 		
 		
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->show();
 		return true;
 	}
@@ -303,12 +303,12 @@ class ilCourseUserFieldsGUI
 	{
 		if(!count($_POST['field_id']))
 		{
-			sendInfo($this->lng->txt('ps_cdf_select_one'));
+			ilUtil::sendInfo($this->lng->txt('ps_cdf_select_one'));
 			$this->show();
 			return false;
 		}
 		
-		sendInfo($this->lng->txt('ps_cdf_delete_sure'));
+		ilUtil::sendInfo($this->lng->txt('ps_cdf_delete_sure'));
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.user_fields_confirm_delete.html','Modules/Course');
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable('TXT_NAME',$this->lng->txt('ps_cdf_name'));
@@ -342,7 +342,7 @@ class ilCourseUserFieldsGUI
 	{
 		if(!count($_SESSION['il_cdf_delete']))
 		{
-			sendInfo($this->lng->txt('ps_cdf_select_one'));
+			ilUtil::sendInfo($this->lng->txt('ps_cdf_select_one'));
 			$this->show();
 			return false;
 		}
@@ -354,7 +354,7 @@ class ilCourseUserFieldsGUI
 		
 		ilCourseAgreement::_deleteByObjId($this->obj_id);
 		
-		sendInfo($this->lng->txt('ps_cdf_deleted'));
+		ilUtil::sendInfo($this->lng->txt('ps_cdf_deleted'));
 		unset($_SESSION['il_cdf_delete']);
 		
 		$this->show();
@@ -380,7 +380,7 @@ class ilCourseUserFieldsGUI
 		}
 		
 		ilCourseAgreement::_deleteByObjId($this->obj_id);
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 	 	$this->show();
 	 	return true;
 	}
@@ -510,7 +510,7 @@ class ilCourseUserFieldsGUI
 	
 		if(!strlen($_POST['field_name']))
 		{
-			sendInfo($this->lng->txt('ps_cdf_no_name_given'));
+			ilUtil::sendInfo($this->lng->txt('ps_cdf_no_name_given'));
 			$this->chooseDefinitions();
 			return false;
 		}
@@ -529,7 +529,7 @@ class ilCourseUserFieldsGUI
 		$cdf->enableRequired((int) $_POST['required']);
 		$cdf->save();
 		
-		sendInfo($this->lng->txt('ps_cdf_added_field'));
+		ilUtil::sendInfo($this->lng->txt('ps_cdf_added_field'));
 		$this->show();
 		return true;
 	}

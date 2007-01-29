@@ -165,13 +165,13 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if ($_POST["qpl"] < 1)
 		{
-			sendInfo($this->lng->txt("tst_select_questionpools"));
+			ilUtil::sendInfo($this->lng->txt("tst_select_questionpools"));
 			$this->createObject();
 			return;
 		}
 		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
-			sendInfo($this->lng->txt("tst_select_file_for_import"));
+			ilUtil::sendInfo($this->lng->txt("tst_select_file_for_import"));
 			$this->createObject();
 			return;
 		}
@@ -186,13 +186,13 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if ($_POST["tst"] < 1)
 		{
-			sendInfo($this->lng->txt("tst_select_tsts"));
+			ilUtil::sendInfo($this->lng->txt("tst_select_tsts"));
 			$this->createObject();
 			return;
 		}
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$ref_id = ilObjTest::_clone($_POST["tst"]);
-		sendInfo($this->lng->txt("object_duplicated"),true);
+		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
 		ilUtil::redirect("ilias.php?ref_id=$ref_id&baseClass=ilObjTestGUI");
 	}
 	
@@ -208,7 +208,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$newObj = parent::saveObject();
 
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilObjTestGUI");
@@ -237,7 +237,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
@@ -362,7 +362,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo("cannot_export_test", TRUE);
+			ilUtil::sendInfo("cannot_export_test", TRUE);
 		}
 		$this->ctrl->redirect($this, "export");
 	}
@@ -375,13 +375,13 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			sendInfo($this->lng->txt("select_max_one_item"), true);
+			ilUtil::sendInfo($this->lng->txt("select_max_one_item"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
@@ -398,7 +398,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
@@ -407,7 +407,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -446,7 +446,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -526,14 +526,14 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if ($_POST["qpl"] < 1)
 		{
-			sendInfo($this->lng->txt("tst_select_questionpools"));
+			ilUtil::sendInfo($this->lng->txt("tst_select_questionpools"));
 			$this->importObject();
 			return;
 		}
 
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
-			sendInfo($this->lng->txt("error_upload"));
+			ilUtil::sendInfo($this->lng->txt("error_upload"));
 			$this->importObject();
 			return;
 		}
@@ -566,7 +566,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// delete import directory
 			ilUtil::delDir(ilObjTest::_getImportDirectory());
 
-			sendInfo($this->lng->txt("tst_import_no_items"));
+			ilUtil::sendInfo($this->lng->txt("tst_import_no_items"));
 			$this->importObject();
 			return;
 		}
@@ -590,7 +590,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// delete import directory
 			ilUtil::delDir(ilObjTest::_getImportDirectory());
 
-			sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
+			ilUtil::sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
 			$this->importObject();
 			return;
 		}
@@ -711,7 +711,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());
-		sendInfo($this->lng->txt("object_imported"),true);
+		ilUtil::sendInfo($this->lng->txt("object_imported"),true);
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjTestGUI");
 	}
@@ -1005,7 +1005,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->removeAllTestEditings();
 		}
-		sendInfo($this->lng->txt("msg_obj_modified"));
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"));
 		if ($randomtest_switch)
 		{
 			if ($this->object->isRandomTest())
@@ -1085,7 +1085,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setReportingDate("");
 		}
 		$this->object->saveToDb(true);
-		sendInfo($this->lng->txt("msg_obj_modified"), TRUE);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), TRUE);
 
 		$this->ctrl->redirect($this, "scoring");
 	}
@@ -1103,7 +1103,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
@@ -1359,7 +1359,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
@@ -1760,7 +1760,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if (!count($selected_array))
 		{
-			sendInfo($this->lng->txt("tst_insert_missing_question"), true);
+			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"), true);
 			$this->ctrl->setParameterByClass(get_class($this), "sel_filter_type", $_POST["sel_filter_type"]);
 			$this->ctrl->setParameterByClass(get_class($this), "sel_question_type", $_POST["sel_question_type"]);
 			$this->ctrl->setParameterByClass(get_class($this), "sel_questionpool", $_POST["sel_questionpool"]);
@@ -1782,11 +1782,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->saveCompleteStatus();
 			if ($manscoring)
 			{
-				sendInfo($this->lng->txt("manscoring_hint"), TRUE);
+				ilUtil::sendInfo($this->lng->txt("manscoring_hint"), TRUE);
 			}
 			else
 			{
-				sendInfo($this->lng->txt("tst_questions_inserted"), TRUE);
+				ilUtil::sendInfo($this->lng->txt("tst_questions_inserted"), TRUE);
 			}
 			$this->ctrl->redirect($this, "questions");
 			return;
@@ -2200,7 +2200,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$selected_array = split(",", $_POST["chosen_questions"]);
 		if (!count($selected_array))
 		{
-			sendInfo($this->lng->txt("tst_insert_missing_question"));
+			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"));
 		}
 		else
 		{
@@ -2208,18 +2208,18 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($total)
 			{
 				// the test was executed previously
-				sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
+				ilUtil::sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
 			}
 			else
 			{
-				sendInfo($this->lng->txt("tst_insert_questions"));
+				ilUtil::sendInfo($this->lng->txt("tst_insert_questions"));
 			}
 			foreach ($selected_array as $key => $value) 
 			{
 				$this->object->insertQuestion($value);
 			}
 			$this->object->saveCompleteStatus();
-			sendInfo($this->lng->txt("tst_questions_inserted"), true);
+			ilUtil::sendInfo($this->lng->txt("tst_questions_inserted"), true);
 			$this->ctrl->redirect($this, "questions");
 			return;
 		}
@@ -2290,7 +2290,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($value > $qpl_question_count[$_POST["qpl_" . $matches[1]]])
 				{
 					$value = $qpl_question_count[$_POST["qpl_" . $matches[1]]];
-					sendInfo($this->lng->txt("tst_random_selection_question_count_too_high"));
+					ilUtil::sendInfo($this->lng->txt("tst_random_selection_question_count_too_high"));
 				}
 				$found_qpls[$matches[1]] = array(
 					"index" => $matches[1],
@@ -2360,7 +2360,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if ($qpl_unselected)
 			{
-				sendInfo($this->lng->txt("tst_random_qpl_unselected"));
+				ilUtil::sendInfo($this->lng->txt("tst_random_qpl_unselected"));
 			}
 			else
 			{
@@ -2371,7 +2371,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				if (count($pools) == 0)
 				{
-					sendInfo($this->lng->txt("tst_no_more_available_questionpools"));
+					ilUtil::sendInfo($this->lng->txt("tst_no_more_available_questionpools"));
 				}
 				else
 				{
@@ -2419,7 +2419,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->object->saveRandomQuestionCount($total_questions);
 				}
-				sendInfo($this->lng->txt("tst_random_selection_question_total_count_too_high"));
+				ilUtil::sendInfo($this->lng->txt("tst_random_selection_question_total_count_too_high"));
 			}
 		}
 		$this->tpl->setVariable("VALUE_TOTAL_QUESTIONS", $total_questions);
@@ -2476,7 +2476,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$qpl_ref_id = $_POST["sel_qpl"];
 		if ((strcmp($_POST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
 		{
-			sendInfo($this->lng->txt("questionpool_not_entered"));
+			ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
 			$this->createQuestionObject();
 			return;
 		}
@@ -2563,7 +2563,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmRemoveQuestionsObject()
 	{
-		sendInfo($this->lng->txt("tst_questions_removed"));
+		ilUtil::sendInfo($this->lng->txt("tst_questions_removed"));
 		$checked_questions = array();
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/id_(\d+)/", $key, $matches)) {
@@ -2598,7 +2598,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function removeQuestionsForm($checked_questions)
 	{
-		sendInfo();
+		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_remove_questions.html", "Modules/Test");
 		$removablequestions =& $this->object->getTestQuestions();
 		$colors = array("tblrow1", "tblrow2");
@@ -2656,14 +2656,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$total = $this->object->evalTotalPersons();
 			if ($total) {
 				// the test was executed previously
-				sendInfo(sprintf($this->lng->txt("tst_remove_questions_and_results"), $total));
+				ilUtil::sendInfo(sprintf($this->lng->txt("tst_remove_questions_and_results"), $total));
 			} else {
-				sendInfo($this->lng->txt("tst_remove_questions"));
+				ilUtil::sendInfo($this->lng->txt("tst_remove_questions"));
 			}
 			$this->removeQuestionsForm($checked_questions);
 			return;
 		} elseif (count($checked_questions) == 0) {
-			sendInfo($this->lng->txt("tst_no_question_selected_for_removal"), true);
+			ilUtil::sendInfo($this->lng->txt("tst_no_question_selected_for_removal"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 	}
@@ -2712,7 +2712,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if ($insert_id <= 0)
 		{
-			sendInfo($this->lng->txt("no_target_selected_for_move"), true);
+			ilUtil::sendInfo($this->lng->txt("no_target_selected_for_move"), true);
 		}
 		else
 		{
@@ -2754,7 +2754,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if ($insert_id <= 0)
 		{
-			sendInfo($this->lng->txt("no_target_selected_for_move"), true);
+			ilUtil::sendInfo($this->lng->txt("no_target_selected_for_move"), true);
 		}
 		else
 		{
@@ -2770,7 +2770,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
@@ -2802,11 +2802,11 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($total)
 			{
 				// the test was executed previously
-				sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
+				ilUtil::sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
 			}
 			else
 			{
-				sendInfo($this->lng->txt("tst_insert_questions"));
+				ilUtil::sendInfo($this->lng->txt("tst_insert_questions"));
 			}
 			$this->insertQuestions($selected_array);
 			return;
@@ -2831,7 +2831,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			if ($checked_move)
 			{
-				sendInfo($this->lng->txt("select_target_position_for_move_question"));
+				ilUtil::sendInfo($this->lng->txt("select_target_position_for_move_question"));
 				$this->tpl->setCurrentBlock("move_buttons");
 				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
 				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
@@ -2839,7 +2839,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			else
 			{
-				sendInfo($this->lng->txt("no_question_selected_for_move"));
+				ilUtil::sendInfo($this->lng->txt("no_question_selected_for_move"));
 			}
 		}
 		
@@ -3031,7 +3031,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (count($delete_mark_steps)) {
 			$this->object->mark_schema->deleteMarkSteps($delete_mark_steps);
 		} else {
-			sendInfo($this->lng->txt("tst_delete_missing_mark"));
+			ilUtil::sendInfo($this->lng->txt("tst_delete_missing_mark"));
 		}
 		$this->marksObject();
 	}
@@ -3045,7 +3045,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelMarksObject()
 	{
-		sendInfo($this->lng->txt("msg_cancel"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 	
@@ -3063,31 +3063,31 @@ class ilObjTestGUI extends ilObjectGUI
 		$mark_check = $this->object->checkMarks();
 		if ($mark_check !== true)
 		{
-			sendInfo($this->lng->txt($mark_check));
+			ilUtil::sendInfo($this->lng->txt($mark_check));
 		}
 		elseif ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
 		{
-			sendInfo($this->lng->txt("ects_fill_out_all_values"), true);
+			ilUtil::sendInfo($this->lng->txt("ects_fill_out_all_values"), true);
 		}
 		elseif (($_POST["ects_grade_a"] > 100) or ($_POST["ects_grade_a"] < 0))
 		{
-			sendInfo($this->lng->txt("ects_range_error_a"), true);
+			ilUtil::sendInfo($this->lng->txt("ects_range_error_a"), true);
 		}
 		elseif (($_POST["ects_grade_b"] > 100) or ($_POST["ects_grade_b"] < 0))
 		{
-			sendInfo($this->lng->txt("ects_range_error_b"), true);
+			ilUtil::sendInfo($this->lng->txt("ects_range_error_b"), true);
 		}
 		elseif (($_POST["ects_grade_c"] > 100) or ($_POST["ects_grade_c"] < 0))
 		{
-			sendInfo($this->lng->txt("ects_range_error_c"), true);
+			ilUtil::sendInfo($this->lng->txt("ects_range_error_c"), true);
 		}
 		elseif (($_POST["ects_grade_d"] > 100) or ($_POST["ects_grade_d"] < 0))
 		{
-			sendInfo($this->lng->txt("ects_range_error_d"), true);
+			ilUtil::sendInfo($this->lng->txt("ects_range_error_d"), true);
 		}
 		elseif (($_POST["ects_grade_e"] > 100) or ($_POST["ects_grade_e"] < 0))
 		{
-			sendInfo($this->lng->txt("ects_range_error_e"), true);
+			ilUtil::sendInfo($this->lng->txt("ects_range_error_e"), true);
 		}
 		else 
 		{
@@ -3102,7 +3102,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent, $this->object->ects_grades["A"], $this->object->ects_grades["B"], $this->object->ects_grades["C"], $this->object->ects_grades["D"], $this->object->ects_grades["E"]);
 			}
-			sendInfo($this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		}
 		$this->marksObject();
 	}
@@ -3113,13 +3113,13 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
 		if (!$this->object->canEditMarks())
 		{
-			sendInfo($this->lng->txt("cannot_edit_marks"));
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_marks"));
 		}
 		
 		$this->object->mark_schema->sort();
@@ -3224,7 +3224,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function confirmDeleteAllUserDataObject()
 	{
 		$this->object->removeAllTestEditings();
-		sendInfo($this->lng->txt("tst_all_user_data_deleted"), true);
+		ilUtil::sendInfo($this->lng->txt("tst_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
 	}
 	
@@ -3256,7 +3256,7 @@ class ilObjTestGUI extends ilObjectGUI
 			array_push($active_ids, $active->active_id);
 		}
 		$this->object->removeSelectedTestResults($active_ids);
-		sendInfo($this->lng->txt("tst_selected_user_data_deleted"), true);
+		ilUtil::sendInfo($this->lng->txt("tst_selected_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
 	}
 	
@@ -3281,7 +3281,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function deleteAllUserDataObject()
 	{
-		sendInfo($this->lng->txt("confirm_delete_all_user_data"));
+		ilUtil::sendInfo($this->lng->txt("confirm_delete_all_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", "Modules/Test");
 
 		$this->tpl->setCurrentBlock("confirm_delete");
@@ -3305,10 +3305,10 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		if (count($_POST["chbUser"]) == 0)
 		{
-			sendInfo($this->lng->txt("select_one_user"), TRUE);
+			ilUtil::sendInfo($this->lng->txt("select_one_user"), TRUE);
 			$this->ctrl->redirect($this, "participants");
 		}
-		sendInfo($this->lng->txt("confirm_delete_single_user_data"));
+		ilUtil::sendInfo($this->lng->txt("confirm_delete_single_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", "Modules/Test");
 
 		foreach ($_POST["chbUser"] as $key => $value)
@@ -3377,7 +3377,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
@@ -3633,7 +3633,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
@@ -3666,12 +3666,12 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 					if ($message)
 					{
-						sendInfo($message);
+						ilUtil::sendInfo($message);
 					}
 					
 					if(!$search->getNumberOfResults() && $search->getSearchFor())
 					{
-						sendInfo($this->lng->txt("search_no_match"));
+						ilUtil::sendInfo($this->lng->txt("search_no_match"));
 					}
 					$buttons = array("add");
 	
@@ -3732,7 +3732,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			else
 			{
-				sendInfo($this->lng->txt("no_user_or_group_selected"));
+				ilUtil::sendInfo($this->lng->txt("no_user_or_group_selected"));
 			}
 		}
 		
@@ -3808,7 +3808,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if ($total && (count($invited_users) == 0))
 		{
-			sendInfo($this->lng->txt("tst_fixed_participants_data_exists"));
+			ilUtil::sendInfo($this->lng->txt("tst_fixed_participants_data_exists"));
 			$this->tpl->setVariable("DISABLED_FIXED_PARTICIPANTS", " disabled=\"disabled\"");
 		}
 
@@ -3833,7 +3833,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
@@ -3900,7 +3900,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getFixedParticipants())
 		{
 			$invited_users =& $this->object->getInvitedUsers();
-			if (count($invited_users) == 0)	sendInfo($this->lng->txt("tst_participants_no_fixed"));
+			if (count($invited_users) == 0)	ilUtil::sendInfo($this->lng->txt("tst_participants_no_fixed"));
 			$buttons = array("save","delete_user_data", "remove_as_participant");
 			if (count($invited_users))
 			{
@@ -3910,7 +3910,7 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$invited_users =& $this->object->getTestParticipants();
-			if (count($invited_users) == 0)	sendInfo($this->lng->txt("tst_participants_no"));
+			if (count($invited_users) == 0)	ilUtil::sendInfo($this->lng->txt("tst_participants_no"));
 			$buttons = array("delete_user_data");
 			if (count($invited_users))
 			{
@@ -3951,7 +3951,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("select_one_user"), true);
+			ilUtil::sendInfo($this->lng->txt("select_one_user"), true);
 		}
 		$this->ctrl->redirect($this, "participants");
 	}
@@ -3967,7 +3967,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("select_one_user"), true);
+			ilUtil::sendInfo($this->lng->txt("select_one_user"), true);
 		}
 		$this->ctrl->redirect($this, "participants");
 	}
@@ -3985,7 +3985,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_test"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
@@ -4311,11 +4311,11 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if (strlen($message))
 		{
-			sendInfo($message, TRUE);
+			ilUtil::sendInfo($message, TRUE);
 		}
 		else
 		{
-			sendInfo($this->lng->txt("tst_invited_nobody"), TRUE);
+			ilUtil::sendInfo($this->lng->txt("tst_invited_nobody"), TRUE);
 		}
 		
 		$this->ctrl->redirect($this, "inviteParticipants");
@@ -4555,7 +4555,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			else
 			{
-				sendInfo($online_access_result);
+				ilUtil::sendInfo($online_access_result);
 			}
 		}
 		if ($this->object->isComplete())
@@ -4587,7 +4587,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				else
 				{
-					sendInfo($executable["errormessage"]);
+					ilUtil::sendInfo($executable["errormessage"]);
 				}
 				if (is_object($active))
 				{
@@ -4731,7 +4731,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if($_GET['crs_show_result'] and !$this->object->getFirstSequence())
 		{
-			sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
+			ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
 		}			
 
 		$this->ctrl->forwardCommand($info);
@@ -5185,7 +5185,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

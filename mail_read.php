@@ -76,7 +76,7 @@ if($_POST["cmd"] || $_GET["cmd"] == "download")
 			$mfile = new ilFileDataMail($_SESSION["AccountId"]);
 			if(!$path = $mfile->getAttachmentPath($filename, $_GET["mail_id"]))
 			{
-				sendInfo("Error reading file!");
+				ilUtil::sendInfo("Error reading file!");
 			}
 			else
 			{

@@ -256,12 +256,12 @@ class ilCourseArchivesGUI
 
 		if(!$_POST['archives'])
 		{
-			sendInfo($this->lng->txt("crs_no_archives_selected"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_archives_selected"));
 			$this->view();
 			return false;
 		}
 		$_SESSION["crs_archives"] = $_POST["archives"];
-		sendInfo($this->lng->txt("crs_sure_delete_selected_archives"));
+		ilUtil::sendInfo($this->lng->txt("crs_sure_delete_selected_archives"));
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_confirm_delete_archives.html','Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -298,7 +298,7 @@ class ilCourseArchivesGUI
 
 		if(!$_SESSION['crs_archives'])
 		{
-			sendInfo($this->lng->txt("crs_no_archives_selected"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_archives_selected"));
 			$this->view();
 		}
 		
@@ -308,7 +308,7 @@ class ilCourseArchivesGUI
 			$this->course_obj->archives_obj->delete($archive_id);
 		}
 		
-		sendInfo($this->lng->txt('crs_archives_deleted'));
+		ilUtil::sendInfo($this->lng->txt('crs_archives_deleted'));
 		unset($_SESSION["crs_archives"]);
 
 		$this->view();
@@ -328,7 +328,7 @@ class ilCourseArchivesGUI
 		$this->course_obj->initCourseArchiveObject();
 		$this->course_obj->archives_obj->addXML();
 		
-		sendInfo($this->lng->txt("crs_added_new_archive"));
+		ilUtil::sendInfo($this->lng->txt("crs_added_new_archive"));
 		$this->view();
 
 		return true;
@@ -381,7 +381,7 @@ class ilCourseArchivesGUI
 		$this->course_obj->archives_obj->setLanguage($_POST['lang']);
 		$this->course_obj->archives_obj->addHTML();
 
-		sendInfo($this->lng->txt("crs_added_new_archive"));
+		ilUtil::sendInfo($this->lng->txt("crs_added_new_archive"));
 		$this->view();
 
 		return true;
@@ -401,14 +401,14 @@ class ilCourseArchivesGUI
 
 		if(!count($_POST['archives']))
 		{
-			sendInfo($this->lng->txt('crs_no_archive_selected'));
+			ilUtil::sendInfo($this->lng->txt('crs_no_archive_selected'));
 			$this->view();
 
 			return false;
 		}
 		if(count($_POST['archives']) > 1)
 		{
-			sendInfo($this->lng->txt('crs_select_one_archive'));
+			ilUtil::sendInfo($this->lng->txt('crs_select_one_archive'));
 			$this->view();
 
 			return false;

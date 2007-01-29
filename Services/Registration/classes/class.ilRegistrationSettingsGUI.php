@@ -173,13 +173,13 @@ class ilRegistrationSettingsGUI
 
 		if($error_code = $this->registration_settings->validate())
 		{
-			sendInfo($this->lng->txt('reg_unknown_recipients').' '.$this->registration_settings->getUnknown());
+			ilUtil::sendInfo($this->lng->txt('reg_unknown_recipients').' '.$this->registration_settings->getUnknown());
 			$this->view();
 			return false;
 		}
 		
 		$this->registration_settings->save();
-		sendInfo($this->lng->txt('saved_successfully'));
+		ilUtil::sendInfo($this->lng->txt('saved_successfully'));
 		$this->view();
 
 		return true;
@@ -235,7 +235,7 @@ class ilRegistrationSettingsGUI
 		// Minimum one role
 		if(count($_POST['roles']) < 1)
 		{
-			sendInfo($this->lng->txt('msg_last_role_for_registration'));
+			ilUtil::sendInfo($this->lng->txt('msg_last_role_for_registration'));
 			$this->editRoles();
 			return false;
 		}
@@ -249,7 +249,7 @@ class ilRegistrationSettingsGUI
 			}
 		}
 		
-		sendInfo($this->lng->txt('saved_successfully'));
+		ilUtil::sendInfo($this->lng->txt('saved_successfully'));
 		$this->view();
 
 		return true;
@@ -360,7 +360,7 @@ class ilRegistrationSettingsGUI
 		$this->__initRoleAssignments();
 		$this->assignments_obj->add();
 
-		sendInfo($this->lng->txt('reg_added_assignment'));
+		ilUtil::sendInfo($this->lng->txt('reg_added_assignment'));
 		$this->editEmailAssignments();
 
 		return true;
@@ -377,7 +377,7 @@ class ilRegistrationSettingsGUI
 
 		if(!count($_POST['del_assign']))
 		{
-			sendInfo($this->lng->txt('reg_select_one'));
+			ilUtil::sendInfo($this->lng->txt('reg_select_one'));
 			$this->editEmailAssignments();
 			return false;
 		}
@@ -389,7 +389,7 @@ class ilRegistrationSettingsGUI
 			$this->assignments_obj->delete($assignment_id);
 		}
 
-		sendInfo($this->lng->txt('reg_deleted_assignment'));
+		ilUtil::sendInfo($this->lng->txt('reg_deleted_assignment'));
 		$this->editEmailAssignments();
 
 		return true;
@@ -423,11 +423,11 @@ class ilRegistrationSettingsGUI
 			switch($err)
 			{
 				case IL_REG_MISSING_DOMAIN:
-					sendInfo($this->lng->txt('reg_missing_domain'));
+					ilUtil::sendInfo($this->lng->txt('reg_missing_domain'));
 					break;
 					
 				case IL_REG_MISSING_ROLE:
-					sendInfo($this->lng->txt('reg_missing_role'));
+					ilUtil::sendInfo($this->lng->txt('reg_missing_role'));
 					break;
 			}
 			$this->editEmailAssignments();
@@ -436,7 +436,7 @@ class ilRegistrationSettingsGUI
 
 
 		$this->assignments_obj->save();
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->view();
 		return true;
 	}
@@ -468,11 +468,11 @@ class ilRegistrationSettingsGUI
 			switch($err)
 			{
 				case IL_REG_ACCESS_LIMITATION_MISSING_MODE:
-					sendInfo($this->lng->txt('reg_access_limitation_missing_mode'));
+					ilUtil::sendInfo($this->lng->txt('reg_access_limitation_missing_mode'));
 					break;
 					
 				case IL_REG_ACCESS_LIMITATION_OUT_OF_DATE:
-					sendInfo($this->lng->txt('reg_access_limitation_out_of_date'));
+					ilUtil::sendInfo($this->lng->txt('reg_access_limitation_out_of_date'));
 					break;
 			}
 			$this->editRoleAccessLimitations();
@@ -481,7 +481,7 @@ class ilRegistrationSettingsGUI
 
 
 		$this->access_limitations_obj->save();
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->view();
 		return true;
 	}

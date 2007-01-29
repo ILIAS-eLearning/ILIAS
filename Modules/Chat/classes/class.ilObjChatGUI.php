@@ -242,21 +242,21 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if(!$_POST['block'] or !($usr_id = ilObjUser::getUserIdByLogin($_POST['block'])))
 		{
-			sendInfo($this->lng->txt('chat_enter_valid_username'));
+			ilUtil::sendInfo($this->lng->txt('chat_enter_valid_username'));
 			$this->blockedUsersObject();
 
 			return false;
 		}
 		if($blocked_obj->isBlocked($usr_id))
 		{
-			sendInfo($this->lng->txt('chat_user_already_blocked'));
+			ilUtil::sendInfo($this->lng->txt('chat_user_already_blocked'));
 			$this->blockedUsersObject();
 
 			return false;
 		}			
 
 		$blocked_obj->block($usr_id);
-		sendInfo($this->lng->txt('chat_user_blocked'));
+		ilUtil::sendInfo($this->lng->txt('chat_user_blocked'));
 		$this->blockedUsersObject();
 
 		return true;
@@ -278,7 +278,7 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		if(!is_array($_POST['blocked_check']))
 		{
-			sendInfo($this->lng->txt('chat_no_users_selected'));
+			ilUtil::sendInfo($this->lng->txt('chat_no_users_selected'));
 
 			return $this->blockedUsersObject();
 		}
@@ -288,7 +288,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$blocked_obj->unblock($usr_id);
 		}
 
-		sendInfo($this->lng->txt('chat_unblocked_user'));
+		ilUtil::sendInfo($this->lng->txt('chat_unblocked_user'));
 		return $this->blockedUsersObject();
 	}
 
@@ -312,7 +312,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 			$this->object->chat_room->setKicked((int)$_GET['kick_id']);
 
-			#sendInfo($this->lng->txt("chat_user_dropped"),true);
+			#ilUtil::sendInfo($this->lng->txt("chat_user_dropped"),true);
 			$this->showFrames();
 		}
 	}
@@ -330,7 +330,7 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->object->chat_room->setUnkicked((int)$_GET['kick_id']);
 
-			#sendInfo($this->lng->txt("chat_user_dropped"),true);
+			#ilUtil::sendInfo($this->lng->txt("chat_user_dropped"),true);
 			$this->showFrames();
 		}
 	}
@@ -367,11 +367,11 @@ class ilObjChatGUI extends ilObjectGUI
 		// CHAT SERVER NOT ACTIVE
 		if(!$this->object->server_comm->isAlive() or !$this->ilias->getSetting("chat_active"))
 		{
-			sendInfo($this->lng->txt("chat_server_not_active"));
+			ilUtil::sendInfo($this->lng->txt("chat_server_not_active"));
 		}
 		if(ilChatBlockedUsers::_isBlocked($this->object->getId(),$ilUser->getId()))
 		{
-			sendInfo($this->lng->txt('chat_access_blocked'));
+			ilUtil::sendInfo($this->lng->txt('chat_access_blocked'));
 
 			return true;
 		}
@@ -382,7 +382,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if($_SESSION["room_id_delete"])
 		{
 			$checked = $_SESSION["room_id_delete"];
-			sendInfo($this->lng->txt("chat_delete_sure"));
+			ilUtil::sendInfo($this->lng->txt("chat_delete_sure"));
 			$this->tpl->setCurrentBlock("confirm_delete");
 			$this->tpl->setVariable("TXT_DELETE_CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_DELETE_CONFIRM",$this->lng->txt("delete"));
@@ -512,7 +512,7 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		if(!isset($_POST["del_id"]))
 		{
-			sendInfo($this->lng->txt("chat_select_one_room"));
+			ilUtil::sendInfo($this->lng->txt("chat_select_one_room"));
 			$this->viewObject();
 			
 			return false;
@@ -523,14 +523,14 @@ class ilObjChatGUI extends ilObjectGUI
 			case "renameRoom":
 				if(count($_POST["del_id"]) > 1)
 				{
-					sendInfo($this->lng->txt("chat_select_one_room"));
+					ilUtil::sendInfo($this->lng->txt("chat_select_one_room"));
 					$this->viewObject();
 
 					return false;
 				}
 				if(in_array(0,$_POST["del_id"]))
 				{
-					sendInfo($this->lng->txt("chat_no_rename_public"));
+					ilUtil::sendInfo($this->lng->txt("chat_no_rename_public"));
 					$this->viewObject();
 
 					return false;
@@ -555,7 +555,7 @@ class ilObjChatGUI extends ilObjectGUI
 			case "deleteRoom":
 				if(in_array(0,$_POST["del_id"]))
 				{
-					sendInfo($this->lng->txt("chat_no_delete_public"));
+					ilUtil::sendInfo($this->lng->txt("chat_no_delete_public"));
 					$this->viewObject();
 
 					return false;
@@ -573,7 +573,7 @@ class ilObjChatGUI extends ilObjectGUI
 			case "refreshRoom":
 				if(in_array(0,$_POST["del_id"]) and !$rbacsystem->checkAccess('write',$this->object->getRefId()))
 				{
-					sendInfo($this->lng->txt("chat_no_refresh_public"));
+					ilUtil::sendInfo($this->lng->txt("chat_no_refresh_public"));
 					$this->viewObject();
 
 					return true;
@@ -585,7 +585,7 @@ class ilObjChatGUI extends ilObjectGUI
 					$this->object->server_comm->send();
 					$this->object->chat_room->deleteAllMessages();
 				}
-				sendInfo($this->lng->txt('chat_refreshed'));
+				ilUtil::sendInfo($this->lng->txt('chat_refreshed'));
 				$this->viewObject();
 
 				return true;
@@ -638,7 +638,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->object->chat_room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
 		}
 		unset($_GET["room_id_delete"]);
-		sendInfo($this->lng->txt("chat_rooms_deleted"),true);
+		ilUtil::sendInfo($this->lng->txt("chat_rooms_deleted"),true);
 		$this->showFrames();
 	}
 
@@ -660,7 +660,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->object->chat_room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
 		}
 		unset($_SESSION["room_id_delete"]);
-		sendInfo($this->lng->txt("chat_rooms_deleted"));
+		ilUtil::sendInfo($this->lng->txt("chat_rooms_deleted"));
 
 		$this->viewObject();
 		return true;
@@ -685,7 +685,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$room->add();
 
 		#$this->input_message = $this->lng->txt('chat_room_added');
-		sendInfo($this->lng->txt("chat_room_added"),true);
+		ilUtil::sendInfo($this->lng->txt("chat_room_added"),true);
 		$this->showFrames();
 	}
 
@@ -706,7 +706,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
 		}
 		$room->add();
-		sendInfo($this->lng->txt("chat_room_added"));
+		ilUtil::sendInfo($this->lng->txt("chat_room_added"));
 		$this->viewObject();
 
 		return true;
@@ -733,7 +733,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$room->rename();
 
 		unset($_SESSION["room_id_rename"]);
-		sendInfo($this->lng->txt("chat_room_renamed"));
+		ilUtil::sendInfo($this->lng->txt("chat_room_renamed"));
 		$this->viewObject();
 
 		return true;
@@ -775,7 +775,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if (!is_array($data = $this->object->chat_recording->getRecordings()))
 		{
-			sendInfo($this->lng->txt('chat_no_recordings_available'));
+			ilUtil::sendInfo($this->lng->txt('chat_no_recordings_available'));
 			return true;
 		}
 
@@ -829,7 +829,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if(!is_array($_POST['recordings']))
 		{
-			sendInfo($this->lng->txt('chat_recordings_select_one'));
+			ilUtil::sendInfo($this->lng->txt('chat_recordings_select_one'));
 			$this->recordingsObject();
 			
 			return false;
@@ -837,7 +837,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		$this->object->__initChatRecording();
 
-		sendInfo($this->lng->txt('chat_recordings_delete_sure'));
+		ilUtil::sendInfo($this->lng->txt('chat_recordings_delete_sure'));
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.chat_ask_delete_recordings.html","Modules/Chat");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -888,7 +888,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if(!is_array($_SESSION['chat_recordings_del']))
 		{
-			sendInfo($this->lng->txt('chat_recordings_none_selected'));
+			ilUtil::sendInfo($this->lng->txt('chat_recordings_none_selected'));
 			$this->recordingsObject();
 
 			return false;
@@ -900,7 +900,7 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->object->chat_recording->delete($record_id);
 		}
-		sendInfo($this->lng->txt('chat_recordings_deleted'));
+		ilUtil::sendInfo($this->lng->txt('chat_recordings_deleted'));
 		$this->recordingsObject();
 		
 		unset($_SESSION['chat_recordings_del']);
@@ -920,7 +920,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if (!$this->object->chat_recording->getRecord($_GET["record_id"]) ||
 			$this->object->chat_recording->getEndTime() == 0)
 		{
-			sendInfo($this->lng->txt('chat_recording_not_found'));
+			ilUtil::sendInfo($this->lng->txt('chat_recording_not_found'));
 			$this->recordingsObject();
 
 			return false;
@@ -959,7 +959,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->object->chat_recording->setModeratorId($ilUser->getId());
 			$this->object->chat_recording->startRecording($_POST["title"]);
 		}
-		sendInfo($this->lng->txt("chat_recording_started"),true);
+		ilUtil::sendInfo($this->lng->txt("chat_recording_started"),true);
 		$this->showFrames();
 	}
 
@@ -981,7 +981,7 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->object->chat_recording->stopRecording($ilUser->getId());
 		}
-		sendInfo($this->lng->txt("chat_recording_stopped"),true);
+		ilUtil::sendInfo($this->lng->txt("chat_recording_stopped"),true);
 		$this->showFrames();
 	}
 
@@ -1088,20 +1088,20 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if($this->error)
 		{
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 		}
 		if($_GET["p_id"])
 		{
 			$user_obj =& new ilObjUser((int) $_GET["p_id"]);
 			$message = $this->lng->txt("chat_private_message")." ";
 			$message .= $this->object->chat_user->getLogin()." -> ".$user_obj->getLogin();
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 		}
 		else if($_GET["a_id"])
 		{
 			$user_obj =& new ilObjUser((int) $_GET["a_id"]);
 			$message = $this->lng->txt("chat_address_user")." ".$user_obj->getLogin();
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 		}
 		
 		if ($_GET["p_id"])
@@ -1209,7 +1209,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if(!$_POST["message"])
 		{
-			sendInfo($this->lng->txt("chat_insert_message"),true);
+			ilUtil::sendInfo($this->lng->txt("chat_insert_message"),true);
 
 			return $this->showInputFrame();
 		}
@@ -1235,7 +1235,7 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt('chat_kicked_from_room'),true);
+			ilUtil::sendInfo($this->lng->txt('chat_kicked_from_room'),true);
 		}
 		$this->showInputFrame();
 	}
@@ -1246,7 +1246,7 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->object->chat_room->invite((int) $_GET["i_id"]);
 			$this->object->sendMessage((int) $_GET["i_id"]);
-			sendInfo($this->lng->txt("chat_user_invited"),true);
+			ilUtil::sendInfo($this->lng->txt("chat_user_invited"),true);
 			$this->showFrames();
 		}
 	}
@@ -1258,7 +1258,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 		if(!$_GET['usr_id'])
 		{
-			sendInfo($this->lng->txt('chat_no_user_selected',true));
+			ilUtil::sendInfo($this->lng->txt('chat_no_user_selected',true));
 			$this->showFrames();
 		}
 		// Create room
@@ -1271,7 +1271,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if(!$id = $this->object->chat_room->lookupRoomId())
 		{
 			$id = $this->object->chat_room->add();
-			sendInfo($this->lng->txt("chat_user_invited"),true);
+			ilUtil::sendInfo($this->lng->txt("chat_user_invited"),true);
 		}
 			
 
@@ -1296,7 +1296,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->object->server_comm->setKickedUser($tmp_user->getLogin());
 			$this->object->server_comm->setType("kick");
 			$this->object->server_comm->send();
-			sendInfo($this->lng->txt("chat_user_dropped"),true);
+			ilUtil::sendInfo($this->lng->txt("chat_user_dropped"),true);
 			$this->showFrames();
 		}
 	}
@@ -1304,7 +1304,7 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		$this->__loadStylesheet(true);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.chat_close.html",'Modules/Chat');
-		sendInfo("Your session is expired please login to ILIAS.");
+		ilUtil::sendInfo("Your session is expired please login to ILIAS.");
 		$this->tpl->touchBlock("content");
 	}
 
@@ -1944,7 +1944,7 @@ class ilObjChatGUI extends ilObjectGUI
 		// output message
 		if ($this->message)
 		{
-			sendInfo($this->message);
+			ilUtil::sendInfo($this->message);
 		}
 
 		// display infopanel if something happened
@@ -2026,7 +2026,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

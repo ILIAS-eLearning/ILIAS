@@ -198,7 +198,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		unset($_POST["customer"]);
 		unset($_POST["pay_method"]);
 
-		sendInfo($this->lng->txt('paya_filter_reseted'));
+		ilUtil::sendInfo($this->lng->txt('paya_filter_reseted'));
 
 		return $this->statisticObject();
 	}
@@ -319,7 +319,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!count($bookings = $this->booking_obj->getBookings()))
 		{
-			sendInfo($this->lng->txt('paya_no_bookings'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_bookings'));
 
 			return true;
 		}
@@ -390,7 +390,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		if(!isset($_GET['booking_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showStatistics();
 
 			return true;
@@ -485,7 +485,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		if(!isset($_GET['booking_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->statisticObject();
 
 			return true;
@@ -498,14 +498,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		if($this->booking_obj->update())
 		{
-			sendInfo($this->lng->txt('paya_updated_booking'));
+			ilUtil::sendInfo($this->lng->txt('paya_updated_booking'));
 
 			$this->statisticObject();
 			return true;
 		}
 		else
 		{
-			sendInfo($this->lng->txt('paya_error_update_booking'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_update_booking'));
 
 			$this->statisticObject();
 			
@@ -517,12 +517,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		if(!isset($_GET['booking_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->statisticObject();
 
 			return true;
 		}
-		sendInfo($this->lng->txt('paya_sure_delete_stat'));
+		ilUtil::sendInfo($this->lng->txt('paya_sure_delete_stat'));
 
 		$this->editStatisticObject(true);
 
@@ -532,7 +532,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		if(!isset($_GET['booking_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->statisticObject();
 
 			return true;
@@ -544,7 +544,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		{
 			die('Error deleting booking');
 		}
-		sendInfo($this->lng->txt('pay_deleted_booking'));
+		ilUtil::sendInfo($this->lng->txt('pay_deleted_booking'));
 
 		$this->statisticObject();
 
@@ -671,7 +671,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$_POST["pdf_path"] == "")
 		{
 			$this->error = $this->lng->txt('pays_general_settings_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->generalSettingsObject();
 			return;
 		}
@@ -689,7 +689,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet->setAll($values);
 		$this->generalSettingsObject();
 
-		sendInfo($this->lng->txt('pays_updated_general_settings'));
+		ilUtil::sendInfo($this->lng->txt('pays_updated_general_settings'));
 
 		return true;
 	}
@@ -770,7 +770,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$_POST["auth_token"] == "")
 		{
 			$this->error = $this->lng->txt('pays_paypal_settings_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->paypalSettingsObject();
 			return;
 		}
@@ -787,7 +787,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$ppSet->setAll($values);
 		$this->paypalSettingsObject();
 
-		sendInfo($this->lng->txt('pays_updated_paypal_settings'));
+		ilUtil::sendInfo($this->lng->txt('pays_updated_paypal_settings'));
 
 		return true;
 	}
@@ -814,7 +814,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->object->initPaymentVendorsObject();
 		if(!count($vendors = $this->object->payment_vendors_obj->getVendors()))
 		{
-			sendInfo($this->lng->txt('pay_no_vendors_created'));
+			ilUtil::sendInfo($this->lng->txt('pay_no_vendors_created'));
 		}
 #		else
 #		{
@@ -1076,7 +1076,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		{
 			if(ilPaymentObject::_getCountObjectsByPayMethod('pm_bill'))
 			{
-				sendInfo($this->lng->txt('pays_objects_bill_exist'));
+				ilUtil::sendInfo($this->lng->txt('pays_objects_bill_exist'));
 				$this->payMethodsObject();
 
 				return false;
@@ -1087,7 +1087,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		{
 			if(ilPaymentObject::_getCountObjectsByPayMethod('pm_bmf'))
 			{
-				sendInfo($this->lng->txt('pays_objects_bmf_exist'));
+				ilUtil::sendInfo($this->lng->txt('pays_objects_bmf_exist'));
 				$this->payMethodsObject();
 
 				return false;
@@ -1098,7 +1098,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		{
 			if(ilPaymentObject::_getCountObjectsByPayMethod('pm_paypal'))
 			{
-				sendInfo($this->lng->txt('pays_objects_paypal_exist'));
+				ilUtil::sendInfo($this->lng->txt('pays_objects_paypal_exist'));
 				$this->payMethodsObject();
 
 				return false;
@@ -1120,7 +1120,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 		$this->payMethodsObject();
 
-		sendInfo($this->lng->txt('pays_updated_pay_method'));
+		ilUtil::sendInfo($this->lng->txt('pays_updated_pay_method'));
 
 		return true;
 	}
@@ -1139,7 +1139,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!count($_POST['vendor']))
 		{
-			sendInfo($this->lng->txt('pays_no_vendor_selected'));
+			ilUtil::sendInfo($this->lng->txt('pays_no_vendor_selected'));
 			$this->vendorsObject();
 
 			return true;
@@ -1149,7 +1149,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		{
 			if(ilPaymentBookings::_getCountBookingsByVendor($vendor))
 			{
-				sendInfo($this->lng->txt('pays_active_bookings'));
+				ilUtil::sendInfo($this->lng->txt('pays_active_bookings'));
 				$this->vendorsObject();
 
 				return true;
@@ -1157,7 +1157,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 		
 		$_SESSION["pays_vendor"] = $_POST["vendor"];
-		sendInfo($this->lng->txt("pays_sure_delete_selected_vendors"));
+		ilUtil::sendInfo($this->lng->txt("pays_sure_delete_selected_vendors"));
 		$this->vendorsObject(true);
 
 		return true;
@@ -1182,7 +1182,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			ilPaymentTrustees::_deleteTrusteesOfVendor($vendor);
 		}
 
-		sendInfo($this->lng->txt('pays_deleted_number_vendors').' '.count($_SESSION['pays_vendor']));
+		ilUtil::sendInfo($this->lng->txt('pays_deleted_number_vendors').' '.count($_SESSION['pays_vendor']));
 		unset($_SESSION['pays_vendor']);
 		
 		$this->vendorsObject();
@@ -1202,14 +1202,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!count($_POST['vendor']))
 		{
-			sendInfo($this->lng->txt('pays_no_vendor_selected'));
+			ilUtil::sendInfo($this->lng->txt('pays_no_vendor_selected'));
 			$this->vendorsObject();
 
 			return true;
 		}
 		if(count($_POST['vendor']) > 1)
 		{
-			sendInfo($this->lng->txt('pays_too_many_vendors_selected'));
+			ilUtil::sendInfo($this->lng->txt('pays_too_many_vendors_selected'));
 			$this->vendorsObject();
 
 			return true;
@@ -1270,14 +1270,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!count($_SESSION['pays_vendor']))
 		{
-			sendInfo($this->lng->txt('pays_no_vendor_selected'));
+			ilUtil::sendInfo($this->lng->txt('pays_no_vendor_selected'));
 			$this->vendorsObject();
 
 			return true;
 		}
 		if(count($_SESSION['pays_vendor']) > 1)
 		{
-			sendInfo($this->lng->txt('pays_too_many_vendors_selected'));
+			ilUtil::sendInfo($this->lng->txt('pays_too_many_vendors_selected'));
 			$this->vendorsObject();
 
 			return true;
@@ -1295,7 +1295,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		if ($_POST["cost_center"] == "")
 		{
 			$this->error = $this->lng->txt('pays_cost_center_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$_POST["vendor"] = array($_SESSION["pays_vendor"]);
 			$this->editVendor();
 			return;
@@ -1327,7 +1327,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->__showButton('statistic',$this->lng->txt('back'));
 
 
-		sendInfo($this->lng->txt("paya_select_object_to_sell"));
+		ilUtil::sendInfo($this->lng->txt("paya_select_object_to_sell"));
 
 		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));
 		$exp->setExpand($_GET["paya_link_expand"] ? $_GET["paya_link_expand"] : $tree->readRootId());
@@ -1378,14 +1378,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!isset($_POST["search_str"]))
 		{
-			sendInfo($this->lng->txt("crs_search_enter_search_string"));
+			ilUtil::sendInfo($this->lng->txt("crs_search_enter_search_string"));
 			$this->searchUserObject();
 			
 			return false;
 		}
 		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]))))
 		{
-			sendInfo($this->lng->txt("crs_no_results_found"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_results_found"));
 			$this->searchUserObject();
 
 			return false;
@@ -1425,14 +1425,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 		if(!$_POST['vendor_login'])
 		{
-			sendInfo($this->lng->txt('pays_no_username_given'));
+			ilUtil::sendInfo($this->lng->txt('pays_no_username_given'));
 			$this->vendorsObject();
 
 			return true;
 		}
 		if(!($usr_id = ilObjUser::getUserIdByLogin(ilUtil::stripSlashes($_POST['vendor_login']))))
 		{
-			sendInfo($this->lng->txt('pays_no_valid_username_given'));
+			ilUtil::sendInfo($this->lng->txt('pays_no_valid_username_given'));
 			$this->vendorsObject();
 
 			return true;
@@ -1442,14 +1442,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if($this->object->payment_vendors_obj->isAssigned($usr_id))
 		{
-			sendInfo($this->lng->txt('pays_user_already_assigned'));
+			ilUtil::sendInfo($this->lng->txt('pays_user_already_assigned'));
 			$this->vendorsObject();
 
 			return true;
 		}
 		$this->object->payment_vendors_obj->add($usr_id);
 
-		sendInfo($this->lng->txt('pays_added_vendor'));
+		ilUtil::sendInfo($this->lng->txt('pays_added_vendor'));
 		$this->vendorsObject();
 		
 		return true;
@@ -1468,7 +1468,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('crs');
 		if(!is_array($_POST["user"]))
 		{
-			sendInfo($this->lng->txt("crs_no_users_selected"));
+			ilUtil::sendInfo($this->lng->txt("crs_no_users_selected"));
 			$this->searchObject();
 
 			return false;
@@ -1500,7 +1500,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$message .= '<br />'.$this->lng->txt('pays_already_assigned_vendors').' '.$already_assigned;
 		}
 
-		sendInfo($message);
+		ilUtil::sendInfo($message);
 		$this->vendorsObject();
 
 		return true;
@@ -1511,7 +1511,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		if(!isset($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showObjectSelectorObject();
 
 			return false;
@@ -1542,14 +1542,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!trim($_POST["search_str"]))
 		{
-			sendInfo($this->lng->txt("search_no_search_term"));
+			ilUtil::sendInfo($this->lng->txt("search_no_search_term"));
 			$this->statistics();
 
 			return false;
 		}
 		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]))))
 		{
-			sendInfo($this->lng->txt("search_no_match"));
+			ilUtil::sendInfo($this->lng->txt("search_no_match"));
 			$this->searchUserSPObject();
 
 			return false;
@@ -1557,7 +1557,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!isset($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showObjectSelectorObject();
 
 			return false;
@@ -1593,7 +1593,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!isset($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showObjectSelectorObject();
 
 			return true;
@@ -1601,7 +1601,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!isset($_POST['user_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_user_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_user_id_given'));
 			$this->searchUserSPObject();
 
 			return true;
@@ -1683,7 +1683,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!isset($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_error_no_object_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_no_object_id_given'));
 			$this->showObjectSelectorObject();
 
 			return true;
@@ -1691,7 +1691,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!isset($_GET['user_id']))
 		{
-			sendInfo($this->lng->txt('paya_error_no_user_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_no_user_id_given'));
 			$this->searchUserSPObject();
 
 			return true;
@@ -1700,7 +1700,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		if ($_POST["pay_method"] == "" ||
 			$_POST["duration"] == "")
 		{
-			sendInfo($this->lng->txt('paya_error_mandatory_fields'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_mandatory_fields'));
 			$this->addCustomerObject();
 
 			return true;
@@ -1730,12 +1730,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if($this->booking_obj->add())
 		{
-			sendInfo($this->lng->txt('paya_customer_added_successfully'));
+			ilUtil::sendInfo($this->lng->txt('paya_customer_added_successfully'));
 			$this->statisticObject();
 		}
 		else
 		{
-			sendInfo($this->lng->txt('paya_error_adding_customer'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_adding_customer'));
 			$this->addCustomerObject();
 		}
 
@@ -2025,7 +2025,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($message,true);
+			ilUtil::sendInfo($message,true);
 			$this->ctrl->redirect($this,"searchUser");
 		}
 		return $search->getResultByType('usr');
@@ -2050,7 +2050,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($message,true);
+			ilUtil::sendInfo($message,true);
 			$this->ctrl->redirect($this,"searchUserSP");
 		}
 		return $search->getResultByType('usr');

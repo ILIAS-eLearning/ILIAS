@@ -278,11 +278,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		if ($umail->moveMailsToFolder(array($_GET["mail_id"]),
 			$mbox->getTrashFolder()))
 		{
-			sendInfo($lng->txt("mail_moved_to_trash"), true);
+			ilUtil::sendInfo($lng->txt("mail_moved_to_trash"), true);
 		}
 		else
 		{
-			sendInfo($lng->txt("mail_move_error"), true);
+			ilUtil::sendInfo($lng->txt("mail_move_error"), true);
 		}
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}

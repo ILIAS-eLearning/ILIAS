@@ -64,7 +64,7 @@ $user = new ilObjUserGUI("",$_GET["user"], false, false);
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 
 // catch feedback message
-sendInfo();
+ilUtil::sendInfo();
 // display infopanel if something happened
 infoPanel();
 

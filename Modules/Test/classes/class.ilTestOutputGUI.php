@@ -215,7 +215,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		global $ilUser;
 		
 		$this->object->deleteResults($ilUser->id);
-		sendInfo($this->lng->txt("tst_confirm_delete_results_info"), true);
+		ilUtil::sendInfo($this->lng->txt("tst_confirm_delete_results_info"), true);
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 	}
 	
@@ -546,7 +546,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("tst_password_entered_wrong_password"), true);
+			ilUtil::sendInfo($this->lng->txt("tst_password_entered_wrong_password"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 		}
 	}
@@ -711,7 +711,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$executable = $this->object->isExecutable($ilUser->getId());
 		if (!$executable["executable"])
 		{
-			sendInfo($executable["errormessage"], TRUE);
+			ilUtil::sendInfo($executable["errormessage"], TRUE);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 		switch ($_GET["activecommand"])
@@ -1219,7 +1219,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$user = $this->object->getInvitedUsers($ilUser->getId());
 		if (!is_array ($user) || count($user)!=1)
 		{
-				sendInfo($this->lng->txt("user_not_invited"), true);
+				ilUtil::sendInfo($this->lng->txt("user_not_invited"), true);
 				$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
 		}
 			
@@ -1227,7 +1227,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		// check if client ip is set and if current remote addr is equal to stored client-ip			
 		if (strcmp($user->clientip,"")!=0 && strcmp($user->clientip,$_SERVER["REMOTE_ADDR"])!=0)
 		{
-			sendInfo($this->lng->txt("user_wrong_clientip"), true);
+			ilUtil::sendInfo($this->lng->txt("user_wrong_clientip"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
 		}		
 	}	
@@ -1413,7 +1413,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	
 	function endingTimeReached() 
 	{
-		sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
+		ilUtil::sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
 		$this->object->setActiveTestUser(1, "", true);
 		if (!$this->object->canViewResults()) 
 		{

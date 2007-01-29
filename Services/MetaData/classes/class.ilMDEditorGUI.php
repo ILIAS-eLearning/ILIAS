@@ -552,7 +552,7 @@ class ilMDEditorGUI
 		
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
-		sendinfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this,'listSection');
 	}
 
@@ -820,7 +820,7 @@ class ilMDEditorGUI
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
 		$this->ctrl->setParameter($this, "section", "meta_general");
-		sendinfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this,'listSection');
 	}
 
@@ -876,7 +876,7 @@ class ilMDEditorGUI
 		}
 		$this->callListeners('Technical');
 
-		sendinfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 		return true;
 	}
@@ -1246,7 +1246,7 @@ class ilMDEditorGUI
 			}
 		}
 		$this->callListeners('Lifecycle');
-		sendinfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 		return true;
 	}		
@@ -1427,7 +1427,7 @@ class ilMDEditorGUI
 			}
 		}
 		$this->callListeners('MetaMetaData');
-		sendinfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 		return true;
 	}		
@@ -1506,7 +1506,7 @@ class ilMDEditorGUI
 		$this->md_section->update();
 		
 		$this->callListeners('Rights');
-		sendinfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 
@@ -1821,7 +1821,7 @@ class ilMDEditorGUI
 		$this->md_section->update();
 		
 		$this->callListeners('Educational');
-		sendinfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 
@@ -1998,7 +1998,7 @@ class ilMDEditorGUI
 		}
 		
 		$this->callListeners('Relation');
-		sendinfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 
@@ -2086,7 +2086,7 @@ class ilMDEditorGUI
 		}
 		
 		$this->callListeners('Annotation');
-		sendinfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 	
@@ -2327,7 +2327,7 @@ class ilMDEditorGUI
 		}
 		
 		$this->callListeners('Classification');
-		sendinfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 

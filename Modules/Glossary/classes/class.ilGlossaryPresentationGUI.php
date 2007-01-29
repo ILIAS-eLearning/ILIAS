@@ -157,7 +157,7 @@ class ilGlossaryPresentationGUI
 		$title = $this->glossary->getTitle();
 
 		// catch feedback message
-		sendInfo();
+		ilUtil::sendInfo();
 
 		$this->tpl->setTitle($title);
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.gif"));

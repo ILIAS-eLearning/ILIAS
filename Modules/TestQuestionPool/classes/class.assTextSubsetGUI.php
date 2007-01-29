@@ -305,7 +305,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		}
 		if ($unfilled_answer)
 		{
-			sendInfo($this->lng->txt("qpl_answertext_fields_not_filled"));
+			ilUtil::sendInfo($this->lng->txt("qpl_answertext_fields_not_filled"));
 			$this->writePostData();
 			$this->editQuestion();
 		}
@@ -330,7 +330,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		}
 		if ($unfilled_answer)
 		{
-			sendInfo($this->lng->txt("qpl_answertext_fields_not_filled"));
+			ilUtil::sendInfo($this->lng->txt("qpl_answertext_fields_not_filled"));
 			$this->writePostData();
 			$this->editQuestion();
 		}
@@ -375,7 +375,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		if (($result) and (strcmp($this->ctrl->getCmd(), "add") == 0))
 		{
 			// You cannot add answers before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 		}
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
@@ -609,13 +609,13 @@ class assTextSubsetGUI extends assQuestionGUI
 		{
 			if ($this->writePostData())
 			{
-				sendInfo($this->getErrorMessage());
+				ilUtil::sendInfo($this->getErrorMessage());
 				$this->editQuestion();
 				return;
 			}
 			if (!$this->checkInput())
 			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 				$this->editQuestion();
 				return;
 			}

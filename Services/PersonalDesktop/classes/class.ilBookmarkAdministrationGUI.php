@@ -195,7 +195,7 @@ class ilBookmarkAdministrationGUI
 		// output message
 		if($this->message)
 		{
-			sendInfo($this->message);
+			ilUtil::sendInfo($this->message);
 		}
 		infoPanel();
 
@@ -602,7 +602,7 @@ return;
 		// check title
 		if (empty($_POST["title"]))
 		{
-			sendInfo($this->lng->txt("please_enter_title"));
+			ilUtil::sendInfo($this->lng->txt("please_enter_title"));
 			$this->newFormBookmarkFolder();
 		}
 		else
@@ -626,7 +626,7 @@ return;
 		// check title
 		if (empty($_POST["title"]))
 		{
-			sendInfo($this->lng->txt("please_enter_title"));
+			ilUtil::sendInfo($this->lng->txt("please_enter_title"));
 			$this->editFormBookmarkFolder();
 		}
 		else
@@ -649,12 +649,12 @@ return;
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			sendInfo($this->lng->txt("please_enter_title"));
+			ilUtil::sendInfo($this->lng->txt("please_enter_title"));
 			$this->newFormBookmark();
 		}
 		else if (empty($_POST["target"]))
 		{
-			sendInfo($this->lng->txt("please_enter_target"));
+			ilUtil::sendInfo($this->lng->txt("please_enter_target"));
 			$this->newFormBookmark();
 		}
 		else
@@ -679,12 +679,12 @@ return;
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			sendInfo($this->lng->txt("please_enter_title"));
+			ilUtil::sendInfo($this->lng->txt("please_enter_title"));
 			$this->editFormBookmark();
 		}
 		else if (empty($_POST["target"]))
 		{
-			sendInfo($this->lng->txt("please_enter_target"));
+			ilUtil::sendInfo($this->lng->txt("please_enter_target"));
 			$this->editFormBookmark();
 		}
 		else
@@ -764,7 +764,7 @@ return;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.obj_confirm.html");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
@@ -890,7 +890,7 @@ return;
 		}
 
 		// Feedback
-		sendInfo($this->lng->txt("info_deleted"),true);
+		ilUtil::sendInfo($this->lng->txt("info_deleted"),true);
 
 		$this->view();
 	}
@@ -1037,7 +1037,7 @@ return;
 	{
 		if ($_FILES["bkmfile"]["error"] > UPLOAD_ERR_OK)
 		{
-			sendInfo($this->lng->txt("import_file_not_valid"));
+			ilUtil::sendInfo($this->lng->txt("import_file_not_valid"));
 			$this->newFormBookmark();
 			return;
 		}
@@ -1045,7 +1045,7 @@ return;
 		$objects=ilBookmarkImportExport::_parseFile ($_FILES["bkmfile"]['tmp_name']);
 		if ($objects===false)
 		{
-			sendInfo($this->lng->txt("import_file_not_valid"));
+			ilUtil::sendInfo($this->lng->txt("import_file_not_valid"));
 			$this->newFormBookmark();
 			return;
 		}
@@ -1053,7 +1053,7 @@ return;
 		$num_create=array('bm'=>0,'bmf'=>0);
 		$this->__importBookmarks($objects,$num_create,$this->id,0);
 
-		sendInfo(sprintf($this->lng->txt("bkm_import_ok"),$num_create['bm'],
+		ilUtil::sendInfo(sprintf($this->lng->txt("bkm_import_ok"),$num_create['bm'],
 			$num_create[ 'bmf']));
 		$this->view();
 

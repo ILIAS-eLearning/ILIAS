@@ -650,7 +650,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		if ($this->object->getId() < 1) 
 		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"), true);
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"), true);
 			$this->ctrl->redirect($this, "editQuestion");
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_matrix_answers.html", "Modules/SurveyQuestionPool");
@@ -982,7 +982,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	{
 		if (strcmp($_POST["phrases"], "") == 0)
 		{
-			sendInfo($this->lng->txt("select_phrase_to_add"));
+			ilUtil::sendInfo($this->lng->txt("select_phrase_to_add"));
 			$this->addPhrase();
 		}
 		else
@@ -1055,12 +1055,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	{
 		if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
 		{
-			sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
+			ilUtil::sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
 			$this->addStandardNumbers();
 		}
 		else if ((int)$_POST["upper_limit"] <= (int)$_POST["lower_limit"])
 		{
-			sendInfo($this->lng->txt("upper_limit_must_be_greater"));
+			ilUtil::sendInfo($this->lng->txt("upper_limit_must_be_greater"));
 			$this->addStandardNumbers();
 		}
 		else
@@ -1116,7 +1116,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		if ($nothing_selected)
 		{
-			sendInfo($this->lng->txt("check_category_to_save_phrase"), true);
+			ilUtil::sendInfo($this->lng->txt("check_category_to_save_phrase"), true);
 			$this->ctrl->redirect($this, "categories");
 		}
 	}
@@ -1144,20 +1144,20 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	{
 		if (!$_POST["phrase_title"])
 		{
-			sendInfo($this->lng->txt("qpl_savephrase_empty"));
+			ilUtil::sendInfo($this->lng->txt("qpl_savephrase_empty"));
 			$this->savePhrase();
 			return;
 		}
 		
 		if ($this->object->phraseExists($_POST["phrase_title"]))
 		{
-			sendInfo($this->lng->txt("qpl_savephrase_exists"));
+			ilUtil::sendInfo($this->lng->txt("qpl_savephrase_exists"));
 			$this->savePhrase();
 			return;
 		}
 
 		$this->object->savePhrase($_POST["chb_category"], $_POST["phrase_title"]);
-		sendInfo($this->lng->txt("phrase_saved"), true);
+		ilUtil::sendInfo($this->lng->txt("phrase_saved"), true);
 		$this->ctrl->redirect($this, "categories");
 	}
 
@@ -1173,7 +1173,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$result = $this->writeRowColData();
 		if ($result == FALSE)
 		{
-			sendInfo($this->errormessage);
+			ilUtil::sendInfo($this->errormessage);
 		}
 		$_SESSION["spl_modified"] = true;
 		$this->categories();
@@ -1276,13 +1276,13 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		if (!$complete)
 		{
 			$_SESSION["spl_modified"] = TRUE;
-			sendInfo($this->errormessage);
+			ilUtil::sendInfo($this->errormessage);
 			$this->categories();
 		}
 		else
 		{
 			$_SESSION["spl_modified"] = FALSE;
-			sendInfo($this->lng->txt("saved_successfully"), true);
+			ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			$_GET["q_id"] = $this->object->getId();
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
@@ -1319,7 +1319,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		if ($nothing_selected) 
 		{
-			sendInfo($this->lng->txt("matrix_column_delete_select_none"));
+			ilUtil::sendInfo($this->lng->txt("matrix_column_delete_select_none"));
 		}
 		else
 		{
@@ -1349,7 +1349,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		if ($nothing_selected) 
 		{
-			sendInfo($this->lng->txt("matrix_row_delete_select_none"));
+			ilUtil::sendInfo($this->lng->txt("matrix_row_delete_select_none"));
 		}
 		else
 		{

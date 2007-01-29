@@ -262,7 +262,7 @@ class ilObjectGUI
 			$this->addAdminLocatorItems();
 			$tpl->setLocator();
 
-			sendInfo();
+			ilUtil::sendInfo();
 			infoPanel();
 
 			$this->setTitleAndDescription();
@@ -278,7 +278,7 @@ class ilObjectGUI
 		// set locator
 		$this->setLocator();
 		// catch feedback message
-		sendInfo();
+		ilUtil::sendInfo();
 		infoPanel();
 
 		// in creation mode (parent) object and gui object
@@ -711,7 +711,7 @@ class ilObjectGUI
 
 		//$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
 		
-		sendInfo($this->lng->txt("msg_undeleted"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_undeleted"),true);
 		
 		$this->ctrl->redirect($this, "view");
 	}
@@ -813,7 +813,7 @@ class ilObjectGUI
 		{
 			$not_deletable = implode(',',$not_deletable);
 			session_unregister("saved_post");
-			sendInfo($this->lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$this->lng->txt("msg_cancel"),true);
+			ilUtil::sendInfo($this->lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$this->lng->txt("msg_cancel"),true);
 
 			$this->ctrl->returnToParent($this);
 		}
@@ -828,7 +828,7 @@ class ilObjectGUI
 			}
 			$title_str = implode(',',$titles);
 
-			sendInfo($this->lng->txt('msg_obj_not_deletable_sold').' '.$title_str,true);
+			ilUtil::sendInfo($this->lng->txt('msg_obj_not_deletable_sold').' '.$title_str,true);
 
 			$_POST['id'] = $_SESSION['saved_post'];
 			$this->deleteObject(true);
@@ -855,7 +855,7 @@ class ilObjectGUI
 			else
 			{
 				unset($_SESSION["saved_post"]);
-				sendInfo($this->lng->txt("no_perm_delete")."<br/>".$this->lng->txt("msg_cancel"),true);
+				ilUtil::sendInfo($this->lng->txt("no_perm_delete")."<br/>".$this->lng->txt("msg_cancel"),true);
 				$this->ctrl->returnToParent($this);
 			}
 		}
@@ -897,7 +897,7 @@ class ilObjectGUI
 		if ($this->ilias->getSetting('enable_trash'))
 		{
 			// Feedback
-			sendInfo($this->lng->txt("info_deleted"),true);
+			ilUtil::sendInfo($this->lng->txt("info_deleted"),true);
 		
 			$this->ctrl->returnToParent($this);
 		}
@@ -918,7 +918,7 @@ class ilObjectGUI
 	{
 		session_unregister("saved_post");
 
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		$this->ctrl->returnToParent($this);
 
@@ -978,7 +978,7 @@ class ilObjectGUI
 
 		}
 		
-		sendInfo($this->lng->txt("msg_removed"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_removed"),true);
 
 		$this->ctrl->returnToParent($this);
 	}
@@ -1105,9 +1105,9 @@ class ilObjectGUI
 	{
 		session_unregister("saved_post");
 
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
-		//sendInfo($this->lng->txt("action_aborted"),true);
+		//ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		$return_location = $_GET["cmd_return_location"];
 //echo "-".$_GET["cmd_return_location"]."-".$this->ctrl->getLinkTarget($this,$return_location);
 		//ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
@@ -1266,7 +1266,7 @@ class ilObjectGUI
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->update = $this->object->update();
 
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		
 		$this->afterUpdate();
 	}
@@ -1758,7 +1758,7 @@ class ilObjectGUI
 				$msg .= "<br/>".$this->lng->txt("info_delete_warning_no_trash");
 			}
 			
-			sendInfo($msg);
+			ilUtil::sendInfo($msg);
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -1835,7 +1835,7 @@ class ilObjectGUI
 
 		if (count($objects) == 0)
 		{
-			sendInfo($this->lng->txt("msg_trash_empty"));
+			ilUtil::sendInfo($this->lng->txt("msg_trash_empty"));
 			$this->data["empty"] = true;
 		}
 		else
@@ -1864,13 +1864,13 @@ class ilObjectGUI
 			return;
 		}
 		
-		/* TODO: fix message display in conjunction with sendInfo & raiseError functionality
+		/* TODO: fix message display in conjunction with ilUtil::sendInfo & raiseError functionality
 		$this->tpl->addBlockfile("MESSAGE", "adm_trash", "tpl.message.html");
 		$this->tpl->setCurrentBlock("adm_trash");
 		$this->tpl->setVariable("MSG",$this->lng->txt("info_trash"));
 		$this->tpl->parseCurrentBlock();
 		*/
-		//sendInfo($this->lng->txt("info_trash"));
+		//ilUtil::sendInfo($this->lng->txt("info_trash"));
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);

@@ -273,7 +273,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->update();
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 
@@ -298,7 +298,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		ilUtil::redirect("ilias.php?baseClass=ilHTLMEditorGUI&ref_id=".$newObj->getRefId());
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
@@ -361,7 +361,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
@@ -524,7 +524,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("bibitem_choose_element"), true);
+			ilUtil::sendInfo($this->lng->txt("bibitem_choose_element"), true);
 		}
 		if ($a_target == "")
 		{
@@ -857,7 +857,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

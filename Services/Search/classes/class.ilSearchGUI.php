@@ -155,14 +155,14 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		if(!$_POST['folder'])
 		{
-			sendInfo($this->lng->txt('search_select_one'));
+			ilUtil::sendInfo($this->lng->txt('search_select_one'));
 			$this->showSavedResults();
 
 			return false;
 		}
 		if(!count($_POST['id']))
 		{
-			sendInfo($this->lng->txt('search_select_one_result'));
+			ilUtil::sendInfo($this->lng->txt('search_select_one_result'));
 			$this->showSavedResults();
 
 			return false;
@@ -183,7 +183,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$folder_obj->assignResult($search_res_obj);
 			unset($search_res_obj);
 		}
-		sendInfo($this->lng->txt('search_results_saved'));
+		ilUtil::sendInfo($this->lng->txt('search_results_saved'));
 		$this->showSavedResults();
 
 	}
@@ -280,7 +280,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
 
-		sendInfo($this->lng->txt('search_area_info'));
+		ilUtil::sendInfo($this->lng->txt('search_area_info'));
 
 		$exp = new ilSearchRootSelector($this->ctrl->getLinkTarget($this,'showSelectRoot'));
 		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
@@ -343,7 +343,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		if($this->getType() == SEARCH_DETAILS and !$this->getDetails())
 		{
-			sendInfo($this->lng->txt('search_choose_object_type'));
+			ilUtil::sendInfo($this->lng->txt('search_choose_object_type'));
 			$this->showSearch();
 
 			return false;
@@ -353,7 +353,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		// Step 1: parse query string
 		if(!is_object($query_parser =& $this->__parseQueryString()))
 		{
-			sendInfo($query_parser);
+			ilUtil::sendInfo($query_parser);
 			$this->showSearch();
 			
 			return false;
@@ -391,7 +391,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		if(!count($result->getResults()))
 		{
-			sendInfo($this->lng->txt('search_no_match'));
+			ilUtil::sendInfo($this->lng->txt('search_no_match'));
 		}
 		else
 		{
@@ -401,7 +401,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		if($result->isLimitReached())
 		{
 			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
-			sendInfo($message);
+			ilUtil::sendInfo($message);
 		}
 
 		// Step 6: show results

@@ -109,7 +109,7 @@ class ilPurchaseBMFGUI
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
 			$this->tpl->touchBlock("stop_floating");
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
 		else
@@ -198,7 +198,7 @@ class ilPurchaseBMFGUI
 			$_SESSION["bmf"]["personal_data"]["EMailAdresse"] == "")
 		{
 			$this->error = $this->lng->txt('pay_bmf_personal_data_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showPersonalData();
 			return;
 		}
@@ -208,7 +208,7 @@ class ilPurchaseBMFGUI
 			($_POST["street"] == "" && $_POST["house_number"] != ""))
 		{
 			$this->error = $this->lng->txt('pay_bmf_street_or_pobox');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showPersonalData();
 			return;
 		}
@@ -251,7 +251,7 @@ class ilPurchaseBMFGUI
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
 			$this->tpl->touchBlock("stop_floating");
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
 		else
@@ -312,7 +312,7 @@ class ilPurchaseBMFGUI
 			($_SESSION["bmf"]["personal_data"]["land"] != "DE" && $_POST["payment_type"] == "debit_entry"))
 		{
 			$this->error = $this->lng->txt('pay_bmf_payment_type_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showPaymentType();
 			return;
 		}
@@ -349,7 +349,7 @@ class ilPurchaseBMFGUI
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
 			$this->tpl->touchBlock("stop_floating");
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
 		else
@@ -427,14 +427,14 @@ class ilPurchaseBMFGUI
 			$_POST["account_number"] == "")
 		{
 			$this->error = $this->lng->txt('pay_bmf_debit_entry_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showDebitEntry();
 			return;
 		}
 		if ($_POST["terms_conditions"] != 1)
 		{
 			$this->error = $this->lng->txt('pay_bmf_check_terms_conditions');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showDebitEntry();
 			return;
 		}
@@ -442,7 +442,7 @@ class ilPurchaseBMFGUI
 			md5($_POST["password"]) != $this->user_obj->getPasswd())
 		{
 			$this->error = $this->lng->txt('pay_bmf_password_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showDebitEntry();
 			return;
 		}
@@ -465,7 +465,7 @@ class ilPurchaseBMFGUI
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
 			$this->tpl->touchBlock("stop_floating");
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
 		else
@@ -490,13 +490,13 @@ class ilPurchaseBMFGUI
 					($resultCustomer->code <= -202 && $resultCustomer->code >= -208) ||
 					$resultCustomer->code == -213)
 				{
-					sendInfo($error);
+					ilUtil::sendInfo($error);
 					$this->showPersonalData();
 				}
 				else
 				{
 					$error .= "<br>\n" . $this->lng->txt('pay_bmf_server_error_sysadmin');
-					sendInfo($error);
+					ilUtil::sendInfo($error);
 					$this->showPersonalData();
 				}
 			}
@@ -515,7 +515,7 @@ class ilPurchaseBMFGUI
 				$tmp_bookEntries = $sc_obj->getShoppingCart();
 				if (!is_array($tmp_bookEntries))
 				{
-					sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+					ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 				}
 				else
 				{
@@ -551,14 +551,14 @@ class ilPurchaseBMFGUI
 							($result->code <= -202 && $result->code >= -208) ||
 							$result->code == -213)
 						{
-							sendInfo($error);
+							ilUtil::sendInfo($error);
 							$this->showPersonalData();
 						}
 						else if ($result->code == -507 ||
 							$result->code == -510 ||
 							$result->code == -511)
 						{
-							sendInfo($error);
+							ilUtil::sendInfo($error);
 							$this->showPaymentType();
 						}
 						else if ($result->code == -402 ||
@@ -571,13 +571,13 @@ class ilPurchaseBMFGUI
 							$result->code == -702 ||
 							$result->code == -703)
 						{
-							sendInfo($error);
+							ilUtil::sendInfo($error);
 							$this->showDebitEntry();
 						}
 						else
 						{
 							$error .= "<br>\n" . $this->lng->txt('pay_bmf_server_error_sysadmin');
-							sendInfo($error);
+							ilUtil::sendInfo($error);
 							$this->showPersonalData();
 						}
 		
@@ -619,7 +619,7 @@ class ilPurchaseBMFGUI
 				{
 					$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
 					$this->tpl->touchBlock("stop_floating");
-					sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
+					ilUtil::sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
 				}
 			}
 		}
@@ -627,7 +627,7 @@ class ilPurchaseBMFGUI
 		{
 			$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
 			$this->tpl->touchBlock("stop_floating");
-			sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
+			ilUtil::sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
 		}
 
 		}
@@ -652,7 +652,7 @@ class ilPurchaseBMFGUI
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
 			$this->tpl->touchBlock("stop_floating");
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
 		else
@@ -792,14 +792,14 @@ class ilPurchaseBMFGUI
 			$_POST["validity"]["year"]."-".$_POST["validity"]["month"] < date("Y-m"))
 		{
 			$this->error = $this->lng->txt('pay_bmf_credit_card_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showCreditCard();
 			return;
 		}
 		if ($_POST["terms_conditions"] != 1)
 		{
 			$this->error = $this->lng->txt('pay_bmf_check_terms_conditions');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showCreditCard();
 			return;
 		}
@@ -807,7 +807,7 @@ class ilPurchaseBMFGUI
 			md5($_POST["password"]) != $this->user_obj->getPasswd())
 		{
 			$this->error = $this->lng->txt('pay_bmf_password_not_valid');
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 			$this->showCreditCard();
 			return;
 		}
@@ -835,7 +835,7 @@ class ilPurchaseBMFGUI
 
 			$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
 			$this->tpl->touchBlock("stop_floating");
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 
 		}
 		else
@@ -852,7 +852,7 @@ class ilPurchaseBMFGUI
 		$tmp_bookEntries = $sc_obj->getShoppingCart();
 		if (!is_array($tmp_bookEntries))
 		{
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 		}
 		else
 		{
@@ -889,14 +889,14 @@ class ilPurchaseBMFGUI
 					($result->code <= -202 && $result->code >= -208) ||
 					$result->code == -213)
 				{
-					sendInfo($error);
+					ilUtil::sendInfo($error);
 					$this->showPersonalData();
 				}
 				else if ($result->code == -507 ||
 					$result->code == -510 ||
 					$result->code == -511)
 				{
-					sendInfo($error);
+					ilUtil::sendInfo($error);
 					$this->showPaymentType();
 				}
 				else if ($result->code == -701 ||
@@ -906,13 +906,13 @@ class ilPurchaseBMFGUI
 					$result->code == -1710 ||
 					$result->code == -1711)
 				{
-					sendInfo($error);
+					ilUtil::sendInfo($error);
 					$this->showCreditCard();
 				}
 				else
 				{
 					$error .= "<br>\n" . $this->lng->txt('pay_bmf_server_error_sysadmin');
-					sendInfo($error);
+					ilUtil::sendInfo($error);
 					$this->showPersonalData();
 				}
 
@@ -945,7 +945,7 @@ class ilPurchaseBMFGUI
 		{
 			$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
 			$this->tpl->touchBlock("stop_floating");
-			sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
+			ilUtil::sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
 		}
 
 		}
@@ -1165,7 +1165,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->parseCurrentBlock();
 
 		// CHECK for new mail and info
-		sendInfo();
+		ilUtil::sendInfo();
 
 		return true;
 	}
@@ -1309,7 +1309,7 @@ class ilPurchaseBMFGUI
 
 		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
 		{
-			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 		}
 
 		$counter = 0;

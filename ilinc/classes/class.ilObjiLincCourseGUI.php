@@ -179,12 +179,12 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		{
 			if (!$this->object->updateClassrooms())
 			{
-				sendinfo($this->lng->txt($this->object->getErrorMsg()));
+				ilUtil::sendInfo($this->lng->txt($this->object->getErrorMsg()));
 				return;
 			}
 		}
 		
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"edit"));
 	}
 	
@@ -245,7 +245,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$this->ilias->account->addDesktopItem($icrsObj->getRefId(),"icrs");	
 
 		// always send a message
-		sendInfo($this->lng->txt("icrs_added"),true);
+		ilUtil::sendInfo($this->lng->txt("icrs_added"),true);
 		
 		$this->redirectToRefId($_GET["ref_id"]);
 	
@@ -371,7 +371,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		}
 		else
 		{
-			sendInfo($message,true);
+			ilUtil::sendInfo($message,true);
 			$this->ctrl->redirect($this,"searchUserForm");
 		}
 
@@ -700,7 +700,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		if(!is_array($_POST["role"]))
 		{
-			sendInfo($this->lng->txt("grp_no_roles_selected"));
+			ilUtil::sendInfo($this->lng->txt("grp_no_roles_selected"));
 			$this->searchObject();
 
 			return false;
@@ -758,7 +758,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		if(!is_array($_POST["group"]))
 		{
-			sendInfo($this->lng->txt("grp_no_groups_selected"));
+			ilUtil::sendInfo($this->lng->txt("grp_no_groups_selected"));
 			$this->searchObject();
 
 			return false;
@@ -825,7 +825,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$return_location = "members";
 		}
 				
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		$this->ctrl->redirect($this, $return_location);
 	}
 
@@ -837,7 +837,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	{
 		$return_location = "members";
 				
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 	}
 	
@@ -1078,7 +1078,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		if (!($objects = $this->object->getClassrooms()))
 		{
-			sendinfo($this->lng->txt($this->object->getErrorMsg()));
+			ilUtil::sendInfo($this->lng->txt($this->object->getErrorMsg()));
 			return;
 		}
 
@@ -1216,7 +1216,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		if(!isset($_POST["search_for"]) or !isset($_POST["search_str"]))
 		{
-			sendInfo($this->lng->txt("grp_search_enter_search_string"));
+			ilUtil::sendInfo($this->lng->txt("grp_search_enter_search_string"));
 			$this->searchUserFormObject();
 			
 			return false;
@@ -1224,7 +1224,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]),$_POST["search_for"])))
 		{
-			sendInfo($this->lng->txt("grp_no_results_found"));
+			ilUtil::sendInfo($this->lng->txt("grp_no_results_found"));
 			$this->searchUserFormObject();
 
 			return false;
@@ -1326,7 +1326,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				
 				if(!count($f_result))
 				{
-					sendInfo($this->lng->txt("grp_no_results_found"));
+					ilUtil::sendInfo($this->lng->txt("grp_no_results_found"));
 					$this->searchUserFormObject();
 
 					return false;
@@ -1374,7 +1374,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		unset($_SESSION["saved_post"]);
 
-		sendInfo($this->lng->txt("ilinc_msg_member_assigned"),true);
+		ilUtil::sendInfo($this->lng->txt("ilinc_msg_member_assigned"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 	
@@ -1478,7 +1478,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		infoPanel();
 
-		sendInfo($this->lng->txt($info));
+		ilUtil::sendInfo($this->lng->txt($info));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this)."&cmd_return_location=".$a_cmd_return_location);
 
@@ -1550,7 +1550,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 			if (!$this->object->removeMember($user_obj))
 			{
-				sendInfo($this->lng->txt($this->object->getErrorMsg()),true);
+				ilUtil::sendInfo($this->lng->txt($this->object->getErrorMsg()),true);
 				ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 			}
 			
@@ -1568,7 +1568,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		unset($_SESSION["saved_post"]);
 
-		sendInfo($this->lng->txt("ilinc_msg_membership_annulled"),true);
+		ilUtil::sendInfo($this->lng->txt("ilinc_msg_membership_annulled"),true);
 		
 		if ($removed_self)
 		{
@@ -1816,7 +1816,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		//echo "ende";exit;
 
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 	
@@ -1917,7 +1917,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		$this->ilias->account->addDesktopItem($this->object->getRefId(),"icrs");	
 		
-		sendInfo($this->lng->txt("ilinc_msg_joined"),true);
+		ilUtil::sendInfo($this->lng->txt("ilinc_msg_joined"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
 	}
 	
@@ -2098,7 +2098,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	    }
 	    else 
 	    {
-	      sendInfo($this->lng->txt('public_profile_not_visible'));
+	      ilUtil::sendInfo($this->lng->txt('public_profile_not_visible'));
 		}
 	}
 } // END class.ilObjiLincCourseGUI

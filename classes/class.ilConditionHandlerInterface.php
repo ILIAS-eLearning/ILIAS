@@ -264,7 +264,7 @@ class ilConditionHandlerInterface
 
 		if(!$_GET['condition_id'])
 		{
-			sendInfo("Missing id: condition_id");
+			ilUtil::sendInfo("Missing id: condition_id");
 			$this->listConditions();
 			return false;
 		}
@@ -328,7 +328,7 @@ class ilConditionHandlerInterface
 
 		if(!$_GET['condition_id'])
 		{
-			sendInfo("Missing id: condition_id");
+			ilUtil::sendInfo("Missing id: condition_id");
 			$this->listConditions();
 			return false;
 		}
@@ -356,7 +356,7 @@ class ilConditionHandlerInterface
 			}
 		}
 
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->edit();
 	}
 		
@@ -365,7 +365,7 @@ class ilConditionHandlerInterface
 	{
 		if(!count($_POST['conditions']))
 		{
-			sendInfo('no_condition_selected');
+			ilUtil::sendInfo('no_condition_selected');
 			$this->listConditions();
 			return true;
 		}
@@ -374,7 +374,7 @@ class ilConditionHandlerInterface
 		{
 			$this->ch_obj->deleteCondition($condition_id);
 		}
-		sendInfo($this->lng->txt('condition_deleted'));
+		ilUtil::sendInfo($this->lng->txt('condition_deleted'));
 		$this->listConditions();
 
 		return true;
@@ -386,7 +386,7 @@ class ilConditionHandlerInterface
 
 		$this->tpl->addBlockFile('ADM_CONTENT', "adm_content", "tpl.condition_selector.html");
 
-		sendInfo($this->lng->txt("condition_select_object"));
+		ilUtil::sendInfo($this->lng->txt("condition_select_object"));
 
 		$exp = new ilConditionSelector($this->ctrl->getLinkTarget($this,'copySelector'));
 		$exp->setExpand($_GET["condition_selector_expand"] ? $_GET["condition_selector_expand"] : $this->tree->readRootId());
@@ -414,7 +414,7 @@ class ilConditionHandlerInterface
 
 		if(!$_GET['source_id'])
 		{
-			sendInfo("Missing id: condition_id");
+			ilUtil::sendInfo("Missing id: condition_id");
 			$this->selector();
 			return false;
 		}
@@ -489,7 +489,7 @@ class ilConditionHandlerInterface
 		}
 		if(!strlen($_POST['operator']))
 		{
-			sendInfo($this->lng->txt('no_operator_selected'));
+			ilUtil::sendInfo($this->lng->txt('no_operator_selected'));
 			$this->add();
 
 			return false;
@@ -528,11 +528,11 @@ class ilConditionHandlerInterface
 		$this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
 		if(!$this->ch_obj->storeCondition())
 		{
-			sendInfo($this->ch_obj->getErrorMessage());
+			ilUtil::sendInfo($this->ch_obj->getErrorMessage());
 		}
 		else
 		{
-			sendInfo($this->lng->txt('added_new_condition'));
+			ilUtil::sendInfo($this->lng->txt('added_new_condition'));
 		}
 
 		$this->listConditions();
@@ -544,7 +544,7 @@ class ilConditionHandlerInterface
 	{
 		#if(in_array('',$_POST['operator']))
 		#{
-		#	sendInfo($this->lng->txt('select_one_operator'));
+		#	ilUtil::sendInfo($this->lng->txt('select_one_operator'));
 
 		#	return false;
 		#}
@@ -555,7 +555,7 @@ class ilConditionHandlerInterface
 			$this->ch_obj->updateCondition($condition['id']);
 
 		}
-		sendInfo($this->lng->txt('conditions_updated'));
+		ilUtil::sendInfo($this->lng->txt('conditions_updated'));
 		
 		$this->ctrl->returnToParent($this);
 

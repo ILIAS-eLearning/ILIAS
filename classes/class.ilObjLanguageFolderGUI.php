@@ -581,7 +581,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 	function out()
 	{
-		sendInfo($this->data,true);
+		ilUtil::sendInfo($this->data,true);
 		$this->ctrl->redirect($this, "view");
 	}
 	

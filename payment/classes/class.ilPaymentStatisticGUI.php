@@ -195,7 +195,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		if(!count($bookings = $this->booking_obj->getBookings()))
 		{
-			sendInfo($this->lng->txt('paya_no_bookings'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_bookings'));
 
 			return true;
 		}
@@ -379,7 +379,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 	{
 		if(!isset($_GET['booking_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showStatistics();
 
 			return true;
@@ -477,7 +477,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 	{
 		if(!isset($_GET['booking_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showStatistics();
 
 			return true;
@@ -490,14 +490,14 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		
 		if($this->booking_obj->update())
 		{
-			sendInfo($this->lng->txt('paya_updated_booking'));
+			ilUtil::sendInfo($this->lng->txt('paya_updated_booking'));
 
 			$this->showStatistics();
 			return true;
 		}
 		else
 		{
-			sendInfo($this->lng->txt('paya_error_update_booking'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_update_booking'));
 			$this->showStatistics();
 			
 			return true;
@@ -508,12 +508,12 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 	{
 		if(!isset($_GET['booking_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showStatistics();
 
 			return true;
 		}
-		sendInfo($this->lng->txt('paya_sure_delete_stat'));
+		ilUtil::sendInfo($this->lng->txt('paya_sure_delete_stat'));
 
 		$this->editStatistic(true);
 
@@ -524,7 +524,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 	{
 		if(!isset($_GET['booking_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showStatistics();
 
 			return true;
@@ -536,7 +536,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		{
 			die('Error deleting booking');
 		}
-		sendInfo($this->lng->txt('pay_deleted_booking'));
+		ilUtil::sendInfo($this->lng->txt('pay_deleted_booking'));
 
 		$this->showStatistics();
 
@@ -552,7 +552,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",'payment');
 		$this->showButton('showStatistics',$this->lng->txt('back'));
 
-		sendInfo($this->lng->txt("paya_select_object_to_sell"));
+		ilUtil::sendInfo($this->lng->txt("paya_select_object_to_sell"));
 
 		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));
 		$exp->setExpand($_GET["paya_link_expand"] ? $_GET["paya_link_expand"] : $tree->readRootId());
@@ -569,7 +569,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 	{
 		if(!isset($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showObjectSelector();
 
 			return false;
@@ -601,14 +601,14 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		if(!trim($_POST["search_str"]))
 		{
-			sendInfo($this->lng->txt("search_no_search_term"));
+			ilUtil::sendInfo($this->lng->txt("search_no_search_term"));
 			$this->showStatistics();
 
 			return false;
 		}
 		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]))))
 		{
-			sendInfo($this->lng->txt("search_no_match"));
+			ilUtil::sendInfo($this->lng->txt("search_no_match"));
 			$this->searchUser();
 
 			return false;
@@ -616,7 +616,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		if(!isset($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showObjectSelector();
 
 			return false;
@@ -652,7 +652,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		if(!isset($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
 			$this->showObjectSelector();
 
 			return true;
@@ -660,7 +660,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		if(!isset($_POST['user_id']))
 		{
-			sendInfo($this->lng->txt('paya_no_user_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_user_id_given'));
 			$this->searchUser();
 
 			return true;
@@ -742,7 +742,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		if(!isset($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_error_no_object_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_no_object_id_given'));
 			$this->showObjectSelector();
 
 			return true;
@@ -750,7 +750,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		if(!isset($_GET['user_id']))
 		{
-			sendInfo($this->lng->txt('paya_error_no_user_id_given'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_no_user_id_given'));
 			$this->searchUser();
 
 			return true;
@@ -759,7 +759,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		if ($_POST["pay_method"] == "" ||
 			$_POST["duration"] == "")
 		{
-			sendInfo($this->lng->txt('paya_error_mandatory_fields'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_mandatory_fields'));
 			$this->addCustomer();
 
 			return true;
@@ -788,12 +788,12 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 		if($this->booking_obj->add())
 		{
-			sendInfo($this->lng->txt('paya_customer_added_successfully'));
+			ilUtil::sendInfo($this->lng->txt('paya_customer_added_successfully'));
 			$this->showStatistics();
 		}
 		else
 		{
-			sendInfo($this->lng->txt('paya_error_adding_customer'));
+			ilUtil::sendInfo($this->lng->txt('paya_error_adding_customer'));
 			$this->addCustomer();
 		}
 
@@ -923,7 +923,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		}
 		else
 		{
-			sendInfo($message,true);
+			ilUtil::sendInfo($message,true);
 			$this->ctrl->redirect($this,"searchUser");
 		}
 		return $search->getResultByType('usr');

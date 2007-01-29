@@ -131,7 +131,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		session_unregister("saved_post");
 
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
@@ -1544,7 +1544,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		sendInfo($msg, true);
+		ilUtil::sendInfo($msg, true);
 
 		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
@@ -1703,7 +1703,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$_SESSION['error_post_vars'] = $_POST;
 
-				sendInfo($this->lng->txt('time_limit_not_within_owners'));
+				ilUtil::sendInfo($this->lng->txt('time_limit_not_within_owners'));
 				$this->editObject();
 
 				return false;
@@ -1776,7 +1776,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$msg = $this->lng->txt('saved_successfully').$mail_message;
 
 		// feedback
-		sendInfo($msg,true);
+		ilUtil::sendInfo($msg,true);
 
 		if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
@@ -1834,7 +1834,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		sendInfo($this->lng->txt("msg_roleassignment_active_changed").".<br/>".$this->lng->txt("msg_roleassignment_active_changed_comment"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_roleassignment_active_changed").".<br/>".$this->lng->txt("msg_roleassignment_active_changed_comment"),true);
 		$this->ctrl->redirect($this, "edit");
 	}
 
@@ -1873,7 +1873,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
             //$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
             // workaround. sometimes jumps back to wrong page
-            sendInfo($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),true);
+            ilUtil::sendInfo($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),true);
             $this->ctrl->redirect($this,'roleassignment');
 		}
 
@@ -1893,7 +1893,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// update object data entry (to update last modification date)
 		$this->object->update();
 
-		sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
 
 		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{

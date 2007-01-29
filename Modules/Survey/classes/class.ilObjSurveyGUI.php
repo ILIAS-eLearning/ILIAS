@@ -130,7 +130,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilObjSurveyGUI");
@@ -143,7 +143,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -156,7 +156,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function cancelPropertiesObject()
 	{
-    sendInfo($this->lng->txt("msg_cancel"), true);
+    ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 	
@@ -178,7 +178,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$result = $this->object->setStatus($status);
 		if ($result)
 		{
-			sendInfo($result, true);
+			ilUtil::sendInfo($result, true);
 		}
 		$this->object->setEvaluationAccess($_POST["evaluation_access"]);
 		$this->object->setStartDate(sprintf("%04d-%02d-%02d", $_POST["start_date"]["y"], $_POST["start_date"]["m"], $_POST["start_date"]["d"]));
@@ -209,11 +209,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->saveToDb();
 		if (strcmp($_SESSION["info"], "") != 0)
 		{
-			sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
 		}
 		else
 		{
-			sendInfo($this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		}
 		$this->ctrl->redirect($this, "properties");
 	}
@@ -231,7 +231,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
-			sendInfo($this->lng->txt("cannot_edit_survey"), TRUE);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), TRUE);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 	}
@@ -472,18 +472,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($inserted_objects)
 		{
 			$this->object->saveCompletionStatus();
-			sendInfo($this->lng->txt("questions_inserted"), true);
+			ilUtil::sendInfo($this->lng->txt("questions_inserted"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 		else
 		{
 			if ($_GET["browsetype"] == 1)
 			{
-				sendInfo($this->lng->txt("insert_missing_question"));
+				ilUtil::sendInfo($this->lng->txt("insert_missing_question"));
 			}
 			else
 			{
-				sendInfo($this->lng->txt("insert_missing_questionblock"));
+				ilUtil::sendInfo($this->lng->txt("insert_missing_questionblock"));
 			}
 			$this->browseForQuestionsObject("", false, $_GET["browsetype"]);
 		}
@@ -513,13 +513,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if (count($checked_questions) + count($checked_questionblocks) > 0) 
 		{
-			sendInfo($this->lng->txt("remove_questions"));
+			ilUtil::sendInfo($this->lng->txt("remove_questions"));
 			$this->removeQuestionsForm($checked_questions, $checked_questionblocks);
 			return;
 		} 
 		else 
 		{
-			sendInfo($this->lng->txt("no_question_selected_for_removal"), true);
+			ilUtil::sendInfo($this->lng->txt("no_question_selected_for_removal"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 	}
@@ -944,7 +944,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("no_search_results"));
+			ilUtil::sendInfo($this->lng->txt("no_search_results"));
 			$this->searchQuestionsObject();
 		}
 	}
@@ -999,7 +999,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		sendInfo();
+		ilUtil::sendInfo();
 		$questiontypes = &$this->object->getQuestiontypes();
 		foreach ($questiontypes as $questiontype)
 		{
@@ -1067,7 +1067,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function removeQuestionsForm($checked_questions, $checked_questionblocks)
 	{
-		sendInfo();
+		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_remove_questions.html", "Modules/Survey");
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
@@ -1122,7 +1122,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function defineQuestionblock($questionblock_id = "")
 	{
-		sendInfo();
+		ilUtil::sendInfo();
 		if ($questionblock_id)
 		{
 			$questionblock = $this->object->getQuestionblock($questionblock_id);
@@ -1197,7 +1197,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("create_questionpool_before_add_question"));
+			ilUtil::sendInfo($this->lng->txt("create_questionpool_before_add_question"));
 		}
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
@@ -1320,7 +1320,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		$this->object->saveCompletionStatus();
-		sendInfo($this->lng->txt("questions_inserted"), true);
+		ilUtil::sendInfo($this->lng->txt("questions_inserted"), true);
 		$this->ctrl->redirect($this, "questions");
 	}
 	
@@ -1357,7 +1357,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("error_add_heading"));
+			ilUtil::sendInfo($this->lng->txt("error_add_heading"));
 			$this->addHeadingObject();
 			return;
 		}
@@ -1409,7 +1409,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function confirmRemoveHeadingForm()
 	{
-		sendInfo($this->lng->txt("confirm_remove_heading"));
+		ilUtil::sendInfo($this->lng->txt("confirm_remove_heading"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_confirm_removeheading.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BTN_CONFIRM_REMOVE", $this->lng->txt("confirm"));
@@ -1443,7 +1443,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->object->removeQuestions($checked_questions, $checked_questionblocks);
 		$this->object->saveCompletionStatus();
-		sendInfo($this->lng->txt("questions_removed"), true);
+		ilUtil::sendInfo($this->lng->txt("questions_removed"), true);
 		$this->ctrl->redirect($this, "questions");
 	}
 	
@@ -1478,7 +1478,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if (count($questionblock) < 2)
 		{
-			sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 		else
@@ -1522,7 +1522,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("enter_questionblock_title"));
+			ilUtil::sendInfo($this->lng->txt("enter_questionblock_title"));
 			$this->defineQuestionblockObject();
 			return;
 		}
@@ -1551,7 +1551,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_unfold_select_none"), true);
+			ilUtil::sendInfo($this->lng->txt("qpl_unfold_select_none"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}
@@ -1595,13 +1595,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if (count($move_questions) == 0)
 		{
-			sendInfo($this->lng->txt("no_question_selected_for_move"), true);
+			ilUtil::sendInfo($this->lng->txt("no_question_selected_for_move"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 		else
 		{
 			$_SESSION["move_questions"] = $move_questions;
-			sendInfo($this->lng->txt("select_target_position_for_move_question"));
+			ilUtil::sendInfo($this->lng->txt("select_target_position_for_move_question"));
 			$this->questionsObject();
 		}
 	}
@@ -1649,7 +1649,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if ($insert_id <= 0)
 		{
-			sendInfo($this->lng->txt("no_target_selected_for_move"), true);
+			ilUtil::sendInfo($this->lng->txt("no_target_selected_for_move"), true);
 		}
 		else
 		{
@@ -1722,7 +1722,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_survey"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
@@ -1734,7 +1734,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$inserted = $this->object->insertQuestion($_GET["new_id"]);
 			if (!$inserted)
 			{
-				sendInfo($this->lng->txt("survey_error_insert_incomplete_question"));
+				ilUtil::sendInfo($this->lng->txt("survey_error_insert_incomplete_question"));
 			}
 		}
 		
@@ -1787,7 +1787,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// called after a new question was created from a questionpool
 			$selected_array = array();
 			array_push($selected_array, $_GET["add"]);
-			sendInfo($this->lng->txt("ask_insert_questions"));
+			ilUtil::sendInfo($this->lng->txt("ask_insert_questions"));
 			$this->insertQuestionsForm($selected_array);
 			return;
 		}
@@ -2032,7 +2032,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if ($hasDatasets)
 		{
-			sendInfo($this->lng->txt("survey_has_datasets_warning"));
+			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
 		}
 
 		$this->tpl->parseCurrentBlock();
@@ -2292,7 +2292,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
-			sendInfo($this->lng->txt("cannot_edit_survey"), true);
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
@@ -2329,11 +2329,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					if ($message)
 					{
-						sendInfo($message);
+						ilUtil::sendInfo($message);
 					}
 					if(!$search->getNumberOfResults() && $search->getSearchFor())
 					{
-						sendInfo($this->lng->txt("search_no_match"));
+						ilUtil::sendInfo($this->lng->txt("search_no_match"));
 					}
 					$buttons = array("add");
 					$invited_users = $this->object->getInvitedUsers();
@@ -2373,7 +2373,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			else
 			{
-				sendInfo($this->lng->txt("no_user_or_group_selected"));
+				ilUtil::sendInfo($this->lng->txt("no_user_or_group_selected"));
 			}
 		}
 
@@ -2474,7 +2474,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function deleteAllUserDataObject()
 	{
-		sendInfo($this->lng->txt("confirm_delete_all_user_data"));
+		ilUtil::sendInfo($this->lng->txt("confirm_delete_all_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("confirm_delete");
 		$this->tpl->setVariable("BTN_CONFIRM_DELETE_ALL", $this->lng->txt("confirm"));
@@ -2495,7 +2495,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function confirmDeleteAllUserDataObject()
 	{
 		$this->object->deleteAllUserData();
-		sendInfo($this->lng->txt("svy_all_user_data_deleted"), true);
+		ilUtil::sendInfo($this->lng->txt("svy_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "maintenance");
 	}
 	
@@ -2521,7 +2521,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function confirmDeleteSelectedUserDataObject()
 	{
 		$this->object->removeSelectedSurveyResults($_POST["chbUser"]);
-		sendInfo($this->lng->txt("svy_selected_user_data_deleted"), true);
+		ilUtil::sendInfo($this->lng->txt("svy_selected_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "maintenance");
 	}
 	
@@ -2550,7 +2550,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->ctrl->redirect($this, "maintenance");
 		}
-		sendInfo($this->lng->txt("confirm_delete_single_user_data"));
+		ilUtil::sendInfo($this->lng->txt("confirm_delete_single_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
 
 		$this->tpl->setCurrentBlock("confirm_delete_selected");
@@ -2627,7 +2627,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("cannot_maintain_survey"));
+			ilUtil::sendInfo($this->lng->txt("cannot_maintain_survey"));
 		}
 	}	
 
@@ -2754,7 +2754,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo("cannot_export_survey");
+			ilUtil::sendInfo("cannot_export_survey");
 		}
 	}
 
@@ -2804,13 +2804,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if ($_POST["spl"] < 1)
 		{
-			sendInfo($this->lng->txt("svy_select_questionpools"));
+			ilUtil::sendInfo($this->lng->txt("svy_select_questionpools"));
 			$this->importObject();
 			return;
 		}
 		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
-			sendInfo($this->lng->txt("svy_select_file_for_import"));
+			ilUtil::sendInfo($this->lng->txt("svy_select_file_for_import"));
 			$this->importObject();
 			return;
 		}
@@ -2941,7 +2941,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if ($_POST["svy"] < 1)
 		{
-			sendInfo($this->lng->txt("svy_select_surveys"));
+			ilUtil::sendInfo($this->lng->txt("svy_select_surveys"));
 			$this->createObject();
 			return;
 		}
@@ -2949,7 +2949,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$ref_id = ilObjSurvey::_clone($_POST["svy"]);
 		// always send a message
-		sendInfo($this->lng->txt("object_duplicated"),true);
+		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
 			"&baseClass=ilObjSurveyGUI");
@@ -2962,20 +2962,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if ($_POST["spl"] < 1)
 		{
-			sendInfo($this->lng->txt("svy_select_questionpools"));
+			ilUtil::sendInfo($this->lng->txt("svy_select_questionpools"));
 			$this->createObject();
 			return;
 		}
 		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
-			sendInfo($this->lng->txt("svy_select_file_for_import"));
+			ilUtil::sendInfo($this->lng->txt("svy_select_file_for_import"));
 			$this->createObject();
 			return;
 		}
 		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$ref_id = $this->uploadObject(false);
 		// always send a message
-		sendInfo($this->lng->txt("object_imported"),true);
+		ilUtil::sendInfo($this->lng->txt("object_imported"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
 			"&baseClass=ilObjSurveyGUI");
@@ -2989,13 +2989,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			sendInfo($this->lng->txt("select_max_one_item"), true);
+			ilUtil::sendInfo($this->lng->txt("select_max_one_item"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
@@ -3013,7 +3013,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
@@ -3024,7 +3024,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Survey");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "deleteExportFile"));
 
@@ -3116,7 +3116,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($this->object->getAnonymize() != 1)
 		{
-			return sendInfo($this->lng->txt("survey_codes_no_anonymization"));
+			return ilUtil::sendInfo($this->lng->txt("survey_codes_no_anonymization"));
 		}
 		global $rbacsystem;
 		global $ilUser;
@@ -3199,7 +3199,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("cannot_create_survey_codes"));
+			ilUtil::sendInfo($this->lng->txt("cannot_create_survey_codes"));
 		}
 	}
 	
@@ -3218,7 +3218,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("enter_valid_number_of_codes"), true);
+			ilUtil::sendInfo($this->lng->txt("enter_valid_number_of_codes"), true);
 		}
 		$this->ctrl->redirect($this, "codes");
 	}
@@ -3405,7 +3405,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			unset($_SESSION["includeElements"]);
 			unset($_SESSION["constraintstructure"]);
-			sendInfo($this->lng->txt("constraints_no_nonessay_available"), true);
+			ilUtil::sendInfo($this->lng->txt("constraints_no_nonessay_available"), true);
 			$this->ctrl->redirect($this, "constraints");
 		}
 		$this->addConstraintForm(1, $survey_questions, $option_questions);
@@ -3441,7 +3441,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$include_elements = $_POST["includeElements"];
 		if ((!is_array($include_elements)) || (count($include_elements) == 0))
 		{
-			sendInfo($this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
+			ilUtil::sendInfo($this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
 			$this->ctrl->redirect($this, "constraints");
 		}
 		else if (count($include_elements) >= 1)
@@ -3603,7 +3603,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$_SESSION["constraintstructure"] = $structure;
 		if ($hasDatasets)
 		{
-			sendInfo($this->lng->txt("survey_has_datasets_warning"));
+			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
 		}
 	}
 
@@ -3662,7 +3662,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$canStart = $this->object->canStartSurvey($anonymize_key);
 		$showButtons = $canStart["result"];
-		if (!$showButtons) sendInfo(implode("<br />", $canStart["messages"]));
+		if (!$showButtons) ilUtil::sendInfo(implode("<br />", $canStart["messages"]));
 
 		if ($showButtons)
 		{
@@ -3673,13 +3673,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 				// Anonymous User tries to start a personalized survey
 				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 				{
-					sendInfo($this->lng->txt("anonymous_with_personalized_survey"));
+					ilUtil::sendInfo($this->lng->txt("anonymous_with_personalized_survey"));
 				}
 				else
 				{
 					if ($survey_started === 1)
 					{
-						sendInfo($this->lng->txt("already_completed_survey"));
+						ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
 					}
 					elseif ($survey_started === 0)
 					{
@@ -3707,7 +3707,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						if (!$this->object->checkSurveyCode($_POST["anonymous_id"]))
 						{
-							sendInfo("wrong_survey_code_used");
+							ilUtil::sendInfo("wrong_survey_code_used");
 						}
 						else
 						{
@@ -3718,7 +3718,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						if (!$this->object->checkSurveyCode($_SESSION["anonymous_id"]))
 						{
-							sendInfo("wrong_survey_code_used");
+							ilUtil::sendInfo("wrong_survey_code_used");
 						}
 						else
 						{
@@ -3739,7 +3739,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymize_key);
 					if ($survey_started === 1)
 					{
-						sendInfo($this->lng->txt("already_completed_survey"));
+						ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
 					}
 					elseif ($survey_started === 0)
 					{
@@ -3757,7 +3757,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$survey_started = $this->object->isSurveyStarted($ilUser->getId(), "");
 				if ($survey_started === 1)
 				{
-					sendInfo($this->lng->txt("already_completed_survey"));
+					ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
 				}
 				elseif ($survey_started === 0)
 				{
@@ -4042,7 +4042,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

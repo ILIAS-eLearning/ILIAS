@@ -148,7 +148,7 @@ if ($_POST["cmd"]["adopt"])
 				);
 			}
 		}
-		sendInfo($lng->txt("mail_members_added_addressbook"));
+		ilUtil::sendInfo($lng->txt("mail_members_added_addressbook"));
 	}
 }
 
@@ -286,7 +286,7 @@ if($_GET["type"] == 'add')
 					 $tmp_user->getFirstname(),
 					 $tmp_user->getLastname(),
 					 $tmp_user->getEmail());
-	sendInfo($lng->txt("mail_entry_added"));
+	ilUtil::sendInfo($lng->txt("mail_entry_added"));
 }
 // ACTIONS
 if(isset($_POST["cmd"]["submit"]))
@@ -297,7 +297,7 @@ if(isset($_POST["cmd"]["submit"]))
 			if(!is_array($_POST["entry_id"]))
 			{
 				unset($_POST["action"]);
-				sendInfo($lng->txt("mail_select_one_entry"));
+				ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
 			}
 			else
 			{
@@ -308,12 +308,12 @@ if(isset($_POST["cmd"]["submit"]))
 		case 'delete':
 				if(!is_array($_POST["entry_id"]))
 				{
-					sendInfo($lng->txt("mail_select_one_entry"));
+					ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
 					$error_delete = true;
 				}
 				else
 				{
-					sendInfo($lng->txt("mail_sure_delete_entry"));
+					ilUtil::sendInfo($lng->txt("mail_sure_delete_entry"));
 				}
 	}
 }
@@ -322,31 +322,31 @@ if(isset($_POST["cmd"]["change"]))
 {
 	if(!is_array($_POST["entry_id"]))
 	{
-		sendInfo($lng->txt("mail_select_one"));
+		ilUtil::sendInfo($lng->txt("mail_select_one"));
 	}
 	// check if user login and e-mail-address are empty 
 	else if (!strcmp(trim($_POST["login"]),"") &&
 			 !strcmp(trim($_POST["email"]),""))
 	{
-		sendInfo($lng->txt("mail_enter_login_or_email_addr"));
+		ilUtil::sendInfo($lng->txt("mail_enter_login_or_email_addr"));
 		$error_add = true;
 	}
 	else if ($_POST["login"] != "" && 
 			 !(ilObjUser::_lookupId($_POST["login"])))
 	{
-		sendInfo($lng->txt("mail_enter_valid_login"));
+		ilUtil::sendInfo($lng->txt("mail_enter_valid_login"));
 		$error_add = true;
 	}
 	else if ($_POST["email"] &&
 			 !(ilUtil::is_email($_POST["email"])))
 	{
-		sendInfo($lng->txt("mail_enter_valid_email_addr"));
+		ilUtil::sendInfo($lng->txt("mail_enter_valid_email_addr"));
 		$error_add = true;
 	}
 	else if (($existing_entry = $abook->checkEntry($_POST["login"])) > 0 &&
 			 $existing_entry != $_POST["entry_id"][0])
 	{
-		sendInfo($lng->txt("mail_entry_exists"));
+		ilUtil::sendInfo($lng->txt("mail_entry_exists"));
 		$error_add = true;
 	}
 	else
@@ -358,7 +358,7 @@ if(isset($_POST["cmd"]["change"]))
 							$_POST["email"]);
 		unset($_POST["entry_id"]);
 		unset($existing_entry);
-		sendInfo($lng->txt("mail_entry_changed"));
+		ilUtil::sendInfo($lng->txt("mail_entry_changed"));
 	}
 }	
 
@@ -376,24 +376,24 @@ if(isset($_POST["cmd"]["add"]))
 	if (!strcmp(trim($_POST["login"]),"") &&
 		!strcmp(trim($_POST["email"]),""))
 	{
-		sendInfo($lng->txt("mail_enter_login_or_email_addr"));
+		ilUtil::sendInfo($lng->txt("mail_enter_login_or_email_addr"));
 		$error_add = true;
 	}
 	else if ($_POST["login"] != "" && 
 			 !(ilObjUser::_lookupId($_POST["login"])))
 	{
-		sendInfo($lng->txt("mail_enter_valid_login"));
+		ilUtil::sendInfo($lng->txt("mail_enter_valid_login"));
 		$error_add = true;
 	}
 	else if ($_POST["email"] &&
 			 !(ilUtil::is_email($_POST["email"])))
 	{
-		sendInfo($lng->txt("mail_enter_valid_email_addr"));
+		ilUtil::sendInfo($lng->txt("mail_enter_valid_email_addr"));
 		$error_add = true;
 	}
 	else if (($existing_entry = $abook->checkEntry($_POST["login"])) > 0)
 	{
-		sendInfo($lng->txt("mail_entry_exists"));
+		ilUtil::sendInfo($lng->txt("mail_entry_exists"));
 		$error_add = true;
 	}
 	else
@@ -402,7 +402,7 @@ if(isset($_POST["cmd"]["add"]))
 					 $_POST["firstname"],
 					 $_POST["lastname"],
 					 $_POST["email"]);
-		sendInfo($lng->txt("mail_entry_added"));
+		ilUtil::sendInfo($lng->txt("mail_entry_added"));
 	}
 	
 }
@@ -412,16 +412,16 @@ if(isset($_POST["cmd"]["confirm"]))
 {
 	if(!is_array($_POST["entry_id"]))
 	{
-		sendInfo($lng->txt("mail_select_one_entry"));
+		ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
 	}
 	else if($abook->deleteEntries($_POST["entry_id"]))
 	{
 		$_GET["offset"] = 0;
-		sendInfo($lng->txt("mail_deleted_entry"));
+		ilUtil::sendInfo($lng->txt("mail_deleted_entry"));
 	}
 	else
 	{
-		sendInfo($lng->txt("mail_delete_error"));
+		ilUtil::sendInfo($lng->txt("mail_delete_error"));
 	}
 }
 

@@ -727,7 +727,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 
 		// Feedback
-		sendInfo($this->lng->txt("user_deleted"),true);
+		ilUtil::sendInfo($this->lng->txt("user_deleted"),true);
 
 		$this->ctrl->redirect($this, "view");
 	}
@@ -763,7 +763,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->getTemplateFile("confirm");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
@@ -850,7 +850,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function searchCancelledObject()
 	{
-		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 
 		$this->ctrl->redirect($this, "view");
 	}
@@ -885,7 +885,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			{
 				$msg .= " ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'";
 			}
-			sendInfo($msg, true);
+			ilUtil::sendInfo($msg, true);
 			$this->ctrl->redirect($this, "searchUserForm");
 		}
 		//add template for buttons
@@ -951,7 +951,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		if (count($this->data["data"]) == 0)
 		{
-			sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
+			ilUtil::sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
 
 			$this->ctrl->redirect($this, "searchUserForm");
 		}
@@ -1127,7 +1127,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			ilUtil::delDir($import_dir);
 		}
 
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
@@ -1558,10 +1558,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		switch ($importParser->getErrorLevel())
 		{
 			case IL_IMPORT_SUCCESS :
-				sendInfo($this->lng->txt("user_imported"), true);
+				ilUtil::sendInfo($this->lng->txt("user_imported"), true);
 				break;
 			case IL_IMPORT_WARNING :
-				sendInfo($this->lng->txt("user_imported_with_warnings").$importParser->getProtocolAsHTML($lng->txt("import_warning_log")), true);
+				ilUtil::sendInfo($this->lng->txt("user_imported_with_warnings").$importParser->getProtocolAsHTML($lng->txt("import_warning_log")), true);
 				break;
 			case IL_IMPORT_FAILURE :
 				$this->ilias->raiseError(
@@ -1597,7 +1597,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if(!count($app_users =& $ilias->account->getAppliedUsers()))
 		{
-			sendInfo($this->lng->txt('no_users_applied'));
+			ilUtil::sendInfo($this->lng->txt('no_users_applied'));
 
 			return false;
 		}
@@ -1649,12 +1649,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if(!isset($_SESSION['error_post_vars']))
 		{
-			sendInfo($this->lng->txt('time_limit_add_time_limit_for_selected'));
+			ilUtil::sendInfo($this->lng->txt('time_limit_add_time_limit_for_selected'));
 		}
 
 		if(!count($_POST["users"]))
 		{
-			sendInfo($this->lng->txt("time_limit_no_users_selected"));
+			ilUtil::sendInfo($this->lng->txt("time_limit_no_users_selected"));
 			$this->appliedUsersObject();
 
 			return false;
@@ -1757,7 +1757,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			if($start > $end)
 			{
 				$_SESSION['error_post_vars'] = $_POST;
-				sendInfo($this->lng->txt('time_limit_not_valid'));
+				ilUtil::sendInfo($this->lng->txt('time_limit_not_valid'));
 				$this->editAppliedUsersObject();
 
 				return false;
@@ -1769,7 +1769,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		#	   $end > $this->ilias->account->getTimeLimitUntil())
 		#	{
 		#		$_SESSION['error_post_vars'] = $_POST;
-		#		sendInfo($this->lng->txt('time_limit_not_within_owners'));
+		#		ilUtil::sendInfo($this->lng->txt('time_limit_not_within_owners'));
 		#		$this->editAppliedUsersObject();
 
 		#		return false;
@@ -1790,7 +1790,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 
 		unset($_SESSION['applied_users']);
-		sendInfo($this->lng->txt('time_limit_users_updated'));
+		ilUtil::sendInfo($this->lng->txt('time_limit_users_updated'));
 		$this->appliedUsersObject();
 		
 		return true;
@@ -2036,7 +2036,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$udf->update($definition['field_id']);
 
-		sendInfo($this->lng->txt('udf_update_success'));
+		ilUtil::sendInfo($this->lng->txt('udf_update_success'));
 		
 		$this->listUserDefinedFieldsObject();
 	}
@@ -2121,19 +2121,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			switch($error)
 			{
 				case UDF_DUPLICATE_VALUES:
-					sendInfo($this->lng->txt('udf_duplicate_entries'));
+					ilUtil::sendInfo($this->lng->txt('udf_duplicate_entries'));
 					$this->editSelectFieldObject();
 					return false;
 
 				case UDF_NO_VALUES:
-					sendInfo($this->lng->txt('udf_no_entries'));
+					ilUtil::sendInfo($this->lng->txt('udf_no_entries'));
 					$this->editSelectFieldObject();
 					return false;
 			}
 		}
 
 		$udf->update($definition['field_id']);
-		sendInfo($this->lng->txt('udf_update_success'));
+		ilUtil::sendInfo($this->lng->txt('udf_update_success'));
 		
 		unset($_SESSION['select_num_values']);
 		$this->editSelectFieldObject();
@@ -2147,7 +2147,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$udf =& ilUserDefinedFields::_getInstance();
 		$udf->deleteValue((int) $_GET['field_id'],(int) $_GET['value_id']);
 
-		sendInfo($this->lng->txt('udf_value_deleted'));
+		ilUtil::sendInfo($this->lng->txt('udf_value_deleted'));
 		$this->editSelectFieldObject();
 
 		return true;
@@ -2167,7 +2167,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once './classes/class.ilUserDefinedFields.php';
 
-		sendInfo($this->lng->txt('udf_delete_sure'));
+		ilUtil::sendInfo($this->lng->txt('udf_delete_sure'));
 
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('global_settings');
@@ -2197,7 +2197,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$user_field_definitions->delete((int) $_GET['field_id']);
 
-		sendInfo($this->lng->txt('udf_field_deleted'));
+		ilUtil::sendInfo($this->lng->txt('udf_field_deleted'));
 		$this->listUserDefinedFieldsObject();
 
 		return true;
@@ -2221,7 +2221,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$user_field_definitions->update($field_id);
 		}
 
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->listUserDefinedFieldsObject();
 		
 		return true;
@@ -2350,14 +2350,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if(!strlen($_POST['field_name']))
 		{
-			sendInfo($this->lng->txt('udf_no_name_given'));
+			ilUtil::sendInfo($this->lng->txt('udf_no_name_given'));
 			$this->chooseDefinitionsObject();
 			return false;
 		}
 
 		if($user_field_definitions->nameExists($_POST['field_name']))
 		{
-			sendInfo($this->lng->txt('udf_name_already_exists'));
+			ilUtil::sendInfo($this->lng->txt('udf_name_already_exists'));
 			$this->chooseDefinitionsObject();
 			return false;
 		}
@@ -2376,12 +2376,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				switch($error)
 				{
 					case UDF_DUPLICATE_VALUES:
-						sendInfo($this->lng->txt('udf_duplicate_entries'));
+						ilUtil::sendInfo($this->lng->txt('udf_duplicate_entries'));
 						$this->chooseDefinitionsObject();
 						return false;
 
 					case UDF_NO_VALUES:
-						sendInfo($this->lng->txt('udf_no_entries'));
+						ilUtil::sendInfo($this->lng->txt('udf_no_entries'));
 						$this->chooseDefinitionsObject();
 						return false;
 				}
@@ -2394,7 +2394,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$user_field_definitions->enableSearchable($_POST['def']['searchable']);
 		$user_field_definitions->add();
 
-		sendInfo($this->lng->txt('udf_added_field'));
+		ilUtil::sendInfo($this->lng->txt('udf_added_field'));
 		$this->listUserDefinedFieldsObject();
 
 		return true;
@@ -2728,7 +2728,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$ilias->setSetting("show_users_online",$_POST["select"]["default_show_users_online"]);
 		}
 
-		sendInfo($this->lng->txt("usr_settings_saved"));
+		ilUtil::sendInfo($this->lng->txt("usr_settings_saved"));
 		$this->settingsObject();
 	}
 	
@@ -2785,7 +2785,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->getTemplateFile("confirm_delete_export","usr");		
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -3054,7 +3054,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function cancelNewAccountMailObject()
 	{
-		sendInfo($this->lng->txt("action_aborted"), true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"), true);
 		$this->ctrl->redirect($this, "settings");
 	}
 
@@ -3062,7 +3062,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $lng;
 		
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$langs = $lng->getInstalledLanguages();
 		foreach($langs as $lang_key)
 		{

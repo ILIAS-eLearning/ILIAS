@@ -84,7 +84,7 @@ class ilObjAICCLearningModuleGUI extends ilObjSCORMLearningModuleGUI
 //
 //		$this->uploadObject();
 //
-//		sendInfo($this->lng->txt("alm_added"), true);
+//		ilUtil::sendInfo($this->lng->txt("alm_added"), true);
 //		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 //
 //	}

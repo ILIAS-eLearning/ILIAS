@@ -496,7 +496,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		if($cutted > 0)
 		{
-			sendInfo($this->lng->txt("msg_cut_clipboard"), true);
+			ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
 		}
 
 		$this->ctrl->redirect($this, "view");
@@ -524,7 +524,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// SAVE POST VALUES
 		ilEditClipboard::storeContentObject("pg",$_POST["id"][0],"copy");
 
-		sendInfo($this->lng->txt("msg_copy_clipboard"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
 
 		$this->ctrl->redirect($this, "view");
 	}
@@ -700,7 +700,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function cancel()
 	{
-		sendInfo($this->lng->txt("msg_cancel"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		if ($_GET["obj_id"] != 0)
 		{
 			if ($_GET["new_type"] == "pg")
@@ -807,7 +807,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle($lm_id)), true);
 			include("repository.php");
 			exit;

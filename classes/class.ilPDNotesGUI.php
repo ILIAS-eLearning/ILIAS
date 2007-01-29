@@ -115,7 +115,7 @@ class ilPDNotesGUI
 */
 		
 		// catch feedback message
-		sendInfo();
+		ilUtil::sendInfo();
 		// display infopanel if something happened
 		infoPanel();
 

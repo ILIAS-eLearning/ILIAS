@@ -658,13 +658,13 @@ class ilContainerGUI extends ilObjectGUI
 		ilRTE::_cleanupMediaObjectUsage($text, $this->object->getType().":html",
 			$this->object->getId());
 
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "");
 	}
 	
 	function cancelPageContentObject()
 	{
-		sendInfo($this->lng->txt("action_aborted"), true);
+		ilUtil::sendInfo($this->lng->txt("action_aborted"), true);
 		$this->ctrl->redirect($this, "");
 	}
 
@@ -1292,7 +1292,7 @@ class ilContainerGUI extends ilObjectGUI
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 //echo "-".$_SESSION["clipboard"]["cmd"]."-";
 
-		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"),true);
 
 		$this->ctrl->returnToParent($this);
 
@@ -1370,7 +1370,7 @@ class ilContainerGUI extends ilObjectGUI
 
 		$_SESSION["clipboard"] = $clipboard;
 
-		sendinfo($this->lng->txt("msg_link_clipboard"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_link_clipboard"),true);
 
 		$this->ctrl->returnToParent($this);
 
@@ -1391,7 +1391,7 @@ class ilContainerGUI extends ilObjectGUI
 		// only redirect if clipboard was cleared
 		if (isset($_POST["cmd"]["clear"]))
 		{
-			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
+			ilUtil::sendInfo($this->lng->txt("msg_clear_clipboard"),true);
 
 			$this->ctrl->returnToParent($this);
 			//ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
@@ -1736,11 +1736,11 @@ $log->write("ilObjectGUI::pasteObject(), 4");
 
 		if ($last_cmd == "cut")
 		{
-			sendInfo($this->lng->txt("msg_cut_copied"),true);
+			ilUtil::sendInfo($this->lng->txt("msg_cut_copied"),true);
 		}
 		else
 		{
-			sendInfo($this->lng->txt("msg_linked"),true);
+			ilUtil::sendInfo($this->lng->txt("msg_linked"),true);
 		}
 
 		$this->ctrl->returnToParent($this);

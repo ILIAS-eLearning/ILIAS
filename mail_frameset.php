@@ -43,17 +43,17 @@ if(isset($_POST["cmd"]["add"]))
 
 	if(empty($_POST['folder_name_add']))
 	{
-		sendInfo($lng->txt("mail_insert_folder_name"),true);
+		ilUtil::sendInfo($lng->txt("mail_insert_folder_name"),true);
 		$_GET["target"] = urlencode("mail_options.php?mobj_id=$_GET[mobj_id]");
 	}
 	else if($new_id = $mbox->addFolder($_GET["mobj_id"],$_POST["folder_name_add"]))
 	{
-		sendInfo($lng->txt("mail_folder_created"),true);
+		ilUtil::sendInfo($lng->txt("mail_folder_created"),true);
 		$_GET["mobj_id"] = $new_id;
 	}
 	else
 	{
-		sendInfo($lng->txt("mail_folder_exists"),true);
+		ilUtil::sendInfo($lng->txt("mail_folder_exists"),true);
 		$_GET["target"] = urlencode("mail_options.php?mobj_id=$_GET[mobj_id]");
 	}
 }
@@ -65,12 +65,12 @@ if(isset($_POST["cmd"]["confirm"]))
 
 	if($mbox->deleteFolder($_GET["mobj_id"]))
 	{
-		sendInfo($lng->txt("mail_folder_deleted"),true);
+		ilUtil::sendInfo($lng->txt("mail_folder_deleted"),true);
 		$_GET["target"] = urlencode("mail_options.php?mobj_id=".$new_parent);
 	}
 	else
 	{
-		sendInfo($lng->txt("mail_error_delete"),true);
+		ilUtil::sendInfo($lng->txt("mail_error_delete"),true);
 		$_GET["target"] = urlencode("mail_options.php?mobj_id=".$_GET["mobj_id"]);
 
 	}

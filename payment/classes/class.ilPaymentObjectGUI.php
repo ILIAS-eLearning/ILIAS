@@ -80,7 +80,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if(!count($objects = ilPaymentObject::_getObjectsData($this->user_obj->getId())))
 		{
-			sendInfo($this->lng->txt('paya_no_objects_assigned'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_objects_assigned'));
 			
 			return true;
 		}
@@ -158,7 +158,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -214,21 +214,21 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
 		}
 		if(ilPaymentBookings::_getCountBookingsByObject((int) $_GET['pobject_id']))
 		{
-			sendInfo($this->lng->txt('paya_bookings_available'));
+			ilUtil::sendInfo($this->lng->txt('paya_bookings_available'));
 			$this->editDetails();
 
 			return false;
 		}
 		else
 		{
-			sendInfo($this->lng->txt('paya_sure_delete_object'));
+			ilUtil::sendInfo($this->lng->txt('paya_sure_delete_object'));
 			$this->editDetails(true);
 
 			return true;
@@ -242,7 +242,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -262,7 +262,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		unset($bv);
 
 		// delete bill vendor data if exists
-		sendInfo($this->lng->txt('paya_deleted_object'));
+		ilUtil::sendInfo($this->lng->txt('paya_deleted_object'));
 
 		$this->showObjects();
 
@@ -278,17 +278,17 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		switch($this->pobject->getPayMethod())
 		{
 			case $this->pobject->PAY_METHOD_NOT_SPECIFIED:
-				sendInfo($this->lng->txt('paya_select_pay_method_first'));
+				ilUtil::sendInfo($this->lng->txt('paya_select_pay_method_first'));
 				$this->editDetails();
 				
 				return true;
 			case $this->pobject->PAY_METHOD_BMF:
-				sendInfo($this->lng->txt('paya_no_settings_necessary'));
+				ilUtil::sendInfo($this->lng->txt('paya_no_settings_necessary'));
 				$this->editDetails();
 				
 				return true;
 			case $this->pobject->PAY_METHOD_PAYPAL:
-				sendInfo($this->lng->txt('paya_no_settings_necessary'));
+				ilUtil::sendInfo($this->lng->txt('paya_no_settings_necessary'));
 				$this->editDetails();
 				
 				return true;
@@ -311,7 +311,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -332,7 +332,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		// No prices created
 		if(!count($prices))
 		{
-			sendInfo($this->lng->txt('paya_no_price_available'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_price_available'));
 
 			$this->tpl->setCurrentBlock("price_info");
 			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
@@ -345,7 +345,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		// Show confirm delete
 		if($a_show_delete)
 		{
-			sendInfo($this->lng->txt('paya_sure_delete_selected_prices'));
+			ilUtil::sendInfo($this->lng->txt('paya_sure_delete_selected_prices'));
 
 			$this->tpl->setCurrentBlock("cancel");
 			$this->tpl->setVariable("CANCEL_CMD",'editPrices');
@@ -462,7 +462,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -513,7 +513,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -533,14 +533,14 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if(!$prices->validate())
 		{
-			sendInfo($this->lng->txt('paya_price_not_valid'));
+			ilUtil::sendInfo($this->lng->txt('paya_price_not_valid'));
 			$this->addPrice();
 
 			return true;
 		}
 		$prices->add();
 
-		sendInfo($this->lng->txt('paya_added_new_price'));
+		ilUtil::sendInfo($this->lng->txt('paya_added_new_price'));
 		$this->editPrices();
 
 		return true;
@@ -552,7 +552,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -560,7 +560,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if(!count($_SESSION['price_ids']))
 		{
-			sendInfo($this->lng->txt('paya_no_prices_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_prices_selected'));
 			
 			$this->editPrices();
 			return true;
@@ -582,7 +582,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			$this->pobject->setStatus($this->pobject->STATUS_NOT_BUYABLE);
 			$this->pobject->update();
 			
-			sendInfo($this->lng->txt('paya_deleted_last_price'));
+			ilUtil::sendInfo($this->lng->txt('paya_deleted_last_price'));
 		}
 		unset($prices);
 		unset($_SESSION['price_ids']);
@@ -595,7 +595,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -603,7 +603,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if(!count($_POST['price_ids']))
 		{
-			sendInfo($this->lng->txt('paya_no_prices_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_prices_selected'));
 			
 			$this->editPrices();
 			return true;
@@ -623,7 +623,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -649,7 +649,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		}
 		if($error)
 		{
-			sendInfo($this->lng->txt('paya_insert_only_numbers'));
+			ilUtil::sendInfo($this->lng->txt('paya_insert_only_numbers'));
 
 			$this->editPrices();
 			return false;
@@ -665,7 +665,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 			$po->update($price_id);
 		}
-		sendInfo($this->lng->txt('paya_updated_prices'));
+		ilUtil::sendInfo($this->lng->txt('paya_updated_prices'));
 		$this->editPrices();
 
 		return true;
@@ -676,7 +676,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		if(!$_GET['pobject_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -696,7 +696,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			switch((int) $_POST['pay_method'])
 			{
 				case $this->pobject->PAY_METHOD_NOT_SPECIFIED:
-					sendInfo($this->lng->txt('paya_select_pay_method_first'));
+					ilUtil::sendInfo($this->lng->txt('paya_select_pay_method_first'));
 					$this->editDetails();
 
 					return false;
@@ -707,7 +707,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 					$bill_vendor =& new ilPaymentBillVendor((int) $_GET['pobject_id']);
 					if(!$bill_vendor->validate())
 					{
-						sendInfo($this->lng->txt('paya_select_pay_method_first'));
+						ilUtil::sendInfo($this->lng->txt('paya_select_pay_method_first'));
 						$this->editDetails();
 						
 						return false;
@@ -723,7 +723,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			$prices_obj =& new ilPaymentPrices((int) $_GET['pobject_id']);
 			if(!count($prices_obj->getPrices()))
 			{
-				sendInfo($this->lng->txt('paya_edit_prices_first'));
+				ilUtil::sendInfo($this->lng->txt('paya_edit_prices_first'));
 				$this->editDetails();
 						
 				return false;
@@ -736,7 +736,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->pobject->setPayMethod((int) $_POST['pay_method']);
 		$this->pobject->update();
 
-		sendInfo($this->lng->txt('paya_details_updated'));
+		ilUtil::sendInfo($this->lng->txt('paya_details_updated'));
 		$this->editDetails();
 
 		return true;
@@ -752,7 +752,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->showButton('showObjects',$this->lng->txt('back'));
 
 
-		sendInfo($this->lng->txt("paya_select_object_to_sell"));
+		ilUtil::sendInfo($this->lng->txt("paya_select_object_to_sell"));
 
 		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));
 		$exp->setExpand($_GET["paya_link_expand"] ? $_GET["paya_link_expand"] : $tree->readRootId());
@@ -769,7 +769,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		if(!$_GET['sell_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 			
 			$this->showObjectSelector();
 			return true;
@@ -810,21 +810,21 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 	{
 		if(!$_GET['sell_id'])
 		{
-			sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 			
 			$this->showObjectSelector();
 			return true;
 		}
 		if(!(int) $_POST['vendor'])
 		{
-			sendInfo($this->lng->txt('paya_no_vendor_selected'));
+			ilUtil::sendInfo($this->lng->txt('paya_no_vendor_selected'));
 			
 			$this->showSelectedObject();
 			return true;
 		}
 		if(!ilPaymentObject::_isPurchasable($_GET['sell_id']))
 		{
-			sendInfo($this->lng->txt('paya_object_not_purchasable'));
+			ilUtil::sendInfo($this->lng->txt('paya_object_not_purchasable'));
 
 			$this->showObjectSelector();
 			return true;
@@ -842,7 +842,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		if($new_id = $p_obj->add())
 		{
-			sendInfo($this->lng->txt('paya_added_new_object'));
+			ilUtil::sendInfo($this->lng->txt('paya_added_new_object'));
 			
 			$_GET['pobject_id'] = $new_id;
 			$this->editDetails();
@@ -851,7 +851,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt('paya_err_adding_object'));
+			ilUtil::sendInfo($this->lng->txt('paya_err_adding_object'));
 			$this->showObjects();
 
 			return false;

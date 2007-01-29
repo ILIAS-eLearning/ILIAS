@@ -26,7 +26,7 @@
 * Class ilObjChatServerGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$
+* $Id:class.ilObjChatServerGUI.php 12853 2006-12-15 13:36:31 +0000 (Fr, 15 Dez 2006) smeyer $
 *
 * @ilCtrl_Calls ilObjChatServerGUI: ilPermissionGUI
 *
@@ -207,7 +207,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->object->server_conf->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
 			}
 		}
-		sendInfo($this->lng->txt("chat_settings_saved"),true);
+		ilUtil::sendInfo($this->lng->txt("chat_settings_saved"),true);
 		$this->editObject();
 	}
 
@@ -216,7 +216,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$this->object->server_conf->setActiveStatus((bool) $_POST["chat_active"]);
 		$this->object->server_conf->updateStatus();
 
-		sendInfo($this->lng->txt("chat_status_saved"));
+		ilUtil::sendInfo($this->lng->txt("chat_status_saved"));
 		$this->editObject();
 	}
 

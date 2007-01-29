@@ -111,11 +111,11 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				case "rect":
 					if (count($this->object->coords) == 0)
 					{
-						sendInfo($this->lng->txt("rectangle_click_tl_corner"));
+						ilUtil::sendInfo($this->lng->txt("rectangle_click_tl_corner"));
 					}
 					else if (count($this->object->coords) == 1)
 					{
-						sendInfo($this->lng->txt("rectangle_click_br_corner"));
+						ilUtil::sendInfo($this->lng->txt("rectangle_click_br_corner"));
 					}
 					else if (count($this->object->coords) == 2)
 					{
@@ -127,11 +127,11 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				case "circle":
 					if (count($this->object->coords) == 0)
 					{
-						sendInfo($this->lng->txt("circle_click_center"));
+						ilUtil::sendInfo($this->lng->txt("circle_click_center"));
 					}
 					else if (count($this->object->coords) == 1)
 					{
-						sendInfo($this->lng->txt("circle_click_circle"));
+						ilUtil::sendInfo($this->lng->txt("circle_click_circle"));
 					}
 					else if (count($this->object->coords) == 2)
 					{
@@ -146,15 +146,15 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				case "poly":
 					if (count($this->object->coords) == 0)
 					{
-						sendInfo($this->lng->txt("polygon_click_starting_point"));
+						ilUtil::sendInfo($this->lng->txt("polygon_click_starting_point"));
 					}
 					else if (count($this->object->coords) == 1)
 					{
-						sendInfo($this->lng->txt("polygon_click_next_point"));
+						ilUtil::sendInfo($this->lng->txt("polygon_click_next_point"));
 					}
 					else if (count($this->object->coords) > 1)
 					{
-						sendInfo($this->lng->txt("polygon_click_next_or_save"));
+						ilUtil::sendInfo($this->lng->txt("polygon_click_next_or_save"));
 						$disabled_save = "";
 						$coords = join($this->object->coords, ",");
 					}
@@ -171,7 +171,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$pfile = $preview->getPreviewFilename();
 				if (strlen($pfile) == 0)
 				{
-					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
 					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 				}
 				else
@@ -357,7 +357,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					$pfile = $preview->getPreviewFilename();
 					if (strlen($pfile) == 0)
 					{
-						sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+						ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
 						$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 					}
 					else
@@ -464,7 +464,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$_SESSION["last_area"] = $_POST["newarea"];
 		if ($this->writePostData())
 		{
-      sendInfo($this->getErrorMessage());
+      ilUtil::sendInfo($this->getErrorMessage());
 			$this->ctrl->setCmd("");
 		}
 		$this->editQuestion();
@@ -582,7 +582,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 						$this->object->saveToDb();
 						$_GET["q_id"] = $this->object->getId();
 						$saved = true;
-						sendInfo($this->lng->txt("question_saved_for_upload"));
+						ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"));
 					}
 					$this->object->setImageFilename($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
 				}
@@ -616,7 +616,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 						$this->object->saveToDb();
 						$_GET["q_id"] = $this->object->getId();
 						$saved = true;
-						sendInfo($this->lng->txt("question_saved_for_upload"));
+						ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"));
 					}
 					$this->object->setImagemapFilename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
 				}
@@ -625,11 +625,11 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			{
 				if (($this->ctrl->getCmd() == "uploadingImage") and (!empty($_FILES['imageName']['tmp_name'])))
 				{
-					sendInfo($this->lng->txt("fill_out_all_required_fields_upload_image"));
+					ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_upload_image"));
 				}
 				else if (($_POST["cmd"]["uploadingImagemap"]) and (!empty($_FILES['imagemapName']['tmp_name'])))
 				{
-					sendInfo($this->lng->txt("fill_out_all_required_fields_upload_imagemap"));
+					ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_upload_imagemap"));
 				}
 			}
 		}
@@ -716,7 +716,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$pfile = $preview->getPreviewFilename();
 				if (strlen($pfile) == 0)
 				{
-					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
 					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 				}
 				else
@@ -855,7 +855,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$pfile = $preview->getPreviewFilename();
 				if (strlen($pfile) == 0)
 				{
-					sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
+					ilUtil::sendInfo($this->lng->txt("qpl_imagemap_preview_missing"));
 					$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 				}
 				else
@@ -922,13 +922,13 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		{
 			if ($this->writePostData())
 			{
-				sendInfo($this->getErrorMessage());
+				ilUtil::sendInfo($this->getErrorMessage());
 				$this->editQuestion();
 				return;
 			}
 			if (!$this->checkInput())
 			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 				$this->editQuestion();
 				return;
 			}

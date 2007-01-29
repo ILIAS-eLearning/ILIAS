@@ -310,7 +310,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 		if ($this->error)
 		{
-			sendInfo($this->error);
+			ilUtil::sendInfo($this->error);
 		}
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
@@ -852,13 +852,13 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		{
 			if ($this->writePostData())
 			{
-				sendInfo($this->getErrorMessage());
+				ilUtil::sendInfo($this->getErrorMessage());
 				$this->editQuestion();
 				return;
 			}
 			if (!$this->checkInput())
 			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 				$this->editQuestion();
 				return;
 			}

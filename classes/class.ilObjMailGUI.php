@@ -103,7 +103,7 @@ class ilObjMailGUI extends ilObjectGUI
 				$settings = $this->ilias->getAllSettings();
 
 				// feedback
-				sendInfo($this->lng->txt("saved_successfully"));
+				ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 			}
 		}
 
@@ -224,7 +224,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->__initParserObject($this->file_obj->getXMLFile(),"import");
 		$this->parser_obj->startParsing();
 		$number = $this->parser_obj->getCountImported();
-		sendInfo($lng->txt("import_finished")." ".$number,true);
+		ilUtil::sendInfo($lng->txt("import_finished")." ".$number,true);
 		
 		$this->ctrl->redirect($this, "import");
 	}
@@ -270,7 +270,7 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			$this->message = $lng->txt("uploaded_and_checked");
 		}
-		sendInfo($this->message,true);
+		ilUtil::sendInfo($this->message,true);
 		
 		$this->ctrl->redirect($this, "import");
 	}

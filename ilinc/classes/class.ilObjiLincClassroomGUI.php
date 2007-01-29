@@ -187,7 +187,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		}
 
 		// always send a message
-		sendInfo($response->getResultMsg(),true);
+		ilUtil::sendInfo($response->getResultMsg(),true);
 		
 		$this->ctrl->redirectByClass("ilobjilinccoursegui");
 	}
@@ -337,7 +337,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 
 		if(!$a_error)
 		{
-			sendInfo($this->lng->txt("info_delete_sure"));
+			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 		}
 
 		$obj_str = "&class_id=".$this->object->id;
@@ -423,8 +423,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 			$this->ilErr->raiseError($this->object->getErrorMsg(),$this->ilErr->MESSAGE);
 		}
 		
-		//sendInfo($this->lng->txt("msg_icla_updated"),true);
-		sendInfo($this->getResultMsg(),true);
+		//ilUtil::sendInfo($this->lng->txt("msg_icla_updated"),true);
+		ilUtil::sendInfo($this->getResultMsg(),true);
 		
 		$this->ctrl->redirectByClass("ilobjilinccoursegui");
 		//ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this)));
@@ -454,7 +454,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	{
 		session_unregister("saved_post");
 		
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		$this->ctrl->redirectByClass("ilobjilinccoursegui");
 	}
@@ -474,7 +474,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		}
 		
 		// Feedback
-		sendInfo($msg,true);
+		ilUtil::sendInfo($msg,true);
 		
 		$this->ctrl->redirectByClass("ilobjilinccoursegui");
 	}
@@ -490,7 +490,7 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	*/
 	function cancel()
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		$this->ctrl->redirectByClass("ilobjilinccoursegui");
 	}

@@ -97,7 +97,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// put here object specific stuff
 			
 		// always send a message
-		sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 	}
@@ -181,7 +181,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("custom_icon_big_height", (int) $_POST["custom_icon_big_height"]);
 		$this->ilias->setSetting("custom_icon_small_width", (int) $_POST["custom_icon_small_width"]);
 		$this->ilias->setSetting("custom_icon_small_height", (int) $_POST["custom_icon_small_height"]);
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editBasicSettings"));		
 	}
 	
@@ -698,7 +698,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		$this->ilias->ini->write();
 //echo "redirect-".$this->ctrl->getLinkTarget($this,"editSystemStyles")."-";
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editSystemStyles"));
 	}
 	
@@ -721,7 +721,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		if(!$a_error)
 		{
-			sendInfo($this->lng->txt("info_delete_sure"));
+			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -925,7 +925,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		session_unregister("saved_post");
 
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "editContentStyles");
 
 	}

@@ -44,7 +44,7 @@ if (is_dir("../pear"))
 require_once "./include/inc.setup_header.php";
 
 // display info messages
-//sendInfo();
+//ilUtil::sendInfo();
 
 $setup =& new ilSetupGUI();
 ?>

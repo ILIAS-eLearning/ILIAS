@@ -170,7 +170,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		include_once('Modules/Course/classes/class.ilCourseAgreement.php');
 		ilCourseAgreement::_reset();
 		
-		sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->showPrivacy();
 	}
 }

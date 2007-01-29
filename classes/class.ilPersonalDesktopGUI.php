@@ -235,7 +235,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->getStandardTemplate();
 		
 		// catch feedback message
-		sendInfo();
+		ilUtil::sendInfo();
 		
 		// display infopanel if something happened
 		infoPanel();
@@ -356,7 +356,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->getStandardTemplate();
 		
 		// catch feedback message
-		sendInfo();
+		ilUtil::sendInfo();
 		
 		// display infopanel if something happened
 		infoPanel();

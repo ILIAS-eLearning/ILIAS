@@ -159,7 +159,7 @@ class ilPersonalProfileGUI
 				if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
 					$uploaded_file, false))
 				{
-					sendInfo($this->lng->txt("upload_error", true));
+					ilUtil::sendInfo($this->lng->txt("upload_error", true));
 					$this->ctrl->redirect($this, "showProfile");
 				}
 				chmod($uploaded_file, 0770);
@@ -279,7 +279,7 @@ class ilPersonalProfileGUI
 
 			if (empty($this->password_error))
 			{
-				sendInfo($this->lng->txt("saved_successfully"));
+				ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 				$ilUser->updatePassword($_POST["current_password"], $_POST["new_passwd"], $_POST["new_passwd"]);
 			}
 		}
@@ -302,7 +302,7 @@ class ilPersonalProfileGUI
 			}
 			else if ($_POST["current_password"] != "" and empty($this->password_error))
 			{
-				sendInfo($this->lng->txt("saved_successfully"));
+				ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 				$ilUser->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]);
 			}
 		}
@@ -388,7 +388,7 @@ class ilPersonalProfileGUI
 					{
 						if (empty($_POST["usr_" . $val]))
 						{
-							sendInfo($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val));
+							ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val));
 							$form_valid = false;
 						}
 					}
@@ -399,7 +399,7 @@ class ilPersonalProfileGUI
 		// Check user defined required fields
 		if($form_valid and !$this->__checkUserDefinedRequiredFields())
 		{
-			sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
 			$form_valid = false;
 		}
 
@@ -408,7 +408,7 @@ class ilPersonalProfileGUI
 		{
 			if (!ilUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
 			{
-				sendInfo($this->lng->txt("email_not_valid"));
+				ilUtil::sendInfo($this->lng->txt("email_not_valid"));
 				$form_valid = false;
 			}
 		}
@@ -582,22 +582,22 @@ class ilPersonalProfileGUI
 			// feedback
 			if (!empty($this->password_error))
 			{
-				sendInfo($this->password_error,true);
+				ilUtil::sendInfo($this->password_error,true);
 			}
 			elseif (!empty($this->upload_error))
 			{
-				sendInfo($this->upload_error,true);
+				ilUtil::sendInfo($this->upload_error,true);
 			}
 			else if ($reload)
 			{
 				// feedback
-				sendInfo($this->lng->txt("saved_successfully"),true);
+				ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
 				$this->ctrl->redirect($this, "");
 				//$this->tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 			}
 			else
 			{
-				sendInfo($this->lng->txt("saved_successfully"),true);
+				ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
 			}
 		}
 		
@@ -638,11 +638,11 @@ class ilPersonalProfileGUI
 		// catch feedback message
 		if ($ilUser->getProfileIncomplete())
 		{
-			sendInfo($lng->txt("profile_incomplete"));
+			ilUtil::sendInfo($lng->txt("profile_incomplete"));
 		}
 		else
 		{
-			sendInfo();
+			ilUtil::sendInfo();
 		}
 		
 		
@@ -1207,7 +1207,7 @@ class ilPersonalProfileGUI
 		$this->lng->loadLanguageModule("mail");
 
 		$mailOptions->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"]);
-		sendInfo($this->lng->txt("mail_options_saved"),true);
+		ilUtil::sendInfo($this->lng->txt("mail_options_saved"),true);
 
 		$this->showMailOptions();
 	}

@@ -902,7 +902,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->updateActiveStatus($_POST["menu_entries"]);
 
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 
@@ -1027,7 +1027,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$newObj->createLMTree();
 
 			// always send a message
-			sendInfo($this->lng->txt($this->type."_added"), true);
+			ilUtil::sendInfo($this->lng->txt($this->type."_added"), true);
 			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilLMEditorGUI");
 		}
@@ -1054,7 +1054,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("bibitem_choose_element"), true);
+			ilUtil::sendInfo($this->lng->txt("bibitem_choose_element"), true);
 		}
 		if ($a_target == "")
 		{
@@ -1290,7 +1290,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// delete import directory
 		ilUtil::delDir($newObj->getImportDirectory());
 
-		sendInfo($this->lng->txt($this->type."_added"),true);
+		ilUtil::sendInfo($this->lng->txt($this->type."_added"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilLMEditorGUI");
@@ -1631,7 +1631,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		ilEditClipboard::storeContentObject("pg",$_POST["id"][0],"copy");
 
-		sendInfo($this->lng->txt("msg_copy_clipboard"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
 
 		$this->ctrl->redirect($this, "pages");
 	}
@@ -1665,7 +1665,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/LearningModule");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		if ($a_parent_subobj_id != 0)
 		{
@@ -1781,7 +1781,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->checkTree();
 
 		// feedback
-		sendInfo($this->lng->txt("info_deleted"),true);
+		ilUtil::sendInfo($this->lng->txt("info_deleted"),true);
 
 		if ($a_parent_subobj_id == 0)
 		{
@@ -1948,7 +1948,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		ilEditClipboard::storeContentObject("st", $_POST["id"][0], "move");
 
-		sendInfo($this->lng->txt("cont_chap_select_target_now"), true);
+		ilUtil::sendInfo($this->lng->txt("cont_chap_select_target_now"), true);
 
 		if ($a_parent_subobj_id == 0)
 		{
@@ -1980,7 +1980,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		ilEditClipboard::storeContentObject("st", $_POST["id"][0], "copy");
 
-		sendInfo($this->lng->txt("cont_chap_copy_select_target_now"), true);
+		ilUtil::sendInfo($this->lng->txt("cont_chap_copy_select_target_now"), true);
 
 		if ($a_parent_subobj_id == 0)
 		{
@@ -2140,7 +2140,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		ilEditClipboard::storeContentObject("pg", $_POST["id"][0]);
 
-		sendInfo($this->lng->txt("cont_page_select_target_now"), true);
+		ilUtil::sendInfo($this->lng->txt("cont_page_select_target_now"), true);
 		$this->ctrl->redirect($this, "pages");
 	}
 
@@ -2427,7 +2427,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/LearningModule");
 
-		sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -2523,7 +2523,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		sendInfo($this->lng->txt("msg_cancel"),true);
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
@@ -2542,7 +2542,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function fixTree()
 	{
 		$this->object->fixTree();
-		sendInfo($this->lng->txt("cont_tree_fixed"), true);
+		ilUtil::sendInfo($this->lng->txt("cont_tree_fixed"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 
@@ -2977,7 +2977,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setPublicAccessMode($_POST["lm_public_mode"]);
 		$this->object->updateProperties();
 		ilLMObject::_writePublicAccessStatus($_POST["pages"],$this->object->getId());
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editPublicSection");
 	}
 
@@ -3097,12 +3097,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if($_POST['link_check_message'])
 		{
-			sendInfo($this->lng->txt('link_check_message_enabled'));
+			ilUtil::sendInfo($this->lng->txt('link_check_message_enabled'));
 			$link_check_notify->addNotifier();
 		}
 		else
 		{
-			sendInfo($this->lng->txt('link_check_message_disabled'));
+			ilUtil::sendInfo($this->lng->txt('link_check_message_disabled'));
 			$link_check_notify->deleteNotifier();
 		}
 		$this->linkChecker();
@@ -3118,14 +3118,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if(!$this->link_checker_obj->checkPear())
 		{
-			sendInfo($this->lng->txt('missing_pear_library'));
+			ilUtil::sendInfo($this->lng->txt('missing_pear_library'));
 			$this->linkChecker();
 
 			return false;
 		}
 
 		$this->link_checker_obj->checkLinks();
-		sendInfo($this->lng->txt('link_checker_refreshed'));
+		ilUtil::sendInfo($this->lng->txt('link_checker_refreshed'));
 
 		$this->linkChecker();
 
@@ -3215,7 +3215,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->lmme_obj->create();
 
-		sendInfo($this->lng->txt("msg_entry_added"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_entry_added"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 
@@ -3232,7 +3232,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->delete($_GET["menu_entry"]);
 
-		sendInfo($this->lng->txt("msg_entry_removed"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_entry_removed"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 
@@ -3293,7 +3293,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->lmme_obj->setTarget($_POST["target"]);
 		$this->lmme_obj->update();
 
-		sendInfo($this->lng->txt("msg_entry_updated"), true);
+		ilUtil::sendInfo($this->lng->txt("msg_entry_updated"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 
@@ -3303,7 +3303,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_object_selector.html","Modules/LearningModule");
 
-		sendInfo($this->lng->txt("lm_menu_select_object_to_add"));
+		ilUtil::sendInfo($this->lng->txt("lm_menu_select_object_to_add"));
 
 		require_once ("./Modules/LearningModule/classes/class.ilLMMenuObjectSelector.php");
 		$exp = new ilLMMenuObjectSelector($this->ctrl->getLinkTarget($this,'test'),$this);
@@ -3429,7 +3429,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;
